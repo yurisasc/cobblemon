@@ -7,6 +7,23 @@
     "shedskin",
     "h:friendguard"
   ],
+  "drops": {
+    "amount": 4,
+    "entries": [
+      {
+        "item": "minecraft:string",
+        "quantityRange": "0-2"
+      },
+      {
+        "item": "cobblemon:bright_powder",
+        "percentage": 2.5
+      },
+      {
+        "item": "cobblemon:cheri_berry",
+        "percentage": 2.5
+      }
+    ]
+  },
   "baseStats": {
     "hp": 45,
     "attack": 22,
@@ -33,10 +50,17 @@
         "canSwimInWater": false
       },
       "canLook": false
+    },
+    "resting": {
+      "canSleep": true,
+      "willSleepOnBed": false,
+      "depth": "normal",
+      "light": "0-4"
     }
   },
   "moves": [
     "1:harden",
+    "tm:bugbite",
     "1:protect",
     "tm:irondefense",
     "tm:pounce",
@@ -70,7 +94,7 @@
         },
         {
           "variant": "biome",
-          "biomeCondition": "#cobblemon:is_void"
+          "biomeCondition": "#cobblemon:is_mushroom"
         }
       ]
     },
@@ -89,7 +113,7 @@
         },
         {
           "variant": "biome",
-          "biomeCondition": "#cobblemon:is_void"
+          "biomeCondition": "#cobblemon:is_plains"
         }
       ]
     },
@@ -108,7 +132,11 @@
         },
         {
           "variant": "biome",
-          "biomeCondition": "#cobblemon:is_void"
+          "biomeCondition": "#cobblemon:is_spooky"
+        },
+        {
+          "variant": "biome",
+          "biomeCondition": "#cobblemon:is_magical"
         }
       ]
     },
@@ -127,7 +155,7 @@
         },
         {
           "variant": "biome",
-          "biomeCondition": "#cobblemon:is_void"
+          "biomeCondition": "minecraft:cherry_grove"
         }
       ]
     },
@@ -146,14 +174,14 @@
         },
         {
           "variant": "biome",
-          "biomeCondition": "#cobblemon:is_floral"
+          "biomeCondition": "#cobblemon:is_forest"
         }
       ]
     },
     {
       "id": "spewpa_vivillon_high_plains",
       "variant": "level_up",
-      "result": "vivillon vivillon_wings=high_plains",
+      "result": "vivillon vivillon_wings=high-plains",
       "consumeHeldItem": false,
       "learnableMoves": [
         "gust"
@@ -165,14 +193,14 @@
         },
         {
           "variant": "biome",
-          "biomeCondition": "#cobblemon:is_void"
+          "biomeCondition": "#cobblemon:is_badlands"
         }
       ]
     },
     {
       "id": "spewpa_vivillon_icy_snow",
       "variant": "level_up",
-      "result": "vivillon vivillon_wings=icy_snow",
+      "result": "vivillon vivillon_wings=icy-snow",
       "consumeHeldItem": false,
       "learnableMoves": [
         "gust"
@@ -184,7 +212,7 @@
         },
         {
           "variant": "biome",
-          "biomeCondition": "#cobblemon:is_snowy"
+          "biomeCondition": "#cobblemon:is_taiga"
         }
       ]
     },
@@ -222,7 +250,11 @@
         },
         {
           "variant": "biome",
-          "biomeCondition": "#cobblemon:is_coast"
+          "biomeCondition": "#cobblemon:is_ocean"
+        },
+        {
+          "variant": "biome",
+          "biomeAnticondition": "#cobblemon:is_warm_ocean"
         }
       ]
     },
@@ -241,7 +273,7 @@
         },
         {
           "variant": "biome",
-          "biomeCondition": "#cobblemon:is_plains"
+          "biomeCondition": "#cobblemon:is_floral"
         }
       ]
     },
@@ -259,8 +291,8 @@
           "minLevel": 12
         },
         {
-          "variant": "biome",
-          "biomeCondition": "#cobblemon:is_plains"
+          "variant": "structure",
+          "structureCondition": "#minecraft:village"
         }
       ]
     },
@@ -279,7 +311,11 @@
         },
         {
           "variant": "biome",
-          "biomeCondition": "#cobblemon:is_void"
+          "biomeCondition": "#cobblemon:is_mountain"
+        },
+        {
+          "variant": "biome",
+          "biomeCondition": "#cobblemon:is_peak"
         }
       ]
     },
@@ -298,26 +334,7 @@
         },
         {
           "variant": "biome",
-          "biomeCondition": "#cobblemon:is_deep"
-        }
-      ]
-    },
-    {
-      "id": "spewpa_vivillon_poke_ball",
-      "variant": "level_up",
-      "result": "vivillon vivillon_wings=poke-ball",
-      "consumeHeldItem": false,
-      "learnableMoves": [
-        "gust"
-      ],
-      "requirements": [
-        {
-          "variant": "level",
-          "minLevel": 12
-        },
-        {
-          "variant": "biome",
-          "biomeCondition": "#cobblemon:is_void"
+          "biomeCondition": "#cobblemon:vivillon_evolutions/ocean"
         }
       ]
     },
@@ -336,7 +353,7 @@
         },
         {
           "variant": "biome",
-          "biomeCondition": "#cobblemon:is_frozen"
+          "biomeCondition": "#cobblemon:is_frozen_ocean"
         }
       ]
     },
@@ -355,7 +372,7 @@
         },
         {
           "variant": "biome",
-          "biomeCondition": "#cobblemon:is_river"
+          "biomeCondition": "#cobblemon:vivillon_evolutions/river"
         }
       ]
     },
@@ -374,7 +391,7 @@
         },
         {
           "variant": "biome",
-          "biomeCondition": "#cobblemon:is_sandy"
+          "biomeCondition": "#cobblemon:is_desert"
         }
       ]
     },
@@ -412,7 +429,7 @@
         },
         {
           "variant": "biome",
-          "biomeCondition": "#cobblemon:is_void"
+          "biomeCondition": "#cobblemon:vivillon_evolutions/sun"
         }
       ]
     },
@@ -431,14 +448,14 @@
         },
         {
           "variant": "biome",
-          "biomeCondition": "#cobblemon:is_tundra"
+          "biomeCondition": "#cobblemon:vivillon_evolutions/tundra"
         }
       ]
     },
     {
-      "id": "spewpa_vivillon_blazing",
+      "id": "spewpa_vivillon_inferno",
       "variant": "level_up",
-      "result": "vivillon vivillon_wings=blazing",
+      "result": "vivillon vivillon_wings=inferno",
       "consumeHeldItem": false,
       "learnableMoves": [
         "gust"
@@ -449,15 +466,15 @@
           "minLevel": 12
         },
         {
-          "variant": "world",
-          "identifier": "minecraft:the_nether"
+          "variant": "biome",
+          "biomeCondition": "#minecraft:is_nether"
         }
       ]
     },
     {
-      "id": "spewpa_vivillon_ender",
+      "id": "spewpa_vivillon_void",
       "variant": "level_up",
-      "result": "vivillon vivillon_wings=ender",
+      "result": "vivillon vivillon_wings=void",
       "consumeHeldItem": false,
       "learnableMoves": [
         "gust"
@@ -468,8 +485,46 @@
           "minLevel": 12
         },
         {
-          "variant": "world",
-          "identifier": "minecraft:the_end"
+          "variant": "biome",
+          "biomeCondition": "#minecraft:is_end"
+        }
+      ]
+    },
+    {
+      "id": "spewpa_vivillon_forsaken",
+      "variant": "level_up",
+      "result": "vivillon vivillon_wings=forsaken",
+      "consumeHeldItem": false,
+      "learnableMoves": [
+        "gust"
+      ],
+      "requirements": [
+        {
+          "variant": "level",
+          "minLevel": 12
+        },
+        {
+          "variant": "biome",
+          "biomeCondition": "#cobblemon:is_deep_dark"
+        }
+      ]
+    },
+    {
+      "id": "spewpa_vivillon_pokeball",
+      "variant": "level_up",
+      "result": "vivillon vivillon_wings=poke-ball",
+      "consumeHeldItem": false,
+      "learnableMoves": [
+        "gust"
+      ],
+      "requirements": [
+        {
+          "variant": "level",
+          "minLevel": 12
+        },
+        {
+          "variant": "advancement",
+          "requiredAdvancement": "cobblemon:catch_all_vivillon"
         }
       ]
     }

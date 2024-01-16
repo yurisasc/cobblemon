@@ -10,7 +10,7 @@ package com.cobblemon.mod.common.net.serverhandling
 
 import com.cobblemon.mod.common.CobblemonNetwork.sendPacket
 import com.cobblemon.mod.common.api.net.ServerNetworkPacketHandler
-import com.cobblemon.mod.common.api.scheduling.after
+import com.cobblemon.mod.common.api.scheduling.afterOnServer
 import com.cobblemon.mod.common.api.text.aqua
 import com.cobblemon.mod.common.api.text.red
 import com.cobblemon.mod.common.api.text.yellow
@@ -28,6 +28,8 @@ import net.minecraft.server.network.ServerPlayerEntity
 
 object ChallengeHandler : ServerNetworkPacketHandler<BattleChallengePacket> {
     override fun handle(packet: BattleChallengePacket, server: MinecraftServer, player: ServerPlayerEntity) {
+        if(player.isSpectator) return
+
         val targetedEntity = player.world.getEntityById(packet.targetedEntityId)?.let {
             if (it is PokemonEntity) {
                 val owner = it.owner
@@ -73,7 +75,7 @@ object ChallengeHandler : ServerNetworkPacketHandler<BattleChallengePacket> {
                 } else {
                     val challenge = BattleRegistry.BattleChallenge(UUID.randomUUID(), targetedEntity.uuid, leadingPokemon)
                     BattleRegistry.pvpChallenges[player.uuid] = challenge
-                    after(seconds = challenge.expiryTimeSeconds.toFloat()) {
+                    afterOnServer(seconds = challenge.expiryTimeSeconds.toFloat()) {
                         BattleRegistry.removeChallenge(player.uuid, challengeId = challenge.challengeId)
                     }
                     targetedEntity.sendPacket(BattleChallengeNotificationPacket(challenge.challengeId, player.uuid, player.name.copy().aqua()))

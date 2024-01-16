@@ -11,6 +11,7 @@ package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen9
 import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.SingleBoneLookAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cobblemon.mod.common.entity.PoseType
@@ -30,7 +31,9 @@ class TandemausModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
-    lateinit var sleep: PokemonPose
+//    lateinit var sleep: PokemonPose
+
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("tandemaus", "cry").setPreventsIdle(false) }
 
     override fun registerPoses() {
 
@@ -66,19 +69,18 @@ class TandemausModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             )
         )
 
-        sleep = registerPose(
-            poseName = "sleep",
-            poseType = PoseType.SLEEP,
-            transformTicks = 10,
-            quirks = arrayOf(blink1, blink2),
-            idleAnimations = arrayOf(
-                bedrock("tandemaus", "ground_idle")
-                //bedrock("tandemaus", "sleep")
-            )
-        )
+//        sleep = registerPose(
+//            poseName = "sleep",
+//            poseType = PoseType.SLEEP,
+//            transformTicks = 10,
+//            quirks = arrayOf(blink1, blink2),
+//            idleAnimations = arrayOf(
+//                bedrock("tandemaus", "sleep")
+//            )
+//        )
     }
     override fun getFaintAnimation(
         pokemonEntity: PokemonEntity,
         state: PoseableEntityState<PokemonEntity>
-    ) = if (state.isNotPosedIn(sleep)) bedrockStateful("tandemaus", "faint") else null
+    ) = bedrockStateful("tandemaus", "faint")
 }

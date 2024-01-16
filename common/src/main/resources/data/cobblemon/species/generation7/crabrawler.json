@@ -8,6 +8,15 @@
     "ironfist",
     "h:angerpoint"
   ],
+  "drops": {
+    "amount": 1,
+    "entries": [
+      {
+        "item": "cobblemon:aspear_berry",
+        "percentage": 2.5
+      }
+    ]
+  },
   "baseStats": {
     "hp": 47,
     "attack": 82,
@@ -57,15 +66,18 @@
     "tm:bulldoze",
     "tm:chillingwater",
     "tm:closecombat",
+    "tm:coaching",
     "tm:confide",
     "tm:dig",
     "tm:doubleteam",
     "tm:drainpunch",
     "tm:earthquake",
+    "tm:endeavor",
     "tm:endure",
     "tm:facade",
     "tm:fling",
     "tm:focusblast",
+    "tm:focuspunch",
     "tm:frostbreath",
     "tm:frustration",
     "tm:gunkshot",
@@ -74,6 +86,7 @@
     "tm:icepunch",
     "tm:irondefense",
     "tm:ironhead",
+    "tm:knockoff",
     "tm:liquidation",
     "tm:mudshot",
     "tm:mudslap",
@@ -99,6 +112,7 @@
     "tm:thief",
     "tm:thunderpunch",
     "tm:toxic",
+    "tm:upperhand",
     "tm:workup",
     "tm:zenheadbutt",
     "tutor:drainpunch",

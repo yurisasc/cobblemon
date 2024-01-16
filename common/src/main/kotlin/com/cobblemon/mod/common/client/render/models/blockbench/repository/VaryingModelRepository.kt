@@ -13,24 +13,22 @@ import com.cobblemon.mod.common.client.render.ModelLayer
 import com.cobblemon.mod.common.client.render.ModelVariationSet
 import com.cobblemon.mod.common.client.render.VaryingRenderableResolver
 import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityModel
-import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
 import com.cobblemon.mod.common.client.render.models.blockbench.TexturedModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.Bone
 import com.cobblemon.mod.common.client.util.exists
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.endsWith
 import com.cobblemon.mod.common.util.fromJson
+import java.io.File
+import java.nio.charset.StandardCharsets
+import java.util.function.BiFunction
+import java.util.function.Function
 import net.minecraft.client.model.ModelPart
 import net.minecraft.entity.Entity
 import net.minecraft.resource.Resource
 import net.minecraft.resource.ResourceManager
 import net.minecraft.util.Identifier
 import net.minecraft.util.Pair
-import java.io.File
-import java.nio.charset.StandardCharsets
-import java.util.function.BiFunction
-import java.util.function.Function
-import java.util.function.Supplier
 
 abstract class VaryingModelRepository<E : Entity, M : PoseableEntityModel<E>> {
     val posers = mutableMapOf<Identifier, (Bone) -> M>()
@@ -136,14 +134,24 @@ abstract class VaryingModelRepository<E : Entity, M : PoseableEntityModel<E>> {
         return this.variations[fallback]!!.getPoser(aspects)
     }
 
-    fun getTexture(name: Identifier, aspects: Set<String>, state: PoseableEntityState<E>?): Identifier {
+    fun getTexture(name: Identifier, aspects: Set<String>, animationSeconds: Float = 0F): Identifier {
         try {
-            val texture = this.variations[name]?.getTexture(aspects, state?.animationSeconds ?: 0F)
+            val texture = this.variations[name]?.getTexture(aspects, animationSeconds)
             if (texture != null && texture.exists()) {
                 return texture
             }
         } catch(_: IllegalStateException) { }
-        return this.variations[fallback]!!.getTexture(aspects, state?.animationSeconds ?: 0F)
+        return this.variations[fallback]!!.getTexture(aspects, animationSeconds)
+    }
+
+    fun getTextureNoSubstitute(name: Identifier, aspects: Set<String>, animationSeconds: Float = 0F): Identifier? {
+        try {
+            val texture = this.variations[name]?.getTexture(aspects, animationSeconds)
+            if (texture != null && texture.exists()) {
+                return texture
+            }
+        } catch(_: IllegalStateException) {}
+        return null
     }
 
     fun getLayers(name: Identifier, aspects: Set<String>): Iterable<ModelLayer> {

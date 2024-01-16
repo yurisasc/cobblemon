@@ -1,4 +1,4 @@
-{
+﻿{
   "name": "Dudunsparce",
   "nationalPokedexNumber": 982,
   "primaryType": "normal",
@@ -162,12 +162,24 @@
       "height": 45,
       "weight": 474,
       "preEvolution": "dunsparce",
-      "evolutions": [],
       "cannotDynamax": false,
       "battleOnly": false
     }
   ],
   "pokedex": [
     "cobblemon.species.dudunsparce.desc"
-  ]
+  ],
+  "drops": {
+    "amount": 2,
+    "entries": [
+      {
+        "item": "cobblemon:rocky_helmet",
+        "percentage": 5.0
+      },
+      {
+        "item": "cobblemon:cheri_berry",
+        "percentage": 5.0
+      }
+    ]
+  }
 }

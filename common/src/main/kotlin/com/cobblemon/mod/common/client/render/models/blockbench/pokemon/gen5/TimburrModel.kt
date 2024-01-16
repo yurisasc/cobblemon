@@ -8,9 +8,7 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen5
 
-import com.cobblemon.mod.common.client.render.models.blockbench.animation.BimanualSwingAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.BipedWalkAnimation
-import com.cobblemon.mod.common.client.render.models.blockbench.frame.BimanualFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
@@ -26,8 +24,8 @@ class TimburrModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bipe
     override val leftLeg = getPart("leg_left")
     override val rightLeg = getPart("leg_right")
 
-    override val portraitScale = 2.6F
-    override val portraitTranslation = Vec3d(-0.35, 1.9, 0.0)
+    override val portraitScale = 2.0F
+    override val portraitTranslation = Vec3d(-0.1, 0.0, 0.0)
 
     override val profileScale = 0.65F
     override val profileTranslation = Vec3d(0.0, 0.76, 0.0)

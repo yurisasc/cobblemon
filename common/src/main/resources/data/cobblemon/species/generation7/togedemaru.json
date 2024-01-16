@@ -1,4 +1,4 @@
-{
+﻿{
   "name": "Togedemaru",
   "nationalPokedexNumber": 777,
   "primaryType": "electric",
@@ -128,7 +128,6 @@
       ],
       "height": 6,
       "weight": 130,
-      "evolutions": [],
       "cannotDynamax": false,
       "battleOnly": false
     }
@@ -258,5 +257,14 @@
   "height": 3,
   "weight": 33,
   "aspects": [],
-  "cannotDynamax": false
+  "cannotDynamax": false,
+  "drops": {
+    "amount": 1,
+    "entries": [
+      {
+        "item": "cobblemon:shuca_berry",
+        "percentage": 5.0
+      }
+    ]
+  }
 }

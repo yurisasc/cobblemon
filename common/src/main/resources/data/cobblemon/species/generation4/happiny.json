@@ -26,11 +26,11 @@
     "undiscovered"
   ],
   "drops": {
-    "amount": "1",
+    "amount": 1,
     "entries": [
       {
         "item": "cobblemon:oval_stone",
-        "percentage": 20
+        "percentage": 25.0
       }
     ]
   },
@@ -77,6 +77,7 @@
     "tm:fling",
     "tm:frustration",
     "tm:grassknot",
+    "tm:gravity",
     "tm:hail",
     "tm:helpinghand",
     "tm:hiddenpower",

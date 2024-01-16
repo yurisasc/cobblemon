@@ -8,6 +8,19 @@
     "moxie",
     "h:angerpoint"
   ],
+  "drops": {
+    "amount": 2,
+    "entries": [
+      {
+        "item": "cobblemon:black_glasses",
+        "percentage": 10.0
+      },
+      {
+        "item": "cobblemon:tanga_berry",
+        "percentage": 10.0
+      }
+    ]
+  },
   "baseStats": {
     "hp": 95,
     "attack": 117,
@@ -51,6 +64,7 @@
     "tm:attract",
     "tm:beatup",
     "tm:bodyslam",
+    "tm:breakingswipe",
     "tm:brickbreak",
     "tm:brutalswing",
     "tm:bulkup",
@@ -58,10 +72,12 @@
     "tm:closecombat",
     "tm:confide",
     "tm:crunch",
+    "tm:curse",
     "tm:cut",
     "tm:darkestlariat",
     "tm:darkpulse",
     "tm:dig",
+    "tm:doubleedge",
     "tm:doubleteam",
     "tm:dragonclaw",
     "tm:dragonpulse",
@@ -69,12 +85,14 @@
     "tm:earthpower",
     "tm:earthquake",
     "tm:embargo",
+    "tm:endeavor",
     "tm:endure",
     "tm:facade",
     "tm:firefang",
     "tm:fling",
     "tm:focusblast",
     "tm:focusenergy",
+    "tm:focuspunch",
     "tm:foulplay",
     "tm:frustration",
     "tm:gigaimpact",
@@ -87,6 +105,8 @@
     "tm:hyperbeam",
     "tm:incinerate",
     "tm:irontail",
+    "tm:knockoff",
+    "tm:lashout",
     "tm:lowkick",
     "tm:lowsweep",
     "tm:megakick",
@@ -108,14 +128,18 @@
     "tm:round",
     "tm:sandstorm",
     "tm:sandtomb",
+    "tm:scaleshot",
     "tm:scaryface",
+    "tm:scorchingsands",
     "tm:secretpower",
     "tm:shadowclaw",
+    "tm:skittersmack",
     "tm:sleeptalk",
     "tm:sludgebomb",
     "tm:smackdown",
     "tm:snarl",
     "tm:snore",
+    "tm:spite",
     "tm:stealthrock",
     "tm:stompingtantrum",
     "tm:stoneedge",

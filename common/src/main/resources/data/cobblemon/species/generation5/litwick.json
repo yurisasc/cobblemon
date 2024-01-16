@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Litwick",
   "nationalPokedexNumber": 607,
   "primaryType": "ghost",
@@ -8,6 +9,22 @@
     "flamebody",
     "h:infiltrator"
   ],
+  "drops": {
+    "amount": 3,
+    "entries": [
+      {
+        "item": "minecraft:candle"
+      },
+      {
+        "item": "cobblemon:dusk_stone",
+        "percentage": 2.5
+      },
+      {
+        "item": "cobblemon:rawst_berry",
+        "percentage": 2.5
+      }
+    ]
+  },
   "baseStats": {
     "hp": 50,
     "attack": 30,
@@ -53,8 +70,11 @@
     "egg:powersplit",
     "tm:allyswitch",
     "tm:attract",
+    "tm:burningjealousy",
     "tm:calmmind",
+    "tm:confuseray",
     "tm:confide",
+    "tm:curse",
     "tm:darkpulse",
     "tm:doubleteam",
     "tm:dreameater",
@@ -66,16 +86,21 @@
     "tm:firespin",
     "tm:flamecharge",
     "tm:flamethrower",
+    "tm:flareblitz",
     "tm:flash",
     "tm:frustration",
+    "tm:haze",
     "tm:heatwave",
     "tm:hex",
     "tm:hiddenpower",
     "tm:imprison",
     "tm:incinerate",
     "tm:mysticalfire",
+    "tm:nightshade",
     "tm:overheat",
+    "tm:painsplit",
     "tm:payback",
+    "tm:poltergeist",
     "tm:protect",
     "tm:psychic",
     "tm:psychup",
@@ -85,14 +110,18 @@
     "tm:safeguard",
     "tm:secretpower",
     "tm:shadowball",
+    "tm:skittersmack",
     "tm:sleeptalk",
     "tm:snore",
     "tm:solarbeam",
+    "tm:spite",
     "tm:substitute",
     "tm:sunnyday",
     "tm:swagger",
     "tm:taunt",
+    "tm:temperflare",
     "tm:telekinesis",
+    "tm:terablast",
     "tm:thief",
     "tm:toxic",
     "tm:trick",

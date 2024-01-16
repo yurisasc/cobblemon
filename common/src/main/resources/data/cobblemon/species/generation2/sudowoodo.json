@@ -8,6 +8,19 @@
     "rockhead",
     "h:rattled"
   ],
+  "drops": {
+    "amount": 2,
+    "entries": [
+      {
+        "item": "cobblemon:hard_stone",
+        "percentage": 5.0
+      },
+      {
+        "item": "cobblemon:passho_berry",
+        "percentage": 5.0
+      }
+    ]
+  },
   "baseStats": {
     "hp": 70,
     "attack": 100,
@@ -63,11 +76,14 @@
     "tm:calmmind",
     "tm:captivate",
     "tm:confide",
+    "tm:curse",
     "tm:dig",
+    "tm:doubleedge",
     "tm:doubleteam",
     "tm:drainpunch",
     "tm:earthpower",
     "tm:earthquake",
+    "tm:endeavor",
     "tm:endure",
     "tm:explosion",
     "tm:facade",
@@ -81,6 +97,7 @@
     "tm:grassknot",
     "tm:helpinghand",
     "tm:hiddenpower",
+    "tm:highhorsepower",
     "tm:hyperbeam",
     "tm:icepunch",
     "tm:irondefense",
@@ -88,6 +105,7 @@
     "tm:lowsweep",
     "tm:megakick",
     "tm:megapunch",
+    "tm:meteorbeam",
     "tm:mudshot",
     "tm:mudslap",
     "tm:naturalgift",

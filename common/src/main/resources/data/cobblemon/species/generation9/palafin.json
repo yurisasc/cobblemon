@@ -1,4 +1,4 @@
-{
+﻿{
   "name": "Palafin",
   "nationalPokedexNumber": 964,
   "primaryType": "water",
@@ -35,6 +35,7 @@
     "1:jetpunch",
     "1:supersonic",
     "1:watergun",
+    "1:flipturn",
     "7:astonish",
     "10:focusenergy",
     "13:aquajet",
@@ -142,12 +143,20 @@
       ],
       "height": 18,
       "weight": 974,
-      "evolutions": [],
       "cannotDynamax": false,
       "battleOnly": true
     }
   ],
   "pokedex": [
     "cobblemon.species.palafin.desc"
-  ]
+  ],
+  "drops": {
+    "amount": 2,
+    "entries": [
+      {
+        "item": "minecraft:cod",
+        "quantityRange": "0-2"
+      }
+    ]
+  }
 }

@@ -7,6 +7,23 @@
     "sturdy",
     "h:sandveil"
   ],
+  "drops": {
+    "amount": 4,
+    "entries": [
+      {
+        "item": "minecraft:clay_ball",
+        "quantityRange": "0-2"
+      },
+      {
+        "item": "cobblemon:protector",
+        "percentage": 5.0
+      },
+      {
+        "item": "cobblemon:passho_berry",
+        "percentage": 5.0
+      }
+    ]
+  },
   "baseStats": {
     "hp": 90,
     "attack": 120,
@@ -52,12 +69,15 @@
     "tm:captivate",
     "tm:charm",
     "tm:confide",
+    "tm:curse",
     "tm:dig",
+    "tm:doubleedge",
     "tm:doubleteam",
     "tm:earthpower",
     "tm:earthquake",
     "tm:echoedvoice",
     "tm:encore",
+    "tm:endeavor",
     "tm:endure",
     "tm:facade",
     "tm:firefang",
@@ -68,6 +88,7 @@
     "tm:heavyslam",
     "tm:helpinghand",
     "tm:hiddenpower",
+    "tm:highhorsepower",
     "tm:hyperbeam",
     "tm:hypervoice",
     "tm:icefang",
@@ -75,6 +96,7 @@
     "tm:irondefense",
     "tm:ironhead",
     "tm:irontail",
+    "tm:knockoff",
     "tm:mudshot",
     "tm:mudslap",
     "tm:naturalgift",
@@ -91,10 +113,12 @@
     "tm:rocktomb",
     "tm:round",
     "tm:sandstorm",
+    "tm:sandtomb",
     "tm:scaryface",
     "tm:secretpower",
     "tm:seedbomb",
     "tm:sleeptalk",
+    "tm:smackdown",
     "tm:smartstrike",
     "tm:stealthrock",
     "tm:stompingtantrum",
@@ -106,6 +130,7 @@
     "tm:takedown",
     "tm:terablast",
     "tm:thief",
+    "tm:throatchop",
     "tm:thunderfang",
     "tm:toxic",
     "tm:trailblaze",

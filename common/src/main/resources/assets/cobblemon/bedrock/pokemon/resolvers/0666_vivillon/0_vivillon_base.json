@@ -248,23 +248,34 @@
     },
     {
       "aspects": [
-        "vivillon-wings-blazing"
+        "vivillon-wings-inferno"
       ],
       "layers": [
         {
           "name": "wings",
-          "texture": "cobblemon:textures/pokemon/0666_vivillon/vivillon_wings_blazing.png"
+          "texture": "cobblemon:textures/pokemon/0666_vivillon/vivillon_wings_inferno.png"
         }
       ]
     },
     {
       "aspects": [
-        "vivillon-wings-ender"
+        "vivillon-wings-void"
       ],
       "layers": [
         {
           "name": "wings",
-          "texture": "cobblemon:textures/pokemon/0666_vivillon/vivillon_wings_ender.png"
+          "texture": "cobblemon:textures/pokemon/0666_vivillon/vivillon_wings_void.png"
+        }
+      ]
+    },
+    {
+      "aspects": [
+        "vivillon-wings-forsaken"
+      ],
+      "layers": [
+        {
+          "name": "wings",
+          "texture": "cobblemon:textures/pokemon/0666_vivillon/vivillon_wings_forsaken.png"
         }
       ]
     }

@@ -30,11 +30,11 @@ class CompositeSpawningCondition {
     var conditions = mutableListOf<SpawningCondition<*>>()
     var anticonditions = mutableListOf<SpawningCondition<*>>()
 
-    fun satisfiedBy(ctx: SpawningContext, detail: SpawnDetail): Boolean {
-        return if (conditions.isNotEmpty() && conditions.none { it.isSatisfiedBy(ctx, detail) }) {
+    fun satisfiedBy(ctx: SpawningContext): Boolean {
+        return if (conditions.isNotEmpty() && conditions.none { it.isSatisfiedBy(ctx) }) {
             false
         } else {
-            !(anticonditions.isNotEmpty() && anticonditions.any { it.isSatisfiedBy(ctx, detail) })
+            !(anticonditions.isNotEmpty() && anticonditions.any { it.isSatisfiedBy(ctx) })
         }
     }
 }

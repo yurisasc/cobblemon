@@ -8,6 +8,19 @@
     "rockhead",
     "h:rattled"
   ],
+  "drops": {
+    "amount": 2,
+    "entries": [
+      {
+        "item": "cobblemon:hard_stone",
+        "percentage": 2.5
+      },
+      {
+        "item": "cobblemon:passho_berry",
+        "percentage": 2.5
+      }
+    ]
+  },
   "baseStats": {
     "hp": 50,
     "attack": 80,
@@ -96,7 +109,9 @@
     "tm:calmmind",
     "tm:captivate",
     "tm:confide",
+    "tm:curse",
     "tm:dig",
+    "tm:doubleedge",
     "tm:doubleteam",
     "tm:earthpower",
     "tm:earthquake",
@@ -174,7 +189,9 @@
       "variant": "level_up",
       "result": "sudowoodo",
       "consumeHeldItem": false,
-      "learnableMoves": [],
+      "learnableMoves": [
+        "slam"
+      ],
       "requirements": [
         {
           "variant": "has_move",

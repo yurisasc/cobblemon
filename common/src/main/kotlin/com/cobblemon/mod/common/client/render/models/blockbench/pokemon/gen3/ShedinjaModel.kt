@@ -9,9 +9,6 @@
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen3
 
 import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
-import com.cobblemon.mod.common.client.render.models.blockbench.frame.BiWingedFrame
-import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
-import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
@@ -23,11 +20,11 @@ import net.minecraft.util.math.Vec3d
 class ShedinjaModel (root: ModelPart) : PokemonPoseableModel() {
     override val rootPart = root.registerChildWithAllChildren("shedinja")
 
-    override val portraitScale = 2.0F
-    override val portraitTranslation = Vec3d(-0.2, -0.3, 0.0)
+    override val portraitScale = 1.8F
+    override val portraitTranslation = Vec3d(-0.2, 0.2, 0.0)
 
     override val profileScale = 0.9F
-    override val profileTranslation = Vec3d(0.0, 0.3, 0.0)
+    override val profileTranslation = Vec3d(0.0, 0.4, 0.0)
 
     lateinit var sleep: PokemonPose
     lateinit var stand: PokemonPose

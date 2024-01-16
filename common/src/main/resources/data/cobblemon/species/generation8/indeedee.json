@@ -1,4 +1,4 @@
-{
+﻿{
   "name": "Indeedee",
   "nationalPokedexNumber": 876,
   "primaryType": "psychic",
@@ -131,7 +131,6 @@
       ],
       "height": 9,
       "weight": 280,
-      "evolutions": [],
       "cannotDynamax": false,
       "battleOnly": false
     }
@@ -232,5 +231,14 @@
   "height": 9,
   "weight": 280,
   "aspects": [],
-  "cannotDynamax": false
+  "cannotDynamax": false,
+  "drops": {
+    "amount": 1,
+    "entries": [
+      {
+        "item": "cobblemon:bluk_berry",
+        "percentage": 5.0
+      }
+    ]
+  }
 }

@@ -7,6 +7,19 @@
   "abilities": [
     "levitate"
   ],
+  "drops": {
+    "amount": 2,
+    "entries": [
+      {
+        "item": "cobblemon:spell_tag",
+        "percentage": 5.0
+      },
+      {
+        "item": "cobblemon:payapa_berry",
+        "percentage": 5.0
+      }
+    ]
+  },
   "baseStats": {
     "hp": 45,
     "attack": 50,
@@ -57,6 +70,7 @@
     "tm:captivate",
     "tm:confide",
     "tm:confuseray",
+    "tm:curse",
     "tm:darkpulse",
     "tm:dazzlinggleam",
     "tm:doubleteam",
@@ -74,6 +88,7 @@
     "tm:frustration",
     "tm:gigadrain",
     "tm:gunkshot",
+    "tm:haze",
     "tm:hex",
     "tm:hiddenpower",
     "tm:icepunch",
@@ -84,9 +99,11 @@
     "tm:nastyplot",
     "tm:naturalgift",
     "tm:nightshade",
+    "tm:painsplit",
     "tm:payback",
     "tm:phantomforce",
     "tm:poisonjab",
+    "tm:poltergeist",
     "tm:protect",
     "tm:psychic",
     "tm:psychup",
@@ -100,11 +117,13 @@
     "tm:shadowball",
     "tm:shadowclaw",
     "tm:skillswap",
+    "tm:skittersmack",
     "tm:sleeptalk",
     "tm:sludgebomb",
     "tm:sludgewave",
     "tm:snatch",
     "tm:snore",
+    "tm:spite",
     "tm:substitute",
     "tm:sunnyday",
     "tm:swagger",

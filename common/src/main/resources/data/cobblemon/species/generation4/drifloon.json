@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Drifloon",
   "nationalPokedexNumber": 425,
   "primaryType": "ghost",
@@ -8,6 +9,15 @@
     "unburden",
     "h:flareboost"
   ],
+  "drops": {
+    "amount": 1,
+    "entries": [
+      {
+        "item": "cobblemon:kasib_berry",
+        "percentage": 2.5
+      }
+    ]
+  },
   "baseStats": {
     "hp": 90,
     "attack": 50,
@@ -25,6 +35,13 @@
   "eggGroups": [
     "amorphous"
   ],
+  "behaviour": {
+    "moving": {
+      "fly": {
+        "canFly": true
+      }
+    }
+  },
   "moves": [
     "1:astonish",
     "1:constrict",
@@ -97,6 +114,7 @@
     "tm:captivate",
     "tm:chargebeam",
     "tm:confide",
+    "tm:curse",
     "tm:cut",
     "tm:defog",
     "tm:doubleteam",
@@ -110,13 +128,16 @@
     "tm:focusenergy",
     "tm:frustration",
     "tm:gyroball",
+    "tm:haze",
     "tm:helpinghand",
     "tm:hex",
     "tm:hiddenpower",
     "tm:icywind",
     "tm:imprison",
+    "tm:knockoff",
     "tm:naturalgift",
     "tm:nightshade",
+    "tm:painsplit",
     "tm:payback",
     "tm:phantomforce",
     "tm:protect",
@@ -136,6 +157,7 @@
     "tm:skillswap",
     "tm:sleeptalk",
     "tm:snore",
+    "tm:spite",
     "tm:storedpower",
     "tm:substitute",
     "tm:sunnyday",
@@ -143,6 +165,7 @@
     "tm:swift",
     "tm:tailwind",
     "tm:telekinesis",
+    "tm:temperflare",
     "tm:terablast",
     "tm:thief",
     "tm:thunder",
@@ -203,8 +226,8 @@
   ],
   "baseScale": 1,
   "hitbox": {
-    "width": 1,
-    "height": 1,
+    "width": 0.7,
+    "height": 2,
     "fixed": false
   },
   "baseFriendship": 50,

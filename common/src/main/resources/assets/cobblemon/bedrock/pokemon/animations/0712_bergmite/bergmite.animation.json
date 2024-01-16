@@ -333,7 +333,6 @@
 			}
 		},
 		"animation.bergmite.cry": {
-			"loop": true,
 			"animation_length": 1.5,
 			"bones": {
 				"torso": {
@@ -386,10 +385,14 @@
 						"0.375": [0, 0, 0]
 					}
 				}
+			},
+			"sound_effects": {
+				"0.3333": {
+					"effect": "pokemon.bergmite.cry"
+				}
 			}
 		},
 		"animation.bergmite.faint": {
-			"loop": true,
 			"animation_length": 3,
 			"bones": {
 				"torso": {

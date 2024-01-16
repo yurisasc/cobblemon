@@ -138,8 +138,8 @@
 			}
 		},
 		"animation.exeggcute.faint": {
-			"loop": true,
-			"animation_length": 2,
+			"loop": "hold_on_last_frame",
+			"animation_length": 3,
 			"bones": {
 				"egg": {
 					"rotation": {

@@ -34,14 +34,22 @@
     }
   },
   "drops": {
-    "amount": "2",
+    "amount": 4,
     "entries": [
       {
         "item": "minecraft:dragon_breath",
-        "percentage": 50
+        "quantityRange": "0-1"
+      },
+      {
+        "item": "cobblemon:dragon_fang",
+        "percentage": 2.5
       },
       {
         "item": "cobblemon:dragon_scale",
+        "percentage": 2.5
+      },
+      {
+        "item": "cobblemon:yache_berry",
         "percentage": 2.5
       }
     ]
@@ -85,6 +93,7 @@
     "tm:confide",
     "tm:doubleteam",
     "tm:dracometeor",
+    "tm:dragoncheer",
     "tm:dragondance",
     "tm:dragonpulse",
     "tm:dragontail",
@@ -96,6 +105,7 @@
     "tm:frustration",
     "tm:gigaimpact",
     "tm:hail",
+    "tm:haze",
     "tm:helpinghand",
     "tm:hiddenpower",
     "tm:hydropump",
@@ -114,6 +124,7 @@
     "tm:return",
     "tm:round",
     "tm:safeguard",
+    "tm:scaleshot",
     "tm:secretpower",
     "tm:shockwave",
     "tm:sleeptalk",

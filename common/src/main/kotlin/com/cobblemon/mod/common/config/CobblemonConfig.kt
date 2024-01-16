@@ -59,6 +59,11 @@ class CobblemonConfig {
     @NodeCategory(Category.Storage)
     var preventCompletePartyDeposit = false
 
+    @NodeCategory(Category.Storage)
+    var mongoDBConnectionString = "mongodb://localhost:27017"
+    @NodeCategory(Category.Storage)
+    var mongoDBDatabaseName = "cobblemon"
+
     // TODO new types of constraint
 
     @NodeCategory(Category.Spawning)
@@ -126,6 +131,9 @@ class CobblemonConfig {
     @NodeCategory(category = Category.Battles)
     var luckyEggMultiplier = 1.5
 
+    @NodeCategory(category = Category.Battles)
+    var allowSpectating = true
+
     @NodeCategory(category = Category.Pokemon)
     var experienceMultiplier = 2F
 
@@ -185,14 +193,20 @@ class CobblemonConfig {
     var appleLeftoversChance = 0.025
 
     @NodeCategory(Category.World)
+    var maxRootsInArea = 5
+
+    @NodeCategory(Category.World)
     var bigRootPropagationChance = 0.1
 
     @NodeCategory(Category.World)
     var energyRootChance = 0.25
 
     @NodeCategory(Category.Pokemon)
-    @LastChangedVersion("1.4.0")
-    var consumeHeldItems = true
+    @IntConstraint(min = 0, max = 10)
+    var maxDynamaxLevel = 10
+
+    @NodeCategory(Category.Spawning)
+    var teraTypeRate = 20F
 
     @NodeCategory(Category.World)
     var defaultPasturedPokemonLimit = 16
@@ -205,4 +219,7 @@ class CobblemonConfig {
 
     @NodeCategory(Category.World)
     var pastureMaxPerChunk = 4F
+
+    @NodeCategory(Category.World)
+    var maxInsertedFossilItems = 2
 }

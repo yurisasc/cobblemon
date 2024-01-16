@@ -8,6 +8,19 @@
     "intimidate",
     "h:guts"
   ],
+  "drops": {
+    "amount": 2,
+    "entries": [
+      {
+        "item": "cobblemon:quick_claw",
+        "percentage": 5.0
+      },
+      {
+        "item": "cobblemon:shuca_berry",
+        "percentage": 5.0
+      }
+    ]
+  },
   "baseStats": {
     "hp": 60,
     "attack": 85,
@@ -62,14 +75,17 @@
     "68:wildcharge",
     "tm:attract",
     "tm:captivate",
+    "tm:charge",
     "tm:chargebeam",
     "tm:confide",
     "tm:confuseray",
     "tm:crunch",
+    "tm:doubleedge",
     "tm:doubleteam",
     "tm:eerieimpulse",
     "tm:electricterrain",
     "tm:electroball",
+    "tm:electroweb",
     "tm:endure",
     "tm:facade",
     "tm:faketears",

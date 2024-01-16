@@ -9,6 +9,19 @@
     "anticipation",
     "h:hydration"
   ],
+  "drops": {
+    "amount": 2,
+    "entries": [
+      {
+        "item": "minecraft:clay_ball",
+        "quantityRange": "0-1"
+      },
+      {
+        "item": "cobblemon:rindo_berry",
+        "percentage": 2.5
+      }
+    ]
+  },
   "baseStats": {
     "hp": 50,
     "attack": 48,
@@ -74,6 +87,7 @@
     "tm:chillingwater",
     "tm:confide",
     "tm:dive",
+    "tm:doubleedge",
     "tm:doubleteam",
     "tm:dragondance",
     "tm:earthpower",
@@ -85,6 +99,7 @@
     "tm:hail",
     "tm:helpinghand",
     "tm:hiddenpower",
+    "tm:highhorsepower",
     "tm:hydropump",
     "tm:icebeam",
     "tm:icywind",

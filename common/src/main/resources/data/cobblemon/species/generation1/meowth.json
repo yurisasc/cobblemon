@@ -1,4 +1,4 @@
-{
+﻿{
   "implemented": true,
   "name": "Meowth",
   "nationalPokedexNumber": 52,
@@ -105,12 +105,15 @@
         "tm:chillingwater",
         "tm:confide",
         "tm:confuseray",
+        "tm:curse",
         "tm:darkpulse",
         "tm:dig",
+        "tm:doubleedge",
         "tm:doubleteam",
         "tm:dreameater",
         "tm:echoedvoice",
         "tm:embargo",
+        "tm:endeavor",
         "tm:endure",
         "tm:facade",
         "tm:faketears",
@@ -122,6 +125,8 @@
         "tm:hypervoice",
         "tm:icywind",
         "tm:irontail",
+        "tm:knockoff",
+        "tm:lashout",
         "tm:metalclaw",
         "tm:nastyplot",
         "tm:payback",
@@ -143,6 +148,7 @@
         "tm:sleeptalk",
         "tm:snarl",
         "tm:snore",
+        "tm:spite",
         "tm:substitute",
         "tm:sunnyday",
         "tm:swagger",
@@ -230,7 +236,24 @@
         }
       ],
       "cannotDynamax": false,
-      "battleOnly": false
+      "battleOnly": false,
+      "drops": {
+        "amount": 3,
+        "entries": [
+          {
+            "item": "minecraft:gold_nugget",
+            "quantityRange": "0-1"
+          },
+          {
+            "item": "cobblemon:quick_claw",
+            "percentage": 2.5
+          },
+          {
+            "item": "cobblemon:bluk_berry",
+            "percentage": 2.5
+          }
+        ]
+      }
     },
     {
       "name": "Galar",
@@ -265,6 +288,13 @@
       "eggGroups": [
         "field"
       ],
+      "behaviour": {
+        "moving": {
+          "walk": {
+            "walkSpeed": 0.2
+          }
+        }
+      },
       "moves": [
         "1:fakeout",
         "1:growl",
@@ -293,8 +323,11 @@
         "tm:brickbreak",
         "tm:charm",
         "tm:crunch",
+        "tm:curse",
         "tm:darkpulse",
         "tm:dig",
+        "tm:doubleedge",
+        "tm:endeavor",
         "tm:endure",
         "tm:facade",
         "tm:faketears",
@@ -309,7 +342,10 @@
         "tm:irondefense",
         "tm:ironhead",
         "tm:irontail",
+        "tm:knockoff",
+        "tm:lashout",
         "tm:metalclaw",
+        "tm:metalsound",
         "tm:metronome",
         "tm:nastyplot",
         "tm:payback",
@@ -326,6 +362,7 @@
         "tm:shadowclaw",
         "tm:sleeptalk",
         "tm:snore",
+        "tm:spite",
         "tm:stealthrock",
         "tm:steelbeam",
         "tm:substitute",
@@ -375,7 +412,20 @@
         }
       ],
       "cannotDynamax": false,
-      "battleOnly": false
+      "battleOnly": false,
+      "drops": {
+        "amount": 2,
+        "entries": [
+          {
+            "item": "cobblemon:razor_claw",
+            "percentage": 2.5
+          },
+          {
+            "item": "cobblemon:wepear_berry",
+            "percentage": 2.5
+          }
+        ]
+      }
     },
     {
       "name": "Gmax",
@@ -419,7 +469,6 @@
       ],
       "height": 330,
       "weight": 0,
-      "evolutions": [],
       "cannotDynamax": false,
       "battleOnly": false
     }
@@ -431,15 +480,18 @@
     "field"
   ],
   "drops": {
-    "amount": "2",
+    "amount": 3,
     "entries": [
       {
         "item": "minecraft:gold_nugget",
-        "quantityRange": "1-2",
-        "percentage": 66
+        "quantityRange": "0-1"
       },
       {
         "item": "cobblemon:quick_claw",
+        "percentage": 2.5
+      },
+      {
+        "item": "cobblemon:pinap_berry",
         "percentage": 2.5
       }
     ]
@@ -490,9 +542,11 @@
     "tm:cut",
     "tm:darkpulse",
     "tm:dig",
+    "tm:doubleedge",
     "tm:doubleteam",
     "tm:dreameater",
     "tm:echoedvoice",
+    "tm:endeavor",
     "tm:endure",
     "tm:facade",
     "tm:faketears",
@@ -507,9 +561,12 @@
     "tm:hypervoice",
     "tm:icywind",
     "tm:irontail",
+    "tm:knockoff",
+    "tm:lashout",
     "tm:metalclaw",
     "tm:nastyplot",
     "tm:naturalgift",
+    "tm:painsplit",
     "tm:payback",
     "tm:payday",
     "tm:playrough",
@@ -531,6 +588,7 @@
     "tm:snarl",
     "tm:snatch",
     "tm:snore",
+    "tm:spite",
     "tm:substitute",
     "tm:sunnyday",
     "tm:swagger",

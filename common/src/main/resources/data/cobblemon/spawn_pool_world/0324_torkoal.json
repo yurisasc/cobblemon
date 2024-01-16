@@ -1,5 +1,5 @@
 {
-    "enabled": "true",
+    "enabled": true,
     "neededInstalledMods": [],
     "neededUninstalledMods": [],
     "spawns": [
@@ -11,14 +11,18 @@
             ],
             "type": "pokemon",
             "context": "grounded",
-            "bucket": "uncommon",
-            "level": "20-47",
+            "bucket": "common",
+            "level": "22-47",
             "weight": 10.0,
             "condition": {
-				"biomes": [
-                    "minecraft:basalt_deltas"
+                "biomes": [
+                    "#cobblemon:is_mountain",
+                    "#cobblemon:is_thermal"
+                ],
+                "neededNearbyBlocks": [
+                    "minecraft:coal_ore"
                 ]
-			}
+            }
         },
         {
             "id": "torkoal-2",
@@ -28,16 +32,23 @@
             ],
             "type": "pokemon",
             "context": "grounded",
-            "bucket": "common",
-            "level": "20-47",
+            "bucket": "uncommon",
+            "level": "22-47",
             "weight": 10.0,
             "condition": {
+                "canSeeSky": false,
                 "biomes": [
-                    "#cobblemon:is_mountain",
-					"#cobblemon:is_thermal"
+                    "#cobblemon:is_overworld"
                 ],
-				"neededNearbyBlocks": [
+                "neededNearbyBlocks": [
                     "minecraft:coal_ore"
+                ]
+            },
+            "anticondition": {
+                "biomes": [
+                    "#cobblemon:is_deep_dark",
+                    "#cobblemon:is_mountain",
+                    "#cobblemon:is_thermal"
                 ]
             }
         },
@@ -45,29 +56,18 @@
             "id": "torkoal-3",
             "pokemon": "torkoal",
             "presets": [
-                "underground"
+                "natural"
             ],
             "type": "pokemon",
             "context": "grounded",
-            "bucket": "uncommon",
-            "level": "20-47",
-            "weight": 10.0,
+            "bucket": "common",
+            "level": "22-47",
+            "weight": 2.0,
             "condition": {
-                "canSeeSky": false,
                 "biomes": [
-                    "#minecraft:is_overworld"
-                ],
-				"neededNearbyBlocks": [
-                    "minecraft:coal_ore"
+                    "#cobblemon:is_nether_basalt"
                 ]
-            },
-			"anticondition": {
-				"biomes": [
-                    "#cobblemon:is_abyss",
-					"#cobblemon:is_mountain",
-					"#cobblemon:is_thermal"
-                ]
-			}
+            }
         }
     ]
 }

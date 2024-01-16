@@ -7,6 +7,19 @@
     "moldbreaker",
     "h:unnerve"
   ],
+  "drops": {
+    "amount": 2,
+    "entries": [
+      {
+        "item": "cobblemon:dragon_fang",
+        "percentage": 10.0
+      },
+      {
+        "item": "cobblemon:haban_berry",
+        "percentage": 10.0
+      }
+    ]
+  },
   "baseStats": {
     "hp": 76,
     "attack": 147,
@@ -60,13 +73,16 @@
     "tm:crunch",
     "tm:cut",
     "tm:dig",
+    "tm:doubleedge",
     "tm:doubleteam",
     "tm:dracometeor",
+    "tm:dragoncheer",
     "tm:dragonclaw",
     "tm:dragondance",
     "tm:dragonpulse",
     "tm:dragontail",
     "tm:earthquake",
+    "tm:endeavor",
     "tm:endure",
     "tm:facade",
     "tm:falseswipe",
@@ -98,6 +114,7 @@
     "tm:rocksmash",
     "tm:rocktomb",
     "tm:round",
+    "tm:scaleshot",
     "tm:scaryface",
     "tm:secretpower",
     "tm:shadowclaw",

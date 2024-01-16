@@ -9,13 +9,13 @@
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen2
 
 import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
-import com.cobblemon.mod.common.client.render.models.blockbench.asTransformed
+import com.cobblemon.mod.common.client.render.models.blockbench.createTransformation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pose.TransformedModelPart
+import com.cobblemon.mod.common.client.render.models.blockbench.pose.ModelPartTransformation
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import net.minecraft.client.model.ModelPart
@@ -43,8 +43,11 @@ class TotodileModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
     lateinit var battleidle: PokemonPose
     lateinit var water_surface_idle: PokemonPose
     lateinit var water_surface_swim: PokemonPose
+    lateinit var shoulderLeft: PokemonPose
+    lateinit var shoulderRight: PokemonPose
 
     val wateroffset = -10
+    val shoulderOffset = 5.5
 
     override val cryAnimation = CryProvider { _, _ -> bedrockStateful("totodile", "cry").setPreventsIdle(false) }
 
@@ -139,7 +142,7 @@ class TotodileModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
                 bedrock("totodile", "surfacewater_idle"),
             ),
             transformedParts = arrayOf(
-                rootPart.asTransformed().addPosition(TransformedModelPart.Y_AXIS, wateroffset)
+                rootPart.createTransformation().addPosition(ModelPartTransformation.Y_AXIS, wateroffset)
             )
         )
 
@@ -153,7 +156,31 @@ class TotodileModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
                 bedrock("totodile", "surfacewater_swim"),
             ),
             transformedParts = arrayOf(
-                rootPart.asTransformed().addPosition(TransformedModelPart.Y_AXIS, wateroffset)
+                rootPart.createTransformation().addPosition(ModelPartTransformation.Y_AXIS, wateroffset)
+            )
+        )
+
+        shoulderLeft = registerPose(
+            poseType = PoseType.SHOULDER_LEFT,
+            quirks = arrayOf(blink),
+            idleAnimations = arrayOf(
+                singleBoneLook(),
+                bedrock("totodile", "shoulder_right")
+            ),
+            transformedParts = arrayOf(
+                rootPart.createTransformation().addPosition(ModelPartTransformation.X_AXIS, shoulderOffset)
+            )
+        )
+
+        shoulderRight = registerPose(
+            poseType = PoseType.SHOULDER_RIGHT,
+            quirks = arrayOf(blink),
+            idleAnimations = arrayOf(
+                singleBoneLook(),
+                bedrock("totodile", "shoulder_left")
+            ),
+            transformedParts = arrayOf(
+                rootPart.createTransformation().addPosition(ModelPartTransformation.X_AXIS, -shoulderOffset)
             )
         )
     }

@@ -9,6 +9,19 @@
     "solidrock",
     "h:reckless"
   ],
+  "drops": {
+    "amount": 2,
+    "entries": [
+      {
+        "item": "cobblemon:protector",
+        "percentage": 10.0
+      },
+      {
+        "item": "cobblemon:passho_berry",
+        "percentage": 10.0
+      }
+    ]
+  },
   "baseStats": {
     "hp": 115,
     "attack": 140,
@@ -27,15 +40,6 @@
     "monster",
     "field"
   ],
-  "drops": {
-    "amount": "1",
-    "entries": [
-      {
-        "item": "cobblemon:protector",
-        "percentage": 10
-      }
-    ]
-  },
   "moves": [
     "1:bulldoze",
     "1:furyattack",
@@ -102,14 +106,17 @@
     "tm:captivate",
     "tm:confide",
     "tm:crunch",
+    "tm:curse",
     "tm:cut",
     "tm:dig",
+    "tm:doubleedge",
     "tm:doubleteam",
     "tm:dragonpulse",
     "tm:dragontail",
     "tm:drillrun",
     "tm:earthpower",
     "tm:earthquake",
+    "tm:endeavor",
     "tm:endure",
     "tm:facade",
     "tm:fireblast",
@@ -140,7 +147,10 @@
     "tm:megahorn",
     "tm:megakick",
     "tm:megapunch",
+    "tm:metalclaw",
+    "tm:meteorbeam",
     "tm:mudshot",
+    "tm:mudslap",
     "tm:naturalgift",
     "tm:outrage",
     "tm:payback",
@@ -162,6 +172,7 @@
     "tm:round",
     "tm:sandstorm",
     "tm:scaryface",
+    "tm:scorchingsands",
     "tm:secretpower",
     "tm:shadowclaw",
     "tm:shockwave",
@@ -175,10 +186,14 @@
     "tm:strength",
     "tm:substitute",
     "tm:sunnyday",
+    "tm:supercellslam",
     "tm:superpower",
     "tm:surf",
     "tm:swagger",
     "tm:swordsdance",
+    "tm:takedown",
+    "tm:temperflare",
+    "tm:terablast",
     "tm:thief",
     "tm:thunder",
     "tm:thunderbolt",

@@ -30,7 +30,7 @@ public class JetMixin {
     @Redirect(method = "tickMovement", at = @At(target = "Lnet/minecraft/entity/JumpingMount;getJumpCooldown()I", value = "INVOKE"))
     public int cobblemon$tryHandlingJet(JumpingMount mount) {
         if(mount instanceof PokemonEntity pokemon) {
-            if(pokemon.isMoving().get()) {
+            if(pokemon.getDataTracker().get(PokemonEntity.MOVING)) {
                 ++this.field_3938;
                 if (this.field_3938 < 11) {
                     this.jetStrength = (float) this.field_3938 * 0.1F;

@@ -8,6 +8,23 @@
     "magicguard",
     "h:friendguard"
   ],
+  "drops": {
+    "amount": 3,
+    "entries": [
+      {
+        "item": "cobblemon:moon_stone",
+        "percentage": 2.5
+      },
+      {
+        "item": "cobblemon:babiri_berry",
+        "percentage": 2.5
+      },
+      {
+        "item": "cobblemon:fairy_feather",
+        "percentage": 2.5
+      }
+    ]
+  },
   "baseStats": {
     "hp": 50,
     "attack": 25,
@@ -25,15 +42,6 @@
   "eggGroups": [
     "undiscovered"
   ],
-  "drops": {
-    "amount": "1",
-    "entries": [
-      {
-        "item": "cobblemon:moon_stone",
-        "percentage": 2.5
-      }
-    ]
-  },
   "moves": [
     "1:copycat",
     "1:pound",
@@ -59,18 +67,24 @@
     "egg:substitute",
     "egg:tickle",
     "egg:wish",
+    "tm:alluringvoice",
     "tm:amnesia",
     "tm:attract",
     "tm:bodyslam",
+    "tm:calmmind",
     "tm:captivate",
     "tm:charm",
+    "tm:chillingwater",
     "tm:confide",
+    "tm:dazzlinggleam",
     "tm:dig",
+    "tm:disarmingvoice",
     "tm:doubleteam",
     "tm:drainingkiss",
     "tm:dreameater",
     "tm:echoedvoice",
     "tm:encore",
+    "tm:endeavor",
     "tm:endure",
     "tm:facade",
     "tm:faketears",
@@ -80,6 +94,7 @@
     "tm:fling",
     "tm:frustration",
     "tm:grassknot",
+    "tm:gravity",
     "tm:helpinghand",
     "tm:hiddenpower",
     "tm:hypervoice",
@@ -95,6 +110,7 @@
     "tm:naturalgift",
     "tm:playrough",
     "tm:protect",
+    "tm:psybeam",
     "tm:psychic",
     "tm:psychup",
     "tm:psyshock",
@@ -115,7 +131,9 @@
     "tm:substitute",
     "tm:sunnyday",
     "tm:swagger",
+    "tm:swift",
     "tm:telekinesis",
+    "tm:terablast",
     "tm:thunderwave",
     "tm:toxic",
     "tm:trick",

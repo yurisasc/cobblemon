@@ -9,6 +9,19 @@
     "poisontouch",
     "h:adaptability"
   ],
+  "drops": {
+    "amount": 2,
+    "entries": [
+      {
+        "item": "minecraft:kelp",
+        "quantityRange": "0-1"
+      },
+      {
+        "item": "cobblemon:pecha_berry",
+        "percentage": 2.5
+      }
+    ]
+  },
   "baseStats": {
     "hp": 50,
     "attack": 60,
@@ -73,14 +86,17 @@
     "tm:dragontail",
     "tm:endure",
     "tm:facade",
+    "tm:flipturn",
     "tm:frustration",
     "tm:gunkshot",
     "tm:hail",
+    "tm:haze",
     "tm:hiddenpower",
     "tm:hydropump",
     "tm:icywind",
     "tm:irontail",
     "tm:liquidation",
+    "tm:muddywater",
     "tm:mudshot",
     "tm:mudslap",
     "tm:outrage",
@@ -92,6 +108,7 @@
     "tm:return",
     "tm:round",
     "tm:scald",
+    "tm:scaleshot",
     "tm:scaryface",
     "tm:secretpower",
     "tm:shadowball",
@@ -100,6 +117,7 @@
     "tm:sludgewave",
     "tm:snore",
     "tm:snowscape",
+    "tm:spite",
     "tm:substitute",
     "tm:surf",
     "tm:swagger",
@@ -113,6 +131,7 @@
     "tm:venoshock",
     "tm:waterfall",
     "tm:waterpulse",
+    "tm:whirlpool",
     "tutor:aquatail",
     "tutor:bounce",
     "tutor:dragonpulse",

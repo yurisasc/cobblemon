@@ -52,11 +52,13 @@ fun drawProfilePokemon(
     scale: Float = 20F
 ) {
     val model = PokemonModelRepository.getPoser(species, aspects)
-    val texture = PokemonModelRepository.getTexture(species, aspects, state)
+    val texture = PokemonModelRepository.getTexture(species, aspects, state?.animationSeconds ?: 0F)
 
     val context = RenderContext()
-    PokemonModelRepository.variations[species]?.getTexture(aspects, 0f).let { it -> context.put(RenderContext.TEXTURE, it) }
+    PokemonModelRepository.getTextureNoSubstitute(species, aspects, 0f).let { it -> context.put(RenderContext.TEXTURE, it) }
     context.put(RenderContext.SCALE, PokemonSpecies.getByIdentifier(species)!!.getForm(aspects).baseScale)
+    context.put(RenderContext.SPECIES, species)
+    context.put(RenderContext.ASPECTS, aspects)
 
     val renderType = model.getLayer(texture)
 
@@ -92,7 +94,7 @@ fun drawProfilePokemon(
         model.render(context, matrixStack, buffer, packedLight, OverlayTexture.DEFAULT_UV, 1F, 1F, 1F, 1F)
         bufferSource.draw()
     }
-
+    model.setDefault()
     entityRenderDispatcher.setRenderShadows(true)
     DiffuseLighting.enableGuiDepthLighting()
 }

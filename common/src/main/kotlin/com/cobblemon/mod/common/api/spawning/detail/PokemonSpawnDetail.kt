@@ -17,6 +17,7 @@ import com.cobblemon.mod.common.api.spawning.context.SpawningContext
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.util.asIdentifierDefaultingNamespace
+import com.cobblemon.mod.common.util.asTranslated
 import com.cobblemon.mod.common.util.lang
 import com.google.gson.annotations.SerializedName
 import kotlin.math.ceil
@@ -48,6 +49,8 @@ class PokemonSpawnDetail : SpawnDetail() {
 
 
     override fun getName(): MutableText {
+        displayName?.let { return it.asTranslated() }
+
         val speciesString = pokemon.species
         if (speciesString != null) {
             if (speciesString.lowercase() == "random") {
@@ -66,7 +69,7 @@ class PokemonSpawnDetail : SpawnDetail() {
     }
 
     override fun autoLabel() {
-        super.autoLabel()
+        val pokemonStruct = pokemon.asStruct()
         if (pokemon.species != null) {
             val species = PokemonSpecies.getByIdentifier(pokemon.species!!.asIdentifierDefaultingNamespace())
             if (species != null) {
@@ -84,6 +87,9 @@ class PokemonSpawnDetail : SpawnDetail() {
                 }
             }
         }
+
+        struct.setDirectly("pokemon", pokemonStruct)
+        super.autoLabel()
     }
 
     fun getDerivedLevelRange() = levelRange.let { levelRange ->
@@ -102,7 +108,7 @@ class PokemonSpawnDetail : SpawnDetail() {
         return super.isValid() && isValidSpecies
     }
 
-    override fun doSpawn(ctx: SpawningContext): SpawnAction<*> {
+    override fun doSpawn(ctx: SpawningContext): SingleEntitySpawnAction<PokemonEntity> {
         // TODO should do more maybe
         return PokemonSpawnAction(ctx, this)
     }

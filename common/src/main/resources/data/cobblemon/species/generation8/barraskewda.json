@@ -7,6 +7,18 @@
     "swiftswim",
     "h:propellertail"
   ],
+  "drops": {
+    "amount": 2,
+    "entries": [
+      {
+        "item": "minecraft:salmon"
+      },
+      {
+        "item": "minecraft:bone_meal",
+        "percentage": 10.0
+      }
+    ]
+  },
   "baseStats": {
     "hp": 61,
     "attack": 123,
@@ -65,10 +77,12 @@
     "tm:closecombat",
     "tm:crunch",
     "tm:dive",
+    "tm:doubleedge",
     "tm:drillrun",
     "tm:endure",
     "tm:facade",
     "tm:focusenergy",
+    "tm:flipturn",
     "tm:gigaimpact",
     "tm:hydropump",
     "tm:hyperbeam",
@@ -82,6 +96,7 @@
     "tm:rest",
     "tm:round",
     "tm:scald",
+    "tm:scaleshot",
     "tm:scaryface",
     "tm:sleeptalk",
     "tm:snore",

@@ -1,4 +1,4 @@
-{
+﻿{
   "name": "Grimmsnarl",
   "nationalPokedexNumber": 861,
   "primaryType": "dark",
@@ -64,7 +64,6 @@
       ],
       "height": 320,
       "weight": 0,
-      "evolutions": [],
       "cannotDynamax": false,
       "battleOnly": false
     }
@@ -100,6 +99,7 @@
     "tm:bodyslam",
     "tm:brickbreak",
     "tm:bulkup",
+    "tm:burningjealousy",
     "tm:chillingwater",
     "tm:crunch",
     "tm:darkestlariat",
@@ -114,11 +114,13 @@
     "tm:fling",
     "tm:focusblast",
     "tm:focusenergy",
+    "tm:focuspunch",
     "tm:foulplay",
     "tm:gigaimpact",
     "tm:hyperbeam",
     "tm:icepunch",
     "tm:imprison",
+    "tm:lashout",
     "tm:leechlife",
     "tm:lightscreen",
     "tm:lowkick",
@@ -156,7 +158,11 @@
     "tm:uproar",
     "tm:wonderroom",
     "tutor:burningjealousy",
-    "tutor:lashout"
+    "tutor:lashout",
+    "tutor:lightscreen",
+    "tutor:reflect",
+    "tutor:spiritbreak",
+    "tutor:thunderwave"
   ],
   "labels": [
     "gen8"
@@ -184,5 +190,14 @@
   "height": 15,
   "weight": 610,
   "aspects": [],
-  "cannotDynamax": false
+  "cannotDynamax": false,
+  "drops": {
+    "amount": 1,
+    "entries": [
+      {
+        "item": "cobblemon:roseli_berry",
+        "percentage": 10.0
+      }
+    ]
+  }
 }

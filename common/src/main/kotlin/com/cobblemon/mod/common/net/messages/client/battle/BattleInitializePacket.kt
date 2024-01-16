@@ -49,7 +49,11 @@ class BattleInitializePacket() : NetworkPacket<BattleInitializePacket> {
     lateinit var side1: BattleSideDTO
     lateinit var side2: BattleSideDTO
 
-    constructor(battle: PokemonBattle, allySide: BattleSide): this() {
+    /**
+     * @param battle The battle to initialize on the client
+     * @param allySide The [BattleSide] the client is on, null if the client is a spectator
+     */
+    constructor(battle: PokemonBattle, allySide: BattleSide?): this() {
         battleId = battle.battleId
         battleFormat = battle.format
         val sides = arrayOf(battle.side1, battle.side2).map { side ->
@@ -59,7 +63,9 @@ class BattleInitializePacket() : NetworkPacket<BattleInitializePacket> {
                         uuid = actor.uuid,
                         showdownId = actor.showdownId,
                         displayName = actor.getName(),
-                        activePokemon = actor.activePokemon.map { it.battlePokemon?.let { pkm -> ActiveBattlePokemonDTO.fromPokemon(pkm, allySide == side) } },
+                        activePokemon = actor.activePokemon.map { it.battlePokemon?.let {
+                            pkm -> ActiveBattlePokemonDTO.fromPokemon(pkm, allySide == side)
+                        } },
                         type = actor.type
                     )
                 }
@@ -145,6 +151,7 @@ class BattleInitializePacket() : NetworkPacket<BattleInitializePacket> {
         val aspects: Set<String>,
         val status: PersistentStatus?,
         val hpValue: Float,
+        val maxHp: Float,
         val isFlatHp: Boolean,
         val statChanges: MutableMap<Stat, Int>
     ) {
@@ -163,6 +170,7 @@ class BattleInitializePacket() : NetworkPacket<BattleInitializePacket> {
                     aspects = pokemon.aspects,
                     status = pokemon.status?.status,
                     hpValue = hpValue,
+                    maxHp = pokemon.hp.toFloat(),
                     isFlatHp = isAlly,
                     statChanges = battlePokemon.statChanges
                 )
@@ -179,6 +187,7 @@ class BattleInitializePacket() : NetworkPacket<BattleInitializePacket> {
                     null
                 }
                 val hpRatio = buffer.readFloat()
+                val maxHp = buffer.readFloat()
                 val isFlatHp = buffer.readBoolean()
                 val statChanges = mutableMapOf<Stat, Int>()
                 buffer.readMapK(size = IntSize.U_BYTE, statChanges) {
@@ -193,6 +202,7 @@ class BattleInitializePacket() : NetworkPacket<BattleInitializePacket> {
                     aspects = aspects,
                     status = status,
                     hpValue = hpRatio,
+                    maxHp = maxHp,
                     isFlatHp = isFlatHp,
                     statChanges = statChanges
                 )
@@ -207,6 +217,7 @@ class BattleInitializePacket() : NetworkPacket<BattleInitializePacket> {
             buffer.writeBoolean(status != null)
             status?.let { buffer.writeString(it.name.toString()) }
             buffer.writeFloat(hpValue)
+            buffer.writeFloat(maxHp)
             buffer.writeBoolean(isFlatHp)
             buffer.writeMapK(IntSize.U_BYTE, statChanges) { (stat, stages) ->
                 Cobblemon.statProvider.encode(buffer, stat)

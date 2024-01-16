@@ -52,9 +52,12 @@
     "50:uproar",
     "56:dragonrush",
     "62:boomburst",
+    "tm:aerialace",
+    "tm:aircutter",
     "tm:airslash",
     "tm:attract",
     "tm:bodyslam",
+    "tm:bugbite",
     "tm:bugbuzz",
     "tm:bulldoze",
     "tm:captivate",
@@ -63,7 +66,11 @@
     "tm:defog",
     "tm:dig",
     "tm:doubleteam",
+    "tm:dracometeor",
+    "tm:dragonclaw",
     "tm:dragonpulse",
+    "tm:dragontail",
+    "tm:dualwingbeat",
     "tm:earthpower",
     "tm:earthquake",
     "tm:endure",
@@ -72,10 +79,12 @@
     "tm:focusenergy",
     "tm:frustration",
     "tm:gigadrain",
+    "tm:gigaimpact",
     "tm:heatwave",
     "tm:hiddenpower",
     "tm:hyperbeam",
     "tm:mudshot",
+    "tm:mudslap",
     "tm:naturalgift",
     "tm:outrage",
     "tm:protect",
@@ -88,13 +97,16 @@
     "tm:round",
     "tm:sandstorm",
     "tm:sandtomb",
+    "tm:scorchingsands",
     "tm:screech",
     "tm:secretpower",
     "tm:silverwind",
     "tm:sleeptalk",
     "tm:snore",
     "tm:solarbeam",
+    "tm:stealthrock",
     "tm:steelwing",
+    "tm:stoneedge",
     "tm:strength",
     "tm:strugglebug",
     "tm:substitute",
@@ -102,6 +114,9 @@
     "tm:superpower",
     "tm:swagger",
     "tm:swift",
+    "tm:tailwind",
+    "tm:takedown",
+    "tm:terablast",
     "tm:throatchop",
     "tm:toxic",
     "tm:uproar",
@@ -181,5 +196,18 @@
   "height": 11,
   "weight": 153,
   "aspects": [],
-  "cannotDynamax": false
+  "cannotDynamax": false,
+  "drops": {
+    "amount": 2,
+    "entries": [
+      {
+        "item": "cobblemon:soft_sand",
+        "percentage": 5.0
+      },
+      {
+        "item": "cobblemon:yache_berry",
+        "percentage": 5.0
+      }
+    ]
+  }
 }

@@ -42,6 +42,8 @@ import com.cobblemon.mod.common.pokemon.SpeciesAdditions
 import com.cobblemon.mod.common.pokemon.evolution.adapters.CobblemonEvolutionAdapter
 import com.cobblemon.mod.common.pokemon.evolution.adapters.CobblemonPreEvolutionAdapter
 import com.cobblemon.mod.common.pokemon.evolution.adapters.CobblemonRequirementAdapter
+import com.cobblemon.mod.common.pokemon.evolution.adapters.NbtItemPredicateAdapter
+import com.cobblemon.mod.common.pokemon.evolution.predicate.NbtItemPredicate
 import com.cobblemon.mod.common.pokemon.helditem.CobblemonHeldItemManager
 import com.cobblemon.mod.common.util.adapters.*
 import com.cobblemon.mod.common.util.adapters.riding.RidingPropertiesAdapter
@@ -61,6 +63,7 @@ import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.Box
 import net.minecraft.world.biome.Biome
+import net.minecraft.world.gen.structure.Structure
 
 object PokemonSpecies : JsonDataRegistry<Species> {
 
@@ -93,8 +96,10 @@ object PokemonSpecies : JsonDataRegistry<Species> {
         .registerTypeAdapter(TypeToken.getParameterized(RegistryLikeCondition::class.java, Biome::class.java).type, BiomeLikeConditionAdapter)
         .registerTypeAdapter(TypeToken.getParameterized(RegistryLikeCondition::class.java, Block::class.java).type, BlockLikeConditionAdapter)
         .registerTypeAdapter(TypeToken.getParameterized(RegistryLikeCondition::class.java, Item::class.java).type, ItemLikeConditionAdapter)
+        .registerTypeAdapter(TypeToken.getParameterized(RegistryLikeCondition::class.java, Structure::class.java).type, StructureLikeConditionAdapter)
         .registerTypeAdapter(EggGroup::class.java, EggGroupAdapter)
         .registerTypeAdapter(StatusEffect::class.java, RegistryElementAdapter<StatusEffect> { Registries.STATUS_EFFECT })
+        .registerTypeAdapter(NbtItemPredicate::class.java, NbtItemPredicateAdapter)
         .registerTypeAdapter(RidingProperties::class.java, RidingPropertiesAdapter)
         .disableHtmlEscaping()
         .enableComplexMapKeySerialization()
@@ -236,14 +241,17 @@ object PokemonSpecies : JsonDataRegistry<Species> {
             "spd" to (form?.baseStats?.get(Stats.SPECIAL_DEFENCE) ?: species.baseStats[Stats.SPECIAL_DEFENCE] ?: 1),
             "spe" to (form?.baseStats?.get(Stats.SPEED) ?: species.baseStats[Stats.SPEED] ?: 1)
         )
-        val heightm = form?.height ?: species.height
-        val weightkg = form?.weight ?: species.weight
+        val heightm = (form?.height ?: species.height) / 10
+        val weightkg = (form?.weight ?: species.weight) / 10
         // This is ugly, but we already have it hardcoded in the mod anyway
         val maxHP = if (species.showdownId() == "shedinja") 1 else null
         val canGigantamax: String? = if (form?.gigantamaxMove != null) form.gigantamaxMove.name else null
         val cannotDynamax = form?.dynamaxBlocked ?: species.dynamaxBlocked
         // ToDo battleOnly
         // ToDo changesFrom
+        val requiredMove = form?.requiredMove
+        val requiredItem = form?.requiredItem
+        val requiredItems = form?.requiredItems
     }
 
     private fun createShowdownName(species: Species): String {

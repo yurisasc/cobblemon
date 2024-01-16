@@ -8,6 +8,15 @@
     "pickup",
     "h:voltabsorb"
   ],
+  "drops": {
+    "amount": 1,
+    "entries": [
+      {
+        "item": "cobblemon:cheri_berry",
+        "percentage": 5.0
+      }
+    ]
+  },
   "baseStats": {
     "hp": 60,
     "attack": 45,
@@ -64,8 +73,10 @@
     "egg:tailwhip",
     "tm:aerialace",
     "tm:agility",
+    "tm:alluringvoice",
     "tm:attract",
     "tm:captivate",
+    "tm:charge",
     "tm:chargebeam",
     "tm:charm",
     "tm:confide",
@@ -76,7 +87,9 @@
     "tm:eerieimpulse",
     "tm:electricterrain",
     "tm:electroball",
+    "tm:electroweb",
     "tm:encore",
+    "tm:endeavor",
     "tm:endure",
     "tm:facade",
     "tm:faketears",
@@ -106,6 +119,7 @@
     "tm:sleeptalk",
     "tm:substitute",
     "tm:sunnyday",
+    "tm:superfang",
     "tm:swagger",
     "tm:swift",
     "tm:takedown",
@@ -118,6 +132,7 @@
     "tm:thunderwave",
     "tm:toxic",
     "tm:trailblaze",
+    "tm:uproar",
     "tm:uturn",
     "tm:voltswitch",
     "tm:wildcharge",

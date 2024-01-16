@@ -7,6 +7,19 @@
     "sandveil",
     "h:sandrush"
   ],
+  "drops": {
+    "amount": 2,
+    "entries": [
+      {
+        "item": "cobblemon:quick_claw",
+        "percentage": 2.5
+      },
+      {
+        "item": "cobblemon:soft_sand",
+        "percentage": 2.5
+      }
+    ]
+  },
   "baseStats": {
     "hp": 50,
     "attack": 75,
@@ -15,6 +28,9 @@
     "special_defence": 30,
     "speed": 40
   },
+  "features": [
+    "alolan"
+  ],
   "behaviour": {
     "moving": {
       "walk": {
@@ -84,6 +100,7 @@
         "36:gyroball",
         "39:swordsdance",
         "42:hail",
+        "42:snowscape",
         "45:blizzard",
         "egg:amnesia",
         "egg:chipaway",
@@ -93,9 +110,11 @@
         "egg:endure",
         "egg:flail",
         "egg:honeclaws",
+        "egg:iceshard",
         "egg:iciclecrash",
         "egg:iciclespear",
         "egg:metalclaw",
+        "egg:mirrorcoat",
         "egg:nightslash",
         "tm:aerialace",
         "tm:amnesia",
@@ -107,24 +126,34 @@
         "tm:brickbreak",
         "tm:bulldoze",
         "tm:confide",
+        "tm:curse",
         "tm:dig",
+        "tm:doubleedge",
         "tm:doubleteam",
         "tm:earthquake",
+        "tm:endeavor",
         "tm:endure",
         "tm:facade",
+        "tm:flashcannon",
         "tm:fling",
+        "tm:focuspunch",
         "tm:frostbreath",
         "tm:frustration",
         "tm:gyroball",
         "tm:hail",
         "tm:hiddenpower",
+        "tm:icebeam",
         "tm:icepunch",
+        "tm:icespinner",
         "tm:iciclespear",
         "tm:icywind",
         "tm:irondefense",
         "tm:ironhead",
         "tm:irontail",
+        "tm:knockoff",
         "tm:leechlife",
+        "tm:lowkick",
+        "tm:metalclaw",
         "tm:poisonjab",
         "tm:protect",
         "tm:rest",
@@ -136,15 +165,21 @@
         "tm:shadowclaw",
         "tm:sleeptalk",
         "tm:snore",
+        "tm:snowscape",
         "tm:stealthrock",
+        "tm:steelbeam",
         "tm:substitute",
         "tm:sunnyday",
+        "tm:superfang",
         "tm:swagger",
         "tm:swift",
         "tm:swordsdance",
+        "tm:takedown",
+        "tm:terablast",
         "tm:thief",
         "tm:throatchop",
         "tm:toxic",
+        "tm:tripleaxel",
         "tm:workup",
         "tm:xscissor",
         "tutor:aquatail",
@@ -214,7 +249,20 @@
         }
       ],
       "cannotDynamax": false,
-      "battleOnly": false
+      "battleOnly": false,
+      "drops": {
+        "amount": 2,
+        "entries": [
+          {
+            "item": "cobblemon:quick_claw",
+            "percentage": 2.5
+          },
+          {
+            "item": "cobblemon:chople_berry",
+            "percentage": 2.5
+          }
+        ]
+      }
     }
   ],
   "baseExperienceYield": 60,
@@ -268,22 +316,31 @@
     "tm:bulldoze",
     "tm:captivate",
     "tm:confide",
+    "tm:curse",
     "tm:cut",
     "tm:dig",
+    "tm:doubleedge",
     "tm:doubleteam",
     "tm:earthpower",
     "tm:earthquake",
+    "tm:endeavor",
     "tm:endure",
     "tm:facade",
+    "tm:falseswipe",
     "tm:fling",
     "tm:focuspunch",
     "tm:frustration",
     "tm:gyroball",
     "tm:hiddenpower",
+    "tm:highhorsepower",
     "tm:honeclaws",
     "tm:irontail",
+    "tm:knockoff",
     "tm:leechlife",
+    "tm:lowkick",
+    "tm:metalclaw",
     "tm:mudshot",
+    "tm:mudslap",
     "tm:naturalgift",
     "tm:poisonjab",
     "tm:protect",
@@ -297,18 +354,25 @@
     "tm:safeguard",
     "tm:sandstorm",
     "tm:sandtomb",
+    "tm:scorchingsands",
     "tm:secretpower",
     "tm:shadowclaw",
     "tm:sleeptalk",
+    "tm:smackdown",
     "tm:snore",
+    "tm:spikes",
     "tm:stealthrock",
     "tm:stompingtantrum",
+    "tm:stoneedge",
     "tm:strength",
     "tm:substitute",
     "tm:sunnyday",
+    "tm:superfang",
     "tm:swagger",
     "tm:swift",
     "tm:swordsdance",
+    "tm:takedown",
+    "tm:terablast",
     "tm:thief",
     "tm:throatchop",
     "tm:toxic",

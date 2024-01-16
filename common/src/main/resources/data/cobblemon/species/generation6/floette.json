@@ -1,4 +1,4 @@
-{
+﻿{
   "name": "Floette",
   "nationalPokedexNumber": 670,
   "primaryType": "fairy",
@@ -113,9 +113,20 @@
       ],
       "height": 2,
       "weight": 9,
-      "evolutions": [],
       "cannotDynamax": false,
-      "battleOnly": false
+      "battleOnly": false,
+      "drops": {
+        "amount": 2,
+        "entries": [
+          {
+            "item": "minecraft:wither_rose"
+          },
+          {
+            "item": "cobblemon:kebia_berry",
+            "percentage": 5.0
+          }
+        ]
+      }
     }
   ],
   "baseExperienceYield": 130,
@@ -141,6 +152,7 @@
     "46:moonblast",
     "51:petaldance",
     "58:solarbeam",
+    "tm:alluringvoice",
     "tm:attract",
     "tm:batonpass",
     "tm:calmmind",
@@ -152,6 +164,7 @@
     "tm:doubleteam",
     "tm:drainingkiss",
     "tm:echoedvoice",
+    "tm:endeavor",
     "tm:endure",
     "tm:energyball",
     "tm:facade",
@@ -167,6 +180,7 @@
     "tm:metronome",
     "tm:mistyterrain",
     "tm:naturepower",
+    "tm:petalblizzard",
     "tm:pollenpuff",
     "tm:protect",
     "tm:psychic",
@@ -238,5 +252,17 @@
   "height": 2,
   "weight": 9,
   "aspects": [],
-  "cannotDynamax": false
+  "cannotDynamax": false,
+  "drops": {
+    "amount": 2,
+    "entries": [
+      {
+        "item": "minecraft:lily_of_the_valley"
+      },
+      {
+        "item": "cobblemon:kebia_berry",
+        "percentage": 5.0
+      }
+    ]
+  }
 }

@@ -14,8 +14,8 @@ import com.cobblemon.mod.common.client.render.models.blockbench.bedrock.animatio
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.ModelFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.Bone
+import com.cobblemon.mod.common.client.render.models.blockbench.pose.ModelPartTransformation
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.Pose
-import com.cobblemon.mod.common.client.render.models.blockbench.withPosition
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.util.adapters.Vec3dAdapter
@@ -57,10 +57,10 @@ class JsonPokemonPoseableModel(override val rootPart: Bone) : PokemonPoseableMod
             .create()
 
         fun registerFactory(id: String, factory: AnimationReferenceFactory) {
-            ANIMATION_FACTORIES[id] = factory;
+            ANIMATION_FACTORIES[id] = factory
         }
 
-        private val ANIMATION_FACTORIES = mutableMapOf<String, AnimationReferenceFactory>()
+        val ANIMATION_FACTORIES = mutableMapOf<String, AnimationReferenceFactory>()
     }
 
     override fun registerPoses() {}
@@ -115,6 +115,7 @@ class JsonPokemonPoseableModel(override val rootPart: Bone) : PokemonPoseableMod
     }
 
     object StatefulAnimationAdapter : JsonDeserializer<Supplier<StatefulAnimation<PokemonEntity, ModelFrame>>> {
+        var preventsIdleDefault = true
         override fun deserialize(json: JsonElement, type: Type, ctx: JsonDeserializationContext): Supplier<StatefulAnimation<PokemonEntity, ModelFrame>> {
             json as JsonPrimitive
             val animString = json.asString
@@ -155,16 +156,17 @@ class JsonPokemonPoseableModel(override val rootPart: Bone) : PokemonPoseableMod
                 conditionsList.add { mustBeTouchingWater == it.isTouchingWater }
             }
 
-            val poseCondition: (PokemonEntity) -> Boolean = if (conditionsList.isEmpty()) { { true } } else conditionsList.reduce { acc, function -> { acc(it) && function(it) } }
+            val poseCondition: ((PokemonEntity) -> Boolean)? = if (conditionsList.isEmpty()) null else conditionsList.reduce { acc, function -> { acc(it) && function(it) } }
 
             val transformedParts = obj.get("transformedParts")?.asJsonArray?.map {
                 it as JsonObject
                 val partName = it.get("part").asString
                 val part = model.getPart(partName)
+                val transformation = ModelPartTransformation(part)
                 val rotation = it.get("rotation")?.asJsonArray?.let { Vec3d(it[0].asDouble, it[1].asDouble, it[2].asDouble) } ?: Vec3d.ZERO
                 val position = it.get("position")?.asJsonArray?.let { Vec3d(it[0].asDouble, it[1].asDouble, it[2].asDouble) } ?: Vec3d.ZERO
                 val isVisible = it.get("isVisible")?.asBoolean ?: true
-                return@map part.withPosition(position.x, position.y, position.z).withRotationDegrees(rotation.x, rotation.y, rotation.z).withVisibility(isVisible)
+                return@map transformation.withPosition(position.x, position.y, position.z).withRotationDegrees(rotation.x, rotation.y, rotation.z).withVisibility(isVisible)
             }?.toTypedArray() ?: arrayOf()
 
             val idleAnimations = (obj.get("animations")?.asJsonArray ?: JsonArray()).asJsonArray.mapNotNull {
@@ -190,11 +192,14 @@ class JsonPokemonPoseableModel(override val rootPart: Bone) : PokemonPoseableMod
 
                         val anim = animString.substringBefore("(")
 
-                        if(ANIMATION_FACTORIES.contains(anim)) {
+                        StatefulAnimationAdapter.preventsIdleDefault = false
+                        val animation = if(ANIMATION_FACTORIES.contains(anim)) {
                             ANIMATION_FACTORIES[anim]?.stateful(model, animString)
                         } else {
                             null
                         }
+                        StatefulAnimationAdapter.preventsIdleDefault = true
+                        animation
                     }.filterNotNull()
                 }
 

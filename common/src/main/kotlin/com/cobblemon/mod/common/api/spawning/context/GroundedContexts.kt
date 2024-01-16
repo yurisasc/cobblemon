@@ -27,12 +27,13 @@ abstract class FlooredSpawningContext(
     world: ServerWorld,
     position: BlockPos,
     light: Int,
+    skyLight: Int,
     canSeeSky: Boolean,
     influences: MutableList<SpawningInfluence>,
     height: Int,
     nearbyBlocks: List<BlockState>,
     slice: WorldSlice
-) : AreaSpawningContext(cause, world, position, light, canSeeSky, influences, height, nearbyBlocks, slice) {
+) : AreaSpawningContext(cause, world, position, light, skyLight, canSeeSky, influences, height, nearbyBlocks, slice) {
     /** The block that the spawning is occurring on. */
     val baseBlock = slice.getBlockState(position.x, position.y, position.z)
 }
@@ -48,12 +49,13 @@ open class GroundedSpawningContext(
     world: ServerWorld,
     position: BlockPos,
     light: Int,
+    skyLight: Int,
     canSeeSky: Boolean,
     influences: MutableList<SpawningInfluence>,
     height: Int,
     nearbyBlocks: List<BlockState>,
     slice: WorldSlice
-) : FlooredSpawningContext(cause, world, position, light, canSeeSky, influences, height, nearbyBlocks, slice)
+) : FlooredSpawningContext(cause, world, position, light, skyLight, canSeeSky, influences, height, nearbyBlocks, slice)
 
 /**
  * A spawning context that occurs at the bottom of a body of water.
@@ -66,12 +68,13 @@ open class SeafloorSpawningContext(
     world: ServerWorld,
     position: BlockPos,
     light: Int,
+    skyLight: Int,
     canSeeSky: Boolean,
     influences: MutableList<SpawningInfluence>,
     height: Int,
     nearbyBlocks: List<BlockState>,
     slice: WorldSlice
-) : FlooredSpawningContext(cause, world, position, light, canSeeSky, influences, height, nearbyBlocks, slice) {
+) : FlooredSpawningContext(cause, world, position, light, skyLight, canSeeSky, influences, height, nearbyBlocks, slice) {
     override fun isSafeSpace(world: ServerWorld, pos: BlockPos, state: BlockState) = state.fluidState.isIn(FluidTags.WATER)
 }
 
@@ -86,12 +89,13 @@ open class LavafloorSpawningContext(
     world: ServerWorld,
     position: BlockPos,
     light: Int,
+    skyLight: Int,
     canSeeSky: Boolean,
     influences: MutableList<SpawningInfluence>,
     height: Int,
     nearbyBlocks: List<BlockState>,
     slice: WorldSlice
-) : FlooredSpawningContext(cause, world, position, light, canSeeSky, influences, height, nearbyBlocks, slice) {
+) : FlooredSpawningContext(cause, world, position, light, skyLight, canSeeSky, influences, height, nearbyBlocks, slice) {
     override fun isSafeSpace(world: ServerWorld, pos: BlockPos, state: BlockState) = state.fluidState.isIn(FluidTags.LAVA)
 }
 
@@ -100,10 +104,11 @@ open class SurfaceSpawningContext(
     world: ServerWorld,
     position: BlockPos,
     light: Int,
+    skyLight: Int,
     canSeeSky: Boolean,
     influences: MutableList<SpawningInfluence>,
     height: Int,
     val depth: Int,
     nearbyBlocks: List<BlockState>,
     slice: WorldSlice
-) : FlooredSpawningContext(cause, world, position, light, canSeeSky, influences, height, nearbyBlocks, slice)
+) : FlooredSpawningContext(cause, world, position, light, skyLight, canSeeSky, influences, height, nearbyBlocks, slice)

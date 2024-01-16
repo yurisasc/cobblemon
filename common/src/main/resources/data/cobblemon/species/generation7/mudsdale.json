@@ -8,6 +8,27 @@
     "stamina",
     "h:innerfocus"
   ],
+  "drops": {
+    "amount": 6,
+    "entries": [
+      {
+        "item": "minecraft:leather",
+        "quantityRange": "0-2"
+      },
+      {
+        "item": "minecraft:clay_ball",
+        "quantityRange": "0-2"
+      },
+      {
+        "item": "cobblemon:light_clay",
+        "percentage": 5.0
+      },
+      {
+        "item": "cobblemon:passho_berry",
+        "percentage": 5.0
+      }
+    ]
+  },
   "baseStats": {
     "hp": 100,
     "attack": 125,
@@ -56,9 +77,12 @@
     "tm:bulldoze",
     "tm:closecombat",
     "tm:confide",
+    "tm:curse",
+    "tm:doubleedge",
     "tm:doubleteam",
     "tm:earthpower",
     "tm:earthquake",
+    "tm:endeavor",
     "tm:endure",
     "tm:facade",
     "tm:focusblast",
@@ -70,6 +94,7 @@
     "tm:hyperbeam",
     "tm:irondefense",
     "tm:ironhead",
+    "tm:lashout",
     "tm:lowkick",
     "tm:lowsweep",
     "tm:megakick",
@@ -88,6 +113,7 @@
     "tm:sandtomb",
     "tm:scaryface",
     "tm:sleeptalk",
+    "tm:smackdown",
     "tm:snore",
     "tm:stealthrock",
     "tm:stompingtantrum",

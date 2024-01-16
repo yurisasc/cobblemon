@@ -46,12 +46,15 @@
     "tm:captivate",
     "tm:chillingwater",
     "tm:confide",
+    "tm:curse",
     "tm:cut",
     "tm:dig",
+    "tm:doubleedge",
     "tm:doubleteam",
     "tm:drainpunch",
     "tm:earthquake",
     "tm:encore",
+    "tm:endeavor",
     "tm:endure",
     "tm:facade",
     "tm:falseswipe",
@@ -71,6 +74,8 @@
     "tm:icepunch",
     "tm:icywind",
     "tm:incinerate",
+    "tm:knockoff",
+    "tm:lashout",
     "tm:lowkick",
     "tm:lowsweep",
     "tm:metalclaw",
@@ -111,12 +116,14 @@
     "tm:taunt",
     "tm:terablast",
     "tm:thief",
+    "tm:throatchop",
     "tm:thunder",
     "tm:thunderbolt",
     "tm:thunderpunch",
     "tm:thunderwave",
     "tm:toxic",
     "tm:trailblaze",
+    "tm:uproar",
     "tm:waterpulse",
     "tm:workup",
     "tm:xscissor",
@@ -194,5 +201,14 @@
   "height": 14,
   "weight": 465,
   "aspects": [],
-  "cannotDynamax": false
+  "cannotDynamax": false,
+  "drops": {
+    "amount": 1,
+    "entries": [
+      {
+        "item": "cobblemon:chesto_berry",
+        "percentage": 5.0
+      }
+    ]
+  }
 }

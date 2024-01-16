@@ -1,4 +1,4 @@
-{
+﻿{
   "implemented": true,
   "name": "Gourgeist",
   "nationalPokedexNumber": 711,
@@ -81,7 +81,6 @@
       "height": 7,
       "weight": 95,
       "preEvolution": "pumpkaboo form=small",
-      "evolutions": [],
       "cannotDynamax": false,
       "battleOnly": false
     },
@@ -129,7 +128,6 @@
       "height": 11,
       "weight": 140,
       "preEvolution": "pumpkaboo form=large",
-      "evolutions": [],
       "cannotDynamax": false,
       "battleOnly": false
     },
@@ -177,7 +175,6 @@
       "height": 17,
       "weight": 390,
       "preEvolution": "pumpkaboo form=super",
-      "evolutions": [],
       "cannotDynamax": false,
       "battleOnly": false
     }
@@ -189,16 +186,19 @@
     "amorphous"
   ],
   "drops": {
-    "amount": "2",
+    "amount": 4,
     "entries": [
       {
         "item": "minecraft:pumpkin_seeds",
-        "quantityRange": "1-3",
-        "percentage": 75
+        "quantityRange": "0-2"
       },
       {
         "item": "cobblemon:miracle_seed",
-        "percentage": 10
+        "percentage": 5.0
+      },
+      {
+        "item": "cobblemon:kasib_berry",
+        "percentage": 5.0
       }
     ]
   },

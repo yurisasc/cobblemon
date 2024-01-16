@@ -40,9 +40,11 @@
     "egg:defog",
     "egg:gigadrain",
     "egg:leafstorm",
+    "egg:superpower",
     "egg:weatherball",
     "egg:worryseed",
     "tm:attract",
+    "tm:bugbite",
     "tm:bulletseed",
     "tm:confide",
     "tm:doubleteam",
@@ -54,6 +56,7 @@
     "tm:frustration",
     "tm:gigadrain",
     "tm:grassknot",
+    "tm:grassyglide",
     "tm:grassyterrain",
     "tm:hiddenpower",
     "tm:leafblade",
@@ -62,6 +65,7 @@
     "tm:magicalleaf",
     "tm:naturepower",
     "tm:payback",
+    "tm:petalblizzard",
     "tm:poisonjab",
     "tm:protect",
     "tm:rest",
@@ -69,6 +73,7 @@
     "tm:round",
     "tm:safeguard",
     "tm:seedbomb",
+    "tm:skittersmack",
     "tm:sleeptalk",
     "tm:snore",
     "tm:solarbeam",
@@ -138,5 +143,18 @@
   "height": 3,
   "weight": 15,
   "aspects": [],
-  "cannotDynamax": false
+  "cannotDynamax": false,
+  "drops": {
+    "amount": 2,
+    "entries": [
+      {
+        "item": "cobblemon:miracle_seed",
+        "percentage": 2.5
+      },
+      {
+        "item": "cobblemon:tanga_berry",
+        "percentage": 2.5
+      }
+    ]
+  }
 }

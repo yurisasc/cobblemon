@@ -122,16 +122,27 @@ fun drawText(
     y: Number,
     centered: Boolean = false,
     colour: Int,
-    shadow: Boolean = true
-) {
+    shadow: Boolean = true,
+    pMouseX: Number? = null,
+    pMouseY: Number? = null
+): Boolean {
     val comp = if (font == null) text else text.setStyle(text.style.withFont(font))
     val textRenderer = MinecraftClient.getInstance().textRenderer
     var x = x
+    val width = textRenderer.getWidth(comp)
     if (centered) {
-        val width = textRenderer.getWidth(comp)
         x = x.toDouble() - width / 2
     }
     context.drawText(textRenderer, comp, x.toInt(), y.toInt(), colour, shadow)
+    var isHovered = false
+    if (pMouseY != null && pMouseX != null) {
+        if (pMouseX.toInt() >= x.toInt() && pMouseX.toInt() <= x.toInt() + width &&
+            pMouseY.toInt() >= y.toInt() && pMouseY.toInt() <= y.toInt() + textRenderer.fontHeight
+        ) {
+            isHovered = true
+        }
+    }
+    return isHovered
 }
 
 fun drawText(
@@ -180,11 +191,13 @@ fun drawPortraitPokemon(
     partialTicks: Float
 ) {
     val model = PokemonModelRepository.getPoser(species.resourceIdentifier, aspects)
-    val texture = PokemonModelRepository.getTexture(species.resourceIdentifier, aspects, state)
+    val texture = PokemonModelRepository.getTexture(species.resourceIdentifier, aspects, state?.animationSeconds ?: 0F)
 
     val context = RenderContext()
-    PokemonModelRepository.variations[species.resourceIdentifier]?.getTexture(aspects, 0f).let { it -> context.put(RenderContext.TEXTURE, it) }
+    PokemonModelRepository.getTextureNoSubstitute(species.resourceIdentifier, aspects, 0f).let { it -> context.put(RenderContext.TEXTURE, it) }
     context.put(RenderContext.SCALE, species.getForm(aspects).baseScale)
+    context.put(RenderContext.SPECIES, species.resourceIdentifier)
+    context.put(RenderContext.ASPECTS, aspects)
 
     val renderType = model.getLayer(texture)
 
@@ -195,10 +208,12 @@ fun drawPortraitPokemon(
     if (state == null) {
         model.setupAnimStateless(setOf(PoseType.PORTRAIT, PoseType.PROFILE))
     } else {
+        val originalPose = state.currentPose
         model.getPose(PoseType.PORTRAIT)?.let { state.setPose(it.poseName) }
         state.timeEnteredPose = 0F
         state.updatePartialTicks(partialTicks)
         model.setupAnimStateful(null, state, 0F, 0F, 0F, 0F, 0F)
+        originalPose?.let { state.setPose(it) }
     }
 
     matrixStack.push()
@@ -225,6 +240,7 @@ fun drawPortraitPokemon(
     }
 
     matrixStack.pop()
+    model.setDefault()
 
     DiffuseLighting.enableGuiDepthLighting()
 }

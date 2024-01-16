@@ -6,6 +6,19 @@
   "abilities": [
     "hustle"
   ],
+  "drops": {
+    "amount": 2,
+    "entries": [
+      {
+        "item": "minecraft:dragon_breath",
+        "quantityRange": "0-1"
+      },
+      {
+        "item": "cobblemon:roseli_berry",
+        "percentage": 2.5
+      }
+    ]
+  },
   "baseStats": {
     "hp": 52,
     "attack": 65,
@@ -61,6 +74,7 @@
     "tm:darkpulse",
     "tm:doubleteam",
     "tm:dracometeor",
+    "tm:dragoncheer",
     "tm:dragonpulse",
     "tm:dragontail",
     "tm:earthpower",
@@ -89,6 +103,7 @@
     "tm:sleeptalk",
     "tm:snarl",
     "tm:snore",
+    "tm:spite",
     "tm:strength",
     "tm:substitute",
     "tm:sunnyday",

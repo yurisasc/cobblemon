@@ -26,11 +26,11 @@
     "field"
   ],
   "drops": {
-    "amount": "1",
+    "amount": 1,
     "entries": [
       {
         "item": "cobblemon:mystic_water",
-        "percentage": 5
+        "percentage": 5.0
       }
     ]
   },
@@ -60,6 +60,7 @@
     "tm:dive",
     "tm:endure",
     "tm:facade",
+    "tm:haze",
     "tm:hydropump",
     "tm:lightscreen",
     "tm:liquidation",

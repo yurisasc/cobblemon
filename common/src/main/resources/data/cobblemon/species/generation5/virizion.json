@@ -6,6 +6,14 @@
   "abilities": [
     "justified"
   ],
+  "drops": {
+    "amount": 1,
+    "entries": [
+      {
+        "item": "cobblemon:miracle_seed"
+      }
+    ]
+  },
   "baseStats": {
     "hp": 91,
     "attack": 90,
@@ -27,12 +35,14 @@
     "1:helpinghand",
     "1:leer",
     "1:quickattack",
+    "1:takedown",
     "1:workup",
     "7:magicalleaf",
     "14:quickguard",
     "21:doublekick",
     "28:retaliate",
     "35:gigadrain",
+    "42:synthesis",
     "42:takedown",
     "49:sacredsword",
     "56:swordsdance",
@@ -40,12 +50,17 @@
     "70:closecombat",
     "tm:aerialace",
     "tm:airslash",
+    "tm:aurasphere",
+    "tm:bodyslam",
     "tm:bounce",
     "tm:brickbreak",
+    "tm:bulletseed",
     "tm:calmmind",
     "tm:closecombat",
+    "tm:coaching",
     "tm:confide",
     "tm:cut",
+    "tm:doubleedge",
     "tm:doubleteam",
     "tm:endure",
     "tm:energyball",
@@ -57,6 +72,7 @@
     "tm:gigadrain",
     "tm:gigaimpact",
     "tm:grassknot",
+    "tm:grassyglide",
     "tm:helpinghand",
     "tm:hiddenpower",
     "tm:hyperbeam",
@@ -78,6 +94,7 @@
     "tm:rocksmash",
     "tm:round",
     "tm:safeguard",
+    "tm:scaryface",
     "tm:secretpower",
     "tm:seedbomb",
     "tm:sleeptalk",
@@ -93,8 +110,13 @@
     "tm:swagger",
     "tm:swift",
     "tm:swordsdance",
+    "tm:takedown",
     "tm:taunt",
+    "tm:terablast",
     "tm:toxic",
+    "tm:trailblaze",
+    "tm:upperhand",
+    "tm:vacuumwave",
     "tm:workup",
     "tm:xscissor",
     "tm:zenheadbutt",

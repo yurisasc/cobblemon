@@ -8,6 +8,23 @@
     "sandveil",
     "h:waterabsorb"
   ],
+  "drops": {
+    "amount": 4,
+    "entries": [
+      {
+        "item": "minecraft:cactus",
+        "quantityRange": "0-2"
+      },
+      {
+        "item": "cobblemon:poison_barb",
+        "percentage": 5.0
+      },
+      {
+        "item": "cobblemon:tanga_berry",
+        "percentage": 5.0
+      }
+    ]
+  },
   "baseStats": {
     "hp": 70,
     "attack": 115,
@@ -32,6 +49,11 @@
       "willSleepOnBed": false,
       "depth": "normal",
       "light": "0-4"
+    },
+    "moving": {
+      "walk": {
+        "walkSpeed": 0.2
+      }
     }
   },
   "moves": [
@@ -63,6 +85,7 @@
     "tm:bulletseed",
     "tm:captivate",
     "tm:confide",
+    "tm:curse",
     "tm:cut",
     "tm:darkpulse",
     "tm:dig",
@@ -70,6 +93,7 @@
     "tm:drainpunch",
     "tm:embargo",
     "tm:encore",
+    "tm:endeavor",
     "tm:endure",
     "tm:energyball",
     "tm:facade",
@@ -82,12 +106,16 @@
     "tm:gigadrain",
     "tm:gigaimpact",
     "tm:grassknot",
+    "tm:grassyglide",
     "tm:grassyterrain",
     "tm:helpinghand",
     "tm:hiddenpower",
     "tm:hyperbeam",
+    "tm:knockoff",
+    "tm:lashout",
     "tm:leafstorm",
     "tm:lowkick",
+    "tm:lunge",
     "tm:magicalleaf",
     "tm:nastyplot",
     "tm:naturalgift",
@@ -106,9 +134,11 @@
     "tm:secretpower",
     "tm:seedbomb",
     "tm:shadowball",
+    "tm:skittersmack",
     "tm:sleeptalk",
     "tm:solarbeam",
     "tm:spikes",
+    "tm:spite",
     "tm:stompingtantrum",
     "tm:strength",
     "tm:substitute",
@@ -120,6 +150,7 @@
     "tm:taunt",
     "tm:terablast",
     "tm:thief",
+    "tm:throatchop",
     "tm:thunderpunch",
     "tm:toxic",
     "tm:toxicspikes",

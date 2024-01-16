@@ -6,6 +6,19 @@
   "abilities": [
     "levitate"
   ],
+  "drops": {
+    "amount": 4,
+    "entries": [
+      {
+        "item": "minecraft:dragon_breath",
+        "quantityRange": "0-3"
+      },
+      {
+        "item": "cobblemon:roseli_berry",
+        "percentage": 10.0
+      }
+    ]
+  },
   "baseStats": {
     "hp": 92,
     "attack": 105,
@@ -59,9 +72,11 @@
     "tm:darkpulse",
     "tm:doubleteam",
     "tm:dracometeor",
+    "tm:dragoncheer",
     "tm:dragondance",
     "tm:dragonpulse",
     "tm:dragontail",
+    "tm:dualwingbeat",
     "tm:earthpower",
     "tm:earthquake",
     "tm:echoedvoice",
@@ -86,6 +101,7 @@
     "tm:icefang",
     "tm:incinerate",
     "tm:irontail",
+    "tm:lashout",
     "tm:nastyplot",
     "tm:outrage",
     "tm:payback",
@@ -101,12 +117,14 @@
     "tm:rocktomb",
     "tm:roost",
     "tm:round",
+    "tm:scaleshot",
     "tm:scaryface",
     "tm:screech",
     "tm:secretpower",
     "tm:sleeptalk",
     "tm:snarl",
     "tm:snore",
+    "tm:spite",
     "tm:stealthrock",
     "tm:steelwing",
     "tm:stompingtantrum",

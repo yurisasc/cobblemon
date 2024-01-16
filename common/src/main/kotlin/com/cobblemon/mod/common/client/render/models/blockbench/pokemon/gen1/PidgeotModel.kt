@@ -16,8 +16,7 @@ import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFram
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pose.TransformedModelPart
-import com.cobblemon.mod.common.client.render.models.blockbench.wavefunction.parabolaFunction
+import com.cobblemon.mod.common.client.render.models.blockbench.pose.ModelPartTransformation
 import com.cobblemon.mod.common.client.render.models.blockbench.wavefunction.sineFunction
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.PoseType.Companion.UI_POSES
@@ -27,8 +26,8 @@ import net.minecraft.util.math.Vec3d
 
 class PidgeotModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedFrame, BiWingedFrame {
     override val rootPart = root.registerChildWithAllChildren("pidgeot")
-    override val leftWing = getPart("wing_left")
-    override val rightWing = getPart("wing_right")
+    override val leftWing = getPart("wing_open_left")
+    override val rightWing = getPart("wing_open_right")
     override val leftLeg = getPart("leg_left")
     override val rightLeg = getPart("leg_right")
     override val head = getPart("neck")
@@ -95,7 +94,7 @@ class PidgeotModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Biped
                 WingFlapIdleAnimation(this,
                     flapFunction = sineFunction(verticalShift = -14F.toRadians(), period = 0.9F, amplitude = 0.9F),
                     timeVariable = { state, _, _ -> state?.animationSeconds ?: 0F },
-                    axis = TransformedModelPart.Z_AXIS
+                    axis = ModelPartTransformation.Z_AXIS
                 )
             )
         )

@@ -8,6 +8,22 @@
     "unnerve",
     "h:bigpecks"
   ],
+  "drops": {
+    "amount": 3,
+    "entries": [
+      {
+        "item": "minecraft:feather",
+        "quantityRange": "0-1"
+      },
+      {
+        "item": "minecraft:chicken"
+      },
+      {
+        "item": "cobblemon:wacan_berry",
+        "percentage": 2.5
+      }
+    ]
+  },
   "baseStats": {
     "hp": 38,
     "attack": 47,
@@ -64,6 +80,7 @@
     "tm:assurance",
     "tm:attract",
     "tm:bravebird",
+    "tm:dualwingbeat",
     "tm:endure",
     "tm:facade",
     "tm:faketears",
@@ -80,6 +97,7 @@
     "tm:scaryface",
     "tm:sleeptalk",
     "tm:snore",
+    "tm:spite",
     "tm:substitute",
     "tm:swift",
     "tm:tailwind",

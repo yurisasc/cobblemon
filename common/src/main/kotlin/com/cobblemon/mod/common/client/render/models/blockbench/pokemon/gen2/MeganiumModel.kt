@@ -8,9 +8,7 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen2
 
-import com.cobblemon.mod.common.client.render.models.blockbench.animation.QuadrupedWalkAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
-import com.cobblemon.mod.common.client.render.models.blockbench.frame.QuadrupedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
@@ -22,11 +20,11 @@ class MeganiumModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("meganium")
     override val head = getPart("head")
 
-    override val portraitScale = 1.1F
-    override val portraitTranslation = Vec3d(-0.65, 2.4, 0.0)
+    override val portraitScale = 1.2F
+    override val portraitTranslation = Vec3d(-0.7, 2.4, 0.0)
 
-    override val profileScale = 0.45F
-    override val profileTranslation = Vec3d(0.0, 1.3, 0.0)
+    override val profileScale = 0.43F
+    override val profileTranslation = Vec3d(0.0, 1.0, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walking: PokemonPose

@@ -26,19 +26,19 @@
     "fairy"
   ],
   "drops": {
-    "amount": "1",
+    "amount": 1,
     "entries": [
       {
-        "item": "cobblemon:lucky_egg",
-        "percentage": 10
+        "item": "minecraft:egg",
+        "percentage": 33.0
       },
       {
         "item": "cobblemon:oval_stone",
-        "percentage": 10
+        "percentage": 10.0
       },
       {
-        "item": "minecraft:egg",
-        "percentage": 50
+        "item": "cobblemon:lucky_egg",
+        "percentage": 10.0
       }
     ]
   },
@@ -95,12 +95,14 @@
     "tm:confide",
     "tm:dazzlinggleam",
     "tm:disarmingvoice",
+    "tm:doubleedge",
     "tm:doubleteam",
     "tm:drainpunch",
     "tm:dreameater",
     "tm:earthquake",
     "tm:echoedvoice",
     "tm:electricterrain",
+    "tm:endeavor",
     "tm:endure",
     "tm:facade",
     "tm:fireblast",
@@ -113,6 +115,7 @@
     "tm:frustration",
     "tm:gigaimpact",
     "tm:grassknot",
+    "tm:gravity",
     "tm:hail",
     "tm:helpinghand",
     "tm:hiddenpower",

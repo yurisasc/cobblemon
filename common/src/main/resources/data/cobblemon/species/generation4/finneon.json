@@ -7,6 +7,22 @@
     "stormdrain",
     "h:waterveil"
   ],
+  "drops": {
+    "amount": 3,
+    "entries": [
+      {
+        "item": "minecraft:cod"
+      },
+      {
+        "item": "minecraft:bone_meal",
+        "percentage": 5.0
+      },
+      {
+        "item": "cobblemon:rindo_berry",
+        "percentage": 2.5
+      }
+    ]
+  },
   "baseStats": {
     "hp": 49,
     "attack": 49,
@@ -55,6 +71,7 @@
     "egg:tickle",
     "tm:acrobatics",
     "tm:agility",
+    "tm:alluringvoice",
     "tm:attract",
     "tm:blizzard",
     "tm:brine",
@@ -70,6 +87,7 @@
     "tm:endure",
     "tm:facade",
     "tm:flash",
+    "tm:flipturn",
     "tm:frustration",
     "tm:hail",
     "tm:helpinghand",

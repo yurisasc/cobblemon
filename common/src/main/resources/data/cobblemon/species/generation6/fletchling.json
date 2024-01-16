@@ -8,6 +8,22 @@
     "bigpecks",
     "h:galewings"
   ],
+  "drops": {
+    "amount": 3,
+    "entries": [
+      {
+        "item": "minecraft:feather",
+        "quantityRange": "0-1"
+      },
+      {
+        "item": "minecraft:chicken"
+      },
+      {
+        "item": "cobblemon:rawst_berry",
+        "percentage": 2.5
+      }
+    ]
+  },
   "baseStats": {
     "hp": 45,
     "attack": 50,
@@ -63,9 +79,12 @@
     "tm:attract",
     "tm:bravebird",
     "tm:confide",
+    "tm:doubleedge",
     "tm:doubleteam",
+    "tm:dualwingbeat",
     "tm:endure",
     "tm:facade",
+    "tm:featherdance",
     "tm:flamecharge",
     "tm:flareblitz",
     "tm:fly",

@@ -9,9 +9,6 @@
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen6
 
 import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
-import com.cobblemon.mod.common.client.render.models.blockbench.animation.BipedWalkAnimation
-import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
-import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
@@ -24,7 +21,7 @@ class PhantumpModel (root: ModelPart) : PokemonPoseableModel() {
     override val rootPart = root.registerChildWithAllChildren("phantump")
 
     override val portraitScale = 2.0F
-    override val portraitTranslation = Vec3d(-0.1, -0.6, 0.0)
+    override val portraitTranslation = Vec3d(-0.1, -0.2, 0.0)
 
     override val profileScale = 0.9F
     override val profileTranslation = Vec3d(0.0, 0.5, 0.0)

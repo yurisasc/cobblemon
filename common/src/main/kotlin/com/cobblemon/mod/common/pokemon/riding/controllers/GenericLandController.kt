@@ -36,7 +36,7 @@ import java.util.function.Predicate
 object GenericLandController : RideController {
 
     override val key: Identifier = cobblemonResource("land_generic")
-    override val poseProvider: PoseProvider = PoseProvider(PoseType.STAND).with(PoseOption(PoseType.WALK) { it.isMoving.get() })
+    override val poseProvider: PoseProvider = PoseProvider(PoseType.STAND).with(PoseOption(PoseType.WALK) { it.dataTracker.get(PokemonEntity.MOVING) })
     override val conditions: Predicate<PokemonEntity> = Predicate<PokemonEntity> { it.isOnGround }
 
     override fun speed(entity: PokemonEntity, driver: PlayerEntity, context: RidingContext): Float {

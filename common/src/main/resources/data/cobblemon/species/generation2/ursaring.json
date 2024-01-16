@@ -8,6 +8,27 @@
     "quickfeet",
     "h:unnerve"
   ],
+  "drops": {
+    "amount": 7,
+    "entries": [
+      {
+        "item": "minecraft:sweet_berries",
+        "quantityRange": "2-4"
+      },
+      {
+        "item": "minecraft:honey_bottle",
+        "percentage": 5.0
+      },
+      {
+        "item": "cobblemon:peat_block",
+        "percentage": 5.0
+      },
+      {
+        "item": "cobblemon:oran_berry",
+        "percentage": 5.0
+      }
+    ]
+  },
   "baseStats": {
     "hp": 90,
     "attack": 130,
@@ -58,6 +79,7 @@
     "tm:crunch",
     "tm:cut",
     "tm:dig",
+    "tm:doubleedge",
     "tm:doubleteam",
     "tm:earthquake",
     "tm:endure",
@@ -72,6 +94,7 @@
     "tm:gunkshot",
     "tm:helpinghand",
     "tm:hiddenpower",
+    "tm:highhorsepower",
     "tm:honeclaws",
     "tm:hyperbeam",
     "tm:hypervoice",
@@ -112,6 +135,7 @@
     "tm:taunt",
     "tm:terablast",
     "tm:thief",
+    "tm:throatchop",
     "tm:thunderpunch",
     "tm:torment",
     "tm:toxic",

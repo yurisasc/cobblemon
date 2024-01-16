@@ -59,10 +59,13 @@
     "tm:bulletseed",
     "tm:captivate",
     "tm:confide",
+    "tm:curse",
     "tm:cut",
+    "tm:doubleedge",
     "tm:doubleteam",
     "tm:earthpower",
     "tm:encore",
+    "tm:endeavor",
     "tm:endure",
     "tm:energyball",
     "tm:facade",
@@ -97,6 +100,7 @@
     "tm:terablast",
     "tm:toxic",
     "tm:trailblaze",
+    "tm:weatherball",
     "tutor:absorb",
     "tutor:afteryou",
     "tutor:attract",
@@ -168,5 +172,17 @@
   "height": 3,
   "weight": 18,
   "aspects": [],
-  "cannotDynamax": false
+  "cannotDynamax": false,
+  "drops": {
+    "amount": 2,
+    "entries": [
+      {
+        "item": "minecraft:wheat_seeds"
+      },
+      {
+        "item": "cobblemon:coba_berry",
+        "percentage": 2.5
+      }
+    ]
+  }
 }

@@ -8,13 +8,19 @@
             "pokemon": "emolga",
             "presets": [
                 "natural",
-				"treetop"
+                "treetop"
             ],
             "type": "pokemon",
             "context": "grounded",
             "bucket": "uncommon",
-            "level": "10-43",
+            "level": "18-43",
             "weight": 10.0,
+            "weightMultiplier": {
+                "multiplier": 5.0,
+                "condition": {
+                    "isThundering": true
+                }
+            },
             "condition": {
                 "canSeeSky": true,
                 "biomes": [

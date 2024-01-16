@@ -4,11 +4,11 @@
     "neededUninstalledMods": [],
     "spawns": [
         {
-            "id": "blastoise",
+            "id": "blastoise-1",
             "pokemon": "blastoise",
             "presets": [
                 "natural",
-				"river"
+                "river"
             ],
             "type": "pokemon",
             "context": "grounded",
@@ -20,7 +20,7 @@
             }
         },
         {
-            "id": "blastoise",
+            "id": "blastoise-2",
             "pokemon": "blastoise",
             "presets": [
                 "river",

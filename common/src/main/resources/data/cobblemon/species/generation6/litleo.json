@@ -54,8 +54,10 @@
     "tm:crunch",
     "tm:darkpulse",
     "tm:dig",
+    "tm:doubleedge",
     "tm:doubleteam",
     "tm:echoedvoice",
+    "tm:endeavor",
     "tm:endure",
     "tm:facade",
     "tm:fireblast",
@@ -148,5 +150,22 @@
   "height": 6,
   "weight": 135,
   "aspects": [],
-  "cannotDynamax": false
+  "cannotDynamax": false,
+  "drops": {
+    "amount": 3,
+    "entries": [
+      {
+        "item": "minecraft:rotten_flesh",
+        "quantityRange": "0-1"
+      },
+      {
+        "item": "minecraft:blaze_powder",
+        "percentage": 2.5
+      },
+      {
+        "item": "cobblemon:rawst_berry",
+        "percentage": 2.5
+      }
+    ]
+  }
 }

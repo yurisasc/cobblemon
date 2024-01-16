@@ -8,19 +8,18 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen9
 
-import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.WingFlapIdleAnimation
-import com.cobblemon.mod.common.client.render.models.blockbench.asTransformed
+import com.cobblemon.mod.common.client.render.models.blockbench.createTransformation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BiWingedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pose.TransformedModelPart
+import com.cobblemon.mod.common.client.render.models.blockbench.pose.ModelPartTransformation
 import com.cobblemon.mod.common.client.render.models.blockbench.wavefunction.parabolaFunction
 import com.cobblemon.mod.common.client.render.models.blockbench.wavefunction.sineFunction
 import com.cobblemon.mod.common.entity.PoseType
-import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.util.math.geometry.toRadians
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
@@ -46,7 +45,8 @@ class SquawkabillyModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame,
     lateinit var flying: PokemonPose
     lateinit var shoulderLeft: PokemonPose
     lateinit var shoulderRight: PokemonPose
-    lateinit var sleep: PokemonPose
+
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("squawkabilly", "cry").setPreventsIdle(false) }
 
     val shoulderOffsetX = -1.0
     val shoulderOffsetY = 0
@@ -78,7 +78,7 @@ class SquawkabillyModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame,
                         period = 0.4F
                     ),
                     timeVariable = { state, _, _ -> state?.animationSeconds },
-                    axis = TransformedModelPart.Y_AXIS
+                    axis = ModelPartTransformation.Y_AXIS
                 ),
                 head.translation(
                     function = sineFunction(
@@ -86,7 +86,7 @@ class SquawkabillyModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame,
                         period = 1F,
                         verticalShift = (-10F).toRadians()
                     ),
-                    axis = TransformedModelPart.X_AXIS,
+                    axis = ModelPartTransformation.X_AXIS,
                     timeVariable = { state, _, _ -> state?.animationSeconds }
                 ),
                 leftLeg.rotation(
@@ -95,7 +95,7 @@ class SquawkabillyModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame,
                         phaseShift = 0F,
                         verticalShift = (30F).toRadians()
                     ),
-                    axis = TransformedModelPart.X_AXIS,
+                    axis = ModelPartTransformation.X_AXIS,
                     timeVariable = { _, _, ageInTicks -> ageInTicks / 20 },
                 ),
                 rightLeg.rotation(
@@ -104,7 +104,7 @@ class SquawkabillyModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame,
                         phaseShift = 0F,
                         verticalShift = (30F).toRadians()
                     ),
-                    axis = TransformedModelPart.X_AXIS,
+                    axis = ModelPartTransformation.X_AXIS,
                     timeVariable = { _, _, ageInTicks -> ageInTicks / 20 },
                 ),
                 tail.rotation(
@@ -112,7 +112,7 @@ class SquawkabillyModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame,
                         amplitude = (-5F).toRadians(),
                         period = 1F
                     ),
-                    axis = TransformedModelPart.X_AXIS,
+                    axis = ModelPartTransformation.X_AXIS,
                     timeVariable = { _, _, ageInTicks -> ageInTicks / 20 },
                 ),
                 wingFlap(
@@ -123,7 +123,7 @@ class SquawkabillyModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame,
                         verticalShift = (-20F).toRadians()
                     ),
                     timeVariable = { state, _, _ -> state?.animationSeconds },
-                    axis = TransformedModelPart.Z_AXIS
+                    axis = ModelPartTransformation.Z_AXIS
                 ),
                 rightWing.translation(
                     function = parabolaFunction(
@@ -131,7 +131,7 @@ class SquawkabillyModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame,
                         phaseShift = 30F,
                         verticalShift = (25F).toRadians()
                     ),
-                    axis = TransformedModelPart.Y_AXIS,
+                    axis = ModelPartTransformation.Y_AXIS,
                     timeVariable = { _, _, ageInTicks -> ageInTicks / 20 },
                 ),
                 leftWing.translation(
@@ -140,7 +140,7 @@ class SquawkabillyModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame,
                         phaseShift = 30F,
                         verticalShift = (25F).toRadians()
                     ),
-                    axis = TransformedModelPart.Y_AXIS,
+                    axis = ModelPartTransformation.Y_AXIS,
                     timeVariable = { _, _, ageInTicks -> ageInTicks / 20 },
                 ),
             )
@@ -156,7 +156,7 @@ class SquawkabillyModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame,
                 WingFlapIdleAnimation(this,
                     flapFunction = sineFunction(verticalShift = -10F.toRadians(), period = 0.9F, amplitude = 0.9F),
                     timeVariable = { state, _, _ -> state?.animationSeconds ?: 0F },
-                    axis = TransformedModelPart.Z_AXIS
+                    axis = ModelPartTransformation.Z_AXIS
                 )
             )
         )
@@ -171,7 +171,7 @@ class SquawkabillyModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame,
                 WingFlapIdleAnimation(this,
                     flapFunction = sineFunction(verticalShift = -14F.toRadians(), period = 0.9F, amplitude = 0.9F),
                     timeVariable = { state, _, _ -> state?.animationSeconds ?: 0F },
-                    axis = TransformedModelPart.Z_AXIS
+                    axis = ModelPartTransformation.Z_AXIS
                 )
             )
         )
@@ -184,7 +184,7 @@ class SquawkabillyModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame,
                 bedrock("squawkabilly", "ground_idle")
             ),
             transformedParts = arrayOf(
-                rootPart.asTransformed().addPosition(shoulderOffsetX, shoulderOffsetY, 0.0)
+                rootPart.createTransformation().addPosition(shoulderOffsetX, shoulderOffsetY, 0.0)
             )
         )
 
@@ -196,7 +196,7 @@ class SquawkabillyModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame,
                 bedrock("squawkabilly", "ground_idle")
             ),
             transformedParts = arrayOf(
-                rootPart.asTransformed().addPosition(-shoulderOffsetX, shoulderOffsetY, 0.0)
+                rootPart.createTransformation().addPosition(-shoulderOffsetX, shoulderOffsetY, 0.0)
             )
         )
 

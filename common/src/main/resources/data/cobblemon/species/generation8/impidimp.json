@@ -43,6 +43,7 @@
     "egg:partingshot",
     "tm:assurance",
     "tm:attract",
+    "tm:burningjealousy",
     "tm:chillingwater",
     "tm:darkpulse",
     "tm:dazzlinggleam",
@@ -53,6 +54,7 @@
     "tm:faketears",
     "tm:fling",
     "tm:foulplay",
+    "tm:lashout",
     "tm:leechlife",
     "tm:lightscreen",
     "tm:lowkick",
@@ -76,6 +78,7 @@
     "tm:taunt",
     "tm:terablast",
     "tm:thief",
+    "tm:throatchop",
     "tm:thunderwave",
     "tm:trailblaze",
     "tm:trick",
@@ -124,5 +127,14 @@
   "height": 4,
   "weight": 55,
   "aspects": [],
-  "cannotDynamax": false
+  "cannotDynamax": false,
+  "drops": {
+    "amount": 1,
+    "entries": [
+      {
+        "item": "cobblemon:roseli_berry",
+        "percentage": 2.5
+      }
+    ]
+  }
 }

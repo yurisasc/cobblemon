@@ -8,6 +8,26 @@
     "flamebody",
     "h:galewings"
   ],
+  "drops": {
+    "amount": 5,
+    "entries": [
+      {
+        "item": "minecraft:feather",
+        "quantityRange": "0-2"
+      },
+      {
+        "item": "minecraft:chicken"
+      },
+      {
+        "item": "cobblemon:sharp_beak",
+        "percentage": 2.5
+      },
+      {
+        "item": "cobblemon:rawst_berry",
+        "percentage": 5.0
+      }
+    ]
+  },
   "baseStats": {
     "hp": 62,
     "attack": 73,
@@ -59,9 +79,12 @@
     "tm:attract",
     "tm:bravebird",
     "tm:confide",
+    "tm:doubleedge",
     "tm:doubleteam",
+    "tm:dualwingbeat",
     "tm:endure",
     "tm:facade",
+    "tm:featherdance",
     "tm:fireblast",
     "tm:firespin",
     "tm:flamecharge",
@@ -92,6 +115,7 @@
     "tm:tailwind",
     "tm:takedown",
     "tm:taunt",
+    "tm:temperflare",
     "tm:terablast",
     "tm:thief",
     "tm:toxic",

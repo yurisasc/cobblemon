@@ -38,16 +38,23 @@
     }
   },
   "drops": {
-    "amount": "2",
+    "amount": 6,
     "entries": [
       {
         "item": "minecraft:dragon_breath",
-        "quantityRange": "1-3",
-        "percentage": 75
+        "quantityRange": "0-3"
+      },
+      {
+        "item": "cobblemon:dragon_fang",
+        "percentage": 10.0
       },
       {
         "item": "cobblemon:dragon_scale",
-        "percentage": 10
+        "percentage": 10.0
+      },
+      {
+        "item": "cobblemon:yache_berry",
+        "percentage": 10.0
       }
     ]
   },
@@ -93,6 +100,7 @@
     "tm:dive",
     "tm:doubleteam",
     "tm:dracometeor",
+    "tm:dragoncheer",
     "tm:dragonclaw",
     "tm:dragondance",
     "tm:dragonpulse",
@@ -112,6 +120,7 @@
     "tm:frustration",
     "tm:gigaimpact",
     "tm:hail",
+    "tm:haze",
     "tm:heatwave",
     "tm:helpinghand",
     "tm:hiddenpower",
@@ -146,6 +155,7 @@
     "tm:round",
     "tm:safeguard",
     "tm:sandstorm",
+    "tm:scaleshot",
     "tm:scaryface",
     "tm:secretpower",
     "tm:shockwave",
@@ -173,6 +183,7 @@
     "tm:toxic",
     "tm:waterfall",
     "tm:waterpulse",
+    "tm:weatherball",
     "tm:whirlpool",
     "tutor:agility",
     "tutor:aircutter",

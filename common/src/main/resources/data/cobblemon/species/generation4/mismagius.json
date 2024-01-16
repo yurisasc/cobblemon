@@ -6,6 +6,19 @@
   "abilities": [
     "levitate"
   ],
+  "drops": {
+    "amount": 2,
+    "entries": [
+      {
+        "item": "cobblemon:spell_tag",
+        "percentage": 5.0
+      },
+      {
+        "item": "cobblemon:kasib_berry",
+        "percentage": 5.0
+      }
+    ]
+  },
   "baseStats": {
     "hp": 60,
     "attack": 60,
@@ -23,15 +36,6 @@
   "eggGroups": [
     "amorphous"
   ],
-  "drops": {
-    "amount": "1",
-    "entries": [
-      {
-        "item": "cobblemon:spell_tag",
-        "percentage": 10
-      }
-    ]
-  },
   "moves": [
     "1:astonish",
     "1:growl",
@@ -44,12 +48,14 @@
     "1:spite",
     "tm:aerialace",
     "tm:attract",
+    "tm:burningjealousy",
     "tm:calmmind",
     "tm:captivate",
     "tm:chargebeam",
     "tm:charm",
     "tm:confide",
     "tm:confuseray",
+    "tm:curse",
     "tm:darkpulse",
     "tm:dazzlinggleam",
     "tm:doubleteam",
@@ -64,6 +70,7 @@
     "tm:flash",
     "tm:foulplay",
     "tm:frustration",
+    "tm:futuresight",
     "tm:gigaimpact",
     "tm:grassknot",
     "tm:helpinghand",
@@ -73,16 +80,20 @@
     "tm:hypervoice",
     "tm:icywind",
     "tm:imprison",
+    "tm:lashout",
     "tm:magicalleaf",
     "tm:nastyplot",
     "tm:naturalgift",
     "tm:nightshade",
+    "tm:painsplit",
     "tm:payback",
     "tm:phantomforce",
+    "tm:poltergeist",
     "tm:powergem",
     "tm:protect",
     "tm:psybeam",
     "tm:psychic",
+    "tm:psychicnoise",
     "tm:psychup",
     "tm:psyshock",
     "tm:raindance",
@@ -97,6 +108,7 @@
     "tm:sleeptalk",
     "tm:snatch",
     "tm:snowscape",
+    "tm:spite",
     "tm:storedpower",
     "tm:substitute",
     "tm:sunnyday",

@@ -8,6 +8,19 @@
     "telepathy",
     "h:symbiosis"
   ],
+  "drops": {
+    "amount": 2,
+    "entries": [
+      {
+        "item": "cobblemon:wise_glasses",
+        "percentage": 5.0
+      },
+      {
+        "item": "cobblemon:nanab_berry",
+        "percentage": 5.0
+      }
+    ]
+  },
   "baseStats": {
     "hp": 90,
     "attack": 60,
@@ -62,8 +75,10 @@
     "tm:earthquake",
     "tm:embargo",
     "tm:encore",
+    "tm:endeavor",
     "tm:endure",
     "tm:energyball",
+    "tm:expandingforce",
     "tm:facade",
     "tm:fling",
     "tm:focusblast",
@@ -71,20 +86,24 @@
     "tm:frustration",
     "tm:futuresight",
     "tm:gigaimpact",
+    "tm:gravity",
     "tm:hiddenpower",
     "tm:hyperbeam",
     "tm:hypervoice",
     "tm:imprison",
+    "tm:knockoff",
     "tm:lightscreen",
     "tm:magicroom",
     "tm:megakick",
     "tm:megapunch",
     "tm:nastyplot",
     "tm:naturepower",
+    "tm:painsplit",
     "tm:payback",
     "tm:protect",
     "tm:psybeam",
     "tm:psychic",
+    "tm:psychicnoise",
     "tm:psychicterrain",
     "tm:psychup",
     "tm:psyshock",

@@ -25,15 +25,19 @@
     "human_like"
   ],
   "drops": {
-    "amount": "2",
+    "amount": 3,
     "entries": [
       {
         "item": "minecraft:blaze_powder",
-        "percentage": 5
+        "percentage": 5.0
       },
       {
         "item": "cobblemon:magmarizer",
-        "percentage": 5
+        "percentage": 5.0
+      },
+      {
+        "item": "cobblemon:rawst_berry",
+        "percentage": 5.0
       }
     ]
   },
@@ -57,10 +61,15 @@
     "58:fireblast",
     "64:hyperbeam",
     "tm:attract",
+    "tm:acidspray",
     "tm:bodyslam",
     "tm:brickbreak",
+    "tm:burningjealousy",
     "tm:captivate",
     "tm:confide",
+    "tm:confuseray",
+    "tm:curse",
+    "tm:doubleedge",
     "tm:doubleteam",
     "tm:endure",
     "tm:facade",
@@ -76,18 +85,22 @@
     "tm:focuspunch",
     "tm:frustration",
     "tm:gigaimpact",
+    "tm:heatcrash",
     "tm:heatwave",
     "tm:helpinghand",
     "tm:hiddenpower",
     "tm:hyperbeam",
     "tm:incinerate",
     "tm:irontail",
+    "tm:knockoff",
     "tm:lowkick",
     "tm:lowsweep",
     "tm:megakick",
     "tm:megapunch",
+    "tm:metronome",
     "tm:naturalgift",
     "tm:overheat",
+    "tm:poisonjab",
     "tm:powerswap",
     "tm:poweruppunch",
     "tm:protect",
@@ -96,8 +109,10 @@
     "tm:return",
     "tm:rockclimb",
     "tm:rocksmash",
+    "tm:roar",
     "tm:round",
     "tm:scaryface",
+    "tm:scorchingsands",
     "tm:screech",
     "tm:secretpower",
     "tm:sleeptalk",
@@ -106,6 +121,10 @@
     "tm:substitute",
     "tm:sunnyday",
     "tm:swagger",
+    "tm:takedown",
+    "tm:taunt",
+    "tm:temperflare",
+    "tm:terablast",
     "tm:thief",
     "tm:thunderpunch",
     "tm:toxic",

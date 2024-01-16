@@ -76,6 +76,7 @@
     "tm:icebeam",
     "tm:icefang",
     "tm:icespinner",
+    "tm:iciclespear",
     "tm:icywind",
     "tm:lightscreen",
     "tm:naturalgift",
@@ -91,6 +92,7 @@
     "tm:snore",
     "tm:snowscape",
     "tm:spikes",
+    "tm:spite",
     "tm:substitute",
     "tm:swagger",
     "tm:takedown",
@@ -173,5 +175,26 @@
   "height": 7,
   "weight": 168,
   "aspects": [],
-  "cannotDynamax": false
+  "cannotDynamax": false,
+  "drops": {
+    "amount": 4,
+    "entries": [
+      {
+        "item": "minecraft:snowball",
+        "quantityRange": "0-1"
+      },
+      {
+        "item": "cobblemon:dawn_stone",
+        "percentage": 2.5
+      },
+      {
+        "item": "cobblemon:never_melt_ice",
+        "percentage": 2.5
+      },
+      {
+        "item": "cobblemon:babiri_berry",
+        "percentage": 2.5
+      }
+    ]
+  }
 }

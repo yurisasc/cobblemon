@@ -26,13 +26,14 @@ open class SubmergedSpawningContext(
     world: ServerWorld,
     position: BlockPos,
     light: Int,
+    skyLight: Int,
     canSeeSky: Boolean,
     influences: MutableList<SpawningInfluence>,
     height: Int,
     val depth: Int,
     nearbyBlocks: List<BlockState>,
     slice: WorldSlice
-) : AreaSpawningContext(cause, world, position, light, canSeeSky, influences, height, nearbyBlocks, slice) {
+) : AreaSpawningContext(cause, world, position, light, skyLight, canSeeSky, influences, height, nearbyBlocks, slice) {
     val fluid = slice.getBlockState(position.x, position.y, position.z).fluidState
 
     override fun isSafeSpace(world: ServerWorld, pos: BlockPos, state: BlockState) = state.fluidState.fluid == fluid.fluid

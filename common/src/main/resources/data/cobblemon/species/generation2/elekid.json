@@ -25,15 +25,18 @@
     "undiscovered"
   ],
   "drops": {
-    "amount": "2",
+    "amount": 3,
     "entries": [
       {
         "item": "minecraft:redstone",
-        "percentage": 50
+        "quantityRange": "0-1"
       },
       {
         "item": "cobblemon:electirizer",
-        "quantityRange": "1",
+        "percentage": 2.5
+      },
+      {
+        "item": "cobblemon:cheri_berry",
         "percentage": 2.5
       }
     ]
@@ -60,6 +63,7 @@
     "egg:feint",
     "egg:firepunch",
     "egg:focuspunch",
+    "egg:followme",
     "egg:hammerarm",
     "egg:icepunch",
     "egg:karatechop",
@@ -69,9 +73,13 @@
     "tm:bodyslam",
     "tm:brickbreak",
     "tm:captivate",
+    "tm:charge",
     "tm:chargebeam",
     "tm:confide",
+    "tm:doubleedge",
     "tm:doubleteam",
+    "tm:eerieimpulse",
+    "tm:electricterrain",
     "tm:electroball",
     "tm:electroweb",
     "tm:endure",
@@ -79,15 +87,18 @@
     "tm:firepunch",
     "tm:flash",
     "tm:fling",
+    "tm:focusblast",
     "tm:focuspunch",
     "tm:frustration",
     "tm:helpinghand",
     "tm:hiddenpower",
     "tm:icepunch",
+    "tm:knockoff",
     "tm:lightscreen",
     "tm:lowkick",
     "tm:megakick",
     "tm:megapunch",
+    "tm:metalsound",
     "tm:naturalgift",
     "tm:poweruppunch",
     "tm:protect",
@@ -103,14 +114,19 @@
     "tm:sleeptalk",
     "tm:snore",
     "tm:substitute",
+    "tm:supercellslam",
     "tm:swagger",
     "tm:swift",
+    "tm:takedown",
+    "tm:taunt",
+    "tm:terablast",
     "tm:thief",
     "tm:thunder",
     "tm:thunderbolt",
     "tm:thunderpunch",
     "tm:thunderwave",
     "tm:toxic",
+    "tm:trailblaze",
     "tm:uproar",
     "tm:voltswitch",
     "tm:wildcharge",

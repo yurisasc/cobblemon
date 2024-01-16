@@ -14,6 +14,7 @@ import com.cobblemon.mod.common.CobblemonSounds
 import com.cobblemon.mod.common.api.battles.model.PokemonBattle
 import com.cobblemon.mod.common.api.battles.model.actor.BattleActor
 import com.cobblemon.mod.common.api.item.PokemonSelectingItem
+import com.cobblemon.mod.common.api.molang.MoLangFunctions.setup
 import com.cobblemon.mod.common.battles.pokemon.BattlePokemon
 import com.cobblemon.mod.common.block.EnergyRootBlock
 import com.cobblemon.mod.common.item.battle.BagItem
@@ -29,7 +30,7 @@ import net.minecraft.world.World
 
 class EnergyRootItem(block: EnergyRootBlock, settings: Settings) : AliasedBlockItem(block, settings), PokemonSelectingItem {
 
-    private val runtime = MoLangRuntime()
+    private val runtime = MoLangRuntime().setup()
 
     override val bagItem = object : BagItem {
         override val itemName = "item.cobblemon.energy_root"
@@ -49,7 +50,9 @@ class EnergyRootItem(block: EnergyRootBlock, settings: Settings) : AliasedBlockI
             pokemon.currentHealth += this.getHealAmount()
             pokemon.decrementFriendship(CobblemonMechanics.remedies.getFriendshipDrop(runtime))
             player.playSound(CobblemonSounds.MEDICINE_HERB_USE, SoundCategory.PLAYERS, 1F, 1F)
-            stack.decrement(1)
+            if (!player.isCreative)  {
+                stack.decrement(1)
+            }
             TypedActionResult.success(stack)
         } else {
             TypedActionResult.fail(stack)

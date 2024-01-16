@@ -8,8 +8,6 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen6
 
-import com.cobblemon.mod.common.client.render.models.blockbench.animation.BipedWalkAnimation
-import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
@@ -47,13 +45,13 @@ class DiggersbyModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
 
         portrait = registerPose(
             poseName = "portrait",
-            poseTypes = PoseType.UI_POSES,
+            poseType = PoseType.PORTRAIT,
             idleAnimations = arrayOf(bedrock("diggersby", "portrait"))
         )
 
         standing = registerPose(
             poseName = "standing",
-            poseTypes = PoseType.STATIONARY_POSES,
+            poseTypes = PoseType.STATIONARY_POSES + PoseType.PROFILE,
             transformTicks = 10,
             condition = { !it.isBattling },
             idleAnimations = arrayOf(

@@ -8,6 +8,27 @@
     "chlorophyll",
     "h:overcoat"
   ],
+  "drops": {
+    "amount": 5,
+    "entries": [
+      {
+        "item": "minecraft:string",
+        "quantityRange": "0-2"
+      },
+      {
+        "item": "cobblemon:mental_herb",
+        "percentage": 5.0
+      },
+      {
+        "item": "cobblemon:revival_herb",
+        "percentage": 5.0
+      },
+      {
+        "item": "cobblemon:coba_berry",
+        "percentage": 5.0
+      }
+    ]
+  },
   "baseStats": {
     "hp": 55,
     "attack": 63,
@@ -32,34 +53,58 @@
     "1:razorleaf",
     "1:stringshot",
     "1:tackle",
+    "22:strugglebug",
+    "29:endure",
+    "31:stickyweb",
+    "36:bugbuzz",
+    "43:flail",
     "tm:attract",
+    "tm:batonpass",
+    "tm:bugbite",
+    "tm:bugbuzz",
     "tm:calmmind",
+    "tm:charm",
     "tm:confide",
     "tm:cut",
     "tm:doubleteam",
     "tm:dreameater",
+    "tm:electroweb",
+    "tm:endure",
     "tm:energyball",
     "tm:facade",
     "tm:flash",
     "tm:frustration",
+    "tm:gigadrain",
     "tm:grassknot",
+    "tm:grassyglide",
+    "tm:grassyterrain",
     "tm:hiddenpower",
+    "tm:irondefense",
     "tm:lightscreen",
+    "tm:lunge",
+    "tm:magicalleaf",
     "tm:naturepower",
     "tm:payback",
+    "tm:pounce",
     "tm:protect",
+    "tm:raindance",
     "tm:rest",
     "tm:return",
     "tm:round",
     "tm:safeguard",
     "tm:secretpower",
+    "tm:seedbomb",
+    "tm:skittersmack",
     "tm:sleeptalk",
     "tm:solarbeam",
     "tm:strugglebug",
     "tm:substitute",
     "tm:sunnyday",
     "tm:swagger",
+    "tm:takedown",
+    "tm:terablast",
     "tm:toxic",
+    "tm:trailblaze",
     "tutor:bugbite",
     "tutor:electroweb",
     "tutor:gigadrain",
@@ -85,7 +130,9 @@
       "variant": "level_up",
       "result": "leavanny",
       "consumeHeldItem": false,
-      "learnableMoves": [],
+      "learnableMoves": [
+        "slash"
+      ],
       "requirements": [
         {
           "variant": "friendship",

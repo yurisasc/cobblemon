@@ -9,8 +9,6 @@
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1
 
 import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
-import com.cobblemon.mod.common.client.render.models.blockbench.animation.BimanualSwingAnimation
-import com.cobblemon.mod.common.client.render.models.blockbench.animation.BipedWalkAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BimanualFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
@@ -40,6 +38,7 @@ class HitmonleeModel(root: ModelPart) : PokemonPoseableModel(), BipedFrame, Bima
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
     lateinit var sleep: PokemonPose
+    lateinit var battleidle: PokemonPose
 
     override fun registerPoses() {
         val blink = quirk("blink") { bedrockStateful("hitmonlee", "blink").setPreventsIdle(false)}
@@ -53,6 +52,7 @@ class HitmonleeModel(root: ModelPart) : PokemonPoseableModel(), BipedFrame, Bima
             poseName = "standing",
             poseTypes = STATIONARY_POSES + UI_POSES,
             transformTicks = 5,
+            condition = { !it.isBattling },
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 bedrock("hitmonlee", "ground_idle")
@@ -68,10 +68,21 @@ class HitmonleeModel(root: ModelPart) : PokemonPoseableModel(), BipedFrame, Bima
                 bedrock("hitmonlee", "ground_walk")
             )
         )
+
+        battleidle = registerPose(
+            poseName = "battle_idle",
+            poseTypes = PoseType.STATIONARY_POSES,
+            transformTicks = 10,
+            quirks = arrayOf(blink),
+            condition = { it.isBattling },
+            idleAnimations = arrayOf(
+                bedrock("hitmonlee", "battle_idle")
+            )
+        )
     }
 
     override fun getFaintAnimation(
         pokemonEntity: PokemonEntity,
         state: PoseableEntityState<PokemonEntity>
-    ) = if (state.isPosedIn(standing, walk)) bedrockStateful("hitmonlee", "faint") else null
+    ) = bedrockStateful("hitmonlee", "faint")
 }

@@ -9,6 +9,23 @@
     "illuminate",
     "h:waterabsorb"
   ],
+  "drops": {
+    "amount": 4,
+    "entries": [
+      {
+        "item": "minecraft:prismarine_crystals",
+        "quantityRange": "0-2"
+      },
+      {
+        "item": "cobblemon:deep_sea_scale",
+        "percentage": 5.0
+      },
+      {
+        "item": "cobblemon:persim_berry",
+        "percentage": 5.0
+      }
+    ]
+  },
   "baseStats": {
     "hp": 125,
     "attack": 58,
@@ -66,16 +83,24 @@
     "tm:bounce",
     "tm:brine",
     "tm:captivate",
+    "tm:charge",
     "tm:chargebeam",
+    "tm:chillingwater",
     "tm:confide",
+    "tm:confuseray",
+    "tm:curse",
     "tm:dazzlinggleam",
     "tm:dive",
+    "tm:doubleedge",
     "tm:doubleteam",
     "tm:eerieimpulse",
+    "tm:electricterrain",
     "tm:electroball",
+    "tm:electroweb",
     "tm:endure",
     "tm:facade",
     "tm:flash",
+    "tm:flipturn",
     "tm:frustration",
     "tm:gigaimpact",
     "tm:hail",
@@ -84,8 +109,11 @@
     "tm:hyperbeam",
     "tm:icebeam",
     "tm:icywind",
+    "tm:liquidation",
+    "tm:muddywater",
     "tm:naturalgift",
     "tm:protect",
+    "tm:psybeam",
     "tm:raindance",
     "tm:rest",
     "tm:return",
@@ -99,6 +127,8 @@
     "tm:substitute",
     "tm:surf",
     "tm:swagger",
+    "tm:takedown",
+    "tm:terablast",
     "tm:thunder",
     "tm:thunderbolt",
     "tm:thunderwave",

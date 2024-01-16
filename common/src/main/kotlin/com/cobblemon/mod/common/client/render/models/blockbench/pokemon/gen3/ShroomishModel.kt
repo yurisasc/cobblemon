@@ -9,9 +9,9 @@
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen3
 
 import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
-import com.cobblemon.mod.common.client.render.models.blockbench.animation.BipedWalkAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cobblemon.mod.common.entity.PoseType
@@ -40,13 +40,15 @@ class ShroomishModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
     lateinit var sleeping: PokemonPose
     lateinit var walk: PokemonPose
 
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("shroomish", "cry").setPreventsIdle(false) }
+
     override fun registerPoses() {
         val blink = quirk("blink") { bedrockStateful("shroomish", "blink").setPreventsIdle(false) }
         standing = registerPose(
             poseName = "standing",
             poseTypes = STATIONARY_POSES + UI_POSES,
             quirks = arrayOf(blink),
-            condition = { it.isBattling },
+            condition = { !it.isBattling },
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("shroomish", "ground_idle")

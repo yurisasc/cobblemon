@@ -9,10 +9,13 @@
 package com.cobblemon.mod.common.pokemon
 
 import com.cobblemon.mod.common.Cobblemon
+import com.cobblemon.mod.common.CobblemonSounds
 import com.cobblemon.mod.common.api.abilities.AbilityPool
 import com.cobblemon.mod.common.api.data.ClientDataSynchronizer
 import com.cobblemon.mod.common.api.data.ShowdownIdentifiable
 import com.cobblemon.mod.common.api.drop.DropTable
+import com.cobblemon.mod.common.api.pokemon.PokemonProperties
+import com.cobblemon.mod.common.api.pokemon.PokemonSpecies
 import com.cobblemon.mod.common.api.pokemon.effect.ShoulderEffect
 import com.cobblemon.mod.common.api.pokemon.egg.EggGroup
 import com.cobblemon.mod.common.api.pokemon.evolution.Evolution
@@ -130,6 +133,8 @@ class Species : ClientDataSynchronizer<Species>, ShowdownIdentifiable {
     val types: Iterable<ElementalType>
         get() = secondaryType?.let { listOf(primaryType, it) } ?: listOf(primaryType)
 
+    var battleTheme: Identifier = CobblemonSounds.PVW_BATTLE.id
+
     fun initialize() {
         Cobblemon.statProvider.provide(this)
         this.forms.forEach { it.initialize(this) }
@@ -153,11 +158,7 @@ class Species : ClientDataSynchronizer<Species>, ShowdownIdentifiable {
         this.forms.forEach(FormData::resolveEvolutionMoves)
     }
 
-    fun create(level: Int = 10) = Pokemon().apply {
-        species = this@Species
-        this.level = level
-        initialize()
-    }
+    fun create(level: Int = 10) = PokemonProperties.parse("species=\"${this.name}\" level=${level}").create()
 
     fun getForm(aspects: Set<String>) = forms.lastOrNull { it.aspects.all { it in aspects } } ?: standardForm
 
@@ -171,6 +172,8 @@ class Species : ClientDataSynchronizer<Species>, ShowdownIdentifiable {
         entity.getPoseType() in FLYING_POSES -> this.flyingEyeHeight ?: standingEyeHeight
         else -> this.standingEyeHeight
     }
+
+    fun canGmax() = this.forms.find { it.formOnlyShowdownId() == "gmax" } != null
 
     override fun encode(buffer: PacketByteBuf) {
         buffer.writeBoolean(this.implemented)
@@ -195,6 +198,7 @@ class Species : ClientDataSynchronizer<Species>, ShowdownIdentifiable {
         this.moves.encode(buffer)
         buffer.writeCollection(this.pokedex) { pb, line -> pb.writeString(line) }
         buffer.writeCollection(this.forms) { pb, form -> form.encode(pb) }
+        buffer.writeIdentifier(this.battleTheme)
 
         (this.riding as CobblemonRidingProperties).encode(buffer)
     }
@@ -219,6 +223,7 @@ class Species : ClientDataSynchronizer<Species>, ShowdownIdentifiable {
         this.pokedex += buffer.readList { pb -> pb.readString() }
         this.forms.clear()
         this.forms += buffer.readList{ pb -> FormData().apply { decode(pb) } }.filterNotNull()
+        this.battleTheme = buffer.readIdentifier()
         (this.riding as CobblemonRidingProperties).decode(buffer)
         this.initialize()
     }
@@ -240,6 +245,7 @@ class Species : ClientDataSynchronizer<Species>, ShowdownIdentifiable {
                 || other.forms != this.forms
                 // We only sync level up moves atm
                 || this.moves.shouldSynchronize(other.moves)
+                || other.battleTheme != this.battleTheme
     }
 
     /**

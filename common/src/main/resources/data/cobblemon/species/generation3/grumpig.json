@@ -62,8 +62,10 @@
     "tm:dreameater",
     "tm:earthpower",
     "tm:encore",
+    "tm:endeavor",
     "tm:endure",
     "tm:energyball",
+    "tm:expandingforce",
     "tm:facade",
     "tm:firepunch",
     "tm:flash",
@@ -72,6 +74,7 @@
     "tm:focusblast",
     "tm:focuspunch",
     "tm:frustration",
+    "tm:futuresight",
     "tm:gigaimpact",
     "tm:grassknot",
     "tm:helpinghand",
@@ -85,6 +88,7 @@
     "tm:lightscreen",
     "tm:lowkick",
     "tm:lowsweep",
+    "tm:lunge",
     "tm:metronome",
     "tm:mudshot",
     "tm:mudslap",
@@ -97,6 +101,7 @@
     "tm:protect",
     "tm:psybeam",
     "tm:psychic",
+    "tm:psychicnoise",
     "tm:psychicterrain",
     "tm:psychup",
     "tm:psyshock",
@@ -133,6 +138,7 @@
     "tm:trailblaze",
     "tm:trick",
     "tm:trickroom",
+    "tm:uproar",
     "tm:zenheadbutt",
     "tutor:allyswitch",
     "tutor:bodyslam",
@@ -201,5 +207,18 @@
   "height": 9,
   "weight": 715,
   "aspects": [],
-  "cannotDynamax": false
+  "cannotDynamax": false,
+  "drops": {
+    "amount": 4,
+    "entries": [
+      {
+        "item": "minecraft:porkchop",
+        "quantityRange": "1-3"
+      },
+      {
+        "item": "cobblemon:tanga_berry",
+        "percentage": 5.0
+      }
+    ]
+  }
 }

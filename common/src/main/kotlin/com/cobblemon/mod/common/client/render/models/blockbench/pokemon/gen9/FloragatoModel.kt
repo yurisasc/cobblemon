@@ -8,15 +8,11 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen9
 
-import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
-import com.cobblemon.mod.common.client.render.models.blockbench.animation.BipedWalkAnimation
-import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cobblemon.mod.common.entity.PoseType
-import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
@@ -35,7 +31,7 @@ class FloragatoModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     lateinit var sleep: PokemonPose
     lateinit var battleidle: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("floragato", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { entity, _ -> if (entity.isBattling) bedrockStateful("floragato", "battle_cry").setPreventsIdle(false) else bedrockStateful("floragato", "cry").setPreventsIdle(false) }
 
     override fun registerPoses() {
         val blink = quirk("blink") { bedrockStateful("floragato", "blink").setPreventsIdle(false) }

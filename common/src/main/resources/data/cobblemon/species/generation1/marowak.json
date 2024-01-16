@@ -1,4 +1,4 @@
-{
+﻿{
   "implemented": true,
   "name": "Marowak",
   "nationalPokedexNumber": 105,
@@ -16,6 +16,9 @@
     "special_defence": 80,
     "speed": 45
   },
+  "features": [
+    "alolan"
+  ],
   "catchRate": 75,
   "maleRatio": 0.5,
   "shoulderMountable": false,
@@ -220,9 +223,16 @@
       "height": 10,
       "weight": 340,
       "preEvolution": "cubone",
-      "evolutions": [],
       "cannotDynamax": false,
-      "battleOnly": false
+      "battleOnly": false,
+      "drops": {
+        "amount": 1,
+        "entries": [
+          {
+            "item": "minecraft:bone"
+          }
+        ]
+      }
     },
     {
       "name": "Alola-Totem",
@@ -354,7 +364,6 @@
       ],
       "height": 17,
       "weight": 980,
-      "evolutions": [],
       "cannotDynamax": false,
       "battleOnly": false
     }
@@ -366,10 +375,14 @@
     "monster"
   ],
   "drops": {
-    "amount": "1",
+    "amount": 2,
     "entries": [
       {
         "item": "minecraft:bone"
+      },
+      {
+        "item": "cobblemon:nanab_berry",
+        "percentage": 5.0
       }
     ]
   },

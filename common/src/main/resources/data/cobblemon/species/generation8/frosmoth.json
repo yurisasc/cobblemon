@@ -48,11 +48,13 @@
     "tm:attract",
     "tm:avalanche",
     "tm:blizzard",
+    "tm:bugbite",
     "tm:bugbuzz",
     "tm:calmmind",
     "tm:dazzlinggleam",
     "tm:endure",
     "tm:facade",
+    "tm:featherdance",
     "tm:gigadrain",
     "tm:gigaimpact",
     "tm:hail",
@@ -66,6 +68,7 @@
     "tm:imprison",
     "tm:leechlife",
     "tm:lightscreen",
+    "tm:lunge",
     "tm:playrough",
     "tm:pounce",
     "tm:protect",
@@ -73,6 +76,7 @@
     "tm:rest",
     "tm:round",
     "tm:safeguard",
+    "tm:skittersmack",
     "tm:sleeptalk",
     "tm:snore",
     "tm:snowscape",
@@ -82,6 +86,7 @@
     "tm:tailwind",
     "tm:takedown",
     "tm:terablast",
+    "tm:tripleaxel",
     "tm:uturn",
     "tm:weatherball",
     "tutor:dualwingbeat",
@@ -114,5 +119,22 @@
   "height": 13,
   "weight": 420,
   "aspects": [],
-  "cannotDynamax": false
+  "cannotDynamax": false,
+  "drops": {
+    "amount": 4,
+    "entries": [
+      {
+        "item": "minecraft:snowball",
+        "quantityRange": "0-2"
+      },
+      {
+        "item": "cobblemon:silver_powder",
+        "percentage": 5.0
+      },
+      {
+        "item": "cobblemon:charti_berry",
+        "percentage": 5.0
+      }
+    ]
+  }
 }

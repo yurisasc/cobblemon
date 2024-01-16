@@ -33,6 +33,7 @@ open class BedrockStatefulAnimation<T : Entity>(
 
     var startedSeconds = -1F
     var isTransformAnimation = false
+    override val duration = animation.animationLength.toFloat()
     private var afterAction: (T, PoseableEntityState<T>) -> Unit = { _, _ -> }
 
     override val isTransform: Boolean
@@ -46,7 +47,6 @@ open class BedrockStatefulAnimation<T : Entity>(
         it.afterAction = action
     }
 
-    override fun preventsIdle(entity: T?, state: PoseableEntityState<T>, idleAnimation: StatelessAnimation<T, *>) = preventsIdleCheck(entity, state, idleAnimation)
     override fun run(
         entity: T?,
         model: PoseableEntityModel<T>,
@@ -55,13 +55,14 @@ open class BedrockStatefulAnimation<T : Entity>(
         limbSwingAmount: Float,
         ageInTicks: Float,
         headYaw: Float,
-        headPitch: Float
+        headPitch: Float,
+        intensity: Float
     ): Boolean {
         if (startedSeconds == -1F) {
             startedSeconds = state.animationSeconds
         }
 
-        return animation.run(model, state, state.animationSeconds - startedSeconds).also {
+        return animation.run(model, state, state.animationSeconds - startedSeconds, intensity).also {
             if (!it && entity != null) {
                 afterAction(entity, state)
             }

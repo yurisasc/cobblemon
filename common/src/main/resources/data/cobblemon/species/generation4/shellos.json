@@ -7,6 +7,19 @@
     "stormdrain",
     "h:sandforce"
   ],
+  "drops": {
+    "amount": 2,
+    "entries": [
+      {
+        "item": "minecraft:clay_ball",
+        "quantityRange": "0-1"
+      },
+      {
+        "item": "cobblemon:rindo_berry",
+        "percentage": 2.5
+      }
+    ]
+  },
   "baseStats": {
     "hp": 76,
     "attack": 48,
@@ -71,6 +84,7 @@
     "tm:captivate",
     "tm:chillingwater",
     "tm:confide",
+    "tm:curse",
     "tm:dive",
     "tm:doubleteam",
     "tm:earthpower",
@@ -89,6 +103,7 @@
     "tm:mudshot",
     "tm:mudslap",
     "tm:naturalgift",
+    "tm:painsplit",
     "tm:protect",
     "tm:raindance",
     "tm:rest",
@@ -99,6 +114,7 @@
     "tm:sandstorm",
     "tm:scald",
     "tm:secretpower",
+    "tm:skittersmack",
     "tm:sleeptalk",
     "tm:snore",
     "tm:snowscape",

@@ -8,6 +8,7 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen3
 
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cobblemon.mod.common.entity.PoseType
@@ -17,11 +18,11 @@ import net.minecraft.util.math.Vec3d
 class MetagrossModel (root: ModelPart) : PokemonPoseableModel() {
     override val rootPart = root.registerChildWithAllChildren("metagross")
 
-    override val portraitScale = 2.6F
-    override val portraitTranslation = Vec3d(-0.35, 1.9, 0.0)
+    override val portraitScale = 1.1F
+    override val portraitTranslation = Vec3d(-0.45, 0.5, 0.0)
 
-    override val profileScale = 0.65F
-    override val profileTranslation = Vec3d(0.0, 0.76, 0.0)
+    override val profileScale = 0.4F
+    override val profileTranslation = Vec3d(0.0, 1.0, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
@@ -29,6 +30,8 @@ class MetagrossModel (root: ModelPart) : PokemonPoseableModel() {
     lateinit var fly: PokemonPose
     lateinit var sleep: PokemonPose
     lateinit var battleidle: PokemonPose
+
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("metagross", "cry").setPreventsIdle(false) }
 
     override fun registerPoses() {
         val blink = quirk("blink") { bedrockStateful("metagross", "blink").setPreventsIdle(false)}

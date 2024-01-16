@@ -17,6 +17,7 @@ import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.pokemon.Species
 import com.cobblemon.mod.common.util.DataKeys
 import com.cobblemon.mod.common.util.isPokemonEntity
+import java.util.UUID
 import net.minecraft.client.render.OverlayTexture
 import net.minecraft.client.render.VertexConsumerProvider
 import net.minecraft.client.render.entity.LivingEntityRenderer
@@ -28,7 +29,7 @@ import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.nbt.NbtElement
 import net.minecraft.util.Identifier
-import java.util.*
+import net.minecraft.util.math.RotationAxis
 
 class PokemonOnShoulderRenderer<T : PlayerEntity>(renderLayerParent: FeatureRendererContext<T, PlayerEntityModel<T>>) : FeatureRenderer<T, PlayerEntityModel<T>>(renderLayerParent) {
 
@@ -68,7 +69,7 @@ class PokemonOnShoulderRenderer<T : PlayerEntity>(renderLayerParent: FeatureRend
             matrixStack.push()
             val uuid = this.extractUuid(compoundTag)
             val cache = this.playerCache.getOrPut(livingEntity.uuid) { ShoulderCache() }
-            val shoulderData: ShoulderData
+            var shoulderData: ShoulderData? = null
             if (pLeftShoulder && cache.lastKnownLeft?.uuid != uuid) {
                 shoulderData = this.extractData(compoundTag, uuid)
                 cache.lastKnownLeft = shoulderData
@@ -77,23 +78,33 @@ class PokemonOnShoulderRenderer<T : PlayerEntity>(renderLayerParent: FeatureRend
                 shoulderData = this.extractData(compoundTag, uuid)
                 cache.lastKnownRight = shoulderData
             }
-            else {
-                // should never be null but might as well be safe
+
+            if (shoulderData == null){
+                // Could be null
                 shoulderData = (if (pLeftShoulder) cache.lastKnownLeft else cache.lastKnownRight) ?: return
             }
             val scale = shoulderData.form.baseScale * shoulderData.scaleModifier
             val width = shoulderData.form.hitbox.width
             val offset = width / 2 - 0.7
+            // If they're sneaking, the pokemon needs to rotate a little bit and push forward
+            // Shoulders move a bit when sneaking which is why the translation is necessary.
+            // Shoulder exact rotation according to MC code is 0.5 radians, the -0.15 is eyeballed though.
+            if (livingEntity.isSneaking) {
+                matrixStack.multiply(RotationAxis.POSITIVE_X.rotation(0.5F))
+                matrixStack.translate(0F, 0F, -0.15F)
+            }
             matrixStack.translate(
                 if (pLeftShoulder) -offset else offset,
                 (if (livingEntity.isSneaking) -1.3 else -1.5) * scale,
                 0.0
             )
+
             matrixStack.scale(scale, scale, scale)
+
             val model = PokemonModelRepository.getPoser(shoulderData.species.resourceIdentifier, shoulderData.aspects)
             val state = PokemonFloatingState()
-            state.updatePartialTicks(livingEntity.age.toFloat() * 20 + partialTicks)
-            val vertexConsumer = buffer.getBuffer(model.getLayer(PokemonModelRepository.getTexture(shoulderData.species.resourceIdentifier, shoulderData.aspects, state)))
+            state.updatePartialTicks(ageInTicks + partialTicks)
+            val vertexConsumer = buffer.getBuffer(model.getLayer(PokemonModelRepository.getTexture(shoulderData.species.resourceIdentifier, shoulderData.aspects, state.animationSeconds)))
             val i = LivingEntityRenderer.getOverlay(livingEntity, 0.0f)
 
             val pose = model.poses.values
@@ -114,6 +125,7 @@ class PokemonOnShoulderRenderer<T : PlayerEntity>(renderLayerParent: FeatureRend
             model.withLayerContext(buffer, state, PokemonModelRepository.getLayers(shoulderData.species.resourceIdentifier, shoulderData.aspects)) {
                 model.render(matrixStack, vertexConsumer, packedLight, OverlayTexture.DEFAULT_UV, 1F, 1F, 1F, 1F)
             }
+            model.setDefault()
             matrixStack.pop()
         }
     }
@@ -125,13 +137,15 @@ class PokemonOnShoulderRenderer<T : PlayerEntity>(renderLayerParent: FeatureRend
         return shoulderNbt.getUuid(DataKeys.SHOULDER_UUID)
     }
 
-    private fun extractData(shoulderNbt: NbtCompound, pokemonUUID: UUID): ShoulderData {
+    private fun extractData(shoulderNbt: NbtCompound, pokemonUUID: UUID): ShoulderData? {
         // To not crash with existing ones, this will still have the aspect issue
         if (!shoulderNbt.contains(DataKeys.SHOULDER_SPECIES)) {
             val pokemon = Pokemon().apply { isClient = true }.loadFromNBT(shoulderNbt.getCompound(DataKeys.POKEMON))
             return ShoulderData(pokemonUUID, pokemon.species, pokemon.form, pokemon.aspects, pokemon.scaleModifier)
         }
-        val species = PokemonSpecies.getByIdentifier(Identifier(shoulderNbt.getString(DataKeys.SHOULDER_SPECIES)))!!
+        val species = PokemonSpecies.getByIdentifier(Identifier(shoulderNbt.getString(DataKeys.SHOULDER_SPECIES)))
+            ?: return null
+
         val formName = shoulderNbt.getString(DataKeys.SHOULDER_FORM)
         val form = species.forms.firstOrNull { it.name == formName } ?: species.standardForm
         val aspects = shoulderNbt.getList(DataKeys.SHOULDER_ASPECTS, NbtElement.STRING_TYPE.toInt()).map { it.asString() }.toSet()

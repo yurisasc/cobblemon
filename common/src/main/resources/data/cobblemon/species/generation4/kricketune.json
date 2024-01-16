@@ -7,6 +7,15 @@
     "swarm",
     "h:technician"
   ],
+  "drops": {
+    "amount": 1,
+    "entries": [
+      {
+        "item": "cobblemon:coba_berry",
+        "percentage": 5.0
+      }
+    ]
+  },
   "baseStats": {
     "hp": 77,
     "attack": 85,
@@ -37,15 +46,6 @@
       "light": "0-4"
     }
   },
-  "drops": {
-    "amount": "1",
-    "entries": [
-      {
-        "item": "cobblemon:metronome",
-        "percentage": 5
-      }
-    ]
-  },
   "moves": [
     "1:bide",
     "1:furycutter",
@@ -73,12 +73,14 @@
     "tm:attract",
     "tm:batonpass",
     "tm:brickbreak",
+    "tm:bugbite",
     "tm:bugbuzz",
     "tm:captivate",
     "tm:confide",
     "tm:cut",
     "tm:doubleteam",
     "tm:echoedvoice",
+    "tm:endeavor",
     "tm:endure",
     "tm:facade",
     "tm:falseswipe",
@@ -92,7 +94,9 @@
     "tm:hyperbeam",
     "tm:hypervoice",
     "tm:infestation",
+    "tm:knockoff",
     "tm:leechlife",
+    "tm:lunge",
     "tm:naturalgift",
     "tm:pounce",
     "tm:poweruppunch",
@@ -104,6 +108,7 @@
     "tm:round",
     "tm:secretpower",
     "tm:silverwind",
+    "tm:skittersmack",
     "tm:sleeptalk",
     "tm:strength",
     "tm:strugglebug",
@@ -114,8 +119,10 @@
     "tm:takedown",
     "tm:taunt",
     "tm:terablast",
+    "tm:throatchop",
     "tm:toxic",
     "tm:trailblaze",
+    "tm:uproar",
     "tm:xscissor",
     "tutor:bugbite",
     "tutor:endeavor",

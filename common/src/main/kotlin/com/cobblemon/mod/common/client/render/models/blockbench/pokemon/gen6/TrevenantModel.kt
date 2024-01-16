@@ -9,8 +9,6 @@
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen6
 
 import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
-import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
-import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
@@ -41,9 +39,10 @@ class TrevenantModel  (root: ModelPart) : PokemonPoseableModel() {
             poseType = PoseType.SLEEP,
             idleAnimations = arrayOf(bedrock("trevenant", "sleep"))
         )
+
         standing = registerPose(
             poseName = "stand",
-            poseTypes = PoseType.STATIONARY_POSES - PoseType.HOVER - PoseType.FLOAT + PoseType.UI_POSES,
+            poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
             condition = { !it.isBattling },
             transformTicks = 10,
             quirks = arrayOf(blink),
@@ -53,7 +52,7 @@ class TrevenantModel  (root: ModelPart) : PokemonPoseableModel() {
         )
         walk = registerPose(
             poseName = "walk",
-            poseTypes = PoseType.MOVING_POSES - PoseType.FLY - PoseType.SWIM,
+            poseTypes = PoseType.MOVING_POSES,
             transformTicks = 5,
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(

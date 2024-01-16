@@ -7,6 +7,15 @@
     "blaze",
     "h:flashfire"
   ],
+  "drops": {
+    "amount": 1,
+    "entries": [
+      {
+        "item": "cobblemon:charcoal_stick",
+        "percentage": 5.0
+      }
+    ]
+  },
   "baseStats": {
     "hp": 39,
     "attack": 52,
@@ -30,6 +39,11 @@
       "willSleepOnBed": true,
       "depth": "normal",
       "light": "0-4"
+    },
+    "moving": {
+      "walk": {
+        "walkSpeed": 0.2
+      }
     }
   },
   "moves": [
@@ -68,10 +82,13 @@
     "tm:aerialace",
     "tm:attract",
     "tm:bodyslam",
+    "tm:burningjealousy",
     "tm:captivate",
     "tm:confide",
+    "tm:curse",
     "tm:cut",
     "tm:dig",
+    "tm:doubleedge",
     "tm:doubleteam",
     "tm:endure",
     "tm:facade",
@@ -95,6 +112,7 @@
     "tm:rest",
     "tm:return",
     "tm:reversal",
+    "tm:roar",
     "tm:round",
     "tm:secretpower",
     "tm:sleeptalk",
@@ -103,6 +121,7 @@
     "tm:swagger",
     "tm:swift",
     "tm:takedown",
+    "tm:temperflare",
     "tm:terablast",
     "tm:toxic",
     "tm:wildcharge",

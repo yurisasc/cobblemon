@@ -9,7 +9,6 @@
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1
 
 import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
-import com.cobblemon.mod.common.client.render.models.blockbench.animation.QuadrupedWalkAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.QuadrupedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
@@ -74,5 +73,5 @@ class PonytaGalarianModel (root: ModelPart) : PokemonPoseableModel(), HeadedFram
     override fun getFaintAnimation(
         pokemonEntity: PokemonEntity,
         state: PoseableEntityState<PokemonEntity>
-    ) = if (state.isPosedIn(standing, walk, sleep)) bedrockStateful("ponyta_galar", "faint") else null
+    ) = bedrockStateful("ponyta_galar", "faint")
 }

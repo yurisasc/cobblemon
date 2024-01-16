@@ -55,17 +55,21 @@
     "tm:airslash",
     "tm:attract",
     "tm:bodyslam",
+    "tm:breakingswipe",
     "tm:brickbreak",
     "tm:confide",
     "tm:cut",
     "tm:darkpulse",
+    "tm:doubleedge",
     "tm:doubleteam",
     "tm:dracometeor",
+    "tm:dragoncheer",
     "tm:dragonclaw",
     "tm:dragondance",
     "tm:dragonpulse",
     "tm:dragontail",
     "tm:dreameater",
+    "tm:dualwingbeat",
     "tm:echoedvoice",
     "tm:endure",
     "tm:facade",
@@ -85,6 +89,7 @@
     "tm:outrage",
     "tm:protect",
     "tm:psychic",
+    "tm:psychicnoise",
     "tm:rest",
     "tm:return",
     "tm:roost",
@@ -100,6 +105,7 @@
     "tm:steelwing",
     "tm:substitute",
     "tm:sunnyday",
+    "tm:superfang",
     "tm:swagger",
     "tm:swift",
     "tm:tailwind",
@@ -157,5 +163,14 @@
   "height": 15,
   "weight": 850,
   "aspects": [],
-  "cannotDynamax": false
+  "cannotDynamax": false,
+  "drops": {
+    "amount": 1,
+    "entries": [
+      {
+        "item": "cobblemon:yache_berry",
+        "percentage": 5.0
+      }
+    ]
+  }
 }

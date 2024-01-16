@@ -1,4 +1,4 @@
-{
+﻿{
   "implemented": true,
   "name": "Moltres",
   "nationalPokedexNumber": 146,
@@ -16,6 +16,9 @@
     "special_defence": 85,
     "speed": 90
   },
+  "features": [
+    "galarian"
+  ],
   "catchRate": 3,
   "maleRatio": -1,
   "shoulderMountable": false,
@@ -76,6 +79,7 @@
         "tm:assurance",
         "tm:bravebird",
         "tm:darkpulse",
+        "tm:dualwingbeat",
         "tm:endure",
         "tm:facade",
         "tm:fly",
@@ -87,7 +91,9 @@
         "tm:hyperbeam",
         "tm:hypervoice",
         "tm:imprison",
+        "tm:lashout",
         "tm:nastyplot",
+        "tm:painsplit",
         "tm:payback",
         "tm:protect",
         "tm:raindance",
@@ -100,6 +106,7 @@
         "tm:sleeptalk",
         "tm:snarl",
         "tm:snore",
+        "tm:spite",
         "tm:steelwing",
         "tm:substitute",
         "tm:sunnyday",
@@ -127,9 +134,23 @@
       ],
       "height": 20,
       "weight": 660,
-      "evolutions": [],
       "cannotDynamax": false,
-      "battleOnly": false
+      "battleOnly": false,
+      "drops": {
+        "amount": 6,
+        "entries": [
+          {
+            "item": "minecraft:feather",
+            "quantityRange": "2-4"
+          },
+          {
+            "item": "minecraft:cooked_chicken"
+          },
+          {
+            "item": "cobblemon:sharp_beak"
+          }
+        ]
+      }
     }
   ],
   "baseExperienceYield": 290,
@@ -172,9 +193,12 @@
     "tm:aircutter",
     "tm:airslash",
     "tm:bravebird",
+    "tm:burningjealousy",
     "tm:confide",
     "tm:defog",
+    "tm:doubleedge",
     "tm:doubleteam",
+    "tm:dualwingbeat",
     "tm:endure",
     "tm:facade",
     "tm:fireblast",
@@ -205,6 +229,7 @@
     "tm:round",
     "tm:safeguard",
     "tm:sandstorm",
+    "tm:scorchingsands",
     "tm:secretpower",
     "tm:skydrop",
     "tm:sleeptalk",
@@ -217,6 +242,7 @@
     "tm:swift",
     "tm:tailwind",
     "tm:takedown",
+    "tm:temperflare",
     "tm:terablast",
     "tm:toxic",
     "tm:uturn",
@@ -312,5 +338,20 @@
   "height": 20,
   "weight": 600,
   "aspects": [],
-  "cannotDynamax": false
+  "cannotDynamax": false,
+  "drops": {
+    "amount": 6,
+    "entries": [
+      {
+        "item": "minecraft:feather",
+        "quantityRange": "2-4"
+      },
+      {
+        "item": "minecraft:cooked_chicken"
+      },
+      {
+        "item": "cobblemon:charcoal_stick"
+      }
+    ]
+  }
 }

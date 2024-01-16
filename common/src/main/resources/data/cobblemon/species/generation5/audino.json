@@ -7,6 +7,19 @@
     "regenerator",
     "h:klutz"
   ],
+  "drops": {
+    "amount": 2,
+    "entries": [
+      {
+        "item": "cobblemon:oran_berry",
+        "percentage": 10.0
+      },
+      {
+        "item": "cobblemon:fairy_feather",
+        "percentage": 10.0
+      }
+    ]
+  },
   "baseStats": {
     "hp": 103,
     "attack": 60,
@@ -60,7 +73,6 @@
       ],
       "height": 15,
       "weight": 320,
-      "evolutions": [],
       "cannotDynamax": false,
       "battleOnly": true
     }

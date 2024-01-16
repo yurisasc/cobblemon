@@ -6,6 +6,19 @@
     "sandstream",
     "h:sandforce"
   ],
+  "drops": {
+    "amount": 2,
+    "entries": [
+      {
+        "item": "cobblemon:soft_sand",
+        "percentage": 2.5
+      },
+      {
+        "item": "cobblemon:chesto_berry",
+        "percentage": 2.5
+      }
+    ]
+  },
   "baseStats": {
     "hp": 68,
     "attack": 72,
@@ -65,7 +78,9 @@
     "tm:captivate",
     "tm:confide",
     "tm:crunch",
+    "tm:curse",
     "tm:dig",
+    "tm:doubleedge",
     "tm:doubleteam",
     "tm:earthpower",
     "tm:earthquake",
@@ -93,6 +108,7 @@
     "tm:round",
     "tm:sandstorm",
     "tm:sandtomb",
+    "tm:scorchingsands",
     "tm:secretpower",
     "tm:sleeptalk",
     "tm:snore",

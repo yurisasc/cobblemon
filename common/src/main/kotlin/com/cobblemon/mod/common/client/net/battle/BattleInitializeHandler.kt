@@ -32,10 +32,10 @@ object BattleInitializeHandler : ClientNetworkPacketHandler<BattleInitializePack
             }
 
             val otherSide = if (mySide == packet.side1) packet.side2 else packet.side1
-
-            side1.actors.addAll(mySide.actors.map{ actorFromDTO(it, true) })
+            val sides = listOf(packet.side1, packet.side2)
+            spectating = !sides.any { it.actors.any { it.uuid == MinecraftClient.getInstance().player?.uuid } }
+            side1.actors.addAll(mySide.actors.map{ actorFromDTO(it, !spectating) })
             side2.actors.addAll(otherSide.actors.map{ actorFromDTO(it, false) })
-            spectating = sides.any { it.actors.any { it.uuid == MinecraftClient.getInstance().player?.uuid } }
             for (side in listOf(side1, side2)) {
                 side.battle = this
                 for (actor in side.actors) {
@@ -66,6 +66,7 @@ object BattleInitializeHandler : ClientNetworkPacketHandler<BattleInitializePack
                         aspects = it.aspects,
                         displayName = it.displayName,
                         hpValue = it.hpValue,
+                        maxHp = it.maxHp,
                         isHpFlat = isAlly,
                         status = it.status,
                         statChanges = it.statChanges,

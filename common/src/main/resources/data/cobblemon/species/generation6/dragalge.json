@@ -9,6 +9,19 @@
     "poisontouch",
     "h:adaptability"
   ],
+  "drops": {
+    "amount": 3,
+    "entries": [
+      {
+        "item": "minecraft:kelp",
+        "quantityRange": "0-2"
+      },
+      {
+        "item": "cobblemon:pecha_berry",
+        "percentage": 5.0
+      }
+    ]
+  },
   "baseStats": {
     "hp": 65,
     "attack": 75,
@@ -70,17 +83,20 @@
     "tm:dragontail",
     "tm:endure",
     "tm:facade",
+    "tm:flipturn",
     "tm:focusblast",
     "tm:frustration",
     "tm:gigaimpact",
     "tm:gunkshot",
     "tm:hail",
+    "tm:haze",
     "tm:hiddenpower",
     "tm:hydropump",
     "tm:hyperbeam",
     "tm:icywind",
     "tm:irontail",
     "tm:liquidation",
+    "tm:muddywater",
     "tm:mudshot",
     "tm:mudslap",
     "tm:outrage",
@@ -92,6 +108,7 @@
     "tm:return",
     "tm:round",
     "tm:scald",
+    "tm:scaleshot",
     "tm:scaryface",
     "tm:secretpower",
     "tm:shadowball",
@@ -100,6 +117,7 @@
     "tm:sludgewave",
     "tm:snore",
     "tm:snowscape",
+    "tm:spite",
     "tm:substitute",
     "tm:surf",
     "tm:swagger",
@@ -114,6 +132,7 @@
     "tm:venoshock",
     "tm:waterfall",
     "tm:waterpulse",
+    "tm:whirlpool",
     "tutor:aquatail",
     "tutor:bounce",
     "tutor:dracometeor",
@@ -139,7 +158,7 @@
   "baseScale": 1,
   "hitbox": {
     "width": 1,
-    "height": 1,
+    "height": 2.2,
     "fixed": false
   },
   "baseFriendship": 50,

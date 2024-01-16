@@ -7,6 +7,22 @@
     "hydration",
     "h:regenerator"
   ],
+  "drops": {
+    "amount": 3,
+    "entries": [
+      {
+        "item": "minecraft:cod"
+      },
+      {
+        "item": "minecraft:bone_meal",
+        "percentage": 5.0
+      },
+      {
+        "item": "cobblemon:deep_sea_scale",
+        "percentage": 5.0
+      }
+    ]
+  },
   "baseStats": {
     "hp": 165,
     "attack": 75,
@@ -53,6 +69,7 @@
     "egg:refresh",
     "egg:tickle",
     "tm:acrobatics",
+    "tm:alluringvoice",
     "tm:attract",
     "tm:batonpass",
     "tm:blizzard",
@@ -64,6 +81,7 @@
     "tm:doubleteam",
     "tm:endure",
     "tm:facade",
+    "tm:flipturn",
     "tm:frustration",
     "tm:gigaimpact",
     "tm:hail",
@@ -76,6 +94,7 @@
     "tm:lightscreen",
     "tm:liquidation",
     "tm:mistyterrain",
+    "tm:painsplit",
     "tm:playrough",
     "tm:protect",
     "tm:psychic",
@@ -86,6 +105,7 @@
     "tm:round",
     "tm:safeguard",
     "tm:scald",
+    "tm:scaleshot",
     "tm:secretpower",
     "tm:shadowball",
     "tm:skillswap",
@@ -99,6 +119,7 @@
     "tm:toxic",
     "tm:waterfall",
     "tm:waterpulse",
+    "tm:whirlpool",
     "tm:zenheadbutt",
     "tutor:aquaring",
     "tutor:bounce",
@@ -137,6 +158,6 @@
   },
   "height": 12,
   "weight": 316,
-  "aspects": [],
+  "evolutions": [],
   "cannotDynamax": false
 }

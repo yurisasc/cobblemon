@@ -45,6 +45,10 @@ object DataKeys {
     const val POKEMON_NATURE = "Nature"
     const val POKEMON_MINTED_NATURE = "MintedNature"
     const val HELD_ITEM = "HeldItem"
+    const val POKEMON_TERA_TYPE = "TeraType"
+    const val POKEMON_DMAX_LEVEL = "DmaxLevel"
+    const val POKEMON_GMAX_FACTOR = "GmaxFactor"
+    const val POKEMON_TRADEABLE = "Tradeable"
 
     const val POKEMON_STATE = "State"
     const val POKEMON_STATE_TYPE = "StateType"
@@ -57,6 +61,12 @@ object DataKeys {
     const val POKEMON_POSE_TYPE = "PoseType"
     const val POKEMON_BEHAVIOUR_FLAGS = "BehaviourFlags"
     const val POKEMON_OWNER_ID = "PokemonOwnerId"
+    const val POKEMON_HIDE_LABEL = "HideLabel"
+    const val POKEMON_UNBATTLEABLE = "Unbattleable"
+    const val POKEMON_COUNTS_TOWARDS_SPAWN_CAP = "CountsTowardsSpawnCap"
+
+    const val POKEMON_ORIGINAL_TRAINER = "PokemonOriginalTrainer"
+    const val POKEMON_ORIGINAL_TRAINER_TYPE = "PokemonOriginalTrainerType"
 
     // Evolution stuff
     const val POKEMON_EVOLUTIONS = "Evolutions"
@@ -108,17 +118,23 @@ object DataKeys {
     // Pokemon Item
     const val POKEMON_ITEM_SPECIES = "species"
     const val POKEMON_ITEM_ASPECTS = "aspects"
+    const val POKEMON_ITEM_TINT_RED = "TintRed"
+    const val POKEMON_ITEM_TINT_GREEN = "TintGreen"
+    const val POKEMON_ITEM_TINT_BLUE = "TintBlue"
+    const val POKEMON_ITEM_TINT_ALPHA = "TintAlpha"
 
     // Features
     const val CAN_BE_MILKED = "milkable"
     const val HAS_BEEN_SHEARED = "sheared"
+
+    // Variants
+    const val IS_MOOSHTANK = "mooshtank"
 
     // Persistent Data
     const val POKEMON_PERSISTENT_DATA = "PersistentData"
 
     // Item Tooltips
     const val HIDE_TOOLTIP = "HideTooltip"
-
 
     // Shoulder Mount
     const val SHOULDER_UUID = "shoulder_uuid"
@@ -127,4 +143,21 @@ object DataKeys {
     const val SHOULDER_ASPECTS = "shoulder_aspects"
     const val SHOULDER_SCALE_MODIFIER = "shoulder_scale"
 
+    //Multiblock Stuff
+    const val MULTIBLOCK_STORAGE = "MultiblockStore"
+    const val CONTROLLER_BLOCK = "ControllerBlock"
+
+    //FossilMultiblockStructure Serialization
+    const val MONITOR_POS = "MonitorPos"
+    const val TUBE_BASE_POS = "TubeBasePos"
+    const val COMPARTMENT_POS = "CompartmentPos"
+    const val ORGANIC_MATERIAL = "OrganicContent"
+    const val INSERTED_FOSSIL = "InsertedFossil"
+    const val FOSSIL_INVENTORY = "InsertedFossilStacks"
+    const val TUBE_FILL_LEVEL = "TubeFillLevel"
+    const val CONNECTOR_DIRECTION = "ConnectorDirection"
+    const val TIME_LEFT = "TimeLeft"
+    const val FORMED = "Formed"
+    const val CREATED_POKEMON = "CreatedPokemon"
+    const val FOSSIL_STATE = "FossilState"
 }

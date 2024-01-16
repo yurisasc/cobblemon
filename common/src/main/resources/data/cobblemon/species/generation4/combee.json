@@ -8,6 +8,27 @@
     "honeygather",
     "h:hustle"
   ],
+  "drops": {
+    "amount": 4,
+    "entries": [
+      {
+        "item": "minecraft:honey_bottle",
+        "quantityRange": "0-1"
+      },
+      {
+        "item": "minecraft:honeycomb",
+        "percentage": 2.5
+      },
+      {
+        "item": "cobblemon:poison_barb",
+        "percentage": 2.5
+      },
+      {
+        "item": "cobblemon:charti_berry",
+        "percentage": 2.5
+      }
+    ]
+  },
   "baseStats": {
     "hp": 30,
     "attack": 30,
@@ -45,7 +66,11 @@
     "1:sweetscent",
     "13:bugbite",
     "29:bugbuzz",
+    "tm:bugbite",
     "tm:bugbuzz",
+    "tm:endeavor",
+    "tm:lunge",
+    "tm:skittersmack",
     "tm:sleeptalk",
     "tm:snore",
     "tm:strugglebug",

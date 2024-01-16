@@ -8,6 +8,15 @@
     "oblivious",
     "h:sweetveil"
   ],
+  "drops": {
+    "amount": 1,
+    "entries": [
+      {
+        "item": "cobblemon:persim_berry",
+        "percentage": 5.0
+      }
+    ]
+  },
   "baseStats": {
     "hp": 52,
     "attack": 40,
@@ -48,6 +57,7 @@
     "tm:dazzlinggleam",
     "tm:doubleteam",
     "tm:drainingkiss",
+    "tm:endeavor",
     "tm:endure",
     "tm:energyball",
     "tm:facade",
@@ -55,6 +65,7 @@
     "tm:frustration",
     "tm:gigadrain",
     "tm:grassknot",
+    "tm:grassyglide",
     "tm:grassyterrain",
     "tm:helpinghand",
     "tm:hiddenpower",
@@ -64,6 +75,7 @@
     "tm:magicalleaf",
     "tm:naturepower",
     "tm:payback",
+    "tm:petalblizzard",
     "tm:playrough",
     "tm:protect",
     "tm:reflect",
@@ -83,6 +95,7 @@
     "tm:terablast",
     "tm:toxic",
     "tm:trailblaze",
+    "tm:tripleaxel",
     "tm:zenheadbutt",
     "tutor:bounce",
     "tutor:covet",

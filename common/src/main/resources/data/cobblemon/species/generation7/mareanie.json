@@ -58,6 +58,7 @@
     "tm:frustration",
     "tm:gunkshot",
     "tm:hail",
+    "tm:haze",
     "tm:hiddenpower",
     "tm:hydropump",
     "tm:icebeam",
@@ -66,8 +67,10 @@
     "tm:infestation",
     "tm:irondefense",
     "tm:liquidation",
+    "tm:lunge",
     "tm:muddywater",
     "tm:mudshot",
+    "tm:painsplit",
     "tm:payback",
     "tm:pinmissile",
     "tm:poisonjab",
@@ -151,5 +154,22 @@
   "height": 4,
   "weight": 80,
   "aspects": [],
-  "cannotDynamax": false
+  "cannotDynamax": false,
+  "drops": {
+    "amount": 3,
+    "entries": [
+      {
+        "item": "minecraft:slime_ball",
+        "quantityRange": "0-1"
+      },
+      {
+        "item": "cobblemon:poison_barb",
+        "percentage": 2.5
+      },
+      {
+        "item": "cobblemon:pecha_berry",
+        "percentage": 2.5
+      }
+    ]
+  }
 }

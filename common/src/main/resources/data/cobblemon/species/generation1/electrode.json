@@ -1,4 +1,4 @@
-{
+﻿{
   "implemented": true,
   "name": "Electrode",
   "nationalPokedexNumber": 101,
@@ -16,6 +16,9 @@
     "special_defence": 80,
     "speed": 150
   },
+  "features": [
+    "hisuian"
+  ],
   "catchRate": 60,
   "maleRatio": -1,
   "shoulderMountable": false,
@@ -74,9 +77,13 @@
         "50:grassyterrain",
         "tm:agility",
         "tm:bulletseed",
+        "tm:charge",
         "tm:chargebeam",
+        "tm:curse",
+        "tm:doubleedge",
         "tm:electricterrain",
         "tm:electroball",
+        "tm:electroweb",
         "tm:endure",
         "tm:energyball",
         "tm:facade",
@@ -84,7 +91,9 @@
         "tm:gigadrain",
         "tm:gigaimpact",
         "tm:grassknot",
+        "tm:grassyglide",
         "tm:grassyterrain",
+        "tm:gyroball",
         "tm:hyperbeam",
         "tm:leafstorm",
         "tm:protect",
@@ -96,6 +105,7 @@
         "tm:sleeptalk",
         "tm:solarbeam",
         "tm:substitute",
+        "tm:supercellslam",
         "tm:swift",
         "tm:takedown",
         "tm:taunt",
@@ -117,7 +127,6 @@
       "height": 12,
       "weight": 710,
       "preEvolution": "voltorb form=hisui",
-      "evolutions": [],
       "cannotDynamax": false,
       "battleOnly": false
     }
@@ -129,12 +138,11 @@
     "mineral"
   ],
   "drops": {
-    "amount": "1",
+    "amount": 2,
     "entries": [
       {
         "item": "minecraft:gunpowder",
-        "quantityRange": "1-2",
-        "percentage": 66
+        "quantityRange": "0-2"
       }
     ]
   },
@@ -159,12 +167,16 @@
     "54:gyroball",
     "58:mirrorcoat",
     "tm:agility",
+    "tm:charge",
     "tm:chargebeam",
     "tm:confide",
+    "tm:curse",
+    "tm:doubleedge",
     "tm:doubleteam",
     "tm:eerieimpulse",
     "tm:electricterrain",
     "tm:electroball",
+    "tm:electroweb",
     "tm:endure",
     "tm:explosion",
     "tm:facade",
@@ -177,6 +189,7 @@
     "tm:hiddenpower",
     "tm:hyperbeam",
     "tm:lightscreen",
+    "tm:metalsound",
     "tm:naturalgift",
     "tm:protect",
     "tm:raindance",
@@ -188,6 +201,7 @@
     "tm:shockwave",
     "tm:sleeptalk",
     "tm:substitute",
+    "tm:supercellslam",
     "tm:swagger",
     "tm:swift",
     "tm:takedown",

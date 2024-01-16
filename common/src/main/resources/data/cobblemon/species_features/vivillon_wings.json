@@ -23,8 +23,9 @@
     "savanna",
     "sun",
     "tundra",
-    "blazing",
-    "ender"
+    "inferno",
+    "void",
+    "forsaken"
   ],
   "isAspect": true,
   "aspectFormat": "vivillon-wings-{{choice}}"

@@ -9,6 +9,19 @@
     "infiltrator",
     "h:chlorophyll"
   ],
+  "drops": {
+    "amount": 3,
+    "entries": [
+      {
+        "item": "minecraft:white_wool",
+        "quantityRange": "1-2"
+      },
+      {
+        "item": "cobblemon:kebia_berry",
+        "percentage": 5.0
+      }
+    ]
+  },
   "baseStats": {
     "hp": 60,
     "attack": 67,
@@ -65,6 +78,7 @@
     "tm:doubleteam",
     "tm:dreameater",
     "tm:encore",
+    "tm:endeavor",
     "tm:endure",
     "tm:energyball",
     "tm:facade",
@@ -75,6 +89,7 @@
     "tm:gigadrain",
     "tm:gigaimpact",
     "tm:grassknot",
+    "tm:grassyglide",
     "tm:grassyterrain",
     "tm:helpinghand",
     "tm:hiddenpower",
@@ -100,7 +115,9 @@
     "tm:sunnyday",
     "tm:swagger",
     "tm:swift",
+    "tm:tailwind",
     "tm:taunt",
+    "tm:terablast",
     "tm:thief",
     "tm:toxic",
     "tm:trickroom",

@@ -21,7 +21,7 @@
                 ]
             }
         },
-		{
+        {
             "id": "arbok-legacy-1",
             "pokemon": "arbok snake-pattern=legacy",
             "presets": [
@@ -39,7 +39,7 @@
                 ]
             }
         },
-		{
+        {
             "id": "arbok-attack-1",
             "pokemon": "arbok snake-pattern=attack",
             "presets": [
@@ -57,7 +57,7 @@
                 ]
             }
         },
-		{
+        {
             "id": "arbok-speed-1",
             "pokemon": "arbok snake-pattern=speed",
             "presets": [
@@ -75,7 +75,7 @@
                 ]
             }
         },
-		{
+        {
             "id": "arbok-elusive-1",
             "pokemon": "arbok snake-pattern=elusive",
             "presets": [
@@ -93,7 +93,7 @@
                 ]
             }
         },
-		{
+        {
             "id": "arbok-sound-1",
             "pokemon": "arbok snake-pattern=sound",
             "presets": [
@@ -112,7 +112,7 @@
             }
         },
         {
-            "id": "arbok-dark-1",
+            "id": "arbok-dark-2",
             "pokemon": "arbok snake-pattern=dark",
             "presets": [
                 "natural"
@@ -124,7 +124,7 @@
             "weight": 0.6,
             "condition": {
                 "biomes": [
-                    "minecraft:soul_sand_valley"
+                    "#cobblemon:is_nether_desert"
                 ]
             }
         }

@@ -7,6 +7,19 @@
     "flashfire",
     "h:guts"
   ],
+  "drops": {
+    "amount": 2,
+    "entries": [
+      {
+        "item": "cobblemon:fire_stone",
+        "percentage": 25.0
+      },
+      {
+        "item": "cobblemon:charcoal_stick",
+        "percentage": 10.0
+      }
+    ]
+  },
   "baseStats": {
     "hp": 65,
     "attack": 130,
@@ -52,15 +65,20 @@
     "55:lastresort",
     "71:fireblast",
     "tm:attract",
+    "tm:alluringvoice",
     "tm:batonpass",
     "tm:bodyslam",
+    "tm:burningjealousy",
     "tm:calmmind",
     "tm:captivate",
     "tm:charm",
     "tm:confide",
+    "tm:curse",
     "tm:dig",
+    "tm:doubleedge",
     "tm:doubleteam",
     "tm:echoedvoice",
+    "tm:endeavor",
     "tm:endure",
     "tm:facade",
     "tm:faketears",
@@ -94,6 +112,7 @@
     "tm:rocksmash",
     "tm:round",
     "tm:scaryface",
+    "tm:scorchingsands",
     "tm:secretpower",
     "tm:shadowball",
     "tm:sleeptalk",
@@ -106,6 +125,7 @@
     "tm:swagger",
     "tm:swift",
     "tm:takedown",
+    "tm:temperflare",
     "tm:terablast",
     "tm:toxic",
     "tm:trailblaze",

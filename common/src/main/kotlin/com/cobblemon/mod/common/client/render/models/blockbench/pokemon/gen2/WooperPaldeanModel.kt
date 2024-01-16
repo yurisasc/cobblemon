@@ -9,12 +9,12 @@
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen2
 
 import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
-import com.cobblemon.mod.common.client.render.models.blockbench.asTransformed
+import com.cobblemon.mod.common.client.render.models.blockbench.createTransformation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pose.TransformedModelPart
+import com.cobblemon.mod.common.client.render.models.blockbench.pose.ModelPartTransformation
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.PoseType.Companion.MOVING_POSES
 import com.cobblemon.mod.common.entity.PoseType.Companion.STATIONARY_POSES
@@ -27,8 +27,8 @@ class WooperPaldeanModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame 
     override val rootPart = root.registerChildWithAllChildren("wooper_paldean")
     override val head = getPart("head")
 
-    override val portraitScale = 2.3F
-    override val portraitTranslation = Vec3d(-0.15, -0.7, 0.0)
+    override val portraitScale = 2.0F
+    override val portraitTranslation = Vec3d(-0.15, -0.65, 0.0)
 
     override val profileScale = 0.9F
     override val profileTranslation = Vec3d(0.0, 0.4, 0.0)
@@ -99,7 +99,7 @@ class WooperPaldeanModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame 
                 bedrock("wooper_paldean", "ground_idle")
             ),
             transformedParts = arrayOf(
-                rootPart.asTransformed().addPosition(TransformedModelPart.X_AXIS, shoulderOffset)
+                rootPart.createTransformation().addPosition(ModelPartTransformation.X_AXIS, shoulderOffset)
             )
         )
 
@@ -111,7 +111,7 @@ class WooperPaldeanModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame 
                 bedrock("wooper_paldean", "ground_idle")
             ),
             transformedParts = arrayOf(
-                rootPart.asTransformed().addPosition(TransformedModelPart.X_AXIS, -shoulderOffset)
+                rootPart.createTransformation().addPosition(ModelPartTransformation.X_AXIS, -shoulderOffset)
             )
         )
     }
@@ -119,5 +119,5 @@ class WooperPaldeanModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame 
     override fun getFaintAnimation(
         pokemonEntity: PokemonEntity,
         state: PoseableEntityState<PokemonEntity>
-    ) = if (state.isNotPosedIn(sleep)) bedrockStateful("wooper_paldean", "faint") else null
+    ) = if (state.isNotPosedIn(shoulderRight, shoulderLeft)) bedrockStateful("wooper_paldean", "faint") else null
 }

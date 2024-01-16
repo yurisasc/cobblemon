@@ -9,6 +9,22 @@
     "drizzle",
     "h:raindish"
   ],
+  "drops": {
+    "amount": 4,
+    "entries": [
+      {
+        "item": "minecraft:feather",
+        "quantityRange": "0-2"
+      },
+      {
+        "item": "minecraft:chicken"
+      },
+      {
+        "item": "cobblemon:wacan_berry",
+        "percentage": 5.0
+      }
+    ]
+  },
   "baseStats": {
     "hp": 60,
     "attack": 50,
@@ -83,9 +99,11 @@
     "tm:confide",
     "tm:defog",
     "tm:doubleteam",
+    "tm:dualwingbeat",
     "tm:echoedvoice",
     "tm:endure",
     "tm:facade",
+    "tm:featherdance",
     "tm:fling",
     "tm:fly",
     "tm:frustration",
@@ -99,7 +117,9 @@
     "tm:hyperbeam",
     "tm:icebeam",
     "tm:icywind",
+    "tm:knockoff",
     "tm:liquidation",
+    "tm:muddywater",
     "tm:naturalgift",
     "tm:payback",
     "tm:pluck",

@@ -8,13 +8,13 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1
 
-import com.cobblemon.mod.common.client.render.models.blockbench.asTransformed
+import com.cobblemon.mod.common.client.render.models.blockbench.createTransformation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BiWingedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pose.TransformedModelPart.Companion.Y_AXIS
+import com.cobblemon.mod.common.client.render.models.blockbench.pose.ModelPartTransformation.Companion.Y_AXIS
 import com.cobblemon.mod.common.entity.PoseType
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
@@ -50,7 +50,7 @@ class ButterfreeModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bi
                 singleBoneLook(),
                 bedrock("butterfree", "air_idle")
             ),
-            transformedParts = arrayOf(rootPart.asTransformed().addPosition(Y_AXIS, -5F))
+            transformedParts = arrayOf(rootPart.createTransformation().addPosition(Y_AXIS, -5F))
         )
 
         registerPose(
@@ -60,7 +60,7 @@ class ButterfreeModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bi
                 singleBoneLook(),
                 bedrock("butterfree", "air_fly")
             ),
-            transformedParts = arrayOf(rootPart.asTransformed().addPosition(Y_AXIS, -5F))
+            transformedParts = arrayOf(rootPart.createTransformation().addPosition(Y_AXIS, -5F))
         )
     }
 }

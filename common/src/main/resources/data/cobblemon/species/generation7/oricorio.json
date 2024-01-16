@@ -1,4 +1,4 @@
-{
+﻿{
   "name": "Oricorio",
   "nationalPokedexNumber": 741,
   "primaryType": "fire",
@@ -6,6 +6,26 @@
   "abilities": [
     "dancer"
   ],
+  "drops": {
+    "amount": 5,
+    "entries": [
+      {
+        "item": "minecraft:feather",
+        "quantityRange": "0-2"
+      },
+      {
+        "item": "minecraft:chicken"
+      },
+      {
+        "item": "minecraft:honey_bottle",
+        "percentage": 5.0
+      },
+      {
+        "item": "cobblemon:pinap_berry",
+        "percentage": 5.0
+      }
+    ]
+  },
   "baseStats": {
     "hp": 75,
     "attack": 70,
@@ -63,15 +83,18 @@
     "tm:agility",
     "tm:aircutter",
     "tm:airslash",
+    "tm:alluringvoice",
     "tm:attract",
     "tm:batonpass",
     "tm:calmmind",
     "tm:charm",
     "tm:confide",
     "tm:doubleteam",
+    "tm:dualwingbeat",
     "tm:embargo",
     "tm:endure",
     "tm:facade",
+    "tm:featherdance",
     "tm:fly",
     "tm:frustration",
     "tm:helpinghand",
@@ -79,6 +102,7 @@
     "tm:hurricane",
     "tm:icywind",
     "tm:protect",
+    "tm:psychup",
     "tm:quash",
     "tm:raindance",
     "tm:rest",
@@ -162,7 +186,6 @@
       ],
       "height": 6,
       "weight": 34,
-      "evolutions": [],
       "cannotDynamax": false,
       "battleOnly": false
     },
@@ -206,7 +229,6 @@
       ],
       "height": 6,
       "weight": 34,
-      "evolutions": [],
       "cannotDynamax": false,
       "battleOnly": false
     },
@@ -250,7 +272,6 @@
       ],
       "height": 6,
       "weight": 34,
-      "evolutions": [],
       "cannotDynamax": false,
       "battleOnly": false
     }

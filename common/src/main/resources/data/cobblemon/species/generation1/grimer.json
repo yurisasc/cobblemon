@@ -16,6 +16,9 @@
     "special_defence": 50,
     "speed": 25
   },
+  "features": [
+    "alolan"
+  ],
   "catchRate": 190,
   "maleRatio": 0.5,
   "shoulderMountable": false,
@@ -79,6 +82,7 @@
         "egg:meanlook",
         "egg:poweruppunch",
         "egg:pursuit",
+        "egg:recycle",
         "egg:scaryface",
         "egg:shadowsneak",
         "egg:spite",
@@ -92,6 +96,7 @@
         "tm:brutalswing",
         "tm:confide",
         "tm:crunch",
+        "tm:curse",
         "tm:darkpulse",
         "tm:dig",
         "tm:doubleteam",
@@ -115,9 +120,11 @@
         "tm:icepunch",
         "tm:imprison",
         "tm:infestation",
+        "tm:knockoff",
         "tm:metronome",
         "tm:mudshot",
         "tm:mudslap",
+        "tm:painsplit",
         "tm:payback",
         "tm:poisonjab",
         "tm:protect",
@@ -136,6 +143,7 @@
         "tm:sludgebomb",
         "tm:sludgewave",
         "tm:snarl",
+        "tm:spite",
         "tm:stoneedge",
         "tm:substitute",
         "tm:sunnyday",
@@ -232,11 +240,11 @@
     }
   },
   "drops": {
-    "amount": "2",
+    "amount": 2,
     "entries": [
       {
         "item": "minecraft:slime_ball",
-        "percentage": 50
+        "quantityRange": "0-1"
       },
       {
         "item": "cobblemon:black_sludge",
@@ -283,6 +291,7 @@
     "tm:captivate",
     "tm:confide",
     "tm:confuseray",
+    "tm:curse",
     "tm:dig",
     "tm:doubleteam",
     "tm:drainpunch",
@@ -296,6 +305,7 @@
     "tm:frustration",
     "tm:gigadrain",
     "tm:gunkshot",
+    "tm:haze",
     "tm:helpinghand",
     "tm:hex",
     "tm:hiddenpower",
@@ -307,6 +317,7 @@
     "tm:mudshot",
     "tm:mudslap",
     "tm:naturalgift",
+    "tm:painsplit",
     "tm:payback",
     "tm:poisonjab",
     "tm:poweruppunch",

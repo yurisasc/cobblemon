@@ -34,11 +34,15 @@
     "field"
   ],
   "drops": {
-    "amount": "1",
+    "amount": 2,
     "entries": [
       {
         "item": "minecraft:leather",
-        "percentage": 50
+        "quantityRange": "0-1"
+      },
+      {
+        "item": "cobblemon:persim_berry",
+        "percentage": 2.5
       }
     ]
   },
@@ -83,7 +87,9 @@
     "tm:chargebeam",
     "tm:confide",
     "tm:confuseray",
+    "tm:curse",
     "tm:dig",
+    "tm:doubleedge",
     "tm:doubleteam",
     "tm:dreameater",
     "tm:earthpower",
@@ -93,13 +99,16 @@
     "tm:facade",
     "tm:flash",
     "tm:frustration",
+    "tm:futuresight",
     "tm:gigaimpact",
+    "tm:gravity",
     "tm:helpinghand",
     "tm:hiddenpower",
     "tm:hyperbeam",
     "tm:imprison",
     "tm:irontail",
     "tm:lightscreen",
+    "tm:lunge",
     "tm:naturalgift",
     "tm:protect",
     "tm:psybeam",
@@ -120,6 +129,7 @@
     "tm:skillswap",
     "tm:sleeptalk",
     "tm:solarbeam",
+    "tm:spite",
     "tm:storedpower",
     "tm:substitute",
     "tm:sunnyday",
@@ -128,6 +138,7 @@
     "tm:takedown",
     "tm:terablast",
     "tm:thief",
+    "tm:throatchop",
     "tm:thunder",
     "tm:thunderbolt",
     "tm:thunderwave",
@@ -135,6 +146,7 @@
     "tm:trailblaze",
     "tm:trick",
     "tm:trickroom",
+    "tm:uproar",
     "tm:wildcharge",
     "tm:workup",
     "tm:zenheadbutt",

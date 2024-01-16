@@ -1,4 +1,4 @@
-{
+﻿{
   "name": "Morpeko",
   "nationalPokedexNumber": 877,
   "primaryType": "electric",
@@ -50,13 +50,19 @@
     "tm:agility",
     "tm:assurance",
     "tm:attract",
+    "tm:batonpass",
     "tm:brickbreak",
     "tm:bulletseed",
+    "tm:charge",
+    "tm:chargebeam",
     "tm:crunch",
     "tm:darkpulse",
+    "tm:doubleedge",
+    "tm:eerieimpulse",
     "tm:electricterrain",
     "tm:electroball",
     "tm:electroweb",
+    "tm:endeavor",
     "tm:endure",
     "tm:facade",
     "tm:faketears",
@@ -64,6 +70,8 @@
     "tm:fling",
     "tm:foulplay",
     "tm:icefang",
+    "tm:knockoff",
+    "tm:lashout",
     "tm:nastyplot",
     "tm:outrage",
     "tm:payback",
@@ -71,16 +79,21 @@
     "tm:psychicfangs",
     "tm:rest",
     "tm:revenge",
+    "tm:reversal",
     "tm:round",
     "tm:scaryface",
     "tm:seedbomb",
     "tm:sleeptalk",
     "tm:snarl",
     "tm:snore",
+    "tm:spite",
     "tm:stompingtantrum",
     "tm:substitute",
+    "tm:superfang",
     "tm:swift",
+    "tm:takedown",
     "tm:taunt",
+    "tm:terablast",
     "tm:thief",
     "tm:thunder",
     "tm:thunderbolt",
@@ -159,11 +172,19 @@
       ],
       "height": 3,
       "weight": 30,
-      "evolutions": [],
       "cannotDynamax": false,
       "battleOnly": true
     }
   ],
   "aspects": [],
-  "cannotDynamax": false
+  "cannotDynamax": false,
+  "drops": {
+    "amount": 1,
+    "entries": [
+      {
+        "item": "cobblemon:roseli_berry",
+        "percentage": 5.0
+      }
+    ]
+  }
 }

@@ -12,13 +12,14 @@ import com.cobblemon.mod.common.CobblemonNetwork.sendPacket
 import com.cobblemon.mod.common.api.battles.model.PokemonBattle
 import com.cobblemon.mod.common.api.events.CobblemonEvents
 import com.cobblemon.mod.common.api.events.battles.BattleStartedPostEvent
+import com.cobblemon.mod.common.api.events.battles.BattleStartedPreEvent
 import com.cobblemon.mod.common.api.pokemon.helditem.HeldItemProvider
 import com.cobblemon.mod.common.api.pokemon.stats.Stats
 import com.cobblemon.mod.common.api.pokemon.status.Statuses
 import com.cobblemon.mod.common.battles.pokemon.BattlePokemon
+import com.cobblemon.mod.common.battles.runner.ShowdownService
 import com.cobblemon.mod.common.net.messages.client.battle.BattleChallengeExpiredPacket
 import com.cobblemon.mod.common.util.getPlayer
-import com.cobblemon.mod.common.battles.runner.ShowdownService
 import com.google.gson.GsonBuilder
 import java.time.Instant
 import java.util.Optional
@@ -38,7 +39,10 @@ object BattleRegistry {
         fun isExpired() = Instant.now().isAfter(challengedTime.plusSeconds(expiryTimeSeconds.toLong()))
     }
 
-    val gson = GsonBuilder().disableHtmlEscaping().create()
+    val gson = GsonBuilder()
+        .disableHtmlEscaping()
+        .registerTypeAdapter(ShowdownMoveset::class.java, ShowdownMovesetAdapter)
+        .create()
     private val battleMap = ConcurrentHashMap<UUID, PokemonBattle>()
     // Challenger to challenge
     val pvpChallenges = mutableMapOf<UUID, BattleChallenge>()
@@ -105,7 +109,7 @@ object BattleRegistry {
                 }|"
             )
             // Nature
-            val battleNature = pk.mintedNature ?: pk.nature
+            val battleNature = pk.effectiveNature
             packedTeamBuilder.append("${battleNature.name.path}|")
             // EVs
             val evsInOrder = Stats.PERMANENT.map { pk.evs.getOrDefault(it) }.joinToString(separator = ",")
@@ -130,28 +134,23 @@ object BattleRegistry {
             // Hidden Power Type
             packedTeamBuilder.append(",")
             // Gigantamax
-            packedTeamBuilder.append(",")
+            packedTeamBuilder.append("${if (pk.gmaxFactor) "G" else ""},")
             // DynamaxLevel
-            packedTeamBuilder.append(",")
+            // 0 - 9, empty == 10
+            packedTeamBuilder.append("${if (pk.dmaxLevel < 10) pk.dmaxLevel else ""},")
             // Teratype
-            packedTeamBuilder.append(",")
+            packedTeamBuilder.append("${pokemon.effectedPokemon.teraType.name},")
 
             team.add(packedTeamBuilder.toString())
         }
         return team.joinToString("]")
     }
 
-    fun startBattle(
-        battleFormat: BattleFormat,
-        side1: BattleSide,
-        side2: BattleSide
-    ): PokemonBattle {
-        val battle = PokemonBattle(battleFormat, side1, side2)
-        battleMap[battle.battleId] = battle
+    private fun startShowdown(battle: PokemonBattle) {
 
         // Build request message
         val messages = mutableListOf<String>()
-        messages.add(">start { \"format\": ${battleFormat.toFormatJSON()} }")
+        messages.add(">start { \"format\": ${battle.format.toFormatJSON()} }")
 
         /*
          * Showdown IDs are like p1, p2, p3, etc. Showdown uses these keys to identify who is doing what to whom.
@@ -170,23 +169,21 @@ object BattleRegistry {
         var actorIndex = 1
         for (actor in battle.side1.actors) {
             actor.showdownId = "p$actorIndex"
-            actor.battle = battle
             actorIndex += 2
         }
 
         actorIndex = 2
         for (actor in battle.side2.actors) {
             actor.showdownId = "p$actorIndex"
-            actor.battle = battle
             actorIndex += 2
         }
 
         for (actor in battle.actors) {
-            repeat(battleFormat.battleType.slotsPerActor) {
+            repeat(battle.format.battleType.slotsPerActor) {
                 actor.activePokemon.add(ActiveBattlePokemon(actor))
             }
             val entities = actor.pokemonList.mapNotNull { it.entity }
-            entities.forEach { it.battleId.set(Optional.of(battle.battleId)) }
+            entities.forEach { it.battleId = battle.battleId }
         }
 
         // -> Add the players and team
@@ -201,8 +198,25 @@ object BattleRegistry {
 
         // Compiles the request and sends it off
         ShowdownService.service.startBattle(battle, messages.toTypedArray())
-        CobblemonEvents.BATTLE_STARTED_POST.post(BattleStartedPostEvent(battle))
-        return battle
+    }
+
+    fun startBattle(
+        battleFormat: BattleFormat,
+        side1: BattleSide,
+        side2: BattleSide,
+        silent: Boolean = false
+    ): BattleStartResult {
+        val battle = PokemonBattle(battleFormat, side1, side2)
+        if (silent) return SuccessfulBattleStart(battle)
+
+        val preBattleEvent = BattleStartedPreEvent(battle)
+        CobblemonEvents.BATTLE_STARTED_PRE.postThen(preBattleEvent) {
+            battleMap[battle.battleId] = battle
+            startShowdown(battle)
+            CobblemonEvents.BATTLE_STARTED_POST.post(BattleStartedPostEvent(battle))
+            return SuccessfulBattleStart(battle)
+        }
+        return ErroredBattleStart(mutableSetOf(BattleStartError.canceledByEvent(preBattleEvent.reason)))
     }
 
     fun closeBattle(battle: PokemonBattle) {
@@ -215,6 +229,10 @@ object BattleRegistry {
 
     fun getBattleByParticipatingPlayer(serverPlayerEntity: ServerPlayerEntity) : PokemonBattle? {
         return battleMap.values.find { it.getActor(serverPlayerEntity) != null }
+    }
+
+    fun getBattleByParticipatingPlayerId(playerId: UUID): PokemonBattle? {
+        return battleMap.values.find { playerId in it.playerUUIDs }
     }
 
     fun tick() {

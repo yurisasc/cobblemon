@@ -47,6 +47,7 @@
     "tm:chillingwater",
     "tm:confide",
     "tm:confuseray",
+    "tm:curse",
     "tm:doubleteam",
     "tm:earthpower",
     "tm:earthquake",
@@ -59,6 +60,7 @@
     "tm:frustration",
     "tm:gigadrain",
     "tm:gigaimpact",
+    "tm:gravity",
     "tm:hex",
     "tm:hiddenpower",
     "tm:hyperbeam",
@@ -68,6 +70,8 @@
     "tm:mudshot",
     "tm:mudslap",
     "tm:nightshade",
+    "tm:painsplit",
+    "tm:poltergeist",
     "tm:protect",
     "tm:psychic",
     "tm:quash",
@@ -81,11 +85,13 @@
     "tm:sandstorm",
     "tm:sandtomb",
     "tm:scaryface",
+    "tm:scorchingsands",
     "tm:shadowball",
     "tm:skillswap",
     "tm:sleeptalk",
     "tm:sludgebomb",
     "tm:snore",
+    "tm:spite",
     "tm:stealthrock",
     "tm:stoneedge",
     "tm:substitute",
@@ -138,5 +144,18 @@
   "height": 13,
   "weight": 2500,
   "aspects": [],
-  "cannotDynamax": false
+  "cannotDynamax": false,
+  "drops": {
+    "amount": 2,
+    "entries": [
+      {
+        "item": "cobblemon:soft_sand",
+        "percentage": 5.0
+      },
+      {
+        "item": "cobblemon:passho_berry",
+        "percentage": 5.0
+      }
+    ]
+  }
 }

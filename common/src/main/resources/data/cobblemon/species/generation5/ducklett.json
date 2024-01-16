@@ -8,6 +8,22 @@
     "bigpecks",
     "h:hydration"
   ],
+  "drops": {
+    "amount": 3,
+    "entries": [
+      {
+        "item": "minecraft:feather",
+        "quantityRange": "0-1"
+      },
+      {
+        "item": "minecraft:chicken"
+      },
+      {
+        "item": "cobblemon:wacan_berry",
+        "percentage": 2.5
+      }
+    ]
+  },
   "baseStats": {
     "hp": 62,
     "attack": 44,
@@ -45,6 +61,8 @@
     "egg:aircutter",
     "egg:aquajet",
     "egg:brine",
+    "egg:dive",
+    "egg:endeavor",
     "egg:gust",
     "egg:luckychant",
     "egg:mefirst",
@@ -53,15 +71,28 @@
     "egg:steelwing",
     "tm:aerialace",
     "tm:attract",
+    "tm:aircutter",
+    "tm:airslash",
+    "tm:bravebird",
+    "tm:chillingwater",
     "tm:confide",
+    "tm:disarmingvoice",
     "tm:dive",
+    "tm:doubleedge",
     "tm:doubleteam",
+    "tm:endeavor",
+    "tm:endure",
     "tm:facade",
+    "tm:featherdance",
     "tm:fly",
     "tm:frustration",
     "tm:hail",
+    "tm:helpinghand",
     "tm:hiddenpower",
+    "tm:hurricane",
     "tm:icebeam",
+    "tm:icywind",
+    "tm:liquidation",
     "tm:pluck",
     "tm:protect",
     "tm:raindance",
@@ -76,7 +107,13 @@
     "tm:substitute",
     "tm:surf",
     "tm:swagger",
+    "tm:swift",
+    "tm:tailwind",
+    "tm:terablast",
     "tm:toxic",
+    "tm:trailblaze",
+    "tm:waterpulse",
+    "tm:whirlpool",
     "tutor:brine",
     "tutor:defog",
     "tutor:endeavor",

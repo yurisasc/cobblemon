@@ -53,11 +53,13 @@
     "tm:brine",
     "tm:bulldoze",
     "tm:calmmind",
+    "tm:chillingwater",
     "tm:confide",
     "tm:crunch",
     "tm:cut",
     "tm:dig",
     "tm:dive",
+    "tm:doubleedge",
     "tm:doubleteam",
     "tm:endure",
     "tm:facade",
@@ -93,12 +95,17 @@
     "tm:sleeptalk",
     "tm:snarl",
     "tm:snore",
+    "tm:snowscape",
     "tm:substitute",
     "tm:sunnyday",
     "tm:surf",
     "tm:swagger",
     "tm:swift",
+    "tm:tailwind",
+    "tm:takedown",
+    "tm:terablast",
     "tm:toxic",
+    "tm:trailblaze",
     "tm:waterfall",
     "tm:waterpulse",
     "tm:weatherball",
@@ -189,5 +196,13 @@
   "height": 20,
   "weight": 1870,
   "aspects": [],
-  "cannotDynamax": false
+  "cannotDynamax": false,
+  "drops": {
+    "amount": 1,
+    "entries": [
+      {
+        "item": "cobblemon:mystic_water"
+      }
+    ]
+  }
 }

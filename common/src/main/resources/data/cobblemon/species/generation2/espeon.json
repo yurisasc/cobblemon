@@ -15,6 +15,19 @@
     "special_defence": 95,
     "speed": 110
   },
+  "drops": {
+    "amount": 2,
+    "entries": [
+      {
+        "item": "cobblemon:sun_stone",
+        "percentage": 25.0
+      },
+      {
+        "item": "cobblemon:twisted_spoon",
+        "percentage": 10.0
+      }
+    ]
+  },
   "catchRate": 45,
   "maleRatio": 0.875,
   "shoulderMountable": false,
@@ -48,6 +61,7 @@
     "45:psychup",
     "50:futuresight",
     "55:lastresort",
+    "tm:alluringvoice",
     "tm:allyswitch",
     "tm:attract",
     "tm:batonpass",
@@ -57,14 +71,17 @@
     "tm:charm",
     "tm:confide",
     "tm:confuseray",
+    "tm:curse",
     "tm:cut",
     "tm:dazzlinggleam",
     "tm:dig",
+    "tm:doubleedge",
     "tm:doubleteam",
     "tm:drainingkiss",
     "tm:dreameater",
     "tm:echoedvoice",
     "tm:endure",
+    "tm:expandingforce",
     "tm:facade",
     "tm:faketears",
     "tm:flash",
@@ -73,6 +90,7 @@
     "tm:futuresight",
     "tm:gigaimpact",
     "tm:grassknot",
+    "tm:gravity",
     "tm:helpinghand",
     "tm:hiddenpower",
     "tm:hyperbeam",
@@ -91,6 +109,7 @@
     "tm:psybeam",
     "tm:psychic",
     "tm:psychicfangs",
+    "tm:psychicnoise",
     "tm:psychicterrain",
     "tm:psychup",
     "tm:psyshock",
@@ -99,6 +118,7 @@
     "tm:rest",
     "tm:retaliate",
     "tm:return",
+    "tm:roar",
     "tm:round",
     "tm:secretpower",
     "tm:shadowball",

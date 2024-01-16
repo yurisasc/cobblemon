@@ -67,7 +67,7 @@ class PokemonRenderer(
     }
 
     override fun getTexture(entity: PokemonEntity): Identifier {
-        return PokemonModelRepository.getTexture(entity.pokemon.species.resourceIdentifier, entity.aspects.get(), entity.delegate as PokemonClientDelegate)
+        return PokemonModelRepository.getTexture(entity.pokemon.species.resourceIdentifier, entity.aspects, (entity.delegate as PokemonClientDelegate).animationSeconds)
     }
 
     override fun render(
@@ -80,10 +80,10 @@ class PokemonRenderer(
     ) {
         shadowRadius = min((entity.boundingBox.maxX - entity.boundingBox.minX), (entity.boundingBox.maxZ) - (entity.boundingBox.minZ)).toFloat() / 1.5F
         DELTA_TICKS = partialTicks // TODO move this somewhere universal // or just fecking remove it
-        model = PokemonModelRepository.getPoser(entity.pokemon.species.resourceIdentifier, entity.aspects.get())
+        model = PokemonModelRepository.getPoser(entity.pokemon.species.resourceIdentifier, entity.aspects)
 
         val clientDelegate = entity.delegate as PokemonClientDelegate
-        val beamMode = entity.beamModeEmitter.get().toInt()
+        val beamMode = entity.beamMode
         val modelNow = model as PoseableEntityModel<PokemonEntity>
         val s = clientDelegate.secondsSinceBeamEffectStarted
         if (modelNow is PokemonPoseableModel && beamMode != 0) {
@@ -108,7 +108,7 @@ class PokemonRenderer(
 
         clientDelegate.updatePartialTicks(partialTicks)
 
-        modelNow.setLayerContext(buffer, clientDelegate, PokemonModelRepository.getLayers(entity.pokemon.species.resourceIdentifier, entity.aspects.get()))
+        modelNow.setLayerContext(buffer, clientDelegate, PokemonModelRepository.getLayers(entity.pokemon.species.resourceIdentifier, entity.aspects))
 
         super.render(entity, entityYaw, partialTicks, poseMatrix, buffer, packedLight)
 
@@ -148,13 +148,22 @@ class PokemonRenderer(
         pMatrixStack.scale(scale, scale, scale)
     }
 
+    /**
+     * Renders a beam between the Cobblemon and the target.
+     *
+     * @param matrixStack The matrix stack to render with.
+     * @param partialTicks The partial ticks.
+     * @param entity The Cobblemon.
+     * @param beamTarget The target.
+     * @param colour The colour of the beam.
+     * @param buffer The vertex consumer provider.
+     */
     fun renderBeam(matrixStack: MatrixStack, partialTicks: Float, entity: PokemonEntity, beamTarget: Entity, colour: Vector4f, buffer: VertexConsumerProvider) {
         val clientDelegate = entity.delegate as PokemonClientDelegate
         val pokemonPosition = entity.pos.add(0.0, entity.height / 2.0 * clientDelegate.entityScaleModifier.toDouble(), 0.0)
         val beamSourcePosition = if (beamTarget is EmptyPokeBallEntity) {
             (beamTarget.delegate as PokeBallPoseableState).locatorStates["beam"]?.getOrigin() ?: beamTarget.pos
         } else {
-            beamTarget as PlayerEntity
             if (beamTarget.uuid == MinecraftClient.getInstance().player?.uuid) {
                 val lookVec = beamTarget.rotationVector.rotateY(PI / 2).multiply(1.0, 0.0, 1.0).normalize()
                 beamTarget.getCameraPosVec(partialTicks).subtract(0.0, 0.4, 0.0).subtract(lookVec.multiply(0.3))
@@ -281,6 +290,9 @@ class PokemonRenderer(
 
     private fun shouldRenderLabel(entity: PokemonEntity): Boolean {
         if (!super.hasLabel(entity)) {
+            return false
+        }
+        if (entity.dataTracker.get(PokemonEntity.HIDE_LABEL)) {
             return false
         }
         val player = MinecraftClient.getInstance().player ?: return false

@@ -57,6 +57,7 @@
     "tm:bulkup",
     "tm:calmmind",
     "tm:closecombat",
+    "tm:coaching",
     "tm:dig",
     "tm:endure",
     "tm:facade",
@@ -64,10 +65,12 @@
     "tm:firepunch",
     "tm:fling",
     "tm:focusblast",
+    "tm:focuspunch",
     "tm:gigaimpact",
     "tm:grassknot",
     "tm:gunkshot",
     "tm:hyperbeam",
+    "tm:lashout",
     "tm:lowkick",
     "tm:lowsweep",
     "tm:metalclaw",
@@ -84,6 +87,8 @@
     "tm:shadowclaw",
     "tm:sleeptalk",
     "tm:sludgebomb",
+    "tm:sludgewave",
+    "tm:spite",
     "tm:substitute",
     "tm:sunnyday",
     "tm:swift",
@@ -92,9 +97,13 @@
     "tm:taunt",
     "tm:terablast",
     "tm:thief",
+    "tm:throatchop",
+    "tm:toxic",
     "tm:toxicspikes",
     "tm:trailblaze",
+    "tm:upperhand",
     "tm:uturn",
+    "tm:vacuumwave",
     "tm:venoshock",
     "tm:xscissor"
   ],
@@ -109,5 +118,22 @@
   "preEvolution": "sneasel form=hisui",
   "evolutions": [],
   "aspects": [],
-  "cannotDynamax": false
+  "cannotDynamax": false,
+  "drops": {
+    "amount": 3,
+    "entries": [
+      {
+        "item": "cobblemon:razor_claw",
+        "percentage": 5.0
+      },
+      {
+        "item": "cobblemon:poison_barb",
+        "percentage": 5.0
+      },
+      {
+        "item": "cobblemon:payapa_berry",
+        "percentage": 5.0
+      }
+    ]
+  }
 }

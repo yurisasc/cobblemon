@@ -8,17 +8,17 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen6
 
-import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
-import com.cobblemon.mod.common.client.render.models.blockbench.asTransformed
+import com.cobblemon.mod.common.client.render.models.blockbench.createTransformation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BiWingedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pose.TransformedModelPart.Companion.Y_AXIS
+import com.cobblemon.mod.common.client.render.models.blockbench.pose.ModelPartTransformation.Companion.Y_AXIS
 import com.cobblemon.mod.common.entity.PoseType
-import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
+
 class VivillonModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BiWingedFrame {
     override val rootPart = root.registerChildWithAllChildren("vivillon")
     override val head = getPart("head")
@@ -34,6 +34,8 @@ class VivillonModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BiWi
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
     lateinit var sleep: PokemonPose
+
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("vivillon", "cry").setPreventsIdle(false) }
 
     override fun registerPoses() {
         val blink = quirk("blink") { bedrockStateful("vivillon", "blink").setPreventsIdle(false)}
@@ -54,7 +56,7 @@ class VivillonModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BiWi
                 singleBoneLook(),
                 bedrock("vivillon", "air_idle")
             ),
-            transformedParts = arrayOf(rootPart.asTransformed().addPosition(Y_AXIS, -10F))
+            transformedParts = arrayOf(rootPart.createTransformation().addPosition(Y_AXIS, -10F))
         )
 
         walk = registerPose(
@@ -65,7 +67,7 @@ class VivillonModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BiWi
                 singleBoneLook(),
                 bedrock("vivillon", "air_fly")
             ),
-            transformedParts = arrayOf(rootPart.asTransformed().addPosition(Y_AXIS, -10F))
+            transformedParts = arrayOf(rootPart.createTransformation().addPosition(Y_AXIS, -10F))
         )
     }
 //    override fun getFaintAnimation(

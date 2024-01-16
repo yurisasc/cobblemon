@@ -7,6 +7,15 @@
     "overgrow",
     "h:shellarmor"
   ],
+  "drops": {
+    "amount": 1,
+    "entries": [
+      {
+        "item": "cobblemon:miracle_seed",
+        "percentage": 10.0
+      }
+    ]
+  },
   "baseStats": {
     "hp": 75,
     "attack": 89,
@@ -22,8 +31,10 @@
       "depth": "normal",
       "light": "0-4"
     },
-    "walk": {
-      "walkSpeed": 0.2
+    "moving": {
+      "walk": {
+        "walkSpeed": 0.2
+      }
     }
   },
   "catchRate": 45,
@@ -36,15 +47,6 @@
     "monster",
     "grass"
   ],
-  "drops": {
-    "amount": "1",
-    "entries": [
-      {
-        "item": "cobblemon:miracle_seed",
-        "percentage": 10
-      }
-    ]
-  },
   "moves": [
     "1:absorb",
     "1:tackle",
@@ -59,12 +61,19 @@
     "42:crunch",
     "47:gigadrain",
     "52:leafstorm",
+    "tm:amnesia",
     "tm:attract",
+    "tm:bodyslam",
+    "tm:bulldoze",
     "tm:bulletseed",
     "tm:captivate",
     "tm:confide",
+    "tm:crunch",
+    "tm:curse",
     "tm:cut",
+    "tm:doubleedge",
     "tm:doubleteam",
+    "tm:earthpower",
     "tm:endure",
     "tm:energyball",
     "tm:facade",
@@ -72,21 +81,34 @@
     "tm:frustration",
     "tm:gigadrain",
     "tm:grassknot",
+    "tm:grasspledge",
+    "tm:grassyglide",
+    "tm:grassyterrain",
+    "tm:heavyslam",
     "tm:hiddenpower",
+    "tm:ironhead",
     "tm:irontail",
+    "tm:leafstorm",
     "tm:lightscreen",
+    "tm:magicalleaf",
+    "tm:mudshot",
+    "tm:mudslap",
     "tm:naturalgift",
     "tm:naturepower",
     "tm:protect",
     "tm:reflect",
     "tm:rest",
     "tm:return",
+    "tm:roar",
     "tm:rockclimb",
     "tm:rocksmash",
     "tm:round",
     "tm:safeguard",
+    "tm:sandtomb",
     "tm:secretpower",
+    "tm:seedbomb",
     "tm:sleeptalk",
+    "tm:smackdown",
     "tm:solarbeam",
     "tm:stealthrock",
     "tm:strength",
@@ -94,8 +116,12 @@
     "tm:sunnyday",
     "tm:swagger",
     "tm:swordsdance",
+    "tm:takedown",
+    "tm:terablast",
     "tm:toxic",
+    "tm:trailblaze",
     "tm:workup",
+    "tm:zenheadbutt",
     "tutor:earthpower",
     "tutor:gigadrain",
     "tutor:grasspledge",
@@ -297,7 +323,9 @@
       "variant": "level_up",
       "result": "torterra",
       "consumeHeldItem": false,
-      "learnableMoves": [],
+      "learnableMoves": [
+        "earthquake"
+      ],
       "requirements": [
         {
           "variant": "level",

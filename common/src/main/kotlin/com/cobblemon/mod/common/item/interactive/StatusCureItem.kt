@@ -17,8 +17,10 @@ import com.cobblemon.mod.common.battles.pokemon.BattlePokemon
 import com.cobblemon.mod.common.item.CobblemonItem
 import com.cobblemon.mod.common.item.battle.BagItem
 import com.cobblemon.mod.common.pokemon.Pokemon
+import com.cobblemon.mod.common.util.giveOrDropItemStack
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
+import net.minecraft.item.Items
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.sound.SoundCategory
 import net.minecraft.util.Hand
@@ -48,6 +50,10 @@ class StatusCureItem(val itemName: String, vararg val status: Status) : Cobblemo
         return if (currentStatus != null && (status.isEmpty() || currentStatus in status)) {
             pokemon.status = null
             player.playSound(CobblemonSounds.MEDICINE_SPRAY_USE, SoundCategory.PLAYERS, 1F, 1F)
+            if (!player.isCreative)  {
+                stack.decrement(1)
+                player.giveOrDropItemStack(ItemStack(Items.GLASS_BOTTLE))
+            }
             TypedActionResult.success(stack)
         } else {
             TypedActionResult.fail(stack)

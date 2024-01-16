@@ -57,8 +57,11 @@
     "tm:captivate",
     "tm:chillingwater",
     "tm:closecombat",
+    "tm:coaching",
     "tm:confide",
+    "tm:curse",
     "tm:dig",
+    "tm:doubleedge",
     "tm:doubleteam",
     "tm:drainpunch",
     "tm:earthquake",
@@ -76,6 +79,8 @@
     "tm:hyperbeam",
     "tm:icepunch",
     "tm:ironhead",
+    "tm:knockoff",
+    "tm:lashout",
     "tm:lowkick",
     "tm:lowsweep",
     "tm:metronome",
@@ -112,8 +117,11 @@
     "tm:taunt",
     "tm:terablast",
     "tm:thief",
+    "tm:throatchop",
     "tm:thunderpunch",
     "tm:toxic",
+    "tm:upperhand",
+    "tm:vacuumwave",
     "tm:whirlpool",
     "tm:workup",
     "tm:zenheadbutt",
@@ -174,5 +182,22 @@
   "height": 23,
   "weight": 2538,
   "aspects": [],
-  "cannotDynamax": false
+  "cannotDynamax": false,
+  "drops": {
+    "amount": 3,
+    "entries": [
+      {
+        "item": "cobblemon:black_belt",
+        "percentage": 5.0
+      },
+      {
+        "item": "cobblemon:kings_rock",
+        "percentage": 5.0
+      },
+      {
+        "item": "cobblemon:payapa_berry",
+        "percentage": 5.0
+      }
+    ]
+  }
 }

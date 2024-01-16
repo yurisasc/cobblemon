@@ -16,12 +16,11 @@ import net.minecraft.client.MinecraftClient
 
 object BattleHealthChangeHandler : ClientNetworkPacketHandler<BattleHealthChangePacket> {
     override fun handle(packet: BattleHealthChangePacket, client: MinecraftClient) {
-        client.execute {
-            val battle = CobblemonClient.battle ?: return@execute
-            val (_, activePokemon) = battle.getPokemonFromPNX(packet.pnx)
-            activePokemon.animations.add(
-                HealthChangeAnimation(newHealth = packet.newHealth)
-            )
-        }
+        val battle = CobblemonClient.battle ?: return
+        val (_, activePokemon) = battle.getPokemonFromPNX(packet.pnx)
+        packet.newMaxHealth?.let { activePokemon.battlePokemon?.maxHp = it }
+        activePokemon.animations.add(
+            HealthChangeAnimation(newHealth = packet.newHealth)
+        )
     }
 }

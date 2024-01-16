@@ -9,6 +9,23 @@
     "klutz",
     "h:noguard"
   ],
+  "drops": {
+    "amount": 4,
+    "entries": [
+      {
+        "item": "minecraft:clay_ball",
+        "quantityRange": "0-2"
+      },
+      {
+        "item": "cobblemon:light_clay",
+        "percentage": 5.0
+      },
+      {
+        "item": "cobblemon:colbur_berry",
+        "percentage": 5.0
+      }
+    ]
+  },
   "baseStats": {
     "hp": 89,
     "attack": 124,
@@ -22,7 +39,7 @@
       "walk": {
         "walkSpeed": 0.25
       }
-      },
+    },
     "resting": {
       "canSleep": true,
       "willSleepOnBed": false,
@@ -68,8 +85,11 @@
     "tm:chargebeam",
     "tm:closecombat",
     "tm:confide",
+    "tm:confuseray",
+    "tm:curse",
     "tm:darkestlariat",
     "tm:dig",
+    "tm:doubleedge",
     "tm:doubleteam",
     "tm:drainpunch",
     "tm:earthpower",
@@ -82,14 +102,18 @@
     "tm:fling",
     "tm:fly",
     "tm:focusblast",
+    "tm:focuspunch",
     "tm:frustration",
     "tm:gigaimpact",
     "tm:grassknot",
+    "tm:gravity",
     "tm:gyroball",
+    "tm:hardpress",
     "tm:heatcrash",
     "tm:heavyslam",
     "tm:helpinghand",
     "tm:hiddenpower",
+    "tm:hex",
     "tm:highhorsepower",
     "tm:hyperbeam",
     "tm:icebeam",
@@ -97,15 +121,21 @@
     "tm:icywind",
     "tm:imprison",
     "tm:irondefense",
+    "tm:knockoff",
     "tm:lowkick",
     "tm:lowsweep",
     "tm:megakick",
     "tm:megapunch",
+    "tm:mudslap",
+    "tm:nightshade",
     "tm:phantomforce",
+    "tm:poltergeist",
     "tm:poweruppunch",
     "tm:protect",
     "tm:psychic",
+    "tm:psychup",
     "tm:raindance",
+    "tm:reflect",
     "tm:rest",
     "tm:return",
     "tm:rockpolish",
@@ -114,10 +144,13 @@
     "tm:rocktomb",
     "tm:round",
     "tm:safeguard",
+    "tm:sandstorm",
+    "tm:scorchingsands",
     "tm:secretpower",
     "tm:selfdestruct",
     "tm:shadowball",
     "tm:sleeptalk",
+    "tm:smackdown",
     "tm:snore",
     "tm:solarbeam",
     "tm:stealthrock",
@@ -125,9 +158,12 @@
     "tm:stoneedge",
     "tm:strength",
     "tm:substitute",
+    "tm:sunnyday",
     "tm:superpower",
     "tm:swagger",
+    "tm:takedown",
     "tm:telekinesis",
+    "tm:terablast",
     "tm:thief",
     "tm:thunderbolt",
     "tm:thunderpunch",

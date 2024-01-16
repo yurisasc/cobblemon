@@ -7,6 +7,19 @@
     "swiftswim",
     "h:waterveil"
   ],
+  "drops": {
+    "amount": 3,
+    "entries": [
+      {
+        "item": "minecraft:salmon",
+        "quantityRange": "0-2"
+      },
+      {
+        "item": "cobblemon:wacan_berry",
+        "percentage": 5.0
+      }
+    ]
+  },
   "baseStats": {
     "hp": 85,
     "attack": 105,
@@ -78,11 +91,13 @@
     "tm:crunch",
     "tm:dig",
     "tm:dive",
+    "tm:doubleedge",
     "tm:doubleteam",
     "tm:echoedvoice",
     "tm:endure",
     "tm:facade",
     "tm:fling",
+    "tm:flipturn",
     "tm:focusblast",
     "tm:focuspunch",
     "tm:frustration",
@@ -102,6 +117,7 @@
     "tm:lowkick",
     "tm:lowsweep",
     "tm:metronome",
+    "tm:muddywater",
     "tm:mudslap",
     "tm:naturalgift",
     "tm:payback",

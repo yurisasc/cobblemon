@@ -9,15 +9,15 @@
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen9
 
 import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
-import com.cobblemon.mod.common.client.render.models.blockbench.asTransformed
+import com.cobblemon.mod.common.client.render.models.blockbench.createTransformation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.PoseType.Companion.MOVING_POSES
 import com.cobblemon.mod.common.entity.PoseType.Companion.STATIONARY_POSES
-import com.cobblemon.mod.common.entity.PoseType.Companion.UI_POSES
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
@@ -41,13 +41,15 @@ class GarganaclModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
     lateinit var walk: PokemonPose
     lateinit var portrait: PokemonPose
 
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("garganacl", "cry").setPreventsIdle(false) }
+
     override fun registerPoses() {
         standing = registerPose(
             poseName = "standing",
             condition = { !it.isBattling },
             poseTypes = STATIONARY_POSES + PoseType.PROFILE,
             transformedParts = arrayOf(
-                shoulder.asTransformed().withVisibility(visibility = true)
+                shoulder.createTransformation().withVisibility(visibility = true)
             ),
             idleAnimations = arrayOf(
                 singleBoneLook(),
@@ -60,7 +62,7 @@ class GarganaclModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
             condition = { it.isBattling },
             poseTypes = STATIONARY_POSES,
             transformedParts = arrayOf(
-                shoulder.asTransformed().withVisibility(visibility = true)
+                shoulder.createTransformation().withVisibility(visibility = true)
             ),
             idleAnimations = arrayOf(
                 singleBoneLook(),
@@ -71,7 +73,7 @@ class GarganaclModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
         sleep = registerPose(
                 poseType = PoseType.SLEEP,
             transformedParts = arrayOf(
-                shoulder.asTransformed().withVisibility(visibility = true)
+                shoulder.createTransformation().withVisibility(visibility = true)
             ),
                 idleAnimations = arrayOf(bedrock("garganacl", "sleep"))
         )
@@ -80,7 +82,7 @@ class GarganaclModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
             poseName = "portrait",
             poseType = PoseType.PORTRAIT,
             transformedParts = arrayOf(
-                shoulder.asTransformed().withVisibility(visibility = false)
+                shoulder.createTransformation().withVisibility(visibility = false)
             ),
             idleAnimations = arrayOf(
                 bedrock("garganacl", "ground_idle")
@@ -92,7 +94,7 @@ class GarganaclModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
                 condition = { !it.isBattling },
                 poseTypes = MOVING_POSES,
             transformedParts = arrayOf(
-                shoulder.asTransformed().withVisibility(visibility = true)
+                shoulder.createTransformation().withVisibility(visibility = true)
             ),
                 idleAnimations = arrayOf(
                     singleBoneLook(),

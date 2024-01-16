@@ -1,4 +1,4 @@
-{
+﻿{
   "implemented": true,
   "name": "Sableye",
   "nationalPokedexNumber": 302,
@@ -62,7 +62,6 @@
       ],
       "height": 5,
       "weight": 1610,
-      "evolutions": [],
       "cannotDynamax": false,
       "battleOnly": true
     }
@@ -74,20 +73,23 @@
     "human_like"
   ],
   "drops": {
-    "amount": "3",
+    "amount": 5,
     "entries": [
       {
         "item": "minecraft:amethyst_shard",
-        "quantityRange": "1-2",
-        "percentage": 66
+        "quantityRange": "0-2"
       },
       {
         "item": "minecraft:diamond",
-        "percentage": 5
+        "percentage": 5.0
       },
       {
         "item": "minecraft:emerald",
-        "percentage": 5
+        "percentage": 5.0
+      },
+      {
+        "item": "cobblemon:roseli_berry",
+        "percentage": 5.0
       }
     ]
   },
@@ -156,6 +158,7 @@
     "tm:frustration",
     "tm:gigadrain",
     "tm:gigaimpact",
+    "tm:gravity",
     "tm:gyroball",
     "tm:helpinghand",
     "tm:hex",
@@ -166,6 +169,8 @@
     "tm:icywind",
     "tm:imprison",
     "tm:incinerate",
+    "tm:knockoff",
+    "tm:lashout",
     "tm:lightscreen",
     "tm:lowkick",
     "tm:lowsweep",
@@ -178,9 +183,11 @@
     "tm:nastyplot",
     "tm:naturalgift",
     "tm:nightshade",
+    "tm:painsplit",
     "tm:payback",
     "tm:phantomforce",
     "tm:poisonjab",
+    "tm:poltergeist",
     "tm:powergem",
     "tm:poweruppunch",
     "tm:protect",
@@ -201,10 +208,12 @@
     "tm:shadowclaw",
     "tm:shockwave",
     "tm:skillswap",
+    "tm:skittersmack",
     "tm:sleeptalk",
     "tm:snarl",
     "tm:snatch",
     "tm:snore",
+    "tm:spite",
     "tm:substitute",
     "tm:sunnyday",
     "tm:swagger",
@@ -213,6 +222,7 @@
     "tm:telekinesis",
     "tm:terablast",
     "tm:thief",
+    "tm:throatchop",
     "tm:thunderpunch",
     "tm:thunderwave",
     "tm:torment",

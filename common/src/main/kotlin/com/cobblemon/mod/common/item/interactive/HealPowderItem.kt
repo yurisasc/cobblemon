@@ -8,6 +8,7 @@
 
 package com.cobblemon.mod.common.item.interactive
 
+import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.CobblemonSounds
 import com.cobblemon.mod.common.api.battles.model.PokemonBattle
 import com.cobblemon.mod.common.api.battles.model.actor.BattleActor
@@ -31,6 +32,10 @@ class HealPowderItem : CobblemonItem(Settings()), PokemonSelectingItem {
         override fun getShowdownInput(actor: BattleActor, battlePokemon: BattlePokemon, data: String?) = "cure_status"
     }
 
+    init {
+        Cobblemon.implementation.registerCompostable(this, .75F)
+    }
+
     override fun canUseOnPokemon(pokemon: Pokemon) = pokemon.status != null && pokemon.currentHealth > 0
     override fun applyToPokemon(
         player: ServerPlayerEntity,
@@ -41,6 +46,9 @@ class HealPowderItem : CobblemonItem(Settings()), PokemonSelectingItem {
         return if (currentStatus != null) {
             pokemon.status = null
             player.playSound(CobblemonSounds.MEDICINE_HERB_USE, SoundCategory.PLAYERS, 1F, 1F)
+            if (!player.isCreative)  {
+                stack.decrement(1)
+            }
             TypedActionResult.success(stack)
         } else {
             TypedActionResult.fail(stack)

@@ -42,6 +42,7 @@
     "52:foulplay",
     "tm:assurance",
     "tm:attract",
+    "tm:burningjealousy",
     "tm:chillingwater",
     "tm:darkpulse",
     "tm:dazzlinggleam",
@@ -53,6 +54,7 @@
     "tm:fling",
     "tm:foulplay",
     "tm:imprison",
+    "tm:lashout",
     "tm:leechlife",
     "tm:lightscreen",
     "tm:lowkick",
@@ -127,5 +129,14 @@
   "height": 8,
   "weight": 125,
   "aspects": [],
-  "cannotDynamax": false
+  "cannotDynamax": false,
+  "drops": {
+    "amount": 1,
+    "entries": [
+      {
+        "item": "cobblemon:roseli_berry",
+        "percentage": 5.0
+      }
+    ]
+  }
 }

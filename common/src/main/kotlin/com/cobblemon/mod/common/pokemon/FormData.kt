@@ -37,6 +37,7 @@ import com.cobblemon.mod.common.util.writeSizedInt
 import com.google.gson.annotations.SerializedName
 import net.minecraft.entity.EntityDimensions
 import net.minecraft.network.PacketByteBuf
+import net.minecraft.util.Identifier
 
 class FormData(
     name: String = "Normal",
@@ -92,11 +93,18 @@ class FormData(
     private var _height: Float? = null,
     @SerializedName("weight")
     private var _weight: Float? = null,
+    val requiredMove: String? = null,
+    val requiredItem: String? = null,
+    /** For forms that can accept different items (e.g. Arceus-Grass: Meadow Plate or Grassium-Z). */
+    val requiredItems: List<String>? = null,
     /**
      * The [MoveTemplate] of the signature attack of the G-Max form.
      * This is always null on any form aside G-Max.
      */
     val gigantamaxMove: MoveTemplate? = null,
+    @SerializedName("battleTheme")
+    private var _battleTheme: Identifier? = null,
+
 
     @SerializedName("riding")
     private var _riding: RidingProperties? = null
@@ -190,6 +198,9 @@ class FormData(
      */
     val evolutions: MutableSet<Evolution>
         get() = _evolutions ?: mutableSetOf()
+
+    val battleTheme: Identifier
+        get() = _battleTheme ?: species.battleTheme
 
     fun eyeHeight(entity: PokemonEntity): Float {
         val multiplier = this.resolveEyeHeight(entity) ?: return this.species.eyeHeight(entity)

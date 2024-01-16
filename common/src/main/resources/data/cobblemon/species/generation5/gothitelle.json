@@ -7,6 +7,19 @@
     "competitive",
     "h:shadowtag"
   ],
+  "drops": {
+    "amount": 2,
+    "entries": [
+      {
+        "item": "cobblemon:twisted_spoon",
+        "percentage": 10.0
+      },
+      {
+        "item": "cobblemon:persim_berry",
+        "percentage": 10.0
+      }
+    ]
+  },
   "baseStats": {
     "hp": 70,
     "attack": 55,
@@ -59,6 +72,7 @@
     "tm:embargo",
     "tm:endure",
     "tm:energyball",
+    "tm:expandingforce",
     "tm:facade",
     "tm:faketears",
     "tm:flash",
@@ -69,6 +83,7 @@
     "tm:futuresight",
     "tm:gigaimpact",
     "tm:grassknot",
+    "tm:gravity",
     "tm:guardswap",
     "tm:helpinghand",
     "tm:hiddenpower",
@@ -84,6 +99,7 @@
     "tm:protect",
     "tm:psybeam",
     "tm:psychic",
+    "tm:psychicnoise",
     "tm:psychicterrain",
     "tm:psychup",
     "tm:psyshock",

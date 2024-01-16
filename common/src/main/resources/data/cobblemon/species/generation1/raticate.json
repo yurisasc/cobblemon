@@ -1,4 +1,4 @@
-{
+﻿{
   "implemented": true,
   "name": "Raticate",
   "nationalPokedexNumber": 20,
@@ -8,6 +8,19 @@
     "guts",
     "h:hustle"
   ],
+  "drops": {
+    "amount": 3,
+    "entries": [
+      {
+        "item": "minecraft:rotten_flesh",
+        "quantityRange": "0-2"
+      },
+      {
+        "item": "cobblemon:chilan_berry",
+        "percentage": 5.0
+      }
+    ]
+  },
   "baseStats": {
     "hp": 55,
     "attack": 81,
@@ -17,7 +30,7 @@
     "speed": 97
   },
   "behaviour": {
-    "moving" : {
+    "moving": {
       "walk": {
         "walkSpeed": 0.33
       }
@@ -45,6 +58,19 @@
         "hustle",
         "h:thickfat"
       ],
+      "drops": {
+        "amount": 3,
+        "entries": [
+          {
+            "item": "minecraft:rotten_flesh",
+            "quantityRange": "0-2"
+          },
+          {
+            "item": "cobblemon:pecha_berry",
+            "percentage": 5.0
+          }
+        ]
+      },
       "baseStats": {
         "hp": 75,
         "attack": 71,
@@ -176,7 +202,6 @@
       "height": 7,
       "weight": 255,
       "preEvolution": "rattata form=alola",
-      "evolutions": [],
       "cannotDynamax": false,
       "battleOnly": false
     },
@@ -293,7 +318,6 @@
       ],
       "height": 14,
       "weight": 1050,
-      "evolutions": [],
       "cannotDynamax": false,
       "battleOnly": false
     }

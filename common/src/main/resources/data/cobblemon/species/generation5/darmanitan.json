@@ -1,4 +1,4 @@
-{
+﻿{
   "name": "Darmanitan",
   "nationalPokedexNumber": 555,
   "primaryType": "fire",
@@ -6,6 +6,15 @@
     "sheerforce",
     "h:zenmode"
   ],
+  "drops": {
+    "amount": 1,
+    "entries": [
+      {
+        "item": "cobblemon:rawst_berry",
+        "percentage": 5.0
+      }
+    ]
+  },
   "baseStats": {
     "hp": 105,
     "attack": 140,
@@ -14,6 +23,9 @@
     "special_defence": 55,
     "speed": 95
   },
+  "features": [
+    "galarian"
+  ],
   "catchRate": 60,
   "maleRatio": 0.5,
   "shoulderMountable": false,
@@ -198,7 +210,6 @@
       ],
       "height": 13,
       "weight": 929,
-      "evolutions": [],
       "cannotDynamax": false,
       "battleOnly": true
     },
@@ -319,9 +330,21 @@
       "height": 17,
       "weight": 1200,
       "preEvolution": "darumaka form=galar",
-      "evolutions": [],
       "cannotDynamax": false,
-      "battleOnly": false
+      "battleOnly": false,
+      "drops": {
+        "amount": 2,
+        "entries": [
+          {
+            "item": "cobblemon:ice_stone",
+            "percentage": 5.0
+          },
+          {
+            "item": "cobblemon:occa_berry",
+            "percentage": 5.0
+          }
+        ]
+      }
     },
     {
       "name": "Galar-Zen",
@@ -364,7 +387,6 @@
       ],
       "height": 17,
       "weight": 1200,
-      "evolutions": [],
       "cannotDynamax": false,
       "battleOnly": true
     }

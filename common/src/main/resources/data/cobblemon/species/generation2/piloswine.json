@@ -35,15 +35,23 @@
     "field"
   ],
   "drops": {
-    "amount": "2",
+    "amount": 6,
     "entries": [
       {
-        "item": "minecraft:raw_porkchop",
+        "item": "minecraft:porkchop",
         "quantityRange": "1-2"
       },
       {
         "item": "minecraft:brown_wool",
         "quantityRange": "1-2"
+      },
+      {
+        "item": "cobblemon:never_melt_ice",
+        "percentage": 5.0
+      },
+      {
+        "item": "cobblemon:aspear_berry",
+        "percentage": 5.0
       }
     ]
   },
@@ -76,16 +84,21 @@
     "tm:bodyslam",
     "tm:bulldoze",
     "tm:captivate",
+    "tm:charm",
     "tm:confide",
+    "tm:curse",
     "tm:dig",
+    "tm:doubleedge",
     "tm:doubleteam",
     "tm:earthpower",
     "tm:earthquake",
+    "tm:endeavor",
     "tm:endure",
     "tm:facade",
     "tm:frustration",
     "tm:gigaimpact",
     "tm:hail",
+    "tm:haze",
     "tm:hiddenpower",
     "tm:highhorsepower",
     "tm:hyperbeam",
@@ -95,12 +108,14 @@
     "tm:icywind",
     "tm:lightscreen",
     "tm:mudshot",
+    "tm:mudslap",
     "tm:naturalgift",
     "tm:protect",
     "tm:raindance",
     "tm:reflect",
     "tm:rest",
     "tm:return",
+    "tm:reversal",
     "tm:roar",
     "tm:rockslide",
     "tm:rocksmash",
@@ -111,7 +126,9 @@
     "tm:scaryface",
     "tm:secretpower",
     "tm:sleeptalk",
+    "tm:smackdown",
     "tm:snore",
+    "tm:snowscape",
     "tm:stealthrock",
     "tm:stompingtantrum",
     "tm:stoneedge",
@@ -119,7 +136,11 @@
     "tm:substitute",
     "tm:superpower",
     "tm:swagger",
+    "tm:takedown",
+    "tm:terablast",
+    "tm:throatchop",
     "tm:toxic",
+    "tm:trailblaze",
     "tutor:amnesia",
     "tutor:ancientpower",
     "tutor:attract",

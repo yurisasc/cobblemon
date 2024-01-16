@@ -2069,7 +2069,6 @@
 			}
 		},
 		"animation.avalugg.cry": {
-			"loop": true,
 			"animation_length": 1.5,
 			"bones": {
 				"torso": {
@@ -2247,6 +2246,11 @@
 						"1.5": [0, 0, 0]
 					}
 				}
+			},
+			"sound_effects": {
+				"0.3333": {
+					"effect": "pokemon.avalugg.cry"
+				}
 			}
 		},
 		"animation.avalugg.blink": {
@@ -2267,7 +2271,6 @@
 			}
 		},
 		"animation.avalugg.faint": {
-			"loop": true,
 			"animation_length": 3,
 			"bones": {
 				"body": {

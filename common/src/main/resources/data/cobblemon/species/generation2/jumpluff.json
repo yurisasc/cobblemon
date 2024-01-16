@@ -56,8 +56,10 @@
     "tm:charm",
     "tm:confide",
     "tm:dazzlinggleam",
+    "tm:doubleedge",
     "tm:doubleteam",
     "tm:encore",
+    "tm:endeavor",
     "tm:endure",
     "tm:energyball",
     "tm:facade",
@@ -74,6 +76,7 @@
     "tm:infestation",
     "tm:leafstorm",
     "tm:lightscreen",
+    "tm:lunge",
     "tm:magicalleaf",
     "tm:naturalgift",
     "tm:pollenpuff",
@@ -168,5 +171,18 @@
   "height": 8,
   "weight": 30,
   "aspects": [],
-  "cannotDynamax": false
+  "cannotDynamax": false,
+  "drops": {
+    "amount": 4,
+    "entries": [
+      {
+        "item": "minecraft:white_wool",
+        "quantityRange": "1-3"
+      },
+      {
+        "item": "cobblemon:yache_berry",
+        "percentage": 10.0
+      }
+    ]
+  }
 }

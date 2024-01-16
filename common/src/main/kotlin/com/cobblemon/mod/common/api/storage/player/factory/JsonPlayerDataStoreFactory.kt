@@ -22,31 +22,29 @@ class JsonPlayerDataStoreFactory : PlayerDataStoreFactory {
     private val adapter = JsonPlayerData()
 
     fun setup(server: MinecraftServer) {
-        adapter.setup(server);
+        adapter.setup(server)
     }
 
     override fun load(uuid: UUID): PlayerData {
-        return if(cache.contains(uuid))
-            cache[uuid]!!;
+        return if (cache.contains(uuid))
+            cache[uuid]!!
         else {
-            val data = adapter.load(uuid);
+            val data = adapter.load(uuid)
             cache[uuid] = data
             data
         }
     }
 
     override fun save(data: PlayerData) {
-        return adapter.save(data);
+        return adapter.save(data)
     }
 
     override fun saveAll() {
-        cache.forEach { (_, pd) -> adapter.save(pd)}
+        cache.forEach { (_, pd) -> adapter.save(pd) }
         cache.removeIf { (uuid, _) -> uuid.getPlayer() == null }
     }
 
     override fun onPlayerDisconnect(uuid: UUID) {
-        cache.remove(uuid);
+        cache.remove(uuid)
     }
-
-
 }

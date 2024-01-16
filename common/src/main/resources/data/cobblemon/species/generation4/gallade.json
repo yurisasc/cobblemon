@@ -1,4 +1,4 @@
-{
+﻿{
   "implemented": true,
   "name": "Gallade",
   "nationalPokedexNumber": 475,
@@ -62,7 +62,6 @@
       ],
       "height": 16,
       "weight": 564,
-      "evolutions": [],
       "cannotDynamax": false,
       "battleOnly": true
     }
@@ -74,6 +73,14 @@
     "human_like",
     "amorphous"
   ],
+  "behaviour": {
+    "resting": {
+      "canSleep": true,
+      "willSleepOnBed": false,
+      "depth": "normal",
+      "light": "0-4"
+    }
+  },
   "moves": [
     "1:aquacutter",
     "1:calmmind",
@@ -143,6 +150,7 @@
     "tm:aerialace",
     "tm:agility",
     "tm:airslash",
+    "tm:alluringvoice",
     "tm:allyswitch",
     "tm:attract",
     "tm:aurasphere",
@@ -155,6 +163,7 @@
     "tm:chargebeam",
     "tm:charm",
     "tm:closecombat",
+    "tm:coaching",
     "tm:confide",
     "tm:confuseray",
     "tm:cut",
@@ -169,6 +178,7 @@
     "tm:encore",
     "tm:endure",
     "tm:energyball",
+    "tm:expandingforce",
     "tm:facade",
     "tm:falseswipe",
     "tm:firepunch",
@@ -188,6 +198,7 @@
     "tm:icepunch",
     "tm:icywind",
     "tm:imprison",
+    "tm:knockoff",
     "tm:leafblade",
     "tm:lightscreen",
     "tm:lowkick",
@@ -196,9 +207,11 @@
     "tm:magicroom",
     "tm:megakick",
     "tm:megapunch",
+    "tm:metronome",
     "tm:mistyterrain",
     "tm:naturalgift",
     "tm:nightshade",
+    "tm:painsplit",
     "tm:poisonjab",
     "tm:poweruppunch",
     "tm:protect",
@@ -251,6 +264,9 @@
     "tm:toxic",
     "tm:trick",
     "tm:trickroom",
+    "tm:tripleaxel",
+    "tm:upperhand",
+    "tm:vacuumwave",
     "tm:willowisp",
     "tm:wonderroom",
     "tm:workup",
@@ -302,8 +318,8 @@
   "evolutions": [],
   "baseScale": 1,
   "hitbox": {
-    "width": 1,
-    "height": 1,
+    "width": 0.6,
+    "height": 2.25,
     "fixed": false
   },
   "baseFriendship": 35,
@@ -318,5 +334,26 @@
   "height": 16,
   "weight": 520,
   "aspects": [],
-  "cannotDynamax": false
+  "cannotDynamax": false,
+  "drops": {
+    "amount": 6,
+    "entries": [
+      {
+        "item": "minecraft:ender_pearl",
+        "quantityRange": "0-3"
+      },
+      {
+        "item": "cobblemon:dawn_stone",
+        "percentage": 10.0
+      },
+      {
+        "item": "cobblemon:twisted_spoon",
+        "percentage": 10.0
+      },
+      {
+        "item": "cobblemon:kasib_berry",
+        "percentage": 10.0
+      }
+    ]
+  }
 }

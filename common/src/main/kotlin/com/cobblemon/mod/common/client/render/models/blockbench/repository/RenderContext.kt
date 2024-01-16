@@ -33,7 +33,7 @@ class RenderContext {
      * @since 1.4.0
      */
     @Suppress("UNCHECKED_CAST")
-    fun <T : Any> request(key: Key<T>): T? = context[key] as T?
+    fun <T : Any> request(key: Key<T>): T? = this.context[key] as T?
 
     /**
      * Retrieves a value from the context associated with the provided key, assuming the value exists.
@@ -44,7 +44,7 @@ class RenderContext {
      *
      * @since 1.4.0
      */
-    fun <T : Any> requires(key: Key<T>): T = request(key) ?: throw NullPointerException("Required value not found in context for key: $key")
+    fun <T : Any> requires(key: Key<T>): T = this.request(key) ?: throw NullPointerException("Required value not found in context for key: $key")
 
     /**
      * Stores a value in the context associated with the provided key.
@@ -55,10 +55,19 @@ class RenderContext {
      * @since 1.4.0
      */
     fun <T : Any> put(key: Key<T>, value: T?) {
-        context[key] = value
+        this.context[key] = value
     }
 
-    fun pop() = context.clear();
+    /**
+     * Resets the context back to its initial state. In other words, this would represent an empty context set.
+     *
+     * @since 1.4.0
+     */
+    fun pop() = this.context.clear()
+
+    fun <T : Any> pop(key: Key<T>) {
+        this.context.remove(key)
+    }
 
     /**
      * Represents a key used for accessing values in the context.
@@ -96,22 +105,32 @@ class RenderContext {
         /**
          * Key to access the currently rendered entity.
          */
-        val ENTITY: Key<Entity> = key("entity".asResource(), Entity::class.java)
+        val ENTITY: Key<Entity> = key("entity".asResource())
 
         /**
          * Key to access the identifier of the texture being rendered.
          */
-        val TEXTURE: Key<Identifier> = key("texture".asResource(), Identifier::class.java)
+        val TEXTURE: Key<Identifier> = key("texture".asResource())
 
         /**
          * Key to access the base scaling factor of the current species.
          */
-        val SCALE: Key<Float> = key("scale".asResource(), Float::class.java)
+        val SCALE: Key<Float> = key("scale".asResource())
+
+        /**
+         * Key to access the identifier of the current species.
+         */
+        val SPECIES: Key<Identifier> = key("species".asResource())
+
+        /**
+         * Key to access the aspects of the current entity.
+         */
+        val ASPECTS: Key<Set<String>> = key("species".asResource())
 
         /**
          * Key to access the rendering state, indicating the active rendering mode.
          */
-        val RENDER_STATE: Key<RenderState> = key("state".asResource(), RenderState::class.java)
+        val RENDER_STATE: Key<RenderState> = key("state".asResource())
 
         /**
          * Creates a new Key instance with the provided identifier and TypeToken.
@@ -133,7 +152,7 @@ class RenderContext {
          *
          * @since 1.4.0
          */
-        fun <T : Any> key(id: Identifier, clazz: Class<T>): Key<T> = key(id, TypeToken.get(clazz))
+        inline fun <reified T : Any> key(id: Identifier): Key<T> = key(id, TypeToken.get(T::class.java))
     }
 }
 

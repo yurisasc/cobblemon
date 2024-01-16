@@ -51,8 +51,10 @@
     "tm:captivate",
     "tm:confide",
     "tm:crunch",
+    "tm:curse",
     "tm:darkpulse",
     "tm:dig",
+    "tm:doubleedge",
     "tm:doubleteam",
     "tm:dragondance",
     "tm:earthpower",
@@ -64,10 +66,12 @@
     "tm:gigaimpact",
     "tm:helpinghand",
     "tm:hiddenpower",
+    "tm:highhorsepower",
     "tm:hyperbeam",
     "tm:irondefense",
     "tm:ironhead",
     "tm:irontail",
+    "tm:lashout",
     "tm:muddywater",
     "tm:mudshot",
     "tm:mudslap",
@@ -95,6 +99,7 @@
     "tm:smackdown",
     "tm:snarl",
     "tm:snore",
+    "tm:spite",
     "tm:stealthrock",
     "tm:stompingtantrum",
     "tm:stoneedge",
@@ -193,5 +198,18 @@
   "height": 12,
   "weight": 1520,
   "aspects": [],
-  "cannotDynamax": false
+  "cannotDynamax": false,
+  "drops": {
+    "amount": 2,
+    "entries": [
+      {
+        "item": "cobblemon:hard_stone",
+        "percentage": 5.0
+      },
+      {
+        "item": "cobblemon:chople_berry",
+        "percentage": 5.0
+      }
+    ]
+  }
 }

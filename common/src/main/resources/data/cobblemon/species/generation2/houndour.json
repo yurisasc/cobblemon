@@ -62,10 +62,12 @@
     "egg:willowisp",
     "tm:attract",
     "tm:bodyslam",
+    "tm:burningjealousy",
     "tm:captivate",
     "tm:confide",
     "tm:crunch",
     "tm:darkpulse",
+    "tm:doubleedge",
     "tm:doubleteam",
     "tm:dreameater",
     "tm:embargo",
@@ -85,11 +87,13 @@
     "tm:hypervoice",
     "tm:incinerate",
     "tm:irontail",
+    "tm:lashout",
     "tm:mudshot",
     "tm:mudslap",
     "tm:nastyplot",
     "tm:naturalgift",
     "tm:overheat",
+    "tm:painsplit",
     "tm:payback",
     "tm:protect",
     "tm:psychicfangs",
@@ -109,11 +113,14 @@
     "tm:snarl",
     "tm:snatch",
     "tm:solarbeam",
+    "tm:spite",
     "tm:substitute",
     "tm:sunnyday",
+    "tm:superfang",
     "tm:swagger",
     "tm:takedown",
     "tm:taunt",
+    "tm:temperflare",
     "tm:terablast",
     "tm:thief",
     "tm:thunderfang",
@@ -219,5 +226,26 @@
   "height": 6,
   "weight": 108,
   "aspects": [],
-  "cannotDynamax": false
+  "cannotDynamax": false,
+  "drops": {
+    "amount": 4,
+    "entries": [
+      {
+        "item": "minecraft:bone",
+        "quantityRange": "0-1"
+      },
+      {
+        "item": "minecraft:rotten_flesh",
+        "quantityRange": "0-1"
+      },
+      {
+        "item": "minecraft:blaze_powder",
+        "percentage": 2.5
+      },
+      {
+        "item": "cobblemon:rawst_berry",
+        "percentage": 2.5
+      }
+    ]
+  }
 }

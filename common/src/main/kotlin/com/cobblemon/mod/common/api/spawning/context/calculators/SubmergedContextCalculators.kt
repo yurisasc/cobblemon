@@ -23,6 +23,7 @@ import net.minecraft.util.math.MathHelper.ceil
  * @since February 7th, 2022
  */
 object SubmergedSpawningContextCalculator : AreaSpawningContextCalculator<SubmergedSpawningContext> {
+    override val name = "submerged"
     val fluidConditions = mutableListOf(
         isWaterCondition,
         isLavaCondition
@@ -45,6 +46,7 @@ object SubmergedSpawningContextCalculator : AreaSpawningContextCalculator<Submer
             world = input.world,
             position = input.position.toImmutable(),
             light = getLight(input),
+            skyLight = getSkyLight(input),
             canSeeSky = getCanSeeSky(input),
             influences = input.spawner.copyInfluences(),
             height = getHeight(input, fluidCondition, ceil(config.maxVerticalSpace / 2F)),

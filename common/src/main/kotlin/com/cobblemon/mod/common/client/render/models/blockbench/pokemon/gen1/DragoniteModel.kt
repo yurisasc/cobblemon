@@ -17,7 +17,7 @@ import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pose.TransformedModelPart
+import com.cobblemon.mod.common.client.render.models.blockbench.pose.ModelPartTransformation
 import com.cobblemon.mod.common.client.render.models.blockbench.wavefunction.sineFunction
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.PoseType.Companion.UI_POSES
@@ -27,7 +27,7 @@ import net.minecraft.util.math.Vec3d
 
 class DragoniteModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BiWingedFrame, BipedFrame, BimanualFrame {
     override val rootPart = root.registerChildWithAllChildren("dragonite")
-    override val head = getPart("neck")
+    override val head = getPart("head")
     override val leftLeg = getPart("leg_left")
     override val rightLeg = getPart("leg_right")
     override val leftWing = getPart("wing_left")
@@ -80,7 +80,7 @@ class DragoniteModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BiW
                 WingFlapIdleAnimation(this,
                     flapFunction = sineFunction(verticalShift = -10F.toRadians(), period = 0.9F, amplitude = 0.6F),
                     timeVariable = { state, _, _ -> state?.animationSeconds ?: 0F },
-                    axis = TransformedModelPart.Y_AXIS
+                    axis = ModelPartTransformation.Y_AXIS
                 )
             )
         )
@@ -95,7 +95,7 @@ class DragoniteModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BiW
                 WingFlapIdleAnimation(this,
                     flapFunction = sineFunction(verticalShift = -14F.toRadians(), period = 0.9F, amplitude = 0.6F),
                     timeVariable = { state, _, _ -> state?.animationSeconds ?: 0F },
-                    axis = TransformedModelPart.Y_AXIS
+                    axis = ModelPartTransformation.Y_AXIS
                 )
             )
         )

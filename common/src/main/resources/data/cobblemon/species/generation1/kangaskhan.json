@@ -1,4 +1,4 @@
-{
+﻿{
   "implemented": true,
   "name": "Kangaskhan",
   "nationalPokedexNumber": 115,
@@ -8,6 +8,15 @@
     "scrappy",
     "h:innerfocus"
   ],
+  "drops": {
+    "amount": 1,
+    "entries": [
+      {
+        "item": "cobblemon:chilan_berry",
+        "percentage": 5.0
+      }
+    ]
+  },
   "baseStats": {
     "hp": 105,
     "attack": 95,
@@ -60,7 +69,6 @@
       ],
       "height": 22,
       "weight": 1000,
-      "evolutions": [],
       "cannotDynamax": false,
       "battleOnly": true
     }

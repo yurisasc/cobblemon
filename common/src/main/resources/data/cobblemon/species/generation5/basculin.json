@@ -1,4 +1,4 @@
-{
+﻿{
   "implemented": true,
   "name": "Basculin",
   "nationalPokedexNumber": 550,
@@ -8,6 +8,22 @@
     "adaptability",
     "h:moldbreaker"
   ],
+  "drops": {
+    "amount": 3,
+    "entries": [
+      {
+        "item": "minecraft:salmon"
+      },
+      {
+        "item": "minecraft:bone_meal",
+        "percentage": 5.0
+      },
+      {
+        "item": "cobblemon:deep_sea_tooth",
+        "percentage": 5.0
+      }
+    ]
+  },
   "baseStats": {
     "hp": 70,
     "attack": 92,
@@ -37,18 +53,6 @@
         "canBreatheUnderwater": true
       }
     }
-  },
-  "drops": {
-    "amount": "1",
-    "entries": [
-      {
-        "item": "minecraft:salmon"
-      },
-      {
-        "item": "minecraft:bone_meal",
-        "percentage": 5
-      }
-    ]
   },
   "moves": [
     "1:tailwhip",
@@ -92,9 +96,12 @@
     "tm:crunch",
     "tm:cut",
     "tm:dive",
+    "tm:doubleedge",
     "tm:doubleteam",
+    "tm:endeavor",
     "tm:endure",
     "tm:facade",
+    "tm:flipturn",
     "tm:frustration",
     "tm:gigaimpact",
     "tm:hail",
@@ -116,6 +123,7 @@
     "tm:reversal",
     "tm:round",
     "tm:scald",
+    "tm:scaleshot",
     "tm:scaryface",
     "tm:secretpower",
     "tm:sleeptalk",
@@ -216,7 +224,6 @@
       ],
       "height": 10,
       "weight": 180,
-      "evolutions": [],
       "cannotDynamax": false,
       "battleOnly": false
     },
@@ -276,18 +283,23 @@
         "tm:blizzard",
         "tm:chillingwater",
         "tm:crunch",
+        "tm:doubleedge",
+        "tm:endeavor",
         "tm:endure",
         "tm:facade",
+        "tm:flipturn",
         "tm:hydropump",
         "tm:icebeam",
         "tm:icefang",
         "tm:icywind",
         "tm:liquidation",
+        "tm:muddywater",
         "tm:mudshot",
         "tm:protect",
         "tm:psychicfangs",
         "tm:raindance",
         "tm:rest",
+        "tm:scaleshot",
         "tm:scaryface",
         "tm:sleeptalk",
         "tm:snowscape",
@@ -296,8 +308,10 @@
         "tm:swift",
         "tm:takedown",
         "tm:terablast",
+        "tm:uproar",
         "tm:waterfall",
         "tm:waterpulse",
+        "tm:whirlpool",
         "tm:zenheadbutt"
       ],
       "labels": [

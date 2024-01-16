@@ -53,6 +53,7 @@
     "tm:crunch",
     "tm:cut",
     "tm:dig",
+    "tm:doubleedge",
     "tm:doubleteam",
     "tm:endure",
     "tm:facade",
@@ -88,6 +89,7 @@
     "tm:round",
     "tm:sandstorm",
     "tm:scaryface",
+    "tm:scorchingsands",
     "tm:secretpower",
     "tm:shadowball",
     "tm:sleeptalk",
@@ -101,7 +103,10 @@
     "tm:sunnyday",
     "tm:swagger",
     "tm:swift",
+    "tm:takedown",
+    "tm:terablast",
     "tm:toxic",
+    "tm:trailblaze",
     "tm:weatherball",
     "tm:willowisp",
     "tutor:bite",
@@ -187,5 +192,16 @@
   "height": 21,
   "weight": 1980,
   "aspects": [],
-  "cannotDynamax": false
+  "cannotDynamax": false,
+  "drops": {
+    "amount": 2,
+    "entries": [
+      {
+        "item": "cobblemon:charcoal_stick"
+      },
+      {
+        "item": "cobblemon:sacred_ash"
+      }
+    ]
+  }
 }
