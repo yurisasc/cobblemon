@@ -99,6 +99,7 @@
     "tm:bodyslam",
     "tm:brickbreak",
     "tm:bulkup",
+    "tm:burningjealousy",
     "tm:chillingwater",
     "tm:crunch",
     "tm:darkestlariat",
@@ -113,11 +114,13 @@
     "tm:fling",
     "tm:focusblast",
     "tm:focusenergy",
+    "tm:focuspunch",
     "tm:foulplay",
     "tm:gigaimpact",
     "tm:hyperbeam",
     "tm:icepunch",
     "tm:imprison",
+    "tm:lashout",
     "tm:leechlife",
     "tm:lightscreen",
     "tm:lowkick",
@@ -155,7 +158,11 @@
     "tm:uproar",
     "tm:wonderroom",
     "tutor:burningjealousy",
-    "tutor:lashout"
+    "tutor:lashout",
+    "tutor:lightscreen",
+    "tutor:reflect",
+    "tutor:spiritbreak",
+    "tutor:thunderwave"
   ],
   "labels": [
     "gen8"

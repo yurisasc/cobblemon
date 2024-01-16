@@ -107,7 +107,7 @@ import java.util.UUID
 import java.util.concurrent.CompletableFuture
 
 @Suppress("unused")
-class PokemonEntity(
+open class PokemonEntity(
     world: World,
     pokemon: Pokemon = Pokemon(),
     type: EntityType<out PokemonEntity> = CobblemonEntities.POKEMON,
