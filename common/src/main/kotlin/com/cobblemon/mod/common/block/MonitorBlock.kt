@@ -8,9 +8,9 @@
 
 package com.cobblemon.mod.common.block
 
-import com.cobblemon.mod.common.block.entity.FossilMultiblockEntity
 import com.cobblemon.mod.common.api.multiblock.MultiblockBlock
 import com.cobblemon.mod.common.api.multiblock.MultiblockEntity
+import com.cobblemon.mod.common.block.entity.FossilMultiblockEntity
 import com.cobblemon.mod.common.block.multiblock.FossilMultiblockBuilder
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
@@ -18,8 +18,8 @@ import net.minecraft.block.HorizontalFacingBlock
 import net.minecraft.block.ShapeContext
 import net.minecraft.item.ItemPlacementContext
 import net.minecraft.state.StateManager
-import net.minecraft.state.property.BooleanProperty
-import net.minecraft.state.property.IntProperty
+import net.minecraft.state.property.EnumProperty
+import net.minecraft.util.StringIdentifiable
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
 import net.minecraft.util.shape.VoxelShape
@@ -30,7 +30,6 @@ import net.minecraft.world.World
 class MonitorBlock(properties: Settings) : MultiblockBlock(properties) {
     init {
         defaultState = defaultState.with(HorizontalFacingBlock.FACING, Direction.NORTH)
-                .with(LOCKED, false)
     }
 
     override fun createMultiBlockEntity(
@@ -48,8 +47,7 @@ class MonitorBlock(properties: Settings) : MultiblockBlock(properties) {
 
     override fun appendProperties(builder: StateManager.Builder<Block, BlockState>) {
         builder.add(HorizontalFacingBlock.FACING)
-        builder.add(PROGRESS)
-        builder.add(LOCKED)
+        builder.add(SCREEN)
     }
 
     @Deprecated("Deprecated in Java")
@@ -82,7 +80,7 @@ class MonitorBlock(properties: Settings) : MultiblockBlock(properties) {
 
     companion object {
         //0 is off
-        val PROGRESS = IntProperty.of("progress", 0, 9)
+        val SCREEN = EnumProperty.of("screen", MonitorScreen::class.java)
         val HITBOX = VoxelShapes.union(
             VoxelShapes.cuboid(0.0625, 0.0, 0.0625, 0.9375, 0.375, 0.9375),
             VoxelShapes.cuboid(0.0625, 0.875, 0.0625, 0.9375, 1.0, 0.9375),
@@ -90,6 +88,20 @@ class MonitorBlock(properties: Settings) : MultiblockBlock(properties) {
             VoxelShapes.cuboid(0.1875, 0.375, 0.125, 0.8125, 0.875, 0.9375),
             VoxelShapes.cuboid(0.0625, 0.375, 0.0625, 0.1875, 0.875, 0.9375)
         )
-        val LOCKED = BooleanProperty.of("locked")
+    }
+    enum class MonitorScreen : StringIdentifiable {
+        OFF,
+        BLUE_PROGRESS_1,
+        BLUE_PROGRESS_2,
+        BLUE_PROGRESS_3,
+        BLUE_PROGRESS_4,
+        BLUE_PROGRESS_5,
+        BLUE_PROGRESS_6,
+        BLUE_PROGRESS_7,
+        BLUE_PROGRESS_8,
+        BLUE_PROGRESS_9,
+        GREEN_PROGRESS_9;
+
+        override fun asString(): String = this.name.lowercase()
     }
 }

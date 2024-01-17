@@ -157,6 +157,7 @@ object DataKeys {
     const val TANK_FILL_LEVEL = "TankFillLevel"
     const val CONNECTOR_DIRECTION = "ConnectorDirection"
     const val TIME_LEFT = "TimeLeft"
+    const val PROTECTED_TIME_LEFT = "ProtectedTimeLeft"
     const val FORMED = "Formed"
     const val CREATED_POKEMON = "CreatedPokemon"
     const val FOSSIL_STATE = "FossilState"

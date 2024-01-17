@@ -312,7 +312,6 @@ class FossilMultiblockStructure (
         tankBaseEntity.masterBlockPos = null
         tankTopEntity.masterBlockPos = null
 
-
         // Drop fossils from machine as long as the machine is not running
         if (this.timeRemaining == TIME_TO_TAKE || this.timeRemaining == -1) {
             this.fossilInventory.forEach {
@@ -333,7 +332,7 @@ class FossilMultiblockStructure (
             this.spawn(world, pos, direction, wildPokemon)
 
         }
-
+        this.protectionTime = -1
         this.updateFossilType(world)
         this.stopMachine(world)
         this.syncToClient(world)
@@ -449,10 +448,30 @@ class FossilMultiblockStructure (
     }
 
     fun updateProgress(world: World) {
-        val progress = if (timeRemaining <= 0) 0 else ((TIME_TO_TAKE - timeRemaining) / TIME_PER_STAGE) + 1
+        val screenID = if(protectionTime > 0F ) {
+            MonitorBlock.MonitorScreen.GREEN_PROGRESS_9
+        } else if (timeRemaining <= 0) {
+            MonitorBlock.MonitorScreen.OFF
+        } else {
+            getProgessScreen((TIME_TO_TAKE - timeRemaining) / TIME_PER_STAGE)
+        }
         val monitorState = world.getBlockState(monitorPos)
-        val locked = protectionTime > 0
-        world.setBlockState(monitorPos, monitorState.with(MonitorBlock.PROGRESS, progress).with(MonitorBlock.LOCKED, locked))
+        world.setBlockState(monitorPos, monitorState.with(MonitorBlock.SCREEN, screenID))
+    }
+
+    fun getProgessScreen(progress:Int) : MonitorBlock.MonitorScreen {
+        return when (progress) {
+            0 -> MonitorBlock.MonitorScreen.BLUE_PROGRESS_1
+            1 -> MonitorBlock.MonitorScreen.BLUE_PROGRESS_2
+            2 -> MonitorBlock.MonitorScreen.BLUE_PROGRESS_3
+            3 -> MonitorBlock.MonitorScreen.BLUE_PROGRESS_4
+            4 -> MonitorBlock.MonitorScreen.BLUE_PROGRESS_5
+            5 -> MonitorBlock.MonitorScreen.BLUE_PROGRESS_6
+            6 -> MonitorBlock.MonitorScreen.BLUE_PROGRESS_7
+            7 -> MonitorBlock.MonitorScreen.BLUE_PROGRESS_8
+            8 -> MonitorBlock.MonitorScreen.BLUE_PROGRESS_9
+            else -> MonitorBlock.MonitorScreen.OFF
+        }
     }
 
     /**
@@ -536,6 +555,7 @@ class FossilMultiblockStructure (
         result.put(DataKeys.ANALYZER_POS, NbtHelper.fromBlockPos(analyzerPos))
         result.put(DataKeys.TANK_BASE_POS, NbtHelper.fromBlockPos(tankBasePos))
         result.putInt(DataKeys.TIME_LEFT, timeRemaining)
+        result.putInt(DataKeys.PROTECTED_TIME_LEFT, protectionTime)
         result.putInt(DataKeys.ORGANIC_MATERIAL, organicMaterialInside)
         val fossilInv = NbtList()
         fossilInventory.forEach{ item ->
@@ -576,6 +596,7 @@ class FossilMultiblockStructure (
             val result = FossilMultiblockStructure(monitorPos, compartmentPos, tankBasePos, animAge, partialTicks)
             result.organicMaterialInside = nbt.getInt(DataKeys.ORGANIC_MATERIAL)
             result.timeRemaining = nbt.getInt(DataKeys.TIME_LEFT)
+            result.protectionTime = if(nbt.contains(DataKeys.PROTECTED_TIME_LEFT)) nbt.getInt(DataKeys.PROTECTED_TIME_LEFT) else -1
 
             val fossilInv = (nbt.get(DataKeys.FOSSIL_INVENTORY) as NbtList)
             val actualFossilList = mutableListOf<ItemStack>()

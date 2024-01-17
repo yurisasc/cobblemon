@@ -226,7 +226,7 @@ object CobblemonBlocks : PlatformRegistry<Registry<Block>, RegistryKey<Registry<
                 .sounds(BlockSoundGroup.METAL)
                 .pistonBehavior(PistonBehavior.BLOCK)
                 .strength(2f)
-                .luminance { if (it.get(MonitorBlock.PROGRESS) > 0) 15 else 0 }
+                .luminance { if (it.get(MonitorBlock.SCREEN) != MonitorBlock.MonitorScreen.OFF) 15 else 0 }
         )
     )
     @JvmField
