@@ -322,7 +322,7 @@ class FossilMultiblockStructure (
 
 
         // if the machine is broken while the pokemon is done then spawn the pokemon at the location and make it a wild pokemon
-        if (this.fossilState.growthState == "Fully Grown" && wildPokemon != null) {
+        if (wildPokemon != null) {
             //world.createExplosion(this.createdPokemon?.entity, pos.x.toDouble(), pos.y.toDouble(), pos.z.toDouble(), 5F, World.ExplosionSourceType.TNT)
 
             // instantiate the pokemon as a new entity and spawn it at the location of the machine
