@@ -44,10 +44,11 @@ class FossilAnalyzerRenderer(ctx: BlockEntityRendererFactory.Context) : BlockEnt
         struct.fossilInventory.forEachIndexed { index, fossilStack ->
             matrices.push()
 
-            matrices.translate(0.5, 0.4 + (index * 0.05F), 0.5)
-            matrices.scale(0.8F, 0.8F, 0.8F)
+            matrices.translate(0.5, 0.4 + (index * 0.05F), 0.55)
+            matrices.scale(0.7F, 0.7F, 0.7F)
+            matrices.multiply(RotationAxis.POSITIVE_Z.rotationDegrees(180F))
             matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(-yRot))
-            matrices.multiply(RotationAxis.POSITIVE_X.rotationDegrees(-90F))
+            matrices.multiply(RotationAxis.POSITIVE_X.rotationDegrees(90F))
 
             MinecraftClient.getInstance().itemRenderer.renderItem(fossilStack, ModelTransformationMode.NONE, light, overlay, matrices, vertexConsumers, entity.world, 0)
 
