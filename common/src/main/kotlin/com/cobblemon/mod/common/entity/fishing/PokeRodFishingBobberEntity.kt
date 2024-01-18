@@ -499,7 +499,7 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
                             val g = MathHelper.nextFloat(random, 0.0f, 360.0f) * (Math.PI.toFloat() / 180)
                             val h = MathHelper.nextFloat(random, 25.0f, 60.0f)
                             val partX = this.x + (MathHelper.sin(g) * h).toDouble() * 0.1
-                            serverWorld.spawnParticles(ParticleTypes.SPLASH, partX, this.y, this.z, 2 + random.nextInt(2), 0.1, 0.0, 0.1, 0.0)
+                            serverWorld.spawnParticles(ParticleTypes.SPLASH, partX, this.y, this.z, 4 + random.nextInt(4), 0.1, 0.0, 0.1, 0.0)
 
 
 //                            // steal some stuff from PlayerSpawnFactory
@@ -589,7 +589,7 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
                             val g = MathHelper.nextFloat(random, 0.0f, 360.0f) * (Math.PI.toFloat() / 180)
                             val h = MathHelper.nextFloat(random, 25.0f, 60.0f)
                             val partX = this.x + (MathHelper.sin(g) * h).toDouble() * 0.1
-                            serverWorld.spawnParticles(ParticleTypes.SPLASH, partX, this.y, this.z, 4 + random.nextInt(4), 0.1, 0.0, 0.1, 0.0)
+                            serverWorld.spawnParticles(ParticleTypes.SPLASH, partX, this.y, this.z, 6 + random.nextInt(6), 0.1, 0.0, 0.1, 0.0)
 
 
 //                            // steal some stuff from PlayerSpawnFactory
@@ -679,7 +679,7 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
                             val g = MathHelper.nextFloat(random, 0.0f, 360.0f) * (Math.PI.toFloat() / 180)
                             val h = MathHelper.nextFloat(random, 25.0f, 60.0f)
                             val partX = this.x + (MathHelper.sin(g) * h).toDouble() * 0.1
-                            serverWorld.spawnParticles(ParticleTypes.SPLASH, partX, this.y, this.z, 6 + random.nextInt(6), 0.1, 0.0, 0.1, 0.0)
+                            serverWorld.spawnParticles(ParticleTypes.SPLASH, partX, this.y, this.z, 8 + random.nextInt(8), 0.1, 0.0, 0.1, 0.0)
 
 
 //                            // steal some stuff from PlayerSpawnFactory
@@ -768,7 +768,7 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
                             val g = MathHelper.nextFloat(random, 0.0f, 360.0f) * (Math.PI.toFloat() / 180)
                             val h = MathHelper.nextFloat(random, 25.0f, 60.0f)
                             val partX = this.x + (MathHelper.sin(g) * h).toDouble() * 0.1
-                            serverWorld.spawnParticles(ParticleTypes.SPLASH, partX, this.y, this.z, 8 + random.nextInt(8), 0.1, 0.0, 0.1, 0.0)
+                            serverWorld.spawnParticles(ParticleTypes.SPLASH, partX, this.y, this.z, 10 + random.nextInt(10), 0.1, 0.0, 0.1, 0.0)
 
 
 //                            // steal some stuff from PlayerSpawnFactory
