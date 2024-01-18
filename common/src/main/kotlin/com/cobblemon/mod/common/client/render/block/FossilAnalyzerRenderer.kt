@@ -44,7 +44,7 @@ class FossilAnalyzerRenderer(ctx: BlockEntityRendererFactory.Context) : BlockEnt
         struct.fossilInventory.forEachIndexed { index, fossilStack ->
             matrices.push()
 
-            matrices.translate(0.5, 0.4 + (index * 0.05F), 0.55)
+            matrices.translate(0.5, 0.4 + (index * 0.1F), 0.55)
             matrices.scale(0.7F, 0.7F, 0.7F)
             matrices.multiply(RotationAxis.POSITIVE_Z.rotationDegrees(180F))
             matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(-yRot))
