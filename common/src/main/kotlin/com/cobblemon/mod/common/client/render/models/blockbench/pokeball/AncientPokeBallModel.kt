@@ -40,19 +40,15 @@ class AncientPokeBallModel(root: ModelPart) : PokeBallModel(root), PokeBallFrame
         shut = registerPose(
             poseName = "shut",
             poseTypes = setOf(PoseType.NONE),
-            idleAnimations = arrayOf(
-                bedrock("ancient_poke_ball", "shut_idle")
-            ),
+            idleAnimations = arrayOf(bedrock("ancient_poke_ball", "shut_idle")),
             transformTicks = 0
         )
 
         open = registerPose(
             poseName = "open",
             poseTypes = setOf(PoseType.NONE),
-            idleAnimations = arrayOf(
-                bedrock("ancient_poke_ball", "open_idle")
-            ),
-            transformTicks = 10
+            idleAnimations = arrayOf(bedrock("ancient_poke_ball", "open_idle")),
+            transformTicks = 0
         )
 
         shut.transitions[open] = { _, _ -> bedrockStateful("ancient_poke_ball", "open").andThen { entity, state -> state.setPose(open.poseName) } }
