@@ -24,7 +24,7 @@ class CoinPouchBlock(settings: Settings, val small: Boolean) : HorizontalFacingB
     init {
         this.defaultState = this.stateManager.defaultState
             .with(NATURAL, false)
-            .with(FACING, Direction.SOUTH)
+            .with(FACING, Direction.NORTH)
     }
 
     override fun getOutlineShape(
