@@ -15,7 +15,7 @@ import net.minecraft.entity.ai.goal.Goal
 
 class PokemonInBattleMovementGoal(val entity: PokemonEntity, val range: Int) : Goal() {
     override fun canStart(): Boolean {
-        return entity.isBattling && getClosestPokemonEntity() != null && entity.getPoseType() != PoseType.SLEEP
+        return entity.isBattling && getClosestPokemonEntity() != null && entity.getCurrentPoseType() != PoseType.SLEEP
     }
 
     override fun start() {

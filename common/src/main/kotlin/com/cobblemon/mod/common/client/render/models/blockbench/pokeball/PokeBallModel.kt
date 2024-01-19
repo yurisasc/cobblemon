@@ -41,18 +41,14 @@ open class PokeBallModel(root: ModelPart) : PoseableEntityModel<EmptyPokeBallEnt
         shut = registerPose(
             poseName = "shut",
             poseTypes = setOf(PoseType.NONE),
-            idleAnimations = arrayOf(
-                bedrock("poke_ball", "shut_idle")
-            ),
+            idleAnimations = arrayOf(bedrock("poke_ball", "shut_idle")),
             transformTicks = 0
         )
 
         open = registerPose(
             poseName = "open",
             poseTypes = setOf(PoseType.NONE),
-            idleAnimations = arrayOf(
-                bedrock("poke_ball", "open_idle")
-            ),
+            idleAnimations = arrayOf(bedrock("poke_ball", "open_idle")),
             transformTicks = 0
         )
 

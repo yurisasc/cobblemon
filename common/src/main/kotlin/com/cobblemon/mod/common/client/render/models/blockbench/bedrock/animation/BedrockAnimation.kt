@@ -75,13 +75,10 @@ class BedrockParticleKeyframe(
     override fun <T : Entity> run(entity: T, state: PoseableEntityState<T>) {
         val world = entity.world as? ClientWorld ?: return
         val matrixWrapper = state.locatorStates[locator] ?: state.locatorStates["root"]!!
-        val effect = effect
 
         if (this in state.poseParticles) {
             return
         }
-
-        state.poseParticles.add(this)
 
         val particleRuntime = MoLangRuntime()
 
@@ -96,9 +93,11 @@ class BedrockParticleKeyframe(
             sourceVelocity = { entity.velocity },
             sourceAlive = { !entity.isRemoved && this in state.poseParticles },
             sourceVisible = { !entity.isInvisible },
+            entity = entity,
             onDespawn = { state.poseParticles.remove(this) }
         )
 
+        state.poseParticles.add(this)
         storm.runtime.execute(this.scripts)
         storm.spawn()
     }

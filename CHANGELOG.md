@@ -24,6 +24,7 @@
 - Fixed Exeggcute not being able to evolve.
 - Fixed Cubone not being able to evolve into Alolan Marowak.
 - Fixed Squawkabilly forms not being recognized.
+- Fixed the bounce animation for Poké Balls being delayed by like, a full second.
 
 ### Developer
 - Significantly changed the way properties in PokemonEntity work. This could break some plugins (albeit in a quick-fix way).

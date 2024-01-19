@@ -14,6 +14,7 @@ import com.cobblemon.mod.common.Cobblemon.LOGGER
 import com.cobblemon.mod.common.api.molang.ExpressionLike
 import com.cobblemon.mod.common.client.entity.PokemonClientDelegate
 import com.cobblemon.mod.common.client.render.ModelLayer
+import com.cobblemon.mod.common.client.render.layer.CobblemonRenderLayers
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.PoseTransitionAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.PrimaryAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.RotationFunctionStatelessAnimation
@@ -34,6 +35,7 @@ import com.cobblemon.mod.common.client.render.models.blockbench.repository.Rende
 import com.cobblemon.mod.common.client.render.models.blockbench.wavefunction.WaveFunction
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.Poseable
+import com.cobblemon.mod.common.entity.generic.GenericBedrockEntity
 import com.cobblemon.mod.common.entity.pokeball.EmptyPokeBallEntity
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import net.minecraft.client.model.ModelPart
@@ -266,6 +268,7 @@ abstract class PoseableEntityModel<T : Entity>(
     }
 
     fun getPart(name: String) = relevantPartsByName[name]!!
+    fun getPartFallback(vararg names: String) = names.firstNotNullOfOrNull { relevantPartsByName[it] } ?: rootPart
 
     private fun loadSpecificNamedChildren(modelPart: ModelPart, nameList: Iterable<String>) {
         for ((name, child) in modelPart.children.entries) {
@@ -392,9 +395,9 @@ abstract class PoseableEntityModel<T : Entity>(
 
     fun getLayer(texture: Identifier, emissive: Boolean, translucent: Boolean): RenderLayer {
         return if (!emissive && !translucent) {
-            RenderLayer.getEntityCutout(texture)
+            CobblemonRenderLayers.ENTITY_CUTOUT.apply(texture)
         } else if (!emissive) {
-            RenderLayer.getEntityTranslucent(texture)
+            CobblemonRenderLayers.ENTITY_TRANSLUCENT.apply(texture, true)
         } else {
             makeLayer(texture, emissive = emissive, translucent = translucent)
         }
@@ -458,11 +461,13 @@ abstract class PoseableEntityModel<T : Entity>(
         setupEntityTypeContext(entity)
         state.currentModel = this
         setDefault()
+        if (entity != null) {
+            updateLocators(state)
+        }
         state.preRender()
-        updateLocators(state)
         var poseName = state.getPose()
         var pose = poseName?.let { getPose(it) }
-        val entityPoseType = if (entity is Poseable) entity.getPoseType() else null
+        val entityPoseType = if (entity is Poseable) entity.getCurrentPoseType() else null
 
         if (entity != null && (poseName == null || pose == null || !pose.isSuitable(entity) || entityPoseType !in pose.poseTypes)) {
             val desirablePose = poses.values.firstOrNull {
@@ -511,7 +516,9 @@ abstract class PoseableEntityModel<T : Entity>(
         state.statefulAnimations.removeAll(removedStatefuls)
         state.currentPose?.let { getPose(it) }
             ?.idleStateful(entity, this, state, limbSwing, limbSwingAmount, ageInTicks, headYaw, headPitch)
-        updateLocators(state)
+        if (entity != null) {
+            updateLocators(state)
+        }
     }
 
     //This is used to set additional entity type specific context
@@ -578,14 +585,18 @@ abstract class PoseableEntityModel<T : Entity>(
             matrixStack.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(180 - entity.bodyYaw))
             matrixStack.push()
             matrixStack.scale(-1F, -1F, 1F)
-            val scale =
-                entity.pokemon.form.baseScale * entity.pokemon.scaleModifier * (entity.delegate as PokemonClientDelegate).entityScaleModifier
+            val scale = entity.pokemon.form.baseScale * entity.pokemon.scaleModifier * (entity.delegate as PokemonClientDelegate).entityScaleModifier
             matrixStack.scale(scale, scale, scale)
         } else if (entity is EmptyPokeBallEntity) {
             matrixStack.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(entity.yaw))
             matrixStack.push()
             matrixStack.scale(1F, -1F, -1F)
             matrixStack.scale(0.7F, 0.7F, 0.7F)
+        } else if (entity is GenericBedrockEntity) {
+            matrixStack.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(entity.yaw))
+            matrixStack.push()
+            // Not 100% convinced we need the -1 on Y but if we needed it for the Poke Ball then probably?
+            matrixStack.scale(1F, -1F, 1F)
         }
 
         if (isForLivingEntityRenderer) {
