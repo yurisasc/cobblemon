@@ -97,8 +97,12 @@ class GildedChestBlock(settings: Settings, val fake: Boolean = false) : BlockWit
         val properties = "$POKEMON_ARGS lvl=${LEVEL_RANGE.random()}"
         val pokemon = PokemonProperties.parse(properties)
         val entity = pokemon.createEntity(world)
+
+        // The yaw based on the block's facing direction
+        val yaw = facingToYaw[state[HorizontalFacingBlock.FACING]] ?: 0.0F
+
         entity.dataTracker.set(PokemonEntity.SPAWN_DIRECTION, facingToYaw[state[HorizontalFacingBlock.FACING]])
-        entity.refreshPositionAndAngles(pos, entity.yaw, entity.pitch)
+        entity.refreshPositionAndAngles(pos, yaw, entity.pitch)
         world.spawnEntity(entity)
         world.playSound(null, pos, CobblemonSounds.GIMMIGHOUL_REVEAL, SoundCategory.NEUTRAL)
 
