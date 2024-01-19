@@ -35,7 +35,7 @@ import java.util.*
 class GildedChestBlock(settings: Settings, val fake: Boolean = false) : BlockWithEntity(settings) {
 
     init {
-        defaultState = defaultState.with(Properties.HORIZONTAL_FACING, Direction.NORTH)
+        defaultState = defaultState.with(Properties.HORIZONTAL_FACING, Direction.SOUTH)
     }
 
     companion object {
