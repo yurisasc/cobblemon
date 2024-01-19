@@ -23,6 +23,19 @@ fun gradient(function: WaveFunction, t0: Float, t1: Float) = (function(t1) - fun
 
 operator fun WaveFunction.plus(other: WaveFunction): WaveFunction = { t -> this(t) + other(t) }
 operator fun WaveFunction.times(other: WaveFunction): WaveFunction = { t -> this(t) * other(t) }
+fun WaveFunction.rerange(min: Float, max: Float): WaveFunction = { t ->
+    if (t in min..max) {
+        val newTime = (t - min) / (max - min)
+        this(newTime)
+    } else {
+        this(0F)
+    }
+}
+fun WaveFunction.shift(shift: Float): WaveFunction = { t -> this(t + shift) }
+fun WaveFunction.timeDilate(dilation: Float): WaveFunction = { t -> this(t * dilation) }
+fun WaveFunction.min(other: Float): WaveFunction = { t -> minOf(this(t), other) }
+fun WaveFunction.max(other: Float): WaveFunction = { t -> maxOf(this(t), other) }
+fun WaveFunction.clamp(min: Float, max: Float): WaveFunction = { t -> this(t).coerceIn(min, max) }
 fun WaveFunction.aggregate(func: WaveFunction): WaveFunction = { t -> func(this(t)) }
 fun linearFunction(gradient: Float = 1F, yIntercept: Float = 0F): WaveFunction = { t -> gradient * t + yIntercept }
 fun sineFunction(amplitude: Float = 1F, period: Float = 1F, phaseShift: Float = 0F, verticalShift: Float = 0F): WaveFunction = { t -> sin(2*PI/period * (t - phaseShift)) * amplitude + verticalShift }
