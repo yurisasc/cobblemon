@@ -23,6 +23,7 @@
 - Renamed the "Vivillionaire" advancement to "Aspiring Vivillionaire"
 - Removed the Inferno, Forsaken, Poké Ball, and Void patterns from the Aspiring Vivillionaire advancement.
 - Updated movesets to add Gen 9 DLC moves.
+- Added translations for a few more ability activations.
 
 ### Fixes
 - Re-added the recipe for the Iron Vitamin.
