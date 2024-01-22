@@ -33,6 +33,7 @@
 - Added translations for a few more ability activations.
 - Apricorn Sprouts can now be planted directly on Apricorn leaves to create a new Apricorn of the same color.
 - Added tooltips to interaction GUIs to make it clearer what they do.
+- Added translations for a few more ability activations.
 
 ### Fixes
 - Re-added the recipe for the Iron Vitamin.
