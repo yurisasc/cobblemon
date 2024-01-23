@@ -4,6 +4,7 @@ import com.cobblemon.mod.common.CobblemonSounds
 import com.cobblemon.mod.common.api.gui.blitk
 import com.cobblemon.mod.common.api.types.ElementalType
 import com.cobblemon.mod.common.client.gui.TypeIcon
+import com.cobblemon.mod.common.client.gui.TypeReturnIcon
 import com.cobblemon.mod.common.util.cobblemonResource
 import net.minecraft.client.gui.DrawContext
 import net.minecraft.client.gui.widget.ButtonWidget
@@ -13,8 +14,8 @@ import net.minecraft.client.sound.SoundManager
 class TypeButton(
     pX: Int, pY: Int,
     onPress: PressAction,
-    val type: ElementalType
-): ButtonWidget(pX, pY, WIDTH.toInt(), HEIGHT.toInt(), type.displayName, onPress, DEFAULT_NARRATION_SUPPLIER) {
+    val type: ElementalType?
+): ButtonWidget(pX, pY, WIDTH.toInt(), HEIGHT.toInt(), type?.displayName, onPress, DEFAULT_NARRATION_SUPPLIER) {
 
     companion object {
         private const val WIDTH = 24F
@@ -37,13 +38,24 @@ class TypeButton(
         context.matrices.push()
         context.matrices.scale(2f, 2f, 2f)
 
-        TypeIcon(
-            x = (x + 12.125) / 2,
-            y = (y + 3) / 2,
-            type = type,
-            centeredX = true,
-            small = true
-        ).render(context)
+        if (type != null) {
+            TypeIcon(
+                    x = (x + 12.125) / 2,
+                    y = (y + 3) / 2,
+                    type = type,
+                    centeredX = true,
+                    small = true
+            ).render(context)
+        }
+        else {
+            TypeReturnIcon(
+                    x = (x + 12.125) / 2,
+                    y = (y + 3) / 2,
+                    centeredX = true,
+                    small = true
+            ).render(context)
+        }
+
 
         context.matrices.pop()
     }

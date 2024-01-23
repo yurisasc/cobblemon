@@ -14,6 +14,7 @@ import com.cobblemon.mod.common.api.tms.TechnicalMachineRecipe
 import com.cobblemon.mod.common.api.types.ElementalType
 import com.cobblemon.mod.common.api.types.ElementalTypes
 import com.cobblemon.mod.common.client.CobblemonClient
+import com.cobblemon.mod.common.client.gui.ExitButton
 import com.cobblemon.mod.common.client.gui.MoveCategoryIcon
 import com.cobblemon.mod.common.client.gui.TypeIcon
 import com.cobblemon.mod.common.client.render.drawScaledText
@@ -22,6 +23,7 @@ import com.cobblemon.mod.common.gui.TMMScreenHandler
 import com.cobblemon.mod.common.net.messages.client.ui.CraftBlankTMPacket
 import com.cobblemon.mod.common.net.messages.client.ui.CraftTMPacket
 import com.cobblemon.mod.common.pokemon.Pokemon
+import com.cobblemon.mod.common.pokemon.activestate.PokemonState
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.lang
 import net.minecraft.client.gui.DrawContext
@@ -400,6 +402,8 @@ class TMMHandledScreen(
                         inventory.player.playSound(CobblemonSounds.GUI_CLICK, 1f, 1f)
                         tmList.set(TechnicalMachine.filterTms(null, type, null).toMutableList())
                         sortType = type
+                        mode = TM_BROWSING_MODE
+                        clearGUI()
                     }
                 ), "${type.name}type")
                 xOffset += 24
@@ -443,9 +447,13 @@ class TMMHandledScreen(
                 onPress = {
                     inventory.player.playSound(CobblemonSounds.GUI_CLICK, 1f, 1f)
                     tmList.set(TechnicalMachine.filterTms(null, null, null).toMutableList())
+                    mode = TM_BROWSING_MODE
+                    sortType = null
+                    clearGUI()
                 }
             ), "disc"
         )
+
     }
 
     fun drawTmSelectMenu(context: DrawContext, delta: Float, mouseX: Int, mouseY: Int) {
@@ -472,35 +480,37 @@ class TMMHandledScreen(
         )
 
         val displayType = sortType
-        if (displayType != null) {
-            TypeIcon(
+
+        addChild(
+            TypeButton(
+                pX = x + 31,
+                pY = y + 16,
                 type = displayType,
-                x = (x + 34),
-                y = (y + 18)
-            ).render(context)
-        }
+                onPress = {
+                    mode = TYPE_MENU_MODE
+                    inventory.player.playSound(CobblemonSounds.GUI_CLICK, 1f, 1f)
+                    clearGUI()
+                }
+            ), "returnTypeMenu"
+        )
 
         scroll?.render(context, mouseX, mouseY, delta)
+    }
+
+    fun clearGUI() {
+        val iterator = children.iterator()
+        while (iterator.hasNext()) {
+            val (id, _) = iterator.next()
+            iterator.remove()
+            children.remove(id)
+        }
+        clearChildren()
     }
 
     override fun drawBackground(context: DrawContext, delta: Float, mouseX: Int, mouseY: Int) {
         super.renderBackground(context)
         val x = (width - TEXTURE_WIDTH) / 2
         val y = (height - TEXTURE_HEIGHT) / 2
-
-        val previousMode = mode
-
-        mode = if (tmList.get().isEmpty()) TYPE_MENU_MODE else TM_BROWSING_MODE
-
-        if (previousMode != mode) {
-            val iterator = children.iterator()
-            while (iterator.hasNext()) {
-                val (id, _) = iterator.next()
-                iterator.remove()
-                children.remove(id)
-            }
-            clearChildren()
-        }
 
 
         blitk(
@@ -539,6 +549,16 @@ class TMMHandledScreen(
                     this.handler.syncState()
                 }
             ), "eject"
+        )
+
+        addChild(
+                ExitButton(
+                        pX = x + 228,
+                        pY = y + 185,
+                        onPress = {
+                            this.close()
+                        }
+                ), "exit"
         )
 
         val startY = y + 13
