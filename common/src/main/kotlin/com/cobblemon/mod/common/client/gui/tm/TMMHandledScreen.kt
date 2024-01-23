@@ -70,6 +70,16 @@ class TMMHandledScreen(
     var sortType: ElementalType? = null
     var selectedPokemon: Pokemon? = null
     var scroll: TMScrollingList? = null
+
+    init {
+        scroll = TMScrollingList(
+                x = x + 132,
+                y = y + 45,
+                parent = this
+        )
+    }
+
+
 //    val selectedTM = TechnicalMachine("stompingtantrum", null, emptyList(), "ground", null, null)
 
     /**
@@ -94,6 +104,17 @@ class TMMHandledScreen(
             return true
         }
         return false
+    }
+
+    override fun mouseDragged(mouseX: Double, mouseY: Double, button: Int, deltaX: Double, deltaY: Double): Boolean {
+        if (mode != TYPE_MENU_MODE) scroll?.mouseDragged(
+                mouseX,
+                mouseY,
+                button,
+                deltaX,
+                deltaY
+        )
+        return super.mouseDragged(mouseX, mouseY, button, deltaX, deltaY)
     }
 
     fun drawBlankCraftingRecipe(context: DrawContext) {
@@ -458,12 +479,6 @@ class TMMHandledScreen(
                 y = (y + 18)
             ).render(context)
         }
-
-        scroll = TMScrollingList(
-            x = x + 46,
-            y = y + 38,
-            parent = this
-        )
 
         scroll?.render(context, mouseX, mouseY, delta)
     }

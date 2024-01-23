@@ -17,7 +17,7 @@ class TMScrollingList(
     HEIGHT, // height
     0, // top
     HEIGHT, // bottom
-    SLOT_HEIGHT + SLOT_SPACING
+    SLOT_HEIGHT// + SLOT_SPACING
 ) {
 
     companion object {
@@ -39,13 +39,13 @@ class TMScrollingList(
         setRenderBackground(false)
         setRenderSelection(false)
 
-        parent.tmList.subscribeIncludingCurrent {
-            val children = children()
-            val newEntries = it.filter { pk -> children.none { it.tm.id() == pk.id() } }
-            val removedEntries = children().filter { pk -> it.none { it.id() == pk.tm.id() } }
+        parent.tmList.subscribeIncludingCurrent { tmList ->
+            val currentEntries = children()
+            val newTMs = tmList.filter { tm -> currentEntries.none { it.tm.id() == tm.id() } }
+            val removedTMs = currentEntries.filter { entry -> tmList.none { it.id() == entry.tm.id() } }
 
-            removedEntries.forEach(this::removeEntry)
-            newEntries.forEach { addEntry(TMScrollingListEntry(it, parent)) }
+            removedTMs.forEach(this::removeEntry)
+            newTMs.forEach { tm -> addEntry(TMScrollingListEntry(tm, parent)) }
         }
     }
 
@@ -54,7 +54,7 @@ class TMScrollingList(
     private fun correctSize() {
         updateSize(
             WIDTH,
-            HEIGHT, y + 1, (y + 1) + (HEIGHT - 2))
+            HEIGHT, y - 2, (y + 2) + (HEIGHT - 2))
         setLeftPos(x)
     }
 
@@ -66,7 +66,7 @@ class TMScrollingList(
 
         context.enableScissor(
             left,
-            top + 1,
+            top + 5,
             left + width,
             top + 1 + height
         )
@@ -110,6 +110,16 @@ class TMScrollingList(
     }
 
     class TMScrollingListEntry(val tm: TechnicalMachine, private val parent: TMMHandledScreen) : Entry<TMScrollingListEntry>() {
+
+        private val tmButton: TMListingButton = TMListingButton(
+                pX = 0,
+                pY = 0,
+                onPress = {
+                    parent.selectedTM = tm
+                    parent.inventory.player.playSound(CobblemonSounds.GUI_CLICK, 1f, 1f)
+                },
+                tm = tm
+        )
         override fun render(
             context: DrawContext,
             index: Int,
@@ -126,24 +136,18 @@ class TMScrollingList(
             val y = rowTop
             val matrixStack = context.matrices
 
-            var iteration = 1
-            val startY = 40
-            val offset = 20
-
-            parent.tmList.get().forEach { tm ->
-                TMListingButton(
-                    pX = x - 1,
-                    pY = startY + (offset * iteration),
-                    onPress = {
-                        parent.selectedTM = tm
-                        parent.inventory.player.playSound(CobblemonSounds.GUI_CLICK, 1f, 1f)
-                    },
-                    tm = tm
-                ).render(context, mouseX, mouseY, tickDelta)
-                iteration++
-            }
+            // Render just this TMListingButton
+            tmButton.setPosition(x + 1, y)
+            tmButton.render(context, mouseX, mouseY, tickDelta)
         }
 
+        override fun mouseClicked(mouseX: Double, mouseY: Double, delta: Int): Boolean {
+            if (tmButton.isHovered(mouseX, mouseY)) {
+                tmButton.onPress()
+                return true
+            }
+            return false
+        }
 
         override fun getNarration(): Text {
             TODO("Not yet implemented")
