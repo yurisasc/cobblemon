@@ -8,16 +8,24 @@
 
 package com.cobblemon.mod.common.block
 
+import com.cobblemon.mod.common.CobblemonItems
 import com.cobblemon.mod.common.CobblemonNetwork.sendPacket
 import com.cobblemon.mod.common.gui.TMMScreenHandler
 import com.cobblemon.mod.common.CobblemonSounds
+import com.cobblemon.mod.common.api.tms.TechnicalMachine
+import com.cobblemon.mod.common.api.tms.TechnicalMachines
+import com.cobblemon.mod.common.api.types.ElementalTypes
+import com.cobblemon.mod.common.item.CobblemonItem
 import com.cobblemon.mod.common.net.messages.client.ui.OpenTMMPacket
 import net.minecraft.block.*
 import net.minecraft.entity.ai.pathing.NavigationType
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.fluid.FluidState
 import net.minecraft.fluid.Fluids
+import net.minecraft.inventory.SidedInventory
 import net.minecraft.item.ItemPlacementContext
+import net.minecraft.item.ItemStack
+import net.minecraft.registry.Registries
 import net.minecraft.screen.NamedScreenHandlerFactory
 import net.minecraft.screen.SimpleNamedScreenHandlerFactory
 import net.minecraft.server.network.ServerPlayerEntity
@@ -36,8 +44,13 @@ import net.minecraft.util.shape.VoxelShape
 import net.minecraft.util.shape.VoxelShapes
 import net.minecraft.world.BlockView
 import net.minecraft.world.World
+import java.rmi.registry.Registry
 
-class TMBlock(properties: Settings): HorizontalFacingBlock(properties), Waterloggable {
+class TMBlock(properties: Settings): HorizontalFacingBlock(properties), Waterloggable, SidedInventory {
+
+    var filterTM: TechnicalMachine? = null
+    var previousFilterTM: TechnicalMachine? = null
+    var loadedMaterials: MutableList<ItemStack> = mutableListOf()
     companion object {
         val WATERLOGGED = BooleanProperty.of("waterlogged")
         val ON = BooleanProperty.of("on")
@@ -119,13 +132,74 @@ class TMBlock(properties: Settings): HorizontalFacingBlock(properties), Waterlog
         interactionHand: Hand,
         blockHitResult: BlockHitResult
     ): ActionResult {
-        if (world.isClient) {
-            return ActionResult.SUCCESS
+        // todo if player is not sneaking then act as normal
+        if (!player.isSneaking) {
+            if (TechnicalMachines.isTechnicalMachine(player.getStackInHand(interactionHand))) {
+                if (filterTM != null) {
+                    var previousFilterTM = filterTM
+                }
+                // add TM from player hand to TM Machine as a filter
+                filterTM = TechnicalMachines.getTechnicalMachineFromStack(player.getStackInHand(interactionHand))
+                // todo change the color of the disk in the TMM
+                // todo play a sound
+                // todo remove 1 from the stack in the player's hand if not in creative
+                if (!player.isCreative) {
+                    player.getStackInHand(interactionHand)?.decrement(1)
+                }
+
+
+                if (previousFilterTM != null) {
+                    //todo give player previousFilterTM
+                    //player.setStackInHand(interactionHand, STACKHERE)
+                    previousFilterTM = null
+                }
+
+                return ActionResult.SUCCESS
+            } else {
+                if (world.isClient) {
+                    return ActionResult.SUCCESS
+                }
+                // todo spit out any disc filters or materials
+                if (filterTM != null) {
+                    // spit out the filter TM and set filterTM to null
+                    // todo eject TM related to filterTM
+                    filterTM = null
+
+                    // todo eject any materials stored in loadedMaterials list
+                }
+
+                player.playSound(CobblemonSounds.TMM_ON, SoundCategory.BLOCKS, 1.0f, 1.0f)
+                val serverPlayer = player as ServerPlayerEntity
+                serverPlayer.openHandledScreen(blockState.createScreenHandlerFactory(world, pos))
+                return ActionResult.SUCCESS
+            }
         }
-        player.playSound(CobblemonSounds.TMM_ON, SoundCategory.BLOCKS, 1.0f, 1.0f)
-        val serverPlayer = player as ServerPlayerEntity
-        serverPlayer.openHandledScreen(blockState.createScreenHandlerFactory(world, pos))
-        return ActionResult.SUCCESS
+        return ActionResult.FAIL
+        /*else {
+            if (TechnicalMachines.isTechnicalMachine(player.getStackInHand(interactionHand))) {
+                if (filterTM != null) {
+                    var previousFilterTM = filterTM
+                }
+                // add TM from player hand to TM Machine as a filter
+                filterTM = TechnicalMachines.getTechnicalMachineFromStack(player.getStackInHand(interactionHand))
+                // todo change the color of the disk in the TMM
+                // todo play a sound
+                // todo remove 1 from the stack in the player's hand if not in creative
+                if (!player.isCreative) {
+                    player.getStackInHand(interactionHand)?.decrement(1)
+                }
+
+
+                if (previousFilterTM != null) {
+                    //todo give player previousFilterTM
+                    //player.setStackInHand(interactionHand, STACKHERE)
+                    previousFilterTM = null
+                }
+
+                return ActionResult.SUCCESS
+            }
+            return ActionResult.FAIL
+        }*/
     }
 
     override fun createScreenHandlerFactory(
@@ -135,6 +209,112 @@ class TMBlock(properties: Settings): HorizontalFacingBlock(properties), Waterlog
     ): NamedScreenHandlerFactory {
         return SimpleNamedScreenHandlerFactory(::TMMScreenHandler, Text.of("TM Machine"))
     }
+
+    fun loadMaterial(itemStack: ItemStack) {
+        loadedMaterials.add(itemStack)
+    }
+
+    fun materialNeeded(tm: TechnicalMachine, itemStack: ItemStack): Boolean {
+        val typeGem = Registries.ITEM.get(ElementalTypes.get(tm.type)?.typeGem).defaultStack
+        val recipeItem = Registries.ITEM.get(tm.recipe?.item)
+
+        // if blank TM is needed still
+        if ((itemStack !in loadedMaterials && itemStack == CobblemonItems.BLANK_TM.defaultStack))
+            return true // load in blank TM
+        // if type gem is needed still
+        else if ((itemStack !in loadedMaterials && itemStack == typeGem))
+            return true // load in Type Gem
+        // if the itemStack is listed as needed in the recipe and the count is not currently met
+        else if (itemStack.item == recipeItem &&  loadedMaterials.count { it == itemStack } < tm.recipe?.count!!)
+            return true
+        else
+            return false
+    }
+
+    fun clearLoadedMaterials() {
+        loadedMaterials.clear()
+    }
+
+    override fun clear() {
+        TODO("Not yet implemented")
+    }
+
+    override fun size(): Int {
+        TODO("Not yet implemented")
+    }
+
+    override fun isEmpty(): Boolean {
+        TODO("Not yet implemented")
+    }
+
+    override fun getStack(slot: Int): ItemStack {
+        TODO("Not yet implemented")
+    }
+
+    override fun removeStack(slot: Int, amount: Int): ItemStack {
+        TODO("Not yet implemented")
+    }
+
+    override fun removeStack(slot: Int): ItemStack {
+        TODO("Not yet implemented")
+    }
+
+    override fun setStack(slot: Int, stack: ItemStack?) {
+        TODO("Not yet implemented")
+    }
+
+    override fun markDirty() {
+        TODO("Not yet implemented")
+    }
+
+    override fun canPlayerUse(player: PlayerEntity?): Boolean {
+        TODO("Not yet implemented")
+    }
+
+    override fun getAvailableSlots(side: Direction?): IntArray {
+        TODO("Not yet implemented")
+    }
+
+    override fun canInsert(slot: Int, stack: ItemStack?, dir: Direction?): Boolean {
+        // todo only allow for hopper to insert materials if it has a filterTM in it
+        if (filterTM != null && stack != null) {
+
+            // if material is needed then load it
+            if (materialNeeded(filterTM!!, stack)) {
+                loadMaterial(stack)
+                return true
+            }
+            else
+                return false
+            //return (materialNeeded(filterTM!!, stack))
+            // if blank disk has not been loaded
+
+
+            /*val structure = analyzerEntity.multiblockStructure as FossilMultiblockStructure
+            return stack?.let { TechnicalMachines.isTechnicalMachine(it) } == true
+                    && structure.fossilInventory.size < Cobblemon.config.maxInsertedFossilItems
+                    && structure.isRunning() == false && structure.resultingFossil == null
+                    && Fossils.getSubFossilByItemStacks( structure.fossilInventory + mutableListOf(stack) ) != null*/
+        }
+        return false
+    }
+
+    override fun canExtract(slot: Int, stack: ItemStack?, dir: Direction?): Boolean {
+        TODO("Not yet implemented")
+    }
+
+    // todo use this code to create the TM item
+    /*
+    val currentTm = filterTM ?: return@EjectButton sendPacketToServer(CraftBlankTMPacket(handler.input.getStack(2)))
+                    sendPacketToServer(
+                        CraftTMPacket(
+                            currentTm,
+                            handler.input.getStack(0),
+                            handler.input.getStack(1),
+                            handler.input.getStack(2)
+                        )
+                    )
+     */
 
     @Deprecated("Deprecated in Java")
     override fun getRenderType(blockState: BlockState): BlockRenderType {
