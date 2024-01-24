@@ -16,8 +16,10 @@ import com.cobblemon.mod.common.api.text.green
 import com.cobblemon.mod.common.api.tms.TechnicalMachine
 import com.cobblemon.mod.common.api.tms.TechnicalMachines
 import com.cobblemon.mod.common.api.types.ElementalTypes
+import com.cobblemon.mod.common.block.TMBlock
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.util.lang
+import com.cobblemon.mod.common.util.toBlockPos
 import net.minecraft.client.item.TooltipContext
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.player.PlayerEntity
@@ -97,8 +99,34 @@ class TechnicalMachineItem(settings: Settings): CobblemonItem(settings) {
     }
 
     override fun useOnBlock(context: ItemUsageContext): ActionResult {
-        val type = ElementalTypes.getOrException(getMoveNbt(context.stack)!!.type)
-        context.player!!.giveItemStack(Registries.ITEM.get(type.typeGem).defaultStack)
+        if (context.world.isClient) return ActionResult.FAIL
+
+        val TMM = context.world.getBlockState(context.hitPos.toBlockPos()).block
+
+
+        if (TMM is TMBlock) {
+            if (TMM.filterTM != null) {
+                TMM.previousFilterTM = TMM.filterTM
+            }
+            // set filterTM equal to the item it corresponds to
+            TMM.filterTM = getMoveNbt(context.stack)
+
+            // todo change the color of the disk in the TMM
+            // todo play a e
+            // todo remove 1 from the stack in the player's hand if not in creative
+            if (!context.player?.isCreative!!) {
+                context.player?.getStackInHand(context.hand)?.decrement(1)
+            }
+
+            if (TMM.previousFilterTM != null) {
+                //todo give player previousFilterTM
+                context.player!!.giveItemStack(TechnicalMachines.getStackFromTechnicalMachine(TMM.previousFilterTM!!))
+                TMM.previousFilterTM = null
+            }
+        }
+
+        /*val type = ElementalTypes.getOrException(getMoveNbt(context.stack)!!.type)
+        context.player!!.giveItemStack(Registries.ITEM.get(type.typeGem).defaultStack)*/
         return super.useOnBlock(context)
     }
 }

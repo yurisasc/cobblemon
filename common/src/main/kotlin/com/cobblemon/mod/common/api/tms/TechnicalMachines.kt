@@ -9,8 +9,10 @@
 package com.cobblemon.mod.common.api.tms
 
 import com.cobblemon.mod.common.Cobblemon
+import com.cobblemon.mod.common.CobblemonItems
 import com.cobblemon.mod.common.api.data.JsonDataRegistry
 import com.cobblemon.mod.common.api.reactive.SimpleObservable
+import com.cobblemon.mod.common.item.CobblemonItem
 import com.cobblemon.mod.common.item.TechnicalMachineItem
 import com.cobblemon.mod.common.registry.ItemTagCondition
 import com.cobblemon.mod.common.util.adapters.CobblemonObtainMethodAdapter
@@ -49,31 +51,16 @@ object TechnicalMachines : JsonDataRegistry<TechnicalMachine> {
     override fun sync(player: ServerPlayerEntity) { }
 
     fun getTechnicalMachineFromStack(item: ItemStack): TechnicalMachine? {
-        //val itemId = Registries.ITEM.getId(item.item)
-        val itemId = item.nbt?.get("StoredMove")
-        /*
-        if (itemId in tmMap.keys) {
-            return tmMap[itemId]
-        }
+        return TechnicalMachineItem.getMoveNbt(item)
+    }
 
-        //val itemId = item.nbt?.get("StoredMove")
-
-
-
-        val tag = tagMap.keys.firstOrNull { it.fits(item.item, Registries.ITEM) }
-        if (tag != null) {
-            return tagMap[tag]
-        }*/
-        return null
+    fun getStackFromTechnicalMachine(tm: TechnicalMachine): ItemStack {
+        val tmItem = CobblemonItems.TECHNICAL_MACHINE.defaultStack
+        return CobblemonItems.TECHNICAL_MACHINE.setNbt(tmItem,tm.id().toString())
     }
 
     fun isTechnicalMachine(item: ItemStack): Boolean {
-        val itemId = Registries.ITEM.getId(item.item)
-
-        return (itemId.namespace == "cobblemon" && itemId.path == "technical_machine")
-        /*return itemId in tmMap.keys || tagMap.keys.any {
-            it.fits(item.item, Registries.ITEM)
-        }*/
+        return item.item is TechnicalMachineItem
     }
 
 

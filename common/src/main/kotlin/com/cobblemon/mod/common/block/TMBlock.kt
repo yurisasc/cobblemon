@@ -16,6 +16,7 @@ import com.cobblemon.mod.common.api.tms.TechnicalMachine
 import com.cobblemon.mod.common.api.tms.TechnicalMachines
 import com.cobblemon.mod.common.api.types.ElementalTypes
 import com.cobblemon.mod.common.item.CobblemonItem
+import com.cobblemon.mod.common.item.TechnicalMachineItem
 import com.cobblemon.mod.common.net.messages.client.ui.OpenTMMPacket
 import net.minecraft.block.*
 import net.minecraft.entity.ai.pathing.NavigationType
@@ -25,6 +26,7 @@ import net.minecraft.fluid.Fluids
 import net.minecraft.inventory.SidedInventory
 import net.minecraft.item.ItemPlacementContext
 import net.minecraft.item.ItemStack
+import net.minecraft.item.Items
 import net.minecraft.registry.Registries
 import net.minecraft.screen.NamedScreenHandlerFactory
 import net.minecraft.screen.SimpleNamedScreenHandlerFactory
@@ -44,6 +46,7 @@ import net.minecraft.util.shape.VoxelShape
 import net.minecraft.util.shape.VoxelShapes
 import net.minecraft.world.BlockView
 import net.minecraft.world.World
+import net.minecraft.world.WorldAccess
 import java.rmi.registry.Registry
 
 class TMBlock(properties: Settings): HorizontalFacingBlock(properties), Waterloggable, SidedInventory {
@@ -132,74 +135,22 @@ class TMBlock(properties: Settings): HorizontalFacingBlock(properties), Waterlog
         interactionHand: Hand,
         blockHitResult: BlockHitResult
     ): ActionResult {
-        // todo if player is not sneaking then act as normal
-        if (!player.isSneaking) {
-            if (TechnicalMachines.isTechnicalMachine(player.getStackInHand(interactionHand))) {
-                if (filterTM != null) {
-                    var previousFilterTM = filterTM
-                }
-                // add TM from player hand to TM Machine as a filter
-                filterTM = TechnicalMachines.getTechnicalMachineFromStack(player.getStackInHand(interactionHand))
-                // todo change the color of the disk in the TMM
-                // todo play a sound
-                // todo remove 1 from the stack in the player's hand if not in creative
-                if (!player.isCreative) {
-                    player.getStackInHand(interactionHand)?.decrement(1)
-                }
-
-
-                if (previousFilterTM != null) {
-                    //todo give player previousFilterTM
-                    //player.setStackInHand(interactionHand, STACKHERE)
-                    previousFilterTM = null
-                }
-
-                return ActionResult.SUCCESS
-            } else {
-                if (world.isClient) {
-                    return ActionResult.SUCCESS
-                }
-                // todo spit out any disc filters or materials
-                if (filterTM != null) {
-                    // spit out the filter TM and set filterTM to null
-                    // todo eject TM related to filterTM
-                    filterTM = null
-
-                    // todo eject any materials stored in loadedMaterials list
-                }
-
-                player.playSound(CobblemonSounds.TMM_ON, SoundCategory.BLOCKS, 1.0f, 1.0f)
-                val serverPlayer = player as ServerPlayerEntity
-                serverPlayer.openHandledScreen(blockState.createScreenHandlerFactory(world, pos))
-                return ActionResult.SUCCESS
-            }
+        if (world.isClient) {
+            return ActionResult.SUCCESS
         }
-        return ActionResult.FAIL
-        /*else {
-            if (TechnicalMachines.isTechnicalMachine(player.getStackInHand(interactionHand))) {
-                if (filterTM != null) {
-                    var previousFilterTM = filterTM
-                }
-                // add TM from player hand to TM Machine as a filter
-                filterTM = TechnicalMachines.getTechnicalMachineFromStack(player.getStackInHand(interactionHand))
-                // todo change the color of the disk in the TMM
-                // todo play a sound
-                // todo remove 1 from the stack in the player's hand if not in creative
-                if (!player.isCreative) {
-                    player.getStackInHand(interactionHand)?.decrement(1)
-                }
+        // todo spit out any disc filters or materials
+        if (filterTM != null) {
+            // spit out the filter TM and set filterTM to null
+            // todo eject TM related to filterTM
+            filterTM = null
 
+            // todo eject any materials stored in loadedMaterials list
+        }
 
-                if (previousFilterTM != null) {
-                    //todo give player previousFilterTM
-                    //player.setStackInHand(interactionHand, STACKHERE)
-                    previousFilterTM = null
-                }
-
-                return ActionResult.SUCCESS
-            }
-            return ActionResult.FAIL
-        }*/
+        player.playSound(CobblemonSounds.TMM_ON, SoundCategory.BLOCKS, 1.0f, 1.0f)
+        val serverPlayer = player as ServerPlayerEntity
+        serverPlayer.openHandledScreen(blockState.createScreenHandlerFactory(world, pos))
+        return ActionResult.SUCCESS
     }
 
     override fun createScreenHandlerFactory(
@@ -274,6 +225,7 @@ class TMBlock(properties: Settings): HorizontalFacingBlock(properties), Waterlog
     override fun getAvailableSlots(side: Direction?): IntArray {
         TODO("Not yet implemented")
     }
+
 
     override fun canInsert(slot: Int, stack: ItemStack?, dir: Direction?): Boolean {
         // todo only allow for hopper to insert materials if it has a filterTM in it
