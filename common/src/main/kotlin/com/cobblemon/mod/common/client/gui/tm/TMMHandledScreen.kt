@@ -404,6 +404,7 @@ class TMMHandledScreen(
                         sortType = type
                         mode = TM_BROWSING_MODE
                         clearGUI()
+                        scroll?.scrollAmount = 0.0
                     }
                 ), "${type.name}type")
                 xOffset += 24
@@ -449,6 +450,7 @@ class TMMHandledScreen(
                     tmList.set(TechnicalMachine.filterTms(null, null, null).toMutableList())
                     mode = TM_BROWSING_MODE
                     sortType = null
+                    scroll?.scrollAmount = 0.0
                     clearGUI()
                 }
             ), "disc"
