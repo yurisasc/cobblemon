@@ -47,6 +47,10 @@ data class RidingManager(val entity: () -> PokemonEntity) {
         val controller = capabilities[capability] ?: return
         this.context = this.context.apply(capability?.properties ?: return)
 
+        // TODO - We need to figure out a better method for this, as inputs could still be applied when traversal
+        // TODO - is impossible (consider walls)
+        entity.dataTracker.set(PokemonEntity.MOVING, input != Vec3d.ZERO)
+
         val poser = controller.poseProvider
         entity.dataTracker.set(PokemonEntity.POSE_TYPE, poser.select(entity))
 

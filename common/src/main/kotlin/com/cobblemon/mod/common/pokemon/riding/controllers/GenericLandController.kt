@@ -40,7 +40,7 @@ object GenericLandController : RideController {
         val max: Float = context.propertyOrDefault(RideControllerPropertyKeys.SPEED, 0.0F)
         val acceleration = this.acceleration(max, context)
 
-        return min(max(context.speed + acceleration, 0.0F), 2.0F)
+        return min(max(context.speed + acceleration, 0.0F), 1.0F)
     }
 
     private fun acceleration(speed: Float, context: RidingContext): Float {
