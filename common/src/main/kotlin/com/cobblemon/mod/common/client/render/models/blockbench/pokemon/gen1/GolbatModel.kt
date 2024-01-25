@@ -36,7 +36,7 @@ class GolbatModel(root: ModelPart) : PokemonPoseableModel() {
 //    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("golbat", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("golbat", "blink") }
+        val blink = quirk { bedrockStateful("golbat", "blink") }
 
         sleep = registerPose(
             poseType = PoseType.SLEEP,

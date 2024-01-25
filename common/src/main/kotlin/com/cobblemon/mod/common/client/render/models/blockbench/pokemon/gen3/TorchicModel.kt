@@ -39,7 +39,7 @@ class TorchicModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Biped
     override val cryAnimation = CryProvider { _, _ -> bedrockStateful("torchic", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("torchic", "blink") }
+        val blink = quirk { bedrockStateful("torchic", "blink") }
         standing = registerPose(
             poseName = "standing",
             poseTypes = STATIONARY_POSES + UI_POSES,

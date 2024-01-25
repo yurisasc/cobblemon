@@ -31,7 +31,7 @@ class RevavroomModel (root: ModelPart) : PokemonPoseableModel() {
     override val cryAnimation = CryProvider { _, _ -> bedrockStateful("revavroom", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("revavroom", "blink") }
+        val blink = quirk { bedrockStateful("revavroom", "blink") }
         sleep = registerPose(
             poseType = PoseType.SLEEP,
             idleAnimations = arrayOf(bedrock("revavroom", "sleep"))

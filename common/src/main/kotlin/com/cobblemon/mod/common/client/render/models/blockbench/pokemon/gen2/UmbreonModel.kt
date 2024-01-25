@@ -34,7 +34,7 @@ class UmbreonModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override val cryAnimation = CryProvider { _, _ -> bedrockStateful("umbreon", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("umbreon", "blink")}
+        val blink = quirk { bedrockStateful("umbreon", "blink")}
         standing = registerPose(
             poseName = "standing",
             poseTypes = STATIONARY_POSES + UI_POSES,

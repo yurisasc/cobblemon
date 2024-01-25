@@ -43,7 +43,7 @@ class PelipperModel (root: ModelPart) : PokemonPoseableModel(), BipedFrame, BiWi
     val wateroffset = -6
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("pelipper", "blink") }
+        val blink = quirk { bedrockStateful("pelipper", "blink") }
         sleep = registerPose(
             poseType = PoseType.SLEEP,
             condition = { !it.isTouchingWater },

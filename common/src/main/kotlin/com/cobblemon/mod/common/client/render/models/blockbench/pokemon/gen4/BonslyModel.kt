@@ -39,7 +39,7 @@ class BonslyModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedF
     lateinit var battlesleep: PokemonPose
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("bonsly", "blink") }
+        val blink = quirk { bedrockStateful("bonsly", "blink") }
         standing = registerPose(
             poseName = "standing",
             poseTypes = STATIONARY_POSES + UI_POSES,

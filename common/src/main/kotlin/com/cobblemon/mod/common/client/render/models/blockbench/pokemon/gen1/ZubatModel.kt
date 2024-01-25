@@ -42,7 +42,7 @@ class ZubatModel(root: ModelPart) : PokemonPoseableModel() {
     override val cryAnimation = CryProvider { _, _ -> bedrockStateful("zubat", "cry") }
 
     override fun registerPoses() {
-        val twitch = quirk("twitch") { bedrockStateful("zubat", "eartwitch") }
+        val twitch = quirk { bedrockStateful("zubat", "eartwitch") }
         sleep = registerPose(
             poseType = PoseType.SLEEP,
             transformedParts = arrayOf(

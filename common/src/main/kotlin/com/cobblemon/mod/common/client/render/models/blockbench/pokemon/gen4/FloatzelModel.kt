@@ -38,7 +38,7 @@ class FloatzelModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
 //    lateinit var sleep: PokemonPose
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("floatzel", "blink") }
+        val blink = quirk { bedrockStateful("floatzel", "blink") }
 //        sleep = registerPose(
 //            poseType = PoseType.SLEEP,
 //            idleAnimations = arrayOf(bedrock("floatzel", "sleep"))

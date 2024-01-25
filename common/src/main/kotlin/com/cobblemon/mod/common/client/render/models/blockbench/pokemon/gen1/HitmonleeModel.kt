@@ -41,7 +41,7 @@ class HitmonleeModel(root: ModelPart) : PokemonPoseableModel(), BipedFrame, Bima
     lateinit var battleidle: PokemonPose
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("hitmonlee", "blink")}
+        val blink = quirk { bedrockStateful("hitmonlee", "blink")}
 
         sleep = registerPose(
             poseType = PoseType.SLEEP,

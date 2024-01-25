@@ -41,7 +41,7 @@ class ScorbunnyModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bi
     override val cryAnimation = CryProvider { _, _ -> bedrockStateful("scorbunny", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("scorbunny", "blink") }
+        val blink = quirk { bedrockStateful("scorbunny", "blink") }
 //        sleep = registerPose(
 //            poseType = PoseType.SLEEP,
 //            idleAnimations = arrayOf(bedrock("scorbunny", "sleep"))

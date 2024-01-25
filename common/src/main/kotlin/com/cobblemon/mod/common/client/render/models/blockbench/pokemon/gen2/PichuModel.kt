@@ -41,7 +41,7 @@ class PichuModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override val cryAnimation = CryProvider { _, _ -> bedrockStateful("pichu", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("pichu", "blink") }
+        val blink = quirk { bedrockStateful("pichu", "blink") }
         standing = registerPose(
             poseName = "standing",
             poseTypes = STATIONARY_POSES + UI_POSES,

@@ -42,7 +42,7 @@ class StuffulModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quad
     override val cryAnimation = CryProvider { _, _ -> bedrockStateful("stufful", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("stufful", "blink") }
+        val blink = quirk { bedrockStateful("stufful", "blink") }
 
         sleep = registerPose(
             poseType = PoseType.SLEEP,

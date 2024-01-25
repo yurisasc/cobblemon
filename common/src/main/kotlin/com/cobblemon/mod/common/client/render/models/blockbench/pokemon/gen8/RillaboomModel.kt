@@ -44,7 +44,7 @@ class RillaboomModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bi
     override val cryAnimation = CryProvider { _, _ -> bedrockStateful("rillaboom", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("rillaboom", "blink") }
+        val blink = quirk { bedrockStateful("rillaboom", "blink") }
         standing = registerPose(
             poseName = "standing",
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,

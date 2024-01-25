@@ -34,7 +34,7 @@ class GlaceonModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override val cryAnimation = CryProvider { _, _ -> bedrockStateful("glaceon", "cry") }
 
     override fun registerPoses() {
-//        val blink = quirk("blink") { bedrockStateful("glaceon", "blink")}
+//        val blink = quirk { bedrockStateful("glaceon", "blink")}
         standing = registerPose(
             poseName = "standing",
             poseTypes = STATIONARY_POSES + UI_POSES,

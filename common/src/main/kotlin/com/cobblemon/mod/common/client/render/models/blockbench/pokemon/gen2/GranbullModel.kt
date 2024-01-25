@@ -36,7 +36,7 @@ class GranbullModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override val cryAnimation = CryProvider { _, _ -> bedrockStateful("granbull", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("granbull", "blink") }
+        val blink = quirk { bedrockStateful("granbull", "blink") }
         sleep = registerPose(
             poseType = PoseType.SLEEP,
             idleAnimations = arrayOf(bedrock("granbull", "sleep"))

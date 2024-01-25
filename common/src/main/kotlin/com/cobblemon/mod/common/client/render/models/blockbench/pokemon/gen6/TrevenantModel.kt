@@ -34,7 +34,7 @@ class TrevenantModel  (root: ModelPart) : PokemonPoseableModel() {
     override val cryAnimation = CryProvider { _, _ -> bedrockStateful("trevenant", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("trevenant", "blink")}
+        val blink = quirk { bedrockStateful("trevenant", "blink")}
         sleep = registerPose(
             poseType = PoseType.SLEEP,
             idleAnimations = arrayOf(bedrock("trevenant", "sleep"))

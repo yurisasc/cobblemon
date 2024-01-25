@@ -41,8 +41,8 @@ class GrotleModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quadr
     override val cryAnimation = CryProvider { _, _ -> bedrockStateful("grotle", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("grotle", "blink") }
-        val shake = quirk("shake", secondsBetweenOccurrences = 30F to 360F) { bedrockStateful("grotle", "quirk") }
+        val blink = quirk { bedrockStateful("grotle", "blink") }
+        val shake = quirk(secondsBetweenOccurrences = 30F to 360F) { bedrockStateful("grotle", "quirk") }
 
         sleep = registerPose(
             poseType = PoseType.SLEEP,

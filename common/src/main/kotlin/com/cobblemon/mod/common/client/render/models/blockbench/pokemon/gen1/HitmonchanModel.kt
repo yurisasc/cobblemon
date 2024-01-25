@@ -43,7 +43,7 @@ class HitmonchanModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bi
     lateinit var battleidle: PokemonPose
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("hitmonchan", "blink")}
+        val blink = quirk { bedrockStateful("hitmonchan", "blink")}
 
         sleep = registerPose(
             poseType = PoseType.SLEEP,

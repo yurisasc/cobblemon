@@ -31,7 +31,7 @@ class WigglytuffModel(root: ModelPart) : PokemonPoseableModel() {
     lateinit var sleep: PokemonPose
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("wigglytuff", "blink")}
+        val blink = quirk { bedrockStateful("wigglytuff", "blink")}
         sleep = registerPose(
             poseType = PoseType.SLEEP,
             idleAnimations = arrayOf(bedrock("wigglytuff", "sleep"))

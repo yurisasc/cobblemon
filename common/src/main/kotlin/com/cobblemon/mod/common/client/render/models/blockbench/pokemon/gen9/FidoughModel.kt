@@ -42,7 +42,7 @@ class FidoughModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quadr
     override val cryAnimation = CryProvider { _, _ -> bedrockStateful("fidough", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("fidough", "blink") }
+        val blink = quirk { bedrockStateful("fidough", "blink") }
         standing = registerPose(
             poseName = "standing",
             poseTypes = STATIONARY_POSES + UI_POSES,

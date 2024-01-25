@@ -41,7 +41,7 @@ class PrinplupModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bipe
     override val cryAnimation = CryProvider { _, _ -> bedrockStateful("prinplup", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("prinplup", "blink")}
+        val blink = quirk { bedrockStateful("prinplup", "blink")}
         sleep = registerPose(
             poseType = PoseType.SLEEP,
             idleAnimations = arrayOf(bedrock("prinplup", "sleep"))

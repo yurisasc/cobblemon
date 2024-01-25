@@ -38,8 +38,8 @@ class SirfetchdModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bi
     override val cryAnimation = CryProvider { _, _ -> bedrockStateful("sirfetchd", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("sirfetchd", "blink") }
-        val swag = quirk("swag") { PrimaryAnimation(bedrockStateful("sirfetchd", "quirk")) }
+        val blink = quirk { bedrockStateful("sirfetchd", "blink") }
+        val swag = quirk { PrimaryAnimation(bedrockStateful("sirfetchd", "quirk")) }
         standing = registerPose(
             poseName = "standing",
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,

@@ -38,7 +38,7 @@ class SnivyModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedF
     override val cryAnimation = CryProvider { _, _ -> bedrockStateful("snivy", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("snivy", "blink") }
+        val blink = quirk { bedrockStateful("snivy", "blink") }
         sleep = registerPose(
             poseType = PoseType.SLEEP,
             transformTicks = 10,

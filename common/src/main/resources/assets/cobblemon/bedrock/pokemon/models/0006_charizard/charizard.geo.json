@@ -7,20 +7,17 @@
 				"texture_width": 128,
 				"texture_height": 64,
 				"visible_bounds_width": 7,
-				"visible_bounds_height": 5,
-				"visible_bounds_offset": [0, 1.5, 0]
+				"visible_bounds_height": 4,
+				"visible_bounds_offset": [0, 1, 0]
 			},
 			"bones": [
 				{
 					"name": "charizard",
 					"pivot": [0, 0, 0],
 					"locators": {
-						"center": {
-							"offset": [0, 18, -1],
-							"rotation": [0, 0, -180]
-						},
-						"target": [0, 17, -13],
-						"ground_center": [0, 0, 0]
+						"target": [0, 14, -9],
+						"ground_center": [0, 0, 0],
+						"center": [0, 14, -1]
 					}
 				},
 				{
@@ -80,8 +77,11 @@
 						{"origin": [1.5, 32.5, 2.25], "size": [1, 2, 6], "pivot": [2, 33.25, 2.5], "rotation": [5, 5, 0], "uv": [81, 49], "mirror": true}
 					],
 					"locators": {
-						"head_top": [0, 35, -1],
-						"special_attack": [0, 29, -9]
+						"special_attack": {
+							"offset": [0, 29, -8],
+							"rotation": [5, 0, 0]
+						},
+						"head_top": [0, 35, -2]
 					}
 				},
 				{
@@ -170,13 +170,7 @@
 					"cubes": [
 						{"origin": [-19.5, 20, -1], "size": [3, 1, 1], "uv": [112, 46]},
 						{"origin": [-20.5, 20.5, -1], "size": [1, 0, 1], "pivot": [-19.5, 20.5, -0.5], "rotation": [-120, 0, 0], "uv": [6, 31]}
-					],
-					"locators": {
-						"claw": {
-							"offset": [-20, 20, -0.5],
-							"rotation": [0, 90, 0]
-						}
-					}
+					]
 				},
 				{
 					"name": "finger_right3",

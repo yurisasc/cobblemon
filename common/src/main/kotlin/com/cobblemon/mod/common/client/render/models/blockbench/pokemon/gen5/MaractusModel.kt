@@ -39,7 +39,7 @@ class MaractusModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bima
     override val cryAnimation = CryProvider { _, _ -> bedrockStateful("maractus", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("maractus", "blink") }
+        val blink = quirk { bedrockStateful("maractus", "blink") }
         standing = registerPose(
             poseName = "standing",
             poseTypes = STATIONARY_POSES + UI_POSES,

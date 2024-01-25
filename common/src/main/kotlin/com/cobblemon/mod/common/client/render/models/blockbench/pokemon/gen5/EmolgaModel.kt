@@ -43,7 +43,7 @@ class EmolgaModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedF
     lateinit var flying: PokemonPose
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("emolga", "blink") }
+        val blink = quirk { bedrockStateful("emolga", "blink") }
         standing = registerPose(
             poseName = "standing",
             poseTypes = STATIONARY_POSES + UI_POSES - PoseType.HOVER,

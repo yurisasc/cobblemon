@@ -53,7 +53,7 @@ class WartortleModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
     override val cryAnimation = CryProvider { _, _ -> bedrockStateful("wartortle", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("wartortle", "blink")}
+        val blink = quirk { bedrockStateful("wartortle", "blink")}
         sleep = registerPose(
             poseType = PoseType.SLEEP,
             transformTicks = 10,

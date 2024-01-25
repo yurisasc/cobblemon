@@ -33,8 +33,8 @@ class SlowkingModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     lateinit var battleidle: PokemonPose
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("slowking", "blink") }
-        val blink2 = quirk("blink2") { bedrockStateful("slowking", "blink2") }
+        val blink = quirk { bedrockStateful("slowking", "blink") }
+        val blink2 = quirk { bedrockStateful("slowking", "blink2") }
 
         standing = registerPose(
             poseName = "standing",

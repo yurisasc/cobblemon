@@ -39,7 +39,7 @@ class HerdierModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quad
     override val cryAnimation = CryProvider { _, _ -> bedrockStateful("herdier", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("herdier", "blink") }
+        val blink = quirk { bedrockStateful("herdier", "blink") }
         standing = registerPose(
             poseName = "standing",
             poseTypes = PoseType.UI_POSES + PoseType.STATIONARY_POSES,

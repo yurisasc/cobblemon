@@ -48,7 +48,7 @@ class BidoofModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quadru
     val wateroffset = -2
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("bidoof", "blink") }
+        val blink = quirk { bedrockStateful("bidoof", "blink") }
 
         standing = registerPose(
             poseName = "standing",

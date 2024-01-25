@@ -54,7 +54,7 @@ class EeveeModel(root: ModelPart) : PokemonPoseableModel(), EaredFrame, HeadedFr
     val shoulderOffset = 4
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("eevee", "blink") }
+        val blink = quirk { bedrockStateful("eevee", "blink") }
         stand = registerPose(
             poseName = "standing",
             poseTypes = STATIONARY_POSES + UI_POSES,

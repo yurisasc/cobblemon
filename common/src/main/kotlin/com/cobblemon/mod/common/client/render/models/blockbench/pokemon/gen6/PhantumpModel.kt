@@ -36,7 +36,7 @@ class PhantumpModel (root: ModelPart) : PokemonPoseableModel() {
     override val cryAnimation = CryProvider { _, _ -> bedrockStateful("phantump", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("phantump", "blink")}
+        val blink = quirk { bedrockStateful("phantump", "blink")}
         sleep = registerPose(
             poseType = PoseType.SLEEP,
             idleAnimations = arrayOf(bedrock("phantump", "sleep"))

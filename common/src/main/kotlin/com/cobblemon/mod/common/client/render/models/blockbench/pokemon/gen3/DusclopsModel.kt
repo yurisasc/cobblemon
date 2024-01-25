@@ -33,7 +33,7 @@ class DusclopsModel (root: ModelPart) : PokemonPoseableModel() {
     lateinit var battleidle: PokemonPose
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("dusclops", "blink") }
+        val blink = quirk { bedrockStateful("dusclops", "blink") }
 
         sleep = registerPose(
             poseType = PoseType.SLEEP,

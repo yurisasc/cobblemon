@@ -54,7 +54,7 @@ class ArbokModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override val cryAnimation = CryProvider { _, _ -> bedrockStateful("arbok", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("arbok", "blink") }
+        val blink = quirk { bedrockStateful("arbok", "blink") }
         // TODO tongue_flick
 
         val wave = WaveAnimation<PokemonEntity>(

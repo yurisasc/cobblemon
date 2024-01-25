@@ -44,7 +44,7 @@ class GrovyleModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bipe
             idleAnimations = arrayOf(bedrock("grovyle", "sleep"))
         )
 
-        val blink = quirk("blink") { bedrockStateful("grovyle", "blink") }
+        val blink = quirk { bedrockStateful("grovyle", "blink") }
         standing = registerPose(
             poseName = "standing",
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,

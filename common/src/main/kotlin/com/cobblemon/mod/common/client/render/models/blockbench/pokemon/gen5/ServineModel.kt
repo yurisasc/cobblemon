@@ -38,7 +38,7 @@ class ServineModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bipe
     override val cryAnimation = CryProvider { _, _ -> bedrockStateful("servine", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("servine", "blink") }
+        val blink = quirk { bedrockStateful("servine", "blink") }
         sleep = registerPose(
             poseType = PoseType.SLEEP,
             transformTicks = 10,

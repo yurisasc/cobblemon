@@ -42,7 +42,7 @@ class TyrogueModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
 //    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("tyrogue", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("tyrogue", "blink") }
+        val blink = quirk { bedrockStateful("tyrogue", "blink") }
         sleep = registerPose(
             poseType = PoseType.SLEEP,
             idleAnimations = arrayOf(bedrock("tyrogue", "sleep"))

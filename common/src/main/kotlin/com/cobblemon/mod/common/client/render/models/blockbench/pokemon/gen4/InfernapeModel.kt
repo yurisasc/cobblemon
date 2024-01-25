@@ -44,7 +44,7 @@ class InfernapeModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
     override val cryAnimation = CryProvider { _, _ -> bedrockStateful("infernape", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("infernape", "blink") }
+        val blink = quirk { bedrockStateful("infernape", "blink") }
         standing = registerPose(
                 poseName = "standing",
                 poseTypes = STATIONARY_POSES + UI_POSES,

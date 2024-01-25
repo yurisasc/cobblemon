@@ -43,7 +43,7 @@ class VenusaurModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quad
     override val cryAnimation = CryProvider { _, _ -> bedrockStateful("venusaur", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("turtwig", "blink") }
+        val blink = quirk { bedrockStateful("turtwig", "blink") }
         sleep = registerPose(
             poseType = PoseType.SLEEP,
             transformTicks = 10,

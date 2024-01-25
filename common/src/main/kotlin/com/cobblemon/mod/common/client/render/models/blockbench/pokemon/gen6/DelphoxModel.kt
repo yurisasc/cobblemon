@@ -45,7 +45,7 @@ class DelphoxModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Biped
     override val cryAnimation = CryProvider { _, _ -> bedrockStateful("delphox", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("delphox", "blink")}
+        val blink = quirk { bedrockStateful("delphox", "blink")}
         standing = registerPose(
             poseName = "standing",
             poseTypes = STATIONARY_POSES + UI_POSES,

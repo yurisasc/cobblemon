@@ -38,7 +38,7 @@ class CetoddleModel (root: ModelPart) : PokemonPoseableModel() {
     override val cryAnimation = CryProvider { _, _ -> bedrockStateful("cetoddle", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("cetoddle", "blink") }
+        val blink = quirk { bedrockStateful("cetoddle", "blink") }
         sleep = registerPose(
             poseType = PoseType.SLEEP,
             idleAnimations = arrayOf(bedrock("cetoddle", "sleep"))

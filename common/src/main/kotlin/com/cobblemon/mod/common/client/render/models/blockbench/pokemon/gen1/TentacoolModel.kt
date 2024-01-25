@@ -32,7 +32,7 @@ class TentacoolModel(root: ModelPart) : PokemonPoseableModel() {
     lateinit var watersleep: PokemonPose
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("tentacool", "blink")}
+        val blink = quirk { bedrockStateful("tentacool", "blink")}
         standing = registerPose(
             poseName = "standing",
             poseType = PoseType.STAND,

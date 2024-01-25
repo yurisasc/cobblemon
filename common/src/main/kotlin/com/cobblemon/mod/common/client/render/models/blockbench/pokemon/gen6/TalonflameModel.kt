@@ -50,7 +50,7 @@ class TalonflameModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, B
 //            idleAnimations = arrayOf(bedrock("talonflame", "sleep"))
 //        )
 
-        val blink = quirk("blink") { bedrockStateful("talonflame", "blink")}
+        val blink = quirk { bedrockStateful("talonflame", "blink")}
         stand = registerPose(
             poseName = "stand",
             poseTypes = PoseType.STATIONARY_POSES - PoseType.HOVER - PoseType.FLOAT + PoseType.UI_POSES,

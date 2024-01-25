@@ -37,7 +37,7 @@ class RoggenrolaModel (root: ModelPart) : PokemonPoseableModel(), BipedFrame {
     override val cryAnimation = CryProvider { _, _ -> bedrockStateful("roggenrola", "cry") }
 
     override fun registerPoses() {
-        val twitch = quirk("twitch", secondsBetweenOccurrences = 60F to 120F) { bedrockStateful("roggenrola", "quirk_twitch") }
+        val twitch = quirk(secondsBetweenOccurrences = 60F to 120F) { bedrockStateful("roggenrola", "quirk_twitch") }
         sleep = registerPose(
             poseType = PoseType.SLEEP,
             idleAnimations = arrayOf(bedrock("roggenrola", "sleep"))

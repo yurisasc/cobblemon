@@ -30,7 +30,7 @@ class HonedgeModel(root: ModelPart) : PokemonPoseableModel() {
     override val cryAnimation = CryProvider { _, _ -> bedrockStateful("honedge", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("honedge", "blink") }
+        val blink = quirk { bedrockStateful("honedge", "blink") }
         standing = registerPose(
                 poseName = "standing",
                 poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,

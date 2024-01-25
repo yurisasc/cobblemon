@@ -34,7 +34,7 @@ class MetagrossModel (root: ModelPart) : PokemonPoseableModel() {
     override val cryAnimation = CryProvider { _, _ -> bedrockStateful("metagross", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("metagross", "blink")}
+        val blink = quirk { bedrockStateful("metagross", "blink")}
 
         sleep = registerPose(
             poseType = PoseType.SLEEP,

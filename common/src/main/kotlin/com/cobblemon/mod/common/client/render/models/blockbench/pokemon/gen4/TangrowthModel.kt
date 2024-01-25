@@ -29,7 +29,7 @@ class TangrowthModel(root: ModelPart) : PokemonPoseableModel() {
     lateinit var walk: PokemonPose
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("tangrowth", "blink") }
+        val blink = quirk { bedrockStateful("tangrowth", "blink") }
         standing = registerPose(
             poseName = "standing",
             poseTypes = STATIONARY_POSES + UI_POSES,

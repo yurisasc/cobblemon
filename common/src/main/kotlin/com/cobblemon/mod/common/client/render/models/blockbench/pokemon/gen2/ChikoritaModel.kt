@@ -34,7 +34,7 @@ class ChikoritaModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override val cryAnimation = CryProvider { _, _ -> bedrockStateful("chikorita", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("chikorita", "blink") }
+        val blink = quirk { bedrockStateful("chikorita", "blink") }
         sleep = registerPose(
             poseType = PoseType.SLEEP,
             idleAnimations = arrayOf(bedrock("chikorita", "sleep"))

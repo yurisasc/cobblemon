@@ -27,7 +27,7 @@ class XatuModel(root: ModelPart) : PokemonPoseableModel() {
     lateinit var standing: PokemonPose
     lateinit var sleep: PokemonPose
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("xatu", "blink") }
+        val blink = quirk { bedrockStateful("xatu", "blink") }
 
         sleep = registerPose(
             poseType = PoseType.SLEEP,

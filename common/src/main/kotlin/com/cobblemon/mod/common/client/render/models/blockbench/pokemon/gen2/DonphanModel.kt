@@ -34,7 +34,7 @@ class DonphanModel (root: ModelPart) : PokemonPoseableModel(), QuadrupedFrame {
     lateinit var walk: PokemonPose
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("donphan", "blink") }
+        val blink = quirk { bedrockStateful("donphan", "blink") }
 
         standing = registerPose(
             poseName = "standing",

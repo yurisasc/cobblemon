@@ -39,7 +39,7 @@ class GrowlitheModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Qua
     lateinit var walk: PokemonPose
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("growlithe", "blink") }
+        val blink = quirk { bedrockStateful("growlithe", "blink") }
         sleep = registerPose(
             poseType = PoseType.SLEEP,
             idleAnimations = arrayOf(bedrock("growlithe", "sleep"))

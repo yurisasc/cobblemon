@@ -30,7 +30,7 @@ class DoubladeModel(root: ModelPart) : PokemonPoseableModel() {
     override val cryAnimation = CryProvider { _, _ -> bedrockStateful("doublade", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("doublade", "blink") }
+        val blink = quirk { bedrockStateful("doublade", "blink") }
         standing = registerPose(
                 poseName = "standing",
                 poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,

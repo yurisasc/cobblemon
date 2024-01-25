@@ -41,7 +41,7 @@ class InteleonModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
     override val cryAnimation = CryProvider { _, _ -> bedrockStateful("inteleon", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("inteleon", "blink") }
+        val blink = quirk { bedrockStateful("inteleon", "blink") }
         standing = registerPose(
             poseName = "standing",
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,

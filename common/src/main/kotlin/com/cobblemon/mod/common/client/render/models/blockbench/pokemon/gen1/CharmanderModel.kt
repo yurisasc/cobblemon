@@ -49,7 +49,7 @@ class CharmanderModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bi
             idleAnimations = arrayOf(bedrock("charmander", "sleep"))
         )
 
-        val blink = quirk("blink") { bedrockStateful("charmander", "blink") }
+        val blink = quirk { bedrockStateful("charmander", "blink") }
 
         standing = registerPose(
             poseName = "standing",

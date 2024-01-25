@@ -35,7 +35,7 @@ class QuilavaModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override val cryAnimation = CryProvider { entity, _ -> if (entity.isBattling) bedrockStateful("quilava", "battle_cry") else PrimaryAnimation(bedrockStateful("quilava", "cry")) }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("quilava", "blink") }
+        val blink = quirk { bedrockStateful("quilava", "blink") }
 
         sleep = registerPose(
             poseType = PoseType.SLEEP,

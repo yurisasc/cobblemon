@@ -39,7 +39,7 @@ class BulbasaurModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Qua
     override val cryAnimation = CryProvider { _, _ -> bedrockStateful("bulbasaur", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("bulbasaur", "blink") }
+        val blink = quirk { bedrockStateful("bulbasaur", "blink") }
 
         sleep = registerPose(
             poseType = PoseType.SLEEP,

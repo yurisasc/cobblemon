@@ -33,7 +33,7 @@ class GolduckModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     lateinit var swim: PokemonPose
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("golduck", "blink")}
+        val blink = quirk { bedrockStateful("golduck", "blink")}
         standing = registerPose(
             poseName = "standing",
             poseTypes = UI_POSES + PoseType.STAND,

@@ -47,7 +47,7 @@ class GreninjaModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bipe
     override val cryAnimation = CryProvider { _, _ -> bedrockStateful("greninja", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("greninja", "blink")}
+        val blink = quirk { bedrockStateful("greninja", "blink")}
         sleep = registerPose(
                 poseType = PoseType.SLEEP,
                 transformTicks = 10,

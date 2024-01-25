@@ -34,7 +34,7 @@ class MeganiumModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override val cryAnimation = CryProvider { _, _ -> bedrockStateful("meganium", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("meganium", "blink") }
+        val blink = quirk { bedrockStateful("meganium", "blink") }
         sleep = registerPose(
             poseType = PoseType.SLEEP,
             idleAnimations = arrayOf(bedrock("meganium", "sleep"))

@@ -40,7 +40,7 @@ class LechonkModel (root: ModelPart) : PokemonPoseableModel(), QuadrupedFrame {
 //            idleAnimations = arrayOf(bedrock("lechonk", "sleep"))
 //        )
 
-        val blink = quirk("blink") { bedrockStateful("lechonk", "blink") }
+        val blink = quirk { bedrockStateful("lechonk", "blink") }
 
         standing = registerPose(
             poseName = "standing",

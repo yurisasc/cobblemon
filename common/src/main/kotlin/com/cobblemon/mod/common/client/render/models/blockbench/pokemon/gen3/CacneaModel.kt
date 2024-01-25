@@ -36,7 +36,7 @@ class CacneaModel (root: ModelPart) : PokemonPoseableModel(), BimanualFrame, Bip
     lateinit var battleidle: PokemonPose
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("cacnea", "blink") }
+        val blink = quirk { bedrockStateful("cacnea", "blink") }
         sleep = registerPose(
             poseType = PoseType.SLEEP,
             idleAnimations = arrayOf(bedrock("cacnea", "sleep"))

@@ -34,7 +34,7 @@ class IronleavesModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     lateinit var walk: PokemonPose
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("ironleaves", "blink") }
+        val blink = quirk { bedrockStateful("ironleaves", "blink") }
 
         standing = registerPose(
             poseName = "standing",

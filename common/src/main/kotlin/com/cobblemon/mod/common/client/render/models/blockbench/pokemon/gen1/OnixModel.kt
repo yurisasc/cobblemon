@@ -40,7 +40,7 @@ class OnixModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override val cryAnimation = CryProvider { _, _ -> bedrockStateful("onix", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("onix", "blink") }
+        val blink = quirk { bedrockStateful("onix", "blink") }
         ui = registerPose(
             poseName = "ui",
             poseTypes = UI_POSES,

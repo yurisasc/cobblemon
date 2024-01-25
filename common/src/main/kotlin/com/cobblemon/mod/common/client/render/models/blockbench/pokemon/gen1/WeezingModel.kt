@@ -29,8 +29,8 @@ class WeezingModel(root: ModelPart) : PokemonPoseableModel() {
     lateinit var walk: PokemonPose
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("weezing", "blink")}
-        val blink2 = quirk("blink2") { bedrockStateful("weezing", "blink2")}
+        val blink = quirk { bedrockStateful("weezing", "blink")}
+        val blink2 = quirk { bedrockStateful("weezing", "blink2")}
         standing = registerPose(
             poseName = "standing",
             poseTypes = STATIONARY_POSES + UI_POSES,

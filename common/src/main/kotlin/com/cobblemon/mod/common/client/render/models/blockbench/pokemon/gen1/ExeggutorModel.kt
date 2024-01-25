@@ -50,9 +50,9 @@ class ExeggutorModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
     lateinit var battleidle: PokemonPose
 
     override fun registerPoses() {
-        val blink1 = quirk("blink") { bedrockStateful("exeggutor", "blink") }
-        val blink2 = quirk("blink") { bedrockStateful("exeggutor", "blink2") }
-        val blink3 = quirk("blink") { bedrockStateful("exeggutor", "blink3") }
+        val blink1 = quirk { bedrockStateful("exeggutor", "blink") }
+        val blink2 = quirk { bedrockStateful("exeggutor", "blink2") }
+        val blink3 = quirk { bedrockStateful("exeggutor", "blink3") }
         sleep = registerPose(
             poseType = PoseType.SLEEP,
             idleAnimations = arrayOf(bedrock("exeggutor", "sleep"))

@@ -34,7 +34,7 @@ class LeafeonModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override val cryAnimation = CryProvider { _, _ -> bedrockStateful("leafeon", "cry") }
 
     override fun registerPoses() {
-//        val blink = quirk("blink") { bedrockStateful("leafeon", "blink")}
+//        val blink = quirk { bedrockStateful("leafeon", "blink")}
         standing = registerPose(
             poseName = "standing",
             poseTypes = STATIONARY_POSES + UI_POSES,

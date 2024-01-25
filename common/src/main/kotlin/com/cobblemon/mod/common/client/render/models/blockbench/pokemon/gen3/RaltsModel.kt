@@ -41,7 +41,7 @@ class RaltsModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedF
     override val cryAnimation = CryProvider { _, _ -> bedrockStateful("ralts", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("ralts", "blink") }
+        val blink = quirk { bedrockStateful("ralts", "blink") }
         standing = registerPose(
             poseName = "standing",
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,

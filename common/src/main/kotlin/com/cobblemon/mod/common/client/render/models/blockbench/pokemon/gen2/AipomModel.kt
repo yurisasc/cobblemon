@@ -41,7 +41,7 @@ class AipomModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedF
     override val cryAnimation = CryProvider { _, _ -> bedrockStateful("aipom", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("aipom", "blink") }
+        val blink = quirk { bedrockStateful("aipom", "blink") }
         sleep = registerPose(
             poseType = PoseType.SLEEP,
             idleAnimations = arrayOf(bedrock("aipom", "sleep"))

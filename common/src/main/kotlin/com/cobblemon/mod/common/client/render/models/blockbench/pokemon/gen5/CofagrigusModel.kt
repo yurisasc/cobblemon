@@ -34,7 +34,7 @@ class CofagrigusModel (root: ModelPart) : PokemonPoseableModel() {
     override val cryAnimation = CryProvider { _, _ -> bedrockStateful("cofagrigus", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("cofagrigus", "blink") }
+        val blink = quirk { bedrockStateful("cofagrigus", "blink") }
 
         sleep = registerPose(
                 poseType = PoseType.SLEEP,

@@ -43,7 +43,7 @@ class SceptileModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
             poseType = PoseType.SLEEP,
             idleAnimations = arrayOf(bedrock("sceptile", "sleep"))
         )
-        val blink = quirk("blink") { bedrockStateful("sceptile", "blink") }
+        val blink = quirk { bedrockStateful("sceptile", "blink") }
         standing = registerPose(
             poseName = "standing",
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,

@@ -43,7 +43,7 @@ class ShroomishModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
     override val cryAnimation = CryProvider { _, _ -> bedrockStateful("shroomish", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("shroomish", "blink") }
+        val blink = quirk { bedrockStateful("shroomish", "blink") }
         standing = registerPose(
             poseName = "standing",
             poseTypes = STATIONARY_POSES + UI_POSES,

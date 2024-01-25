@@ -32,7 +32,7 @@ class EiscueModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     lateinit var sleep: PokemonPose
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("eiscue_ice", "blink")}
+        val blink = quirk { bedrockStateful("eiscue_ice", "blink")}
         sleep = registerPose(
             poseType = PoseType.SLEEP,
             transformTicks = 10,

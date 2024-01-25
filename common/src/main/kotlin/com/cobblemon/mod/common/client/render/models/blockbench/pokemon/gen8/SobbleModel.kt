@@ -39,7 +39,7 @@ class SobbleModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Biped
     override val cryAnimation = CryProvider { _, _ -> bedrockStateful("sobble", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("sobble", "blink") }
+        val blink = quirk { bedrockStateful("sobble", "blink") }
         standing = registerPose(
             poseName = "standing",
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,

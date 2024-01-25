@@ -40,10 +40,10 @@ class FarfetchdModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
     override val cryAnimation = CryProvider { _, _ -> bedrockStateful("farfetchd", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("farfetchd", "blink") }
-        val leakflipidle = quirk("leakflipidle", secondsBetweenOccurrences = 60F to 120F) { bedrockStateful("farfetchd", "quirk_leakflip_idle") }
-        val leakflipwalk = quirk("leakflipwalk", secondsBetweenOccurrences = 30F to 120F) { bedrockStateful("farfetchd", "quirk_leakflip_walk") }
-        val wink = quirk("wink", secondsBetweenOccurrences = 60F to 120F) { bedrockStateful("farfetchd", "quirk_wink") }
+        val blink = quirk { bedrockStateful("farfetchd", "blink") }
+        val leakflipidle = quirk(secondsBetweenOccurrences = 60F to 120F) { bedrockStateful("farfetchd", "quirk_leakflip_idle") }
+        val leakflipwalk = quirk(secondsBetweenOccurrences = 30F to 120F) { bedrockStateful("farfetchd", "quirk_leakflip_walk") }
+        val wink = quirk(secondsBetweenOccurrences = 60F to 120F) { bedrockStateful("farfetchd", "quirk_wink") }
 
         sleep = registerPose(
             poseType = PoseType.SLEEP,

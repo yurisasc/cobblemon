@@ -36,7 +36,7 @@ class ClefableModel(root: ModelPart) : PokemonPoseableModel() {
     override val cryAnimation = CryProvider { _, _ -> bedrockStateful("clefable", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("clefable", "blink")}
+        val blink = quirk { bedrockStateful("clefable", "blink")}
         standing = registerPose(
             poseName = "standing",
             poseTypes = STATIONARY_POSES + UI_POSES,

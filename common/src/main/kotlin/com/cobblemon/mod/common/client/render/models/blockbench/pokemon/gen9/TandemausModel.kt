@@ -37,8 +37,8 @@ class TandemausModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
 
     override fun registerPoses() {
 
-        val blink1 = quirk("blink1") { bedrockStateful("tandemaus", "blink1")}
-        val blink2 = quirk("blink2") { bedrockStateful("tandemaus", "blink2")}
+        val blink1 = quirk { bedrockStateful("tandemaus", "blink1")}
+        val blink2 = quirk { bedrockStateful("tandemaus", "blink2")}
 
         val head2 = object : HeadedFrame {
             override val rootPart = this@TandemausModel.rootPart

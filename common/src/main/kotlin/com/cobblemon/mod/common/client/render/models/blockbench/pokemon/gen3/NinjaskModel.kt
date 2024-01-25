@@ -38,8 +38,8 @@ class NinjaskModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override val cryAnimation = CryProvider { _, _ -> bedrockStateful("ninjask", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("ninjask", "blink") }
-        val barrelRoll = quirk("run_quirk") { bedrockStateful("ninjask", "run_quirk") }
+        val blink = quirk { bedrockStateful("ninjask", "blink") }
+        val barrelRoll = quirk { bedrockStateful("ninjask", "run_quirk") }
 
         sleep = registerPose(
             poseType = PoseType.SLEEP,

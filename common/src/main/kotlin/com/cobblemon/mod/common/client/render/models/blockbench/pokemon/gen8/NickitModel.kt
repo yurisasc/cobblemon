@@ -42,11 +42,11 @@ class NickitModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quadr
     override val cryAnimation = CryProvider { _, _ -> bedrockStateful("nickit", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("nickit", "blink")}
-        val glanceleft = quirk("glanceleft") { bedrockStateful("nickit", "quirk_shiftyglance_left")}
-        val glanceright = quirk("glanceright") { bedrockStateful("nickit", "quirk_shiftyglance_right")}
-        val eartwitchleft = quirk("eartwitchleft") { bedrockStateful("nickit", "quirk_eartwitch_left")}
-        val eartwitchright = quirk("eartwitchright") { bedrockStateful("nickit", "quirk_eartwitch_right")}
+        val blink = quirk { bedrockStateful("nickit", "blink")}
+        val glanceleft = quirk { bedrockStateful("nickit", "quirk_shiftyglance_left")}
+        val glanceright = quirk { bedrockStateful("nickit", "quirk_shiftyglance_right")}
+        val eartwitchleft = quirk { bedrockStateful("nickit", "quirk_eartwitch_left")}
+        val eartwitchright = quirk { bedrockStateful("nickit", "quirk_eartwitch_right")}
 
         sleep = registerPose(
             poseType = PoseType.SLEEP,

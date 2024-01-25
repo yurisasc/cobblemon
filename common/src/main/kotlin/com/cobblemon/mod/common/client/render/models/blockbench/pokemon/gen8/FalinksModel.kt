@@ -29,12 +29,12 @@ class FalinksModel (root: ModelPart) : PokemonPoseableModel(){
     lateinit var uipose: PokemonPose
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("falinks", "blink") }
-        val blink2 = quirk("blink2") { bedrockStateful("falinks", "blink2") }
-        val blink3 = quirk("blink3") { bedrockStateful("falinks", "blink3") }
-        val blink4 = quirk("blink4") { bedrockStateful("falinks", "blink4") }
-        val blink5 = quirk("blink5") { bedrockStateful("falinks", "blink5") }
-        val blink6 = quirk("blink6") { bedrockStateful("falinks", "blink6") }
+        val blink = quirk { bedrockStateful("falinks", "blink") }
+        val blink2 = quirk { bedrockStateful("falinks", "blink2") }
+        val blink3 = quirk { bedrockStateful("falinks", "blink3") }
+        val blink4 = quirk { bedrockStateful("falinks", "blink4") }
+        val blink5 = quirk { bedrockStateful("falinks", "blink5") }
+        val blink6 = quirk { bedrockStateful("falinks", "blink6") }
 
         standing = registerPose(
             poseName = "standing",

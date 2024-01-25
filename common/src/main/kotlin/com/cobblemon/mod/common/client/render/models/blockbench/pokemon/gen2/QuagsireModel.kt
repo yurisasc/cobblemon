@@ -43,7 +43,7 @@ class QuagsireModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bipe
     override val cryAnimation = CryProvider { _, _ -> bedrockStateful("quagsire", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("quagsire", "blink") }
+        val blink = quirk { bedrockStateful("quagsire", "blink") }
         standing = registerPose(
             poseName = "standing",
             poseTypes = STATIONARY_POSES + UI_POSES,

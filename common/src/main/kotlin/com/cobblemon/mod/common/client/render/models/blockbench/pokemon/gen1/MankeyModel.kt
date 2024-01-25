@@ -36,7 +36,7 @@ class MankeyModel(root: ModelPart) : PokemonPoseableModel() {
     override val cryAnimation = CryProvider { _, _ -> bedrockStateful("mankey", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("mankey", "blink") }
+        val blink = quirk { bedrockStateful("mankey", "blink") }
         standing = registerPose(
             poseName = "standing",
             poseTypes = STATIONARY_POSES + UI_POSES,

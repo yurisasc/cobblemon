@@ -44,7 +44,7 @@ class CorvisquireModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, 
 
     override fun registerPoses() {
 
-        val blink = quirk("blink") { bedrockStateful("corvisquire", "blink") }
+        val blink = quirk { bedrockStateful("corvisquire", "blink") }
         sleep = registerPose(
             poseType = PoseType.SLEEP,
             idleAnimations = arrayOf(bedrock("corvisquire", "sleep"))

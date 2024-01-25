@@ -31,7 +31,7 @@ class GeodudeModel(root: ModelPart) : PokemonPoseableModel() {
     lateinit var walk: PokemonPose
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("geodude", "blink")}
+        val blink = quirk { bedrockStateful("geodude", "blink")}
         sleep = registerPose(
             poseType = PoseType.SLEEP,
             idleAnimations = arrayOf(bedrock("geodude", "sleep"))

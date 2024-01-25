@@ -32,7 +32,7 @@ class SeadraModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     lateinit var swim: PokemonPose
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("seadra", "blink")}
+        val blink = quirk { bedrockStateful("seadra", "blink")}
         standing = registerPose(
             poseName = "standing",
             poseType = PoseType.STAND,

@@ -51,7 +51,7 @@ class FletchinderModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, 
 //            poseType = PoseType.SLEEP,
 //            idleAnimations = arrayOf(bedrock("fletchinder", "sleep"))
 //        )
-        val blink = quirk("blink") { bedrockStateful("fletchinder", "blink") }
+        val blink = quirk { bedrockStateful("fletchinder", "blink") }
         stand = registerPose(
             poseName = "standing",
             poseTypes = PoseType.SHOULDER_POSES + PoseType.UI_POSES + PoseType.STAND,

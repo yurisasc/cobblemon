@@ -42,7 +42,7 @@ class DrizzileModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
     override val cryAnimation = CryProvider { _, _ -> bedrockStateful("drizzile", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("drizzile", "blink") }
+        val blink = quirk { bedrockStateful("drizzile", "blink") }
         standing = registerPose(
             poseName = "standing",
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,

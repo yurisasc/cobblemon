@@ -7,7 +7,7 @@
     {
       "type": "animation",
       "animation": ["dragonclaw", "scratch", "physical"],
-      "delay": 0.9
+      "delay": 1.02
     },
     {
       "type": "entity_molang",

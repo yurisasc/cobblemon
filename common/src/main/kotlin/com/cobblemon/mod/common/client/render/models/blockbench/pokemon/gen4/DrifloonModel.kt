@@ -29,7 +29,7 @@ class DrifloonModel (root: ModelPart) : PokemonPoseableModel() {
 
 
     override fun registerPoses() {
-        val blink = quirk(name = "blink") { bedrockStateful("drifloon", "blink") }
+        val blink = quirk { bedrockStateful("drifloon", "blink") }
 
         standing = registerPose(
             poseName = "standing",

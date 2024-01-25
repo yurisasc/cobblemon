@@ -39,7 +39,7 @@ class MarshtompModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
     override val cryAnimation = CryProvider { _, _ -> bedrockStateful("marshtomp", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("marshtomp", "blink") }
+        val blink = quirk { bedrockStateful("marshtomp", "blink") }
         standing = registerPose(
             poseName = "standing",
             poseTypes = STATIONARY_POSES + UI_POSES,

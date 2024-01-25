@@ -39,7 +39,7 @@ class YamperModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quadr
     override val cryAnimation = CryProvider { _, _ -> bedrockStateful("yamper", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("yamper", "blink") }
+        val blink = quirk { bedrockStateful("yamper", "blink") }
 
         standing = registerPose(
             poseName = "standing",

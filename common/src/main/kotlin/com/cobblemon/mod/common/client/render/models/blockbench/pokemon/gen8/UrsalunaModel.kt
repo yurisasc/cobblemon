@@ -45,7 +45,7 @@ class UrsalunaModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Qua
 //            idleAnimations = arrayOf(bedrock("ursaluna", "sleep"))
 //        )
 
-        val blink = quirk("blink") { bedrockStateful("ursaluna", "blink") }
+        val blink = quirk { bedrockStateful("ursaluna", "blink") }
 
         standing = registerPose(
             poseName = "standing",

@@ -60,7 +60,7 @@ class EkansModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             poseType = PoseType.SLEEP,
             idleAnimations = arrayOf(bedrock("ekans", "sleep"))
         )
-        val blink = quirk("blink") { bedrockStateful("ekans", "blink") }
+        val blink = quirk { bedrockStateful("ekans", "blink") }
         registerPose(
             poseName = "normal",
             poseTypes = STATIONARY_POSES + MOVING_POSES,

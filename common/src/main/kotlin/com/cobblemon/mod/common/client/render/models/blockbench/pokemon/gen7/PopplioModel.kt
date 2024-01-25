@@ -45,7 +45,7 @@ class PopplioModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override val cryAnimation = CryProvider { _, _ -> bedrockStateful("popplio", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("popplio", "blink") }
+        val blink = quirk { bedrockStateful("popplio", "blink") }
         sleep = registerPose(
             poseType = PoseType.SLEEP,
             idleAnimations = arrayOf(bedrock("popplio", "sleep"))

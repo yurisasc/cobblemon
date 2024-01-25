@@ -33,7 +33,7 @@ class GlimmetModel (root: ModelPart) : PokemonPoseableModel() {
     override val cryAnimation = CryProvider { _, _ -> bedrockStateful("glimmet", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("glimmet", "blink") }
+        val blink = quirk { bedrockStateful("glimmet", "blink") }
         sleep = registerPose(
             poseType = PoseType.SLEEP,
             idleAnimations = arrayOf(bedrock("glimmet", "sleep"))

@@ -36,7 +36,7 @@ class BoltundModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override val cryAnimation = CryProvider { _, _ -> bedrockStateful("boltund", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("boltund", "blink") }
+        val blink = quirk { bedrockStateful("boltund", "blink") }
         sleep = registerPose(
             poseType = PoseType.SLEEP,
             idleAnimations = arrayOf(bedrock("boltund", "sleep"))

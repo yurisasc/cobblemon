@@ -36,7 +36,7 @@ class GliscorModel(root: ModelPart) : PokemonPoseableModel(), BipedFrame {
 
     override fun registerPoses() {
 
-        val blink = quirk("blink") { bedrockStateful("gliscor", "blink") }
+        val blink = quirk { bedrockStateful("gliscor", "blink") }
 
         standing = registerPose(
             poseName = "standing",

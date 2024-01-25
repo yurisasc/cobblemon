@@ -33,7 +33,7 @@ class ClaydolModel(root: ModelPart) : PokemonPoseableModel() {
             idleAnimations = arrayOf(bedrock("claydol", "sleep"))
         )
 
-        val blink = quirk("blink") { bedrockStateful("claydol", "blink") }
+        val blink = quirk { bedrockStateful("claydol", "blink") }
         standing = registerPose(
             poseName = "hover",
             poseTypes = PoseType.STATIONARY_POSES - PoseType.HOVER + PoseType.UI_POSES,

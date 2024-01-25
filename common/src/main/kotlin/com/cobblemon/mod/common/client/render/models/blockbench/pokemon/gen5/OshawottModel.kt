@@ -42,7 +42,7 @@ class OshawottModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
     override val cryAnimation = CryProvider { _, _ -> bedrockStateful("oshawott", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("oshawott", "blink") }
+        val blink = quirk { bedrockStateful("oshawott", "blink") }
         sleep = registerPose(
             poseType = PoseType.SLEEP,
             transformTicks = 10,

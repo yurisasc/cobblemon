@@ -40,7 +40,7 @@ class PigniteModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bipe
     override val cryAnimation = CryProvider { _, _ -> bedrockStateful("pignite", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("pignite", "blink") }
+        val blink = quirk { bedrockStateful("pignite", "blink") }
         sleep = registerPose(
             poseType = PoseType.SLEEP,
             transformTicks = 10,

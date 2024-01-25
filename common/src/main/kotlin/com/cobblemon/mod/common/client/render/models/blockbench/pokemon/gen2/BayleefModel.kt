@@ -34,7 +34,7 @@ class BayleefModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override val cryAnimation = CryProvider { _, _ -> bedrockStateful("bayleef", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("bayleef", "blink") }
+        val blink = quirk { bedrockStateful("bayleef", "blink") }
         sleep = registerPose(
             poseType = PoseType.SLEEP,
             idleAnimations = arrayOf(bedrock("bayleef", "sleep"))

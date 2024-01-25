@@ -42,7 +42,7 @@ class YamaskModel (root: ModelPart) : PokemonPoseableModel(), BimanualFrame {
                 idleAnimations = arrayOf(bedrock("yamask", "sleep"))
         )
 
-        val blink = quirk("blink") { bedrockStateful("yamask", "blink") }
+        val blink = quirk { bedrockStateful("yamask", "blink") }
 
         standing = registerPose(
                 poseName = "standing",

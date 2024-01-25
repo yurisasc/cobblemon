@@ -33,9 +33,9 @@ class SlowbroModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     lateinit var battleidle: PokemonPose
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("slowbro", "blink1") }
-        val blink2 = quirk("blink2") { bedrockStateful("slowbro", "blink2") }
-        val bite = quirk("bite", secondsBetweenOccurrences = 60F to 120F) { bedrockStateful("slowbro", "bite_quirk") }
+        val blink = quirk { bedrockStateful("slowbro", "blink1") }
+        val blink2 = quirk { bedrockStateful("slowbro", "blink2") }
+        val bite = quirk(secondsBetweenOccurrences = 60F to 120F) { bedrockStateful("slowbro", "bite_quirk") }
 
         standing = registerPose(
             poseName = "standing",

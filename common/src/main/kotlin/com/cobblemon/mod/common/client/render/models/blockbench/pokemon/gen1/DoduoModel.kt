@@ -32,10 +32,10 @@ class DoduoModel (root: ModelPart) : PokemonPoseableModel() {
     lateinit var battleidle: PokemonPose
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("doduo", "blink1") }
-        val blink2 = quirk("blink2") { bedrockStateful("doduo", "blink2") }
-        val bite = quirk("bite") { bedrockStateful("doduo", "bite_quirk1") }
-        val bite2 = quirk("bite2") { bedrockStateful("doduo", "bite_quirk2") }
+        val blink = quirk { bedrockStateful("doduo", "blink1") }
+        val blink2 = quirk { bedrockStateful("doduo", "blink2") }
+        val bite = quirk { bedrockStateful("doduo", "bite_quirk1") }
+        val bite2 = quirk { bedrockStateful("doduo", "bite_quirk2") }
 
         sleep = registerPose(
             poseType = PoseType.SLEEP,

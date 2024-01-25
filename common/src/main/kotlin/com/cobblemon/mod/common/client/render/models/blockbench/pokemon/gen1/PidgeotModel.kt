@@ -52,7 +52,7 @@ class PidgeotModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Biped
             idleAnimations = arrayOf(bedrock("pidgeot", "sleep"))
         )
 
-        val blink = quirk("blink") { bedrockStateful("pidgeot", "blink")}
+        val blink = quirk { bedrockStateful("pidgeot", "blink")}
         stand = registerPose(
             poseName = "stand",
             poseTypes = PoseType.STATIONARY_POSES - PoseType.HOVER - PoseType.FLOAT + UI_POSES,

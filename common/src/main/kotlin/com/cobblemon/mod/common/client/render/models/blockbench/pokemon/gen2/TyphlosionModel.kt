@@ -34,7 +34,7 @@ class TyphlosionModel  (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override val cryAnimation = CryProvider { entity, _ -> if (entity.isBattling) bedrockStateful("typhlosion", "battle_cry") else bedrockStateful("typhlosion", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("typhlosion", "blink") }
+        val blink = quirk { bedrockStateful("typhlosion", "blink") }
 
         sleep = registerPose(
             poseType = PoseType.SLEEP,

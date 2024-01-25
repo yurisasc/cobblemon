@@ -52,9 +52,9 @@ class TotodileModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
     override val cryAnimation = CryProvider { _, _ -> bedrockStateful("totodile", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("totodile", "blink")}
-        val sleepQuirk = quirk("sleep_quirk", secondsBetweenOccurrences = 60F to 120F) { bedrockStateful("totodile", "sleep_quirk")}
-        val biteyQuirk = quirk("bite_quirk", secondsBetweenOccurrences = 60F to 120F) { bedrockStateful("totodile", "bitey_quirk")}
+        val blink = quirk { bedrockStateful("totodile", "blink")}
+        val sleepQuirk = quirk(secondsBetweenOccurrences = 60F to 120F) { bedrockStateful("totodile", "sleep_quirk")}
+        val biteyQuirk = quirk(secondsBetweenOccurrences = 60F to 120F) { bedrockStateful("totodile", "bitey_quirk")}
 
         sleep = registerPose(
             poseName = "sleeping",

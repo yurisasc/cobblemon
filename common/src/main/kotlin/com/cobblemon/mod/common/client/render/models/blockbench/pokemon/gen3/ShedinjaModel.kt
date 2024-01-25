@@ -36,7 +36,7 @@ class ShedinjaModel (root: ModelPart) : PokemonPoseableModel() {
     override val cryAnimation = CryProvider { _, _ -> bedrockStateful("shedinja", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("shedinja", "blink_WIP") }
+        val blink = quirk { bedrockStateful("shedinja", "blink_WIP") }
 
         sleep = registerPose(
             poseType = PoseType.SLEEP,

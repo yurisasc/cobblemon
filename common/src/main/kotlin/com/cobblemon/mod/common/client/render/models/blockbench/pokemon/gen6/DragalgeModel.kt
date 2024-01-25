@@ -32,7 +32,7 @@ class DragalgeModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override val cryAnimation = CryProvider { _, _ -> bedrockStateful("dragalge", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("dragalge", "blink") }
+        val blink = quirk { bedrockStateful("dragalge", "blink") }
         standing = registerPose(
             poseName = "standing",
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,

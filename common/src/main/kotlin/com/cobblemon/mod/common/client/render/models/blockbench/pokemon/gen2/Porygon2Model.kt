@@ -38,7 +38,7 @@ class Porygon2Model(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bipe
     lateinit var walk: PokemonPose
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("porygon2", "blink") }
+        val blink = quirk { bedrockStateful("porygon2", "blink") }
         sleep = registerPose(
             poseType = PoseType.SLEEP,
             idleAnimations = arrayOf(bedrock("porygon2", "sleep"))

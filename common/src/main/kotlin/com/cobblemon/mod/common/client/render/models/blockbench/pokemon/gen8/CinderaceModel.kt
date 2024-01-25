@@ -39,7 +39,7 @@ class CinderaceModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bi
     override val cryAnimation = CryProvider { _, _ -> bedrockStateful("cinderace", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("cinderace", "blink") }
+        val blink = quirk { bedrockStateful("cinderace", "blink") }
         standing = registerPose(
             poseName = "standing",
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,

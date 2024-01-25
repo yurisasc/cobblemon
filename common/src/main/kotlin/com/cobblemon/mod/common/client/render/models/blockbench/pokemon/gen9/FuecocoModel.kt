@@ -36,7 +36,7 @@ class FuecocoModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override val cryAnimation = CryProvider { _, _ -> bedrockStateful("fuecoco", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("fuecoco", "blink") }
+        val blink = quirk { bedrockStateful("fuecoco", "blink") }
         sleep = registerPose(
             poseType = PoseType.SLEEP,
             idleAnimations = arrayOf(bedrock("fuecoco", "sleep"))

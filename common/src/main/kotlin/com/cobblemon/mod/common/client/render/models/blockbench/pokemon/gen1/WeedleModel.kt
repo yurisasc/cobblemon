@@ -37,7 +37,7 @@ class WeedleModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override val cryAnimation = CryProvider { _, _ -> bedrockStateful("weedle", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("weedle", "blink")}
+        val blink = quirk { bedrockStateful("weedle", "blink")}
         sleep = registerPose(
             poseType = PoseType.SLEEP,
             idleAnimations = arrayOf(bedrock("weedle", "sleep"))

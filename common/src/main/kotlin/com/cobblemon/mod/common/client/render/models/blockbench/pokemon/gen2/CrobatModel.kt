@@ -34,7 +34,7 @@ class CrobatModel(root: ModelPart) : PokemonPoseableModel() {
     override val cryAnimation = CryProvider { _, _ -> bedrockStateful("crobat", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("crobat", "blink") }
+        val blink = quirk { bedrockStateful("crobat", "blink") }
 
         sleep = registerPose(
             poseType = PoseType.SLEEP,

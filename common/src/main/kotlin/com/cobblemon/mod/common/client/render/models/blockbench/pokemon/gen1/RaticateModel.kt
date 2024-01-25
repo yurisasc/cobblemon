@@ -47,7 +47,7 @@ class RaticateModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Eare
                 poseType = PoseType.SLEEP,
                 idleAnimations = arrayOf(bedrock("raticate", "sleep"))
         )
-        val blink = quirk("blink") { bedrockStateful("raticate", "blink")}
+        val blink = quirk { bedrockStateful("raticate", "blink")}
         standing = registerPose(
             poseName = "standing",
             poseTypes = STATIONARY_POSES + UI_POSES,

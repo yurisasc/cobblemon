@@ -38,7 +38,7 @@ class ComfeyModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Biman
     val shoulderOffset = 1.5
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("comfey", "blink")}
+        val blink = quirk { bedrockStateful("comfey", "blink")}
         sleep = registerPose(
             poseType = PoseType.SLEEP,
             idleAnimations = arrayOf(bedrock("comfey", "sleep"))

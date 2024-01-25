@@ -45,7 +45,7 @@ class SquirtleModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bipe
     override val cryAnimation = CryProvider { _, _ -> bedrockStateful("squirtle", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("squirtle", "blink")}
+        val blink = quirk { bedrockStateful("squirtle", "blink")}
         sleep = registerPose(
             poseType = PoseType.SLEEP,
             transformTicks = 10,

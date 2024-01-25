@@ -36,9 +36,9 @@ class AmpharosModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override val cryAnimation = CryProvider { _, _ -> bedrockStateful("ampharos", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("ampharos", "blink") }
-        val glow = quirk("glow") { bedrockStateful("ampharos", "quirk_glow") }
-        val quirk = quirk("quirk", secondsBetweenOccurrences = 60F to 120F) { bedrockStateful("ampharos", "quirk_toes") }
+        val blink = quirk { bedrockStateful("ampharos", "blink") }
+        val glow = quirk { bedrockStateful("ampharos", "quirk_glow") }
+        val quirk = quirk(secondsBetweenOccurrences = 60F to 120F) { bedrockStateful("ampharos", "quirk_toes") }
         sleep = registerPose(
             poseType = PoseType.SLEEP,
             idleAnimations = arrayOf(bedrock("ampharos", "sleep"))

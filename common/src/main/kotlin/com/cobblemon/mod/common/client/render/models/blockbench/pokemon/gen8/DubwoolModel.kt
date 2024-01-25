@@ -46,7 +46,7 @@ class DubwoolModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quadr
     override val cryAnimation = CryProvider { _, _ -> bedrockStateful("dubwool", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("dubwool", "blink") }
+        val blink = quirk { bedrockStateful("dubwool", "blink") }
         sleep = registerPose(
                 poseType = PoseType.SLEEP,
                 transformTicks = 10,

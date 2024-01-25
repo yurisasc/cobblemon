@@ -32,7 +32,7 @@ class SkeledirgeModel (root: ModelPart) : PokemonPoseableModel() {
     override val cryAnimation = CryProvider { _, _ -> bedrockStateful("skeledirge", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("skeledirge", "blink") }
+        val blink = quirk { bedrockStateful("skeledirge", "blink") }
         sleep = registerPose(
             poseType = PoseType.SLEEP,
             idleAnimations = arrayOf(bedrock("skeledirge", "sleep"))

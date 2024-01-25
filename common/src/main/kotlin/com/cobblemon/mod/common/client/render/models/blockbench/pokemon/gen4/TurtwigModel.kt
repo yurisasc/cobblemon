@@ -46,7 +46,7 @@ class TurtwigModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quad
     override val cryAnimation = CryProvider { _, _ -> bedrockStateful("turtwig", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("turtwig", "blink") }
+        val blink = quirk { bedrockStateful("turtwig", "blink") }
         sleep = registerPose(
             poseType = PoseType.SLEEP,
             idleAnimations = arrayOf(bedrock("turtwig", "sleep"))

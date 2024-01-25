@@ -44,7 +44,7 @@ class FrogadierModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
     override val cryAnimation = CryProvider { _, _ -> bedrockStateful("frogadier", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("frogadier", "blink")}
+        val blink = quirk { bedrockStateful("frogadier", "blink")}
         sleep = registerPose(
                 poseType = PoseType.SLEEP,
                 transformTicks = 10,

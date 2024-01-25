@@ -30,7 +30,7 @@ class PoliwrathModel(root: ModelPart) : PokemonPoseableModel() {
     lateinit var swim: PokemonPose
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("poliwrath", "blink")}
+        val blink = quirk { bedrockStateful("poliwrath", "blink")}
         standing = registerPose(
             poseName = "standing",
             poseTypes = PoseType.STANDING_POSES + UI_POSES,

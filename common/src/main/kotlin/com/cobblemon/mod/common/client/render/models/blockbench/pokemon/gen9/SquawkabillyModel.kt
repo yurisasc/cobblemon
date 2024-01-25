@@ -51,7 +51,7 @@ class SquawkabillyModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame,
     val shoulderOffsetX = -1.0
     val shoulderOffsetY = 0
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("squawkabilly", "blink") }
+        val blink = quirk { bedrockStateful("squawkabilly", "blink") }
 
         standing = registerPose(
             poseName = "standing",

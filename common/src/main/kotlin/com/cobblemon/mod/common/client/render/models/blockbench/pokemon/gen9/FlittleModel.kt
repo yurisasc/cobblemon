@@ -44,7 +44,7 @@ class FlittleModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override val cryAnimation = CryProvider { _, _ -> bedrockStateful("flittle", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("flittle", "blink") }
+        val blink = quirk { bedrockStateful("flittle", "blink") }
         sleep = registerPose(
                 poseType = PoseType.SLEEP,
                 idleAnimations = arrayOf(bedrock("flittle", "sleep"))

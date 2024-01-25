@@ -30,7 +30,7 @@ class PinecoModel(root: ModelPart) : PokemonPoseableModel() {
     lateinit var sleep: PokemonPose
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("pineco", "blink")}
+        val blink = quirk { bedrockStateful("pineco", "blink")}
         standing = registerPose(
                 poseName = "standing",
                 poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,

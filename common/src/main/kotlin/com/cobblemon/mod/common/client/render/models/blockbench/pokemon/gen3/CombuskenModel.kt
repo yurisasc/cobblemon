@@ -39,7 +39,7 @@ class CombuskenModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
     override val cryAnimation = CryProvider { _, _ -> bedrockStateful("combusken", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("combusken", "blink") }
+        val blink = quirk { bedrockStateful("combusken", "blink") }
         standing = registerPose(
             poseName = "standing",
             poseTypes = STATIONARY_POSES + UI_POSES,

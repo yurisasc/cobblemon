@@ -37,7 +37,7 @@ class CaterpieModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override val cryAnimation = CryProvider { _, _ -> bedrockStateful("caterpie", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("caterpie", "blink")}
+        val blink = quirk { bedrockStateful("caterpie", "blink")}
         sleep = registerPose(
             poseType = PoseType.SLEEP,
             transformTicks = 10,

@@ -44,7 +44,7 @@ class NoctowlModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bipe
     override val cryAnimation = CryProvider { _, _ -> bedrockStateful("noctowl", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("noctowl", "blink")}
+        val blink = quirk { bedrockStateful("noctowl", "blink")}
         standing = registerPose(
             poseName = "stand",
             poseTypes = PoseType.STATIONARY_POSES - PoseType.HOVER - PoseType.FLOAT + PoseType.UI_POSES,

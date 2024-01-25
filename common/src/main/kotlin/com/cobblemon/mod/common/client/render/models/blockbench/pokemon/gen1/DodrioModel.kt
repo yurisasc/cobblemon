@@ -32,9 +32,9 @@ class DodrioModel (root: ModelPart) : PokemonPoseableModel() {
     lateinit var battleidle: PokemonPose
 
     override fun registerPoses() {
-        val blink1 = quirk("blink1") { bedrockStateful("dodrio", "blink1") }
-        val blink2 = quirk("blink2") { bedrockStateful("dodrio", "blink2") }
-        val blink3 = quirk("blink3") { bedrockStateful("dodrio", "blink3") }
+        val blink1 = quirk { bedrockStateful("dodrio", "blink1") }
+        val blink2 = quirk { bedrockStateful("dodrio", "blink2") }
+        val blink3 = quirk { bedrockStateful("dodrio", "blink3") }
         sleep = registerPose(
             poseType = PoseType.SLEEP,
             idleAnimations = arrayOf(bedrock("dodrio", "sleep"))

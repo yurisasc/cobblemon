@@ -39,7 +39,7 @@ class TepigModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quadru
     override val cryAnimation = CryProvider { _, _ -> bedrockStateful("tepig", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("tepig", "blink") }
+        val blink = quirk { bedrockStateful("tepig", "blink") }
         sleep = registerPose(
             poseType = PoseType.SLEEP,
             transformTicks = 10,

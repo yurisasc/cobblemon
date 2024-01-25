@@ -38,7 +38,7 @@ class VivillonModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BiWi
     override val cryAnimation = CryProvider { _, _ -> bedrockStateful("vivillon", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("vivillon", "blink")}
+        val blink = quirk { bedrockStateful("vivillon", "blink")}
 
         sleep = registerPose(
             poseName = "sleep",

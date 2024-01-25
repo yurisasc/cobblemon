@@ -27,7 +27,7 @@ class ChinchouModel (root: ModelPart) : PokemonPoseableModel() {
     lateinit var swim: PokemonPose
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("chinchou", "blink")}
+        val blink = quirk { bedrockStateful("chinchou", "blink")}
 
         standing = registerPose(
                 poseName = "standing",

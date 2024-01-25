@@ -38,7 +38,7 @@ class ShiinoticModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
     lateinit var walk: PokemonPose
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("shiinotic", "blink") }
+        val blink = quirk { bedrockStateful("shiinotic", "blink") }
         standing = registerPose(
                 poseName = "standing",
                 poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,

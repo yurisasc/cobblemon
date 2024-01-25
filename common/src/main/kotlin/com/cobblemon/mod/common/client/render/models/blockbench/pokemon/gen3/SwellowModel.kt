@@ -41,7 +41,7 @@ class SwellowModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bipe
     override val cryAnimation = CryProvider { _, _ -> bedrockStateful("swellow", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("swellow", "blink") }
+        val blink = quirk { bedrockStateful("swellow", "blink") }
         sleep = registerPose(
             poseType = PoseType.SLEEP,
             idleAnimations = arrayOf(bedrock("swellow", "sleep"))

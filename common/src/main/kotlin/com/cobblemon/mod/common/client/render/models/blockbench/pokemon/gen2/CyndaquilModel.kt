@@ -34,7 +34,7 @@ class CyndaquilModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override val cryAnimation = CryProvider { entity, _ -> if (entity.isBattling) bedrockStateful("cyndaquil", "battle_cry") else bedrockStateful("cyndaquil", "cry") }
 
     override fun registerPoses() {
-//        val sneeze = quirk("sneeze") { bedrockStateful("cyndaquil", "sneeze_quirk") }
+//        val sneeze = quirk { bedrockStateful("cyndaquil", "sneeze_quirk") }
 
         sleep = registerPose(
             poseType = PoseType.SLEEP,

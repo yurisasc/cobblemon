@@ -36,7 +36,7 @@ class LinooneGalarianModel (root: ModelPart) : PokemonPoseableModel(), HeadedFra
     lateinit var walk: PokemonPose
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("linoone_galarian", "blink") }
+        val blink = quirk { bedrockStateful("linoone_galarian", "blink") }
         standing = registerPose(
             poseName = "standing",
             poseTypes = PoseType.UI_POSES + PoseType.STAND,

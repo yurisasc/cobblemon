@@ -42,7 +42,7 @@ class MonfernoModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bipe
     override val cryAnimation = CryProvider { _, _ -> bedrockStateful("monferno", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("monferno", "blink") }
+        val blink = quirk { bedrockStateful("monferno", "blink") }
         standing = registerPose(
                 poseName = "standing",
                 poseTypes = STATIONARY_POSES + UI_POSES,

@@ -33,7 +33,7 @@ class PumpkabooModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override val cryAnimation = CryProvider { _, _ -> bedrockStateful("pumpkaboo", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("pumpkaboo", "blink") }
+        val blink = quirk { bedrockStateful("pumpkaboo", "blink") }
         standing = registerPose(
             poseName = "standing",
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,

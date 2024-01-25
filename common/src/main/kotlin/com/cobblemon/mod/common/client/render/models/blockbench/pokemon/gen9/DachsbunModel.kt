@@ -42,7 +42,7 @@ class DachsbunModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quad
     override val cryAnimation = CryProvider { _, _ -> bedrockStateful("dachsbun", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("dachsbun", "blink") }
+        val blink = quirk { bedrockStateful("dachsbun", "blink") }
         standing = registerPose(
             poseName = "standing",
             poseTypes = STATIONARY_POSES + UI_POSES,

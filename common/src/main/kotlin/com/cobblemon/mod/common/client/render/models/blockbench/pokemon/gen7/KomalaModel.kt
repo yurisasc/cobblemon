@@ -27,7 +27,7 @@ class KomalaModel (root: ModelPart) : PokemonPoseableModel() {
 //    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("komala", "cry") }
 
     override fun registerPoses() {
-        val doze = quirk("doze", secondsBetweenOccurrences = 60F to 120F) { bedrockStateful("komala", "quirk_doze_off")}
+        val doze = quirk(secondsBetweenOccurrences = 60F to 120F) { bedrockStateful("komala", "quirk_doze_off")}
 
         standing = registerPose(
             poseName = "standing",

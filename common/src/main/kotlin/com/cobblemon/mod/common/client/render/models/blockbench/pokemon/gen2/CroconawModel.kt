@@ -49,7 +49,7 @@ class CroconawModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
     override val cryAnimation = CryProvider { _, _ -> bedrockStateful("croconaw", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("croconaw", "blink")}
+        val blink = quirk { bedrockStateful("croconaw", "blink")}
 
         sleep = registerPose(
             poseName = "sleeping",

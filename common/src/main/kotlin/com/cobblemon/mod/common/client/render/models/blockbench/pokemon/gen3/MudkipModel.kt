@@ -42,7 +42,7 @@ class MudkipModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quadru
     override val cryAnimation = CryProvider { _, _ -> bedrockStateful("mudkip", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("mudkip", "blink") }
+        val blink = quirk { bedrockStateful("mudkip", "blink") }
         standing = registerPose(
             poseName = "standing",
             poseTypes = UI_POSES + PoseType.STAND,

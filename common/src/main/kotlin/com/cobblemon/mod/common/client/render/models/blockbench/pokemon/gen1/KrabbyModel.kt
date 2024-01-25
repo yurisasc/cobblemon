@@ -31,9 +31,9 @@ class KrabbyModel(root: ModelPart) : PokemonPoseableModel() {
     lateinit var battleidle: PokemonPose
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("krabby", "blink")}
-        val snipLeft = quirk("blink") { bedrockStateful("krabby", "snip_left")}
-        val snipRight = quirk("blink") { bedrockStateful("krabby", "snip_right")}
+        val blink = quirk { bedrockStateful("krabby", "blink")}
+        val snipLeft = quirk { bedrockStateful("krabby", "snip_left")}
+        val snipRight = quirk { bedrockStateful("krabby", "snip_right")}
 
         standing = registerPose(
             poseName = "standing",

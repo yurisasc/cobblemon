@@ -44,7 +44,7 @@ class ScytherModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Biped
     lateinit var fly: PokemonPose
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("scyther", "blink")}
+        val blink = quirk { bedrockStateful("scyther", "blink")}
         standing = registerPose(
             poseName = "standing",
             poseTypes = STATIONARY_POSES + UI_POSES - PoseType.HOVER,

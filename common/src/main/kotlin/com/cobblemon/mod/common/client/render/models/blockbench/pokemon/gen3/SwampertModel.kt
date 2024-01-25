@@ -42,7 +42,7 @@ class SwampertModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bipe
     override val cryAnimation = CryProvider { _, _ -> bedrockStateful("swampert", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("swampert", "blink") }
+        val blink = quirk { bedrockStateful("swampert", "blink") }
         standing = registerPose(
             poseName = "standing",
             poseTypes = STATIONARY_POSES + UI_POSES,

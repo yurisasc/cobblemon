@@ -45,7 +45,7 @@ class MiltankModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bipe
             idleAnimations = arrayOf(bedrock("miltank", "ground_sleep"))
         )
 
-        val blink = quirk("blink") { bedrockStateful("miltank", "blink") }
+        val blink = quirk { bedrockStateful("miltank", "blink") }
         standing = registerPose(
             poseName = "standing",
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,

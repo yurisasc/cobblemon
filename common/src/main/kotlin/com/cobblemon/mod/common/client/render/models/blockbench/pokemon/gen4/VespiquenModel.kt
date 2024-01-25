@@ -31,8 +31,8 @@ class VespiquenModel (root: ModelPart) : PokemonPoseableModel() {
     lateinit var standing: PokemonPose
 
     override fun registerPoses() {
-        val blink1 = quirk("blink") { bedrockStateful("vespiquen", "blink") }
-        val wingsleep = quirk("wingsleep") { bedrockStateful("vespiquen", "sleep_flap") }
+        val blink1 = quirk { bedrockStateful("vespiquen", "blink") }
+        val wingsleep = quirk { bedrockStateful("vespiquen", "sleep_flap") }
 
         sleep = registerPose(
             poseType = PoseType.SLEEP,

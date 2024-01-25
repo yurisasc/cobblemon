@@ -32,7 +32,7 @@ class BellossomModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     lateinit var walk: PokemonPose
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("bellossom", "blink") }
+        val blink = quirk { bedrockStateful("bellossom", "blink") }
         standing = registerPose(
             poseName = "standing",
             poseTypes = STATIONARY_POSES + UI_POSES + SHOULDER_POSES,

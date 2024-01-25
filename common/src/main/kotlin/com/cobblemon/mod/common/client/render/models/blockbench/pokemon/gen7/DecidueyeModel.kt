@@ -53,7 +53,7 @@ class DecidueyeModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
     override val cryAnimation = CryProvider { _, _ -> bedrockStateful("decidueye", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("decidueye", "blink") }
+        val blink = quirk { bedrockStateful("decidueye", "blink") }
         standing = registerPose(
             poseName = "standing",
             poseTypes = STATIONARY_POSES - PoseType.HOVER + UI_POSES,

@@ -41,8 +41,8 @@ class NidoqueenModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
     lateinit var walk: PokemonPose
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("nidoqueen", "blink")}
-        val spg = quirk("SPG", secondsBetweenOccurrences = 600F to 900F) { bedrockStateful("nidoqueen", "spgs_happy_place") }
+        val blink = quirk { bedrockStateful("nidoqueen", "blink")}
+        val spg = quirk(secondsBetweenOccurrences = 600F to 900F) { bedrockStateful("nidoqueen", "spgs_happy_place") }
         standing = registerPose(
             poseName = "standing",
             poseTypes = STATIONARY_POSES + UI_POSES,

@@ -51,7 +51,7 @@ class CeruledgeModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
     override val cryAnimation = CryProvider { _, _ -> bedrockStateful("ceruledge", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("ceruledge", "blink") }
+        val blink = quirk { bedrockStateful("ceruledge", "blink") }
         sleep = registerPose(
             poseType = PoseType.SLEEP,
             transformedParts = arrayOf(

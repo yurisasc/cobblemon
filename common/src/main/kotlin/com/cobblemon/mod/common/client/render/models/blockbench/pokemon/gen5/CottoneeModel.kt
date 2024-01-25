@@ -33,7 +33,7 @@ class CottoneeModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame{
     override val cryAnimation = CryProvider { _, _ -> bedrockStateful("cottonee", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("cottonee", "blink") }
+        val blink = quirk { bedrockStateful("cottonee", "blink") }
 
         standing = registerPose(
             poseName = "standing",

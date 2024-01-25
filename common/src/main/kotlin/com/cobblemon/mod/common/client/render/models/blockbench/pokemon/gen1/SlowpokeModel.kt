@@ -40,7 +40,7 @@ class SlowpokeModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quad
     lateinit var sleep: PokemonPose
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("slowpoke", "blink") }
+        val blink = quirk { bedrockStateful("slowpoke", "blink") }
 
         sleep = registerPose(
             poseType = PoseType.SLEEP,

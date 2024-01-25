@@ -37,8 +37,8 @@ class GalladeModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override val cryAnimation = CryProvider { _, _ -> bedrockStateful("gallade", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("gallade", "blink") }
-        val quirk = quirk("quirk", secondsBetweenOccurrences = 10F to 60F) { PrimaryAnimation(bedrockStateful("gallade", "battle_quirk")) }
+        val blink = quirk { bedrockStateful("gallade", "blink") }
+        val quirk = quirk(secondsBetweenOccurrences = 10F to 60F) { PrimaryAnimation(bedrockStateful("gallade", "battle_quirk")) }
         sleep = registerPose(
             poseType = PoseType.SLEEP,
             idleAnimations = arrayOf(bedrock("gallade", "sleep"))

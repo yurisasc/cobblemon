@@ -41,7 +41,7 @@ class LittenModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quadru
     override val cryAnimation = CryProvider { _, _ -> bedrockStateful("litten", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("litten", "blink") }
+        val blink = quirk { bedrockStateful("litten", "blink") }
         standing = registerPose(
             poseName = "standing",
             poseTypes = STATIONARY_POSES + UI_POSES,

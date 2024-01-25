@@ -41,7 +41,7 @@ class SamurottModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Qua
     override val cryAnimation = CryProvider { _, _ -> bedrockStateful("samurott", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("samurott", "blink") }
+        val blink = quirk { bedrockStateful("samurott", "blink") }
         sleep = registerPose(
             poseType = PoseType.SLEEP,
             transformTicks = 10,

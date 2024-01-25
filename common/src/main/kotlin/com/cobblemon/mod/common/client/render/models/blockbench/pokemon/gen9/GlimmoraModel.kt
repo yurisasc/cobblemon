@@ -34,7 +34,7 @@ class GlimmoraModel (root: ModelPart) : PokemonPoseableModel() {
     override val cryAnimation = CryProvider { _, _ -> bedrockStateful("glimmora", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("glimmora", "blink") }
+        val blink = quirk { bedrockStateful("glimmora", "blink") }
         sleep = registerPose(
             poseType = PoseType.SLEEP,
             idleAnimations = arrayOf(bedrock("glimmora", "sleep"))

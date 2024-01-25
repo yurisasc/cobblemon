@@ -41,9 +41,9 @@ class WimpodModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Biped
     override val cryAnimation = CryProvider { _, _ -> bedrockStateful("wimpod", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("wimpod", "blink")}
-        val leftTwitch = quirk("left_twitch") { bedrockStateful("wimpod", "twitch_quirk_left")}
-        val rightTwitch = quirk("right_twitch") { bedrockStateful("wimpod", "twitch_quirk_right")}
+        val blink = quirk { bedrockStateful("wimpod", "blink")}
+        val leftTwitch = quirk { bedrockStateful("wimpod", "twitch_quirk_left")}
+        val rightTwitch = quirk { bedrockStateful("wimpod", "twitch_quirk_right")}
 
         sleep = registerPose(
             poseName = "sleeping",

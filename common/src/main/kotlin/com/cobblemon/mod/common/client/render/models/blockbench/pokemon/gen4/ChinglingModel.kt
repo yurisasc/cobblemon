@@ -39,8 +39,8 @@ class ChinglingModel(root: ModelPart) : PokemonPoseableModel() {
     override val cryAnimation = CryProvider { _, _ -> bedrockStateful("chingling", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("chingling", "blink") }
-        val sleepquirk = quirk("sleepquirk") { bedrockStateful("chingling", "sleep_quirk") }
+        val blink = quirk { bedrockStateful("chingling", "blink") }
+        val sleepquirk = quirk { bedrockStateful("chingling", "sleep_quirk") }
         sleep = registerPose(
             poseType = PoseType.SLEEP,
             quirks = arrayOf(sleepquirk),

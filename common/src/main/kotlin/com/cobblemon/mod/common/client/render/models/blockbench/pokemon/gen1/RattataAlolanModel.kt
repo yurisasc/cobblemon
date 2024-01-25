@@ -47,7 +47,7 @@ class RattataAlolanModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame,
     override val cryAnimation = CryProvider { _, _ -> bedrockStateful("rattata_alolan", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("rattata_alolan", "blink")}
+        val blink = quirk { bedrockStateful("rattata_alolan", "blink")}
         sleep = registerPose(
                 poseType = PoseType.SLEEP,
                 idleAnimations = arrayOf(bedrock("rattata_alolan", "sleep"))

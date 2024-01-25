@@ -28,7 +28,7 @@ class MasquerainModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     lateinit var walk: PokemonPose
     lateinit var standing: PokemonPose
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("masquerain", "blink") }
+        val blink = quirk { bedrockStateful("masquerain", "blink") }
         standing = registerPose(
             poseName = "standing",
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,

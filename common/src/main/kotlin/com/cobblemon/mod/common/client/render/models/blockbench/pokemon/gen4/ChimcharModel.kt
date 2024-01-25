@@ -42,7 +42,7 @@ class ChimcharModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bipe
     override val cryAnimation = CryProvider { _, _ -> bedrockStateful("chimchar", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("chimchar", "blink") }
+        val blink = quirk { bedrockStateful("chimchar", "blink") }
         standing = registerPose(
                 poseName = "standing",
                 poseTypes = STATIONARY_POSES + UI_POSES,

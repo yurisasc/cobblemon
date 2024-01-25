@@ -34,7 +34,7 @@ class FloragatoModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override val cryAnimation = CryProvider { entity, _ -> if (entity.isBattling) bedrockStateful("floragato", "battle_cry") else bedrockStateful("floragato", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("floragato", "blink") }
+        val blink = quirk { bedrockStateful("floragato", "blink") }
         sleep = registerPose(
             poseType = PoseType.SLEEP,
             idleAnimations = arrayOf(bedrock("floragato", "sleep"))

@@ -40,7 +40,7 @@ class MewtwoModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bimanu
     lateinit var fly: PokemonPose
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("mewtwo", "blink") }
+        val blink = quirk { bedrockStateful("mewtwo", "blink") }
         standing = registerPose(
             poseName = "standing",
             poseTypes = UI_POSES + PoseType.STAND,

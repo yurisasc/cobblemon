@@ -36,7 +36,7 @@ class LuxrayModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quadr
     lateinit var walk: PokemonPose
 
     override fun registerPoses() {
-//        val blink = quirk("blink") { bedrockStateful("luxray", "blink") }
+//        val blink = quirk { bedrockStateful("luxray", "blink") }
         standing = registerPose(
             poseName = "standing",
             poseTypes = PoseType.UI_POSES + PoseType.STATIONARY_POSES,

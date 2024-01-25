@@ -36,7 +36,7 @@ class WyrdeerModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quad
     lateinit var walk: PokemonPose
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("wyrdeer", "blink") }
+        val blink = quirk { bedrockStateful("wyrdeer", "blink") }
 
         standing = registerPose(
             poseName = "standing",

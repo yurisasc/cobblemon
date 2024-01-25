@@ -45,7 +45,7 @@ class WooperModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
 
     val shoulderOffset = 2.5
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("wooper", "blink") }
+        val blink = quirk { bedrockStateful("wooper", "blink") }
 
         sleep = registerPose(
             poseName = "sleep",

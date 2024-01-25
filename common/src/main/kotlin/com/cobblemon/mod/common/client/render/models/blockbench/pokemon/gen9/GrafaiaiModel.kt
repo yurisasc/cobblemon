@@ -33,7 +33,7 @@ class GrafaiaiModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override val cryAnimation = CryProvider { _, _ -> bedrockStateful("grafaiai", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("grafaiai", "blink") }
+        val blink = quirk { bedrockStateful("grafaiai", "blink") }
         standing = registerPose(
             poseName = "standing",
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,

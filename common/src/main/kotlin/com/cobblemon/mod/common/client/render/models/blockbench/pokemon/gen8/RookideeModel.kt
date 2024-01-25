@@ -41,7 +41,7 @@ class RookideeModel (root: ModelPart) : PokemonPoseableModel(), BipedFrame, BiWi
     override val cryAnimation = CryProvider { _, _ -> bedrockStateful("rookidee", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("rookidee", "blink") }
+        val blink = quirk { bedrockStateful("rookidee", "blink") }
         sleep = registerPose(
             poseType = PoseType.SLEEP,
             idleAnimations = arrayOf(bedrock("rookidee", "sleep"))

@@ -35,7 +35,7 @@ class DiggersbyModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override val cryAnimation = CryProvider { _, _ -> bedrockStateful("diggersby", "cry") }
 
     override fun registerPoses() {
-        val sleep1 = quirk("sleep1", secondsBetweenOccurrences = 60F to 120F) { bedrockStateful("diggersby", "quirk_sleep") }
+        val sleep1 = quirk(secondsBetweenOccurrences = 60F to 120F) { bedrockStateful("diggersby", "quirk_sleep") }
 
         sleep = registerPose(
             poseType = PoseType.SLEEP,

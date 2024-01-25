@@ -42,7 +42,7 @@ class IvysaurModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quadr
     override val cryAnimation = CryProvider { _, _ -> bedrockStateful("ivysaur", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("ivysaur", "blink") }
+        val blink = quirk { bedrockStateful("ivysaur", "blink") }
         sleep = registerPose(
             poseType = PoseType.SLEEP,
             transformTicks = 10,

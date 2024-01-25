@@ -44,7 +44,7 @@ class DewottModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Biped
     override val cryAnimation = CryProvider { _, _ -> bedrockStateful("dewott", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("dewott", "blink") }
+        val blink = quirk { bedrockStateful("dewott", "blink") }
         sleep = registerPose(
             poseType = PoseType.SLEEP,
             transformTicks = 10,

@@ -42,7 +42,7 @@ class KricketuneModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, B
     lateinit var fly: PokemonPose
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("kricketune", "blink") }
+        val blink = quirk { bedrockStateful("kricketune", "blink") }
         sleep = registerPose(
             poseType = PoseType.SLEEP,
             idleAnimations = arrayOf(bedrock("kricketune", "sleep"))

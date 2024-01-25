@@ -44,7 +44,7 @@ class BraixenModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Biped
     override val cryAnimation = CryProvider { _, _ -> bedrockStateful("braixen", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("braixen", "blink")}
+        val blink = quirk { bedrockStateful("braixen", "blink")}
         standing = registerPose(
             poseName = "standing",
             poseTypes = PoseType.STATIONARY_POSES + UI_POSES,

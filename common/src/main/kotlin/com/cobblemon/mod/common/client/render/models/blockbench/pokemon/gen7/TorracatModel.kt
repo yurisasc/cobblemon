@@ -41,7 +41,7 @@ class TorracatModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quad
     override val cryAnimation = CryProvider { _, _ -> bedrockStateful("torracat", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("torracat", "blink") }
+        val blink = quirk { bedrockStateful("torracat", "blink") }
         standing = registerPose(
             poseName = "standing",
             poseTypes = STATIONARY_POSES + UI_POSES,

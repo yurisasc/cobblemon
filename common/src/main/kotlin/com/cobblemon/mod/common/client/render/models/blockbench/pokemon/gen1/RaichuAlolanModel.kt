@@ -37,7 +37,7 @@ class RaichuAlolanModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override val cryAnimation = CryProvider { _, _ -> bedrockStateful("raichu_alolan", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("raichu_alolan", "blink") }
+        val blink = quirk { bedrockStateful("raichu_alolan", "blink") }
 
         standing = registerPose(
             poseName = "standing",

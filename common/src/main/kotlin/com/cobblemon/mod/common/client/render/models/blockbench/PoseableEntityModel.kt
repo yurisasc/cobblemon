@@ -698,9 +698,6 @@ abstract class PoseableEntityModel<T : Entity>(
         if (primaryAnimation != null) {
             val portion = (state.animationSeconds - primaryAnimation.started) / primaryAnimation.duration
             state.primaryOverridePortion = 1 - primaryAnimation.curve(portion)
-            if (primaryAnimation.animation !is PoseTransitionAnimation<*> && this !is RattataModel) {
-                println("$portion - ${state.primaryOverridePortion} - ${primaryAnimation.started} - ${primaryAnimation.duration} - ${state.animationSeconds}")
-            }
             if (!primaryAnimation.run(entity, this, state, limbSwing, limbSwingAmount, ageInTicks, headYaw, headPitch, 1 - state.primaryOverridePortion)) {
                 state.primaryAnimation = null
                 state.primaryOverridePortion = 1F

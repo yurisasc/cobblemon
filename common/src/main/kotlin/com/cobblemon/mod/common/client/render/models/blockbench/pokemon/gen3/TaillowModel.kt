@@ -41,7 +41,7 @@ class TaillowModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bipe
     override val cryAnimation = CryProvider { _, _ -> bedrockStateful("taillow", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("taillow", "blink") }
+        val blink = quirk { bedrockStateful("taillow", "blink") }
         sleep = registerPose(
             poseType = PoseType.SLEEP,
             idleAnimations = arrayOf(bedrock("taillow", "sleep"))

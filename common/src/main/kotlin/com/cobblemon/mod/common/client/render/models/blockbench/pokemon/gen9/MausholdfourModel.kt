@@ -34,10 +34,10 @@ class MausholdfourModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame 
 
     override fun registerPoses() {
 
-        val blink1 = quirk("blink1") { bedrockStateful("maushold_four", "blink1")}
-        val blink2 = quirk("blink2") { bedrockStateful("maushold_four", "blink2")}
-        val blink3 = quirk("blink3") { bedrockStateful("maushold_four", "blink3")}
-        val blink4 = quirk("blink4") { bedrockStateful("maushold_four", "blink4")}
+        val blink1 = quirk { bedrockStateful("maushold_four", "blink1")}
+        val blink2 = quirk { bedrockStateful("maushold_four", "blink2")}
+        val blink3 = quirk { bedrockStateful("maushold_four", "blink3")}
+        val blink4 = quirk { bedrockStateful("maushold_four", "blink4")}
 
         val head2 = object : HeadedFrame {
             override val rootPart = this@MausholdfourModel.rootPart

@@ -35,8 +35,8 @@ class ScatterbugModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override val cryAnimation = CryProvider { _, _ -> bedrockStateful("scatterbug", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("scatterbug", "blink") }
-        val lookquirk = quirk("lookquirk") { bedrockStateful("scatterbug", "quirk") }
+        val blink = quirk { bedrockStateful("scatterbug", "blink") }
+        val lookquirk = quirk { bedrockStateful("scatterbug", "quirk") }
 
         sleep = registerPose(
             poseType = PoseType.SLEEP,

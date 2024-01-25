@@ -8,7 +8,6 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1
 
-import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
 import com.cobblemon.mod.common.client.render.models.blockbench.createTransformation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BiWingedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BimanualFrame
@@ -19,10 +18,8 @@ import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonP
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.ModelPartTransformation.Companion.Y_AXIS
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.PoseType.Companion.MOVING_POSES
-import com.cobblemon.mod.common.entity.PoseType.Companion.STANDING_POSES
 import com.cobblemon.mod.common.entity.PoseType.Companion.STATIONARY_POSES
 import com.cobblemon.mod.common.entity.PoseType.Companion.UI_POSES
-import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.util.asExpressionLike
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
@@ -50,15 +47,15 @@ class CharizardModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
     lateinit var fly: PokemonPose
 
     override fun registerPoses() {
-        animations["physical"] = "q.bedrock_primary('charizard', 'physical', 'look', 'curve=symmetrical_wide')".asExpressionLike()
-        animations["special"] = "q.bedrock_primary('charizard', 'special', 'curve=symmetrical_wide')".asExpressionLike()
-        animations["status"] = "q.bedrock_primary('charizard', 'status')".asExpressionLike()
-        animations["recoil"] = "q.bedrock_primary('charizard', 'recoil')".asExpressionLike()
-        animations["cry"] = "q.bedrock_primary('charizard', 'cry', 'all')".asExpressionLike()
+        animations["physical"] = "q.bedrock_primary('charizard', 'physical', 'look', q.curve('symmetrical_wide'))".asExpressionLike()
+        animations["special"] = "q.bedrock_primary('charizard', 'special', 'look', q.curve('symmetrical_wide'))".asExpressionLike()
+        animations["status"] = "q.bedrock_primary('charizard', 'status', q.curve('symmetrical_wide'))".asExpressionLike()
+        animations["recoil"] = "q.bedrock_stateful('charizard', 'recoil')".asExpressionLike()
+        animations["cry"] = "q.bedrock_stateful('charizard', 'cry')".asExpressionLike()
 
-        val faint = "q.bedrock_primary('charizard', 'faint', 'curve=one')".asExpressionLike()
+        val faint = "q.bedrock_primary('charizard', 'faint', q.curve('one'))".asExpressionLike()
 
-        val blink = quirk("blink") { bedrockStateful("charizard", "blink") }
+        val blink = quirk { bedrockStateful("charizard", "blink") }
         sleep = registerPose(
             poseType = PoseType.SLEEP,
             quirks = arrayOf(blink),
