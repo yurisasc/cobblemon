@@ -10,37 +10,47 @@ package com.cobblemon.mod.common.api.riding
 
 import com.cobblemon.mod.common.api.riding.capability.RidingCapability
 import com.cobblemon.mod.common.api.riding.context.RidingContext
-import com.cobblemon.mod.common.api.riding.controller.posing.PoseProvider
+import com.cobblemon.mod.common.api.riding.context.RidingContextBuilder
+import com.cobblemon.mod.common.api.riding.controller.RideController
+import com.cobblemon.mod.common.api.riding.seats.Seat
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.text.Text
+import net.minecraft.util.Formatting
 import net.minecraft.util.math.Vec3d
 
-data class RidingManager(val properties: RidingProperties) {
+data class RidingManager(val entity: () -> PokemonEntity) {
 
-    private val context: RidingContext = RidingContext()
-    private val capabilities: List<RidingCapability> = mutableListOf()
-    lateinit var capability: RidingCapability
+    /**
+     * Specifies a list of stateful seats which are capable of tracking an occupant.
+     *
+     * @since 1.5.0
+     */
+    var context: RidingContext = RidingContext(RidingContextBuilder())
+    var seats: List<Seat> = this.entity().pokemon.riding.seats.map { it.create(this.entity()) }
+    private lateinit var capabilities: Map<RidingCapability, RideController>
 
-    fun init(entity: PokemonEntity) {
-        this.capability = this.capabilities.first { it.condition.test(entity) }
-    }
+    private var firstTick: Boolean = true
 
     /**
      * Responsible for handling riding conditions and transitions amongst controllers. This will tick
      * whenever the entity receives a tickControlled interaction.
      */
     fun tick(entity: PokemonEntity, driver: PlayerEntity, input: Vec3d) {
-//        val poser: PoseProvider = this.capability.controller.poseProvider
-//        entity.poseType.set(poser.select(entity))
-
-
-    }
-
-    private fun canTransitionTo(mount: PokemonEntity, capability: RidingCapability): Boolean {
-        if(this.capability == capability) {
-            return false
+        if(this.firstTick) {
+            this.capabilities = this.entity().pokemon.riding.capabilities.associateWith {
+                RideController.controllers[it.properties.identifier]!!
+            }
         }
 
-        return capability.condition.test(mount)
+        val capability = capabilities.keys.firstOrNull { it.condition.test(entity) }
+        val controller = capabilities[capability] ?: return
+        this.context = this.context.apply(capability?.properties ?: return)
+
+        val poser = controller.poseProvider
+        entity.dataTracker.set(PokemonEntity.POSE_TYPE, poser.select(entity))
+
+        context.speed = if(input == Vec3d.ZERO) 0F else controller.speed(entity, driver, this.context)
+        driver.sendMessage(Text.literal("Speed: ").styled { it.withColor(Formatting.GREEN) }.append(Text.literal("${context.speed} b/t")), true)
     }
 }

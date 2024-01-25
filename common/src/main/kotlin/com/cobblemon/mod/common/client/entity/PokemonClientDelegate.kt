@@ -108,7 +108,7 @@ class PokemonClientDelegate : PoseableEntityState<PokemonEntity>(), PokemonSideD
                     phaseTarget = null
                 }
             } else if(data == PokemonEntity.SEAT_UPDATER) {
-                currentEntity.seats = currentEntity.dataTracker.get(PokemonEntity.SEAT_UPDATER).map { it.create(currentEntity) }
+                currentEntity.riding.seats = currentEntity.dataTracker.get(PokemonEntity.SEAT_UPDATER).map { it.create(currentEntity) }
             }
         }
     }

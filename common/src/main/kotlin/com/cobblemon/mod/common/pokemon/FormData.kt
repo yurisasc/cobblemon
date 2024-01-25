@@ -285,12 +285,7 @@ class FormData(
         }
         this._moves = buffer.readNullable { pb -> Learnset().apply { decode(pb) }}
         this._pokedex = buffer.readNullable { pb -> pb.readList { it.readString() } }
-        this._riding = buffer.readNullable { pb ->
-            val properties = CobblemonRidingProperties.unsupported()
-            properties.decode(pb)
-
-            properties
-        }
+        this._riding = buffer.readNullable { pb -> CobblemonRidingProperties.decode(pb) }
     }
 
     /**

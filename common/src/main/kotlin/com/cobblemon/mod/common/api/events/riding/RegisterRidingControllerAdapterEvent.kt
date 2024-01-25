@@ -8,9 +8,8 @@
 
 package com.cobblemon.mod.common.api.events.riding
 
-import com.cobblemon.mod.common.api.riding.controller.Deserializer
+import com.cobblemon.mod.common.api.riding.controller.properties.Deserializer
 import com.cobblemon.mod.common.api.riding.controller.properties.RideControllerProperties
-import com.google.gson.JsonDeserializer
 import net.minecraft.util.Identifier
 
 data class RegisterRidingControllerAdapterEvent(private val map: MutableMap<Identifier, Deserializer<*>>) {

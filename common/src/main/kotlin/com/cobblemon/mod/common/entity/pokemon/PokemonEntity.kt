@@ -31,6 +31,7 @@ import com.cobblemon.mod.common.api.storage.InvalidSpeciesException
 import com.cobblemon.mod.common.api.riding.Rideable
 import com.cobblemon.mod.common.api.riding.RidingManager
 import com.cobblemon.mod.common.api.riding.context.RidingContext
+import com.cobblemon.mod.common.api.riding.context.state.RidingStateKeys
 import com.cobblemon.mod.common.api.riding.seats.Seat
 
 import com.cobblemon.mod.common.api.types.ElementalTypes
@@ -194,8 +195,8 @@ open class PokemonEntity(
      */
     var blocksTraveled: Double = 0.0
     var countsTowardsSpawnCap = true
-    override val riding: RidingManager = RidingManager(this.pokemon.form.riding)
-    override var seats: List<Seat> = pokemon.riding.seats.map { it.create(this) }
+
+    override val riding: RidingManager = RidingManager { this }
 
     /**
      * 0 is do nothing,
@@ -243,7 +244,7 @@ open class PokemonEntity(
         dataTracker.startTracking(LABEL_LEVEL, 1)
         dataTracker.startTracking(HIDE_LABEL, false)
         dataTracker.startTracking(UNBATTLEABLE, false)
-        dataTracker.startTracking(SEAT_UPDATER, this.seats.map { it.toDTO() })
+        dataTracker.startTracking(SEAT_UPDATER, listOf())
     }
 
     override fun onTrackedDataSet(data: TrackedData<*>) {
@@ -1122,7 +1123,7 @@ open class PokemonEntity(
 
     override fun canStartRiding(entity: Entity): Boolean {
         if(this.pokemon.riding.supported() && super.canStartRiding(entity)) {
-            val seats = this.seats
+            val seats = this.riding.seats
             return seats.any { it.acceptsRider(entity) }
         }
 
@@ -1146,7 +1147,7 @@ open class PokemonEntity(
 
     override fun updatePassengerPosition(passenger: Entity, positionUpdater: PositionUpdater) {
         if (this.hasPassenger(passenger)) {
-            val seat = this.seats.firstOrNull { it.occupant() == passenger }
+            val seat = this.riding.seats.firstOrNull { it.occupant() == passenger }
             if (seat != null) {
                 val offset = seat.properties.offset.rotateY(-this.bodyYaw * (Math.PI.toFloat() / 180))
                 positionUpdater.accept(passenger, this.x + offset.x, this.y + offset.y, this.z + offset.z)
@@ -1158,7 +1159,7 @@ open class PokemonEntity(
     }
 
     override fun getControllingPassenger(): LivingEntity? {
-        val seat = this.seats.firstOrNull { it.properties.driver }
+        val seat = this.riding.seats.firstOrNull { it.properties.driver }
         val occupant = seat?.occupant()
 
         if (occupant is LivingEntity) {
@@ -1169,19 +1170,17 @@ open class PokemonEntity(
     }
 
     override fun updatePassengerForDismount(passenger: LivingEntity): Vec3d {
-        val seat = this.seats.firstOrNull { it.occupant() == passenger }
+        val seat = this.riding.seats.firstOrNull { it.occupant() == passenger }
         seat?.dismount()
         return super.updatePassengerForDismount(passenger)
     }
 
     override fun getControlledMovementInput(controller: PlayerEntity, movementInput: Vec3d): Vec3d {
         return GenericLandController.velocity(controller, movementInput)
-//        return this.riding.capability.controller.velocity(controller, movementInput, null)
     }
 
     override fun getSaddledSpeed(controller: PlayerEntity): Float {
-        return GenericLandController.speed(this, controller, RidingContext())
-//        return this.riding.capability.controller.speed(this, controller, null)
+        return this.riding.context.speed
     }
 
     override fun setJumpStrength(strength: Int) {

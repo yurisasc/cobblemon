@@ -14,10 +14,10 @@ import com.cobblemon.mod.common.api.riding.controller.properties.RideControllerP
 import com.cobblemon.mod.common.api.riding.controller.properties.RideControllerPropertyKey
 
 @Suppress("UNCHECKED_CAST")
-class RidingContext {
+class RidingContext internal constructor(builder: RidingContextBuilder) {
 
-    private val properties: Map<RideControllerPropertyKey<*>, Reference<*>> = mutableMapOf()
-    private val states: MutableMap<RidingStateKey<*>, Reference<*>> = mutableMapOf()
+    private val properties: Map<RideControllerPropertyKey<*>, Reference<*>> = builder.properties
+    var speed: Float = 0.0F
 
     fun <T : Any> property(key: RideControllerPropertyKey<T>): T? {
         return this.properties[key]?.reference as T?
@@ -27,15 +27,27 @@ class RidingContext {
         return this.property(key) ?: fallback
     }
 
-    fun <T : Any> state(key: RidingStateKey<T>): T? {
-        return this.states[key]?.reference as T?
+    fun apply(properties: RideControllerProperties): RidingContext {
+        val builder = RidingContextBuilder()
+        properties.apply(builder)
+
+        val result = builder.finalize()
+        result.speed = this.speed
+        return result
+    }
+}
+
+class RidingContextBuilder {
+
+    internal val properties: MutableMap<RideControllerPropertyKey<*>, Reference<*>> = mutableMapOf()
+    private val states: MutableMap<RidingStateKey<*>, Reference<*>> = mutableMapOf()
+
+    fun <T : Any> property(key: RideControllerPropertyKey<T>, value: T): RidingContextBuilder {
+        this.properties[key] = Reference(value)
+        return this
     }
 
-    fun <T : Any> stateOrDefault(key: RidingStateKey<T>, fallback: T): T {
-        return this.state(key) ?: fallback
-    }
-
-    fun controller() {
-
+    fun finalize(): RidingContext {
+        return RidingContext(this)
     }
 }

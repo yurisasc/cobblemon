@@ -10,7 +10,7 @@ package com.cobblemon.mod.common.util.adapters.riding
 
 import com.cobblemon.mod.common.api.riding.RidingProperties
 import com.cobblemon.mod.common.api.riding.capability.RidingCapability
-import com.cobblemon.mod.common.api.riding.controller.RideControllerPropertyDeserializer
+import com.cobblemon.mod.common.api.riding.controller.properties.RideControllerPropertyDeserializer
 import com.cobblemon.mod.common.api.riding.seats.properties.SeatProperties
 import com.cobblemon.mod.common.pokemon.riding.CobblemonRidingProperties
 import com.cobblemon.mod.common.pokemon.riding.RidingModule

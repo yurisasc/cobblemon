@@ -14,11 +14,15 @@ import net.minecraft.util.Identifier
 import net.minecraft.util.math.Direction
 import java.util.function.Predicate
 
-class LandCapability(override val controller: RideControllerProperties) : RidingCapability {
+class LandCapability(override val properties: RideControllerProperties) : RidingCapability {
 
     override val key: Identifier = RidingCapability.LAND
     override val condition: Predicate<PokemonEntity> = Predicate<PokemonEntity> {
-        it.blockStateAtPos.isSolidSurface(it.world, it.blockPos, it, Direction.DOWN)
+        if(it.world.isClient) {
+            return@Predicate true
+        }
+
+        it.isOnGround
     }
 
 }

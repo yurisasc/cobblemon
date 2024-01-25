@@ -26,8 +26,8 @@ object InteractPokemonHandler : ServerNetworkPacketHandler<InteractPokemonPacket
                 pokemonEntity.tryMountingShoulder(player)
             } else if (packet.ride) {
                 if (pokemonEntity.pokemon.riding.supported()) {
-                    val seat = pokemonEntity.seats.first { it.acceptsRider(player) }
-                    seat.mount(player)
+                    val seat = pokemonEntity.riding.seats?.first { it.acceptsRider(player) }
+                    seat?.mount(player)
                 }
             } else {
                 pokemonEntity.offerHeldItem(player, player.mainHandStack)

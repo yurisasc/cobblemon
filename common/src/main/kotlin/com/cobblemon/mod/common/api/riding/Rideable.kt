@@ -8,7 +8,6 @@
 
 package com.cobblemon.mod.common.api.riding
 
-import com.cobblemon.mod.common.api.riding.seats.Seat
 import net.minecraft.entity.JumpingMount
 
 /**
@@ -22,12 +21,5 @@ interface Rideable : JumpingMount {
      * Denotes the manager responsible for handling any instance of riding taking place on an entity
      */
     val riding: RidingManager
-
-    /**
-     * Specifies a list of stateful seats which are capable of tracking an occupant.
-     *
-     * @since 1.5.0
-     */
-    val seats: List<Seat>
 
 }

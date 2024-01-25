@@ -12,6 +12,7 @@ import com.cobblemon.mod.common.api.riding.context.RidingContext
 import com.cobblemon.mod.common.api.riding.controller.posing.PoseProvider
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
+import com.cobblemon.mod.common.pokemon.riding.controllers.GenericLandController
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.util.Identifier
@@ -29,6 +30,15 @@ import java.util.function.Predicate
  * @since x.x.x
  */
 interface RideController {
+
+    companion object {
+
+        val controllers: MutableMap<Identifier, RideController> = mutableMapOf()
+
+        init {
+            controllers[GenericLandController.key] = GenericLandController
+        }
+    }
 
     /** A reference key used to denote the individual controller */
     val key: Identifier

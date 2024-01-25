@@ -8,13 +8,15 @@
 
 package com.cobblemon.mod.common.api.riding.capability
 
+import com.cobblemon.mod.common.api.net.Encodable
 import com.cobblemon.mod.common.api.riding.controller.properties.RideControllerProperties
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.util.cobblemonResource
+import net.minecraft.network.PacketByteBuf
 import net.minecraft.util.Identifier
 import java.util.function.Predicate
 
-interface RidingCapability {
+interface RidingCapability : Encodable {
 
     /** A reference key used to denote the individual capability */
     val key: Identifier
@@ -23,7 +25,7 @@ interface RidingCapability {
     val condition: Predicate<PokemonEntity>
 
     /** Specifies properties relative to a controller configured for this capability */
-    val controller: RideControllerProperties
+    val properties: RideControllerProperties
 
     companion object {
 
@@ -38,6 +40,16 @@ interface RidingCapability {
             }
         }
 
+        fun decode(buffer: PacketByteBuf): RidingCapability {
+            val key = buffer.readIdentifier()
+            return this.create(key, RideControllerProperties.decode(buffer))
+        }
+
+    }
+
+    override fun encode(buffer: PacketByteBuf) {
+        buffer.writeIdentifier(this.key)
+        this.properties.encode(buffer)
     }
 
 }

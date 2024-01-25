@@ -108,7 +108,7 @@ data class Seat(
             if (rider.startRiding(mount)) {
                 this.occupant = rider
                 if (update) {
-                    this.mount.dataTracker.set(PokemonEntity.SEAT_UPDATER, this.mount.seats.map { it.toDTO() })
+                    this.mount.dataTracker.set(PokemonEntity.SEAT_UPDATER, this.mount.riding.seats?.map { it.toDTO() } ?: emptyList())
                 }
 
                 return true
@@ -134,7 +134,7 @@ data class Seat(
             this.occupant = null
 
             if (update) {
-                this.mount.dataTracker.set(PokemonEntity.SEAT_UPDATER, this.mount.seats.map { it.toDTO() })
+                this.mount.dataTracker.set(PokemonEntity.SEAT_UPDATER, this.mount.riding.seats?.map { it.toDTO() } ?: emptyList())
             }
         }
     }

@@ -8,25 +8,34 @@
 
 package com.cobblemon.mod.common.api.riding.controller.properties
 
-import com.cobblemon.mod.common.api.net.Decodable
 import com.cobblemon.mod.common.api.net.Encodable
-import com.cobblemon.mod.common.api.reference.Reference
+import com.cobblemon.mod.common.api.riding.context.RidingContextBuilder
+import com.cobblemon.mod.common.pokemon.riding.controllers.GenericLandController
+import com.cobblemon.mod.common.pokemon.riding.controllers.GenericLandControllerAdapter
 import net.minecraft.network.PacketByteBuf
 import net.minecraft.util.Identifier
-import net.minecraft.util.JsonSerializer
 
-abstract class RideControllerProperties : Encodable, Decodable {
+interface RideControllerProperties : Encodable {
 
-    protected abstract var identifier: Identifier
+    val identifier: Identifier
 
-    abstract fun toAccessibleProperties(): Map<RideControllerPropertyKey<*>, Reference<*>>
+    fun apply(context: RidingContextBuilder)
 
-    override fun decode(buffer: PacketByteBuf) {
-        this.identifier = buffer.readIdentifier()
-    }
+    companion object {
 
-    override fun encode(buffer: PacketByteBuf) {
-        buffer.writeIdentifier(this.identifier)
+        val deserializers: Map<Identifier, Deserializer<*>>
+
+        init {
+            // TODO - Post registration event
+
+            this.deserializers = mapOf(GenericLandController.key to GenericLandControllerAdapter)
+        }
+
+        fun decode(buffer: PacketByteBuf): RideControllerProperties {
+            val key = buffer.readIdentifier()
+            return this.deserializers[key]!!.decode(buffer)
+        }
+
     }
 
 }

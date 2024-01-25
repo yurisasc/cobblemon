@@ -6,33 +6,21 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-package com.cobblemon.mod.common.api.riding.controller
+package com.cobblemon.mod.common.api.riding.controller.properties
 
-import com.cobblemon.mod.common.api.events.CobblemonEvents
-import com.cobblemon.mod.common.api.events.riding.RegisterRidingControllerAdapterEvent
-import com.cobblemon.mod.common.api.riding.controller.properties.RideControllerProperties
-import com.cobblemon.mod.common.util.asCobblemonIdentifier
 import com.cobblemon.mod.common.util.asIdentifier
 import com.google.gson.JsonElement
 import com.google.gson.JsonParseException
+import net.minecraft.network.PacketByteBuf
 import net.minecraft.util.Identifier
 
 object RideControllerPropertyDeserializer {
-
-    private val mappings: Map<Identifier, Deserializer<*>>
-
-    init {
-        val generator: MutableMap<Identifier, Deserializer<*>> = mutableMapOf()
-        CobblemonEvents.REGISTER_RIDING_CONTROLLER_ADAPTER.post(RegisterRidingControllerAdapterEvent(generator))
-
-        this.mappings = generator
-    }
 
     fun deserialize(key: Identifier, json: JsonElement): RideControllerProperties {
         val data = json.asJsonObject
         val controller = data.get("controller").asIdentifier
 
-        return mappings[controller]?.deserialize(
+        return RideControllerProperties.deserializers[controller]?.deserialize(
             data.getAsJsonObject("properties")
         ) ?: throw JsonParseException("Invalid capability: $controller")
     }
@@ -42,5 +30,7 @@ object RideControllerPropertyDeserializer {
 interface Deserializer<T : RideControllerProperties> {
 
     fun deserialize(json: JsonElement): T
+
+    fun decode(buffer: PacketByteBuf): T
 
 }

@@ -8,7 +8,6 @@
 
 package com.cobblemon.mod.common.pokemon.riding
 
-import com.cobblemon.mod.common.api.net.Decodable
 import com.cobblemon.mod.common.api.net.Encodable
 import com.cobblemon.mod.common.api.riding.conditions.RidingCondition
 import com.cobblemon.mod.common.api.riding.RidingProperties
@@ -26,10 +25,17 @@ data class CobblemonRidingProperties(
 
     @SerializedName("capabilities")
     override val capabilities: List<RidingCapability>
-): RidingProperties, Encodable, Decodable {
+): RidingProperties, Encodable {
 
     companion object {
         fun unsupported() : CobblemonRidingProperties = CobblemonRidingProperties(emptyList(), emptyList(), emptyList())
+
+        fun decode(buffer: PacketByteBuf): RidingProperties {
+            val seats: List<SeatProperties> = buffer.readList { _ -> SeatProperties.decode(buffer) }
+            val capabilities: List<RidingCapability> = buffer.readList { _ -> RidingCapability.decode(buffer) }
+
+            return CobblemonRidingProperties(seats, emptyList(), capabilities)
+        }
     }
 
     override fun supported(): Boolean {
@@ -38,9 +44,7 @@ data class CobblemonRidingProperties(
 
     override fun encode(buffer: PacketByteBuf) {
         buffer.writeNullable(this.seats) { _, seats -> buffer.writeCollection(seats) { _, seat -> seat.encode(buffer) } }
+        buffer.writeCollection(this.capabilities) { _, capability -> capability.encode(buffer) }
     }
 
-    override fun decode(buffer: PacketByteBuf) {
-        buffer.readNullable { _ -> buffer.readList { _ -> SeatProperties.decode(buffer) } }
-    }
 }

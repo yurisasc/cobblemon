@@ -8,21 +8,17 @@
 
 package com.cobblemon.mod.common.pokemon.riding.controllers
 
-import com.cobblemon.mod.common.api.reference.Reference
 import com.cobblemon.mod.common.api.riding.context.RidingContext
-import com.cobblemon.mod.common.api.riding.context.state.RidingStateKeys
-import com.cobblemon.mod.common.api.riding.controller.Deserializer
+import com.cobblemon.mod.common.api.riding.context.RidingContextBuilder
+import com.cobblemon.mod.common.api.riding.controller.properties.Deserializer
 import com.cobblemon.mod.common.api.riding.controller.posing.PoseOption
 import com.cobblemon.mod.common.api.riding.controller.posing.PoseProvider
 import com.cobblemon.mod.common.api.riding.controller.RideController
 import com.cobblemon.mod.common.api.riding.controller.properties.RideControllerProperties
-import com.cobblemon.mod.common.api.riding.controller.properties.RideControllerPropertyKey
 import com.cobblemon.mod.common.api.riding.controller.properties.RideControllerPropertyKeys
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.util.cobblemonResource
-import com.google.gson.JsonDeserializationContext
-import com.google.gson.JsonDeserializer
 import com.google.gson.JsonElement
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.player.PlayerEntity
@@ -30,8 +26,9 @@ import net.minecraft.network.PacketByteBuf
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.Vec2f
 import net.minecraft.util.math.Vec3d
-import java.lang.reflect.Type
 import java.util.function.Predicate
+import kotlin.math.max
+import kotlin.math.min
 
 object GenericLandController : RideController {
 
@@ -43,7 +40,7 @@ object GenericLandController : RideController {
         val max: Float = context.propertyOrDefault(RideControllerPropertyKeys.SPEED, 0.0F)
         val acceleration = this.acceleration(max, context)
 
-        return context.stateOrDefault(RidingStateKeys.CURRENT_SPEED, 0.0F) + acceleration
+        return min(max(context.speed + acceleration, 0.0F), 2.0F)
     }
 
     private fun acceleration(speed: Float, context: RidingContext): Float {
@@ -68,29 +65,20 @@ object GenericLandController : RideController {
 }
 
 data class GenericLandControllerProperties(
-    var speed: Float,
-    var acceleration: Float
-) : RideControllerProperties() {
+    val speed: Float,
+    val acceleration: Float
+) : RideControllerProperties {
 
-    override var identifier: Identifier = GenericLandController.key
-    override fun toAccessibleProperties(): Map<RideControllerPropertyKey<*>, Reference<*>> {
-        val result: MutableMap<RideControllerPropertyKey<*>, Reference<*>> = mutableMapOf()
-
-        result[RideControllerPropertyKeys.SPEED] = Reference(this.speed)
-        result[RideControllerPropertyKeys.ACCELERATION] = Reference(this.acceleration)
-        return result
-    }
+    override val identifier: Identifier = GenericLandController.key
 
     override fun encode(buffer: PacketByteBuf) {
-        super.encode(buffer)
         buffer.writeFloat(this.speed)
         buffer.writeFloat(this.acceleration)
     }
 
-    override fun decode(buffer: PacketByteBuf) {
-        super.decode(buffer)
-        this.speed = buffer.readFloat()
-        this.acceleration = buffer.readFloat()
+    override fun apply(context: RidingContextBuilder) {
+        context.property(RideControllerPropertyKeys.SPEED, this.speed)
+        context.property(RideControllerPropertyKeys.ACCELERATION, this.acceleration)
     }
 }
 
@@ -99,6 +87,10 @@ object GenericLandControllerAdapter : Deserializer<GenericLandControllerProperti
     override fun deserialize(json: JsonElement): GenericLandControllerProperties {
         val obj = json.asJsonObject
         return GenericLandControllerProperties(obj.get("speed").asFloat, obj.get("acceleration").asFloat)
+    }
+
+    override fun decode(buffer: PacketByteBuf): GenericLandControllerProperties {
+        return GenericLandControllerProperties(buffer.readFloat(), buffer.readFloat())
     }
 
 }

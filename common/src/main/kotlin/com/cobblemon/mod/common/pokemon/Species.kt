@@ -224,7 +224,7 @@ class Species : ClientDataSynchronizer<Species>, ShowdownIdentifiable {
         this.forms.clear()
         this.forms += buffer.readList{ pb -> FormData().apply { decode(pb) } }.filterNotNull()
         this.battleTheme = buffer.readIdentifier()
-        (this.riding as CobblemonRidingProperties).decode(buffer)
+        this.riding = CobblemonRidingProperties.decode(buffer)
         this.initialize()
     }
 
