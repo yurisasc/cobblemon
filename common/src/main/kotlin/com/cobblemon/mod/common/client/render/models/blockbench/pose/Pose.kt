@@ -22,7 +22,7 @@ import net.minecraft.entity.Entity
  * A pose for a model.
  */
 class Pose<T : Entity, F : ModelFrame>(
-    val poseName: String,
+    var poseName: String,
     val poseTypes: Set<PoseType>,
     val condition: ((T) -> Boolean)?,
     val onTransitionedInto: (PoseableEntityState<T>?) -> Unit = {},
@@ -34,7 +34,7 @@ class Pose<T : Entity, F : ModelFrame>(
 ) {
     fun isSuitable(entity: T) = condition?.invoke(entity) ?: true
 
-    val transitions = mutableMapOf<Pose<T, F>, (Pose<T, out ModelFrame>, Pose<T, out ModelFrame>) -> StatefulAnimation<T, ModelFrame>>()
+    val transitions = mutableMapOf<String, (Pose<T, out ModelFrame>, Pose<T, out ModelFrame>) -> StatefulAnimation<T, ModelFrame>>()
 
     fun idleStateless(model: PoseableEntityModel<T>, state: PoseableEntityState<T>?, limbSwing: Float = 0F, limbSwingAmount: Float = 0F, ageInTicks: Float = 0F, headYaw: Float = 0F, headPitch: Float = 0F, intensity: Float) {
         idleAnimations.forEach { it.apply(null, model, state, limbSwing, limbSwingAmount, ageInTicks, headYaw, headPitch, intensity) }

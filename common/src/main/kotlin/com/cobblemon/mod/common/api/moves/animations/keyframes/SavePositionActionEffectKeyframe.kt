@@ -8,14 +8,15 @@
 
 package com.cobblemon.mod.common.api.moves.animations.keyframes
 
+import com.cobblemon.mod.common.api.molang.ObjectValue
 import com.cobblemon.mod.common.api.moves.animations.ActionEffectContext
 import com.cobblemon.mod.common.api.moves.animations.UsersProvider
 import java.util.concurrent.CompletableFuture
 
 class SavePositionActionEffectKeyframe: ConditionalActionEffectKeyframe() {
     override fun playWhenTrue(context: ActionEffectContext): CompletableFuture<Unit> {
-        val user = context.findOneProvider<UsersProvider>()?.users?.firstOrNull() ?: return skip()
-        context.params["position"] = user.pos
+        val user = context.findOneProvider<UsersProvider>()?.entities?.firstOrNull() ?: return skip()
+        context.runtime.environment.setSimpleVariable("${user.uuidAsString}-pos", ObjectValue(user.pos))
         return skip()
     }
 }

@@ -25,6 +25,7 @@ import com.cobblemon.mod.common.client.entity.GenericBedrockClientDelegate
 import com.cobblemon.mod.common.api.molang.MoLangFunctions.setup
 import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.api.scheduling.Schedulable
+import com.cobblemon.mod.common.client.ClientMoLangFunctions.setupClient
 import com.cobblemon.mod.common.client.render.MatrixWrapper
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.PrimaryAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.StatefulAnimation
@@ -61,51 +62,20 @@ import net.minecraft.util.math.Vec3d
  */
 abstract class PoseableEntityState<T : Entity> : Schedulable {
     var currentModel: PoseableEntityModel<T>? = null
+        set(value) {
+            field = value
+            runtime.environment.getQueryStruct().addFunctions(value?.functions?.functions ?: hashMapOf())
+        }
     var currentPose: String? = null
     var primaryAnimation: PrimaryAnimation<T>? = null
     val statefulAnimations: MutableList<StatefulAnimation<T, *>> = mutableListOf()
     val quirks = mutableMapOf<ModelQuirk<T, *>, QuirkData<T>>()
     val poseParticles = mutableListOf<BedrockParticleKeyframe>()
-    val runtime = MoLangRuntime().setup().also { runtime ->
+    val runtime = MoLangRuntime().setup().setupClient().also { runtime ->
         val reusableAnimTime = DoubleValue(0.0) // This gets called 500 million times so use a mutable value for runtime
         runtime.environment.getQueryStruct().addFunctions(mapOf(
             "anim_time" to java.util.function.Function { return@Function reusableAnimTime.also { it.value = animationSeconds.toDouble() } },
-            "bedrock_primary" to java.util.function.Function { params ->
-                val group = params.getString(0)
-                val animation = params.getString(1)
-                val anim = currentModel?.bedrockStateful(group, animation) ?: return@Function ObjectValue<Int>(0)
-                val excludedLabels = mutableSetOf<String>()
-                var curve: WaveFunction = { t ->
-                    if (t < 0.1) {
-                        t * 10
-                    } else if (t < 0.9) {
-                        1F
-                    } else {
-                        1F
-                    }
-                }
-                for (index in 2 until params.params.size) {
-                    val label = params.getString(index) ?: continue
-                    val regex = "curve[ =]+([a-zA-Z0-9]+)".toRegex()
-                    val curveName = regex.find(label)
-                    if (curveName != null && curveName.groupValues.size > 1) {
-                        val curveId = curveName.groupValues[1]
-                        WaveFunctions.functions[curveId]?.let { curve = it }
-                    } else {
-                        excludedLabels.add(label)
-                    }
-
-                }
-
-                return@Function ObjectValue(PrimaryAnimation(animation = anim, excludedLabels = excludedLabels, curve = curve))
-            },
-            "bedrock_stateful" to java.util.function.Function { params ->
-                val group = params.getString(0)
-                val animation = params.getString(1)
-                val anim = currentModel?.bedrockStateful(group, animation) ?: return@Function ObjectValue<Int>(0)
-                return@Function ObjectValue(anim)
-            },
-            "pose_type" to java.util.function.Function { return@Function StringValue((getEntity() as Poseable).getPoseType().name) },
+            "pose_type" to java.util.function.Function { return@Function StringValue((getEntity() as Poseable).getCurrentPoseType().name) },
             "pose" to java.util.function.Function { _ -> return@Function StringValue(currentPose ?: "") },
             "say" to java.util.function.Function { params -> MinecraftClient.getInstance().player?.sendMessage(params.getString(0).text()) ?: Unit },
             "sound" to java.util.function.Function { params ->
@@ -122,16 +92,7 @@ abstract class PoseableEntityState<T : Entity> : Schedulable {
                     )
                 }
             },
-            "random" to java.util.function.Function { params ->
-                val options = mutableListOf<MoValue>()
-                var index = 0
-                while (params.contains(index)) {
-                    options.add(params.get(index))
-                    index++
-                }
-                return@Function options.random() // Can throw an exception if they specified no args. They'd be idiots though.
-            },
-            "animation" to java.util.function.Function { params ->
+            "play_animation" to java.util.function.Function { params ->
                 val animationParameter = params.get<MoValue>(0)
                 val animation = if (animationParameter is ObjectValue<*>) {
                     animationParameter.obj as BedrockStatefulAnimation<T>
@@ -139,7 +100,11 @@ abstract class PoseableEntityState<T : Entity> : Schedulable {
                     currentModel?.getAnimation(this, animationParameter.asString(), runtime)
                 }
                 if (animation != null) {
-                    statefulAnimations.add(animation)
+                    if (animation is PrimaryAnimation<T>) {
+                        addPrimaryAnimation(animation)
+                    } else {
+                        addStatefulAnimation(animation)
+                    }
                 }
                 return@Function Unit
             },
@@ -164,16 +129,8 @@ abstract class PoseableEntityState<T : Entity> : Schedulable {
                     val world = entity.world as ClientWorld
                     val matrixWrapper = locatorStates[locator] ?: locatorStates["root"]!!
 
-                    val particleRuntime = MoLangRuntime()
-                    particleRuntime.environment.structs["query"] = runtime.environment.getQueryStruct()
-
-                    for (index in 2 until params.params.size) {
-                        val variableName = params.getString(index) ?: continue
-                        particleRuntime.environment.setSimpleVariable(
-                            variableName,
-                            runtime.resolve("v.$variableName".asExpression())
-                        )
-                    }
+                    val particleRuntime = MoLangRuntime().setup().setupClient()
+                    particleRuntime.environment.getQueryStruct().addFunction("entity") { runtime.environment.getQueryStruct() }
 
                     val storm = ParticleStorm(
                         effect = effect,

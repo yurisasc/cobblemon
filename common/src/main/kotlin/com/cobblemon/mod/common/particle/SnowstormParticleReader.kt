@@ -87,7 +87,17 @@ object SnowstormParticleReader {
                         v3 = nodes[3]
                     )
                 }
-                "bezier_chain" -> TODO("Bezier Chain curves are not implemented yet")
+                "bezier_chain" -> {
+                    val input = curveJson.get("input").asString.asExpression()
+                    val nodes = curveJson.get("nodes").asJsonObject.entrySet().map { (key, value) ->
+                        key.toDouble() to (value as JsonObject).let { BezierChainMoLangCurve.BezierChainNode(it.get("value").asDouble, it.get("slope").asDouble) }
+                    }.toMap()
+                    BezierChainMoLangCurve(
+                        name = variableName,
+                        input = input,
+                        nodes = nodes
+                    )
+                }
                 "linear" -> {
                     val input = curveJson.get("input").asString.asExpression()
                     val horizontalRange = curveJson.get("horizontal_range").asString.asExpression()
@@ -131,7 +141,7 @@ object SnowstormParticleReader {
 
         fun resolveDirection(json: JsonObject) {
             val directionProperty = json.get("direction") ?: let {
-                direction = CustomMotionDirection()
+                direction = OutwardsMotionDirection()
                 return
             }
             direction = if (directionProperty.isJsonArray) {

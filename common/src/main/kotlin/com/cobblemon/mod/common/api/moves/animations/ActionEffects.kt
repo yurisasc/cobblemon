@@ -40,17 +40,22 @@ object ActionEffects : JsonDataRegistry<ActionEffectTimeline> {
 
     init {
         ActionEffectKeyframe.register<AnimationActionEffectKeyframe>("animation")
+        ActionEffectKeyframe.register<EntityMoLangActionEffectKeyframe>("entity_molang")
         ActionEffectKeyframe.register<MoLangActionEffectKeyframe>("molang")
         ActionEffectKeyframe.register<ParallelActionEffectKeyframe>("parallel")
         ActionEffectKeyframe.register<CanInterruptActionEffectKeyframe>("can_interrupt")
         ActionEffectKeyframe.register<CannotInterruptActionEffectKeyframe>("cannot_interrupt")
         ActionEffectKeyframe.register<RemoveHoldsActionEffectKeyframe>("remove_holds")
+        ActionEffectKeyframe.register<AddHoldsActionEffectKeyframe>("add_holds")
         ActionEffectKeyframe.register<MoveToTargetActionEffectKeyframe>("move_to_target")
         ActionEffectKeyframe.register<ReturnToPositionActionEffectKeyframe>("return_to_position")
         ActionEffectKeyframe.register<PauseActionEffectKeyframe>("pause")
         ActionEffectKeyframe.register<SavePositionActionEffectKeyframe>("save_position")
         ActionEffectKeyframe.register<ForkActionEffectKeyframe>("fork")
         ActionEffectKeyframe.register<SequenceActionEffectKeyframe>("sequence")
+        ActionEffectKeyframe.register<RunActionEffectKeyframe>("run_action_effect")
+        ActionEffectKeyframe.register<EntityParticlesActionEffectKeyframe>("entity_particles")
+        ActionEffectKeyframe.register<EntitySoundActionEffectKeyframe>("entity_sound")
     }
 
     override val gson = GsonBuilder()

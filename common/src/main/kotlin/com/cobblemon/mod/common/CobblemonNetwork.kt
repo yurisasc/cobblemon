@@ -41,6 +41,7 @@ import com.cobblemon.mod.common.client.net.data.UnlockReloadPacketHandler
 import com.cobblemon.mod.common.client.net.effect.RunPosableMoLangHandler
 import com.cobblemon.mod.common.client.net.dialogue.DialogueClosedHandler
 import com.cobblemon.mod.common.client.net.dialogue.DialogueOpenedHandler
+import com.cobblemon.mod.common.client.net.effect.SpawnSnowstormEntityParticleHandler
 import com.cobblemon.mod.common.client.net.effect.SpawnSnowstormParticleHandler
 import com.cobblemon.mod.common.client.net.gui.InteractPokemonUIPacketHandler
 import com.cobblemon.mod.common.client.net.gui.SummaryUIPacketHandler
@@ -88,6 +89,7 @@ import com.cobblemon.mod.common.net.messages.client.data.UnlockReloadPacket
 import com.cobblemon.mod.common.net.messages.client.dialogue.DialogueClosedPacket
 import com.cobblemon.mod.common.net.messages.client.dialogue.DialogueOpenedPacket
 import com.cobblemon.mod.common.net.messages.client.effect.RunPosableMoLangPacket
+import com.cobblemon.mod.common.net.messages.client.effect.SpawnSnowstormEntityParticlePacket
 import com.cobblemon.mod.common.net.messages.client.effect.SpawnSnowstormParticlePacket
 import com.cobblemon.mod.common.net.messages.client.fossil.FossilRegistrySyncPacket
 import com.cobblemon.mod.common.net.messages.client.fossil.NaturalMaterialRegistrySyncPacket
@@ -317,6 +319,7 @@ object CobblemonNetwork : NetworkManager {
 
         // Effects
         this.createClientBound(SpawnSnowstormParticlePacket.ID, SpawnSnowstormParticlePacket::decode, SpawnSnowstormParticleHandler)
+        this.createClientBound(SpawnSnowstormEntityParticlePacket.ID, SpawnSnowstormEntityParticlePacket::decode, SpawnSnowstormEntityParticleHandler)
         this.createClientBound(RunPosableMoLangPacket.ID, RunPosableMoLangPacket::decode, RunPosableMoLangHandler)
 
         // Hax

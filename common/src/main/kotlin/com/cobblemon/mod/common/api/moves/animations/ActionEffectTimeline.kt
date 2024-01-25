@@ -39,34 +39,10 @@ class ActionEffectTimeline(
         return if (timeline.isEmpty() || !context.runtime.resolveBoolean(condition)) {
             CompletableFuture.completedFuture(Unit)
         } else {
-            // This future will be complete if the sequence is done or the holds are empty
-            val totalFuture = CompletableFuture<Unit>()
-
-            // Keep an eye on the holds to notify the future once the holds are all gone
-            ScheduledTask.Builder()
-                .interval(1/20F)
-                .delay(0F)
-                .infiniteIterations()
-                .execute { task ->
-                    if (totalFuture.isDone) {
-                        task.expire()
-                    } else if (context.holds.isEmpty()) {
-                        task.expire()
-                        totalFuture.complete(Unit)
-                    }
-                }
-                .build()
-
             val finalFuture = CompletableFuture<Unit>()
             // .toList copy because I'm paranoid about iterators being trying to share between identical effects playing
             chainKeyframes(context, timeline.toList().iterator(), finalFuture)
-
-            // When the sequence is done, mark the entire thing as complete regardless of remaining holds.
             finalFuture
-                .thenApply { if (!totalFuture.isDone) totalFuture.complete(Unit) }
-                .exceptionally { if (!totalFuture.isDone) totalFuture.complete(Unit) }
-
-            totalFuture
         }
     }
 
@@ -85,9 +61,7 @@ class ActionEffectTimeline(
 
 class ActionEffectContext(
     val actionEffect: ActionEffectTimeline,
-    val holds: MutableSet<String> = mutableSetOf("--- Hold until all are complete ---"),
-    val flags: Set<String>,
-    val params: MutableMap<String, Any> = mutableMapOf(),
+    val holds: MutableSet<String> = mutableSetOf(),
     val providers: MutableList<Any> = mutableListOf(),
     val runtime: MoLangRuntime,
     var canBeInterrupted: Boolean = false,
@@ -95,13 +69,22 @@ class ActionEffectContext(
     var currentKeyframes: MutableList<ActionEffectKeyframe> = mutableListOf()
 ) {
     inline fun <reified T> findOneProvider() = providers.filterIsInstance<T>().firstOrNull()
+
+
 }
 
-class UsersProvider(val users: List<Entity>) {
+class UsersProvider(users: List<Entity>): EntityProvider {
+    override val entities = users
     constructor(vararg users: Entity): this(users.toList())
 }
-class TargetsProvider(val targets: List<Entity>) {
+
+class TargetsProvider(targets: List<Entity>): EntityProvider {
+    override val entities = targets
     constructor(vararg targets: Entity): this(targets.toList())
+}
+
+interface EntityProvider {
+    val entities: List<Entity>
 }
 
 //class MoveAnimationKeyframe(

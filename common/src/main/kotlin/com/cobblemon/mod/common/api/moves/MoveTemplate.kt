@@ -8,6 +8,11 @@
 
 package com.cobblemon.mod.common.api.moves
 
+import com.bedrockk.molang.runtime.struct.MoStruct
+import com.bedrockk.molang.runtime.struct.QueryStruct
+import com.bedrockk.molang.runtime.value.DoubleValue
+import com.bedrockk.molang.runtime.value.StringValue
+import com.cobblemon.mod.common.api.molang.MoLangFunctions.addFunction
 import com.cobblemon.mod.common.api.moves.animations.ActionEffectTimeline
 import com.cobblemon.mod.common.api.moves.categories.DamageCategories
 import com.cobblemon.mod.common.api.moves.categories.DamageCategory
@@ -49,6 +54,19 @@ open class MoveTemplate(
     val effectChances: Array<Double>,
     val actionEffect: ActionEffectTimeline?
 ) {
+    val struct: MoStruct by lazy {
+        QueryStruct(hashMapOf())
+            .addFunction("name") { StringValue(name) }
+            .addFunction("type") { StringValue(elementalType.name) }
+            .addFunction("damage_category") { StringValue(damageCategory.name) }
+            .addFunction("power") { DoubleValue(power) }
+            .addFunction("target") { StringValue(target.name) }
+            .addFunction("accuracy") { DoubleValue(accuracy) }
+            .addFunction("pp") { DoubleValue(pp) }
+            .addFunction("priority") { DoubleValue(priority) }
+            .addFunction("crit_ratio") { DoubleValue(critRatio) }
+    }
+
 
     val displayName: MutableText
         get() = lang("move.$name")

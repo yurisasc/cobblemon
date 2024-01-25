@@ -105,7 +105,7 @@ object WaveFunctions {
                 1F
             } else {
                 val t2 = (1 - t) * 5
-                1F - (0.5F * sin(PI*(t2 - 0.5F)) + 0.5F)
+                0.5F * sin(PI*(t2 - 0.5F)) + 0.5F
             }
         },
         "one" to { 1F }

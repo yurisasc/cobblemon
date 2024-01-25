@@ -8,6 +8,7 @@
 
 package com.cobblemon.mod.common.api.moves.animations.keyframes
 
+import com.cobblemon.mod.common.api.molang.ObjectValue
 import com.cobblemon.mod.common.api.moves.animations.ActionEffectContext
 import com.cobblemon.mod.common.api.moves.animations.ActionEffectTimeline
 import com.cobblemon.mod.common.api.moves.animations.ActionEffects
@@ -26,10 +27,10 @@ class ReturnToPositionActionEffectKeyframe : ActionEffectKeyframe {
     val timeoutActionEffect: Identifier? = null
 
     override fun play(context: ActionEffectContext): CompletableFuture<Unit> {
-        val user = context.findOneProvider<UsersProvider>()?.users?.firstOrNull() as? PokemonEntity ?: return skip()
+        val user = context.findOneProvider<UsersProvider>()?.entities?.firstOrNull() as? PokemonEntity ?: return skip()
         val future = CompletableFuture<Unit>()
 
-        val pos = context.params["position"] as? Vec3d ?: return skip()
+        val pos = (context.runtime.environment.getValue(setOf("${user.uuidAsString}-pos").iterator())?.value() as? ObjectValue<*>)?.obj as? Vec3d ?: return skip()
 
         var timedOut = false
 

@@ -8,38 +8,23 @@
 
 package com.cobblemon.mod.common.api.moves.animations.keyframes
 
-import com.cobblemon.mod.common.CobblemonNetwork.sendPacket
+import com.cobblemon.mod.common.api.molang.ExpressionLike
 import com.cobblemon.mod.common.api.moves.animations.ActionEffectContext
-import com.cobblemon.mod.common.api.moves.animations.TargetsProvider
-import com.cobblemon.mod.common.api.moves.animations.UsersProvider
 import com.cobblemon.mod.common.api.scheduling.delayedFuture
-import com.cobblemon.mod.common.entity.Poseable
-import com.cobblemon.mod.common.net.messages.client.effect.RunPosableMoLangPacket
 import com.cobblemon.mod.common.util.asExpressionLike
 import java.util.concurrent.CompletableFuture
-import net.minecraft.entity.Entity
-import net.minecraft.server.world.ServerWorld
 
+/**
+ * An action effect keyframe that simply executes some MoLang on the effect context's runtime.
+ *
+ * @author Hiroku
+ * @since January 21st, 2024
+ */
 class MoLangActionEffectKeyframe : ActionEffectKeyframe {
-    var delay = "1".asExpressionLike()
-    val expressions = mutableSetOf<String>()
-    val visibilityRange = 200
-    val applyToTarget = false
-
+    val expressions: ExpressionLike = "0".asExpressionLike()
+    val delay: ExpressionLike = "0".asExpressionLike()
     override fun play(context: ActionEffectContext): CompletableFuture<Unit> {
-        val entities = if (applyToTarget) {
-            context.providers.filterIsInstance<TargetsProvider>().flatMap { it.targets }
-        } else {
-            context.providers.filterIsInstance<UsersProvider>().flatMap { it.users }
-        }.filterIsInstance<Poseable>()
-
-        for (entity in entities) {
-            val world = (entity as Entity).world as ServerWorld
-            val players = world.getPlayers { it.distanceTo(entity) <= visibilityRange }
-            val pkt = RunPosableMoLangPacket(entityId = entity.id, expressions = expressions)
-            players.forEach { it.sendPacket(pkt) }
-        }
-
+        expressions.resolve(context.runtime)
         return delayedFuture(seconds = delay.resolveFloat(context.runtime), serverThread = true)
     }
 }

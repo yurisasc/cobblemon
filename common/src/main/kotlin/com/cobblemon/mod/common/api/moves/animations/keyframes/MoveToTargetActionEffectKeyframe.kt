@@ -13,7 +13,7 @@ import com.cobblemon.mod.common.api.moves.animations.ActionEffectTimeline
 import com.cobblemon.mod.common.api.moves.animations.ActionEffects
 import com.cobblemon.mod.common.api.moves.animations.TargetsProvider
 import com.cobblemon.mod.common.api.moves.animations.UsersProvider
-import com.cobblemon.mod.common.api.scheduling.after
+import com.cobblemon.mod.common.api.scheduling.afterOnServer
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.entity.pokemon.ai.PokemonNavigation
 import com.cobblemon.mod.common.util.asExpressionLike
@@ -29,8 +29,8 @@ class MoveToTargetActionEffectKeyframe : ActionEffectKeyframe {
     val timeoutActionEffect: Identifier? = null
 
     override fun play(context: ActionEffectContext): CompletableFuture<Unit> {
-        val user = context.findOneProvider<UsersProvider>()?.users?.firstOrNull() as? PokemonEntity ?: return CompletableFuture.completedFuture(Unit)
-        val target = context.findOneProvider<TargetsProvider>()?.targets?.firstOrNull() ?: return CompletableFuture.completedFuture(Unit)
+        val user = context.findOneProvider<UsersProvider>()?.entities?.firstOrNull() as? PokemonEntity ?: return CompletableFuture.completedFuture(Unit)
+        val target = context.findOneProvider<TargetsProvider>()?.entities?.firstOrNull() ?: return CompletableFuture.completedFuture(Unit)
 
         val future = CompletableFuture<Unit>()
 
@@ -61,7 +61,7 @@ class MoveToTargetActionEffectKeyframe : ActionEffectKeyframe {
             }
         )
 
-        after(seconds = timeout.resolveFloat(context.runtime), serverThread = true) {
+        afterOnServer(seconds = timeout.resolveFloat(context.runtime)) {
             if (!future.isDone && !timedOut) {
                 timedOut = true
                 timeoutEffect.run(context).thenApply { future.complete(Unit) }

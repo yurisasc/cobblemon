@@ -14,7 +14,7 @@ import com.cobblemon.mod.common.client.render.models.blockbench.animation.Primar
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.StatefulAnimation
 import net.minecraft.entity.Entity
 
-open class QuirkData<T : Entity>(val name: String) {
+open class QuirkData<T : Entity> {
     val animations = mutableListOf<StatefulAnimation<T, *>>()
     var primaryAnimation: PrimaryAnimation<T>? = null
 

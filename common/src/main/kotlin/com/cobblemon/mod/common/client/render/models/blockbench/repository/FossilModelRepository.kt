@@ -58,7 +58,6 @@ object FossilModelRepository : VaryingModelRepository<Entity, FossilModel>() {
             // borrowed code from JsonPokemonPoseableModel's PoseAdapter Deserializer
             val tankQuirks = (jsonObject.get("quirks")?.asJsonArray ?: JsonArray()).map { json ->
                 json as JsonObject
-                val name = json.get("name").asString
                 val quirkAnimations: (state: PoseableEntityState<Entity>) -> List<StatefulAnimation<Entity, *>> = { _ ->
                     (json.get("animations")?.asJsonArray ?: JsonArray()).mapNotNull { animJson ->
                         val animString = animJson.asString
@@ -78,7 +77,6 @@ object FossilModelRepository : VaryingModelRepository<Entity, FossilModel>() {
                 val maxSeconds = json.get("maxSecondsBetweenOccurrences")?.asFloat ?: 30F
 
                 model.quirkMultiple(
-                    name = name,
                     secondsBetweenOccurrences = minSeconds to maxSeconds,
                     condition = { true },
                     loopTimes = 1..loopTimes,
