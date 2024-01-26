@@ -44,6 +44,7 @@ import com.cobblemon.mod.common.data.CobblemonDataProvider
 import com.cobblemon.mod.common.entity.boat.CobblemonBoatType
 import com.cobblemon.mod.common.item.PokeBallItem
 import com.cobblemon.mod.common.client.render.models.blockbench.repository.FossilModelRepository
+import com.cobblemon.mod.common.client.render.models.blockbench.repository.MiscModelRepository
 import com.cobblemon.mod.common.platform.events.PlatformEvents
 import com.cobblemon.mod.common.util.DataKeys
 import com.cobblemon.mod.common.util.asTranslated
@@ -267,6 +268,7 @@ object CobblemonClient {
         PokeBallModelRepository.reload(resourceManager)
         BerryModelRepository.reload(resourceManager)
         FossilModelRepository.reload(resourceManager)
+        MiscModelRepository.reload(resourceManager)
         LOGGER.info("Loaded assets")
     }
 
