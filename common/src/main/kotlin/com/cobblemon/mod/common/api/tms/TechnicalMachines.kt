@@ -50,7 +50,10 @@ object TechnicalMachines : JsonDataRegistry<TechnicalMachine> {
     }
     override fun sync(player: ServerPlayerEntity) { }
 
-    fun getTechnicalMachineFromStack(item: ItemStack): TechnicalMachine? {
+    fun getTechnicalMachineFromStack(item: ItemStack?): TechnicalMachine? {
+        if (item == null) {
+            return null
+        }
         return TechnicalMachineItem.getMoveNbt(item)
     }
 

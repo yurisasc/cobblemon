@@ -11,13 +11,20 @@ package com.cobblemon.mod.common.block.entity
 import com.cobblemon.mod.common.CobblemonBlockEntities
 import com.cobblemon.mod.common.CobblemonItems
 import com.cobblemon.mod.common.api.tms.TechnicalMachine
+import com.cobblemon.mod.common.api.tms.TechnicalMachines
 import com.cobblemon.mod.common.api.types.ElementalTypes
+import net.minecraft.block.Block
 import net.minecraft.block.BlockState
 import net.minecraft.block.entity.BlockEntity
 import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.inventory.Inventories
 import net.minecraft.inventory.SidedInventory
 import net.minecraft.item.ItemStack
 import net.minecraft.item.Items
+import net.minecraft.nbt.NbtCompound
+import net.minecraft.network.listener.ClientPlayPacketListener
+import net.minecraft.network.packet.Packet
+import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket
 import net.minecraft.registry.Registries
 import net.minecraft.util.collection.DefaultedList
 import net.minecraft.util.math.BlockPos
@@ -28,10 +35,14 @@ import net.minecraft.world.World
 class TMBlockEntity(
         val blockPos: BlockPos,
         val blockState: BlockState
-    )  : /*LootableContainer*/BlockEntity(CobblemonBlockEntities.TM_BLOCK, blockPos, blockState) {
+    )  : BlockEntity(CobblemonBlockEntities.TM_BLOCK, blockPos, blockState) {
     var tmmInventory = TMBlockInventory(this)
-    val AUTOMATION_DELAY = 1
     var automationDelay: Int = AUTOMATION_DELAY
+    companion object {
+        const val AUTOMATION_DELAY = 1
+        const val FILTER_TM_NBT = "FilterTM"
+        const val PREV_FILTER_NBT = "PrevFilterTM"
+    }
     //var filterTM: TechnicalMachine? = null
     //private var inventory: DefaultedList<ItemStack> = DefaultedList.ofSize(size(), ItemStack.EMPTY)
 
@@ -91,9 +102,40 @@ class TMBlockEntity(
         return false
     }
 
+    override fun toInitialChunkDataNbt(): NbtCompound {
+        val res = NbtCompound()
+        writeNbt(res)
+        return res
+    }
+
+    override fun toUpdatePacket(): Packet<ClientPlayPacketListener>? {
+        return BlockEntityUpdateS2CPacket.create(this)
+    }
+
+    override fun writeNbt(nbt: NbtCompound) {
+        super.writeNbt(nbt)
+        Inventories.writeNbt(nbt, tmmInventory.items)
+        val filterTmCompound = tmmInventory.filterTM?.writeNbt(NbtCompound())
+        val previousFilterTmCompound = tmmInventory.previousFilterTM?.writeNbt(NbtCompound())
+        if (filterTmCompound != null)
+            nbt.put(FILTER_TM_NBT, filterTmCompound)
+        if (previousFilterTmCompound != null)
+            nbt.put(PREV_FILTER_NBT, previousFilterTmCompound)
+    }
+
+    override fun readNbt(nbt: NbtCompound) {
+        super.readNbt(nbt)
+        Inventories.readNbt(nbt, tmmInventory.items)
+        if (nbt.contains(FILTER_TM_NBT))
+            tmmInventory.filterTM = ItemStack.fromNbt(nbt.getCompound(FILTER_TM_NBT))
+        if (nbt.contains(PREV_FILTER_NBT))
+            tmmInventory.previousFilterTM = ItemStack.fromNbt(nbt.getCompound(PREV_FILTER_NBT))
+    }
+
     class TMBlockInventory(val tmBlockEntity: TMBlockEntity) : SidedInventory {
-        var filterTM: TechnicalMachine? = null
-        var previousFilterTM: TechnicalMachine? = null
+
+        var filterTM: ItemStack? = null
+        var previousFilterTM: ItemStack? = null
         //var inventory: MutableMap<Int, ItemStack?> = mutableMapOf(0 to ItemStack.EMPTY, 1 to ItemStack.EMPTY, 2 to ItemStack.EMPTY)
         var items: DefaultedList<ItemStack?>? = DefaultedList.ofSize(3, ItemStack.EMPTY)
 
@@ -159,6 +201,7 @@ class TMBlockEntity(
 
         override fun setStack(slot: Int, stack: ItemStack?) {
             items?.set(slot, stack)
+            tmBlockEntity.markDirty()
         }
 
         override fun markDirty() {
@@ -177,8 +220,9 @@ class TMBlockEntity(
         override fun canInsert(slot: Int, stack: ItemStack?, dir: Direction?): Boolean {
             // todo only allow for hopper to insert materials if it has a filterTM in it
             if (stack != null) {
+                val tm = TechnicalMachines.getTechnicalMachineFromStack(stack)
                 // if material is needed then load it
-                if (tmBlockEntity.materialNeeded(filterTM, stack) && (ItemStack.areEqual(items?.get(slot) ?: ItemStack.EMPTY, ItemStack.EMPTY) || ItemStack.areItemsEqual(items?.get(slot) ?: ItemStack.EMPTY, stack))) {
+                if (tmBlockEntity.materialNeeded(tm, stack) && (ItemStack.areEqual(items?.get(slot) ?: ItemStack.EMPTY, ItemStack.EMPTY) || ItemStack.areItemsEqual(items?.get(slot) ?: ItemStack.EMPTY, stack))) {
                     //tmBlockEntity.loadMaterial(stack)
                     return true
                 }

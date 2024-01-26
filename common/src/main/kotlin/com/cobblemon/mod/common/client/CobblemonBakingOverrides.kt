@@ -62,6 +62,11 @@ object CobblemonBakingOverrides {
         cobblemonModel("restoration_tank_connector", "none")
     )
 
+    val TM_DISK = registerOverride(
+        cobblemonResource("block/tm_disk"),
+        cobblemonModel("tm_disk", "none")
+    )
+
     fun registerOverride(modelLocation: Identifier, modelIdentifier: ModelIdentifier): BakingOverride {
         val result = BakingOverride(modelLocation, modelIdentifier)
         models.add(result)

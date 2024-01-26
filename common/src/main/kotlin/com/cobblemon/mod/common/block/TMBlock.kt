@@ -48,6 +48,7 @@ import net.minecraft.util.shape.VoxelShapes
 import net.minecraft.world.BlockView
 import net.minecraft.world.World
 import net.minecraft.world.WorldAccess
+import kotlin.text.Typography.tm
 
 class TMBlock(properties: Settings): BlockWithEntity(properties), Waterloggable, InventoryProvider {
     /*val FACING = Properties.FACING
@@ -197,14 +198,14 @@ class TMBlock(properties: Settings): BlockWithEntity(properties), Waterloggable,
         //this.onTriggerEvent(state, world, pos, random)
         // todo use this code to create the TM item
         if (state?.let { getInventory(it, world, pos) } != null) {
-            val itemStack: ItemStack?
+            val itemStack: ItemStack
             itemStack = if (inventory.filterTM != null)
-                TechnicalMachines.getStackFromTechnicalMachine(inventory.filterTM!!)
+                inventory.filterTM!!
             else
                 ItemStack(CobblemonItems.BLANK_TM, 1)
-
+            val tm = TechnicalMachines.getTechnicalMachineFromStack(itemStack)
             // todo use isReadyToCraftTM  to finalize the creation
-            if ((inventory.filterTM != null && isReadyToCraftTM(state, world, pos, inventory.filterTM!!)) || isReadyToCraftBlankTM(state, world, pos)) {
+            if ((inventory.filterTM != null && isReadyToCraftTM(state, world, pos, tm!!)) || isReadyToCraftBlankTM(state, world, pos)) {
                 // Get the direction the block is facing
                 val facingDirection = state.get(Properties.FACING) ?: return
 
@@ -243,12 +244,13 @@ class TMBlock(properties: Settings): BlockWithEntity(properties), Waterloggable,
 
     @Deprecated("Deprecated in Java")
     override fun getComparatorOutput(state: BlockState, world: World?, pos: BlockPos?): Int {
+
         if(world == null || pos == null) {
             return 0
         }
         val tmBlockEntity = world.getBlockEntity(pos) as TMBlockEntity
-
-        if ((tmBlockEntity.tmmInventory.filterTM != null && isReadyToCraftTM(state, world, pos, tmBlockEntity.tmmInventory.filterTM!!)) || isReadyToCraftBlankTM(state, world, pos))
+        val tm = TechnicalMachines.getTechnicalMachineFromStack(tmBlockEntity.tmmInventory.filterTM)
+        if ((tm != null && isReadyToCraftTM(state, world, pos, tm)) || isReadyToCraftBlankTM(state, world, pos))
             return 15
 
         /*if (tmBlockEntity.automationDelay > 0)

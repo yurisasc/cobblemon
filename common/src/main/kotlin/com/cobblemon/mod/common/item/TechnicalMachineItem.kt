@@ -22,6 +22,7 @@ import com.cobblemon.mod.common.block.entity.TMBlockEntity
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.util.lang
 import com.cobblemon.mod.common.util.toBlockPos
+import net.minecraft.block.Block
 import net.minecraft.client.item.TooltipContext
 import net.minecraft.entity.ItemEntity
 import net.minecraft.entity.LivingEntity
@@ -108,14 +109,14 @@ class TechnicalMachineItem(settings: Settings): CobblemonItem(settings) {
         //val TMM = context.world.getBlockState(context.hitPos.toBlockPos()).block
         val TMM = context.world.getBlockEntity(context.hitPos.toBlockPos())
 
-        if (TMM is TMBlockEntity && TMM.tmmInventory.filterTM != getMoveNbt(context.stack)) {
+        if (TMM is TMBlockEntity && TMM.tmmInventory.filterTM?.item != context.stack.item) {
             context.player?.playSound(CobblemonSounds.TMM_ON, SoundCategory.BLOCKS, 1.0f, 1.0f)
             if (TMM.tmmInventory.filterTM != null) {
                 TMM.tmmInventory.previousFilterTM = TMM.tmmInventory.filterTM
             }
 
             // set filterTM equal to the item it corresponds to
-            TMM.tmmInventory.filterTM = getMoveNbt(context.stack)
+            TMM.tmmInventory.filterTM = context.stack
 
             // if materials are in the machine already
             if (TMM.tmmInventory.items?.isNotEmpty() == true) {
@@ -145,10 +146,12 @@ class TechnicalMachineItem(settings: Settings): CobblemonItem(settings) {
             if (TMM.tmmInventory.previousFilterTM != null) {
                 //todo give player previousFilterTM
                 if (!context.player?.isCreative!!) {
-                    context.player!!.giveItemStack(TechnicalMachines.getStackFromTechnicalMachine(TMM.tmmInventory.previousFilterTM!!))
+                    context.player!!.giveItemStack(TMM.tmmInventory.previousFilterTM)
                 }
                 TMM.tmmInventory.previousFilterTM = null
             }
+            TMM.markDirty()
+            TMM.world?.updateListeners(TMM.blockPos, TMM.cachedState, TMM.cachedState, Block.NOTIFY_LISTENERS)
         }
 
         /*val type = ElementalTypes.getOrException(getMoveNbt(context.stack)!!.type)
