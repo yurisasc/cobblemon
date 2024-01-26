@@ -25,6 +25,7 @@ import net.minecraft.fluid.Fluids
 import net.minecraft.inventory.SidedInventory
 import net.minecraft.item.ItemPlacementContext
 import net.minecraft.item.ItemStack
+import net.minecraft.item.Items
 import net.minecraft.registry.Registries
 import net.minecraft.screen.NamedScreenHandlerFactory
 import net.minecraft.screen.SimpleNamedScreenHandlerFactory
@@ -202,12 +203,14 @@ class TMBlock(properties: Settings): BlockWithEntity(properties), Waterloggable,
         //this.onTriggerEvent(state, world, pos, random)
         // todo use this code to create the TM item
         if (state?.let { getInventory(it, world, pos) } != null) {
-            val itemStack = TechnicalMachines.getStackFromTechnicalMachine(inventory.filterTM!!)
+            val itemStack: ItemStack?
+            itemStack = if (inventory.filterTM != null)
+                TechnicalMachines.getStackFromTechnicalMachine(inventory.filterTM!!)
+            else
+                ItemStack(CobblemonItems.BLANK_TM, 1)
 
-            //val materialNeedsMet
             // todo use isReadyToCraftTM  to finalize the creation
-
-            if (isReadyToCraftTM(state, world, pos, inventory.filterTM!!)) {
+            if ((inventory.filterTM != null && isReadyToCraftTM(state, world, pos, inventory.filterTM!!)) || isReadyToCraftBlankTM(state, world, pos)) {
                 // Get the direction the block is facing
                 val facingDirection = state.get(Properties.FACING) ?: return
 
@@ -220,8 +223,9 @@ class TMBlock(properties: Settings): BlockWithEntity(properties), Waterloggable,
                 // Add the ItemEntity to the world
                 world.spawnEntity(itemEntity)
 
-                // todo clear inventory of SidedInventory
+                //clear inventory of SidedInventory
                 getInventory(state, world, pos).clear()
+                }
             }
         }
 
@@ -234,10 +238,39 @@ class TMBlock(properties: Settings): BlockWithEntity(properties), Waterloggable,
                                 handler.input.getStack(2)
                             )
                         )*/
-    }
 
     @Deprecated("Deprecated in Java")
     override fun canPathfindThrough(blockState: BlockState, blockGetter: BlockView, blockPos: BlockPos, pathComputationType: NavigationType) = false
+
+    @Deprecated("Deprecated in Java")
+    override fun hasComparatorOutput(state: BlockState?): Boolean {
+        return true
+    }
+
+    @Deprecated("Deprecated in Java")
+    override fun getComparatorOutput(state: BlockState, world: World?, pos: BlockPos?): Int {
+        if(world == null || pos == null) {
+            return 0
+        }
+        val tmBlockEntity = world.getBlockEntity(pos) as TMBlockEntity
+
+        if ((tmBlockEntity.tmmInventory.filterTM != null && isReadyToCraftTM(state, world, pos, tmBlockEntity.tmmInventory.filterTM!!)) || isReadyToCraftBlankTM(state, world, pos))
+            return 15
+
+        /*if (tmBlockEntity.automationDelay > 0)
+            tmBlockEntity.automationDelay--
+
+        if ((tmBlockEntity.tmmInventory.filterTM != null && isReadyToCraftTM(state, world, pos, tmBlockEntity.tmmInventory.filterTM!!)) || isReadyToCraftBlankTM(state, world, pos)) {
+            if (tmBlockEntity.automationDelay == 0) {
+                tmBlockEntity.resetAutomationDelay()
+                return 15
+            }
+            else
+                return 0
+        }*/
+        return 0
+    }
+
 
     override fun getInventory(
             state: BlockState,
@@ -323,14 +356,22 @@ class TMBlock(properties: Settings): BlockWithEntity(properties), Waterloggable,
     }*/
 
     fun isReadyToCraftTM(state: BlockState?, world: WorldAccess, pos: BlockPos, tm: TechnicalMachine): Boolean {
-        val typeGem = Registries.ITEM.get(ElementalTypes.get(tm.type)?.typeGem).defaultStack
+        val typeGem = Registries.ITEM.get(tm.let { ElementalTypes.get(it.type)?.typeGem }).defaultStack
         val recipeItem = Registries.ITEM.get(tm.recipe?.item)
 
         val inventory = state?.let { getInventory(it, world, pos) }
+        // todo add case for if filterTM is Blank TM
 
         return (inventory!!.count(CobblemonItems.BLANK_TM) == 1
                 && inventory.count(typeGem.item) == 1
-                && inventory.count(recipeItem) == tm.recipe?.count!!)
+                && (inventory.count(recipeItem) == tm.recipe?.count) || (ItemStack.areItemsEqual(recipeItem.defaultStack, ItemStack.EMPTY)))
+
+    }
+
+    fun isReadyToCraftBlankTM(state: BlockState?, world: WorldAccess, pos: BlockPos): Boolean {
+        val inventory = state?.let { getInventory(it, world, pos) }
+
+        return (inventory!!.count(Items.AMETHYST_SHARD) == 1)
     }
 
     /*fun materialNeeded(tm: TechnicalMachine, itemStack: ItemStack): Boolean {

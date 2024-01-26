@@ -8,6 +8,7 @@
 
 package com.cobblemon.mod.common.item
 
+import com.cobblemon.mod.common.CobblemonItems
 import com.cobblemon.mod.common.CobblemonSounds
 import com.cobblemon.mod.common.api.moves.BenchedMove
 import com.cobblemon.mod.common.api.moves.Moves
@@ -22,6 +23,7 @@ import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.util.lang
 import com.cobblemon.mod.common.util.toBlockPos
 import net.minecraft.client.item.TooltipContext
+import net.minecraft.entity.ItemEntity
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
@@ -29,6 +31,7 @@ import net.minecraft.item.ItemUsageContext
 import net.minecraft.nbt.NbtString
 import net.minecraft.registry.Registries
 import net.minecraft.sound.SoundCategory
+import net.minecraft.state.property.Properties
 import net.minecraft.text.MutableText
 import net.minecraft.text.Text
 import net.minecraft.util.ActionResult
@@ -105,23 +108,45 @@ class TechnicalMachineItem(settings: Settings): CobblemonItem(settings) {
         //val TMM = context.world.getBlockState(context.hitPos.toBlockPos()).block
         val TMM = context.world.getBlockEntity(context.hitPos.toBlockPos())
 
-        if (TMM is TMBlockEntity) {
+        if (TMM is TMBlockEntity && TMM.tmmInventory.filterTM != getMoveNbt(context.stack)) {
+            context.player?.playSound(CobblemonSounds.TMM_ON, SoundCategory.BLOCKS, 1.0f, 1.0f)
             if (TMM.tmmInventory.filterTM != null) {
                 TMM.tmmInventory.previousFilterTM = TMM.tmmInventory.filterTM
             }
+
             // set filterTM equal to the item it corresponds to
             TMM.tmmInventory.filterTM = getMoveNbt(context.stack)
 
+            // if materials are in the machine already
+            if (TMM.tmmInventory.items?.isNotEmpty() == true) {
+                TMM.tmmInventory.items?.forEach {
+                    // Get the direction the block is facing
+                    val facingDirection = TMM.blockState.get(Properties.FACING)
+
+                    // Calculate the position in front of the block
+                    val spawnPos = TMM.blockPos.offset(facingDirection)
+
+                    // Create the ItemEntity
+                    val itemEntity = ItemEntity(context.world, spawnPos.x.toDouble(), spawnPos.y.toDouble(), spawnPos.z.toDouble(), it)
+
+                    // Add the ItemEntity to the world
+                    context.world.spawnEntity(itemEntity)
+                }
+                TMM.tmmInventory.items?.clear()
+            }
+
             // todo change the color of the disk in the TMM
-            // todo play a e
             // todo remove 1 from the stack in the player's hand if not in creative
             if (!context.player?.isCreative!!) {
                 context.player?.getStackInHand(context.hand)?.decrement(1)
             }
 
+            // if there was a filter TM in it before
             if (TMM.tmmInventory.previousFilterTM != null) {
                 //todo give player previousFilterTM
-                context.player!!.giveItemStack(TechnicalMachines.getStackFromTechnicalMachine(TMM.tmmInventory.previousFilterTM!!))
+                if (!context.player?.isCreative!!) {
+                    context.player!!.giveItemStack(TechnicalMachines.getStackFromTechnicalMachine(TMM.tmmInventory.previousFilterTM!!))
+                }
                 TMM.tmmInventory.previousFilterTM = null
             }
         }
