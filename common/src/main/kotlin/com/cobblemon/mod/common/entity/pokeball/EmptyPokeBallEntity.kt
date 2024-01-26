@@ -65,6 +65,7 @@ import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.sound.SoundEvents
 import net.minecraft.util.hit.BlockHitResult
 import net.minecraft.util.hit.EntityHitResult
+import net.minecraft.util.hit.HitResult
 import net.minecraft.util.math.MathHelper
 import net.minecraft.util.math.MathHelper.PI
 import net.minecraft.util.math.Vec3d
@@ -295,35 +296,6 @@ class EmptyPokeBallEntity : ThrownItemEntity, Poseable, WaterDragModifier, Sched
                 discard()
                 return
             }
-
-            if (captureState == CaptureState.FALL) {
-                if (isOnGround) {
-                    // We have hit the ground, time to stop falling and start shaking! Calculate capture.
-                    capturingPokemon?.setPositionSafely(pos)
-                    captureState = CaptureState.SHAKE
-                    val thrower = owner as LivingEntity
-                    val captureResult = Cobblemon.config.captureCalculator.processCapture(thrower, this, capturingPokemon!!).let {
-                        val event = PokeBallCaptureCalculatedEvent(thrower = thrower, pokemonEntity = capturingPokemon!!, pokeBallEntity = this, captureResult = it)
-                        CobblemonEvents.POKE_BALL_CAPTURE_CALCULATED.post(event)
-                        event.captureResult
-                    }
-
-                    var rollsRemaining = captureResult.numberOfShakes
-                    if (rollsRemaining == 4) {
-                        rollsRemaining--
-                    }
-
-                    taskBuilder()
-                            .iterations(captureResult.numberOfShakes + 1)
-                            .delay(SECONDS_BEFORE_SHAKE)
-                            .interval(SECONDS_BETWEEN_SHAKES)
-                            .execute {
-                                shakeBall(it, rollsRemaining, captureResult)
-                                rollsRemaining--
-                            }
-                            .build()
-                }
-            }
         }
 
         // Look at the target, if the target is known.
@@ -432,11 +404,47 @@ class EmptyPokeBallEntity : ThrownItemEntity, Poseable, WaterDragModifier, Sched
                     velocity = Vec3d.ZERO
                     setNoGravity(true)
                     isOnGround = true
+                    beginCapture()
                 }
             }
         }
     }
 
+    override fun onCollision(hitResult: HitResult) {
+        super.onCollision(hitResult)
+        if (captureState == CaptureState.FALL && hitResult.type == HitResult.Type.BLOCK) {
+            captureState = CaptureState.SHAKE
+            if (world.isServerSide()) {
+                beginCapture()
+            }
+        }
+    }
+
+    fun beginCapture() {
+        // We have hit the ground, time to stop falling and start shaking! Calculate capture.
+        capturingPokemon?.setPositionSafely(pos)
+        val thrower = owner as LivingEntity
+        val captureResult = Cobblemon.config.captureCalculator.processCapture(thrower, this, capturingPokemon!!).let {
+            val event = PokeBallCaptureCalculatedEvent(thrower = thrower, pokemonEntity = capturingPokemon!!, pokeBallEntity = this, captureResult = it)
+            CobblemonEvents.POKE_BALL_CAPTURE_CALCULATED.post(event)
+            event.captureResult
+        }
+
+        var rollsRemaining = captureResult.numberOfShakes
+        if (rollsRemaining == 4) {
+            rollsRemaining--
+        }
+
+        taskBuilder()
+            .iterations(captureResult.numberOfShakes + 1)
+            .delay(SECONDS_BEFORE_SHAKE)
+            .interval(SECONDS_BETWEEN_SHAKES)
+            .execute {
+                shakeBall(it, rollsRemaining, captureResult)
+                rollsRemaining--
+            }
+            .build()
+    }
     override fun getCurrentPoseType(): PoseType {
         return PoseType.NONE
     }

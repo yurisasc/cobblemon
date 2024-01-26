@@ -45,6 +45,9 @@
 						"max_frame": 13
 					}
 				}
+			},
+			"minecraft:particle_appearance_tinting": {
+				"color": [1, 1, 1, 1]
 			}
 		}
 	}
