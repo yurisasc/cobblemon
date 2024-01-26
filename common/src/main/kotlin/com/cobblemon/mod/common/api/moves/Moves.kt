@@ -72,7 +72,22 @@ object Moves : DataRegistry {
                         effectChances += secondaryMember.get("chance").asDouble
                     }
                 }
-                val move = MoveTemplate(id, num, elementalType, damageCategory, power, target, accuracy, pp, priority, critRatio, effectChances.toTypedArray())
+                val flags = mutableSetOf<String>()
+                jsMove["flags"].asJsonObject.asMap().forEach { flags.add(it.key) }
+                val move = MoveTemplate(
+                    id,
+                    num,
+                    elementalType,
+                    damageCategory,
+                    power,
+                    target,
+                    accuracy,
+                    pp,
+                    priority,
+                    critRatio,
+                    effectChances.toTypedArray(),
+                    flags
+                )
                 this.register(move)
             } catch (e: Exception) {
                 Cobblemon.LOGGER.error("Caught exception trying to resolve the move '{}'", id, e)

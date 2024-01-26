@@ -13,7 +13,9 @@ import com.cobblemon.mod.common.api.moves.categories.DamageCategory
 import com.cobblemon.mod.common.api.types.ElementalType
 import com.cobblemon.mod.common.api.types.ElementalTypes
 import com.cobblemon.mod.common.battles.MoveTarget
+import com.cobblemon.mod.common.battles.runner.ShowdownService
 import com.cobblemon.mod.common.util.lang
+import com.google.gson.JsonObject
 import com.google.gson.annotations.SerializedName
 import net.minecraft.text.MutableText
 
@@ -45,7 +47,8 @@ open class MoveTemplate(
     val pp: Int,
     val priority: Int,
     val critRatio: Double,
-    val effectChances: Array<Double>
+    val effectChances: Array<Double>,
+    val flags: Set<String>
 ) {
 
     val displayName: MutableText
@@ -65,7 +68,8 @@ open class MoveTemplate(
         pp = 5,
         priority = 0,
         critRatio = 0.0,
-        effectChances = emptyArray()
+        effectChances = emptyArray(),
+        flags = emptySet()
     )
 
     companion object {
@@ -92,4 +96,9 @@ open class MoveTemplate(
             template = this
         )
     }
+
+    /**
+     * Returns this move's showdown data as a [JsonObject]
+     */
+    fun showdownJson() = ShowdownService.service.getMoves()[num].asJsonObject
 }
