@@ -12,20 +12,12 @@ import com.cobblemon.mod.common.CobblemonBlockEntities
 import com.cobblemon.mod.common.CobblemonItems
 import com.cobblemon.mod.common.api.tms.TechnicalMachine
 import com.cobblemon.mod.common.api.types.ElementalTypes
-import com.cobblemon.mod.common.gui.TMMScreenHandler
 import net.minecraft.block.BlockState
 import net.minecraft.block.entity.BlockEntity
-import net.minecraft.block.entity.BlockEntityType
-import net.minecraft.block.entity.LootableContainerBlockEntity
 import net.minecraft.entity.player.PlayerEntity
-import net.minecraft.entity.player.PlayerInventory
 import net.minecraft.inventory.SidedInventory
 import net.minecraft.item.ItemStack
 import net.minecraft.registry.Registries
-import net.minecraft.screen.GenericContainerScreenHandler
-import net.minecraft.screen.ScreenHandler
-import net.minecraft.screen.SimpleNamedScreenHandlerFactory
-import net.minecraft.text.Text
 import net.minecraft.util.collection.DefaultedList
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
@@ -81,21 +73,52 @@ class TMBlockEntity(
         var filterTM: TechnicalMachine? = null
         var previousFilterTM: TechnicalMachine? = null
         var inventory: MutableMap<Int, ItemStack?> = mutableMapOf(0 to ItemStack.EMPTY, 1 to ItemStack.EMPTY, 2 to ItemStack.EMPTY)
+        var items: DefaultedList<ItemStack?>? = null
+
+        fun getItems(): DefaultedList<ItemStack?>? {
+            return this.items
+        }
 
         override fun clear() {
             TODO("Not yet implemented")
         }
 
         override fun size(): Int {
-            return 3
+            return getItems()?.size ?: 0;
+        }
+
+        fun getInvSize(): Int {
+            return size()
+        }
+
+        fun getInvStack(slot: Int): ItemStack {
+            return items?.get(slot) ?: ItemStack.EMPTY
         }
 
         override fun isEmpty(): Boolean {
-            return !inventory.any { it.value != ItemStack.EMPTY }
+            for (i in 0 until getInvSize()) {
+                val stack: ItemStack = getInvStack(i)
+                if (!stack.isEmpty) {
+                    return false
+                }
+            }
+            return true
         }
+
+        /*override fun isEmpty(): Boolean {
+            return !inventory.any { it.value != ItemStack.EMPTY }
+        }*/
 
         override fun getStack(slot: Int): ItemStack {
             return inventory[slot] ?: ItemStack.EMPTY
+        }
+
+        override fun getAvailableSlots(side: Direction?): IntArray? {
+            val result = IntArray(getItems()!!.size)
+            for (i in result.indices) {
+                result[i] = i
+            }
+            return result
         }
 
         override fun removeStack(slot: Int, amount: Int): ItemStack {
@@ -123,9 +146,9 @@ class TMBlockEntity(
             return false
         }
 
-        override fun getAvailableSlots(side: Direction?): IntArray {
+        /*override fun getAvailableSlots(side: Direction?): IntArray {
             return IntArray(3)
-        }
+        }*/
 
         override fun canInsert(slot: Int, stack: ItemStack?, dir: Direction?): Boolean {
             // todo only allow for hopper to insert materials if it has a filterTM in it
