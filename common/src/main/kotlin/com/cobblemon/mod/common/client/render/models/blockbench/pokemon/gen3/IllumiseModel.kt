@@ -39,7 +39,7 @@ class IllumiseModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
     lateinit var battleidle: PokemonPose
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("illumise", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("illumise", "blink") }
 
         sleep = registerPose(
             poseType = PoseType.SLEEP,

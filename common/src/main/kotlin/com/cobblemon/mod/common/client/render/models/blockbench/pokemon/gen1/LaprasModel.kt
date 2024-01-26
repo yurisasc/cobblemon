@@ -34,7 +34,7 @@ class LaprasModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     lateinit var underwaterMove: PokemonPose
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("lapras", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("lapras", "blink") }
         landIdle = registerPose(
             poseName = "land_idle",
             poseTypes = UI_POSES + PoseType.STAND,

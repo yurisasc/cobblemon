@@ -15,6 +15,7 @@ import com.cobblemon.mod.common.api.pokemon.stats.Stats
 import com.cobblemon.mod.common.api.pokemon.status.Statuses
 import com.cobblemon.mod.common.battles.BattleRegistry
 import com.cobblemon.mod.common.entity.PoseType
+import com.cobblemon.mod.common.entity.pokemon.ai.PokemonMoveControl
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.pokemon.activestate.ActivePokemonState
 import com.cobblemon.mod.common.pokemon.activestate.SentOutState
@@ -170,7 +171,7 @@ class PokemonServerDelegate : PokemonSideDelegate {
 
     fun updatePoseType() {
         val isSleeping = entity.pokemon.status?.status == Statuses.SLEEP && entity.behaviour.resting.canSleep
-        val isMoving = entity.dataTracker.get(PokemonEntity.MOVING)
+        val isMoving = (entity.moveControl as? PokemonMoveControl)?.isMoving == true
         val isPassenger = entity.hasVehicle()
         val isUnderwater = entity.getIsSubmerged()
         val isFlying = entity.getBehaviourFlag(PokemonBehaviourFlag.FLYING)

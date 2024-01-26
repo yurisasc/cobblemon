@@ -238,6 +238,7 @@ object Cobblemon {
         TrackedDataHandlerRegistry.register(StringSetDataSerializer)
         TrackedDataHandlerRegistry.register(PoseTypeDataSerializer)
         TrackedDataHandlerRegistry.register(IdentifierDataSerializer)
+        TrackedDataHandlerRegistry.register(IdentifierDataSerializer)
         TrackedDataHandlerRegistry.register(UUIDSetDataSerializer)
 
         HeldItemProvider.register(CobblemonHeldItemManager, Priority.LOWEST)

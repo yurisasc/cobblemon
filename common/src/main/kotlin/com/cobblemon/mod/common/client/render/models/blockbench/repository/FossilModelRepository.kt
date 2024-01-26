@@ -45,7 +45,7 @@ object FossilModelRepository : VaryingModelRepository<Entity, FossilModel>() {
             model.yTranslation = yTranslation
             // Refactor this bullshit to not mention pokemon at all, it should be common to anything using animation factories.
             // Even better: move to molang functions, this is ass
-            model.animations = animations.mapNotNull {
+            model.tankAnimations = animations.mapNotNull {
                 val animString = it.asString
                 val anim = animString.substringBefore("(")
                 if (JsonPokemonPoseableModel.ANIMATION_FACTORIES.contains(anim)) {
@@ -58,20 +58,17 @@ object FossilModelRepository : VaryingModelRepository<Entity, FossilModel>() {
             // borrowed code from JsonPokemonPoseableModel's PoseAdapter Deserializer
             val tankQuirks = (jsonObject.get("quirks")?.asJsonArray ?: JsonArray()).map { json ->
                 json as JsonObject
-                val name = json.get("name").asString
                 val quirkAnimations: (state: PoseableEntityState<Entity>) -> List<StatefulAnimation<Entity, *>> = { _ ->
                     (json.get("animations")?.asJsonArray ?: JsonArray()).mapNotNull { animJson ->
                         val animString = animJson.asString
 
                         val anim = animString.substringBefore("(")
 
-                        JsonPokemonPoseableModel.StatefulAnimationAdapter.preventsIdleDefault = false
                         val animation = if (JsonPokemonPoseableModel.ANIMATION_FACTORIES.contains(anim)) {
                             JsonPokemonPoseableModel.ANIMATION_FACTORIES[anim]?.stateful(model, animString)
                         } else {
                             null
                         }
-                        JsonPokemonPoseableModel.StatefulAnimationAdapter.preventsIdleDefault = true
                         animation
                     }
                 }
@@ -80,7 +77,6 @@ object FossilModelRepository : VaryingModelRepository<Entity, FossilModel>() {
                 val maxSeconds = json.get("maxSecondsBetweenOccurrences")?.asFloat ?: 30F
 
                 model.quirkMultiple(
-                    name = name,
                     secondsBetweenOccurrences = minSeconds to maxSeconds,
                     condition = { true },
                     loopTimes = 1..loopTimes,

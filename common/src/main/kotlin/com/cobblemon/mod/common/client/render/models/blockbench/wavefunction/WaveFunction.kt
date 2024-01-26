@@ -86,3 +86,28 @@ fun parabolaFunction(
     }
 }
 
+object WaveFunctions {
+    val functions = mutableMapOf<String, WaveFunction>(
+        "symmetrical" to { t ->
+            if (t < 0.1) {
+                t * 10
+            } else if (t < 0.9) {
+                1F
+            } else {
+                1F - (t - 0.9F) * 10
+            }
+        },
+        "symmetrical_wide" to { t ->
+            if (t < 0.2) {
+                val t2 = t * 5
+                0.5F * sin(PI*(t2 - 0.5F)) + 0.5F
+            } else if (t < 0.8) {
+                1F
+            } else {
+                val t2 = (1 - t) * 5
+                0.5F * sin(PI*(t2 - 0.5F)) + 0.5F
+            }
+        },
+        "one" to { 1F }
+    )
+}

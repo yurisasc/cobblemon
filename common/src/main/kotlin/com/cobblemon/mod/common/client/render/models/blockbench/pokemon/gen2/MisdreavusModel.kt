@@ -29,7 +29,7 @@ class MisdreavusModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     lateinit var walk: PokemonPose
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("misdreavus", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("misdreavus", "blink") }
         standing = registerPose(
             poseName = "standing",
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,

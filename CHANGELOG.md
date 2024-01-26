@@ -10,7 +10,6 @@
 - Added the Ancient Feather, Wing, and Jet Balls, which fly further than regular Poké Balls.
 - Added the Ancient Heavy, Leaden, and Gigaton Balls, which are heavier and don't fly as far as regular Poké Balls. These will recieve more functionality in a future update.
 - Added Original Trainer functionality. To edit the OT through commands, you must specify originaltrainertype=<Player/NPC>, and originaltrainer=<Username or UUID/NPC Name>
-- Added support for planting Apricorn trees, berries, and mints in [Botany Pots](https://modrinth.com/mod/botany-pots)
 
 ### Changes
 - Pokémon now transition more smoothly between different poses.
@@ -25,6 +24,7 @@
 - Fixed Exeggcute not being able to evolve.
 - Fixed Cubone not being able to evolve into Alolan Marowak.
 - Fixed Squawkabilly forms not being recognized.
+- Fixed the bounce animation for Poké Balls being delayed by like, a full second.
 
 ### Developer
 - Significantly changed the way properties in PokemonEntity work. This could break some plugins (albeit in a quick-fix way).

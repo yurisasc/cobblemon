@@ -24,18 +24,7 @@ import net.minecraft.entity.Entity
  */
 open class BedrockStatefulAnimation<T : Entity>(
     val animation: BedrockAnimation,
-    var preventsIdleCheck: (T?, PoseableEntityState<T>, StatelessAnimation<T, *>) -> Boolean
 ) : StatefulAnimation<T, ModelFrame> {
-    fun setPreventsIdle(preventsIdle: Boolean): BedrockStatefulAnimation<T> {
-        this.preventsIdleCheck = { _, _, _ -> preventsIdle }
-        return this
-    }
-
-    fun setPreventsIdle(check: (T?, PoseableEntityState<T>, StatelessAnimation<T, *>) -> Boolean): BedrockStatefulAnimation<T> {
-        this.preventsIdleCheck = check
-        return this
-    }
-
     var startedSeconds = -1F
     var isTransformAnimation = false
     override val duration = animation.animationLength.toFloat()
@@ -43,10 +32,6 @@ open class BedrockStatefulAnimation<T : Entity>(
 
     override val isTransform: Boolean
         get() = isTransformAnimation
-
-    fun isTransformAnimation(value: Boolean) = this.also {
-        it.isTransformAnimation = value
-    }
 
     fun andThen(action: (entity: T, PoseableEntityState<T>) -> Unit) = this.also {
         it.afterAction = action

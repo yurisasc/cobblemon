@@ -61,3 +61,12 @@ fun <T : Enum<T>> Array<T>.getFromJSON(element: JsonElement, name: String): T {
     val type = (element as JsonObject).get(name).asString
     return first { type.equals(it.name, ignoreCase = true) }
 }
+
+fun JsonObject.getFirst(vararg names: String): JsonElement? {
+    for (name in names) {
+        val element = get(name)
+        if (element != null)
+            return element
+    }
+    return null
+}
