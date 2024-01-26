@@ -30,5 +30,13 @@
         "item": "cobblemon:black_apricorn_seed"
       }
     }
-  ]
+  ],
+  "fabric:load_conditions": [{
+    "condition": "fabric:all_mods_loaded",
+    "values": ["botanypots"]
+  }],
+  "conditions": [{
+    "type": "forge:mod_loaded",
+    "modid": "botanypots"
+  }]
 }
