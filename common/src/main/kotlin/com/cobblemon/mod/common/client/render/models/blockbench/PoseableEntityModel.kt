@@ -802,10 +802,6 @@ abstract class PoseableEntityModel<T : Entity>(
             matrixStack.push()
             // Not 100% convinced we need the -1 on Y but if we needed it for the Poke Ball then probably?
             matrixStack.scale(1F, -1F, 1F)
-        } else if (entity is NPCEntity) {
-            matrixStack.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(180 - entity.bodyYaw))
-            matrixStack.push()
-            matrixStack.scale(-1F, -1F, 1F)
         }
 
         if (isForLivingEntityRenderer) {
@@ -860,12 +856,8 @@ abstract class PoseableEntityModel<T : Entity>(
     fun bedrockStatefulOrNull(
         animationGroup: String,
         animation: String,
-        animationPrefix: String = "animation.$animationGroup",
-        preventsIdleCheck: (T?, PoseableEntityState<T>, StatelessAnimation<T, *>) -> Boolean = { _, _, _ -> true }
-    ) = BedrockAnimationRepository.getAnimationOrNull(animationGroup, "$animationPrefix.$animation")?.let { BedrockStatefulAnimation(
-        BedrockAnimationRepository.getAnimation(animationGroup, "$animationPrefix.$animation"),
-        preventsIdleCheck
-    ) }
+        animationPrefix: String = "animation.$animationGroup"
+    ) = BedrockAnimationRepository.getAnimationOrNull(animationGroup, "$animationPrefix.$animation")?.let { BedrockStatefulAnimation<T>(it) }
 
     fun bedrockOrNull(
         animationGroup: String,

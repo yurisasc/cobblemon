@@ -217,7 +217,7 @@ class NPCEntity(world: World) : PassiveEntity(CobblemonEntities.NPC, world), Npc
 
     override fun createBrainProfile() = createNPCBrain(MEMORY_MODULES, SENSORS)
     override fun createChild(world: ServerWorld, entity: PassiveEntity) = null // No lovemaking! Unless...
-    override fun getPoseType(): PoseType = this.getDataTracker().get(POSE_TYPE)
+    override fun getCurrentPoseType() = this.getDataTracker().get(POSE_TYPE)
 
     override fun initDataTracker() {
         super.initDataTracker()

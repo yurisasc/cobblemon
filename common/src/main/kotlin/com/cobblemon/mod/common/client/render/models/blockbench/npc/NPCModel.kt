@@ -23,13 +23,13 @@ abstract class NPCModel(override val rootPart: ModelPart) : PoseableEntityModel<
         return entity.delegate as NPCClientDelegate
     }
 
-    val blinkAnimation = TrainerAnimationProvider { state -> bedrockStatefulOrNull(name, "blink")?.setPreventsIdle(false) }
+    val blinkAnimation = TrainerAnimationProvider { state -> bedrockStatefulOrNull(name, "blink") }
     val idleAnimation = TrainerStatelessAnimationProvider { entity, state -> bedrockOrNull(name, "idle") ?: blankAnimation() }
     open fun getIdleBattle() = bedrockOrNull(name, "idle_battle") ?: blankAnimation()
     open fun getBattleIntro() = bedrockStatefulOrNull(name, "battle_intro")
     open fun getLose() = bedrockStatefulOrNull(name, "lose")
     open fun getWin() = bedrockStatefulOrNull(name, "win")
-    open fun getSendOut() = bedrockStatefulOrNull(name, "send_out")?.setPreventsIdle { _, _, anim -> anim.targetFrame != HeadedFrame::class.java }
+    open fun getSendOut() = bedrockStatefulOrNull(name, "send_out")
     open fun getRecall() = getSendOut()
     open fun getCommand() = bedrockStatefulOrNull(name, "command")
     open fun getBlink() = bedrockStatefulOrNull(name, "blink")

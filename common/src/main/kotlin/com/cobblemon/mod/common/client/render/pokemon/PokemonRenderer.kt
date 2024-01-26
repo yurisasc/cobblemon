@@ -35,30 +35,15 @@ import com.cobblemon.mod.common.util.lang
 import com.cobblemon.mod.common.util.math.DoubleRange
 import com.cobblemon.mod.common.util.math.geometry.toRadians
 import com.cobblemon.mod.common.util.math.remap
-import kotlin.math.max
-import kotlin.math.min
-import kotlin.math.tan
-import com.mojang.blaze3d.systems.RenderSystem
+import kotlin.math.*
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.font.TextRenderer
-import net.minecraft.client.gl.GlUniform
-import net.minecraft.client.gl.ShaderProgram
-import net.minecraft.client.gl.Uniform
-import net.minecraft.client.render.GameRenderer
-import net.minecraft.client.render.LightmapTextureManager
-import net.minecraft.client.render.RenderLayer
-import net.minecraft.client.render.RenderPhase
-import net.minecraft.client.render.VertexConsumerProvider
-import net.minecraft.client.network.ClientPlayerEntity
 import net.minecraft.client.render.*
 import net.minecraft.client.render.entity.EntityRendererFactory
 import net.minecraft.client.render.entity.MobEntityRenderer
-import net.minecraft.client.render.entity.model.EntityModel
 import net.minecraft.client.render.item.ItemRenderer
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.entity.Entity
-import net.minecraft.entity.LivingEntity
-import net.minecraft.entity.LivingEntity
 import net.minecraft.text.Text
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.MathConstants.PI
@@ -69,12 +54,6 @@ import org.joml.Math
 import org.joml.Quaternionf
 import org.joml.Vector3f
 import org.joml.Vector4f
-import kotlin.math.*
-import kotlin.properties.Delegates
-import kotlin.math.max
-import kotlin.math.min
-import kotlin.math.sin
-import kotlin.math.tan
 
 class PokemonRenderer(
     context: EntityRendererFactory.Context
@@ -134,7 +113,6 @@ class PokemonRenderer(
             var beamSourcePosition = if (phaseTarget is EmptyPokeBallEntity) {
                 (phaseTarget.delegate as PokeBallPoseableState).locatorStates["beam"]?.getOrigin() ?: phaseTarget.pos
             } else {
-                phaseTarget as PlayerEntity
                 if (phaseTarget.uuid == MinecraftClient.getInstance().player?.uuid) {
                     val lookVec = phaseTarget.rotationVector.rotateY(PI / 2).multiply(1.0, 0.0, 1.0).normalize()
                     phaseTarget.getCameraPosVec(partialTicks).subtract(0.0, 0.4, 0.0).subtract(lookVec.multiply(0.3))

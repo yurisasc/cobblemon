@@ -33,7 +33,7 @@ class StandardNPCModel(part: ModelPart) : NPCModel(part), BipedFrame, BimanualFr
     override val portraitTranslation: Vec3d = Vec3d(0.0, 1.1, 0.0)
 
     override fun registerPoses() {
-        val blink = quirk("blink") { blinkAnimation(it) ?: blankAnimationStateful() }
+        val blink = quirk { blinkAnimation(it) ?: blankAnimationStateful() }
         registerPose(
             poseTypes = PoseType.ALL_POSES,
             poseName = "standard",
