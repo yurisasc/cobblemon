@@ -17,6 +17,7 @@ import com.cobblemon.mod.common.api.tms.TechnicalMachine
 import com.cobblemon.mod.common.api.tms.TechnicalMachines
 import com.cobblemon.mod.common.api.types.ElementalTypes
 import com.cobblemon.mod.common.block.TMBlock
+import com.cobblemon.mod.common.block.entity.TMBlockEntity
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.util.lang
 import com.cobblemon.mod.common.util.toBlockPos
@@ -101,15 +102,15 @@ class TechnicalMachineItem(settings: Settings): CobblemonItem(settings) {
     override fun useOnBlock(context: ItemUsageContext): ActionResult {
         if (context.world.isClient) return ActionResult.FAIL
 
-        val TMM = context.world.getBlockState(context.hitPos.toBlockPos()).block
+        //val TMM = context.world.getBlockState(context.hitPos.toBlockPos()).block
+        val TMM = context.world.getBlockEntity(context.hitPos.toBlockPos())
 
-
-        if (TMM is TMBlock) {
-            if (TMM.filterTM != null) {
-                TMM.previousFilterTM = TMM.filterTM
+        if (TMM is TMBlockEntity) {
+            if (TMM.tmmInventory.filterTM != null) {
+                TMM.tmmInventory.previousFilterTM = TMM.tmmInventory.filterTM
             }
             // set filterTM equal to the item it corresponds to
-            TMM.filterTM = getMoveNbt(context.stack)
+            TMM.tmmInventory.filterTM = getMoveNbt(context.stack)
 
             // todo change the color of the disk in the TMM
             // todo play a e
@@ -118,10 +119,10 @@ class TechnicalMachineItem(settings: Settings): CobblemonItem(settings) {
                 context.player?.getStackInHand(context.hand)?.decrement(1)
             }
 
-            if (TMM.previousFilterTM != null) {
+            if (TMM.tmmInventory.previousFilterTM != null) {
                 //todo give player previousFilterTM
-                context.player!!.giveItemStack(TechnicalMachines.getStackFromTechnicalMachine(TMM.previousFilterTM!!))
-                TMM.previousFilterTM = null
+                context.player!!.giveItemStack(TechnicalMachines.getStackFromTechnicalMachine(TMM.tmmInventory.previousFilterTM!!))
+                TMM.tmmInventory.previousFilterTM = null
             }
         }
 
