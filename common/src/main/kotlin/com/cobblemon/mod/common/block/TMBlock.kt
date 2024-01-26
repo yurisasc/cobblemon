@@ -161,16 +161,10 @@ class TMBlock(properties: Settings): BlockWithEntity(properties), Waterloggable,
     }
 
     override fun getPlacementState(blockPlaceContext: ItemPlacementContext): BlockState? {
-        val abovePosition = blockPlaceContext.blockPos.up()
-        val world = blockPlaceContext.world
-        if (world.getBlockState(abovePosition).canReplace(blockPlaceContext) && !world.isOutOfHeightLimit(abovePosition)) {
-            return defaultState
-                    .with(FACING, blockPlaceContext.horizontalPlayerFacing)
-                    .with(WATERLOGGED, blockPlaceContext.world.getFluidState(blockPlaceContext.blockPos).fluid == Fluids.WATER)
-                    .with(ON, false)
-        }
-
-        return null
+        return defaultState
+                .with(FACING, blockPlaceContext.horizontalPlayerFacing)
+                .with(WATERLOGGED, blockPlaceContext.world.getFluidState(blockPlaceContext.blockPos).fluid == Fluids.WATER)
+                .with(ON, false)
     }
 
     override fun onBreak(world: World, pos: BlockPos, state: BlockState, player: PlayerEntity?) {
