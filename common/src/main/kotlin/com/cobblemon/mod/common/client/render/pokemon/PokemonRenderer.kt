@@ -19,6 +19,7 @@ import com.cobblemon.mod.common.client.keybind.boundKey
 import com.cobblemon.mod.common.client.keybind.keybinds.PartySendBinding
 import com.cobblemon.mod.common.client.render.addVertex
 import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityModel
+import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.repository.PokeBallModelRepository
 import com.cobblemon.mod.common.client.render.models.blockbench.repository.PokemonModelRepository
@@ -26,6 +27,7 @@ import com.cobblemon.mod.common.client.render.models.blockbench.wavefunction.par
 import com.cobblemon.mod.common.client.render.pokeball.PokeBallPoseableState
 import com.cobblemon.mod.common.client.render.renderBeaconBeam
 import com.cobblemon.mod.common.client.settings.ServerSettings
+import com.cobblemon.mod.common.entity.Poseable
 import com.cobblemon.mod.common.entity.npc.NPCEntity
 import com.cobblemon.mod.common.entity.pokeball.EmptyPokeBallEntity
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
@@ -110,8 +112,8 @@ class PokemonRenderer(
         val lightColour = if (beamMode == 1) sendOutBeamColour else recallBeamColour
         if (phaseTarget != null && beamMode != 0) {
             poseMatrix.push()
-            var beamSourcePosition = if (phaseTarget is EmptyPokeBallEntity) {
-                (phaseTarget.delegate as PokeBallPoseableState).locatorStates["beam"]?.getOrigin() ?: phaseTarget.pos
+            var beamSourcePosition = if (phaseTarget is Poseable) {
+                (phaseTarget.delegate as PoseableEntityState<*>).locatorStates["beam"]?.getOrigin() ?: phaseTarget.pos
             } else {
                 if (phaseTarget.uuid == MinecraftClient.getInstance().player?.uuid) {
                     val lookVec = phaseTarget.rotationVector.rotateY(PI / 2).multiply(1.0, 0.0, 1.0).normalize()
@@ -248,7 +250,7 @@ class PokemonRenderer(
                 beamTarget.getCameraPosVec(partialTicks).subtract(0.0, 0.7, 0.0).subtract(lookVec.multiply(0.4))
             }
         }
-        if(clientDelegate.sendOutPosition != null) {
+        if (clientDelegate.sendOutPosition != null) {
             beamSourcePosition = clientDelegate.sendOutPosition!!
         }
 

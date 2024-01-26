@@ -111,6 +111,8 @@ class PokemonServerDelegate : PokemonSideDelegate {
             return entity.discard()
         } else if (entity.pokemon.isNPCOwned() && entity.owner?.isAlive != true) {
             return entity.discard()
+        } else if (entity.pokemon.isNPCOwned() && entity.ownerUuid == null) {
+            entity.ownerUuid = entity.pokemon.getOwnerUUID()
         }
 
         val tethering = entity.tethering

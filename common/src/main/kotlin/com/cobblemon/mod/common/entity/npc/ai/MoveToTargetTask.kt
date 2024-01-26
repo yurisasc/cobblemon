@@ -24,7 +24,7 @@ object MoveToTargetTask {
                 TaskRunnable { world, entity, time ->
                     val targetVec = it.getValue(walkTarget).lookTarget.blockPos
                     val walkPath = entity.navigation.findPathTo(targetVec, 0)
-                    if (path == null) {
+                    if (walkPath == null) {
                         walkTarget.forget()
                     } else {
                         path.remember(walkPath)

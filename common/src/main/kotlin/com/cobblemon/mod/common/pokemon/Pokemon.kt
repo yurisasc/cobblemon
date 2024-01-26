@@ -490,16 +490,20 @@ open class Pokemon : ShowdownIdentifiable {
 
         preamble.thenApply {
             sendOut(level, position) {
-                getOwnerPlayer()?.let{
-                it.swingHand(Hand.MAIN_HAND, true)
-                level.playSoundServer(it.pos, CobblemonSounds.POKE_BALL_THROW, volume = 0.6F)
-            }
+                val owner = getOwnerEntity()
+                if (owner is LivingEntity) {
+                    owner.swingHand(Hand.MAIN_HAND, true)
+                }
+                if (owner != null) {
+                    level.playSoundServer(owner.pos, CobblemonSounds.POKE_BALL_THROW, volume = 0.6F)
+                }
+                it.ownerUuid = getOwnerUUID()
                 it.phasingTargetId = source.id
                 it.beamMode = 1
                 it.battleId = battleId
 
                 it.after(seconds = SEND_OUT_DURATION) {
-                    it.phasingTargetId= -1
+                    it.phasingTargetId = -1
                     it.beamMode = 0
                     future.complete(it)
                     CobblemonEvents.POKEMON_SENT_POST.post(PokemonSentPostEvent(this, it))
@@ -1009,10 +1013,6 @@ open class Pokemon : ShowdownIdentifiable {
 
     fun getOwnerUUID(): UUID? {
         storeCoordinates.get()?.let {
-            if (!isPlayerOwned()) {
-                return@let
-            }
-
             if (it.store is PlayerPartyStore) {
                 return it.store.playerUUID
             } else if (it.store is NPCPartyStore) {

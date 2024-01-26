@@ -13,9 +13,11 @@ import com.bedrockk.molang.runtime.value.StringValue
 import com.cobblemon.mod.common.CobblemonSounds
 import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.api.entity.PokemonSideDelegate
+import com.cobblemon.mod.common.api.molang.MoLangFunctions.addFunction
 import com.cobblemon.mod.common.api.molang.MoLangFunctions.addFunctions
 import com.cobblemon.mod.common.api.molang.MoLangFunctions.getQueryStruct
 import com.cobblemon.mod.common.api.pokemon.PokemonSpecies
+import com.cobblemon.mod.common.api.pokemon.status.Statuses
 import com.cobblemon.mod.common.api.scheduling.SchedulingTracker
 import com.cobblemon.mod.common.api.scheduling.afterOnClient
 import com.cobblemon.mod.common.api.scheduling.lerpOnClient
@@ -28,7 +30,9 @@ import com.cobblemon.mod.common.client.render.models.blockbench.animation.Primar
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.StatefulAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cobblemon.mod.common.client.render.pokemon.PokemonRenderer.Companion.ease
+import com.cobblemon.mod.common.entity.pokemon.PokemonBehaviourFlag
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
+import com.cobblemon.mod.common.entity.pokemon.ai.PokemonMoveControl
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.util.MovingSoundInstance
 import com.cobblemon.mod.common.util.cobblemonResource
@@ -117,7 +121,7 @@ class PokemonClientDelegate : PoseableEntityState<PokemonEntity>(), PokemonSideD
                         currentEntity.isInvisible = true
                         ballDone = false
                         var soundPos = currentEntity.pos
-                        currentEntity.pokemon.getOwnerUUID()?.let{
+                        currentEntity.ownerUuid?.let{
                             currentEntity.world.getPlayerByUuid(it)?.let {
                                 val offset = it.pos.subtract(currentEntity.pos.add(0.0, 2.0 - (ballOffset.toDouble()/10f), 0.0)).normalize().multiply(-ease(ballOffset.toDouble()))
                                 with(it.pos.subtract(currentEntity.pos)) {
@@ -131,7 +135,7 @@ class PokemonClientDelegate : PoseableEntityState<PokemonEntity>(), PokemonSideD
                         }
                         val client = MinecraftClient.getInstance()
                         val sound = MovingSoundInstance(SoundEvent.of(CobblemonSounds.POKE_BALL_TRAIL.id), SoundCategory.PLAYERS, { sendOutPosition?.add(sendOutOffset) }, 0.1f, 1f, false, 20, 0)
-                        if(!playedThrowingSound){
+                        if (!playedThrowingSound){
                             client.soundManager.play(sound)
                             playedThrowingSound = true
                         }
@@ -141,7 +145,7 @@ class PokemonClientDelegate : PoseableEntityState<PokemonEntity>(), PokemonSideD
                             beamStartTime = System.currentTimeMillis()
                             ballDone = true
                             if (client.soundManager.get(CobblemonSounds.POKE_BALL_OPEN.id) != null && !playedSendOutSound) {
-                                currentEntity.owner?.let {
+                                currentEntity.ownerUuid?.let {
                                     client.world?.playSound(client.player, soundPos.x, soundPos.y, soundPos.z, SoundEvent.of(CobblemonSounds.POKE_BALL_SEND_OUT.id), SoundCategory.PLAYERS, 0.6f, 1f)
                                     playedSendOutSound = true
                                     /// create end rod particles in a 0.1 radius around the soundPos with a count of 50 and a random velocity of 0.1
@@ -160,17 +164,11 @@ class PokemonClientDelegate : PoseableEntityState<PokemonEntity>(), PokemonSideD
                                             val ballsparks = BedrockParticleEffectRepository.getEffect(cobblemonResource("${ballType}/${mode}/ballsparks"))
                                             val ballsendsparkle = BedrockParticleEffectRepository.getEffect(cobblemonResource("${ballType}/${mode}/ballsendsparkle"))
                                             afterOnClient(seconds = 0.01667f) {
-                                                ballsparks?.let { effect ->
-                                                    ParticleStorm(effect, wrapper, world).spawn()
-                                                }
-                                                ballsendsparkle?.let { effect ->
-                                                    ParticleStorm(effect, wrapper, world).spawn()
-                                                }
+                                                ballsparks?.let { effect -> ParticleStorm(effect, wrapper, world).spawn() }
+                                                ballsendsparkle?.let { effect -> ParticleStorm(effect, wrapper, world).spawn() }
                                                 afterOnClient(seconds = 0.4f) {
                                                     val ballsparkle = BedrockParticleEffectRepository.getEffect(cobblemonResource("${ballType}/ballsparkle"))
-                                                    ballsparkle?.let { effect ->
-                                                        ParticleStorm(effect, wrapper, world).spawn()
-                                                    }
+                                                    ballsparkle?.let { effect -> ParticleStorm(effect, wrapper, world).spawn() }
                                                 }
                                             }
                                         }
@@ -224,27 +222,19 @@ class PokemonClientDelegate : PoseableEntityState<PokemonEntity>(), PokemonSideD
     override fun initialize(entity: PokemonEntity) {
         this.currentEntity = entity
         this.age = entity.age
-
-        this.runtime.environment.getQueryStruct().addFunctions(mapOf(
-            "in_battle" to java.util.function.Function {
-                return@Function DoubleValue(currentEntity.isBattling)
-            },
-            "shiny" to java.util.function.Function {
-                return@Function DoubleValue(currentEntity.pokemon.shiny)
-            },
-            "form" to java.util.function.Function {
-                return@Function StringValue(currentEntity.pokemon.form.name)
-            },
-            "width" to java.util.function.Function {
-                return@Function DoubleValue(currentEntity.boundingBox.xLength)
-            },
-            "height" to java.util.function.Function {
-                return@Function DoubleValue(currentEntity.boundingBox.yLength)
-            },
-            "weight" to java.util.function.Function {
-                return@Function DoubleValue(currentEntity.pokemon.species.weight.toDouble())
-            }
-        ))
+        this.runtime.environment.getQueryStruct()
+            .addFunction("in_battle") { DoubleValue(currentEntity.isBattling) }
+            .addFunction("is_wild") { DoubleValue(currentEntity.pokemon.isWild()) }
+            .addFunction("is_shiny") { DoubleValue(currentEntity.pokemon.shiny) }
+            .addFunction("form") { StringValue(currentEntity.pokemon.form.name) }
+            .addFunction("width") { DoubleValue(currentEntity.boundingBox.xLength) }
+            .addFunction("height") { DoubleValue(currentEntity.boundingBox.yLength) }
+            .addFunction("weight") { DoubleValue(currentEntity.pokemon.species.weight.toDouble()) }
+            .addFunction("is_moving") { DoubleValue((entity.moveControl as? PokemonMoveControl)?.isMoving == true) }
+            .addFunction("is_underwater") { DoubleValue(entity.getIsSubmerged()) }
+            .addFunction("is_flying") { DoubleValue(entity.getBehaviourFlag(PokemonBehaviourFlag.FLYING)) }
+            .addFunction("is_sleeping") { DoubleValue(entity.pokemon.status?.status == Statuses.SLEEP) }
+            .addFunction("is_passenger") { DoubleValue(entity.hasVehicle()) }
     }
 
     override fun tick(entity: PokemonEntity) {
