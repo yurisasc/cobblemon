@@ -43,6 +43,11 @@
       "willSleepOnBed": false,
       "depth": "normal",
       "light": "0-4"
+    },
+    "swim": {
+      "canSwimInWater": true,
+      "canBreatheUnderwater": true,
+      "canWalkOnWater": true
     }
   },
   "moves": [
@@ -90,6 +95,7 @@
     "tm:facade",
     "tm:falseswipe",
     "tm:fling",
+    "tm:flipturn",
     "tm:frustration",
     "tm:grassknot",
     "tm:hail",
@@ -98,6 +104,7 @@
     "tm:hydropump",
     "tm:icebeam",
     "tm:icywind",
+    "tm:knockoff",
     "tm:liquidation",
     "tm:protect",
     "tm:raindance",
@@ -123,6 +130,7 @@
     "tm:waterfall",
     "tm:waterpledge",
     "tm:waterpulse",
+    "tm:whirlpool",
     "tm:workup",
     "tm:xscissor",
     "tutor:aquatail",

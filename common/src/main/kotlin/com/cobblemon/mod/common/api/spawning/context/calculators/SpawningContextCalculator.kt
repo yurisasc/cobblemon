@@ -48,6 +48,8 @@ interface SpawningContextCalculator<I : SpawningContextInput, O : SpawningContex
         }
     }
 
+    val name: String
+
     /** Tries creating a [SpawningContext] from the given input. Returning null should be a last resort. */
     fun calculate(input: I): O?
 }

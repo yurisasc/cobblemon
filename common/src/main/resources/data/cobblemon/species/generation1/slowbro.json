@@ -1,4 +1,4 @@
-{
+﻿{
   "implemented": true,
   "name": "Slowbro",
   "nationalPokedexNumber": 80,
@@ -30,6 +30,9 @@
     "special_defence": 80,
     "speed": 30
   },
+  "features": [
+    "galarian"
+  ],
   "catchRate": 75,
   "maleRatio": 0.5,
   "shoulderMountable": false,
@@ -76,7 +79,6 @@
       ],
       "height": 20,
       "weight": 1200,
-      "evolutions": [],
       "cannotDynamax": false,
       "battleOnly": true
     },
@@ -148,11 +150,14 @@
         "tm:bulldoze",
         "tm:calmmind",
         "tm:chillingwater",
+        "tm:curse",
         "tm:dig",
         "tm:dive",
+        "tm:doubleedge",
         "tm:drainpunch",
         "tm:earthquake",
         "tm:endure",
+        "tm:expandingforce",
         "tm:facade",
         "tm:fireblast",
         "tm:flamethrower",
@@ -164,6 +169,7 @@
         "tm:grassknot",
         "tm:gunkshot",
         "tm:hail",
+        "tm:haze",
         "tm:helpinghand",
         "tm:hydropump",
         "tm:hyperbeam",
@@ -189,6 +195,7 @@
         "tm:psybeam",
         "tm:psychic",
         "tm:psychicterrain",
+        "tm:psychup",
         "tm:psyshock",
         "tm:raindance",
         "tm:razorshell",
@@ -204,6 +211,7 @@
         "tm:sleeptalk",
         "tm:sludgebomb",
         "tm:sludgewave",
+        "tm:smackdown",
         "tm:snore",
         "tm:snowscape",
         "tm:storedpower",
@@ -214,6 +222,7 @@
         "tm:takedown",
         "tm:terablast",
         "tm:thunderwave",
+        "tm:toxic",
         "tm:triattack",
         "tm:trick",
         "tm:trickroom",
@@ -236,9 +245,17 @@
       "height": 16,
       "weight": 705,
       "preEvolution": "slowpoke form=galar",
-      "evolutions": [],
       "cannotDynamax": false,
-      "battleOnly": false
+      "battleOnly": false,
+      "drops": {
+        "amount": 1,
+        "entries": [
+          {
+            "item": "cobblemon:chesto_berry",
+            "percentage": 5.0
+          }
+        ]
+      }
     }
   ],
   "baseExperienceYield": 172,
@@ -294,6 +311,7 @@
     "tm:captivate",
     "tm:chillingwater",
     "tm:confide",
+    "tm:curse",
     "tm:dig",
     "tm:dive",
     "tm:doubleteam",
@@ -302,6 +320,7 @@
     "tm:earthquake",
     "tm:echoedvoice",
     "tm:endure",
+    "tm:expandingforce",
     "tm:facade",
     "tm:fireblast",
     "tm:flamethrower",
@@ -339,6 +358,7 @@
     "tm:protect",
     "tm:psybeam",
     "tm:psychic",
+    "tm:psychicnoise",
     "tm:psychicterrain",
     "tm:psychup",
     "tm:psyshock",

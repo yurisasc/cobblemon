@@ -45,11 +45,15 @@
     "egg:reversal",
     "tm:aerialace",
     "tm:attract",
+    "tm:bodyslam",
+    "tm:breakingswipe",
     "tm:brickbreak",
     "tm:bulkup",
     "tm:bulldoze",
     "tm:confide",
     "tm:doubleteam",
+    "tm:dracometeor",
+    "tm:dragoncheer",
     "tm:dragonclaw",
     "tm:dragondance",
     "tm:dragonpulse",
@@ -61,6 +65,7 @@
     "tm:falseswipe",
     "tm:fling",
     "tm:focusblast",
+    "tm:focuspunch",
     "tm:frustration",
     "tm:hiddenpower",
     "tm:irondefense",
@@ -79,6 +84,7 @@
     "tm:round",
     "tm:safeguard",
     "tm:sandstorm",
+    "tm:scaleshot",
     "tm:scaryface",
     "tm:screech",
     "tm:shadowclaw",
@@ -87,7 +93,9 @@
     "tm:substitute",
     "tm:swagger",
     "tm:swordsdance",
+    "tm:takedown",
     "tm:taunt",
+    "tm:terablast",
     "tm:toxic",
     "tm:uproar",
     "tm:workup",
@@ -144,5 +152,26 @@
   "height": 6,
   "weight": 297,
   "aspects": [],
-  "cannotDynamax": false
+  "cannotDynamax": false,
+  "drops": {
+    "amount": 4,
+    "entries": [
+      {
+        "item": "minecraft:scute",
+        "quantityRange": "0-1"
+      },
+      {
+        "item": "cobblemon:razor_claw",
+        "percentage": 2.5
+      },
+      {
+        "item": "cobblemon:dragon_scale",
+        "percentage": 2.5
+      },
+      {
+        "item": "cobblemon:roseli_berry",
+        "percentage": 2.5
+      }
+    ]
+  }
 }

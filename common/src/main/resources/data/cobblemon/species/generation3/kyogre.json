@@ -1,4 +1,4 @@
-{
+﻿{
   "name": "Kyogre",
   "nationalPokedexNumber": 382,
   "primaryType": "water",
@@ -58,7 +58,6 @@
       ],
       "height": 98,
       "weight": 4300,
-      "evolutions": [],
       "cannotDynamax": false,
       "battleOnly": true
     }
@@ -95,6 +94,7 @@
     "tm:chillingwater",
     "tm:confide",
     "tm:dive",
+    "tm:doubleedge",
     "tm:doubleteam",
     "tm:earthquake",
     "tm:endure",

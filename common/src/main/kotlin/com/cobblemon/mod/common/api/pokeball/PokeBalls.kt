@@ -121,6 +121,38 @@ object PokeBalls : JsonDataRegistry<PokeBall> {
         get() = this.byName("dream_ball")
     val BEAST_BALL
         get() = this.byName("beast_ball")
+    val ANCIENT_POKE_BALL
+        get() = this.byName("ancient_poke_ball")
+    val ANCIENT_CITRINE_BALL
+        get() = this.byName("ancient_citrine_ball")
+    val ANCIENT_VERDANT_BALL
+        get() = this.byName("ancient_verdant_ball")
+    val ANCIENT_AZURE_BALL
+        get() = this.byName("ancient_azure_ball")
+    val ANCIENT_ROSEATE_BALL
+        get() = this.byName("ancient_roseate_ball")
+    val ANCIENT_SLATE_BALL
+        get() = this.byName("ancient_slate_ball")
+    val ANCIENT_IVORY_BALL
+        get() = this.byName("ancient_ivory_ball")
+    val ANCIENT_GREAT_BALL
+        get() = this.byName("ancient_great_ball")
+    val ANCIENT_ULTRA_BALL
+        get() = this.byName("ancient_ultra_ball")
+    val ANCIENT_HEAVY_BALL
+        get() = this.byName("ancient_heavy_ball")
+    val ANCIENT_LEADEN_BALL
+        get() = this.byName("ancient_leaden_ball")
+    val ANCIENT_GIGATON_BALL
+        get() = this.byName("ancient_gigaton_ball")
+    val ANCIENT_FEATHER_BALL
+        get() = this.byName("ancient_feather_ball")
+    val ANCIENT_WING_BALL
+        get() = this.byName("ancient_wing_ball")
+    val ANCIENT_JET_BALL
+        get() = this.byName("ancient_jet_ball")
+    val ANCIENT_ORIGIN_BALL
+        get() = this.byName("ancient_origin_ball")
 
     init {
         createDefault("poke_ball")
@@ -157,6 +189,22 @@ object PokeBalls : JsonDataRegistry<PokeBall> {
         createDefault("park_ball", CatchRateModifiers.PARK)
         createDefault("dream_ball", CatchRateModifiers.statusBoosting(4F, Statuses.SLEEP))
         createDefault("beast_ball", LabelModifier(5F, true, CobblemonPokemonLabels.ULTRA_BEAST)/*, LabelModifier(0.1F, false, CobblemonPokemonLabels.ULTRA_BEAST))*/)
+        createDefault("ancient_poke_ball", ancient = true)
+        createDefault("ancient_citrine_ball", ancient = true)
+        createDefault("ancient_verdant_ball", ancient = true)
+        createDefault("ancient_azure_ball", ancient = true)
+        createDefault("ancient_roseate_ball", ancient = true)
+        createDefault("ancient_slate_ball", ancient = true)
+        createDefault("ancient_ivory_ball", ancient = true)
+        createDefault("ancient_great_ball", MultiplierModifier(1.5F), ancient = true)
+        createDefault("ancient_ultra_ball", MultiplierModifier(2F), ancient = true)
+        createDefault("ancient_heavy_ball", throwPower = 0.75f, ancient = true)
+        createDefault("ancient_leaden_ball", throwPower = 0.75f, ancient = true)
+        createDefault("ancient_gigaton_ball", throwPower = 0.75f, ancient = true)
+        createDefault("ancient_feather_ball", throwPower = 2.5f, ancient = true)
+        createDefault("ancient_wing_ball", throwPower = 2.5f, ancient = true)
+        createDefault("ancient_jet_ball", throwPower = 2.5f, ancient = true)
+        createDefault("ancient_origin_ball", ancient = true)
         // Luxury ball effect
         CobblemonEvents.FRIENDSHIP_UPDATED.subscribe(priority = Priority.LOWEST) { event ->
             var increment = (event.newFriendship - event.pokemon.friendship).toFloat()
@@ -191,11 +239,13 @@ object PokeBalls : JsonDataRegistry<PokeBall> {
         effects: List<CaptureEffect> = emptyList(),
         waterDragValue: Float = 0.8F,
         model2d: Identifier = cobblemonResource(name),
-        model3d: Identifier = cobblemonResource("${name}_model")
+        model3d: Identifier = cobblemonResource("${name}_model"),
+        throwPower: Float = 1.25f,
+        ancient: Boolean = false
     ): PokeBall {
         val identifier = cobblemonResource(name)
         //val finalModifiers = if (appendUltraBeastPenalty) modifiers + listOf(LabelModifier(0.1F, true, CobblemonPokemonLabels.ULTRA_BEAST)) else modifiers
-        val pokeball = PokeBall(identifier, modifier, effects, waterDragValue, model2d, model3d)
+        val pokeball = PokeBall(identifier, modifier, effects, waterDragValue, model2d, model3d, throwPower, ancient)
         this.defaults[identifier] = pokeball
         return pokeball
     }

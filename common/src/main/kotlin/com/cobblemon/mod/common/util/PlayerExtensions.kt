@@ -9,8 +9,12 @@
 package com.cobblemon.mod.common.util
 
 import com.cobblemon.mod.common.Cobblemon
+import com.cobblemon.mod.common.CobblemonSounds
 import com.cobblemon.mod.common.api.battles.model.PokemonBattle
 import com.cobblemon.mod.common.api.battles.model.actor.BattleActor
+import com.cobblemon.mod.common.api.dialogue.ActiveDialogue
+import com.cobblemon.mod.common.api.dialogue.Dialogue
+import com.cobblemon.mod.common.api.dialogue.DialogueManager
 import com.cobblemon.mod.common.api.reactive.Observable.Companion.filter
 import com.cobblemon.mod.common.api.reactive.Observable.Companion.takeFirst
 import com.cobblemon.mod.common.battles.BattleRegistry
@@ -21,6 +25,7 @@ import net.minecraft.entity.Entity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.entity.player.PlayerInventory
 import net.minecraft.item.ItemStack
+import net.minecraft.registry.Registries
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.sound.SoundCategory
 import net.minecraft.sound.SoundEvents
@@ -33,6 +38,16 @@ import net.minecraft.util.math.Vec3d
 // Stuff like getting their party
 fun ServerPlayerEntity.party() = Cobblemon.storage.getParty(this)
 fun ServerPlayerEntity.pc() = Cobblemon.storage.getPC(this.uuid)
+val ServerPlayerEntity.activeDialogue: ActiveDialogue?
+    get() = DialogueManager.activeDialogues[uuid]
+val ServerPlayerEntity.isInDialogue: Boolean
+    get() = DialogueManager.activeDialogues.containsKey(uuid)
+fun ServerPlayerEntity.closeDialogue() {
+    DialogueManager.stopDialogue(this)
+}
+fun ServerPlayerEntity.openDialogue(dialogue: Dialogue) {
+    DialogueManager.startDialogue(this, dialogue)
+}
 fun ServerPlayerEntity.extraData(key: String) = Cobblemon.playerData.get(this).extraData[key]
 fun ServerPlayerEntity.hasKeyItem(key: Identifier) = Cobblemon.playerData.get(this).keyItems.contains(key)
 fun UUID.getPlayer() = server()?.playerManager?.getPlayer(this)
@@ -264,3 +279,5 @@ fun PlayerEntity.giveOrDropItemStack(stack: ItemStack, playSound: Boolean = true
     }
 }
 
+/** Retrieves the battle theme associated with this player, or the default PVP theme if null. */
+fun ServerPlayerEntity.getBattleTheme() = Cobblemon.playerData.get(this).battleTheme?.let { Registries.SOUND_EVENT.get(it) } ?: CobblemonSounds.PVP_BATTLE

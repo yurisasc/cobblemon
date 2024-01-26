@@ -1,4 +1,4 @@
-{
+﻿{
   "implemented": true,
   "name": "Machamp",
   "nationalPokedexNumber": 68,
@@ -62,7 +62,6 @@
       ],
       "height": 250,
       "weight": 0,
-      "evolutions": [],
       "cannotDynamax": false,
       "battleOnly": false
     }

@@ -8,7 +8,7 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen8
 
-import com.cobblemon.mod.common.client.render.models.blockbench.asTransformed
+import com.cobblemon.mod.common.client.render.models.blockbench.createTransformation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BimanualFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
@@ -52,10 +52,10 @@ class ThwackeyModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
             quirks = arrayOf(blink),
             condition = { !it.isBattling },
             transformedParts = arrayOf(
-                stick_head_left.asTransformed().withVisibility(visibility = false),
-                stick_head_right.asTransformed().withVisibility(visibility = false),
-                stick_left.asTransformed().withVisibility(visibility = true),
-                stick_right.asTransformed().withVisibility(visibility = true)
+                stick_head_left.createTransformation().withVisibility(visibility = false),
+                stick_head_right.createTransformation().withVisibility(visibility = false),
+                stick_left.createTransformation().withVisibility(visibility = true),
+                stick_right.createTransformation().withVisibility(visibility = true)
             ),
             idleAnimations = arrayOf(
                 singleBoneLook(),
@@ -68,10 +68,10 @@ class ThwackeyModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
             poseTypes = PoseType.MOVING_POSES,
             quirks = arrayOf(blink),
             transformedParts = arrayOf(
-                stick_head_left.asTransformed().withVisibility(visibility = false),
-                stick_head_right.asTransformed().withVisibility(visibility = false),
-                stick_left.asTransformed().withVisibility(visibility = true),
-                stick_right.asTransformed().withVisibility(visibility = true)
+                stick_head_left.createTransformation().withVisibility(visibility = false),
+                stick_head_right.createTransformation().withVisibility(visibility = false),
+                stick_left.createTransformation().withVisibility(visibility = true),
+                stick_right.createTransformation().withVisibility(visibility = true)
             ),
             idleAnimations = arrayOf(
                 singleBoneLook(),
@@ -86,10 +86,10 @@ class ThwackeyModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
             quirks = arrayOf(blink),
             condition = { it.isBattling },
             transformedParts = arrayOf(
-                stick_head_left.asTransformed().withVisibility(visibility = false),
-                stick_head_right.asTransformed().withVisibility(visibility = false),
-                stick_left.asTransformed().withVisibility(visibility = true),
-                stick_right.asTransformed().withVisibility(visibility = true)
+                stick_head_left.createTransformation().withVisibility(visibility = false),
+                stick_head_right.createTransformation().withVisibility(visibility = false),
+                stick_left.createTransformation().withVisibility(visibility = true),
+                stick_right.createTransformation().withVisibility(visibility = true)
             ),
             idleAnimations = arrayOf(
                 singleBoneLook(),

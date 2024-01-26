@@ -15,6 +15,7 @@ import com.cobblemon.mod.common.item.group.CobblemonItemGroups
 import com.cobblemon.mod.common.loot.LootInjector
 import com.cobblemon.mod.common.particle.CobblemonParticles
 import com.cobblemon.mod.common.platform.events.*
+import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.didSleep
 import com.cobblemon.mod.common.util.endsWith
 import com.cobblemon.mod.common.world.CobblemonStructures
@@ -80,6 +81,7 @@ import java.util.concurrent.CompletableFuture
 import java.util.concurrent.ExecutionException
 import java.util.concurrent.Executor
 import kotlin.reflect.KClass
+import net.minecraft.entity.ai.brain.Activity
 
 object CobblemonFabric : CobblemonImplementation {
 
@@ -98,6 +100,7 @@ object CobblemonFabric : CobblemonImplementation {
         CobblemonBlockPredicates.touch()
         CobblemonPlacementModifierTypes.touch()
         CobblemonProcessorTypes.touch()
+        CobblemonActivities.activities.forEach { Registry.register(Registries.ACTIVITY, cobblemonResource(it.id), it) }
         EntitySleepEvents.STOP_SLEEPING.register { playerEntity, _ ->
             if (playerEntity !is ServerPlayerEntity) {
                 return@register
@@ -162,6 +165,7 @@ object CobblemonFabric : CobblemonImplementation {
 
             return@register ActionResult.PASS
         }
+
         LootTableEvents.MODIFY.register { _, _, id, tableBuilder, _ ->
             LootInjector.attemptInjection(id, tableBuilder::pool)
         }

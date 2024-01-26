@@ -1,4 +1,4 @@
-{
+﻿{
   "name": "Kommo-o",
   "nationalPokedexNumber": 784,
   "primaryType": "dragon",
@@ -153,7 +153,6 @@
       ],
       "height": 24,
       "weight": 2075,
-      "evolutions": [],
       "cannotDynamax": false,
       "battleOnly": false
     }
@@ -190,14 +189,19 @@
     "tm:attract",
     "tm:aurasphere",
     "tm:bodypress",
+    "tm:bodyslam",
     "tm:breakingswipe",
     "tm:brickbreak",
     "tm:brutalswing",
     "tm:bulkup",
     "tm:bulldoze",
     "tm:closecombat",
+    "tm:coaching",
     "tm:confide",
+    "tm:doubleedge",
     "tm:doubleteam",
+    "tm:dracometeor",
+    "tm:dragoncheer",
     "tm:dragonclaw",
     "tm:dragondance",
     "tm:dragonpulse",
@@ -205,6 +209,7 @@
     "tm:drainpunch",
     "tm:earthquake",
     "tm:echoedvoice",
+    "tm:endeavor",
     "tm:endure",
     "tm:facade",
     "tm:falseswipe",
@@ -213,8 +218,10 @@
     "tm:flashcannon",
     "tm:fling",
     "tm:focusblast",
+    "tm:focuspunch",
     "tm:frustration",
     "tm:gigaimpact",
+    "tm:helpinghand",
     "tm:hiddenpower",
     "tm:hyperbeam",
     "tm:hypervoice",
@@ -225,10 +232,13 @@
     "tm:lowkick",
     "tm:megakick",
     "tm:megapunch",
+    "tm:metalclaw",
+    "tm:metalsound",
     "tm:outrage",
     "tm:payback",
     "tm:poisonjab",
     "tm:protect",
+    "tm:raindance",
     "tm:rest",
     "tm:return",
     "tm:revenge",
@@ -240,6 +250,7 @@
     "tm:round",
     "tm:safeguard",
     "tm:sandstorm",
+    "tm:scaleshot",
     "tm:scaryface",
     "tm:screech",
     "tm:shadowclaw",
@@ -248,13 +259,19 @@
     "tm:stealthrock",
     "tm:stompingtantrum",
     "tm:substitute",
+    "tm:sunnyday",
     "tm:superpower",
     "tm:swagger",
     "tm:swordsdance",
+    "tm:takedown",
     "tm:taunt",
+    "tm:terablast",
+    "tm:throatchop",
     "tm:thunderpunch",
     "tm:toxic",
+    "tm:upperhand",
     "tm:uproar",
+    "tm:vacuumwave",
     "tm:workup",
     "tm:xscissor",
     "tutor:aquatail",
@@ -311,5 +328,26 @@
   "height": 16,
   "weight": 782,
   "aspects": [],
-  "cannotDynamax": false
+  "cannotDynamax": false,
+  "drops": {
+    "amount": 6,
+    "entries": [
+      {
+        "item": "minecraft:scute",
+        "quantityRange": "0-3"
+      },
+      {
+        "item": "cobblemon:razor_claw",
+        "percentage": 10.0
+      },
+      {
+        "item": "cobblemon:dragon_scale",
+        "percentage": 10.0
+      },
+      {
+        "item": "cobblemon:roseli_berry",
+        "percentage": 2.5
+      }
+    ]
+  }
 }

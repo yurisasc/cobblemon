@@ -12,10 +12,10 @@
     "entries": [
       {
         "item": "minecraft:clay_ball",
-        "percentage": 50
+        "quantityRange": "0-1"
       },
       {
-        "item": "minecraft:rindo_berry",
+        "item": "cobblemon:rindo_berry",
         "percentage": 2.5
       }
     ]
@@ -84,6 +84,7 @@
     "tm:captivate",
     "tm:chillingwater",
     "tm:confide",
+    "tm:curse",
     "tm:dive",
     "tm:doubleteam",
     "tm:earthpower",
@@ -102,6 +103,7 @@
     "tm:mudshot",
     "tm:mudslap",
     "tm:naturalgift",
+    "tm:painsplit",
     "tm:protect",
     "tm:raindance",
     "tm:rest",
@@ -112,6 +114,7 @@
     "tm:sandstorm",
     "tm:scald",
     "tm:secretpower",
+    "tm:skittersmack",
     "tm:sleeptalk",
     "tm:snore",
     "tm:snowscape",

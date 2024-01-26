@@ -1,4 +1,4 @@
-{
+﻿{
   "name": "Kyurem",
   "nationalPokedexNumber": 646,
   "primaryType": "dragon",
@@ -164,7 +164,6 @@
       ],
       "height": 33,
       "weight": 3250,
-      "evolutions": [],
       "cannotDynamax": false,
       "battleOnly": false
     },
@@ -314,7 +313,6 @@
       ],
       "height": 36,
       "weight": 3250,
-      "evolutions": [],
       "cannotDynamax": false,
       "battleOnly": false
     }

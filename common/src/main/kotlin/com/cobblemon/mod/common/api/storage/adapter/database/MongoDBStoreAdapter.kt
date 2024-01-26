@@ -69,7 +69,11 @@ open class MongoDBStoreAdapter(
 
         if (document != null) {
             val json = this.gson.fromJson(document.toJson(), JsonObject::class.java)
-            val store = storeClass.getConstructor(UUID::class.java).newInstance(uuid)
+            val store = try {
+                storeClass.getConstructor(UUID::class.java, UUID::class.java).newInstance(uuid, uuid)
+            } catch (exception: NoSuchMethodException) {
+                storeClass.getConstructor(UUID::class.java).newInstance(uuid)
+            }
             store.loadFromJSON(json)
             return store
         }

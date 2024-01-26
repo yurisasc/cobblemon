@@ -30,6 +30,9 @@
     "special_defence": 40,
     "speed": 15
   },
+  "features": [
+    "galarian"
+  ],
   "catchRate": 190,
   "maleRatio": 0.5,
   "shoulderMountable": false,
@@ -99,10 +102,12 @@
         "tm:bulldoze",
         "tm:calmmind",
         "tm:chillingwater",
+        "tm:curse",
         "tm:dig",
         "tm:dive",
         "tm:earthquake",
         "tm:endure",
+        "tm:expandingforce",
         "tm:facade",
         "tm:fireblast",
         "tm:flamethrower",
@@ -124,6 +129,7 @@
         "tm:psybeam",
         "tm:psychic",
         "tm:psychicterrain",
+        "tm:psychup",
         "tm:psyshock",
         "tm:raindance",
         "tm:rest",
@@ -186,7 +192,16 @@
         }
       ],
       "cannotDynamax": false,
-      "battleOnly": false
+      "battleOnly": false,
+      "drops": {
+        "amount": 1,
+        "entries": [
+          {
+            "item": "cobblemon:chesto_berry",
+            "percentage": 2.5
+          }
+        ]
+      }
     }
   ],
   "baseExperienceYield": 63,
@@ -255,6 +270,7 @@
     "tm:captivate",
     "tm:chillingwater",
     "tm:confide",
+    "tm:curse",
     "tm:dig",
     "tm:dive",
     "tm:doubleteam",
@@ -262,6 +278,7 @@
     "tm:earthquake",
     "tm:echoedvoice",
     "tm:endure",
+    "tm:expandingforce",
     "tm:facade",
     "tm:fireblast",
     "tm:flamethrower",

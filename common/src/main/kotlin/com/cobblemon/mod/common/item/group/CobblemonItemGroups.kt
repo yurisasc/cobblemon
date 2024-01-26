@@ -32,6 +32,7 @@ object CobblemonItemGroups {
     @JvmStatic val BLOCKS_KEY = this.create("blocks", this::blockEntries) { ItemStack(CobblemonItems.PC) }
     @JvmStatic val POKEBALLS_KEY = this.create("pokeball", this::pokeballentries) { ItemStack(CobblemonItems.POKE_BALL) }
     @JvmStatic val AGRICULTURE_KEY = this.create("agriculture", this::agricultureEntries) { ItemStack(CobblemonItems.MEDICINAL_LEEK) }
+    @JvmStatic val ARCHAEOLOGY_KEY = this.create("archaeology", this::archaeologyEntries) { ItemStack(CobblemonItems.HELIX_FOSSIL) }
     @JvmStatic val CONSUMABLES_KEY = this.create("consumables", this::consumableEntries) { ItemStack(CobblemonItems.ROASTED_LEEK) }
     @JvmStatic val HELD_ITEMS_KEY = this.create("held_item", this::heldItemEntries) { ItemStack(CobblemonItems.EXP_SHARE) }
     @JvmStatic val EVOLUTION_ITEMS_KEY = this.create("evolution_item", this::evolutionItemEntries) { ItemStack(CobblemonItems.BLACK_AUGURITE) }
@@ -40,6 +41,7 @@ object CobblemonItemGroups {
     @JvmStatic val BLOCKS get() = Registries.ITEM_GROUP.get(BLOCKS_KEY)
     @JvmStatic val POKEBALLS get() = Registries.ITEM_GROUP.get(POKEBALLS_KEY)
     @JvmStatic val AGRICULTURE get() = Registries.ITEM_GROUP.get(AGRICULTURE_KEY)
+    @JvmStatic val ARCHAEOLOGY get() = Registries.ITEM_GROUP.get(ARCHAEOLOGY_KEY)
     @JvmStatic val CONSUMABLES get() = Registries.ITEM_GROUP.get(CONSUMABLES_KEY)
     @JvmStatic val HELD_ITEMS get() = Registries.ITEM_GROUP.get(HELD_ITEMS_KEY)
     @JvmStatic val EVOLUTION_ITEMS get() = Registries.ITEM_GROUP.get(EVOLUTION_ITEMS_KEY)
@@ -140,7 +142,58 @@ object CobblemonItemGroups {
         CobblemonItems.berries().values.forEach(entries::add)
     }
 
+    private fun archaeologyEntries(displayContext: DisplayContext, entries: Entries) {
+        entries.add(CobblemonItems.HELIX_FOSSIL)
+        entries.add(CobblemonItems.DOME_FOSSIL)
+        entries.add(CobblemonItems.OLD_AMBER_FOSSIL)
+        entries.add(CobblemonItems.ROOT_FOSSIL)
+        entries.add(CobblemonItems.CLAW_FOSSIL)
+        entries.add(CobblemonItems.SKULL_FOSSIL)
+        entries.add(CobblemonItems.ARMOR_FOSSIL)
+        entries.add(CobblemonItems.COVER_FOSSIL)
+        entries.add(CobblemonItems.PLUME_FOSSIL)
+        entries.add(CobblemonItems.JAW_FOSSIL)
+        entries.add(CobblemonItems.SAIL_FOSSIL)
+        entries.add(CobblemonItems.BIRD_FOSSIL)
+        entries.add(CobblemonItems.FISH_FOSSIL)
+        entries.add(CobblemonItems.DRAKE_FOSSIL)
+        entries.add(CobblemonItems.DINO_FOSSIL)
+
+        entries.add(CobblemonItems.TUMBLESTONE)
+        entries.add(CobblemonItems.BLACK_TUMBLESTONE)
+        entries.add(CobblemonItems.SKY_TUMBLESTONE)
+
+        entries.add(CobblemonItems.SMALL_BUDDING_TUMBLESTONE)
+        entries.add(CobblemonItems.SMALL_BUDDING_BLACK_TUMBLESTONE)
+        entries.add(CobblemonItems.SMALL_BUDDING_SKY_TUMBLESTONE)
+
+        entries.add(CobblemonItems.MEDIUM_BUDDING_TUMBLESTONE)
+        entries.add(CobblemonItems.MEDIUM_BUDDING_BLACK_TUMBLESTONE)
+        entries.add(CobblemonItems.MEDIUM_BUDDING_SKY_TUMBLESTONE)
+
+        entries.add(CobblemonItems.LARGE_BUDDING_TUMBLESTONE)
+        entries.add(CobblemonItems.LARGE_BUDDING_BLACK_TUMBLESTONE)
+        entries.add(CobblemonItems.LARGE_BUDDING_SKY_TUMBLESTONE)
+
+        entries.add(CobblemonItems.TUMBLESTONE_CLUSTER)
+        entries.add(CobblemonItems.BLACK_TUMBLESTONE_CLUSTER)
+        entries.add(CobblemonItems.SKY_TUMBLESTONE_CLUSTER)
+
+        entries.add(CobblemonItems.TUMBLESTONE_BLOCK)
+        entries.add(CobblemonItems.BLACK_TUMBLESTONE_BLOCK)
+        entries.add(CobblemonItems.SKY_TUMBLESTONE_BLOCK)
+
+        entries.add(CobblemonItems.BYGONE_SHERD)
+        entries.add(CobblemonItems.CAPTURE_SHERD)
+        entries.add(CobblemonItems.DOME_SHERD)
+        entries.add(CobblemonItems.HELIX_SHERD)
+        entries.add(CobblemonItems.NOSTALGIC_SHERD)
+    }
+
     private fun blockEntries(displayContext: DisplayContext, entries: Entries) {
+        entries.add(CobblemonItems.FOSSIL_TUBE)
+        entries.add(CobblemonItems.FOSSIL_COMPARTMENT)
+        entries.add(CobblemonItems.FOSSIL_MONITOR)
         entries.add(CobblemonItems.PC)
         entries.add(CobblemonItems.TM_MACHINE)
         entries.add(CobblemonItems.HEALING_MACHINE)
@@ -161,6 +214,11 @@ object CobblemonItemGroups {
         entries.add(CobblemonItems.APRICORN_SIGN)
         entries.add(CobblemonItems.APRICORN_HANGING_SIGN)
         entries.add(CobblemonItems.APRICORN_LEAVES)
+
+        entries.add(CobblemonItems.TUMBLESTONE_BLOCK)
+        entries.add(CobblemonItems.BLACK_TUMBLESTONE_BLOCK)
+        entries.add(CobblemonItems.SKY_TUMBLESTONE_BLOCK)
+
         entries.add(CobblemonItems.DAWN_STONE_ORE)
         entries.add(CobblemonItems.DEEPSLATE_DAWN_STONE_ORE)
         entries.add(CobblemonItems.DUSK_STONE_ORE)
@@ -344,6 +402,7 @@ object CobblemonItemGroups {
         entries.add(CobblemonItems.LUCKY_EGG)
         entries.add(CobblemonItems.MAGNET)
         entries.add(CobblemonItems.MENTAL_HERB)
+        entries.add(CobblemonItems.METAL_COAT)
         entries.add(CobblemonItems.METAL_POWDER)
         entries.add(CobblemonItems.MIRACLE_SEED)
         entries.add(CobblemonItems.MIRROR_HERB)
@@ -355,9 +414,9 @@ object CobblemonItemGroups {
         entries.add(CobblemonItems.POWER_BAND)
         entries.add(CobblemonItems.POWER_BELT)
         entries.add(CobblemonItems.POWER_BRACER)
-        entries.add(CobblemonItems.POWER_HERB)
         entries.add(CobblemonItems.POWER_LENS)
         entries.add(CobblemonItems.POWER_WEIGHT)
+        entries.add(CobblemonItems.POWER_HERB)
         entries.add(CobblemonItems.QUICK_CLAW)
         entries.add(CobblemonItems.QUICK_POWDER)
         entries.add(CobblemonItems.RAZOR_CLAW)

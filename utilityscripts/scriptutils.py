@@ -58,6 +58,7 @@ def print_list_filtered(lines, filter_words=None):
 
 
 def print_warning(message):
+    print()
     print("⚠️ " + message + " ⚠️")
 
 
