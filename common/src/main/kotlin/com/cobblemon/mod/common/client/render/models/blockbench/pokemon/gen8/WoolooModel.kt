@@ -39,10 +39,10 @@ class WoolooModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quadru
     lateinit var shearedstanding: PokemonPose
     lateinit var shearedwalk: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("wooloo", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("wooloo", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("wooloo", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("wooloo", "blink") }
         standing = registerPose(
                 poseName = "standing",
                 poseTypes = setOf(PoseType.NONE, PoseType.STAND, PoseType.PORTRAIT, PoseType.PROFILE),

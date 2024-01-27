@@ -39,10 +39,10 @@ class MareepModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     lateinit var shearedsleep: PokemonPose
     lateinit var shearedbattleidle: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("mareep", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("mareep", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("mareep", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("mareep", "blink") }
         sleep = registerPose(
             poseName = "unsheared_sleep",
             poseType = PoseType.SLEEP,

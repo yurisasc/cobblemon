@@ -32,7 +32,7 @@ class GastlyModel(root: ModelPart) : PokemonPoseableModel() {
 
 
     override fun registerPoses() {
-        val blink = quirk(name = "blink") { bedrockStateful("gastly", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("gastly", "blink") }
 
         sleep = registerPose(
             poseType = PoseType.SLEEP,

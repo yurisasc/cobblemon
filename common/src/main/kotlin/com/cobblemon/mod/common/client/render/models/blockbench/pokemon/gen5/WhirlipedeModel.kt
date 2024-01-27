@@ -29,10 +29,10 @@ class WhirlipedeModel (root: ModelPart) : PokemonPoseableModel() {
     lateinit var walk: PokemonPose
     lateinit var battleidle: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("whirlipede", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("whirlipede", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("whirlipede", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("whirlipede", "blink") }
 
         standing = registerPose(
             poseName = "standing",

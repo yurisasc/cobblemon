@@ -37,7 +37,7 @@ class GligarModel(root: ModelPart) : PokemonPoseableModel(), BipedFrame {
 
     override fun registerPoses() {
 
-        val blink = quirk("blink") { bedrockStateful("gligar", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("gligar", "blink") }
 
         standing = registerPose(
             poseName = "standing",

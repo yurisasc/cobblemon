@@ -32,10 +32,10 @@ class ClefairyModel(root: ModelPart) : PokemonPoseableModel() {
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("clefairy", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("clefairy", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("clefairy", "blink").setPreventsIdle(false)}
+        val blink = quirk { bedrockStateful("clefairy", "blink")}
         standing = registerPose(
             poseName = "standing",
             poseTypes = STATIONARY_POSES + UI_POSES,

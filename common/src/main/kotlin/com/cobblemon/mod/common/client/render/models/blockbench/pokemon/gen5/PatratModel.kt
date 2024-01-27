@@ -30,10 +30,10 @@ class PatratModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     lateinit var walk: PokemonPose
     lateinit var sleep: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("patrat", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("patrat", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("patrat", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("patrat", "blink") }
         standing = registerPose(
             poseName = "standing",
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,

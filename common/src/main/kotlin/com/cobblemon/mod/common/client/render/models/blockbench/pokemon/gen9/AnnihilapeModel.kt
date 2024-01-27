@@ -37,10 +37,10 @@ class AnnihilapeModel (root: ModelPart) : PokemonPoseableModel(), BipedFrame, Bi
     lateinit var sleep: PokemonPose
     lateinit var battleidle: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("annihilape", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("annihilape", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("annihilape", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("annihilape", "blink") }
         sleep = registerPose(
             poseType = PoseType.SLEEP,
             idleAnimations = arrayOf(

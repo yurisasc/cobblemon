@@ -33,7 +33,6 @@ import net.minecraft.util.Pair
 abstract class VaryingModelRepository<E : Entity, M : PoseableEntityModel<E>> {
     val posers = mutableMapOf<Identifier, (Bone) -> M>()
     val variations = mutableMapOf<Identifier, VaryingRenderableResolver<E, M>>()
-
     val texturedModels = mutableMapOf<Identifier, (isForLivingEntityRenderer: Boolean) -> Bone>()
 
     abstract val title: String
@@ -52,6 +51,7 @@ abstract class VaryingModelRepository<E : Entity, M : PoseableEntityModel<E>> {
         posers.clear()
         registerInBuiltPosers()
         registerJsonPosers(resourceManager)
+        Cobblemon.LOGGER.info("Loaded ${posers.size} $title posers.")
     }
 
     abstract fun registerInBuiltPosers()
@@ -75,6 +75,7 @@ abstract class VaryingModelRepository<E : Entity, M : PoseableEntityModel<E>> {
     }
 
     fun registerVariations(resourceManager: ResourceManager) {
+        var variationCount = 0
         val nameToModelVariationSets = mutableMapOf<Identifier, MutableList<ModelVariationSet>>()
         for (directory in variationDirectories) {
             resourceManager
@@ -84,6 +85,7 @@ abstract class VaryingModelRepository<E : Entity, M : PoseableEntityModel<E>> {
                         val json = String(stream.readAllBytes(), StandardCharsets.UTF_8)
                         val modelVariationSet = VaryingRenderableResolver.GSON.fromJson<ModelVariationSet>(json)
                         nameToModelVariationSets.getOrPut(modelVariationSet.name) { mutableListOf() }.add(modelVariationSet)
+                        variationCount += modelVariationSet.variations.size
                     }
                 }
         }
@@ -94,6 +96,8 @@ abstract class VaryingModelRepository<E : Entity, M : PoseableEntityModel<E>> {
         }
 
         variations.values.forEach { it.initialize(this) }
+
+        Cobblemon.LOGGER.info("Loaded ${variationCount} $title variations.")
     }
 
     fun registerModels(resourceManager: ResourceManager) {
@@ -114,9 +118,9 @@ abstract class VaryingModelRepository<E : Entity, M : PoseableEntityModel<E>> {
     }
 
     fun reload(resourceManager: ResourceManager) {
+        Cobblemon.LOGGER.info("Loading $title assets...")
         this.variations.clear()
         this.posers.clear()
-        Cobblemon.LOGGER.info("Loading $title models...")
         registerModels(resourceManager)
         registerPosers(resourceManager)
         registerVariations(resourceManager)

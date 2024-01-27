@@ -36,6 +36,6 @@ object BedrockAnimationReferenceFactory : AnimationReferenceFactory {
         return model.bedrockStateful(
             animationGroup = split[0],
             animation = split[1]
-        ).setPreventsIdle(if (split.size == 3) split[2].toBoolean() else JsonPokemonPoseableModel.StatefulAnimationAdapter.preventsIdleDefault)
+        )
     }
 }

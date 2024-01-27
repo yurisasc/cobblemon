@@ -34,7 +34,7 @@ class PsyduckModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     lateinit var swim: PokemonPose
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("psyduck", "blink").setPreventsIdle(false)}
+        val blink = quirk { bedrockStateful("psyduck", "blink")}
         standing = registerPose(
             poseName = "standing",
             poseTypes = UI_POSES + PoseType.STAND,

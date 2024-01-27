@@ -33,7 +33,7 @@ class MagcargoModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     lateinit var walk: PokemonPose
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("magcargo", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("magcargo", "blink") }
 
         sleep = registerPose(
             poseType = PoseType.SLEEP,

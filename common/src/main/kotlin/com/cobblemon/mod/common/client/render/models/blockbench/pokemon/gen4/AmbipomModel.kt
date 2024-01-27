@@ -38,10 +38,10 @@ class AmbipomModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bipe
     lateinit var sleep: PokemonPose
     lateinit var battleidle: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("ambipom", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("ambipom", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("ambipom", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("ambipom", "blink") }
         sleep = registerPose(
             poseType = PoseType.SLEEP,
             idleAnimations = arrayOf(bedrock("ambipom", "sleep"))

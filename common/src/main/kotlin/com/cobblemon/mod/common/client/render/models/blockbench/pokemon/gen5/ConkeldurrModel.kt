@@ -34,7 +34,7 @@ class ConkeldurrModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, B
     lateinit var walk: PokemonPose
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("conkeldurr", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("conkeldurr", "blink") }
         standing = registerPose(
             poseName = "standing",
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,

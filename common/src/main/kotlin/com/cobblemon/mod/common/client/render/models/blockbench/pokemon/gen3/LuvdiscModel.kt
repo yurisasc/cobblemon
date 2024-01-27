@@ -32,7 +32,7 @@ class LuvdiscModel (root: ModelPart) : PokemonPoseableModel() {
     lateinit var swim: PokemonPose
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("luvdisc", "blink").setPreventsIdle(false)}
+        val blink = quirk { bedrockStateful("luvdisc", "blink")}
         sleep = registerPose(
             poseType = PoseType.SLEEP,
             idleAnimations = arrayOf(bedrock("luvdisc", "ground_sleep"))

@@ -41,10 +41,10 @@ class SquirtleModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bipe
     lateinit var swim: PokemonPose
     lateinit var walk: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("squirtle", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("squirtle", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("squirtle", "blink").setPreventsIdle(false)}
+        val blink = quirk { bedrockStateful("squirtle", "blink")}
         sleep = registerPose(
             poseType = PoseType.SLEEP,
             transformTicks = 10,

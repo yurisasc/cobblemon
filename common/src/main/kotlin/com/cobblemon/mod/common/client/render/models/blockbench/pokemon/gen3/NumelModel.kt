@@ -36,7 +36,7 @@ class NumelModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quadru
     lateinit var walk: PokemonPose
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("numel", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("numel", "blink") }
 
         standing = registerPose(
             poseName = "standing",

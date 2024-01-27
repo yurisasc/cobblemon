@@ -31,11 +31,11 @@ class BeldumModel (root: ModelPart) : PokemonPoseableModel() {
     lateinit var sleep: PokemonPose
     lateinit var battleidle: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("beldum", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("beldum", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("beldum", "blink").setPreventsIdle(false)}
-        val quirk = quirk("quirk") { bedrockStateful("beldum", "quirk_spin").setPreventsIdle(false)}
+        val blink = quirk { bedrockStateful("beldum", "blink")}
+        val quirk = quirk { bedrockStateful("beldum", "quirk_spin")}
 
         sleep = registerPose(
             poseType = PoseType.SLEEP,

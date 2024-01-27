@@ -12,7 +12,7 @@ import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.PosableState
 import com.cobblemon.mod.common.client.render.models.blockbench.repository.RenderContext
 
-abstract class ModelQuirk<D : QuirkData>(val name: String) {
+abstract class ModelQuirk<D : QuirkData> {
     abstract fun createData(): D
     protected abstract fun tick(context: RenderContext, state: PosableState, data: D)
     fun tick(context: RenderContext, model: PosableModel, state: PosableState, limbSwing: Float, limbSwingAmount: Float, ageInTicks: Float, headYaw: Float, headPitch: Float, intensity: Float) {

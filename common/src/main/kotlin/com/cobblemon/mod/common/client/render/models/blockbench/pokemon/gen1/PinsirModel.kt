@@ -29,7 +29,7 @@ class PinsirModel(root: ModelPart) : PokemonPoseableModel() {
     lateinit var walk: PokemonPose
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("pinsir", "blink").setPreventsIdle(false)}
+        val blink = quirk { bedrockStateful("pinsir", "blink")}
         standing = registerPose(
             poseName = "standing",
             poseTypes = STATIONARY_POSES + UI_POSES,

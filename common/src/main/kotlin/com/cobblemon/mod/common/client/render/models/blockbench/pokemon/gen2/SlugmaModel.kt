@@ -33,7 +33,7 @@ class SlugmaModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     lateinit var walk: PokemonPose
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("slugma", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("slugma", "blink") }
 
         sleep = registerPose(
             poseType = PoseType.SLEEP,

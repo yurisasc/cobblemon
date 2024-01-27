@@ -37,7 +37,7 @@ class LuxioModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quadru
     lateinit var sleep: PokemonPose
 
     override fun registerPoses() {
-//        val blink = quirk("blink") { bedrockStateful("luxio", "blink").setPreventsIdle(false) }
+//        val blink = quirk { bedrockStateful("luxio", "blink") }
         sleep = registerPose(
             poseType = PoseType.SLEEP,
             idleAnimations = arrayOf(bedrock("luxio", "sleep"))

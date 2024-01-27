@@ -14,20 +14,24 @@ import com.cobblemon.mod.common.client.render.atlas.CobblemonAtlases
 import com.cobblemon.mod.common.client.CobblemonClient
 import com.cobblemon.mod.common.client.CobblemonClient.reloadCodedAssets
 import com.cobblemon.mod.common.client.keybind.CobblemonKeyBinds
+import com.cobblemon.mod.common.client.render.shader.CobblemonShaders
 import com.cobblemon.mod.common.item.group.CobblemonItemGroups
 import com.cobblemon.mod.common.particle.CobblemonParticles
 import com.cobblemon.mod.common.particle.SnowstormParticleType
+import com.cobblemon.mod.common.util.cobblemonResource
 import net.minecraft.block.Block
 import net.minecraft.block.entity.BlockEntity
 import net.minecraft.block.entity.BlockEntityType
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.color.block.BlockColorProvider
 import net.minecraft.client.color.item.ItemColorProvider
+import net.minecraft.client.gl.ShaderProgram
 import net.minecraft.client.model.TexturedModelData
 import net.minecraft.client.particle.ParticleFactory
 import net.minecraft.client.particle.SpriteProvider
 import net.minecraft.client.render.RenderLayer
 import net.minecraft.client.render.RenderLayers
+import net.minecraft.client.render.VertexFormats
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactories
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactory
 import net.minecraft.client.render.entity.EntityRendererFactory
@@ -49,6 +53,7 @@ import net.minecraftforge.client.event.ModelEvent
 import net.minecraftforge.client.event.RegisterClientReloadListenersEvent
 import net.minecraftforge.client.event.RegisterKeyMappingsEvent
 import net.minecraftforge.client.event.RegisterParticleProvidersEvent
+import net.minecraftforge.client.event.RegisterShadersEvent
 import net.minecraftforge.client.event.RenderGuiOverlayEvent
 import net.minecraftforge.client.gui.overlay.VanillaGuiOverlay
 import net.minecraftforge.common.MinecraftForge
@@ -69,6 +74,7 @@ object CobblemonForgeClient : CobblemonClientImplementation {
             addListener(::register3dPokeballModels)
             addListener(::onBuildContents)
             addListener(::onRegisterReloadListener)
+            addListener(::onShaderRegistration)
         }
         MinecraftForge.EVENT_BUS.addListener(this::onRenderGuiOverlayEvent)
     }
@@ -101,6 +107,15 @@ object CobblemonForgeClient : CobblemonClientImplementation {
             result
         }
 
+    }
+
+    private fun onShaderRegistration(event: RegisterShadersEvent) {
+        event.registerShader(ShaderProgram(event.resourceProvider, cobblemonResource("particle_add"), VertexFormats.POSITION_COLOR_TEXTURE_LIGHT)) {
+            CobblemonShaders.PARTICLE_BLEND = it
+        }
+        event.registerShader(ShaderProgram(event.resourceProvider, cobblemonResource("particle_cutout"), VertexFormats.POSITION_COLOR_TEXTURE_LIGHT)) {
+            CobblemonShaders.PARTICLE_CUTOUT = it
+        }
     }
 
     @Suppress("UnstableApiUsage")

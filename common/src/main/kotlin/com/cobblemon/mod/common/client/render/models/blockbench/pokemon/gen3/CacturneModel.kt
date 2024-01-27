@@ -38,7 +38,7 @@ class CacturneModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bim
     lateinit var battleidle: PokemonPose
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("cacturne", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("cacturne", "blink") }
         sleep = registerPose(
             poseType = PoseType.SLEEP,
             idleAnimations = arrayOf(bedrock("cacturne", "sleep"))

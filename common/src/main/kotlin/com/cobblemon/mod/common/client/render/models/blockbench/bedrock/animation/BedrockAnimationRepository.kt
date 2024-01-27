@@ -55,11 +55,20 @@ object BedrockAnimationRepository {
         LOGGER.info("Loaded $animationCount animations from ${animationGroups.size} animation groups")
     }
 
+    fun tryGetAnimation(fileName: String, animationName: String): BedrockAnimation? {
+        val animationGroup = animationGroups[fileName] ?: return null
+        return animationGroup.animations[animationName]
+    }
+
     fun getAnimation(fileName: String, animationName: String): BedrockAnimation {
         val animationGroup = animationGroups[fileName]
             ?: throw IllegalArgumentException("Unknown animation group: $fileName")
 
         return animationGroup.animations[animationName]
             ?: throw IllegalArgumentException("Animation $animationName not found in animation group $fileName")
+    }
+
+    fun getAnimationOrNull(fileName: String, animationName: String): BedrockAnimation? {
+        return animationGroups[fileName]?.animations?.get(animationName)
     }
 }

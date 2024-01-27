@@ -8,6 +8,7 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen2
 
+import com.cobblemon.mod.common.client.render.models.blockbench.animation.PrimaryAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
@@ -31,10 +32,10 @@ class QuilavaModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     lateinit var sleep: PokemonPose
     lateinit var battleidle: PokemonPose
 
-    override val cryAnimation = CryProvider { entity, _ -> if (entity.isBattling) bedrockStateful("quilava", "battle_cry").setPreventsIdle(false) else bedrockStateful("quilava", "cry").setPreventsIdle(true) }
+    override val cryAnimation = CryProvider { entity, _ -> if (entity.isBattling) bedrockStateful("quilava", "battle_cry") else PrimaryAnimation(bedrockStateful("quilava", "cry")) }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("quilava", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("quilava", "blink") }
 
         sleep = registerPose(
             poseType = PoseType.SLEEP,

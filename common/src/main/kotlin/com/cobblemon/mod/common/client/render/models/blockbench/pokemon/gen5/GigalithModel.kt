@@ -38,7 +38,7 @@ class GigalithModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Qua
     lateinit var sleep: PokemonPose
     lateinit var battleidle: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("gigalith", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("gigalith", "cry") }
 
     override fun registerPoses() {
         sleep = registerPose(

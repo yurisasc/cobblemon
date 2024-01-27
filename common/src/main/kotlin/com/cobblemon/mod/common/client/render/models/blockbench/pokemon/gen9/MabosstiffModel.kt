@@ -36,10 +36,10 @@ class MabosstiffModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Q
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("mabosstiff", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("mabosstiff", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("mabosstiff", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("mabosstiff", "blink") }
 
         standing = registerPose(
             poseName = "standing",

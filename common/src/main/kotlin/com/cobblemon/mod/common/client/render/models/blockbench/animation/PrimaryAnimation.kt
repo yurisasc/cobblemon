@@ -8,6 +8,9 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.animation
 
+import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityModel
+import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
+import com.cobblemon.mod.common.client.render.models.blockbench.frame.ModelFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.PosableState
 import com.cobblemon.mod.common.client.render.models.blockbench.repository.RenderContext
@@ -34,11 +37,12 @@ class PrimaryAnimation(
           }
     },
     val excludedLabels: Set<String> = emptySet(),
-) {
-    val duration = animation.duration
+    override val isTransform: Boolean = false
+): StatefulAnimation<T, ModelFrame> {
     var started = -1F
+    override val duration: Float = animation.duration
 
-    fun run(
+    override fun run(
         context: RenderContext,
         model: PosableModel,
         state: PosableState,
@@ -47,9 +51,9 @@ class PrimaryAnimation(
         ageInTicks: Float,
         headYaw: Float,
         headPitch: Float,
-        severity: Float
+        intensity: Float
     ): Boolean {
-        return animation.run(context, model, state, limbSwing, limbSwingAmount, ageInTicks, headYaw, headPitch, severity)
+        return animation.run(context, model, state, limbSwing, limbSwingAmount, ageInTicks, headYaw, headPitch, intensity)
     }
 
     fun prevents(idleAnimation: StatelessAnimation) = idleAnimation.labels.intersect(excludedLabels).isEmpty() && "all" !in excludedLabels

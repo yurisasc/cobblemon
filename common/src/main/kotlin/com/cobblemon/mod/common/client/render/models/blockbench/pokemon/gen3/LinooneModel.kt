@@ -32,7 +32,7 @@ class LinooneModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     lateinit var battleidle: PokemonPose
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("linoone", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("linoone", "blink") }
         sleep = registerPose(
             poseType = PoseType.SLEEP,
             idleAnimations = arrayOf(bedrock("linoone", "sleep"))

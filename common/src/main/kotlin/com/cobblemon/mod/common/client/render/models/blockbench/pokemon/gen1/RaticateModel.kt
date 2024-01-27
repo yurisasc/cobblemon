@@ -39,14 +39,14 @@ class RaticateModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Eare
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("raticate", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("raticate", "cry") }
 
     override fun registerPoses() {
         sleep = registerPose(
                 poseType = PoseType.SLEEP,
                 idleAnimations = arrayOf(bedrock("raticate", "sleep"))
         )
-        val blink = quirk("blink") { bedrockStateful("raticate", "blink").setPreventsIdle(false)}
+        val blink = quirk { bedrockStateful("raticate", "blink")}
         standing = registerPose(
             poseName = "standing",
             poseTypes = STATIONARY_POSES + UI_POSES,

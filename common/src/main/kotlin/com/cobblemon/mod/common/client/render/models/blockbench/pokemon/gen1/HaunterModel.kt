@@ -32,7 +32,7 @@ class HaunterModel(root: ModelPart) : PokemonPoseableModel() {
     val offsetY = -3.0
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("haunter", "blink").setPreventsIdle(false)}
+        val blink = quirk { bedrockStateful("haunter", "blink")}
 
         standing = registerPose(
             poseName = "standing",

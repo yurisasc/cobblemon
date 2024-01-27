@@ -41,7 +41,7 @@ class AlakazamModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bipe
     lateinit var walk: PokemonPose
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("alakazam", "blink").setPreventsIdle(false)}
+        val blink = quirk { bedrockStateful("alakazam", "blink")}
         standing = registerPose(
             poseName = "standing",
             poseTypes = STATIONARY_POSES + UI_POSES,

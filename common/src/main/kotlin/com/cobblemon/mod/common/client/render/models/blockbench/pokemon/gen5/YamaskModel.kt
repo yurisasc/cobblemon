@@ -33,7 +33,7 @@ class YamaskModel (root: ModelPart) : PokemonPoseableModel(), BimanualFrame {
     lateinit var walk: PokemonPose
     lateinit var sleep: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("yamask", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("yamask", "cry") }
 
     override fun registerPoses() {
         sleep = registerPose(
@@ -41,7 +41,7 @@ class YamaskModel (root: ModelPart) : PokemonPoseableModel(), BimanualFrame {
                 idleAnimations = arrayOf(bedrock("yamask", "sleep"))
         )
 
-        val blink = quirk("blink") { bedrockStateful("yamask", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("yamask", "blink") }
 
         standing = registerPose(
                 poseName = "standing",

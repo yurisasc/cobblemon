@@ -40,11 +40,11 @@ class WooperModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     lateinit var float: PokemonPose
     lateinit var swim: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("wooper", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("wooper", "cry") }
 
     val shoulderOffset = 2.5
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("wooper", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("wooper", "blink") }
 
         sleep = registerPose(
             poseName = "sleep",

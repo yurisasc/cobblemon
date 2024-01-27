@@ -1,0 +1,14 @@
+{
+  "hitbox": "player",
+  "battleConfiguration": {
+    "canChallenge": true,
+    "party": {
+      "type": "simple",
+      "pokemon": [
+        "squirtle level=30",
+        "charmander level=20",
+        "bulbasaur level=10"
+      ]
+    }
+  }
+}

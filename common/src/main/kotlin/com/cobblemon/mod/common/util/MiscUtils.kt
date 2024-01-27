@@ -9,6 +9,7 @@
 package com.cobblemon.mod.common.util
 
 import com.cobblemon.mod.common.Cobblemon
+import java.util.concurrent.CompletableFuture
 import net.minecraft.client.util.ModelIdentifier
 import kotlin.math.min
 import kotlin.random.Random
@@ -66,6 +67,8 @@ fun Random.nextBetween(min: Int, max: Int): Int {
     return nextInt(max - min + 1) + min
 }
 
+infix fun <A, B> A.toDF(b: B): com.mojang.datafixers.util.Pair<A, B> = com.mojang.datafixers.util.Pair(this, b)
+
 fun isUuid(string: String) : Boolean {
     return Regex("^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}\$").matches(string)
 }
@@ -83,4 +86,15 @@ fun VoxelShape.blockPositionsAsList(): List<BlockPos> {
     }
 
     return result
+}
+
+fun chainFutures(others: Iterator<() -> CompletableFuture<*>>, finalFuture: CompletableFuture<Unit>) {
+    if (!others.hasNext()) {
+        finalFuture.complete(Unit)
+        return
+    }
+
+    others.next().invoke().thenApply {
+        chainFutures(others, finalFuture)
+    }
 }

@@ -31,7 +31,7 @@ class GrimerModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     lateinit var walk: PokemonPose
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("grimer", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("grimer", "blink") }
         standing = registerPose(
             poseName = "standing",
             poseTypes = STATIONARY_POSES + UI_POSES,

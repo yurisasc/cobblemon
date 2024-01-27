@@ -16,6 +16,7 @@ import com.cobblemon.mod.common.CobblemonSounds
 import com.cobblemon.mod.common.api.abilities.Abilities
 import com.cobblemon.mod.common.api.abilities.Ability
 import com.cobblemon.mod.common.api.data.ShowdownIdentifiable
+import com.cobblemon.mod.common.api.entity.PokemonSender
 import com.cobblemon.mod.common.api.events.CobblemonEvents
 import com.cobblemon.mod.common.api.events.CobblemonEvents.FRIENDSHIP_UPDATED
 import com.cobblemon.mod.common.api.events.CobblemonEvents.POKEMON_FAINTED
@@ -44,11 +45,13 @@ import com.cobblemon.mod.common.api.reactive.SimpleObservable
 import com.cobblemon.mod.common.api.scheduling.afterOnServer
 import com.cobblemon.mod.common.api.storage.InvalidSpeciesException
 import com.cobblemon.mod.common.api.storage.StoreCoordinates
+import com.cobblemon.mod.common.api.storage.party.NPCPartyStore
 import com.cobblemon.mod.common.api.storage.party.PlayerPartyStore
 import com.cobblemon.mod.common.api.storage.pc.PCStore
 import com.cobblemon.mod.common.api.types.ElementalType
 import com.cobblemon.mod.common.api.types.ElementalTypes
 import com.cobblemon.mod.common.config.CobblemonConfig
+import com.cobblemon.mod.common.entity.npc.NPCEntity
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.net.messages.client.PokemonUpdatePacket
 import com.cobblemon.mod.common.net.messages.client.pokemon.update.*
@@ -81,6 +84,7 @@ import net.minecraft.server.world.ServerWorld
 import net.minecraft.text.MutableText
 import net.minecraft.text.Text
 import net.minecraft.text.TextContent
+import net.minecraft.util.Hand
 import net.minecraft.util.Identifier
 import net.minecraft.util.InvalidIdentifierException
 import net.minecraft.util.math.MathHelper.ceil
@@ -478,24 +482,40 @@ open class Pokemon : ShowdownIdentifiable {
 
         // Proceed as normal for non-shouldered Cobblemon
         val future = CompletableFuture<PokemonEntity>()
-        sendOut(level, position) {
-            level.playSoundServer(position, CobblemonSounds.POKE_BALL_SEND_OUT, volume = 0.6F)
-            it.phasingTargetId = source.id
-            it.beamMode = 1
-            it.battleId = battleId
-
-            it.after(seconds = SEND_OUT_DURATION) {
-                it.phasingTargetId = -1
-                it.beamMode = 0
-                future.complete(it)
-                CobblemonEvents.POKEMON_SENT_POST.post(PokemonSentPostEvent(this, it))
-                if (doCry) {
-                    it.cry()
-                }
-            }
-
-            mutation(it)
+        val preamble = if (source is PokemonSender) {
+            source.sendingOut()
+        } else {
+            CompletableFuture.completedFuture(Unit)
         }
+
+        preamble.thenApply {
+            sendOut(level, position) {
+                val owner = getOwnerEntity()
+                if (owner is LivingEntity) {
+                    owner.swingHand(Hand.MAIN_HAND, true)
+                }
+                if (owner != null) {
+                    level.playSoundServer(owner.pos, CobblemonSounds.POKE_BALL_THROW, volume = 0.6F)
+                }
+                it.ownerUuid = getOwnerUUID()
+                it.phasingTargetId = source.id
+                it.beamMode = 1
+                it.battleId = battleId
+
+                it.after(seconds = SEND_OUT_DURATION) {
+                    it.phasingTargetId = -1
+                    it.beamMode = 0
+                    future.complete(it)
+                    CobblemonEvents.POKEMON_SENT_POST.post(PokemonSentPostEvent(this, it))
+                    if (doCry) {
+                        it.cry()
+                    }
+                }
+
+                mutation(it)
+            }
+        }
+
         return future
     }
 
@@ -971,31 +991,40 @@ open class Pokemon : ShowdownIdentifiable {
         return pokemon
     }
 
-    fun getOwnerPlayer() : ServerPlayerEntity? {
-        storeCoordinates.get().let {
+    fun getOwnerEntity(): LivingEntity? {
+        return storeCoordinates.get()?.let {
             if (isPlayerOwned()) {
-                return server()?.playerManager?.getPlayer(it!!.store.uuid)
+                server()?.playerManager?.getPlayer(it.store.uuid)
+            } else if (isNPCOwned()) {
+                (it.store as NPCPartyStore).npc
+            } else {
+                null
             }
         }
-        return null
     }
 
-    fun getOwnerUUID() : UUID? {
-        storeCoordinates.get().let {
-            if (!isPlayerOwned()) {
-                return@let
-            }
+    fun getOwnerPlayer(): ServerPlayerEntity? {
+        return getOwnerEntity() as? ServerPlayerEntity
+    }
 
-            if (it!!.store is PlayerPartyStore) {
-                return (it.store as PlayerPartyStore).playerUUID
+    fun getOwnerNPC(): NPCEntity? {
+        return getOwnerEntity() as? NPCEntity
+    }
+
+    fun getOwnerUUID(): UUID? {
+        storeCoordinates.get()?.let {
+            if (it.store is PlayerPartyStore) {
+                return it.store.playerUUID
+            } else if (it.store is NPCPartyStore) {
+                return it.store.npc.uuid
             }
-            return it.store.uuid
         }
         return null
     }
 
     fun belongsTo(player: PlayerEntity) = storeCoordinates.get()?.let { it.store.uuid == player.uuid } == true
     fun isPlayerOwned() = storeCoordinates.get()?.let { it.store is PlayerPartyStore || it.store is PCStore } == true
+    fun isNPCOwned() = storeCoordinates.get()?.let { it.store is NPCPartyStore } == true
     fun isWild() = storeCoordinates.get() == null
 
     /**

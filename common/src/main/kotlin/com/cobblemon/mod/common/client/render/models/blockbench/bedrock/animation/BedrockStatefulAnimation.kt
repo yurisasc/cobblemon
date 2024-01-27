@@ -23,13 +23,7 @@ import com.cobblemon.mod.common.client.render.models.blockbench.repository.Rende
  */
 open class BedrockStatefulAnimation(
     val animation: BedrockAnimation,
-    var preventsIdleCheck: (RenderContext, PosableState, StatelessAnimation) -> Boolean
-) : StatefulAnimation {
-    fun setPreventsIdle(preventsIdle: Boolean): BedrockStatefulAnimation {
-        this.preventsIdleCheck = { _, _, _ -> preventsIdle }
-        return this
-    }
-
+) : StatefulAnimation<T, ModelFrame> {
     var startedSeconds = -1F
     var isTransformAnimation = false
     override val duration = animation.animationLength.toFloat()
@@ -38,11 +32,7 @@ open class BedrockStatefulAnimation(
     override val isTransform: Boolean
         get() = isTransformAnimation
 
-    fun isTransformAnimation(value: Boolean) = this.also {
-        it.isTransformAnimation = value
-    }
-
-    fun andThen(action: (RenderContext, PosableState) -> Unit) = this.also {
+    fun andThen(action: (entity: T, PoseableEntityState<T>) -> Unit) = this.also {
         it.afterAction = action
     }
 
@@ -61,9 +51,9 @@ open class BedrockStatefulAnimation(
             startedSeconds = state.animationSeconds
         }
 
-        return animation.run(context, model, state, state.animationSeconds - startedSeconds, intensity).also {
+        return animation.run(model, state, state.animationSeconds - startedSeconds, limbSwing, limbSwingAmount, ageInTicks, intensity).also {
             if (!it) {
-                afterAction(context, state)
+                afterAction(state)
             }
         }
     }

@@ -8,6 +8,7 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pose
 
+import com.cobblemon.mod.common.api.molang.ExpressionLike
 import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.PosableState
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.StatefulAnimation
@@ -20,22 +21,23 @@ import com.cobblemon.mod.common.entity.PoseType
  * A pose for a model.
  */
 class Pose(
-    val poseName: String,
+    var poseName: String,
     val poseTypes: Set<PoseType>,
     val condition: ((RenderContext) -> Boolean)?,
     val onTransitionedInto: (PosableState) -> Unit = {},
     val transformTicks: Int,
+    val animations: MutableMap<String, ExpressionLike> = mutableMapOf(),
     val idleAnimations: Array<StatelessAnimation>,
     val transformedParts: Array<ModelPartTransformation>,
     val quirks: Array<ModelQuirk<*>>
 ) {
     fun isSuitable(context: RenderContext) = condition?.invoke(context) ?: true
 
-    val transitions = mutableMapOf<Pose, (Pose, Pose) -> StatefulAnimation>()
+    val transitions = mutableMapOf<String, (Pose<T, out ModelFrame>, Pose<T, out ModelFrame>) -> StatefulAnimation<T, ModelFrame>>()
 
-    fun idleStateful(context: RenderContext, model: PosableModel, state: PosableState, limbSwing: Float, limbSwingAmount: Float, ageInTicks: Float, headYaw: Float, headPitch: Float, intensity: Float) {
+    fun idleStateful(context: RenderContext, model: PosableModel, state: PosableState, limbSwing: Float, limbSwingAmount: Float, ageInTicks: Float, headYaw: Float, headPitch: Float) {
         idleAnimations.filter { state.shouldIdleRun(it, 0F) }.forEach { idleAnimation ->
-            idleAnimation.apply(context, model, state, limbSwing, limbSwingAmount, ageInTicks, headYaw, headPitch, intensity * state.getIdleIntensity(idleAnimation))
+            idleAnimation.apply(context, model, state, limbSwing, limbSwingAmount, ageInTicks, headYaw, headPitch, state.getIdleIntensity(idleAnimation))
         }
     }
 }

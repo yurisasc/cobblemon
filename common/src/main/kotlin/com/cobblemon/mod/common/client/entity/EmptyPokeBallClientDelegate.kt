@@ -8,7 +8,10 @@
 
 package com.cobblemon.mod.common.client.entity
 
+import com.bedrockk.molang.runtime.value.DoubleValue
 import com.cobblemon.mod.common.api.entity.EntitySideDelegate
+import com.cobblemon.mod.common.api.molang.MoLangFunctions.addFunctions
+import com.cobblemon.mod.common.api.molang.MoLangFunctions.getQueryStruct
 import com.cobblemon.mod.common.api.reactive.SettableObservable
 import com.cobblemon.mod.common.api.reactive.SimpleObservable
 import com.cobblemon.mod.common.api.scheduling.SchedulingTracker
@@ -37,6 +40,7 @@ class EmptyPokeBallClientDelegate : PokeBallPoseableState(), EntitySideDelegate<
         this.currentEntity = entity
         age = entity.age
         initSubscriptions()
+        this.runtime.environment.getQueryStruct().addFunctions(getEntity().struct.functions)
     }
 
     override fun tick(entity: EmptyPokeBallEntity) {

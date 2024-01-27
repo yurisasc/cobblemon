@@ -35,10 +35,10 @@ class VivillonModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BiWi
     lateinit var walk: PokemonPose
     lateinit var sleep: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("vivillon", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("vivillon", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("vivillon", "blink").setPreventsIdle(false)}
+        val blink = quirk { bedrockStateful("vivillon", "blink")}
 
         sleep = registerPose(
             poseName = "sleep",

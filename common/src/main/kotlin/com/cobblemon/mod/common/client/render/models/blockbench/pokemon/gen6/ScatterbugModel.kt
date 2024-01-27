@@ -31,11 +31,11 @@ class ScatterbugModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     lateinit var walk: PokemonPose
     lateinit var sleep: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("scatterbug", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("scatterbug", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("scatterbug", "blink").setPreventsIdle(false) }
-        val lookquirk = quirk("lookquirk") { bedrockStateful("scatterbug", "quirk").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("scatterbug", "blink") }
+        val lookquirk = quirk { bedrockStateful("scatterbug", "quirk") }
 
         sleep = registerPose(
             poseType = PoseType.SLEEP,

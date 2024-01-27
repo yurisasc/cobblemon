@@ -47,7 +47,8 @@ class PokemonNavigation(val world: World, val pokemonEntity: PokemonEntity) : Mo
         val onRecalculate: (dueToDistance: Boolean) -> Unit = {},
         val onArrival: () -> Unit = {},
         val onCannotReach: () -> Unit = {},
-        val sprinting: Boolean = false
+        val sprinting: Boolean = false,
+        val destinationProximity: Float = 0.5F
     )
 
     var navigationContext = NavigationContext()
@@ -75,6 +76,19 @@ class PokemonNavigation(val world: World, val pokemonEntity: PokemonEntity) : Mo
     override fun continueFollowingPath() {
         val vec3d = this.pos
 
+        val targetVec = targetPos?.toVec3d()?.add(0.5, 0.0, 0.5)
+        if (targetVec != null && targetVec.distanceTo(vec3d) <= navigationContext.destinationProximity && currentPath != null) {
+            currentPath = null
+            cachedCurrentNode = null
+            navigationContext.onArrival()
+            // If we arrived at a not-flying destination
+            val node = currentPath?.currentNode?.type
+            if (node != null && node != PathNodeType.OPEN && pokemonEntity.couldStopFlying()) {
+                pokemonEntity.setBehaviourFlag(PokemonBehaviourFlag.FLYING, false)
+            }
+            return
+        }
+
         nodeReachProximity = if (entity.width > 0.75f) entity.width / 2.0f else 0.75f - entity.width / 2.0f
 
         val currentNode = currentPath!!.currentNode
@@ -100,6 +114,7 @@ class PokemonNavigation(val world: World, val pokemonEntity: PokemonEntity) : Mo
         if (closeEnough || entity.navigation.canJumpToNext(currentPath!!.currentNode.type) && shouldJumpToNextNode(vec3d)) {
             currentPath!!.next()
             if (currentPath!!.isFinished) {
+                currentPath = null
                 navigationContext.onArrival()
                 // If we arrived at a not-flying destination
                 if (currentNode.type != PathNodeType.OPEN && pokemonEntity.couldStopFlying()) {
@@ -213,6 +228,8 @@ class PokemonNavigation(val world: World, val pokemonEntity: PokemonEntity) : Mo
     override fun startMovingAlong(path: Path?, speed: Double): Boolean {
         if (path != null && path.length > 0) {
             val node = path.getNode(0)!!
+//            pokemonEntity.discard()
+//            return false
             // If we just started moving and it's to an open node, fly
             if (node.type == PathNodeType.OPEN && pokemonEntity.form.behaviour.moving.fly.canFly && !pokemonEntity.isFlying()) {
                 pokemonEntity.setBehaviourFlag(PokemonBehaviourFlag.FLYING, true)
@@ -307,6 +324,8 @@ class PokemonNavigation(val world: World, val pokemonEntity: PokemonEntity) : Mo
         super.stop()
         this.currentNodeDistance = -1F
         this.cachedCurrentNode = null
+        currentPath = null
+        nodeMaker.clear()
         // In case a path is cancelled instead of completed, check if we should stop flying
         if (pokemonEntity.couldStopFlying() && !isAirborne(pokemonEntity.world, pokemonEntity.blockPos)) {
             pokemonEntity.setBehaviourFlag(PokemonBehaviourFlag.FLYING, false)

@@ -37,7 +37,7 @@ class GabiteModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedF
 
     override fun registerPoses() {
 
-        val blink = quirk("blink") { bedrockStateful("gabite", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("gabite", "blink") }
 
         standing = registerPose(
             poseName = "standing",

@@ -25,12 +25,12 @@ class FossilModel(root: Bone) : PoseableEntityModel<Entity>() {
 
     var maxScale = 1F
     var yTranslation = 0F
-    var animations: Array<StatelessAnimation<Entity, out ModelFrame>> = emptyArray()
+    var tankAnimations: Array<StatelessAnimation<Entity, out ModelFrame>> = emptyArray()
     var tankQuirks: Array<ModelQuirk<Entity, *>> = emptyArray()
     override fun registerPoses() {
         registerPose(
             poseType = PoseType.SLEEP,
-            idleAnimations = animations,
+            idleAnimations = tankAnimations,
             quirks = tankQuirks
         )
     }

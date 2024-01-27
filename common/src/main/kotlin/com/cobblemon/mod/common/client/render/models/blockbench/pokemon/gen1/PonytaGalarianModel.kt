@@ -37,11 +37,11 @@ class PonytaGalarianModel (root: ModelPart) : PokemonPoseableModel(), HeadedFram
     lateinit var walk: PokemonPose
     lateinit var sleep: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("ponyta_galar", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("ponyta_galar", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("ponyta_galar", "blink").setPreventsIdle(false) }
-        val quirk = quirk("quirk", secondsBetweenOccurrences = 60F to 360F) { bedrockStateful("ponyta_galar", "quirk").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("ponyta_galar", "blink") }
+        val quirk = quirk(secondsBetweenOccurrences = 60F to 360F) { bedrockStateful("ponyta_galar", "quirk") }
 
         sleep = registerPose(
             poseType = PoseType.SLEEP,

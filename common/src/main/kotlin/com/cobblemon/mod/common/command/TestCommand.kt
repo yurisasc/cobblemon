@@ -19,19 +19,19 @@ import com.cobblemon.mod.common.battles.BattleSide
 import com.cobblemon.mod.common.battles.actor.PlayerBattleActor
 import com.cobblemon.mod.common.battles.actor.PokemonBattleActor
 import com.cobblemon.mod.common.battles.pokemon.BattlePokemon
+import com.cobblemon.mod.common.net.messages.client.effect.SpawnSnowstormParticlePacket
+import com.cobblemon.mod.common.entity.npc.NPCEntity
 import com.cobblemon.mod.common.net.messages.client.trade.TradeStartedPacket
+import com.cobblemon.mod.common.particle.SnowstormParticleReader
 import com.cobblemon.mod.common.trade.ActiveTrade
 import com.cobblemon.mod.common.trade.DummyTradeParticipant
 import com.cobblemon.mod.common.trade.PlayerTradeParticipant
+import com.cobblemon.mod.common.util.fromJson
 import com.cobblemon.mod.common.util.party
 import com.cobblemon.mod.common.util.toPokemon
-import com.google.gson.GsonBuilder
-import com.google.gson.JsonObject
 import com.mojang.brigadier.Command
 import com.mojang.brigadier.CommandDispatcher
 import com.mojang.brigadier.context.CommandContext
-import java.io.File
-import java.io.PrintWriter
 import net.minecraft.server.command.CommandManager
 import net.minecraft.server.command.ServerCommandSource
 import net.minecraft.server.network.ServerPlayerEntity
@@ -44,7 +44,7 @@ object TestCommand {
     fun register(dispatcher: CommandDispatcher<ServerCommandSource>) {
         val command = CommandManager.literal("testcommand")
             .requires { it.hasPermissionLevel(4) }
-            .executes(::execute)
+            .executes { execute(it) }
         dispatcher.register(command)
     }
 
@@ -55,10 +55,13 @@ object TestCommand {
         }
 
         try {
-//            readBerryDataFromCSV()
-
-            this.testClosestBattle(context)
+            val p = context.source.playerOrThrow
+            val entity = NPCEntity(p.world)
+            entity.setPosition(p.pos.x, p.pos.y + 0.1, p.pos.z)
+            p.world.spawnEntity(entity)
+//            this.testClosestBattle(context)
             //testTrade(context.source.player!!)
+//            testParticles(context)
 //            extractMovesData()
 //            // Player variables
 //            val player = context.source.entity as ServerPlayerEntity
@@ -165,59 +168,16 @@ object TestCommand {
         }
     }
 
-    fun readBerryDataFromCSV() {
-        val gson = GsonBuilder().setPrettyPrinting().create()
-        val csv = File("scripty/berries.csv").readLines()
-        val iterator = csv.iterator()
-        iterator.next() // Skip heading
-        iterator.next() // Skip sub-heading thing
-        for (line in iterator) {
-            val cols = line.split(",")
-            val berryName = cols[1].lowercase() + "_berry"
-            val json = gson.fromJson(File("scripty/old/$berryName.json").reader(), JsonObject::class.java)
-            val growthPoints = mutableListOf<JsonObject>()
-            var index = 7
-            while (true) {
-                if (cols.size <= index || cols[index].isBlank()) {
-                    break
-                }
 
-                val posX = cols[index].toFloat()
-                val posY = cols[index+1].toFloat()
-                val posZ = cols[index+2].toFloat()
-                val rotX = cols[index+3].toFloat()
-                val rotY = cols[index+4].toFloat()
-                val rotZ = cols[index+5].toFloat()
-
-                val position = JsonObject()
-                position.addProperty("x", posX)
-                position.addProperty("y", posY)
-                position.addProperty("z", posZ)
-                val rotation = JsonObject()
-                rotation.addProperty("x", rotX)
-                rotation.addProperty("y", rotY)
-                rotation.addProperty("z", rotZ)
-
-                val obj = JsonObject()
-                obj.add("position", position)
-                obj.add("rotation", rotation)
-                growthPoints.add(obj)
-                index += 6
-            }
-
-            val arr = json.getAsJsonArray("growthPoints")
-            arr.removeAll { true }
-            for (point in growthPoints) {
-                arr.add(point)
-            }
-
-            val new = File("scripty/new/$berryName.json")
-            val pw = PrintWriter(new)
-            gson.toJson(json, pw)
-            pw.flush()
-            pw.close()
-        }
-    }
+//    private fun testParticles(context: CommandContext<ServerCommandSource>) {
+//        val file = File("particle.particle.json")
+//        val effect = SnowstormParticleReader.loadEffect(GsonBuilder().create().fromJson<JsonObject>(file.readText()))
+//
+//        val player = context.source.entity as ServerPlayerEntity
+//        val position = player.pos
+//        val pkt = SpawnSnowstormParticlePacket(effect, position, 0F, 0F)
+//        player.sendPacket(pkt)
+//    }
 
 //    private fun extractMovesData() {
 //        val ctx = GraalShowdown.context

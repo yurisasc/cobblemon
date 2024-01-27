@@ -31,11 +31,11 @@ class SpewpaModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     lateinit var walk: PokemonPose
     lateinit var sleep: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("spewpa", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("spewpa", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("spewpa", "blink").setPreventsIdle(false) }
-        val fluff = quirk("fluff", secondsBetweenOccurrences = 60F to 360F) { bedrockStateful("spewpa", "quirk_fluff").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("spewpa", "blink") }
+        val fluff = quirk(secondsBetweenOccurrences = 60F to 360F) { bedrockStateful("spewpa", "quirk_fluff") }
 
         sleep = registerPose(
             poseType = PoseType.SLEEP,

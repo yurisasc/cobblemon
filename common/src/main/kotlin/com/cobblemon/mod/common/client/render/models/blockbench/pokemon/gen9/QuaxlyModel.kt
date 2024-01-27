@@ -46,10 +46,10 @@ class QuaxlyModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedF
 
     val wateroffset = -10
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("quaxly", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("quaxly", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("quaxly", "blink").setPreventsIdle(false)}
+        val blink = quirk { bedrockStateful("quaxly", "blink")}
 
         sleep = registerPose(
             poseName = "sleeping",

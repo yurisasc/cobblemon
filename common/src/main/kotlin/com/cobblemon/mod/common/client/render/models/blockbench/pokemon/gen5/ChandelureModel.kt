@@ -29,7 +29,7 @@ class ChandelureModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     lateinit var walk: PokemonPose
 
     override fun registerPoses() {
-//        val blink = quirk("blink") { bedrockStateful("chandelure", "blink").setPreventsIdle(false) }
+//        val blink = quirk { bedrockStateful("chandelure", "blink") }
 
         standing = registerPose(
             poseName = "standing",

@@ -31,14 +31,14 @@ class MeowscaradaModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     lateinit var sleep: PokemonPose
     lateinit var battleidle: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("meowscarada", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("meowscarada", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("meowscarada", "blink").setPreventsIdle(false) }
-        val sleep1 = quirk("sleep1", secondsBetweenOccurrences = 60F to 120F) { bedrockStateful("meowscarada", "sleep_quirk").setPreventsIdle(false) }
-        val sleep2 = quirk("sleep2", secondsBetweenOccurrences = 30F to 120F) { bedrockStateful("meowscarada", "sleep_quirk2").setPreventsIdle(false) }
-        val sleep3 = quirk("sleep3", secondsBetweenOccurrences = 20F to 60F) { bedrockStateful("meowscarada", "sleep_quirk3").setPreventsIdle(false) }
-        val sleep4 = quirk("sleep4", secondsBetweenOccurrences = 60F to 120F) { bedrockStateful("meowscarada", "sleep_quirk4").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("meowscarada", "blink") }
+        val sleep1 = quirk(secondsBetweenOccurrences = 60F to 120F) { bedrockStateful("meowscarada", "sleep_quirk") }
+        val sleep2 = quirk(secondsBetweenOccurrences = 30F to 120F) { bedrockStateful("meowscarada", "sleep_quirk2") }
+        val sleep3 = quirk(secondsBetweenOccurrences = 20F to 60F) { bedrockStateful("meowscarada", "sleep_quirk3") }
+        val sleep4 = quirk(secondsBetweenOccurrences = 60F to 120F) { bedrockStateful("meowscarada", "sleep_quirk4") }
 
         sleep = registerPose(
             poseType = PoseType.SLEEP,

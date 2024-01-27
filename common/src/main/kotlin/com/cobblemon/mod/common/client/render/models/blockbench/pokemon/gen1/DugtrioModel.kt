@@ -30,9 +30,9 @@ class DugtrioModel(root: ModelPart) : PokemonPoseableModel() {
     lateinit var sleep: PokemonPose
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("dugtrio", "blink").setPreventsIdle(false)}
-        val blink2 = quirk("blink2") { bedrockStateful("dugtrio", "blink2").setPreventsIdle(false)}
-        val blink3 = quirk("blink3") { bedrockStateful("dugtrio", "blink3").setPreventsIdle(false)}
+        val blink = quirk { bedrockStateful("dugtrio", "blink")}
+        val blink2 = quirk { bedrockStateful("dugtrio", "blink2")}
+        val blink3 = quirk { bedrockStateful("dugtrio", "blink3")}
         registerPose(
             poseName = "stand",
             poseTypes = STATIONARY_POSES + UI_POSES,

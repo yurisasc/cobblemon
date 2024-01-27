@@ -39,10 +39,10 @@ class QuilladinModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bi
     lateinit var walk: PokemonPose
     lateinit var sleep: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("quilladin", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("quilladin", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("quilladin", "blink").setPreventsIdle(false)}
+        val blink = quirk { bedrockStateful("quilladin", "blink")}
 
         sleep = registerPose(
             poseType = PoseType.SLEEP,

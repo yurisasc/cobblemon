@@ -30,7 +30,7 @@ class KakunaModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     lateinit var sleep: PokemonPose
     lateinit var standing: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("kakuna", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("kakuna", "cry") }
 
     override fun registerPoses() {
         sleep = registerPose(

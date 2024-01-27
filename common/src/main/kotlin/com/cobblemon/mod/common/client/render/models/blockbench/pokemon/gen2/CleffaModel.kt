@@ -35,10 +35,10 @@ class CleffaModel(root: ModelPart) : PokemonPoseableModel() {
     lateinit var leftShoulder: PokemonPose
     lateinit var rightShoulder: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("cleffa", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("cleffa", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("cleffa", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("cleffa", "blink") }
         standing = registerPose(
             poseName = "standing",
             poseTypes = STATIONARY_POSES + UI_POSES,

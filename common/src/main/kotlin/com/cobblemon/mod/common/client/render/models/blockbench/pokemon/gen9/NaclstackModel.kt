@@ -36,7 +36,7 @@ class NaclstackModel(root: ModelPart) : PokemonPoseableModel(), QuadrupedFrame {
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("naclstack", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("naclstack", "cry") }
 
     override fun registerPoses() {
         standing = registerPose(

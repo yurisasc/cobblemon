@@ -38,10 +38,10 @@ class ScorbunnyModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bi
 //    lateinit var sleep: PokemonPose
     lateinit var battleidle: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("scorbunny", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("scorbunny", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("scorbunny", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("scorbunny", "blink") }
 //        sleep = registerPose(
 //            poseType = PoseType.SLEEP,
 //            idleAnimations = arrayOf(bedrock("scorbunny", "sleep"))

@@ -27,7 +27,7 @@ class BedrockStatelessAnimation(val animation: BedrockAnimation) : StatelessAnim
     val particleKeyFrames = animation.effects.filterIsInstance<BedrockParticleKeyframe>()
 
     override fun setAngles(context: RenderContext, model: PosableModel, state: PosableState, limbSwing: Float, limbSwingAmount: Float, ageInTicks: Float, headYaw: Float, headPitch: Float, intensity: Float) {
-        animation.run(context, model, state, state.animationSeconds, intensity)
+        animation.run(context, model, state, state.animationSeconds, limbSwing, limbSwingAmount, ageInTicks, intensity)
     }
 
     override fun applyEffects(context: RenderContext, state: PosableState, previousSeconds: Float, newSeconds: Float) {

@@ -34,10 +34,10 @@ class CetitanModel(root: ModelPart) : PokemonPoseableModel() {
     lateinit var sleep: PokemonPose
     lateinit var battleidle: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("cetitan", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("cetitan", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("cetitan", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("cetitan", "blink") }
         sleep = registerPose(
             poseType = PoseType.SLEEP,
             idleAnimations = arrayOf(bedrock("cetitan", "sleep"))

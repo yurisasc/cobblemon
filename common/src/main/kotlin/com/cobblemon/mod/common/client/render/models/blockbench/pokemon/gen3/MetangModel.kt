@@ -31,10 +31,10 @@ class MetangModel (root: ModelPart) : PokemonPoseableModel() {
     lateinit var sleep: PokemonPose
     lateinit var battleidle: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("metang", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("metang", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("metang", "blink").setPreventsIdle(false)}
+        val blink = quirk { bedrockStateful("metang", "blink")}
 
         sleep = registerPose(
             poseType = PoseType.SLEEP,

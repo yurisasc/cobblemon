@@ -35,10 +35,10 @@ class PrimarinaModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     lateinit var sleep: PokemonPose
     lateinit var battleidle: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("primarina", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("primarina", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("primarina", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("primarina", "blink") }
 
         sleep = registerPose(
             poseType = PoseType.SLEEP,
