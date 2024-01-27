@@ -104,7 +104,10 @@ class TechnicalMachineItem(settings: Settings): CobblemonItem(settings) {
     }
 
     override fun useOnBlock(context: ItemUsageContext): ActionResult {
-        if (context.world.isClient) return ActionResult.FAIL
+        if (context.world.isClient) {
+            context.player?.swingHand(context.hand)
+            return ActionResult.FAIL
+        }
 
         //val TMM = context.world.getBlockState(context.hitPos.toBlockPos()).block
         val TMM = context.world.getBlockEntity(context.hitPos.toBlockPos())
@@ -113,6 +116,7 @@ class TechnicalMachineItem(settings: Settings): CobblemonItem(settings) {
                 && (TMM.tmmInventory.filterTM == null
                         || TMM.tmmInventory.filterTM!!.nbt?.get("StoredMove") != context.stack.nbt?.get("StoredMove"))) {
             context.player?.playSound(CobblemonSounds.TMM_ON, SoundCategory.BLOCKS, 1.0f, 1.0f)
+            context.player?.swingHand(context.hand)
             if (TMM.tmmInventory.filterTM != null) {
                 if (!context.player?.isCreative!!) {
                     context.player!!.giveItemStack(TMM.tmmInventory.filterTM!!)

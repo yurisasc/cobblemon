@@ -53,7 +53,7 @@ class TMBlockRenderer(context: BlockEntityRendererFactory.Context) : BlockEntity
         }
 
         matrices.translate(-7.0/16f, 0.0, 8.0/16f)
-        matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees( entity.partialTicks / 2.0f))
+        matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees( entity.partialTicks / 0.5f))
         matrices.translate(7.0/16f, 0.0, -8.0/16f)
 
 

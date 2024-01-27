@@ -321,10 +321,18 @@ class TMBlock(properties: Settings): BlockWithEntity(properties), Waterloggable,
             blockHitResult: BlockHitResult
     ): ActionResult {
         if (world.isClient) {
+            val tmBlockEntity = world.getBlockEntity(pos)
+
+            val inventory = (tmBlockEntity as TMBlockEntity).tmmInventory
+
+            inventory.filterTM = null
+
             return ActionResult.SUCCESS
         }
 
-        val inventory = (world.getBlockEntity(pos) as TMBlockEntity).tmmInventory
+        val tmBlockEntity = world.getBlockEntity(pos)
+
+        val inventory = (tmBlockEntity as TMBlockEntity).tmmInventory // (world.getBlockEntity(pos) as TMBlockEntity).tmmInventory
 
         // remove all machine from machine upon use
         inventory.items?.forEach {
