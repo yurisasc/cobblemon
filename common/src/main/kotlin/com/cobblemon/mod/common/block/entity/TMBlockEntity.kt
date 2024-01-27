@@ -116,7 +116,6 @@ class TMBlockEntity(
         super.writeNbt(nbt)
         Inventories.writeNbt(nbt, tmmInventory.items)
         val filterTmCompound = tmmInventory.filterTM?.writeNbt(NbtCompound())
-        val previousFilterTmCompound = tmmInventory.previousFilterTM?.writeNbt(NbtCompound())
         if (filterTmCompound != null)
             nbt.put(FILTER_TM_NBT, filterTmCompound)
     }
@@ -124,14 +123,19 @@ class TMBlockEntity(
     override fun readNbt(nbt: NbtCompound) {
         super.readNbt(nbt)
         Inventories.readNbt(nbt, tmmInventory.items)
-        if (nbt.contains(FILTER_TM_NBT))
+        if (nbt.contains(FILTER_TM_NBT)) {
+            val itemStack = CobblemonItems.TECHNICAL_MACHINE.defaultStack
+
             tmmInventory.filterTM = ItemStack.fromNbt(nbt.getCompound(FILTER_TM_NBT))
+
+            val test = 2
+        }
+
     }
 
     class TMBlockInventory(val tmBlockEntity: TMBlockEntity) : SidedInventory {
 
         var filterTM: ItemStack? = null
-        var previousFilterTM: ItemStack? = null
         //var inventory: MutableMap<Int, ItemStack?> = mutableMapOf(0 to ItemStack.EMPTY, 1 to ItemStack.EMPTY, 2 to ItemStack.EMPTY)
         var items: DefaultedList<ItemStack?>? = DefaultedList.ofSize(3, ItemStack.EMPTY)
 

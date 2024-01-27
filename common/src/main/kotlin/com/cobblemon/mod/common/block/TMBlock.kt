@@ -216,7 +216,7 @@ class TMBlock(properties: Settings): BlockWithEntity(properties), Waterloggable,
                 val spawnZ = pos.z + 0.5 + facingDirection.offsetZ * frontOffset
 
                 // Create the ItemEntity at the center of the block
-                val itemEntity = ItemEntity(world, spawnX, spawnY, spawnZ, itemStack)
+                val itemEntity = ItemEntity(world, spawnX, spawnY, spawnZ, itemStack).copy()
 
                 // Create the ItemEntity
                 itemEntity.setVelocity(0.0, 0.0, 0.0)
@@ -373,7 +373,7 @@ class TMBlock(properties: Settings): BlockWithEntity(properties), Waterloggable,
             val spawnZ = pos.z + 0.5 + facingDirection.offsetZ * frontOffset
 
             // Create the ItemEntity at the center of the block
-            val itemEntity = ItemEntity(world, spawnX, spawnY, spawnZ, filterTMStack)
+            val itemEntity = ItemEntity(world, spawnX, spawnY, spawnZ, filterTMStack).copy()
 
             // Create the ItemEntity
             itemEntity.setVelocity(0.0, 0.0, 0.0)
@@ -415,8 +415,7 @@ class TMBlock(properties: Settings): BlockWithEntity(properties), Waterloggable,
 
         return (inventory!!.count(CobblemonItems.BLANK_TM) == 1
                 && inventory.count(typeGem.item) == 1
-                && (inventory.count(recipeItem) == tm.recipe?.count) || (ItemStack.areItemsEqual(recipeItem.defaultStack, ItemStack.EMPTY)))
-
+                && ((inventory.count(recipeItem) == tm.recipe?.count) || (ItemStack.areItemsEqual(recipeItem.defaultStack, ItemStack.EMPTY))))
     }
 
     fun isReadyToCraftBlankTM(state: BlockState?, world: WorldAccess, pos: BlockPos): Boolean {
