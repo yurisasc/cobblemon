@@ -8,41 +8,32 @@
 
 package com.cobblemon.mod.common.client.entity
 
-import com.bedrockk.molang.runtime.value.DoubleValue
-import com.bedrockk.molang.runtime.value.StringValue
+import com.bedrockk.molang.runtime.struct.QueryStruct
 import com.cobblemon.mod.common.CobblemonSounds
-import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.api.entity.PokemonSideDelegate
-import com.cobblemon.mod.common.api.molang.MoLangFunctions.addFunction
 import com.cobblemon.mod.common.api.molang.MoLangFunctions.addFunctions
 import com.cobblemon.mod.common.api.molang.MoLangFunctions.getQueryStruct
 import com.cobblemon.mod.common.api.pokemon.PokemonSpecies
-import com.cobblemon.mod.common.api.pokemon.status.Statuses
 import com.cobblemon.mod.common.api.scheduling.SchedulingTracker
 import com.cobblemon.mod.common.api.scheduling.afterOnClient
 import com.cobblemon.mod.common.api.scheduling.lerpOnClient
+import com.cobblemon.mod.common.client.ClientMoLangFunctions
 import com.cobblemon.mod.common.client.particle.BedrockParticleEffectRepository
 import com.cobblemon.mod.common.client.particle.ParticleStorm
 import com.cobblemon.mod.common.client.render.MatrixWrapper
-import com.cobblemon.mod.common.client.render.SnowstormParticle
 import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.PrimaryAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.StatefulAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cobblemon.mod.common.client.render.pokemon.PokemonRenderer.Companion.ease
-import com.cobblemon.mod.common.entity.pokemon.PokemonBehaviourFlag
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
-import com.cobblemon.mod.common.entity.pokemon.ai.PokemonMoveControl
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.util.MovingSoundInstance
 import com.cobblemon.mod.common.util.cobblemonResource
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.util.math.MatrixStack
-import java.lang.Float.min
-import kotlin.math.abs
 import net.minecraft.entity.Entity
 import net.minecraft.entity.data.TrackedData
-import net.minecraft.particle.ParticleTypes
 import net.minecraft.sound.SoundCategory
 import net.minecraft.sound.SoundEvent
 import net.minecraft.util.Hand
@@ -58,6 +49,7 @@ class PokemonClientDelegate : PoseableEntityState<PokemonEntity>(), PokemonSideD
 
     override val schedulingTracker: SchedulingTracker
         get() = currentEntity.schedulingTracker
+
     lateinit var currentEntity: PokemonEntity
     var phaseTarget: Entity? = null
     var entityScaleModifier = 1F
@@ -219,22 +211,16 @@ class PokemonClientDelegate : PoseableEntityState<PokemonEntity>(), PokemonSideD
         pokemon.isClient = true
     }
 
+    override fun addToStruct(struct: QueryStruct) {
+        super.addToStruct(struct)
+        struct.addFunctions(functions.functions)
+        struct.addFunctions(ClientMoLangFunctions.clientFunctions)
+        runtime.environment.structs["query"] = struct
+    }
+
     override fun initialize(entity: PokemonEntity) {
         this.currentEntity = entity
         this.age = entity.age
-        this.runtime.environment.getQueryStruct()
-            .addFunction("in_battle") { DoubleValue(currentEntity.isBattling) }
-            .addFunction("is_wild") { DoubleValue(currentEntity.pokemon.isWild()) }
-            .addFunction("is_shiny") { DoubleValue(currentEntity.pokemon.shiny) }
-            .addFunction("form") { StringValue(currentEntity.pokemon.form.name) }
-            .addFunction("width") { DoubleValue(currentEntity.boundingBox.xLength) }
-            .addFunction("height") { DoubleValue(currentEntity.boundingBox.yLength) }
-            .addFunction("weight") { DoubleValue(currentEntity.pokemon.species.weight.toDouble()) }
-            .addFunction("is_moving") { DoubleValue((entity.moveControl as? PokemonMoveControl)?.isMoving == true) }
-            .addFunction("is_underwater") { DoubleValue(entity.getIsSubmerged()) }
-            .addFunction("is_flying") { DoubleValue(entity.getBehaviourFlag(PokemonBehaviourFlag.FLYING)) }
-            .addFunction("is_sleeping") { DoubleValue(entity.pokemon.status?.status == Statuses.SLEEP) }
-            .addFunction("is_passenger") { DoubleValue(entity.hasVehicle()) }
     }
 
     override fun tick(entity: PokemonEntity) {

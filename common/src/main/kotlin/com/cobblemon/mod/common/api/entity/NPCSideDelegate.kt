@@ -16,11 +16,4 @@ import com.cobblemon.mod.common.entity.npc.NPCEntity
  * @author Hiroku
  * @since August 25th, 2023
  */
-interface NPCSideDelegate : EntitySideDelegate<NPCEntity> {
-    /**
-     * Plays the given animation type on this entity. The animation type could be a constant
-     * from [NPCEntity.Companion] or some other string that can be interpreted by an NPC model to play
-     * an animation.
-     */
-    fun playAnimation(animationType: String)
-}
+interface NPCSideDelegate : EntitySideDelegate<NPCEntity>

@@ -10,7 +10,6 @@ package com.cobblemon.mod.common.client.render.npc
 
 import com.cobblemon.mod.common.client.entity.NPCClientDelegate
 import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityModel
-import com.cobblemon.mod.common.client.render.models.blockbench.npc.NPCModel
 import com.cobblemon.mod.common.client.render.models.blockbench.repository.NPCModelRepository
 import com.cobblemon.mod.common.entity.npc.NPCEntity
 import kotlin.math.min
@@ -20,7 +19,7 @@ import net.minecraft.client.render.entity.LivingEntityRenderer
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.util.Identifier
 
-class NPCRenderer(context: Context) : LivingEntityRenderer<NPCEntity, NPCModel>(context, null, 0.5f) {
+class NPCRenderer(context: Context) : LivingEntityRenderer<NPCEntity, PoseableEntityModel<NPCEntity>>(context, null, 0.5f) {
     override fun getTexture(entity: NPCEntity): Identifier {
         return NPCModelRepository.getTexture(entity.npc.resourceIdentifier, entity.aspects, (entity.delegate as NPCClientDelegate).animationSeconds)
     }

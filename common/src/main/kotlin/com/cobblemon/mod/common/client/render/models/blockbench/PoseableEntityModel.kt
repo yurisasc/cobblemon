@@ -89,14 +89,10 @@ abstract class PoseableEntityModel<T : Entity>(
     var blue = 1F
     var alpha = 1F
 
-    @Transient
     open val portraitScale: Float = 1F
-    @Transient
     open val portraitTranslation: Vec3d = Vec3d.ZERO
 
-    @Transient
     open val profileScale: Float = 1F
-    @Transient
     open val profileTranslation: Vec3d = Vec3d.ZERO
 
     @Transient
@@ -122,6 +118,10 @@ abstract class PoseableEntityModel<T : Entity>(
 
     @Transient
     val functions = QueryStruct(hashMapOf())
+        .addFunction("exclude_labels") { params ->
+            val labels = params.params.map { it.asString() }
+            return@addFunction ObjectValue(ExcludedLabels(labels))
+        }
         .addFunction("bedrock_primary") { params ->
             val group = params.getString(0)
             val animation = params.getString(1)
@@ -139,7 +139,12 @@ abstract class PoseableEntityModel<T : Entity>(
             for (index in 2 until params.params.size) {
                 val param = params.get<MoValue>(index)
                 if (param is ObjectValue<*>) {
-                    curve = param.obj as WaveFunction
+                    val obj = param.obj
+                    if (obj is ExcludedLabels) {
+                        excludedLabels.addAll(obj.labels)
+                    } else {
+                        curve = param.obj as WaveFunction
+                    }
                     continue
                 }
 

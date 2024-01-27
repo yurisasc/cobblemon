@@ -14,6 +14,7 @@ import com.bedrockk.molang.runtime.struct.VariableStruct
 import com.bedrockk.molang.runtime.value.DoubleValue
 import com.bedrockk.molang.runtime.value.MoValue
 import com.bedrockk.molang.runtime.value.StringValue
+import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.CobblemonEntities
 import com.cobblemon.mod.common.CobblemonMemories
 import com.cobblemon.mod.common.CobblemonSensors
@@ -23,6 +24,7 @@ import com.cobblemon.mod.common.api.dialogue.DialogueManager
 import com.cobblemon.mod.common.api.dialogue.Dialogues
 import com.cobblemon.mod.common.api.dialogue.ReferenceDialogueFaceProvider
 import com.cobblemon.mod.common.api.entity.PokemonSender
+import com.cobblemon.mod.common.api.molang.MoLangFunctions
 import com.cobblemon.mod.common.api.molang.MoLangFunctions.addFunctions
 import com.cobblemon.mod.common.api.molang.MoLangFunctions.getQueryStruct
 import com.cobblemon.mod.common.api.molang.MoLangFunctions.setup
@@ -37,6 +39,7 @@ import com.cobblemon.mod.common.api.npc.configuration.NPCBehaviourConfiguration
 import com.cobblemon.mod.common.api.npc.configuration.NPCInteractConfiguration
 import com.cobblemon.mod.common.api.scheduling.Schedulable
 import com.cobblemon.mod.common.api.scheduling.SchedulingTracker
+import com.cobblemon.mod.common.api.storage.molang.MoLangDataStoreFactory
 import com.cobblemon.mod.common.battles.BattleBuilder
 import com.cobblemon.mod.common.battles.BattleRegistry
 import com.cobblemon.mod.common.battles.BattleStartResult
@@ -49,6 +52,7 @@ import com.cobblemon.mod.common.entity.npc.ai.LookAtBattlingPokemonTask
 import com.cobblemon.mod.common.entity.npc.ai.MoveToTargetTask
 import com.cobblemon.mod.common.entity.npc.ai.StayPutInBattleGoal
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
+import com.cobblemon.mod.common.net.messages.client.animation.PlayPoseableAnimationPacket
 import com.cobblemon.mod.common.util.DataKeys
 import com.cobblemon.mod.common.util.asExpression
 import com.cobblemon.mod.common.util.asExpressionLike
@@ -94,43 +98,15 @@ class NPCEntity(world: World) : PassiveEntity(CobblemonEntities.NPC, world), Npc
     override val schedulingTracker = SchedulingTracker()
 
     val runtime = MoLangRuntime().setup().also {
-        it.environment.getQueryStruct().addFunctions(
-            mapOf(
-                "npc" to java.util.function.Function { npcStruct },
-                "run_dialogue" to java.util.function.Function { params ->
-                    val player = params.get<ObjectValue<ServerPlayerEntity>>(0).obj
-                    val dialogue = Dialogues.dialogues[params.getString(1).asIdentifierDefaultingNamespace()]!!
-                    DialogueManager.startDialogue(
-                        ActiveDialogue(player, dialogue).also {
-                            it.runtime.environment.getQueryStruct().addFunction("npc") { npcStruct }
-                        }
-                    )
-                }
-            )
-        )
+        it.environment.getQueryStruct()
+            .addFunction("npc") { struct }
     }
 
-    val npcStruct = QueryStruct(hashMapOf(
-        "class" to java.util.function.Function { StringValue(npc.resourceIdentifier.toString()) },
-        "face" to java.util.function.Function { ObjectValue(ReferenceDialogueFaceProvider(id)) },
-        "name" to java.util.function.Function { StringValue(name.string) },
-        "battle" to java.util.function.Function { params ->
-            val opponentValue = params.get<MoValue>(0)
-            val opponent = if (opponentValue is ObjectValue<*>) {
-                opponentValue.obj as ServerPlayerEntity
-            } else {
-                opponentValue.asString().let { server!!.playerManager.getPlayer(it)!! }
-            }
-            val battleStartResult = BattleBuilder.pvn(
-                player = opponent,
-                npcEntity = this
-            )
-
-            var returnValue: MoValue = DoubleValue(false)
-            battleStartResult.ifSuccessful { returnValue = DoubleValue(true) }
-            return@Function returnValue
-        }
-    ))
+    override val struct: QueryStruct = QueryStruct(hashMapOf())
+        .addFunction("class") { StringValue(npc.resourceIdentifier.toString()) }
+        .addFunction("face") { ObjectValue(ReferenceDialogueFaceProvider(id)) }
+        .addFunction("name") { StringValue(name.string) }
+        .addFunction("in_battle") { DoubleValue(isInBattle()) }
 
     var npc = NPCClasses.random()
         set(value) {
@@ -149,9 +125,7 @@ class NPCEntity(world: World) : PassiveEntity(CobblemonEntities.NPC, world), Npc
     var interact: NPCInteractConfiguration? = null
     var behaviour: NPCBehaviourConfiguration? = null
 
-    var variables = VariableStruct()
-
-
+    var data = VariableStruct()
 
     val aspects: Set<String>
         get() = dataTracker.get(ASPECTS)
@@ -176,6 +150,8 @@ class NPCEntity(world: World) : PassiveEntity(CobblemonEntities.NPC, world), Npc
 
     init {
         delegate.initialize(this)
+        addPosableFunctions(struct)
+        runtime.environment.getQueryStruct().addFunctions(struct.functions)
         calculateDimensions()
     }
 
@@ -209,7 +185,7 @@ class NPCEntity(world: World) : PassiveEntity(CobblemonEntities.NPC, world), Npc
             CobblemonMemories.BATTLING_POKEMON
         )
 
-        const val SEND_OUT_ANIMATION = "send-out"
+        const val SEND_OUT_ANIMATION = "send_out"
         const val RECALL_ANIMATION = "recall"
         const val LOSE_ANIMATION = "lose"
         const val WIN_ANIMATION = "win"
@@ -236,7 +212,7 @@ class NPCEntity(world: World) : PassiveEntity(CobblemonEntities.NPC, world), Npc
         brain.setTaskList(Activity.IDLE, ImmutableList.of(
             Pair.of(1, LookAroundTask(45, 90)),
             Pair.of(1, LookAtMobTask.create(15F)),
-            Pair.of(1, ChooseWanderTargetTask.create(horizontalRange = 10, verticalRange = 5, walkSpeed = 1F, completionRange = 1)),
+            Pair.of(1, ChooseWanderTargetTask.create(horizontalRange = 10, verticalRange = 5, walkSpeed = 0.25F, completionRange = 1)),
             Pair.of(1, MoveToTargetTask.create()),
             Pair.of(1, FollowPathTask.create())
         ))
@@ -271,6 +247,7 @@ class NPCEntity(world: World) : PassiveEntity(CobblemonEntities.NPC, world), Npc
 
     override fun writeNbt(nbt: NbtCompound): NbtCompound {
         super.writeNbt(nbt)
+        nbt.put(DataKeys.NPC_DATA, MoLangFunctions.writeMoValueToNBT(data))
         nbt.putString(DataKeys.NPC_CLASS, npc.resourceIdentifier.toString())
         nbt.put(DataKeys.NPC_ASPECTS, NbtList().also { list -> appliedAspects.forEach { list.add(NbtString.of(it)) } })
         val battle = battle
@@ -285,6 +262,7 @@ class NPCEntity(world: World) : PassiveEntity(CobblemonEntities.NPC, world), Npc
     override fun readNbt(nbt: NbtCompound) {
         super.readNbt(nbt)
         npc = NPCClasses.getByIdentifier(Identifier(nbt.getString(DataKeys.NPC_CLASS))) ?: NPCClasses.classes.first()
+        data = MoLangFunctions.readMoValueFromNBT(nbt.getCompound(DataKeys.NPC_DATA)) as VariableStruct
         appliedAspects.addAll(nbt.getList(DataKeys.NPC_ASPECTS, NbtList.STRING_TYPE.toInt()).map { it.asString() })
         val battleNBT = nbt.getCompound(DataKeys.NPC_BATTLE_CONFIGURATION)
         if (!battleNBT.isEmpty) {
@@ -298,7 +276,7 @@ class NPCEntity(world: World) : PassiveEntity(CobblemonEntities.NPC, world), Npc
     override fun interactMob(player: PlayerEntity, hand: Hand): ActionResult {
         if (player is ServerPlayerEntity) {
             runtime.environment.getQueryStruct().addFunction("player") { ObjectValue(player) }
-            val expr = "q.run_dialogue(q.player, 'cobblemon:npc-example');".asExpression()
+            val expr = "q.npc.run_dialogue(q.player, 'cobblemon:npc-example');".asExpression()
             runtime.resolve(expr)
 //            val battle = getBattleConfiguration()
 //            if (battle.canChallenge) {
@@ -315,8 +293,13 @@ class NPCEntity(world: World) : PassiveEntity(CobblemonEntities.NPC, world), Npc
         return super.interactMob(player, hand)
     }
 
-    fun playAnimation(animationType: String) {
-        delegate.playAnimation(animationType)
+    fun playAnimation(vararg animation: String) {
+        val packet = PlayPoseableAnimationPacket(
+            entityId = id,
+            animation = animation.toSet(),
+            expressions = emptySet()
+        )
+        packet.sendToPlayers(world.players.filterIsInstance<ServerPlayerEntity>().filter { it.distanceTo(this) < 256 })
     }
 
     override fun recalling(pokemonEntity: PokemonEntity): CompletableFuture<Unit> {

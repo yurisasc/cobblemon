@@ -179,4 +179,5 @@ object DataKeys {
     const val NPC_PARTY_TYPE = "PartyType"
     const val NPC_PARTY_POKEMON = "Pokemon"
     const val NPC_ASPECTS = "AppliedAspects"
+    const val NPC_DATA = "Data"
 }

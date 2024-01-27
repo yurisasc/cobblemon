@@ -8,9 +8,18 @@
 
 package com.cobblemon.mod.common.entity.npc
 
+import com.bedrockk.molang.runtime.struct.QueryStruct
+import com.bedrockk.molang.runtime.value.DoubleValue
+import com.bedrockk.molang.runtime.value.MoValue
+import com.cobblemon.mod.common.api.dialogue.ActiveDialogue
+import com.cobblemon.mod.common.api.dialogue.DialogueManager
+import com.cobblemon.mod.common.api.dialogue.Dialogues
 import com.cobblemon.mod.common.api.entity.NPCSideDelegate
-import com.cobblemon.mod.common.net.messages.client.npc.PlayNPCAnimationPacket
-import net.minecraft.server.world.ServerWorld
+import com.cobblemon.mod.common.api.molang.MoLangFunctions.getQueryStruct
+import com.cobblemon.mod.common.api.molang.ObjectValue
+import com.cobblemon.mod.common.battles.BattleBuilder
+import com.cobblemon.mod.common.util.asIdentifierDefaultingNamespace
+import net.minecraft.server.network.ServerPlayerEntity
 
 class NPCServerDelegate : NPCSideDelegate {
     lateinit var entity: NPCEntity
@@ -20,8 +29,35 @@ class NPCServerDelegate : NPCSideDelegate {
         this.entity = entity
     }
 
-    override fun playAnimation(animationType: String) {
-        val pkt = PlayNPCAnimationPacket(entity.id, animationType)
-        (entity.world as ServerWorld).getPlayers { it.distanceTo(entity) < 64 }.forEach(pkt::sendToPlayer)
+    override fun addToStruct(struct: QueryStruct) {
+        super.addToStruct(struct)
+        struct
+            .addFunction("data") { entity.data }
+            .addFunction("save_data") { entity.data } // Handled as part of NBT saving
+            .addFunction("battle") { params ->
+                val opponentValue = params.get<MoValue>(0)
+                val opponent = if (opponentValue is ObjectValue<*>) {
+                    opponentValue.obj as ServerPlayerEntity
+                } else {
+                    opponentValue.asString().let { entity.server!!.playerManager.getPlayer(it)!! }
+                }
+                val battleStartResult = BattleBuilder.pvn(
+                    player = opponent,
+                    npcEntity = entity
+                )
+
+                var returnValue: MoValue = DoubleValue(false)
+                battleStartResult.ifSuccessful { returnValue = DoubleValue(true) }
+                return@addFunction returnValue
+            }
+            .addFunction("run_dialogue") { params ->
+                val player = params.get<ObjectValue<ServerPlayerEntity>>(0).obj
+                val dialogue = Dialogues.dialogues[params.getString(1).asIdentifierDefaultingNamespace()]!!
+                DialogueManager.startDialogue(
+                    ActiveDialogue(player, dialogue).also {
+                        it.runtime.environment.getQueryStruct().addFunction("npc") { struct }
+                    }
+                )
+            }
     }
 }

@@ -21,7 +21,7 @@ object FollowPathTask {
                 it.queryMemoryValue(MemoryModuleType.PATH)
             ).apply(it) { path ->
                 TaskRunnable { world, entity, time ->
-                    entity.navigation.startMovingAlong(it.getValue(path), 1.0)
+                    entity.navigation.startMovingAlong(it.getValue(path), 0.35)
                     return@TaskRunnable true
                 }
             }

@@ -45,7 +45,10 @@ class NPCBattleActor(
                     finalFuture.complete(Unit)
                 }
                 finalFuture.thenApply {
-                    entity.dataTracker.update(NPCEntity.BATTLE_IDS) { it - battle.battleId }
+                    // Delay because losing animations can take a second
+                    npc.after(seconds = 3F) {
+                        entity.dataTracker.update(NPCEntity.BATTLE_IDS) { it - battle.battleId }
+                    }
                 }
             } else {
                 entity.dataTracker.update(NPCEntity.BATTLE_IDS) { it - battle.battleId }

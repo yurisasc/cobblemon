@@ -8,6 +8,9 @@
 
 package com.cobblemon.mod.common.entity.pokemon
 
+import com.bedrockk.molang.runtime.struct.QueryStruct
+import com.bedrockk.molang.runtime.value.DoubleValue
+import com.bedrockk.molang.runtime.value.StringValue
 import com.cobblemon.mod.common.*
 import com.cobblemon.mod.common.CobblemonNetwork.sendPacket
 import com.cobblemon.mod.common.api.drop.DropTable
@@ -19,6 +22,7 @@ import com.cobblemon.mod.common.api.events.entity.PokemonEntitySaveEvent
 import com.cobblemon.mod.common.api.events.entity.PokemonEntitySaveToWorldEvent
 import com.cobblemon.mod.common.api.events.pokemon.ShoulderMountEvent
 import com.cobblemon.mod.common.api.interaction.PokemonEntityInteraction
+import com.cobblemon.mod.common.api.molang.MoLangFunctions.addStandardFunctions
 import com.cobblemon.mod.common.api.net.serializers.PoseTypeDataSerializer
 import com.cobblemon.mod.common.api.net.serializers.StringSetDataSerializer
 import com.cobblemon.mod.common.api.pokemon.feature.FlagSpeciesFeature
@@ -210,12 +214,29 @@ class PokemonEntity(
         PokemonServerDelegate()
     }
 
+    override val struct: QueryStruct = QueryStruct(hashMapOf())
+        .addStandardFunctions()
+        .addFunction("in_battle") { DoubleValue(isBattling) }
+        .addFunction("is_wild") { DoubleValue(pokemon.isWild()) }
+        .addFunction("is_shiny") { DoubleValue(pokemon.shiny) }
+        .addFunction("form") { StringValue(pokemon.form.name) }
+        .addFunction("width") { DoubleValue(boundingBox.xLength) }
+        .addFunction("height") { DoubleValue(boundingBox.yLength) }
+        .addFunction("horizontal_velocity") { DoubleValue(velocity.horizontalLength()) }
+        .addFunction("vertical_velocity") { DoubleValue(velocity.y) }
+        .addFunction("weight") { DoubleValue(pokemon.species.weight.toDouble()) }
+        .addFunction("is_moving") { DoubleValue((moveControl as? PokemonMoveControl)?.isMoving == true) }
+        .addFunction("is_underwater") { DoubleValue(getIsSubmerged()) }
+        .addFunction("is_flying") { DoubleValue(getBehaviourFlag(PokemonBehaviourFlag.FLYING)) }
+        .addFunction("is_passenger") { DoubleValue(hasVehicle()) }
+
     init {
         dataTracker.set(SPECIES, pokemon.species.resourceIdentifier.toString())
         dataTracker.set(NICKNAME, pokemon.nickname ?: Text.empty())
         delegate.initialize(this)
         delegate.changePokemon(pokemon)
         calculateDimensions()
+        addPosableFunctions(struct)
     }
 
     override fun initDataTracker() {

@@ -10,8 +10,6 @@ package com.cobblemon.mod.common.client.entity
 
 import com.cobblemon.mod.common.api.entity.NPCSideDelegate
 import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
-import com.cobblemon.mod.common.client.render.models.blockbench.animation.PrimaryAnimation
-import com.cobblemon.mod.common.client.render.models.blockbench.npc.NPCModel
 import com.cobblemon.mod.common.entity.npc.NPCEntity
 
 class NPCClientDelegate : PoseableEntityState<NPCEntity>(), NPCSideDelegate {
@@ -33,11 +31,5 @@ class NPCClientDelegate : PoseableEntityState<NPCEntity>(), NPCSideDelegate {
 
     override fun updatePartialTicks(partialTicks: Float) {
         this.currentPartialTicks = partialTicks
-    }
-
-    override fun playAnimation(animationType: String) {
-        val currentModel = this.currentModel as? NPCModel ?: return
-        val animation = currentModel.getAnimation(animationType)
-        addPrimaryAnimation(PrimaryAnimation(animation, curve = { 1F }))
     }
 }

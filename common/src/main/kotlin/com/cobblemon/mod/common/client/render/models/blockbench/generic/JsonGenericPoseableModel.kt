@@ -54,7 +54,7 @@ class JsonGenericPoseableModel(override val rootPart: Bone, override val isForLi
                 ).type,
                 StatefulAnimationAdapter { JsonGenericPoseableModelAdapter.model!! }
             )
-            .registerTypeAdapter(Pose::class.java, PoseAdapter { JsonGenericPoseableModelAdapter.model!! })
+            .registerTypeAdapter(Pose::class.java, PoseAdapter({ emptyList() }) { JsonGenericPoseableModelAdapter.model!! })
             .registerTypeAdapter(
                 JsonGenericPoseableModel::class.java,
                 JsonGenericPoseableModelAdapter

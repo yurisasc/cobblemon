@@ -8,10 +8,15 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench
 
+import com.bedrockk.molang.MoLang
+import com.bedrockk.molang.runtime.MoLangRuntime
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.StatefulAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.ModelFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.Bone
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.Pose
+import com.cobblemon.mod.common.entity.Poseable
+import com.cobblemon.mod.common.util.asExpression
+import com.cobblemon.mod.common.util.asExpressionLike
 import com.google.gson.ExclusionStrategy
 import com.google.gson.FieldAttributes
 import com.google.gson.InstanceCreator
@@ -65,7 +70,14 @@ abstract class JsonPoseableEntityModel<T : Entity>(override val rootPart: Bone) 
         }
     }
 
-    class PoseAdapter<T : Entity>(val modelFinder: () -> PoseableEntityModel<T>) : JsonDeserializer<Pose<T, ModelFrame>> {
+    class PoseAdapter<T : Entity>(
+        val poseConditionReader: (JsonObject) -> List<(T) -> Boolean>,
+        val modelFinder: () -> PoseableEntityModel<T>
+    ) : JsonDeserializer<Pose<T, ModelFrame>> {
+        companion object {
+            val runtime = MoLangRuntime()
+        }
+
         override fun deserialize(json: JsonElement, type: Type, ctx: JsonDeserializationContext): Pose<T, ModelFrame> {
             val model = modelFinder()
             val obj = json as JsonObject
@@ -75,6 +87,19 @@ abstract class JsonPoseableEntityModel<T : Entity>(override val rootPart: Bone) 
             val mustBeTouchingWater = json.get("isTouchingWater")?.asBoolean
             if (mustBeTouchingWater != null) {
                 conditionsList.add { mustBeTouchingWater == it.isTouchingWater }
+            }
+            conditionsList.addAll(poseConditionReader(json))
+
+            if (json.has("condition")) {
+                val condition = json.get("condition").asString
+                conditionsList.add {
+                    if (it is Poseable) {
+                        runtime.environment.structs["query"] = it.struct
+                        condition.asExpressionLike().resolveBoolean(runtime)
+                    } else {
+                        false
+                    }
+                }
             }
 
             val poseCondition: (T) -> Boolean = if (conditionsList.isEmpty()) { { true } } else conditionsList.reduce { acc, function -> { acc(it) && function(it) } }

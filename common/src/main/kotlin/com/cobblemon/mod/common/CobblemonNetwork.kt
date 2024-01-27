@@ -14,38 +14,19 @@ import com.cobblemon.mod.common.api.net.ServerNetworkPacketHandler
 import com.cobblemon.mod.common.client.net.PlayerInteractOptionsHandler
 import com.cobblemon.mod.common.client.net.SetClientPlayerDataHandler
 import com.cobblemon.mod.common.client.net.animation.PlayPoseableAnimationHandler
-import com.cobblemon.mod.common.client.net.battle.BattleApplyPassResponseHandler
-import com.cobblemon.mod.common.client.net.battle.BattleCaptureEndHandler
-import com.cobblemon.mod.common.client.net.battle.BattleCaptureShakeHandler
-import com.cobblemon.mod.common.client.net.battle.BattleCaptureStartHandler
-import com.cobblemon.mod.common.client.net.battle.BattleChallengeExpiredHandler
-import com.cobblemon.mod.common.client.net.battle.BattleChallengeNotificationHandler
-import com.cobblemon.mod.common.client.net.battle.BattleEndHandler
-import com.cobblemon.mod.common.client.net.battle.BattleFaintHandler
-import com.cobblemon.mod.common.client.net.battle.BattleHealthChangeHandler
-import com.cobblemon.mod.common.client.net.battle.BattleInitializeHandler
-import com.cobblemon.mod.common.client.net.battle.BattleMadeInvalidChoiceHandler
-import com.cobblemon.mod.common.client.net.battle.BattleMakeChoiceHandler
-import com.cobblemon.mod.common.client.net.battle.BattleMessageHandler
-import com.cobblemon.mod.common.client.net.battle.BattleMusicHandler
-import com.cobblemon.mod.common.client.net.battle.BattlePersistentStatusHandler
-import com.cobblemon.mod.common.client.net.battle.BattleQueueRequestHandler
-import com.cobblemon.mod.common.client.net.battle.BattleSetTeamPokemonHandler
-import com.cobblemon.mod.common.client.net.battle.BattleSwitchPokemonHandler
-import com.cobblemon.mod.common.client.net.battle.BattleUpdateTeamPokemonHandler
+import com.cobblemon.mod.common.client.net.battle.*
 import com.cobblemon.mod.common.client.net.callback.move.OpenMoveCallbackHandler
 import com.cobblemon.mod.common.client.net.callback.party.OpenPartyCallbackHandler
 import com.cobblemon.mod.common.client.net.callback.partymove.OpenPartyMoveCallbackHandler
 import com.cobblemon.mod.common.client.net.data.DataRegistrySyncPacketHandler
 import com.cobblemon.mod.common.client.net.data.UnlockReloadPacketHandler
-import com.cobblemon.mod.common.client.net.effect.RunPosableMoLangHandler
 import com.cobblemon.mod.common.client.net.dialogue.DialogueClosedHandler
 import com.cobblemon.mod.common.client.net.dialogue.DialogueOpenedHandler
+import com.cobblemon.mod.common.client.net.effect.RunPosableMoLangHandler
 import com.cobblemon.mod.common.client.net.effect.SpawnSnowstormEntityParticleHandler
 import com.cobblemon.mod.common.client.net.effect.SpawnSnowstormParticleHandler
 import com.cobblemon.mod.common.client.net.gui.InteractPokemonUIPacketHandler
 import com.cobblemon.mod.common.client.net.gui.SummaryUIPacketHandler
-import com.cobblemon.mod.common.client.net.npc.PlayNPCAnimationHandler
 import com.cobblemon.mod.common.client.net.pasture.ClosePastureHandler
 import com.cobblemon.mod.common.client.net.pasture.OpenPastureHandler
 import com.cobblemon.mod.common.client.net.pasture.PokemonPasturedHandler
@@ -95,7 +76,6 @@ import com.cobblemon.mod.common.net.messages.client.effect.SpawnSnowstormEntityP
 import com.cobblemon.mod.common.net.messages.client.effect.SpawnSnowstormParticlePacket
 import com.cobblemon.mod.common.net.messages.client.fossil.FossilRegistrySyncPacket
 import com.cobblemon.mod.common.net.messages.client.fossil.NaturalMaterialRegistrySyncPacket
-import com.cobblemon.mod.common.net.messages.client.npc.PlayNPCAnimationPacket
 import com.cobblemon.mod.common.net.messages.client.pasture.ClosePasturePacket
 import com.cobblemon.mod.common.net.messages.client.pasture.OpenPasturePacket
 import com.cobblemon.mod.common.net.messages.client.pasture.PokemonPasturedPacket
@@ -133,7 +113,12 @@ import com.cobblemon.mod.common.net.messages.client.trade.TradeStartedPacket
 import com.cobblemon.mod.common.net.messages.client.trade.TradeUpdatedPacket
 import com.cobblemon.mod.common.net.messages.client.ui.InteractPokemonUIPacket
 import com.cobblemon.mod.common.net.messages.client.ui.SummaryUIPacket
-import com.cobblemon.mod.common.net.messages.server.*
+import com.cobblemon.mod.common.net.messages.server.BattleChallengePacket
+import com.cobblemon.mod.common.net.messages.server.BenchMovePacket
+import com.cobblemon.mod.common.net.messages.server.RequestMoveSwapPacket
+import com.cobblemon.mod.common.net.messages.server.RequestPlayerInteractionsPacket
+import com.cobblemon.mod.common.net.messages.server.SelectStarterPacket
+import com.cobblemon.mod.common.net.messages.server.SendOutPokemonPacket
 import com.cobblemon.mod.common.net.messages.server.battle.BattleSelectActionsPacket
 import com.cobblemon.mod.common.net.messages.server.battle.RemoveSpectatorPacket
 import com.cobblemon.mod.common.net.messages.server.battle.SpectateBattlePacket
@@ -207,12 +192,12 @@ import com.cobblemon.mod.common.net.serverhandling.trade.ChangeTradeAcceptanceHa
 import com.cobblemon.mod.common.net.serverhandling.trade.OfferTradeHandler
 import com.cobblemon.mod.common.net.serverhandling.trade.UpdateTradeOfferHandler
 import com.cobblemon.mod.common.util.server
+import kotlin.reflect.KClass
 import net.minecraft.network.PacketByteBuf
 import net.minecraft.network.listener.ClientPlayPacketListener
 import net.minecraft.network.packet.Packet
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.util.Identifier
-import kotlin.reflect.KClass
 
 /**
  * Registers Cobblemon network packets.
@@ -365,7 +350,6 @@ object CobblemonNetwork : NetworkManager {
         this.createClientBound(DialogueOpenedPacket.ID, DialogueOpenedPacket::decode, DialogueOpenedHandler)
 
         // NPCs
-        this.createClientBound(PlayNPCAnimationPacket.ID, PlayNPCAnimationPacket::decode, PlayNPCAnimationHandler)
     }
 
     override fun registerServerBound() {

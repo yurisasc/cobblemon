@@ -198,8 +198,8 @@ data class BedrockAnimation(
                 }
 
                 if (!timeline.scale.isEmpty()) {
-                    var scale = timeline.scale.resolve(animationSeconds.toDouble(), runtime)
-                    val deviation = scale.multiply(-1.0).add(1.0, 1.0, 1.0).multiply(intensity.toDouble())
+                    var scale = timeline.scale.resolve(animationSeconds.toDouble(), runtime).multiply(intensity.toDouble())
+                    val deviation = scale.multiply(-1.0).add(1.0, 1.0, 1.0)//.multiply(intensity.toDouble())
                     scale = deviation.subtract(1.0, 1.0, 1.0).multiply(-1.0)
                     part.xScale *= scale.x.toFloat()
                     part.yScale *= scale.y.toFloat()
