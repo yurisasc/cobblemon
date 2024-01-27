@@ -412,7 +412,6 @@ class TMBlock(properties: Settings): BlockWithEntity(properties), Waterloggable,
         val recipeItem = Registries.ITEM.get(tm.recipe?.item)
 
         val inventory = state?.let { getInventory(it, world, pos) }
-        // todo add case for if filterTM is Blank TM
 
         return (inventory!!.count(CobblemonItems.BLANK_TM) == 1
                 && inventory.count(typeGem.item) == 1
