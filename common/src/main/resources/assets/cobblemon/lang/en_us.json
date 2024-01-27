@@ -268,7 +268,7 @@
   "item.cobblemon.ancient_heavy_ball.tooltip": "1×, throws less far",
   "item.cobblemon.ancient_leaden_ball.tooltip": "1.5×, throws less far",
   "item.cobblemon.ancient_gigaton_ball.tooltip": "2×, throws less far",
-  "item.cobblemon.ancient_origin_ball.tooltip": "1× catch rate",
+  "item.cobblemon.ancient_origin_ball.tooltip": "Guaranteed capture",
 
   "item.cobblemon.mulch_base": "Mulch",
   "item.cobblemon.coarse_mulch": "Coarse Mulch",
