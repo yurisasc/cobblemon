@@ -43,6 +43,7 @@ class TMBlockRenderer(context: BlockEntityRendererFactory.Context) : BlockEntity
                 it
             )
         }
+        entity.partialTicks += tickDelta
         val color = tm?.let { Color(ElementalTypes.get(it.type)!!.hue) } ?: Color.WHITE
         when (entity.cachedState.get(TMBlock.FACING)) {
             Direction.SOUTH -> matrices.translate(15F / 16F, 5.5F / 16F, 1F / 16F)
@@ -50,6 +51,10 @@ class TMBlockRenderer(context: BlockEntityRendererFactory.Context) : BlockEntity
             Direction.EAST -> matrices.translate(1F, 5.5F / 16F, 0F)
             else -> matrices.translate(15F / 16F, 5.5F / 16F, -1F / 16F)
         }
+
+        matrices.translate(-7.0/16f, 0.0, 8.0/16f)
+        matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees( entity.partialTicks / 2.0f))
+        matrices.translate(7.0/16f, 0.0, -8.0/16f)
 
 
         val renderLayer = RenderLayer.getEntityCutout(cobblemonResource("textures/block/tm_machine.png"))

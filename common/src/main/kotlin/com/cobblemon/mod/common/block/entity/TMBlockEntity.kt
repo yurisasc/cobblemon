@@ -38,6 +38,7 @@ class TMBlockEntity(
     )  : BlockEntity(CobblemonBlockEntities.TM_BLOCK, blockPos, blockState) {
     var tmmInventory = TMBlockInventory(this)
     var automationDelay: Int = AUTOMATION_DELAY
+    var partialTicks = 0.0f
     companion object {
         const val AUTOMATION_DELAY = 4
         const val FILTER_TM_NBT = "FilterTM"

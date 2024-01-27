@@ -111,7 +111,7 @@ class TechnicalMachineItem(settings: Settings): CobblemonItem(settings) {
 
         if (TMM is TMBlockEntity
                 && (TMM.tmmInventory.filterTM == null
-                        || !ItemStack.areItemsEqual(TMM.tmmInventory.filterTM, context.stack))) {
+                        || TMM.tmmInventory.filterTM!!.nbt?.get("StoredMove") != context.stack.nbt?.get("StoredMove"))) {
             context.player?.playSound(CobblemonSounds.TMM_ON, SoundCategory.BLOCKS, 1.0f, 1.0f)
             if (TMM.tmmInventory.filterTM != null) {
                 if (!context.player?.isCreative!!) {
