@@ -207,19 +207,26 @@ class TMBlock(properties: Settings): BlockWithEntity(properties), Waterloggable,
             // todo use isReadyToCraftTM  to finalize the creation
             if ((inventory.filterTM != null && isReadyToCraftTM(state, world, pos, tm!!)) || isReadyToCraftBlankTM(state, world, pos)) {
                 // Get the direction the block is facing
-                val facingDirection = state.get(Properties.FACING) ?: return
+                val facingDirection = state.get(Properties.FACING)?.opposite ?: return
 
-                // Calculate the position in front of the block
-                val spawnPos = pos.offset(facingDirection)
+                // Calculate the center position of the block
+                val frontOffset = 0.5 // Half block offset to the front
+                val spawnX = pos.x + 0.5 + facingDirection.offsetX * frontOffset
+                val spawnY = pos.y + 0.3 + facingDirection.offsetY * frontOffset
+                val spawnZ = pos.z + 0.5 + facingDirection.offsetZ * frontOffset
+
+                // Create the ItemEntity at the center of the block
+                val itemEntity = ItemEntity(world, spawnX, spawnY, spawnZ, itemStack)
 
                 // Create the ItemEntity
-                val itemEntity = ItemEntity(world, spawnPos.x.toDouble(), spawnPos.y.toDouble(), spawnPos.z.toDouble(), itemStack)
+                itemEntity.setVelocity(0.0, 0.0, 0.0)
 
                 // Add the ItemEntity to the world
                 world.spawnEntity(itemEntity)
 
                 //clear inventory of SidedInventory
-                getInventory(state, world, pos).clear()
+                inventory.items?.clear()
+                //getInventory(state, world, pos).clear()
                 }
             }
         }
@@ -319,13 +326,54 @@ class TMBlock(properties: Settings): BlockWithEntity(properties), Waterloggable,
 
         val inventory = (world.getBlockEntity(pos) as TMBlockEntity).tmmInventory
 
-        // todo spit out any disc filters or materials
+        // remove all machine from machine upon use
+        inventory.items?.forEach {
+            // Get the direction the block is facing
+            val facingDirection = blockState.get(Properties.FACING).opposite
+
+            // Calculate the center position of the block
+            val frontOffset = 0.5 // Half block offset to the front
+            val spawnX = pos.x + 0.5 + facingDirection.offsetX * frontOffset
+            val spawnY = pos.y + 0.3 + facingDirection.offsetY * frontOffset
+            val spawnZ = pos.z + 0.5 + facingDirection.offsetZ * frontOffset
+
+            // Create the ItemEntity at the center of the block
+            val itemEntity = ItemEntity(world, spawnX, spawnY, spawnZ, it)
+
+            // Create the ItemEntity
+            itemEntity.setVelocity(0.0, 0.0, 0.0)
+
+            // Add the ItemEntity to the world
+            world.spawnEntity(itemEntity)
+        }
+
+        inventory.items?.clear()
+
+        // spit out any disc filters
         if (inventory.filterTM != null) {
             // spit out the filter TM and set filterTM to null
-            // todo eject TM related to filterTM
-            inventory.filterTM = null
 
-            // todo eject any materials stored in loadedMaterials list
+            val filterTMStack = inventory.filterTM!!
+
+            // Get the direction the block is facing
+            val facingDirection = blockState.get(Properties.FACING).opposite
+
+            // Calculate the center position of the block
+            val frontOffset = 0.5 // Half block offset to the front
+            val spawnX = pos.x + 0.5 + facingDirection.offsetX * frontOffset
+            val spawnY = pos.y + 0.3 + facingDirection.offsetY * frontOffset
+            val spawnZ = pos.z + 0.5 + facingDirection.offsetZ * frontOffset
+
+            // Create the ItemEntity at the center of the block
+            val itemEntity = ItemEntity(world, spawnX, spawnY, spawnZ, filterTMStack)
+
+            // Create the ItemEntity
+            itemEntity.setVelocity(0.0, 0.0, 0.0)
+
+            // Add the ItemEntity to the world
+            world.spawnEntity(itemEntity)
+
+            inventory.filterTM = null
         }
 
         val blockEntity = world.getBlockEntity(pos)

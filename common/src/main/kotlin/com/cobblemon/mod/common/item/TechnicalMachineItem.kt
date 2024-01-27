@@ -109,26 +109,38 @@ class TechnicalMachineItem(settings: Settings): CobblemonItem(settings) {
         //val TMM = context.world.getBlockState(context.hitPos.toBlockPos()).block
         val TMM = context.world.getBlockEntity(context.hitPos.toBlockPos())
 
-        if (TMM is TMBlockEntity && TMM.tmmInventory.filterTM?.item != context.stack.item) {
+        if (TMM is TMBlockEntity
+                && (TMM.tmmInventory.filterTM == null
+                        || !ItemStack.areItemsEqual(TMM.tmmInventory.filterTM, context.stack))) {
             context.player?.playSound(CobblemonSounds.TMM_ON, SoundCategory.BLOCKS, 1.0f, 1.0f)
             if (TMM.tmmInventory.filterTM != null) {
-                TMM.tmmInventory.previousFilterTM = TMM.tmmInventory.filterTM
+                if (!context.player?.isCreative!!) {
+                    context.player!!.giveItemStack(TMM.tmmInventory.filterTM!!)
+                }
             }
 
             // set filterTM equal to the item it corresponds to
-            TMM.tmmInventory.filterTM = context.stack
+            TMM.tmmInventory.filterTM = TechnicalMachines.getTechnicalMachineFromStack(context.stack)?.let { TechnicalMachines.getStackFromTechnicalMachine(it) }
+
+
 
             // if materials are in the machine already
             if (TMM.tmmInventory.items?.isNotEmpty() == true) {
                 TMM.tmmInventory.items?.forEach {
                     // Get the direction the block is facing
-                    val facingDirection = TMM.blockState.get(Properties.FACING)
+                    val facingDirection =  TMM.blockState.get(Properties.FACING).opposite
 
-                    // Calculate the position in front of the block
-                    val spawnPos = TMM.blockPos.offset(facingDirection)
+                    // Calculate the center position of the block
+                    val frontOffset = 0.5 // Half block offset to the front
+                    val spawnX = TMM.blockPos.x + 0.5 + facingDirection.offsetX * frontOffset
+                    val spawnY = TMM.blockPos.y + 0.3 + facingDirection.offsetY * frontOffset
+                    val spawnZ = TMM.blockPos.z + 0.5 + facingDirection.offsetZ * frontOffset
+
+                    // Create the ItemEntity at the center of the block
+                    val itemEntity = ItemEntity( context.world, spawnX, spawnY, spawnZ, it)
 
                     // Create the ItemEntity
-                    val itemEntity = ItemEntity(context.world, spawnPos.x.toDouble(), spawnPos.y.toDouble(), spawnPos.z.toDouble(), it)
+                    itemEntity.setVelocity(0.0, 0.0, 0.0)
 
                     // Add the ItemEntity to the world
                     context.world.spawnEntity(itemEntity)
@@ -142,14 +154,6 @@ class TechnicalMachineItem(settings: Settings): CobblemonItem(settings) {
                 context.player?.getStackInHand(context.hand)?.decrement(1)
             }
 
-            // if there was a filter TM in it before
-            if (TMM.tmmInventory.previousFilterTM != null) {
-                //todo give player previousFilterTM
-                if (!context.player?.isCreative!!) {
-                    context.player!!.giveItemStack(TMM.tmmInventory.previousFilterTM)
-                }
-                TMM.tmmInventory.previousFilterTM = null
-            }
             TMM.markDirty()
             TMM.world?.updateListeners(TMM.blockPos, TMM.cachedState, TMM.cachedState, Block.NOTIFY_LISTENERS)
         }

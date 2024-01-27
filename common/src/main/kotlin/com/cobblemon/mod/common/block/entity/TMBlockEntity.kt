@@ -39,9 +39,8 @@ class TMBlockEntity(
     var tmmInventory = TMBlockInventory(this)
     var automationDelay: Int = AUTOMATION_DELAY
     companion object {
-        const val AUTOMATION_DELAY = 1
+        const val AUTOMATION_DELAY = 4
         const val FILTER_TM_NBT = "FilterTM"
-        const val PREV_FILTER_NBT = "PrevFilterTM"
     }
     //var filterTM: TechnicalMachine? = null
     //private var inventory: DefaultedList<ItemStack> = DefaultedList.ofSize(size(), ItemStack.EMPTY)
@@ -119,8 +118,6 @@ class TMBlockEntity(
         val previousFilterTmCompound = tmmInventory.previousFilterTM?.writeNbt(NbtCompound())
         if (filterTmCompound != null)
             nbt.put(FILTER_TM_NBT, filterTmCompound)
-        if (previousFilterTmCompound != null)
-            nbt.put(PREV_FILTER_NBT, previousFilterTmCompound)
     }
 
     override fun readNbt(nbt: NbtCompound) {
@@ -128,8 +125,6 @@ class TMBlockEntity(
         Inventories.readNbt(nbt, tmmInventory.items)
         if (nbt.contains(FILTER_TM_NBT))
             tmmInventory.filterTM = ItemStack.fromNbt(nbt.getCompound(FILTER_TM_NBT))
-        if (nbt.contains(PREV_FILTER_NBT))
-            tmmInventory.previousFilterTM = ItemStack.fromNbt(nbt.getCompound(PREV_FILTER_NBT))
     }
 
     class TMBlockInventory(val tmBlockEntity: TMBlockEntity) : SidedInventory {
@@ -220,7 +215,7 @@ class TMBlockEntity(
         override fun canInsert(slot: Int, stack: ItemStack?, dir: Direction?): Boolean {
             // todo only allow for hopper to insert materials if it has a filterTM in it
             if (stack != null) {
-                val tm = TechnicalMachines.getTechnicalMachineFromStack(stack)
+                val tm = TechnicalMachines.getTechnicalMachineFromStack(tmBlockEntity.tmmInventory.filterTM)
                 // if material is needed then load it
                 if (tmBlockEntity.materialNeeded(tm, stack) && (ItemStack.areEqual(items?.get(slot) ?: ItemStack.EMPTY, ItemStack.EMPTY) || ItemStack.areItemsEqual(items?.get(slot) ?: ItemStack.EMPTY, stack))) {
                     //tmBlockEntity.loadMaterial(stack)
