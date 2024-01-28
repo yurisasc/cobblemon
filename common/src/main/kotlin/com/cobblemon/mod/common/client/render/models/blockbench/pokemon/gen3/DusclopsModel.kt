@@ -8,14 +8,16 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen3
 
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.pose.Pose
 import com.cobblemon.mod.common.entity.PoseType
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableState
+import com.cobblemon.mod.common.client.render.models.blockbench.repository.RenderContext
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class DusclopsModel (root: ModelPart) : PokemonPoseableModel() {
+class DusclopsModel (root: ModelPart) : PosableModel() {
     override val rootPart = root.registerChildWithAllChildren("dusclops")
 
     override val portraitScale = 1.6F
@@ -24,12 +26,12 @@ class DusclopsModel (root: ModelPart) : PokemonPoseableModel() {
     override val profileScale = 0.6F
     override val profileTranslation = Vec3d(0.0, 0.8, 0.0)
 
-    lateinit var hover: PokemonPose
-    lateinit var fly: PokemonPose
-    lateinit var sleep: PokemonPose
-    lateinit var standing: PokemonPose
-    lateinit var walk: PokemonPose
-    lateinit var battleidle: PokemonPose
+    lateinit var hover: Pose
+    lateinit var fly: Pose
+    lateinit var sleep: Pose
+    lateinit var standing: Pose
+    lateinit var walk: Pose
+    lateinit var battleidle: Pose
 
     override fun registerPoses() {
         val blink = quirk { bedrockStateful("dusclops", "blink") }
@@ -42,7 +44,7 @@ class DusclopsModel (root: ModelPart) : PokemonPoseableModel() {
         standing = registerPose(
             poseName = "standing",
             poseType = PoseType.STAND,
-            condition = { !it.isBattling },
+            condition = { (it.entity as? PokemonEntity)?.isBattling == false },
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 bedrock("dusclops", "ground_idle")
@@ -61,7 +63,7 @@ class DusclopsModel (root: ModelPart) : PokemonPoseableModel() {
         hover = registerPose(
             poseName = "hover",
             poseTypes = PoseType.UI_POSES + PoseType.HOVER + PoseType.FLOAT,
-            condition = { !it.isBattling },
+            condition = { (it.entity as? PokemonEntity)?.isBattling == false },
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 bedrock("dusclops", "air_idle")
@@ -71,7 +73,7 @@ class DusclopsModel (root: ModelPart) : PokemonPoseableModel() {
         fly = registerPose(
             poseName = "fly",
             poseTypes = setOf(PoseType.FLY, PoseType.SWIM, PoseType.WALK),
-            condition = { !it.isBattling },
+            condition = { (it.entity as? PokemonEntity)?.isBattling == false },
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 bedrock("dusclops", "air_fly")
@@ -83,7 +85,7 @@ class DusclopsModel (root: ModelPart) : PokemonPoseableModel() {
             poseTypes = PoseType.STATIONARY_POSES,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            condition = { it.isBattling },
+            condition = { (it.entity as? PokemonEntity)?.isBattling == true },
             idleAnimations = arrayOf(
                 bedrock("dusclops", "battle_idle")
             )
@@ -91,8 +93,5 @@ class DusclopsModel (root: ModelPart) : PokemonPoseableModel() {
         )
     }
 
-    override fun getFaintAnimation(
-        pokemonEntity: PokemonEntity,
-        state: PosableState<PokemonEntity>
-    ) = if (state.isPosedIn(hover, fly, sleep, standing, walk, battleidle)) bedrockStateful("dusclops", "faint") else null
+    override fun getFaintAnimation(state: PosableState) = if (state.isPosedIn(hover, fly, sleep, standing, walk, battleidle)) bedrockStateful("dusclops", "faint") else null
 }

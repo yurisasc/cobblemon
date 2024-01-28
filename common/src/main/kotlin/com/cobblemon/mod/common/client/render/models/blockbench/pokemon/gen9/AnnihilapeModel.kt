@@ -11,14 +11,16 @@ package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen9
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BimanualFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.pose.Pose
 import com.cobblemon.mod.common.entity.PoseType
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableState
+import com.cobblemon.mod.common.client.render.models.blockbench.repository.RenderContext
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class AnnihilapeModel (root: ModelPart) : PokemonPoseableModel(), BipedFrame, BimanualFrame {
+class AnnihilapeModel (root: ModelPart) : PosableModel(), BipedFrame, BimanualFrame {
     override val rootPart = root.registerChildWithAllChildren("annihilape")
 
     override val leftArm = getPart("arm_left")
@@ -32,12 +34,12 @@ class AnnihilapeModel (root: ModelPart) : PokemonPoseableModel(), BipedFrame, Bi
     override val profileScale = 0.85F
     override val profileTranslation = Vec3d(0.0, 0.45, 0.0)
 
-    lateinit var standing: PokemonPose
-    lateinit var walking: PokemonPose
-    lateinit var sleep: PokemonPose
-    lateinit var battleidle: PokemonPose
+    lateinit var standing: Pose
+    lateinit var walking: Pose
+    lateinit var sleep: Pose
+    lateinit var battleidle: Pose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("annihilape", "cry") }
+    override val cryAnimation = CryProvider { bedrockStateful("annihilape", "cry") }
 
     override fun registerPoses() {
         val blink = quirk { bedrockStateful("annihilape", "blink") }
@@ -53,7 +55,7 @@ class AnnihilapeModel (root: ModelPart) : PokemonPoseableModel(), BipedFrame, Bi
             poseName = "standing",
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
             transformTicks = 10,
-            condition = { !it.isBattling },
+            condition = { (it.entity as? PokemonEntity)?.isBattling == false },
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 bedrock("annihilape", "ground_idle"),
@@ -77,15 +79,12 @@ class AnnihilapeModel (root: ModelPart) : PokemonPoseableModel(), BipedFrame, Bi
             poseTypes = PoseType.STATIONARY_POSES,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            condition = { it.isBattling },
+            condition = { (it.entity as? PokemonEntity)?.isBattling == true },
             idleAnimations = arrayOf(
                 bedrock("annihilape", "battle_idle"),
                 bedrock("annihilape", "hair_overlay")
             )
         )
     }
-    override fun getFaintAnimation(
-        pokemonEntity: PokemonEntity,
-        state: PosableState<PokemonEntity>
-    ) = if (state.isPosedIn(standing, walking, battleidle, sleep)) bedrockStateful("annihilape", "faint") else null
+    override fun getFaintAnimation(state: PosableState) = if (state.isPosedIn(standing, walking, battleidle, sleep)) bedrockStateful("annihilape", "faint") else null
 }

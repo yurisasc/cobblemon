@@ -13,11 +13,13 @@ import com.cobblemon.mod.common.client.render.models.blockbench.animation.WingFl
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BiWingedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.pose.Pose
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.ModelPartTransformation
 import com.cobblemon.mod.common.client.render.models.blockbench.wavefunction.sineFunction
 import com.cobblemon.mod.common.entity.PoseType
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableState
+import com.cobblemon.mod.common.client.render.models.blockbench.repository.RenderContext
 import com.cobblemon.mod.common.entity.PoseType.Companion.MOVING_POSES
 import com.cobblemon.mod.common.entity.PoseType.Companion.STATIONARY_POSES
 import com.cobblemon.mod.common.entity.PoseType.Companion.UI_POSES
@@ -25,7 +27,7 @@ import com.cobblemon.mod.common.util.math.geometry.toRadians
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class DartrixModel(root: ModelPart) : PokemonPoseableModel(), BipedFrame, BiWingedFrame {
+class DartrixModel(root: ModelPart) : PosableModel(), BipedFrame, BiWingedFrame {
     override val rootPart = root.registerChildWithAllChildren("dartrix")
 
     override val leftWing = getPart("wing_left1")
@@ -40,12 +42,12 @@ class DartrixModel(root: ModelPart) : PokemonPoseableModel(), BipedFrame, BiWing
     override val profileScale = 1.1F
     override val profileTranslation = Vec3d(0.0, 0.1, 0.0)
 
-    lateinit var fly: PokemonPose
-    lateinit var flyidle: PokemonPose
-    lateinit var standing: PokemonPose
-    lateinit var walk: PokemonPose
+    lateinit var fly: Pose
+    lateinit var flyidle: Pose
+    lateinit var standing: Pose
+    lateinit var walk: Pose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("dartrix", "cry") }
+    override val cryAnimation = CryProvider { bedrockStateful("dartrix", "cry") }
 
     override fun registerPoses() {
         standing = registerPose(

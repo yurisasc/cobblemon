@@ -8,13 +8,16 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen8
 
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.pose.Pose
 import com.cobblemon.mod.common.entity.PoseType
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableState
+import com.cobblemon.mod.common.client.render.models.blockbench.repository.RenderContext
+import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class ArrokudaModel (root: ModelPart) : PokemonPoseableModel() {
+class ArrokudaModel (root: ModelPart) : PosableModel() {
     override val rootPart = root.registerChildWithAllChildren("arrokuda")
 
     override val portraitScale = 3.0F
@@ -23,14 +26,14 @@ class ArrokudaModel (root: ModelPart) : PokemonPoseableModel() {
     override val profileScale = 0.8F
     override val profileTranslation = Vec3d(0.0, 0.5, 0.0)
 
-    lateinit var standing: PokemonPose
-    lateinit var walk: PokemonPose
-    lateinit var floating: PokemonPose
-    lateinit var swimming: PokemonPose
-    lateinit var sleep: PokemonPose
-    lateinit var watersleep: PokemonPose
-    lateinit var battleidle: PokemonPose
-    lateinit var waterbattleidle: PokemonPose
+    lateinit var standing: Pose
+    lateinit var walk: Pose
+    lateinit var floating: Pose
+    lateinit var swimming: Pose
+    lateinit var sleep: Pose
+    lateinit var watersleep: Pose
+    lateinit var battleidle: Pose
+    lateinit var waterbattleidle: Pose
 
     override fun registerPoses() {
         val blink = quirk { bedrockStateful("arrokuda", "blink")}
@@ -39,14 +42,14 @@ class ArrokudaModel (root: ModelPart) : PokemonPoseableModel() {
         sleep = registerPose(
             poseName = "sleeping",
             poseType = PoseType.SLEEP,
-            condition = { !it.isTouchingWater },
+            condition = { it.entity?.isTouchingWater == false },
             idleAnimations = arrayOf(bedrock("arrokuda", "sleep"))
         )
 
         watersleep = registerPose(
             poseName = "water_sleeping",
             poseType = PoseType.SLEEP,
-            condition = { it.isTouchingWater },
+            condition = { it.entity?.isTouchingWater == true },
             idleAnimations = arrayOf(bedrock("arrokuda", "water_sleep"))
         )
 
@@ -54,7 +57,7 @@ class ArrokudaModel (root: ModelPart) : PokemonPoseableModel() {
             poseName = "standing",
             poseTypes = PoseType.UI_POSES + PoseType.STAND,
             transformTicks = 10,
-            condition = { !it.isBattling },
+            condition = { (it.entity as? PokemonEntity)?.isBattling == false },
             quirks = arrayOf(blink, flop),
             idleAnimations = arrayOf(
                 bedrock("arrokuda", "ground_idle")
@@ -94,7 +97,7 @@ class ArrokudaModel (root: ModelPart) : PokemonPoseableModel() {
             poseTypes = PoseType.STATIONARY_POSES,
             transformTicks = 10,
             quirks = arrayOf(blink, flop),
-            condition = { it.isBattling && !it.isTouchingWater },
+            condition = { (it.entity as? PokemonEntity)?.let { it.isBattling && !it.isTouchingWater } == true },
             idleAnimations = arrayOf(
                 bedrock("arrokuda", "battle_idle")
             )
@@ -105,7 +108,7 @@ class ArrokudaModel (root: ModelPart) : PokemonPoseableModel() {
             poseTypes = PoseType.STATIONARY_POSES,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            condition = { it.isBattling && it.isTouchingWater },
+            condition = { (it.entity as? PokemonEntity)?.let { it.isBattling && it.isTouchingWater } == true },
             idleAnimations = arrayOf(
                 bedrock("arrokuda", "water_battle_idle")
             )

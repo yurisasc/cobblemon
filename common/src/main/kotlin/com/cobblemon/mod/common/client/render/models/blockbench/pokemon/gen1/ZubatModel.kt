@@ -10,14 +10,16 @@ package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1
 
 import com.cobblemon.mod.common.client.render.models.blockbench.createTransformation
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.pose.Pose
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.ModelPartTransformation.Companion.X_AXIS
 import com.cobblemon.mod.common.entity.PoseType
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableState
+import com.cobblemon.mod.common.client.render.models.blockbench.repository.RenderContext
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class ZubatModel(root: ModelPart) : PokemonPoseableModel() {
+class ZubatModel(root: ModelPart) : PosableModel() {
     override val rootPart = root.registerChildWithAllChildren("zubat")
 
     val wings_folded = getPart("wings_folded")
@@ -29,17 +31,17 @@ class ZubatModel(root: ModelPart) : PokemonPoseableModel() {
     override val profileScale = 0.7F
     override val profileTranslation = Vec3d(0.0, 0.7, 0.0)
 
-    lateinit var sleep: PokemonPose
-    lateinit var standing: PokemonPose
-    lateinit var walk: PokemonPose
-    lateinit var hover: PokemonPose
-    lateinit var fly: PokemonPose
-    lateinit var shoulderLeft: PokemonPose
-    lateinit var shoulderRight: PokemonPose
+    lateinit var sleep: Pose
+    lateinit var standing: Pose
+    lateinit var walk: Pose
+    lateinit var hover: Pose
+    lateinit var fly: Pose
+    lateinit var shoulderLeft: Pose
+    lateinit var shoulderRight: Pose
 
     val shoulderOffset = 0
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("zubat", "cry") }
+    override val cryAnimation = CryProvider { bedrockStateful("zubat", "cry") }
 
     override fun registerPoses() {
         val twitch = quirk { bedrockStateful("zubat", "eartwitch") }

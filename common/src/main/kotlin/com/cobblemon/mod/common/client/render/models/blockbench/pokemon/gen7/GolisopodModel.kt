@@ -10,14 +10,16 @@ package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen7
 
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.pose.Pose
 import com.cobblemon.mod.common.entity.PoseType
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableState
+import com.cobblemon.mod.common.client.render.models.blockbench.repository.RenderContext
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class GolisopodModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
+class GolisopodModel (root: ModelPart) : PosableModel(), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("golisopod")
     override val head = getPart("head")
 
@@ -28,14 +30,14 @@ class GolisopodModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override val profileScale = 0.45F
     override val profileTranslation = Vec3d(0.0, 1.0, 0.0)
 
-    lateinit var standing: PokemonPose
-    lateinit var walk: PokemonPose
-    lateinit var floating: PokemonPose
-    lateinit var swimming: PokemonPose
-    lateinit var sleep: PokemonPose
-    lateinit var battleidle: PokemonPose
+    lateinit var standing: Pose
+    lateinit var walk: Pose
+    lateinit var floating: Pose
+    lateinit var swimming: Pose
+    lateinit var sleep: Pose
+    lateinit var battleidle: Pose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("golisopod", "cry") }
+    override val cryAnimation = CryProvider { bedrockStateful("golisopod", "cry") }
 
     override fun registerPoses() {
         val blink = quirk { bedrockStateful("golisopod", "blink")}
@@ -50,7 +52,7 @@ class GolisopodModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             poseName = "standing",
             poseTypes = PoseType.UI_POSES + PoseType.STAND,
             transformTicks = 10,
-            condition = { !it.isBattling },
+            condition = { (it.entity as? PokemonEntity)?.isBattling == false },
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
@@ -96,15 +98,12 @@ class GolisopodModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             poseTypes = PoseType.STATIONARY_POSES,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            condition = { it.isBattling && !it.isSubmergedInWater },
+            condition = { (it.entity as? PokemonEntity)?.let { it.isBattling && !it.isSubmergedInWater } == true },
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("golisopod", "battle_idle")
             )
         )
     }
-    override fun getFaintAnimation(
-        pokemonEntity: PokemonEntity,
-        state: PosableState<PokemonEntity>
-    ) = if (state.isPosedIn(standing, walk, battleidle, sleep)) bedrockStateful("golisopod", "faint") else null
+    override fun getFaintAnimation(state: PosableState) = if (state.isPosedIn(standing, walk, battleidle, sleep)) bedrockStateful("golisopod", "faint") else null
 }

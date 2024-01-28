@@ -12,13 +12,15 @@ import com.cobblemon.mod.common.client.render.models.blockbench.animation.Quadru
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.QuadrupedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.pose.Pose
 import com.cobblemon.mod.common.entity.PoseType
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableState
+import com.cobblemon.mod.common.client.render.models.blockbench.repository.RenderContext
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class RapidashGalarianModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, QuadrupedFrame {
+class RapidashGalarianModel (root: ModelPart) : PosableModel(), HeadedFrame, QuadrupedFrame {
     override val rootPart = root.registerChildWithAllChildren("rapidash_galar")
     override val head = getPart("neck")
 
@@ -33,10 +35,10 @@ class RapidashGalarianModel (root: ModelPart) : PokemonPoseableModel(), HeadedFr
     override val profileScale = 0.7F
     override val profileTranslation = Vec3d(0.0, 0.65, 0.0)
 
-    lateinit var standing: PokemonPose
-    lateinit var walk: PokemonPose
+    lateinit var standing: Pose
+    lateinit var walk: Pose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("rapidash_galar", "cry") }
+    override val cryAnimation = CryProvider { bedrockStateful("rapidash_galar", "cry") }
 
     override fun registerPoses() {
         val blink = quirk { bedrockStateful("rapidash_galar", "blink") }

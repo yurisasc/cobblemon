@@ -10,17 +10,19 @@ package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen7
 
 
 import com.cobblemon.mod.common.client.render.models.blockbench.createTransformation
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.pose.Pose
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.ModelPartTransformation
 import com.cobblemon.mod.common.entity.PoseType
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableState
+import com.cobblemon.mod.common.client.render.models.blockbench.repository.RenderContext
 import com.cobblemon.mod.common.entity.PoseType.Companion.MOVING_POSES
 import com.cobblemon.mod.common.entity.PoseType.Companion.STATIONARY_POSES
 import com.cobblemon.mod.common.entity.PoseType.Companion.UI_POSES
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
-class CutieflyModel(root: ModelPart) : PokemonPoseableModel(){
+class CutieflyModel(root: ModelPart) : PosableModel(){
     override val rootPart = root.registerChildWithAllChildren("cutiefly")
 
     override val portraitScale = 2.4F
@@ -29,9 +31,9 @@ class CutieflyModel(root: ModelPart) : PokemonPoseableModel(){
     override val profileScale = 0.7F
     override val profileTranslation = Vec3d(0.0, 1.2, 0.0)
 
-    lateinit var standing: PokemonPose
-    lateinit var walk: PokemonPose
-    lateinit var sleep: PokemonPose
+    lateinit var standing: Pose
+    lateinit var walk: Pose
+    lateinit var sleep: Pose
 
     override fun registerPoses() {
 
@@ -58,8 +60,5 @@ class CutieflyModel(root: ModelPart) : PokemonPoseableModel(){
             transformedParts = arrayOf(rootPart.createTransformation().addPosition(ModelPartTransformation.Y_AXIS, -12F))
         )
     }
-        override fun getFaintAnimation(
-            pokemonEntity: PokemonEntity,
-            state: PosableState<PokemonEntity>
-    ) = if (state.isPosedIn(standing, walk, sleep)) bedrockStateful("cutiefly", "faint") else null
+        override fun getFaintAnimation(state: PosableState) = if (state.isPosedIn(standing, walk, sleep)) bedrockStateful("cutiefly", "faint") else null
 }

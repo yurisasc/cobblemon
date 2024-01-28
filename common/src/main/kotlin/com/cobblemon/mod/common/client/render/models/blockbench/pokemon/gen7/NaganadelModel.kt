@@ -8,10 +8,10 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen7
 
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BiWingedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.pose.Pose
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.ModelPartTransformation.Companion.Y_AXIS
 import com.cobblemon.mod.common.client.render.models.blockbench.wavefunction.sineFunction
 import com.cobblemon.mod.common.entity.PoseType.Companion.MOVING_POSES
@@ -21,7 +21,7 @@ import com.cobblemon.mod.common.util.math.geometry.toRadians
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class NaganadelModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BiWingedFrame {
+class NaganadelModel(root: ModelPart) : PosableModel(), HeadedFrame, BiWingedFrame {
     override val rootPart = root.registerChildWithAllChildren("naganadel")
     override val head = getPart("head")
 
@@ -34,8 +34,8 @@ class NaganadelModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BiW
     override val profileScale = 0.4F
     override val profileTranslation = Vec3d(0.05, 1.3, 0.0)
 
-    lateinit var standing: PokemonPose
-    lateinit var walk: PokemonPose
+    lateinit var standing: Pose
+    lateinit var walk: Pose
 
     override fun registerPoses() {
         standing = registerPose(
@@ -46,11 +46,11 @@ class NaganadelModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BiW
                 bedrock("naganadel", "ground_idle"),
                 wingFlap(
                     flapFunction = sineFunction(verticalShift = -10F.toRadians(), period = 0.9F, amplitude = 0.4F),
-                    timeVariable = { state, _, _ -> state?.animationSeconds ?: 0F },
+                    timeVariable = { state, _, _ -> state.animationSeconds },
                     axis = Y_AXIS
                 ),
                 rootPart.translation(function = sineFunction(amplitude = -3F, period = 0.9F), axis = Y_AXIS) { state, _, _ ->
-                    state?.animationSeconds ?: 0F
+                    state.animationSeconds
                 }
             )
         )
@@ -63,12 +63,10 @@ class NaganadelModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BiW
                 bedrock("naganadel", "ground_idle"),
                 wingFlap(
                     flapFunction = sineFunction(verticalShift = -10F.toRadians(), period = 0.9F, amplitude = 0.4F),
-                    timeVariable = { state, _, _ -> state?.animationSeconds ?: 0F },
+                    timeVariable = { state, _, _ -> state.animationSeconds },
                     axis = Y_AXIS
                 ),
-                rootPart.translation(function = sineFunction(amplitude = -3F, period = 0.9F), axis = Y_AXIS) { state, _, _ ->
-                    state?.animationSeconds ?: 0F
-                }
+                rootPart.translation(function = sineFunction(amplitude = -3F, period = 0.9F), axis = Y_AXIS) { state, _, _ -> state.animationSeconds }
                 //bedrock("naganadel", "ground_walk")
             )
         )

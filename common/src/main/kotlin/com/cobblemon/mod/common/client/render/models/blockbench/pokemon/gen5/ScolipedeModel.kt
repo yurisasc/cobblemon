@@ -9,13 +9,16 @@
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen5
 
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.pose.Pose
 import com.cobblemon.mod.common.entity.PoseType
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableState
+import com.cobblemon.mod.common.client.render.models.blockbench.repository.RenderContext
+import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class ScolipedeModel (root: ModelPart) : PokemonPoseableModel() {
+class ScolipedeModel (root: ModelPart) : PosableModel() {
     override val rootPart = root.registerChildWithAllChildren("scolipede")
 
     override val portraitScale = 1.3F
@@ -24,12 +27,12 @@ class ScolipedeModel (root: ModelPart) : PokemonPoseableModel() {
     override val profileScale = 0.4F
     override val profileTranslation = Vec3d(0.0, 1.1, 0.0)
 
-    lateinit var sleep: PokemonPose
-    lateinit var standing: PokemonPose
-    lateinit var walk: PokemonPose
-    lateinit var battleidle: PokemonPose
+    lateinit var sleep: Pose
+    lateinit var standing: Pose
+    lateinit var walk: Pose
+    lateinit var battleidle: Pose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("scolipede", "cry") }
+    override val cryAnimation = CryProvider { bedrockStateful("scolipede", "cry") }
 
     override fun registerPoses() {
         val blink = quirk { bedrockStateful("scolipede", "blink") }
@@ -37,7 +40,7 @@ class ScolipedeModel (root: ModelPart) : PokemonPoseableModel() {
         standing = registerPose(
             poseName = "standing",
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
-            condition = { !it.isBattling },
+            condition = { (it.entity as? PokemonEntity)?.isBattling == false },
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 bedrock("scolipede", "ground_idle")
@@ -65,7 +68,7 @@ class ScolipedeModel (root: ModelPart) : PokemonPoseableModel() {
             poseTypes = PoseType.STATIONARY_POSES,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            condition = { it.isBattling },
+            condition = { (it.entity as? PokemonEntity)?.isBattling == true },
             idleAnimations = arrayOf(
                 bedrock("scolipede", "battle_idle")
             )

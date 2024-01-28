@@ -8,8 +8,7 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.generic
 
-import com.cobblemon.mod.common.client.entity.GenericBedrockClientDelegate
-import com.cobblemon.mod.common.client.render.models.blockbench.JsonPoseableEntityModel
+import com.cobblemon.mod.common.client.render.models.blockbench.JsonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.StatefulAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.ModelFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.Bone
@@ -23,7 +22,7 @@ import java.lang.reflect.Type
 import java.util.function.Supplier
 import net.minecraft.util.math.Vec3d
 
-class JsonGenericPoseableModel(override val rootPart: Bone, override val isForLivingEntityRenderer: Boolean = false) : JsonPoseableEntityModel<GenericBedrockEntity>(rootPart) {
+class JsonGenericPoseableModel(override val rootPart: Bone) : JsonPosableModel(rootPart) {
 
     object JsonGenericPoseableModelAdapter : InstanceCreator<JsonGenericPoseableModel> {
         var modelPart: Bone? = null
@@ -44,14 +43,7 @@ class JsonGenericPoseableModel(override val rootPart: Bone, override val isForLi
             .registerTypeAdapter(Vec3d::class.java, Vec3dAdapter)
             .setExclusionStrategies(JsonModelExclusion)
             .registerTypeAdapter(
-                TypeToken.getParameterized(
-                    Supplier::class.java,
-                    TypeToken.getParameterized(
-                        StatefulAnimation::class.java,
-                        GenericBedrockEntity::class.java,
-                        ModelFrame::class.java
-                    ).type
-                ).type,
+                StatefulAnimation::class.java,
                 StatefulAnimationAdapter { JsonGenericPoseableModelAdapter.model!! }
             )
             .registerTypeAdapter(Pose::class.java, PoseAdapter({ emptyList() }) { JsonGenericPoseableModelAdapter.model!! })
@@ -61,6 +53,4 @@ class JsonGenericPoseableModel(override val rootPart: Bone, override val isForLi
             )
             .create()
     }
-
-    override fun getState(entity: GenericBedrockEntity) = entity.delegate as GenericBedrockClientDelegate
 }

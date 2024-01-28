@@ -13,13 +13,16 @@ import com.cobblemon.mod.common.client.render.models.blockbench.frame.BimanualFr
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.pose.Pose
 import com.cobblemon.mod.common.entity.PoseType
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableState
+import com.cobblemon.mod.common.client.render.models.blockbench.repository.RenderContext
+import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class GrookeyModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedFrame, BimanualFrame {
+class GrookeyModel (root: ModelPart) : PosableModel(), HeadedFrame, BipedFrame, BimanualFrame {
     override val rootPart = root.registerChildWithAllChildren("grookey")
     override val head = getPart("head")
 
@@ -36,11 +39,11 @@ class GrookeyModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bipe
     override val profileScale = 0.75F
     override val profileTranslation = Vec3d(0.0, 0.6, 0.0)
 
-    lateinit var battleidle: PokemonPose
-    lateinit var standing: PokemonPose
-    lateinit var walk: PokemonPose
+    lateinit var battleidle: Pose
+    lateinit var standing: Pose
+    lateinit var walk: Pose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("grookey", "cry") }
+    override val cryAnimation = CryProvider { bedrockStateful("grookey", "cry") }
 
     override fun registerPoses() {
         val blink = quirk { bedrockStateful("grookey", "blink") }
@@ -48,7 +51,7 @@ class GrookeyModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bipe
             poseName = "standing",
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
             quirks = arrayOf(blink),
-            condition = { !it.isBattling },
+            condition = { (it.entity as? PokemonEntity)?.isBattling == false },
             transformedParts = arrayOf(
                 stick.createTransformation().withVisibility(visibility = false),
                 stick_hair.createTransformation().withVisibility(visibility = true)
@@ -78,7 +81,7 @@ class GrookeyModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bipe
             poseTypes = PoseType.STATIONARY_POSES,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            condition = { it.isBattling },
+            condition = { (it.entity as? PokemonEntity)?.isBattling == true },
             transformedParts = arrayOf(
                 stick.createTransformation().withVisibility(visibility = true),
                 stick_hair.createTransformation().withVisibility(visibility = false)

@@ -8,13 +8,12 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.repository
 
-import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityModel
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.npc.JsonNPCModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.Bone
-import com.cobblemon.mod.common.entity.npc.NPCEntity
 import com.cobblemon.mod.common.util.cobblemonResource
 
-object NPCModelRepository : VaryingModelRepository<NPCEntity, PoseableEntityModel<NPCEntity>>() {
+object NPCModelRepository : VaryingModelRepository() {
     override val title = "NPC"
     override val type = "npcs"
     override val variationDirectories: List<String> = listOf("bedrock/$type/variations")
@@ -24,7 +23,7 @@ object NPCModelRepository : VaryingModelRepository<NPCEntity, PoseableEntityMode
 
     override val fallback = cobblemonResource("npc")
     override val isForLivingEntityRenderer = true
-    override fun loadJsonPoser(json: String): (Bone) -> PoseableEntityModel<NPCEntity> {
+    override fun loadJsonPoser(json: String): (Bone) -> PosableModel {
         return {
             JsonNPCModel.JsonNPCModelAdapter.modelPart = it
             JsonNPCModel.gson.fromJson(json, JsonNPCModel::class.java).also {

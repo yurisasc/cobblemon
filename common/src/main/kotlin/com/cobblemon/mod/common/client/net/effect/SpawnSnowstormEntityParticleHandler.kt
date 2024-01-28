@@ -15,7 +15,7 @@ import com.cobblemon.mod.common.api.net.ClientNetworkPacketHandler
 import com.cobblemon.mod.common.client.ClientMoLangFunctions.setupClient
 import com.cobblemon.mod.common.client.particle.BedrockParticleEffectRepository
 import com.cobblemon.mod.common.client.particle.ParticleStorm
-import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableState
 import com.cobblemon.mod.common.entity.Poseable
 import com.cobblemon.mod.common.net.messages.client.effect.SpawnSnowstormEntityParticlePacket
 import net.minecraft.client.MinecraftClient
@@ -27,7 +27,7 @@ object SpawnSnowstormEntityParticleHandler : ClientNetworkPacketHandler<SpawnSno
         val effect = BedrockParticleEffectRepository.getEffect(packet.effectId) ?: return
         val entity = world.getEntityById(packet.entityId) as? Poseable ?: return
         entity as Entity
-        val state = entity.delegate as PoseableEntityState<*>
+        val state = entity.delegate as PosableState
         val matrixWrapper = state.locatorStates[packet.locator] ?: state.locatorStates["root"]!!
 
         val particleRuntime = MoLangRuntime().setup().setupClient()

@@ -12,6 +12,7 @@ import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.PosableState
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.ModelFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.repository.RenderContext
+import net.minecraft.entity.Entity
 
 /**
  * An animation that requires entity state. It is able to prevent some idle
@@ -37,5 +38,5 @@ interface StatefulAnimation {
         intensity: Float
     ): Boolean
 
-    fun applyEffects(context: RenderContext, state: PosableState, previousSeconds: Float, newSeconds: Float) {}
+    fun applyEffects(entity: Entity, state: PosableState, previousSeconds: Float, newSeconds: Float) {}
 }

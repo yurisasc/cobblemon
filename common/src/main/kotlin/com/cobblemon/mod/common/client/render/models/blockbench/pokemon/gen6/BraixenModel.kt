@@ -13,14 +13,17 @@ import com.cobblemon.mod.common.client.render.models.blockbench.frame.BimanualFr
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.pose.Pose
 import com.cobblemon.mod.common.entity.PoseType
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableState
+import com.cobblemon.mod.common.client.render.models.blockbench.repository.RenderContext
 import com.cobblemon.mod.common.entity.PoseType.Companion.UI_POSES
+import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class BraixenModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedFrame, BimanualFrame {
+class BraixenModel(root: ModelPart) : PosableModel(), HeadedFrame, BipedFrame, BimanualFrame {
     override val rootPart = root.registerChildWithAllChildren("braixen")
     override val head = getPart("head")
     override val rightArm = getPart("arm_right")
@@ -37,11 +40,11 @@ class BraixenModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Biped
     override val profileScale = 0.55F
     override val profileTranslation = Vec3d(0.0, 1.0, 0.0)
 
-    lateinit var standing: PokemonPose
-    lateinit var walk: PokemonPose
-    lateinit var battleidle: PokemonPose
+    lateinit var standing: Pose
+    lateinit var walk: Pose
+    lateinit var battleidle: Pose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("braixen", "cry") }
+    override val cryAnimation = CryProvider { bedrockStateful("braixen", "cry") }
 
     override fun registerPoses() {
         val blink = quirk { bedrockStateful("braixen", "blink")}
@@ -49,7 +52,7 @@ class BraixenModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Biped
             poseName = "standing",
             poseTypes = PoseType.STATIONARY_POSES + UI_POSES,
             transformTicks = 10,
-            condition = { !it.isBattling },
+            condition = { (it.entity as? PokemonEntity)?.isBattling == false },
             transformedParts = arrayOf(
                 stick.createTransformation().withVisibility(visibility = false),
                 sticktail.createTransformation().withVisibility(visibility = true)
@@ -85,7 +88,7 @@ class BraixenModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Biped
                 sticktail.createTransformation().withVisibility(visibility = false)
             ),
             quirks = arrayOf(blink),
-            condition = { it.isBattling },
+            condition = { (it.entity as? PokemonEntity)?.isBattling == true },
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("braixen", "battle_idle")

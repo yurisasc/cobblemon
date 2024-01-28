@@ -8,18 +8,16 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon
 
-import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityModel
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.StatefulAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.StatelessAnimation
-import com.cobblemon.mod.common.client.render.models.blockbench.frame.ModelFrame
-import net.minecraft.entity.Entity
 
 /**
  * Responsible for creating an animation instance from animation reference strings. In the Bedrock format these often
  * look like "bedrock(pokemon_name, animation_name)" which searches an animation registry for data.
  */
 interface AnimationReferenceFactory {
-    fun <T : Entity> stateless(model: PosableModel, animString: String): StatelessAnimation
+    fun stateless(model: PosableModel, animString: String): StatelessAnimation
 
-    fun <T : Entity> stateful(model: PosableModel, animString: String): StatefulAnimation
+    fun stateful(model: PosableModel, animString: String): StatefulAnimation
 }

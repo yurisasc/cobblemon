@@ -9,14 +9,16 @@
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon
 
 import com.cobblemon.mod.common.api.molang.ExpressionLike
+import com.cobblemon.mod.common.client.render.models.blockbench.JsonPosableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.JsonPosableModel.StatefulAnimationAdapter
 import com.cobblemon.mod.common.client.render.models.blockbench.JsonPose
-import com.cobblemon.mod.common.client.render.models.blockbench.JsonPoseableEntityModel
-import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableState
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.StatefulAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.ModelFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.Bone
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.Pose
+import com.cobblemon.mod.common.client.render.models.blockbench.repository.RenderContext
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.util.adapters.ExpressionLikeAdapter
 import com.cobblemon.mod.common.util.adapters.Vec3dAdapter
@@ -43,23 +45,16 @@ import net.minecraft.util.math.Vec3d
  * @author Hiroku
  * @since August 7th, 2022
  */
-class JsonPokemonPoseableModel(override val rootPart: Bone) : PokemonPoseableModel(), HeadedFrame {
+class JsonPokemonPoseableModel(rootPart: Bone) : JsonPosableModel(rootPart), HeadedFrame {
     companion object {
         val gson = GsonBuilder()
             .setPrettyPrinting()
             .disableHtmlEscaping()
             .registerTypeAdapter(Vec3d::class.java, Vec3dAdapter)
-            .setExclusionStrategies(JsonPoseableEntityModel.JsonModelExclusion)
+            .setExclusionStrategies(JsonModelExclusion)
             .registerTypeAdapter(
-                TypeToken.getParameterized(
-                    Supplier::class.java,
-                    TypeToken.getParameterized(
-                        StatefulAnimation::class.java,
-                        PokemonEntity::class.java,
-                        ModelFrame::class.java
-                    ).type
-                ).type,
-                JsonPoseableEntityModel.StatefulAnimationAdapter { JsonPokemonPoseableModelAdapter.model!! }
+                StatefulAnimation::class.java,
+                StatefulAnimationAdapter { JsonPokemonPoseableModelAdapter.model!! }
             )
             .registerTypeAdapter(ExpressionLike::class.java, ExpressionLikeAdapter)
             .registerTypeAdapter(Pose::class.java, PoseAdapter)
@@ -83,8 +78,8 @@ class JsonPokemonPoseableModel(override val rootPart: Bone) : PokemonPoseableMod
     val faint: Supplier<StatefulAnimation>? = null
     val cry: Supplier<StatefulAnimation>? = null
 
-    override fun getFaintAnimation(pokemonEntity: PokemonEntity, state: PosableState<PokemonEntity>) = faint?.get()
-    override val cryAnimation = CryProvider { _, _ -> cry?.get() }
+    override fun getFaintAnimation(state: PosableState) = faint?.get()
+    override val cryAnimation = CryProvider { cry?.get() }
 
     object JsonModelExclusion: ExclusionStrategy {
         override fun shouldSkipField(f: FieldAttributes): Boolean {
@@ -127,18 +122,18 @@ class JsonPokemonPoseableModel(override val rootPart: Bone) : PokemonPoseableMod
             val obj = json as JsonObject
             val pose = JsonPose(model, obj)
 
-            val conditionsList = mutableListOf<(PokemonEntity) -> Boolean>()
+            val conditionsList = mutableListOf<(RenderContext) -> Boolean>()
 
             val mustBeInBattle = json.get("isBattle")?.asBoolean
             if (mustBeInBattle != null) {
-                conditionsList.add { mustBeInBattle == it.isBattling }
+                conditionsList.add { mustBeInBattle == (it.entity as? PokemonEntity)?.isBattling }
             }
             val mustBeTouchingWater = json.get("isTouchingWater")?.asBoolean
             if (mustBeTouchingWater != null) {
-                conditionsList.add { mustBeTouchingWater == it.isTouchingWater }
+                conditionsList.add { mustBeTouchingWater == it.entity?.isTouchingWater }
             }
 
-            val poseCondition: ((PokemonEntity) -> Boolean)? = if (conditionsList.isEmpty()) null else conditionsList.reduce { acc, function -> { acc(it) && function(it) } }
+            val poseCondition: ((RenderContext) -> Boolean)? = if (conditionsList.isEmpty()) null else conditionsList.reduce { acc, function -> { acc(it) && function(it) } }
 
             return Pose(
                 poseName = pose.poseName,
@@ -152,8 +147,8 @@ class JsonPokemonPoseableModel(override val rootPart: Bone) : PokemonPoseableMod
             ).also {
                 it.transitions.putAll(
                     pose.transitions
-                        .mapNotNull<JsonPose.JsonPoseTransition, Pair<String, (Pose<PokemonEntity, out ModelFrame>, Pose<PokemonEntity, out ModelFrame>) -> StatefulAnimation<PokemonEntity, ModelFrame>>> {
-                            it.to to { _, _ -> it.animation.resolveObject(model.runtime).obj as StatefulAnimation<PokemonEntity, ModelFrame> }
+                        .mapNotNull<JsonPose.JsonPoseTransition, Pair<String, (Pose, Pose) -> StatefulAnimation>> {
+                            it.to to { _, _ -> it.animation.resolveObject(model.runtime).obj as StatefulAnimation }
                         }.toMap()
                 )
             }

@@ -9,6 +9,7 @@
 package com.cobblemon.mod.common.client.gui
 
 import com.cobblemon.mod.common.api.pokemon.PokemonSpecies
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableState
 import com.cobblemon.mod.common.client.render.models.blockbench.repository.PokemonModelRepository
 import com.cobblemon.mod.common.client.render.models.blockbench.repository.RenderContext
 import com.cobblemon.mod.common.entity.PoseType
@@ -19,6 +20,7 @@ import net.minecraft.client.MinecraftClient
 import net.minecraft.client.render.DiffuseLighting
 import net.minecraft.client.render.LightmapTextureManager
 import net.minecraft.client.render.OverlayTexture
+import net.minecraft.client.render.RenderLayer
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.util.Identifier
 import org.joml.Quaternionf
@@ -51,27 +53,23 @@ fun drawProfilePokemon(
     scale: Float = 20F
 ) {
     val model = PokemonModelRepository.getPoser(species, aspects)
-    val texture = PokemonModelRepository.getTexture(species, aspects, state?.animationSeconds ?: 0F)
+    val texture = PokemonModelRepository.getTexture(species, aspects, state.animationSeconds)
 
     val context = RenderContext()
-    PokemonModelRepository.getTextureNoSubstitute(species, aspects, 0f).let { it -> context.put(RenderContext.TEXTURE, it) }
+    PokemonModelRepository.getTextureNoSubstitute(species, aspects, 0f).let { context.put(RenderContext.TEXTURE, it) }
     context.put(RenderContext.SCALE, PokemonSpecies.getByIdentifier(species)!!.getForm(aspects).baseScale)
     context.put(RenderContext.SPECIES, species)
     context.put(RenderContext.ASPECTS, aspects)
 
-    val renderType = model.getLayer(texture)
+    val renderType = RenderLayer.getEntityCutout(texture)
 
     RenderSystem.applyModelViewMatrix()
     matrixStack.scale(scale, scale, -scale)
 
-    if (state != null) {
-        model.getPose(PoseType.PROFILE)?.let { state.setPose(it.poseName) }
-        state.timeEnteredPose = 0F
-        state.updatePartialTicks(partialTicks)
-        model.setupAnimStateful(null, state, 0F, 0F, 0F, 0F, 0F)
-    } else {
-        model.setupAnimStateless(PoseType.PROFILE)
-    }
+    model.getPose(PoseType.PROFILE)?.let { state.setPose(it.poseName) }
+    state.timeEnteredPose = 0F
+    state.updatePartialTicks(partialTicks)
+    model.setupAnimStateful(null, state, 0F, 0F, 0F, 0F, 0F)
     matrixStack.translate(model.profileTranslation.x, model.profileTranslation.y,  model.profileTranslation.z - 4.0)
     matrixStack.scale(model.profileScale, model.profileScale, 1 / model.profileScale)
 

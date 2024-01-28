@@ -8,25 +8,22 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.fossil
 
-import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityModel
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.StatelessAnimation
-import com.cobblemon.mod.common.client.render.models.blockbench.frame.ModelFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.Bone
 import com.cobblemon.mod.common.client.render.models.blockbench.quirk.ModelQuirk
 import com.cobblemon.mod.common.entity.PoseType
 import net.minecraft.client.model.ModelPart
-import net.minecraft.entity.Entity
 
-class FossilModel(root: Bone) : PoseableEntityModel<Entity>() {
-    override val isForLivingEntityRenderer = false
+class FossilModel(root: Bone) : PosableModel() {
     //TODO: Find a better way to fetch this bone name
     val boneName: String = root.children.entries.first().key
     override val rootPart = (root as ModelPart).registerChildWithAllChildren(boneName)
 
     var maxScale = 1F
     var yTranslation = 0F
-    var tankAnimations: Array<StatelessAnimation<Entity, out ModelFrame>> = emptyArray()
-    var tankQuirks: Array<ModelQuirk<Entity, *>> = emptyArray()
+    var tankAnimations: Array<StatelessAnimation> = emptyArray()
+    var tankQuirks: Array<ModelQuirk<*>> = emptyArray()
     override fun registerPoses() {
         registerPose(
             poseType = PoseType.SLEEP,
@@ -34,6 +31,4 @@ class FossilModel(root: Bone) : PoseableEntityModel<Entity>() {
             quirks = tankQuirks
         )
     }
-
-    override fun getState(entity: Entity) = throw NotImplementedError("This is not supported for fossil models")
 }

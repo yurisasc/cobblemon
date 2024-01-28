@@ -8,13 +8,16 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen3
 
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.pose.Pose
 import com.cobblemon.mod.common.entity.PoseType
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableState
+import com.cobblemon.mod.common.client.render.models.blockbench.repository.RenderContext
+import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class BarboachModel (root: ModelPart) : PokemonPoseableModel() {
+class BarboachModel (root: ModelPart) : PosableModel() {
     override val rootPart = root.registerChildWithAllChildren("barboach")
 
     override val portraitScale = 2.0F
@@ -23,26 +26,26 @@ class BarboachModel (root: ModelPart) : PokemonPoseableModel() {
     override val profileScale = 0.8F
     override val profileTranslation = Vec3d(0.0, 0.4, 0.0)
 
-    lateinit var standing: PokemonPose
-    lateinit var walk: PokemonPose
-    lateinit var floating: PokemonPose
-    lateinit var swimming: PokemonPose
-    lateinit var watersleep: PokemonPose
-    lateinit var battleidle: PokemonPose
+    lateinit var standing: Pose
+    lateinit var walk: Pose
+    lateinit var floating: Pose
+    lateinit var swimming: Pose
+    lateinit var watersleep: Pose
+    lateinit var battleidle: Pose
 
     override fun registerPoses() {
         val blink = quirk { bedrockStateful("barboach", "blink") }
 
         watersleep = registerPose(
             poseType = PoseType.SLEEP,
-            condition = { it.isTouchingWater },
+            condition = { it.entity?.isTouchingWater == true },
             idleAnimations = arrayOf(bedrock("barboach", "water_sleep"))
         )
 
         standing = registerPose(
             poseName = "standing",
             poseTypes = PoseType.STANDING_POSES - PoseType.FLOAT,
-            condition = { !it.isBattling },
+            condition = { (it.entity as? PokemonEntity)?.isBattling == false },
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 bedrock("barboach", "ground_idle")
@@ -81,7 +84,7 @@ class BarboachModel (root: ModelPart) : PokemonPoseableModel() {
             poseTypes = PoseType.STATIONARY_POSES,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            condition = { it.isBattling },
+            condition = { (it.entity as? PokemonEntity)?.isBattling == true },
             idleAnimations = arrayOf(
                 bedrock("barboach", "battle_idle")
             )

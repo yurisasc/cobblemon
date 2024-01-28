@@ -12,15 +12,17 @@ import com.cobblemon.mod.common.client.render.models.blockbench.createTransforma
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.QuadrupedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.pose.Pose
 import com.cobblemon.mod.common.entity.PoseType
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableState
+import com.cobblemon.mod.common.client.render.models.blockbench.repository.RenderContext
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.util.DataKeys
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class WoolooModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, QuadrupedFrame {
+class WoolooModel(root: ModelPart) : PosableModel(), HeadedFrame, QuadrupedFrame {
     override val rootPart = root.registerChildWithAllChildren("wooloo")
     override val head = getPart("head")
     override val foreLeftLeg= getPart("leg_front_left")
@@ -34,12 +36,12 @@ class WoolooModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quadru
     override val profileScale = 0.9F
     override val profileTranslation = Vec3d(0.0, 0.4, 0.0)
 
-    lateinit var standing: PokemonPose
-    lateinit var walk: PokemonPose
-    lateinit var shearedstanding: PokemonPose
-    lateinit var shearedwalk: PokemonPose
+    lateinit var standing: Pose
+    lateinit var walk: Pose
+    lateinit var shearedstanding: Pose
+    lateinit var shearedwalk: Pose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("wooloo", "cry") }
+    override val cryAnimation = CryProvider { bedrockStateful("wooloo", "cry") }
 
     override fun registerPoses() {
         val blink = quirk { bedrockStateful("wooloo", "blink") }
@@ -48,7 +50,7 @@ class WoolooModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quadru
                 poseTypes = setOf(PoseType.NONE, PoseType.STAND, PoseType.PORTRAIT, PoseType.PROFILE),
                 transformTicks = 0,
                 quirks = arrayOf(blink),
-                condition = { DataKeys.HAS_BEEN_SHEARED !in it.aspects },
+                condition = { !it.containsAspect(DataKeys.HAS_BEEN_SHEARED) },
                 transformedParts = arrayOf(
                         wool.createTransformation().withVisibility(visibility = true)
                 ),
@@ -63,7 +65,7 @@ class WoolooModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quadru
                 poseTypes = setOf(PoseType.SWIM, PoseType.WALK),
                 transformTicks = 0,
                 quirks = arrayOf(blink),
-                condition = { DataKeys.HAS_BEEN_SHEARED !in it.aspects },
+                condition = { !it.containsAspect(DataKeys.HAS_BEEN_SHEARED) },
                 transformedParts = arrayOf(
                         wool.createTransformation().withVisibility(visibility = true)
                 ),
@@ -78,7 +80,7 @@ class WoolooModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quadru
                 poseTypes = setOf(PoseType.NONE, PoseType.STAND, PoseType.PORTRAIT, PoseType.PROFILE),
                 transformTicks = 0,
                 quirks = arrayOf(blink),
-                condition = { DataKeys.HAS_BEEN_SHEARED in it.aspects },
+                condition = { it.containsAspect(DataKeys.HAS_BEEN_SHEARED) },
                 transformedParts = arrayOf(
                         wool.createTransformation().withVisibility(visibility = false)
                 ),
@@ -92,7 +94,7 @@ class WoolooModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quadru
                 poseTypes = setOf(PoseType.SWIM, PoseType.WALK),
                 transformTicks = 0,
                 quirks = arrayOf(blink),
-                condition = { DataKeys.HAS_BEEN_SHEARED in it.aspects },
+                condition = { it.containsAspect(DataKeys.HAS_BEEN_SHEARED) },
                 transformedParts = arrayOf(
                         wool.createTransformation().withVisibility(visibility = false)
                 ),
@@ -103,9 +105,6 @@ class WoolooModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quadru
         )
     }
 
-    override fun getEatAnimation(
-        pokemonEntity: PokemonEntity,
-        state: PosableState<PokemonEntity>
-    ) = bedrockStateful("wooloo", "eat")
+    override fun getEatAnimation(state: PosableState) = bedrockStateful("wooloo", "eat")
 
 }

@@ -12,7 +12,9 @@ import com.cobblemon.mod.common.CobblemonBlocks
 import com.cobblemon.mod.common.block.entity.fossil.FossilTubeBlockEntity
 import com.cobblemon.mod.common.block.multiblock.FossilMultiblockStructure
 import com.cobblemon.mod.common.client.CobblemonBakingOverrides
+import com.cobblemon.mod.common.client.render.models.blockbench.fossil.FossilModel
 import com.cobblemon.mod.common.client.render.models.blockbench.repository.FossilModelRepository
+import com.cobblemon.mod.common.client.render.models.blockbench.repository.RenderContext
 import net.minecraft.block.HorizontalFacingBlock
 import net.minecraft.client.render.OverlayTexture
 import net.minecraft.client.render.RenderLayer
@@ -24,6 +26,10 @@ import net.minecraft.util.math.Direction
 import net.minecraft.util.math.RotationAxis
 
 class FossilTubeRenderer(ctx: BlockEntityRendererFactory.Context) : BlockEntityRenderer<FossilTubeBlockEntity> {
+    val context = RenderContext().also {
+        it.put(RenderContext.RENDER_STATE, RenderContext.RenderState.WORLD)
+    }
+
     override fun render(
         entity: FossilTubeBlockEntity,
         tickDelta: Float,
@@ -71,7 +77,6 @@ class FossilTubeRenderer(ctx: BlockEntityRendererFactory.Context) : BlockEntityR
             transparentBuffer?.quad(matrices.peek(), quad, 0.75f, 0.75f, 0.75f, light, OverlayTexture.DEFAULT_UV)
         }
 
-
         matrices.pop()
     }
 
@@ -88,7 +93,7 @@ class FossilTubeRenderer(ctx: BlockEntityRendererFactory.Context) : BlockEntityR
         val timeRemaining = struc.timeRemaining
 
         val tankBlockState = entity.world?.getBlockState(entity.pos) ?: return
-        if(tankBlockState.block != CobblemonBlocks.FOSSIL_TUBE) {
+        if (tankBlockState.block != CobblemonBlocks.FOSSIL_TUBE) {
             // Block has been destroyed/replaced
             return
         }
@@ -100,9 +105,11 @@ class FossilTubeRenderer(ctx: BlockEntityRendererFactory.Context) : BlockEntityR
         val state = struc.fossilState
         state.updatePartialTicks(tickDelta)
 
-        val model = FossilModelRepository.getPoser(fossil.identifier, aspects)
+        val model = FossilModelRepository.getPoser(fossil.identifier, aspects) as FossilModel
         val texture = FossilModelRepository.getTexture(fossil.identifier, aspects, state.animationSeconds)
-        val vertexConsumer = vertexConsumers.getBuffer(model.getLayer(texture))
+        context.put(RenderContext.ASPECTS, aspects)
+        context.put(RenderContext.TEXTURE, texture)
+        val vertexConsumer = vertexConsumers.getBuffer(RenderLayer.getEntityCutout(texture))
         val pose = model.poses.values.first()
         state.currentModel = model
         state.setPose(pose.poseName)
@@ -127,6 +134,7 @@ class FossilTubeRenderer(ctx: BlockEntityRendererFactory.Context) : BlockEntityR
 
         matrices.push()
         matrices.scale(scale, scale, scale)
+        context.put(RenderContext.SCALE, scale)
 
         model.setupAnimStateful(
             entity = null,
@@ -137,9 +145,9 @@ class FossilTubeRenderer(ctx: BlockEntityRendererFactory.Context) : BlockEntityR
             limbSwingAmount = 0F,
             ageInTicks = state.animationSeconds * 20
         )
-        model.render(matrices, vertexConsumer, light, overlay, 1.0f, 1.0f, 1.0f, 1.0f)
+        model.render(context, matrices, vertexConsumer, light, overlay, 1.0f, 1.0f, 1.0f, 1.0f)
         model.withLayerContext(vertexConsumers, state, FossilModelRepository.getLayers(fossil.identifier, aspects)) {
-            model.render(matrices, vertexConsumer, light, OverlayTexture.DEFAULT_UV, 1F, 1F, 1F, 1F)
+            model.render(context, matrices, vertexConsumer, light, OverlayTexture.DEFAULT_UV, 1F, 1F, 1F, 1F)
         }
         model.setDefault()
         matrices.pop()

@@ -12,7 +12,7 @@ import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.client.render.ModelLayer
 import com.cobblemon.mod.common.client.render.ModelVariationSet
 import com.cobblemon.mod.common.client.render.VaryingRenderableResolver
-import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityModel
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.TexturedModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.Bone
 import com.cobblemon.mod.common.client.util.exists
@@ -24,15 +24,14 @@ import java.nio.charset.StandardCharsets
 import java.util.function.BiFunction
 import java.util.function.Function
 import net.minecraft.client.model.ModelPart
-import net.minecraft.entity.Entity
 import net.minecraft.resource.Resource
 import net.minecraft.resource.ResourceManager
 import net.minecraft.util.Identifier
 import net.minecraft.util.Pair
 
-abstract class VaryingModelRepository<E : Entity, M : PoseableEntityModel<E>> {
-    val posers = mutableMapOf<Identifier, (Bone) -> M>()
-    val variations = mutableMapOf<Identifier, VaryingRenderableResolver<E, M>>()
+abstract class VaryingModelRepository {
+    val posers = mutableMapOf<Identifier, (Bone) -> PosableModel>()
+    val variations = mutableMapOf<Identifier, VaryingRenderableResolver>()
     val texturedModels = mutableMapOf<Identifier, (isForLivingEntityRenderer: Boolean) -> Bone>()
 
     abstract val title: String
@@ -45,7 +44,7 @@ abstract class VaryingModelRepository<E : Entity, M : PoseableEntityModel<E>> {
     /** When using the living entity renderer in Java Edition, a root joint 24F (1.5) Y offset is necessary. I've no fucking idea why. */
     abstract val isForLivingEntityRenderer: Boolean
 
-    abstract fun loadJsonPoser(json: String): (Bone) -> M
+    abstract fun loadJsonPoser(json: String): (Bone) -> PosableModel
 
     fun registerPosers(resourceManager: ResourceManager) {
         posers.clear()
@@ -70,7 +69,7 @@ abstract class VaryingModelRepository<E : Entity, M : PoseableEntityModel<E>> {
         }
     }
 
-    fun inbuilt(name: String, model: (ModelPart) -> M) {
+    fun inbuilt(name: String, model: (ModelPart) -> PosableModel) {
         posers[cobblemonResource(name)] = { bone -> model.invoke(bone as ModelPart) }
     }
 
@@ -126,7 +125,7 @@ abstract class VaryingModelRepository<E : Entity, M : PoseableEntityModel<E>> {
         registerVariations(resourceManager)
     }
 
-    fun getPoser(name: Identifier, aspects: Set<String>): M {
+    fun getPoser(name: Identifier, aspects: Set<String>): PosableModel {
         try {
             val poser = this.variations[name]?.getPoser(aspects)
             if (poser != null) {

@@ -14,7 +14,6 @@ import com.cobblemon.mod.common.api.scheduling.Schedulable
 import com.cobblemon.mod.common.client.render.models.blockbench.PosableState
 import com.cobblemon.mod.common.client.render.models.blockbench.pokeball.AncientPokeBallModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pokeball.PokeBallModel
-import com.cobblemon.mod.common.client.render.models.blockbench.repository.RenderContext
 import com.cobblemon.mod.common.entity.pokeball.EmptyPokeBallEntity
 import kotlin.random.Random
 
@@ -34,10 +33,9 @@ abstract class PokeBallPoseableState : PosableState(), Schedulable {
                         after(seconds = 0.2F) {
                             if (model is PokeBallModel && stateEmitter.get() == EmptyPokeBallEntity.CaptureState.HIT) {
                                 doLater latest@{
-                                    val entity = model.context.request(RenderContext.ENTITY) as EmptyPokeBallEntity? ?: return@latest
-                                    model.moveToPose(entity, this, model.open)
+                                    model.moveToPose(model.context, this, model.open)
                                     after(seconds = 1.75F) {
-                                        model.moveToPose(entity, this, model.shut)
+                                        model.moveToPose(model.context, this, model.shut)
                                     }
                                 }
                             }

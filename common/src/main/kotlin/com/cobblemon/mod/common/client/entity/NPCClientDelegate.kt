@@ -9,10 +9,10 @@
 package com.cobblemon.mod.common.client.entity
 
 import com.cobblemon.mod.common.api.entity.NPCSideDelegate
-import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableState
 import com.cobblemon.mod.common.entity.npc.NPCEntity
 
-class NPCClientDelegate : PoseableEntityState<NPCEntity>(), NPCSideDelegate {
+class NPCClientDelegate : PosableState(), NPCSideDelegate {
     lateinit var npcEntity: NPCEntity
     override val schedulingTracker
         get() = npcEntity.schedulingTracker

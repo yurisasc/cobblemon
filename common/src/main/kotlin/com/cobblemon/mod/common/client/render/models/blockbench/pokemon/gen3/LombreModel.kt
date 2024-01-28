@@ -12,15 +12,17 @@ import com.cobblemon.mod.common.client.render.models.blockbench.createTransforma
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BimanualFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.pose.Pose
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.ModelPartTransformation
 import com.cobblemon.mod.common.entity.PoseType
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableState
+import com.cobblemon.mod.common.client.render.models.blockbench.repository.RenderContext
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class LombreModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedFrame, BimanualFrame {
+class LombreModel (root: ModelPart) : PosableModel(), HeadedFrame, BipedFrame, BimanualFrame {
     override val rootPart = root.registerChildWithAllChildren("lombre")
     override val head = getPart("head")
 
@@ -35,13 +37,13 @@ class LombreModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Biped
     override val profileScale = 0.9F
     override val profileTranslation = Vec3d(0.0, 0.44, 0.0)
 
-    lateinit var standing: PokemonPose
-    lateinit var waterstanding: PokemonPose
-    lateinit var walk: PokemonPose
-    lateinit var waterwalk: PokemonPose
-    lateinit var floating: PokemonPose
-    lateinit var swim: PokemonPose
-    lateinit var sleep: PokemonPose
+    lateinit var standing: Pose
+    lateinit var waterstanding: Pose
+    lateinit var walk: Pose
+    lateinit var waterwalk: Pose
+    lateinit var floating: Pose
+    lateinit var swim: Pose
+    lateinit var sleep: Pose
 
     val wateroffset = 1
 
@@ -51,7 +53,7 @@ class LombreModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Biped
             poseName = "standing",
             poseTypes = PoseType.UI_POSES + PoseType.STAND,
             quirks = arrayOf(blink),
-            condition = { !it.isTouchingWater },
+            condition = { it.entity?.isTouchingWater == false },
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("lombre", "ground_idle")
@@ -62,7 +64,7 @@ class LombreModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Biped
             poseName = "waterstanding",
             poseType = PoseType.STAND,
             quirks = arrayOf(blink),
-            condition = { it.isTouchingWater },
+            condition = { it.entity?.isTouchingWater == true },
             idleAnimations = arrayOf(
                 bedrock("lombre", "water_idle")
             ),
@@ -75,7 +77,7 @@ class LombreModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Biped
             poseName = "walk",
             poseType = PoseType.WALK,
             quirks = arrayOf(blink),
-            condition = { !it.isTouchingWater },
+            condition = { it.entity?.isTouchingWater == false },
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("lombre", "ground_walk"),
@@ -86,7 +88,7 @@ class LombreModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Biped
             poseName = "waterwalk",
             poseType = PoseType.WALK,
             quirks = arrayOf(blink),
-            condition = { it.isTouchingWater },
+            condition = { it.entity?.isTouchingWater == true },
             idleAnimations = arrayOf(
                 bedrock("lombre", "water_swim")
             ),
@@ -123,8 +125,5 @@ class LombreModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Biped
         )
 
     }
-    override fun getFaintAnimation(
-        pokemonEntity: PokemonEntity,
-        state: PosableState<PokemonEntity>
-    ) = if (state.isNotPosedIn(sleep)) bedrockStateful("lombre", "faint") else null
+    override fun getFaintAnimation(state: PosableState) = if (state.isNotPosedIn(sleep)) bedrockStateful("lombre", "faint") else null
 }

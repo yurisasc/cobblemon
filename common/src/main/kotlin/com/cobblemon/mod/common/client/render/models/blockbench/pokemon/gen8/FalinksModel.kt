@@ -8,13 +8,16 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen8
 
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.pose.Pose
 import com.cobblemon.mod.common.entity.PoseType
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableState
+import com.cobblemon.mod.common.client.render.models.blockbench.repository.RenderContext
+import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class FalinksModel (root: ModelPart) : PokemonPoseableModel(){
+class FalinksModel (root: ModelPart) : PosableModel(){
     override val rootPart = root.registerChildWithAllChildren("falinks")
 
     override val portraitScale = 1.9F
@@ -23,10 +26,10 @@ class FalinksModel (root: ModelPart) : PokemonPoseableModel(){
     override val profileScale = 0.5F
     override val profileTranslation = Vec3d(0.1, 0.9, 0.0)
 
-    lateinit var standing: PokemonPose
-    lateinit var battlestanding: PokemonPose
-    lateinit var walk: PokemonPose
-    lateinit var uipose: PokemonPose
+    lateinit var standing: Pose
+    lateinit var battlestanding: Pose
+    lateinit var walk: Pose
+    lateinit var uipose: Pose
 
     override fun registerPoses() {
         val blink = quirk { bedrockStateful("falinks", "blink") }
@@ -40,7 +43,7 @@ class FalinksModel (root: ModelPart) : PokemonPoseableModel(){
             poseName = "standing",
             poseTypes = PoseType.STATIONARY_POSES,
             quirks = arrayOf(blink, blink2, blink3, blink4, blink5, blink6),
-            condition = { !it.isBattling },
+            condition = { (it.entity as? PokemonEntity)?.isBattling == false },
             idleAnimations = arrayOf(
                 bedrock("falinks", "ground_idle")
             )
@@ -50,7 +53,7 @@ class FalinksModel (root: ModelPart) : PokemonPoseableModel(){
             poseName = "battlestanding",
             poseTypes = PoseType.STATIONARY_POSES,
             quirks = arrayOf(blink, blink2, blink3, blink4, blink5, blink6),
-            condition = { it.isBattling },
+            condition = { (it.entity as? PokemonEntity)?.isBattling == true },
             idleAnimations = arrayOf(
                 bedrock("falinks", "battle_idle")
             )
@@ -60,7 +63,7 @@ class FalinksModel (root: ModelPart) : PokemonPoseableModel(){
             poseName = "walk",
             poseTypes = PoseType.MOVING_POSES,
             quirks = arrayOf(blink, blink2, blink3, blink4, blink5, blink6),
-            condition = { !it.isBattling },
+            condition = { (it.entity as? PokemonEntity)?.isBattling == false },
             idleAnimations = arrayOf(
                 bedrock("falinks", "ground_walk")
             )

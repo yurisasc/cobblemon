@@ -9,13 +9,16 @@
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen4
 
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.pose.Pose
 import com.cobblemon.mod.common.entity.PoseType
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableState
+import com.cobblemon.mod.common.client.render.models.blockbench.repository.RenderContext
+import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class DusknoirModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
+class DusknoirModel (root: ModelPart) : PosableModel(), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("dusknoir")
     override val head = getPart("eye")
 
@@ -25,12 +28,12 @@ class DusknoirModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override val profileScale = 0.5F
     override val profileTranslation = Vec3d(-0.2, 1.25, 0.0)
 
-//    lateinit var hover: PokemonPose
-//    lateinit var fly: PokemonPose
-    lateinit var sleep: PokemonPose
-    lateinit var standing: PokemonPose
-    lateinit var walk: PokemonPose
-    lateinit var battleidle: PokemonPose
+//    lateinit var hover: Pose
+//    lateinit var fly: Pose
+    lateinit var sleep: Pose
+    lateinit var standing: Pose
+    lateinit var walk: Pose
+    lateinit var battleidle: Pose
 
     override fun registerPoses() {
         val blink = quirk { bedrockStateful("dusknoir", "blink") }
@@ -43,7 +46,7 @@ class DusknoirModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
         standing = registerPose(
             poseName = "standing",
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
-            condition = { !it.isBattling },
+            condition = { (it.entity as? PokemonEntity)?.isBattling == false },
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("dusknoir", "ground_idle")
@@ -62,7 +65,7 @@ class DusknoirModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
 //        hover = registerPose(
 //            poseName = "hover",
 //            poseTypes = PoseType.UI_POSES + PoseType.HOVER + PoseType.FLOAT,
-//            condition = { !it.isBattling },
+//            condition = { (it.entity as? PokemonEntity)?.isBattling == false },
 //            quirks = arrayOf(blink),
 //            idleAnimations = arrayOf(
 //                bedrock("dusknoir", "air_idle")
@@ -72,7 +75,7 @@ class DusknoirModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
 //        fly = registerPose(
 //            poseName = "fly",
 //            poseTypes = setOf(PoseType.FLY, PoseType.SWIM, PoseType.WALK),
-//            condition = { !it.isBattling },
+//            condition = { (it.entity as? PokemonEntity)?.isBattling == false },
 //            quirks = arrayOf(blink),
 //            idleAnimations = arrayOf(
 //                bedrock("dusknoir", "air_fly")
@@ -83,7 +86,7 @@ class DusknoirModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             poseName = "battle_idle",
             poseTypes = PoseType.STATIONARY_POSES,
             transformTicks = 10,
-            condition = { it.isBattling },
+            condition = { (it.entity as? PokemonEntity)?.isBattling == true },
             idleAnimations = arrayOf(
                 bedrock("dusknoir", "battle_idle")
             )

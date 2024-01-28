@@ -9,13 +9,16 @@
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen2
 
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.pose.Pose
 import com.cobblemon.mod.common.entity.PoseType
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableState
+import com.cobblemon.mod.common.client.render.models.blockbench.repository.RenderContext
+import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class HoothootModel (root: ModelPart) : PokemonPoseableModel() {
+class HoothootModel (root: ModelPart) : PosableModel() {
     override val rootPart = root.registerChildWithAllChildren("hoothoot")
 
     override val portraitScale = 2.2F
@@ -23,14 +26,14 @@ class HoothootModel (root: ModelPart) : PokemonPoseableModel() {
     override val profileScale = 1.0F
     override val profileTranslation = Vec3d(0.0, 0.3, 0.0)
 
-    lateinit var standing: PokemonPose
-    lateinit var walk: PokemonPose
-    lateinit var hover: PokemonPose
-    lateinit var fly: PokemonPose
-    lateinit var sleep: PokemonPose
-    lateinit var battleidle: PokemonPose
+    lateinit var standing: Pose
+    lateinit var walk: Pose
+    lateinit var hover: Pose
+    lateinit var fly: Pose
+    lateinit var sleep: Pose
+    lateinit var battleidle: Pose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("hoothoot", "cry") }
+    override val cryAnimation = CryProvider { bedrockStateful("hoothoot", "cry") }
 
     override fun registerPoses() {
         val blink = quirk { bedrockStateful("hoothoot", "blink")}
@@ -43,7 +46,7 @@ class HoothootModel (root: ModelPart) : PokemonPoseableModel() {
         standing = registerPose(
             poseName = "stand",
             poseTypes = PoseType.STATIONARY_POSES - PoseType.HOVER - PoseType.FLOAT + PoseType.UI_POSES,
-            condition = { !it.isBattling },
+            condition = { (it.entity as? PokemonEntity)?.isBattling == false },
             transformTicks = 10,
             quirks = arrayOf(blink, quirk),
             idleAnimations = arrayOf(
@@ -80,7 +83,7 @@ class HoothootModel (root: ModelPart) : PokemonPoseableModel() {
             poseTypes = PoseType.STATIONARY_POSES,
             transformTicks = 10,
             quirks = arrayOf(blink, quirk),
-            condition = { it.isBattling },
+            condition = { (it.entity as? PokemonEntity)?.isBattling == true },
             idleAnimations = arrayOf(
                 bedrock("hoothoot", "battle_idle")
             )

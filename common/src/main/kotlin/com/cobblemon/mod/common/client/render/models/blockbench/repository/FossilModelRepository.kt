@@ -8,6 +8,8 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.repository
 
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableState
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.StatefulAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.fossil.FossilModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.JsonPokemonPoseableModel
@@ -22,7 +24,7 @@ import net.minecraft.entity.Entity
 /**
  * Repository for models referenced by fossils, to render in the tube.
  */
-object FossilModelRepository : VaryingModelRepository<Entity, FossilModel>() {
+object FossilModelRepository : VaryingModelRepository() {
     override val title = "Fossil Pokémon"
     override val type = "fossils"
     override val variationDirectories: List<String> = listOf("bedrock/$type/variations")
@@ -33,7 +35,7 @@ object FossilModelRepository : VaryingModelRepository<Entity, FossilModel>() {
     override val isForLivingEntityRenderer = false
 
     private val gson = GsonBuilder().create()
-    override fun loadJsonPoser(json: String): (Bone) -> FossilModel {
+    override fun loadJsonPoser(json: String): (Bone) -> PosableModel {
         val jsonObject = gson.fromJson<JsonObject>(json)
         val animations = jsonObject.getAsJsonArray("animations")
         val maxScale = jsonObject.get("maxScale")?.asFloat ?: 1F
@@ -57,7 +59,7 @@ object FossilModelRepository : VaryingModelRepository<Entity, FossilModel>() {
             // borrowed code from JsonPokemonPoseableModel's PoseAdapter Deserializer
             val tankQuirks = (jsonObject.get("quirks")?.asJsonArray ?: JsonArray()).map { json ->
                 json as JsonObject
-                val quirkAnimations: (state: PosableState<Entity>) -> List<StatefulAnimation> = { _ ->
+                val quirkAnimations: (state: PosableState) -> List<StatefulAnimation> = { _ ->
                     (json.get("animations")?.asJsonArray ?: JsonArray()).mapNotNull { animJson ->
                         val animString = animJson.asString
 

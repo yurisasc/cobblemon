@@ -8,33 +8,29 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokeball
 
-import com.cobblemon.mod.common.client.entity.EmptyPokeBallClientDelegate
 import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
-import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityModel
-import com.cobblemon.mod.common.client.render.models.blockbench.frame.ModelFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.PokeBallFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.Pose
+import com.cobblemon.mod.common.client.render.models.blockbench.repository.RenderContext
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.pokeball.EmptyPokeBallEntity
 import net.minecraft.client.model.ModelPart
 
-open class PokeBallModel(root: ModelPart) : PosableModel<EmptyPokeBallEntity>(), PokeBallFrame {
+open class PokeBallModel(root: ModelPart) : PosableModel(), PokeBallFrame {
     override val rootPart = root.registerChildWithAllChildren("poke_ball")
     override val base = getPart("bottom")
     override val lid = getPart("lid")
-    override val isForLivingEntityRenderer = false
+    override var isForLivingEntityRenderer = false
 
-    open lateinit var shut: PokeBallPose
-    open lateinit var open: PokeBallPose
-    open lateinit var midair: PokeBallPose
-
-    override fun getState(entity: EmptyPokeBallEntity) = entity.delegate as EmptyPokeBallClientDelegate
+    open lateinit var shut: Pose
+    open lateinit var open: Pose
+    open lateinit var midair: Pose
 
     override fun registerPoses() {
         midair = registerPose(
             poseName = "flying",
             poseTypes = setOf(PoseType.NONE),
-            condition = { it.captureState == EmptyPokeBallEntity.CaptureState.NOT },
+            condition = { (it.request(RenderContext.ENTITY) as? EmptyPokeBallEntity)?.captureState == EmptyPokeBallEntity.CaptureState.NOT },
             transformTicks = 0,
             idleAnimations = arrayOf(bedrock("poke_ball", "throw"))
         )

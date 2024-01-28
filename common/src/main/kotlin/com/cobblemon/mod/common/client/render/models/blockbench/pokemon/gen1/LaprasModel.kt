@@ -9,14 +9,16 @@
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1
 
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.pose.Pose
 import com.cobblemon.mod.common.entity.PoseType
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableState
+import com.cobblemon.mod.common.client.render.models.blockbench.repository.RenderContext
 import com.cobblemon.mod.common.entity.PoseType.Companion.UI_POSES
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class LaprasModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
+class LaprasModel(root: ModelPart) : PosableModel(), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("lapras")
     override val head = getPart("head_ai")
 
@@ -26,19 +28,19 @@ class LaprasModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override val profileScale = 0.85F
     override val profileTranslation = Vec3d(0.0, 0.4, 0.0)
 
-    lateinit var landIdle: PokemonPose
-    lateinit var landMove: PokemonPose
-    lateinit var surfaceIdle: PokemonPose
-    lateinit var surfaceMove: PokemonPose
-    lateinit var underwaterIdle: PokemonPose
-    lateinit var underwaterMove: PokemonPose
+    lateinit var landIdle: Pose
+    lateinit var landMove: Pose
+    lateinit var surfaceIdle: Pose
+    lateinit var surfaceMove: Pose
+    lateinit var underwaterIdle: Pose
+    lateinit var underwaterMove: Pose
 
     override fun registerPoses() {
         val blink = quirk { bedrockStateful("lapras", "blink") }
         landIdle = registerPose(
             poseName = "land_idle",
             poseTypes = UI_POSES + PoseType.STAND,
-            condition = { !it.isTouchingWater },
+            condition = { it.entity?.isTouchingWater == false },
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
@@ -49,7 +51,7 @@ class LaprasModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
         landMove = registerPose(
             poseName = "land_move",
             poseTypes = setOf(PoseType.WALK),
-            condition = { !it.isTouchingWater },
+            condition = { it.entity?.isTouchingWater == false },
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
@@ -60,7 +62,7 @@ class LaprasModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
         surfaceIdle = registerPose(
             poseName = "surface_idle",
             poseTypes = setOf(PoseType.STAND),
-            condition = { it.isTouchingWater },
+            condition = { it.entity?.isTouchingWater == true },
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
@@ -71,7 +73,7 @@ class LaprasModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
         surfaceMove = registerPose(
             poseName = "surface_move",
             poseTypes = setOf(PoseType.WALK),
-            condition = { it.isTouchingWater },
+            condition = { it.entity?.isTouchingWater == true },
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),

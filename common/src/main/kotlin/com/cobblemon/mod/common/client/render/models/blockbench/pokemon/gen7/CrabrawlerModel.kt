@@ -9,13 +9,15 @@
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen7
 
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.pose.Pose
 import com.cobblemon.mod.common.entity.PoseType
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableState
+import com.cobblemon.mod.common.client.render.models.blockbench.repository.RenderContext
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class CrabrawlerModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame{
+class CrabrawlerModel (root: ModelPart) : PosableModel(), HeadedFrame{
     override val rootPart = root.registerChildWithAllChildren("crabrawler")
     override val head = getPart("head")
 
@@ -25,9 +27,9 @@ class CrabrawlerModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame{
     override val profileScale = 0.65F
     override val profileTranslation = Vec3d(0.0, 0.7, 0.0)
 
-    lateinit var standing: PokemonPose
-    lateinit var walk: PokemonPose
-    lateinit var portrait: PokemonPose
+    lateinit var standing: Pose
+    lateinit var walk: Pose
+    lateinit var portrait: Pose
 
     override fun registerPoses() {
         portrait = registerPose(

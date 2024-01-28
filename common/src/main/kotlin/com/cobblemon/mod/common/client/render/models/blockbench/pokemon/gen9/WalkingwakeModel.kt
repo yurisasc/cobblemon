@@ -11,15 +11,17 @@ package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen9
 import com.cobblemon.mod.common.client.render.models.blockbench.createTransformation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.pose.Pose
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.ModelPartTransformation
 import com.cobblemon.mod.common.entity.PoseType
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableState
+import com.cobblemon.mod.common.client.render.models.blockbench.repository.RenderContext
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class WalkingwakeModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedFrame {
+class WalkingwakeModel (root: ModelPart) : PosableModel(), HeadedFrame, BipedFrame {
     override val rootPart = root.registerChildWithAllChildren("walkingwake")
     override val head = getPart("head")
 
@@ -34,15 +36,15 @@ class WalkingwakeModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, 
 
     val hair = getPart("hair")
 
-    lateinit var sleep: PokemonPose
-    lateinit var standing: PokemonPose
-    lateinit var walk: PokemonPose
+    lateinit var sleep: Pose
+    lateinit var standing: Pose
+    lateinit var walk: Pose
 
-    lateinit var waterstanding: PokemonPose
-    lateinit var waterwalk: PokemonPose
+    lateinit var waterstanding: Pose
+    lateinit var waterwalk: Pose
 
-    //lateinit var shearedstanding: PokemonPose
-    //lateinit var shearedwalk: PokemonPose
+    //lateinit var shearedstanding: Pose
+    //lateinit var shearedwalk: Pose
     val wateroffset = -6
 
     override fun registerPoses() {
@@ -56,8 +58,8 @@ class WalkingwakeModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, 
             poseName = "standing",
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
             quirks = arrayOf(blink),
-            condition = { !it.isTouchingWater },
-            /*          condition = { DataKeys.HAS_BEEN_SHEARED !in it.aspects.get() },
+            condition = { it.entity?.isTouchingWater == false },
+            /*          condition = { !it.containsAspect(DataKeys.HAS_BEEN_SHEARED).get() },
                         transformedParts = arrayOf(
                             hair.asTransformed().withVisibility(visibility = true)
                         ), */
@@ -71,8 +73,8 @@ class WalkingwakeModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, 
             poseName = "waterstanding",
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
             quirks = arrayOf(blink),
-            condition = { it.isTouchingWater },
-            /*          condition = { DataKeys.HAS_BEEN_SHEARED !in it.aspects.get() },
+            condition = { it.entity?.isTouchingWater == true },
+            /*          condition = { !it.containsAspect(DataKeys.HAS_BEEN_SHEARED).get() },
                         transformedParts = arrayOf(
                             hair.asTransformed().withVisibility(visibility = true)
                         ), */
@@ -89,8 +91,8 @@ class WalkingwakeModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, 
             poseName = "walk",
             poseTypes = PoseType.MOVING_POSES,
             quirks = arrayOf(blink),
-            condition = { !it.isTouchingWater },
-            /*          condition = { DataKeys.HAS_BEEN_SHEARED !in it.aspects.get() },
+            condition = { it.entity?.isTouchingWater == false },
+            /*          condition = { !it.containsAspect(DataKeys.HAS_BEEN_SHEARED).get() },
                         transformedParts = arrayOf(
                             hair.asTransformed().withVisibility(visibility = true)
                         ), */
@@ -104,8 +106,8 @@ class WalkingwakeModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, 
             poseName = "waterwalk",
             poseTypes = PoseType.MOVING_POSES,
             quirks = arrayOf(blink),
-            condition = { it.isTouchingWater },
-            /*          condition = { DataKeys.HAS_BEEN_SHEARED !in it.aspects.get() },
+            condition = { it.entity?.isTouchingWater == true },
+            /*          condition = { !it.containsAspect(DataKeys.HAS_BEEN_SHEARED).get() },
                         transformedParts = arrayOf(
                             hair.asTransformed().withVisibility(visibility = true)
                         ), */
@@ -122,7 +124,7 @@ class WalkingwakeModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, 
             poseTypes = setOf(PoseType.NONE, PoseType.STAND, PoseType.PORTRAIT, PoseType.PROFILE),
             transformTicks = 0,
             quirks = arrayOf(blink),
-            condition = { DataKeys.HAS_BEEN_SHEARED in it.aspects.get() },
+            condition = { it.containsAspect(DataKeys.HAS_BEEN_SHEARED).get() },
             transformedParts = arrayOf(
                 hair.asTransformed().withVisibility(visibility = false)
             ),
@@ -136,7 +138,7 @@ class WalkingwakeModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, 
             poseTypes = setOf(PoseType.SWIM, PoseType.WALK),
             transformTicks = 0,
             quirks = arrayOf(blink),
-            condition = { DataKeys.HAS_BEEN_SHEARED in it.aspects.get() },
+            condition = { it.containsAspect(DataKeys.HAS_BEEN_SHEARED).get() },
             transformedParts = arrayOf(
                 hair.asTransformed().withVisibility(visibility = false)
             ),
@@ -147,8 +149,5 @@ class WalkingwakeModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, 
         )
 */
     }
-    override fun getFaintAnimation(
-        pokemonEntity: PokemonEntity,
-        state: PosableState<PokemonEntity>
-    ) = if (state.isNotPosedIn(sleep)) bedrockStateful("walkingwake", "faint") else null
+    override fun getFaintAnimation(state: PosableState) = if (state.isNotPosedIn(sleep)) bedrockStateful("walkingwake", "faint") else null
 }

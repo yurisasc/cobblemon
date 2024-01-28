@@ -9,14 +9,17 @@
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1
 
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.pose.Pose
 import com.cobblemon.mod.common.entity.PoseType
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableState
+import com.cobblemon.mod.common.client.render.models.blockbench.repository.RenderContext
 import com.cobblemon.mod.common.entity.PoseType.Companion.UI_POSES
+import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class SlowbroModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
+class SlowbroModel(root: ModelPart) : PosableModel(), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("slowbro")
     override val head = getPart("head")
 
@@ -26,11 +29,11 @@ class SlowbroModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override val profileScale = 0.95F
     override val profileTranslation = Vec3d(0.0, 0.3, 0.0)
 
-    lateinit var standing: PokemonPose
-    lateinit var walk: PokemonPose
-    lateinit var float: PokemonPose
-    lateinit var swim: PokemonPose
-    lateinit var battleidle: PokemonPose
+    lateinit var standing: Pose
+    lateinit var walk: Pose
+    lateinit var float: Pose
+    lateinit var swim: Pose
+    lateinit var battleidle: Pose
 
     override fun registerPoses() {
         val blink = quirk { bedrockStateful("slowbro", "blink1") }
@@ -41,7 +44,7 @@ class SlowbroModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             poseName = "standing",
             poseTypes = UI_POSES + PoseType.STAND,
             quirks = arrayOf(blink, blink2, bite),
-            condition = { !it.isBattling },
+            condition = { (it.entity as? PokemonEntity)?.isBattling == false },
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("slowbro", "ground_idle")
@@ -83,7 +86,7 @@ class SlowbroModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             poseTypes = PoseType.STATIONARY_POSES,
             transformTicks = 10,
             quirks = arrayOf(blink, blink2, bite),
-            condition = { it.isBattling && !it.isSubmergedInWater},
+            condition = { (it.entity as? PokemonEntity)?.let { it.isBattling && !it.isSubmergedInWater } == true },
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("slowbro", "battle_idle")

@@ -33,7 +33,7 @@ class Pose(
 ) {
     fun isSuitable(context: RenderContext) = condition?.invoke(context) ?: true
 
-    val transitions = mutableMapOf<String, (Pose<T, out ModelFrame>, Pose<T, out ModelFrame>) -> StatefulAnimation<T, ModelFrame>>()
+    val transitions = mutableMapOf<String, (Pose, Pose) -> StatefulAnimation>()
 
     fun idleStateful(context: RenderContext, model: PosableModel, state: PosableState, limbSwing: Float, limbSwingAmount: Float, ageInTicks: Float, headYaw: Float, headPitch: Float) {
         idleAnimations.filter { state.shouldIdleRun(it, 0F) }.forEach { idleAnimation ->

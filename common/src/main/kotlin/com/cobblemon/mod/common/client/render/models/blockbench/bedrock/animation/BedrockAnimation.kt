@@ -10,22 +10,14 @@ package com.cobblemon.mod.common.client.render.models.blockbench.bedrock.animati
 
 import com.bedrockk.molang.Expression
 import com.bedrockk.molang.runtime.MoLangRuntime
-import com.bedrockk.molang.runtime.MoParams
-import com.bedrockk.molang.runtime.MoScope
-import com.bedrockk.molang.runtime.struct.QueryStruct
 import com.bedrockk.molang.runtime.value.DoubleValue
-import com.bedrockk.molang.runtime.value.MoValue
 import com.cobblemon.mod.common.api.molang.MoLangFunctions.addFunctions
 import com.cobblemon.mod.common.api.molang.MoLangFunctions.getQueryStruct
 import com.cobblemon.mod.common.api.snowstorm.BedrockParticleEffect
-import com.cobblemon.mod.common.api.text.text
 import com.cobblemon.mod.common.client.particle.ParticleStorm
 import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.PosableState
 import com.cobblemon.mod.common.client.render.models.blockbench.repository.RenderContext
-import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
-import com.cobblemon.mod.common.util.asExpression
-import com.cobblemon.mod.common.util.asIdentifierDefaultingNamespace
 import com.cobblemon.mod.common.util.getString
 import com.cobblemon.mod.common.util.math.geometry.toRadians
 import com.cobblemon.mod.common.util.resolve
@@ -49,7 +41,7 @@ data class BedrockAnimationGroup(
 )
 
 abstract class BedrockEffectKeyframe(val seconds: Float) {
-    abstract fun run(context: RenderContext, state: PosableState)
+    abstract fun run(entity: Entity, state: PosableState)
 }
 
 class BedrockParticleKeyframe(
@@ -72,8 +64,7 @@ class BedrockParticleKeyframe(
         }
     }
 
-    override fun run(context: RenderContext, state: PosableState) {
-        val entity = context.request(RenderContext.ENTITY) ?: return
+    override fun run(entity: Entity, state: PosableState) {
         val world = entity.world as? ClientWorld ?: return
         val matrixWrapper = state.locatorStates[locator] ?: state.locatorStates["root"]!!
 
@@ -108,8 +99,7 @@ class BedrockSoundKeyframe(
     seconds: Float,
     val sound: Identifier
 ): BedrockEffectKeyframe(seconds) {
-    override fun run(context: RenderContext, state: PosableState) {
-        val entity = context.request(RenderContext.ENTITY)
+    override fun run(entity: Entity, state: PosableState) {
         val soundEvent = SoundEvent.of(sound) // Means we don't need to setup a sound registry entry for every single thing
         if (soundEvent != null) {
             if (entity != null) {
@@ -136,8 +126,7 @@ class BedrockInstructionKeyframe(
     seconds: Float,
     val expressions: List<Expression>
 ): BedrockEffectKeyframe(seconds) {
-    override fun run(context: RenderContext, state: PosableState) {
-        val entity = context.request(RenderContext.ENTITY) ?: return
+    override fun run(entity: Entity, state: PosableState) {
         expressions.forEach { expression -> state.runtime.resolve(expression) }
     }
 }
@@ -217,7 +206,7 @@ data class BedrockAnimation(
         return true
     }
 
-    fun applyEffects(context: RenderContext, state: PosableState, previousSeconds: Float, newSeconds: Float) {
+    fun applyEffects(entity: Entity, state: PosableState, previousSeconds: Float, newSeconds: Float) {
         val effectCondition: (effectKeyframe: BedrockEffectKeyframe) -> Boolean =
             if (previousSeconds > newSeconds) {
                 { it.seconds >= previousSeconds || it.seconds <= newSeconds }
@@ -225,7 +214,7 @@ data class BedrockAnimation(
                 { it.seconds in previousSeconds..newSeconds }
             }
 
-        effects.filter(effectCondition).forEach { it.run(context, state) }
+        effects.filter(effectCondition).forEach { it.run(entity, state) }
     }
 }
 

@@ -8,15 +8,15 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1
 
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.pose.Pose
 import com.cobblemon.mod.common.entity.PoseType.Companion.MOVING_POSES
 import com.cobblemon.mod.common.entity.PoseType.Companion.STATIONARY_POSES
 import com.cobblemon.mod.common.entity.PoseType.Companion.UI_POSES
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class WeezingModel(root: ModelPart) : PokemonPoseableModel() {
+class WeezingModel(root: ModelPart) : PosableModel() {
     override val rootPart = root.registerChildWithAllChildren("weezing")
 
     override val portraitScale = 1.5F
@@ -25,8 +25,8 @@ class WeezingModel(root: ModelPart) : PokemonPoseableModel() {
     override val profileScale = 1.0F
     override val profileTranslation = Vec3d(0.05, 0.4, 0.0)
 
-    lateinit var standing: PokemonPose
-    lateinit var walk: PokemonPose
+    lateinit var standing: Pose
+    lateinit var walk: Pose
 
     override fun registerPoses() {
         val blink = quirk { bedrockStateful("weezing", "blink")}

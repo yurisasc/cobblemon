@@ -8,9 +8,9 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokeball
 
-import com.cobblemon.mod.common.client.entity.EmptyPokeBallClientDelegate
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.PokeBallFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.Pose
+import com.cobblemon.mod.common.client.render.models.blockbench.repository.RenderContext
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.pokeball.EmptyPokeBallEntity
 import net.minecraft.client.model.ModelPart
@@ -19,19 +19,16 @@ class AncientPokeBallModel(root: ModelPart) : PokeBallModel(root), PokeBallFrame
     override val rootPart = root.registerChildWithAllChildren("poke_ball")
     override val base = getPart("bottom")
     override val lid = getPart("lid")
-    override val isForLivingEntityRenderer = false
 
     override lateinit var shut: Pose
     override lateinit var open: Pose
     override lateinit var midair: Pose
 
-    override fun getState(entity: EmptyPokeBallEntity) = entity.delegate as EmptyPokeBallClientDelegate
-
     override fun registerPoses() {
         midair = registerPose(
             poseName = "flying",
             poseTypes = setOf(PoseType.NONE),
-            condition = { it.captureState == EmptyPokeBallEntity.CaptureState.NOT },
+            condition = { (it.request(RenderContext.ENTITY) as? EmptyPokeBallEntity)?.captureState == EmptyPokeBallEntity.CaptureState.NOT },
             transformTicks = 0,
             idleAnimations = arrayOf(bedrock("ancient_poke_ball", "throw"))
         )

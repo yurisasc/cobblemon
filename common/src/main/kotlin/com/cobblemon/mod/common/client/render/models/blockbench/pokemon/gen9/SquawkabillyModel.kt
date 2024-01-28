@@ -14,17 +14,19 @@ import com.cobblemon.mod.common.client.render.models.blockbench.frame.BiWingedFr
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.pose.Pose
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.ModelPartTransformation
 import com.cobblemon.mod.common.client.render.models.blockbench.wavefunction.parabolaFunction
 import com.cobblemon.mod.common.client.render.models.blockbench.wavefunction.sineFunction
 import com.cobblemon.mod.common.entity.PoseType
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableState
+import com.cobblemon.mod.common.client.render.models.blockbench.repository.RenderContext
 import com.cobblemon.mod.common.util.math.geometry.toRadians
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class SquawkabillyModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedFrame, BiWingedFrame {
+class SquawkabillyModel (root: ModelPart) : PosableModel(), HeadedFrame, BipedFrame, BiWingedFrame {
     override val rootPart = root.registerChildWithAllChildren("squawkabilly")
     override val head = getPart("head")
     override val leftWing = getPart("wing_left")
@@ -39,14 +41,14 @@ class SquawkabillyModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame,
     override val profileScale = 0.85F
     override val profileTranslation = Vec3d(0.0, 0.51, 0.0)
 
-    lateinit var standing: PokemonPose
-    lateinit var walk: PokemonPose
-    lateinit var hovering: PokemonPose
-    lateinit var flying: PokemonPose
-    lateinit var shoulderLeft: PokemonPose
-    lateinit var shoulderRight: PokemonPose
+    lateinit var standing: Pose
+    lateinit var walk: Pose
+    lateinit var hovering: Pose
+    lateinit var flying: Pose
+    lateinit var shoulderLeft: Pose
+    lateinit var shoulderRight: Pose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("squawkabilly", "cry") }
+    override val cryAnimation = CryProvider { bedrockStateful("squawkabilly", "cry") }
 
     val shoulderOffsetX = -1.0
     val shoulderOffsetY = 0

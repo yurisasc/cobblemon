@@ -10,13 +10,16 @@ package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen6
 
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.pose.Pose
 import com.cobblemon.mod.common.entity.PoseType
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableState
+import com.cobblemon.mod.common.client.render.models.blockbench.repository.RenderContext
+import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class DiggersbyModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
+class DiggersbyModel (root: ModelPart) : PosableModel(), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("diggersby")
     override val head = getPart("head")
 
@@ -26,13 +29,13 @@ class DiggersbyModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override val profileScale = 0.5F
     override val profileTranslation = Vec3d(0.0, 1.0, 0.0)
 
-    lateinit var standing: PokemonPose
-    lateinit var walking: PokemonPose
-    lateinit var sleep: PokemonPose
-    lateinit var battleidle: PokemonPose
-    lateinit var portrait: PokemonPose
+    lateinit var standing: Pose
+    lateinit var walking: Pose
+    lateinit var sleep: Pose
+    lateinit var battleidle: Pose
+    lateinit var portrait: Pose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("diggersby", "cry") }
+    override val cryAnimation = CryProvider { bedrockStateful("diggersby", "cry") }
 
     override fun registerPoses() {
         val sleep1 = quirk(secondsBetweenOccurrences = 60F to 120F) { bedrockStateful("diggersby", "quirk_sleep") }
@@ -53,7 +56,7 @@ class DiggersbyModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             poseName = "standing",
             poseTypes = PoseType.STATIONARY_POSES + PoseType.PROFILE,
             transformTicks = 10,
-            condition = { !it.isBattling },
+            condition = { (it.entity as? PokemonEntity)?.isBattling == false },
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("diggersby", "ground_idle")
@@ -74,7 +77,7 @@ class DiggersbyModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             poseName = "battle_idle",
             poseTypes = PoseType.STATIONARY_POSES,
             transformTicks = 10,
-            condition = { it.isBattling },
+            condition = { (it.entity as? PokemonEntity)?.isBattling == true },
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("diggersby", "battle_idle")

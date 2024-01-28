@@ -12,12 +12,14 @@ import com.cobblemon.mod.common.client.render.models.blockbench.animation.WaveAn
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.WaveSegment
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.pose.Pose
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.ModelPartTransformation.Companion.X_AXIS
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.ModelPartTransformation.Companion.Y_AXIS
 import com.cobblemon.mod.common.client.render.models.blockbench.wavefunction.sineFunction
 import com.cobblemon.mod.common.entity.PoseType
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableState
+import com.cobblemon.mod.common.client.render.models.blockbench.repository.RenderContext
 import com.cobblemon.mod.common.entity.PoseType.Companion.MOVING_POSES
 import com.cobblemon.mod.common.entity.PoseType.Companion.STATIONARY_POSES
 import com.cobblemon.mod.common.entity.PoseType.Companion.UI_POSES
@@ -25,7 +27,7 @@ import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class EkansModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
+class EkansModel(root: ModelPart) : PosableModel(), HeadedFrame {
 
     override val rootPart = root.registerChildWithAllChildren("ekans")
     private val body = getPart("body")
@@ -50,9 +52,9 @@ class EkansModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override val profileScale = 0.7F
     override val profileTranslation = Vec3d(-0.05, 0.6, 0.0)
 
-    lateinit var sleep: PokemonPose
+    lateinit var sleep: Pose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("ekans", "cry") }
+    override val cryAnimation = CryProvider { bedrockStateful("ekans", "cry") }
 
     override fun registerPoses() {
         sleep = registerPose(
@@ -68,7 +70,6 @@ class EkansModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
                 singleBoneLook(),
                 bedrock("ekans", "ground_idle"),
                 WaveAnimation(
-                    frame = this,
                     waveFunction = sineFunction(
                         period = 8F,
                         amplitude = 0.8F
@@ -101,8 +102,5 @@ class EkansModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     }
 
 
-    override fun getFaintAnimation(
-        pokemonEntity: PokemonEntity,
-        state: PosableState<PokemonEntity>,
-    ) = bedrockStateful("ekans", "faint")
+    override fun getFaintAnimation(state: PosableState) = bedrockStateful("ekans", "faint")
 }

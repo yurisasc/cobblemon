@@ -8,14 +8,16 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1
 
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.pose.Pose
 import com.cobblemon.mod.common.entity.PoseType
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableState
+import com.cobblemon.mod.common.client.render.models.blockbench.repository.RenderContext
 import com.cobblemon.mod.common.entity.PoseType.Companion.UI_POSES
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class PoliwrathModel(root: ModelPart) : PokemonPoseableModel() {
+class PoliwrathModel(root: ModelPart) : PosableModel() {
     override val rootPart = root.registerChildWithAllChildren("poliwrath")
 
     override val portraitScale = 1.3F
@@ -24,10 +26,10 @@ class PoliwrathModel(root: ModelPart) : PokemonPoseableModel() {
     override val profileScale = 0.85F
     override val profileTranslation = Vec3d(0.0, 0.42, 0.0)
 
-    lateinit var sleep: PokemonPose
-    lateinit var standing: PokemonPose
-    lateinit var float: PokemonPose
-    lateinit var swim: PokemonPose
+    lateinit var sleep: Pose
+    lateinit var standing: Pose
+    lateinit var float: Pose
+    lateinit var swim: Pose
 
     override fun registerPoses() {
         val blink = quirk { bedrockStateful("poliwrath", "blink")}

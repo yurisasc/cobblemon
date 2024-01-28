@@ -11,15 +11,17 @@ package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen3
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.WaveAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.WaveSegment
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.pose.Pose
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.ModelPartTransformation
 import com.cobblemon.mod.common.client.render.models.blockbench.wavefunction.sineFunction
 import com.cobblemon.mod.common.entity.PoseType
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableState
+import com.cobblemon.mod.common.client.render.models.blockbench.repository.RenderContext
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class HuntailModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
+class HuntailModel (root: ModelPart) : PosableModel(), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("huntail")
     override val head = getPart("head")
 
@@ -29,9 +31,9 @@ class HuntailModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override val profileScale = 0.9F
     override val profileTranslation = Vec3d(0.0, 0.0, 0.0)
 
-    lateinit var standing: PokemonPose
-    lateinit var floating: PokemonPose
-    lateinit var swimming: PokemonPose
+    lateinit var standing: Pose
+    lateinit var floating: Pose
+    lateinit var swimming: Pose
 
     private val tail = getPart("tail")
     private val tail2 = getPart("tail2")
@@ -55,7 +57,6 @@ class HuntailModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
                 singleBoneLook(),
                 bedrock("huntail", "ground_idle"),
                 WaveAnimation(
-                    frame = this,
                     waveFunction = sineFunction(
                         period = 8F,
                         amplitude = 0.8F

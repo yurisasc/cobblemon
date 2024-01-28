@@ -8,22 +8,20 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.quirk
 
-import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityModel
-import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
-import com.cobblemon.mod.common.client.render.models.blockbench.animation.PrimaryAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.PosableState
+import com.cobblemon.mod.common.client.render.models.blockbench.animation.PrimaryAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.StatefulAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.repository.RenderContext
 
-open class QuirkData<T : Entity> {
-    val animations = mutableListOf<StatefulAnimation<T, *>>()
-    var primaryAnimation: PrimaryAnimation<T>? = null
+open class QuirkData {
+    val animations = mutableListOf<StatefulAnimation>()
+    var primaryAnimation: PrimaryAnimation? = null
 
-    open fun run(entity: T?, model: PoseableEntityModel<T>, state: PoseableEntityState<T>, limbSwing: Float, limbSwingAmount: Float, ageInTicks: Float, headYaw: Float, headPitch: Float, intensity: Float) {
+    open fun run(context: RenderContext, model: PosableModel, state: PosableState, limbSwing: Float, limbSwingAmount: Float, ageInTicks: Float, headYaw: Float, headPitch: Float, intensity: Float) {
         if (primaryAnimation != null && state.primaryAnimation != primaryAnimation) {
             primaryAnimation = null
         }
-        animations.removeIf { !it.run(entity, model, state, limbSwing, limbSwingAmount, ageInTicks, headYaw, headPitch, intensity) }
+        animations.removeIf { !it.run(context, model, state, limbSwing, limbSwingAmount, ageInTicks, headYaw, headPitch, intensity) }
     }
 }

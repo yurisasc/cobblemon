@@ -10,15 +10,10 @@ package com.cobblemon.mod.common.api.gui
 
 import com.cobblemon.mod.common.api.text.font
 import com.cobblemon.mod.common.client.gui.battle.BattleOverlay.Companion.PORTRAIT_DIAMETER
-import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityModel
-import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
-import com.cobblemon.mod.common.client.render.models.blockbench.repository.PokemonModelRepository
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableState
 import com.cobblemon.mod.common.client.render.models.blockbench.repository.RenderContext
 import com.cobblemon.mod.common.client.render.models.blockbench.repository.VaryingModelRepository
 import com.cobblemon.mod.common.entity.PoseType
-import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
-import com.cobblemon.mod.common.pokemon.Species
 import com.mojang.blaze3d.platform.GlStateManager
 import com.mojang.blaze3d.systems.RenderSystem
 import net.minecraft.client.MinecraftClient
@@ -28,11 +23,11 @@ import net.minecraft.client.render.DiffuseLighting
 import net.minecraft.client.render.GameRenderer
 import net.minecraft.client.render.LightmapTextureManager
 import net.minecraft.client.render.OverlayTexture
+import net.minecraft.client.render.RenderLayer
 import net.minecraft.client.render.Tessellator
 import net.minecraft.client.render.VertexFormat
 import net.minecraft.client.render.VertexFormats
 import net.minecraft.client.util.math.MatrixStack
-import net.minecraft.entity.Entity
 import net.minecraft.text.MutableText
 import net.minecraft.text.OrderedText
 import net.minecraft.text.Text
@@ -191,15 +186,15 @@ fun drawString(
 }
 
 @JvmOverloads
-fun <T : Entity, M : PoseableEntityModel<T>> drawPoseablePortrait(
+fun drawPoseablePortrait(
     identifier: Identifier,
     aspects: Set<String>,
     matrixStack: MatrixStack,
     scale: Float = 13F,
     contextScale: Float = 1F,
     reversed: Boolean = false,
-    state: PosableState = null,
-    repository: VaryingModelRepository<T, M>,
+    state: PosableState,
+    repository: VaryingModelRepository,
     partialTicks: Float,
     limbSwing: Float = 0F,
     limbSwingAmount: Float = 0F,
@@ -208,7 +203,7 @@ fun <T : Entity, M : PoseableEntityModel<T>> drawPoseablePortrait(
     headPitch: Float = 0F
 ) {
     val model = repository.getPoser(identifier, aspects)
-    val texture = repository.getTexture(identifier, aspects, state?.animationSeconds ?: 0F)
+    val texture = repository.getTexture(identifier, aspects, state.animationSeconds)
 
     val context = RenderContext()
     repository.getTextureNoSubstitute(identifier, aspects, 0f).let { context.put(RenderContext.TEXTURE, it) }
@@ -216,22 +211,18 @@ fun <T : Entity, M : PoseableEntityModel<T>> drawPoseablePortrait(
     context.put(RenderContext.SPECIES, identifier)
     context.put(RenderContext.ASPECTS, aspects)
 
-    val renderType = model.getLayer(texture)
+    val renderType = RenderLayer.getEntityCutout(texture)
 
     RenderSystem.applyModelViewMatrix()
     val quaternion1 = RotationAxis.POSITIVE_Y.rotationDegrees(-32F * if (reversed) -1F else 1F)
     val quaternion2 = RotationAxis.POSITIVE_X.rotationDegrees(5F)
 
-    if (state == null) {
-        model.setupAnimStateless(setOf(PoseType.PORTRAIT, PoseType.PROFILE))
-    } else {
-        val originalPose = state.currentPose
-        model.getPose(PoseType.PORTRAIT)?.let { state.setPose(it.poseName) }
-        state.timeEnteredPose = 0F
-        state.updatePartialTicks(partialTicks)
-        model.setupAnimStateful(null, state, limbSwing, limbSwingAmount, ageInTicks, headYaw, headPitch)
-        originalPose?.let { state.setPose(it) }
-    }
+    val originalPose = state.currentPose
+    model.getPose(PoseType.PORTRAIT)?.let { state.setPose(it.poseName) }
+    state.timeEnteredPose = 0F
+    state.updatePartialTicks(partialTicks)
+    model.setupAnimStateful(null, state, limbSwing, limbSwingAmount, ageInTicks, headYaw, headPitch)
+    originalPose?.let { state.setPose(it) }
 
     matrixStack.push()
     matrixStack.translate(0.0, PORTRAIT_DIAMETER.toDouble() + 2.0, 0.0)

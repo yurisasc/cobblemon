@@ -12,14 +12,16 @@ import com.cobblemon.mod.common.client.render.models.blockbench.frame.BimanualFr
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.pose.Pose
 import com.cobblemon.mod.common.entity.PoseType
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableState
+import com.cobblemon.mod.common.client.render.models.blockbench.repository.RenderContext
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class FroakieModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedFrame, BimanualFrame {
+class FroakieModel(root: ModelPart) : PosableModel(), HeadedFrame, BipedFrame, BimanualFrame {
     override val rootPart = root.registerChildWithAllChildren("froakie")
     override val head = getPart("head")
     override val rightArm = getPart("arm_right")
@@ -33,14 +35,14 @@ class FroakieModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Biped
     override val profileScale = 0.8F
     override val profileTranslation = Vec3d(0.0, 0.5, 0.0)
 
-    lateinit var sleep: PokemonPose
-    lateinit var standing: PokemonPose
-    lateinit var float: PokemonPose
-    lateinit var swim: PokemonPose
-    lateinit var walk: PokemonPose
-    lateinit var battleidle: PokemonPose
+    lateinit var sleep: Pose
+    lateinit var standing: Pose
+    lateinit var float: Pose
+    lateinit var swim: Pose
+    lateinit var walk: Pose
+    lateinit var battleidle: Pose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("froakie", "cry") }
+    override val cryAnimation = CryProvider { bedrockStateful("froakie", "cry") }
 
     override fun registerPoses() {
         val blink = quirk { bedrockStateful("froakie", "blink")}
@@ -56,7 +58,7 @@ class FroakieModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Biped
                 poseTypes = PoseType.UI_POSES + PoseType.STATIONARY_POSES - PoseType.FLOAT,
                 transformTicks = 10,
                 quirks = arrayOf(blink),
-                condition = { !it.isBattling },
+                condition = { (it.entity as? PokemonEntity)?.isBattling == false },
                 idleAnimations = arrayOf(
                         singleBoneLook(),
                         bedrock("froakie", "ground_idle")
@@ -68,7 +70,7 @@ class FroakieModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Biped
                 poseType = PoseType.WALK,
                 transformTicks = 10,
                 quirks = arrayOf(blink),
-                condition = { !it.isBattling },
+                condition = { (it.entity as? PokemonEntity)?.isBattling == false },
                 idleAnimations = arrayOf(
                         singleBoneLook(),
                         bedrock("froakie", "ground_walk")
@@ -80,7 +82,7 @@ class FroakieModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Biped
                 poseTypes = setOf(PoseType.FLOAT, PoseType.HOVER),
                 transformTicks = 10,
                 quirks = arrayOf(blink),
-                condition = { !it.isBattling },
+                condition = { (it.entity as? PokemonEntity)?.isBattling == false },
                 idleAnimations = arrayOf(
                         singleBoneLook(),
                         bedrock("froakie", "water_idle")
@@ -92,7 +94,7 @@ class FroakieModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Biped
                 poseTypes = setOf(PoseType.SWIM, PoseType.FLY),
                 transformTicks = 10,
                 quirks = arrayOf(blink),
-                condition = { !it.isBattling },
+                condition = { (it.entity as? PokemonEntity)?.isBattling == false },
                 idleAnimations = arrayOf(
                         singleBoneLook(),
                         bedrock("froakie", "water_swim")
@@ -104,7 +106,7 @@ class FroakieModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Biped
                 poseTypes = PoseType.STATIONARY_POSES,
                 transformTicks = 10,
                 quirks = arrayOf(blink),
-                condition = { it.isBattling },
+                condition = { (it.entity as? PokemonEntity)?.isBattling == true },
                 idleAnimations = arrayOf(
                         singleBoneLook(),
                         bedrock("froakie", "battle_idle")
@@ -113,8 +115,5 @@ class FroakieModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Biped
         )
     }
 
-    override fun getFaintAnimation(
-            pokemonEntity: PokemonEntity,
-            state: PosableState<PokemonEntity>
-    ) = if (state.isPosedIn(standing, walk, battleidle, swim, float, sleep)) bedrockStateful("froakie", "faint") else null
+    override fun getFaintAnimation(state: PosableState) = if (state.isPosedIn(standing, walk, battleidle, swim, float, sleep)) bedrockStateful("froakie", "faint") else null
 }

@@ -9,7 +9,7 @@
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon
 
 import com.cobblemon.mod.common.api.scheduling.ClientTaskTracker
-import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableState
 
 /**
  * A [PosableState] that exists even without an entity or age-based state. This is
@@ -24,7 +24,7 @@ import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
  * @author Hiroku
  * @since May 1st, 2022
  */
-class PokemonFloatingState : PosableState<PokemonEntity>() {
+class FloatingState : PosableState() {
     override fun getEntity() = null
     override val schedulingTracker = ClientTaskTracker
     override fun updatePartialTicks(partialTicks: Float) {

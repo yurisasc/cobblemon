@@ -12,14 +12,16 @@ import com.cobblemon.mod.common.client.render.models.blockbench.animation.BipedW
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.pose.Pose
 import com.cobblemon.mod.common.entity.PoseType
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableState
+import com.cobblemon.mod.common.client.render.models.blockbench.repository.RenderContext
 import com.cobblemon.mod.common.entity.PoseType.Companion.UI_POSES
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class FarfetchdGalarianModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedFrame {
+class FarfetchdGalarianModel(root: ModelPart) : PosableModel(), HeadedFrame, BipedFrame {
     override val rootPart = root.registerChildWithAllChildren("farfetchd")
     override val head = getPart("neck")
 
@@ -32,10 +34,10 @@ class FarfetchdGalarianModel(root: ModelPart) : PokemonPoseableModel(), HeadedFr
     override val profileScale = 1.1F
     override val profileTranslation = Vec3d(-0.1, 0.1, 0.0)
 
-    lateinit var standing: PokemonPose
-    lateinit var walk: PokemonPose
+    lateinit var standing: Pose
+    lateinit var walk: Pose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("farfetchd_galar", "cry") }
+    override val cryAnimation = CryProvider { bedrockStateful("farfetchd_galar", "cry") }
 
     override fun registerPoses() {
         val blink = quirk { bedrockStateful("farfetchd_galar", "blink") }

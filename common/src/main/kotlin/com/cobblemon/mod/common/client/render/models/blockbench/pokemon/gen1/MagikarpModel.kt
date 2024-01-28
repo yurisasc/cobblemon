@@ -11,9 +11,11 @@ package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.StatelessAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.createTransformation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.ModelFrame
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.ModelPartTransformation.Companion.Y_AXIS
 import com.cobblemon.mod.common.entity.PoseType
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableState
+import com.cobblemon.mod.common.client.render.models.blockbench.repository.RenderContext
 import com.cobblemon.mod.common.entity.PoseType.Companion.FLYING_POSES
 import com.cobblemon.mod.common.entity.PoseType.Companion.STANDING_POSES
 import com.cobblemon.mod.common.entity.PoseType.Companion.SWIMMING_POSES
@@ -22,7 +24,7 @@ import com.cobblemon.mod.common.util.math.geometry.toRadians
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class MagikarpModel(root: ModelPart) : PokemonPoseableModel() {
+class MagikarpModel(root: ModelPart) : PosableModel() {
     override val rootPart = root.registerChildWithAllChildren("magikarp")
     val leftMustache = getPart("whisker_left")
     val rightMustache = getPart("whisker_right")
@@ -68,7 +70,7 @@ class MagikarpModel(root: ModelPart) : PokemonPoseableModel() {
             poseName = "portrait",
             poseTypes = setOf(PoseType.PORTRAIT),
             quirks = arrayOf(blink),
-            idleAnimations = emptyArray<StatelessAnimation<PokemonEntity, out ModelFrame>>(),
+            idleAnimations = emptyArray(),
             transformedParts = arrayOf(
                 leftMustache.createTransformation().withRotation(Y_AXIS, (-75F).toRadians()),
                 rightMustache.createTransformation().withRotation(Y_AXIS, 75F.toRadians())

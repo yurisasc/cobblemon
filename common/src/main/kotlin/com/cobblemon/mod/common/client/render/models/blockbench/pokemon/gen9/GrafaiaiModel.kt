@@ -10,13 +10,15 @@ package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen9
 
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.pose.Pose
 import com.cobblemon.mod.common.entity.PoseType
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableState
+import com.cobblemon.mod.common.client.render.models.blockbench.repository.RenderContext
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class GrafaiaiModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
+class GrafaiaiModel (root: ModelPart) : PosableModel(), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("grafaiai")
     override val head = getPart("head")
 
@@ -26,11 +28,11 @@ class GrafaiaiModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override val profileScale = 0.8F
     override val profileTranslation = Vec3d(0.0, 0.5, 0.0)
 
-    lateinit var standing: PokemonPose
-    lateinit var walking: PokemonPose
-    lateinit var sleeping: PokemonPose
+    lateinit var standing: Pose
+    lateinit var walking: Pose
+    lateinit var sleeping: Pose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("grafaiai", "cry") }
+    override val cryAnimation = CryProvider { bedrockStateful("grafaiai", "cry") }
 
     override fun registerPoses() {
         val blink = quirk { bedrockStateful("grafaiai", "blink") }

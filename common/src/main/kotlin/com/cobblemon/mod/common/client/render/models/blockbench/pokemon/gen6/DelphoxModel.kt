@@ -8,20 +8,22 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen6
 
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.createTransformation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BimanualFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.pose.Pose
+import com.cobblemon.mod.common.client.render.models.blockbench.repository.RenderContext
 import com.cobblemon.mod.common.entity.PoseType.Companion.MOVING_POSES
 import com.cobblemon.mod.common.entity.PoseType.Companion.STATIONARY_POSES
 import com.cobblemon.mod.common.entity.PoseType.Companion.UI_POSES
+import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class DelphoxModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedFrame, BimanualFrame {
+class DelphoxModel(root: ModelPart) : PosableModel(), HeadedFrame, BipedFrame, BimanualFrame {
     override val rootPart = root.registerChildWithAllChildren("delphox")
     override val head = getPart("head")
     override val rightArm = getPart("arm_right")
@@ -37,12 +39,12 @@ class DelphoxModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Biped
     override val profileScale = 0.45F
     override val profileTranslation = Vec3d(0.0, 1.1, 0.0)
 
-    lateinit var standing: PokemonPose
-    lateinit var walk: PokemonPose
-    lateinit var battleidle: PokemonPose
-    lateinit var battlewalk: PokemonPose
+    lateinit var standing: Pose
+    lateinit var walk: Pose
+    lateinit var battleidle: Pose
+    lateinit var battlewalk: Pose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("delphox", "cry") }
+    override val cryAnimation = CryProvider { bedrockStateful("delphox", "cry") }
 
     override fun registerPoses() {
         val blink = quirk { bedrockStateful("delphox", "blink")}
@@ -53,7 +55,7 @@ class DelphoxModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Biped
             transformedParts = arrayOf(
                 stick.createTransformation().withVisibility(visibility = false)
             ),
-            condition = { !it.isBattling },
+            condition = { (it.entity as? PokemonEntity)?.isBattling == false },
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                     singleBoneLook(),
@@ -68,7 +70,7 @@ class DelphoxModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Biped
             transformedParts = arrayOf(
                 stick.createTransformation().withVisibility(visibility = false)
             ),
-            condition = { !it.isBattling },
+            condition = { (it.entity as? PokemonEntity)?.isBattling == false },
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                     singleBoneLook(),
@@ -84,7 +86,7 @@ class DelphoxModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Biped
                 stick.createTransformation().withVisibility(visibility = true)
             ),
             quirks = arrayOf(blink),
-            condition = { it.isBattling },
+            condition = { (it.entity as? PokemonEntity)?.isBattling == true },
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("delphox", "battle_idle")

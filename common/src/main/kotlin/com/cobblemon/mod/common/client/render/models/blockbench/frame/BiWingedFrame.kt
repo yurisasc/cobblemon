@@ -8,6 +8,7 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.frame
 
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableState
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.WingFlapIdleAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.wavefunction.WaveFunction
 import net.minecraft.client.model.ModelPart
@@ -17,9 +18,9 @@ interface BiWingedFrame : ModelFrame {
     val leftWing: ModelPart
     val rightWing: ModelPart
 
-    fun <T : Entity> wingFlap(
+    fun wingFlap(
         flapFunction: WaveFunction,
-        timeVariable: (state: PosableState?, limbSwing: Float, ageInTicks: Float) -> Float?,
+        timeVariable: (state: PosableState, limbSwing: Float, ageInTicks: Float) -> Float?,
         axis: Int
     ) = WingFlapIdleAnimation(
         frame = this,

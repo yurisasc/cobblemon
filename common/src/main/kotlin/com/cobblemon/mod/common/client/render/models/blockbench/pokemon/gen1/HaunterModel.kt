@@ -8,16 +8,16 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1
 
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.createTransformation
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.pose.Pose
 import com.cobblemon.mod.common.entity.PoseType.Companion.MOVING_POSES
 import com.cobblemon.mod.common.entity.PoseType.Companion.STATIONARY_POSES
 import com.cobblemon.mod.common.entity.PoseType.Companion.UI_POSES
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class HaunterModel(root: ModelPart) : PokemonPoseableModel() {
+class HaunterModel(root: ModelPart) : PosableModel() {
     override val rootPart = root.registerChildWithAllChildren("haunter")
 
     override val portraitScale = 1.3F
@@ -26,8 +26,8 @@ class HaunterModel(root: ModelPart) : PokemonPoseableModel() {
     override val profileScale = 0.7F
     override val profileTranslation = Vec3d(-0.1, 0.75, 0.0)
 
-    lateinit var standing: PokemonPose
-    lateinit var walk: PokemonPose
+    lateinit var standing: Pose
+    lateinit var walk: Pose
 
     val offsetY = -3.0
 

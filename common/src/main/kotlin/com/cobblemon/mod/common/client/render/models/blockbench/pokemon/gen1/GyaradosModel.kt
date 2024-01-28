@@ -12,11 +12,13 @@ import com.cobblemon.mod.common.client.render.models.blockbench.animation.WaveAn
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.WaveSegment
 import com.cobblemon.mod.common.client.render.models.blockbench.createTransformation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.ModelPartTransformation.Companion.X_AXIS
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.ModelPartTransformation.Companion.Y_AXIS
 import com.cobblemon.mod.common.client.render.models.blockbench.wavefunction.sineFunction
 import com.cobblemon.mod.common.entity.PoseType
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableState
+import com.cobblemon.mod.common.client.render.models.blockbench.repository.RenderContext
 import com.cobblemon.mod.common.entity.PoseType.Companion.FLYING_POSES
 import com.cobblemon.mod.common.entity.PoseType.Companion.STANDING_POSES
 import com.cobblemon.mod.common.entity.PoseType.Companion.SWIMMING_POSES
@@ -24,7 +26,7 @@ import com.cobblemon.mod.common.entity.PoseType.Companion.UI_POSES
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class GyaradosModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
+class GyaradosModel(root: ModelPart) : PosableModel(), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("gyarados")
 
     val seg1 = getPart("segment1")
@@ -67,12 +69,11 @@ class GyaradosModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             poseTypes = STANDING_POSES + UI_POSES,
             quirks = arrayOf(blink),
             transformTicks = 20,
-            condition = { !it.isTouchingWater },
+            condition = { it.entity?.isTouchingWater == false },
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("gyarados", "ground_idle"),
                 WaveAnimation(
-                    frame = this,
                     waveFunction = sineFunction(
                         period = 8F,
                         amplitude = 0.4F
@@ -100,13 +101,12 @@ class GyaradosModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             poseName = "surface",
             poseTypes = setOf(PoseType.STAND, PoseType.WALK),
             quirks = arrayOf(blink),
-            condition = { it.isTouchingWater },
+            condition = { it.entity?.isTouchingWater == true },
             transformTicks = 20,
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("gyarados", "surface_idle"),
                 WaveAnimation(
-                    frame = this,
                     waveFunction = sineFunction(
                         period = 3F,
                         amplitude = 0.2F
@@ -142,7 +142,6 @@ class GyaradosModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 WaveAnimation(
-                    frame = this,
                     waveFunction = sineFunction(
                         period = 3F,
                         amplitude = 0.4F

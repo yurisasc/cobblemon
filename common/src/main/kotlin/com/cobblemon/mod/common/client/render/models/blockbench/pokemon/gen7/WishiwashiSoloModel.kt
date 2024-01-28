@@ -8,13 +8,15 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen7
 
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.pose.Pose
 import com.cobblemon.mod.common.entity.PoseType
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableState
+import com.cobblemon.mod.common.client.render.models.blockbench.repository.RenderContext
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class WishiwashiSoloModel (root: ModelPart) : PokemonPoseableModel(){
+class WishiwashiSoloModel (root: ModelPart) : PosableModel(){
     override val rootPart = root.registerChildWithAllChildren("wishiwashi_solo")
 
     override val portraitScale = 3.0F
@@ -23,17 +25,17 @@ class WishiwashiSoloModel (root: ModelPart) : PokemonPoseableModel(){
     override val profileScale = 0.8F
     override val profileTranslation = Vec3d(0.0, 0.2, 0.0)
 
-    lateinit var standing: PokemonPose
-    lateinit var walk: PokemonPose
-    lateinit var floating: PokemonPose
-    lateinit var swimming: PokemonPose
-    lateinit var watersleep: PokemonPose
+    lateinit var standing: Pose
+    lateinit var walk: Pose
+    lateinit var floating: Pose
+    lateinit var swimming: Pose
+    lateinit var watersleep: Pose
 
     override fun registerPoses() {
         val blink = quirk { bedrockStateful("wishiwashi_solo", "blink") }
         watersleep = registerPose(
             poseType = PoseType.SLEEP,
-            condition = { it.isTouchingWater },
+            condition = { it.entity?.isTouchingWater == true },
             idleAnimations = arrayOf(bedrock("wishiwashi_solo", "water_sleep"))
         )
 

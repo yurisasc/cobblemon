@@ -9,14 +9,16 @@
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen5
 
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.pose.Pose
 import com.cobblemon.mod.common.entity.PoseType
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableState
+import com.cobblemon.mod.common.client.render.models.blockbench.repository.RenderContext
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class CofagrigusModel (root: ModelPart) : PokemonPoseableModel() {
+class CofagrigusModel (root: ModelPart) : PosableModel() {
     override val rootPart = root.registerChildWithAllChildren("cofagrigus")
 
     override val portraitScale = 2.0F
@@ -25,12 +27,12 @@ class CofagrigusModel (root: ModelPart) : PokemonPoseableModel() {
     override val profileScale = 0.35F
     override val profileTranslation = Vec3d(0.0, 1.3, 0.0)
 
-    lateinit var standing: PokemonPose
-    lateinit var walk: PokemonPose
-    lateinit var fly: PokemonPose
-    lateinit var sleep: PokemonPose
+    lateinit var standing: Pose
+    lateinit var walk: Pose
+    lateinit var fly: Pose
+    lateinit var sleep: Pose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("cofagrigus", "cry") }
+    override val cryAnimation = CryProvider { bedrockStateful("cofagrigus", "cry") }
 
     override fun registerPoses() {
         val blink = quirk { bedrockStateful("cofagrigus", "blink") }
@@ -71,8 +73,5 @@ class CofagrigusModel (root: ModelPart) : PokemonPoseableModel() {
         )
     }
 
-    override fun getFaintAnimation(
-            pokemonEntity: PokemonEntity,
-            state: PosableState<PokemonEntity>
-    ) = if (state.isNotPosedIn(sleep)) bedrockStateful("cofagrigus", "faint") else null
+    override fun getFaintAnimation(state: PosableState) = if (state.isNotPosedIn(sleep)) bedrockStateful("cofagrigus", "faint") else null
 }

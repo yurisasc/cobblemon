@@ -8,14 +8,12 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench
 
-import com.bedrockk.molang.MoLang
 import com.bedrockk.molang.runtime.MoLangRuntime
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.StatefulAnimation
-import com.cobblemon.mod.common.client.render.models.blockbench.frame.ModelFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.Bone
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.Pose
+import com.cobblemon.mod.common.client.render.models.blockbench.repository.RenderContext
 import com.cobblemon.mod.common.entity.Poseable
-import com.cobblemon.mod.common.util.asExpression
 import com.cobblemon.mod.common.util.asExpressionLike
 import com.google.gson.ExclusionStrategy
 import com.google.gson.FieldAttributes
@@ -30,7 +28,7 @@ import java.util.function.Supplier
 import net.minecraft.client.model.ModelPart
 import net.minecraft.entity.Entity
 
-abstract class JsonPoseableEntityModel<T : Entity>(override val rootPart: Bone) : PoseableEntityModel<T>() {
+abstract class JsonPosableModel(override val rootPart: Bone) : PosableModel() {
     override fun registerPoses() {}
 
     object JsonModelExclusion: ExclusionStrategy {
@@ -48,10 +46,10 @@ abstract class JsonPoseableEntityModel<T : Entity>(override val rootPart: Bone) 
         }
     }
 
-    class JsonPoseableModelAdapter<T : Entity>(val constructor: (modelPart: ModelPart) -> JsonPoseableEntityModel<T>) : InstanceCreator<PoseableEntityModel<T>> {
+    class JsonPoseableModelAdapter(val constructor: (modelPart: ModelPart) -> JsonPosableModel) : InstanceCreator<PosableModel> {
         var modelPart: ModelPart? = null
-        var model: JsonPoseableEntityModel<T>? = null
-        override fun createInstance(type: Type): JsonPoseableEntityModel<T> {
+        var model: JsonPosableModel? = null
+        override fun createInstance(type: Type): JsonPosableModel {
             return constructor(modelPart!!).also {
                 model = it
                 it.loadAllNamedChildren(modelPart!!)
@@ -59,8 +57,8 @@ abstract class JsonPoseableEntityModel<T : Entity>(override val rootPart: Bone) 
         }
     }
 
-    class StatefulAnimationAdapter<T : Entity>(val modelFinder: () -> PoseableEntityModel<T>) : JsonDeserializer<Supplier<StatefulAnimation<T, ModelFrame>>> {
-        override fun deserialize(json: JsonElement, type: Type, ctx: JsonDeserializationContext): Supplier<StatefulAnimation<T, ModelFrame>> {
+    class StatefulAnimationAdapter(val modelFinder: () -> PosableModel) : JsonDeserializer<Supplier<StatefulAnimation>> {
+        override fun deserialize(json: JsonElement, type: Type, ctx: JsonDeserializationContext): Supplier<StatefulAnimation> {
             json as JsonPrimitive
             val animString = json.asString
             val splits = animString.replace("bedrock(", "").replace(")", "").split(",").map(String::trim)
@@ -70,31 +68,32 @@ abstract class JsonPoseableEntityModel<T : Entity>(override val rootPart: Bone) 
         }
     }
 
-    class PoseAdapter<T : Entity>(
-        val poseConditionReader: (JsonObject) -> List<(T) -> Boolean>,
-        val modelFinder: () -> PoseableEntityModel<T>
-    ) : JsonDeserializer<Pose<T, ModelFrame>> {
+    class PoseAdapter(
+        val poseConditionReader: (JsonObject) -> List<(RenderContext) -> Boolean>,
+        val modelFinder: () -> PosableModel
+    ) : JsonDeserializer<Pose> {
         companion object {
             val runtime = MoLangRuntime()
         }
 
-        override fun deserialize(json: JsonElement, type: Type, ctx: JsonDeserializationContext): Pose<T, ModelFrame> {
+        override fun deserialize(json: JsonElement, type: Type, ctx: JsonDeserializationContext): Pose {
             val model = modelFinder()
             val obj = json as JsonObject
             val pose = JsonPose(model, obj)
 
-            val conditionsList = mutableListOf<(T) -> Boolean>()
+            val conditionsList = mutableListOf<(RenderContext) -> Boolean>()
             val mustBeTouchingWater = json.get("isTouchingWater")?.asBoolean
             if (mustBeTouchingWater != null) {
-                conditionsList.add { mustBeTouchingWater == it.isTouchingWater }
+                conditionsList.add { mustBeTouchingWater == it.entity?.isTouchingWater }
             }
             conditionsList.addAll(poseConditionReader(json))
 
             if (json.has("condition")) {
                 val condition = json.get("condition").asString
                 conditionsList.add {
-                    if (it is Poseable) {
-                        runtime.environment.structs["query"] = it.struct
+                    val entity = it.request(RenderContext.ENTITY)
+                    if (entity is Poseable) {
+                        runtime.environment.structs["query"] = entity.struct
                         condition.asExpressionLike().resolveBoolean(runtime)
                     } else {
                         false
@@ -102,7 +101,7 @@ abstract class JsonPoseableEntityModel<T : Entity>(override val rootPart: Bone) 
                 }
             }
 
-            val poseCondition: (T) -> Boolean = if (conditionsList.isEmpty()) { { true } } else conditionsList.reduce { acc, function -> { acc(it) && function(it) } }
+            val poseCondition: (RenderContext) -> Boolean = if (conditionsList.isEmpty()) { { true } } else conditionsList.reduce { acc, function -> { acc(it) && function(it) } }
 
             return Pose(
                 poseName = pose.poseName,
@@ -115,8 +114,8 @@ abstract class JsonPoseableEntityModel<T : Entity>(override val rootPart: Bone) 
             ).also {
                 it.transitions.putAll(
                     pose.transitions
-                        .mapNotNull<JsonPose.JsonPoseTransition, Pair<String, (Pose<T, out ModelFrame>, Pose<T, out ModelFrame>) -> StatefulAnimation<T, ModelFrame>>> {
-                            it.to to { _, _ -> it.animation.resolveObject(model.runtime).obj as StatefulAnimation<T, ModelFrame> }
+                        .mapNotNull<JsonPose.JsonPoseTransition, Pair<String, (Pose, Pose) -> StatefulAnimation>> {
+                            it.to to { _, _ -> it.animation.resolveObject(model.runtime).obj as StatefulAnimation }
                         }.toMap()
                 )
             }

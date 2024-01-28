@@ -9,13 +9,15 @@
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen6
 
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.pose.Pose
 import com.cobblemon.mod.common.entity.PoseType
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableState
+import com.cobblemon.mod.common.client.render.models.blockbench.repository.RenderContext
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class AegislashModel(root: ModelPart) : PokemonPoseableModel() {
+class AegislashModel(root: ModelPart) : PosableModel() {
     override val rootPart = root.registerChildWithAllChildren("aegislash")
 
     override val portraitScale = 3.0F
@@ -24,10 +26,10 @@ class AegislashModel(root: ModelPart) : PokemonPoseableModel() {
     override val profileScale = 0.65F
     override val profileTranslation = Vec3d(0.0, 0.85, 0.0)
 
-    lateinit var standing: PokemonPose
-    lateinit var walk: PokemonPose
+    lateinit var standing: Pose
+    lateinit var walk: Pose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("aegislash", "cry") }
+    override val cryAnimation = CryProvider { bedrockStateful("aegislash", "cry") }
 
     override fun registerPoses() {
         val blink = quirk { bedrockStateful("aegislash", "blink") }

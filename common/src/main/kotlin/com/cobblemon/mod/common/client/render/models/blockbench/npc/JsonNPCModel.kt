@@ -10,12 +10,12 @@ package com.cobblemon.mod.common.client.render.models.blockbench.npc
 
 import com.bedrockk.molang.Expression
 import com.cobblemon.mod.common.api.molang.ExpressionLike
-import com.cobblemon.mod.common.client.entity.NPCClientDelegate
-import com.cobblemon.mod.common.client.render.models.blockbench.JsonPoseableEntityModel
+import com.cobblemon.mod.common.client.render.models.blockbench.JsonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.StatefulAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.ModelFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.Bone
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.Pose
+import com.cobblemon.mod.common.client.render.models.blockbench.repository.RenderContext
 import com.cobblemon.mod.common.entity.npc.NPCEntity
 import com.cobblemon.mod.common.util.adapters.ExpressionAdapter
 import com.cobblemon.mod.common.util.adapters.ExpressionLikeAdapter
@@ -27,7 +27,7 @@ import java.lang.reflect.Type
 import java.util.function.Supplier
 import net.minecraft.util.math.Vec3d
 
-class JsonNPCModel(override val rootPart: Bone, override val isForLivingEntityRenderer: Boolean = true) : JsonPoseableEntityModel<NPCEntity>(rootPart) {
+class JsonNPCModel(override val rootPart: Bone) : JsonPosableModel(rootPart) {
     object JsonNPCModelAdapter : InstanceCreator<JsonNPCModel> {
         var modelPart: Bone? = null
         var model: JsonNPCModel? = null
@@ -47,25 +47,18 @@ class JsonNPCModel(override val rootPart: Bone, override val isForLivingEntityRe
             .registerTypeAdapter(Vec3d::class.java, Vec3dAdapter)
             .setExclusionStrategies(JsonModelExclusion)
             .registerTypeAdapter(
-                TypeToken.getParameterized(
-                    Supplier::class.java,
-                    TypeToken.getParameterized(
-                        StatefulAnimation::class.java,
-                        NPCEntity::class.java,
-                        ModelFrame::class.java
-                    ).type
-                ).type,
+                StatefulAnimation::class.java,
                 StatefulAnimationAdapter { JsonNPCModelAdapter.model!! }
             )
             .registerTypeAdapter(
                 Pose::class.java,
                 PoseAdapter(
                     { json ->
-                        val conditions = mutableListOf<(NPCEntity) -> Boolean>()
+                        val conditions = mutableListOf<(RenderContext) -> Boolean>()
                         if (json.has("isBattle")) {
-                            conditions.add { it.isInBattle() }
+                            conditions.add { (it.request(RenderContext.ENTITY) as? NPCEntity)?.isInBattle() == true }
                         } else if (json.has("isNotBattle")) {
-                            conditions.add { !it.isInBattle() }
+                            conditions.add { (it.request(RenderContext.ENTITY) as? NPCEntity)?.isInBattle() == false }
                         }
                         conditions
                     },
@@ -79,6 +72,4 @@ class JsonNPCModel(override val rootPart: Bone, override val isForLivingEntityRe
             .registerTypeAdapter(ExpressionLike::class.java, ExpressionLikeAdapter)
             .create()
     }
-
-    override fun getState(entity: NPCEntity) = entity.delegate as NPCClientDelegate
 }

@@ -18,11 +18,11 @@ import com.cobblemon.mod.common.client.entity.PokemonClientDelegate.Companion.BE
 import com.cobblemon.mod.common.client.keybind.boundKey
 import com.cobblemon.mod.common.client.keybind.keybinds.PartySendBinding
 import com.cobblemon.mod.common.client.render.addVertex
-import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityModel
-import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableState
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PosablePokemonModel
 import com.cobblemon.mod.common.client.render.models.blockbench.repository.PokeBallModelRepository
 import com.cobblemon.mod.common.client.render.models.blockbench.repository.PokemonModelRepository
+import com.cobblemon.mod.common.client.render.models.blockbench.repository.RenderContext
 import com.cobblemon.mod.common.client.render.models.blockbench.wavefunction.parabolaFunction
 import com.cobblemon.mod.common.client.render.pokeball.PokeBallPoseableState
 import com.cobblemon.mod.common.client.render.renderBeaconBeam
@@ -59,7 +59,7 @@ import org.joml.Vector4f
 
 class PokemonRenderer(
     context: EntityRendererFactory.Context
-) : MobEntityRenderer<PokemonEntity, PokemonPoseableModel>(context, null, 0.5f) {
+) : MobEntityRenderer<PokemonEntity, PosablePokemonModel>(context, PosablePokemonModel(), 0.5f) {
     companion object {
         var DELTA_TICKS = 0F
         val glowLengthFunction = parabolaFunction(
@@ -88,11 +88,11 @@ class PokemonRenderer(
     ) {
         shadowRadius = min((entity.boundingBox.maxX - entity.boundingBox.minX), (entity.boundingBox.maxZ) - (entity.boundingBox.minZ)).toFloat() / 1.5F
         DELTA_TICKS = partialTicks // TODO move this somewhere universal // or just fecking remove it
-        model = PokemonModelRepository.getPoser(entity.pokemon.species.resourceIdentifier, entity.aspects)
+        model.posableModel = PokemonModelRepository.getPoser(entity.pokemon.species.resourceIdentifier, entity.aspects)
 
         val clientDelegate = entity.delegate as PokemonClientDelegate
         val beamMode = entity.beamMode
-        val modelNow = model as PoseableEntityModel<PokemonEntity>
+        val modelNow = model as PosablePokemonModel
         val s = clientDelegate.secondsSinceBeamEffectStarted
         if (beamMode != 0) {
             if (s > BEAM_EXTEND_TIME) {
@@ -103,8 +103,8 @@ class PokemonRenderer(
                     1F - min(0.6F, value)
                 }
 
-                modelNow.green = colourValue
-                modelNow.blue = colourValue
+                modelNow.posableModel.green = colourValue
+                modelNow.posableModel.blue = colourValue
             }
         }
 
@@ -113,7 +113,7 @@ class PokemonRenderer(
         if (phaseTarget != null && beamMode != 0) {
             poseMatrix.push()
             var beamSourcePosition = if (phaseTarget is Poseable) {
-                (phaseTarget.delegate as PoseableEntityState<*>).locatorStates["beam"]?.getOrigin() ?: phaseTarget.pos
+                (phaseTarget.delegate as PosableState).locatorStates["beam"]?.getOrigin() ?: phaseTarget.pos
             } else {
                 if (phaseTarget.uuid == MinecraftClient.getInstance().player?.uuid) {
                     val lookVec = phaseTarget.rotationVector.rotateY(PI / 2).multiply(1.0, 0.0, 1.0).normalize()
@@ -170,7 +170,7 @@ class PokemonRenderer(
 
         clientDelegate.updatePartialTicks(partialTicks)
 
-        modelNow.setLayerContext(buffer, clientDelegate, PokemonModelRepository.getLayers(entity.pokemon.species.resourceIdentifier, entity.aspects))
+        modelNow.posableModel.setLayerContext(buffer, clientDelegate, PokemonModelRepository.getLayers(entity.pokemon.species.resourceIdentifier, entity.aspects))
 
 
         // TODO: Need a way to get a shader from a render layer, and need a way to get the renderlayer for the pokemon's main model
@@ -187,9 +187,9 @@ class PokemonRenderer(
 //        }
         super.render(entity, entityYaw, partialTicks, poseMatrix, buffer, packedLight)
 
-        modelNow.green = 1F
-        modelNow.blue = 1F
-        modelNow.resetLayerContext()
+        modelNow.posableModel.green = 1F
+        modelNow.posableModel.blue = 1F
+        modelNow.posableModel.resetLayerContext()
 
         if (phaseTarget != null && beamMode != 0) {
             val glowMultiplier = if (s > BEAM_EXTEND_TIME && s < BEAM_EXTEND_TIME + BEAM_SHRINK_TIME) {
@@ -439,12 +439,13 @@ class PokemonRenderer(
         ball: PokeBall,
         distance: Int
     ) {
+        val ballContext = RenderContext()
         matrixStack.push()
         matrixStack.scale(0.7F, -0.7F, -0.7F)
         val model = PokeBallModelRepository.getPoser(ball.name, state.aspects)
         val texture = PokeBallModelRepository.getTexture(ball.name, state.aspects, state.animationSeconds)
-        if(scale == 1.0f) {
-            model.moveToPose(null, state, model.open)
+        if (scale == 1.0f) {
+            model.moveToPose(ballContext, state, model.poses["open"]!!)
         } else {
             matrixStack.translate(0.0, -0.2, 0.0)
             val rot = 360F * distance
@@ -458,10 +459,10 @@ class PokemonRenderer(
         state.timeEnteredPose = 0F
         state.updatePartialTicks(partialTicks)
         model.setupAnimStateful(null, state, 0F, 0F, 0F, 0F, 0F)
-        model.animateModel(null, 0f, 0F, 0F)
-        val buffer = ItemRenderer.getDirectItemGlintConsumer(buff, model.getLayer(texture), false, false)
+//        model.animateModel(null, 0f, 0F, 0F)
+        val buffer = ItemRenderer.getDirectItemGlintConsumer(buff, RenderLayer.getEntityCutout(texture), false, false)
 //        matrixStack.scale(scale, scale, scale)
-        model.render(matrixStack, buffer, packedLight, OverlayTexture.DEFAULT_UV, 1F, 1F, 1F, 1F)
+        model.render(ballContext, matrixStack, buffer, packedLight, OverlayTexture.DEFAULT_UV, 1F, 1F, 1F, 1F)
         model.green = 1f
         model.blue = 1f
         model.red = 1f

@@ -9,12 +9,10 @@
 package com.cobblemon.mod.common.client.render.models.blockbench.quirk
 
 import com.cobblemon.mod.common.client.render.models.blockbench.PosableState
-import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.PrimaryAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.StatefulAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.repository.RenderContext
 import com.cobblemon.mod.common.util.math.random
-import kotlin.random.Random
 
 
 class SimpleQuirk(
@@ -52,11 +50,11 @@ class SimpleQuirk(
         }
     }
 
-    private fun applyAnimations(state: PoseableEntityState<T>, data: SimpleQuirkData<T>) {
+    private fun applyAnimations(state: PosableState, data: SimpleQuirkData) {
         val (primary, stateful) = animations(state).partition { it is PrimaryAnimation }
         data.animations.addAll(stateful)
         if (primary.isNotEmpty()) {
-            val primaryAnimation = primary.first() as PrimaryAnimation<T>
+            val primaryAnimation = primary.first() as PrimaryAnimation
             data.primaryAnimation = primaryAnimation
             state.addPrimaryAnimation(primaryAnimation)
         }

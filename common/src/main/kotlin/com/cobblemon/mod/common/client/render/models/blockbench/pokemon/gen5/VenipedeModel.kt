@@ -9,13 +9,15 @@
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen5
 
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.pose.Pose
 import com.cobblemon.mod.common.entity.PoseType
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableState
+import com.cobblemon.mod.common.client.render.models.blockbench.repository.RenderContext
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class VenipedeModel (root: ModelPart) : PokemonPoseableModel() {
+class VenipedeModel (root: ModelPart) : PosableModel() {
     override val rootPart = root.registerChildWithAllChildren("venipede")
 
     override val portraitScale = 2.0F
@@ -24,11 +26,11 @@ class VenipedeModel (root: ModelPart) : PokemonPoseableModel() {
     override val profileScale = 0.8F
     override val profileTranslation = Vec3d(0.0, 0.5, 0.0)
 
-    lateinit var sleep: PokemonPose
-    lateinit var standing: PokemonPose
-    lateinit var walk: PokemonPose
+    lateinit var sleep: Pose
+    lateinit var standing: Pose
+    lateinit var walk: Pose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("venipede", "cry") }
+    override val cryAnimation = CryProvider { bedrockStateful("venipede", "cry") }
 
     override fun registerPoses() {
         val blink = quirk { bedrockStateful("venipede", "blink") }

@@ -10,15 +10,17 @@ package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen3
 
 import com.cobblemon.mod.common.client.render.models.blockbench.createTransformation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.QuadrupedFrame
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.pose.Pose
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.ModelPartTransformation
 import com.cobblemon.mod.common.entity.PoseType
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableState
+import com.cobblemon.mod.common.client.render.models.blockbench.repository.RenderContext
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class LotadModel (root: ModelPart) : PokemonPoseableModel(), QuadrupedFrame {
+class LotadModel (root: ModelPart) : PosableModel(), QuadrupedFrame {
     override val rootPart = root.registerChildWithAllChildren("lotad")
 
     override val foreLeftLeg = getPart("leg_left")
@@ -32,13 +34,13 @@ class LotadModel (root: ModelPart) : PokemonPoseableModel(), QuadrupedFrame {
     override val profileScale = 1.0F
     override val profileTranslation = Vec3d(0.0, 0.25, 0.0)
 
-    lateinit var standing: PokemonPose
-    lateinit var waterstanding: PokemonPose
-    lateinit var walk: PokemonPose
-    lateinit var waterwalk: PokemonPose
-    lateinit var floating: PokemonPose
-    lateinit var swim: PokemonPose
-    lateinit var sleep: PokemonPose
+    lateinit var standing: Pose
+    lateinit var waterstanding: Pose
+    lateinit var walk: Pose
+    lateinit var waterwalk: Pose
+    lateinit var floating: Pose
+    lateinit var swim: Pose
+    lateinit var sleep: Pose
 
     val wateroffset = -2
 
@@ -49,7 +51,7 @@ class LotadModel (root: ModelPart) : PokemonPoseableModel(), QuadrupedFrame {
             poseName = "standing",
             poseTypes = PoseType.UI_POSES + PoseType.STAND,
             quirks = arrayOf(blink),
-            condition = { !it.isTouchingWater },
+            condition = { it.entity?.isTouchingWater == false },
             idleAnimations = arrayOf(
                 bedrock("lotad", "ground_idle")
             )
@@ -59,7 +61,7 @@ class LotadModel (root: ModelPart) : PokemonPoseableModel(), QuadrupedFrame {
             poseName = "waterstanding",
             poseType = PoseType.STAND,
             quirks = arrayOf(blink),
-            condition = { it.isTouchingWater },
+            condition = { it.entity?.isTouchingWater == true },
             idleAnimations = arrayOf(
                 bedrock("lotad", "water_idle")
             ),
@@ -72,7 +74,7 @@ class LotadModel (root: ModelPart) : PokemonPoseableModel(), QuadrupedFrame {
             poseName = "walk",
             poseType = PoseType.WALK,
             quirks = arrayOf(blink),
-            condition = { !it.isTouchingWater },
+            condition = { it.entity?.isTouchingWater == false },
             idleAnimations = arrayOf(
                 bedrock("lotad", "ground_walk"),
             )
@@ -82,7 +84,7 @@ class LotadModel (root: ModelPart) : PokemonPoseableModel(), QuadrupedFrame {
             poseName = "waterwalk",
             poseType = PoseType.WALK,
             quirks = arrayOf(blink),
-            condition = { it.isTouchingWater },
+            condition = { it.entity?.isTouchingWater == true },
             idleAnimations = arrayOf(
                 bedrock("lotad", "water_swim")
             ),
@@ -128,8 +130,5 @@ class LotadModel (root: ModelPart) : PokemonPoseableModel(), QuadrupedFrame {
         )
 
     }
-    override fun getFaintAnimation(
-        pokemonEntity: PokemonEntity,
-        state: PosableState<PokemonEntity>
-    ) = if (state.isNotPosedIn(sleep)) bedrockStateful("lotad", "faint") else null
+    override fun getFaintAnimation(state: PosableState) = if (state.isNotPosedIn(sleep)) bedrockStateful("lotad", "faint") else null
 }

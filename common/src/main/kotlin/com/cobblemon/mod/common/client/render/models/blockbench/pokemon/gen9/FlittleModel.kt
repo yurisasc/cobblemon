@@ -11,15 +11,17 @@ package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen9
 import com.cobblemon.mod.common.client.render.models.blockbench.createTransformation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.pose.Pose
 import com.cobblemon.mod.common.entity.PoseType
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableState
+import com.cobblemon.mod.common.client.render.models.blockbench.repository.RenderContext
 import com.cobblemon.mod.common.entity.PoseType.Companion.UI_POSES
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class FlittleModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
+class FlittleModel(root: ModelPart) : PosableModel(), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("flittle")
     override val head = getPart("body")
 
@@ -29,18 +31,18 @@ class FlittleModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override val profileScale = 0.85F
     override val profileTranslation = Vec3d(0.0, 0.65, 0.0)
 
-    lateinit var standing: PokemonPose
-    lateinit var walk: PokemonPose
-    lateinit var hovering: PokemonPose
-    lateinit var flying: PokemonPose
-    lateinit var shoulderLeft: PokemonPose
-    lateinit var shoulderRight: PokemonPose
-    lateinit var sleep: PokemonPose
+    lateinit var standing: Pose
+    lateinit var walk: Pose
+    lateinit var hovering: Pose
+    lateinit var flying: Pose
+    lateinit var shoulderLeft: Pose
+    lateinit var shoulderRight: Pose
+    lateinit var sleep: Pose
 
     val shoulderOffsetX = 6
     val shoulderOffsetY = 6
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("flittle", "cry") }
+    override val cryAnimation = CryProvider { bedrockStateful("flittle", "cry") }
 
     override fun registerPoses() {
         val blink = quirk { bedrockStateful("flittle", "blink") }
@@ -118,8 +120,5 @@ class FlittleModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
         )
 
     }
-    override fun getFaintAnimation(
-        pokemonEntity: PokemonEntity,
-        state: PosableState<PokemonEntity>
-    ) = if (state.isNotPosedIn(sleep)) bedrockStateful("flittle", "faint") else null
+    override fun getFaintAnimation(state: PosableState) = if (state.isNotPosedIn(sleep)) bedrockStateful("flittle", "faint") else null
 }

@@ -17,22 +17,23 @@
 //package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1
 //
 //import com.cobblemon.mod.common.client.render.models.blockbench.EarJoint
-//import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
+//import com.cobblemon.mod.common.client.render.models.blockbench.PosableState
 //import com.cobblemon.mod.common.client.render.models.blockbench.RangeOfMotion
 //import com.cobblemon.mod.common.client.render.models.blockbench.frame.BimanualFrame
 //import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 //import com.cobblemon.mod.common.client.render.models.blockbench.frame.EaredFrame
 //import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 //import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
-//import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
-//import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
-//import com.cobblemon.mod.common.client.render.models.blockbench.pose.ModelPartTransformation
+//import com.cobblemon.mod.common.client.render.models.blockbench.pose.Pose
+////import com.cobblemon.mod.common.client.render.models.blockbench.pose.ModelPartTransformation
 //import com.cobblemon.mod.common.entity.PoseType
-//import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableState
+import com.cobblemon.mod.common.client.render.models.blockbench.repository.RenderContext//import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 //import com.cobblemon.mod.common.util.math.geometry.toRadians
 //import net.minecraft.client.model.ModelPart
 //import net.minecraft.util.math.Vec3d
-//class BlastoiseModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedFrame, BimanualFrame, EaredFrame {
+//class BlastoiseModel(root: ModelPart) : PosableModel(), HeadedFrame, BipedFrame, BimanualFrame, EaredFrame {
 //    override val rootPart = root.registerChildWithAllChildren("blastoise")
 //    override val head = getPart("head_ai")
 //    override val rightArm = getPart("arm_right")
@@ -50,13 +51,13 @@
 //    override val profileScale = 0.63F
 //    override val profileTranslation = Vec3d(0.0, 0.8, 0.0)
 //
-//    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("blastoise", "cry") }
+//    override val cryAnimation = CryProvider { bedrockStateful("blastoise", "cry") }
 //
-//    lateinit var sleep: PokemonPose
-//    lateinit var standing: PokemonPose
-//    lateinit var swimIdle: PokemonPose
-//    lateinit var swimMove: PokemonPose
-//    lateinit var walk: PokemonPose
+//    lateinit var sleep: Pose
+//    lateinit var standing: Pose
+//    lateinit var swimIdle: Pose
+//    lateinit var swimMove: Pose
+//    lateinit var walk: Pose
 //
 //    override fun registerPoses() {
 //        val blink = quirk { bedrockStateful("blastoise", "blink")}
@@ -112,6 +113,6 @@
 //
 //    override fun getFaintAnimation(
 //        pokemonEntity: PokemonEntity,
-//        state: PoseableEntityState<PokemonEntity>
+//        state: PosableState<PokemonEntity>
 //    ) = if (state.isPosedIn(standing, walk, sleep)) bedrockStateful("blastoise", "faint") else null
 //}

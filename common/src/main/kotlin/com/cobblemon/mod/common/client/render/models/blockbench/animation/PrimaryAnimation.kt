@@ -8,9 +8,6 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.animation
 
-import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityModel
-import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
-import com.cobblemon.mod.common.client.render.models.blockbench.frame.ModelFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.PosableState
 import com.cobblemon.mod.common.client.render.models.blockbench.repository.RenderContext
@@ -38,7 +35,7 @@ class PrimaryAnimation(
     },
     val excludedLabels: Set<String> = emptySet(),
     override val isTransform: Boolean = false
-): StatefulAnimation<T, ModelFrame> {
+): StatefulAnimation {
     var started = -1F
     override val duration: Float = animation.duration
 

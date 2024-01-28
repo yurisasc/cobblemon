@@ -12,16 +12,18 @@ import com.cobblemon.mod.common.client.render.models.blockbench.createTransforma
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.pose.Pose
 import com.cobblemon.mod.common.entity.PoseType
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableState
+import com.cobblemon.mod.common.client.render.models.blockbench.repository.RenderContext
 import com.cobblemon.mod.common.entity.PoseType.Companion.MOVING_POSES
 import com.cobblemon.mod.common.entity.PoseType.Companion.STATIONARY_POSES
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class GarganaclModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedFrame {
+class GarganaclModel(root: ModelPart) : PosableModel(), HeadedFrame, BipedFrame {
     override val rootPart = root.registerChildWithAllChildren("garganacl")
     override val head = getPart("waist")
     override val leftLeg = getPart("leg_left")
@@ -34,18 +36,18 @@ class GarganaclModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
     override val profileScale = 0.45F
     override val profileTranslation = Vec3d(0.0, 1.0, 0.0)
 
-    lateinit var sleep: PokemonPose
-    lateinit var standing: PokemonPose
-    lateinit var battlestanding: PokemonPose
-    lateinit var walk: PokemonPose
-    lateinit var portrait: PokemonPose
+    lateinit var sleep: Pose
+    lateinit var standing: Pose
+    lateinit var battlestanding: Pose
+    lateinit var walk: Pose
+    lateinit var portrait: Pose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("garganacl", "cry") }
+    override val cryAnimation = CryProvider { bedrockStateful("garganacl", "cry") }
 
     override fun registerPoses() {
         standing = registerPose(
             poseName = "standing",
-            condition = { !it.isBattling },
+            condition = { (it.entity as? PokemonEntity)?.isBattling == false },
             poseTypes = STATIONARY_POSES + PoseType.PROFILE,
             transformedParts = arrayOf(
                 shoulder.createTransformation().withVisibility(visibility = true)
@@ -58,7 +60,7 @@ class GarganaclModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
 
         battlestanding = registerPose(
             poseName = "battlestanding",
-            condition = { it.isBattling },
+            condition = { (it.entity as? PokemonEntity)?.isBattling == true },
             poseTypes = STATIONARY_POSES,
             transformedParts = arrayOf(
                 shoulder.createTransformation().withVisibility(visibility = true)
@@ -90,7 +92,7 @@ class GarganaclModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
 
         walk = registerPose(
                 poseName = "walk",
-                condition = { !it.isBattling },
+                condition = { (it.entity as? PokemonEntity)?.isBattling == false },
                 poseTypes = MOVING_POSES,
             transformedParts = arrayOf(
                 shoulder.createTransformation().withVisibility(visibility = true)
@@ -103,8 +105,5 @@ class GarganaclModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
         )
 
     }
-    override fun getFaintAnimation(
-        pokemonEntity: PokemonEntity,
-        state: PosableState<PokemonEntity>
-    ) = if (state.isNotPosedIn(sleep)) bedrockStateful("garganacl", "faint") else null
+    override fun getFaintAnimation(state: PosableState) = if (state.isNotPosedIn(sleep)) bedrockStateful("garganacl", "faint") else null
 }

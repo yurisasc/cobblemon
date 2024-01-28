@@ -10,13 +10,15 @@ package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen9
 
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.QuadrupedWalkAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.QuadrupedFrame
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.pose.Pose
 import com.cobblemon.mod.common.entity.PoseType
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableState
+import com.cobblemon.mod.common.client.render.models.blockbench.repository.RenderContext
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class LechonkModel (root: ModelPart) : PokemonPoseableModel(), QuadrupedFrame {
+class LechonkModel (root: ModelPart) : PosableModel(), QuadrupedFrame {
     override val rootPart = root.registerChildWithAllChildren("lechonk")
 
     override val foreLeftLeg = getPart("leg_front_left")
@@ -30,9 +32,9 @@ class LechonkModel (root: ModelPart) : PokemonPoseableModel(), QuadrupedFrame {
     override val profileScale = 1.0F
     override val profileTranslation = Vec3d(0.0, 0.25, 0.0)
 
-    //    lateinit var sleep: PokemonPose
-    lateinit var standing: PokemonPose
-    lateinit var walk: PokemonPose
+    //    lateinit var sleep: Pose
+    lateinit var standing: Pose
+    lateinit var walk: Pose
 
     override fun registerPoses() {
 //        sleep = registerPose(

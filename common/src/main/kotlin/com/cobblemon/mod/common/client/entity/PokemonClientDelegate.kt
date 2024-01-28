@@ -12,7 +12,6 @@ import com.bedrockk.molang.runtime.struct.QueryStruct
 import com.cobblemon.mod.common.CobblemonSounds
 import com.cobblemon.mod.common.api.entity.PokemonSideDelegate
 import com.cobblemon.mod.common.api.molang.MoLangFunctions.addFunctions
-import com.cobblemon.mod.common.api.molang.MoLangFunctions.getQueryStruct
 import com.cobblemon.mod.common.api.pokemon.PokemonSpecies
 import com.cobblemon.mod.common.api.scheduling.SchedulingTracker
 import com.cobblemon.mod.common.api.scheduling.afterOnClient
@@ -21,10 +20,9 @@ import com.cobblemon.mod.common.client.ClientMoLangFunctions
 import com.cobblemon.mod.common.client.particle.BedrockParticleEffectRepository
 import com.cobblemon.mod.common.client.particle.ParticleStorm
 import com.cobblemon.mod.common.client.render.MatrixWrapper
-import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableState
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.PrimaryAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.StatefulAnimation
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cobblemon.mod.common.client.render.pokemon.PokemonRenderer.Companion.ease
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.pokemon.Pokemon
@@ -40,7 +38,7 @@ import net.minecraft.util.Hand
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.Vec3d
 
-class PokemonClientDelegate : PosableState<PokemonEntity>(), PokemonSideDelegate {
+class PokemonClientDelegate : PosableState(), PokemonSideDelegate {
     companion object {
         const val BEAM_SHRINK_TIME = 0.4F
         const val BEAM_EXTEND_TIME = 0.2F
@@ -89,7 +87,7 @@ class PokemonClientDelegate : PosableState<PokemonEntity>(), PokemonSideDelegate
             } else if (data == PokemonEntity.DYING_EFFECTS_STARTED) {
                 val isDying = currentEntity.dataTracker.get(PokemonEntity.DYING_EFFECTS_STARTED)
                 if (isDying) {
-                    val model = (currentModel ?: return) as PokemonPoseableModel
+                    val model = currentModel ?: return
                     val animation = try {
                         model.getAnimation(this, "faint", runtime)
                     } catch (e: Exception) {
@@ -234,8 +232,8 @@ class PokemonClientDelegate : PosableState<PokemonEntity>(), PokemonSideDelegate
 
     override fun handleStatus(status: Byte) {
         if (status == 10.toByte()) {
-            val model = (currentModel ?: return) as PokemonPoseableModel
-            val animation = model.getEatAnimation(currentEntity, this) ?: return
+            val model = (currentModel ?: return)
+            val animation = model.getEatAnimation(this) ?: return
             statefulAnimations.add(animation)
         }
     }
@@ -246,18 +244,16 @@ class PokemonClientDelegate : PosableState<PokemonEntity>(), PokemonSideDelegate
 
     fun cry() {
         val model = currentModel ?: return
-        if (model is PokemonPoseableModel) {
-           if (cryAnimation != null && (cryAnimation in statefulAnimations || cryAnimation == primaryAnimation)) {
-               return
-           }
+       if (cryAnimation != null && (cryAnimation in statefulAnimations || cryAnimation == primaryAnimation)) {
+           return
+       }
 
-            val animation = model.cryAnimation(currentEntity, this) ?: return
-            if (animation is PrimaryAnimation) {
-                addPrimaryAnimation(animation)
-            } else {
-                statefulAnimations.add(animation)
-            }
-            cryAnimation = animation
+        val animation = model.cryAnimation(this) ?: return
+        if (animation is PrimaryAnimation) {
+            addPrimaryAnimation(animation)
+        } else {
+            statefulAnimations.add(animation)
         }
+        cryAnimation = animation
     }
 }

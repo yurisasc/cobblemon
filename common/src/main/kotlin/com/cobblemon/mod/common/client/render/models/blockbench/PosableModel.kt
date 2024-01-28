@@ -1,18 +1,33 @@
+/*
+ * Copyright (C) 2023 Cobblemon Contributors
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/.
+ */
+
 package com.cobblemon.mod.common.client.render.models.blockbench
 
+import com.bedrockk.molang.runtime.MoLangRuntime
+import com.bedrockk.molang.runtime.struct.ArrayStruct
+import com.bedrockk.molang.runtime.struct.QueryStruct
+import com.bedrockk.molang.runtime.value.MoValue
+import com.cobblemon.mod.common.Cobblemon
+import com.cobblemon.mod.common.api.molang.ExpressionLike
+import com.cobblemon.mod.common.api.molang.MoLangFunctions.addFunctions
+import com.cobblemon.mod.common.api.molang.MoLangFunctions.getQueryStruct
+import com.cobblemon.mod.common.api.molang.MoLangFunctions.setup
+import com.cobblemon.mod.common.api.molang.ObjectValue
 import com.cobblemon.mod.common.api.scheduling.afterOnClient
+import com.cobblemon.mod.common.client.ClientMoLangFunctions.setupClient
 import com.cobblemon.mod.common.client.entity.PokemonClientDelegate
 import com.cobblemon.mod.common.client.render.ModelLayer
-import com.cobblemon.mod.common.client.render.models.blockbench.animation.PoseTransitionAnimation
-import com.cobblemon.mod.common.client.render.models.blockbench.animation.PrimaryAnimation
-import com.cobblemon.mod.common.client.render.models.blockbench.animation.RotationFunctionStatelessAnimation
-import com.cobblemon.mod.common.client.render.models.blockbench.animation.StatefulAnimation
-import com.cobblemon.mod.common.client.render.models.blockbench.animation.StatelessAnimation
-import com.cobblemon.mod.common.client.render.models.blockbench.animation.TranslationFunctionStatelessAnimation
+import com.cobblemon.mod.common.client.render.models.blockbench.animation.*
 import com.cobblemon.mod.common.client.render.models.blockbench.bedrock.animation.BedrockAnimationRepository
 import com.cobblemon.mod.common.client.render.models.blockbench.bedrock.animation.BedrockStatefulAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.bedrock.animation.BedrockStatelessAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.ModelFrame
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.Bone
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.ModelPartTransformation
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.Pose
@@ -20,35 +35,43 @@ import com.cobblemon.mod.common.client.render.models.blockbench.quirk.ModelQuirk
 import com.cobblemon.mod.common.client.render.models.blockbench.quirk.SimpleQuirk
 import com.cobblemon.mod.common.client.render.models.blockbench.repository.RenderContext
 import com.cobblemon.mod.common.client.render.models.blockbench.wavefunction.WaveFunction
+import com.cobblemon.mod.common.client.render.models.blockbench.wavefunction.sineFunction
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.Poseable
+import com.cobblemon.mod.common.entity.generic.GenericBedrockEntity
+import com.cobblemon.mod.common.entity.npc.NPCEntity
 import com.cobblemon.mod.common.entity.pokeball.EmptyPokeBallEntity
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
+import com.cobblemon.mod.common.util.asExpressionLike
+import com.cobblemon.mod.common.util.getDoubleOrNull
+import com.cobblemon.mod.common.util.getStringOrNull
 import net.minecraft.client.model.ModelPart
-import net.minecraft.client.render.OverlayTexture
 import net.minecraft.client.render.RenderLayer
 import net.minecraft.client.render.RenderPhase
 import net.minecraft.client.render.VertexConsumer
 import net.minecraft.client.render.VertexConsumerProvider
 import net.minecraft.client.render.VertexFormat
 import net.minecraft.client.render.VertexFormats
-import net.minecraft.client.render.entity.model.EntityModel
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.entity.Entity
-import net.minecraft.entity.LivingEntity
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.RotationAxis
+import net.minecraft.util.math.Vec3d
 
-abstract class PosableModel(
-    renderTypeFunc: (Identifier) -> RenderLayer = RenderLayer::getEntityCutout
-): ModelFrame {
+abstract class PosableModel: ModelFrame {
     val context: RenderContext = RenderContext()
 
     /** Whether the renderer that will process this is going to do the weird -1.5 Y offset bullshit that the living entity renderer does. */
-    abstract val isForLivingEntityRenderer: Boolean
+    open var isForLivingEntityRenderer = true
 
     val poses = mutableMapOf<String, Pose>()
     lateinit var locatorAccess: LocatorAccess
+
+    open val portraitScale = 1F
+    open val portraitTranslation = Vec3d(0.0, 0.0, 0.0)
+
+    open val profileScale = 1F
+    open val profileTranslation = Vec3d(0.0, 0.0, 0.0)
 
     var red = 1F
     var green = 1F
@@ -73,8 +96,226 @@ abstract class PosableModel(
     val relevantParts = mutableListOf<ModelPart>()
     val relevantPartsByName = mutableMapOf<String, ModelPart>()
 
+    @Transient
+    val functions = QueryStruct(hashMapOf())
+        .addFunction("exclude_labels") { params ->
+            val labels = params.params.map { it.asString() }
+            return@addFunction ObjectValue(ExcludedLabels(labels))
+        }
+        .addFunction("bedrock_primary") { params ->
+            val group = params.getString(0)
+            val animation = params.getString(1)
+            val anim = bedrockStateful(group, animation)
+            val excludedLabels = mutableSetOf<String>()
+            var curve: WaveFunction = { t ->
+                if (t < 0.1) {
+                    t * 10
+                } else if (t < 0.9) {
+                    1F
+                } else {
+                    1F
+                }
+            }
+            for (index in 2 until params.params.size) {
+                val param = params.get<MoValue>(index)
+                if (param is ObjectValue<*>) {
+                    val obj = param.obj
+                    if (obj is ExcludedLabels) {
+                        excludedLabels.addAll(obj.labels)
+                    } else {
+                        curve = param.obj as WaveFunction
+                    }
+                    continue
+                }
+
+                val label = params.getString(index) ?: continue
+                excludedLabels.add(label)
+            }
+
+            return@addFunction ObjectValue(PrimaryAnimation(animation = anim, excludedLabels = excludedLabels, curve = curve))
+        }
+        .addFunction("bedrock_stateful") { params ->
+            val group = params.getString(0)
+            val animation = params.getString(1)
+            val anim = bedrockStateful(group, animation)
+            return@addFunction ObjectValue(anim)
+        }
+        .addFunction("bedrock") { params ->
+            val group = params.getString(0)
+            val animation = params.getString(1)
+            val anim = bedrock(group, animation)
+            return@addFunction ObjectValue(anim)
+        }
+        .addFunction("look") { params ->
+            val boneName = params.getString(0)
+            val pitchMultiplier = params.getDoubleOrNull(1) ?: 1F
+            val yawMultiplier = params.getDoubleOrNull(2) ?: 1F
+            val maxPitch = params.getDoubleOrNull(3) ?: 70F
+            val minPitch = params.getDoubleOrNull(4) ?: -45F
+            val maxYaw = params.getDoubleOrNull(5) ?: 45F
+            ObjectValue(
+                SingleBoneLookAnimation(
+                    bone = getPart(boneName),
+                    pitchMultiplier = pitchMultiplier.toFloat(),
+                    yawMultiplier = yawMultiplier.toFloat(),
+                    maxPitch = maxPitch.toFloat(),
+                    minPitch = minPitch.toFloat(),
+                    maxYaw = maxYaw.toFloat()
+                )
+            )
+        }
+        .addFunction("quadruped_walk") { params ->
+            val periodMultiplier = params.getDoubleOrNull(0) ?: 0.6662F
+            val amplitudeMultiplier = params.getDoubleOrNull(1) ?: 1.4F
+            val leftFrontLeftName = params.getStringOrNull(2) ?: "leg_front_left"
+            val leftFrontRightName = params.getStringOrNull(3) ?: "leg_front_right"
+            val leftBackLeftName = params.getStringOrNull(4) ?: "leg_back_left"
+            val leftBackRightName = params.getStringOrNull(5) ?: "leg_back_right"
+
+            ObjectValue(
+                QuadrupedWalkAnimation(
+                    periodMultiplier = periodMultiplier.toFloat(),
+                    amplitudeMultiplier = amplitudeMultiplier.toFloat(),
+                    legFrontLeft = this.getPart(leftFrontLeftName),
+                    legFrontRight = this.getPart(leftFrontRightName),
+                    legBackLeft = this.getPart(leftBackLeftName),
+                    legBackRight = this.getPart(leftBackRightName)
+                )
+            )
+        }
+        .addFunction("biped_walk") { params ->
+            val periodMultiplier = params.getDoubleOrNull(0) ?: 0.6662F
+            val amplitudeMultiplier = params.getDoubleOrNull(1) ?: 1.4F
+            val leftLegName = params.getStringOrNull(2) ?: "leg_left"
+            val rightLegName = params.getStringOrNull(3) ?: "leg_right"
+
+            ObjectValue(
+                BipedWalkAnimation(
+                    periodMultiplier = periodMultiplier.toFloat(),
+                    amplitudeMultiplier = amplitudeMultiplier.toFloat(),
+                    leftLeg = this.getPart(leftLegName),
+                    rightLeg = this.getPart(rightLegName)
+                )
+            )
+        }
+        .addFunction("bimanual_swing") { params ->
+            val swingPeriodMultiplier = params.getDoubleOrNull(0) ?: 0.6662F
+            val amplitudeMultiplier = params.getDoubleOrNull(1) ?: 1F
+            val leftArmName = params.getStringOrNull(2) ?: "arm_left"
+            val rightArmName = params.getStringOrNull(3) ?: "arm_right"
+
+            ObjectValue(
+                BimanualSwingAnimation(
+                    swingPeriodMultiplier = swingPeriodMultiplier.toFloat(),
+                    amplitudeMultiplier = amplitudeMultiplier.toFloat(),
+                    leftArm = this.getPart(leftArmName),
+                    rightArm = this.getPart(rightArmName)
+                )
+            )
+        }
+        .addFunction("sine_wing_flap") { params ->
+            // verticalShift = -14F.toRadians(), period = 0.9F, amplitude = 0.9F
+            val amplitude = params.getDoubleOrNull(0) ?: 0.9F
+            val period = params.getDoubleOrNull(1) ?: 0.9F
+            val verticalShift = params.getDoubleOrNull(2) ?: 0F
+            val axis = params.getStringOrNull(3) ?: "y"
+            val axisIndex = when (axis) {
+                "x" -> ModelPartTransformation.X_AXIS
+                "y" -> ModelPartTransformation.Y_AXIS
+                "z" -> ModelPartTransformation.Z_AXIS
+                else -> ModelPartTransformation.Y_AXIS
+            }
+            val wingLeft = params.getStringOrNull(4) ?: "wing_left"
+            val wingRight = params.getStringOrNull(5) ?: "wing_right"
+
+            ObjectValue(
+                WingFlapIdleAnimation(
+                    rotation = sineFunction(verticalShift = verticalShift.toFloat(), period = period.toFloat(), amplitude = amplitude.toFloat()),
+                    axis = axisIndex,
+                    leftWing = this.getPart(wingLeft),
+                    rightWing = this.getPart(wingRight)
+                )
+            )
+        }
+        .addFunction("bedrock_quirk") { params ->
+            val animationGroup = params.getString(0)
+            val animationNames = params.get<MoValue>(1)?.let { if (it is ArrayStruct) it.map.values.map { it.asString() } else listOf(it.asString()) } ?: listOf()
+            val minSeconds = params.getDoubleOrNull(2) ?: 8F
+            val maxSeconds = params.getDoubleOrNull(3) ?: 30F
+            val loopTimes = params.getDoubleOrNull(4)?.toInt() ?: 1
+            ObjectValue(
+                quirk(
+                    secondsBetweenOccurrences = minSeconds.toFloat() to maxSeconds.toFloat(),
+                    condition = { true },
+                    loopTimes = 1..loopTimes,
+                    animation = { bedrockStateful(animationGroup, animationNames.random()) }
+                )
+            )
+        }
+
+    @Transient
+    val runtime = MoLangRuntime().setup().setupClient().also { it.environment.getQueryStruct().addFunctions(functions.functions) }
+
+    val animations = mutableMapOf<String, ExpressionLike>()
+
     /** Registers the different poses this model is capable of ahead of time. Should use [registerPose] religiously. */
     abstract fun registerPoses()
+
+    fun getAnimation(state: PosableState, name: String, runtime: MoLangRuntime): StatefulAnimation? {
+        val entity = state.getEntity()
+        val poseAnimations = state.currentPose?.let(this::getPose)?.animations ?: mapOf()
+        val animation = resolveFromAnimationMap(poseAnimations, name, runtime)
+            ?: resolveFromAnimationMap(animations, name, runtime)
+            ?: if (name == "cry") {
+                cryAnimation.invoke(state)
+            } else if (name == "faint") {
+                getFaintAnimation(state)
+            } else {
+                try {
+                    name.asExpressionLike().resolveObject(runtime).obj as StatefulAnimation
+                } catch (exception: Exception) {
+                    extractAnimation(name)
+                }
+            }
+        return animation
+    }
+
+    open fun getFaintAnimation(state: PosableState): StatefulAnimation? = null
+    open fun getEatAnimation(state: PosableState): StatefulAnimation? = null
+
+    open val cryAnimation: CryProvider = CryProvider { null }
+
+    /**
+     * Animation group : animation name [: primary]
+     * e.g. "particle_dummy:animation.particle_dummy.dragon_claw_target:primary"
+     * e.g. "particle_dummy:animation.particle.dummy.stat_up
+     */
+    fun extractAnimation(string: String): StatefulAnimation? {
+        val group = string.substringBefore(":")
+        val animationName = string.substringAfter(":").substringBefore(":")
+        val isPrimary = string.endsWith(":primary")
+        if (animationName.isNotBlank() && animationName != string) {
+            val animation = BedrockAnimationRepository.tryGetAnimation(group, animationName) ?: return null
+            return if (isPrimary) {
+                PrimaryAnimation(BedrockStatefulAnimation(animation))
+            } else {
+                BedrockStatefulAnimation(animation)
+            }
+        } else {
+            return null
+        }
+    }
+
+    private fun resolveFromAnimationMap(map: Map<String, ExpressionLike>, name: String, runtime: MoLangRuntime): StatefulAnimation? {
+        val animationExpression = map[name] ?: return null
+        return try {
+            animationExpression.resolveObject(runtime).obj as StatefulAnimation
+        } catch (e: Exception) {
+            Cobblemon.LOGGER.error("Failed to create animation by name $name, most likely something wrong in the MoLang")
+            e.printStackTrace()
+            null
+        }
+    }
 
     fun withLayerContext(
         buffer: VertexConsumerProvider,
@@ -99,19 +340,6 @@ abstract class PosableModel(
         currentState = null
     }
 
-    open fun getOverlayTexture(entity: Entity?): Int? {
-        return if (entity is LivingEntity) {
-            OverlayTexture.packUv(
-                OverlayTexture.getU(0F),
-                OverlayTexture.getV(entity.hurtTime > 0 || entity.deathTime > 0)
-            )
-        } else if (entity != null) {
-            OverlayTexture.DEFAULT_UV
-        } else {
-            null
-        }
-    }
-
     /**
      * Registers a pose for this model.
      *
@@ -124,6 +352,7 @@ abstract class PosableModel(
         poseType: PoseType,
         condition: ((RenderContext) -> Boolean)? = null,
         transformTicks: Int = 10,
+        animations: MutableMap<String, ExpressionLike> = mutableMapOf(),
         onTransitionedInto: (PosableState) -> Unit = {},
         idleAnimations: Array<StatelessAnimation> = emptyArray(),
         transformedParts: Array<ModelPartTransformation> = emptyArray(),
@@ -135,6 +364,7 @@ abstract class PosableModel(
             condition,
             onTransitionedInto,
             transformTicks,
+            animations,
             idleAnimations,
             transformedParts,
             quirks
@@ -148,6 +378,7 @@ abstract class PosableModel(
         poseTypes: Set<PoseType>,
         condition: ((RenderContext) -> Boolean)? = null,
         transformTicks: Int = 10,
+        animations: MutableMap<String, ExpressionLike> = mutableMapOf(),
         onTransitionedInto: (PosableState) -> Unit = {},
         idleAnimations: Array<StatelessAnimation> = emptyArray(),
         transformedParts: Array<ModelPartTransformation> = emptyArray(),
@@ -159,6 +390,7 @@ abstract class PosableModel(
             condition,
             onTransitionedInto,
             transformTicks,
+            animations,
             idleAnimations,
             transformedParts,
             quirks
@@ -167,11 +399,12 @@ abstract class PosableModel(
         }
     }
 
-    fun <F : ModelFrame> registerPose(
+    fun registerPose(
         poseName: String,
         poseType: PoseType,
         condition: ((RenderContext) -> Boolean)? = null,
         transformTicks: Int = 10,
+        animations: MutableMap<String, ExpressionLike> = mutableMapOf(),
         onTransitionedInto: (PosableState) -> Unit = {},
         idleAnimations: Array<StatelessAnimation> = emptyArray(),
         transformedParts: Array<ModelPartTransformation> = emptyArray(),
@@ -183,12 +416,34 @@ abstract class PosableModel(
             condition,
             onTransitionedInto,
             transformTicks,
+            animations,
             idleAnimations,
             transformedParts,
             quirks
         ).also {
             poses[poseName] = it
         }
+    }
+
+    /** Registers the same configuration for both left and right shoulder poses. */
+    fun registerShoulderPoses(
+        transformTicks: Int = 30,
+        idleAnimations: Array<StatelessAnimation>,
+        transformedParts: Array<ModelPartTransformation> = emptyArray()
+    ) {
+        registerPose(
+            poseType = PoseType.SHOULDER_LEFT,
+            transformTicks = transformTicks,
+            idleAnimations = idleAnimations,
+            transformedParts = transformedParts
+        )
+
+        registerPose(
+            poseType = PoseType.SHOULDER_RIGHT,
+            transformTicks = transformTicks,
+            idleAnimations = idleAnimations,
+            transformedParts = transformedParts
+        )
     }
 
     fun ModelPart.registerChildWithAllChildren(name: String): ModelPart {
@@ -247,19 +502,6 @@ abstract class PosableModel(
 
     fun registerRelevantPart(pairing: Pair<String, ModelPart>) = registerRelevantPart(pairing.first, pairing.second)
 
-    override fun render(
-        stack: MatrixStack,
-        buffer: VertexConsumer,
-        packedLight: Int,
-        packedOverlay: Int,
-        r: Float,
-        g: Float,
-        b: Float,
-        a: Float
-    ) {
-        render(context, stack, buffer, packedLight, packedOverlay, r, g, b, a)
-    }
-
     fun render(
         context: RenderContext,
         stack: MatrixStack,
@@ -276,7 +518,7 @@ abstract class PosableModel(
             stack,
             buffer,
             packedLight,
-            getOverlayTexture(context.request(RenderContext.ENTITY)) ?: packedOverlay,
+            packedOverlay,
             red * r,
             green * g,
             blue * b,
@@ -295,7 +537,7 @@ abstract class PosableModel(
                     stack,
                     consumer,
                     packedLight,
-                    getOverlayTexture(context.request(RenderContext.ENTITY)) ?: packedOverlay,
+                    packedOverlay,
                     layer.tint.x,
                     layer.tint.y,
                     layer.tint.z,
@@ -355,42 +597,8 @@ abstract class PosableModel(
 
     val quirks = mutableListOf<ModelQuirk<*>>()
 
-    /**
-     * Sets up the angles and positions for the model knowing that there is no state. Is given a pose type to use,
-     * and optionally things like limb swinging and head rotations.
-     */
-    fun setupAnimStateless(
-        poseType: PoseType,
-        limbSwing: Float = 0F,
-        limbSwingAmount: Float = 0F,
-        headYaw: Float = 0F,
-        headPitch: Float = 0F,
-        ageInTicks: Float = 0F
-    ) {
-        setupAnimStateless(setOf(poseType), limbSwing, limbSwingAmount, headYaw, headPitch, ageInTicks)
-    }
-
-    /**
-     * Sets up the angles and positions for the model knowing that there is no state. Is given a list of pose types,
-     * and it will use the first of these that is defined for the model.
-     */
-    fun setupAnimStateless(
-        poseTypes: Set<PoseType>,
-        limbSwing: Float = 0F,
-        limbSwingAmount: Float = 0F,
-        headYaw: Float = 0F,
-        headPitch: Float = 0F,
-        ageInTicks: Float = 0F
-    ) {
-        this.context.pop(RenderContext.ENTITY)
-        setDefault()
-        val pose = poseTypes.firstNotNullOfOrNull { getPose(it) } ?: poses.values.first()
-        pose.transformedParts.forEach { it.apply(intensity = 1F) }
-        pose.idleStateless(this, null, limbSwing, limbSwingAmount, ageInTicks, headYaw, headPitch, 1F)
-    }
-
     fun setupAnimStateful(
-        entity: T?,
+        entity: Entity?,
         state: PosableState,
         limbSwing: Float,
         limbSwingAmount: Float,
@@ -406,23 +614,23 @@ abstract class PosableModel(
         updateLocators(state)
         var poseName = state.getPose()
         var pose = poseName?.let { getPose(it) }
-        val entityPoseType = if (entity is Poseable) entity.getPoseType() else null
+        val entityPoseType = if (entity is Poseable) entity.getCurrentPoseType() else null
 
-        if (entity != null && (poseName == null || pose == null || !pose.isSuitable(entity) || entityPoseType !in pose.poseTypes)) {
+        if (entity != null && (poseName == null || pose == null || !pose.isSuitable(context) || entityPoseType !in pose.poseTypes)) {
             val desirablePose = poses.values.firstOrNull {
-                (entityPoseType == null || entityPoseType in it.poseTypes) && it.isSuitable(entity)
+                (entityPoseType == null || entityPoseType in it.poseTypes) && it.isSuitable(context)
             }
-                ?: Pose("none", setOf(PoseType.NONE), null, {}, 0, emptyArray(), emptyArray(), emptyArray())
+                ?: Pose("none", setOf(PoseType.NONE), null, {}, 0, mutableMapOf(), emptyArray(), emptyArray(), emptyArray())
 
             // If this condition matches then it just no longer fits this pose
             if (pose != null && poseName != null) {
                 if (state.primaryAnimation == null) {
-                    moveToPose(entity, state, desirablePose)
+                    moveToPose(context, state, desirablePose)
                 }
             } else {
                 pose = desirablePose
                 poseName = desirablePose.poseName
-                getState(entity).setPose(poseName)
+                state.setPose(poseName)
             }
         } else {
             poseName = poseName ?: poses.values.first().poseName
@@ -438,39 +646,28 @@ abstract class PosableModel(
             state.quirks.keys.filterNot(currentPose.quirks::contains).forEach(state.quirks::remove)
             // Tick all the quirks
             currentPose.quirks.forEach {
-                it.tick(entity, this, state, limbSwing, limbSwingAmount, ageInTicks, headYaw, headPitch, 1F)
+                it.tick(context, this, state, limbSwing, limbSwingAmount, ageInTicks, headYaw, headPitch, 1F)
             }
         }
 
         if (primaryAnimation != null) {
             state.primaryOverridePortion = 1 - primaryAnimation.curve((state.animationSeconds - primaryAnimation.started) / primaryAnimation.duration)
-            if (!primaryAnimation.run(entity, this, state, limbSwing, limbSwingAmount, ageInTicks, headYaw, headPitch, 1 - state.primaryOverridePortion)) {
+            if (!primaryAnimation.run(context, this, state, limbSwing, limbSwingAmount, ageInTicks, headYaw, headPitch, 1 - state.primaryOverridePortion)) {
                 state.primaryAnimation = null
                 state.primaryOverridePortion = 1F
             }
         }
 
         val removedStatefuls = state.statefulAnimations.toList()
-            .filterNot { it.run(entity, this, state, limbSwing, limbSwingAmount, ageInTicks, headYaw, headPitch, 1F) }
+            .filterNot { it.run(context, this, state, limbSwing, limbSwingAmount, ageInTicks, headYaw, headPitch, 1F) }
         state.statefulAnimations.removeAll(removedStatefuls)
         state.currentPose?.let { getPose(it) }
-            ?.idleStateful(entity, this, state, limbSwing, limbSwingAmount, ageInTicks, headYaw, headPitch, state.primaryOverridePortion)
+            ?.idleStateful(context, this, state, limbSwing, limbSwingAmount, ageInTicks, headYaw, headPitch)
         updateLocators(state)
     }
 
     //This is used to set additional entity type specific context
-    open fun setupEntityTypeContext(entity: T?) {}
-
-    override fun setAngles(
-        entity: T,
-        limbSwing: Float,
-        limbSwingAmount: Float,
-        ageInTicks: Float,
-        headYaw: Float,
-        headPitch: Float
-    ) {
-        setupAnimStateful(entity, getState(entity), limbSwing, limbSwingAmount, ageInTicks, headYaw, headPitch)
-    }
+    open fun setupEntityTypeContext(entity: Entity?) {}
 
     fun moveToPose(context: RenderContext, state: PosableState, desirablePose: Pose) {
         val previousPose = state.getPose()?.let { getPose(it) } ?: run {
@@ -480,7 +677,7 @@ abstract class PosableModel(
         val desirablePoseType = desirablePose.poseTypes.first()
 
         if (state.statefulAnimations.none { it.isTransform }) {
-            val transition = previousPose.transitions[desirablePose]
+            val transition = previousPose.transitions[desirablePose.poseName]
             if (transition == null && previousPose.transformTicks > 0) {
                 val primaryAnimation = PrimaryAnimation(
                     PoseTransitionAnimation(
@@ -505,7 +702,7 @@ abstract class PosableModel(
                     state.setPose(desirablePose.poseName)
                 }
             } else {
-                state.setPose(poses.values.first { desirablePoseType in it.poseTypes && (it.condition == null || (entity != null && it.condition.invoke(entity))) }.poseName)
+                state.setPose(poses.values.first { desirablePoseType in it.poseTypes && (it.condition == null || it.condition.invoke(context)) }.poseName)
             }
         }
     }
@@ -522,14 +719,22 @@ abstract class PosableModel(
             matrixStack.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(180 - entity.bodyYaw))
             matrixStack.push()
             matrixStack.scale(-1F, -1F, 1F)
-            val scale =
-                entity.pokemon.form.baseScale * entity.pokemon.scaleModifier * (entity.delegate as PokemonClientDelegate).entityScaleModifier
+            val scale = entity.pokemon.form.baseScale * entity.pokemon.scaleModifier * (entity.delegate as PokemonClientDelegate).entityScaleModifier
             matrixStack.scale(scale, scale, scale)
         } else if (entity is EmptyPokeBallEntity) {
             matrixStack.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(entity.yaw))
             matrixStack.push()
             matrixStack.scale(1F, -1F, -1F)
             matrixStack.scale(0.7F, 0.7F, 0.7F)
+        } else if (entity is GenericBedrockEntity) {
+            matrixStack.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(entity.yaw))
+            matrixStack.push()
+            // Not 100% convinced we need the -1 on Y but if we needed it for the Poke Ball then probably?
+            matrixStack.scale(1F, -1F, 1F)
+        } else if (entity is NPCEntity) {
+            matrixStack.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(180 - entity.bodyYaw))
+            matrixStack.push()
+            matrixStack.scale(-1F, -1F, 1F)
         }
 
         if (isForLivingEntityRenderer) {
@@ -573,21 +778,15 @@ abstract class PosableModel(
     fun bedrockStateful(
         animationGroup: String,
         animation: String,
-        animationPrefix: String = "animation.$animationGroup",
-        preventsIdleCheck: (RenderContext, PosableState, StatelessAnimation) -> Boolean = { _, _, _ -> true }
-    ) = BedrockStatefulAnimation(
-        BedrockAnimationRepository.getAnimation(animationGroup, "$animationPrefix.$animation"),
-        preventsIdleCheck
-    )
+        animationPrefix: String = "animation.$animationGroup"
+    ) = BedrockStatefulAnimation(BedrockAnimationRepository.getAnimation(animationGroup, "$animationPrefix.$animation"))
 
     fun quirk(
-        name: String,
         secondsBetweenOccurrences: Pair<Float, Float> = 8F to 30F,
         loopTimes: IntRange = 1..1,
         condition: (context: RenderContext) -> Boolean = { true },
         animation: (state: PosableState) -> StatefulAnimation
     ) = SimpleQuirk(
-        name = name,
         secondsBetweenOccurrences = secondsBetweenOccurrences,
         loopTimes = loopTimes,
         condition = condition,
@@ -595,13 +794,11 @@ abstract class PosableModel(
     )
 
     fun quirkMultiple(
-        name: String,
         secondsBetweenOccurrences: Pair<Float, Float> = 8F to 30F,
         loopTimes: IntRange = 1..1,
-        condition: (state: PosableState) -> Boolean = { true },
+        condition: (state: RenderContext) -> Boolean = { true },
         animations: (state: PosableState) -> List<StatefulAnimation>
     ) = SimpleQuirk(
-        name = name,
         secondsBetweenOccurrences = secondsBetweenOccurrences,
         loopTimes = loopTimes,
         condition = condition,

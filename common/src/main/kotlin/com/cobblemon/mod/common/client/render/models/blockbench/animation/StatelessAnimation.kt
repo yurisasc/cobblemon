@@ -49,5 +49,5 @@ abstract class StatelessAnimation {
         setAngles(context, model, state, limbSwing, limbSwingAmount, ageInTicks, headYaw, headPitch, intensity)
     }
 
-    open fun applyEffects(context: RenderContext, state: PosableState, previousSeconds: Float, newSeconds: Float) {}
+    open fun applyEffects(entity: Entity, state: PosableState, previousSeconds: Float, newSeconds: Float) {}
 }

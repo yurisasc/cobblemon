@@ -9,8 +9,10 @@
 package com.cobblemon.mod.common.client.render.npc
 
 import com.cobblemon.mod.common.client.entity.NPCClientDelegate
-import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityModel
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableEntityModel
+import com.cobblemon.mod.common.client.render.models.blockbench.npc.PosableNPCModel
 import com.cobblemon.mod.common.client.render.models.blockbench.repository.NPCModelRepository
+import com.cobblemon.mod.common.client.render.models.blockbench.repository.RenderContext
 import com.cobblemon.mod.common.entity.npc.NPCEntity
 import kotlin.math.min
 import net.minecraft.client.render.VertexConsumerProvider
@@ -19,7 +21,7 @@ import net.minecraft.client.render.entity.LivingEntityRenderer
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.util.Identifier
 
-class NPCRenderer(context: Context) : LivingEntityRenderer<NPCEntity, PoseableEntityModel<NPCEntity>>(context, null, 0.5f) {
+class NPCRenderer(context: Context) : LivingEntityRenderer<NPCEntity, PosableEntityModel<NPCEntity>>(context, PosableNPCModel(), 0.5f) {
     override fun getTexture(entity: NPCEntity): Identifier {
         return NPCModelRepository.getTexture(entity.npc.resourceIdentifier, entity.aspects, (entity.delegate as NPCClientDelegate).animationSeconds)
     }
@@ -34,20 +36,21 @@ class NPCRenderer(context: Context) : LivingEntityRenderer<NPCEntity, PoseableEn
     ) {
         val aspects = entity.aspects
         shadowRadius = min((entity.boundingBox.maxX - entity.boundingBox.minX), (entity.boundingBox.maxZ) - (entity.boundingBox.minZ)).toFloat() / 1.5F
-        model = NPCModelRepository.getPoser(entity.npc.resourceIdentifier, aspects)
-
+        val model = NPCModelRepository.getPoser(entity.npc.resourceIdentifier, aspects)
+        this.model.posableModel = model
+        this.model.setupEntityTypeContext(entity)
+        this.model.context.put(RenderContext.TEXTURE, getTexture(entity))
         val clientDelegate = entity.delegate as NPCClientDelegate
-        val modelNow = model as PoseableEntityModel<NPCEntity>
-
         clientDelegate.updatePartialTicks(partialTicks)
 
-        modelNow.setLayerContext(buffer, clientDelegate, NPCModelRepository.getLayers(entity.npc.resourceIdentifier, aspects))
+        model.setLayerContext(buffer, clientDelegate, NPCModelRepository.getLayers(entity.npc.resourceIdentifier, aspects))
 
         super.render(entity, entityYaw, partialTicks, poseMatrix, buffer, packedLight)
 
-        modelNow.green = 1F
-        modelNow.blue = 1F
-        modelNow.resetLayerContext()
+        model.red = 1F
+        model.green = 1F
+        model.blue = 1F
+        model.resetLayerContext()
 
 //        if (this.shouldRenderLabel(entity)) {
 //            this.renderLabelIfPresent(entity, entity.displayName, poseMatrix, buffer, packedLight)

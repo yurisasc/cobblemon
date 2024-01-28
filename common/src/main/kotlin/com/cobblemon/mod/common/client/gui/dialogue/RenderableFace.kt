@@ -13,9 +13,8 @@ import com.cobblemon.mod.common.api.gui.drawPoseablePortrait
 import com.cobblemon.mod.common.api.pokemon.PokemonSpecies
 import com.cobblemon.mod.common.client.entity.NPCClientDelegate
 import com.cobblemon.mod.common.client.entity.PokemonClientDelegate
-import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
-import com.cobblemon.mod.common.client.render.models.blockbench.npc.NPCFloatingState
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonFloatingState
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableState
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.FloatingState
 import com.cobblemon.mod.common.client.render.models.blockbench.repository.NPCModelRepository
 import com.cobblemon.mod.common.client.render.models.blockbench.repository.PokemonModelRepository
 import com.cobblemon.mod.common.entity.Poseable
@@ -74,7 +73,7 @@ class PlayerRenderableFace(val playerId: UUID) : RenderableFace {
 }
 
 class ReferenceRenderableFace(val entity: Poseable): RenderableFace {
-    val state = entity.delegate as PosableState<*>
+    val state = entity.delegate as PosableState
     override fun render(drawContext: DrawContext, partialTicks: Float) {
         val state = this.state
         if (state is PokemonClientDelegate) {
@@ -108,21 +107,15 @@ class ReferenceRenderableFace(val entity: Poseable): RenderableFace {
 }
 
 class ArtificialRenderableFace(
-    modelType: String,
+    val modelType: String,
     val identifier: Identifier,
     val aspects: Set<String>
 ): RenderableFace {
-    val state: PosableState<*> = if (modelType == "pokemon") {
-        PokemonFloatingState()
-    } else if (modelType == "npc") {
-        NPCFloatingState()
-    } else {
-        throw IllegalArgumentException("Unknown model type: $modelType")
-    }
+    val state = FloatingState()
 
     override fun render(drawContext: DrawContext, partialTicks: Float) {
         val state = this.state
-        if (state is PokemonFloatingState) {
+        if (modelType == "pokemon") {
             val species = PokemonSpecies.getByIdentifier(identifier) ?: run {
                 Cobblemon.LOGGER.error("Unable to find species for $identifier for a dialogue face. Defaulting to first species.")
                 PokemonSpecies.species.first()
@@ -136,7 +129,7 @@ class ArtificialRenderableFace(
                 repository = PokemonModelRepository,
                 partialTicks = partialTicks
             )
-        } else if (state is NPCFloatingState) {
+        } else if (modelType == "npc") {
             drawPoseablePortrait(
                 identifier = identifier,
                 aspects = aspects,

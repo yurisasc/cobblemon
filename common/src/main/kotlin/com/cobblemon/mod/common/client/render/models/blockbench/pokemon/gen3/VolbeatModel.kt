@@ -11,13 +11,16 @@ package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen3
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BiWingedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.pose.Pose
 import com.cobblemon.mod.common.entity.PoseType
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableState
+import com.cobblemon.mod.common.client.render.models.blockbench.repository.RenderContext
+import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class VolbeatModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedFrame, BiWingedFrame {
+class VolbeatModel (root: ModelPart) : PosableModel(), HeadedFrame, BipedFrame, BiWingedFrame {
     override val rootPart = root.registerChildWithAllChildren("volbeat")
     override val leftWing = getPart("left_wing")
     override val rightWing = getPart("right_wing")
@@ -31,12 +34,12 @@ class VolbeatModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bipe
     override val profileScale = 0.9F
     override val profileTranslation = Vec3d(0.0, 0.3, 0.0)
 
-    lateinit var sleep: PokemonPose
-    lateinit var stand: PokemonPose
-    lateinit var walk: PokemonPose
-    lateinit var hover: PokemonPose
-    lateinit var fly: PokemonPose
-    lateinit var battleidle: PokemonPose
+    lateinit var sleep: Pose
+    lateinit var stand: Pose
+    lateinit var walk: Pose
+    lateinit var hover: Pose
+    lateinit var fly: Pose
+    lateinit var battleidle: Pose
 
     override fun registerPoses() {
         val blink = quirk { bedrockStateful("volbeat", "blink") }
@@ -51,7 +54,7 @@ class VolbeatModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bipe
             poseTypes = PoseType.UI_POSES + PoseType.STAND,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            condition = { !it.isBattling && !it.isTouchingWater},
+            condition = { (it.entity as? PokemonEntity)?.let { !it.isBattling && !it.isTouchingWater } == true },
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("volbeat", "ground_idle")
@@ -85,7 +88,7 @@ class VolbeatModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bipe
             poseType = PoseType.WALK,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            condition = { !it.isTouchingWater },
+            condition = { it.entity?.isTouchingWater == false },
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("volbeat", "ground_walk")
@@ -97,7 +100,7 @@ class VolbeatModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bipe
             poseTypes = PoseType.STATIONARY_POSES,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            condition = { it.isBattling },
+            condition = { (it.entity as? PokemonEntity)?.isBattling == true },
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("volbeat", "battle_idle")

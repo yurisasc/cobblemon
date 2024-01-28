@@ -23,6 +23,7 @@ import com.cobblemon.mod.common.client.keybind.keybinds.HidePartyBinding
 import com.cobblemon.mod.common.client.keybind.keybinds.SummaryBinding
 import com.cobblemon.mod.common.client.render.drawScaledText
 import com.cobblemon.mod.common.client.render.getDepletableRedGreen
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.FloatingState
 import com.cobblemon.mod.common.client.render.models.blockbench.repository.PokemonModelRepository
 import com.cobblemon.mod.common.client.render.renderScaledGuiItemIcon
 import com.cobblemon.mod.common.pokemon.Gender
@@ -53,6 +54,7 @@ class PartyOverlay : InGameHud(MinecraftClient.getInstance(), MinecraftClient.ge
         private val genderIconMale = cobblemonResource("textures/gui/party/party_gender_male.png")
         private val genderIconFemale = cobblemonResource("textures/gui/party/party_gender_female.png")
         private val portraitBackground = cobblemonResource("textures/gui/party/party_slot_portrait_background.png")
+        val state = FloatingState()
     }
 
     private val screenExemptions: List<Class<out Screen>> = listOf(
@@ -167,7 +169,8 @@ class PartyOverlay : InGameHud(MinecraftClient.getInstance(), MinecraftClient.ge
                     matrixStack = matrices,
                     partialTicks = partialDeltaTicks,
                     contextScale = pokemon.form.baseScale,
-                    repository = PokemonModelRepository
+                    repository = PokemonModelRepository,
+                    state = state
                 )
                 matrices.pop()
                 context.disableScissor()

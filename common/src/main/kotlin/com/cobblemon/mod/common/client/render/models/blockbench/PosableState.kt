@@ -1,3 +1,11 @@
+/*
+ * Copyright (C) 2023 Cobblemon Contributors
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/.
+ */
+
 package com.cobblemon.mod.common.client.render.models.blockbench
 
 import com.bedrockk.molang.runtime.MoLangRuntime
@@ -29,6 +37,7 @@ import com.cobblemon.mod.common.client.render.models.blockbench.frame.ModelFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.Pose
 import com.cobblemon.mod.common.client.render.models.blockbench.quirk.ModelQuirk
 import com.cobblemon.mod.common.client.render.models.blockbench.quirk.QuirkData
+import com.cobblemon.mod.common.client.render.models.blockbench.repository.RenderContext
 import com.cobblemon.mod.common.client.render.models.blockbench.wavefunction.WaveFunction
 import com.cobblemon.mod.common.client.render.models.blockbench.wavefunction.WaveFunctions
 import com.cobblemon.mod.common.entity.Poseable
@@ -85,12 +94,12 @@ abstract class PosableState : Schedulable {
         .addFunction("play_animation") { params ->
             val animationParameter = params.get<MoValue>(0)
             val animation = if (animationParameter is ObjectValue<*>) {
-                animationParameter.obj as BedrockStatefulAnimation<T>
+                animationParameter.obj as BedrockStatefulAnimation
             } else {
                 currentModel?.getAnimation(this, animationParameter.asString(), runtime)
             }
             if (animation != null) {
-                if (animation is PrimaryAnimation<T>) {
+                if (animation is PrimaryAnimation) {
                     addPrimaryAnimation(animation)
                 } else {
                     addStatefulAnimation(animation)
@@ -147,13 +156,13 @@ abstract class PosableState : Schedulable {
 
     var primaryOverridePortion = 1F
 
-    abstract fun getEntity(): T?
+    abstract fun getEntity(): Entity?
     fun getPartialTicks() = currentPartialTicks
     open fun updateAge(age: Int) {
         this.age = age
     }
 
-    open fun incrementAge(entity: T) {
+    open fun incrementAge(entity: Entity) {
         val previousAge = age
         updateAge(age + 1)
         runEffects(entity, previousAge, age)
@@ -182,7 +191,7 @@ abstract class PosableState : Schedulable {
     fun addFirstAnimation(animation: Set<String>) {
         val model = currentModel ?: return
         val animation = animation.firstNotNullOfOrNull { model.getAnimation(this, it, runtime) } ?: return
-        if (animation is PrimaryAnimation<T>) {
+        if (animation is PrimaryAnimation) {
             addPrimaryAnimation(animation)
         } else {
             addStatefulAnimation(animation)
@@ -213,12 +222,12 @@ abstract class PosableState : Schedulable {
         val model = currentModel
         if (model != null) {
             val poseImpl = model.getPose(pose) ?: return
-            poseParticles.removeIf { particle -> poseImpl.idleAnimations.filterIsInstance<BedrockStatelessAnimation<*>>().flatMap { it.particleKeyFrames }.none(particle::isSameAs) }
+            poseParticles.removeIf { particle -> poseImpl.idleAnimations.filterIsInstance<BedrockStatelessAnimation>().flatMap { it.particleKeyFrames }.none(particle::isSameAs) }
             poseImpl.onTransitionedInto(this)
             val entity = getEntity()
             if (entity != null) {
                 poseImpl.idleAnimations
-                    .filterIsInstance<BedrockStatelessAnimation<*>>()
+                    .filterIsInstance<BedrockStatelessAnimation>()
                     .flatMap { it.particleKeyFrames }
                     .filter { particle -> particle.seconds == 0F && poseParticles.none(particle::isSameAs) }
                     .forEach { it.run(entity, this) }
@@ -235,7 +244,7 @@ abstract class PosableState : Schedulable {
         locatorStates.values.toList().forEach { it.updatePosition(position) }
     }
 
-    fun addStatefulAnimation(animation: StatefulAnimation<T, *>, whenComplete: (state: PosableState) -> Unit = {}) {
+    fun addStatefulAnimation(animation: StatefulAnimation, whenComplete: (state: PosableState) -> Unit = {}) {
         this.statefulAnimations.add(animation)
         val duration = animation.duration
         if (duration > 0F) {
@@ -245,7 +254,7 @@ abstract class PosableState : Schedulable {
         }
     }
 
-    fun addPrimaryAnimation(primaryAnimation: PrimaryAnimation<T>) {
+    fun addPrimaryAnimation(primaryAnimation: PrimaryAnimation) {
         this.primaryAnimation = primaryAnimation
         this.statefulAnimations.clear()
         this.quirks.clear()
@@ -253,7 +262,7 @@ abstract class PosableState : Schedulable {
         primaryAnimation.started = animationSeconds
     }
 
-    fun runEffects(entity: T, previousAge: Int, newAge: Int) {
+    fun runEffects(entity: Entity, previousAge: Int, newAge: Int) {
         val previousSeconds = previousAge / 20F
         val currentSeconds = newAge / 20F
 

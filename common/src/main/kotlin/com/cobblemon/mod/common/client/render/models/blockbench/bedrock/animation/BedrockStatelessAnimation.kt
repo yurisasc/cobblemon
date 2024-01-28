@@ -12,12 +12,12 @@ import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.PosableState
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.StatelessAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.repository.RenderContext
+import net.minecraft.entity.Entity
 
 /**
  * Animation that analyzes a [BedrockAnimation] and applies transformations to the model based on
  * the given animation time.
  *
- * @param frame The model frame to apply the animation to
  * @param animation The [BedrockAnimation] to be played
  *
  * @author landonjw
@@ -30,13 +30,13 @@ class BedrockStatelessAnimation(val animation: BedrockAnimation) : StatelessAnim
         animation.run(context, model, state, state.animationSeconds, limbSwing, limbSwingAmount, ageInTicks, intensity)
     }
 
-    override fun applyEffects(context: RenderContext, state: PosableState, previousSeconds: Float, newSeconds: Float) {
+    override fun applyEffects(entity: Entity, state: PosableState, previousSeconds: Float, newSeconds: Float) {
         val effectiveAnimationLength = animation.animationLength.takeUnless { it <= 0 }?.toFloat() ?: animation.effects.maxOfOrNull { it.seconds }?.takeIf { it != 0F }
         val (loopedPreviousSeconds, loopedNewSeconds) = if (effectiveAnimationLength != null) {
             (previousSeconds % effectiveAnimationLength) to (newSeconds % effectiveAnimationLength)
         } else {
             previousSeconds to newSeconds
         }
-        animation.applyEffects(context, state, loopedPreviousSeconds, loopedNewSeconds)
+        animation.applyEffects(entity, state, loopedPreviousSeconds, loopedNewSeconds)
     }
 }

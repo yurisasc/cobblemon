@@ -12,6 +12,7 @@ import com.cobblemon.mod.common.api.gui.blitk
 import com.cobblemon.mod.common.client.gui.drawProfilePokemon
 import com.cobblemon.mod.common.client.gui.pasture.PasturePCGUIConfiguration
 import com.cobblemon.mod.common.client.render.drawScaledText
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.FloatingState
 import com.cobblemon.mod.common.client.render.renderScaledGuiItemIcon
 import com.cobblemon.mod.common.pokemon.Gender
 import com.cobblemon.mod.common.pokemon.Pokemon
@@ -31,6 +32,7 @@ open class StorageSlot(
     private val parent: StorageWidget,
     onPress: PressAction
 ) : ButtonWidget(x, y, SIZE, SIZE, Text.literal("StorageSlot"), onPress, DEFAULT_NARRATION_SUPPLIER) {
+    val state = FloatingState()
 
     companion object {
         const val SIZE = 25
@@ -70,7 +72,7 @@ open class StorageSlot(
             renderablePokemon = pokemon.asRenderablePokemon(),
             matrixStack = matrices,
             rotation = Quaternionf().fromEulerXYZDegrees(Vector3f(13F, 35F, 0F)),
-            state = null,
+            state = state,
             partialTicks = partialTicks,
             scale = 4.5F
         )

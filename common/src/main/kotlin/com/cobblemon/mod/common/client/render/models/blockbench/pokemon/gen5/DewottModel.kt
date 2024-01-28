@@ -13,13 +13,16 @@ import com.cobblemon.mod.common.client.render.models.blockbench.frame.BimanualFr
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.pose.Pose
 import com.cobblemon.mod.common.entity.PoseType
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableState
+import com.cobblemon.mod.common.client.render.models.blockbench.repository.RenderContext
+import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class DewottModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedFrame, BimanualFrame {
+class DewottModel (root: ModelPart) : PosableModel(), HeadedFrame, BipedFrame, BimanualFrame {
     override val rootPart = root.registerChildWithAllChildren("dewott")
     override val head = getPart("head")
     override val rightArm = getPart("arm_right")
@@ -36,19 +39,19 @@ class DewottModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Biped
     override val profileScale = 0.7F
     override val profileTranslation = Vec3d(0.0, 0.69, 0.0)
 
-    lateinit var battleidle: PokemonPose
-    lateinit var sleep: PokemonPose
-    lateinit var standing: PokemonPose
-    lateinit var walk: PokemonPose
+    lateinit var battleidle: Pose
+    lateinit var sleep: Pose
+    lateinit var standing: Pose
+    lateinit var walk: Pose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("dewott", "cry") }
+    override val cryAnimation = CryProvider { bedrockStateful("dewott", "cry") }
 
     override fun registerPoses() {
         val blink = quirk { bedrockStateful("dewott", "blink") }
         sleep = registerPose(
             poseType = PoseType.SLEEP,
             transformTicks = 10,
-            condition = { !it.isBattling },
+            condition = { (it.entity as? PokemonEntity)?.isBattling == false },
             transformedParts = arrayOf(
                 scalchop_right.createTransformation().withVisibility(visibility = false),
                 scalchop_left.createTransformation().withVisibility(visibility = false),
@@ -64,7 +67,7 @@ class DewottModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Biped
             poseTypes = setOf(PoseType.NONE, PoseType.STAND, PoseType.PORTRAIT, PoseType.PROFILE),
             transformTicks = 10,
             quirks = arrayOf(blink),
-            condition = { !it.isBattling },
+            condition = { (it.entity as? PokemonEntity)?.isBattling == false },
             transformedParts = arrayOf(
                 scalchop_right.createTransformation().withVisibility(visibility = false),
                 scalchop_left.createTransformation().withVisibility(visibility = false),
@@ -82,7 +85,7 @@ class DewottModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Biped
             poseTypes = setOf(PoseType.SWIM, PoseType.WALK),
             transformTicks = 10,
             quirks = arrayOf(blink),
-            condition = { !it.isBattling },
+            condition = { (it.entity as? PokemonEntity)?.isBattling == false },
             transformedParts = arrayOf(
                 scalchop_right.createTransformation().withVisibility(visibility = false),
                 scalchop_left.createTransformation().withVisibility(visibility = false),
@@ -100,7 +103,7 @@ class DewottModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Biped
             poseTypes = PoseType.STATIONARY_POSES,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            condition = { it.isBattling },
+            condition = { (it.entity as? PokemonEntity)?.isBattling == true },
             transformedParts = arrayOf(
                 scalchop_right.createTransformation().withVisibility(visibility = true),
                 scalchop_left.createTransformation().withVisibility(visibility = true),

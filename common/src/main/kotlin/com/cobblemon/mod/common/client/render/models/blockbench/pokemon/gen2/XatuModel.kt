@@ -8,14 +8,16 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen2
 
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.pose.Pose
 import com.cobblemon.mod.common.entity.PoseType
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableState
+import com.cobblemon.mod.common.client.render.models.blockbench.repository.RenderContext
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class XatuModel(root: ModelPart) : PokemonPoseableModel() {
+class XatuModel(root: ModelPart) : PosableModel() {
     override val rootPart = root.registerChildWithAllChildren("xatu")
     override val portraitScale = 3.0F
     override val portraitTranslation = Vec3d(-0.05, 0.0, 0.0)
@@ -23,8 +25,8 @@ class XatuModel(root: ModelPart) : PokemonPoseableModel() {
     override val profileScale = 1.0F
     override val profileTranslation = Vec3d(0.0, 0.25, 0.0)
 
-    lateinit var standing: PokemonPose
-    lateinit var sleep: PokemonPose
+    lateinit var standing: Pose
+    lateinit var sleep: Pose
     override fun registerPoses() {
         val blink = quirk { bedrockStateful("xatu", "blink") }
 
@@ -44,8 +46,5 @@ class XatuModel(root: ModelPart) : PokemonPoseableModel() {
         )
     }
 
-    override fun getFaintAnimation(
-        pokemonEntity: PokemonEntity,
-        state: PosableState<PokemonEntity>
-    ) = if (state.isPosedIn(standing, sleep)) bedrockStateful("xatu", "faint") else null
+    override fun getFaintAnimation(state: PosableState) = if (state.isPosedIn(standing, sleep)) bedrockStateful("xatu", "faint") else null
 }

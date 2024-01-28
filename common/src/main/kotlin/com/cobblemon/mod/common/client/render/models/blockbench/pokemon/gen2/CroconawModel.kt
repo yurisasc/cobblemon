@@ -12,15 +12,17 @@ import com.cobblemon.mod.common.client.render.models.blockbench.createTransforma
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.pose.Pose
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.ModelPartTransformation
 import com.cobblemon.mod.common.entity.PoseType
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableState
+import com.cobblemon.mod.common.client.render.models.blockbench.repository.RenderContext
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class CroconawModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedFrame {
+class CroconawModel (root: ModelPart) : PosableModel(), HeadedFrame, BipedFrame {
     override val rootPart = root.registerChildWithAllChildren("croconaw")
     override val head = getPart("head")
 
@@ -33,19 +35,19 @@ class CroconawModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
     override val profileScale = 0.6F
     override val profileTranslation = Vec3d(0.0, 0.76, 0.0)
 
-    lateinit var standing: PokemonPose
-    lateinit var walk: PokemonPose
-    lateinit var floating: PokemonPose
-    lateinit var swimming: PokemonPose
-    lateinit var sleep: PokemonPose
-    lateinit var watersleep: PokemonPose
-    lateinit var battleidle: PokemonPose
-    lateinit var water_surface_idle: PokemonPose
-    lateinit var water_surface_swim: PokemonPose
+    lateinit var standing: Pose
+    lateinit var walk: Pose
+    lateinit var floating: Pose
+    lateinit var swimming: Pose
+    lateinit var sleep: Pose
+    lateinit var watersleep: Pose
+    lateinit var battleidle: Pose
+    lateinit var water_surface_idle: Pose
+    lateinit var water_surface_swim: Pose
 
     val wateroffset = -10
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("croconaw", "cry") }
+    override val cryAnimation = CryProvider { bedrockStateful("croconaw", "cry") }
 
     override fun registerPoses() {
         val blink = quirk { bedrockStateful("croconaw", "blink")}
@@ -53,22 +55,21 @@ class CroconawModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
         sleep = registerPose(
             poseName = "sleeping",
             poseType = PoseType.SLEEP,
-            condition = { !it.isTouchingWater },
+            condition = { it.entity?.isTouchingWater == false },
             idleAnimations = arrayOf(bedrock("croconaw", "sleep"))
         )
 
         watersleep = registerPose(
             poseName = "water_sleeping",
             poseType = PoseType.SLEEP,
-            condition = { it.isTouchingWater },
+            condition = { it.entity?.isTouchingWater == true },
             idleAnimations = arrayOf(bedrock("croconaw", "water_sleep"))
         )
 
         standing = registerPose(
             poseName = "standing",
             poseTypes = PoseType.UI_POSES + PoseType.STAND,
-            transformTicks = 10,
-            condition = { !it.isBattling && !it.isTouchingWater && !it.isSubmergedInWater},
+            condition = { (it.entity as? PokemonEntity)?.let { !it.isBattling && !it.isTouchingWater && !it.isSubmergedInWater } == true },
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
@@ -78,9 +79,8 @@ class CroconawModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
 
         walk = registerPose(
             poseName = "walk",
-            transformTicks = 10,
             poseType = PoseType.WALK,
-            condition = { !it.isTouchingWater && !it.isSubmergedInWater},
+            condition = { (it.entity as? PokemonEntity)?.let { !it.isTouchingWater && !it.isSubmergedInWater } == true },
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
@@ -90,9 +90,8 @@ class CroconawModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
 
         floating = registerPose(
             poseName = "floating",
-            transformTicks = 10,
             poseType = PoseType.FLOAT,
-            condition = { it.isSubmergedInWater },
+            condition = { (it.entity as? PokemonEntity)?.isSubmergedInWater == true },
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
@@ -103,7 +102,7 @@ class CroconawModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
         swimming = registerPose(
             poseName = "swimming",
             transformTicks = 10,
-            condition = { it.isSubmergedInWater },
+            condition = { (it.entity as? PokemonEntity)?.isSubmergedInWater == true },
             poseType = PoseType.SWIM,
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
@@ -117,7 +116,7 @@ class CroconawModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
             poseTypes = PoseType.STATIONARY_POSES,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            condition = { it.isBattling && !it.isTouchingWater },
+            condition = { (it.entity as? PokemonEntity)?.let { it.isBattling && !it.isTouchingWater } == true },
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("croconaw", "battle_idle")
@@ -128,32 +127,25 @@ class CroconawModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
             poseName = "surface_idle",
             poseTypes = PoseType.STATIONARY_POSES,
             quirks = arrayOf(blink),
-            condition = { !it.isSubmergedInWater && it.isTouchingWater },
+            condition = { (it.entity as? PokemonEntity)?.let { !it.isSubmergedInWater && it.isTouchingWater } == true },
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("croconaw", "surfacewater_idle"),
             ),
-            transformedParts = arrayOf(
-                rootPart.createTransformation().addPosition(ModelPartTransformation.Y_AXIS, wateroffset)
-            )
+            transformedParts = arrayOf(rootPart.createTransformation().addPosition(ModelPartTransformation.Y_AXIS, wateroffset))
         )
 
         water_surface_swim = registerPose(
             poseName = "surface_swim",
             poseTypes = PoseType.MOVING_POSES,
             quirks = arrayOf(blink),
-            condition = { !it.isSubmergedInWater && it.isTouchingWater },
+            condition = { (it.entity as? PokemonEntity)?.let { !it.isSubmergedInWater && it.isTouchingWater } == true },
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("croconaw", "surfacewater_swim"),
             ),
-            transformedParts = arrayOf(
-                rootPart.createTransformation().addPosition(ModelPartTransformation.Y_AXIS, wateroffset)
-            )
+            transformedParts = arrayOf(rootPart.createTransformation().addPosition(ModelPartTransformation.Y_AXIS, wateroffset))
         )
     }
-    override fun getFaintAnimation(
-        pokemonEntity: PokemonEntity,
-        state: PosableState<PokemonEntity>
-    ) = if (state.isPosedIn(standing, walk, battleidle, sleep)) bedrockStateful("croconaw", "faint") else if (state.isPosedIn(water_surface_idle, water_surface_swim, watersleep )) bedrockStateful("croconaw", "faint") else null
+    override fun getFaintAnimation(state: PosableState) = if (state.isPosedIn(standing, walk, battleidle, sleep)) bedrockStateful("croconaw", "faint") else if (state.isPosedIn(water_surface_idle, water_surface_swim, watersleep )) bedrockStateful("croconaw", "faint") else null
 }

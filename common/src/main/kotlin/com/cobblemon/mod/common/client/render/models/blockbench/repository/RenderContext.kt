@@ -24,6 +24,20 @@ class RenderContext {
     // A map to store data values associated with keys
     private val context: MutableMap<Key<*>, Any?> = mutableMapOf()
 
+    fun containsAspect(aspect: String): Boolean {
+        return aspect in (this.request(ASPECTS) ?: emptySet())
+    }
+
+    var entity: Entity?
+        get() = this.request(ENTITY)
+        set(value) {
+            if (value == null) {
+                this.pop(ENTITY)
+            } else {
+                this.put(ENTITY, value)
+            }
+        }
+
     /**
      * Retrieves a value from the context associated with the provided key.
      *

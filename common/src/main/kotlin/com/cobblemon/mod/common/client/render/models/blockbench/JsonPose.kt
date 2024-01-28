@@ -14,6 +14,7 @@ import com.cobblemon.mod.common.api.molang.MoLangFunctions.addFunctions
 import com.cobblemon.mod.common.api.molang.MoLangFunctions.getQueryStruct
 import com.cobblemon.mod.common.api.molang.MoLangFunctions.setup
 import com.cobblemon.mod.common.client.ClientMoLangFunctions.setupClient
+import com.cobblemon.mod.common.client.render.models.blockbench.animation.SingleBoneLookAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.StatefulAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.StatelessAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
@@ -24,10 +25,9 @@ import com.cobblemon.mod.common.util.resolveObject
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
 import com.google.gson.JsonPrimitive
-import net.minecraft.entity.Entity
 import net.minecraft.util.math.Vec3d
 
-class JsonPose<T : Entity>(model: PoseableEntityModel<T>, json: JsonObject) {
+class JsonPose(model: PosableModel, json: JsonObject) {
     class JsonPoseTransition(val from: String, val to: String, val animation: ExpressionLike)
 
     val runtime = MoLangRuntime().setup().setupClient().also {
@@ -54,12 +54,9 @@ class JsonPose<T : Entity>(model: PoseableEntityModel<T>, json: JsonObject) {
         val animString = it.asString
         if (animString == "look") {
             return@mapNotNull if (model is HeadedFrame) {
-                model.singleBoneLook<T>()
+                model.singleBoneLook()
             } else {
-                object : HeadedFrame {
-                    override val rootPart = model.rootPart
-                    override val head = model.getPartFallback("head_ai", "head")
-                }.singleBoneLook()
+                SingleBoneLookAnimation(bone = model.relevantPartsByName["head_ai"] ?: model.relevantPartsByName["head"])
             }
         } else if (animString.startsWith("bedrock")) {
             val split = animString.replace("bedrock(", "").replace(")", "").split(",").map(String::trim)
@@ -67,25 +64,24 @@ class JsonPose<T : Entity>(model: PoseableEntityModel<T>, json: JsonObject) {
         } else {
             try {
                 val expression = animString.asExpressionLike()
-                return@mapNotNull runtime.resolveObject(expression).obj as StatelessAnimation<T, *>
+                return@mapNotNull runtime.resolveObject(expression).obj as StatelessAnimation
             } catch (exception: Exception) {
-                null
+                return@mapNotNull null
             }
         }
-        return@mapNotNull null
     }.toTypedArray()
 
     val quirks = (json.get("quirks")?.asJsonArray ?: JsonArray()).map { json ->
         if (json is JsonPrimitive) {
-            return@map json.asString.asExpressionLike().resolveObject(runtime).obj as SimpleQuirk<T>
+            return@map json.asString.asExpressionLike().resolveObject(runtime).obj as SimpleQuirk
         }
 
         json as JsonObject
-        val animations: (state: PoseableEntityState<T>) -> List<StatefulAnimation<T, *>> = { _ ->
+        val animations: (state: PosableState) -> List<StatefulAnimation> = { _ ->
             (json.get("animations")?.asJsonArray ?: JsonArray()).map { animJson ->
                 try {
                     val expr = animJson.asString.asExpressionLike()
-                    runtime.resolveObject(expr).obj as StatefulAnimation<T, *>
+                    runtime.resolveObject(expr).obj as StatefulAnimation
                 } catch (e: Exception) {
                     val split =
                         animJson.asString.replace("bedrock(", "").replace(")", "").split(",").map(String::trim)

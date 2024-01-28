@@ -11,8 +11,8 @@ package com.cobblemon.mod.common.client.render.models.blockbench.bedrock.animati
 import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.PosableState
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.StatefulAnimation
-import com.cobblemon.mod.common.client.render.models.blockbench.animation.StatelessAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.repository.RenderContext
+import net.minecraft.entity.Entity
 
 /**
  * A stateful animation that runs a [BedrockAnimation]. It is completed when the underlying
@@ -23,7 +23,7 @@ import com.cobblemon.mod.common.client.render.models.blockbench.repository.Rende
  */
 open class BedrockStatefulAnimation(
     val animation: BedrockAnimation,
-) : StatefulAnimation<T, ModelFrame> {
+) : StatefulAnimation {
     var startedSeconds = -1F
     var isTransformAnimation = false
     override val duration = animation.animationLength.toFloat()
@@ -32,7 +32,7 @@ open class BedrockStatefulAnimation(
     override val isTransform: Boolean
         get() = isTransformAnimation
 
-    fun andThen(action: (entity: T, PoseableEntityState<T>) -> Unit) = this.also {
+    fun andThen(action: (context: RenderContext, PosableState) -> Unit) = this.also {
         it.afterAction = action
     }
 
@@ -51,16 +51,16 @@ open class BedrockStatefulAnimation(
             startedSeconds = state.animationSeconds
         }
 
-        return animation.run(model, state, state.animationSeconds - startedSeconds, limbSwing, limbSwingAmount, ageInTicks, intensity).also {
+        return animation.run(context, model, state, state.animationSeconds - startedSeconds, limbSwing, limbSwingAmount, ageInTicks, intensity).also {
             if (!it) {
-                afterAction(state)
+                afterAction(context, state)
             }
         }
     }
 
-    override fun applyEffects(context: RenderContext, state: PosableState, previousSeconds: Float, newSeconds: Float) {
+    override fun applyEffects(entity: Entity, state: PosableState, previousSeconds: Float, newSeconds: Float) {
         val previousSecondsOffset = previousSeconds - startedSeconds
         val currentSecondsOffset = newSeconds - startedSeconds
-        animation.applyEffects(context, state, previousSecondsOffset, currentSecondsOffset)
+        animation.applyEffects(entity, state, previousSecondsOffset, currentSecondsOffset)
     }
 }
