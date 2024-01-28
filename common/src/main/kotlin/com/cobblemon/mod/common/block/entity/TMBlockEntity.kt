@@ -70,7 +70,7 @@ class TMBlockEntity(
     }
 
 
-    fun materialNeeded(tm: TechnicalMachine?, itemStack: ItemStack): Boolean {
+    fun materialNeeded(tm: TechnicalMachine?, slot: Int, itemStack: ItemStack): Boolean {
         val typeGem = Registries.ITEM.get(tm?.type?.let { ElementalTypes.get(it)?.typeGem }).defaultStack
         val recipeItem = Registries.ITEM.get(tm?.recipe?.item)
         //val inventory = tmmInventory.inventory
@@ -83,13 +83,13 @@ class TMBlockEntity(
         if (inventory != null) {
             if (tmmInventory.filterTM != null) {
                 // if blank TM is needed still
-                if ((inventory.none { it?.count == 1 && it.item == CobblemonItems.BLANK_TM }) && ItemStack.areEqual(itemStack, ItemStack(CobblemonItems.BLANK_TM, 1)))
+                if (slot == 0 && (inventory.none { it?.count == 1 && it.item == CobblemonItems.BLANK_TM }) && ItemStack.areEqual(itemStack, ItemStack(CobblemonItems.BLANK_TM, 1)))
                     return true // load in blank TM
                 // if type gem is needed still
-                else if (inventory.none { ItemStack.areEqual(it, typeGem) } && ItemStack.areEqual(itemStack, typeGem))
+                else if (slot == 1 && inventory.none { ItemStack.areEqual(it, typeGem) } && ItemStack.areEqual(itemStack, typeGem))
                     return true // load in Type Gem
                 // if the itemStack is listed as needed in the recipe and the count is not currently met
-                else if (inventory.none { it?.count == tm?.recipe?.count && ItemStack.areItemsEqual(it, ItemStack(recipeItem, 1)) } && ItemStack.areEqual(itemStack, ItemStack(recipeItem, 1)))
+                else if (slot == 2 && inventory.none { it?.count == tm?.recipe?.count && ItemStack.areItemsEqual(it, ItemStack(recipeItem, 1)) } && ItemStack.areEqual(itemStack, ItemStack(recipeItem, 1)))
                     return true
                 else
                     return false
@@ -274,7 +274,7 @@ class TMBlockEntity(
             if (stack != null && slot < this.INPUT_SLOTS.size) {
                 val tm = TechnicalMachines.getTechnicalMachineFromStack(tmBlockEntity.tmmInventory.filterTM)
                 // if material is needed then load it
-                if (tmBlockEntity.materialNeeded(tm, stack) && (ItemStack.areEqual(items?.get(slot) ?: ItemStack.EMPTY, ItemStack.EMPTY) || ItemStack.areItemsEqual(items?.get(slot) ?: ItemStack.EMPTY, stack))) {
+                if (tmBlockEntity.materialNeeded(tm, slot, stack) && (ItemStack.areEqual(items?.get(slot) ?: ItemStack.EMPTY, ItemStack.EMPTY) || ItemStack.areItemsEqual(items?.get(slot) ?: ItemStack.EMPTY, stack))) {
                     //tmBlockEntity.loadMaterial(stack)
                     return true
                 }
