@@ -17,6 +17,7 @@ import com.cobblemon.mod.common.block.entity.TMBlockEntity
 import com.cobblemon.mod.common.gui.TMMScreenHandler
 import net.minecraft.block.*
 import net.minecraft.block.entity.BlockEntity
+import net.minecraft.block.entity.BrewingStandBlockEntity
 import net.minecraft.entity.ItemEntity
 import net.minecraft.entity.ai.pathing.NavigationType
 import net.minecraft.entity.player.PlayerEntity
@@ -32,6 +33,7 @@ import net.minecraft.screen.SimpleNamedScreenHandlerFactory
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.sound.SoundCategory
+import net.minecraft.stat.Stats
 import net.minecraft.state.StateManager
 import net.minecraft.state.property.BooleanProperty
 import net.minecraft.state.property.Properties
@@ -48,7 +50,6 @@ import net.minecraft.util.shape.VoxelShapes
 import net.minecraft.world.BlockView
 import net.minecraft.world.World
 import net.minecraft.world.WorldAccess
-import kotlin.text.Typography.tm
 
 class TMBlock(properties: Settings): BlockWithEntity(properties), Waterloggable, InventoryProvider {
     /*val FACING = Properties.FACING
@@ -329,33 +330,36 @@ class TMBlock(properties: Settings): BlockWithEntity(properties), Waterloggable,
 
             return ActionResult.SUCCESS
         }
-
         val tmBlockEntity = world.getBlockEntity(pos)
+
+        if (tmBlockEntity is TMBlockEntity) {
+            player.openHandledScreen(tmBlockEntity as TMBlockEntity?)
+        }
 
         val inventory = (tmBlockEntity as TMBlockEntity).tmmInventory // (world.getBlockEntity(pos) as TMBlockEntity).tmmInventory
 
         // remove all machine from machine upon use
-        inventory.items?.forEach {
-            // Get the direction the block is facing
-            val facingDirection = blockState.get(Properties.FACING).opposite
-
-            // Calculate the center position of the block
-            val frontOffset = 0.5 // Half block offset to the front
-            val spawnX = pos.x + 0.5 + facingDirection.offsetX * frontOffset
-            val spawnY = pos.y + 0.3 + facingDirection.offsetY * frontOffset
-            val spawnZ = pos.z + 0.5 + facingDirection.offsetZ * frontOffset
-
-            // Create the ItemEntity at the center of the block
-            val itemEntity = ItemEntity(world, spawnX, spawnY, spawnZ, it)
-
-            // Create the ItemEntity
-            itemEntity.setVelocity(0.0, 0.0, 0.0)
-
-            // Add the ItemEntity to the world
-            world.spawnEntity(itemEntity)
-        }
-
-        inventory.items?.clear()
+//        inventory.items?.forEach {
+//            // Get the direction the block is facing
+//            val facingDirection = blockState.get(Properties.FACING).opposite
+//
+//            // Calculate the center position of the block
+//            val frontOffset = 0.5 // Half block offset to the front
+//            val spawnX = pos.x + 0.5 + facingDirection.offsetX * frontOffset
+//            val spawnY = pos.y + 0.3 + facingDirection.offsetY * frontOffset
+//            val spawnZ = pos.z + 0.5 + facingDirection.offsetZ * frontOffset
+//
+//            // Create the ItemEntity at the center of the block
+//            val itemEntity = ItemEntity(world, spawnX, spawnY, spawnZ, it)
+//
+//            // Create the ItemEntity
+//            itemEntity.setVelocity(0.0, 0.0, 0.0)
+//
+//            // Add the ItemEntity to the world
+//            world.spawnEntity(itemEntity)
+//        }
+//
+//        inventory.items?.clear()
 
         // spit out any disc filters
         if (inventory.filterTM != null) {
@@ -395,13 +399,13 @@ class TMBlock(properties: Settings): BlockWithEntity(properties), Waterloggable,
         return ActionResult.CONSUME
     }
 
-    override fun createScreenHandlerFactory(
-        state: BlockState?,
-        world: World?,
-        pos: BlockPos?
-    ): NamedScreenHandlerFactory {
-        return SimpleNamedScreenHandlerFactory(::TMMScreenHandler, Text.of("TM Machine"))
-    }
+//    override fun createScreenHandlerFactory(
+//        state: BlockState?,
+//        world: World?,
+//        pos: BlockPos?
+//    ): NamedScreenHandlerFactory {
+//        return SimpleNamedScreenHandlerFactory(::TMMScreenHandler, Text.of("TM Machine"))
+//    }
 
     /*fun loadMaterial(itemStack: ItemStack) {
         loadedMaterials.add(itemStack)

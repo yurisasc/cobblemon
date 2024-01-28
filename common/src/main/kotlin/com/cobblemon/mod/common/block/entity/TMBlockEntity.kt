@@ -13,11 +13,13 @@ import com.cobblemon.mod.common.CobblemonItems
 import com.cobblemon.mod.common.api.tms.TechnicalMachine
 import com.cobblemon.mod.common.api.tms.TechnicalMachines
 import com.cobblemon.mod.common.api.types.ElementalTypes
-import net.minecraft.block.Block
+import com.cobblemon.mod.common.gui.TMMScreenHandler
 import net.minecraft.block.BlockState
-import net.minecraft.block.entity.BlockEntity
+import net.minecraft.block.entity.LockableContainerBlockEntity
 import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.entity.player.PlayerInventory
 import net.minecraft.inventory.Inventories
+import net.minecraft.inventory.Inventory
 import net.minecraft.inventory.SidedInventory
 import net.minecraft.item.ItemStack
 import net.minecraft.item.Items
@@ -26,16 +28,17 @@ import net.minecraft.network.listener.ClientPlayPacketListener
 import net.minecraft.network.packet.Packet
 import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket
 import net.minecraft.registry.Registries
+import net.minecraft.screen.ScreenHandler
+import net.minecraft.text.Text
 import net.minecraft.util.collection.DefaultedList
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
-import net.minecraft.world.World
 
 
 class TMBlockEntity(
         val blockPos: BlockPos,
         val blockState: BlockState
-    )  : BlockEntity(CobblemonBlockEntities.TM_BLOCK, blockPos, blockState) {
+    )  : LockableContainerBlockEntity(CobblemonBlockEntities.TM_BLOCK, blockPos, blockState) {
     var tmmInventory = TMBlockInventory(this)
     var automationDelay: Int = AUTOMATION_DELAY
     var partialTicks = 0.0f
@@ -50,10 +53,6 @@ class TMBlockEntity(
     /*override fun size(): Int { return 3 }
     override fun getContainerName(): Text {
         return Text.translatable("container.tmblock")
-    }
-
-    override fun createScreenHandler(syncId: Int, playerInventory: PlayerInventory?): ScreenHandler {
-        return TMMScreenHandler(syncId)
     }
 
     override fun getInvStackList(): DefaultedList<ItemStack> {
@@ -108,6 +107,47 @@ class TMBlockEntity(
         return res
     }
 
+    override fun clear() {
+        tmmInventory.clear()
+    }
+
+    override fun size(): Int {
+        return this.tmmInventory.size()
+    }
+
+    override fun isEmpty(): Boolean {
+        return this.tmmInventory.isEmpty()
+    }
+
+    override fun getStack(slot: Int): ItemStack {
+        return this.tmmInventory.getStack(slot)
+    }
+
+    override fun removeStack(slot: Int, amount: Int): ItemStack {
+        return this.tmmInventory.removeStack(slot, amount)
+    }
+
+    override fun removeStack(slot: Int): ItemStack {
+        return this.tmmInventory.removeStack(slot)
+    }
+
+    override fun setStack(slot: Int, stack: ItemStack?) {
+        return this.tmmInventory.setStack(slot, stack)
+    }
+
+    override fun canPlayerUse(player: PlayerEntity?): Boolean {
+        return this.tmmInventory.canPlayerUse(player)
+    }
+
+    override fun getContainerName(): Text {
+        return Text.translatable("container.brewing")
+    }
+
+
+    override fun createScreenHandler(syncId: Int, playerInventory: PlayerInventory?): ScreenHandler {
+        return TMMScreenHandler(syncId, playerInventory!!, this.tmmInventory)
+    }
+
     override fun toUpdatePacket(): Packet<ClientPlayPacketListener>? {
         return BlockEntityUpdateS2CPacket.create(this)
     }
@@ -135,9 +175,15 @@ class TMBlockEntity(
 
     class TMBlockInventory(val tmBlockEntity: TMBlockEntity) : SidedInventory {
 
+        private val BLANK_DISC_SLOT_INDEX = 0
+        private val GEM_SLOT_INDEX = 1
+        private val MISC_SLOT_INDEX = 2
+        private val OUTPUT_SLOT_INDEX = 3
+        private val INPUT_SLOTS = intArrayOf(0, 1, 2, 3)
+
         var filterTM: ItemStack? = null
         //var inventory: MutableMap<Int, ItemStack?> = mutableMapOf(0 to ItemStack.EMPTY, 1 to ItemStack.EMPTY, 2 to ItemStack.EMPTY)
-        var items: DefaultedList<ItemStack?>? = DefaultedList.ofSize(3, ItemStack.EMPTY)
+        var items: DefaultedList<ItemStack?>? = DefaultedList.ofSize(4, ItemStack.EMPTY)
 
         fun hasFilterTM(): Boolean {
             return filterTM != null
@@ -178,13 +224,19 @@ class TMBlockEntity(
         }
 
         override fun getAvailableSlots(side: Direction?): IntArray? {
-            val result = this.items?.size?.let { IntArray(it) }
-            if (result != null) {
-                for (i in result.indices) {
-                    result[i] = i
-                }
+            return if (side == Direction.DOWN) {
+                return listOf(this.OUTPUT_SLOT_INDEX).toIntArray()
             }
-            return result
+            else this.INPUT_SLOTS
+
+
+//            val result = this.items?.size?.let { IntArray(it) }
+//            if (result != null) {
+//                for (i in result.indices) {
+//                    result[i] = i
+//                }
+//            }
+//            return result
         }
 
         override fun removeStack(slot: Int, amount: Int): ItemStack {
@@ -210,7 +262,7 @@ class TMBlockEntity(
         }
 
         override fun canPlayerUse(player: PlayerEntity?): Boolean {
-            return false
+            return Inventory.canPlayerUse(this.tmBlockEntity, player)
         }
 
         /*override fun getAvailableSlots(side: Direction?): IntArray {
@@ -219,7 +271,7 @@ class TMBlockEntity(
 
         override fun canInsert(slot: Int, stack: ItemStack?, dir: Direction?): Boolean {
             // todo only allow for hopper to insert materials if it has a filterTM in it
-            if (stack != null) {
+            if (stack != null && slot < this.INPUT_SLOTS.size) {
                 val tm = TechnicalMachines.getTechnicalMachineFromStack(tmBlockEntity.tmmInventory.filterTM)
                 // if material is needed then load it
                 if (tmBlockEntity.materialNeeded(tm, stack) && (ItemStack.areEqual(items?.get(slot) ?: ItemStack.EMPTY, ItemStack.EMPTY) || ItemStack.areItemsEqual(items?.get(slot) ?: ItemStack.EMPTY, stack))) {
@@ -233,7 +285,7 @@ class TMBlockEntity(
         }
 
         override fun canExtract(slot: Int, stack: ItemStack?, dir: Direction?): Boolean {
-            return false
+            return dir == Direction.DOWN && slot == this.OUTPUT_SLOT_INDEX
         }
 
     }
