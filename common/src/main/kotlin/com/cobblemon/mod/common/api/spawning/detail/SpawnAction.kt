@@ -8,12 +8,8 @@
 
 package com.cobblemon.mod.common.api.spawning.detail
 
-import com.cobblemon.mod.common.api.events.CobblemonEvents
-import com.cobblemon.mod.common.api.events.entity.SpawnEvent
-import com.cobblemon.mod.common.api.reactive.SimpleObservable
 import com.cobblemon.mod.common.api.spawning.context.SpawningContext
-import com.cobblemon.mod.common.util.toVec3d
-import net.minecraft.entity.Entity
+import java.util.concurrent.CompletableFuture
 
 
 /**
@@ -22,28 +18,31 @@ import net.minecraft.entity.Entity
  * @author Hiroku
  * @since February 4th, 2022
  */
-abstract class SpawnAction<T : Entity>(
+abstract class SpawnAction<R>(
     val ctx: SpawningContext,
     open val detail: SpawnDetail
 ) {
-    abstract fun createEntity(): T?
-
-    open fun run() {
-        ctx.influences.forEach { it.affectAction(this) }
-        val e = createEntity() ?: return
-        e.setPosition(ctx.position.toVec3d().add(0.5, 1.0, 0.5))
-        entity.emit(e)
-        CobblemonEvents.ENTITY_SPAWN.postThen(SpawnEvent(e, ctx), ifSucceeded = { ctx.world.spawnEntity(e) })
-    }
+    val future = CompletableFuture<R>().also { it.thenApply { result -> ctx.spawner.afterSpawn(this, result) } }
 
     /**
-     * An observable for the entity that will eventually be spawned by this action.
+     * Does whatever action is required to spawn this detail into the context.
      *
-     * You can safely register subscriptions here for anything you want to do to the
-     * entity after it's spawned, whenever that may be. This is tolerant of situations
-     * where the entity spawn has been canceled, so that your action will not occur.
+     * @return The result of spawning
      */
-    val entity: SimpleObservable<T> = SimpleObservable<T>().apply {
-        subscribe { entity -> ctx.afterSpawn(entity) }
+    protected abstract fun run(): R?
+
+    /**
+     * Runs the spawn action and processes any non-null result.
+     */
+    open fun complete(): Boolean {
+        ctx.influences.forEach { it.affectAction(this) }
+        val result = run()
+        return if (result != null) {
+            future.complete(result)
+            true
+        } else {
+            future.completeExceptionally(Exception("Nothing was spawned."))
+            false
+        }
     }
 }
