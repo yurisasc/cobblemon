@@ -2,10 +2,10 @@
 	"format_version": "1.10.0",
 	"particle_effect": {
 		"description": {
-			"identifier": "cobblemon:greatball/casual/sendflash",
+			"identifier": "cobblemon:sendflash",
 			"basic_render_parameters": {
 				"material": "particles_alpha",
-				"texture": "textures/particles/balls/greatball/casual/sendflash"
+				"texture": "textures/particles/balls/greatball/casual/greatsendcasual"
 			}
 		},
 		"components": {
