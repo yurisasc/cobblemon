@@ -537,9 +537,13 @@ object ShowdownInterpreter {
     fun handleStatusInstruction(battle: PokemonBattle, message: BattleMessage, remainingLines: MutableList<String>) {
         val (pnx, _) = message.pnxAndUuid(0) ?: return
         val pokemon = message.getBattlePokemon(0, battle) ?: return
+        val otherPokemon = message.actorAndActivePokemonFromOptional(battle, "of")?.second?.battlePokemon
         val statusLabel = message.argumentAt(1) ?: return
         val status = Statuses.getStatus(statusLabel) ?: return LOGGER.error("Unrecognized status: $statusLabel")
-        broadcastOptionalAbility(battle, message.effect(), pokemon.getName())
+        if (otherPokemon == null)
+            broadcastOptionalAbility(battle, message.effect(), pokemon.getName())
+        else
+            broadcastOptionalAbility(battle, message.effect(), otherPokemon.getName())
 
         battle.dispatchWaiting {
             if (status is PersistentStatus) {
