@@ -5,7 +5,7 @@
 			"identifier": "cobblemon:safariball/casual/sendflash",
 			"basic_render_parameters": {
 				"material": "particles_alpha",
-				"texture": "textures/particles/balls/safariball/casual/safari_send_casual"
+				"texture": "textures/particles/balls/safariball/casual/safarisendcasual"
 			}
 		},
 		"components": {

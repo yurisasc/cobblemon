@@ -5,7 +5,7 @@
 			"identifier": "cobblemon:ultraball/battle/sendflash",
 			"basic_render_parameters": {
 				"material": "particles_alpha",
-				"texture": "textures/particles/balls/ultraball/battle/ultraballsendflash"
+				"texture": "textures/particles/balls/ultraball/battle/ultrasendflash"
 			}
 		},
 		"components": {
