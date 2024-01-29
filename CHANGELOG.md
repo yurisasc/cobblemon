@@ -43,6 +43,7 @@
 - Added a new "advancement" evolution variant that takes an advancement identifier and succeeds if the player has the advancement.
 - Made spawning API capable of non-entity spawning
 - Made PokemonProperties.parse more interoperable with Java.
+- Added the ``HeldItemEvent``, this comes with 2 implementation ``HeldItemEvent.Pre`` and ``HeldItemEvent.Post``. 
 
 ### Datapack & Resourcepack Creators
 - The maximum amount of fossils that can fit in the Fossil Compartment can be adjusted in the config.
