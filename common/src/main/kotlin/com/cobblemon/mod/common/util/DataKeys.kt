@@ -160,5 +160,6 @@ object DataKeys {
     const val PROTECTED_TIME_LEFT = "ProtectedTimeLeft"
     const val FORMED = "Formed"
     const val CREATED_POKEMON = "CreatedPokemon"
+    const val FOSSIL_OWNER = "FossilOwner"
     const val FOSSIL_STATE = "FossilState"
 }

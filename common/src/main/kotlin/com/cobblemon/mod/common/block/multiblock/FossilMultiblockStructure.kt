@@ -32,6 +32,7 @@ import net.minecraft.block.Block
 import net.minecraft.block.BlockState
 import net.minecraft.block.HorizontalFacingBlock
 import net.minecraft.block.entity.BlockEntityTicker
+import net.minecraft.client.MinecraftClient
 import net.minecraft.entity.EntityPose
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
@@ -53,6 +54,7 @@ import net.minecraft.util.math.Box
 import net.minecraft.util.math.Direction
 import net.minecraft.util.math.random.Random
 import net.minecraft.world.World
+import java.util.UUID
 import kotlin.math.ceil
 
 class FossilMultiblockStructure (
@@ -79,7 +81,7 @@ class FossilMultiblockStructure (
     private var lastInteraction: Long = 0
     private var machineStartTime: Long = 0
     private var protectionTime: Int = -1
-    private var fossilOwner: PlayerEntity? = null
+    private var fossilOwnerUUID: UUID? = null
     val fossilState = FossilState(animAge, animPartialTicks)
     var fossilInventory: MutableList<ItemStack> = mutableListOf<ItemStack>()
     var tankConnectorDirection: Direction? = null
@@ -106,8 +108,10 @@ class FossilMultiblockStructure (
                 return ActionResult.CONSUME
             }
 
-            if (this.fossilOwner != null && player != this.fossilOwner) {
-                player.sendMessage(lang("fossilmachine.protected", this.fossilOwner!!.name), true)
+            if (this.fossilOwnerUUID != null && player.uuid != this.fossilOwnerUUID) {
+                // TODO: fetch the name of offline players
+                val ownerPlayerEntity = MinecraftClient.getInstance().world?.getPlayerByUuid(this.fossilOwnerUUID)
+                player.sendMessage(lang("fossilmachine.protected", if(ownerPlayerEntity != null) ownerPlayerEntity.name else "an offline user" ), true)
                 return ActionResult.FAIL
             }
 
@@ -125,7 +129,7 @@ class FossilMultiblockStructure (
             CobblemonCriteria.RESURRECT_POKEMON.trigger(player, createdPokemon!!)
 
             this.createdPokemon = null
-            this.fossilOwner = null
+            this.fossilOwnerUUID = null
             this.protectionTime = -1
             this.updateFossilType(world)
             this.syncToClient(world)
@@ -167,7 +171,7 @@ class FossilMultiblockStructure (
                 stack?.decrement(1)
             }
 
-            fossilOwner = player
+            fossilOwnerUUID = player.uuid
             fossilInventory.add(copyFossilStack)
             if(!world.isClient) {
                 this.updateFossilType(world)
@@ -284,7 +288,7 @@ class FossilMultiblockStructure (
                 if(success) {
                     this.fossilState.growthState = "Taken"
                     this.createdPokemon = null
-                    this.fossilOwner = null
+                    this.fossilOwnerUUID = null
                     this.protectionTime = -1
                     world.playSound(null, tankBasePos, CobblemonSounds.FOSSIL_MACHINE_RETRIEVE_POKEMON, SoundCategory.BLOCKS)
                     this.updateFossilType(world)
@@ -350,7 +354,7 @@ class FossilMultiblockStructure (
         if (protectionTime > 0) protectionTime--
         if (protectionTime == 0) {
             protectionTime = -1
-            this.fossilOwner = null
+            this.fossilOwnerUUID = null
             this.updateProgress(world)
             this.syncToClient(world)
             this.markDirty(world)
@@ -390,7 +394,7 @@ class FossilMultiblockStructure (
             this.resultingFossil?.let {
                 this.createdPokemon = it.result.create()
             }
-            if(this.fossilOwner != null) {
+            if(this.fossilOwnerUUID != null) {
                 protectionTime = PROTECTION_TIME
             }
 
@@ -573,6 +577,8 @@ class FossilMultiblockStructure (
         result.put(DataKeys.TANK_BASE_POS, NbtHelper.fromBlockPos(tankBasePos))
         result.putInt(DataKeys.TIME_LEFT, timeRemaining)
         result.putInt(DataKeys.PROTECTED_TIME_LEFT, protectionTime)
+        if(fossilOwnerUUID != null)
+            result.putUuid(DataKeys.FOSSIL_OWNER, fossilOwnerUUID)
         result.putInt(DataKeys.ORGANIC_MATERIAL, organicMaterialInside)
         val fossilInv = NbtList()
         fossilInventory.forEach{ item ->
@@ -614,6 +620,7 @@ class FossilMultiblockStructure (
             result.organicMaterialInside = nbt.getInt(DataKeys.ORGANIC_MATERIAL)
             result.timeRemaining = nbt.getInt(DataKeys.TIME_LEFT)
             result.protectionTime = if(nbt.contains(DataKeys.PROTECTED_TIME_LEFT)) nbt.getInt(DataKeys.PROTECTED_TIME_LEFT) else -1
+            result.fossilOwnerUUID = if(nbt.contains(DataKeys.FOSSIL_OWNER)) nbt.getUuid(DataKeys.FOSSIL_OWNER) else null
 
             val fossilInv = (nbt.get(DataKeys.FOSSIL_INVENTORY) as NbtList)
             val actualFossilList = mutableListOf<ItemStack>()
