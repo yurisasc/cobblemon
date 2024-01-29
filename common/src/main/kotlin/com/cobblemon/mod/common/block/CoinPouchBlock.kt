@@ -42,7 +42,7 @@ class CoinPouchBlock(settings: Settings, val small: Boolean) : HorizontalFacingB
         val blockPos = ctx.blockPos
         ctx.placementDirections.forEach { direction ->
             if (direction.axis.isHorizontal) {
-                blockState = blockState.with(FACING, direction) as BlockState
+                blockState = blockState.with(FACING, direction.opposite) as BlockState
                 if (blockState.canPlaceAt(worldView, blockPos)) {
                     return blockState
                 }
