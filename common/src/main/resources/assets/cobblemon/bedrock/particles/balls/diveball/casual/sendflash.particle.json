@@ -2,10 +2,10 @@
 	"format_version": "1.10.0",
 	"particle_effect": {
 		"description": {
-			"identifier": "cobblemon:pokeball/casual/sendflash",
+			"identifier": "cobblemon:diveball/casual/sendflash",
 			"basic_render_parameters": {
 				"material": "particles_alpha",
-				"texture": "textures/particles/balls/pokeball/casual/sendcasual"
+				"texture": "textures/particles/balls/diveball/casual/divesendcasual"
 			}
 		},
 		"components": {

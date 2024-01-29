@@ -2,10 +2,10 @@
 	"format_version": "1.10.0",
 	"particle_effect": {
 		"description": {
-			"identifier": "cobblemon:pokeball/casual/sendflash",
+			"identifier": "cobblemon:quickball/casual/sendflash",
 			"basic_render_parameters": {
 				"material": "particles_alpha",
-				"texture": "textures/particles/balls/pokeball/casual/sendcasual"
+				"texture": "textures/particles/balls/quickball/casual/quicksendcasual"
 			}
 		},
 		"components": {
@@ -33,7 +33,7 @@
 						"base_UV": [0, 0],
 						"size_UV": [32, 32],
 						"step_UV": [32, 0],
-						"frames_per_second": 24,
+						"frames_per_second": 30,
 						"max_frame": 12
 					}
 				}
