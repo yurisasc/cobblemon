@@ -13,7 +13,14 @@ import com.cobblemon.mod.common.api.pokemon.PokemonProperties
 import com.cobblemon.mod.common.block.entity.GildedChestBlockEntity
 import com.cobblemon.mod.common.client.CobblemonClient
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
-import net.minecraft.block.*
+import net.minecraft.block.Block
+import net.minecraft.block.BlockRenderType
+import net.minecraft.block.BlockState
+import net.minecraft.block.BlockWithEntity
+import net.minecraft.block.Blocks
+import net.minecraft.block.ChestBlock
+import net.minecraft.block.HorizontalFacingBlock
+import net.minecraft.block.ShapeContext
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemPlacementContext
 import net.minecraft.sound.SoundCategory
@@ -21,6 +28,8 @@ import net.minecraft.state.StateManager
 import net.minecraft.state.property.Properties
 import net.minecraft.text.Text
 import net.minecraft.util.ActionResult
+import net.minecraft.util.BlockMirror
+import net.minecraft.util.BlockRotation
 import net.minecraft.util.Hand
 import net.minecraft.util.ItemScatterer
 import net.minecraft.util.hit.BlockHitResult
@@ -30,7 +39,6 @@ import net.minecraft.util.shape.VoxelShape
 import net.minecraft.util.shape.VoxelShapes
 import net.minecraft.world.BlockView
 import net.minecraft.world.World
-import java.util.*
 
 class GildedChestBlock(settings: Settings, val fake: Boolean = false) : BlockWithEntity(settings) {
 
@@ -152,5 +160,19 @@ class GildedChestBlock(settings: Settings, val fake: Boolean = false) : BlockWit
 //        }
         // return null
     }
+
+    @Deprecated("Deprecated in Java")
+    override fun rotate(state: BlockState, rotation: BlockRotation): BlockState {
+        return state.with(
+            Properties.HORIZONTAL_FACING, rotation.rotate(
+                state.get(Properties.HORIZONTAL_FACING) as Direction
+            )
+        ) as BlockState
+    }
+
+    override fun mirror(state: BlockState, mirror: BlockMirror): BlockState {
+        return state.rotate(mirror.getRotation(state.get(Properties.HORIZONTAL_FACING) as Direction))
+    }
+
 
 }
