@@ -25,12 +25,6 @@ class RestorationTankBlockEntity(
 ) : FossilMultiblockEntity(pos, state, multiblockBuilder, CobblemonBlockEntities.RESTORATION_TANK) {
     val inv = RestorationTankInventory(this)
 
-    override fun markRemoved() {
-        super.markRemoved()
-        if(this.multiblockStructure != null && world != null) {
-            this.multiblockStructure!!.markRemoved(world!!)
-        }
-    }
     class RestorationTankInventory(val tankEntity: RestorationTankBlockEntity) : SidedInventory {
         override fun clear() {
             TODO("Not yet implemented")

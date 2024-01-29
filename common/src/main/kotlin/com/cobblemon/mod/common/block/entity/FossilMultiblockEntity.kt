@@ -47,6 +47,13 @@ open class FossilMultiblockEntity(
             }
         }
 
+    override fun markRemoved() {
+        super.markRemoved()
+        if(this.multiblockStructure != null && world != null) {
+            this.multiblockStructure!!.markRemoved(world!!)
+        }
+    }
+
     override fun readNbt(nbt: NbtCompound) {
         val oldMultiblockStructure = if(this.multiblockStructure != null) this.multiblockStructure as FossilMultiblockStructure else null
         multiblockStructure = if (nbt.contains(DataKeys.MULTIBLOCK_STORAGE)) {

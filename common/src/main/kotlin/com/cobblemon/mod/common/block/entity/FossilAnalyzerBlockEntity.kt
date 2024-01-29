@@ -91,11 +91,4 @@ class FossilAnalyzerBlockEntity(
         }
 
     }
-
-    override fun markRemoved() {
-        super.markRemoved()
-        if(this.multiblockStructure != null && world != null) {
-            this.multiblockStructure!!.markRemoved(world!!)
-        }
-    }
 }
