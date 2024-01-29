@@ -42,16 +42,16 @@ class GildedChestBlock(settings: Settings, val fake: Boolean = false) : BlockWit
         val POKEMON_ARGS = "gimmighoul"
         val LEVEL_RANGE = 5..30
 
-        val NORTH_OUTLINE = VoxelShapes.union(
+        val SOUTH_OUTLINE = VoxelShapes.union(
             VoxelShapes.cuboid(0.0, 0.0, 0.25, 1.0, 1.0, 0.9375)
         )
-        val SOUTH_OUTLINE = VoxelShapes.union(
+        val NORTH_OUTLINE = VoxelShapes.union(
             VoxelShapes.cuboid(0.0, 0.0, 0.0625, 1.0, 1.0, 0.75)
         )
-        val EAST_OUTLINE = VoxelShapes.union(
+        val WEST_OUTLINE = VoxelShapes.union(
             VoxelShapes.cuboid(0.0625, 0.0, 0.0, 0.75, 1.0, 1.0)
         )
-        val WEST_OUTLINE = VoxelShapes.union(
+        val EAST_OUTLINE = VoxelShapes.union(
             VoxelShapes.cuboid(0.25, 0.0, 0.0, 0.9375, 1.0, 1.0)
         )
     }
@@ -78,10 +78,10 @@ class GildedChestBlock(settings: Settings, val fake: Boolean = false) : BlockWit
     }
 
     private val facingToYaw: HashMap<Direction, Float> = hashMapOf(
-        Direction.SOUTH to -179.0F,
-        Direction.EAST to 90.0F,
-        Direction.NORTH to 0.0F,
-        Direction.WEST to -90.0F
+        Direction.NORTH to -179.0F,
+        Direction.WEST to 90.0F,
+        Direction.SOUTH to 0.0F,
+        Direction.EAST to -90.0F
     )
 
     override fun getName() = Text.translatable("block.cobblemon.gilded_chest")
@@ -148,7 +148,7 @@ class GildedChestBlock(settings: Settings, val fake: Boolean = false) : BlockWit
 //        val abovePosition = blockPlaceContext.blockPos.up()
 //        val world = blockPlaceContext.world
 //        if (world.getBlockState(abovePosition).canReplace(blockPlaceContext) && !world.isOutOfHeightLimit(abovePosition)) {
-            return defaultState.with(HorizontalFacingBlock.FACING, blockPlaceContext.horizontalPlayerFacing)
+            return defaultState.with(HorizontalFacingBlock.FACING, blockPlaceContext.horizontalPlayerFacing.opposite)
 //        }
         // return null
     }

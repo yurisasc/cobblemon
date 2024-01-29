@@ -42,6 +42,7 @@ class GildedChestBlockRenderer(context: BlockEntityRendererFactory.Context) : Bl
         matrices.multiply(RotationAxis.POSITIVE_Z.rotationDegrees(180f))
         matrices.translate(-0.5, 0.0, 0.5)
         matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(entity.cachedState.get(Properties.HORIZONTAL_FACING).asRotation()))
+        matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(180f))
 
         model.setupAnimStateful(
             entity = null,
