@@ -109,9 +109,11 @@ class FossilMultiblockStructure (
             }
 
             if (this.fossilOwnerUUID != null && player.uuid != this.fossilOwnerUUID) {
-                // TODO: fetch the name of offline players
-                val ownerPlayerEntity = MinecraftClient.getInstance().world?.getPlayerByUuid(this.fossilOwnerUUID)
-                player.sendMessage(lang("fossilmachine.protected", if(ownerPlayerEntity != null) ownerPlayerEntity.name else "an offline user" ), true)
+                var ownerName : String = "UNKNOWN_USER" // TODO: lang agnostic fallback
+                server()?.userCache?.getByUuid(this.fossilOwnerUUID)?.orElse(null)?.name?.let {
+                    ownerName = it
+                }
+                player.sendMessage(lang("fossilmachine.protected", ownerName), true)
                 return ActionResult.FAIL
             }
 
