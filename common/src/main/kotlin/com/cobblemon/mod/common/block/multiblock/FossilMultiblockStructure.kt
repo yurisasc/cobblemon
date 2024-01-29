@@ -128,6 +128,12 @@ class FossilMultiblockStructure (
             player.playSound(CobblemonSounds.FOSSIL_MACHINE_RETRIEVE_POKEMON, SoundCategory.BLOCKS, 1.0F, 1.0F)
             CobblemonCriteria.RESURRECT_POKEMON.trigger(player, createdPokemon!!)
 
+            // Turn the monitor off
+            val monitorState = world.getBlockState(monitorPos)
+            if(!monitorState.equals(MonitorBlock.MonitorScreen.OFF)) {
+                world.setBlockState(monitorPos, monitorState.with(MonitorBlock.SCREEN, MonitorBlock.MonitorScreen.OFF))
+            }
+
             this.createdPokemon = null
             this.fossilOwnerUUID = null
             this.protectionTime = -1
