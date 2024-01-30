@@ -65,6 +65,7 @@
 - Added 3 new item tags: `ancient_poke_balls`, `fossils`, and `tumblestones`.
 - Added a spawn rules system to modify general spawning behaviour, see the [wiki](https://wiki.cobblemon.com/index.php/Spawn_Rules) for more information.
 - Added dialogue datapack folder and /opendialogue command.
+- Added the item tag ``cobblemon:held/leaves_leftovers`` this can be used to flag apple-like items that can create leftovers when eaten.
 
 ## [1.4.1 (December 23rd, 2023)](#1-4-1)
 
