@@ -1,5 +1,7 @@
 package com.cobblemon.mod.common.gui
 
+import com.cobblemon.mod.common.block.entity.TMBlockEntity
+import net.minecraft.block.BlockState
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.entity.player.PlayerInventory
 import net.minecraft.inventory.*
@@ -8,11 +10,13 @@ import net.minecraft.screen.ScreenHandler
 import net.minecraft.screen.slot.CraftingResultSlot
 import net.minecraft.screen.slot.Slot
 import net.minecraft.screen.slot.SlotActionType
+import net.minecraft.util.math.BlockPos
+import net.minecraft.world.World
 
 class TMMScreenHandler(syncId: Int) : ScreenHandler(CobblemonScreenHandlers.TMM_SCREEN, syncId) {
     var playerInventory: PlayerInventory? = null
 
-    val input: RecipeInputInventory = CraftingInventory(this, 3, 1)
+    var input: RecipeInputInventory = CraftingInventory(this, 3, 1)
     val result: CraftingResultInventory = CraftingResultInventory()
     private var inventory: Inventory? = null
 
@@ -24,7 +28,20 @@ class TMMScreenHandler(syncId: Int) : ScreenHandler(CobblemonScreenHandlers.TMM_
         val xLen = 18 // 18 is standard
         val yLen = 18 // 18 is standard
         this.playerInventory = playerInventory
-        this.inventory = inventory
+        this.inventory = (inventory)// as TMBlockEntity.TMBlockInventory) // this does grab the right inventory slots
+
+        if (inventory is TMBlockEntity.TMBlockInventory) {
+            //inventory.tmBlockEntity
+
+            // sync the input slots with the TMM slots
+            input.setStack(0, inventory.items!!.get(0))
+            input.setStack(1, inventory.items!!.get(1))
+            input.setStack(2, inventory.items!!.get(2))
+            //inventory.items!![3] = result.getStack(0) // sync output of TMM with the crafted TM
+            result.setStack(0, inventory.items!!.get(3))
+        }
+
+
         for (row in 0..2) {
             for (column in 0..8) {
                 this.addSlot(Slot(playerInventory, 9 + (row * 9) + column, startX + (xLen * column), startY + (yLen * row)))
@@ -43,9 +60,9 @@ class TMMScreenHandler(syncId: Int) : ScreenHandler(CobblemonScreenHandlers.TMM_
             startY - 22
         ))
 
-        this.addSlot(Slot(inventory, 0, startX + 167, startY + 9))  // material input slot 1
-        this.addSlot(Slot(inventory, 1, startX + 185, startY + 9))  // material input slot 2
-        this.addSlot(Slot(inventory, 2, startX + 203, startY + 9))  // material input slot 3
+        this.addSlot(Slot(this.inventory, 0, startX + 167, startY + 9))  // material input slot 1
+        this.addSlot(Slot(this.inventory, 1, startX + 185, startY + 9))  // material input slot 2
+        this.addSlot(Slot(this.inventory, 2, startX + 203, startY + 9))  // material input slot 3
 
     }
     override fun quickMove(player: PlayerEntity, slot: Int): ItemStack {
@@ -64,13 +81,27 @@ class TMMScreenHandler(syncId: Int) : ScreenHandler(CobblemonScreenHandlers.TMM_
 //    }
 
     override fun onSlotClick(slotIndex: Int, button: Int, actionType: SlotActionType?, player: PlayerEntity) {
-        val type = if (actionType == SlotActionType.THROW) SlotActionType.PICKUP else actionType
+        val type = if (actionType == SlotActionType.THROW) SlotActionType.PICKUP else actionType // todo issue might be inventory is not being clicked, but it is index 36 still
         super.onSlotClick(slotIndex, button, type, player)
+    }
+
+    override fun syncState() {
+        if (inventory is TMBlockEntity.TMBlockInventory) {
+            //inventory.tmBlockEntity
+
+            // sync the input slots with the TMM slots
+            input.setStack(0, (inventory as TMBlockEntity.TMBlockInventory).items!!.get(0))
+            input.setStack(1, (inventory as TMBlockEntity.TMBlockInventory).items!!.get(1))
+            input.setStack(2, (inventory as TMBlockEntity.TMBlockInventory).items!!.get(2))
+            //inventory.items!![3] = result.getStack(0) // sync output of TMM with the crafted TM
+            result.setStack(0, (inventory as TMBlockEntity.TMBlockInventory).items!!.get(3))
+        }
+
+        super.syncState()
     }
 
     companion object {
         val SLOT_COUNT = 3
-
     }
 
 }

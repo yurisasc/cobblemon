@@ -321,6 +321,8 @@ class TMBlock(properties: Settings): BlockWithEntity(properties), Waterloggable,
             interactionHand: Hand,
             blockHitResult: BlockHitResult
     ): ActionResult {
+
+        // clear filter TM on client
         if (world.isClient) {
             val tmBlockEntity = world.getBlockEntity(pos)
 
@@ -393,8 +395,9 @@ class TMBlock(properties: Settings): BlockWithEntity(properties), Waterloggable,
             //player.openHandledScreen(blockEntity as TMBlockEntity?)
             player.playSound(CobblemonSounds.TMM_ON, SoundCategory.BLOCKS, 1.0f, 1.0f)
 
-            val serverPlayer = player as ServerPlayerEntity
-            serverPlayer.openHandledScreen(blockState.createScreenHandlerFactory(world, pos))
+            // todo maybe uncomment this
+            //val serverPlayer = player as ServerPlayerEntity
+            //serverPlayer.openHandledScreen(blockState.createScreenHandlerFactory(world, pos))
         }
         return ActionResult.CONSUME
     }

@@ -180,6 +180,9 @@ class TMBlockEntity(
         private val MISC_SLOT_INDEX = 2
         private val OUTPUT_SLOT_INDEX = 3
         private val INPUT_SLOTS = intArrayOf(0, 1, 2, 3)
+        val entityPos = this.tmBlockEntity.blockPos
+        val entityState = this.tmBlockEntity.blockState
+        val entityWorld = this.tmBlockEntity.world
 
         var filterTM: ItemStack? = null
         //var inventory: MutableMap<Int, ItemStack?> = mutableMapOf(0 to ItemStack.EMPTY, 1 to ItemStack.EMPTY, 2 to ItemStack.EMPTY)

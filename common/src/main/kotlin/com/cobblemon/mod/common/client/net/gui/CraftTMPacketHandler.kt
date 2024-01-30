@@ -23,6 +23,8 @@ object CraftTMPacketHandler : ServerNetworkPacketHandler<CraftTMPacket> {
         val outputSlot = screen.result.getStack(0)
         val typeGem = Registries.ITEM.get(ElementalTypes.get(packet.tm.type)?.typeGem)
 
+        print("test")
+
         if (!outputSlot.isEmpty) return
         if (!discSlot.isOf(CobblemonItems.BLANK_TM)) return
         if (!gemSlot.isOf(typeGem)) return

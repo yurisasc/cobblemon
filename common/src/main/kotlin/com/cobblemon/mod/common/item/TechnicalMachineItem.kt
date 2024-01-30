@@ -140,7 +140,7 @@ class TechnicalMachineItem(settings: Settings): CobblemonItem(settings) {
 
 
 
-            // if materials are in the machine already
+            /*// if materials are in the machine already
             if (TMM.tmmInventory.items?.isNotEmpty() == true) {
                 TMM.tmmInventory.items?.forEach {
                     // Get the direction the block is facing
@@ -162,7 +162,7 @@ class TechnicalMachineItem(settings: Settings): CobblemonItem(settings) {
                     context.world.spawnEntity(itemEntity)
                 }
                 TMM.tmmInventory.items?.clear()
-            }
+            }*/
 
             // todo change the color of the disk in the TMM
             // todo remove 1 from the stack in the player's hand if not in creative

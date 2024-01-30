@@ -540,6 +540,7 @@ class TMMHandledScreen(
                 onPress = {
                     inventory.player.playSound(CobblemonSounds.GUI_CLICK, 1f, 1f)
                     val currentTm = selectedTM ?: return@EjectButton sendPacketToServer(CraftBlankTMPacket(handler.input.getStack(2)))
+
                     sendPacketToServer(
                         CraftTMPacket(
                             currentTm,
@@ -548,6 +549,8 @@ class TMMHandledScreen(
                             handler.input.getStack(2)
                         )
                     )
+
+
                     this.handler.syncState()
                 }
             ), "eject"
