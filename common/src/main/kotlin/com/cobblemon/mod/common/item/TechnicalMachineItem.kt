@@ -23,6 +23,7 @@ import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.util.lang
 import com.cobblemon.mod.common.util.toBlockPos
 import net.minecraft.block.Block
+import net.minecraft.client.color.item.ItemColorProvider
 import net.minecraft.client.item.TooltipContext
 import net.minecraft.entity.ItemEntity
 import net.minecraft.entity.LivingEntity
@@ -49,6 +50,17 @@ class TechnicalMachineItem(settings: Settings): CobblemonItem(settings) {
             val nbtCompound = stack.nbt ?: return null
 
             return TechnicalMachines.tmMap[Identifier.tryParse(nbtCompound.getString(STORED_MOVE_KEY))]
+        }
+
+        fun getItemColor(stack: ItemStack, tint: Int): Int {
+            val nbt = getMoveNbt(stack) ?: return ElementalTypes.NORMAL.primaryColor
+
+            if (nbt.primaryColor != null && tint == 0) return nbt.primaryColor
+            if (nbt.secondaryColor != null && tint != 0) return nbt.secondaryColor
+
+            val type = ElementalTypes.getOrException(nbt.type)
+            if (tint == 0) return type.primaryColor
+            return type.secondaryColor
         }
     }
 

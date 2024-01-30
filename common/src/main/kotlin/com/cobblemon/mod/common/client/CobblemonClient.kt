@@ -163,15 +163,7 @@ object CobblemonClient {
             return@ItemColorProvider 0xE0A33A
         }, CobblemonItems.TECHNICAL_MACHINE)
 
-        this.implementation.registerItemColors(ItemColorProvider { stack, tint ->
-            val nbt = TechnicalMachineItem.getMoveNbt(stack) ?: return@ItemColorProvider ElementalTypes.NORMAL.primaryColor
-
-            if (nbt.primaryColor != null && tint == 0) return@ItemColorProvider nbt.primaryColor
-            if (nbt.secondaryColor != null && tint != 0) return@ItemColorProvider nbt.secondaryColor
-
-            val type = ElementalTypes.getOrException(nbt.type)
-            if (tint == 0) return@ItemColorProvider type.primaryColor else return@ItemColorProvider type.secondaryColor
-        }, CobblemonItems.TECHNICAL_MACHINE)
+        this.implementation.registerItemColors(TechnicalMachineItem::getItemColor, CobblemonItems.TECHNICAL_MACHINE)
     }
 
     private fun registerBlockRenderTypes() {
