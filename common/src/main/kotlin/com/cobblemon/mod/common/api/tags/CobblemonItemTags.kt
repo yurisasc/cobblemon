@@ -8,6 +8,7 @@
 
 package com.cobblemon.mod.common.api.tags
 
+import com.cobblemon.mod.common.CobblemonItems
 import com.cobblemon.mod.common.util.cobblemonResource
 import net.minecraft.registry.Registries
 import net.minecraft.registry.RegistryKeys
@@ -96,6 +97,12 @@ object CobblemonItemTags {
     val CONSUMED_IN_PVP_BATTLE = create("held/consumed_in_pvp_battle")
     @JvmField
     val CONSUMED_IN_WILD_BATTLE = create("held/consumed_in_wild_battle")
+
+    /**
+     * Tag that flags items as being able to "create" [CobblemonItems.LEFTOVERS].
+     */
+    @JvmField
+    val LEAVES_LEFTOVERS = create("held/leaves_leftovers")
 
     private fun create(path: String) = TagKey.of(RegistryKeys.ITEM, cobblemonResource(path))
 

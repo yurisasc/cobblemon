@@ -670,28 +670,27 @@ open class Pokemon : ShowdownIdentifiable {
      * Swaps out the current [heldItem] for the given [stack].
      * The assigned [heldItem] will always have the [ItemStack.count] of 1.
      *
+     * The behavior of this method may be modified by third party, please see the [HeldItemEvent].
+     *
      * @param stack The new [ItemStack] being set as the held item.
      * @param decrement If the given [stack] should have [ItemStack.decrement] invoked with the parameter of 1. Default is true.
-     * @param cause The entity causing the held item to change. Can be null.
-     * @param postEvent Whether to notify subscribers of [HELD_ITEM_UPDATED] that the item has been updated.
-     * @return The existing [ItemStack] being held.
+     * @return The existing [ItemStack] being held or the [stack] if [HeldItemEvent.Pre] is canceled.
+     *
+     * @see [HeldItemEvent]
      */
-    fun swapHeldItem(stack: ItemStack, decrement: Boolean = true, cause: LivingEntity? = null, postEvent: Boolean = true): ItemStack {
-        val giving = stack.copy().apply { count = 1 }
+    fun swapHeldItem(stack: ItemStack, decrement: Boolean = true): ItemStack {
         val existing = this.heldItem()
-        if (postEvent) {
-            val event = HeldItemUpdatedEvent(cause, this, stack, decrement, this.heldItem, giving)
-            HELD_ITEM_UPDATED.post(event)
-            if (event.isCanceled) {
-                return ItemStack.EMPTY
+        CobblemonEvents.HELD_ITEM_PRE.postThen(HeldItemEvent.Pre(this, stack, existing, decrement), ifSucceeded = { event ->
+            val giving = event.receiving.copy().apply { count = 1 }
+            if (event.decrement) {
+                event.receiving.decrement(1)
             }
-        }
-        if (decrement) {
-            stack.decrement(1)
-        }
-        this.heldItem = giving
-        this._heldItem.emit(giving)
-        return existing
+            this.heldItem = giving
+            this._heldItem.emit(giving)
+            CobblemonEvents.HELD_ITEM_POST.post(HeldItemEvent.Post(this, this.heldItem(), event.returning.copy(), event.decrement))
+            return event.returning
+        })
+        return stack
     }
 
     /**
@@ -1079,7 +1078,6 @@ open class Pokemon : ShowdownIdentifiable {
      * Sets the Pokémon's Original Trainer.
      *
      * @param playerUUID The Player's UniqueID, used to check for Username updates.
-     * @param playerName The Player's Username to cache and use whilst this Pokémon is loaded.
      */
     fun setOriginalTrainer(playerUUID: UUID) {
         originalTrainerType = OriginalTrainerType.PLAYER
@@ -1162,10 +1160,6 @@ open class Pokemon : ShowdownIdentifiable {
 
     // Last flower fed to a Mooshtank
     var lastFlowerFed: ItemStack = ItemStack.EMPTY
-
-    fun feedFlower(itemStack: ItemStack) {
-        this.lastFlowerFed = itemStack
-    }
 
     fun checkGender() {
         var reassess = false
