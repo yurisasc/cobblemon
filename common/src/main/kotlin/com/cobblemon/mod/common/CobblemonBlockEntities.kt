@@ -48,6 +48,12 @@ object CobblemonBlockEntities : PlatformRegistry<Registry<BlockEntityType<*>>, R
     @JvmField
     val GILDED_CHEST: BlockEntityType<GildedChestBlockEntity> = this.create("chest", BlockEntityType.Builder.create(::GildedChestBlockEntity,
         CobblemonBlocks.GILDED_CHEST,
+        CobblemonBlocks.BLUE_GILDED_CHEST,
+        CobblemonBlocks.YELLOW_GILDED_CHEST,
+        CobblemonBlocks.PINK_GILDED_CHEST,
+        CobblemonBlocks.BLACK_GILDED_CHEST,
+        CobblemonBlocks.WHITE_GILDED_CHEST,
+        CobblemonBlocks.GREEN_GILDED_CHEST,
         CobblemonBlocks.GIMMIGHOUL_CHEST
     ).build(null))
 

@@ -248,6 +248,54 @@ object CobblemonBlocks : PlatformRegistry<Registry<Block>, RegistryKey<Registry<
     )
 
     @JvmField
+    val BLUE_GILDED_CHEST = create(
+        "blue_gilded_chest",
+        GildedChestBlock(
+            AbstractBlock.Settings.copy(Blocks.CHEST).nonOpaque().sounds(CobblemonSounds.GILDED_CHEST_SOUNDS)
+        )
+    )
+
+    @JvmField
+    val BLACK_GILDED_CHEST = create(
+        "black_gilded_chest",
+        GildedChestBlock(
+            AbstractBlock.Settings.copy(Blocks.CHEST).nonOpaque().sounds(CobblemonSounds.GILDED_CHEST_SOUNDS)
+        )
+    )
+
+    @JvmField
+    val YELLOW_GILDED_CHEST = create(
+        "yellow_gilded_chest",
+        GildedChestBlock(
+            AbstractBlock.Settings.copy(Blocks.CHEST).nonOpaque().sounds(CobblemonSounds.GILDED_CHEST_SOUNDS)
+        )
+    )
+
+    @JvmField
+    val WHITE_GILDED_CHEST = create(
+        "white_gilded_chest",
+        GildedChestBlock(
+            AbstractBlock.Settings.copy(Blocks.CHEST).nonOpaque().sounds(CobblemonSounds.GILDED_CHEST_SOUNDS)
+        )
+    )
+
+    @JvmField
+    val GREEN_GILDED_CHEST = create(
+        "green_gilded_chest",
+        GildedChestBlock(
+            AbstractBlock.Settings.copy(Blocks.CHEST).nonOpaque().sounds(CobblemonSounds.GILDED_CHEST_SOUNDS)
+        )
+    )
+
+    @JvmField
+    val PINK_GILDED_CHEST = create(
+        "pink_gilded_chest",
+        GildedChestBlock(
+            AbstractBlock.Settings.copy(Blocks.CHEST).nonOpaque().sounds(CobblemonSounds.GILDED_CHEST_SOUNDS)
+        )
+    )
+
+    @JvmField
     val GIMMIGHOUL_CHEST = create(
         "gimmighoul_chest",
         GildedChestBlock(

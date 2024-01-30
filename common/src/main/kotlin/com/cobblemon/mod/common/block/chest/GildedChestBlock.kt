@@ -18,7 +18,6 @@ import net.minecraft.block.BlockRenderType
 import net.minecraft.block.BlockState
 import net.minecraft.block.BlockWithEntity
 import net.minecraft.block.Blocks
-import net.minecraft.block.ChestBlock
 import net.minecraft.block.HorizontalFacingBlock
 import net.minecraft.block.ShapeContext
 import net.minecraft.entity.player.PlayerEntity
@@ -26,6 +25,7 @@ import net.minecraft.item.ItemPlacementContext
 import net.minecraft.sound.SoundCategory
 import net.minecraft.state.StateManager
 import net.minecraft.state.property.Properties
+import net.minecraft.text.MutableText
 import net.minecraft.text.Text
 import net.minecraft.util.ActionResult
 import net.minecraft.util.BlockMirror
@@ -92,7 +92,9 @@ class GildedChestBlock(settings: Settings, val fake: Boolean = false) : BlockWit
         Direction.EAST to -90.0F
     )
 
-    override fun getName() = Text.translatable("block.cobblemon.gilded_chest")
+    override fun getName(): MutableText {
+        return if (fake) Text.translatable("block.cobblemon.gilded_chest") else super.getName()
+    }
 
     override fun onBreak(world: World, pos: BlockPos, state: BlockState, player: PlayerEntity) {
         if (fake) {
