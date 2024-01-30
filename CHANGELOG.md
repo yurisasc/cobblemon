@@ -23,6 +23,7 @@
 - Renamed the "Vivillionaire" advancement to "Aspiring Vivillionaire"
 - Removed the Inferno, Forsaken, Poké Ball, and Void patterns from the Aspiring Vivillionaire advancement.
 - Updated movesets to add Gen 9 DLC moves.
+- Apricorn Sprouts can now be planted directly on Apricorn leaves to create a new Apricorn of the same color. 
 
 ### Fixes
 - Re-added the recipe for the Iron Vitamin.
