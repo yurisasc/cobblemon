@@ -27,8 +27,8 @@ import net.minecraft.util.Identifier
  * @since March 21st, 2022
  */
 class HeldItemRequirement(
-        val itemCondition: NbtItemPredicate = NbtItemPredicate(ItemIdentifierCondition(Identifier("air"))),
-        val consumeHeldItem: Boolean? = null
+    val itemCondition: NbtItemPredicate = NbtItemPredicate(ItemIdentifierCondition(Identifier("air"))),
+    val consumeHeldItem: Boolean? = null
 ) : TransformationRequirement {
 
     override fun check(pokemon: Pokemon): Boolean = this.itemCondition.item.fits(pokemon.heldItemNoCopy().item, Registries.ITEM) && this.itemCondition.nbt.test(pokemon.heldItemNoCopy())

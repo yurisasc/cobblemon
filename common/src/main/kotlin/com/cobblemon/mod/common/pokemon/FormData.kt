@@ -12,15 +12,13 @@ import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.api.abilities.AbilityPool
 import com.cobblemon.mod.common.api.data.ShowdownIdentifiable
 import com.cobblemon.mod.common.api.drop.DropTable
-import com.cobblemon.mod.common.api.moves.MoveTemplate
 import com.cobblemon.mod.common.api.net.Decodable
 import com.cobblemon.mod.common.api.net.Encodable
-import com.cobblemon.mod.common.api.pokemon.PokemonSpecies
 import com.cobblemon.mod.common.api.pokemon.effect.ShoulderEffect
 import com.cobblemon.mod.common.api.pokemon.egg.EggGroup
-import com.cobblemon.mod.common.api.pokemon.transformation.evolution.PreEvolution
 import com.cobblemon.mod.common.api.pokemon.experience.ExperienceGroup
 import com.cobblemon.mod.common.api.pokemon.experience.ExperienceGroups
+import com.cobblemon.mod.common.api.pokemon.feature.SpeciesFeature
 import com.cobblemon.mod.common.api.pokemon.moves.Learnset
 import com.cobblemon.mod.common.api.pokemon.stats.Stat
 import com.cobblemon.mod.common.api.types.ElementalType
@@ -30,7 +28,6 @@ import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.net.IntSize
 import com.cobblemon.mod.common.pokemon.ai.FormPokemonBehaviour
 import com.cobblemon.mod.common.pokemon.lighthing.LightingData
-import com.cobblemon.mod.common.pokemon.transformation.evolution.Evolution
 import com.cobblemon.mod.common.util.readSizedInt
 import com.cobblemon.mod.common.util.writeSizedInt
 import com.google.gson.annotations.SerializedName
@@ -38,8 +35,16 @@ import net.minecraft.entity.EntityDimensions
 import net.minecraft.network.PacketByteBuf
 import net.minecraft.util.Identifier
 
-class FormData(
-    name: String = "Normal",
+/**
+ * Represents an alternate form of a [Pokemon].
+ *
+ * These variations include changes to the base [Species]' stats. For strictly visual variations, see [SpeciesFeature].
+ *
+ * @author Hiroku
+ * @since Dec 30th, 2021
+ */
+abstract class FormData(
+    name: String = "Standard",
     // Internal for the sake of the base stat provider
     @SerializedName("baseStats")
     internal var _baseStats: MutableMap<Stat, Int>? = null,
@@ -69,16 +74,12 @@ class FormData(
     private val _shoulderEffects: MutableList<ShoulderEffect>? = null,
     @SerializedName("moves")
     private var _moves: Learnset? = null,
-    @SerializedName("evolutions")
-    private val _evolutions: MutableSet<Evolution>? = null,
     @SerializedName("abilities")
     private val _abilities: AbilityPool? = null,
     @SerializedName("drops")
     private val _drops: DropTable? = null,
     @SerializedName("pokedex")
     private var _pokedex: MutableList<String>? = null,
-    @SerializedName("preEvolution")
-    private val _preEvolution: PreEvolution? = null,
     private var standingEyeHeight: Float? = null,
     private var swimmingEyeHeight: Float? = null,
     private var flyingEyeHeight: Float? = null,
@@ -92,15 +93,6 @@ class FormData(
     private var _height: Float? = null,
     @SerializedName("weight")
     private var _weight: Float? = null,
-    val requiredMove: String? = null,
-    val requiredItem: String? = null,
-    /** For forms that can accept different items (e.g. Arceus-Grass: Meadow Plate or Grassium-Z). */
-    val requiredItems: List<String>? = null,
-    /**
-     * The [MoveTemplate] of the signature attack of the G-Max form.
-     * This is always null on any form aside G-Max.
-     */
-    val gigantamaxMove: MoveTemplate? = null,
     @SerializedName("battleTheme")
     private var _battleTheme: Identifier? = null,
     @SerializedName("lightingData")
@@ -158,9 +150,6 @@ class FormData(
 
     var aspects = mutableListOf<String>()
 
-    val preEvolution: PreEvolution?
-        get() = _preEvolution ?: species.preEvolution
-
     val behaviour = FormPokemonBehaviour()
 
     val dynamaxBlocked: Boolean
@@ -185,12 +174,23 @@ class FormData(
         get() = _labels ?: species.labels
 
     /**
-     * Contains the evolutions of this form.
-     * Do not access this property immediately after a species is loaded, it requires all species in the game to be loaded.
-     * To be aware of this gamestage subscribe to [PokemonSpecies.observable].
+     * The [FormData] that precedes this form. Null if a parent form does not exist.
+     *
+     * For example the parent of Toxtricity's 'Gmax' form can be either its  'Low-Key' or 'Standard' form.
+     * The parent of Toxtricity's 'Low-Key' form is its 'Standard' form.
+     * And the parent of Toxtricity's 'Standard' form is null (does not exist).
      */
-    val evolutions: MutableSet<Evolution>
-        get() = _evolutions ?: mutableSetOf()
+    @delegate:Transient
+    val parentForm: FormData? by lazy { parentFormInitializer }
+
+    @delegate:Transient
+    val species: Species by lazy { speciesInitializer }
+
+    @Transient
+    private var parentFormInitializer: FormData? = null
+
+    @Transient
+    private lateinit var speciesInitializer: Species
 
     val battleTheme: Identifier
         get() = _battleTheme ?: species.battleTheme
@@ -215,28 +215,15 @@ class FormData(
         else -> this.standingEyeHeight
     }
 
-    @Transient
-    lateinit var species: Species
-
-    fun initialize(species: Species): FormData {
-        this.species = species
+    open fun initialize(species: Species, parent: FormData? = null): FormData {
+        this.speciesInitializer = species
+        this.species
+        this.parentFormInitializer = parent
+        this.parentForm
         this.behaviour.parent = species.behaviour
         Cobblemon.statProvider.provide(this)
-        // These properties are lazy, these need all species to be reloaded but SpeciesAdditions is what will eventually trigger this after all species have been loaded
-        this.preEvolution?.species
-        this.preEvolution?.form
-        this.evolutions.size
         this._lightingData?.let { this._lightingData = it.copy(lightLevel = it.lightLevel.coerceIn(0, 15)) }
         return this
-    }
-
-    internal fun resolveEvolutionMoves() {
-        this.evolutions.forEach { evolution ->
-            if (evolution.learnableMoves.isNotEmpty() && evolution.result.species != null) {
-                val pokemon = evolution.result.create()
-                pokemon.form.moves.evolutionMoves += evolution.learnableMoves
-            }
-        }
     }
 
     override fun equals(other: Any?): Boolean = other is FormData && other.showdownId() == this.showdownId()
@@ -269,6 +256,7 @@ class FormData(
             pb.writeInt(data.lightLevel)
             pb.writeEnumConstant(data.liquidGlowMode)
         }
+        //TODO encode/decode Transformation properties of TemporaryForms
     }
 
     override fun decode(buffer: PacketByteBuf) {
@@ -300,7 +288,7 @@ class FormData(
      *
      * @return The literal Showdown ID of this species and form.
      */
-    override fun showdownId(): String = this.species.showdownId() + this.formOnlyShowdownId()
+    override fun showdownId(): String = this.parentForm?.let { parent -> parent.showdownId() + this.formOnlyShowdownId() } ?: this.species.showdownId()
 
     /**
      * The literal Showdown ID of this form [name].
@@ -311,4 +299,11 @@ class FormData(
      */
     fun formOnlyShowdownId(): String = ShowdownIdentifiable.REGEX.replace(this.name.lowercase(), "")
 
+    /**
+     * The Showdown name of this form appended to [Species.showdownName].
+     * For example form 'Gmax' of parent form 'Low-Key' of species 'Toxtricity' becomes 'Toxtricity-Low-Key-Gmax'.
+     *
+     * @return The Showdown name of this species and form.
+     */
+    open fun showdownName(): String = this.parentForm?.let { parent -> parent.showdownName() + "-" + this.name } ?: this.species.showdownName()
 }

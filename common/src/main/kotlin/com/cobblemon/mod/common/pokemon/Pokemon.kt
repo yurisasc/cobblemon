@@ -76,6 +76,7 @@ import com.cobblemon.mod.common.pokemon.misc.GimmighoulStashHandler
 import com.cobblemon.mod.common.pokemon.properties.UncatchableProperty
 import com.cobblemon.mod.common.pokemon.status.PersistentStatus
 import com.cobblemon.mod.common.pokemon.status.PersistentStatusContainer
+import com.cobblemon.mod.common.pokemon.transformation.form.PermanentForm
 import com.cobblemon.mod.common.util.*
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
@@ -141,7 +142,7 @@ open class Pokemon : ShowdownIdentifiable {
             _species.emit(value)
         }
 
-    var form = species.standardForm
+    var form: FormData = species.standardForm
         set(value) {
             val old = field
             // Species updates already update HP but just a form change may require it
@@ -433,9 +434,15 @@ open class Pokemon : ShowdownIdentifiable {
     val storeCoordinates = SettableObservable<StoreCoordinates<*>?>(null)
 
     // We want non-optional evolutions to trigger first to avoid unnecessary packets and any cost associate with an optional one that would just be lost
-    val evolutions: Iterable<Evolution> get() = this.form.evolutions.sortedBy { evolution -> evolution.optional }
+    val evolutions: Iterable<Evolution> get() {
+        val form = this.form
+        return if (form is PermanentForm) form.evolutions.sortedBy { evolution -> evolution.optional } else this.species.evolutions
+    }
 
-    val preEvolution: PreEvolution? get() = this.form.preEvolution
+    val preEvolution: PreEvolution? get() {
+        val form = this.form
+        return if (form is PermanentForm) form.preEvolution else this.species.preEvolution
+    }
 
     // Lazy due to leaking this
     /**

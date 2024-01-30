@@ -10,6 +10,7 @@ package com.cobblemon.mod.common.pokemon.transformation.progress
 
 import com.cobblemon.mod.common.api.pokemon.transformation.progress.TransformationProgress
 import com.cobblemon.mod.common.pokemon.Pokemon
+import com.cobblemon.mod.common.pokemon.transformation.form.PermanentForm
 import com.cobblemon.mod.common.pokemon.transformation.requirements.RecoilRequirement
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.google.gson.JsonObject
@@ -62,8 +63,10 @@ class RecoilTransformationProgress : TransformationProgress<RecoilTransformation
         private const val RECOIL = "recoil"
 
         fun supports(pokemon: Pokemon): Boolean {
-            return pokemon.form.evolutions.any { evolution ->
-                evolution.requirements.any { requirement ->
+            val form = pokemon.form
+            if (form !is PermanentForm) return false
+            return form.transformations.any { transformation ->
+                transformation.requirements.any { requirement ->
                     requirement is RecoilRequirement
                 }
             }
