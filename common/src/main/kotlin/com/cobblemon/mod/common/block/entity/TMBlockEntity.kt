@@ -240,9 +240,7 @@ class TMBlockEntity(
         }
 
         override fun removeStack(slot: Int, amount: Int): ItemStack {
-            val slotStack = items?.get(slot)
-            items?.get(slot)?.decrement(amount)
-            return slotStack ?: ItemStack.EMPTY
+            return Inventories.splitStack(items, slot, amount)
         }
 
         override fun removeStack(slot: Int): ItemStack {
