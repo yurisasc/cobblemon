@@ -28,6 +28,7 @@
 - Renamed the "Vivillionaire" advancement to "Aspiring Vivillionaire"
 - Removed the Inferno, Forsaken, Poké Ball, and Void patterns from the Aspiring Vivillionaire advancement.
 - Updated movesets to add Gen 9 DLC moves.
+- Apricorn Sprouts can now be planted directly on Apricorn leaves to create a new Apricorn of the same color. 
 
 ### Fixes
 - Resized Snorlax
@@ -49,6 +50,7 @@
 - Added a new "advancement" evolution variant that takes an advancement identifier and succeeds if the player has the advancement.
 - Made spawning API capable of non-entity spawning
 - Made PokemonProperties.parse more interoperable with Java.
+- Added the ``HeldItemEvent``, this comes with 2 implementation ``HeldItemEvent.Pre`` and ``HeldItemEvent.Post``. 
 
 ### Datapack & Resourcepack Creators
 - The maximum amount of fossils that can fit in the Fossil Compartment can be adjusted in the config.
@@ -70,6 +72,7 @@
 - Added 3 new item tags: `ancient_poke_balls`, `fossils`, and `tumblestones`.
 - Added a spawn rules system to modify general spawning behaviour, see the [wiki](https://wiki.cobblemon.com/index.php/Spawn_Rules) for more information.
 - Added dialogue datapack folder and /opendialogue command.
+- Added the item tag ``cobblemon:held/leaves_leftovers`` this can be used to flag apple-like items that can create leftovers when eaten.
 
 ## [1.4.1 (December 23rd, 2023)](#1-4-1)
 
