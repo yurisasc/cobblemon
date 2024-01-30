@@ -377,7 +377,6 @@ object Cobblemon {
         }
         LEVEL_UP_EVENT.subscribe { AdvancementHandler.onLevelUp(it) }
         TRADE_COMPLETED.subscribe { AdvancementHandler.onTradeCompleted(it) }
-        HELD_ITEM_UPDATED.subscribe { GimmighoulStashHandler.giveHeldItem(it)}
 
         BagItems.observable.subscribe {
             LOGGER.info("Starting dummy Showdown battle to force it to pre-load data.")
