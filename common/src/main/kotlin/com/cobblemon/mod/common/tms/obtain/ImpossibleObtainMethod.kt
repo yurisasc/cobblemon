@@ -1,4 +1,4 @@
-package com.cobblemon.mod.common.tms
+package com.cobblemon.mod.common.tms.obtain
 
 import com.cobblemon.mod.common.api.tms.ObtainMethod
 import com.cobblemon.mod.common.util.cobblemonResource

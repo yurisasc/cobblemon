@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-package com.cobblemon.mod.common.tms
+package com.cobblemon.mod.common.tms.obtain
 
 import com.cobblemon.mod.common.api.moves.Moves
 import com.cobblemon.mod.common.api.tms.ObtainMethod
