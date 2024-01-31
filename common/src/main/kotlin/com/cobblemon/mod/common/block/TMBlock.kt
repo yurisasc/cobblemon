@@ -197,8 +197,54 @@ class TMBlock(properties: Settings): BlockWithEntity(properties), Waterloggable,
         //val tankEntity = world.getBlockEntity(pos) as MultiblockEntity
 
         //this.onTriggerEvent(state, world, pos, random)
-        // todo use this code to create the TM item
-        if (state?.let { getInventory(it, world, pos) } != null) {
+        // todo if the output slot is empty then try to craft a TM to that slot
+        if (ItemStack.areItemsEqual(inventory.items!!.get(3), ItemStack.EMPTY)) {
+                if (state?.let { getInventory(it, world, pos) } != null) {
+                    val itemStack: ItemStack
+                    itemStack = if (inventory.filterTM != null)
+                        inventory.filterTM!!.copy()
+                    else
+                        ItemStack(CobblemonItems.BLANK_TM, 1)
+                    val tm = TechnicalMachines.getTechnicalMachineFromStack(itemStack)
+                    // todo use isReadyToCraftTM  to finalize the creation
+                    if (((inventory.filterTM != null && tm != null) && isReadyToCraftTM(state, world, pos, tm)) || isReadyToCraftBlankTM(state, world, pos)) {
+
+                        // create TM item to the output slot
+                        inventory.items!!.set(3, itemStack)
+                    }
+                }
+        }
+        // todo if there is an item in the output slot then spit it out
+        else {
+            if (state?.let { getInventory(it, world, pos) } != null) {
+
+                val itemStack = inventory.items!!.get(3)
+
+                // Get the direction the block is facing
+                val facingDirection = state.get(Properties.FACING)?.opposite ?: return
+
+                // Calculate the center position of the block
+                val frontOffset = 0.5 // Half block offset to the front
+                val spawnX = pos.x + 0.5 + facingDirection.offsetX * frontOffset
+                val spawnY = pos.y + 0.3 + facingDirection.offsetY * frontOffset
+                val spawnZ = pos.z + 0.5 + facingDirection.offsetZ * frontOffset
+
+                // Create the ItemEntity at the center of the block
+                val itemEntity = ItemEntity(world, spawnX, spawnY, spawnZ, itemStack).copy()
+
+                // Create the ItemEntity
+                itemEntity.setVelocity(0.0, 0.0, 0.0)
+
+                // Add the ItemEntity to the world
+                world.spawnEntity(itemEntity)
+
+                //clear inventory of SidedInventory
+                inventory.items?.clear()
+                //getInventory(state, world, pos).clear()
+            }
+        }
+
+        /*if (state?.let { getInventory(it, world, pos) } != null) {
             val itemStack: ItemStack
             itemStack = if (inventory.filterTM != null)
                 inventory.filterTM!!
@@ -229,7 +275,7 @@ class TMBlock(properties: Settings): BlockWithEntity(properties), Waterloggable,
                 inventory.items?.clear()
                 //getInventory(state, world, pos).clear()
                 }
-            }
+            }*/
         }
 
         /*val currentTm = filterTM ?: return sendPacketToServer(CraftBlankTMPacket(handler.input.getStack(2)))

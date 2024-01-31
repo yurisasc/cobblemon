@@ -1,5 +1,6 @@
 package com.cobblemon.mod.common.gui
 
+import com.cobblemon.mod.common.CobblemonItems
 import com.cobblemon.mod.common.block.entity.TMBlockEntity
 import net.minecraft.block.BlockState
 import net.minecraft.entity.player.PlayerEntity
@@ -18,6 +19,7 @@ class TMMScreenHandler(syncId: Int) : ScreenHandler(CobblemonScreenHandlers.TMM_
 
     var input: RecipeInputInventory = CraftingInventory(this, 3, 1)
     val result: CraftingResultInventory = CraftingResultInventory()
+    var tmmEntity: TMBlockEntity? = null
     var inventory: Inventory? = null
 
     constructor(syncId: Int, playerInventory: PlayerInventory) : this(syncId, playerInventory, SimpleInventory(4)) {
@@ -28,17 +30,20 @@ class TMMScreenHandler(syncId: Int) : ScreenHandler(CobblemonScreenHandlers.TMM_
         val xLen = 18 // 18 is standard
         val yLen = 18 // 18 is standard
         this.playerInventory = playerInventory
-        this.inventory = (inventory)// as TMBlockEntity.TMBlockInventory) // this does grab the right inventory slots
+        this.inventory = inventory // as TMBlockEntity.TMBlockInventory) // this does grab the right inventory slots
 
         if (inventory is TMBlockEntity.TMBlockInventory) {
             //inventory.tmBlockEntity
+            this.inventory = inventory
+
+            this.tmmEntity = (inventory as TMBlockEntity.TMBlockInventory).tmBlockEntity
 
             // sync the input slots with the TMM slots
-//            input.setStack(0, inventory.items!!.get(0))
-//            input.setStack(1, inventory.items!!.get(1))
-//            input.setStack(2, inventory.items!!.get(2))
+            input.setStack(0, inventory.items!!.get(0))
+            input.setStack(1, inventory.items!!.get(1))
+            input.setStack(2, inventory.items!!.get(2))
             //inventory.items!![3] = result.getStack(0) // sync output of TMM with the crafted TM
-//            result.setStack(0, inventory.items!!.get(3))
+            result.setStack(0, inventory.items!!.get(3))
         }
 
 
@@ -55,7 +60,7 @@ class TMMScreenHandler(syncId: Int) : ScreenHandler(CobblemonScreenHandlers.TMM_
             playerInventory.player,
             input,
             result,
-            3,
+            0,
             startX + 123,
             startY - 22
         ))
@@ -82,6 +87,12 @@ class TMMScreenHandler(syncId: Int) : ScreenHandler(CobblemonScreenHandlers.TMM_
 
     override fun onSlotClick(slotIndex: Int, button: Int, actionType: SlotActionType?, player: PlayerEntity) {
         val type = if (actionType == SlotActionType.THROW) SlotActionType.PICKUP else actionType // todo issue might be inventory is not being clicked, but it is index 36 still
+
+        // if slot is the output slot then clear the TMM output slot
+        if (slotIndex == 36) {
+            this.inventory?.setStack(3, ItemStack.EMPTY)
+        }
+
         super.onSlotClick(slotIndex, button, type, player)
     }
 
@@ -90,11 +101,21 @@ class TMMScreenHandler(syncId: Int) : ScreenHandler(CobblemonScreenHandlers.TMM_
             //inventory.tmBlockEntity
 
             // sync the input slots with the TMM slots
-//            input.setStack(0, (inventory as TMBlockEntity.TMBlockInventory).items!!.get(0))
-//            input.setStack(1, (inventory as TMBlockEntity.TMBlockInventory).items!!.get(1))
-//            input.setStack(2, (inventory as TMBlockEntity.TMBlockInventory).items!!.get(2))
-//            //inventory.items!![3] = result.getStack(0) // sync output of TMM with the crafted TM
-//            result.setStack(0, (inventory as TMBlockEntity.TMBlockInventory).items!!.get(3))
+            input.setStack(0, (inventory as TMBlockEntity.TMBlockInventory).items!!.get(0))
+            input.setStack(1, (inventory as TMBlockEntity.TMBlockInventory).items!!.get(1))
+            input.setStack(2, (inventory as TMBlockEntity.TMBlockInventory).items!!.get(2))
+            //inventory.items!![3] = result.getStack(0) // sync output of TMM with the crafted TM
+
+            // if there is something in the output slot of this.inventory then sync that with result
+            if ((inventory as TMBlockEntity.TMBlockInventory).items?.get(3) != ItemStack.EMPTY) {
+                if (ItemStack.areItemsEqual((inventory as TMBlockEntity.TMBlockInventory).items?.get(3), ItemStack(CobblemonItems.TECHNICAL_MACHINE, 1))
+                        || ItemStack.areItemsEqual((inventory as TMBlockEntity.TMBlockInventory).items?.get(3), ItemStack(CobblemonItems.BLANK_TM, 1)))
+                    result.setStack(0, (inventory as TMBlockEntity.TMBlockInventory).items!!.get(3))
+            }
+            // if inventory is empty in the output slot then sync it to result
+            else
+                (inventory as TMBlockEntity.TMBlockInventory).items?.set(3, result.getStack(0))
+
         }
 
         super.syncState()
