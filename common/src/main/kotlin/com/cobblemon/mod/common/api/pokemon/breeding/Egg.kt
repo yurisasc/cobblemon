@@ -1,6 +1,8 @@
 package com.cobblemon.mod.common.api.pokemon.breeding
 
+import com.cobblemon.mod.common.CobblemonBlocks
 import com.cobblemon.mod.common.util.DataKeys
+import net.minecraft.item.ItemStack
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.util.Identifier
 
@@ -10,6 +12,13 @@ data class Egg(
     val baseColor: String,
     val overlayColor: String?
 ) {
+    fun asItemStack(): ItemStack {
+        val stack = CobblemonBlocks.EGG.asItem().defaultStack
+        val eggNbt = toNbt()
+        stack.nbt = NbtCompound()
+        stack.nbt?.put(DataKeys.EGG, eggNbt)
+        return stack
+    }
     fun toNbt(): NbtCompound {
         val result = NbtCompound()
         result.put(DataKeys.HATCHED_POKEMON, hatchedPokemon.toNbt())

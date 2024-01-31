@@ -67,12 +67,18 @@ object CobblemonBlockEntities : PlatformRegistry<Registry<BlockEntityType<*>>, R
     )
 
     val NEST: BlockEntityType<NestBlockEntity> = this.create("nest",
-        BlockEntityType.Builder.create({ pos, state ->
-            NestBlockEntity(pos, state)
-        },
-        CobblemonBlocks.NETHER_NEST,
-        CobblemonBlocks.WATER_NEST,
-        CobblemonBlocks.CAVE_NEST,
-        CobblemonBlocks.BASE_NEST
+        BlockEntityType.Builder.create(
+            ::NestBlockEntity,
+            CobblemonBlocks.NETHER_NEST,
+            CobblemonBlocks.WATER_NEST,
+            CobblemonBlocks.CAVE_NEST,
+            CobblemonBlocks.BASE_NEST
         ).build(null))
+
+    val EGG: BlockEntityType<EggBlockEntity> = this.create("egg",
+            BlockEntityType.Builder.create(
+                ::EggBlockEntity,
+                CobblemonBlocks.EGG
+            ).build(null)
+        )
 }

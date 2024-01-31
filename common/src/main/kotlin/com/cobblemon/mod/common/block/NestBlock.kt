@@ -58,6 +58,21 @@ class NestBlock(val variant: NestVariant, settings: Settings) : BlockWithEntity(
         builder?.add(Properties.WATERLOGGED)
     }
 
+    override fun onUse(
+        state: BlockState,
+        world: World,
+        pos: BlockPos,
+        player: PlayerEntity,
+        hand: Hand,
+        hit: BlockHitResult
+    ): ActionResult {
+        super.onUse(state, world, pos, player, hand, hit)
+
+        val entity = world.getBlockEntity(pos) as? NestBlockEntity
+        entity?.onUse()
+        return ActionResult.SUCCESS
+    }
+
     override fun createBlockEntity(pos: BlockPos, state: BlockState): BlockEntity {
         return NestBlockEntity(pos, state)
     }

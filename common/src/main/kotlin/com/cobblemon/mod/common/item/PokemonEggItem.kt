@@ -24,6 +24,10 @@ class PokemonEggItem() : Item(Settings().maxCount(1)) {
         fun asEggPokemon(stack: ItemStack) : EggPokemon? {
             return (stack.nbt?.get(DataKeys.EGG))?.let { EggPokemon.fromNBT(it as NbtCompound) }
         }
+
+        fun getColor(stack: ItemStack, tintIndex: Int): Int {
+            return 0xFFFFFF
+        }
     }
 
 }

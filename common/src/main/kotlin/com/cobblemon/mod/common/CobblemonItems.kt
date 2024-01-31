@@ -819,9 +819,9 @@ object CobblemonItems : PlatformRegistry<Registry<Item>, RegistryKey<Registry<It
     val POKEMON_MODEL = this.create("pokemon_model", PokemonItem())
 
     @JvmField
-    val POKEMON_EGG = this.create("pokemon_egg", PokemonEggItem())
+    val POKEMON_EGG = blockItem("egg", CobblemonBlocks.EGG, Item.Settings().maxCount(1))
 
-    private fun blockItem(name: String, block: Block): BlockItem = this.create(name, BlockItem(block, Item.Settings()))
+    private fun blockItem(name: String, block: Block, settings: Item.Settings = Item.Settings()): BlockItem = this.create(name, BlockItem(block, settings))
 
     private fun noSettingsItem(name: String): CobblemonItem = this.create(name, CobblemonItem(Item.Settings()))
 
