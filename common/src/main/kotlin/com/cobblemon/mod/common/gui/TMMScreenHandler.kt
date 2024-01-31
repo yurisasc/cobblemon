@@ -18,7 +18,7 @@ class TMMScreenHandler(syncId: Int) : ScreenHandler(CobblemonScreenHandlers.TMM_
 
     var input: RecipeInputInventory = CraftingInventory(this, 3, 1)
     val result: CraftingResultInventory = CraftingResultInventory()
-    private var inventory: Inventory? = null
+    var inventory: Inventory? = null
 
     constructor(syncId: Int, playerInventory: PlayerInventory) : this(syncId, playerInventory, SimpleInventory(4)) {
     }
@@ -34,11 +34,11 @@ class TMMScreenHandler(syncId: Int) : ScreenHandler(CobblemonScreenHandlers.TMM_
             //inventory.tmBlockEntity
 
             // sync the input slots with the TMM slots
-            input.setStack(0, inventory.items!!.get(0))
-            input.setStack(1, inventory.items!!.get(1))
-            input.setStack(2, inventory.items!!.get(2))
+//            input.setStack(0, inventory.items!!.get(0))
+//            input.setStack(1, inventory.items!!.get(1))
+//            input.setStack(2, inventory.items!!.get(2))
             //inventory.items!![3] = result.getStack(0) // sync output of TMM with the crafted TM
-            result.setStack(0, inventory.items!!.get(3))
+//            result.setStack(0, inventory.items!!.get(3))
         }
 
 
@@ -54,7 +54,7 @@ class TMMScreenHandler(syncId: Int) : ScreenHandler(CobblemonScreenHandlers.TMM_
         this.addSlot(CraftingResultSlot(
             playerInventory.player,
             input,
-            this.inventory,
+            result,
             3,
             startX + 123,
             startY - 22
@@ -90,11 +90,11 @@ class TMMScreenHandler(syncId: Int) : ScreenHandler(CobblemonScreenHandlers.TMM_
             //inventory.tmBlockEntity
 
             // sync the input slots with the TMM slots
-            input.setStack(0, (inventory as TMBlockEntity.TMBlockInventory).items!!.get(0))
-            input.setStack(1, (inventory as TMBlockEntity.TMBlockInventory).items!!.get(1))
-            input.setStack(2, (inventory as TMBlockEntity.TMBlockInventory).items!!.get(2))
-            //inventory.items!![3] = result.getStack(0) // sync output of TMM with the crafted TM
-            result.setStack(0, (inventory as TMBlockEntity.TMBlockInventory).items!!.get(3))
+//            input.setStack(0, (inventory as TMBlockEntity.TMBlockInventory).items!!.get(0))
+//            input.setStack(1, (inventory as TMBlockEntity.TMBlockInventory).items!!.get(1))
+//            input.setStack(2, (inventory as TMBlockEntity.TMBlockInventory).items!!.get(2))
+//            //inventory.items!![3] = result.getStack(0) // sync output of TMM with the crafted TM
+//            result.setStack(0, (inventory as TMBlockEntity.TMBlockInventory).items!!.get(3))
         }
 
         super.syncState()

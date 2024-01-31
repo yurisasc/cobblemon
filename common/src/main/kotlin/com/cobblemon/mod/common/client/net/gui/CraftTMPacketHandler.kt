@@ -17,30 +17,38 @@ import net.minecraft.sound.SoundCategory
 object CraftTMPacketHandler : ServerNetworkPacketHandler<CraftTMPacket> {
     override fun handle(packet: CraftTMPacket, server: MinecraftServer, player: ServerPlayerEntity) {
         val screen = player.currentScreenHandler as TMMScreenHandler
-        val discSlot = screen.input.getStack(0)
-        val gemSlot = screen.input.getStack(1)
-        val ingredientSlot = screen.input.getStack(2)
+        val discSlot = screen.inventory?.getStack(0)
+        val gemSlot = screen.inventory?.getStack(1)
+        val ingredientSlot = screen.inventory?.getStack(2)
         val outputSlot = screen.result.getStack(0)
         val typeGem = Registries.ITEM.get(ElementalTypes.get(packet.tm.type)?.typeGem)
 
         print("test")
 
         if (!outputSlot.isEmpty) return
-        if (!discSlot.isOf(CobblemonItems.BLANK_TM)) return
-        if (!gemSlot.isOf(typeGem)) return
+        if (discSlot != null) {
+            if (!discSlot.isOf(CobblemonItems.BLANK_TM)) return
+        }
+        if (gemSlot != null) {
+            if (!gemSlot.isOf(typeGem)) return
+        }
         if (packet.tm.recipe != null) {
-            if (!ingredientSlot.isOf(Registries.ITEM.get(packet.tm.recipe.item))) return
-            if (ingredientSlot.count < packet.tm.recipe.count) return
+            if (ingredientSlot != null) {
+                if (!ingredientSlot.isOf(Registries.ITEM.get(packet.tm.recipe.item))) return
+            }
+            if (ingredientSlot != null) {
+                if (ingredientSlot.count < packet.tm.recipe.count) return
+            }
         }
 
         val item = CobblemonItems.TECHNICAL_MACHINE.defaultStack
         item.getOrCreateNbt().putString(TechnicalMachineItem.STORED_MOVE_KEY, packet.tm.id().toString())
 
         screen.result.setStack(0, item)
-        screen.input.removeStack(0, 1)
-        screen.input.removeStack(1, 1)
+        screen.inventory?.removeStack(0, 1)
+        screen.inventory?.removeStack(1, 1)
         if (packet.tm.recipe != null) {
-            screen.input.removeStack(2, packet.tm.recipe.count)
+            screen.inventory?.removeStack(2, packet.tm.recipe.count)
         }
 
         screen.input.markDirty()
