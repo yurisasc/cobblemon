@@ -173,6 +173,15 @@ class TMBlockEntity(
 
     }
 
+    override fun markDirty() {
+        super.markDirty()
+        if (this.world != null && !this.world!!.isClient) {
+            val currentState = world!!.getBlockState(pos)
+            world!!.setBlockState(pos, currentState, 3) // Flags: 2 | 1 = Block update | Render update
+            this.world!!.updateNeighborsAlways(this.pos, this.cachedState.block)
+        }
+    }
+
     class TMBlockInventory(val tmBlockEntity: TMBlockEntity) : SidedInventory {
 
         private val BLANK_DISC_SLOT_INDEX = 0
@@ -193,6 +202,7 @@ class TMBlockEntity(
         }
 
         override fun clear() {
+            tmBlockEntity.markDirty()
             this.items?.clear()
         }
 
@@ -243,12 +253,14 @@ class TMBlockEntity(
         }
 
         override fun removeStack(slot: Int, amount: Int): ItemStack {
+            tmBlockEntity.markDirty()
             return Inventories.splitStack(items, slot, amount)
         }
 
         override fun removeStack(slot: Int): ItemStack {
             val slotStack = items?.get(slot)
             items?.set(slot, ItemStack.EMPTY)
+            tmBlockEntity.markDirty()
             return slotStack ?: ItemStack.EMPTY
         }
 

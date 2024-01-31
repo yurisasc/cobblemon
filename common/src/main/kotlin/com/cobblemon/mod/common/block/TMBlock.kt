@@ -190,6 +190,7 @@ class TMBlock(properties: Settings): BlockWithEntity(properties), Waterloggable,
     @Deprecated("Deprecated in Java")
     override fun scheduledTick(state: BlockState?, world: ServerWorld?, pos: BlockPos?, random: net.minecraft.util.math.random.Random?) {
         val inventory = (world!!.getBlockEntity(pos) as TMBlockEntity).tmmInventory
+        val tmEntity = (world.getBlockEntity(pos) as TMBlockEntity)
 
         if(world == null || pos == null) {
             return
@@ -211,6 +212,7 @@ class TMBlock(properties: Settings): BlockWithEntity(properties), Waterloggable,
 
                         // create TM item to the output slot
                         inventory.items!!.set(3, itemStack)
+                        tmEntity.markDirty()
                     }
                 }
         }
@@ -240,6 +242,7 @@ class TMBlock(properties: Settings): BlockWithEntity(properties), Waterloggable,
 
                 //clear inventory of SidedInventory
                 inventory.items?.clear()
+                tmEntity.markDirty()
                 //getInventory(state, world, pos).clear()
             }
         }
@@ -304,6 +307,12 @@ class TMBlock(properties: Settings): BlockWithEntity(properties), Waterloggable,
         }
         val tmBlockEntity = world.getBlockEntity(pos) as TMBlockEntity
         val tm = TechnicalMachines.getTechnicalMachineFromStack(tmBlockEntity.tmmInventory.filterTM)
+
+        // if TMM has already crafted something and something is in the output slot do not send signal out
+        if (!ItemStack.areItemsEqual(tmBlockEntity.tmmInventory.items?.get(3), ItemStack.EMPTY))
+            return 0
+
+        // if the TMM is ready to craft send signal of 15 out
         if ((tm != null && isReadyToCraftTM(state, world, pos, tm)) || isReadyToCraftBlankTM(state, world, pos))
             return 15
 

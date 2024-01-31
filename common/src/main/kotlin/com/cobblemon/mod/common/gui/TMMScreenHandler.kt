@@ -34,7 +34,10 @@ class TMMScreenHandler(syncId: Int) : ScreenHandler(CobblemonScreenHandlers.TMM_
 
         if (inventory is TMBlockEntity.TMBlockInventory) {
             //inventory.tmBlockEntity
-            this.inventory = inventory
+
+            this.syncState()
+
+            /*this.inventory = inventory
 
             this.tmmEntity = (inventory as TMBlockEntity.TMBlockInventory).tmBlockEntity
 
@@ -43,7 +46,7 @@ class TMMScreenHandler(syncId: Int) : ScreenHandler(CobblemonScreenHandlers.TMM_
             input.setStack(1, inventory.items!!.get(1))
             input.setStack(2, inventory.items!!.get(2))
             //inventory.items!![3] = result.getStack(0) // sync output of TMM with the crafted TM
-            result.setStack(0, inventory.items!!.get(3))
+            result.setStack(0, inventory.items!!.get(3))*/
         }
 
 
