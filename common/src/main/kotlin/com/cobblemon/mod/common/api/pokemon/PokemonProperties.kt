@@ -52,6 +52,7 @@ import java.util.UUID
  */
 open class PokemonProperties {
     companion object {
+        @JvmOverloads
         fun parse(string: String, delimiter: String = " ", assigner: String = "="): PokemonProperties {
             val props = PokemonProperties()
             props.originalString = string

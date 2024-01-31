@@ -220,7 +220,6 @@ object TestCommand {
             gson.toJson(json, pw)
             pw.flush()
             pw.close()
-            println("Wrote $berryName")
         }
     }
 
