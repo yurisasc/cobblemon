@@ -11,5 +11,6 @@ import net.minecraft.util.Identifier
 data class EggPattern (
     val model: Identifier,
     val baseTexturePath: Identifier,
-    val overlayTexturePath: Identifier?
+    val overlayTexturePath: Identifier?,
+    val invSpritePath: Identifier
 )

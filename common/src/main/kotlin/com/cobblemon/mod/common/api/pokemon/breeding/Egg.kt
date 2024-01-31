@@ -28,6 +28,10 @@ data class Egg(
         return result
     }
 
+    fun getPattern(): EggPattern? {
+        return EggPatterns.patternMap[patternId]
+    }
+
     companion object {
         fun fromNbt(nbt: NbtCompound): Egg {
             return Egg(

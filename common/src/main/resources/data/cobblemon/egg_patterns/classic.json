@@ -1,5 +1,6 @@
 {
   "model": "cobblemon:egg",
   "baseTexturePath": "cobblemon:base",
-  "overlayTexturePath": "cobblemon:pattern_classic"
+  "overlayTexturePath": "cobblemon:pattern_classic",
+  "invSpritePath": "cobblemon:test_pattern"
 }
