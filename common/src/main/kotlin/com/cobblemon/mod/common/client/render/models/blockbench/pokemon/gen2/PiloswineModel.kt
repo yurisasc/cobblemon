@@ -20,21 +20,21 @@ import net.minecraft.util.math.Vec3d
 class PiloswineModel(root: ModelPart) : PokemonPoseableModel() {
     override val rootPart = root.registerChildWithAllChildren("piloswine")
 
-    override val portraitScale = 3.0F
-    override val portraitTranslation = Vec3d(-0.6, -3.0, 0.0)
+    override val portraitScale = 2.0F
+    override val portraitTranslation = Vec3d(-0.6, -1.5, 0.0)
 
     override val profileScale = 1.1F
     override val profileTranslation = Vec3d(0.0, 0.07, 0.0)
 
-    lateinit var sleep: PokemonPose
+//    lateinit var sleep: PokemonPose
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
 
     override fun registerPoses() {
-        sleep = registerPose(
-            poseType = PoseType.SLEEP,
-            idleAnimations = arrayOf(bedrock("piloswine", "sleep"))
-        )
+//        sleep = registerPose(
+//            poseType = PoseType.SLEEP,
+//            idleAnimations = arrayOf(bedrock("piloswine", "sleep"))
+//        )
 
         standing = registerPose(
             poseName = "standing",
@@ -48,7 +48,7 @@ class PiloswineModel(root: ModelPart) : PokemonPoseableModel() {
             poseName = "walk",
             poseTypes = MOVING_POSES,
             idleAnimations = arrayOf(
-                bedrock("piloswine", "ground_walk")
+                bedrock("piloswine", "ground_idle")
             )
         )
     }

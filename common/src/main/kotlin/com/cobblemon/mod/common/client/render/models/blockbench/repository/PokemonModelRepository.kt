@@ -605,6 +605,23 @@ object PokemonModelRepository : VaryingModelRepository<PokemonEntity, PokemonPos
         inbuilt("cranidos", ::CranidosModel)
         inbuilt("rampardos", ::RampardosModel)
         inbuilt("basculegion", ::BasculegionModel)
+        inbuilt("tyrunt", ::TyruntModel)
+        inbuilt("tyrantrum", ::TyrantrumModel)
+        inbuilt("anorith", ::AnorithModel)
+        inbuilt("armaldo", ::ArmaldoModel)
+        inbuilt("archen", ::ArchenModel)
+        inbuilt("archeops", ::ArcheopsModel)
+        inbuilt("aron", ::AronModel)
+        inbuilt("lairon", ::LaironModel)
+        inbuilt("aggron", ::AggronModel)
+        inbuilt("hippopotas", ::HippopotasModel)
+        inbuilt("hippowdon", ::HippowdonModel)
+        inbuilt("zorua", ::ZoruaModel)
+        inbuilt("zorua_hisuian", ::ZoruaHisuianModel)
+        inbuilt("zoroark", ::ZoroarkModel)
+        inbuilt("zoroark_hisuian", ::ZoroarkHisuianModel)
+        inbuilt("gossifleur", ::GossifleurModel)
+        inbuilt("eldegoss", ::EldegossModel)
     }
 
     override fun loadJsonPoser(json: String): (Bone) -> PokemonPoseableModel {

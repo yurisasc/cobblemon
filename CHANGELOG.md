@@ -16,11 +16,48 @@
 - The "Poké Ball" Vivillon variant is now obtainable by evolving a Spewpa after obtaining the "Aspiring Vivillionaire" advancement.
 
 ### Pokémon Added
-- Lileep, Cradily, Tirtouga, Carracosta, Arctovish, Dracovish, Arctozolt, Dracozolt, Shieldon, Bastiodon
+#### Gen 2
+
+#### Gen 3
+- Lileep
+- Cradily
+- Anorith
+- Armaldo
+
+#### Gen 4
+- Shieldon
+- Bastiodon
+- Cranidos
+- Rampardos
+
+#### Gen 5
+- Tirtouga
+- Carracosta
+- Archen
+- Archeops
+- Zorua
+- Zoroark
+
+#### Gen 6
+- Tyrunt
+- Tyrantrum
+
+#### Gen 7
+
+#### Gen 8
+- Gossifleur
+- Eldegoss
+- Arctozolt
+- Arctovish
+- Dracozolt
+- Dracovish
+- Basculegion
+- Hisuian Zorua
+- Hisuian Zoroark
 
 ### Changes
 - Pokémon now transition more smoothly between different poses.
-- Updated models for Kabuto, Kabutops, Piplup, Prinplup, Elekid, Electabuzz, Cubone, Marowak, Paras, Venonat, Venomoth, Yanma, Yanmega, and Raboot.
+- Updated models for Squirtle, Wartortle, Blastoise, Omanyte, Omastar, Swinub, Piloswine, Basculine, Rowlet, Dartrix, Decidueye, Kabuto, Kabutops, Piplup, Prinplup, Elekid, Electabuzz, Cubone, Marowak, Paras, Venonat, Venomoth, Yanma, Yanmega, and Raboot.
 - Added more held items to the held item tag, and Metal Coat to the held item tab.
 - Added all ores to the modloader ore tags, and added tags for each ore type to the mod (both blocks and items).
 - Changed the Destiny Knot to be crafted with a Ghast Tear, rather than a diamond.

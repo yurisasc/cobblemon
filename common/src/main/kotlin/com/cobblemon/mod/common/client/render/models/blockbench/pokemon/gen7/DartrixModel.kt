@@ -10,6 +10,7 @@ package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen7
 
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.BipedWalkAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.WingFlapIdleAnimation
+import com.cobblemon.mod.common.client.render.models.blockbench.createTransformation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BiWingedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
@@ -28,8 +29,11 @@ import net.minecraft.util.math.Vec3d
 class DartrixModel(root: ModelPart) : PokemonPoseableModel(), BipedFrame, BiWingedFrame {
     override val rootPart = root.registerChildWithAllChildren("dartrix")
 
-    override val leftWing = getPart("wing_left1")
-    override val rightWing = getPart("wing_right1")
+    private val wingsOpen = getPart("wings_open")
+    private val wingsClosed = getPart("wings_closed")
+
+    override val leftWing = getPart("wing_left_open")
+    override val rightWing = getPart("wing_right_open")
 
     override val leftLeg = getPart("leg_left")
     override val rightLeg = getPart("leg_right")
@@ -51,42 +55,58 @@ class DartrixModel(root: ModelPart) : PokemonPoseableModel(), BipedFrame, BiWing
         standing = registerPose(
             poseName = "standing",
             poseTypes = STATIONARY_POSES - PoseType.HOVER + UI_POSES,
+            transformedParts = arrayOf(
+                wingsOpen.createTransformation().withVisibility(false),
+                wingsClosed.createTransformation().withVisibility(true)
+            ),
             idleAnimations = arrayOf(
                 bedrock("dartrix", "ground_idle")
             )
         )
 
         flyidle = registerPose(
-                poseName = "hover",
-                poseType = PoseType.HOVER,
-                transformTicks = 10,
-                idleAnimations = arrayOf(
-                    bedrock("dartrix", "air_idle"),
-                    WingFlapIdleAnimation(this,
-                        flapFunction = sineFunction(verticalShift = -10F.toRadians(), period = 0.9F, amplitude = 0.6F),
-                        timeVariable = { state, _, _ -> state?.animationSeconds ?: 0F },
-                        axis = ModelPartTransformation.Z_AXIS
-                    )
+            poseName = "hover",
+            poseType = PoseType.HOVER,
+            transformTicks = 10,
+            transformedParts = arrayOf(
+                wingsOpen.createTransformation().withVisibility(true),
+                wingsClosed.createTransformation().withVisibility(false)
+            ),
+            idleAnimations = arrayOf(
+                bedrock("dartrix", "ground_idle"),
+                WingFlapIdleAnimation(this,
+                    flapFunction = sineFunction(verticalShift = -10F.toRadians(), period = 0.9F, amplitude = 0.6F),
+                    timeVariable = { state, _, _ -> state?.animationSeconds ?: 0F },
+                    axis = ModelPartTransformation.Z_AXIS
                 )
+            )
         )
 
         fly = registerPose(
-                poseName = "fly",
-                poseType = PoseType.FLY,
-                transformTicks = 10,
-                idleAnimations = arrayOf(
-                    bedrock("dartrix", "air_fly"),
-                    WingFlapIdleAnimation(this,
-                        flapFunction = sineFunction(verticalShift = -14F.toRadians(), period = 0.9F, amplitude = 0.9F),
-                        timeVariable = { state, _, _ -> state?.animationSeconds ?: 0F },
-                        axis = ModelPartTransformation.Z_AXIS
-                    )
+            poseName = "fly",
+            poseType = PoseType.FLY,
+            transformTicks = 10,
+            transformedParts = arrayOf(
+                wingsOpen.createTransformation().withVisibility(true),
+                wingsClosed.createTransformation().withVisibility(false)
+            ),
+            idleAnimations = arrayOf(
+                bedrock("dartrix", "ground_idle"),
+                WingFlapIdleAnimation(this,
+                    flapFunction = sineFunction(verticalShift = -14F.toRadians(), period = 0.9F, amplitude = 0.9F),
+                    timeVariable = { state, _, _ -> state?.animationSeconds ?: 0F },
+                    axis = ModelPartTransformation.Z_AXIS
                 )
+            )
         )
 
         walk = registerPose(
             poseName = "walk",
             poseTypes = MOVING_POSES - PoseType.FLY,
+            transformedParts = arrayOf(
+                wingsOpen.createTransformation().withVisibility(false),
+                wingsClosed.createTransformation().withVisibility(true)
+            ),
             idleAnimations = arrayOf(
                 bedrock("dartrix", "ground_idle"),
                 BipedWalkAnimation(this, periodMultiplier = 0.75F, amplitudeMultiplier = 0.7F)

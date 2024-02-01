@@ -31,12 +31,14 @@ class DecidueyeModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
     override val rootPart = root.registerChildWithAllChildren("decidueye")
     override val head = getPart("head")
 
-    override val leftWing = getPart("wing_left1")
-    override val rightWing = getPart("wing_right1")
-    override val leftLeg = getPart("leg_left1")
-    override val rightLeg = getPart("leg_right1")
+    private val leftClosedWing = getPart("wing_closed_left1")
+    private val rightClosedWing = getPart("wing_closed_right1")
+    override val leftWing = getPart("wing_open_left1")
+    override val rightWing = getPart("wing_open_right1")
 
-    val folded_wings = getPart("folded_wings")
+    override val leftLeg = getPart("thigh_left")
+    override val rightLeg = getPart("thigh_right")
+
     val arrow = getPart("arrow")
 
     override val portraitScale = 2.1F
@@ -58,7 +60,8 @@ class DecidueyeModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
             poseName = "standing",
             poseTypes = STATIONARY_POSES - PoseType.HOVER + UI_POSES,
             transformedParts = arrayOf(
-                folded_wings.createTransformation().withVisibility(visibility = true),
+                leftClosedWing.createTransformation().withVisibility(visibility = true),
+                rightClosedWing.createTransformation().withVisibility(visibility = true),
                 leftWing.createTransformation().withVisibility(visibility = false),
                 rightWing.createTransformation().withVisibility(visibility = false),
                 arrow.createTransformation().withVisibility(visibility = false)
@@ -74,7 +77,8 @@ class DecidueyeModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
             poseName = "walk",
             poseTypes = MOVING_POSES - PoseType.FLY,
             transformedParts = arrayOf(
-                folded_wings.createTransformation().withVisibility(visibility = true),
+                leftClosedWing.createTransformation().withVisibility(visibility = true),
+                rightClosedWing.createTransformation().withVisibility(visibility = true),
                 leftWing.createTransformation().withVisibility(visibility = false),
                 rightWing.createTransformation().withVisibility(visibility = false),
                 arrow.createTransformation().withVisibility(visibility = false)
@@ -91,7 +95,8 @@ class DecidueyeModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
             poseName = "hover",
             poseType = PoseType.HOVER,
             transformedParts = arrayOf(
-                folded_wings.createTransformation().withVisibility(visibility = false),
+                leftClosedWing.createTransformation().withVisibility(visibility = false),
+                rightClosedWing.createTransformation().withVisibility(visibility = false),
                 leftWing.createTransformation().withVisibility(visibility = true),
                 rightWing.createTransformation().withVisibility(visibility = true),
                 arrow.createTransformation().withVisibility(visibility = false)
@@ -112,7 +117,8 @@ class DecidueyeModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
             poseName = "fly",
             poseType = PoseType.FLY,
             transformedParts = arrayOf(
-                folded_wings.createTransformation().withVisibility(visibility = false),
+                leftClosedWing.createTransformation().withVisibility(visibility = false),
+                rightClosedWing.createTransformation().withVisibility(visibility = false),
                 leftWing.createTransformation().withVisibility(visibility = true),
                 rightWing.createTransformation().withVisibility(visibility = true),
                 arrow.createTransformation().withVisibility(visibility = false)

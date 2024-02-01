@@ -1,66 +1,230 @@
 {
 	"format_version": "1.8.0",
 	"animations": {
-		"animation.omastar.ground_idle": {
+		"animation.omastar.blink": {
+			"animation_length": 0.16667,
+			"bones": {
+				"open_pupil_left": {
+					"position": {
+						"0.0": [0, 0, 0.1],
+						"0.125": [0, 0, 0.1],
+						"0.1667": {"pre": [0, 0, 0.1], "post": [0, 0, 0]}
+					}
+				},
+				"closed_pupil_left": {
+					"position": {
+						"0.0": [0, 0, -0.1],
+						"0.125": [0, 0, -0.1],
+						"0.1667": {"pre": [0, 0, -0.1], "post": [0, 0, 0]}
+					}
+				},
+				"open_pupil_right": {
+					"position": {
+						"0.0": [0, 0, 0.1],
+						"0.125": [0, 0, 0.1],
+						"0.1667": {"pre": [0, 0, 0.1], "post": [0, 0, 0]}
+					}
+				},
+				"closed_pupil_right": {
+					"position": {
+						"0.0": [0, 0, -0.1],
+						"0.125": [0, 0, -0.1],
+						"0.1667": {"pre": [0, 0, -0.1], "post": [0, 0, 0]}
+					}
+				}
+			}
+		},
+		"animation.omastar.render": {
 			"loop": true,
 			"bones": {
-				"leftarmtop": {
-					"rotation": [0, 30, 0]
+				"body": {
+					"rotation": [-12.5, 0, 0],
+					"position": [0, 1, 0]
 				},
-				"rightarmtop": {
-					"rotation": [0, -30, 0]
+				"front_right_tentacle_pair": {
+					"rotation": [-1.27053, -5.39297, 12.24175]
 				},
-				"leftlegfront": {
+				"front_right_tentacle_pair2": {
+					"rotation": [0, 0, 25]
+				},
+				"front_right_tentacle_pair3": {
+					"rotation": [0, 0, -15]
+				},
+				"beak_bottom_left": {
+					"rotation": [17.5, 0, 0]
+				},
+				"beak_bottom_right": {
+					"rotation": [22.5, 0, 0]
+				},
+				"beak_upper_right": {
+					"rotation": [-22.5, 0, 0]
+				},
+				"beak_upper_left": {
+					"rotation": [-20, 0, 0]
+				},
+				"right_hand": {
+					"rotation": [0, 0, 20]
+				},
+				"right_hand2": {
+					"rotation": [0, 0, 37.5]
+				},
+				"left_hand": {
+					"rotation": [0, 0, -20]
+				},
+				"left_hand2": {
+					"rotation": [0, 0, -37.5]
+				},
+				"right_leg": {
+					"rotation": [0, 15, -35],
+					"position": [0, 0, 0.25]
+				},
+				"left_leg": {
+					"rotation": [0, -15, 35],
+					"position": [0, 0, 0.25]
+				},
+				"mid_right_tentacle_pair": {
+					"rotation": [0, 12.5, 10]
+				},
+				"mid_right_tentacle_pair2": {
+					"rotation": [0, 0, -22.5]
+				},
+				"mid_right_tentacle_pair3": {
+					"rotation": [0, 0, 15]
+				},
+				"back_right_tentacle_pair": {
+					"rotation": [0, 30, -20]
+				},
+				"back_right_tentacle_pair2": {
+					"rotation": [0, 0, 17.5]
+				},
+				"back_right_tentacle_pair3": {
+					"rotation": [0, 0, -20]
+				},
+				"front_left_tentacle_pair": {
+					"rotation": [-1.27053, 5.39297, -12.24175]
+				},
+				"front_left_tentacle_pair2": {
 					"rotation": [0, 0, -25]
 				},
-				"rightlegfront": {
-					"rotation": [0, 0, 25]
+				"front_left_tentacle_pair3": {
+					"rotation": [0, 0, 15]
+				},
+				"mid_left_tentacle_pair": {
+					"rotation": [0, -12.5, -10]
+				},
+				"mid_left_tentacle_pair2": {
+					"rotation": [0, 0, 22.5]
+				},
+				"mid_left_tentacle_pair3": {
+					"rotation": [0, 0, -15]
+				},
+				"back_left_tentacle_pair": {
+					"rotation": [0, -30, 20]
+				},
+				"back_left_tentacle_pair2": {
+					"rotation": [0, 0, -17.5]
+				},
+				"back_left_tentacle_pair3": {
+					"rotation": [0, 0, 20]
 				}
 			}
 		},
-		"animation.omastar.water_idle": {
-			"loop": true,
+		"animation.omastar.shell_test": {
+			"loop": "hold_on_last_frame",
+			"animation_length": 0.5,
 			"bones": {
-				"leftarmtop": {
-					"rotation": [0, -15, 30]
+				"front_legs": {
+					"rotation": {
+						"0.0": [0, 0, 0],
+						"0.25": [90, 0, 0]
+					},
+					"position": {
+						"0.0": [0, 0, 0],
+						"0.25": [0, 0, 0.25]
+					}
 				},
-				"rightarmtop": {
-					"rotation": [0, 15, -30]
+				"back_legs": {
+					"rotation": {
+						"0.0": [0, 0, 0],
+						"0.25": [90, 0, 0]
+					},
+					"position": {
+						"0.0": [0, 0, 0],
+						"0.25": [0, 0, -0.25]
+					}
+				},
+				"right_legs": {
+					"rotation": {
+						"0.0": [0, 0, 0],
+						"0.25": [0, 0, -90]
+					},
+					"position": {
+						"0.0": [0, 0, 0],
+						"0.25": [0.25, 0, 0]
+					}
+				},
+				"right_front_leg": {
+					"position": [0, 0, 0]
+				},
+				"left_legs": {
+					"rotation": {
+						"0.0": [0, 0, 0],
+						"0.25": [0, 0, -90]
+					},
+					"position": {
+						"0.0": [0, 0, 0],
+						"0.25": [-0.25, 0, 0]
+					}
 				},
 				"body": {
-					"rotation": [5, 0, 0]
+					"rotation": {
+						"0.0": [0, 0, 0],
+						"0.2083": [0, 0, 0],
+						"0.5": [37.5, 0, 0]
+					},
+					"position": {
+						"0.0": [0, 0, 0],
+						"0.2083": [0, 0, 0],
+						"0.5": [0, -3.5, 0]
+					}
 				},
-				"leftlegs": {
-					"rotation": [-15, 0, 15]
+				"shell": {
+					"rotation": {
+						"0.0": [0, 0, 0],
+						"0.25": [0, 0, 0],
+						"0.5": [0, 0, 0]
+					}
 				},
-				"rightlegs": {
-					"rotation": [-15, 0, -15]
-				}
-			}
-		},
-		"animation.omastar.water_swim": {
-			"loop": true,
-			"bones": {
-				"leftarmtop": {
-					"rotation": [0, -30, 30]
+				"torso": {
+					"rotation": {
+						"0.0": [0, 0, 0],
+						"0.25": [0, 0, 0],
+						"0.5": [52.5, 0, 0]
+					},
+					"scale": {
+						"0.0": [1, 1, 1],
+						"0.25": [0.1, 1, 1]
+					}
 				},
-				"rightarmtop": {
-					"rotation": [0, 30, -30]
+				"tentacles_right": {
+					"rotation": {
+						"0.0": [0, 0, 0],
+						"0.25": [0, 0, 0],
+						"0.5": [35, 0, 0]
+					},
+					"scale": {
+						"0.0": [1, 1, 1],
+						"0.25": [0.1, 1, 1]
+					}
 				},
-				"body": {
-					"rotation": [15, 0, 0]
+				"right_hand2": {
+					"scale": {
+						"0.0": [1, 1, 1],
+						"0.25": [1, 1, 1]
+					}
 				},
-				"leftlegs": {
-					"rotation": [-30, -15, 30]
-				},
-				"rightlegs": {
-					"rotation": [-30, 15, -30]
-				},
-				"leftlegfront": {
-					"rotation": [0, -15, 0]
-				},
-				"rightlegfront": {
-					"rotation": [0, 15, 0]
+				"left_hand": {
+					"scale": 1
 				}
 			}
 		}

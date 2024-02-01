@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Archeops",
   "nationalPokedexNumber": 567,
   "primaryType": "rock",
@@ -33,6 +34,13 @@
     "flying",
     "water_3"
   ],
+  "behaviour": {
+    "moving": {
+      "fly": {
+        "canFly": true
+      }
+    }
+  },
   "moves": [
     "1:leer",
     "1:quickattack",

@@ -26,15 +26,15 @@ class SwinubModel(root: ModelPart) : PokemonPoseableModel() {
     override val profileScale = 1.5F
     override val profileTranslation = Vec3d(0.0, -0.55, 0.0)
 
-    lateinit var sleep: PokemonPose
+//    lateinit var sleep: PokemonPose
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
 
     override fun registerPoses() {
-        sleep = registerPose(
-            poseType = PoseType.SLEEP,
-            idleAnimations = arrayOf(bedrock("swinub", "sleep"))
-        )
+//        sleep = registerPose(
+//            poseType = PoseType.SLEEP,
+//            idleAnimations = arrayOf(bedrock("swinub", "sleep"))
+//        )
 
         standing = registerPose(
             poseName = "standing",
@@ -48,7 +48,7 @@ class SwinubModel(root: ModelPart) : PokemonPoseableModel() {
             poseName = "walk",
             poseTypes = MOVING_POSES,
             idleAnimations = arrayOf(
-                bedrock("swinub", "ground_walk")
+                bedrock("swinub", "ground_idle")
             )
         )
     }
