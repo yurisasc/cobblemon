@@ -15,8 +15,10 @@ import com.cobblemon.mod.common.api.tms.TechnicalMachines
 import com.cobblemon.mod.common.api.types.ElementalTypes
 import com.cobblemon.mod.common.block.TMBlock
 import com.cobblemon.mod.common.gui.TMMScreenHandler
+import net.minecraft.block.Block
 import net.minecraft.block.BlockState
 import net.minecraft.block.entity.LockableContainerBlockEntity
+import net.minecraft.block.entity.ViewerCountManager
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.entity.player.PlayerInventory
 import net.minecraft.inventory.Inventories
@@ -34,6 +36,7 @@ import net.minecraft.text.Text
 import net.minecraft.util.collection.DefaultedList
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
+import net.minecraft.world.World
 
 
 class TMBlockEntity(
@@ -43,10 +46,40 @@ class TMBlockEntity(
     var tmmInventory = TMBlockInventory(this)
     var automationDelay: Int = AUTOMATION_DELAY
     var partialTicks = 0.0f
+
+    val stateManager: ViewerCountManager = object : ViewerCountManager() {
+        override fun onContainerOpen(world: World, pos: BlockPos, state: BlockState) {
+            this@TMBlockEntity.setOpen(state, true)
+        }
+
+        override fun onContainerClose(world: World, pos: BlockPos, state: BlockState) {
+            this@TMBlockEntity.setOpen(state, false)
+        }
+
+        override fun onViewerCountUpdate(world: World, pos: BlockPos, state: BlockState, oldViewerCount: Int, newViewerCount: Int) {}
+        override fun isPlayerViewing(player: PlayerEntity): Boolean {
+            if (player.currentScreenHandler is TMMScreenHandler) {
+                val inventory = (player.currentScreenHandler as TMMScreenHandler).inventory
+                return inventory === this@TMBlockEntity
+            }
+            return false
+        }
+    }
     companion object {
         const val AUTOMATION_DELAY = 4
         const val FILTER_TM_NBT = "FilterTM"
     }
+
+    fun setOpen(state: BlockState, open: Boolean) {
+        world!!.setBlockState(getPos(), state.with(TMBlock.ON, open), Block.NOTIFY_ALL)
+    }
+
+    fun tick() {
+        if (!removed) {
+            stateManager.updateViewerCount(getWorld(), getPos(), cachedState)
+        }
+    }
+    
     //var filterTM: TechnicalMachine? = null
     //private var inventory: DefaultedList<ItemStack> = DefaultedList.ofSize(size(), ItemStack.EMPTY)
 
@@ -146,7 +179,7 @@ class TMBlockEntity(
 
 
     override fun createScreenHandler(syncId: Int, playerInventory: PlayerInventory?): ScreenHandler {
-        return TMMScreenHandler(syncId, playerInventory!!, this.tmmInventory)
+        return TMMScreenHandler(syncId, playerInventory!!, this.tmmInventory, this)
     }
 
     override fun toUpdatePacket(): Packet<ClientPlayPacketListener>? {
@@ -285,7 +318,7 @@ class TMBlockEntity(
 
         override fun canInsert(slot: Int, stack: ItemStack?, dir: Direction?): Boolean {
             if (this.entityState.get(TMBlock.ON)) {
-                print("TMM is in use so canInsert is disabled")
+//                print("TMM is in use so canInsert is disabled")
                 return false
             }
 

@@ -398,12 +398,14 @@ class TMBlock(properties: Settings): BlockWithEntity(properties), Waterloggable,
             return ActionResult.SUCCESS
         }
 
-        // Set the block state to ON when the block is used
-        world.setBlockState(pos, blockState.with(ON, true), 3)  // 3 is the flag for Block Update and Render Update
+
+
 
         val tmBlockEntity = world.getBlockEntity(pos)
 
         if (tmBlockEntity is TMBlockEntity) {
+            // Set the block state to ON when the block is used
+            tmBlockEntity.stateManager.openContainer(player, world, pos, blockState)
             player.openHandledScreen(tmBlockEntity as TMBlockEntity?)
         }
 

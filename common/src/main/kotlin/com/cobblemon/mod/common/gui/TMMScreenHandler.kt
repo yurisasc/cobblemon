@@ -22,15 +22,16 @@ class TMMScreenHandler(syncId: Int) : ScreenHandler(CobblemonScreenHandlers.TMM_
     var tmmEntity: TMBlockEntity? = null
     var inventory: Inventory? = null
 
-    constructor(syncId: Int, playerInventory: PlayerInventory) : this(syncId, playerInventory, SimpleInventory(4)) {
+    constructor(syncId: Int, playerInventory: PlayerInventory) : this(syncId, playerInventory, SimpleInventory(4), null) {
     }
-    constructor(syncId: Int, playerInventory: PlayerInventory, inventory: Inventory) : this(syncId) {
+    constructor(syncId: Int, playerInventory: PlayerInventory, inventory: Inventory, blockEntity: TMBlockEntity?) : this(syncId) {
         val startX = 0 - 9
         val startY = 112
         val xLen = 18 // 18 is standard
         val yLen = 18 // 18 is standard
         this.playerInventory = playerInventory
         this.inventory = inventory // as TMBlockEntity.TMBlockInventory) // this does grab the right inventory slots
+        tmmEntity = blockEntity
 
         if (inventory is TMBlockEntity.TMBlockInventory) {
             //inventory.tmBlockEntity
@@ -97,6 +98,13 @@ class TMMScreenHandler(syncId: Int) : ScreenHandler(CobblemonScreenHandlers.TMM_
         }
 
         super.onSlotClick(slotIndex, button, type, player)
+    }
+
+    override fun onClosed(player: PlayerEntity?) {
+        super.onClosed(player)
+
+        tmmEntity?.stateManager?.closeContainer(player, tmmEntity!!.world, tmmEntity!!.blockPos, tmmEntity!!.blockState)
+
     }
 
     override fun syncState() {
