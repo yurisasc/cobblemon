@@ -17,11 +17,10 @@ import net.minecraft.entity.Entity
 import net.minecraft.util.math.Box
 import net.minecraft.util.math.Vec3d
 import net.minecraft.client.Mouse
-import net.minecraft.client.render.Camera
-import net.minecraft.client.render.GameRenderer
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
+import net.minecraft.item.SpyglassItem
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.util.Hand
 import net.minecraft.util.TypedActionResult
@@ -30,9 +29,15 @@ import org.spongepowered.asm.mixin.Mixin
 import org.spongepowered.asm.mixin.injection.At
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable
+import com.mojang.blaze3d.systems.RenderSystem
+import net.minecraft.client.MinecraftClient
+import net.minecraft.client.render.*
+import net.minecraft.util.Identifier
+import net.minecraft.client.util.math.MatrixStack
+import org.lwjgl.opengl.GL11
 
 
-class PhotodexItem : CobblemonItem(Settings()) {
+class PhotodexItem : /*CobblemonItem(Settings()),*/ SpyglassItem(Settings()) {
     private var isZooming = false
     private var zoomLevel = 1.0
 
@@ -49,7 +54,7 @@ class PhotodexItem : CobblemonItem(Settings()) {
                 //return super.use(world, user, hand)  // Call the parent class's use method
             }
 
-           detectPokemon(world, user, hand)
+           //detectPokemon(world, user, hand)
 
        }
         else {
@@ -104,9 +109,51 @@ class PhotodexItem : CobblemonItem(Settings()) {
         }
     }
 
-
     override fun onStoppedUsing(stack: ItemStack, world: World, entity: LivingEntity, timeLeft: Int) {
         isZooming = false
+    }
+
+    fun renderPhotodexOverlay(matrixStack: MatrixStack) {
+        // Assuming your texture is meant to cover the full screen or a significant portion of it.
+        // These dimensions will scale the texture to fit as desired.
+        val screenWidth = MinecraftClient.getInstance().window.scaledWidth
+        val screenHeight = MinecraftClient.getInstance().window.scaledHeight
+
+        // Your custom overlay texture
+        val photodexOverlayTexture = Identifier("textures/item/keyitems/PhotodexLens.png")
+
+        // Binding the texture
+        MinecraftClient.getInstance().textureManager.bindTexture(photodexOverlayTexture)
+
+        // Enable blending for transparency
+        //RenderSystem.enableBlend()
+        //RenderSystem.blendFuncSeparate(RenderSystem.SourceFactor.SRC_ALPHA, RenderSystem.DestFactor.ONE_MINUS_SRC_ALPHA, RenderSystem.SourceFactor.ONE, RenderSystem.DestFactor.ZERO)
+
+        RenderSystem.enableBlend()
+        RenderSystem.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA)
+
+        // Drawing the overlay
+        drawTexture(matrixStack, 0, 0, screenWidth, screenHeight, 0f, 0f, 256, 256, 256, 256)
+
+        // Disable blending if you enabled it earlier
+        RenderSystem.disableBlend()
+    }
+
+    // Adjusted to accept float texture coordinates and dimensions
+    private fun drawTexture(
+            matrices: MatrixStack,
+            x: Int, y: Int, width: Int, height: Int,
+            u0: Float, v0: Float, regionWidth: Int, regionHeight: Int, textureWidth: Int, textureHeight: Int
+    ) {
+        val drawMode = VertexFormat.DrawMode.QUADS // Quads
+        val tessellator = Tessellator.getInstance()
+        val bufferBuilder = tessellator.buffer
+        bufferBuilder.begin(drawMode, VertexFormats.POSITION_TEXTURE)
+        bufferBuilder.vertex(matrices.peek().positionMatrix, x.toFloat(), (y + height).toFloat(), 0f).texture(u0 / textureWidth, (v0 + regionHeight) / textureHeight).next()
+        bufferBuilder.vertex(matrices.peek().positionMatrix, (x + width).toFloat(), (y + height).toFloat(), 0f).texture((u0 + regionWidth) / textureWidth, (v0 + regionHeight) / textureHeight).next()
+        bufferBuilder.vertex(matrices.peek().positionMatrix, (x + width).toFloat(), y.toFloat(), 0f).texture((u0 + regionWidth) / textureWidth, v0 / textureHeight).next()
+        bufferBuilder.vertex(matrices.peek().positionMatrix, x.toFloat(), y.toFloat(), 0f).texture(u0 / textureWidth, v0 / textureHeight).next()
+        tessellator.draw()
     }
 
 }
