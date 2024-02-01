@@ -15,6 +15,8 @@ import com.cobblemon.mod.common.api.tms.TechnicalMachines
 import com.cobblemon.mod.common.api.types.ElementalTypes
 import com.cobblemon.mod.common.block.entity.TMBlockEntity
 import com.cobblemon.mod.common.gui.TMMScreenHandler
+import com.cobblemon.mod.common.util.playSoundServer
+import com.cobblemon.mod.common.util.toVec3d
 import net.minecraft.block.*
 import net.minecraft.block.entity.BlockEntity
 import net.minecraft.block.entity.BrewingStandBlockEntity
@@ -197,6 +199,11 @@ class TMBlock(properties: Settings): BlockWithEntity(properties), Waterloggable,
         }
         //val tankEntity = world.getBlockEntity(pos) as MultiblockEntity
 
+        if (tmEntity.blockState.get(ON)) {
+            print("TMM is in use so scheduled Tick is disabled")
+            return
+        }
+
         //this.onTriggerEvent(state, world, pos, random)
         // todo if the output slot is empty then try to craft a TM to that slot
         if (ItemStack.areItemsEqual(inventory.items!!.get(3), ItemStack.EMPTY)) {
@@ -213,6 +220,9 @@ class TMBlock(properties: Settings): BlockWithEntity(properties), Waterloggable,
                         // create TM item to the output slot
                         inventory.items!!.set(3, itemStack)
                         tmEntity.markDirty()
+
+                        // Play sound for TM creation
+                        world.playSoundServer(tmEntity.blockPos.toVec3d(), CobblemonSounds.TMM_CRAFT, SoundCategory.BLOCKS)
                     }
                 }
         }
@@ -387,6 +397,10 @@ class TMBlock(properties: Settings): BlockWithEntity(properties), Waterloggable,
 
             return ActionResult.SUCCESS
         }
+
+        // Set the block state to ON when the block is used
+        world.setBlockState(pos, blockState.with(ON, true), 3)  // 3 is the flag for Block Update and Render Update
+
         val tmBlockEntity = world.getBlockEntity(pos)
 
         if (tmBlockEntity is TMBlockEntity) {

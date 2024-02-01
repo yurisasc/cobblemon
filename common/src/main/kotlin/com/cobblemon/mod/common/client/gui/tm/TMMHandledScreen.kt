@@ -13,6 +13,8 @@ import com.cobblemon.mod.common.api.tms.TechnicalMachine
 import com.cobblemon.mod.common.api.tms.TechnicalMachineRecipe
 import com.cobblemon.mod.common.api.types.ElementalType
 import com.cobblemon.mod.common.api.types.ElementalTypes
+import com.cobblemon.mod.common.block.TMBlock
+import com.cobblemon.mod.common.block.entity.TMBlockEntity
 import com.cobblemon.mod.common.client.CobblemonClient
 import com.cobblemon.mod.common.client.gui.ExitButton
 import com.cobblemon.mod.common.client.gui.MoveCategoryIcon
@@ -592,6 +594,15 @@ class TMMHandledScreen(
 
     override fun onSlotUpdate(handler: ScreenHandler?, slotId: Int, stack: ItemStack?) {
 
+    }
+
+    override fun close() {
+        super.close()
+        val inventory = handler.inventory
+
+        if (inventory is TMBlockEntity.TMBlockInventory) {
+            inventory.tmBlockEntity.blockState.with(TMBlock.ON,false)
+        }
     }
 
     override fun onPropertyUpdate(handler: ScreenHandler?, property: Int, value: Int) {

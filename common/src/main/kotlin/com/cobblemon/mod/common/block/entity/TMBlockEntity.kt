@@ -13,6 +13,7 @@ import com.cobblemon.mod.common.CobblemonItems
 import com.cobblemon.mod.common.api.tms.TechnicalMachine
 import com.cobblemon.mod.common.api.tms.TechnicalMachines
 import com.cobblemon.mod.common.api.types.ElementalTypes
+import com.cobblemon.mod.common.block.TMBlock
 import com.cobblemon.mod.common.gui.TMMScreenHandler
 import net.minecraft.block.BlockState
 import net.minecraft.block.entity.LockableContainerBlockEntity
@@ -283,7 +284,11 @@ class TMBlockEntity(
         }*/
 
         override fun canInsert(slot: Int, stack: ItemStack?, dir: Direction?): Boolean {
-            // todo only allow for hopper to insert materials if it has a filterTM in it
+            if (this.entityState.get(TMBlock.ON)) {
+                print("TMM is in use so canInsert is disabled")
+                return false
+            }
+
             if (stack != null && slot < this.INPUT_SLOTS.size) {
                 val tm = TechnicalMachines.getTechnicalMachineFromStack(tmBlockEntity.tmmInventory.filterTM)
                 // if material is needed then load it
@@ -298,6 +303,11 @@ class TMBlockEntity(
         }
 
         override fun canExtract(slot: Int, stack: ItemStack?, dir: Direction?): Boolean {
+            if (this.entityState.get(TMBlock.ON)) {
+                print("TMM is in use so canExtract is disabled")
+                return false
+            }
+
             return dir == Direction.DOWN && slot == this.OUTPUT_SLOT_INDEX
         }
 
