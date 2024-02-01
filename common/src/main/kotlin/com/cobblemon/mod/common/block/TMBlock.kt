@@ -200,7 +200,7 @@ class TMBlock(properties: Settings): BlockWithEntity(properties), Waterloggable,
         //val tankEntity = world.getBlockEntity(pos) as MultiblockEntity
 
         if (tmEntity.blockState.get(ON)) {
-            print("TMM is in use so scheduled Tick is disabled")
+            //print("TMM is in use so scheduled Tick is disabled")
             return
         }
 
@@ -397,9 +397,6 @@ class TMBlock(properties: Settings): BlockWithEntity(properties), Waterloggable,
 
             return ActionResult.SUCCESS
         }
-
-
-
 
         val tmBlockEntity = world.getBlockEntity(pos)
 

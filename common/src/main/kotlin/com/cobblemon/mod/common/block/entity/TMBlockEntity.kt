@@ -129,7 +129,7 @@ class TMBlockEntity(
                     return false
             }
             else if (tmmInventory.filterTM == null && ItemStack.areItemsEqual(itemStack,Items.AMETHYST_SHARD.defaultStack)) {
-                return inventory.none { it?.count == 1 && ItemStack.areItemsEqual(it, Items.AMETHYST_SHARD.defaultStack) }
+                return (slot == 2 && inventory.none { it?.count == 1 && ItemStack.areItemsEqual(it, Items.AMETHYST_SHARD.defaultStack) })
             }
         }
         return false
@@ -337,7 +337,7 @@ class TMBlockEntity(
 
         override fun canExtract(slot: Int, stack: ItemStack?, dir: Direction?): Boolean {
             if (this.entityState.get(TMBlock.ON)) {
-                print("TMM is in use so canExtract is disabled")
+                //print("TMM is in use so canExtract is disabled")
                 return false
             }
 
