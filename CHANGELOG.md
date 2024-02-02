@@ -84,6 +84,7 @@
 - Added cries to Beldum, Metang and Metagross.
 - Added a /bedrockparticle command to run Snowstorm-format particle effects.
 - Added data for Dipplin, Fezandipiti, Munkidori, Ogerpon, Okidogi, Poltchageist and Sinistcha.
+- Added additional nickname trigger "Grumm" for Inkay's evolution.
 
 ### Changes
 - Using Potions, Status Heals, Ethers, and Antidotes will now return a glass bottle
