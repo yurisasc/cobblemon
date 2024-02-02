@@ -13,6 +13,7 @@ import com.cobblemon.mod.common.api.pokemon.PokemonProperties
 import com.cobblemon.mod.common.block.entity.GildedChestBlockEntity
 import com.cobblemon.mod.common.client.CobblemonClient
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
+import com.cobblemon.mod.common.util.cobblemonResource
 import net.minecraft.block.Block
 import net.minecraft.block.BlockRenderType
 import net.minecraft.block.BlockState
@@ -31,6 +32,7 @@ import net.minecraft.util.ActionResult
 import net.minecraft.util.BlockMirror
 import net.minecraft.util.BlockRotation
 import net.minecraft.util.Hand
+import net.minecraft.util.Identifier
 import net.minecraft.util.ItemScatterer
 import net.minecraft.util.hit.BlockHitResult
 import net.minecraft.util.math.BlockPos
@@ -40,7 +42,7 @@ import net.minecraft.util.shape.VoxelShapes
 import net.minecraft.world.BlockView
 import net.minecraft.world.World
 
-class GildedChestBlock(settings: Settings, val fake: Boolean = false) : BlockWithEntity(settings) {
+class GildedChestBlock(settings: Settings, val type: Type = Type.RED) : BlockWithEntity(settings) {
 
     init {
         defaultState = defaultState.with(Properties.HORIZONTAL_FACING, Direction.SOUTH)
@@ -64,7 +66,7 @@ class GildedChestBlock(settings: Settings, val fake: Boolean = false) : BlockWit
         )
     }
 
-    override fun createBlockEntity(pos: BlockPos, state: BlockState) = GildedChestBlockEntity(pos, state, fake)
+    override fun createBlockEntity(pos: BlockPos, state: BlockState) = GildedChestBlockEntity(pos, state, type)
 
     override fun getOutlineShape(
         state: BlockState,
@@ -93,11 +95,13 @@ class GildedChestBlock(settings: Settings, val fake: Boolean = false) : BlockWit
     )
 
     override fun getName(): MutableText {
-        return if (fake) Text.translatable("block.cobblemon.gilded_chest") else super.getName()
+        return if (isFake()) Text.translatable("block.cobblemon.gilded_chest") else super.getName()
     }
 
+    fun isFake() = (type == Type.FAKE)
+
     override fun onBreak(world: World, pos: BlockPos, state: BlockState, player: PlayerEntity) {
-        if (fake) {
+        if (isFake()) {
             spawnPokemon(world, pos, state, player)
             world.setBlockState(pos, Blocks.AIR.defaultState)
         } else super.onBreak(world, pos, state, player)
@@ -129,7 +133,7 @@ class GildedChestBlock(settings: Settings, val fake: Boolean = false) : BlockWit
         hand: Hand,
         hit: BlockHitResult
     ): ActionResult {
-        if (fake) return spawnPokemon(world, pos, state, player)
+        if (isFake()) return spawnPokemon(world, pos, state, player)
         val entity = world.getBlockEntity(pos) as? GildedChestBlockEntity ?: return ActionResult.FAIL
         player.openHandledScreen(entity)
         val state = entity.poseableState
@@ -176,5 +180,15 @@ class GildedChestBlock(settings: Settings, val fake: Boolean = false) : BlockWit
         return state.rotate(mirror.getRotation(state.get(Properties.HORIZONTAL_FACING) as Direction))
     }
 
+    enum class Type(val poserId: Identifier) {
+        RED(cobblemonResource("gilded_chest")),
+        BLUE(cobblemonResource("blue_gilded_chest")),
+        GREEN(cobblemonResource("green_gilded_chest")),
+        PINK(cobblemonResource("pink_gilded_chest")),
+        WHITE(cobblemonResource("white_gilded_chest")),
+        BLACK(cobblemonResource("black_gilded_chest")),
+        YELLOW(cobblemonResource("yellow_gilded_chest")),
+        FAKE(cobblemonResource("gilded_chest"))
+    }
 
 }

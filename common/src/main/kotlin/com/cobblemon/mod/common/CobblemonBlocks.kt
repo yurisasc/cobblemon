@@ -247,7 +247,8 @@ object CobblemonBlocks : PlatformRegistry<Registry<Block>, RegistryKey<Registry<
     val GILDED_CHEST = create(
         "gilded_chest",
         GildedChestBlock(
-            AbstractBlock.Settings.copy(Blocks.CHEST).nonOpaque().sounds(CobblemonSounds.GILDED_CHEST_SOUNDS)
+            AbstractBlock.Settings.copy(Blocks.CHEST).nonOpaque().sounds(CobblemonSounds.GILDED_CHEST_SOUNDS),
+            GildedChestBlock.Type.RED
         )
     )
 
@@ -255,7 +256,8 @@ object CobblemonBlocks : PlatformRegistry<Registry<Block>, RegistryKey<Registry<
     val BLUE_GILDED_CHEST = create(
         "blue_gilded_chest",
         GildedChestBlock(
-            AbstractBlock.Settings.copy(Blocks.CHEST).nonOpaque().sounds(CobblemonSounds.GILDED_CHEST_SOUNDS)
+            AbstractBlock.Settings.copy(Blocks.CHEST).nonOpaque().sounds(CobblemonSounds.GILDED_CHEST_SOUNDS),
+            GildedChestBlock.Type.BLUE
         )
     )
 
@@ -263,7 +265,8 @@ object CobblemonBlocks : PlatformRegistry<Registry<Block>, RegistryKey<Registry<
     val BLACK_GILDED_CHEST = create(
         "black_gilded_chest",
         GildedChestBlock(
-            AbstractBlock.Settings.copy(Blocks.CHEST).nonOpaque().sounds(CobblemonSounds.GILDED_CHEST_SOUNDS)
+            AbstractBlock.Settings.copy(Blocks.CHEST).nonOpaque().sounds(CobblemonSounds.GILDED_CHEST_SOUNDS),
+            GildedChestBlock.Type.BLACK
         )
     )
 
@@ -271,7 +274,8 @@ object CobblemonBlocks : PlatformRegistry<Registry<Block>, RegistryKey<Registry<
     val YELLOW_GILDED_CHEST = create(
         "yellow_gilded_chest",
         GildedChestBlock(
-            AbstractBlock.Settings.copy(Blocks.CHEST).nonOpaque().sounds(CobblemonSounds.GILDED_CHEST_SOUNDS)
+            AbstractBlock.Settings.copy(Blocks.CHEST).nonOpaque().sounds(CobblemonSounds.GILDED_CHEST_SOUNDS),
+            GildedChestBlock.Type.YELLOW
         )
     )
 
@@ -279,7 +283,8 @@ object CobblemonBlocks : PlatformRegistry<Registry<Block>, RegistryKey<Registry<
     val WHITE_GILDED_CHEST = create(
         "white_gilded_chest",
         GildedChestBlock(
-            AbstractBlock.Settings.copy(Blocks.CHEST).nonOpaque().sounds(CobblemonSounds.GILDED_CHEST_SOUNDS)
+            AbstractBlock.Settings.copy(Blocks.CHEST).nonOpaque().sounds(CobblemonSounds.GILDED_CHEST_SOUNDS),
+            GildedChestBlock.Type.WHITE
         )
     )
 
@@ -287,7 +292,8 @@ object CobblemonBlocks : PlatformRegistry<Registry<Block>, RegistryKey<Registry<
     val GREEN_GILDED_CHEST = create(
         "green_gilded_chest",
         GildedChestBlock(
-            AbstractBlock.Settings.copy(Blocks.CHEST).nonOpaque().sounds(CobblemonSounds.GILDED_CHEST_SOUNDS)
+            AbstractBlock.Settings.copy(Blocks.CHEST).nonOpaque().sounds(CobblemonSounds.GILDED_CHEST_SOUNDS),
+            GildedChestBlock.Type.GREEN
         )
     )
 
@@ -295,7 +301,8 @@ object CobblemonBlocks : PlatformRegistry<Registry<Block>, RegistryKey<Registry<
     val PINK_GILDED_CHEST = create(
         "pink_gilded_chest",
         GildedChestBlock(
-            AbstractBlock.Settings.copy(Blocks.CHEST).nonOpaque().sounds(CobblemonSounds.GILDED_CHEST_SOUNDS)
+            AbstractBlock.Settings.copy(Blocks.CHEST).nonOpaque().sounds(CobblemonSounds.GILDED_CHEST_SOUNDS),
+            GildedChestBlock.Type.PINK
         )
     )
 
@@ -303,7 +310,8 @@ object CobblemonBlocks : PlatformRegistry<Registry<Block>, RegistryKey<Registry<
     val GIMMIGHOUL_CHEST = create(
         "gimmighoul_chest",
         GildedChestBlock(
-            AbstractBlock.Settings.copy(Blocks.CHEST).nonOpaque().sounds(CobblemonSounds.GILDED_CHEST_SOUNDS), true
+            AbstractBlock.Settings.copy(Blocks.CHEST).nonOpaque().sounds(CobblemonSounds.GILDED_CHEST_SOUNDS),
+            GildedChestBlock.Type.FAKE
         )
     )
 

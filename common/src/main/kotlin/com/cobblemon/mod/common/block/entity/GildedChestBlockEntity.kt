@@ -10,11 +10,9 @@ package com.cobblemon.mod.common.block.entity
 
 import com.cobblemon.mod.common.CobblemonBlockEntities
 import com.cobblemon.mod.common.CobblemonSounds
-import com.cobblemon.mod.common.api.pokemon.PokemonProperties
+import com.cobblemon.mod.common.block.chest.GildedChestBlock.Type
 import com.cobblemon.mod.common.block.chest.GildedState
-import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import net.minecraft.block.BlockState
-import net.minecraft.block.HorizontalFacingBlock
 import net.minecraft.block.entity.BlockEntityType
 import net.minecraft.block.entity.LootableContainerBlockEntity
 import net.minecraft.block.entity.ViewerCountManager
@@ -26,17 +24,13 @@ import net.minecraft.item.ItemStack
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.screen.GenericContainerScreenHandler
 import net.minecraft.sound.SoundCategory
-import net.minecraft.sound.SoundEvents
 import net.minecraft.state.property.Properties
 import net.minecraft.text.Text
-import net.minecraft.util.ActionResult
 import net.minecraft.util.collection.DefaultedList
 import net.minecraft.util.math.BlockPos
-import net.minecraft.util.math.Direction
 import net.minecraft.world.World
-import java.util.Random
 
-class GildedChestBlockEntity(pos: BlockPos, state: BlockState, val fake: Boolean = false) : LootableContainerBlockEntity(CobblemonBlockEntities.GILDED_CHEST, pos, state) {
+class GildedChestBlockEntity(pos: BlockPos, state: BlockState, val type: Type = Type.RED) : LootableContainerBlockEntity(CobblemonBlockEntities.GILDED_CHEST, pos, state) {
     var inventoryContents: DefaultedList<ItemStack> = DefaultedList.ofSize(NUM_SLOTS, ItemStack.EMPTY)
     val poseableState: GildedState = GildedState()
 
@@ -78,7 +72,7 @@ class GildedChestBlockEntity(pos: BlockPos, state: BlockState, val fake: Boolean
         GenericContainerScreenHandler.createGeneric9x3(syncId, playerInventory, this);
 
     override fun onOpen(player: PlayerEntity) {
-        if (!this.removed && !player.isSpectator && !fake) {
+        if (!this.removed && !player.isSpectator && type != Type.FAKE) {
             stateManager.openContainer(player, this.getWorld(), this.getPos(), this.cachedState)
         }
     }

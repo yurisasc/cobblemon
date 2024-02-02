@@ -10,7 +10,6 @@ package com.cobblemon.mod.common.client.render.block
 
 import com.cobblemon.mod.common.block.entity.GildedChestBlockEntity
 import com.cobblemon.mod.common.client.render.models.blockbench.repository.BlockEntityModelRepository
-import com.cobblemon.mod.common.util.cobblemonResource
 import net.minecraft.client.render.OverlayTexture
 import net.minecraft.client.render.VertexConsumerProvider
 import net.minecraft.client.render.block.entity.BlockEntityRenderer
@@ -32,8 +31,10 @@ class GildedChestBlockRenderer(context: BlockEntityRendererFactory.Context) : Bl
         val state = entity.poseableState
         state.updatePartialTicks(tickDelta)
 
-        val model = BlockEntityModelRepository.getPoser(POSER_ID, aspects)
-        val texture = BlockEntityModelRepository.getTexture(POSER_ID, aspects, state.animationSeconds)
+        val poserId = entity.type.poserId
+
+        val model = BlockEntityModelRepository.getPoser(poserId, aspects)
+        val texture = BlockEntityModelRepository.getTexture(poserId, aspects, state.animationSeconds)
         val vertexConsumer = vertexConsumers.getBuffer(model.getLayer(texture))
         model.bufferProvider = vertexConsumers
         state.currentModel = model
@@ -54,16 +55,11 @@ class GildedChestBlockRenderer(context: BlockEntityRendererFactory.Context) : Bl
             ageInTicks = state.animationSeconds * 20
         )
         model.render(matrices, vertexConsumer, light, overlay, 1.0f, 1.0f, 1.0f, 1.0f)
-        model.withLayerContext(vertexConsumers, state, BlockEntityModelRepository.getLayers(POSER_ID, aspects)) {
+        model.withLayerContext(vertexConsumers, state, BlockEntityModelRepository.getLayers(poserId, aspects)) {
             model.render(matrices, vertexConsumer, light, OverlayTexture.DEFAULT_UV, 1F, 1F, 1F, 1F)
         }
         model.setDefault()
         matrices.pop()
 
-    }
-
-    companion object {
-        val POSER_ID = cobblemonResource("gilded_chest")
-        val TEXTURE_ID = cobblemonResource("textures/block/gilded_chest.png")
     }
 }
