@@ -42,6 +42,8 @@ class PhotodexItem : /*CobblemonItem(Settings()),*/ SpyglassItem(Settings()) {
     private var isScrollCallbackRegistered = false
     private var isMouseButtonCallbackRegistered = false
 
+    private var leftMouseButtonPressedLastTick = false
+
     fun changeFOV(double: Double) {
         val client = MinecraftClient.getInstance()
         val newFov = (70 / zoomLevel).coerceIn(30.0, 110.0).toInt() // Clamping the FOV value
@@ -83,6 +85,7 @@ class PhotodexItem : /*CobblemonItem(Settings()),*/ SpyglassItem(Settings()) {
 
     // todo onStoppedUsing for ending the camera use when letting go of the Right Click
     override fun onStoppedUsing(stack: ItemStack?, world: World, entity: LivingEntity, timeLeft: Int) {
+        println("Triggered onStoppedUsing function")
         super.onStoppedUsing(stack, world, entity, timeLeft)
         if (world.isClient && entity is PlayerEntity) {
             inUse = false // Reset on release
@@ -140,7 +143,9 @@ class PhotodexItem : /*CobblemonItem(Settings()),*/ SpyglassItem(Settings()) {
                 else if (inUse && button == GLFW.GLFW_MOUSE_BUTTON_2 && action == GLFW.GLFW_RELEASE) {
                     println("Mouse Button 2 Right Released")
                     inUse = false
-                    // Implement your logic for release here
+                    unregisterInputHandlers()
+                    zoomLevel = 1.0
+                    changeFOV(70.0) // Reset FOV
                 }
 
                 /*if (inUse && button == GLFW.GLFW_MOUSE_BUTTON_1 && action == GLFW.GLFW_PRESS) {
