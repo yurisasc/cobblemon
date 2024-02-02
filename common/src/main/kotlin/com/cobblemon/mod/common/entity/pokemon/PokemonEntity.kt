@@ -107,7 +107,7 @@ import net.minecraft.world.World
 import net.minecraft.world.event.GameEvent
 
 @Suppress("unused")
-class PokemonEntity(
+open class PokemonEntity(
     world: World,
     pokemon: Pokemon = Pokemon(),
     type: EntityType<out PokemonEntity> = CobblemonEntities.POKEMON,

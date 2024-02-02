@@ -12,6 +12,7 @@ import com.cobblemon.mod.common.api.permission.CobblemonPermissions
 import com.cobblemon.mod.common.api.spawning.CobblemonWorldSpawnerManager
 import com.cobblemon.mod.common.api.spawning.SpawnCause
 import com.cobblemon.mod.common.api.spawning.context.AreaSpawningContext
+import com.cobblemon.mod.common.api.spawning.detail.EntitySpawnResult
 import com.cobblemon.mod.common.api.text.green
 import com.cobblemon.mod.common.api.text.red
 import com.cobblemon.mod.common.util.alias
@@ -83,11 +84,14 @@ object SpawnPokemonFromPool {
 
             val spawnAction = result.second.doSpawn(ctx = result.first)
 
-            spawnAction.entity.subscribe {
-                player.sendMessage(commandLang("spawnpokemonfrompool", it.displayName).green())
+            spawnAction.future.thenApply {
+                if (it is EntitySpawnResult) {
+                    for (entity in it.entities) {
+                        player.sendMessage(commandLang("spawnpokemonfrompool.success", entity.displayName).green())
+                    }
+                }
             }
 
-            spawner.performSpawn(spawnAction)
             spawnsTriggered++
         }
 

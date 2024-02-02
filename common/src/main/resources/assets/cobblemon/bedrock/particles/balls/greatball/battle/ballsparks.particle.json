@@ -5,7 +5,7 @@
 			"identifier": "cobblemon:greatball/battle/ballsparks",
 			"basic_render_parameters": {
 				"material": "particles_alpha",
-				"texture": "textures/particles/balls/greatball/ballsparks"
+				"texture": "textures/particles/balls/greatball/greatballsparks"
 			}
 		},
 		"components": {
