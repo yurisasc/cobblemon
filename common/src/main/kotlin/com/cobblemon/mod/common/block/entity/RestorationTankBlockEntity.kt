@@ -31,7 +31,7 @@ class RestorationTankBlockEntity(
         }
 
         override fun size(): Int {
-            TODO("Not yet implemented")
+            return 5
         }
 
         override fun isEmpty(): Boolean {
@@ -55,6 +55,11 @@ class RestorationTankBlockEntity(
                 val struct = tankEntity.multiblockStructure as FossilMultiblockStructure
                 tankEntity.world?.let {
                     struct.insertOrganicMaterial(stack, it)
+                    val returnItem = NaturalMaterials.getReturnItem((stack!!))
+                    if(returnItem != null ) {
+                        // store item
+//                        if(this@RestorationTankBlockEntity.pos )
+                    }
                 }
             }
         }

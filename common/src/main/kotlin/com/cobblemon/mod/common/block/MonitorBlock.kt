@@ -16,6 +16,7 @@ import net.minecraft.block.Block
 import net.minecraft.block.BlockState
 import net.minecraft.block.HorizontalFacingBlock
 import net.minecraft.block.ShapeContext
+import net.minecraft.entity.ai.pathing.NavigationType
 import net.minecraft.item.ItemPlacementContext
 import net.minecraft.state.StateManager
 import net.minecraft.state.property.EnumProperty
@@ -76,6 +77,10 @@ class MonitorBlock(properties: Settings) : MultiblockBlock(properties) {
         context: ShapeContext?
     ): VoxelShape {
         return HITBOX
+    }
+    @Deprecated("Deprecated in Java")
+    override fun canPathfindThrough(state: BlockState?, world: BlockView?, pos: BlockPos?, type: NavigationType?): Boolean {
+        return false
     }
 
     companion object {
