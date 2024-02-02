@@ -21,11 +21,12 @@ import net.minecraft.registry.tag.TagKey
  */
 @Suppress("unused", "HasPlatformType")
 object CobblemonItemTags {
-
+    @JvmField
+    val ANCIENT_POKE_BALLS = create("ancient_poke_balls")
     @JvmField
     val APRICORN_LOGS = create("apricorn_logs")
     @JvmField
-    val APRICORN_SEEDS = create("apricorn_seeds")
+    val APRICORN_SPROUTS = create("apricorn_sprouts")
     @JvmField
     val APRICORNS = create("apricorns")
     /**
@@ -40,6 +41,15 @@ object CobblemonItemTags {
     val BOATS = create("boats")
     @JvmField
     val COBBLEMON_SEEDS = create("cobblemon_seeds")
+    /**
+     * This tag is used for Fossil Machine natural materials
+     */
+    @JvmField
+    val COOKED_MEAT = create("cooked_meat")
+    @JvmField
+    val DAWN_STONE_ORES = create("dawn_stone_ores")
+    @JvmField
+    val DUSK_STONE_ORES = create("dusk_stone_ores")
     @JvmField
     val EVOLUTION_ITEMS = create("evolution_items")
     @JvmField
@@ -47,27 +57,54 @@ object CobblemonItemTags {
     @JvmField
     val EXPERIENCE_CANDIES = create("experience_candies")
     @JvmField
+    val FIRE_STONE_ORES = create("fire_stone_ores")
+    @JvmField
+    val FOSSILS = create("fossils")
+    @JvmField
     val HANGING_SIGNS = create("hanging_signs")
     @JvmField
     val HERBS = create("herbs")
     @JvmField
+    val ICE_STONE_ORES = create("ice_stone_ores")
+    @JvmField
+    val LEAF_STONE_ORES = create("leaf_stone_ores")
+    @JvmField
     val MINT_LEAF = create("mint_leaf")
     @JvmField
+    val MINT_SEEDS = create("mint_seeds")
+    @JvmField
     val MINTS = create("mints")
+    @JvmField
+    val MOON_STONE_ORES = create("moon_stone_ores")
     @JvmField
     val MUTATED_BERRIES = create("mutated_berries")
     @JvmField
     val PLANTS = create("plants")
     @JvmField
-    val POKEBALLS = create("poke_balls")
+    val POKE_BALLS = create("poke_balls")
     @JvmField
     val PROTEIN_INGREDIENTS = create("protein_ingredients")
+    /** See [COOKED_MEAT] */
+    @JvmField
+    val RAW_MEAT = create("raw_meat")
     @JvmField
     val SEEDS = create("seeds")
     @JvmField
+    val SHINY_STONE_ORES = create("shiny_stone_ores")
+    @JvmField
     val SIGNS = create("signs")
     @JvmField
+    val SUN_STONE_ORES = create("sun_stone_ores")
+    @JvmField
+    val THUNDER_STONE_ORES = create("thunder_stone_ores")
+    @JvmField
+    val TUMBLESTONES = create("tumblestones")
+    @JvmField
+    val WATER_STONE_ORES = create("water_stone_ores")
+    @JvmField
     val ZINC_INGREDIENTS = create("zinc_ingredients")
+
+    // Held Item Tags
     @JvmField
     val ANY_HELD_ITEM = create("held/is_held_item")
     @JvmField

@@ -32,7 +32,6 @@ import net.minecraft.block.Block
 import net.minecraft.block.BlockState
 import net.minecraft.block.HorizontalFacingBlock
 import net.minecraft.block.entity.BlockEntityTicker
-import net.minecraft.client.MinecraftClient
 import net.minecraft.entity.EntityPose
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
@@ -100,7 +99,7 @@ class FossilMultiblockStructure (
 
         if (this.createdPokemon != null) {
 
-            if (!stack.isIn(CobblemonItemTags.POKEBALLS) || stack.item !is PokeBallItem) {
+            if (!stack.isIn(CobblemonItemTags.POKE_BALLS) || stack.item !is PokeBallItem) {
                 return ActionResult.PASS
             }
 
@@ -203,6 +202,8 @@ class FossilMultiblockStructure (
 
             return ActionResult.success(world.isClient)
         }
+
+        if (stack.isIn(CobblemonItemTags.FOSSILS)) return ActionResult.SUCCESS
 
         return ActionResult.PASS
     }
