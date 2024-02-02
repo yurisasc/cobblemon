@@ -10,7 +10,9 @@ package com.cobblemon.mod.common.particle
 
 import com.bedrockk.molang.Expression
 import com.bedrockk.molang.ast.NumberExpression
+import com.cobblemon.mod.common.api.molang.ExpressionLike
 import com.cobblemon.mod.common.api.snowstorm.*
+import com.cobblemon.mod.common.util.asExpression
 import com.cobblemon.mod.common.util.asExpression
 import com.cobblemon.mod.common.util.asIdentifierDefaultingNamespace
 import com.google.gson.JsonArray
@@ -259,9 +261,9 @@ object SnowstormParticleReader {
                 stepV = stepUV[1].asString.asExpression(),
                 textureSizeX = uvModeJson.get("texture_width")?.asInt ?: 128,
                 textureSizeY = uvModeJson.get("texture_height")?.asInt ?: 128,
-                maxFrame = flipbook.get("max_frame")?.asString?.asExpression() ?: NumberExpression(0.0),
+                maxFrame = flipbook.get("max_frame")?.asString?.asExpression() ?: 0.0.asExpression(),
                 loop = flipbook.get("loop")?.asBoolean ?: false,
-                fps = flipbook.get("frames_per_second")?.asString?.asExpression() ?: NumberExpression(0.0),
+                fps = flipbook.get("frames_per_second")?.asString?.asExpression() ?: 0.0.asExpression(),
                 stretchToLifetime = flipbook.get("stretch_to_lifetime")?.asBoolean ?: false
             )
         } else {
@@ -308,10 +310,10 @@ object SnowstormParticleReader {
                 NumberExpression(0.1)
             }
             ParticleCollision(
-                enabled = it.get("enabled")?.asString?.asExpression() ?: NumberExpression(if (collides) 1.0 else 0.0),
+                enabled = it.get("enabled")?.asString?.asExpression() ?: (if (collides) 1.0 else 0.0).asExpression(),
                 radius = radius,
-                friction = it.get("collision_drag")?.asString?.asExpression() ?: NumberExpression(10.0),
-                bounciness = it.get("coefficient_of_restitution")?.asString?.asExpression() ?: NumberExpression(0.0),
+                friction = it.get("collision_drag")?.asString?.asExpression() ?: 10.0.asExpression(),
+                bounciness = it.get("coefficient_of_restitution")?.asString?.asExpression() ?: 0.0.asExpression(),
                 expiresOnContact = it.get("expire_on_contact")?.asBoolean ?: false
             )
         } ?: ParticleCollision()

@@ -43,7 +43,10 @@
           {
             "text": "Battle",
             "value": "battle",
-            "action": "q.npc.battle(q.player);"
+            "action": [
+              "q.dialogue.close();",
+              "q.npc.battle(q.player);"
+            ]
           },
           {
             "text": "Trade",

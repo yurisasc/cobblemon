@@ -15,6 +15,7 @@ import com.bedrockk.molang.runtime.MoScope
 import com.bedrockk.molang.runtime.struct.QueryStruct
 import com.bedrockk.molang.runtime.value.DoubleValue
 import com.bedrockk.molang.runtime.value.MoValue
+import com.cobblemon.mod.common.api.molang.ExpressionLike
 import com.cobblemon.mod.common.api.molang.MoLangFunctions.addFunctions
 import com.cobblemon.mod.common.api.molang.MoLangFunctions.getQueryStruct
 import com.cobblemon.mod.common.api.snowstorm.BedrockParticleEffect
@@ -128,10 +129,10 @@ class BedrockSoundKeyframe(
 
 class BedrockInstructionKeyframe(
     seconds: Float,
-    val expressions: List<Expression>
+    val expressions: ExpressionLike
 ): BedrockEffectKeyframe(seconds) {
     override fun <T : Entity> run(entity: T, state: PoseableEntityState<T>) {
-        expressions.forEach { expression -> state.runtime.resolve(expression) }
+        expressions.resolve(state.runtime)
     }
 }
 

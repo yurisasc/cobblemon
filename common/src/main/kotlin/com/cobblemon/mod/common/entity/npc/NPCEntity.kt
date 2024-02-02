@@ -9,26 +9,19 @@
 package com.cobblemon.mod.common.entity.npc
 
 import com.bedrockk.molang.runtime.MoLangRuntime
-import com.bedrockk.molang.runtime.struct.QueryStruct
 import com.bedrockk.molang.runtime.struct.VariableStruct
-import com.bedrockk.molang.runtime.value.DoubleValue
-import com.bedrockk.molang.runtime.value.MoValue
-import com.bedrockk.molang.runtime.value.StringValue
-import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.CobblemonEntities
 import com.cobblemon.mod.common.CobblemonMemories
 import com.cobblemon.mod.common.CobblemonSensors
 import com.cobblemon.mod.common.GenericsCheatClass.createNPCBrain
-import com.cobblemon.mod.common.api.dialogue.ActiveDialogue
-import com.cobblemon.mod.common.api.dialogue.DialogueManager
-import com.cobblemon.mod.common.api.dialogue.Dialogues
-import com.cobblemon.mod.common.api.dialogue.ReferenceDialogueFaceProvider
 import com.cobblemon.mod.common.api.entity.PokemonSender
+import com.cobblemon.mod.common.api.molang.ExpressionLike
 import com.cobblemon.mod.common.api.molang.MoLangFunctions
 import com.cobblemon.mod.common.api.molang.MoLangFunctions.addFunctions
+import com.cobblemon.mod.common.api.molang.MoLangFunctions.asMoLangValue
 import com.cobblemon.mod.common.api.molang.MoLangFunctions.getQueryStruct
 import com.cobblemon.mod.common.api.molang.MoLangFunctions.setup
-import com.cobblemon.mod.common.api.molang.ObjectValue
+import com.cobblemon.mod.common.api.molang.runScript
 import com.cobblemon.mod.common.api.net.serializers.IdentifierDataSerializer
 import com.cobblemon.mod.common.api.net.serializers.PoseTypeDataSerializer
 import com.cobblemon.mod.common.api.net.serializers.StringSetDataSerializer
@@ -39,34 +32,25 @@ import com.cobblemon.mod.common.api.npc.configuration.NPCBehaviourConfiguration
 import com.cobblemon.mod.common.api.npc.configuration.NPCInteractConfiguration
 import com.cobblemon.mod.common.api.scheduling.Schedulable
 import com.cobblemon.mod.common.api.scheduling.SchedulingTracker
-import com.cobblemon.mod.common.api.storage.molang.MoLangDataStoreFactory
-import com.cobblemon.mod.common.battles.BattleBuilder
-import com.cobblemon.mod.common.battles.BattleRegistry
-import com.cobblemon.mod.common.battles.BattleStartResult
-import com.cobblemon.mod.common.battles.SuccessfulBattleStart
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.Poseable
 import com.cobblemon.mod.common.entity.ai.FollowPathTask
 import com.cobblemon.mod.common.entity.npc.ai.ChooseWanderTargetTask
 import com.cobblemon.mod.common.entity.npc.ai.LookAtBattlingPokemonTask
 import com.cobblemon.mod.common.entity.npc.ai.MoveToTargetTask
-import com.cobblemon.mod.common.entity.npc.ai.StayPutInBattleGoal
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.net.messages.client.animation.PlayPoseableAnimationPacket
 import com.cobblemon.mod.common.util.DataKeys
-import com.cobblemon.mod.common.util.asExpression
 import com.cobblemon.mod.common.util.asExpressionLike
-import com.cobblemon.mod.common.util.asIdentifierDefaultingNamespace
-import com.cobblemon.mod.common.util.resolve
+import com.cobblemon.mod.common.util.withNPCValue
+import com.cobblemon.mod.common.util.withPlayerValue
 import com.google.common.collect.ImmutableList
+import com.mojang.datafixers.util.Either
 import com.mojang.datafixers.util.Pair
 import com.mojang.serialization.Dynamic
 import java.util.UUID
 import java.util.concurrent.CompletableFuture
-import java.util.function.Predicate
-import net.minecraft.entity.EntityDimensions
 import net.minecraft.entity.EntityPose
-import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.Npc
 import net.minecraft.entity.ai.brain.Activity
 import net.minecraft.entity.ai.brain.Brain
@@ -75,10 +59,6 @@ import net.minecraft.entity.ai.brain.sensor.Sensor
 import net.minecraft.entity.ai.brain.sensor.SensorType
 import net.minecraft.entity.ai.brain.task.LookAroundTask
 import net.minecraft.entity.ai.brain.task.LookAtMobTask
-import net.minecraft.entity.ai.brain.task.WanderAroundTask
-import net.minecraft.entity.ai.goal.LookAroundGoal
-import net.minecraft.entity.ai.goal.LookAtEntityGoal
-import net.minecraft.entity.ai.goal.WanderAroundGoal
 import net.minecraft.entity.attribute.DefaultAttributeContainer
 import net.minecraft.entity.data.DataTracker
 import net.minecraft.entity.data.TrackedData
@@ -97,16 +77,9 @@ import net.minecraft.world.World
 class NPCEntity(world: World) : PassiveEntity(CobblemonEntities.NPC, world), Npc, Poseable, PokemonSender, Schedulable {
     override val schedulingTracker = SchedulingTracker()
 
-    val runtime = MoLangRuntime().setup().also {
-        it.environment.getQueryStruct()
-            .addFunction("npc") { struct }
-    }
+    override val struct = this.asMoLangValue()
 
-    override val struct: QueryStruct = QueryStruct(hashMapOf())
-        .addFunction("class") { StringValue(npc.resourceIdentifier.toString()) }
-        .addFunction("face") { ObjectValue(ReferenceDialogueFaceProvider(id)) }
-        .addFunction("name") { StringValue(name.string) }
-        .addFunction("in_battle") { DoubleValue(isInBattle()) }
+    val runtime = MoLangRuntime().setup().withNPCValue(value = this)
 
     var npc = NPCClasses.random()
         set(value) {
@@ -121,9 +94,12 @@ class NPCEntity(world: World) : PassiveEntity(CobblemonEntities.NPC, world), Npc
         NPCServerDelegate()
     }
 
+
     var battle: NPCBattleConfiguration? = null
     var interact: NPCInteractConfiguration? = null
     var behaviour: NPCBehaviourConfiguration? = null
+
+    var interaction: Either<Identifier, ExpressionLike>? = null
 
     var data = VariableStruct()
 
@@ -250,6 +226,9 @@ class NPCEntity(world: World) : PassiveEntity(CobblemonEntities.NPC, world), Npc
         nbt.put(DataKeys.NPC_DATA, MoLangFunctions.writeMoValueToNBT(data))
         nbt.putString(DataKeys.NPC_CLASS, npc.resourceIdentifier.toString())
         nbt.put(DataKeys.NPC_ASPECTS, NbtList().also { list -> appliedAspects.forEach { list.add(NbtString.of(it)) } })
+        interaction?.let {
+            nbt.putString(DataKeys.NPC_INTERACTION, it.map(Identifier::toString, ExpressionLike::toString))
+        }
         val battle = battle
         if (battle != null) {
             val battleNBT = NbtCompound()
@@ -264,6 +243,13 @@ class NPCEntity(world: World) : PassiveEntity(CobblemonEntities.NPC, world), Npc
         npc = NPCClasses.getByIdentifier(Identifier(nbt.getString(DataKeys.NPC_CLASS))) ?: NPCClasses.classes.first()
         data = MoLangFunctions.readMoValueFromNBT(nbt.getCompound(DataKeys.NPC_DATA)) as VariableStruct
         appliedAspects.addAll(nbt.getList(DataKeys.NPC_ASPECTS, NbtList.STRING_TYPE.toInt()).map { it.asString() })
+        nbt.getString(DataKeys.NPC_INTERACTION).takeIf { it.isNotBlank() }?.let {
+            if (Identifier.isValid(it)) {
+                interaction = Either.left(Identifier(it))
+            } else {
+                interaction = Either.right(it.asExpressionLike())
+            }
+        }
         val battleNBT = nbt.getCompound(DataKeys.NPC_BATTLE_CONFIGURATION)
         if (!battleNBT.isEmpty) {
             battle = NPCBattleConfiguration().also { it.loadFromNBT(battleNBT) }
@@ -274,10 +260,9 @@ class NPCEntity(world: World) : PassiveEntity(CobblemonEntities.NPC, world), Npc
     override fun getDimensions(pose: EntityPose) = npc.hitbox
 
     override fun interactMob(player: PlayerEntity, hand: Hand): ActionResult {
-        if (player is ServerPlayerEntity) {
-            runtime.environment.getQueryStruct().addFunction("player") { ObjectValue(player) }
-            val expr = "q.npc.run_dialogue(q.player, 'cobblemon:npc-example');".asExpression()
-            runtime.resolve(expr)
+        if (player is ServerPlayerEntity && hand == Hand.MAIN_HAND) {
+            (interaction ?: npc.interaction)?.runScript(runtime.withPlayerValue(value = player))
+            runtime.environment.getQueryStruct().functions.remove("player")
 //            val battle = getBattleConfiguration()
 //            if (battle.canChallenge) {
 //                val provider = battle.party
@@ -290,7 +275,7 @@ class NPCEntity(world: World) : PassiveEntity(CobblemonEntities.NPC, world), Npc
 //                }
 //            }
         }
-        return super.interactMob(player, hand)
+        return ActionResult.SUCCESS
     }
 
     fun playAnimation(vararg animation: String) {

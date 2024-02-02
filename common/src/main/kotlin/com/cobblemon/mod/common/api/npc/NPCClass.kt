@@ -11,10 +11,12 @@ package com.cobblemon.mod.common.api.npc
 import com.bedrockk.molang.runtime.value.DoubleValue
 import com.bedrockk.molang.runtime.value.MoValue
 import com.bedrockk.molang.runtime.value.StringValue
+import com.cobblemon.mod.common.api.molang.ExpressionLike
 import com.cobblemon.mod.common.api.npc.configuration.NPCBattleConfiguration
 import com.cobblemon.mod.common.net.IntSize
 import com.cobblemon.mod.common.util.readMapK
 import com.cobblemon.mod.common.util.writeMapK
+import com.mojang.datafixers.util.Either
 import net.minecraft.entity.EntityDimensions
 import net.minecraft.network.PacketByteBuf
 import net.minecraft.util.Identifier
@@ -32,6 +34,7 @@ class NPCClass {
 
     var hitbox = EntityDimensions(0.6F, 1.8F, false)
     var battleConfiguration = NPCBattleConfiguration()
+    val interaction: Either<Identifier, ExpressionLike>? = null
     var variables = mutableMapOf<String, MoValue>()
 
     fun encode(buffer: PacketByteBuf) {

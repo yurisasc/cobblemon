@@ -10,6 +10,7 @@ package com.cobblemon.mod.common.api.molang
 
 import com.bedrockk.molang.Expression
 import com.bedrockk.molang.runtime.MoLangRuntime
+import com.cobblemon.mod.common.util.getString
 import com.cobblemon.mod.common.util.resolve
 
 /**
@@ -20,5 +21,6 @@ import com.cobblemon.mod.common.util.resolve
  * @since October 22nd, 2023
  */
 class SingleExpression(val expr: Expression) : ExpressionLike {
+    override fun toString() = expr.getString()
     override fun resolve(runtime: MoLangRuntime) = runtime.resolve(expr)
 }

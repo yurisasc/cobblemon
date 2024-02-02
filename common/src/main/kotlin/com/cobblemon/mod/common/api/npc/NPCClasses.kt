@@ -16,6 +16,7 @@ import com.cobblemon.mod.common.api.data.JsonDataRegistry
 import com.cobblemon.mod.common.api.drop.DropEntry
 import com.cobblemon.mod.common.api.drop.ItemDropMethod
 import com.cobblemon.mod.common.api.entity.EntityDimensionsAdapter
+import com.cobblemon.mod.common.api.molang.ExpressionLike
 import com.cobblemon.mod.common.api.pokemon.PokemonProperties
 import com.cobblemon.mod.common.api.reactive.SimpleObservable
 import com.cobblemon.mod.common.api.spawning.TimeRange
@@ -26,6 +27,7 @@ import com.cobblemon.mod.common.util.cobblemonResource
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
+import com.mojang.datafixers.util.Either
 import net.minecraft.block.Block
 import net.minecraft.entity.EntityDimensions
 import net.minecraft.item.Item
@@ -57,6 +59,7 @@ object NPCClasses : JsonDataRegistry<NPCClass> {
         .registerTypeAdapter(TypeToken.getParameterized(RegistryLikeCondition::class.java, Biome::class.java).type, BiomeLikeConditionAdapter)
         .registerTypeAdapter(TypeToken.getParameterized(RegistryLikeCondition::class.java, Block::class.java).type, BlockLikeConditionAdapter)
         .registerTypeAdapter(TypeToken.getParameterized(RegistryLikeCondition::class.java, Item::class.java).type, ItemLikeConditionAdapter)
+        .registerTypeAdapter(TypeToken.getParameterized(Either::class.java, Identifier::class.java, ExpressionLike::class.java).type, NPCScriptAdapter)
         .disableHtmlEscaping()
         .enableComplexMapKeySerialization()
         .create()

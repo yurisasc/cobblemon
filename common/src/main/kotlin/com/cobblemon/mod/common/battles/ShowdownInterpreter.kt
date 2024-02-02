@@ -501,6 +501,9 @@ object ShowdownInterpreter {
 
             battle.broadcastChatMessage(battleLang("win", winnersText).gold())
 
+            battle.winners = winners
+            battle.losers = losers
+
             battle.end()
 
             val wasCaught = battle.showdownMessages.any { "capture" in it }

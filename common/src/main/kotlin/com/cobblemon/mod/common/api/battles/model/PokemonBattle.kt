@@ -23,6 +23,7 @@ import com.cobblemon.mod.common.api.battles.model.actor.FleeableBattleActor
 import com.cobblemon.mod.common.api.events.CobblemonEvents
 import com.cobblemon.mod.common.api.events.battles.BattleFledEvent
 import com.cobblemon.mod.common.api.molang.MoLangFunctions.addFunction
+import com.cobblemon.mod.common.api.molang.MoLangFunctions.asMoLangValue
 import com.cobblemon.mod.common.api.molang.MoLangFunctions.getQueryStruct
 import com.cobblemon.mod.common.api.net.NetworkPacket
 import com.cobblemon.mod.common.api.tags.CobblemonItemTags
@@ -72,6 +73,9 @@ open class PokemonBattle(
 ) {
     /** Whether logging will be silenced for this battle. */
     var mute = true
+    val struct = this.asMoLangValue()
+
+    val onEndHandlers: MutableList<(PokemonBattle) -> Unit> = mutableListOf()
 
     init {
         side1.battle = this
@@ -103,6 +107,8 @@ open class PokemonBattle(
     val battleLog = mutableListOf<String>()
     val chatLog = mutableListOf<Text>()
     var started = false
+    var winners = listOf<BattleActor>()
+    var losers = listOf<BattleActor>()
     var ended = false
     // TEMP battle showcase stuff
     var announcingRules = false
@@ -262,6 +268,7 @@ open class PokemonBattle(
         }
         sendUpdate(BattleEndPacket())
         BattleRegistry.closeBattle(this)
+        onEndHandlers.forEach { it(this) }
     }
 
     fun finishCaptureAction(captureAction: BattleCaptureAction) {

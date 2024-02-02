@@ -27,6 +27,7 @@ import com.cobblemon.mod.common.api.pokemon.PokemonSpecies
 import com.cobblemon.mod.common.api.pokemon.feature.GlobalSpeciesFeatures
 import com.cobblemon.mod.common.api.pokemon.feature.SpeciesFeatureAssignments
 import com.cobblemon.mod.common.api.pokemon.feature.SpeciesFeatures
+import com.cobblemon.mod.common.api.scripting.CobblemonScripts
 import com.cobblemon.mod.common.api.spawning.CobblemonSpawnPools
 import com.cobblemon.mod.common.api.spawning.CobblemonSpawnRules
 import com.cobblemon.mod.common.api.spawning.SpawnDetailPresets
@@ -56,6 +57,7 @@ object CobblemonDataProvider : DataProvider {
     private val scheduledActions = mutableMapOf<UUID, MutableList<() -> Unit>>()
 
     fun registerDefaults() {
+        this.register(CobblemonScripts)
         this.register(SpeciesFeatures)
         this.register(GlobalSpeciesFeatures)
         this.register(SpeciesFeatureAssignments)
