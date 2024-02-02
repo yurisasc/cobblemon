@@ -8,6 +8,8 @@
 
 package com.cobblemon.mod.common.pokemon
 
+import com.bedrockk.molang.runtime.struct.QueryStruct
+import com.bedrockk.molang.runtime.value.StringValue
 import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.CobblemonSounds
 import com.cobblemon.mod.common.api.abilities.AbilityPool
@@ -133,6 +135,10 @@ class Species : ClientDataSynchronizer<Species>, ShowdownIdentifiable {
 
     var lightingData: LightingData? = null
         private set
+
+    @Transient
+    val struct = QueryStruct(hashMapOf())
+        .addFunction("name") { StringValue(this.resourceIdentifier.toString()) }
 
     fun initialize() {
         Cobblemon.statProvider.provide(this)

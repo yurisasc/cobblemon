@@ -8,6 +8,7 @@
 
 package com.cobblemon.mod.common.pokemon
 
+import com.bedrockk.molang.runtime.struct.QueryStruct
 import com.bedrockk.molang.runtime.struct.VariableStruct
 import com.bedrockk.molang.runtime.value.DoubleValue
 import com.cobblemon.mod.common.Cobblemon
@@ -1457,6 +1458,34 @@ open class Pokemon : ShowdownIdentifiable {
     fun getAllObservables() = observables.asIterable()
     /** Returns an [Observable] that emits Unit whenever any change is made to this Pokémon. The change itself is not included. */
     fun getChangeObservable(): Observable<Pokemon> = anyChangeObservable
+
+    val struct = QueryStruct(hashMapOf())
+        .addFunction("species") { species.struct }
+        .addFunction("level") { DoubleValue(level.toDouble()) }
+        .addFunction("max_hp") { DoubleValue(hp.toDouble()) }
+        .addFunction("current_hp") { DoubleValue(currentHealth.toDouble()) }
+        .addFunction("friendship") { DoubleValue(friendship.toDouble()) }
+        .addFunction("shiny") { DoubleValue(shiny) }
+        .addFunction("set_hp") { params ->
+            val value = params.params[0].asDouble()
+            if (value < 0) {
+                currentHealth = 0
+            } else if (value > hp) {
+                currentHealth = hp
+            } else {
+                currentHealth = value.toInt()
+            }
+            DoubleValue(currentHealth.toDouble())
+        }
+        .addFunction("set_shiny") { params ->
+            val value = params.params[0].asDouble() == 1.0
+            shiny = value
+            DoubleValue(if (shiny) 1.0 else 0.0)
+        }
+//        .addFunction("ev") { evs.struct }
+//        .addFunction("iv") { ivs.struct }
+
+
 
     fun writeVariables(struct: VariableStruct) {
         struct.setDirectly("level", DoubleValue(level.toDouble()))

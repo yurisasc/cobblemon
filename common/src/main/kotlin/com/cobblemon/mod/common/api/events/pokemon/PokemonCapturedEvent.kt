@@ -23,6 +23,7 @@ data class PokemonCapturedEvent (
     val pokeBallEntity: EmptyPokeBallEntity
 ) {
     val struct = QueryStruct(hashMapOf())
+        .addFunction("pokemon") { pokemon.struct }
         .addFunction("player") { player.asMoLangValue() }
         .addFunction("poke_ball") { pokeBallEntity.struct }
         .addFunction("item") { player.world.itemRegistry.getEntry(pokeBallEntity.pokeBall.item).asMoLangValue(RegistryKeys.ITEM) }

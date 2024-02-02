@@ -39,7 +39,7 @@ val genericRuntime = MoLangRuntime().setup()
 fun MoLangRuntime.resolve(expression: Expression): MoValue = try {
     expression.evaluate(MoScope(), environment)
 } catch (e: Exception) {
-    throw IllegalArgumentException("Unable to parse expression: ${expression.getString()}", e)
+    throw IllegalArgumentException("Unable to evaluate expression: ${expression.getString()}", e)
 }
 fun MoLangRuntime.resolveDouble(expression: Expression): Double = resolve(expression).asDouble()
 fun MoLangRuntime.resolveFloat(expression: Expression): Float = resolve(expression).asDouble().toFloat()

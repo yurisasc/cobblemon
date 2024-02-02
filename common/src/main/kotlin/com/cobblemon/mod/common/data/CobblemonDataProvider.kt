@@ -10,6 +10,7 @@ package com.cobblemon.mod.common.data
 
 import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.Cobblemon.LOGGER
+import com.cobblemon.mod.common.CobblemonFlows
 import com.cobblemon.mod.common.CobblemonMechanics
 import com.cobblemon.mod.common.api.abilities.Abilities
 import com.cobblemon.mod.common.api.berry.Berries
@@ -76,6 +77,7 @@ object CobblemonDataProvider : DataProvider {
         this.register(NaturalMaterials)
         this.register(Fossils)
         this.register(NPCClasses)
+        this.register(CobblemonFlows)
 
         CobblemonSpawnPools.load()
         this.register(Berries)
