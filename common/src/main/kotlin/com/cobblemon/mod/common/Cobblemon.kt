@@ -152,53 +152,7 @@ object Cobblemon {
     val showdownThread = ShowdownThread()
     lateinit var config: CobblemonConfig
     var prospector: SpawningProspector = CobblemonSpawningProspector
-    var areaContextResolver: AreaContextResolver = object : AreaContextResolver {
-        override fun resolveFishing(
-                spawner: Spawner,
-                contextCalculators: List<AreaSpawningContextCalculator<*>>,
-                slice: WorldSlice
-        ): List<AreaSpawningContext> {
-            var pos = BlockPos.Mutable(1, 2, 3)
-            val input = AreaSpawningInput(spawner, pos, slice)
-            val contexts = mutableListOf<AreaSpawningContext>()
-
-            var x = slice.baseX
-            var y = slice.baseY
-            var z = slice.baseZ
-
-            while (x < slice.baseX + slice.length) {
-                while (y < slice.baseY + slice.height) {
-                    while (z < slice.baseZ + slice.width) {
-                        pos.set(x, y, z)
-                        val vec = pos.toVec3d()
-
-                        val fittedContextCalculator = contextCalculators
-                                .firstOrNull { calc -> calc.fits(input) && input.spawner.influences.none { !it.isAllowedPosition(input.world, input.position, calc) } }
-                        if (fittedContextCalculator != null) {
-                            val context = fittedContextCalculator.calculate(input)
-                            if (context != null) {
-                                contexts.add(context)
-                                // The position BlockPos has been used in a context, editing the same one
-                                // will cause entities to spawn at the wrong location (buried in walls, usually)
-                                // I made it so that our context calculators specifically take a copy of the
-                                // BlockPos but it'd still be exposed in custom contexts so fixing it here too.
-                                pos = BlockPos.Mutable(1, 2, 3)
-                                input.position = pos
-                            }
-                        }
-                        z++
-                    }
-                    y++
-                    z = slice.baseZ
-                }
-                x++
-                y = slice.baseY
-                z = slice.baseZ
-            }
-
-            return contexts
-        }
-    }
+    var areaContextResolver: AreaContextResolver = object : AreaContextResolver {}
     val bestSpawner = BestSpawner
     val battleRegistry = BattleRegistry
     var storage = PokemonStoreManager()

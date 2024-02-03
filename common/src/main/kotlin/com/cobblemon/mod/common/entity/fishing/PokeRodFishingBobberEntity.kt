@@ -1,3 +1,11 @@
+/*
+ * Copyright (C) 2023 Cobblemon Contributors
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/.
+ */
+
 package com.cobblemon.mod.common.entity.fishing
 
 import com.cobblemon.mod.common.Cobblemon
@@ -9,6 +17,7 @@ import com.cobblemon.mod.common.api.spawning.detail.EntitySpawnResult
 import com.cobblemon.mod.common.api.spawning.detail.PokemonSpawnAction
 import com.cobblemon.mod.common.api.spawning.detail.SingleEntitySpawnAction
 import com.cobblemon.mod.common.api.spawning.detail.SpawnPool
+import com.cobblemon.mod.common.api.spawning.fishing.FishingSpawnCause
 import com.cobblemon.mod.common.api.spawning.influence.PlayerLevelRangeInfluence
 import com.cobblemon.mod.common.api.spawning.influence.SpawningInfluence
 import com.cobblemon.mod.common.api.spawning.rules.SpawnRule
@@ -27,6 +36,7 @@ import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.util.commandLang
 import com.cobblemon.mod.common.util.isServerSide
 import com.cobblemon.mod.common.util.party
+import com.cobblemon.mod.common.util.toBlockPos
 import com.mongodb.internal.connection.Server
 import net.minecraft.advancement.criterion.Criteria
 import net.minecraft.block.Blocks
@@ -626,67 +636,46 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
         var hookedEntityID: Int? = null
         var hookedEntity: Entity? = null
 
-        val spawner = CobblemonWorldSpawnerManager.spawnersForPlayers.getValue(player.uuid)
+
+        val spawner = BestSpawner.fishingSpawner
         // stealing a ton of stuff from the SpawnFromPool Command
 
         //val spawnCause = SpawnCause(spawner = spawner, bucket = spawner.chooseBucket(), entity = spawner.getCauseEntity())
-        val spawnCause = SpawnCause(spawner = spawner, bucket = Cobblemon.bestSpawner.config.buckets[rarityBucket], entity = spawner.getCauseEntity())
+        val spawnCause = FishingSpawnCause(
+            spawner = spawner,
+            bucket = Cobblemon.bestSpawner.config.buckets[rarityBucket],
+            entity = player,
+            rodStack = ItemStack(CobblemonItems.POKEROD) // Crab, you should probably parse in the rod item connected to the bobber so we can check enchants in spawn conditions
+        )
 
-        // try to set the area of the new Fishing Spawner equal to that of the PokeBobber area
-        val area = SpawningArea(
-                cause = spawnCause,
-                world = player.world as ServerWorld,
-                baseX = this.pos.x.toInt(),
-                baseY = this.pos.y.toInt(),
-                baseZ = this.pos.z.toInt(),
-                length = 3,
-                height = 3,
-                width = 3
-        ) //spawner.getArea(spawnCause) ?: return 0 // todo this needs to be addressed later
+        val result = spawner.run(spawnCause, world as ServerWorld, pos.toBlockPos())
 
-        val slice = spawner.prospector.prospect(spawner, area)
-        val resolver = spawner.resolver
-        val contexts = (resolver as AreaContextResolver).resolveFishing(spawner, spawner.contextCalculators/*.filter { it.name == "submerged" || it.name == "seafloor" }*/, slice)
-
-        // This has a chance to fail, if you get a "slice" that has no associated contexts.
-        //   but as it was selected at random by the Prospector, it could just be a miss which
+        if (result == null) {
+        // This has a chance to fail, if the position has no suitability for a fishing context
+        //  it could also just be a miss which
         //   means two attempts to spawn in the same location can have differing results (which is expected for
         //   randomness).
-        if (contexts.isEmpty()) {
             player.sendMessage("Not even a nibble".red())
         }
 
-        val result = spawner.getSpawningSelector().select(spawner, contexts)
-        if (result == null) {
-            player.sendMessage("This is a stupid test".red())
+        var spawnedPokemon: PokemonEntity? = null
+        val resultingSpawn = result?.get()
+
+        if (resultingSpawn is EntitySpawnResult) {
+            for (entity in resultingSpawn.entities) {
+                player.sendMessage(commandLang("spawnpokemonfrompool.success", entity.displayName).green())
+                //pokemon.uuid = it.uuid
+                hookedEntityID = entity.id
+                spawnedPokemon = (entity as PokemonEntity)
+            }
         }
 
-        val spawnAction = result?.second?.doSpawn(ctx = result.first)
+        // What if it isn't an entity though
+        hookedEntity = world.getEntityById(hookedEntityID!!)
 
-        var spawnedPokemon: PokemonEntity? = null
-
-        if (spawnAction != null) {
-            spawnAction.future.thenApply {
-                if (it is EntitySpawnResult) {
-                    for (entity in it.entities) {
-                        player.sendMessage(commandLang("spawnpokemonfrompool.success", entity.displayName).green())
-                        //pokemon.uuid = it.uuid
-                        hookedEntityID = entity.id
-                        spawnedPokemon = (entity as PokemonEntity)
-                    }
-                }
-            }
-
-            // do the spawn
-            spawnAction.complete()
-
-            //spawner.performSpawn(spawnAction)
-
-            hookedEntity = world.getEntityById(hookedEntityID!!)
-
-            //val spawnedPokemon = spawnAction.entity
-            if (spawnedPokemon != null)
-                BattleBuilder.pve((player as ServerPlayerEntity), spawnedPokemon!!).ifErrored { it.sendTo(player) { it.red() } }
+        //val spawnedPokemon = spawnAction.entity
+        if (spawnedPokemon != null) {
+            BattleBuilder.pve((player as ServerPlayerEntity), spawnedPokemon).ifErrored { it.sendTo(player) { it.red() } }
         }
     }
 
