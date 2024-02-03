@@ -203,6 +203,7 @@ class FossilMultiblockStructure (
             return ActionResult.success(world.isClient)
         }
 
+        // pure client instances dont know what a valid fossil is so this is my janky workaround
         if (stack.isIn(CobblemonItemTags.FOSSILS)) return ActionResult.SUCCESS
 
         return ActionResult.PASS
