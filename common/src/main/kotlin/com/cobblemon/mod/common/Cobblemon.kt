@@ -45,8 +45,13 @@ import com.cobblemon.mod.common.api.scheduling.ServerRealTimeTaskTracker
 import com.cobblemon.mod.common.api.scheduling.ServerTaskTracker
 import com.cobblemon.mod.common.api.spawning.BestSpawner
 import com.cobblemon.mod.common.api.spawning.CobblemonSpawningProspector
+import com.cobblemon.mod.common.api.spawning.WorldSlice
 import com.cobblemon.mod.common.api.spawning.context.AreaContextResolver
+import com.cobblemon.mod.common.api.spawning.context.AreaSpawningContext
+import com.cobblemon.mod.common.api.spawning.context.calculators.AreaSpawningContextCalculator
+import com.cobblemon.mod.common.api.spawning.context.calculators.AreaSpawningInput
 import com.cobblemon.mod.common.api.spawning.prospecting.SpawningProspector
+import com.cobblemon.mod.common.api.spawning.spawner.Spawner
 import com.cobblemon.mod.common.api.starter.StarterHandler
 import com.cobblemon.mod.common.api.storage.PokemonStoreManager
 import com.cobblemon.mod.common.api.storage.adapter.conversions.ReforgedConversion
@@ -99,13 +104,7 @@ import com.cobblemon.mod.common.pokemon.properties.tags.PokemonFlagProperty
 import com.cobblemon.mod.common.pokemon.stat.CobblemonStatProvider
 import com.cobblemon.mod.common.starter.CobblemonStarterHandler
 import com.cobblemon.mod.common.trade.TradeManager
-import com.cobblemon.mod.common.util.DataKeys
-import com.cobblemon.mod.common.util.cobblemonResource
-import com.cobblemon.mod.common.util.ifDedicatedServer
-import com.cobblemon.mod.common.util.isLaterVersion
-import com.cobblemon.mod.common.util.party
-import com.cobblemon.mod.common.util.removeAmountIf
-import com.cobblemon.mod.common.util.server
+import com.cobblemon.mod.common.util.*
 import com.cobblemon.mod.common.world.feature.CobblemonPlacedFeatures
 import com.cobblemon.mod.common.world.feature.ore.CobblemonOrePlacedFeatures
 import com.cobblemon.mod.common.world.gamerules.CobblemonGameRules
@@ -129,6 +128,7 @@ import net.minecraft.item.Items
 import net.minecraft.item.NameTagItem
 import net.minecraft.registry.RegistryKey
 import net.minecraft.util.WorldSavePath
+import net.minecraft.util.math.BlockPos
 import net.minecraft.world.World
 import org.apache.logging.log4j.LogManager
 
@@ -152,7 +152,53 @@ object Cobblemon {
     val showdownThread = ShowdownThread()
     lateinit var config: CobblemonConfig
     var prospector: SpawningProspector = CobblemonSpawningProspector
-    var areaContextResolver: AreaContextResolver = object : AreaContextResolver {}
+    var areaContextResolver: AreaContextResolver = object : AreaContextResolver {
+        override fun resolveFishing(
+                spawner: Spawner,
+                contextCalculators: List<AreaSpawningContextCalculator<*>>,
+                slice: WorldSlice
+        ): List<AreaSpawningContext> {
+            var pos = BlockPos.Mutable(1, 2, 3)
+            val input = AreaSpawningInput(spawner, pos, slice)
+            val contexts = mutableListOf<AreaSpawningContext>()
+
+            var x = slice.baseX
+            var y = slice.baseY
+            var z = slice.baseZ
+
+            while (x < slice.baseX + slice.length) {
+                while (y < slice.baseY + slice.height) {
+                    while (z < slice.baseZ + slice.width) {
+                        pos.set(x, y, z)
+                        val vec = pos.toVec3d()
+
+                        val fittedContextCalculator = contextCalculators
+                                .firstOrNull { calc -> calc.fits(input) && input.spawner.influences.none { !it.isAllowedPosition(input.world, input.position, calc) } }
+                        if (fittedContextCalculator != null) {
+                            val context = fittedContextCalculator.calculate(input)
+                            if (context != null) {
+                                contexts.add(context)
+                                // The position BlockPos has been used in a context, editing the same one
+                                // will cause entities to spawn at the wrong location (buried in walls, usually)
+                                // I made it so that our context calculators specifically take a copy of the
+                                // BlockPos but it'd still be exposed in custom contexts so fixing it here too.
+                                pos = BlockPos.Mutable(1, 2, 3)
+                                input.position = pos
+                            }
+                        }
+                        z++
+                    }
+                    y++
+                    z = slice.baseZ
+                }
+                x++
+                y = slice.baseY
+                z = slice.baseZ
+            }
+
+            return contexts
+        }
+    }
     val bestSpawner = BestSpawner
     val battleRegistry = BattleRegistry
     var storage = PokemonStoreManager()
