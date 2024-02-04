@@ -11,6 +11,7 @@ package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen4
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
+import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.PoseType.Companion.MOVING_POSES
 import com.cobblemon.mod.common.entity.PoseType.Companion.STATIONARY_POSES
 import com.cobblemon.mod.common.entity.PoseType.Companion.UI_POSES
@@ -30,11 +31,26 @@ class HappinyModel(root: ModelPart) : PokemonPoseableModel(), BipedFrame {
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
+    lateinit var sleep: PokemonPose
+    lateinit var battle_idle: PokemonPose
 
     override fun registerPoses() {
+        val blink = quirk("blink") { bedrockStateful("happiny", "blink").setPreventsIdle(false) }
+        val hairQuirk = quirk("hair_quirk") { bedrockStateful("happiny", "hairshake_quirk").setPreventsIdle(false) }
+        val happy = quirk("happy") { bedrockStateful("happiny", "happy_quirk").setPreventsIdle(false) }
+
+        sleep = registerPose(
+            poseName = "sleep",
+            poseType = PoseType.SLEEP,
+            idleAnimations = arrayOf(bedrock("happiny", "sleep"))
+        )
+
         standing = registerPose(
             poseName = "standing",
             poseTypes = STATIONARY_POSES + UI_POSES,
+            condition = { !it.isBattling },
+            quirks = arrayOf(blink, hairQuirk, happy),
+            transformTicks = 10,
             idleAnimations = arrayOf(
                 bedrock("happiny", "ground_idle")
             )
@@ -43,9 +59,21 @@ class HappinyModel(root: ModelPart) : PokemonPoseableModel(), BipedFrame {
         walk = registerPose(
             poseName = "walk",
             poseTypes = MOVING_POSES,
+            quirks = arrayOf(blink),
+            transformTicks = 10,
             idleAnimations = arrayOf(
-                bedrock("happiny", "ground_idle")
-                //bedrock("happiny", "ground_walk")
+                bedrock("happiny", "ground_walk")
+            )
+        )
+
+        battle_idle = registerPose(
+            poseName = "battle_idle",
+            poseTypes = PoseType.STATIONARY_POSES,
+            quirks = arrayOf(blink, hairQuirk, happy),
+            transformTicks = 10,
+            condition = { it.isBattling },
+            idleAnimations = arrayOf(
+                bedrock("happiny", "battle_idle")
             )
         )
     }

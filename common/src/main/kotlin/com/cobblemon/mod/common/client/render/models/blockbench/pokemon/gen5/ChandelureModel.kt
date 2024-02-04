@@ -27,25 +27,65 @@ class ChandelureModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
+    lateinit var hover: PokemonPose
+    lateinit var flying: PokemonPose
+    lateinit var battle_idle: PokemonPose
+    lateinit var sleep: PokemonPose
 
     override fun registerPoses() {
-//        val blink = quirk("blink") { bedrockStateful("chandelure", "blink").setPreventsIdle(false) }
+        val blink = quirk("blink") { bedrockStateful("chandelure", "blink").setPreventsIdle(false) }
+        sleep = registerPose(
+            poseName = "sleep",
+            poseType = PoseType.SLEEP,
+            idleAnimations = arrayOf(
+                bedrock("chandelure", "sleep")
+            )
+        )
 
         standing = registerPose(
             poseName = "standing",
-            poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
-//            quirks = arrayOf(blink),
+            poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES - PoseType.HOVER,
+            quirks = arrayOf(blink),
+            condition = { !it.isBattling },
             idleAnimations = arrayOf(
-                bedrock("chandelure", "idle")
+                bedrock("chandelure", "ground_idle")
             )
         )
 
         walk = registerPose(
             poseName = "walk",
-            poseTypes = PoseType.MOVING_POSES,
-//            quirks = arrayOf(blink),
+            poseTypes = PoseType.MOVING_POSES - PoseType.FLY,
+            quirks = arrayOf(blink),
             idleAnimations = arrayOf(
-                bedrock("chandelure", "idle")
+                bedrock("chandelure", "ground_walk")
+            )
+        )
+
+        hover = registerPose(
+            poseName = "hover",
+            poseType = PoseType.HOVER,
+            quirks = arrayOf(blink),
+            idleAnimations = arrayOf(
+                bedrock("chandelure", "air_idle")
+            )
+        )
+
+        flying = registerPose(
+            poseName = "flying",
+            poseType = PoseType.FLY,
+            quirks = arrayOf(blink),
+            idleAnimations = arrayOf(
+                bedrock("chandelure", "air_fly")
+            )
+        )
+
+        battle_idle = registerPose(
+            poseName = "battle_idle",
+            poseTypes = PoseType.STATIONARY_POSES,
+            quirks = arrayOf(blink),
+            condition = { it.isBattling },
+            idleAnimations = arrayOf(
+                bedrock("chandelure", "battle_idle")
             )
         )
     }

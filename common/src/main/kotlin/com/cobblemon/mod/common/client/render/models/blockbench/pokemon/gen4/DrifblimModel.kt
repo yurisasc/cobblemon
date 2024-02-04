@@ -35,7 +35,7 @@ class DrifblimModel (root: ModelPart) : PokemonPoseableModel() {
     override var cryAnimation = CryProvider { _, _ -> bedrockStateful("drifblim", "cry").setPreventsIdle(false) }
 
     override fun registerPoses() {
-        val blink = quirk(name = "blink") { bedrockStateful("drifblim", "blink").setPreventsIdle(false) }
+        val blink = quirk("blink") { bedrockStateful("drifblim", "blink").setPreventsIdle(false) }
         sleep = registerPose(
             poseName = "sleep",
             poseType = PoseType.SLEEP,
@@ -88,5 +88,5 @@ class DrifblimModel (root: ModelPart) : PokemonPoseableModel() {
     override fun getFaintAnimation(
         pokemonEntity: PokemonEntity,
         state: PoseableEntityState<PokemonEntity>
-    ) = bedrockStateful("drifblim", "faint")
+    ) = if (state.isPosedIn(standing, walk)) bedrockStateful("drifblim", "faint") else null
 }

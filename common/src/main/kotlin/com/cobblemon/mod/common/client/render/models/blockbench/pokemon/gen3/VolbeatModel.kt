@@ -49,6 +49,7 @@ class VolbeatModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bipe
         val flicker = quirk("flicker") { bedrockStateful("volbeat", "flicker_quirk").setPreventsIdle(false) }
 
         sleep = registerPose(
+            poseName = "sleep",
             poseType = PoseType.SLEEP,
             idleAnimations = arrayOf(bedrock("volbeat", "sleep"))
         )

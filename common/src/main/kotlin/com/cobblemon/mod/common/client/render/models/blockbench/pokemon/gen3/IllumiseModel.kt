@@ -49,6 +49,7 @@ class IllumiseModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
         val flicker = quirk("flicker") { bedrockStateful("illumise", "flicker_quirk").setPreventsIdle(false) }
 
         sleep = registerPose(
+            poseName = "sleep",
             poseType = PoseType.SLEEP,
             idleAnimations = arrayOf(bedrock("illumise", "sleep"))
         )

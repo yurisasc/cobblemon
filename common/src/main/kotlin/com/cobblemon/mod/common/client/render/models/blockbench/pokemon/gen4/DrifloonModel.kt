@@ -88,5 +88,5 @@ class DrifloonModel (root: ModelPart) : PokemonPoseableModel() {
     override fun getFaintAnimation(
         pokemonEntity: PokemonEntity,
         state: PoseableEntityState<PokemonEntity>
-    ) = bedrockStateful("drifloon", "faint")
+    ) = if (state.isPosedIn(standing, walk)) bedrockStateful("drifloon", "faint") else null
 }

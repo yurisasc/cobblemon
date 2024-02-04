@@ -42,6 +42,14 @@
   "eggGroups": [
     "amorphous"
   ],
+  "behaviour": {
+    "resting": {
+      "canSleep": true,
+      "willSleepOnBed": true,
+      "depth": "normal",
+      "light": "12-15"
+    }
+  },
   "moves": [
     "1:astonish",
     "1:smog",

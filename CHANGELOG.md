@@ -59,8 +59,8 @@
 
 ### Changes
 - Pokémon now transition more smoothly between different poses.
-- Updated models for Squirtle, Wartortle, Blastoise, Omanyte, Omastar, Swinub, Piloswine, Basculine, Rowlet, Dartrix, Decidueye, Kabuto, Kabutops, Piplup, Prinplup, Elekid, Electabuzz, Cubone, Marowak, Paras, Venonat, Venomoth, Yanma, Yanmega, and Raboot.
-- Updated animations for Galarian Meowth, Galarian Rapidash, Venonat, Venomoth, Phanphy, Donphan, Dratini, Dragonair, Chansey, Blissey, Volbeat, Illumise, Numel, Drifloon, Drifblim,
+- Updated models for Squirtle, Wartortle, Blastoise, Omanyte, Omastar, Swinub, Piloswine, Basculine, Rowlet, Dartrix, Decidueye, Kabuto, Kabutops, Piplup, Prinplup, Elekid, Electabuzz, Cubone, Marowak, Paras, Drifloon, Drifblim, Venonat, Venomoth, Yanma, Yanmega, and Raboot.
+- Updated animations for Falinks, Lechonk, Litwick, Lampent, Chandelure, Carnivine, Galarian Meowth, Galarian Rapidash, Venonat, Venomoth, Phanphy, Donphan, Dratini, Dragonair, Happiny, Chansey, Blissey, Volbeat, Illumise, Numel, Drifloon, and Drifblim.
 - Added more held items to the held item tag, and Metal Coat to the held item tab.
 - Added all ores to the modloader ore tags, and added tags for each ore type to the mod (both blocks and items).
 - Changed the Destiny Knot to be crafted with a Ghast Tear, rather than a diamond.
@@ -121,7 +121,7 @@
     "lightLevel": 14,
     "_lightLevelCommentRemoveMe": "Above supports 0 to 15",
     "liquidGlowMode": "LAND",
-    "_liquidGlowModeCommentRemoveMe": "Above supports LAND, UNDERWATER or BOTH",
+    "_liquidGlowModeCommentRemoveMe": "Above supports LAND, UNDERWATER or BOTH"
   }
 }
 ```

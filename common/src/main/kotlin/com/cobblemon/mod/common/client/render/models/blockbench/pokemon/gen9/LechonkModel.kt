@@ -8,11 +8,13 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen9
 
+import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.QuadrupedWalkAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.QuadrupedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cobblemon.mod.common.entity.PoseType
+import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
@@ -30,23 +32,26 @@ class LechonkModel (root: ModelPart) : PokemonPoseableModel(), QuadrupedFrame {
     override val profileScale = 1.0F
     override val profileTranslation = Vec3d(0.0, 0.25, 0.0)
 
-    //    lateinit var sleep: PokemonPose
+    lateinit var sleep: PokemonPose
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
+    lateinit var battle_idle: PokemonPose
 
     override fun registerPoses() {
-//        sleep = registerPose(
-//            poseType = PoseType.SLEEP,
-//            idleAnimations = arrayOf(bedrock("lechonk", "sleep"))
-//        )
-
         val blink = quirk("blink") { bedrockStateful("lechonk", "blink").setPreventsIdle(false) }
+        val snort = quirk("snort") { bedrockStateful("lechonk", "snort_quirk").setPreventsIdle(false) }
+
+        sleep = registerPose(
+            poseType = PoseType.SLEEP,
+            idleAnimations = arrayOf(bedrock("lechonk", "sleep"))
+        )
 
         standing = registerPose(
             poseName = "standing",
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
+            condition = { !it.isBattling },
             transformTicks = 10,
-            quirks = arrayOf(blink),
+            quirks = arrayOf(blink, snort),
             idleAnimations = arrayOf(
                 bedrock("lechonk", "ground_idle")
             )
@@ -56,16 +61,25 @@ class LechonkModel (root: ModelPart) : PokemonPoseableModel(), QuadrupedFrame {
             poseName = "walk",
             poseTypes = PoseType.MOVING_POSES,
             transformTicks = 5,
-            quirks = arrayOf(blink),
+            quirks = arrayOf(blink, snort),
             idleAnimations = arrayOf(
-                bedrock("lechonk", "ground_idle"),
-                QuadrupedWalkAnimation(this, periodMultiplier = 0.75F, amplitudeMultiplier = 1F)
+                bedrock("lechonk", "ground_walk")
+            )
+        )
+
+        battle_idle = registerPose(
+            poseName = "battle_idle",
+            poseTypes = PoseType.STATIONARY_POSES,
+            quirks = arrayOf(blink, snort),
+            condition = { it.isBattling },
+            idleAnimations = arrayOf(
+                bedrock("lechonk", "battle_idle")
             )
         )
     }
 
-//    override fun getFaintAnimation(
-//        pokemonEntity: PokemonEntity,
-//        state: PoseableEntityState<PokemonEntity>
-//    ) = if (state.isNotPosedIn(sleep)) bedrockStateful("lechonk", "faint") else null
+    override fun getFaintAnimation(
+        pokemonEntity: PokemonEntity,
+        state: PoseableEntityState<PokemonEntity>
+    ) = if (state.isPosedIn(battle_idle)) bedrockStateful("lechonk", "battle_faint") else bedrockStateful("lechonk", "faint")
 }
