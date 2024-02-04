@@ -24,7 +24,7 @@
 			},
 			"minecraft:particle_initial_spin": {
 				"rotation": "math.random(0,359)",
-				"rotation_rate": 90
+				"rotation_rate": 10
 			},
 			"minecraft:particle_initial_speed": "math.random(3.5,4.1)*3",
 			"minecraft:particle_motion_dynamic": {
@@ -45,9 +45,6 @@
 						"max_frame": 13
 					}
 				}
-			},
-			"minecraft:particle_appearance_tinting": {
-				"color": [1, 1, 1, 1]
 			}
 		}
 	}

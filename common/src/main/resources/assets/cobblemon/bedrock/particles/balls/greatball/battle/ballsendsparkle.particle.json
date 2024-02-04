@@ -5,7 +5,7 @@
 			"identifier": "cobblemon:greatball/battle/ballsendsparkle",
 			"basic_render_parameters": {
 				"material": "particles_alpha",
-				"texture": "textures/particles/balls/greatball/ballsendsparkle"
+				"texture": "textures/particles/balls/greatball/greatballsendsparkle"
 			}
 		},
 		"components": {
@@ -37,7 +37,7 @@
 						"size_UV": [9, 9],
 						"step_UV": [9, 0],
 						"frames_per_second": 18,
-						"max_frame": 10
+						"max_frame": 11
 					}
 				}
 			},
