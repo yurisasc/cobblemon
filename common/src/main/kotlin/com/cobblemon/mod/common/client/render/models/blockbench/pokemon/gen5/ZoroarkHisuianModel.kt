@@ -47,8 +47,8 @@ class ZoroarkHisuianModel (root: ModelPart) : PokemonPoseableModel(), HeadedFram
             transformTicks = 10,
             idleAnimations = arrayOf(
                 singleBoneLook(),
-                bedrock("zoroark_hisuian", "ground_idle"),
-                BipedWalkAnimation(this, 0.5F, 0.5F)
+                bedrock("zoroark_hisuian", "ground_walk"),
+                bedrock("zoroark_hisuian", "hair_setup")
             )
         )
     }

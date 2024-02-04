@@ -34,14 +34,24 @@ class NumelModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quadru
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
+    lateinit var sleep: PokemonPose
+    lateinit var battle_idle: PokemonPose
 
     override fun registerPoses() {
         val blink = quirk("blink") { bedrockStateful("numel", "blink").setPreventsIdle(false) }
+        sleep = registerPose(
+            poseName = "sleep",
+            poseType = PoseType.SLEEP,
+            idleAnimations = arrayOf(
+                bedrock("numel", "sleep")
+            )
+        )
 
         standing = registerPose(
             poseName = "standing",
             poseTypes = PoseType.UI_POSES + PoseType.STATIONARY_POSES,
             quirks = arrayOf(blink),
+            condition = { !it.isBattling },
             idleAnimations = arrayOf(
                 singleBoneLook(disableY = true),
                 bedrock("numel", "ground_idle")
@@ -54,6 +64,16 @@ class NumelModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quadru
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 QuadrupedWalkAnimation(this, periodMultiplier = 1.1F),
+                singleBoneLook(disableY = true),
+                bedrock("numel", "ground_idle")
+            )
+        )
+
+        battle_idle = registerPose(
+            poseName = "battle_idle",
+            poseTypes = PoseType.STATIONARY_POSES,
+            condition = { it.isBattling },
+            idleAnimations = arrayOf(
                 singleBoneLook(disableY = true),
                 bedrock("numel", "ground_idle")
             )

@@ -3360,6 +3360,12 @@
   "pokemon.meowth.cry": {
     "sounds": [ {  "name": "cobblemon:pokemon/meowth/meowth_cry", "volume": 0.8 } ]
   },
+  "pokemon.meowth_alolan.cry": {
+    "sounds": [ {  "name": "cobblemon:pokemon/meowth/meowth_alolan_cry", "volume": 0.8 } ]
+  },
+  "pokemon.meowth_galarian.cry": {
+    "sounds": [ {  "name": "cobblemon:pokemon/meowth/meowth_galarian_cry", "volume": 0.8 } ]
+  },
   "pokemon.persian.cry": {
     "sounds": [ { "name": "cobblemon:pokemon/persian/persian_cry", "volume": 0.8 } ]
   },

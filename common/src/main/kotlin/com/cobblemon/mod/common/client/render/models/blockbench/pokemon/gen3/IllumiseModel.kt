@@ -8,11 +8,13 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen3
 
+import com.cobblemon.mod.common.client.render.models.blockbench.createTransformation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BiWingedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.pose.ModelPartTransformation
 import com.cobblemon.mod.common.entity.PoseType
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
@@ -37,24 +39,70 @@ class IllumiseModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
     lateinit var hover: PokemonPose
     lateinit var fly: PokemonPose
     lateinit var battleidle: PokemonPose
+    lateinit var water_surface_idle: PokemonPose
+    lateinit var water_surface_fly: PokemonPose
+
+    val wateroffset = -15
 
     override fun registerPoses() {
         val blink = quirk("blink") { bedrockStateful("illumise", "blink").setPreventsIdle(false) }
+        val flicker = quirk("flicker") { bedrockStateful("illumise", "flicker_quirk").setPreventsIdle(false) }
 
         sleep = registerPose(
             poseType = PoseType.SLEEP,
             idleAnimations = arrayOf(bedrock("illumise", "sleep"))
         )
 
+        water_surface_idle = registerPose(
+            poseName = "water_surface",
+            poseTypes = PoseType.STATIONARY_POSES,
+            transformTicks = 10,
+            quirks = arrayOf(blink, flicker),
+            condition = { it.isTouchingWater && !it.isSubmergedInWater },
+            transformedParts = arrayOf(
+                rootPart.createTransformation().addPosition(ModelPartTransformation.Y_AXIS, wateroffset)
+            ),
+            idleAnimations = arrayOf(
+                singleBoneLook(),
+                bedrock("illumise", "air_idle")
+            )
+        )
+
+        water_surface_fly = registerPose(
+            poseName = "water_surface_fly",
+            poseTypes = PoseType.MOVING_POSES,
+            transformTicks = 10,
+            quirks = arrayOf(blink, flicker),
+            condition = { it.isTouchingWater && !it.isSubmergedInWater },
+            transformedParts = arrayOf(
+                rootPart.createTransformation().addPosition(ModelPartTransformation.Y_AXIS, wateroffset)
+            ),
+            idleAnimations = arrayOf(
+                singleBoneLook(),
+                bedrock("illumise", "air_fly")
+            )
+        )
+
         stand = registerPose(
             poseName = "standing",
-            poseTypes = PoseType.UI_POSES + PoseType.STAND,
+            poseTypes = PoseType.UI_POSES + PoseType.STATIONARY_POSES - PoseType.HOVER,
             transformTicks = 10,
             condition = { !it.isBattling },
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("illumise", "ground_idle")
+            )
+        )
+
+        walk = registerPose(
+            poseName = "walking",
+            poseTypes = PoseType.MOVING_POSES - PoseType.FLY,
+            transformTicks = 10,
+            quirks = arrayOf(blink),
+            idleAnimations = arrayOf(
+                singleBoneLook(),
+                bedrock("illumise", "ground_walk")
             )
         )
 
@@ -77,17 +125,6 @@ class IllumiseModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("illumise", "air_fly")
-            )
-        )
-
-        walk = registerPose(
-            poseName = "walking",
-            poseType = PoseType.WALK,
-            transformTicks = 10,
-            quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
-                singleBoneLook(),
-                bedrock("illumise", "ground_walk")
             )
         )
 

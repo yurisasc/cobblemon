@@ -35,29 +35,70 @@ class VenomothModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BiWi
     override val profileScale = 0.8F
     override val profileTranslation = Vec3d(0.0, 0.6, 0.0)
 
+    lateinit var sleep: PokemonPose
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
+    lateinit var battleidle: PokemonPose
+    lateinit var hover: PokemonPose
+    lateinit var flying: PokemonPose
 
     override fun registerPoses() {
         val blink = quirk("blink") { bedrockStateful("venomoth", "blink").setPreventsIdle(false) }
+        val quirk1 = quirk("quirk1") { bedrockStateful("venomoth", "quirk1").setPreventsIdle(false) }
+        val quirk2 = quirk("quirk2") { bedrockStateful("venomoth", "quirk2").setPreventsIdle(false) }
+        val quirkSleep = quirk("quirksleep") { bedrockStateful("venomoth", "quirk_sleep").setPreventsIdle(false) }
+
+        sleep = registerPose(
+            poseType = PoseType.SLEEP,
+            quirks = arrayOf(quirk1, quirkSleep),
+            idleAnimations = arrayOf(bedrock("venomoth", "sleep"))
+        )
 
         standing = registerPose(
             poseName = "standing",
-            poseTypes = STATIONARY_POSES + UI_POSES,
-            quirks = arrayOf(blink),
+            poseTypes = STATIONARY_POSES + UI_POSES - PoseType.HOVER,
+            condition = { !it.isBattling },
+            quirks = arrayOf(blink, quirk1, quirk2),
             idleAnimations = arrayOf(
-                singleBoneLook(),
-                bedrock("venomoth", "pose")
+                bedrock("venomoth", "ground_idle")
             )
         )
 
         walk = registerPose(
             poseName = "walk",
-            poseTypes = MOVING_POSES,
-            quirks = arrayOf(blink),
+            poseTypes = MOVING_POSES - PoseType.FLY,
+            quirks = arrayOf(blink, quirk1, quirk2),
             idleAnimations = arrayOf(
-                singleBoneLook(),
-                bedrock("venomoth", "pose")
+                bedrock("venomoth", "ground_walk")
+            )
+        )
+
+        hover = registerPose(
+            poseName = "hover",
+            poseType = PoseType.HOVER,
+            quirks = arrayOf(blink, quirk1, quirk2),
+            idleAnimations = arrayOf(
+                bedrock("venomoth", "air_idle")
+            )
+        )
+
+        flying = registerPose(
+            poseName = "fly",
+            poseType = PoseType.FLY,
+            quirks = arrayOf(blink, quirk1, quirk2),
+            idleAnimations = arrayOf(
+                bedrock("venomoth", "air_fly")
+            )
+        )
+
+        battleidle = registerPose(
+            poseName = "battle_idle",
+            poseTypes = PoseType.STATIONARY_POSES,
+            transformTicks = 10,
+            quirks = arrayOf(blink, quirk1, quirk2),
+            condition = { it.isBattling },
+            idleAnimations = arrayOf(
+                bedrock("venomoth", "battle_idle")
             )
         )
     }

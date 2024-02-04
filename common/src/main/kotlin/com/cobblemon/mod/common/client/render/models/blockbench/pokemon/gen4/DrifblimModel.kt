@@ -8,9 +8,12 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen4
 
+import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cobblemon.mod.common.entity.PoseType
+import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
@@ -26,14 +29,24 @@ class DrifblimModel (root: ModelPart) : PokemonPoseableModel() {
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
     lateinit var sleep: PokemonPose
+    lateinit var hovering: PokemonPose
+    lateinit var flying: PokemonPose
 
+    override var cryAnimation = CryProvider { _, _ -> bedrockStateful("drifblim", "cry").setPreventsIdle(false) }
 
     override fun registerPoses() {
         val blink = quirk(name = "blink") { bedrockStateful("drifblim", "blink").setPreventsIdle(false) }
+        sleep = registerPose(
+            poseName = "sleep",
+            poseType = PoseType.SLEEP,
+            idleAnimations = arrayOf(
+                bedrock("drifblim", "sleep")
+            )
+        )
 
         standing = registerPose(
             poseName = "standing",
-            poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
+            poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES - PoseType.HOVER,
             transformTicks = 10,
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
@@ -43,17 +56,37 @@ class DrifblimModel (root: ModelPart) : PokemonPoseableModel() {
 
         walk = registerPose(
             poseName = "walk",
-            poseTypes = PoseType.MOVING_POSES,
+            poseTypes = PoseType.MOVING_POSES - PoseType.FLY,
             quirks = arrayOf(blink),
             transformTicks = 10,
             idleAnimations = arrayOf(
-                bedrock("drifblim", "ground_idle")
+                bedrock("drifblim", "ground_walk")
+            )
+        )
+
+        hovering = registerPose(
+            poseName = "hovering",
+            poseType = PoseType.HOVER,
+            transformTicks = 10,
+            quirks = arrayOf(blink),
+            idleAnimations = arrayOf(
+                bedrock("drifblim", "air_idle")
+            )
+        )
+
+        flying = registerPose(
+            poseName = "flying",
+            poseType = PoseType.FLY,
+            transformTicks = 10,
+            quirks = arrayOf(blink),
+            idleAnimations = arrayOf(
+                bedrock("drifblim", "air_fly")
             )
         )
     }
 
-//    override fun getFaintAnimation(
-//        pokemonEntity: PokemonEntity,
-//        state: PoseableEntityState<PokemonEntity>
-//    ) = if (state.isPosedIn(standing, walk)) bedrockStateful("drifblim", "faint") else null
+    override fun getFaintAnimation(
+        pokemonEntity: PokemonEntity,
+        state: PoseableEntityState<PokemonEntity>
+    ) = bedrockStateful("drifblim", "faint")
 }

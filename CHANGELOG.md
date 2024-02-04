@@ -14,6 +14,7 @@
 - Added support for planting Apricorn trees, berries, and mints in [Botany Pots](https://modrinth.com/mod/botany-pots)
 - Added the hidden "True Vivillionaire" advancement.
 - The "Poké Ball" Vivillon variant is now obtainable by evolving a Spewpa after obtaining the "Aspiring Vivillionaire" advancement.
+- Added cries to Meowth, Alolan Meowth, Galaraian Meowth,
 
 ### Pokémon Added
 #### Gen 2
@@ -58,6 +59,7 @@
 ### Changes
 - Pokémon now transition more smoothly between different poses.
 - Updated models for Squirtle, Wartortle, Blastoise, Omanyte, Omastar, Swinub, Piloswine, Basculine, Rowlet, Dartrix, Decidueye, Kabuto, Kabutops, Piplup, Prinplup, Elekid, Electabuzz, Cubone, Marowak, Paras, Venonat, Venomoth, Yanma, Yanmega, and Raboot.
+- Updated animations for Galarian Meowth, Galarian Rapidash, Venonat, Venomoth, Phanphy, Donphan, Dratini, Dragonair, Chansey, Blissey, Volbeat, Illumise, Numel, Drifloon, Drifblim,
 - Added more held items to the held item tag, and Metal Coat to the held item tab.
 - Added all ores to the modloader ore tags, and added tags for each ore type to the mod (both blocks and items).
 - Changed the Destiny Knot to be crafted with a Ghast Tear, rather than a diamond.

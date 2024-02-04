@@ -35,6 +35,7 @@ class RapidashGalarianModel (root: ModelPart) : PokemonPoseableModel(), HeadedFr
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
+    lateinit var battle_idle: PokemonPose
 
     override val cryAnimation = CryProvider { _, _ -> bedrockStateful("rapidash_galar", "cry").setPreventsIdle(false) }
 
@@ -42,23 +43,35 @@ class RapidashGalarianModel (root: ModelPart) : PokemonPoseableModel(), HeadedFr
         val blink = quirk("blink") { bedrockStateful("rapidash_galar", "blink").setPreventsIdle(false) }
         standing = registerPose(
             poseName = "standing",
-            poseTypes = PoseType.UI_POSES + PoseType.STAND,
+            poseTypes = PoseType.UI_POSES + PoseType.STATIONARY_POSES,
             quirks = arrayOf(blink),
+            condition = { !it.isBattling },
             idleAnimations = arrayOf(
                 singleBoneLook(),
-                bedrock("rapidash_galar", "ground_idle")
+                bedrock("rapidash_galar", "ground_idle"),
+                bedrock("rapidash_galar", "hair")
             )
         )
 
         walk = registerPose(
             poseName = "walk",
-            poseType = PoseType.WALK,
+            poseTypes = PoseType.MOVING_POSES,
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
-                QuadrupedWalkAnimation(this, periodMultiplier = 1.1F),
                 singleBoneLook(),
-                bedrock("rapidash_galar", "ground_idle")
-                //bedrock("rapidash_galar", "ground_walk")
+                bedrock("rapidash_galar", "ground_walk"),
+                bedrock("rapidash_galar", "hair")
+            )
+        )
+
+        battle_idle = registerPose(
+            poseName = "battle_idle",
+            poseTypes = PoseType.STATIONARY_POSES,
+            condition = { it.isBattling },
+            idleAnimations = arrayOf(
+                singleBoneLook(),
+                bedrock("rapidash_galar", "battle_idle"),
+                bedrock("rapidash_galar", "hair")
             )
         )
     }
