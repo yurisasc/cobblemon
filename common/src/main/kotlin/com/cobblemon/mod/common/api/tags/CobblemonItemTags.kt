@@ -104,6 +104,9 @@ object CobblemonItemTags {
     @JvmField
     val LEAVES_LEFTOVERS = create("held/leaves_leftovers")
 
+    @JvmField
+    val POTTERY_SHERDS = create("decorated_pot_sherds")
+
     private fun create(path: String) = TagKey.of(RegistryKeys.ITEM, cobblemonResource(path))
 
 }
