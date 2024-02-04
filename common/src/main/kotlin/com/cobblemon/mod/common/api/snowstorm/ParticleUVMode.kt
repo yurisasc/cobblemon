@@ -146,7 +146,7 @@ class AnimatedParticleUVMode(
         } else {
             val fps = runtime.resolveDouble(fps)
             val effectiveFrame = ((age * fps) % maxFrame).toInt()
-            val frame = if (!loop && age * fps > maxFrame) {
+            val frame = if (!loop && age * fps >= maxFrame) {
                 maxFrame
             } else {
                 effectiveFrame

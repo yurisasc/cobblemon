@@ -60,6 +60,7 @@
   },
   "moves": [
     "1:harden",
+    "tm:bugbite",
     "1:protect",
     "tm:irondefense",
     "tm:pounce",
@@ -505,6 +506,25 @@
         {
           "variant": "biome",
           "biomeCondition": "#cobblemon:is_deep_dark"
+        }
+      ]
+    },
+    {
+      "id": "spewpa_vivillon_pokeball",
+      "variant": "level_up",
+      "result": "vivillon vivillon_wings=poke-ball",
+      "consumeHeldItem": false,
+      "learnableMoves": [
+        "gust"
+      ],
+      "requirements": [
+        {
+          "variant": "level",
+          "minLevel": 12
+        },
+        {
+          "variant": "advancement",
+          "requiredAdvancement": "cobblemon:catch_all_vivillon"
         }
       ]
     }
