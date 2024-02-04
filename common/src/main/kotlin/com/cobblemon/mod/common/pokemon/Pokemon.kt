@@ -85,6 +85,7 @@ import net.minecraft.server.world.ServerWorld
 import net.minecraft.text.MutableText
 import net.minecraft.text.Text
 import net.minecraft.text.TextContent
+import net.minecraft.util.Hand
 import net.minecraft.util.Identifier
 import net.minecraft.util.InvalidIdentifierException
 import net.minecraft.util.math.MathHelper.ceil
@@ -486,7 +487,10 @@ open class Pokemon : ShowdownIdentifiable {
         // Proceed as normal for non-shouldered Cobblemon
         val future = CompletableFuture<PokemonEntity>()
         sendOut(level, position) {
-            level.playSoundServer(position, CobblemonSounds.POKE_BALL_SEND_OUT, volume = 0.6F)
+            getOwnerPlayer()?.let{
+                it.swingHand(Hand.MAIN_HAND, true)
+                level.playSoundServer(it.pos, CobblemonSounds.POKE_BALL_THROW, volume = 0.6F)
+            }
             it.phasingTargetId = source.id
             it.beamMode = 1
             it.battleId = battleId

@@ -45,6 +45,8 @@ open class PlayerPartyStore(
 
     private var secondsSinceFriendshipUpdate = 0
 
+    constructor(playerUUID: UUID): this(playerUUID, playerUUID)
+
     override fun initialize() {
         super.initialize()
         observerUUIDs.add(playerUUID)

@@ -163,8 +163,8 @@ class Species : ClientDataSynchronizer<Species>, ShowdownIdentifiable {
     }
 
     private fun resolveEyeHeight(entity: PokemonEntity): Float? = when {
-        entity.getPoseType() in SWIMMING_POSES -> this.swimmingEyeHeight ?: standingEyeHeight
-        entity.getPoseType() in FLYING_POSES -> this.flyingEyeHeight ?: standingEyeHeight
+        entity.getCurrentPoseType() in SWIMMING_POSES -> this.swimmingEyeHeight ?: standingEyeHeight
+        entity.getCurrentPoseType() in FLYING_POSES -> this.flyingEyeHeight ?: standingEyeHeight
         else -> this.standingEyeHeight
     }
 

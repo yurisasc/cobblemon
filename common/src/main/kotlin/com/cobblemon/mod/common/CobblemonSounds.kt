@@ -56,6 +56,10 @@ object CobblemonSounds : PlatformRegistry<Registry<SoundEvent>, RegistryKey<Regi
     val POKE_BALL_SEND_OUT = this.create("poke_ball.send_out")
     @JvmField
     val POKE_BALL_RECALL = this.create("poke_ball.recall")
+    @JvmField
+    val POKE_BALL_THROW = this.create("poke_ball.throw")
+    @JvmField
+    val POKE_BALL_TRAIL = this.create("poke_ball.trail")
 
     @JvmField
     val ITEM_USE = this.create("item.use")
@@ -63,6 +67,8 @@ object CobblemonSounds : PlatformRegistry<Registry<SoundEvent>, RegistryKey<Regi
     val CAN_EVOLVE = this.create("pokemon.can_evolve")
     @JvmField
     val EVOLVING = this.create("pokemon.evolving")
+    @JvmField
+    val EVOLVE = this.create("evolution.evolve")
 
     @JvmField
     val PVN_BATTLE = this.create("battle.pvn.default")
