@@ -12,33 +12,35 @@ import net.minecraft.util.Identifier
 
 object CobblemonSherds {
     val allSherds = mutableListOf<CobblemonSherd>()
+    val sherdToPattern = mutableMapOf<Item, RegistryKey<String>>()
 
-    val BYGONE_SHERD = addSherd(cobblemonResource("bygone_pottery_sherd"), CobblemonItems.BYGONE_SHERD)
+    val BYGONE_SHERD = addSherd(cobblemonResource("bygone_pottery_pattern"), CobblemonItems.BYGONE_SHERD)
 
-    val CAPTURE_SHERD = addSherd(cobblemonResource("capture_pottery_sherd"), CobblemonItems.CAPTURE_SHERD)
+    val CAPTURE_SHERD = addSherd(cobblemonResource("capture_pottery_pattern"), CobblemonItems.CAPTURE_SHERD)
 
-    val DOME_SHERD = addSherd(cobblemonResource("dome_pottery_sherd"), CobblemonItems.DOME_SHERD)
+    val DOME_SHERD = addSherd(cobblemonResource("dome_pottery_pattern"), CobblemonItems.DOME_SHERD)
 
-    val HELIX_SHERD = addSherd(cobblemonResource("helix_pottery_sherd"), CobblemonItems.HELIX_SHERD)
+    val HELIX_SHERD = addSherd(cobblemonResource("helix_pottery_pattern"), CobblemonItems.HELIX_SHERD)
 
-    val NOSTALGIC_SHERD = addSherd(cobblemonResource("nostalgic_pottery_sherd"), CobblemonItems.NOSTALGIC_SHERD)
+    val NOSTALGIC_SHERD = addSherd(cobblemonResource("nostalgic_pottery_pattern"), CobblemonItems.NOSTALGIC_SHERD)
 
-    fun addSherd(textureId: Identifier, item: Item): CobblemonSherd {
-        val sherd = CobblemonSherd(textureId, item)
+    fun addSherd(patternId: Identifier, item: Item): CobblemonSherd {
+        val sherd = CobblemonSherd(patternId, item)
+        val registryKey = RegistryKey.of(RegistryKeys.DECORATED_POT_PATTERN, patternId)
+        sherdToPattern[item] = registryKey
         allSherds.add(sherd)
         return sherd
     }
     fun registerSherds() {
         val registry = Registries.DECORATED_POT_PATTERN
         for (sherd in allSherds) {
-            val regKey = RegistryKey.of(RegistryKeys.DECORATED_POT_PATTERN, sherd.textureId);
+            val regKey = RegistryKey.of(RegistryKeys.DECORATED_POT_PATTERN, sherd.patternId);
             Registry.register(
                 registry,
                 regKey,
-                sherd.textureId.path
+                sherd.patternId.path
             )
-            DecoratedPotPatterns.SHERD_TO_PATTERN = mutableMapOf()
         }
-
     }
+
 }

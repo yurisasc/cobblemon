@@ -4,7 +4,7 @@ import net.minecraft.item.Item
 import net.minecraft.util.Identifier
 
 data class CobblemonSherd(
-    val textureId: Identifier,
+    val patternId: Identifier,
     val item: Item
 ) {
 }
