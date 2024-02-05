@@ -21,6 +21,7 @@ import com.cobblemon.mod.common.block.entity.FossilMultiblockEntity
 import com.cobblemon.mod.common.block.FossilAnalyzerBlock
 import com.cobblemon.mod.common.block.MonitorBlock
 import com.cobblemon.mod.common.block.RestorationTankBlock
+import com.cobblemon.mod.common.block.entity.RestorationTankBlockEntity
 import com.cobblemon.mod.common.client.render.models.blockbench.fossil.FossilState
 import com.cobblemon.mod.common.client.sound.CancellableSoundController
 import com.cobblemon.mod.common.client.sound.CancellableSoundInstance
@@ -333,6 +334,13 @@ class FossilMultiblockStructure (
                 val stack = ItemStack(it.item, 1)
                 ItemScatterer.spawn(world, pos.x.toDouble(), pos.y.toDouble(), pos.z.toDouble(), stack)
             }
+        }
+        if(tankBaseEntity is RestorationTankBlockEntity) {
+            (tankBaseEntity).inv.items.forEach {
+                val stack = ItemStack(it.item, 1)
+                ItemScatterer.spawn(world, pos.x.toDouble(), pos.y.toDouble(), pos.z.toDouble(), stack)
+            }
+            tankBaseEntity.inv.clear()
         }
 
 

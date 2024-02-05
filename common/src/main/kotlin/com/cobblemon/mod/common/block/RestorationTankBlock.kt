@@ -128,7 +128,7 @@ class RestorationTankBlock(properties: Settings) : MultiblockBlock(properties), 
     override fun canPlaceAt(state: BlockState, world: WorldView, pos: BlockPos): Boolean {
         val blockPos = pos.down()
         val blockState = world.getBlockState(blockPos)
-        return if (state.get(PART) == TankPart.BOTTOM) blockState.isSideSolidFullSquare(world, blockPos, Direction.UP) else blockState.isOf(this)
+        return if (state.get(PART) == TankPart.BOTTOM) true else blockState.isOf(this)
     }
     override fun appendProperties(builder: StateManager.Builder<Block, BlockState>) {
         builder.add(HorizontalFacingBlock.FACING)
