@@ -766,6 +766,8 @@ object CobblemonItems : PlatformRegistry<Registry<Item>, RegistryKey<Registry<It
     val HELIX_SHERD = noSettingsItem("helix_sherd")
     @JvmField
     val NOSTALGIC_SHERD = noSettingsItem("nostalgic_sherd")
+    @JvmField
+    val SUSPICIOUS_SHERD = noSettingsItem("suspicious_sherd")
 
     @JvmField
     val TUMBLESTONE = this.create("tumblestone", TumblestoneItem(Item.Settings(), CobblemonBlocks.SMALL_BUDDING_TUMBLESTONE))

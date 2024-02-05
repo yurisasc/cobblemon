@@ -10,7 +10,6 @@ package com.cobblemon.mod.common.sherds
 
 import com.cobblemon.mod.common.CobblemonItems
 import com.cobblemon.mod.common.util.cobblemonResource
-import net.minecraft.block.DecoratedPotPatterns
 import net.minecraft.item.Item
 import net.minecraft.registry.Registries
 import net.minecraft.registry.Registry
@@ -18,6 +17,7 @@ import net.minecraft.registry.RegistryKey
 import net.minecraft.registry.RegistryKeys
 import net.minecraft.util.Identifier
 
+@Suppress("Unused")
 object CobblemonSherds {
     val allSherds = mutableListOf<CobblemonSherd>()
     val sherdToPattern = mutableMapOf<Item, RegistryKey<String>>()
@@ -32,6 +32,8 @@ object CobblemonSherds {
 
     val NOSTALGIC_SHERD = addSherd(cobblemonResource("nostalgic_pottery_pattern"), CobblemonItems.NOSTALGIC_SHERD)
 
+    val SUSPICIOUS_SHERD = addSherd(cobblemonResource("suspicious_pottery_pattern"), CobblemonItems.SUSPICIOUS_SHERD)
+
     fun addSherd(patternId: Identifier, item: Item): CobblemonSherd {
         val sherd = CobblemonSherd(patternId, item)
         val registryKey = RegistryKey.of(RegistryKeys.DECORATED_POT_PATTERN, patternId)
@@ -42,7 +44,7 @@ object CobblemonSherds {
     fun registerSherds() {
         val registry = Registries.DECORATED_POT_PATTERN
         for (sherd in allSherds) {
-            val regKey = RegistryKey.of(RegistryKeys.DECORATED_POT_PATTERN, sherd.patternId);
+            val regKey = RegistryKey.of(RegistryKeys.DECORATED_POT_PATTERN, sherd.patternId)
             Registry.register(
                 registry,
                 regKey,

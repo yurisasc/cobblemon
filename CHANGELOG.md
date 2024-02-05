@@ -14,6 +14,7 @@
 - Added the hidden "True Vivillionaire" advancement.
 - The "Poké Ball" Vivillon variant is now obtainable by evolving a Spewpa after obtaining the "Aspiring Vivillionaire" advancement.
 - Added dynamic lighting support for any Species or Forms when using [LambDynamicLights](https://modrinth.com/mod/lambdynamiclights) or [Dynamic Lights Reforged](https://www.curseforge.com/minecraft/mc-mods/dynamiclights-reforged), at this time we don't ship with any defaults for this feature but addon creators can make use of this feature.
+- Added 6 custom Pottery Sherds, obtained from ruin structures.
 
 ### Changes
 - Pokémon now transition more smoothly between different poses.
@@ -77,7 +78,7 @@
     "lightLevel": 14,
     "_lightLevelCommentRemoveMe": "Above supports 0 to 15",
     "liquidGlowMode": "LAND",
-    "_liquidGlowModeCommentRemoveMe": "Above supports LAND, UNDERWATER or BOTH",
+    "_liquidGlowModeCommentRemoveMe": "Above supports LAND, UNDERWATER or BOTH"
   }
 }
 ```
