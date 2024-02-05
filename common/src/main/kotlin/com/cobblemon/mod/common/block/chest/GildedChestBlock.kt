@@ -21,6 +21,7 @@ import net.minecraft.block.BlockWithEntity
 import net.minecraft.block.Blocks
 import net.minecraft.block.HorizontalFacingBlock
 import net.minecraft.block.ShapeContext
+import net.minecraft.entity.ai.pathing.NavigationType
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemPlacementContext
 import net.minecraft.sound.SoundCategory
@@ -189,6 +190,11 @@ class GildedChestBlock(settings: Settings, val type: Type = Type.RED) : BlockWit
         BLACK(cobblemonResource("black_gilded_chest")),
         YELLOW(cobblemonResource("yellow_gilded_chest")),
         FAKE(cobblemonResource("gilded_chest"))
+    }
+
+    @Deprecated("Deprecated in Java")
+    override fun canPathfindThrough(state: BlockState?, world: BlockView?, pos: BlockPos?, type: NavigationType?): Boolean {
+        return false
     }
 
 }
