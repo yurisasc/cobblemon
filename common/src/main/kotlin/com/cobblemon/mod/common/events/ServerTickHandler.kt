@@ -11,6 +11,7 @@ package com.cobblemon.mod.common.events
 import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.api.tms.TechnicalMachines
 import com.cobblemon.mod.common.battles.BattleRegistry
+import com.cobblemon.mod.common.item.TechnicalMachineItem
 import com.cobblemon.mod.common.util.party
 import net.minecraft.server.MinecraftServer
 
@@ -26,10 +27,21 @@ object ServerTickHandler {
         if (secondsTick == 20) {
             secondsTick = 0
 
-            // Party tick
+            // Code to run every in-game second
             for (player in server.playerManager.playerList) {
                 player.party().onSecondPassed(player)
                 TechnicalMachines.checkPassives(player)
+
+                // Give player tm unlocks for tms they don't already have
+                repeat(player.inventory.size()) {
+                    val stack = player.inventory.getStack(it)
+                    if (stack.item is TechnicalMachineItem) {
+                        val tm = TechnicalMachineItem.getMoveNbt(stack) ?: return@repeat
+                        if (!Cobblemon.playerData.get(player).tmSet.contains(tm.id())) {
+                            tm.unlock(player)
+                        }
+                    }
+                }
             }
         }
     }

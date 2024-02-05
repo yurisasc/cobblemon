@@ -8,7 +8,6 @@
 
 package com.cobblemon.mod.common.item
 
-import com.cobblemon.mod.common.CobblemonItems
 import com.cobblemon.mod.common.CobblemonSounds
 import com.cobblemon.mod.common.api.moves.BenchedMove
 import com.cobblemon.mod.common.api.moves.Moves
@@ -17,23 +16,18 @@ import com.cobblemon.mod.common.api.text.green
 import com.cobblemon.mod.common.api.tms.TechnicalMachine
 import com.cobblemon.mod.common.api.tms.TechnicalMachines
 import com.cobblemon.mod.common.api.types.ElementalTypes
-import com.cobblemon.mod.common.block.TMBlock
 import com.cobblemon.mod.common.block.entity.TMBlockEntity
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.util.lang
 import com.cobblemon.mod.common.util.toBlockPos
 import net.minecraft.block.Block
-import net.minecraft.client.color.item.ItemColorProvider
 import net.minecraft.client.item.TooltipContext
-import net.minecraft.entity.ItemEntity
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
 import net.minecraft.item.ItemUsageContext
 import net.minecraft.nbt.NbtString
-import net.minecraft.registry.Registries
 import net.minecraft.sound.SoundCategory
-import net.minecraft.state.property.Properties
 import net.minecraft.text.MutableText
 import net.minecraft.text.Text
 import net.minecraft.util.ActionResult
