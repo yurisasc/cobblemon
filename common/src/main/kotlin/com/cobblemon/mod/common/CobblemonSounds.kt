@@ -151,5 +151,8 @@ object CobblemonSounds : PlatformRegistry<Registry<SoundEvent>, RegistryKey<Regi
     @JvmField
     val TMM_ON = this.create("tmm.on")
 
+    @JvmField
+    val TYPE_GEM_SOUNDS = TUMBLESTONE_BLOCK_SOUNDS
+
     private fun create(name: String): SoundEvent = this.create(name, SoundEvent.of(cobblemonResource(name)))
 }
