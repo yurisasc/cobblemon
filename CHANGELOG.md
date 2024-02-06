@@ -13,6 +13,8 @@
 - Added support for planting Apricorn trees, berries, and mints in [Botany Pots](https://modrinth.com/mod/botany-pots)
 - Added the hidden "True Vivillionaire" advancement.
 - The "Poké Ball" Vivillon variant is now obtainable by evolving a Spewpa after obtaining the "Aspiring Vivillionaire" advancement.
+- Added dynamic lighting support for any Species or Forms when using [LambDynamicLights](https://modrinth.com/mod/lambdynamiclights) or [Dynamic Lights Reforged](https://www.curseforge.com/minecraft/mc-mods/dynamiclights-reforged), at this time we don't ship with any defaults for this feature but addon creators can make use of this feature.
+- Added 6 custom Pottery Sherds, obtained from ruin structures.
 
 ### Changes
 - Pokémon now transition more smoothly between different poses.
@@ -23,6 +25,7 @@
 - Renamed the "Vivillionaire" advancement to "Aspiring Vivillionaire"
 - Removed the Inferno, Forsaken, Poké Ball, and Void patterns from the Aspiring Vivillionaire advancement.
 - Updated movesets to add Gen 9 DLC moves.
+- Apricorn Sprouts can now be planted directly on Apricorn leaves to create a new Apricorn of the same color.
 
 ### Fixes
 - Re-added the recipe for the Iron Vitamin.
@@ -34,6 +37,7 @@
 - Note blocks now play the correct sound on the Apricorn Plank based blocks.
 - Fixed an issue with transformed parts in posers causing whacky positional issues.
 - Fixed Poké Balls freezing in an open state if you look away when it's meant to close.
+- Adds a translation string name to the Empty Pokeball entity.
 
 ### Developer
 - Significantly changed the way properties in PokemonEntity work. This could break some plugins (albeit in a quick-fix way).
@@ -43,6 +47,8 @@
 - Added a new "advancement" evolution variant that takes an advancement identifier and succeeds if the player has the advancement.
 - Made spawning API capable of non-entity spawning
 - Made PokemonProperties.parse more interoperable with Java.
+- Added the ``HeldItemEvent``, this comes with 2 implementation ``HeldItemEvent.Pre`` and ``HeldItemEvent.Post``. 
+- API to support dynamic lighting in any mod that implements this feature has been added to all Species & Forms, see LightingData class for details.
 
 ### Datapack & Resourcepack Creators
 - The maximum amount of fossils that can fit in the Fossil Compartment can be adjusted in the config.
@@ -64,6 +70,19 @@
 - Added 3 new item tags: `ancient_poke_balls`, `fossils`, and `tumblestones`.
 - Added a spawn rules system to modify general spawning behaviour, see the [wiki](https://wiki.cobblemon.com/index.php/Spawn_Rules) for more information.
 - Added dialogue datapack folder and /opendialogue command.
+- Added the item tag ``cobblemon:held/leaves_leftovers`` this can be used to flag apple-like items that can create leftovers when eaten.
+- You can now add support for dynamic lighting implementations, Cobblemon ships with a default implementation for [LambDynamicLights](https://modrinth.com/mod/lambdynamiclights) and the [Dynamic Lights Reforged](https://www.curseforge.com/minecraft/mc-mods/dynamiclights-reforged), add the following to any species or form:
+```JSON
+{
+  "lightingData": {
+    "lightLevel": 14,
+    "_lightLevelCommentRemoveMe": "Above supports 0 to 15",
+    "liquidGlowMode": "LAND",
+    "_liquidGlowModeCommentRemoveMe": "Above supports LAND, UNDERWATER or BOTH"
+  }
+}
+```
+- Following up on this change ``light_source`` was removed as a possible shoulder effect due to becoming unnecessary and never having had a default implementation.
 
 ## [1.4.1 (December 23rd, 2023)](#1-4-1)
 
@@ -81,6 +100,7 @@
 - Added cries to Beldum, Metang and Metagross.
 - Added a /bedrockparticle command to run Snowstorm-format particle effects.
 - Added data for Dipplin, Fezandipiti, Munkidori, Ogerpon, Okidogi, Poltchageist and Sinistcha.
+- Added additional nickname trigger "Grumm" for Inkay's evolution.
 
 ### Changes
 - Using Potions, Status Heals, Ethers, and Antidotes will now return a glass bottle

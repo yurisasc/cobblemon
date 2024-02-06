@@ -49,6 +49,7 @@ object CobblemonItemGroups {
 
     @JvmStatic val FOOD_INJECTIONS = this.inject(RegistryKey.of(Registries.ITEM_GROUP.key, Identifier("food_and_drinks")), this::foodInjections)
     @JvmStatic val TOOLS_AND_UTILITIES_INJECTIONS = this.inject(RegistryKey.of(Registries.ITEM_GROUP.key, Identifier("tools_and_utilities")), this::toolsAndUtilitiesInjections)
+    @JvmStatic val INGREDIENTS_INJECTIONS = this.inject(RegistryKey.of(Registries.ITEM_GROUP.key, Identifier("ingredients")), this::ingredientsInjections)
 
     fun register(consumer: (holder: ItemGroupHolder) -> ItemGroup) {
         ALL.forEach(consumer::invoke)
@@ -188,6 +189,7 @@ object CobblemonItemGroups {
         entries.add(CobblemonItems.DOME_SHERD)
         entries.add(CobblemonItems.HELIX_SHERD)
         entries.add(CobblemonItems.NOSTALGIC_SHERD)
+        entries.add(CobblemonItems.SUSPICIOUS_SHERD)
     }
 
     private fun blockEntries(displayContext: DisplayContext, entries: Entries) {
@@ -468,6 +470,15 @@ object CobblemonItemGroups {
     private fun toolsAndUtilitiesInjections(injector: Injector) {
         injector.putAfter(CobblemonItems.APRICORN_BOAT, Items.BAMBOO_CHEST_RAFT)
         injector.putAfter(CobblemonItems.APRICORN_CHEST_BOAT, CobblemonItems.APRICORN_BOAT)
+    }
+
+    private fun ingredientsInjections(injector: Injector) {
+        injector.putAfter(CobblemonItems.BYGONE_SHERD, Items.SNORT_POTTERY_SHERD)
+        injector.putAfter(CobblemonItems.CAPTURE_SHERD, CobblemonItems.BYGONE_SHERD)
+        injector.putAfter(CobblemonItems.DOME_SHERD, CobblemonItems.CAPTURE_SHERD)
+        injector.putAfter(CobblemonItems.HELIX_SHERD, CobblemonItems.DOME_SHERD)
+        injector.putAfter(CobblemonItems.NOSTALGIC_SHERD, CobblemonItems.HELIX_SHERD)
+        injector.putAfter(CobblemonItems.SUSPICIOUS_SHERD, CobblemonItems.NOSTALGIC_SHERD)
     }
 
     /**

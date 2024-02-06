@@ -18,6 +18,7 @@
     "ModelLoaderMixin"
   ],
   "mixins": [
+    "DecoratedPotPatternsMixin",
     "EntityVillagerMixin",
     "ExplosionMixin",
     "LivingEntityMixin",
