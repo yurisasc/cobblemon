@@ -16,9 +16,6 @@
 				"tail6": {
 					"rotation": [32.5, 0, 0]
 				},
-				"head": {
-					"rotation": [10, 0, 0]
-				},
 				"leg_left": {
 					"rotation": [-37.5, -10, 0.00001]
 				},
@@ -32,18 +29,6 @@
 				"foot_right": {
 					"rotation": [-20, 5, 0],
 					"position": [0, 2, 0]
-				},
-				"fin_left": {
-					"rotation": [0, 27.5, 22.5]
-				},
-				"fin_left2": {
-					"rotation": [0, 10, 25]
-				},
-				"fin_right": {
-					"rotation": [0, -27.5, -22.5]
-				},
-				"fin_right2": {
-					"rotation": [0, -10, -25]
 				},
 				"tail": {
 					"rotation": [27.5, 0, 0]
@@ -74,6 +59,18 @@
 				},
 				"leg_right2": {
 					"rotation": [57.5, 0, 0]
+				},
+				"fin_right": {
+					"rotation": [-63.74618, 27.79687, -43.39482]
+				},
+				"fin_right2": {
+					"rotation": [2.5, 5, 27.5]
+				},
+				"fin_left": {
+					"rotation": [-63.74618, -27.79687, 43.39482]
+				},
+				"fin_left2": {
+					"rotation": [2.5, -5, -27.5]
 				}
 			}
 		},
@@ -114,19 +111,19 @@
 			"loop": true,
 			"bones": {
 				"torso": {
-					"rotation": [22.5, 0, 0]
+					"rotation": [47.5, 0, 0]
 				},
 				"tail": {
-					"rotation": [25, 0, 0]
+					"rotation": [20, 0, 0]
 				},
 				"tail_bottom2": {
-					"rotation": [22.5, 0, 0]
+					"rotation": [15, 0, 0]
 				},
 				"tail2": {
-					"rotation": [32.5, 0, 0]
+					"rotation": [17.5, 0, 0]
 				},
 				"tail3": {
-					"rotation": [20, 0, 0]
+					"rotation": [5, 0, 0]
 				},
 				"leg_left": {
 					"rotation": [-37.5, -10, 0.00001]
@@ -147,6 +144,9 @@
 				"foot_right": {
 					"rotation": [-20, 5, 0],
 					"position": [0, 2, 0]
+				},
+				"tail4": {
+					"rotation": [2.5, 0, 0]
 				}
 			}
 		}

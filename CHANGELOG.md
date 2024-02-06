@@ -20,6 +20,9 @@
 
 ### Pokémon Added
 #### Gen 2
+- Sentret
+- Furret
+- Qwilfish
 
 #### Gen 3
 - Lileep
@@ -44,6 +47,8 @@
 #### Gen 6
 - Tyrunt
 - Tyrantrum
+- Amaura
+- Aurorus
 
 #### Gen 7
 
@@ -57,6 +62,10 @@
 - Basculegion
 - Hisuian Zorua
 - Hisuian Zoroark
+- Hisuian Voltorb
+- Hisuian Electrode
+- Hisuian Qwilfish
+- Overqwil
 
 ### Changes
 - Pokémon now transition more smoothly between different poses.
