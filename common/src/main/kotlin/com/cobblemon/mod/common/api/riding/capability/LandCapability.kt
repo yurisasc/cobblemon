@@ -9,7 +9,10 @@
 package com.cobblemon.mod.common.api.riding.capability
 
 import com.cobblemon.mod.common.api.riding.controller.properties.RideControllerProperties
+import com.cobblemon.mod.common.api.tags.CobblemonBlockTags
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
+import net.minecraft.registry.tag.BlockTags
+import net.minecraft.registry.tag.FluidTags
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.Direction
 import java.util.function.Predicate
@@ -22,7 +25,7 @@ class LandCapability(override val properties: RideControllerProperties) : Riding
             return@Predicate true
         }
 
-        it.isOnGround
+        it.isOnGround && !it.isSwimming
     }
 
 }

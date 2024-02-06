@@ -36,6 +36,7 @@ interface RidingCapability : Encodable {
         fun create(key: Identifier, properties: RideControllerProperties): RidingCapability {
             return when(key) {
                 LAND -> LandCapability(properties)
+                LIQUID -> LiquidCapability(properties)
                 else -> throw IllegalArgumentException("Invalid key: $key")
             }
         }

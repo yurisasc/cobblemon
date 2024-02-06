@@ -12,6 +12,8 @@ import com.cobblemon.mod.common.api.net.Encodable
 import com.cobblemon.mod.common.api.riding.context.RidingContextBuilder
 import com.cobblemon.mod.common.pokemon.riding.controllers.GenericLandController
 import com.cobblemon.mod.common.pokemon.riding.controllers.GenericLandControllerAdapter
+import com.cobblemon.mod.common.pokemon.riding.controllers.GenericLiquidController
+import com.cobblemon.mod.common.pokemon.riding.controllers.GenericLiquidControllerAdapter
 import net.minecraft.network.PacketByteBuf
 import net.minecraft.util.Identifier
 
@@ -28,7 +30,7 @@ interface RideControllerProperties : Encodable {
         init {
             // TODO - Post registration event
 
-            this.deserializers = mapOf(GenericLandController.key to GenericLandControllerAdapter)
+            this.deserializers = mapOf(GenericLandController.key to GenericLandControllerAdapter, GenericLiquidController.key to GenericLiquidControllerAdapter)
         }
 
         fun decode(buffer: PacketByteBuf): RideControllerProperties {

@@ -27,6 +27,10 @@ data class RidingManager(val entity: () -> PokemonEntity) {
      * @since 1.5.0
      */
     var context: RidingContext = RidingContext(RidingContextBuilder())
+
+    // TODO - Seats should realistically be final and manipulated by seat index.
+    // TODO - On the client, these seats are decoded, so setting the variable here
+    // TODO - breaks if final
     var seats: List<Seat> = this.entity().pokemon.riding.seats.map { it.create(this.entity()) }
     private lateinit var capabilities: Map<RidingCapability, RideController>
 
@@ -41,10 +45,12 @@ data class RidingManager(val entity: () -> PokemonEntity) {
             this.capabilities = this.entity().pokemon.riding.capabilities.associateWith {
                 RideController.controllers[it.properties.identifier]!!
             }
+
+            firstTick = false
         }
 
-        val capability = capabilities.keys.firstOrNull { it.condition.test(entity) }
-        val controller = capabilities[capability] ?: return
+        val capability = this.capabilities.keys.firstOrNull { it.condition.test(entity) }
+        val controller = this.capabilities[capability] ?: return
         this.context = this.context.apply(capability?.properties ?: return)
 
         // TODO - We need to figure out a better method for this, as inputs could still be applied when traversal

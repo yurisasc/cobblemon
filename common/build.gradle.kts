@@ -1,3 +1,4 @@
+import extensions.getLatestGitCommitHash
 import java.time.OffsetDateTime
 import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
@@ -92,7 +93,7 @@ sourceSets {
                 property("modVersion", rootProject.property("mod_version").toString())
                 property("gameVersion", rootProject.property("mc_version").toString())
                 property("isSnapshot", (rootProject.property("snapshot")?.equals("true") ?: false).toString())
-                // TODO property("gitCommit", ...)
+                property("gitCommit", rootProject.getLatestGitCommitHash())
                 System.getProperty("buildNumber")?.let { property("buildNumber", it) }
                 property("timestamp", OffsetDateTime.now(ZoneOffset.UTC).format(DateTimeFormatter.ofPattern("MM/dd/yyyy hh:mm:ss")) + " UTC")
             }

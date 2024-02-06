@@ -205,6 +205,13 @@
           "speed": 0.4,
           "acceleration": 0.2
         }
+      },
+      "liquids": {
+        "controller": "cobblemon:swim",
+        "properties": {
+          "speed": 0.2,
+          "acceleration": 0.2
+        }
       }
     },
     "seats": [
