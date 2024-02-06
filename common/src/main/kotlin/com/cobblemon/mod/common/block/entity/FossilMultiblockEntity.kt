@@ -39,8 +39,9 @@ open class FossilMultiblockEntity(
         get() {
             return if (field != null) {
                 field
-            } else if (masterBlockPos != null && masterBlockPos != pos && world?.getBlockEntity(masterBlockPos) != null) {
-                field = (world?.getBlockEntity(masterBlockPos) as FossilMultiblockEntity).multiblockStructure
+            } else if (masterBlockPos != null && masterBlockPos != pos) {
+                val entity: FossilMultiblockEntity? = world?.getBlockEntity(masterBlockPos) as FossilMultiblockEntity?
+                field = entity?.multiblockStructure
                 field
             } else {
                 null
