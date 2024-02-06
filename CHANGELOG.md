@@ -15,6 +15,7 @@
 - Added the hidden "True Vivillionaire" advancement.
 - The "Poké Ball" Vivillon variant is now obtainable by evolving a Spewpa after obtaining the "Aspiring Vivillionaire" advancement.
 - Added dynamic lighting support for any Species or Forms when using [LambDynamicLights](https://modrinth.com/mod/lambdynamiclights) or [Dynamic Lights Reforged](https://www.curseforge.com/minecraft/mc-mods/dynamiclights-reforged), at this time we don't ship with any defaults for this feature but addon creators can make use of this feature.
+- Added 6 custom Pottery Sherds, obtained from ruin structures.
 - Added cries to Meowth, Alolan Meowth, Galaraian Meowth,
 
 ### Pokémon Added
@@ -81,6 +82,7 @@
 - Note blocks now play the correct sound on the Apricorn Plank based blocks.
 - Fixed an issue with transformed parts in posers causing whacky positional issues.
 - Fixed Poké Balls freezing in an open state if you look away when it's meant to close.
+- Adds a translation string name to the Empty Pokeball entity.
 
 ### Developer
 - Significantly changed the way properties in PokemonEntity work. This could break some plugins (albeit in a quick-fix way).
