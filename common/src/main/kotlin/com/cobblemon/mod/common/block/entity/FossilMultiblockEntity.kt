@@ -19,6 +19,7 @@ import net.minecraft.block.entity.BlockEntityType
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.nbt.NbtHelper
 import net.minecraft.util.math.BlockPos
+import net.minecraft.util.math.ChunkPos
 
 open class FossilMultiblockEntity(
     pos: BlockPos,
@@ -40,8 +41,11 @@ open class FossilMultiblockEntity(
             return if (field != null) {
                 field
             } else if (masterBlockPos != null && masterBlockPos != pos) {
-                val entity: FossilMultiblockEntity? = world?.getBlockEntity(masterBlockPos) as FossilMultiblockEntity?
-                field = entity?.multiblockStructure
+                val chunkPos = ChunkPos(masterBlockPos)
+                if (world?.chunkManager?.isChunkLoaded(chunkPos.x, chunkPos.z) ==  true) {
+                    val entity: FossilMultiblockEntity? = world?.getBlockEntity(masterBlockPos) as FossilMultiblockEntity?
+                    field = entity?.multiblockStructure
+                }
                 field
             } else {
                 null
