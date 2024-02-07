@@ -345,6 +345,12 @@
   "item.cobblemon.black_tumblestone": "Black Tumblestone",
   "item.cobblemon.sky_tumblestone": "Sky Tumblestone",
 
+  "trim_pattern.cobblemon.automaton": "Automaton",
+  "trim_pattern.cobblemon.oceanic": "Oceanic",
+
+  "item.cobblemon.automaton_armor_trim_smithing_template": "Automaton Armor Trim",
+  "item.cobblemon.oceanic_armor_trim_smithing_template": "Oceanic Armor Trim",
+
   "cobblemon.fossil.armor": "Armor",
   "cobblemon.fossil.bird": "Bird",
   "cobblemon.fossil.claw": "Claw",
@@ -360,6 +366,7 @@
   "cobblemon.fossil.root": "Root",
   "cobblemon.fossil.sail": "Sail",
   "cobblemon.fossil.skull": "Skull",
+
 
   "cobblemon.fossilmachine.protected": "This fossil belongs to %s!",
 

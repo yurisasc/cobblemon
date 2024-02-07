@@ -1,48 +1,25 @@
 {
   "sources": [
     {
-      "type": "paletted_permutations",
+      "type": "minecraft:paletted_permutations",
       "textures": [
-        "trims/models/armor/coast",
-        "trims/models/armor/coast_leggings",
-        "trims/models/armor/sentry",
-        "trims/models/armor/sentry_leggings",
-        "trims/models/armor/dune",
-        "trims/models/armor/dune_leggings",
-        "trims/models/armor/wild",
-        "trims/models/armor/wild_leggings",
-        "trims/models/armor/ward",
-        "trims/models/armor/ward_leggings",
-        "trims/models/armor/eye",
-        "trims/models/armor/eye_leggings",
-        "trims/models/armor/vex",
-        "trims/models/armor/vex_leggings",
-        "trims/models/armor/tide",
-        "trims/models/armor/tide_leggings",
-        "trims/models/armor/snout",
-        "trims/models/armor/snout_leggings",
-        "trims/models/armor/rib",
-        "trims/models/armor/rib_leggings",
-        "trims/models/armor/silence",
-        "trims/models/armor/silence_leggings",
-        "trims/models/armor/spire",
-        "trims/models/armor/spire_leggings"
+        "cobblemon:trims/models/armor/automaton",
+        "cobblemon:trims/models/armor/automaton_leggings",
+        "cobblemon:trims/models/armor/oceanic",
+        "cobblemon:trims/models/armor/oceanic_leggings"
       ],
       "palette_key": "trims/color_palettes/trim_palette",
       "permutations": {
-        "fire_stone": "cobblemon:trims/color_palettes/fire_stone",
-        "water_stone": "cobblemon:trims/color_palettes/water_stone",
-        "thunder_stone": "cobblemon:trims/color_palettes/thunder_stone",
-        "leaf_stone": "cobblemon:trims/color_palettes/leaf_stone",
-        "moon_stone": "cobblemon:trims/color_palettes/moon_stone",
-        "sun_stone": "cobblemon:trims/color_palettes/sun_stone",
-        "shiny_stone": "cobblemon:trims/color_palettes/shiny_stone",
-	"dusk_stone": "cobblemon:trims/color_palettes/dusk_stone",
-	"dawn_stone": "cobblemon:trims/color_palettes/dawn_stone",
-	"ice_stone": "cobblemon:trims/color_palettes/ice_stone",
-	"tumblestone": "cobblemon:trims/color_palettes/tumblestone",
-	"black_tumblestone": "cobblemon:trims/color_palettes/black_tumblestone",
-	"sky_tumblestone": "cobblemon:trims/color_palettes/sky_tumblestone"
+        "quartz": "trims/color_palettes/quartz",
+        "iron": "trims/color_palettes/iron",
+        "gold": "trims/color_palettes/gold",
+        "diamond": "trims/color_palettes/diamond",
+        "netherite": "trims/color_palettes/netherite",
+        "redstone": "trims/color_palettes/redstone",
+        "copper": "trims/color_palettes/copper",
+        "emerald": "trims/color_palettes/emerald",
+        "lapis": "trims/color_palettes/lapis",
+        "amethyst": "trims/color_palettes/amethyst"
       }
     }
   ]

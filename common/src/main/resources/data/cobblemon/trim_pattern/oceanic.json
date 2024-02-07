@@ -1,0 +1,7 @@
+{
+  "asset_id": "cobblemon:oceanic",
+  "description": {
+    "translate": "trim_pattern.cobblemon.oceanic"
+  },
+  "template_item": "cobblemon:oceanic_armor_trim_smithing_template"
+}

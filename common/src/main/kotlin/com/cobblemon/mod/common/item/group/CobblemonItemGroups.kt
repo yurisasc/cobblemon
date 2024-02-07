@@ -177,6 +177,9 @@ object CobblemonItemGroups {
         entries.add(CobblemonItems.HELIX_SHERD)
         entries.add(CobblemonItems.NOSTALGIC_SHERD)
         entries.add(CobblemonItems.SUSPICIOUS_SHERD)
+
+        entries.add(CobblemonItems.AUTOMATON_ARMOR_TRIM_SMITHING_TEMPLATE)
+        entries.add(CobblemonItems.OCEANIC_ARMOR_TRIM_SMITHING_TEMPLATE)
     }
 
     private fun blockEntries(displayContext: DisplayContext, entries: Entries) {
@@ -446,6 +449,9 @@ object CobblemonItemGroups {
         injector.putAfter(CobblemonItems.HELIX_SHERD, CobblemonItems.DOME_SHERD)
         injector.putAfter(CobblemonItems.NOSTALGIC_SHERD, CobblemonItems.HELIX_SHERD)
         injector.putAfter(CobblemonItems.SUSPICIOUS_SHERD, CobblemonItems.NOSTALGIC_SHERD)
+
+        injector.putAfter(CobblemonItems.AUTOMATON_ARMOR_TRIM_SMITHING_TEMPLATE, Items.SPIRE_ARMOR_TRIM_SMITHING_TEMPLATE)
+        injector.putAfter(CobblemonItems.OCEANIC_ARMOR_TRIM_SMITHING_TEMPLATE, CobblemonItems.AUTOMATON_ARMOR_TRIM_SMITHING_TEMPLATE)
     }
 
     /**
