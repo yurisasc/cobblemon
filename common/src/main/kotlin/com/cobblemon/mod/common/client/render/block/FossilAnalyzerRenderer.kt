@@ -25,12 +25,12 @@ import net.minecraft.util.math.RotationAxis
 class FossilAnalyzerRenderer(ctx: BlockEntityRendererFactory.Context) : BlockEntityRenderer<FossilAnalyzerBlockEntity> {
 
     override fun render(
-            entity: FossilAnalyzerBlockEntity,
-            tickDelta: Float,
-            matrices: MatrixStack,
-            vertexConsumers: VertexConsumerProvider?,
-            light: Int,
-            overlay: Int
+        entity: FossilAnalyzerBlockEntity,
+        tickDelta: Float,
+        matrices: MatrixStack,
+        vertexConsumers: VertexConsumerProvider?,
+        light: Int,
+        overlay: Int
     ) {
         val blockState = if (entity.world != null) entity.cachedState
             else (CobblemonBlocks.FOSSIL_ANALYZER.defaultState.with(HorizontalFacingBlock.FACING, Direction.SOUTH) as BlockState)

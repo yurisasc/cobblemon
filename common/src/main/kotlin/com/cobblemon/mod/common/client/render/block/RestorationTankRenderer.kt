@@ -31,12 +31,12 @@ import net.minecraft.util.math.RotationAxis
 
 class RestorationTankRenderer(ctx: BlockEntityRendererFactory.Context) : BlockEntityRenderer<RestorationTankBlockEntity> {
     override fun render(
-            entity: RestorationTankBlockEntity,
-            tickDelta: Float,
-            matrices: MatrixStack,
-            vertexConsumers: VertexConsumerProvider,
-            light: Int,
-            overlay: Int
+        entity: RestorationTankBlockEntity,
+        tickDelta: Float,
+        matrices: MatrixStack,
+        vertexConsumers: VertexConsumerProvider,
+        light: Int,
+        overlay: Int
     ) {
         if (entity.multiblockStructure == null) {
             return

@@ -336,7 +336,7 @@ class FossilMultiblockStructure (
             }
         }
         if(tankBaseEntity is RestorationTankBlockEntity) {
-            (tankBaseEntity).inv.items.forEach {
+            tankBaseEntity.inv.items.forEach {
                 val stack = ItemStack(it.item, 1)
                 ItemScatterer.spawn(world, pos.x.toDouble(), pos.y.toDouble(), pos.z.toDouble(), stack)
             }
@@ -492,13 +492,13 @@ class FossilMultiblockStructure (
         } else if (timeRemaining <= 0) {
             MonitorBlock.MonitorScreen.OFF
         } else {
-            getProgessScreen((TIME_TO_TAKE - timeRemaining) / TIME_PER_STAGE)
+            getProgressScreen((TIME_TO_TAKE - timeRemaining) / TIME_PER_STAGE)
         }
         val monitorState = world.getBlockState(monitorPos)
         world.setBlockState(monitorPos, monitorState.with(MonitorBlock.SCREEN, screenID))
     }
 
-    fun getProgessScreen(progress:Int) : MonitorBlock.MonitorScreen {
+    fun getProgressScreen(progress:Int) : MonitorBlock.MonitorScreen {
         return when (progress) {
             0 -> MonitorBlock.MonitorScreen.BLUE_PROGRESS_1
             1 -> MonitorBlock.MonitorScreen.BLUE_PROGRESS_2

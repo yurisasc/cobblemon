@@ -55,9 +55,9 @@ open class FossilMultiblockEntity(
     }
 
     override fun readNbt(nbt: NbtCompound) {
-        val oldMultiblockStructure = if(this.multiblockStructure != null) this.multiblockStructure as FossilMultiblockStructure else null
+        val oldMultiblockStructure = this.multiblockStructure as? FossilMultiblockStructure
         multiblockStructure = if (nbt.contains(DataKeys.MULTIBLOCK_STORAGE)) {
-            if(oldMultiblockStructure != null && oldMultiblockStructure.fossilState != null) {
+            if(oldMultiblockStructure?.fossilState != null) {
                 // Copy the fossilState's previous animation time to the new instance
                 // Otherwise the fetus animation gets interrupted on every block update
                 val animAge = oldMultiblockStructure.fossilState.peekAge() // If someone knows a better way to fetch the age, please do.

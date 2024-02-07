@@ -55,11 +55,11 @@ class RestorationTankBlockEntity(
         }
 
         override fun isEmpty(): Boolean {
-            return items.isEmpty()
+            return items.all { it == ItemStack.EMPTY }
         }
 
         override fun getStack(slot: Int): ItemStack {
-            if(slot == -1 || slot >= size() || items.isEmpty()) {
+            if(slot == -1 || slot >= size()) {
                 return ItemStack.EMPTY
             }
             return items[slot]
@@ -81,21 +81,21 @@ class RestorationTankBlockEntity(
         }
 
         override fun setStack(slot: Int, stack: ItemStack) {
-            if (tankEntity.multiblockStructure != null && tankEntity.multiblockStructure is FossilMultiblockStructure) {
-                val struct = tankEntity.multiblockStructure as FossilMultiblockStructure
-                tankEntity.world?.let {
-                    struct.insertOrganicMaterial(stack, it)
-                    val returnIdentifier = NaturalMaterials.getReturnItem((stack))
-                    if(returnIdentifier != null ) {
-                        // Store the item
-                        val returnItem = Registries.ITEM.get(returnIdentifier)
-                        val destStack = items.withIndex().firstOrNull() { it.value == ItemStack.EMPTY || (it.value.count < it.value.maxCount && it.value.item == returnItem) }
-                        if (destStack != null) {
-                            if(destStack.value == ItemStack.EMPTY) {
-                                items[destStack.index] = ItemStack(returnItem, 1)
-                            } else {
-                                destStack.value.increment(stack.count)
-                            }
+            val struct = tankEntity.multiblockStructure as? FossilMultiblockStructure
+            tankEntity.world?.let {
+                struct?.insertOrganicMaterial(stack, it)
+                val returnIdentifier = NaturalMaterials.getReturnItem((stack))
+                if(returnIdentifier != null ) {
+                    // Store the return item
+                    val returnItem = Registries.ITEM.get(returnIdentifier)
+                    val destStack = items.withIndex().firstOrNull {
+                        it.value == ItemStack.EMPTY || (it.value.count < it.value.maxCount && it.value.item == returnItem)
+                    }
+                    if (destStack != null) {
+                        if(destStack.value == ItemStack.EMPTY) {
+                            items[destStack.index] = ItemStack(returnItem, 1)
+                        } else {
+                            destStack.value.increment(stack.count)
                         }
                     }
                 }
@@ -103,8 +103,8 @@ class RestorationTankBlockEntity(
         }
 
         override fun markDirty() {
-            if (tankEntity.world != null) {
-                tankEntity.multiblockStructure?.markDirty(tankEntity.world!!)
+            tankEntity.world?.let {
+                tankEntity.multiblockStructure?.markDirty(it)
             }
         }
 
@@ -123,8 +123,8 @@ class RestorationTankBlockEntity(
                     val canUtilize = stack?.let { NaturalMaterials.isNaturalMaterial(it) } == true
                             && structure.organicMaterialInside < FossilMultiblockStructure.MATERIAL_TO_START
                             && structure.createdPokemon == null
-                    val returnItem = NaturalMaterials.getReturnItem((stack!!))
-                    if(canUtilize && returnItem != null) {
+                    val returnItem = NaturalMaterials.getReturnItem(stack!!) ?: return false
+                    if(canUtilize) {
                         // See if there's room
                         for (i in items.indices ) {
                             if(items[i] == ItemStack.EMPTY || (items[i].count < items[i].maxCount
@@ -134,7 +134,6 @@ class RestorationTankBlockEntity(
                         }
                         return false
                     }
-                    return  canUtilize
                 }
             }
             return false
