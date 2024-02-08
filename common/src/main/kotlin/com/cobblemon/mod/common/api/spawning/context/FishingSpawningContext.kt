@@ -34,7 +34,7 @@ class FishingSpawningContext(
     position = pos,
     light = world.getLightLevel(pos),
     skyLight = world.getLightLevel(pos.up()),
-    canSeeSky = world.isSkyVisible(pos),
+    canSeeSky = world.isSkyVisibleAllowingSea(pos),
     influences = influences
 ) {
     val nearbyBlocks = world.getBlockStates(Box.of(pos.toVec3d(), 10.0, 10.0, 10.0))
