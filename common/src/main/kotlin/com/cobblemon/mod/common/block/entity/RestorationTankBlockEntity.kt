@@ -16,6 +16,7 @@ import net.minecraft.block.BlockState
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.inventory.Inventories
 import net.minecraft.inventory.SidedInventory
+import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.registry.Registries
@@ -88,16 +89,20 @@ class RestorationTankBlockEntity(
                 if(returnIdentifier != null ) {
                     // Store the return item
                     val returnItem = Registries.ITEM.get(returnIdentifier)
-                    val destStack = items.withIndex().firstOrNull {
-                        it.value == ItemStack.EMPTY || (it.value.count < it.value.maxCount && it.value.item == returnItem)
-                    }
-                    if (destStack != null) {
-                        if(destStack.value == ItemStack.EMPTY) {
-                            items[destStack.index] = ItemStack(returnItem, 1)
-                        } else {
-                            destStack.value.increment(stack.count)
-                        }
-                    }
+                    storeReturnItem(returnItem, stack.count)
+                }
+            }
+        }
+
+        private fun storeReturnItem(returnItem: Item, count: Int) {
+            val destStack = items.withIndex().firstOrNull {
+                it.value == ItemStack.EMPTY || (it.value.count < it.value.maxCount && it.value.item == returnItem)
+            }
+            if (destStack != null) {
+                if(destStack.value == ItemStack.EMPTY) {
+                    items[destStack.index] = ItemStack(returnItem, 1)
+                } else {
+                    destStack.value.increment(count)
                 }
             }
         }
