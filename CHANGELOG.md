@@ -29,6 +29,7 @@
 - Cradily
 - Anorith
 - Armaldo
+- Tropius
 
 #### Gen 4
 - Shieldon
@@ -66,6 +67,8 @@
 - Hisuian Electrode
 - Hisuian Qwilfish
 - Overqwil
+- Hisuian Sneasel
+- Sneasler
 
 ### Changes
 - Pokémon now transition more smoothly between different poses.
