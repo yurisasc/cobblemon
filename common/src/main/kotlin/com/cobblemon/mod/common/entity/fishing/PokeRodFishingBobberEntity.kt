@@ -40,6 +40,8 @@ import com.cobblemon.mod.common.util.toBlockPos
 import com.mongodb.internal.connection.Server
 import net.minecraft.advancement.criterion.Criteria
 import net.minecraft.block.Blocks
+import net.minecraft.enchantment.Enchantment
+import net.minecraft.enchantment.Enchantments
 import net.minecraft.entity.*
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.entity.projectile.FishingBobberEntity
@@ -49,7 +51,11 @@ import net.minecraft.loot.LootTables
 import net.minecraft.loot.context.LootContextParameterSet
 import net.minecraft.loot.context.LootContextParameters
 import net.minecraft.loot.context.LootContextTypes
+import net.minecraft.nbt.NbtCompound
+import net.minecraft.nbt.NbtList
+import net.minecraft.nbt.NbtType
 import net.minecraft.particle.ParticleTypes
+import net.minecraft.registry.Registries
 import net.minecraft.registry.tag.FluidTags
 import net.minecraft.registry.tag.ItemTags
 import net.minecraft.server.network.ServerPlayerEntity
@@ -60,6 +66,7 @@ import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.MathHelper
 import net.minecraft.util.math.Vec3d
 import net.minecraft.util.math.random.Random
+import kotlin.random.*
 import net.minecraft.world.World
 import java.util.*
 
@@ -86,20 +93,20 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
     private var inOpenWater = true
     private var hookedEntity: Entity? = null
     private var state = State.FLYING
-    private val luckOfTheSeaLevel = 0
-    private val lureLevel = 0
+    private var luckOfTheSeaLevel = 0
+    private var lureLevel = 0
     private var typeCaught= "ITEM"
+    private var chosenBucket = Cobblemon.bestSpawner.config.buckets[0] // default to first rarity bucket
     private var rarityCaught = "COMMON"
     private val pokemonSpawnChance = 70 // chance a Pokemon will be fished up % out of 100
-    private var commonSpawnChance = Cobblemon.bestSpawner.config.buckets[0].weight.toDouble()  // chance a COMMON Pokemon will be fished up % out of 100
-    private var uncommonSpawnChance = Cobblemon.bestSpawner.config.buckets[1].weight.toDouble()  // chance an UNCOMMON Pokemon will be fished up % out of 100
-    private var rareSpawnChance = Cobblemon.bestSpawner.config.buckets[2].weight.toDouble() // chance an RARE Pokemon will be fished up % out of 100
-    // Ultra-Rare Spawn will be whatever is left out of 100
 
-    constructor(thrower: PlayerEntity, world: World, luckOfTheSeaLevel: Int, lureLevel: Int) : this(CobblemonEntities.POKE_BOBBER, world) {
+    constructor(thrower: PlayerEntity, world: World, luckOfTheSea: Int, lure: Int) : this(CobblemonEntities.POKE_BOBBER, world) {
         // Copy pasta a LOT
         //this(CobblemonEntities.POKE_BOBBER, world, luckOfTheSeaLevel, lureLevel)
         owner = thrower
+        luckOfTheSeaLevel = luckOfTheSea
+        lureLevel = lure
+
         val f = thrower.pitch
         val g = thrower.yaw
         val h = MathHelper.cos(-g * 0.017453292f - 3.1415927f)
@@ -120,25 +127,69 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
         prevPitch = pitch
     }
 
-    fun adjustSpawnChances(luckOfTheSeaLevel: Int): Map<String, Double> {
-        // Base chances
-        val baseUncommonIncrease = 5.0
-        val baseRareIncrease = 1.0
-        val baseUltraRareIncrease = .2
+    fun calculateMinMaxCountdown(weight: Float): Pair<Int, Int> {
+        // Constants for the target min and max values at weight extremes
+        val minAtMaxWeight = 20
+        val maxAtMaxWeight = 40
+        val minAtMinWeight = 15
+        val maxAtMinWeight = 20
 
-        // Calculate chances based on luck level
-        val uncommonSpawnChance = Cobblemon.bestSpawner.config.buckets[0].weight.toDouble() + baseUncommonIncrease * luckOfTheSeaLevel
-        val rareSpawnChance = Cobblemon.bestSpawner.config.buckets[1].weight.toDouble() + baseRareIncrease * luckOfTheSeaLevel
-        val ultraRareSpawnChance = Cobblemon.bestSpawner.config.buckets[2].weight.toDouble() + baseUltraRareIncrease * luckOfTheSeaLevel
-        val commonSpawnChance = 100.0 - (uncommonSpawnChance + rareSpawnChance + ultraRareSpawnChance)
+        // Calculate factors for min and max based on the weight
+        val minFactor = ((minAtMaxWeight - minAtMinWeight) / 100f) * weight + minAtMinWeight
+        val maxFactor = ((maxAtMaxWeight - maxAtMinWeight) / 100f) * weight + maxAtMinWeight
 
-        // Return a map of the chances for easy access
-        return mapOf(
-                "Common" to commonSpawnChance,
-                "Uncommon" to uncommonSpawnChance,
-                "Rare" to rareSpawnChance,
-                "Ultra-Rare" to ultraRareSpawnChance
-        )
+        // Ensure min and max are within the needed bounds
+        val min = minFactor.toInt().coerceIn(minAtMinWeight, minAtMaxWeight)
+        val max = maxFactor.toInt().coerceIn(maxAtMinWeight, maxAtMaxWeight)
+
+        return Pair(min, max)
+    }
+
+    fun chooseAdjustedSpawnBucket(buckets: List<SpawnBucket>, luckOfTheSeaLevel: Int): SpawnBucket {
+        val baseIncreases = listOf(5.0F, 1.0F, 0.2F)  // Base increases for the first three buckets beyond the first
+        val adjustedWeights = buckets.mapIndexed { index, bucket ->
+            if (index == 0) {
+                // Placeholder, will be recalculated
+                0.0F
+            } else {
+                val increase = if (index < baseIncreases.size) baseIncreases[index] else baseIncreases.last() + (index - baseIncreases.size + 1) * 0.15F
+                bucket.weight + increase * luckOfTheSeaLevel
+            }
+        }.toMutableList()
+
+        // Recalculate the first bucket's weight to ensure the total is 100%
+        val totalAdjustedWeight = adjustedWeights.sum() - adjustedWeights[0]  // Corrected to ensure the list contains Floats
+        adjustedWeights[0] = 100.0F - totalAdjustedWeight + buckets[0].weight
+
+        // Random selection based on adjusted weights
+        val weightSum = adjustedWeights.sum()
+        val chosenSum = kotlin.random.Random.nextDouble(weightSum.toDouble()).toFloat()  // Ensure usage of Random from kotlin.random package
+        var sum = 0.0F
+        adjustedWeights.forEachIndexed { index, weight ->
+            sum += weight
+            if (sum >= chosenSum) {
+                return buckets[index]
+            }
+        }
+
+        return buckets.first()  // Fallback
+    }
+
+    // make more generic version for other enchants. Pass in id of enchant
+    fun getEnchantLevel(enchantment: Enchantment): Int {
+        var pokerodEnchantments: NbtList? = null
+        if (owner?.isPlayer == true) {
+            pokerodEnchantments = (owner as PlayerEntity).mainHandStack?.enchantments
+        }
+
+        val luckOfTheSeaEnchantment = pokerodEnchantments?.filter {
+            if (it is NbtCompound)
+                if (it.getString("id") == Registries.ENCHANTMENT.getEntry(enchantment).key.toString())
+                    return@filter true
+            return@filter false
+        }?.first()
+
+        return (luckOfTheSeaEnchantment as? NbtCompound)?.getShort("lvl")?.toInt() ?: 0
     }
 
     fun isOpenOrWaterAround(pos: BlockPos): Boolean {
@@ -248,18 +299,23 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
                 serverWorld.spawnParticles(ParticleTypes.BUBBLE, this.x, m, this.z, (1.0f + this.width * 20.0f).toInt(), this.width.toDouble(), 0.0, this.width.toDouble(), 0.2)
                 serverWorld.spawnParticles(ParticleTypes.FISHING, this.x, m, this.z, (1.0f + this.width * 20.0f).toInt(), this.width.toDouble(), 0.0, this.width.toDouble(), 0.2)
 
-                // adjust the spawn chances depending on the enchantment levels
-                val spawnChanceMap = adjustSpawnChances(luckOfTheSeaLevel)
-
-                commonSpawnChance = spawnChanceMap.get("Common")!!
-                uncommonSpawnChance = spawnChanceMap.get("Uncommon")!!
-                rareSpawnChance = spawnChanceMap.get("Rare")!!
-
                 // TODO find a way to make luck of the sea environment increase odds of getting better rarity rates
                 if (MathHelper.nextInt(random, 0, 100) < this.pokemonSpawnChance) {
                     // todo do another chance check for rarity and then set typeCaught
                     this.typeCaught = "POKEMON"
-                    if (MathHelper.nextDouble(random, 0.0, 100.0) < this.commonSpawnChance) {
+
+                    val buckets = Cobblemon.bestSpawner.config.buckets
+
+                    // choose a spawn bucket according to weights no matter how many there are
+                    chosenBucket = chooseAdjustedSpawnBucket(buckets, luckOfTheSeaLevel)
+                    val reactionMinMax = calculateMinMaxCountdown(chosenBucket.weight)
+
+                    // set the hook reaction time to be based off the rarity of the bucket chosen
+                    this.hookCountdown = MathHelper.nextInt(random, reactionMinMax.first, reactionMinMax.second)
+
+                    System.out.println("Player hooked a Pokemon from the bucket: " + chosenBucket.name);
+
+                    /*if (MathHelper.nextDouble(random, 0.0, 100.0) < this.commonSpawnChance) {
                         // todo set common spawn
                         this.hookCountdown = MathHelper.nextInt(random, 20, 40)
                         this.rarityCaught = "COMMON"
@@ -286,7 +342,7 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
                                 System.out.println("Player hooked an Ultra-Rare Pokemon");
                             }
                         }
-                    }
+                    }*/
                 }
                 else {
                     // todo caught item
@@ -441,6 +497,7 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
 
     override fun use(usedItem: ItemStack): Int {
         val playerEntity = this.playerOwner
+
         return if (!world.isClient && playerEntity != null && !removeIfInvalid(playerEntity)) {
             var i = 0
             if (this.hookedEntity != null) {
@@ -472,84 +529,23 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
                     }
                     i = 1
                 }
-                else { // todo make logic for spawning Pokemon using rarity
-                    when (this.rarityCaught) {
-                        "COMMON" -> {
-                            System.out.println("Player reeled in a Common Pokemon!")
+                else { // logic for spawning Pokemon using rarity
 
-                            // TODO SPAWN COMMON POKEMON
-                            var spawnBucket = 0
+                    System.out.println("Player reeled in a Pokemon from the bucket: " + chosenBucket.name)
 
-                            val bobberOwner = playerOwner as ServerPlayerEntity
+                    val bobberOwner = playerOwner as ServerPlayerEntity
 
-                            spawnPokemonFromFishing(bobberOwner, this, spawnBucket)
+                    // spawn the pokemon from the chosen bucket at the bobber's location
+                    spawnPokemonFromFishing(bobberOwner, this, chosenBucket)
 
-                            val serverWorld = world as ServerWorld
+                    val serverWorld = world as ServerWorld
 
-                            val g = MathHelper.nextFloat(random, 0.0f, 360.0f) * (Math.PI.toFloat() / 180)
-                            val h = MathHelper.nextFloat(random, 25.0f, 60.0f)
-                            val partX = this.x + (MathHelper.sin(g) * h).toDouble() * 0.1
-                            serverWorld.spawnParticles(ParticleTypes.SPLASH, partX, this.y, this.z, 4 + random.nextInt(4), 0.1, 0.0, 0.1, 0.0)
+                    val g = MathHelper.nextFloat(random, 0.0f, 360.0f) * (Math.PI.toFloat() / 180)
+                    val h = MathHelper.nextFloat(random, 25.0f, 60.0f)
+                    val partX = this.x + (MathHelper.sin(g) * h).toDouble() * 0.1
+                    serverWorld.spawnParticles(ParticleTypes.SPLASH, partX, this.y, this.z, 4 + random.nextInt(4), 0.1, 0.0, 0.1, 0.0)
 
-                            val bobberBiome = world.getBiome(this.blockPos) // biome of the bobber
-                        }
-
-                        "UNCOMMON" -> {
-                            System.out.println("Player reeled in an Uncommon Pokemon!")
-                            // TODO SPAWN UNCOMMON POKEMON
-                            var spawnBucket = 1
-
-                            val bobberOwner = playerOwner as ServerPlayerEntity
-
-                            spawnPokemonFromFishing(bobberOwner, this, spawnBucket)
-
-                            val serverWorld = world as ServerWorld
-
-                            val g = MathHelper.nextFloat(random, 0.0f, 360.0f) * (Math.PI.toFloat() / 180)
-                            val h = MathHelper.nextFloat(random, 25.0f, 60.0f)
-                            val partX = this.x + (MathHelper.sin(g) * h).toDouble() * 0.1
-                            serverWorld.spawnParticles(ParticleTypes.SPLASH, partX, this.y, this.z, 6 + random.nextInt(6), 0.1, 0.0, 0.1, 0.0)
-
-                            val bobberBiome = world.getBiome(this.blockPos) // biome of the bobber
-                        }
-
-                        "RARE" ->  {
-                            System.out.println("Player reeled in a Rare Pokemon!")
-                            // TODO SPAWN RARE POKEMON
-                            var spawnBucket = 2
-
-                            val bobberOwner = playerOwner as ServerPlayerEntity
-
-                            spawnPokemonFromFishing(bobberOwner, this, spawnBucket)
-
-                            val serverWorld = world as ServerWorld
-
-                            val g = MathHelper.nextFloat(random, 0.0f, 360.0f) * (Math.PI.toFloat() / 180)
-                            val h = MathHelper.nextFloat(random, 25.0f, 60.0f)
-                            val partX = this.x + (MathHelper.sin(g) * h).toDouble() * 0.1
-                            serverWorld.spawnParticles(ParticleTypes.SPLASH, partX, this.y, this.z, 8 + random.nextInt(8), 0.1, 0.0, 0.1, 0.0)
-
-                            val bobberBiome = world.getBiome(this.blockPos) // biome of the bobber
-                        }
-                        "ULTRA-RARE" ->  {
-                            System.out.println("Player reeled in a Rare Pokemon!")
-                            // TODO SPAWN RARE POKEMON
-                            var spawnBucket = 3
-
-                            val bobberOwner = playerOwner as ServerPlayerEntity
-
-                            spawnPokemonFromFishing(bobberOwner, this, spawnBucket)
-
-                            val serverWorld = world as ServerWorld
-
-                            val g = MathHelper.nextFloat(random, 0.0f, 360.0f) * (Math.PI.toFloat() / 180)
-                            val h = MathHelper.nextFloat(random, 25.0f, 60.0f)
-                            val partX = this.x + (MathHelper.sin(g) * h).toDouble() * 0.1
-                            serverWorld.spawnParticles(ParticleTypes.SPLASH, partX, this.y, this.z, 10 + random.nextInt(10), 0.1, 0.0, 0.1, 0.0)
-
-                            val bobberBiome = world.getBiome(this.blockPos) // biome of the bobber
-                        }
-                    }
+                    val bobberBiome = world.getBiome(this.blockPos) // biome of the bobber. But idk if we need this. Probably not anymore
                 }
             }
             if (this.isOnGround) {
@@ -562,7 +558,7 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
         }
     }
 
-    fun spawnPokemonFromFishing(player: PlayerEntity, bobber: PokeRodFishingBobberEntity, rarityBucket: Int) {
+    fun spawnPokemonFromFishing(player: PlayerEntity, bobber: PokeRodFishingBobberEntity, chosenBucket: SpawnBucket) {
         var hookedEntityID: Int? = null
         var hookedEntity: Entity? = null
 
@@ -573,9 +569,9 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
         //val spawnCause = SpawnCause(spawner = spawner, bucket = spawner.chooseBucket(), entity = spawner.getCauseEntity())
         val spawnCause = FishingSpawnCause(
             spawner = spawner,
-            bucket = Cobblemon.bestSpawner.config.buckets[rarityBucket],
+            bucket = chosenBucket,
             entity = player,
-            rodStack = ItemStack(CobblemonItems.POKEROD) // Crab, you should probably parse in the rod item connected to the bobber so we can check enchants in spawn conditions
+            rodStack = player.mainHandStack // Crab, you should probably parse in the rod item connected to the bobber so we can check enchants in spawn conditions
         )
 
         val result = spawner.run(spawnCause, world as ServerWorld, pos.toBlockPos())
@@ -610,23 +606,3 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
     }
 
 }
-
-/*class PokeBobberEntity : FishingBobberEntity {
-
-    constructor(entityType: EntityType<out FishingBobberEntity>, world: World) :
-            super(entityType, world)
-
-    constructor(player: PlayerEntity, world: World, luckOfTheSeaLevel: Int, lureLevel: Int) :
-            super(player, world, luckOfTheSeaLevel, lureLevel)
-
-    constructor(entityType: EntityType<out FishingBobberEntity>, world: World, luckOfTheSeaLevel: Int, lureLevel: Int) :
-            super(entityType, world)
-
-
-    override fun tick() {
-        super.tick()
-        // todo add more logic per tick here
-    }
-
-    // todo add new methods
-}*/

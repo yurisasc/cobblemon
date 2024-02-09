@@ -8,6 +8,8 @@
 
 package com.cobblemon.mod.common.client.render.entity
 
+import com.cobblemon.mod.common.CobblemonItems
+import com.cobblemon.mod.common.util.cobblemonResource
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
 import net.minecraft.client.MinecraftClient
@@ -33,7 +35,7 @@ import org.joml.Matrix4f
 */
 @Environment(value = EnvType.CLIENT)
 class PokeBobberEntityRenderer(context: EntityRendererFactory.Context?) : EntityRenderer<FishingBobberEntity>(context) {
-    /*override fun render(fishingBobberEntity: FishingBobberEntity, f: Float, g: Float, matrixStack: MatrixStack, vertexConsumerProvider: VertexConsumerProvider, i: Int) {
+    override fun render(fishingBobberEntity: FishingBobberEntity, f: Float, g: Float, matrixStack: MatrixStack, vertexConsumerProvider: VertexConsumerProvider, i: Int) {
         var s: Double
         val r: Float
         val q: Double
@@ -56,7 +58,7 @@ class PokeBobberEntityRenderer(context: EntityRendererFactory.Context?) : Entity
         matrixStack.pop()
         var j = if (playerEntity.mainArm == Arm.RIGHT) 1 else -1
         val itemStack = playerEntity.mainHandStack
-        if (!itemStack.isOf(Items.FISHING_ROD)) {
+        if (!itemStack.isOf(CobblemonItems.POKEROD)) {
             j = -j
         }
         val h = playerEntity.getHandSwingProgress(g)
@@ -92,20 +94,22 @@ class PokeBobberEntityRenderer(context: EntityRendererFactory.Context?) : Entity
         val entry2 = matrixStack.peek()
         val y = 16
         for (z in 0..16) {
-            FishingBobberEntityRenderer.Companion.renderFishingLine(v, w, x, vertexConsumer2, entry2, FishingBobberEntityRenderer.Companion.percentage(z, 16), FishingBobberEntityRenderer.Companion.percentage(z + 1, 16))
+            renderFishingLine(v, w, x, vertexConsumer2, entry2, percentage(z, 16), percentage(z + 1, 16))
         }
         matrixStack.pop()
         super.render(fishingBobberEntity, f, g, matrixStack, vertexConsumerProvider, i)
-    }*/
+    }
 
     override fun getTexture(fishingBobberEntity: FishingBobberEntity): Identifier {
         return TEXTURE
     }
 
     companion object {
-        private val TEXTURE = Identifier("textures/item/fishing/pokeball_bobber.png")
+        private val TEXTURE = cobblemonResource("textures/item/fishing/pokeball_bobber.png")
         private val LAYER = RenderLayer.getEntityCutout(TEXTURE)
         private const val field_33632 = 960.0
+
+        @JvmStatic
         private fun percentage(value: Int, max: Int): Float {
             return value.toFloat() / max.toFloat()
         }
@@ -114,6 +118,7 @@ class PokeBobberEntityRenderer(context: EntityRendererFactory.Context?) : Entity
             buffer.vertex(matrix, x - 0.5f, y.toFloat() - 0.5f, 0.0f).color(255, 255, 255, 255).texture(u.toFloat(), v.toFloat()).overlay(OverlayTexture.DEFAULT_UV).light(light).normal(normalMatrix, 0.0f, 1.0f, 0.0f).next()
         }
 
+        @JvmStatic
         private fun renderFishingLine(x: Float, y: Float, z: Float, buffer: VertexConsumer, matrices: MatrixStack.Entry, segmentStart: Float, segmentEnd: Float) {
             val f = x * segmentStart
             val g = y * (segmentStart * segmentStart + segmentStart) * 0.5f + 0.25f
@@ -122,7 +127,10 @@ class PokeBobberEntityRenderer(context: EntityRendererFactory.Context?) : Entity
             var j = y * (segmentEnd * segmentEnd + segmentEnd) * 0.5f + 0.25f - g
             var k = z * segmentEnd - h
             val l = MathHelper.sqrt(i * i + j * j + k * k)
-            buffer.vertex(matrices.positionMatrix, f, g, h).color(0, 0, 0, 255).normal(matrices.normalMatrix, l.let { i /= it; i }, l.let { j /= it; j }, l.let { k /= it; k }).next()
+            i /= l
+            j /= l
+            k /= l
+            buffer.vertex(matrices.positionMatrix, f, g, h).color(0, 0, 0, 255).normal(matrices.normalMatrix, i, j, k).next()
         }
     }
 }
