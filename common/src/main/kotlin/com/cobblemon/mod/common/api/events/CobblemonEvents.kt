@@ -157,4 +157,8 @@ object CobblemonEvents {
     val LEFTOVERS_CREATED = CancelableObservable<LeftoversCreatedEvent>()
     @JvmField
     val BIG_ROOT_PROPAGATED = CancelableObservable<BigRootPropagatedEvent>()
+    @JvmField
+    val HELD_ITEM_PRE = CancelableObservable<HeldItemEvent.Pre>()
+    @JvmField
+    val HELD_ITEM_POST = EventObservable<HeldItemEvent.Post>()
 }

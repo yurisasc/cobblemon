@@ -98,6 +98,7 @@ import com.cobblemon.mod.common.pokemon.properties.HiddenAbilityPropertyType
 import com.cobblemon.mod.common.pokemon.properties.UncatchableProperty
 import com.cobblemon.mod.common.pokemon.properties.tags.PokemonFlagProperty
 import com.cobblemon.mod.common.pokemon.stat.CobblemonStatProvider
+import com.cobblemon.mod.common.sherds.CobblemonSherds
 import com.cobblemon.mod.common.starter.CobblemonStarterHandler
 import com.cobblemon.mod.common.trade.TradeManager
 import com.cobblemon.mod.common.util.DataKeys
@@ -387,6 +388,8 @@ object Cobblemon {
                 true
             ).ifSuccessful { it.mute = true }
         }
+
+        CobblemonSherds.registerSherds()
     }
 
     fun getLevel(dimension: RegistryKey<World>): World? {
