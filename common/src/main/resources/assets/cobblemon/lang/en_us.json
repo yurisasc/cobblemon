@@ -503,6 +503,12 @@
   "cobblemon.ui.pasture.owned_name": "%1$s (%2$s)",
   "cobblemon.pasture.too_many_nearby": "There are too many Pokémon nearby.",
 
+  "cobblemon.ui.interact.give.item": "Change held item",
+  "cobblemon.ui.interact.spectate": "Spectate",
+  "cobblemon.ui.interact.trade": "Trade",
+  "cobblemon.ui.interact.battle": "Battle",
+  "cobblemon.ui.interact.mount.shoulder": "Shoulder",
+
   "key.cobblemon.upshiftparty": "Party Shift Up",
   "key.cobblemon.downshiftparty": "Party Shift Down",
   "key.cobblemon.hideparty": "Hide Party Overlay",
