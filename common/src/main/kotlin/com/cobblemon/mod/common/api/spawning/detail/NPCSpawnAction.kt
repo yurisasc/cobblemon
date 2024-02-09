@@ -18,7 +18,7 @@ import com.cobblemon.mod.common.entity.npc.NPCEntity
  * @since October 8th, 2023
  */
 class NPCSpawnAction(ctx: SpawningContext, override val detail: NPCSpawnDetail) : SpawnAction<NPCEntity>(ctx, detail) {
-    override fun createEntity(): NPCEntity {
+    override fun run(): NPCEntity {
         val npc = NPCEntity(ctx.world)
         npc.npc = detail.npcClass
         npc.appliedAspects.addAll(detail.aspects)

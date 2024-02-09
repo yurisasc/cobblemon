@@ -12,6 +12,7 @@ import com.bedrockk.molang.runtime.MoLangRuntime
 import com.bedrockk.molang.runtime.struct.VariableStruct
 import com.cobblemon.mod.common.CobblemonEntities
 import com.cobblemon.mod.common.CobblemonMemories
+import com.cobblemon.mod.common.CobblemonNetwork.sendPacket
 import com.cobblemon.mod.common.CobblemonSensors
 import com.cobblemon.mod.common.GenericsCheatClass.createNPCBrain
 import com.cobblemon.mod.common.api.entity.PokemonSender
@@ -40,8 +41,11 @@ import com.cobblemon.mod.common.entity.npc.ai.LookAtBattlingPokemonTask
 import com.cobblemon.mod.common.entity.npc.ai.MoveToTargetTask
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.net.messages.client.animation.PlayPoseableAnimationPacket
+import com.cobblemon.mod.common.net.messages.client.npc.CloseNPCEditorPacket
+import com.cobblemon.mod.common.net.messages.client.npc.OpenNPCEditorPacket
 import com.cobblemon.mod.common.util.DataKeys
 import com.cobblemon.mod.common.util.asExpressionLike
+import com.cobblemon.mod.common.util.getPlayer
 import com.cobblemon.mod.common.util.withNPCValue
 import com.cobblemon.mod.common.util.withPlayerValue
 import com.google.common.collect.ImmutableList
@@ -69,6 +73,8 @@ import net.minecraft.nbt.NbtList
 import net.minecraft.nbt.NbtString
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.server.world.ServerWorld
+import net.minecraft.text.MutableText
+import net.minecraft.text.Text
 import net.minecraft.util.ActionResult
 import net.minecraft.util.Hand
 import net.minecraft.util.Identifier
@@ -80,6 +86,8 @@ class NPCEntity(world: World) : PassiveEntity(CobblemonEntities.NPC, world), Npc
     override val struct = this.asMoLangValue()
 
     val runtime = MoLangRuntime().setup().withNPCValue(value = this)
+
+    var editingPlayer: UUID? = null
 
     var npc = NPCClasses.random()
         set(value) {
@@ -94,9 +102,7 @@ class NPCEntity(world: World) : PassiveEntity(CobblemonEntities.NPC, world), Npc
         NPCServerDelegate()
     }
 
-
     var battle: NPCBattleConfiguration? = null
-    var interact: NPCInteractConfiguration? = null
     var behaviour: NPCBehaviourConfiguration? = null
 
     var interaction: Either<Identifier, ExpressionLike>? = null
@@ -307,5 +313,14 @@ class NPCEntity(world: World) : PassiveEntity(CobblemonEntities.NPC, world), Npc
                 brain.resetPossibleActivities(listOf(BATTLING))
             }
         }
+    }
+
+    fun edit(player: ServerPlayerEntity) {
+        val lastEditing = editingPlayer?.getPlayer()
+        if (lastEditing != null) {
+            lastEditing.sendPacket(CloseNPCEditorPacket())
+        }
+        player.sendPacket(OpenNPCEditorPacket(this))
+        editingPlayer = player.uuid
     }
 }

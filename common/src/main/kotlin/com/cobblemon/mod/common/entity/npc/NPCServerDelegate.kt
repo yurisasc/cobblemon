@@ -17,6 +17,7 @@ import com.cobblemon.mod.common.api.dialogue.Dialogues
 import com.cobblemon.mod.common.api.entity.NPCSideDelegate
 import com.cobblemon.mod.common.api.molang.MoLangFunctions.getQueryStruct
 import com.cobblemon.mod.common.api.molang.ObjectValue
+import com.cobblemon.mod.common.api.text.text
 import com.cobblemon.mod.common.battles.BattleBuilder
 import com.cobblemon.mod.common.util.asIdentifierDefaultingNamespace
 import net.minecraft.server.network.ServerPlayerEntity
@@ -27,6 +28,7 @@ class NPCServerDelegate : NPCSideDelegate {
     override fun initialize(entity: NPCEntity) {
         super.initialize(entity)
         this.entity = entity
+        this.entity.customName = entity.npc.names.randomOrNull() ?: "NPC".text()
     }
 
     override fun addToStruct(struct: QueryStruct) {
