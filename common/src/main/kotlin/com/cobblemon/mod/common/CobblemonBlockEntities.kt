@@ -17,6 +17,7 @@ import com.cobblemon.mod.common.block.entity.fossil.FossilMultiblockEntity
 import com.cobblemon.mod.common.block.entity.fossil.FossilTubeBlockEntity
 import com.cobblemon.mod.common.block.multiblock.FossilMultiblockBuilder
 import com.cobblemon.mod.common.block.entity.*
+import com.cobblemon.mod.common.block.entity.displaycase.DisplayCaseBlockEntity
 import com.cobblemon.mod.common.platform.PlatformRegistry
 import net.minecraft.block.entity.BlockEntityType
 import net.minecraft.registry.Registries
@@ -64,5 +65,10 @@ object CobblemonBlockEntities : PlatformRegistry<Registry<BlockEntityType<*>>, R
         BlockEntityType.Builder.create({ pos, state -> FossilCompartmentBlockEntity(pos, state, FossilMultiblockBuilder(pos)) },
             CobblemonBlocks.FOSSIL_COMPARTMENT
         ).build(null)
+    )
+
+    @JvmField
+    val DISPLAY_CASE: BlockEntityType<DisplayCaseBlockEntity> = this.create("display_case",
+        BlockEntityType.Builder.create(::DisplayCaseBlockEntity, CobblemonBlocks.DISPLAY_CASE).build(null)
     )
 }
