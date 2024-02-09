@@ -268,7 +268,7 @@
   "item.cobblemon.ancient_heavy_ball.tooltip": "1×, throws less far",
   "item.cobblemon.ancient_leaden_ball.tooltip": "1.5×, throws less far",
   "item.cobblemon.ancient_gigaton_ball.tooltip": "2×, throws less far",
-  "item.cobblemon.ancient_origin_ball.tooltip": "1× catch rate",
+  "item.cobblemon.ancient_origin_ball.tooltip": "Guaranteed capture",
 
   "item.cobblemon.mulch_base": "Mulch",
   "item.cobblemon.coarse_mulch": "Coarse Mulch",
@@ -508,6 +508,12 @@
   "cobblemon.ui.pasture.recall_all": "Recall All",
   "cobblemon.ui.pasture.owned_name": "%1$s (%2$s)",
   "cobblemon.pasture.too_many_nearby": "There are too many Pokémon nearby.",
+
+  "cobblemon.ui.interact.give.item": "Change held item",
+  "cobblemon.ui.interact.spectate": "Spectate",
+  "cobblemon.ui.interact.trade": "Trade",
+  "cobblemon.ui.interact.battle": "Battle",
+  "cobblemon.ui.interact.mount.shoulder": "Shoulder",
 
   "key.cobblemon.upshiftparty": "Party Shift Up",
   "key.cobblemon.downshiftparty": "Party Shift Down",

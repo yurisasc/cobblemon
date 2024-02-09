@@ -9,7 +9,9 @@
 package com.cobblemon.mod.common.client.gui.interact.wheel
 
 import com.cobblemon.mod.common.api.gui.blitk
+import net.minecraft.client.MinecraftClient
 import net.minecraft.client.gui.DrawContext
+import net.minecraft.client.gui.tooltip.Tooltip
 import net.minecraft.client.gui.widget.ButtonWidget
 import net.minecraft.client.sound.SoundManager
 import net.minecraft.client.util.math.MatrixStack
@@ -21,6 +23,7 @@ import org.joml.Vector4f
 class InteractWheelButton(
     private val iconResource: Identifier?,
     private val buttonResource: Identifier,
+    private val tooltipText: String?,
     x: Int,
     y: Int,
     private val isEnabled: Boolean,
@@ -49,6 +52,12 @@ class InteractWheelButton(
             textureHeight = TEXTURE_HEIGHT,
             alpha = if (isEnabled) 1f else 0.4f
         )
+
+        if(isHovered(mouseX.toFloat(), mouseY.toFloat())){
+            tooltipText?.let {
+                context.drawTooltip(MinecraftClient.getInstance().textRenderer, Text.translatable(it), mouseX, mouseY)
+            }
+        }
 
         if (iconResource != null) {
             val (iconX, iconY) = getIconPosition()
@@ -84,6 +93,10 @@ class InteractWheelButton(
         val yMin = y.toFloat()
         val yMax = yMin + BUTTON_SIZE
         return mouseX in xMin..xMax && mouseY in yMin..yMax
+    }
+
+    override fun getTooltip(): Tooltip? {
+        tooltipText?.let { return Tooltip.of(Text.translatable(it)) } ?: return super.getTooltip()
     }
 
 }

@@ -57,11 +57,25 @@
   "poke_ball.hit": {
     "sounds": [ "cobblemon:pokeball/hit" ]
   },
+  "poke_ball.throw": {
+    "sounds": [
+      "cobblemon:pokeball/throw_1",
+        "cobblemon:pokeball/throw_2",
+        "cobblemon:pokeball/throw_3",
+        "cobblemon:pokeball/throw_4"
+    ]
+  },
+  "poke_ball.trail": {
+    "sounds": [ "cobblemon:pokeball/trail" ]
+  },
   "item.use": {
     "sounds": [ "cobblemon:use_item" ]
   },
   "pokemon.can_evolve": {
     "sounds": [ "cobblemon:pokemon/evolution_notification"]
+  },
+  "evolution.evolve": {
+    "sounds": ["cobblemon:evolve"]
   },
   "pokemon.evolving": {
     "sounds": [ "cobblemon:pokemon/evolving"]

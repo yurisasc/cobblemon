@@ -8,7 +8,7 @@
 - Added Tumblestone Blocks, a storage block crafted from 9 Tumblestones.
 - Added Ancient Poké Balls, which are aesthetic variants crafted from Tumblestones.
 - Added the Ancient Feather, Wing, and Jet Balls, which fly further than regular Poké Balls.
-- Added the Ancient Heavy, Leaden, and Gigaton Balls, which are heavier and don't fly as far as regular Poké Balls. These will recieve more functionality in a future update.
+- Added the Ancient Heavy, Leaden, and Gigaton Balls, which are heavier and don't fly as far as regular Poké Balls. These will receive more functionality in a future update.
 - Added Original Trainer functionality. To edit the OT through commands, you must specify originaltrainertype=<Player/NPC>, and originaltrainer=<Username or UUID/NPC Name>
 - Added support for planting Apricorn trees, berries, and mints in [Botany Pots](https://modrinth.com/mod/botany-pots)
 - Added the hidden "True Vivillionaire" advancement.
@@ -16,6 +16,8 @@
 - Added dynamic lighting support for any Species or Forms when using [LambDynamicLights](https://modrinth.com/mod/lambdynamiclights) or [Dynamic Lights Reforged](https://www.curseforge.com/minecraft/mc-mods/dynamiclights-reforged), at this time we don't ship with any defaults for this feature but addon creators can make use of this feature.
 - Added 6 Pokémon-themed Pottery Sherds, obtained from ruin structures.
 - Added a Pokémon-themed armor trim, obtained from ruin structures.
+- Added effects for many Poké Balls when sending out Pokémon or capturing.
+- Added a new send-out ball toss animation that showcases the ball used for the Pokémon.
 
 ### Changes
 - Pokémon now transition more smoothly between different poses.
@@ -27,6 +29,7 @@
 - Removed the Inferno, Forsaken, Poké Ball, and Void patterns from the Aspiring Vivillionaire advancement.
 - Updated movesets to add Gen 9 DLC moves.
 - Apricorn Sprouts can now be planted directly on Apricorn leaves to create a new Apricorn of the same color.
+- Added tooltips to interaction GUIs to make it clearer what they do.
 
 ### Fixes
 - Re-added the recipe for the Iron Vitamin.
@@ -35,15 +38,17 @@
 - Fixed battle lang for Poison Touch Ability
 - Fixed Cubone not being able to evolve into Alolan Marowak.
 - Fixed Squawkabilly forms not being recognized.
+- Fixed the bounce animation for Poké Balls being delayed by like, a full second.
 - Note blocks now play the correct sound on the Apricorn Plank based blocks.
 - Fixed an issue with transformed parts in posers causing whacky positional issues.
 - Fixed Poké Balls freezing in an open state if you look away when it's meant to close.
 - Adds a translation string name to the Empty Pokeball entity.
+- Fixed very many issues with Bedrock particle effects.
 
 ### Developer
-- Significantly changed the way properties in PokemonEntity work. This could break some plugins (albeit in a quick-fix way).
-- Rebuilt the scheduling API to more clearly force side choices and allow more local temporal frames of reference for tasks.
-- Added dialogue API.
+- Significantly changed the way properties in PokemonEntity work. This could break some plugins (not in a big way, but changes will be needed).
+- Rebuilt the scheduling API to more clearly force side choices and temporal frames of reference for tasks.
+- Added dialogue API and data registry.
 - Opened up the ItemDropEntry class to allow for it to be extended.
 - Added a new "advancement" evolution variant that takes an advancement identifier and succeeds if the player has the advancement.
 - Made spawning API capable of non-entity spawning
