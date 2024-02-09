@@ -9,7 +9,7 @@
 package com.cobblemon.mod.common.api.toast
 
 import com.cobblemon.mod.common.Cobblemon
-import com.cobblemon.mod.common.api.scheduling.after
+import com.cobblemon.mod.common.api.scheduling.afterOnServer
 import com.cobblemon.mod.common.net.messages.client.toast.ToastPacket
 import com.cobblemon.mod.common.platform.events.PlatformEvents
 import net.minecraft.item.ItemStack
@@ -137,7 +137,7 @@ class Toast(
      * @param ticks The number of ticks before the lifecycle of this toast ends.
      */
     fun expireAfter(ticks: Int) {
-        after(ticks, serverThread = true) {
+        afterOnServer(ticks = ticks) {
             this.expire()
         }
     }

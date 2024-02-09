@@ -33,7 +33,9 @@ open class PokeBall(
     val effects: List<CaptureEffect> = listOf(),
     val waterDragValue: Float,
     val model2d: Identifier,
-    val model3d: Identifier
+    val model3d: Identifier,
+    val throwPower: Float,
+    val ancient: Boolean
 ) {
 
     // This gets attached during item registry

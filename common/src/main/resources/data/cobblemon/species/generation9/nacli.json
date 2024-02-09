@@ -50,7 +50,7 @@
     "amount": 2,
     "entries": [
       {
-        "item": "minecraft:nether_quartz",
+        "item": "minecraft:quartz",
         "quantityRange": "0-1"
       },
       {

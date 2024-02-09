@@ -1,0 +1,9 @@
+{
+  "maxScale": 1.0,
+  "yTranslation": 0.0,
+
+
+  "animations": [
+    "bedrock(amaura_fetus, sleep)"
+  ]
+}

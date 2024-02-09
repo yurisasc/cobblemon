@@ -16,6 +16,7 @@ import it.unimi.dsi.fastutil.longs.Long2ObjectMap
 import it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap
 import java.util.EnumSet
 import net.minecraft.block.AbstractRailBlock
+import net.minecraft.block.Blocks
 import net.minecraft.block.FenceGateBlock
 import net.minecraft.entity.ai.pathing.NavigationType
 import net.minecraft.entity.ai.pathing.PathNode
@@ -252,6 +253,8 @@ class OmniPathNodeMaker : PathNodeMaker() {
             PathNodeType.FENCE
         } else if (PathNodeType.UNPASSABLE_RAIL in set) {
             PathNodeType.UNPASSABLE_RAIL
+        } else if (PathNodeType.DAMAGE_OTHER in set) {
+            PathNodeType.DAMAGE_OTHER
         } else {
             var pathNodeType2: PathNodeType? = PathNodeType.BLOCKED
             val nearbyTypeIterator = set.iterator()
@@ -315,20 +318,18 @@ class OmniPathNodeMaker : PathNodeMaker() {
         pos: BlockPos,
         type: PathNodeType
     ): PathNodeType {
-        var type = type
-        if (type == PathNodeType.DOOR_WOOD_CLOSED && canOpenDoors && canEnterOpenDoors) {
-            type = PathNodeType.WALKABLE_DOOR
-        }
-        if (type == PathNodeType.DOOR_OPEN && !canEnterOpenDoors) {
-            type = PathNodeType.BLOCKED
-        }
-        if (type == PathNodeType.RAIL && world.getBlockState(pos).block !is AbstractRailBlock && world.getBlockState(pos.down()).block !is AbstractRailBlock) {
-            type = PathNodeType.UNPASSABLE_RAIL
-        }
-        if (type == PathNodeType.LEAVES) {
-            type = PathNodeType.BLOCKED
-        }
-        return type
+        val block = world.getBlockState(pos).block
+        return if (type == PathNodeType.DOOR_WOOD_CLOSED && canOpenDoors && canEnterOpenDoors) {
+            PathNodeType.WALKABLE_DOOR
+        }else if (type == PathNodeType.DOOR_OPEN && !canEnterOpenDoors) {
+            PathNodeType.BLOCKED
+        }else if (type == PathNodeType.RAIL && block !is AbstractRailBlock && world.getBlockState(pos.down()).block !is AbstractRailBlock) {
+            PathNodeType.UNPASSABLE_RAIL
+        }else if (type == PathNodeType.LEAVES) {
+            PathNodeType.BLOCKED
+        }else if(block == Blocks.SWEET_BERRY_BUSH){
+            PathNodeType.DANGER_OTHER
+        }else type
     }
 
     fun canWalk(): Boolean {

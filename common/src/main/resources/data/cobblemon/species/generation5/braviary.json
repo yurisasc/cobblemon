@@ -36,6 +36,9 @@
     "special_defence": 75,
     "speed": 80
   },
+  "features": [
+    "hisuian"
+  ],
   "catchRate": 60,
   "maleRatio": 1,
   "shoulderMountable": false,
@@ -150,7 +153,6 @@
       "height": 17,
       "weight": 434,
       "preEvolution": "rufflet",
-      "evolutions": [],
       "cannotDynamax": false,
       "battleOnly": false
     }

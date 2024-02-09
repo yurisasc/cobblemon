@@ -1,4 +1,4 @@
-{
+﻿{
   "implemented": true,
   "name": "Kangaskhan",
   "nationalPokedexNumber": 115,
@@ -69,7 +69,6 @@
       ],
       "height": 22,
       "weight": 1000,
-      "evolutions": [],
       "cannotDynamax": false,
       "battleOnly": true
     }

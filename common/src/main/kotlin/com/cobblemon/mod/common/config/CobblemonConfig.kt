@@ -219,4 +219,7 @@ class CobblemonConfig {
 
     @NodeCategory(Category.World)
     var pastureMaxPerChunk = 4F
+
+    @NodeCategory(Category.World)
+    var maxInsertedFossilItems = 2
 }

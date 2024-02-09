@@ -1,4 +1,4 @@
-{
+﻿{
   "name": "Coalossal",
   "nationalPokedexNumber": 839,
   "primaryType": "rock",
@@ -63,7 +63,6 @@
       ],
       "height": 420,
       "weight": 0,
-      "evolutions": [],
       "cannotDynamax": false,
       "battleOnly": false
     }
@@ -92,6 +91,7 @@
     "tm:bodypress",
     "tm:bodyslam",
     "tm:bulldoze",
+    "tm:curse",
     "tm:dig",
     "tm:earthpower",
     "tm:earthquake",
@@ -114,6 +114,8 @@
     "tm:ironhead",
     "tm:megakick",
     "tm:megapunch",
+    "tm:meteorbeam",
+    "tm:mudslap",
     "tm:overheat",
     "tm:powergem",
     "tm:protect",
@@ -126,8 +128,10 @@
     "tm:sandstorm",
     "tm:sandtomb",
     "tm:scald",
+    "tm:scorchingsands",
     "tm:selfdestruct",
     "tm:sleeptalk",
+    "tm:smackdown",
     "tm:snore",
     "tm:solarbeam",
     "tm:spikes",
@@ -136,6 +140,7 @@
     "tm:substitute",
     "tm:sunnyday",
     "tm:takedown",
+    "tm:temperflare",
     "tm:terablast",
     "tm:willowisp",
     "tutor:meteorbeam",

@@ -9,15 +9,14 @@
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen9
 
 import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
-import com.cobblemon.mod.common.client.render.models.blockbench.asTransformed
+import com.cobblemon.mod.common.client.render.models.blockbench.createTransformation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pose.TransformedModelPart
+import com.cobblemon.mod.common.client.render.models.blockbench.pose.ModelPartTransformation
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
-import com.cobblemon.mod.common.util.DataKeys
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
@@ -83,7 +82,7 @@ class WalkingwakeModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, 
                 bedrock("walkingwake", "ground_idle")
             ),
             transformedParts = arrayOf(
-                rootPart.asTransformed().addPosition(TransformedModelPart.Y_AXIS, wateroffset)
+                rootPart.createTransformation().addPosition(ModelPartTransformation.Y_AXIS, wateroffset)
             )
         )
 
@@ -116,7 +115,7 @@ class WalkingwakeModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, 
                 bedrock("walkingwake", "ground_walk"),
             ),
             transformedParts = arrayOf(
-                rootPart.asTransformed().addPosition(TransformedModelPart.Y_AXIS, wateroffset)
+                rootPart.createTransformation().addPosition(ModelPartTransformation.Y_AXIS, wateroffset)
             )
         )
 /*        shearedstanding = registerPose(

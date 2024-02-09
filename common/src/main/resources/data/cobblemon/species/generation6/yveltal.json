@@ -23,7 +23,7 @@
   "eggGroups": [
     "undiscovered"
   ],
-    "behaviour": {
+  "behaviour": {
     "moving": {
       "fly": {
         "canFly": true
