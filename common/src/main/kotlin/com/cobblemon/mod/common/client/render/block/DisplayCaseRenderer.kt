@@ -9,7 +9,8 @@
 package com.cobblemon.mod.common.client.render.block
 
 import com.cobblemon.mod.common.CobblemonBlocks
-import com.cobblemon.mod.common.api.tags.CobblemonItemTags
+import com.cobblemon.mod.common.block.DisplayCaseBlock
+import com.cobblemon.mod.common.block.DisplayCaseBlock.PositioningType
 import com.cobblemon.mod.common.block.entity.displaycase.DisplayCaseBlockEntity
 import com.cobblemon.mod.common.client.render.models.blockbench.repository.PokemonModelRepository
 import com.cobblemon.mod.common.entity.PoseType
@@ -26,7 +27,6 @@ import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.item.ItemStack
 import net.minecraft.util.math.Direction
 import net.minecraft.util.math.RotationAxis
-import net.minecraft.world.World
 
 class DisplayCaseRenderer(ctx: BlockEntityRendererFactory.Context) : BlockEntityRenderer<DisplayCaseBlockEntity> {
     override fun render(
@@ -38,9 +38,8 @@ class DisplayCaseRenderer(ctx: BlockEntityRendererFactory.Context) : BlockEntity
         overlay: Int
     ) {
         val stack = entity.getStack()
-        val player = MinecraftClient.getInstance().player ?: return
         val world = entity.world ?: return
-        val posType = getPositioningType(stack, world)
+        val posType = DisplayCaseBlock.getPositioningType(stack, world)
         val blockState = if (entity.world != null) entity.cachedState
             else (CobblemonBlocks.DISPLAY_CASE.defaultState.with(HorizontalFacingBlock.FACING, Direction.NORTH))
         val yRot = if (posType == PositioningType.ITEM_MODEL) blockState.get(HorizontalFacingBlock.FACING).opposite.asRotation()
@@ -51,7 +50,8 @@ class DisplayCaseRenderer(ctx: BlockEntityRendererFactory.Context) : BlockEntity
                 matrices,
                 vertexConsumers,
                 light,
-                stack
+                stack,
+                yRot
             )
             return
         }
@@ -83,7 +83,8 @@ class DisplayCaseRenderer(ctx: BlockEntityRendererFactory.Context) : BlockEntity
         matrices: MatrixStack,
         vertexConsumers: VertexConsumerProvider,
         light: Int,
-        stack: ItemStack
+        stack: ItemStack,
+        yRot: Float
     ) {
         val item = stack.item as? PokemonItem ?: return
         val pokemon = item.asPokemon(stack) ?: return
@@ -97,6 +98,7 @@ class DisplayCaseRenderer(ctx: BlockEntityRendererFactory.Context) : BlockEntity
         matrices.scale(1f, -1f, -1f)
         matrices.translate(0.5f, -0.69f, -0.5f)
         matrices.scale(scale, scale, scale)
+        matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(yRot))
 
         model.setupAnimStateless(PoseType.PROFILE)
 
@@ -105,25 +107,5 @@ class DisplayCaseRenderer(ctx: BlockEntityRendererFactory.Context) : BlockEntity
         }
 
         matrices.pop()
-    }
-
-    enum class PositioningType(
-        val scaleX: Float, val scaleY: Float, val scaleZ: Float,
-        val transX: Float, val transY: Float, val transZ: Float
-    ) {
-        POKE_BALL(1f, 1f, 1f, -0.025f, 0.04f, -0.025f),
-        BLOCK_MODEL(1f, 1f, 1f, 0f, -0.15f, 0f),
-        ITEM_MODEL(1f, 1f, 1f, 0f, 0.04f, 0f),
-    }
-
-    companion object {
-        fun getPositioningType(stack: ItemStack, world: World): PositioningType {
-            if (stack.isIn(CobblemonItemTags.POKEBALLS)) return PositioningType.POKE_BALL
-            if (stack.item is PokemonItem) return PositioningType.ITEM_MODEL
-
-            if (MinecraftClient.getInstance().itemRenderer.getModel(stack, world, null, 0).hasDepth()) return PositioningType.BLOCK_MODEL
-
-            return PositioningType.ITEM_MODEL
-        }
     }
 }
