@@ -1,7 +1,6 @@
 {
   "replace": false,
   "values": [
-    "cobblemon:automaton_armor_trim_smithing_template",
-    "cobblemon:oceanic_armor_trim_smithing_template"
+    "cobblemon:automaton_armor_trim_smithing_template"
   ]
 }

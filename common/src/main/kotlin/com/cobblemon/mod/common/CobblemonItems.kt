@@ -817,11 +817,6 @@ object CobblemonItems : PlatformRegistry<Registry<Item>, RegistryKey<Registry<It
         "automaton_armor_trim_smithing_template",
         SmithingTemplateItem.of(CobblemonArmorTrims.AUTOMATON)
     )
-    @JvmField
-    val OCEANIC_ARMOR_TRIM_SMITHING_TEMPLATE: SmithingTemplateItem = this.create(
-        "oceanic_armor_trim_smithing_template",
-        SmithingTemplateItem.of(CobblemonArmorTrims.OCEANIC)
-    )
 
     // Misc
     @JvmField

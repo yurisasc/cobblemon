@@ -14,5 +14,5 @@ import com.cobblemon.mod.common.util.cobblemonResource
 object CobblemonArmorTrims {
 
     val AUTOMATON = cobblemonResource("automaton")
-    val OCEANIC = cobblemonResource("oceanic")
+
 }
