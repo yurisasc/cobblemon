@@ -22,6 +22,7 @@ import net.minecraft.block.Blocks
 import net.minecraft.block.HorizontalFacingBlock
 import net.minecraft.block.ShapeContext
 import net.minecraft.entity.ai.pathing.NavigationType
+import net.minecraft.entity.mob.PiglinBrain
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemPlacementContext
 import net.minecraft.sound.SoundCategory
@@ -137,6 +138,9 @@ class GildedChestBlock(settings: Settings, val type: Type = Type.RED) : BlockWit
         if (isFake()) return spawnPokemon(world, pos, state, player)
         val entity = world.getBlockEntity(pos) as? GildedChestBlockEntity ?: return ActionResult.FAIL
         player.openHandledScreen(entity)
+        if (!player.world.isClient) {
+            PiglinBrain.onGuardedBlockInteracted(player, true)
+        }
         val state = entity.poseableState
         state.currentModel?.let {
             it.moveToPose(null, state, it.getPose("OPEN")!!)
