@@ -102,6 +102,7 @@ object CobblemonEvents {
     val LEVEL_UP_EVENT = EventObservable<LevelUpEvent>()
 
     @JvmField
+    /** CLIENT ONLY! */
     val INTERACTION_GUI_CREATION = EventObservable<InteractionGUICreationEvent>()
     @JvmField
     val POKEMON_ENTITY_SAVE = EventObservable<PokemonEntitySaveEvent>()
