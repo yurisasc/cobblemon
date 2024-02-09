@@ -33,7 +33,7 @@ import com.cobblemon.mod.common.api.events.pokemon.evolution.EvolutionCompleteEv
 import com.cobblemon.mod.common.api.events.pokemon.evolution.EvolutionDisplayEvent
 import com.cobblemon.mod.common.api.events.pokemon.evolution.EvolutionTestedEvent
 import com.cobblemon.mod.common.api.events.pokemon.interaction.ExperienceCandyUseEvent
-import com.cobblemon.mod.common.api.events.pokemon.interaction.InteractionGUICreationEvent
+import com.cobblemon.mod.common.api.events.pokemon.interaction.PokemonInteractionGUICreationEvent
 import com.cobblemon.mod.common.api.events.starter.StarterChosenEvent
 import com.cobblemon.mod.common.api.events.storage.ReleasePokemonEvent
 import com.cobblemon.mod.common.api.events.world.BigRootPropagatedEvent
@@ -103,7 +103,7 @@ object CobblemonEvents {
 
     @JvmField
     /** CLIENT ONLY! */
-    val INTERACTION_GUI_CREATION = EventObservable<InteractionGUICreationEvent>()
+    val POKEMON_INTERACTION_GUI_CREATION = EventObservable<PokemonInteractionGUICreationEvent>()
     @JvmField
     val POKEMON_ENTITY_SAVE = EventObservable<PokemonEntitySaveEvent>()
     @JvmField
