@@ -52,8 +52,7 @@ interface MoLangCurve : CodecMapped {
     var input: Expression
     fun resolve(runtime: MoLangRuntime, inputValue: Double): Double
     fun apply(runtime: MoLangRuntime) {
-        val inputValue = runtime.resolveDouble(input)
-        runtime.environment.setSimpleVariable(name, DoubleValue(resolve(runtime, inputValue)))
+        runtime.environment.setSimpleVariable(name, DoubleValue(resolve(runtime, runtime.resolveDouble(input))))
     }
 }
 

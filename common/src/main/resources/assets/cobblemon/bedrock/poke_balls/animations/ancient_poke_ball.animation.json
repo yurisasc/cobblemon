@@ -746,34 +746,32 @@
 				}
 			},
 			"particle_effects": {
-				"0.0417": [
+				"0.0417": {
+					"effect": "hisuisendspark",
+					"locator": "top_particles"
+				},
+				"0.0833": {
+					"effect": "hisuipuff",
+					"locator": "top_particles"
+				},
+				"0.125": {
+					"effect": "hisuitrail",
+					"locator": "top_particles"
+				},
+				"0.4583": [
 					{
-						"effect": "pokeball_capture_hisui_smoke",
-						"locator": "center_particles"
+						"effect": "hisuispark",
+						"locator": "top_particles"
 					},
 					{
-						"effect": "pokeball_capture_hisui_smoke_contrail",
+						"effect": "hisuicapturestar",
 						"locator": "top_particles"
 					}
 				],
-				"0.4167": [
-					{
-						"effect": "pokeball_capture_hisui_firework_pop",
-						"locator": "top_particles"
-					},
-					{
-						"effect": "pokeball_capture_hisui_firework_godrays",
-						"locator": "top_particles"
-					},
-					{
-						"effect": "pokeball_capture_hisui_firework_stars",
-						"locator": "top_particles"
-					},
-					{
-						"effect": "pokeball_capture_hisui_firework_small_sparkles",
-						"locator": "top_particles"
-					}
-				]
+				"0.5": {
+					"effect": "hisuiafterspark",
+					"locator": "top_particles"
+				}
 			}
 		}
 	}
