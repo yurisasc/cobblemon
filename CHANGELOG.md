@@ -15,7 +15,7 @@
 - The "Poké Ball" Vivillon variant is now obtainable by evolving a Spewpa after obtaining the "Aspiring Vivillionaire" advancement.
 - Added dynamic lighting support for any Species or Forms when using [LambDynamicLights](https://modrinth.com/mod/lambdynamiclights) or [Dynamic Lights Reforged](https://www.curseforge.com/minecraft/mc-mods/dynamiclights-reforged), at this time we don't ship with any defaults for this feature but addon creators can make use of this feature.
 - Added 6 Pokémon-themed Pottery Sherds, obtained from ruin structures.
-- Added 2 Pokémon-themed armor trims, obtained from ruin structures.
+- Added a Pokémon-themed armor trim, obtained from ruin structures.
 
 ### Changes
 - Pokémon now transition more smoothly between different poses.
