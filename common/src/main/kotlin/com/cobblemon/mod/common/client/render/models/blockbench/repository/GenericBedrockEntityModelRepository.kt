@@ -14,7 +14,7 @@ import com.cobblemon.mod.common.client.render.models.blockbench.pose.Bone
 import com.cobblemon.mod.common.entity.generic.GenericBedrockEntity
 import com.cobblemon.mod.common.util.cobblemonResource
 
-object GenericBedrockModelRepository : VaryingModelRepository<GenericBedrockEntity, PoseableEntityModel<GenericBedrockEntity>>() {
+object GenericBedrockEntityModelRepository : VaryingModelRepository<GenericBedrockEntity, PoseableEntityModel<GenericBedrockEntity>>() {
     override val title = "Generic"
     override val type = "generic"
     override val variationDirectories: List<String> = listOf("bedrock/$type/variations")

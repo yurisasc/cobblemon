@@ -9,25 +9,24 @@
 package com.cobblemon.mod.common.client.render.generic
 
 import com.cobblemon.mod.common.client.entity.GenericBedrockClientDelegate
-import com.cobblemon.mod.common.client.render.models.blockbench.repository.GenericBedrockModelRepository
+import com.cobblemon.mod.common.client.render.models.blockbench.repository.GenericBedrockEntityModelRepository
 import com.cobblemon.mod.common.client.render.models.blockbench.repository.PokemonModelRepository
 import com.cobblemon.mod.common.entity.generic.GenericBedrockEntity
 import net.minecraft.client.render.OverlayTexture
 import net.minecraft.client.render.VertexConsumerProvider
 import net.minecraft.client.render.entity.EntityRenderer
 import net.minecraft.client.render.entity.EntityRendererFactory
-import net.minecraft.client.render.item.ItemRenderer
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.util.math.RotationAxis
 
 class GenericBedrockRenderer(context: EntityRendererFactory.Context) : EntityRenderer<GenericBedrockEntity>(context) {
-    override fun getTexture(entity: GenericBedrockEntity) = GenericBedrockModelRepository.getTexture(entity.category, entity.aspects, (entity.delegate as GenericBedrockClientDelegate).animationSeconds)
+    override fun getTexture(entity: GenericBedrockEntity) = GenericBedrockEntityModelRepository.getTexture(entity.category, entity.aspects, (entity.delegate as GenericBedrockClientDelegate).animationSeconds)
     override fun render(entity: GenericBedrockEntity, yaw: Float, partialTicks: Float, poseStack: MatrixStack, buffer: VertexConsumerProvider, packedLight: Int) {
         if (entity.isInvisible) {
             return
         }
 
-        val model = GenericBedrockModelRepository.getPoser(entity.category, entity.aspects)
+        val model = GenericBedrockEntityModelRepository.getPoser(entity.category, entity.aspects)
         poseStack.push()
         poseStack.scale(1.0F, -1.0F, 1.0F)
         poseStack.scale(entity.scale, entity.scale, entity.scale)
