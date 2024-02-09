@@ -92,27 +92,6 @@ object CobblemonBlocks : PlatformRegistry<Registry<Block>, RegistryKey<Registry<
     @JvmField
     val DEEPSLATE_WATER_STONE_ORE = this.deepslateEvolutionStoneOre("deepslate_water_stone_ore")
 
-    @JvmField
-    val DAWN_STONE_BLOCK = evolutionStoneBlock("dawn_stone_block")
-    @JvmField
-    val DUSK_STONE_BLOCK = evolutionStoneBlock("dusk_stone_block")
-    @JvmField
-    val FIRE_STONE_BLOCK = evolutionStoneBlock("fire_stone_block")
-    @JvmField
-    val ICE_STONE_BLOCK = evolutionStoneBlock("ice_stone_block")
-    @JvmField
-    val LEAF_STONE_BLOCK = evolutionStoneBlock("leaf_stone_block")
-    @JvmField
-    val MOON_STONE_BLOCK = evolutionStoneBlock("moon_stone_block")
-    @JvmField
-    val SHINY_STONE_BLOCK = evolutionStoneBlock("shiny_stone_block")
-    @JvmField
-    val SUN_STONE_BLOCK = evolutionStoneBlock("sun_stone_block")
-    @JvmField
-    val THUNDER_STONE_BLOCK = evolutionStoneBlock("thunder_stone_block")
-    @JvmField
-    val WATER_STONE_BLOCK = evolutionStoneBlock("water_stone_block")
-
     // Apricorns
     @JvmField
     val APRICORN_LOG = log("apricorn_log", arg2 = MapColor.BROWN)
@@ -393,7 +372,6 @@ object CobblemonBlocks : PlatformRegistry<Registry<Block>, RegistryKey<Registry<
 
     private fun deepslateEvolutionStoneOre(name: String) = this.create(name, ExperienceDroppingBlock(AbstractBlock.Settings.copy(Blocks.DEEPSLATE_IRON_ORE), UniformIntProvider.create(1, 2)))
 
-    private fun evolutionStoneBlock(name: String) = create(name, Block(AbstractBlock.Settings.copy(Blocks.IRON_BLOCK)))
     /**
      * Helper method for creating leaves
      * copied over from Vanilla
