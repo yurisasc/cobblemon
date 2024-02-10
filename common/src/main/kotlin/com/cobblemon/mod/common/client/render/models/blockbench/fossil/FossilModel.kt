@@ -22,9 +22,12 @@ class FossilModel(root: Bone) : PoseableEntityModel<Entity>() {
     //TODO: Find a better way to fetch this bone name
     val boneName: String = root.children.entries.first().key
     override val rootPart = (root as ModelPart).registerChildWithAllChildren(boneName)
-
+    // Represents a very rough middle of the model
+    // The reason to do this is to
+    // 1. The embryo is aligned with the center of the model
+    // 2. The model can appear to grow (scale) from the center out
     var maxScale = 1F
-    var yTranslation = 0F
+    var yTranslation = 0F // Offset inside the tank
     var tankAnimations: Array<StatelessAnimation<Entity, out ModelFrame>> = emptyArray()
     var tankQuirks: Array<ModelQuirk<Entity, *>> = emptyArray()
     override fun registerPoses() {
