@@ -14,7 +14,8 @@
 - Added the hidden "True Vivillionaire" advancement.
 - The "Poké Ball" Vivillon variant is now obtainable by evolving a Spewpa after obtaining the "Aspiring Vivillionaire" advancement.
 - Added dynamic lighting support for any Species or Forms when using [LambDynamicLights](https://modrinth.com/mod/lambdynamiclights) or [Dynamic Lights Reforged](https://www.curseforge.com/minecraft/mc-mods/dynamiclights-reforged), at this time we don't ship with any defaults for this feature but addon creators can make use of this feature.
-- Added 6 custom Pottery Sherds, obtained from ruin structures.
+- Added 6 Pokémon-themed Pottery Sherds, obtained from ruin structures.
+- Added a Pokémon-themed armor trim, obtained from ruin structures.
 - You can now find Nether Fire Stone Ore in, surprisingly, the Nether.
 - Added effects for many Poké Balls when sending out Pokémon or capturing.
 - Added a new send-out ball toss animation that showcases the ball used for the Pokémon.
