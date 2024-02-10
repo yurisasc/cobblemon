@@ -27,6 +27,7 @@ import net.minecraft.util.Hand
 import net.minecraft.util.collection.DefaultedList
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
+import net.minecraft.world.World
 
 class DisplayCaseBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(CobblemonBlockEntities.DISPLAY_CASE, pos, state), SidedInventory {
 
@@ -113,6 +114,12 @@ class DisplayCaseBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(Cob
         return this.createNbt()
     }
 
+    private fun onItemUpdated(world: World, oldState: BlockState, newState: BlockState) {
+        markDirty()
+        world.updateListeners(pos, oldState, newState, Block.NOTIFY_LISTENERS)
+        world.updateComparators(pos, world.getBlockState(pos).block)
+    }
+
     override fun clear() {
         inv.clear()
     }
@@ -121,48 +128,52 @@ class DisplayCaseBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(Cob
         return inv.size
     }
 
-    override fun isEmpty() = (inv.size == 0)
+    override fun isEmpty(): Boolean {
+        return getStack().isEmpty
+    }
 
     override fun getStack(slot: Int): ItemStack {
-        if (slot != 0) return ItemStack.EMPTY
-        val oldState = this.cachedState
-        world!!.updateListeners(pos, oldState, world!!.getBlockState(pos), Block.NOTIFY_LISTENERS)
-        world!!.updateComparators(pos, world!!.getBlockState(pos).block)
-        return inv[slot]
+        return getStack()
     }
 
     override fun removeStack(slot: Int, amount: Int): ItemStack {
-        val oldState = this.cachedState
-        val stack = inv[slot]
-        inv[slot].decrement(amount)
-        stack.count = amount
-        world!!.updateListeners(pos, oldState, world!!.getBlockState(pos), Block.NOTIFY_LISTENERS)
-        world!!.updateComparators(pos, world!!.getBlockState(pos).block)
-        return stack
+        val oldState = cachedState
+        val result = Inventories.splitStack(inv, slot, amount)
+        if (world != null) onItemUpdated(world!!, oldState, world!!.getBlockState(pos))
+        return result
     }
 
     override fun removeStack(slot: Int): ItemStack {
-        val stack = inv[slot]
-        val oldState = this.cachedState
-        inv[slot] = ItemStack.EMPTY
-        world!!.updateListeners(pos, oldState, world!!.getBlockState(pos), Block.NOTIFY_LISTENERS)
-        world!!.updateComparators(pos, world!!.getBlockState(pos).block)
-        return stack
+        val oldState = cachedState
+        val result = Inventories.removeStack(inv, slot)
+        if (world != null) onItemUpdated(world!!, oldState, world!!.getBlockState(pos))
+        return result
     }
 
     override fun setStack(slot: Int, stack: ItemStack) {
+        val oldState = cachedState
         inv[slot] = stack
-        val oldState = this.cachedState
-        world!!.updateListeners(pos, oldState, world!!.getBlockState(pos), Block.NOTIFY_LISTENERS)
-        world!!.updateComparators(pos, world!!.getBlockState(pos).block)
+        if (stack.count > stack.maxCount) {
+            stack.count = stack.maxCount
+        }
+        if (world != null) onItemUpdated(world!!, oldState, world!!.getBlockState(pos))
     }
 
     override fun canPlayerUse(player: PlayerEntity?) = false
 
     override fun getAvailableSlots(side: Direction?): IntArray {
-        return IntArray(1)
+        val result = IntArray(inv.size)
+        for (i in result.indices) {
+            result[i] = i
+        }
+        return result
     }
 
-    override fun canInsert(slot: Int, stack: ItemStack?, dir: Direction?): Boolean = (dir != Direction.DOWN)
+    override fun getMaxCountPerStack() = 1
+
+    override fun canInsert(slot: Int, stack: ItemStack?, dir: Direction?): Boolean {
+        if(dir == Direction.DOWN) return false
+        return getStack().isEmpty
+    }
     override fun canExtract(slot: Int, stack: ItemStack?, dir: Direction?): Boolean = (dir == Direction.DOWN)
 }
