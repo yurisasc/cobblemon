@@ -17,6 +17,7 @@
 - Added 6 custom Pottery Sherds, obtained from ruin structures.
 - Added effects for many Poké Balls when sending out Pokémon or capturing.
 - Added a new send-out ball toss animation that showcases the ball used for the Pokémon.
+- Added simple move animations for Pokémon in battle with a proof of concept for more complicated animations.
 
 ### Changes
 - Pokémon now transition more smoothly between different poses.
