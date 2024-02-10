@@ -12,6 +12,7 @@ import com.cobblemon.mod.common.util.cobblemonResource
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.render.*
 import net.minecraft.client.render.RenderPhase.*
+import net.minecraft.data.client.TextureMap.texture
 
 object CobblemonRenderLayers {
     val BERRY_LAYER = run {
@@ -57,5 +58,26 @@ object CobblemonRenderLayers {
         )
     }
 
+    //For overlaying the 2D sprites for eggs in inventory
+    val EGG_SPRITE_LAYER = run {
+        val multiPhaseParameters = RenderLayer.MultiPhaseParameters.builder()
+            .program(POSITION_TEXTURE_COLOR_PROGRAM)
+            .texture(Texture(
+                cobblemonResource("textures/egg_patterns/test_pattern.png"),
+                false,
+                false
+            ))
+            .cull(DISABLE_CULLING)
+            .build(true)
+        RenderLayer.of(
+            "egg_patterns",
+            VertexFormats.POSITION_TEXTURE,
+            VertexFormat.DrawMode.QUADS,
+            512,
+            true,
+            false,
+            multiPhaseParameters
+        )
+    }
 
 }
