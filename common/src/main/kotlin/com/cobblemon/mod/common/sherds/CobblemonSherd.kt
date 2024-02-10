@@ -6,15 +6,12 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-package com.cobblemon.mod.common.api.snowstorm
+package com.cobblemon.mod.common.sherds
 
-import org.junit.jupiter.api.Test
+import net.minecraft.item.Item
+import net.minecraft.util.Identifier
 
-
-class LookAtDirectionTest {
-    @Test
-    fun `vector and quaternion tests`() {
-
-    }
-
-}
+data class CobblemonSherd(
+    val patternId: Identifier,
+    val item: Item
+)

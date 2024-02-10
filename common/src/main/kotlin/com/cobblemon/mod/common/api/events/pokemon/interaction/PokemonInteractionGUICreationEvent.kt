@@ -13,7 +13,7 @@ import com.cobblemon.mod.common.client.gui.interact.wheel.Orientation
 import com.google.common.collect.Multimap
 import java.util.UUID
 
-data class InteractionGUICreationEvent(
+data class PokemonInteractionGUICreationEvent(
     val pokemonID: UUID,
     val mountShoulder: Boolean,
     val options: Multimap<Orientation, InteractWheelOption>

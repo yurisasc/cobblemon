@@ -338,7 +338,8 @@
   "item.cobblemon.capture_sherd": "Capture Pottery Sherd",
   "item.cobblemon.dome_sherd":  "Dome Pottery Sherd",
   "item.cobblemon.helix_sherd": "Helix Pottery Sherd",
-  "item.cobblemon.nostalgic_sherd":  "Nostalgic Pottery Sherd",
+  "item.cobblemon.nostalgic_sherd": "Nostalgic Pottery Sherd",
+  "item.cobblemon.suspicious_sherd": "Suspicious Pottery Sherd",
 
   "item.cobblemon.tumblestone": "Tumblestone",
   "item.cobblemon.black_tumblestone": "Black Tumblestone",
@@ -501,6 +502,12 @@
   "cobblemon.ui.pasture.recall_all": "Recall All",
   "cobblemon.ui.pasture.owned_name": "%1$s (%2$s)",
   "cobblemon.pasture.too_many_nearby": "There are too many Pokémon nearby.",
+
+  "cobblemon.ui.interact.give.item": "Change held item",
+  "cobblemon.ui.interact.spectate": "Spectate",
+  "cobblemon.ui.interact.trade": "Trade",
+  "cobblemon.ui.interact.battle": "Battle",
+  "cobblemon.ui.interact.mount.shoulder": "Shoulder",
 
   "key.cobblemon.upshiftparty": "Party Shift Up",
   "key.cobblemon.downshiftparty": "Party Shift Down",
@@ -3291,6 +3298,7 @@
   "cobblemon.move.zippyzap.desc": "The user attacks the target with bursts of electricity at high speed. This move always goes first and results in a critical hit.",
 
   "cobblemon.entity.pokemon": "Pokémon",
+  "entity.cobblemon.empty_pokeball": "Empty Poké Ball",
 
   "cobblemon.species.bulbasaur.name": "Bulbasaur",
   "cobblemon.species.bulbasaur.desc": "While it is young, it uses the nutrients that are stored in the seed on its back in order to grow.",
