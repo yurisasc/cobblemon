@@ -544,7 +544,7 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
                     val h = MathHelper.nextFloat(random, 25.0f, 60.0f)
                     val partX = this.x + (MathHelper.sin(g) * h).toDouble() * 0.1
                     serverWorld.spawnParticles(ParticleTypes.SPLASH, partX, this.y, this.z, 4 + random.nextInt(4), 0.1, 0.0, 0.1, 0.0)
-
+                    playerEntity.getWorld().spawnEntity(ExperienceOrbEntity(playerEntity.getWorld(), playerEntity.getX(), playerEntity.getY() + 0.5, playerEntity.getZ() + 0.5, random.nextInt(6) + 1))
                     val bobberBiome = world.getBiome(this.blockPos) // biome of the bobber. But idk if we need this. Probably not anymore
                 }
             }
