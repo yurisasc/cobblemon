@@ -213,6 +213,7 @@ object CobblemonItemGroups {
         entries.add(CobblemonItems.DEEPSLATE_DUSK_STONE_ORE)
         entries.add(CobblemonItems.FIRE_STONE_ORE)
         entries.add(CobblemonItems.DEEPSLATE_FIRE_STONE_ORE)
+        entries.add(CobblemonItems.NETHER_FIRE_STONE_ORE)
         entries.add(CobblemonItems.ICE_STONE_ORE)
         entries.add(CobblemonItems.DEEPSLATE_ICE_STONE_ORE)
         entries.add(CobblemonItems.LEAF_STONE_ORE)

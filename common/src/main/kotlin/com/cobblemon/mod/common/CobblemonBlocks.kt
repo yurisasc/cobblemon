@@ -57,6 +57,8 @@ object CobblemonBlocks : PlatformRegistry<Registry<Block>, RegistryKey<Registry<
     @JvmField
     val FIRE_STONE_ORE = evolutionStoneOre("fire_stone_ore")
     @JvmField
+    val NETHER_FIRE_STONE_ORE = evolutionStoneOre("nether_fire_stone_ore")
+    @JvmField
     val ICE_STONE_ORE = evolutionStoneOre("ice_stone_ore")
     @JvmField
     val LEAF_STONE_ORE = evolutionStoneOre("leaf_stone_ore")
