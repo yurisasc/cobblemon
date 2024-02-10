@@ -261,52 +261,6 @@ open class PokemonEntity(
         }
     }
 
-//    override fun createBrainProfile() = Brain.createProfile(MEMORY_MODULES, SENSORS)
-//    override fun deserializeBrain(dynamic: Dynamic<*>?): Brain<PokemonEntity> {
-//        val brain = super.deserializeBrain(dynamic) as Brain<PokemonEntity>
-//        loadBrain(brain)
-//        return brain
-//    }
-//
-//    fun loadBrain(brain: Brain<PokemonEntity>) {
-//        brain.schedule = Schedule.EMPTY
-//        brain.setTaskList(
-//            Activity.IDLE,
-//            ImmutableList.of<com.mojang.datafixers.util.Pair<Int, out Task<in PokemonEntity>>>(
-//                1 toDF TaskTriggerer.task { ctx ->
-//                    ctx.group(ctx.queryMemoryValue(HURT_BY_ENTITY), ctx.queryMemoryOptional(ATTACK_TARGET)).apply(ctx) { hurtByEntity, attackTarget ->
-//                        TaskRunnableKt { world, entity ->
-//                            val currentAttackTarget = ctx.getOptionalValue(attackTarget).orElse(null)
-//                            val hurtByEntityValue = ctx.getValue(hurtByEntity)
-//                            if (currentAttackTarget == null || hurtByEntityValue.distanceTo(entity) < currentAttackTarget.distanceTo(entity)) {
-//                                attackTarget.remember(hurtByEntityValue)
-////                                hurtByEntity.forget()
-//                                return@TaskRunnableKt true
-//                            }
-//
-//                            false
-//                        }
-//                    }
-//                },
-//                2 toDF AttackTask.create(15, 1F),
-//                3 toDF GoTowardsLookTargetTask.create(1F, 2),
-//                4 toDF WanderAroundTask()
-//            )
-//        )
-//        brain.setDefaultActivity(Activity.IDLE)
-//        brain.setCoreActivities(ImmutableSet.of(Activity.IDLE))
-//        brain.refreshActivities(world.timeOfDay, world.time)
-//    }
-//
-//    override fun mobTick() {
-//        super.mobTick()
-//        getBrain().tick(world as ServerWorld, this)
-//    }
-//
-//    override fun getBrain(): Brain<PokemonEntity> {
-//        return super.getBrain() as Brain<PokemonEntity>
-//    }
-
     override fun canWalkOnFluid(state: FluidState): Boolean {
 //        val node = navigation.currentPath?.currentNode
 //        val targetPos = node?.blockPos
