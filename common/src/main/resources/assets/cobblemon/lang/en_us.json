@@ -345,6 +345,10 @@
   "item.cobblemon.black_tumblestone": "Black Tumblestone",
   "item.cobblemon.sky_tumblestone": "Sky Tumblestone",
 
+  "trim_pattern.cobblemon.automaton": "Automaton",
+
+  "item.cobblemon.automaton_armor_trim_smithing_template": "Automaton Armor Trim",
+
   "cobblemon.fossil.armor": "Armor",
   "cobblemon.fossil.bird": "Bird",
   "cobblemon.fossil.claw": "Claw",
@@ -360,6 +364,7 @@
   "cobblemon.fossil.root": "Root",
   "cobblemon.fossil.sail": "Sail",
   "cobblemon.fossil.skull": "Skull",
+
 
   "cobblemon.fossilmachine.protected": "This fossil belongs to %s!",
 
@@ -528,6 +533,7 @@
   "cobblemon.subtitle.fossilmachine.retrieve_fossil": "Fossil retrieved",
   "cobblemon.subtitle.fossilmachine.retrieve_pokemon": "Fossil Pokémon retrieved",
   "cobblemon.subtitle.fossilmachine.unprotected": "Restoration Machine protection ends",
+  "cobblemon.subtitle.fossilmachine.assemble": "Restoration Machine assembles",
 
   "cobblemon.healingmachine.alreadyinuse": "This healing machine is already in use!",
   "cobblemon.healingmachine.nopokemon": "You don't have any Pokémon in your party to heal!",
