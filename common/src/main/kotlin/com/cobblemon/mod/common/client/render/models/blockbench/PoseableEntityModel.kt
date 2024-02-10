@@ -810,6 +810,7 @@ abstract class PoseableEntityModel<T : Entity>(
         matrixStack.translate(0.0, -entity.boundingBox.yLength / 2.0 / scale + 1.5F, -entity.width * 0.6 / scale)
         matrixStack.scale(1F, -1F, 1F)
         states.getOrPut("target") { MatrixWrapper() }.updateMatrix(matrixStack.peek().positionMatrix)
+        states.getOrPut("special_attack") { MatrixWrapper() }.updateMatrix(matrixStack.peek().positionMatrix)
         matrixStack.pop()
 
         locatorAccess.update(matrixStack, states)
