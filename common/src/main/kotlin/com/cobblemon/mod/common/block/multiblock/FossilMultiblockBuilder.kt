@@ -13,11 +13,8 @@ import com.cobblemon.mod.common.CobblemonBlocks
 import com.cobblemon.mod.common.CobblemonSounds
 import com.cobblemon.mod.common.api.multiblock.MultiblockEntity
 import com.cobblemon.mod.common.api.multiblock.builder.MultiblockStructureBuilder
-import com.cobblemon.mod.common.block.entity.fossil.FossilTubeBlockEntity
-import com.cobblemon.mod.common.block.fossilmachine.FossilCompartmentBlock
-import com.cobblemon.mod.common.block.fossilmachine.FossilTubeBlock
+import com.cobblemon.mod.common.block.RestorationTankBlock
 import com.cobblemon.mod.common.api.multiblock.condition.BlockRelativeCondition
-import com.cobblemon.mod.common.block.entity.fossil.FossilCompartmentBlockEntity
 import com.cobblemon.mod.common.util.DataKeys
 import com.cobblemon.mod.common.util.blockPositionsAsList
 import net.minecraft.nbt.NbtCompound
@@ -53,13 +50,13 @@ class FossilMultiblockBuilder(val centerPos: BlockPos) : MultiblockStructureBuil
 
     override val conditions = listOf(
         BlockRelativeCondition(
-            FOSSIL_COMPARTMENT_PRED,
-            FOSSIL_MONITOR_PRED,
+            FOSSIL_ANALYZER_PRED,
+            MONITOR_PRED,
             arrayOf(Direction.UP)
         ),
         BlockRelativeCondition(
-            FOSSIL_COMPARTMENT_PRED,
-            FOSSIL_TUBE_PRED,
+            FOSSIL_ANALYZER_PRED,
+            RESTORATION_TANK_PRED,
             arrayOf(Direction.NORTH, Direction.SOUTH, Direction.EAST, Direction.WEST)
         )
     )
@@ -72,68 +69,68 @@ class FossilMultiblockBuilder(val centerPos: BlockPos) : MultiblockStructureBuil
         The process of identifying the constituent blocks is a bit of a clusterfuck so here's an explanation
 
         1. We find all of the monitors in the boundingBox
-        2. We map those positions to a new list representing valid compartment positions
-        (This is where it starts getting complicated) We want valid compartment positions, but we
-        need to remember the index in the monitor position list that each compartment is valid for.
-        So basically we take the monitor positions, check if they have a compartment underneath.
-        If they do, set the element in the NEW list to be the position of the compartment.
-        If they dont, set the element in the new list to be null
-        3. Do a similar process for tubes.
-        (Make a copy of the compartment positions, set them to the tube position if theres a tube, null if not)
+        2. We map those positions to a new list representing valid analyzer positions
+        (This is where it starts getting complicated) We want valid analyzer positions, but we
+        need to remember the index in the monitor position list that each analyzer is valid for.
+        So basically we take the monitor positions, check if they have a analyzer underneath.
+        If they do, set the element in the NEW list to be the position of the analyzer.
+        If they don't, set the element in the new list to be null
+        3. Do a similar process for tanks.
+        (Make a copy of the analyzer positions, set them to the tank position if there's a tank, null if not)
 
         What this ends up doing is giving us a list at the end filled with either nulls or BlockPositions
-        of tubes that have a valid structure. The index of any tube in the list corresponds to the index
-        of the Monitor/Compartment in their respective lists. So if you have a fossilTubePositions list of
-        [null BlockPos null], the fossilCompartment BlockPos is fossilCompPositions[1] and the monitor BlockPos
-        is fossilMonitorPositions[1]
+        of tanks that have a valid structure. The index of any tank in the list corresponds to the index
+        of the Monitor/Analyzer in their respective lists. So if you have a fossilTankPositions list of
+        [null BlockPos null], the fossilAnalyzer BlockPos is fossilCompPositions[1] and the monitor BlockPos
+        is monitorPositions[1]
 
             - Apion
          */
-        var fossilMonitorPositions = blocks.filter {
-            FOSSIL_MONITOR_PRED.test(world, it)
+        var monitorPositions = blocks.filter {
+            MONITOR_PRED.test(world, it)
         }
 
-        var fossilCompPositions = fossilMonitorPositions.map {
-            if (FOSSIL_COMPARTMENT_PRED.test(world, it.down())) it.down()
+        var fossilAnalyzerPositions = monitorPositions.map {
+            if (FOSSIL_ANALYZER_PRED.test(world, it.down())) it.down()
             else null
         }
 
-        var fossilTubePositions = fossilCompPositions.map { compPosition ->
-            if (compPosition == null) {
+        var restorationTankPositions = fossilAnalyzerPositions.map { analyzerPosition ->
+            if (analyzerPosition == null) {
                 return@map null
             }
             dirsToCheck.forEach {
-                if (FOSSIL_TUBE_PRED.test(world, compPosition.offset(it))) {
-                    return@map compPosition.offset(it)
+                if (RESTORATION_TANK_PRED.test(world, analyzerPosition.offset(it))) {
+                    return@map analyzerPosition.offset(it)
                 }
             }
             return@map null
         }
 
-        val fossilTubeIndex = fossilTubePositions.indexOfFirst {
+        val fossilTankIndex = restorationTankPositions.indexOfFirst {
             it != null
         }
-        if (fossilTubeIndex == -1) {
+        if (fossilTankIndex == -1) {
             Cobblemon.LOGGER.error("FossilMultiblockBuilder form called on invalid structure! This should never happen!")
             return
         }
-        val fossilMonitorPos = fossilMonitorPositions[fossilTubeIndex]
-        val fossilCompPos = fossilCompPositions[fossilTubeIndex]!!
-        val fossilTubePos = fossilTubePositions[fossilTubeIndex]!!
-        val monitorEntity = world.getBlockEntity(fossilMonitorPos) as MultiblockEntity
-        val compEntity = world.getBlockEntity(fossilCompPos) as MultiblockEntity
-        val tubeBaseEntity = world.getBlockEntity(fossilTubePos) as MultiblockEntity
-        val tubeTopEntity = world.getBlockEntity(fossilTubePos.up()) as MultiblockEntity
-        val structure = FossilMultiblockStructure(fossilMonitorPos, fossilCompPos, fossilTubePos)
+        val monitorPos = monitorPositions[fossilTankIndex]
+        val fossilAnalyzerPos = fossilAnalyzerPositions[fossilTankIndex]!!
+        val restorationTankPos = restorationTankPositions[fossilTankIndex]!!
+        val monitorEntity = world.getBlockEntity(monitorPos) as MultiblockEntity
+        val analyzerEntity = world.getBlockEntity(fossilAnalyzerPos) as MultiblockEntity
+        val tankBaseEntity = world.getBlockEntity(restorationTankPos) as MultiblockEntity
+        val tankTopEntity = world.getBlockEntity(restorationTankPos.up()) as MultiblockEntity
+        val structure = FossilMultiblockStructure(monitorPos, fossilAnalyzerPos, restorationTankPos)
 
-        structure.tubeConnectorDirection = dirsToCheck.filter {
-            val adjPos = fossilTubePos.offset(it)
-            return@filter adjPos == fossilCompPos
+        structure.tankConnectorDirection = dirsToCheck.filter {
+            val adjPos = restorationTankPos.offset(it)
+            return@filter adjPos == fossilAnalyzerPos
         }.first()
 
-        compEntity.multiblockStructure = structure
-        tubeBaseEntity.multiblockStructure = structure
-        tubeTopEntity.multiblockStructure = structure
+        analyzerEntity.multiblockStructure = structure
+        tankBaseEntity.multiblockStructure = structure
+        tankTopEntity.multiblockStructure = structure
         monitorEntity.multiblockStructure = structure
         structure.syncToClient(world)
         structure.markDirty(world)
@@ -141,9 +138,9 @@ class FossilMultiblockBuilder(val centerPos: BlockPos) : MultiblockStructureBuil
         world.playSound(null, centerPos, CobblemonSounds.FOSSIL_MACHINE_ASSEMBLE, SoundCategory.BLOCKS)
 
         //Set these to null so the builders can be freed
-        compEntity.multiblockBuilder = null
-        tubeBaseEntity.multiblockBuilder = null
-        tubeTopEntity.multiblockBuilder = null
+        analyzerEntity.multiblockBuilder = null
+        tankBaseEntity.multiblockBuilder = null
+        tankTopEntity.multiblockBuilder = null
         monitorEntity.multiblockBuilder = null
     }
 
@@ -153,18 +150,18 @@ class FossilMultiblockBuilder(val centerPos: BlockPos) : MultiblockStructureBuil
             nbt.putBoolean(DataKeys.FORMED, false)
             return@run nbt
         }
-        val FOSSIL_MONITOR_PRED = BlockPredicate.Builder.create().blocks(CobblemonBlocks.FOSSIL_MONITOR)
+        val MONITOR_PRED = BlockPredicate.Builder.create().blocks(CobblemonBlocks.MONITOR)
             .nbt(NBT_TO_CHECK)
             .build()
-        val FOSSIL_COMPARTMENT_PRED = BlockPredicate.Builder.create()
-            .blocks(CobblemonBlocks.FOSSIL_COMPARTMENT)
+        val FOSSIL_ANALYZER_PRED = BlockPredicate.Builder.create()
+            .blocks(CobblemonBlocks.FOSSIL_ANALYZER)
             .nbt(NBT_TO_CHECK)
             .build()
 
-        val FOSSIL_TUBE_PRED = BlockPredicate.Builder.create()
+        val RESTORATION_TANK_PRED = BlockPredicate.Builder.create()
             .nbt(NBT_TO_CHECK)
-            .blocks(CobblemonBlocks.FOSSIL_TUBE)
-            .state(StatePredicate.Builder.create().exactMatch(FossilTubeBlock.PART, FossilTubeBlock.TubePart.BOTTOM).build())
+            .blocks(CobblemonBlocks.RESTORATION_TANK)
+            .state(StatePredicate.Builder.create().exactMatch(RestorationTankBlock.PART, RestorationTankBlock.TankPart.BOTTOM).build())
             .build()
         //lol thanks mojang for not allowing nbt puts to be chained
     }

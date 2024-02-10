@@ -61,14 +61,7 @@ class PokemonRenderer(
     context: EntityRendererFactory.Context
 ) : MobEntityRenderer<PokemonEntity, PokemonPoseableModel>(context, null, 0.5f) {
     companion object {
-        var DELTA_TICKS = 0F
-        val glowLengthFunction = parabolaFunction(
-            peak = 1F,
-            period = 1F
-        )
-
         val recallBeamColour = Vector4f(1F, 0.1F, 0.1F, 1F)
-        val sendOutBeamColour = Vector4f(0.85F, 0.85F, 1F, 0.5F)
         fun ease(x: Double): Double {
             return 1 - (1 - x).pow(3);
         }
@@ -87,88 +80,24 @@ class PokemonRenderer(
         packedLight: Int
     ) {
         shadowRadius = min((entity.boundingBox.maxX - entity.boundingBox.minX), (entity.boundingBox.maxZ) - (entity.boundingBox.minZ)).toFloat() / 1.5F
-        DELTA_TICKS = partialTicks // TODO move this somewhere universal // or just fecking remove it
         model = PokemonModelRepository.getPoser(entity.pokemon.species.resourceIdentifier, entity.aspects)
 
         val clientDelegate = entity.delegate as PokemonClientDelegate
-        val beamMode = entity.beamMode
         val modelNow = model as PoseableEntityModel<PokemonEntity>
-        val s = clientDelegate.secondsSinceBeamEffectStarted
-        if (beamMode != 0) {
-            if (s > BEAM_EXTEND_TIME) {
-                val value = (s - BEAM_EXTEND_TIME) /  BEAM_SHRINK_TIME
-                val colourValue = if (beamMode == 1) {
-                    0.4F + min(0.6F, value)
-                } else {
-                    1F - min(0.6F, value)
-                }
-
-                modelNow.green = colourValue
-                modelNow.blue = colourValue
-            }
-        }
-
-        val phaseTarget = clientDelegate.phaseTarget
-        val lightColour = if (beamMode == 1) sendOutBeamColour else recallBeamColour
-        if (phaseTarget != null && beamMode != 0) {
-            poseMatrix.push()
-            var beamSourcePosition = if (phaseTarget is Poseable) {
-                (phaseTarget.delegate as PoseableEntityState<*>).locatorStates["beam"]?.getOrigin() ?: phaseTarget.pos
-            } else {
-                if (phaseTarget.uuid == MinecraftClient.getInstance().player?.uuid) {
-                    val lookVec = phaseTarget.rotationVector.rotateY(PI / 2).multiply(1.0, 0.0, 1.0).normalize()
-                    phaseTarget.getCameraPosVec(partialTicks).subtract(0.0, 0.4, 0.0).subtract(lookVec.multiply(0.3))
-                } else {
-                    val lookVec = phaseTarget.rotationVector.rotateY(PI / 2 - (phaseTarget.bodyYaw - phaseTarget.pitch).toRadians()).multiply(1.0, 0.0, 1.0).normalize()
-                    phaseTarget.getCameraPosVec(partialTicks).subtract(0.0, 0.7, 0.0).subtract(lookVec.multiply(0.4))
-                }
-            }
-            if(clientDelegate.sendOutPosition == null && beamMode == 1) {
-                clientDelegate.sendOutPosition = beamSourcePosition
-            } else if(beamMode == 1) {
-                clientDelegate.sendOutPosition = clientDelegate.sendOutPosition!!.add(0.0, 0.04, 0.0)
-                beamSourcePosition = clientDelegate.sendOutPosition!!
-            }
-            val offsetDirection = beamSourcePosition.subtract(entity.pos).normalize().multiply(-clientDelegate.ballOffset.toDouble())
-            lateinit var facingDir: Vec3d
-            with(beamSourcePosition.subtract(entity.pos)) {
-                var newOffset = offsetDirection.multiply(2.0)
-                val distance = beamSourcePosition.distanceTo(entity.pos)
-                newOffset = newOffset.multiply((distance / 10.0) * 5)
-                facingDir = newOffset.normalize()
-                clientDelegate.sendOutOffset = newOffset
-                poseMatrix.translate(x+newOffset.x, y+newOffset.y, z+newOffset.z)
-            }
-            val dir = beamSourcePosition.subtract(entity.pos).normalize()
-            val angle = MathHelper.atan2(dir.z, dir.x) - PI / 2
-            poseMatrix.multiply(RotationAxis.POSITIVE_Y.rotation(-angle.toFloat() + (180 * Math.PI / 180).toFloat()))
-
-            // TODO: if you want to remove the open ball, add `!clientDelegate.ballDone` to the if statement
-            if (beamMode == 1 && !clientDelegate.ballDone){
-                if(entity.pokemon.caughtBall.name.toString().contains("beast")){
-                    // get rotation angle on x acis for facingDir
-                    val xAngleFacingDir = MathHelper.atan2(facingDir.y, sqrt(facingDir.x * facingDir.x + facingDir.z * facingDir.z))
-                    poseMatrix.multiply(RotationAxis.POSITIVE_X.rotation(-xAngleFacingDir.toFloat()))
-                }
-                drawPokeBall(
-                    ClientBallDisplay(entity.pokemon.caughtBall, setOf()),
-                    poseMatrix,
-                    scale = clientDelegate.ballOffset.toFloat(),
-                    partialTicks = partialTicks,
-                    buff = buffer,
-                    packedLight = packedLight,
-                    ball = CobblemonClient.storage.myParty.firstOrNull { it?.uuid == entity.pokemon.uuid }?.caughtBall
-                        ?: clientDelegate.currentEntity.pokemon.caughtBall,
-                    distance = ceil(beamSourcePosition.distanceTo(entity.pos)/4f).toInt()
-                )
-            }
-            poseMatrix.pop()
-            if(beamMode == 2) {
-                renderBeam(poseMatrix, partialTicks, entity, phaseTarget, lightColour, buffer, offsetDirection)
-            }
-        }
-
         clientDelegate.updatePartialTicks(partialTicks)
+
+        if (entity.beamMode != 0) {
+            renderTransition(
+                modelNow,
+                entity.beamMode == 1,
+                entity,
+                partialTicks,
+                poseMatrix,
+                buffer,
+                packedLight,
+                clientDelegate
+            )
+        }
 
         modelNow.setLayerContext(buffer, clientDelegate, PokemonModelRepository.getLayers(entity.pokemon.species.resourceIdentifier, entity.aspects))
 
@@ -190,33 +119,90 @@ class PokemonRenderer(
         modelNow.green = 1F
         modelNow.blue = 1F
         modelNow.resetLayerContext()
-
-        if (phaseTarget != null && beamMode != 0) {
-            val glowMultiplier = if (s > BEAM_EXTEND_TIME && s < BEAM_EXTEND_TIME + BEAM_SHRINK_TIME) {
-                val t = (s - (BEAM_EXTEND_TIME)) / BEAM_SHRINK_TIME
-                glowLengthFunction(t)
-            } else {
-                0F
-            }
-
-            if (glowMultiplier > 0F && clientDelegate.ballDone) {
-                renderGlow(
-                    matrixStack = poseMatrix,
-                    entity = entity,
-                    buffer = buffer,
-                    red = lightColour.x,
-                    green = lightColour.y,
-                    blue = lightColour.z,
-                    alpha = 1F,
-                    glowLength = glowMultiplier * entity.width * 1.5F,
-                    glowRangeAngle = PI / 7
-                )
-            }
-        }
         if (this.shouldRenderLabel(entity)) {
             this.renderLabelIfPresent(entity, entity.displayName, poseMatrix, buffer, packedLight)
         }
 //        MinecraftClient.getInstance().bufferBuilders.entityVertexConsumers.draw()
+    }
+
+    fun renderTransition(
+        modelNow: PoseableEntityModel<PokemonEntity>,
+        sendingOut: Boolean,
+        entity: PokemonEntity,
+        partialTicks: Float,
+        poseMatrix: MatrixStack,
+        buffer: VertexConsumerProvider,
+        packedLight: Int,
+        clientDelegate: PokemonClientDelegate
+    ) {
+        val s = clientDelegate.secondsSinceBeamEffectStarted
+        if (modelNow is PokemonPoseableModel && !sendingOut) {
+            if (s > BEAM_EXTEND_TIME) {
+                val value = (s - BEAM_EXTEND_TIME) /  BEAM_SHRINK_TIME
+                val colourValue = 1F - min(0.6F, value)
+                modelNow.green = colourValue
+                modelNow.blue = colourValue
+            }
+        }
+
+        val phaseTarget = clientDelegate.phaseTarget ?: return
+        poseMatrix.push()
+        var beamSourcePosition = if (phaseTarget is EmptyPokeBallEntity) {
+            (phaseTarget.delegate as PokeBallPoseableState).locatorStates["beam"]?.getOrigin() ?: phaseTarget.pos
+        } else {
+            phaseTarget as PlayerEntity
+            if (phaseTarget.uuid == MinecraftClient.getInstance().player?.uuid) {
+                val lookVec = phaseTarget.rotationVector.rotateY(PI / 2).multiply(1.0, 0.0, 1.0).normalize()
+                phaseTarget.getCameraPosVec(partialTicks).subtract(0.0, 0.4, 0.0).subtract(lookVec.multiply(0.3))
+            } else {
+                val lookVec = phaseTarget.rotationVector.rotateY(PI / 2 - (phaseTarget.bodyYaw - phaseTarget.pitch).toRadians()).multiply(1.0, 0.0, 1.0).normalize()
+                phaseTarget.getCameraPosVec(partialTicks).subtract(0.0, 0.7, 0.0).subtract(lookVec.multiply(0.4))
+            }
+        }
+
+        if (clientDelegate.sendOutPosition == null && sendingOut) {
+            clientDelegate.sendOutPosition = beamSourcePosition
+        } else if (sendingOut) {
+            clientDelegate.sendOutPosition = clientDelegate.sendOutPosition!!.add(0.0, 0.04, 0.0)
+            beamSourcePosition = clientDelegate.sendOutPosition!!
+        }
+        val offsetDirection = beamSourcePosition.subtract(entity.pos).normalize().multiply(-clientDelegate.ballOffset.toDouble())
+        val facingDir: Vec3d
+        with(beamSourcePosition.subtract(entity.pos)) {
+            var newOffset = offsetDirection.multiply(2.0)
+            val distance = beamSourcePosition.distanceTo(entity.pos)
+            newOffset = newOffset.multiply((distance / 10.0) * 5)
+            facingDir = newOffset.normalize()
+            clientDelegate.sendOutOffset = newOffset
+            poseMatrix.translate(x+newOffset.x, y+newOffset.y, z+newOffset.z)
+        }
+        val dir = beamSourcePosition.subtract(entity.pos).normalize()
+        val angle = MathHelper.atan2(dir.z, dir.x) - PI / 2
+        poseMatrix.multiply(RotationAxis.POSITIVE_Y.rotation(-angle.toFloat() + (180 * Math.PI / 180).toFloat()))
+
+        // TODO: if you want to remove the open ball, add `!clientDelegate.ballDone` to the if statement
+        if (sendingOut && !clientDelegate.ballDone){
+            if(entity.pokemon.caughtBall.name.toString().contains("beast")){
+                // get rotation angle on x acis for facingDir
+                val xAngleFacingDir = MathHelper.atan2(facingDir.y, sqrt(facingDir.x * facingDir.x + facingDir.z * facingDir.z))
+                poseMatrix.multiply(RotationAxis.POSITIVE_X.rotation(-xAngleFacingDir.toFloat()))
+            }
+            drawPokeBall(
+                ClientBallDisplay(entity.pokemon.caughtBall, setOf()),
+                poseMatrix,
+                scale = clientDelegate.ballOffset,
+                partialTicks = partialTicks,
+                buff = buffer,
+                packedLight = packedLight,
+                ball = CobblemonClient.storage.myParty.firstOrNull { it?.uuid == entity.pokemon.uuid }?.caughtBall
+                    ?: clientDelegate.currentEntity.pokemon.caughtBall,
+                distance = ceil(beamSourcePosition.distanceTo(entity.pos)/4f).toInt()
+            )
+        }
+        poseMatrix.pop()
+        if (!sendingOut) {
+            renderBeam(poseMatrix, partialTicks, entity, phaseTarget, buffer, offsetDirection)
+        }
     }
 
     override fun scale(pEntity: PokemonEntity, pMatrixStack: MatrixStack, pPartialTickTime: Float) {
@@ -234,7 +220,7 @@ class PokemonRenderer(
      * @param colour The colour of the beam.
      * @param buffer The vertex consumer provider.
      */
-    fun renderBeam(matrixStack: MatrixStack, partialTicks: Float, entity: PokemonEntity, beamTarget: Entity, colour: Vector4f, buffer: VertexConsumerProvider, offset: Vec3d) {
+    fun renderBeam(matrixStack: MatrixStack, partialTicks: Float, entity: PokemonEntity, beamTarget: Entity, buffer: VertexConsumerProvider, offset: Vec3d) {
         val clientDelegate = entity.delegate as PokemonClientDelegate
         val pokemonPosition = entity.pos.add(0.0, entity.height / 2.0 * clientDelegate.entityScaleModifier.toDouble(), 0.0)
         var beamSourcePosition = if (beamTarget is EmptyPokeBallEntity) {
@@ -292,81 +278,16 @@ class PokemonRenderer(
             partialTicks = partialTicks,
             totalLevelTime = entity.world.time,
             height = pokemonPosition.distanceTo(beamSourcePosition.add(offset)).toFloat() * ratio,
-            red = colour.x,
-            green = colour.y,
-            blue = colour.z,
-            alpha = colour.w,
+            red = recallBeamColour.x,
+            green = recallBeamColour.y,
+            blue = recallBeamColour.z,
+            alpha = recallBeamColour.w,
             beamRadius = 0.03F,
             glowRadius = 0.07F,
             glowAlpha = 0.4F
         )
 
         matrixStack.pop()
-    }
-
-    fun renderGlow(
-        matrixStack: MatrixStack,
-        entity: PokemonEntity,
-        buffer: VertexConsumerProvider,
-        red: Float,
-        green: Float,
-        blue: Float,
-        alpha: Float,
-        glowLength: Float,
-        glowRangeAngle: Float
-    ) {
-        val clientDelegate = entity.delegate as PokemonClientDelegate
-        val totalWorldTicks = entity.world.time
-        val vectorBuffer = buffer.getBuffer(RenderLayer.getLightning()) //buffer.getBuffer(RenderType.glint())
-
-        val ray1YRot = (totalWorldTicks + DELTA_TICKS) / 16F
-
-        val startY1 = entity.boundingBox.yLength.toFloat() * 0.5F * clientDelegate.entityScaleModifier
-        val startY2 = startY1 + entity.boundingBox.yLength.toFloat() * 0.05F * clientDelegate.entityScaleModifier
-
-        val endY1 = startY1 - tan(glowRangeAngle) * glowLength
-        val endY2 = startY2 + tan(glowRangeAngle) * glowLength
-
-        val startX = 0F
-        val endX = startX + glowLength
-
-        // Draw 4 rays of red.
-        repeat(times = 4) {
-            matrixStack.push()
-
-            val last = matrixStack.peek()
-            val normal = last.normalMatrix
-            val pose = matrixStack.peek().positionMatrix
-
-            val newStack = MatrixStack()
-            newStack.multiply(RotationAxis.POSITIVE_Y.rotation(ray1YRot + (it + 1) * PI / 2))
-            val nearTop = Vector4f(startX, startY2, 0F, 1F)
-            val nearBottom = Vector4f(startX, startY1, 0F, 1F)
-            val farTop = Vector4f(endX, endY2, 0F, 1F)
-            val farBottom = Vector4f(endX, endY1, 0F, 1F)
-
-            val poseM = newStack.peek().positionMatrix
-            nearTop.mul(poseM)
-            nearBottom.mul(poseM)
-            farTop.mul(poseM)
-            farBottom.mul(poseM)
-
-            // "Why are you drawing two quads?" because for some weird reason, a specific vertex order
-            // only shows a visible quad for 180 degrees, and which 180 degrees changes with the order.
-            // No idea why, it's like the vertices rotate wrong or something, idk.
-
-            addVertex(pose, normal, vectorBuffer, red, green, blue, alpha, nearTop.y, nearTop.x, nearTop.z, 0F, 1F) // A
-            addVertex(pose, normal, vectorBuffer, red, green, blue, alpha, nearBottom.y, nearBottom.x, nearBottom.z, 0F, 1F) // B
-            addVertex(pose, normal, vectorBuffer, red, green, blue, 0F, farBottom.y, farBottom.x, farBottom.z, 0F, 1F) // C
-            addVertex(pose, normal, vectorBuffer, red, green, blue, 0F, farTop.y, farTop.x, farTop.z, 0F, 1F) // D
-
-            addVertex(pose, normal, vectorBuffer, red, green, blue, alpha, nearBottom.y, nearBottom.x, nearBottom.z, 0F, 1F) // B
-            addVertex(pose, normal, vectorBuffer, red, green, blue, alpha, nearTop.y, nearTop.x, nearTop.z, 0F, 1F) // A
-            addVertex(pose, normal, vectorBuffer, red, green, blue, 0F, farTop.y, farTop.x, farTop.z, 0F, 1F) // D
-            addVertex(pose, normal, vectorBuffer, red, green, blue, 0F, farBottom.y, farBottom.x, farBottom.z, 0F, 1F) // C
-
-            matrixStack.pop()
-        }
     }
 
     override fun getLyingAngle(entity: PokemonEntity?) = 0F

@@ -10,7 +10,7 @@ package com.cobblemon.mod.common.client.gui.interact.wheel
 
 import com.cobblemon.mod.common.CobblemonNetwork
 import com.cobblemon.mod.common.api.events.CobblemonEvents
-import com.cobblemon.mod.common.api.events.pokemon.interaction.InteractionGUICreationEvent
+import com.cobblemon.mod.common.api.events.pokemon.interaction.PokemonInteractionGUICreationEvent
 import com.cobblemon.mod.common.client.CobblemonClient
 import com.cobblemon.mod.common.net.messages.client.PlayerInteractOptionsPacket
 import com.cobblemon.mod.common.net.messages.server.BattleChallengePacket
@@ -50,7 +50,7 @@ fun createPokemonInteractGui(pokemonID: UUID, canMountShoulder: Boolean): Intera
     if (canMountShoulder) {
         options.put(Orientation.TOP_LEFT, mountShoulder)
     }
-    CobblemonEvents.INTERACTION_GUI_CREATION.post(InteractionGUICreationEvent(pokemonID, canMountShoulder, options))
+    CobblemonEvents.POKEMON_INTERACTION_GUI_CREATION.post(PokemonInteractionGUICreationEvent(pokemonID, canMountShoulder, options))
     return InteractWheelGUI(options, Text.translatable("cobblemon.ui.interact.pokemon"))
 }
 

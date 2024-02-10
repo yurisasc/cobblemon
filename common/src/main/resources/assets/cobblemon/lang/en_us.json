@@ -338,11 +338,16 @@
   "item.cobblemon.capture_sherd": "Capture Pottery Sherd",
   "item.cobblemon.dome_sherd":  "Dome Pottery Sherd",
   "item.cobblemon.helix_sherd": "Helix Pottery Sherd",
-  "item.cobblemon.nostalgic_sherd":  "Nostalgic Pottery Sherd",
+  "item.cobblemon.nostalgic_sherd": "Nostalgic Pottery Sherd",
+  "item.cobblemon.suspicious_sherd": "Suspicious Pottery Sherd",
 
   "item.cobblemon.tumblestone": "Tumblestone",
   "item.cobblemon.black_tumblestone": "Black Tumblestone",
   "item.cobblemon.sky_tumblestone": "Sky Tumblestone",
+
+  "trim_pattern.cobblemon.automaton": "Automaton",
+
+  "item.cobblemon.automaton_armor_trim_smithing_template": "Automaton Armor Trim",
 
   "cobblemon.fossil.armor": "Armor",
   "cobblemon.fossil.bird": "Bird",
@@ -359,6 +364,7 @@
   "cobblemon.fossil.root": "Root",
   "cobblemon.fossil.sail": "Sail",
   "cobblemon.fossil.skull": "Skull",
+
 
   "cobblemon.fossilmachine.protected": "This fossil belongs to %s!",
 
@@ -398,9 +404,9 @@
   "block.cobblemon.healing_machine.tooltip1": "Must be charged after placing.",
   "block.cobblemon.healing_machine.tooltip2": "Charges over time.",
   "block.cobblemon.pc": "PC",
-  "block.cobblemon.fossil_tube": "Restoration Tank",
-  "block.cobblemon.fossil_compartment": "Fossil Compartment",
-  "block.cobblemon.fossil_monitor": "Data Monitor",
+  "block.cobblemon.restoration_tank": "Restoration Tank",
+  "block.cobblemon.fossil_analyzer": "Fossil Analyzer",
+  "block.cobblemon.monitor": "Data Monitor",
   "block.cobblemon.red_mint": "Red Mint Seeds",
   "block.cobblemon.blue_mint": "Blue Mint Seeds",
   "block.cobblemon.cyan_mint": "Cyan Mint Seeds",
@@ -502,6 +508,12 @@
   "cobblemon.ui.pasture.owned_name": "%1$s (%2$s)",
   "cobblemon.pasture.too_many_nearby": "There are too many Pokémon nearby.",
 
+  "cobblemon.ui.interact.give.item": "Change held item",
+  "cobblemon.ui.interact.spectate": "Spectate",
+  "cobblemon.ui.interact.trade": "Trade",
+  "cobblemon.ui.interact.battle": "Battle",
+  "cobblemon.ui.interact.mount.shoulder": "Shoulder",
+
   "key.cobblemon.upshiftparty": "Party Shift Up",
   "key.cobblemon.downshiftparty": "Party Shift Down",
   "key.cobblemon.hideparty": "Hide Party Overlay",
@@ -513,14 +525,15 @@
   "cobblemon.subtitle.poke_ball.capture_succeeded": "Poké Ball capture succeeds",
   "cobblemon.subtitle.fossilmachine.activate": "Restoration Machine activates",
   "cobblemon.subtitle.fossilmachine.active_loop": "Restoration Machine hums",
-  "cobblemon.subtitle.fossilmachine.dna_full": "Restoration Tube reaches capacity",
+  "cobblemon.subtitle.fossilmachine.dna_full": "Restoration Tank reaches capacity",
   "cobblemon.subtitle.fossilmachine.finished": "Restoration Machine finishes",
-  "cobblemon.subtitle.fossilmachine.insert_dna": "Restoration Tube splashes",
-  "cobblemon.subtitle.fossilmachine.insert_dna_small": "Restoration Tube splashes lightly",
+  "cobblemon.subtitle.fossilmachine.insert_dna": "Restoration Tank splashes",
+  "cobblemon.subtitle.fossilmachine.insert_dna_small": "Restoration Tank splashes lightly",
   "cobblemon.subtitle.fossilmachine.insert_fossil": "Fossil inserted",
   "cobblemon.subtitle.fossilmachine.retrieve_fossil": "Fossil retrieved",
   "cobblemon.subtitle.fossilmachine.retrieve_pokemon": "Fossil Pokémon retrieved",
   "cobblemon.subtitle.fossilmachine.unprotected": "Restoration Machine protection ends",
+  "cobblemon.subtitle.fossilmachine.assemble": "Restoration Machine assembles",
 
   "cobblemon.healingmachine.alreadyinuse": "This healing machine is already in use!",
   "cobblemon.healingmachine.nopokemon": "You don't have any Pokémon in your party to heal!",
@@ -1401,6 +1414,7 @@
   "block.cobblemon.deepslate_thunder_stone_ore": "Deepslate Thunder Stone Ore",
   "block.cobblemon.deepslate_water_stone_ore": "Deepslate Water Stone Ore",
   "block.cobblemon.dripstone_moon_stone_ore": "Dripstone Moon Stone Ore",
+  "block.cobblemon.nether_fire_stone_ore": "Nether Fire Stone Ore",
   "block.cobblemon.pasture": "Pasture Block",
 
   "gamerule.doPokemonSpawning": "Spawn Pokémon",
@@ -3291,6 +3305,7 @@
   "cobblemon.move.zippyzap.desc": "The user attacks the target with bursts of electricity at high speed. This move always goes first and results in a critical hit.",
 
   "cobblemon.entity.pokemon": "Pokémon",
+  "entity.cobblemon.empty_pokeball": "Empty Poké Ball",
 
   "cobblemon.species.bulbasaur.name": "Bulbasaur",
   "cobblemon.species.bulbasaur.desc": "While it is young, it uses the nutrients that are stored in the seed on its back in order to grow.",

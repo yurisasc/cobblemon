@@ -104,7 +104,7 @@ interface Evolution : EvolutionLike {
      */
     fun forceEvolve(pokemon: Pokemon) {
         // This is a switch to enable/disable the evolution effect while we get particles improved
-        val useEvolutionEffect = true
+        val useEvolutionEffect = false
 
         if (pokemon.state is ShoulderedState) {
             pokemon.tryRecallWithAnimation()

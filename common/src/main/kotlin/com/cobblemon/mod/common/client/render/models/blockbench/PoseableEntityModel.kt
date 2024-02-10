@@ -21,16 +21,15 @@ import com.cobblemon.mod.common.api.molang.ObjectValue
 import com.cobblemon.mod.common.api.scheduling.afterOnClient
 import com.cobblemon.mod.common.client.ClientMoLangFunctions.setupClient
 import com.cobblemon.mod.common.client.entity.PokemonClientDelegate
+import com.cobblemon.mod.common.client.render.MatrixWrapper
 import com.cobblemon.mod.common.client.render.ModelLayer
 import com.cobblemon.mod.common.client.render.layer.CobblemonRenderLayers
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.*
-import com.cobblemon.mod.common.client.render.models.blockbench.bedrock.animation.BedrockAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.bedrock.animation.BedrockAnimationRepository
 import com.cobblemon.mod.common.client.render.models.blockbench.bedrock.animation.BedrockStatefulAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.bedrock.animation.BedrockStatelessAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.ModelFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1.RattataModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.Bone
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.ModelPartTransformation
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.Pose
@@ -38,7 +37,6 @@ import com.cobblemon.mod.common.client.render.models.blockbench.quirk.ModelQuirk
 import com.cobblemon.mod.common.client.render.models.blockbench.quirk.SimpleQuirk
 import com.cobblemon.mod.common.client.render.models.blockbench.repository.RenderContext
 import com.cobblemon.mod.common.client.render.models.blockbench.wavefunction.WaveFunction
-import com.cobblemon.mod.common.client.render.models.blockbench.wavefunction.WaveFunctions
 import com.cobblemon.mod.common.client.render.models.blockbench.wavefunction.sineFunction
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.Poseable
@@ -790,18 +788,21 @@ abstract class PoseableEntityModel<T : Entity>(
     fun updateLocators(state: PoseableEntityState<T>) {
         val entity = context.request(RenderContext.ENTITY) ?: return
         val matrixStack = MatrixStack()
+        var scale = 1F
         // We could improve this to be generalized for other entities
         if (entity is PokemonEntity) {
             matrixStack.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(180 - entity.bodyYaw))
             matrixStack.push()
             matrixStack.scale(-1F, -1F, 1F)
-            val scale = entity.pokemon.form.baseScale * entity.pokemon.scaleModifier * (entity.delegate as PokemonClientDelegate).entityScaleModifier
+            scale = entity.pokemon.form.baseScale * entity.pokemon.scaleModifier * (entity.delegate as PokemonClientDelegate).entityScaleModifier
+
             matrixStack.scale(scale, scale, scale)
         } else if (entity is EmptyPokeBallEntity) {
             matrixStack.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(entity.yaw))
             matrixStack.push()
             matrixStack.scale(1F, -1F, -1F)
-            matrixStack.scale(0.7F, 0.7F, 0.7F)
+            scale = 0.7F
+            matrixStack.scale(scale, scale, scale)
         } else if (entity is GenericBedrockEntity) {
             matrixStack.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(entity.yaw))
             matrixStack.push()
@@ -813,12 +814,27 @@ abstract class PoseableEntityModel<T : Entity>(
             matrixStack.scale(-1F, -1F, 1F)
         }
 
+        matrixStack.push()
+        matrixStack.scale(1F, -1F, 1F)
+        val states = state.locatorStates
+        states.getOrPut("root") { MatrixWrapper() }.updateMatrix(matrixStack.peek().positionMatrix)
+        matrixStack.pop()
+
         if (isForLivingEntityRenderer) {
             // Standard living entity offset, only God knows why Mojang did this.
             matrixStack.translate(0.0, -1.5, 0.0)
         }
 
-        locatorAccess.update(matrixStack, state.locatorStates)
+        // If we have the entity, put in an approximation of the target locator. If the model has one defined,
+        // this will be overridden.
+        matrixStack.push()
+        matrixStack.translate(0.0, -entity.boundingBox.yLength / 2.0 / scale + 1.5F, -entity.width * 0.6 / scale)
+        matrixStack.scale(1F, -1F, 1F)
+        states.getOrPut("target") { MatrixWrapper() }.updateMatrix(matrixStack.peek().positionMatrix)
+        states.getOrPut("special_attack") { MatrixWrapper() }.updateMatrix(matrixStack.peek().positionMatrix)
+        matrixStack.pop()
+
+        locatorAccess.update(matrixStack, states)
     }
 
     fun ModelPart.translation(
