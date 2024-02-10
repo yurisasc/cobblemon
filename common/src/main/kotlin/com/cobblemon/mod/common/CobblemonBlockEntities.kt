@@ -17,7 +17,7 @@ import com.cobblemon.mod.common.block.entity.fossil.FossilMultiblockEntity
 import com.cobblemon.mod.common.block.entity.fossil.FossilTubeBlockEntity
 import com.cobblemon.mod.common.block.multiblock.FossilMultiblockBuilder
 import com.cobblemon.mod.common.block.entity.*
-import com.cobblemon.mod.common.block.entity.displaycase.DisplayCaseBlockEntity
+import com.cobblemon.mod.common.block.entity.DisplayCaseBlockEntity
 import com.cobblemon.mod.common.platform.PlatformRegistry
 import net.minecraft.block.entity.BlockEntityType
 import net.minecraft.registry.Registries

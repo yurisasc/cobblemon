@@ -8,16 +8,14 @@
 
 package com.cobblemon.mod.common.block
 
-import com.cobblemon.mod.common.api.tags.CobblemonItemTags
-import com.cobblemon.mod.common.block.entity.displaycase.DisplayCaseBlockEntity
-import com.cobblemon.mod.common.item.PokemonItem
+import com.cobblemon.mod.common.block.entity.DisplayCaseBlockEntity
+import com.cobblemon.mod.common.item.PokeBallItem
 import net.minecraft.block.*
 import net.minecraft.block.HorizontalFacingBlock.*
-import net.minecraft.client.MinecraftClient
 import net.minecraft.entity.ai.pathing.NavigationType
 import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.item.BlockItem
 import net.minecraft.item.ItemPlacementContext
-import net.minecraft.item.ItemStack
 import net.minecraft.state.StateManager
 import net.minecraft.util.ActionResult
 import net.minecraft.util.Hand
@@ -99,40 +97,15 @@ class DisplayCaseBlock(settings: Settings) : BlockWithEntity(settings) {
 
     override fun getComparatorOutput(state: BlockState, world: World, pos: BlockPos): Int {
         val stack = (world.getBlockEntity(pos) as DisplayCaseBlockEntity).getStack()
-        val posType = getPositioningType(stack, world)
 
         if (stack.isEmpty) return 0
-
-        return when (posType) {
-            PositioningType.POKE_BALL -> 3
-            PositioningType.BLOCK_MODEL -> 2
-            PositioningType.ITEM_MODEL -> 1
-        }
+        if (stack.item is PokeBallItem) return 3
+        if (stack.item is BlockItem) return 2
+        return 1
     }
 
     override fun hasComparatorOutput(state: BlockState?) = true
 
     override fun canPathfindThrough(state: BlockState, world: BlockView, pos: BlockPos, type: NavigationType) = false
-
-
-    enum class PositioningType(
-        val scaleX: Float, val scaleY: Float, val scaleZ: Float,
-        val transX: Float, val transY: Float, val transZ: Float
-    ) {
-        POKE_BALL(1f, 1f, 1f, 0f, 0.04f, 0f),
-        BLOCK_MODEL(1f, 1f, 1f, 0f, -0.15f, 0f),
-        ITEM_MODEL(1f, 1f, 1f, 0f, 0.04f, 0f),
-    }
-
-    companion object {
-        fun getPositioningType(stack: ItemStack, world: World): PositioningType {
-            if (stack.isIn(CobblemonItemTags.POKEBALLS)) return PositioningType.POKE_BALL
-            if (stack.item is PokemonItem) return PositioningType.ITEM_MODEL
-
-            if (MinecraftClient.getInstance().itemRenderer.getModel(stack, world, null, 0).hasDepth()) return PositioningType.BLOCK_MODEL
-
-            return PositioningType.ITEM_MODEL
-        }
-    }
 
 }
