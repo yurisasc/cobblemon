@@ -55,7 +55,9 @@ import com.cobblemon.mod.common.pokemon.ai.FormPokemonBehaviour
 import com.cobblemon.mod.common.pokemon.evolution.variants.ItemInteractionEvolution
 import com.cobblemon.mod.common.util.*
 import com.cobblemon.mod.common.world.gamerules.CobblemonGameRules
+import net.minecraft.SharedConstants
 import net.minecraft.entity.*
+import net.minecraft.entity.ai.brain.Activity
 import net.minecraft.entity.ai.control.MoveControl
 import net.minecraft.entity.ai.goal.EatGrassGoal
 import net.minecraft.entity.ai.goal.Goal
@@ -73,7 +75,6 @@ import net.minecraft.entity.passive.PassiveEntity
 import net.minecraft.entity.passive.TameableShoulderEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.fluid.FluidState
-import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
 import net.minecraft.item.ItemUsage
 import net.minecraft.item.Items
@@ -84,6 +85,8 @@ import net.minecraft.nbt.NbtString
 import net.minecraft.network.listener.ClientPlayPacketListener
 import net.minecraft.network.packet.Packet
 import net.minecraft.network.packet.s2c.play.EntitySpawnS2CPacket
+import net.minecraft.network.packet.s2c.play.ParticleS2CPacket
+import net.minecraft.particle.ParticleTypes
 import net.minecraft.registry.Registries
 import net.minecraft.registry.RegistryKeys
 import net.minecraft.registry.tag.FluidTags
@@ -102,6 +105,9 @@ import net.minecraft.util.math.Vec3d
 import net.minecraft.world.EntityView
 import net.minecraft.world.World
 import net.minecraft.world.event.GameEvent
+import java.sql.Timestamp
+import java.time.Instant
+import java.time.temporal.ChronoUnit
 import java.util.EnumSet
 import java.util.Optional
 import java.util.UUID
@@ -130,6 +136,7 @@ open class PokemonEntity(
         @JvmStatic val HIDE_LABEL = DataTracker.registerData(PokemonEntity::class.java, TrackedDataHandlerRegistry.BOOLEAN)
         @JvmStatic val UNBATTLEABLE = DataTracker.registerData(PokemonEntity::class.java, TrackedDataHandlerRegistry.BOOLEAN)
         @JvmStatic val COUNTS_TOWARDS_SPAWN_CAP = DataTracker.registerData(PokemonEntity::class.java, TrackedDataHandlerRegistry.BOOLEAN)
+        const val TICKS_IN_A_DAY: Long = SharedConstants.TICKS_PER_IN_GAME_DAY.toLong()
 
         const val BATTLE_LOCK = "battle"
 
@@ -177,7 +184,7 @@ open class PokemonEntity(
         get() = dataTracker.get(BATTLE_ID).isPresent
 
     var drops: DropTable? = null
-
+    var lastHeadpat: Long = 0L
     var tethering: PokemonPastureBlockEntity.Tethering? = null
 
     var queuedToDespawn = false
@@ -666,6 +673,8 @@ open class PokemonEntity(
             }
         }
 
+        onHeadpat(hand, pokemon, player)
+
         return super.interactMob(player, hand)
     }
 
@@ -1114,4 +1123,45 @@ open class PokemonEntity(
 
     /** Retrieves the battle theme associated with this Pokemon's Species/Form, or the default PVW theme if not found. */
     fun getBattleTheme() = Registries.SOUND_EVENT.get(this.form.battleTheme) ?: CobblemonSounds.PVW_BATTLE
+
+    fun onHeadpat(hand: Hand, pokemon: Pokemon, player: PlayerEntity){
+        if (hand == Hand.MAIN_HAND && player is ServerPlayerEntity) {
+            var timeWhenHeadpatted = world.timeOfDay
+            val eyePos = pokemon.entity?.eyePos
+            world
+            if(pokemon.getOwnerPlayer() == player){
+                if(timeWhenHeadpatted - 30 < lastHeadpat){
+                    return
+                }
+                lastHeadpat = world.timeOfDay
+                this.cry()
+                player.swingHand(Hand.MAIN_HAND, true)
+                if(pokemon.headpatTime == 0L || world.timeOfDay > (pokemon.headpatTime + TICKS_IN_A_DAY)){
+                    pokemon.headpatTime = world.timeOfDay
+                    pokemon.incrementFriendship(2)
+                    val newX = (eyePos?.x ?: 0.0) + (world.random.nextDouble() * 0.5)
+                    val newY = (eyePos?.y ?: 0.0) + (world.random.nextDouble() * 0.5)
+                    val newZ = (eyePos?.z ?: 0.0) + (world.random.nextDouble() * 0.5)
+                    for(i in 0 .. 2){
+                        ParticleS2CPacket(
+                            ParticleTypes.HEART, true, newX, newY, newZ , Math.PI.toFloat() * Math.cos(i.toDouble()).toFloat() * 0.1f, Math.PI.toFloat() * 0.1f, Math.PI.toFloat() * Math.sin(i.toDouble()).toFloat() * 0.1f, .2f, 1
+                        ).also {
+                            (this.world as ServerWorld).server.playerManager.sendToAround(
+                                null,
+                                (eyePos?.x ?: 0.0),
+                                (eyePos?.y ?: 0.0),
+                                (eyePos?.z ?: 0.0),
+                                64.0,
+                                this.world.registryKey,
+                                it
+                            )
+                        }
+                    }
+                }
+            }
+            else{
+                this.cry()
+            }
+        }
+    }
 }
