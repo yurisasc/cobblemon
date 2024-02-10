@@ -65,8 +65,9 @@ fun <T : Enum<T>> Array<T>.getFromJSON(element: JsonElement, name: String): T {
 fun JsonObject.getFirst(vararg names: String): JsonElement? {
     for (name in names) {
         val element = get(name)
-        if (element != null)
+        if (element != null) {
             return element
+        }
     }
     return null
 }
