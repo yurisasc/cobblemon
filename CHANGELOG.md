@@ -3,7 +3,7 @@
 ### Additions
 - Added over (number here) ruin structures, where you can find Pokémon-themed Armor Trims and Pottery Sherds, Tumblestones, and more.
 - Added (number here) fossil structures, where you can brush Suspicious Sand/Gravel for Fossils.
-- Added the Data Monitor, Fossil Compartment, and Restoration Tube. Placed in the correct formation, you can use these to create a Restoration Machine where you can bring fossils back to life.
+- Added the Data Monitor, Fossil Compartment, and Restoration Tank. Placed in the correct formation, you can use these to create a Restoration Machine where you can bring fossils back to life.
 - Added 3 variants of Tumblestones, which can be planted near Lava or Magma to grow harvestable Tumblestone Clusters.
 - Added Tumblestone Blocks, a storage block crafted from 9 Tumblestones.
 - Added Ancient Poké Balls, which are aesthetic variants crafted from Tumblestones.
@@ -57,7 +57,7 @@
 - API to support dynamic lighting in any mod that implements this feature has been added to all Species & Forms, see LightingData class for details.
 
 ### Datapack & Resourcepack Creators
-- The maximum amount of fossils that can fit in the Fossil Compartment can be adjusted in the config.
+- The maximum amount of fossils that can fit in the Fossil Analyzer can be adjusted in the config.
 - Custom fossils can be defined using a list of items and the resulting Pokémon. An example of `aerodactyl.json`:
 ```JSON
 {
