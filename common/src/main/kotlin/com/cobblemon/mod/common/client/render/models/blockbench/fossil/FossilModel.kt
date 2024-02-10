@@ -26,6 +26,7 @@ class FossilModel(root: Bone) : PoseableEntityModel<Entity>() {
     // The reason to do this is to
     // 1. The embryo is aligned with the center of the model
     // 2. The model can appear to grow (scale) from the center out
+    var yGrowthPoint = 0F
     var maxScale = 1F
     var yTranslation = 0F // Offset inside the tank
     var tankAnimations: Array<StatelessAnimation<Entity, out ModelFrame>> = emptyArray()
