@@ -10,7 +10,8 @@ for f in files:
 			obj["model"] = "cobblemon:egg"
 			obj["baseTexturePath"] = f"cobblemon:base"
 			obj["overlayTexturePath"] = f"cobblemon:pattern_{pattern_name}"
-			obj["invSpritePath"] = f"cobblemon:test_pattern"
+			obj["baseInvSpritePath"] = f"cobblemon:test_pattern_base"
+			obj["overlayInvSpritePath"] = f"cobblemon:test_pattern_overlay"
 			file.write(json.dumps(obj, indent=2))
 			file.close()
 

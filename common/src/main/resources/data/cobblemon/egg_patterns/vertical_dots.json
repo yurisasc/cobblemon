@@ -2,5 +2,6 @@
   "model": "cobblemon:egg",
   "baseTexturePath": "cobblemon:base",
   "overlayTexturePath": "cobblemon:pattern_vertical_dots",
-  "invSpritePath": "cobblemon:test_pattern"
+  "baseInvSpritePath": "cobblemon:test_pattern_base",
+  "overlayInvSpritePath": "cobblemon:test_pattern_overlay"
 }

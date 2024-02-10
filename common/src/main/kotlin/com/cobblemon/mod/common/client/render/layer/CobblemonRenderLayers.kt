@@ -61,9 +61,9 @@ object CobblemonRenderLayers {
     //For overlaying the 2D sprites for eggs in inventory
     val EGG_SPRITE_LAYER = run {
         val multiPhaseParameters = RenderLayer.MultiPhaseParameters.builder()
-            .program(POSITION_TEXTURE_COLOR_PROGRAM)
+            .program(POSITION_COLOR_TEXTURE_PROGRAM)
             .texture(Texture(
-                cobblemonResource("textures/egg_patterns/test_pattern.png"),
+                cobblemonResource("textures/atlas/egg_pattern_sprites.png"),
                 false,
                 false
             ))
@@ -71,7 +71,7 @@ object CobblemonRenderLayers {
             .build(true)
         RenderLayer.of(
             "egg_patterns",
-            VertexFormats.POSITION_TEXTURE,
+            VertexFormats.POSITION_COLOR_TEXTURE,
             VertexFormat.DrawMode.QUADS,
             512,
             true,

@@ -12,5 +12,6 @@ data class EggPattern (
     val model: Identifier,
     val baseTexturePath: Identifier,
     val overlayTexturePath: Identifier?,
-    val invSpritePath: Identifier
+    val baseInvSpritePath: Identifier,
+    val overlayInvSpritePath: Identifier?,
 )
