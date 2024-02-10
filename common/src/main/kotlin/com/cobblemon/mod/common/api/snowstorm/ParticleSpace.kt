@@ -34,6 +34,9 @@ class ParticleSpace(
         }
     }
 
+    val isLocalSpace: Boolean
+        get() = localPosition || localRotation
+
     fun readFromBuffer(buffer: PacketByteBuf) {
         localPosition = buffer.readBoolean()
         localRotation = buffer.readBoolean()

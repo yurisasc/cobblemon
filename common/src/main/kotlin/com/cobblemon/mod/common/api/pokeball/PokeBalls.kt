@@ -204,7 +204,7 @@ object PokeBalls : JsonDataRegistry<PokeBall> {
         createDefault("ancient_feather_ball", throwPower = 2.5f, ancient = true)
         createDefault("ancient_wing_ball", throwPower = 2.5f, ancient = true)
         createDefault("ancient_jet_ball", throwPower = 2.5f, ancient = true)
-        createDefault("ancient_origin_ball", ancient = true)
+        createDefault("ancient_origin_ball", GuaranteedModifier(), ancient = true)
         // Luxury ball effect
         CobblemonEvents.FRIENDSHIP_UPDATED.subscribe(priority = Priority.LOWEST) { event ->
             var increment = (event.newFriendship - event.pokemon.friendship).toFloat()

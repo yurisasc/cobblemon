@@ -9,17 +9,13 @@
 package com.cobblemon.mod.common.api.snowstorm
 
 import com.bedrockk.molang.Expression
-import com.bedrockk.molang.MoLang
 import com.bedrockk.molang.runtime.MoLangRuntime
 import com.cobblemon.mod.common.api.codec.CodecMapped
 import com.cobblemon.mod.common.api.data.ArbitrarilyMappedSerializableCompanion
 import com.cobblemon.mod.common.util.asExpression
 import com.cobblemon.mod.common.util.codec.EXPRESSION_CODEC
 import com.cobblemon.mod.common.util.getString
-import com.cobblemon.mod.common.util.readVec3d
-import com.cobblemon.mod.common.util.resolveDouble
 import com.cobblemon.mod.common.util.resolveVec3d
-import com.cobblemon.mod.common.util.writeVec3d
 import com.mojang.serialization.Codec
 import com.mojang.serialization.DynamicOps
 import com.mojang.serialization.codecs.PrimitiveCodec
@@ -70,7 +66,7 @@ class FromMotionViewDirection(var minSpeed: Double = 0.01) : ParticleViewDirecti
     }
 
     override fun getDirection(runtime: MoLangRuntime, lastDirection: Vec3d, currentVelocity: Vec3d): Vec3d {
-        return if (currentVelocity.length() / 20 >= minSpeed) {
+        return if (currentVelocity.length() * 20 >= minSpeed) {
             currentVelocity.normalize()
         } else {
             lastDirection
