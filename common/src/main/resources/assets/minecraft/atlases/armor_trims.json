@@ -4,9 +4,7 @@
       "type": "minecraft:paletted_permutations",
       "textures": [
         "cobblemon:trims/models/armor/automaton",
-        "cobblemon:trims/models/armor/automaton_leggings",
-        "cobblemon:trims/models/armor/oceanic",
-        "cobblemon:trims/models/armor/oceanic_leggings"
+        "cobblemon:trims/models/armor/automaton_leggings"
       ],
       "palette_key": "trims/color_palettes/trim_palette",
       "permutations": {
