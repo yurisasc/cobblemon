@@ -33,10 +33,10 @@ class FlaaffyModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     lateinit var sleep: PokemonPose
     lateinit var battleidle: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("flaaffy", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("flaaffy", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("flaaffy", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("flaaffy", "blink") }
         sleep = registerPose(
             poseType = PoseType.SLEEP,
             idleAnimations = arrayOf(bedrock("flaaffy", "sleep"))

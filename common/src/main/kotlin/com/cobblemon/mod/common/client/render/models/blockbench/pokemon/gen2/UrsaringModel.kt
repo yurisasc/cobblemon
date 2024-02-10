@@ -38,7 +38,7 @@ class UrsaringModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
     lateinit var walk: PokemonPose
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("ursaring", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("ursaring", "blink") }
         standing = registerPose(
             poseName = "standing",
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,

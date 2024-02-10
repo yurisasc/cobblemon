@@ -26,7 +26,16 @@ fun Matrix4f.transformPosition(pos: Vec3d): Vec3d {
 }
 
 fun Matrix4f.transformDirection(direction: Vec3d): Vec3d {
-    val rot = this.getRotation(AxisAngle4d())
-    val v = rot.transform(Vector3d(direction.x, direction.y, direction.z))
-    return Vec3d(v.x, v.y, v.z)
+    val origin = Vector4f(0F, 0F, 0F, 1F)
+    transform(origin)
+    origin.mul(1 / origin.w)
+    val originVec = Vec3d(origin.x.toDouble(), origin.y.toDouble(), origin.z.toDouble())
+    val magnitude = direction.length()
+    val vector = Vector4f(direction.x.toFloat(), direction.y.toFloat(), direction.z.toFloat(), 1F)
+    this.transform(vector)
+    vector.mul(1 / vector.w)
+    return Vec3d(vector.x.toDouble(), vector.y.toDouble(), vector.z.toDouble())
+        .subtract(originVec)
+        .normalize()
+        .multiply(magnitude)
 }

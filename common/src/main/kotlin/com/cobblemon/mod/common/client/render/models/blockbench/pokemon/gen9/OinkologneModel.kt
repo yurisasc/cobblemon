@@ -42,7 +42,7 @@ class OinkologneModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Q
 //            idleAnimations = arrayOf(bedrock("oinkologne", "sleep"))
 //        )
 
-        val blink = quirk("blink") { bedrockStateful("oinkologne", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("oinkologne", "blink") }
 
         standing = registerPose(
             poseName = "standing",

@@ -44,7 +44,7 @@ class BibarelModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quadr
     val wateroffset = -1
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("bibarel", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("bibarel", "blink") }
         standing = registerPose(
             poseName = "standing",
             poseTypes = STATIONARY_POSES + UI_POSES,

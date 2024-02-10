@@ -30,7 +30,7 @@ class DratiniModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     lateinit var standing: PokemonPose
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("dratini", "blink").setPreventsIdle(false)}
+        val blink = quirk { bedrockStateful("dratini", "blink")}
         standing = registerPose(
             poseName = "standing",
             poseTypes = STATIONARY_POSES + MOVING_POSES + UI_POSES,
