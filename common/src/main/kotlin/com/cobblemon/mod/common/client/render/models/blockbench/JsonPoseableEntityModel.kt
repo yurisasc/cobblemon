@@ -87,7 +87,14 @@ abstract class JsonPoseableEntityModel<T : Entity>(override val rootPart: Bone) 
                 idleAnimations = pose.idleAnimations,
                 transformedParts = pose.transformedParts,
                 quirks = pose.quirks.toTypedArray()
-            )
+            ).also {
+                it.transitions.putAll(
+                    pose.transitions
+                        .mapNotNull<JsonPose.JsonPoseTransition, Pair<String, (Pose<T, out ModelFrame>, Pose<T, out ModelFrame>) -> StatefulAnimation<T, ModelFrame>>> {
+                            it.to to { _, _ -> it.animation.resolveObject(model.runtime).obj as StatefulAnimation<T, ModelFrame> }
+                        }.toMap()
+                )
+            }
         }
     }
 }

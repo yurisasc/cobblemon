@@ -38,10 +38,10 @@ class LucarioModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bipe
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("lucario", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("lucario", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("lucario", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("lucario", "blink") }
         standing = registerPose(
             poseName = "standing",
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,

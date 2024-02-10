@@ -8,16 +8,33 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench
 
+import com.bedrockk.molang.runtime.MoLangRuntime
+import com.cobblemon.mod.common.api.molang.ExpressionLike
+import com.cobblemon.mod.common.api.molang.MoLangFunctions.addFunctions
+import com.cobblemon.mod.common.api.molang.MoLangFunctions.getQueryStruct
+import com.cobblemon.mod.common.api.molang.MoLangFunctions.setup
+import com.cobblemon.mod.common.client.ClientMoLangFunctions.setupClient
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.StatefulAnimation
+import com.cobblemon.mod.common.client.render.models.blockbench.animation.StatelessAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
+import com.cobblemon.mod.common.client.render.models.blockbench.quirk.SimpleQuirk
 import com.cobblemon.mod.common.entity.PoseType
+import com.cobblemon.mod.common.util.asExpressionLike
+import com.cobblemon.mod.common.util.resolveObject
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
+import com.google.gson.JsonPrimitive
 import net.minecraft.entity.Entity
 import net.minecraft.util.math.Vec3d
 
 class JsonPose<T : Entity>(model: PoseableEntityModel<T>, json: JsonObject) {
-    val poseName = json.get("poseName").asString
+    class JsonPoseTransition(val from: String, val to: String, val animation: ExpressionLike)
+
+    val runtime = MoLangRuntime().setup().setupClient().also {
+        it.environment.getQueryStruct().addFunctions(model.functions.functions)
+    }
+
+    val poseName = json.get("poseName")?.asString ?: "pose"
     val poseTypes = (json.get("poseTypes")?.asJsonArray?.map { name ->
         PoseType.values().find { it.name.lowercase() == name.asString.lowercase() }
             ?: throw IllegalArgumentException("Unknown pose type ${name.asString}")
@@ -47,18 +64,33 @@ class JsonPose<T : Entity>(model: PoseableEntityModel<T>, json: JsonObject) {
         } else if (animString.startsWith("bedrock")) {
             val split = animString.replace("bedrock(", "").replace(")", "").split(",").map(String::trim)
             return@mapNotNull model.bedrock(animationGroup = split[0], animation = split[1])
+        } else {
+            try {
+                val expression = animString.asExpressionLike()
+                return@mapNotNull runtime.resolveObject(expression).obj as StatelessAnimation<T, *>
+            } catch (exception: Exception) {
+                null
+            }
         }
         return@mapNotNull null
     }.toTypedArray()
 
     val quirks = (json.get("quirks")?.asJsonArray ?: JsonArray()).map { json ->
+        if (json is JsonPrimitive) {
+            return@map json.asString.asExpressionLike().resolveObject(runtime).obj as SimpleQuirk<T>
+        }
+
         json as JsonObject
-        val name = json.get("name").asString
         val animations: (state: PoseableEntityState<T>) -> List<StatefulAnimation<T, *>> = { _ ->
             (json.get("animations")?.asJsonArray ?: JsonArray()).map { animJson ->
-                val split =
-                    animJson.asString.replace("bedrock(", "").replace(")", "").split(",").map(String::trim)
-                model.bedrockStateful(animationGroup = split[0], animation = split[1]).setPreventsIdle(false)
+                try {
+                    val expr = animJson.asString.asExpressionLike()
+                    runtime.resolveObject(expr).obj as StatefulAnimation<T, *>
+                } catch (e: Exception) {
+                    val split =
+                        animJson.asString.replace("bedrock(", "").replace(")", "").split(",").map(String::trim)
+                    model.bedrockStateful(animationGroup = split[0], animation = split[1])
+                }
             }
         }
 
@@ -67,11 +99,26 @@ class JsonPose<T : Entity>(model: PoseableEntityModel<T>, json: JsonObject) {
         val maxSeconds = json.get("maxSecondsBetweenOccurrences")?.asFloat ?: 30F
 
         model.quirkMultiple(
-            name = name,
             secondsBetweenOccurrences = minSeconds to maxSeconds,
             condition = { true },
             loopTimes = 1..loopTimes,
             animations = animations
         )
     }
+
+    val animations = json.get("namedAnimations")?.takeIf { it is JsonObject }?.asJsonObject?.let {
+        val map = mutableMapOf<String, ExpressionLike>()
+        for ((key, value) in it.entrySet()) {
+            map[key] = value.asString.asExpressionLike()
+        }
+        map
+    } ?: mutableMapOf()
+
+    val transitions = json.get("transitions")?.takeIf { it is JsonArray }?.asJsonArray?.map {
+        it as JsonObject
+        val from = it.get("from").asString
+        val to = it.get("to").asString
+        val animation = it.get("animation").asString.asExpressionLike()
+        JsonPoseTransition(from, to, animation)
+    } ?: emptyList()
 }

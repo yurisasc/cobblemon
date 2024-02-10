@@ -36,7 +36,7 @@ class GolemModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedFr
     lateinit var walk: PokemonPose
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("golem", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("golem", "blink") }
         standing = registerPose(
             poseName = "standing",
             poseTypes = STATIONARY_POSES + UI_POSES,
