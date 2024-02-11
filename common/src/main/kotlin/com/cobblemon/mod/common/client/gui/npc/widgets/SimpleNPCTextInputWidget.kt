@@ -42,10 +42,12 @@ class SimpleNPCTextInputWidget(
     height,
     "input".text()
 ) {
+
     init {
         setMaxLength(maxLength)
         isFocused = true
         text = getter()
+        this.setChangedListener { setter(it) }
     }
 
     override fun mouseClicked(mouseX: Double, mouseY: Double, button: Int): Boolean {
@@ -89,7 +91,7 @@ class SimpleNPCTextInputWidget(
         } else {
             drawCenteredText(
                 context = context,
-                text = (if (isFocused) "$text|" else text).text(),
+                text = text.text(),
                 x = (x + width / 2F) / scale,
                 y = (y + height / 2 - 4) / scale,
                 shadow = true,
@@ -97,12 +99,5 @@ class SimpleNPCTextInputWidget(
             )
         }
         context.matrices.pop()
-    }
-
-    override fun keyPressed(keyCode: Int, scanCode: Int, modifiers: Int): Boolean {
-        if (keyCode == InputUtil.GLFW_KEY_ESCAPE || keyCode == GLFW.GLFW_KEY_ENTER || keyCode == GLFW.GLFW_KEY_KP_ENTER) {
-            setter(text.trim())
-        }
-        return super.keyPressed(keyCode, scanCode, modifiers)
     }
 }

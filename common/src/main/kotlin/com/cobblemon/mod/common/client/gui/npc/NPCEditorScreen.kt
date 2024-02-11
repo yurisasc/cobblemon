@@ -14,10 +14,13 @@ import com.cobblemon.mod.common.client.gui.dialogue.widgets.DialogueTextInputWid
 import com.cobblemon.mod.common.client.gui.npc.widgets.NPCRenderWidget
 import com.cobblemon.mod.common.client.gui.npc.widgets.SimpleNPCTextInputWidget
 import com.cobblemon.mod.common.net.messages.client.npc.dto.NPCConfigurationDTO
+import com.cobblemon.mod.common.net.messages.server.npc.SaveNPCPacket
 import com.cobblemon.mod.common.util.asTranslated
 import com.cobblemon.mod.common.util.cobblemonResource
 import net.minecraft.client.gui.DrawContext
 import net.minecraft.client.gui.screen.Screen
+import net.minecraft.client.gui.screen.report.ChatSelectionScreen.SelectionListWidget
+import net.minecraft.client.gui.widget.ButtonWidget
 
 class NPCEditorScreen(
     val npcId: Int,
@@ -66,6 +69,16 @@ class NPCEditorScreen(
             maxLength = 75,
             wrap = true
         ))
+        addDrawableChild(
+            ButtonWidget
+                .builder("Save".text()) {
+                    SaveNPCPacket(npcId, dto).sendToServer()
+                    this.client!!.setScreen(null)
+                }
+                .position(leftX + BASE_WIDTH - 42, topY + BASE_HEIGHT - 18)
+                .size(40, 16)
+                .build()
+        )
     }
 
     override fun render(context: DrawContext, mouseX: Int, mouseY: Int, delta: Float) {

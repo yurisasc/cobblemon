@@ -8,9 +8,11 @@
 
 package com.cobblemon.mod.common.net.messages.client.npc.dto
 
+import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.api.molang.ExpressionLike
 import com.cobblemon.mod.common.api.net.Decodable
 import com.cobblemon.mod.common.api.net.Encodable
+import com.cobblemon.mod.common.api.npc.NPCClasses
 import com.cobblemon.mod.common.api.npc.configuration.NPCBattleConfiguration
 import com.cobblemon.mod.common.api.text.text
 import com.cobblemon.mod.common.entity.npc.NPCEntity
@@ -61,5 +63,15 @@ class NPCConfigurationDTO : Encodable, Decodable {
             }
         }
         aspects = buffer.readList { buffer.readString() }.toMutableSet()
+    }
+
+    fun apply(entity: NPCEntity) {
+        val npcClass =  NPCClasses.getByIdentifier(npcClass) ?: return Cobblemon.LOGGER.error("Failed to apply NPC class $npcClass")
+        entity.customName = npcName.copy()
+        entity.npc = npcClass
+        entity.battle = battle
+        entity.interaction = interaction
+        entity.appliedAspects.clear()
+        entity.appliedAspects.addAll(aspects)
     }
 }

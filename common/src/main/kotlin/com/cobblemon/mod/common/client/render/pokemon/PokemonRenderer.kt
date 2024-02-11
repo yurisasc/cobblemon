@@ -46,6 +46,7 @@ import net.minecraft.client.render.entity.MobEntityRenderer
 import net.minecraft.client.render.item.ItemRenderer
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.entity.Entity
+import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.text.Text
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.MathConstants.PI
@@ -147,8 +148,8 @@ class PokemonRenderer(
 
         val phaseTarget = clientDelegate.phaseTarget ?: return
         poseMatrix.push()
-        var beamSourcePosition = if (phaseTarget is EmptyPokeBallEntity) {
-            (phaseTarget.delegate as PokeBallPoseableState).locatorStates["beam"]?.getOrigin() ?: phaseTarget.pos
+        var beamSourcePosition = if (phaseTarget is Poseable) {
+            (phaseTarget.delegate as PoseableEntityState<*>).locatorStates["beam"]?.getOrigin() ?: phaseTarget.pos
         } else {
             phaseTarget as PlayerEntity
             if (phaseTarget.uuid == MinecraftClient.getInstance().player?.uuid) {
