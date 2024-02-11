@@ -820,12 +820,6 @@ abstract class PoseableEntityModel<T : Entity>(
         states.getOrPut("root") { MatrixWrapper() }.updateMatrix(matrixStack.peek().positionMatrix)
         matrixStack.pop()
 
-        matrixStack.push()
-        matrixStack.scale(1F, -1F, 1F)
-        val states = state.locatorStates
-        states.getOrPut("root") { MatrixWrapper() }.updateMatrix(matrixStack.peek().positionMatrix)
-        matrixStack.pop()
-
         if (isForLivingEntityRenderer) {
             // Standard living entity offset, only God knows why Mojang did this.
             matrixStack.translate(0.0, -1.5, 0.0)
