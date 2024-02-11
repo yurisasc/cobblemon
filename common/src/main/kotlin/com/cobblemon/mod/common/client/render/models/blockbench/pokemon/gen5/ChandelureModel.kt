@@ -34,13 +34,6 @@ class ChandelureModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
 
     override fun registerPoses() {
         val blink = quirk("blink") { bedrockStateful("chandelure", "blink").setPreventsIdle(false) }
-        sleep = registerPose(
-            poseName = "sleep",
-            poseType = PoseType.SLEEP,
-            idleAnimations = arrayOf(
-                bedrock("chandelure", "sleep")
-            )
-        )
 
         standing = registerPose(
             poseName = "standing",

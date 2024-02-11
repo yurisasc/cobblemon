@@ -40,7 +40,7 @@ class PersianModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quadr
     lateinit var walk: PokemonPose
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("persian", "blink").setPreventsIdle(false)}
+        val blink = quirk { bedrockStateful("persian", "blink")}
         standing = registerPose(
             poseName = "standing",
             poseTypes = STATIONARY_POSES + UI_POSES,

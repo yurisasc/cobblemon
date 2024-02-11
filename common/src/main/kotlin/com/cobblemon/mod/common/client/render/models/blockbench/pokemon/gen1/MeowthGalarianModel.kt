@@ -45,7 +45,7 @@ class MeowthGalarianModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame
     override val cryAnimation = CryProvider { _, _ -> bedrockStateful("meowth_galarian", "cry").setPreventsIdle(false) }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("meowth_galarian", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("meowth_galarian", "blink") }
         sleep = registerPose(
             poseType = PoseType.SLEEP,
             idleAnimations = arrayOf(bedrock("meowth_galarian", "sleep"))

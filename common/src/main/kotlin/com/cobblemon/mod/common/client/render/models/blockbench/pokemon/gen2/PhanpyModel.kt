@@ -40,7 +40,7 @@ class PhanpyModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quadr
     lateinit var battle_idle: PokemonPose
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("phanpy", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("phanpy", "blink") }
 
         sleep = registerPose(
             poseName = "sleep",

@@ -36,7 +36,7 @@ class ZigzagoonGalarianModel (root: ModelPart) : PokemonPoseableModel(), HeadedF
     lateinit var walk: PokemonPose
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("zigzagoon_galarian", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("zigzagoon_galarian", "blink") }
         standing = registerPose(
             poseName = "standing",
             poseTypes = PoseType.UI_POSES + PoseType.STAND,

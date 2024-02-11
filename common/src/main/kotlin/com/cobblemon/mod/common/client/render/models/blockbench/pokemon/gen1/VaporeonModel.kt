@@ -33,7 +33,7 @@ class VaporeonModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     lateinit var swimIdle: PokemonPose
     lateinit var swimMove: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("vaporeon", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("vaporeon", "cry") }
 
     override fun registerPoses() {
         standing = registerPose(

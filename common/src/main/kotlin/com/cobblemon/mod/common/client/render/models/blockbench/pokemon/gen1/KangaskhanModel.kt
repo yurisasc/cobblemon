@@ -31,8 +31,8 @@ class KangaskhanModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     lateinit var walk: PokemonPose
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("kangaskhan", "blink").setPreventsIdle(false)}
-        val blink2 = quirk("blink2") { bedrockStateful("kangaskhan", "blink2").setPreventsIdle(false)}
+        val blink = quirk { bedrockStateful("kangaskhan", "blink")}
+        val blink2 = quirk { bedrockStateful("kangaskhan", "blink2")}
         standing = registerPose(
             poseName = "standing",
             poseTypes = STATIONARY_POSES + UI_POSES,

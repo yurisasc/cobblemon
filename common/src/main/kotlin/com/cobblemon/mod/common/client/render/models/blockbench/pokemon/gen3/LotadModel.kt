@@ -44,7 +44,7 @@ class LotadModel (root: ModelPart) : PokemonPoseableModel(), QuadrupedFrame {
     val wateroffset = -2
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("charmander", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("charmander", "blink") }
 
         standing = registerPose(
             poseName = "standing",

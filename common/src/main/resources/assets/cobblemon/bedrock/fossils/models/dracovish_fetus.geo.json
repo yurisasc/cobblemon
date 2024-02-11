@@ -7,8 +7,8 @@
 				"texture_width": 64,
 				"texture_height": 64,
 				"visible_bounds_width": 2,
-				"visible_bounds_height": 3.5,
-				"visible_bounds_offset": [0, 1.25, 0]
+				"visible_bounds_height": 2.5,
+				"visible_bounds_offset": [0, 0.75, 0]
 			},
 			"bones": [
 				{
@@ -112,9 +112,9 @@
 				{
 					"name": "foot_right",
 					"parent": "leg_right2",
-					"pivot": [-3.9, 22.8, 0.8],
+					"pivot": [-3.9, 21.8, -0.2],
 					"cubes": [
-						{"origin": [-4.9, 22.8, -1.2], "size": [3, 4, 2], "inflate": 0.03, "uv": [0, 57]}
+						{"origin": [-4.9, 21.8, -1.2], "size": [3, 4, 2], "inflate": 0.03, "pivot": [-3.4, 22.8, -0.2], "rotation": [90, 0, 0], "uv": [0, 57]}
 					]
 				},
 				{
@@ -136,9 +136,9 @@
 				{
 					"name": "foot_left",
 					"parent": "leg_left2",
-					"pivot": [3.9, 22.8, 0.8],
+					"pivot": [3.9, 21.8, -0.2],
 					"cubes": [
-						{"origin": [1.9, 22.8, -1.2], "size": [3, 4, 2], "inflate": 0.03, "uv": [10, 57], "mirror": true}
+						{"origin": [1.9, 21.8, -1.2], "size": [3, 4, 2], "inflate": 0.03, "pivot": [3.4, 22.8, -0.2], "rotation": [90, 0, 0], "uv": [10, 57], "mirror": true}
 					]
 				}
 			]

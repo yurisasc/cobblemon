@@ -36,7 +36,7 @@ class DonphanModel (root: ModelPart) : PokemonPoseableModel(), QuadrupedFrame {
     lateinit var battle_idle: PokemonPose
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("donphan", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("donphan", "blink") }
 
         sleep = registerPose(
             poseName = "sleep",

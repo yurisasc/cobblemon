@@ -34,10 +34,10 @@ class QuaxwellModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     lateinit var sleep: PokemonPose
     lateinit var battleidle: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("quaxwell", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("quaxwell", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("quaxwell", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("quaxwell", "blink") }
         sleep = registerPose(
             poseType = PoseType.SLEEP,
             idleAnimations = arrayOf(bedrock("quaxwell", "sleep"))

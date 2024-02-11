@@ -11,11 +11,7 @@ package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen4
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
-import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.PoseType.Companion.ALL_POSES
-import com.cobblemon.mod.common.entity.PoseType.Companion.MOVING_POSES
-import com.cobblemon.mod.common.entity.PoseType.Companion.STATIONARY_POSES
-import com.cobblemon.mod.common.entity.PoseType.Companion.UI_POSES
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
@@ -36,8 +32,8 @@ class CarnivineModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame{
     lateinit var battle_idle: PokemonPose
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("carnivine", "blink").setPreventsIdle(false) }
-        val idleQuirk = quirk("idle_quirk", secondsBetweenOccurrences = 60F to 120F) { bedrockStateful("carnivine", "quirk_ground_idle").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("carnivine", "blink") }
+        val idleQuirk = quirk { bedrockStateful("carnivine", "quirk_ground_idle") }
         standing = registerPose(
             poseName = "standing",
             poseTypes = STATIONARY_POSES + UI_POSES - PoseType.HOVER,

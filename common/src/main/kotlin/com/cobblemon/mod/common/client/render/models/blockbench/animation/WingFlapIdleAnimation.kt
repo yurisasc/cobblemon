@@ -12,19 +12,40 @@ import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityMo
 import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
 import com.cobblemon.mod.common.client.render.models.blockbench.addRotation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BiWingedFrame
+import com.cobblemon.mod.common.client.render.models.blockbench.frame.ModelFrame
+import com.cobblemon.mod.common.client.render.models.blockbench.pose.Bone
 import com.cobblemon.mod.common.client.render.models.blockbench.wavefunction.WaveFunction
 import net.minecraft.entity.Entity
+import net.minecraft.item.BoneMealItem
+
 class WingFlapIdleAnimation<T : Entity>(
-    frame: BiWingedFrame,
-    val flapFunction: WaveFunction,
-    val timeVariable: (state: PoseableEntityState<T>?, limbSwing: Float, ageInTicks: Float) -> Float?,
+    frame: ModelFrame,
+    val leftWing: Bone?,
+    val rightWing: Bone?,
+    val rotation: WaveFunction,
+    val timeVariable: (state: PoseableEntityState<T>?, limbSwing: Float, ageInTicks: Float) -> Float? = { state, _, _ -> state?.animationSeconds ?: 0F },
     val axis: Int
-) : StatelessAnimation<T, BiWingedFrame>(frame) {
-    override val targetFrame = BiWingedFrame::class.java
+) : StatelessAnimation<T, ModelFrame>(frame) {
+    constructor(
+        frame: BiWingedFrame,
+        flapFunction: WaveFunction,
+        timeVariable: (state: PoseableEntityState<T>?, limbSwing: Float, ageInTicks: Float) -> Float?,
+        axis: Int
+    ): this(
+        frame = frame,
+        leftWing = frame.leftWing,
+        rightWing = frame.rightWing,
+        rotation = flapFunction,
+        timeVariable = timeVariable,
+        axis = axis
+    )
+
+    override val targetFrame = ModelFrame::class.java
 
     override fun setAngles(entity: T?, model: PoseableEntityModel<T>, state: PoseableEntityState<T>?, limbSwing: Float, limbSwingAmount: Float, ageInTicks: Float, headYaw: Float, headPitch: Float, intensity: Float) {
         val time = timeVariable(state, limbSwing, ageInTicks) ?: 0F
-        frame.leftWing.addRotation(axis, flapFunction(time) * intensity)
-        frame.rightWing.addRotation(axis, -flapFunction(time) * intensity)
+        val angle = rotation(time)
+        leftWing?.addRotation(axis, angle)
+        rightWing?.addRotation(axis, -angle)
     }
 }

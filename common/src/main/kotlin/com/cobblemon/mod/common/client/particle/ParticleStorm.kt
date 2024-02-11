@@ -37,9 +37,18 @@ class ParticleStorm(
     val sourceAlive: () -> Boolean = { true },
     val sourceVisible: () -> Boolean = { true },
     val onDespawn: () -> Unit = {},
-    val runtime: MoLangRuntime = MoLangRuntime()
+    val runtime: MoLangRuntime = MoLangRuntime(),
+    val entity: Entity? = null
 ): NoRenderParticle(world, matrixWrapper.getOrigin().x, matrixWrapper.getOrigin().y, matrixWrapper.getOrigin().z) {
     fun spawn() {
+        if (entity != null) {
+            // TODO replace with a generified call to if (entity is MoLangEntity) entity.applyVariables(env) or w/e
+            runtime.environment.setSimpleVariable("entity_width", DoubleValue(entity.boundingBox.xLength))
+            runtime.environment.setSimpleVariable("entity_height", DoubleValue(entity.boundingBox.yLength))
+            val longerDiameter = entity.boundingBox.run { if (xLength > yLength) xLength else yLength }
+            runtime.environment.setSimpleVariable("entity_size", DoubleValue(longerDiameter))
+            runtime.environment.setSimpleVariable("entity_radius", DoubleValue(longerDiameter / 2))
+        }
         MinecraftClient.getInstance().particleManager.addParticle(this)
     }
 
@@ -57,8 +66,6 @@ class ParticleStorm(
     var despawned = false
     // The idea is that some instantaneous particle effects could teeeechnically be over before they start.
     var hasPlayedOnce = false
-
-    var entity: Entity? = null
 
     companion object {
         var contextStorm: ParticleStorm? = null
@@ -119,11 +126,10 @@ class ParticleStorm(
 
         when (effect.emitter.lifetime.getAction(runtime, started, age / 20.0)) {
             ParticleEmitterAction.GO -> {
+                effect.curves.forEach { it.apply(runtime) }
                 val toEmit = effect.emitter.rate.getEmitCount(runtime, started, particles.size)
                 started = true
-                repeat(times = toEmit) {
-                    spawnParticle()
-                }
+                repeat(times = toEmit) { spawnParticle() }
             }
             ParticleEmitterAction.NOTHING -> {}
             ParticleEmitterAction.STOP -> stopped = true
@@ -139,8 +145,8 @@ class ParticleStorm(
 
         val center = transformPosition(effect.emitter.shape.getCenter(runtime, entity))
         val newPosition = transformPosition(effect.emitter.shape.getNewParticlePosition(runtime, entity))
-        val initialVelocity = effect.particle.motion.getInitialVelocity(runtime, particlePos = newPosition, emitterPos = center)
-        val velocity = (if (effect.space.localPosition) transformDirection(initialVelocity) else initialVelocity)
+        val initialVelocity = effect.particle.motion.getInitialVelocity(runtime, storm = this, particlePos = newPosition, emitterPos = center)
+        val velocity = initialVelocity
             .multiply(1 / 20.0)
             .add(if (effect.space.localVelocity) sourceVelocity() else Vec3d.ZERO)
 

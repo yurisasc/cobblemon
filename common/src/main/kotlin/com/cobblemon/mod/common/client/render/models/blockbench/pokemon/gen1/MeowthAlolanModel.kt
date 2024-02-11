@@ -45,7 +45,7 @@ class MeowthAlolanModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, 
     override val cryAnimation = CryProvider { _, _ -> bedrockStateful("meowth_alolan", "cry").setPreventsIdle(false) }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("meowth_alolan", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("meowth_alolan", "blink") }
         standing = registerPose(
             poseName = "standing",
             poseTypes = STATIONARY_POSES + UI_POSES,

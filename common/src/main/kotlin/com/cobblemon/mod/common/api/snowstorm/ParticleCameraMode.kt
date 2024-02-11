@@ -12,6 +12,7 @@ import com.cobblemon.mod.common.api.codec.CodecMapped
 import com.cobblemon.mod.common.api.data.ArbitrarilyMappedSerializableCompanion
 import com.cobblemon.mod.common.client.render.MatrixWrapper
 import com.cobblemon.mod.common.util.math.hamiltonProduct
+import com.cobblemon.mod.common.util.set
 import com.mojang.serialization.Codec
 import com.mojang.serialization.DynamicOps
 import com.mojang.serialization.codecs.PrimitiveCodec
@@ -26,6 +27,7 @@ import net.minecraft.util.math.RotationAxis
 import net.minecraft.util.math.Vec3d
 import org.joml.AxisAngle4d
 import org.joml.Quaternionf
+import org.joml.Vector3f
 
 interface ParticleCameraMode : CodecMapped {
     companion object : ArbitrarilyMappedSerializableCompanion<ParticleCameraMode, ParticleCameraModeType>(
@@ -54,6 +56,8 @@ interface ParticleCameraMode : CodecMapped {
         prevAngle: Float,
         angle: Float,
         deltaTicks: Float,
+        particlePosition: Vec3d,
+        cameraPosition: Vec3d,
         cameraAngle: Quaternionf,
         cameraYaw: Float,
         cameraPitch: Float,
@@ -77,6 +81,8 @@ class RotateXYZCameraMode : ParticleCameraMode {
         prevAngle: Float,
         angle: Float,
         deltaTicks: Float,
+        particlePosition: Vec3d,
+        cameraPosition: Vec3d,
         cameraAngle: Quaternionf,
         cameraYaw: Float,
         cameraPitch: Float,
@@ -109,6 +115,8 @@ class RotateYCameraMode : ParticleCameraMode {
         prevAngle: Float,
         angle: Float,
         deltaTicks: Float,
+        particlePosition: Vec3d,
+        cameraPosition: Vec3d,
         cameraAngle: Quaternionf,
         cameraYaw: Float,
         cameraPitch: Float,
@@ -146,13 +154,15 @@ class LookAtXYZ : ParticleCameraMode {
         prevAngle: Float,
         angle: Float,
         deltaTicks: Float,
+        particlePosition: Vec3d,
+        cameraPosition: Vec3d,
         cameraAngle: Quaternionf,
         cameraYaw: Float,
         cameraPitch: Float,
         viewDirection: Vec3d
     ): Quaternionf {
         val i = if (angle == 0F) 0F else MathHelper.lerp(deltaTicks, prevAngle, angle)
-        val rotation = Quaternionf(0F, 0F, 0F, 1F)
+        val rotation = Quaternionf()
         rotation.hamiltonProduct(RotationAxis.POSITIVE_Y.rotationDegrees(-cameraYaw))
         rotation.hamiltonProduct(RotationAxis.POSITIVE_X.rotationDegrees(cameraPitch))
         rotation.hamiltonProduct(RotationAxis.POSITIVE_Z.rotationDegrees(i))
@@ -174,6 +184,8 @@ class LookAtY : ParticleCameraMode {
         prevAngle: Float,
         angle: Float,
         deltaTicks: Float,
+        particlePosition: Vec3d,
+        cameraPosition: Vec3d,
         cameraAngle: Quaternionf,
         cameraYaw: Float,
         cameraPitch: Float,
@@ -203,6 +215,8 @@ class DirectionZ : ParticleCameraMode {
         prevAngle: Float,
         angle: Float,
         deltaTicks: Float,
+        particlePosition: Vec3d,
+        cameraPosition: Vec3d,
         cameraAngle: Quaternionf,
         cameraYaw: Float,
         cameraPitch: Float,
@@ -236,6 +250,8 @@ class EmitterYZPlane : ParticleCameraMode {
         prevAngle: Float,
         angle: Float,
         deltaTicks: Float,
+        particlePosition: Vec3d,
+        cameraPosition: Vec3d,
         cameraAngle: Quaternionf,
         cameraYaw: Float,
         cameraPitch: Float,
@@ -274,6 +290,8 @@ class EmitterXZPlane : ParticleCameraMode {
         prevAngle: Float,
         angle: Float,
         deltaTicks: Float,
+        particlePosition: Vec3d,
+        cameraPosition: Vec3d,
         cameraAngle: Quaternionf,
         cameraYaw: Float,
         cameraPitch: Float,
@@ -311,6 +329,8 @@ class EmitterXYPlane : ParticleCameraMode {
         prevAngle: Float,
         angle: Float,
         deltaTicks: Float,
+        particlePosition: Vec3d,
+        cameraPosition: Vec3d,
         cameraAngle: Quaternionf,
         cameraYaw: Float,
         cameraPitch: Float,
@@ -347,6 +367,8 @@ class DirectionY : ParticleCameraMode {
         prevAngle: Float,
         angle: Float,
         deltaTicks: Float,
+        particlePosition: Vec3d,
+        cameraPosition: Vec3d,
         cameraAngle: Quaternionf,
         cameraYaw: Float,
         cameraPitch: Float,
@@ -380,6 +402,8 @@ class DirectionX : ParticleCameraMode {
         prevAngle: Float,
         angle: Float,
         deltaTicks: Float,
+        particlePosition: Vec3d,
+        cameraPosition: Vec3d,
         cameraAngle: Quaternionf,
         cameraYaw: Float,
         cameraPitch: Float,
@@ -398,6 +422,29 @@ class DirectionX : ParticleCameraMode {
     override fun writeToBuffer(buffer: PacketByteBuf) {}
 }
 
+/**
+ * You can think of this camera mode as the one that does the following:
+ *
+ * - Uses the direction of motion as the particle X axis
+ * - Uses a vector parallel to the camera plane and perpendicular to the direction of motion as the particle Y axis.
+ *
+ * The second requirement is difficult to accomplish. The way it was eventually solved is by
+ * thinking of the plane generated by two specific vectors. One is the camera to the particle,
+ * the other is the camera to where the particle will be after it continues moving on its
+ * trajectory for some amount of time.
+ *
+ * That plane slices right through the camera, and so the normal vector of that plane is parallel
+ * lies on the camera plane (hard to explain that one). Since the plane includes the direction vector,
+ * the normal vector of that plane is perpendicular to the direction vector. Since the direction
+ * vector is being used for the X axis, and the normal vector is perpendicular, we can use that as
+ * the Y axis safely.
+ *
+ * The chicanery of this look direction is all simply to calculate the correct Y axis, use it,
+ * and then use the direction vector for the X axis.
+ *
+ * @author Hiroku
+ * @since June 29th, 2023
+ */
 class LookAtDirection : ParticleCameraMode {
     override val type: ParticleCameraModeType = ParticleCameraModeType.LOOK_AT_DIRECTION
     companion object {
@@ -408,21 +455,50 @@ class LookAtDirection : ParticleCameraMode {
         }
     }
 
+    // Reusable shit so fewer instantiations during rendering.
+    val viewDirectionF = Vector3f(0F, 0F, 0F)
+    val particlePositionF = Vector3f(0F, 0F, 0F)
+    val cameraPositionF = Vector3f(0F, 0F, 0F)
+    val axisAngle = AxisAngle4d()
+
     override fun getRotation(
         matrixWrapper: MatrixWrapper,
         prevAngle: Float,
         angle: Float,
         deltaTicks: Float,
+        particlePosition: Vec3d,
+        cameraPosition: Vec3d,
         cameraAngle: Quaternionf,
         cameraYaw: Float,
         cameraPitch: Float,
         viewDirection: Vec3d
     ): Quaternionf {
-        val i = if (angle == 0F) 0F else MathHelper.lerp(deltaTicks, prevAngle, angle)
-        val rotation = Quaternionf(0F, 0F, 0F, 1F)
-        rotation.hamiltonProduct(RotationAxis.POSITIVE_Y.rotationDegrees((viewDirection.x * -cameraYaw).toFloat()))
-        rotation.hamiltonProduct(RotationAxis.POSITIVE_X.rotationDegrees((viewDirection.y * cameraPitch).toFloat()))
-        rotation.hamiltonProduct(RotationAxis.POSITIVE_Z.rotationDegrees((viewDirection.z * i).toFloat()))
+        viewDirectionF.set(viewDirection)
+        particlePositionF.set(particlePosition)
+        cameraPositionF.set(cameraPosition)
+
+        // Perform a rotation around the axis that should later become the particle Y axis
+        Quaternionf().rotateTo(
+            // Camera -> Particle
+            particlePositionF.sub(cameraPositionF, Vector3f()),
+            // Camera -> (Particle + Direction)
+            particlePositionF.add(viewDirectionF, Vector3f()).sub(cameraPositionF)
+        ).get(axisAngle) // Extract the rotation into axis + angle, so we can pluck the axis out.
+
+        // Extract the axis of rotation, it is what we want the particle's local Y axis to be.
+        val correctY = Vector3f(axisAngle.x.toFloat(), axisAngle.y.toFloat(), axisAngle.z.toFloat())
+        // First make X look along the direction vector
+        val rotation = Quaternionf().rotateTo(Vector3f(1F, 0F, 0F), viewDirectionF)
+        // Now figure out what the local Y axis is
+        val currentY = Vector3f(0F, 1F, 0F).rotate(rotation)
+        // Move that local Y to the correct local Y
+        // Pre-multiply is because the previous transform won't affect the correct Y, but vice versa absolutely would; we don't want that.
+        rotation.premul(Quaternionf().rotateTo(currentY, correctY))
+
+        // Do the regular rotation around Z to spin the particle, same as all other modes.
+        val particleAngle = if (angle == 0.0f) 0F else MathHelper.lerp(deltaTicks, prevAngle, angle)
+        rotation.hamiltonProduct(RotationAxis.POSITIVE_Z.rotationDegrees(particleAngle))
+
         return rotation
     }
 

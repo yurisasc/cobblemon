@@ -34,7 +34,7 @@ class WailordModel(root: ModelPart) : PokemonPoseableModel() {
 
     val offsetY = 0.0
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("wailord", "blink").setPreventsIdle(false)}
+        val blink = quirk { bedrockStateful("wailord", "blink")}
 
         sleep = registerPose(
             poseType = PoseType.SLEEP,
