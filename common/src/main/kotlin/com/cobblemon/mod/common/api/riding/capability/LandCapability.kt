@@ -15,17 +15,14 @@ import net.minecraft.registry.tag.BlockTags
 import net.minecraft.registry.tag.FluidTags
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.Direction
+import net.minecraft.util.math.Vec3i
 import java.util.function.Predicate
 
 class LandCapability(override val properties: RideControllerProperties) : RidingCapability {
 
     override val key: Identifier = RidingCapability.LAND
     override val condition: Predicate<PokemonEntity> = Predicate<PokemonEntity> {
-        if(it.world.isClient) {
-            return@Predicate true
-        }
-
-        it.isOnGround && !it.isSwimming
+        !it.isTouchingWater && it.world.getBlockState(it.blockPos.down()).isAir
     }
 
 }

@@ -7,5 +7,8 @@ import java.util.function.Predicate
 
 class LiquidCapability(override val properties: RideControllerProperties) : RidingCapability {
     override val key: Identifier = RidingCapability.LIQUID
-    override val condition: Predicate<PokemonEntity> = Predicate<PokemonEntity> { it.isSwimming }
+    override val condition: Predicate<PokemonEntity> = Predicate<PokemonEntity> {
+        // TODO - Does the job for now, needs to be adapted to fluid tags to support both water and lava, and customs
+        it.isTouchingWater || it.isSubmergedInWater
+    }
 }
