@@ -20,10 +20,14 @@ import com.cobblemon.mod.common.api.battles.model.actor.ActorType
 import com.cobblemon.mod.common.api.battles.model.actor.BattleActor
 import com.cobblemon.mod.common.api.battles.model.actor.EntityBackedBattleActor
 import com.cobblemon.mod.common.api.data.ShowdownIdentifiable
+import com.cobblemon.mod.common.api.entity.PokemonSender
 import com.cobblemon.mod.common.api.events.CobblemonEvents
 import com.cobblemon.mod.common.api.events.battles.BattleVictoryEvent
 import com.cobblemon.mod.common.api.pokemon.stats.Stats
 import com.cobblemon.mod.common.api.pokemon.status.Statuses
+import com.cobblemon.mod.common.api.scheduling.afterOnServer
+import com.cobblemon.mod.common.api.scheduling.after
+import com.cobblemon.mod.common.api.scheduling.delayedFuture
 import com.cobblemon.mod.common.api.text.gold
 import com.cobblemon.mod.common.api.text.plus
 import com.cobblemon.mod.common.api.text.red
@@ -535,6 +539,9 @@ object ShowdownInterpreter {
 
             battle.broadcastChatMessage(battleLang("win", winnersText).gold())
 
+            battle.winners = winners
+            battle.losers = losers
+
             battle.end()
 
             val wasCaught = battle.showdownMessages.any { "capture" in it }
@@ -550,6 +557,9 @@ object ShowdownInterpreter {
             }
 
             CobblemonEvents.BATTLE_VICTORY.post(BattleVictoryEvent(battle, winners, losers, wasCaught))
+
+            winners.forEach { it.win(winners, losers) }
+            losers.forEach { it.lose(winners, losers) }
 
             this.lastCauser.remove(battle.battleId)
         }
@@ -1319,9 +1329,11 @@ object ShowdownInterpreter {
             // Queue actual swap and send-in after the animation has ended
             actor.pokemonList.swap(actor.activePokemon.indexOf(activePokemon), actor.pokemonList.indexOf(newPokemon))
             activePokemon.battlePokemon = newPokemon
-            battle.sendSidedUpdate(actor, BattleSwitchPokemonPacket(pnx, newPokemon, true), BattleSwitchPokemonPacket(pnx, newPokemon, false))
+            val packet1 = BattleSwitchPokemonPacket(pnx, newPokemon, true)
+            val packet2 = BattleSwitchPokemonPacket(pnx, newPokemon, false)
             if (newPokemon.entity != null) {
                 newPokemon.entity?.cry()
+                battle.sendSidedUpdate(actor, packet1, packet2)
                 sendOutFuture.complete(Unit)
             } else {
                 val lastPosition = activePokemon.position
@@ -1332,12 +1344,13 @@ object ShowdownInterpreter {
                     source = entity,
                     battleId = battle.battleId,
                     level = world,
-                    position = pos
+                    position = pos,
+                    mutation = { battle.sendSidedUpdate(actor, packet1, packet2) }
                 ).thenAccept { sendOutFuture.complete(Unit) }
             }
         }
 
-        return UntilDispatch { sendOutFuture.isDone }
+        return UntilDispatch(sendOutFuture::isDone)
     }
 
     private fun createNonEntitySwitch(battle: PokemonBattle, actor: BattleActor, pnx: String, activePokemon: ActiveBattlePokemon, newPokemon: BattlePokemon): DispatchResult {

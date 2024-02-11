@@ -172,4 +172,16 @@ object DataKeys {
     const val GENERIC_BEDROCK_COLLIDER_HEIGHT = "Height"
     const val GENERIC_BEDROCK_SYNC_AGE = "SyncAge"
 
+    // NPCs
+    const val NPC_CLASS = "NPCClass"
+    const val NPC_BATTLE_CONFIGURATION = "NPCBattleConfiguration"
+    const val NPC_CAN_CHALLENGE = "CanChallenge"
+    const val NPC_SIMULTANEOUS_BATTLES = "SimultaneousBattles"
+    const val NPC_HEAL_AFTERWARDS = "HealAfterwards"
+    const val NPC_PARTY = "Party"
+    const val NPC_PARTY_TYPE = "PartyType"
+    const val NPC_PARTY_POKEMON = "Pokemon"
+    const val NPC_ASPECTS = "AppliedAspects"
+    const val NPC_DATA = "Data"
+    const val NPC_INTERACTION = "Interaction"
 }

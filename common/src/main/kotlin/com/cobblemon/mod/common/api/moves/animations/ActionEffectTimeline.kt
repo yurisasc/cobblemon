@@ -11,9 +11,11 @@ package com.cobblemon.mod.common.api.moves.animations
 import com.bedrockk.molang.Expression
 import com.bedrockk.molang.runtime.MoLangRuntime
 import com.bedrockk.molang.runtime.struct.VariableStruct
+import com.cobblemon.mod.common.api.molang.ExpressionLike
 import com.cobblemon.mod.common.api.moves.animations.keyframes.ActionEffectKeyframe
 import com.cobblemon.mod.common.api.scheduling.ScheduledTask
-import com.cobblemon.mod.common.util.asExpression
+import com.cobblemon.mod.common.util.asExpressionLike
+import com.cobblemon.mod.common.util.asExpressions
 import com.cobblemon.mod.common.util.resolveBoolean
 import java.util.concurrent.CompletableFuture
 import net.minecraft.entity.Entity
@@ -29,7 +31,7 @@ import net.minecraft.entity.Entity
  */
 class ActionEffectTimeline(
     val timeline: List<ActionEffectKeyframe> = mutableListOf(),
-    val condition: Expression = "true".asExpression()
+    val condition: ExpressionLike = "true".asExpressionLike()
 ) {
     companion object {
         val NONE = ActionEffectTimeline()

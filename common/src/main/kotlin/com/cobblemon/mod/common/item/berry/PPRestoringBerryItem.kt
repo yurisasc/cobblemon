@@ -13,6 +13,7 @@ import com.cobblemon.mod.common.CobblemonSounds
 import com.cobblemon.mod.common.api.battles.model.PokemonBattle
 import com.cobblemon.mod.common.api.battles.model.actor.BattleActor
 import com.cobblemon.mod.common.api.item.PokemonAndMoveSelectingItem
+import com.cobblemon.mod.common.api.molang.ExpressionLike
 import com.cobblemon.mod.common.api.moves.Move
 import com.cobblemon.mod.common.battles.pokemon.BattlePokemon
 import com.cobblemon.mod.common.block.BerryBlock
@@ -37,7 +38,7 @@ import net.minecraft.world.World
  * @author Hiroku
  * @since August 5th, 2023
  */
-class PPRestoringBerryItem(block: BerryBlock, val amount: () -> Expression): BerryItem(block), PokemonAndMoveSelectingItem {
+class PPRestoringBerryItem(block: BerryBlock, val amount: () -> ExpressionLike): BerryItem(block), PokemonAndMoveSelectingItem {
     override val bagItem = object : BagItem {
         override val itemName: String get() = "item.cobblemon.${berry()!!.identifier.path}"
         override fun canUse(battle: PokemonBattle, target: BattlePokemon) = target.health > 0 && target.moveSet.any { it.currentPp < it.maxPp }

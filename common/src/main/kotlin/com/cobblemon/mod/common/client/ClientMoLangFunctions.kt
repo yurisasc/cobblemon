@@ -14,6 +14,7 @@ import com.bedrockk.molang.runtime.value.MoValue
 import com.bedrockk.molang.runtime.value.StringValue
 import com.cobblemon.mod.common.api.molang.MoLangFunctions.addFunctions
 import com.cobblemon.mod.common.api.molang.MoLangFunctions.getQueryStruct
+import com.cobblemon.mod.common.api.text.text
 import com.cobblemon.mod.common.util.asIdentifierDefaultingNamespace
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.sound.PositionedSoundInstance
@@ -31,6 +32,7 @@ object ClientMoLangFunctions {
                 MinecraftClient.getInstance().soundManager.play(PositionedSoundInstance.master(soundEvent, pitch))
             }
         },
+        "say" to java.util.function.Function { params -> MinecraftClient.getInstance().player?.sendMessage(params.getString(0).text()) ?: Unit }
     )
 
     fun MoLangRuntime.setupClient(): MoLangRuntime {

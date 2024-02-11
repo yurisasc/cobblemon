@@ -21,11 +21,14 @@ import com.cobblemon.mod.common.api.fossil.Fossils
 import com.cobblemon.mod.common.api.fossil.NaturalMaterials
 import com.cobblemon.mod.common.api.moves.Moves
 import com.cobblemon.mod.common.api.moves.animations.ActionEffects
+import com.cobblemon.mod.common.api.npc.NPCClasses
+import com.cobblemon.mod.common.api.moves.animations.ActionEffects
 import com.cobblemon.mod.common.api.pokeball.PokeBalls
 import com.cobblemon.mod.common.api.pokemon.PokemonSpecies
 import com.cobblemon.mod.common.api.pokemon.feature.GlobalSpeciesFeatures
 import com.cobblemon.mod.common.api.pokemon.feature.SpeciesFeatureAssignments
 import com.cobblemon.mod.common.api.pokemon.feature.SpeciesFeatures
+import com.cobblemon.mod.common.api.scripting.CobblemonScripts
 import com.cobblemon.mod.common.api.spawning.CobblemonSpawnPools
 import com.cobblemon.mod.common.api.spawning.CobblemonSpawnRules
 import com.cobblemon.mod.common.api.spawning.SpawnDetailPresets
@@ -55,6 +58,7 @@ object CobblemonDataProvider : DataProvider {
     private val scheduledActions = mutableMapOf<UUID, MutableList<() -> Unit>>()
 
     fun registerDefaults() {
+        this.register(CobblemonScripts)
         this.register(SpeciesFeatures)
         this.register(GlobalSpeciesFeatures)
         this.register(SpeciesFeatureAssignments)
@@ -72,6 +76,7 @@ object CobblemonDataProvider : DataProvider {
         this.register(Dialogues)
         this.register(NaturalMaterials)
         this.register(Fossils)
+        this.register(NPCClasses)
 
         CobblemonSpawnPools.load()
         this.register(Berries)

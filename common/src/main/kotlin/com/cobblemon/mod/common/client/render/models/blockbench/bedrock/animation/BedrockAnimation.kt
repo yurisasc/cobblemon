@@ -15,8 +15,9 @@ import com.bedrockk.molang.runtime.MoScope
 import com.bedrockk.molang.runtime.struct.QueryStruct
 import com.bedrockk.molang.runtime.value.DoubleValue
 import com.bedrockk.molang.runtime.value.MoValue
-import com.cobblemon.mod.common.api.molang.MoLangFunctions.addFunctions
+import com.cobblemon.mod.common.api.molang.ExpressionLike
 import com.cobblemon.mod.common.api.molang.MoLangFunctions.getQueryStruct
+import com.cobblemon.mod.common.api.molang.MoLangFunctions.addFunctions
 import com.cobblemon.mod.common.api.snowstorm.BedrockParticleEffect
 import com.cobblemon.mod.common.api.text.text
 import com.cobblemon.mod.common.client.particle.ParticleStorm
@@ -128,10 +129,10 @@ class BedrockSoundKeyframe(
 
 class BedrockInstructionKeyframe(
     seconds: Float,
-    val expressions: List<Expression>
+    val expressions: ExpressionLike
 ): BedrockEffectKeyframe(seconds) {
     override fun <T : Entity> run(entity: T, state: PoseableEntityState<T>) {
-        expressions.forEach { expression -> state.runtime.resolve(expression) }
+        expressions.resolve(state.runtime)
     }
 }
 
@@ -150,7 +151,7 @@ data class BedrockAnimation(
         }
     }
 
-    fun run(model: PoseableEntityModel<*>, state: PoseableEntityState<*>?, animationSeconds: Float, intensity: Float): Boolean {
+    fun run(model: PoseableEntityModel<*>, state: PoseableEntityState<*>?, animationSeconds: Float, limbSwing: Float, limbSwingAmount: Float, ageInTicks: Float, intensity: Float): Boolean {
         var animationSeconds = animationSeconds
         if (shouldLoop) {
             animationSeconds %= animationLength.toFloat()
@@ -158,11 +159,17 @@ data class BedrockAnimation(
             return false
         }
 
+        val runtime = state?.runtime ?: sharedRuntime
+
+        runtime.environment.setSimpleVariable("limb_swing", DoubleValue(limbSwing.toDouble()))
+        runtime.environment.setSimpleVariable("limb_swing_amount", DoubleValue(limbSwingAmount.toDouble()))
+        runtime.environment.setSimpleVariable("age_in_ticks", DoubleValue(ageInTicks.toDouble()))
+
         boneTimelines.forEach { (boneName, timeline) ->
             val part = model.relevantPartsByName[boneName] ?: if (boneName == "root_part") (model.rootPart as ModelPart) else null
             if (part !== null) {
                 if (!timeline.position.isEmpty()) {
-                    val position = timeline.position.resolve(animationSeconds.toDouble(), state?.runtime ?: sharedRuntime).multiply(intensity.toDouble())
+                    val position = timeline.position.resolve(animationSeconds.toDouble(), runtime).multiply(intensity.toDouble())
                     part.apply {
                         pivotX += position.x.toFloat()
                         pivotY += position.y.toFloat()
@@ -172,14 +179,14 @@ data class BedrockAnimation(
 
                 if (!timeline.rotation.isEmpty()) {
                     try {
-                        val rotation = timeline.rotation.resolve(animationSeconds.toDouble(), state?.runtime ?: sharedRuntime).multiply(intensity.toDouble())
+                        val rotation = timeline.rotation.resolve(animationSeconds.toDouble(), runtime).multiply(intensity.toDouble())
                         part.apply {
                             pitch += rotation.x.toFloat().toRadians()
                             yaw += rotation.y.toFloat().toRadians()
                             roll += rotation.z.toFloat().toRadians()
                         }
                     } catch (e: Exception) {
-                        val exception = IllegalStateException("Bad animation for species: ${((model.context.request(RenderContext.ENTITY))!! as PokemonEntity).pokemon.species.name}", e)
+                        val exception = IllegalStateException("Bad animation for entity: ${(model.context.request(RenderContext.ENTITY))!!.displayName.string}", e)
                         val crash = CrashReport("Cobblemon encountered an unexpected crash", exception)
                         val section = crash.addElement("Animation Details")
                         state?.let {
@@ -192,8 +199,8 @@ data class BedrockAnimation(
                 }
 
                 if (!timeline.scale.isEmpty()) {
-                    var scale = timeline.scale.resolve(animationSeconds.toDouble(), state?.runtime ?: sharedRuntime)
-                    val deviation = scale.multiply(-1.0).add(1.0, 1.0, 1.0).multiply(intensity.toDouble())
+                    var scale = timeline.scale.resolve(animationSeconds.toDouble(), runtime).multiply(intensity.toDouble())
+                    val deviation = scale.multiply(-1.0).add(1.0, 1.0, 1.0)//.multiply(intensity.toDouble())
                     scale = deviation.subtract(1.0, 1.0, 1.0).multiply(-1.0)
                     part.xScale *= scale.x.toFloat()
                     part.yScale *= scale.y.toFloat()

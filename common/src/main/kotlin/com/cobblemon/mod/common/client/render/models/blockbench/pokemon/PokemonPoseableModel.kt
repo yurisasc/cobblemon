@@ -55,16 +55,6 @@ abstract class PokemonPoseableModel : PoseableEntityModel<PokemonEntity>() {
         )
     }
 
-    @Transient
-    open val portraitScale: Float = 1F
-    @Transient
-    open val portraitTranslation: Vec3d = Vec3d.ZERO
-
-    @Transient
-    open val profileScale: Float = 1F
-    @Transient
-    open val profileTranslation: Vec3d = Vec3d.ZERO
-
     open fun getFaintAnimation(
         pokemonEntity: PokemonEntity,
         state: PoseableEntityState<PokemonEntity>
