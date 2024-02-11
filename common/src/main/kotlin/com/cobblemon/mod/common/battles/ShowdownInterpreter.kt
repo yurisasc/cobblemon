@@ -31,15 +31,7 @@ import com.cobblemon.mod.common.battles.dispatch.InterpreterInstruction
 import com.cobblemon.mod.common.battles.dispatch.UntilDispatch
 import com.cobblemon.mod.common.battles.dispatch.WaitDispatch
 import com.cobblemon.mod.common.battles.interpreter.ContextManager
-import com.cobblemon.mod.common.battles.interpreter.instructions.DamageInstruction
-import com.cobblemon.mod.common.battles.interpreter.instructions.DeprecatedInstruction
-import com.cobblemon.mod.common.battles.interpreter.instructions.DeprecatedSplitInstruction
-import com.cobblemon.mod.common.battles.interpreter.instructions.FaintInstruction
-import com.cobblemon.mod.common.battles.interpreter.instructions.IgnoredInstruction
-import com.cobblemon.mod.common.battles.interpreter.instructions.MoveInstruction
-import com.cobblemon.mod.common.battles.interpreter.instructions.TurnInstruction
-import com.cobblemon.mod.common.battles.interpreter.instructions.UnknownInstruction
-import com.cobblemon.mod.common.battles.interpreter.instructions.UpkeepInstruction
+import com.cobblemon.mod.common.battles.interpreter.instructions.*
 import com.cobblemon.mod.common.battles.pokemon.BattlePokemon
 import com.cobblemon.mod.common.net.messages.client.battle.*
 import com.cobblemon.mod.common.pokemon.evolution.progress.DamageTakenEvolutionProgress
@@ -79,9 +71,9 @@ object ShowdownInterpreter {
         }
 
         listOf(
-            "player", "teamsize", "gametype", "gen", "tier", "rated", "clearpoke", "poke", "teampreview", "start", "rule"
+            "player", "teamsize", "gametype", "gen", "tier", "rated", "clearpoke", "poke", "teampreview", "rule"
         ).forEach { updateInstructionParser[it] = { _, _, _, _ -> IgnoredInstruction() } }
-
+        updateInstructionParser["start"] = { _, _, message, _ -> StartInstruction(message) }
         updateInstructionParser["turn"] = { _, _, message, _ -> TurnInstruction(message) }
         updateInstructionParser["upkeep"] = { _, _, _, _ -> UpkeepInstruction() }
         updateInstructionParser["faint"] = { battle, _, message, _ -> FaintInstruction(battle, message) }
@@ -264,6 +256,32 @@ object ShowdownInterpreter {
 
         try {
             val lines = rawMessage.split("\n").toMutableList()
+
+            /*
+             *  Here I moved the start instruction behind the final initial switch (aka sendout lead mons) instruction,
+             *  otherwise clients would have the BattlePokemon property of the activePokemon null if the start instruction came before the switches.
+             *  Previously, the first Turn instruction is what would officially start the battle and inform the
+             *  clients that a battle was occurring.
+             *  A lot of things can occur before that first turn instruction though, including Intimidate interaction
+             *  with the Eject Pack, which requires user input.
+             *  Imo, after the initial switches to send out the lead pokemon is the absolute latest we should
+             *  inform clients about the battle.
+             */
+            if(!battle.started) {
+                val startInstruction =  lines.withIndex().firstOrNull() { it.value == "|start" }
+                if(startInstruction != null) {
+                    val lastSwitchIntruction = lines.withIndex().lastOrNull() { it.value.startsWith("|switch") }
+                    if(lastSwitchIntruction != null) {
+                        var index = startInstruction.index
+                        while(index < lastSwitchIntruction.index && index < lines.size) {
+                            lines[index] = lines[index + 1]
+                            index += 1
+                        }
+                        lines[lastSwitchIntruction.index] = startInstruction.value
+                    }
+                }
+            }
+
             if (lines[0] == "update") {
                 lines.removeAt(0)
                 lines.forEach { battleMessages.add(BattleMessage(it)) }
@@ -1279,7 +1297,8 @@ object ShowdownInterpreter {
                 else -> battle.createUnimplemented(message)
             }
             battleActor.sendMessage(lang)
-            battleActor.mustChoose = true
+            if(message.rawMessage != "|error|[Invalid choice] Can't do anything: It's not your turn")
+                battleActor.mustChoose = true
             battleActor.sendUpdate(BattleMadeInvalidChoicePacket())
         }
     }
@@ -1299,7 +1318,8 @@ object ShowdownInterpreter {
         // Parse Json message and update state info for actor
         val request = BattleRegistry.gson.fromJson(message.rawMessage.split("|request|")[1], ShowdownActionRequest::class.java)
         request.sanitize(battle, battleActor)
-        if (battle.started) {
+        // Switch request can occur when the dispatch that starts the battle is in queue but hasn't been run yet.
+//        if (battle.started) {
             battle.dispatchGo {
                 // This request won't be acted on until the start of next turn
                 battleActor.sendUpdate(BattleQueueRequestPacket(request))
@@ -1313,10 +1333,10 @@ object ShowdownInterpreter {
                     }
                 }
             }
-        } else {
-            battleActor.request = request
-            battleActor.responses.clear()
-        }
+//        } else {
+//            battleActor.request = request
+//            battleActor.responses.clear()
+//        }
     }
 
     /**
