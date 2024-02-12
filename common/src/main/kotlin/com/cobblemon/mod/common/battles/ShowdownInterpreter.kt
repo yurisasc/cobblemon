@@ -55,14 +55,14 @@ object ShowdownInterpreter {
     // Stores a reference to the previous ability, activate, or move message in a battle so a minor action can refer back to it (Battle UUID :  BattleMessage)
     val lastCauser = mutableMapOf<UUID, BattleMessage>()
 
-    private val updateInstructionParser = mutableMapOf<String, (PokemonBattle, InstructionSet, BattleMessage, Iterator<BattleMessage>) -> InterpreterInstruction>()
-    private val splitInstructionParser = mutableMapOf<String, (PokemonBattle, BattleActor, InstructionSet, BattleMessage, BattleMessage, Iterator<BattleMessage>) -> InterpreterInstruction>()
+    private val updateInstructionParser = mutableMapOf<String, (PokemonBattle, InstructionSet, BattleMessage, Iterator<IndexedValue<BattleMessage>>) -> InterpreterInstruction>()
+    private val splitInstructionParser = mutableMapOf<String, (PokemonBattle, BattleActor, InstructionSet, BattleMessage, BattleMessage, Iterator<IndexedValue<BattleMessage>>) -> InterpreterInstruction>()
     private val contextResetInstructions = setOf("")
 
     init {
         updateInstructionParser["split"] = { battle, instructionSet, message, messages ->
-            val privateMessage = messages.next()
-            val publicMessage = messages.next()
+            val privateMessage = messages.next().value
+            val publicMessage = messages.next().value
             val targetActor = battle.getActor(message.argumentAt(0)!!)!!
             val type = publicMessage.rawMessage.split("|")[1]
             splitInstructionParser[type]?.invoke(battle, targetActor, instructionSet, publicMessage, privateMessage, messages)
@@ -267,29 +267,38 @@ object ShowdownInterpreter {
              *  Imo, after the initial switches to send out the lead pokemon is the absolute latest we should
              *  inform clients about the battle.
              */
-            if(!battle.started) {
-                val startInstruction =  lines.withIndex().firstOrNull() { it.value == "|start" }
-                if(startInstruction != null) {
-                    val lastSwitchIntruction = lines.withIndex().lastOrNull() { it.value.startsWith("|switch") }
-                    if(lastSwitchIntruction != null) {
-                        var index = startInstruction.index
-                        while(index < lastSwitchIntruction.index && index < lines.size) {
-                            lines[index] = lines[index + 1]
-                            index += 1
-                        }
-                        lines[lastSwitchIntruction.index] = startInstruction.value
-                    }
-                }
-            }
 
             if (lines[0] == "update") {
                 lines.removeAt(0)
                 lines.forEach { battleMessages.add(BattleMessage(it)) }
-
-                val iterator = battleMessages.iterator()
+                var foundStart = battle.started
+                val iterator = battleMessages.withIndex().iterator()
                 while (iterator.hasNext()) {
-                    val message = iterator.next()
-                    val id = message.id.replace("|", "")
+                    val messageWithIndex = iterator.next()
+                    val index = messageWithIndex.index
+                    var message = messageWithIndex.value
+                    var id = message.id.replace("|", "")
+
+                    if(!foundStart && message.id == "start") {
+                        // Look ahead for switches
+                        foundStart = true
+                        var lastSwitchIndex = -1
+                        for(j in index until battleMessages.size) {
+                            if(battleMessages[j].id.startsWith("switch")) {
+                                lastSwitchIndex = j
+                            }
+                        }
+                        if(lastSwitchIndex != -1) {
+                            // Place the start after the last switch and move everything in between back 1 index
+                            for(j in index until lastSwitchIndex) {
+                                battleMessages[j] = battleMessages[j + 1]
+                            }
+                            battleMessages[lastSwitchIndex] = message
+                            message = battleMessages[index]
+                            id = message.id.replace("|", "")
+                        }
+                    }
+
                     if (id in contextResetInstructions) {
                         // TODO some kind of cause tracking reset
                     } else {
