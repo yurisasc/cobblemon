@@ -279,12 +279,12 @@ object ShowdownInterpreter {
                     var message = messageWithIndex.value
                     var id = message.id.replace("|", "")
 
-                    if(!foundStart && message.id == "start") {
+                    if(!foundStart && id == "start") {
                         // Look ahead for switches
                         foundStart = true
                         var lastSwitchIndex = -1
                         for(j in index until battleMessages.size) {
-                            if(battleMessages[j].id.startsWith("switch")) {
+                            if(battleMessages[j].id == "switch") {
                                 lastSwitchIndex = j
                             }
                         }
