@@ -44,6 +44,7 @@ import net.minecraft.util.shape.VoxelShapes
 import net.minecraft.world.BlockView
 import net.minecraft.world.World
 
+@Suppress("OVERRIDE_DEPRECATION")
 class GildedChestBlock(settings: Settings, val type: Type = Type.RED) : BlockWithEntity(settings) {
 
     init {
@@ -137,6 +138,7 @@ class GildedChestBlock(settings: Settings, val type: Type = Type.RED) : BlockWit
     ): ActionResult {
         if (isFake()) return spawnPokemon(world, pos, state, player)
         val entity = world.getBlockEntity(pos) as? GildedChestBlockEntity ?: return ActionResult.FAIL
+        if (world.getBlockState(pos.up()).isSolidBlock(world, pos.up())) return ActionResult.FAIL
         player.openHandledScreen(entity)
         if (!player.world.isClient) {
             PiglinBrain.onGuardedBlockInteracted(player, true)
