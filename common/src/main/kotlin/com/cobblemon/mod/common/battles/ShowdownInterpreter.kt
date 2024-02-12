@@ -282,18 +282,13 @@ object ShowdownInterpreter {
                     if(!foundStart && id == "start") {
                         // Look ahead for switches
                         foundStart = true
-                        var lastSwitchIndex = -1
-                        for(j in index until battleMessages.size) {
-                            if(battleMessages[j].id == "switch") {
-                                lastSwitchIndex = j
-                            }
-                        }
-                        if(lastSwitchIndex != -1) {
+                        val lastSwitch = battleMessages.withIndex().lastOrNull { it.index > index && it.value.id == "switch" }
+                        if(lastSwitch != null) {
                             // Place the start after the last switch and move everything in between back 1 index
-                            for(j in index until lastSwitchIndex) {
+                            for(j in index until lastSwitch.index) {
                                 battleMessages[j] = battleMessages[j + 1]
                             }
-                            battleMessages[lastSwitchIndex] = message
+                            battleMessages[lastSwitch.index] = message
                             message = battleMessages[index]
                             id = message.id.replace("|", "")
                         }
