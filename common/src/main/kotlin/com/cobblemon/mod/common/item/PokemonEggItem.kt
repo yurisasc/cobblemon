@@ -37,13 +37,12 @@ class PokemonEggItem() : Item(Settings().maxCount(1)) {
         }
 
         fun getColor(stack: ItemStack, tintIndex: Int): Int {
-            val eggNbt = stack.nbt?.get(DataKeys.EGG) as? NbtCompound ?: return 0xFFFFFF
-            val egg = Egg.fromNbt(eggNbt)
+            val colors = stack.nbt?.let { Egg.getColorsFromNbt(it) } ?: return Integer.valueOf("FFFFFFFF", 16)
             return if (tintIndex == 0) {
-                val color = Color.decode("#${egg.baseColor}")
+                val color = Color.decode("#${colors.first}")
                 Argb.getArgb(255, color.red, color.green, color.blue)
             } else {
-                val overlayColor = egg.overlayColor ?: "FFFFFF"
+                val overlayColor = colors.second ?: "FFFFFF"
                 val color = Color.decode("#${overlayColor}")
                 Argb.getArgb(255, color.red, color.green, color.blue)
             }

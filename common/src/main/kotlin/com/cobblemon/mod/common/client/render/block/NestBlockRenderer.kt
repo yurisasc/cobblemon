@@ -98,7 +98,7 @@ class NestBlockRenderer(private val context: BlockEntityRendererFactory.Context)
             baseTextureModel?.setRotation(Axis.Z_AXIS.ordinal, Math.toRadians(180.0).toFloat())
             val matrixStack = MatrixStack()
             matrixStack.loadIdentity()
-            matrixStack.translate(0F, 1F, 0F)
+            //matrixStack.translate(0F, 0.3F, 0F)
             baseModel?.render(matrixStack, bufferBuilder, light, overlay)
             baseTextureModel?.render(
                 matrixStack,

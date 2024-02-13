@@ -181,9 +181,9 @@ interface BreedingLogic {
         val hidden = parent.form.abilities.filter { it.type == HiddenAbilityType }
             .map { it.template.name }
             .map { it == parent.ability.name }
-            .first()
+            .firstOrNull()
 
-        return if(hidden) {
+        return if(hidden == true) {
             val rng = Random.nextInt(0, 100) < 60
             if(rng) {
                 parent.ability

@@ -49,5 +49,13 @@ data class Egg(
                 if (nbt.contains(DataKeys.SECONDARY_COLOR)) nbt.getString(DataKeys.SECONDARY_COLOR) else null
             )
         }
+
+        fun getColorsFromNbt(nbt: NbtCompound): Pair<String, String> {
+            val eggNbt = nbt.get(DataKeys.EGG) as NbtCompound
+            return Pair(
+                eggNbt.getString(DataKeys.PRIMARY_COLOR),
+                eggNbt.getString(DataKeys.SECONDARY_COLOR)
+            )
+        }
     }
 }

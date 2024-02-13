@@ -9,7 +9,9 @@
 package com.cobblemon.mod.common.client.render.item
 
 import com.cobblemon.mod.common.api.pokemon.breeding.Egg
+import com.cobblemon.mod.common.api.pokemon.breeding.EggPattern
 import com.cobblemon.mod.common.util.DataKeys
+import com.cobblemon.mod.common.util.cobblemonModel
 import com.mojang.blaze3d.platform.GlStateManager
 import com.mojang.blaze3d.systems.RenderSystem
 import net.minecraft.client.MinecraftClient
@@ -28,6 +30,7 @@ import net.minecraft.client.render.model.json.ModelTransformation
 import net.minecraft.client.render.model.json.ModelTransformationMode
 import net.minecraft.client.render.model.json.Transformation
 import net.minecraft.client.texture.Sprite
+import net.minecraft.client.util.ModelIdentifier
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.item.ItemStack
 import net.minecraft.nbt.NbtCompound
@@ -49,6 +52,7 @@ import java.nio.ByteBuffer
  * @since February 12, 2024
  **/
 class PokemonEggItemRenderer : CobblemonBuiltinItemRenderer {
+    val generatedModels = hashMapOf<EggPattern, BakedModel>()
     //DONT FORGET TO CACHE MODELS AFTER THEY ARE GENERATED AT SOME POINT
     override fun render(
         stack: ItemStack,
@@ -63,7 +67,7 @@ class PokemonEggItemRenderer : CobblemonBuiltinItemRenderer {
         //Since we are delegating back to the item renderer, we need the matrix frame from BEFORE the item renderer first ran
         matrices.pop()
         val pattern = egg.getPattern() ?: return
-        val model = getBakedModel(pattern.baseInvSpritePath, pattern.overlayInvSpritePath)
+        val model = getBakedModel(pattern)
         matrices.push()
         //GREMEDYStringMarker.glStringMarkerGREMEDY("Rendering egg item")
         val oldShaderLights = RenderSystem.shaderLightDirections
@@ -77,7 +81,12 @@ class PokemonEggItemRenderer : CobblemonBuiltinItemRenderer {
         RenderSystem.setShaderLights(oldShaderLights[0], oldShaderLights[1])
     }
 
-    fun getBakedModel(baseTexId: Identifier, overlayTexId: Identifier?): BakedModel {
+    fun getBakedModel(eggPattern: EggPattern): BakedModel {
+        if (generatedModels.containsKey(eggPattern)) {
+            return generatedModels[eggPattern]!!
+        }
+        val baseTexId = eggPattern.baseInvSpritePath
+        val overlayTexId = eggPattern.overlayInvSpritePath
         val atlas = MinecraftClient.getInstance().getSpriteAtlas(Identifier.tryParse("minecraft:textures/atlas/blocks.png"))
         val baseSprite = atlas.apply(Identifier.of(baseTexId.namespace, "item/${baseTexId.path}"))
         val uvArrOne = FloatArray(4)
