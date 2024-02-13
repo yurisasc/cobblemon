@@ -39,7 +39,8 @@ class ElekidModel(root: ModelPart) : PokemonPoseableModel(), BipedFrame, Bimanua
     lateinit var sleep: PokemonPose
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("elekid", "blink").setPreventsIdle(false)}
+        val blink = quirk { bedrockStateful("elekid", "blink") }
+
         sleep = registerPose(
             poseName = "sleep",
             poseType = PoseType.SLEEP,

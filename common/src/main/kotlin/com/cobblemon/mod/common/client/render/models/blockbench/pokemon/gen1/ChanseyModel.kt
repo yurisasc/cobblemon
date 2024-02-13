@@ -37,7 +37,7 @@ class ChanseyModel(root: ModelPart) : PokemonPoseableModel(), BipedFrame {
     lateinit var sleep: PokemonPose
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("chansey", "blink").setPreventsIdle(false)}
+        val blink = quirk { bedrockStateful("chansey", "blink") }
 
         sleep = registerPose(
             poseName = "sleep",

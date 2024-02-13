@@ -34,9 +34,9 @@ class VenonatModel(root: ModelPart) : PokemonPoseableModel() {
     lateinit var battleidle: PokemonPose
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("venonat", "blink").setPreventsIdle(false) }
-        val quirk1 = quirk("quirk1") { bedrockStateful("venonat", "quirk1").setPreventsIdle(false) }
-        val quirk2 = quirk("quirk2") { bedrockStateful("venonat", "quirk2").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("venonat", "blink") }
+        val quirk1 = quirk { bedrockStateful("venonat", "quirk1") }
+        val quirk2 = quirk { bedrockStateful("venonat", "quirk2") }
 
         sleep = registerPose(
             poseType = PoseType.SLEEP,

@@ -36,7 +36,7 @@ class LaironModel  (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quad
     lateinit var walk: PokemonPose
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("lairon", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("lairon", "blink") }
 
         standing = registerPose(
             poseName = "standing",

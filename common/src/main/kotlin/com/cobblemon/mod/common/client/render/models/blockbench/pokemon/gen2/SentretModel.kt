@@ -37,7 +37,8 @@ class SentretModel (root: ModelPart) : PokemonPoseableModel(), BipedFrame, Biman
     lateinit var walk: PokemonPose
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("sentret", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("sentret", "blink") }
+
         standing = registerPose(
             poseName = "standing",
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,

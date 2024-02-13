@@ -32,10 +32,10 @@ class DrifloonModel (root: ModelPart) : PokemonPoseableModel() {
     lateinit var hovering: PokemonPose
     lateinit var flying: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("drifloon", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("drifloon", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk(name = "blink") { bedrockStateful("drifloon", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("drifloon", "blink") }
         sleep = registerPose(
             poseName = "sleep",
             poseType = PoseType.SLEEP,

@@ -36,7 +36,7 @@ class MarowakModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Biped
     lateinit var walk: PokemonPose
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("venomoth", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("marowak", "blink") }
 
         standing = registerPose(
             poseName = "standing",

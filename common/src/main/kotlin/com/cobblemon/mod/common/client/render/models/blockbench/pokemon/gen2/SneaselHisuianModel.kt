@@ -38,7 +38,8 @@ class SneaselHisuianModel (root: ModelPart) : PokemonPoseableModel(), HeadedFram
     lateinit var walk: PokemonPose
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("sneasel_hisuian", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("sneasel_hisuian", "blink") }
+
         standing = registerPose(
             poseName = "standing",
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,

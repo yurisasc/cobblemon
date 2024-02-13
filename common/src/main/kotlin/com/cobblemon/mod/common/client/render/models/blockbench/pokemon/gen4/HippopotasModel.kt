@@ -36,7 +36,7 @@ class HippopotasModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Q
     lateinit var walk: PokemonPose
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("hippopotas", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("hippopotas", "blink") }
 
         standing = registerPose(
             poseName = "standing",

@@ -1114,7 +1114,7 @@
 			},
 			"particle_effects": {
 				"1.3333": {
-					"effect": "cobblemon:pop",
+					"effect": "cobblemon:pop_particle",
 					"locator": "locator_pop"
 				}
 			}

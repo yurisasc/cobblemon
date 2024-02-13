@@ -36,7 +36,7 @@ class CuboneModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedF
     lateinit var walk: PokemonPose
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("cubone", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("cubone", "blink") }
 
         standing = registerPose(
             poseName = "standing",

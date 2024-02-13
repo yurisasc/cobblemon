@@ -38,7 +38,7 @@ class ElectabuzzModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     lateinit var battleidle: PokemonPose
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("electabuzz", "blink").setPreventsIdle(false)}
+        val blink = quirk { bedrockStateful("electabuzz", "blink") }
 
         sleep = registerPose(
             poseType = PoseType.SLEEP,

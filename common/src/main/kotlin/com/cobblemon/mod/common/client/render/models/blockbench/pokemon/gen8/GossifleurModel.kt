@@ -29,7 +29,7 @@ class GossifleurModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     lateinit var walk: PokemonPose
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("gossifleur", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("gossifleur", "blink") }
 
         standing = registerPose(
             poseName = "standing",

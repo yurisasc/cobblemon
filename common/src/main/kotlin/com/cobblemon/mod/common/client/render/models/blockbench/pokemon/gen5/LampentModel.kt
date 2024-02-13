@@ -34,7 +34,8 @@ class LampentModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     lateinit var sleep: PokemonPose
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("lampent", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("lampent", "blink") }
+
         sleep = registerPose(
             poseName = "sleep",
             poseType = PoseType.SLEEP,

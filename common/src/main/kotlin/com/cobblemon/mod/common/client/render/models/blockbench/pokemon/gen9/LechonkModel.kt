@@ -38,8 +38,8 @@ class LechonkModel (root: ModelPart) : PokemonPoseableModel(), QuadrupedFrame {
     lateinit var battle_idle: PokemonPose
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("lechonk", "blink").setPreventsIdle(false) }
-        val snort = quirk("snort") { bedrockStateful("lechonk", "snort_quirk").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("lechonk", "blink") }
+        val snort = quirk { bedrockStateful("lechonk", "snort_quirk") }
 
         sleep = registerPose(
             poseType = PoseType.SLEEP,

@@ -36,10 +36,11 @@ class ShieldonModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Qua
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("shieldon", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("shieldon", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("shieldon", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("shieldon", "blink") }
+
         standing = registerPose(
             poseName = "standing",
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,

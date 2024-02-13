@@ -38,7 +38,8 @@ class DratiniModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     lateinit var surface_swim: PokemonPose
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("dratini", "blink").setPreventsIdle(false)}
+        val blink = quirk { bedrockStateful("dratini", "blink") }
+
         sleep = registerPose(
             poseName = "sleep",
             poseType = PoseType.SLEEP,

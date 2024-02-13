@@ -36,7 +36,7 @@ class TropiusModel  (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Qua
     lateinit var walk: PokemonPose
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("tropius", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("tropius", "blink") }
         standing = registerPose(
             poseName = "standing",
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,

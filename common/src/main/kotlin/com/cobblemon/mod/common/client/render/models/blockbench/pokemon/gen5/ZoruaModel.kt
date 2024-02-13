@@ -36,7 +36,7 @@ class ZoruaModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quadru
     lateinit var walk: PokemonPose
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("zorua", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("zorua", "blink") }
 
         standing = registerPose(
             poseName = "standing",

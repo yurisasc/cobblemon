@@ -39,7 +39,7 @@ class DragonairModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     lateinit var battle_idle: PokemonPose
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("dragonair", "blink")}
+        val blink = quirk { bedrockStateful("dragonair", "blink") }
 
         sleep = registerPose(
             poseName = "sleep",

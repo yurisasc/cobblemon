@@ -29,7 +29,8 @@ class BasculegionModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     lateinit var walk: PokemonPose
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("basculegion", "blink").setPreventsIdle(false)}
+        val blink = quirk { bedrockStateful("basculegion", "blink") }
+
         standing = registerPose(
             poseName = "standing",
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,

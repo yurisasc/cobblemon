@@ -36,7 +36,7 @@ class AronModel  (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quadru
     lateinit var walk: PokemonPose
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("aron", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("aron", "blink") }
 
         standing = registerPose(
             poseName = "standing",

@@ -43,10 +43,10 @@ class VenomothModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BiWi
     lateinit var flying: PokemonPose
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("venomoth", "blink").setPreventsIdle(false) }
-        val quirk1 = quirk("quirk1") { bedrockStateful("venomoth", "quirk1").setPreventsIdle(false) }
-        val quirk2 = quirk("quirk2") { bedrockStateful("venomoth", "quirk2").setPreventsIdle(false) }
-        val quirkSleep = quirk("quirksleep") { bedrockStateful("venomoth", "quirk_sleep").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("venomoth", "blink") }
+        val quirk1 = quirk { bedrockStateful("venomoth", "quirk1") }
+        val quirk2 = quirk { bedrockStateful("venomoth", "quirk2") }
+        val quirkSleep = quirk { bedrockStateful("venomoth", "quirk_sleep") }
 
         sleep = registerPose(
             poseType = PoseType.SLEEP,

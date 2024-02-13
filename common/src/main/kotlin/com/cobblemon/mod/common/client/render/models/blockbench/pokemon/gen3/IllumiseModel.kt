@@ -45,8 +45,8 @@ class IllumiseModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
     val wateroffset = -15
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("illumise", "blink").setPreventsIdle(false) }
-        val flicker = quirk("flicker") { bedrockStateful("illumise", "flicker_quirk").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("illumise", "blink") }
+        val flicker = quirk { bedrockStateful("illumise", "flicker_quirk") }
 
         sleep = registerPose(
             poseName = "sleep",

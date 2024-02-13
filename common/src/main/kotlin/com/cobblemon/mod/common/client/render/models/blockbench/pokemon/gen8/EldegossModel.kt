@@ -31,7 +31,7 @@ class EldegossModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     lateinit var walk: PokemonPose
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("eldegoss", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("eldegoss", "blink") }
 
         standing = registerPose(
             poseName = "standing",

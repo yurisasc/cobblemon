@@ -45,8 +45,8 @@ class VolbeatModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bipe
     val wateroffset = -15
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("volbeat", "blink").setPreventsIdle(false) }
-        val flicker = quirk("flicker") { bedrockStateful("volbeat", "flicker_quirk").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("illumise", "blink") }
+        val flicker = quirk { bedrockStateful("illumise", "flicker_quirk") }
 
         sleep = registerPose(
             poseName = "sleep",

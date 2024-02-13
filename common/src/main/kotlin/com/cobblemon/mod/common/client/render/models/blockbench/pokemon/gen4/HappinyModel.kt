@@ -35,9 +35,9 @@ class HappinyModel(root: ModelPart) : PokemonPoseableModel(), BipedFrame {
     lateinit var battle_idle: PokemonPose
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("happiny", "blink").setPreventsIdle(false) }
-        val hairQuirk = quirk("hair_quirk") { bedrockStateful("happiny", "hairshake_quirk").setPreventsIdle(false) }
-        val happy = quirk("happy") { bedrockStateful("happiny", "happy_quirk").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("happiny", "blink_quirk") }
+        val hairQuirk = quirk { bedrockStateful("happiny", "hairshake_quirk") }
+        val happy = quirk { bedrockStateful("happiny", "happy_quirk") }
 
         sleep = registerPose(
             poseName = "sleep",

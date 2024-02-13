@@ -42,7 +42,7 @@ class MeowthModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedF
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("meowth", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("meowth", "cry") }
 
     override fun registerPoses() {
         val blink = quirk { bedrockStateful("meowth", "blink") }

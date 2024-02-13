@@ -35,7 +35,8 @@ class RampardosModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bi
 
     //    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("rampardos", "cry").setPreventsIdle(false) }
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("rampardos", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("rampardos", "blink") }
+
         standing = registerPose(
             poseName = "standing",
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
