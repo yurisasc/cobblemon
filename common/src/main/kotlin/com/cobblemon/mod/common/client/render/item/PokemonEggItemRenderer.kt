@@ -10,7 +10,10 @@ package com.cobblemon.mod.common.client.render.item
 
 import com.cobblemon.mod.common.api.pokemon.breeding.Egg
 import com.cobblemon.mod.common.util.DataKeys
+import com.mojang.blaze3d.platform.GlStateManager
+import com.mojang.blaze3d.systems.RenderSystem
 import net.minecraft.client.MinecraftClient
+import net.minecraft.client.render.DiffuseLighting
 import net.minecraft.client.render.VertexConsumerProvider
 import net.minecraft.client.render.model.BakedModel
 import net.minecraft.client.render.model.BakedQuad
@@ -55,6 +58,7 @@ class PokemonEggItemRenderer : CobblemonBuiltinItemRenderer {
         light: Int,
         overlay: Int
     ) {
+
         val egg = Egg.fromNbt(stack.nbt?.get(DataKeys.EGG) as? NbtCompound ?: return)
         //Since we are delegating back to the item renderer, we need the matrix frame from BEFORE the item renderer first ran
         matrices.pop()
@@ -62,11 +66,15 @@ class PokemonEggItemRenderer : CobblemonBuiltinItemRenderer {
         val model = getBakedModel(pattern.baseInvSpritePath, pattern.overlayInvSpritePath)
         matrices.push()
         //GREMEDYStringMarker.glStringMarkerGREMEDY("Rendering egg item")
+        val oldShaderLights = RenderSystem.shaderLightDirections
+        //Might need to handle this differently depending on the mode
+        DiffuseLighting.disableGuiDepthLighting()
         val isLeftHanded = mode == ModelTransformationMode.FIRST_PERSON_LEFT_HAND || mode == ModelTransformationMode.THIRD_PERSON_LEFT_HAND
         MinecraftClient.getInstance().itemRenderer.renderItem(stack, mode, isLeftHanded, matrices, vertexConsumers, light, overlay, model)
         matrices.pop()
         //Since the item renderer pops the frame off the we popped earlier, we need to put a frame back
         matrices.push()
+        RenderSystem.setShaderLights(oldShaderLights[0], oldShaderLights[1])
     }
 
     fun getBakedModel(baseTexId: Identifier, overlayTexId: Identifier?): BakedModel {
