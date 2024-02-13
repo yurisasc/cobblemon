@@ -175,7 +175,7 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
         return buckets.first()  // Fallback
     }
 
-    // make more generic version for other enchants. Pass in id of enchant
+    /*// make more generic version for other enchants. Pass in id of enchant
     fun getEnchantLevel(enchantment: Enchantment): Int {
         var pokerodEnchantments: NbtList? = null
         if (owner?.isPlayer == true) {
@@ -190,7 +190,7 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
         }?.first()
 
         return (luckOfTheSeaEnchantment as? NbtCompound)?.getShort("lvl")?.toInt() ?: 0
-    }
+    }*/
 
     fun isOpenOrWaterAround(pos: BlockPos): Boolean {
         var positionType = PositionType.INVALID
@@ -593,6 +593,44 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
                 //pokemon.uuid = it.uuid
                 hookedEntityID = entity.id
                 spawnedPokemon = (entity as PokemonEntity)
+
+                // if spawned pokemon is a magikarp then lift it up into the air and over the player
+                if (spawnedPokemon.pokemon.species.name.equals("magikarp", ignoreCase = true)) {
+                    // Direction and position calculations as before
+                    val rad = Math.toRadians(player.yaw.toDouble() + 180)
+                    val behindDirection = Vec3d(-Math.sin(rad), 0.0, Math.cos(rad))
+                    val targetPos = player.pos.add(behindDirection.multiply(2.0))
+                    val diff = targetPos.subtract(entity.pos)
+                    val distance = diff.horizontalLength()
+
+                    // Simple empirical mapping of distance to launch angle and initial velocity
+                    val angle = when {
+                        distance < 5 -> 60 // Closer targets, higher arc
+                        distance < 10 -> 45 // Moderate distance, moderate arc
+                        else -> 30 // Farther targets, lower arc
+                    }
+
+                    // Adjust velocity based on distance and angle
+                    // These are placeholder values; you'll need to adjust based on testing
+                    val velocityMultiplier = when {
+                        distance < 5 -> 0.6
+                        distance < 10 -> 0.9
+                        else -> 1.5
+                    }
+
+                    val velocityX = diff.x / distance * velocityMultiplier
+                    val velocityZ = diff.z / distance * velocityMultiplier
+                    // Calculate Y velocity component based on chosen angle, simplified
+                    val velocityY = when {
+                        distance < 5 -> 0.6
+                        distance < 10 -> 0.7
+                        else -> 0.8
+                    }
+
+                    val tossVelocity = Vec3d(velocityX, velocityY, velocityZ)
+                    entity.setVelocity(tossVelocity)
+
+                }
             }
         }
 
