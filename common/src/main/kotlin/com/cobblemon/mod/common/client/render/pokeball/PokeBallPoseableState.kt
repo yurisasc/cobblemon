@@ -67,6 +67,11 @@ abstract class PokeBallPoseableState : PoseableEntityState<EmptyPokeBallEntity>(
                         setStatefulAnimations(currentModel!!.bedrockStateful(group, "critical"))
                     }
                 }
+                EmptyPokeBallEntity.CaptureState.BROKEN_FREE -> {
+                    doLater {
+                        setStatefulAnimations(currentModel!!.bedrockStateful(group, "break"))
+                    }
+                }
                 else -> {}
             }
         }

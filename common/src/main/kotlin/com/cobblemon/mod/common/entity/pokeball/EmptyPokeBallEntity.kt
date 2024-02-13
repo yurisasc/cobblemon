@@ -22,7 +22,6 @@ import com.cobblemon.mod.common.api.pokeball.PokeBalls
 import com.cobblemon.mod.common.api.pokeball.catching.CaptureContext
 import com.cobblemon.mod.common.api.pokemon.status.Statuses
 import com.cobblemon.mod.common.api.scheduling.Schedulable
-import com.cobblemon.mod.common.api.reactive.Observable
 import com.cobblemon.mod.common.api.reactive.SimpleObservable
 import com.cobblemon.mod.common.api.scheduling.ScheduledTask
 import com.cobblemon.mod.common.api.scheduling.SchedulingTracker
@@ -78,7 +77,8 @@ class EmptyPokeBallEntity : ThrownItemEntity, Poseable, WaterDragModifier, Sched
         FALL,
         SHAKE,
         CAPTURED,
-        CAPTURED_CRITICAL
+        CAPTURED_CRITICAL,
+        BROKEN_FREE
     }
 
     companion object {
@@ -135,6 +135,7 @@ class EmptyPokeBallEntity : ThrownItemEntity, Poseable, WaterDragModifier, Sched
                 CaptureState.FALL -> setNoGravity(false)
                 CaptureState.SHAKE -> setNoGravity(true)
                 CaptureState.CAPTURED, CaptureState.CAPTURED_CRITICAL -> {}
+                CaptureState.BROKEN_FREE -> {}
             }
         }
         dataTrackerEmitter.emit(data)
@@ -361,6 +362,8 @@ class EmptyPokeBallEntity : ThrownItemEntity, Poseable, WaterDragModifier, Sched
         if (pokemon.battleId == null) {
             pokemon.pokemon.status?.takeIf { it.status == Statuses.SLEEP }?.let { pokemon.pokemon.status = null }
         }
+
+        captureState = CaptureState.BROKEN_FREE
 
         after(seconds = 0.25F) {
             pokemon.busyLocks.remove(this)
