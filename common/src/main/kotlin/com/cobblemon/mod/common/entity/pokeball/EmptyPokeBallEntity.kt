@@ -349,7 +349,7 @@ class EmptyPokeBallEntity : ThrownItemEntity, Poseable, WaterDragModifier, Sched
 
         world.playSoundServer(pos, CobblemonSounds.POKE_BALL_SHAKE, volume = 0.8F)
         // Emits a shake by changing the value to the opposite of what it currently is. Sends an update to the client basically.
-        // We could replace this with a packet but it feels awfully excessive when we already have 5 bajillion packets.
+        // We could replace this with a packet, but it feels awfully excessive when we already have 5 bajillion packets.
         dataTracker.update(SHAKE) { !it }
     }
 
@@ -364,12 +364,12 @@ class EmptyPokeBallEntity : ThrownItemEntity, Poseable, WaterDragModifier, Sched
         }
 
         captureState = CaptureState.BROKEN_FREE
+        world.playSoundServer(pos, CobblemonSounds.POKE_BALL_OPEN, volume = 0.8F)
 
-        after(seconds = 0.25F) {
+        after(seconds = 1F) {
             pokemon.busyLocks.remove(this)
             captureFuture.complete(false)
             world.sendParticlesServer(ParticleTypes.CLOUD, pos, 20, Vec3d(0.0, 0.2, 0.0), 0.05)
-            world.playSoundServer(pos, CobblemonSounds.POKE_BALL_OPEN, volume = 0.8F)
             discard()
         }
     }
