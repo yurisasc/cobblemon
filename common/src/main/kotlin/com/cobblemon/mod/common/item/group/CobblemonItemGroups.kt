@@ -231,6 +231,7 @@ object CobblemonItemGroups {
         entries.add(CobblemonItems.DEEPSLATE_THUNDER_STONE_ORE)
         entries.add(CobblemonItems.WATER_STONE_ORE)
         entries.add(CobblemonItems.DEEPSLATE_WATER_STONE_ORE)
+        entries.add(CobblemonItems.DYNITE_ORE)
     }
 
     private fun consumableEntries(displayContext: DisplayContext, entries: Entries) {

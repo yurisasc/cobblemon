@@ -8,6 +8,7 @@
 
 package com.cobblemon.mod.common.util
 
+import com.cobblemon.mod.common.CobblemonBlocks
 import net.minecraft.block.BlockState
 import net.minecraft.entity.Entity
 import net.minecraft.item.Item
@@ -24,6 +25,7 @@ import net.minecraft.util.math.MathHelper.floor
 import net.minecraft.world.BlockView
 import net.minecraft.world.World
 import net.minecraft.world.biome.Biome
+import net.minecraft.world.chunk.Chunk
 
 fun World.playSoundServer(
     position: Vec3d,
@@ -124,3 +126,13 @@ val World.itemRegistry: Registry<Item>
     get() = registryManager.get(RegistryKeys.ITEM)
 val World.biomeRegistry: Registry<Biome>
     get() = registryManager.get(RegistryKeys.BIOME)
+
+/**
+ * @return The amount of Dynite Ore in this chunk
+ * @author whatsy
+ */
+fun Chunk.getChunkDyniteOre(): Int {
+    var count = 0
+    this.forEachBlockMatchingPredicate({ it.block == CobblemonBlocks.DYNITE_ORE }) { _, _ -> count++ }
+    return count
+}

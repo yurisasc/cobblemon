@@ -11,6 +11,7 @@ package com.cobblemon.mod.common
 import com.cobblemon.mod.common.api.pokeball.PokeBalls
 import com.cobblemon.mod.common.entity.boat.CobblemonBoatEntity
 import com.cobblemon.mod.common.entity.boat.CobblemonChestBoatEntity
+import com.cobblemon.mod.common.entity.fallingstar.FallingStarEntity
 import com.cobblemon.mod.common.entity.generic.GenericBedrockEntity
 import com.cobblemon.mod.common.entity.pokeball.EmptyPokeBallEntity
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
@@ -73,6 +74,15 @@ object CobblemonEntities : PlatformRegistry<Registry<EntityType<*>>, RegistryKey
         GENERIC_BEDROCK_ENTITY_KEY.path,
         EntityType.Builder.create({ _, world -> GenericBedrockEntity(world) }, SpawnGroup.MISC)
             .build(GENERIC_BEDROCK_ENTITY_KEY.toString())
+    )
+
+    @JvmField
+    val FALLING_STAR_ENTITY_KEY = cobblemonResource("falling_star")
+    @JvmField
+    val FALLING_STAR_ENTITY: EntityType<FallingStarEntity> = this.create(
+        FALLING_STAR_ENTITY_KEY.path,
+        EntityType.Builder.create({ _, world -> FallingStarEntity(world) }, SpawnGroup.MISC)
+            .build(FALLING_STAR_ENTITY_KEY.toString())
     )
 
     fun registerAttributes(consumer: (EntityType<out LivingEntity>, DefaultAttributeContainer.Builder) -> Unit) {

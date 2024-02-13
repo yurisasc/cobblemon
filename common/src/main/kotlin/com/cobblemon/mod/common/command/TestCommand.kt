@@ -13,21 +13,21 @@ import com.cobblemon.mod.common.CobblemonEntities
 import com.cobblemon.mod.common.CobblemonNetwork.sendPacket
 import com.cobblemon.mod.common.api.scheduling.ServerTaskTracker
 import com.cobblemon.mod.common.api.scheduling.taskBuilder
+import com.cobblemon.mod.common.api.text.text
 import com.cobblemon.mod.common.battles.BattleFormat
 import com.cobblemon.mod.common.battles.BattleRegistry
 import com.cobblemon.mod.common.battles.BattleSide
 import com.cobblemon.mod.common.battles.actor.PlayerBattleActor
 import com.cobblemon.mod.common.battles.actor.PokemonBattleActor
 import com.cobblemon.mod.common.battles.pokemon.BattlePokemon
+import com.cobblemon.mod.common.entity.fallingstar.FallingStarEntity
 import com.cobblemon.mod.common.net.messages.client.effect.SpawnSnowstormParticlePacket
 import com.cobblemon.mod.common.net.messages.client.trade.TradeStartedPacket
 import com.cobblemon.mod.common.particle.SnowstormParticleReader
 import com.cobblemon.mod.common.trade.ActiveTrade
 import com.cobblemon.mod.common.trade.DummyTradeParticipant
 import com.cobblemon.mod.common.trade.PlayerTradeParticipant
-import com.cobblemon.mod.common.util.fromJson
-import com.cobblemon.mod.common.util.party
-import com.cobblemon.mod.common.util.toPokemon
+import com.cobblemon.mod.common.util.*
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonObject
 import com.mojang.brigadier.Command
@@ -56,6 +56,12 @@ object TestCommand {
         if (context.source.entity !is ServerPlayerEntity) {
             return Command.SINGLE_SUCCESS
         }
+
+//        val player = context.source.player as ServerPlayerEntity
+//        player.sendMessageToClient(player.world.getChunk(player.pos.toBlockPos()).getChunkDyniteOre().toString().text(), false)
+
+        val e = context.source.world.spawnEntity(FallingStarEntity(context.source.world))
+        print(e)
 
         try {
 //            readBerryDataFromCSV()

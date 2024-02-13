@@ -96,6 +96,15 @@ object CobblemonBlocks : PlatformRegistry<Registry<Block>, RegistryKey<Registry<
     @JvmField
     val DEEPSLATE_WATER_STONE_ORE = this.deepslateEvolutionStoneOre("deepslate_water_stone_ore")
 
+    @JvmField
+    val DYNITE_ORE = this.create("dynite_ore", Block(
+        AbstractBlock.Settings.create()
+            .mapColor(MapColor.BRIGHT_RED)
+            .strength(4.5f, 3f)
+            .requiresTool()
+            .sounds(BlockSoundGroup.METAL)
+    ))
+
     // Apricorns
     @JvmField
     val APRICORN_LOG = log("apricorn_log", arg2 = MapColor.BROWN)
