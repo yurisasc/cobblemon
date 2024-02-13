@@ -9,6 +9,7 @@
 package com.cobblemon.mod.common.client.render.block
 
 import com.cobblemon.mod.common.CobblemonBlocks
+import com.cobblemon.mod.common.CobblemonItems
 import com.cobblemon.mod.common.api.tags.CobblemonItemTags
 import com.cobblemon.mod.common.block.entity.DisplayCaseBlockEntity
 import com.cobblemon.mod.common.client.render.models.blockbench.repository.PokemonModelRepository
@@ -24,6 +25,8 @@ import net.minecraft.client.render.block.entity.BlockEntityRendererFactory
 import net.minecraft.client.render.model.json.ModelTransformationMode
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.item.ItemStack
+import net.minecraft.item.Items
+import net.minecraft.registry.tag.ItemTags
 import net.minecraft.util.math.Direction
 import net.minecraft.util.math.RotationAxis
 import net.minecraft.world.World
@@ -63,6 +66,10 @@ class DisplayCaseRenderer(ctx: BlockEntityRendererFactory.Context) : BlockEntity
         matrices.translate(posType.transX, posType.transY, posType.transZ)
 
         matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(-yRot))
+
+        matrices.multiply(RotationAxis.POSITIVE_X.rotationDegrees(posType.rotX))
+        matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(posType.rotY))
+        matrices.multiply(RotationAxis.POSITIVE_Z.rotationDegrees(posType.rotZ))
 
         MinecraftClient.getInstance().itemRenderer.renderItem(
             stack,
@@ -111,21 +118,31 @@ class DisplayCaseRenderer(ctx: BlockEntityRendererFactory.Context) : BlockEntity
 
     companion object {
         private fun getPositioningType(stack: ItemStack, world: World): PositioningType {
+            if (stack.item == Items.SHIELD) return PositioningType.SHIELD
+            if (stack.item == Items.DECORATED_POT) return PositioningType.MOB_HEAD
+            if (stack.isIn(ItemTags.BEDS)) return PositioningType.BED
+            if (stack.isIn(ItemTags.BANNERS)) return PositioningType.BANNER
+            if (stack.isIn(CobblemonItemTags.MOB_HEADS)) return PositioningType.MOB_HEAD
+            if (stack.item == CobblemonItems.PASTURE) return PositioningType.PASTURE
             if (stack.isIn(CobblemonItemTags.POKEBALLS)) return PositioningType.POKE_BALL
-            if (stack.item is PokemonItem) return PositioningType.ITEM_MODEL
-
+            if (stack.item == CobblemonItems.POKEMON_MODEL) return PositioningType.ITEM_MODEL
             if (MinecraftClient.getInstance().itemRenderer.getModel(stack, world, null, 0).hasDepth()) return PositioningType.BLOCK_MODEL
-
             return PositioningType.ITEM_MODEL
         }
     }
 
     private enum class PositioningType(
         val scaleX: Float, val scaleY: Float, val scaleZ: Float,
-        val transX: Float, val transY: Float, val transZ: Float
+        val transX: Float, val transY: Float, val transZ: Float,
+        val rotX: Float = 0f, val rotY: Float = 0f, val rotZ: Float = 0f
     ) {
         POKE_BALL(1f, 1f, 1f, 0f, 0.04f, 0f),
         BLOCK_MODEL(1f, 1f, 1f, 0f, -0.15f, 0f),
         ITEM_MODEL(1f, 1f, 1f, 0f, 0.04f, 0f),
+        BED(1f, 1f, 1f, 0f, -0.02f, 0f, 0f, 0f, 0f),
+        BANNER(1f, 1f, 1f, 0f, -0.02f, 0f, 0f, 180f, 0f),
+        MOB_HEAD(1f, 1f, 1f, 0f, -0.025f, 0f, 0f, 180f, 0f),
+        SHIELD(1f, 1f, 1f, 0f, -0.045f, 0f, 0f, 180f, 0f),
+        PASTURE(1f, 1f, 1f, 0f, 0.0375f, 0f, 0f, 0f, 0f),
     }
 }

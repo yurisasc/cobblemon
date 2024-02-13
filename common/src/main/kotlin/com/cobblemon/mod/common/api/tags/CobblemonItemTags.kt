@@ -97,6 +97,8 @@ object CobblemonItemTags {
     val CONSUMED_IN_PVP_BATTLE = create("held/consumed_in_pvp_battle")
     @JvmField
     val CONSUMED_IN_WILD_BATTLE = create("held/consumed_in_wild_battle")
+    @JvmField
+    val MOB_HEADS = create("mob_heads")
 
     /**
      * Tag that flags items as being able to "create" [CobblemonItems.LEFTOVERS].
