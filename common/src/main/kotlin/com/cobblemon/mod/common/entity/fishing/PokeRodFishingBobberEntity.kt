@@ -613,18 +613,20 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
                     // Adjust velocity based on distance and angle
                     // These are placeholder values; you'll need to adjust based on testing
                     val velocityMultiplier = when {
-                        distance < 5 -> 0.6
-                        distance < 10 -> 0.9
-                        else -> 1.5
+                        distance < 5 -> 0.3
+                        distance < 10 -> 0.5
+                        distance < 20 -> .8
+                        else -> 1.2
                     }
 
                     val velocityX = diff.x / distance * velocityMultiplier
                     val velocityZ = diff.z / distance * velocityMultiplier
                     // Calculate Y velocity component based on chosen angle, simplified
                     val velocityY = when {
-                        distance < 5 -> 0.6
-                        distance < 10 -> 0.7
-                        else -> 0.8
+                        distance < 5 -> 0.4
+                        distance < 10 -> 0.5
+                        distance < 20 -> 0.8
+                        else -> 0.9
                     }
 
                     val tossVelocity = Vec3d(velocityX, velocityY, velocityZ)
