@@ -558,6 +558,39 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
         }
     }
 
+    // Non-linear scaling for velocity based on distance
+    fun calculateReelInVelocityScaleFactor(distance: Double): Double {
+        val baseVelocity = 0.4 // Adjust as needed
+        val minDistance = 10.0
+        val maxDistance = 30.0
+
+        // Apply a non-linear adjustment to the velocity
+        // This example uses a simple quadratic adjustment, but you can experiment with other forms
+        return if (distance < minDistance) {
+            baseVelocity + (distance / minDistance) * (0.5 - baseVelocity) // Less increase for closer distances
+        } else {
+            // More significant increase for distances beyond 20 blocks, up to 30 and beyond
+            val factor = (distance - minDistance) / (maxDistance - minDistance)
+            baseVelocity + Math.pow(factor, 2.0) * (1.2 - baseVelocity) // Adjust the 1.2 to control max velocity
+        }
+    }
+
+    // Calculate Y component of velocity for arc, potentially adjusting for distance
+    fun calculateReelInArcVelocity(distance: Double): Double {
+        val baseArc = 0.4 // Base arc for close distances
+        val arcIncreasePerBlock = 0.02 // Increase per block
+
+        // You might want a less linear increase for very long distances
+        val adjustedArc = if (distance < 20) {
+            baseArc + distance * arcIncreasePerBlock
+        } else {
+            // Apply a non-linear adjustment for longer distances
+            baseArc + 20 * arcIncreasePerBlock + Math.pow(distance - 20, 1.5) * 0.005 // Adjust as needed
+        }
+
+        return adjustedArc
+    }
+
     fun spawnPokemonFromFishing(player: PlayerEntity, bobber: PokeRodFishingBobberEntity, chosenBucket: SpawnBucket) {
         var hookedEntityID: Int? = null
         var hookedEntity: Entity? = null
@@ -596,38 +629,45 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
 
                 // if spawned pokemon is a magikarp then lift it up into the air and over the player
                 if (spawnedPokemon.pokemon.species.name.equals("magikarp", ignoreCase = true)) {
-                    // Direction and position calculations as before
+                    // Calculate direction and position as before
                     val rad = Math.toRadians(player.yaw.toDouble() + 180)
                     val behindDirection = Vec3d(-Math.sin(rad), 0.0, Math.cos(rad))
                     val targetPos = player.pos.add(behindDirection.multiply(2.0))
                     val diff = targetPos.subtract(entity.pos)
                     val distance = diff.horizontalLength()
 
-                    // Simple empirical mapping of distance to launch angle and initial velocity
-                    val angle = when {
-                        distance < 5 -> 60 // Closer targets, higher arc
-                        distance < 10 -> 45 // Moderate distance, moderate arc
-                        else -> 30 // Farther targets, lower arc
+                    // Define variables for velocity adjustments
+                    val baseVelocity: Double
+                    val velocityIncreasePerBlock: Double
+                    val baseArc: Double
+                    val arcIncreasePerBlock: Double
+
+                    // Adjust velocity based on distance
+                    when {
+                        distance < 10 -> { // distances under 10 blocks be a bit softer launch
+                            baseVelocity = 0.3
+                            velocityIncreasePerBlock = 0.03
+                            baseArc = 0.35
+                            arcIncreasePerBlock = 0.015
+                        }
+                        distance <= 20 -> { // distances over 20 blocks be a bit harsher launch
+                            baseVelocity = 0.4
+                            velocityIncreasePerBlock = 0.04
+                            baseArc = 0.4
+                            arcIncreasePerBlock = 0.02
+                        }
+                        else -> { // baseline launch for between 10 and 20 block distance
+                            baseVelocity = 0.5
+                            velocityIncreasePerBlock = 0.06
+                            baseArc = 0.45
+                            arcIncreasePerBlock = 0.025
+                        }
                     }
 
-                    // Adjust velocity based on distance and angle
-                    // These are placeholder values; you'll need to adjust based on testing
-                    val velocityMultiplier = when {
-                        distance < 5 -> 0.3
-                        distance < 10 -> 0.5
-                        distance < 20 -> .8
-                        else -> 1.2
-                    }
-
-                    val velocityX = diff.x / distance * velocityMultiplier
-                    val velocityZ = diff.z / distance * velocityMultiplier
-                    // Calculate Y velocity component based on chosen angle, simplified
-                    val velocityY = when {
-                        distance < 5 -> 0.4
-                        distance < 10 -> 0.5
-                        distance < 20 -> 0.8
-                        else -> 0.9
-                    }
+                    // Calculate velocities with adjusted factors
+                    val velocityX = diff.x / distance * (baseVelocity + distance * velocityIncreasePerBlock)
+                    val velocityZ = diff.z / distance * (baseVelocity + distance * velocityIncreasePerBlock)
+                    val velocityY = baseArc + distance * arcIncreasePerBlock
 
                     val tossVelocity = Vec3d(velocityX, velocityY, velocityZ)
                     entity.setVelocity(tossVelocity)
@@ -644,5 +684,4 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
             BattleBuilder.pve((player as ServerPlayerEntity), spawnedPokemon).ifErrored { it.sendTo(player) { it.red() } }
         }
     }
-
 }
