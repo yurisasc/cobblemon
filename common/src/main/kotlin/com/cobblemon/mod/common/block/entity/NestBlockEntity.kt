@@ -10,6 +10,7 @@ package com.cobblemon.mod.common.block.entity
 
 import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.CobblemonBlockEntities
+import com.cobblemon.mod.common.CobblemonItems
 import com.cobblemon.mod.common.api.pokemon.breeding.Egg
 import com.cobblemon.mod.common.block.BerryBlock
 import com.cobblemon.mod.common.util.DataKeys
@@ -20,6 +21,7 @@ import net.minecraft.block.entity.BlockEntityTicker
 import net.minecraft.entity.ItemEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.BlockItem
+import net.minecraft.item.EggItem
 import net.minecraft.item.ItemStack
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.network.listener.ClientPlayPacketListener
@@ -42,21 +44,19 @@ class NestBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(CobblemonB
         world: World,
         pos: BlockPos,
     ) {
-        egg?.let {
-            val blockNbt = NbtCompound()
-            writeNbt(blockNbt)
-            val itemEntity = ItemEntity(
-                world,
-                pos.x.toDouble(),
-                pos.y.toDouble(),
-                pos.z.toDouble(),
-                it.asItemStack(blockNbt)
-            )
-            world?.spawnEntity(itemEntity)
-            egg = null
-            this.markDirty()
-            world.setBlockState(pos, state, Block.NOTIFY_LISTENERS)
-        }
+        val blockNbt = NbtCompound()
+        writeNbt(blockNbt)
+        val itemEntity = ItemEntity(
+            world,
+            pos.x.toDouble(),
+            pos.y.toDouble(),
+            pos.z.toDouble(),
+            egg!!.asItemStack(blockNbt)
+        )
+        world.spawnEntity(itemEntity)
+        egg = null
+        this.markDirty()
+        world.setBlockState(pos, state, Block.NOTIFY_LISTENERS)
 
     }
 
@@ -68,14 +68,23 @@ class NestBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(CobblemonB
         hand: Hand,
         hit: BlockHitResult
     ): ActionResult {
-        if (egg?.timeToHatch == 0) {
-            hatchPokemon(state, world, pos, player)
-            return ActionResult.SUCCESS
+        if (egg != null) {
+            return if (egg?.timeToHatch == 0) {
+                hatchPokemon(state, world, pos, player)
+                ActionResult.SUCCESS
+            } else {
+                dropEgg(state, world, pos)
+                ActionResult.SUCCESS
+            }
         }
-        else {
-            dropEgg(state, world, pos)
-            return ActionResult.SUCCESS
+        val playerStack = player.getStackInHand(hand)
+        if (playerStack.item == CobblemonItems.POKEMON_EGG) {
+            val blockNbt = BlockItem.getBlockEntityNbt(playerStack) as NbtCompound
+            this.egg = Egg.fromBlockNbt(blockNbt)
+            this.markDirty()
+            world.setBlockState(pos, state, Block.NOTIFY_LISTENERS)
         }
+        return ActionResult.FAIL
 
     }
 
@@ -89,10 +98,11 @@ class NestBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(CobblemonB
             val party = Cobblemon.storage.getParty(player.uuid)
             val newPoke = egg!!.hatchedPokemon.generatePokemon()
             party.add(newPoke)
-            egg = null
+            this.egg = null
             this.markDirty()
-            world.setBlockState(pos, state, Block.NOTIFY_LISTENERS)
+            world.updateListeners(pos, state, state, Block.NOTIFY_LISTENERS)
         }
+
 
     }
 
@@ -119,7 +129,12 @@ class NestBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(CobblemonB
     }
 
     override fun toInitialChunkDataNbt(): NbtCompound {
-        return createNbt()
+        val nbt = createNbt()
+        //The block update packet sets nbt to null if the nbt is empty, and doesn't actually update the block
+        if (nbt.isEmpty){
+           nbt.putBoolean("placeholder", true)
+        }
+        return nbt
     }
 
     companion object {

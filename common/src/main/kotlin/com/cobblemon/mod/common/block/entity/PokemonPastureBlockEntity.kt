@@ -109,6 +109,9 @@ class PokemonPastureBlockEntity(pos: BlockPos, val state: BlockState) : BlockEnt
     var ownerName: String = ""
     //Maps a male pokemon to all of the female pokemon it can breed with
     val breedingSets: MutableMap<Tethering, MutableSet<Tethering>> = mutableMapOf()
+    //Basically here to decide whether to calc all breeding sets when updating the block entity
+    //We add breeding sets when pokemon are tethered but we need to calc them on world load too,
+    var initializedBreedingSets = false
 
     init {
         val radius = Cobblemon.config.pastureMaxWanderDistance
@@ -169,20 +172,8 @@ class PokemonPastureBlockEntity(pos: BlockPos, val state: BlockState) : BlockEnt
                         pcId = pc.uuid,
                         entityId = entity.id
                     )
+                    calcBreedingSets(tethering)
                     pokemon.tetheringId = tethering.tetheringId
-                    for (t in tetheredPokemon) {
-                        val tetheredMon = t.getPokemon()
-                        val mother =  if (tetheredMon?.gender == Gender.FEMALE ||
-                            tetheredMon?.species?.nationalPokedexNumber == DITTO_DEX_NUM)
-                            t
-                        else tethering
-                        val father = (if (tetheredMon == mother) tethering else t)
-                        if (SimpleBreedingLogic.canBreed(mother.getPokemon()!!, father.getPokemon()!!)) {
-                            val fatherSet: MutableSet<Tethering> = breedingSets.getOrDefault(father, mutableSetOf())
-                            fatherSet.add(mother)
-                            breedingSets[father] = fatherSet
-                        }
-                    }
                     tetheredPokemon.add(tethering)
                     entity.tethering = tethering
                     tethering.toDTO(player)?.let { player.sendPacket(PokemonPasturedPacket(it)) }
@@ -329,6 +320,43 @@ class PokemonPastureBlockEntity(pos: BlockPos, val state: BlockState) : BlockEnt
 
     }
 
+    //If new mon is passed, only calc/add breeding sets with that parent
+    //Otherwise, find all combos in the block (like on world load)
+    fun calcBreedingSets(newMon: Tethering? = null) {
+        initializedBreedingSets = true
+        if (newMon != null) {
+            for (t in tetheredPokemon) {
+                addIfBreedingPair(newMon, t)
+            }
+        }
+        else {
+            tetheredPokemon.forEachIndexed { i, mon ->
+                val listLen = tetheredPokemon.size
+                if (i != listLen) {
+                    tetheredPokemon.subList(i + 1, listLen + 1).forEach {
+                        addIfBreedingPair(mon, it)
+                    }
+                }
+
+            }
+        }
+
+    }
+
+    fun addIfBreedingPair(monOne: Tethering, monTwo: Tethering) {
+        val tetheredMon = monOne.getPokemon()
+        val mother =  if (tetheredMon?.gender == Gender.FEMALE ||
+            tetheredMon?.species?.nationalPokedexNumber == DITTO_DEX_NUM)
+            monOne
+        else monTwo
+        val father = (if (tetheredMon == mother) monTwo else monOne)
+        if (SimpleBreedingLogic.canBreed(mother.getPokemon()!!, father.getPokemon()!!)) {
+            val fatherSet: MutableSet<Tethering> = breedingSets.getOrDefault(father, mutableSetOf())
+            fatherSet.add(mother)
+            breedingSets[father] = fatherSet
+        }
+    }
+
     fun findUnusedNests(): Set<BlockPos> {
         val res = mutableSetOf<BlockPos>()
         val cube = VoxelShapes.cuboid(
@@ -408,6 +436,9 @@ class PokemonPastureBlockEntity(pos: BlockPos, val state: BlockState) : BlockEnt
         }
         this.minRoamPos = NbtHelper.toBlockPos(nbt.getCompound(DataKeys.TETHER_MIN_ROAM_POS))
         this.maxRoamPos = NbtHelper.toBlockPos(nbt.getCompound(DataKeys.TETHER_MAX_ROAM_POS))
+        if (!initializedBreedingSets) {
+            calcBreedingSets()
+        }
     }
 
     override fun writeNbt(nbt: NbtCompound) {
