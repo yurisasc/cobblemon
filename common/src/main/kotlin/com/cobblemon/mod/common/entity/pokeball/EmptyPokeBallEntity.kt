@@ -36,6 +36,7 @@ import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.Poseable
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.entity.pokemon.PokemonServerDelegate
+import com.cobblemon.mod.common.net.messages.client.animation.PlayPoseableAnimationPacket
 import com.cobblemon.mod.common.net.messages.client.battle.BattleCaptureStartPacket
 import com.cobblemon.mod.common.net.messages.client.spawn.SpawnPokeballPacket
 import com.cobblemon.mod.common.pokeball.PokeBall
@@ -384,6 +385,17 @@ class EmptyPokeBallEntity : ThrownItemEntity, Poseable, WaterDragModifier, Sched
         captureState = CaptureState.HIT
         val mul = if (random.nextBoolean()) 1 else -1
         world.playSoundServer(pos, CobblemonSounds.POKE_BALL_HIT, volume = 0.4F)
+
+        // Hit Pokémon plays recoil animation
+        val pkt = PlayPoseableAnimationPacket(pokemonEntity.id, setOf("recoil"), emptySet())
+        pkt.sendToPlayersAround(
+            x = pokemonEntity.x,
+            y = pokemonEntity.y,
+            z = pokemonEntity.z,
+            worldKey = pokemonEntity.world.registryKey,
+            distance = 50.0
+        )
+
         // Bounce backwards away from the hit Pokémon
         velocity = displace.multiply(-1.0, 0.0, -1.0).normalize().rotateY(mul * PI/3).multiply(0.1, 0.0, 0.1).add(0.0, 1.0 / 3, 0.0)
         pokemonEntity.phasingTargetId = this.id
