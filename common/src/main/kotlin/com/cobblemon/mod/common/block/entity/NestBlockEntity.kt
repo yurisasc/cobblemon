@@ -14,6 +14,7 @@ import com.cobblemon.mod.common.util.DataKeys
 import net.minecraft.block.BlockState
 import net.minecraft.block.entity.BlockEntity
 import net.minecraft.entity.ItemEntity
+import net.minecraft.item.BlockItem
 import net.minecraft.item.ItemStack
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.network.listener.ClientPlayPacketListener
@@ -28,12 +29,14 @@ class NestBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(CobblemonB
 
     fun dropEgg() {
         egg?.let {
+            val blockNbt = NbtCompound()
+            writeNbt(blockNbt)
             val itemEntity = ItemEntity(
                 world,
                 pos.x.toDouble(),
                 pos.y.toDouble(),
                 pos.z.toDouble(),
-                egg!!.asItemStack()
+                it.asItemStack(blockNbt)
             )
             world?.spawnEntity(itemEntity)
         }

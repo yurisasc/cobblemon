@@ -8,8 +8,11 @@
 
 package com.cobblemon.mod.common.api.pokemon.breeding
 
+import com.cobblemon.mod.common.CobblemonBlockEntities
 import com.cobblemon.mod.common.CobblemonBlocks
+import com.cobblemon.mod.common.block.entity.NestBlockEntity
 import com.cobblemon.mod.common.util.DataKeys
+import net.minecraft.item.BlockItem
 import net.minecraft.item.ItemStack
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.util.Identifier
@@ -20,11 +23,9 @@ data class Egg(
     val baseColor: String,
     val overlayColor: String?
 ) {
-    fun asItemStack(): ItemStack {
+    fun asItemStack(blockEntityNbt: NbtCompound): ItemStack {
         val stack = CobblemonBlocks.EGG.asItem().defaultStack
-        val eggNbt = toNbt()
-        stack.nbt = NbtCompound()
-        stack.nbt?.put(DataKeys.EGG, eggNbt)
+        BlockItem.setBlockEntityNbt(stack, CobblemonBlockEntities.EGG, blockEntityNbt)
         return stack
     }
     fun toNbt(): NbtCompound {
@@ -41,6 +42,10 @@ data class Egg(
     }
 
     companion object {
+        fun fromBlockNbt(blockNbt: NbtCompound): Egg {
+            val eggNbt = blockNbt.get(DataKeys.EGG) as NbtCompound
+            return fromNbt(eggNbt)
+        }
         fun fromNbt(nbt: NbtCompound): Egg {
             return Egg(
                 EggPokemon.fromNBT(nbt.get(DataKeys.HATCHED_POKEMON) as NbtCompound),
@@ -50,11 +55,12 @@ data class Egg(
             )
         }
 
+        //Less expensive than deserializing the whole thing, used for the color provider since it gets
+        //called every frame
         fun getColorsFromNbt(nbt: NbtCompound): Pair<String, String> {
-            val eggNbt = nbt.get(DataKeys.EGG) as NbtCompound
             return Pair(
-                eggNbt.getString(DataKeys.PRIMARY_COLOR),
-                eggNbt.getString(DataKeys.SECONDARY_COLOR)
+                nbt.getString(DataKeys.PRIMARY_COLOR),
+                nbt.getString(DataKeys.SECONDARY_COLOR)
             )
         }
     }

@@ -15,6 +15,7 @@ import net.minecraft.block.BlockRenderType
 import net.minecraft.block.BlockState
 import net.minecraft.block.BlockWithEntity
 import net.minecraft.entity.LivingEntity
+import net.minecraft.item.BlockItem
 import net.minecraft.item.ItemStack
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.util.math.BlockPos
@@ -26,10 +27,11 @@ class EggBlock(settings: Settings?) : BlockWithEntity(settings) {
         pos: BlockPos?,
         state: BlockState?,
         placer: LivingEntity?,
-        itemStack: ItemStack?
+        itemStack: ItemStack
     ) {
         val entity = world?.getBlockEntity(pos) as? EggBlockEntity
-        entity?.let { it.egg = Egg.fromNbt(itemStack?.nbt?.get(DataKeys.EGG) as NbtCompound) }
+        val itemBlockEntityNbt = BlockItem.getBlockEntityNbt(itemStack) ?: return
+        entity?.let { entity.readNbt(itemBlockEntityNbt) }
         super.onPlaced(world, pos, state, placer, itemStack)
     }
     override fun getRenderType(state: BlockState?) = BlockRenderType.ENTITYBLOCK_ANIMATED

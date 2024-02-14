@@ -13,6 +13,7 @@ import com.cobblemon.mod.common.api.pokemon.PokemonSpecies.species
 import com.cobblemon.mod.common.api.pokemon.breeding.Egg
 import com.cobblemon.mod.common.api.pokemon.breeding.EggPokemon
 import com.cobblemon.mod.common.util.DataKeys
+import net.minecraft.item.BlockItem
 import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
 import net.minecraft.nbt.NbtCompound
@@ -37,7 +38,9 @@ class PokemonEggItem() : Item(Settings().maxCount(1)) {
         }
 
         fun getColor(stack: ItemStack, tintIndex: Int): Int {
-            val colors = stack.nbt?.let { Egg.getColorsFromNbt(it) } ?: return Integer.valueOf("FFFFFFFF", 16)
+            val nbt = BlockItem.getBlockEntityNbt(stack)  ?: return Integer.valueOf("FFFFFFFF", 16)
+            val eggNbt = nbt.getCompound(DataKeys.EGG) ?:  return Integer.valueOf("FFFFFFFF", 16)
+            val colors = Egg.getColorsFromNbt(eggNbt)
             return if (tintIndex == 0) {
                 val color = Color.decode("#${colors.first}")
                 Argb.getArgb(255, color.red, color.green, color.blue)

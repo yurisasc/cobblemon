@@ -32,6 +32,7 @@ import net.minecraft.client.render.model.json.Transformation
 import net.minecraft.client.texture.Sprite
 import net.minecraft.client.util.ModelIdentifier
 import net.minecraft.client.util.math.MatrixStack
+import net.minecraft.item.BlockItem
 import net.minecraft.item.ItemStack
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.util.Identifier
@@ -62,8 +63,8 @@ class PokemonEggItemRenderer : CobblemonBuiltinItemRenderer {
         light: Int,
         overlay: Int
     ) {
-
-        val egg = Egg.fromNbt(stack.nbt?.get(DataKeys.EGG) as? NbtCompound ?: return)
+        val nbt = BlockItem.getBlockEntityNbt(stack) ?: return
+        val egg = Egg.fromBlockNbt(nbt)
         //Since we are delegating back to the item renderer, we need the matrix frame from BEFORE the item renderer first ran
         matrices.pop()
         val pattern = egg.getPattern() ?: return
