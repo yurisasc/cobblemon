@@ -12,6 +12,7 @@ import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.api.spawning.BestSpawner
 import com.cobblemon.mod.common.api.spawning.SpawnBucket
 import com.cobblemon.mod.common.api.spawning.context.SpawningContext
+import com.cobblemon.mod.common.api.spawning.detail.SpawnAction
 import com.cobblemon.mod.common.api.spawning.detail.SpawnPool
 import com.cobblemon.mod.common.api.spawning.influence.SpawningInfluence
 import com.cobblemon.mod.common.api.spawning.selection.SpawningSelector
@@ -36,8 +37,7 @@ interface Spawner {
     fun setSpawningSelector(selector: SpawningSelector)
     fun getSpawnPool(): SpawnPool
     fun setSpawnPool(spawnPool: SpawnPool)
-    fun modifySpawn(entity: Entity) {}
-    fun afterSpawn(entity: Entity) {}
+    fun <R> afterSpawn(action: SpawnAction<R>, result: R) {}
     fun canSpawn(): Boolean
     fun getMatchingSpawns(ctx: SpawningContext) = getSpawnPool().retrieve(ctx).filter { it.isSatisfiedBy(ctx) }
     fun copyInfluences() = influences.filter { !it.isExpired() }.toMutableList()

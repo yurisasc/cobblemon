@@ -46,10 +46,10 @@ class FeraligatrModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, B
 
     val wateroffset = -10
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("feraligatr", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("feraligatr", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("feraligatr", "blink").setPreventsIdle(false)}
+        val blink = quirk { bedrockStateful("feraligatr", "blink")}
 
         sleep = registerPose(
             poseName = "sleeping",

@@ -9,7 +9,9 @@
 package com.cobblemon.mod.common.util.math.geometry
 
 import net.minecraft.util.math.Vec3d
+import org.joml.AxisAngle4d
 import org.joml.Matrix4f
+import org.joml.Vector3d
 import org.joml.Vector4f
 
 fun Matrix4f.getOrigin(): Vec3d {
@@ -32,9 +34,8 @@ fun Matrix4f.transformDirection(direction: Vec3d): Vec3d {
     val vector = Vector4f(direction.x.toFloat(), direction.y.toFloat(), direction.z.toFloat(), 1F)
     this.transform(vector)
     vector.mul(1 / vector.w)
-    val newVector = Vec3d(vector.x.toDouble(), vector.y.toDouble(), vector.z.toDouble())
+    return Vec3d(vector.x.toDouble(), vector.y.toDouble(), vector.z.toDouble())
         .subtract(originVec)
         .normalize()
         .multiply(magnitude)
-    return newVector
 }

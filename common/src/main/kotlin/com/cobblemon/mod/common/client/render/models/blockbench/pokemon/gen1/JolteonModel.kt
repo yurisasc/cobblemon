@@ -31,7 +31,7 @@ class JolteonModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("jolteon", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("jolteon", "cry") }
 
     override fun registerPoses() {
         standing = registerPose(

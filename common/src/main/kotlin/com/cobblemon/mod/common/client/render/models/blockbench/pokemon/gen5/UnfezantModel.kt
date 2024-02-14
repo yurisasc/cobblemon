@@ -48,7 +48,7 @@ class UnfezantModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
     lateinit var hover: PokemonPose
     lateinit var fly: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("unfezant", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("unfezant", "cry") }
 
     override fun registerPoses() {
 //        sleep = registerPose(
@@ -56,7 +56,7 @@ class UnfezantModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
 //            idleAnimations = arrayOf(bedrock("unfezant", "sleep"))
 //        )
 
-        val blink = quirk("blink") { bedrockStateful("unfezant", "blink").setPreventsIdle(false)}
+        val blink = quirk { bedrockStateful("unfezant", "blink")}
         stand = registerPose(
             poseName = "stand",
             poseTypes = PoseType.STATIONARY_POSES - PoseType.HOVER - PoseType.FLOAT + PoseType.UI_POSES,

@@ -40,10 +40,10 @@ class QuagsireModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bipe
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("quagsire", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("quagsire", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("quagsire", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("quagsire", "blink") }
         standing = registerPose(
             poseName = "standing",
             poseTypes = STATIONARY_POSES + UI_POSES,

@@ -31,7 +31,7 @@ class NacliModel(root: ModelPart) : PokemonPoseableModel() {
     lateinit var walk: PokemonPose
     lateinit var sleep: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("nacli", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("nacli", "cry") }
 
     override fun registerPoses() {
         sleep = registerPose(

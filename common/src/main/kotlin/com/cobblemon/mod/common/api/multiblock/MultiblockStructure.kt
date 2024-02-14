@@ -42,5 +42,7 @@ interface MultiblockStructure {
     fun getComparatorOutput(state: BlockState, world: World?, pos: BlockPos?): Int {
         return 0
     }
+
+    fun markRemoved(world: World):Unit
     fun onTriggerEvent(state: BlockState?, world: ServerWorld?, pos: BlockPos?, random: Random?)
 }

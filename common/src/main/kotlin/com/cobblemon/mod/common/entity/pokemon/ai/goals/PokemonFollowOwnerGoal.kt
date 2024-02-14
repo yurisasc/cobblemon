@@ -27,6 +27,7 @@ class PokemonFollowOwnerGoal(
     fun canMove() = entity.behaviour.moving.walk.canWalk || entity.behaviour.moving.fly.canFly// TODO probably depends on whether we're underwater or not
     override fun canStart() = super.canStart()
             && canMove()
+            && !entity.isBusy
             && entity.tethering == null
     override fun shouldContinue() = super.shouldContinue()
             && canMove()

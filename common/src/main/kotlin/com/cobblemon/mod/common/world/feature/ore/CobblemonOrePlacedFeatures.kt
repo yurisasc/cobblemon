@@ -38,6 +38,7 @@ object CobblemonOrePlacedFeatures {
     val FIRE_STONE_LOWER = of("fire_stone_lower", CobblemonBiomeTags.HAS_FIRE_STONE_ORE)
     val FIRE_STONE_UPPER_RARE = of("fire_stone_upper_rare", CobblemonBiomeTags.HAS_FIRE_STONE_ORE_RARE)
     val FIRE_STONE_LOWER_RARE = of("fire_stone_lower_rare", CobblemonBiomeTags.HAS_FIRE_STONE_ORE_RARE)
+    val FIRE_STONE_NETHER = of("fire_stone_nether", CobblemonBiomeTags.HAS_FIRE_STONE_ORE_NETHER)
 
     // Ice Stone
     val ICE_STONE_UPPER = of("ice_stone_upper", CobblemonBiomeTags.HAS_ICE_STONE_ORE)
@@ -56,7 +57,7 @@ object CobblemonOrePlacedFeatures {
     val MOON_STONE_LOWER = of("moon_stone_lower", CobblemonBiomeTags.HAS_MOON_STONE_ORE)
     val MOON_STONE_UPPER_RARE = of("moon_stone_upper_rare", CobblemonBiomeTags.HAS_MOON_STONE_ORE_RARE)
     val MOON_STONE_LOWER_RARE = of("moon_stone_lower_rare", CobblemonBiomeTags.HAS_MOON_STONE_ORE_RARE)
-    val MOON_STONE_DRIPSTONE = of("moon_stone_dripstone", CobblemonBiomeTags.HAS_MOON_STONE_ORE_RARE)
+    val MOON_STONE_DRIPSTONE = of("moon_stone_dripstone", CobblemonBiomeTags.HAS_MOON_STONE_ORE_DRIPSTONE)
 
     // Shiny Stone
     val SHINY_STONE_UPPER = of("shiny_stone_upper", CobblemonBiomeTags.HAS_SHINY_STONE_ORE)

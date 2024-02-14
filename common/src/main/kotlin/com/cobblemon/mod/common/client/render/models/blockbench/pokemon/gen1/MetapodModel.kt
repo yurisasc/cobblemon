@@ -29,10 +29,10 @@ class MetapodModel(root: ModelPart) : PokemonPoseableModel() {
     lateinit var sleep: PokemonPose
     lateinit var standing: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("metapod", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("metapod", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("metapod", "blink").setPreventsIdle(false)}
+        val blink = quirk { bedrockStateful("metapod", "blink")}
         sleep = registerPose(
             poseType = PoseType.SLEEP,
             idleAnimations = arrayOf(bedrock("metapod", "sleep"))

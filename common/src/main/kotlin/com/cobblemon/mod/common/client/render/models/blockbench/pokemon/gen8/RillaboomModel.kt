@@ -41,10 +41,10 @@ class RillaboomModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bi
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("rillaboom", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("rillaboom", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("rillaboom", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("rillaboom", "blink") }
         standing = registerPose(
             poseName = "standing",
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,

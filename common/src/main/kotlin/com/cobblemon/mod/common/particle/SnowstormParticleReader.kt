@@ -87,7 +87,17 @@ object SnowstormParticleReader {
                         v3 = nodes[3]
                     )
                 }
-                "bezier_chain" -> TODO("Bezier Chain curves are not implemented yet")
+                "bezier_chain" -> {
+                    val input = curveJson.get("input").asString.asExpression()
+                    val nodes = curveJson.get("nodes").asJsonObject.entrySet().map { (key, value) ->
+                        key.toDouble() to (value as JsonObject).let { BezierChainMoLangCurve.BezierChainNode(it.get("value").asDouble, it.get("slope").asDouble) }
+                    }.toMap()
+                    BezierChainMoLangCurve(
+                        name = variableName,
+                        input = input,
+                        nodes = nodes
+                    )
+                }
                 "linear" -> {
                     val input = curveJson.get("input").asString.asExpression()
                     val horizontalRange = curveJson.get("horizontal_range").asString.asExpression()
@@ -104,7 +114,7 @@ object SnowstormParticleReader {
         var direction: ParticleMotionDirection? = null
         val speed = (componentsJson.get("minecraft:particle_initial_speed")?.asString ?: "0.0").asExpression()
         val rate = if (instantRateJson != null) {
-            InstantParticleEmitterRate(amount = instantRateJson.get("num_particles").asInt)
+            InstantParticleEmitterRate(amount = instantRateJson.get("num_particles").asString.asExpression())
         } else if (steadyRateJson != null) {
             SteadyParticleEmitterRate(
                 rate = steadyRateJson.get("spawn_rate").asString.asExpression(),
@@ -131,7 +141,7 @@ object SnowstormParticleReader {
 
         fun resolveDirection(json: JsonObject) {
             val directionProperty = json.get("direction") ?: let {
-                direction = CustomMotionDirection()
+                direction = OutwardsMotionDirection()
                 return
             }
             direction = if (directionProperty.isJsonArray) {

@@ -10,6 +10,7 @@ package com.cobblemon.mod.common.util
 
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Vec3d
+import org.joml.Vector3d
 import org.joml.Vector3f
 
 /**
@@ -21,3 +22,9 @@ fun Vec3d.toBlockPos(): BlockPos {
 
 fun Vec3d.toVec3f(): Vector3f = Vector3f(x.toFloat(), y.toFloat(), z.toFloat())
 fun Vector3f.toVec3d(): Vec3d= Vec3d(x.toDouble(), y.toDouble(), z.toDouble())
+fun Vector3f.set(vec3d: Vec3d): Vector3f {
+    x = vec3d.x.toFloat()
+    y = vec3d.y.toFloat()
+    z = vec3d.z.toFloat()
+    return this
+}

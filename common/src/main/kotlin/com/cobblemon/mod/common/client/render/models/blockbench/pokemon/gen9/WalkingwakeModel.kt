@@ -52,7 +52,7 @@ class WalkingwakeModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, 
             idleAnimations = arrayOf(bedrock("walkingwake", "sleep"))
         )
 
-        val blink = quirk("blink") { bedrockStateful("walkingwake", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("walkingwake", "blink") }
         standing = registerPose(
             poseName = "standing",
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,

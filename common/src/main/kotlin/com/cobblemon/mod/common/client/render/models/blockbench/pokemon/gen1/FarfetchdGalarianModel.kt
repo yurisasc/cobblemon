@@ -35,10 +35,10 @@ class FarfetchdGalarianModel(root: ModelPart) : PokemonPoseableModel(), HeadedFr
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("farfetchd_galar", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("farfetchd_galar", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("farfetchd_galar", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("farfetchd_galar", "blink") }
         standing = registerPose(
             poseName = "standing",
             poseTypes = PoseType.STATIONARY_POSES + UI_POSES,

@@ -31,12 +31,12 @@ class BunnelbyModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     lateinit var sleep: PokemonPose
     lateinit var battleidle: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("bunnelby", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("bunnelby", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("bunnelby", "blink").setPreventsIdle(false) }
-        val sleep1 = quirk("sleep1", secondsBetweenOccurrences = 60F to 120F) { bedrockStateful("bunnelby", "quirk_sleep").setPreventsIdle(false) }
-        val sleep2 = quirk("sleep2", secondsBetweenOccurrences = 30F to 120F) { bedrockStateful("bunnelby", "quirk_sleep2").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("bunnelby", "blink") }
+        val sleep1 = quirk(secondsBetweenOccurrences = 60F to 120F) { bedrockStateful("bunnelby", "quirk_sleep") }
+        val sleep2 = quirk(secondsBetweenOccurrences = 30F to 120F) { bedrockStateful("bunnelby", "quirk_sleep2") }
 
         sleep = registerPose(
             poseType = PoseType.SLEEP,

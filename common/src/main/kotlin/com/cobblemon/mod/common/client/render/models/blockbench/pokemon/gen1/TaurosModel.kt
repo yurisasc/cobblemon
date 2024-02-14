@@ -31,10 +31,10 @@ class TaurosModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("tauros", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("tauros", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("tauros", "blink").setPreventsIdle(false)}
+        val blink = quirk { bedrockStateful("tauros", "blink")}
         standing = registerPose(
             poseName = "standing",
             poseTypes = STATIONARY_POSES + UI_POSES,

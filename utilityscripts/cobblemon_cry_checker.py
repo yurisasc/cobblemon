@@ -87,7 +87,7 @@ def main(print_missing_models=False, print_missing_animations=False):
                         invalid_model_files.append(("Missing import", model_file_path.replace(
                             '../common/src/main/kotlin/com/cobblemon/mod/common/client/render/models/blockbench/pokemon/',
                             "")))
-                    elif f'override val cryAnimation = CryProvider {{ _, _ -> bedrockStateful("{sanitized_pokemon_name_lower}", "cry").setPreventsIdle(false) }}' not in content:
+                    elif f'override val cryAnimation = CryProvider {{ _, _ -> bedrockStateful("{sanitized_pokemon_name_lower}", "cry") }}' not in content:
                         if "override val cryAnimation = CryProvider {" not in content or 'bedrockStateful("' not in content:
                             invalid_model_files.append(("Missing cryAnimation override", model_file_path.replace(
                                 '../common/src/main/kotlin/com/cobblemon/mod/common/client/render/models/blockbench/pokemon/',

@@ -12,6 +12,6 @@ import com.cobblemon.mod.common.api.entity.EntitySideDelegate
 import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
 
 interface Poseable {
-    fun getPoseType(): PoseType
+    fun getCurrentPoseType(): PoseType
     val delegate: EntitySideDelegate<*>
 }
