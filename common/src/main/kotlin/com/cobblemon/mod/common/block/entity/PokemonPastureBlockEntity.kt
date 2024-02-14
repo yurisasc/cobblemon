@@ -332,8 +332,8 @@ class PokemonPastureBlockEntity(pos: BlockPos, val state: BlockState) : BlockEnt
         else {
             tetheredPokemon.forEachIndexed { i, mon ->
                 val listLen = tetheredPokemon.size
-                if (i != listLen) {
-                    tetheredPokemon.subList(i + 1, listLen + 1).forEach {
+                if (i != listLen - 1) {
+                    tetheredPokemon.subList(i + 1, listLen).forEach {
                         addIfBreedingPair(mon, it)
                     }
                 }
