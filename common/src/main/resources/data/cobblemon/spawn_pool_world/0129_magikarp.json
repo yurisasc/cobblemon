@@ -70,6 +70,15 @@
                     "#cobblemon:is_ocean"
                 ]
             }
+        },
+        {
+            "id": "magikarp-fishing-1",
+            "pokemon": "magikarp",
+            "type": "pokemon",
+            "context": "fishing",
+            "bucket": "common",
+            "level": "1-20",
+            "weight": 1.98
         }
     ]
 }

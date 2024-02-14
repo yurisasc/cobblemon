@@ -1,0 +1,6 @@
+{
+    "parent": "cobblemon:item/pokerod",
+    "textures": {
+        "layer0": "cobblemon:item/fishing/pokerod_cast"
+    }
+}
