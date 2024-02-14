@@ -66,10 +66,7 @@ class DisplayCaseRenderer(ctx: BlockEntityRendererFactory.Context) : BlockEntity
         matrices.translate(posType.transX, posType.transY, posType.transZ)
 
         matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(-yRot))
-
-        matrices.multiply(RotationAxis.POSITIVE_X.rotationDegrees(posType.rotX))
         matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(posType.rotY))
-        matrices.multiply(RotationAxis.POSITIVE_Z.rotationDegrees(posType.rotZ))
 
         MinecraftClient.getInstance().itemRenderer.renderItem(
             stack,
@@ -134,15 +131,15 @@ class DisplayCaseRenderer(ctx: BlockEntityRendererFactory.Context) : BlockEntity
     private enum class PositioningType(
         val scaleX: Float, val scaleY: Float, val scaleZ: Float,
         val transX: Float, val transY: Float, val transZ: Float,
-        val rotX: Float = 0f, val rotY: Float = 0f, val rotZ: Float = 0f
+        val rotY: Float = 0f
     ) {
         POKE_BALL(1f, 1f, 1f, 0f, 0.04f, 0f),
         BLOCK_MODEL(1f, 1f, 1f, 0f, -0.15f, 0f),
         ITEM_MODEL(1f, 1f, 1f, 0f, 0.04f, 0f),
-        BED(1f, 1f, 1f, 0f, -0.02f, 0f, 0f, 0f, 0f),
-        BANNER(1f, 1f, 1f, 0f, -0.02f, 0f, 0f, 180f, 0f),
-        MOB_HEAD(1f, 1f, 1f, 0f, -0.025f, 0f, 0f, 180f, 0f),
-        SHIELD(1f, 1f, 1f, 0f, -0.045f, 0f, 0f, 180f, 0f),
-        PASTURE(1f, 1f, 1f, 0f, 0.0375f, 0f, 0f, 0f, 0f),
+        BED(1f, 1f, 1f, 0f, -0.02f, 0f),
+        BANNER(1f, 1f, 1f, 0f, -0.02f, 0f, 180f),
+        MOB_HEAD(1f, 1f, 1f, 0f, -0.025f, 0f, 180f),
+        SHIELD(1f, 1f, 1f, 0f, -0.045f, 0f, 180f),
+        PASTURE(1f, 1f, 1f, 0f, 0.0375f, 0f),
     }
 }
