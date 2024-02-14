@@ -44,7 +44,7 @@ class NestBlockRenderer(private val context: BlockEntityRendererFactory.Context)
             entity.renderState = BasicBlockEntityRenderState()
         }
         val renderState = entity.renderState as BasicBlockEntityRenderState
-        if (renderState.needsRebuild || renderState.vboLightLevel != light) {
+        if (renderState.needsRebuild || renderState.vboLightLevel != light || renderState.vbo.vertexFormat == null) {
             renderToBuffer(entity, light, overlay, renderState.vbo, entity.egg)
             renderState.vboLightLevel = light
             renderState.needsRebuild = false

@@ -81,8 +81,12 @@ class NestBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(CobblemonB
         if (playerStack.item == CobblemonItems.POKEMON_EGG) {
             val blockNbt = BlockItem.getBlockEntityNbt(playerStack) as NbtCompound
             this.egg = Egg.fromBlockNbt(blockNbt)
+            if (!player.isCreative) {
+                playerStack.decrement(1)
+            }
             this.markDirty()
-            world.setBlockState(pos, state, Block.NOTIFY_LISTENERS)
+            world.updateListeners(pos, state, state, Block.NOTIFY_LISTENERS)
+            return ActionResult.CONSUME
         }
         return ActionResult.FAIL
 
