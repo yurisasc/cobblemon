@@ -3309,6 +3309,7 @@
 
   "cobblemon.entity.pokemon": "Pokémon",
   "entity.cobblemon.empty_pokeball": "Empty Poké Ball",
+  "entity.cobblemon.falling_star": "Falling Star",
 
   "cobblemon.species.bulbasaur.name": "Bulbasaur",
   "cobblemon.species.bulbasaur.desc": "While it is young, it uses the nutrients that are stored in the seed on its back in order to grow.",

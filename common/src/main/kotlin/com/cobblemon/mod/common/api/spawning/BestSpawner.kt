@@ -10,21 +10,8 @@ package com.cobblemon.mod.common.api.spawning
 
 import com.cobblemon.mod.common.Cobblemon.LOGGER
 import com.cobblemon.mod.common.api.entity.Despawner
-import com.cobblemon.mod.common.api.spawning.condition.AreaSpawningCondition
-import com.cobblemon.mod.common.api.spawning.condition.BasicSpawningCondition
-import com.cobblemon.mod.common.api.spawning.condition.FishingSpawningCondition
-import com.cobblemon.mod.common.api.spawning.condition.GroundedSpawningCondition
-import com.cobblemon.mod.common.api.spawning.condition.SpawningCondition
-import com.cobblemon.mod.common.api.spawning.condition.SubmergedSpawningCondition
-import com.cobblemon.mod.common.api.spawning.condition.SurfaceSpawningCondition
-import com.cobblemon.mod.common.api.spawning.context.AreaContextResolver
-import com.cobblemon.mod.common.api.spawning.context.FishingSpawningContext
-import com.cobblemon.mod.common.api.spawning.context.GroundedSpawningContext
-import com.cobblemon.mod.common.api.spawning.context.LavafloorSpawningContext
-import com.cobblemon.mod.common.api.spawning.context.SeafloorSpawningContext
-import com.cobblemon.mod.common.api.spawning.context.SpawningContext
-import com.cobblemon.mod.common.api.spawning.context.SubmergedSpawningContext
-import com.cobblemon.mod.common.api.spawning.context.SurfaceSpawningContext
+import com.cobblemon.mod.common.api.spawning.condition.*
+import com.cobblemon.mod.common.api.spawning.context.*
 import com.cobblemon.mod.common.api.spawning.context.calculators.GroundedSpawningContextCalculator
 import com.cobblemon.mod.common.api.spawning.context.calculators.LavafloorSpawningContextCalculator
 import com.cobblemon.mod.common.api.spawning.context.calculators.SeafloorSpawningContextCalculator
@@ -34,6 +21,7 @@ import com.cobblemon.mod.common.api.spawning.context.calculators.SurfaceSpawning
 import com.cobblemon.mod.common.api.spawning.detail.PokemonSpawnDetail
 import com.cobblemon.mod.common.api.spawning.detail.SpawnAction
 import com.cobblemon.mod.common.api.spawning.detail.SpawnDetail
+import com.cobblemon.mod.common.api.spawning.fallingstar.FallingStarSpawner
 import com.cobblemon.mod.common.api.spawning.fishing.FishingSpawner
 import com.cobblemon.mod.common.api.spawning.influence.SpawningInfluence
 import com.cobblemon.mod.common.api.spawning.preset.BasicSpawnDetailPreset
@@ -87,6 +75,7 @@ object BestSpawner {
     val spawnerManagers = mutableListOf<SpawnerManager>(CobblemonWorldSpawnerManager)
     var defaultPokemonDespawner: Despawner<PokemonEntity> = CobblemonAgingDespawner(getAgeTicks = { it.ticksLived })
     lateinit var fishingSpawner: FishingSpawner
+    lateinit var starSpawner: FallingStarSpawner
 
     fun loadConfig() {
         LOGGER.info("Starting the Best Spawner...")
@@ -110,6 +99,7 @@ object BestSpawner {
         SpawningContext.register(name = "submerged", clazz = SubmergedSpawningContext::class.java, defaultCondition = SubmergedSpawningCondition.NAME)
         SpawningContext.register(name = "surface", clazz = SurfaceSpawningContext::class.java, defaultCondition = SurfaceSpawningCondition.NAME)
         SpawningContext.register(name = "fishing", clazz = FishingSpawningContext::class.java, defaultCondition = FishingSpawningCondition.NAME)
+        SpawningContext.register(name = "fallingstar", clazz = FallingStarSpawningContext::class.java, defaultCondition = FallingStartSpawningCondition.NAME)
 
         LOGGER.info("Loaded ${SpawningContext.contexts.size} spawning context types.")
 
@@ -125,5 +115,6 @@ object BestSpawner {
     fun onServerStarted() {
         spawnerManagers.forEach(SpawnerManager::onServerStarted)
         fishingSpawner = FishingSpawner()
+        starSpawner = FallingStarSpawner()
     }
 }
