@@ -512,6 +512,7 @@
   "cobblemon.ui.interact.spectate": "Spectate",
   "cobblemon.ui.interact.trade": "Trade",
   "cobblemon.ui.interact.battle": "Battle",
+  "cobblemon.ui.interact.doublebattle": "Double Battle",
   "cobblemon.ui.interact.mount.shoulder": "Shoulder",
 
   "key.cobblemon.upshiftparty": "Party Shift Up",

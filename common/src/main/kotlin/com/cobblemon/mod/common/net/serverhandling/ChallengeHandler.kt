@@ -15,6 +15,7 @@ import com.cobblemon.mod.common.api.text.aqua
 import com.cobblemon.mod.common.api.text.red
 import com.cobblemon.mod.common.api.text.yellow
 import com.cobblemon.mod.common.battles.BattleBuilder
+import com.cobblemon.mod.common.battles.BattleFormat
 import com.cobblemon.mod.common.battles.BattleRegistry
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.net.messages.client.battle.BattleChallengeNotificationPacket
@@ -40,6 +41,12 @@ object ChallengeHandler : ServerNetworkPacketHandler<BattleChallengePacket> {
             return@let it
         } ?: return
         val leadingPokemon = player.party()[packet.selectedPokemonId]?.uuid ?: return
+
+        val battleFormat = when (packet.battleType) {
+            "doubles" -> BattleFormat.GEN_9_DOUBLES
+            "multi" -> BattleFormat.GEN_9_MULTI
+            else -> BattleFormat.GEN_9_SINGLES
+        }
 
         when (targetedEntity) {
             is PokemonEntity -> {
@@ -70,7 +77,7 @@ object ChallengeHandler : ServerNetworkPacketHandler<BattleChallengePacket> {
                         }
                         existingChallengePokemon = targetedEntity.party().first().uuid
                     }
-                    BattleBuilder.pvp1v1(player, targetedEntity, leadingPokemon, existingChallengePokemon)
+                    BattleBuilder.pvp1v1(player, targetedEntity, leadingPokemon, existingChallengePokemon, battleFormat)
                     BattleRegistry.removeChallenge(targetedEntity.uuid)
                 } else {
                     val challenge = BattleRegistry.BattleChallenge(UUID.randomUUID(), targetedEntity.uuid, leadingPokemon)
