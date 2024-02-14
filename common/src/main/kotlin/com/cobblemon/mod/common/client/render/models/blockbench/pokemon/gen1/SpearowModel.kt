@@ -45,10 +45,10 @@ class SpearowModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Biped
     lateinit var hover: PokemonPose
     lateinit var fly: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("spearow", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("spearow", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("spearow", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("spearow", "blink") }
         stand = registerPose(
             poseName = "standing",
             poseTypes = PoseType.SHOULDER_POSES + UI_POSES + PoseType.STAND,

@@ -43,7 +43,7 @@ class HonchkrowModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
     lateinit var fly: PokemonPose
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("honchkrow", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("honchkrow", "blink") }
 
         sleep = registerPose(
             poseType = PoseType.SLEEP,

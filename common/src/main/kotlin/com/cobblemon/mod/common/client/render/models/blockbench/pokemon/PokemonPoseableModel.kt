@@ -87,11 +87,6 @@ abstract class PokemonPoseableModel : PoseableEntityModel<PokemonEntity>() {
     }
 
     open val cryAnimation: CryProvider = CryProvider { _, _ -> null }
-//
-//    open fun getCryAnimation(
-//        pokemonEntity: PokemonEntity,
-//        state: PoseableEntityState<PokemonEntity>
-//    ): StatefulAnimation<PokemonEntity, ModelFrame>? = null
 
     override fun setupEntityTypeContext(entity: PokemonEntity?) {
         entity?.let {

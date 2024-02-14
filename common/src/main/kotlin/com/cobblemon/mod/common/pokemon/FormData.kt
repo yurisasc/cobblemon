@@ -30,6 +30,7 @@ import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.net.IntSize
 import com.cobblemon.mod.common.pokemon.ai.FormPokemonBehaviour
+import com.cobblemon.mod.common.pokemon.lighthing.LightingData
 import com.cobblemon.mod.common.util.readSizedInt
 import com.cobblemon.mod.common.util.writeSizedInt
 import com.google.gson.annotations.SerializedName
@@ -101,7 +102,9 @@ class FormData(
      */
     val gigantamaxMove: MoveTemplate? = null,
     @SerializedName("battleTheme")
-    private var _battleTheme: Identifier? = null
+    private var _battleTheme: Identifier? = null,
+    @SerializedName("lightingData")
+    private var _lightingData: LightingData? = null
 ) : Decodable, Encodable, ShowdownIdentifiable {
     @SerializedName("name")
     var name: String = name
@@ -192,14 +195,23 @@ class FormData(
     val battleTheme: Identifier
         get() = _battleTheme ?: species.battleTheme
 
+    val lightingData: LightingData?
+        get() {
+            // Don't always return base species, this is that shitty scenario where forms need to specifically declare in order for null to be respected and intended
+            if (this.species.standardForm == this) {
+                return this.species.lightingData
+            }
+            return this._lightingData
+        }
+
     fun eyeHeight(entity: PokemonEntity): Float {
         val multiplier = this.resolveEyeHeight(entity) ?: return this.species.eyeHeight(entity)
         return entity.height * multiplier
     }
 
     private fun resolveEyeHeight(entity: PokemonEntity): Float? = when {
-        entity.getPoseType() in PoseType.SWIMMING_POSES -> this.swimmingEyeHeight ?: this.standingEyeHeight
-        entity.getPoseType() in PoseType.FLYING_POSES -> this.flyingEyeHeight ?: this.standingEyeHeight
+        entity.getCurrentPoseType() in PoseType.SWIMMING_POSES -> this.swimmingEyeHeight ?: this.standingEyeHeight
+        entity.getCurrentPoseType() in PoseType.FLYING_POSES -> this.flyingEyeHeight ?: this.standingEyeHeight
         else -> this.standingEyeHeight
     }
 
@@ -214,6 +226,7 @@ class FormData(
         this.preEvolution?.species
         this.preEvolution?.form
         this.evolutions.size
+        this._lightingData?.let { this._lightingData = it.copy(lightLevel = it.lightLevel.coerceIn(0, 15)) }
         return this
     }
 
@@ -252,6 +265,10 @@ class FormData(
         }
         buffer.writeNullable(this._moves) { buf, moves -> moves.encode(buf)}
         buffer.writeNullable(this._pokedex) { pb1, pokedex -> pb1.writeCollection(pokedex)  { pb2, line -> pb2.writeString(line) } }
+        buffer.writeNullable(this.lightingData) { pb, data ->
+            pb.writeInt(data.lightLevel)
+            pb.writeEnumConstant(data.liquidGlowMode)
+        }
     }
 
     override fun decode(buffer: PacketByteBuf) {
@@ -274,6 +291,7 @@ class FormData(
         }
         this._moves = buffer.readNullable { pb -> Learnset().apply { decode(pb) }}
         this._pokedex = buffer.readNullable { pb -> pb.readList { it.readString() } }
+        this._lightingData = buffer.readNullable { pb -> LightingData(pb.readInt(), pb.readEnumConstant(LightingData.LiquidGlowMode::class.java)) }
     }
 
     /**

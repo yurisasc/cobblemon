@@ -31,7 +31,7 @@ class MagnetonModel(root: ModelPart) : PokemonPoseableModel() {
 
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("magneton", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("magneton", "blink") }
         sleep = registerPose(
             poseType = PoseType.SLEEP,
             idleAnimations = arrayOf(bedrock("magneton", "sleep"))

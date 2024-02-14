@@ -19,7 +19,8 @@ import com.bedrockk.molang.runtime.value.MoValue
 import com.bedrockk.molang.runtime.value.StringValue
 import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.api.dialogue.PlayerDialogueFaceProvider
-import com.cobblemon.mod.common.api.molang.MoLangFunctions.asMoLangValue
+import com.cobblemon.mod.common.client.render.models.blockbench.wavefunction.WaveFunction
+import com.cobblemon.mod.common.client.render.models.blockbench.wavefunction.WaveFunctions
 import com.cobblemon.mod.common.util.isInt
 import com.cobblemon.mod.common.util.itemRegistry
 import net.minecraft.block.Block
@@ -51,7 +52,30 @@ object MoLangFunctions {
         "is_number" to java.util.function.Function { params -> DoubleValue(params.get<MoValue>(0).asString().toDoubleOrNull() != null) },
         "to_number" to java.util.function.Function { params -> DoubleValue(params.get<MoValue>(0).asString().toDoubleOrNull() ?: 0.0) },
         "to_int" to java.util.function.Function { params -> DoubleValue(params.get<MoValue>(0).asString().toIntOrNull() ?: 0) },
-        "to_string" to java.util.function.Function { params -> StringValue(params.get<MoValue>(0).asString()) }
+        "to_string" to java.util.function.Function { params -> StringValue(params.get<MoValue>(0).asString()) },
+        "do_effect_walks" to java.util.function.Function { _ ->
+            DoubleValue(Cobblemon.config.walkingInBattleAnimations)
+        },
+        "random" to java.util.function.Function { params ->
+            val options = mutableListOf<MoValue>()
+            var index = 0
+            while (params.contains(index)) {
+                options.add(params.get(index))
+                index++
+            }
+            return@Function options.random() // Can throw an exception if they specified no args. They'd be idiots though.
+        },
+        "curve" to java.util.function.Function { params ->
+            val curveName = params.getString(0)
+            val curve = WaveFunctions.functions[curveName] ?: throw IllegalArgumentException("Unknown curve: $curveName")
+            return@Function ObjectValue(curve)
+        },
+        "array" to java.util.function.Function { params ->
+            val values = params.params
+            val array = ArrayStruct(hashMapOf())
+            values.forEachIndexed { index, moValue -> array.setDirectly("$index", moValue) }
+            return@Function array
+        }
     )
     val biomeFunctions = hashMapOf<String, java.util.function.Function<MoParams, Any>>()
     val worldFunctions = hashMapOf<String, java.util.function.Function<MoParams, Any>>()
@@ -107,6 +131,11 @@ object MoLangFunctions {
 
     fun <T : QueryStruct> T.addFunctions(functions: Map<String, java.util.function.Function<MoParams, Any>>): T {
         this.functions.putAll(functions)
+        return this
+    }
+
+    fun <T : QueryStruct> T.addFunction(name: String, function: java.util.function.Function<MoParams, Any>): T {
+        this.functions[name] = function
         return this
     }
 

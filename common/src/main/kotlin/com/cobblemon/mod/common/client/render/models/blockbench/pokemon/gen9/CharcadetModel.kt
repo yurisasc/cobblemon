@@ -42,10 +42,10 @@ class CharcadetModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
     lateinit var walking: PokemonPose
     lateinit var sleep: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("charcadet", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("charcadet", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("charcadet", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("charcadet", "blink") }
         sleep = registerPose(
             poseType = PoseType.SLEEP,
             idleAnimations = arrayOf(bedrock("charcadet", "sleep"))

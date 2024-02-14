@@ -32,11 +32,10 @@ open class NBTStoreAdapter(
     override fun save(file: File, serialized: NbtCompound) = NbtIo.writeCompressed(serialized, file)
     override fun <E, T : PokemonStore<E>> load(file: File, storeClass: Class<out T>, uuid: UUID): T? {
         val store = try {
-            storeClass.getConstructor(UUID::class.java, UUID::class.java).newInstance(uuid, uuid)
+            storeClass.getConstructor(UUID::class.java).newInstance(uuid)
         } catch (exception: NoSuchMethodException) {
             storeClass.getConstructor(UUID::class.java).newInstance(uuid)
         }
-
         return try {
             val nbt = NbtIo.readCompressed(file)
             store.loadFromNBT(nbt)

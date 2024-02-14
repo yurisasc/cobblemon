@@ -148,6 +148,8 @@ object CobblemonBiomeTags {
     @JvmField
     val HAS_FIRE_STONE_ORE_RARE = create("has_ore/ore_fire_stone_rare")
     @JvmField
+    val HAS_FIRE_STONE_ORE_NETHER = create("has_ore/ore_fire_stone_nether")
+    @JvmField
     val HAS_ICE_STONE_ORE = create("has_ore/ore_ice_stone_normal")
     @JvmField
     val HAS_ICE_STONE_ORE_RARE = create("has_ore/ore_ice_stone_rare")
