@@ -305,7 +305,8 @@ class PokemonPastureBlockEntity(pos: BlockPos, val state: BlockState) : BlockEnt
                                             breedResult.pokemon,
                                             EggPatterns.patternMap.keys.random(),
                                             Integer.toHexString(breedResult.pokemon.species.primaryType.hue),
-                                            breedResult.pokemon.species.secondaryType?.let {Integer.toHexString(it.hue)} ?: "FFFFFF"
+                                            breedResult.pokemon.species.secondaryType?.let {Integer.toHexString(it.hue)} ?: "FFFFFF",
+                                            20*10
                                         )
                                         blockEntity.markDirty()
                                         world?.updateListeners(nestTaken, world?.getBlockState(nestTaken), world?.getBlockState(nestTaken), Block.NOTIFY_LISTENERS)

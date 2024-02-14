@@ -8,6 +8,8 @@
 
 package com.cobblemon.mod.common.block
 
+import com.cobblemon.mod.common.CobblemonBlockEntities
+import com.cobblemon.mod.common.block.entity.HealingMachineBlockEntity
 import com.cobblemon.mod.common.block.entity.NestBlockEntity
 import com.cobblemon.mod.common.client.CobblemonClient
 import com.cobblemon.mod.common.util.DataKeys
@@ -18,10 +20,13 @@ import net.minecraft.block.BlockState
 import net.minecraft.block.BlockWithEntity
 import net.minecraft.block.Waterloggable
 import net.minecraft.block.entity.BlockEntity
+import net.minecraft.block.entity.BlockEntityTicker
+import net.minecraft.block.entity.BlockEntityType
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.fluid.Fluid
 import net.minecraft.fluid.FluidState
 import net.minecraft.fluid.Fluids
+import net.minecraft.item.Item
 import net.minecraft.item.ItemPlacementContext
 import net.minecraft.state.StateManager
 import net.minecraft.state.property.BooleanProperty
@@ -39,7 +44,6 @@ class NestBlock(val variant: NestVariant, settings: Settings) : BlockWithEntity(
     init {
         defaultState = stateManager.defaultState
             .with(Properties.WATERLOGGED, false)
-            .with(HAS_EGG, false)
     }
 
     enum class NestVariant(val id: String) : StringIdentifiable {
@@ -54,7 +58,6 @@ class NestBlock(val variant: NestVariant, settings: Settings) : BlockWithEntity(
     }
 
     override fun appendProperties(builder: StateManager.Builder<Block, BlockState>?) {
-        builder?.add(HAS_EGG)
         builder?.add(Properties.WATERLOGGED)
     }
 
@@ -69,8 +72,7 @@ class NestBlock(val variant: NestVariant, settings: Settings) : BlockWithEntity(
         super.onUse(state, world, pos, player, hand, hit)
 
         val entity = world.getBlockEntity(pos) as? NestBlockEntity
-        entity?.onUse()
-        return ActionResult.SUCCESS
+        return entity?.onUse(state, world, pos, player, hand, hit) ?: ActionResult.FAIL
     }
 
     override fun createBlockEntity(pos: BlockPos, state: BlockState): BlockEntity {
@@ -101,7 +103,9 @@ class NestBlock(val variant: NestVariant, settings: Settings) : BlockWithEntity(
         return defaultState
     }
 
-    companion object {
-        val HAS_EGG = BooleanProperty.of("has_egg")
-    }
+    override fun <T : BlockEntity?> getTicker(
+        world: World?,
+        state: BlockState?,
+        type: BlockEntityType<T>?
+    ): BlockEntityTicker<T>? = checkType(type, CobblemonBlockEntities.NEST, NestBlockEntity.TICKER::tick)
 }

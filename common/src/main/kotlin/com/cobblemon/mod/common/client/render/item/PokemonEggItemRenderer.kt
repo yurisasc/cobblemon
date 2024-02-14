@@ -64,6 +64,8 @@ class PokemonEggItemRenderer : CobblemonBuiltinItemRenderer {
         overlay: Int
     ) {
         val nbt = BlockItem.getBlockEntityNbt(stack) ?: return
+        //I think it could be wise to change this so that the pokemon in the egg is not deserialized
+        //Basically only deserialize the minimum amount of info needed, textures
         val egg = Egg.fromBlockNbt(nbt)
         //Since we are delegating back to the item renderer, we need the matrix frame from BEFORE the item renderer first ran
         matrices.pop()

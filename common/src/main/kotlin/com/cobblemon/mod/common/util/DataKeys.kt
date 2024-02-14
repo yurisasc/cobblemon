@@ -180,5 +180,6 @@ object DataKeys {
     const val PRIMARY_COLOR = "PrimaryColor"
     const val SECONDARY_COLOR = "SecondaryColor"
     const val EGG = "Egg"
+    const val TIME_TO_HATCH = "HatchTime"
 
 }

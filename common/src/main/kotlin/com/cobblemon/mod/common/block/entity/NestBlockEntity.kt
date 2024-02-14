@@ -8,26 +8,40 @@
 
 package com.cobblemon.mod.common.block.entity
 
+import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.CobblemonBlockEntities
 import com.cobblemon.mod.common.api.pokemon.breeding.Egg
+import com.cobblemon.mod.common.block.BerryBlock
 import com.cobblemon.mod.common.util.DataKeys
+import net.minecraft.block.Block
 import net.minecraft.block.BlockState
 import net.minecraft.block.entity.BlockEntity
+import net.minecraft.block.entity.BlockEntityTicker
 import net.minecraft.entity.ItemEntity
+import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.BlockItem
 import net.minecraft.item.ItemStack
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.network.listener.ClientPlayPacketListener
 import net.minecraft.network.packet.Packet
 import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket
+import net.minecraft.server.world.ServerWorld
+import net.minecraft.util.ActionResult
+import net.minecraft.util.Hand
+import net.minecraft.util.hit.BlockHitResult
 import net.minecraft.util.math.BlockPos
+import net.minecraft.world.World
 
 
 class NestBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(CobblemonBlockEntities.NEST, pos, state) {
     var egg: Egg? = null
     var renderState: BlockEntityRenderState? = null
 
-    fun dropEgg() {
+    fun dropEgg(
+        state: BlockState,
+        world: World,
+        pos: BlockPos,
+    ) {
         egg?.let {
             val blockNbt = NbtCompound()
             writeNbt(blockNbt)
@@ -39,12 +53,47 @@ class NestBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(CobblemonB
                 it.asItemStack(blockNbt)
             )
             world?.spawnEntity(itemEntity)
+            egg = null
+            this.markDirty()
+            world.setBlockState(pos, state, Block.NOTIFY_LISTENERS)
         }
 
     }
 
-    fun onUse() {
-        dropEgg()
+    fun onUse(
+        state: BlockState,
+        world: World,
+        pos: BlockPos,
+        player: PlayerEntity,
+        hand: Hand,
+        hit: BlockHitResult
+    ): ActionResult {
+        if (egg?.timeToHatch == 0) {
+            hatchPokemon(state, world, pos, player)
+            return ActionResult.SUCCESS
+        }
+        else {
+            dropEgg(state, world, pos)
+            return ActionResult.SUCCESS
+        }
+
+    }
+
+    fun hatchPokemon(
+        state: BlockState,
+        world: World,
+        pos: BlockPos,
+        player: PlayerEntity
+    ) {
+        if (!world.isClient) {
+            val party = Cobblemon.storage.getParty(player.uuid)
+            val newPoke = egg!!.hatchedPokemon.generatePokemon()
+            party.add(newPoke)
+            egg = null
+            this.markDirty()
+            world.setBlockState(pos, state, Block.NOTIFY_LISTENERS)
+        }
+
     }
 
     override fun writeNbt(nbt: NbtCompound) {
@@ -59,6 +108,9 @@ class NestBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(CobblemonB
         if (nbt.contains(DataKeys.EGG)) {
             egg = Egg.fromNbt(nbt.getCompound(DataKeys.EGG))
         }
+        else {
+            egg = null
+        }
         renderState?.needsRebuild = true
     }
 
@@ -68,6 +120,24 @@ class NestBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(CobblemonB
 
     override fun toInitialChunkDataNbt(): NbtCompound {
         return createNbt()
+    }
+
+    companion object {
+        val TICKER = BlockEntityTicker<NestBlockEntity> { world, pos, state, blockEntity ->
+            blockEntity.egg?.let {
+                if (it.timeToHatch == 0) {
+                    world.setBlockState(pos, state, Block.NOTIFY_LISTENERS)
+                    blockEntity.markDirty()
+                }
+                if (it.timeToHatch > 0) {
+                    it.timeToHatch--
+                    //Dont write the block to the world every tick, do it every 10 seconds
+                    if (it.timeToHatch % 200 == 0) {
+                        blockEntity.markDirty()
+                    }
+                }
+            }
+        }
     }
 
 }

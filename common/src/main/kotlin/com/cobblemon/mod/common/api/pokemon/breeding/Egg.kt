@@ -21,8 +21,11 @@ data class Egg(
     val hatchedPokemon: EggPokemon,
     val patternId: Identifier,
     val baseColor: String,
-    val overlayColor: String?
+    val overlayColor: String?,
+    //Time in ticks to hatch
+    var timeToHatch: Int
 ) {
+
     fun asItemStack(blockEntityNbt: NbtCompound): ItemStack {
         val stack = CobblemonBlocks.EGG.asItem().defaultStack
         BlockItem.setBlockEntityNbt(stack, CobblemonBlockEntities.EGG, blockEntityNbt)
@@ -34,6 +37,7 @@ data class Egg(
         result.putString(DataKeys.EGG_PATTERN, patternId.toString())
         result.putString(DataKeys.PRIMARY_COLOR, baseColor)
         overlayColor?.let { result.putString(DataKeys.SECONDARY_COLOR, it) }
+        result.putInt(DataKeys.TIME_TO_HATCH, timeToHatch)
         return result
     }
 
@@ -51,7 +55,8 @@ data class Egg(
                 EggPokemon.fromNBT(nbt.get(DataKeys.HATCHED_POKEMON) as NbtCompound),
                 Identifier.tryParse(nbt.getString(DataKeys.EGG_PATTERN))!!,
                 nbt.getString(DataKeys.PRIMARY_COLOR),
-                if (nbt.contains(DataKeys.SECONDARY_COLOR)) nbt.getString(DataKeys.SECONDARY_COLOR) else null
+                if (nbt.contains(DataKeys.SECONDARY_COLOR)) nbt.getString(DataKeys.SECONDARY_COLOR) else null,
+                nbt.getInt(DataKeys.TIME_TO_HATCH)
             )
         }
 
