@@ -79,6 +79,15 @@
             "bucket": "common",
             "level": "1-20",
             "weight": 1.98
+        },
+        {
+            "id": "magikarp-apricot-striped-2",
+            "pokemon": "magikarp magikarp_jump=apricot_striped",
+            "type": "pokemon",
+            "context": "fishing",
+            "bucket": "common",
+            "level": "1-20",
+            "weight": 1.98
         }
     ]
 }

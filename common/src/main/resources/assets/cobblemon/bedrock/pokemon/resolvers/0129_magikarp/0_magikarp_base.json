@@ -14,6 +14,12 @@
         "shiny"
       ],
       "texture": "cobblemon:textures/pokemon/0129_magikarp/magikarp_shiny.png"
+    },
+    {
+      "aspects": [
+        "magikarp-jump-apricot-striped"
+      ],
+      "texture": "cobblemon:textures/pokemon/0129_magikarp/magikarp_apricot_striped.png"
     }
   ]
 }
