@@ -17,6 +17,8 @@ import net.minecraft.util.Identifier
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
 import net.minecraft.util.shape.VoxelShape
+import kotlin.math.ceil
+import kotlin.math.floor
 
 fun cobblemonResource(path: String) = Identifier(Cobblemon.MODID, path)
 fun cobblemonModel(path: String, variant: String) = ModelIdentifier("cobblemon", path, variant)
@@ -68,6 +70,21 @@ fun Random.nextBetween(min: Int, max: Int): Int {
 
 fun isUuid(string: String) : Boolean {
     return Regex("^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}\$").matches(string)
+}
+
+fun VoxelShape.blockPositionsAsListRounded(): List<BlockPos> {
+    val result = mutableListOf<BlockPos>()
+    forEachBox { minX, minY, minZ, maxX, maxY, maxZ ->
+        for (x in floor(minX).toInt() until ceil(maxX).toInt()) {
+            for (y in floor(minY).toInt() until ceil(maxY).toInt()) {
+                for (z in floor(minZ).toInt() until ceil(maxZ).toInt()) {
+                    result.add(BlockPos(x, y, z))
+                }
+            }
+        }
+    }
+
+    return result
 }
 
 fun VoxelShape.blockPositionsAsList(): List<BlockPos> {
