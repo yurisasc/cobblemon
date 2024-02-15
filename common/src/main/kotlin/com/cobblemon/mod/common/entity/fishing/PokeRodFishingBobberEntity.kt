@@ -31,6 +31,7 @@ import com.cobblemon.mod.common.battles.BattleBuilder
 import com.cobblemon.mod.common.client.render.models.blockbench.bedrock.animation.BedrockAnimation.Companion.context
 import com.cobblemon.mod.common.command.SpawnPokemonFromPool
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
+import com.cobblemon.mod.common.loot.CobblemonLootTables
 import com.cobblemon.mod.common.net.messages.client.spawn.SpawnPokemonPacket
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.util.commandLang
@@ -98,7 +99,7 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
     private var typeCaught= "ITEM"
     private var chosenBucket = Cobblemon.bestSpawner.config.buckets[0] // default to first rarity bucket
     private var rarityCaught = "COMMON"
-    private val pokemonSpawnChance = 70 // chance a Pokemon will be fished up % out of 100
+    private val pokemonSpawnChance = 85 // chance a Pokemon will be fished up % out of 100
 
     constructor(thrower: PlayerEntity, world: World, luckOfTheSea: Int, lure: Int) : this(CobblemonEntities.POKE_BOBBER, world) {
         // Copy pasta a LOT
@@ -509,7 +510,7 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
                 // check if thing caught was an item
                 if (this.typeCaught == "ITEM") {
                     val lootContextParameterSet = LootContextParameterSet.Builder(world as ServerWorld).add(LootContextParameters.ORIGIN, pos).add(LootContextParameters.TOOL, usedItem).add(LootContextParameters.THIS_ENTITY, this).luck(this.luckOfTheSeaLevel.toFloat() + playerEntity.luck).build(LootContextTypes.FISHING)
-                    val lootTable = world.server!!.lootManager.getLootTable(LootTables.FISHING_GAMEPLAY)
+                    val lootTable = world.server!!.lootManager.getLootTable(CobblemonLootTables.FISHING_GAMEPLAY)
                     val list: List<ItemStack> = lootTable.generateLoot(lootContextParameterSet)
                     Criteria.FISHING_ROD_HOOKED.trigger(playerEntity as ServerPlayerEntity?, usedItem, this, list)
                     val var7: Iterator<*> = list.iterator()
@@ -556,39 +557,6 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
         } else {
             0
         }
-    }
-
-    // Non-linear scaling for velocity based on distance
-    fun calculateReelInVelocityScaleFactor(distance: Double): Double {
-        val baseVelocity = 0.4 // Adjust as needed
-        val minDistance = 10.0
-        val maxDistance = 30.0
-
-        // Apply a non-linear adjustment to the velocity
-        // This example uses a simple quadratic adjustment, but you can experiment with other forms
-        return if (distance < minDistance) {
-            baseVelocity + (distance / minDistance) * (0.5 - baseVelocity) // Less increase for closer distances
-        } else {
-            // More significant increase for distances beyond 20 blocks, up to 30 and beyond
-            val factor = (distance - minDistance) / (maxDistance - minDistance)
-            baseVelocity + Math.pow(factor, 2.0) * (1.2 - baseVelocity) // Adjust the 1.2 to control max velocity
-        }
-    }
-
-    // Calculate Y component of velocity for arc, potentially adjusting for distance
-    fun calculateReelInArcVelocity(distance: Double): Double {
-        val baseArc = 0.4 // Base arc for close distances
-        val arcIncreasePerBlock = 0.02 // Increase per block
-
-        // You might want a less linear increase for very long distances
-        val adjustedArc = if (distance < 20) {
-            baseArc + distance * arcIncreasePerBlock
-        } else {
-            // Apply a non-linear adjustment for longer distances
-            baseArc + 20 * arcIncreasePerBlock + Math.pow(distance - 20, 1.5) * 0.005 // Adjust as needed
-        }
-
-        return adjustedArc
     }
 
     fun spawnPokemonFromFishing(player: PlayerEntity, bobber: PokeRodFishingBobberEntity, chosenBucket: SpawnBucket) {
