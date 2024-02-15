@@ -23,6 +23,9 @@ import com.cobblemon.mod.common.platform.events.ItemTooltipEvent
 import com.cobblemon.mod.common.platform.events.PlatformEvents
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.fabric.CobblemonFabric
+import java.util.concurrent.CompletableFuture
+import java.util.concurrent.Executor
+import java.util.function.Supplier
 import net.fabricmc.api.ClientModInitializer
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents
@@ -58,9 +61,6 @@ import net.minecraft.resource.ResourceManager
 import net.minecraft.resource.ResourceReloader
 import net.minecraft.resource.ResourceType
 import net.minecraft.util.profiler.Profiler
-import java.util.concurrent.CompletableFuture
-import java.util.concurrent.Executor
-import java.util.function.Supplier
 
 class CobblemonFabricClient: ClientModInitializer, CobblemonClientImplementation {
     override fun onInitializeClient() {
@@ -68,7 +68,6 @@ class CobblemonFabricClient: ClientModInitializer, CobblemonClientImplementation
         CobblemonClient.initialize(this)
 
         CobblemonFabric.networkManager.registerClientBound()
-
 
         ResourceManagerHelper.get(ResourceType.CLIENT_RESOURCES).registerReloadListener(object : IdentifiableResourceReloadListener {
             override fun reload(
@@ -91,6 +90,7 @@ class CobblemonFabricClient: ClientModInitializer, CobblemonClientImplementation
             override fun getFabricId() = cobblemonResource("atlases")
 
         })
+
 
         CobblemonKeyBinds.register(KeyBindingHelper::registerKeyBinding)
 

@@ -15,7 +15,12 @@ import net.minecraft.entity.ai.goal.Goal
 
 class PokemonInBattleMovementGoal(val entity: PokemonEntity, val range: Int) : Goal() {
     override fun canStart(): Boolean {
-        return entity.isBattling && getClosestPokemonEntity() != null && entity.getPoseType() != PoseType.SLEEP
+        return entity.isBattling && getClosestPokemonEntity() != null && entity.getCurrentPoseType() != PoseType.SLEEP
+    }
+
+    override fun start() {
+        super.start()
+        entity.navigation.stop()
     }
 
     private fun getClosestPokemonEntity(): PokemonEntity? {
@@ -29,7 +34,6 @@ class PokemonInBattleMovementGoal(val entity: PokemonEntity, val range: Int) : G
     override fun tick() {
         val closestPokemonEntity = getClosestPokemonEntity()
         if (closestPokemonEntity != null) {
-            entity.navigation.stop()
             entity.lookControl.lookAt(closestPokemonEntity.x, closestPokemonEntity.eyeY, closestPokemonEntity.z)
         }
     }

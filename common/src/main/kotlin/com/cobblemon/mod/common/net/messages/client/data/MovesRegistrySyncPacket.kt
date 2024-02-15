@@ -50,7 +50,7 @@ class MovesRegistrySyncPacket(moves: List<MoveTemplate>) : DataRegistrySyncPacke
         repeat(buffer.readVarInt()) {
             effectChances += buffer.readDouble()
         }
-        return MoveTemplate(name, num, type, damageCategory, power, target, accuracy, pp, priority, critRatio, effectChances.toTypedArray())
+        return MoveTemplate(name, num, type, damageCategory, power, target, accuracy, pp, priority, critRatio, effectChances.toTypedArray(), null)
     }
 
     override fun synchronizeDecoded(entries: Collection<MoveTemplate>) {

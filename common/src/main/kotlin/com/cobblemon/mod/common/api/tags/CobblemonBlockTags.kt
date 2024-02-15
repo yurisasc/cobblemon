@@ -45,6 +45,7 @@ object CobblemonBlockTags {
     @JvmField val SNOW_BLOCK = createTag("snow_block")
     @JvmField val ROOTS = createTag("roots")
     @JvmField val STANDING_SIGNS = createTag("standing_signs")
+    @JvmField val TUMBLESTONE_HEAT_SOURCE = createTag("tumblestone_heat_source")
     @JvmField val WALL_HANGING_SIGNS = createTag("wall_hanging_signs")
     @JvmField val WALL_SIGNS = createTag("wall_signs")
 

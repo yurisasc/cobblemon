@@ -23,8 +23,8 @@ import com.cobblemon.mod.common.client.gui.PartyOverlay
 import com.cobblemon.mod.common.client.gui.battle.BattleOverlay
 import com.cobblemon.mod.common.client.particle.BedrockParticleEffectRepository
 import com.cobblemon.mod.common.client.render.block.BerryBlockRenderer
-import com.cobblemon.mod.common.client.render.block.FossilCompartmentRenderer
-import com.cobblemon.mod.common.client.render.block.FossilTubeRenderer
+import com.cobblemon.mod.common.client.render.block.FossilAnalyzerRenderer
+import com.cobblemon.mod.common.client.render.block.RestorationTankRenderer
 import com.cobblemon.mod.common.client.render.block.HealingMachineRenderer
 import com.cobblemon.mod.common.client.render.boat.CobblemonBoatRenderer
 import com.cobblemon.mod.common.client.render.entity.PokeBobberEntityRenderer
@@ -45,6 +45,7 @@ import com.cobblemon.mod.common.data.CobblemonDataProvider
 import com.cobblemon.mod.common.entity.boat.CobblemonBoatType
 import com.cobblemon.mod.common.item.PokeBallItem
 import com.cobblemon.mod.common.client.render.models.blockbench.repository.FossilModelRepository
+import com.cobblemon.mod.common.client.render.models.blockbench.repository.MiscModelRepository
 import com.cobblemon.mod.common.platform.events.PlatformEvents
 import com.cobblemon.mod.common.util.DataKeys
 import com.cobblemon.mod.common.util.asTranslated
@@ -162,7 +163,7 @@ object CobblemonClient {
 
         this.implementation.registerBlockRenderType(
             RenderLayer.getCutout(),
-            CobblemonBlocks.FOSSIL_COMPARTMENT,
+            CobblemonBlocks.FOSSIL_ANALYZER,
             CobblemonBlocks.APRICORN_DOOR,
             CobblemonBlocks.APRICORN_TRAPDOOR,
             CobblemonBlocks.APRICORN_SIGN,
@@ -202,7 +203,7 @@ object CobblemonClient {
             CobblemonBlocks.REVIVAL_HERB,
             *CobblemonBlocks.berries().values.toTypedArray(),
             CobblemonBlocks.POTTED_PEP_UP_FLOWER,
-            CobblemonBlocks.FOSSIL_TUBE,
+            CobblemonBlocks.RESTORATION_TANK,
             CobblemonBlocks.SMALL_BUDDING_TUMBLESTONE,
             CobblemonBlocks.MEDIUM_BUDDING_TUMBLESTONE,
             CobblemonBlocks.LARGE_BUDDING_TUMBLESTONE,
@@ -242,8 +243,8 @@ object CobblemonClient {
         this.implementation.registerBlockEntityRenderer(CobblemonBlockEntities.BERRY, ::BerryBlockRenderer)
         this.implementation.registerBlockEntityRenderer(CobblemonBlockEntities.SIGN, ::SignBlockEntityRenderer)
         this.implementation.registerBlockEntityRenderer(CobblemonBlockEntities.HANGING_SIGN, ::HangingSignBlockEntityRenderer)
-        this.implementation.registerBlockEntityRenderer(CobblemonBlockEntities.FOSSIL_COMPARTMENT, ::FossilCompartmentRenderer)
-        this.implementation.registerBlockEntityRenderer(CobblemonBlockEntities.FOSSIL_TUBE, ::FossilTubeRenderer)
+        this.implementation.registerBlockEntityRenderer(CobblemonBlockEntities.FOSSIL_ANALYZER, ::FossilAnalyzerRenderer)
+        this.implementation.registerBlockEntityRenderer(CobblemonBlockEntities.RESTORATION_TANK, ::RestorationTankRenderer)
     }
 
     private fun registerEntityRenderers() {
@@ -270,6 +271,7 @@ object CobblemonClient {
         PokeBallModelRepository.reload(resourceManager)
         BerryModelRepository.reload(resourceManager)
         FossilModelRepository.reload(resourceManager)
+        MiscModelRepository.reload(resourceManager)
         LOGGER.info("Loaded assets")
     }
 

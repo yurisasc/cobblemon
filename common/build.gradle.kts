@@ -33,6 +33,7 @@ dependencies {
     modApi(libs.molang)
     compileOnlyApi(libs.jeiApi)
     modCompileOnly(libs.adornFabric)
+    modCompileOnly(libs.lambDynamicLights) { isTransitive = false }
 
     // For Showdown
     modCompileOnly(libs.graal)

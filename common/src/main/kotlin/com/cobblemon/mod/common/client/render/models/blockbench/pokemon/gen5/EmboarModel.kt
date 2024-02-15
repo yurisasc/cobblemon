@@ -37,10 +37,10 @@ class EmboarModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Biped
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("emboar", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("emboar", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("emboar", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("emboar", "blink") }
         sleep = registerPose(
             poseType = PoseType.SLEEP,
             transformTicks = 10,

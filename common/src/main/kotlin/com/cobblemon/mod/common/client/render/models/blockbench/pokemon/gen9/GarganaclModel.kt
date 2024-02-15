@@ -41,7 +41,7 @@ class GarganaclModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
     lateinit var walk: PokemonPose
     lateinit var portrait: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("garganacl", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("garganacl", "cry") }
 
     override fun registerPoses() {
         standing = registerPose(

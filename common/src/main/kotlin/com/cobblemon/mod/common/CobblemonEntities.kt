@@ -12,6 +12,7 @@ import com.cobblemon.mod.common.api.pokeball.PokeBalls
 import com.cobblemon.mod.common.entity.boat.CobblemonBoatEntity
 import com.cobblemon.mod.common.entity.boat.CobblemonChestBoatEntity
 import com.cobblemon.mod.common.entity.fishing.PokeRodFishingBobberEntity
+import com.cobblemon.mod.common.entity.generic.GenericBedrockEntity
 import com.cobblemon.mod.common.entity.pokeball.EmptyPokeBallEntity
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.platform.PlatformRegistry
@@ -73,6 +74,15 @@ object CobblemonEntities : PlatformRegistry<Registry<EntityType<*>>, RegistryKey
             POKE_BOBBER_KEY.path,
             EntityType.Builder.create(::PokeRodFishingBobberEntity, SpawnGroup.MISC).setDimensions(0.5F, 0.5F).maxTrackingRange(10)
                     .build(POKE_BOBBER_KEY.toString())
+    )
+
+    @JvmField
+    val GENERIC_BEDROCK_ENTITY_KEY = cobblemonResource("generic_bedrock")
+    @JvmField
+    val GENERIC_BEDROCK_ENTITY: EntityType<GenericBedrockEntity> = this.create(
+        GENERIC_BEDROCK_ENTITY_KEY.path,
+        EntityType.Builder.create({ _, world -> GenericBedrockEntity(world) }, SpawnGroup.MISC)
+            .build(GENERIC_BEDROCK_ENTITY_KEY.toString())
     )
 
     fun registerAttributes(consumer: (EntityType<out LivingEntity>, DefaultAttributeContainer.Builder) -> Unit) {
