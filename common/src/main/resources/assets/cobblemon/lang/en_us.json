@@ -48,7 +48,12 @@
   "item.cobblemon.ancient_jet_ball": "Ancient Jet Ball",
   "item.cobblemon.ancient_origin_ball": "Ancient Origin Ball",
 
+  "item.cobblemon.pokerod_smithing_template": "Pokérod Smithing Template",
+  "item.cobblemon.smithing_template.pokerod.ingredients": "Poké Balls",
   "item.cobblemon.pokerod": "Pokérod",
+  "item.cobblemon.smithing_template.pokerod.base_slot_description": "Add fishing rod",
+  "item.cobblemon.smithing_template.pokerod.additions_slot_description": "Add Poké Ball",
+  "upgrade.cobblemon.pokerod": "Fishing Rod Upgrade",
 
   "item.cobblemon.black_apricorn_seed": "Black Apricorn Sprout",
   "item.cobblemon.blue_apricorn_seed": "Blue Apricorn Sprout",

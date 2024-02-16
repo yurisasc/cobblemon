@@ -13,6 +13,8 @@ import com.cobblemon.mod.common.api.pokeball.PokeBalls
 import com.cobblemon.mod.common.api.pokemon.Natures
 import com.cobblemon.mod.common.api.pokemon.stats.Stats
 import com.cobblemon.mod.common.api.pokemon.status.Statuses
+import com.cobblemon.mod.common.api.text.blue
+import com.cobblemon.mod.common.api.text.gray
 import com.cobblemon.mod.common.block.BerryBlock
 import com.cobblemon.mod.common.block.MintBlock
 import com.cobblemon.mod.common.block.MintBlock.MintType
@@ -51,6 +53,7 @@ import net.minecraft.registry.Registries
 import net.minecraft.registry.Registry
 import net.minecraft.registry.RegistryKey
 import net.minecraft.registry.RegistryKeys
+import net.minecraft.text.Text
 import net.minecraft.util.Identifier
 import net.minecraft.world.World
 
@@ -816,6 +819,18 @@ object CobblemonItems : PlatformRegistry<Registry<Item>, RegistryKey<Registry<It
     val SKY_TUMBLESTONE_BLOCK = blockItem("sky_tumblestone_block", CobblemonBlocks.SKY_TUMBLESTONE_BLOCK)
     @JvmField
     val BLACK_TUMBLESTONE_BLOCK = blockItem("black_tumblestone_block", CobblemonBlocks.BLACK_TUMBLESTONE_BLOCK)
+
+    val TEMP_TEXTURE = listOf(cobblemonResource("item/poke_balls/ancient_azure_ball"))
+
+    @JvmField
+    val POKEROD_SMITHING_TEMPLATE = create("pokerod_smithing_template", SmithingTemplateItem(
+        Text.translatable("item.minecraft.fishing_rod").gray(),
+        Text.translatable("item.cobblemon.smithing_template.pokerod.ingredients").blue(),
+        Text.translatable("upgrade.cobblemon.pokerod").blue(),
+        Text.translatable("item.cobblemon.smithing_template.pokerod.base_slot_description"),
+        Text.translatable("item.cobblemon.smithing_template.pokerod.additions_slot_description"),
+        TEMP_TEXTURE, TEMP_TEXTURE
+    ))
 
     @JvmField
     val AUTOMATON_ARMOR_TRIM_SMITHING_TEMPLATE: SmithingTemplateItem = this.create(

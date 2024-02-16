@@ -1,18 +1,16 @@
 {
-  "type": "minecraft:crafting_shaped",
-  "key": {
-    "#": {
-      "item": "minecraft:fishing_rod"
-    },
-    "X": {
-      "item": "cobblemon:poke_ball"
-    }
+  "type": "minecraft:smithing_transform",
+  "template": {
+    "item": "cobblemon:pokerod_smithing_template"
   },
-  "pattern": [
-    "# ",
-    " X"
-  ],
+  "base": {
+    "item": "minecraft:fishing_rod"
+  },
+  "addition": {
+    "item": "cobblemon:poke_ball"
+  },
   "result": {
-    "item": "cobblemon:pokerod"
+    "item": "cobblemon:pokerod",
+    "count": 1
   }
 }

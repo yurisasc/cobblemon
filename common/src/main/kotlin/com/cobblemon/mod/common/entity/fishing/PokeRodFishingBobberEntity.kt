@@ -28,7 +28,6 @@ import com.cobblemon.mod.common.api.spawning.spawner.SpawningArea
 import com.cobblemon.mod.common.api.text.green
 import com.cobblemon.mod.common.api.text.red
 import com.cobblemon.mod.common.battles.BattleBuilder
-import com.cobblemon.mod.common.client.render.models.blockbench.bedrock.animation.BedrockAnimation.Companion.context
 import com.cobblemon.mod.common.command.SpawnPokemonFromPool
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.net.messages.client.spawn.SpawnPokemonPacket
