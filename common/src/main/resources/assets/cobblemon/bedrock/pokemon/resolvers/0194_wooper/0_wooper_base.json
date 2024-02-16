@@ -11,7 +11,7 @@
     },
     {
       "aspects": [
-        "wooper-heart-heart", "male"
+        "wooper_heart"
       ],
       "model": "cobblemon:wooper_heart_male.geo"
     },

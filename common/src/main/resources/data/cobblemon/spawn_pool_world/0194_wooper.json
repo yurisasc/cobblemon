@@ -148,7 +148,7 @@
         },
         {
             "id": "wooper-fishing-2",
-            "pokemon": "wooper wooper_heart=heart",
+            "pokemon": "wooper wooper_heart",
             "type": "pokemon",
             "context": "fishing",
             "bucket": "common",
