@@ -35,10 +35,10 @@ class EspathraModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     lateinit var walk: PokemonPose
     lateinit var sleep: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("espathra", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("espathra", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("espathra", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("espathra", "blink") }
         sleep = registerPose(
             poseName = "sleep",
             poseType = PoseType.SLEEP,

@@ -8,20 +8,28 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench
 
+import com.bedrockk.molang.runtime.MoLangRuntime
+import com.bedrockk.molang.runtime.struct.ArrayStruct
+import com.bedrockk.molang.runtime.struct.QueryStruct
+import com.bedrockk.molang.runtime.value.MoValue
+import com.cobblemon.mod.common.Cobblemon.LOGGER
+import com.cobblemon.mod.common.api.molang.ExpressionLike
+import com.cobblemon.mod.common.api.molang.MoLangFunctions.addFunctions
+import com.cobblemon.mod.common.api.molang.MoLangFunctions.getQueryStruct
+import com.cobblemon.mod.common.api.molang.MoLangFunctions.setup
+import com.cobblemon.mod.common.api.molang.ObjectValue
 import com.cobblemon.mod.common.api.scheduling.afterOnClient
+import com.cobblemon.mod.common.client.ClientMoLangFunctions.setupClient
 import com.cobblemon.mod.common.client.entity.PokemonClientDelegate
+import com.cobblemon.mod.common.client.render.MatrixWrapper
 import com.cobblemon.mod.common.client.render.ModelLayer
 import com.cobblemon.mod.common.client.render.layer.CobblemonRenderLayers
-import com.cobblemon.mod.common.client.render.models.blockbench.animation.PoseTransitionAnimation
-import com.cobblemon.mod.common.client.render.models.blockbench.animation.PrimaryAnimation
-import com.cobblemon.mod.common.client.render.models.blockbench.animation.RotationFunctionStatelessAnimation
-import com.cobblemon.mod.common.client.render.models.blockbench.animation.StatefulAnimation
-import com.cobblemon.mod.common.client.render.models.blockbench.animation.StatelessAnimation
-import com.cobblemon.mod.common.client.render.models.blockbench.animation.TranslationFunctionStatelessAnimation
+import com.cobblemon.mod.common.client.render.models.blockbench.animation.*
 import com.cobblemon.mod.common.client.render.models.blockbench.bedrock.animation.BedrockAnimationRepository
 import com.cobblemon.mod.common.client.render.models.blockbench.bedrock.animation.BedrockStatefulAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.bedrock.animation.BedrockStatelessAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.ModelFrame
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.Bone
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.ModelPartTransformation
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.Pose
@@ -29,11 +37,15 @@ import com.cobblemon.mod.common.client.render.models.blockbench.quirk.ModelQuirk
 import com.cobblemon.mod.common.client.render.models.blockbench.quirk.SimpleQuirk
 import com.cobblemon.mod.common.client.render.models.blockbench.repository.RenderContext
 import com.cobblemon.mod.common.client.render.models.blockbench.wavefunction.WaveFunction
+import com.cobblemon.mod.common.client.render.models.blockbench.wavefunction.sineFunction
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.Poseable
 import com.cobblemon.mod.common.entity.generic.GenericBedrockEntity
 import com.cobblemon.mod.common.entity.pokeball.EmptyPokeBallEntity
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
+import com.cobblemon.mod.common.util.asExpressionLike
+import com.cobblemon.mod.common.util.getDoubleOrNull
+import com.cobblemon.mod.common.util.getStringOrNull
 import net.minecraft.client.model.ModelPart
 import net.minecraft.client.render.OverlayTexture
 import net.minecraft.client.render.RenderLayer
@@ -82,6 +94,9 @@ abstract class PoseableEntityModel<T : Entity>(
     @Transient
     var currentState: PoseableEntityState<T>? = null
 
+    val animations = mutableMapOf<String, ExpressionLike>()
+    val transitions = mutableMapOf<String, ExpressionLike>()
+
     /**
      * A list of [ModelPartTransformation] that record the original
      * This allows the original rotations to be reset.
@@ -91,11 +106,217 @@ abstract class PoseableEntityModel<T : Entity>(
     val relevantParts = mutableListOf<ModelPart>()
     val relevantPartsByName = mutableMapOf<String, ModelPart>()
 
+    @Transient
+    val functions = QueryStruct(hashMapOf())
+        .addFunction("bedrock_primary") { params ->
+            val group = params.getString(0)
+            val animation = params.getString(1)
+            val anim = bedrockStateful(group, animation)
+            val excludedLabels = mutableSetOf<String>()
+            var curve: WaveFunction = { t ->
+                if (t < 0.1) {
+                    t * 10
+                } else if (t < 0.9) {
+                    1F
+                } else {
+                    1F
+                }
+            }
+            for (index in 2 until params.params.size) {
+                val param = params.get<MoValue>(index)
+                if (param is ObjectValue<*>) {
+                    curve = param.obj as WaveFunction
+                    continue
+                }
+
+                val label = params.getString(index) ?: continue
+                excludedLabels.add(label)
+            }
+
+            return@addFunction ObjectValue(PrimaryAnimation(animation = anim, excludedLabels = excludedLabels, curve = curve))
+        }
+        .addFunction("bedrock_stateful") { params ->
+            val group = params.getString(0)
+            val animation = params.getString(1)
+            val anim = bedrockStateful(group, animation)
+            return@addFunction ObjectValue(anim)
+        }
+        .addFunction("bedrock") { params ->
+            val group = params.getString(0)
+            val animation = params.getString(1)
+            val anim = bedrock(group, animation)
+            return@addFunction ObjectValue(anim)
+        }
+        .addFunction("look") { params ->
+            val boneName = params.getString(0)
+            val pitchMultiplier = params.getDoubleOrNull(1) ?: 1F
+            val yawMultiplier = params.getDoubleOrNull(2) ?: 1F
+            val maxPitch = params.getDoubleOrNull(3) ?: 70F
+            val minPitch = params.getDoubleOrNull(4) ?: -45F
+            val maxYaw = params.getDoubleOrNull(5) ?: 45F
+            ObjectValue(
+                SingleBoneLookAnimation<T>(
+                    frame = this,
+                    bone = getPart(boneName),
+                    pitchMultiplier = pitchMultiplier.toFloat(),
+                    yawMultiplier = yawMultiplier.toFloat(),
+                    maxPitch = maxPitch.toFloat(),
+                    minPitch = minPitch.toFloat(),
+                    maxYaw = maxYaw.toFloat()
+                )
+            )
+        }
+        .addFunction("quadruped_walk") { params ->
+            val periodMultiplier = params.getDoubleOrNull(0) ?: 0.6662F
+            val amplitudeMultiplier = params.getDoubleOrNull(1) ?: 1.4F
+            val leftFrontLeftName = params.getStringOrNull(2) ?: "leg_front_left"
+            val leftFrontRightName = params.getStringOrNull(3) ?: "leg_front_right"
+            val leftBackLeftName = params.getStringOrNull(4) ?: "leg_back_left"
+            val leftBackRightName = params.getStringOrNull(5) ?: "leg_back_right"
+
+            ObjectValue(
+                QuadrupedWalkAnimation<T>(
+                    frame = this,
+                    periodMultiplier = periodMultiplier.toFloat(),
+                    amplitudeMultiplier = amplitudeMultiplier.toFloat(),
+                    legFrontLeft = this.getPart(leftFrontLeftName),
+                    legFrontRight = this.getPart(leftFrontRightName),
+                    legBackLeft = this.getPart(leftBackLeftName),
+                    legBackRight = this.getPart(leftBackRightName)
+                )
+            )
+        }
+        .addFunction("biped_walk") { params ->
+            val periodMultiplier = params.getDoubleOrNull(0) ?: 0.6662F
+            val amplitudeMultiplier = params.getDoubleOrNull(1) ?: 1.4F
+            val leftLegName = params.getStringOrNull(2) ?: "leg_left"
+            val rightLegName = params.getStringOrNull(3) ?: "leg_right"
+
+            ObjectValue(
+                BipedWalkAnimation<T>(
+                    frame = this,
+                    periodMultiplier = periodMultiplier.toFloat(),
+                    amplitudeMultiplier = amplitudeMultiplier.toFloat(),
+                    leftLeg = this.getPart(leftLegName),
+                    rightLeg = this.getPart(rightLegName)
+                )
+            )
+        }
+        .addFunction("bimanual_swing") { params ->
+            val swingPeriodMultiplier = params.getDoubleOrNull(0) ?: 0.6662F
+            val amplitudeMultiplier = params.getDoubleOrNull(1) ?: 1F
+            val leftArmName = params.getStringOrNull(2) ?: "arm_left"
+            val rightArmName = params.getStringOrNull(3) ?: "arm_right"
+
+            ObjectValue(
+                BimanualSwingAnimation<T>(
+                    frame = this,
+                    swingPeriodMultiplier = swingPeriodMultiplier.toFloat(),
+                    amplitudeMultiplier = amplitudeMultiplier.toFloat(),
+                    leftArm = this.getPart(leftArmName),
+                    rightArm = this.getPart(rightArmName)
+                )
+            )
+        }
+        .addFunction("sine_wing_flap") { params ->
+            // verticalShift = -14F.toRadians(), period = 0.9F, amplitude = 0.9F
+            val amplitude = params.getDoubleOrNull(0) ?: 0.9F
+            val period = params.getDoubleOrNull(1) ?: 0.9F
+            val verticalShift = params.getDoubleOrNull(2) ?: 0F
+            val axis = params.getStringOrNull(3) ?: "y"
+            val axisIndex = when (axis) {
+                "x" -> ModelPartTransformation.X_AXIS
+                "y" -> ModelPartTransformation.Y_AXIS
+                "z" -> ModelPartTransformation.Z_AXIS
+                else -> ModelPartTransformation.Y_AXIS
+            }
+            val wingLeft = params.getStringOrNull(4) ?: "wing_left"
+            val wingRight = params.getStringOrNull(5) ?: "wing_right"
+
+            ObjectValue(
+                WingFlapIdleAnimation<T>(
+                    frame = this,
+                    rotation = sineFunction(verticalShift = verticalShift.toFloat(), period = period.toFloat(), amplitude = amplitude.toFloat()),
+                    axis = axisIndex,
+                    leftWing = this.getPart(wingLeft),
+                    rightWing = this.getPart(wingRight)
+                )
+            )
+        }
+        .addFunction("bedrock_quirk") { params ->
+            val animationGroup = params.getString(0)
+            val animationNames = params.get<MoValue>(1)?.let { if (it is ArrayStruct) it.map.values.map { it.asString() } else listOf(it.asString()) } ?: listOf()
+            val minSeconds = params.getDoubleOrNull(2) ?: 8F
+            val maxSeconds = params.getDoubleOrNull(3) ?: 30F
+            val loopTimes = params.getDoubleOrNull(4)?.toInt() ?: 1
+            ObjectValue(
+                quirk(
+                    secondsBetweenOccurrences = minSeconds.toFloat() to maxSeconds.toFloat(),
+                    condition = { true },
+                    loopTimes = 1..loopTimes,
+                    animation = { bedrockStateful(animationGroup, animationNames.random()) }
+                )
+            )
+        }
+
+    @Transient
+    val runtime = MoLangRuntime().setup().setupClient().also { it.environment.getQueryStruct().addFunctions(functions.functions) }
+
     /** Registers the different poses this model is capable of ahead of time. Should use [registerPose] religiously. */
     abstract fun registerPoses()
 
     /** Gets the [PoseableEntityState] for an entity. */
     abstract fun getState(entity: T): PoseableEntityState<T>
+
+    fun getAnimation(state: PoseableEntityState<*>, name: String, runtime: MoLangRuntime): StatefulAnimation<T, *>? {
+        val poseAnimations = state.currentPose?.let(this::getPose)?.animations ?: mapOf()
+        val animation = resolveFromAnimationMap(poseAnimations, name, runtime)
+            ?: resolveFromAnimationMap(animations, name, runtime)
+            ?: if (name == "cry" && this is PokemonPoseableModel) {
+                cryAnimation.invoke(state.getEntity() as PokemonEntity, state as PoseableEntityState<PokemonEntity>) as? StatefulAnimation<T, *>
+            } else if (name == "faint" && this is PokemonPoseableModel) {
+                getFaintAnimation(state.getEntity() as PokemonEntity, state as PoseableEntityState<PokemonEntity>) as? StatefulAnimation<T, *>
+            } else {
+                try {
+                    name.asExpressionLike().resolveObject(runtime).obj as StatefulAnimation<T, *>
+                } catch (exception: Exception) {
+                    extractAnimation(name)
+                }
+            }
+        return animation
+    }
+
+    /**
+     * Animation group : animation name [: primary]
+     * e.g. "particle_dummy:animation.particle_dummy.dragon_claw_target:primary"
+     * e.g. "particle_dummy:animation.particle.dummy.stat_up
+     */
+    fun extractAnimation(string: String): StatefulAnimation<T, *>? {
+        val group = string.substringBefore(":")
+        val animationName = string.substringAfter(":").substringBefore(":")
+        val isPrimary = string.endsWith(":primary")
+        if (animationName.isNotBlank() && animationName != string) {
+            val animation = BedrockAnimationRepository.tryGetAnimation(group, animationName) ?: return null
+            return if (isPrimary) {
+                PrimaryAnimation(BedrockStatefulAnimation(animation))
+            } else {
+                BedrockStatefulAnimation(animation)
+            }
+        } else {
+            return null
+        }
+    }
+
+    private fun resolveFromAnimationMap(map: Map<String, ExpressionLike>, name: String, runtime: MoLangRuntime): StatefulAnimation<T, *>? {
+        val animationExpression = map[name] ?: return null
+        return try {
+            animationExpression.resolveObject(runtime).obj as StatefulAnimation<T, *>
+        } catch (e: Exception) {
+            LOGGER.error("Failed to create animation by name $name, most likely something wrong in the MoLang")
+            e.printStackTrace()
+            null
+        }
+    }
 
     fun withLayerContext(
         buffer: VertexConsumerProvider,
@@ -145,6 +366,7 @@ abstract class PoseableEntityModel<T : Entity>(
         poseType: PoseType,
         condition: ((T) -> Boolean)? = null,
         transformTicks: Int = 10,
+        animations: MutableMap<String, ExpressionLike> = mutableMapOf(),
         onTransitionedInto: (PoseableEntityState<T>?) -> Unit = {},
         idleAnimations: Array<StatelessAnimation<T, out F>> = emptyArray(),
         transformedParts: Array<ModelPartTransformation> = emptyArray(),
@@ -156,6 +378,7 @@ abstract class PoseableEntityModel<T : Entity>(
             condition,
             onTransitionedInto,
             transformTicks,
+            animations,
             idleAnimations,
             transformedParts,
             quirks
@@ -169,6 +392,7 @@ abstract class PoseableEntityModel<T : Entity>(
         poseTypes: Set<PoseType>,
         condition: ((T) -> Boolean)? = null,
         transformTicks: Int = 10,
+        animations: MutableMap<String, ExpressionLike> = mutableMapOf(),
         onTransitionedInto: (PoseableEntityState<T>?) -> Unit = {},
         idleAnimations: Array<StatelessAnimation<T, out F>> = emptyArray(),
         transformedParts: Array<ModelPartTransformation> = emptyArray(),
@@ -180,6 +404,7 @@ abstract class PoseableEntityModel<T : Entity>(
             condition,
             onTransitionedInto,
             transformTicks,
+            animations,
             idleAnimations,
             transformedParts,
             quirks
@@ -193,6 +418,7 @@ abstract class PoseableEntityModel<T : Entity>(
         poseType: PoseType,
         condition: ((T) -> Boolean)? = null,
         transformTicks: Int = 10,
+        animations: MutableMap<String, ExpressionLike> = mutableMapOf(),
         onTransitionedInto: (PoseableEntityState<T>?) -> Unit = {},
         idleAnimations: Array<StatelessAnimation<T, out F>> = emptyArray(),
         transformedParts: Array<ModelPartTransformation> = emptyArray(),
@@ -204,6 +430,7 @@ abstract class PoseableEntityModel<T : Entity>(
             condition,
             onTransitionedInto,
             transformTicks,
+            animations,
             idleAnimations,
             transformedParts,
             quirks
@@ -436,7 +663,7 @@ abstract class PoseableEntityModel<T : Entity>(
             val desirablePose = poses.values.firstOrNull {
                 (entityPoseType == null || entityPoseType in it.poseTypes) && it.isSuitable(entity)
             }
-                ?: Pose("none", setOf(PoseType.NONE), null, {}, 0, emptyArray(), emptyArray(), emptyArray())
+                ?: Pose("none", setOf(PoseType.NONE), null, {}, 0, mutableMapOf(), emptyArray(), emptyArray(), emptyArray())
 
             // If this condition matches then it just no longer fits this pose
             if (pose != null && poseName != null) {
@@ -467,7 +694,8 @@ abstract class PoseableEntityModel<T : Entity>(
         }
 
         if (primaryAnimation != null) {
-            state.primaryOverridePortion = 1 - primaryAnimation.curve((state.animationSeconds - primaryAnimation.started) / primaryAnimation.duration)
+            val portion = (state.animationSeconds - primaryAnimation.started) / primaryAnimation.duration
+            state.primaryOverridePortion = 1 - primaryAnimation.curve(portion)
             if (!primaryAnimation.run(entity, this, state, limbSwing, limbSwingAmount, ageInTicks, headYaw, headPitch, 1 - state.primaryOverridePortion)) {
                 state.primaryAnimation = null
                 state.primaryOverridePortion = 1F
@@ -478,7 +706,7 @@ abstract class PoseableEntityModel<T : Entity>(
             .filterNot { it.run(entity, this, state, limbSwing, limbSwingAmount, ageInTicks, headYaw, headPitch, 1F) }
         state.statefulAnimations.removeAll(removedStatefuls)
         state.currentPose?.let { getPose(it) }
-            ?.idleStateful(entity, this, state, limbSwing, limbSwingAmount, ageInTicks, headYaw, headPitch, state.primaryOverridePortion)
+            ?.idleStateful(entity, this, state, limbSwing, limbSwingAmount, ageInTicks, headYaw, headPitch)
         if (entity != null) {
             updateLocators(state)
         }
@@ -506,7 +734,7 @@ abstract class PoseableEntityModel<T : Entity>(
         val desirablePoseType = desirablePose.poseTypes.first()
 
         if (state.statefulAnimations.none { it.isTransform }) {
-            val transition = previousPose.transitions[desirablePose]
+            val transition = previousPose.transitions[desirablePose.poseName]
             if (transition == null && previousPose.transformTicks > 0) {
                 val primaryAnimation = PrimaryAnimation(
                     PoseTransitionAnimation(
@@ -525,7 +753,7 @@ abstract class PoseableEntityModel<T : Entity>(
                 }
             } else if (transition != null) {
                 val animation = transition(previousPose, desirablePose)
-                val primaryAnimation = PrimaryAnimation(animation, curve = { 1F })
+                val primaryAnimation = if (animation is PrimaryAnimation) animation else PrimaryAnimation(animation, curve = { 1F })
                 state.addPrimaryAnimation(primaryAnimation)
                 afterOnClient(seconds = primaryAnimation.duration) {
                     state.setPose(desirablePose.poseName)
@@ -543,18 +771,21 @@ abstract class PoseableEntityModel<T : Entity>(
     fun updateLocators(state: PoseableEntityState<T>) {
         val entity = context.request(RenderContext.ENTITY) ?: return
         val matrixStack = MatrixStack()
+        var scale = 1F
         // We could improve this to be generalized for other entities
         if (entity is PokemonEntity) {
             matrixStack.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(180 - entity.bodyYaw))
             matrixStack.push()
             matrixStack.scale(-1F, -1F, 1F)
-            val scale = entity.pokemon.form.baseScale * entity.pokemon.scaleModifier * (entity.delegate as PokemonClientDelegate).entityScaleModifier
+            scale = entity.pokemon.form.baseScale * entity.pokemon.scaleModifier * (entity.delegate as PokemonClientDelegate).entityScaleModifier
+
             matrixStack.scale(scale, scale, scale)
         } else if (entity is EmptyPokeBallEntity) {
             matrixStack.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(entity.yaw))
             matrixStack.push()
             matrixStack.scale(1F, -1F, -1F)
-            matrixStack.scale(0.7F, 0.7F, 0.7F)
+            scale = 0.7F
+            matrixStack.scale(scale, scale, scale)
         } else if (entity is GenericBedrockEntity) {
             matrixStack.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(entity.yaw))
             matrixStack.push()
@@ -562,12 +793,27 @@ abstract class PoseableEntityModel<T : Entity>(
             matrixStack.scale(1F, -1F, 1F)
         }
 
+        matrixStack.push()
+        matrixStack.scale(1F, -1F, 1F)
+        val states = state.locatorStates
+        states.getOrPut("root") { MatrixWrapper() }.updateMatrix(matrixStack.peek().positionMatrix)
+        matrixStack.pop()
+
         if (isForLivingEntityRenderer) {
             // Standard living entity offset, only God knows why Mojang did this.
             matrixStack.translate(0.0, -1.5, 0.0)
         }
 
-        locatorAccess.update(matrixStack, state.locatorStates)
+        // If we have the entity, put in an approximation of the target locator. If the model has one defined,
+        // this will be overridden.
+        matrixStack.push()
+        matrixStack.translate(0.0, -entity.boundingBox.yLength / 2.0 / scale + 1.5F, -entity.width * 0.6 / scale)
+        matrixStack.scale(1F, -1F, 1F)
+        states.getOrPut("target") { MatrixWrapper() }.updateMatrix(matrixStack.peek().positionMatrix)
+        states.getOrPut("special_attack") { MatrixWrapper() }.updateMatrix(matrixStack.peek().positionMatrix)
+        matrixStack.pop()
+
+        locatorAccess.update(matrixStack, states)
     }
 
     fun ModelPart.translation(
@@ -606,21 +852,17 @@ abstract class PoseableEntityModel<T : Entity>(
     fun bedrockStateful(
         animationGroup: String,
         animation: String,
-        animationPrefix: String = "animation.$animationGroup",
-        preventsIdleCheck: (T?, PoseableEntityState<T>, StatelessAnimation<T, *>) -> Boolean = { _, _, _ -> true }
-    ) = BedrockStatefulAnimation(
+        animationPrefix: String = "animation.$animationGroup"
+    ) = BedrockStatefulAnimation<T>(
         BedrockAnimationRepository.getAnimation(animationGroup, "$animationPrefix.$animation"),
-        preventsIdleCheck
     )
 
     fun quirk(
-        name: String,
         secondsBetweenOccurrences: Pair<Float, Float> = 8F to 30F,
         loopTimes: IntRange = 1..1,
         condition: (state: PoseableEntityState<T>) -> Boolean = { true },
         animation: (state: PoseableEntityState<T>) -> StatefulAnimation<T, *>
     ) = SimpleQuirk(
-        name = name,
         secondsBetweenOccurrences = secondsBetweenOccurrences,
         loopTimes = loopTimes,
         condition = condition,
@@ -628,16 +870,33 @@ abstract class PoseableEntityModel<T : Entity>(
     )
 
     fun quirkMultiple(
-        name: String,
         secondsBetweenOccurrences: Pair<Float, Float> = 8F to 30F,
         loopTimes: IntRange = 1..1,
         condition: (state: PoseableEntityState<T>) -> Boolean = { true },
         animations: (state: PoseableEntityState<T>) -> List<StatefulAnimation<T, *>>
     ) = SimpleQuirk(
-        name = name,
         secondsBetweenOccurrences = secondsBetweenOccurrences,
         loopTimes = loopTimes,
         condition = condition,
         animations = { animations(it) }
     )
+
+    val dummyAnimation = object : StatefulAnimation<T, ModelFrame> {
+        override val isTransform = false
+        override val duration: Float = 1F
+
+        override fun run(
+            entity: T?,
+            model: PoseableEntityModel<T>,
+            state: PoseableEntityState<T>,
+            limbSwing: Float,
+            limbSwingAmount: Float,
+            ageInTicks: Float,
+            headYaw: Float,
+            headPitch: Float,
+            intensity: Float
+        ): Boolean {
+            return false
+        }
+    }
 }

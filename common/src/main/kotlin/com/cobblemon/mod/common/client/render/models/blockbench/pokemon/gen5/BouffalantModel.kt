@@ -30,7 +30,7 @@ class BouffalantModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     lateinit var walk: PokemonPose
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("charmander", "blink").setPreventsIdle(false)}
+        val blink = quirk { bedrockStateful("charmander", "blink")}
         // bouffalant does not have a blink!! someone fix pls
         standing = registerPose(
             poseName = "standing",

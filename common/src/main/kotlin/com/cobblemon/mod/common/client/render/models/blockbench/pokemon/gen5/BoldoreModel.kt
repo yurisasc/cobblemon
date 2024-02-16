@@ -34,7 +34,7 @@ class BoldoreModel (root: ModelPart) : PokemonPoseableModel(), BipedFrame {
     lateinit var sleep: PokemonPose
     lateinit var battleidle: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("boldore", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("boldore", "cry") }
 
     override fun registerPoses() {
         sleep = registerPose(

@@ -36,11 +36,11 @@ class NincadaModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quad
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("nincada", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("nincada", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("nincada", "blink").setPreventsIdle(false) }
-        val flutter = quirk("wing_flutter") { bedrockStateful("nincada", "quirk_wingflutter").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("nincada", "blink") }
+        val flutter = quirk { bedrockStateful("nincada", "quirk_wingflutter") }
 
         sleep = registerPose(
             poseType = PoseType.SLEEP,

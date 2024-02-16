@@ -13,7 +13,6 @@ import com.bedrockk.molang.runtime.value.DoubleValue
 import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.ModAPI
 import com.cobblemon.mod.common.api.snowstorm.ParticleMaterial
-import com.cobblemon.mod.common.api.snowstorm.ParticleMaterials
 import com.cobblemon.mod.common.api.snowstorm.UVDetails
 import com.cobblemon.mod.common.client.particle.ParticleStorm
 import com.cobblemon.mod.common.util.resolveBoolean
@@ -24,7 +23,8 @@ import kotlin.math.abs
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.particle.Particle
 import net.minecraft.client.particle.ParticleTextureSheet
-import net.minecraft.client.particle.ParticleTextureSheet.*
+import net.minecraft.client.particle.ParticleTextureSheet.NO_RENDER
+import net.minecraft.client.particle.ParticleTextureSheet.PARTICLE_SHEET_TRANSLUCENT
 import net.minecraft.client.render.BufferBuilder
 import net.minecraft.client.render.Camera
 import net.minecraft.client.render.VertexConsumer

@@ -1,7 +1,7 @@
 {
   "maxScale": 0.9,
   "yTranslation": 0.0,
-
+  "yGrowthPoint": 0.625,
 
   "animations": [
     "bedrock(tyrunt_fetus, sleep)"

@@ -32,7 +32,7 @@ class DragonairModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     // TODO dragonair swish
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("dragonair", "blink").setPreventsIdle(false)}
+        val blink = quirk { bedrockStateful("dragonair", "blink")}
         standing = registerPose(
             poseName = "standing",
             poseTypes = STATIONARY_POSES + MOVING_POSES + UI_POSES,

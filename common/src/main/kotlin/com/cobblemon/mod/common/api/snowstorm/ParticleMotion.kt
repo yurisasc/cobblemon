@@ -17,6 +17,7 @@ import com.cobblemon.mod.common.api.data.ArbitrarilyMappedSerializableCompanion
 import com.cobblemon.mod.common.client.particle.ParticleStorm
 import com.cobblemon.mod.common.util.codec.EXPRESSION_CODEC
 import com.cobblemon.mod.common.util.getString
+import com.cobblemon.mod.common.util.math.geometry.transformDirection
 import com.cobblemon.mod.common.util.resolveDouble
 import com.mojang.serialization.Codec
 import com.mojang.serialization.DynamicOps
@@ -135,7 +136,13 @@ class InwardsMotionDirection : ParticleMotionDirection {
     }
 
     override val type = ParticleMotionDirectionType.INWARDS
-    override fun getDirectionVector(runtime: MoLangRuntime, storm: ParticleStorm, emitterPos: Vec3d, particlePos: Vec3d) = emitterPos.subtract(particlePos).normalize()
+    override fun getDirectionVector(runtime: MoLangRuntime, storm: ParticleStorm, emitterPos: Vec3d, particlePos: Vec3d): Vec3d {
+        return if (particlePos == emitterPos) {
+            Vec3d(storm.world.random.nextDouble() - 0.5, storm.world.random.nextDouble() - 0.5, storm.world.random.nextDouble() - 0.5)
+        } else {
+            particlePos.subtract(emitterPos)
+        }.normalize()
+    }
     override fun <T> encode(ops: DynamicOps<T>) = CODEC.encodeStart(ops, this)
     override fun readFromBuffer(buffer: PacketByteBuf) {}
     override fun writeToBuffer(buffer: PacketByteBuf) {}
@@ -151,7 +158,11 @@ class OutwardsMotionDirection : ParticleMotionDirection {
 
     override val type = ParticleMotionDirectionType.OUTWARDS
     override fun getDirectionVector(runtime: MoLangRuntime, storm: ParticleStorm, emitterPos: Vec3d, particlePos: Vec3d): Vec3d {
-        return particlePos.subtract(emitterPos).normalize()
+        return if (particlePos == emitterPos) {
+            Vec3d(storm.world.random.nextDouble() - 0.5, storm.world.random.nextDouble() - 0.5, storm.world.random.nextDouble() - 0.5)
+        } else {
+            particlePos.subtract(emitterPos)
+        }.normalize()
     }
 
     override fun <T> encode(ops: DynamicOps<T>) = CODEC.encodeStart(ops, this)
@@ -185,7 +196,7 @@ class CustomMotionDirection(
             runtime.resolveDouble(direction.second),
             runtime.resolveDouble(direction.third)
         )
-        return if (storm.effect.space.localPosition) storm.transformDirection(v) else v
+        return storm.matrixWrapper.matrix.transformDirection(v)
     }
 
     override fun <T> encode(ops: DynamicOps<T>) = CODEC.encodeStart(ops, this)
