@@ -11,6 +11,7 @@ package com.cobblemon.mod.common.api.spawning.fishing
 import com.cobblemon.mod.common.api.spawning.CobblemonSpawnPools
 import com.cobblemon.mod.common.api.spawning.context.FishingSpawningContext
 import com.cobblemon.mod.common.api.spawning.detail.SpawnPool
+import com.cobblemon.mod.common.api.spawning.influence.SpawningInfluence
 import com.cobblemon.mod.common.api.spawning.spawner.TriggerSpawner
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.util.math.BlockPos

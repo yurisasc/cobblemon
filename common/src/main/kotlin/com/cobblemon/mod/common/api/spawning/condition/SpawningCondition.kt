@@ -11,12 +11,14 @@ package com.cobblemon.mod.common.api.spawning.condition
 import com.cobblemon.mod.common.api.conditional.RegistryLikeCondition
 import com.cobblemon.mod.common.api.spawning.MoonPhaseRange
 import com.cobblemon.mod.common.api.spawning.TimeRange
+import com.cobblemon.mod.common.api.spawning.context.FishingSpawningContext
 import com.cobblemon.mod.common.api.spawning.context.SpawningContext
 import com.cobblemon.mod.common.api.spawning.detail.SpawnDetail
 import com.cobblemon.mod.common.util.Merger
 import com.cobblemon.mod.common.util.math.orMax
 import com.cobblemon.mod.common.util.math.orMin
 import com.mojang.datafixers.util.Either
+import net.minecraft.enchantment.EnchantmentHelper
 import net.minecraft.registry.tag.TagKey
 import net.minecraft.util.Identifier
 import net.minecraft.world.biome.Biome
@@ -56,6 +58,7 @@ abstract class SpawningCondition<T : SpawningContext> {
     var isThundering: Boolean? = null
     var timeRange: TimeRange? = null
     var structures: MutableList<Either<Identifier, TagKey<Structure>>>? = null
+    var lureLevel: Int? = null
 
     @Transient
     var appendages = mutableListOf<AppendageCondition>()
@@ -108,6 +111,11 @@ abstract class SpawningCondition<T : SpawningContext> {
             }
         ) {
             return false
+        } else if (lureLevel != null && ctx is FishingSpawningContext) {
+            val pokerodStack = (ctx as FishingSpawningContext).rodStack
+
+            if (EnchantmentHelper.getLure(pokerodStack) < lureLevel!!)
+                return false
         }
 
         return true

@@ -87,7 +87,10 @@
             "context": "fishing",
             "bucket": "common",
             "level": "1-20",
-            "weight": 0.1
+            "weight": 0.1,
+            "condition": {
+                "lureLevel": 2
+            }
         },
         {
             "id": "magikarp-apricot-tiger-3",
@@ -96,7 +99,10 @@
             "context": "fishing",
             "bucket": "common",
             "level": "1-20",
-            "weight": 0.1
+            "weight": 0.1,
+            "condition": {
+                "lureLevel": 2
+            }
         },
         {
             "id": "magikarp-apricot-zebra-4",
@@ -105,7 +111,10 @@
             "context": "fishing",
             "bucket": "common",
             "level": "1-20",
-            "weight": 0.1
+            "weight": 0.1,
+            "condition": {
+                "lureLevel": 2
+            }
         },
         {
             "id": "magikarp-black-forehead-5",
@@ -114,7 +123,10 @@
             "context": "fishing",
             "bucket": "common",
             "level": "1-20",
-            "weight": 0.1
+            "weight": 0.1,
+            "condition": {
+                "lureLevel": 3
+            }
         },
         {
             "id": "magikarp-black-masked-6",
@@ -123,7 +135,10 @@
             "context": "fishing",
             "bucket": "common",
             "level": "1-20",
-            "weight": 0.1
+            "weight": 0.1,
+            "condition": {
+                "lureLevel": 3
+            }
         },
         {
             "id": "magikarp-blue-raindrops-7",
@@ -132,7 +147,10 @@
             "context": "fishing",
             "bucket": "common",
             "level": "1-20",
-            "weight": 0.1
+            "weight": 0.1,
+            "condition": {
+                "lureLevel": 3
+            }
         },
         {
             "id": "magikarp-blue-saucy-8",
@@ -141,7 +159,10 @@
             "context": "fishing",
             "bucket": "common",
             "level": "1-20",
-            "weight": 0.1
+            "weight": 0.1,
+            "condition": {
+                "lureLevel": 3
+            }
         },
         {
             "id": "magikarp-brown-striped-9",
@@ -150,7 +171,10 @@
             "context": "fishing",
             "bucket": "common",
             "level": "1-20",
-            "weight": 0.1
+            "weight": 0.1,
+            "condition": {
+                "lureLevel": 2
+            }
         },
         {
             "id": "magikarp-brown-tiger-10",
@@ -159,7 +183,10 @@
             "context": "fishing",
             "bucket": "common",
             "level": "1-20",
-            "weight": 0.1
+            "weight": 0.1,
+            "condition": {
+                "lureLevel": 2
+            }
         },
         {
             "id": "magikarp-brown-zebra-11",
@@ -168,7 +195,10 @@
             "context": "fishing",
             "bucket": "common",
             "level": "1-20",
-            "weight": 0.1
+            "weight": 0.1,
+            "condition": {
+                "lureLevel": 2
+            }
         },
         {
             "id": "magikarp-calico-1-12",
@@ -177,7 +207,10 @@
             "context": "fishing",
             "bucket": "common",
             "level": "1-20",
-            "weight": 0.1
+            "weight": 0.1,
+            "condition": {
+                "lureLevel": 1
+            }
         },
         {
             "id": "magikarp-calico-2-13",
@@ -186,7 +219,10 @@
             "context": "fishing",
             "bucket": "common",
             "level": "1-20",
-            "weight": 0.1
+            "weight": 0.1,
+            "condition": {
+                "lureLevel": 1
+            }
         },
         {
             "id": "magikarp-calico-3-14",
@@ -195,7 +231,10 @@
             "context": "fishing",
             "bucket": "common",
             "level": "1-20",
-            "weight": 0.1
+            "weight": 0.1,
+            "condition": {
+                "lureLevel": 1
+            }
         },
         {
             "id": "magikarp-calico-4-15",
@@ -204,7 +243,10 @@
             "context": "fishing",
             "bucket": "common",
             "level": "1-20",
-            "weight": 0.1
+            "weight": 0.1,
+            "condition": {
+                "lureLevel": 1
+            }
         },
         {
             "id": "magikarp-dapples-16",
@@ -213,7 +255,10 @@
             "context": "fishing",
             "bucket": "common",
             "level": "1-20",
-            "weight": 0.1
+            "weight": 0.1,
+            "condition": {
+                "lureLevel": 1
+            }
         },
         {
             "id": "magikarp-gray-bubbles-17",
@@ -222,7 +267,10 @@
             "context": "fishing",
             "bucket": "common",
             "level": "1-20",
-            "weight": 0.1
+            "weight": 0.1,
+            "condition": {
+                "lureLevel": 2
+            }
         },
         {
             "id": "magikarp-gray-diamonds-18",
@@ -231,7 +279,10 @@
             "context": "fishing",
             "bucket": "common",
             "level": "1-20",
-            "weight": 0.1
+            "weight": 0.1,
+            "condition": {
+                "lureLevel": 2
+            }
         },
         {
             "id": "magikarp-gray-patches-19",
@@ -240,7 +291,10 @@
             "context": "fishing",
             "bucket": "common",
             "level": "1-20",
-            "weight": 0.1
+            "weight": 0.1,
+            "condition": {
+                "lureLevel": 2
+            }
         },
         {
             "id": "magikarp-orange-forehead-20",
@@ -249,7 +303,10 @@
             "context": "fishing",
             "bucket": "common",
             "level": "1-20",
-            "weight": 0.1
+            "weight": 0.1,
+            "condition": {
+                "lureLevel": 3
+            }
         },
         {
             "id": "magikarp-orange-masked-21",
@@ -258,7 +315,10 @@
             "context": "fishing",
             "bucket": "common",
             "level": "1-20",
-            "weight": 0.1
+            "weight": 0.1,
+            "condition": {
+                "lureLevel": 3
+            }
         },
         {
             "id": "magikarp-orca-22",
@@ -267,7 +327,10 @@
             "context": "fishing",
             "bucket": "common",
             "level": "1-20",
-            "weight": 0.1
+            "weight": 0.1,
+            "condition": {
+                "lureLevel": 1
+            }
         },
         {
             "id": "magikarp-pink-dapples-23",
@@ -276,7 +339,10 @@
             "context": "fishing",
             "bucket": "common",
             "level": "1-20",
-            "weight": 0.1
+            "weight": 0.1,
+            "condition": {
+                "lureLevel": 2
+            }
         },
         {
             "id": "magikarp-pink-orca-24",
@@ -285,7 +351,10 @@
             "context": "fishing",
             "bucket": "common",
             "level": "1-20",
-            "weight": 0.1
+            "weight": 0.1,
+            "condition": {
+                "lureLevel": 2
+            }
         },
         {
             "id": "magikarp-pink-two_tone-25",
@@ -294,7 +363,10 @@
             "context": "fishing",
             "bucket": "common",
             "level": "1-20",
-            "weight": 0.1
+            "weight": 0.1,
+            "condition": {
+                "lureLevel": 2
+            }
         },
         {
             "id": "magikarp-purple-bubbles-26",
@@ -303,7 +375,10 @@
             "context": "fishing",
             "bucket": "common",
             "level": "1-20",
-            "weight": 0.1
+            "weight": 0.1,
+            "condition": {
+                "lureLevel": 2
+            }
         },
         {
             "id": "magikarp-purple-diamonds-27",
@@ -312,7 +387,10 @@
             "context": "fishing",
             "bucket": "common",
             "level": "1-20",
-            "weight": 0.1
+            "weight": 0.1,
+            "condition": {
+                "lureLevel": 2
+            }
         },
         {
             "id": "magikarp-purple-patches-28",
@@ -321,7 +399,10 @@
             "context": "fishing",
             "bucket": "common",
             "level": "1-20",
-            "weight": 0.1
+            "weight": 0.1,
+            "condition": {
+                "lureLevel": 2
+            }
         },
         {
             "id": "magikarp-skelly-29",
@@ -330,7 +411,10 @@
             "context": "fishing",
             "bucket": "common",
             "level": "1-20",
-            "weight": 0.1
+            "weight": 0.1,
+            "condition": {
+                "lureLevel": 1
+            }
         },
         {
             "id": "magikarp-two-tone-30",
@@ -339,7 +423,10 @@
             "context": "fishing",
             "bucket": "common",
             "level": "1-20",
-            "weight": 0.1
+            "weight": 0.1,
+            "condition": {
+                "lureLevel": 1
+            }
         },
         {
             "id": "magikarp-violet-raindrops-31",
@@ -348,7 +435,10 @@
             "context": "fishing",
             "bucket": "common",
             "level": "1-20",
-            "weight": 0.1
+            "weight": 0.1,
+            "condition": {
+                "lureLevel": 3
+            }
         },
         {
             "id": "magikarp-violet-saucy-32",
@@ -357,7 +447,10 @@
             "context": "fishing",
             "bucket": "common",
             "level": "1-20",
-            "weight": 0.1
+            "weight": 0.1,
+            "condition": {
+                "lureLevel": 3
+            }
         }
     ]
 }
