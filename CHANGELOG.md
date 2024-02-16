@@ -46,6 +46,7 @@
 - Fixed Poké Balls freezing in an open state if you look away when it's meant to close.
 - Adds a translation string name to the Empty Pokeball entity.
 - Fixed very many issues with Bedrock particle effects.
+- Fixed Arbok patterns not being as specific in spawning as they were intended.
 
 ### Developer
 - Significantly changed the way properties in PokemonEntity work. This could break some plugins (not in a big way, but changes will be needed).
