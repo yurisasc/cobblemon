@@ -201,10 +201,6 @@ object CobblemonItemGroups {
         entries.add(CobblemonItems.HEALING_MACHINE)
         entries.add(CobblemonItems.PASTURE)
 
-        entries.add(CobblemonItems.FOSSIL_TUBE)
-        entries.add(CobblemonItems.FOSSIL_COMPARTMENT)
-        entries.add(CobblemonItems.FOSSIL_MONITOR)
-
         entries.add(CobblemonItems.GILDED_CHEST)
         entries.add(CobblemonItems.YELLOW_GILDED_CHEST)
         entries.add(CobblemonItems.GREEN_GILDED_CHEST)

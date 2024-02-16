@@ -21,7 +21,7 @@ class BlockEntityModel(val root: Bone) : PoseableEntityModel<Entity>() {
     override val rootPart = (root as ModelPart).registerChildWithAllChildren(boneName)
 
     override val isForLivingEntityRenderer = false
-    var animations: Array<StatelessAnimation<Entity, out ModelFrame>> = emptyArray()
+    var idleAnimations: Array<StatelessAnimation<Entity, out ModelFrame>> = emptyArray()
     var maxScale = 1F
     var yTranslation = 0F
     override fun registerPoses() {
@@ -31,12 +31,12 @@ class BlockEntityModel(val root: Bone) : PoseableEntityModel<Entity>() {
             idleAnimations = arrayOf(bedrock("gilded_chest", "open"))
         )
 
-        closedPose.transitions[openPose] = { _, _ ->
-            bedrockStateful("gilded_chest", "opening").isTransformAnimation(true).andThen { _, state -> state.setPose(openPose.poseName) }
+        closedPose.transitions[openPose.poseName] = { _, _ ->
+            bedrockStateful("gilded_chest", "opening").andThen { _, state -> state.setPose(openPose.poseName) }
         }
 
-        openPose.transitions[closedPose] = { _, _ ->
-            bedrockStateful("gilded_chest", "closing").isTransformAnimation(true).andThen { _, state -> state.setPose(closedPose.poseName) }
+        openPose.transitions[closedPose.poseName] = { _, _ ->
+            bedrockStateful("gilded_chest", "closing").andThen { _, state -> state.setPose(closedPose.poseName) }
         }
     }
 

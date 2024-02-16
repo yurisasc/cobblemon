@@ -38,7 +38,7 @@ class GimmighoulChestModel (root: ModelPart) : PokemonPoseableModel(), HeadedFra
     lateinit var walk: PokemonPose
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("gimmighoul_chest", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("gimmighoul_chest", "blink") }
         standing = registerPose(
             poseName = "standing",
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
