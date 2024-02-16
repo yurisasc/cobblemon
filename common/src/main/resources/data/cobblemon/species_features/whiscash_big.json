@@ -1,0 +1,6 @@
+{
+  "keys": ["whiscash_big"],
+  "type": "flag",
+  "isAspect": true,
+  "default": false
+}

@@ -10,6 +10,16 @@
       "layers": []
     },
     {
+      "aspects": ["whiscash_big"],
+      "model": "cobblemon:whiscash_big.geo",
+      "texture": "cobblemon:textures/pokemon/0340_whiscash/whiscash_big.png"
+    },
+    {
+      "aspects": ["whiscash_big", "shiny"],
+      "model": "cobblemon:whiscash_big.geo",
+      "texture": "cobblemon:textures/pokemon/0340_whiscash/whiscash_big_shiny.png"
+    },
+    {
       "aspects": ["shiny"],
       "texture": "cobblemon:textures/pokemon/0340_whiscash/whiscash_shiny.png"
     }
