@@ -13,6 +13,7 @@ import com.cobblemon.mod.common.api.moves.Moves
 import com.cobblemon.mod.common.api.types.ElementalType
 import com.cobblemon.mod.common.api.types.ElementalTypes
 import com.cobblemon.mod.common.pokemon.Pokemon
+import com.cobblemon.mod.common.tms.obtain.NoneObtainMethod
 import com.cobblemon.mod.common.util.lang
 import net.minecraft.item.Item
 import net.minecraft.item.Items
@@ -102,7 +103,7 @@ class TechnicalMachine(
     fun unlock(player: ServerPlayerEntity): Boolean {
         if (id() == null) return false
         Cobblemon.playerData.get(player).tmSet.add(id()!!)
-        player.sendMessage(lang("tms.unlock_tm", lang("move.$moveName")))
+        if (!obtainMethods.any { it is NoneObtainMethod }) player.sendMessage(lang("tms.unlock_tm", lang("move.$moveName")))
         return true
     }
 

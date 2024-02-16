@@ -15,6 +15,7 @@ import com.cobblemon.mod.common.api.scheduling.ServerTaskTracker
 import com.cobblemon.mod.common.api.scheduling.taskBuilder
 import com.cobblemon.mod.common.api.text.text
 import com.cobblemon.mod.common.api.tms.TechnicalMachine
+import com.cobblemon.mod.common.api.tms.TechnicalMachines
 import com.cobblemon.mod.common.battles.BattleFormat
 import com.cobblemon.mod.common.battles.BattleRegistry
 import com.cobblemon.mod.common.battles.BattleSide
@@ -54,6 +55,10 @@ object TestCommand {
     private fun execute(context: CommandContext<ServerCommandSource>): Int {
         if (context.source.entity !is ServerPlayerEntity) {
             return Command.SINGLE_SUCCESS
+        }
+
+        for (id in Cobblemon.playerData.get(context.source.playerOrThrow).tmSet) {
+            context.source.player?.sendMessage(TechnicalMachines.tmMap[id]?.translatedMoveName())
         }
 
         try {
