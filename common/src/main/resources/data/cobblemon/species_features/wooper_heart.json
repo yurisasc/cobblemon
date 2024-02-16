@@ -1,0 +1,11 @@
+{
+  "type": "choice",
+  "keys": ["wooper_heart"],
+  "default": "standard",
+  "choices": [
+    "standard",
+    "heart"
+  ],
+  "isAspect": true,
+  "aspectFormat": "wooper-heart-{{choice}}"
+}

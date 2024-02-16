@@ -4,6 +4,12 @@
   "variations": [
     {
       "aspects": [
+        "wooper-heart-heart", "female"
+      ],
+      "model": "cobblemon:wooper_heart_female.geo"
+    },
+    {
+      "aspects": [
         "female"
       ],
       "model": "cobblemon:wooper_female.geo"
