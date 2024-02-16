@@ -1,0 +1,52 @@
+{
+    "type": "minecraft:archaeology",
+    "pools": [
+        {
+            "bonus_rolls": 0.0,
+            "entries": [
+                {
+                    "type": "minecraft:item",
+                    "name": "minecraft:suspicious_gravel",
+                    "weight": 3
+                },
+                {
+                    "type": "minecraft:item",
+                    "name": "cobblemon:everstone",
+                    "weight": 3
+                },
+                {
+                    "type": "minecraft:item",
+                    "name": "minecraft:suspicious_gravel",
+                    "weight": 3
+                },
+                {
+                    "type": "minecraft:item",
+                    "name": "cobblemon:black_augurite",
+                    "weight": 2
+                },
+                {
+                    "type": "minecraft:item",
+                    "name": "cobblemon:armor_fossil",
+                    "weight": 1
+                },
+                {
+                    "type": "minecraft:item",
+                    "name": "cobblemon:helix_fossil",
+                    "weight": 1
+                },
+                {
+                    "type": "minecraft:item",
+                    "name": "cobblemon:root_fossil",
+                    "weight": 1
+                },
+                {
+                    "type": "minecraft:item",
+                    "name": "cobblemon:jaw_fossil",
+                    "weight": 1
+                }
+            ],
+            "rolls": 1.0
+        }
+    ],
+    "random_sequence": "cobblemon:fossils/uncommon/prehistoric_eroded_pillar"
+}

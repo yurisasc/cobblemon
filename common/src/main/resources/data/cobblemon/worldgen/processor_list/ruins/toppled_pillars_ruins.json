@@ -1,0 +1,193 @@
+{
+    "processors": [
+        {
+            "processor_type": "minecraft:rule",
+            "rules": [
+                {
+                    "block_entity_modifier": {
+                        "type": "minecraft:append_loot",
+                        "loot_table": "cobblemon:ruins/common/toppled_pillars_ruins"
+                    },
+                    "input_predicate": {
+                        "block": "minecraft:gravel",
+                        "predicate_type": "minecraft:random_block_match",
+                        "probability": 0.5
+                    },
+                    "location_predicate": {
+                        "predicate_type": "minecraft:always_true"
+                    },
+                    "output_state": {
+                        "Name": "minecraft:suspicious_gravel"
+                    }
+                },
+                {
+                    "input_predicate": {
+                        "block": "minecraft:stone_bricks",
+                        "predicate_type": "minecraft:random_block_match",
+                        "probability": 0.2
+                    },
+                    "location_predicate": {
+                        "predicate_type": "minecraft:always_true"
+                    },
+                    "output_state": {
+                        "Name": "minecraft:cracked_stone_bricks"
+                    }
+                },
+                {
+                    "input_predicate": {
+                        "block": "minecraft:stone_bricks",
+                        "predicate_type": "minecraft:random_block_match",
+                        "probability": 0.2
+                    },
+                    "location_predicate": {
+                        "predicate_type": "minecraft:always_true"
+                    },
+                    "output_state": {
+                        "Name": "minecraft:cobblestone"
+                    }
+                },
+                {
+                    "input_predicate": {
+                        "block": "minecraft:stone_bricks",
+                        "predicate_type": "minecraft:random_block_match",
+                        "probability": 0.2
+                    },
+                    "location_predicate": {
+                        "predicate_type": "minecraft:always_true"
+                    },
+                    "output_state": {
+                        "Name": "minecraft:andesite"
+                    }
+                },
+                {
+                    "input_predicate": {
+                        "block": "minecraft:stone_bricks",
+                        "predicate_type": "minecraft:random_block_match",
+                        "probability": 0.1
+                    },
+                    "location_predicate": {
+                        "predicate_type": "minecraft:always_true"
+                    },
+                    "output_state": {
+                        "Name": "minecraft:stone_brick_stairs",
+                        "Properties": {
+                            "facing": "east",
+                            "half": "bottom",
+                            "shape": "straight",
+                            "waterlogged": "false"
+                        }
+                    }
+                },
+                {
+                    "input_predicate": {
+                        "block": "minecraft:stone_bricks",
+                        "predicate_type": "minecraft:random_block_match",
+                        "probability": 0.1
+                    },
+                    "location_predicate": {
+                        "predicate_type": "minecraft:always_true"
+                    },
+                    "output_state": {
+                        "Name": "minecraft:stone_brick_stairs",
+                        "Properties": {
+                            "facing": "west",
+                            "half": "bottom",
+                            "shape": "straight",
+                            "waterlogged": "false"
+                        }
+                    }
+                },
+                {
+                    "input_predicate": {
+                        "block": "minecraft:stone_bricks",
+                        "predicate_type": "minecraft:random_block_match",
+                        "probability": 0.1
+                    },
+                    "location_predicate": {
+                        "predicate_type": "minecraft:always_true"
+                    },
+                    "output_state": {
+                        "Name": "minecraft:stone_brick_stairs",
+                        "Properties": {
+                            "facing": "north",
+                            "half": "bottom",
+                            "shape": "straight",
+                            "waterlogged": "false"
+                        }
+                    }
+                },
+                {
+                    "input_predicate": {
+                        "block": "minecraft:stone_bricks",
+                        "predicate_type": "minecraft:random_block_match",
+                        "probability": 0.1
+                    },
+                    "location_predicate": {
+                        "predicate_type": "minecraft:always_true"
+                    },
+                    "output_state": {
+                        "Name": "minecraft:stone_brick_stairs",
+                        "Properties": {
+                            "facing": "south",
+                            "half": "bottom",
+                            "shape": "straight",
+                            "waterlogged": "false"
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "delegate": {
+                "processor_type": "minecraft:rule",
+                "rules": [
+                    {
+                        "block_entity_modifier": {
+                            "type": "minecraft:append_loot",
+                            "loot_table": "cobblemon:ruins/uncommon/crumbling_arch_ruins"
+                        },
+                        "input_predicate": {
+                            "block": "minecraft:suspicious_gravel",
+                            "predicate_type": "minecraft:random_block_match",
+                            "probability": 0.2
+                        },
+                        "location_predicate": {
+                            "predicate_type": "minecraft:always_true"
+                        },
+                        "output_state": {
+                            "Name": "minecraft:suspicious_gravel"
+                        }
+                    }
+                ]
+            },
+            "limit": 2,
+            "processor_type": "minecraft:capped"
+        },
+        {
+            "delegate": {
+                "processor_type": "minecraft:rule",
+                "rules": [
+                    {
+                        "block_entity_modifier": {
+                            "type": "minecraft:append_loot",
+                            "loot_table": "cobblemon:ruins/rare/tumblestone"
+                        },
+                        "input_predicate": {
+                            "block": "minecraft:suspicious_gravel",
+                            "predicate_type": "minecraft:random_block_match",
+                            "probability": 0.15
+                        },
+                        "location_predicate": {
+                            "predicate_type": "minecraft:always_true"
+                        },
+                        "output_state": {
+                            "Name": "minecraft:suspicious_gravel"
+                        }
+                    }
+                ]
+            },
+            "limit": 1,
+            "processor_type": "minecraft:capped"
+        }
+    ]
+}
