@@ -3,9 +3,7 @@ package com.cobblemon.mod.common.entity.fallingstar
 import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.CobblemonEntities
 import com.cobblemon.mod.common.api.spawning.BestSpawner
-import com.cobblemon.mod.common.api.spawning.detail.EntitySpawnResult
 import com.cobblemon.mod.common.api.spawning.fallingstar.FallingStarSpawnCause
-import com.cobblemon.mod.common.api.spawning.fishing.FishingSpawnCause
 import com.cobblemon.mod.common.api.text.text
 import com.cobblemon.mod.common.util.toBlockPos
 import net.minecraft.entity.Entity
