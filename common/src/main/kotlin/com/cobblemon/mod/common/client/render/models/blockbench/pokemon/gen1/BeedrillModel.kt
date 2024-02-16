@@ -38,7 +38,7 @@ class BeedrillModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BiWi
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("beedrill", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("beedrill", "cry") }
 
     override fun registerPoses() {
         sleep = registerPose(

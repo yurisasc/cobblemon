@@ -46,7 +46,7 @@ class ChatotModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedF
     lateinit var walk: PokemonPose
     lateinit var fly: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("chatot", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("chatot", "cry") }
 
     override fun registerPoses() {
 
@@ -56,7 +56,7 @@ class ChatotModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedF
 //                idleAnimations = arrayOf(bedrock("chatot", "sleep"))
 //        )
 
-        val blink = quirk("blink") { bedrockStateful("chatot", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("chatot", "blink") }
 
         stand = registerPose(
             poseName = "standing",

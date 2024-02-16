@@ -12,9 +12,9 @@ import com.cobblemon.mod.common.block.entity.BerryBlockEntity
 import com.cobblemon.mod.common.block.entity.HealingMachineBlockEntity
 import com.cobblemon.mod.common.block.entity.PCBlockEntity
 import com.cobblemon.mod.common.block.entity.PokemonPastureBlockEntity
-import com.cobblemon.mod.common.block.entity.fossil.FossilCompartmentBlockEntity
-import com.cobblemon.mod.common.block.entity.fossil.FossilMultiblockEntity
-import com.cobblemon.mod.common.block.entity.fossil.FossilTubeBlockEntity
+import com.cobblemon.mod.common.block.entity.FossilAnalyzerBlockEntity
+import com.cobblemon.mod.common.block.entity.FossilMultiblockEntity
+import com.cobblemon.mod.common.block.entity.RestorationTankBlockEntity
 import com.cobblemon.mod.common.block.multiblock.FossilMultiblockBuilder
 import com.cobblemon.mod.common.block.entity.*
 import com.cobblemon.mod.common.platform.PlatformRegistry
@@ -60,21 +60,21 @@ object CobblemonBlockEntities : PlatformRegistry<Registry<BlockEntityType<*>>, R
     @JvmField
     val FOSSIL_MULTIBLOCK: BlockEntityType<FossilMultiblockEntity> = this.create("fossil_multiblock",
         BlockEntityType.Builder.create({ pos, state -> FossilMultiblockEntity(pos, state, FossilMultiblockBuilder(pos)) },
-            CobblemonBlocks.FOSSIL_MONITOR
+            CobblemonBlocks.MONITOR
         ).build(null)
     )
 
     @JvmField
-    val FOSSIL_TUBE: BlockEntityType<FossilTubeBlockEntity> = this.create("fossil_tube",
-        BlockEntityType.Builder.create({ pos, state -> FossilTubeBlockEntity(pos, state, FossilMultiblockBuilder(pos)) },
-            CobblemonBlocks.FOSSIL_TUBE
+    val RESTORATION_TANK: BlockEntityType<RestorationTankBlockEntity> = this.create("restoration_tank",
+        BlockEntityType.Builder.create({ pos, state -> RestorationTankBlockEntity(pos, state, FossilMultiblockBuilder(pos)) },
+            CobblemonBlocks.RESTORATION_TANK
         ).build(null)
     )
 
     @JvmField
-    val FOSSIL_COMPARTMENT: BlockEntityType<FossilCompartmentBlockEntity> = this.create("fossil_compartment",
-        BlockEntityType.Builder.create({ pos, state -> FossilCompartmentBlockEntity(pos, state, FossilMultiblockBuilder(pos)) },
-            CobblemonBlocks.FOSSIL_COMPARTMENT
+    val FOSSIL_ANALYZER: BlockEntityType<FossilAnalyzerBlockEntity> = this.create("fossil_analyzer",
+        BlockEntityType.Builder.create({ pos, state -> FossilAnalyzerBlockEntity(pos, state, FossilMultiblockBuilder(pos)) },
+            CobblemonBlocks.FOSSIL_ANALYZER
         ).build(null)
     )
 }

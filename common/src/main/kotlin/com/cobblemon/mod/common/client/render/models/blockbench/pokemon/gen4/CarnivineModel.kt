@@ -29,7 +29,7 @@ class CarnivineModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame{
     lateinit var walk: PokemonPose
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("carnivine", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("carnivine", "blink") }
         standing = registerPose(
                 poseName = "standing",
                 poseTypes = ALL_POSES,

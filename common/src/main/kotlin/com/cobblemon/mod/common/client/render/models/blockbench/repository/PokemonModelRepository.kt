@@ -44,7 +44,6 @@ object PokemonModelRepository : VaryingModelRepository<PokemonEntity, PokemonPos
         inbuilt("charizard", ::CharizardModel)
         inbuilt("squirtle", ::SquirtleModel)
         inbuilt("wartortle", ::WartortleModel)
-        inbuilt("blastoise", ::BlastoiseModel)
         inbuilt("caterpie", ::CaterpieModel)
         inbuilt("metapod", ::MetapodModel)
         inbuilt("butterfree", ::ButterfreeModel)
@@ -601,7 +600,9 @@ object PokemonModelRepository : VaryingModelRepository<PokemonEntity, PokemonPos
         val jsonObject = JsonPokemonPoseableModel.gson.fromJson(json, JsonObject::class.java)
         return {
             JsonPokemonPoseableModel.JsonPokemonPoseableModelAdapter.modelPart = it
-            JsonPokemonPoseableModel.gson.fromJson(jsonObject, JsonPokemonPoseableModel::class.java)
+            JsonPokemonPoseableModel.gson.fromJson(jsonObject, JsonPokemonPoseableModel::class.java).also {
+                it.poses.forEach { poseName, pose -> pose.poseName = poseName }
+            }
         }
     }
 }

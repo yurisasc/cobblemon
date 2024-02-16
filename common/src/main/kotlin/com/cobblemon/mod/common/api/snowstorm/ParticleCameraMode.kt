@@ -191,11 +191,6 @@ class LookAtY : ParticleCameraMode {
         cameraPitch: Float,
         viewDirection: Vec3d
     ): Quaternionf {
-        /*
-        val vec = matrixWrapper.getOrigin().add(particlePosition)
-        val v = cameraPosition.withAxis(Direction.Axis.Y, vec.y)
-*/
-
         val rotation = Quaternionf(0F, 0F, 0F, 1F)
         rotation.hamiltonProduct(RotationAxis.POSITIVE_Y.rotationDegrees(-cameraYaw))
         return rotation

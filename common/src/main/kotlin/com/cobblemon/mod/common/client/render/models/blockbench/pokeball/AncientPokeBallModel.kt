@@ -51,9 +51,9 @@ class AncientPokeBallModel(root: ModelPart) : PokeBallModel(root), PokeBallFrame
             transformTicks = 0
         )
 
-        shut.transitions[open] = { _, _ -> bedrockStateful("ancient_poke_ball", "open").andThen { entity, state -> state.setPose(open.poseName) } }
-        open.transitions[shut] = { _, _ -> bedrockStateful("ancient_poke_ball", "shut").andThen { entity, state -> state.setPose(shut.poseName) } }
-        midair.transitions[open] = shut.transitions[open]!!
+        shut.transitions[open.poseName] = { _, _ -> bedrockStateful("ancient_poke_ball", "open").andThen { entity, state -> state.setPose(open.poseName) } }
+        open.transitions[shut.poseName] = { _, _ -> bedrockStateful("ancient_poke_ball", "shut").andThen { entity, state -> state.setPose(shut.poseName) } }
+        midair.transitions[open.poseName] = shut.transitions[open.poseName]!!
     }
 }
 

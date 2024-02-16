@@ -319,6 +319,75 @@
       "cobblemon:block/gilded_chest/gilded_chest_step_4"
     ]
   },
+  "flamethrower": {
+    "sounds": [ "cobblemon:attacks/flamethrower" ]
+  },
+  "effective": {
+    "sounds": [ "cobblemon:effective" ]
+  },
+  "fuse": {
+    "sounds": [ "cobblemon:fuse" ]
+  },
+  "notveryeffective": {
+    "sounds": [ "cobblemon:notveryeffective" ]
+  },
+  "supereffective": {
+      "sounds": [ "cobblemon:supereffective" ]
+  },
+  "impact.normal": {
+    "sounds": [ "cobblemon:attacks/impacts/impact_normal" ]
+  },
+  "impact.ice": {
+      "sounds": [ "cobblemon:attacks/impacts/impact_ice" ]
+  },
+  "impact.water": {
+      "sounds": [ "cobblemon:attacks/impacts/impact_water" ]
+  },
+  "impact.fire": {
+      "sounds": [ "cobblemon:attacks/impacts/impact_fire" ]
+  },
+  "impact.electric": {
+      "sounds": [ "cobblemon:attacks/impacts/impact_electric" ]
+  },
+  "impact.grass": {
+      "sounds": [ "cobblemon:attacks/impacts/impact_grass" ]
+  },
+  "impact.fighting": {
+      "sounds": [ "cobblemon:attacks/impacts/impact_fighting" ]
+  },
+  "impact.poison": {
+      "sounds": [ "cobblemon:attacks/impacts/impact_poison" ]
+  },
+  "impact.ground": {
+      "sounds": [ "cobblemon:attacks/impacts/impact_ground" ]
+  },
+  "impact.flying": {
+      "sounds": [ "cobblemon:attacks/impacts/impact_flying" ]
+  },
+  "impact.psychic": {
+      "sounds": [ "cobblemon:attacks/impacts/impact_psychic" ]
+  },
+  "impact.bug": {
+      "sounds": [ "cobblemon:attacks/impacts/impact_bug" ]
+  },
+  "impact.rock": {
+      "sounds": [ "cobblemon:attacks/impacts/impact_rock" ]
+  },
+  "impact.ghost": {
+      "sounds": [ "cobblemon:attacks/impacts/impact_ghost" ]
+  },
+  "impact.dragon": {
+      "sounds": [ "cobblemon:attacks/impacts/impact_dragon" ]
+  },
+  "impact.dark": {
+      "sounds": [ "cobblemon:attacks/impacts/impact_dark" ]
+  },
+  "impact.steel": {
+      "sounds": [ "cobblemon:attacks/impacts/impact_steel" ]
+  },
+  "impact.fairy": {
+      "sounds": [ "cobblemon:attacks/impacts/impact_fairy" ]
+  },
   "pokemon.bulbasaur.ambient": {
     "sounds": [ "cobblemon:pokemon/bulbasaur/bulbasaur_ambient" ]
   },

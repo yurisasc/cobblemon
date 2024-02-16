@@ -48,7 +48,7 @@ class StarlyModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Biped
 //            poseType = PoseType.SLEEP,
 //            idleAnimations = arrayOf(bedrock("starly", "sleep"))
 //        )
-        val blink = quirk("blink") { bedrockStateful("starly", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("starly", "blink") }
         stand = registerPose(
             poseName = "standing",
             poseTypes = PoseType.SHOULDER_POSES + PoseType.UI_POSES + PoseType.STAND,

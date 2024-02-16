@@ -45,7 +45,7 @@ class DartrixModel(root: ModelPart) : PokemonPoseableModel(), BipedFrame, BiWing
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("dartrix", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("dartrix", "cry") }
 
     override fun registerPoses() {
         standing = registerPose(

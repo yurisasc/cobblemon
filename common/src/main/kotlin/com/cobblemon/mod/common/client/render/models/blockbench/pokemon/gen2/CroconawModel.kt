@@ -46,10 +46,10 @@ class CroconawModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
 
     val wateroffset = -10
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("croconaw", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("croconaw", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("croconaw", "blink").setPreventsIdle(false)}
+        val blink = quirk { bedrockStateful("croconaw", "blink")}
 
         sleep = registerPose(
             poseName = "sleeping",

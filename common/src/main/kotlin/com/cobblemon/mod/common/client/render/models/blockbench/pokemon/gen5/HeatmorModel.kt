@@ -37,7 +37,7 @@ class HeatmorModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bipe
     lateinit var sleep: PokemonPose
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("heatmor", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("heatmor", "blink") }
             sleep = registerPose(
             poseType = PoseType.SLEEP,
             idleAnimations = arrayOf(bedrock("heatmor", "sleep"))

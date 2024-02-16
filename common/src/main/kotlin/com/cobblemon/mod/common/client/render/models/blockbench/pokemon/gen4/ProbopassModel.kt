@@ -33,7 +33,7 @@ class ProbopassModel(root: ModelPart) : PokemonPoseableModel() {
     lateinit var walk: PokemonPose
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("probopass", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("probopass", "blink") }
 
         sleep = registerPose(
             poseType = PoseType.SLEEP,

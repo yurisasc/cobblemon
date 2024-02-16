@@ -44,14 +44,14 @@ class FletchlingModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, B
     lateinit var hover: PokemonPose
     lateinit var fly: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("fletchling", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("fletchling", "cry") }
 
     override fun registerPoses() {
 //        sleep = registerPose(
 //            poseType = PoseType.SLEEP,
 //            idleAnimations = arrayOf(bedrock("fletchling", "sleep"))
 //        )
-        val blink = quirk("blink") { bedrockStateful("fletchling", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("fletchling", "blink") }
         stand = registerPose(
             poseName = "standing",
             poseTypes = PoseType.SHOULDER_POSES + PoseType.UI_POSES + PoseType.STAND,

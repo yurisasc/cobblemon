@@ -8,12 +8,14 @@
 
 package com.cobblemon.mod.forge.client
 
+import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.CobblemonClientImplementation
 import com.cobblemon.mod.common.api.pokeball.PokeBalls
 import com.cobblemon.mod.common.client.render.atlas.CobblemonAtlases
 import com.cobblemon.mod.common.client.CobblemonClient
 import com.cobblemon.mod.common.client.CobblemonClient.reloadCodedAssets
 import com.cobblemon.mod.common.client.keybind.CobblemonKeyBinds
+import com.cobblemon.mod.common.compat.LambDynamicLightsCompat
 import com.cobblemon.mod.common.client.render.shader.CobblemonShaders
 import com.cobblemon.mod.common.item.group.CobblemonItemGroups
 import com.cobblemon.mod.common.particle.CobblemonParticles
@@ -82,6 +84,7 @@ object CobblemonForgeClient : CobblemonClientImplementation {
     private fun onClientSetup(event: FMLClientSetupEvent) {
         event.enqueueWork {
             CobblemonClient.initialize(this)
+            this.attemptModCompat()
         }
         ForgeClientPlatformEventHandler.register()
     }
@@ -187,6 +190,15 @@ object CobblemonForgeClient : CobblemonClientImplementation {
     private fun onBuildContents(e: BuildCreativeModeTabContentsEvent) {
         val forgeInject = ForgeItemGroupInject(e.entries)
         CobblemonItemGroups.inject(e.tabKey, forgeInject)
+    }
+
+    private fun attemptModCompat() {
+        // They have no Maven nor are they published on Modrinth :(
+        // Good thing is they are a copy pasta adapted to Forge :D
+        if (Cobblemon.implementation.isModInstalled("dynamiclightsreforged")) {
+            LambDynamicLightsCompat.hookCompat()
+            Cobblemon.LOGGER.info("Dynamic Lights Reforged compatibility enabled")
+        }
     }
 
     private class ForgeItemGroupInject(private val entries: MutableHashedLinkedMap<ItemStack, ItemGroup.StackVisibility>) : CobblemonItemGroups.Injector {

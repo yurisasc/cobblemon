@@ -29,11 +29,10 @@ import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.nbt.NbtElement
 import net.minecraft.util.Identifier
+import net.minecraft.util.Pair
 import net.minecraft.util.math.RotationAxis
 
 class PokemonOnShoulderRenderer<T : PlayerEntity>(renderLayerParent: FeatureRendererContext<T, PlayerEntityModel<T>>) : FeatureRenderer<T, PlayerEntityModel<T>>(renderLayerParent) {
-
-    private val playerCache = hashMapOf<UUID, ShoulderCache>()
 
     override fun render(
         matrixStack: MatrixStack,
@@ -68,7 +67,7 @@ class PokemonOnShoulderRenderer<T : PlayerEntity>(renderLayerParent: FeatureRend
         if (compoundTag.isPokemonEntity()) {
             matrixStack.push()
             val uuid = this.extractUuid(compoundTag)
-            val cache = this.playerCache.getOrPut(livingEntity.uuid) { ShoulderCache() }
+            val cache = playerCache.getOrPut(livingEntity.uuid) { ShoulderCache() }
             var shoulderData: ShoulderData? = null
             if (pLeftShoulder && cache.lastKnownLeft?.uuid != uuid) {
                 shoulderData = this.extractData(compoundTag, uuid)
@@ -158,12 +157,30 @@ class PokemonOnShoulderRenderer<T : PlayerEntity>(renderLayerParent: FeatureRend
         var lastKnownRight: ShoulderData? = null
     )
 
-    private data class ShoulderData(
+    data class ShoulderData(
         val uuid: UUID,
         val species: Species,
         val form: FormData,
         val aspects: Set<String>,
         val scaleModifier: Float
     )
+
+    companion object {
+
+        private val playerCache = hashMapOf<UUID, ShoulderCache>()
+
+        /**
+         * Checks if a player has shoulder data cached.
+         *
+         * @param player The player being checked.
+         * @return A [Pair] with [Pair.left] and [Pair.right] being the respective shoulder.
+         */
+        @JvmStatic
+        fun shoulderDataOf(player: PlayerEntity): Pair<ShoulderData?, ShoulderData?> {
+            val cache = playerCache[player.uuid] ?: return Pair(null, null)
+            return Pair(cache.lastKnownLeft, cache.lastKnownRight)
+        }
+
+    }
 
 }
