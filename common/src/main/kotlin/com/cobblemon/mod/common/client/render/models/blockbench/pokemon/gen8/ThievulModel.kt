@@ -37,11 +37,11 @@ class ThievulModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quad
     lateinit var sleep: PokemonPose
     lateinit var battleidle: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("thievul", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("thievul", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("thievul", "blink").setPreventsIdle(false)}
-        val sleepquirk = quirk("sleepquirk") { bedrockStateful("thievul", "quirk_sleep").setPreventsIdle(false)}
+        val blink = quirk { bedrockStateful("thievul", "blink")}
+        val sleepquirk = quirk { bedrockStateful("thievul", "quirk_sleep")}
 
         sleep = registerPose(
             poseType = PoseType.SLEEP,

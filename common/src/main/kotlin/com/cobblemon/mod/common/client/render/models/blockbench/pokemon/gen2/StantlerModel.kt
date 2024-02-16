@@ -36,7 +36,7 @@ class StantlerModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Qua
     lateinit var walk: PokemonPose
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("stantler", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("stantler", "blink") }
 
         standing = registerPose(
             poseName = "standing",

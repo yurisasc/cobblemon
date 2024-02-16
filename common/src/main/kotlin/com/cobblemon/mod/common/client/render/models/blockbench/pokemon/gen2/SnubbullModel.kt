@@ -38,7 +38,7 @@ class SnubbullModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
     lateinit var sleep: PokemonPose
     lateinit var battleidle: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("snubbull", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("snubbull", "cry") }
 
     override fun registerPoses() {
 

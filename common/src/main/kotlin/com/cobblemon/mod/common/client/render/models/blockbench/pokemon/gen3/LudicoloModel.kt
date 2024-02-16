@@ -41,7 +41,7 @@ class LudicoloModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
     lateinit var sleep: PokemonPose
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("ludicolo", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("ludicolo", "blink") }
         standing = registerPose(
             poseName = "standing",
             poseTypes = PoseType.UI_POSES + PoseType.STAND,

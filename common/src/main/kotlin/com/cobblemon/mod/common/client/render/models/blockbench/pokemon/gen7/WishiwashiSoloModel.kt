@@ -30,7 +30,7 @@ class WishiwashiSoloModel (root: ModelPart) : PokemonPoseableModel(){
     lateinit var watersleep: PokemonPose
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("wishiwashi_solo", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("wishiwashi_solo", "blink") }
         watersleep = registerPose(
             poseType = PoseType.SLEEP,
             condition = { it.isTouchingWater },

@@ -42,7 +42,7 @@ class TalonflameModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, B
     lateinit var hover: PokemonPose
     lateinit var fly: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("talonflame", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("talonflame", "cry") }
 
     override fun registerPoses() {
 //        sleep = registerPose(
@@ -50,7 +50,7 @@ class TalonflameModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, B
 //            idleAnimations = arrayOf(bedrock("talonflame", "sleep"))
 //        )
 
-        val blink = quirk("blink") { bedrockStateful("talonflame", "blink").setPreventsIdle(false)}
+        val blink = quirk { bedrockStateful("talonflame", "blink")}
         stand = registerPose(
             poseName = "stand",
             poseTypes = PoseType.STATIONARY_POSES - PoseType.HOVER - PoseType.FLOAT + PoseType.UI_POSES,
