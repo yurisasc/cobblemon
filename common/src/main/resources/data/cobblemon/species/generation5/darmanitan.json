@@ -24,7 +24,8 @@
     "speed": 95
   },
   "features": [
-    "galarian"
+    "galarian",
+    "zen_mode"
   ],
   "catchRate": 60,
   "maleRatio": 0.5,
@@ -206,7 +207,7 @@
         "gen5"
       ],
       "aspects": [
-        "zen"
+        "zen_mode"
       ],
       "height": 13,
       "weight": 929,
@@ -329,7 +330,7 @@
       ],
       "height": 17,
       "weight": 1200,
-      "preEvolution": "darumaka form=galar",
+      "preEvolution": "darumaka galarian",
       "cannotDynamax": false,
       "battleOnly": false,
       "drops": {
@@ -383,7 +384,8 @@
         "galar_regional"
       ],
       "aspects": [
-        "galar-zen"
+        "galarian",
+        "zen_mode"
       ],
       "height": 17,
       "weight": 1200,
@@ -391,6 +393,12 @@
       "battleOnly": true
     }
   ],
+  "baseScale": 1.2,
+  "hitbox": {
+    "width": 1,
+    "height": 1,
+    "fixed": false
+  },
   "aspects": [],
   "cannotDynamax": false
 }

@@ -1,4 +1,5 @@
 ﻿{
+  "implemented": true,
   "name": "Lilligant",
   "nationalPokedexNumber": 549,
   "primaryType": "grass",
@@ -142,9 +143,15 @@
       "aspects": [
         "hisuian"
       ],
+      "baseScale": 0.8,
+      "hitbox": {
+        "width": 1,
+        "height": 1,
+        "fixed": false
+      },
       "height": 12,
       "weight": 192,
-      "preEvolution": "petilil",
+      "preEvolution": "petilil hisuian",
       "cannotDynamax": false,
       "battleOnly": false
     }
@@ -244,7 +251,7 @@
   ],
   "preEvolution": "petilil",
   "evolutions": [],
-  "baseScale": 1,
+  "baseScale": 0.7,
   "hitbox": {
     "width": 1,
     "height": 1,

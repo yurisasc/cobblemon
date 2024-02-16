@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Petilil",
   "nationalPokedexNumber": 548,
   "primaryType": "grass",
@@ -33,6 +34,9 @@
     "speed": 30
   },
   "catchRate": 190,
+  "features": [
+    "hisuian"
+  ],
   "maleRatio": 0,
   "shoulderMountable": false,
   "baseExperienceYield": 56,
@@ -144,7 +148,7 @@
     {
       "id": "petilil_lilligant",
       "variant": "item_interact",
-      "result": "lilligant form=hisui",
+      "result": "lilligant hisuian",
       "consumeHeldItem": false,
       "learnableMoves": [
         "victorydance"
@@ -153,7 +157,7 @@
       "requiredContext": "cobblemon:sun_stone"
     }
   ],
-  "baseScale": 1,
+  "baseScale": 0.5,
   "hitbox": {
     "width": 1,
     "height": 1,

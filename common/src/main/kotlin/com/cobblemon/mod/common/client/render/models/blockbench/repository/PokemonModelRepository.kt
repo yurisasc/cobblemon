@@ -632,6 +632,13 @@ object PokemonModelRepository : VaryingModelRepository<PokemonEntity, PokemonPos
         inbuilt("sneasel_hisuian", ::SneaselHisuianModel)
         inbuilt("sneasler", ::SneaslerModel)
         inbuilt("tropius", ::TropiusModel)
+        inbuilt("petilil", ::PetililModel)
+        inbuilt("lilligant", ::LilligantModel)
+        inbuilt("petilil_hisuian", ::PetililHisuianModel)
+        inbuilt("lilligant_hisuian", ::LilligantHisuianModel)
+        inbuilt("darumaka", ::DarumakaModel)
+        inbuilt("darmanitan", ::DarmanitanModel)
+        inbuilt("darmanitan_zen", ::DarmanitanZenModel)
     }
 
     override fun loadJsonPoser(json: String): (Bone) -> PokemonPoseableModel {
