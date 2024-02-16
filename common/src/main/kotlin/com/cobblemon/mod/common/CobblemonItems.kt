@@ -829,6 +829,8 @@ object CobblemonItems : PlatformRegistry<Registry<Item>, RegistryKey<Registry<It
 
     private fun pokerodItem(name: String): PokerodItem {
         var settings = Item.Settings()
+        settings.maxCount(1) // do not stack
+        settings.maxDamage(Items.FISHING_ROD.maxDamage) // same durability as Vanilla Fishing Rod
         val item = create(name, PokerodItem(settings))
         return item
     }
