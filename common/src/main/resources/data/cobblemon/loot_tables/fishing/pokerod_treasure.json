@@ -1,71 +1,28 @@
 {
-  "type": "minecraft:fishing",
+  "type": "cobblemon:fishing",
   "pools": [
     {
       "bonus_rolls": 0.0,
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "minecraft:name_tag"
+          "name": "cobblemon:deep_sea_scale"
         },
         {
           "type": "minecraft:item",
-          "name": "minecraft:saddle"
+          "name": "cobblemon:deep_sea_tooth"
         },
         {
           "type": "minecraft:item",
-          "functions": [
-            {
-              "add": false,
-              "damage": {
-                "type": "minecraft:uniform",
-                "max": 0.25,
-                "min": 0.0
-              },
-              "function": "minecraft:set_damage"
-            },
-            {
-              "function": "minecraft:enchant_with_levels",
-              "levels": 30.0,
-              "treasure": true
-            }
-          ],
-          "name": "minecraft:bow"
+          "name": "cobblemon:dragon_scale"
         },
         {
           "type": "minecraft:item",
-          "functions": [
-            {
-              "add": false,
-              "damage": {
-                "type": "minecraft:uniform",
-                "max": 0.25,
-                "min": 0.0
-              },
-              "function": "minecraft:set_damage"
-            },
-            {
-              "function": "minecraft:enchant_with_levels",
-              "levels": 30.0,
-              "treasure": true
-            }
-          ],
-          "name": "minecraft:fishing_rod"
+          "name": "cobblemon:kings_rock"
         },
         {
           "type": "minecraft:item",
-          "functions": [
-            {
-              "function": "minecraft:enchant_with_levels",
-              "levels": 30.0,
-              "treasure": true
-            }
-          ],
-          "name": "minecraft:book"
-        },
-        {
-          "type": "minecraft:item",
-          "name": "minecraft:nautilus_shell"
+          "name": "cobblemon:prism_scale"
         }
       ],
       "rolls": 1.0

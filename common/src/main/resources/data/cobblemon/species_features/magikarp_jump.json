@@ -1,7 +1,7 @@
 {
   "type": "choice",
   "keys": ["magikarp_jump"],
-  "default": "random",
+  "default": "standard",
   "choices": [
     "standard",
     "apricot-striped",

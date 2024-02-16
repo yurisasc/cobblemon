@@ -561,10 +561,8 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
     fun spawnPokemonFromFishing(player: PlayerEntity, bobber: PokeRodFishingBobberEntity, chosenBucket: SpawnBucket) {
         var hookedEntityID: Int? = null
         var hookedEntity: Entity? = null
-
-
+        
         val spawner = BestSpawner.fishingSpawner
-        // stealing a ton of stuff from the SpawnFromPool Command
 
         //val spawnCause = SpawnCause(spawner = spawner, bucket = spawner.chooseBucket(), entity = spawner.getCauseEntity())
         val spawnCause = FishingSpawnCause(
@@ -594,22 +592,22 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
                 hookedEntityID = entity.id
                 spawnedPokemon = (entity as PokemonEntity)
 
-                // if spawned pokemon is a magikarp then lift it up into the air and over the player
-                if (spawnedPokemon.pokemon.species.name.equals("magikarp", ignoreCase = true)) {
-                    // Calculate direction and position as before
+
+                if (spawnedPokemon.pokemon.species.weight.toDouble() < 200.0) { // if weight value of Pokemon is less than 200 then reel it in to the player
+                    // direction and position
                     val rad = Math.toRadians(player.yaw.toDouble() + 180)
                     val behindDirection = Vec3d(-Math.sin(rad), 0.0, Math.cos(rad))
                     val targetPos = player.pos.add(behindDirection.multiply(2.0))
                     val diff = targetPos.subtract(entity.pos)
                     val distance = diff.horizontalLength()
 
-                    // Define variables for velocity adjustments
+                    // variables for velocity adjustments
                     val baseVelocity: Double
                     val velocityIncreasePerBlock: Double
                     val baseArc: Double
                     val arcIncreasePerBlock: Double
 
-                    // Adjust velocity based on distance
+                    // velocity based on distance
                     when {
                         distance < 10 -> { // distances under 10 blocks be a bit softer launch
                             baseVelocity = 0.3
