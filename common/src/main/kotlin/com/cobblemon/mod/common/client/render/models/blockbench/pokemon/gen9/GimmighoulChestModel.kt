@@ -8,14 +8,13 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen9
 
-import com.cobblemon.mod.common.client.render.models.blockbench.animation.BimanualSwingAnimation
-import com.cobblemon.mod.common.client.render.models.blockbench.animation.BipedWalkAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BimanualFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cobblemon.mod.common.entity.PoseType
+import com.cobblemon.mod.common.util.asExpressionLike
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
@@ -36,16 +35,31 @@ class GimmighoulChestModel (root: ModelPart) : PokemonPoseableModel(), HeadedFra
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
+    lateinit var closed: PokemonPose
+    lateinit var battle: PokemonPose
 
     override fun registerPoses() {
         val blink = quirk { bedrockStateful("gimmighoul_chest", "blink") }
+        animations["cry"] = "q.bedrock_stateful('gimmighoul_chest', 'cry')".asExpressionLike()
         standing = registerPose(
             poseName = "standing",
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
             quirks = arrayOf(blink),
+            condition = { it.ownerUuid != null && !it.isBattling },
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("gimmighoul_chest", "ground_idle")
+            )
+        )
+
+        closed = registerPose(
+            poseName = "closed",
+            poseTypes = PoseType.STATIONARY_POSES,
+            quirks = arrayOf(blink),
+            condition = { it.ownerUuid == null && !it.isBattling },
+            idleAnimations = arrayOf(
+                singleBoneLook(),
+                bedrock("gimmighoul_chest", "mimic")
             )
         )
 
@@ -55,12 +69,25 @@ class GimmighoulChestModel (root: ModelPart) : PokemonPoseableModel(), HeadedFra
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
-                bedrock("gimmighoul_chest", "ground_idle"),
-                BipedWalkAnimation(this, periodMultiplier = 0.6F, amplitudeMultiplier = 0.9F),
-                BimanualSwingAnimation(this, swingPeriodMultiplier = 0.6F, amplitudeMultiplier = 0.9F)
+                bedrock("gimmighoul_chest", "ground_walk")
                 //bedrock("gimmighoul_chest", "ground_walk")
             )
         )
+
+        battle = registerPose(
+            poseName = "battle",
+            poseTypes = PoseType.STATIONARY_POSES,
+            quirks = arrayOf(blink),
+            condition = { it.isBattling },
+            idleAnimations = arrayOf(
+                singleBoneLook(),
+                bedrock("gimmighoul_chest", "battle_idle"),
+            )
+        )
+
+        closed.transitions[battle.poseName] = { _, _ ->
+            bedrockStateful("gimmighoul_chest", "surprise").andThen { _, state -> state.setPose(battle.poseName) }
+        }
     }
 
 //    override fun getFaintAnimation(

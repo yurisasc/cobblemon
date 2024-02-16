@@ -753,7 +753,7 @@ abstract class PoseableEntityModel<T : Entity>(
                 }
             } else if (transition != null) {
                 val animation = transition(previousPose, desirablePose)
-                val primaryAnimation = PrimaryAnimation(animation, curve = { 1F })
+                val primaryAnimation = if (animation is PrimaryAnimation) animation else PrimaryAnimation(animation, curve = { 1F })
                 state.addPrimaryAnimation(primaryAnimation)
                 afterOnClient(seconds = primaryAnimation.duration) {
                     state.setPose(desirablePose.poseName)
