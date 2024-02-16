@@ -18,6 +18,7 @@ import java.util.EnumSet
 import net.minecraft.block.AbstractRailBlock
 import net.minecraft.block.Blocks
 import net.minecraft.block.FenceGateBlock
+import net.minecraft.entity.ai.pathing.LandPathNodeMaker
 import net.minecraft.entity.ai.pathing.NavigationType
 import net.minecraft.entity.ai.pathing.PathNode
 import net.minecraft.entity.ai.pathing.PathNodeMaker
@@ -229,7 +230,8 @@ class OmniPathNodeMaker : PathNodeMaker() {
         val isWater = blockState.fluidState.isIn(FluidTags.WATER)
         val isLava = blockState.fluidState.isIn(FluidTags.LAVA)
         val canBreatheUnderFluid = canSwimUnderFluid(blockState.fluidState)
-        return if (blockStateBelow.isIn(BlockTags.FENCES) || blockStateBelow.isIn(BlockTags.WALLS) || (blockStateBelow.block is FenceGateBlock && !blockStateBelow.get(FenceGateBlock.OPEN))) {
+
+        val figuredNode = if (blockStateBelow.isIn(BlockTags.FENCES) || blockStateBelow.isIn(BlockTags.WALLS) || (blockStateBelow.block is FenceGateBlock && !blockStateBelow.get(FenceGateBlock.OPEN))) {
             PathNodeType.FENCE
         } else if (isWater && belowSolid && !canSwimInWater() && canBreatheUnderFluid) {
             PathNodeType.WALKABLE
@@ -240,6 +242,8 @@ class OmniPathNodeMaker : PathNodeMaker() {
         } else if (blockState.canPathfindThrough(world, pos, NavigationType.AIR) && blockStateBelow.canPathfindThrough(world, below, NavigationType.AIR)) {
             PathNodeType.OPEN
         } else PathNodeType.BLOCKED
+
+        return adjustNodeType(world, canOpenDoors, canEnterOpenDoors, below, figuredNode)
     }
 
     override fun getNodeType(world: BlockView, x: Int, y: Int, z: Int, mob: MobEntity): PathNodeType? {
@@ -249,6 +253,11 @@ class OmniPathNodeMaker : PathNodeMaker() {
         val sizeZ = (mob.boundingBox.maxZ - mob.boundingBox.minZ).toInt() + 1
         val type = findNearbyNodeTypes(world, x, y, z, sizeX, sizeY, sizeZ, canOpenDoors, canEnterOpenDoors, set, PathNodeType.BLOCKED, BlockPos(x, y, z))
 
+        if (PathNodeType.DAMAGE_CAUTIOUS in set) {
+            return PathNodeType.DAMAGE_CAUTIOUS
+        } else if (PathNodeType.DANGER_OTHER in set) {
+            return PathNodeType.DANGER_OTHER
+        }
         return if (PathNodeType.FENCE in set) {
             PathNodeType.FENCE
         } else if (PathNodeType.UNPASSABLE_RAIL in set) {
@@ -299,8 +308,7 @@ class OmniPathNodeMaker : PathNodeMaker() {
                     val l = i + x
                     val m = j + y
                     val n = k + z
-                    var pathNodeType = getDefaultNodeType(world, l, m, n)
-                    pathNodeType = this.adjustNodeType(world, canOpenDoors, canEnterOpenDoors, pos, pathNodeType)
+                    val pathNodeType = getDefaultNodeType(world, l, m, n)
                     if (i == 0 && j == 0 && k == 0) {
                         type = pathNodeType
                     }
@@ -318,18 +326,34 @@ class OmniPathNodeMaker : PathNodeMaker() {
         pos: BlockPos,
         type: PathNodeType
     ): PathNodeType {
-        val block = world.getBlockState(pos).block
+        val blockState = world.getBlockState(pos)
+        val block = blockState.block
+
+        if (blockState.isOf(Blocks.CACTUS) || blockState.isOf(Blocks.SWEET_BERRY_BUSH)) {
+            return PathNodeType.DANGER_OTHER
+        }
+
+        if (LandPathNodeMaker.inflictsFireDamage(blockState) && !entity.isFireImmune) {
+            return PathNodeType.DANGER_FIRE
+        }
+
+        if (world.getFluidState(pos).isIn(FluidTags.WATER)) {
+            return PathNodeType.WATER_BORDER
+        }
+
+        if (blockState.isOf(Blocks.WITHER_ROSE) || blockState.isOf(Blocks.POINTED_DRIPSTONE)) {
+            return PathNodeType.DAMAGE_CAUTIOUS
+        }
+
         return if (type == PathNodeType.DOOR_WOOD_CLOSED && canOpenDoors && canEnterOpenDoors) {
             PathNodeType.WALKABLE_DOOR
-        }else if (type == PathNodeType.DOOR_OPEN && !canEnterOpenDoors) {
+        } else if (type == PathNodeType.DOOR_OPEN && !canEnterOpenDoors) {
             PathNodeType.BLOCKED
-        }else if (type == PathNodeType.RAIL && block !is AbstractRailBlock && world.getBlockState(pos.down()).block !is AbstractRailBlock) {
+        } else if (type == PathNodeType.RAIL && block !is AbstractRailBlock && world.getBlockState(pos.down()).block !is AbstractRailBlock) {
             PathNodeType.UNPASSABLE_RAIL
-        }else if (type == PathNodeType.LEAVES) {
+        } else if (type == PathNodeType.LEAVES) {
             PathNodeType.BLOCKED
-        }else if(block == Blocks.SWEET_BERRY_BUSH){
-            PathNodeType.DANGER_OTHER
-        }else type
+        } else type
     }
 
     fun canWalk(): Boolean {

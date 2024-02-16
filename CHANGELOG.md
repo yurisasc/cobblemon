@@ -47,6 +47,7 @@
 - Adds a translation string name to the Empty Pokeball entity.
 - Fixed very many issues with Bedrock particle effects.
 - Fixed Arbok patterns not being as specific in spawning as they were intended.
+- Fixed Pokémon not avoiding danger at all when pathfinding. 
 
 ### Developer
 - Significantly changed the way properties in PokemonEntity work. This could break some plugins (not in a big way, but changes will be needed).
