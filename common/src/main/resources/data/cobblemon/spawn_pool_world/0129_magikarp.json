@@ -72,8 +72,287 @@
             }
         },
         {
-            "id": "magikarp-fishing-1",
-            "pokemon": "magikarp",
+            "id": "magikarp-fishing-standard-1",
+            "pokemon": "magikarp magikarp_jump=standard",
+            "type": "pokemon",
+            "context": "fishing",
+            "bucket": "common",
+            "level": "1-20",
+            "weight": 1.98
+        },
+        {
+            "id": "magikarp-apricot-striped-2",
+            "pokemon": "magikarp magikarp_jump=apricot_striped",
+            "type": "pokemon",
+            "context": "fishing",
+            "bucket": "common",
+            "level": "1-20",
+            "weight": 1.98
+        },
+        {
+            "id": "magikarp-apricot-tiger-3",
+            "pokemon": "magikarp magikarp_jump=apricot_tiger",
+            "type": "pokemon",
+            "context": "fishing",
+            "bucket": "common",
+            "level": "1-20",
+            "weight": 1.98
+        },
+        {
+            "id": "magikarp-apricot-zebra-4",
+            "pokemon": "magikarp magikarp_jump=apricot_zebra",
+            "type": "pokemon",
+            "context": "fishing",
+            "bucket": "common",
+            "level": "1-20",
+            "weight": 1.98
+        },
+        {
+            "id": "magikarp-black-forehead-5",
+            "pokemon": "magikarp magikarp_jump=black_forehead",
+            "type": "pokemon",
+            "context": "fishing",
+            "bucket": "common",
+            "level": "1-20",
+            "weight": 1.98
+        },
+        {
+            "id": "magikarp-black-masked-6",
+            "pokemon": "magikarp magikarp_jump=black_masked",
+            "type": "pokemon",
+            "context": "fishing",
+            "bucket": "common",
+            "level": "1-20",
+            "weight": 1.98
+        },
+        {
+            "id": "magikarp-blue-raindrops-7",
+            "pokemon": "magikarp magikarp_jump=blue_raindrops",
+            "type": "pokemon",
+            "context": "fishing",
+            "bucket": "common",
+            "level": "1-20",
+            "weight": 1.98
+        },
+        {
+            "id": "magikarp-blue-saucy-8",
+            "pokemon": "magikarp magikarp_jump=blue_saucy",
+            "type": "pokemon",
+            "context": "fishing",
+            "bucket": "common",
+            "level": "1-20",
+            "weight": 1.98
+        },
+        {
+            "id": "magikarp-brown-striped-9",
+            "pokemon": "magikarp magikarp_jump=brown_striped",
+            "type": "pokemon",
+            "context": "fishing",
+            "bucket": "common",
+            "level": "1-20",
+            "weight": 1.98
+        },
+        {
+            "id": "magikarp-brown-tiger-10",
+            "pokemon": "magikarp magikarp_jump=brown_tiger",
+            "type": "pokemon",
+            "context": "fishing",
+            "bucket": "common",
+            "level": "1-20",
+            "weight": 1.98
+        },
+        {
+            "id": "magikarp-brown-zebra-11",
+            "pokemon": "magikarp magikarp_jump=brown_zebra",
+            "type": "pokemon",
+            "context": "fishing",
+            "bucket": "common",
+            "level": "1-20",
+            "weight": 1.98
+        },
+        {
+            "id": "magikarp-calico-1-12",
+            "pokemon": "magikarp magikarp_jump=calico_1",
+            "type": "pokemon",
+            "context": "fishing",
+            "bucket": "common",
+            "level": "1-20",
+            "weight": 1.98
+        },
+        {
+            "id": "magikarp-calico-2-13",
+            "pokemon": "magikarp magikarp_jump=calico_2",
+            "type": "pokemon",
+            "context": "fishing",
+            "bucket": "common",
+            "level": "1-20",
+            "weight": 1.98
+        },
+        {
+            "id": "magikarp-calico-3-14",
+            "pokemon": "magikarp magikarp_jump=calico_3",
+            "type": "pokemon",
+            "context": "fishing",
+            "bucket": "common",
+            "level": "1-20",
+            "weight": 1.98
+        },
+        {
+            "id": "magikarp-calico-4-15",
+            "pokemon": "magikarp magikarp_jump=calico_4",
+            "type": "pokemon",
+            "context": "fishing",
+            "bucket": "common",
+            "level": "1-20",
+            "weight": 1.98
+        },
+        {
+            "id": "magikarp-dapples-16",
+            "pokemon": "magikarp magikarp_jump=dapples",
+            "type": "pokemon",
+            "context": "fishing",
+            "bucket": "common",
+            "level": "1-20",
+            "weight": 1.98
+        },
+        {
+            "id": "magikarp-gray-bubbles-17",
+            "pokemon": "magikarp magikarp_jump=gray_bubbles",
+            "type": "pokemon",
+            "context": "fishing",
+            "bucket": "common",
+            "level": "1-20",
+            "weight": 1.98
+        },
+        {
+            "id": "magikarp-gray-diamonds-18",
+            "pokemon": "magikarp magikarp_jump=gray_diamonds",
+            "type": "pokemon",
+            "context": "fishing",
+            "bucket": "common",
+            "level": "1-20",
+            "weight": 1.98
+        },
+        {
+            "id": "magikarp-gray-patches-19",
+            "pokemon": "magikarp magikarp_jump=gray_patches",
+            "type": "pokemon",
+            "context": "fishing",
+            "bucket": "common",
+            "level": "1-20",
+            "weight": 1.98
+        },
+        {
+            "id": "magikarp-orange-forehead-20",
+            "pokemon": "magikarp magikarp_jump=orange_forehead",
+            "type": "pokemon",
+            "context": "fishing",
+            "bucket": "common",
+            "level": "1-20",
+            "weight": 1.98
+        },
+        {
+            "id": "magikarp-orange-masked-21",
+            "pokemon": "magikarp magikarp_jump=orange_masked",
+            "type": "pokemon",
+            "context": "fishing",
+            "bucket": "common",
+            "level": "1-20",
+            "weight": 1.98
+        },
+        {
+            "id": "magikarp-orca-22",
+            "pokemon": "magikarp magikarp_jump=orca",
+            "type": "pokemon",
+            "context": "fishing",
+            "bucket": "common",
+            "level": "1-20",
+            "weight": 1.98
+        },
+        {
+            "id": "magikarp-pink-dapples-23",
+            "pokemon": "magikarp magikarp_jump=pink_dapples",
+            "type": "pokemon",
+            "context": "fishing",
+            "bucket": "common",
+            "level": "1-20",
+            "weight": 1.98
+        },
+        {
+            "id": "magikarp-pink-orca-24",
+            "pokemon": "magikarp magikarp_jump=pink_orca",
+            "type": "pokemon",
+            "context": "fishing",
+            "bucket": "common",
+            "level": "1-20",
+            "weight": 1.98
+        },
+        {
+            "id": "magikarp-pink-two_tone-25",
+            "pokemon": "magikarp magikarp_jump=pink_two_tone",
+            "type": "pokemon",
+            "context": "fishing",
+            "bucket": "common",
+            "level": "1-20",
+            "weight": 1.98
+        },
+        {
+            "id": "magikarp-purple-bubbles-26",
+            "pokemon": "magikarp magikarp_jump=purple_bubbles",
+            "type": "pokemon",
+            "context": "fishing",
+            "bucket": "common",
+            "level": "1-20",
+            "weight": 1.98
+        },
+        {
+            "id": "magikarp-purple-diamonds-27",
+            "pokemon": "magikarp magikarp_jump=purple_diamonds",
+            "type": "pokemon",
+            "context": "fishing",
+            "bucket": "common",
+            "level": "1-20",
+            "weight": 1.98
+        },
+        {
+            "id": "magikarp-purple-patches-28",
+            "pokemon": "magikarp magikarp_jump=purple_patches",
+            "type": "pokemon",
+            "context": "fishing",
+            "bucket": "common",
+            "level": "1-20",
+            "weight": 1.98
+        },
+        {
+            "id": "magikarp-skelly-29",
+            "pokemon": "magikarp magikarp_jump=skelly",
+            "type": "pokemon",
+            "context": "fishing",
+            "bucket": "common",
+            "level": "1-20",
+            "weight": 1.98
+        },
+        {
+            "id": "magikarp-two-tone-30",
+            "pokemon": "magikarp magikarp_jump=two_tone",
+            "type": "pokemon",
+            "context": "fishing",
+            "bucket": "common",
+            "level": "1-20",
+            "weight": 1.98
+        },
+        {
+            "id": "magikarp-violet-raindrops-31",
+            "pokemon": "magikarp magikarp_jump=violet_raindrops",
+            "type": "pokemon",
+            "context": "fishing",
+            "bucket": "common",
+            "level": "1-20",
+            "weight": 1.98
+        },
+        {
+            "id": "magikarp-violet-saucy-32",
+            "pokemon": "magikarp magikarp_jump=violet_saucy",
             "type": "pokemon",
             "context": "fishing",
             "bucket": "common",
