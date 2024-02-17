@@ -38,6 +38,9 @@ import org.joml.Matrix4f
 */
 @Environment(value = EnvType.CLIENT)
 class PokeBobberEntityRenderer(context: EntityRendererFactory.Context?) : EntityRenderer<PokeRodFishingBobberEntity>(context) {
+
+    private var lastSpinAngle: Float = 0f
+
     override fun render(fishingBobberEntity: PokeRodFishingBobberEntity, f: Float, g: Float, matrixStack: MatrixStack, vertexConsumerProvider: VertexConsumerProvider, light: Int) {
         var s: Double
         val r: Float
@@ -60,13 +63,25 @@ class PokeBobberEntityRenderer(context: EntityRendererFactory.Context?) : Entity
 //        vertex(vertexConsumer, matrix4f, matrix3f, i, 0.0f, 1, 0, 0)
         val ballStack = CobblemonItems.POKE_BALL.defaultStack
 
-        matrixStack.multiply(RotationAxis.NEGATIVE_Y.rotationDegrees(fishingBobberEntity.yawOnCast))
+        // Determine if the bobber is in the air (adjust this logic based on your entity's properties)
+        val isFloatingOnWater = fishingBobberEntity.isTouchingWater()
+        val isInAir = !fishingBobberEntity.isOnGround && !isFloatingOnWater
+
+        // Apply spinning effect only if the bobber is in the air
+        if (isInAir) {
+            // Update and apply the spinning effect
+            lastSpinAngle = (fishingBobberEntity.age + g) * 20 % 360
+        }
+
+        // Apply rotation based on current or last spin angle
+        matrixStack.multiply(RotationAxis.NEGATIVE_Y.rotationDegrees(if (isInAir) lastSpinAngle else lastSpinAngle))
+
 
         MinecraftClient.getInstance().itemRenderer.renderItem(
             ballStack,
             ModelTransformationMode.GROUND,
             light,
-            1,
+            OverlayTexture.DEFAULT_UV,
             matrixStack,
             vertexConsumerProvider,
             fishingBobberEntity.world,
