@@ -34,12 +34,12 @@ class PokeBobberEntityRenderer(context: EntityRendererFactory.Context?) : Entity
     private var randomPitch: Float = 0f
     private var randomYaw: Float = 0f
 
-    override fun render(fishingBobberEntity: PokeRodFishingBobberEntity, f: Float, g: Float, matrixStack: MatrixStack, vertexConsumerProvider: VertexConsumerProvider, light: Int) {
-        var s: Double
-        val r: Float
-        val q: Double
-        val p: Double
-        val o: Double
+    override fun render(fishingBobberEntity: PokeRodFishingBobberEntity, elapsedPartialTicks: Float, tickDelta: Float, matrixStack: MatrixStack, vertexConsumerProvider: VertexConsumerProvider, light: Int) {
+        var playerPosXWorld: Double
+        val eyeHeightOffset: Float
+        val playerPosZWorld: Double
+        val playerPosYWorld: Double
+        val playerEyeYWorld: Double
         val playerEntity = fishingBobberEntity.playerOwner ?: return
         matrixStack.push()
 
@@ -71,11 +71,15 @@ class PokeBobberEntityRenderer(context: EntityRendererFactory.Context?) : Entity
                 Double.POSITIVE_INFINITY // Stops spinning
             }
 
+            // Ensure ageFactor does not reduce the rotation speed to 0 or negative
             val adjustedAgeFactor = if (ageFactor > 0) ageFactor else 1.0
 
+            // Update and apply the spinning effect, incorporating the slowing factor
+            // Stop increasing lastSpinAngle once the bobber reaches the stopRotationAge
             if (fishingBobberEntity.age < stopRotationAge) {
                 lastSpinAngle = (((fishingBobberEntity.age + g) * 20 / adjustedAgeFactor) % 360).toFloat()
             }
+            // After reaching stopRotationAge, lastSpinAngle remains constant, effectively stopping the rotation
         }
 
         // Apply random pitch and yaw before rendering the Poke Ball
@@ -96,46 +100,46 @@ class PokeBobberEntityRenderer(context: EntityRendererFactory.Context?) : Entity
             0
         )
         matrixStack.pop()
-        var j = if (playerEntity.mainArm == Arm.RIGHT) 1 else -1
+        var armOffset = if (playerEntity.mainArm == Arm.RIGHT) 1 else -1
         val itemStack = playerEntity.mainHandStack
         if (!itemStack.isOf(CobblemonItems.POKEROD)) {
-            j = -j
+            armOffset = -armOffset
         }
-        val h = playerEntity.getHandSwingProgress(g)
-        val k = MathHelper.sin(MathHelper.sqrt(h) * Math.PI.toFloat())
-        val l = MathHelper.lerp(g, playerEntity.prevBodyYaw, playerEntity.bodyYaw) * (Math.PI.toFloat() / 180)
-        val d = MathHelper.sin(l).toDouble()
-        val e = MathHelper.cos(l).toDouble()
-        val m = j.toDouble() * 0.35
+        val handSwingProgress = playerEntity.getHandSwingProgress(tickDelta)
+        val swingAngle = MathHelper.sin(MathHelper.sqrt(handSwingProgress) * Math.PI.toFloat())
+        val bodyYawRadians = MathHelper.lerp(tickDelta, playerEntity.prevBodyYaw, playerEntity.bodyYaw) * (Math.PI.toFloat() / 180)
+        val sinBodyYaw = MathHelper.sin(bodyYawRadians).toDouble()
+        val cosBodyYaw = MathHelper.cos(bodyYawRadians).toDouble()
+        val horizontalOffset = armOffset.toDouble() * 0.35
         if (dispatcher.gameOptions != null && !dispatcher.gameOptions.perspective.isFirstPerson || playerEntity !== MinecraftClient.getInstance().player) {
-            o = MathHelper.lerp(g.toDouble(), playerEntity.prevX, playerEntity.x) - e * m - d * 0.8
-            p = playerEntity.prevY + playerEntity.standingEyeHeight.toDouble() + (playerEntity.y - playerEntity.prevY) * g.toDouble() - 0.45
-            q = MathHelper.lerp(g.toDouble(), playerEntity.prevZ, playerEntity.z) - d * m + e * 0.8
-            r = if (playerEntity.isInSneakingPose) -0.1875f else 0.0f
+            playerEyeYWorld = MathHelper.lerp(tickDelta.toDouble(), playerEntity.prevX, playerEntity.x) - cosBodyYaw * horizontalOffset - sinBodyYaw * 0.8
+            playerPosYWorld = playerEntity.prevY + playerEntity.standingEyeHeight.toDouble() + (playerEntity.y - playerEntity.prevY) * tickDelta.toDouble() - 0.45
+            playerPosZWorld = MathHelper.lerp(tickDelta.toDouble(), playerEntity.prevZ, playerEntity.z) - sinBodyYaw * horizontalOffset + cosBodyYaw * 0.8
+            eyeHeightOffset = if (playerEntity.isInSneakingPose) -0.1875f else 0.0f
         } else {
-            s = 960.0 / dispatcher.gameOptions.fov.value.toDouble()
-            var vec3d = dispatcher.camera.projection.getPosition(j.toFloat() * 0.525f, -0.1f)
-            vec3d = vec3d.multiply(s)
-            vec3d = vec3d.rotateY(k * 0.5f)
-            vec3d = vec3d.rotateX(-k * 0.7f)
-            o = MathHelper.lerp(g.toDouble(), playerEntity.prevX, playerEntity.getX()) + vec3d.x
-            p = MathHelper.lerp(g.toDouble(), playerEntity.prevY, playerEntity.getY()) + vec3d.y
-            q = MathHelper.lerp(g.toDouble(), playerEntity.prevZ, playerEntity.getZ()) + vec3d.z
-            r = playerEntity.getStandingEyeHeight()
+            playerPosXWorld = 960.0 / dispatcher.gameOptions.fov.value.toDouble()
+            var vec3d = dispatcher.camera.projection.getPosition(armOffset.toFloat() * 0.525f, -0.1f)
+            vec3d = vec3d.multiply(playerPosXWorld)
+            vec3d = vec3d.rotateY(swingAngle * 0.5f)
+            vec3d = vec3d.rotateX(-swingAngle * 0.7f)
+            playerEyeYWorld = MathHelper.lerp(tickDelta.toDouble(), playerEntity.prevX, playerEntity.getX()) + vec3d.x
+            playerPosYWorld = MathHelper.lerp(tickDelta.toDouble(), playerEntity.prevY, playerEntity.getY()) + vec3d.y
+            playerPosZWorld = MathHelper.lerp(tickDelta.toDouble(), playerEntity.prevZ, playerEntity.getZ()) + vec3d.z
+            eyeHeightOffset = playerEntity.getStandingEyeHeight()
         }
-        s = MathHelper.lerp(g.toDouble(), fishingBobberEntity.prevX, fishingBobberEntity.x)
-        val t = MathHelper.lerp(g.toDouble(), fishingBobberEntity.prevY, fishingBobberEntity.y) + 0.25
-        val u = MathHelper.lerp(g.toDouble(), fishingBobberEntity.prevZ, fishingBobberEntity.z)
-        val v = (o - s).toFloat()
-        val w = (p - t).toFloat() + r
-        val x = (q - u).toFloat()
+        playerPosXWorld = MathHelper.lerp(tickDelta.toDouble(), fishingBobberEntity.prevX, fishingBobberEntity.x)
+        val bobberPosY = MathHelper.lerp(tickDelta.toDouble(), fishingBobberEntity.prevY, fishingBobberEntity.y) + 0.25
+        val bobberPosZ = MathHelper.lerp(tickDelta.toDouble(), fishingBobberEntity.prevZ, fishingBobberEntity.z)
+        val deltaX = (playerEyeYWorld - playerPosXWorld).toFloat()
+        val deltaY = (playerPosYWorld - bobberPosY).toFloat() + eyeHeightOffset
+        val deltaZ = (playerPosZWorld - bobberPosZ).toFloat()
         val vertexConsumer2 = vertexConsumerProvider.getBuffer(RenderLayer.getLineStrip())
         val entry2 = matrixStack.peek()
-        for (z in 0..16) {
-            renderFishingLine(v, w, x, vertexConsumer2, entry2, percentage(z, 16), percentage(z + 1, 16))
+        for (lineIndex in 0..16) {
+            renderFishingLine(deltaX, deltaY, deltaZ, vertexConsumer2, entry2, percentage(lineIndex, 16), percentage(lineIndex + 1, 16))
         }
         matrixStack.pop()
-        super.render(fishingBobberEntity, f, g, matrixStack, vertexConsumerProvider, light)
+        super.render(fishingBobberEntity, elapsedPartialTicks, tickDelta, matrixStack, vertexConsumerProvider, light)
     }
 
     companion object {
