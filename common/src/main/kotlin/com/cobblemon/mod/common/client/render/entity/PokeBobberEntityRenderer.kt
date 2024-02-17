@@ -31,6 +31,8 @@ import net.minecraft.util.math.RotationAxis
 class PokeBobberEntityRenderer(context: EntityRendererFactory.Context?) : EntityRenderer<PokeRodFishingBobberEntity>(context) {
 
     private var lastSpinAngle: Float = 0f
+    private var randomPitch: Float = 0f
+    private var randomYaw: Float = 0f
 
     override fun render(fishingBobberEntity: PokeRodFishingBobberEntity, f: Float, g: Float, matrixStack: MatrixStack, vertexConsumerProvider: VertexConsumerProvider, light: Int) {
         var s: Double
@@ -40,31 +42,45 @@ class PokeBobberEntityRenderer(context: EntityRendererFactory.Context?) : Entity
         val o: Double
         val playerEntity = fishingBobberEntity.playerOwner ?: return
         matrixStack.push()
-        matrixStack.push()
+
+        // Check if the bobber has just been cast
+        if (fishingBobberEntity.age <= 1) { // Adjust this check as needed
+            // Generate new random pitch and yaw for each cast
+            randomPitch = (Math.random() * 360).toFloat()
+            randomYaw = (Math.random() * 360).toFloat()
+        }
+
         val ballStack = CobblemonItems.POKE_BALL.defaultStack
 
-        // Apply spinning effect only if the bobber is in the air
-        if (!fishingBobberEntity.isOnGround) {
-            // Define the age threshold for stopping the rotation
-            val stopRotationAge = 220 // Adjust this value to control when the rotation stops
+        matrixStack.push()
 
-            // Calculate the slowing factor based on the bobber's age
+        // Apply spinning effect only if the bobber is in the air
+        // Modify spinning effect based on whether the bobber is in open water
+        if (!fishingBobberEntity.isOnGround) {
+            // You might not need to change stopRotationAge if you want the slowing to happen faster
+            val stopRotationAge = 220 // This could remain as your baseline for when rotation completely stops
+
+            // Adjust ageFactor calculation for faster slowing in open water
             val ageFactor = if (fishingBobberEntity.age < stopRotationAge) {
-                1 + fishingBobberEntity.age / 100.0 // Adjust to change slowing rate
+                if (fishingBobberEntity.inOpenWater) {
+                    1 + fishingBobberEntity.age / 25.0 // Slows down much faster in open water
+                } else {
+                    1 + fishingBobberEntity.age / 100.0 // Standard slowing rate
+                }
             } else {
-                Double.POSITIVE_INFINITY // Stop spinning
+                Double.POSITIVE_INFINITY // Stops spinning
             }
 
-            // Ensure ageFactor does not reduce the rotation speed to 0 or negative
             val adjustedAgeFactor = if (ageFactor > 0) ageFactor else 1.0
 
-            // Update and apply the spinning effect, incorporating the slowing factor
-            // Stop increasing lastSpinAngle once the bobber reaches the stopRotationAge
             if (fishingBobberEntity.age < stopRotationAge) {
                 lastSpinAngle = (((fishingBobberEntity.age + g) * 20 / adjustedAgeFactor) % 360).toFloat()
             }
-            // After reaching stopRotationAge, lastSpinAngle remains constant, effectively stopping the rotation
         }
+
+        // Apply random pitch and yaw before rendering the Poke Ball
+        matrixStack.multiply(RotationAxis.NEGATIVE_X.rotationDegrees(randomPitch))
+        matrixStack.multiply(RotationAxis.NEGATIVE_Y.rotationDegrees(randomYaw))
 
         // Apply rotation based on last spin angle
         matrixStack.multiply(RotationAxis.NEGATIVE_Y.rotationDegrees(lastSpinAngle))

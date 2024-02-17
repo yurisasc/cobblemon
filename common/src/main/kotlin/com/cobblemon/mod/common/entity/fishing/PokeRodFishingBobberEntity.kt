@@ -64,7 +64,7 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
     private var waitCountdown = 0
     private var fishTravelCountdown = 0
     private var fishAngle = 0f
-    private var inOpenWater = true
+    var inOpenWater = true
     private var hookedEntity: Entity? = null
     private var state = State.FLYING
     private var luckOfTheSeaLevel = 0
