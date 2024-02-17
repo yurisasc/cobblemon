@@ -63,7 +63,7 @@ class PokeBobberEntityRenderer(context: EntityRendererFactory.Context?) : Entity
             // Adjust ageFactor calculation for faster slowing in open water
             val ageFactor = if (fishingBobberEntity.age < stopRotationAge) {
                 if (fishingBobberEntity.inOpenWater) {
-                    1 + fishingBobberEntity.age / 25.0 // Slows down much faster in open water
+                    1 + fishingBobberEntity.age / 20.0 // Slows down much faster in open water
                 } else {
                     1 + fishingBobberEntity.age / 100.0 // Standard slowing rate
                 }
@@ -77,9 +77,17 @@ class PokeBobberEntityRenderer(context: EntityRendererFactory.Context?) : Entity
             // Update and apply the spinning effect, incorporating the slowing factor
             // Stop increasing lastSpinAngle once the bobber reaches the stopRotationAge
             if (fishingBobberEntity.age < stopRotationAge) {
-                lastSpinAngle = (((fishingBobberEntity.age + g) * 20 / adjustedAgeFactor) % 360).toFloat()
+                lastSpinAngle = (((fishingBobberEntity.age + tickDelta) * 20 / adjustedAgeFactor) % 360).toFloat()
             }
             // After reaching stopRotationAge, lastSpinAngle remains constant, effectively stopping the rotation
+        }
+
+        // When in water, gradually make the Poke Ball upright
+        if (fishingBobberEntity.inOpenWater && !fishingBobberEntity.isOnGround) {
+            // Assuming randomPitch is the rotation around X axis that needs to be adjusted
+            // Simple linear interpolation towards 0 degrees; adjust 'lerpFactor' as needed for speed
+            val lerpFactor = 0.05f // This controls the speed of the adjustment
+            randomPitch = MathHelper.lerp(lerpFactor, randomPitch, 0.0f) // Interpolate towards 0 degrees
         }
 
         // Apply random pitch and yaw before rendering the Poke Ball
@@ -88,6 +96,9 @@ class PokeBobberEntityRenderer(context: EntityRendererFactory.Context?) : Entity
 
         // Apply rotation based on last spin angle
         matrixStack.multiply(RotationAxis.NEGATIVE_Y.rotationDegrees(lastSpinAngle))
+
+        // Scale down the Poke Ball to 70% of its original size
+        matrixStack.scale(0.7f, 0.7f, 0.7f) // Apply the scaling transformation
 
         MinecraftClient.getInstance().itemRenderer.renderItem(
             ballStack,
