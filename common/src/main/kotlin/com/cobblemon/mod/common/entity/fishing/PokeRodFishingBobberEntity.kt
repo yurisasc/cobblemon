@@ -80,17 +80,17 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
         luckOfTheSeaLevel = luckOfTheSea
         lureLevel = lure
 
-        val f = thrower.pitch
-        val g = thrower.yaw
-        val h = MathHelper.cos(-g * 0.017453292f - 3.1415927f)
-        val i = MathHelper.sin(-g * 0.017453292f - 3.1415927f)
-        val j = -MathHelper.cos(-f * 0.017453292f)
-        val k = MathHelper.sin(-f * 0.017453292f)
-        val d = thrower.x - i.toDouble() * 0.3
-        val e = thrower.eyeY
-        val l = thrower.z - h.toDouble() * 0.3
-        this.refreshPositionAndAngles(d, e, l, g, f)
-        var vec3d = Vec3d((-i).toDouble(), MathHelper.clamp(-(k / j), -5.0f, 5.0f).toDouble(), (-h).toDouble())
+        val throwerPitch = thrower.pitch
+        val throwerYaw = thrower.yaw
+        val cosYaw = MathHelper.cos(-throwerYaw * 0.017453292f - 3.1415927f)
+        val sinYaw = MathHelper.sin(-throwerYaw * 0.017453292f - 3.1415927f)
+        val cosPitch = -MathHelper.cos(-throwerPitch * 0.017453292f)
+        val sinPitch = MathHelper.sin(-throwerPitch * 0.017453292f)
+        val posX = thrower.x - sinYaw.toDouble() * 0.3
+        val posY = thrower.eyeY
+        val posZ = thrower.z - cosYaw.toDouble() * 0.3
+        this.refreshPositionAndAngles(posX, posY, posZ, throwerYaw, throwerPitch)
+        var vec3d = Vec3d((-sinYaw).toDouble(), MathHelper.clamp(-(sinPitch / cosPitch), -5.0f, 5.0f).toDouble(), (-cosYaw).toDouble())
         val m = vec3d.length()
         vec3d = vec3d.multiply(0.6 / m + random.nextTriangular(0.5, 0.0103365), 0.6 / m + random.nextTriangular(0.5, 0.0103365), 0.6 / m + random.nextTriangular(0.5, 0.0103365))
         velocity = vec3d
