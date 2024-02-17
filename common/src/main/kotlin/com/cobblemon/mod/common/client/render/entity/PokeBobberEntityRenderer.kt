@@ -9,7 +9,6 @@
 package com.cobblemon.mod.common.client.render.entity
 
 import com.cobblemon.mod.common.CobblemonItems
-import com.cobblemon.mod.common.client.render.pokeball.PokeBallRenderer
 import com.cobblemon.mod.common.entity.fishing.PokeRodFishingBobberEntity
 import com.cobblemon.mod.common.util.cobblemonResource
 import net.fabricmc.api.EnvType
@@ -21,21 +20,13 @@ import net.minecraft.client.render.VertexConsumer
 import net.minecraft.client.render.VertexConsumerProvider
 import net.minecraft.client.render.entity.EntityRenderer
 import net.minecraft.client.render.entity.EntityRendererFactory
-import net.minecraft.client.render.entity.FishingBobberEntityRenderer
 import net.minecraft.client.render.model.json.ModelTransformationMode
 import net.minecraft.client.util.math.MatrixStack
-import net.minecraft.entity.projectile.FishingBobberEntity
-import net.minecraft.item.Items
 import net.minecraft.util.Arm
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.MathHelper
 import net.minecraft.util.math.RotationAxis
-import org.joml.Matrix3f
-import org.joml.Matrix4f
 
-/*
-* Decompiled with CFR 0.2.0 (FabricMC d28b102d).
-*/
 @Environment(value = EnvType.CLIENT)
 class PokeBobberEntityRenderer(context: EntityRendererFactory.Context?) : EntityRenderer<PokeRodFishingBobberEntity>(context) {
 
@@ -50,32 +41,33 @@ class PokeBobberEntityRenderer(context: EntityRendererFactory.Context?) : Entity
         val playerEntity = fishingBobberEntity.playerOwner ?: return
         matrixStack.push()
         matrixStack.push()
-//        matrixStack.scale(0.5f, 0.5f, 0.5f)
-//        matrixStack.multiply(dispatcher.rotation)
-//        matrixStack.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(180.0f))
-//        val entry = matrixStack.peek()
-//        val matrix4f = entry.positionMatrix
-//        val matrix3f = entry.normalMatrix
-//        val vertexConsumer = vertexConsumerProvider.getBuffer(LAYER)
-//        vertex(vertexConsumer, matrix4f, matrix3f, i, 0.0f, 0, 0, 1)
-//        vertex(vertexConsumer, matrix4f, matrix3f, i, 1.0f, 0, 1, 1)
-//        vertex(vertexConsumer, matrix4f, matrix3f, i, 1.0f, 1, 1, 0)
-//        vertex(vertexConsumer, matrix4f, matrix3f, i, 0.0f, 1, 0, 0)
         val ballStack = CobblemonItems.POKE_BALL.defaultStack
 
-        // Determine if the bobber is in the air (adjust this logic based on your entity's properties)
-        val isFloatingOnWater = fishingBobberEntity.isTouchingWater()
-        val isInAir = !fishingBobberEntity.isOnGround && !isFloatingOnWater
-
         // Apply spinning effect only if the bobber is in the air
-        if (isInAir) {
-            // Update and apply the spinning effect
-            lastSpinAngle = (fishingBobberEntity.age + g) * 20 % 360
+        if (!fishingBobberEntity.isOnGround) {
+            // Define the age threshold for stopping the rotation
+            val stopRotationAge = 220 // Adjust this value to control when the rotation stops
+
+            // Calculate the slowing factor based on the bobber's age
+            val ageFactor = if (fishingBobberEntity.age < stopRotationAge) {
+                1 + fishingBobberEntity.age / 100.0 // Adjust to change slowing rate
+            } else {
+                Double.POSITIVE_INFINITY // Stop spinning
+            }
+
+            // Ensure ageFactor does not reduce the rotation speed to 0 or negative
+            val adjustedAgeFactor = if (ageFactor > 0) ageFactor else 1.0
+
+            // Update and apply the spinning effect, incorporating the slowing factor
+            // Stop increasing lastSpinAngle once the bobber reaches the stopRotationAge
+            if (fishingBobberEntity.age < stopRotationAge) {
+                lastSpinAngle = (((fishingBobberEntity.age + g) * 20 / adjustedAgeFactor) % 360).toFloat()
+            }
+            // After reaching stopRotationAge, lastSpinAngle remains constant, effectively stopping the rotation
         }
 
-        // Apply rotation based on current or last spin angle
-        matrixStack.multiply(RotationAxis.NEGATIVE_Y.rotationDegrees(if (isInAir) lastSpinAngle else lastSpinAngle))
-
+        // Apply rotation based on last spin angle
+        matrixStack.multiply(RotationAxis.NEGATIVE_Y.rotationDegrees(lastSpinAngle))
 
         MinecraftClient.getInstance().itemRenderer.renderItem(
             ballStack,
@@ -131,18 +123,9 @@ class PokeBobberEntityRenderer(context: EntityRendererFactory.Context?) : Entity
     }
 
     companion object {
-        private val TEXTURE = cobblemonResource("textures/item/fishing/pokeball_bobber.png")
-        private val LAYER = RenderLayer.getEntityCutout(TEXTURE)
-
-        private const val field_33632 = 960.0
-
         @JvmStatic
         private fun percentage(value: Int, max: Int): Float {
             return value.toFloat() / max.toFloat()
-        }
-
-        private fun vertex(buffer: VertexConsumer, matrix: Matrix4f, normalMatrix: Matrix3f, light: Int, x: Float, y: Int, u: Int, v: Int) {
-            buffer.vertex(matrix, x - 0.5f, y.toFloat() - 0.5f, 0.0f).color(255, 255, 255, 255).texture(u.toFloat(), v.toFloat()).overlay(OverlayTexture.DEFAULT_UV).light(light).normal(normalMatrix, 0.0f, 1.0f, 0.0f).next()
         }
 
         @JvmStatic
@@ -162,6 +145,6 @@ class PokeBobberEntityRenderer(context: EntityRendererFactory.Context?) : Entity
     }
 
     override fun getTexture(entity: PokeRodFishingBobberEntity): Identifier {
-        return TEXTURE
+        return cobblemonResource("textures/item/fishing/pokeball_bobber.png")
     }
 }

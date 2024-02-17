@@ -12,17 +12,11 @@
 //
 package com.cobblemon.mod.common.item.interactive
 
-import com.cobblemon.mod.common.CobblemonItems
 import com.cobblemon.mod.common.entity.fishing.PokeRodFishingBobberEntity
-import com.cobblemon.mod.common.item.CobblemonItem
 import net.minecraft.enchantment.EnchantmentHelper
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.FishingRodItem
-import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
-import net.minecraft.item.Item.Settings
-import net.minecraft.entity.projectile.FishingBobberEntity
-import net.minecraft.item.Items
 import net.minecraft.sound.SoundCategory
 import net.minecraft.sound.SoundEvents
 import net.minecraft.stat.Stats
@@ -48,7 +42,6 @@ class PokerodItem(settings: Settings?) : FishingRodItem(settings) {
                 i = EnchantmentHelper.getLure(itemStack)
                 val j = EnchantmentHelper.getLuckOfTheSea(itemStack)
                 val bobberEntity = PokeRodFishingBobberEntity(user, world, j, i)
-                bobberEntity.yawOnCast = bobberEntity.yaw
                 world.spawnEntity(bobberEntity)
             }
             user.incrementStat(Stats.USED.getOrCreateStat(this))
