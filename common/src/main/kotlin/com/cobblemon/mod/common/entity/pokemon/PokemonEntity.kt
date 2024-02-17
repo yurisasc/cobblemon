@@ -1050,6 +1050,7 @@ open class PokemonEntity(
         if (!canBattle(player)) return false
         if (CobblemonClient.storage.myParty.isEmpty()) return false
         val selectedPokemon = CobblemonClient.storage.myParty.get(CobblemonClient.storage.selectedSlot) ?: return false
+        if (selectedPokemon.isFainted()) return false
         sendPacketToServer(BattleChallengePacket(this.id, selectedPokemon.uuid))
         return true
     }

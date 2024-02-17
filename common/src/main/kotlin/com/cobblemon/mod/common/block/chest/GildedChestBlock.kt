@@ -135,7 +135,7 @@ class GildedChestBlock(settings: Settings, val type: Type = Type.RED) : BlockWit
                 return@afterOnServer
             }
             val party = player.party()
-            if (party.any { !it.isFainted() } && !player.isCreative) {
+            if (!player.isCreative) {
                 entity.forceBattle(player)
             } else {
                 world.playSound(null, pos, CobblemonSounds.GIMMIGHOUL_REVEAL, SoundCategory.NEUTRAL)
