@@ -236,7 +236,7 @@ open class PokemonEntity(
         dataTracker.startTracking(LABEL_LEVEL, 1)
         dataTracker.startTracking(HIDE_LABEL, false)
         dataTracker.startTracking(UNBATTLEABLE, false)
-        dataTracker.startTracking(SPAWN_DIRECTION, 0.0F)
+        dataTracker.startTracking(SPAWN_DIRECTION, world.random.nextFloat() * 360F)
     }
 
     override fun onTrackedDataSet(data: TrackedData<*>) {
@@ -308,7 +308,7 @@ open class PokemonEntity(
             clearPositionTarget()
             val spawnDirection = dataTracker.get(SPAWN_DIRECTION)
             setBodyYaw(spawnDirection)
-            setRotation(spawnDirection, this.pitch)
+            prevBodyYaw = spawnDirection
         }
 
         if (this.tethering != null && !this.tethering!!.box.contains(this.x, this.y, this.z)) {

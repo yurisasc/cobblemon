@@ -12,9 +12,10 @@ import com.cobblemon.mod.common.CobblemonSounds
 import com.cobblemon.mod.common.api.pokemon.PokemonProperties
 import com.cobblemon.mod.common.api.scheduling.afterOnServer
 import com.cobblemon.mod.common.block.entity.GildedChestBlockEntity
-import com.cobblemon.mod.common.client.CobblemonClient
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.util.cobblemonResource
+import com.cobblemon.mod.common.util.party
+import com.cobblemon.mod.common.util.toVec3d
 import net.minecraft.block.Block
 import net.minecraft.block.BlockRenderType
 import net.minecraft.block.BlockState
@@ -26,6 +27,7 @@ import net.minecraft.entity.ai.pathing.NavigationType
 import net.minecraft.entity.mob.PiglinBrain
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemPlacementContext
+import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.sound.SoundCategory
 import net.minecraft.state.StateManager
 import net.minecraft.state.property.Properties
@@ -106,12 +108,14 @@ class GildedChestBlock(settings: Settings, val type: Type = Type.RED) : BlockWit
 
     override fun onBreak(world: World, pos: BlockPos, state: BlockState, player: PlayerEntity) {
         if (isFake()) {
-            spawnPokemon(world, pos, state, player)
+            if (player is ServerPlayerEntity) {
+                spawnPokemon(world, pos, state, player)
+            }
             world.setBlockState(pos, Blocks.AIR.defaultState)
         } else super.onBreak(world, pos, state, player)
     }
 
-    private fun spawnPokemon(world: World, pos: BlockPos, state: BlockState, player: PlayerEntity) : ActionResult {
+    private fun spawnPokemon(world: World, pos: BlockPos, state: BlockState, player: ServerPlayerEntity) : ActionResult {
         val properties = "$POKEMON_ARGS lvl=${LEVEL_RANGE.random()}"
         val pokemon = PokemonProperties.parse(properties)
         val entity = pokemon.createEntity(world)
@@ -120,13 +124,22 @@ class GildedChestBlock(settings: Settings, val type: Type = Type.RED) : BlockWit
         val yaw = facingToYaw[state[HorizontalFacingBlock.FACING]] ?: 0.0F
 
         entity.dataTracker.set(PokemonEntity.SPAWN_DIRECTION, facingToYaw[state[HorizontalFacingBlock.FACING]])
-        entity.refreshPositionAndAngles(pos, yaw, entity.pitch)
+        val offsetDir = state[HorizontalFacingBlock.FACING]
+        val vec = pos.toVec3d().add(offsetDir.offsetX * 0.1 + 0.5, 0.0, offsetDir.offsetZ * 0.1 + 0.5)
+        entity.refreshPositionAndAngles(vec.x, vec.y, vec.z, yaw, entity.pitch)
         world.spawnEntity(entity)
-        world.playSound(null, pos, CobblemonSounds.GIMMIGHOUL_REVEAL, SoundCategory.NEUTRAL)
 
         world.removeBlock(pos, false)
         afterOnServer(ticks = 2) {
-            if (!CobblemonClient.storage.myParty.isEmpty() && !player.isCreative) entity.forceBattle(player)
+            if (player !in player.world.players) {
+                return@afterOnServer
+            }
+            val party = player.party()
+            if (party.any { !it.isFainted() } && !player.isCreative) {
+                entity.forceBattle(player)
+            } else {
+                world.playSound(null, pos, CobblemonSounds.GIMMIGHOUL_REVEAL, SoundCategory.NEUTRAL)
+            }
         }
         return ActionResult.SUCCESS
     }
@@ -139,7 +152,13 @@ class GildedChestBlock(settings: Settings, val type: Type = Type.RED) : BlockWit
         hand: Hand,
         hit: BlockHitResult
     ): ActionResult {
-        if (isFake()) return spawnPokemon(world, pos, state, player)
+        if (isFake()) {
+            if (player is ServerPlayerEntity) {
+                return spawnPokemon(world, pos, state, player)
+            } else {
+                return ActionResult.SUCCESS
+            }
+        }
         val entity = world.getBlockEntity(pos) as? GildedChestBlockEntity ?: return ActionResult.FAIL
         if (world.getBlockState(pos.up()).isSolidBlock(world, pos.up())) return ActionResult.FAIL
         player.openHandledScreen(entity)
