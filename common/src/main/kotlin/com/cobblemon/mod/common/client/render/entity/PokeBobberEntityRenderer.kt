@@ -118,6 +118,7 @@ class PokeBobberEntityRenderer(context: EntityRendererFactory.Context?) : Entity
     companion object {
         private val TEXTURE = cobblemonResource("textures/item/fishing/pokeball_bobber.png")
         private val LAYER = RenderLayer.getEntityCutout(TEXTURE)
+
         private const val field_33632 = 960.0
 
         @JvmStatic
