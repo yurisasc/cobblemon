@@ -57,11 +57,8 @@ object TestCommand {
             return Command.SINGLE_SUCCESS
         }
 
-//        val player = context.source.player as ServerPlayerEntity
-//        player.sendMessageToClient(player.world.getChunk(player.pos.toBlockPos()).getChunkDyniteOre().toString().text(), false)
-
-        val e = context.source.world.spawnEntity(FallingStarEntity(context.source.world))
-        print(e)
+        val player = context.source.player as ServerPlayerEntity
+        player.sendMessageToClient("There are ".text().append(player.world.getChunk(player.pos.toBlockPos()).getDyniteOre().toString().text().append(" blocks of Dynite Ore in this chunk".text())), false)
 
         try {
 //            readBerryDataFromCSV()

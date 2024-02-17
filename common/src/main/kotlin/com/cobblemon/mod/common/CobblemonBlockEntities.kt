@@ -65,4 +65,10 @@ object CobblemonBlockEntities : PlatformRegistry<Registry<BlockEntityType<*>>, R
             CobblemonBlocks.FOSSIL_ANALYZER
         ).build(null)
     )
+
+    @JvmField
+    val DYNITE_ORE: BlockEntityType<DyniteOreBlockEntity> = this.create("dynite_ore",
+        BlockEntityType.Builder.create(::DyniteOreBlockEntity, CobblemonBlocks.DYNITE_ORE)
+            .build(null)
+    )
 }

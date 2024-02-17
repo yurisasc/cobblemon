@@ -97,7 +97,7 @@ object CobblemonBlocks : PlatformRegistry<Registry<Block>, RegistryKey<Registry<
     val DEEPSLATE_WATER_STONE_ORE = this.deepslateEvolutionStoneOre("deepslate_water_stone_ore")
 
     @JvmField
-    val DYNITE_ORE = this.create("dynite_ore", Block(
+    val DYNITE_ORE = this.create("dynite_ore", DyniteOreBlock(
         AbstractBlock.Settings.create()
             .mapColor(MapColor.BRIGHT_RED)
             .strength(4.5f, 3f)

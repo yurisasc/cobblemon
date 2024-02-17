@@ -85,6 +85,7 @@ object BestSpawner {
         SpawningCondition.register(GroundedSpawningCondition.NAME, GroundedSpawningCondition::class.java)
         SpawningCondition.register(SurfaceSpawningCondition.NAME, SurfaceSpawningCondition::class.java)
         SpawningCondition.register(FishingSpawningCondition.NAME, FishingSpawningCondition::class.java)
+        SpawningCondition.register(FallingStarSpawningCondition.NAME, FallingStarSpawningCondition::class.java)
 
         LOGGER.info("Loaded ${SpawningCondition.conditionTypes.size} spawning condition types.")
         SpawningContextCalculator.register(GroundedSpawningContextCalculator)
@@ -99,7 +100,7 @@ object BestSpawner {
         SpawningContext.register(name = "submerged", clazz = SubmergedSpawningContext::class.java, defaultCondition = SubmergedSpawningCondition.NAME)
         SpawningContext.register(name = "surface", clazz = SurfaceSpawningContext::class.java, defaultCondition = SurfaceSpawningCondition.NAME)
         SpawningContext.register(name = "fishing", clazz = FishingSpawningContext::class.java, defaultCondition = FishingSpawningCondition.NAME)
-        SpawningContext.register(name = "fallingstar", clazz = FallingStarSpawningContext::class.java, defaultCondition = FallingStartSpawningCondition.NAME)
+        SpawningContext.register(name = "fallingstar", clazz = FallingStarSpawningContext::class.java, defaultCondition = FallingStarSpawningCondition.NAME)
 
         LOGGER.info("Loaded ${SpawningContext.contexts.size} spawning context types.")
 

@@ -8,7 +8,9 @@
 
 package com.cobblemon.mod.common.util
 
+import com.cobblemon.mod.common.CobblemonBlockEntities
 import com.cobblemon.mod.common.CobblemonBlocks
+import com.cobblemon.mod.common.block.entity.DyniteOreBlockEntity
 import net.minecraft.block.BlockState
 import net.minecraft.entity.Entity
 import net.minecraft.item.Item
@@ -131,8 +133,10 @@ val World.biomeRegistry: Registry<Biome>
  * @return The amount of Dynite Ore in this chunk
  * @author whatsy
  */
-fun Chunk.getChunkDyniteOre(): Int {
+fun Chunk.getDyniteOre(): Int {
     var count = 0
-    this.forEachBlockMatchingPredicate({ it.block == CobblemonBlocks.DYNITE_ORE }) { _, _ -> count++ }
+    this.blockEntityPositions.forEach {
+        if (getBlockEntity(it) is DyniteOreBlockEntity) count++
+    }
     return count
 }
