@@ -824,9 +824,9 @@ object CobblemonItems : PlatformRegistry<Registry<Item>, RegistryKey<Registry<It
 
     @JvmField
     val POKEROD_SMITHING_TEMPLATE = create("pokerod_smithing_template", SmithingTemplateItem(
-        Text.translatable("item.minecraft.fishing_rod").gray(),
+        Text.translatable("item.minecraft.fishing_rod").blue(),
         Text.translatable("item.cobblemon.smithing_template.pokerod.ingredients").blue(),
-        Text.translatable("upgrade.cobblemon.pokerod").blue(),
+        Text.translatable("upgrade.cobblemon.pokerod").gray(),
         Text.translatable("item.cobblemon.smithing_template.pokerod.base_slot_description"),
         Text.translatable("item.cobblemon.smithing_template.pokerod.additions_slot_description"),
         TEMP_TEXTURE, TEMP_TEXTURE

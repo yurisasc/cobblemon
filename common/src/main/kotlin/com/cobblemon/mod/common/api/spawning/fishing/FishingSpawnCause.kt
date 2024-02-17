@@ -11,9 +11,8 @@ package com.cobblemon.mod.common.api.spawning.fishing
 import com.cobblemon.mod.common.api.spawning.SpawnBucket
 import com.cobblemon.mod.common.api.spawning.SpawnCause
 import com.cobblemon.mod.common.api.spawning.spawner.Spawner
-import com.cobblemon.mod.common.item.PokerodItem
+import com.cobblemon.mod.common.item.interactive.PokerodItem
 import net.minecraft.entity.Entity
-import net.minecraft.item.FishingRodItem
 import net.minecraft.item.ItemStack
 
 /**

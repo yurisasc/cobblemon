@@ -52,6 +52,7 @@ import net.minecraft.loot.context.LootContextParameterSet
 import net.minecraft.loot.context.LootContextParameters
 import net.minecraft.loot.context.LootContextTypes
 import net.minecraft.nbt.NbtCompound
+import net.minecraft.nbt.NbtElement
 import net.minecraft.nbt.NbtList
 import net.minecraft.nbt.NbtType
 import net.minecraft.particle.ParticleTypes
@@ -99,6 +100,7 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
     private var chosenBucket = Cobblemon.bestSpawner.config.buckets[0] // default to first rarity bucket
     private var rarityCaught = "COMMON"
     private val pokemonSpawnChance = 85 // chance a Pokemon will be fished up % out of 100
+    var yawOnCast: Float = 0.0f
 
     constructor(thrower: PlayerEntity, world: World, luckOfTheSea: Int, lure: Int) : this(CobblemonEntities.POKE_BOBBER, world) {
         // Copy pasta a LOT
@@ -122,6 +124,7 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
         vec3d = vec3d.multiply(0.6 / m + random.nextTriangular(0.5, 0.0103365), 0.6 / m + random.nextTriangular(0.5, 0.0103365), 0.6 / m + random.nextTriangular(0.5, 0.0103365))
         velocity = vec3d
         yaw = (MathHelper.atan2(vec3d.x, vec3d.z) * 57.2957763671875).toFloat()
+        yawOnCast = yaw
         pitch = (MathHelper.atan2(vec3d.y, vec3d.horizontalLength()) * 57.2957763671875).toFloat()
         prevYaw = yaw
         prevPitch = pitch
@@ -648,5 +651,19 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
         if (spawnedPokemon != null) {
             BattleBuilder.pve((player as ServerPlayerEntity), spawnedPokemon).ifErrored { it.sendTo(player) { it.red() } }
         }
+    }
+
+    override fun writeNbt(nbt: NbtCompound): NbtCompound {
+        nbt.putFloat(CAST_YAW_KEY, yawOnCast)
+        return super.writeNbt(nbt)
+    }
+
+    override fun readNbt(nbt: NbtCompound) {
+        yawOnCast = nbt.getFloat(CAST_YAW_KEY)
+        super.readNbt(nbt)
+    }
+
+    companion object {
+        val CAST_YAW_KEY = "YawOnCast"
     }
 }

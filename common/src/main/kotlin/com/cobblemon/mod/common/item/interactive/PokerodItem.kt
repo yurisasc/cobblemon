@@ -10,7 +10,7 @@
 // Source code recreated from a .class file by IntelliJ IDEA
 // (powered by FernFlower decompiler)
 //
-package com.cobblemon.mod.common.item
+package com.cobblemon.mod.common.item.interactive
 
 import com.cobblemon.mod.common.CobblemonItems
 import com.cobblemon.mod.common.entity.fishing.PokeRodFishingBobberEntity
@@ -47,7 +47,9 @@ class PokerodItem(settings: Settings?) : FishingRodItem(settings) {
             if (!world.isClient) {
                 i = EnchantmentHelper.getLure(itemStack)
                 val j = EnchantmentHelper.getLuckOfTheSea(itemStack)
-                world.spawnEntity(PokeRodFishingBobberEntity(user, world, j, i))
+                val bobberEntity = PokeRodFishingBobberEntity(user, world, j, i)
+                bobberEntity.yawOnCast = bobberEntity.yaw
+                world.spawnEntity(bobberEntity)
             }
             user.incrementStat(Stats.USED.getOrCreateStat(this))
             user.emitGameEvent(GameEvent.ITEM_INTERACT_START)

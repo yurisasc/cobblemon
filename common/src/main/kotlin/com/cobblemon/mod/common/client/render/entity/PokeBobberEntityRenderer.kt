@@ -9,6 +9,8 @@
 package com.cobblemon.mod.common.client.render.entity
 
 import com.cobblemon.mod.common.CobblemonItems
+import com.cobblemon.mod.common.client.render.pokeball.PokeBallRenderer
+import com.cobblemon.mod.common.entity.fishing.PokeRodFishingBobberEntity
 import com.cobblemon.mod.common.util.cobblemonResource
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
@@ -20,6 +22,7 @@ import net.minecraft.client.render.VertexConsumerProvider
 import net.minecraft.client.render.entity.EntityRenderer
 import net.minecraft.client.render.entity.EntityRendererFactory
 import net.minecraft.client.render.entity.FishingBobberEntityRenderer
+import net.minecraft.client.render.model.json.ModelTransformationMode
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.entity.projectile.FishingBobberEntity
 import net.minecraft.item.Items
@@ -34,8 +37,8 @@ import org.joml.Matrix4f
 * Decompiled with CFR 0.2.0 (FabricMC d28b102d).
 */
 @Environment(value = EnvType.CLIENT)
-class PokeBobberEntityRenderer(context: EntityRendererFactory.Context?) : EntityRenderer<FishingBobberEntity>(context) {
-    override fun render(fishingBobberEntity: FishingBobberEntity, f: Float, g: Float, matrixStack: MatrixStack, vertexConsumerProvider: VertexConsumerProvider, i: Int) {
+class PokeBobberEntityRenderer(context: EntityRendererFactory.Context?) : EntityRenderer<PokeRodFishingBobberEntity>(context) {
+    override fun render(fishingBobberEntity: PokeRodFishingBobberEntity, f: Float, g: Float, matrixStack: MatrixStack, vertexConsumerProvider: VertexConsumerProvider, light: Int) {
         var s: Double
         val r: Float
         val q: Double
@@ -44,17 +47,31 @@ class PokeBobberEntityRenderer(context: EntityRendererFactory.Context?) : Entity
         val playerEntity = fishingBobberEntity.playerOwner ?: return
         matrixStack.push()
         matrixStack.push()
-        matrixStack.scale(0.5f, 0.5f, 0.5f)
-        matrixStack.multiply(dispatcher.rotation)
-        matrixStack.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(180.0f))
-        val entry = matrixStack.peek()
-        val matrix4f = entry.positionMatrix
-        val matrix3f = entry.normalMatrix
-        val vertexConsumer = vertexConsumerProvider.getBuffer(PokeBobberEntityRenderer.Companion.LAYER)
-        PokeBobberEntityRenderer.Companion.vertex(vertexConsumer, matrix4f, matrix3f, i, 0.0f, 0, 0, 1)
-        PokeBobberEntityRenderer.Companion.vertex(vertexConsumer, matrix4f, matrix3f, i, 1.0f, 0, 1, 1)
-        PokeBobberEntityRenderer.Companion.vertex(vertexConsumer, matrix4f, matrix3f, i, 1.0f, 1, 1, 0)
-        PokeBobberEntityRenderer.Companion.vertex(vertexConsumer, matrix4f, matrix3f, i, 0.0f, 1, 0, 0)
+//        matrixStack.scale(0.5f, 0.5f, 0.5f)
+//        matrixStack.multiply(dispatcher.rotation)
+//        matrixStack.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(180.0f))
+//        val entry = matrixStack.peek()
+//        val matrix4f = entry.positionMatrix
+//        val matrix3f = entry.normalMatrix
+//        val vertexConsumer = vertexConsumerProvider.getBuffer(LAYER)
+//        vertex(vertexConsumer, matrix4f, matrix3f, i, 0.0f, 0, 0, 1)
+//        vertex(vertexConsumer, matrix4f, matrix3f, i, 1.0f, 0, 1, 1)
+//        vertex(vertexConsumer, matrix4f, matrix3f, i, 1.0f, 1, 1, 0)
+//        vertex(vertexConsumer, matrix4f, matrix3f, i, 0.0f, 1, 0, 0)
+        val ballStack = CobblemonItems.POKE_BALL.defaultStack
+
+        matrixStack.multiply(RotationAxis.NEGATIVE_Y.rotationDegrees(fishingBobberEntity.yawOnCast))
+
+        MinecraftClient.getInstance().itemRenderer.renderItem(
+            ballStack,
+            ModelTransformationMode.GROUND,
+            light,
+            1,
+            matrixStack,
+            vertexConsumerProvider,
+            fishingBobberEntity.world,
+            0
+        )
         matrixStack.pop()
         var j = if (playerEntity.mainArm == Arm.RIGHT) 1 else -1
         val itemStack = playerEntity.mainHandStack
@@ -67,7 +84,6 @@ class PokeBobberEntityRenderer(context: EntityRendererFactory.Context?) : Entity
         val d = MathHelper.sin(l).toDouble()
         val e = MathHelper.cos(l).toDouble()
         val m = j.toDouble() * 0.35
-        val n = 0.8
         if (dispatcher.gameOptions != null && !dispatcher.gameOptions.perspective.isFirstPerson || playerEntity !== MinecraftClient.getInstance().player) {
             o = MathHelper.lerp(g.toDouble(), playerEntity.prevX, playerEntity.x) - e * m - d * 0.8
             p = playerEntity.prevY + playerEntity.standingEyeHeight.toDouble() + (playerEntity.y - playerEntity.prevY) * g.toDouble() - 0.45
@@ -92,16 +108,11 @@ class PokeBobberEntityRenderer(context: EntityRendererFactory.Context?) : Entity
         val x = (q - u).toFloat()
         val vertexConsumer2 = vertexConsumerProvider.getBuffer(RenderLayer.getLineStrip())
         val entry2 = matrixStack.peek()
-        val y = 16
         for (z in 0..16) {
             renderFishingLine(v, w, x, vertexConsumer2, entry2, percentage(z, 16), percentage(z + 1, 16))
         }
         matrixStack.pop()
-        super.render(fishingBobberEntity, f, g, matrixStack, vertexConsumerProvider, i)
-    }
-
-    override fun getTexture(fishingBobberEntity: FishingBobberEntity): Identifier {
-        return TEXTURE
+        super.render(fishingBobberEntity, f, g, matrixStack, vertexConsumerProvider, light)
     }
 
     companion object {
@@ -132,5 +143,9 @@ class PokeBobberEntityRenderer(context: EntityRendererFactory.Context?) : Entity
             k /= l
             buffer.vertex(matrices.positionMatrix, f, g, h).color(0, 0, 0, 255).normal(matrices.normalMatrix, i, j, k).next()
         }
+    }
+
+    override fun getTexture(entity: PokeRodFishingBobberEntity): Identifier {
+        return TEXTURE
     }
 }

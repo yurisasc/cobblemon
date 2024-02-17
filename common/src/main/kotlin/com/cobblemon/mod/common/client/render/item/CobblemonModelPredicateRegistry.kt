@@ -1,14 +1,12 @@
 package com.cobblemon.mod.common.client.render.item
 
 import com.cobblemon.mod.common.CobblemonItems
-import com.cobblemon.mod.common.item.PokerodItem
+import com.cobblemon.mod.common.item.interactive.PokerodItem
 import net.minecraft.client.item.ClampedModelPredicateProvider
-import net.minecraft.client.item.ModelPredicateProvider
 import net.minecraft.client.item.ModelPredicateProviderRegistry
 import net.minecraft.client.world.ClientWorld
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.player.PlayerEntity
-import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
 import net.minecraft.util.Identifier
 
