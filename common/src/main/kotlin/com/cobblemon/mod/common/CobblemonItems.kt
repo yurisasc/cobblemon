@@ -827,7 +827,7 @@ object CobblemonItems : PlatformRegistry<Registry<Item>, RegistryKey<Registry<It
         Text.translatable("upgrade.cobblemon.pokerod").gray(),
         Text.translatable("item.cobblemon.smithing_template.pokerod.base_slot_description"),
         Text.translatable("item.cobblemon.smithing_template.pokerod.additions_slot_description"),
-        listOf(cobblemonResource("item/empty_fishing_rod_outline")),
+        listOf(cobblemonResource("item/empty_slot_fishing_rod")),
         listOf(cobblemonResource("item/empty_slot_pokeball"))
     ))
 
