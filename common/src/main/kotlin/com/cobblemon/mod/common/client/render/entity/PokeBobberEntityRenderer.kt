@@ -87,8 +87,8 @@ class PokeBobberEntityRenderer(context: EntityRendererFactory.Context?) : Entity
         if (fishingBobberEntity.state == PokeRodFishingBobberEntity.State.BOBBING && !fishingBobberEntity.isOnGround) {
             // Assuming randomPitch is the rotation around X axis that needs to be adjusted
             // Simple linear interpolation towards 0 degrees; adjust 'lerpFactor' as needed for speed
-            val lerpFactor = 0.05f // This controls the speed of the adjustment
-            randomPitch = MathHelper.lerp(0.01f, randomPitch, 0f) // Adjust towards 0 degrees within range
+            val lerpFactor = 0.04f // This controls the speed of the adjustment
+            randomPitch = MathHelper.lerp(lerpFactor, randomPitch, 0f) // Adjust towards 0 degrees within range
             // Consider similar logic for yaw if needed to maintain visual consistency
         }
 
