@@ -14,6 +14,7 @@
 - Added the hidden "True Vivillionaire" advancement.
 - The "Poké Ball" Vivillon variant is now obtainable by evolving a Spewpa after obtaining the "Aspiring Vivillionaire" advancement.
 - Added dynamic lighting support for any Species or Forms when using [LambDynamicLights](https://modrinth.com/mod/lambdynamiclights) or [Dynamic Lights Reforged](https://www.curseforge.com/minecraft/mc-mods/dynamiclights-reforged), at this time we don't ship with any defaults for this feature but addon creators can make use of this feature.
+- Added a Display Case block! Use it to display your archaeological findings, or other items.
 - Added 6 Pokémon-themed Pottery Sherds, obtained from ruin structures.
 - Added a Pokémon-themed armor trim, obtained from ruin structures.
 - You can now find Nether Fire Stone Ore in, surprisingly, the Nether.
@@ -46,6 +47,8 @@
 - Fixed Poké Balls freezing in an open state if you look away when it's meant to close.
 - Adds a translation string name to the Empty Pokeball entity.
 - Fixed very many issues with Bedrock particle effects.
+- Fixed Arbok patterns not being as specific in spawning as they were intended.
+- Fixed Pokémon not avoiding danger at all when pathfinding. 
 
 ### Developer
 - Significantly changed the way properties in PokemonEntity work. This could break some plugins (not in a big way, but changes will be needed).

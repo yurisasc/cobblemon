@@ -247,6 +247,8 @@ object CobblemonItems : PlatformRegistry<Registry<Item>, RegistryKey<Registry<It
     val PC = blockItem("pc", CobblemonBlocks.PC)
     @JvmField
     val PASTURE = blockItem("pasture", CobblemonBlocks.PASTURE)
+    @JvmField
+    val DISPLAY_CASE = blockItem("display_case", CobblemonBlocks.DISPLAY_CASE)
 
     // Evolution items
     @JvmField val LINK_CABLE = create("link_cable", LinkCableItem())

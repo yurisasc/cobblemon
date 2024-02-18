@@ -26,6 +26,7 @@ import com.cobblemon.mod.common.client.render.block.BerryBlockRenderer
 import com.cobblemon.mod.common.client.render.block.FossilAnalyzerRenderer
 import com.cobblemon.mod.common.client.render.block.RestorationTankRenderer
 import com.cobblemon.mod.common.client.render.block.HealingMachineRenderer
+import com.cobblemon.mod.common.client.render.block.*
 import com.cobblemon.mod.common.client.render.boat.CobblemonBoatRenderer
 import com.cobblemon.mod.common.client.render.entity.PokeBobberEntityRenderer
 import com.cobblemon.mod.common.client.render.item.CobblemonBuiltinItemRendererRegistry
@@ -216,6 +217,7 @@ object CobblemonClient {
             CobblemonBlocks.MEDIUM_BUDDING_SKY_TUMBLESTONE,
             CobblemonBlocks.LARGE_BUDDING_SKY_TUMBLESTONE,
             CobblemonBlocks.SKY_TUMBLESTONE_CLUSTER,
+            CobblemonBlocks.DISPLAY_CASE
         )
 
         this.createBoatModelLayers()
@@ -245,6 +247,7 @@ object CobblemonClient {
         this.implementation.registerBlockEntityRenderer(CobblemonBlockEntities.HANGING_SIGN, ::HangingSignBlockEntityRenderer)
         this.implementation.registerBlockEntityRenderer(CobblemonBlockEntities.FOSSIL_ANALYZER, ::FossilAnalyzerRenderer)
         this.implementation.registerBlockEntityRenderer(CobblemonBlockEntities.RESTORATION_TANK, ::RestorationTankRenderer)
+        this.implementation.registerBlockEntityRenderer(CobblemonBlockEntities.DISPLAY_CASE, ::DisplayCaseRenderer)
     }
 
     private fun registerEntityRenderers() {
