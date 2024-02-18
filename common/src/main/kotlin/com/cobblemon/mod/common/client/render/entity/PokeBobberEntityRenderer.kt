@@ -103,7 +103,7 @@ class PokeBobberEntityRenderer(context: EntityRendererFactory.Context?) : Entity
         matrixStack.scale(0.7f, 0.7f, 0.7f) // Apply the scaling transformation
 
         // Translate the Poke Ball model visually (not the ideal approach we want. todo we want to lower the fishing line end to connect better
-        matrixStack.translate(0.0, 0.10, 0.0); // Raise the model by 0.15 on the y-axis
+        //matrixStack.translate(0.0, 0.10, 0.0); // Raise the model by 0.15 on the y-axis
 
         MinecraftClient.getInstance().itemRenderer.renderItem(
             ballStack,
@@ -144,8 +144,10 @@ class PokeBobberEntityRenderer(context: EntityRendererFactory.Context?) : Entity
             eyeHeightOffset = playerEntity.getStandingEyeHeight()
         }
         playerPosXWorld = MathHelper.lerp(tickDelta.toDouble(), fishingBobberEntity.prevX, fishingBobberEntity.x)
+
         val bobberPosY = MathHelper.lerp(tickDelta.toDouble(), fishingBobberEntity.prevY, fishingBobberEntity.y) + 0.25
         val bobberPosZ = MathHelper.lerp(tickDelta.toDouble(), fishingBobberEntity.prevZ, fishingBobberEntity.z)
+
         val deltaX = (playerEyeYWorld - playerPosXWorld).toFloat()
         val deltaY = (playerPosYWorld - bobberPosY).toFloat() + eyeHeightOffset
         val deltaZ = (playerPosZWorld - bobberPosZ).toFloat()
@@ -187,9 +189,18 @@ class PokeBobberEntityRenderer(context: EntityRendererFactory.Context?) : Entity
             deltaYSegment /= length
             deltaZSegment /= length
 
+            // New factor to adjust the curve so it ends lower
+            // This could be a simple linear adjustment or more complex based on your needs
+            val loweringFactor = 1.0f - segmentEndFraction // Becomes 0 at the start and approaches 1 towards the end
+            val additionalLowering = loweringFactor * 0.1f // Adjust this factor to control how much lower the end goes
+
+            // Apply the lowering adjustment
+            startY -= additionalLowering
+
+
             // todo find a better way to make the fishing line connect to the bobber
-            /*// Adjust startY and deltaYSegment for the last segment to lower the end point closer to the Poke Ball
-            if (segmentEndFraction == 0.0625f) {
+            // Adjust startY and deltaYSegment for the last segment to lower the end point closer to the Poke Ball
+            /*if (segmentEndFraction == 0.0625f) {
                 startY -= 0.1f // Lower the starting point of the last segment
                 deltaYSegment -= 0.1f // Ensure the end point is also adjusted accordingly
             }*/
