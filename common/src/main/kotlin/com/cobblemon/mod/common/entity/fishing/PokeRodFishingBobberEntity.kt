@@ -556,7 +556,6 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
 
         if (resultingSpawn is EntitySpawnResult) {
             for (entity in resultingSpawn.entities) {
-                player.sendMessage(commandLang("spawnpokemonfrompool.success", entity.displayName).green())
                 //pokemon.uuid = it.uuid
                 hookedEntityID = entity.id
                 spawnedPokemon = (entity as PokemonEntity)
