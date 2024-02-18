@@ -43,11 +43,12 @@ class PokeBobberEntityRenderer(context: EntityRendererFactory.Context?) : Entity
         val playerEntity = fishingBobberEntity.playerOwner ?: return
         matrixStack.push()
 
-        // Check if the bobber has just been cast
-        if (fishingBobberEntity.age <= 1) { // Adjust this check as needed
-            // Generate new random pitch and yaw for each cast
-            randomPitch = (Math.random() * 360).toFloat()
-            randomYaw = (Math.random() * 360).toFloat()
+        // Generate controlled random pitch and yaw for each cast, with constraints
+        if (fishingBobberEntity.age <= 1) {
+            // Random yaw within a constrained range to allow for limited tilting
+            randomYaw = (-180 + Math.random() * 360).toFloat() // Example: -180 to +180 degrees
+            // Random pitch to ensure the top of the Poke Ball leans towards the string
+            randomPitch = (-40 + Math.random() * 80).toFloat() // Example: -40 to +40 degrees
         }
 
         val ballStack = CobblemonItems.POKE_BALL.defaultStack
@@ -63,7 +64,7 @@ class PokeBobberEntityRenderer(context: EntityRendererFactory.Context?) : Entity
             // Adjust ageFactor calculation for faster slowing in open water
             val ageFactor = if (fishingBobberEntity.age < stopRotationAge) {
                 if (fishingBobberEntity.inOpenWater) {
-                    1 + fishingBobberEntity.age / 20.0 // Slows down much faster in open water
+                    1 + fishingBobberEntity.age / 15.0 // Slows down much faster in open water
                 } else {
                     1 + fishingBobberEntity.age / 100.0 // Standard slowing rate
                 }
@@ -83,11 +84,12 @@ class PokeBobberEntityRenderer(context: EntityRendererFactory.Context?) : Entity
         }
 
         // When in water, gradually make the Poke Ball upright
-        if (fishingBobberEntity.inOpenWater && !fishingBobberEntity.isOnGround) {
+        if (fishingBobberEntity.state == PokeRodFishingBobberEntity.State.BOBBING && !fishingBobberEntity.isOnGround) {
             // Assuming randomPitch is the rotation around X axis that needs to be adjusted
             // Simple linear interpolation towards 0 degrees; adjust 'lerpFactor' as needed for speed
             val lerpFactor = 0.05f // This controls the speed of the adjustment
-            randomPitch = MathHelper.lerp(lerpFactor, randomPitch, 0.0f) // Interpolate towards 0 degrees
+            randomPitch = MathHelper.lerp(0.01f, randomPitch, 0f) // Adjust towards 0 degrees within range
+            // Consider similar logic for yaw if needed to maintain visual consistency
         }
 
         // Apply random pitch and yaw before rendering the Poke Ball
@@ -99,6 +101,9 @@ class PokeBobberEntityRenderer(context: EntityRendererFactory.Context?) : Entity
 
         // Scale down the Poke Ball to 70% of its original size
         matrixStack.scale(0.7f, 0.7f, 0.7f) // Apply the scaling transformation
+
+        // Translate the Poke Ball model visually (not the ideal approach we want. todo we want to lower the fishing line end to connect better
+        matrixStack.translate(0.0, 0.10, 0.0); // Raise the model by 0.15 on the y-axis
 
         MinecraftClient.getInstance().itemRenderer.renderItem(
             ballStack,
@@ -160,18 +165,37 @@ class PokeBobberEntityRenderer(context: EntityRendererFactory.Context?) : Entity
         }
 
         @JvmStatic
-        private fun renderFishingLine(x: Float, y: Float, z: Float, buffer: VertexConsumer, matrices: MatrixStack.Entry, segmentStart: Float, segmentEnd: Float) {
-            val f = x * segmentStart
-            val g = y * (segmentStart * segmentStart + segmentStart) * 0.5f + 0.25f
-            val h = z * segmentStart
-            var i = x * segmentEnd - f
-            var j = y * (segmentEnd * segmentEnd + segmentEnd) * 0.5f + 0.25f - g
-            var k = z * segmentEnd - h
-            val l = MathHelper.sqrt(i * i + j * j + k * k)
-            i /= l
-            j /= l
-            k /= l
-            buffer.vertex(matrices.positionMatrix, f, g, h).color(0, 0, 0, 255).normal(matrices.normalMatrix, i, j, k).next()
+        private fun renderFishingLine(deltaX: Float, deltaY: Float, deltaZ: Float, vertexBuffer: VertexConsumer, matrixEntry: MatrixStack.Entry, segmentStartFraction: Float, segmentEndFraction: Float) {
+
+            // Calculate the starting X position of the current segment based on the start fraction
+            val startX = deltaX * segmentStartFraction
+            // Calculate the starting Y position of the current segment, adding a curvature effect and a base offset
+            var startY = deltaY * (segmentStartFraction * segmentStartFraction + segmentStartFraction) * 0.5f + 0.25f
+            // Calculate the starting Z position of the current segment based on the start fraction
+            val startZ = deltaZ * segmentStartFraction
+
+            // Calculate the change in X position from the start to the end of the current segment
+            var deltaXSegment = deltaX * segmentEndFraction - startX
+            // Calculate the change in Y position from the start to the end of the current segment, adjusting for curvature and base offset
+            var deltaYSegment = deltaY * (segmentEndFraction * segmentEndFraction + segmentEndFraction) * 0.5f + 0.25f - startY
+            // Calculate the change in Z position from the start to the end of the current segment
+            var deltaZSegment = deltaZ * segmentEndFraction - startZ
+
+            // Normalize the segment vector to use it for the normal vector in the vertex data
+            val length = MathHelper.sqrt(deltaXSegment * deltaXSegment + deltaYSegment * deltaYSegment + deltaZSegment * deltaZSegment)
+            deltaXSegment /= length
+            deltaYSegment /= length
+            deltaZSegment /= length
+
+            // todo find a better way to make the fishing line connect to the bobber
+            /*// Adjust startY and deltaYSegment for the last segment to lower the end point closer to the Poke Ball
+            if (segmentEndFraction == 0.0625f) {
+                startY -= 0.1f // Lower the starting point of the last segment
+                deltaYSegment -= 0.1f // Ensure the end point is also adjusted accordingly
+            }*/
+
+            // Add the vertex for the start of this segment
+            vertexBuffer.vertex(matrixEntry.positionMatrix, startX, startY, startZ).color(0, 0, 0, 255).normal(matrixEntry.normalMatrix, deltaXSegment, deltaYSegment, deltaZSegment).next()
         }
     }
 

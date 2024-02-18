@@ -66,7 +66,7 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
     private var fishAngle = 0f
     var inOpenWater = true
     private var hookedEntity: Entity? = null
-    private var state = State.FLYING
+    var state = State.FLYING
     private var luckOfTheSeaLevel = 0
     private var lureLevel = 0
     private var typeCaught= "ITEM"
@@ -221,7 +221,7 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
         }
     }
 
-    internal enum class State {
+    enum class State {
         FLYING,
         HOOKED_IN_ENTITY,
         BOBBING

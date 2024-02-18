@@ -121,7 +121,7 @@ class DisplayCaseRenderer(ctx: BlockEntityRendererFactory.Context) : BlockEntity
             if (stack.isIn(ItemTags.BANNERS)) return PositioningType.BANNER
             if (stack.isIn(CobblemonItemTags.MOB_HEADS)) return PositioningType.MOB_HEAD
             if (stack.item == CobblemonItems.PASTURE) return PositioningType.PASTURE
-            if (stack.isIn(CobblemonItemTags.POKEBALLS)) return PositioningType.POKE_BALL
+            if (stack.isIn(CobblemonItemTags.POKE_BALLS)) return PositioningType.POKE_BALL
             if (stack.item == CobblemonItems.POKEMON_MODEL) return PositioningType.ITEM_MODEL
             if (MinecraftClient.getInstance().itemRenderer.getModel(stack, world, null, 0).hasDepth()) return PositioningType.BLOCK_MODEL
             return PositioningType.ITEM_MODEL
