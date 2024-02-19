@@ -8,10 +8,8 @@
 
 package com.cobblemon.mod.common.client.battle
 
-import com.cobblemon.mod.common.battles.ShowdownActionRequest
-import com.cobblemon.mod.common.battles.ShowdownActionResponse
-import com.cobblemon.mod.common.battles.ShowdownMoveset
-import com.cobblemon.mod.common.battles.ShowdownSide
+import com.cobblemon.mod.common.battles.*
+
 class SingleActionRequest(
     val activePokemon: ActiveClientBattlePokemon,
     val side: ShowdownSide?,
@@ -24,7 +22,18 @@ class SingleActionRequest(
             val singleActionRequests = mutableListOf<SingleActionRequest>()
             singleActionRequests.addAll(
                 request.iterate(actor.activePokemon) { targetable, moveSet, forceSwitch ->
-                    SingleActionRequest(targetable, request.side, moveSet, forceSwitch, !request.noCancel)
+                    val singleRequest = SingleActionRequest(targetable, request.side, moveSet, forceSwitch, !request.noCancel)
+                    // Known quirk of Showdown. It'll ask for actions on fainted slots
+                    // Need to find better place to fix this
+                    // Probably should find a way to fix this serverside so clients don't
+                    // need to deal with this silliness.
+                    val pokemon = request.side?.pokemon?.firstOrNull {
+                        it.uuid == targetable.battlePokemon?.uuid
+                    }
+                    if(pokemon != null && pokemon.condition.contains("fnt")) {
+                        singleRequest.response = PassActionResponse
+                    }
+                    singleRequest
                 }
             )
 

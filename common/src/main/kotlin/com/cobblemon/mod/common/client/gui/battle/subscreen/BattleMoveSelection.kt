@@ -15,6 +15,7 @@ import com.cobblemon.mod.common.api.text.bold
 import com.cobblemon.mod.common.api.text.gold
 import com.cobblemon.mod.common.api.text.red
 import com.cobblemon.mod.common.api.text.text
+import com.cobblemon.mod.common.battles.BattleTypes
 import com.cobblemon.mod.common.battles.InBattleMove
 import com.cobblemon.mod.common.battles.MoveActionResponse
 import com.cobblemon.mod.common.battles.Targetable
@@ -196,7 +197,11 @@ class BattleMoveSelection(
         val move = moveTiles.find { it.isHovered(mouseX, mouseY) }
         val gimmick = gimmickButtons.find { it.isHovered(mouseX, mouseY) }
         if (move != null) {
-            move.onClick()
+            if(this.request.activePokemon.getFormat().battleType.pokemonPerSide == 1) {
+                move.onClick()
+            } else {
+                battleGUI.changeActionSelection(BattleTargetSelection(battleGUI, request, move.move))
+            }
             return true
         } else if (backButton.isHovered(mouseX, mouseY)) {
             playDownSound(MinecraftClient.getInstance().soundManager)
