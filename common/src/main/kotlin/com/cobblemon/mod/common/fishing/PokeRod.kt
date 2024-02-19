@@ -8,13 +8,9 @@
 
 package com.cobblemon.mod.common.fishing
 
-import com.cobblemon.mod.common.api.pokeball.PokeBalls
-import com.cobblemon.mod.common.api.pokeball.catching.CaptureEffect
-import com.cobblemon.mod.common.api.pokeball.catching.CatchRateModifier
-import com.cobblemon.mod.common.item.PokeBallItem
 import com.cobblemon.mod.common.item.interactive.PokerodItem
-import com.cobblemon.mod.common.pokemon.Pokemon
 import net.minecraft.item.ItemStack
+import net.minecraft.network.PacketByteBuf
 import net.minecraft.util.Identifier
 
 /**
@@ -37,5 +33,24 @@ open class PokeRod(
     fun item(): PokerodItem = this.item
 
     fun stack(count: Int = 1): ItemStack = ItemStack(this.item(), count)
+
+    internal fun encode(buffer: PacketByteBuf) {
+        buffer.writeIdentifier(name)
+        buffer.writeItemStack(bobberType)
+        buffer.writeInt(lineColor.first)
+        buffer.writeInt(lineColor.second)
+        buffer.writeInt(lineColor.third)
+    }
+
+    companion object {
+        internal fun decode(buffer: PacketByteBuf): PokeRod {
+            val id = buffer.readIdentifier()
+            val stack = buffer.readItemStack()
+            val r = buffer.readInt()
+            val g = buffer.readInt()
+            val b = buffer.readInt()
+            return PokeRod(id, stack, Triple(r, g, b))
+        }
+    }
 
 }

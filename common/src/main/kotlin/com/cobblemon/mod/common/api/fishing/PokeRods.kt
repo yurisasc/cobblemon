@@ -8,26 +8,17 @@
 
 package com.cobblemon.mod.common.api.fishing
 
+import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.CobblemonItems
-import com.cobblemon.mod.common.api.Priority
 import com.cobblemon.mod.common.api.data.JsonDataRegistry
-import com.cobblemon.mod.common.api.events.CobblemonEvents
-import com.cobblemon.mod.common.api.pokeball.catching.CaptureEffect
-import com.cobblemon.mod.common.api.pokeball.catching.CatchRateModifier
-import com.cobblemon.mod.common.api.pokeball.catching.modifiers.MultiplierModifier
-import com.cobblemon.mod.common.api.pokemon.labels.CobblemonPokemonLabels
-import com.cobblemon.mod.common.api.pokemon.stats.Stats
-import com.cobblemon.mod.common.api.pokemon.status.Statuses
 import com.cobblemon.mod.common.api.reactive.SimpleObservable
-import com.cobblemon.mod.common.api.types.ElementalTypes
 import com.cobblemon.mod.common.fishing.PokeRod
-import com.cobblemon.mod.common.item.CobblemonItem
+import com.cobblemon.mod.common.net.messages.client.data.PokeRodRegistrySyncPacket
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
 import net.minecraft.item.ItemStack
-import kotlin.math.roundToInt
 import net.minecraft.resource.ResourceType
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.util.Identifier
@@ -205,11 +196,22 @@ object PokeRods : JsonDataRegistry<PokeRod> {
     }
 
     override fun reload(data: Map<Identifier, PokeRod>) {
+        this.defaults.clear()
+        data.forEach { id, rod ->
+            try {
+                defaults[id] = rod
+            } catch (e: Exception) {
+                Cobblemon.LOGGER.error("Skipped loading {}", id)
+            }
+        }
+        Cobblemon.LOGGER.info("Loaded {} Poke Rods", defaults.size)
+        this.observable.emit(this)
         this.custom.clear()
         // ToDo once datapack pokerod is implemented load them here, we will want datapacks to be able to override our default pokerods too, however they will never be able to disable them
     }
 
     override fun sync(player: ServerPlayerEntity) {
+        PokeRodRegistrySyncPacket(this.defaults.values).sendToPlayer(player)
         // ToDo once datapack pokerod is implemented sync them here
     }
 
