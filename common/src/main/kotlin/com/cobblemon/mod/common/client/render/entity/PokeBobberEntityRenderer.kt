@@ -26,6 +26,8 @@ import net.minecraft.util.Arm
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.MathHelper
 import net.minecraft.util.math.RotationAxis
+import org.joml.Matrix3f
+import org.joml.Matrix4f
 
 @Environment(value = EnvType.CLIENT)
 class PokeBobberEntityRenderer(context: EntityRendererFactory.Context?) : EntityRenderer<PokeRodFishingBobberEntity>(context) {
@@ -102,8 +104,15 @@ class PokeBobberEntityRenderer(context: EntityRendererFactory.Context?) : Entity
         // Scale down the Poke Ball to 70% of its original size
         matrixStack.scale(0.7f, 0.7f, 0.7f) // Apply the scaling transformation
 
-        // Translate the Poke Ball model visually (not the ideal approach we want. todo we want to lower the fishing line end to connect better
-        //matrixStack.translate(0.0, 0.10, 0.0); // Raise the model by 0.15 on the y-axis
+        // try to render the bobber sprite as well to have hook pop out the bottom of the Bobber model
+        val entry = matrixStack.peek()
+        val matrix4f = entry.positionMatrix
+        val matrix3f = entry.normalMatrix
+        val vertexConsumer = vertexConsumerProvider.getBuffer(PokeBobberEntityRenderer.Companion.LAYER)
+        PokeBobberEntityRenderer.Companion.vertex(vertexConsumer, matrix4f, matrix3f, light, 0.0f, 0, 0, 1)
+        PokeBobberEntityRenderer.Companion.vertex(vertexConsumer, matrix4f, matrix3f, light, 1.0f, 0, 1, 1)
+        PokeBobberEntityRenderer.Companion.vertex(vertexConsumer, matrix4f, matrix3f, light, 1.0f, 1, 1, 0)
+        PokeBobberEntityRenderer.Companion.vertex(vertexConsumer, matrix4f, matrix3f, light, 0.0f, 1, 0, 0)
 
         MinecraftClient.getInstance().itemRenderer.renderItem(
             ballStack,
@@ -161,6 +170,13 @@ class PokeBobberEntityRenderer(context: EntityRendererFactory.Context?) : Entity
     }
 
     companion object {
+        private val TEXTURE = cobblemonResource("textures/item/fishing/pokeball_bobber.png")
+        private val LAYER = RenderLayer.getEntityCutout(TEXTURE)
+
+        private fun vertex(buffer: VertexConsumer, matrix: Matrix4f, normalMatrix: Matrix3f, light: Int, x: Float, y: Int, u: Int, v: Int) {
+            buffer.vertex(matrix, x - 0.5f, y.toFloat() - 0.5f, 0.0f).color(255, 255, 255, 255).texture(u.toFloat(), v.toFloat()).overlay(OverlayTexture.DEFAULT_UV).light(light).normal(normalMatrix, 0.0f, 1.0f, 0.0f).next()
+        }
+
         @JvmStatic
         private fun percentage(value: Int, max: Int): Float {
             return value.toFloat() / max.toFloat()
@@ -198,13 +214,6 @@ class PokeBobberEntityRenderer(context: EntityRendererFactory.Context?) : Entity
             startY -= additionalLowering
 
 
-            // todo find a better way to make the fishing line connect to the bobber
-            // Adjust startY and deltaYSegment for the last segment to lower the end point closer to the Poke Ball
-            /*if (segmentEndFraction == 0.0625f) {
-                startY -= 0.1f // Lower the starting point of the last segment
-                deltaYSegment -= 0.1f // Ensure the end point is also adjusted accordingly
-            }*/
-
             // Add the vertex for the start of this segment
             vertexBuffer.vertex(matrixEntry.positionMatrix, startX, startY, startZ).color(0, 0, 0, 255).normal(matrixEntry.normalMatrix, deltaXSegment, deltaYSegment, deltaZSegment).next()
         }
@@ -213,4 +222,5 @@ class PokeBobberEntityRenderer(context: EntityRendererFactory.Context?) : Entity
     override fun getTexture(entity: PokeRodFishingBobberEntity): Identifier {
         return cobblemonResource("textures/item/fishing/pokeball_bobber.png")
     }
+
 }
