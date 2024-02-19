@@ -18,6 +18,7 @@ import com.cobblemon.mod.common.api.text.green
 import com.cobblemon.mod.common.api.text.red
 import com.cobblemon.mod.common.battles.BattleBuilder
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
+import com.cobblemon.mod.common.item.interactive.PokerodItem
 import com.cobblemon.mod.common.loot.CobblemonLootTables
 import com.cobblemon.mod.common.util.commandLang
 import com.cobblemon.mod.common.util.toBlockPos
@@ -72,13 +73,14 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
     private var typeCaught= "ITEM"
     private var chosenBucket = Cobblemon.bestSpawner.config.buckets[0] // default to first rarity bucket
     private val pokemonSpawnChance = 85 // chance a Pokemon will be fished up % out of 100
+    var bobberType = CobblemonItems.POKE_BALL.defaultStack
 
-    constructor(thrower: PlayerEntity, world: World, luckOfTheSea: Int, lure: Int) : this(CobblemonEntities.POKE_BOBBER, world) {
-        // Copy pasta a LOT
-        //this(CobblemonEntities.POKE_BOBBER, world, luckOfTheSeaLevel, lureLevel)
+    constructor(thrower: PlayerEntity, bobber: ItemStack, world: World, luckOfTheSea: Int, lure: Int) : this(CobblemonEntities.POKE_BOBBER, world) {
         owner = thrower
         luckOfTheSeaLevel = luckOfTheSea
         lureLevel = lure
+
+        this.bobberType = bobber
 
         val throwerPitch = thrower.pitch
         val throwerYaw = thrower.yaw
@@ -362,8 +364,8 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
     private fun removeIfInvalid(player: PlayerEntity): Boolean {
         val itemStack = player.mainHandStack
         val itemStack2 = player.offHandStack
-        val bl = itemStack.isOf(CobblemonItems.POKEROD)
-        val bl2 = itemStack2.isOf(CobblemonItems.POKEROD)
+        val bl = (itemStack.item is PokerodItem)
+        val bl2 = (itemStack2.item is PokerodItem)
         if (player.isRemoved || !player.isAlive || !bl && !bl2 || this.squaredDistanceTo(player) > 1024.0) {
             discard()
             return true

@@ -7,10 +7,10 @@
     "item": "minecraft:fishing_rod"
   },
   "addition": {
-    "item": "cobblemon:poke_ball"
+    "item": "cobblemon:verdant_ball"
   },
   "result": {
-    "item": "cobblemon:pokerod",
+    "item": "cobblemon:verdant_rod",
     "count": 1
   }
 }

@@ -10,6 +10,7 @@ package com.cobblemon.mod.common.client.render.entity
 
 import com.cobblemon.mod.common.CobblemonItems
 import com.cobblemon.mod.common.entity.fishing.PokeRodFishingBobberEntity
+import com.cobblemon.mod.common.item.interactive.PokerodItem
 import com.cobblemon.mod.common.util.cobblemonResource
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
@@ -53,7 +54,7 @@ class PokeBobberEntityRenderer(context: EntityRendererFactory.Context?) : Entity
             randomPitch = (-40 + Math.random() * 80).toFloat() // Example: -40 to +40 degrees
         }
 
-        val ballStack = CobblemonItems.POKE_BALL.defaultStack
+        val ballStack = fishingBobberEntity.bobberType
 
         matrixStack.push()
 
@@ -108,11 +109,38 @@ class PokeBobberEntityRenderer(context: EntityRendererFactory.Context?) : Entity
         val entry = matrixStack.peek()
         val matrix4f = entry.positionMatrix
         val matrix3f = entry.normalMatrix
+
+        // Scale factor
+        // Scale factor
+        val scale = 0.75f
+
+        // Additional shift to the leeft
+        val shiftHook = 0.045f // Adjust this value as needed to shift the geometry
+
         val vertexConsumer = vertexConsumerProvider.getBuffer(PokeBobberEntityRenderer.Companion.LAYER)
+        /*// Original vertices for one side
         PokeBobberEntityRenderer.Companion.vertex(vertexConsumer, matrix4f, matrix3f, light, 0.0f, 0, 0, 1)
         PokeBobberEntityRenderer.Companion.vertex(vertexConsumer, matrix4f, matrix3f, light, 1.0f, 0, 1, 1)
         PokeBobberEntityRenderer.Companion.vertex(vertexConsumer, matrix4f, matrix3f, light, 1.0f, 1, 1, 0)
         PokeBobberEntityRenderer.Companion.vertex(vertexConsumer, matrix4f, matrix3f, light, 0.0f, 1, 0, 0)
+
+        // Add vertices for the opposite side in reverse order
+        PokeBobberEntityRenderer.Companion.vertex(vertexConsumer, matrix4f, matrix3f, light, 0.0f, 1, 0, 0)
+        PokeBobberEntityRenderer.Companion.vertex(vertexConsumer, matrix4f, matrix3f, light, 1.0f, 1, 1, 0)
+        PokeBobberEntityRenderer.Companion.vertex(vertexConsumer, matrix4f, matrix3f, light, 1.0f, 0, 1, 1)
+        PokeBobberEntityRenderer.Companion.vertex(vertexConsumer, matrix4f, matrix3f, light, 0.0f, 0, 0, 1)*/
+
+        // Adjusted and flipped vertices for one side, scaled by 75% and shifted
+        vertex(vertexConsumer, matrix4f, matrix3f, light, (1.0f - 0.0f) * scale + 0.125f + shiftHook, (0.0f * scale + 0.125f), 0, 1)
+        vertex(vertexConsumer, matrix4f, matrix3f, light, (1.0f - 1.0f) * scale + 0.125f + shiftHook, (0.0f * scale + 0.125f), 1, 1)
+        vertex(vertexConsumer, matrix4f, matrix3f, light, (1.0f - 1.0f) * scale + 0.125f + shiftHook, (1.0f * scale + 0.125f), 1, 0)
+        vertex(vertexConsumer, matrix4f, matrix3f, light, (1.0f - 0.0f) * scale + 0.125f + shiftHook, (1.0f * scale + 0.125f), 0, 0)
+
+        // Adjusted and flipped vertices for the opposite side in reverse order, scaled by 75% and shifted
+        vertex(vertexConsumer, matrix4f, matrix3f, light, (1.0f - 0.0f) * scale + 0.125f + shiftHook, (1.0f * scale + 0.125f), 0, 0)
+        vertex(vertexConsumer, matrix4f, matrix3f, light, (1.0f - 1.0f) * scale + 0.125f + shiftHook, (1.0f * scale + 0.125f), 1, 0)
+        vertex(vertexConsumer, matrix4f, matrix3f, light, (1.0f - 1.0f) * scale + 0.125f + shiftHook, (0.0f * scale + 0.125f), 1, 1)
+        vertex(vertexConsumer, matrix4f, matrix3f, light, (1.0f - 0.0f) * scale + 0.125f + shiftHook, (0.0f * scale + 0.125f), 0, 1)
 
         MinecraftClient.getInstance().itemRenderer.renderItem(
             ballStack,
@@ -127,7 +155,7 @@ class PokeBobberEntityRenderer(context: EntityRendererFactory.Context?) : Entity
         matrixStack.pop()
         var armOffset = if (playerEntity.mainArm == Arm.RIGHT) 1 else -1
         val itemStack = playerEntity.mainHandStack
-        if (!itemStack.isOf(CobblemonItems.POKEROD)) {
+        if (itemStack.item !is PokerodItem) {
             armOffset = -armOffset
         }
         val handSwingProgress = playerEntity.getHandSwingProgress(tickDelta)
@@ -170,10 +198,10 @@ class PokeBobberEntityRenderer(context: EntityRendererFactory.Context?) : Entity
     }
 
     companion object {
-        private val TEXTURE = cobblemonResource("textures/item/fishing/pokeball_bobber.png")
+        private val TEXTURE = cobblemonResource("textures/item/fishing/bobber_hook.png")
         private val LAYER = RenderLayer.getEntityCutout(TEXTURE)
 
-        private fun vertex(buffer: VertexConsumer, matrix: Matrix4f, normalMatrix: Matrix3f, light: Int, x: Float, y: Int, u: Int, v: Int) {
+        private fun vertex(buffer: VertexConsumer, matrix: Matrix4f, normalMatrix: Matrix3f, light: Int, x: Float, y: Float, u: Int, v: Int) {
             buffer.vertex(matrix, x - 0.5f, y.toFloat() - 0.5f, 0.0f).color(255, 255, 255, 255).texture(u.toFloat(), v.toFloat()).overlay(OverlayTexture.DEFAULT_UV).light(light).normal(normalMatrix, 0.0f, 1.0f, 0.0f).next()
         }
 
@@ -220,7 +248,7 @@ class PokeBobberEntityRenderer(context: EntityRendererFactory.Context?) : Entity
     }
 
     override fun getTexture(entity: PokeRodFishingBobberEntity): Identifier {
-        return cobblemonResource("textures/item/fishing/pokeball_bobber.png")
+        return cobblemonResource("textures/item/fishing/bobber_hook.png")
     }
 
 }

@@ -8,6 +8,7 @@
 
 package com.cobblemon.mod.common
 
+import com.cobblemon.mod.common.api.fishing.PokeRods
 import com.cobblemon.mod.common.api.mulch.MulchVariant
 import com.cobblemon.mod.common.api.pokeball.PokeBalls
 import com.cobblemon.mod.common.api.pokemon.Natures
@@ -19,6 +20,7 @@ import com.cobblemon.mod.common.block.BerryBlock
 import com.cobblemon.mod.common.block.MintBlock
 import com.cobblemon.mod.common.block.MintBlock.MintType
 import com.cobblemon.mod.common.entity.boat.CobblemonBoatType
+import com.cobblemon.mod.common.fishing.PokeRod
 import com.cobblemon.mod.common.item.*
 import com.cobblemon.mod.common.item.armor.CobblemonArmorTrims
 import com.cobblemon.mod.common.item.battle.DireHitItem
@@ -839,8 +841,70 @@ object CobblemonItems : PlatformRegistry<Registry<Item>, RegistryKey<Registry<It
         SmithingTemplateItem.of(CobblemonArmorTrims.AUTOMATON)
     )
 
+    val pokeRods = mutableListOf<PokerodItem>()
     @JvmField
-    val POKEROD = pokerodItem("pokerod")
+    val AZURE_ROD = pokerodItem(PokeRods.AZURE_ROD)
+    @JvmField
+    val CHERISH_ROD = pokerodItem(PokeRods.CHERISH_ROD)
+    @JvmField
+    val CITRINE_ROD = pokerodItem(PokeRods.CITRINE_ROD)
+    @JvmField
+    val DIVE_ROD = pokerodItem(PokeRods.DIVE_ROD)
+    @JvmField
+    val DREAM_ROD = pokerodItem(PokeRods.DREAM_ROD)
+    @JvmField
+    val DUSK_ROD = pokerodItem(PokeRods.DUSK_ROD)
+    @JvmField
+    val FAST_ROD = pokerodItem(PokeRods.FAST_ROD)
+    @JvmField
+    val FRIEND_ROD = pokerodItem(PokeRods.FRIEND_ROD)
+    @JvmField
+    val GREAT_ROD = pokerodItem(PokeRods.GREAT_ROD)
+    @JvmField
+    val HEAL_ROD = pokerodItem(PokeRods.HEAL_ROD)
+    @JvmField
+    val HEAVY_ROD = pokerodItem(PokeRods.HEAVY_ROD)
+    @JvmField
+    val LEVEL_ROD = pokerodItem(PokeRods.LEVEL_ROD)
+    @JvmField
+    val LOVE_ROD = pokerodItem(PokeRods.LOVE_ROD)
+    @JvmField
+    val LURE_ROD = pokerodItem(PokeRods.LURE_ROD)
+    @JvmField
+    val LUXURY_ROD = pokerodItem(PokeRods.LUXURY_ROD)
+    @JvmField
+    val MASTER_ROD = pokerodItem(PokeRods.MASTER_ROD)
+    @JvmField
+    val MOON_ROD = pokerodItem(PokeRods.MOON_ROD)
+    @JvmField
+    val NEST_ROD = pokerodItem(PokeRods.NEST_ROD)
+    @JvmField
+    val NET_ROD = pokerodItem(PokeRods.NET_ROD)
+    @JvmField
+    val PARK_ROD = pokerodItem(PokeRods.PARK_ROD)
+    @JvmField
+    val POKE_ROD = pokerodItem(PokeRods.POKE_ROD)
+    @JvmField
+    val PREMIER_ROD = pokerodItem(PokeRods.PREMIER_ROD)
+    @JvmField
+    val QUICK_ROD = pokerodItem(PokeRods.QUICK_ROD)
+    @JvmField
+    val REPEAT_ROD = pokerodItem(PokeRods.REPEAT_ROD)
+    @JvmField
+    val ROSEATE_ROD = pokerodItem(PokeRods.ROSEATE_ROD)
+    @JvmField
+    val SAFARI_ROD = pokerodItem(PokeRods.SAFARI_ROD)
+    @JvmField
+    val SLATE_ROD = pokerodItem(PokeRods.SLATE_ROD)
+    @JvmField
+    val SPORT_ROD = pokerodItem(PokeRods.SPORT_ROD)
+    @JvmField
+    val TIMER_ROD = pokerodItem(PokeRods.TIMER_ROD)
+    @JvmField
+    val ULTRA_ROD = pokerodItem(PokeRods.ULTRA_ROD)
+    @JvmField
+    val VERDANT_ROD = pokerodItem(PokeRods.VERDANT_ROD)
+
 
     // Misc
     @JvmField
@@ -863,11 +927,11 @@ object CobblemonItems : PlatformRegistry<Registry<Item>, RegistryKey<Registry<It
 
     private fun candyItem(name: String, calculator: CandyItem.Calculator): CandyItem  = this.create(name, CandyItem(calculator))
 
-    private fun pokerodItem(name: String): PokerodItem {
+    private fun pokerodItem(pokeRod: PokeRod): PokerodItem {
         var settings = Item.Settings()
         settings.maxCount(1) // do not stack
         settings.maxDamage(Items.FISHING_ROD.maxDamage) // same durability as Vanilla Fishing Rod
-        val item = create(name, PokerodItem(settings))
+        val item = create(pokeRod.name.path, PokerodItem(settings))
         return item
     }
 
