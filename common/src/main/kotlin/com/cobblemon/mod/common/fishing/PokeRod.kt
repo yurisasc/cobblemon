@@ -12,6 +12,7 @@ import com.cobblemon.mod.common.item.interactive.PokerodItem
 import net.minecraft.item.ItemStack
 import net.minecraft.network.PacketByteBuf
 import net.minecraft.util.Identifier
+import net.minecraft.util.StringIdentifiable
 
 /**
  * Base poke rod object
@@ -25,7 +26,15 @@ open class PokeRod(
     val name: Identifier,
     val bobberType: ItemStack,
     val lineColor: Triple<Int, Int, Int>
-) {
+): StringIdentifiable {
+
+    @Transient
+    var identifier: Identifier = name
+        internal set
+
+    override fun asString(): String {
+        return identifier.toString()
+    }
 
     // This gets attached during item registry
     internal lateinit var item: PokerodItem

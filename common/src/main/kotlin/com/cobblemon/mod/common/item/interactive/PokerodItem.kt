@@ -15,11 +15,11 @@ package com.cobblemon.mod.common.item.interactive
 import com.cobblemon.mod.common.CobblemonItems
 import com.cobblemon.mod.common.api.fishing.PokeRods
 import com.cobblemon.mod.common.entity.fishing.PokeRodFishingBobberEntity
-import com.cobblemon.mod.common.util.asIdentifierDefaultingNamespace
 import net.minecraft.enchantment.EnchantmentHelper
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.FishingRodItem
 import net.minecraft.item.ItemStack
+import net.minecraft.registry.Registries
 import net.minecraft.sound.SoundCategory
 import net.minecraft.sound.SoundEvents
 import net.minecraft.stat.Stats
@@ -31,8 +31,8 @@ import net.minecraft.world.event.GameEvent
 class PokerodItem(settings: Settings?) : FishingRodItem(settings) {
     override fun use(world: World, user: PlayerEntity, hand: Hand): TypedActionResult<ItemStack> {
         val itemStack = user.getStackInHand(hand)
-        val bobber = getBobberFromItem(itemStack) // get the default stack of the pokeball used as the bobber
-        val lineRGB = getLineColorFromItem(itemStack) // get the line color RGB values used for the fishing line
+        val bobber = PokeRods.getPokeRod(Registries.ITEM.getId(itemStack.item))?.bobberType ?: CobblemonItems.POKE_BALL.defaultStack // get the default stack of the pokeball used as the bobber
+        val lineRGB = PokeRods.getPokeRod(Registries.ITEM.getId(itemStack.item))?.lineColor ?: Triple(0,0,0) // get the line color RGB values used for the fishing line
 
         val i: Int
         if (user.fishHook != null) { // if the bobber is out yet
@@ -57,14 +57,6 @@ class PokerodItem(settings: Settings?) : FishingRodItem(settings) {
     }
 
     fun getBobberFromItem(itemStack: ItemStack): ItemStack {
-        /*if (itemStack.item is PokerodItem) {
-            val pokerodName = (itemStack.item as PokerodItem).defaultStack.
-
-            val pokerod = PokeRods.getPokeRod(pokerodName.asIdentifierDefaultingNamespace())
-
-            return pokerod!!.bobberType
-        }*/
-
         return when {
             itemStack.item == CobblemonItems.AZURE_ROD -> CobblemonItems.AZURE_BALL.defaultStack
             itemStack.item == CobblemonItems.CHERISH_ROD -> CobblemonItems.CHERISH_BALL.defaultStack

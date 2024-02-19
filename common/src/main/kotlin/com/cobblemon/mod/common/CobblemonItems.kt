@@ -932,6 +932,7 @@ object CobblemonItems : PlatformRegistry<Registry<Item>, RegistryKey<Registry<It
         settings.maxCount(1) // do not stack
         settings.maxDamage(Items.FISHING_ROD.maxDamage) // same durability as Vanilla Fishing Rod
         val item = create(pokeRod.name.path, PokerodItem(settings))
+        pokeRod.item = item
         pokeRods.add(item)
         return item
     }

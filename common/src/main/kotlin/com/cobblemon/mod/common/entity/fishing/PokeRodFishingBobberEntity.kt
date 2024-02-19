@@ -608,6 +608,7 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
 
                     val tossVelocity = Vec3d(velocityX, velocityY, velocityZ)
                     entity.setVelocity(tossVelocity)
+                    //entity.pokemon.aspects
 
                 }
             }

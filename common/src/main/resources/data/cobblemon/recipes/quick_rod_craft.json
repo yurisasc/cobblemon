@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "f  ",
+    " p "
+  ],
+  "key": {
+    "f": {
+      "item": "minecraft:fishing_rod"
+    },
+    "p": {
+      "item": "cobblemon:quick_ball"
+    }
+  },
+  "result":
+  {
+    "item": "cobblemon:quick_rod",
+    "count": 1
+  }
+}

@@ -11,9 +11,11 @@ package com.cobblemon.mod.common.api.fishing
 import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.CobblemonItems
 import com.cobblemon.mod.common.api.data.JsonDataRegistry
+import com.cobblemon.mod.common.api.fossil.Fossil
 import com.cobblemon.mod.common.api.reactive.SimpleObservable
 import com.cobblemon.mod.common.fishing.PokeRod
 import com.cobblemon.mod.common.net.messages.client.data.PokeRodRegistrySyncPacket
+import com.cobblemon.mod.common.util.adapters.IdentifierAdapter
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
@@ -36,6 +38,8 @@ object PokeRods : JsonDataRegistry<PokeRod> {
     // ToDo once datapack pokerod is implemented add required adapters here
     override val gson: Gson = GsonBuilder()
         .disableHtmlEscaping()
+        .registerTypeAdapter(Identifier::class.java, IdentifierAdapter)
+        //.registerTypeAdapter(
         .setPrettyPrinting()
         .create()
     override val typeToken: TypeToken<PokeRod> = TypeToken.get(PokeRod::class.java)
