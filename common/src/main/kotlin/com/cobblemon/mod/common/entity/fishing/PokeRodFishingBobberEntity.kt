@@ -80,7 +80,7 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
         luckOfTheSeaLevel = luckOfTheSea
         lureLevel = lure
 
-        this.bobberType = bobber
+        bobberType = bobber
 
         val throwerPitch = thrower.pitch
         val throwerYaw = thrower.yaw

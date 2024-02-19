@@ -53,38 +53,38 @@ class PokerodItem(settings: Settings?) : FishingRodItem(settings) {
     }
 
     fun getBobberFromItem(itemStack: ItemStack): ItemStack {
-        return when (itemStack) {
-                CobblemonItems.AZURE_ROD.defaultStack -> CobblemonItems.AZURE_BALL.defaultStack
-                CobblemonItems.CHERISH_ROD.defaultStack -> CobblemonItems.CHERISH_BALL.defaultStack
-                CobblemonItems.CITRINE_ROD.defaultStack -> CobblemonItems.CITRINE_BALL.defaultStack
-                CobblemonItems.DIVE_ROD.defaultStack -> CobblemonItems.DIVE_BALL.defaultStack
-                CobblemonItems.DREAM_ROD.defaultStack -> CobblemonItems.DREAM_BALL.defaultStack
-                CobblemonItems.DUSK_ROD.defaultStack -> CobblemonItems.DUSK_BALL.defaultStack
-                CobblemonItems.FAST_ROD.defaultStack -> CobblemonItems.FAST_BALL.defaultStack
-                CobblemonItems.FRIEND_ROD.defaultStack -> CobblemonItems.FRIEND_BALL.defaultStack
-                CobblemonItems.GREAT_ROD.defaultStack -> CobblemonItems.GREAT_BALL.defaultStack
-                CobblemonItems.HEAL_ROD.defaultStack -> CobblemonItems.HEAL_BALL.defaultStack
-                CobblemonItems.HEAVY_ROD.defaultStack -> CobblemonItems.HEAVY_BALL.defaultStack
-                CobblemonItems.LEVEL_ROD.defaultStack -> CobblemonItems.LEVEL_BALL.defaultStack
-                CobblemonItems.LOVE_ROD.defaultStack -> CobblemonItems.LOVE_BALL.defaultStack
-                CobblemonItems.LURE_ROD.defaultStack -> CobblemonItems.LURE_BALL.defaultStack
-                CobblemonItems.LUXURY_ROD.defaultStack -> CobblemonItems.LUXURY_BALL.defaultStack
-                CobblemonItems.MASTER_ROD.defaultStack -> CobblemonItems.MASTER_BALL.defaultStack
-                CobblemonItems.MOON_ROD.defaultStack -> CobblemonItems.MOON_BALL.defaultStack
-                CobblemonItems.NEST_ROD.defaultStack -> CobblemonItems.NEST_BALL.defaultStack
-                CobblemonItems.NET_ROD.defaultStack -> CobblemonItems.NET_BALL.defaultStack
-                CobblemonItems.PARK_ROD.defaultStack -> CobblemonItems.PARK_BALL.defaultStack
-                CobblemonItems.POKE_ROD.defaultStack -> CobblemonItems.POKE_BALL.defaultStack
-                CobblemonItems.PREMIER_ROD.defaultStack -> CobblemonItems.PREMIER_BALL.defaultStack
-                CobblemonItems.QUICK_ROD.defaultStack -> CobblemonItems.QUICK_BALL.defaultStack
-                CobblemonItems.REPEAT_ROD.defaultStack -> CobblemonItems.REPEAT_BALL.defaultStack
-                CobblemonItems.ROSEATE_ROD.defaultStack -> CobblemonItems.ROSEATE_BALL.defaultStack
-                CobblemonItems.SAFARI_ROD.defaultStack -> CobblemonItems.SAFARI_BALL.defaultStack
-                CobblemonItems.SLATE_ROD.defaultStack -> CobblemonItems.SLATE_BALL.defaultStack
-                CobblemonItems.SPORT_ROD.defaultStack -> CobblemonItems.SPORT_BALL.defaultStack
-                CobblemonItems.TIMER_ROD.defaultStack -> CobblemonItems.TIMER_BALL.defaultStack
-                CobblemonItems.ULTRA_ROD.defaultStack -> CobblemonItems.ULTRA_BALL.defaultStack
-                CobblemonItems.VERDANT_ROD.defaultStack -> CobblemonItems.VERDANT_BALL.defaultStack
+        return when {
+            itemStack.item == CobblemonItems.AZURE_ROD -> CobblemonItems.AZURE_BALL.defaultStack
+            itemStack.item == CobblemonItems.CHERISH_ROD -> CobblemonItems.CHERISH_BALL.defaultStack
+            itemStack.item == CobblemonItems.CITRINE_ROD -> CobblemonItems.CITRINE_BALL.defaultStack
+            itemStack.item == CobblemonItems.DIVE_ROD -> CobblemonItems.DIVE_BALL.defaultStack
+            itemStack.item == CobblemonItems.DREAM_ROD -> CobblemonItems.DREAM_BALL.defaultStack
+            itemStack.item == CobblemonItems.DUSK_ROD -> CobblemonItems.DUSK_BALL.defaultStack
+            itemStack.item == CobblemonItems.FAST_ROD -> CobblemonItems.FAST_BALL.defaultStack
+            itemStack.item == CobblemonItems.FRIEND_ROD -> CobblemonItems.FRIEND_BALL.defaultStack
+            itemStack.item == CobblemonItems.GREAT_ROD -> CobblemonItems.GREAT_BALL.defaultStack
+            itemStack.item == CobblemonItems.HEAL_ROD -> CobblemonItems.HEAL_BALL.defaultStack
+            itemStack.item == CobblemonItems.HEAVY_ROD -> CobblemonItems.HEAVY_BALL.defaultStack
+            itemStack.item == CobblemonItems.LEVEL_ROD -> CobblemonItems.LEVEL_BALL.defaultStack
+            itemStack.item == CobblemonItems.LOVE_ROD -> CobblemonItems.LOVE_BALL.defaultStack
+            itemStack.item == CobblemonItems.LURE_ROD -> CobblemonItems.LURE_BALL.defaultStack
+            itemStack.item == CobblemonItems.LUXURY_ROD -> CobblemonItems.LUXURY_BALL.defaultStack
+            itemStack.item == CobblemonItems.MASTER_ROD -> CobblemonItems.MASTER_BALL.defaultStack
+            itemStack.item == CobblemonItems.MOON_ROD -> CobblemonItems.MOON_BALL.defaultStack
+            itemStack.item == CobblemonItems.NEST_ROD -> CobblemonItems.NEST_BALL.defaultStack
+            itemStack.item == CobblemonItems.NET_ROD -> CobblemonItems.NET_BALL.defaultStack
+            itemStack.item == CobblemonItems.PARK_ROD -> CobblemonItems.PARK_BALL.defaultStack
+            itemStack.item == CobblemonItems.POKE_ROD -> CobblemonItems.POKE_BALL.defaultStack
+            itemStack.item == CobblemonItems.PREMIER_ROD -> CobblemonItems.PREMIER_BALL.defaultStack
+            itemStack.item == CobblemonItems.QUICK_ROD -> CobblemonItems.QUICK_BALL.defaultStack
+            itemStack.item == CobblemonItems.REPEAT_ROD -> CobblemonItems.REPEAT_BALL.defaultStack
+            itemStack.item == CobblemonItems.ROSEATE_ROD -> CobblemonItems.ROSEATE_BALL.defaultStack
+            itemStack.item == CobblemonItems.SAFARI_ROD -> CobblemonItems.SAFARI_BALL.defaultStack
+            itemStack.item == CobblemonItems.SLATE_ROD -> CobblemonItems.SLATE_BALL.defaultStack
+            itemStack.item == CobblemonItems.SPORT_ROD -> CobblemonItems.SPORT_BALL.defaultStack
+            itemStack.item == CobblemonItems.TIMER_ROD -> CobblemonItems.TIMER_BALL.defaultStack
+            itemStack.item == CobblemonItems.ULTRA_ROD -> CobblemonItems.ULTRA_BALL.defaultStack
+            itemStack.item == CobblemonItems.VERDANT_ROD -> CobblemonItems.VERDANT_BALL.defaultStack
             else -> CobblemonItems.POKE_BALL.defaultStack // Return a default
         }
     }
