@@ -8,6 +8,7 @@
 
 package com.cobblemon.mod.common.api.fishing
 
+import com.cobblemon.mod.common.CobblemonItems
 import com.cobblemon.mod.common.api.Priority
 import com.cobblemon.mod.common.api.data.JsonDataRegistry
 import com.cobblemon.mod.common.api.events.CobblemonEvents
@@ -20,10 +21,12 @@ import com.cobblemon.mod.common.api.pokemon.status.Statuses
 import com.cobblemon.mod.common.api.reactive.SimpleObservable
 import com.cobblemon.mod.common.api.types.ElementalTypes
 import com.cobblemon.mod.common.fishing.PokeRod
+import com.cobblemon.mod.common.item.CobblemonItem
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
+import net.minecraft.item.ItemStack
 import kotlin.math.roundToInt
 import net.minecraft.resource.ResourceType
 import net.minecraft.server.network.ServerPlayerEntity
@@ -149,40 +152,40 @@ object PokeRods : JsonDataRegistry<PokeRod> {
         get() = this.byName("ancient_origin_rod")*/
 
     init {
-        createDefault("poke_rod")
-        createDefault("slate_rod")
-        createDefault("azure_rod")
-        createDefault("verdant_rod")
-        createDefault("roseate_rod")
-        createDefault("citrine_rod")
-        createDefault("great_rod")
-        createDefault("ultra_rod")
-        createDefault("master_rod")
-        createDefault("safari_rod")
-        createDefault("fast_rod")
-        createDefault("level_rod")
+        createDefault("poke_rod", CobblemonItems.POKE_BALL.defaultStack, Triple(0,0,0))
+        createDefault("slate_rod", CobblemonItems.SLATE_BALL.defaultStack, Triple(0,0,0))
+        createDefault("azure_rod", CobblemonItems.AZURE_BALL.defaultStack, Triple(0,0,0))
+        createDefault("verdant_rod", CobblemonItems.VERDANT_BALL.defaultStack, Triple(0,0,0))
+        createDefault("roseate_rod", CobblemonItems.ROSEATE_BALL.defaultStack, Triple(0,0,0))
+        createDefault("citrine_rod", CobblemonItems.CITRINE_BALL.defaultStack, Triple(0,0,0))
+        createDefault("great_rod", CobblemonItems.GREAT_BALL.defaultStack, Triple(0,0,0))
+        createDefault("ultra_rod", CobblemonItems.ULTRA_BALL.defaultStack, Triple(0,0,0))
+        createDefault("master_rod", CobblemonItems.MASTER_BALL.defaultStack, Triple(203,195,227))
+        createDefault("safari_rod", CobblemonItems.SAFARI_BALL.defaultStack, Triple(0,0,0))
+        createDefault("fast_rod", CobblemonItems.FAST_BALL.defaultStack, Triple(0,0,0))
+        createDefault("level_rod", CobblemonItems.LEVEL_BALL.defaultStack, Triple(0,0,0))
         // ToDo we will need fishing context here once fishing is implemented for a multiplier
-        createDefault("lure_rod")
-        createDefault("heavy_rod")
-        createDefault("love_rod")
-        createDefault("friend_rod")
-        createDefault("moon_rod")
-        createDefault("sport_rod")
-        createDefault("net_rod")
-        createDefault("dive_rod")
-        createDefault("nest_rod")
+        createDefault("lure_rod", CobblemonItems.LURE_BALL.defaultStack, Triple(0,0,0))
+        createDefault("heavy_rod", CobblemonItems.HEAVY_BALL.defaultStack, Triple(0,0,0))
+        createDefault("love_rod", CobblemonItems.LOVE_BALL.defaultStack, Triple(0,0,0))
+        createDefault("friend_rod", CobblemonItems.FRIEND_BALL.defaultStack, Triple(0,0,0))
+        createDefault("moon_rod", CobblemonItems.MOON_BALL.defaultStack, Triple(0,0,0))
+        createDefault("sport_rod", CobblemonItems.SPORT_BALL.defaultStack, Triple(0,0,0))
+        createDefault("net_rod", CobblemonItems.NET_BALL.defaultStack, Triple(0,0,0))
+        createDefault("dive_rod", CobblemonItems.DIVE_BALL.defaultStack, Triple(0,0,0))
+        createDefault("nest_rod", CobblemonItems.NEST_BALL.defaultStack, Triple(0,0,0))
         // ToDo implement effect once pokedex is implemented, we have a custom multiplier of 2.5 instead of the official pokerod
-        createDefault("repeat_rod")
-        createDefault("timer_rod")
-        createDefault("luxury_rod")
-        createDefault("premier_rod")
-        createDefault("dusk_rod")
-        createDefault("heal_rod")
-        createDefault("quick_rod")
-        createDefault("cherish_rod")
-        createDefault("park_rod")
-        createDefault("dream_rod")
-        createDefault("beast_rod")
+        createDefault("repeat_rod", CobblemonItems.REPEAT_BALL.defaultStack, Triple(0,0,0))
+        createDefault("timer_rod", CobblemonItems.TIMER_BALL.defaultStack, Triple(0,0,0))
+        createDefault("luxury_rod", CobblemonItems.LUXURY_BALL.defaultStack, Triple(250,250,250))
+        createDefault("premier_rod", CobblemonItems.PREMIER_BALL.defaultStack, Triple(0,0,0))
+        createDefault("dusk_rod", CobblemonItems.DUSK_BALL.defaultStack, Triple(139,0,0))
+        createDefault("heal_rod", CobblemonItems.HEAL_BALL.defaultStack, Triple(0,150,255))
+        createDefault("quick_rod", CobblemonItems.QUICK_BALL.defaultStack, Triple(0,0,0))
+        createDefault("cherish_rod", CobblemonItems.CHERISH_BALL.defaultStack, Triple(0,0,0))
+        createDefault("park_rod", CobblemonItems.PARK_BALL.defaultStack, Triple(0,0,0))
+        createDefault("dream_rod", CobblemonItems.DREAM_BALL.defaultStack, Triple(0,0,0))
+        //createDefault("beast_rod")
         /*createDefault("ancient_poke_rod")
         createDefault("ancient_citrine_rod")
         createDefault("ancient_verdant_rod")
@@ -219,10 +222,12 @@ object PokeRods : JsonDataRegistry<PokeRod> {
     fun all() = this.defaults.filterKeys { !this.custom.containsKey(it) }.values + this.custom.values
 
     private fun createDefault(
-            name: String
+            name: String,
+            bobberType: ItemStack,
+            lineColor: Triple<Int, Int, Int>
     ): PokeRod {
         val identifier = cobblemonResource(name)
-        val pokerod = PokeRod(identifier)
+        val pokerod = PokeRod(identifier, bobberType, lineColor)
         this.defaults[identifier] = pokerod
         return pokerod
     }

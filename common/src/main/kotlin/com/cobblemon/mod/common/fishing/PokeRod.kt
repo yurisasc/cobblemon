@@ -22,14 +22,13 @@ import net.minecraft.util.Identifier
  * It is intended that there is one poke rod object initialized for a given poke rod type.
  *
  * @property name the poke rod registry name
- * @property catchRateModifier The [CatchRateModifier] of this Pokéball.
- * @property effects list of all [CaptureEffect]s applicable to the Pokéball
- * @property waterDragValue The value of the water drag modifier when the entity travels, default is 0.8.
- * @property model2d The identifier for the resource this Pokéball will use for the 2d model.
- * @property model3d The identifier for the resource this Pokéball will use for the 3d model.
+ * @property bobberType The [ItemStack] of this Pokérod that is the bobber.
+ * @property lineColor list of [RGB] values that apply to the fishing line of the Pokérod
  */
 open class PokeRod(
-    val name: Identifier
+    val name: Identifier,
+    val bobberType: ItemStack,
+    val lineColor: Triple<Int, Int, Int>
 ) {
 
     // This gets attached during item registry

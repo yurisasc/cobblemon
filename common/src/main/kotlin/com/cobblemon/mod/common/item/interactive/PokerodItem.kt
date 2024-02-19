@@ -13,7 +13,9 @@
 package com.cobblemon.mod.common.item.interactive
 
 import com.cobblemon.mod.common.CobblemonItems
+import com.cobblemon.mod.common.api.fishing.PokeRods
 import com.cobblemon.mod.common.entity.fishing.PokeRodFishingBobberEntity
+import com.cobblemon.mod.common.util.asIdentifierDefaultingNamespace
 import net.minecraft.enchantment.EnchantmentHelper
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.FishingRodItem
@@ -29,7 +31,9 @@ import net.minecraft.world.event.GameEvent
 class PokerodItem(settings: Settings?) : FishingRodItem(settings) {
     override fun use(world: World, user: PlayerEntity, hand: Hand): TypedActionResult<ItemStack> {
         val itemStack = user.getStackInHand(hand)
-        val bobber = getBobberFromItem(itemStack)
+        val bobber = getBobberFromItem(itemStack) // get the default stack of the pokeball used as the bobber
+        val lineRGB = getLineColorFromItem(itemStack) // get the line color RGB values used for the fishing line
+
         val i: Int
         if (user.fishHook != null) { // if the bobber is out yet
             if (!world.isClient) {
@@ -43,7 +47,7 @@ class PokerodItem(settings: Settings?) : FishingRodItem(settings) {
             if (!world.isClient) {
                 i = EnchantmentHelper.getLure(itemStack)
                 val j = EnchantmentHelper.getLuckOfTheSea(itemStack)
-                val bobberEntity = PokeRodFishingBobberEntity(user, bobber, world, j, i)
+                val bobberEntity = PokeRodFishingBobberEntity(user, bobber, lineRGB, world, j, i)
                 world.spawnEntity(bobberEntity)
             }
             user.incrementStat(Stats.USED.getOrCreateStat(this))
@@ -53,6 +57,14 @@ class PokerodItem(settings: Settings?) : FishingRodItem(settings) {
     }
 
     fun getBobberFromItem(itemStack: ItemStack): ItemStack {
+        /*if (itemStack.item is PokerodItem) {
+            val pokerodName = (itemStack.item as PokerodItem).defaultStack.
+
+            val pokerod = PokeRods.getPokeRod(pokerodName.asIdentifierDefaultingNamespace())
+
+            return pokerod!!.bobberType
+        }*/
+
         return when {
             itemStack.item == CobblemonItems.AZURE_ROD -> CobblemonItems.AZURE_BALL.defaultStack
             itemStack.item == CobblemonItems.CHERISH_ROD -> CobblemonItems.CHERISH_BALL.defaultStack
@@ -86,6 +98,43 @@ class PokerodItem(settings: Settings?) : FishingRodItem(settings) {
             itemStack.item == CobblemonItems.ULTRA_ROD -> CobblemonItems.ULTRA_BALL.defaultStack
             itemStack.item == CobblemonItems.VERDANT_ROD -> CobblemonItems.VERDANT_BALL.defaultStack
             else -> CobblemonItems.POKE_BALL.defaultStack // Return a default
+        }
+    }
+
+    fun getLineColorFromItem(itemStack: ItemStack): Triple<Int, Int, Int> {
+        return when {
+            itemStack.item == CobblemonItems.AZURE_ROD -> Triple(0,0,0)
+            itemStack.item == CobblemonItems.CHERISH_ROD -> Triple(0,0,0)
+            itemStack.item == CobblemonItems.CITRINE_ROD -> Triple(0,0,0)
+            itemStack.item == CobblemonItems.DIVE_ROD -> Triple(0,0,0)
+            itemStack.item == CobblemonItems.DREAM_ROD -> Triple(0,0,0)
+            itemStack.item == CobblemonItems.DUSK_ROD -> Triple(139,0,0)
+            itemStack.item == CobblemonItems.FAST_ROD -> Triple(0,0,0)
+            itemStack.item == CobblemonItems.FRIEND_ROD -> Triple(0,0,0)
+            itemStack.item == CobblemonItems.GREAT_ROD -> Triple(0,0,0)
+            itemStack.item == CobblemonItems.HEAL_ROD -> Triple(0,150,255)
+            itemStack.item == CobblemonItems.HEAVY_ROD -> Triple(0,0,0)
+            itemStack.item == CobblemonItems.LEVEL_ROD -> Triple(0,0,0)
+            itemStack.item == CobblemonItems.LOVE_ROD -> Triple(0,0,0)
+            itemStack.item == CobblemonItems.LURE_ROD -> Triple(0,0,0)
+            itemStack.item == CobblemonItems.LUXURY_ROD -> Triple(250,250,250)
+            itemStack.item == CobblemonItems.MASTER_ROD -> Triple(203,195,227)
+            itemStack.item == CobblemonItems.MOON_ROD -> Triple(0,0,0)
+            itemStack.item == CobblemonItems.NEST_ROD -> Triple(0,0,0)
+            itemStack.item == CobblemonItems.NET_ROD -> Triple(0,0,0)
+            itemStack.item == CobblemonItems.PARK_ROD -> Triple(0,0,0)
+            itemStack.item == CobblemonItems.POKE_ROD -> Triple(0,0,0)
+            itemStack.item == CobblemonItems.PREMIER_ROD -> Triple(0,0,0)
+            itemStack.item == CobblemonItems.QUICK_ROD -> Triple(0,0,0)
+            itemStack.item == CobblemonItems.REPEAT_ROD -> Triple(0,0,0)
+            itemStack.item == CobblemonItems.ROSEATE_ROD -> Triple(0,0,0)
+            itemStack.item == CobblemonItems.SAFARI_ROD -> Triple(0,0,0)
+            itemStack.item == CobblemonItems.SLATE_ROD -> Triple(0,0,0)
+            itemStack.item == CobblemonItems.SPORT_ROD -> Triple(0,0,0)
+            itemStack.item == CobblemonItems.TIMER_ROD -> Triple(0,0,0)
+            itemStack.item == CobblemonItems.ULTRA_ROD -> Triple(0,0,0)
+            itemStack.item == CobblemonItems.VERDANT_ROD -> Triple(0,0,0)
+            else -> Triple(0,0,0)
         }
     }
 

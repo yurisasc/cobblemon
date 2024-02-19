@@ -54,7 +54,11 @@ class PokeBobberEntityRenderer(context: EntityRendererFactory.Context?) : Entity
             randomPitch = (-40 + Math.random() * 80).toFloat() // Example: -40 to +40 degrees
         }
 
+        // get the ball model to use as the bobber
         val ballStack = fishingBobberEntity.bobberType
+
+        // get the line color for the rod
+        val lineColor = fishingBobberEntity.lineColor
 
         matrixStack.push()
 
@@ -191,7 +195,7 @@ class PokeBobberEntityRenderer(context: EntityRendererFactory.Context?) : Entity
         val vertexConsumer2 = vertexConsumerProvider.getBuffer(RenderLayer.getLineStrip())
         val entry2 = matrixStack.peek()
         for (lineIndex in 0..16) {
-            renderFishingLine(deltaX, deltaY, deltaZ, vertexConsumer2, entry2, percentage(lineIndex, 16), percentage(lineIndex + 1, 16))
+            renderFishingLine(lineColor, deltaX, deltaY, deltaZ, vertexConsumer2, entry2, percentage(lineIndex, 16), percentage(lineIndex + 1, 16))
         }
         matrixStack.pop()
         super.render(fishingBobberEntity, elapsedPartialTicks, tickDelta, matrixStack, vertexConsumerProvider, light)
@@ -211,7 +215,7 @@ class PokeBobberEntityRenderer(context: EntityRendererFactory.Context?) : Entity
         }
 
         @JvmStatic
-        private fun renderFishingLine(deltaX: Float, deltaY: Float, deltaZ: Float, vertexBuffer: VertexConsumer, matrixEntry: MatrixStack.Entry, segmentStartFraction: Float, segmentEndFraction: Float) {
+        private fun renderFishingLine(lineColor: Triple<Int, Int, Int>, deltaX: Float, deltaY: Float, deltaZ: Float, vertexBuffer: VertexConsumer, matrixEntry: MatrixStack.Entry, segmentStartFraction: Float, segmentEndFraction: Float) {
 
             // Calculate the starting X position of the current segment based on the start fraction
             val startX = deltaX * segmentStartFraction

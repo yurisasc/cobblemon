@@ -73,14 +73,16 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
     private var typeCaught= "ITEM"
     private var chosenBucket = Cobblemon.bestSpawner.config.buckets[0] // default to first rarity bucket
     private val pokemonSpawnChance = 85 // chance a Pokemon will be fished up % out of 100
-    var bobberType = CobblemonItems.POKE_BALL.defaultStack
+    var bobberType = CobblemonItems.POKE_BALL.defaultStack // default bobber ball is a pokeball
+    var lineColor: Triple<Int, Int, Int> = Triple(0,0,0) // default line color is black
 
-    constructor(thrower: PlayerEntity, bobber: ItemStack, world: World, luckOfTheSea: Int, lure: Int) : this(CobblemonEntities.POKE_BOBBER, world) {
+    constructor(thrower: PlayerEntity, bobber: ItemStack, lineRGB: Triple<Int, Int, Int>, world: World, luckOfTheSea: Int, lure: Int) : this(CobblemonEntities.POKE_BOBBER, world) {
         owner = thrower
         luckOfTheSeaLevel = luckOfTheSea
         lureLevel = lure
 
         bobberType = bobber
+        lineColor = lineRGB
 
         val throwerPitch = thrower.pitch
         val throwerYaw = thrower.yaw
