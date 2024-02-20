@@ -594,6 +594,12 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
 
                     // velocity based on distance
                     when {
+                        distance < 5 -> { // distances under 10 blocks be a bit softer launch
+                            baseVelocity = 0.05
+                            velocityIncreasePerBlock = 0.02
+                            baseArc = 0.35
+                            arcIncreasePerBlock = 0.015
+                        }
                         distance < 10 -> { // distances under 10 blocks be a bit softer launch
                             baseVelocity = 0.3
                             velocityIncreasePerBlock = 0.03
