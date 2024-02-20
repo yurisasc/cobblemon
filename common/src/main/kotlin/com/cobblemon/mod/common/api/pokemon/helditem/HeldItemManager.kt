@@ -15,6 +15,7 @@ import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.pokemon.helditem.BaseCobblemonHeldItemManager
 import com.cobblemon.mod.common.pokemon.helditem.CobblemonEmptyHeldItemManager
 import com.cobblemon.mod.common.pokemon.helditem.CobblemonHeldItemManager
+import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
 import net.minecraft.text.Text
 
@@ -27,7 +28,7 @@ import net.minecraft.text.Text
  * @author Licious
  * @since December 30th, 2022
  */
-interface HeldItemManager {
+abstract class HeldItemManager {
 
     /**
      * Queries the given [pokemon] for the presence of a held item.
@@ -35,7 +36,15 @@ interface HeldItemManager {
      * @param pokemon The [BattlePokemon] being queried for a held item.
      * @return The literal ID that showdown uses to represent this item such as 'abilityshield' if any.
      */
-    fun showdownId(pokemon: BattlePokemon): String?
+    abstract fun showdownId(pokemon: BattlePokemon): String?
+
+    /**
+     * Queries the given [itemStack] to see if it's a held item.
+     *
+     * @param itemStack the [ItemStack] being queried as a held item.
+     * @return The lireal ID that showdown uses to represent this item such as 'abilityshield' if any.
+     */
+    abstract fun showdownId(itemStack: ItemStack): String?
 
     /**
      * Queries the [Text] representation of the item under the given [showdownId].
@@ -43,7 +52,7 @@ interface HeldItemManager {
      * @param showdownId The literal ID of the held item on Showdown.
      * @return The [Text] representation.
      */
-    fun nameOf(showdownId: String): Text
+    abstract fun nameOf(showdownId: String): Text
 
     /**
      * Invoked when an action instruction is sent from the Showdown server of type '-item'
@@ -52,7 +61,7 @@ interface HeldItemManager {
      * @param battle The [PokemonBattle] receiving the [battleMessage].
      * @param battleMessage The [BattleMessage] received.
      */
-    fun handleStartInstruction(pokemon: BattlePokemon, battle: PokemonBattle, battleMessage: BattleMessage)
+    abstract fun handleStartInstruction(pokemon: BattlePokemon, battle: PokemonBattle, battleMessage: BattleMessage)
 
     /**
      * Invoked when an action instruction is sent from the Showdown server of type '-item'
@@ -61,7 +70,7 @@ interface HeldItemManager {
      * @param battle The [PokemonBattle] receiving the [battleMessage].
      * @param battleMessage The [BattleMessage] received.
      */
-    fun handleEndInstruction(pokemon: BattlePokemon, battle: PokemonBattle, battleMessage: BattleMessage)
+    abstract fun handleEndInstruction(pokemon: BattlePokemon, battle: PokemonBattle, battleMessage: BattleMessage)
 
     /**
      * Gives the given [pokemon] a held item based on the [showdownId].
@@ -69,7 +78,7 @@ interface HeldItemManager {
      * @param pokemon The [BattlePokemon] being affected.
      * @param showdownId The literal ID of the held item on Showdown.
      */
-    fun give(pokemon: BattlePokemon, showdownId: String)
+    abstract fun give(pokemon: BattlePokemon, showdownId: String)
 
     /**
      * Takes the given [showdownId] held item based from the [pokemon].
@@ -77,7 +86,7 @@ interface HeldItemManager {
      * @param pokemon The [BattlePokemon] being affected.
      * @param showdownId The literal ID of the held item on Showdown.
      */
-    fun take(pokemon: BattlePokemon, showdownId: String)
+    abstract fun take(pokemon: BattlePokemon, showdownId: String)
 
     /**
      * Tests if the given [BattlePokemon] should have their item consumed.
@@ -87,7 +96,7 @@ interface HeldItemManager {
      * @param battle The [PokemonBattle] the [pokemon] is participating in.
      * @param showdownId The literal ID of the held item on Showdown.
      */
-    fun shouldConsumeItem(pokemon: BattlePokemon, battle: PokemonBattle, showdownId: String): Boolean = false
+    open fun shouldConsumeItem(pokemon: BattlePokemon, battle: PokemonBattle, showdownId: String): Boolean = false
 
     companion object {
 

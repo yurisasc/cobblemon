@@ -25,7 +25,7 @@ import net.minecraft.text.Text
  * @author Licious
  * @since January 6th, 2022
  */
-abstract class BaseCobblemonHeldItemManager : HeldItemManager {
+abstract class BaseCobblemonHeldItemManager : HeldItemManager() {
 
     private val itemIds = HashBiMap.create<String, Item>()
 
@@ -47,7 +47,9 @@ abstract class BaseCobblemonHeldItemManager : HeldItemManager {
         }
     }
 
-    override fun showdownId(pokemon: BattlePokemon): String? = this.showdownIdOf(pokemon.effectedPokemon.heldItemNoCopy().item)
+    override fun showdownId(pokemon: BattlePokemon): String? = this.showdownId(pokemon.effectedPokemon.heldItemNoCopy())
+
+    override fun showdownId(itemStack: ItemStack): String? = this.showdownIdOf(itemStack.item)
 
     override fun nameOf(showdownId: String): Text = this.itemIds[showdownId]?.name ?: Text.of(showdownId)
 
