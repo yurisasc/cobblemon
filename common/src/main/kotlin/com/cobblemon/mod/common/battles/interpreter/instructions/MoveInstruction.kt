@@ -31,6 +31,13 @@ import com.cobblemon.mod.common.pokemon.evolution.progress.UseMoveEvolutionProgr
 import com.cobblemon.mod.common.util.battleLang
 import java.util.concurrent.CompletableFuture
 
+/**
+ * Format: |move|POKEMON|MOVE|TARGET
+ *
+ * POKEMON has used MOVE at TARGET.
+ * @author Deltric
+ * @since January 22, 2022
+ */
 class MoveInstruction(
     val instructionSet: InstructionSet,
     val message: BattleMessage

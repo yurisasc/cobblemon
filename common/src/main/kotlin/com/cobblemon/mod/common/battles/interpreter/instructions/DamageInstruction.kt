@@ -29,6 +29,13 @@ import java.util.concurrent.CompletableFuture
 import kotlin.math.roundToInt
 import net.minecraft.text.Text
 
+/**
+ * Format: |-damage|POKEMON|HP STATUS
+ *
+ * POKEMON has taken damage and is now at HP STATUS
+ * @author Hiroku
+ * @since March 11, 2022
+ */
 class DamageInstruction(
     val instructionSet: InstructionSet,
     val actor: BattleActor,

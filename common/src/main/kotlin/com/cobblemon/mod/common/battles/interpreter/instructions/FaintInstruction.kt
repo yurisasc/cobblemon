@@ -19,6 +19,13 @@ import com.cobblemon.mod.common.battles.dispatch.InterpreterInstruction
 import com.cobblemon.mod.common.net.messages.client.battle.BattleFaintPacket
 import com.cobblemon.mod.common.util.battleLang
 
+/**
+ * Format: |faint|POKEMON
+ *
+ * POKEMON has fainted.
+ * @author Deltric
+ * @since January 22, 2022
+ */
 class FaintInstruction(battle: PokemonBattle, val message: BattleMessage) : InterpreterInstruction {
     var waitTime = 2.5F
     val faintingPokemon = message.getBattlePokemon(0, battle)!!

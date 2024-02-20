@@ -19,15 +19,15 @@ import com.cobblemon.mod.common.battles.dispatch.WaitDispatch
 import com.cobblemon.mod.common.util.battleLang
 
 /**
- * Format:
- * |-ability|POKEMON|ABILITY|(from)EFFECT
+ * Format: |-ability|POKEMON|ABILITY|(from)EFFECT
  *
- * The ABILITY of the POKEMON has been changed due to a move/ability EFFECT.
+ * The ABILITY of POKEMON has been changed due to a move/ability EFFECT.
  *
- * Format:
- * |-ability|POKEMON|ABILITY
+ * Alt format: |-ability|POKEMON|ABILITY
  *
- * POKEMON has just switched-in, and its ability ABILITY is being announced to have a long-term effect.
+ * POKEMON has just switched-in, and its ABILITY is being announced to have a long-term effect.
+ * @author Xylopia
+ * @since January 31, 2023
  */
 class AbilityInstruction(val instructionSet: InstructionSet, val message: BattleMessage) : InterpreterInstruction, CauserInstruction {
     override fun invoke(battle: PokemonBattle) {

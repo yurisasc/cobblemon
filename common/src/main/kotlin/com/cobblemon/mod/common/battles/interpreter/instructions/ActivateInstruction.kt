@@ -20,10 +20,13 @@ import com.cobblemon.mod.common.util.battleLang
 import net.minecraft.text.Text
 
 /**
- * Format:
- * |-activate|POKEMON|EFFECT
+ * Format: |-activate|POKEMON|EFFECT
  *
- * A miscellaneous effect has activated.This is triggered whenever an effect could not be better described by one of the other minor messages.
+ * A miscellaneous EFFECT has activated for POKEMON. This is triggered whenever an effect could not be better described
+ * by one of the other minor messages.
+ *
+ * @author Hunter
+ * @since September 25, 2022
  */
 class ActivateInstruction(val instructionSet: InstructionSet, val message: BattleMessage) : InterpreterInstruction, CauserInstruction {
     override fun invoke(battle: PokemonBattle) {
