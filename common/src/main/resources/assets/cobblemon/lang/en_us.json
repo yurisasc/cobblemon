@@ -127,6 +127,13 @@
   "item.cobblemon.hyper_potion": "Hyper Potion",
   "item.cobblemon.max_potion": "Max Potion",
   "item.cobblemon.full_restore": "Full Restore",
+  
+  "item.cobblemon.health_feather": "Health Feather",
+  "item.cobblemon.muscle_feather": "Muscle Feather",
+  "item.cobblemon.resist_feather": "Resist Feather",
+  "item.cobblemon.genius_feather": "Genius Feather",
+  "item.cobblemon.clever_feather": "Clever Feather",
+  "item.cobblemon.swift_feather": "Swift Feather",
 
   "item.cobblemon.red_mint_leaf": "Red Mint Leaf",
   "item.cobblemon.red_mint_leaf.tooltip": "Capable of influencing a Pokémon's attack stat",
