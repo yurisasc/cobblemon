@@ -9,6 +9,8 @@
 package com.cobblemon.mod.common.client.render.entity
 
 import com.cobblemon.mod.common.CobblemonItems
+import com.cobblemon.mod.common.api.fishing.PokeRods
+import com.cobblemon.mod.common.api.pokeball.PokeBalls
 import com.cobblemon.mod.common.entity.fishing.PokeRodFishingBobberEntity
 import com.cobblemon.mod.common.item.interactive.PokerodItem
 import com.cobblemon.mod.common.util.cobblemonResource
@@ -29,6 +31,7 @@ import net.minecraft.util.math.MathHelper
 import net.minecraft.util.math.RotationAxis
 import org.joml.Matrix3f
 import org.joml.Matrix4f
+import java.awt.Color
 
 @Environment(value = EnvType.CLIENT)
 class PokeBobberEntityRenderer(context: EntityRendererFactory.Context?) : EntityRenderer<PokeRodFishingBobberEntity>(context) {
@@ -53,12 +56,6 @@ class PokeBobberEntityRenderer(context: EntityRendererFactory.Context?) : Entity
             // Random pitch to ensure the top of the Poke Ball leans towards the string
             randomPitch = (-40 + Math.random() * 80).toFloat() // Example: -40 to +40 degrees
         }
-
-        // get the ball model to use as the bobber
-        val ballStack = fishingBobberEntity.bobberType
-
-        // get the line color for the rod
-        val lineColor = fishingBobberEntity.lineColor
 
         matrixStack.push()
 
@@ -146,8 +143,12 @@ class PokeBobberEntityRenderer(context: EntityRendererFactory.Context?) : Entity
         vertex(vertexConsumer, matrix4f, matrix3f, light, (1.0f - 1.0f) * scale + 0.125f + shiftHook, (0.0f * scale + 0.125f), 1, 1)
         vertex(vertexConsumer, matrix4f, matrix3f, light, (1.0f - 0.0f) * scale + 0.125f + shiftHook, (0.0f * scale + 0.125f), 0, 1)
 
+        val pokeRodIdStr = fishingBobberEntity.dataTracker.get(PokeRodFishingBobberEntity.POKEROD_ID)
+        val pokeRodId = Identifier.tryParse(pokeRodIdStr)
+        val pokeRod = PokeRods.getPokeRod(pokeRodId!!)
+        val ballItem = PokeBalls.getPokeBall(pokeRod?.pokeBallId!!)!!.item
         MinecraftClient.getInstance().itemRenderer.renderItem(
-            ballStack,
+            ballItem.defaultStack,
             ModelTransformationMode.GROUND,
             light,
             OverlayTexture.DEFAULT_UV,
@@ -195,7 +196,7 @@ class PokeBobberEntityRenderer(context: EntityRendererFactory.Context?) : Entity
         val vertexConsumer2 = vertexConsumerProvider.getBuffer(RenderLayer.getLineStrip())
         val entry2 = matrixStack.peek()
         for (lineIndex in 0..16) {
-            renderFishingLine(lineColor, deltaX, deltaY, deltaZ, vertexConsumer2, entry2, percentage(lineIndex, 16), percentage(lineIndex + 1, 16))
+            renderFishingLine(pokeRod.lineColor, deltaX, deltaY, deltaZ, vertexConsumer2, entry2, percentage(lineIndex, 16), percentage(lineIndex + 1, 16))
         }
         matrixStack.pop()
         super.render(fishingBobberEntity, elapsedPartialTicks, tickDelta, matrixStack, vertexConsumerProvider, light)
@@ -215,8 +216,8 @@ class PokeBobberEntityRenderer(context: EntityRendererFactory.Context?) : Entity
         }
 
         @JvmStatic
-        private fun renderFishingLine(lineColor: Triple<Int, Int, Int>, deltaX: Float, deltaY: Float, deltaZ: Float, vertexBuffer: VertexConsumer, matrixEntry: MatrixStack.Entry, segmentStartFraction: Float, segmentEndFraction: Float) {
-
+        private fun renderFishingLine(color: String, deltaX: Float, deltaY: Float, deltaZ: Float, vertexBuffer: VertexConsumer, matrixEntry: MatrixStack.Entry, segmentStartFraction: Float, segmentEndFraction: Float) {
+            val colorObj = Color.decode(color)
             // Calculate the starting X position of the current segment based on the start fraction
             val startX = deltaX * segmentStartFraction
             // Calculate the starting Y position of the current segment, adding a curvature effect and a base offset
@@ -247,7 +248,7 @@ class PokeBobberEntityRenderer(context: EntityRendererFactory.Context?) : Entity
 
 
             // Add the vertex for the start of this segment
-            vertexBuffer.vertex(matrixEntry.positionMatrix, startX, startY, startZ).color(0, 0, 0, 255).normal(matrixEntry.normalMatrix, deltaXSegment, deltaYSegment, deltaZSegment).next()
+            vertexBuffer.vertex(matrixEntry.positionMatrix, startX, startY, startZ).color(colorObj.red, colorObj.green, colorObj.red, 255).normal(matrixEntry.normalMatrix, deltaXSegment, deltaYSegment, deltaZSegment).next()
         }
     }
 

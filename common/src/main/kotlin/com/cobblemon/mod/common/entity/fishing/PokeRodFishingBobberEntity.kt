@@ -25,6 +25,8 @@ import com.cobblemon.mod.common.util.toBlockPos
 import net.minecraft.advancement.criterion.Criteria
 import net.minecraft.block.Blocks
 import net.minecraft.entity.*
+import net.minecraft.entity.data.DataTracker
+import net.minecraft.entity.data.TrackedDataHandlerRegistry
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.entity.projectile.FishingBobberEntity
 import net.minecraft.entity.projectile.ProjectileUtil
@@ -39,6 +41,7 @@ import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.sound.SoundEvents
 import net.minecraft.stat.Stats
+import net.minecraft.util.Identifier
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.MathHelper
 import net.minecraft.util.math.Vec3d
@@ -73,16 +76,15 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
     private var typeCaught= "ITEM"
     private var chosenBucket = Cobblemon.bestSpawner.config.buckets[0] // default to first rarity bucket
     private val pokemonSpawnChance = 85 // chance a Pokemon will be fished up % out of 100
-    var bobberType = CobblemonItems.POKE_BALL.defaultStack // default bobber ball is a pokeball
-    var lineColor: Triple<Int, Int, Int> = Triple(0,0,0) // default line color is black
+    var pokeRodId: Identifier? = null
+    var lineColor: String = "FFFFFF" // default line color is black
 
-    constructor(thrower: PlayerEntity, bobber: ItemStack, lineRGB: Triple<Int, Int, Int>, world: World, luckOfTheSea: Int, lure: Int) : this(CobblemonEntities.POKE_BOBBER, world) {
+    constructor(thrower: PlayerEntity, pokeRodId: Identifier, world: World, luckOfTheSea: Int, lure: Int) : this(CobblemonEntities.POKE_BOBBER, world) {
         owner = thrower
         luckOfTheSeaLevel = luckOfTheSea
         lureLevel = lure
-
-        bobberType = bobber
-        lineColor = lineRGB
+        this.pokeRodId = pokeRodId
+        dataTracker.set(POKEROD_ID, pokeRodId.toString())
 
         val throwerPitch = thrower.pitch
         val throwerYaw = thrower.yaw
@@ -102,6 +104,11 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
         pitch = (MathHelper.atan2(vec3d.y, vec3d.horizontalLength()) * 57.2957763671875).toFloat()
         prevYaw = yaw
         prevPitch = pitch
+    }
+
+    override fun initDataTracker() {
+        this.dataTracker.startTracking(POKEROD_ID, pokeRodId.toString())
+
     }
 
     fun calculateMinMaxCountdown(weight: Float): Pair<Int, Int> {
@@ -621,5 +628,9 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
         if (spawnedPokemon != null) {
             BattleBuilder.pve((player as ServerPlayerEntity), spawnedPokemon).ifErrored { it.sendTo(player) { it.red() } }
         }
+    }
+
+    companion object {
+        val POKEROD_ID = DataTracker.registerData(PokeRodFishingBobberEntity::class.java, TrackedDataHandlerRegistry.STRING)
     }
 }

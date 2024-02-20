@@ -4,6 +4,7 @@ import com.cobblemon.mod.common.api.fishing.PokeRods
 import com.cobblemon.mod.common.fishing.PokeRod
 import com.cobblemon.mod.common.util.cobblemonResource
 import net.minecraft.network.PacketByteBuf
+import net.minecraft.util.Identifier
 
 class PokeRodRegistrySyncPacket(rods: Collection<PokeRod>) : DataRegistrySyncPacket<PokeRod, PokeRodRegistrySyncPacket>(rods) {
 
@@ -22,6 +23,6 @@ class PokeRodRegistrySyncPacket(rods: Collection<PokeRod>) : DataRegistrySyncPac
     override fun decodeEntry(buffer: PacketByteBuf) = PokeRod.decode(buffer)
 
     override fun synchronizeDecoded(entries: Collection<PokeRod>) {
-        PokeRods.reload(entries.associateBy { it.name })
+        PokeRods.reload(entries.associateBy { it.name!! })
     }
 }

@@ -19,47 +19,27 @@ import net.minecraft.util.StringIdentifiable
  * It is intended that there is one poke rod object initialized for a given poke rod type.
  *
  * @property name the poke rod registry name
- * @property bobberType The [ItemStack] of this Pokérod that is the bobber.
+ * @property pokeBallId The [Identifier] of the pokeball that is used as the bobber for this rod
  * @property lineColor list of [RGB] values that apply to the fishing line of the Pokérod
  */
-open class PokeRod(
-    val name: Identifier,
-    val bobberType: ItemStack,
-    val lineColor: Triple<Int, Int, Int>
-): StringIdentifiable {
-
-    @Transient
-    var identifier: Identifier = name
-        internal set
-
-    override fun asString(): String {
-        return identifier.toString()
-    }
-
-    // This gets attached during item registry
-    internal lateinit var item: PokerodItem
-
-    fun item(): PokerodItem = this.item
-
-    fun stack(count: Int = 1): ItemStack = ItemStack(this.item(), count)
-
+data class PokeRod(
+    val pokeBallId: Identifier,
+    //Hex string of color
+    val lineColor: String,
+    var name: Identifier?
+) {
     internal fun encode(buffer: PacketByteBuf) {
         buffer.writeIdentifier(name)
-        buffer.writeItemStack(bobberType)
-        buffer.writeInt(lineColor.first)
-        buffer.writeInt(lineColor.second)
-        buffer.writeInt(lineColor.third)
+        buffer.writeIdentifier(pokeBallId)
+        buffer.writeString(lineColor)
     }
 
     companion object {
         internal fun decode(buffer: PacketByteBuf): PokeRod {
-            val id = buffer.readIdentifier()
-            val stack = buffer.readItemStack()
-            val r = buffer.readInt()
-            val g = buffer.readInt()
-            val b = buffer.readInt()
-            return PokeRod(id, stack, Triple(r, g, b))
+            val name = buffer.readIdentifier()
+            val pokeBallId = buffer.readIdentifier()
+            val lineColor = buffer.readString()
+            return PokeRod(pokeBallId, lineColor, name)
         }
     }
-
 }
