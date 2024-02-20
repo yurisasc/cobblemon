@@ -14,19 +14,57 @@ object CobblemonModelPredicateRegistry {
 
     fun registerPredicates() {
 
-        ModelPredicateProviderRegistry.register(CobblemonItems.POKE_ROD, Identifier("cast"), ClampedModelPredicateProvider { stack: ItemStack, world: ClientWorld?, entity: LivingEntity?, seed: Int ->
-            if (entity == null) {
-                return@ClampedModelPredicateProvider 0.0f
-            } else {
-                val bl = entity.mainHandStack == stack
-                var bl2 = entity.offHandStack == stack
-                if (entity.mainHandStack.item is PokerodItem) {
-                    bl2 = false
-                }
+        val rods = listOf(
+                CobblemonItems.AZURE_ROD,
+                CobblemonItems.CHERISH_ROD,
+                CobblemonItems.CITRINE_ROD,
+                CobblemonItems.DIVE_ROD,
+                CobblemonItems.DREAM_ROD,
+                CobblemonItems.DUSK_ROD,
+                CobblemonItems.FAST_ROD,
+                CobblemonItems.FRIEND_ROD,
+                CobblemonItems.GREAT_ROD,
+                CobblemonItems.HEAL_ROD,
+                CobblemonItems.HEAVY_ROD,
+                CobblemonItems.LEVEL_ROD,
+                CobblemonItems.LOVE_ROD,
+                CobblemonItems.LURE_ROD,
+                CobblemonItems.LUXURY_ROD,
+                CobblemonItems.MASTER_ROD,
+                CobblemonItems.MOON_ROD,
+                CobblemonItems.NEST_ROD,
+                CobblemonItems.NET_ROD,
+                CobblemonItems.PARK_ROD,
+                CobblemonItems.POKE_ROD,
+                CobblemonItems.PREMIER_ROD,
+                CobblemonItems.QUICK_ROD,
+                CobblemonItems.REPEAT_ROD,
+                CobblemonItems.ROSEATE_ROD,
+                CobblemonItems.SAFARI_ROD,
+                CobblemonItems.SLATE_ROD,
+                CobblemonItems.SPORT_ROD,
+                CobblemonItems.TIMER_ROD,
+                CobblemonItems.ULTRA_ROD,
+                CobblemonItems.VERDANT_ROD
+        )
 
-                return@ClampedModelPredicateProvider if ((bl || bl2) && entity is PlayerEntity && (entity.fishHook != null)) 1.0f else 0.0f
-            }
-        })
+        rods.forEach { rod ->
+            ModelPredicateProviderRegistry.register(rod, Identifier("cast"), ClampedModelPredicateProvider { stack, world, entity, seed ->
+                if (entity == null) {
+                    0.0f
+                } else {
+                    val isMainHand = entity.mainHandStack == stack
+                    var isOffHand = entity.offHandStack == stack
+                    if (entity.mainHandStack.item is PokerodItem) {
+                        isOffHand = false
+                    }
+
+                    if ((isMainHand || isOffHand) && entity is PlayerEntity && entity.fishHook != null) 1.0f else 0.0f
+                }
+            })
+        }
+
+
 
     }
 }
