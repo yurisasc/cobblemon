@@ -71,11 +71,11 @@ class LocatorAccess(
     fun update(matrixStack: MatrixStack, state: MutableMap<String, MatrixWrapper>) {
         matrixStack.push()
         joint.transform(matrixStack)
-        state.getOrPut("root") { MatrixWrapper() }.updateMatrix(matrixStack.peek().positionMatrix)
 
         for ((name, locator) in locators) {
             matrixStack.push()
             locator.transform(matrixStack)
+            matrixStack.scale(1F, -1F, 1F)
             state.getOrPut(name) { MatrixWrapper() }.updateMatrix(matrixStack.peek().positionMatrix)
             matrixStack.pop()
         }

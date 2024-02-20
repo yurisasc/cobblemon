@@ -38,10 +38,10 @@ class WhimsicottModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, B
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("whimsicott", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("whimsicott", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("whimsicott", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("whimsicott", "blink") }
         standing = registerPose(
             poseName = "standing",
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,

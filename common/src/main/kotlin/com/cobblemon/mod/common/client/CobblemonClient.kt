@@ -25,8 +25,8 @@ import com.cobblemon.mod.common.client.gui.battle.BattleOverlay
 import com.cobblemon.mod.common.client.gui.tm.TMMHandledScreen
 import com.cobblemon.mod.common.client.particle.BedrockParticleEffectRepository
 import com.cobblemon.mod.common.client.render.block.BerryBlockRenderer
-import com.cobblemon.mod.common.client.render.block.FossilCompartmentRenderer
-import com.cobblemon.mod.common.client.render.block.FossilTubeRenderer
+import com.cobblemon.mod.common.client.render.block.FossilAnalyzerRenderer
+import com.cobblemon.mod.common.client.render.block.RestorationTankRenderer
 import com.cobblemon.mod.common.client.render.block.HealingMachineRenderer
 import com.cobblemon.mod.common.client.render.block.TMBlockRenderer
 import com.cobblemon.mod.common.client.render.boat.CobblemonBoatRenderer
@@ -174,7 +174,7 @@ object CobblemonClient {
 
         this.implementation.registerBlockRenderType(
             RenderLayer.getCutout(),
-            CobblemonBlocks.FOSSIL_COMPARTMENT,
+            CobblemonBlocks.FOSSIL_ANALYZER,
             CobblemonBlocks.APRICORN_DOOR,
             CobblemonBlocks.APRICORN_TRAPDOOR,
             CobblemonBlocks.APRICORN_SIGN,
@@ -214,7 +214,7 @@ object CobblemonClient {
             CobblemonBlocks.REVIVAL_HERB,
             *CobblemonBlocks.berries().values.toTypedArray(),
             CobblemonBlocks.POTTED_PEP_UP_FLOWER,
-            CobblemonBlocks.FOSSIL_TUBE,
+            CobblemonBlocks.RESTORATION_TANK,
             CobblemonBlocks.SMALL_BUDDING_TUMBLESTONE,
             CobblemonBlocks.MEDIUM_BUDDING_TUMBLESTONE,
             CobblemonBlocks.LARGE_BUDDING_TUMBLESTONE,
@@ -254,8 +254,8 @@ object CobblemonClient {
         this.implementation.registerBlockEntityRenderer(CobblemonBlockEntities.BERRY, ::BerryBlockRenderer)
         this.implementation.registerBlockEntityRenderer(CobblemonBlockEntities.SIGN, ::SignBlockEntityRenderer)
         this.implementation.registerBlockEntityRenderer(CobblemonBlockEntities.HANGING_SIGN, ::HangingSignBlockEntityRenderer)
-        this.implementation.registerBlockEntityRenderer(CobblemonBlockEntities.FOSSIL_COMPARTMENT, ::FossilCompartmentRenderer)
-        this.implementation.registerBlockEntityRenderer(CobblemonBlockEntities.FOSSIL_TUBE, ::FossilTubeRenderer)
+        this.implementation.registerBlockEntityRenderer(CobblemonBlockEntities.FOSSIL_ANALYZER, ::FossilAnalyzerRenderer)
+        this.implementation.registerBlockEntityRenderer(CobblemonBlockEntities.RESTORATION_TANK, ::RestorationTankRenderer)
         this.implementation.registerBlockEntityRenderer(CobblemonBlockEntities.TM_BLOCK, ::TMBlockRenderer)
     }
 

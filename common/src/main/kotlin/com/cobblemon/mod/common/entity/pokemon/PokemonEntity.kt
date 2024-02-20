@@ -35,11 +35,12 @@ import com.cobblemon.mod.common.block.entity.PokemonPastureBlockEntity
 import com.cobblemon.mod.common.client.entity.PokemonClientDelegate
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.Poseable
+import com.cobblemon.mod.common.entity.generic.GenericBedrockEntity
 import com.cobblemon.mod.common.entity.pokeball.EmptyPokeBallEntity
 import com.cobblemon.mod.common.entity.pokemon.ai.PokemonMoveControl
 import com.cobblemon.mod.common.entity.pokemon.ai.PokemonNavigation
 import com.cobblemon.mod.common.entity.pokemon.ai.goals.*
-import com.cobblemon.mod.common.net.messages.client.sound.PokemonCryPacket
+import com.cobblemon.mod.common.net.messages.client.animation.PlayPoseableAnimationPacket
 import com.cobblemon.mod.common.net.messages.client.sound.UnvalidatedPlaySoundS2CPacket
 import com.cobblemon.mod.common.net.messages.client.spawn.SpawnPokemonPacket
 import com.cobblemon.mod.common.net.messages.client.ui.InteractPokemonUIPacket
@@ -54,6 +55,10 @@ import com.cobblemon.mod.common.pokemon.ai.FormPokemonBehaviour
 import com.cobblemon.mod.common.pokemon.evolution.variants.ItemInteractionEvolution
 import com.cobblemon.mod.common.util.*
 import com.cobblemon.mod.common.world.gamerules.CobblemonGameRules
+import java.util.EnumSet
+import java.util.Optional
+import java.util.UUID
+import java.util.concurrent.CompletableFuture
 import net.minecraft.entity.*
 import net.minecraft.entity.ai.control.MoveControl
 import net.minecraft.entity.ai.goal.EatGrassGoal
@@ -72,7 +77,6 @@ import net.minecraft.entity.passive.PassiveEntity
 import net.minecraft.entity.passive.TameableShoulderEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.fluid.FluidState
-import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
 import net.minecraft.item.ItemUsage
 import net.minecraft.item.Items
@@ -101,10 +105,6 @@ import net.minecraft.util.math.Vec3d
 import net.minecraft.world.EntityView
 import net.minecraft.world.World
 import net.minecraft.world.event.GameEvent
-import java.util.EnumSet
-import java.util.Optional
-import java.util.UUID
-import java.util.concurrent.CompletableFuture
 
 @Suppress("unused")
 open class PokemonEntity(
@@ -160,6 +160,8 @@ open class PokemonEntity(
 
     /** The player that caused this Pokémon to faint. */
     var killer: ServerPlayerEntity? = null
+
+    var evolutionEntity: GenericBedrockEntity? = null
 
     var ticksLived = 0
     val busyLocks = mutableListOf<Any>()
@@ -286,6 +288,10 @@ open class PokemonEntity(
         this.setDespawnCounter(0)
         if (queuedToDespawn) {
             return remove(RemovalReason.DISCARDED)
+        }
+        if (evolutionEntity != null) {
+            evolutionEntity!!.setPosition(pokemon.entity!!.x, pokemon.entity!!.y, pokemon.entity!!.z)
+            pokemon.entity!!.navigation.stop()
         }
         delegate.tick(this)
         ticksLived++
@@ -501,7 +507,7 @@ open class PokemonEntity(
         goalSelector.clear { true }
         goalSelector.add(0, PokemonInBattleMovementGoal(this, 10))
         goalSelector.add(0, object : Goal() {
-            override fun canStart() = this@PokemonEntity.dataTracker.get(PHASING_TARGET_ID) != -1 || pokemon.status?.status == Statuses.SLEEP || dataTracker.get(DYING_EFFECTS_STARTED)
+            override fun canStart() = this@PokemonEntity.dataTracker.get(PHASING_TARGET_ID) != -1 || pokemon.status?.status == Statuses.SLEEP || dataTracker.get(DYING_EFFECTS_STARTED) || evolutionEntity != null
             override fun shouldContinue(): Boolean {
                 if (pokemon.status?.status == Statuses.SLEEP && !canSleep() && !isBusy) {
                     return false
@@ -885,6 +891,10 @@ open class PokemonEntity(
         if (reason.shouldDestroy() && pokemon.tetheringId != null) {
             pokemon.tetheringId = null
         }
+        if (evolutionEntity != null) {
+            evolutionEntity!!.kill()
+            pokemon.entity?.evolutionEntity = null
+        }
     }
 
     // Copy and paste of how vanilla checks it, unfortunately no util method you can only add then wait for the result
@@ -898,7 +908,7 @@ open class PokemonEntity(
 
     fun cry() {
         if(this.isSilent) return
-        val pkt = PokemonCryPacket(id)
+        val pkt = PlayPoseableAnimationPacket(id, setOf("cry"), emptySet())
         world.getEntitiesByClass(ServerPlayerEntity::class.java, Box.of(pos, 64.0, 64.0, 64.0), { true }).forEach {
             it.sendPacket(pkt)
         }
@@ -962,7 +972,7 @@ open class PokemonEntity(
     fun couldStopFlying() = isFlying() && !behaviour.moving.walk.avoidsLand && behaviour.moving.walk.canWalk
     fun isFalling() = this.fallDistance > 0 && this.world.getBlockState(this.blockPos.down()).isAir && !this.isFlying()
     fun getIsSubmerged() = isInLava || isSubmergedInWater
-    override fun getPoseType(): PoseType = this.dataTracker.get(POSE_TYPE)
+    override fun getCurrentPoseType(): PoseType = this.dataTracker.get(POSE_TYPE)
 
     /**
      * Returns the [Species.translatedName] of the backing [pokemon].

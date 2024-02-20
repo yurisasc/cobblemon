@@ -29,7 +29,7 @@ versions:
 
   # common
   graal: 22.3.0
-  molang: 1.1.10
+  molang: 1.1.11
 
   # test
   junit: 5.9.0

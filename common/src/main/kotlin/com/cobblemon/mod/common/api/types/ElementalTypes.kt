@@ -196,7 +196,7 @@ object ElementalTypes {
             textureXMultiplier = textureXMultiplier,
             primaryColor = primaryColor,
             secondaryColor = secondaryColor,
-            typeGem = cobblemonResource("${name}_type_gem")
+            typeGem = cobblemonResource("${name}_gem")
         ).also {
             allTypes.add(it)
         }

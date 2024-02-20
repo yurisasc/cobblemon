@@ -18,6 +18,7 @@ import com.cobblemon.mod.common.block.MintBlock
 import com.cobblemon.mod.common.block.MintBlock.MintType
 import com.cobblemon.mod.common.entity.boat.CobblemonBoatType
 import com.cobblemon.mod.common.item.*
+import com.cobblemon.mod.common.item.armor.CobblemonArmorTrims
 import com.cobblemon.mod.common.item.battle.DireHitItem
 import com.cobblemon.mod.common.item.battle.GuardSpecItem
 import com.cobblemon.mod.common.item.battle.XStatItem
@@ -42,6 +43,7 @@ import net.minecraft.item.HangingSignItem
 import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
 import net.minecraft.item.SignItem
+import net.minecraft.item.SmithingTemplateItem
 import net.minecraft.item.StewItem
 import net.minecraft.registry.Registries
 import net.minecraft.registry.Registry
@@ -229,11 +231,11 @@ object CobblemonItems : PlatformRegistry<Registry<Item>, RegistryKey<Registry<It
     val APRICORN_HANGING_SIGN = this.create("apricorn_hanging_sign", HangingSignItem(CobblemonBlocks.APRICORN_HANGING_SIGN, CobblemonBlocks.APRICORN_WALL_HANGING_SIGN, Item.Settings().maxCount(16)))
 
     @JvmField
-    val FOSSIL_TUBE = blockItem("fossil_tube", CobblemonBlocks.FOSSIL_TUBE)
+    val RESTORATION_TANK = blockItem("restoration_tank", CobblemonBlocks.RESTORATION_TANK)
     @JvmField
-    val FOSSIL_COMPARTMENT = blockItem("fossil_compartment", CobblemonBlocks.FOSSIL_COMPARTMENT)
+    val FOSSIL_ANALYZER = blockItem("fossil_analyzer", CobblemonBlocks.FOSSIL_ANALYZER)
     @JvmField
-    val FOSSIL_MONITOR = blockItem("fossil_monitor", CobblemonBlocks.FOSSIL_MONITOR)
+    val MONITOR = blockItem("monitor", CobblemonBlocks.MONITOR)
     @JvmField
     val HEALING_MACHINE = blockItem("healing_machine", CobblemonBlocks.HEALING_MACHINE)
     @JvmField
@@ -575,6 +577,9 @@ object CobblemonItems : PlatformRegistry<Registry<Item>, RegistryKey<Registry<It
     @JvmField
     val DRIPSTONE_MOON_STONE_ORE = blockItem("dripstone_moon_stone_ore", CobblemonBlocks.DRIPSTONE_MOON_STONE_ORE)
     @JvmField
+    val NETHER_FIRE_STONE_ORE = blockItem("nether_fire_stone_ore", CobblemonBlocks.NETHER_FIRE_STONE_ORE)
+
+    @JvmField
     val DAWN_STONE = noSettingsItem("dawn_stone")
     @JvmField
     val DUSK_STONE = noSettingsItem("dusk_stone")
@@ -811,6 +816,12 @@ object CobblemonItems : PlatformRegistry<Registry<Item>, RegistryKey<Registry<It
     @JvmField
     val BLACK_TUMBLESTONE_BLOCK = blockItem("black_tumblestone_block", CobblemonBlocks.BLACK_TUMBLESTONE_BLOCK)
 
+    @JvmField
+    val AUTOMATON_ARMOR_TRIM_SMITHING_TEMPLATE: SmithingTemplateItem = this.create(
+        "automaton_armor_trim_smithing_template",
+        SmithingTemplateItem.of(CobblemonArmorTrims.AUTOMATON)
+    )
+
     // Misc
     @JvmField
     val POKEMON_MODEL = this.create("pokemon_model", PokemonItem())
@@ -818,6 +829,44 @@ object CobblemonItems : PlatformRegistry<Registry<Item>, RegistryKey<Registry<It
     val TECHNICAL_MACHINE = this.create("technical_machine", TechnicalMachineItem(Item.Settings()))
     @JvmField
     val BLANK_TM = this.create("blank_tm", CobblemonItem(Item.Settings()))
+
+    // Type Gems
+    @JvmField
+    val NORMAL_GEM = noSettingsItem("normal_gem")
+    @JvmField
+    val FIRE_GEM = noSettingsItem("fire_gem")
+    @JvmField
+    val WATER_GEM = noSettingsItem("water_gem")
+    @JvmField
+    val GRASS_GEM = noSettingsItem("grass_gem")
+    @JvmField
+    val ELECTRIC_GEM = noSettingsItem("electric_gem")
+    @JvmField
+    val ICE_GEM = noSettingsItem("ice_gem")
+    @JvmField
+    val FIGHTING_GEM = noSettingsItem("fighting_gem")
+    @JvmField
+    val POISON_GEM = noSettingsItem("poison_gem")
+    @JvmField
+    val GROUND_GEM = noSettingsItem("ground_gem")
+    @JvmField
+    val FLYING_GEM = noSettingsItem("flying_gem")
+    @JvmField
+    val PSYCHIC_GEM = noSettingsItem("psychic_gem")
+    @JvmField
+    val BUG_GEM = noSettingsItem("bug_gem")
+    @JvmField
+    val ROCK_GEM = noSettingsItem("rock_gem")
+    @JvmField
+    val GHOST_GEM = noSettingsItem("ghost_gem")
+    @JvmField
+    val DRAGON_GEM = noSettingsItem("dragon_gem")
+    @JvmField
+    val DARK_GEM = noSettingsItem("dark_gem")
+    @JvmField
+    val STEEL_GEM = noSettingsItem("steel_gem")
+    @JvmField
+    val FAIRY_GEM = noSettingsItem("fairy_gem")
 
     private fun blockItem(name: String, block: Block): BlockItem = this.create(name, BlockItem(block, Item.Settings()))
 

@@ -5,7 +5,7 @@
     "spawns": [
         {
             "id": "basculin-bluestripe-1",
-            "pokemon": "basculin bluestripe",
+            "pokemon": "basculin striped=blue",
             "presets": [
                 "freshwater",
                 "underwater"
@@ -22,7 +22,7 @@
         },
         {
             "id": "basculin-bluestripe-2",
-            "pokemon": "basculin bluestripe",
+            "pokemon": "basculin striped=blue",
             "presets": [
                 "freshwater",
                 "underwater"
@@ -39,7 +39,7 @@
         },
         {
             "id": "basculin-bluestripe-3",
-            "pokemon": "basculin bluestripe",
+            "pokemon": "basculin striped=blue",
             "presets": [
                 "freshwater",
                 "underwater"
@@ -56,7 +56,7 @@
         },
         {
             "id": "basculin-redstripe-1",
-            "pokemon": "basculin redstripe",
+            "pokemon": "basculin striped=red",
             "presets": [
                 "freshwater",
                 "underwater"
@@ -73,7 +73,7 @@
         },
         {
             "id": "basculin-redstripe-2",
-            "pokemon": "basculin redstripe",
+            "pokemon": "basculin striped=red",
             "presets": [
                 "freshwater",
                 "underwater"
@@ -90,7 +90,7 @@
         },
         {
             "id": "basculin-redstripe-3",
-            "pokemon": "basculin redstripe",
+            "pokemon": "basculin striped=red",
             "presets": [
                 "freshwater",
                 "underwater"
