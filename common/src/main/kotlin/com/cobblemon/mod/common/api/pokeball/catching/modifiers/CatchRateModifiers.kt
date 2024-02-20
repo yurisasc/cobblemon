@@ -127,7 +127,7 @@ object CatchRateModifiers {
      * If yes boosts the catch rate by *4
      */
     val LURE = WorldStateModifier { _, entity ->
-        if (entity.pokemon.aspects.contains("fished"))
+        if (entity.pokemon.aspects.contains("fished")) // todo make aspect about this
             4f
         else
             1F

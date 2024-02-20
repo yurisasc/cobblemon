@@ -843,10 +843,67 @@ object CobblemonItems : PlatformRegistry<Registry<Item>, RegistryKey<Registry<It
 
     val pokeRods = mutableListOf<PokerodItem>()
     @JvmField
-    val POKE_ROD = pokerodItem(cobblemonResource("pokeball_rod"))
+    val POKE_ROD = pokerodItem(cobblemonResource("poke_rod"))
     @JvmField
-    val GREAT_ROD = pokerodItem(cobblemonResource("greatball_rod"))
-
+    val GREAT_ROD = pokerodItem(cobblemonResource("great_rod"))
+    @JvmField
+    val AZURE_ROD = pokerodItem(cobblemonResource("azure_rod"))
+    @JvmField
+    val CHERISH_ROD = pokerodItem(cobblemonResource("cherish_rod"))
+    @JvmField
+    val CITRINE_ROD = pokerodItem(cobblemonResource("citrine_rod"))
+    @JvmField
+    val DIVE_ROD = pokerodItem(cobblemonResource("dive_rod"))
+    @JvmField
+    val DREAM_ROD = pokerodItem(cobblemonResource("dream_rod"))
+    @JvmField
+    val DUSK_ROD = pokerodItem(cobblemonResource("dusk_rod"))
+    @JvmField
+    val FAST_ROD = pokerodItem(cobblemonResource("fast_rod"))
+    @JvmField
+    val FRIEND_ROD = pokerodItem(cobblemonResource("friend_rod"))
+    @JvmField
+    val HEAL_ROD = pokerodItem(cobblemonResource("heal_rod"))
+    @JvmField
+    val HEAVY_ROD = pokerodItem(cobblemonResource("heavy_rod"))
+    @JvmField
+    val LEVEL_ROD = pokerodItem(cobblemonResource("level_rod"))
+    @JvmField
+    val LOVE_ROD = pokerodItem(cobblemonResource("love_rod"))
+    @JvmField
+    val LURE_ROD = pokerodItem(cobblemonResource("lure_rod"))
+    @JvmField
+    val LUXURY_ROD = pokerodItem(cobblemonResource("luxury_rod"))
+    @JvmField
+    val MASTER_ROD = pokerodItem(cobblemonResource("master_rod"))
+    @JvmField
+    val MOON_ROD = pokerodItem(cobblemonResource("moon_rod"))
+    @JvmField
+    val NEST_ROD = pokerodItem(cobblemonResource("nest_rod"))
+    @JvmField
+    val NET_ROD = pokerodItem(cobblemonResource("net_rod"))
+    @JvmField
+    val PARK_ROD = pokerodItem(cobblemonResource("park_rod"))
+    @JvmField
+    val PREMIER_ROD = pokerodItem(cobblemonResource("premier_rod"))
+    @JvmField
+    val QUICK_ROD = pokerodItem(cobblemonResource("quick_rod"))
+    @JvmField
+    val REPEAT_ROD = pokerodItem(cobblemonResource("repeat_rod"))
+    @JvmField
+    val ROSEATE_ROD = pokerodItem(cobblemonResource("roseate_rod"))
+    @JvmField
+    val SAFARI_ROD = pokerodItem(cobblemonResource("safari_rod"))
+    @JvmField
+    val SLATE_ROD = pokerodItem(cobblemonResource("slate_rod"))
+    @JvmField
+    val SPORT_ROD = pokerodItem(cobblemonResource("sport_rod"))
+    @JvmField
+    val TIMER_ROD = pokerodItem(cobblemonResource("timer_rod"))
+    @JvmField
+    val ULTRA_ROD = pokerodItem(cobblemonResource("ultra_rod"))
+    @JvmField
+    val VERDANT_ROD = pokerodItem(cobblemonResource("verdant_rod"))
 
     // Misc
     @JvmField
