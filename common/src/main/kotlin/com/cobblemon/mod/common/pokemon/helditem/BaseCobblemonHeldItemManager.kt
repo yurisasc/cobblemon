@@ -25,7 +25,7 @@ import net.minecraft.text.Text
  * @author Licious
  * @since January 6th, 2022
  */
-abstract class BaseCobblemonHeldItemManager : HeldItemManager() {
+abstract class BaseCobblemonHeldItemManager : HeldItemManager {
 
     private val itemIds = HashBiMap.create<String, Item>()
 
