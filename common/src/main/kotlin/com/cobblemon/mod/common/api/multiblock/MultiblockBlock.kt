@@ -8,7 +8,7 @@
 
 package com.cobblemon.mod.common.api.multiblock
 
-import com.cobblemon.mod.common.block.entity.fossil.FossilMultiblockEntity
+import com.cobblemon.mod.common.block.entity.FossilMultiblockEntity
 import net.minecraft.block.*
 import net.minecraft.block.entity.BlockEntity
 import net.minecraft.entity.LivingEntity

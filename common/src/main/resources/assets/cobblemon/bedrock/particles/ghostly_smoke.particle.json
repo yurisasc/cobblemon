@@ -38,7 +38,7 @@
 			"minecraft:particle_initial_speed": -0.1,
 			"minecraft:particle_motion_dynamic": {},
 			"minecraft:particle_appearance_billboard": {
-				"size": ["0.35 * variable.shrink * 3", "0.35 * variable.shrink * 3"],
+				"size": ["variable.shrink * variable.entity_width", "variable.shrink * variable.entity_width"],
 				"facing_camera_mode": "rotate_xyz",
 				"uv": {
 					"texture_width": 16,

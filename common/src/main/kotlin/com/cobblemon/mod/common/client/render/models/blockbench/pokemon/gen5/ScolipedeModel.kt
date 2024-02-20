@@ -29,10 +29,10 @@ class ScolipedeModel (root: ModelPart) : PokemonPoseableModel() {
     lateinit var walk: PokemonPose
     lateinit var battleidle: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("scolipede", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("scolipede", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("scolipede", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("scolipede", "blink") }
 
         standing = registerPose(
             poseName = "standing",

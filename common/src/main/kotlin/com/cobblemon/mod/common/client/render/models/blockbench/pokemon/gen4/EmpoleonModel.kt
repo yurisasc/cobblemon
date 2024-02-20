@@ -38,10 +38,10 @@ class EmpoleonModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bipe
     lateinit var swim: PokemonPose
     lateinit var battleidle: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("empoleon", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("empoleon", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("empoleon", "blink").setPreventsIdle(false)}
+        val blink = quirk { bedrockStateful("empoleon", "blink")}
         sleep = registerPose(
             poseType = PoseType.SLEEP,
             idleAnimations = arrayOf(bedrock("empoleon", "sleep"))

@@ -41,7 +41,7 @@ class CharmanderModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bi
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("charmander", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("charmander", "cry") }
 
     override fun registerPoses() {
         sleep = registerPose(
@@ -49,7 +49,7 @@ class CharmanderModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bi
             idleAnimations = arrayOf(bedrock("charmander", "sleep"))
         )
 
-        val blink = quirk("blink") { bedrockStateful("charmander", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("charmander", "blink") }
 
         standing = registerPose(
             poseName = "standing",

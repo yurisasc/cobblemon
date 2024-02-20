@@ -22,11 +22,9 @@
       "cobblemon:deepslate_thunder_stone_ore",
       "cobblemon:deepslate_water_stone_ore",
       "cobblemon:dripstone_moon_stone_ore",
+      "cobblemon:nether_fire_stone_ore",
       "cobblemon:healing_machine",
       "cobblemon:pc",
-      "cobblemon:fossil_monitor",
-      "cobblemon:fossil_compartment",
-      "cobblemon:fossil_tube",
       "cobblemon:tumblestone_block",
       "cobblemon:black_tumblestone_block",
       "cobblemon:sky_tumblestone_block",
@@ -41,6 +39,9 @@
       "cobblemon:small_budding_sky_tumblestone",
       "cobblemon:medium_budding_sky_tumblestone",
       "cobblemon:large_budding_sky_tumblestone",
-      "cobblemon:sky_tumblestone_cluster"
+      "cobblemon:sky_tumblestone_cluster",
+      "cobblemon:restoration_tank",
+      "cobblemon:monitor",
+      "cobblemon:fossil_analyzer"
     ]
 }

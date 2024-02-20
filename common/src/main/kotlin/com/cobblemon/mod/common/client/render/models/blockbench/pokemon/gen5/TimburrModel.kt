@@ -34,7 +34,7 @@ class TimburrModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bipe
     lateinit var walk: PokemonPose
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("timburr", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("timburr", "blink") }
         standing = registerPose(
             poseName = "standing",
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,

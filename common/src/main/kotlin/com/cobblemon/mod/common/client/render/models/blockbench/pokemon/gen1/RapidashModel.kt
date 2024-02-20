@@ -42,10 +42,10 @@ class RapidashModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quad
     lateinit var sleep: PokemonPose
     lateinit var battling: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("rapidash", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("rapidash", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("rapidash", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("rapidash", "blink") }
         sleep = registerPose(
             poseType = PoseType.SLEEP,
             idleAnimations = arrayOf(bedrock("rapidash", "sleep"))
