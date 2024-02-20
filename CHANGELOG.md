@@ -21,6 +21,7 @@
 - Added a new send-out ball toss animation that showcases the ball used for the Pokémon.
 - Added simple move animations for Pokémon in battle with a proof of concept for more complicated animations.
 - Added Type Gems. These items hold no functionality for now. Start collecting though...
+- Added the EV Boosting Feathers.
 
 ### Changes
 - Pokémon now transition more smoothly between different poses.
