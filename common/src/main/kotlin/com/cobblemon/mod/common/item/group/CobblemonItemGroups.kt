@@ -435,25 +435,6 @@ object CobblemonItemGroups {
         entries.add(CobblemonItems.TWISTED_SPOON)
         entries.add(CobblemonItems.WHITE_HERB)
         entries.add(CobblemonItems.WISE_GLASSES)
-
-        entries.add(CobblemonItems.NORMAL_GEM)
-        entries.add(CobblemonItems.FIRE_GEM)
-        entries.add(CobblemonItems.WATER_GEM)
-        entries.add(CobblemonItems.GRASS_GEM)
-        entries.add(CobblemonItems.ELECTRIC_GEM)
-        entries.add(CobblemonItems.ICE_GEM)
-        entries.add(CobblemonItems.FIGHTING_GEM)
-        entries.add(CobblemonItems.POISON_GEM)
-        entries.add(CobblemonItems.GROUND_GEM)
-        entries.add(CobblemonItems.FLYING_GEM)
-        entries.add(CobblemonItems.PSYCHIC_GEM)
-        entries.add(CobblemonItems.BUG_GEM)
-        entries.add(CobblemonItems.ROCK_GEM)
-        entries.add(CobblemonItems.GHOST_GEM)
-        entries.add(CobblemonItems.DRAGON_GEM)
-        entries.add(CobblemonItems.DARK_GEM)
-        entries.add(CobblemonItems.STEEL_GEM)
-        entries.add(CobblemonItems.FAIRY_GEM)
     }
 
     private fun pokeballentries(displayContext: DisplayContext, entries: Entries) {

@@ -819,46 +819,6 @@ object CobblemonItems : PlatformRegistry<Registry<Item>, RegistryKey<Registry<It
     @JvmField
     val BLANK_TM = this.create("blank_tm", CobblemonItem(Item.Settings()))
 
-    // Type Gems
-    @JvmField
-    val NORMAL_GEM = noSettingsItem("normal_gem")
-    @JvmField
-    val FIRE_GEM = noSettingsItem("fire_gem")
-    @JvmField
-    val WATER_GEM = noSettingsItem("water_gem")
-    @JvmField
-    val GRASS_GEM = noSettingsItem("grass_gem")
-    @JvmField
-    val ELECTRIC_GEM = noSettingsItem("electric_gem")
-    @JvmField
-    val ICE_GEM = noSettingsItem("ice_gem")
-    @JvmField
-    val FIGHTING_GEM = noSettingsItem("fighting_gem")
-    @JvmField
-    val POISON_GEM = noSettingsItem("poison_gem")
-    @JvmField
-    val GROUND_GEM = noSettingsItem("ground_gem")
-    @JvmField
-    val FLYING_GEM = noSettingsItem("flying_gem")
-    @JvmField
-    val PSYCHIC_GEM = noSettingsItem("psychic_gem")
-    @JvmField
-    val BUG_GEM = noSettingsItem("bug_gem")
-    @JvmField
-    val ROCK_GEM = noSettingsItem("rock_gem")
-    @JvmField
-    val GHOST_GEM = noSettingsItem("ghost_gem")
-    @JvmField
-    val DRAGON_GEM = noSettingsItem("dragon_gem")
-    @JvmField
-    val DARK_GEM = noSettingsItem("dark_gem")
-    @JvmField
-    val STEEL_GEM = noSettingsItem("steel_gem")
-    @JvmField
-    val FAIRY_GEM = noSettingsItem("fairy_gem")
-
-
-
     private fun blockItem(name: String, block: Block): BlockItem = this.create(name, BlockItem(block, Item.Settings()))
 
     private fun noSettingsItem(name: String): CobblemonItem = this.create(name, CobblemonItem(Item.Settings()))
