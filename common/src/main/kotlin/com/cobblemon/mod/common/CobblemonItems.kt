@@ -821,41 +821,41 @@ object CobblemonItems : PlatformRegistry<Registry<Item>, RegistryKey<Registry<It
 
     // Type Gems
     @JvmField
-    val NORMAL_TYPE_GEM = noSettingsItem("normal_type_gem")
+    val NORMAL_GEM = noSettingsItem("normal_gem")
     @JvmField
-    val FIRE_TYPE_GEM = noSettingsItem("fire_type_gem")
+    val FIRE_GEM = noSettingsItem("fire_gem")
     @JvmField
-    val WATER_TYPE_GEM = noSettingsItem("water_type_gem")
+    val WATER_GEM = noSettingsItem("water_gem")
     @JvmField
-    val GRASS_TYPE_GEM = noSettingsItem("grass_type_gem")
+    val GRASS_GEM = noSettingsItem("grass_gem")
     @JvmField
-    val ELECTRIC_TYPE_GEM = noSettingsItem("electric_type_gem")
+    val ELECTRIC_GEM = noSettingsItem("electric_gem")
     @JvmField
-    val ICE_TYPE_GEM = noSettingsItem("ice_type_gem")
+    val ICE_GEM = noSettingsItem("ice_gem")
     @JvmField
-    val FIGHTING_TYPE_GEM = noSettingsItem("fighting_type_gem")
+    val FIGHTING_GEM = noSettingsItem("fighting_gem")
     @JvmField
-    val POISON_TYPE_GEM = noSettingsItem("poison_type_gem")
+    val POISON_GEM = noSettingsItem("poison_gem")
     @JvmField
-    val GROUND_TYPE_GEM = noSettingsItem("ground_type_gem")
+    val GROUND_GEM = noSettingsItem("ground_gem")
     @JvmField
-    val FLYING_TYPE_GEM = noSettingsItem("flying_type_gem")
+    val FLYING_GEM = noSettingsItem("flying_gem")
     @JvmField
-    val PSYCHIC_TYPE_GEM = noSettingsItem("psychic_type_gem")
+    val PSYCHIC_GEM = noSettingsItem("psychic_gem")
     @JvmField
-    val BUG_TYPE_GEM = noSettingsItem("bug_type_gem")
+    val BUG_GEM = noSettingsItem("bug_gem")
     @JvmField
-    val ROCK_TYPE_GEM = noSettingsItem("rock_type_gem")
+    val ROCK_GEM = noSettingsItem("rock_gem")
     @JvmField
-    val GHOST_TYPE_GEM = noSettingsItem("ghost_type_gem")
+    val GHOST_GEM = noSettingsItem("ghost_gem")
     @JvmField
-    val DRAGON_TYPE_GEM = noSettingsItem("dragon_type_gem")
+    val DRAGON_GEM = noSettingsItem("dragon_gem")
     @JvmField
-    val DARK_TYPE_GEM = noSettingsItem("dark_type_gem")
+    val DARK_GEM = noSettingsItem("dark_gem")
     @JvmField
-    val STEEL_TYPE_GEM = noSettingsItem("steel_type_gem")
+    val STEEL_GEM = noSettingsItem("steel_gem")
     @JvmField
-    val FAIRY_TYPE_GEM = noSettingsItem("fairy_type_gem")
+    val FAIRY_GEM = noSettingsItem("fairy_gem")
 
 
 

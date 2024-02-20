@@ -247,7 +247,7 @@ class TMMHandledScreen(
         val typeGem = Registries.ITEM.get(ElementalTypes.get(currentTm.type)?.typeGem).defaultStack
         // type gem
         renderScaledGuiItemIcon(
-            itemStack = typeGem ?: CobblemonItems.NORMAL_TYPE_GEM.defaultStack,
+            itemStack = typeGem ?: CobblemonItems.NORMAL_GEM.defaultStack,
             x = (x + 197 + 18).toDouble(),
             y = (y + 127).toDouble(),
         )
