@@ -31,6 +31,9 @@ import net.minecraft.util.math.MathHelper
 import net.minecraft.util.math.RotationAxis
 import org.joml.Matrix3f
 import org.joml.Matrix4f
+import org.joml.Quaterniond
+import org.joml.Quaternionf
+import org.joml.Vector3f
 import java.awt.Color
 
 @Environment(value = EnvType.CLIENT)
@@ -47,7 +50,8 @@ class PokeBobberEntityRenderer(context: EntityRendererFactory.Context?) : Entity
         val playerPosYWorld: Double
         val playerEyeYWorld: Double
         val playerEntity = fishingBobberEntity.playerOwner ?: return
-        matrixStack.push()
+
+        matrixStack.push() // prepare for overall rendering transforms
 
         // Generate controlled random pitch and yaw for each cast, with constraints
         if (fishingBobberEntity.age <= 1) {
@@ -57,7 +61,7 @@ class PokeBobberEntityRenderer(context: EntityRendererFactory.Context?) : Entity
             randomPitch = (-40 + Math.random() * 80).toFloat() // Example: -40 to +40 degrees
         }
 
-        matrixStack.push()
+        matrixStack.push() // prepare for bobber rendering transforms
 
         // Apply spinning effect only if the bobber is in the air
         // Modify spinning effect based on whether the bobber is in open water
@@ -147,6 +151,7 @@ class PokeBobberEntityRenderer(context: EntityRendererFactory.Context?) : Entity
         val pokeRodId = Identifier.tryParse(pokeRodIdStr)
         val pokeRod = PokeRods.getPokeRod(pokeRodId!!)
         val ballItem = PokeBalls.getPokeBall(pokeRod?.pokeBallId!!)!!.item
+        // render the pokebobber
         MinecraftClient.getInstance().itemRenderer.renderItem(
             ballItem.defaultStack,
             ModelTransformationMode.GROUND,
@@ -157,7 +162,35 @@ class PokeBobberEntityRenderer(context: EntityRendererFactory.Context?) : Entity
             fishingBobberEntity.world,
             0
         )
-        matrixStack.pop()
+
+//        matrixStack.push() // prepare for transforms for Bait rendering
+//
+//        // Scale down the bait to 70% of its original size
+//        matrixStack.scale(0.8f, 0.8f, 0.8f) // Apply the scaling transformation
+//
+//        // Translate the bait downwards to be on the hook
+//        matrixStack.translate(0.2, -0.46, 0.0); // Move the berry down
+//
+//        // Rotate the bait 90 degrees around the Y-axis
+//        val rotation = Quaternionf().rotateY(Math.toRadians(0.0).toFloat())
+//        matrixStack.multiply(rotation)
+//
+//
+//        // render the bait
+//        MinecraftClient.getInstance().itemRenderer.renderItem(
+//                CobblemonItems.FIGY_BERRY.defaultStack,
+//                ModelTransformationMode.GROUND,
+//                light,
+//                OverlayTexture.DEFAULT_UV,
+//                matrixStack,
+//                vertexConsumerProvider,
+//                fishingBobberEntity.world,
+//                0
+//        )
+//
+//        matrixStack.pop() // close bait rendering transforms
+        matrixStack.pop() // close bobber rendering transforms
+
         var armOffset = if (playerEntity.mainArm == Arm.RIGHT) 1 else -1
         val itemStack = playerEntity.mainHandStack
         if (itemStack.item !is PokerodItem) {
@@ -198,7 +231,9 @@ class PokeBobberEntityRenderer(context: EntityRendererFactory.Context?) : Entity
         for (lineIndex in 0..16) {
             renderFishingLine(pokeRod.lineColor, deltaX, deltaY, deltaZ, vertexConsumer2, entry2, percentage(lineIndex, 16), percentage(lineIndex + 1, 16))
         }
-        matrixStack.pop()
+
+        matrixStack.pop() // close main rendering transforms
+
         super.render(fishingBobberEntity, elapsedPartialTicks, tickDelta, matrixStack, vertexConsumerProvider, light)
     }
 
@@ -248,7 +283,7 @@ class PokeBobberEntityRenderer(context: EntityRendererFactory.Context?) : Entity
 
 
             // Add the vertex for the start of this segment
-            vertexBuffer.vertex(matrixEntry.positionMatrix, startX, startY, startZ).color(colorObj.red, colorObj.green, colorObj.red, 255).normal(matrixEntry.normalMatrix, deltaXSegment, deltaYSegment, deltaZSegment).next()
+            vertexBuffer.vertex(matrixEntry.positionMatrix, startX, startY, startZ).color(colorObj.red, colorObj.green, colorObj.blue, 255).normal(matrixEntry.normalMatrix, deltaXSegment, deltaYSegment, deltaZSegment).next()
         }
     }
 

@@ -11,6 +11,7 @@ package com.cobblemon.mod.common.entity.fishing
 import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.CobblemonEntities
 import com.cobblemon.mod.common.CobblemonItems
+import com.cobblemon.mod.common.api.fishing.PokeRods
 import com.cobblemon.mod.common.api.spawning.*
 import com.cobblemon.mod.common.api.spawning.detail.EntitySpawnResult
 import com.cobblemon.mod.common.api.spawning.fishing.FishingSpawnCause
@@ -30,11 +31,13 @@ import net.minecraft.entity.data.TrackedDataHandlerRegistry
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.entity.projectile.FishingBobberEntity
 import net.minecraft.entity.projectile.ProjectileUtil
+import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
 import net.minecraft.loot.context.LootContextParameterSet
 import net.minecraft.loot.context.LootContextParameters
 import net.minecraft.loot.context.LootContextTypes
 import net.minecraft.particle.ParticleTypes
+import net.minecraft.registry.Registries
 import net.minecraft.registry.tag.FluidTags
 import net.minecraft.registry.tag.ItemTags
 import net.minecraft.server.network.ServerPlayerEntity
@@ -78,6 +81,7 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
     private val pokemonSpawnChance = 85 // chance a Pokemon will be fished up % out of 100
     var pokeRodId: Identifier? = null
     var lineColor: String = "FFFFFF" // default line color is black
+    var usedRod: Identifier? = null
 
     constructor(thrower: PlayerEntity, pokeRodId: Identifier, world: World, luckOfTheSea: Int, lure: Int) : this(CobblemonEntities.POKE_BOBBER, world) {
         owner = thrower
@@ -85,6 +89,8 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
         lureLevel = lure
         this.pokeRodId = pokeRodId
         dataTracker.set(POKEROD_ID, pokeRodId.toString())
+        this.usedRod = pokeRodId
+
 
         val throwerPitch = thrower.pitch
         val throwerYaw = thrower.yaw
@@ -373,8 +379,8 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
     private fun removeIfInvalid(player: PlayerEntity): Boolean {
         val itemStack = player.mainHandStack
         val itemStack2 = player.offHandStack
-        val bl = (itemStack.item is PokerodItem)
-        val bl2 = (itemStack2.item is PokerodItem)
+        val bl = Registries.ITEM[this.usedRod] == itemStack.item //(itemStack.item is PokerodItem) // todo make this work again so the line breaks when you swap items
+        val bl2 = Registries.ITEM[this.usedRod] == itemStack2.item //(itemStack2.item is PokerodItem) // todo make this work again so the line breaks when you swap items
         if (player.isRemoved || !player.isAlive || !bl && !bl2 || this.squaredDistanceTo(player) > 1024.0) {
             discard()
             return true
