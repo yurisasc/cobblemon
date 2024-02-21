@@ -294,7 +294,7 @@ object CobblemonBlocks : PlatformRegistry<Registry<Block>, RegistryKey<Registry<
         "display_case",
         DisplayCaseBlock(
             AbstractBlock.Settings.create()
-                .sounds(BlockSoundGroup.GLASS)
+                .sounds(CobblemonSounds.DISPLAY_CASE_SOUNDS)
                 .nonOpaque()
                 .pistonBehavior(PistonBehavior.BLOCK)
                 .mapColor(MapColor.STONE_GRAY)

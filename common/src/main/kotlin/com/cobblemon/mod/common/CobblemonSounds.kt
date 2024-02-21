@@ -184,5 +184,27 @@ object CobblemonSounds : PlatformRegistry<Registry<SoundEvent>, RegistryKey<Regi
         TUMBLESTONE_STEP
     )
 
+    @JvmField
+    val DISPLAY_CASE_ADD_ITEM = this.create("display_case.add_item")
+    @JvmField
+    val DISPLAY_CASE_REMOVE_ITEM = this.create("display_case.remove_item")
+    @JvmField
+    val DISPLAY_CASE_BREAK = this.create("display_case.break")
+    @JvmField
+    val DISPLAY_CASE_HIT = this.create("display_case.hit")
+    @JvmField
+    val DISPLAY_CASE_PLACE = this.create("display_case.place")
+    @JvmField
+    val DISPLAY_CASE_STEP = this.create("display_case.step")
+
+    @JvmField
+    val DISPLAY_CASE_SOUNDS = BlockSoundGroup(1f, 1f,
+        DISPLAY_CASE_BREAK,
+        DISPLAY_CASE_STEP,
+        DISPLAY_CASE_PLACE,
+        DISPLAY_CASE_HIT,
+        DISPLAY_CASE_STEP
+    )
+
     private fun create(name: String): SoundEvent = this.create(name, SoundEvent.of(cobblemonResource(name)))
 }

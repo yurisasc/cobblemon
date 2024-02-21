@@ -9,6 +9,7 @@
 package com.cobblemon.mod.common.block.entity
 
 import com.cobblemon.mod.common.CobblemonBlockEntities
+import com.cobblemon.mod.common.CobblemonSounds
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
 import net.minecraft.block.entity.BlockEntity
@@ -21,7 +22,6 @@ import net.minecraft.network.listener.ClientPlayPacketListener
 import net.minecraft.network.packet.Packet
 import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket
 import net.minecraft.sound.SoundCategory
-import net.minecraft.sound.SoundEvents
 import net.minecraft.util.ActionResult
 import net.minecraft.util.Hand
 import net.minecraft.util.collection.DefaultedList
@@ -87,9 +87,9 @@ class DisplayCaseBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(Cob
         newStack.count = 1
         inv[0] = newStack
         if (newStack.isEmpty) {
-            world!!.playSound(null, pos, SoundEvents.ENTITY_ITEM_FRAME_REMOVE_ITEM, SoundCategory.BLOCKS)
+            world!!.playSound(null, pos, CobblemonSounds.DISPLAY_CASE_REMOVE_ITEM, SoundCategory.BLOCKS)
         } else {
-            world!!.playSound(null, pos, SoundEvents.ENTITY_ITEM_FRAME_ADD_ITEM, SoundCategory.BLOCKS)
+            world!!.playSound(null, pos, CobblemonSounds.DISPLAY_CASE_ADD_ITEM, SoundCategory.BLOCKS)
         }
         world!!.updateListeners(pos, oldState, world!!.getBlockState(pos), Block.NOTIFY_LISTENERS)
         world!!.updateComparators(pos, world!!.getBlockState(pos).block)

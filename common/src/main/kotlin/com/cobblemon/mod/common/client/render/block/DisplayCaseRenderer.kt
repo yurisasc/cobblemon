@@ -14,6 +14,7 @@ import com.cobblemon.mod.common.api.tags.CobblemonItemTags
 import com.cobblemon.mod.common.block.entity.DisplayCaseBlockEntity
 import com.cobblemon.mod.common.client.render.models.blockbench.repository.PokemonModelRepository
 import com.cobblemon.mod.common.entity.PoseType
+import com.cobblemon.mod.common.item.PokeBallItem
 import com.cobblemon.mod.common.item.PokemonItem
 import net.minecraft.block.HorizontalFacingBlock
 import net.minecraft.client.MinecraftClient
@@ -121,7 +122,7 @@ class DisplayCaseRenderer(ctx: BlockEntityRendererFactory.Context) : BlockEntity
             if (stack.isIn(ItemTags.BANNERS)) return PositioningType.BANNER
             if (stack.isIn(CobblemonItemTags.MOB_HEADS)) return PositioningType.MOB_HEAD
             if (stack.item == CobblemonItems.PASTURE) return PositioningType.PASTURE
-            if (stack.isIn(CobblemonItemTags.POKEBALLS)) return PositioningType.POKE_BALL
+            if (stack.item is PokeBallItem) return PositioningType.POKE_BALL
             if (stack.item == CobblemonItems.POKEMON_MODEL) return PositioningType.ITEM_MODEL
             if (MinecraftClient.getInstance().itemRenderer.getModel(stack, world, null, 0).hasDepth()) return PositioningType.BLOCK_MODEL
             return PositioningType.ITEM_MODEL
