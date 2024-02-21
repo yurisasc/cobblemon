@@ -747,6 +747,8 @@ object CobblemonItems : PlatformRegistry<Registry<Item>, RegistryKey<Registry<It
     @JvmField
     val SMOKE_BALL = heldItem("smoke_ball")
     @JvmField
+    val SOOTHE_BELL = heldItem("soothe_bell")
+    @JvmField
     val STICKY_BARB = heldItem("sticky_barb")
     @JvmField
     val TERRAIN_EXTENDER = heldItem("terrain_extender")
