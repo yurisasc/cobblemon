@@ -470,9 +470,9 @@ object CobblemonItemGroups {
 
     private fun foodInjections(injector: Injector) {
         injector.putLast(CobblemonItems.ROASTED_LEEK)
-        injector.putLast(CobblemonItems.LEEK_AND_POTATO_STEW)
-        injector.putLast(CobblemonItems.BRAISED_VIVICHOKE)
-        injector.putLast(CobblemonItems.VIVICHOKE_DIP)
+        injector.putAfter(CobblemonItems.LEEK_AND_POTATO_STEW, CobblemonItems.ROASTED_LEEK)
+        injector.putAfter(CobblemonItems.BRAISED_VIVICHOKE, CobblemonItems.LEEK_AND_POTATO_STEW)
+        injector.putAfter(CobblemonItems.VIVICHOKE_DIP, CobblemonItems.BRAISED_VIVICHOKE)
     }
 
     private fun toolsAndUtilitiesInjections(injector: Injector) {
