@@ -83,7 +83,6 @@ object CobblemonHeldItemManager : BaseCobblemonHeldItemManager() {
         for (remap in stackRemaps) {
             val id = remap.apply(itemStack)
             if (id != null) {
-                println(id)
                 return id
             }
         }
