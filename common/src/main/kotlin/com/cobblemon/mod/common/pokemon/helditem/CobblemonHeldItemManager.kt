@@ -75,7 +75,6 @@ object CobblemonHeldItemManager : BaseCobblemonHeldItemManager() {
     }
 
     fun showdownId(itemStack: ItemStack): String? {
-        println(itemStack)
         if (remaps.containsKey(itemStack.item)) {
             println(remaps[itemStack.item])
             return remaps[itemStack.item]
