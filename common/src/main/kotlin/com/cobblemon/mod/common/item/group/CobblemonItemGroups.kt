@@ -444,6 +444,7 @@ object CobblemonItemGroups {
         entries.add(CobblemonItems.SHARP_BEAK)
         entries.add(CobblemonItems.SHED_SHELL)
         entries.add(CobblemonItems.SHELL_BELL)
+        entries.add(CobblemonItems.SOOTHE_BELL)
         entries.add(CobblemonItems.SILK_SCARF)
         entries.add(CobblemonItems.SILVER_POWDER)
         entries.add(CobblemonItems.SMOKE_BALL)
