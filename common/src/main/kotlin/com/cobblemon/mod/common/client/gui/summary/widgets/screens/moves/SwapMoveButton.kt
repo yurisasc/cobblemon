@@ -29,7 +29,7 @@ class SwapMoveButton(
     var move: MoveTemplate,
     var movesWidget: MovesWidget,
     onPress: PressAction
-): ButtonWidget((pX + OFFSET_X).toInt(), (pY + OFFSET_Y).toInt(), (WIDTH * SCALE).toInt(), (HEIGHT * SCALE).toInt(), Text.literal(""), onPress, DEFAULT_NARRATION_SUPPLIER) {
+): ButtonWidget((pX + OFFSET_X).toInt(), (pY + OFFSET_Y).toInt(), (WIDTH * SCALE).toInt(), (HEIGHT * SCALE).toInt(), Text.empty(), onPress, DEFAULT_NARRATION_SUPPLIER) {
 
     override fun mouseDragged(d: Double, e: Double, i: Int, f: Double, g: Double): Boolean {
         return false
