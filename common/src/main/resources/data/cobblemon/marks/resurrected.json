@@ -1,0 +1,7 @@
+{
+  "id": "cobblemon:resurrected",
+  "name": "cobblemon.marks.resurrected",
+  "title": "cobblemon.marks.resurrected.title",
+  "icon": "cobblemon:textures/gui/icons/marks/resurrected",
+  "type": "suffix"
+}

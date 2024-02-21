@@ -26,6 +26,7 @@ import com.cobblemon.mod.common.api.pokemon.PokemonSpecies
 import com.cobblemon.mod.common.api.pokemon.feature.GlobalSpeciesFeatures
 import com.cobblemon.mod.common.api.pokemon.feature.SpeciesFeatureAssignments
 import com.cobblemon.mod.common.api.pokemon.feature.SpeciesFeatures
+import com.cobblemon.mod.common.api.pokemon.marks.PokemonMarks
 import com.cobblemon.mod.common.api.spawning.CobblemonSpawnPools
 import com.cobblemon.mod.common.api.spawning.CobblemonSpawnRules
 import com.cobblemon.mod.common.api.spawning.SpawnDetailPresets
@@ -72,6 +73,7 @@ object CobblemonDataProvider : DataProvider {
         this.register(Dialogues)
         this.register(NaturalMaterials)
         this.register(Fossils)
+        this.register(PokemonMarks)
 
         CobblemonSpawnPools.load()
         this.register(Berries)
