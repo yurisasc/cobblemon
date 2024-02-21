@@ -51,6 +51,8 @@
 - Fixed very many issues with Bedrock particle effects.
 - Fixed Arbok patterns not being as specific in spawning as they were intended.
 - Fixed Pokémon not avoiding danger at all when pathfinding. 
+- Fixed incompatibility with [Just Enough Resources](https://modrinth.com/mod/just-enough-resources-jer).
+- Fixed incompatibility with [Visual Overhaul](https://modrinth.com/mod/visual-overhaul).
 
 ### Developer
 - Significantly changed the way properties in PokemonEntity work. This could break some plugins (not in a big way, but changes will be needed).
