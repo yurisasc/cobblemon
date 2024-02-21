@@ -81,18 +81,20 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
     private var chosenBucket = Cobblemon.bestSpawner.config.buckets[0] // default to first rarity bucket
     private val pokemonSpawnChance = 85 // chance a Pokemon will be fished up % out of 100
     var pokeRodId: Identifier? = null
-    var lineColor: String = "FFFFFF" // default line color is black
+    var lineColor: String = "000000" // default line color is black
     var usedRod: Identifier? = null
-    var bobberBait: ItemStack? = null
+    var bobberBait: ItemStack = ItemStack.EMPTY
 
-    constructor(thrower: PlayerEntity, pokeRodId: Identifier, bait: ItemStack?, world: World, luckOfTheSea: Int, lure: Int) : this(CobblemonEntities.POKE_BOBBER, world) {
+    constructor(thrower: PlayerEntity, pokeRodId: Identifier, bait: ItemStack, world: World, luckOfTheSea: Int, lure: Int) : this(CobblemonEntities.POKE_BOBBER, world) {
         owner = thrower
         luckOfTheSeaLevel = luckOfTheSea
         lureLevel = lure
         this.pokeRodId = pokeRodId
-        dataTracker.set(POKEROD_ID, pokeRodId.toString())
-        this.usedRod = pokeRodId
         this.bobberBait = bait
+        dataTracker.set(POKEROD_ID, pokeRodId.toString() ?: "")
+        dataTracker.set(POKEBOBBER_BAIT, bobberBait ?: ItemStack.EMPTY)
+        this.usedRod = pokeRodId
+
 
         val throwerPitch = thrower.pitch
         val throwerYaw = thrower.yaw
@@ -115,8 +117,8 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
     }
 
     override fun initDataTracker() {
-        this.dataTracker.startTracking(POKEROD_ID, pokeRodId.toString())
-
+        this.dataTracker.startTracking(POKEROD_ID, pokeRodId.toString() ?: "")
+        this.dataTracker.startTracking(POKEBOBBER_BAIT, bobberBait ?: ItemStack.EMPTY)
     }
 
     fun calculateMinMaxCountdown(weight: Float): Pair<Int, Int> {
@@ -530,7 +532,7 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
 
                     // remove the bait from the bobber
                     val playerPokerod = if (this.playerOwner?.getStackInHand(Hand.MAIN_HAND)?.item is PokerodItem) this.playerOwner!!.getStackInHand(Hand.MAIN_HAND).item else this.playerOwner!!.getStackInHand(Hand.OFF_HAND).item
-                    //playerPokerod.bait = null
+                    (playerPokerod as PokerodItem).bait = ItemStack.EMPTY
 
                     val serverWorld = world as ServerWorld
 
@@ -650,5 +652,6 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
 
     companion object {
         val POKEROD_ID = DataTracker.registerData(PokeRodFishingBobberEntity::class.java, TrackedDataHandlerRegistry.STRING)
+        val POKEBOBBER_BAIT = DataTracker.registerData(PokeRodFishingBobberEntity::class.java, TrackedDataHandlerRegistry.ITEM_STACK)
     }
 }

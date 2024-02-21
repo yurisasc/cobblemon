@@ -148,6 +148,7 @@ class PokeBobberEntityRenderer(context: EntityRendererFactory.Context?) : Entity
         vertex(vertexConsumer, matrix4f, matrix3f, light, (1.0f - 0.0f) * scale + 0.125f + shiftHook, (0.0f * scale + 0.125f), 0, 1)
 
         val pokeRodIdStr = fishingBobberEntity.dataTracker.get(PokeRodFishingBobberEntity.POKEROD_ID)
+        val pokeBobberBaitItemStack = fishingBobberEntity.dataTracker.get(PokeRodFishingBobberEntity.POKEBOBBER_BAIT)
         val pokeRodId = Identifier.tryParse(pokeRodIdStr)
         val pokeRod = PokeRods.getPokeRod(pokeRodId!!)
         val ballItem = PokeBalls.getPokeBall(pokeRod?.pokeBallId!!)!!.item
@@ -163,32 +164,32 @@ class PokeBobberEntityRenderer(context: EntityRendererFactory.Context?) : Entity
             0
         )
 
-//        matrixStack.push() // prepare for transforms for Bait rendering
-//
-//        // Scale down the bait to 70% of its original size
-//        matrixStack.scale(0.8f, 0.8f, 0.8f) // Apply the scaling transformation
-//
-//        // Translate the bait downwards to be on the hook
-//        matrixStack.translate(0.2, -0.46, 0.0); // Move the berry down
-//
-//        // Rotate the bait 90 degrees around the Y-axis
-//        val rotation = Quaternionf().rotateY(Math.toRadians(0.0).toFloat())
-//        matrixStack.multiply(rotation)
-//
-//
-//        // render the bait
-//        MinecraftClient.getInstance().itemRenderer.renderItem(
-//                CobblemonItems.FIGY_BERRY.defaultStack,
-//                ModelTransformationMode.GROUND,
-//                light,
-//                OverlayTexture.DEFAULT_UV,
-//                matrixStack,
-//                vertexConsumerProvider,
-//                fishingBobberEntity.world,
-//                0
-//        )
-//
-//        matrixStack.pop() // close bait rendering transforms
+        matrixStack.push() // prepare for transforms for Bait rendering
+
+        // Scale down the bait to 70% of its original size
+        matrixStack.scale(0.8f, 0.8f, 0.8f) // Apply the scaling transformation
+
+        // Translate the bait downwards to be on the hook
+        matrixStack.translate(0.2, -0.46, 0.0); // Move the berry down
+
+        // Rotate the bait 90 degrees around the Y-axis
+        val rotation = Quaternionf().rotateY(Math.toRadians(0.0).toFloat())
+        matrixStack.multiply(rotation)
+
+
+        // render the bait
+        MinecraftClient.getInstance().itemRenderer.renderItem(
+                pokeBobberBaitItemStack,
+                ModelTransformationMode.GROUND,
+                light,
+                OverlayTexture.DEFAULT_UV,
+                matrixStack,
+                vertexConsumerProvider,
+                fishingBobberEntity.world,
+                0
+        )
+
+        matrixStack.pop() // close bait rendering transforms
         matrixStack.pop() // close bobber rendering transforms
 
         var armOffset = if (playerEntity.mainArm == Arm.RIGHT) 1 else -1

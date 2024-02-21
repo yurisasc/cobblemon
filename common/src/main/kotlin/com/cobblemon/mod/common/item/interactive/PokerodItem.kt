@@ -27,13 +27,19 @@ import net.minecraft.world.World
 import net.minecraft.world.event.GameEvent
 
 class PokerodItem(val pokeRodId: Identifier, settings: Settings?) : FishingRodItem(settings) {
-    var bait: ItemStack? = null
+    var bait: ItemStack = ItemStack.EMPTY
 
     override fun use(world: World, user: PlayerEntity, hand: Hand): TypedActionResult<ItemStack> {
         val itemStack = user.getStackInHand(hand)
         val otherHand = if (hand == Hand.MAIN_HAND) Hand.OFF_HAND else Hand.MAIN_HAND
         val otherHandItem = user.getStackInHand(otherHand)
-        if (otherHandItem.item is BerryItem && bait == null) {
+        if (!world.isClient && otherHandItem.item is BerryItem) {
+            // swap baits if one is already on the hook
+            if (bait != ItemStack.EMPTY) {
+                user.dropStack(bait) // drop old bait
+                bait = itemStack // apply new bait
+            }
+
             // apply it to the rod as bait
             bait = otherHandItem.item.defaultStack
 
@@ -54,7 +60,7 @@ class PokerodItem(val pokeRodId: Identifier, settings: Settings?) : FishingRodIt
             if (!world.isClient) {
                 i = EnchantmentHelper.getLure(itemStack)
                 val j = EnchantmentHelper.getLuckOfTheSea(itemStack)
-                val bobberEntity = PokeRodFishingBobberEntity(user, pokeRodId, bait, world, j, i)
+                val bobberEntity = PokeRodFishingBobberEntity(user, pokeRodId, bait/*Registries.ITEM.getId(bait?.item)*/, world, j, i)
                 world.spawnEntity(bobberEntity)
             }
             user.incrementStat(Stats.USED.getOrCreateStat(this))
