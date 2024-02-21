@@ -20,8 +20,9 @@
 - Added effects for many Poké Balls when sending out Pokémon or capturing.
 - Added a new send-out ball toss animation that showcases the ball used for the Pokémon.
 - Added simple move animations for Pokémon in battle with a proof of concept for more complicated animations.
-- Added Type Gems. These items hold no functionality for now. Start collecting though...
 - Added the EV Boosting Feathers.
+- Added Type Gems. 
+- Added various new tags for searchability and better compatibility. 
 
 ### Changes
 - Pokémon now transition more smoothly between different poses.
@@ -34,6 +35,7 @@
 - Updated movesets to add Gen 9 DLC moves.
 - Apricorn Sprouts can now be planted directly on Apricorn leaves to create a new Apricorn of the same color.
 - Added tooltips to interaction GUIs to make it clearer what they do.
+- Poké Ball recipes now use tags for their center ingredient, rather than specificied Copper Ingot, Iron Ingot, Gold Ingot, and Diamond, allowing for further datapack customisation.
 
 ### Fixes
 - Re-added the recipe for the Iron Vitamin.
