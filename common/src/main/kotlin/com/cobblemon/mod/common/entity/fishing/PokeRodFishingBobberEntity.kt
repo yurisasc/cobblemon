@@ -44,6 +44,7 @@ import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.sound.SoundEvents
 import net.minecraft.stat.Stats
+import net.minecraft.util.Hand
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.MathHelper
@@ -82,15 +83,16 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
     var pokeRodId: Identifier? = null
     var lineColor: String = "FFFFFF" // default line color is black
     var usedRod: Identifier? = null
+    var bobberBait: ItemStack? = null
 
-    constructor(thrower: PlayerEntity, pokeRodId: Identifier, world: World, luckOfTheSea: Int, lure: Int) : this(CobblemonEntities.POKE_BOBBER, world) {
+    constructor(thrower: PlayerEntity, pokeRodId: Identifier, bait: ItemStack?, world: World, luckOfTheSea: Int, lure: Int) : this(CobblemonEntities.POKE_BOBBER, world) {
         owner = thrower
         luckOfTheSeaLevel = luckOfTheSea
         lureLevel = lure
         this.pokeRodId = pokeRodId
         dataTracker.set(POKEROD_ID, pokeRodId.toString())
         this.usedRod = pokeRodId
-
+        this.bobberBait = bait
 
         val throwerPitch = thrower.pitch
         val throwerYaw = thrower.yaw
@@ -525,6 +527,10 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
 
                     // spawn the pokemon from the chosen bucket at the bobber's location
                     spawnPokemonFromFishing(bobberOwner, chosenBucket)
+
+                    // remove the bait from the bobber
+                    val playerPokerod = if (this.playerOwner?.getStackInHand(Hand.MAIN_HAND)?.item is PokerodItem) this.playerOwner!!.getStackInHand(Hand.MAIN_HAND).item else this.playerOwner!!.getStackInHand(Hand.OFF_HAND).item
+                    //playerPokerod.bait = null
 
                     val serverWorld = world as ServerWorld
 

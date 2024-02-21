@@ -11,6 +11,7 @@ package com.cobblemon.mod.common.item.interactive
 import com.cobblemon.mod.common.CobblemonItems
 import com.cobblemon.mod.common.api.fishing.PokeRods
 import com.cobblemon.mod.common.entity.fishing.PokeRodFishingBobberEntity
+import com.cobblemon.mod.common.item.BerryItem
 import net.minecraft.enchantment.EnchantmentHelper
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.FishingRodItem
@@ -26,8 +27,19 @@ import net.minecraft.world.World
 import net.minecraft.world.event.GameEvent
 
 class PokerodItem(val pokeRodId: Identifier, settings: Settings?) : FishingRodItem(settings) {
+    var bait: ItemStack? = null
+
     override fun use(world: World, user: PlayerEntity, hand: Hand): TypedActionResult<ItemStack> {
         val itemStack = user.getStackInHand(hand)
+        val otherHand = if (hand == Hand.MAIN_HAND) Hand.OFF_HAND else Hand.MAIN_HAND
+        val otherHandItem = user.getStackInHand(otherHand)
+        if (otherHandItem.item is BerryItem && bait == null) {
+            // apply it to the rod as bait
+            bait = otherHandItem.item.defaultStack
+
+            // decrement 1 stack of that item from the other hand
+            otherHandItem.decrement(1)
+        }
 
         val i: Int
         if (user.fishHook != null) { // if the bobber is out yet
@@ -42,7 +54,7 @@ class PokerodItem(val pokeRodId: Identifier, settings: Settings?) : FishingRodIt
             if (!world.isClient) {
                 i = EnchantmentHelper.getLure(itemStack)
                 val j = EnchantmentHelper.getLuckOfTheSea(itemStack)
-                val bobberEntity = PokeRodFishingBobberEntity(user, pokeRodId, world, j, i)
+                val bobberEntity = PokeRodFishingBobberEntity(user, pokeRodId, bait, world, j, i)
                 world.spawnEntity(bobberEntity)
             }
             user.incrementStat(Stats.USED.getOrCreateStat(this))
