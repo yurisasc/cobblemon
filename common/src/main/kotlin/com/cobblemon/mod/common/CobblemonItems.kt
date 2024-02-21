@@ -847,6 +847,8 @@ object CobblemonItems : PlatformRegistry<Registry<Item>, RegistryKey<Registry<It
     @JvmField
     val GREAT_ROD = pokerodItem(cobblemonResource("great_rod"))
     @JvmField
+    val BEAST_ROD = pokerodItem(cobblemonResource("beast_rod"))
+    @JvmField
     val AZURE_ROD = pokerodItem(cobblemonResource("azure_rod"))
     @JvmField
     val CHERISH_ROD = pokerodItem(cobblemonResource("cherish_rod"))

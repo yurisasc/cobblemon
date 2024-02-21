@@ -1,3 +1,11 @@
+/*
+ * Copyright (C) 2023 Cobblemon Contributors
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/.
+ */
+
 package com.cobblemon.mod.common.client.render.item
 
 import com.cobblemon.mod.common.CobblemonItems
@@ -16,6 +24,7 @@ object CobblemonModelPredicateRegistry {
 
         val rods = listOf(
                 CobblemonItems.AZURE_ROD,
+                CobblemonItems.BEAST_ROD,
                 CobblemonItems.CHERISH_ROD,
                 CobblemonItems.CITRINE_ROD,
                 CobblemonItems.DIVE_ROD,
