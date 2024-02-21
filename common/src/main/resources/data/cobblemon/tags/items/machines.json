@@ -3,8 +3,8 @@
     "cobblemon:healing_machine",
     "cobblemon:pc",
     "cobblemon:pasture",
-    "cobblemon:fossil_monitor",
-    "cobblemon:fossil_compartment",
-    "cobblemon:fossil_tube"
+    "cobblemon:restoration_tank",
+    "cobblemon:monitor",
+    "cobblemon:fossil_analyzer"
   ]
 }

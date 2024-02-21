@@ -1,7 +1,7 @@
 {
   "values": [
-    "cobblemon:fossil_monitor",
-    "cobblemon:fossil_compartment",
-    "cobblemon:fossil_tube"
+      "cobblemon:restoration_tank",
+      "cobblemon:monitor",
+      "cobblemon:fossil_analyzer"
   ]
 }
