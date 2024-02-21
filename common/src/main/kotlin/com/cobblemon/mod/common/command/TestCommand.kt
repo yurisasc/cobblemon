@@ -22,6 +22,7 @@ import com.cobblemon.mod.common.battles.pokemon.BattlePokemon
 import com.cobblemon.mod.common.net.messages.client.effect.SpawnSnowstormParticlePacket
 import com.cobblemon.mod.common.net.messages.client.trade.TradeStartedPacket
 import com.cobblemon.mod.common.particle.SnowstormParticleReader
+import com.cobblemon.mod.common.pokemon.helditem.CobblemonHeldItemManager
 import com.cobblemon.mod.common.trade.ActiveTrade
 import com.cobblemon.mod.common.trade.DummyTradeParticipant
 import com.cobblemon.mod.common.trade.PlayerTradeParticipant
@@ -58,6 +59,9 @@ object TestCommand {
         }
 
         try {
+            //Debug showdown items
+//            val player = context.source.entity as ServerPlayerEntity
+//            player.sendMessage(Text.literal(CobblemonHeldItemManager.showdownId(player.mainHandStack) ?: "none"))
 //            readBerryDataFromCSV()
 
 //            this.testClosestBattle(context)

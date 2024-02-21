@@ -47,9 +47,7 @@ abstract class BaseCobblemonHeldItemManager : HeldItemManager {
         }
     }
 
-    override fun showdownId(pokemon: BattlePokemon): String? = this.showdownId(pokemon.effectedPokemon.heldItemNoCopy())
-
-    override fun showdownId(itemStack: ItemStack): String? = this.showdownIdOf(itemStack.item)
+    override fun showdownId(pokemon: BattlePokemon): String? = this.showdownIdOf(pokemon.effectedPokemon.heldItemNoCopy().item)
 
     override fun nameOf(showdownId: String): Text = this.itemIds[showdownId]?.name ?: Text.of(showdownId)
 
@@ -79,7 +77,8 @@ abstract class BaseCobblemonHeldItemManager : HeldItemManager {
      * @param item The [Item] being queried.
      * @return The literal Showdown ID if any.
      */
-    private fun showdownIdOf(item: Item): String? {
+    @Suppress("MemberVisibilityCanBePrivate")
+    fun showdownIdOf(item: Item): String? {
         val identifier = Registries.ITEM.getId(item)
         val formattedPath = identifier.path.replace("_", "")
         if (this.itemIds.containsKey(formattedPath)) {

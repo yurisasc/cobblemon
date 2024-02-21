@@ -48,6 +48,5 @@ object CobblemonCommands {
         PokemonRestartCommand.register(dispatcher)
         BedrockParticleCommand.register(dispatcher)
         OpenDialogueCommand.register(dispatcher)
-        CheckShowdownItem.register(dispatcher)
     }
 }

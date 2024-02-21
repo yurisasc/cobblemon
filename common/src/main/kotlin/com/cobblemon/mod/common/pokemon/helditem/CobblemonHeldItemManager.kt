@@ -74,6 +74,24 @@ object CobblemonHeldItemManager : BaseCobblemonHeldItemManager() {
         return original
     }
 
+    fun showdownId(itemStack: ItemStack): String? {
+        println(itemStack)
+        if (remaps.containsKey(itemStack.item)) {
+            println(remaps[itemStack.item])
+            return remaps[itemStack.item]
+        }
+
+        for (remap in stackRemaps) {
+            val id = remap.apply(itemStack)
+            if (id != null) {
+                println(id)
+                return id
+            }
+        }
+
+        return this.showdownIdOf(itemStack.item)
+    }
+
     override fun handleStartInstruction(pokemon: BattlePokemon, battle: PokemonBattle, battleMessage: BattleMessage) {
         val itemID = battleMessage.effectAt(1)?.id ?: return
         val consumeHeldItems = this.shouldConsumeItem(pokemon, battle, itemID)

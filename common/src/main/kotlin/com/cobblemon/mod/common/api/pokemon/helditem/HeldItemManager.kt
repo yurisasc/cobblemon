@@ -15,7 +15,6 @@ import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.pokemon.helditem.BaseCobblemonHeldItemManager
 import com.cobblemon.mod.common.pokemon.helditem.CobblemonEmptyHeldItemManager
 import com.cobblemon.mod.common.pokemon.helditem.CobblemonHeldItemManager
-import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
 import net.minecraft.text.Text
 
@@ -37,14 +36,6 @@ interface HeldItemManager {
      * @return The literal ID that showdown uses to represent this item such as 'abilityshield' if any.
      */
     fun showdownId(pokemon: BattlePokemon): String?
-
-    /**
-     * Queries the given [itemStack] to see if it's a held item.
-     *
-     * @param itemStack the [ItemStack] being queried as a held item.
-     * @return The lireal ID that showdown uses to represent this item such as 'abilityshield' if any.
-     */
-    fun showdownId(itemStack: ItemStack): String?
 
     /**
      * Queries the [Text] representation of the item under the given [showdownId].

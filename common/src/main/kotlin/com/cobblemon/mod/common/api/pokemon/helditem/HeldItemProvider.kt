@@ -12,7 +12,6 @@ import com.cobblemon.mod.common.api.PrioritizedList
 import com.cobblemon.mod.common.api.Priority
 import com.cobblemon.mod.common.battles.pokemon.BattlePokemon
 import com.cobblemon.mod.common.pokemon.Pokemon
-import net.minecraft.item.ItemStack
 
 /**
  * A registry responsible for providing [HeldItemManager]s.
@@ -33,29 +32,12 @@ object HeldItemProvider {
     fun provide(pokemon: BattlePokemon): HeldItemManager = this.managers.firstOrNull { manager -> manager.showdownId(pokemon) != null } ?: HeldItemManager.EMPTY
 
     /**
-     * Finds a [HeldItemManager] if any whose [HeldItemManager.showdownId] is not null for the provided [itemStack].
-     *
-     * @param itemStack The [ItemStack] being queried.
-     * @return The [HeldItemManager] that can provider for the given [itemStack], if non match returns the [HeldItemManager.EMPTY].
-     */
-    fun provide(itemStack: ItemStack): HeldItemManager = this.managers.firstOrNull { manager -> manager.showdownId(itemStack) != null } ?: HeldItemManager.EMPTY
-
-    /**
      * Finds the first non-null showdownId provided by a [HeldItemManager] in [managers].
      *
      * @param pokemon The [Pokemon] being queried.
      * @return The showdownId string that [pokemon] is holding, otherwise null.
      */
     fun provideShowdownId(pokemon: BattlePokemon) = this.managers.firstNotNullOfOrNull { manager -> manager.showdownId(pokemon) }
-
-
-    /**
-     * Finds the first non-null showdownId provided by a [HeldItemManager] in [managers].
-     *
-     * @param itemStack The [ItemStack] being queried.
-     * @return The showdownId string of the [itemStack], otherwise null.
-     */
-    fun provideShowdownId(itemStack: ItemStack) = this.managers.firstNotNullOfOrNull { manager -> manager.showdownId(itemStack) }
 
     /**
      * Registers a new [HeldItemManager].
@@ -73,6 +55,7 @@ object HeldItemProvider {
      * @param manager The [HeldItemManager] being unregistered.
      * @param priority The [Priority] to specifically remove the instance from, if null it will remove from all.
      */
+    @Suppress("unused")
     fun unregister(manager: HeldItemManager, priority: Priority? = null) {
         if (priority != null) {
             this.managers.remove(priority, manager)
