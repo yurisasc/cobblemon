@@ -33,7 +33,7 @@ class PokerodItem(val pokeRodId: Identifier, settings: Settings?) : FishingRodIt
         val itemStack = user.getStackInHand(hand)
         val otherHand = if (hand == Hand.MAIN_HAND) Hand.OFF_HAND else Hand.MAIN_HAND
         val otherHandItem = user.getStackInHand(otherHand)
-        if (!world.isClient && otherHandItem.item is BerryItem) {
+        if (!world.isClient && user.fishHook == null && otherHandItem.item is BerryItem && !user.isSneaking) {
             // swap baits if one is already on the hook
             if (bait != ItemStack.EMPTY) {
                 user.dropStack(bait) // drop old bait
@@ -45,6 +45,13 @@ class PokerodItem(val pokeRodId: Identifier, settings: Settings?) : FishingRodIt
 
             // decrement 1 stack of that item from the other hand
             otherHandItem.decrement(1)
+        }
+        if (!world.isClient && user.fishHook == null && user.isSneaking) {
+            // remove bait if one is already on the hook
+            if (bait != ItemStack.EMPTY) {
+                user.dropStack(bait) // drop old bait on the ground
+                bait = ItemStack.EMPTY
+            }
         }
 
         val i: Int
