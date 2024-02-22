@@ -26,7 +26,9 @@ import net.minecraft.server.network.ServerPlayerEntity
  * @since February 14th, 2022
  */
 object PlayerSpawnerFactory {
-    var spawns: SpawnPool = CobblemonSpawnPools.WORLD_SPAWN_POOL
+    val spawns: SpawnPool by lazy {
+        CobblemonSpawnPools.WORLD_SPAWN_POOL
+    }
     var influenceBuilders = mutableListOf<(player: ServerPlayerEntity) -> SpawningInfluence?>({ PlayerLevelRangeInfluence(it, variation = 5) })
 
     fun create(spawnerManager: SpawnerManager, player: ServerPlayerEntity): PlayerSpawner {
