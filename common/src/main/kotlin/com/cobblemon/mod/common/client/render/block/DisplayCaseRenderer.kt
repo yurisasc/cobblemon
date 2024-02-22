@@ -25,9 +25,10 @@ import net.minecraft.client.render.block.entity.BlockEntityRenderer
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactory
 import net.minecraft.client.render.model.json.ModelTransformationMode
 import net.minecraft.client.util.math.MatrixStack
+import net.minecraft.item.BannerItem
+import net.minecraft.item.BedItem
 import net.minecraft.item.ItemStack
 import net.minecraft.item.Items
-import net.minecraft.registry.tag.ItemTags
 import net.minecraft.util.math.Direction
 import net.minecraft.util.math.RotationAxis
 import net.minecraft.world.World
@@ -118,8 +119,8 @@ class DisplayCaseRenderer(ctx: BlockEntityRendererFactory.Context) : BlockEntity
         private fun getPositioningType(stack: ItemStack, world: World): PositioningType {
             if (stack.item == Items.SHIELD) return PositioningType.SHIELD
             if (stack.item == Items.DECORATED_POT) return PositioningType.MOB_HEAD
-            if (stack.isIn(ItemTags.BEDS)) return PositioningType.BED
-            if (stack.isIn(ItemTags.BANNERS)) return PositioningType.BANNER
+            if (stack.item is BedItem) return PositioningType.BED
+            if (stack.item is BannerItem) return PositioningType.BANNER
             if (stack.isIn(CobblemonItemTags.MOB_HEADS)) return PositioningType.MOB_HEAD
             if (stack.item == CobblemonItems.PASTURE) return PositioningType.PASTURE
             if (stack.item is PokeBallItem) return PositioningType.POKE_BALL

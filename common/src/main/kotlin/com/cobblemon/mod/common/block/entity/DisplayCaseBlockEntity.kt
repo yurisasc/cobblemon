@@ -17,6 +17,7 @@ import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.inventory.Inventories
 import net.minecraft.inventory.SidedInventory
 import net.minecraft.item.ItemStack
+import net.minecraft.item.Items
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.network.listener.ClientPlayPacketListener
 import net.minecraft.network.packet.Packet
@@ -45,7 +46,7 @@ class DisplayCaseBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(Cob
 
         // Player and case item are the same - do nothing
         if (playerStack.item == getStack().item) {
-            return ActionResult.FAIL
+            return if (playerStack.item != Items.AIR) ActionResult.SUCCESS else ActionResult.FAIL
         }
 
         // Player's hand is empty, case is not empty - give player the item in the case
