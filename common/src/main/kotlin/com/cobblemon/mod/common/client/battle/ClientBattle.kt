@@ -31,6 +31,8 @@ class ClientBattle(
     var mustChoose = false
 
     fun getFirstUnansweredRequest() = pendingActionRequests.firstOrNull { it.response == null }
+
+    fun getLastAnsweredRequest() = pendingActionRequests.lastOrNull() { it.response != null }
     fun checkForFinishedChoosing() {
         if (getFirstUnansweredRequest() == null) {
             CobblemonNetwork.sendPacketToServer(

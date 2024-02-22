@@ -30,7 +30,7 @@ import net.minecraft.client.sound.SoundManager
 class BattleTargetSelection(
         battleGUI: BattleGUI,
         request: SingleActionRequest,
-        move: InBattleMove
+        val move: InBattleMove
 ) : BattleActionSelection(
     battleGUI = battleGUI,
     request = request,
@@ -50,7 +50,6 @@ class BattleTargetSelection(
         val moveOverlayTexture = cobblemonResource("textures/gui/battle/battle_move_overlay.png")
     }
 
-    val move = move
     val targets = request.activePokemon.getAllActivePokemon()
     val baseTiles = targets.mapIndexed { index, target ->
         val isAlly = target.getPNX()[1] == request.activePokemon.getPNX()[1] //TODO Multi-battle
@@ -63,6 +62,7 @@ class BattleTargetSelection(
 
     val backButton = BattleBackButton(x - 3F, MinecraftClient.getInstance().window.scaledHeight - 22F)
 
+    val test = move.target.targetList
 
     open class TargetTile(
             val targetSelection: BattleTargetSelection,
@@ -72,16 +72,11 @@ class BattleTargetSelection(
     ) {
         var moveTemplate = MoveTemplate.dummy(target.battlePokemon?.displayName.toString()) // Moves.getByNameOrDummy(target.id)
 
-        //open val targetList: List<Targetable>? get() = target.targetList(moveSelection.request.activePokemon)
 
-//        val targetPnx: String? get() = targetSelection.move.target.targetList?.let { targets ->
-//            return@let when {
-//                targets.isEmpty() -> null
-//                targets.size == 1 -> targets[0].getPNX()
-//                else -> null    // TODO: multi-battles
-//            }
-//        }
         open val response: MoveActionResponse get() = MoveActionResponse(targetSelection.move.id, targetSelection.move.target.targetList(targetSelection.request.activePokemon)?.firstOrNull { it.getPNX() == target.getPNX() }?.getPNX())
+//        open val response: MoveActionResponse get() = MoveActionResponse(targetSelection.move.id, target.getPNX())
+
+
         open val selectable: Boolean get() = true
         val hue = target.getHue()
         val rgb = Triple(((hue shr 16) and 0b11111111) / 255F, ((hue shr 8) and 0b11111111) / 255F, (hue and 0b11111111) / 255F)
@@ -91,6 +86,9 @@ class BattleTargetSelection(
         fun render(context: DrawContext, mouseX: Int, mouseY: Int, delta: Float) {
 
             val selectConditionOpacity = targetSelection.opacity * if (!selectable) 0.5F else 1F
+
+//            val selectable: Boolean get() = move.id.
+
 
             blitk(
                 matrixStack = context.matrices,
@@ -117,18 +115,20 @@ class BattleTargetSelection(
                 alpha = targetSelection.opacity
             )
 
-
-            target.battlePokemon?.displayName?.bold()?.let {
-                drawScaledText(
-                    context = context,
-                    font = CobblemonResources.DEFAULT_LARGE,
-                    text = it,
-                    x = x + 17,
-                    y = y + 2,
-                    opacity = selectConditionOpacity,
-                    shadow = true
-                )
+            if(target.battlePokemon?.hpValue!!  > 0) {
+                target.battlePokemon?.displayName?.bold()?.let {
+                    drawScaledText(
+                            context = context,
+                            font = CobblemonResources.DEFAULT_LARGE,
+                            text = it,
+                            x = x + 17,
+                            y = y + 2,
+                            opacity = selectConditionOpacity,
+                            shadow = true
+                    )
+                }
             }
+
         }
 
         fun isHovered(mouseX: Double, mouseY: Double) = mouseX >= x && mouseX <= x + TARGET_WIDTH && mouseY >= y && mouseY <= y + TARGET_HEIGHT

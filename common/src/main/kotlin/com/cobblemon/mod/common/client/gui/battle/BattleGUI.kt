@@ -71,7 +71,7 @@ class BattleGUI : Screen(battleLang("gui.title")) {
         }
     }
 
-    fun selectAction(request: SingleActionRequest, response: ShowdownActionResponse) {
+    fun selectAction(request: SingleActionRequest, response: ShowdownActionResponse?) {
         val battle = CobblemonClient.battle ?: return
         if (request.response == null) {
             request.response = response

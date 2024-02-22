@@ -36,6 +36,9 @@ class BattleGeneralActionSelection(
     (BattleOptionTile.OPTION_HEIGHT + 3 * BattleGUI.OPTION_VERTICAL_SPACING).toInt(),
     battleLang("choose_action")
 ) {
+    val backButton = BattleBackButton(BattleGUI.OPTION_ROOT_X - 3F, MinecraftClient.getInstance().window.scaledHeight - 22F)
+    val lastAnwseredRequest = CobblemonClient.battle?.getLastAnsweredRequest()
+
     val tiles = mutableListOf<BattleOptionTile>()
     init {
         var rank = 0
@@ -86,12 +89,24 @@ class BattleGeneralActionSelection(
     }
 
     override fun renderButton(context: DrawContext, mouseX: Int, mouseY: Int, delta: Float) {
+        if(lastAnwseredRequest != null) {
+            backButton.render(context.matrices, mouseX, mouseY, delta)
+        }
         for (tile in tiles) {
             tile.render(context, mouseX, mouseY, delta)
         }
     }
 
     override fun mouseClicked(mouseX: Double, mouseY: Double, button: Int): Boolean {
+        if (backButton.isHovered(mouseX, mouseY)) {
+            playDownSound(MinecraftClient.getInstance().soundManager)
+            val lastAnwseredRequest = CobblemonClient.battle?.getLastAnsweredRequest()
+            if(lastAnwseredRequest != null) {
+                lastAnwseredRequest.response = null
+                battleGUI.selectAction(request, null)
+            }
+            battleGUI.changeActionSelection(null)
+        }
         return tiles.any { it.mouseClicked(mouseX, mouseY, button) }
     }
 
