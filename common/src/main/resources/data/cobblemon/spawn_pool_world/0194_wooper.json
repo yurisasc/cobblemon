@@ -153,9 +153,10 @@
             "context": "fishing",
             "bucket": "common",
             "level": "1-21",
-            "weight": 0.1,
+            "weight": 0.01,
             "condition": {
-                "lureLevel": 1
+                "lureLevel": 1,
+                "bait": "persim_berry"
             }
         },
         {

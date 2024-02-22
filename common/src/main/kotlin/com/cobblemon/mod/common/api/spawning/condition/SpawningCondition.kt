@@ -19,6 +19,8 @@ import com.cobblemon.mod.common.util.math.orMax
 import com.cobblemon.mod.common.util.math.orMin
 import com.mojang.datafixers.util.Either
 import net.minecraft.enchantment.EnchantmentHelper
+import net.minecraft.item.ItemStack
+import net.minecraft.registry.Registries
 import net.minecraft.registry.tag.TagKey
 import net.minecraft.util.Identifier
 import net.minecraft.world.biome.Biome
@@ -59,6 +61,7 @@ abstract class SpawningCondition<T : SpawningContext> {
     var timeRange: TimeRange? = null
     var structures: MutableList<Either<Identifier, TagKey<Structure>>>? = null
     var lureLevel: Int? = null
+    var bait: String? = null
 
     @Transient
     var appendages = mutableListOf<AppendageCondition>()
@@ -111,10 +114,15 @@ abstract class SpawningCondition<T : SpawningContext> {
             }
         ) {
             return false
-        } else if (lureLevel != null && ctx is FishingSpawningContext) {
+        } else if (lureLevel != null && ctx is FishingSpawningContext) { // check for the lureLevel of the rod
             val pokerodStack = (ctx as FishingSpawningContext).rodStack
 
             if (EnchantmentHelper.getLure(pokerodStack) < lureLevel!!)
+                return false
+        } else if (bait != null && ctx is FishingSpawningContext) { // check for the bait on the bobber
+            val pokerodItem = (ctx as FishingSpawningContext).rodItem
+
+            if (Registries.ITEM.getId(pokerodItem?.bait?.item).path != bait)
                 return false
         }
 

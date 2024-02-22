@@ -20,6 +20,8 @@ import com.cobblemon.mod.common.api.spawning.detail.EntitySpawnResult
 import com.cobblemon.mod.common.api.spawning.fishing.FishingSpawnCause
 import com.cobblemon.mod.common.api.text.green
 import com.cobblemon.mod.common.api.text.red
+import com.cobblemon.mod.common.api.types.ElementalType
+import com.cobblemon.mod.common.api.types.ElementalTypes
 import com.cobblemon.mod.common.battles.BattleBuilder
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.item.interactive.PokerodItem
@@ -684,13 +686,13 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
                 "durin_berry" to mapOf("Nature_SpD" to 1.00),
                 "watmel_berry" to mapOf("Nature_Spe" to 1.00),
 
-                // Raises IV by +3
-                "lansat_berry" to mapOf("IV_Hp" to 3.00), // HP
-                "liechi_berry" to mapOf("IV_Att" to 3.00), // Att
-                "petaya_berry" to mapOf("IV_SpA" to 3.00), // SpA
-                "ganlon_berry" to mapOf("IV_Def" to 3.00),  // Def
-                "apicot_berry" to mapOf("IV_SpD" to 3.00),  // SpD
-                "salac_berry" to mapOf("IV_Spe" to 3.00), // Spe
+                // Raises IV by +5
+                "lansat_berry" to mapOf("IV_Hp" to 5.00), // HP
+                "liechi_berry" to mapOf("IV_Att" to 5.00), // Att
+                "petaya_berry" to mapOf("IV_SpA" to 5.00), // SpA
+                "ganlon_berry" to mapOf("IV_Def" to 5.00),  // Def
+                "apicot_berry" to mapOf("IV_SpD" to 5.00),  // SpD
+                "salac_berry" to mapOf("IV_Spe" to 5.00), // Spe
 
                 // Attracts EV Yields
                 "pomeg_berry"  to mapOf("EV_Hp" to 1.00), // HP
@@ -712,9 +714,28 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
                 "leppa_berry" to mapOf("Level" to 5.00), // +5
                 "hopo_berry" to mapOf("Level" to 10.00),  // +10
 
-                // 2.5% Chance for alt Tera Type
+                // 5% Chance for alt Tera Type
                 // for each type berries
-//              "fire_type_berries" to mapOf("Tera_Fire" to 0.025), //
+                "occa_berry" to mapOf("Tera_Fire" to 0.05),
+                "passho_berry" to mapOf("Tera_Water" to 0.05),
+                "wacan_berry" to mapOf("Tera_Electric" to 0.05),
+                "rindo_berry" to mapOf("Tera_Grass" to 0.05),
+                "yache_berry" to mapOf("Tera_Ice" to 0.05),
+                "chople_berry" to mapOf("Tera_Fighting" to 0.05),
+                "kebia_berry" to mapOf("Tera_Poison" to 0.05),
+                "shuca_berry" to mapOf("Tera_Ground" to 0.05),
+                "coba_berry" to mapOf("Tera_Flying" to 0.05),
+                "payapa_berry" to mapOf("Tera_Psychic" to 0.05),
+                "tanga_berry" to mapOf("Tera_Bug" to 0.05),
+                "charti_berry" to mapOf("Tera_Rock" to 0.05),
+                "kasib_berry" to mapOf("Tera_Ghost" to 0.05),
+                "haban_berry" to mapOf("Tera_Dragon" to 0.05),
+                "colbur_berry" to mapOf("Tera_Dark" to 0.05),
+                "babiri_berry" to mapOf("Tera_Steel" to 0.05),
+                "chilan_berry" to mapOf("Tera_Normal" to 0.05),
+                "roseli_berry" to mapOf("Tera_Fairy" to 0.05),
+
+
 
                 // 2x Shiny Odds
                 "starf_berry" to mapOf("Shiny" to 2.00),
@@ -776,6 +797,10 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
         }
 
         // todo check if it alters the tera type
+        if (checkTeraType(bait) == true) {
+            // try to alter the pokemon level based on the bait bonus
+            alterTeraAttempt(pokemon, bait)
+        }
 
         // check for shiny odds
         if (checkShinyOdds(bait) == true) {
@@ -948,6 +973,64 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
                 pokemon.level = 100
             else
                 pokemon.level = pokemon.level + getBerryBaitBonusChance(bait, "Level").toInt() // increase the level by the given amount
+        }
+    }
+
+    // try to reroll for a shiny based on the bait effect
+    fun alterTeraAttempt(pokemon: Pokemon, bait: ItemStack) {
+        if (getBerryBaitBonusChance(bait, "Tera_Fire") > 0.0 && checkBaitSuccessRate(getBerryBaitBonusChance(bait, "Tera_Fire"))) {
+            pokemon.teraType = ElementalTypes.FIRE
+        }
+        else if (getBerryBaitBonusChance(bait, "Tera_Water") > 0.0 && checkBaitSuccessRate(getBerryBaitBonusChance(bait, "Tera_Water"))) {
+            pokemon.teraType = ElementalTypes.WATER
+        }
+        else if (getBerryBaitBonusChance(bait, "Tera_Electric") > 0.0 && checkBaitSuccessRate(getBerryBaitBonusChance(bait, "Tera_Electric"))) {
+            pokemon.teraType = ElementalTypes.ELECTRIC
+        }
+        else if (getBerryBaitBonusChance(bait, "Tera_Grass") > 0.0 && checkBaitSuccessRate(getBerryBaitBonusChance(bait, "Tera_Grass"))) {
+            pokemon.teraType = ElementalTypes.GRASS
+        }
+        else if (getBerryBaitBonusChance(bait, "Tera_Ice") > 0.0 && checkBaitSuccessRate(getBerryBaitBonusChance(bait, "Tera_Ice"))) {
+            pokemon.teraType = ElementalTypes.ICE
+        }
+        else if (getBerryBaitBonusChance(bait, "Tera_Fighting") > 0.0 && checkBaitSuccessRate(getBerryBaitBonusChance(bait, "Tera_Fighting"))) {
+            pokemon.teraType = ElementalTypes.FIGHTING
+        }
+        else if (getBerryBaitBonusChance(bait, "Tera_Poison") > 0.0 && checkBaitSuccessRate(getBerryBaitBonusChance(bait, "Tera_Poison"))) {
+            pokemon.teraType = ElementalTypes.POISON
+        }
+        else if (getBerryBaitBonusChance(bait, "Tera_Ground") > 0.0 && checkBaitSuccessRate(getBerryBaitBonusChance(bait, "Tera_Ground"))) {
+            pokemon.teraType = ElementalTypes.GROUND
+        }
+        else if (getBerryBaitBonusChance(bait, "Tera_Flying") > 0.0 && checkBaitSuccessRate(getBerryBaitBonusChance(bait, "Tera_Flying"))) {
+            pokemon.teraType = ElementalTypes.FLYING
+        }
+        else if (getBerryBaitBonusChance(bait, "Tera_Psychic") > 0.0 && checkBaitSuccessRate(getBerryBaitBonusChance(bait, "Tera_Psychic"))) {
+            pokemon.teraType = ElementalTypes.PSYCHIC
+        }
+        else if (getBerryBaitBonusChance(bait, "Tera_Bug") > 0.0 && checkBaitSuccessRate(getBerryBaitBonusChance(bait, "Tera_Bug"))) {
+            pokemon.teraType = ElementalTypes.BUG
+        }
+        else if (getBerryBaitBonusChance(bait, "Tera_Rock") > 0.0 && checkBaitSuccessRate(getBerryBaitBonusChance(bait, "Tera_Rock"))) {
+            pokemon.teraType = ElementalTypes.ROCK
+        }
+        else if (getBerryBaitBonusChance(bait, "Tera_Ghost") > 0.0 && checkBaitSuccessRate(getBerryBaitBonusChance(bait, "Tera_Ghost"))) {
+            pokemon.teraType = ElementalTypes.GHOST
+        }
+        else if (getBerryBaitBonusChance(bait, "Tera_Dragon") > 0.0 && checkBaitSuccessRate(getBerryBaitBonusChance(bait, "Tera_Dragon"))) {
+            pokemon.teraType = ElementalTypes.DRAGON
+        }
+        else if (getBerryBaitBonusChance(bait, "Tera_Dark") > 0.0 && checkBaitSuccessRate(getBerryBaitBonusChance(bait, "Tera_Dark"))) {
+            pokemon.teraType = ElementalTypes.DARK
+        }
+        else if (getBerryBaitBonusChance(bait, "Tera_Steel") > 0.0 && checkBaitSuccessRate(getBerryBaitBonusChance(bait, "Tera_Steel"))) {
+            pokemon.teraType = ElementalTypes.STEEL
+        }
+        else if (getBerryBaitBonusChance(bait, "Tera_Normal") > 0.0 && checkBaitSuccessRate(getBerryBaitBonusChance(bait, "Tera_Normal"))) {
+            pokemon.teraType = ElementalTypes.NORMAL
+        }
+        else if (getBerryBaitBonusChance(bait, "Tera_Fairy") > 0.0 && checkBaitSuccessRate(getBerryBaitBonusChance(bait, "Tera_Fairy"))) {
+            pokemon.teraType = ElementalTypes.FAIRY
         }
     }
 
