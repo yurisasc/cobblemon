@@ -13,6 +13,8 @@ import com.cobblemon.mod.common.CobblemonEntities
 import com.cobblemon.mod.common.CobblemonItems
 import com.cobblemon.mod.common.api.fishing.PokeRods
 import com.cobblemon.mod.common.api.pokemon.Natures
+import com.cobblemon.mod.common.api.pokemon.stats.*
+import com.cobblemon.mod.common.api.properties.CustomPokemonProperty
 import com.cobblemon.mod.common.api.spawning.*
 import com.cobblemon.mod.common.api.spawning.detail.EntitySpawnResult
 import com.cobblemon.mod.common.api.spawning.fishing.FishingSpawnCause
@@ -22,8 +24,11 @@ import com.cobblemon.mod.common.battles.BattleBuilder
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.item.interactive.PokerodItem
 import com.cobblemon.mod.common.loot.CobblemonLootTables
+import com.cobblemon.mod.common.pokemon.Gender
 import com.cobblemon.mod.common.pokemon.Nature
 import com.cobblemon.mod.common.pokemon.Pokemon
+import com.cobblemon.mod.common.pokemon.abilities.HiddenAbility
+import com.cobblemon.mod.common.pokemon.properties.HiddenAbilityProperty
 import com.cobblemon.mod.common.util.commandLang
 import com.cobblemon.mod.common.util.toBlockPos
 import net.minecraft.advancement.criterion.Criteria
@@ -46,6 +51,7 @@ import net.minecraft.registry.tag.ItemTags
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.sound.SoundEvents
+import net.minecraft.stat.*
 import net.minecraft.stat.Stats
 import net.minecraft.util.Hand
 import net.minecraft.util.Identifier
@@ -296,9 +302,8 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
                 serverWorld.spawnParticles(ParticleTypes.BUBBLE, this.x, m, this.z, (1.0f + this.width * 20.0f).toInt(), this.width.toDouble(), 0.0, this.width.toDouble(), 0.2)
                 serverWorld.spawnParticles(ParticleTypes.FISHING, this.x, m, this.z, (1.0f + this.width * 20.0f).toInt(), this.width.toDouble(), 0.0, this.width.toDouble(), 0.2)
 
-                // TODO find a way to make luck of the sea environment increase odds of getting better rarity rates
-                if (MathHelper.nextInt(random, 0, 100) < this.pokemonSpawnChance) {
-                    // todo do another chance check for rarity and then set typeCaught
+                // check for chance to catch pokemon based on the bait
+                if (MathHelper.nextInt(random, 0, 100) < getPokemonSpawnChance(bobberBait)) {
                     this.typeCaught = "POKEMON"
 
                     val buckets = Cobblemon.bestSpawner.config.buckets
@@ -350,8 +355,14 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
                 this.fishTravelCountdown = MathHelper.nextInt(random, 20, 80)
             }
         } else {
+            // set the time it takes to wait for a hooked item or pokemon
             this.waitCountdown = MathHelper.nextInt(random, 100, 600)
             this.waitCountdown -= this.lureLevel * 20 * 5
+
+            // check for the bait on the hook and see if the waitCountdown is reduced
+            if (checkReduceBiteTime(bobberBait))
+                this.waitCountdown = alterBiteTimeAttempt(this.waitCountdown, this.bobberBait)
+
         }
     }
 
@@ -647,7 +658,7 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
                 "bluk_berry" to mapOf("Nature_SpA" to 0.25),
                 "aspear_berry" to mapOf("Nature_Def" to 0.25),
                 "pinap_berry" to mapOf("Nature_Def" to 0.25),
-                "pinap_berry" to mapOf("Nature_SpD" to 0.25),
+                "wepear_berry" to mapOf("Nature_SpD" to 0.25),
                 "rawst_berry" to mapOf("Nature_SpD" to 0.25),
                 "pecha_berry" to mapOf("Nature_Spe" to 0.25),
                 "nanab_berry" to mapOf("Nature_Spe" to 0.25),
@@ -715,7 +726,7 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
                 "micle_berry"  to mapOf("Pokemon" to 1.00),
 
                 // 2x Item Rate
-                "custap_berry" to mapOf("Item" to 2.00)
+                "custap_berry" to mapOf("Pokemon" to 0.70) // alter the chance of an item to spawn based on lowering the pokemon chance
 
 //                // Heart Wooper Chance
 //                "persim_berry" -> Pair("spa", 0.0)
@@ -729,38 +740,58 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
         )
 
         // Look up the berry and then the chanceBoost
-        return berryBoosts[Registries.ITEM.getId(bait.item).toString()]?.get(chanceBoost) ?: 0.0 // Returns 0.0 if not found
+        return berryBoosts[Registries.ITEM.getId(bait.item).path.toString()]?.get(chanceBoost) ?: 0.0 // Returns 0.0 if not found
 
     }
 
     fun modifyPokemonWithBait(pokemonEntity: PokemonEntity, bait: ItemStack) {
         val pokemon = pokemonEntity.pokemon
 
-        // todo check if it attracts a certain nature
+        // check if it attracts a certain nature
         if (checkNatureAttact(bait) == true) {
-            // todo figure out which nature is attracted and do a calculation to see if it was successful
+            // figure out which nature is attracted by the bait and do a calculation to see if it was successful
             alterNatureAttempt(pokemon, bait)
         }
 
-        // todo check if it raises specific IV by +3
+        // check if it raises specific IV by +3
+        if (checkIVRaise(bait) == true) {
+            // try to alter the IVs of the pokemon based on the bait bonus
+            alterIVAttempt(pokemon, bait)
+        }
 
         // todo check if it attracts certain EV yields? Maybe this needs to be done before the spown conditions are used? This one might be hard
 
-        // todo Reduce Bite time.... This can be done way earlier
+        // Reduce Bite time.... This can be done way earlier (And is currently in place)
 
-        // todo check if it alters the gender of the pokemon
+        // check if it alters the gender of the pokemon
+        if (checkBetterGenderOdds(bait) == true) {
+            // try to alter the pokemon gender based on the bait bonus
+            alterGenderAttempt(pokemon, bait)
+        }
 
-        // todo check if it raises the average level
+        // check if it raises the average level
+        if (checkLevelBoost(bait) == true) {
+            // try to alter the pokemon level based on the bait bonus
+            alterLevelAttempt(pokemon, bait)
+        }
 
         // todo check if it alters the tera type
 
-        // todo check for shiny odds
+        // check for shiny odds
+        if (checkShinyOdds(bait) == true) {
+            // try to alter the pokemon level based on the bait bonus
+            alterShinyAttempt(pokemon, bait)
+        }
 
         // todo check for HA
+        if (checkHiddenAbilityOdds(bait) == true) {
+            // try to alter the pokemon level based on the bait bonus
+            alterHAAttempt(pokemon, bait)
+        }
 
-        // todo check for 100% pokemon rate (do this way earlier)
+        // check for 100% pokemon rate (do this way earlier) (And is currently in place)
 
-        // todo check for item rate (do this way earlier)
+        // check for item rate (do this way earlier) (And is currently in place)
 
         // todo check for Heart Wooper (this needs to be spawn condition)
 
@@ -768,7 +799,7 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
     }
 
     fun checkBaitSuccessRate(successChance: Double): Boolean {
-        return Math.random() < successChance
+        return Math.random() <= successChance
     }
 
     // function to return true of false if the given bait affects the attraction of certain Natures
@@ -830,17 +861,12 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
         return attractList.any { getBerryBaitBonusChance(bait, it) > 0.0 }
     }
 
-    // function to return true of false if the given bait to make it so a Pokemon is always reeled in
+    /*// function to return true of false if the given bait to make it so a Pokemon is always reeled in
     fun checkPokemonFishRate(bait: ItemStack): Boolean {
         val attractList = listOf("Pokemon")
         return attractList.any { getBerryBaitBonusChance(bait, it) > 0.0 }
-    }
+    }*/
 
-    // function to return true of false if the given bait to make it so an item has 2x chance
-    fun checkItemFishRate(bait: ItemStack): Boolean {
-        val attractList = listOf("Item")
-        return attractList.any { getBerryBaitBonusChance(bait, it) > 0.0 }
-    }
 
     // try to alter the nature of the spawned pokemon
     fun alterNatureAttempt(pokemon: Pokemon, bait: ItemStack) {
@@ -854,14 +880,130 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
 
         if (getBerryBaitBonusChance(bait, "Nature_Att") > 0.0 && checkBaitSuccessRate(getBerryBaitBonusChance(bait, "Nature_Att"))) // it is for Attack
             pokemon.nature = attNaturesIds.random() // choose a random nature from the list
-        else if (getBerryBaitBonusChance(bait, "Nature_SpA") > 0.0 && checkBaitSuccessRate(getBerryBaitBonusChance(bait, "Nature_Spa"))) // it is for Attack
-            pokemon.nature = attNaturesIds.random() // choose a random nature from the list
+        else if (getBerryBaitBonusChance(bait, "Nature_SpA") > 0.0 && checkBaitSuccessRate(getBerryBaitBonusChance(bait, "Nature_SpA"))) // it is for Attack
+            pokemon.nature = spaNaturesIds.random() // choose a random nature from the list
         else if (getBerryBaitBonusChance(bait, "Nature_Def") > 0.0 && checkBaitSuccessRate(getBerryBaitBonusChance(bait, "Nature_Def"))) // it is for Attack
-            pokemon.nature = attNaturesIds.random() // choose a random nature from the list
+            pokemon.nature = defNaturesIds.random() // choose a random nature from the list
         else if (getBerryBaitBonusChance(bait, "Nature_SpD") > 0.0 && checkBaitSuccessRate(getBerryBaitBonusChance(bait, "Nature_SpD"))) // it is for Attack
-            pokemon.nature = attNaturesIds.random() // choose a random nature from the list
-        else if (getBerryBaitBonusChance(bait, "Nature_Spe") > 0.0 && checkBaitSuccessRate(getBerryBaitBonusChance(bait, "Nature_Att"))) // it is for Attack
-            pokemon.nature = attNaturesIds.random() // choose a random nature from the list
+            pokemon.nature = spdNaturesIds.random() // choose a random nature from the list
+        else if (getBerryBaitBonusChance(bait, "Nature_Spe") > 0.0 && checkBaitSuccessRate(getBerryBaitBonusChance(bait, "Nature_Spe"))) // it is for Attack
+            pokemon.nature = speNaturesIds.random() // choose a random nature from the list
+    }
+
+    // alter the IVs based on the bait effect
+    fun alterIVAttempt(pokemon: Pokemon, bait: ItemStack) {
+
+        if (getBerryBaitBonusChance(bait, "IV_Hp") > 0.0) {
+            if ((pokemon.ivs[com.cobblemon.mod.common.api.pokemon.stats.Stats.HP] ?: 0) > 28) // if HP IV is already less than 3 away from 31
+                pokemon.ivs.set(com.cobblemon.mod.common.api.pokemon.stats.Stats.HP, 31)
+            else
+                pokemon.ivs.set(com.cobblemon.mod.common.api.pokemon.stats.Stats.HP, (pokemon.ivs[com.cobblemon.mod.common.api.pokemon.stats.Stats.HP] ?: 0) + getBerryBaitBonusChance(bait, "IV_Hp").toInt())
+        }
+        if (getBerryBaitBonusChance(bait, "IV_Att") > 0.0) {
+            if ((pokemon.ivs[com.cobblemon.mod.common.api.pokemon.stats.Stats.ATTACK] ?: 0) > 28) // if Attack IV is already less than 3 away from 31
+                pokemon.ivs.set(com.cobblemon.mod.common.api.pokemon.stats.Stats.ATTACK, 31)
+            else
+                pokemon.ivs.set(com.cobblemon.mod.common.api.pokemon.stats.Stats.ATTACK, (pokemon.ivs[com.cobblemon.mod.common.api.pokemon.stats.Stats.ATTACK] ?: 0) + getBerryBaitBonusChance(bait, "IV_Att").toInt())
+        }
+        if (getBerryBaitBonusChance(bait, "IV_SpA") > 0.0) {
+            if ((pokemon.ivs[com.cobblemon.mod.common.api.pokemon.stats.Stats.SPECIAL_ATTACK] ?: 0) > 28) // if Special Attack IV is already less than 3 away from 31
+                pokemon.ivs.set(com.cobblemon.mod.common.api.pokemon.stats.Stats.SPECIAL_ATTACK, 31)
+            else
+                pokemon.ivs.set(com.cobblemon.mod.common.api.pokemon.stats.Stats.SPECIAL_ATTACK, (pokemon.ivs[com.cobblemon.mod.common.api.pokemon.stats.Stats.SPECIAL_ATTACK] ?: 0) + getBerryBaitBonusChance(bait, "IV_SpA").toInt())
+        }
+        if (getBerryBaitBonusChance(bait, "IV_Def") > 0.0) {
+            if ((pokemon.ivs[com.cobblemon.mod.common.api.pokemon.stats.Stats.DEFENCE] ?: 0) > 28) // if Defence IV is already less than 3 away from 31
+                pokemon.ivs.set(com.cobblemon.mod.common.api.pokemon.stats.Stats.DEFENCE, 31)
+            else
+                pokemon.ivs.set(com.cobblemon.mod.common.api.pokemon.stats.Stats.DEFENCE, (pokemon.ivs[com.cobblemon.mod.common.api.pokemon.stats.Stats.DEFENCE] ?: 0) + getBerryBaitBonusChance(bait, "IV_Def").toInt())
+        }
+        if (getBerryBaitBonusChance(bait, "IV_SpD") > 0.0) {
+            if ((pokemon.ivs[com.cobblemon.mod.common.api.pokemon.stats.Stats.SPECIAL_DEFENCE] ?: 0) > 28) // if Special Defence IV is already less than 3 away from 31
+                pokemon.ivs.set(com.cobblemon.mod.common.api.pokemon.stats.Stats.SPECIAL_DEFENCE, 31)
+            else
+                pokemon.ivs.set(com.cobblemon.mod.common.api.pokemon.stats.Stats.SPECIAL_DEFENCE, (pokemon.ivs[com.cobblemon.mod.common.api.pokemon.stats.Stats.SPECIAL_DEFENCE] ?: 0) + getBerryBaitBonusChance(bait, "IV_SpA").toInt())
+        }
+        if (getBerryBaitBonusChance(bait, "IV_Spe") > 0.0) {
+            if ((pokemon.ivs[com.cobblemon.mod.common.api.pokemon.stats.Stats.SPEED] ?: 0) > 28) // if Speed IV is already less than 3 away from 31
+                pokemon.ivs.set(com.cobblemon.mod.common.api.pokemon.stats.Stats.SPEED, 31)
+            else
+                pokemon.ivs.set(com.cobblemon.mod.common.api.pokemon.stats.Stats.SPEED, (pokemon.ivs[com.cobblemon.mod.common.api.pokemon.stats.Stats.SPEED] ?: 0) + getBerryBaitBonusChance(bait, "IV_Spe").toInt())
+        }
+    }
+
+    // try to alter the gender based on the bait effect
+    fun alterGenderAttempt(pokemon: Pokemon, bait: ItemStack) {
+        if (getBerryBaitBonusChance(bait, "Gender_Male") > 0.0 && pokemon.gender != Gender.MALE && checkBaitSuccessRate(getBerryBaitBonusChance(bait, "Gender_Male"))) {
+            pokemon.gender = Gender.MALE
+        }
+        else if (getBerryBaitBonusChance(bait, "Gender_Female") > 0.0 && pokemon.gender != Gender.FEMALE && checkBaitSuccessRate(getBerryBaitBonusChance(bait, "Gender_Female"))) {
+            pokemon.gender = Gender.FEMALE
+        }
+    }
+
+    // alter the level of the pokemon
+    fun alterLevelAttempt(pokemon: Pokemon, bait: ItemStack) {
+        if (getBerryBaitBonusChance(bait, "Level") > 0.0) {
+            if (pokemon.level + getBerryBaitBonusChance(bait, "Level").toInt() > 100) // if it would go past 100 just set it to 100
+                pokemon.level = 100
+            else
+                pokemon.level = pokemon.level + getBerryBaitBonusChance(bait, "Level").toInt() // increase the level by the given amount
+        }
+    }
+
+    // try to reroll for a shiny based on the bait effect
+    fun alterShinyAttempt(pokemon: Pokemon, bait: ItemStack) {
+        if (getBerryBaitBonusChance(bait, "Shiny") > 0.0) {
+            if (!pokemon.shiny) {
+                //reroll for a shiny using shiny odds
+                val shinyOdds: Int = 8192
+                val randomNumber = kotlin.random.Random.nextInt(1, shinyOdds + 1)
+
+                // Check if the random number indicates a shiny Pokemon
+                if (randomNumber == 1) {
+                    pokemon.shiny = true
+                }
+            }
+        }
+    }
+
+    // check if the bite time is reduced based on the bait bonus
+    fun alterBiteTimeAttempt(waitCountdown: Int, bait: ItemStack): Int {
+        if (getBerryBaitBonusChance(bait, "Bite_Time") > 0.0) { // if the bait currently reduces the bait time
+            return 1 //(waitCountdown.toDouble() - (waitCountdown.toDouble() * getBerryBaitBonusChance(bait, "Bite_Time"))).toInt() // alter the hookcountdown by the given %
+        }
+        else return waitCountdown // do not alter the hookcountdown
+    }
+
+    // todo chance to alter HA based on the berry effect
+    fun alterHAAttempt(pokemon: Pokemon, bait: ItemStack) {
+        if (getBerryBaitBonusChance(bait, "HA") > 0.0 && checkBaitSuccessRate(getBerryBaitBonusChance(bait, "HA"))) {
+            giveHiddenAbility(pokemon) // todo make this give the pokemon its hidden ability
+        }
+    }
+
+    // give a pokemon a random hidden ability
+    private fun giveHiddenAbility(pokemon: Pokemon): Boolean {
+        // This will iterate from highest to lowest priority
+        pokemon.form.abilities.mapping.values.forEach { abilities ->
+            abilities.filterIsInstance<HiddenAbility>()
+                    .randomOrNull ()
+                    ?.let { ability ->
+                        // No need to force, this is legal
+                        pokemon.ability = ability.template.create(false)
+                        return true
+                    }
+        }
+        // There was never a hidden ability :( possible but not by default
+        return false
+    }
+
+    // check the chance of a pokemon to spawn and if it is affected by bait
+    fun getPokemonSpawnChance(bait: ItemStack): Int {
+        if (getBerryBaitBonusChance(bait, "Pokemon") > 0.0) {
+            return (getBerryBaitBonusChance(bait, "Pokemon") * 100).toInt()
+        }
+        else return this.pokemonSpawnChance
     }
 
     companion object {
