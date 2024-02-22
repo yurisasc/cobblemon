@@ -11,6 +11,8 @@ package com.cobblemon.mod.common.command
 import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.CobblemonEntities
 import com.cobblemon.mod.common.CobblemonNetwork.sendPacket
+import com.cobblemon.mod.common.api.pokemon.marks.PokemonMark
+import com.cobblemon.mod.common.api.pokemon.marks.PokemonMarks
 import com.cobblemon.mod.common.api.scheduling.ServerTaskTracker
 import com.cobblemon.mod.common.api.scheduling.taskBuilder
 import com.cobblemon.mod.common.battles.BattleFormat
@@ -25,6 +27,7 @@ import com.cobblemon.mod.common.particle.SnowstormParticleReader
 import com.cobblemon.mod.common.trade.ActiveTrade
 import com.cobblemon.mod.common.trade.DummyTradeParticipant
 import com.cobblemon.mod.common.trade.PlayerTradeParticipant
+import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.fromJson
 import com.cobblemon.mod.common.util.party
 import com.cobblemon.mod.common.util.toPokemon
@@ -32,6 +35,7 @@ import com.google.gson.GsonBuilder
 import com.google.gson.JsonObject
 import com.mojang.brigadier.Command
 import com.mojang.brigadier.CommandDispatcher
+import com.mojang.brigadier.arguments.StringArgumentType
 import com.mojang.brigadier.context.CommandContext
 import java.io.File
 import java.io.PrintWriter
@@ -39,6 +43,7 @@ import net.minecraft.server.command.CommandManager
 import net.minecraft.server.command.ServerCommandSource
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.text.Text
+import net.minecraft.util.Identifier
 import net.minecraft.util.math.Box
 
 @Suppress("unused")
@@ -46,8 +51,7 @@ object TestCommand {
 
     fun register(dispatcher: CommandDispatcher<ServerCommandSource>) {
         val command = CommandManager.literal("testcommand")
-            .requires { it.hasPermissionLevel(4) }
-            .executes(::execute)
+            .requires { it.hasPermissionLevel(4) }.then(CommandManager.argument("mark", StringArgumentType.string())).executes(::execute)
         dispatcher.register(command)
     }
 
@@ -56,6 +60,11 @@ object TestCommand {
         if (context.source.entity !is ServerPlayerEntity) {
             return Command.SINGLE_SUCCESS
         }
+
+        val player = context.source.playerOrThrow
+        val mark: PokemonMark = PokemonMarks.marks[Identifier.tryParse(context.getArgument("mark", String::class.java))!!]!!
+
+        player.party()[0]!!.selectedMark = mark
 
         try {
 //            readBerryDataFromCSV()

@@ -47,7 +47,7 @@ open class PartyStore(override val uuid: UUID) : PokemonStore<PartyPosition>() {
 
     override fun iterator() = slots.filterNotNull().iterator()
     /** Gets the Pokémon at the specified slot. It will return null if the slot is empty or the given slot is out of bounds. */
-    fun get(slot: Int) = slot.takeIf { it < slots.size && it >= 0 }?.let { slots[it] }
+    operator fun get(slot: Int) = slot.takeIf { it < slots.size && it >= 0 }?.let { slots[it] }
     override operator fun get(position: PartyPosition) = get(position.slot)
 
     /** Sets the Pokémon at the specified slot. */

@@ -25,7 +25,7 @@ object PokemonMarks: JsonDataRegistry<PokemonMark> {
     override val typeToken = TypeToken.get(PokemonMark::class.java)
     override val resourcePath = "marks"
 
-    private val marks = hashMapOf<Identifier, PokemonMark>()
+    val marks = hashMapOf<Identifier, PokemonMark>()
 
     override fun reload(data: Map<Identifier, PokemonMark>) {
         this.marks.clear()

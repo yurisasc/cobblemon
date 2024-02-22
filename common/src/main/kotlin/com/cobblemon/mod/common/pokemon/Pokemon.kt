@@ -34,6 +34,8 @@ import com.cobblemon.mod.common.api.pokemon.feature.SpeciesFeature
 import com.cobblemon.mod.common.api.pokemon.feature.SpeciesFeatures
 import com.cobblemon.mod.common.api.pokemon.friendship.FriendshipMutationCalculator
 import com.cobblemon.mod.common.api.pokemon.labels.CobblemonPokemonLabels
+import com.cobblemon.mod.common.api.pokemon.marks.PokemonMark
+import com.cobblemon.mod.common.api.pokemon.marks.PokemonMarks
 import com.cobblemon.mod.common.api.pokemon.moves.LearnsetQuery
 import com.cobblemon.mod.common.api.pokemon.stats.Stat
 import com.cobblemon.mod.common.api.pokemon.stats.Stats
@@ -395,6 +397,9 @@ open class Pokemon : ShowdownIdentifiable {
         set(value) { field = value ; _caughtBall.emit(caughtBall) }
     var features = mutableListOf<SpeciesFeature>()
 
+    val marks = mutableListOf<PokemonMark>()
+    var selectedMark: PokemonMark? = null
+
     fun asRenderablePokemon() = RenderablePokemon(species, aspects)
     var aspects = setOf<String>()
         set(value) {
@@ -744,6 +749,11 @@ open class Pokemon : ShowdownIdentifiable {
             nbt.putString(DataKeys.POKEMON_ORIGINAL_TRAINER, originalTrainer)
         }
         nbt.putString(DataKeys.POKEMON_ORIGINAL_TRAINER_TYPE, originalTrainerType.name)
+        val markList = marks.map { it.identifier.toString() }.map { NbtString.of(it) }
+        nbt.put(DataKeys.POKEMON_MARKS, NbtList().also { it.addAll(markList) })
+        if (selectedMark != null) {
+            nbt.put(DataKeys.SELECTED_MARK, NbtString.of(selectedMark!!.identifier.toString()))
+        }
         return nbt
     }
 
@@ -818,6 +828,12 @@ open class Pokemon : ShowdownIdentifiable {
         originalTrainerType = OriginalTrainerType.valueOf(nbt.getString(DataKeys.POKEMON_ORIGINAL_TRAINER_TYPE).ifEmpty { OriginalTrainerType.NONE.name })
         originalTrainer = if (nbt.contains(DataKeys.POKEMON_ORIGINAL_TRAINER)) nbt.getString(DataKeys.POKEMON_ORIGINAL_TRAINER) else null
         refreshOriginalTrainer()
+        val markList = nbt.get(DataKeys.POKEMON_MARKS) as NbtList
+        markList.forEach { PokemonMarks.marks[Identifier.tryParse(it.asString())]?.let { it1 -> this.marks.add(it1) } }
+        if (nbt.contains(DataKeys.SELECTED_MARK)) {
+            val markOrNull = PokemonMarks.marks[Identifier.tryParse(nbt.getString(DataKeys.SELECTED_MARK))]
+            if (markOrNull != null) selectedMark = markOrNull
+        }
 
         return this
     }
@@ -865,6 +881,10 @@ open class Pokemon : ShowdownIdentifiable {
         json.addProperty(DataKeys.POKEMON_TRADEABLE, tradeable)
         json.addProperty(DataKeys.POKEMON_ORIGINAL_TRAINER_TYPE, originalTrainerType.name)
         if (originalTrainer != null) json.addProperty(DataKeys.POKEMON_ORIGINAL_TRAINER, originalTrainer)
+        val marksList = JsonArray()
+        marks.forEach { marksList.add(it.identifier.toString()) }
+        json.add(DataKeys.POKEMON_MARKS, marksList)
+        if (selectedMark != null) json.addProperty(DataKeys.SELECTED_MARK, selectedMark!!.identifier.toString())
         return json
     }
 
@@ -968,6 +988,15 @@ open class Pokemon : ShowdownIdentifiable {
             this.originalTrainer = json.get(DataKeys.POKEMON_ORIGINAL_TRAINER).asString
         }
         refreshOriginalTrainer()
+        json.getAsJsonArray(DataKeys.POKEMON_MARKS).forEach {
+            val markId = Identifier.tryParse(it.asString)
+            if (markId != null && PokemonMarks.marks[markId] != null) this.marks.add(PokemonMarks.marks[markId]!!)
+        }
+        if (json.has(DataKeys.SELECTED_MARK)) {
+            val markOrNull = PokemonMarks.marks[Identifier.tryParse(json.get(DataKeys.SELECTED_MARK).toString())]
+            if (markOrNull != null) selectedMark = markOrNull
+        }
+
         return this
     }
 

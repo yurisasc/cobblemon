@@ -384,6 +384,8 @@
   "cobblemon.fossil.sail": "Sail",
   "cobblemon.fossil.skull": "Skull",
 
+  "cobblemon.marks.resurrected": "Resurrected",
+  "cobblemon.marks.resurrected.title": "%s the Resurrected",
 
   "cobblemon.fossilmachine.protected": "This fossil belongs to %s!",
 

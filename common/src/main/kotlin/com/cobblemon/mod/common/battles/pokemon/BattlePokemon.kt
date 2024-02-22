@@ -13,6 +13,7 @@ import com.cobblemon.mod.common.api.battles.model.actor.BattleActor
 import com.cobblemon.mod.common.api.moves.MoveSet
 import com.cobblemon.mod.common.api.pokemon.helditem.HeldItemManager
 import com.cobblemon.mod.common.api.pokemon.helditem.HeldItemProvider
+import com.cobblemon.mod.common.api.pokemon.marks.PokemonMarks
 import com.cobblemon.mod.common.api.pokemon.stats.Stat
 import com.cobblemon.mod.common.battles.actor.MultiPokemonBattleActor
 import com.cobblemon.mod.common.battles.actor.PokemonBattleActor
@@ -23,6 +24,8 @@ import com.cobblemon.mod.common.pokemon.IVs
 import com.cobblemon.mod.common.pokemon.Nature
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.util.battleLang
+import com.cobblemon.mod.common.util.cobblemonResource
+import com.cobblemon.mod.common.util.lang
 import java.util.UUID
 import net.minecraft.text.MutableText
 
@@ -75,7 +78,14 @@ open class BattlePokemon(
         return if (actor is PokemonBattleActor || actor is MultiPokemonBattleActor) {
             effectedPokemon.getDisplayName()
         } else {
-            battleLang("owned_pokemon", actor.getName(), effectedPokemon.getDisplayName())
+//            val mark = effectedPokemon.selectedMark
+            val mark = PokemonMarks.marks[cobblemonResource("resurrected")]
+            if (mark != null) {
+                return lang(mark.title, effectedPokemon.getDisplayName())
+            } else {
+                battleLang("owned_pokemon", actor.getName(), effectedPokemon.getDisplayName())
+            }
+
         }
     }
 
