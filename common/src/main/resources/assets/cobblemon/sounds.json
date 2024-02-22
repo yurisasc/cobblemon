@@ -145,6 +145,44 @@
     "subtitle": "cobblemon.subtitle.fossilmachine.unprotected",
     "sounds": [ "cobblemon:fossilmachine/unprotected" ]
   },
+  "gimmighoul.give_item_small": {
+    "sounds": [ "cobblemon:gimmighoul_give_item_small" ]
+  },
+  "gimmighoul.reveal": {
+    "sounds": [ "cobblemon:gimmighoul_reveal" ]
+  },
+  "coin_pouch.break": {
+    "sounds": [
+      "cobblemon:block/coin_pouch/coin_pouch_block_break_1",
+      "cobblemon:block/coin_pouch/coin_pouch_block_break_2",
+      "cobblemon:block/coin_pouch/coin_pouch_block_break_3",
+      "cobblemon:block/coin_pouch/coin_pouch_block_break_4"
+    ]
+  },
+  "coin_pouch.hit": {
+    "sounds": [
+      "cobblemon:block/coin_pouch/coin_pouch_block_hit_1",
+      "cobblemon:block/coin_pouch/coin_pouch_block_hit_2",
+      "cobblemon:block/coin_pouch/coin_pouch_block_hit_3",
+      "cobblemon:block/coin_pouch/coin_pouch_block_hit_4"
+    ]
+  },
+  "coin_pouch.place": {
+    "sounds": [
+      "cobblemon:block/coin_pouch/coin_pouch_block_place_1",
+      "cobblemon:block/coin_pouch/coin_pouch_block_place_2",
+      "cobblemon:block/coin_pouch/coin_pouch_block_place_3",
+      "cobblemon:block/coin_pouch/coin_pouch_block_place_4"
+    ]
+  },
+  "coin_pouch.step": {
+    "sounds": [
+      "cobblemon:block/coin_pouch/coin_pouch_block_step_1",
+      "cobblemon:block/coin_pouch/coin_pouch_block_step_2",
+      "cobblemon:block/coin_pouch/coin_pouch_block_step_3",
+      "cobblemon:block/coin_pouch/coin_pouch_block_step_4"
+    ]
+  },
   "tumblestone.break": {
     "sounds": [
       "cobblemon:block/tumblestone/tumblestone_break_1",
@@ -220,6 +258,102 @@
   },
   "display_case.remove_item": {
     "sounds": [ "cobblemon:block/display_case/display_case_remove_item" ]
+  },
+  "berry_bush.break": {
+    "sounds": [
+      "cobblemon:block/plants/berry/berry_bush_break_1",
+      "cobblemon:block/plants/berry/berry_bush_break_2",
+      "cobblemon:block/plants/berry/berry_bush_break_3"
+    ]
+  },
+  "berry_bush.place": {
+    "sounds": [
+      "cobblemon:block/plants/berry/berry_bush_place_1",
+      "cobblemon:block/plants/berry/berry_bush_place_2",
+      "cobblemon:block/plants/berry/berry_bush_place_3"
+    ]
+  },
+  "big_root.break": {
+    "sounds": [
+      "cobblemon:block/plants/big_root/big_root_break_1",
+      "cobblemon:block/plants/big_root/big_root_break_2",
+      "cobblemon:block/plants/big_root/big_root_break_3"
+    ]
+  },
+  "energy_root.place": {
+    "sounds": [
+      "cobblemon:block/plants/energy_root/energy_root_place_1",
+      "cobblemon:block/plants/energy_root/energy_root_place_2",
+      "cobblemon:block/plants/energy_root/energy_root_place_3"
+    ]
+  },
+  "medicinal_leek.break": {
+    "sounds": [
+      "cobblemon:block/plants/medicinal_leek/medicinal_leek_break_1",
+      "cobblemon:block/plants/medicinal_leek/medicinal_leek_break_2",
+      "cobblemon:block/plants/medicinal_leek/medicinal_leek_break_3"
+    ]
+  },
+  "medicinal_leek.plant": {
+    "sounds": [
+      "cobblemon:block/plants/medicinal_leek/medicinal_leek_plant_1",
+      "cobblemon:block/plants/medicinal_leek/medicinal_leek_plant_2",
+      "cobblemon:block/plants/medicinal_leek/medicinal_leek_plant_3"
+    ]
+  },
+  "mint.break": {
+    "sounds": [
+      "cobblemon:block/plants/mint/mint_break_1",
+      "cobblemon:block/plants/mint/mint_break_2",
+      "cobblemon:block/plants/mint/mint_break_3"
+    ]
+  },
+  "mint.place": {
+    "sounds": [
+      "cobblemon:block/plants/mint/mint_place_1",
+      "cobblemon:block/plants/mint/mint_place_2",
+      "cobblemon:block/plants/mint/mint_place_3"
+    ]
+  },
+  "gilded_chest.break": {
+    "sounds": [
+      "cobblemon:block/gilded_chest/gilded_chest_break_1",
+      "cobblemon:block/gilded_chest/gilded_chest_break_2",
+      "cobblemon:block/gilded_chest/gilded_chest_break_3"
+    ]
+  },
+  "gilded_chest.close": {
+    "sounds": [
+      "cobblemon:block/gilded_chest/gilded_chest_close"
+    ]
+  },
+  "gilded_chest.open": {
+    "sounds": [
+      "cobblemon:block/gilded_chest/gilded_chest_open"
+    ]
+  },
+  "gilded_chest.hit": {
+    "sounds": [
+      "cobblemon:block/gilded_chest/gilded_chest_hit_1",
+      "cobblemon:block/gilded_chest/gilded_chest_hit_2",
+      "cobblemon:block/gilded_chest/gilded_chest_hit_3",
+      "cobblemon:block/gilded_chest/gilded_chest_hit_4"
+    ]
+  },
+  "gilded_chest.place": {
+    "sounds": [
+      "cobblemon:block/gilded_chest/gilded_chest_place_1",
+      "cobblemon:block/gilded_chest/gilded_chest_place_2",
+      "cobblemon:block/gilded_chest/gilded_chest_place_3"
+    ]
+  },
+  "gilded_chest.step": {
+    "sounds": [
+      "cobblemon:block/gilded_chest/gilded_chest_step_1",
+      "cobblemon:block/gilded_chest/gilded_chest_step_2",
+      "cobblemon:block/gilded_chest/gilded_chest_step_3",
+      "cobblemon:block/gilded_chest/gilded_chest_step_4"
+    ]
   },
   "flamethrower": {
     "sounds": [ "cobblemon:attacks/flamethrower" ]

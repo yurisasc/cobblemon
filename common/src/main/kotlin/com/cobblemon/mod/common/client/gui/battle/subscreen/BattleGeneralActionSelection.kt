@@ -10,6 +10,8 @@ package com.cobblemon.mod.common.client.gui.battle.subscreen
 
 import com.cobblemon.mod.common.CobblemonSounds
 import com.cobblemon.mod.common.api.battles.model.actor.ActorType
+import com.cobblemon.mod.common.api.text.yellow
+import com.cobblemon.mod.common.battles.BattleRegistry
 import com.cobblemon.mod.common.client.CobblemonClient
 import com.cobblemon.mod.common.client.battle.SingleActionRequest
 import com.cobblemon.mod.common.client.gui.battle.BattleGUI
@@ -21,7 +23,6 @@ import net.minecraft.client.gui.Selectable
 import net.minecraft.client.gui.screen.narration.NarrationMessageBuilder
 import net.minecraft.client.sound.PositionedSoundInstance
 import net.minecraft.client.sound.SoundManager
-import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.text.MutableText
 import net.minecraft.util.Identifier
 class BattleGeneralActionSelection(
@@ -61,8 +62,9 @@ class BattleGeneralActionSelection(
                 }
 
                 addOption(rank++, battleLang("ui.run"), BattleGUI.runResource) {
-                    CobblemonClient.battle?.minimised = true
-                    MinecraftClient.getInstance().player?.sendMessage(battleLang("run_prompt"), false)
+                    val serverBattle = BattleRegistry.getBattle(battle.battleId) ?: return@addOption
+                    MinecraftClient.getInstance().player?.sendMessage(battleLang("flee").yellow(), false)
+                    serverBattle.end()
                     playDownSound(MinecraftClient.getInstance().soundManager)
                 }
             }

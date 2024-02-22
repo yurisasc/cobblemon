@@ -19,7 +19,7 @@ import net.minecraft.entity.Entity
 
 class FossilModel(root: Bone) : PoseableEntityModel<Entity>() {
     override val isForLivingEntityRenderer = false
-    //TODO: Find a better way to fetch this bone name
+    //TODO: Find a better way to fetch this bone name - Update the BlockEntityModel too when you figure it out
     val boneName: String = root.children.entries.first().key
     override val rootPart = (root as ModelPart).registerChildWithAllChildren(boneName)
     // Represents a very rough middle of the model
