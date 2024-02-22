@@ -309,34 +309,6 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
 
                     println("Player hooked a Pokemon from the bucket: " + chosenBucket.name)
 
-                    /*if (MathHelper.nextDouble(random, 0.0, 100.0) < this.commonSpawnChance) {
-                        // todo set common spawn
-                        this.hookCountdown = MathHelper.nextInt(random, 20, 40)
-                        this.rarityCaught = "COMMON"
-                        System.out.println("Player hooked a Common Pokemon");
-                    }
-                    else {
-                        if (MathHelper.nextDouble(random, 0.0, 100.0 - this.commonSpawnChance) < this.uncommonSpawnChance) {
-                            // todo set uncommon spawn
-                            this.hookCountdown = MathHelper.nextInt(random, 20, 35)
-                            this.rarityCaught = "UNCOMMON"
-                            System.out.println("Player hooked a Uncommon Pokemon");
-                        }
-                        else {
-                            if (MathHelper.nextDouble(random, 0.0, 100.0 - this.commonSpawnChance - this.uncommonSpawnChance) < this.rareSpawnChance) {
-                                // todo set rare spawn
-                                this.hookCountdown = MathHelper.nextInt(random, 20, 30)
-                                this.rarityCaught = "RARE"
-                                System.out.println("Player hooked a Rare Pokemon");
-                            }
-                            else {
-                                // todo set ultra-rare spawn chance
-                                this.hookCountdown = MathHelper.nextInt(random, 20, 25)
-                                this.rarityCaught = "ULTRA-RARE"
-                                System.out.println("Player hooked an Ultra-Rare Pokemon");
-                            }
-                        }
-                    }*/
                 }
                 else {
                     // todo caught item
@@ -647,6 +619,107 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
         //val spawnedPokemon = spawnAction.entity
         if (spawnedPokemon != null) {
             BattleBuilder.pve((player as ServerPlayerEntity), spawnedPokemon).ifErrored { it.sendTo(player) { it.red() } }
+        }
+    }
+
+    fun getBerryBaitBonus(bait: ItemStack, chanceBoost: String): Double {
+        val berryBoosts = mapOf(
+                // "cheri_berry" to mapOf("Nature_Att" to 0.25, "Nature_Def" to 0.10),  EXAMPLE of multiple entries per berry
+
+                // Attract Natures Tier 1 - 25%
+                "cheri_berry" to mapOf("Nature_Att" to 0.25),
+                "razz_berry" to mapOf("Nature_Att" to 0.25),
+                "chesto_berry" to mapOf("Nature_SpA" to 0.25),
+                "bluk_berry" to mapOf("Nature_SpA" to 0.25),
+                "aspear_berry" to mapOf("Nature_Def" to 0.25),
+                "pinap_berry" to mapOf("Nature_Def" to 0.25),
+                "pinap_berry" to mapOf("Nature_SpD" to 0.25),
+                "rawst_berry" to mapOf("Nature_SpD" to 0.25),
+                "pecha_berry" to mapOf("Nature_Spe" to 0.25),
+                "nanab_berry" to mapOf("Nature_Spe" to 0.25),
+
+                // Attract Natures Tier 2 - 50%
+                "figy_berry" to mapOf("Nature_Att" to 0.50),
+                "wiki_berry" to mapOf("Nature_SpA" to 0.50),
+                "iapapa_berry" to mapOf("Nature_Def" to 0.50),
+                "aguav_berry" to mapOf("Nature_SpD" to 0.50),
+                "mago_berry" to mapOf("Nature_Spe" to 0.50),
+
+                // Attract Natures Tier 3 - 75%
+                "touga_berry" to mapOf("Nature_Att" to 0.75),
+                "cornn_berry" to mapOf("Nature_SpA" to 0.75),
+                "rabuta_berry" to mapOf("Nature_Def" to 0.75),
+                "nomel_berry" to mapOf("Nature_SpD" to 0.75),
+                "magost_berry" to mapOf("Nature_Spe" to 0.75),
+
+                // Attract Natures Tier 4 - 100%
+                "spelon_berry" to mapOf("Nature_Att" to 1.00),
+                "pamtre_berry" to mapOf("Nature_SpA" to 1.00),
+                "belue_berry" to mapOf("Nature_Def" to 1.00),
+                "durin_berry" to mapOf("Nature_SpD" to 1.00),
+                "watmel_berry" to mapOf("Nature_Spe" to 1.00),
+
+                // todo when spawning pokemon send in the berry used as bait and also the trait we are rerolling for into here to get the chance of increase
+                // todo   pokemon.nature = getBerryBaitBonus(bait, "Nature_ATT")
+                // Add default or special cases if needed
+        )
+
+        // Look up the berry and then the chanceBoost
+        return berryBoosts[Registries.ITEM.getId(bait.item).toString()]?.get(chanceBoost) ?: 0.0 // Returns 0.0 if not found
+
+            // Raises IV by +3
+            "lansat_berry" -> Pair("spa", 0.0) // HP
+            "liechi_berry" -> Pair("spa", 0.0) // Att
+            "petaya_berry" -> Pair("spa", 0.0) // SpA
+            "ganlon_berry" -> Pair("spa", 0.0)  // Def
+            "apicot_berry" -> Pair("spa", 0.0)  // SpD
+            "salac_berry" -> Pair("spa", 0.0) // Spe
+
+            // Attracts EV Yields
+            "pomeg_berry" -> Pair("spa", 0.0) // HP
+            "tamato_berry" -> Pair("spa", 0.0) // Att
+            "kelpsy_berry" -> Pair("spa", 0.0) // SpA
+            "grepa_berry" -> Pair("spa", 0.0)  // Def
+            "hondew_berry" -> Pair("spa", 0.0)  // SpD
+            "qualot_berry" -> Pair("spa", 0.0) // Spe
+
+            // Reduce Bite Times
+            "oran_berry" -> Pair("spa", 0.0) // 50%
+            "sitrus_berry" -> Pair("spa", 0.0) // 100%
+
+            // Raises Gender Odds
+            "kee_berry" -> Pair("spa", 0.0) // +25% female
+            "maranga_berry" -> Pair("spa", 0.0) // +25% male
+
+            // Raises Average Level
+            "leppa_berry" -> Pair("spa", 0.0)
+            "hopo_berry" -> Pair("spa", 0.0)
+
+            // 2.5% Chance for alt Tera Type
+            // type berries
+//            "spelon_berry" -> Pair("spa", 0.0)
+//            "pamtre_berry" -> Pair("spa", 0.0)
+
+            // 2x Shiny Odds
+            "starf_berry" -> Pair("spa", 0.0)
+
+            // 2.5% for Hidden Ability
+            "enigma_berry" -> Pair("spa", 0.0)
+
+            // 100% Pokemon Rate
+            "micle_berry" -> Pair("spa", 0.0)
+
+            // 2x Item Rate
+            "custap_berry" -> Pair("spa", 0.0)
+
+            // Heart Wooper Chance
+            "persim_berry" -> Pair("spa", 0.0)
+
+            // Giant Whiscash Chance
+            "lum_berry" -> Pair("spa", 0.0)
+
+
+            else -> Pair("", 0.0)
         }
     }
 

@@ -25,6 +25,8 @@ import net.minecraft.client.render.entity.EntityRenderer
 import net.minecraft.client.render.entity.EntityRendererFactory
 import net.minecraft.client.render.model.json.ModelTransformationMode
 import net.minecraft.client.util.math.MatrixStack
+import net.minecraft.item.ItemStack
+import net.minecraft.registry.Registries
 import net.minecraft.util.Arm
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.MathHelper
@@ -50,6 +52,9 @@ class PokeBobberEntityRenderer(context: EntityRendererFactory.Context?) : Entity
         val playerPosYWorld: Double
         val playerEyeYWorld: Double
         val playerEntity = fishingBobberEntity.playerOwner ?: return
+
+        val berryAdjustY = 0.0 // for tweaking height pos of some berry baits
+        val berryAdjustX = 0.0 // for tweaking width pos of some berry baits
 
         matrixStack.push() // prepare for overall rendering transforms
 
@@ -166,11 +171,14 @@ class PokeBobberEntityRenderer(context: EntityRendererFactory.Context?) : Entity
 
         matrixStack.push() // prepare for transforms for Bait rendering
 
+        // check if any adjustments are needed for the certain kind of bait
+        val berryAdjust = adjustBerry(pokeBobberBaitItemStack)
+
         // Scale down the bait to 70% of its original size
         matrixStack.scale(0.8f, 0.8f, 0.8f) // Apply the scaling transformation
 
         // Translate the bait downwards to be on the hook
-        matrixStack.translate(0.2, -0.46, 0.0); // Move the berry down
+        matrixStack.translate(0.20 + berryAdjust.first, -0.5 + berryAdjust.second, 0.0); // Move the berry down
 
         // Rotate the bait 90 degrees around the Y-axis
         val rotation = Quaternionf().rotateY(Math.toRadians(0.0).toFloat())
@@ -236,6 +244,14 @@ class PokeBobberEntityRenderer(context: EntityRendererFactory.Context?) : Entity
         matrixStack.pop() // close main rendering transforms
 
         super.render(fishingBobberEntity, elapsedPartialTicks, tickDelta, matrixStack, vertexConsumerProvider, light)
+    }
+
+    fun adjustBerry(berryBait: ItemStack): Pair<Double, Double> {
+        return when (Registries.ITEM.getId(berryBait.item).toString()) {
+            "wacan_berry" -> Pair(0.03, 0.0)
+            "cheri_berry" -> Pair(0.03, 0.0)
+            else -> Pair(0.0, 0.0)
+        }
     }
 
     companion object {
