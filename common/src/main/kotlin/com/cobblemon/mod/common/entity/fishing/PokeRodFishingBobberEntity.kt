@@ -844,18 +844,24 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
 
     // try to alter the nature of the spawned pokemon
     fun alterNatureAttempt(pokemon: Pokemon, bait: ItemStack) {
-        // todo get the list of natures for each type
-
+        // natures for each stat
         val attNaturesIds = listOf(Natures.LONELY, Natures.ADAMANT, Natures.NAUGHTY, Natures.BRAVE)
-        val spaNaturesIds = listOf("modest", "mild", "rash", "quiet")
-        val defNaturesIds = listOf("bold", "impish", "lax", "relaxed")
-        val spdNaturesIds = listOf("calm", "gentle", "careful", "sassy")
-        val speNaturesIds = listOf("timid", "hasty", "jolly", "naive")
-        val neutralNaturesIds = listOf("hardy", "docile", "bashful", "quirky", "serious")
+        val spaNaturesIds = listOf(Natures.MODEST, Natures.MILD, Natures.RASH, Natures.QUIET, )
+        val defNaturesIds = listOf(Natures.BOLD, Natures.IMPISH, Natures.LAX, Natures.RELAXED, )
+        val spdNaturesIds = listOf(Natures.CALM, Natures.GENTLE, Natures.CAREFUL, Natures.SASSY, )
+        val speNaturesIds = listOf(Natures.TIMID, Natures.HASTY, Natures.JOLLY, Natures.NAIVE, )
+        val neutralNaturesIds = listOf(Natures.HARDY, Natures.DOCILE, Natures.BASHFUL, Natures.QUIRKY, Natures.SERIOUS, )
 
         if (getBerryBaitBonusChance(bait, "Nature_Att") > 0.0 && checkBaitSuccessRate(getBerryBaitBonusChance(bait, "Nature_Att"))) // it is for Attack
             pokemon.nature = attNaturesIds.random() // choose a random nature from the list
-
+        else if (getBerryBaitBonusChance(bait, "Nature_SpA") > 0.0 && checkBaitSuccessRate(getBerryBaitBonusChance(bait, "Nature_Spa"))) // it is for Attack
+            pokemon.nature = attNaturesIds.random() // choose a random nature from the list
+        else if (getBerryBaitBonusChance(bait, "Nature_Def") > 0.0 && checkBaitSuccessRate(getBerryBaitBonusChance(bait, "Nature_Def"))) // it is for Attack
+            pokemon.nature = attNaturesIds.random() // choose a random nature from the list
+        else if (getBerryBaitBonusChance(bait, "Nature_SpD") > 0.0 && checkBaitSuccessRate(getBerryBaitBonusChance(bait, "Nature_SpD"))) // it is for Attack
+            pokemon.nature = attNaturesIds.random() // choose a random nature from the list
+        else if (getBerryBaitBonusChance(bait, "Nature_Spe") > 0.0 && checkBaitSuccessRate(getBerryBaitBonusChance(bait, "Nature_Att"))) // it is for Attack
+            pokemon.nature = attNaturesIds.random() // choose a random nature from the list
     }
 
     companion object {
