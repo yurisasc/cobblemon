@@ -26,6 +26,7 @@ import com.cobblemon.mod.common.trade.DummyTradeParticipant
 import com.cobblemon.mod.common.trade.PlayerTradeParticipant
 import com.cobblemon.mod.common.util.fromJson
 import com.cobblemon.mod.common.util.party
+import com.cobblemon.mod.common.util.player
 import com.cobblemon.mod.common.util.toPokemon
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonObject
@@ -58,8 +59,11 @@ object TestCommand {
 
         try {
 //            readBerryDataFromCSV()
-
-            this.testClosestBattle(context)
+            val pokedex = Cobblemon.playerDataManager.getPokedexData(context.source.player!!)
+            pokedex.pokedexEntries.keys.forEach {
+                context.source.player!!.sendMessage(Text.of(it.toString()))
+            }
+            //this.testClosestBattle(context)
             //testTrade(context.source.player!!)
 //            testParticles(context)
 //            extractMovesData()

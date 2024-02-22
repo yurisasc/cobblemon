@@ -14,7 +14,8 @@ import com.cobblemon.mod.common.pokemon.FormData
 import com.cobblemon.mod.common.pokemon.Species
 import net.minecraft.util.Identifier
 
-class PokedexEntry(var id: Identifier, var progressMap: MutableMap<String, Progress> = HashMap()) {
+class PokedexEntry(var id: Identifier, var progressMap: MutableMap<String, DexStats> = HashMap()) {
+    @Transient
     var species: Species? = PokemonSpecies.getByIdentifier(id)
 
     init {
@@ -23,11 +24,21 @@ class PokedexEntry(var id: Identifier, var progressMap: MutableMap<String, Progr
         }
     }
 
-    fun setProgress(formString: String, newProgress : Progress){
-        progressMap[formString] = newProgress
-    }
 
-    fun getProgress(formString: String): Progress = progressMap.getOrDefault(formString, Progress.NONE)
+    fun getStats(formString: String): DexStats = progressMap.getOrDefault(formString, DexStats())
+
+    fun pokemonEncountered(formStr: String, isWild: Boolean) {
+        val stats = getStats(formStr)
+        if (isWild) {
+            stats.numEncounteredWild++
+        }
+        else {
+            stats.numEncounteredBattle++
+        }
+        if (!progressMap.containsKey(formStr)) {
+            progressMap[formStr] = stats
+        }
+    }
 
     companion object {
         fun formToFormString(form: FormData, shiny: Boolean): String = if (shiny) form.name + "_shiny" else form.name

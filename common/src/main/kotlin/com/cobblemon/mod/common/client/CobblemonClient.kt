@@ -17,6 +17,7 @@ import com.cobblemon.mod.common.CobblemonEntities
 import com.cobblemon.mod.common.CobblemonItems
 import com.cobblemon.mod.common.api.scheduling.ScheduledTaskTracker
 import com.cobblemon.mod.common.api.storage.player.client.ClientGeneralPlayerData
+import com.cobblemon.mod.common.api.storage.player.client.ClientPokedexPlayerData
 import com.cobblemon.mod.common.api.text.gray
 import com.cobblemon.mod.common.client.battle.ClientBattle
 import com.cobblemon.mod.common.client.gui.PartyOverlay
@@ -55,6 +56,7 @@ import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
 import net.minecraft.resource.ResourceManager
 import net.minecraft.util.Language
+import java.util.HashSet
 
 object CobblemonClient {
     lateinit var implementation: CobblemonClientImplementation
@@ -62,6 +64,7 @@ object CobblemonClient {
     var trade: ClientTrade? = null
     var battle: ClientBattle? = null
     var clientPlayerData = ClientGeneralPlayerData()
+    var clientPokedexData = ClientPokedexPlayerData(HashSet())
     /** If true then we won't bother them anymore about choosing a starter even if it's a thing they can do. */
     var checkedStarterScreen = false
     var requests = ClientPlayerActionRequests()
@@ -73,6 +76,7 @@ object CobblemonClient {
     fun onLogin() {
         clientPlayerData = ClientGeneralPlayerData()
         requests = ClientPlayerActionRequests()
+        clientPokedexData = ClientPokedexPlayerData(HashSet())
         storage.onLogin()
         CobblemonDataProvider.canReload = false
     }

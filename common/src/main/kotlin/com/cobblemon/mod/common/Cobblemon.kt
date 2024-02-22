@@ -56,10 +56,11 @@ import com.cobblemon.mod.common.api.storage.adapter.flatfile.NBTStoreAdapter
 import com.cobblemon.mod.common.api.storage.factory.FileBackedPokemonStoreFactory
 import com.cobblemon.mod.common.api.storage.pc.PCStore
 import com.cobblemon.mod.common.api.storage.pc.link.PCLinkManager
-import com.cobblemon.mod.common.api.storage.player.GeneralPlayerData
 import com.cobblemon.mod.common.api.storage.player.PlayerInstancedDataStoreManager
 import com.cobblemon.mod.common.api.storage.player.PlayerInstancedDataStoreType
+import com.cobblemon.mod.common.api.storage.player.PokedexPlayerData
 import com.cobblemon.mod.common.api.storage.player.adapter.PlayerDataJsonBackend
+import com.cobblemon.mod.common.api.storage.player.adapter.PokedexDataJsonBackend
 import com.cobblemon.mod.common.api.storage.player.factory.CachedPlayerDataStoreFactory
 import com.cobblemon.mod.common.api.tags.CobblemonEntityTypeTags
 import com.cobblemon.mod.common.battles.BagItems
@@ -271,10 +272,14 @@ object Cobblemon {
             val pokemonStoreRoot = server.getSavePath(WorldSavePath.ROOT).resolve("pokemon").toFile()
             val storeAdapter = when (config.storageFormat) {
                 "nbt", "json" -> {
-                    val jsonFactory = CachedPlayerDataStoreFactory<GeneralPlayerData>(PlayerDataJsonBackend())
-                    jsonFactory.setup(server)
+                    val generalJsonFactory = CachedPlayerDataStoreFactory(PlayerDataJsonBackend())
+                    generalJsonFactory.setup(server)
 
-                    playerDataManager.setFactory(jsonFactory, PlayerInstancedDataStoreType.GENERAL)
+                    val pokedexJsonFactory = CachedPlayerDataStoreFactory(PokedexDataJsonBackend())
+                    pokedexJsonFactory.setup(server)
+
+                    playerDataManager.setFactory(generalJsonFactory, PlayerInstancedDataStoreType.GENERAL)
+                    playerDataManager.setFactory(pokedexJsonFactory, PlayerInstancedDataStoreType.POKEDEX)
 
                     if (config.storageFormat == "nbt") {
                         NBTStoreAdapter(pokemonStoreRoot.absolutePath, useNestedFolders = true, folderPerClass = true)

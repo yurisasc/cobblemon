@@ -43,6 +43,13 @@ class PlayerInstancedDataStoreManager {
             .interval(120f)
             .infiniteIterations()
             .build()
+
+        saveTasks[PlayerInstancedDataStoreType.POKEDEX] = ScheduledTask.Builder()
+            .execute { saveAllOfOneType(PlayerInstancedDataStoreType.POKEDEX) }
+            .delay(30f)
+            .interval(120f)
+            .infiniteIterations()
+            .build()
     }
 
     fun get(player: PlayerEntity, dataType: PlayerInstancedDataStoreType): InstancedPlayerData {
@@ -63,7 +70,7 @@ class PlayerInstancedDataStoreManager {
         if (!factories.contains(dataType)) {
             throw UnsupportedOperationException("No factory registered for $dataType")
         }
-        return factories[dataType]!!.saveAll()
+        return factories[dataType]!!.saveSingle(playerData.uuid)
     }
 
     fun onPlayerDisconnect(player: ServerPlayerEntity) {
@@ -86,5 +93,9 @@ class PlayerInstancedDataStoreManager {
 
     fun getGenericData(player: ServerPlayerEntity): GeneralPlayerData {
         return get(player, PlayerInstancedDataStoreType.GENERAL) as GeneralPlayerData
+    }
+
+    fun getPokedexData(player: ServerPlayerEntity): PokedexPlayerData {
+        return get(player, PlayerInstancedDataStoreType.POKEDEX) as PokedexPlayerData
     }
 }
