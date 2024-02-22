@@ -42,7 +42,7 @@ class DisplayCaseRenderer(ctx: BlockEntityRendererFactory.Context) : BlockEntity
         light: Int,
         overlay: Int
     ) {
-        val stack = entity.getStack()
+        val stack: ItemStack = if (entity.getStack().item == CobblemonItems.RELIC_COIN_POUCH) CobblemonItems.COIN_POUCH_MODEL else entity.getStack()
         val world = entity.world ?: return
         val posType = getPositioningType(stack, world)
         val blockState = if (entity.world != null) entity.cachedState
@@ -65,7 +65,7 @@ class DisplayCaseRenderer(ctx: BlockEntityRendererFactory.Context) : BlockEntity
         matrices.translate(0.5f, 0.4f, 0.5f)
 
         matrices.scale(posType.scaleX, posType.scaleY, posType.scaleZ)
-        matrices.translate(posType.transX, posType.transY, posType.transZ)
+        matrices.translate(posType.transX, posType.transY + 0.04f, posType.transZ)
 
         matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(-yRot))
         matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(posType.rotY))
@@ -117,6 +117,7 @@ class DisplayCaseRenderer(ctx: BlockEntityRendererFactory.Context) : BlockEntity
 
     companion object {
         private fun getPositioningType(stack: ItemStack, world: World): PositioningType {
+            if (stack.item == CobblemonItems.RELIC_COIN_POUCH) return PositioningType.COIN_POUCH
             if (stack.item == Items.SHIELD) return PositioningType.SHIELD
             if (stack.item == Items.DECORATED_POT) return PositioningType.MOB_HEAD
             if (stack.item is BedItem) return PositioningType.BED
@@ -143,5 +144,6 @@ class DisplayCaseRenderer(ctx: BlockEntityRendererFactory.Context) : BlockEntity
         MOB_HEAD(1f, 1f, 1f, 0f, -0.025f, 0f, 180f),
         SHIELD(1f, 1f, 1f, 0f, -0.045f, 0f, 180f),
         PASTURE(1f, 1f, 1f, 0f, 0.0375f, 0f),
+        COIN_POUCH(1f, 1f, 1f, 0f, 0.375f, 0f)
     }
 }

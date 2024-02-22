@@ -219,11 +219,7 @@ object CobblemonClient {
             CobblemonBlocks.MEDIUM_BUDDING_SKY_TUMBLESTONE,
             CobblemonBlocks.LARGE_BUDDING_SKY_TUMBLESTONE,
             CobblemonBlocks.SKY_TUMBLESTONE_CLUSTER,
-            CobblemonBlocks.GIMMIGHOUL_CHEST
-        )
-
-        this.implementation.registerBlockRenderType(
-            RenderLayer.getTranslucent(),
+            CobblemonBlocks.GIMMIGHOUL_CHEST,
             CobblemonBlocks.DISPLAY_CASE
         )
 

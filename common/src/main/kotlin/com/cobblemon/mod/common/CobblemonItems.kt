@@ -45,6 +45,7 @@ import net.minecraft.item.ItemStack
 import net.minecraft.item.SignItem
 import net.minecraft.item.SmithingTemplateItem
 import net.minecraft.item.StewItem
+import net.minecraft.nbt.NbtInt
 import net.minecraft.registry.Registries
 import net.minecraft.registry.Registry
 import net.minecraft.registry.RegistryKey
@@ -848,6 +849,8 @@ object CobblemonItems : PlatformRegistry<Registry<Item>, RegistryKey<Registry<It
     val RELIC_COIN_POUCH = blockItem("relic_coin_pouch", CobblemonBlocks.RELIC_COIN_POUCH)
     @JvmField
     val RELIC_COIN_SACK = blockItem("relic_coin_sack", CobblemonBlocks.RELIC_COIN_SACK)
+
+    val COIN_POUCH_MODEL: ItemStack = RELIC_COIN_POUCH.defaultStack.also { it.setSubNbt("CustomModelData", NbtInt.of(1)) }
 
     // Type Gems
     @JvmField
