@@ -12,6 +12,7 @@ import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.CobblemonEntities
 import com.cobblemon.mod.common.CobblemonItems
 import com.cobblemon.mod.common.api.fishing.PokeRods
+import com.cobblemon.mod.common.api.pokemon.Natures
 import com.cobblemon.mod.common.api.spawning.*
 import com.cobblemon.mod.common.api.spawning.detail.EntitySpawnResult
 import com.cobblemon.mod.common.api.spawning.fishing.FishingSpawnCause
@@ -21,6 +22,8 @@ import com.cobblemon.mod.common.battles.BattleBuilder
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.item.interactive.PokerodItem
 import com.cobblemon.mod.common.loot.CobblemonLootTables
+import com.cobblemon.mod.common.pokemon.Nature
+import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.util.commandLang
 import com.cobblemon.mod.common.util.toBlockPos
 import net.minecraft.advancement.criterion.Criteria
@@ -500,11 +503,7 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
                     val bobberOwner = playerOwner as ServerPlayerEntity
 
                     // spawn the pokemon from the chosen bucket at the bobber's location
-                    spawnPokemonFromFishing(bobberOwner, chosenBucket)
-
-                    // remove the bait from the bobber
-                    val playerPokerod = if (this.playerOwner?.getStackInHand(Hand.MAIN_HAND)?.item is PokerodItem) this.playerOwner!!.getStackInHand(Hand.MAIN_HAND).item else this.playerOwner!!.getStackInHand(Hand.OFF_HAND).item
-                    (playerPokerod as PokerodItem).bait = ItemStack.EMPTY
+                    spawnPokemonFromFishing(bobberOwner, chosenBucket, bobberBait)
 
                     val serverWorld = world as ServerWorld
 
@@ -525,7 +524,7 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
         }
     }
 
-    fun spawnPokemonFromFishing(player: PlayerEntity, chosenBucket: SpawnBucket) {
+    fun spawnPokemonFromFishing(player: PlayerEntity, chosenBucket: SpawnBucket, bobberBait: ItemStack) {
         var hookedEntityID: Int? = null
         
         val spawner = BestSpawner.fishingSpawner
@@ -556,6 +555,21 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
                 //pokemon.uuid = it.uuid
                 hookedEntityID = entity.id
                 spawnedPokemon = (entity as PokemonEntity)
+
+                // todo Check if there was a berry used on the bobber and if so then see how it may affect the pokemon
+                if (bobberBait != ItemStack.EMPTY) {
+                    // look up how mints affect the pokemon
+
+                    modifyPokemonWithBait(spawnedPokemon, bobberBait) // check to see if the spawned pokemon gets modified due to the bait used
+
+
+
+
+
+                    // remove the bait from the bobber
+                    val playerPokerod = if (this.playerOwner?.getStackInHand(Hand.MAIN_HAND)?.item is PokerodItem) this.playerOwner!!.getStackInHand(Hand.MAIN_HAND).item else this.playerOwner!!.getStackInHand(Hand.OFF_HAND).item
+                    (playerPokerod as PokerodItem).bait = ItemStack.EMPTY
+                }
 
 
                 if (spawnedPokemon.pokemon.species.weight.toDouble() < 200.0) { // if weight value of Pokemon is less than 200 then reel it in to the player
@@ -608,7 +622,6 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
                     val tossVelocity = Vec3d(velocityX, velocityY, velocityZ)
                     entity.setVelocity(tossVelocity)
                     //entity.pokemon.aspects
-
                 }
             }
         }
@@ -622,7 +635,8 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
         }
     }
 
-    fun getBerryBaitBonus(bait: ItemStack, chanceBoost: String): Double {
+    // used to store the % chance increase or the value increase of certain baits
+    fun getBerryBaitBonusChance(bait: ItemStack, chanceBoost: String): Double {
         val berryBoosts = mapOf(
                 // "cheri_berry" to mapOf("Nature_Att" to 0.25, "Nature_Def" to 0.10),  EXAMPLE of multiple entries per berry
 
@@ -659,6 +673,56 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
                 "durin_berry" to mapOf("Nature_SpD" to 1.00),
                 "watmel_berry" to mapOf("Nature_Spe" to 1.00),
 
+                // Raises IV by +3
+                "lansat_berry" to mapOf("IV_Hp" to 3.00), // HP
+                "liechi_berry" to mapOf("IV_Att" to 3.00), // Att
+                "petaya_berry" to mapOf("IV_SpA" to 3.00), // SpA
+                "ganlon_berry" to mapOf("IV_Def" to 3.00),  // Def
+                "apicot_berry" to mapOf("IV_SpD" to 3.00),  // SpD
+                "salac_berry" to mapOf("IV_Spe" to 3.00), // Spe
+
+                // Attracts EV Yields
+                "pomeg_berry"  to mapOf("EV_Hp" to 1.00), // HP
+                "tamato_berry"  to mapOf("EV_Att" to 1.00), // Att
+                "kelpsy_berry"  to mapOf("EV_SpA" to 1.00), // SpA
+                "grepa_berry"  to mapOf("EV_Def" to 1.00),  // Def
+                "hondew_berry"  to mapOf("EV_SpD" to 1.00),  // SpD
+                "qualot_berry"  to mapOf("EV_Spe" to 1.00), // Spe
+
+                // Reduce Bite Times
+                "oran_berry" to mapOf("Bite_Time" to 0.50), // reduce by 50%
+                "sitrus_berry" to mapOf("Bite_Time" to 1.00), // reduce by 100%
+
+                // Raises Gender Odds
+                "kee_berry" to mapOf("Gender_Female" to 0.25), // +25% female
+                "maranga_berry" to mapOf("Gender_Male" to 0.25), // +25% male
+
+                // Raises Average Level
+                "leppa_berry" to mapOf("Level" to 5.00), // +5
+                "hopo_berry" to mapOf("Level" to 10.00),  // +10
+
+                // 2.5% Chance for alt Tera Type
+                // for each type berries
+//              "fire_type_berries" to mapOf("Tera_Fire" to 0.025), //
+
+                // 2x Shiny Odds
+                "starf_berry" to mapOf("Shiny" to 2.00),
+
+                // 2.5% for Hidden Ability
+                "enigma_berry" to mapOf("HA" to 0.025),
+
+                // 100% Pokemon Rate
+                "micle_berry"  to mapOf("Pokemon" to 1.00),
+
+                // 2x Item Rate
+                "custap_berry" to mapOf("Item" to 2.00)
+
+//                // Heart Wooper Chance
+//                "persim_berry" -> Pair("spa", 0.0)
+//
+//                // Giant Whiscash Chance
+//                "lum_berry" -> Pair("spa", 0.0)
+
                 // todo when spawning pokemon send in the berry used as bait and also the trait we are rerolling for into here to get the chance of increase
                 // todo   pokemon.nature = getBerryBaitBonus(bait, "Nature_ATT")
                 // Add default or special cases if needed
@@ -667,60 +731,131 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
         // Look up the berry and then the chanceBoost
         return berryBoosts[Registries.ITEM.getId(bait.item).toString()]?.get(chanceBoost) ?: 0.0 // Returns 0.0 if not found
 
-            // Raises IV by +3
-            "lansat_berry" -> Pair("spa", 0.0) // HP
-            "liechi_berry" -> Pair("spa", 0.0) // Att
-            "petaya_berry" -> Pair("spa", 0.0) // SpA
-            "ganlon_berry" -> Pair("spa", 0.0)  // Def
-            "apicot_berry" -> Pair("spa", 0.0)  // SpD
-            "salac_berry" -> Pair("spa", 0.0) // Spe
+    }
 
-            // Attracts EV Yields
-            "pomeg_berry" -> Pair("spa", 0.0) // HP
-            "tamato_berry" -> Pair("spa", 0.0) // Att
-            "kelpsy_berry" -> Pair("spa", 0.0) // SpA
-            "grepa_berry" -> Pair("spa", 0.0)  // Def
-            "hondew_berry" -> Pair("spa", 0.0)  // SpD
-            "qualot_berry" -> Pair("spa", 0.0) // Spe
+    fun modifyPokemonWithBait(pokemonEntity: PokemonEntity, bait: ItemStack) {
+        val pokemon = pokemonEntity.pokemon
 
-            // Reduce Bite Times
-            "oran_berry" -> Pair("spa", 0.0) // 50%
-            "sitrus_berry" -> Pair("spa", 0.0) // 100%
-
-            // Raises Gender Odds
-            "kee_berry" -> Pair("spa", 0.0) // +25% female
-            "maranga_berry" -> Pair("spa", 0.0) // +25% male
-
-            // Raises Average Level
-            "leppa_berry" -> Pair("spa", 0.0)
-            "hopo_berry" -> Pair("spa", 0.0)
-
-            // 2.5% Chance for alt Tera Type
-            // type berries
-//            "spelon_berry" -> Pair("spa", 0.0)
-//            "pamtre_berry" -> Pair("spa", 0.0)
-
-            // 2x Shiny Odds
-            "starf_berry" -> Pair("spa", 0.0)
-
-            // 2.5% for Hidden Ability
-            "enigma_berry" -> Pair("spa", 0.0)
-
-            // 100% Pokemon Rate
-            "micle_berry" -> Pair("spa", 0.0)
-
-            // 2x Item Rate
-            "custap_berry" -> Pair("spa", 0.0)
-
-            // Heart Wooper Chance
-            "persim_berry" -> Pair("spa", 0.0)
-
-            // Giant Whiscash Chance
-            "lum_berry" -> Pair("spa", 0.0)
-
-
-            else -> Pair("", 0.0)
+        // todo check if it attracts a certain nature
+        if (checkNatureAttact(bait) == true) {
+            // todo figure out which nature is attracted and do a calculation to see if it was successful
+            alterNatureAttempt(pokemon, bait)
         }
+
+        // todo check if it raises specific IV by +3
+
+        // todo check if it attracts certain EV yields? Maybe this needs to be done before the spown conditions are used? This one might be hard
+
+        // todo Reduce Bite time.... This can be done way earlier
+
+        // todo check if it alters the gender of the pokemon
+
+        // todo check if it raises the average level
+
+        // todo check if it alters the tera type
+
+        // todo check for shiny odds
+
+        // todo check for HA
+
+        // todo check for 100% pokemon rate (do this way earlier)
+
+        // todo check for item rate (do this way earlier)
+
+        // todo check for Heart Wooper (this needs to be spawn condition)
+
+        // todo check for Large Whiscash (this needs to be spawn condition)
+    }
+
+    fun checkBaitSuccessRate(successChance: Double): Boolean {
+        return Math.random() < successChance
+    }
+
+    // function to return true of false if the given bait affects the attraction of certain Natures
+    fun checkNatureAttact(bait: ItemStack): Boolean {
+        val attractList = listOf("Nature_Att", "Nature_SpA", "Nature_Def","Nature_SpD","Nature_Spe")
+        return attractList.any { getBerryBaitBonusChance(bait, it) > 0.0 }
+    }
+
+    // function to return true of false if the given bait affects the raising of IVs of a pokemon via fishing
+    fun checkIVRaise(bait: ItemStack): Boolean {
+        val attractList = listOf("IV_Hp", "IV_Att", "IV_SpA", "IV_Def","IV_SpD","IV_Spe")
+        return attractList.any { getBerryBaitBonusChance(bait, it) > 0.0 }
+    }
+
+    // function to return true of false if the given bait affects the pokemon with certain EV yields
+    fun checkEVAttract(bait: ItemStack): Boolean {
+        val attractList = listOf("EV_Hp", "EV_Att", "EV_SpA", "EV_Def","EV_SpD","EV_Spe")
+        return attractList.any { getBerryBaitBonusChance(bait, it) > 0.0 }
+    }
+
+    // function to return true of false if the given bait affects the pokemon gender
+    fun checkBetterGenderOdds(bait: ItemStack): Boolean {
+        val attractList = listOf("Gender_Male", "Gender_Female")
+        return attractList.any { getBerryBaitBonusChance(bait, it) > 0.0 }
+    }
+
+    // function to return true of false if the given bait affects time to expect a bite
+    fun checkReduceBiteTime(bait: ItemStack): Boolean {
+        val attractList = listOf("Bite_Time")
+        return attractList.any { getBerryBaitBonusChance(bait, it) > 0.0 }
+    }
+
+    // function to return true of false if the given bait affects pokemon's level boost
+    fun checkLevelBoost(bait: ItemStack): Boolean {
+        val attractList = listOf("Level")
+        return attractList.any { getBerryBaitBonusChance(bait, it) > 0.0 }
+    }
+
+    // function to return true of false if the given bait affects pokemon's tera type
+    fun checkTeraType(bait: ItemStack): Boolean {
+        val attractList = listOf("Tera_Fire", "Tera_Water", "Tera_Grass", "Tera_Normal",
+                                "Tera_Fighting", "Tera_Ground", "Tera_Rock", "Tera_Flying", "Tera_Dragon",
+                                "Tera_Steel", "Tera_Poison", "Tera_Fairy", "Tera_Electric", "Tera_Ice",
+                                "Tera_Bug", "Tera_Psychic", "Tera_Dark", "Tera_Ghost")
+
+        return attractList.any { getBerryBaitBonusChance(bait, it) > 0.0 }
+    }
+
+    // function to return true of false if the given bait affects pokemon's shiny chance
+    fun checkShinyOdds(bait: ItemStack): Boolean {
+        val attractList = listOf("Shiny")
+
+        return attractList.any { getBerryBaitBonusChance(bait, it) > 0.0 }
+    }
+
+    // function to return true of false if the given bait affects pokemon's Hidden Ability
+    fun checkHiddenAbilityOdds(bait: ItemStack): Boolean {
+        val attractList = listOf("HA")
+        return attractList.any { getBerryBaitBonusChance(bait, it) > 0.0 }
+    }
+
+    // function to return true of false if the given bait to make it so a Pokemon is always reeled in
+    fun checkPokemonFishRate(bait: ItemStack): Boolean {
+        val attractList = listOf("Pokemon")
+        return attractList.any { getBerryBaitBonusChance(bait, it) > 0.0 }
+    }
+
+    // function to return true of false if the given bait to make it so an item has 2x chance
+    fun checkItemFishRate(bait: ItemStack): Boolean {
+        val attractList = listOf("Item")
+        return attractList.any { getBerryBaitBonusChance(bait, it) > 0.0 }
+    }
+
+    // try to alter the nature of the spawned pokemon
+    fun alterNatureAttempt(pokemon: Pokemon, bait: ItemStack) {
+        // todo get the list of natures for each type
+
+        val attNaturesIds = listOf(Natures.LONELY, Natures.ADAMANT, Natures.NAUGHTY, Natures.BRAVE)
+        val spaNaturesIds = listOf("modest", "mild", "rash", "quiet")
+        val defNaturesIds = listOf("bold", "impish", "lax", "relaxed")
+        val spdNaturesIds = listOf("calm", "gentle", "careful", "sassy")
+        val speNaturesIds = listOf("timid", "hasty", "jolly", "naive")
+        val neutralNaturesIds = listOf("hardy", "docile", "bashful", "quirky", "serious")
+
+        if (getBerryBaitBonusChance(bait, "Nature_Att") > 0.0 && checkBaitSuccessRate(getBerryBaitBonusChance(bait, "Nature_Att"))) // it is for Attack
+            pokemon.nature = attNaturesIds.random() // choose a random nature from the list
+
     }
 
     companion object {
