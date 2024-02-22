@@ -8,6 +8,7 @@
 
 package com.cobblemon.mod.common
 
+//import com.cobblemon.mod.common.api.storage.player.factory.MongoPlayerDataStoreFactory
 import com.cobblemon.mod.common.advancement.CobblemonCriteria
 import com.cobblemon.mod.common.advancement.criterion.EvolvePokemonContext
 import com.cobblemon.mod.common.api.Priority
@@ -49,16 +50,17 @@ import com.cobblemon.mod.common.api.spawning.prospecting.SpawningProspector
 import com.cobblemon.mod.common.api.starter.StarterHandler
 import com.cobblemon.mod.common.api.storage.PokemonStoreManager
 import com.cobblemon.mod.common.api.storage.adapter.conversions.ReforgedConversion
-import com.cobblemon.mod.common.api.storage.adapter.database.MongoDBStoreAdapter
 import com.cobblemon.mod.common.api.storage.adapter.flatfile.FileStoreAdapter
 import com.cobblemon.mod.common.api.storage.adapter.flatfile.JSONStoreAdapter
 import com.cobblemon.mod.common.api.storage.adapter.flatfile.NBTStoreAdapter
 import com.cobblemon.mod.common.api.storage.factory.FileBackedPokemonStoreFactory
 import com.cobblemon.mod.common.api.storage.pc.PCStore
 import com.cobblemon.mod.common.api.storage.pc.link.PCLinkManager
-import com.cobblemon.mod.common.api.storage.player.PlayerDataStoreManager
-import com.cobblemon.mod.common.api.storage.player.factory.JsonPlayerDataStoreFactory
-import com.cobblemon.mod.common.api.storage.player.factory.MongoPlayerDataStoreFactory
+import com.cobblemon.mod.common.api.storage.player.GeneralPlayerData
+import com.cobblemon.mod.common.api.storage.player.PlayerInstancedDataStoreManager
+import com.cobblemon.mod.common.api.storage.player.PlayerInstancedDataStoreType
+import com.cobblemon.mod.common.api.storage.player.adapter.PlayerDataJsonBackend
+import com.cobblemon.mod.common.api.storage.player.factory.CachedPlayerDataStoreFactory
 import com.cobblemon.mod.common.api.tags.CobblemonEntityTypeTags
 import com.cobblemon.mod.common.battles.BagItems
 import com.cobblemon.mod.common.battles.BattleFormat
@@ -106,19 +108,7 @@ import com.cobblemon.mod.common.util.server
 import com.cobblemon.mod.common.world.feature.CobblemonPlacedFeatures
 import com.cobblemon.mod.common.world.feature.ore.CobblemonOrePlacedFeatures
 import com.cobblemon.mod.common.world.gamerules.CobblemonGameRules
-import com.mongodb.ConnectionString
-import com.mongodb.MongoClientSettings
 import com.mongodb.client.MongoClient
-import com.mongodb.client.MongoClients
-import java.io.File
-import java.io.FileReader
-import java.io.FileWriter
-import java.io.PrintWriter
-import java.util.UUID
-import kotlin.properties.Delegates
-import kotlin.reflect.full.memberProperties
-import kotlin.reflect.jvm.isAccessible
-import kotlin.reflect.jvm.javaField
 import net.minecraft.client.MinecraftClient
 import net.minecraft.command.argument.serialize.ConstantArgumentSerializer
 import net.minecraft.entity.data.TrackedDataHandlerRegistry
@@ -128,6 +118,15 @@ import net.minecraft.registry.RegistryKey
 import net.minecraft.util.WorldSavePath
 import net.minecraft.world.World
 import org.apache.logging.log4j.LogManager
+import java.io.File
+import java.io.FileReader
+import java.io.FileWriter
+import java.io.PrintWriter
+import java.util.UUID
+import kotlin.properties.Delegates
+import kotlin.reflect.full.memberProperties
+import kotlin.reflect.jvm.isAccessible
+import kotlin.reflect.jvm.javaField
 
 object Cobblemon {
     const val MODID = "cobblemon"
@@ -153,7 +152,7 @@ object Cobblemon {
     val bestSpawner = BestSpawner
     val battleRegistry = BattleRegistry
     var storage = PokemonStoreManager()
-    lateinit var playerData: PlayerDataStoreManager
+    lateinit var playerDataManager: PlayerInstancedDataStoreManager
     lateinit var starterConfig: StarterConfig
     val dataProvider: DataProvider = CobblemonDataProvider
     var permissionValidator: PermissionValidator by Delegates.observable(LaxPermissionValidator().also { it.initialize() }) { _, _, newValue -> newValue.initialize() }
@@ -191,7 +190,7 @@ object Cobblemon {
 
         DATA_SYNCHRONIZED.subscribe {
             storage.onPlayerDataSync(it)
-            playerData.get(it).sendToPlayer(it)
+            playerDataManager.syncAllToPlayer(it)
             starterHandler.handleJoin(it)
             ServerSettingsPacket(this.config.preventCompletePartyDeposit, this.config.displayEntityLevelLabel).sendToPlayer(it)
         }
@@ -199,7 +198,7 @@ object Cobblemon {
             PCLinkManager.removeLink(it.player.uuid)
             BattleRegistry.getBattleByParticipatingPlayer(it.player)?.stop()
             storage.onPlayerDisconnect(it.player)
-            playerData.onPlayerDisconnect(it.player)
+            playerDataManager.onPlayerDisconnect(it.player)
             TradeManager.onLogoff(it.player)
         }
         PlatformEvents.PLAYER_DEATH.subscribe {
@@ -265,16 +264,17 @@ object Cobblemon {
 
         PlatformEvents.SERVER_STARTING.subscribe { event ->
             val server = event.server
-            playerData = PlayerDataStoreManager().also { it.setup(server) }
+            playerDataManager = PlayerInstancedDataStoreManager().also { it.setup(server) }
 
             val mongoClient: MongoClient?
 
             val pokemonStoreRoot = server.getSavePath(WorldSavePath.ROOT).resolve("pokemon").toFile()
             val storeAdapter = when (config.storageFormat) {
                 "nbt", "json" -> {
-                    val jsonFactory = JsonPlayerDataStoreFactory()
+                    val jsonFactory = CachedPlayerDataStoreFactory<GeneralPlayerData>(PlayerDataJsonBackend())
                     jsonFactory.setup(server)
-                    playerData.setFactory(jsonFactory)
+
+                    playerDataManager.setFactory(jsonFactory, PlayerInstancedDataStoreType.GENERAL)
 
                     if (config.storageFormat == "nbt") {
                         NBTStoreAdapter(pokemonStoreRoot.absolutePath, useNestedFolders = true, folderPerClass = true)
@@ -287,7 +287,9 @@ object Cobblemon {
                     }
                 }
 
+                /*
                 "mongodb" -> {
+                    /*
                     try {
                         Class.forName("com.mongodb.client.MongoClient")
 
@@ -296,13 +298,17 @@ object Cobblemon {
                             .build()
                         mongoClient = MongoClients.create(mongoClientSettings)
                         val mongoFactory = MongoPlayerDataStoreFactory(mongoClient, config.mongoDBDatabaseName)
-                        playerData.setFactory(mongoFactory)
+                        playerData.setFactory(mongoFactory, PlayerInstancedDataStoreType.GENERAL)
                         MongoDBStoreAdapter(mongoClient, config.mongoDBDatabaseName)
                     } catch (e: ClassNotFoundException) {
                         LOGGER.error("MongoDB driver not found.")
                         throw e
                     }
+
+                     */
                 }
+
+                 */
 
                 else -> throw IllegalArgumentException("Unsupported storageFormat: ${config.storageFormat}")
             }
@@ -320,7 +326,7 @@ object Cobblemon {
 
         PlatformEvents.SERVER_STOPPED.subscribe {
             storage.unregisterAll()
-            playerData.saveAll()
+            playerDataManager.saveAllStores()
         }
         PlatformEvents.SERVER_STARTED.subscribe {
             bestSpawner.onServerStarted()
@@ -359,7 +365,7 @@ object Cobblemon {
                     properties.apply(product)
                     product.caughtBall = (pokeball as PokeBallItem).pokeBall
                     pokemon.storeCoordinates.get()?.store?.add(product)
-                    CobblemonCriteria.EVOLVE_POKEMON.trigger(player, EvolvePokemonContext(event.pokemon.preEvolution!!.species.resourceIdentifier, product.species.resourceIdentifier, playerData.get(player).advancementData.totalEvolvedCount))
+                    CobblemonCriteria.EVOLVE_POKEMON.trigger(player, EvolvePokemonContext(event.pokemon.preEvolution!!.species.resourceIdentifier, product.species.resourceIdentifier, playerDataManager.getGenericData(player).advancementData.totalEvolvedCount))
                 }
             }
         }

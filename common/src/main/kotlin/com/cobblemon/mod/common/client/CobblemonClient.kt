@@ -8,9 +8,15 @@
 
 package com.cobblemon.mod.common.client
 
-import com.cobblemon.mod.common.*
+import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.Cobblemon.LOGGER
+import com.cobblemon.mod.common.CobblemonBlockEntities
+import com.cobblemon.mod.common.CobblemonBlocks
+import com.cobblemon.mod.common.CobblemonClientImplementation
+import com.cobblemon.mod.common.CobblemonEntities
+import com.cobblemon.mod.common.CobblemonItems
 import com.cobblemon.mod.common.api.scheduling.ScheduledTaskTracker
+import com.cobblemon.mod.common.api.storage.player.client.ClientGeneralPlayerData
 import com.cobblemon.mod.common.api.text.gray
 import com.cobblemon.mod.common.client.battle.ClientBattle
 import com.cobblemon.mod.common.client.gui.PartyOverlay
@@ -28,7 +34,6 @@ import com.cobblemon.mod.common.client.render.models.blockbench.repository.PokeB
 import com.cobblemon.mod.common.client.render.models.blockbench.repository.PokemonModelRepository
 import com.cobblemon.mod.common.client.render.pokeball.PokeBallRenderer
 import com.cobblemon.mod.common.client.render.pokemon.PokemonRenderer
-import com.cobblemon.mod.common.client.starter.ClientPlayerData
 import com.cobblemon.mod.common.client.storage.ClientStorageManager
 import com.cobblemon.mod.common.client.trade.ClientTrade
 import com.cobblemon.mod.common.data.CobblemonDataProvider
@@ -56,7 +61,7 @@ object CobblemonClient {
     val storage = ClientStorageManager()
     var trade: ClientTrade? = null
     var battle: ClientBattle? = null
-    var clientPlayerData = ClientPlayerData()
+    var clientPlayerData = ClientGeneralPlayerData()
     /** If true then we won't bother them anymore about choosing a starter even if it's a thing they can do. */
     var checkedStarterScreen = false
     var requests = ClientPlayerActionRequests()
@@ -66,7 +71,7 @@ object CobblemonClient {
     val battleOverlay: BattleOverlay by lazy { BattleOverlay() }
 
     fun onLogin() {
-        clientPlayerData = ClientPlayerData()
+        clientPlayerData = ClientGeneralPlayerData()
         requests = ClientPlayerActionRequests()
         storage.onLogin()
         CobblemonDataProvider.canReload = false
