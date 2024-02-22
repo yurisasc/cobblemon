@@ -38,7 +38,7 @@ class FeatherItem(val stat: Stat) : CobblemonItem(Settings()), PokemonSelectingI
     ): TypedActionResult<ItemStack> {
         val evsGained = pokemon.evs.add(stat, EV_YIELD)
         return if (evsGained > 0) {
-            player.playSound(CobblemonSounds.MEDICINE_PILLS_USE, SoundCategory.PLAYERS, 1F, 1F)
+            player.playSound(CobblemonSounds.MEDICINE_FEATHER_USE, SoundCategory.PLAYERS, 1F, 1F)
             if (!player.isCreative) {
                 stack.decrement(1)
             }
