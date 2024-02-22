@@ -6,7 +6,6 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-
 package com.cobblemon.mod.common.client.sound
 
 import net.minecraft.client.MinecraftClient
