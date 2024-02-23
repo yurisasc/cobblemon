@@ -8,7 +8,7 @@
 
 package com.cobblemon.mod.common.net.messages.client.data
 
-import com.cobblemon.mod.common.pokedex.PokedexEntry
+import com.cobblemon.mod.common.api.storage.pokedex.PokedexEntry
 import com.cobblemon.mod.common.util.cobblemonResource
 import net.minecraft.network.PacketByteBuf
 

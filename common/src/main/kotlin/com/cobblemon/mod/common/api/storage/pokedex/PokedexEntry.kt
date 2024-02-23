@@ -1,26 +1,19 @@
-/*
- * Copyright (C) 2023 Cobblemon Contributors
- *
- * This Source Code Form is subject to the terms of the Mozilla Public
- * License, v. 2.0. If a copy of the MPL was not distributed with this
- * file, You can obtain one at https://mozilla.org/MPL/2.0/.
- */
+package com.cobblemon.mod.common.api.storage.pokedex
 
-package com.cobblemon.mod.common.pokedex
-
-import com.cobblemon.mod.common.Cobblemon.LOGGER
+import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.api.pokemon.PokemonSpecies
 import com.cobblemon.mod.common.pokemon.FormData
 import com.cobblemon.mod.common.pokemon.Species
+import com.google.gson.JsonObject
 import net.minecraft.util.Identifier
 
-class PokedexEntry(var id: Identifier, var progressMap: MutableMap<String, DexStats> = HashMap()) {
+class PokedexEntry(final val id: Identifier, var progressMap: MutableMap<String, DexStats> = mutableMapOf<String, DexStats>()) {
     @Transient
     var species: Species? = PokemonSpecies.getByIdentifier(id)
 
     init {
         if(species == null){
-            LOGGER.warn("Species {} is null, this Pokedex Entry may not work properly. Check if Pokemon was registered.", id)
+            Cobblemon.LOGGER.warn("Species {} is null, this Pokedex Entry may not work properly. Check if Pokemon was registered.", id)
         }
     }
 
@@ -38,6 +31,22 @@ class PokedexEntry(var id: Identifier, var progressMap: MutableMap<String, DexSt
         if (!progressMap.containsKey(formStr)) {
             progressMap[formStr] = stats
         }
+    }
+
+    fun saveToJSON(json: JsonObject): JsonObject {
+        val featuresJson = JsonObject()
+        progressMap.forEach{ (formString, dexStats) ->
+            featuresJson.add(formString, dexStats.saveToJson(JsonObject()))
+        }
+        return json
+    }
+
+    fun loadFromJson(json: JsonObject): PokedexEntry {
+        json.asMap().forEach{ (formString, dexStatsJson) ->
+            progressMap[formString] = DexStats().loadFromJson(dexStatsJson.asJsonObject)
+        }
+
+        return this
     }
 
     companion object {
