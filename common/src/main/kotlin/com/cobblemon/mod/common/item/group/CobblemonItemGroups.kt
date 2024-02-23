@@ -296,6 +296,13 @@ object CobblemonItemGroups {
         entries.add(CobblemonItems.DIRE_HIT)
         entries.add(CobblemonItems.GUARD_SPEC)
 
+        entries.add(CobblemonItems.HEALTH_FEATHER)
+        entries.add(CobblemonItems.MUSCLE_FEATHER)
+        entries.add(CobblemonItems.RESIST_FEATHER)
+        entries.add(CobblemonItems.GENIUS_FEATHER)
+        entries.add(CobblemonItems.CLEVER_FEATHER)
+        entries.add(CobblemonItems.SWIFT_FEATHER)
+
         entries.add(CobblemonItems.HP_UP)
         entries.add(CobblemonItems.PROTEIN)
         entries.add(CobblemonItems.IRON)
