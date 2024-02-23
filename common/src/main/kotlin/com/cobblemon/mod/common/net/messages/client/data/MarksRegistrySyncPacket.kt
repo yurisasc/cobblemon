@@ -15,7 +15,6 @@ class MarksRegistrySyncPacket(marks: List<PokemonMark>): DataRegistrySyncPacket<
     override val id = ID
     override fun encodeEntry(buffer: PacketByteBuf, entry: PokemonMark) {
         buffer.writeIdentifier(entry.identifier)
-        buffer.writeString(entry.name)
         buffer.writeIdentifier(entry.icon)
         buffer.writeString(entry.title)
     }
@@ -23,9 +22,8 @@ class MarksRegistrySyncPacket(marks: List<PokemonMark>): DataRegistrySyncPacket<
     override fun decodeEntry(buffer: PacketByteBuf): PokemonMark {
         return PokemonMark(
             id = buffer.readIdentifier(),
-            name = buffer.readString(),
-            icon = buffer.readIdentifier(),
-            title = buffer.readString()
+            title = buffer.readString(),
+            icon = buffer.readIdentifier()
         )
     }
 
