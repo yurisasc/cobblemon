@@ -8,18 +8,20 @@
 
 package com.cobblemon.mod.common.item.interactive
 
-import com.cobblemon.mod.common.CobblemonItems
 import com.cobblemon.mod.common.api.fishing.PokeRods
+import com.cobblemon.mod.common.api.pokeball.PokeBalls
+import com.cobblemon.mod.common.api.text.gray
 import com.cobblemon.mod.common.entity.fishing.PokeRodFishingBobberEntity
 import com.cobblemon.mod.common.item.BerryItem
+import net.minecraft.client.item.TooltipContext
 import net.minecraft.enchantment.EnchantmentHelper
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.FishingRodItem
 import net.minecraft.item.ItemStack
-import net.minecraft.registry.Registries
 import net.minecraft.sound.SoundCategory
 import net.minecraft.sound.SoundEvents
 import net.minecraft.stat.Stats
+import net.minecraft.text.Text
 import net.minecraft.util.Hand
 import net.minecraft.util.Identifier
 import net.minecraft.util.TypedActionResult
@@ -79,4 +81,21 @@ class PokerodItem(val pokeRodId: Identifier, settings: Settings?) : FishingRodIt
     override fun getEnchantability(): Int {
         return 1
     }
+
+    override fun appendTooltip(
+        stack: ItemStack,
+        world: World?,
+        tooltip: MutableList<Text>,
+        context: TooltipContext
+    ) {
+        val rod = PokeRods.getPokeRod((stack.item as PokerodItem).pokeRodId) ?: return
+        val ball = PokeBalls.getPokeBall(rod.pokeBallId) ?: return
+        tooltip.add(ball.item.name.copy().gray())
+        super.appendTooltip(stack, world, tooltip, context)
+    }
+
+    override fun getTranslationKey(): String {
+        return "item.cobblemon.poke_rod"
+    }
+
 }
