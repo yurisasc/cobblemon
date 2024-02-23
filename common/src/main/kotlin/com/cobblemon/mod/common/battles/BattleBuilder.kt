@@ -139,10 +139,6 @@ object BattleBuilder {
                 if (!cloneParties) {
                     pokemonEntity.battleId.set(Optional.of(battle.battleId))
                 }
-                val pokedex = Cobblemon.playerDataManager.getPokedexData(player)
-                pokedex.wildPokemonEncountered(pokemonEntity.pokemon)
-                player.sendPacket(SetClientPlayerDataPacket(PlayerInstancedDataStoreType.POKEDEX, pokedex.toClientData()))
-                return SuccessfulBattleStart(battle)
             }
             errors
         } else {

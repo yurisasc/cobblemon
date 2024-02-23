@@ -10,10 +10,14 @@ package com.cobblemon.mod.common.events
 
 import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.CobblemonNetwork.sendPacket
+import com.cobblemon.mod.common.api.events.battles.BattleStartedPostEvent
 import com.cobblemon.mod.common.api.events.pokemon.PokemonCapturedEvent
 import com.cobblemon.mod.common.api.events.pokemon.TradeCompletedEvent
 import com.cobblemon.mod.common.api.events.pokemon.evolution.EvolutionCompleteEvent
 import com.cobblemon.mod.common.api.storage.player.PlayerInstancedDataStoreType
+import com.cobblemon.mod.common.battles.SuccessfulBattleStart
+import com.cobblemon.mod.common.battles.actor.PokemonBattleActor
+import com.cobblemon.mod.common.client.CobblemonClient.battle
 import com.cobblemon.mod.common.net.messages.client.SetClientPlayerDataPacket
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.util.getPlayer
@@ -58,7 +62,14 @@ object PokedexHandler {
         }
     }
 
-    fun onWildEncounter(pokemon : Pokemon){
-
+    fun onBattleStart(event: BattleStartedPostEvent){
+        if (event.battle.isPvW) {
+            val player = event.battle.players.first()
+            val wildActor = event.battle.actors.firstOrNull {it is PokemonBattleActor} as? PokemonBattleActor ?: return
+            val wildPokemon = wildActor.pokemon.originalPokemon
+            val pokedex = Cobblemon.playerDataManager.getPokedexData(player)
+            pokedex.wildPokemonEncountered(wildPokemon)
+            player.sendPacket(SetClientPlayerDataPacket(PlayerInstancedDataStoreType.POKEDEX, pokedex.toClientData()))
+        }
     }
 }

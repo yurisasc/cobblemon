@@ -17,6 +17,7 @@ import com.cobblemon.mod.common.api.data.DataProvider
 import com.cobblemon.mod.common.api.drop.CommandDropEntry
 import com.cobblemon.mod.common.api.drop.DropEntry
 import com.cobblemon.mod.common.api.drop.ItemDropEntry
+import com.cobblemon.mod.common.api.events.CobblemonEvents.BATTLE_STARTED_POST
 import com.cobblemon.mod.common.api.events.CobblemonEvents.BATTLE_VICTORY
 import com.cobblemon.mod.common.api.events.CobblemonEvents.DATA_SYNCHRONIZED
 import com.cobblemon.mod.common.api.events.CobblemonEvents.EVOLUTION_COMPLETE
@@ -384,6 +385,9 @@ object Cobblemon {
         TRADE_COMPLETED.subscribe {
             AdvancementHandler.onTradeCompleted(it)
             PokedexHandler.onTrade(it)
+        }
+        BATTLE_STARTED_POST.subscribe {
+            PokedexHandler.onBattleStart(it)
         }
 
         BagItems.observable.subscribe {
