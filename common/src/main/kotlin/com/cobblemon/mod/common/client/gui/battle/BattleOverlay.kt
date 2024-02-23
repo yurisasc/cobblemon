@@ -278,15 +278,29 @@ class BattleOverlay : InGameHud(MinecraftClient.getInstance(), MinecraftClient.g
                 green = g,
                 blue = b
             )
-            if (dexState != DexStats.Knowledge.NONE) {
+            if (dexState == DexStats.Knowledge.ENCOUNTERED) {
                 blitk(
                     matrixStack = matrices,
-                    texture = if (dexState == DexStats.Knowledge.ENCOUNTERED) seenIndicator else caughtIndicator,
+                    texture = seenIndicator,
                     x = x + 3,
                     y = y + 21,
                     height = 6,
                     width = 6,
                     alpha = opacity,
+                    red = 125F / 255F,
+                    green = 125F / 255F,
+                    blue = 125F / 255F
+                )
+            }
+            else if (dexState == DexStats.Knowledge.CAUGHT) {
+                blitk(
+                    matrixStack = matrices,
+                    texture = seenIndicator,
+                    x = x + 3,
+                    y = y + 21,
+                    height = 6,
+                    width = 6,
+                    alpha = opacity
                 )
             }
 
