@@ -36,6 +36,8 @@ import com.cobblemon.mod.common.api.scheduling.SchedulingTracker
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.Poseable
 import com.cobblemon.mod.common.entity.ai.FollowPathTask
+import com.cobblemon.mod.common.entity.ai.FollowWalkTargetTask
+import com.cobblemon.mod.common.entity.ai.StayAfloatTask
 import com.cobblemon.mod.common.entity.npc.ai.ChooseWanderTargetTask
 import com.cobblemon.mod.common.entity.npc.ai.LookAtBattlingPokemonTask
 import com.cobblemon.mod.common.entity.npc.ai.MoveToTargetTask
@@ -135,6 +137,7 @@ class NPCEntity(world: World) : PassiveEntity(CobblemonEntities.NPC, world), Npc
         addPosableFunctions(struct)
         runtime.environment.getQueryStruct().addFunctions(struct.functions)
         calculateDimensions()
+        navigation.setCanSwim(true)
     }
 
     // This has to be below constructor and entity tracker fields otherwise initialization order is weird and breaks them syncing
@@ -187,24 +190,29 @@ class NPCEntity(world: World) : PassiveEntity(CobblemonEntities.NPC, world), Npc
 
     override fun deserializeBrain(dynamic: Dynamic<*>): Brain<NPCEntity> {
         val brain = createBrainProfile().deserialize(dynamic)
-        brain.setTaskList(BATTLING, ImmutableList.of(
-            Pair.of(0, LookAroundTask(45, 90)),
-            Pair.of(1, LookAtBattlingPokemonTask.create()),
+        brain.setTaskList(Activity.CORE, ImmutableList.of(
+            Pair.of(0, StayAfloatTask(0.8F)),
         ))
         brain.setTaskList(Activity.IDLE, ImmutableList.of(
             Pair.of(1, LookAroundTask(45, 90)),
             Pair.of(1, LookAtMobTask.create(15F)),
             Pair.of(1, ChooseWanderTargetTask.create(horizontalRange = 10, verticalRange = 5, walkSpeed = 0.25F, completionRange = 1)),
-            Pair.of(1, MoveToTargetTask.create()),
-            Pair.of(1, FollowPathTask.create())
+            Pair.of(1, FollowWalkTargetTask())
+//            Pair.of(1, MoveToTargetTask.create()),
+//            Pair.of(1, FollowPathTask.create())
         ))
+        brain.setTaskList(BATTLING, ImmutableList.of(
+            Pair.of(0, LookAroundTask(45, 90)),
+            Pair.of(1, LookAtBattlingPokemonTask.create()),
+        ))
+        brain.setCoreActivities(setOf(Activity.CORE))
+        brain.setDefaultActivity(Activity.IDLE)
+        brain.resetPossibleActivities()
         return brain
     }
 
     override fun onFinishPathfinding() {
-        brain.forget(MemoryModuleType.PATH)
-        brain.forget(MemoryModuleType.WALK_TARGET)
-        brain.forget(MemoryModuleType.LOOK_TARGET)
+//        brain.forget(MemoryModuleType.WALK_TARGET)
     }
 
     override fun getBrain() = super.getBrain() as Brain<NPCEntity>
