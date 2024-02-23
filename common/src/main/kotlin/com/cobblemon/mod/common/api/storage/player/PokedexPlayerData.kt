@@ -11,10 +11,11 @@ package com.cobblemon.mod.common.api.storage.player
 import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.api.storage.player.client.ClientInstancedPlayerData
 import com.cobblemon.mod.common.api.storage.player.client.ClientPokedexPlayerData
+import com.cobblemon.mod.common.api.storage.pokedex.PokedexEntry
 import com.cobblemon.mod.common.pokedex.DexStats
-import com.cobblemon.mod.common.pokedex.PokedexEntry
 import com.cobblemon.mod.common.pokemon.Pokemon
 import net.minecraft.util.Identifier
+import org.apache.http.util.Args
 import java.util.UUID
 
 /**
@@ -29,17 +30,28 @@ class PokedexPlayerData(
     }
 
     fun wildPokemonEncountered(pokemon: Pokemon) {
+        savePokemonEvent(pokemon, PokedexEntry::wildPokemonEncountered)
+    }
+
+    fun pokemonCaptured(pokemon: Pokemon){
+        savePokemonEvent(pokemon, PokedexEntry::pokemonCaught)
+    }
+
+    fun pokemonEncounteredBattle(pokemon: Pokemon) {
+        savePokemonEvent(pokemon, PokedexEntry::pokemonEncounteredBattle)
+    }
+
+    fun savePokemonEvent(pokemon: Pokemon, dexEntryFunction: (PokedexEntry, String) -> (Unit)){
         val speciesId = pokemon.species.resourceIdentifier
         if (!pokedexEntries.containsKey(speciesId)) {
             pokedexEntries[speciesId] = PokedexEntry(
-                pokemon.species.resourceIdentifier,
-                mutableMapOf()
+                    pokemon.species.resourceIdentifier,
+                    mutableMapOf()
             )
         }
         val dexEntry = pokedexEntries[speciesId]!!
         val formString = PokedexEntry.formToFormString(pokemon.species.getForm(emptySet()), pokemon.shiny)
-        dexEntry.pokemonEncountered(formString, true)
+        dexEntryFunction(dexEntry, formString)
         Cobblemon.playerDataManager.saveSingle(this, PlayerInstancedDataStoreType.POKEDEX)
     }
-
 }

@@ -16,12 +16,11 @@ import com.cobblemon.mod.common.api.events.CobblemonEvents
 import com.cobblemon.mod.common.api.events.battles.BattleStartedPreEvent
 import com.cobblemon.mod.common.api.storage.party.PartyStore
 import com.cobblemon.mod.common.api.storage.player.PlayerInstancedDataStoreType
-import com.cobblemon.mod.common.api.storage.player.PokedexPlayerData
 import com.cobblemon.mod.common.battles.actor.PlayerBattleActor
 import com.cobblemon.mod.common.battles.actor.PokemonBattleActor
 import com.cobblemon.mod.common.battles.pokemon.BattlePokemon
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
-import com.cobblemon.mod.common.net.messages.client.starter.SetClientPlayerDataPacket
+import com.cobblemon.mod.common.net.messages.client.SetClientPlayerDataPacket
 import com.cobblemon.mod.common.util.battleLang
 import com.cobblemon.mod.common.util.getPlayer
 import com.cobblemon.mod.common.util.party

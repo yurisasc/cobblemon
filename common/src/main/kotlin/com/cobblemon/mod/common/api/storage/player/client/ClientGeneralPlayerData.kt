@@ -10,7 +10,7 @@ package com.cobblemon.mod.common.api.storage.player.client
 
 import com.cobblemon.mod.common.api.storage.player.PlayerInstancedDataStoreType
 import com.cobblemon.mod.common.client.CobblemonClient
-import com.cobblemon.mod.common.net.messages.client.starter.SetClientPlayerDataPacket
+import com.cobblemon.mod.common.net.messages.client.SetClientPlayerDataPacket
 import net.minecraft.network.PacketByteBuf
 import java.util.UUID
 

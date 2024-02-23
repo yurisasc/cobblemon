@@ -9,7 +9,7 @@
 package com.cobblemon.mod.common.client.net
 
 import com.cobblemon.mod.common.api.net.ClientNetworkPacketHandler
-import com.cobblemon.mod.common.net.messages.client.starter.SetClientPlayerDataPacket
+import com.cobblemon.mod.common.net.messages.client.SetClientPlayerDataPacket
 import net.minecraft.client.MinecraftClient
 
 object SetClientPlayerDataHandler : ClientNetworkPacketHandler<SetClientPlayerDataPacket> {

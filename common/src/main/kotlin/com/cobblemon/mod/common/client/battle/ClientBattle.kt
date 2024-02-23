@@ -12,11 +12,11 @@ import com.cobblemon.mod.common.CobblemonNetwork
 import com.cobblemon.mod.common.api.battles.model.actor.ActorType
 import com.cobblemon.mod.common.api.battles.model.actor.BattleActor
 import com.cobblemon.mod.common.api.pokemon.PokemonSpecies
+import com.cobblemon.mod.common.api.storage.pokedex.PokedexEntry
 import com.cobblemon.mod.common.battles.BattleFormat
 import com.cobblemon.mod.common.client.CobblemonClient
 import com.cobblemon.mod.common.net.messages.server.battle.BattleSelectActionsPacket
 import com.cobblemon.mod.common.pokedex.DexStats
-import com.cobblemon.mod.common.pokedex.PokedexEntry
 import com.cobblemon.mod.common.pokemon.FormData
 import java.util.UUID
 

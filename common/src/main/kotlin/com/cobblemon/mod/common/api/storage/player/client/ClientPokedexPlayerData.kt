@@ -9,10 +9,10 @@
 package com.cobblemon.mod.common.api.storage.player.client
 
 import com.cobblemon.mod.common.api.storage.player.PlayerInstancedDataStoreType
+import com.cobblemon.mod.common.api.storage.pokedex.PokedexEntry
 import com.cobblemon.mod.common.client.CobblemonClient
-import com.cobblemon.mod.common.net.messages.client.starter.SetClientPlayerDataPacket
+import com.cobblemon.mod.common.net.messages.client.SetClientPlayerDataPacket
 import com.cobblemon.mod.common.pokedex.DexStats
-import com.cobblemon.mod.common.pokedex.PokedexEntry
 import net.minecraft.network.PacketByteBuf
 import net.minecraft.util.Identifier
 
@@ -25,13 +25,17 @@ class ClientPokedexPlayerData(
     val pokedex: Map<Identifier, PokedexEntry>
 ) : ClientInstancedPlayerData() {
     override fun encode(buf: PacketByteBuf) {
-        buf.writeInt(pokedex.size)
-        pokedex.forEach {
+        val pokedexThatChanged = pokedex.filter { it.value.changedSinceLastSync }.toMap()
+
+        buf.writeInt(pokedexThatChanged.size)
+        pokedexThatChanged.forEach {
             encodeEntry(buf, it.value)
         }
     }
 
     private fun encodeEntry(buf: PacketByteBuf, entry: PokedexEntry) {
+        entry.changedSinceLastSync = true
+
         buf.writeIdentifier(entry.id)
         val entryMap = entry.progressMap
         buf.writeInt(entry.progressMap.size)
@@ -58,7 +62,7 @@ class ClientPokedexPlayerData(
             val species = Identifier.tryParse(buf.readString())!!
             val map = mutableMapOf<String, DexStats>()
             val numForms = buf.readInt()
-            for (i in 1..numForms) {
+            for (i in 0 until numForms) {
                 val id = buf.readString()
                 val numWild = buf.readByte()
                 val numBattle = buf.readByte()

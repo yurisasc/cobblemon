@@ -82,6 +82,7 @@ import com.cobblemon.mod.common.config.constraint.IntConstraint
 import com.cobblemon.mod.common.config.starter.StarterConfig
 import com.cobblemon.mod.common.data.CobblemonDataProvider
 import com.cobblemon.mod.common.events.AdvancementHandler
+import com.cobblemon.mod.common.events.PokedexHandler
 import com.cobblemon.mod.common.events.ServerTickHandler
 import com.cobblemon.mod.common.item.PokeBallItem
 import com.cobblemon.mod.common.net.messages.client.settings.ServerSettingsPacket
@@ -339,10 +340,13 @@ object Cobblemon {
         }
         PlatformEvents.SERVER_TICK_POST.subscribe { ServerTickHandler.onTick(it.server) }
         POKEMON_CAPTURED.subscribe { AdvancementHandler.onCapture(it) }
+        POKEMON_CAPTURED.subscribe { PokedexHandler.onCapture(it) }
+
 //        EGG_HATCH.subscribe { AdvancementHandler.onHatch(it) }
         BATTLE_VICTORY.subscribe { AdvancementHandler.onWinBattle(it) }
         EVOLUTION_COMPLETE.subscribe(Priority.LOWEST) { event ->
             AdvancementHandler.onEvolve(event)
+            PokedexHandler.onEvolve(event)
             val pokemon = event.pokemon
             val ninjaskIdentifier = cobblemonResource("ninjask")
             // Ensure the config option is enabled and that the result was a ninjask and that shedinja exists
@@ -376,6 +380,7 @@ object Cobblemon {
         }
         LEVEL_UP_EVENT.subscribe { AdvancementHandler.onLevelUp(it) }
         TRADE_COMPLETED.subscribe { AdvancementHandler.onTradeCompleted(it) }
+        TRADE_COMPLETED.subscribe { PokedexHandler.onTrade(it) }
 
         BagItems.observable.subscribe {
             LOGGER.info("Starting dummy Showdown battle to force it to pre-load data.")

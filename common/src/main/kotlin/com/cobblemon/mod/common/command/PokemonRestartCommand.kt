@@ -12,7 +12,7 @@ import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.CobblemonNetwork.sendPacket
 import com.cobblemon.mod.common.api.permission.CobblemonPermissions
 import com.cobblemon.mod.common.api.storage.player.PlayerInstancedDataStoreType
-import com.cobblemon.mod.common.net.messages.client.starter.SetClientPlayerDataPacket
+import com.cobblemon.mod.common.net.messages.client.SetClientPlayerDataPacket
 import com.cobblemon.mod.common.net.messages.client.storage.party.InitializePartyPacket
 import com.cobblemon.mod.common.net.messages.client.storage.pc.InitializePCPacket
 import com.cobblemon.mod.common.util.alias

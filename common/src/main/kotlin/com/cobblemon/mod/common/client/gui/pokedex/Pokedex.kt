@@ -8,14 +8,15 @@
 
 package com.cobblemon.mod.common.client.gui.pokedex
 import com.cobblemon.mod.common.Cobblemon.LOGGER
+import com.cobblemon.mod.common.api.storage.player.PokedexPlayerData
+import com.cobblemon.mod.common.api.storage.player.client.ClientPokedexPlayerData
 import com.cobblemon.mod.common.client.gui.pokedex.widgets.ScrollWidget
-import com.cobblemon.mod.common.client.storage.ClientPokedex
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.gui.DrawContext
 import net.minecraft.client.gui.screen.Screen
 import net.minecraft.text.Text
 
-class Pokedex private constructor(val pokedex: ClientPokedex) : Screen(Text.translatable("cobblemon.ui.pokedex.title")) {
+class Pokedex private constructor(val pokedex: ClientPokedexPlayerData) : Screen(Text.translatable("cobblemon.ui.pokedex.title")) {
 
     companion object {
         const val BASE_WIDTH = 331
@@ -27,10 +28,11 @@ class Pokedex private constructor(val pokedex: ClientPokedex) : Screen(Text.tran
         /**
          * Attempts to open this screen for a client.
          */
-        fun open(pokedexList: ClientPokedex) {
+        fun open(pokedex: ClientPokedexPlayerData) {
             val mc = MinecraftClient.getInstance()
-            val screen = Pokedex(pokedexList)
+            val screen = Pokedex(pokedex)
             mc.setScreen(screen)
+            LOGGER.info(pokedex.pokedex.keys)
         }
     }
 
@@ -45,7 +47,6 @@ class Pokedex private constructor(val pokedex: ClientPokedex) : Screen(Text.tran
         val y = (height - BASE_HEIGHT) / 2
 
         displayScroll()
-        LOGGER.info("entries" + pokedex.pokedexEntries.toString())
     }
 
     override fun render(context: DrawContext?, mouseX: Int, mouseY: Int, delta: Float) {

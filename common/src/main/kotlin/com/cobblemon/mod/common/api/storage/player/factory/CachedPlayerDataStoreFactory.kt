@@ -12,7 +12,7 @@ import com.cobblemon.mod.common.CobblemonNetwork.sendPacket
 import com.cobblemon.mod.common.api.storage.player.InstancedPlayerData
 import com.cobblemon.mod.common.api.storage.player.PlayerInstancedDataFactory
 import com.cobblemon.mod.common.api.storage.player.adapter.PlayerDataStoreBackend
-import com.cobblemon.mod.common.net.messages.client.starter.SetClientPlayerDataPacket
+import com.cobblemon.mod.common.net.messages.client.SetClientPlayerDataPacket
 import com.cobblemon.mod.common.util.getPlayer
 import com.cobblemon.mod.common.util.removeIf
 import net.minecraft.server.MinecraftServer

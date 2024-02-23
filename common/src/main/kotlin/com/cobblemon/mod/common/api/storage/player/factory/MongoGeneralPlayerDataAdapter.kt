@@ -13,7 +13,7 @@ import com.cobblemon.mod.common.CobblemonNetwork.sendPacket
 import com.cobblemon.mod.common.api.storage.player.PlayerInstancedDataFactory
 import com.cobblemon.mod.common.api.storage.player.GeneralPlayerData
 import com.cobblemon.mod.common.api.storage.player.adapter.MongoPlayerDataBackend
-import com.cobblemon.mod.common.net.messages.client.starter.SetClientPlayerDataPacket
+import com.cobblemon.mod.common.net.messages.client.SetClientPlayerDataPacket
 import com.cobblemon.mod.common.util.getPlayer
 import com.cobblemon.mod.common.util.removeIf
 import com.mongodb.client.MongoClient

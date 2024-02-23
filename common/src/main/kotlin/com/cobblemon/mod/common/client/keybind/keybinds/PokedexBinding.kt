@@ -23,7 +23,7 @@ object PokedexBinding : CobblemonKeyBinding(
 ) {
     override fun onPress() {
         try {
-            Pokedex.open(CobblemonClient.storage.myPokedex)
+            Pokedex.open(CobblemonClient.clientPokedexData)
         } catch (e: Exception) {
             Cobblemon.LOGGER.debug("Failed to open the Pokedex from the Pokedex keybind", e)
         }
