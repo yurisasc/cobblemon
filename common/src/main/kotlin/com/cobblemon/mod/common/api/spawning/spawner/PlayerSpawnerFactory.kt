@@ -15,6 +15,7 @@ import com.cobblemon.mod.common.api.spawning.detail.SpawnPool
 import com.cobblemon.mod.common.api.spawning.influence.PlayerLevelRangeInfluence
 import com.cobblemon.mod.common.api.spawning.influence.SpawningInfluence
 import com.cobblemon.mod.common.api.spawning.rules.SpawnRule
+import com.cobblemon.mod.common.util.mutableLazy
 import net.minecraft.server.network.ServerPlayerEntity
 
 /**
@@ -26,7 +27,10 @@ import net.minecraft.server.network.ServerPlayerEntity
  * @since February 14th, 2022
  */
 object PlayerSpawnerFactory {
-    var spawns: SpawnPool = CobblemonSpawnPools.WORLD_SPAWN_POOL
+    var spawns: SpawnPool by mutableLazy {
+        CobblemonSpawnPools.WORLD_SPAWN_POOL
+    }
+    @Suppress("MemberVisibilityCanBePrivate")
     var influenceBuilders = mutableListOf<(player: ServerPlayerEntity) -> SpawningInfluence?>({ PlayerLevelRangeInfluence(it, variation = 5) })
 
     fun create(spawnerManager: SpawnerManager, player: ServerPlayerEntity): PlayerSpawner {
