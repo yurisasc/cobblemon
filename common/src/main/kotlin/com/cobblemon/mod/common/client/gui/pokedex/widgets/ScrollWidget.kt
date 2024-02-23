@@ -15,10 +15,10 @@ import net.minecraft.client.gui.DrawContext
 import net.minecraft.text.Text
 
 class ScrollWidget(pX: Int, pY: Int
-): SoundlessWidget(pX, pY, ScrollWidget.WIDTH, ScrollWidget.HEIGHT, Text.literal("ScrollWidget")) {
+): SoundlessWidget(pX, pY, WIDTH, HEIGHT, Text.literal("ScrollWidget")) {
     companion object {
-        private const val WIDTH = 100
-        private const val HEIGHT = 100
+        private const val WIDTH = 90
+        private const val HEIGHT = 160
     }
     override fun renderButton(context: DrawContext, pMouseX: Int, pMouseY: Int, pPartialTicks: Float) {
         drawScaledText(
