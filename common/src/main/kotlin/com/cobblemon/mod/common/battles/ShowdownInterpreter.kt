@@ -84,6 +84,7 @@ import net.minecraft.entity.LivingEntity
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.text.MutableText
 import net.minecraft.text.Text
+import net.minecraft.util.math.Vec3d
 
 @Suppress("KotlinPlaceholderCountMatchesArgumentCount", "UNUSED_PARAMETER")
 object ShowdownInterpreter {
@@ -1245,6 +1246,56 @@ object ShowdownInterpreter {
         }
     }
 
+
+    /**
+     *
+     * Figures out the sendout position for an arbitrary battle
+     * Code is very much WIP and will be refactored to heck and back.
+     * Triples positioning is def incorrect atm
+     */
+    private fun getSendoutPosition(battle: PokemonBattle, pnx:String, battleActor: BattleActor,  pokemonID: String): Vec3d? {
+        val (actor, activePokemon) = battle.getActorAndActiveSlotFromPNX(pnx)
+        val pokemon = battle.getBattlePokemon(pnx, pokemonID)
+        val entity = if (actor is EntityBackedBattleActor<*>) actor.entity else null
+        var result = entity?.pos
+//        val pokemonEntity = pokemon.entity
+        val baseOffset = battleActor.getSide().getOppositeSide().actors.filterIsInstance<EntityBackedBattleActor<*>>().firstOrNull()?.entity?.pos?.let { pos ->
+            pos.subtract(entity?.pos)
+        }
+
+        if(battle.format.battleType.pokemonPerSide == 1) {
+            if (entity != null) {
+                if (baseOffset != null) {
+                    result = entity.pos?.add(baseOffset.multiply(0.33))
+                }
+            }
+        } else if(battle.format.battleType.pokemonPerSide == 2) {
+            if(battle.actors.first() !== battle.actors.last() && baseOffset != null) {
+                var vector = baseOffset.normalize()
+                if (vector != null) {
+                    vector = vector.crossProduct(Vec3d(0.0, 1.0, 0.0))
+                }
+                    val offsetB = if(pnx[2] == 'a') vector.multiply(-1.0) else vector
+                    result = entity?.pos?.add(baseOffset.multiply(0.33))?.add(offsetB.multiply(2.5))
+            }
+        } else if(battle.format.battleType.pokemonPerSide == 3) {
+            if(battle.actors.first() !== battle.actors.last() && baseOffset != null) {
+                var vector = baseOffset.normalize()
+                if (vector != null) {
+                    vector = vector.crossProduct(Vec3d(0.0, 1.0, 0.0))
+                }
+                result = when (pnx[2]) {
+                    'a' -> entity?.pos?.add(baseOffset.multiply(0.25))
+                    'b' -> entity?.pos?.add(baseOffset.multiply(0.1))?.add(vector.multiply(-3.5))
+                    'c' -> entity?.pos?.add(baseOffset.multiply(0.1))?.add(vector.multiply(3.5))
+                    else -> result
+                }
+            }
+        }
+
+        return result
+    }
+
     /**
      * Format:
      * |switch|POKEMON|DETAILS|HP STATUS
@@ -1263,21 +1314,18 @@ object ShowdownInterpreter {
             activePokemon.battlePokemon = pokemon
             val pokemonEntity = pokemon.entity
             if (pokemonEntity == null && entity != null) {
-                val targetPos = battleActor.getSide().getOppositeSide().actors.filterIsInstance<EntityBackedBattleActor<*>>().firstOrNull()?.entity?.pos?.let { pos ->
-                    val offset = pos.subtract(entity.pos)
-                    val idealPos = entity.pos.add(offset.multiply(0.33))
-                    idealPos
-                } ?: entity.pos
-
+                val targetPos = getSendoutPosition(battle, pnx, battleActor, pokemonID)
                 actor.stillSendingOutCount++
-                pokemon.effectedPokemon.sendOutWithAnimation(
-                    source = entity,
-                    battleId = battle.battleId,
-                    level = entity.world as ServerWorld,
-                    doCry = false,
-                    position = targetPos
-                ).thenApply {
-                    actor.stillSendingOutCount--
+                if (targetPos != null) {
+                    pokemon.effectedPokemon.sendOutWithAnimation(
+                            source = entity,
+                            battleId = battle.battleId,
+                            level = entity.world as ServerWorld,
+                            doCry = false,
+                            position = targetPos
+                    ).thenApply {
+                        actor.stillSendingOutCount--
+                    }
                 }
             }
         } else {
