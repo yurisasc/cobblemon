@@ -20,15 +20,7 @@
     "humid",
     "peat"
   ],
-  "growthFactors": [
-    {
-      "variant": "cobblemon:preferred_biome",
-      "bonusYield": {
-        "min": 1,
-        "max": 2
-      }
-    }
-  ],
+  "growthFactors": [],
   "randomizedGrowthPoints": true,
   "spawnConditions": [
     {
@@ -135,8 +127,20 @@
       }
     }
   ],
+  "stageOnePositioning": {
+    "position": {
+      "x": 8.15,
+      "y": 4.0,
+      "z": 8.1
+    },
+    "rotation": {
+      "x": 5.0,
+      "y": -10.0,
+      "z": -7.5
+    }
+  },
   "mutations": {
-    "cobblemon:hopo_berry": "cobblemon:enigma_berry",
+    "cobblemon:sitrus_berry": "cobblemon:enigma_berry",
     "cobblemon:magost_berry": "cobblemon:watmel_berry"
   },
   "sproutShape": "short-sprout",

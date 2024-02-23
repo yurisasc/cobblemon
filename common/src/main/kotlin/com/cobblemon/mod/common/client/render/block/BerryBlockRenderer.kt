@@ -33,6 +33,7 @@ import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.util.math.Box
 import net.minecraft.util.math.Vec3d
 import org.joml.Matrix4f
+import org.joml.Vector3f
 
 
 class BerryBlockRenderer(private val context: BlockEntityRendererFactory.Context) : BlockEntityRenderer<BerryBlockEntity> {
@@ -46,7 +47,7 @@ class BerryBlockRenderer(private val context: BlockEntityRendererFactory.Context
         if (!isInRenderDistance(entity, entity.pos.toVec3d())) return
         val blockState = entity.cachedState
         val age = blockState.get(BerryBlock.AGE)
-        if (age <= BerryBlock.MATURE_AGE) {
+        if (age <= BerryBlock.MATURE_AGE && age != 0) {
             return
         }
         if (entity.renderState == null) {
@@ -70,8 +71,38 @@ class BerryBlockRenderer(private val context: BlockEntityRendererFactory.Context
         CobblemonRenderLayers.BERRY_LAYER.endDrawing()
         matrices.pop()
     }
-
     fun renderToBuffer(entity: BerryBlockEntity, light: Int, overlay: Int, buffer: VertexBuffer) {
+        if (entity.cachedState.get(BerryBlock.AGE) == 0) {
+            renderBabyToBuffer(entity, light, overlay, buffer)
+        }
+        else {
+            renderAdultToBuffer(entity, light, overlay, buffer)
+        }
+    }
+
+    fun renderBabyToBuffer(entity: BerryBlockEntity, light: Int, overlay: Int, buffer: VertexBuffer) {
+        val bufferBuilder = Tessellator.getInstance().buffer
+        bufferBuilder.begin(CobblemonRenderLayers.BERRY_LAYER.drawMode, CobblemonRenderLayers.BERRY_LAYER.vertexFormat)
+        val berry = entity.berry() ?: return
+        val model = BerryModelRepository.modelOf(berry.fruitModelIdentifier) ?: return
+        val pos = berry.stageOnePositioning.position
+        model.setPosition(Axis.X_AXIS.ordinal, pos.x.toFloat())
+        model.setPosition(Axis.Y_AXIS.ordinal, pos.y.toFloat())
+        model.setPosition(Axis.Z_AXIS.ordinal, pos.z.toFloat())
+        val rot = berry.stageOnePositioning.rotation
+        model.setAngles(
+            Math.toRadians(180 - rot.x).toFloat(),
+            Math.toRadians(180 + rot.y).toFloat(),
+            Math.toRadians(rot.z).toFloat()
+        )
+        model.render(MatrixStack(), bufferBuilder, light, overlay)
+        val bufferBuilderFinal = bufferBuilder.end()
+        buffer.bind()
+        buffer.upload(bufferBuilderFinal)
+        VertexBuffer.unbind()
+    }
+
+    fun renderAdultToBuffer(entity: BerryBlockEntity, light: Int, overlay: Int, buffer: VertexBuffer) {
         val blockState = entity.cachedState
         val age = blockState.get(BerryBlock.AGE)
         if (age <= BerryBlock.MATURE_AGE) {

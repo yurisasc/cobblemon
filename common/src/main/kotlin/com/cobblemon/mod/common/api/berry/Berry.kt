@@ -60,6 +60,7 @@ import net.minecraft.world.biome.Biome
  * @property flowerTexture The [Identifier] for the texture of the berry in flower form. This is resolved into a [ModelPart] on the client.
  * @property fruitModelIdentifier The [Identifier] for the model of the berry in flower form. This is resolved into a [ModelPart] on the client.
  * @property fruitTexture The [Identifier] for the texture of the berry in flower form.
+ * @property stageOnePositioning Transformation of the berry model for age 0
  *
  * @throws IllegalArgumentException if the any yield range argument is not a positive range.
  */
@@ -88,6 +89,7 @@ class Berry(
     @SerializedName("fruitModel")
     val fruitModelIdentifier: Identifier,
     val fruitTexture: Identifier,
+    val stageOnePositioning: GrowthPoint,
     val weight: Float
 ) {
 
@@ -279,6 +281,12 @@ class Berry(
         buffer.writeIdentifier(this.flowerTexture)
         buffer.writeIdentifier(this.fruitModelIdentifier)
         buffer.writeIdentifier(this.fruitTexture)
+        buffer.writeDouble(stageOnePositioning.position.x)
+        buffer.writeDouble(stageOnePositioning.position.y)
+        buffer.writeDouble(stageOnePositioning.position.z)
+        buffer.writeDouble(stageOnePositioning.rotation.x)
+        buffer.writeDouble(stageOnePositioning.rotation.y)
+        buffer.writeDouble(stageOnePositioning.rotation.z)
     }
 
     /**
@@ -339,7 +347,8 @@ class Berry(
             val flowerTexture = buffer.readIdentifier()
             val fruitModelIdentifier = buffer.readIdentifier()
             val fruitTexture = buffer.readIdentifier()
-            return Berry(identifier, baseYield, emptyList(), growthTime, refreshRate, favMulchs, emptySet(), emptyList(), growthPoints, randomizedGrowthPoints, mutations, sproutShapeBoxes, matureShapeBoxes, flavors, tintIndexes, flowerModelIdentifier, flowerTexture, fruitModelIdentifier, fruitTexture, 0F)
+            val stageOneYPos = GrowthPoint(Vec3d(buffer.readDouble(), buffer.readDouble(), buffer.readDouble()), Vec3d(buffer.readDouble(), buffer.readDouble(), buffer.readDouble()))
+            return Berry(identifier, baseYield, emptyList(), growthTime, refreshRate, favMulchs, emptySet(), emptyList(), growthPoints, randomizedGrowthPoints, mutations, sproutShapeBoxes, matureShapeBoxes, flavors, tintIndexes, flowerModelIdentifier, flowerTexture, fruitModelIdentifier, fruitTexture, stageOneYPos, 0F)
         }
 
     }
