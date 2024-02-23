@@ -339,8 +339,10 @@ object Cobblemon {
             battleRegistry.onServerStarted()
         }
         PlatformEvents.SERVER_TICK_POST.subscribe { ServerTickHandler.onTick(it.server) }
-        POKEMON_CAPTURED.subscribe { AdvancementHandler.onCapture(it) }
-        POKEMON_CAPTURED.subscribe { PokedexHandler.onCapture(it) }
+        POKEMON_CAPTURED.subscribe {
+            PokedexHandler.onCapture(it)
+            AdvancementHandler.onCapture(it)
+        }
 
 //        EGG_HATCH.subscribe { AdvancementHandler.onHatch(it) }
         BATTLE_VICTORY.subscribe { AdvancementHandler.onWinBattle(it) }
@@ -379,8 +381,10 @@ object Cobblemon {
             }
         }
         LEVEL_UP_EVENT.subscribe { AdvancementHandler.onLevelUp(it) }
-        TRADE_COMPLETED.subscribe { AdvancementHandler.onTradeCompleted(it) }
-        TRADE_COMPLETED.subscribe { PokedexHandler.onTrade(it) }
+        TRADE_COMPLETED.subscribe {
+            AdvancementHandler.onTradeCompleted(it)
+            PokedexHandler.onTrade(it)
+        }
 
         BagItems.observable.subscribe {
             LOGGER.info("Starting dummy Showdown battle to force it to pre-load data.")
