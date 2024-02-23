@@ -8,6 +8,8 @@
 
 package com.cobblemon.mod.common.entity.pokeball
 
+import com.bedrockk.molang.runtime.struct.QueryStruct
+import com.bedrockk.molang.runtime.value.StringValue
 import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.CobblemonEntities.EMPTY_POKEBALL
 import com.cobblemon.mod.common.CobblemonNetwork
@@ -41,6 +43,7 @@ import com.cobblemon.mod.common.net.messages.client.battle.BattleCaptureStartPac
 import com.cobblemon.mod.common.net.messages.client.spawn.SpawnPokeballPacket
 import com.cobblemon.mod.common.pokeball.PokeBall
 import com.cobblemon.mod.common.pokemon.properties.UncatchableProperty
+import com.cobblemon.mod.common.util.asArrayValue
 import com.cobblemon.mod.common.util.isServerSide
 import com.cobblemon.mod.common.util.lang
 import com.cobblemon.mod.common.util.playSoundServer
@@ -111,6 +114,10 @@ class EmptyPokeBallEntity : ThrownItemEntity, Poseable, WaterDragModifier, Sched
     } else {
         EmptyPokeBallServerDelegate()
     }
+
+    val struct = QueryStruct(hashMapOf())
+        .addFunction("aspects") { aspects.asArrayValue { StringValue(it) } }
+        .addFunction("ball_type") { pokeBall.item }
 
     override fun initDataTracker() {
         super.initDataTracker()

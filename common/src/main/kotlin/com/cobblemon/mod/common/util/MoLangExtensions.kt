@@ -15,6 +15,7 @@ import com.bedrockk.molang.runtime.MoLangEnvironment
 import com.bedrockk.molang.runtime.MoLangRuntime
 import com.bedrockk.molang.runtime.MoParams
 import com.bedrockk.molang.runtime.MoScope
+import com.bedrockk.molang.runtime.struct.ArrayStruct
 import com.bedrockk.molang.runtime.struct.VariableStruct
 import com.bedrockk.molang.runtime.value.MoValue
 import java.lang.IllegalArgumentException
@@ -148,3 +149,9 @@ fun List<Expression>.resolveObject(runtime: MoLangRuntime) = resolve(runtime) as
 fun MoParams.getStringOrNull(index: Int) = if (params.size > index) getString(index) else null
 fun MoParams.getDoubleOrNull(index: Int) = if (params.size > index) getDouble(index) else null
 fun MoParams.getBooleanOrNull(index: Int) = if (params.size > index) getDouble(index) == 1.0 else null
+
+fun <T> Collection<T>.asArrayValue(mapper: (T) -> MoValue): ArrayStruct {
+    val array = ArrayStruct()
+    forEachIndexed { index, value -> array.setDirectly("$index", mapper(value)) }
+    return array
+}
