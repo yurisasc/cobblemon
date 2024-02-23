@@ -124,7 +124,14 @@ abstract class SpawningCondition<T : SpawningContext> {
 
             if (Registries.ITEM.getId(pokerodItem?.bait?.item).path != bait)
                 return false
-        }
+        } /*else if (ctx is FishingSpawningContext && (ctx as FishingSpawningContext).rodItem != null) { // check if the bait attracts certain EV yields
+            val pokerodItem = (ctx as FishingSpawningContext).rodItem
+
+            // todo check if the EV yield of the berry matches the bait EV attract maybe?
+
+            if (// todo if bait EV yield != EV yield of pokemon consideration        //Registries.ITEM.getId(pokerodItem?.bait?.item).path == )
+                return false
+        }*/
 
         return true
     }
