@@ -52,6 +52,7 @@
 - Fixed very many issues with Bedrock particle effects.
 - Fixed Arbok patterns not being as specific in spawning as they were intended.
 - Fixed Pokémon not avoiding danger at all when pathfinding. 
+- Fixed Sobble line not being able to swim or breathe underwater.
 - Fixed incompatibility with [Just Enough Resources](https://modrinth.com/mod/just-enough-resources-jer).
 - Fixed incompatibility with [Visual Overhaul](https://modrinth.com/mod/visual-overhaul).
 
@@ -65,6 +66,7 @@
 - Made PokemonProperties.parse more interoperable with Java.
 - Added the ``HeldItemEvent``, this comes with 2 implementation ``HeldItemEvent.Pre`` and ``HeldItemEvent.Post``. 
 - API to support dynamic lighting in any mod that implements this feature has been added to all Species & Forms, see LightingData class for details.
+- Added a Mixin for the BrewingStandScreenHandler to fix the incorrect handling of quickMove in Fabric.
 
 ### Datapack & Resourcepack Creators
 - The maximum amount of fossils that can fit in the Fossil Analyzer can be adjusted in the config.
