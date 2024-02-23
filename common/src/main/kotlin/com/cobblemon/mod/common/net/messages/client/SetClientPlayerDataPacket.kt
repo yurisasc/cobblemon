@@ -21,12 +21,17 @@ import net.minecraft.network.PacketByteBuf
  * @author Hiroku, Apion
  * @since August 1st, 2022
  */
-class SetClientPlayerDataPacket(val type: PlayerInstancedDataStoreType, val playerData: ClientInstancedPlayerData) : NetworkPacket<SetClientPlayerDataPacket> {
+class SetClientPlayerDataPacket(
+    val type: PlayerInstancedDataStoreType,
+    val playerData: ClientInstancedPlayerData,
+    var isIncremental:Boolean = false
+) : NetworkPacket<SetClientPlayerDataPacket> {
 
     override val id = ID
 
     override fun encode(buffer: PacketByteBuf) {
         buffer.writeEnumConstant(type)
+        buffer.writeBoolean(isIncremental)
         playerData.encode(buffer)
     }
 
@@ -34,7 +39,10 @@ class SetClientPlayerDataPacket(val type: PlayerInstancedDataStoreType, val play
         val ID = cobblemonResource("set_client_playerdata")
         fun decode(buffer: PacketByteBuf): SetClientPlayerDataPacket {
             val type = buffer.readEnumConstant(PlayerInstancedDataStoreType::class.java)
-            return type.decoder.invoke(buffer)
+            val isIncremental = buffer.readBoolean()
+            val result = type.decoder.invoke(buffer)
+            result.isIncremental = isIncremental
+            return result
         }
     }
 }

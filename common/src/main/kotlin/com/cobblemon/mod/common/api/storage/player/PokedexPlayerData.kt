@@ -41,7 +41,18 @@ class PokedexPlayerData(
         savePokemonEvent(pokemon, PokedexEntry::pokemonEncounteredBattle)
     }
 
-    fun savePokemonEvent(pokemon: Pokemon, dexEntryFunction: (PokedexEntry, String) -> (Unit)){
+    //Kinda weird method
+    fun getInstancedPiece(pokemon: Pokemon): PokedexPlayerData {
+        val id = pokemon.species.resourceIdentifier
+        val formMap = this.pokedexEntries[id]?.progressMap ?: mutableMapOf()
+        val speciesMap = hashMapOf(
+            Pair(id, PokedexEntry(id, formMap))
+        )
+        return PokedexPlayerData(uuid, speciesMap)
+    }
+
+    //Returns a new [PokedexPlayerData] for incremental sending
+    fun savePokemonEvent(pokemon: Pokemon, dexEntryFunction: (PokedexEntry, String) -> (Unit)) {
         val speciesId = pokemon.species.resourceIdentifier
         if (!pokedexEntries.containsKey(speciesId)) {
             pokedexEntries[speciesId] = PokedexEntry(

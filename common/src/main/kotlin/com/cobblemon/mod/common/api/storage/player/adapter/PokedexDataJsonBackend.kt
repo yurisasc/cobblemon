@@ -32,8 +32,12 @@ class PokedexDataJsonBackend: JsonBackedPlayerDataStoreBackend<PokedexPlayerData
         .registerTypeAdapter(Identifier::class.java, IdentifierAdapter)
         .create()
     override val classToken = TypeToken.get(PokedexPlayerData::class.java)
-    override val defaultData = { uuid: UUID ->
-        PokedexPlayerData(uuid, hashMapOf())
+    override val defaultData = defaultDataFunc
+
+    companion object {
+        val defaultDataFunc = { uuid: UUID ->
+            PokedexPlayerData(uuid, hashMapOf())
+        }
     }
 
 }

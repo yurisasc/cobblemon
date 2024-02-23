@@ -22,10 +22,11 @@ import net.minecraft.util.Identifier
  * @since February 22, 2024
  */
 class ClientPokedexPlayerData(
-    val pokedex: Map<Identifier, PokedexEntry>
-) : ClientInstancedPlayerData() {
+    val pokedex: MutableMap<Identifier, PokedexEntry>,
+    val isIncrementalUpdate: Boolean = false,
+) : ClientInstancedPlayerData(isIncrementalUpdate) {
     override fun encode(buf: PacketByteBuf) {
-        val pokedexThatChanged = pokedex.filter { it.value.changedSinceLastSync }.toMap()
+        val pokedexThatChanged = pokedex
 
         buf.writeInt(pokedexThatChanged.size)
         pokedexThatChanged.forEach {
@@ -34,7 +35,6 @@ class ClientPokedexPlayerData(
     }
 
     private fun encodeEntry(buf: PacketByteBuf, entry: PokedexEntry) {
-        entry.changedSinceLastSync = true
 
         buf.writeIdentifier(entry.id)
         val entryMap = entry.progressMap
@@ -55,7 +55,9 @@ class ClientPokedexPlayerData(
             for (i in 1..numEntries) {
                 entrySet.add(decodeEntry(buf))
             }
-            return SetClientPlayerDataPacket(PlayerInstancedDataStoreType.POKEDEX, ClientPokedexPlayerData(entrySet.associateBy {it.id}))
+            return SetClientPlayerDataPacket(PlayerInstancedDataStoreType.POKEDEX, ClientPokedexPlayerData(
+                 entrySet.associateBy {it.id}.toMutableMap()
+            ))
         }
 
         private fun decodeEntry(buf: PacketByteBuf): PokedexEntry {
@@ -72,9 +74,16 @@ class ClientPokedexPlayerData(
             return PokedexEntry(species, map)
         }
 
-        fun runAction(data: ClientInstancedPlayerData) {
+        fun afterDecodeAction(data: ClientInstancedPlayerData) {
             if (data !is ClientPokedexPlayerData) return
             CobblemonClient.clientPokedexData = data
+        }
+
+        fun incrementalAfterDecodeAction(data: ClientInstancedPlayerData) {
+            if (data !is ClientPokedexPlayerData) return
+            data.pokedex.forEach {
+                CobblemonClient.clientPokedexData.pokedex[it.key] = it.value
+            }
         }
     }
 }

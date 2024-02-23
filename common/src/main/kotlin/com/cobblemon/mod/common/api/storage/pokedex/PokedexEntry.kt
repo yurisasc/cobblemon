@@ -16,12 +16,9 @@ import com.cobblemon.mod.common.pokemon.Species
 import com.google.gson.JsonObject
 import net.minecraft.util.Identifier
 
-class PokedexEntry(final val id: Identifier, var progressMap: MutableMap<String, DexStats> = mutableMapOf<String, DexStats>()) {
+class PokedexEntry(val id: Identifier, var progressMap: MutableMap<String, DexStats> = mutableMapOf()) {
     @Transient
     var species: Species? = PokemonSpecies.getByIdentifier(id)
-
-    @Transient
-    var changedSinceLastSync = true
 
     init {
         if(species == null){
@@ -33,25 +30,11 @@ class PokedexEntry(final val id: Identifier, var progressMap: MutableMap<String,
     fun getStats(formString: String): DexStats = progressMap.getOrDefault(formString, DexStats())
 
     fun incrementStats(formString: String, statToIncrement: (DexStats) -> (Unit)){
-        changedSinceLastSync = true
 
         val stats = getStats(formString)
         statToIncrement(stats)
         if (!progressMap.containsKey(formString)) {
             progressMap[formString] = stats
-        }
-    }
-
-    fun pokemonEncountered(formStr: String, isWild: Boolean) {
-        val stats = getStats(formStr)
-        if (isWild) {
-            stats.numEncounteredWild++
-        }
-        else {
-            stats.numEncounteredBattle++
-        }
-        if (!progressMap.containsKey(formStr)) {
-            progressMap[formStr] = stats
         }
     }
 

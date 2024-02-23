@@ -27,7 +27,7 @@ data class ClientGeneralPlayerData(
     var starterLocked: Boolean = true,
     var starterSelected: Boolean = false,
     var starterUUID: UUID? = null
-) : ClientInstancedPlayerData() {
+) : ClientInstancedPlayerData(false) {
 
     override fun encode(buf: PacketByteBuf) {
         buf.writeBoolean(promptStarter)

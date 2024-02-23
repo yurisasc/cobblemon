@@ -15,6 +15,8 @@ import com.cobblemon.mod.common.api.events.pokemon.PokemonCapturedEvent
 import com.cobblemon.mod.common.api.events.pokemon.TradeCompletedEvent
 import com.cobblemon.mod.common.api.events.pokemon.evolution.EvolutionCompleteEvent
 import com.cobblemon.mod.common.api.storage.player.PlayerInstancedDataStoreType
+import com.cobblemon.mod.common.api.storage.player.PokedexPlayerData
+import com.cobblemon.mod.common.api.storage.player.adapter.PokedexDataJsonBackend
 import com.cobblemon.mod.common.battles.SuccessfulBattleStart
 import com.cobblemon.mod.common.battles.actor.PokemonBattleActor
 import com.cobblemon.mod.common.client.CobblemonClient.battle
@@ -27,7 +29,7 @@ object PokedexHandler {
     fun onCapture(event : PokemonCapturedEvent) {
         val pokedexData = Cobblemon.playerDataManager.getPokedexData(event.player)
         pokedexData.pokemonCaptured(event.pokemon)
-        event.player.sendPacket(SetClientPlayerDataPacket(PlayerInstancedDataStoreType.POKEDEX, pokedexData.toClientData()))
+        event.player.sendPacket(SetClientPlayerDataPacket(PlayerInstancedDataStoreType.POKEDEX, pokedexData.getInstancedPiece(event.pokemon).toClientData(), true))
     }
 
     fun onEvolve(event: EvolutionCompleteEvent){
@@ -38,8 +40,10 @@ object PokedexHandler {
         }
 
         val pokedexData = Cobblemon.playerDataManager.getPokedexData(ownedBy)
+        val incrementalPokedex = PokedexDataJsonBackend.defaultDataFunc.invoke(ownedBy.uuid)
         pokedexData.pokemonCaptured(event.pokemon)
-        ownedBy.sendPacket(SetClientPlayerDataPacket(PlayerInstancedDataStoreType.POKEDEX, pokedexData.toClientData()))
+        incrementalPokedex.pokemonCaptured(event.pokemon)
+        ownedBy.sendPacket(SetClientPlayerDataPacket(PlayerInstancedDataStoreType.POKEDEX, pokedexData.getInstancedPiece(event.pokemon).toClientData(), true))
     }
 
     fun onTrade(event: TradeCompletedEvent){
@@ -49,7 +53,7 @@ object PokedexHandler {
         } else {
             val pokedexData = Cobblemon.playerDataManager.getPokedexData(player)
             pokedexData.pokemonCaptured(event.tradeParticipant1Pokemon)
-            player.sendPacket(SetClientPlayerDataPacket(PlayerInstancedDataStoreType.POKEDEX, pokedexData.toClientData()))
+            player.sendPacket(SetClientPlayerDataPacket(PlayerInstancedDataStoreType.POKEDEX, pokedexData.getInstancedPiece(event.tradeParticipant1Pokemon).toClientData(), true))
         }
 
         player = event.tradeParticipant2.uuid.getPlayer()
@@ -58,7 +62,7 @@ object PokedexHandler {
         } else {
             val pokedexData = Cobblemon.playerDataManager.getPokedexData(player)
             pokedexData.pokemonCaptured(event.tradeParticipant2Pokemon)
-            player.sendPacket(SetClientPlayerDataPacket(PlayerInstancedDataStoreType.POKEDEX, pokedexData.toClientData()))
+            player.sendPacket(SetClientPlayerDataPacket(PlayerInstancedDataStoreType.POKEDEX, pokedexData.getInstancedPiece(event.tradeParticipant2Pokemon).toClientData(), true))
         }
     }
 
@@ -69,7 +73,7 @@ object PokedexHandler {
             val wildPokemon = wildActor.pokemon.originalPokemon
             val pokedex = Cobblemon.playerDataManager.getPokedexData(player)
             pokedex.wildPokemonEncountered(wildPokemon)
-            player.sendPacket(SetClientPlayerDataPacket(PlayerInstancedDataStoreType.POKEDEX, pokedex.toClientData()))
+            player.sendPacket(SetClientPlayerDataPacket(PlayerInstancedDataStoreType.POKEDEX, pokedex.getInstancedPiece(wildPokemon).toClientData(), true))
         }
     }
 }

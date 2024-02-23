@@ -17,11 +17,13 @@ import net.minecraft.network.PacketByteBuf
 /**
  * Basically, each type here has a server representation, and a client representation
  * Each type has its own deserialization logic, and an action to run on the client after the object is deserialized
+ * Some types can also have incremental updates, where a separate run action runs when the incremental flag is present in the packet
  */
 enum class PlayerInstancedDataStoreType(
-        val decoder: (PacketByteBuf) -> (SetClientPlayerDataPacket),
-        val runAction: (ClientInstancedPlayerData) -> (Unit)
+    val decoder: (PacketByteBuf) -> (SetClientPlayerDataPacket),
+    val afterDecodeAction: (ClientInstancedPlayerData) -> (Unit),
+    val incrementalAfterDecodeAction: (ClientInstancedPlayerData) -> Unit = {}
 ) {
     GENERAL(ClientGeneralPlayerData::decode, ClientGeneralPlayerData::runAction),
-    POKEDEX(ClientPokedexPlayerData::decode, ClientPokedexPlayerData::runAction)
+    POKEDEX(ClientPokedexPlayerData::decode, ClientPokedexPlayerData::afterDecodeAction, ClientPokedexPlayerData::incrementalAfterDecodeAction)
 }

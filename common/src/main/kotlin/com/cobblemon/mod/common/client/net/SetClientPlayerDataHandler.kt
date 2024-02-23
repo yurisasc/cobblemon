@@ -14,6 +14,12 @@ import net.minecraft.client.MinecraftClient
 
 object SetClientPlayerDataHandler : ClientNetworkPacketHandler<SetClientPlayerDataPacket> {
     override fun handle(packet: SetClientPlayerDataPacket, client: MinecraftClient) {
-        packet.type.runAction.invoke(packet.playerData)
+        if (packet.isIncremental) {
+            packet.type.incrementalAfterDecodeAction.invoke(packet.playerData)
+        }
+        else {
+            packet.type.afterDecodeAction.invoke(packet.playerData)
+        }
+
     }
 }
