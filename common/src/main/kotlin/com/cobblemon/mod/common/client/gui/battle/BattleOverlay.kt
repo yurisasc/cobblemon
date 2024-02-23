@@ -27,6 +27,7 @@ import com.cobblemon.mod.common.client.render.models.blockbench.wavefunction.sin
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.pokeball.EmptyPokeBallEntity
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
+import com.cobblemon.mod.common.pokedex.DexStats
 import com.cobblemon.mod.common.pokemon.Gender
 import com.cobblemon.mod.common.pokemon.Species
 import com.cobblemon.mod.common.pokemon.status.PersistentStatus
@@ -49,6 +50,7 @@ import net.minecraft.text.MutableText
 import net.minecraft.util.math.MathHelper.ceil
 import net.minecraft.util.math.RotationAxis
 import org.joml.Vector3f
+import org.lwjgl.opengl.GREMEDYStringMarker
 
 class BattleOverlay : InGameHud(MinecraftClient.getInstance(), MinecraftClient.getInstance().itemRenderer) {
     companion object {
@@ -75,6 +77,8 @@ class BattleOverlay : InGameHud(MinecraftClient.getInstance(), MinecraftClient.g
         val battleInfoRole = cobblemonResource("textures/gui/battle/battle_info_role.png")
         val battleInfoRoleFlipped = cobblemonResource("textures/gui/battle/battle_info_role_flipped.png")
         val battleInfoUnderlay = cobblemonResource("textures/gui/battle/battle_info_underlay.png")
+        val seenIndicator = cobblemonResource("textures/gui/battle/battle_seen_indicator.png")
+        val caughtIndicator = cobblemonResource("textures/gui/battle/battle_seen_indicator.png")
     }
 
     var opacity = MIN_OPACITY
@@ -101,8 +105,8 @@ class BattleOverlay : InGameHud(MinecraftClient.getInstance(), MinecraftClient.g
         val side1 = if (battle.side1.actors.any { it.uuid == playerUUID }) battle.side1 else battle.side2
         val side2 = if (side1 == battle.side1) battle.side2 else battle.side1
 
-        side1.activeClientBattlePokemon.forEachIndexed { index, activeClientBattlePokemon -> drawTile(context, tickDelta, activeClientBattlePokemon, true, index) }
-        side2.activeClientBattlePokemon.forEachIndexed { index, activeClientBattlePokemon -> drawTile(context, tickDelta, activeClientBattlePokemon, false, index) }
+        side1.activeClientBattlePokemon.forEachIndexed { index, activeClientBattlePokemon -> drawTile(context, tickDelta, activeClientBattlePokemon, true, index, DexStats.Knowledge.NONE) }
+        side2.activeClientBattlePokemon.forEachIndexed { index, activeClientBattlePokemon -> drawTile(context, tickDelta, activeClientBattlePokemon, false, index, battle.knowledge) }
 
         if (MinecraftClient.getInstance().currentScreen !is BattleGUI && battle.mustChoose) {
             val textOpacity = PROMPT_TEXT_OPACITY_CURVE(passedSeconds)
@@ -129,7 +133,7 @@ class BattleOverlay : InGameHud(MinecraftClient.getInstance(), MinecraftClient.g
     }
 
 
-    fun drawTile(context: DrawContext, tickDelta: Float, activeBattlePokemon: ActiveClientBattlePokemon, left: Boolean, rank: Int) {
+    fun drawTile(context: DrawContext, tickDelta: Float, activeBattlePokemon: ActiveClientBattlePokemon, left: Boolean, rank: Int, dexState: DexStats.Knowledge) {
         val mc = MinecraftClient.getInstance()
 
         val battlePokemon = activeBattlePokemon.battlePokemon ?: return
@@ -175,7 +179,8 @@ class BattleOverlay : InGameHud(MinecraftClient.getInstance(), MinecraftClient.g
             ballState = activeBattlePokemon.ballCapturing,
             maxHealth = battlePokemon.maxHp.toInt(),
             health = battlePokemon.hpValue,
-            isFlatHealth = battlePokemon.isHpFlat
+            isFlatHealth = battlePokemon.isHpFlat,
+            dexState = dexState
         )
     }
 
@@ -197,7 +202,8 @@ class BattleOverlay : InGameHud(MinecraftClient.getInstance(), MinecraftClient.g
         ballState: ClientBallDisplay? = null,
         maxHealth: Int,
         health: Float,
-        isFlatHealth: Boolean
+        isFlatHealth: Boolean,
+        dexState: DexStats.Knowledge
     ) {
         val portraitStartX = x + if (!reversed) PORTRAIT_OFFSET_X else { TILE_WIDTH - PORTRAIT_DIAMETER - PORTRAIT_OFFSET_X }
         val matrices = context.matrices
@@ -272,6 +278,18 @@ class BattleOverlay : InGameHud(MinecraftClient.getInstance(), MinecraftClient.g
                 green = g,
                 blue = b
             )
+            if (dexState != DexStats.Knowledge.NONE) {
+                blitk(
+                    matrixStack = matrices,
+                    texture = if (dexState == DexStats.Knowledge.ENCOUNTERED) seenIndicator else caughtIndicator,
+                    x = x + 3,
+                    y = y + 21,
+                    height = 6,
+                    width = 6,
+                    alpha = opacity,
+                )
+            }
+
         }
 
         if (status != null) {

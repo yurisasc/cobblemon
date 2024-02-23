@@ -22,12 +22,12 @@ import net.minecraft.util.Identifier
  * @since February 22, 2024
  */
 class ClientPokedexPlayerData(
-    val pokedex: Collection<PokedexEntry>
+    val pokedex: Map<Identifier, PokedexEntry>
 ) : ClientInstancedPlayerData() {
     override fun encode(buf: PacketByteBuf) {
         buf.writeInt(pokedex.size)
         pokedex.forEach {
-            encodeEntry(buf, it)
+            encodeEntry(buf, it.value)
         }
     }
 
@@ -41,7 +41,6 @@ class ClientPokedexPlayerData(
             buf.writeByte(stats.numEncounteredWild.toInt())
             buf.writeByte(stats.numEncounteredBattle.toInt())
             buf.writeByte(stats.numCaught.toInt())
-            buf.writeEnumConstant(stats.knowledge)
         }
     }
 
@@ -52,7 +51,7 @@ class ClientPokedexPlayerData(
             for (i in 1..numEntries) {
                 entrySet.add(decodeEntry(buf))
             }
-            return SetClientPlayerDataPacket(PlayerInstancedDataStoreType.POKEDEX, ClientPokedexPlayerData(entrySet))
+            return SetClientPlayerDataPacket(PlayerInstancedDataStoreType.POKEDEX, ClientPokedexPlayerData(entrySet.associateBy {it.id}))
         }
 
         private fun decodeEntry(buf: PacketByteBuf): PokedexEntry {
@@ -64,8 +63,7 @@ class ClientPokedexPlayerData(
                 val numWild = buf.readByte()
                 val numBattle = buf.readByte()
                 val numCaught = buf.readByte()
-                val knowledge = buf.readEnumConstant(DexStats.Knowledge::class.java)
-                map[id] = DexStats(numWild, numBattle, numCaught, knowledge)
+                map[id] = DexStats(numWild, numBattle, numCaught)
             }
             return PokedexEntry(species, map)
         }

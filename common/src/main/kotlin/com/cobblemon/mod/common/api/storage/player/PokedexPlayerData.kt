@@ -25,7 +25,7 @@ class PokedexPlayerData(
     val pokedexEntries: HashMap<Identifier, PokedexEntry>
 ) : InstancedPlayerData {
     override fun toClientData(): ClientInstancedPlayerData {
-        return ClientPokedexPlayerData(pokedexEntries.values)
+        return ClientPokedexPlayerData(pokedexEntries)
     }
 
     fun wildPokemonEncountered(pokemon: Pokemon) {
