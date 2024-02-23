@@ -9,8 +9,15 @@
 package com.cobblemon.mod.common.client.battle
 
 import com.cobblemon.mod.common.CobblemonNetwork
+import com.cobblemon.mod.common.api.battles.model.actor.ActorType
+import com.cobblemon.mod.common.api.battles.model.actor.BattleActor
+import com.cobblemon.mod.common.api.pokemon.PokemonSpecies
 import com.cobblemon.mod.common.battles.BattleFormat
+import com.cobblemon.mod.common.client.CobblemonClient
 import com.cobblemon.mod.common.net.messages.server.battle.BattleSelectActionsPacket
+import com.cobblemon.mod.common.pokedex.DexStats
+import com.cobblemon.mod.common.pokedex.PokedexEntry
+import com.cobblemon.mod.common.pokemon.FormData
 import java.util.UUID
 
 class ClientBattle(
@@ -22,6 +29,25 @@ class ClientBattle(
 
     val side1 = ClientBattleSide()
     val side2 = ClientBattleSide()
+    var wildActor: ClientBattleActor? = null
+        set(value) {
+            field = value
+            if (value != null) {
+                val wildMonProps = value.activePokemon[0].battlePokemon?.properties
+                wildMonProps?.let {props ->
+                    val wildSpecies = PokemonSpecies.getByName(props.species!!)!!
+                    val wildForm = wildSpecies.forms.firstOrNull { it.formOnlyShowdownId() == props.form } ?: wildSpecies.standardForm
+                    val shiny = props.shiny!!
+                    val formStr = PokedexEntry.formToFormString(wildForm, shiny)
+                    val dexEntry = CobblemonClient.clientPokedexData.pokedex[wildSpecies.resourceIdentifier]
+                    knowledge = dexEntry?.progressMap?.get(formStr)?.getKnowledge(true) ?: DexStats.Knowledge.NONE
+                } ?: DexStats.Knowledge.NONE
+            }
+            else {
+                knowledge = DexStats.Knowledge.NONE
+            }
+        }
+    var knowledge: DexStats.Knowledge = DexStats.Knowledge.NONE
 
     val sides: Array<ClientBattleSide>
         get() = arrayOf(side1, side2)
@@ -54,5 +80,16 @@ class ClientBattle(
 
     fun getParticipatingActor(uuid: UUID): ClientBattleActor? {
         return sides.flatMap { it.actors }.find { it.uuid == uuid }
+    }
+
+    fun findWildActor(): ClientBattleActor? {
+        sides.forEach {
+            it.actors.forEach { actor ->
+                if (actor.type == ActorType.WILD) {
+                    return actor
+                }
+            }
+        }
+        return null
     }
 }

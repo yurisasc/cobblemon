@@ -14,6 +14,7 @@ import com.cobblemon.mod.common.client.CobblemonClient
 import com.cobblemon.mod.common.client.battle.SingleActionRequest
 import com.cobblemon.mod.common.client.gui.battle.BattleGUI
 import com.cobblemon.mod.common.client.gui.battle.BattleOverlay
+import com.cobblemon.mod.common.pokedex.DexStats
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.util.battleLang
 import net.minecraft.client.MinecraftClient
@@ -80,7 +81,8 @@ class BattleSwitchPokemonSelection(
                     state = null,
                     colour = null,
                     opacity = selection.opacity,
-                    partialTicks = deltaTicks
+                    partialTicks = deltaTicks,
+                    dexState = DexStats.Knowledge.NONE
                 )
             } catch (exception: Exception) {
                 throw exception

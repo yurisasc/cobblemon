@@ -64,7 +64,7 @@ object CobblemonClient {
     var trade: ClientTrade? = null
     var battle: ClientBattle? = null
     var clientPlayerData = ClientGeneralPlayerData()
-    var clientPokedexData = ClientPokedexPlayerData(HashSet())
+    var clientPokedexData = ClientPokedexPlayerData(emptyMap())
     /** If true then we won't bother them anymore about choosing a starter even if it's a thing they can do. */
     var checkedStarterScreen = false
     var requests = ClientPlayerActionRequests()
@@ -76,7 +76,7 @@ object CobblemonClient {
     fun onLogin() {
         clientPlayerData = ClientGeneralPlayerData()
         requests = ClientPlayerActionRequests()
-        clientPokedexData = ClientPokedexPlayerData(HashSet())
+        clientPokedexData = ClientPokedexPlayerData(emptyMap())
         storage.onLogin()
         CobblemonDataProvider.canReload = false
     }

@@ -30,6 +30,7 @@ import com.cobblemon.mod.common.util.writeSizedInt
 import java.util.UUID
 import net.minecraft.network.PacketByteBuf
 import net.minecraft.text.MutableText
+import kotlin.properties.Delegates
 
 /**
  * Initializes the client's understanding of a battle. This can be for a participant or for a spectator.
@@ -141,7 +142,7 @@ class BattleInitializePacket() : NetworkPacket<BattleInitializePacket> {
         val displayName: MutableText,
         val showdownId: String,
         val activePokemon: List<ActiveBattlePokemonDTO?>,
-        val type: ActorType
+        val type: ActorType,
     )
 
     data class ActiveBattlePokemonDTO(
@@ -165,7 +166,9 @@ class BattleInitializePacket() : NetworkPacket<BattleInitializePacket> {
                     properties = pokemon.createPokemonProperties(
                         PokemonPropertyExtractor.SPECIES,
                         PokemonPropertyExtractor.LEVEL,
-                        PokemonPropertyExtractor.GENDER
+                        PokemonPropertyExtractor.GENDER,
+                        PokemonPropertyExtractor.FORM,
+                        PokemonPropertyExtractor.SHINY
                     ),
                     aspects = pokemon.aspects,
                     status = pokemon.status?.status,
