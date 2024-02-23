@@ -11,6 +11,7 @@ package com.cobblemon.mod.common.entity.fishing
 import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.CobblemonEntities
 import com.cobblemon.mod.common.CobblemonItems
+import com.cobblemon.mod.common.CobblemonSounds
 import com.cobblemon.mod.common.api.fishing.PokeRods
 import com.cobblemon.mod.common.api.pokemon.Natures
 import com.cobblemon.mod.common.api.pokemon.stats.*
@@ -52,6 +53,7 @@ import net.minecraft.registry.tag.FluidTags
 import net.minecraft.registry.tag.ItemTags
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.server.world.ServerWorld
+import net.minecraft.sound.SoundCategory
 import net.minecraft.sound.SoundEvents
 import net.minecraft.stat.*
 import net.minecraft.stat.Stats
@@ -299,7 +301,10 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
                     serverWorld.spawnParticles(ParticleTypes.FISHING, d, e, j, 0, -l.toDouble(), 0.01, k.toDouble(), 1.0)
                 }
             } else {
-                playSound(SoundEvents.ENTITY_FISHING_BOBBER_SPLASH, 0.25f, 1.0f + (random.nextFloat() - random.nextFloat()) * 0.4f)
+                //playSound(SoundEvents.ENTITY_FISHING_BOBBER_SPLASH, 0.25f, 1.0f + (random.nextFloat() - random.nextFloat()) * 0.4f)
+                // play bobber hook notification sound
+                world.playSound(null, this.blockPos, CobblemonSounds.FISHING_NOTIFICATION, SoundCategory.BLOCKS, 1.0F, 1.0F)
+
                 val m = this.y + 0.5
                 serverWorld.spawnParticles(ParticleTypes.BUBBLE, this.x, m, this.z, (1.0f + this.width * 20.0f).toInt(), this.width.toDouble(), 0.0, this.width.toDouble(), 0.2)
                 serverWorld.spawnParticles(ParticleTypes.FISHING, this.x, m, this.z, (1.0f + this.width * 20.0f).toInt(), this.width.toDouble(), 0.0, this.width.toDouble(), 0.2)
@@ -586,6 +591,11 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
 
 
                 if (spawnedPokemon.pokemon.species.weight.toDouble() < 200.0) { // if weight value of Pokemon is less than 200 then reel it in to the player
+                    // play sound for small splash when this weight class is fished up
+                    world.playSound(null, this.blockPos, CobblemonSounds.FISHING_SPLASH_SMALL_1, SoundCategory.BLOCKS, 1.0F, 1.0F)
+                    //world.playSound(null, this.blockPos, CobblemonSounds.FISHING_SPLASH_SMALL_2, SoundCategory.BLOCKS, 1.0F, 1.0F)
+                    //world.playSound(null, this.blockPos, CobblemonSounds.FISHING_SPLASH_SMALL_3, SoundCategory.BLOCKS, 1.0F, 1.0F)
+
                     // direction and position
                     val rad = Math.toRadians(player.yaw.toDouble() + 180)
                     val behindDirection = Vec3d(-Math.sin(rad), 0.0, Math.cos(rad))
@@ -635,6 +645,11 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
                     val tossVelocity = Vec3d(velocityX, velocityY, velocityZ)
                     entity.setVelocity(tossVelocity)
                     //entity.pokemon.aspects
+                }
+                else { // it is a big lad
+                    world.playSound(null, this.blockPos, CobblemonSounds.FISHING_SPLASH_BIG_1, SoundCategory.BLOCKS, 1.0F, 1.0F)
+                    //world.playSound(null, this.blockPos, CobblemonSounds.FISHING_SPLASH_BIG_2, SoundCategory.BLOCKS, 1.0F, 1.0F)
+                    //world.playSound(null, this.blockPos, CobblemonSounds.FISHING_SPLASH_BIG_3, SoundCategory.BLOCKS, 1.0F, 1.0F)
                 }
             }
         }

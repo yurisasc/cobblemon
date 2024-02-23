@@ -119,6 +119,21 @@ object CobblemonSounds : PlatformRegistry<Registry<SoundEvent>, RegistryKey<Regi
     val FOSSIL_MACHINE_UNPROTECTED = this.create("fossilmachine.unprotected")
 
     @JvmField
+    val FISHING_NOTIFICATION = this.create("fishing.notification")
+    @JvmField
+    val FISHING_SPLASH_BIG_1 = this.create("fishing.big_splash_1")
+    @JvmField
+    val FISHING_SPLASH_BIG_2 = this.create("fishing.big_splash_2")
+    @JvmField
+    val FISHING_SPLASH_BIG_3 = this.create("fishing.big_splash_3")
+    @JvmField
+    val FISHING_SPLASH_SMALL_1 = this.create("fishing.small_splash_1")
+    @JvmField
+    val FISHING_SPLASH_SMALL_2 = this.create("fishing.small_splash_2")
+    @JvmField
+    val FISHING_SPLASH_SMALL_3 = this.create("fishing.small_splash_3")
+
+    @JvmField
     val TUMBLESTONE_BREAK = this.create("tumblestone.break")
     @JvmField
     val TUMBLESTONE_BLOCK_BREAK = this.create("tumblestone.block_break")
