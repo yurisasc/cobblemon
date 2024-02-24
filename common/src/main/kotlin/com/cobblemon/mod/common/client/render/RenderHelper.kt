@@ -9,6 +9,7 @@
 package com.cobblemon.mod.common.client.render
 
 import com.cobblemon.mod.common.api.gui.drawText
+import com.cobblemon.mod.common.api.gui.drawTextJustifiedRight
 import com.cobblemon.mod.common.api.text.font
 import com.cobblemon.mod.common.client.CobblemonResources
 import com.mojang.blaze3d.platform.GlStateManager
@@ -254,6 +255,34 @@ fun renderBeaconBeam(
         glowRadius,
         glowRadius
     )
+}
+
+fun drawScaledTextJustifiedRight(
+    context: DrawContext,
+    text: MutableText,
+    x: Number,
+    y: Number,
+    scaleX: Float = 1F,
+    scaleY: Float = 1F,
+    opacity: Number = 1F,
+    colour: Int = 0x00FFFFFF + ((opacity.toFloat() * 255).toInt() shl 24),
+    shadow: Boolean = false
+) {
+    if (opacity.toFloat() < 0.05F) {
+        return
+    }
+    val matrixStack = context.matrices
+    matrixStack.push()
+    matrixStack.scale(scaleX, scaleY, 1F)
+    drawTextJustifiedRight(
+        context = context,
+        text = text,
+        x = x.toFloat() / scaleX,
+        y = y.toFloat() / scaleY,
+        colour = colour,
+        shadow = shadow
+    )
+    matrixStack.pop()
 }
 
 fun renderPart(

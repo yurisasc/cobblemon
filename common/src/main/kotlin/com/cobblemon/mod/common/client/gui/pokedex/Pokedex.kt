@@ -11,7 +11,10 @@ import com.cobblemon.mod.common.Cobblemon.LOGGER
 import com.cobblemon.mod.common.api.gui.blitk
 import com.cobblemon.mod.common.api.pokedex.ClientPokedex
 import com.cobblemon.mod.common.client.gui.pokedex.widgets.ScrollWidget
+import com.cobblemon.mod.common.client.render.drawScaledText
+import com.cobblemon.mod.common.client.render.drawScaledTextJustifiedRight
 import com.cobblemon.mod.common.util.cobblemonResource
+import com.cobblemon.mod.common.util.lang
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.gui.DrawContext
 import net.minecraft.client.gui.screen.Screen
@@ -124,6 +127,14 @@ class Pokedex private constructor(val pokedex: ClientPokedex) : Screen(Text.tran
             height = POKEMON_FORMS_HEIGHT
         )
 
+
+        drawScaledTextJustifiedRight(
+            context = context,
+            text = lang("pikachu"),
+            x = x + BASE_WIDTH - SPACER,
+            y = y + HEADER_HEIGHT / 2
+        )
+
         super.render(context, mouseX, mouseY, delta)
     }
 
@@ -135,5 +146,5 @@ class Pokedex private constructor(val pokedex: ClientPokedex) : Screen(Text.tran
         addDrawableChild(scrollScreen)
     }
 
-    override fun shouldPause(): Boolean = false
+    override fun shouldPause(): Boolean = true
 }

@@ -21,11 +21,6 @@ class ScrollWidget(pX: Int, pY: Int
         private const val HEIGHT = 160
     }
     override fun renderButton(context: DrawContext, pMouseX: Int, pMouseY: Int, pPartialTicks: Float) {
-        drawScaledText(
-            context = context,
-            text = lang("test"),
-            x = x + 10,
-            y = y + 10
-        )
+
     }
 }
