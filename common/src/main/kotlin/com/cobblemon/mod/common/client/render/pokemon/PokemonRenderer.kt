@@ -16,12 +16,10 @@ import com.cobblemon.mod.common.client.entity.PokemonClientDelegate.Companion.BE
 import com.cobblemon.mod.common.client.entity.PokemonClientDelegate.Companion.BEAM_SHRINK_TIME
 import com.cobblemon.mod.common.client.keybind.boundKey
 import com.cobblemon.mod.common.client.keybind.keybinds.PartySendBinding
-import com.cobblemon.mod.common.client.render.addVertex
 import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.repository.PokeBallModelRepository
 import com.cobblemon.mod.common.client.render.models.blockbench.repository.PokemonModelRepository
-import com.cobblemon.mod.common.client.render.models.blockbench.wavefunction.parabolaFunction
 import com.cobblemon.mod.common.client.render.pokeball.PokeBallPoseableState
 import com.cobblemon.mod.common.client.render.renderBeaconBeam
 import com.cobblemon.mod.common.client.settings.ServerSettings
@@ -33,18 +31,8 @@ import com.cobblemon.mod.common.util.lang
 import com.cobblemon.mod.common.util.math.DoubleRange
 import com.cobblemon.mod.common.util.math.geometry.toRadians
 import com.cobblemon.mod.common.util.math.remap
-import com.mojang.blaze3d.systems.RenderSystem
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.font.TextRenderer
-import net.minecraft.client.gl.GlUniform
-import net.minecraft.client.gl.ShaderProgram
-import net.minecraft.client.gl.Uniform
-import net.minecraft.client.render.GameRenderer
-import net.minecraft.client.render.LightmapTextureManager
-import net.minecraft.client.render.RenderLayer
-import net.minecraft.client.render.RenderPhase
-import net.minecraft.client.render.VertexConsumerProvider
-import net.minecraft.client.network.ClientPlayerEntity
 import net.minecraft.client.render.*
 import net.minecraft.client.render.entity.EntityRendererFactory
 import net.minecraft.client.render.entity.MobEntityRenderer
@@ -52,7 +40,6 @@ import net.minecraft.client.render.entity.model.EntityModel
 import net.minecraft.client.render.item.ItemRenderer
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.entity.Entity
-import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.text.Text
 import net.minecraft.util.Identifier
@@ -65,11 +52,6 @@ import org.joml.Quaternionf
 import org.joml.Vector3f
 import org.joml.Vector4f
 import kotlin.math.*
-import kotlin.properties.Delegates
-import kotlin.math.max
-import kotlin.math.min
-import kotlin.math.sin
-import kotlin.math.tan
 
 class PokemonRenderer(
     context: EntityRendererFactory.Context
@@ -103,7 +85,7 @@ class PokemonRenderer(
         if (entity.beamMode != 0) {
             renderTransition(
                 modelNow,
-                entity.beamMode == 1,
+                entity.beamMode,
                 entity,
                 partialTicks,
                 poseMatrix,
@@ -141,7 +123,7 @@ class PokemonRenderer(
 
     fun renderTransition(
         modelNow: PoseableEntityModel<PokemonEntity>,
-        sendingOut: Boolean,
+        beamMode: Int,
         entity: PokemonEntity,
         partialTicks: Float,
         poseMatrix: MatrixStack,
@@ -150,7 +132,7 @@ class PokemonRenderer(
         clientDelegate: PokemonClientDelegate
     ) {
         val s = clientDelegate.secondsSinceBeamEffectStarted
-        if (modelNow is PokemonPoseableModel && !sendingOut) {
+        if (modelNow is PokemonPoseableModel && beamMode == 3) {
             if (s > BEAM_EXTEND_TIME) {
                 val value = (s - BEAM_EXTEND_TIME) /  BEAM_SHRINK_TIME
                 val colourValue = 1F - min(0.6F, value)
@@ -174,9 +156,9 @@ class PokemonRenderer(
             }
         }
 
-        if (clientDelegate.sendOutPosition == null && sendingOut) {
+        if (clientDelegate.sendOutPosition == null && beamMode == 1) {
             clientDelegate.sendOutPosition = beamSourcePosition
-        } else if (sendingOut) {
+        } else if (beamMode == 1) {
             clientDelegate.sendOutPosition = clientDelegate.sendOutPosition!!.add(0.0, 0.04, 0.0)
             beamSourcePosition = clientDelegate.sendOutPosition!!
         }
@@ -195,9 +177,9 @@ class PokemonRenderer(
         poseMatrix.multiply(RotationAxis.POSITIVE_Y.rotation(-angle.toFloat() + (180 * Math.PI / 180).toFloat()))
 
         // TODO: if you want to remove the open ball, add `!clientDelegate.ballDone` to the if statement
-        if (sendingOut && !clientDelegate.ballDone){
+        if (beamMode == 1 && !clientDelegate.ballDone){
             if(entity.pokemon.caughtBall.name.toString().contains("beast")){
-                // get rotation angle on x acis for facingDir
+                // get rotation angle on x-axis for facingDir
                 val xAngleFacingDir = MathHelper.atan2(facingDir.y, sqrt(facingDir.x * facingDir.x + facingDir.z * facingDir.z))
                 poseMatrix.multiply(RotationAxis.POSITIVE_X.rotation(-xAngleFacingDir.toFloat()))
             }
@@ -214,7 +196,7 @@ class PokemonRenderer(
             )
         }
         poseMatrix.pop()
-        if (!sendingOut) {
+        if (beamMode == 3) {
             renderBeam(poseMatrix, partialTicks, entity, phaseTarget, buffer, offsetDirection)
         }
     }

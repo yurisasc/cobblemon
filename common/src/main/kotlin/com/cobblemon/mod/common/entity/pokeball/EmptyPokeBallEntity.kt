@@ -21,8 +21,8 @@ import com.cobblemon.mod.common.api.net.serializers.Vec3DataSerializer
 import com.cobblemon.mod.common.api.pokeball.PokeBalls
 import com.cobblemon.mod.common.api.pokeball.catching.CaptureContext
 import com.cobblemon.mod.common.api.pokemon.status.Statuses
-import com.cobblemon.mod.common.api.scheduling.Schedulable
 import com.cobblemon.mod.common.api.reactive.SimpleObservable
+import com.cobblemon.mod.common.api.scheduling.Schedulable
 import com.cobblemon.mod.common.api.scheduling.ScheduledTask
 import com.cobblemon.mod.common.api.scheduling.SchedulingTracker
 import com.cobblemon.mod.common.api.text.red
@@ -41,13 +41,7 @@ import com.cobblemon.mod.common.net.messages.client.battle.BattleCaptureStartPac
 import com.cobblemon.mod.common.net.messages.client.spawn.SpawnPokeballPacket
 import com.cobblemon.mod.common.pokeball.PokeBall
 import com.cobblemon.mod.common.pokemon.properties.UncatchableProperty
-import com.cobblemon.mod.common.util.isServerSide
-import com.cobblemon.mod.common.util.lang
-import com.cobblemon.mod.common.util.playSoundServer
-import com.cobblemon.mod.common.util.sendParticlesServer
-import com.cobblemon.mod.common.util.setPositionSafely
-import com.cobblemon.mod.common.util.update
-import java.util.concurrent.CompletableFuture
+import com.cobblemon.mod.common.util.*
 import net.minecraft.entity.EntityDimensions
 import net.minecraft.entity.EntityPose
 import net.minecraft.entity.EntityType
@@ -70,6 +64,7 @@ import net.minecraft.util.math.MathHelper
 import net.minecraft.util.math.MathHelper.PI
 import net.minecraft.util.math.Vec3d
 import net.minecraft.world.World
+import java.util.concurrent.CompletableFuture
 
 class EmptyPokeBallEntity : ThrownItemEntity, Poseable, WaterDragModifier, Schedulable {
     enum class CaptureState {
@@ -357,7 +352,7 @@ class EmptyPokeBallEntity : ThrownItemEntity, Poseable, WaterDragModifier, Sched
     private fun breakFree() {
         val pokemon = capturingPokemon ?: return
         pokemon.setPosition(pos)
-        pokemon.beamMode = 1
+        pokemon.beamMode = 2
         pokemon.isInvisible = false
 
         if (pokemon.battleId == null) {
@@ -404,7 +399,7 @@ class EmptyPokeBallEntity : ThrownItemEntity, Poseable, WaterDragModifier, Sched
             velocity = Vec3d.ZERO
             setNoGravity(true)
             world.playSoundServer(pos, CobblemonSounds.POKE_BALL_CAPTURE_STARTED, volume = 0.6F)
-            pokemonEntity.beamMode = 2
+            pokemonEntity.beamMode = 3
         }
 
         after(seconds = 2.2F) {
