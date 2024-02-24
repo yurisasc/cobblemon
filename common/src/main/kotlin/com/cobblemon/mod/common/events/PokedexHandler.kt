@@ -15,22 +15,18 @@ import com.cobblemon.mod.common.api.events.pokemon.PokemonCapturedEvent
 import com.cobblemon.mod.common.api.events.pokemon.TradeCompletedEvent
 import com.cobblemon.mod.common.api.events.pokemon.evolution.EvolutionCompleteEvent
 import com.cobblemon.mod.common.api.storage.player.PlayerInstancedDataStoreType
-import com.cobblemon.mod.common.api.storage.player.PokedexPlayerData
 import com.cobblemon.mod.common.api.storage.player.adapter.PokedexDataJsonBackend
-import com.cobblemon.mod.common.battles.SuccessfulBattleStart
 import com.cobblemon.mod.common.battles.actor.PokemonBattleActor
-import com.cobblemon.mod.common.client.CobblemonClient.battle
 import com.cobblemon.mod.common.net.messages.client.SetClientPlayerDataPacket
-import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.util.getPlayer
-import net.minecraft.server.MinecraftServer
 
 object PokedexHandler {
     fun onCapture(event : PokemonCapturedEvent) {
         val pokedexData = Cobblemon.playerDataManager.getPokedexData(event.player)
-        pokedexData.pokemonCaptured(event.pokemon)
-        event.player.sendPacket(SetClientPlayerDataPacket(PlayerInstancedDataStoreType.POKEDEX, pokedexData.getInstancedPiece(event.pokemon).toClientData(), true))
+        pokedexData.pokemonCaught(event)
+        event.player.sendPacket(SetClientPlayerDataPacket(PlayerInstancedDataStoreType.POKEDEX, pokedexData.toClientData(), false))
     }
+    /** Commented out until incorporated into the new system
 
     fun onEvolve(event: EvolutionCompleteEvent){
         val ownedBy = event.pokemon.getOwnerPlayer()
@@ -76,4 +72,5 @@ object PokedexHandler {
             player.sendPacket(SetClientPlayerDataPacket(PlayerInstancedDataStoreType.POKEDEX, pokedex.getInstancedPiece(wildPokemon).toClientData(), true))
         }
     }
+    **/
 }

@@ -16,8 +16,8 @@ import com.cobblemon.mod.common.CobblemonClientImplementation
 import com.cobblemon.mod.common.CobblemonEntities
 import com.cobblemon.mod.common.CobblemonItems
 import com.cobblemon.mod.common.api.storage.player.client.ClientGeneralPlayerData
-import com.cobblemon.mod.common.api.storage.player.client.ClientPokedexPlayerData
 import com.cobblemon.mod.common.api.berry.Berries
+import com.cobblemon.mod.common.api.pokedex.ClientPokedex
 import com.cobblemon.mod.common.api.scheduling.ClientTaskTracker
 import com.cobblemon.mod.common.api.text.gray
 import com.cobblemon.mod.common.client.battle.ClientBattle
@@ -39,7 +39,6 @@ import com.cobblemon.mod.common.client.render.models.blockbench.repository.Pokem
 import com.cobblemon.mod.common.client.render.pokeball.PokeBallRenderer
 import com.cobblemon.mod.common.client.render.pokemon.PokemonRenderer
 import com.cobblemon.mod.common.client.sound.battle.BattleMusicController
-import com.cobblemon.mod.common.client.starter.ClientPlayerData
 import com.cobblemon.mod.common.client.storage.ClientStorageManager
 import com.cobblemon.mod.common.client.trade.ClientTrade
 import com.cobblemon.mod.common.data.CobblemonDataProvider
@@ -63,7 +62,6 @@ import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
 import net.minecraft.resource.ResourceManager
 import net.minecraft.util.Language
-import java.util.HashSet
 
 object CobblemonClient {
 
@@ -72,7 +70,7 @@ object CobblemonClient {
     var trade: ClientTrade? = null
     var battle: ClientBattle? = null
     var clientPlayerData = ClientGeneralPlayerData()
-    var clientPokedexData = ClientPokedexPlayerData(mutableMapOf())
+    var clientPokedexData = ClientPokedex(mutableMapOf(), emptySet())
     /** If true then we won't bother them anymore about choosing a starter even if it's a thing they can do. */
     var checkedStarterScreen = false
     var requests = ClientPlayerActionRequests()
@@ -84,7 +82,7 @@ object CobblemonClient {
     fun onLogin() {
         clientPlayerData = ClientGeneralPlayerData()
         requests = ClientPlayerActionRequests()
-        clientPokedexData = ClientPokedexPlayerData(mutableMapOf())
+        clientPokedexData = ClientPokedex(mutableMapOf(), emptySet())
         storage.onLogin()
         CobblemonDataProvider.canReload = false
     }

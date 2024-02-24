@@ -10,14 +10,12 @@ package com.cobblemon.mod.common.client.battle
 
 import com.cobblemon.mod.common.CobblemonNetwork
 import com.cobblemon.mod.common.api.battles.model.actor.ActorType
-import com.cobblemon.mod.common.api.battles.model.actor.BattleActor
+import com.cobblemon.mod.common.api.pokedex.Pokedex
+import com.cobblemon.mod.common.api.pokedex.PokedexProgress
 import com.cobblemon.mod.common.api.pokemon.PokemonSpecies
-import com.cobblemon.mod.common.api.storage.pokedex.PokedexEntry
 import com.cobblemon.mod.common.battles.BattleFormat
 import com.cobblemon.mod.common.client.CobblemonClient
 import com.cobblemon.mod.common.net.messages.server.battle.BattleSelectActionsPacket
-import com.cobblemon.mod.common.pokedex.DexStats
-import com.cobblemon.mod.common.pokemon.FormData
 import java.util.UUID
 
 class ClientBattle(
@@ -38,16 +36,16 @@ class ClientBattle(
                     val wildSpecies = PokemonSpecies.getByName(props.species!!)!!
                     val wildForm = wildSpecies.forms.firstOrNull { it.formOnlyShowdownId() == props.form } ?: wildSpecies.standardForm
                     val shiny = props.shiny!!
-                    val formStr = PokedexEntry.formToFormString(wildForm, shiny)
-                    val dexEntry = CobblemonClient.clientPokedexData.pokedex[wildSpecies.resourceIdentifier]
-                    knowledge = dexEntry?.progressMap?.get(formStr)?.getKnowledge(true) ?: DexStats.Knowledge.NONE
-                } ?: DexStats.Knowledge.NONE
+                    val formStr = Pokedex.formToFormString(wildForm, shiny)
+                    val dexEntry = CobblemonClient.clientPokedexData.speciesEntries[wildSpecies.resourceIdentifier]
+                    knowledge = dexEntry?.formEntries?.get(formStr)?.knowledge ?: PokedexProgress.NONE
+                } ?: PokedexProgress.NONE
             }
             else {
-                knowledge = DexStats.Knowledge.NONE
+                knowledge = PokedexProgress.NONE
             }
         }
-    var knowledge: DexStats.Knowledge = DexStats.Knowledge.NONE
+    var knowledge = PokedexProgress.NONE
 
     val sides: Array<ClientBattleSide>
         get() = arrayOf(side1, side2)

@@ -9,12 +9,12 @@
 package com.cobblemon.mod.common.client.gui.battle.subscreen
 
 import com.cobblemon.mod.common.CobblemonSounds
+import com.cobblemon.mod.common.api.pokedex.PokedexProgress
 import com.cobblemon.mod.common.battles.*
 import com.cobblemon.mod.common.client.CobblemonClient
 import com.cobblemon.mod.common.client.battle.SingleActionRequest
 import com.cobblemon.mod.common.client.gui.battle.BattleGUI
 import com.cobblemon.mod.common.client.gui.battle.BattleOverlay
-import com.cobblemon.mod.common.pokedex.DexStats
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.util.battleLang
 import net.minecraft.client.MinecraftClient
@@ -82,7 +82,7 @@ class BattleSwitchPokemonSelection(
                     colour = null,
                     opacity = selection.opacity,
                     partialTicks = deltaTicks,
-                    dexState = DexStats.Knowledge.NONE
+                    dexState = PokedexProgress.NONE
                 )
             } catch (exception: Exception) {
                 throw exception

@@ -8,12 +8,12 @@
 
 package com.cobblemon.mod.common.api.storage.player.adapter
 
-import com.cobblemon.mod.common.api.storage.player.GeneralPlayerData
-import com.cobblemon.mod.common.api.storage.player.PlayerDataExtension
+import com.cobblemon.mod.common.api.pokedex.Pokedex
+import com.cobblemon.mod.common.api.pokedex.adapter.GlobalTrackedDataAdapter
+import com.cobblemon.mod.common.api.pokedex.adapter.PokedexInstanceCreator
+import com.cobblemon.mod.common.api.pokedex.trackeddata.GlobalTrackedData
 import com.cobblemon.mod.common.api.storage.player.PlayerInstancedDataStoreType
-import com.cobblemon.mod.common.api.storage.player.PokedexPlayerData
 import com.cobblemon.mod.common.util.adapters.IdentifierAdapter
-import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
 import net.minecraft.util.Identifier
@@ -25,18 +25,20 @@ import java.util.UUID
  * @author Apion
  * @since February 22, 2024
  */
-class PokedexDataJsonBackend: JsonBackedPlayerDataStoreBackend<PokedexPlayerData>("pokedex", PlayerInstancedDataStoreType.POKEDEX) {
+class PokedexDataJsonBackend: JsonBackedPlayerDataStoreBackend<Pokedex>("pokedex", PlayerInstancedDataStoreType.POKEDEX) {
     override val gson = GsonBuilder()
         .setPrettyPrinting()
         .disableHtmlEscaping()
         .registerTypeAdapter(Identifier::class.java, IdentifierAdapter)
+        .registerTypeAdapter(GlobalTrackedData::class.java, GlobalTrackedDataAdapter)
+        .registerTypeAdapter(Pokedex::class.java, PokedexInstanceCreator)
         .create()
-    override val classToken = TypeToken.get(PokedexPlayerData::class.java)
+    override val classToken = TypeToken.get(Pokedex::class.java)
     override val defaultData = defaultDataFunc
 
     companion object {
         val defaultDataFunc = { uuid: UUID ->
-            PokedexPlayerData(uuid, hashMapOf())
+            Pokedex(uuid)
         }
     }
 

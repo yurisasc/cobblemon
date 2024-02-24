@@ -9,7 +9,7 @@
 package com.cobblemon.mod.common.client.gui.pokedex
 import com.cobblemon.mod.common.Cobblemon.LOGGER
 import com.cobblemon.mod.common.api.gui.blitk
-import com.cobblemon.mod.common.api.storage.player.client.ClientPokedexPlayerData
+import com.cobblemon.mod.common.api.pokedex.ClientPokedex
 import com.cobblemon.mod.common.client.gui.pokedex.widgets.ScrollWidget
 import com.cobblemon.mod.common.util.cobblemonResource
 import net.minecraft.client.MinecraftClient
@@ -17,7 +17,13 @@ import net.minecraft.client.gui.DrawContext
 import net.minecraft.client.gui.screen.Screen
 import net.minecraft.text.Text
 
-class Pokedex private constructor(val pokedex: ClientPokedexPlayerData) : Screen(Text.translatable("cobblemon.ui.pokedex.title")) {
+/**
+ * Pokedex GUI
+ *
+ * @author JPAK
+ * @since February 24, 2024
+ */
+class Pokedex private constructor(val pokedex: ClientPokedex) : Screen(Text.translatable("cobblemon.ui.pokedex.title")) {
 
     companion object {
         const val BASE_WIDTH = 350
@@ -45,11 +51,11 @@ class Pokedex private constructor(val pokedex: ClientPokedexPlayerData) : Screen
         /**
          * Attempts to open this screen for a client.
          */
-        fun open(pokedex: ClientPokedexPlayerData) {
+        fun open(pokedex: ClientPokedex) {
             val mc = MinecraftClient.getInstance()
             val screen = Pokedex(pokedex)
             mc.setScreen(screen)
-            LOGGER.info(pokedex.pokedex.keys)
+            LOGGER.info(pokedex.speciesEntries)
         }
     }
 
