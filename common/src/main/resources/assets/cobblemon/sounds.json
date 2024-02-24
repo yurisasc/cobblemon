@@ -95,6 +95,9 @@
   "medicine_spray.use": {
     "sounds": [ "cobblemon:medicine_spray_use" ]
   },
+  "medicine_feather.use": {
+    "sounds": [ "cobblemon:medicine_feather_use" ]
+  },
   "berry.harvest": {
     "sounds": [ "cobblemon:block/berry_harvest_1", "cobblemon:block/berry_harvest_2", "cobblemon:block/berry_harvest_3" ]
   },

@@ -117,7 +117,6 @@ class CobblemonForge : CobblemonImplementation {
         }
         ForgePlatformEventHandler.register()
         DistExecutor.safeRunWhenOn(Dist.CLIENT) { DistExecutor.SafeRunnable(CobblemonForgeClient::init) }
-        this.attemptModCompat()
     }
 
     fun addCobblemonStructures(event: ServerAboutToStartEvent) {
@@ -140,6 +139,7 @@ class CobblemonForge : CobblemonImplementation {
         this.networkManager.registerServerBound()
         event.enqueueWork {
             this.queuedWork.forEach { it.invoke() }
+            this.attemptModCompat()
             CobblemonForgeBrewingRegistry.register()
         }
         Cobblemon.initialize()

@@ -20,6 +20,9 @@
 - Added effects for many Poké Balls when sending out Pokémon or capturing.
 - Added a new send-out ball toss animation that showcases the ball used for the Pokémon.
 - Added simple move animations for Pokémon in battle with a proof of concept for more complicated animations.
+- Added the EV Boosting Feathers.
+- Added Type Gems. 
+- Added various new tags for searchability and better compatibility. 
 
 ### Changes
 - Pokémon now transition more smoothly between different poses.
@@ -32,6 +35,7 @@
 - Updated movesets to add Gen 9 DLC moves.
 - Apricorn Sprouts can now be planted directly on Apricorn leaves to create a new Apricorn of the same color.
 - Added tooltips to interaction GUIs to make it clearer what they do.
+- Poké Ball recipes now use tags for their center ingredient, rather than specificied Copper Ingot, Iron Ingot, Gold Ingot, and Diamond, allowing for further datapack customisation.
 
 ### Fixes
 - Re-added the recipe for the Iron Vitamin.
@@ -48,6 +52,9 @@
 - Fixed very many issues with Bedrock particle effects.
 - Fixed Arbok patterns not being as specific in spawning as they were intended.
 - Fixed Pokémon not avoiding danger at all when pathfinding. 
+- Fixed Sobble line not being able to swim or breathe underwater.
+- Fixed incompatibility with [Just Enough Resources](https://modrinth.com/mod/just-enough-resources-jer).
+- Fixed incompatibility with [Visual Overhaul](https://modrinth.com/mod/visual-overhaul).
 
 ### Developer
 - Significantly changed the way properties in PokemonEntity work. This could break some plugins (not in a big way, but changes will be needed).
@@ -59,6 +66,7 @@
 - Made PokemonProperties.parse more interoperable with Java.
 - Added the ``HeldItemEvent``, this comes with 2 implementation ``HeldItemEvent.Pre`` and ``HeldItemEvent.Post``. 
 - API to support dynamic lighting in any mod that implements this feature has been added to all Species & Forms, see LightingData class for details.
+- Added a Mixin for the BrewingStandScreenHandler to fix the incorrect handling of quickMove in Fabric.
 
 ### Datapack & Resourcepack Creators
 - The maximum amount of fossils that can fit in the Fossil Analyzer can be adjusted in the config.

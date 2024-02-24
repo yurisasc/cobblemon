@@ -34,3 +34,6 @@ common/src/main/resources/assets/cobblemon/showdown
 */generated/resources/*
 /fabric/src/generated/resources/cobblemon-common.accesswidener
 /.ignored/
+
+# MacOS
+.DS_Store
