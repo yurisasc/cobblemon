@@ -8,16 +8,21 @@
 
 package com.cobblemon.mod.common.item.interactive
 
+import com.cobblemon.mod.common.advancement.CobblemonCriteria
 import com.cobblemon.mod.common.api.fishing.FishingBaits
 import com.cobblemon.mod.common.api.fishing.PokeRods
 import com.cobblemon.mod.common.api.pokeball.PokeBalls
 import com.cobblemon.mod.common.api.text.gray
 import com.cobblemon.mod.common.entity.fishing.PokeRodFishingBobberEntity
+import com.cobblemon.mod.common.item.BerryItem
+import com.cobblemon.mod.common.util.cobblemonResource
 import net.minecraft.client.item.TooltipContext
 import net.minecraft.enchantment.EnchantmentHelper
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.FishingRodItem
 import net.minecraft.item.ItemStack
+import net.minecraft.registry.Registries
+import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.sound.SoundCategory
 import net.minecraft.sound.SoundEvents
 import net.minecraft.stat.Stats

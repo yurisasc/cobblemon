@@ -14,7 +14,9 @@ import com.cobblemon.mod.common.api.data.JsonDataRegistry
 import com.cobblemon.mod.common.api.fossil.Fossil
 import com.cobblemon.mod.common.api.reactive.SimpleObservable
 import com.cobblemon.mod.common.fishing.PokeRod
+import com.cobblemon.mod.common.item.interactive.PokerodItem
 import com.cobblemon.mod.common.net.messages.client.data.PokeRodRegistrySyncPacket
+import com.cobblemon.mod.common.pokeball.PokeBall
 import com.cobblemon.mod.common.util.adapters.IdentifierAdapter
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.google.gson.Gson
