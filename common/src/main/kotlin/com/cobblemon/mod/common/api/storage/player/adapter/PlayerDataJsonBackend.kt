@@ -9,6 +9,7 @@
 package com.cobblemon.mod.common.api.storage.player.adapter
 
 import com.cobblemon.mod.common.Cobblemon
+import com.cobblemon.mod.common.CobblemonSounds
 import com.cobblemon.mod.common.api.storage.player.GeneralPlayerData
 import com.cobblemon.mod.common.api.storage.player.PlayerDataExtension
 import com.cobblemon.mod.common.api.storage.player.PlayerInstancedDataStoreType
@@ -34,7 +35,8 @@ class PlayerDataJsonBackend: JsonBackedPlayerDataStoreBackend<GeneralPlayerData>
         starterSelected =  false,
         starterUUID =  null,
         keyItems = mutableSetOf(),
-        extraData = mutableMapOf()
+        extraData = mutableMapOf(),
+        battleTheme = CobblemonSounds.PVP_BATTLE.id
     )}
 
     override val gson = GsonBuilder()

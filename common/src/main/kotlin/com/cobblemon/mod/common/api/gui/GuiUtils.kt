@@ -114,6 +114,20 @@ fun drawCenteredText(
     context.drawText(textRenderer, comp, x.toInt() - textRenderer.getWidth(comp) / 2, y.toInt(), colour, shadow)
 }
 
+fun drawTextJustifiedRight(
+    context: DrawContext,
+    font: Identifier? = null,
+    text: MutableText,
+    x: Number,
+    y: Number,
+    colour: Int,
+    shadow: Boolean = true
+) {
+    val comp = (text as MutableText).let { if (font != null) it.font(font) else it }
+    val textRenderer = MinecraftClient.getInstance().textRenderer
+    context.drawText(textRenderer, comp, x.toInt() - textRenderer.getWidth(comp), y.toInt(), colour, shadow)
+}
+
 fun drawText(
     context: DrawContext,
     font: Identifier? = null,
