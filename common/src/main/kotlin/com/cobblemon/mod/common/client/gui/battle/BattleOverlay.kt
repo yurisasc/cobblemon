@@ -107,7 +107,7 @@ class BattleOverlay : InGameHud(MinecraftClient.getInstance(), MinecraftClient.g
         val side2 = if (side1 == battle.side1) battle.side2 else battle.side1
 
         side1.activeClientBattlePokemon.forEachIndexed { index, activeClientBattlePokemon -> drawTile(context, tickDelta, activeClientBattlePokemon, true, index) }
-        side2.activeClientBattlePokemon.forEachIndexed { index, activeClientBattlePokemon -> drawTile(context, tickDelta, activeClientBattlePokemon, false, index) }
+        side2.activeClientBattlePokemon.forEachIndexed { index, activeClientBattlePokemon -> drawTile(context, tickDelta, activeClientBattlePokemon, false, side2.activeClientBattlePokemon.count() - index - 1) }
 
         if (MinecraftClient.getInstance().currentScreen !is BattleGUI && battle.mustChoose) {
             val textOpacity = PROMPT_TEXT_OPACITY_CURVE(passedSeconds)

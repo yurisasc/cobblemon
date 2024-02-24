@@ -53,7 +53,8 @@ class BattleTargetSelection(
     val targets = request.activePokemon.getAllActivePokemon()
     val baseTiles = targets.mapIndexed { index, target ->
         val isAlly = target.getPNX()[1] == request.activePokemon.getPNX()[1] //TODO Multi-battle
-        val fieldPos = target.getPNX()[2] - 'a'
+        val teamSize = request.side?.pokemon?.size ?: 1
+        val fieldPos = if(isAlly) target.getPNX()[2] - 'a' else teamSize - 1 - (target.getPNX()[2] - 'a')
         val x = this.x + MOVE_HORIZONTAL_SPACING + fieldPos * TARGET_WIDTH
         val y = if (isAlly) this.y + TARGET_HEIGHT + MOVE_VERTICAL_SPACING else this.y.toFloat()
         TargetTile(this, target, x, y)
@@ -79,7 +80,9 @@ class BattleTargetSelection(
 
         open val selectable: Boolean get() = true
         val hue = target.getHue()
-        val rgb = Triple(((hue shr 16) and 0b11111111) / 255F, ((hue shr 8) and 0b11111111) / 255F, (hue and 0b11111111) / 255F)
+        val rgb = if(target.battlePokemon?.hpValue!!  > 0)
+            Triple(((hue shr 16) and 0b11111111) / 255F, ((hue shr 8) and 0b11111111) / 255F, (hue and 0b11111111) / 255F)
+            else Triple(0.5f, 0.5f, 0.5f)
 
         val targetPnx: String get() = target.getPNX()
 

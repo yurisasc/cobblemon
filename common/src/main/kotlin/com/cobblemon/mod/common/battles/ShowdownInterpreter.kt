@@ -1258,7 +1258,6 @@ object ShowdownInterpreter {
         val pokemon = battle.getBattlePokemon(pnx, pokemonID)
         val entity = if (actor is EntityBackedBattleActor<*>) actor.entity else null
         var result = entity?.pos
-//        val pokemonEntity = pokemon.entity
         val baseOffset = battleActor.getSide().getOppositeSide().actors.filterIsInstance<EntityBackedBattleActor<*>>().firstOrNull()?.entity?.pos?.let { pos ->
             pos.subtract(entity?.pos)
         }
@@ -1271,7 +1270,7 @@ object ShowdownInterpreter {
             }
         } else if(battle.format.battleType.pokemonPerSide == 2) {
             if(battle.actors.first() !== battle.actors.last() && baseOffset != null) {
-                var vector = baseOffset.normalize()
+                var vector = Vec3d(baseOffset.x, 0.0, baseOffset.z).normalize()
                 if (vector != null) {
                     vector = vector.crossProduct(Vec3d(0.0, 1.0, 0.0))
                 }
@@ -1280,14 +1279,14 @@ object ShowdownInterpreter {
             }
         } else if(battle.format.battleType.pokemonPerSide == 3) {
             if(battle.actors.first() !== battle.actors.last() && baseOffset != null) {
-                var vector = baseOffset.normalize()
+                var vector = Vec3d(baseOffset.x, 0.0, baseOffset.z).normalize()
                 if (vector != null) {
                     vector = vector.crossProduct(Vec3d(0.0, 1.0, 0.0))
                 }
                 result = when (pnx[2]) {
-                    'a' -> entity?.pos?.add(baseOffset.multiply(0.25))
-                    'b' -> entity?.pos?.add(baseOffset.multiply(0.1))?.add(vector.multiply(-3.5))
-                    'c' -> entity?.pos?.add(baseOffset.multiply(0.1))?.add(vector.multiply(3.5))
+                    'a' -> entity?.pos?.add(baseOffset.multiply(0.15))?.add(vector.multiply(-3.5))
+                    'b' -> entity?.pos?.add(baseOffset.multiply(0.3))
+                    'c' -> entity?.pos?.add(baseOffset.multiply(0.15))?.add(vector.multiply(3.5))
                     else -> result
                 }
             }

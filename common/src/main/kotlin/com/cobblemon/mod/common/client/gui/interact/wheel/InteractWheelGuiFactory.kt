@@ -92,6 +92,17 @@ fun createPlayerInteractGui(optionsPacket: PlayerInteractOptionsPacket): Interac
                 closeGUI()
             }
     )
+    val tripleBattle = InteractWheelOption(
+            iconResource = cobblemonResource("textures/gui/interact/icon_battle.png"), // Need double battle icon
+            colour = { if (CobblemonClient.requests.battleChallenges.any { it.challengerId == optionsPacket.targetId }) Vector3f(0F, 0.6F, 0F) else null },
+            tooltipText = "cobblemon.ui.interact.triplebattle",
+            onPress = {
+                val battleRequest = CobblemonClient.requests.battleChallenges.find { it.challengerId == optionsPacket.targetId }
+                // This can be improved in future with more detailed battle challenge data.
+                BattleChallengePacket(optionsPacket.numericTargetId, optionsPacket.selectedPokemonId, "triples").sendToServer()
+                closeGUI()
+            }
+    )
     val spectate = InteractWheelOption(
         iconResource = cobblemonResource("textures/gui/interact/icon_spectate_battle.png"),
         colour = { if (CobblemonClient.requests.battleChallenges.any { it.challengerId == optionsPacket.targetId }) Vector3f(0F, 0.6F, 0F) else null },
@@ -110,6 +121,7 @@ fun createPlayerInteractGui(optionsPacket: PlayerInteractOptionsPacket): Interac
         if (it.equals(PlayerInteractOptionsPacket.Options.BATTLE)) {
             options.put(Orientation.TOP_RIGHT, battle)
             options.put(Orientation.BOTTOM_RIGHT, doubleBattle)
+            options.put(Orientation.BOTTOM_LEFT, tripleBattle)
         }
         if (it.equals(PlayerInteractOptionsPacket.Options.SPECTATE_BATTLE)) {
             options.put(Orientation.TOP_RIGHT, spectate)

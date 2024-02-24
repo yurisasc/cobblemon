@@ -44,6 +44,7 @@ object ChallengeHandler : ServerNetworkPacketHandler<BattleChallengePacket> {
 
         val battleFormat = when (packet.battleType) {
             "doubles" -> BattleFormat.GEN_9_DOUBLES
+            "triples" -> BattleFormat.GEN_9_TRIPLES
             "multi" -> BattleFormat.GEN_9_MULTI
             else -> BattleFormat.GEN_9_SINGLES
         }

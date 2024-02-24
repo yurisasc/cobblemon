@@ -36,6 +36,11 @@ data class BattleFormat(
             ruleSet = setOf(BattleRules.OBTAINABLE)
         )
 
+        val GEN_9_TRIPLES = BattleFormat(
+                battleType = BattleTypes.TRIPLES,
+                ruleSet = setOf(BattleRules.OBTAINABLE)
+        )
+
         val GEN_9_MULTI = BattleFormat(
             battleType = BattleTypes.MULTI,
             ruleSet = setOf(BattleRules.OBTAINABLE)
