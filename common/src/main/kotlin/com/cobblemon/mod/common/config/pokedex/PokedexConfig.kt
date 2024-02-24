@@ -8,7 +8,7 @@
 
 package com.cobblemon.mod.common.config.pokedex
 
-import com.cobblemon.mod.common.api.pokedex.trackeddata.CountTypeGlobalTrackedData
+import com.cobblemon.mod.common.api.pokedex.trackeddata.CountTypeCaughtGlobalTrackedData
 import com.cobblemon.mod.common.api.pokedex.trackeddata.FormTrackedData
 import com.cobblemon.mod.common.api.pokedex.trackeddata.GlobalTrackedData
 import com.cobblemon.mod.common.api.pokedex.trackeddata.SpeciesTrackedData
@@ -21,7 +21,7 @@ import com.cobblemon.mod.common.api.pokedex.trackeddata.SpeciesTrackedData
  */
 object PokedexConfig {
     val global = setOf<GlobalTrackedData>(
-        CountTypeGlobalTrackedData("fire")
+        CountTypeCaughtGlobalTrackedData("fire")
     )
     val species = emptySet<SpeciesTrackedData>()
     val form = emptySet<FormTrackedData>()

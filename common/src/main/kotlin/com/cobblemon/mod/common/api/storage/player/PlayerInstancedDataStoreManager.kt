@@ -8,8 +8,10 @@
 
 package com.cobblemon.mod.common.api.storage.player
 
+import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.api.pokedex.Pokedex
 import com.cobblemon.mod.common.api.scheduling.ScheduledTask
+import com.cobblemon.mod.common.api.scheduling.ServerTaskTracker
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.server.MinecraftServer
 import net.minecraft.server.network.ServerPlayerEntity
@@ -43,6 +45,7 @@ class PlayerInstancedDataStoreManager {
             .delay(30f)
             .interval(120f)
             .infiniteIterations()
+            .tracker(ServerTaskTracker)
             .build()
 
         saveTasks[PlayerInstancedDataStoreType.POKEDEX] = ScheduledTask.Builder()
@@ -50,6 +53,7 @@ class PlayerInstancedDataStoreManager {
             .delay(30f)
             .interval(120f)
             .infiniteIterations()
+            .tracker(ServerTaskTracker)
             .build()
     }
 
@@ -59,7 +63,6 @@ class PlayerInstancedDataStoreManager {
         }
         return factories[dataType]!!.getForPlayer(player)
     }
-
     fun saveAllOfOneType(dataType: PlayerInstancedDataStoreType) {
         if (!factories.contains(dataType)) {
             throw UnsupportedOperationException("No factory registered for $dataType")

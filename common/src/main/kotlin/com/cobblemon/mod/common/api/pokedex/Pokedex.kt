@@ -16,6 +16,8 @@ import com.cobblemon.mod.common.api.pokedex.trackeddata.EventTriggerType
 import com.cobblemon.mod.common.api.pokedex.trackeddata.GlobalTrackedData
 import com.cobblemon.mod.common.api.storage.player.InstancedPlayerData
 import com.cobblemon.mod.common.api.storage.player.client.ClientInstancedPlayerData
+import com.cobblemon.mod.common.battles.actor.PlayerBattleActor
+import com.cobblemon.mod.common.battles.actor.PokemonBattleActor
 import com.cobblemon.mod.common.config.pokedex.PokedexConfig
 import com.cobblemon.mod.common.pokemon.FormData
 import com.cobblemon.mod.common.pokemon.Pokemon
@@ -80,7 +82,7 @@ class Pokedex(override val uuid: UUID) : InstancedPlayerData {
         }
         val recievedPokemon = if (event.tradeParticipant1.uuid == uuid) event.tradeParticipant2Pokemon else event.tradeParticipant1Pokemon
         val speciesEntry = getSpeciesEntry(recievedPokemon.species.resourceIdentifier)
-        speciesEntry.pokemonTraded(event)
+        speciesEntry.pokemonTraded(event, uuid)
     }
 
     fun battleStart(event: BattleStartedPostEvent) {
@@ -97,13 +99,26 @@ class Pokedex(override val uuid: UUID) : InstancedPlayerData {
         }
         event.battle.actors.forEach {
             if (!it.isForPlayer(player)) {
-                it.activePokemon.forEach { activeMon ->
-                    val mon =  activeMon.battlePokemon?.originalPokemon ?: return@forEach
-                    val speciesId = mon.species.resourceIdentifier
-                    val formStr = formToFormString(mon.form, mon.shiny)
+                if (it is PokemonBattleActor) {
+                    val pokemon = it.pokemon.originalPokemon
+                    val speciesId = pokemon.species.resourceIdentifier
+                    val formStr = pokemon.form.formOnlyShowdownId()
                     onPokemonSeen(speciesId, formStr)
                     val speciesEntry = getSpeciesEntry(speciesId)
                     speciesEntry.pokemonSeen(speciesId, formStr)
+                }
+                //Ideally we would not trigger the seen stuff on unseen pokemon but I don't think we currently have a way to listen to
+                //Sendout events in battle (though I have not looked that hard!)
+                else if (it is PlayerBattleActor) {
+                    it.pokemonList.forEach { mon ->
+                        val pokemon = mon.originalPokemon
+                        val speciesId = pokemon.species.resourceIdentifier
+                        val formStr = pokemon.form.formOnlyShowdownId()
+                        onPokemonSeen(speciesId, formStr)
+                        val speciesEntry = getSpeciesEntry(speciesId)
+                        speciesEntry.pokemonSeen(speciesId, formStr)
+                    }
+
                 }
             }
         }

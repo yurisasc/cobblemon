@@ -12,11 +12,11 @@ import com.cobblemon.mod.common.api.events.pokemon.PokemonCapturedEvent
 import com.cobblemon.mod.common.util.cobblemonResource
 import net.minecraft.network.PacketByteBuf
 
-class CountTypeGlobalTrackedData(
+class CountTypeCaughtGlobalTrackedData(
     val type: String
 ) : GlobalTrackedData() {
     @Transient
-    override val triggerEvents = setOf(EventTriggerType.CAUGHT)
+    override val triggerEvents = setOf(EventTriggerType.CAUGHT, EventTriggerType.EVOLVE, EventTriggerType.TRADE)
     var numOfType = 0
 
     override fun onCatch(event: PokemonCapturedEvent): Boolean {
@@ -28,7 +28,7 @@ class CountTypeGlobalTrackedData(
     }
 
     override fun clone(): GlobalTrackedData {
-        val result = CountTypeGlobalTrackedData(type)
+        val result = CountTypeCaughtGlobalTrackedData(type)
         result.numOfType = numOfType
         return result
     }
@@ -39,17 +39,17 @@ class CountTypeGlobalTrackedData(
     }
 
     override fun equals(other: Any?): Boolean {
-        if (other !is CountTypeGlobalTrackedData) return false
+        if (other !is CountTypeCaughtGlobalTrackedData) return false
         return other.type == type
     }
 
     companion object {
         val ID = cobblemonResource("count_type")
 
-        fun decode(buf: PacketByteBuf): CountTypeGlobalTrackedData {
+        fun decode(buf: PacketByteBuf): CountTypeCaughtGlobalTrackedData {
             val type = buf.readString()
             val numOfType = buf.readInt()
-            val result = CountTypeGlobalTrackedData(type)
+            val result = CountTypeCaughtGlobalTrackedData(type)
             result.numOfType = numOfType
             return result
         }

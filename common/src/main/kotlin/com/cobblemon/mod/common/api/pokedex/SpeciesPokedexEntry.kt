@@ -12,8 +12,8 @@ import com.cobblemon.mod.common.api.events.pokemon.PokemonCapturedEvent
 import com.cobblemon.mod.common.api.events.pokemon.TradeCompletedEvent
 import com.cobblemon.mod.common.api.events.pokemon.evolution.EvolutionCompleteEvent
 import com.cobblemon.mod.common.api.pokedex.trackeddata.SpeciesTrackedData
-import com.cobblemon.mod.common.pokemon.Pokemon
 import net.minecraft.util.Identifier
+import java.util.UUID
 
 /**
  * Information about a species in the dex
@@ -34,14 +34,30 @@ class SpeciesPokedexEntry {
     }
 
     fun pokemonEvolved(event: EvolutionCompleteEvent) {
-
+        val formStr = event.pokemon.form.formOnlyShowdownId()
+        if (!formEntries.containsKey(formStr)) {
+            formEntries[formStr] = FormPokedexEntry()
+        }
+        formEntries[formStr]?.knowledge = PokedexProgress.CAUGHT
     }
 
-    fun pokemonTraded(event: TradeCompletedEvent) {
-
+    fun pokemonTraded(event: TradeCompletedEvent, ownerUuid: UUID) {
+        val recievedPokemon = if (event.tradeParticipant1.uuid == ownerUuid) event.tradeParticipant2Pokemon else event.tradeParticipant1Pokemon
+        val formStr = recievedPokemon.form.formOnlyShowdownId()
+        if (!formEntries.containsKey(formStr)) {
+            formEntries[formStr] = FormPokedexEntry()
+        }
+        formEntries[formStr]?.knowledge = PokedexProgress.CAUGHT
     }
 
     fun pokemonSeen(speciesId: Identifier, formStr: String) {
+        if (!formEntries.containsKey(formStr)) {
+            formEntries[formStr] = FormPokedexEntry()
+        }
+        val knowledge = formEntries[formStr]?.knowledge
+        if (knowledge != PokedexProgress.CAUGHT) {
+            formEntries[formStr]?.knowledge = PokedexProgress.ENCOUNTERED
+        }
 
     }
 }

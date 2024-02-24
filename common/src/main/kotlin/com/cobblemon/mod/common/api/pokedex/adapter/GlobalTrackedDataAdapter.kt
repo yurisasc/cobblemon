@@ -9,7 +9,7 @@
 package com.cobblemon.mod.common.api.pokedex.adapter
 
 import com.cobblemon.mod.common.Cobblemon
-import com.cobblemon.mod.common.api.pokedex.trackeddata.CountTypeGlobalTrackedData
+import com.cobblemon.mod.common.api.pokedex.trackeddata.CountTypeCaughtGlobalTrackedData
 import com.cobblemon.mod.common.api.pokedex.trackeddata.GlobalTrackedData
 import com.google.gson.JsonDeserializationContext
 import com.google.gson.JsonDeserializer
@@ -27,7 +27,7 @@ object GlobalTrackedDataAdapter : JsonSerializer<GlobalTrackedData>, JsonDeseria
     private val decoders = hashMapOf<Identifier, (PacketByteBuf) -> (GlobalTrackedData)>()
 
     init {
-        this.register(CountTypeGlobalTrackedData::class, CountTypeGlobalTrackedData.ID, CountTypeGlobalTrackedData::decode)
+        this.register(CountTypeCaughtGlobalTrackedData::class, CountTypeCaughtGlobalTrackedData.ID, CountTypeCaughtGlobalTrackedData::decode)
     }
 
     fun register(type: KClass<out GlobalTrackedData>, identifier: Identifier, decodeFunction: (PacketByteBuf) -> (GlobalTrackedData)) {
