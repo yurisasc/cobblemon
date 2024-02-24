@@ -59,7 +59,7 @@ class PokemonRenderer(
     companion object {
         val recallBeamColour = Vector4f(1F, 0.1F, 0.1F, 1F)
         fun ease(x: Double): Double {
-            return 1 - (1 - x).pow(3);
+            return 1 - (1 - x).pow(3)
         }
     }
 

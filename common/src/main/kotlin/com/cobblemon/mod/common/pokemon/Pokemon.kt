@@ -526,6 +526,7 @@ open class Pokemon : ShowdownIdentifiable {
         val rotatedOffset = Vec3d(shoulderHorizontalOffset, approxShoulderMonHight, 0.0).rotateY(-rotation * (Math.PI.toFloat() / 180f))
         val currentPosition = player.pos.add(rotatedOffset)
 
+        recall()
         sendOut(level, currentPosition) {
             // Play some sound indicating hopping off
             level.playSoundServer(currentPosition, CobblemonSounds.PC_DROP, volume = 0.6F)
