@@ -26,8 +26,6 @@ object PokedexHandler {
         pokedexData.pokemonCaught(event)
         event.player.sendPacket(SetClientPlayerDataPacket(PlayerInstancedDataStoreType.POKEDEX, pokedexData.toClientData(), false))
     }
-    /** Commented out until incorporated into the new system
-
     fun onEvolve(event: EvolutionCompleteEvent){
         val ownedBy = event.pokemon.getOwnerPlayer()
         if(ownedBy == null){
@@ -36,10 +34,8 @@ object PokedexHandler {
         }
 
         val pokedexData = Cobblemon.playerDataManager.getPokedexData(ownedBy)
-        val incrementalPokedex = PokedexDataJsonBackend.defaultDataFunc.invoke(ownedBy.uuid)
-        pokedexData.pokemonCaptured(event.pokemon)
-        incrementalPokedex.pokemonCaptured(event.pokemon)
-        ownedBy.sendPacket(SetClientPlayerDataPacket(PlayerInstancedDataStoreType.POKEDEX, pokedexData.getInstancedPiece(event.pokemon).toClientData(), true))
+        pokedexData.pokemonEvolved(event)
+        ownedBy.sendPacket(SetClientPlayerDataPacket(PlayerInstancedDataStoreType.POKEDEX, pokedexData.toClientData(), false))
     }
 
     fun onTrade(event: TradeCompletedEvent){
@@ -48,8 +44,8 @@ object PokedexHandler {
             Cobblemon.LOGGER.warn("Player with UUID '${event.tradeParticipant1.uuid} could not be found.")
         } else {
             val pokedexData = Cobblemon.playerDataManager.getPokedexData(player)
-            pokedexData.pokemonCaptured(event.tradeParticipant1Pokemon)
-            player.sendPacket(SetClientPlayerDataPacket(PlayerInstancedDataStoreType.POKEDEX, pokedexData.getInstancedPiece(event.tradeParticipant1Pokemon).toClientData(), true))
+            pokedexData.pokemonTraded(event)
+            player.sendPacket(SetClientPlayerDataPacket(PlayerInstancedDataStoreType.POKEDEX, pokedexData.toClientData(), false))
         }
 
         player = event.tradeParticipant2.uuid.getPlayer()
@@ -57,20 +53,17 @@ object PokedexHandler {
             Cobblemon.LOGGER.warn("Player with UUID '${event.tradeParticipant2.uuid} could not be found.")
         } else {
             val pokedexData = Cobblemon.playerDataManager.getPokedexData(player)
-            pokedexData.pokemonCaptured(event.tradeParticipant2Pokemon)
-            player.sendPacket(SetClientPlayerDataPacket(PlayerInstancedDataStoreType.POKEDEX, pokedexData.getInstancedPiece(event.tradeParticipant2Pokemon).toClientData(), true))
+            pokedexData.pokemonTraded(event)
+            player.sendPacket(SetClientPlayerDataPacket(PlayerInstancedDataStoreType.POKEDEX, pokedexData.toClientData(), false))
         }
     }
 
     fun onBattleStart(event: BattleStartedPostEvent){
         if (event.battle.isPvW) {
             val player = event.battle.players.first()
-            val wildActor = event.battle.actors.firstOrNull {it is PokemonBattleActor} as? PokemonBattleActor ?: return
-            val wildPokemon = wildActor.pokemon.originalPokemon
             val pokedex = Cobblemon.playerDataManager.getPokedexData(player)
-            pokedex.wildPokemonEncountered(wildPokemon)
-            player.sendPacket(SetClientPlayerDataPacket(PlayerInstancedDataStoreType.POKEDEX, pokedex.getInstancedPiece(wildPokemon).toClientData(), true))
+            pokedex.battleStart(event)
+            player.sendPacket(SetClientPlayerDataPacket(PlayerInstancedDataStoreType.POKEDEX, pokedex.toClientData(), false))
         }
     }
-    **/
 }

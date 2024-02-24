@@ -9,6 +9,8 @@
 package com.cobblemon.mod.common.api.pokedex
 
 import com.cobblemon.mod.common.api.events.pokemon.PokemonCapturedEvent
+import com.cobblemon.mod.common.api.events.pokemon.TradeCompletedEvent
+import com.cobblemon.mod.common.api.events.pokemon.evolution.EvolutionCompleteEvent
 import com.cobblemon.mod.common.api.pokedex.trackeddata.SpeciesTrackedData
 import com.cobblemon.mod.common.pokemon.Pokemon
 import net.minecraft.util.Identifier
@@ -21,7 +23,7 @@ import net.minecraft.util.Identifier
  */
 class SpeciesPokedexEntry {
     var formEntries = mutableMapOf<String, FormPokedexEntry>()
-    val speciesStats = mutableMapOf<Identifier, SpeciesTrackedData>()
+    val speciesStats = mutableSetOf<SpeciesTrackedData>()
 
     fun pokemonCaught(event: PokemonCapturedEvent) {
         val formStr = event.pokemon.form.formOnlyShowdownId()
@@ -29,5 +31,17 @@ class SpeciesPokedexEntry {
             formEntries[formStr] = FormPokedexEntry()
         }
         formEntries[formStr]?.knowledge = PokedexProgress.CAUGHT
+    }
+
+    fun pokemonEvolved(event: EvolutionCompleteEvent) {
+
+    }
+
+    fun pokemonTraded(event: TradeCompletedEvent) {
+
+    }
+
+    fun pokemonSeen(speciesId: Identifier, formStr: String) {
+
     }
 }

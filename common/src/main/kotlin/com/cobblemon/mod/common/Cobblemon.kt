@@ -361,7 +361,7 @@ object Cobblemon {
         BATTLE_VICTORY.subscribe { AdvancementHandler.onWinBattle(it) }
         EVOLUTION_COMPLETE.subscribe(Priority.LOWEST) { event ->
             AdvancementHandler.onEvolve(event)
-            //PokedexHandler.onEvolve(event)
+            PokedexHandler.onEvolve(event)
             val pokemon = event.pokemon
             val ninjaskIdentifier = cobblemonResource("ninjask")
             // Ensure the config option is enabled and that the result was a ninjask and that shedinja exists
@@ -396,10 +396,10 @@ object Cobblemon {
         LEVEL_UP_EVENT.subscribe { AdvancementHandler.onLevelUp(it) }
         TRADE_COMPLETED.subscribe {
             AdvancementHandler.onTradeCompleted(it)
-            //PokedexHandler.onTrade(it)
+            PokedexHandler.onTrade(it)
         }
         BATTLE_STARTED_POST.subscribe {
-            //PokedexHandler.onBattleStart(it)
+            PokedexHandler.onBattleStart(it)
         }
 
         BagItems.observable.subscribe {

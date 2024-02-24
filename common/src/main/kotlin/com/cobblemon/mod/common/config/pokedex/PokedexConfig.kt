@@ -14,7 +14,7 @@ import com.cobblemon.mod.common.api.pokedex.trackeddata.GlobalTrackedData
 import com.cobblemon.mod.common.api.pokedex.trackeddata.SpeciesTrackedData
 
 /**
- * Determines what stats are tracked in the pokedex
+ * Determines what stats are tracked in the pokedex. Should be read from file eventually
  *
  * @author Apion
  * @since February 24, 2024

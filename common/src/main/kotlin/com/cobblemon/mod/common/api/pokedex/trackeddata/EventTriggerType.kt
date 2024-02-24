@@ -15,5 +15,9 @@ package com.cobblemon.mod.common.api.pokedex.trackeddata
  * @since February 24, 2024
  */
 enum class EventTriggerType {
-    CAUGHT
+    CAUGHT,
+    EVOLVE,
+    TRADE,
+    BATTLE_START,
+    SEEN
 }

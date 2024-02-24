@@ -15,5 +15,5 @@ package com.cobblemon.mod.common.api.pokedex.trackeddata
  * @author Apion
  * @since February 24, 2024
  */
-class FormTrackedData {
+abstract class FormTrackedData {
 }

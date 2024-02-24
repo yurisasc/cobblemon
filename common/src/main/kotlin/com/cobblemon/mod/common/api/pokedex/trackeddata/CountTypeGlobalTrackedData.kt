@@ -38,6 +38,11 @@ class CountTypeGlobalTrackedData(
         buf.writeInt(numOfType)
     }
 
+    override fun equals(other: Any?): Boolean {
+        if (other !is CountTypeGlobalTrackedData) return false
+        return other.type == type
+    }
+
     companion object {
         val ID = cobblemonResource("count_type")
 

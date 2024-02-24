@@ -19,5 +19,5 @@ import net.minecraft.util.Identifier
  */
 class FormPokedexEntry {
     var knowledge: PokedexProgress = PokedexProgress.NONE
-    var formStats = mutableMapOf<Identifier, FormTrackedData>()
+    var formStats = mutableSetOf<FormTrackedData>()
 }
