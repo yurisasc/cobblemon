@@ -14,14 +14,11 @@ import com.cobblemon.mod.common.api.fishing.PokeRods
 import com.cobblemon.mod.common.api.pokeball.PokeBalls
 import com.cobblemon.mod.common.api.text.gray
 import com.cobblemon.mod.common.entity.fishing.PokeRodFishingBobberEntity
-import com.cobblemon.mod.common.item.BerryItem
-import com.cobblemon.mod.common.util.cobblemonResource
 import net.minecraft.client.item.TooltipContext
 import net.minecraft.enchantment.EnchantmentHelper
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.FishingRodItem
 import net.minecraft.item.ItemStack
-import net.minecraft.registry.Registries
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.sound.SoundCategory
 import net.minecraft.sound.SoundEvents
@@ -76,6 +73,7 @@ class PokerodItem(val pokeRodId: Identifier, settings: Settings?) : FishingRodIt
                 val j = EnchantmentHelper.getLuckOfTheSea(itemStack)
                 val bobberEntity = PokeRodFishingBobberEntity(user, pokeRodId, bait/*Registries.ITEM.getId(bait?.item)*/, world, j, i)
                 world.spawnEntity(bobberEntity)
+                CobblemonCriteria.CAST_POKE_ROD.trigger(user as ServerPlayerEntity, !bait.isEmpty)
             }
             user.incrementStat(Stats.USED.getOrCreateStat(this))
             user.emitGameEvent(GameEvent.ITEM_INTERACT_START)
