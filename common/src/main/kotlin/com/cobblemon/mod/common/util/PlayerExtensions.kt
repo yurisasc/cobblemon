@@ -280,4 +280,4 @@ fun PlayerEntity.giveOrDropItemStack(stack: ItemStack, playSound: Boolean = true
 }
 
 /** Retrieves the battle theme associated with this player, or the default PVP theme if null. */
-fun ServerPlayerEntity.getBattleTheme() = Cobblemon.playerData.get(this).battleTheme?.let { Registries.SOUND_EVENT.get(it) } ?: CobblemonSounds.PVP_BATTLE
+fun ServerPlayerEntity.getBattleTheme() = Cobblemon.playerDataManager.getGenericData(this).battleTheme?.let { Registries.SOUND_EVENT.get(it) } ?: CobblemonSounds.PVP_BATTLE

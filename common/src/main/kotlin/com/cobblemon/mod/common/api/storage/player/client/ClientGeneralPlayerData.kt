@@ -12,6 +12,7 @@ import com.cobblemon.mod.common.api.storage.player.PlayerInstancedDataStoreType
 import com.cobblemon.mod.common.client.CobblemonClient
 import com.cobblemon.mod.common.net.messages.client.SetClientPlayerDataPacket
 import net.minecraft.network.PacketByteBuf
+import net.minecraft.util.Identifier
 import java.util.UUID
 
 /**
@@ -26,7 +27,8 @@ data class ClientGeneralPlayerData(
     var promptStarter: Boolean = true,
     var starterLocked: Boolean = true,
     var starterSelected: Boolean = false,
-    var starterUUID: UUID? = null
+    var starterUUID: UUID? = null,
+    val battleTheme: Identifier? = null
 ) : ClientInstancedPlayerData(false) {
 
     override fun encode(buf: PacketByteBuf) {
@@ -36,6 +38,7 @@ data class ClientGeneralPlayerData(
         val starterUUID = starterUUID
         buf.writeNullable(starterUUID) { pb, value -> pb.writeUuid(value) }
         buf.writeNullable(resetStarters) { pb, value -> pb.writeBoolean(value) }
+        buf.writeIdentifier(battleTheme)
     }
     companion object {
         fun decode(buffer: PacketByteBuf): SetClientPlayerDataPacket {
@@ -45,12 +48,14 @@ data class ClientGeneralPlayerData(
             val starterSelected = buffer.readBoolean()
             val starterUUID = buffer.readNullable { it.readUuid() }
             val resetStarterPrompt = buffer.readNullable { it.readBoolean() }
+            val battleTheme = buffer.readIdentifier()
             val data = ClientGeneralPlayerData(
                 resetStarterPrompt,
                 promptStarter,
                 starterLocked,
                 starterSelected,
                 starterUUID,
+                battleTheme
             )
             //Weird to do this, but since the flag doesn't get passed to the decoded obj, do it here
             //Should be fine, as long as decode doesn't get run on the server for some reason

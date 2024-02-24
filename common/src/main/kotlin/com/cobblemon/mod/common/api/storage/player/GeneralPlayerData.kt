@@ -10,15 +10,13 @@ package com.cobblemon.mod.common.api.storage.player
 
 import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.CobblemonNetwork.sendPacket
-import com.cobblemon.mod.common.api.storage.player.client.ClientGeneralPlayerData
-import com.cobblemon.mod.common.api.storage.player.client.ClientInstancedPlayerData
 import com.cobblemon.mod.common.net.messages.client.SetClientPlayerDataPacket
 import com.cobblemon.mod.common.CobblemonSounds
-import com.cobblemon.mod.common.net.messages.client.starter.SetClientPlayerDataPacket
+import com.cobblemon.mod.common.api.storage.player.client.ClientGeneralPlayerData
+import com.cobblemon.mod.common.api.storage.player.client.ClientInstancedPlayerData
 import java.util.UUID
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.util.Identifier
-import java.util.UUID
 
 /**
  * An [InstancedPlayerData] for misc stuff, mostly starters
@@ -38,18 +36,17 @@ data class GeneralPlayerData(
     fun sendToPlayer(player: ServerPlayerEntity) {
         player.sendPacket(SetClientPlayerDataPacket(PlayerInstancedDataStoreType.GENERAL, this.toClientData()))
     }
-    companion object {
-        @JvmStatic
-        fun defaultData(forPlayer: UUID) = PlayerData(
-            uuid = forPlayer,
-            starterPrompted = false,
-            starterLocked = !Cobblemon.starterConfig.allowStarterOnJoin,
-            starterSelected =  false,
-            starterUUID =  null,
-            keyItems = mutableSetOf(),
-            battleTheme = CobblemonSounds.PVP_BATTLE.id,
-            extraData = mutableMapOf()
+
+    override fun toClientData(): ClientInstancedPlayerData {
+        return ClientGeneralPlayerData(
+            false,
+            starterPrompted || !Cobblemon.starterConfig.promptStarterOnceOnly,
+            starterPrompted,
+            starterLocked,
+            starterUUID,
+            battleTheme
         )
     }
+
 
 }
