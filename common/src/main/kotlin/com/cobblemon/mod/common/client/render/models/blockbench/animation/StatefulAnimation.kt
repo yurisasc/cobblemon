@@ -23,14 +23,7 @@ import net.minecraft.entity.Entity
  */
 interface StatefulAnimation<T : Entity, F : ModelFrame> {
     val isTransform: Boolean
-    val isPosePauser: Boolean
-    /**
-     * Whether this animation should prevent the given idle animation from occurring.
-     *
-     * This is for cases where this animation and the idle animation work on the same parts
-     * of the model and would conflict.
-     */
-    fun preventsIdle(entity: T?, state: PoseableEntityState<T>, idleAnimation: StatelessAnimation<T, *>): Boolean
+    val duration: Float
     /** Runs the animation. You can check that the model fits a particular frame. Returns true if the animation should continue. */
     fun run(
         entity: T?,
@@ -40,7 +33,8 @@ interface StatefulAnimation<T : Entity, F : ModelFrame> {
         limbSwingAmount: Float,
         ageInTicks: Float,
         headYaw: Float,
-        headPitch: Float
+        headPitch: Float,
+        intensity: Float
     ): Boolean
 
     fun applyEffects(entity: T, state: PoseableEntityState<T>, previousSeconds: Float, newSeconds: Float) {}

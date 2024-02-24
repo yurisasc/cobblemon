@@ -1,0 +1,9 @@
+{
+  "maxScale": 0.7,
+  "yTranslation": 0.2,
+  "yGrowthPoint": 0.3125,
+
+  "animations": [
+    "bedrock(kabuto_fetus, sleep)"
+  ]
+}

@@ -8,8 +8,6 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen6
 
-import com.cobblemon.mod.common.client.render.models.blockbench.animation.BipedWalkAnimation
-import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
@@ -34,10 +32,10 @@ class DiggersbyModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     lateinit var battleidle: PokemonPose
     lateinit var portrait: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("diggersby", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("diggersby", "cry") }
 
     override fun registerPoses() {
-        val sleep1 = quirk("sleep1", secondsBetweenOccurrences = 60F to 120F) { bedrockStateful("diggersby", "quirk_sleep").setPreventsIdle(false) }
+        val sleep1 = quirk(secondsBetweenOccurrences = 60F to 120F) { bedrockStateful("diggersby", "quirk_sleep") }
 
         sleep = registerPose(
             poseType = PoseType.SLEEP,

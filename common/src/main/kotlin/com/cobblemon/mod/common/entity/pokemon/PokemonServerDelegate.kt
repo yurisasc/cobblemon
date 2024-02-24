@@ -14,16 +14,19 @@ import com.cobblemon.mod.common.api.pokemon.stats.Stats
 import com.cobblemon.mod.common.api.pokemon.status.Statuses
 import com.cobblemon.mod.common.battles.BattleRegistry
 import com.cobblemon.mod.common.entity.PoseType
+import com.cobblemon.mod.common.entity.pokemon.ai.PokemonMoveControl
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.pokemon.activestate.ActivePokemonState
 import com.cobblemon.mod.common.pokemon.activestate.SentOutState
 import com.cobblemon.mod.common.util.playSoundServer
+import com.cobblemon.mod.common.util.update
 import com.cobblemon.mod.common.world.gamerules.CobblemonGameRules
 import java.util.Optional
 import net.minecraft.entity.Entity
 import net.minecraft.entity.ai.pathing.PathNodeType
 import net.minecraft.entity.attribute.EntityAttributes
 import net.minecraft.entity.damage.DamageSource
+import net.minecraft.entity.data.TrackedData
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.text.Text
@@ -61,7 +64,7 @@ class PokemonServerDelegate : PokemonSideDelegate {
 
     fun updateMaxHealth() {
         val currentHealthRatio = entity.health.toDouble() / entity.maxHealth
-        // Why would you remove HP is beyond me but protects us from obscure crash due to crappy addon
+        // Why you would remove HP is beyond me but protects us from obscure crash due to crappy addon
         acknowledgedHPStat = entity.form.baseStats[Stats.HP] ?: return
 
         val minStat = 50 // Metapod's base HP
@@ -81,7 +84,17 @@ class PokemonServerDelegate : PokemonSideDelegate {
         with(entity) {
             speed = 0.1F
             entity.despawner.beginTracking(this)
-            subscriptions.add(behaviourFlags.subscribe { updatePoseType() })
+        }
+    }
+
+    fun getBattle() = entity.battleId?.let(BattleRegistry::getBattle)
+
+    override fun onTrackedDataSet(data: TrackedData<*>) {
+        super.onTrackedDataSet(data)
+        if (this::entity.isInitialized) {
+            when (data) {
+                PokemonEntity.BEHAVIOUR_FLAGS -> updatePoseType()
+            }
         }
     }
 
@@ -106,15 +119,20 @@ class PokemonServerDelegate : PokemonSideDelegate {
 //            entity.setBehaviourFlag(PokemonBehaviourFlag.FLYING, true)
 //        }
 
-        val battleId = entity.battleId.get().orElse(null)
-        if (battleId != null && BattleRegistry.getBattle(battleId).let { it == null || it.ended }) {
-            entity.battleId.set(Optional.empty())
+        entity.dataTracker.update(PokemonEntity.BATTLE_ID) { opt ->
+            val battleId = opt.orElse(null)
+            if (battleId != null && BattleRegistry.getBattle(battleId).let { it == null || it.ended }) {
+                Optional.empty()
+            } else {
+                opt
+            }
         }
 
-        if (entity.ticksLived % 20 == 0 && battleId != null) {
-            val activeBattlePokemon = BattleRegistry.getBattle(battleId)
-                ?.activePokemon
-                ?.find { it.battlePokemon?.uuid == entity.pokemon.uuid }
+        val battle = getBattle()
+        if (entity.ticksLived % 20 == 0 && battle != null) {
+            val activeBattlePokemon = battle
+                .activePokemon
+                .find { it.battlePokemon?.uuid == entity.pokemon.uuid }
 
             if (activeBattlePokemon != null) {
                 activeBattlePokemon.position = entity.world as ServerWorld to entity.pos
@@ -124,6 +142,7 @@ class PokemonServerDelegate : PokemonSideDelegate {
         if (entity.form.baseStats[Stats.HP] != acknowledgedHPStat) {
             updateMaxHealth()
         }
+
         if (entity.ownerUuid != entity.pokemon.getOwnerUUID()) {
             entity.ownerUuid = entity.pokemon.getOwnerUUID()
         }
@@ -135,31 +154,21 @@ class PokemonServerDelegate : PokemonSideDelegate {
         if (entity.ownerUuid != null && entity.owner == null && entity.tethering == null) {
             entity.remove(Entity.RemovalReason.DISCARDED)
         }
-        if (entity.pokemon.species.resourceIdentifier.toString() != entity.species.get()) {
-            entity.species.set(entity.pokemon.species.resourceIdentifier.toString())
+
+        entity.dataTracker.set(PokemonEntity.SPECIES, entity.pokemon.species.resourceIdentifier.toString())
+        if (entity.dataTracker.get(PokemonEntity.NICKNAME) != entity.pokemon.nickname) {
+            entity.dataTracker.set(PokemonEntity.NICKNAME, entity.pokemon.nickname ?: Text.empty())
         }
-        if (entity.nickname.get() != entity.pokemon.nickname) {
-            entity.nickname.set(entity.pokemon.nickname ?: Text.empty())
-        }
-        if (entity.aspects.get() != entity.pokemon.aspects) {
-            entity.aspects.set(entity.pokemon.aspects)
-        }
-        if (entity.labelLevel.get() != entity.pokemon.level) {
-            entity.labelLevel.set(entity.pokemon.level)
-        }
-        val isMoving = !entity.navigation.isIdle
-        if (isMoving && !entity.isMoving.get()) {
-            entity.isMoving.set(true)
-        } else if (!isMoving && entity.isMoving.get()) {
-            entity.isMoving.set(false)
-        }
+        entity.dataTracker.set(PokemonEntity.ASPECTS, entity.pokemon.aspects)
+        entity.dataTracker.set(PokemonEntity.LABEL_LEVEL, entity.pokemon.level)
+        entity.dataTracker.set(PokemonEntity.MOVING, !entity.navigation.isIdle)
 
         updatePoseType()
     }
 
     fun updatePoseType() {
         val isSleeping = entity.pokemon.status?.status == Statuses.SLEEP && entity.behaviour.resting.canSleep
-        val isMoving = entity.isMoving.get()
+        val isMoving = (entity.moveControl as? PokemonMoveControl)?.isMoving == true
         val isPassenger = entity.hasVehicle()
         val isUnderwater = entity.getIsSubmerged()
         val isFlying = entity.getBehaviourFlag(PokemonBehaviourFlag.FLYING)
@@ -175,9 +184,7 @@ class PokemonServerDelegate : PokemonSideDelegate {
             else -> PoseType.STAND
         }
 
-        if (poseType != entity.poseType.get()) {
-            entity.poseType.set(poseType)
-        }
+        entity.dataTracker.set(PokemonEntity.POSE_TYPE, poseType)
     }
 
     override fun drop(source: DamageSource?) {
@@ -188,17 +195,15 @@ class PokemonServerDelegate : PokemonSideDelegate {
     }
 
     override fun updatePostDeath() {
-        if (!entity.deathEffectsStarted.get()) {
-            entity.deathEffectsStarted.set(true)
-        }
+        entity.dataTracker.set(PokemonEntity.DYING_EFFECTS_STARTED, true)
         ++entity.deathTime
 
         if (entity.deathTime == 30) {
             val owner = entity.owner
             if (owner != null) {
                 entity.world.playSoundServer(owner.pos, CobblemonSounds.POKE_BALL_RECALL, volume = 0.6F)
-                entity.phasingTargetId.set(owner.id)
-                entity.beamModeEmitter.set(2)
+                entity.dataTracker.set(PokemonEntity.PHASING_TARGET_ID, owner.id)
+                entity.dataTracker.set(PokemonEntity.BEAM_MODE, 2)
             }
         }
 

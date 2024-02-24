@@ -8,17 +8,12 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1
 
-import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
-import com.cobblemon.mod.common.client.render.models.blockbench.frame.BimanualFrame
-import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
-import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.PoseType.Companion.MOVING_POSES
 import com.cobblemon.mod.common.entity.PoseType.Companion.STATIONARY_POSES
 import com.cobblemon.mod.common.entity.PoseType.Companion.UI_POSES
-import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
@@ -37,10 +32,10 @@ class DoduoModel (root: ModelPart) : PokemonPoseableModel() {
     lateinit var battleidle: PokemonPose
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("doduo", "blink1").setPreventsIdle(false) }
-        val blink2 = quirk("blink2") { bedrockStateful("doduo", "blink2").setPreventsIdle(false) }
-        val bite = quirk("bite") { bedrockStateful("doduo", "bite_quirk1").setPreventsIdle(false) }
-        val bite2 = quirk("bite2") { bedrockStateful("doduo", "bite_quirk2").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("doduo", "blink1") }
+        val blink2 = quirk { bedrockStateful("doduo", "blink2") }
+        val bite = quirk { bedrockStateful("doduo", "bite_quirk1") }
+        val bite2 = quirk { bedrockStateful("doduo", "bite_quirk2") }
 
         sleep = registerPose(
             poseType = PoseType.SLEEP,

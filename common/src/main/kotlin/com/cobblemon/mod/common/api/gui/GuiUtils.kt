@@ -196,6 +196,8 @@ fun drawPortraitPokemon(
     val context = RenderContext()
     PokemonModelRepository.getTextureNoSubstitute(species.resourceIdentifier, aspects, 0f).let { it -> context.put(RenderContext.TEXTURE, it) }
     context.put(RenderContext.SCALE, species.getForm(aspects).baseScale)
+    context.put(RenderContext.SPECIES, species.resourceIdentifier)
+    context.put(RenderContext.ASPECTS, aspects)
 
     val renderType = model.getLayer(texture)
 
@@ -206,10 +208,12 @@ fun drawPortraitPokemon(
     if (state == null) {
         model.setupAnimStateless(setOf(PoseType.PORTRAIT, PoseType.PROFILE))
     } else {
+        val originalPose = state.currentPose
         model.getPose(PoseType.PORTRAIT)?.let { state.setPose(it.poseName) }
         state.timeEnteredPose = 0F
         state.updatePartialTicks(partialTicks)
         model.setupAnimStateful(null, state, 0F, 0F, 0F, 0F, 0F)
+        originalPose?.let { state.setPose(it) }
     }
 
     matrixStack.push()

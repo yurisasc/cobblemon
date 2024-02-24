@@ -8,8 +8,6 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen9
 
-import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
-import com.cobblemon.mod.common.client.render.models.blockbench.frame.QuadrupedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
@@ -30,10 +28,10 @@ class ShroodleModel (root: ModelPart) : PokemonPoseableModel() {
     lateinit var walking: PokemonPose
     lateinit var sleeping: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("shroodle", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("shroodle", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("shroodle", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("shroodle", "blink") }
         standing = registerPose(
             poseName = "standing",
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,

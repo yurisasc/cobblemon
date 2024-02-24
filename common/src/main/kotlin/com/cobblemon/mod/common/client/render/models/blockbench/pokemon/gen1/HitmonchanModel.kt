@@ -9,9 +9,6 @@
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1
 
 import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
-import com.cobblemon.mod.common.client.render.models.blockbench.animation.BimanualSwingAnimation
-import com.cobblemon.mod.common.client.render.models.blockbench.animation.BipedWalkAnimation
-import com.cobblemon.mod.common.client.render.models.blockbench.asTransformed
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BimanualFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
@@ -46,7 +43,7 @@ class HitmonchanModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bi
     lateinit var battleidle: PokemonPose
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("hitmonchan", "blink").setPreventsIdle(false)}
+        val blink = quirk { bedrockStateful("hitmonchan", "blink")}
 
         sleep = registerPose(
             poseType = PoseType.SLEEP,

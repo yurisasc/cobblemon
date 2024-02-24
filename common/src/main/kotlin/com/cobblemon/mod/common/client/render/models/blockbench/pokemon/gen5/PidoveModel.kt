@@ -15,7 +15,7 @@ import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFram
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pose.TransformedModelPart
+import com.cobblemon.mod.common.client.render.models.blockbench.pose.ModelPartTransformation
 import com.cobblemon.mod.common.client.render.models.blockbench.wavefunction.parabolaFunction
 import com.cobblemon.mod.common.client.render.models.blockbench.wavefunction.sineFunction
 import com.cobblemon.mod.common.entity.PoseType
@@ -44,14 +44,14 @@ class PidoveModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Biped
     lateinit var hover: PokemonPose
     lateinit var fly: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("pidove", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("pidove", "cry") }
 
     override fun registerPoses() {
 //        sleep = registerPose(
 //            poseType = PoseType.SLEEP,
 //            idleAnimations = arrayOf(bedrock("pidove", "sleep"))
 //        )
-        val blink = quirk("blink") { bedrockStateful("pidove", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("pidove", "blink") }
         stand = registerPose(
             poseName = "standing",
             poseTypes = PoseType.SHOULDER_POSES + PoseType.UI_POSES + PoseType.STAND,
@@ -73,7 +73,7 @@ class PidoveModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Biped
                 WingFlapIdleAnimation(this,
                     flapFunction = sineFunction(verticalShift = -10F.toRadians(), period = 0.9F, amplitude = 0.6F),
                     timeVariable = { state, _, _ -> state?.animationSeconds ?: 0F },
-                    axis = TransformedModelPart.Z_AXIS
+                    axis = ModelPartTransformation.Z_AXIS
                 )
             )
         )
@@ -88,7 +88,7 @@ class PidoveModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Biped
                 WingFlapIdleAnimation(this,
                     flapFunction = sineFunction(verticalShift = -14F.toRadians(), period = 0.9F, amplitude = 0.9F),
                     timeVariable = { state, _, _ -> state?.animationSeconds ?: 0F },
-                    axis = TransformedModelPart.Z_AXIS
+                    axis = ModelPartTransformation.Z_AXIS
                 )
             )
         )
@@ -107,7 +107,7 @@ class PidoveModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Biped
                         period = 0.4F
                     ),
                     timeVariable = { state, _, _ -> state?.animationSeconds },
-                    axis = TransformedModelPart.Y_AXIS
+                    axis = ModelPartTransformation.Y_AXIS
                 ),
                 head.translation(
                     function = sineFunction(
@@ -115,7 +115,7 @@ class PidoveModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Biped
                         period = 1F,
                         verticalShift = (-10F).toRadians()
                     ),
-                    axis = TransformedModelPart.X_AXIS,
+                    axis = ModelPartTransformation.X_AXIS,
                     timeVariable = { state, _, _ -> state?.animationSeconds }
                 ),
                 leftLeg.rotation(
@@ -124,7 +124,7 @@ class PidoveModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Biped
                         phaseShift = 0F,
                         verticalShift = (30F).toRadians()
                     ),
-                    axis = TransformedModelPart.X_AXIS,
+                    axis = ModelPartTransformation.X_AXIS,
                     timeVariable = { _, _, ageInTicks -> ageInTicks / 20 },
                 ),
                 rightLeg.rotation(
@@ -133,7 +133,7 @@ class PidoveModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Biped
                         phaseShift = 0F,
                         verticalShift = (30F).toRadians()
                     ),
-                    axis = TransformedModelPart.X_AXIS,
+                    axis = ModelPartTransformation.X_AXIS,
                     timeVariable = { _, _, ageInTicks -> ageInTicks / 20 },
                 ),
                 tail.rotation(
@@ -141,7 +141,7 @@ class PidoveModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Biped
                         amplitude = (-5F).toRadians(),
                         period = 1F
                     ),
-                    axis = TransformedModelPart.X_AXIS,
+                    axis = ModelPartTransformation.X_AXIS,
                     timeVariable = { _, _, ageInTicks -> ageInTicks / 20 },
                 ),
                 wingFlap(
@@ -152,7 +152,7 @@ class PidoveModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Biped
                         verticalShift = (-20F).toRadians()
                     ),
                     timeVariable = { state, _, _ -> state?.animationSeconds },
-                    axis = TransformedModelPart.Z_AXIS
+                    axis = ModelPartTransformation.Z_AXIS
                 ),
                 rightWing.translation(
                     function = parabolaFunction(
@@ -160,7 +160,7 @@ class PidoveModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Biped
                         phaseShift = 30F,
                         verticalShift = (25F).toRadians()
                     ),
-                    axis = TransformedModelPart.Y_AXIS,
+                    axis = ModelPartTransformation.Y_AXIS,
                     timeVariable = { _, _, ageInTicks -> ageInTicks / 20 },
                 ),
                 leftWing.translation(
@@ -169,7 +169,7 @@ class PidoveModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Biped
                         phaseShift = 30F,
                         verticalShift = (25F).toRadians()
                     ),
-                    axis = TransformedModelPart.Y_AXIS,
+                    axis = ModelPartTransformation.Y_AXIS,
                     timeVariable = { _, _, ageInTicks -> ageInTicks / 20 },
                 ),
             )

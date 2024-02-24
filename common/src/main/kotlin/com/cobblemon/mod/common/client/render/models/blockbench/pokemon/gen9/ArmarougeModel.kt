@@ -10,8 +10,6 @@ package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen9
 
 // import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
 import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
-import com.cobblemon.mod.common.client.render.models.blockbench.animation.BipedWalkAnimation
-import com.cobblemon.mod.common.client.render.models.blockbench.asTransformed
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BimanualFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
@@ -45,10 +43,10 @@ class ArmarougeModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
     lateinit var sleep: PokemonPose
     lateinit var battleidle: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("armarouge", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("armarouge", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("armarouge", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("armarouge", "blink") }
         sleep = registerPose(
             poseType = PoseType.SLEEP,
             idleAnimations = arrayOf(bedrock("armarouge", "sleep"))

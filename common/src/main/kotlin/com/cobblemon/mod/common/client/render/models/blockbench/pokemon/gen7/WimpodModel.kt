@@ -9,13 +9,11 @@
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen7
 
 import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
-import com.cobblemon.mod.common.client.render.models.blockbench.asTransformed
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pose.TransformedModelPart
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import net.minecraft.client.model.ModelPart
@@ -40,12 +38,12 @@ class WimpodModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Biped
     lateinit var swimming: PokemonPose
     lateinit var sleep: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("wimpod", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("wimpod", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("wimpod", "blink").setPreventsIdle(false)}
-        val leftTwitch = quirk("left_twitch") { bedrockStateful("wimpod", "twitch_quirk_left").setPreventsIdle(false)}
-        val rightTwitch = quirk("right_twitch") { bedrockStateful("wimpod", "twitch_quirk_right").setPreventsIdle(false)}
+        val blink = quirk { bedrockStateful("wimpod", "blink")}
+        val leftTwitch = quirk { bedrockStateful("wimpod", "twitch_quirk_left")}
+        val rightTwitch = quirk { bedrockStateful("wimpod", "twitch_quirk_right")}
 
         sleep = registerPose(
             poseName = "sleeping",

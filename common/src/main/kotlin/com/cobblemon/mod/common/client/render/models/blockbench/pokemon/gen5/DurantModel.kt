@@ -29,7 +29,7 @@ class DurantModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     lateinit var walk: PokemonPose
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("durant", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("durant", "blink") }
         standing = registerPose(
             poseName = "standing",
             quirks = arrayOf(blink),

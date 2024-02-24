@@ -14,6 +14,7 @@ import net.minecraft.registry.Registries
 import net.minecraft.registry.Registry
 import net.minecraft.registry.RegistryKey
 import net.minecraft.registry.RegistryKeys
+import net.minecraft.sound.BlockSoundGroup
 import net.minecraft.sound.SoundEvent
 
 object CobblemonSounds : PlatformRegistry<Registry<SoundEvent>, RegistryKey<Registry<SoundEvent>>, SoundEvent>() {
@@ -54,6 +55,10 @@ object CobblemonSounds : PlatformRegistry<Registry<SoundEvent>, RegistryKey<Regi
     val POKE_BALL_SEND_OUT = this.create("poke_ball.send_out")
     @JvmField
     val POKE_BALL_RECALL = this.create("poke_ball.recall")
+    @JvmField
+    val POKE_BALL_THROW = this.create("poke_ball.throw")
+    @JvmField
+    val POKE_BALL_TRAIL = this.create("poke_ball.trail")
 
     @JvmField
     val ITEM_USE = this.create("item.use")
@@ -61,6 +66,8 @@ object CobblemonSounds : PlatformRegistry<Registry<SoundEvent>, RegistryKey<Regi
     val CAN_EVOLVE = this.create("pokemon.can_evolve")
     @JvmField
     val EVOLVING = this.create("pokemon.evolving")
+    @JvmField
+    val EVOLVE = this.create("evolution.evolve")
 
     @JvmField
     val PVN_BATTLE = this.create("battle.pvn.default")
@@ -77,6 +84,8 @@ object CobblemonSounds : PlatformRegistry<Registry<SoundEvent>, RegistryKey<Regi
     val MEDICINE_PILLS_USE = this.create("medicine_pills.use")
     @JvmField
     val MEDICINE_SPRAY_USE = this.create("medicine_spray.use")
+    @JvmField
+    val MEDICINE_FEATHER_USE = this.create("medicine_feather.use")
 
     @JvmField
     val BERRY_HARVEST = this.create("berry.harvest")
@@ -88,6 +97,94 @@ object CobblemonSounds : PlatformRegistry<Registry<SoundEvent>, RegistryKey<Regi
     @JvmField
     val MULCH_REMOVE = this.create("mulch.remove")
 
+    @JvmField
+    val FOSSIL_MACHINE_ACTIVATE = this.create("fossilmachine.activate")
+    @JvmField
+    val FOSSIL_MACHINE_ACTIVE_LOOP = this.create("fossilmachine.active_loop")
+    @JvmField
+    val FOSSIL_MACHINE_ASSEMBLE = this.create("fossilmachine.assemble")
+    @JvmField
+    val FOSSIL_MACHINE_DNA_FULL = this.create("fossilmachine.dna_full")
+    @JvmField
+    val FOSSIL_MACHINE_FINISHED = this.create("fossilmachine.finished")
+    @JvmField
+    val FOSSIL_MACHINE_INSERT_DNA = this.create("fossilmachine.insert_dna")
+    @JvmField
+    val FOSSIL_MACHINE_INSERT_DNA_SMALL = this.create("fossilmachine.insert_dna_small")
+    @JvmField
+    val FOSSIL_MACHINE_INSERT_FOSSIL = this.create("fossilmachine.insert_fossil")
+    @JvmField
+    val FOSSIL_MACHINE_RETRIEVE_FOSSIL = this.create("fossilmachine.retrieve_fossil")
+    @JvmField
+    val FOSSIL_MACHINE_RETRIEVE_POKEMON = this.create("fossilmachine.retrieve_pokemon")
+    @JvmField
+    val FOSSIL_MACHINE_UNPROTECTED = this.create("fossilmachine.unprotected")
+
+    @JvmField
+    val TUMBLESTONE_BREAK = this.create("tumblestone.break")
+    @JvmField
+    val TUMBLESTONE_BLOCK_BREAK = this.create("tumblestone.block_break")
+    @JvmField
+    val TUMBLESTONE_HIT = this.create("tumblestone.hit")
+    @JvmField
+    val TUMBLESTONE_PLACE = this.create("tumblestone.place")
+    @JvmField
+    val TUMBLESTONE_STEP = this.create("tumblestone.step")
+
+    @JvmField
+    val IMPACT_NORMAL = this.create("impact.normal")
+    @JvmField
+    val IMPACT_BUG = this.create("impact.bug")
+    @JvmField
+    val IMPACT_DARK = this.create("impact.dark")
+    @JvmField
+    val IMPACT_DRAGON = this.create("impact.dragon")
+    @JvmField
+    val IMPACT_ELECTRIC = this.create("impact.electric")
+    @JvmField
+    val IMPACT_FAIRY = this.create("impact.fairy")
+    @JvmField
+    val IMPACT_FIGHTING = this.create("impact.fighting")
+    @JvmField
+    val IMPACT_FIRE = this.create("impact.fire")
+    @JvmField
+    val IMPACT_FLYING = this.create("impact.flying")
+    @JvmField
+    val IMPACT_GHOST = this.create("impact.ghost")
+    @JvmField
+    val IMPACT_GRASS = this.create("impact.grass")
+    @JvmField
+    val IMPACT_GROUND = this.create("impact.ground")
+    @JvmField
+    val IMPACT_ICE = this.create("impact.ice")
+    @JvmField
+    val IMPACT_POISON = this.create("impact.poison")
+    @JvmField
+    val IMPACT_PSYCHIC = this.create("impact.psychic")
+    @JvmField
+    val IMPACT_ROCK = this.create("impact.rock")
+    @JvmField
+    val IMPACT_STEEL = this.create("impact.steel")
+    @JvmField
+    val IMPACT_WATER = this.create("impact.water")
+
+    @JvmField
+    val TUMBLESTONE_SOUNDS = BlockSoundGroup(1f, 1f,
+        TUMBLESTONE_BREAK,
+        TUMBLESTONE_STEP,
+        TUMBLESTONE_PLACE,
+        TUMBLESTONE_HIT,
+        TUMBLESTONE_STEP
+    )
+
+    @JvmField
+    val TUMBLESTONE_BLOCK_SOUNDS = BlockSoundGroup(1f, 1f,
+        TUMBLESTONE_BLOCK_BREAK,
+        TUMBLESTONE_STEP,
+        TUMBLESTONE_PLACE,
+        TUMBLESTONE_HIT,
+        TUMBLESTONE_STEP
+    )
 
     private fun create(name: String): SoundEvent = this.create(name, SoundEvent.of(cobblemonResource(name)))
 }

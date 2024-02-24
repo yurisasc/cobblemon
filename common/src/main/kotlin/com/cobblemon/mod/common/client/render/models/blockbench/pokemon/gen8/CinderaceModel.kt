@@ -14,8 +14,8 @@ import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFram
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
-import net.minecraft.client.model.ModelPart
 import com.cobblemon.mod.common.entity.PoseType
+import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
 class CinderaceModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedFrame, BimanualFrame {
@@ -36,10 +36,10 @@ class CinderaceModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bi
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("cinderace", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("cinderace", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("cinderace", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("cinderace", "blink") }
         standing = registerPose(
             poseName = "standing",
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,

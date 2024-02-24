@@ -9,9 +9,6 @@
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen4
 
 import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
-import com.cobblemon.mod.common.client.render.models.blockbench.animation.BimanualSwingAnimation
-import com.cobblemon.mod.common.client.render.models.blockbench.animation.BipedWalkAnimation
-import com.cobblemon.mod.common.client.render.models.blockbench.asTransformed
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BimanualFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
@@ -45,7 +42,7 @@ class KricketuneModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, B
     lateinit var fly: PokemonPose
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("kricketune", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("kricketune", "blink") }
         sleep = registerPose(
             poseType = PoseType.SLEEP,
             idleAnimations = arrayOf(bedrock("kricketune", "sleep"))

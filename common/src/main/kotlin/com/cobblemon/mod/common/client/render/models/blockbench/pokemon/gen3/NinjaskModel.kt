@@ -9,8 +9,6 @@
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen3
 
 import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
-import com.cobblemon.mod.common.client.render.models.blockbench.frame.BiWingedFrame
-import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
@@ -37,11 +35,11 @@ class NinjaskModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     lateinit var hover: PokemonPose
     lateinit var fly: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("ninjask", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("ninjask", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("ninjask", "blink").setPreventsIdle(false) }
-        val barrelRoll = quirk("run_quirk") { bedrockStateful("ninjask", "run_quirk").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("ninjask", "blink") }
+        val barrelRoll = quirk { bedrockStateful("ninjask", "run_quirk") }
 
         sleep = registerPose(
             poseType = PoseType.SLEEP,

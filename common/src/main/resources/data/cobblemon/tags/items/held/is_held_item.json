@@ -15,7 +15,6 @@
     "cobblemon:dragon_fang",
     "cobblemon:fairy_feather",
     "cobblemon:focus_band",
-    "cobblemon:fairy_feather",
     "cobblemon:hard_stone",
     "cobblemon:heavy_duty_boots",
     "cobblemon:leftovers",
@@ -43,12 +42,26 @@
     "cobblemon:quick_powder",
     "cobblemon:destiny_knot",
     "cobblemon:everstone",
-    "cobblemon:wise_glasses",
     "cobblemon:power_anklet",
     "cobblemon:power_band",
     "cobblemon:power_belt",
     "cobblemon:power_bracer",
     "cobblemon:power_lens",
-    "cobblemon:power_weight"
+    "cobblemon:power_weight",
+    "cobblemon:mental_herb",
+    "cobblemon:mirror_herb",
+    "cobblemon:power_herb",
+    "cobblemon:life_orb",
+    "cobblemon:toxic_orb",
+    "cobblemon:flame_orb",
+	"cobblemon:white_herb",
+	"cobblemon:smoke_ball",
+	"cobblemon:lucky_egg",
+	"cobblemon:kings_rock",
+	"cobblemon:deep_sea_scale",
+	"cobblemon:deep_sea_tooth",
+	"cobblemon:metal_coat",
+	
+	"#cobblemon:type_gems"
   ]
 }

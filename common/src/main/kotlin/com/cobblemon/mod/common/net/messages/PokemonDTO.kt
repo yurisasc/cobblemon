@@ -19,10 +19,7 @@ import com.cobblemon.mod.common.api.pokemon.PokemonSpecies
 import com.cobblemon.mod.common.api.pokemon.status.Statuses
 import com.cobblemon.mod.common.api.types.ElementalTypes
 import com.cobblemon.mod.common.net.IntSize
-import com.cobblemon.mod.common.pokemon.EVs
-import com.cobblemon.mod.common.pokemon.Gender
-import com.cobblemon.mod.common.pokemon.IVs
-import com.cobblemon.mod.common.pokemon.Pokemon
+import com.cobblemon.mod.common.pokemon.*
 import com.cobblemon.mod.common.pokemon.activestate.PokemonState
 import com.cobblemon.mod.common.pokemon.status.PersistentStatus
 import com.cobblemon.mod.common.pokemon.status.PersistentStatusContainer
@@ -74,6 +71,9 @@ class PokemonDTO : Encodable, Decodable {
     var dmaxLevel = 0
     var gmaxFactor = false
     var tradeable = true
+    var originalTrainerType: OriginalTrainerType = OriginalTrainerType.NONE
+    var originalTrainer: String? = null
+    var originalTrainerName: String? = null
 
     constructor()
     constructor(pokemon: Pokemon, toClient: Boolean) {
@@ -108,6 +108,9 @@ class PokemonDTO : Encodable, Decodable {
         this.dmaxLevel = pokemon.dmaxLevel
         this.gmaxFactor = pokemon.gmaxFactor
         this.tradeable = pokemon.tradeable
+        this.originalTrainerType = pokemon.originalTrainerType
+        this.originalTrainer = pokemon.originalTrainer
+        this.originalTrainerName = pokemon.originalTrainerName
     }
 
     override fun encode(buffer: PacketByteBuf) {
@@ -145,6 +148,9 @@ class PokemonDTO : Encodable, Decodable {
         buffer.writeInt(dmaxLevel)
         buffer.writeBoolean(gmaxFactor)
         buffer.writeBoolean(tradeable)
+        buffer.writeString(originalTrainerType.name)
+        buffer.writeNullable(originalTrainer) { _, v -> buffer.writeString(v) }
+        buffer.writeNullable(originalTrainerName) { _, v -> buffer.writeString(v) }
     }
 
     override fun decode(buffer: PacketByteBuf) {
@@ -183,6 +189,9 @@ class PokemonDTO : Encodable, Decodable {
         dmaxLevel = buffer.readInt()
         gmaxFactor = buffer.readBoolean()
         tradeable = buffer.readBoolean()
+        originalTrainerType = OriginalTrainerType.valueOf(buffer.readString())
+        originalTrainer = buffer.readNullable { buffer.readString() }
+        originalTrainerName = buffer.readNullable { buffer.readString() }
     }
 
     fun create(): Pokemon {
@@ -195,7 +204,6 @@ class PokemonDTO : Encodable, Decodable {
             it.experience = experience
             it.level = level
             it.setFriendship(friendship)
-            it.currentHealth = currentHealth
             it.gender = gender
             ivs.forEach { stat ->
                 it.setIV(stat.key, stat.value)
@@ -203,6 +211,7 @@ class PokemonDTO : Encodable, Decodable {
             evs.forEach { stat ->
                 it.setEV(stat.key, stat.value)
             }
+            it.currentHealth = currentHealth
             it.moveSet.clear()
             for (move in moveSet) {
                 it.moveSet.add(move)
@@ -232,6 +241,26 @@ class PokemonDTO : Encodable, Decodable {
             it.dmaxLevel = dmaxLevel
             it.gmaxFactor = gmaxFactor
             it.tradeable = tradeable
+            when (originalTrainerType)
+            {
+                OriginalTrainerType.NONE -> {
+                    it.removeOriginalTrainer()
+                }
+                OriginalTrainerType.PLAYER -> {
+                    originalTrainer?.let { ot ->
+                        UUID.fromString(ot)?.let { uuid ->
+                            it.setOriginalTrainer(uuid)
+                        }
+                    }
+                }
+                OriginalTrainerType.NPC ->
+                {
+                    originalTrainer?.let { ot ->
+                        it.setOriginalTrainer(ot)
+                    }
+                }
+            }
+            it.originalTrainerName = originalTrainerName
         }
     }
 }

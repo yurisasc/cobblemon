@@ -18,12 +18,21 @@ import com.cobblemon.mod.common.CobblemonItems
 import com.cobblemon.mod.common.api.scheduling.ScheduledTaskTracker
 import com.cobblemon.mod.common.api.storage.player.client.ClientGeneralPlayerData
 import com.cobblemon.mod.common.api.storage.player.client.ClientPokedexPlayerData
+import com.cobblemon.mod.common.api.berry.Berries
+import com.cobblemon.mod.common.CobblemonBlockEntities
+import com.cobblemon.mod.common.CobblemonBlocks
+import com.cobblemon.mod.common.CobblemonClientImplementation
+import com.cobblemon.mod.common.CobblemonEntities
+import com.cobblemon.mod.common.CobblemonItems
+import com.cobblemon.mod.common.api.scheduling.ClientTaskTracker
 import com.cobblemon.mod.common.api.text.gray
 import com.cobblemon.mod.common.client.battle.ClientBattle
 import com.cobblemon.mod.common.client.gui.PartyOverlay
 import com.cobblemon.mod.common.client.gui.battle.BattleOverlay
 import com.cobblemon.mod.common.client.particle.BedrockParticleEffectRepository
 import com.cobblemon.mod.common.client.render.block.BerryBlockRenderer
+import com.cobblemon.mod.common.client.render.block.FossilAnalyzerRenderer
+import com.cobblemon.mod.common.client.render.block.RestorationTankRenderer
 import com.cobblemon.mod.common.client.render.block.HealingMachineRenderer
 import com.cobblemon.mod.common.client.render.boat.CobblemonBoatRenderer
 import com.cobblemon.mod.common.client.render.item.CobblemonBuiltinItemRendererRegistry
@@ -35,11 +44,15 @@ import com.cobblemon.mod.common.client.render.models.blockbench.repository.PokeB
 import com.cobblemon.mod.common.client.render.models.blockbench.repository.PokemonModelRepository
 import com.cobblemon.mod.common.client.render.pokeball.PokeBallRenderer
 import com.cobblemon.mod.common.client.render.pokemon.PokemonRenderer
+import com.cobblemon.mod.common.client.sound.battle.BattleMusicController
+import com.cobblemon.mod.common.client.starter.ClientPlayerData
 import com.cobblemon.mod.common.client.storage.ClientStorageManager
 import com.cobblemon.mod.common.client.trade.ClientTrade
 import com.cobblemon.mod.common.data.CobblemonDataProvider
 import com.cobblemon.mod.common.entity.boat.CobblemonBoatType
 import com.cobblemon.mod.common.item.PokeBallItem
+import com.cobblemon.mod.common.client.render.models.blockbench.repository.FossilModelRepository
+import com.cobblemon.mod.common.client.render.models.blockbench.repository.MiscModelRepository
 import com.cobblemon.mod.common.platform.events.PlatformEvents
 import com.cobblemon.mod.common.util.DataKeys
 import com.cobblemon.mod.common.util.asTranslated
@@ -59,6 +72,7 @@ import net.minecraft.util.Language
 import java.util.HashSet
 
 object CobblemonClient {
+
     lateinit var implementation: CobblemonClientImplementation
     val storage = ClientStorageManager()
     var trade: ClientTrade? = null
@@ -85,7 +99,7 @@ object CobblemonClient {
         storage.onLogout()
         battle = null
         battleOverlay.onLogout()
-        ScheduledTaskTracker.clear()
+        ClientTaskTracker.clear()
         checkedStarterScreen = false
         CobblemonDataProvider.canReload = true
     }
@@ -102,6 +116,9 @@ object CobblemonClient {
         //registerColors()
         registerFlywheelRenderers()
         this.registerEntityRenderers()
+        Berries.observable.subscribe {
+            BerryModelRepository.patchModels()
+        }
 
         LOGGER.info("Registering custom BuiltinItemRenderers")
         CobblemonBuiltinItemRendererRegistry.register(CobblemonItems.POKEMON_MODEL, PokemonItemRenderer())
@@ -156,6 +173,7 @@ object CobblemonClient {
 
         this.implementation.registerBlockRenderType(
             RenderLayer.getCutout(),
+            CobblemonBlocks.FOSSIL_ANALYZER,
             CobblemonBlocks.APRICORN_DOOR,
             CobblemonBlocks.APRICORN_TRAPDOOR,
             CobblemonBlocks.APRICORN_SIGN,
@@ -193,13 +211,28 @@ object CobblemonClient {
             CobblemonBlocks.PEP_UP_FLOWER,
             CobblemonBlocks.POTTED_PEP_UP_FLOWER,
             CobblemonBlocks.REVIVAL_HERB,
-            *CobblemonBlocks.berries().values.toTypedArray()
+            *CobblemonBlocks.berries().values.toTypedArray(),
+            CobblemonBlocks.POTTED_PEP_UP_FLOWER,
+            CobblemonBlocks.RESTORATION_TANK,
+            CobblemonBlocks.SMALL_BUDDING_TUMBLESTONE,
+            CobblemonBlocks.MEDIUM_BUDDING_TUMBLESTONE,
+            CobblemonBlocks.LARGE_BUDDING_TUMBLESTONE,
+            CobblemonBlocks.TUMBLESTONE_CLUSTER,
+            CobblemonBlocks.SMALL_BUDDING_BLACK_TUMBLESTONE,
+            CobblemonBlocks.MEDIUM_BUDDING_BLACK_TUMBLESTONE,
+            CobblemonBlocks.LARGE_BUDDING_BLACK_TUMBLESTONE,
+            CobblemonBlocks.BLACK_TUMBLESTONE_CLUSTER,
+            CobblemonBlocks.SMALL_BUDDING_SKY_TUMBLESTONE,
+            CobblemonBlocks.MEDIUM_BUDDING_SKY_TUMBLESTONE,
+            CobblemonBlocks.LARGE_BUDDING_SKY_TUMBLESTONE,
+            CobblemonBlocks.SKY_TUMBLESTONE_CLUSTER,
         )
 
         this.createBoatModelLayers()
     }
 
     fun beforeChatRender(context: DrawContext, partialDeltaTicks: Float) {
+//        ClientTaskTracker.update(partialDeltaTicks / 20f)
         if (battle == null) {
             overlay.render(context, partialDeltaTicks)
         } else {
@@ -220,6 +253,8 @@ object CobblemonClient {
         this.implementation.registerBlockEntityRenderer(CobblemonBlockEntities.BERRY, ::BerryBlockRenderer)
         this.implementation.registerBlockEntityRenderer(CobblemonBlockEntities.SIGN, ::SignBlockEntityRenderer)
         this.implementation.registerBlockEntityRenderer(CobblemonBlockEntities.HANGING_SIGN, ::HangingSignBlockEntityRenderer)
+        this.implementation.registerBlockEntityRenderer(CobblemonBlockEntities.FOSSIL_ANALYZER, ::FossilAnalyzerRenderer)
+        this.implementation.registerBlockEntityRenderer(CobblemonBlockEntities.RESTORATION_TANK, ::RestorationTankRenderer)
     }
 
     private fun registerEntityRenderers() {
@@ -238,16 +273,20 @@ object CobblemonClient {
         BedrockParticleEffectRepository.loadEffects(resourceManager)
         BedrockAnimationRepository.loadAnimations(
             resourceManager = resourceManager,
-            directories = PokemonModelRepository.animationDirectories + PokeBallModelRepository.animationDirectories
+            directories = PokemonModelRepository.animationDirectories + PokeBallModelRepository.animationDirectories + FossilModelRepository.animationDirectories
         )
         PokemonModelRepository.reload(resourceManager)
         PokeBallModelRepository.reload(resourceManager)
         BerryModelRepository.reload(resourceManager)
+        FossilModelRepository.reload(resourceManager)
+        MiscModelRepository.reload(resourceManager)
         LOGGER.info("Loaded assets")
     }
 
     fun endBattle() {
         battle = null
+        battleOverlay.lastKnownBattle = null
+        BattleMusicController.endMusic()
     }
 
     private fun baseLangKeyForItem(stack: ItemStack): String {

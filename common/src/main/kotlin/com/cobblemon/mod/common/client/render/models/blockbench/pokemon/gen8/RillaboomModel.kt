@@ -8,7 +8,7 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen8
 
-import com.cobblemon.mod.common.client.render.models.blockbench.asTransformed
+import com.cobblemon.mod.common.client.render.models.blockbench.createTransformation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BimanualFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
@@ -41,19 +41,19 @@ class RillaboomModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bi
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("rillaboom", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("rillaboom", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("rillaboom", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("rillaboom", "blink") }
         standing = registerPose(
             poseName = "standing",
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
             quirks = arrayOf(blink),
             condition = { !it.isBattling },
             transformedParts = arrayOf(
-                drums.asTransformed().withVisibility(visibility = false),
-                stick_left.asTransformed().withVisibility(visibility = true),
-                stick_right.asTransformed().withVisibility(visibility = true)
+                drums.createTransformation().withVisibility(visibility = false),
+                stick_left.createTransformation().withVisibility(visibility = true),
+                stick_right.createTransformation().withVisibility(visibility = true)
             ),
             idleAnimations = arrayOf(
                 singleBoneLook(),
@@ -66,9 +66,9 @@ class RillaboomModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bi
             poseTypes = PoseType.MOVING_POSES,
             quirks = arrayOf(blink),
             transformedParts = arrayOf(
-                drums.asTransformed().withVisibility(visibility = false),
-                stick_left.asTransformed().withVisibility(visibility = true),
-                stick_right.asTransformed().withVisibility(visibility = true)
+                drums.createTransformation().withVisibility(visibility = false),
+                stick_left.createTransformation().withVisibility(visibility = true),
+                stick_right.createTransformation().withVisibility(visibility = true)
             ),
             idleAnimations = arrayOf(
                 singleBoneLook(),
@@ -83,9 +83,9 @@ class RillaboomModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bi
             quirks = arrayOf(blink),
             condition = { it.isBattling },
             transformedParts = arrayOf(
-                drums.asTransformed().withVisibility(visibility = true),
-                stick_left.asTransformed().withVisibility(visibility = true),
-                stick_right.asTransformed().withVisibility(visibility = true)
+                drums.createTransformation().withVisibility(visibility = true),
+                stick_left.createTransformation().withVisibility(visibility = true),
+                stick_right.createTransformation().withVisibility(visibility = true)
             ),
             idleAnimations = arrayOf(
                 singleBoneLook(),

@@ -36,7 +36,7 @@ class TreeckoModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bipe
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("treecko", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("treecko", "cry") }
 
     override fun registerPoses() {
         sleep = registerPose(
@@ -44,7 +44,7 @@ class TreeckoModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bipe
             idleAnimations = arrayOf(bedrock("treecko", "sleep"))
         )
 
-        val blink = quirk("blink") { bedrockStateful("treecko", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("treecko", "blink") }
         standing = registerPose(
             poseName = "standing",
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,

@@ -30,7 +30,7 @@ class ChimechoModel(root: ModelPart) : PokemonPoseableModel() {
     lateinit var fly: PokemonPose
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("chimecho", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("chimecho", "blink") }
         sleep = registerPose(
             poseType = PoseType.SLEEP,
             idleAnimations = arrayOf(bedrock("chimecho", "sleep"))

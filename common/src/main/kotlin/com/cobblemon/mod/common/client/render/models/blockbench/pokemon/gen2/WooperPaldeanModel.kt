@@ -9,12 +9,12 @@
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen2
 
 import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
-import com.cobblemon.mod.common.client.render.models.blockbench.asTransformed
+import com.cobblemon.mod.common.client.render.models.blockbench.createTransformation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pose.TransformedModelPart
+import com.cobblemon.mod.common.client.render.models.blockbench.pose.ModelPartTransformation
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.PoseType.Companion.MOVING_POSES
 import com.cobblemon.mod.common.entity.PoseType.Companion.STATIONARY_POSES
@@ -41,11 +41,11 @@ class WooperPaldeanModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame 
     lateinit var float: PokemonPose
     lateinit var swim: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("wooper_paldean", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("wooper_paldean", "cry") }
 
     val shoulderOffset = 2.5
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("wooper_paldean", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("wooper_paldean", "blink") }
 
         sleep = registerPose(
             poseName = "sleep",
@@ -99,7 +99,7 @@ class WooperPaldeanModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame 
                 bedrock("wooper_paldean", "ground_idle")
             ),
             transformedParts = arrayOf(
-                rootPart.asTransformed().addPosition(TransformedModelPart.X_AXIS, shoulderOffset)
+                rootPart.createTransformation().addPosition(ModelPartTransformation.X_AXIS, shoulderOffset)
             )
         )
 
@@ -111,7 +111,7 @@ class WooperPaldeanModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame 
                 bedrock("wooper_paldean", "ground_idle")
             ),
             transformedParts = arrayOf(
-                rootPart.asTransformed().addPosition(TransformedModelPart.X_AXIS, -shoulderOffset)
+                rootPart.createTransformation().addPosition(ModelPartTransformation.X_AXIS, -shoulderOffset)
             )
         )
     }

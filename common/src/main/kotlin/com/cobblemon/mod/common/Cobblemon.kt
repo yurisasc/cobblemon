@@ -24,6 +24,7 @@ import com.cobblemon.mod.common.api.events.CobblemonEvents.EVOLUTION_COMPLETE
 import com.cobblemon.mod.common.api.events.CobblemonEvents.LEVEL_UP_EVENT
 import com.cobblemon.mod.common.api.events.CobblemonEvents.POKEMON_CAPTURED
 import com.cobblemon.mod.common.api.events.CobblemonEvents.TRADE_COMPLETED
+import com.cobblemon.mod.common.api.net.serializers.IdentifierDataSerializer
 import com.cobblemon.mod.common.api.net.serializers.PoseTypeDataSerializer
 import com.cobblemon.mod.common.api.net.serializers.StringSetDataSerializer
 import com.cobblemon.mod.common.api.net.serializers.Vec3DataSerializer
@@ -43,7 +44,8 @@ import com.cobblemon.mod.common.api.pokemon.stats.EvCalculator
 import com.cobblemon.mod.common.api.pokemon.stats.Generation8EvCalculator
 import com.cobblemon.mod.common.api.pokemon.stats.StatProvider
 import com.cobblemon.mod.common.api.properties.CustomPokemonProperty
-import com.cobblemon.mod.common.api.scheduling.ScheduledTaskTracker
+import com.cobblemon.mod.common.api.scheduling.ServerRealTimeTaskTracker
+import com.cobblemon.mod.common.api.scheduling.ServerTaskTracker
 import com.cobblemon.mod.common.api.spawning.BestSpawner
 import com.cobblemon.mod.common.api.spawning.CobblemonSpawningProspector
 import com.cobblemon.mod.common.api.spawning.context.AreaContextResolver
@@ -55,6 +57,7 @@ import com.cobblemon.mod.common.api.storage.adapter.flatfile.FileStoreAdapter
 import com.cobblemon.mod.common.api.storage.adapter.flatfile.JSONStoreAdapter
 import com.cobblemon.mod.common.api.storage.adapter.flatfile.NBTStoreAdapter
 import com.cobblemon.mod.common.api.storage.factory.FileBackedPokemonStoreFactory
+import com.cobblemon.mod.common.api.storage.molang.NbtMoLangDataStoreFactory
 import com.cobblemon.mod.common.api.storage.pc.PCStore
 import com.cobblemon.mod.common.api.storage.pc.link.PCLinkManager
 import com.cobblemon.mod.common.api.storage.player.PlayerInstancedDataStoreManager
@@ -71,6 +74,7 @@ import com.cobblemon.mod.common.battles.BattleSide
 import com.cobblemon.mod.common.battles.ShowdownThread
 import com.cobblemon.mod.common.battles.actor.PokemonBattleActor
 import com.cobblemon.mod.common.battles.pokemon.BattlePokemon
+import com.cobblemon.mod.common.command.argument.DialogueArgumentType
 import com.cobblemon.mod.common.command.argument.MoveArgumentType
 import com.cobblemon.mod.common.command.argument.PartySlotArgumentType
 import com.cobblemon.mod.common.command.argument.PokemonArgumentType
@@ -99,6 +103,7 @@ import com.cobblemon.mod.common.pokemon.properties.HiddenAbilityPropertyType
 import com.cobblemon.mod.common.pokemon.properties.UncatchableProperty
 import com.cobblemon.mod.common.pokemon.properties.tags.PokemonFlagProperty
 import com.cobblemon.mod.common.pokemon.stat.CobblemonStatProvider
+import com.cobblemon.mod.common.sherds.CobblemonSherds
 import com.cobblemon.mod.common.starter.CobblemonStarterHandler
 import com.cobblemon.mod.common.trade.TradeManager
 import com.cobblemon.mod.common.util.DataKeys
@@ -155,6 +160,7 @@ object Cobblemon {
     val bestSpawner = BestSpawner
     val battleRegistry = BattleRegistry
     var storage = PokemonStoreManager()
+    var molangData = NbtMoLangDataStoreFactory
     lateinit var playerDataManager: PlayerInstancedDataStoreManager
     lateinit var starterConfig: StarterConfig
     val dataProvider: DataProvider = CobblemonDataProvider
@@ -233,6 +239,7 @@ object Cobblemon {
         TrackedDataHandlerRegistry.register(Vec3DataSerializer)
         TrackedDataHandlerRegistry.register(StringSetDataSerializer)
         TrackedDataHandlerRegistry.register(PoseTypeDataSerializer)
+        TrackedDataHandlerRegistry.register(IdentifierDataSerializer)
 
         HeldItemProvider.register(CobblemonHeldItemManager, Priority.LOWEST)
     }
@@ -262,9 +269,15 @@ object Cobblemon {
 
         ifDedicatedServer {
             isDedicatedServer = true
-            PlatformEvents.SERVER_TICK_POST.subscribe { ScheduledTaskTracker.update() }
         }
 
+        PlatformEvents.SERVER_TICK_POST.subscribe {
+            ServerTaskTracker.update(1/20F)
+            ServerRealTimeTaskTracker.update()
+        }
+        PlatformEvents.SERVER_TICK_PRE.subscribe {
+            ServerRealTimeTaskTracker.update()
+        }
         PlatformEvents.SERVER_STARTING.subscribe { event ->
             val server = event.server
             playerDataManager = PlayerInstancedDataStoreManager().also { it.setup(server) }
@@ -395,9 +408,12 @@ object Cobblemon {
             battleRegistry.startBattle(
                 BattleFormat.GEN_9_SINGLES,
                 BattleSide(PokemonBattleActor(UUID.randomUUID(), BattlePokemon(Pokemon().initialize()), -1F)),
-                BattleSide(PokemonBattleActor(UUID.randomUUID(), BattlePokemon(Pokemon().initialize()), -1F))
-            ).apply { mute = true }
+                BattleSide(PokemonBattleActor(UUID.randomUUID(), BattlePokemon(Pokemon().initialize()), -1F)),
+                true
+            ).ifSuccessful { it.mute = true }
         }
+
+        CobblemonSherds.registerSherds()
     }
 
     fun getLevel(dimension: RegistryKey<World>): World? {
@@ -501,6 +517,7 @@ object Cobblemon {
         this.implementation.registerCommandArgument(cobblemonResource("move"), MoveArgumentType::class, ConstantArgumentSerializer.of(MoveArgumentType::move))
         this.implementation.registerCommandArgument(cobblemonResource("party_slot"), PartySlotArgumentType::class, ConstantArgumentSerializer.of(PartySlotArgumentType::partySlot))
         this.implementation.registerCommandArgument(cobblemonResource("pokemon_store"), PokemonStoreArgumentType::class, ConstantArgumentSerializer.of(PokemonStoreArgumentType::pokemonStore))
+        this.implementation.registerCommandArgument(cobblemonResource("dialogue"), DialogueArgumentType::class, ConstantArgumentSerializer.of(DialogueArgumentType::dialogue))
     }
 
 }

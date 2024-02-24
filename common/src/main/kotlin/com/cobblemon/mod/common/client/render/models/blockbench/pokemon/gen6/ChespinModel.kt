@@ -36,10 +36,10 @@ class ChespinModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bipe
     lateinit var walk: PokemonPose
     lateinit var sleep: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("chespin", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("chespin", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("chespin", "blink").setPreventsIdle(false)}
+        val blink = quirk { bedrockStateful("chespin", "blink")}
 
         sleep = registerPose(
             poseType = PoseType.SLEEP,

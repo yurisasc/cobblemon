@@ -8,7 +8,7 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen5
 
-import com.cobblemon.mod.common.client.render.models.blockbench.asTransformed
+import com.cobblemon.mod.common.client.render.models.blockbench.createTransformation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BimanualFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
@@ -41,19 +41,19 @@ class DewottModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Biped
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("dewott", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("dewott", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("dewott", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("dewott", "blink") }
         sleep = registerPose(
             poseType = PoseType.SLEEP,
             transformTicks = 10,
             condition = { !it.isBattling },
             transformedParts = arrayOf(
-                scalchop_right.asTransformed().withVisibility(visibility = false),
-                scalchop_left.asTransformed().withVisibility(visibility = false),
-                scalchop_body_right.asTransformed().withVisibility(visibility = true),
-                scalchop_body_left.asTransformed().withVisibility(visibility = true)
+                scalchop_right.createTransformation().withVisibility(visibility = false),
+                scalchop_left.createTransformation().withVisibility(visibility = false),
+                scalchop_body_right.createTransformation().withVisibility(visibility = true),
+                scalchop_body_left.createTransformation().withVisibility(visibility = true)
 
             ),
             idleAnimations = arrayOf(bedrock("dewott", "sleep"))
@@ -66,10 +66,10 @@ class DewottModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Biped
             quirks = arrayOf(blink),
             condition = { !it.isBattling },
             transformedParts = arrayOf(
-                scalchop_right.asTransformed().withVisibility(visibility = false),
-                scalchop_left.asTransformed().withVisibility(visibility = false),
-                scalchop_body_right.asTransformed().withVisibility(visibility = true),
-                scalchop_body_left.asTransformed().withVisibility(visibility = true)
+                scalchop_right.createTransformation().withVisibility(visibility = false),
+                scalchop_left.createTransformation().withVisibility(visibility = false),
+                scalchop_body_right.createTransformation().withVisibility(visibility = true),
+                scalchop_body_left.createTransformation().withVisibility(visibility = true)
             ),
             idleAnimations = arrayOf(
                 singleBoneLook(),
@@ -84,10 +84,10 @@ class DewottModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Biped
             quirks = arrayOf(blink),
             condition = { !it.isBattling },
             transformedParts = arrayOf(
-                scalchop_right.asTransformed().withVisibility(visibility = false),
-                scalchop_left.asTransformed().withVisibility(visibility = false),
-                scalchop_body_right.asTransformed().withVisibility(visibility = true),
-                scalchop_body_left.asTransformed().withVisibility(visibility = true)
+                scalchop_right.createTransformation().withVisibility(visibility = false),
+                scalchop_left.createTransformation().withVisibility(visibility = false),
+                scalchop_body_right.createTransformation().withVisibility(visibility = true),
+                scalchop_body_left.createTransformation().withVisibility(visibility = true)
             ),
             idleAnimations = arrayOf(
                 singleBoneLook(),
@@ -102,10 +102,10 @@ class DewottModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Biped
             quirks = arrayOf(blink),
             condition = { it.isBattling },
             transformedParts = arrayOf(
-                scalchop_right.asTransformed().withVisibility(visibility = true),
-                scalchop_left.asTransformed().withVisibility(visibility = true),
-                scalchop_body_right.asTransformed().withVisibility(visibility = false),
-                scalchop_body_left.asTransformed().withVisibility(visibility = false)
+                scalchop_right.createTransformation().withVisibility(visibility = true),
+                scalchop_left.createTransformation().withVisibility(visibility = true),
+                scalchop_body_right.createTransformation().withVisibility(visibility = false),
+                scalchop_body_left.createTransformation().withVisibility(visibility = false)
             ),
             idleAnimations = arrayOf(
                 singleBoneLook(),

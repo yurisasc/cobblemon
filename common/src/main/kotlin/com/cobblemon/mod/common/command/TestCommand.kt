@@ -11,6 +11,7 @@ package com.cobblemon.mod.common.command
 import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.CobblemonEntities
 import com.cobblemon.mod.common.CobblemonNetwork.sendPacket
+import com.cobblemon.mod.common.api.scheduling.ServerTaskTracker
 import com.cobblemon.mod.common.api.scheduling.taskBuilder
 import com.cobblemon.mod.common.battles.BattleFormat
 import com.cobblemon.mod.common.battles.BattleRegistry
@@ -26,7 +27,6 @@ import com.cobblemon.mod.common.trade.DummyTradeParticipant
 import com.cobblemon.mod.common.trade.PlayerTradeParticipant
 import com.cobblemon.mod.common.util.fromJson
 import com.cobblemon.mod.common.util.party
-import com.cobblemon.mod.common.util.player
 import com.cobblemon.mod.common.util.toPokemon
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonObject
@@ -59,11 +59,8 @@ object TestCommand {
 
         try {
 //            readBerryDataFromCSV()
-            val pokedex = Cobblemon.playerDataManager.getPokedexData(context.source.player!!)
-            pokedex.pokedexEntries.keys.forEach {
-                context.source.player!!.sendMessage(Text.of(it.toString()))
-            }
-            //this.testClosestBattle(context)
+
+//            this.testClosestBattle(context)
             //testTrade(context.source.player!!)
 //            testParticles(context)
 //            extractMovesData()
@@ -149,6 +146,7 @@ object TestCommand {
 
                 testUpdate()
             }
+            .tracker(ServerTaskTracker)
             .iterations(Int.MAX_VALUE)
             .build()
     }
@@ -222,19 +220,18 @@ object TestCommand {
             gson.toJson(json, pw)
             pw.flush()
             pw.close()
-            println("Wrote $berryName")
         }
     }
 
-    private fun testParticles(context: CommandContext<ServerCommandSource>) {
-        val file = File("particle.particle.json")
-        val effect = SnowstormParticleReader.loadEffect(GsonBuilder().create().fromJson<JsonObject>(file.readText()))
-
-        val player = context.source.entity as ServerPlayerEntity
-        val position = player.pos.add(4.0, 1.0, 4.0)
-        val pkt = SpawnSnowstormParticlePacket(effect, position, 0F, 0F)
-        player.sendPacket(pkt)
-    }
+//    private fun testParticles(context: CommandContext<ServerCommandSource>) {
+//        val file = File("particle.particle.json")
+//        val effect = SnowstormParticleReader.loadEffect(GsonBuilder().create().fromJson<JsonObject>(file.readText()))
+//
+//        val player = context.source.entity as ServerPlayerEntity
+//        val position = player.pos
+//        val pkt = SpawnSnowstormParticlePacket(effect, position, 0F, 0F)
+//        player.sendPacket(pkt)
+//    }
 
 //    private fun extractMovesData() {
 //        val ctx = GraalShowdown.context

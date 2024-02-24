@@ -1,0 +1,8 @@
+{
+  "maxScale": 0.7,
+  "yTranslation": 0.2,
+  "yGrowthPoint": 0.625,
+  "animations": [
+    "bedrock(lileep_fetus, sleep)"
+  ]
+}

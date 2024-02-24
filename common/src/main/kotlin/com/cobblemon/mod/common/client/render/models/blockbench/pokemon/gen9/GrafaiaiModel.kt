@@ -9,7 +9,6 @@
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen9
 
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
-import com.cobblemon.mod.common.client.render.models.blockbench.frame.QuadrupedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
@@ -31,10 +30,10 @@ class GrafaiaiModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     lateinit var walking: PokemonPose
     lateinit var sleeping: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("grafaiai", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("grafaiai", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("grafaiai", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("grafaiai", "blink") }
         standing = registerPose(
             poseName = "standing",
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,

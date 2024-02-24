@@ -8,7 +8,6 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen7
 
-import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cobblemon.mod.common.entity.PoseType
@@ -31,7 +30,7 @@ class WishiwashiSoloModel (root: ModelPart) : PokemonPoseableModel(){
     lateinit var watersleep: PokemonPose
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("wishiwashi_solo", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("wishiwashi_solo", "blink") }
         watersleep = registerPose(
             poseType = PoseType.SLEEP,
             condition = { it.isTouchingWater },

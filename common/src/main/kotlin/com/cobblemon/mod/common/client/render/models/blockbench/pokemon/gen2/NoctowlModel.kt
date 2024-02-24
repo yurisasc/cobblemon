@@ -8,14 +8,13 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen2
 
-import com.cobblemon.mod.common.client.render.models.blockbench.animation.WingFlapIdleAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BiWingedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pose.TransformedModelPart
+import com.cobblemon.mod.common.client.render.models.blockbench.pose.ModelPartTransformation
 import com.cobblemon.mod.common.client.render.models.blockbench.wavefunction.parabolaFunction
 import com.cobblemon.mod.common.client.render.models.blockbench.wavefunction.sineFunction
 import com.cobblemon.mod.common.entity.PoseType
@@ -42,10 +41,10 @@ class NoctowlModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bipe
     lateinit var hover: PokemonPose
     lateinit var fly: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("noctowl", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("noctowl", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("noctowl", "blink").setPreventsIdle(false)}
+        val blink = quirk { bedrockStateful("noctowl", "blink")}
         standing = registerPose(
             poseName = "stand",
             poseTypes = PoseType.STATIONARY_POSES - PoseType.HOVER - PoseType.FLOAT + PoseType.UI_POSES,
@@ -88,7 +87,7 @@ class NoctowlModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bipe
                         period = 0.4F
                     ),
                     timeVariable = { state, _, _ -> state?.animationSeconds },
-                    axis = TransformedModelPart.Y_AXIS
+                    axis = ModelPartTransformation.Y_AXIS
                 ),
                 head.translation(
                     function = sineFunction(
@@ -96,7 +95,7 @@ class NoctowlModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bipe
                         period = 1F,
                         verticalShift = (-10F).toRadians()
                     ),
-                    axis = TransformedModelPart.X_AXIS,
+                    axis = ModelPartTransformation.X_AXIS,
                     timeVariable = { state, _, _ -> state?.animationSeconds }
                 ),
                 leftLeg.rotation(
@@ -105,7 +104,7 @@ class NoctowlModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bipe
                         phaseShift = 0F,
                         verticalShift = (30F).toRadians()
                     ),
-                    axis = TransformedModelPart.X_AXIS,
+                    axis = ModelPartTransformation.X_AXIS,
                     timeVariable = { _, _, ageInTicks -> ageInTicks / 20 },
                 ),
                 rightLeg.rotation(
@@ -114,7 +113,7 @@ class NoctowlModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bipe
                         phaseShift = 0F,
                         verticalShift = (30F).toRadians()
                     ),
-                    axis = TransformedModelPart.X_AXIS,
+                    axis = ModelPartTransformation.X_AXIS,
                     timeVariable = { _, _, ageInTicks -> ageInTicks / 20 },
                 ),
                 tail.rotation(
@@ -122,7 +121,7 @@ class NoctowlModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bipe
                         amplitude = (-5F).toRadians(),
                         period = 1F
                     ),
-                    axis = TransformedModelPart.X_AXIS,
+                    axis = ModelPartTransformation.X_AXIS,
                     timeVariable = { _, _, ageInTicks -> ageInTicks / 20 },
                 ),
                 wingFlap(
@@ -133,7 +132,7 @@ class NoctowlModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bipe
                         verticalShift = (-20F).toRadians()
                     ),
                     timeVariable = { state, _, _ -> state?.animationSeconds },
-                    axis = TransformedModelPart.Z_AXIS
+                    axis = ModelPartTransformation.Z_AXIS
                 ),
                 rightWing.translation(
                     function = parabolaFunction(
@@ -141,7 +140,7 @@ class NoctowlModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bipe
                         phaseShift = 30F,
                         verticalShift = (25F).toRadians()
                     ),
-                    axis = TransformedModelPart.Y_AXIS,
+                    axis = ModelPartTransformation.Y_AXIS,
                     timeVariable = { _, _, ageInTicks -> ageInTicks / 20 },
                 ),
                 leftWing.translation(
@@ -150,7 +149,7 @@ class NoctowlModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bipe
                         phaseShift = 30F,
                         verticalShift = (25F).toRadians()
                     ),
-                    axis = TransformedModelPart.Y_AXIS,
+                    axis = ModelPartTransformation.Y_AXIS,
                     timeVariable = { _, _, ageInTicks -> ageInTicks / 20 },
                 ),
             )

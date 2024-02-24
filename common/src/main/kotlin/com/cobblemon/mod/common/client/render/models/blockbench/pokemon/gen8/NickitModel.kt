@@ -9,7 +9,6 @@
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen8
 
 import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
-import com.cobblemon.mod.common.client.render.models.blockbench.animation.QuadrupedWalkAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.QuadrupedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
@@ -40,14 +39,14 @@ class NickitModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quadr
     lateinit var sleep: PokemonPose
     lateinit var battleidle: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("nickit", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("nickit", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("nickit", "blink").setPreventsIdle(false)}
-        val glanceleft = quirk("glanceleft") { bedrockStateful("nickit", "quirk_shiftyglance_left").setPreventsIdle(false)}
-        val glanceright = quirk("glanceright") { bedrockStateful("nickit", "quirk_shiftyglance_right").setPreventsIdle(false)}
-        val eartwitchleft = quirk("eartwitchleft") { bedrockStateful("nickit", "quirk_eartwitch_left").setPreventsIdle(false)}
-        val eartwitchright = quirk("eartwitchright") { bedrockStateful("nickit", "quirk_eartwitch_right").setPreventsIdle(false)}
+        val blink = quirk { bedrockStateful("nickit", "blink")}
+        val glanceleft = quirk { bedrockStateful("nickit", "quirk_shiftyglance_left")}
+        val glanceright = quirk { bedrockStateful("nickit", "quirk_shiftyglance_right")}
+        val eartwitchleft = quirk { bedrockStateful("nickit", "quirk_eartwitch_left")}
+        val eartwitchright = quirk { bedrockStateful("nickit", "quirk_eartwitch_right")}
 
         sleep = registerPose(
             poseType = PoseType.SLEEP,

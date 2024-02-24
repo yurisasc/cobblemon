@@ -12,8 +12,8 @@ import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFram
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
-import net.minecraft.client.model.ModelPart
 import com.cobblemon.mod.common.entity.PoseType
+import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
 class TatsugiriModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
@@ -30,7 +30,7 @@ class TatsugiriModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("tatsugiri", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("tatsugiri", "cry") }
 
     override fun registerPoses() {
         standing = registerPose(

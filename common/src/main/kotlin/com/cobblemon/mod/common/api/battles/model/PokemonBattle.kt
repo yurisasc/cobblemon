@@ -8,9 +8,13 @@
 
 package com.cobblemon.mod.common.api.battles.model
 
+import com.bedrockk.molang.runtime.MoLangEnvironment
+import com.bedrockk.molang.runtime.struct.QueryStruct
+import com.bedrockk.molang.runtime.value.DoubleValue
 import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.Cobblemon.LOGGER
 import com.cobblemon.mod.common.CobblemonNetwork
+import com.cobblemon.mod.common.Environment
 import com.cobblemon.mod.common.api.battles.interpreter.BattleMessage
 import com.cobblemon.mod.common.api.battles.model.actor.ActorType
 import com.cobblemon.mod.common.api.battles.model.actor.BattleActor
@@ -18,6 +22,8 @@ import com.cobblemon.mod.common.api.battles.model.actor.EntityBackedBattleActor
 import com.cobblemon.mod.common.api.battles.model.actor.FleeableBattleActor
 import com.cobblemon.mod.common.api.events.CobblemonEvents
 import com.cobblemon.mod.common.api.events.battles.BattleFledEvent
+import com.cobblemon.mod.common.api.molang.MoLangFunctions.addFunction
+import com.cobblemon.mod.common.api.molang.MoLangFunctions.getQueryStruct
 import com.cobblemon.mod.common.api.net.NetworkPacket
 import com.cobblemon.mod.common.api.tags.CobblemonItemTags
 import com.cobblemon.mod.common.api.text.red
@@ -69,6 +75,7 @@ open class PokemonBattle(
         side1.battle = this
         side2.battle = this
         this.actors.forEach { actor ->
+            actor.battle = this
             actor.pokemonList.forEach { battlePokemon ->
                 battlePokemon.effectedPokemon.evolutionProxy.current().progress()
                     .filterIsInstance<LastBattleCriticalHitsEvolutionProgress>()
@@ -252,7 +259,6 @@ open class PokemonBattle(
             }
         }
         sendUpdate(BattleEndPacket())
-        sendUpdate(BattleMusicPacket(null))
         BattleRegistry.closeBattle(this)
     }
 
@@ -463,5 +469,14 @@ open class PokemonBattle(
         }
         LOGGER.error("Missing interpretation on '{}' action: \nPublic » {}\nPrivate » {}", publicMessage.id, publicMessage.rawMessage, privateMessage.rawMessage)
         return Text.literal("Missing interpretation on '${publicMessage.id}' action please report to the developers").red()
+    }
+
+    fun addQueryFunctions(queryStruct: QueryStruct): QueryStruct {
+        queryStruct.addFunction("pvp") { DoubleValue(isPvP) }
+        queryStruct.addFunction("pvn") { DoubleValue(isPvN) }
+        queryStruct.addFunction("pvw") { DoubleValue(isPvW) }
+        queryStruct.addFunction("has_rule") { params -> DoubleValue(params.getString(0) in format.ruleSet) }
+
+        return queryStruct
     }
 }

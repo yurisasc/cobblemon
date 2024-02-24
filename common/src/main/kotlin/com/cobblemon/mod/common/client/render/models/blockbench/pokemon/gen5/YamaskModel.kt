@@ -10,7 +10,6 @@ package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen5
 
 import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BimanualFrame
-import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
@@ -35,7 +34,7 @@ class YamaskModel (root: ModelPart) : PokemonPoseableModel(), BimanualFrame {
     lateinit var walk: PokemonPose
     lateinit var sleep: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("yamask", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("yamask", "cry") }
 
     override fun registerPoses() {
         sleep = registerPose(
@@ -43,7 +42,7 @@ class YamaskModel (root: ModelPart) : PokemonPoseableModel(), BimanualFrame {
                 idleAnimations = arrayOf(bedrock("yamask", "sleep"))
         )
 
-        val blink = quirk("blink") { bedrockStateful("yamask", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("yamask", "blink") }
 
         standing = registerPose(
                 poseName = "standing",

@@ -9,8 +9,6 @@
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen7
 
 import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
-import com.cobblemon.mod.common.client.render.models.blockbench.animation.BimanualSwingAnimation
-import com.cobblemon.mod.common.client.render.models.blockbench.animation.BipedWalkAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BimanualFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
@@ -45,10 +43,10 @@ class BewearModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedF
     lateinit var sleep: PokemonPose
     lateinit var battleidle: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("bewear", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("bewear", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("bewear", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("bewear", "blink") }
 
         sleep = registerPose(
             poseType = PoseType.SLEEP,

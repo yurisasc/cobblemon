@@ -130,6 +130,22 @@ class ApricornBlock(settings: Settings, val apricorn: Apricorn) : HorizontalFaci
             return super.onUse(state, world, pos, player, hand, hit)
         }
 
+        doHarvest(world, state, pos, player)
+        return ActionResult.SUCCESS
+    }
+
+    override fun onBlockBreakStart(state: BlockState, world: World, pos: BlockPos, player: PlayerEntity) {
+        if (state.get(AGE) != MAX_AGE) {
+            return super.onBlockBreakStart(state, world, pos, player)
+        }
+
+        doHarvest(world, state, pos, player)
+    }
+
+    // We need to point back to the actual apricorn item, see SweetBerryBushBlock for example
+    override fun getPickStack(world: BlockView, pos: BlockPos, state: BlockState) = ItemStack(this.apricorn.item())
+
+    private fun doHarvest(world: World, state: BlockState, pos: BlockPos, player: PlayerEntity) {
         val resetState = this.harvest(world, state, pos)
         world.emitGameEvent(GameEvent.BLOCK_CHANGE, pos, GameEvent.Emitter.of(player, resetState))
 
@@ -140,11 +156,7 @@ class ApricornBlock(settings: Settings, val apricorn: Apricorn) : HorizontalFaci
                 CobblemonEvents.APRICORN_HARVESTED.post(ApricornHarvestEvent(player, apricorn, world, pos))
             }
         }
-        return ActionResult.success(world.isClient)
     }
-
-    // We need to point back to the actual apricorn item, see SweetBerryBushBlock for example
-    override fun getPickStack(world: BlockView, pos: BlockPos, state: BlockState) = ItemStack(this.apricorn.item())
 
     /**
      * Harvests the apricorn at the given params.

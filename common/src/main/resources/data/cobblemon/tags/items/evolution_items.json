@@ -32,6 +32,10 @@
     "cobblemon:galarica_wreath",
     "cobblemon:black_augurite",
     "cobblemon:peat_block",
-    "#cobblemon:evolution_stones"
+    "#cobblemon:evolution_stones",
+	"cobblemon:razor_claw",
+	"cobblemon:razor_fang",
+	"cobblemon:auspicious_armor",
+	"cobblemon:malicious_armor"
   ]
 }

@@ -8,18 +8,11 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen9
 
-import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
-import com.cobblemon.mod.common.client.render.models.blockbench.animation.QuadrupedWalkAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
-import com.cobblemon.mod.common.client.render.models.blockbench.frame.QuadrupedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cobblemon.mod.common.entity.PoseType
-import com.cobblemon.mod.common.entity.PoseType.Companion.MOVING_POSES
-import com.cobblemon.mod.common.entity.PoseType.Companion.STATIONARY_POSES
-import com.cobblemon.mod.common.entity.PoseType.Companion.UI_POSES
-import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
@@ -38,12 +31,12 @@ class SprigatitoModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     lateinit var sleep: PokemonPose
     lateinit var battleidle: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("sprigatito", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("sprigatito", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("sprigatito", "blink").setPreventsIdle(false) }
-        val earTwitchRight = quirk("ear_twitch_right", secondsBetweenOccurrences = 60F to 120F) { bedrockStateful("sprigatito", "quirk_ear-twitch-left").setPreventsIdle(false) }
-        val earTwitchLeft = quirk("ear_twitch_left", secondsBetweenOccurrences = 60F to 120F) { bedrockStateful("sprigatito", "quirk_ear-twitch-right").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("sprigatito", "blink") }
+        val earTwitchRight = quirk(secondsBetweenOccurrences = 60F to 120F) { bedrockStateful("sprigatito", "quirk_ear-twitch-left") }
+        val earTwitchLeft = quirk(secondsBetweenOccurrences = 60F to 120F) { bedrockStateful("sprigatito", "quirk_ear-twitch-right") }
         sleep = registerPose(
             poseType = PoseType.SLEEP,
             quirks = arrayOf(earTwitchRight, earTwitchLeft),

@@ -8,11 +8,6 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen3
 
-import com.cobblemon.mod.common.client.render.models.blockbench.animation.BimanualSwingAnimation
-import com.cobblemon.mod.common.client.render.models.blockbench.animation.BipedWalkAnimation
-import com.cobblemon.mod.common.client.render.models.blockbench.frame.BimanualFrame
-import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
-import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
@@ -36,11 +31,11 @@ class BeldumModel (root: ModelPart) : PokemonPoseableModel() {
     lateinit var sleep: PokemonPose
     lateinit var battleidle: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("beldum", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("beldum", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("beldum", "blink").setPreventsIdle(false)}
-        val quirk = quirk("quirk") { bedrockStateful("beldum", "quirk_spin").setPreventsIdle(false)}
+        val blink = quirk { bedrockStateful("beldum", "blink")}
+        val quirk = quirk { bedrockStateful("beldum", "quirk_spin")}
 
         sleep = registerPose(
             poseType = PoseType.SLEEP,

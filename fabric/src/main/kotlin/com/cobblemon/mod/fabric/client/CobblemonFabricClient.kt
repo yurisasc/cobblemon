@@ -12,7 +12,7 @@ import com.cobblemon.mod.common.CobblemonClientImplementation
 import com.cobblemon.mod.common.client.CobblemonClient
 import com.cobblemon.mod.common.client.CobblemonClient.reloadCodedAssets
 import com.cobblemon.mod.common.client.keybind.CobblemonKeyBinds
-import com.cobblemon.mod.common.client.render.CobblemonAtlases
+import com.cobblemon.mod.common.client.render.atlas.CobblemonAtlases
 import com.cobblemon.mod.common.particle.CobblemonParticles
 import com.cobblemon.mod.common.particle.SnowstormParticleType
 import com.cobblemon.mod.common.platform.events.ClientPlayerEvent
@@ -21,6 +21,9 @@ import com.cobblemon.mod.common.platform.events.ItemTooltipEvent
 import com.cobblemon.mod.common.platform.events.PlatformEvents
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.fabric.CobblemonFabric
+import java.util.concurrent.CompletableFuture
+import java.util.concurrent.Executor
+import java.util.function.Supplier
 import net.fabricmc.api.ClientModInitializer
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents
@@ -55,9 +58,6 @@ import net.minecraft.resource.ResourceManager
 import net.minecraft.resource.ResourceReloader
 import net.minecraft.resource.ResourceType
 import net.minecraft.util.profiler.Profiler
-import java.util.concurrent.CompletableFuture
-import java.util.concurrent.Executor
-import java.util.function.Supplier
 
 class CobblemonFabricClient: ClientModInitializer, CobblemonClientImplementation {
     override fun onInitializeClient() {
@@ -65,7 +65,6 @@ class CobblemonFabricClient: ClientModInitializer, CobblemonClientImplementation
         CobblemonClient.initialize(this)
 
         CobblemonFabric.networkManager.registerClientBound()
-
 
         ResourceManagerHelper.get(ResourceType.CLIENT_RESOURCES).registerReloadListener(object : IdentifiableResourceReloadListener {
             override fun reload(
@@ -76,20 +75,19 @@ class CobblemonFabricClient: ClientModInitializer, CobblemonClientImplementation
                 prepareExecutor: Executor?,
                 applyExecutor: Executor?
             ): CompletableFuture<Void> {
-                //Atlases must be loaded before we reloadCodedAssets, BerryModelRepository needs the berry atlas
                 val atlasFutures = mutableListOf<CompletableFuture<Void>>()
                 CobblemonAtlases.atlases.forEach {
                     atlasFutures.add(it.reload(synchronizer, manager, prepareProfiler, applyProfiler, prepareExecutor, applyExecutor))
                 }
-                val result = CompletableFuture.allOf(*atlasFutures.toTypedArray()).thenRun {
-                    reloadCodedAssets(manager!!)
-                }
+                val codedAssetFuture = CompletableFuture.runAsync { reloadCodedAssets(manager!!) }
+                val result = CompletableFuture.allOf(*atlasFutures.toTypedArray(), codedAssetFuture)
                 return result
             }
 
             override fun getFabricId() = cobblemonResource("atlases")
 
         })
+
 
         CobblemonKeyBinds.register(KeyBindingHelper::registerKeyBinding)
 

@@ -15,7 +15,7 @@ import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pose.TransformedModelPart
+import com.cobblemon.mod.common.client.render.models.blockbench.pose.ModelPartTransformation
 import com.cobblemon.mod.common.client.render.models.blockbench.wavefunction.sineFunction
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.PoseType.Companion.MOVING_POSES
@@ -45,10 +45,10 @@ class RowletModel(root: ModelPart) : PokemonPoseableModel(), BipedFrame, BiWinge
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("rowlet", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("rowlet", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("rowlet", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("rowlet", "blink") }
         standing = registerPose(
             poseName = "standing",
             poseTypes = STATIONARY_POSES - PoseType.HOVER + UI_POSES,
@@ -68,7 +68,7 @@ class RowletModel(root: ModelPart) : PokemonPoseableModel(), BipedFrame, BiWinge
                     WingFlapIdleAnimation(this,
                         flapFunction = sineFunction(verticalShift = -8F.toRadians(), period = 1.0F, amplitude = 0.4F),
                         timeVariable = { state, _, _ -> state?.animationSeconds ?: 0F },
-                        axis = TransformedModelPart.Z_AXIS
+                        axis = ModelPartTransformation.Z_AXIS
                     )
                 )
         )
@@ -83,7 +83,7 @@ class RowletModel(root: ModelPart) : PokemonPoseableModel(), BipedFrame, BiWinge
                     WingFlapIdleAnimation(this,
                         flapFunction = sineFunction(verticalShift = -14F.toRadians(), period = 0.9F, amplitude = 0.9F),
                         timeVariable = { state, _, _ -> state?.animationSeconds ?: 0F },
-                        axis = TransformedModelPart.Z_AXIS
+                        axis = ModelPartTransformation.Z_AXIS
                     )
                 )
         )

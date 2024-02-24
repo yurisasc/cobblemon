@@ -67,6 +67,17 @@
       ],
       "requirements": [],
       "requiredContext": "cobblemon:sweet_apple"
+    },
+    {
+      "id": "applin_dipplin",
+      "variant": "item_interact",
+      "result": "dipplin",
+      "consumeHeldItem": false,
+      "learnableMoves": [
+        "doublehit"
+      ],
+      "requirements": [],
+      "requiredContext": "cobblemon:syrupy_apple"
     }
   ],
   "baseScale": 1,

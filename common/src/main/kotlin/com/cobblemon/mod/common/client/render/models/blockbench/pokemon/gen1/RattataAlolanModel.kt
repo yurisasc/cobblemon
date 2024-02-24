@@ -17,7 +17,7 @@ import com.cobblemon.mod.common.client.render.models.blockbench.frame.QuadrupedF
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pose.TransformedModelPart.Companion.Z_AXIS
+import com.cobblemon.mod.common.client.render.models.blockbench.pose.ModelPartTransformation.Companion.Z_AXIS
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.util.math.geometry.toRadians
@@ -44,10 +44,10 @@ class RattataAlolanModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame,
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("rattata_alolan", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("rattata_alolan", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("rattata_alolan", "blink").setPreventsIdle(false)}
+        val blink = quirk { bedrockStateful("rattata_alolan", "blink")}
         sleep = registerPose(
                 poseType = PoseType.SLEEP,
                 idleAnimations = arrayOf(bedrock("rattata_alolan", "sleep"))
@@ -58,7 +58,7 @@ class RattataAlolanModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame,
             poseTypes = setOf(PoseType.NONE, PoseType.PROFILE, PoseType.STAND, PoseType.FLOAT, PoseType.PORTRAIT, PoseType.SHOULDER_LEFT, PoseType.SHOULDER_RIGHT),
             transformTicks = 10,
             quirks = arrayOf(blink),
-            condition = { !it.isMoving.get() },
+            condition = { !it.dataTracker.get(PokemonEntity.MOVING) },
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("rattata_alolan", "ground_idle")
@@ -69,7 +69,7 @@ class RattataAlolanModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame,
             poseType = PoseType.WALK,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            condition = { it.isMoving.get() },
+            condition = { it.dataTracker.get(PokemonEntity.MOVING) },
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("rattata_alolan", "ground_walk")

@@ -9,13 +9,12 @@
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen9
 
 import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
-import com.cobblemon.mod.common.client.render.models.blockbench.asTransformed
+import com.cobblemon.mod.common.client.render.models.blockbench.createTransformation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cobblemon.mod.common.entity.PoseType
-import com.cobblemon.mod.common.entity.PoseType.Companion.MOVING_POSES
 import com.cobblemon.mod.common.entity.PoseType.Companion.UI_POSES
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import net.minecraft.client.model.ModelPart
@@ -42,10 +41,10 @@ class FlittleModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     val shoulderOffsetX = 6
     val shoulderOffsetY = 6
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("flittle", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("flittle", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("flittle", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("flittle", "blink") }
         sleep = registerPose(
                 poseType = PoseType.SLEEP,
                 idleAnimations = arrayOf(bedrock("flittle", "sleep"))
@@ -103,7 +102,7 @@ class FlittleModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
                 bedrock("flittle", "ground_idle")
             ),
             transformedParts = arrayOf(
-                rootPart.asTransformed().addPosition(shoulderOffsetX, shoulderOffsetY, 0.0)
+                rootPart.createTransformation().addPosition(shoulderOffsetX, shoulderOffsetY, 0.0)
             )
         )
 
@@ -115,7 +114,7 @@ class FlittleModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
                 bedrock("flittle", "ground_idle")
             ),
             transformedParts = arrayOf(
-                rootPart.asTransformed().addPosition(-shoulderOffsetX, shoulderOffsetY, 0.0)
+                rootPart.createTransformation().addPosition(-shoulderOffsetX, shoulderOffsetY, 0.0)
             )
         )
 

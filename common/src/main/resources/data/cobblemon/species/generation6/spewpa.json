@@ -60,6 +60,7 @@
   },
   "moves": [
     "1:harden",
+    "tm:bugbite",
     "1:protect",
     "tm:irondefense",
     "tm:pounce",
@@ -290,8 +291,8 @@
           "minLevel": 12
         },
         {
-          "variant": "biome",
-          "biomeCondition": "minecraft:is_void"
+          "variant": "structure",
+          "structureCondition": "#minecraft:village"
         }
       ]
     },
@@ -333,11 +334,7 @@
         },
         {
           "variant": "biome",
-          "biomeCondition": "#cobblemon:is_coast"
-        },
-        {
-          "variant": "biome",
-          "biomeCondition": "#cobblemon:is_warm_ocean"
+          "biomeCondition": "#cobblemon:vivillon_evolutions/ocean"
         }
       ]
     },
@@ -375,11 +372,7 @@
         },
         {
           "variant": "biome",
-          "biomeCondition": "#cobblemon:is_river"
-        },
-        {
-          "variant": "biome",
-          "biomeCondition": "#cobblemon:is_swamp"
+          "biomeCondition": "#cobblemon:vivillon_evolutions/river"
         }
       ]
     },
@@ -436,15 +429,7 @@
         },
         {
           "variant": "biome",
-          "biomeCondition": "#cobblemon:is_sky"
-        },
-        {
-          "variant": "biome",
-          "biomeCondition": "#cobblemon:is_volcano"
-        },
-        {
-          "variant": "biome",
-          "biomeCondition": "minecraft:sunflower_plains"
+          "biomeCondition": "#cobblemon:vivillon_evolutions/sun"
         }
       ]
     },
@@ -463,15 +448,7 @@
         },
         {
           "variant": "biome",
-          "biomeCondition": "#cobblemon:is_tundra"
-        },
-        {
-          "variant": "biome",
-          "biomeCondition": "#cobblemon:is_snowy_forest"
-        },
-        {
-          "variant": "biome",
-          "biomeCondition": "#cobblemon:is_glacial"
+          "biomeCondition": "#cobblemon:vivillon_evolutions/tundra"
         }
       ]
     },
@@ -529,6 +506,25 @@
         {
           "variant": "biome",
           "biomeCondition": "#cobblemon:is_deep_dark"
+        }
+      ]
+    },
+    {
+      "id": "spewpa_vivillon_pokeball",
+      "variant": "level_up",
+      "result": "vivillon vivillon_wings=poke-ball",
+      "consumeHeldItem": false,
+      "learnableMoves": [
+        "gust"
+      ],
+      "requirements": [
+        {
+          "variant": "level",
+          "minLevel": 12
+        },
+        {
+          "variant": "advancement",
+          "requiredAdvancement": "cobblemon:catch_all_vivillon"
         }
       ]
     }

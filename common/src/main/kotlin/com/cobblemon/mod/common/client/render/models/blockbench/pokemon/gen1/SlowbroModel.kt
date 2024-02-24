@@ -8,8 +8,6 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1
 
-import com.cobblemon.mod.common.client.render.models.blockbench.animation.BipedWalkAnimation
-import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
@@ -35,9 +33,9 @@ class SlowbroModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     lateinit var battleidle: PokemonPose
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("slowbro", "blink1").setPreventsIdle(false) }
-        val blink2 = quirk("blink2") { bedrockStateful("slowbro", "blink2").setPreventsIdle(false) }
-        val bite = quirk("bite", secondsBetweenOccurrences = 60F to 120F) { bedrockStateful("slowbro", "bite_quirk").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("slowbro", "blink1") }
+        val blink2 = quirk { bedrockStateful("slowbro", "blink2") }
+        val bite = quirk(secondsBetweenOccurrences = 60F to 120F) { bedrockStateful("slowbro", "bite_quirk") }
 
         standing = registerPose(
             poseName = "standing",

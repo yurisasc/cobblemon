@@ -8,7 +8,6 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1
 
-import com.cobblemon.mod.common.client.render.models.blockbench.asTransformed
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cobblemon.mod.common.entity.PoseType
@@ -33,7 +32,7 @@ class GastlyModel(root: ModelPart) : PokemonPoseableModel() {
 
 
     override fun registerPoses() {
-        val blink = quirk(name = "blink") { bedrockStateful("gastly", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("gastly", "blink") }
 
         sleep = registerPose(
             poseType = PoseType.SLEEP,

@@ -9,13 +9,13 @@
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen2
 
 import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
-import com.cobblemon.mod.common.client.render.models.blockbench.asTransformed
+import com.cobblemon.mod.common.client.render.models.blockbench.createTransformation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pose.TransformedModelPart
+import com.cobblemon.mod.common.client.render.models.blockbench.pose.ModelPartTransformation
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import net.minecraft.client.model.ModelPart
@@ -49,12 +49,12 @@ class TotodileModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
     val wateroffset = -10
     val shoulderOffset = 5.5
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("totodile", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("totodile", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("totodile", "blink").setPreventsIdle(false)}
-        val sleepQuirk = quirk("sleep_quirk", secondsBetweenOccurrences = 60F to 120F) { bedrockStateful("totodile", "sleep_quirk").setPreventsIdle(false)}
-        val biteyQuirk = quirk("bite_quirk", secondsBetweenOccurrences = 60F to 120F) { bedrockStateful("totodile", "bitey_quirk").setPreventsIdle(false)}
+        val blink = quirk { bedrockStateful("totodile", "blink")}
+        val sleepQuirk = quirk(secondsBetweenOccurrences = 60F to 120F) { bedrockStateful("totodile", "sleep_quirk")}
+        val biteyQuirk = quirk(secondsBetweenOccurrences = 60F to 120F) { bedrockStateful("totodile", "bitey_quirk")}
 
         sleep = registerPose(
             poseName = "sleeping",
@@ -142,7 +142,7 @@ class TotodileModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
                 bedrock("totodile", "surfacewater_idle"),
             ),
             transformedParts = arrayOf(
-                rootPart.asTransformed().addPosition(TransformedModelPart.Y_AXIS, wateroffset)
+                rootPart.createTransformation().addPosition(ModelPartTransformation.Y_AXIS, wateroffset)
             )
         )
 
@@ -156,7 +156,7 @@ class TotodileModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
                 bedrock("totodile", "surfacewater_swim"),
             ),
             transformedParts = arrayOf(
-                rootPart.asTransformed().addPosition(TransformedModelPart.Y_AXIS, wateroffset)
+                rootPart.createTransformation().addPosition(ModelPartTransformation.Y_AXIS, wateroffset)
             )
         )
 
@@ -168,7 +168,7 @@ class TotodileModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
                 bedrock("totodile", "shoulder_right")
             ),
             transformedParts = arrayOf(
-                rootPart.asTransformed().addPosition(TransformedModelPart.X_AXIS, shoulderOffset)
+                rootPart.createTransformation().addPosition(ModelPartTransformation.X_AXIS, shoulderOffset)
             )
         )
 
@@ -180,7 +180,7 @@ class TotodileModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
                 bedrock("totodile", "shoulder_left")
             ),
             transformedParts = arrayOf(
-                rootPart.asTransformed().addPosition(TransformedModelPart.X_AXIS, -shoulderOffset)
+                rootPart.createTransformation().addPosition(ModelPartTransformation.X_AXIS, -shoulderOffset)
             )
         )
     }

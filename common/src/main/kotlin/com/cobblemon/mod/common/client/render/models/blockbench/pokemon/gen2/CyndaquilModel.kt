@@ -8,15 +8,11 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen2
 
-import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
-import com.cobblemon.mod.common.client.render.models.blockbench.frame.BimanualFrame
-import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cobblemon.mod.common.entity.PoseType
-import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
@@ -35,10 +31,10 @@ class CyndaquilModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     lateinit var sleep: PokemonPose
     lateinit var battleidle: PokemonPose
 
-    override val cryAnimation = CryProvider { entity, _ -> if (entity.isBattling) bedrockStateful("cyndaquil", "battle_cry").setPreventsIdle(false) else bedrockStateful("cyndaquil", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { entity, _ -> if (entity.isBattling) bedrockStateful("cyndaquil", "battle_cry") else bedrockStateful("cyndaquil", "cry") }
 
     override fun registerPoses() {
-//        val sneeze = quirk("sneeze") { bedrockStateful("cyndaquil", "sneeze_quirk").setPreventsIdle(false) }
+//        val sneeze = quirk { bedrockStateful("cyndaquil", "sneeze_quirk") }
 
         sleep = registerPose(
             poseType = PoseType.SLEEP,

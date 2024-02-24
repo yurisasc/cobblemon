@@ -8,11 +8,11 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen2
 
-import com.cobblemon.mod.common.client.render.models.blockbench.asTransformed
+import com.cobblemon.mod.common.client.render.models.blockbench.createTransformation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pose.TransformedModelPart.Companion.Y_AXIS
+import com.cobblemon.mod.common.client.render.models.blockbench.pose.ModelPartTransformation.Companion.Y_AXIS
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.PoseType.Companion.UI_POSES
 import net.minecraft.client.model.ModelPart
@@ -34,7 +34,7 @@ class KingdraModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     lateinit var swim: PokemonPose
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("kingdra", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("kingdra", "blink") }
         standing = registerPose(
             poseName = "standing",
             poseType = PoseType.STAND,
@@ -44,7 +44,7 @@ class KingdraModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
                 bedrock("kingdra", "ground_idle")
             ),
             transformedParts = arrayOf(
-                rootPart.asTransformed().addPosition(Y_AXIS, -4.0)
+                rootPart.createTransformation().addPosition(Y_AXIS, -4.0)
             )
         )
 
@@ -57,7 +57,7 @@ class KingdraModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
                 bedrock("kingdra", "ground_walk")
             ),
             transformedParts = arrayOf(
-                rootPart.asTransformed().addPosition(Y_AXIS, -4.0)
+                rootPart.createTransformation().addPosition(Y_AXIS, -4.0)
             )
         )
 
@@ -70,7 +70,7 @@ class KingdraModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
                 bedrock("kingdra", "water_idle")
             ),
             transformedParts = arrayOf(
-                rootPart.asTransformed().addPosition(Y_AXIS, -4.0)
+                rootPart.createTransformation().addPosition(Y_AXIS, -4.0)
             )
         )
 
@@ -83,7 +83,7 @@ class KingdraModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
                 bedrock("kingdra", "water_swim")
             ),
             transformedParts = arrayOf(
-                rootPart.asTransformed().addPosition(Y_AXIS, -4.0)
+                rootPart.createTransformation().addPosition(Y_AXIS, -4.0)
             )
         )
     }

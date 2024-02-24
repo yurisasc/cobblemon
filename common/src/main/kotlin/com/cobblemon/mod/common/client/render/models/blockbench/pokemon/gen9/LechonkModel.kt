@@ -9,7 +9,6 @@
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen9
 
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.QuadrupedWalkAnimation
-import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.QuadrupedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
@@ -41,7 +40,7 @@ class LechonkModel (root: ModelPart) : PokemonPoseableModel(), QuadrupedFrame {
 //            idleAnimations = arrayOf(bedrock("lechonk", "sleep"))
 //        )
 
-        val blink = quirk("blink") { bedrockStateful("lechonk", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("lechonk", "blink") }
 
         standing = registerPose(
             poseName = "standing",

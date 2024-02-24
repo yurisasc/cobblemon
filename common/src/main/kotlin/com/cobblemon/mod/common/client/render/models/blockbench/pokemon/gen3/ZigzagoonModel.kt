@@ -9,7 +9,7 @@
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen3
 
 import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
-import com.cobblemon.mod.common.client.render.models.blockbench.asTransformed
+import com.cobblemon.mod.common.client.render.models.blockbench.createTransformation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
@@ -40,7 +40,7 @@ class ZigzagoonModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     val shoulderOffsetZ = -0.5
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("zigzagoon", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("zigzagoon", "blink") }
         sleep = registerPose(
             poseType = PoseType.SLEEP,
             idleAnimations = arrayOf(bedrock("zigzagoon", "sleep"))
@@ -89,7 +89,7 @@ class ZigzagoonModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
                 bedrock("zigzagoon", "shoulder_left")
             ),
             transformedParts = arrayOf(
-                rootPart.asTransformed().addPosition(shoulderOffsetX, shoulderOffsetY, shoulderOffsetZ)
+                rootPart.createTransformation().addPosition(shoulderOffsetX, shoulderOffsetY, shoulderOffsetZ)
             )
         )
 
@@ -101,7 +101,7 @@ class ZigzagoonModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
                 bedrock("zigzagoon", "shoulder_right")
             ),
             transformedParts = arrayOf(
-                rootPart.asTransformed().addPosition(-shoulderOffsetX, shoulderOffsetY, shoulderOffsetZ)
+                rootPart.createTransformation().addPosition(-shoulderOffsetX, shoulderOffsetY, shoulderOffsetZ)
             )
         )
     }

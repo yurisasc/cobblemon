@@ -12,9 +12,6 @@ import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntitySt
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cobblemon.mod.common.entity.PoseType
-import com.cobblemon.mod.common.entity.PoseType.Companion.MOVING_POSES
-import com.cobblemon.mod.common.entity.PoseType.Companion.STATIONARY_POSES
-import com.cobblemon.mod.common.entity.PoseType.Companion.UI_POSES
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
@@ -34,7 +31,7 @@ class MagnetonModel(root: ModelPart) : PokemonPoseableModel() {
 
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("magneton", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("magneton", "blink") }
         sleep = registerPose(
             poseType = PoseType.SLEEP,
             idleAnimations = arrayOf(bedrock("magneton", "sleep"))

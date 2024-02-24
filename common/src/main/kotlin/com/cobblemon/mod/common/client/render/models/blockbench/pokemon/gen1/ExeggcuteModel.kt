@@ -14,7 +14,6 @@ import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonP
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.PoseType.Companion.MOVING_POSES
 import com.cobblemon.mod.common.entity.PoseType.Companion.STATIONARY_POSES
-import com.cobblemon.mod.common.entity.PoseType.Companion.UI_POSES
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
@@ -34,12 +33,12 @@ class ExeggcuteModel(root: ModelPart) : PokemonPoseableModel() {
     lateinit var uiPortrait: PokemonPose
 
     override fun registerPoses() {
-        val blink1 = quirk("blink") { bedrockStateful("exeggcute", "blink").setPreventsIdle(false) }
-        val blink2 = quirk("blink") { bedrockStateful("exeggcute", "blink2").setPreventsIdle(false) }
-        val blink3 = quirk("blink") { bedrockStateful("exeggcute", "blink3").setPreventsIdle(false) }
-        val blink4 = quirk("blink") { bedrockStateful("exeggcute", "blink4").setPreventsIdle(false) }
-        val blink5 = quirk("blink") { bedrockStateful("exeggcute", "blink5").setPreventsIdle(false) }
-        val blink6 = quirk("blink") { bedrockStateful("exeggcute", "blink6").setPreventsIdle(false) }
+        val blink1 = quirk { bedrockStateful("exeggcute", "blink") }
+        val blink2 = quirk { bedrockStateful("exeggcute", "blink2") }
+        val blink3 = quirk { bedrockStateful("exeggcute", "blink3") }
+        val blink4 = quirk { bedrockStateful("exeggcute", "blink4") }
+        val blink5 = quirk { bedrockStateful("exeggcute", "blink5") }
+        val blink6 = quirk { bedrockStateful("exeggcute", "blink6") }
         uiPortrait = registerPose(
             poseName = "portrait",
             poseType = PoseType.PORTRAIT,

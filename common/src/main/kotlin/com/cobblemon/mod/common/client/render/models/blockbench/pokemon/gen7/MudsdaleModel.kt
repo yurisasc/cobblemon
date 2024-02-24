@@ -8,7 +8,6 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen7
 
-import com.cobblemon.mod.common.client.render.models.blockbench.animation.QuadrupedWalkAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.QuadrupedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
@@ -37,10 +36,10 @@ class MudsdaleModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Qua
     lateinit var walk: PokemonPose
     lateinit var sleep: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("mudsdale", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("mudsdale", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("mudsdale", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("mudsdale", "blink") }
 
         sleep = registerPose(
             poseType = PoseType.SLEEP,
