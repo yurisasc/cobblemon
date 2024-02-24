@@ -19,7 +19,6 @@ import com.cobblemon.mod.common.api.reactive.Observable.Companion.filter
 import com.cobblemon.mod.common.api.reactive.Observable.Companion.takeFirst
 import com.cobblemon.mod.common.battles.BattleRegistry
 import com.cobblemon.mod.common.platform.events.PlatformEvents
-import java.util.UUID
 import net.minecraft.block.BlockState
 import net.minecraft.entity.Entity
 import net.minecraft.entity.player.PlayerEntity
@@ -30,10 +29,11 @@ import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.sound.SoundCategory
 import net.minecraft.sound.SoundEvents
 import net.minecraft.util.Identifier
-import net.minecraft.util.math.BlockPos
-import net.minecraft.util.math.Box
-import net.minecraft.util.math.Direction
-import net.minecraft.util.math.Vec3d
+import net.minecraft.util.hit.BlockHitResult
+import net.minecraft.util.math.*
+import net.minecraft.world.RaycastContext
+import java.util.*
+import kotlin.math.min
 
 // Stuff like getting their party
 fun ServerPlayerEntity.party() = Cobblemon.storage.getParty(this)
@@ -249,6 +249,81 @@ fun findDirectionForIntercept(p0: Vec3d, p1: Vec3d, blockPos: BlockPos): Directi
     }
 
     return minDirection
+}
+
+fun ServerPlayerEntity.raycast(maxDistance: Float, fluidHandling: RaycastContext.FluidHandling?): BlockHitResult {
+    val f = pitch
+    val g = yaw
+    val vec3d = eyePos
+    val h = MathHelper.cos(-g * 0.017453292f - 3.1415927f)
+    val i = MathHelper.sin(-g * 0.017453292f - 3.1415927f)
+    val j = -MathHelper.cos(-f * 0.017453292f)
+    val k = MathHelper.sin(-f * 0.017453292f)
+    val l = i * j
+    val n = h * j
+    val vec3d2 = vec3d.add(l.toDouble() * maxDistance, k.toDouble() * maxDistance, n.toDouble() * maxDistance)
+    return world.raycast(RaycastContext(vec3d, vec3d2, RaycastContext.ShapeType.OUTLINE, fluidHandling, this))
+}
+
+fun ServerPlayerEntity.raycastToNearbyGround(maxDistance: Double, dropHeight: Double, fluidHandling: RaycastContext.FluidHandling?): Vec3d? {
+    val f = pitch
+    val g = yaw
+    val vec3d = eyePos
+    val h = MathHelper.cos(-g * 0.017453292f - 3.1415927f)
+    val i = MathHelper.sin(-g * 0.017453292f - 3.1415927f)
+    val j = -MathHelper.cos(-f * 0.017453292f)
+    val k = MathHelper.sin(-f * 0.017453292f)
+    val l = i * j
+    val n = h * j
+
+    val result: BlockHitResult
+    var traceDown: TraceResult?
+
+    val vec3d2 = vec3d.add(l.toDouble() * maxDistance, k.toDouble() * maxDistance, n.toDouble() * maxDistance)
+    result = world.raycast(RaycastContext(vec3d, vec3d2, RaycastContext.ShapeType.OUTLINE, fluidHandling, this))
+
+    if (this.world.getBlockState(result.blockPos).isAir) {
+        val minDrop = min(2.5, maxDistance)
+        val stepDistance = 0.05
+        var step = stepDistance + minDrop
+        var stepDrop = minDrop
+        var stepPos: Vec3d
+        var traceHeight: Double
+        var smallestHeight = dropHeight
+        var fallLoc: TraceResult? = null
+
+        while (step <= maxDistance) {
+            stepPos = vec3d.add(l.toDouble() * step, k.toDouble() * step, n.toDouble() * step)
+            if (minDrop != maxDistance) {
+                stepDrop = ((step - minDrop) / (maxDistance - minDrop)) * dropHeight
+            }
+            traceDown = stepPos.traceDownwards(this.world, maxDistance = stepDrop.toFloat())
+            if (traceDown != null) {
+                traceHeight = (stepPos.y - traceDown.location.y)
+                if (traceHeight < smallestHeight) {
+                    smallestHeight = traceHeight
+                    fallLoc = traceDown
+                }
+            }
+
+            step += stepDistance
+        }
+
+        return if (fallLoc == null) {
+            null
+        } else {
+            Vec3d(fallLoc.location.x, fallLoc.blockPos.up().toVec3d().y, fallLoc.location.z)
+        }
+    } else if (result.side != Direction.UP) {
+        val posOffset = result.pos.offset(result.side, 0.5)
+        traceDown = posOffset.traceDownwards(this.world, maxDistance = dropHeight.toFloat())
+        if (traceDown != null) {
+            return Vec3d(traceDown.location.x, traceDown.blockPos.up().toVec3d().y, traceDown.location.z)
+        }
+    } else if (!this.world.getBlockState(result.blockPos.up()).isSolid) {
+        return Vec3d(result.pos.x, result.blockPos.up().toVec3d().y, result.pos.z)
+    }
+    return null
 }
 
 fun PlayerInventory.usableItems() = offHand + main
