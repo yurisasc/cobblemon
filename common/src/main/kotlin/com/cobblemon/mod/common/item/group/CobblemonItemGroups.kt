@@ -9,6 +9,7 @@
 package com.cobblemon.mod.common.item.group
 
 import com.cobblemon.mod.common.CobblemonItems
+import com.cobblemon.mod.common.api.fishing.PokeRods
 import com.cobblemon.mod.common.util.cobblemonResource
 import net.minecraft.item.ItemConvertible
 import net.minecraft.item.ItemGroup
