@@ -96,7 +96,7 @@ object PokemonSpecies : JsonDataRegistry<Species> {
         .registerTypeAdapter(TypeToken.getParameterized(RegistryLikeCondition::class.java, Item::class.java).type, ItemLikeConditionAdapter)
         .registerTypeAdapter(TypeToken.getParameterized(RegistryLikeCondition::class.java, Structure::class.java).type, StructureLikeConditionAdapter)
         .registerTypeAdapter(EggGroup::class.java, EggGroupAdapter)
-        .registerTypeAdapter(StatusEffect::class.java, RegistryElementAdapter<StatusEffect> { Registries.STATUS_EFFECT })
+        .registerTypeAdapter(StatusEffect::class.java, RegistryElementAdapter<StatusEffect>(Registries::STATUS_EFFECT))
         .registerTypeAdapter(NbtItemPredicate::class.java, NbtItemPredicateAdapter)
         .disableHtmlEscaping()
         .enableComplexMapKeySerialization()

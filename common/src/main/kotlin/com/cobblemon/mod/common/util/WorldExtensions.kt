@@ -124,3 +124,5 @@ val World.itemRegistry: Registry<Item>
     get() = registryManager.get(RegistryKeys.ITEM)
 val World.biomeRegistry: Registry<Biome>
     get() = registryManager.get(RegistryKeys.BIOME)
+val World.worldRegistry: Registry<World>
+    get() = registryManager.get(RegistryKeys.WORLD)

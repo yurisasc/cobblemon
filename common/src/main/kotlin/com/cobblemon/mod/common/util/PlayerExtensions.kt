@@ -48,6 +48,9 @@ fun ServerPlayerEntity.closeDialogue() {
 fun ServerPlayerEntity.openDialogue(dialogue: Dialogue) {
     DialogueManager.startDialogue(this, dialogue)
 }
+fun ServerPlayerEntity.openDialogue(activeDialogue: ActiveDialogue) {
+    DialogueManager.startDialogue(activeDialogue)
+}
 fun ServerPlayerEntity.extraData(key: String) = Cobblemon.playerData.get(this).extraData[key]
 fun ServerPlayerEntity.hasKeyItem(key: Identifier) = Cobblemon.playerData.get(this).keyItems.contains(key)
 fun UUID.getPlayer() = server()?.playerManager?.getPlayer(this)

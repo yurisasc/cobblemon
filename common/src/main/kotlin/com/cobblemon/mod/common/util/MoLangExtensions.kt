@@ -16,17 +16,22 @@ import com.bedrockk.molang.runtime.MoLangRuntime
 import com.bedrockk.molang.runtime.MoParams
 import com.bedrockk.molang.runtime.MoScope
 import com.bedrockk.molang.runtime.struct.ArrayStruct
+import com.bedrockk.molang.runtime.struct.QueryStruct
 import com.bedrockk.molang.runtime.struct.VariableStruct
 import com.bedrockk.molang.runtime.value.MoValue
 import java.lang.IllegalArgumentException
 import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.api.molang.ExpressionLike
 import com.cobblemon.mod.common.api.molang.ListExpression
+import com.cobblemon.mod.common.api.molang.MoLangFunctions.asMoLangValue
+import com.cobblemon.mod.common.api.molang.MoLangFunctions.getQueryStruct
 import com.cobblemon.mod.common.api.molang.MoLangFunctions.setup
 import com.cobblemon.mod.common.api.molang.ObjectValue
 import com.cobblemon.mod.common.api.molang.SingleExpression
 import com.cobblemon.mod.common.battles.pokemon.BattlePokemon
+import com.cobblemon.mod.common.entity.npc.NPCEntity
 import com.cobblemon.mod.common.pokemon.Pokemon
+import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.util.math.Vec3d
 
 val genericRuntime = MoLangRuntime().setup()
@@ -73,6 +78,11 @@ fun MoLangRuntime.resolveInt(expression: Expression, pokemon: Pokemon): Int {
     return resolveInt(expression)
 }
 
+fun MoLangRuntime.resolveInt(expression: ExpressionLike, pokemon: Pokemon): Int {
+    environment.writePokemon(pokemon)
+    return resolveInt(expression)
+}
+
 fun MoLangRuntime.resolveFloat(expression: Expression, pokemon: Pokemon): Float {
     environment.writePokemon(pokemon)
     return resolveFloat(expression)
@@ -94,22 +104,39 @@ fun MoLangRuntime.resolveInt(expression: Expression, pokemon: BattlePokemon): In
     return resolveInt(expression)
 }
 
+fun MoLangRuntime.resolveInt(expression: ExpressionLike, pokemon: BattlePokemon): Int {
+    environment.writePokemon(pokemon)
+    return resolveInt(expression)
+}
+
 fun MoLangRuntime.resolveFloat(expression: Expression, pokemon: BattlePokemon): Float {
+    environment.writePokemon(pokemon)
+    return resolveFloat(expression)
+}
+
+fun MoLangRuntime.resolveFloat(expression: ExpressionLike, pokemon: Pokemon): Float {
+    environment.writePokemon(pokemon)
+    return resolveFloat(expression)
+}
+
+
+fun MoLangRuntime.resolveFloat(expression: ExpressionLike, pokemon: BattlePokemon): Float {
     environment.writePokemon(pokemon)
     return resolveFloat(expression)
 }
 
 
 fun Expression.getString() = originalString ?: "0"
-fun Double.asExpression() = NumberExpression(this)
-fun String.asExpression() = try {
-    MoLang.createParser(if (this == "") "0.0" else this).parseExpression()
-} catch (exc: Exception) {
-    Cobblemon.LOGGER.error("Failed to parse MoLang expression: $this")
-    throw exc
-}
+fun Double.asExpressionLike() = SingleExpression(NumberExpression(this))
 fun String.asExpressions() = try {
     MoLang.createParser(if (this == "") "0.0" else this).parse()
+} catch (exc: Exception) {
+    Cobblemon.LOGGER.error("Failed to parse MoLang expressions: $this")
+    throw exc
+}
+
+fun String.asExpression() = try {
+    MoLang.createParser(if (this == "") "0.0" else this).parseExpression()
 } catch (exc: Exception) {
     Cobblemon.LOGGER.error("Failed to parse MoLang expressions: $this")
     throw exc
@@ -126,6 +153,8 @@ fun String.asExpressionLike() = try {
     Cobblemon.LOGGER.error("Failed to parse MoLang expressions: $this")
     throw exc
 }
+
+fun Double.asExpression() = toString().asExpression() // Use the string route because it remembers the original string value for serialization
 
 fun MoLangEnvironment.writePokemon(pokemon: Pokemon) {
     val pokemonStruct = VariableStruct()
@@ -149,6 +178,16 @@ fun List<Expression>.resolveObject(runtime: MoLangRuntime) = resolve(runtime) as
 fun MoParams.getStringOrNull(index: Int) = if (params.size > index) getString(index) else null
 fun MoParams.getDoubleOrNull(index: Int) = if (params.size > index) getDouble(index) else null
 fun MoParams.getBooleanOrNull(index: Int) = if (params.size > index) getDouble(index) == 1.0 else null
+
+fun MoLangRuntime.withQueryValue(name: String, value: MoValue): MoLangRuntime {
+    environment.getQueryStruct().functions.put(name) { value }
+    return this
+}
+
+fun MoLangRuntime.withPlayerValue(name: String = "player", value: PlayerEntity) = withQueryValue(name, value.asMoLangValue())
+
+//fun MoLangRuntime.withPokemonValue(name: String = "pokemon", value: Pokemon) = withQueryValue(name, value.asMoLangValue())
+fun MoLangRuntime.withNPCValue(name: String = "npc", value: NPCEntity) = withQueryValue(name, value.struct)
 
 fun <T> Collection<T>.asArrayValue(mapper: (T) -> MoValue): ArrayStruct {
     val array = ArrayStruct()

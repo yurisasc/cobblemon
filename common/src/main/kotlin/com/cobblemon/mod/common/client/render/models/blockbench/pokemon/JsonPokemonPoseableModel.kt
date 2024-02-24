@@ -80,28 +80,6 @@ class JsonPokemonPoseableModel(override val rootPart: Bone) : PokemonPoseableMod
 
     override val head: Bone by lazy { headJoint?.let { getPart(it) } ?: rootPart }
 
-
-    @SerializedName("portraitScale")
-    private val _portraitScale: Float? = null
-    @SerializedName("portraitTranslation")
-    private val _portraitTranslation: Vec3d? = null
-
-    @SerializedName("profileScale")
-    private val _profileScale: Float? = null
-    @SerializedName("profileTranslation")
-    private val _profileTranslation: Vec3d? = null
-
-    override val portraitScale
-        get() = _portraitScale ?: 1F
-    override val portraitTranslation
-        get() = _portraitTranslation ?: Vec3d(0.0, 0.0, 0.0)
-
-    override val profileScale
-        get() = _profileScale ?: 1F
-    override val profileTranslation
-        get() = _profileTranslation ?: Vec3d(0.0, 0.0, 0.0)
-
-
     val faint: Supplier<StatefulAnimation<PokemonEntity, ModelFrame>>? = null
     val cry: Supplier<StatefulAnimation<PokemonEntity, ModelFrame>>? = null
 

@@ -29,6 +29,7 @@ import com.cobblemon.mod.common.api.spawning.context.calculators.SeafloorSpawnin
 import com.cobblemon.mod.common.api.spawning.context.calculators.SpawningContextCalculator
 import com.cobblemon.mod.common.api.spawning.context.calculators.SubmergedSpawningContextCalculator
 import com.cobblemon.mod.common.api.spawning.context.calculators.SurfaceSpawningContextCalculator
+import com.cobblemon.mod.common.api.spawning.detail.NPCSpawnDetail
 import com.cobblemon.mod.common.api.spawning.detail.PokemonSpawnDetail
 import com.cobblemon.mod.common.api.spawning.detail.SpawnAction
 import com.cobblemon.mod.common.api.spawning.detail.SpawnDetail
@@ -108,6 +109,7 @@ object BestSpawner {
         LOGGER.info("Loaded ${SpawningContext.contexts.size} spawning context types.")
 
         SpawnDetail.registerSpawnType(name = PokemonSpawnDetail.TYPE, PokemonSpawnDetail::class.java)
+        SpawnDetail.registerSpawnType(name = NPCSpawnDetail.TYPE, NPCSpawnDetail::class.java)
         LOGGER.info("Loaded ${SpawnDetail.spawnDetailTypes.size} spawn detail types.")
 
         config = BestSpawnerConfig.load()

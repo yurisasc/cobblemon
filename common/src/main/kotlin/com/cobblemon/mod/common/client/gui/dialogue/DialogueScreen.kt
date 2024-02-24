@@ -28,7 +28,6 @@ import com.cobblemon.mod.common.entity.Poseable
 import com.cobblemon.mod.common.net.messages.client.dialogue.dto.DialogueDTO
 import com.cobblemon.mod.common.net.messages.client.dialogue.dto.DialogueInputDTO
 import com.cobblemon.mod.common.net.messages.server.dialogue.EscapeDialoguePacket
-import com.cobblemon.mod.common.util.asExpression
 import com.cobblemon.mod.common.util.asExpressionLike
 import com.cobblemon.mod.common.util.asExpressions
 import com.cobblemon.mod.common.util.asTranslated
@@ -116,7 +115,7 @@ class DialogueScreen(var dialogueDTO: DialogueDTO) : Screen("gui.dialogue".asTra
                     .associate { it.key to it.value }
             )
 
-        dialogueDTO.currentPageDTO.clientActions.forEach { runtime.resolve(it.asExpression()) }
+        dialogueDTO.currentPageDTO.clientActions.forEach { runtime.resolve(it.asExpressionLike()) }
         val centerX = scaledWidth / 2F
         val boxMinY = (scaledHeight / 2F - BOX_HEIGHT / 2F) - 10
         val boxMaxY = boxMinY + BOX_HEIGHT
