@@ -22,7 +22,7 @@ import kotlin.reflect.full.memberProperties
 abstract class JsonBackedPlayerDataStoreBackend<T : InstancedPlayerData>(
     subfolder: String,
     type: PlayerInstancedDataStoreType
-) : FileBasedPlayerDataStoreBackend<T>(subfolder, type) {
+) : FileBasedPlayerDataStoreBackend<T>(subfolder, type, "json") {
     abstract val gson: Gson
     //The class GSON needs to deserialize to
     abstract val classToken: TypeToken<T>

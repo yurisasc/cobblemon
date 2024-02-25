@@ -8,13 +8,17 @@
 
 package com.cobblemon.mod.common.api.pokedex.trackeddata
 
+import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.api.events.battles.BattleStartedPostEvent
 import com.cobblemon.mod.common.api.events.pokemon.PokemonCapturedEvent
 import com.cobblemon.mod.common.api.events.pokemon.TradeCompletedEvent
 import com.cobblemon.mod.common.api.events.pokemon.evolution.EvolutionCompleteEvent
 import com.mojang.serialization.Codec
 import net.minecraft.network.PacketByteBuf
+import net.minecraft.util.Identifier
 import net.minecraft.util.dynamic.Codecs
+import kotlin.reflect.full.companionObject
+import kotlin.reflect.full.memberProperties
 
 /**
  * Tracked data that isn't specific to a species or form
@@ -42,26 +46,33 @@ abstract class GlobalTrackedData {
         return false
     }
 
+    //The type of GlobalTrackedData, used for serializing/deserializing
+    abstract fun getVariant(): Identifier
+
     abstract fun clone(): GlobalTrackedData
 
-    abstract fun encode(buf: PacketByteBuf)
+    abstract fun internalEncode(buf: PacketByteBuf)
+
+    fun encode(buf: PacketByteBuf) {
+        val variant = buf.writeIdentifier(TrackedDataTypes.classToVariant[this::class])
+        internalEncode(buf)
+    }
 
     //This is only used to check for duplicate entries, so it doesn't have to check every field
     abstract override fun hashCode(): Int
     abstract override fun equals(other: Any?): Boolean
 
     companion object {
-        val CODEC: Codec<GlobalTrackedData> = Codec.STRING.dispatch("variant", {
-            when (it) {
-                is CountTypeCaughtGlobalTrackedData -> CountTypeCaughtGlobalTrackedData.ID.toString()
-                else -> throw UnsupportedOperationException("Couldn't find string ID for global tracked data ${it::class.java.name}")
-            }
+        val CODEC: Codec<GlobalTrackedData> = Identifier.CODEC.dispatch("variant", { obj ->
+            TrackedDataTypes.classToVariant[obj::class] ?: throw UnsupportedOperationException("No variant string found for ${obj::class.qualifiedName}")
         })
         {
-            when (it) {
-                CountTypeCaughtGlobalTrackedData.ID.toString() -> CountTypeCaughtGlobalTrackedData.CODEC
-                else -> {throw UnsupportedOperationException("Couldn't find codec for global tracked data $it")}
-            }
+            TrackedDataTypes.variantToCodec[it] as? Codec<out GlobalTrackedData> ?: throw UnsupportedOperationException("No codec found for variant $it")
+        }
+
+        fun decode(buf: PacketByteBuf): GlobalTrackedData {
+            val identifier = buf.readIdentifier()
+            return TrackedDataTypes.variantToDecoder[identifier]!!.invoke(buf)
         }
     }
 

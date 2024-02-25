@@ -14,6 +14,7 @@ import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.PrimitiveCodec
 import com.mojang.serialization.codecs.RecordCodecBuilder
 import net.minecraft.network.PacketByteBuf
+import net.minecraft.util.Identifier
 
 class CountTypeCaughtGlobalTrackedData(
     val type: String,
@@ -37,7 +38,7 @@ class CountTypeCaughtGlobalTrackedData(
         return result
     }
 
-    override fun encode(buf: PacketByteBuf) {
+    override fun internalEncode(buf: PacketByteBuf) {
         buf.writeString(type)
         buf.writeInt(numOfType)
     }
@@ -49,6 +50,10 @@ class CountTypeCaughtGlobalTrackedData(
     override fun equals(other: Any?): Boolean {
         if (other !is CountTypeCaughtGlobalTrackedData) return false
         return other == type
+    }
+
+    override fun getVariant(): Identifier {
+        return ID
     }
 
     companion object {

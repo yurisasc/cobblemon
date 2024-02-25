@@ -70,7 +70,9 @@ class SpeciesPokedexEntry(
         val CODEC: Codec<SpeciesPokedexEntry> = RecordCodecBuilder.create { instance ->
             instance.group(
                 Codec.unboundedMap(PrimitiveCodec.STRING, FormPokedexEntry.CODEC).fieldOf("formEntries").forGetter { it.formEntries }
-            ).apply(instance, ::SpeciesPokedexEntry)
+            ).apply(instance) { formEntries ->
+                return@apply SpeciesPokedexEntry(formEntries.toMutableMap())
+            }
 
         }
     }

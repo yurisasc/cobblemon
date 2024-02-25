@@ -161,7 +161,7 @@ class Pokedex(
     }
 
     override fun toClientData(): ClientInstancedPlayerData {
-        return ClientPokedex(speciesEntries, globalTrackedData)
+        return ClientPokedex(speciesEntries, globalTrackedData.filter { it.syncToClient }.toMutableSet())
     }
 
     companion object {
@@ -171,7 +171,7 @@ class Pokedex(
                 Codec.unboundedMap(Identifier.CODEC, SpeciesPokedexEntry.CODEC).fieldOf("speciesEntries").forGetter { it.speciesEntries }
             ).apply(instance) { uuidStr, speciesEntries ->
                 val uuid = UUID.fromString(uuidStr)
-                Pokedex(uuid, speciesEntries)
+                Pokedex(uuid, speciesEntries.toMutableMap())
             }
         }
         fun formToFormString(form: FormData, shiny: Boolean): String = if (shiny) form.name + "_shiny" else form.name

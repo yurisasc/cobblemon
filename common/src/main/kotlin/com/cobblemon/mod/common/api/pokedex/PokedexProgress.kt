@@ -29,10 +29,9 @@ enum class PokedexProgress : StringIdentifiable {
     }
     companion object {
         val CODEC: Codec<PokedexProgress> = RecordCodecBuilder.create { instance ->
-            instance.group(
-                PrimitiveCodec.STRING.fieldOf("name").forGetter { it.name }
-            ).apply(instance, PokedexProgress::valueOf)
-
+            instance.map ({
+                PokedexProgress.valueOf(it)
+            }, PrimitiveCodec.STRING.fieldOf("name").forGetter { it.name })
         }
     }
 }

@@ -22,7 +22,7 @@ import kotlin.reflect.full.memberProperties
 abstract class NbtBackedPlayerData<T : InstancedPlayerData>(
     subfolder: String,
     type: PlayerInstancedDataStoreType
-) : FileBasedPlayerDataStoreBackend<T>(subfolder, type) {
+) : FileBasedPlayerDataStoreBackend<T>(subfolder, type, "nbt") {
     abstract val codec: Codec<T>
     override fun save(playerData: T) {
         val file = filePath(playerData.uuid)
