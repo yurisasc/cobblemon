@@ -8,14 +8,18 @@
 
 package com.cobblemon.mod.common.api.pokedex
 
+import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.api.pokedex.adapter.GlobalTrackedDataAdapter
 import com.cobblemon.mod.common.api.pokedex.trackeddata.GlobalTrackedData
+import com.cobblemon.mod.common.api.pokemon.PokemonSpecies
 import com.cobblemon.mod.common.api.storage.player.PlayerInstancedDataStoreType
 import com.cobblemon.mod.common.api.storage.player.client.ClientInstancedPlayerData
 import com.cobblemon.mod.common.client.CobblemonClient
 import com.cobblemon.mod.common.net.messages.client.SetClientPlayerDataPacket
+import com.cobblemon.mod.common.pokemon.Species
 import net.minecraft.network.PacketByteBuf
 import net.minecraft.util.Identifier
+import java.util.TreeMap
 
 /**
  * Clientside representation of the Pokedex
@@ -27,6 +31,9 @@ class ClientPokedex(
     val speciesEntries: MutableMap<Identifier, SpeciesPokedexEntry>,
     val globalTrackedData: MutableSet<GlobalTrackedData>,
 ) : ClientInstancedPlayerData(false) {
+
+    val sortedEntriesList = getSortedEntries()
+
     override fun encode(buf: PacketByteBuf) {
         buf.writeInt(speciesEntries.size)
         speciesEntries.forEach {
@@ -37,6 +44,29 @@ class ClientPokedex(
         globalTrackedData.forEach {
             GlobalTrackedDataAdapter.bufSerialize(buf, it)
         }
+    }
+
+    fun getSortedEntries() : List<Species> {
+        val dexList = PokemonSpecies.getNamespaces().toMutableList()
+
+        //Moves Cobblemon MODID to the front, so it sorts by default mons first
+        dexList.remove(Cobblemon.MODID)
+        dexList.add(0, Cobblemon.MODID)
+
+        val entriesList = mutableListOf<Species>()
+        dexList.forEach {namespace ->
+            val speciesInNamespace = PokemonSpecies.getSpeciesInNamespace(namespace)
+            val sortedSpeciesMap = TreeMap<Int, Species>()
+            speciesEntries.filter{ speciesIdentifierEntry -> namespace == speciesIdentifierEntry.key.namespace }
+                .forEach{
+                    val species = PokemonSpecies.getByIdentifier(it.key)
+                    if(species != null){
+                        sortedSpeciesMap[species.nationalPokedexNumber] = species
+                    }
+                }
+        }
+
+        return entriesList
     }
 
     companion object {
