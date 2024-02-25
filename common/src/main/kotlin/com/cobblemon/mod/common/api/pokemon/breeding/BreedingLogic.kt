@@ -221,57 +221,62 @@ interface BreedingLogic {
      * @param mother The mother [Pokemon]
      * @param father The father [Pokemon]
      * @return The [IVs] of the child
-     * @author Nick, whatsy
+     * @author Nick, whatsy, Apion
      */
     fun calculateIVs(mother: Pokemon, father: Pokemon): IVs {
         val motherItem = mother.heldItemNoCopy().item?.let { Registries.ITEM.getEntry(it) }
         val fatherItem = father.heldItemNoCopy().item?.let { Registries.ITEM.getEntry(it) }
-
-        fun guaranteedStat(entry: RegistryEntry<Item>?): Stat? {
-            if(entry == null) {
-                return null
-            }
-
-            return if(entry.isIn(CobblemonItemTags.POWER_ANKLET)) {
-                Stats.SPEED
-            } else if(entry.isIn(CobblemonItemTags.POWER_BAND)) {
-                Stats.SPECIAL_DEFENCE
-            } else if(entry.isIn(CobblemonItemTags.POWER_BELT)) {
-                Stats.DEFENCE
-            } else if(entry.isIn(CobblemonItemTags.POWER_BRACER)) {
-                Stats.ATTACK
-            } else if(entry.isIn(CobblemonItemTags.POWER_LENS)) {
-                Stats.SPECIAL_ATTACK
-            } else if(entry.isIn(CobblemonItemTags.POWER_WEIGHT)) {
-                Stats.HP
-            } else {
-                null
-            }
-        }
-
         val isMotherDestinyKnotted = motherItem?.isIn(CobblemonItemTags.DESTINY_KNOT) == true
         val isFatherDestinyKnotted = fatherItem?.isIn(CobblemonItemTags.DESTINY_KNOT) == true
-        val perfect = if(isMotherDestinyKnotted || isFatherDestinyKnotted) {
+        val passedStats = mutableSetOf<Stat>()
+        val childStats = IVs.createRandomIVs()
+        var numPassed = if(isMotherDestinyKnotted || isFatherDestinyKnotted) {
             5
         } else {
             3
         }
 
-        val guaranteed: Stat? = if(isMotherDestinyKnotted) {
-            guaranteedStat(fatherItem)
-        } else if(isFatherDestinyKnotted) {
-            guaranteedStat(motherItem)
-        } else {
-            null
+        fun calcForcedStat(entry: RegistryEntry<Item>?, mon: Pokemon) {
+            fun passStat(stats: Stat) {
+                if (!passedStats.contains(stats)) {
+                    childStats[stats] = mon.ivs[stats]!!
+                    passedStats.add(stats)
+                    numPassed--
+                }
+            }
+            if(entry == null) {
+                return
+            }
+
+            if(entry.isIn(CobblemonItemTags.POWER_ANKLET)) {
+                passStat(Stats.SPEED)
+            } else if(entry.isIn(CobblemonItemTags.POWER_BAND)) {
+                passStat(Stats.SPECIAL_DEFENCE)
+            } else if(entry.isIn(CobblemonItemTags.POWER_BELT)) {
+                passStat(Stats.DEFENCE)
+            } else if(entry.isIn(CobblemonItemTags.POWER_BRACER)) {
+                passStat(Stats.ATTACK)
+            } else if(entry.isIn(CobblemonItemTags.POWER_LENS)) {
+                passStat(Stats.SPECIAL_ATTACK)
+            } else if(entry.isIn(CobblemonItemTags.POWER_WEIGHT)) {
+                passStat(Stats.HP)
+            }
+        }
+        calcForcedStat(fatherItem, father)
+        calcForcedStat(motherItem, mother)
+
+        val parentIvs = mother.ivs.toMutableList()
+        parentIvs.addAll(father.ivs)
+        while (numPassed > 0) {
+            val statPicked: Map.Entry<Stat, Int> = parentIvs.random()
+            if (!passedStats.contains(statPicked.key)) {
+                passedStats.add(statPicked.key)
+                childStats[statPicked.key] = statPicked.value
+                parentIvs.removeAll {it.key == statPicked.key}
+            }
         }
 
-        val ivs = IVs.createRandomIVs()
-        val options = Stats.PERMANENT.shuffled().sortedBy { if(it == guaranteed) -1 else 0 }
-        for (index in 0..perfect) {
-            ivs[options[index]] = IVs.MAX_VALUE
-        }
-
-        return IVs.createRandomIVs()
+        return childStats
     }
 
     /**

@@ -42,6 +42,7 @@ import net.minecraft.item.BlockItem
 import net.minecraft.item.FoodComponent
 import net.minecraft.item.HangingSignItem
 import net.minecraft.item.Item
+import net.minecraft.item.Item.Settings
 import net.minecraft.item.ItemStack
 import net.minecraft.item.SignItem
 import net.minecraft.item.SmithingTemplateItem
@@ -851,9 +852,9 @@ object CobblemonItems : PlatformRegistry<Registry<Item>, RegistryKey<Registry<It
 
     private fun candyItem(name: String, calculator: CandyItem.Calculator): CandyItem  = this.create(name, CandyItem(calculator))
 
-    private fun heldItem(name: String, remappedName: String? = null): CobblemonItem = create(
+    private fun heldItem(name: String, remappedName: String? = null, settings: Settings = Item.Settings()): CobblemonItem = create(
         name,
-        CobblemonItem(Item.Settings()).also {
+        CobblemonItem(settings).also {
             if (remappedName != null) {
                 CobblemonHeldItemManager.registerRemap(it, remappedName)
             }
