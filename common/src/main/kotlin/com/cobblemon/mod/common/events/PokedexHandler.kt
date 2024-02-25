@@ -20,6 +20,8 @@ import com.cobblemon.mod.common.battles.actor.PokemonBattleActor
 import com.cobblemon.mod.common.net.messages.client.SetClientPlayerDataPacket
 import com.cobblemon.mod.common.util.getPlayer
 
+//TODO: Figure out how to do incremental updates
+//How do we track the changes through 3 levels of the dex
 object PokedexHandler {
     fun onCapture(event : PokemonCapturedEvent) {
         val pokedexData = Cobblemon.playerDataManager.getPokedexData(event.player)

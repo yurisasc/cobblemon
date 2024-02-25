@@ -45,6 +45,7 @@ abstract class GlobalTrackedData {
     abstract fun encode(buf: PacketByteBuf)
 
     //This is only used to check for duplicate entries, so it doesn't have to check every field
+    abstract override fun hashCode(): Int
     abstract override fun equals(other: Any?): Boolean
 
 }

@@ -38,9 +38,13 @@ class CountTypeCaughtGlobalTrackedData(
         buf.writeInt(numOfType)
     }
 
+    override fun hashCode(): Int {
+        return type.hashCode()
+    }
+
     override fun equals(other: Any?): Boolean {
         if (other !is CountTypeCaughtGlobalTrackedData) return false
-        return other.type == type
+        return other == type
     }
 
     companion object {

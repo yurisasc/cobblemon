@@ -24,8 +24,8 @@ import net.minecraft.util.Identifier
  * @since February 24, 2024
  */
 class ClientPokedex(
-    val speciesEntries: Map<Identifier, SpeciesPokedexEntry>,
-    val globalTrackedData: Set<GlobalTrackedData>,
+    val speciesEntries: MutableMap<Identifier, SpeciesPokedexEntry>,
+    val globalTrackedData: MutableSet<GlobalTrackedData>,
 ) : ClientInstancedPlayerData(false) {
     override fun encode(buf: PacketByteBuf) {
         buf.writeInt(speciesEntries.size)
@@ -92,6 +92,20 @@ class ClientPokedex(
         fun afterDecodeAction(data: ClientInstancedPlayerData) {
             if (data !is ClientPokedex) return
             CobblemonClient.clientPokedexData = data
+        }
+
+        fun afterIncrementalDecodeAction(data: ClientInstancedPlayerData) {
+            if (data !is ClientPokedex) return
+            data.globalTrackedData.forEach {curData ->
+                //This might look weird but the trackedData currently in the set has the same hashCode,
+                // but equals() is false
+                CobblemonClient.clientPokedexData.globalTrackedData.remove(curData)
+                CobblemonClient.clientPokedexData.globalTrackedData.add(curData)
+            }
+            data.speciesEntries.forEach {
+                CobblemonClient.clientPokedexData.speciesEntries[it.key] = it.value
+            }
+
         }
     }
 
