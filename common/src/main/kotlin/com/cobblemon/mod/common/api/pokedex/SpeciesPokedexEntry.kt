@@ -16,7 +16,9 @@ import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.PrimitiveCodec
 import com.mojang.serialization.codecs.RecordCodecBuilder
 import net.minecraft.util.Identifier
+import java.util.Optional
 import java.util.UUID
+import kotlin.jvm.optionals.getOrDefault
 
 /**
  * Information about a species in the dex
@@ -25,10 +27,11 @@ import java.util.UUID
  * @since February 24, 2024
  */
 class SpeciesPokedexEntry(
-    var formEntries: MutableMap<String, FormPokedexEntry> = mutableMapOf()
+    var formEntries: MutableMap<String, FormPokedexEntry> = mutableMapOf(),
+    val speciesStats: MutableSet<SpeciesTrackedData> = mutableSetOf()
 ) {
 
-    val speciesStats = mutableSetOf<SpeciesTrackedData>()
+
 
     fun pokemonCaught(event: PokemonCapturedEvent) {
         val formStr = event.pokemon.form.formOnlyShowdownId()
@@ -69,9 +72,15 @@ class SpeciesPokedexEntry(
     companion object {
         val CODEC: Codec<SpeciesPokedexEntry> = RecordCodecBuilder.create { instance ->
             instance.group(
-                Codec.unboundedMap(PrimitiveCodec.STRING, FormPokedexEntry.CODEC).fieldOf("formEntries").forGetter { it.formEntries }
-            ).apply(instance) { formEntries ->
-                return@apply SpeciesPokedexEntry(formEntries.toMutableMap())
+                Codec.unboundedMap(PrimitiveCodec.STRING, FormPokedexEntry.CODEC).fieldOf("formEntries").forGetter { it.formEntries },
+                Codec.list(SpeciesTrackedData.CODEC).optionalFieldOf("speciesStats").forGetter {
+                    if (it.speciesStats.isEmpty()) {
+                        return@forGetter Optional.empty()
+                    }
+                    return@forGetter Optional.of(it.speciesStats.toList())
+                }
+            ).apply(instance) { formEntries, speciesStats ->
+                return@apply SpeciesPokedexEntry(formEntries.toMutableMap(), speciesStats.getOrDefault(mutableListOf()).toMutableSet())
             }
 
         }

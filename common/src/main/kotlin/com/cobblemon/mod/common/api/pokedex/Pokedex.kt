@@ -26,7 +26,9 @@ import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.PrimitiveCodec
 import com.mojang.serialization.codecs.RecordCodecBuilder
 import net.minecraft.util.Identifier
+import java.util.Optional
 import java.util.UUID
+import kotlin.jvm.optionals.getOrDefault
 
 /**
  * Stores encounter statuses for each pokemon form, and additional configurable stats
@@ -36,10 +38,9 @@ import java.util.UUID
  */
 class Pokedex(
     override val uuid: UUID,
-    val speciesEntries: MutableMap<Identifier, SpeciesPokedexEntry> = mutableMapOf()
+    val speciesEntries: MutableMap<Identifier, SpeciesPokedexEntry> = mutableMapOf(),
+    val globalTrackedData: MutableSet<GlobalTrackedData> = mutableSetOf()
 ) : InstancedPlayerData {
-
-    val globalTrackedData = mutableSetOf<GlobalTrackedData>()
     //GSON sets this field to null when deserializing even when marked transient sigh
     @Transient
     var gennedFactories = mutableSetOf<EventTriggerType>()
@@ -110,8 +111,6 @@ class Pokedex(
                     val speciesId = pokemon.species.resourceIdentifier
                     val formStr = pokemon.form.formOnlyShowdownId()
                     onPokemonSeen(speciesId, formStr)
-                    val speciesEntry = getSpeciesEntry(speciesId)
-                    speciesEntry.pokemonSeen(speciesId, formStr)
                 }
                 //Ideally we would not trigger the seen stuff on unseen pokemon but I don't think we currently have a way to listen to
                 //Sendout events in battle (though I have not looked that hard!)
@@ -121,8 +120,6 @@ class Pokedex(
                         val speciesId = pokemon.species.resourceIdentifier
                         val formStr = pokemon.form.formOnlyShowdownId()
                         onPokemonSeen(speciesId, formStr)
-                        val speciesEntry = getSpeciesEntry(speciesId)
-                        speciesEntry.pokemonSeen(speciesId, formStr)
                     }
 
                 }
@@ -133,7 +130,8 @@ class Pokedex(
 
     //This can be triggered by multiple things, like a pokemon switching in inside of a player battle
     fun onPokemonSeen(speciesId: Identifier, formStr: String) {
-
+        val speciesEntry = getSpeciesEntry(speciesId)
+        speciesEntry.pokemonSeen(speciesId, formStr)
     }
 
     //Whenever a particular type of event is called we want to add all the tracked data that might rely on the event
@@ -168,10 +166,16 @@ class Pokedex(
         val CODEC: Codec<Pokedex> = RecordCodecBuilder.create { instance ->
             instance.group(
                 PrimitiveCodec.STRING.fieldOf("uuid").forGetter { it.uuid.toString() },
-                Codec.unboundedMap(Identifier.CODEC, SpeciesPokedexEntry.CODEC).fieldOf("speciesEntries").forGetter { it.speciesEntries }
-            ).apply(instance) { uuidStr, speciesEntries ->
+                Codec.unboundedMap(Identifier.CODEC, SpeciesPokedexEntry.CODEC).fieldOf("speciesEntries").forGetter { it.speciesEntries },
+                Codec.list(GlobalTrackedData.CODEC).optionalFieldOf("globalTrackedData").forGetter {
+                    if (it.globalTrackedData.isEmpty()) {
+                        return@forGetter Optional.empty<MutableList<GlobalTrackedData>>()
+                    }
+                    return@forGetter Optional.of(it.globalTrackedData.toList())
+                }
+            ).apply(instance) { uuidStr, speciesEntries, trackedData ->
                 val uuid = UUID.fromString(uuidStr)
-                Pokedex(uuid, speciesEntries.toMutableMap())
+                Pokedex(uuid, speciesEntries.toMutableMap(), trackedData.getOrDefault(mutableListOf()).toMutableSet())
             }
         }
         fun formToFormString(form: FormData, shiny: Boolean): String = if (shiny) form.name + "_shiny" else form.name
