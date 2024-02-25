@@ -16,6 +16,9 @@ import com.google.gson.JsonDeserializer
 import com.google.gson.JsonElement
 import com.google.gson.JsonSerializationContext
 import com.google.gson.JsonSerializer
+import com.mojang.serialization.DynamicOps
+import com.mojang.serialization.JsonOps
+import com.mojang.serialization.codecs.RecordCodecBuilder
 import net.minecraft.network.PacketByteBuf
 import net.minecraft.util.Identifier
 import java.lang.reflect.Type
@@ -39,17 +42,13 @@ object GlobalTrackedDataAdapter : JsonSerializer<GlobalTrackedData>, JsonDeseria
     }
 
     override fun deserialize(jElement: JsonElement, type: Type, context: JsonDeserializationContext): GlobalTrackedData {
-        val json = jElement.asJsonObject
-        val variant = json.get(VARIANT).asString.lowercase()
-        val registeredType = this.types[variant] ?: throw IllegalArgumentException("Cannot resolve type for variant $variant")
-        return context.deserialize(json, registeredType.java)
+        val result = JsonOps.INSTANCE.withDecoder(GlobalTrackedData.CODEC).apply(jElement)
+        return result.get().left().get().first
     }
 
     override fun serialize(data: GlobalTrackedData, type: Type, context: JsonSerializationContext): JsonElement {
-        val json = context.serialize(data).asJsonObject
-        val variant = getVariantStr(data)
-        json.addProperty(VARIANT, variant)
-        return json
+        val result = JsonOps.INSTANCE.withEncoder(GlobalTrackedData.CODEC).apply(data)
+        return result.get().left().get()
     }
 
     fun bufSerialize(buf: PacketByteBuf, data: GlobalTrackedData) {

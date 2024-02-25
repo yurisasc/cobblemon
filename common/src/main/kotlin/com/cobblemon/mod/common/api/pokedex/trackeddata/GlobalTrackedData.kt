@@ -12,7 +12,9 @@ import com.cobblemon.mod.common.api.events.battles.BattleStartedPostEvent
 import com.cobblemon.mod.common.api.events.pokemon.PokemonCapturedEvent
 import com.cobblemon.mod.common.api.events.pokemon.TradeCompletedEvent
 import com.cobblemon.mod.common.api.events.pokemon.evolution.EvolutionCompleteEvent
+import com.mojang.serialization.Codec
 import net.minecraft.network.PacketByteBuf
+import net.minecraft.util.dynamic.Codecs
 
 /**
  * Tracked data that isn't specific to a species or form
@@ -47,5 +49,20 @@ abstract class GlobalTrackedData {
     //This is only used to check for duplicate entries, so it doesn't have to check every field
     abstract override fun hashCode(): Int
     abstract override fun equals(other: Any?): Boolean
+
+    companion object {
+        val CODEC: Codec<GlobalTrackedData> = Codec.STRING.dispatch("variant", {
+            when (it) {
+                is CountTypeCaughtGlobalTrackedData -> CountTypeCaughtGlobalTrackedData.ID.toString()
+                else -> throw UnsupportedOperationException("Couldn't find string ID for global tracked data ${it::class.java.name}")
+            }
+        })
+        {
+            when (it) {
+                CountTypeCaughtGlobalTrackedData.ID.toString() -> CountTypeCaughtGlobalTrackedData.CODEC
+                else -> {throw UnsupportedOperationException("Couldn't find codec for global tracked data $it")}
+            }
+        }
+    }
 
 }
