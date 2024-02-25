@@ -40,12 +40,15 @@
 - Anorith
 - Armaldo
 - Tropius
+- Roselia
 
 #### Gen 4
 - Shieldon
 - Bastiodon
 - Cranidos
 - Rampardos
+- Budew
+- Roserade
 
 #### Gen 5
 - Tirtouga
@@ -54,6 +57,10 @@
 - Archeops
 - Zorua
 - Zoroark
+- Petilil
+- Lilligant
+- Darumaka
+- Darmanitan
 
 #### Gen 6
 - Tyrunt
@@ -62,6 +69,7 @@
 - Aurorus
 
 #### Gen 7
+- Turtonator
 
 #### Gen 8
 - Gossifleur
@@ -79,10 +87,13 @@
 - Overqwil
 - Hisuian Sneasel
 - Sneasler
+- Stonjourner
+- Cufant
+- Copperajah
 
 ### Changes
 - Pokémon now transition more smoothly between different poses.
-- Updated models for Squirtle, Wartortle, Blastoise, Omanyte, Omastar, Swinub, Piloswine, Basculine, Rowlet, Dartrix, Decidueye, Kabuto, Kabutops, Piplup, Prinplup, Elekid, Electabuzz, Cubone, Marowak, Paras, Drifloon, Drifblim, Venonat, Venomoth, Yanma, Yanmega, and Raboot.
+- Updated models for Squirtle, Wartortle, Blastoise, Omanyte, Omastar, Growlithe, Swinub, Piloswine, Basculine, Rowlet, Dartrix, Decidueye, Kabuto, Kabutops, Piplup, Prinplup, Elekid, Electabuzz, Cubone, Marowak, Paras, Drifloon, Drifblim, Venonat, Venomoth, Yanma, Yanmega, and Raboot.
 - Updated animations for Falinks, Lechonk, Litwick, Lampent, Chandelure, Carnivine, Galarian Meowth, Galarian Rapidash, Venonat, Venomoth, Phanphy, Donphan, Dratini, Dragonair, Happiny, Chansey, Blissey, Volbeat, Illumise, Numel, Drifloon, and Drifblim.
 - Added more held items to the held item tag, and Metal Coat to the held item tab.
 - Added all ores to the modloader ore tags, and added tags for each ore type to the mod (both blocks and items).
