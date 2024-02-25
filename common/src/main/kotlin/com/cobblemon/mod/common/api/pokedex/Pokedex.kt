@@ -22,6 +22,9 @@ import com.cobblemon.mod.common.config.pokedex.PokedexConfig
 import com.cobblemon.mod.common.pokemon.FormData
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.util.getPlayer
+import com.mojang.serialization.Codec
+import com.mojang.serialization.codecs.PrimitiveCodec
+import com.mojang.serialization.codecs.RecordCodecBuilder
 import net.minecraft.util.Identifier
 import java.util.UUID
 
@@ -31,8 +34,11 @@ import java.util.UUID
  * @since February 24, 2024
  * @author Apion
  */
-class Pokedex(override val uuid: UUID) : InstancedPlayerData {
-    val speciesEntries = mutableMapOf<Identifier, SpeciesPokedexEntry>()
+class Pokedex(
+    override val uuid: UUID,
+    val speciesEntries: MutableMap<Identifier, SpeciesPokedexEntry> = mutableMapOf()
+) : InstancedPlayerData {
+
     val globalTrackedData = mutableSetOf<GlobalTrackedData>()
     //GSON sets this field to null when deserializing even when marked transient sigh
     @Transient
@@ -159,6 +165,15 @@ class Pokedex(override val uuid: UUID) : InstancedPlayerData {
     }
 
     companion object {
+        val CODEC: Codec<Pokedex> = RecordCodecBuilder.create { instance ->
+            instance.group(
+                PrimitiveCodec.STRING.fieldOf("uuid").forGetter { it.uuid.toString() },
+                Codec.unboundedMap(Identifier.CODEC, SpeciesPokedexEntry.CODEC).fieldOf("speciesEntries").forGetter { it.speciesEntries }
+            ).apply(instance) { uuidStr, speciesEntries ->
+                val uuid = UUID.fromString(uuidStr)
+                Pokedex(uuid, speciesEntries)
+            }
+        }
         fun formToFormString(form: FormData, shiny: Boolean): String = if (shiny) form.name + "_shiny" else form.name
     }
 }

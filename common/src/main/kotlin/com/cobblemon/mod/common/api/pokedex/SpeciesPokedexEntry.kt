@@ -12,6 +12,9 @@ import com.cobblemon.mod.common.api.events.pokemon.PokemonCapturedEvent
 import com.cobblemon.mod.common.api.events.pokemon.TradeCompletedEvent
 import com.cobblemon.mod.common.api.events.pokemon.evolution.EvolutionCompleteEvent
 import com.cobblemon.mod.common.api.pokedex.trackeddata.SpeciesTrackedData
+import com.mojang.serialization.Codec
+import com.mojang.serialization.codecs.PrimitiveCodec
+import com.mojang.serialization.codecs.RecordCodecBuilder
 import net.minecraft.util.Identifier
 import java.util.UUID
 
@@ -21,8 +24,10 @@ import java.util.UUID
  * @author Apion
  * @since February 24, 2024
  */
-class SpeciesPokedexEntry {
-    var formEntries = mutableMapOf<String, FormPokedexEntry>()
+class SpeciesPokedexEntry(
+    var formEntries: MutableMap<String, FormPokedexEntry> = mutableMapOf()
+) {
+
     val speciesStats = mutableSetOf<SpeciesTrackedData>()
 
     fun pokemonCaught(event: PokemonCapturedEvent) {
@@ -59,5 +64,14 @@ class SpeciesPokedexEntry {
             formEntries[formStr]?.knowledge = PokedexProgress.ENCOUNTERED
         }
 
+    }
+
+    companion object {
+        val CODEC: Codec<SpeciesPokedexEntry> = RecordCodecBuilder.create { instance ->
+            instance.group(
+                Codec.unboundedMap(PrimitiveCodec.STRING, FormPokedexEntry.CODEC).fieldOf("formEntries").forGetter { it.formEntries }
+            ).apply(instance, ::SpeciesPokedexEntry)
+
+        }
     }
 }

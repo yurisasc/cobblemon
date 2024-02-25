@@ -37,9 +37,9 @@ abstract class FileBasedPlayerDataStoreBackend<T : InstancedPlayerData>(
     //TODO: Set file extension to be a field
     fun getSubFile(uuid: UUID): String {
         return if (useNestedStructure) {
-            "${uuid.toString().substring(0, 2)}/$uuid.json"
+            "${uuid.toString().substring(0, 2)}/$uuid.nbt"
         } else {
-            "$uuid.json"
+            "$uuid.nbt"
         }
     }
 
