@@ -60,6 +60,8 @@
 	"cobblemon:kings_rock",
 	"cobblemon:deep_sea_scale",
 	"cobblemon:deep_sea_tooth",
-	"cobblemon:metal_coat"
+	"cobblemon:metal_coat",
+	
+	"#cobblemon:type_gems"
   ]
 }
