@@ -21,7 +21,6 @@ import com.cobblemon.mod.common.client.gui.battle.BattleGUI
 import com.cobblemon.mod.common.client.render.drawScaledText
 import com.cobblemon.mod.common.util.battleLang
 import com.cobblemon.mod.common.util.cobblemonResource
-import com.cobblemon.mod.common.util.math.toRGB
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.gui.DrawContext
 import net.minecraft.client.sound.PositionedSoundInstance
@@ -48,49 +47,61 @@ class BattleTargetSelection(
 
         val targetTexture = cobblemonResource("textures/gui/battle/battle_move.png")
         val moveOverlayTexture = cobblemonResource("textures/gui/battle/battle_move_overlay.png")
+//        val highlightTexture = cobblemonResource("textures/gui/battle/battle_menu_run.png")
     }
 
     val targets = request.activePokemon.getAllActivePokemon()
+
+    val backButton = BattleBackButton(x - 3F, MinecraftClient.getInstance().window.scaledHeight - 22F)
+    val selectableTargetList = move.target.targetList(request.activePokemon)
+    val multiTargetList = if(selectableTargetList == null) request.activePokemon.getMultiTargetList(move.target) else null
+
     val baseTiles = targets.mapIndexed { index, target ->
-        val isAlly = target.getPNX()[1] == request.activePokemon.getPNX()[1] //TODO Multi-battle
-        val teamSize = request.side?.pokemon?.size ?: 1
-        val fieldPos = if(isAlly) target.getPNX()[2] - 'a' else teamSize - 1 - (target.getPNX()[2] - 'a')
+        val isAlly = target.getPNX()[1] == request.activePokemon.getPNX()[1] //TODO FreeForAlL
+        val teamSize = request.activePokemon.getSidePokemon().count()
+        val fieldPos = if(isAlly) index % teamSize else teamSize - 1 - (index % teamSize)
         val x = this.x + MOVE_HORIZONTAL_SPACING + fieldPos * TARGET_WIDTH
         val y = if (isAlly) this.y + TARGET_HEIGHT + MOVE_VERTICAL_SPACING else this.y.toFloat()
         TargetTile(this, target, x, y)
     }
     var targetTiles = baseTiles
 
-    val backButton = BattleBackButton(x - 3F, MinecraftClient.getInstance().window.scaledHeight - 22F)
 
-    val test = move.target.targetList
-
-    open class TargetTile(
+    open inner class TargetTile(
             val targetSelection: BattleTargetSelection,
             val target: ActiveClientBattlePokemon,
             val x: Float,
             val y: Float,
     ) {
         var moveTemplate = MoveTemplate.dummy(target.battlePokemon?.displayName.toString()) // Moves.getByNameOrDummy(target.id)
+        private val responseTarget = selectableTargetList?.firstOrNull { it.getPNX() == target.getPNX() }?.getPNX()
+        private val isMultiTarget = multiTargetList?.firstOrNull { it.getPNX() == target.getPNX() } != null
+        open val response: MoveActionResponse get() = MoveActionResponse(targetSelection.move.id, responseTarget)
 
-
-        open val response: MoveActionResponse get() = MoveActionResponse(targetSelection.move.id, targetSelection.move.target.targetList(targetSelection.request.activePokemon)?.firstOrNull { it.getPNX() == target.getPNX() }?.getPNX())
-//        open val response: MoveActionResponse get() = MoveActionResponse(targetSelection.move.id, target.getPNX())
-
-
-        open val selectable: Boolean get() = true
+        open val selectable: Boolean get() = isMultiTarget || responseTarget != null
         val hue = target.getHue()
         val rgb = if(target.battlePokemon?.hpValue!!  > 0)
             Triple(((hue shr 16) and 0b11111111) / 255F, ((hue shr 8) and 0b11111111) / 255F, (hue and 0b11111111) / 255F)
             else Triple(0.5f, 0.5f, 0.5f)
 
-        val targetPnx: String get() = target.getPNX()
-
         fun render(context: DrawContext, mouseX: Int, mouseY: Int, delta: Float) {
 
             val selectConditionOpacity = targetSelection.opacity * if (!selectable) 0.5F else 1F
 
-//            val selectable: Boolean get() = move.id.
+//            if(isMultiTarget) {
+//                blitk(
+//                    matrixStack = context.matrices,
+//                    texture = highlightTexture,
+//                    x = x - TARGET_WIDTH * 0.1,
+//                    y = y - TARGET_HEIGHT * 0.1,
+//                    width = TARGET_WIDTH * 1.2,
+//                    height = TARGET_HEIGHT * 1.2,
+//                    red = 1.0f,
+//                    green = 0f,
+//                    blue = 0f,
+//                    alpha = 0.5f
+//                )
+//            }
 
 
             blitk(
@@ -134,7 +145,12 @@ class BattleTargetSelection(
 
         }
 
-        fun isHovered(mouseX: Double, mouseY: Double) = mouseX >= x && mouseX <= x + TARGET_WIDTH && mouseY >= y && mouseY <= y + TARGET_HEIGHT
+        fun isHovered(mouseX: Double, mouseY: Double): Boolean {
+            if(isMultiTarget) {
+                return targetTiles.firstOrNull { it.selectable && mouseX >= it.x && mouseX <= it.x + TARGET_WIDTH && mouseY >= it.y && mouseY <= it.y + TARGET_HEIGHT } != null
+            }
+            return mouseX >= x && mouseX <= x + TARGET_WIDTH && mouseY >= y && mouseY <= y + TARGET_HEIGHT
+        }
 
         fun onClick() {
             if (!selectable) return

@@ -79,6 +79,32 @@ interface Targetable {
             else -> throw IllegalStateException("Battle has more than 6 in the active slot, makes no sense.")
         }
     }
+
+    /*
+     * Gets the list of valid targets for a move that the user is not allowed to select a target
+     * This is needed for the target menu to show the client what targets will be hit in a
+     * multitarget move.
+     */
+    fun getMultiTargetList(targetType: MoveTarget) : List<Targetable>? {
+        return when (targetType) {
+            MoveTarget.any -> null
+            MoveTarget.all -> getAllActivePokemon().toList()
+            MoveTarget.allAdjacent -> getAdjacent()
+            MoveTarget.allAdjacentFoes -> getAdjacentOpponents()
+            MoveTarget.self -> listOf(this)
+            MoveTarget.normal -> null
+            MoveTarget.randomNormal -> listOf(this)
+            MoveTarget.allies -> getAllActivePokemon().filter { it.isAllied(this) }
+            MoveTarget.allySide -> getAllActivePokemon().filter { it.isAllied(this) }
+            MoveTarget.allyTeam -> getAllActivePokemon().filter { it.isAllied(this) }
+            MoveTarget.adjacentAlly -> null
+            MoveTarget.adjacentAllyOrSelf -> null
+            MoveTarget.adjacentFoe -> null
+            MoveTarget.foeSide -> getAllActivePokemon().filter { !it.isAllied(this) }
+            MoveTarget.scripted -> null
+            else -> null
+        }
+    }
 }
 
 enum class MoveTarget(val targetList: (Targetable) -> List<Targetable>? = { null }) {
