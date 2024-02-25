@@ -42,7 +42,7 @@ class ClientPokedex(
         }
         buf.writeInt(globalTrackedData.size)
         globalTrackedData.forEach {
-            GlobalTrackedDataAdapter.bufSerialize(buf, it)
+            it.encode(buf)
         }
     }
 
@@ -113,7 +113,7 @@ class ClientPokedex(
             }
             val numStats = buf.readInt()
             for (i in 1..numStats) {
-                statSet.add(GlobalTrackedDataAdapter.bufDeserialize(buf))
+                statSet.add(GlobalTrackedData.decode(buf))
             }
             val clientPokedex = ClientPokedex(speciesMap, statSet)
             return SetClientPlayerDataPacket(PlayerInstancedDataStoreType.POKEDEX, clientPokedex)

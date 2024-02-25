@@ -64,6 +64,7 @@ import com.cobblemon.mod.common.api.storage.player.PlayerInstancedDataStoreManag
 import com.cobblemon.mod.common.api.storage.player.PlayerInstancedDataStoreType
 import com.cobblemon.mod.common.api.storage.player.adapter.PlayerDataJsonBackend
 import com.cobblemon.mod.common.api.storage.player.adapter.PokedexDataJsonBackend
+import com.cobblemon.mod.common.api.storage.player.adapter.PokedexDataNbtBackend
 import com.cobblemon.mod.common.api.storage.player.factory.CachedPlayerDataStoreFactory
 import com.cobblemon.mod.common.api.tags.CobblemonEntityTypeTags
 import com.cobblemon.mod.common.battles.BagItems
@@ -289,11 +290,11 @@ object Cobblemon {
                     val generalJsonFactory = CachedPlayerDataStoreFactory(PlayerDataJsonBackend())
                     generalJsonFactory.setup(server)
 
-                    val pokedexJsonFactory = CachedPlayerDataStoreFactory(PokedexDataJsonBackend())
-                    pokedexJsonFactory.setup(server)
+                    val pokedexNbtFactory = CachedPlayerDataStoreFactory(PokedexDataNbtBackend())
+                    pokedexNbtFactory.setup(server)
 
                     playerDataManager.setFactory(generalJsonFactory, PlayerInstancedDataStoreType.GENERAL)
-                    playerDataManager.setFactory(pokedexJsonFactory, PlayerInstancedDataStoreType.POKEDEX)
+                    playerDataManager.setFactory(pokedexNbtFactory, PlayerInstancedDataStoreType.POKEDEX)
 
                     if (config.storageFormat == "nbt") {
                         NBTStoreAdapter(pokemonStoreRoot.absolutePath, useNestedFolders = true, folderPerClass = true)

@@ -9,6 +9,9 @@
 
 package com.cobblemon.mod.common.api.pokedex
 
+import com.mojang.serialization.Codec
+import com.mojang.serialization.codecs.PrimitiveCodec
+import com.mojang.serialization.codecs.RecordCodecBuilder
 import net.minecraft.util.StringIdentifiable
 
 /**
@@ -23,5 +26,12 @@ enum class PokedexProgress : StringIdentifiable {
     CAUGHT;
     override fun asString(): String {
         return this.name
+    }
+    companion object {
+        val CODEC: Codec<PokedexProgress> = RecordCodecBuilder.create { instance ->
+            instance.map ({
+                PokedexProgress.valueOf(it)
+            }, PrimitiveCodec.STRING.fieldOf("name").forGetter { it.name })
+        }
     }
 }

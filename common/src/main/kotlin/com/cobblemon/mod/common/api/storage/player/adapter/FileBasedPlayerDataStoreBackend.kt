@@ -23,7 +23,8 @@ import java.util.UUID
  */
 abstract class FileBasedPlayerDataStoreBackend<T : InstancedPlayerData>(
     val subfolder: String,
-    val type: PlayerInstancedDataStoreType
+    val type: PlayerInstancedDataStoreType,
+    val fileExt: String
 ) : PlayerDataStoreBackend<T>(type) {
 
     abstract val defaultData: (UUID) -> (T)
@@ -37,9 +38,9 @@ abstract class FileBasedPlayerDataStoreBackend<T : InstancedPlayerData>(
     //TODO: Set file extension to be a field
     fun getSubFile(uuid: UUID): String {
         return if (useNestedStructure) {
-            "${uuid.toString().substring(0, 2)}/$uuid.json"
+            "${uuid.toString().substring(0, 2)}/$uuid.$fileExt"
         } else {
-            "$uuid.json"
+            "$uuid.$fileExt"
         }
     }
 

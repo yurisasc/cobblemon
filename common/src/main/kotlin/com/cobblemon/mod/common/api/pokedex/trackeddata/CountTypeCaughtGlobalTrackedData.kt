@@ -10,14 +10,19 @@ package com.cobblemon.mod.common.api.pokedex.trackeddata
 
 import com.cobblemon.mod.common.api.events.pokemon.PokemonCapturedEvent
 import com.cobblemon.mod.common.util.cobblemonResource
+import com.mojang.serialization.Codec
+import com.mojang.serialization.codecs.PrimitiveCodec
+import com.mojang.serialization.codecs.RecordCodecBuilder
 import net.minecraft.network.PacketByteBuf
+import net.minecraft.util.Identifier
 
 class CountTypeCaughtGlobalTrackedData(
-    val type: String
+    val type: String,
+    var numOfType:Int = 0
 ) : GlobalTrackedData() {
     @Transient
     override val triggerEvents = setOf(EventTriggerType.CAUGHT, EventTriggerType.EVOLVE, EventTriggerType.TRADE)
-    var numOfType = 0
+
 
     override fun onCatch(event: PokemonCapturedEvent): Boolean {
         if (event.pokemon.species.types.any { it.name == type }) {
@@ -33,7 +38,7 @@ class CountTypeCaughtGlobalTrackedData(
         return result
     }
 
-    override fun encode(buf: PacketByteBuf) {
+    override fun internalEncode(buf: PacketByteBuf) {
         buf.writeString(type)
         buf.writeInt(numOfType)
     }
@@ -47,9 +52,18 @@ class CountTypeCaughtGlobalTrackedData(
         return other == type
     }
 
+    override fun getVariant(): Identifier {
+        return ID
+    }
+
     companion object {
         val ID = cobblemonResource("count_type")
-
+        val CODEC: Codec<CountTypeCaughtGlobalTrackedData> = RecordCodecBuilder.create { instance ->
+            instance.group(
+            PrimitiveCodec.STRING.fieldOf("type").forGetter { it.type },
+            PrimitiveCodec.INT.fieldOf("numOfType").forGetter { it.numOfType }
+            ).apply(instance, ::CountTypeCaughtGlobalTrackedData)
+        }
         fun decode(buf: PacketByteBuf): CountTypeCaughtGlobalTrackedData {
             val type = buf.readString()
             val numOfType = buf.readInt()
