@@ -101,5 +101,17 @@
     "cobblemon:heat_rock",
     "cobblemon:smooth_rock",
     "cobblemon:icy_rock"
+    "cobblemon:life_orb",
+    "cobblemon:toxic_orb",
+    "cobblemon:flame_orb",
+	"cobblemon:white_herb",
+	"cobblemon:smoke_ball",
+	"cobblemon:lucky_egg",
+	"cobblemon:kings_rock",
+	"cobblemon:deep_sea_scale",
+	"cobblemon:deep_sea_tooth",
+	"cobblemon:metal_coat",
+	
+	"#cobblemon:type_gems"
   ]
 }
