@@ -35,6 +35,7 @@ import net.minecraft.entity.data.TrackedData
 import net.minecraft.entity.data.TrackedDataHandlerRegistry
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.entity.projectile.FishingBobberEntity
+import net.minecraft.entity.projectile.ProjectileEntity
 import net.minecraft.entity.projectile.ProjectileUtil
 import net.minecraft.item.ItemStack
 import net.minecraft.loot.context.LootContextParameterSet
@@ -51,6 +52,8 @@ import net.minecraft.sound.SoundCategory
 import net.minecraft.stat.Stats
 import net.minecraft.util.Hand
 import net.minecraft.util.Identifier
+import net.minecraft.util.hit.BlockHitResult
+import net.minecraft.util.hit.EntityHitResult
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.MathHelper
 import net.minecraft.util.math.Vec3d
@@ -402,8 +405,26 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
     }
 
     private fun checkForCollision() {
-        val hitResult = ProjectileUtil.getCollision(this) { entity: Entity? -> this.canHit(entity) }
+        val hitResult = ProjectileUtil.getCollision(this) { entity: Entity -> this.canHit(entity) }
         onCollision(hitResult)
+    }
+
+    override fun canHit(entity: Entity): Boolean {
+        return super.canHit(entity) || entity.isAlive && entity is ItemEntity
+    }
+
+    override fun onEntityHit(entityHitResult: EntityHitResult) {
+        //super.onEntityHit(entityHitResult) // this calls the function in FishingBobberEntity which has null values which causes crash I think
+
+        //        ProjectileEntity.onEntityHit(entityHitResult) // this is protected and cannot be reached
+        if (!world.isClient) {
+            this.updateHookedEntityId(entityHitResult.entity)
+        }
+    }
+
+    override fun onBlockHit(blockHitResult: BlockHitResult) {
+        super.onBlockHit(blockHitResult)
+        this.velocity = velocity.normalize().multiply(blockHitResult.squaredDistanceTo(this))
     }
 
     private fun updateHookedEntityId(entity: Entity?) {
