@@ -328,8 +328,8 @@ class FossilMultiblockStructure (
         tankBaseEntity.masterBlockPos = null
         tankTopEntity.masterBlockPos = null
 
-        // Drop fossils from machine as long as the machine finished or near completion
-        if (this.timeRemaining == TIME_TO_TAKE || this.timeRemaining >= 20) {
+        // Drop fossils from machine as long as the machine is not started or near completion
+        if (this.timeRemaining == -1 || this.timeRemaining >= 20) {
             this.fossilInventory.forEach {
                 val stack = ItemStack(it.item, 1)
                 ItemScatterer.spawn(world, pos.x.toDouble(), pos.y.toDouble(), pos.z.toDouble(), stack)
