@@ -255,7 +255,7 @@ object CobblemonBlocks : PlatformRegistry<Registry<Block>, RegistryKey<Registry<
         RestorationTankBlock(
             AbstractBlock.Settings.create()
                 .mapColor(MapColor.IRON_GRAY)
-                .sounds(BlockSoundGroup.METAL)
+                .sounds(BlockSoundGroup.GLASS)
                 .pistonBehavior(PistonBehavior.BLOCK)
                 .requiresTool()
                 .strength(5.0F, 6.0F)

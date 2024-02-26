@@ -745,19 +745,19 @@ object CobblemonItems : PlatformRegistry<Registry<Item>, RegistryKey<Registry<It
     @JvmField
     val ARMOR_FOSSIL = noSettingsItem("armor_fossil")
     @JvmField
-    val BIRD_FOSSIL = noSettingsItem("bird_fossil")
+    val FOSSILIZED_BIRD = noSettingsItem("fossilized_bird")
     @JvmField
     val CLAW_FOSSIL = noSettingsItem("claw_fossil")
     @JvmField
     val COVER_FOSSIL = noSettingsItem("cover_fossil")
     @JvmField
-    val DINO_FOSSIL = noSettingsItem("dino_fossil")
+    val FOSSILIZED_DINO = noSettingsItem("fossilized_dino")
     @JvmField
     val DOME_FOSSIL = noSettingsItem("dome_fossil")
     @JvmField
-    val DRAKE_FOSSIL = noSettingsItem("drake_fossil")
+    val FOSSILIZED_DRAKE = noSettingsItem("fossilized_drake")
     @JvmField
-    val FISH_FOSSIL = noSettingsItem("fish_fossil")
+    val FOSSILIZED_FISH = noSettingsItem("fossilized_fish")
     @JvmField
     val HELIX_FOSSIL = noSettingsItem("helix_fossil")
     @JvmField
