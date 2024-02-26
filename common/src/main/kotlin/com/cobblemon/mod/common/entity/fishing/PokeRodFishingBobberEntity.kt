@@ -281,7 +281,7 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
                 this.CAUGHT_FISH = false
                 //getDataTracker().set(CAUGHT_FISH, false)
             }
-        } else if (this.fishTravelCountdown > 0) {
+        } else if (this.fishTravelCountdown > 0) { // create a fish trail that leads to the bobber visually
             this.fishTravelCountdown -= i
             if (this.fishTravelCountdown > 0) {
                 var j: Double
