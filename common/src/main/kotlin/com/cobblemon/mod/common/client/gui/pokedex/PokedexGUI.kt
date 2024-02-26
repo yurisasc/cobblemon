@@ -65,9 +65,6 @@ class PokedexGUI private constructor(val pokedex: ClientPokedex) : Screen(Text.t
         }
     }
 
-    private var index = 0
-    private var scrollSlots: MutableList<PokemonScrollSlot> = mutableListOf()
-    private var pokedexSlotSpecies : MutableList<Species?> = mutableListOf()
     private var filteredPokedex : List<Species> = mutableListOf()
     private lateinit var scrollScreen : ScrollWidget
 
@@ -84,26 +81,8 @@ class PokedexGUI private constructor(val pokedex: ClientPokedex) : Screen(Text.t
 
         addDrawableChild(scrollScreen)
 
-        scrollSlots.forEach { remove(it) }
-        scrollSlots.clear()
-
-        for(i in 0 until SCROLL_SLOT_COUNT){
-            scrollSlots.add(
-                PokemonScrollSlot(
-                    x + SPACER,
-                    y + HEADER_HEIGHT + i * SCROLL_SLOT_HEIGHT,
-                    SCROLL_WIDTH - SCROLL_BAR_WIDTH,
-                    SCROLL_SLOT_HEIGHT
-                )
-            )
-
-            addDrawableChild(scrollSlots[i])
-        }
-
-        for(i in 0 until SCROLL_SLOT_COUNT) pokedexSlotSpecies.add(null)
-
         filteredPokedex = filterPokedex()
-        setPokemonInSlots()
+        scrollScreen.setPokemonInSlots(filteredPokedex)
         LOGGER.info(filteredPokedex)
     }
 
@@ -168,18 +147,6 @@ class PokedexGUI private constructor(val pokedex: ClientPokedex) : Screen(Text.t
         )
 
         super.render(context, mouseX, mouseY, delta)
-    }
-
-    fun setPokemonInSlots(){
-        for(i in 0 until SCROLL_SLOT_COUNT){
-            if(i + index < filteredPokedex.size) {
-                pokedexSlotSpecies[i] = filteredPokedex[i + index]
-                //Shouldn't be null due to above line
-                scrollSlots[i].setPokemon(pokedexSlotSpecies[i]!!)
-            } else {
-                scrollSlots[i].removePokemon()
-            }
-        }
     }
 
     fun filterPokedex() : List<Species> {

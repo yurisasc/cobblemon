@@ -26,6 +26,8 @@ class PokemonScrollSlot(val pX: Int, val pY: Int, val pWidth: Int, val pHeight: 
     var pokemonNumber: MutableText = "0".text()
     var pokemonSpecies: Species? = null
 
+
+
     override fun renderButton(context: DrawContext, mouseX: Int, mouseY: Int, delta: Float) {
         if(pokemon == null || pokemonSpecies == null) return
 
@@ -51,27 +53,26 @@ class PokemonScrollSlot(val pX: Int, val pY: Int, val pWidth: Int, val pHeight: 
             context = context,
             text = pokemonNumber,
             x = pX + pHeight,
-            y = pY + pWidth/2,
-            scale = .75F
+            y = pY + pHeight/2
         )
 
-        /*context.enableScissor(
+        context.enableScissor(
             pX,
             pY,
             pX + pHeight,
             pY + pHeight
-        )*/
+        )
 
         matrices.push()
         matrices.translate(
             pX.toDouble() + pHeight.toDouble()/2,
-            pY.toDouble() + pHeight.toDouble()/2,
+            pY.toDouble() + pHeight.toDouble()/2 - 25,
             0.0
         )
 
-        drawPortraitPokemon(pokemonSpecies!!, mutableSetOf(), matrices, partialTicks = 0F)
+        drawPortraitPokemon(pokemonSpecies!!, mutableSetOf(), matrices, partialTicks = 0F, scale=9F)
         matrices.pop()
-        //context.disableScissor()
+        context.disableScissor()
     }
 
     companion object {
@@ -87,8 +88,5 @@ class PokemonScrollSlot(val pX: Int, val pY: Int, val pWidth: Int, val pHeight: 
 
     fun removePokemon(){
         pokemon = null
-    }
-
-    override fun onClick(pMouseX: Double, pMouseY: Double) {
     }
 }

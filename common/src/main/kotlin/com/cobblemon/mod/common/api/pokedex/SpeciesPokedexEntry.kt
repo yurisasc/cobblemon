@@ -11,6 +11,7 @@ package com.cobblemon.mod.common.api.pokedex
 import com.cobblemon.mod.common.api.events.pokemon.PokemonCapturedEvent
 import com.cobblemon.mod.common.api.events.pokemon.TradeCompletedEvent
 import com.cobblemon.mod.common.api.events.pokemon.evolution.EvolutionCompleteEvent
+import com.cobblemon.mod.common.api.events.starter.StarterChosenEvent
 import com.cobblemon.mod.common.api.pokedex.trackeddata.SpeciesTrackedData
 import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.PrimitiveCodec
@@ -67,6 +68,14 @@ class SpeciesPokedexEntry(
             formEntries[formStr]?.knowledge = PokedexProgress.ENCOUNTERED
         }
 
+    }
+
+    fun starterChosen(event: StarterChosenEvent) {
+        val formStr = event.pokemon.form.formOnlyShowdownId()
+        if (!formEntries.containsKey(formStr)) {
+            formEntries[formStr] = FormPokedexEntry()
+        }
+        formEntries[formStr]?.knowledge = PokedexProgress.CAUGHT
     }
 
     companion object {

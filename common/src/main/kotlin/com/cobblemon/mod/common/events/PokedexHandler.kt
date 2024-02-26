@@ -14,6 +14,7 @@ import com.cobblemon.mod.common.api.events.battles.BattleStartedPostEvent
 import com.cobblemon.mod.common.api.events.pokemon.PokemonCapturedEvent
 import com.cobblemon.mod.common.api.events.pokemon.TradeCompletedEvent
 import com.cobblemon.mod.common.api.events.pokemon.evolution.EvolutionCompleteEvent
+import com.cobblemon.mod.common.api.events.starter.StarterChosenEvent
 import com.cobblemon.mod.common.api.storage.player.PlayerInstancedDataStoreType
 import com.cobblemon.mod.common.api.storage.player.adapter.PokedexDataJsonBackend
 import com.cobblemon.mod.common.battles.actor.PokemonBattleActor
@@ -67,5 +68,11 @@ object PokedexHandler {
             pokedex.battleStart(event)
             player.sendPacket(SetClientPlayerDataPacket(PlayerInstancedDataStoreType.POKEDEX, pokedex.toClientData(), false))
         }
+    }
+
+    fun onStarterSelect(event: StarterChosenEvent) {
+        val pokedexData = Cobblemon.playerDataManager.getPokedexData(event.player)
+        pokedexData.onStarterChosen(event)
+        event.player.sendPacket(SetClientPlayerDataPacket(PlayerInstancedDataStoreType.POKEDEX, pokedexData.toClientData(), false))
     }
 }

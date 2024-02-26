@@ -12,6 +12,7 @@ import com.cobblemon.mod.common.api.events.battles.BattleStartedPostEvent
 import com.cobblemon.mod.common.api.events.pokemon.PokemonCapturedEvent
 import com.cobblemon.mod.common.api.events.pokemon.TradeCompletedEvent
 import com.cobblemon.mod.common.api.events.pokemon.evolution.EvolutionCompleteEvent
+import com.cobblemon.mod.common.api.events.starter.StarterChosenEvent
 import com.cobblemon.mod.common.api.pokedex.trackeddata.EventTriggerType
 import com.cobblemon.mod.common.api.pokedex.trackeddata.GlobalTrackedData
 import com.cobblemon.mod.common.api.storage.player.InstancedPlayerData
@@ -132,6 +133,11 @@ class Pokedex(
     fun onPokemonSeen(speciesId: Identifier, formStr: String) {
         val speciesEntry = getSpeciesEntry(speciesId)
         speciesEntry.pokemonSeen(speciesId, formStr)
+    }
+
+    fun onStarterChosen(event: StarterChosenEvent){
+        val speciesEntry = getSpeciesEntry(event.pokemon.species.resourceIdentifier)
+        speciesEntry.starterChosen(event)
     }
 
     //Whenever a particular type of event is called we want to add all the tracked data that might rely on the event
