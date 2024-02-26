@@ -56,7 +56,7 @@ object LootInjector {
         LootTables.STRONGHOLD_CORRIDOR_CHEST,
         LootTables.WOODLAND_MANSION_CHEST,
         LootTables.FISHING_TREASURE_GAMEPLAY,
-            LootTables.FISHING_JUNK_GAMEPLAY
+        LootTables.FISHING_JUNK_GAMEPLAY
     ).apply { addAll(villageHouseLootTables) }
 
     /**
