@@ -39,7 +39,7 @@ class FormArgumentType : ArgumentType<FormData> {
         speciesBeginning++
         val speciesToken = reader.string.substring(speciesBeginning, formTokenBeginning)
         val species = PokemonSpecies.getByName(speciesToken) ?: PokemonSpecies.species.first()
-        val result = species.forms.first { it.formOnlyShowdownId().lowercase() == formToken }
+        val result = species.forms.union(listOf(species.standardForm)).first { it.formOnlyShowdownId().lowercase() == formToken }
         return result
     }
 
