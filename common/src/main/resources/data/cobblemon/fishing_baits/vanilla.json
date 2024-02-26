@@ -3,7 +3,7 @@
 		"item": "minecraft:sweet_berries",
 		"effect": "Bite_Time",
 		"chance": 1.00,
-		"value": 0.10,
-		"note": "Reduces the time it takes to get a nibble by 10%"
+		"value": 0.001,
+		"note": "Reduces the time it takes to get a nibble by .1%"
 	}
 ]
