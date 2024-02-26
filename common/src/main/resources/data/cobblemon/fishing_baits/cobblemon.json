@@ -487,7 +487,7 @@
 		"item": "cobblemon:starf_berry",
 		"effect": "Shiny_Reroll",
 		"chance": 1.0,
-		"value": 8000.0,
+		"value": 1.0,
 		"note": "Raises the odds of a shiny encounter"
 	},
 	{

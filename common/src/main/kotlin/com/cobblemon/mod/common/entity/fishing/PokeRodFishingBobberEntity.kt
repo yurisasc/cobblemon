@@ -1027,7 +1027,7 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
             if (!pokemon.shiny) {
                 //reroll for a shiny using shiny odds
                 val shinyOdds: Int = 8192
-                val randomNumber = kotlin.random.Random.nextInt((FishingBaits.getBaitEffectValue(bait) ?: 0.0).toInt(), shinyOdds + 1)
+                val randomNumber = kotlin.random.Random.nextInt(0, shinyOdds + 1)
 
                 // Check if the random number indicates a shiny Pokemon
                 if (randomNumber <= (FishingBaits.getBaitEffectValue(bait) ?: 0.0).toInt()) {
