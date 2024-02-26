@@ -59,9 +59,6 @@ object TestCommand {
         }
 
         try {
-            //Debug showdown items
-//            val player = context.source.entity as ServerPlayerEntity
-//            player.sendMessage(Text.literal(CobblemonHeldItemManager.showdownId(player.mainHandStack) ?: "none"))
 //            readBerryDataFromCSV()
 
 //            this.testClosestBattle(context)
