@@ -112,6 +112,10 @@
 	"cobblemon:deep_sea_tooth",
 	"cobblemon:metal_coat",
 	
+	"cobblemon:medicinal_leek",
+	"minecraft:bone",
+	"minecraft:snowball",
+	
 	"#cobblemon:type_gems"
   ]
 }
