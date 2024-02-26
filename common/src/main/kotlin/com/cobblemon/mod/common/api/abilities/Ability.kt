@@ -9,6 +9,7 @@
 package com.cobblemon.mod.common.api.abilities
 
 import com.cobblemon.mod.common.api.Priority
+import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.util.DataKeys
 import com.google.gson.JsonObject
 import net.minecraft.nbt.NbtCompound
@@ -21,7 +22,7 @@ import net.minecraft.nbt.NbtCompound
  * @author Qu
  * @since January 9th, 2022
  */
-open class Ability internal constructor(var template: AbilityTemplate, var forced: Boolean) {
+open class Ability internal constructor(var template: AbilityTemplate, forced: Boolean) {
 
     val name: String
         get() = template.name
@@ -34,16 +35,26 @@ open class Ability internal constructor(var template: AbilityTemplate, var force
 
     /**
      * This represents the last known index of this backing ability in the species data.
-     * If -1 the ability will attempt to find the correct index or reroll itself, this is done in order to be compatible with existing data
-     * The value can be mutated however this is not recommended by API users.
+     * @see [Pokemon.updateAbility].
+     */
+    var forced: Boolean = forced
+        internal set
+
+    /**
+     * This represents the last known index of this backing ability in the species data.
+     *
+     * @see [Pokemon.updateAbility].
      */
     var index: Int = -1
+        internal set
 
     /**
      * The last known priority of this ability in the species data.
-     * The value can be mutated however this is not recommended by API users.
+     *
+     * @see [Pokemon.updateAbility].
      */
     var priority = Priority.LOWEST
+        internal set
 
     open fun saveToNBT(nbt: NbtCompound): NbtCompound {
         nbt.putString(DataKeys.POKEMON_ABILITY_NAME, name)
@@ -62,19 +73,23 @@ open class Ability internal constructor(var template: AbilityTemplate, var force
     }
 
     open fun loadFromNBT(nbt: NbtCompound): Ability {
-        forced = nbt.getBoolean(DataKeys.POKEMON_ABILITY_FORCED)
+        this.template = Abilities.getOrException(nbt.getString(DataKeys.POKEMON_ABILITY_NAME))
+        this.forced = nbt.getBoolean(DataKeys.POKEMON_ABILITY_FORCED)
         if (nbt.contains(DataKeys.POKEMON_ABILITY_INDEX) && nbt.contains(DataKeys.POKEMON_ABILITY_PRIORITY)) {
             this.index = nbt.getInt(DataKeys.POKEMON_ABILITY_INDEX)
             this.priority = Priority.valueOf(nbt.getString(DataKeys.POKEMON_ABILITY_PRIORITY))
         }
         return this
     }
+
     open fun loadFromJSON(json: JsonObject): Ability {
-        forced = json.get(DataKeys.POKEMON_ABILITY_FORCED)?.asBoolean ?: false
+        this.template = Abilities.getOrException(json.get(DataKeys.POKEMON_ABILITY_NAME).asString)
+        this.forced = json.get(DataKeys.POKEMON_ABILITY_FORCED)?.asBoolean ?: false
         if (json.has(DataKeys.POKEMON_ABILITY_INDEX) && json.has(DataKeys.POKEMON_ABILITY_PRIORITY)) {
             this.index = json.get(DataKeys.POKEMON_ABILITY_INDEX).asInt
             this.priority = Priority.valueOf(json.get(DataKeys.POKEMON_ABILITY_PRIORITY).asString)
         }
         return this
     }
+
 }

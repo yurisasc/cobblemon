@@ -28,7 +28,6 @@ class AbilityTemplate(
      */
     fun create(forced: Boolean = false) = builder(this, forced)
 
-
     /**
      * Returns the Ability and loads the given NBT Tag into it.
      *
@@ -42,4 +41,5 @@ class AbilityTemplate(
      * Ability extensions need to write and read their needed data from here.
      */
     fun create(json: JsonObject) = create().loadFromJSON(json)
+
 }

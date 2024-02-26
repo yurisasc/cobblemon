@@ -8,6 +8,7 @@
 
 package com.cobblemon.mod.common
 
+import com.cobblemon.mod.common.api.item.ability.AbilityChanger
 import com.cobblemon.mod.common.api.mulch.MulchVariant
 import com.cobblemon.mod.common.api.pokeball.PokeBalls
 import com.cobblemon.mod.common.api.pokemon.Natures
@@ -29,6 +30,7 @@ import com.cobblemon.mod.common.item.berry.PortionHealingBerryItem
 import com.cobblemon.mod.common.item.berry.StatusCuringBerryItem
 import com.cobblemon.mod.common.item.berry.VolatileCuringBerryItem
 import com.cobblemon.mod.common.item.interactive.*
+import com.cobblemon.mod.common.item.interactive.ability.AbilityChangeItem
 import com.cobblemon.mod.common.platform.PlatformRegistry
 import com.cobblemon.mod.common.pokeball.PokeBall
 import com.cobblemon.mod.common.pokemon.helditem.CobblemonHeldItemManager
@@ -529,6 +531,11 @@ object CobblemonItems : PlatformRegistry<Registry<Item>, RegistryKey<Registry<It
     @JvmField val MAX_ETHER = create("max_ether", EtherItem(max = true))
     @JvmField val ELIXIR = create("elixir", ElixirItem(max = false))
     @JvmField val MAX_ELIXIR = create("max_elixir", ElixirItem(max = true))
+
+    @JvmField
+    val ABILITY_CAPSULE = this.create("ability_capsule", AbilityChangeItem(AbilityChanger.COMMON_ABILITY))
+    @JvmField
+    val ABILITY_PATCH = this.create("ability_patch", AbilityChangeItem(AbilityChanger.HIDDEN_ABILITY))
 
     /**
      * Evolution Ores and Stones

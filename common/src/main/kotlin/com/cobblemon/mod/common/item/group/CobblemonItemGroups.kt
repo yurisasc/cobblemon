@@ -332,6 +332,9 @@ object CobblemonItemGroups {
         entries.add(CobblemonItems.JOLLY_MINT)
         entries.add(CobblemonItems.NAIVE_MINT)
         entries.add(CobblemonItems.SERIOUS_MINT)
+
+        entries.add(CobblemonItems.ABILITY_CAPSULE)
+        entries.add(CobblemonItems.ABILITY_PATCH)
     }
 
     private fun evolutionItemEntries(displayContext: DisplayContext, entries: Entries) {
