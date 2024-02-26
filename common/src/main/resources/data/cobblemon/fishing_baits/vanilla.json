@@ -1,6 +1,6 @@
 [
 	{
-		"name": "minecraft:sweet_berry",
+		"item": "minecraft:sweet_berries",
 		"effect": "Bite_Time",
 		"chance": 1.00,
 		"value": 0.10,

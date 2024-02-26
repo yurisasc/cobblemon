@@ -62,6 +62,7 @@ abstract class SpawningCondition<T : SpawningContext> {
     var structures: MutableList<Either<Identifier, TagKey<Structure>>>? = null
     var lureLevel: Int? = null
     var bait: String? = null
+    var rodType: String? = null
 
     @Transient
     var appendages = mutableListOf<AppendageCondition>()
@@ -124,7 +125,14 @@ abstract class SpawningCondition<T : SpawningContext> {
 
             if (Registries.ITEM.getId(pokerodItem?.bait?.item).path != bait)
                 return false
-        } /*else if (ctx is FishingSpawningContext && (ctx as FishingSpawningContext).rodItem != null) { // check if the bait attracts certain EV yields
+        } else if (bait != null && ctx is FishingSpawningContext) { // check for the type of pokerod being used
+            val pokerodItem = (ctx as FishingSpawningContext).rodItem
+
+            if (pokerodItem?.pokeRodId?.path != rodType)
+                return false
+        }
+
+        /*else if (ctx is FishingSpawningContext && (ctx as FishingSpawningContext).rodItem != null) { // check if the bait attracts certain EV yields
             val pokerodItem = (ctx as FishingSpawningContext).rodItem
 
             // todo check if the EV yield of the berry matches the bait EV attract maybe?
