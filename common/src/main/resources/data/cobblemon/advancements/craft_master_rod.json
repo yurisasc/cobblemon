@@ -8,7 +8,8 @@
     },
     "description": {
       "translate": "advancements.cobblemon.craft_master_rod.description"
-    }
+    },
+    "frame": "challenge"
   },
   "parent": "cobblemon:use_bait",
   "criteria": {
