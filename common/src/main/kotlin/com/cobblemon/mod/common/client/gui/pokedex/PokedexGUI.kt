@@ -10,10 +10,8 @@ package com.cobblemon.mod.common.client.gui.pokedex
 import com.cobblemon.mod.common.Cobblemon.LOGGER
 import com.cobblemon.mod.common.api.gui.blitk
 import com.cobblemon.mod.common.api.pokedex.ClientPokedex
-import com.cobblemon.mod.common.api.pokedex.SpeciesPokedexEntry
 import com.cobblemon.mod.common.client.gui.pokedex.widgets.PokemonScrollSlot
 import com.cobblemon.mod.common.client.gui.pokedex.widgets.ScrollWidget
-import com.cobblemon.mod.common.client.render.drawScaledText
 import com.cobblemon.mod.common.client.render.drawScaledTextJustifiedRight
 import com.cobblemon.mod.common.pokemon.Species
 import com.cobblemon.mod.common.util.cobblemonResource
@@ -22,7 +20,6 @@ import net.minecraft.client.MinecraftClient
 import net.minecraft.client.gui.DrawContext
 import net.minecraft.client.gui.screen.Screen
 import net.minecraft.text.Text
-import net.minecraft.util.Identifier
 
 /**
  * Pokedex GUI
@@ -30,7 +27,7 @@ import net.minecraft.util.Identifier
  * @author JPAK
  * @since February 24, 2024
  */
-class Pokedex private constructor(val pokedex: ClientPokedex) : Screen(Text.translatable("cobblemon.ui.pokedex.title")) {
+class PokedexGUI private constructor(val pokedex: ClientPokedex) : Screen(Text.translatable("cobblemon.ui.pokedex.title")) {
 
     companion object {
         const val BASE_WIDTH = 350
@@ -53,7 +50,6 @@ class Pokedex private constructor(val pokedex: ClientPokedex) : Screen(Text.tran
 
         private val baseResource = cobblemonResource("textures/gui/pokedex/pokedex_base.png")// Render Pokedex Background
         private val scrollBackgroundResource = cobblemonResource("textures/gui/pokedex/scroll_base.png")// Render Scroll Background
-        private val scrollSlotResource = cobblemonResource("textures/gui/pokedex/scroll_slot_base.png")// Render Scroll Slot Background
         private val pokemonPortraitBase = cobblemonResource("textures/gui/pokedex/pokemon_portrait.png")// Render Portrait Background
         private val pokemonDescriptionBase = cobblemonResource("textures/gui/pokedex/pokemon_description.png")// Render Description Background
         private val formsBase = cobblemonResource("textures/gui/pokedex/forms_base.png")// Render Form Background
@@ -64,8 +60,7 @@ class Pokedex private constructor(val pokedex: ClientPokedex) : Screen(Text.tran
          */
         fun open(pokedex: ClientPokedex) {
             val mc = MinecraftClient.getInstance()
-            val screen = Pokedex(pokedex)
-            LOGGER.info(pokedex.speciesEntries)
+            val screen = PokedexGUI(pokedex)
             mc.setScreen(screen)
         }
     }
@@ -83,12 +78,33 @@ class Pokedex private constructor(val pokedex: ClientPokedex) : Screen(Text.tran
         val x = (width - BASE_WIDTH) / 2
         val y = (height - BASE_HEIGHT) / 2
 
-        displayScroll(x, y)
+        if (::scrollScreen.isInitialized) remove(scrollScreen)
+
+        scrollScreen = ScrollWidget(x, y)
+
+        addDrawableChild(scrollScreen)
+
+        scrollSlots.forEach { remove(it) }
+        scrollSlots.clear()
+
+        for(i in 0 until SCROLL_SLOT_COUNT){
+            scrollSlots.add(
+                PokemonScrollSlot(
+                    x + SPACER,
+                    y + HEADER_HEIGHT + i * SCROLL_SLOT_HEIGHT,
+                    SCROLL_WIDTH - SCROLL_BAR_WIDTH,
+                    SCROLL_SLOT_HEIGHT
+                )
+            )
+
+            addDrawableChild(scrollSlots[i])
+        }
 
         for(i in 0 until SCROLL_SLOT_COUNT) pokedexSlotSpecies.add(null)
 
         filteredPokedex = filterPokedex()
         setPokemonInSlots()
+        LOGGER.info(filteredPokedex)
     }
 
     override fun render(context: DrawContext, mouseX: Int, mouseY: Int, delta: Float) {
@@ -115,18 +131,6 @@ class Pokedex private constructor(val pokedex: ClientPokedex) : Screen(Text.tran
             width = SCROLL_WIDTH,
             height = SCROLL_HEIGHT
         )
-
-
-        for (i in 0 until SCROLL_SLOT_COUNT){
-            blitk(
-                matrixStack = matrices,
-                texture = scrollSlotResource,
-                x = x + SPACER,
-                y = y + HEADER_HEIGHT + SCROLL_SLOT_HEIGHT*i,
-                width = SCROLL_WIDTH - SCROLL_BAR_WIDTH,
-                height = SCROLL_SLOT_HEIGHT
-            )
-        }
 
         blitk(
             matrixStack = matrices,
@@ -166,23 +170,9 @@ class Pokedex private constructor(val pokedex: ClientPokedex) : Screen(Text.tran
         super.render(context, mouseX, mouseY, delta)
     }
 
-    private fun displayScroll(x: Int, y: Int){
-        if (::scrollScreen.isInitialized) remove(scrollScreen)
-
-        scrollScreen = ScrollWidget(x, y)
-
-        addDrawableChild(scrollScreen)
-
-        scrollSlots.clear()
-        for(i in 0 until SCROLL_SLOT_COUNT){
-            scrollSlots.add(PokemonScrollSlot(x, y + i * SCROLL_SLOT_HEIGHT, SCROLL_WIDTH, SCROLL_SLOT_HEIGHT))
-            addDrawableChild(scrollSlots[i])
-        }
-    }
-
     fun setPokemonInSlots(){
         for(i in 0 until SCROLL_SLOT_COUNT){
-            if(i + index >= filteredPokedex.size) {
+            if(i + index < filteredPokedex.size) {
                 pokedexSlotSpecies[i] = filteredPokedex[i + index]
                 //Shouldn't be null due to above line
                 scrollSlots[i].setPokemon(pokedexSlotSpecies[i]!!)

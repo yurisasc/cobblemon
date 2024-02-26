@@ -9,6 +9,7 @@
 package com.cobblemon.mod.common.api.pokedex
 
 import com.cobblemon.mod.common.Cobblemon
+import com.cobblemon.mod.common.Cobblemon.LOGGER
 import com.cobblemon.mod.common.api.pokedex.adapter.GlobalTrackedDataAdapter
 import com.cobblemon.mod.common.api.pokedex.trackeddata.GlobalTrackedData
 import com.cobblemon.mod.common.api.pokemon.PokemonSpecies
@@ -55,15 +56,16 @@ class ClientPokedex(
 
         val entriesList = mutableListOf<Species>()
         dexList.forEach {namespace ->
-            val speciesInNamespace = PokemonSpecies.getSpeciesInNamespace(namespace)
             val sortedSpeciesMap = TreeMap<Int, Species>()
-            speciesEntries.filter{ speciesIdentifierEntry -> namespace == speciesIdentifierEntry.key.namespace }
-                .forEach{
-                    val species = PokemonSpecies.getByIdentifier(it.key)
-                    if(species != null){
-                        sortedSpeciesMap[species.nationalPokedexNumber] = species
-                    }
+            speciesEntries.filter{
+                namespace == it.key.namespace
+            }.forEach{
+                val species = PokemonSpecies.getByIdentifier(it.key)
+                if(species != null){
+                    sortedSpeciesMap[species.nationalPokedexNumber] = species
                 }
+            }
+            entriesList.addAll(sortedSpeciesMap.values)
         }
 
         return entriesList
