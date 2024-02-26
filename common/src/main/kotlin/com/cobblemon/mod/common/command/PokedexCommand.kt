@@ -51,7 +51,7 @@ object PokedexCommand {
         )
         val revokeCommandBuilder = CommandManager.literal(REVOKE_NAME).then(
             CommandManager.argument("player", EntityArgumentType.player())
-                .then(CommandManager.literal("all")).executes(::executeRemoveAll)
+                .then(CommandManager.literal("all").executes(::executeRemoveAll))
                 .then(CommandManager.literal("only").then(
                     CommandManager.argument("species", SpeciesArgumentType.species()).then(
                         CommandManager.argument("form", FormArgumentType.form()).executes(::executeRemoveOnly)
@@ -74,6 +74,7 @@ object PokedexCommand {
         players.forEach {
             val dex = Cobblemon.playerDataManager.getPokedexData(it)
             dex.grantedWithCommand(species, form)
+            it.sendPacket(SetClientPlayerDataPacket(PlayerInstancedDataStoreType.POKEDEX, dex.toClientData()))
         }
         val selectorStr = if (players.size == 1) players.first().name.string else "${players.size} players"
         context.source.sendMessage(
@@ -88,10 +89,12 @@ object PokedexCommand {
         val form = context.getArgument("form", FormData::class.java)
         players.forEach {
             val dex = Cobblemon.playerDataManager.getPokedexData(it)
+            dex.removedByCommand(species, form)
+            it.sendPacket(SetClientPlayerDataPacket(PlayerInstancedDataStoreType.POKEDEX, dex.toClientData()))
         }
         val selectorStr = if (players.size == 1) players.first().name.string else "${players.size} players"
         context.source.sendMessage(
-            Text.of("Granted ${species.name}-${form.formOnlyShowdownId()} to $selectorStr")
+            Text.of("Removed ${species.name}-${form.formOnlyShowdownId()} from $selectorStr")
         )
         return Command.SINGLE_SUCCESS
     }
@@ -110,8 +113,16 @@ object PokedexCommand {
     }
 
     private fun executeRemoveAll(context: CommandContext<ServerCommandSource>): Int {
-        val player = context.source.playerOrThrow
-        player.sendMessage("@TODO".text())
+        val players = context.getArgument("player", EntitySelector::class.java).getPlayers(context.source)
+        players.forEach {
+            val dex = Cobblemon.playerDataManager.getPokedexData(it)
+            dex.removedByCommand(null, null)
+            it.sendPacket(SetClientPlayerDataPacket(PlayerInstancedDataStoreType.POKEDEX, dex.toClientData()))
+        }
+        val selectorStr = if (players.size == 1) players.first().name.string else "${players.size} players"
+        context.source.sendMessage(
+            Text.of("Cleared dex of $selectorStr")
+        )
         return Command.SINGLE_SUCCESS
     }
 }

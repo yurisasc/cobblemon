@@ -165,8 +165,37 @@ class Pokedex(
         }
     }
 
-    fun removeEntry(species: Species, form: FormData?) {
+    fun removedByCommand(species: Species?, form: FormData?) {
+        if (species != null && form != null) {
+            val speciesEntry = getSpeciesEntry(species.resourceIdentifier)
+            removeEntry(species,  form)
+        }
+        if (species == null) {
+            PokemonSpecies.species.forEach { loopSpecies ->
+                if (loopSpecies.forms.size == 0) {
+                    removeEntry(loopSpecies, loopSpecies.standardForm)
+                }
+                else {
+                    loopSpecies.forms.forEach {
+                        removeEntry(loopSpecies, it)
+                    }
+                }
 
+            }
+        }
+    }
+
+    fun removeEntry(species: Species, form: FormData?) {
+        val speciesEntry = getSpeciesEntry(species.resourceIdentifier)
+        if (form == null) {
+            speciesEntries.remove(species.resourceIdentifier)
+        }
+        else {
+            speciesEntry.formEntries.remove(form.formOnlyShowdownId())
+            if (speciesEntry.formEntries.isEmpty()) {
+                speciesEntries.remove(species.resourceIdentifier)
+            }
+        }
     }
 
     //Whenever a particular type of event is called we want to add all the tracked data that might rely on the event
