@@ -125,7 +125,7 @@ abstract class SpawningCondition<T : SpawningContext> {
 
             if (Registries.ITEM.getId(pokerodItem?.bait?.item).path != bait)
                 return false
-        } else if (bait != null && ctx is FishingSpawningContext) { // check for the type of pokerod being used
+        } else if (rodType != null && ctx is FishingSpawningContext) { // check for the type of pokerod being used
             val pokerodItem = (ctx as FishingSpawningContext).rodItem
 
             if (pokerodItem?.pokeRodId?.path != rodType)

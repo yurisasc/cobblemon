@@ -10,44 +10,37 @@ package com.cobblemon.mod.common.entity.fishing
 
 import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.CobblemonEntities
-import com.cobblemon.mod.common.CobblemonItems
 import com.cobblemon.mod.common.CobblemonSounds
 import com.cobblemon.mod.common.api.fishing.FishingBaits
-import com.cobblemon.mod.common.api.fishing.PokeRods
 import com.cobblemon.mod.common.api.pokemon.Natures
-import com.cobblemon.mod.common.api.pokemon.stats.*
-import com.cobblemon.mod.common.api.properties.CustomPokemonProperty
-import com.cobblemon.mod.common.api.spawning.*
+import com.cobblemon.mod.common.api.spawning.BestSpawner
+import com.cobblemon.mod.common.api.spawning.SpawnBucket
 import com.cobblemon.mod.common.api.spawning.detail.EntitySpawnResult
 import com.cobblemon.mod.common.api.spawning.fishing.FishingSpawnCause
-import com.cobblemon.mod.common.api.text.green
 import com.cobblemon.mod.common.api.text.red
-import com.cobblemon.mod.common.api.types.ElementalType
 import com.cobblemon.mod.common.api.types.ElementalTypes
 import com.cobblemon.mod.common.battles.BattleBuilder
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.item.interactive.PokerodItem
 import com.cobblemon.mod.common.loot.CobblemonLootTables
 import com.cobblemon.mod.common.pokemon.Gender
-import com.cobblemon.mod.common.pokemon.Nature
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.pokemon.abilities.HiddenAbility
-import com.cobblemon.mod.common.pokemon.properties.HiddenAbilityProperty
-import com.cobblemon.mod.common.util.commandLang
 import com.cobblemon.mod.common.util.toBlockPos
 import net.minecraft.advancement.criterion.Criteria
 import net.minecraft.block.Blocks
 import net.minecraft.entity.*
 import net.minecraft.entity.data.DataTracker
+import net.minecraft.entity.data.TrackedData
 import net.minecraft.entity.data.TrackedDataHandlerRegistry
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.entity.projectile.FishingBobberEntity
 import net.minecraft.entity.projectile.ProjectileUtil
-import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
 import net.minecraft.loot.context.LootContextParameterSet
 import net.minecraft.loot.context.LootContextParameters
 import net.minecraft.loot.context.LootContextTypes
+import net.minecraft.particle.DefaultParticleType
 import net.minecraft.particle.ParticleTypes
 import net.minecraft.registry.Registries
 import net.minecraft.registry.tag.FluidTags
@@ -55,8 +48,6 @@ import net.minecraft.registry.tag.ItemTags
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.sound.SoundCategory
-import net.minecraft.sound.SoundEvents
-import net.minecraft.stat.*
 import net.minecraft.stat.Stats
 import net.minecraft.util.Hand
 import net.minecraft.util.Identifier
@@ -70,7 +61,7 @@ import kotlin.math.sqrt
 class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity>, world: World) : FishingBobberEntity(type, world) {
 
     private val velocityRandom = Random.create()
-    private val caughtFish = false
+    private var caughtFish = false
     private var outOfOpenWaterTicks = 0
 
     // todo is this needed?
@@ -78,8 +69,8 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
     //private val CAUGHT_FISH = DataTracker.registerData(PokeRodFishingBobberEntity::class.java, TrackedDataHandlerRegistry.BOOLEAN)
 
     // todo if so replace these later
-    var HOOK_ENTITY_ID = 0
-    var CAUGHT_FISH = false
+    //var HOOK_ENTITY_ID = 0
+    //var CAUGHT_FISH = false
 
     private var removalTimer = 0
     private var hookCountdown = 0
@@ -107,6 +98,9 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
         this.bobberBait = bait
         dataTracker.set(POKEROD_ID, pokeRodId.toString() ?: "")
         dataTracker.set(POKEBOBBER_BAIT, bobberBait ?: ItemStack.EMPTY)
+        dataTracker.set(HOOK_ENTITY_ID, 0)
+        dataTracker.set(CAUGHT_FISH, false)
+
         this.usedRod = pokeRodId
 
 
@@ -131,8 +125,26 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
     }
 
     override fun initDataTracker() {
+        this.dataTracker.startTracking(HOOK_ENTITY_ID, 0)
+        this.dataTracker.startTracking(CAUGHT_FISH, false)
         this.dataTracker.startTracking(POKEROD_ID, pokeRodId.toString() ?: "")
         this.dataTracker.startTracking(POKEBOBBER_BAIT, bobberBait ?: ItemStack.EMPTY)
+    }
+
+    override fun onTrackedDataSet(data: TrackedData<*>) {
+        if (HOOK_ENTITY_ID == data) {
+            val i = getDataTracker().get(HOOK_ENTITY_ID) as Int
+            this.hookedEntity = if (i > 0) world.getEntityById(i - 1) else null
+        }
+
+        if (CAUGHT_FISH == data) {
+            this.caughtFish = (getDataTracker().get(CAUGHT_FISH) as Boolean)
+            if (this.caughtFish) {
+                this.setVelocity(velocity.x, (-0.4f * MathHelper.nextFloat(this.velocityRandom, 0.6f, 1.0f)).toDouble(), velocity.z)
+            }
+        }
+
+        super.onTrackedDataSet(data)
     }
 
     fun calculateMinMaxCountdown(weight: Float): Pair<Int, Int> {
@@ -278,28 +290,31 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
             if (this.hookCountdown <= 0) {
                 this.waitCountdown = 0
                 this.fishTravelCountdown = 0
-                this.CAUGHT_FISH = false
-                //getDataTracker().set(CAUGHT_FISH, false)
+                //this.CAUGHT_FISH = false
+                getDataTracker().set(CAUGHT_FISH, false)
             }
         } else if (this.fishTravelCountdown > 0) { // create a fish trail that leads to the bobber visually
             this.fishTravelCountdown -= i
             if (this.fishTravelCountdown > 0) {
-                var j: Double
-                var e: Double
                 this.fishAngle += random.nextTriangular(0.0, 9.188).toFloat()
                 val f = this.fishAngle * (Math.PI.toFloat() / 180)
                 val g = MathHelper.sin(f)
                 val h = MathHelper.cos(f)
-                val d = this.x + (g * this.fishTravelCountdown.toFloat() * 0.1f).toDouble()
-                val blockState = serverWorld.getBlockState(BlockPos.ofFloored(d, (MathHelper.floor(this.y).toFloat() + 1.0f).toDouble().also { e = it } - 1.0, this.z + (h * this.fishTravelCountdown.toFloat() * 0.1f).toDouble().also { j = it }))
+                val offsetX = this.x + (g * this.fishTravelCountdown.toFloat() * 0.1f).toDouble()
+                val offsetY = (MathHelper.floor(this.y).toFloat() + 1.0f).toDouble()
+                val j = this.z + (h * this.fishTravelCountdown.toFloat() * 0.1f).toDouble()
+                val blockState = serverWorld.getBlockState(BlockPos.ofFloored(offsetX, offsetY - 1.0, j))
+                //val blockState = serverWorld.getBlockState(BlockPos.ofFloored(offsetX, (MathHelper.floor(this.y).toFloat() + 1.0f).toDouble().also { offsetY = it } - 1.0, this.z + (h * this.fishTravelCountdown.toFloat() * 0.1f).toDouble().also { j = it }))
                 if (blockState.isOf(Blocks.WATER)) {
                     if (random.nextFloat() < 0.15f) {
-                        serverWorld.spawnParticles(ParticleTypes.BUBBLE, d, e - 0.1, j, 1, g.toDouble(), 0.1, h.toDouble(), 0.0)
+                        //serverWorld.spawnParticles(ParticleTypes.BUBBLE, this.x, this.y, this.z, 3, g.toDouble(), 0.1, h.toDouble(), 0.0)
+                        serverWorld.spawnParticles(ParticleTypes.BUBBLE, offsetX, offsetY - 0.1, j, 1, g.toDouble(), 0.1, h.toDouble(), 0.0)
                     }
                     val k = g * 0.04f
                     val l = h * 0.04f
-                    serverWorld.spawnParticles(ParticleTypes.FISHING, d, e, j, 0, l.toDouble(), 0.01, -k.toDouble(), 1.0)
-                    serverWorld.spawnParticles(ParticleTypes.FISHING, d, e, j, 0, -l.toDouble(), 0.01, k.toDouble(), 1.0)
+                    println("offsetX: $offsetX, offsetY: $offsetY, j: $j")
+                    serverWorld.spawnParticles(ParticleTypes.FISHING, offsetX, offsetY, j, 0, l.toDouble(), 0.01, -k.toDouble(), 1.0)
+                    serverWorld.spawnParticles(ParticleTypes.FISHING, offsetX, offsetY, j, 0, -l.toDouble(), 0.01, k.toDouble(), 1.0)
                 }
             } else {
                 //playSound(SoundEvents.ENTITY_FISHING_BOBBER_SPLASH, 0.25f, 1.0f + (random.nextFloat() - random.nextFloat()) * 0.4f)
@@ -334,8 +349,8 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
                 }
 
                 //this.hookCountdown = MathHelper.nextInt(random, 20, 40)
-                //getDataTracker().set(CAUGHT_FISH, true)
-                this.CAUGHT_FISH = true
+                getDataTracker().set(CAUGHT_FISH, true)
+                //this.CAUGHT_FISH = true
             }
         } else if (this.waitCountdown > 0) {
             this.waitCountdown -= i
@@ -348,14 +363,14 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
                 f += (60 - this.waitCountdown).toFloat() * 0.01f
             }
             if (random.nextFloat() < f) {
-                var j: Double
-                var e: Double
-                val g = MathHelper.nextFloat(random, 0.0f, 360.0f) * (Math.PI.toFloat() / 180)
-                val h = MathHelper.nextFloat(random, 25.0f, 60.0f)
-                val d = this.x + (MathHelper.sin(g) * h).toDouble() * 0.1
-                val blockState = serverWorld.getBlockState(BlockPos.ofFloored(d, (MathHelper.floor(this.y).toFloat() + 1.0f).toDouble().also { e = it } - 1.0, this.z + (MathHelper.cos(g) * h).toDouble() * 0.1.also { j = it }))
+                val g = MathHelper.nextFloat(this.random, 0.0f, 360.0f) * 0.017453292f
+                val h = MathHelper.nextFloat(this.random, 25.0f, 60.0f)
+                val d = this.x + (MathHelper.sin(g) * h).toDouble() * 0.1 // X
+                val e = (MathHelper.floor(this.y).toFloat() + 1.0f).toDouble() // Y
+                val j = this.z + (MathHelper.cos(g) * h).toDouble() * 0.1 // randomized Z value
+                val blockState = serverWorld.getBlockState(BlockPos.ofFloored(d, e - 1.0, j))
                 if (blockState.isOf(Blocks.WATER)) {
-                    serverWorld.spawnParticles(ParticleTypes.SPLASH, d, e, j, 2 + random.nextInt(2), 0.1, 0.0, 0.1, 0.0)
+                    serverWorld.spawnParticles<DefaultParticleType>(ParticleTypes.SPLASH, d, e, j, 2 + random.nextInt(2), 0.10000000149011612, 0.0, 0.10000000149011612, 0.0)
                 }
             }
             if (this.waitCountdown <= 0) {
@@ -393,8 +408,8 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
 
     private fun updateHookedEntityId(entity: Entity?) {
         this.hookedEntity = entity
-        //getDataTracker().set(HOOK_ENTITY_ID, if (entity == null) 0 else entity.id + 1)
-        this.HOOK_ENTITY_ID = if (entity == null) 0 else entity.id + 1
+        getDataTracker().set(HOOK_ENTITY_ID, if (entity == null) 0 else entity.id + 1)
+        //this.HOOK_ENTITY_ID = if (entity == null) 0 else entity.id + 1
     }
 
     override fun tick() {
@@ -530,6 +545,7 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
                     val h = MathHelper.nextFloat(random, 25.0f, 60.0f)
                     val partX = this.x + (MathHelper.sin(g) * h).toDouble() * 0.1
                     serverWorld.spawnParticles(ParticleTypes.SPLASH, partX, this.y, this.z, 4 + random.nextInt(4), 0.1, 0.0, 0.1, 0.0)
+
                     playerEntity.getWorld().spawnEntity(ExperienceOrbEntity(playerEntity.getWorld(), playerEntity.getX(), playerEntity.getY() + 0.5, playerEntity.getZ() + 0.5, random.nextInt(6) + 1))
                 }
             }
@@ -591,7 +607,7 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
                 }
 
 
-                if (spawnedPokemon.pokemon.species.weight.toDouble() < 200.0) { // if weight value of Pokemon is less than 200 then reel it in to the player
+                if (spawnedPokemon.pokemon.species.weight.toDouble() < 900.0) { // if weight value of Pokemon is less than 200 lbs (in hectograms) which we store weight as) then reel it in to the player
                     // play sound for small splash when this weight class is fished up
                     world.playSound(null, this.blockPos, CobblemonSounds.FISHING_SPLASH_SMALL_1, SoundCategory.BLOCKS, 1.0F, 1.0F)
                     //world.playSound(null, this.blockPos, CobblemonSounds.FISHING_SPLASH_SMALL_2, SoundCategory.BLOCKS, 1.0F, 1.0F)
@@ -898,11 +914,11 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
     fun alterNatureAttempt(pokemon: Pokemon, bait: ItemStack) {
         // natures for each stat
         val attNaturesIds = listOf(Natures.LONELY, Natures.ADAMANT, Natures.NAUGHTY, Natures.BRAVE)
-        val spaNaturesIds = listOf(Natures.MODEST, Natures.MILD, Natures.RASH, Natures.QUIET, )
-        val defNaturesIds = listOf(Natures.BOLD, Natures.IMPISH, Natures.LAX, Natures.RELAXED, )
-        val spdNaturesIds = listOf(Natures.CALM, Natures.GENTLE, Natures.CAREFUL, Natures.SASSY, )
-        val speNaturesIds = listOf(Natures.TIMID, Natures.HASTY, Natures.JOLLY, Natures.NAIVE, )
-        val neutralNaturesIds = listOf(Natures.HARDY, Natures.DOCILE, Natures.BASHFUL, Natures.QUIRKY, Natures.SERIOUS, )
+        val spaNaturesIds = listOf(Natures.MODEST, Natures.MILD, Natures.RASH, Natures.QUIET)
+        val defNaturesIds = listOf(Natures.BOLD, Natures.IMPISH, Natures.LAX, Natures.RELAXED)
+        val spdNaturesIds = listOf(Natures.CALM, Natures.GENTLE, Natures.CAREFUL, Natures.SASSY)
+        val speNaturesIds = listOf(Natures.TIMID, Natures.HASTY, Natures.JOLLY, Natures.NAIVE)
+        val neutralNaturesIds = listOf(Natures.HARDY, Natures.DOCILE, Natures.BASHFUL, Natures.QUIRKY, Natures.SERIOUS)
 
         if (FishingBaits.getBaitSubcategory(bait) == "Att" && checkBaitSuccessRate(FishingBaits.getBaitSuccessChance(bait) ?: 0.0)) // it is for Attack
             pokemon.nature = attNaturesIds.random() // choose a random nature from the list
@@ -1045,5 +1061,7 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
     companion object {
         val POKEROD_ID = DataTracker.registerData(PokeRodFishingBobberEntity::class.java, TrackedDataHandlerRegistry.STRING)
         val POKEBOBBER_BAIT = DataTracker.registerData(PokeRodFishingBobberEntity::class.java, TrackedDataHandlerRegistry.ITEM_STACK)
+        val HOOK_ENTITY_ID = DataTracker.registerData(PokeRodFishingBobberEntity::class.java, TrackedDataHandlerRegistry.INTEGER)
+        private val CAUGHT_FISH = DataTracker.registerData(PokeRodFishingBobberEntity::class.java, TrackedDataHandlerRegistry.BOOLEAN)
     }
 }
