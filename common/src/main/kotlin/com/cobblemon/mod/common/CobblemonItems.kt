@@ -29,6 +29,7 @@ import com.cobblemon.mod.common.item.berry.PortionHealingBerryItem
 import com.cobblemon.mod.common.item.berry.StatusCuringBerryItem
 import com.cobblemon.mod.common.item.berry.VolatileCuringBerryItem
 import com.cobblemon.mod.common.item.interactive.*
+import com.cobblemon.mod.common.item.interactive.PotionItem
 import com.cobblemon.mod.common.platform.PlatformRegistry
 import com.cobblemon.mod.common.pokeball.PokeBall
 import com.cobblemon.mod.common.pokemon.helditem.CobblemonHeldItemManager
@@ -37,14 +38,7 @@ import net.minecraft.block.Block
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.effect.StatusEffectInstance
 import net.minecraft.entity.effect.StatusEffects
-import net.minecraft.item.BlockItem
-import net.minecraft.item.FoodComponent
-import net.minecraft.item.HangingSignItem
-import net.minecraft.item.Item
-import net.minecraft.item.ItemStack
-import net.minecraft.item.SignItem
-import net.minecraft.item.SmithingTemplateItem
-import net.minecraft.item.StewItem
+import net.minecraft.item.*
 import net.minecraft.registry.Registries
 import net.minecraft.registry.Registry
 import net.minecraft.registry.RegistryKey
@@ -269,6 +263,8 @@ object CobblemonItems : PlatformRegistry<Registry<Item>, RegistryKey<Registry<It
     @JvmField val RIBBON_SWEET = noSettingsItem("ribbon_sweet")
     @JvmField val CHIPPED_POT = noSettingsItem("chipped_pot")
     @JvmField val CRACKED_POT = noSettingsItem("cracked_pot")
+    @JvmField val MASTERPIECE_TEACUP = noSettingsItem("masterpiece_teacup")
+    @JvmField val UNREMARKABLE_TEACUP = noSettingsItem("unremarkable_teacup")
     @JvmField val SWEET_APPLE = noSettingsItem("sweet_apple")
     @JvmField val TART_APPLE = noSettingsItem("tart_apple")
     @JvmField val GALARICA_CUFF = noSettingsItem("galarica_cuff")
@@ -392,7 +388,7 @@ object CobblemonItems : PlatformRegistry<Registry<Item>, RegistryKey<Registry<It
     @JvmField
     val CLEVER_FEATHER = create("clever_feather", FeatherItem(Stats.SPECIAL_DEFENCE))
     @JvmField
-    val MEDICINAL_LEEK = create("medicinal_leek", MedicinalLeekItem(CobblemonBlocks.MEDICINAL_LEEK, Item.Settings().food(FoodComponent.Builder().snack().hunger(1).saturationModifier(0.2f).build())))
+    val MEDICINAL_LEEK = heldItem("medicinal_leek", MedicinalLeekItem(CobblemonBlocks.MEDICINAL_LEEK, Item.Settings().food(FoodComponent.Builder().snack().hunger(1).saturationModifier(0.2f).build())), "leek")
     @JvmField
     val ROASTED_LEEK = create("roasted_leek", Item(Item.Settings().food(FoodComponent.Builder().snack().hunger(3).saturationModifier(0.3f).build())))
     @JvmField
@@ -979,6 +975,16 @@ object CobblemonItems : PlatformRegistry<Registry<Item>, RegistryKey<Registry<It
         CobblemonItem(Item.Settings()).also {
             if (remappedName != null) {
                 CobblemonHeldItemManager.registerRemap(it, remappedName)
+            }
+        }
+    )
+    private fun heldItem(name: String, item: Item, remappedName: String? = null) = create(
+        name = name,
+        entry = item.also {
+            if (remappedName != null) {
+                CobblemonHeldItemManager.registerRemap(it, remappedName)
+                CobblemonHeldItemManager.registerRemap(Items.BONE, "thickclub")
+                CobblemonHeldItemManager.registerRemap(Items.SNOWBALL, "snowball")
             }
         }
     )

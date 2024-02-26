@@ -378,6 +378,8 @@ object CobblemonItemGroups {
         entries.add(CobblemonItems.SWEET_APPLE)
         entries.add(CobblemonItems.CRACKED_POT)
         entries.add(CobblemonItems.CHIPPED_POT)
+        entries.add(CobblemonItems.MASTERPIECE_TEACUP)
+        entries.add(CobblemonItems.UNREMARKABLE_TEACUP)
         entries.add(CobblemonItems.STRAWBERRY_SWEET)
         entries.add(CobblemonItems.LOVE_SWEET)
         entries.add(CobblemonItems.BERRY_SWEET)
@@ -450,6 +452,10 @@ object CobblemonItemGroups {
         entries.add(CobblemonItems.TWISTED_SPOON)
         entries.add(CobblemonItems.WHITE_HERB)
         entries.add(CobblemonItems.WISE_GLASSES)
+
+        entries.add(CobblemonItems.MEDICINAL_LEEK)
+        entries.add(Items.BONE)
+        entries.add(Items.SNOWBALL)
 
         entries.add(CobblemonItems.NORMAL_GEM)
         entries.add(CobblemonItems.FIRE_GEM)
