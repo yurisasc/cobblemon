@@ -33,8 +33,6 @@ class ClientPokedex(
     val globalTrackedData: MutableSet<GlobalTrackedData>,
 ) : ClientInstancedPlayerData(false) {
 
-    val sortedEntriesList = getSortedEntries()
-
     override fun encode(buf: PacketByteBuf) {
         buf.writeInt(speciesEntries.size)
         speciesEntries.forEach {
@@ -47,29 +45,33 @@ class ClientPokedex(
         }
     }
 
-    fun getSortedEntries() : List<Species> {
+    fun getSortedEntries() : List<Pair<Species, SpeciesPokedexEntry?>> {
         val dexList = PokemonSpecies.getNamespaces().toMutableList()
 
         //Moves Cobblemon MODID to the front, so it sorts by default mons first
         dexList.remove(Cobblemon.MODID)
         dexList.add(0, Cobblemon.MODID)
 
-        val entriesList = mutableListOf<Species>()
+        val entriesList = mutableListOf<Pair<Species, SpeciesPokedexEntry?>>()
         dexList.forEach {namespace ->
-            val sortedSpeciesMap = TreeMap<Int, Species>()
-            speciesEntries.filter{
-                namespace == it.key.namespace
-            }.forEach{
-                val species = PokemonSpecies.getByIdentifier(it.key)
-                if(species != null){
-                    sortedSpeciesMap[species.nationalPokedexNumber] = species
+            val sortedEntriesMap = TreeMap<Int, Pair<Species, SpeciesPokedexEntry?>>()
+            PokemonSpecies.getSpeciesInNamespace(namespace).filter{ it.value.implemented }.forEach {
+                var species = it.value
+                if(speciesEntries.containsKey(species.resourceIdentifier)){
+                    sortedEntriesMap[species.nationalPokedexNumber] = Pair(species, speciesEntries[species.resourceIdentifier])
+                } else {
+                    sortedEntriesMap[species.nationalPokedexNumber] = Pair(species, null)
                 }
             }
-            entriesList.addAll(sortedSpeciesMap.values)
+
+
+            entriesList.addAll(sortedEntriesMap.values)
         }
 
         return entriesList
     }
+
+
 
     companion object {
         fun encodeSpeciesEntry(buf: PacketByteBuf, speciesEntry: SpeciesPokedexEntry) {

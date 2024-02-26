@@ -10,7 +10,7 @@ package com.cobblemon.mod.common.client.gui.pokedex
 import com.cobblemon.mod.common.Cobblemon.LOGGER
 import com.cobblemon.mod.common.api.gui.blitk
 import com.cobblemon.mod.common.api.pokedex.ClientPokedex
-import com.cobblemon.mod.common.client.gui.pokedex.widgets.PokemonScrollSlot
+import com.cobblemon.mod.common.api.pokedex.SpeciesPokedexEntry
 import com.cobblemon.mod.common.client.gui.pokedex.widgets.ScrollWidget
 import com.cobblemon.mod.common.client.render.drawScaledTextJustifiedRight
 import com.cobblemon.mod.common.pokemon.Species
@@ -65,8 +65,9 @@ class PokedexGUI private constructor(val pokedex: ClientPokedex) : Screen(Text.t
         }
     }
 
-    private var filteredPokedex : List<Species> = mutableListOf()
-    private lateinit var scrollScreen : ScrollWidget
+    private var filteredPokedex : List<Pair<Species, SpeciesPokedexEntry?>> = mutableListOf()
+    private lateinit var scrollScreen : ScrollWidget<ScrollWidget.PokemonScrollSlot>
+    private var selectedPokemon : Pair<Species, SpeciesPokedexEntry?>? = null
 
     public override fun init() {
         super.init()
@@ -77,12 +78,12 @@ class PokedexGUI private constructor(val pokedex: ClientPokedex) : Screen(Text.t
 
         if (::scrollScreen.isInitialized) remove(scrollScreen)
 
-        scrollScreen = ScrollWidget(x, y)
+        scrollScreen = ScrollWidget(x + SPACER, y + HEADER_HEIGHT) { setSelectedPokemon(it) }
 
         addDrawableChild(scrollScreen)
 
         filteredPokedex = filterPokedex()
-        scrollScreen.setPokemonInSlots(filteredPokedex)
+        scrollScreen.createEntries(filteredPokedex)
         LOGGER.info(filteredPokedex)
     }
 
@@ -149,8 +150,12 @@ class PokedexGUI private constructor(val pokedex: ClientPokedex) : Screen(Text.t
         super.render(context, mouseX, mouseY, delta)
     }
 
-    fun filterPokedex() : List<Species> {
-        return pokedex.sortedEntriesList
+    fun filterPokedex() : List<Pair<Species, SpeciesPokedexEntry?>> {
+        return pokedex.getSortedEntries()
+    }
+
+    fun setSelectedPokemon(entry : Pair<Species, SpeciesPokedexEntry?>){
+        selectedPokemon = entry
     }
 
     override fun shouldPause(): Boolean = true

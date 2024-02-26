@@ -202,7 +202,11 @@ fun drawPortraitPokemon(
     scale: Float = 13F,
     reversed: Boolean = false,
     state: PoseableEntityState<PokemonEntity>? = null,
-    partialTicks: Float
+    partialTicks: Float,
+    r: Float = 1F,
+    g: Float = 1F,
+    b: Float = 1F,
+    a: Float = 1F
 ) {
     val model = PokemonModelRepository.getPoser(species.resourceIdentifier, aspects)
     val texture = PokemonModelRepository.getTexture(species.resourceIdentifier, aspects, state?.animationSeconds ?: 0F)
@@ -249,7 +253,7 @@ fun drawPortraitPokemon(
     val packedLight = LightmapTextureManager.pack(11, 7)
 
     model.withLayerContext(immediate, state, PokemonModelRepository.getLayers(species.resourceIdentifier, aspects)) {
-        model.render(context, matrixStack, buffer, packedLight, OverlayTexture.DEFAULT_UV, 1F, 1F, 1F, 1F)
+        model.render(context, matrixStack, buffer, packedLight, OverlayTexture.DEFAULT_UV, r, g, b, a)
         immediate.draw()
     }
 

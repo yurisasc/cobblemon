@@ -540,6 +540,8 @@
   "cobblemon.ui.interact.battle": "Battle",
   "cobblemon.ui.interact.mount.shoulder": "Shoulder",
 
+  "cobblemon.ui.pokedex.unknown": "???",
+
   "key.cobblemon.upshiftparty": "Party Shift Up",
   "key.cobblemon.downshiftparty": "Party Shift Down",
   "key.cobblemon.hideparty": "Hide Party Overlay",
