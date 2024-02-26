@@ -545,9 +545,9 @@ abstract class PoseableEntityModel<T : Entity>(
                     consumer,
                     packedLight,
                     getOverlayTexture(context.request(RenderContext.ENTITY)) ?: packedOverlay,
-                    layer.tint.x,
-                    layer.tint.y,
-                    layer.tint.z,
+                    layer.tint.x * r,
+                    layer.tint.y * g,
+                    layer.tint.z * b,
                     layer.tint.w
                 )
                 stack.pop()
