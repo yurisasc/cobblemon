@@ -22,7 +22,7 @@
 - Added simple move animations for Pokémon in battle with a proof of concept for more complicated animations.
 - Added Type Gems. 
 - Added various new tags for searchability and better compatibility.
-- Added the [Ability Capsule](https://bulbapedia.bulbagarden.net/wiki/Ability_Capsule) and [Patch](https://bulbapedia.bulbagarden.net/wiki/Ability_Patch).
+- Added the [Ability Capsule](https://bulbapedia.bulbagarden.net/wiki/Ability_Capsule) and [Patch](https://bulbapedia.bulbagarden.net/wiki/Ability_Patch), these have no acquisition method for now and only work as intended with the traditional ability format of 1 to 2 common abilities and 1 hidden ability.
 
 ### Changes
 - Pokémon now transition more smoothly between different poses.
