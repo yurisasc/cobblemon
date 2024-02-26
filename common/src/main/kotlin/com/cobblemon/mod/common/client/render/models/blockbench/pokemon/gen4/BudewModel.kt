@@ -19,8 +19,8 @@ import net.minecraft.util.math.Vec3d
 class BudewModel (root: ModelPart) : PokemonPoseableModel(), BipedFrame {
     override val rootPart = root.registerChildWithAllChildren("budew")
 
-    override val leftLeg = getPart("left_upper_leg")
-    override val rightLeg = getPart("right_upper_leg")
+    override val leftLeg = getPart("left_leg")
+    override val rightLeg = getPart("right_leg")
 
     override val portraitScale = 2.6F
     override val portraitTranslation = Vec3d(-0.35, 1.9, 0.0)

@@ -9,6 +9,7 @@
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1
 
 import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cobblemon.mod.common.entity.PoseType
@@ -30,19 +31,26 @@ class DiglettModel(root: ModelPart) : PokemonPoseableModel() {
 
     lateinit var stand: PokemonPose
     lateinit var walk: PokemonPose
+    lateinit var battleidle: PokemonPose
     lateinit var sleep: PokemonPose
+
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("diglett", "cry") }
+
     override fun registerPoses() {
         val blink = quirk { bedrockStateful("diglett", "blink")}
+        val quirk = quirk { bedrockStateful("diglett", "quirk_idle")}
+
+        sleep = registerPose(
+            poseName = "sleep",
+            poseType = PoseType.SLEEP,
+            idleAnimations = arrayOf(bedrock("diglett", "sleep"))
+        )
+
         stand = registerPose(
             poseName = "stand",
             poseTypes = STATIONARY_POSES + UI_POSES,
-            quirks = arrayOf(blink),
+            quirks = arrayOf(blink, quirk),
             idleAnimations = arrayOf(bedrock("diglett", "ground_idle"))
-        )
-
-        sleep = registerPose(
-                poseType = PoseType.SLEEP,
-                idleAnimations = arrayOf(bedrock("diglett", "sleep"))
         )
 
         walk = registerPose(
@@ -50,6 +58,13 @@ class DiglettModel(root: ModelPart) : PokemonPoseableModel() {
             poseTypes = MOVING_POSES,
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(bedrock("diglett", "ground_walk"))
+        )
+
+        battleidle = registerPose(
+            poseName = "battleidle",
+            poseTypes = STATIONARY_POSES,
+            quirks = arrayOf(blink, quirk),
+            idleAnimations = arrayOf(bedrock("diglett", "battle_idle"))
         )
     }
 

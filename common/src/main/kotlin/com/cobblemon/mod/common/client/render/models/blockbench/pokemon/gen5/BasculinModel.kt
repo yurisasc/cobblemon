@@ -8,9 +8,13 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen5
 
+import com.cobblemon.mod.common.client.render.models.blockbench.animation.WaveAnimation
+import com.cobblemon.mod.common.client.render.models.blockbench.animation.WaveSegment
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.pose.ModelPartTransformation
+import com.cobblemon.mod.common.client.render.models.blockbench.wavefunction.sineFunction
 import com.cobblemon.mod.common.entity.PoseType.Companion.MOVING_POSES
 import com.cobblemon.mod.common.entity.PoseType.Companion.STATIONARY_POSES
 import com.cobblemon.mod.common.entity.PoseType.Companion.UI_POSES
@@ -29,6 +33,10 @@ class BasculinModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
+
+    val tail = getPart("tail_fin")
+
+    val wtail = WaveSegment(tail, 7F)
 
     override fun registerPoses() {
         val blink = quirk { bedrockStateful("basculin", "blink") }
@@ -49,7 +57,23 @@ class BasculinModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
-                bedrock("basculin", "water_idle")
+                bedrock("basculin", "water_idle"),
+                WaveAnimation(
+                    frame = this,
+                    waveFunction = sineFunction(
+                        period = 8F,
+                        amplitude = 0.4F
+                    ),
+                    basedOnLimbSwing = true,
+                    oscillationsScalar = 8F,
+                    head = head,
+                    rotationAxis = ModelPartTransformation.Y_AXIS,
+                    motionAxis = ModelPartTransformation.X_AXIS,
+                    headLength = 0.1F,
+                    segments = arrayOf(
+                        wtail
+                    )
+                )
             )
         )
     }

@@ -48,7 +48,6 @@ class CufantModel (root: ModelPart) : PokemonPoseableModel() {
 
         sleep = registerPose(
             poseType = PoseType.SLEEP,
-            quirks = arrayOf(blink),
             animations = mutableMapOf("faint" to faint),
             idleAnimations = arrayOf(bedrock("cufant", "sleep"))
         )
@@ -77,6 +76,7 @@ class CufantModel (root: ModelPart) : PokemonPoseableModel() {
         battle_idle = registerPose(
             poseName = "battle_idle",
             poseTypes = PoseType.STATIONARY_POSES,
+            quirks = arrayOf(blink),
             condition = { it.isBattling },
             animations = mutableMapOf("faint" to faint),
             idleAnimations = arrayOf(
