@@ -20,6 +20,7 @@
 - Added effects for many Poké Balls when sending out Pokémon or capturing.
 - Added a new send-out ball toss animation that showcases the ball used for the Pokémon.
 - Added simple move animations for Pokémon in battle with a proof of concept for more complicated animations.
+- Added the EV Boosting Feathers.
 - Added Type Gems. 
 - Added various new tags for searchability and better compatibility.
 - Added the [Ability Capsule](https://bulbapedia.bulbagarden.net/wiki/Ability_Capsule) and [Patch](https://bulbapedia.bulbagarden.net/wiki/Ability_Patch), these have no acquisition method for now and only work as intended with the traditional ability format of 1 to 2 common abilities and 1 hidden ability.
@@ -52,8 +53,10 @@
 - Fixed very many issues with Bedrock particle effects.
 - Fixed Arbok patterns not being as specific in spawning as they were intended.
 - Fixed Pokémon not avoiding danger at all when pathfinding. 
+- Fixed Sobble line not being able to swim or breathe underwater.
 - Fixed incompatibility with [Just Enough Resources](https://modrinth.com/mod/just-enough-resources-jer).
 - Fixed incompatibility with [Visual Overhaul](https://modrinth.com/mod/visual-overhaul).
+- Fixed an issue that allowed Pokemon to spawn on rails.
 - Fixed the data set on Pokémon when abilities are given via properties such as in ``/spawnpokemon``.
 - Fixed sometimes Pokémon losing hidden abilities when evolving, this fix will only take effect to newly created Pokémon.
 
@@ -67,6 +70,7 @@
 - Made PokemonProperties.parse more interoperable with Java.
 - Added the ``HeldItemEvent``, this comes with 2 implementation ``HeldItemEvent.Pre`` and ``HeldItemEvent.Post``. 
 - API to support dynamic lighting in any mod that implements this feature has been added to all Species & Forms, see LightingData class for details.
+- Added a Mixin for the BrewingStandScreenHandler to fix the incorrect handling of quickMove in Fabric.
 - Corrections to the ability implementation have been made that make ``Ability.forced`` function as intended and never reroll an ability for a Pokémon, please check your implementations to ensure the corrected behavior is intended for your use case.
 - ``Pokemon.ability`` no longer has a public setter, please migrate to using ``Pokemon#updateAbility``, this handles the ability coordinate storage for you when necessary.
 - ``Ability.forced``, ``Ability.index`` and ``Ability.priority`` have all had their setters internalized, there is no longer any need to manually adjust these migrate to the method mentioned above to handle that process for you.
