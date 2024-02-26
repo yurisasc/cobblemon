@@ -78,6 +78,14 @@ class SpeciesPokedexEntry(
         formEntries[formStr]?.knowledge = PokedexProgress.CAUGHT
     }
 
+    fun getFormEntry(formId: String): FormPokedexEntry {
+        if (!formEntries.containsKey(formId)) {
+            val newFormEntry = FormPokedexEntry()
+            formEntries[formId] = newFormEntry
+        }
+        return formEntries[formId]!!
+    }
+
     companion object {
         val CODEC: Codec<SpeciesPokedexEntry> = RecordCodecBuilder.create { instance ->
             instance.group(

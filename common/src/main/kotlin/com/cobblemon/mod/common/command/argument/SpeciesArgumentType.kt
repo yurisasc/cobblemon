@@ -23,13 +23,13 @@ import net.minecraft.command.CommandSource
 import net.minecraft.text.Text
 
 //Very helpful for all command related stuff: https://fabricmc.net/wiki/tutorial:commands#brigadier_explained
-class PokemonArgumentType : ArgumentType<Species> {
+class SpeciesArgumentType : ArgumentType<Species> {
 
     companion object {
         val EXAMPLES: List<String> = listOf("eevee")
         val INVALID_POKEMON = Text.translatable("cobblemon.command.pokespawn.invalid-pokemon")
 
-        fun pokemon() = PokemonArgumentType()
+        fun species() = SpeciesArgumentType()
 
         fun <S> getPokemon(context: CommandContext<S>, name: String): Species {
             return context.getArgument(name, Species::class.java)

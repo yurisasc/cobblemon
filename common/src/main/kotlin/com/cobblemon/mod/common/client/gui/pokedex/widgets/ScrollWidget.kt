@@ -69,8 +69,4 @@ class ScrollWidget(pX: Int, pY: Int
             it.render(context, pMouseX, pMouseY, pPartialTicks)
         }
     }
-
-    fun setParent(p : PokedexGUI){
-        parent = p
-    }
 }

@@ -15,6 +15,7 @@ import com.cobblemon.mod.common.api.events.pokemon.evolution.EvolutionCompleteEv
 import com.cobblemon.mod.common.api.events.starter.StarterChosenEvent
 import com.cobblemon.mod.common.api.pokedex.trackeddata.EventTriggerType
 import com.cobblemon.mod.common.api.pokedex.trackeddata.GlobalTrackedData
+import com.cobblemon.mod.common.api.pokemon.PokemonSpecies
 import com.cobblemon.mod.common.api.storage.player.InstancedPlayerData
 import com.cobblemon.mod.common.api.storage.player.client.ClientInstancedPlayerData
 import com.cobblemon.mod.common.battles.actor.PlayerBattleActor
@@ -22,6 +23,7 @@ import com.cobblemon.mod.common.battles.actor.PokemonBattleActor
 import com.cobblemon.mod.common.config.pokedex.PokedexConfig
 import com.cobblemon.mod.common.pokemon.FormData
 import com.cobblemon.mod.common.pokemon.Pokemon
+import com.cobblemon.mod.common.pokemon.Species
 import com.cobblemon.mod.common.util.getPlayer
 import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.PrimitiveCodec
@@ -140,6 +142,33 @@ class Pokedex(
         speciesEntry.starterChosen(event)
     }
 
+    fun grantedWithCommand(species: Species?, form: FormData?) {
+        if (species != null && form != null) {
+            val speciesEntry = getSpeciesEntry(species.resourceIdentifier)
+            speciesEntry.getFormEntry(form.formOnlyShowdownId()).knowledge = PokedexProgress.CAUGHT
+        }
+        if (species == null) {
+            PokemonSpecies.species.forEach { loopSpecies ->
+                val speciesEntry = getSpeciesEntry(loopSpecies.resourceIdentifier)
+                if (loopSpecies.forms.size == 0) {
+                    val formEntry = speciesEntry.getFormEntry(loopSpecies.standardForm.formOnlyShowdownId())
+                    formEntry.knowledge = PokedexProgress.CAUGHT
+                }
+                else {
+                    loopSpecies.forms.forEach {
+                        val formEntry = speciesEntry.getFormEntry(it.formOnlyShowdownId())
+                        formEntry.knowledge = PokedexProgress.CAUGHT
+                    }
+                }
+
+            }
+        }
+    }
+
+    fun removeEntry(species: Species, form: FormData?) {
+
+    }
+
     //Whenever a particular type of event is called we want to add all the tracked data that might rely on the event
     //Also doubles to update player's dex in case of config update (adds prev untracked data)
     private fun genFactories(type: EventTriggerType) {
@@ -184,6 +213,5 @@ class Pokedex(
                 Pokedex(uuid, speciesEntries.toMutableMap(), trackedData.getOrDefault(mutableListOf()).toMutableSet())
             }
         }
-        fun formToFormString(form: FormData, shiny: Boolean): String = if (shiny) form.name + "_shiny" else form.name
     }
 }

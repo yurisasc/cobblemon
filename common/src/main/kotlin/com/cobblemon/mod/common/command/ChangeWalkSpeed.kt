@@ -9,7 +9,7 @@
 package com.cobblemon.mod.common.command
 
 import com.cobblemon.mod.common.api.permission.CobblemonPermissions
-import com.cobblemon.mod.common.command.argument.PokemonArgumentType
+import com.cobblemon.mod.common.command.argument.SpeciesArgumentType
 import com.cobblemon.mod.common.pokemon.FormData
 import com.cobblemon.mod.common.util.permission
 import com.mojang.brigadier.Command
@@ -25,7 +25,7 @@ object ChangeWalkSpeed {
         val command = CommandManager.literal("changewalkspeed")
             .permission(CobblemonPermissions.CHANGE_WALK_SPEED)
             .then(
-                CommandManager.argument("pokemon", PokemonArgumentType.pokemon())
+                CommandManager.argument("pokemon", SpeciesArgumentType.species())
                     .then(CommandManager.argument("walkSpeed", FloatArgumentType.floatArg()).executes(::execute))
             )
 
@@ -36,7 +36,7 @@ object ChangeWalkSpeed {
 
 
     private fun execute(context: CommandContext<ServerCommandSource>) : Int {
-        val pkm = PokemonArgumentType.getPokemon(context, "pokemon")
+        val pkm = SpeciesArgumentType.getPokemon(context, "pokemon")
         val walkSpeed = FloatArgumentType.getFloat(context, "walkSpeed")
 
         pkm.behaviour.moving.walk.walkSpeed = walkSpeed

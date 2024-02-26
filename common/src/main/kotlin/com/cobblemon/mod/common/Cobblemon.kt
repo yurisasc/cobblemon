@@ -64,7 +64,6 @@ import com.cobblemon.mod.common.api.storage.pc.link.PCLinkManager
 import com.cobblemon.mod.common.api.storage.player.PlayerInstancedDataStoreManager
 import com.cobblemon.mod.common.api.storage.player.PlayerInstancedDataStoreType
 import com.cobblemon.mod.common.api.storage.player.adapter.PlayerDataJsonBackend
-import com.cobblemon.mod.common.api.storage.player.adapter.PokedexDataJsonBackend
 import com.cobblemon.mod.common.api.storage.player.adapter.PokedexDataNbtBackend
 import com.cobblemon.mod.common.api.storage.player.factory.CachedPlayerDataStoreFactory
 import com.cobblemon.mod.common.api.tags.CobblemonEntityTypeTags
@@ -76,9 +75,10 @@ import com.cobblemon.mod.common.battles.ShowdownThread
 import com.cobblemon.mod.common.battles.actor.PokemonBattleActor
 import com.cobblemon.mod.common.battles.pokemon.BattlePokemon
 import com.cobblemon.mod.common.command.argument.DialogueArgumentType
+import com.cobblemon.mod.common.command.argument.FormArgumentType
 import com.cobblemon.mod.common.command.argument.MoveArgumentType
 import com.cobblemon.mod.common.command.argument.PartySlotArgumentType
-import com.cobblemon.mod.common.command.argument.PokemonArgumentType
+import com.cobblemon.mod.common.command.argument.SpeciesArgumentType
 import com.cobblemon.mod.common.command.argument.PokemonPropertiesArgumentType
 import com.cobblemon.mod.common.command.argument.PokemonStoreArgumentType
 import com.cobblemon.mod.common.command.argument.SpawnBucketArgumentType
@@ -516,13 +516,14 @@ object Cobblemon {
     }
 
     private fun registerArgumentTypes() {
-        this.implementation.registerCommandArgument(cobblemonResource("pokemon"), PokemonArgumentType::class, ConstantArgumentSerializer.of(PokemonArgumentType::pokemon))
+        this.implementation.registerCommandArgument(cobblemonResource("pokemon"), SpeciesArgumentType::class, ConstantArgumentSerializer.of(SpeciesArgumentType::species))
         this.implementation.registerCommandArgument(cobblemonResource("pokemon_properties"), PokemonPropertiesArgumentType::class, ConstantArgumentSerializer.of(PokemonPropertiesArgumentType::properties))
         this.implementation.registerCommandArgument(cobblemonResource("spawn_bucket"), SpawnBucketArgumentType::class, ConstantArgumentSerializer.of(SpawnBucketArgumentType::spawnBucket))
         this.implementation.registerCommandArgument(cobblemonResource("move"), MoveArgumentType::class, ConstantArgumentSerializer.of(MoveArgumentType::move))
         this.implementation.registerCommandArgument(cobblemonResource("party_slot"), PartySlotArgumentType::class, ConstantArgumentSerializer.of(PartySlotArgumentType::partySlot))
         this.implementation.registerCommandArgument(cobblemonResource("pokemon_store"), PokemonStoreArgumentType::class, ConstantArgumentSerializer.of(PokemonStoreArgumentType::pokemonStore))
         this.implementation.registerCommandArgument(cobblemonResource("dialogue"), DialogueArgumentType::class, ConstantArgumentSerializer.of(DialogueArgumentType::dialogue))
+        this.implementation.registerCommandArgument(cobblemonResource("form"), FormArgumentType::class, ConstantArgumentSerializer.of(FormArgumentType::form))
     }
 
 }
