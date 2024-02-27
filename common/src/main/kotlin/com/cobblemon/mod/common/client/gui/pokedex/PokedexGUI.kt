@@ -11,6 +11,19 @@ import com.cobblemon.mod.common.Cobblemon.LOGGER
 import com.cobblemon.mod.common.api.gui.blitk
 import com.cobblemon.mod.common.api.pokedex.ClientPokedex
 import com.cobblemon.mod.common.api.pokedex.SpeciesPokedexEntry
+import com.cobblemon.mod.common.client.gui.pokedex.PokedexGUIConstants.BASE_HEIGHT
+import com.cobblemon.mod.common.client.gui.pokedex.PokedexGUIConstants.BASE_WIDTH
+import com.cobblemon.mod.common.client.gui.pokedex.PokedexGUIConstants.HEADER_HEIGHT
+import com.cobblemon.mod.common.client.gui.pokedex.PokedexGUIConstants.POKEMON_DESCRIPTION_HEIGHT
+import com.cobblemon.mod.common.client.gui.pokedex.PokedexGUIConstants.POKEMON_DESCRIPTION_WIDTH
+import com.cobblemon.mod.common.client.gui.pokedex.PokedexGUIConstants.POKEMON_FORMS_HEIGHT
+import com.cobblemon.mod.common.client.gui.pokedex.PokedexGUIConstants.POKEMON_FORMS_WIDTH
+import com.cobblemon.mod.common.client.gui.pokedex.PokedexGUIConstants.POKEMON_PORTRAIT_HEIGHT
+import com.cobblemon.mod.common.client.gui.pokedex.PokedexGUIConstants.POKEMON_PORTRAIT_WIDTH
+import com.cobblemon.mod.common.client.gui.pokedex.PokedexGUIConstants.SCROLL_HEIGHT
+import com.cobblemon.mod.common.client.gui.pokedex.PokedexGUIConstants.SCROLL_WIDTH
+import com.cobblemon.mod.common.client.gui.pokedex.PokedexGUIConstants.SPACER
+import com.cobblemon.mod.common.client.gui.pokedex.widgets.PokemonInfoWidget
 import com.cobblemon.mod.common.client.gui.pokedex.widgets.ScrollWidget
 import com.cobblemon.mod.common.client.render.drawScaledTextJustifiedRight
 import com.cobblemon.mod.common.pokemon.Species
@@ -30,23 +43,6 @@ import net.minecraft.text.Text
 class PokedexGUI private constructor(val pokedex: ClientPokedex) : Screen(Text.translatable("cobblemon.ui.pokedex.title")) {
 
     companion object {
-        const val BASE_WIDTH = 350
-        const val BASE_HEIGHT = 200
-        const val HEADER_HEIGHT = 15
-        const val SPACER = 5
-        const val SCROLL_HEIGHT = 180
-        const val SCROLL_WIDTH = 90
-        const val POKEMON_PORTRAIT_HEIGHT = 105
-        const val POKEMON_PORTRAIT_WIDTH = 245
-        const val POKEMON_DESCRIPTION_WIDTH = 160
-        const val POKEMON_DESCRIPTION_HEIGHT = 70
-        const val POKEMON_FORMS_WIDTH = 80
-        const val POKEMON_FORMS_HEIGHT = 70
-        const val PORTRAIT_SIZE = 66
-        const val SCALE = 0.5F
-        const val SCROLL_SLOT_COUNT = 9
-        const val SCROLL_SLOT_HEIGHT = SCROLL_HEIGHT / SCROLL_SLOT_COUNT
-        const val SCROLL_BAR_WIDTH = 5
 
         private val baseResource = cobblemonResource("textures/gui/pokedex/pokedex_base.png")// Render Pokedex Background
         private val scrollBackgroundResource = cobblemonResource("textures/gui/pokedex/scroll_base.png")// Render Scroll Background
@@ -67,6 +63,7 @@ class PokedexGUI private constructor(val pokedex: ClientPokedex) : Screen(Text.t
 
     private var filteredPokedex : List<Pair<Species, SpeciesPokedexEntry?>> = mutableListOf()
     private lateinit var scrollScreen : ScrollWidget<ScrollWidget.PokemonScrollSlot>
+    private lateinit var pokemonInfoWidget : PokemonInfoWidget
     private var selectedPokemon : Pair<Species, SpeciesPokedexEntry?>? = null
 
     public override fun init() {
@@ -76,15 +73,23 @@ class PokedexGUI private constructor(val pokedex: ClientPokedex) : Screen(Text.t
         val x = (width - BASE_WIDTH) / 2
         val y = (height - BASE_HEIGHT) / 2
 
+        filteredPokedex = filterPokedex()
+
         if (::scrollScreen.isInitialized) remove(scrollScreen)
 
         scrollScreen = ScrollWidget(x + SPACER, y + HEADER_HEIGHT) { setSelectedPokemon(it) }
 
         addDrawableChild(scrollScreen)
-
-        filteredPokedex = filterPokedex()
         scrollScreen.createEntries(filteredPokedex)
-        LOGGER.info(filteredPokedex)
+
+        if (::pokemonInfoWidget.isInitialized) remove(pokemonInfoWidget)
+
+        pokemonInfoWidget = PokemonInfoWidget(x + SPACER * 2 + SCROLL_WIDTH, y + HEADER_HEIGHT)
+
+        if(filteredPokedex.isNotEmpty()){
+            pokemonInfoWidget.setPokemon(filteredPokedex[0])
+        }
+        addDrawableChild(pokemonInfoWidget)
     }
 
     override fun render(context: DrawContext, mouseX: Int, mouseY: Int, delta: Float) {
@@ -156,6 +161,7 @@ class PokedexGUI private constructor(val pokedex: ClientPokedex) : Screen(Text.t
 
     fun setSelectedPokemon(entry : Pair<Species, SpeciesPokedexEntry?>){
         selectedPokemon = entry
+        pokemonInfoWidget.setPokemon(entry)
     }
 
     override fun shouldPause(): Boolean = true

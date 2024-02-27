@@ -13,6 +13,10 @@ import com.cobblemon.mod.common.api.gui.drawPortraitPokemon
 import com.cobblemon.mod.common.api.pokedex.SpeciesPokedexEntry
 import com.cobblemon.mod.common.api.text.text
 import com.cobblemon.mod.common.client.gui.pokedex.PokedexGUI
+import com.cobblemon.mod.common.client.gui.pokedex.PokedexGUIConstants.SCROLL_BAR_WIDTH
+import com.cobblemon.mod.common.client.gui.pokedex.PokedexGUIConstants.SCROLL_HEIGHT
+import com.cobblemon.mod.common.client.gui.pokedex.PokedexGUIConstants.SCROLL_SLOT_HEIGHT
+import com.cobblemon.mod.common.client.gui.pokedex.PokedexGUIConstants.SCROLL_WIDTH
 import com.cobblemon.mod.common.client.gui.pokedex.widgets.ScrollWidget.PokemonScrollSlot
 import com.cobblemon.mod.common.client.render.drawScaledText
 import com.cobblemon.mod.common.pokemon.Species
@@ -26,11 +30,11 @@ import net.minecraft.text.MutableText
 class ScrollWidget<PokemonScrollSlot : AlwaysSelectedEntryListWidget.Entry<ScrollWidget.PokemonScrollSlot>>(val pX: Int, val pY: Int, val setPokedexEntry: (Pair<Species, SpeciesPokedexEntry?>) -> (Unit)
 ): AlwaysSelectedEntryListWidget<ScrollWidget.PokemonScrollSlot>(
     MinecraftClient.getInstance(),
-    PokedexGUI.SCROLL_WIDTH,
-    PokedexGUI.SCROLL_HEIGHT,
+    SCROLL_WIDTH,
+    SCROLL_HEIGHT,
     pY,
-    pY + PokedexGUI.SCROLL_HEIGHT,
-    PokedexGUI.SCROLL_SLOT_HEIGHT
+    pY + SCROLL_HEIGHT,
+    SCROLL_SLOT_HEIGHT
 ){
     private var scrollSlots : MutableList<ScrollWidget.PokemonScrollSlot> = mutableListOf()
 
@@ -44,7 +48,7 @@ class ScrollWidget<PokemonScrollSlot : AlwaysSelectedEntryListWidget.Entry<Scrol
     }
 
     private fun correctSize() {
-        updateSize(PokedexGUI.SCROLL_WIDTH, PokedexGUI.SCROLL_HEIGHT, pY, pY + PokedexGUI.SCROLL_HEIGHT)
+        updateSize(SCROLL_WIDTH, SCROLL_HEIGHT, pY, pY + SCROLL_HEIGHT)
     }
 
     override fun updateSize(width: Int, height: Int, top: Int, bottom: Int) {
@@ -112,7 +116,7 @@ class ScrollWidget<PokemonScrollSlot : AlwaysSelectedEntryListWidget.Entry<Scrol
     }
 
     override fun getRowWidth(): Int {
-        return PokedexGUI.SCROLL_WIDTH - PokedexGUI.SCROLL_BAR_WIDTH
+        return SCROLL_WIDTH - SCROLL_BAR_WIDTH
     }
 
     override fun getRowTop(index: Int): Int {
@@ -123,7 +127,7 @@ class ScrollWidget<PokemonScrollSlot : AlwaysSelectedEntryListWidget.Entry<Scrol
         return this.getRowTop(index) + this.itemHeight
     }
 
-    override fun getScrollbarPositionX() = pX + PokedexGUI.SCROLL_WIDTH - PokedexGUI.SCROLL_BAR_WIDTH
+    override fun getScrollbarPositionX() = pX + SCROLL_WIDTH - SCROLL_BAR_WIDTH
     override fun render(context: DrawContext, mouseX: Int, mouseY: Int, partialTicks: Float) {
         correctSize()
         super.render(context, mouseX, mouseY, partialTicks)
