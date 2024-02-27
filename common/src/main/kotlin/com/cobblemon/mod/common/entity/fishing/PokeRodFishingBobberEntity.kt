@@ -701,7 +701,7 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
         }
     }
 
-    // used to store the % chance increase or the value increase of certain baits
+    /*// used to store the % chance increase or the value increase of certain baits
     fun getBerryBaitBonusChance(bait: ItemStack, chanceBoost: String): Double {
         val berryBoosts = mapOf(
                 // "cheri_berry" to mapOf("Nature_Att" to 0.25, "Nature_Def" to 0.10),  EXAMPLE of multiple entries per berry
@@ -816,7 +816,7 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
         // Look up the berry and then the chanceBoost
         return berryBoosts[Registries.ITEM.getId(bait.item).path.toString()]?.get(chanceBoost) ?: 0.0 // Returns 0.0 if not found
 
-    }
+    }*/
 
     fun modifyPokemonWithBait(pokemonEntity: PokemonEntity, bait: ItemStack) {
         val pokemon = pokemonEntity.pokemon
@@ -960,37 +960,37 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
             if ((pokemon.ivs[com.cobblemon.mod.common.api.pokemon.stats.Stats.HP] ?: 0) > 28) // if HP IV is already less than 3 away from 31
                 pokemon.ivs.set(com.cobblemon.mod.common.api.pokemon.stats.Stats.HP, 31)
             else
-                pokemon.ivs.set(com.cobblemon.mod.common.api.pokemon.stats.Stats.HP, (pokemon.ivs[com.cobblemon.mod.common.api.pokemon.stats.Stats.HP] ?: 0) + getBerryBaitBonusChance(bait, "IV_Hp").toInt())
+                pokemon.ivs.set(com.cobblemon.mod.common.api.pokemon.stats.Stats.HP, (pokemon.ivs[com.cobblemon.mod.common.api.pokemon.stats.Stats.HP] ?: 0) + (FishingBaits.getBaitEffectValue(bait) ?: 0.0).toInt())
         }
         if (FishingBaits.getBaitSubcategory(bait) == "Att" && checkBaitSuccessRate(FishingBaits.getBaitSuccessChance(bait) ?: 0.0)) {
             if ((pokemon.ivs[com.cobblemon.mod.common.api.pokemon.stats.Stats.ATTACK] ?: 0) > 28) // if Attack IV is already less than 3 away from 31
                 pokemon.ivs.set(com.cobblemon.mod.common.api.pokemon.stats.Stats.ATTACK, 31)
             else
-                pokemon.ivs.set(com.cobblemon.mod.common.api.pokemon.stats.Stats.ATTACK, (pokemon.ivs[com.cobblemon.mod.common.api.pokemon.stats.Stats.ATTACK] ?: 0) + getBerryBaitBonusChance(bait, "IV_Att").toInt())
+                pokemon.ivs.set(com.cobblemon.mod.common.api.pokemon.stats.Stats.ATTACK, (pokemon.ivs[com.cobblemon.mod.common.api.pokemon.stats.Stats.ATTACK] ?: 0) + (FishingBaits.getBaitEffectValue(bait) ?: 0.0).toInt())
         }
         if (FishingBaits.getBaitSubcategory(bait) == "SpA" && checkBaitSuccessRate(FishingBaits.getBaitSuccessChance(bait) ?: 0.0)) {
             if ((pokemon.ivs[com.cobblemon.mod.common.api.pokemon.stats.Stats.SPECIAL_ATTACK] ?: 0) > 28) // if Special Attack IV is already less than 3 away from 31
                 pokemon.ivs.set(com.cobblemon.mod.common.api.pokemon.stats.Stats.SPECIAL_ATTACK, 31)
             else
-                pokemon.ivs.set(com.cobblemon.mod.common.api.pokemon.stats.Stats.SPECIAL_ATTACK, (pokemon.ivs[com.cobblemon.mod.common.api.pokemon.stats.Stats.SPECIAL_ATTACK] ?: 0) + getBerryBaitBonusChance(bait, "IV_SpA").toInt())
+                pokemon.ivs.set(com.cobblemon.mod.common.api.pokemon.stats.Stats.SPECIAL_ATTACK, (pokemon.ivs[com.cobblemon.mod.common.api.pokemon.stats.Stats.SPECIAL_ATTACK] ?: 0) + (FishingBaits.getBaitEffectValue(bait) ?: 0.0).toInt())
         }
         if (FishingBaits.getBaitSubcategory(bait) == "Def" && checkBaitSuccessRate(FishingBaits.getBaitSuccessChance(bait) ?: 0.0)) {
             if ((pokemon.ivs[com.cobblemon.mod.common.api.pokemon.stats.Stats.DEFENCE] ?: 0) > 28) // if Defence IV is already less than 3 away from 31
                 pokemon.ivs.set(com.cobblemon.mod.common.api.pokemon.stats.Stats.DEFENCE, 31)
             else
-                pokemon.ivs.set(com.cobblemon.mod.common.api.pokemon.stats.Stats.DEFENCE, (pokemon.ivs[com.cobblemon.mod.common.api.pokemon.stats.Stats.DEFENCE] ?: 0) + getBerryBaitBonusChance(bait, "IV_Def").toInt())
+                pokemon.ivs.set(com.cobblemon.mod.common.api.pokemon.stats.Stats.DEFENCE, (pokemon.ivs[com.cobblemon.mod.common.api.pokemon.stats.Stats.DEFENCE] ?: 0) + (FishingBaits.getBaitEffectValue(bait) ?: 0.0).toInt())
         }
         if (FishingBaits.getBaitSubcategory(bait) == "SpD" && checkBaitSuccessRate(FishingBaits.getBaitSuccessChance(bait) ?: 0.0)) {
             if ((pokemon.ivs[com.cobblemon.mod.common.api.pokemon.stats.Stats.SPECIAL_DEFENCE] ?: 0) > 28) // if Special Defence IV is already less than 3 away from 31
                 pokemon.ivs.set(com.cobblemon.mod.common.api.pokemon.stats.Stats.SPECIAL_DEFENCE, 31)
             else
-                pokemon.ivs.set(com.cobblemon.mod.common.api.pokemon.stats.Stats.SPECIAL_DEFENCE, (pokemon.ivs[com.cobblemon.mod.common.api.pokemon.stats.Stats.SPECIAL_DEFENCE] ?: 0) + getBerryBaitBonusChance(bait, "IV_SpA").toInt())
+                pokemon.ivs.set(com.cobblemon.mod.common.api.pokemon.stats.Stats.SPECIAL_DEFENCE, (pokemon.ivs[com.cobblemon.mod.common.api.pokemon.stats.Stats.SPECIAL_DEFENCE] ?: 0) + (FishingBaits.getBaitEffectValue(bait) ?: 0.0).toInt())
         }
         if (FishingBaits.getBaitSubcategory(bait) == "Spe" && checkBaitSuccessRate(FishingBaits.getBaitSuccessChance(bait) ?: 0.0)) {
             if ((pokemon.ivs[com.cobblemon.mod.common.api.pokemon.stats.Stats.SPEED] ?: 0) > 28) // if Speed IV is already less than 3 away from 31
                 pokemon.ivs.set(com.cobblemon.mod.common.api.pokemon.stats.Stats.SPEED, 31)
             else
-                pokemon.ivs.set(com.cobblemon.mod.common.api.pokemon.stats.Stats.SPEED, (pokemon.ivs[com.cobblemon.mod.common.api.pokemon.stats.Stats.SPEED] ?: 0) + getBerryBaitBonusChance(bait, "IV_Spe").toInt())
+                pokemon.ivs.set(com.cobblemon.mod.common.api.pokemon.stats.Stats.SPEED, (pokemon.ivs[com.cobblemon.mod.common.api.pokemon.stats.Stats.SPEED] ?: 0) + (FishingBaits.getBaitEffectValue(bait) ?: 0.0).toInt())
         }
     }
 
