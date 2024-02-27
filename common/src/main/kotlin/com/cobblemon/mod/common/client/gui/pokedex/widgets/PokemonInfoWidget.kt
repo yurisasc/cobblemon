@@ -29,7 +29,7 @@ class PokemonInfoWidget(val pX: Int, val pY: Int) : SoundlessWidget(
     var aspects : Set<String> = mutableSetOf()
     var state = PokemonFloatingState()
     var shiny = false
-    var rotationY = 10F
+    var rotationY = 30F
     var rotationVector = Vector3f(13F, rotationY, 0F)
 
     companion object {
@@ -51,7 +51,7 @@ class PokemonInfoWidget(val pX: Int, val pY: Int) : SoundlessWidget(
         matrices.push()
         matrices.translate(
             pX.toDouble() + POKEMON_PORTRAIT_WIDTH.toDouble()/2,
-            pY.toDouble() + POKEMON_PORTRAIT_HEIGHT.toDouble()/2 - 50F,
+            pY.toDouble() + POKEMON_PORTRAIT_HEIGHT.toDouble()/2 - 60F,
             0.0
         )
         matrices.scale(scaleAmount, scaleAmount, scaleAmount)

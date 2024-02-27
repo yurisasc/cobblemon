@@ -23,16 +23,17 @@ import com.cobblemon.mod.common.client.gui.pokedex.PokedexGUIConstants.POKEMON_P
 import com.cobblemon.mod.common.client.gui.pokedex.PokedexGUIConstants.SCROLL_HEIGHT
 import com.cobblemon.mod.common.client.gui.pokedex.PokedexGUIConstants.SCROLL_WIDTH
 import com.cobblemon.mod.common.client.gui.pokedex.PokedexGUIConstants.SPACER
+import com.cobblemon.mod.common.client.gui.pokedex.widgets.DescriptionWidget
 import com.cobblemon.mod.common.client.gui.pokedex.widgets.PokemonInfoWidget
-import com.cobblemon.mod.common.client.gui.pokedex.widgets.ScrollWidget
+import com.cobblemon.mod.common.client.gui.pokedex.widgets.EntriesScrollingWidget
 import com.cobblemon.mod.common.client.render.drawScaledTextJustifiedRight
 import com.cobblemon.mod.common.pokemon.Species
 import com.cobblemon.mod.common.util.cobblemonResource
-import com.cobblemon.mod.common.util.lang
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.gui.DrawContext
 import net.minecraft.client.gui.screen.Screen
 import net.minecraft.text.Text
+import org.spongepowered.asm.mixin.injection.Desc
 
 /**
  * Pokedex GUI
@@ -62,9 +63,11 @@ class PokedexGUI private constructor(val pokedex: ClientPokedex) : Screen(Text.t
     }
 
     private var filteredPokedex : List<Pair<Species, SpeciesPokedexEntry?>> = mutableListOf()
-    private lateinit var scrollScreen : ScrollWidget<ScrollWidget.PokemonScrollSlot>
+    private lateinit var scrollScreen : EntriesScrollingWidget<EntriesScrollingWidget.PokemonScrollSlot>
     private lateinit var pokemonInfoWidget : PokemonInfoWidget
+    private lateinit var descriptionWidget: DescriptionWidget
     private var selectedPokemon : Pair<Species, SpeciesPokedexEntry?>? = null
+    private var pokemonName = Text.translatable("")
 
     public override fun init() {
         super.init()
@@ -75,21 +78,25 @@ class PokedexGUI private constructor(val pokedex: ClientPokedex) : Screen(Text.t
 
         filteredPokedex = filterPokedex()
 
+        //Scroll Screen
         if (::scrollScreen.isInitialized) remove(scrollScreen)
-
-        scrollScreen = ScrollWidget(x + SPACER, y + HEADER_HEIGHT) { setSelectedPokemon(it) }
-
-        addDrawableChild(scrollScreen)
+        scrollScreen = EntriesScrollingWidget(x + SPACER, y + HEADER_HEIGHT) { setSelectedPokemon(it) }
         scrollScreen.createEntries(filteredPokedex)
+        addDrawableChild(scrollScreen)
 
+        //Info Widget
         if (::pokemonInfoWidget.isInitialized) remove(pokemonInfoWidget)
-
         pokemonInfoWidget = PokemonInfoWidget(x + SPACER * 2 + SCROLL_WIDTH, y + HEADER_HEIGHT)
+        addDrawableChild(pokemonInfoWidget)
+
+        //Description Widget
+        if(::descriptionWidget.isInitialized) remove(descriptionWidget)
+        descriptionWidget = DescriptionWidget( x + SPACER * 2 + SCROLL_WIDTH, y + HEADER_HEIGHT + SPACER + POKEMON_PORTRAIT_HEIGHT)
+        addDrawableChild(descriptionWidget)
 
         if(filteredPokedex.isNotEmpty()){
-            pokemonInfoWidget.setPokemon(filteredPokedex[0])
+            setSelectedPokemon(filteredPokedex.first())
         }
-        addDrawableChild(pokemonInfoWidget)
     }
 
     override fun render(context: DrawContext, mouseX: Int, mouseY: Int, delta: Float) {
@@ -147,7 +154,7 @@ class PokedexGUI private constructor(val pokedex: ClientPokedex) : Screen(Text.t
 
         drawScaledTextJustifiedRight(
             context = context,
-            text = lang("species.pikachu.name"),
+            text = pokemonName,
             x = x + BASE_WIDTH - SPACER,
             y = y + HEADER_HEIGHT / 2
         )
@@ -162,6 +169,9 @@ class PokedexGUI private constructor(val pokedex: ClientPokedex) : Screen(Text.t
     fun setSelectedPokemon(entry : Pair<Species, SpeciesPokedexEntry?>){
         selectedPokemon = entry
         pokemonInfoWidget.setPokemon(entry)
+        pokemonName = selectedPokemon!!.first.translatedName
+        LOGGER.info(entry.first.pokedex)
+        descriptionWidget.setText(entry.first.pokedex.map { it.toString() }.toList())
     }
 
     override fun shouldPause(): Boolean = true
