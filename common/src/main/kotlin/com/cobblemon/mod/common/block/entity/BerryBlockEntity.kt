@@ -323,6 +323,7 @@ class BerryBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(Cobblemon
     companion object {
         internal val TICKER = BlockEntityTicker<BerryBlockEntity> { world, pos, state, blockEntity ->
             if (world.isClient) return@BlockEntityTicker
+            if (state.get(BerryBlock.IS_ROOTED)) return@BlockEntityTicker
             if (blockEntity.stageTimer >= 0) {
                 blockEntity.stageTimer--
             }

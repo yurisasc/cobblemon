@@ -89,6 +89,7 @@ class BerryBlock(private val berryIdentifier: Identifier, settings: Settings) : 
             .with(WAS_GENERATED, false)
             .with(AGE, 0)
             .with(MULCH, MulchVariant.NONE)
+            .with(IS_ROOTED, false)
     }
 
     override fun grow(world: ServerWorld, random: Random, pos: BlockPos, state: BlockState) {
@@ -143,7 +144,9 @@ class BerryBlock(private val berryIdentifier: Identifier, settings: Settings) : 
         state: BlockState,
         variant: MulchVariant
     ): Boolean {
-        return getMulch(state) == MulchVariant.NONE && state.get(AGE) < FLOWER_AGE && world.getBlockState(pos.down()).isOf(Blocks.FARMLAND)
+        val underBlockState = world.getBlockState(pos.down())
+        val validSoil = state.get(IS_ROOTED) || underBlockState.isIn(CobblemonBlockTags.BERRY_SOIL)
+        return getMulch(state) == MulchVariant.NONE && state.get(AGE) < FLOWER_AGE && validSoil
     }
 
     override fun applyMulch(
@@ -189,7 +192,7 @@ class BerryBlock(private val berryIdentifier: Identifier, settings: Settings) : 
         val below = world.getBlockState(pos.down())
         return (state.get(WAS_GENERATED) && below.isIn(CobblemonBlockTags.BERRY_WILD_SOIL))
                 || below.isIn(CobblemonBlockTags.BERRY_SOIL)
-                || below.block is FarmlandBlock
+                || state.get(IS_ROOTED)
     }
 
     @Deprecated("Deprecated in Java")
@@ -208,6 +211,7 @@ class BerryBlock(private val berryIdentifier: Identifier, settings: Settings) : 
         builder.add(AGE)
         builder.add(WAS_GENERATED)
         builder.add(MULCH)
+        builder.add(IS_ROOTED)
     }
 
     override fun getPickStack(world: BlockView?, pos: BlockPos?, state: BlockState?): ItemStack {
@@ -239,6 +243,7 @@ class BerryBlock(private val berryIdentifier: Identifier, settings: Settings) : 
         val AGE: IntProperty = IntProperty.of("age", 0, FRUIT_AGE)
         val MULCH: EnumProperty<MulchVariant> = EnumProperty.of("mulch", MulchVariant::class.java)
         val WAS_GENERATED: BooleanProperty = BooleanProperty.of("generated")
+        val IS_ROOTED: BooleanProperty = BooleanProperty.of("rooted")
 //        val PLANTED_SHAPE = VoxelShapes.union(
 //            VoxelShapes.cuboid(0.3125, -0.0625, 0.3125, 0.6875, 0.0, 0.6875),
 //            VoxelShapes.cuboid(0.375, 0.0, 0.375, 0.625, 0.0625, 0.625)

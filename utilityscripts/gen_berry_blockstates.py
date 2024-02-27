@@ -5,10 +5,10 @@ def gen_age_mod(age, rooted, berry_name):
 	model_dict = {
 		0: "cobblemon:block/berries/planted_bound" if rooted else "cobblemon:block/berries/planted",
 		1: "cobblemon:block/berries/sprout",
-		2: "cobblemon:block/berries/aspear_young",
-		3: "cobblemon:block/berries/aspear_mature",
-		4: "cobblemon:block/berries/aspear_mature",
-		5: "cobblemon:block/berries/aspear_mature"
+		2: f"cobblemon:block/berries/{berry_name}_young",
+		3: f"cobblemon:block/berries/{berry_name}_mature",
+		4: f"cobblemon:block/berries/{berry_name}_mature",
+		5: f"cobblemon:block/berries/{berry_name}_mature"
 	}
 	result = dict()
 	when_dict = dict()

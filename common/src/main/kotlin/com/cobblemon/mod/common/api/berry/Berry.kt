@@ -16,7 +16,7 @@ import com.cobblemon.mod.common.api.events.berry.BerryYieldCalculationEvent
 import com.cobblemon.mod.common.api.mulch.MulchVariant
 import com.cobblemon.mod.common.block.BerryBlock
 import com.cobblemon.mod.common.block.entity.BerryBlockEntity
-import com.cobblemon.mod.common.item.BerryItem
+import com.cobblemon.mod.common.item.berry.BerryItem
 import com.cobblemon.mod.common.pokemon.Nature
 import com.cobblemon.mod.common.util.readBox
 import com.cobblemon.mod.common.util.writeBox
