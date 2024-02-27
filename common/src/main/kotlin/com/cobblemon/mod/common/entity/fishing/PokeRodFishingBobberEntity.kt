@@ -618,10 +618,6 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
 
                     modifyPokemonWithBait(spawnedPokemon, bobberBait) // check to see if the spawned pokemon gets modified due to the bait used
 
-
-
-
-
                     // remove the bait from the bobber
                     val playerPokerod = if (this.playerOwner?.getStackInHand(Hand.MAIN_HAND)?.item is PokerodItem) this.playerOwner!!.getStackInHand(Hand.MAIN_HAND).item else this.playerOwner!!.getStackInHand(Hand.OFF_HAND).item
                     (playerPokerod as PokerodItem).bait = ItemStack.EMPTY
@@ -657,7 +653,7 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
                         }
                         distance < 10 -> { // distances under 10 blocks be a bit softer launch
                             baseVelocity = 0.3
-                            velocityIncreasePerBlock = 0.03
+                            velocityIncreasePerBlock = 0.04
                             baseArc = 0.35
                             arcIncreasePerBlock = 0.015
                         }
@@ -700,123 +696,6 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
             BattleBuilder.pve((player as ServerPlayerEntity), spawnedPokemon).ifErrored { it.sendTo(player) { it.red() } }
         }
     }
-
-    /*// used to store the % chance increase or the value increase of certain baits
-    fun getBerryBaitBonusChance(bait: ItemStack, chanceBoost: String): Double {
-        val berryBoosts = mapOf(
-                // "cheri_berry" to mapOf("Nature_Att" to 0.25, "Nature_Def" to 0.10),  EXAMPLE of multiple entries per berry
-
-                // Attract Natures Tier 1 - 25%
-                "cheri_berry" to mapOf("Nature_Att" to 0.25),
-                "razz_berry" to mapOf("Nature_Att" to 0.25),
-                "chesto_berry" to mapOf("Nature_SpA" to 0.25),
-                "bluk_berry" to mapOf("Nature_SpA" to 0.25),
-                "aspear_berry" to mapOf("Nature_Def" to 0.25),
-                "pinap_berry" to mapOf("Nature_Def" to 0.25),
-                "wepear_berry" to mapOf("Nature_SpD" to 0.25),
-                "rawst_berry" to mapOf("Nature_SpD" to 0.25),
-                "pecha_berry" to mapOf("Nature_Spe" to 0.25),
-                "nanab_berry" to mapOf("Nature_Spe" to 0.25),
-
-                // Attract Natures Tier 2 - 50%
-                "figy_berry" to mapOf("Nature_Att" to 0.50),
-                "wiki_berry" to mapOf("Nature_SpA" to 0.50),
-                "iapapa_berry" to mapOf("Nature_Def" to 0.50),
-                "aguav_berry" to mapOf("Nature_SpD" to 0.50),
-                "mago_berry" to mapOf("Nature_Spe" to 0.50),
-
-                // Attract Natures Tier 3 - 75%
-                "touga_berry" to mapOf("Nature_Att" to 0.75),
-                "cornn_berry" to mapOf("Nature_SpA" to 0.75),
-                "rabuta_berry" to mapOf("Nature_Def" to 0.75),
-                "nomel_berry" to mapOf("Nature_SpD" to 0.75),
-                "magost_berry" to mapOf("Nature_Spe" to 0.75),
-
-                // Attract Natures Tier 4 - 100%
-                "spelon_berry" to mapOf("Nature_Att" to 1.00),
-                "pamtre_berry" to mapOf("Nature_SpA" to 1.00),
-                "belue_berry" to mapOf("Nature_Def" to 1.00),
-                "durin_berry" to mapOf("Nature_SpD" to 1.00),
-                "watmel_berry" to mapOf("Nature_Spe" to 1.00),
-
-                // Raises IV by +5
-                "lansat_berry" to mapOf("IV_Hp" to 5.00), // HP
-                "liechi_berry" to mapOf("IV_Att" to 5.00), // Att
-                "petaya_berry" to mapOf("IV_SpA" to 5.00), // SpA
-                "ganlon_berry" to mapOf("IV_Def" to 5.00),  // Def
-                "apicot_berry" to mapOf("IV_SpD" to 5.00),  // SpD
-                "salac_berry" to mapOf("IV_Spe" to 5.00), // Spe
-
-                // Attracts EV Yields
-                "pomeg_berry"  to mapOf("EV_Hp" to 1.00), // HP
-                "tamato_berry"  to mapOf("EV_Att" to 1.00), // Att
-                "kelpsy_berry"  to mapOf("EV_SpA" to 1.00), // SpA
-                "grepa_berry"  to mapOf("EV_Def" to 1.00),  // Def
-                "hondew_berry"  to mapOf("EV_SpD" to 1.00),  // SpD
-                "qualot_berry"  to mapOf("EV_Spe" to 1.00), // Spe
-
-                // Reduce Bite Times
-                "oran_berry" to mapOf("Bite_Time" to 0.50), // reduce by 50%
-                "sitrus_berry" to mapOf("Bite_Time" to 1.00), // reduce by 100%
-
-                // Raises Gender Odds
-                "kee_berry" to mapOf("Gender_Female" to 0.25), // +25% female
-                "maranga_berry" to mapOf("Gender_Male" to 0.25), // +25% male
-
-                // Raises Average Level
-                "leppa_berry" to mapOf("Level" to 5.00), // +5
-                "hopo_berry" to mapOf("Level" to 10.00),  // +10
-
-                // 5% Chance for alt Tera Type
-                // for each type berries
-                "occa_berry" to mapOf("Tera_Fire" to 0.05),
-                "passho_berry" to mapOf("Tera_Water" to 0.05),
-                "wacan_berry" to mapOf("Tera_Electric" to 0.05),
-                "rindo_berry" to mapOf("Tera_Grass" to 0.05),
-                "yache_berry" to mapOf("Tera_Ice" to 0.05),
-                "chople_berry" to mapOf("Tera_Fighting" to 0.05),
-                "kebia_berry" to mapOf("Tera_Poison" to 0.05),
-                "shuca_berry" to mapOf("Tera_Ground" to 0.05),
-                "coba_berry" to mapOf("Tera_Flying" to 0.05),
-                "payapa_berry" to mapOf("Tera_Psychic" to 0.05),
-                "tanga_berry" to mapOf("Tera_Bug" to 0.05),
-                "charti_berry" to mapOf("Tera_Rock" to 0.05),
-                "kasib_berry" to mapOf("Tera_Ghost" to 0.05),
-                "haban_berry" to mapOf("Tera_Dragon" to 0.05),
-                "colbur_berry" to mapOf("Tera_Dark" to 0.05),
-                "babiri_berry" to mapOf("Tera_Steel" to 0.05),
-                "chilan_berry" to mapOf("Tera_Normal" to 0.05),
-                "roseli_berry" to mapOf("Tera_Fairy" to 0.05),
-
-
-
-                // 2x Shiny Odds
-                "starf_berry" to mapOf("Shiny" to 2.00),
-
-                // 2.5% for Hidden Ability
-                "enigma_berry" to mapOf("HA" to 0.025),
-
-                // 100% Pokemon Rate
-                "micle_berry"  to mapOf("Pokemon" to 1.00),
-
-                // 2x Item Rate
-                "custap_berry" to mapOf("Pokemon" to 0.70) // alter the chance of an item to spawn based on lowering the pokemon chance
-
-//                // Heart Wooper Chance
-//                "persim_berry" -> Pair("spa", 0.0)
-//
-//                // Giant Whiscash Chance
-//                "lum_berry" -> Pair("spa", 0.0)
-
-                // todo when spawning pokemon send in the berry used as bait and also the trait we are rerolling for into here to get the chance of increase
-                // todo   pokemon.nature = getBerryBaitBonus(bait, "Nature_ATT")
-                // Add default or special cases if needed
-        )
-
-        // Look up the berry and then the chanceBoost
-        return berryBoosts[Registries.ITEM.getId(bait.item).path.toString()]?.get(chanceBoost) ?: 0.0 // Returns 0.0 if not found
-
-    }*/
 
     fun modifyPokemonWithBait(pokemonEntity: PokemonEntity, bait: ItemStack) {
         val pokemon = pokemonEntity.pokemon
