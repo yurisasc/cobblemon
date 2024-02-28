@@ -273,6 +273,7 @@ interface BreedingLogic {
                 passedStats.add(statPicked.key)
                 childStats[statPicked.key] = statPicked.value
                 parentIvs.removeAll {it.key == statPicked.key}
+                numPassed--
             }
         }
 
