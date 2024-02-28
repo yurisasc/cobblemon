@@ -24,12 +24,11 @@ class TyrantrumModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bi
     override val leftLeg = getPart("leg_left")
     override val rightLeg = getPart("leg_right")
 
-    override var portraitScale = 1.0F
-    override var portraitTranslation = Vec3d(0.0, 0.0, 0.0)
+    override var portraitTranslation = Vec3d(-0.71, 2.03, 0.0)
+    override var portraitScale = 0.5700004F
 
-    override var profileScale = 1.0F
-    override var profileTranslation = Vec3d(0.0, 0.0, 0.0)
-
+    override var profileTranslation = Vec3d(0.09, 1.38, -10.0)
+    override var profileScale = 0.29F
     //    lateinit var sleep: PokemonPose
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose

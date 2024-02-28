@@ -28,11 +28,11 @@ class ZoroarkModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bipe
     override val leftArm = getPart("arm_left")
     override val rightArm = getPart("arm_right")
 
-    override var portraitScale = 1.8F
-    override var portraitTranslation = Vec3d(0.0, 0.2, 0.0)
+    override var portraitTranslation = Vec3d(-0.63, 1.92, -10.0)
+    override var portraitScale = 1.2F
 
-    override var profileScale = 0.85F
-    override var profileTranslation = Vec3d(0.0, 0.7, 0.0)
+    override var profileTranslation = Vec3d(0.0, 1.13, -10.0)
+    override var profileScale = 0.35F
 
     lateinit var standing: PokemonPose
     lateinit var walking: PokemonPose
