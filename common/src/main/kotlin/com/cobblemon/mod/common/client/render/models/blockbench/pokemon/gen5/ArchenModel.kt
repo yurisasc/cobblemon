@@ -29,11 +29,11 @@ class ArchenModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Biped
     override val leftArm = getPart("arm_left")
     override val rightArm = getPart("arm_right")
 
-    override var portraitScale = 1.8F
-    override var portraitTranslation = Vec3d(0.0, 0.2, 0.0)
+    override var portraitTranslation = Vec3d(-0.25, -0.07, 0.0)
+    override var portraitScale = 1.94F
 
-    override var profileScale = 0.85F
-    override var profileTranslation = Vec3d(0.0, 0.7, 0.0)
+    override var profileTranslation = Vec3d(-0.07, 1.04, 0.0)
+    override var profileScale = 0.38F
 
     lateinit var standing: PokemonPose
     lateinit var walking: PokemonPose

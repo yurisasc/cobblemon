@@ -37,11 +37,11 @@ class ArcheopsModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bipe
     override val leftWing = getPart("arm_left")
     override val rightWing = getPart("arm_right")
 
-    override var portraitScale = 1.8F
-    override var portraitTranslation = Vec3d(0.0, 0.2, 0.0)
+    override var portraitTranslation = Vec3d(-1.16, 0.94, 0.0)
+    override var portraitScale = 1.51F
 
-    override var profileScale = 0.85F
-    override var profileTranslation = Vec3d(0.0, 0.7, 0.0)
+    override var profileTranslation = Vec3d(-0.1, 1.02, 0.0)
+    override var profileScale = 0.38000047F
 
     lateinit var standing: PokemonPose
     lateinit var walking: PokemonPose
