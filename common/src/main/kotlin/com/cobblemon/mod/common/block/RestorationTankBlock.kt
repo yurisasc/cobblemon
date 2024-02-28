@@ -16,6 +16,7 @@ import com.cobblemon.mod.common.block.entity.RestorationTankBlockEntity
 import com.cobblemon.mod.common.block.multiblock.FossilMultiblockBuilder
 import net.minecraft.block.*
 import net.minecraft.entity.LivingEntity
+import net.minecraft.entity.ai.pathing.NavigationType
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.inventory.SidedInventory
 import net.minecraft.item.ItemPlacementContext
@@ -214,6 +215,11 @@ class RestorationTankBlock(properties: Settings) : MultiblockBlock(properties), 
         TOP("top"),
         BOTTOM("bottom");
         override fun asString() = label
+    }
+
+    @Deprecated("Deprecated in Java")
+    override fun canPathfindThrough(state: BlockState?, world: BlockView?, pos: BlockPos?, type: NavigationType?): Boolean {
+        return false
     }
 
     companion object {

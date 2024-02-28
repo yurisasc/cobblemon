@@ -399,6 +399,18 @@ object CobblemonItems : PlatformRegistry<Registry<Item>, RegistryKey<Registry<It
     @JvmField
     val ZINC = create("zinc", VitaminItem(Stats.SPECIAL_DEFENCE))
     @JvmField
+    val GENIUS_FEATHER = create("genius_feather", FeatherItem(Stats.SPECIAL_ATTACK))
+    @JvmField
+    val SWIFT_FEATHER = create("swift_feather", FeatherItem(Stats.SPEED))
+    @JvmField
+    val HEALTH_FEATHER = create("health_feather", FeatherItem(Stats.HP))
+    @JvmField
+    val RESIST_FEATHER = create("resist_feather", FeatherItem(Stats.DEFENCE))
+    @JvmField
+    val MUSCLE_FEATHER = create("muscle_feather", FeatherItem(Stats.ATTACK))
+    @JvmField
+    val CLEVER_FEATHER = create("clever_feather", FeatherItem(Stats.SPECIAL_DEFENCE))
+    @JvmField
     val MEDICINAL_LEEK = create("medicinal_leek", MedicinalLeekItem(CobblemonBlocks.MEDICINAL_LEEK, Item.Settings().food(FoodComponent.Builder().snack().hunger(1).saturationModifier(0.2f).build())))
     @JvmField
     val ROASTED_LEEK = create("roasted_leek", Item(Item.Settings().food(FoodComponent.Builder().snack().hunger(3).saturationModifier(0.3f).build())))
@@ -752,19 +764,19 @@ object CobblemonItems : PlatformRegistry<Registry<Item>, RegistryKey<Registry<It
     @JvmField
     val ARMOR_FOSSIL = noSettingsItem("armor_fossil")
     @JvmField
-    val BIRD_FOSSIL = noSettingsItem("bird_fossil")
+    val FOSSILIZED_BIRD = noSettingsItem("fossilized_bird")
     @JvmField
     val CLAW_FOSSIL = noSettingsItem("claw_fossil")
     @JvmField
     val COVER_FOSSIL = noSettingsItem("cover_fossil")
     @JvmField
-    val DINO_FOSSIL = noSettingsItem("dino_fossil")
+    val FOSSILIZED_DINO = noSettingsItem("fossilized_dino")
     @JvmField
     val DOME_FOSSIL = noSettingsItem("dome_fossil")
     @JvmField
-    val DRAKE_FOSSIL = noSettingsItem("drake_fossil")
+    val FOSSILIZED_DRAKE = noSettingsItem("fossilized_drake")
     @JvmField
-    val FISH_FOSSIL = noSettingsItem("fish_fossil")
+    val FOSSILIZED_FISH = noSettingsItem("fossilized_fish")
     @JvmField
     val HELIX_FOSSIL = noSettingsItem("helix_fossil")
     @JvmField

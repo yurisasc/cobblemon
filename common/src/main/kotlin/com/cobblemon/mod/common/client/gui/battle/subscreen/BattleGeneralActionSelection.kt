@@ -62,10 +62,8 @@ class BattleGeneralActionSelection(
                 }
 
                 addOption(rank++, battleLang("ui.run"), BattleGUI.runResource) {
-                    val serverBattle = BattleRegistry.getBattle(battle.battleId) ?: return@addOption
-                    MinecraftClient.getInstance().player?.sendMessage(battleLang("flee").yellow(), false)
-                    serverBattle.end()
-                    playDownSound(MinecraftClient.getInstance().soundManager)
+
+                    MinecraftClient.getInstance().player?.sendMessage(battleLang("flee"))
                 }
             }
         }

@@ -142,10 +142,10 @@ object CobblemonItemGroups {
         entries.add(CobblemonItems.PLUME_FOSSIL)
         entries.add(CobblemonItems.JAW_FOSSIL)
         entries.add(CobblemonItems.SAIL_FOSSIL)
-        entries.add(CobblemonItems.BIRD_FOSSIL)
-        entries.add(CobblemonItems.FISH_FOSSIL)
-        entries.add(CobblemonItems.DRAKE_FOSSIL)
-        entries.add(CobblemonItems.DINO_FOSSIL)
+        entries.add(CobblemonItems.FOSSILIZED_BIRD)
+        entries.add(CobblemonItems.FOSSILIZED_FISH)
+        entries.add(CobblemonItems.FOSSILIZED_DRAKE)
+        entries.add(CobblemonItems.FOSSILIZED_DINO)
 
         entries.add(CobblemonItems.TUMBLESTONE)
         entries.add(CobblemonItems.BLACK_TUMBLESTONE)
@@ -320,6 +320,13 @@ object CobblemonItemGroups {
 
         entries.add(CobblemonItems.DIRE_HIT)
         entries.add(CobblemonItems.GUARD_SPEC)
+
+        entries.add(CobblemonItems.HEALTH_FEATHER)
+        entries.add(CobblemonItems.MUSCLE_FEATHER)
+        entries.add(CobblemonItems.RESIST_FEATHER)
+        entries.add(CobblemonItems.GENIUS_FEATHER)
+        entries.add(CobblemonItems.CLEVER_FEATHER)
+        entries.add(CobblemonItems.SWIFT_FEATHER)
 
         entries.add(CobblemonItems.HP_UP)
         entries.add(CobblemonItems.PROTEIN)

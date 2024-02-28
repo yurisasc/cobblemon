@@ -21,8 +21,14 @@
 - Added effects for many Poké Balls when sending out Pokémon or capturing.
 - Added a new send-out ball toss animation that showcases the ball used for the Pokémon.
 - Added simple move animations for Pokémon in battle with a proof of concept for more complicated animations.
+- Added the EV Boosting Feathers.
 - Added Type Gems. 
-- Added various new tags for searchability and better compatibility. 
+- Added various new tags for searchability and better compatibility.
+- Added Gilded Chests, available in all Apricorn colors.
+- Added Relic Coins, Relic Coin Pouches, and Relic Coin Sacks.
+- Added Gimmighoul.
+  - Using Relic Coins, you can increase Gimmighoul's Coin Stash. Upon reaching 999, it can be evolved into Gholdengo.
+  - Additionally, if you give Gimmighoul a Netherite Scrap, you can increase its Netherite Stash. Who knows what might happen if it fills up?
 
 ### Changes
 - Pokémon now transition more smoothly between different poses.
@@ -52,8 +58,10 @@
 - Fixed very many issues with Bedrock particle effects.
 - Fixed Arbok patterns not being as specific in spawning as they were intended.
 - Fixed Pokémon not avoiding danger at all when pathfinding. 
+- Fixed Sobble line not being able to swim or breathe underwater.
 - Fixed incompatibility with [Just Enough Resources](https://modrinth.com/mod/just-enough-resources-jer).
 - Fixed incompatibility with [Visual Overhaul](https://modrinth.com/mod/visual-overhaul).
+- Fixed an issue that allowed Pokemon to spawn on rails.
 
 ### Developer
 - Significantly changed the way properties in PokemonEntity work. This could break some plugins (not in a big way, but changes will be needed).
@@ -65,6 +73,7 @@
 - Made PokemonProperties.parse more interoperable with Java.
 - Added the ``HeldItemEvent``, this comes with 2 implementation ``HeldItemEvent.Pre`` and ``HeldItemEvent.Post``. 
 - API to support dynamic lighting in any mod that implements this feature has been added to all Species & Forms, see LightingData class for details.
+- Added a Mixin for the BrewingStandScreenHandler to fix the incorrect handling of quickMove in Fabric.
 
 ### Datapack & Resourcepack Creators
 - The maximum amount of fossils that can fit in the Fossil Analyzer can be adjusted in the config.

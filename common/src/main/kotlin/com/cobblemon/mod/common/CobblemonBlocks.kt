@@ -192,6 +192,7 @@ object CobblemonBlocks : PlatformRegistry<Registry<Block>, RegistryKey<Registry<
         .mapColor(MapColor.TERRACOTTA_ORANGE)
         .strength(1.0F)
         .sounds(CobblemonSounds.TUMBLESTONE_BLOCK_SOUNDS)
+        .requiresTool()
         .instrument(Instrument.BASEDRUM)
     ))
     @JvmField
@@ -199,6 +200,7 @@ object CobblemonBlocks : PlatformRegistry<Registry<Block>, RegistryKey<Registry<
         .mapColor(MapColor.LIGHT_BLUE)
         .strength(1.0F)
         .sounds(CobblemonSounds.TUMBLESTONE_BLOCK_SOUNDS)
+        .requiresTool()
         .instrument(Instrument.BASEDRUM)
     ))
     @JvmField
@@ -206,6 +208,7 @@ object CobblemonBlocks : PlatformRegistry<Registry<Block>, RegistryKey<Registry<
         .mapColor(MapColor.TERRACOTTA_BLACK)
         .strength(1.0F)
         .sounds(CobblemonSounds.TUMBLESTONE_BLOCK_SOUNDS)
+        .requiresTool()
         .instrument(Instrument.BASEDRUM)
     ))
 
@@ -349,7 +352,7 @@ object CobblemonBlocks : PlatformRegistry<Registry<Block>, RegistryKey<Registry<
         RestorationTankBlock(
             AbstractBlock.Settings.create()
                 .mapColor(MapColor.IRON_GRAY)
-                .sounds(BlockSoundGroup.METAL)
+                .sounds(BlockSoundGroup.GLASS)
                 .pistonBehavior(PistonBehavior.BLOCK)
                 .requiresTool()
                 .strength(5.0F, 6.0F)
@@ -396,7 +399,6 @@ object CobblemonBlocks : PlatformRegistry<Registry<Block>, RegistryKey<Registry<
         )
     )
 
-    @JvmField
     val RED_MINT = create("red_mint", MintBlock(MintType.RED, AbstractBlock.Settings.create().mapColor(MapColor.RED).noCollision().ticksRandomly().breakInstantly().sounds(CobblemonSounds.MINT_SOUNDS)))
     @JvmField
     val BLUE_MINT = create("blue_mint", MintBlock(MintType.BLUE, AbstractBlock.Settings.create().mapColor(MapColor.BLUE).noCollision().ticksRandomly().breakInstantly().sounds(CobblemonSounds.MINT_SOUNDS)))

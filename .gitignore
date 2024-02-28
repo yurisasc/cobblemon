@@ -39,3 +39,6 @@ common/src/main/resources/assets/cobblemon/showdown
 common/logs
 fabric/logs
 forge/logs
+
+# MacOS
+.DS_Store

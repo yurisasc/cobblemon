@@ -85,6 +85,8 @@ object CobblemonSounds : PlatformRegistry<Registry<SoundEvent>, RegistryKey<Regi
     val MEDICINE_PILLS_USE = this.create("medicine_pills.use")
     @JvmField
     val MEDICINE_SPRAY_USE = this.create("medicine_spray.use")
+    @JvmField
+    val MEDICINE_FEATHER_USE = this.create("medicine_feather.use")
 
     @JvmField
     val BERRY_HARVEST = this.create("berry.harvest")
