@@ -99,6 +99,7 @@ class DragonairModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             )
         )
 
+        /* Anim doesn't exist
         surface_float = registerPose(
             poseName = "surface_float",
             poseTypes = PoseType.STATIONARY_POSES,
@@ -108,6 +109,8 @@ class DragonairModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
                 bedrock("dragonair", "surfacewater_float")
             )
         )
+
+         */
 
         surface_swim = registerPose(
             poseName = "surface_swim",
