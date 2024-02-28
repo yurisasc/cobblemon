@@ -8,13 +8,17 @@
 
 package com.cobblemon.mod.common.api.pokemon.feature
 
+import com.cobblemon.mod.common.CobblemonNetwork.sendPacket
 import com.cobblemon.mod.common.api.data.JsonDataRegistry
 import com.cobblemon.mod.common.api.pokemon.aspect.AspectProvider
 import com.cobblemon.mod.common.api.properties.CustomPokemonProperty
 import com.cobblemon.mod.common.api.properties.CustomPokemonPropertyType
 import com.cobblemon.mod.common.api.reactive.SimpleObservable
+import com.cobblemon.mod.common.net.messages.client.data.GlobalSpeciesFeatureSyncPacket
 import com.cobblemon.mod.common.pokemon.Pokemon
+import com.cobblemon.mod.common.util.adapters.IdentifierAdapter
 import com.cobblemon.mod.common.util.adapters.SpeciesFeatureProviderAdapter
+import com.cobblemon.mod.common.util.adapters.Vec3dAdapter
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
@@ -24,6 +28,7 @@ import net.minecraft.nbt.NbtCompound
 import net.minecraft.resource.ResourceType
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.util.Identifier
+import net.minecraft.util.math.Vec3d
 
 /**
  * A registry very similar to [SpeciesFeatures] but the [SpeciesFeatureProvider] contained within it
@@ -42,11 +47,15 @@ object GlobalSpeciesFeatures : JsonDataRegistry<SpeciesFeatureProvider<*>> {
     override val gson: Gson = GsonBuilder()
         .setPrettyPrinting()
         .registerTypeAdapter(SpeciesFeatureProvider::class.java, SpeciesFeatureProviderAdapter)
+        .registerTypeAdapter(Vec3d::class.java, Vec3dAdapter)
+        .registerTypeAdapter(Identifier::class.java, IdentifierAdapter)
         .create()
     override val typeToken: TypeToken<SpeciesFeatureProvider<*>> = TypeToken.get(SpeciesFeatureProvider::class.java)
     override val resourcePath: String = "global_species_features"
 
-    override fun sync(player: ServerPlayerEntity) {}
+    override fun sync(player: ServerPlayerEntity) {
+        player.sendPacket(GlobalSpeciesFeatureSyncPacket(codeFeatures + resourceFeatures))
+    }
 
     override fun reload(data: Map<Identifier, SpeciesFeatureProvider<*>>) {
         resourceFeatures.keys.toList().forEach(this::unregister)
@@ -58,6 +67,10 @@ object GlobalSpeciesFeatures : JsonDataRegistry<SpeciesFeatureProvider<*>> {
     fun getFeature(name: String) = getCodeFeature(name) ?: getResourceFeature(name)
 
     fun getFeatures() = (resourceFeatures.keys + codeFeatures.keys).mapNotNull(this::getFeature)
+
+    fun loadOnClient(entries: Collection<Map.Entry<String, SpeciesFeatureProvider<*>>>) {
+        codeFeatures.putAll(entries.map { it.toPair() })
+    }
 
     private fun register(name: String, provider: SpeciesFeatureProvider<*>, isCoded: Boolean) {
         val mapping = if (isCoded) codeFeatures else resourceFeatures

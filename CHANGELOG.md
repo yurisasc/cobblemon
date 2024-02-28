@@ -23,6 +23,12 @@
 - Added simple move animations for Pokémon in battle with a proof of concept for more complicated animations.
 - Added the EV Boosting Feathers.
 - Added Type Gems. 
+- Added various new tags for searchability and better compatibility.
+- Added Gilded Chests, available in all Apricorn colors.
+- Added Relic Coins, Relic Coin Pouches, and Relic Coin Sacks.
+- Added Gimmighoul.
+  - Using Relic Coins, you can increase Gimmighoul's Coin Stash. Upon reaching 999, it can be evolved into Gholdengo.
+  - Additionally, if you give Gimmighoul a Netherite Scrap, you can increase its Netherite Stash. Who knows what might happen if it fills up?
 - Added various new tags for searchability and better compatibility. 
 - Added Type Gems. These items hold no functionality for now. Start collecting though...
 - Added 6 custom Pottery Sherds, obtained from ruin structures.
@@ -144,6 +150,7 @@
 - Fixed Sobble line not being able to swim or breathe underwater.
 - Fixed incompatibility with [Just Enough Resources](https://modrinth.com/mod/just-enough-resources-jer).
 - Fixed incompatibility with [Visual Overhaul](https://modrinth.com/mod/visual-overhaul).
+- Fixed an issue that allowed Pokemon to spawn on rails.
 
 ### Developer
 - Significantly changed the way properties in PokemonEntity work. This could break some plugins (not in a big way, but changes will be needed).

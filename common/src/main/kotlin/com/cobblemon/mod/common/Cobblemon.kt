@@ -19,6 +19,7 @@ import com.cobblemon.mod.common.api.drop.ItemDropEntry
 import com.cobblemon.mod.common.api.events.CobblemonEvents.BATTLE_VICTORY
 import com.cobblemon.mod.common.api.events.CobblemonEvents.DATA_SYNCHRONIZED
 import com.cobblemon.mod.common.api.events.CobblemonEvents.EVOLUTION_COMPLETE
+import com.cobblemon.mod.common.api.events.CobblemonEvents.HELD_ITEM_UPDATED
 import com.cobblemon.mod.common.api.events.CobblemonEvents.LEVEL_UP_EVENT
 import com.cobblemon.mod.common.api.events.CobblemonEvents.POKEMON_CAPTURED
 import com.cobblemon.mod.common.api.events.CobblemonEvents.TRADE_COMPLETED
@@ -34,9 +35,7 @@ import com.cobblemon.mod.common.api.pokemon.effect.ShoulderEffectRegistry
 import com.cobblemon.mod.common.api.pokemon.experience.ExperienceCalculator
 import com.cobblemon.mod.common.api.pokemon.experience.ExperienceGroups
 import com.cobblemon.mod.common.api.pokemon.experience.StandardExperienceCalculator
-import com.cobblemon.mod.common.api.pokemon.feature.ChoiceSpeciesFeatureProvider
-import com.cobblemon.mod.common.api.pokemon.feature.FlagSpeciesFeatureProvider
-import com.cobblemon.mod.common.api.pokemon.feature.SpeciesFeatures
+import com.cobblemon.mod.common.api.pokemon.feature.*
 import com.cobblemon.mod.common.api.pokemon.helditem.HeldItemProvider
 import com.cobblemon.mod.common.api.pokemon.stats.EvCalculator
 import com.cobblemon.mod.common.api.pokemon.stats.Generation8EvCalculator
@@ -94,6 +93,7 @@ import com.cobblemon.mod.common.pokemon.aspects.SHINY_ASPECT
 import com.cobblemon.mod.common.pokemon.evolution.variants.BlockClickEvolution
 import com.cobblemon.mod.common.pokemon.feature.TagSeasonResolver
 import com.cobblemon.mod.common.pokemon.helditem.CobblemonHeldItemManager
+import com.cobblemon.mod.common.pokemon.misc.GimmighoulStashHandler
 import com.cobblemon.mod.common.pokemon.properties.HiddenAbilityPropertyType
 import com.cobblemon.mod.common.pokemon.properties.UncatchableProperty
 import com.cobblemon.mod.common.pokemon.properties.tags.PokemonFlagProperty
@@ -130,6 +130,7 @@ import net.minecraft.entity.data.TrackedDataHandlerRegistry
 import net.minecraft.item.Items
 import net.minecraft.item.NameTagItem
 import net.minecraft.registry.RegistryKey
+import net.minecraft.sound.SoundCategory
 import net.minecraft.util.WorldSavePath
 import net.minecraft.world.World
 import org.apache.logging.log4j.LogManager
@@ -253,6 +254,7 @@ object Cobblemon {
 
         SpeciesFeatures.types["choice"] = ChoiceSpeciesFeatureProvider::class.java
         SpeciesFeatures.types["flag"] = FlagSpeciesFeatureProvider::class.java
+        SpeciesFeatures.types["integer"] = IntSpeciesFeatureProvider::class.java
 
         SpeciesFeatures.register(
             DataKeys.CAN_BE_MILKED,
