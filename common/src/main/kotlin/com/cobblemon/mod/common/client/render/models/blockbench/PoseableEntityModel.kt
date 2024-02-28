@@ -715,6 +715,7 @@ abstract class PoseableEntityModel<T : Entity>(
     //This is used to set additional entity type specific context
     open fun setupEntityTypeContext(entity: T?) {}
 
+    //Called by LivingEntityRenderer's render method before calling model.render (which is this.render in this case)
     override fun setAngles(
         entity: T,
         limbSwing: Float,
