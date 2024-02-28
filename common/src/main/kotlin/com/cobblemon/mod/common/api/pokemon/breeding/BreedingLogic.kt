@@ -267,7 +267,7 @@ interface BreedingLogic {
 
         val parentIvs = mother.ivs.toMutableList()
         parentIvs.addAll(father.ivs)
-        while (numPassed > 0) {
+        while (numPassed > 0 && parentIvs.isNotEmpty()) {
             val statPicked: Map.Entry<Stat, Int> = parentIvs.random()
             if (!passedStats.contains(statPicked.key)) {
                 passedStats.add(statPicked.key)
