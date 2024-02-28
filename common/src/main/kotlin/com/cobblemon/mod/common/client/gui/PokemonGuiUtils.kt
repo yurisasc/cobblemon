@@ -31,7 +31,11 @@ fun drawProfilePokemon(
     rotation: Quaternionf,
     state: PoseableEntityState<PokemonEntity>?,
     partialTicks: Float,
-    scale: Float = 20F
+    scale: Float = 20F,
+    r: Float = 1F,
+    g: Float = 1F,
+    b: Float = 1F,
+    a: Float = 1F
 ) = drawProfilePokemon(
     species = renderablePokemon.species.resourceIdentifier,
     aspects = renderablePokemon.aspects,
@@ -39,7 +43,11 @@ fun drawProfilePokemon(
     rotation = rotation,
     state = state,
     partialTicks = partialTicks,
-    scale = scale
+    scale = scale,
+    r = r,
+    g = g,
+    b = b,
+    a = a,
 )
 
 fun drawProfilePokemon(
@@ -49,7 +57,11 @@ fun drawProfilePokemon(
     rotation: Quaternionf,
     state: PoseableEntityState<PokemonEntity>?,
     partialTicks: Float,
-    scale: Float = 20F
+    scale: Float = 20F,
+    r: Float = 1F,
+    g: Float = 1F,
+    b: Float = 1F,
+    a: Float = 1F
 ) {
     val model = PokemonModelRepository.getPoser(species, aspects)
     val texture = PokemonModelRepository.getTexture(species, aspects, state?.animationSeconds ?: 0F)
@@ -91,7 +103,7 @@ fun drawProfilePokemon(
     val packedLight = LightmapTextureManager.pack(11, 7)
 
     model.withLayerContext(bufferSource, state, PokemonModelRepository.getLayers(species, aspects)) {
-        model.render(context, matrixStack, buffer, packedLight, OverlayTexture.DEFAULT_UV, 1F, 1F, 1F, 1F)
+        model.render(context, matrixStack, buffer, packedLight, OverlayTexture.DEFAULT_UV, r, g, b, a)
         bufferSource.draw()
     }
     model.setDefault()

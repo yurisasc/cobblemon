@@ -26,7 +26,9 @@ import com.cobblemon.mod.common.client.gui.pokedex.PokedexGUIConstants.SPACER
 import com.cobblemon.mod.common.client.gui.pokedex.widgets.DescriptionWidget
 import com.cobblemon.mod.common.client.gui.pokedex.widgets.PokemonInfoWidget
 import com.cobblemon.mod.common.client.gui.pokedex.widgets.EntriesScrollingWidget
+import com.cobblemon.mod.common.client.gui.pokedex.widgets.FormsWidget
 import com.cobblemon.mod.common.client.render.drawScaledTextJustifiedRight
+import com.cobblemon.mod.common.pokemon.FormData
 import com.cobblemon.mod.common.pokemon.Species
 import com.cobblemon.mod.common.util.cobblemonResource
 import net.minecraft.client.MinecraftClient
@@ -51,6 +53,7 @@ class PokedexGUI private constructor(val pokedex: ClientPokedex) : Screen(Text.t
         private val pokemonDescriptionBase = cobblemonResource("textures/gui/pokedex/pokemon_description.png")// Render Description Background
         private val formsBase = cobblemonResource("textures/gui/pokedex/forms_base.png")// Render Form Background
 
+        private val unknownText = Text.translatable("cobblemon.ui.pokedex.unknown")
 
         /**
          * Attempts to open this screen for a client.
@@ -63,11 +66,13 @@ class PokedexGUI private constructor(val pokedex: ClientPokedex) : Screen(Text.t
     }
 
     private var filteredPokedex : List<Pair<Species, SpeciesPokedexEntry?>> = mutableListOf()
+    private var selectedPokemon : Pair<Species, SpeciesPokedexEntry?>? = null
+    private var pokemonName = Text.translatable("")
+
     private lateinit var scrollScreen : EntriesScrollingWidget<EntriesScrollingWidget.PokemonScrollSlot>
     private lateinit var pokemonInfoWidget : PokemonInfoWidget
     private lateinit var descriptionWidget: DescriptionWidget
-    private var selectedPokemon : Pair<Species, SpeciesPokedexEntry?>? = null
-    private var pokemonName = Text.translatable("")
+    private lateinit var formsWidget : FormsWidget
 
     public override fun init() {
         super.init()
@@ -93,6 +98,10 @@ class PokedexGUI private constructor(val pokedex: ClientPokedex) : Screen(Text.t
         if(::descriptionWidget.isInitialized) remove(descriptionWidget)
         descriptionWidget = DescriptionWidget( x + SPACER * 2 + SCROLL_WIDTH, y + HEADER_HEIGHT + SPACER + POKEMON_PORTRAIT_HEIGHT)
         addDrawableChild(descriptionWidget)
+
+        if(::formsWidget.isInitialized) remove(formsWidget)
+        formsWidget = FormsWidget(x + SPACER*3 + SCROLL_WIDTH + POKEMON_DESCRIPTION_WIDTH, y + HEADER_HEIGHT + SPACER + POKEMON_PORTRAIT_HEIGHT, ::setSelectedForm)
+        addDrawableChild(formsWidget)
 
         if(filteredPokedex.isNotEmpty()){
             setSelectedPokemon(filteredPokedex.first())
@@ -169,9 +178,24 @@ class PokedexGUI private constructor(val pokedex: ClientPokedex) : Screen(Text.t
     fun setSelectedPokemon(entry : Pair<Species, SpeciesPokedexEntry?>){
         selectedPokemon = entry
         pokemonInfoWidget.setPokemon(entry)
-        pokemonName = selectedPokemon!!.first.translatedName
-        LOGGER.info(entry.first.pokedex)
-        descriptionWidget.setText(entry.first.pokedex.map { it.toString() }.toList())
+
+        var textToShowInDescription = mutableListOf<String>()
+
+        if(entry.second != null){
+            pokemonName = selectedPokemon!!.first.translatedName
+            textToShowInDescription.addAll(selectedPokemon!!.first.pokedex)
+        } else {
+            pokemonName = Text.translatable(unknownText.string)
+            textToShowInDescription.add(unknownText.string)
+        }
+
+        descriptionWidget.setText(textToShowInDescription)
+
+        formsWidget.setForms(selectedPokemon!!.first.forms)
+    }
+
+    fun setSelectedForm(form: FormData){
+        pokemonInfoWidget.setForm(form)
     }
 
     override fun shouldPause(): Boolean = true

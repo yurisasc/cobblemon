@@ -541,6 +541,8 @@
   "cobblemon.ui.interact.mount.shoulder": "Shoulder",
 
   "cobblemon.ui.pokedex.unknown": "???",
+  "cobblemon.ui.pokedex.weightunit": "hg",
+  "cobblemon.ui.pokedex.heightunit": "hm",
 
   "key.cobblemon.upshiftparty": "Party Shift Up",
   "key.cobblemon.downshiftparty": "Party Shift Down",
