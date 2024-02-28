@@ -69,8 +69,6 @@ class Summary private constructor(party: Collection<Pokemon?>, private val edita
         const val BASE_HEIGHT = 161
         private const val PORTRAIT_SIZE = 66
         private const val SCALE = 0.5F
-        //Dev only, allows you to tweak model settings
-        const val SHOW_CONTROLS = true
 
         // Main Screen Index
         private const val INFO = 0
@@ -617,7 +615,7 @@ class Summary private constructor(party: Collection<Pokemon?>, private val edita
         ) {
             this.focused = null
         }
-        if (SHOW_CONTROLS) {
+        if (Cobblemon.config.enableDebugKeys) {
             val model = PokemonModelRepository.getPoser(selectedPokemon.species.resourceIdentifier, selectedPokemon.aspects)
             if (keyCode == InputUtil.GLFW_KEY_UP) {
                 model.profileTranslation = model.profileTranslation.add(0.0, -0.01, 0.0)
@@ -646,7 +644,7 @@ class Summary private constructor(party: Collection<Pokemon?>, private val edita
     }
 
     override fun close() {
-        if (SHOW_CONTROLS) {
+        if (Cobblemon.config.enableDebugKeys) {
             val model = PokemonModelRepository.getPoser(selectedPokemon.species.resourceIdentifier, selectedPokemon.aspects)
             MinecraftClient.getInstance().player?.sendMessage(Text.of("Profile Translation: ${model.profileTranslation}"))
             MinecraftClient.getInstance().player?.sendMessage(Text.of("Profile Scale: ${model.profileScale}"))
