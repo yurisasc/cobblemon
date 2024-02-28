@@ -38,11 +38,11 @@ class DartrixModel(root: ModelPart) : PokemonPoseableModel(), BipedFrame, BiWing
     override val leftLeg = getPart("leg_left")
     override val rightLeg = getPart("leg_right")
 
-    override var portraitScale = 2.6F
-    override var portraitTranslation = Vec3d(-0.1, -0.7, 0.0)
+    override var portraitTranslation = Vec3d(-0.23, 1.14, 0.0)
+    override var portraitScale = 1.26F
 
-    override var profileScale = 1.1F
-    override var profileTranslation = Vec3d(0.0, 0.1, 0.0)
+    override var profileTranslation = Vec3d(0.0, 0.79, 0.0)
+    override var profileScale = 0.68F
 
     lateinit var fly: PokemonPose
     lateinit var flyidle: PokemonPose

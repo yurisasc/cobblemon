@@ -41,11 +41,11 @@ class DecidueyeModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
 
     val arrow = getPart("arrow")
 
-    override var portraitScale = 2.1F
-    override var portraitTranslation = Vec3d(-0.2, 0.65, 0.0)
+    override var portraitTranslation = Vec3d(-0.22, 2.74, 0.0)
+    override var portraitScale = 1.69F
 
-    override var profileScale = 0.8F
-    override var profileTranslation = Vec3d(0.0, 0.5, 0.0)
+    override var profileTranslation = Vec3d(0.0, 1.15, 0.0)
+    override var profileScale = 0.43F
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
