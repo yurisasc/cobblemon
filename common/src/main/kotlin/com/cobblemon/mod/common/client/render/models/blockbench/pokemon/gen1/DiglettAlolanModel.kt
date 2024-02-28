@@ -23,11 +23,11 @@ import net.minecraft.util.math.Vec3d
 class DiglettAlolanModel(root: ModelPart) : PokemonPoseableModel() {
     override val rootPart = root.registerChildWithAllChildren("diglett_alolan")
 
-    override val portraitScale = 1.8F
-    override val portraitTranslation = Vec3d(0.05, -1.0, 0.0)
+    override var portraitScale = 1.8F
+    override var portraitTranslation = Vec3d(0.05, -1.0, 0.0)
 
-    override val profileScale = 0.9F
-    override val profileTranslation = Vec3d(0.0, 0.15, 0.0)
+    override var profileScale = 0.9F
+    override var profileTranslation = Vec3d(0.0, 0.15, 0.0)
 
     lateinit var stand: PokemonPose
     lateinit var walk: PokemonPose

@@ -27,11 +27,11 @@ class BastiodonModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Qu
     override val foreLeftLeg = getPart("left_front_upper_leg")
     override val foreRightLeg = getPart("right_front_upper_leg")
 
-    override val portraitScale = 1.4F
-    override val portraitTranslation = Vec3d(-0.75, -0.2, 0.0)
+    override var portraitScale = 1.4F
+    override var portraitTranslation = Vec3d(-0.75, -0.2, 0.0)
 
-    override val profileScale = 0.7F
-    override val profileTranslation = Vec3d(0.0, 0.6, 0.0)
+    override var profileScale = 0.7F
+    override var profileTranslation = Vec3d(0.0, 0.6, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose

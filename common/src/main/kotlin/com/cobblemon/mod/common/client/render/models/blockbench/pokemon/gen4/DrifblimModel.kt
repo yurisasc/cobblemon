@@ -20,11 +20,11 @@ import net.minecraft.util.math.Vec3d
 class DrifblimModel (root: ModelPart) : PokemonPoseableModel() {
     override val rootPart = root.registerChildWithAllChildren("drifblim")
 
-    override val portraitScale = 0.9F
-    override val portraitTranslation = Vec3d(-0.35, 1.8, 0.0)
+    override var portraitScale = 0.9F
+    override var portraitTranslation = Vec3d(-0.35, 1.8, 0.0)
 
-    override val profileScale = 0.4F
-    override val profileTranslation = Vec3d(0.0, 1.1, 0.0)
+    override var profileScale = 0.4F
+    override var profileTranslation = Vec3d(0.0, 1.1, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose

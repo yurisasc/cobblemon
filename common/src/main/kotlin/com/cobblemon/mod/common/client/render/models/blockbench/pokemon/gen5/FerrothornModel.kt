@@ -11,7 +11,7 @@ class FerrothornModel(root: ModelPart) : PokemonPoseableModel() {
     override val rootPart = root.registerChildWithAllChildren("ferrothorn")
     override var profileScale = 0.40F
     override var profileTranslation = Vec3d(-0.0075, 0.92, 0.0)
-    override val portraitTranslation = Vec3d(0.0, 0.85, 0.0)
+    override var portraitTranslation = Vec3d(0.0, 0.85, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose

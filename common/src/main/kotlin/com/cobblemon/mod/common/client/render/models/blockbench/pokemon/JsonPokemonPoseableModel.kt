@@ -91,15 +91,11 @@ class JsonPokemonPoseableModel(override val rootPart: Bone) : PokemonPoseableMod
     @SerializedName("profileTranslation")
     private val _profileTranslation: Vec3d? = null
 
-    override val portraitScale
-        get() = _portraitScale ?: 1F
-    override val portraitTranslation
-        get() = _portraitTranslation ?: Vec3d(0.0, 0.0, 0.0)
+    override var portraitScale= _portraitScale ?: 1F
+    override var portraitTranslation = _portraitTranslation ?: Vec3d(0.0, 0.0, 0.0)
 
-    override val profileScale
-        get() = _profileScale ?: 1F
-    override val profileTranslation
-        get() = _profileTranslation ?: Vec3d(0.0, 0.0, 0.0)
+    override var profileScale = _profileScale ?: 1F
+    override var profileTranslation = _profileTranslation ?: Vec3d(0.0, 0.0, 0.0)
 
 
     val faint: Supplier<StatefulAnimation<PokemonEntity, ModelFrame>>? = null

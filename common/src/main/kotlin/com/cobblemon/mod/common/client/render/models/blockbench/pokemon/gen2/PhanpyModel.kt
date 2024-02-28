@@ -28,11 +28,11 @@ class PhanpyModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quadr
     override val hindLeftLeg = getPart("leg_back_left")
     override val hindRightLeg = getPart("leg_back_right")
 
-    override val portraitScale = 1.8F
-    override val portraitTranslation = Vec3d(-0.4, -0.8, 0.0)
+    override var portraitScale = 1.8F
+    override var portraitTranslation = Vec3d(-0.4, -0.8, 0.0)
 
-    override val profileScale = 0.85F
-    override val profileTranslation = Vec3d(0.0, 0.4, 0.0)
+    override var profileScale = 0.85F
+    override var profileTranslation = Vec3d(0.0, 0.4, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose

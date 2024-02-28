@@ -20,11 +20,11 @@ import net.minecraft.util.math.Vec3d
 class FalinksModel (root: ModelPart) : PokemonPoseableModel(){
     override val rootPart = root.registerChildWithAllChildren("falinks")
 
-    override val portraitScale = 1.9F
-    override val portraitTranslation = Vec3d(-1.0, -1.2, 0.0)
+    override var portraitScale = 1.9F
+    override var portraitTranslation = Vec3d(-1.0, -1.2, 0.0)
 
-    override val profileScale = 0.5F
-    override val profileTranslation = Vec3d(0.1, 0.9, 0.0)
+    override var profileScale = 0.5F
+    override var profileTranslation = Vec3d(0.1, 0.9, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var battlestanding: PokemonPose

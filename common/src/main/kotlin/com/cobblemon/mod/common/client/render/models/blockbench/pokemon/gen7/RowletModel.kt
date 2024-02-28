@@ -38,11 +38,11 @@ class RowletModel(root: ModelPart) : PokemonPoseableModel(), BipedFrame, BiWinge
     override val leftLeg = getPart("foot_left")
     override val rightLeg = getPart("foot_right")
 
-    override val portraitScale = 2.6F
-    override val portraitTranslation = Vec3d(-0.15, -1.7, 0.0)
+    override var portraitScale = 2.6F
+    override var portraitTranslation = Vec3d(-0.15, -1.7, 0.0)
 
-    override val profileScale = 1.1F
-    override val profileTranslation = Vec3d(0.0, 0.09, 0.0)
+    override var profileScale = 1.1F
+    override var profileTranslation = Vec3d(0.0, 0.09, 0.0)
 
     lateinit var fly: PokemonPose
     lateinit var flyidle: PokemonPose

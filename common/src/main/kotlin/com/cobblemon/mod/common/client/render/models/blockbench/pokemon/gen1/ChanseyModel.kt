@@ -26,11 +26,11 @@ class ChanseyModel(root: ModelPart) : PokemonPoseableModel(), BipedFrame {
     override val leftLeg = getPart("left_foot")
     override val rightLeg = getPart("right_foot")
 
-    override val portraitScale = 1.5F
-    override val portraitTranslation = Vec3d(-0.35, 0.3, 0.0)
+    override var portraitScale = 1.5F
+    override var portraitTranslation = Vec3d(-0.35, 0.3, 0.0)
 
-    override val profileScale = 0.8F
-    override val profileTranslation = Vec3d(0.0, 0.55, 0.0)
+    override var profileScale = 0.8F
+    override var profileTranslation = Vec3d(0.0, 0.55, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose

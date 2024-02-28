@@ -23,11 +23,11 @@ import net.minecraft.util.math.Vec3d
 class DugtrioModel(root: ModelPart) : PokemonPoseableModel() {
     override val rootPart = root.registerChildWithAllChildren("dugtrio")
 
-    override val portraitScale = 1.3F
-    override val portraitTranslation = Vec3d(0.0, -0.4, 0.0)
+    override var portraitScale = 1.3F
+    override var portraitTranslation = Vec3d(0.0, -0.4, 0.0)
 
-    override val profileScale = 0.9F
-    override val profileTranslation = Vec3d(0.0, 0.15, 0.0)
+    override var profileScale = 0.9F
+    override var profileTranslation = Vec3d(0.0, 0.15, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walking: PokemonPose

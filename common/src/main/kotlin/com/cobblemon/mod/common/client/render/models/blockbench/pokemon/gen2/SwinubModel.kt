@@ -20,11 +20,11 @@ import net.minecraft.util.math.Vec3d
 class SwinubModel(root: ModelPart) : PokemonPoseableModel() {
     override val rootPart = root.registerChildWithAllChildren("swinub")
 
-    override val portraitScale = 3.0F
-    override val portraitTranslation = Vec3d(-0.2, -3.0, 0.0)
+    override var portraitScale = 3.0F
+    override var portraitTranslation = Vec3d(-0.2, -3.0, 0.0)
 
-    override val profileScale = 1.5F
-    override val profileTranslation = Vec3d(0.0, -0.55, 0.0)
+    override var profileScale = 1.5F
+    override var profileTranslation = Vec3d(0.0, -0.55, 0.0)
 
 //    lateinit var sleep: PokemonPose
     lateinit var standing: PokemonPose

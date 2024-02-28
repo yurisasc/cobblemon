@@ -30,11 +30,11 @@ class GrookeyModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bipe
     val stick_hair = getPart("hair_stick")
     val stick = getPart("stick")
 
-    override val portraitScale = 2.2F
-    override val portraitTranslation = Vec3d(-0.2, -0.9, 0.0)
+    override var portraitScale = 2.2F
+    override var portraitTranslation = Vec3d(-0.2, -0.9, 0.0)
 
-    override val profileScale = 0.75F
-    override val profileTranslation = Vec3d(0.0, 0.6, 0.0)
+    override var profileScale = 0.75F
+    override var profileTranslation = Vec3d(0.0, 0.6, 0.0)
 
     lateinit var battleidle: PokemonPose
     lateinit var standing: PokemonPose

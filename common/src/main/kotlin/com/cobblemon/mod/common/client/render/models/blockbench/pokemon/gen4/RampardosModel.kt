@@ -24,11 +24,11 @@ class RampardosModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bi
     override val leftLeg = getPart("left_upper_leg")
     override val rightLeg = getPart("right_upper_leg")
 
-    override val portraitScale = 1.5F
-    override val portraitTranslation = Vec3d(-1.0, 1.5, 0.0)
+    override var portraitScale = 1.5F
+    override var portraitTranslation = Vec3d(-1.0, 1.5, 0.0)
 
-    override val profileScale = 0.5F
-    override val profileTranslation = Vec3d(0.0, 1.0, 0.0)
+    override var profileScale = 0.5F
+    override var profileTranslation = Vec3d(0.0, 1.0, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose

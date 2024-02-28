@@ -26,11 +26,11 @@ class CuboneModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedF
     override val leftLeg = getPart("left_leg")
     override val rightLeg = getPart("right_leg")
 
-    override val portraitScale = 2.0F
-    override val portraitTranslation = Vec3d(0.1, -0.7, 0.0)
+    override var portraitScale = 2.0F
+    override var portraitTranslation = Vec3d(0.1, -0.7, 0.0)
 
-    override val profileScale = 1.0F
-    override val profileTranslation = Vec3d(0.0, 0.25, 0.0)
+    override var profileScale = 1.0F
+    override var profileTranslation = Vec3d(0.0, 0.25, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose

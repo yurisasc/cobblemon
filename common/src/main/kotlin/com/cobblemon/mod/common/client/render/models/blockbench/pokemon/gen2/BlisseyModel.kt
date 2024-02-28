@@ -31,11 +31,11 @@ class BlisseyModel(root: ModelPart) : PokemonPoseableModel(), BipedFrame, Bimanu
     override val leftArm = getPart("left_arm")
     override val rightArm = getPart("right_arm")
 
-    override val portraitScale = 1.5F
-    override val portraitTranslation = Vec3d(-0.6, 0.9, 0.0)
+    override var portraitScale = 1.5F
+    override var portraitTranslation = Vec3d(-0.6, 0.9, 0.0)
 
-    override val profileScale = 0.7F
-    override val profileTranslation = Vec3d(0.0, 0.7, 0.0)
+    override var profileScale = 0.7F
+    override var profileTranslation = Vec3d(0.0, 0.7, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose

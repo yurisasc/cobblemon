@@ -19,11 +19,11 @@ import net.minecraft.util.math.Vec3d
 class OmastarModel(root: ModelPart) : PokemonPoseableModel() {
     override val rootPart = root.registerChildWithAllChildren("omastar")
 
-    override val portraitScale = 3.3F
-    override val portraitTranslation = Vec3d(-0.2, -3.2, 0.0)
+    override var portraitScale = 3.3F
+    override var portraitTranslation = Vec3d(-0.2, -3.2, 0.0)
 
-    override val profileScale = 1.6F
-    override val profileTranslation = Vec3d(0.0, -0.7, 0.0)
+    override var profileScale = 1.6F
+    override var profileTranslation = Vec3d(0.0, -0.7, 0.0)
 
     lateinit var standing: PokemonPose
 //    lateinit var walk: PokemonPose
