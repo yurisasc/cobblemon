@@ -20,9 +20,13 @@ import com.cobblemon.mod.common.api.spawning.fishing.FishingSpawnCause
 import com.cobblemon.mod.common.api.text.red
 import com.cobblemon.mod.common.api.types.ElementalTypes
 import com.cobblemon.mod.common.battles.BattleBuilder
+import com.cobblemon.mod.common.client.render.SnowstormParticle
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.item.interactive.PokerodItem
 import com.cobblemon.mod.common.loot.CobblemonLootTables
+import com.cobblemon.mod.common.net.messages.client.effect.SpawnSnowstormEntityParticlePacket
+import com.cobblemon.mod.common.net.messages.client.effect.SpawnSnowstormParticlePacket
+import com.cobblemon.mod.common.particle.CobblemonParticles
 import com.cobblemon.mod.common.pokemon.Gender
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.pokemon.abilities.HiddenAbility
@@ -565,7 +569,12 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
                     val g = MathHelper.nextFloat(random, 0.0f, 360.0f) * (Math.PI.toFloat() / 180)
                     val h = MathHelper.nextFloat(random, 25.0f, 60.0f)
                     val partX = this.x + (MathHelper.sin(g) * h).toDouble() * 0.1
-                    serverWorld.spawnParticles(ParticleTypes.SPLASH, partX, this.y, this.z, 4 + random.nextInt(4), 0.1, 0.0, 0.1, 0.0)
+                    serverWorld.spawnParticles(ParticleTypes.SPLASH, partX, this.y, this.z, 6 + random.nextInt(4), 0.0, 0.2, 0.0, 0.0)
+
+                    // spawn test particle when reeling in pokemon
+                    val particle = Identifier("cobblemon:impact_water")
+                    //SpawnSnowstormParticlePacket(particle, this.pos)
+                    SpawnSnowstormEntityParticlePacket(particle,this.id)
 
                     playerEntity.getWorld().spawnEntity(ExperienceOrbEntity(playerEntity.getWorld(), playerEntity.getX(), playerEntity.getY() + 0.5, playerEntity.getZ() + 0.5, random.nextInt(6) + 1))
                 }
@@ -578,6 +587,34 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
         } else {
             0
         }
+    }
+
+    // calculate the trajectory for the reeled in pokemon
+    fun lobPokemonTowardsTarget(player: PlayerEntity, entity: Entity) {
+        val rad = Math.toRadians(player.yaw.toDouble())
+        val targetDirection = Vec3d(-Math.sin(rad), 0.0, Math.cos(rad))
+        val targetPos = player.pos.add(targetDirection.multiply(5.0))
+
+        val delta = targetPos.subtract(entity.pos)
+        val horizontalDistance = Math.sqrt(delta.x * delta.x + delta.z * delta.z)
+
+        // Introduce a damping factor that reduces the velocity as the distance increases
+        val dampingFactor = 1 - (horizontalDistance / 80).coerceIn(0.0, 0.8) // increase end of coerceIn to dampen more
+
+        val verticalVelocity = 0.30 // Base vertical velocity for a gentle arc
+        val horizontalVelocityFactor = 0.155 // Base horizontal velocity factor
+
+        // Apply the damping factor to both horizontal and vertical velocities
+        val adjustedHorizontalVelocity = horizontalDistance * horizontalVelocityFactor * dampingFactor
+        val adjustedVerticalVelocity = (verticalVelocity + (horizontalDistance * 0.05)) * dampingFactor
+
+        // Calculate the final velocities
+        val velocityX = delta.x / horizontalDistance * adjustedHorizontalVelocity
+        val velocityZ = delta.z / horizontalDistance * adjustedHorizontalVelocity
+        val velocityY = adjustedVerticalVelocity
+
+        val tossVelocity = Vec3d(velocityX, velocityY, velocityZ)
+        entity.setVelocity(tossVelocity)
     }
 
     fun spawnPokemonFromFishing(player: PlayerEntity, chosenBucket: SpawnBucket, bobberBait: ItemStack) {
@@ -637,48 +674,8 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
                     val diff = targetPos.subtract(entity.pos)
                     val distance = diff.horizontalLength()
 
-                    // variables for velocity adjustments
-                    val baseVelocity: Double
-                    val velocityIncreasePerBlock: Double
-                    val baseArc: Double
-                    val arcIncreasePerBlock: Double
-
-                    // velocity based on distance
-                    when {
-                        distance < 5 -> { // distances under 10 blocks be a bit softer launch
-                            baseVelocity = 0.05
-                            velocityIncreasePerBlock = 0.02
-                            baseArc = 0.35
-                            arcIncreasePerBlock = 0.015
-                        }
-                        distance < 10 -> { // distances under 10 blocks be a bit softer launch
-                            baseVelocity = 0.3
-                            velocityIncreasePerBlock = 0.04
-                            baseArc = 0.35
-                            arcIncreasePerBlock = 0.015
-                        }
-                        distance <= 20 -> { // distances over 20 blocks be a bit harsher launch
-                            baseVelocity = 0.4
-                            velocityIncreasePerBlock = 0.04
-                            baseArc = 0.4
-                            arcIncreasePerBlock = 0.02
-                        }
-                        else -> { // baseline launch for between 10 and 20 block distance
-                            baseVelocity = 0.5
-                            velocityIncreasePerBlock = 0.06
-                            baseArc = 0.45
-                            arcIncreasePerBlock = 0.025
-                        }
-                    }
-
-                    // Calculate velocities with adjusted factors
-                    val velocityX = diff.x / distance * (baseVelocity + distance * velocityIncreasePerBlock)
-                    val velocityZ = diff.z / distance * (baseVelocity + distance * velocityIncreasePerBlock)
-                    val velocityY = baseArc + distance * arcIncreasePerBlock
-
-                    val tossVelocity = Vec3d(velocityX, velocityY, velocityZ)
-                    entity.setVelocity(tossVelocity)
-                    //entity.pokemon.aspects
+                    // Example of applying the new velocity
+                    lobPokemonTowardsTarget(player, entity)
                 }
                 else { // it is a big lad
                     world.playSound(null, this.blockPos, CobblemonSounds.FISHING_SPLASH_BIG_1, SoundCategory.BLOCKS, 1.0F, 1.0F)
@@ -927,10 +924,10 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
         else return waitCountdown // do not alter the hookcountdown
     }
 
-    // todo chance to alter HA based on the berry effect
+    // chance to alter HA based on the berry effect
     fun alterHAAttempt(pokemon: Pokemon, bait: ItemStack) {
         if (checkBaitSuccessRate(FishingBaits.getBaitSuccessChance(bait) ?: 0.0)) {
-            giveHiddenAbility(pokemon) // todo make this give the pokemon its hidden ability
+            giveHiddenAbility(pokemon)
         }
     }
 

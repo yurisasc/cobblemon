@@ -14,6 +14,7 @@ import com.cobblemon.mod.common.api.fishing.PokeRods
 import com.cobblemon.mod.common.api.pokeball.PokeBalls
 import com.cobblemon.mod.common.api.text.gray
 import com.cobblemon.mod.common.entity.fishing.PokeRodFishingBobberEntity
+import com.cobblemon.mod.common.item.BerryItem
 import net.minecraft.client.item.TooltipContext
 import net.minecraft.enchantment.EnchantmentHelper
 import net.minecraft.entity.player.PlayerEntity
@@ -24,6 +25,7 @@ import net.minecraft.sound.SoundCategory
 import net.minecraft.sound.SoundEvents
 import net.minecraft.stat.Stats
 import net.minecraft.text.Text
+import net.minecraft.util.ActionResult
 import net.minecraft.util.Hand
 import net.minecraft.util.Identifier
 import net.minecraft.util.TypedActionResult
@@ -34,10 +36,13 @@ class PokerodItem(val pokeRodId: Identifier, settings: Settings?) : FishingRodIt
     var bait: ItemStack = ItemStack.EMPTY
 
     override fun use(world: World, user: PlayerEntity, hand: Hand): TypedActionResult<ItemStack> {
+        // if item in mainhand is berry item then don't do anything
+        if (user.getStackInHand(Hand.MAIN_HAND).item is BerryItem)
+            return TypedActionResult(ActionResult.FAIL, user.getStackInHand(hand))
+
         val itemStack = user.getStackInHand(hand)
-        val otherHand = if (hand == Hand.MAIN_HAND) Hand.OFF_HAND else Hand.MAIN_HAND
-        val otherHandItem = user.getStackInHand(otherHand)
-        if (!world.isClient && user.fishHook == null && FishingBaits.isFishingBait(otherHandItem) && !ItemStack.areItemsEqual(otherHandItem, bait) && !user.isSneaking) {
+        val offHandItem = user.getStackInHand(Hand.OFF_HAND)
+        if (!world.isClient && user.fishHook == null && FishingBaits.isFishingBait(offHandItem) && !ItemStack.areItemsEqual(offHandItem, bait) && !user.isSneaking) {
             // swap baits if one is already on the hook
             if (bait != ItemStack.EMPTY) {
                 user.dropStack(bait) // drop old bait
@@ -45,10 +50,10 @@ class PokerodItem(val pokeRodId: Identifier, settings: Settings?) : FishingRodIt
             }
 
             // apply it to the rod as bait
-            bait = otherHandItem.item.defaultStack
+            bait = offHandItem.item.defaultStack
 
             // decrement 1 stack of that item from the other hand
-            otherHandItem.decrement(1)
+            offHandItem.decrement(1)
         }
         if (!world.isClient && user.fishHook == null && user.isSneaking) {
             // remove bait if one is already on the hook
