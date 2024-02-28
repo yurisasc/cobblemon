@@ -29,7 +29,7 @@ import net.minecraft.util.math.Vec3d
  * @since January 4th, 2023
  */
 class BedrockParticle(
-    var texture: Identifier = Identifier("minecraft:textures/particle/bubble.png"),
+    var texture: Identifier = Identifier("minecraft:textures/particles/bubble.png"),
     var material: ParticleMaterial = ParticleMaterial.ALPHA,
     var uvMode: ParticleUVMode = StaticParticleUVMode(),
     var sizeX: Expression = NumberExpression(0.15),
