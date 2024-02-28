@@ -19,8 +19,8 @@ class DracovishModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("dracovish")
     override val head = getPart("head")
 
-    override var portraitScale = 1.00F
-    override var portraitTranslation = Vec3d(-0.25, 0.85, 0.0)
+    override var portraitTranslation = Vec3d(-0.25, 2.15, 0.0)
+    override var portraitScale = 0.55F
 
     override var profileScale = 0.3F
     override var profileTranslation = Vec3d(0.0, 1.35, 0.0)

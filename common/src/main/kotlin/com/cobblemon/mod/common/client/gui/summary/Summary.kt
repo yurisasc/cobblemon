@@ -648,6 +648,8 @@ class Summary private constructor(party: Collection<Pokemon?>, private val edita
             val model = PokemonModelRepository.getPoser(selectedPokemon.species.resourceIdentifier, selectedPokemon.aspects)
             MinecraftClient.getInstance().player?.sendMessage(Text.of("Profile Translation: ${model.profileTranslation}"))
             MinecraftClient.getInstance().player?.sendMessage(Text.of("Profile Scale: ${model.profileScale}"))
+            Cobblemon.LOGGER.info("override var profileTranslation = Vec3d(${model.profileTranslation.x}, ${model.profileTranslation.y}, ${model.profileTranslation.z})")
+            Cobblemon.LOGGER.info("override var profileScale = ${model.profileScale}F")
         }
         super.close()
     }

@@ -1,5 +1,6 @@
 package com.cobblemon.mod.common.client.keybind.keybinds
 
+import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.client.CobblemonClient
 import com.cobblemon.mod.common.client.keybind.CobblemonKeyBinding
 import com.cobblemon.mod.common.client.keybind.KeybindCategories
@@ -123,6 +124,8 @@ object DebugKeybindings {
                 val model = PokemonModelRepository.getPoser(currentlySelectedPokemon.species.resourceIdentifier, currentlySelectedPokemon.aspects)
                 MinecraftClient.getInstance().player?.sendMessage(Text.of("Portrait Translation: ${model.portraitTranslation}"))
                 MinecraftClient.getInstance().player?.sendMessage(Text.of("Portrait Scale: ${model.portraitScale}"))
+                Cobblemon.LOGGER.info("override var portraitTranslation = Vec3d(${model.portraitTranslation.x}, ${model.portraitTranslation.y}, ${model.portraitTranslation.z})")
+                Cobblemon.LOGGER.info("override var portraitScale = ${model.portraitScale}F")
             }
         }
     }

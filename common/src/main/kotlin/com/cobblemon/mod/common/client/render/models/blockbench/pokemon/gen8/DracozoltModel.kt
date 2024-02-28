@@ -19,11 +19,11 @@ class DracozoltModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("dracozolt")
     override val head = getPart("head")
 
-    override var portraitScale = 1.75F
-    override var portraitTranslation = Vec3d(-0.25, 0.85, 0.0)
+    override var portraitScale = 0.85F
+    override var portraitTranslation = Vec3d(-0.55, 1.45, 0.0)
 
-    override var profileScale = 0.73F
-    override var profileTranslation = Vec3d(0.0, 0.65, 0.0)
+    override var profileTranslation = Vec3d(0.08, 1.12, 0.0)
+    override var profileScale = 0.45F
 
     lateinit var sleep: PokemonPose
     lateinit var standing: PokemonPose
