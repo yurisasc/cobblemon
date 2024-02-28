@@ -192,6 +192,7 @@ object CobblemonBlocks : PlatformRegistry<Registry<Block>, RegistryKey<Registry<
         .mapColor(MapColor.TERRACOTTA_ORANGE)
         .strength(1.0F)
         .sounds(CobblemonSounds.TUMBLESTONE_BLOCK_SOUNDS)
+        .requiresTool()
         .instrument(Instrument.BASEDRUM)
     ))
     @JvmField
@@ -199,6 +200,7 @@ object CobblemonBlocks : PlatformRegistry<Registry<Block>, RegistryKey<Registry<
         .mapColor(MapColor.LIGHT_BLUE)
         .strength(1.0F)
         .sounds(CobblemonSounds.TUMBLESTONE_BLOCK_SOUNDS)
+        .requiresTool()
         .instrument(Instrument.BASEDRUM)
     ))
     @JvmField
@@ -206,6 +208,7 @@ object CobblemonBlocks : PlatformRegistry<Registry<Block>, RegistryKey<Registry<
         .mapColor(MapColor.TERRACOTTA_BLACK)
         .strength(1.0F)
         .sounds(CobblemonSounds.TUMBLESTONE_BLOCK_SOUNDS)
+        .requiresTool()
         .instrument(Instrument.BASEDRUM)
     ))
 
