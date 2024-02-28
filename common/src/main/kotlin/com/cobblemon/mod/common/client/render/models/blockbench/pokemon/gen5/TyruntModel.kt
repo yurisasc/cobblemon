@@ -24,11 +24,11 @@ class TyruntModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedF
     override val leftLeg = getPart("leg_left")
     override val rightLeg = getPart("leg_right")
 
-    override var portraitScale = 1.0F
-    override var portraitTranslation = Vec3d(0.0, 0.0, 0.0)
+    override var portraitTranslation = Vec3d(-0.33, 0.5, 0.0)
+    override var portraitScale = 1.01F
 
-    override var profileScale = 1.0F
-    override var profileTranslation = Vec3d(0.0, 0.0, 0.0)
+    override var profileTranslation = Vec3d(-0.02, 0.7, 0.0)
+    override var profileScale = 0.7F
 
     //    lateinit var sleep: PokemonPose
     lateinit var standing: PokemonPose
