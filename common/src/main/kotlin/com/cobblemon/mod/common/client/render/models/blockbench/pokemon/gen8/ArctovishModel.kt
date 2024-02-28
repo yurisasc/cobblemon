@@ -19,11 +19,11 @@ class ArctovishModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("arctovish")
     override val head = getPart("head")
 
-    override val portraitScale = 1.75F
-    override val portraitTranslation = Vec3d(-0.25, 0.85, 0.0)
+    override val portraitScale = 0.5F
+    override val portraitTranslation = Vec3d(-0.25, 1.50, 0.0)
 
-    override val profileScale = 0.73F
-    override val profileTranslation = Vec3d(0.0, 0.65, 0.0)
+    override val profileScale = 0.35F
+    override val profileTranslation = Vec3d(0.0, 1.25, 0.0)
 
     lateinit var sleep: PokemonPose
     lateinit var standing: PokemonPose
