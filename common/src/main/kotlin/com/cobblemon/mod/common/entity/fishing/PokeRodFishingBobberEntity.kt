@@ -663,9 +663,7 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
 
                 if (spawnedPokemon.pokemon.species.weight.toDouble() < 900.0) { // if weight value of Pokemon is less than 200 lbs (in hectograms) which we store weight as) then reel it in to the player
                     // play sound for small splash when this weight class is fished up
-                    world.playSound(null, this.blockPos, CobblemonSounds.FISHING_SPLASH_SMALL_1, SoundCategory.BLOCKS, 1.0F, 1.0F)
-                    //world.playSound(null, this.blockPos, CobblemonSounds.FISHING_SPLASH_SMALL_2, SoundCategory.BLOCKS, 1.0F, 1.0F)
-                    //world.playSound(null, this.blockPos, CobblemonSounds.FISHING_SPLASH_SMALL_3, SoundCategory.BLOCKS, 1.0F, 1.0F)
+                    world.playSound(null, this.blockPos, CobblemonSounds.FISHING_SPLASH_SMALL, SoundCategory.BLOCKS, 1.0F, 1.0F)
 
                     // direction and position
                     val rad = Math.toRadians(player.yaw.toDouble() + 180)
@@ -677,10 +675,8 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
                     // Example of applying the new velocity
                     lobPokemonTowardsTarget(player, entity)
                 }
-                else { // it is a big lad
-                    world.playSound(null, this.blockPos, CobblemonSounds.FISHING_SPLASH_BIG_1, SoundCategory.BLOCKS, 1.0F, 1.0F)
-                    //world.playSound(null, this.blockPos, CobblemonSounds.FISHING_SPLASH_BIG_2, SoundCategory.BLOCKS, 1.0F, 1.0F)
-                    //world.playSound(null, this.blockPos, CobblemonSounds.FISHING_SPLASH_BIG_3, SoundCategory.BLOCKS, 1.0F, 1.0F)
+                else { // it is a big lad and you cannot reel it in
+                    world.playSound(null, this.blockPos, CobblemonSounds.FISHING_SPLASH_BIG, SoundCategory.BLOCKS, 1.0F, 1.0F)
                 }
             }
         }

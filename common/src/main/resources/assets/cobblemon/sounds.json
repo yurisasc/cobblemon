@@ -145,6 +145,23 @@
     "subtitle": "cobblemon.subtitle.fossilmachine.unprotected",
     "sounds": [ "cobblemon:fossilmachine/unprotected" ]
   },
+  "fishing.notification": {
+    "sounds": [ "cobblemon:fishing/fishing_notification" ]
+  },
+  "fishing.splash_small": {
+    "sounds": [
+      "cobblemon:fishing/fishing_splash_small_1",
+      "cobblemon:fishing/fishing_splash_small_2",
+      "cobblemon:fishing/fishing_splash_small_3"
+    ]
+  },
+  "fishing.splash_big": {
+    "sounds": [
+      "cobblemon:fishing/fishing_splash_big_1",
+      "cobblemon:fishing/fishing_splash_big_2",
+      "cobblemon:fishing/fishing_splash_big_3"
+    ]
+  },
   "tumblestone.break": {
     "sounds": [
       "cobblemon:block/tumblestone/tumblestone_break_1",
