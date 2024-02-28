@@ -45,6 +45,7 @@ import net.minecraft.item.ItemStack
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.nbt.NbtHelper
 import net.minecraft.nbt.NbtList
+import net.minecraft.particle.ParticleTypes
 import net.minecraft.registry.tag.FluidTags
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.server.world.ServerWorld
@@ -282,10 +283,41 @@ class PokemonPastureBlockEntity(pos: BlockPos, val state: BlockState) : BlockEnt
                         if (mother.getPokemon()?.breedingCooldown == 0) {
                             val motherPoke = mother.getPokemon()!!
                             val fatherPoke = father.getPokemon()!!
-                            if (BreedingLogicManager.canBreed(motherPoke, fatherPoke)) {
+                            if (BreedingLogicManager.canBreed(motherPoke, fatherPoke) && nests.isNotEmpty()) {
                                 val breedResult = BreedingLogicManager.breed(motherPoke, fatherPoke)
 
                                 if (breedResult.successful) {
+                                    // add cooldown to the parents
+                                    motherPoke.breedingCooldown = 60
+
+                                    // add heart particles <3 <3 <3
+                                    val fatherPokemon = father.getPokemon()?.entity
+                                    val motherPokemon = mother.getPokemon()?.entity
+                                    // Spawn heart particles for father
+                                    if (fatherPokemon != null && motherPokemon != null) {
+                                        (world as ServerWorld).spawnParticles(
+                                                ParticleTypes.HEART,
+                                                fatherPokemon.boundingBox.center.x, fatherPokemon.boundingBox.center.y, fatherPokemon.boundingBox.center.z, // Slightly raise the Y position for upward effect
+                                                2 + kotlin.random.Random.nextInt(4),
+                                                0.3 * kotlin.random.Random.nextDouble(), // X velocity (slight variance)
+                                                0.3 + 0.2 * kotlin.random.Random.nextDouble(), // Y velocity (upwards with variance)
+                                                0.3 * kotlin.random.Random.nextDouble(), // Z velocity (slight variance)
+                                                0.02 // Speed of particles
+                                        )
+
+
+                                        // Spawn heart particles for mother
+                                        (world as ServerWorld).spawnParticles(
+                                                ParticleTypes.HEART,
+                                                motherPokemon.boundingBox.center.x, motherPokemon.boundingBox.center.y, motherPokemon.boundingBox.center.z, // Slightly raise the Y position for upward effect
+                                                2 + kotlin.random.Random.nextInt(4),
+                                                0.3 * kotlin.random.Random.nextDouble(), // X velocity (slight variance)
+                                                0.3 + 0.2 * kotlin.random.Random.nextDouble(), // Y velocity (upwards with variance)
+                                                0.3 * kotlin.random.Random.nextDouble(), // Z velocity (slight variance)
+                                                0.02 // Speed of particles
+                                        )
+                                    }
+
                                     println(breedResult.pokemon)
                                     val nestTaken = nests.random()
                                     val nestState = world?.getBlockState(nestTaken)
@@ -293,14 +325,18 @@ class PokemonPastureBlockEntity(pos: BlockPos, val state: BlockState) : BlockEnt
                                     if (blockEntity != null && breedResult.pokemon != null) {
                                         //Most params here need to be gotten from the form when implemented properly
                                         blockEntity.egg = Egg(
-                                            breedResult.pokemon,
-                                            EggPatterns.patternMap.keys.random(),
-                                            Integer.toHexString(breedResult.pokemon.species.primaryType.hue),
-                                            breedResult.pokemon.species.secondaryType?.let {Integer.toHexString(it.hue)} ?: "FFFFFF",
-                                            20*10
+                                                breedResult.pokemon,
+                                                EggPatterns.patternMap.keys.random(),
+                                                Integer.toHexString(breedResult.pokemon.species.primaryType.hue),
+                                                breedResult.pokemon.species.secondaryType?.let {Integer.toHexString(it.hue)} ?: "FFFFFF",
+                                                20*10
                                         )
                                         blockEntity.markDirty()
                                         world?.updateListeners(nestTaken, world?.getBlockState(nestTaken), world?.getBlockState(nestTaken), Block.NOTIFY_LISTENERS)
+
+                                        // remove the nest used from the nest consideration pool
+                                        nests.remove(nestTaken)
+
                                         bredPokemon.add(fatherPoke)
                                         bredPokemon.add(motherPoke)
                                     }
@@ -357,7 +393,7 @@ class PokemonPastureBlockEntity(pos: BlockPos, val state: BlockState) : BlockEnt
         }
     }
 
-    fun findUnusedNests(): Set<BlockPos> {
+    fun findUnusedNests(): MutableSet<BlockPos> {
         val res = mutableSetOf<BlockPos>()
         val cube = VoxelShapes.cuboid(
             (this.pos.x - 2).toDouble(), (this.pos.y - 1).toDouble(), (this.pos.z - 2).toDouble(),
