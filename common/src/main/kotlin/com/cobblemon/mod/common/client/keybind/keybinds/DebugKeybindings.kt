@@ -29,7 +29,7 @@ object DebugKeybindings {
             val currentlySelectedPokemon = CobblemonClient.storage.myParty.get(CobblemonClient.storage.selectedSlot)
             if (currentlySelectedPokemon != null) {
                 val model = PokemonModelRepository.getPoser(currentlySelectedPokemon.species.resourceIdentifier, currentlySelectedPokemon.aspects)
-                model.portraitScale += 0.1F
+                model.portraitScale += 0.01F
             }
 
         }
@@ -44,7 +44,7 @@ object DebugKeybindings {
             val currentlySelectedPokemon = CobblemonClient.storage.myParty.get(CobblemonClient.storage.selectedSlot)
             if (currentlySelectedPokemon != null) {
                 val model = PokemonModelRepository.getPoser(currentlySelectedPokemon.species.resourceIdentifier, currentlySelectedPokemon.aspects)
-                model.portraitScale -= 0.1F
+                model.portraitScale -= 0.01F
             }
 
         }
@@ -60,7 +60,7 @@ object DebugKeybindings {
             val currentlySelectedPokemon = CobblemonClient.storage.myParty.get(CobblemonClient.storage.selectedSlot)
             if (currentlySelectedPokemon != null) {
                 val model = PokemonModelRepository.getPoser(currentlySelectedPokemon.species.resourceIdentifier, currentlySelectedPokemon.aspects)
-                model.portraitTranslation = model.portraitTranslation.add(0.0, -0.1, 0.0)
+                model.portraitTranslation = model.portraitTranslation.add(0.0, -0.01, 0.0)
             }
 
         }
@@ -75,7 +75,7 @@ object DebugKeybindings {
             val currentlySelectedPokemon = CobblemonClient.storage.myParty.get(CobblemonClient.storage.selectedSlot)
             if (currentlySelectedPokemon != null) {
                 val model = PokemonModelRepository.getPoser(currentlySelectedPokemon.species.resourceIdentifier, currentlySelectedPokemon.aspects)
-                model.portraitTranslation = model.portraitTranslation.add(0.0, 0.1, 0.0)
+                model.portraitTranslation = model.portraitTranslation.add(0.0, 0.01, 0.0)
             }
 
         }
@@ -91,7 +91,7 @@ object DebugKeybindings {
             val currentlySelectedPokemon = CobblemonClient.storage.myParty.get(CobblemonClient.storage.selectedSlot)
             if (currentlySelectedPokemon != null) {
                 val model = PokemonModelRepository.getPoser(currentlySelectedPokemon.species.resourceIdentifier, currentlySelectedPokemon.aspects)
-                model.portraitTranslation = model.portraitTranslation.add(-0.1, 0.0, 0.0)
+                model.portraitTranslation = model.portraitTranslation.add(-0.01, 0.0, 0.0)
             }
 
         }
@@ -107,7 +107,7 @@ object DebugKeybindings {
             val currentlySelectedPokemon = CobblemonClient.storage.myParty.get(CobblemonClient.storage.selectedSlot)
             if (currentlySelectedPokemon != null) {
                 val model = PokemonModelRepository.getPoser(currentlySelectedPokemon.species.resourceIdentifier, currentlySelectedPokemon.aspects)
-                model.portraitTranslation = model.portraitTranslation.add(0.1, 0.0, 0.0)
+                model.portraitTranslation = model.portraitTranslation.add(0.01, 0.0, 0.0)
             }
         }
     }
