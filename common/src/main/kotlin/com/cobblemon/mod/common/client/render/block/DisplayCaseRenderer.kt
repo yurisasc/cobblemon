@@ -10,7 +10,6 @@ package com.cobblemon.mod.common.client.render.block
 
 import com.cobblemon.mod.common.CobblemonBlocks
 import com.cobblemon.mod.common.CobblemonItems
-import com.cobblemon.mod.common.api.tags.CobblemonItemTags
 import com.cobblemon.mod.common.block.entity.DisplayCaseBlockEntity
 import com.cobblemon.mod.common.client.render.models.blockbench.repository.PokemonModelRepository
 import com.cobblemon.mod.common.entity.PoseType
@@ -27,6 +26,7 @@ import net.minecraft.client.render.model.json.ModelTransformationMode
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.item.BannerItem
 import net.minecraft.item.BedItem
+import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
 import net.minecraft.item.Items
 import net.minecraft.util.math.Direction
@@ -34,6 +34,7 @@ import net.minecraft.util.math.RotationAxis
 import net.minecraft.world.World
 
 class DisplayCaseRenderer(ctx: BlockEntityRendererFactory.Context) : BlockEntityRenderer<DisplayCaseBlockEntity> {
+
     override fun render(
         entity: DisplayCaseBlockEntity,
         tickDelta: Float,
@@ -65,7 +66,7 @@ class DisplayCaseRenderer(ctx: BlockEntityRendererFactory.Context) : BlockEntity
         matrices.translate(0.5f, 0.4f, 0.5f)
 
         matrices.scale(posType.scaleX, posType.scaleY, posType.scaleZ)
-        matrices.translate(posType.transX, posType.transY + 0.04f, posType.transZ)
+        matrices.translate(posType.transX, posType.transY, posType.transZ)
 
         matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(-yRot))
         matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(posType.rotY))
@@ -116,18 +117,28 @@ class DisplayCaseRenderer(ctx: BlockEntityRendererFactory.Context) : BlockEntity
     }
 
     companion object {
-        private fun getPositioningType(stack: ItemStack, world: World): PositioningType {
-            if (stack.item == CobblemonItems.RELIC_COIN_POUCH) return PositioningType.COIN_POUCH
-            if (stack.item == Items.SHIELD) return PositioningType.SHIELD
-            if (stack.item == Items.DECORATED_POT) return PositioningType.MOB_HEAD
-            if (stack.item is BedItem) return PositioningType.BED
-            if (stack.item is BannerItem) return PositioningType.BANNER
-            if (stack.isIn(CobblemonItemTags.MOB_HEADS)) return PositioningType.MOB_HEAD
-            if (stack.item == CobblemonItems.PASTURE) return PositioningType.PASTURE
-            if (stack.item is PokeBallItem) return PositioningType.POKE_BALL
-            if (stack.item == CobblemonItems.POKEMON_MODEL) return PositioningType.ITEM_MODEL
-            if (MinecraftClient.getInstance().itemRenderer.getModel(stack, world, null, 0).hasDepth()) return PositioningType.BLOCK_MODEL
-            return PositioningType.ITEM_MODEL
+        private val mobHeads = listOf<Item>(
+            Items.SKELETON_SKULL,
+            Items.WITHER_SKELETON_SKULL,
+            Items.ZOMBIE_HEAD,
+            Items.PIGLIN_HEAD,
+            Items.PLAYER_HEAD,
+            Items.DRAGON_HEAD,
+            Items.CREEPER_HEAD
+        )
+
+        private fun getPositioningType(stack: ItemStack, world: World) = when {
+            mobHeads.contains(stack.item) -> PositioningType.MOB_HEAD
+            stack.item is BedItem -> PositioningType.BED
+            stack.item is BannerItem -> PositioningType.BANNER
+            stack.item is PokeBallItem -> PositioningType.POKE_BALL
+            stack.item == CobblemonItems.RELIC_COIN_POUCH -> PositioningType.COIN_POUCH
+            stack.item == CobblemonItems.PASTURE -> PositioningType.PASTURE
+            stack.item == CobblemonItems.POKEMON_MODEL -> PositioningType.ITEM_MODEL
+            stack.item == Items.SHIELD -> PositioningType.SHIELD
+            stack.item == Items.DECORATED_POT -> PositioningType.MOB_HEAD
+            MinecraftClient.getInstance().itemRenderer.getModel(stack, world, null, 0).hasDepth() -> PositioningType.BLOCK_MODEL
+            else -> PositioningType.ITEM_MODEL
         }
     }
 
@@ -144,6 +155,6 @@ class DisplayCaseRenderer(ctx: BlockEntityRendererFactory.Context) : BlockEntity
         MOB_HEAD(1f, 1f, 1f, 0f, -0.025f, 0f, 180f),
         SHIELD(1f, 1f, 1f, 0f, -0.045f, 0f, 180f),
         PASTURE(1f, 1f, 1f, 0f, 0.0375f, 0f),
-        COIN_POUCH(1f, 1f, 1f, 0f, 0.375f, 0f)
+        COIN_POUCH(1f, 1f, 1f, 0f, 0.415f, 0f)
     }
 }
