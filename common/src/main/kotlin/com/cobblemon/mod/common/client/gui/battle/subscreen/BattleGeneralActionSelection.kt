@@ -14,6 +14,7 @@ import com.cobblemon.mod.common.client.CobblemonClient
 import com.cobblemon.mod.common.client.battle.SingleActionRequest
 import com.cobblemon.mod.common.client.gui.battle.BattleGUI
 import com.cobblemon.mod.common.client.gui.battle.widgets.BattleOptionTile
+import com.cobblemon.mod.common.net.messages.server.battle.FleeBattlePacket
 import com.cobblemon.mod.common.util.battleLang
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.gui.DrawContext
@@ -21,7 +22,6 @@ import net.minecraft.client.gui.Selectable
 import net.minecraft.client.gui.screen.narration.NarrationMessageBuilder
 import net.minecraft.client.sound.PositionedSoundInstance
 import net.minecraft.client.sound.SoundManager
-import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.text.MutableText
 import net.minecraft.util.Identifier
 class BattleGeneralActionSelection(
@@ -61,8 +61,8 @@ class BattleGeneralActionSelection(
                 }
 
                 addOption(rank++, battleLang("ui.run"), BattleGUI.runResource) {
-
-                    MinecraftClient.getInstance().player?.sendMessage(battleLang("flee"))
+                    playDownSound(MinecraftClient.getInstance().soundManager)
+                    FleeBattlePacket(battle.battleId).sendToServer()
                 }
             }
         }
