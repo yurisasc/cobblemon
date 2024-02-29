@@ -103,11 +103,13 @@ biome_mapping = {
     'skylands winter': 'terralith:skylands_winter',
     'snowy': '#cobblemon:is_snowy',
     'snowy forest': '#cobblemon:is_snowy_forest',
+    'snowy taiga': '#cobblemon:is_snowy_taiga',
     'spooky': '#cobblemon:is_spooky',
     'sunflower plains': 'minecraft:sunflower_plains',
     'swamp': '#cobblemon:is_swamp',
     'taiga': '#cobblemon:is_taiga',
     'temperate': '#cobblemon:is_temperate',
+    'temperate ocean': '#cobblemon:is_temperate_ocean',
     'thermal': '#cobblemon:is_thermal',
     'tropical island': '#cobblemon:is_tropical_island',
     'tundra': '#cobblemon:is_tundra',
@@ -121,6 +123,8 @@ ignored_biomes = ['freshwater']
 # List of all currently known presets
 preset_list = [
     'ancient_city',
+    'apricorns',
+    'blue_flowers',
     'derelict',
     'desert_pyramid',
     'end_city',
@@ -136,28 +140,34 @@ preset_list = [
     'nether_structures',
     'ocean_monument',
     'ocean_ruins',
+    'orange_flowers',
     'pillager_outpost',
+    'red_flowers',
     'redstone',
     'river',
     'ruined_portal',
+    'ruins',
     'shipwreck',
     'stronghold',
     'trail_ruins',
+    'trash',
     'treetop',
     'underlava',
     'underwater',
     'urban',
     'village',
     'water_surface',
+    'white_flowers',
     'wild',
-    'woodland_mansion'
+    'woodland_mansion',
+    'yellow_flowers'
 ]
 
 # Initialize lists for the report
 unknown_requirements = []
 unknown_weight_multiplier_identifiers = []
 
-def main(only_update_existing_files=True, ignore_filters=False):
+def main(only_update_existing_files=False, ignore_filters=False):
 
     printCobblemonHeader()
 
@@ -307,6 +317,8 @@ def transform_pokemon_to_json(pokemon_rows, invalid_biome_tags):
                             condition["timeRange"] = "twilight"
                         case "Beehive":
                             condition["neededNearbyBlocks"] = ["#minecraft:beehives"]
+                        case "New Moon":
+                            condition["moonPhase"] = "5"
                         case _:
                             unknown_weight_multiplier_identifiers.append(f"'{identifier}' ({currentID})")
                     weight_multipliers.append({"multiplier": multiplier, "condition": condition})
