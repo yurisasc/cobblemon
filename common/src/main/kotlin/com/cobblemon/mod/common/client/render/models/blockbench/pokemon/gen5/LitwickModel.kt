@@ -19,11 +19,11 @@ class LitwickModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("litwick")
     override val head = getPart("head")
 
-    override var portraitScale = 2.0F
-    override var portraitTranslation = Vec3d(-0.3, -1.2, 0.0)
+    override var portraitScale = 2.33F
+    override var portraitTranslation = Vec3d(0.01, -1.9, 0.0)
 
-    override var profileScale = 0.8F
-    override var profileTranslation = Vec3d(0.0, 0.5, 0.0)
+    override var profileScale = 0.86F
+    override var profileTranslation = Vec3d(0.0, 0.44, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose

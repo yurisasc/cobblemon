@@ -26,8 +26,8 @@ class ZoruaHisuianModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame,
     override val hindLeftLeg = getPart("leg_back_left")
     override val hindRightLeg = getPart("leg_back_right")
 
-    override var portraitTranslation = Vec3d(-0.17, -0.33, 0.0)
-    override var portraitScale = 1.57F
+    override var portraitTranslation = Vec3d(-0.22, -0.96, 0.0)
+    override var portraitScale = 2.3F
 
     override var profileTranslation = Vec3d(0.0, 0.62, 0.0)
     override var profileScale = 0.82F

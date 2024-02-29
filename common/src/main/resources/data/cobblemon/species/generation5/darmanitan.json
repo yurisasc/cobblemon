@@ -394,7 +394,7 @@
       "battleOnly": true
     }
   ],
-  "baseScale": 1.2,
+  "baseScale": 1,
   "hitbox": {
     "width": 1,
     "height": 1,

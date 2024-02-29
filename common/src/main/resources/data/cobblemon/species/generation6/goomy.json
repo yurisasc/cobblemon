@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Goomy",
   "nationalPokedexNumber": 704,
   "primaryType": "dragon",
@@ -120,7 +121,7 @@
     {
       "id": "goomy_sliggoo",
       "variant": "level_up",
-      "result": "sliggoo form=hisui",
+      "result": "sliggoo hisuian",
       "consumeHeldItem": false,
       "learnableMoves": [
         "shelter"

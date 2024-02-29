@@ -26,10 +26,10 @@ class HippopotasModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Q
     override val hindLeftLeg = getPart("leg_back_left")
     override val hindRightLeg = getPart("leg_back_right")
 
-    override var portraitScale = 1.2F
-    override var portraitTranslation = Vec3d(-0.85, 0.1, 0.0)
+    override var portraitScale = 1.24F
+    override var portraitTranslation = Vec3d(-0.5, 0.02, 0.0)
 
-    override var profileScale = 0.55F
+    override var profileScale = 0.6F
     override var profileTranslation = Vec3d(0.0, 0.85, 0.0)
 
     lateinit var standing: PokemonPose

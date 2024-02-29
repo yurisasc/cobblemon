@@ -41,8 +41,8 @@ class DartrixModel(root: ModelPart) : PokemonPoseableModel(), BipedFrame, BiWing
     override var portraitTranslation = Vec3d(-0.23, 1.14, 0.0)
     override var portraitScale = 1.26F
 
-    override var profileTranslation = Vec3d(0.0, 0.79, 0.0)
-    override var profileScale = 0.68F
+    override var profileTranslation = Vec3d(0.0, 0.8800000000000001, 0.0)
+    override var profileScale = 0.55000013F
 
     lateinit var fly: PokemonPose
     lateinit var flyidle: PokemonPose

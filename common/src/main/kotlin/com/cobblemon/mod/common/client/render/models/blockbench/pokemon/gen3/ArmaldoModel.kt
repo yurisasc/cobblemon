@@ -28,11 +28,11 @@ class ArmaldoModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bima
     override val leftLeg = getPart("left_leg")
     override val rightLeg = getPart("right_leg")
 
-    override var portraitTranslation = Vec3d(-0.29, 1.46, 0.0)
-    override var portraitScale = 1.63F
+    override var portraitTranslation = Vec3d(-0.43, 1.47, 0.0)
+    override var portraitScale = 1.76F
 
-    override var profileTranslation = Vec3d(0.0, 0.76, 0.0)
-    override var profileScale = 0.64F
+    override var profileTranslation = Vec3d(0.0, 0.72, 0.0)
+    override var profileScale = 0.66F
 
     lateinit var standing: PokemonPose
     lateinit var walking: PokemonPose

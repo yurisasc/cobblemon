@@ -34,11 +34,11 @@ class WartortleModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
     override val rightLeg = getPart("leg_right")
     override val leftLeg = getPart("leg_left")
 
-    override var portraitScale = 2.0F
-    override var portraitTranslation = Vec3d(-0.3, 0.44, 0.0)
+    override var portraitScale = 1.81F
+    override var portraitTranslation = Vec3d(-0.32, 0.28, 0.0)
 
     override var profileScale = 0.7F
-    override var profileTranslation = Vec3d(-0.06, 0.7, 0.0)
+    override var profileTranslation = Vec3d(-0.02, 0.66, 0.0)
 
     lateinit var sleep: PokemonPose
     lateinit var standing: PokemonPose

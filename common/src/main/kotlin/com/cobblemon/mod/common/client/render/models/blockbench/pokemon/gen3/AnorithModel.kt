@@ -20,10 +20,10 @@ import net.minecraft.util.math.Vec3d
 class AnorithModel (root: ModelPart) : PokemonPoseableModel() {
     override val rootPart = root.registerChildWithAllChildren("anorith")
 
-    override var portraitTranslation = Vec3d(-0.17, -1.49, 0.0)
-    override var portraitScale = 1.76F
+    override var portraitTranslation = Vec3d(-0.7, -2.26, 0.0)
+    override var portraitScale = 2.71F
 
-    override var profileTranslation = Vec3d(0.08, -0.21, 0.0)
+    override var profileTranslation = Vec3d(-0.05, 0.11, 0.0)
     override var profileScale = 1.03F
 
     lateinit var standing: PokemonPose

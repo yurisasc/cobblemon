@@ -19,7 +19,7 @@ import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
 class ZoroarkHisuianModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedFrame, BimanualFrame {
-    override val rootPart = root.registerChildWithAllChildren("zoroark")
+    override val rootPart = root.registerChildWithAllChildren("zoroark_hisuian")
     override val head = getPart("head")
 
     override val leftLeg = getPart("leg_left")
@@ -31,17 +31,18 @@ class ZoroarkHisuianModel (root: ModelPart) : PokemonPoseableModel(), HeadedFram
     override var portraitScale = 1.8F
     override var portraitTranslation = Vec3d(0.0, 0.2, 0.0)
 
-    override var profileScale = 0.85F
-    override var profileTranslation = Vec3d(0.0, 0.7, 0.0)
+    override var profileScale = 0.46F
+    override var profileTranslation = Vec3d(-0.05, 0.97, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walking: PokemonPose
+    lateinit var portrait: PokemonPose
 
     override fun registerPoses() {
 
         standing = registerPose(
             poseName = "standing",
-            poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
+            poseTypes = PoseType.STATIONARY_POSES + PoseType.PROFILE,
             transformTicks = 10,
             idleAnimations = arrayOf(
                 singleBoneLook(),
@@ -57,6 +58,16 @@ class ZoroarkHisuianModel (root: ModelPart) : PokemonPoseableModel(), HeadedFram
                 singleBoneLook(),
                 bedrock("zoroark_hisuian", "ground_walk"),
                 bedrock("zoroark_hisuian", "hair_setup")
+            )
+        )
+
+        portrait = registerPose(
+            poseName = "portrait",
+            poseType = PoseType.PORTRAIT,
+            transformTicks = 0,
+            idleAnimations = arrayOf(
+                singleBoneLook(),
+                bedrock("zoroark_hisuian", "portrait")
             )
         )
     }

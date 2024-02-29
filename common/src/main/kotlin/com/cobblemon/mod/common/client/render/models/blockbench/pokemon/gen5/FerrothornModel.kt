@@ -1,3 +1,11 @@
+/*
+ * Copyright (C) 2023 Cobblemon Contributors
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/.
+ */
+
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen5
 
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
@@ -9,9 +17,12 @@ import net.minecraft.util.math.Vec3d
 
 class FerrothornModel(root: ModelPart) : PokemonPoseableModel() {
     override val rootPart = root.registerChildWithAllChildren("ferrothorn")
-    override var profileScale = 0.40F
-    override var profileTranslation = Vec3d(-0.0075, 0.92, 0.0)
-    override var portraitTranslation = Vec3d(0.0, 0.85, 0.0)
+
+    override var portraitScale = 1.8F
+    override var portraitTranslation = Vec3d(0.0, 0.2, 0.0)
+
+    override var profileScale = 0.85F
+    override var profileTranslation = Vec3d(0.0, 0.7, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
@@ -36,5 +47,4 @@ class FerrothornModel(root: ModelPart) : PokemonPoseableModel() {
             )
         )
     }
-
 }

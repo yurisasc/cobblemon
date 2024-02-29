@@ -30,11 +30,11 @@ class SquirtleModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bipe
     override val rightLeg = getPart("leg_right")
     override val leftLeg = getPart("leg_left")
 
-    override var portraitScale = 2.1F
-    override var portraitTranslation = Vec3d(-0.1, -0.25, 0.0)
+    override var portraitScale = 2.02F
+    override var portraitTranslation = Vec3d(-0.12, -0.21, 0.0)
 
-    override var profileScale = 0.8F
-    override var profileTranslation = Vec3d(0.0, 0.6, 0.0)
+    override var profileScale = 0.78F
+    override var profileTranslation = Vec3d(-0.04, 0.57, 0.0)
 
     lateinit var sleep: PokemonPose
     lateinit var standing: PokemonPose

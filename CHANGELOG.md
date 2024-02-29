@@ -39,6 +39,10 @@
 - Sentret
 - Furret
 - Qwilfish
+- Heracross
+- Skarmory
+- Ferroseed
+- Ferrothorn
 
 #### Gen 3
 - Lileep
@@ -92,6 +96,11 @@
 - Turtonator
 - Fomantis
 - Lurantis
+- Salandit
+- Salazzle
+- Jangmo-o
+- Hakamo-o
+- Kommo-o
 
 #### Gen 8
 - Gossifleur

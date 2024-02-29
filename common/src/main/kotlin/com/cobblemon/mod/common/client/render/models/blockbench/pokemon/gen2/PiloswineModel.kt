@@ -20,11 +20,11 @@ import net.minecraft.util.math.Vec3d
 class PiloswineModel(root: ModelPart) : PokemonPoseableModel() {
     override val rootPart = root.registerChildWithAllChildren("piloswine")
 
-    override var portraitScale = 2.0F
-    override var portraitTranslation = Vec3d(-0.6, -1.5, 0.0)
+    override var portraitScale = 1.7F
+    override var portraitTranslation = Vec3d(-0.6, -1.03, 0.0)
 
-    override var profileScale = 1.1F
-    override var profileTranslation = Vec3d(0.0, 0.07, 0.0)
+    override var profileScale = 0.78F
+    override var profileTranslation = Vec3d(0.0, 0.49, 0.0)
 
 //    lateinit var sleep: PokemonPose
     lateinit var standing: PokemonPose

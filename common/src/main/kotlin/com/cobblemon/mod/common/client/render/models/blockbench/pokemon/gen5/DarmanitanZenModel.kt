@@ -32,11 +32,9 @@ class DarmanitanZenModel (root: ModelPart) : PokemonPoseableModel() {
     lateinit var walk: PokemonPose
 
     override fun registerPoses() {
-        val blink = quirk { bedrockStateful("darmanitan_zen", "blink") }
         standing = registerPose(
             poseName = "standing",
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
-            quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 //bedrock("darmanitan_zen", "ground_idle")
             )
@@ -45,7 +43,6 @@ class DarmanitanZenModel (root: ModelPart) : PokemonPoseableModel() {
         walk = registerPose(
             poseName = "walk",
             poseTypes = PoseType.MOVING_POSES,
-            quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 //bedrock("darmanitan_zen", "ground_walk")
             )

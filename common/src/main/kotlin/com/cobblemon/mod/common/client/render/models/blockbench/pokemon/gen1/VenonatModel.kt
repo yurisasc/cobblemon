@@ -22,11 +22,11 @@ import net.minecraft.util.math.Vec3d
 class VenonatModel(root: ModelPart) : PokemonPoseableModel() {
     override val rootPart = root.registerChildWithAllChildren("venonat")
 
-    override var portraitScale = 2.0F
-    override var portraitTranslation = Vec3d(-0.2, -1.0, 0.0)
+    override var portraitScale = 1.71F
+    override var portraitTranslation = Vec3d(-0.21, -0.73, 0.0)
 
-    override var profileScale = 1.1F
-    override var profileTranslation = Vec3d(0.0, 0.08, 0.0)
+    override var profileScale = 0.86F
+    override var profileTranslation = Vec3d(0.0, 0.43, 0.0)
 
     lateinit var sleep: PokemonPose
     lateinit var standing: PokemonPose

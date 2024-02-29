@@ -19,11 +19,11 @@ class GossifleurModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("gossifleur")
     override val head = getPart("head")
 
-    override var portraitScale = 1.2F
-    override var portraitTranslation = Vec3d(-0.85, 0.1, 0.0)
+    override var portraitScale = 1.7F
+    override var portraitTranslation = Vec3d(-0.22, 0.13, 0.0)
 
-    override var profileScale = 0.55F
-    override var profileTranslation = Vec3d(0.0, 0.85, 0.0)
+    override var profileScale = 0.52F
+    override var profileTranslation = Vec3d(0.0, 1.04, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
