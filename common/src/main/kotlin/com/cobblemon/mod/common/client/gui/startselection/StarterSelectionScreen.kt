@@ -46,7 +46,7 @@ import net.minecraft.text.Text
  * @author Qu
  * @since 2022-06-18
  */
-class StarterSelectionScreen private constructor(): Screen("cobblemon.ui.starter.title".asTranslated()) {
+class StarterSelectionScreen(private val categories: List<RenderableStarterCategory>): Screen("cobblemon.ui.starter.title".asTranslated()) {
 
     companion object {
         // Size of UI at scale 1
@@ -63,22 +63,14 @@ class StarterSelectionScreen private constructor(): Screen("cobblemon.ui.starter
         private val doubleTypeBackground = cobblemonResource("textures/gui/starterselection/starterselection_type_slot2.png")
     }
 
-    lateinit var categories: List<RenderableStarterCategory>
-    lateinit var currentCategory: RenderableStarterCategory
-    lateinit var modelWidget: ModelWidget
-    lateinit var currentPokemon: RenderablePokemon
-    var currentSelection = 0
-    lateinit var rightButton: ArrowButton
-    lateinit var leftButton: ArrowButton
-    lateinit var typeWidget: TypeWidget
-    lateinit var selectionButton: SelectionButton
-    lateinit var starterRoundaboutCenter: StarterRoundabout
-    lateinit var starterRoundaboutLeft: StarterRoundabout
-    lateinit var starterRoundaboutRight: StarterRoundabout
-
-    constructor(categories: List<RenderableStarterCategory>) : this() {
-        this.categories = categories
-    }
+    private var currentSelection = 0
+    private lateinit var currentCategory: RenderableStarterCategory
+    private lateinit var modelWidget: ModelWidget
+    private lateinit var currentPokemon: RenderablePokemon
+    private lateinit var typeWidget: TypeWidget
+    private lateinit var starterRoundaboutCenter: StarterRoundabout
+    private lateinit var starterRoundaboutLeft: StarterRoundabout
+    private lateinit var starterRoundaboutRight: StarterRoundabout
 
     override fun init() {
         super.init()
@@ -102,7 +94,7 @@ class StarterSelectionScreen private constructor(): Screen("cobblemon.ui.starter
             )
         )
 
-        rightButton = ArrowButton(
+        val rightButton = ArrowButton(
             pX = x + 183, pY = y + 151,
             pWidth = 9, pHeight = 14,
             right = true
@@ -110,7 +102,7 @@ class StarterSelectionScreen private constructor(): Screen("cobblemon.ui.starter
             right()
         }
 
-        leftButton = ArrowButton(
+        val leftButton = ArrowButton(
             pX = x + 72, pY = y + 151,
             pWidth = 9, pHeight = 14,
             right = false
@@ -137,7 +129,7 @@ class StarterSelectionScreen private constructor(): Screen("cobblemon.ui.starter
 
         addDrawableChild(modelWidget)
 
-        selectionButton = SelectionButton(
+        val selectionButton = SelectionButton(
             pX = x + 106, pY = y + 124,
             pWidth = SelectionButton.BUTTON_WIDTH, pHeight = SelectionButton.BUTTON_HEIGHT
         ) {

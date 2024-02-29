@@ -128,7 +128,7 @@ class RestorationTankBlockEntity(
                     val canUtilize = stack?.let { NaturalMaterials.isNaturalMaterial(it) } == true
                             && structure.organicMaterialInside < FossilMultiblockStructure.MATERIAL_TO_START
                             && structure.createdPokemon == null
-                    val returnItem = NaturalMaterials.getReturnItem(stack!!) ?: return false
+                    val returnItem = NaturalMaterials.getReturnItem(stack!!) ?: return canUtilize
                     if(canUtilize) {
                         // See if there's room
                         for (i in items.indices ) {
