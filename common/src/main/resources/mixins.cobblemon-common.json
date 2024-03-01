@@ -19,10 +19,13 @@
     "ModelLoaderMixin"
   ],
   "mixins": [
+    "DecoratedPotPatternsMixin",
     "EntityVillagerMixin",
     "ExplosionMixin",
     "LivingEntityMixin",
     "MinecraftDedicatedServerMixin",
+    "PiglinBarterMixin",
+    "PiglinEntityMixin",
     "PlayerMixin",
     "PointedDripstoneBlockMixin",
     "ShearsDispenserBehaviorMixin",

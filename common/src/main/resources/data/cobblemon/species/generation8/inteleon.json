@@ -72,6 +72,20 @@
     "water_1",
     "field"
   ],
+  "behaviour": {
+    "moving": {
+      "swim": {
+        "canSwimInWater": true,
+        "canBreatheUnderwater": true
+      }
+    },
+    "resting": {
+      "canSleep": true,
+      "willSleepOnBed": false,
+      "depth": "normal",
+      "light": "0-4"
+    }
+  },
   "drops": {
     "amount": 1,
     "entries": [
@@ -111,8 +125,10 @@
     "tm:endure",
     "tm:facade",
     "tm:fling",
+    "tm:flipturn",
     "tm:focusenergy",
     "tm:gigaimpact",
+    "tm:haze",
     "tm:hydrocannon",
     "tm:hydropump",
     "tm:hyperbeam",
@@ -125,6 +141,7 @@
     "tm:muddywater",
     "tm:mudshot",
     "tm:protect",
+    "tm:psychup",
     "tm:raindance",
     "tm:reflect",
     "tm:rest",
@@ -132,7 +149,9 @@
     "tm:safeguard",
     "tm:scald",
     "tm:shadowball",
+    "tm:skittersmack",
     "tm:sleeptalk",
+    "tm:smackdown",
     "tm:snore",
     "tm:snowscape",
     "tm:substitute",
@@ -143,6 +162,7 @@
     "tm:taunt",
     "tm:terablast",
     "tm:uturn",
+    "tm:vacuumwave",
     "tm:waterfall",
     "tm:waterpledge",
     "tm:waterpulse",

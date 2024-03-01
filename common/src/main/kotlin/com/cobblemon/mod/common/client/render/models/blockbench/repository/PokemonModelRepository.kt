@@ -43,7 +43,6 @@ object PokemonModelRepository : VaryingModelRepository() {
         inbuilt("charizard", ::CharizardModel)
         inbuilt("squirtle", ::SquirtleModel)
         inbuilt("wartortle", ::WartortleModel)
-//        inbuilt("blastoise", ::BlastoiseModel)
         inbuilt("caterpie", ::CaterpieModel)
         inbuilt("metapod", ::MetapodModel)
         inbuilt("butterfree", ::ButterfreeModel)
@@ -588,6 +587,9 @@ object PokemonModelRepository : VaryingModelRepository() {
         inbuilt("litwick", ::LitwickModel)
         inbuilt("lampent", ::LampentModel)
         inbuilt("chandelure", ::ChandelureModel)
+        inbuilt("gimmighoulroaming", ::GimmighoulRoamingModel)
+        inbuilt("gimmighoulchest", ::GimmighoulChestModel)
+        inbuilt("gholdengo", ::GholdengoModel)
         inbuilt("drifloon", ::DrifloonModel)
         inbuilt("drifblim", ::DrifblimModel)
     }

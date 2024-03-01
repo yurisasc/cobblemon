@@ -15,7 +15,7 @@ object CobblemonStructureProcessorListOverrides {
     val registryKey = RegistryKeys.PROCESSOR_LIST
 
     fun register(server: MinecraftServer) {
-        val registry = server.registryManager.get(registryKey)
+        //val registry = server.registryManager.get(registryKey)
         // registerFarmOverrides(registry)
     }
 

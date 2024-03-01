@@ -2,7 +2,7 @@
   "parent": "cobblemon:obtain_fossil",
   "display": {
     "icon": {
-      "item": "cobblemon:fossil_tube"
+      "item": "cobblemon:restoration_tank"
     },
     "title": {
       "translate": "advancements.cobblemon.resurrect_pokemon"

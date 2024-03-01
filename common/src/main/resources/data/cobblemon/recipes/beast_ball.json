@@ -13,7 +13,7 @@
             "item": "minecraft:echo_shard"
         },
         "D": {
-            "item": "minecraft:diamond"
+            "tag": "cobblemon:tier_4_poke_ball_materials"
         }
     },
     "result":

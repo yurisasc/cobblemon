@@ -149,16 +149,18 @@ object DataKeys {
 
     //FossilMultiblockStructure Serialization
     const val MONITOR_POS = "MonitorPos"
-    const val TUBE_BASE_POS = "TubeBasePos"
-    const val COMPARTMENT_POS = "CompartmentPos"
+    const val TANK_BASE_POS = "TankBasePos"
+    const val ANALYZER_POS = "AnalyzerPos"
     const val ORGANIC_MATERIAL = "OrganicContent"
     const val INSERTED_FOSSIL = "InsertedFossil"
     const val FOSSIL_INVENTORY = "InsertedFossilStacks"
-    const val TUBE_FILL_LEVEL = "TubeFillLevel"
+    const val TANK_FILL_LEVEL = "TankFillLevel"
     const val CONNECTOR_DIRECTION = "ConnectorDirection"
     const val TIME_LEFT = "TimeLeft"
+    const val PROTECTED_TIME_LEFT = "ProtectedTimeLeft"
     const val FORMED = "Formed"
     const val CREATED_POKEMON = "CreatedPokemon"
+    const val FOSSIL_OWNER = "FossilOwner"
     const val FOSSIL_STATE = "FossilState"
 
     /* Generic Bedrock Entity */

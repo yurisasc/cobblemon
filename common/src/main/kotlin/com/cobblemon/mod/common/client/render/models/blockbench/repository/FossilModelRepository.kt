@@ -22,7 +22,7 @@ import com.google.gson.JsonObject
 import net.minecraft.entity.Entity
 
 /**
- * Repository for models referenced by fossils, to render in the tube.
+ * Repository for models referenced by fossils, to render in the tank.
  */
 object FossilModelRepository : VaryingModelRepository() {
     override val title = "Fossil Pokémon"
@@ -40,10 +40,13 @@ object FossilModelRepository : VaryingModelRepository() {
         val animations = jsonObject.getAsJsonArray("animations")
         val maxScale = jsonObject.get("maxScale")?.asFloat ?: 1F
         val yTranslation = jsonObject.get("yTranslation")?.asFloat ?: 0F
+        val yGrowthPoint = jsonObject.get("yGrowthPoint")?.asFloat ?: 0F
+
         return { bone ->
             val model = FossilModel(bone)
             model.maxScale = maxScale
             model.yTranslation = yTranslation
+            model.yGrowthPoint = yGrowthPoint
             // Refactor this bullshit to not mention pokemon at all, it should be common to anything using animation factories.
             // Even better: move to molang functions, this is ass
             model.tankAnimations = animations.mapNotNull {

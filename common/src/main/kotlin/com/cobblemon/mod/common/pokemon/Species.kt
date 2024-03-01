@@ -30,6 +30,7 @@ import com.cobblemon.mod.common.entity.PoseType.Companion.SWIMMING_POSES
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.net.IntSize
 import com.cobblemon.mod.common.pokemon.ai.PokemonBehaviour
+import com.cobblemon.mod.common.pokemon.lighthing.LightingData
 import com.cobblemon.mod.common.util.readSizedInt
 import com.cobblemon.mod.common.util.writeSizedInt
 import net.minecraft.entity.EntityDimensions
@@ -130,12 +131,16 @@ class Species : ClientDataSynchronizer<Species>, ShowdownIdentifiable {
 
     var battleTheme: Identifier = CobblemonSounds.PVW_BATTLE.id
 
+    var lightingData: LightingData? = null
+        private set
+
     fun initialize() {
         Cobblemon.statProvider.provide(this)
         this.forms.forEach { it.initialize(this) }
         if (this.forms.isNotEmpty() && this.forms.none { it == this.standardForm }) {
             this.forms.add(0, this.standardForm)
         }
+        this.lightingData?.let { this.lightingData = it.copy(lightLevel = it.lightLevel.coerceIn(0, 15)) }
         // These properties are lazy, these need all species to be reloaded but SpeciesAdditions is what will eventually trigger this after all species have been loaded
         this.preEvolution?.species
         this.preEvolution?.form
@@ -194,6 +199,11 @@ class Species : ClientDataSynchronizer<Species>, ShowdownIdentifiable {
         buffer.writeCollection(this.pokedex) { pb, line -> pb.writeString(line) }
         buffer.writeCollection(this.forms) { pb, form -> form.encode(pb) }
         buffer.writeIdentifier(this.battleTheme)
+        buffer.writeCollection(this.features) { pb, feature -> pb.writeString(feature) }
+        buffer.writeNullable(this.lightingData) { pb, data ->
+            pb.writeInt(data.lightLevel)
+            pb.writeEnumConstant(data.liquidGlowMode)
+        }
     }
 
     override fun decode(buffer: PacketByteBuf) {
@@ -217,6 +227,9 @@ class Species : ClientDataSynchronizer<Species>, ShowdownIdentifiable {
         this.forms.clear()
         this.forms += buffer.readList{ pb -> FormData().apply { decode(pb) } }.filterNotNull()
         this.battleTheme = buffer.readIdentifier()
+        this.features.clear()
+        this.features += buffer.readList { pb -> pb.readString() }
+        this.lightingData = buffer.readNullable { pb -> LightingData(pb.readInt(), pb.readEnumConstant(LightingData.LiquidGlowMode::class.java)) }
         this.initialize()
     }
 
@@ -238,6 +251,7 @@ class Species : ClientDataSynchronizer<Species>, ShowdownIdentifiable {
                 // We only sync level up moves atm
                 || this.moves.shouldSynchronize(other.moves)
                 || other.battleTheme != this.battleTheme
+                || other.features != this.features
     }
 
     /**

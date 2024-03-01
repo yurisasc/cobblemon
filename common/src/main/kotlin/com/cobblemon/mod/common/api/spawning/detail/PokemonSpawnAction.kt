@@ -27,7 +27,7 @@ class PokemonSpawnAction(
     override val detail: PokemonSpawnDetail,
     /** The [PokemonProperties] that are about to be used. */
     var props: PokemonProperties = detail.pokemon.copy()
-) : SpawnAction<PokemonEntity>(ctx, detail) {
+) : SingleEntitySpawnAction<PokemonEntity>(ctx, detail) {
     override fun createEntity(): PokemonEntity {
         if (props.species == null) LOGGER.error("PokemonSpawnAction run with null species - Spawn detail: ${detail.id}")
         if (props.level == null) {

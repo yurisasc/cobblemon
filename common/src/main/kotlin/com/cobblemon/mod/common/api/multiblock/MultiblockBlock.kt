@@ -8,7 +8,7 @@
 
 package com.cobblemon.mod.common.api.multiblock
 
-import com.cobblemon.mod.common.block.entity.fossil.FossilMultiblockEntity
+import com.cobblemon.mod.common.block.entity.FossilMultiblockEntity
 import net.minecraft.block.*
 import net.minecraft.block.entity.BlockEntity
 import net.minecraft.entity.LivingEntity
@@ -19,6 +19,7 @@ import net.minecraft.util.ActionResult
 import net.minecraft.util.Hand
 import net.minecraft.util.hit.BlockHitResult
 import net.minecraft.util.math.BlockPos
+import net.minecraft.world.BlockView
 import net.minecraft.world.World
 
 /**
@@ -75,6 +76,11 @@ abstract class MultiblockBlock(properties: Settings) : BlockWithEntity(propertie
     @Deprecated("Deprecated in Java")
     override fun getRenderType(state: BlockState?): BlockRenderType {
         return BlockRenderType.MODEL
+    }
+
+    override fun getPickStack(world: BlockView, pos: BlockPos, state: BlockState): ItemStack {
+        val blockEntity = world.getBlockEntity(pos) as? MultiblockEntity ?: return ItemStack.EMPTY
+        return if (blockEntity.multiblockStructure == null) super.getPickStack(world, pos, state) else ItemStack.EMPTY
     }
 
     abstract fun createMultiBlockEntity(pos: BlockPos, state: BlockState): FossilMultiblockEntity

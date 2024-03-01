@@ -9,6 +9,7 @@
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon
 
 import com.cobblemon.mod.common.api.molang.ExpressionLike
+import com.cobblemon.mod.common.api.molang.ExpressionLike
 import com.cobblemon.mod.common.client.render.models.blockbench.JsonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.JsonPosableModel.StatefulAnimationAdapter
 import com.cobblemon.mod.common.client.render.models.blockbench.JsonPose
@@ -123,7 +124,6 @@ class JsonPokemonPoseableModel(rootPart: Bone) : JsonPosableModel(rootPart), Hea
             val pose = JsonPose(model, obj)
 
             val conditionsList = mutableListOf<(RenderContext) -> Boolean>()
-
             val mustBeInBattle = json.get("isBattle")?.asBoolean
             if (mustBeInBattle != null) {
                 conditionsList.add { mustBeInBattle == (it.entity as? PokemonEntity)?.isBattling }
@@ -134,7 +134,6 @@ class JsonPokemonPoseableModel(rootPart: Bone) : JsonPosableModel(rootPart), Hea
             }
 
             val poseCondition: ((RenderContext) -> Boolean)? = if (conditionsList.isEmpty()) null else conditionsList.reduce { acc, function -> { acc(it) && function(it) } }
-
             return Pose(
                 poseName = pose.poseName,
                 poseTypes = pose.poseTypes.toSet(),

@@ -9,9 +9,8 @@
 package com.cobblemon.mod.common.client.entity
 
 import com.cobblemon.mod.common.api.entity.EntitySideDelegate
-import com.cobblemon.mod.common.api.scheduling.SchedulingTracker
 import com.cobblemon.mod.common.client.render.models.blockbench.PosableState
-import com.cobblemon.mod.common.client.render.models.blockbench.repository.GenericBedrockModelRepository
+import com.cobblemon.mod.common.client.render.models.blockbench.repository.GenericBedrockEntityModelRepository
 import com.cobblemon.mod.common.client.render.models.blockbench.repository.RenderContext
 import com.cobblemon.mod.common.entity.generic.GenericBedrockEntity
 
@@ -25,7 +24,7 @@ class GenericBedrockClientDelegate : EntitySideDelegate<GenericBedrockEntity>, P
         super.initialize(entity)
         this.currentEntity = entity
         this.age = entity.age
-        this.currentModel = GenericBedrockModelRepository.getPoser(entity.category, entity.aspects)
+        this.currentModel = GenericBedrockEntityModelRepository.getPoser(entity.category, entity.aspects)
 
         val model = currentModel!!
         model.context.put(RenderContext.ENTITY, entity)

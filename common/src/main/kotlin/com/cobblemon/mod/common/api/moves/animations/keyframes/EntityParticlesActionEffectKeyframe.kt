@@ -51,6 +51,6 @@ class EntityParticlesActionEffectKeyframe : ConditionalActionEffectKeyframe(), E
             packet.sendToPlayers(players)
         }
 
-        return delayedFuture(seconds = delay.resolveFloat(context.runtime))
+        return delayedFuture(seconds = delay.resolveFloat(context.runtime), serverThread = true)
     }
 }

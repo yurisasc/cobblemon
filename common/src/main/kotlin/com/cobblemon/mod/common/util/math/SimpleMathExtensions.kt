@@ -122,7 +122,7 @@ fun getRotationMatrix(from: Vec3d, to: Vec3d): Matrix3f {
     q.rotateTo(Vector3f(from.x.toFloat(), from.y.toFloat(), from.z.toFloat()), Vector3f(to.x.toFloat(), to.y.toFloat(), to.z.toFloat()))
     val m = Matrix3f()
     return m.identity().rotation(q)
-
+    /**
     val v = from.crossProduct(to)
     val c = from.dotProduct(to)
 
@@ -152,6 +152,7 @@ fun getRotationMatrix(from: Vec3d, to: Vec3d): Matrix3f {
     r.add(vx2)
 
     return r
+    **/
 }
 
 operator fun Matrix3f.times(vec3d: Vec3d): Vec3d {

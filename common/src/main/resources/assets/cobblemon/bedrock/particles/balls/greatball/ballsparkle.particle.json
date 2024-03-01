@@ -5,7 +5,7 @@
 			"identifier": "cobblemon:greatball/ballsparkle",
 			"basic_render_parameters": {
 				"material": "particles_alpha",
-				"texture": "textures/particles/balls/greatball/ballsparkle"
+				"texture": "textures/particles/balls/greatball/greatballsparkle"
 			}
 		},
 		"components": {

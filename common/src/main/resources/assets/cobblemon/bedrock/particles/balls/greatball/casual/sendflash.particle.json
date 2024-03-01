@@ -5,7 +5,7 @@
 			"identifier": "cobblemon:greatball/casual/sendflash",
 			"basic_render_parameters": {
 				"material": "particles_alpha",
-				"texture": "textures/particles/balls/greatball/casual/sendflash"
+				"texture": "textures/particles/balls/greatball/casual/greatsendcasual"
 			}
 		},
 		"components": {

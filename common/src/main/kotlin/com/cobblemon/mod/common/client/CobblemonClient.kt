@@ -17,25 +17,23 @@ import com.cobblemon.mod.common.CobblemonClientImplementation
 import com.cobblemon.mod.common.CobblemonEntities
 import com.cobblemon.mod.common.CobblemonItems
 import com.cobblemon.mod.common.api.scheduling.ClientTaskTracker
-import com.cobblemon.mod.common.api.events.CobblemonEvents
 import com.cobblemon.mod.common.api.text.gray
 import com.cobblemon.mod.common.client.battle.ClientBattle
 import com.cobblemon.mod.common.client.gui.PartyOverlay
 import com.cobblemon.mod.common.client.gui.battle.BattleOverlay
-import com.cobblemon.mod.common.client.gui.interact.wheel.InteractWheelOption
-import com.cobblemon.mod.common.client.gui.interact.wheel.Orientation
 import com.cobblemon.mod.common.client.particle.BedrockParticleEffectRepository
 import com.cobblemon.mod.common.client.render.block.BerryBlockRenderer
-import com.cobblemon.mod.common.client.render.block.FossilCompartmentRenderer
-import com.cobblemon.mod.common.client.render.block.FossilTubeRenderer
+import com.cobblemon.mod.common.client.render.block.FossilAnalyzerRenderer
+import com.cobblemon.mod.common.client.render.block.RestorationTankRenderer
+import com.cobblemon.mod.common.client.render.block.GildedChestBlockRenderer
 import com.cobblemon.mod.common.client.render.block.HealingMachineRenderer
 import com.cobblemon.mod.common.client.render.boat.CobblemonBoatRenderer
-import com.cobblemon.mod.common.client.render.generic.GenericBedrockRenderer
 import com.cobblemon.mod.common.client.render.item.CobblemonBuiltinItemRendererRegistry
 import com.cobblemon.mod.common.client.render.item.PokemonItemRenderer
 import com.cobblemon.mod.common.client.render.layer.PokemonOnShoulderRenderer
 import com.cobblemon.mod.common.client.render.models.blockbench.bedrock.animation.BedrockAnimationRepository
 import com.cobblemon.mod.common.client.render.models.blockbench.repository.BerryModelRepository
+import com.cobblemon.mod.common.client.render.models.blockbench.repository.BlockEntityModelRepository
 import com.cobblemon.mod.common.client.render.models.blockbench.repository.GenericBedrockModelRepository
 import com.cobblemon.mod.common.client.render.models.blockbench.repository.NPCModelRepository
 import com.cobblemon.mod.common.client.render.models.blockbench.repository.PokeBallModelRepository
@@ -51,11 +49,10 @@ import com.cobblemon.mod.common.data.CobblemonDataProvider
 import com.cobblemon.mod.common.entity.boat.CobblemonBoatType
 import com.cobblemon.mod.common.item.PokeBallItem
 import com.cobblemon.mod.common.client.render.models.blockbench.repository.FossilModelRepository
+import com.cobblemon.mod.common.client.render.models.blockbench.repository.MiscModelRepository
 import com.cobblemon.mod.common.platform.events.PlatformEvents
 import com.cobblemon.mod.common.util.DataKeys
 import com.cobblemon.mod.common.util.asTranslated
-import com.cobblemon.mod.common.util.cobblemonResource
-import net.minecraft.client.MinecraftClient
 import net.minecraft.client.gui.DrawContext
 import net.minecraft.client.render.RenderLayer
 import net.minecraft.client.render.block.entity.HangingSignBlockEntityRenderer
@@ -68,7 +65,6 @@ import net.minecraft.client.render.entity.model.PlayerEntityModel
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
 import net.minecraft.resource.ResourceManager
-import net.minecraft.text.Text
 import net.minecraft.util.Language
 
 object CobblemonClient {
@@ -171,7 +167,8 @@ object CobblemonClient {
 
         this.implementation.registerBlockRenderType(
             RenderLayer.getCutout(),
-            CobblemonBlocks.FOSSIL_COMPARTMENT,
+            CobblemonBlocks.GILDED_CHEST,
+            CobblemonBlocks.FOSSIL_ANALYZER,
             CobblemonBlocks.APRICORN_DOOR,
             CobblemonBlocks.APRICORN_TRAPDOOR,
             CobblemonBlocks.APRICORN_SIGN,
@@ -211,7 +208,7 @@ object CobblemonClient {
             CobblemonBlocks.REVIVAL_HERB,
             *CobblemonBlocks.berries().values.toTypedArray(),
             CobblemonBlocks.POTTED_PEP_UP_FLOWER,
-            CobblemonBlocks.FOSSIL_TUBE,
+            CobblemonBlocks.RESTORATION_TANK,
             CobblemonBlocks.SMALL_BUDDING_TUMBLESTONE,
             CobblemonBlocks.MEDIUM_BUDDING_TUMBLESTONE,
             CobblemonBlocks.LARGE_BUDDING_TUMBLESTONE,
@@ -224,6 +221,7 @@ object CobblemonClient {
             CobblemonBlocks.MEDIUM_BUDDING_SKY_TUMBLESTONE,
             CobblemonBlocks.LARGE_BUDDING_SKY_TUMBLESTONE,
             CobblemonBlocks.SKY_TUMBLESTONE_CLUSTER,
+            CobblemonBlocks.GIMMIGHOUL_CHEST
         )
 
         this.createBoatModelLayers()
@@ -251,8 +249,9 @@ object CobblemonClient {
         this.implementation.registerBlockEntityRenderer(CobblemonBlockEntities.BERRY, ::BerryBlockRenderer)
         this.implementation.registerBlockEntityRenderer(CobblemonBlockEntities.SIGN, ::SignBlockEntityRenderer)
         this.implementation.registerBlockEntityRenderer(CobblemonBlockEntities.HANGING_SIGN, ::HangingSignBlockEntityRenderer)
-        this.implementation.registerBlockEntityRenderer(CobblemonBlockEntities.FOSSIL_COMPARTMENT, ::FossilCompartmentRenderer)
-        this.implementation.registerBlockEntityRenderer(CobblemonBlockEntities.FOSSIL_TUBE, ::FossilTubeRenderer)
+        this.implementation.registerBlockEntityRenderer(CobblemonBlockEntities.FOSSIL_ANALYZER, ::FossilAnalyzerRenderer)
+        this.implementation.registerBlockEntityRenderer(CobblemonBlockEntities.RESTORATION_TANK, ::RestorationTankRenderer)
+        this.implementation.registerBlockEntityRenderer(CobblemonBlockEntities.GILDED_CHEST, ::GildedChestBlockRenderer)
     }
 
     private fun registerEntityRenderers() {
@@ -275,14 +274,15 @@ object CobblemonClient {
         BedrockParticleEffectRepository.loadEffects(resourceManager)
         BedrockAnimationRepository.loadAnimations(
             resourceManager = resourceManager,
-            directories = PokemonModelRepository.animationDirectories + PokeBallModelRepository.animationDirectories + GenericBedrockModelRepository.animationDirectories + FossilModelRepository.animationDirectories + NPCModelRepository.animationDirectories
+            directories = PokemonModelRepository.animationDirectories + PokeBallModelRepository.animationDirectories + FossilModelRepository.animationDirectories + BlockEntityModelRepository.animationDirectories + NPCModelRepository.animationDirectories
         )
         PokemonModelRepository.reload(resourceManager)
         PokeBallModelRepository.reload(resourceManager)
         NPCModelRepository.reload(resourceManager)
         BerryModelRepository.reload(resourceManager)
         FossilModelRepository.reload(resourceManager)
-        GenericBedrockModelRepository.reload(resourceManager)
+        BlockEntityModelRepository.reload(resourceManager)
+        MiscModelRepository.reload(resourceManager)
         LOGGER.info("Loaded assets")
     }
 

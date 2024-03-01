@@ -14,15 +14,18 @@ import com.cobblemon.mod.common.api.net.ServerNetworkPacketHandler
 import com.cobblemon.mod.common.client.net.PlayerInteractOptionsHandler
 import com.cobblemon.mod.common.client.net.SetClientPlayerDataHandler
 import com.cobblemon.mod.common.client.net.animation.PlayPoseableAnimationHandler
+import com.cobblemon.mod.common.client.net.animation.PlayPoseableAnimationHandler
 import com.cobblemon.mod.common.client.net.battle.*
 import com.cobblemon.mod.common.client.net.callback.move.OpenMoveCallbackHandler
 import com.cobblemon.mod.common.client.net.callback.party.OpenPartyCallbackHandler
 import com.cobblemon.mod.common.client.net.callback.partymove.OpenPartyMoveCallbackHandler
 import com.cobblemon.mod.common.client.net.data.DataRegistrySyncPacketHandler
 import com.cobblemon.mod.common.client.net.data.UnlockReloadPacketHandler
+import com.cobblemon.mod.common.client.net.effect.RunPosableMoLangHandler
 import com.cobblemon.mod.common.client.net.dialogue.DialogueClosedHandler
 import com.cobblemon.mod.common.client.net.dialogue.DialogueOpenedHandler
 import com.cobblemon.mod.common.client.net.effect.RunPosableMoLangHandler
+import com.cobblemon.mod.common.client.net.effect.SpawnSnowstormEntityParticleHandler
 import com.cobblemon.mod.common.client.net.effect.SpawnSnowstormEntityParticleHandler
 import com.cobblemon.mod.common.client.net.effect.SpawnSnowstormParticleHandler
 import com.cobblemon.mod.common.client.net.gui.InteractPokemonUIPacketHandler
@@ -64,10 +67,13 @@ import com.cobblemon.mod.common.net.messages.client.callback.OpenPartyCallbackPa
 import com.cobblemon.mod.common.net.messages.client.callback.OpenPartyMoveCallbackPacket
 import com.cobblemon.mod.common.net.messages.client.data.AbilityRegistrySyncPacket
 import com.cobblemon.mod.common.net.messages.client.data.BerryRegistrySyncPacket
+import com.cobblemon.mod.common.net.messages.client.data.GlobalSpeciesFeatureSyncPacket
 import com.cobblemon.mod.common.net.messages.client.data.MovesRegistrySyncPacket
 import com.cobblemon.mod.common.net.messages.client.data.NPCRegistrySyncPacket
 import com.cobblemon.mod.common.net.messages.client.data.PropertiesCompletionRegistrySyncPacket
+import com.cobblemon.mod.common.net.messages.client.data.SpeciesFeatureAssignmentSyncPacket
 import com.cobblemon.mod.common.net.messages.client.data.SpeciesRegistrySyncPacket
+import com.cobblemon.mod.common.net.messages.client.data.StandardSpeciesFeatureSyncPacket
 import com.cobblemon.mod.common.net.messages.client.data.UnlockReloadPacket
 import com.cobblemon.mod.common.net.messages.client.dialogue.DialogueClosedPacket
 import com.cobblemon.mod.common.net.messages.client.dialogue.DialogueOpenedPacket
@@ -236,6 +242,7 @@ object CobblemonNetwork : NetworkManager {
         this.createClientBound(PokemonStateUpdatePacket.ID, PokemonStateUpdatePacket::decode, PokemonUpdatePacketHandler())
         this.createClientBound(TetheringUpdatePacket.ID, TetheringUpdatePacket::decode, PokemonUpdatePacketHandler())
         this.createClientBound(TradeableUpdatePacket.ID, TradeableUpdatePacket::decode, PokemonUpdatePacketHandler())
+        this.createClientBound(SpeciesFeatureUpdatePacket.ID, SpeciesFeatureUpdatePacket::decode, PokemonUpdatePacketHandler())
         this.createClientBound(OriginalTrainerUpdatePacket.ID, OriginalTrainerUpdatePacket::decode, PokemonUpdatePacketHandler())
 
         // Evolution start
@@ -303,6 +310,9 @@ object CobblemonNetwork : NetworkManager {
         this.createClientBound(NPCRegistrySyncPacket.ID, NPCRegistrySyncPacket::decode, DataRegistrySyncPacketHandler())
         this.createClientBound(UnlockReloadPacket.ID, UnlockReloadPacket::decode, UnlockReloadPacketHandler)
         this.createClientBound(BerryRegistrySyncPacket.ID, BerryRegistrySyncPacket::decode, DataRegistrySyncPacketHandler())
+        this.createClientBound(StandardSpeciesFeatureSyncPacket.ID, StandardSpeciesFeatureSyncPacket::decode, DataRegistrySyncPacketHandler())
+        this.createClientBound(GlobalSpeciesFeatureSyncPacket.ID, GlobalSpeciesFeatureSyncPacket::decode, DataRegistrySyncPacketHandler())
+        this.createClientBound(SpeciesFeatureAssignmentSyncPacket.ID, SpeciesFeatureAssignmentSyncPacket::decode, DataRegistrySyncPacketHandler())
         this.createClientBound(NaturalMaterialRegistrySyncPacket.ID, NaturalMaterialRegistrySyncPacket::decode, DataRegistrySyncPacketHandler())
         this.createClientBound(FossilRegistrySyncPacket.ID, FossilRegistrySyncPacket::decode, DataRegistrySyncPacketHandler())
 

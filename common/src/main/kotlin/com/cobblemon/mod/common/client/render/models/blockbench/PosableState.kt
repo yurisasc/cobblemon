@@ -18,14 +18,12 @@ import com.cobblemon.mod.common.Cobblemon.LOGGER
 import com.cobblemon.mod.common.api.molang.MoLangFunctions.addFunction
 import com.cobblemon.mod.common.api.molang.MoLangFunctions.addFunctions
 import com.cobblemon.mod.common.api.molang.MoLangFunctions.getQueryStruct
-import com.cobblemon.mod.common.api.molang.ObjectValue
-import com.cobblemon.mod.common.api.text.text
-import com.cobblemon.mod.common.client.particle.BedrockParticleEffectRepository
-import com.cobblemon.mod.common.client.particle.ParticleStorm
-import com.cobblemon.mod.common.client.entity.GenericBedrockClientDelegate
 import com.cobblemon.mod.common.api.molang.MoLangFunctions.setup
+import com.cobblemon.mod.common.api.molang.ObjectValue
 import com.cobblemon.mod.common.api.scheduling.Schedulable
 import com.cobblemon.mod.common.client.ClientMoLangFunctions.setupClient
+import com.cobblemon.mod.common.client.particle.BedrockParticleEffectRepository
+import com.cobblemon.mod.common.client.particle.ParticleStorm
 import com.cobblemon.mod.common.client.render.MatrixWrapper
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.PrimaryAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.StatefulAnimation
@@ -33,17 +31,11 @@ import com.cobblemon.mod.common.client.render.models.blockbench.animation.Statel
 import com.cobblemon.mod.common.client.render.models.blockbench.bedrock.animation.BedrockParticleKeyframe
 import com.cobblemon.mod.common.client.render.models.blockbench.bedrock.animation.BedrockStatefulAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.bedrock.animation.BedrockStatelessAnimation
-import com.cobblemon.mod.common.client.render.models.blockbench.frame.ModelFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.Pose
 import com.cobblemon.mod.common.client.render.models.blockbench.quirk.ModelQuirk
 import com.cobblemon.mod.common.client.render.models.blockbench.quirk.QuirkData
-import com.cobblemon.mod.common.client.render.models.blockbench.repository.RenderContext
-import com.cobblemon.mod.common.client.render.models.blockbench.wavefunction.WaveFunction
-import com.cobblemon.mod.common.client.render.models.blockbench.wavefunction.WaveFunctions
 import com.cobblemon.mod.common.entity.Poseable
-import com.cobblemon.mod.common.util.asExpression
 import com.cobblemon.mod.common.util.asIdentifierDefaultingNamespace
-import com.cobblemon.mod.common.util.resolve
 import java.util.concurrent.ConcurrentLinkedQueue
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.sound.PositionedSoundInstance
@@ -71,6 +63,85 @@ abstract class PosableState : Schedulable {
 
     private val reusableAnimTime = DoubleValue(0.0) // This gets called 500 million times so use a mutable value for runtime
 
+
+    /*
+    val runtime = MoLangRuntime().setup().setupClient().also { runtime ->
+        val reusableAnimTime = DoubleValue(0.0) // This gets called 500 million times so use a mutable value for runtime
+        runtime.environment.getQueryStruct().addFunctions(mapOf(
+            "anim_time" to java.util.function.Function { return@Function reusableAnimTime.also { it.value = animationSeconds.toDouble() } },
+            "pose_type" to java.util.function.Function { return@Function StringValue((getEntity() as Poseable).getCurrentPoseType().name) },
+            "pose" to java.util.function.Function { _ -> return@Function StringValue(currentPose ?: "") },
+            "say" to java.util.function.Function { params -> MinecraftClient.getInstance().player?.sendMessage(params.getString(0).text()) ?: Unit },
+            "sound" to java.util.function.Function { params ->
+                val entity = getEntity() ?: return@Function Unit
+                if (params.get<MoValue>(0) !is StringValue) {
+                    return@Function Unit
+                }
+                val soundEvent = SoundEvent.of(params.getString(0).asIdentifierDefaultingNamespace())
+                if (soundEvent != null) {
+                    val volume = if (params.contains(1)) params.getDouble(1).toFloat() else 1F
+                    val pitch = if (params.contains(2)) params.getDouble(2).toFloat() else 1F
+                    MinecraftClient.getInstance().soundManager.play(
+                        PositionedSoundInstance(soundEvent, SoundCategory.NEUTRAL, volume, pitch, entity.world.random, entity.x, entity.y, entity.z)
+                    )
+                }
+            },
+            "play_animation" to java.util.function.Function { params ->
+                val animationParameter = params.get<MoValue>(0)
+                val animation = if (animationParameter is ObjectValue<*>) {
+                    animationParameter.obj as BedrockStatefulAnimation<T>
+                } else {
+                    currentModel?.getAnimation(this, animationParameter.asString(), runtime)
+                }
+                if (animation != null) {
+                    if (animation is PrimaryAnimation<T>) {
+                        addPrimaryAnimation(animation)
+                    } else {
+                        addStatefulAnimation(animation)
+                    }
+                }
+                return@Function Unit
+            },
+            "particle" to java.util.function.Function { params ->
+                val particlesParam = params.get<MoValue>(0)
+                val particles = mutableListOf<String>()
+                when (particlesParam) {
+                    is StringValue -> particles.add(particlesParam.value)
+                    is VariableStruct -> particles.addAll(particlesParam.map.values.map { it.asString() })
+                    else -> return@Function Unit
+                }
+
+                val effectIds = particles.map { it.asIdentifierDefaultingNamespace() }
+                for (effectId in effectIds) {
+                    val locator = if (params.params.size > 1) params.getString(1) else "root"
+                    val effect = BedrockParticleEffectRepository.getEffect(effectId) ?: run {
+                        LOGGER.error("Unable to find a particle effect with id $effectId")
+                        return@Function Unit
+                    }
+
+                    val entity = getEntity() ?: return@Function Unit
+                    val world = entity.world as ClientWorld
+                    val matrixWrapper = locatorStates[locator] ?: locatorStates["root"]!!
+
+                    val particleRuntime = MoLangRuntime().setup().setupClient()
+                    particleRuntime.environment.getQueryStruct().addFunction("entity") { runtime.environment.getQueryStruct() }
+
+                    val storm = ParticleStorm(
+                        effect = effect,
+                        matrixWrapper = matrixWrapper,
+                        world = world,
+                        runtime = particleRuntime,
+                        sourceVelocity = { entity.velocity },
+                        sourceAlive = { !entity.isRemoved },
+                        sourceVisible = { !entity.isInvisible }
+                    )
+
+                    storm.spawn()
+                }
+            }
+        ))
+    }
+     */
     val functions = QueryStruct(hashMapOf())
         .addFunction("anim_time") {
             reusableAnimTime.value = animationSeconds.toDouble()

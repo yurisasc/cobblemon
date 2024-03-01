@@ -46,6 +46,7 @@ object CobblemonItemGroups {
 
     @JvmStatic val FOOD_INJECTIONS = this.inject(RegistryKey.of(Registries.ITEM_GROUP.key, Identifier("food_and_drinks")), this::foodInjections)
     @JvmStatic val TOOLS_AND_UTILITIES_INJECTIONS = this.inject(RegistryKey.of(Registries.ITEM_GROUP.key, Identifier("tools_and_utilities")), this::toolsAndUtilitiesInjections)
+    @JvmStatic val INGREDIENTS_INJECTIONS = this.inject(RegistryKey.of(Registries.ITEM_GROUP.key, Identifier("ingredients")), this::ingredientsInjections)
 
     fun register(consumer: (holder: ItemGroupHolder) -> ItemGroup) {
         ALL.forEach(consumer::invoke)
@@ -141,10 +142,10 @@ object CobblemonItemGroups {
         entries.add(CobblemonItems.PLUME_FOSSIL)
         entries.add(CobblemonItems.JAW_FOSSIL)
         entries.add(CobblemonItems.SAIL_FOSSIL)
-        entries.add(CobblemonItems.BIRD_FOSSIL)
-        entries.add(CobblemonItems.FISH_FOSSIL)
-        entries.add(CobblemonItems.DRAKE_FOSSIL)
-        entries.add(CobblemonItems.DINO_FOSSIL)
+        entries.add(CobblemonItems.FOSSILIZED_BIRD)
+        entries.add(CobblemonItems.FOSSILIZED_FISH)
+        entries.add(CobblemonItems.FOSSILIZED_DRAKE)
+        entries.add(CobblemonItems.FOSSILIZED_DINO)
 
         entries.add(CobblemonItems.TUMBLESTONE)
         entries.add(CobblemonItems.BLACK_TUMBLESTONE)
@@ -175,15 +176,61 @@ object CobblemonItemGroups {
         entries.add(CobblemonItems.DOME_SHERD)
         entries.add(CobblemonItems.HELIX_SHERD)
         entries.add(CobblemonItems.NOSTALGIC_SHERD)
+        entries.add(CobblemonItems.SUSPICIOUS_SHERD)
+
+        entries.add(CobblemonItems.AUTOMATON_ARMOR_TRIM_SMITHING_TEMPLATE)
+
+        entries.add(CobblemonItems.RELIC_COIN)
+        entries.add(CobblemonItems.RELIC_COIN_POUCH)
+        entries.add(CobblemonItems.RELIC_COIN_SACK)
+        entries.add(CobblemonItems.GILDED_CHEST)
+        entries.add(CobblemonItems.YELLOW_GILDED_CHEST)
+        entries.add(CobblemonItems.GREEN_GILDED_CHEST)
+        entries.add(CobblemonItems.BLUE_GILDED_CHEST)
+        entries.add(CobblemonItems.PINK_GILDED_CHEST)
+        entries.add(CobblemonItems.BLACK_GILDED_CHEST)
+        entries.add(CobblemonItems.WHITE_GILDED_CHEST)
+        entries.add(CobblemonItems.GIMMIGHOUL_CHEST)
+
+        entries.add(CobblemonItems.NORMAL_GEM)
+        entries.add(CobblemonItems.FIRE_GEM)
+        entries.add(CobblemonItems.WATER_GEM)
+        entries.add(CobblemonItems.GRASS_GEM)
+        entries.add(CobblemonItems.ELECTRIC_GEM)
+        entries.add(CobblemonItems.ICE_GEM)
+        entries.add(CobblemonItems.FIGHTING_GEM)
+        entries.add(CobblemonItems.POISON_GEM)
+        entries.add(CobblemonItems.GROUND_GEM)
+        entries.add(CobblemonItems.FLYING_GEM)
+        entries.add(CobblemonItems.PSYCHIC_GEM)
+        entries.add(CobblemonItems.BUG_GEM)
+        entries.add(CobblemonItems.ROCK_GEM)
+        entries.add(CobblemonItems.GHOST_GEM)
+        entries.add(CobblemonItems.DRAGON_GEM)
+        entries.add(CobblemonItems.DARK_GEM)
+        entries.add(CobblemonItems.STEEL_GEM)
+        entries.add(CobblemonItems.FAIRY_GEM)
     }
 
     private fun blockEntries(displayContext: DisplayContext, entries: Entries) {
-        entries.add(CobblemonItems.FOSSIL_TUBE)
-        entries.add(CobblemonItems.FOSSIL_COMPARTMENT)
-        entries.add(CobblemonItems.FOSSIL_MONITOR)
+        entries.add(CobblemonItems.RESTORATION_TANK)
+        entries.add(CobblemonItems.FOSSIL_ANALYZER)
+        entries.add(CobblemonItems.MONITOR)
         entries.add(CobblemonItems.PC)
         entries.add(CobblemonItems.HEALING_MACHINE)
         entries.add(CobblemonItems.PASTURE)
+
+        entries.add(CobblemonItems.GILDED_CHEST)
+        entries.add(CobblemonItems.YELLOW_GILDED_CHEST)
+        entries.add(CobblemonItems.GREEN_GILDED_CHEST)
+        entries.add(CobblemonItems.BLUE_GILDED_CHEST)
+        entries.add(CobblemonItems.PINK_GILDED_CHEST)
+        entries.add(CobblemonItems.BLACK_GILDED_CHEST)
+        entries.add(CobblemonItems.WHITE_GILDED_CHEST)
+        entries.add(CobblemonItems.GIMMIGHOUL_CHEST)
+        entries.add(CobblemonItems.RELIC_COIN_POUCH)
+        entries.add(CobblemonItems.RELIC_COIN_SACK)
+
         entries.add(CobblemonItems.APRICORN_LOG)
         entries.add(CobblemonItems.APRICORN_WOOD)
         entries.add(CobblemonItems.STRIPPED_APRICORN_LOG)
@@ -211,6 +258,7 @@ object CobblemonItemGroups {
         entries.add(CobblemonItems.DEEPSLATE_DUSK_STONE_ORE)
         entries.add(CobblemonItems.FIRE_STONE_ORE)
         entries.add(CobblemonItems.DEEPSLATE_FIRE_STONE_ORE)
+        entries.add(CobblemonItems.NETHER_FIRE_STONE_ORE)
         entries.add(CobblemonItems.ICE_STONE_ORE)
         entries.add(CobblemonItems.DEEPSLATE_ICE_STONE_ORE)
         entries.add(CobblemonItems.LEAF_STONE_ORE)
@@ -271,6 +319,13 @@ object CobblemonItemGroups {
 
         entries.add(CobblemonItems.DIRE_HIT)
         entries.add(CobblemonItems.GUARD_SPEC)
+
+        entries.add(CobblemonItems.HEALTH_FEATHER)
+        entries.add(CobblemonItems.MUSCLE_FEATHER)
+        entries.add(CobblemonItems.RESIST_FEATHER)
+        entries.add(CobblemonItems.GENIUS_FEATHER)
+        entries.add(CobblemonItems.CLEVER_FEATHER)
+        entries.add(CobblemonItems.SWIFT_FEATHER)
 
         entries.add(CobblemonItems.HP_UP)
         entries.add(CobblemonItems.PROTEIN)
@@ -419,6 +474,25 @@ object CobblemonItemGroups {
         entries.add(CobblemonItems.TWISTED_SPOON)
         entries.add(CobblemonItems.WHITE_HERB)
         entries.add(CobblemonItems.WISE_GLASSES)
+
+        entries.add(CobblemonItems.NORMAL_GEM)
+        entries.add(CobblemonItems.FIRE_GEM)
+        entries.add(CobblemonItems.WATER_GEM)
+        entries.add(CobblemonItems.GRASS_GEM)
+        entries.add(CobblemonItems.ELECTRIC_GEM)
+        entries.add(CobblemonItems.ICE_GEM)
+        entries.add(CobblemonItems.FIGHTING_GEM)
+        entries.add(CobblemonItems.POISON_GEM)
+        entries.add(CobblemonItems.GROUND_GEM)
+        entries.add(CobblemonItems.FLYING_GEM)
+        entries.add(CobblemonItems.PSYCHIC_GEM)
+        entries.add(CobblemonItems.BUG_GEM)
+        entries.add(CobblemonItems.ROCK_GEM)
+        entries.add(CobblemonItems.GHOST_GEM)
+        entries.add(CobblemonItems.DRAGON_GEM)
+        entries.add(CobblemonItems.DARK_GEM)
+        entries.add(CobblemonItems.STEEL_GEM)
+        entries.add(CobblemonItems.FAIRY_GEM)
     }
 
     private fun pokeballentries(displayContext: DisplayContext, entries: Entries) {
@@ -427,14 +501,25 @@ object CobblemonItemGroups {
 
     private fun foodInjections(injector: Injector) {
         injector.putLast(CobblemonItems.ROASTED_LEEK)
-        injector.putLast(CobblemonItems.LEEK_AND_POTATO_STEW)
-        injector.putLast(CobblemonItems.BRAISED_VIVICHOKE)
-        injector.putLast(CobblemonItems.VIVICHOKE_DIP)
+        injector.putAfter(CobblemonItems.LEEK_AND_POTATO_STEW, CobblemonItems.ROASTED_LEEK)
+        injector.putAfter(CobblemonItems.BRAISED_VIVICHOKE, CobblemonItems.LEEK_AND_POTATO_STEW)
+        injector.putAfter(CobblemonItems.VIVICHOKE_DIP, CobblemonItems.BRAISED_VIVICHOKE)
     }
 
     private fun toolsAndUtilitiesInjections(injector: Injector) {
         injector.putAfter(CobblemonItems.APRICORN_BOAT, Items.BAMBOO_CHEST_RAFT)
         injector.putAfter(CobblemonItems.APRICORN_CHEST_BOAT, CobblemonItems.APRICORN_BOAT)
+    }
+
+    private fun ingredientsInjections(injector: Injector) {
+        injector.putAfter(CobblemonItems.BYGONE_SHERD, Items.SNORT_POTTERY_SHERD)
+        injector.putAfter(CobblemonItems.CAPTURE_SHERD, CobblemonItems.BYGONE_SHERD)
+        injector.putAfter(CobblemonItems.DOME_SHERD, CobblemonItems.CAPTURE_SHERD)
+        injector.putAfter(CobblemonItems.HELIX_SHERD, CobblemonItems.DOME_SHERD)
+        injector.putAfter(CobblemonItems.NOSTALGIC_SHERD, CobblemonItems.HELIX_SHERD)
+        injector.putAfter(CobblemonItems.SUSPICIOUS_SHERD, CobblemonItems.NOSTALGIC_SHERD)
+
+        injector.putAfter(CobblemonItems.AUTOMATON_ARMOR_TRIM_SMITHING_TEMPLATE, Items.SPIRE_ARMOR_TRIM_SMITHING_TEMPLATE)
     }
 
     /**

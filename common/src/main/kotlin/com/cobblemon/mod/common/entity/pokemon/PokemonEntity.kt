@@ -13,6 +13,7 @@ import com.bedrockk.molang.runtime.value.DoubleValue
 import com.bedrockk.molang.runtime.value.StringValue
 import com.cobblemon.mod.common.*
 import com.cobblemon.mod.common.CobblemonNetwork.sendPacket
+import com.cobblemon.mod.common.CobblemonNetwork.sendPacketToServer
 import com.cobblemon.mod.common.api.drop.DropTable
 import com.cobblemon.mod.common.api.entity.Despawner
 import com.cobblemon.mod.common.api.entity.PokemonSender
@@ -38,6 +39,7 @@ import com.cobblemon.mod.common.api.types.ElementalTypes.FIRE
 import com.cobblemon.mod.common.battles.BagItems
 import com.cobblemon.mod.common.battles.BattleRegistry
 import com.cobblemon.mod.common.block.entity.PokemonPastureBlockEntity
+import com.cobblemon.mod.common.client.CobblemonClient
 import com.cobblemon.mod.common.client.entity.PokemonClientDelegate
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.Poseable
@@ -51,6 +53,7 @@ import com.cobblemon.mod.common.net.messages.client.animation.PlayPoseableAnimat
 import com.cobblemon.mod.common.net.messages.client.sound.UnvalidatedPlaySoundS2CPacket
 import com.cobblemon.mod.common.net.messages.client.spawn.SpawnPokemonPacket
 import com.cobblemon.mod.common.net.messages.client.ui.InteractPokemonUIPacket
+import com.cobblemon.mod.common.net.messages.server.BattleChallengePacket
 import com.cobblemon.mod.common.net.serverhandling.storage.SendOutPokemonHandler.SEND_OUT_DURATION
 import com.cobblemon.mod.common.pokemon.FormData
 import com.cobblemon.mod.common.pokemon.Pokemon
@@ -114,7 +117,7 @@ import net.minecraft.world.World
 import net.minecraft.world.event.GameEvent
 
 @Suppress("unused")
-class PokemonEntity(
+open class PokemonEntity(
     world: World,
     pokemon: Pokemon = Pokemon(),
     type: EntityType<out PokemonEntity> = CobblemonEntities.POKEMON,
@@ -136,6 +139,7 @@ class PokemonEntity(
         @JvmStatic val HIDE_LABEL = DataTracker.registerData(PokemonEntity::class.java, TrackedDataHandlerRegistry.BOOLEAN)
         @JvmStatic val UNBATTLEABLE = DataTracker.registerData(PokemonEntity::class.java, TrackedDataHandlerRegistry.BOOLEAN)
         @JvmStatic val COUNTS_TOWARDS_SPAWN_CAP = DataTracker.registerData(PokemonEntity::class.java, TrackedDataHandlerRegistry.BOOLEAN)
+        @JvmStatic val SPAWN_DIRECTION = DataTracker.registerData(PokemonEntity::class.java, TrackedDataHandlerRegistry.FLOAT)
 
         const val BATTLE_LOCK = "battle"
 
@@ -256,6 +260,7 @@ class PokemonEntity(
         dataTracker.startTracking(LABEL_LEVEL, 1)
         dataTracker.startTracking(HIDE_LABEL, false)
         dataTracker.startTracking(UNBATTLEABLE, false)
+        dataTracker.startTracking(SPAWN_DIRECTION, world.random.nextFloat() * 360F)
     }
 
     override fun onTrackedDataSet(data: TrackedData<*>) {
@@ -367,6 +372,13 @@ class PokemonEntity(
         ticksLived++
         if (this.ticksLived % 20 == 0) {
             this.updateEyeHeight()
+        }
+
+        if (ticksLived <= 20) {
+            clearPositionTarget()
+            val spawnDirection = dataTracker.get(SPAWN_DIRECTION)
+            setBodyYaw(spawnDirection)
+            prevBodyYaw = spawnDirection
         }
 
         if (this.tethering != null && !this.tethering!!.box.contains(this.x, this.y, this.z)) {
@@ -912,7 +924,7 @@ class PokemonEntity(
             player.sendMessage(lang("held_item.already_holding", this.pokemon.getDisplayName(), stack.name))
             return true
         }
-        val returned = this.pokemon.swapHeldItem(stack, !player.isCreative)
+        val returned = this.pokemon.swapHeldItem(stack = stack, decrement = !player.isCreative)
         val text = when {
             giving.isEmpty -> lang("held_item.take", returned.name, this.pokemon.getDisplayName())
             returned.isEmpty -> lang("held_item.give", this.pokemon.getDisplayName(), giving.name)
@@ -1114,6 +1126,21 @@ class PokemonEntity(
     override fun setCustomNameVisible(visible: Boolean) {
         // We do this as a compromise to keep as much compatibility as possible with other mods expecting this entity to act like a vanilla one
         dataTracker.set(NICKNAME_VISIBLE, visible)
+    }
+
+    /**
+     * Attempts to force initiate a battle with this Pokémon.
+     *
+     * @param player The player to attempt a battle with.
+     * @return Whether the battle was successfully started.
+     */
+    fun forceBattle(player: PlayerEntity): Boolean {
+        if (!canBattle(player)) return false
+        if (CobblemonClient.storage.myParty.isEmpty()) return false
+        val selectedPokemon = CobblemonClient.storage.myParty.get(CobblemonClient.storage.selectedSlot) ?: return false
+        if (selectedPokemon.isFainted()) return false
+        sendPacketToServer(BattleChallengePacket(this.id, selectedPokemon.uuid))
+        return true
     }
 
     /**

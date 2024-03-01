@@ -10,21 +10,25 @@ package com.cobblemon.mod.common.battles
 
 import com.cobblemon.mod.common.Cobblemon.LOGGER
 import com.cobblemon.mod.common.CobblemonSounds
-import com.cobblemon.mod.common.api.battles.interpreter.*
+import com.cobblemon.mod.common.api.battles.interpreter.BasicContext
+import com.cobblemon.mod.common.api.battles.interpreter.BattleContext
+import com.cobblemon.mod.common.api.battles.interpreter.BattleMessage
+import com.cobblemon.mod.common.api.battles.interpreter.Effect
+import com.cobblemon.mod.common.api.battles.interpreter.MissingContext
 import com.cobblemon.mod.common.api.battles.model.PokemonBattle
 import com.cobblemon.mod.common.api.battles.model.actor.ActorType
 import com.cobblemon.mod.common.api.battles.model.actor.BattleActor
 import com.cobblemon.mod.common.api.battles.model.actor.EntityBackedBattleActor
 import com.cobblemon.mod.common.api.data.ShowdownIdentifiable
-import com.cobblemon.mod.common.api.entity.PokemonSender
 import com.cobblemon.mod.common.api.events.CobblemonEvents
 import com.cobblemon.mod.common.api.events.battles.BattleVictoryEvent
 import com.cobblemon.mod.common.api.pokemon.stats.Stats
 import com.cobblemon.mod.common.api.pokemon.status.Statuses
-import com.cobblemon.mod.common.api.scheduling.afterOnServer
-import com.cobblemon.mod.common.api.scheduling.after
-import com.cobblemon.mod.common.api.scheduling.delayedFuture
-import com.cobblemon.mod.common.api.text.*
+import com.cobblemon.mod.common.api.text.gold
+import com.cobblemon.mod.common.api.text.plus
+import com.cobblemon.mod.common.api.text.red
+import com.cobblemon.mod.common.api.text.text
+import com.cobblemon.mod.common.api.text.yellow
 import com.cobblemon.mod.common.api.types.ElementalTypes
 import com.cobblemon.mod.common.battles.actor.PlayerBattleActor
 import com.cobblemon.mod.common.battles.dispatch.BattleDispatch
@@ -37,14 +41,44 @@ import com.cobblemon.mod.common.battles.dispatch.WaitDispatch
 import com.cobblemon.mod.common.battles.interpreter.ContextManager
 import com.cobblemon.mod.common.battles.interpreter.instructions.*
 import com.cobblemon.mod.common.battles.pokemon.BattlePokemon
-import com.cobblemon.mod.common.net.messages.client.battle.*
+import com.cobblemon.mod.common.net.messages.client.battle.BattleHealthChangePacket
+import com.cobblemon.mod.common.net.messages.client.battle.BattleMadeInvalidChoicePacket
+import com.cobblemon.mod.common.net.messages.client.battle.BattleMakeChoicePacket
+import com.cobblemon.mod.common.net.messages.client.battle.BattlePersistentStatusPacket
+import com.cobblemon.mod.common.net.messages.client.battle.BattleQueueRequestPacket
+import com.cobblemon.mod.common.net.messages.client.battle.BattleSwitchPokemonPacket
 import com.cobblemon.mod.common.pokemon.evolution.progress.DamageTakenEvolutionProgress
 import com.cobblemon.mod.common.pokemon.evolution.progress.LastBattleCriticalHitsEvolutionProgress
 import com.cobblemon.mod.common.pokemon.evolution.progress.RecoilEvolutionProgress
 import com.cobblemon.mod.common.pokemon.status.PersistentStatus
-import com.cobblemon.mod.common.util.*
+import com.cobblemon.mod.common.util.asTranslated
+import com.cobblemon.mod.common.util.battleLang
+import com.cobblemon.mod.common.util.lang
+import com.cobblemon.mod.common.util.runOnServer
+import com.cobblemon.mod.common.util.swap
 import java.util.UUID
 import java.util.concurrent.CompletableFuture
+import kotlin.collections.Iterator
+import kotlin.collections.MutableList
+import kotlin.collections.any
+import kotlin.collections.emptySet
+import kotlin.collections.filter
+import kotlin.collections.filterIsInstance
+import kotlin.collections.find
+import kotlin.collections.first
+import kotlin.collections.firstOrNull
+import kotlin.collections.forEach
+import kotlin.collections.getOrNull
+import kotlin.collections.listOf
+import kotlin.collections.map
+import kotlin.collections.mapNotNull
+import kotlin.collections.mutableListOf
+import kotlin.collections.mutableMapOf
+import kotlin.collections.reduce
+import kotlin.collections.set
+import kotlin.collections.setOf
+import kotlin.collections.toMutableList
+import kotlin.collections.toTypedArray
 import kotlin.math.roundToInt
 import net.minecraft.entity.LivingEntity
 import net.minecraft.server.world.ServerWorld
@@ -517,9 +551,6 @@ object ShowdownInterpreter {
 
             CobblemonEvents.BATTLE_VICTORY.post(BattleVictoryEvent(battle, winners, losers, wasCaught))
 
-            winners.forEach { it.win(winners, losers) }
-            losers.forEach { it.lose(winners, losers) }
-
             this.lastCauser.remove(battle.battleId)
         }
     }
@@ -533,9 +564,13 @@ object ShowdownInterpreter {
     fun handleStatusInstruction(battle: PokemonBattle, message: BattleMessage, remainingLines: MutableList<String>) {
         val (pnx, _) = message.pnxAndUuid(0) ?: return
         val pokemon = message.getBattlePokemon(0, battle) ?: return
+        val otherPokemon = message.actorAndActivePokemonFromOptional(battle, "of")?.second?.battlePokemon
         val statusLabel = message.argumentAt(1) ?: return
         val status = Statuses.getStatus(statusLabel) ?: return LOGGER.error("Unrecognized status: $statusLabel")
-        broadcastOptionalAbility(battle, message.effect(), pokemon.getName())
+        if (otherPokemon == null)
+            broadcastOptionalAbility(battle, message.effect(), pokemon.getName())
+        else
+            broadcastOptionalAbility(battle, message.effect(), otherPokemon.getName())
 
         battle.dispatchWaiting {
             if (status is PersistentStatus) {
@@ -1284,11 +1319,9 @@ object ShowdownInterpreter {
             // Queue actual swap and send-in after the animation has ended
             actor.pokemonList.swap(actor.activePokemon.indexOf(activePokemon), actor.pokemonList.indexOf(newPokemon))
             activePokemon.battlePokemon = newPokemon
-            val packet1 = BattleSwitchPokemonPacket(pnx, newPokemon, true)
-            val packet2 = BattleSwitchPokemonPacket(pnx, newPokemon, false)
+            battle.sendSidedUpdate(actor, BattleSwitchPokemonPacket(pnx, newPokemon, true), BattleSwitchPokemonPacket(pnx, newPokemon, false))
             if (newPokemon.entity != null) {
                 newPokemon.entity?.cry()
-                battle.sendSidedUpdate(actor, packet1, packet2)
                 sendOutFuture.complete(Unit)
             } else {
                 val lastPosition = activePokemon.position
@@ -1299,13 +1332,12 @@ object ShowdownInterpreter {
                     source = entity,
                     battleId = battle.battleId,
                     level = world,
-                    position = pos,
-                    mutation = { battle.sendSidedUpdate(actor, packet1, packet2) }
+                    position = pos
                 ).thenAccept { sendOutFuture.complete(Unit) }
             }
         }
 
-        return UntilDispatch(sendOutFuture::isDone)
+        return UntilDispatch { sendOutFuture.isDone }
     }
 
     private fun createNonEntitySwitch(battle: PokemonBattle, actor: BattleActor, pnx: String, activePokemon: ActiveBattlePokemon, newPokemon: BattlePokemon): DispatchResult {

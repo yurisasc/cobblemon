@@ -14,6 +14,12 @@ import com.cobblemon.mod.common.api.molang.MoLangFunctions.addFunctions
 import com.cobblemon.mod.common.api.molang.MoLangFunctions.getQueryStruct
 import com.cobblemon.mod.common.api.molang.MoLangFunctions.setup
 import com.cobblemon.mod.common.client.ClientMoLangFunctions.setupClient
+import com.bedrockk.molang.runtime.MoLangRuntime
+import com.cobblemon.mod.common.api.molang.ExpressionLike
+import com.cobblemon.mod.common.api.molang.MoLangFunctions.addFunctions
+import com.cobblemon.mod.common.api.molang.MoLangFunctions.getQueryStruct
+import com.cobblemon.mod.common.api.molang.MoLangFunctions.setup
+import com.cobblemon.mod.common.client.ClientMoLangFunctions.setupClient
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.SingleBoneLookAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.StatefulAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.StatelessAnimation
@@ -24,6 +30,7 @@ import com.cobblemon.mod.common.util.asExpressionLike
 import com.cobblemon.mod.common.util.resolveObject
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
+import com.google.gson.JsonPrimitive
 import com.google.gson.JsonPrimitive
 import net.minecraft.util.math.Vec3d
 
@@ -69,6 +76,7 @@ class JsonPose(model: PosableModel, json: JsonObject) {
                 return@mapNotNull null
             }
         }
+        return@mapNotNull null
     }.toTypedArray()
 
     val quirks = (json.get("quirks")?.asJsonArray ?: JsonArray()).map { json ->
