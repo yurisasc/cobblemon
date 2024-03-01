@@ -130,6 +130,11 @@ object MoLangFunctions {
                 val amount = params.getDoubleOrNull(0) ?: player.maxHealth
                 player.heal(amount.toFloat())
             }
+            map.put("environment") {
+                val environment = MoLangEnvironment()
+                environment.structs["query"] = player.asMoLangValue()
+                environment
+            }
             map
         }
     )
@@ -193,6 +198,7 @@ object MoLangFunctions {
                 runtime.environment.structs.putAll(environment.structs)
                 CobblemonScripts.run(script, runtime) ?: DoubleValue(0)
             }
+            map.put("environment") { _ -> npc.runtime.environment }
             map
         }
     )
@@ -205,7 +211,7 @@ object MoLangFunctions {
             map.put("is_pvp") { DoubleValue(battle.isPvP) }
             map.put("is_pvw") { DoubleValue(battle.isPvW) }
             map.put("battle_type") { StringValue(battle.format.toString()) }
-
+            map.put("environment") { battle.runtime.environment }
             map
         }
     )

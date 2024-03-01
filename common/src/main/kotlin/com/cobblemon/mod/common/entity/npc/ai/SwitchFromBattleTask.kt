@@ -26,7 +26,7 @@ object SwitchFromBattleTask {
         return TaskTriggerer.task {
             it.group(it.queryMemoryAbsent(CobblemonMemories.NPC_BATTLING)).apply(it) { _ ->
                 TaskRunnable { _, entity, _ ->
-                    entity.brain.resetPossibleActivities(listOf(Activity.IDLE))
+                    entity.brain.doExclusively(Activity.IDLE)
                     true
                 }
             }

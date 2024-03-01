@@ -8,6 +8,7 @@
 
 package com.cobblemon.mod.common.entity.npc
 
+import com.bedrockk.molang.runtime.MoLangEnvironment
 import com.bedrockk.molang.runtime.MoLangRuntime
 import com.bedrockk.molang.runtime.struct.VariableStruct
 import com.cobblemon.mod.common.CobblemonEntities
@@ -35,6 +36,7 @@ import com.cobblemon.mod.common.api.scheduling.SchedulingTracker
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.Poseable
 import com.cobblemon.mod.common.entity.ai.FollowWalkTargetTask
+import com.cobblemon.mod.common.entity.ai.GetAngryAtAttackerTask
 import com.cobblemon.mod.common.entity.ai.StayAfloatTask
 import com.cobblemon.mod.common.entity.npc.ai.ChooseWanderTargetTask
 import com.cobblemon.mod.common.entity.npc.ai.LookAtBattlingPokemonTask
@@ -165,7 +167,11 @@ class NPCEntity(world: World) : PassiveEntity(CobblemonEntities.NPC, world), Npc
             MemoryModuleType.IS_PANICKING,
             MemoryModuleType.VISIBLE_MOBS,
             CobblemonMemories.NPC_BATTLING,
-            CobblemonMemories.BATTLING_POKEMON
+            CobblemonMemories.BATTLING_POKEMON,
+            MemoryModuleType.HURT_BY,
+            MemoryModuleType.HURT_BY_ENTITY,
+            MemoryModuleType.NEAREST_VISIBLE_PLAYER,
+            MemoryModuleType.ANGRY_AT,
         )
 
         const val SEND_OUT_ANIMATION = "send_out"
@@ -190,6 +196,7 @@ class NPCEntity(world: World) : PassiveEntity(CobblemonEntities.NPC, world), Npc
         val brain = createBrainProfile().deserialize(dynamic)
         brain.setTaskList(Activity.CORE, ImmutableList.of(
             Pair.of(0, StayAfloatTask(0.8F)),
+            Pair.of(0, GetAngryAtAttackerTask.create())
         ))
         brain.setTaskList(Activity.IDLE, ImmutableList.of(
             Pair.of(1, RandomTask(
@@ -206,6 +213,7 @@ class NPCEntity(world: World) : PassiveEntity(CobblemonEntities.NPC, world), Npc
             Pair.of(0, SwitchFromBattleTask.create()),
             Pair.of(1, LookAroundTask(45, 90)),
             Pair.of(2, LookAtBattlingPokemonTask.create()),
+
         ))
         brain.setCoreActivities(setOf(Activity.CORE))
         brain.setDefaultActivity(Activity.IDLE)

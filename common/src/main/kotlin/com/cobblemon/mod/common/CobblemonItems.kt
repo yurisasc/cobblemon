@@ -392,7 +392,7 @@ object CobblemonItems : PlatformRegistry<Registry<Item>, RegistryKey<Registry<It
     @JvmField
     val CLEVER_FEATHER = create("clever_feather", FeatherItem(Stats.SPECIAL_DEFENCE))
     @JvmField
-    val MEDICINAL_LEEK = create("medicinal_leek", MedicinalLeekItem(CobblemonBlocks.MEDICINAL_LEEK, Item.Settings().food(FoodComponent.Builder().snack().hunger(1).saturationModifier(0.2f).build())))
+    val MEDICINAL_LEEK = heldItem("medicinal_leek", MedicinalLeekItem(CobblemonBlocks.MEDICINAL_LEEK, Item.Settings().food(FoodComponent.Builder().snack().hunger(1).saturationModifier(0.2f).build())), "leek")
     @JvmField
     val ROASTED_LEEK = create("roasted_leek", Item(Item.Settings().food(FoodComponent.Builder().snack().hunger(3).saturationModifier(0.3f).build())))
     @JvmField
@@ -895,6 +895,15 @@ object CobblemonItems : PlatformRegistry<Registry<Item>, RegistryKey<Registry<It
     private fun heldItem(name: String, remappedName: String? = null): CobblemonItem = create(
         name,
         CobblemonItem(Item.Settings()).also {
+            if (remappedName != null) {
+                CobblemonHeldItemManager.registerRemap(it, remappedName)
+            }
+        }
+    )
+
+    private fun heldItem(name: String, item: Item, remappedName: String? = null) = create(
+        name = name,
+        entry = item.also {
             if (remappedName != null) {
                 CobblemonHeldItemManager.registerRemap(it, remappedName)
             }
