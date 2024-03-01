@@ -5,7 +5,7 @@
     "spawns": [
         {
             "id": "arbok-classic-1",
-            "pokemon": "arbok snake_pattern=classic",
+            "pokemon": "arbok snake-pattern=classic",
             "presets": [
                 "natural"
             ],
@@ -23,7 +23,7 @@
         },
         {
             "id": "arbok-legacy-1",
-            "pokemon": "arbok snake_pattern=legacy",
+            "pokemon": "arbok snake-pattern=legacy",
             "presets": [
                 "natural"
             ],
@@ -41,7 +41,7 @@
         },
         {
             "id": "arbok-attack-1",
-            "pokemon": "arbok snake_pattern=attack",
+            "pokemon": "arbok snake-pattern=attack",
             "presets": [
                 "natural"
             ],
@@ -59,7 +59,7 @@
         },
         {
             "id": "arbok-speed-1",
-            "pokemon": "arbok snake_pattern=speed",
+            "pokemon": "arbok snake-pattern=speed",
             "presets": [
                 "natural"
             ],
@@ -77,7 +77,7 @@
         },
         {
             "id": "arbok-elusive-1",
-            "pokemon": "arbok snake_pattern=elusive",
+            "pokemon": "arbok snake-pattern=elusive",
             "presets": [
                 "natural"
             ],
@@ -95,7 +95,7 @@
         },
         {
             "id": "arbok-sound-1",
-            "pokemon": "arbok snake_pattern=sound",
+            "pokemon": "arbok snake-pattern=sound",
             "presets": [
                 "natural"
             ],
@@ -113,7 +113,7 @@
         },
         {
             "id": "arbok-dark-2",
-            "pokemon": "arbok snake_pattern=dark",
+            "pokemon": "arbok snake-pattern=dark",
             "presets": [
                 "natural"
             ],
