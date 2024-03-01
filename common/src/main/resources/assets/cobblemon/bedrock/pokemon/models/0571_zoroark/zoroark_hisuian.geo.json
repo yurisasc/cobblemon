@@ -12,12 +12,12 @@
 			},
 			"bones": [
 				{
-					"name": "zoroark",
+					"name": "zoroark_hisuian",
 					"pivot": [0, 0, 0]
 				},
 				{
 					"name": "body",
-					"parent": "zoroark",
+					"parent": "zoroark_hisuian",
 					"pivot": [0, 23.5, 0]
 				},
 				{

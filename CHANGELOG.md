@@ -26,9 +26,6 @@
 - Added various new tags for searchability and better compatibility.
 - Added Gilded Chests, available in all Apricorn colors.
 - Added Relic Coins, Relic Coin Pouches, and Relic Coin Sacks.
-- Added Gimmighoul.
-  - Using Relic Coins, you can increase Gimmighoul's Coin Stash. Upon reaching 999, it can be evolved into Gholdengo.
-  - Additionally, if you give Gimmighoul a Netherite Scrap, you can increase its Netherite Stash. Who knows what might happen if it fills up?
 - Added various new tags for searchability and better compatibility. 
 - Added Type Gems. These items hold no functionality for now. Start collecting though...
 - Added 6 custom Pottery Sherds, obtained from ruin structures.
@@ -91,6 +88,9 @@
 - Tyrantrum
 - Amaura
 - Aurorus
+- Goomy
+- Sliggoo
+- Goodra
 
 #### Gen 7
 - Turtonator
@@ -124,6 +124,13 @@
 - Dreepy
 - Drakloak
 - Dragapult
+- Hisuian Sliggoo
+- Hisuian Goodra
+
+#### Gen 9
+- Gimmighoul.
+  - Using Relic Coins, you can increase Gimmighoul's Coin Stash. Upon reaching 999, it can be evolved into Gholdengo.
+  - Additionally, if you give Gimmighoul a Netherite Scrap, you can increase its Netherite Stash. Who knows what might happen if it fills up?
 
 ### Changes
 - Pokémon now transition more smoothly between different poses.

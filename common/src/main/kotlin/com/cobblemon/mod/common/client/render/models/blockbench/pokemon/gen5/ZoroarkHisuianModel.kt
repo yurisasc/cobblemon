@@ -29,10 +29,10 @@ class ZoroarkHisuianModel (root: ModelPart) : PokemonPoseableModel(), HeadedFram
     override val rightArm = getPart("arm_right")
 
     override var portraitScale = 1.8F
-    override var portraitTranslation = Vec3d(0.0, 0.2, 0.0)
+    override var portraitTranslation = Vec3d(-1.15, 1.54, 0.0)
 
     override var profileScale = 0.46F
-    override var profileTranslation = Vec3d(-0.05, 0.97, 0.0)
+    override var profileTranslation = Vec3d(-0.05, 1.06, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walking: PokemonPose

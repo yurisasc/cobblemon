@@ -28,11 +28,11 @@ class SneaselHisuianModel (root: ModelPart) : PokemonPoseableModel(), HeadedFram
     override val leftLeg = getPart("leg_left")
     override val rightLeg = getPart("leg_right")
 
-    override var portraitScale = 2.3F
-    override var portraitTranslation = Vec3d(-0.2, -0.3, 0.0)
+    override var portraitScale = 2.16F
+    override var portraitTranslation = Vec3d(-0.18, -0.11, 0.0)
 
-    override var profileScale = 0.9F
-    override var profileTranslation = Vec3d(0.0, 0.4, 0.0)
+    override var profileScale = 0.75F
+    override var profileTranslation = Vec3d(0.0, 0.64, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose

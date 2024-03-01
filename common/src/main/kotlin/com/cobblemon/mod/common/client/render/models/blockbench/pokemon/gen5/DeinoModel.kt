@@ -30,11 +30,11 @@ class DeinoModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quadru
     override val hindLeftLeg = getPart("leg_back_left")
     override val hindRightLeg = getPart("leg_back_right")
 
-    override var portraitScale = 1.8F
-    override var portraitTranslation = Vec3d(-0.9, 0.78, 0.0)
+    override var portraitScale = 1.82F
+    override var portraitTranslation = Vec3d(-0.58, 0.16, 0.0)
 
     override var profileScale = 0.66F
-    override var profileTranslation = Vec3d(0.0, 0.7, 0.0)
+    override var profileTranslation = Vec3d(0.0, 0.73, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose

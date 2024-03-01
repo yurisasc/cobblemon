@@ -16,11 +16,11 @@ import net.minecraft.util.math.Vec3d
 
 class FlabebeModel (root: ModelPart) : PokemonPoseableModel() {
     override val rootPart = root.registerChildWithAllChildren("flabebe")
-    override var portraitScale = 1.8F
-    override var portraitTranslation = Vec3d(0.0, 0.2, 0.0)
+    override var portraitScale = 2.26F
+    override var portraitTranslation = Vec3d(0.0, -0.14, 0.0)
 
-    override var profileScale = 0.85F
-    override var profileTranslation = Vec3d(0.0, 0.7, 0.0)
+    override var profileScale = 0.81F
+    override var profileTranslation = Vec3d(0.0, 0.63, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose

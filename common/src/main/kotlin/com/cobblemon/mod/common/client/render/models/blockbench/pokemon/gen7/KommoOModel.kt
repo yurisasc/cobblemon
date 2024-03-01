@@ -26,11 +26,11 @@ class KommoOModel (root: ModelPart) : PokemonPoseableModel(), BipedFrame, Bimanu
     override val leftLeg = getPart("leg_right")
     override val rightLeg = getPart("leg_left")
 
-    override var portraitScale = 1.8F
-    override var portraitTranslation = Vec3d(0.0, 0.2, 0.0)
+    override var portraitScale = 1.69F
+    override var portraitTranslation = Vec3d(-0.067, 3.56, 0.0)
 
-    override var profileScale = 0.85F
-    override var profileTranslation = Vec3d(0.0, 0.7, 0.0)
+    override var profileScale = 0.39F
+    override var profileTranslation = Vec3d(0.0, 1.16, -0.1)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose

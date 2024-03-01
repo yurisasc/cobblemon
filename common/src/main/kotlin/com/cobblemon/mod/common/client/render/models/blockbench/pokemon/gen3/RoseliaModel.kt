@@ -28,11 +28,11 @@ class RoseliaModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bipe
     override val leftLeg = getPart("left_upper_leg")
     override val rightLeg = getPart("right_upper_leg")
 
-    override var portraitScale = 2.6F
-    override var portraitTranslation = Vec3d(-0.35, 1.9, 0.0)
+    override var portraitScale = 2.24F
+    override var portraitTranslation = Vec3d(-0.26, -0.07, 0.0)
 
-    override var profileScale = 0.65F
-    override var profileTranslation = Vec3d(0.0, 0.76, 0.0)
+    override var profileScale = 0.6F
+    override var profileTranslation = Vec3d(0.0, 0.82, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose

@@ -22,11 +22,11 @@ import net.minecraft.util.math.Vec3d
 class DarumakaModel (root: ModelPart) : PokemonPoseableModel() {
     override val rootPart = root.registerChildWithAllChildren("darumaka")
 
-    override var portraitScale = 1.0F
-    override var portraitTranslation = Vec3d(0.0, 0.0, 0.0)
+    override var portraitScale = 1.96F
+    override var portraitTranslation = Vec3d(-0.18, -0.84, 0.0)
 
-    override var profileScale = 1.0F
-    override var profileTranslation = Vec3d(0.0, 0.0, 0.0)
+    override var profileScale = 0.76F
+    override var profileTranslation = Vec3d(0.0, 0.57, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose

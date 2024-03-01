@@ -28,11 +28,11 @@ class LilligantModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bi
     override val leftLeg = getPart("body_bottom_left")
     override val rightLeg = getPart("body_bottom_right")
 
-    override var portraitScale = 2.6F
-    override var portraitTranslation = Vec3d(-0.35, 1.9, 0.0)
+    override var portraitScale = 2.14F
+    override var portraitTranslation = Vec3d(-0.38, 1.35, 0.0)
 
-    override var profileScale = 0.65F
-    override var profileTranslation = Vec3d(0.0, 0.76, 0.0)
+    override var profileScale = 0.6F
+    override var profileTranslation = Vec3d(0.0, 0.8, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose

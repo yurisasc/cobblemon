@@ -26,11 +26,11 @@ class TropiusModel  (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Qua
     override val hindLeftLeg = getPart("leg_back_left")
     override val hindRightLeg = getPart("leg_back_right")
 
-    override var portraitScale = 2.5F
-    override var portraitTranslation = Vec3d(-1.3, -0.5, 0.0)
+    override var portraitScale = 1.31F
+    override var portraitTranslation = Vec3d(-1.23, 5.01, 0.0)
 
-    override var profileScale = 0.8F
-    override var profileTranslation = Vec3d(0.0, 0.43, 0.0)
+    override var profileScale = 0.28F
+    override var profileTranslation = Vec3d(0.0, 1.26, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose

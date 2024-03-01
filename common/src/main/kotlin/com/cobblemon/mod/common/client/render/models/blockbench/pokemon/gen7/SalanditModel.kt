@@ -26,11 +26,11 @@ class SalanditModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Qua
     override val hindLeftLeg = getPart("leg_back_left")
     override val hindRightLeg = getPart("leg_back_right")
 
-    override var portraitScale = 2.0F
-    override var portraitTranslation = Vec3d(-0.4, -0.7, 0.0)
+    override var portraitScale = 2.23F
+    override var portraitTranslation = Vec3d(-0.6, -1.04, 0.0)
 
     override var profileScale = 0.8F
-    override var profileTranslation = Vec3d(0.0, 0.52, 0.0)
+    override var profileTranslation = Vec3d(0.0, 0.46, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose

@@ -27,11 +27,11 @@ class DarmanitanModel (root: ModelPart) : PokemonPoseableModel(), BipedFrame, Bi
     override val leftLeg = getPart("left_upper_leg")
     override val rightLeg = getPart("right_upper_leg")
 
-    override var portraitScale = 1.0F
-    override var portraitTranslation = Vec3d(0.0, 0.0, 0.0)
+    override var portraitScale = 0.96F
+    override var portraitTranslation = Vec3d(-0.35, 0.71, 0.0)
 
-    override var profileScale = 1.0F
-    override var profileTranslation = Vec3d(0.0, 0.0, 0.0)
+    override var profileScale = 0.57F
+    override var profileTranslation = Vec3d(-0.11, 0.73, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose

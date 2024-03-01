@@ -28,11 +28,11 @@ class HariyamaModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bipe
     override val leftLeg = getPart("leg_left")
     override val rightLeg = getPart("leg_right")
 
-    override var portraitScale = 2.6F
-    override var portraitTranslation = Vec3d(-0.35, 1.9, 0.0)
+    override var portraitScale = 1.56F
+    override var portraitTranslation = Vec3d(-0.35, 1.27, 0.0)
 
-    override var profileScale = 0.65F
-    override var profileTranslation = Vec3d(0.0, 0.76, 0.0)
+    override var profileScale = 0.5F
+    override var profileTranslation = Vec3d(0.0, 0.92, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose

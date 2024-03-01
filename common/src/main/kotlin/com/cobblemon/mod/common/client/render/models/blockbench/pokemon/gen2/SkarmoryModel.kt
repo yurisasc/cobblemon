@@ -29,10 +29,10 @@ class SkarmoryModel (root: ModelPart) : PokemonPoseableModel(), BipedFrame, BiWi
     override val leftWing = getPart("left_wing")
     override val rightWing = getPart("right_wing")
 
-    override var portraitScale = 1.8F
-    override var portraitTranslation = Vec3d(0.0, 0.2, 0.0)
+    override var portraitScale = 2.49F
+    override var portraitTranslation = Vec3d(-1.05, 1.1, 0.0)
 
-    override var profileScale = 0.85F
+    override var profileScale = 0.69F
     override var profileTranslation = Vec3d(0.0, 0.7, 0.0)
 
     lateinit var standing: PokemonPose

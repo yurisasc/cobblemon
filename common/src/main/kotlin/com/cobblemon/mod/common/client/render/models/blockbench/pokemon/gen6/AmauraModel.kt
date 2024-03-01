@@ -19,11 +19,11 @@ class AmauraModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("amaura")
     override val head = getPart("neck")
 
-    override var portraitScale = 2.0F
-    override var portraitTranslation = Vec3d(-0.25, -0.85, 0.0)
+    override var portraitScale = 1.82F
+    override var portraitTranslation = Vec3d(-0.64, 1.24, 0.0)
 
-    override var profileScale = 0.9F
-    override var profileTranslation = Vec3d(0.0, 0.37, 0.0)
+    override var profileScale = 0.55F
+    override var profileTranslation = Vec3d(0.0, 0.88, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose

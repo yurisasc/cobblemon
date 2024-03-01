@@ -27,11 +27,11 @@ class OverqwilModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
 
     val wtail = WaveSegment(tail, 7F)
 
-    override var portraitScale = 2.0F
-    override var portraitTranslation = Vec3d(-0.3, -1.2, 0.0)
+    override var portraitScale = 1.99F
+    override var portraitTranslation = Vec3d(-0.65, 0.87, 0.0)
 
-    override var profileScale = 0.8F
-    override var profileTranslation = Vec3d(0.0, 0.5, 0.0)
+    override var profileScale = 0.62F
+    override var profileTranslation = Vec3d(-0.02, 0.95, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose

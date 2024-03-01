@@ -21,11 +21,11 @@ class HydreigonModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("hydreigon")
     override val head = getPart("neck")
 
-    override var portraitScale = 1.8F
-    override var portraitTranslation = Vec3d(-0.9, 0.78, 0.0)
+    override var portraitScale = 1.57F
+    override var portraitTranslation = Vec3d(-1.04, 1.93, 0.0)
 
-    override var profileScale = 0.66F
-    override var profileTranslation = Vec3d(0.0, 0.7, 0.0)
+    override var profileScale = 0.58F
+    override var profileTranslation = Vec3d(-0.06, 1.2, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose

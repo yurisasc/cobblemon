@@ -28,8 +28,8 @@ class RoseradeModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
     override val leftLeg = getPart("left_upper_leg")
     override val rightLeg = getPart("right_upper_leg")
 
-    override var portraitScale = 2.6F
-    override var portraitTranslation = Vec3d(-0.35, 1.9, 0.0)
+    override var portraitScale = 2.64F
+    override var portraitTranslation = Vec3d(-0.29, 0.49, 0.0)
 
     override var profileScale = 0.65F
     override var profileTranslation = Vec3d(0.0, 0.76, 0.0)

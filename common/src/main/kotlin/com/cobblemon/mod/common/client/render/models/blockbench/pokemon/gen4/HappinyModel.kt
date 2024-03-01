@@ -23,11 +23,11 @@ class HappinyModel(root: ModelPart) : PokemonPoseableModel(), BipedFrame {
     override val leftLeg = getPart("left_foot")
     override val rightLeg = getPart("right_foot")
 
-    override var portraitScale = 2.2F
+    override var portraitScale = 2.09F
     override var portraitTranslation = Vec3d(-0.1, -0.8, 0.0)
 
-    override var profileScale = 1.0F
-    override var profileTranslation = Vec3d(0.0, 0.28, 0.0)
+    override var profileScale = 0.76F
+    override var profileTranslation = Vec3d(0.0, 0.6, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
@@ -35,7 +35,7 @@ class HappinyModel(root: ModelPart) : PokemonPoseableModel(), BipedFrame {
     lateinit var battle_idle: PokemonPose
 
     override fun registerPoses() {
-        val blink = quirk { bedrockStateful("happiny", "blink_quirk") }
+        val blink = quirk { bedrockStateful("happiny", "blink") }
         val hairQuirk = quirk { bedrockStateful("happiny", "hairshake_quirk") }
         val happy = quirk { bedrockStateful("happiny", "happy_quirk") }
 

@@ -28,11 +28,11 @@ class TurtonatorModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, B
     override val leftLeg = getPart("leg_left")
     override val rightLeg = getPart("leg_right")
 
-    override var portraitScale = 2.6F
-    override var portraitTranslation = Vec3d(-0.35, 1.9, 0.0)
+    override var portraitScale = 1.62F
+    override var portraitTranslation = Vec3d(-1.14, 1.92, 0.0)
 
-    override var profileScale = 0.65F
-    override var profileTranslation = Vec3d(0.0, 0.76, 0.0)
+    override var profileScale = 0.54F
+    override var profileTranslation = Vec3d(-0.08, 0.87, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose

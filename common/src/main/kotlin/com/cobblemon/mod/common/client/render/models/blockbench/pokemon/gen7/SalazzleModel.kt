@@ -25,11 +25,11 @@ class SalazzleModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
     override val leftLeg = getPart("leg_right")
     override val rightLeg = getPart("leg_left")
 
-    override var portraitScale = 1.8F
-    override var portraitTranslation = Vec3d(0.0, 0.2, 0.0)
+    override var portraitScale = 1.99F
+    override var portraitTranslation = Vec3d(-0.27, 1.62, 0.0)
 
-    override var profileScale = 0.85F
-    override var profileTranslation = Vec3d(0.0, 0.7, 0.0)
+    override var profileScale = 0.61F
+    override var profileTranslation = Vec3d(0.0, 0.71, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose

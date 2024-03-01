@@ -28,8 +28,8 @@ class LilligantHisuianModel (root: ModelPart) : PokemonPoseableModel(), HeadedFr
     override val leftLeg = getPart("leg_left")
     override val rightLeg = getPart("leg_right")
 
-    override var portraitScale = 2.6F
-    override var portraitTranslation = Vec3d(-0.35, 1.9, 0.0)
+    override var portraitScale = 2.76F
+    override var portraitTranslation = Vec3d(-0.31, 1.85, 0.0)
 
     override var profileScale = 0.65F
     override var profileTranslation = Vec3d(0.0, 0.76, 0.0)

@@ -24,10 +24,10 @@ class DiglettAlolanModel(root: ModelPart) : PokemonPoseableModel() {
     override val rootPart = root.registerChildWithAllChildren("diglett_alolan")
 
     override var portraitScale = 1.8F
-    override var portraitTranslation = Vec3d(0.05, -1.0, 0.0)
+    override var portraitTranslation = Vec3d(-0.06, -0.86, 0.0)
 
     override var profileScale = 0.9F
-    override var profileTranslation = Vec3d(0.0, 0.15, 0.0)
+    override var profileTranslation = Vec3d(0.0, 0.32, 0.0)
 
     lateinit var stand: PokemonPose
     lateinit var walk: PokemonPose

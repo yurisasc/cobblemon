@@ -17,10 +17,10 @@ import net.minecraft.util.math.Vec3d
 class FlorgesModel (root: ModelPart) : PokemonPoseableModel() {
     override val rootPart = root.registerChildWithAllChildren("florges")
     override var portraitScale = 1.8F
-    override var portraitTranslation = Vec3d(0.0, 0.2, 0.0)
+    override var portraitTranslation = Vec3d(-0.28, 2.31, 0.0)
 
-    override var profileScale = 0.85F
-    override var profileTranslation = Vec3d(0.0, 0.7, 0.0)
+    override var profileScale = 0.54F
+    override var profileTranslation = Vec3d(0.0, 1.04, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose

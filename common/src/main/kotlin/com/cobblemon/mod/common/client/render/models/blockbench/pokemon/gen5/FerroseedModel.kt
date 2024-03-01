@@ -18,10 +18,10 @@ class FerroseedModel (root: ModelPart) : PokemonPoseableModel() {
     override val rootPart = root.registerChildWithAllChildren("ferroseed")
 
     override var portraitScale = 1.8F
-    override var portraitTranslation = Vec3d(0.0, 0.2, 0.0)
+    override var portraitTranslation = Vec3d(-0.15, -1.32, 0.0)
 
-    override var profileScale = 0.85F
-    override var profileTranslation = Vec3d(0.0, 0.7, 0.0)
+    override var profileScale = 0.66F
+    override var profileTranslation = Vec3d(0.0, 0.58, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose

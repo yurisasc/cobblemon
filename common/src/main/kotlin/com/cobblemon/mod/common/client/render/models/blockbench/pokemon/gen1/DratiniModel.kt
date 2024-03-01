@@ -23,11 +23,11 @@ class DratiniModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("dratini")
     override val head = getPart("head")
 
-    override var portraitScale = 1.8F
-    override var portraitTranslation = Vec3d(0.0, 0.35, 0.0)
+    override var portraitScale = 1.66F
+    override var portraitTranslation = Vec3d(-0.48, 0.35, 0.0)
 
-    override var profileScale = 0.7F
-    override var profileTranslation = Vec3d(0.2, 0.8, 0.0)
+    override var profileScale = 0.58F
+    override var profileTranslation = Vec3d(0.14, 0.83, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walking: PokemonPose

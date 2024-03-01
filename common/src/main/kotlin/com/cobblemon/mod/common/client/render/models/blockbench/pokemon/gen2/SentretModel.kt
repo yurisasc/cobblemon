@@ -27,8 +27,8 @@ class SentretModel (root: ModelPart) : PokemonPoseableModel(), BipedFrame, Biman
     override val leftLeg = getPart("foot_left")
     override val rightLeg = getPart("foot_right")
 
-    override var portraitScale = 2.6F
-    override var portraitTranslation = Vec3d(-0.35, 1.9, 0.0)
+    override var portraitScale = 2.34F
+    override var portraitTranslation = Vec3d(-0.37, -0.67, 0.0)
 
     override var profileScale = 0.65F
     override var profileTranslation = Vec3d(0.0, 0.76, 0.0)

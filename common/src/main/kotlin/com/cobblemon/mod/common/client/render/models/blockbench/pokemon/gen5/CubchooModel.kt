@@ -28,8 +28,8 @@ class CubchooModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bipe
     override val leftLeg = getPart("left_leg")
     override val rightLeg = getPart("right_leg")
 
-    override var portraitScale = 2.6F
-    override var portraitTranslation = Vec3d(-0.35, 1.9, 0.0)
+    override var portraitScale = 1.98F
+    override var portraitTranslation = Vec3d(-0.23, -0.52, 0.0)
 
     override var profileScale = 0.65F
     override var profileTranslation = Vec3d(0.0, 0.76, 0.0)

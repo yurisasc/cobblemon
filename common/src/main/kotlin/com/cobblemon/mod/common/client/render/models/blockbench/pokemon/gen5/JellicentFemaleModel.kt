@@ -19,11 +19,11 @@ class JellicentFemaleModel (root: ModelPart) : PokemonPoseableModel(), HeadedFra
     override val rootPart = root.registerChildWithAllChildren("jellicent_female")
     override val head = getPart("head")
 
-    override var portraitScale = 2.0F
-    override var portraitTranslation = Vec3d(-0.3, -1.2, 0.0)
+    override var portraitScale = 1.13F
+    override var portraitTranslation = Vec3d(-0.56, 1.64, 0.0)
 
-    override var profileScale = 0.8F
-    override var profileTranslation = Vec3d(0.0, 0.5, 0.0)
+    override var profileScale = 0.51F
+    override var profileTranslation = Vec3d(0.0, 1.05, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose

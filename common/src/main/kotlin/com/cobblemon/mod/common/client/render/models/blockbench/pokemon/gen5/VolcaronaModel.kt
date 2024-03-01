@@ -19,11 +19,11 @@ class VolcaronaModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("volcarona")
     override val head = getPart("head")
 
-    override var portraitScale = 1.8F
-    override var portraitTranslation = Vec3d(-0.9, 0.78, 0.0)
+    override var portraitScale = 1.83F
+    override var portraitTranslation = Vec3d(-0.62, 1.89, 0.0)
 
-    override var profileScale = 0.66F
-    override var profileTranslation = Vec3d(0.0, 0.7, 0.0)
+    override var profileScale = 0.46F
+    override var profileTranslation = Vec3d(0.0, 1.06, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose

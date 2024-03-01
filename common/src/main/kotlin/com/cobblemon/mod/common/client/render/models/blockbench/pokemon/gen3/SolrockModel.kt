@@ -19,11 +19,11 @@ import net.minecraft.util.math.Vec3d
 class SolrockModel (root: ModelPart) : PokemonPoseableModel() {
     override val rootPart = root.registerChildWithAllChildren("solrock")
 
-    override var portraitScale = 3.6F
-    override var portraitTranslation = Vec3d(-0.1, -0.4, 0.0)
+    override var portraitScale = 1.6F
+    override var portraitTranslation = Vec3d(-0.29, -0.49, 0.0)
 
-    override var profileScale = 1.0F
-    override var profileTranslation = Vec3d(0.0, 0.3, 0.0)
+    override var profileScale = 0.8F
+    override var profileTranslation = Vec3d(0.0, 0.74, 0.0)
 
     lateinit var sleep: PokemonPose
     lateinit var standing: PokemonPose

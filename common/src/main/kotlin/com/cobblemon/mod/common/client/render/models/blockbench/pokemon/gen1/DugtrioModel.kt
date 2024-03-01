@@ -24,10 +24,10 @@ class DugtrioModel(root: ModelPart) : PokemonPoseableModel() {
     override val rootPart = root.registerChildWithAllChildren("dugtrio")
 
     override var portraitScale = 1.3F
-    override var portraitTranslation = Vec3d(0.0, -0.4, 0.0)
+    override var portraitTranslation = Vec3d(-0.11, -0.1, 0.0)
 
     override var profileScale = 0.9F
-    override var profileTranslation = Vec3d(0.0, 0.15, 0.0)
+    override var profileTranslation = Vec3d(0.0, 0.29, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walking: PokemonPose

@@ -28,11 +28,11 @@ class LurantisModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
     override val leftLeg = getPart("left_leg")
     override val rightLeg = getPart("right_leg")
 
-    override var portraitScale = 2.6F
-    override var portraitTranslation = Vec3d(-0.35, 1.9, 0.0)
+    override var portraitScale = 2.57F
+    override var portraitTranslation = Vec3d(-0.18, 0.35, 0.0)
 
-    override var profileScale = 0.65F
-    override var profileTranslation = Vec3d(0.0, 0.76, 0.0)
+    override var profileScale = 0.71F
+    override var profileTranslation = Vec3d(0.0, 0.69, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose

@@ -24,11 +24,11 @@ import net.minecraft.util.math.Vec3d
 class CufantModel (root: ModelPart) : PokemonPoseableModel() {
     override val rootPart = root.registerChildWithAllChildren("cufant")
 
-    override var portraitScale = 1.9F
-    override var portraitTranslation = Vec3d(-0.5, 1.4, 0.0)
+    override var portraitScale = 1.5F
+    override var portraitTranslation = Vec3d(-0.32, 0.13, 0.0)
 
-    override var profileScale = 0.55F
-    override var profileTranslation = Vec3d(0.05, 0.93, 0.0)
+    override var profileScale = 0.62F
+    override var profileTranslation = Vec3d(0.05, 0.80, 0.0)
 
     lateinit var sleep: PokemonPose
     lateinit var standing: PokemonPose

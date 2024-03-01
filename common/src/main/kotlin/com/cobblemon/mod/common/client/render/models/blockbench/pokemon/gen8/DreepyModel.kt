@@ -19,11 +19,11 @@ class DreepyModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("dreepy")
     override val head = getPart("head")
 
-    override var portraitScale = 2.0F
-    override var portraitTranslation = Vec3d(-0.3, -1.2, 0.0)
+    override var portraitScale = 2.66F
+    override var portraitTranslation = Vec3d(-0.27, -1.94, 0.0)
 
-    override var profileScale = 0.8F
-    override var profileTranslation = Vec3d(0.0, 0.5, 0.0)
+    override var profileScale = 0.81F
+    override var profileTranslation = Vec3d(0.0, 0.35, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose

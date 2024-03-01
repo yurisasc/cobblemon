@@ -18,11 +18,11 @@ import net.minecraft.util.math.Vec3d
 class FerrothornModel(root: ModelPart) : PokemonPoseableModel() {
     override val rootPart = root.registerChildWithAllChildren("ferrothorn")
 
-    override var portraitScale = 1.8F
-    override var portraitTranslation = Vec3d(0.0, 0.2, 0.0)
+    override var portraitScale = 1.07F
+    override var portraitTranslation = Vec3d(-0.41, 0.55, 0.0)
 
-    override var profileScale = 0.85F
-    override var profileTranslation = Vec3d(0.0, 0.7, 0.0)
+    override var profileScale = 0.39F
+    override var profileTranslation = Vec3d(-0.08, 0.9, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose

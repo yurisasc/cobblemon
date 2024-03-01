@@ -22,11 +22,11 @@ import net.minecraft.util.math.Vec3d
 class StonjournerModel (root: ModelPart) : PokemonPoseableModel() {
     override val rootPart = root.registerChildWithAllChildren("stonjourner")
 
-    override var portraitScale = 2.6F
-    override var portraitTranslation = Vec3d(-0.35, 1.9, 0.0)
+    override var portraitScale = 1.83F
+    override var portraitTranslation = Vec3d(-0.46, 3.17, 0.0)
 
-    override var profileScale = 0.65F
-    override var profileTranslation = Vec3d(0.0, 0.76, 0.0)
+    override var profileScale = 0.38F
+    override var profileTranslation = Vec3d(0.0, 1.16, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose

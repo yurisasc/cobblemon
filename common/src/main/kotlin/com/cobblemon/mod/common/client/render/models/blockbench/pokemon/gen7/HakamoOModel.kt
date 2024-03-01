@@ -26,11 +26,11 @@ class HakamoOModel (root: ModelPart) : PokemonPoseableModel(), BipedFrame, Biman
     override val leftLeg = getPart("leg_right")
     override val rightLeg = getPart("leg_left")
 
-    override var portraitScale = 1.8F
-    override var portraitTranslation = Vec3d(0.0, 0.2, 0.0)
+    override var portraitScale = 1.83F
+    override var portraitTranslation = Vec3d(-0.38, 1.09, 0.0)
 
-    override var profileScale = 0.85F
-    override var profileTranslation = Vec3d(0.0, 0.7, 0.0)
+    override var profileScale = 0.58F
+    override var profileTranslation = Vec3d(0.0, 0.88, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose

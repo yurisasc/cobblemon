@@ -18,11 +18,11 @@ import net.minecraft.util.math.Vec3d
 class CopperajahModel (root: ModelPart) : PokemonPoseableModel() {
     override val rootPart = root.registerChildWithAllChildren("copperajah")
 
-    override var portraitScale = 1.9F
-    override var portraitTranslation = Vec3d(-0.5, 1.4, 0.0)
+    override var portraitScale = 0.6F
+    override var portraitTranslation = Vec3d(-0.67, 1.62, 0.0)
 
-    override var profileScale = 0.55F
-    override var profileTranslation = Vec3d(0.05, 0.93, 0.0)
+    override var profileScale = 0.30F
+    override var profileTranslation = Vec3d(-0.02, 1.2, 0.0)
 
     lateinit var sleep: PokemonPose
     lateinit var standing: PokemonPose

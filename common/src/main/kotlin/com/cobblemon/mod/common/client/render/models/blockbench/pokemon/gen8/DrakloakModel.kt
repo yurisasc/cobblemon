@@ -19,11 +19,11 @@ class DrakloakModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("drakloak")
     override val head = getPart("head")
 
-    override var portraitScale = 2.0F
-    override var portraitTranslation = Vec3d(-0.3, -1.2, 0.0)
+    override var portraitScale = 2.15F
+    override var portraitTranslation = Vec3d(-0.53, 0.73, 0.0)
 
-    override var profileScale = 0.8F
-    override var profileTranslation = Vec3d(0.0, 0.5, 0.0)
+    override var profileScale = 0.64F
+    override var profileTranslation = Vec3d(0.0, 0.76, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose

@@ -28,11 +28,11 @@ class SneaslerModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
     override val leftLeg = getPart("leg_left")
     override val rightLeg = getPart("leg_right")
 
-    override var portraitScale = 2.3F
-    override var portraitTranslation = Vec3d(-0.2, -0.3, 0.0)
+    override var portraitScale = 2.03F
+    override var portraitTranslation = Vec3d(-0.44, 2.41, 0.0)
 
-    override var profileScale = 0.9F
-    override var profileTranslation = Vec3d(0.0, 0.4, 0.0)
+    override var profileScale = 0.52F
+    override var profileTranslation = Vec3d(0.0, 0.94, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose

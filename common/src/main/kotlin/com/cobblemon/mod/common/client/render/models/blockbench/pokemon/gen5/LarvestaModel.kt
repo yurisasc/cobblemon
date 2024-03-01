@@ -32,11 +32,11 @@ class LarvestaModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Qua
     override val hindLeftLeg = getPart("leg_back_left")
     override val hindRightLeg = getPart("leg_back_right")
 
-    override var portraitScale = 2.6F
-    override var portraitTranslation = Vec3d(-0.35, 1.9, 0.0)
+    override var portraitScale = 1.71F
+    override var portraitTranslation = Vec3d(-0.39, -0.73, 0.0)
 
-    override var profileScale = 0.65F
-    override var profileTranslation = Vec3d(0.0, 0.76, 0.0)
+    override var profileScale = 0.67F
+    override var profileTranslation = Vec3d(-0.01, 0.72, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose

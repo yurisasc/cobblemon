@@ -26,11 +26,11 @@ class FurretModel (root: ModelPart) : PokemonPoseableModel(), QuadrupedFrame {
     override val hindLeftLeg = getPart("leg_left")
     override val hindRightLeg = getPart("leg_right")
 
-    override var portraitScale = 3.0F
-    override var portraitTranslation = Vec3d(-0.1, -2.5, 0.0)
+    override var portraitScale = 2.1F
+    override var portraitTranslation = Vec3d(-0.6, 0.2, 0.0)
 
-    override var profileScale = 1.2F
-    override var profileTranslation = Vec3d(0.0, 0.0, 0.0)
+    override var profileScale = 0.82F
+    override var profileTranslation = Vec3d(0.0, 0.54, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose

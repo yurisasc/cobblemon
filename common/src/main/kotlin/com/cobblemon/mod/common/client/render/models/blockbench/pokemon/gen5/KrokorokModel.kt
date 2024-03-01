@@ -18,8 +18,8 @@ import net.minecraft.util.math.Vec3d
 class KrokorokModel (root: ModelPart) : PokemonPoseableModel() {
     override val rootPart = root.registerChildWithAllChildren("krokorok")
 
-    override var portraitScale = 1.9F
-    override var portraitTranslation = Vec3d(-0.5, 1.4, 0.0)
+    override var portraitScale = 1.86F
+    override var portraitTranslation = Vec3d(-0.43, 0.98, 0.0)
 
     override var profileScale = 0.55F
     override var profileTranslation = Vec3d(0.05, 0.93, 0.0)
