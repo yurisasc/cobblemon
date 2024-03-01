@@ -35,7 +35,7 @@ class GenericBedrockRenderer(context: EntityRendererFactory.Context) : EntityRen
         poseStack.scale(1.0F, -1.0F, 1.0F)
         poseStack.scale(entity.scale, entity.scale, entity.scale)
         poseStack.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(yaw))
-        val vertexConsumer = buffer.getBuffer(model.getLayer(getTexture(entity)))
+        val vertexConsumer = buffer.getBuffer(RenderLayer.getEntityCutout(getTexture(entity)))
 
         val state = entity.delegate as GenericBedrockClientDelegate
         state.updatePartialTicks(partialTicks)

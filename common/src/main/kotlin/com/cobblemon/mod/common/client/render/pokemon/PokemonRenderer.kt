@@ -17,6 +17,7 @@ import com.cobblemon.mod.common.client.entity.PokemonClientDelegate.Companion.BE
 import com.cobblemon.mod.common.client.entity.PokemonClientDelegate.Companion.BEAM_SHRINK_TIME
 import com.cobblemon.mod.common.client.keybind.boundKey
 import com.cobblemon.mod.common.client.keybind.keybinds.PartySendBinding
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.PosableState
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PosablePokemonModel
 import com.cobblemon.mod.common.client.render.models.blockbench.repository.PokeBallModelRepository
@@ -84,7 +85,7 @@ class PokemonRenderer(
         model.posableModel = PokemonModelRepository.getPoser(entity.pokemon.species.resourceIdentifier, entity.aspects)
 
         val clientDelegate = entity.delegate as PokemonClientDelegate
-        val modelNow = model as PoseableEntityModel<PokemonEntity>
+        val modelNow = model.posableModel
         clientDelegate.updatePartialTicks(partialTicks)
 
         if (entity.beamMode != 0) {
@@ -133,7 +134,7 @@ class PokemonRenderer(
     }
 
     fun renderTransition(
-        modelNow: PoseableEntityModel<PokemonEntity>,
+        modelNow: PosableModel,
         sendingOut: Boolean,
         entity: PokemonEntity,
         partialTicks: Float,
@@ -143,12 +144,12 @@ class PokemonRenderer(
         clientDelegate: PokemonClientDelegate
     ) {
         val s = clientDelegate.secondsSinceBeamEffectStarted
-        if (modelNow is PokemonPoseableModel && !sendingOut) {
+        if (!sendingOut) {
             if (s > BEAM_EXTEND_TIME) {
                 val value = (s - BEAM_EXTEND_TIME) /  BEAM_SHRINK_TIME
                 val colourValue = 1F - min(0.6F, value)
-                modelNow.posableModel.green = colourValue
-                modelNow.posableModel.blue = colourValue
+                modelNow.green = colourValue
+                modelNow.blue = colourValue
             }
         }
 

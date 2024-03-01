@@ -8,6 +8,7 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.repository
 
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.blockentity.BlockEntityModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.JsonPokemonPoseableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.Bone
@@ -22,7 +23,7 @@ import net.minecraft.entity.Entity
  * Basically with Java Edition, we can only change the texture applied to a model, if we want to move bones around, need to
  * do something else, so we use this
  */
-object BlockEntityModelRepository : VaryingModelRepository<Entity, BlockEntityModel>() {
+object BlockEntityModelRepository : VaryingModelRepository() {
     override val title = "Block Entity"
     override val type = "block_entities"
     override val variationDirectories: List<String> = listOf("bedrock/$type/variations", "bedrock/$type")
@@ -33,7 +34,7 @@ object BlockEntityModelRepository : VaryingModelRepository<Entity, BlockEntityMo
     override val isForLivingEntityRenderer = false
 
     private val gson = GsonBuilder().create()
-    override fun loadJsonPoser(json: String): (Bone) -> BlockEntityModel {
+    override fun loadJsonPoser(json: String): (Bone) -> PosableModel {
         val jsonObject = gson.fromJson<JsonObject>(json)
         val animations = jsonObject.getAsJsonArray("animations")
         val maxScale = jsonObject.get("maxScale")?.asFloat ?: 1F

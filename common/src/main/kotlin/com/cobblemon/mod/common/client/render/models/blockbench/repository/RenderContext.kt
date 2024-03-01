@@ -111,7 +111,9 @@ class RenderContext {
         PORTRAIT(true),
 
         //Profile rendering mode (GUI-based).
-        PROFILE(true)
+        PROFILE(true),
+        RESURRECTION_MACHINE(false),
+        BLOCK(false)
     }
 
     // Predefined keys for common data types

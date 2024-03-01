@@ -12,6 +12,7 @@ import com.cobblemon.mod.common.CobblemonSounds
 import com.cobblemon.mod.common.api.pokemon.PokemonProperties
 import com.cobblemon.mod.common.api.scheduling.afterOnServer
 import com.cobblemon.mod.common.block.entity.GildedChestBlockEntity
+import com.cobblemon.mod.common.client.render.models.blockbench.repository.RenderContext
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.party
@@ -166,8 +167,10 @@ class GildedChestBlock(settings: Settings, val type: Type = Type.RED) : BlockWit
             PiglinBrain.onGuardedBlockInteracted(player, true)
         }
         val state = entity.poseableState
+        val context = RenderContext()
+        context.put(RenderContext.RENDER_STATE, RenderContext.RenderState.WORLD)
         state.currentModel?.let {
-            it.moveToPose(null, state, it.getPose("OPEN")!!)
+            it.moveToPose(context, state, it.getPose("OPEN")!!)
         }
         return ActionResult.SUCCESS
     }

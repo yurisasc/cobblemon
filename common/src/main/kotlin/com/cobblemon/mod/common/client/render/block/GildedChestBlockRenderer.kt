@@ -10,7 +10,9 @@ package com.cobblemon.mod.common.client.render.block
 
 import com.cobblemon.mod.common.block.entity.GildedChestBlockEntity
 import com.cobblemon.mod.common.client.render.models.blockbench.repository.BlockEntityModelRepository
+import com.cobblemon.mod.common.client.render.models.blockbench.repository.RenderContext
 import net.minecraft.client.render.OverlayTexture
+import net.minecraft.client.render.RenderLayer
 import net.minecraft.client.render.VertexConsumerProvider
 import net.minecraft.client.render.block.entity.BlockEntityRenderer
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactory
@@ -35,10 +37,15 @@ class GildedChestBlockRenderer(context: BlockEntityRendererFactory.Context) : Bl
 
         val model = BlockEntityModelRepository.getPoser(poserId, aspects)
         val texture = BlockEntityModelRepository.getTexture(poserId, aspects, state.animationSeconds)
-        val vertexConsumer = vertexConsumers.getBuffer(model.getLayer(texture))
+        val vertexConsumer = vertexConsumers.getBuffer(RenderLayer.getEntityCutout(texture))
         model.bufferProvider = vertexConsumers
         state.currentModel = model
 
+        val context = RenderContext()
+        context.put(RenderContext.RENDER_STATE, RenderContext.RenderState.BLOCK)
+        context.put(RenderContext.ASPECTS, aspects)
+        context.put(RenderContext.TEXTURE, texture)
+        context.put(RenderContext.SPECIES, poserId)
         matrices.push()
         matrices.multiply(RotationAxis.POSITIVE_Z.rotationDegrees(180f))
         matrices.translate(-0.5, 0.0, 0.5)
@@ -54,9 +61,9 @@ class GildedChestBlockRenderer(context: BlockEntityRendererFactory.Context) : Bl
             limbSwingAmount = 0F,
             ageInTicks = state.animationSeconds * 20
         )
-        model.render(matrices, vertexConsumer, light, overlay, 1.0f, 1.0f, 1.0f, 1.0f)
+        model.render(context, matrices, vertexConsumer, light, overlay, 1.0f, 1.0f, 1.0f, 1.0f)
         model.withLayerContext(vertexConsumers, state, BlockEntityModelRepository.getLayers(poserId, aspects)) {
-            model.render(matrices, vertexConsumer, light, OverlayTexture.DEFAULT_UV, 1F, 1F, 1F, 1F)
+            model.render(context, matrices, vertexConsumer, light, OverlayTexture.DEFAULT_UV, 1F, 1F, 1F, 1F)
         }
         model.setDefault()
         matrices.pop()

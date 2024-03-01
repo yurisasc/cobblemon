@@ -26,7 +26,6 @@ import com.google.gson.JsonPrimitive
 import java.lang.reflect.Type
 import java.util.function.Supplier
 import net.minecraft.client.model.ModelPart
-import net.minecraft.entity.Entity
 
 abstract class JsonPosableModel(override val rootPart: Bone) : PosableModel() {
     override fun registerPoses() {}

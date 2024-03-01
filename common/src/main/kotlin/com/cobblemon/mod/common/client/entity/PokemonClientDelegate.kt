@@ -8,14 +8,13 @@
 
 package com.cobblemon.mod.common.client.entity
 
+import com.bedrockk.molang.runtime.struct.QueryStruct
 import com.bedrockk.molang.runtime.value.DoubleValue
 import com.bedrockk.molang.runtime.value.StringValue
-import com.bedrockk.molang.runtime.struct.QueryStruct
 import com.cobblemon.mod.common.CobblemonSounds
 import com.cobblemon.mod.common.api.entity.PokemonSideDelegate
 import com.cobblemon.mod.common.api.molang.MoLangFunctions.addFunctions
 import com.cobblemon.mod.common.api.molang.MoLangFunctions.getQueryStruct
-import com.cobblemon.mod.common.api.molang.MoLangFunctions.addFunctions
 import com.cobblemon.mod.common.api.pokemon.PokemonSpecies
 import com.cobblemon.mod.common.api.scheduling.SchedulingTracker
 import com.cobblemon.mod.common.api.scheduling.afterOnClient
@@ -271,15 +270,15 @@ class PokemonClientDelegate : PosableState(), PokemonSideDelegate {
 
     fun cry() {
         val model = currentModel ?: return
-       if (cryAnimation != null && (cryAnimation in statefulAnimations || cryAnimation == primaryAnimation)) {
-           return
-       }
+        if (cryAnimation != null && (cryAnimation in statefulAnimations || cryAnimation == primaryAnimation)) {
+            return
+        }
 
         val animation = model.cryAnimation(this) ?: return
         if (animation is PrimaryAnimation) {
             addPrimaryAnimation(animation)
         } else {
-            statefulAnimations.add(animation)}
+            statefulAnimations.add(animation)
         }
         cryAnimation = animation
     }

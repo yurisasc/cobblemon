@@ -186,42 +186,6 @@ object CobblemonSounds : PlatformRegistry<Registry<SoundEvent>, RegistryKey<Regi
         COIN_POUCH_HIT,
         COIN_POUCH_STEP
     )
-    @JvmField
-    val IMPACT_NORMAL = this.create("impact.normal")
-    @JvmField
-    val IMPACT_BUG = this.create("impact.bug")
-    @JvmField
-    val IMPACT_DARK = this.create("impact.dark")
-    @JvmField
-    val IMPACT_DRAGON = this.create("impact.dragon")
-    @JvmField
-    val IMPACT_ELECTRIC = this.create("impact.electric")
-    @JvmField
-    val IMPACT_FAIRY = this.create("impact.fairy")
-    @JvmField
-    val IMPACT_FIGHTING = this.create("impact.fighting")
-    @JvmField
-    val IMPACT_FIRE = this.create("impact.fire")
-    @JvmField
-    val IMPACT_FLYING = this.create("impact.flying")
-    @JvmField
-    val IMPACT_GHOST = this.create("impact.ghost")
-    @JvmField
-    val IMPACT_GRASS = this.create("impact.grass")
-    @JvmField
-    val IMPACT_GROUND = this.create("impact.ground")
-    @JvmField
-    val IMPACT_ICE = this.create("impact.ice")
-    @JvmField
-    val IMPACT_POISON = this.create("impact.poison")
-    @JvmField
-    val IMPACT_PSYCHIC = this.create("impact.psychic")
-    @JvmField
-    val IMPACT_ROCK = this.create("impact.rock")
-    @JvmField
-    val IMPACT_STEEL = this.create("impact.steel")
-    @JvmField
-    val IMPACT_WATER = this.create("impact.water")
 
     @JvmField
     val IMPACT_NORMAL = this.create("impact.normal")

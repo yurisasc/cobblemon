@@ -12,7 +12,9 @@ import com.cobblemon.mod.common.CobblemonBlocks
 import com.cobblemon.mod.common.block.entity.RestorationTankBlockEntity
 import com.cobblemon.mod.common.block.multiblock.FossilMultiblockStructure
 import com.cobblemon.mod.common.client.CobblemonBakingOverrides
+import com.cobblemon.mod.common.client.render.models.blockbench.fossil.FossilModel
 import com.cobblemon.mod.common.client.render.models.blockbench.repository.FossilModelRepository
+import com.cobblemon.mod.common.client.render.models.blockbench.repository.RenderContext
 import com.cobblemon.mod.common.client.render.models.blockbench.wavefunction.WaveFunction
 import com.cobblemon.mod.common.client.render.models.blockbench.wavefunction.parabolaFunction
 import com.cobblemon.mod.common.client.render.models.blockbench.wavefunction.rerange
@@ -106,7 +108,7 @@ class RestorationTankRenderer(ctx: BlockEntityRendererFactory.Context) : BlockEn
         state.updatePartialTicks(tickDelta)
 
         val completionPercentage = (1 - timeRemaining / FossilMultiblockStructure.TIME_TO_TAKE.toFloat()).coerceIn(0F, 1F)
-        val fossilFetusModel = FossilModelRepository.getPoser(fossil.identifier, aspects)
+        val fossilFetusModel = FossilModelRepository.getPoser(fossil.identifier, aspects) as FossilModel
 
         val embryo1Scale = EMBRYO_CURVE_1(completionPercentage)
         val embryo2Scale = EMBRYO_CURVE_2(completionPercentage)
@@ -121,11 +123,11 @@ class RestorationTankRenderer(ctx: BlockEntityRendererFactory.Context) : BlockEn
         )
 
         identifiersAndScales.forEach { (identifier, scale) ->
-            val model = FossilModelRepository.getPoser(identifier, aspects)
+            val model = FossilModelRepository.getPoser(identifier, aspects) as FossilModel
             val texture = FossilModelRepository.getTexture(identifier, aspects, state.animationSeconds)
 
             if (scale > 0F) {
-                val vertexConsumer = vertexConsumers.getBuffer(model.getLayer(texture))
+                val vertexConsumer = vertexConsumers.getBuffer(RenderLayer.getEntityCutout(texture))
                 val pose = model.poses.values.first()
                 state.currentModel = model
                 state.setPose(pose.poseName)
@@ -148,6 +150,11 @@ class RestorationTankRenderer(ctx: BlockEntityRendererFactory.Context) : BlockEn
                     matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(90F))
                 }
 
+                val context = RenderContext()
+                context.put(RenderContext.TEXTURE, texture)
+                context.put(RenderContext.SPECIES, fossil.identifier)
+                context.put(RenderContext.RENDER_STATE, RenderContext.RenderState.RESURRECTION_MACHINE)
+
                 matrices.push()
                 matrices.scale(scale, scale, scale)
                 matrices.translate(0.0, model.yGrowthPoint.toDouble(), 0.0)
@@ -160,9 +167,9 @@ class RestorationTankRenderer(ctx: BlockEntityRendererFactory.Context) : BlockEn
                     limbSwingAmount = 0F,
                     ageInTicks = state.animationSeconds * 20
                 )
-                model.render(matrices, vertexConsumer, light, overlay, 1.0f, 1.0f, 1.0f, 1.0f)
+                model.render(context, matrices, vertexConsumer, light, overlay, 1.0f, 1.0f, 1.0f, 1.0f)
                 model.withLayerContext(vertexConsumers, state, FossilModelRepository.getLayers(fossil.identifier, aspects)) {
-                    model.render(matrices, vertexConsumer, light, OverlayTexture.DEFAULT_UV, 1F, 1F, 1F, 1F)
+                    model.render(context, matrices, vertexConsumer, light, OverlayTexture.DEFAULT_UV, 1F, 1F, 1F, 1F)
                 }
                 model.setDefault()
                 matrices.pop()
