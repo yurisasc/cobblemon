@@ -11,7 +11,7 @@
                     "input_predicate": {
                         "block": "minecraft:sand",
                         "predicate_type": "minecraft:random_block_match",
-                        "probability": 1.0
+                        "probability": 0.2
                     },
                     "location_predicate": {
                         "predicate_type": "minecraft:always_true"
@@ -51,7 +51,7 @@
         {
             "processor_type": "gravity",
             "heightmap": "WORLD_SURFACE_WG",
-            "offset": -3
+            "offset": -4
         },
         {
             "delegate": {

@@ -16,12 +16,12 @@
                 },
                 {
                     "type": "minecraft:item",
-                    "name": "minecraft:suspicious_gravel",
+                    "name": "cobblemon:covert_cloak",
                     "weight": 2
                 },
                 {
                     "type": "minecraft:item",
-                    "name": "minecraft:suspicious_gravel",
+                    "name": "cobblemon:shell_bell",
                     "weight": 3
                 },
                 {

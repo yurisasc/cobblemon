@@ -16,12 +16,12 @@
                 },
                 {
                     "type": "minecraft:item",
-                    "name": "minecraft:suspicious_gravel",
-                    "weight": 1
+                    "name": "cobblemon:focus_sash",
+                    "weight": 2
                 },
                 {
                     "type": "minecraft:item",
-                    "name": "minecraft:suspicious_gravel",
+                    "name": "cobblemon:ability_shield",
                     "weight": 1
                 },
                 {

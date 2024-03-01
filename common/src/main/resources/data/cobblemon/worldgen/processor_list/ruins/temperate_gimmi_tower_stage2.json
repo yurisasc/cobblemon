@@ -219,6 +219,10 @@
                     }
                 },
                 {
+                    "block_entity_modifier": {
+                        "type": "minecraft:append_loot",
+                        "loot_table": "cobblemon:ruins/gilded_chests/ruins"
+                    },
                     "input_predicate": {
                         "block_state": {
                             "Name": "minecraft:chest",
@@ -242,6 +246,10 @@
                     }
                 },
                 {
+                    "block_entity_modifier": {
+                        "type": "minecraft:append_loot",
+                        "loot_table": "cobblemon:ruins/gilded_chests/ruins"
+                    },
                     "input_predicate": {
                         "block_state": {
                             "Name": "minecraft:chest",
@@ -265,6 +273,10 @@
                     }
                 },
                 {
+                    "block_entity_modifier": {
+                        "type": "minecraft:append_loot",
+                        "loot_table": "cobblemon:ruins/gilded_chests/ruins"
+                    },
                     "input_predicate": {
                         "block_state": {
                             "Name": "minecraft:chest",
@@ -288,6 +300,10 @@
                     }
                 },
                 {
+                    "block_entity_modifier": {
+                        "type": "minecraft:append_loot",
+                        "loot_table": "cobblemon:ruins/gilded_chests/ruins"
+                    },
                     "input_predicate": {
                         "block_state": {
                             "Name": "minecraft:chest",
@@ -386,12 +402,12 @@
                 {
                     "block_entity_modifier": {
                         "type": "minecraft:append_loot",
-                        "loot_table": "cobblemon:placeholder"
+                        "loot_table": "cobblemon:ruins/common/gimmi_tower_temperate"
                     },
                     "input_predicate": {
                         "block": "minecraft:gravel",
                         "predicate_type": "minecraft:random_block_match",
-                        "probability": 0.2
+                        "probability": 0.5
                     },
                     "location_predicate": {
                         "predicate_type": "minecraft:always_true"
@@ -524,6 +540,32 @@
                     }
                 }
             ]
+        },
+        {
+            "delegate": {
+                "processor_type": "minecraft:rule",
+                "rules": [
+                    {
+                        "block_entity_modifier": {
+                            "type": "minecraft:append_loot",
+                            "loot_table": "cobblemon:ruins/uncommon/gimmi_tower_temperate"
+                        },
+                        "input_predicate": {
+                            "block": "minecraft:suspicious_gravel",
+                            "predicate_type": "minecraft:random_block_match",
+                            "probability": 0.5
+                        },
+                        "location_predicate": {
+                            "predicate_type": "minecraft:always_true"
+                        },
+                        "output_state": {
+                            "Name": "minecraft:suspicious_gravel"
+                        }
+                    }
+                ]
+            },
+            "limit": 2,
+            "processor_type": "minecraft:capped"
         }
     ]
 }

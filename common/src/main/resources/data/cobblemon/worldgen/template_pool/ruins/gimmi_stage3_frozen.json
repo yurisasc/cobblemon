@@ -3,16 +3,16 @@
     "fallback": "minecraft:empty",
     "elements": [
         {
-            "weight": 3,
+            "weight": 2,
             "element": {
-                "location": "cobblemon:ruins/gimmi_tower_frozen_stage3_platform",
+                "location": "cobblemon:ruins/gimmi_tower_frozen_stage3_platform1",
                 "element_type": "minecraft:single_pool_element",
                 "processors": "cobblemon:ruins/frozen_gimmi_tower",
                 "projection": "rigid"
             }
         },
         {
-            "weight": 3,
+            "weight": 2,
             "element": {
                 "location": "cobblemon:ruins/gimmi_tower_frozen_stage3_ruined",
                 "element_type": "minecraft:single_pool_element",
@@ -21,7 +21,7 @@
             }
         },
         {
-            "weight": 3,
+            "weight": 2,
             "element": {
                 "location": "cobblemon:ruins/gimmi_tower_frozen_stage3_platform2",
                 "element_type": "minecraft:single_pool_element",
@@ -30,7 +30,7 @@
             }
         },
         {
-            "weight": 3,
+            "weight": 2,
             "element": {
                 "location": "cobblemon:ruins/gimmi_tower_frozen_stage3_platform3",
                 "element_type": "minecraft:single_pool_element",
@@ -41,7 +41,7 @@
         {
             "weight": 1,
             "element": {
-                "location": "cobblemon:ruins/gimmi_tower_frozen_stage3_platform_evoker",
+                "location": "cobblemon:ruins/gimmi_tower_frozen_stage3_platform1_evoker",
                 "element_type": "minecraft:single_pool_element",
                 "processors": "cobblemon:ruins/frozen_gimmi_tower",
                 "projection": "rigid"

@@ -18,6 +18,18 @@
         {
             "structure": "cobblemon:ruins/lush_gimmi_tower",
             "weight": 1
+        },
+        {
+            "structure": "cobblemon:ruins/rooted_gimmi_tower",
+            "weight": 1
+        },
+        {
+            "structure": "cobblemon:ruins/deserted_gimmi_tower",
+            "weight": 1
+        },
+        {
+            "structure": "cobblemon:ruins/sunscorched_gimmi_tower",
+            "weight": 1
         }
     ]
 }

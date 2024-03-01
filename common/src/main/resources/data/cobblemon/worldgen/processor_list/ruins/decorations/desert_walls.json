@@ -51,7 +51,7 @@
         {
             "processor_type": "gravity",
             "heightmap": "WORLD_SURFACE_WG",
-            "offset": -1
+            "offset": -3
         },
         {
             "delegate": {

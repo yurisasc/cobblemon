@@ -16,17 +16,17 @@
                 },
                 {
                     "type": "minecraft:item",
-                    "name": "minecraft:suspicious_gravel",
+                    "name": "cobblemon:shell_bell",
                     "weight": 2
                 },
                 {
                     "type": "minecraft:item",
-                    "name": "minecraft:suspicious_gravel",
+                    "name": "cobblemon:focus_sash",
                     "weight": 3
                 },
                 {
                     "type": "minecraft:item",
-                    "name": "minecraft:suspicious_gravel",
+                    "name": "cobblemon:ability_shield",
                     "weight": 1
                 },
                 {
@@ -51,7 +51,7 @@
                 },
                 {
                     "type": "minecraft:item",
-                    "name": "minecraft:suspicious_gravel",
+                    "name": "cobblemon:covert_cloak",
                     "weight": 2
                 },
                 {

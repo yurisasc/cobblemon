@@ -16,7 +16,7 @@
                 },
                 {
                     "type": "minecraft:item",
-                    "name": "minecraft:suspicious_gravel",
+                    "name": "cobblemon:shell_bell",
                     "weight": 2
                 },
                 {

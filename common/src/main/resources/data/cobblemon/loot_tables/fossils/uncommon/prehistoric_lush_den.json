@@ -6,28 +6,28 @@
             "entries": [
                 {
                     "type": "minecraft:item",
-                    "name": "minecraft:suspicious_gravel",
-                    "weight": 3
+                    "name": "cobblemon:damp_rock",
+                    "weight": 5
                 },
                 {
                     "type": "minecraft:item",
                     "name": "cobblemon:everstone",
-                    "weight": 3
+                    "weight": 5
                 },
                 {
                     "type": "minecraft:item",
                     "name": "cobblemon:peat_block",
-                    "weight": 2
+                    "weight": 3
                 },
                 {
                     "type": "minecraft:item",
                     "name": "cobblemon:dragon_fang",
-                    "weight": 2
+                    "weight": 3
                 },
                 {
                     "type": "minecraft:item",
                     "name": "cobblemon:fairy_feather",
-                    "weight": 3
+                    "weight": 5
                 },
                 {
                     "type": "minecraft:item",

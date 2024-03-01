@@ -6,7 +6,7 @@
                 {
                     "block_entity_modifier": {
                         "type": "minecraft:append_loot",
-                        "loot_table": "cobblemon:placeholder"
+                        "loot_table": "cobblemon:ruins/common/decaying_crypt_ruins"
                     },
                     "input_predicate": {
                         "block": "minecraft:gravel",

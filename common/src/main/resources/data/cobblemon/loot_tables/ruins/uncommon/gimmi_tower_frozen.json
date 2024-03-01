@@ -16,7 +16,7 @@
                 },
                 {
                     "type": "minecraft:item",
-                    "name": "minecraft:suspicious_gravel",
+                    "name": "cobblemon:covert_cloak",
                     "weight": 1
                 },
                 {
