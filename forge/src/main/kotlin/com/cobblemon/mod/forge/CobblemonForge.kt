@@ -10,7 +10,6 @@ package com.cobblemon.mod.forge
 
 import com.cobblemon.mod.common.*
 import com.cobblemon.mod.common.api.data.JsonDataRegistry
-import com.cobblemon.mod.common.integration.adorn.AdornCompatibility
 import com.cobblemon.mod.common.item.group.CobblemonItemGroups
 import com.cobblemon.mod.common.loot.LootInjector
 import com.cobblemon.mod.common.particle.CobblemonParticles
@@ -380,9 +379,6 @@ class CobblemonForge : CobblemonImplementation {
     }
 
     private fun attemptModCompat() {
-        if (this.isModInstalled("adorn")) {
-            AdornCompatibility.register()
-        }
         // CarryOn has a tag key for this but for some reason Forge version just doesn't work instead we do this :)
         // See https://github.com/Tschipp/CarryOn/wiki/IMC-support-for-Modders
         if (this.isModInstalled("carryon")) {
