@@ -34,3 +34,11 @@ common/src/main/resources/assets/cobblemon/showdown
 */generated/resources/*
 /fabric/src/generated/resources/cobblemon-common.accesswidener
 /.ignored/
+
+# Logs
+common/logs
+fabric/logs
+forge/logs
+
+# MacOS
+.DS_Store

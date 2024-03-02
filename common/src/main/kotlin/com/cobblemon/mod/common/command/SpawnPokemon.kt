@@ -11,6 +11,7 @@ package com.cobblemon.mod.common.command
 import com.cobblemon.mod.common.api.permission.CobblemonPermissions
 import com.cobblemon.mod.common.api.text.red
 import com.cobblemon.mod.common.command.argument.PokemonPropertiesArgumentType
+import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.util.alias
 import com.cobblemon.mod.common.util.commandLang
 import com.cobblemon.mod.common.util.permission
@@ -71,6 +72,7 @@ object SpawnPokemon {
         }
         val pokemonEntity = properties.createEntity(world)
         pokemonEntity.refreshPositionAndAngles(pos.x, pos.y, pos.z, pokemonEntity.yaw, pokemonEntity.pitch)
+        pokemonEntity.dataTracker.set(PokemonEntity.SPAWN_DIRECTION, pokemonEntity.random.nextFloat() * 360F)
         if (world.spawnEntity(pokemonEntity)) {
             return Command.SINGLE_SUCCESS
         }
