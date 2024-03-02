@@ -588,6 +588,9 @@ object PokemonModelRepository : VaryingModelRepository<PokemonEntity, PokemonPos
         inbuilt("litwick", ::LitwickModel)
         inbuilt("lampent", ::LampentModel)
         inbuilt("chandelure", ::ChandelureModel)
+        inbuilt("gimmighoulroaming", ::GimmighoulRoamingModel)
+        inbuilt("gimmighoulchest", ::GimmighoulChestModel)
+        inbuilt("gholdengo", ::GholdengoModel)
         inbuilt("drifloon", ::DrifloonModel)
         inbuilt("drifblim", ::DrifblimModel)
     }

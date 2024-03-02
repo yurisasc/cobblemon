@@ -127,7 +127,7 @@
   "item.cobblemon.hyper_potion": "Hyper Potion",
   "item.cobblemon.max_potion": "Max Potion",
   "item.cobblemon.full_restore": "Full Restore",
-  
+
   "item.cobblemon.health_feather": "Health Feather",
   "item.cobblemon.muscle_feather": "Muscle Feather",
   "item.cobblemon.resist_feather": "Resist Feather",
@@ -374,6 +374,10 @@
   "item.cobblemon.black_tumblestone": "Black Tumblestone",
   "item.cobblemon.sky_tumblestone": "Sky Tumblestone",
 
+  "item.cobblemon.relic_coin": "Relic Coin",
+  "block.cobblemon.relic_coin_pouch": "Relic Coin Pouch",
+  "block.cobblemon.relic_coin_sack": "Relic Coin Sack",
+
   "trim_pattern.cobblemon.automaton": "Automaton",
 
   "item.cobblemon.automaton_armor_trim_smithing_template": "Automaton Armor Trim",
@@ -445,6 +449,15 @@
   "block.cobblemon.vivichoke_seeds": "Vivichoke Seeds",
   "block.cobblemon.pep_up_flower": "Pep-Up Flower",
   "block.cobblemon.potted_pep_up_flower": "Potted Pep-Up Flower",
+  "block.cobblemon.gilded_chest": "Gilded Chest",
+  "block.cobblemon.gimmighoul_chest": "Gimmighoul Chest",
+  "block.cobblemon.blue_gilded_chest": "Blue Gilded Chest",
+  "block.cobblemon.yellow_gilded_chest": "Yellow Gilded Chest",
+  "block.cobblemon.pink_gilded_chest": "Pink Gilded Chest",
+  "block.cobblemon.black_gilded_chest": "Black Gilded Chest",
+  "block.cobblemon.green_gilded_chest": "Green Gilded Chest",
+  "block.cobblemon.white_gilded_chest": "White Gilded Chest",
+  "block.cobblemon.display_case": "Display Case",
 
   "block.cobblemon.small_budding_tumblestone": "Small Tumblestone Bud",
   "block.cobblemon.medium_budding_tumblestone": "Medium Tumblestone Bud",
@@ -505,6 +518,9 @@
   "cobblemon.ui.stats.sp_atk": "Sp.Atk",
   "cobblemon.ui.stats.sp_def": "Sp.Def",
   "cobblemon.ui.stats.speed": "Speed",
+
+  "cobblemon.ui.gold_hoard": "Coin Stash",
+  "cobblemon.ui.netherite_hoard": "Scrap Stash",
 
   "cobblemon.ui.info": "Info",
   "cobblemon.ui.info.pokedex_number": "Dex No.",
@@ -863,6 +879,8 @@
   "advancements.cobblemon.own_zangoose_seviper.description": "Have a Zangoose and Seviper in your party at the same time",
   "advancements.cobblemon.obtain_fossil": "Consult the Fossil",
   "advancements.cobblemon.obtain_fossil.description": "Discover a fossil buried in ancient ruins",
+  "advancements.cobblemon.evolve_gholdengo_netherite": "Cover thee in Debris",
+  "advancements.cobblemon.evolve_gholdengo_netherite.description": "Evolve a Gimmighoul into a fully netherite-coated Gholdengo",
   "advancements.cobblemon.resurrect_pokemon": "Life finds a way",
   "advancements.cobblemon.resurrect_pokemon.description": "Obtain a Fossil Pokémon from a Resurrection Machine",
   "advancements.cobblemon.obtain_tumblestone": "The Rolling Stone",

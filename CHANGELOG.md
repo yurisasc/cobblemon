@@ -14,6 +14,7 @@
 - Added the hidden "True Vivillionaire" advancement.
 - The "Poké Ball" Vivillon variant is now obtainable by evolving a Spewpa after obtaining the "Aspiring Vivillionaire" advancement.
 - Added dynamic lighting support for any Species or Forms when using [LambDynamicLights](https://modrinth.com/mod/lambdynamiclights) or [Dynamic Lights Reforged](https://www.curseforge.com/minecraft/mc-mods/dynamiclights-reforged), at this time we don't ship with any defaults for this feature but addon creators can make use of this feature.
+- Added a Display Case block! Use it to display your archaeological findings, or other items.
 - Added 6 Pokémon-themed Pottery Sherds, obtained from ruin structures.
 - Added a Pokémon-themed armor trim, obtained from ruin structures.
 - You can now find Nether Fire Stone Ore in, surprisingly, the Nether.
@@ -24,6 +25,12 @@
 - Added Type Gems. 
 - Added various new tags for searchability and better compatibility.
 - Added the [Ability Capsule](https://bulbapedia.bulbagarden.net/wiki/Ability_Capsule) and [Patch](https://bulbapedia.bulbagarden.net/wiki/Ability_Patch), these have no acquisition method for now and only work as intended with the traditional ability format of 1 to 2 common abilities and 1 hidden ability.
+- Added Gilded Chests, available in all Apricorn colors.
+- Added Relic Coins, Relic Coin Pouches, and Relic Coin Sacks.
+- Added Gimmighoul.
+  - Using Relic Coins, you can increase Gimmighoul's Coin Stash. Upon reaching 999, it can be evolved into Gholdengo.
+  - Additionally, if you give Gimmighoul a Netherite Scrap, you can increase its Netherite Stash. Who knows what might happen if it fills up?
+- Completed the advancement for placing a Tumblestone near Lava or Magma to make it grow.
 
 ### Changes
 - Pokémon now transition more smoothly between different poses.

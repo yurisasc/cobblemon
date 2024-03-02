@@ -19,8 +19,10 @@ import com.cobblemon.mod.common.api.abilities.AbilityPool
 import com.cobblemon.mod.common.api.data.ShowdownIdentifiable
 import com.cobblemon.mod.common.api.events.CobblemonEvents
 import com.cobblemon.mod.common.api.events.CobblemonEvents.FRIENDSHIP_UPDATED
+import com.cobblemon.mod.common.api.events.CobblemonEvents.HELD_ITEM_UPDATED
 import com.cobblemon.mod.common.api.events.CobblemonEvents.POKEMON_FAINTED
 import com.cobblemon.mod.common.api.events.pokemon.*
+import com.cobblemon.mod.common.api.events.pokemon.interaction.HeldItemUpdatedEvent
 import com.cobblemon.mod.common.api.moves.*
 import com.cobblemon.mod.common.api.pokeball.PokeBalls
 import com.cobblemon.mod.common.api.pokemon.Natures
@@ -33,6 +35,7 @@ import com.cobblemon.mod.common.api.pokemon.experience.ExperienceGroup
 import com.cobblemon.mod.common.api.pokemon.experience.ExperienceSource
 import com.cobblemon.mod.common.api.pokemon.feature.SpeciesFeature
 import com.cobblemon.mod.common.api.pokemon.feature.SpeciesFeatures
+import com.cobblemon.mod.common.api.pokemon.feature.SynchronizedSpeciesFeature
 import com.cobblemon.mod.common.api.pokemon.friendship.FriendshipMutationCalculator
 import com.cobblemon.mod.common.api.pokemon.labels.CobblemonPokemonLabels
 import com.cobblemon.mod.common.api.pokemon.moves.LearnsetQuery
@@ -60,6 +63,7 @@ import com.cobblemon.mod.common.pokemon.evolution.CobblemonEvolutionProxy
 import com.cobblemon.mod.common.pokemon.evolution.progress.DamageTakenEvolutionProgress
 import com.cobblemon.mod.common.pokemon.evolution.progress.RecoilEvolutionProgress
 import com.cobblemon.mod.common.pokemon.feature.SeasonFeatureHandler
+import com.cobblemon.mod.common.pokemon.misc.GimmighoulStashHandler
 import com.cobblemon.mod.common.pokemon.properties.UncatchableProperty
 import com.cobblemon.mod.common.pokemon.status.PersistentStatus
 import com.cobblemon.mod.common.pokemon.status.PersistentStatusContainer
@@ -110,9 +114,11 @@ open class Pokemon : ShowdownIdentifiable {
             }
             val quotient = clamp(currentHealth / hp.toFloat(), 0F, 1F)
             field = value
-            val newFeatures = SpeciesFeatures.getFeaturesFor(species).mapNotNull { it.invoke(this) }
-            features.clear()
-            features.addAll(newFeatures)
+            if (!isClient) {
+                val newFeatures = SpeciesFeatures.getFeaturesFor(species).mapNotNull { it.invoke(this) }
+                features.clear()
+                features.addAll(newFeatures)
+            }
             this.evolutionProxy.current().clear()
             updateAspects()
             updateForm()
@@ -254,6 +260,7 @@ open class Pokemon : ShowdownIdentifiable {
                 _friendship.emit(it.newFriendship)
             }
         }
+
     var state: PokemonState = InactivePokemonState()
         set(value) {
             field = value
@@ -687,7 +694,9 @@ open class Pokemon : ShowdownIdentifiable {
             }
             this.heldItem = giving
             this._heldItem.emit(giving)
-            CobblemonEvents.HELD_ITEM_POST.post(HeldItemEvent.Post(this, this.heldItem(), event.returning.copy(), event.decrement))
+            CobblemonEvents.HELD_ITEM_POST.post(HeldItemEvent.Post(this, this.heldItem(), event.returning.copy(), event.decrement)) {
+                GimmighoulStashHandler.giveHeldItem(it)
+            }
             return event.returning
         })
         return stack
@@ -1447,11 +1456,14 @@ open class Pokemon : ShowdownIdentifiable {
         storeCoordinates.get()?.run { sendPacketToPlayers(store.getObservingPlayers(), packet) }
     }
 
-    fun <T> registerObservable(observable: SimpleObservable<T>, notifyPacket: ((T) -> PokemonUpdatePacket<*>)? = null): SimpleObservable<T> {
+    fun <T> registerObservable(observable: SimpleObservable<T>, notifyPacket: ((T) -> PokemonUpdatePacket<*>?)? = null): SimpleObservable<T> {
         observables.add(observable)
         observable.subscribe {
             if (notifyPacket != null && storeCoordinates.get() != null) {
-                notify(notifyPacket(it))
+                val packet = notifyPacket(it)
+                if (packet != null) {
+                    notify(packet)
+                }
             }
             anyChangeObservable.emit(this)
         }
@@ -1541,7 +1553,13 @@ open class Pokemon : ShowdownIdentifiable {
     private val _gmaxFactor = registerObservable(SimpleObservable<Boolean>()) { GmaxFactorUpdatePacket({ this }, it) }
     private val _originalTrainerName = registerObservable(SimpleObservable<String?>()) { OriginalTrainerUpdatePacket({ this }, it) }
 
-    private val _features = registerObservable(SimpleObservable<SpeciesFeature>())
+    private val _features = registerObservable(SimpleObservable<SpeciesFeature>()) {
+        if (it is SynchronizedSpeciesFeature) {
+            SpeciesFeatureUpdatePacket({ this }, species.resourceIdentifier, it)
+        } else {
+            null
+        }
+    }
 
     companion object {
         /**
