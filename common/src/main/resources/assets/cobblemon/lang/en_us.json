@@ -127,7 +127,7 @@
   "item.cobblemon.hyper_potion": "Hyper Potion",
   "item.cobblemon.max_potion": "Max Potion",
   "item.cobblemon.full_restore": "Full Restore",
-  
+
   "item.cobblemon.health_feather": "Health Feather",
   "item.cobblemon.muscle_feather": "Muscle Feather",
   "item.cobblemon.resist_feather": "Resist Feather",
@@ -454,6 +454,7 @@
   "block.cobblemon.black_gilded_chest": "Black Gilded Chest",
   "block.cobblemon.green_gilded_chest": "Green Gilded Chest",
   "block.cobblemon.white_gilded_chest": "White Gilded Chest",
+  "block.cobblemon.display_case": "Display Case",
 
   "block.cobblemon.small_budding_tumblestone": "Small Tumblestone Bud",
   "block.cobblemon.medium_budding_tumblestone": "Medium Tumblestone Bud",
