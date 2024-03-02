@@ -13,21 +13,19 @@ versions:
   idea-ext: 1.1.7
 
   # fabric/remap
-  loom: 1.1-SNAPSHOT
-  fabric-loader: 0.14.21
-  fabric-api: 0.89.0+1.20.1
+  loom: 1.5-SNAPSHOT
+  fabric-loader: 0.15.6
+  fabric-api: 0.95.4+1.20.4
   fabric-kotlin: 1.9.3+kotlin.1.8.20
   architectury-plugin: 3.4-SNAPSHOT
   flywheelFabric: 0.6.9-1
   fabric-permissions-api: 0.2-SNAPSHOT
-  adorn-fabric: 5.0.0-fabric
-  lamb-dynamic-lights: 2.3.2+1.20.1
+  lamb-dynamic-lights: 2.3.4+1.20.4
 
   # forge
-  forge: 1.20.1-47.1.0
+  forge: 1.20.4-49.0.27
   kotlinForForge: 4.3.0
   flywheelForge: 0.6.10-7
-  adorn-forge: 5.0.0-forge
 
   # common
   graal: 22.3.0
@@ -133,10 +131,6 @@ dependencies:
     group: com.jozufozu.flywheel
     name: flywheel-fabric-1.20.1
     version: { ref: flywheelFabric }
-  adornFabric:
-    group: maven.modrinth
-    name: adorn
-    version: { ref: adorn-fabric }
   lambDynamicLights:
     group: maven.modrinth
     name: lambdynamiclights
@@ -159,10 +153,6 @@ dependencies:
     group: com.jozufozu.flywheel
     name: flywheel-forge-1.20.1
     version: { ref: flywheelForge }
-  adornForge:
-    group: maven.modrinth
-    name: adorn
-    version: { ref: adorn-forge }
 
   # datastore
   mongoDriverCore:
