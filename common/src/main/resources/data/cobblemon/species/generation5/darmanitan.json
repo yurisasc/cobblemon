@@ -210,6 +210,12 @@
       "aspects": [
         "zen_mode"
       ],
+      "baseScale": 1.0,
+      "hitbox": {
+        "width": 1.3,
+        "height": 1.5,
+        "fixed": false
+      },
       "height": 13,
       "weight": 929,
       "cannotDynamax": false,
@@ -396,8 +402,8 @@
   ],
   "baseScale": 1,
   "hitbox": {
-    "width": 1,
-    "height": 1,
+    "width": 1.8,
+    "height": 1.8,
     "fixed": false
   },
   "aspects": [],

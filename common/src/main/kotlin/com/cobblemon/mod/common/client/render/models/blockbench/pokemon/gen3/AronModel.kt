@@ -27,7 +27,7 @@ class AronModel  (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quadru
     override val hindRightLeg = getPart("leg_back_right")
 
     override var portraitScale = 1.55F
-    override var portraitTranslation = Vec3d(-0.28, 0.51, 0.0)
+    override var portraitTranslation = Vec3d(-0.28, -0.55, 0.0)
 
     override var profileScale = 0.66F
     override var profileTranslation = Vec3d(0.0, 0.74, 0.0)

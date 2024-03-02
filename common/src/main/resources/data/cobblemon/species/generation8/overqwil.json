@@ -110,6 +110,12 @@
   "pokedex": [
     "cobblemon.species.overqwil.desc"
   ],
+  "baseScale": 1.0,
+  "hitbox": {
+    "width": 1.2,
+    "height": 2,
+    "fixed": false
+  },
   "height": 5,
   "weight": 39,
   "preEvolution": "qwilfish hisuian",

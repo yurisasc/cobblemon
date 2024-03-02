@@ -159,7 +159,7 @@
   ],
   "baseScale": 0.5,
   "hitbox": {
-    "width": 1,
+    "width": 0.7,
     "height": 1,
     "fixed": false
   },

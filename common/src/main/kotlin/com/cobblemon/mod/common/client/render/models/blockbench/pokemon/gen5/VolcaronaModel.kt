@@ -31,11 +31,9 @@ class VolcaronaModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
 //    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("volcarona", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk { bedrockStateful("volcarona", "blink") }
 
         standing = registerPose(
             poseName = "standing",
-            quirks = arrayOf(blink),
             poseTypes = PoseType.UI_POSES + PoseType.STATIONARY_POSES,
             idleAnimations = arrayOf(
                 singleBoneLook(),
@@ -45,7 +43,6 @@ class VolcaronaModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
 
         walk = registerPose(
             poseName = "walk",
-            quirks = arrayOf(blink),
             poseTypes = PoseType.MOVING_POSES,
             idleAnimations = arrayOf(
                 singleBoneLook(),

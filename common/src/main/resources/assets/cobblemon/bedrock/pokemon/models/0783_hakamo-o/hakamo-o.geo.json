@@ -185,7 +185,7 @@
 					"parent": "arm_right",
 					"pivot": [-2, 21, 0],
 					"cubes": [
-						{"origin": [-7, 21, -2], "size": [5, 0, 4], "uv": [56, 8]}
+						{"origin": [-7, 21, -2], "size": [5, 0, 4], "inflate": 0.001, "uv": [56, 8]}
 					]
 				},
 				{

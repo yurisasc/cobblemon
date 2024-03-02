@@ -114,6 +114,12 @@
   "pokedex": [
     "cobblemon.species.sneasler.desc"
   ],
+  "baseScale": 1.0,
+  "hitbox": {
+    "width": 0.95,
+    "height": 2.5,
+    "fixed": false
+  },
   "height": 13,
   "weight": 430,
   "preEvolution": "sneasel hisuian",
