@@ -29,12 +29,13 @@ import net.minecraft.item.BedItem
 import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
 import net.minecraft.item.Items
+import net.minecraft.nbt.NbtInt
 import net.minecraft.util.math.Direction
 import net.minecraft.util.math.RotationAxis
 import net.minecraft.world.World
 
 class DisplayCaseRenderer(ctx: BlockEntityRendererFactory.Context) : BlockEntityRenderer<DisplayCaseBlockEntity> {
-
+    val coinPouchStack: ItemStack by lazy { ItemStack(CobblemonItems.RELIC_COIN_POUCH).also { it.setSubNbt("CustomModelData", NbtInt.of(1)) } }
     override fun render(
         entity: DisplayCaseBlockEntity,
         tickDelta: Float,
@@ -43,7 +44,11 @@ class DisplayCaseRenderer(ctx: BlockEntityRendererFactory.Context) : BlockEntity
         light: Int,
         overlay: Int
     ) {
-        val stack: ItemStack = if (entity.getStack().item == CobblemonItems.RELIC_COIN_POUCH) CobblemonItems.COIN_POUCH_MODEL else entity.getStack()
+        val stack: ItemStack = if (entity.getStack().isOf(CobblemonItems.RELIC_COIN_POUCH)) {
+            coinPouchStack
+        } else {
+            entity.getStack()
+        }
         val world = entity.world ?: return
         val posType = getPositioningType(stack, world)
         val blockState = if (entity.world != null) entity.cachedState
