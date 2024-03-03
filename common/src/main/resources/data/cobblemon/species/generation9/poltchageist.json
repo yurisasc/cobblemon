@@ -195,5 +195,14 @@
       "cannotDynamax": false,
       "battleOnly": false
     }
-  ]
+  ],
+  "drops": {
+    "amount": 1,
+    "entries": [
+      {
+        "item": "cobblemon:rawst_berry",
+        "percentage": 2.5
+      }
+    ]
+  }
 }
