@@ -306,7 +306,7 @@
     "fixed": false
   },
   "drops": {
-    "amount": 1,
+    "amount": 24,
     "entries": [
       {
         "item": "cobblemon:relic_coin",
