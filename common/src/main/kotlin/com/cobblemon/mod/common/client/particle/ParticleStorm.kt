@@ -10,6 +10,7 @@ package com.cobblemon.mod.common.client.particle
 
 import com.bedrockk.molang.runtime.MoLangRuntime
 import com.bedrockk.molang.runtime.value.DoubleValue
+import com.cobblemon.mod.common.api.molang.MoLangFunctions.getQueryStruct
 import com.cobblemon.mod.common.api.snowstorm.BedrockParticleEffect
 import com.cobblemon.mod.common.api.snowstorm.ParticleEmitterAction
 import com.cobblemon.mod.common.client.render.MatrixWrapper
@@ -42,6 +43,11 @@ class ParticleStorm(
 ): NoRenderParticle(world, matrixWrapper.getOrigin().x, matrixWrapper.getOrigin().y, matrixWrapper.getOrigin().z) {
     fun spawn() {
         if (entity != null) {
+            runtime.environment.getQueryStruct()
+                .addFunction("entity_width") { DoubleValue(entity.boundingBox.xLength) }
+                .addFunction("entity_height") { DoubleValue(entity.boundingBox.yLength) }
+                .addFunction("entity_size") { DoubleValue(entity.boundingBox.run { if (xLength > yLength) xLength else yLength }) }
+                .addFunction("entity_radius") { DoubleValue(entity.boundingBox.run { if (xLength > yLength) xLength else yLength } / 2) }
             // TODO replace with a generified call to if (entity is MoLangEntity) entity.applyVariables(env) or w/e
             runtime.environment.setSimpleVariable("entity_width", DoubleValue(entity.boundingBox.xLength))
             runtime.environment.setSimpleVariable("entity_height", DoubleValue(entity.boundingBox.yLength))
