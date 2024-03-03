@@ -5,12 +5,15 @@
 			"identifier": "cobblemon:evo_implode",
 			"basic_render_parameters": {
 				"material": "particles_blend",
-				"texture": "textures/particles/speedlines"
+				"texture": "textures/particles/glowing_dots_cyan"
 			}
 		},
 		"components": {
+			"minecraft:emitter_initialization": {
+				"creation_expression": "variable.entity_radius = 1;"
+			},
 			"minecraft:emitter_rate_instant": {
-				"num_particles": 32
+				"num_particles": 64
 			},
 			"minecraft:emitter_lifetime_once": {
 				"active_time": 5
