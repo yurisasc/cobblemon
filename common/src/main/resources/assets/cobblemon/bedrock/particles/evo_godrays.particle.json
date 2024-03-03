@@ -9,9 +9,6 @@
 			}
 		},
 		"components": {
-			"minecraft:emitter_initialization": {
-				"creation_expression": "variable.entity_radius = 1;"
-			},
 			"minecraft:emitter_rate_steady": {
 				"spawn_rate": 12,
 				"max_particles": 100
@@ -30,7 +27,7 @@
 			"minecraft:particle_initial_speed": 0,
 			"minecraft:particle_motion_dynamic": {},
 			"minecraft:particle_appearance_billboard": {
-				"size": ["(6/128) * 2 * v.particle_age * v.entity_radius", "3 * v.particle_age * v.entity_radius"],
+				"size": ["(6/128) * 2 * v.particle_age * q.entity_size", "3 * v.particle_age * q.entity_size"],
 				"facing_camera_mode": "rotate_xyz",
 				"uv": {
 					"texture_width": 6,

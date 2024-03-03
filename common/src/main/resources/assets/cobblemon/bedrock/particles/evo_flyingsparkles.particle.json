@@ -42,13 +42,17 @@
 					"texture_height": 32,
 					"flipbook": {
 						"base_UV": [0, 0],
-						"size_UV": [0, 8],
+						"size_UV": [8, 8],
 						"step_UV": [0, 8],
 						"frames_per_second": 24,
 						"max_frame": 4,
 						"loop": true
 					}
 				}
+			},
+			"minecraft:particle_motion_collision": {
+				"collision_drag": 1,
+				"coefficient_of_restitution": 1
 			},
 			"minecraft:particle_appearance_tinting": {
 				"color": {

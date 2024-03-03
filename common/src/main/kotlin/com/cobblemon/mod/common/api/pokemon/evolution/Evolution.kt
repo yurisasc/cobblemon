@@ -18,6 +18,8 @@ import com.cobblemon.mod.common.api.pokemon.PokemonProperties
 import com.cobblemon.mod.common.api.pokemon.evolution.requirement.EvolutionRequirement
 import com.cobblemon.mod.common.api.scheduling.afterOnServer
 import com.cobblemon.mod.common.entity.generic.GenericBedrockEntity
+import com.cobblemon.mod.common.net.messages.client.animation.PlayPoseableAnimationPacket
+import com.cobblemon.mod.common.net.messages.client.effect.SpawnSnowstormEntityParticlePacket
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.pokemon.activestate.ShoulderedState
 import com.cobblemon.mod.common.pokemon.evolution.variants.ItemInteractionEvolution
@@ -25,8 +27,10 @@ import com.cobblemon.mod.common.pokemon.evolution.variants.LevelUpEvolution
 import com.cobblemon.mod.common.pokemon.evolution.variants.TradeEvolution
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.lang
+import net.minecraft.entity.Entity
 import net.minecraft.item.ItemStack
 import net.minecraft.sound.SoundCategory
+import net.minecraft.util.Identifier
 
 /**
  * Represents an evolution of a [Pokemon], this is the server side counterpart of [EvolutionDisplay].
@@ -104,7 +108,7 @@ interface Evolution : EvolutionLike {
      */
     fun forceEvolve(pokemon: Pokemon) {
         // This is a switch to enable/disable the evolution effect while we get particles improved
-        val useEvolutionEffect = false
+        val useEvolutionEffect = true
 
         if (pokemon.state is ShoulderedState) {
             pokemon.tryRecallWithAnimation()
@@ -114,32 +118,21 @@ interface Evolution : EvolutionLike {
         if (pokemonEntity == null || !useEvolutionEffect) {
             evolutionMethod(pokemon)
         } else {
-            pokemonEntity.evolutionEntity = pokemon.getOwnerPlayer()?.let { GenericBedrockEntity(world = it.world) }
-            val evolutionEntity = pokemon.entity!!.evolutionEntity
-            evolutionEntity?.apply {
-                category = cobblemonResource("evolution")
-                colliderHeight = pokemonEntity.height
-                colliderWidth = pokemonEntity.width
-                scale = pokemonEntity.scaleFactor
-                syncAge = true // Otherwise particle animation will be starting from zero even if you come along partway through
-                setPosition(pokemonEntity.x, pokemonEntity.y, pokemonEntity.z)
-            }
-            pokemon.getOwnerPlayer()?.world?.spawnEntity(evolutionEntity)
-            afterOnServer(seconds = 9F) {
-                if (!pokemonEntity.isRemoved) {
-                    evolutionMethod(pokemon)
-                    afterOnServer(seconds = 1.5F) { pokemonEntity.cry() }
-                    afterOnServer(seconds = 3F) {
-                        if (evolutionEntity != null) {
-                            evolutionEntity.kill()
-                            if (!pokemonEntity.isRemoved) {
-                                pokemonEntity.evolutionEntity = null
-                            }
-                        }
-                    }
-                }
-            }
+            val evolutionParticles = Identifier("cobblemon:evo_particles")
+            particleEffect(evolutionParticles, pokemonEntity, "center")
+            evolutionAnimation(pokemonEntity)
         }
+    }
+
+    private fun evolutionAnimation(pokemon: Entity) {
+        val playPoseableAnimationPacket = PlayPoseableAnimationPacket(pokemon.id, setOf("evolution:animation.evolution.evolution"), emptySet())
+        playPoseableAnimationPacket.sendToPlayersAround(pokemon.x, pokemon.y, pokemon.z, 64.0, pokemon.world.registryKey)
+        println("${playPoseableAnimationPacket.animation}")
+    }
+
+    private fun particleEffect(id: Identifier, entity: Entity, anchor: String = "root") {
+        val spawnSnowstormParticlePacket = SpawnSnowstormEntityParticlePacket(id, entity.id, anchor)
+        spawnSnowstormParticlePacket.sendToPlayersAround(entity.x, entity.y, entity.z, 64.0, entity.world.registryKey)
     }
 
     fun evolutionMethod(pokemon: Pokemon) {
