@@ -6,11 +6,43 @@
 			"bones": {
 				"root_part": {
 					"rotation": {
-						"0.0": [0, 0, 0],
-						"2.0": [0, "-180 * 2", 0],
+						"0.0": {
+							"post": [0, 0, 0],
+							"lerp_mode": "catmullrom"
+						},
+						"2.0": {
+							"post": [0, "-180 * 2", 0],
+							"lerp_mode": "catmullrom"
+						},
 						"3.75": [0, "(-180*2) * 2.5", 0],
-						"6.375": [0, "-180*8", 0],
+						"6.4583": [0, "-219-180*8", 0],
 						"8.875": [0, "-720 * 3", 0]
+					},
+					"position": {
+						"0.0": {
+							"post": [0, 0, 0],
+							"lerp_mode": "catmullrom"
+						},
+						"2.0": {
+							"post": [0, 6, 0],
+							"lerp_mode": "catmullrom"
+						},
+						"8.75": {
+							"post": [0, 6, 0],
+							"lerp_mode": "catmullrom"
+						},
+						"9.0": {
+							"post": [0, 0, 0],
+							"lerp_mode": "catmullrom"
+						},
+						"9.0417": {
+							"post": [0, 2, 0],
+							"lerp_mode": "catmullrom"
+						},
+						"9.0833": {
+							"post": [0, 0, 0],
+							"lerp_mode": "catmullrom"
+						}
 					}
 				}
 			}

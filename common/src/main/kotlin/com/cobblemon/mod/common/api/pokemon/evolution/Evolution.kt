@@ -119,7 +119,7 @@ interface Evolution : EvolutionLike {
             evolutionMethod(pokemon)
         } else {
             val evolutionParticles = Identifier("cobblemon:evo_particles")
-            particleEffect(evolutionParticles, pokemonEntity, "center")
+            particleEffect(evolutionParticles, pokemonEntity, "test")
             evolutionAnimation(pokemonEntity)
         }
     }

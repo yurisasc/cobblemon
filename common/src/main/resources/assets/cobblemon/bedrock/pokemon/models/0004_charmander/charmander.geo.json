@@ -13,7 +13,10 @@
 			"bones": [
 				{
 					"name": "charmander",
-					"pivot": [0, 0, 0]
+					"pivot": [0, 0, 0],
+					"locators": {
+						"test": [0, 9, 0]
+					}
 				},
 				{
 					"name": "body",
