@@ -10,7 +10,6 @@ package com.cobblemon.mod.common.entity.pokemon
 
 import com.cobblemon.mod.common.*
 import com.cobblemon.mod.common.CobblemonNetwork.sendPacket
-import com.cobblemon.mod.common.CobblemonNetwork.sendPacketToServer
 import com.cobblemon.mod.common.api.drop.DropTable
 import com.cobblemon.mod.common.api.entity.Despawner
 import com.cobblemon.mod.common.api.events.CobblemonEvents
@@ -31,9 +30,9 @@ import com.cobblemon.mod.common.api.storage.InvalidSpeciesException
 import com.cobblemon.mod.common.api.types.ElementalTypes
 import com.cobblemon.mod.common.api.types.ElementalTypes.FIRE
 import com.cobblemon.mod.common.battles.BagItems
+import com.cobblemon.mod.common.battles.BattleBuilder
 import com.cobblemon.mod.common.battles.BattleRegistry
 import com.cobblemon.mod.common.block.entity.PokemonPastureBlockEntity
-import com.cobblemon.mod.common.client.CobblemonClient
 import com.cobblemon.mod.common.client.entity.PokemonClientDelegate
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.Poseable
@@ -46,7 +45,6 @@ import com.cobblemon.mod.common.net.messages.client.animation.PlayPoseableAnimat
 import com.cobblemon.mod.common.net.messages.client.sound.UnvalidatedPlaySoundS2CPacket
 import com.cobblemon.mod.common.net.messages.client.spawn.SpawnPokemonPacket
 import com.cobblemon.mod.common.net.messages.client.ui.InteractPokemonUIPacket
-import com.cobblemon.mod.common.net.messages.server.BattleChallengePacket
 import com.cobblemon.mod.common.net.serverhandling.storage.SendOutPokemonHandler.SEND_OUT_DURATION
 import com.cobblemon.mod.common.pokemon.FormData
 import com.cobblemon.mod.common.pokemon.Pokemon
@@ -1046,13 +1044,13 @@ open class PokemonEntity(
      * @param player The player to attempt a battle with.
      * @return Whether the battle was successfully started.
      */
-    fun forceBattle(player: PlayerEntity): Boolean {
-        if (!canBattle(player)) return false
-        if (CobblemonClient.storage.myParty.isEmpty()) return false
-        val selectedPokemon = CobblemonClient.storage.myParty.get(CobblemonClient.storage.selectedSlot) ?: return false
-        if (selectedPokemon.isFainted()) return false
-        sendPacketToServer(BattleChallengePacket(this.id, selectedPokemon.uuid))
-        return true
+    fun forceBattle(player: ServerPlayerEntity): Boolean {
+        if (!canBattle(player)) {
+            return false
+        }
+        var isSuccessful = false
+        BattleBuilder.pve(player, this).ifSuccessful { isSuccessful = true }
+        return isSuccessful
     }
 
     /**
