@@ -83,6 +83,7 @@ import com.cobblemon.mod.common.config.starter.StarterConfig
 import com.cobblemon.mod.common.data.CobblemonDataProvider
 import com.cobblemon.mod.common.events.AdvancementHandler
 import com.cobblemon.mod.common.events.ServerTickHandler
+import com.cobblemon.mod.common.item.CobblemonItem
 import com.cobblemon.mod.common.item.PokeBallItem
 import com.cobblemon.mod.common.net.messages.client.settings.ServerSettingsPacket
 import com.cobblemon.mod.common.permission.LaxPermissionValidator
@@ -230,6 +231,9 @@ object Cobblemon {
                     }
             }
         }
+
+        // Register the grow_tumblestone advancement
+        PlatformEvents.RIGHT_CLICK_BLOCK.subscribe { AdvancementHandler.onTumbleStonePlaced(it) }
 
         PlatformEvents.CHANGE_DIMENSION.subscribe {
             it.player.party().forEach { pokemon -> pokemon.entity?.recallWithAnimation() }

@@ -226,6 +226,42 @@
       "cobblemon:block/tumblestone/tumblestone_step_4"
     ]
   },
+  "display_case.break": {
+    "sounds": [
+      "cobblemon:block/display_case/display_case_break_1",
+      "cobblemon:block/display_case/display_case_break_2",
+      "cobblemon:block/display_case/display_case_break_3"
+    ]
+  },
+  "display_case.hit": {
+    "sounds": [
+      "cobblemon:block/display_case/display_case_hit_1",
+      "cobblemon:block/display_case/display_case_hit_2",
+      "cobblemon:block/display_case/display_case_hit_3",
+      "cobblemon:block/display_case/display_case_hit_4"
+    ]
+  },
+  "display_case.place": {
+    "sounds": [
+      "cobblemon:block/display_case/display_case_place_1",
+      "cobblemon:block/display_case/display_case_place_2",
+      "cobblemon:block/display_case/display_case_place_3"
+    ]
+  },
+  "display_case.step": {
+    "sounds": [
+      "cobblemon:block/display_case/display_case_step_1",
+      "cobblemon:block/display_case/display_case_step_2",
+      "cobblemon:block/display_case/display_case_step_3",
+      "cobblemon:block/display_case/display_case_step_4"
+    ]
+  },
+  "display_case.add_item": {
+    "sounds": [ "cobblemon:block/display_case/display_case_add_item" ]
+  },
+  "display_case.remove_item": {
+    "sounds": [ "cobblemon:block/display_case/display_case_remove_item" ]
+  },
   "berry_bush.break": {
     "sounds": [
       "cobblemon:block/plants/berry/berry_bush_break_1",

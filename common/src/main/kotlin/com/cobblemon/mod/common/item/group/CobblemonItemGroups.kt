@@ -231,6 +231,7 @@ object CobblemonItemGroups {
         entries.add(CobblemonItems.RELIC_COIN_POUCH)
         entries.add(CobblemonItems.RELIC_COIN_SACK)
 
+        entries.add(CobblemonItems.DISPLAY_CASE)
         entries.add(CobblemonItems.APRICORN_LOG)
         entries.add(CobblemonItems.APRICORN_WOOD)
         entries.add(CobblemonItems.STRIPPED_APRICORN_LOG)
@@ -363,6 +364,9 @@ object CobblemonItemGroups {
         entries.add(CobblemonItems.JOLLY_MINT)
         entries.add(CobblemonItems.NAIVE_MINT)
         entries.add(CobblemonItems.SERIOUS_MINT)
+
+        entries.add(CobblemonItems.ABILITY_CAPSULE)
+        entries.add(CobblemonItems.ABILITY_PATCH)
     }
 
     private fun evolutionItemEntries(displayContext: DisplayContext, entries: Entries) {

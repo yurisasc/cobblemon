@@ -140,7 +140,7 @@ class InwardsMotionDirection : ParticleMotionDirection {
         return if (particlePos == emitterPos) {
             Vec3d(storm.world.random.nextDouble() - 0.5, storm.world.random.nextDouble() - 0.5, storm.world.random.nextDouble() - 0.5)
         } else {
-            particlePos.subtract(emitterPos)
+            emitterPos.subtract(particlePos)
         }.normalize()
     }
     override fun <T> encode(ops: DynamicOps<T>) = CODEC.encodeStart(ops, this)

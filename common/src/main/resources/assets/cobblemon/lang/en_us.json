@@ -127,13 +127,16 @@
   "item.cobblemon.hyper_potion": "Hyper Potion",
   "item.cobblemon.max_potion": "Max Potion",
   "item.cobblemon.full_restore": "Full Restore",
-  
+
   "item.cobblemon.health_feather": "Health Feather",
   "item.cobblemon.muscle_feather": "Muscle Feather",
   "item.cobblemon.resist_feather": "Resist Feather",
   "item.cobblemon.genius_feather": "Genius Feather",
   "item.cobblemon.clever_feather": "Clever Feather",
   "item.cobblemon.swift_feather": "Swift Feather",
+
+  "item.cobblemon.ability_capsule": "Ability Capsule",
+  "item.cobblemon.ability_patch": "Ability Patch",
 
   "item.cobblemon.red_mint_leaf": "Red Mint Leaf",
   "item.cobblemon.red_mint_leaf.tooltip": "Capable of influencing a Pokémon's attack stat",
@@ -454,6 +457,7 @@
   "block.cobblemon.black_gilded_chest": "Black Gilded Chest",
   "block.cobblemon.green_gilded_chest": "Green Gilded Chest",
   "block.cobblemon.white_gilded_chest": "White Gilded Chest",
+  "block.cobblemon.display_case": "Display Case",
 
   "block.cobblemon.small_budding_tumblestone": "Small Tumblestone Bud",
   "block.cobblemon.medium_budding_tumblestone": "Medium Tumblestone Bud",
@@ -636,6 +640,8 @@
 
   "cobblemon.mint.interact": "%1$s's stats have changed!",
   "cobblemon.mint.same_nature": "%1$s's stats seem unaffected by the %2$s.",
+
+  "cobblemon.ability_changer.changed": "%1$s's ability changed to %2$s!",
 
   "itemGroup.cobblemon.plants": "Plants",
   "item.cobblemon.aguav_berry": "Aguav Berry",
