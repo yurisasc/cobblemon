@@ -47,6 +47,7 @@ import com.cobblemon.mod.common.data.CobblemonDataProvider
 import com.cobblemon.mod.common.entity.boat.CobblemonBoatType
 import com.cobblemon.mod.common.item.PokeBallItem
 import com.cobblemon.mod.common.client.render.models.blockbench.repository.FossilModelRepository
+import com.cobblemon.mod.common.client.render.models.blockbench.repository.GenericBedrockEntityModelRepository
 import com.cobblemon.mod.common.client.render.models.blockbench.repository.MiscModelRepository
 import com.cobblemon.mod.common.platform.events.PlatformEvents
 import com.cobblemon.mod.common.util.DataKeys
@@ -269,7 +270,7 @@ object CobblemonClient {
         BedrockParticleEffectRepository.loadEffects(resourceManager)
         BedrockAnimationRepository.loadAnimations(
             resourceManager = resourceManager,
-            directories = PokemonModelRepository.animationDirectories + PokeBallModelRepository.animationDirectories + FossilModelRepository.animationDirectories + BlockEntityModelRepository.animationDirectories
+            directories = PokemonModelRepository.animationDirectories + PokeBallModelRepository.animationDirectories + FossilModelRepository.animationDirectories + BlockEntityModelRepository.animationDirectories + GenericBedrockEntityModelRepository.animationDirectories
         )
         PokemonModelRepository.reload(resourceManager)
         PokeBallModelRepository.reload(resourceManager)
