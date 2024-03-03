@@ -20,7 +20,7 @@
 				"active_time": 5
 			},
 			"minecraft:emitter_shape_sphere": {
-				"radius": "q.entity_size + 2",
+				"radius": "q.entity_size + 3",
 				"surface_only": true,
 				"direction": "inwards"
 			},

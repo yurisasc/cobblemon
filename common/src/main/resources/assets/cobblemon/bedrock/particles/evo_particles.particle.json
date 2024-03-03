@@ -12,13 +12,13 @@
 			"event_sparkle": {
 				"particle_effect": {
 					"effect": "cobblemon:evo_sparkle",
-					"type": "emitter_bound"
+					"type": "particle"
 				}
 			},
 			"event_buildup": {
 				"particle_effect": {
 					"effect": "cobblemon:evo_buildup",
-					"type": "emitter_bound"
+					"type": "particle"
 				}
 			},
 			"event_obscuring": {
@@ -30,43 +30,43 @@
 			"event_flyingsparkles": {
 				"particle_effect": {
 					"effect": "cobblemon:evo_flyingsparkles",
-					"type": "emitter_bound"
+					"type": "particle"
 				}
 			},
 			"event_bigsparkle": {
 				"particle_effect": {
 					"effect": "cobblemon:evo_bigsparkle",
-					"type": "emitter_bound"
+					"type": "particle"
 				}
 			},
 			"event_sparklefetti": {
 				"particle_effect": {
 					"effect": "cobblemon:evo_sparklefetti",
-					"type": "emitter_bound"
+					"type": "particle"
 				}
 			},
 			"event_sparkleburst": {
 				"particle_effect": {
 					"effect": "cobblemon:evo_sparkleburst",
-					"type": "emitter_bound"
+					"type": "particle"
 				}
 			},
 			"event_smokeburst": {
 				"particle_effect": {
 					"effect": "cobblemon:evo_smokeburst",
-					"type": "emitter_bound"
+					"type": "particle"
 				}
 			},
 			"event_godrays": {
 				"particle_effect": {
 					"effect": "cobblemon:evo_godrays",
-					"type": "emitter_bound"
+					"type": "particle"
 				}
 			},
 			"event_implode": {
 				"particle_effect": {
 					"effect": "cobblemon:evo_implode",
-					"type": "emitter_bound"
+					"type": "particle"
 				}
 			}
 		},
