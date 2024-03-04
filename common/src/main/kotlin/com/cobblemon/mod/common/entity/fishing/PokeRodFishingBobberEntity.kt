@@ -147,7 +147,7 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
         if (CAUGHT_FISH == data) {
             this.caughtFish = (getDataTracker().get(CAUGHT_FISH) as Boolean)
             if (this.caughtFish) {
-                this.setVelocity(velocity.x, (-0.4f * MathHelper.nextFloat(this.velocityRandom, 0.6f, 1.0f)).toDouble(), velocity.z)
+                this.setVelocity(velocity.x, (-0.4f * MathHelper.nextFloat(this.velocityRandom, 0.3f, 0.5f)).toDouble(), velocity.z)
             }
         }
 
@@ -319,7 +319,7 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
                     }
                     val k = g * 0.04f
                     val l = h * 0.04f
-                    println("offsetX: $offsetX, offsetY: $offsetY, j: $j")
+
                     serverWorld.spawnParticles(ParticleTypes.FISHING, offsetX, offsetY, j, 0, l.toDouble(), 0.01, -k.toDouble(), 1.0)
                     serverWorld.spawnParticles(ParticleTypes.FISHING, offsetX, offsetY, j, 0, -l.toDouble(), 0.01, k.toDouble(), 1.0)
                 }
@@ -602,7 +602,7 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
         val dampingFactor = 1 - (horizontalDistance / 80).coerceIn(0.0, 0.8) // increase end of coerceIn to dampen more
 
         val verticalVelocity = 0.30 // Base vertical velocity for a gentle arc
-        val horizontalVelocityFactor = 0.155 // Base horizontal velocity factor
+        val horizontalVelocityFactor = 0.13 // Base horizontal velocity factor
 
         // Apply the damping factor to both horizontal and vertical velocities
         val adjustedHorizontalVelocity = horizontalDistance * horizontalVelocityFactor * dampingFactor
