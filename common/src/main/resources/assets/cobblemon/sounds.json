@@ -146,7 +146,11 @@
     "sounds": [ "cobblemon:fossilmachine/unprotected" ]
   },
   "fishing.notification": {
-    "sounds": [ "cobblemon:fishing/fishing_notification" ]
+    "sounds": [
+      "cobblemon:fishing/fishing_splash_notification_1",
+      "cobblemon:fishing/fishing_splash_notification_2",
+      "cobblemon:fishing/fishing_splash_notification_3"
+    ]
   },
   "fishing.splash_small": {
     "sounds": [
