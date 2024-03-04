@@ -144,7 +144,7 @@ class LoopingEmitterLifetime(var activeTime: Expression = 1.0.asExpression(), va
         return if (displacement < activeTimeValue) {
             ParticleEmitterAction.GO
         } else {
-            ParticleEmitterAction.STOP
+            ParticleEmitterAction.RESET
         }
     }
 
