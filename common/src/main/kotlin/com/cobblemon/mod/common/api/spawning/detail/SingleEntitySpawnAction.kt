@@ -30,9 +30,16 @@ abstract class SingleEntitySpawnAction<T : Entity>(
     override fun run(): EntitySpawnResult? {
         val e = createEntity() ?: return null
         e.setPosition(ctx.position.toVec3d().add(0.5, 1.0, 0.5))
-        entity.emit(e)
-        CobblemonEvents.ENTITY_SPAWN.postThen(SpawnEvent(e, ctx), ifSucceeded = { ctx.world.spawnEntity(e) })
-        return EntitySpawnResult(listOf(e))
+        var shouldSpawn = false
+        CobblemonEvents.ENTITY_SPAWN.postThen(SpawnEvent(e, ctx), ifSucceeded = {
+            ctx.world.spawnEntity(e)
+            shouldSpawn = true
+        })
+
+        return if (shouldSpawn) {
+            this.entity.emit(e)
+            EntitySpawnResult(listOf(e))
+        } else null
     }
 
 
