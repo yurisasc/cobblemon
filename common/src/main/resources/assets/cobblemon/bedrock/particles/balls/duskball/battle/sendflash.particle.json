@@ -2,10 +2,10 @@
 	"format_version": "1.10.0",
 	"particle_effect": {
 		"description": {
-			"identifier": "cobblemon:masterball/battle/sendflash",
+			"identifier": "cobblemon:duskball/battle/sendflash",
 			"basic_render_parameters": {
 				"material": "particles_alpha",
-				"texture": "textures/particles/balls/masterball/battle/sendflash"
+				"texture": "textures/particles/balls/duskball/battle/dusksendflash"
 			}
 		},
 		"components": {
@@ -27,14 +27,14 @@
 				"size": [2.5, 2.5],
 				"facing_camera_mode": "rotate_xyz",
 				"uv": {
-					"texture_width": 1344,
+					"texture_width": 1088,
 					"texture_height": 64,
 					"flipbook": {
 						"base_UV": [0, 0],
 						"size_UV": [64, 64],
 						"step_UV": [64, 0],
 						"frames_per_second": 24,
-						"max_frame": 21
+						"max_frame": 17
 					}
 				}
 			}
