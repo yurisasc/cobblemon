@@ -32,6 +32,7 @@ import com.cobblemon.mod.common.client.net.battle.BattlePersistentStatusHandler
 import com.cobblemon.mod.common.client.net.battle.BattleQueueRequestHandler
 import com.cobblemon.mod.common.client.net.battle.BattleSetTeamPokemonHandler
 import com.cobblemon.mod.common.client.net.battle.BattleSwitchPokemonHandler
+import com.cobblemon.mod.common.client.net.battle.BattleSwapPokemonHandler
 import com.cobblemon.mod.common.client.net.battle.BattleUpdateTeamPokemonHandler
 import com.cobblemon.mod.common.client.net.callback.move.OpenMoveCallbackHandler
 import com.cobblemon.mod.common.client.net.callback.party.OpenPartyCallbackHandler
@@ -290,6 +291,7 @@ object CobblemonNetwork : NetworkManager {
         this.createClientBound(BattleHealthChangePacket.ID, BattleHealthChangePacket::decode, BattleHealthChangeHandler)
         this.createClientBound(BattleSetTeamPokemonPacket.ID, BattleSetTeamPokemonPacket::decode, BattleSetTeamPokemonHandler)
         this.createClientBound(BattleSwitchPokemonPacket.ID, BattleSwitchPokemonPacket::decode, BattleSwitchPokemonHandler)
+        this.createClientBound(BattleSwapPokemonPacket.ID, BattleSwapPokemonPacket::decode, BattleSwapPokemonHandler)
         this.createClientBound(BattleMessagePacket.ID, BattleMessagePacket::decode, BattleMessageHandler)
         this.createClientBound(BattleCaptureStartPacket.ID, BattleCaptureStartPacket::decode, BattleCaptureStartHandler)
         this.createClientBound(BattleCaptureEndPacket.ID, BattleCaptureEndPacket::decode, BattleCaptureEndHandler)

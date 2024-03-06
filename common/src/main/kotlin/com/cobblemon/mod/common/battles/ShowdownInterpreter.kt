@@ -47,6 +47,7 @@ import com.cobblemon.mod.common.net.messages.client.battle.BattleMakeChoicePacke
 import com.cobblemon.mod.common.net.messages.client.battle.BattlePersistentStatusPacket
 import com.cobblemon.mod.common.net.messages.client.battle.BattleQueueRequestPacket
 import com.cobblemon.mod.common.net.messages.client.battle.BattleSwitchPokemonPacket
+import com.cobblemon.mod.common.net.messages.client.battle.BattleSwapPokemonPacket
 import com.cobblemon.mod.common.pokemon.evolution.progress.DamageTakenEvolutionProgress
 import com.cobblemon.mod.common.pokemon.evolution.progress.LastBattleCriticalHitsEvolutionProgress
 import com.cobblemon.mod.common.pokemon.evolution.progress.RecoilEvolutionProgress
@@ -56,6 +57,7 @@ import com.cobblemon.mod.common.util.battleLang
 import com.cobblemon.mod.common.util.lang
 import com.cobblemon.mod.common.util.runOnServer
 import com.cobblemon.mod.common.util.swap
+import com.cobblemon.mod.common.util.setPositionSafely
 import java.util.UUID
 import java.util.concurrent.CompletableFuture
 import kotlin.collections.Iterator
@@ -71,7 +73,6 @@ import kotlin.collections.forEach
 import kotlin.collections.getOrNull
 import kotlin.collections.listOf
 import kotlin.collections.map
-import kotlin.collections.mapNotNull
 import kotlin.collections.mutableListOf
 import kotlin.collections.mutableMapOf
 import kotlin.collections.reduce
@@ -173,6 +174,8 @@ object ShowdownInterpreter {
         updateInstructions["|-terastallize|"] = this::handleTerastallizeInstructions
         updateInstructions["|detailschange|"] = this::handleDetailsChangeInstructions
         updateInstructions["|-mega|"] = this::handleMegaInstructions
+        updateInstructions["|swap|"] = this::handleSwapInstruction
+
 
         sideUpdateInstructions["|request|"] = this::handleRequestInstruction
         splitUpdateInstructions["|switch|"] = this::handleSwitchInstruction
@@ -1159,6 +1162,42 @@ object ShowdownInterpreter {
             side.contextManager.add(getContextFromAction(message, bucket, battle))
         }
     }
+
+    /**
+     * Format:
+     * |swap|POKEMON|(from)EFFECT
+     *
+     * Indicates that a pokemon has swapped its field position with an ally.
+     */
+    private fun handleSwapInstruction(battle: PokemonBattle, message: BattleMessage, remainingLines: MutableList<String>) {
+        // TODO: more error checks
+        battle.dispatchWaiting {
+            val battlePokemonA = message.getBattlePokemon(0, battle) ?: return@dispatchWaiting
+            val pnxA = message.argumentAt(0)?.substring(0, 3)
+            val posA = battlePokemonA.entity?.pos
+            val (actor, activePokemon) = battle.getActorAndActiveSlotFromPNX(pnxA!!)
+
+            val activeBattlePokemonB = activePokemon.getAdjacentAllies().firstOrNull()
+            if(activeBattlePokemonB != null) {
+                val pnxB = activeBattlePokemonB.getPNX()
+                val (actorB, activePokemonB) = battle.getActorAndActiveSlotFromPNX(pnxB)
+                val posB = activePokemonB.battlePokemon?.entity?.pos
+                if (posB != null) {
+                    battlePokemonA.entity?.setPositionSafely(posB)
+                }
+                if(posA != null) {
+                    activePokemonB.battlePokemon?.entity?.setPositionSafely(posA)
+                }
+                battle.sendUpdate(BattleSwapPokemonPacket(pnxA))
+                // TODO: differentiate with Triples shift
+                val lang = battleLang("activate.allyswitch", battlePokemonA.getName(), activePokemonB.battlePokemon!!.getName(), )
+                battle.broadcastChatMessage(lang)
+            }
+
+        }
+
+    }
+
 
     /**
      * Format:

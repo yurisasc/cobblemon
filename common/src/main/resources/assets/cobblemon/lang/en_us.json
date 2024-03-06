@@ -1091,6 +1091,7 @@
   "cobblemon.battle.activate.wideguard": "Wide Guard protected %1$s!",
   "cobblemon.battle.activate.craftyshield": "Crafty Shield protected %1$s!",
   "cobblemon.battle.activate.tidyup": "Tidying up complete!",
+  "cobblemon.battle.activate.allyswitch": "%1$s and %2$s switched places!",
 
   "cobblemon.battle.prepare.bounce": "%1$s sprang up!",
   "cobblemon.battle.prepare.dig": "%1$s burrowed its way under the ground!",
