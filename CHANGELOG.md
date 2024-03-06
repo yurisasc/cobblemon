@@ -44,6 +44,7 @@
 - Apricorn Sprouts can now be planted directly on Apricorn leaves to create a new Apricorn of the same color.
 - Added tooltips to interaction GUIs to make it clearer what they do.
 - Poké Ball recipes now use tags for their center ingredient, rather than specificied Copper Ingot, Iron Ingot, Gold Ingot, and Diamond, allowing for further datapack customisation.
+- Moved some items in the vanilla Food & Drinks category.
 
 ### Fixes
 - Re-added the recipe for the Iron Vitamin.
