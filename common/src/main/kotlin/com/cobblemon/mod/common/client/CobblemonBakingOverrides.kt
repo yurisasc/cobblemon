@@ -62,6 +62,7 @@ object CobblemonBakingOverrides {
         cobblemonModel("restoration_tank_connector", "none")
     )
 
+
     fun registerOverride(modelLocation: Identifier, modelIdentifier: ModelIdentifier): BakingOverride {
         val result = BakingOverride(modelLocation, modelIdentifier)
         models.add(result)

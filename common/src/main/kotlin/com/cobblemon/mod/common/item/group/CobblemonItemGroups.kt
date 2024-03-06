@@ -9,6 +9,7 @@
 package com.cobblemon.mod.common.item.group
 
 import com.cobblemon.mod.common.CobblemonItems
+import com.cobblemon.mod.common.api.tms.TechnicalMachines
 import com.cobblemon.mod.common.util.cobblemonResource
 import net.minecraft.item.ItemConvertible
 import net.minecraft.item.ItemGroup
@@ -35,6 +36,7 @@ object CobblemonItemGroups {
     @JvmStatic val CONSUMABLES_KEY = this.create("consumables", this::consumableEntries) { ItemStack(CobblemonItems.ROASTED_LEEK) }
     @JvmStatic val HELD_ITEMS_KEY = this.create("held_item", this::heldItemEntries) { ItemStack(CobblemonItems.EXP_SHARE) }
     @JvmStatic val EVOLUTION_ITEMS_KEY = this.create("evolution_item", this::evolutionItemEntries) { ItemStack(CobblemonItems.BLACK_AUGURITE) }
+    @JvmStatic val TECHNICAL_MACHINES_KEY = this.create("technical_machines", this::technicalMachineEntries) { ItemStack(CobblemonItems.BLANK_TM) }
 
     @JvmStatic val BLOCKS get() = Registries.ITEM_GROUP.get(BLOCKS_KEY)
     @JvmStatic val POKEBALLS get() = Registries.ITEM_GROUP.get(POKEBALLS_KEY)
@@ -43,6 +45,7 @@ object CobblemonItemGroups {
     @JvmStatic val CONSUMABLES get() = Registries.ITEM_GROUP.get(CONSUMABLES_KEY)
     @JvmStatic val HELD_ITEMS get() = Registries.ITEM_GROUP.get(HELD_ITEMS_KEY)
     @JvmStatic val EVOLUTION_ITEMS get() = Registries.ITEM_GROUP.get(EVOLUTION_ITEMS_KEY)
+    @JvmStatic val TECHNICAL_MACHINES get() = Registries.ITEM_GROUP.get(TECHNICAL_MACHINES_KEY)
 
     @JvmStatic val FOOD_INJECTIONS = this.inject(RegistryKey.of(Registries.ITEM_GROUP.key, Identifier("food_and_drinks")), this::foodInjections)
     @JvmStatic val TOOLS_AND_UTILITIES_INJECTIONS = this.inject(RegistryKey.of(Registries.ITEM_GROUP.key, Identifier("tools_and_utilities")), this::toolsAndUtilitiesInjections)
@@ -74,6 +77,16 @@ object CobblemonItemGroups {
     private fun inject(key: RegistryKey<ItemGroup>, consumer: (injector: Injector) -> Unit): (injector: Injector) -> Unit {
         this.INJECTORS[key] = consumer
         return consumer
+    }
+
+    private fun technicalMachineEntries(displayContext: DisplayContext, entries: Entries) {
+        entries.add(CobblemonItems.BLANK_TM)
+        for (tm in TechnicalMachines.tmMap) {
+            val item = CobblemonItems.TECHNICAL_MACHINE.setNbt(
+                CobblemonItems.TECHNICAL_MACHINE.defaultStack,
+                tm.key.toString())
+            entries.add(item)
+        }
     }
 
     private fun agricultureEntries(displayContext: DisplayContext, entries: Entries) {
@@ -217,6 +230,7 @@ object CobblemonItemGroups {
         entries.add(CobblemonItems.FOSSIL_ANALYZER)
         entries.add(CobblemonItems.MONITOR)
         entries.add(CobblemonItems.PC)
+        entries.add(CobblemonItems.TM_MACHINE)
         entries.add(CobblemonItems.HEALING_MACHINE)
         entries.add(CobblemonItems.PASTURE)
 

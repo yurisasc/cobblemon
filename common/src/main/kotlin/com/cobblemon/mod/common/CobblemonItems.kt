@@ -258,6 +258,7 @@ object CobblemonItems : PlatformRegistry<Registry<Item>, RegistryKey<Registry<It
     val HEALING_MACHINE = blockItem("healing_machine", CobblemonBlocks.HEALING_MACHINE)
     @JvmField
     val PC = blockItem("pc", CobblemonBlocks.PC)
+    val TM_MACHINE = blockItem("tm_machine", CobblemonBlocks.TM_MACHINE)
     @JvmField
     val PASTURE = blockItem("pasture", CobblemonBlocks.PASTURE)
     @JvmField
@@ -867,6 +868,10 @@ object CobblemonItems : PlatformRegistry<Registry<Item>, RegistryKey<Registry<It
     val RELIC_COIN_POUCH = blockItem("relic_coin_pouch", CobblemonBlocks.RELIC_COIN_POUCH)
     @JvmField
     val RELIC_COIN_SACK = blockItem("relic_coin_sack", CobblemonBlocks.RELIC_COIN_SACK)
+    @JvmField
+    val TECHNICAL_MACHINE = this.create("technical_machine", TechnicalMachineItem(Item.Settings()))
+    @JvmField
+    val BLANK_TM = this.create("blank_tm", CobblemonItem(Item.Settings()))
 
     // Type Gems
     @JvmField

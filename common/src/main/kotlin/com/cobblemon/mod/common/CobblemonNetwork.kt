@@ -43,6 +43,8 @@ import com.cobblemon.mod.common.client.net.dialogue.DialogueClosedHandler
 import com.cobblemon.mod.common.client.net.dialogue.DialogueOpenedHandler
 import com.cobblemon.mod.common.client.net.effect.SpawnSnowstormEntityParticleHandler
 import com.cobblemon.mod.common.client.net.effect.SpawnSnowstormParticleHandler
+import com.cobblemon.mod.common.client.net.gui.CraftBlankTMPacketHandler
+import com.cobblemon.mod.common.client.net.gui.CraftTMPacketHandler
 import com.cobblemon.mod.common.client.net.gui.InteractPokemonUIPacketHandler
 import com.cobblemon.mod.common.client.net.gui.SummaryUIPacketHandler
 import com.cobblemon.mod.common.client.net.pasture.ClosePastureHandler
@@ -131,6 +133,8 @@ import com.cobblemon.mod.common.net.messages.client.trade.TradeOfferExpiredPacke
 import com.cobblemon.mod.common.net.messages.client.trade.TradeOfferNotificationPacket
 import com.cobblemon.mod.common.net.messages.client.trade.TradeStartedPacket
 import com.cobblemon.mod.common.net.messages.client.trade.TradeUpdatedPacket
+import com.cobblemon.mod.common.net.messages.client.ui.CraftBlankTMPacket
+import com.cobblemon.mod.common.net.messages.client.ui.CraftTMPacket
 import com.cobblemon.mod.common.net.messages.client.ui.InteractPokemonUIPacket
 import com.cobblemon.mod.common.net.messages.client.ui.SummaryUIPacket
 import com.cobblemon.mod.common.net.messages.server.*
@@ -431,6 +435,10 @@ object CobblemonNetwork : NetworkManager {
         // Party move select packets
         this.createServerBound(PartyPokemonMoveSelectedPacket.ID, PartyPokemonMoveSelectedPacket::decode, PartyPokemonMoveSelectedHandler)
         this.createServerBound(PartyMoveSelectCancelledPacket.ID, PartyMoveSelectCancelledPacket::decode, PartyMoveSelectCancelledHandler)
+
+        // TM Machine packets
+        this.createServerBound(CraftTMPacket.ID, CraftTMPacket::decode, CraftTMPacketHandler)
+        this.createServerBound(CraftBlankTMPacket.ID, CraftBlankTMPacket::decode, CraftBlankTMPacketHandler)
 
         // Dialogue packets
         this.createServerBound(EscapeDialoguePacket.ID, EscapeDialoguePacket::decode, EscapeDialogueHandler)

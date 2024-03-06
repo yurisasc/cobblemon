@@ -19,6 +19,9 @@ import com.cobblemon.mod.common.api.scheduling.ServerTaskTracker
 import com.cobblemon.mod.common.api.scheduling.taskBuilder
 import com.cobblemon.mod.common.api.text.green
 import com.cobblemon.mod.common.api.text.red
+import com.cobblemon.mod.common.api.text.text
+import com.cobblemon.mod.common.api.tms.TechnicalMachine
+import com.cobblemon.mod.common.api.tms.TechnicalMachines
 import com.cobblemon.mod.common.battles.BattleFormat
 import com.cobblemon.mod.common.battles.BattleRegistry
 import com.cobblemon.mod.common.battles.BattleSide
@@ -60,7 +63,12 @@ object TestCommand {
             return Command.SINGLE_SUCCESS
         }
 
+        for (id in Cobblemon.playerData.get(context.source.playerOrThrow).tmSet) {
+            context.source.player?.sendMessage(TechnicalMachines.tmMap[id]?.translatedMoveName())
+        }
+
         try {
+            filter(context)
 //            readBerryDataFromCSV()
 
 //            this.testClosestBattle(context)
@@ -107,6 +115,12 @@ object TestCommand {
 
     var trade: ActiveTrade? = null
     var lastDebugId = 0
+
+    private fun filter(context: CommandContext<ServerCommandSource>) {
+        val tms = TechnicalMachine.filterTms("fire", null, null)
+        println(context.source.playerOrThrow.party().get(1)?.getDisplayName())
+        tms.forEach { context.source.playerOrThrow.sendMessage(it.moveName.text()) }
+    }
 
     private fun testClosestBattle(context: CommandContext<ServerCommandSource>) {
         val player = context.source.playerOrThrow

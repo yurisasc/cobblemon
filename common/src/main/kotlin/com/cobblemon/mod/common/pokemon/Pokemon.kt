@@ -1398,11 +1398,18 @@ open class Pokemon : ShowdownIdentifiable {
 
         val newLevelUpMoves = form.moves.getLevelUpMovesUpTo(newLevel)
         val differences = (newLevelUpMoves - previousLevelUpMoves).filter { this.moveSet.none { move -> move.template == it } }.toMutableSet()
-        differences.forEach {
-            if (moveSet.hasSpace()) {
-                moveSet.add(it.create())
-            }
-        }
+//        differences.forEach {
+//            TechnicalMachines.tmsToCheckOnLevelUp.entries.filter { entry ->
+//                entry.value.moveName == it.name
+//            }.forEach { entry ->
+//                val player = this.getOwnerPlayer() as PlayerEntity
+//                Cobblemon.playerData.get(player).tmSet.add(entry.key)
+//                player.sendMessage(lang("tms.unlock_tm", lang("move." + entry.value.moveName)))
+//            }
+//            if (moveSet.hasSpace()) {
+//                moveSet.add(it.create())
+//            }
+//        }
 
         CobblemonEvents.EXPERIENCE_GAINED_EVENT_POST.post(
             ExperienceGainedPostEvent(this, source, appliedXP, oldLevel, newLevel, differences),

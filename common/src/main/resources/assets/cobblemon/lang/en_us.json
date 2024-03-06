@@ -109,6 +109,8 @@
   "item.cobblemon.sun_stone": "Sun Stone",
   "item.cobblemon.thunder_stone": "Thunder Stone",
   "item.cobblemon.water_stone": "Water Stone",
+  "item.cobblemon.technical_machine": "Technical Machine",
+  "item.cobblemon.blank_tm": "Blank TM",
 
   "item.cobblemon.rare_candy": "Rare Candy",
   "item.cobblemon.exp_candy_xs": "Exp. Candy XS",
@@ -402,11 +404,12 @@
   "cobblemon.fossilmachine.protected": "This fossil belongs to %s!",
 
   "itemGroup.cobblemon.blocks": "Blocks",
-  "itemGroup.cobblemon.pokeball": "Poké Balls",
+  "itemGroup.cobblemon.pokeball": "Tools",
   "itemGroup.cobblemon.agriculture": "Agriculture",
   "itemGroup.cobblemon.consumables": "Consumables",
   "itemGroup.cobblemon.held_item": "Held Items",
   "itemGroup.cobblemon.evolution_item": "Evolution Items",
+  "itemGroup.cobblemon.technical_machines": "Technical Machines",
   "itemGroup.cobblemon.archaeology": "Archaeology",
 
   "block.cobblemon.apricorn_log": "Apricorn Log",
@@ -458,6 +461,7 @@
   "block.cobblemon.green_gilded_chest": "Green Gilded Chest",
   "block.cobblemon.white_gilded_chest": "White Gilded Chest",
   "block.cobblemon.display_case": "Display Case",
+  "block.cobblemon.tm_machine": "TM Machine",
 
   "block.cobblemon.small_budding_tumblestone": "Small Tumblestone Bud",
   "block.cobblemon.medium_budding_tumblestone": "Medium Tumblestone Bud",
@@ -505,6 +509,15 @@
   "cobblemon.ui.moves.switch": "Switch Move",
   "cobblemon.ui.moves.pp": "%1$sPP",
 
+  "cobblemon.tms.unknown_move": "Unknown Move",
+  "cobblemon.tms.already_known": "%1$s already knows %2$s!",
+  "cobblemon.tms.teach_move": "%1$s learned %2$s!",
+  "cobblemon.tms.cannot_learn": "%1$s cannot learn %2$s!",
+  "cobblemon.tms.unlock_tm": "You unlocked the %1$s TM!",
+
+  "cobblemon.ui.tms.material_cost": "Material Cost",
+  "cobblemon.ui.tms.blank_tm_desc": "A blank disc used for crafting Technical Machines.",
+
   "cobblemon.ui.stats": "Stats",
   "cobblemon.ui.stats.stat": "Stat",
   "cobblemon.ui.stats.base": "Base",
@@ -542,6 +555,8 @@
   "cobblemon.ui.party": "Party",
   "cobblemon.ui.power": "Power",
   "cobblemon.ui.accuracy": "Accuracy",
+  "cobblemon.ui.accuracy_short": "Acc.",
+  "cobblemon.ui.pp": "PP",
   "cobblemon.ui.effect": "Effect",
   "cobblemon.ui.pokemon": "Pokémon",
   "cobblemon.ui.exit": "Exit",
@@ -566,6 +581,13 @@
   "key.cobblemon.pokenavigator": "Open PokéNav",
   "key.cobblemon.summary": "Open Summary",
   "key.cobblemon.categories.cobblemon": "Cobblemon",
+
+  "cobblemon.subtitle.capture_succeeded": "Capture Succeeded!",
+  "cobblemon.subtitle.tm.use": "Technical Machine used",
+  "cobblemon.subtitle.tmm.craft": "TM Machine prints TM",
+  "cobblemon.subtitle.tmm.craft_blank": "TM Machine crafts blank TM",
+  "cobblemon.subtitle.tmm.off": "TM Machine deactivates",
+  "cobblemon.subtitle.tmm.on": "TM Machine activates",
 
   "cobblemon.subtitle.poke_ball.capture_succeeded": "Poké Ball capture succeeds",
   "cobblemon.subtitle.fossilmachine.activate": "Restoration Machine activates",

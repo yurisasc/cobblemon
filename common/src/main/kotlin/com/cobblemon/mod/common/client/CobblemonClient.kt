@@ -18,9 +18,11 @@ import com.cobblemon.mod.common.CobblemonEntities
 import com.cobblemon.mod.common.CobblemonItems
 import com.cobblemon.mod.common.api.scheduling.ClientTaskTracker
 import com.cobblemon.mod.common.api.text.gray
+import com.cobblemon.mod.common.api.types.ElementalTypes
 import com.cobblemon.mod.common.client.battle.ClientBattle
 import com.cobblemon.mod.common.client.gui.PartyOverlay
 import com.cobblemon.mod.common.client.gui.battle.BattleOverlay
+import com.cobblemon.mod.common.client.gui.tm.TMMHandledScreen
 import com.cobblemon.mod.common.client.particle.BedrockParticleEffectRepository
 import com.cobblemon.mod.common.client.render.block.BerryBlockRenderer
 import com.cobblemon.mod.common.client.render.block.FossilAnalyzerRenderer
@@ -28,6 +30,7 @@ import com.cobblemon.mod.common.client.render.block.RestorationTankRenderer
 import com.cobblemon.mod.common.client.render.block.GildedChestBlockRenderer
 import com.cobblemon.mod.common.client.render.block.HealingMachineRenderer
 import com.cobblemon.mod.common.client.render.block.*
+import com.cobblemon.mod.common.client.render.block.TMBlockRenderer
 import com.cobblemon.mod.common.client.render.boat.CobblemonBoatRenderer
 import com.cobblemon.mod.common.client.render.generic.GenericBedrockRenderer
 import com.cobblemon.mod.common.client.render.item.CobblemonBuiltinItemRendererRegistry
@@ -46,14 +49,19 @@ import com.cobblemon.mod.common.client.storage.ClientStorageManager
 import com.cobblemon.mod.common.client.trade.ClientTrade
 import com.cobblemon.mod.common.data.CobblemonDataProvider
 import com.cobblemon.mod.common.entity.boat.CobblemonBoatType
+import com.cobblemon.mod.common.gui.CobblemonScreenHandlers
 import com.cobblemon.mod.common.item.PokeBallItem
+import com.cobblemon.mod.common.item.TechnicalMachineItem
 import com.cobblemon.mod.common.client.render.models.blockbench.repository.FossilModelRepository
 import com.cobblemon.mod.common.client.render.models.blockbench.repository.GenericBedrockEntityModelRepository
 import com.cobblemon.mod.common.client.render.models.blockbench.repository.MiscModelRepository
 import com.cobblemon.mod.common.platform.events.PlatformEvents
 import com.cobblemon.mod.common.util.DataKeys
 import com.cobblemon.mod.common.util.asTranslated
+import net.minecraft.client.color.block.BlockColorProvider
+import net.minecraft.client.color.item.ItemColorProvider
 import net.minecraft.client.gui.DrawContext
+import net.minecraft.client.gui.screen.ingame.HandledScreens
 import net.minecraft.client.render.RenderLayer
 import net.minecraft.client.render.block.entity.HangingSignBlockEntityRenderer
 import net.minecraft.client.render.block.entity.SignBlockEntityRenderer
@@ -107,9 +115,10 @@ object CobblemonClient {
 
         this.registerBlockEntityRenderers()
         registerBlockRenderTypes()
-        //registerColors()
+        registerColors()
         registerFlywheelRenderers()
         this.registerEntityRenderers()
+        registerHandledScreens()
         Berries.observable.subscribe {
             BerryModelRepository.patchModels()
         }
@@ -149,20 +158,23 @@ object CobblemonClient {
 //            .apply()
     }
 
-    /*
     fun registerColors() {
         this.implementation.registerBlockColors(BlockColorProvider { _, _, _, _ ->
             return@BlockColorProvider 0xE0A33A
         }, CobblemonBlocks.APRICORN_LEAVES)
-        this.implementation.registerItemColors(ItemColorProvider { _, _ ->
+
+        this.implementation.registerItemColors(ItemColorProvider { stack, tint ->
             return@ItemColorProvider 0xE0A33A
-        }, CobblemonItems.APRICORN_LEAVES)
+        }, CobblemonItems.TECHNICAL_MACHINE)
+
+        this.implementation.registerItemColors(TechnicalMachineItem::getItemColor, CobblemonItems.TECHNICAL_MACHINE)
     }
-    */
 
     private fun registerBlockRenderTypes() {
 
         this.implementation.registerBlockRenderType(RenderLayer.getCutoutMipped(), CobblemonBlocks.APRICORN_LEAVES)
+
+        this.implementation.registerBlockRenderType(RenderLayer.getTranslucent(), CobblemonBlocks.TM_MACHINE)
 
         this.implementation.registerBlockRenderType(
             RenderLayer.getCutout(),
@@ -251,6 +263,7 @@ object CobblemonClient {
         this.implementation.registerBlockEntityRenderer(CobblemonBlockEntities.HANGING_SIGN, ::HangingSignBlockEntityRenderer)
         this.implementation.registerBlockEntityRenderer(CobblemonBlockEntities.FOSSIL_ANALYZER, ::FossilAnalyzerRenderer)
         this.implementation.registerBlockEntityRenderer(CobblemonBlockEntities.RESTORATION_TANK, ::RestorationTankRenderer)
+        this.implementation.registerBlockEntityRenderer(CobblemonBlockEntities.TM_BLOCK, ::TMBlockRenderer)
         this.implementation.registerBlockEntityRenderer(CobblemonBlockEntities.GILDED_CHEST, ::GildedChestBlockRenderer)
         this.implementation.registerBlockEntityRenderer(CobblemonBlockEntities.DISPLAY_CASE, ::DisplayCaseRenderer)
     }
@@ -304,6 +317,13 @@ object CobblemonClient {
             this.implementation.registerLayer(CobblemonBoatRenderer.createBoatModelLayer(type, false), BoatEntityModel::getTexturedModelData)
             this.implementation.registerLayer(CobblemonBoatRenderer.createBoatModelLayer(type, true), ChestBoatEntityModel::getTexturedModelData)
         }
+    }
+
+    private fun registerHandledScreens() {
+        HandledScreens.register(
+            CobblemonScreenHandlers.TMM_SCREEN,
+            ::TMMHandledScreen
+        )
     }
 
 }

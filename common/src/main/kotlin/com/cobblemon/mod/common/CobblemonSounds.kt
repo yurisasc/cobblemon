@@ -240,6 +240,19 @@ object CobblemonSounds : PlatformRegistry<Registry<SoundEvent>, RegistryKey<Regi
         TUMBLESTONE_HIT,
         TUMBLESTONE_STEP
     )
+    @JvmField
+    val TM_USE = this.create("tm.use")
+    @JvmField
+    val TMM_CRAFT = this.create("tmm.craft")
+    @JvmField
+    val TMM_CRAFT_BLANK = this.create("tmm.craft_blank")
+    @JvmField
+    val TMM_OFF = this.create("tmm.off")
+    @JvmField
+    val TMM_ON = this.create("tmm.on")
+
+    @JvmField
+    val TYPE_GEM_SOUNDS = TUMBLESTONE_BLOCK_SOUNDS
 
     @JvmField
     val BERRY_BUSH_SOUNDS = BlockSoundGroup(1f, 1f,

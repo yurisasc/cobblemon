@@ -90,6 +90,8 @@ transitive-accessible method net/minecraft/client/texture/SpriteAtlasHolder getS
 transitive-accessible field net/minecraft/client/texture/SpriteAtlasHolder atlas Lnet/minecraft/client/texture/SpriteAtlasTexture;
 transitive-accessible field net/minecraft/client/texture/SpriteAtlasTexture width I
 transitive-accessible field net/minecraft/client/texture/SpriteAtlasTexture height I
+transitive-accessible class net/minecraft/screen/ScreenHandlerType$Factory
+transitive-accessible method net/minecraft/client/gui/screen/ingame/HandledScreens register (Lnet/minecraft/screen/ScreenHandlerType;Lnet/minecraft/client/gui/screen/ingame/HandledScreens$Provider;)V
 
 transitive-accessible method net/minecraft/entity/ai/brain/Activity register (Ljava/lang/String;)Lnet/minecraft/entity/ai/brain/Activity;
 transitive-accessible field net/minecraft/client/model/ModelPart$Cuboid sides [Lnet/minecraft/client/model/ModelPart$Quad;

@@ -10,6 +10,8 @@ package com.cobblemon.mod.common.api.storage.player.adapter
 
 import com.cobblemon.mod.common.api.storage.player.PlayerData
 import com.cobblemon.mod.common.api.storage.player.PlayerDataExtension
+import com.cobblemon.mod.common.api.tms.ObtainMethod
+import com.cobblemon.mod.common.util.adapters.CobblemonObtainMethodAdapter
 import com.cobblemon.mod.common.util.adapters.IdentifierAdapter
 import com.cobblemon.mod.common.util.fromJson
 import com.google.gson.GsonBuilder
@@ -31,6 +33,7 @@ class JsonPlayerData: PlayerDataStoreAdapter {
             .setPrettyPrinting()
             .disableHtmlEscaping()
             .registerTypeAdapter(PlayerDataExtension::class.java, PlayerDataExtensionAdapter)
+            .registerTypeAdapter(ObtainMethod::class.java, CobblemonObtainMethodAdapter)
             .registerTypeAdapter(Identifier::class.java, IdentifierAdapter)
             .create()
     }

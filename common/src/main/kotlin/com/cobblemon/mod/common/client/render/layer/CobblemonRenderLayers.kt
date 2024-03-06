@@ -40,6 +40,27 @@ object CobblemonRenderLayers {
             multiPhaseParameters
         )
     }
+    val TM_BLOCK_LAYER = run {
+        val multiPhaseParameters = RenderLayer.MultiPhaseParameters.builder()
+            .lightmap(ENABLE_LIGHTMAP)
+            .program(CUTOUT_PROGRAM)
+            .texture(Texture(
+                cobblemonResource("textures/misc/tm_machine"),
+                false,
+                true
+            ))
+            .cull(DISABLE_CULLING)
+            .build(true)
+        RenderLayer.of(
+            "tm_block",
+            VertexFormats.POSITION_COLOR_TEXTURE_LIGHT_NORMAL,
+            VertexFormat.DrawMode.QUADS,
+            512,
+            true,
+            false,
+            multiPhaseParameters
+        )
+    }
 
     val ENTITY_TRANSLUCENT: BiFunction<Identifier, Boolean, RenderLayer> = Util.memoize { texture: Identifier, affectsOutline: kotlin.Boolean ->
         var multiPhaseParameters: RenderLayer.MultiPhaseParameters =

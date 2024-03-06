@@ -385,6 +385,17 @@ object CobblemonBlocks : PlatformRegistry<Registry<Block>, RegistryKey<Registry<
                 .luminance { if ((it.get(PCBlock.ON) as Boolean) && (it.get(PCBlock.PART) == PCBlock.PCPart.TOP)) 10 else 0 }
         )
     )
+    val TM_MACHINE = create(
+        "tm_machine",
+        TMBlock(
+            AbstractBlock.Settings.create()
+                .mapColor(MapColor.GREEN)
+                .sounds(BlockSoundGroup.METAL)
+                .pistonBehavior(PistonBehavior.BLOCK)
+                .nonOpaque()
+                .luminance { if (it.get(TMBlock.ON) as Boolean) 10 else 0 }
+        )
+    )
 
     @JvmField
     val DISPLAY_CASE = create(
@@ -432,6 +443,67 @@ object CobblemonBlocks : PlatformRegistry<Registry<Block>, RegistryKey<Registry<
     @JvmField
     val POTTED_PEP_UP_FLOWER = this.create("potted_pep_up_flower", BlocksInvoker.createFlowerPotBlock(PEP_UP_FLOWER))
 
+    @JvmField
+    val NORMAL_TYPE_GEM_BLOCK = this.create("normal_type_gem_block", Block(AbstractBlock.Settings.copy(Blocks.AMETHYST_BLOCK)))
+    @JvmField
+    val NORMAL_TYPE_GEM = typeGem(
+        "normal_type_gem",
+        GrowableStoneBlock.STAGE_3,
+        7,
+        3,
+        null,
+        NORMAL_TYPE_GEM_BLOCK
+    )
+    @JvmField
+    val LARGE_BUDDING_NORMAL_TYPE_GEM = typeGem(
+        "large_budding_normal_type_gem",
+        GrowableStoneBlock.STAGE_2,
+        5,
+        3,
+        NORMAL_TYPE_GEM,
+        NORMAL_TYPE_GEM_BLOCK
+    )
+    @JvmField
+    val MEDIUM_BUDDING_NORMAL_TYPE_GEM = typeGem(
+        "medium_budding_normal_type_gem",
+        GrowableStoneBlock.STAGE_1,
+        4,
+        3,
+        LARGE_BUDDING_NORMAL_TYPE_GEM,
+        NORMAL_TYPE_GEM_BLOCK
+    )
+    @JvmField
+    val SMALL_BUDDING_NORMAL_TYPE_GEM = typeGem(
+        "small_budding_normal_type_gem",
+        GrowableStoneBlock.STAGE_0,
+        3,
+        4,
+        MEDIUM_BUDDING_NORMAL_TYPE_GEM,
+        NORMAL_TYPE_GEM_BLOCK
+    )
+
+    private fun typeGem(
+        name: String,
+        stage: Int,
+        height: Int,
+        xzOffset: Int,
+        nextStage: Block?,
+        baseBlock: Block
+    ): TypeGemBlock {
+        return this.create(name, TypeGemBlock(
+            settings = AbstractBlock.Settings.create()
+                .pistonBehavior(PistonBehavior.DESTROY)
+                .nonOpaque()
+                .strength(1.5F)
+                .sounds(CobblemonSounds.TYPE_GEM_SOUNDS),
+            stage = stage,
+            height = height,
+            xzOffset = xzOffset,
+            nextStage = nextStage,
+            baseBlock = baseBlock
+        ))
+    }
+
     /**
      * Returns a map of all the blocks that can be stripped with an axe in the format of input - output.
      *
@@ -441,8 +513,6 @@ object CobblemonBlocks : PlatformRegistry<Registry<Block>, RegistryKey<Registry<
         APRICORN_WOOD to STRIPPED_APRICORN_WOOD,
         APRICORN_LOG to STRIPPED_APRICORN_LOG
     )
-
-
 
     private fun apricornBlock(name: String, apricorn: Apricorn): ApricornBlock = this.create(name, ApricornBlock(AbstractBlock.Settings.create().mapColor(apricorn.mapColor()).ticksRandomly().strength(Blocks.OAK_LOG.hardness, Blocks.OAK_LOG.blastResistance).sounds(BlockSoundGroup.WOOD).nonOpaque(), apricorn))
 
