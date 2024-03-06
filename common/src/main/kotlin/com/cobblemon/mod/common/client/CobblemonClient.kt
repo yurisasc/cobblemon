@@ -22,6 +22,7 @@ import com.cobblemon.mod.common.api.types.ElementalTypes
 import com.cobblemon.mod.common.client.battle.ClientBattle
 import com.cobblemon.mod.common.client.gui.PartyOverlay
 import com.cobblemon.mod.common.client.gui.battle.BattleOverlay
+import com.cobblemon.mod.common.client.gui.modstation.ModStationHandledScreen
 import com.cobblemon.mod.common.client.gui.tm.TMMHandledScreen
 import com.cobblemon.mod.common.client.particle.BedrockParticleEffectRepository
 import com.cobblemon.mod.common.client.render.block.BerryBlockRenderer
@@ -323,6 +324,10 @@ object CobblemonClient {
         HandledScreens.register(
             CobblemonScreenHandlers.TMM_SCREEN,
             ::TMMHandledScreen
+        )
+        HandledScreens.register(
+            CobblemonScreenHandlers.MOD_STATION_SCREEN,
+            ::ModStationHandledScreen
         )
     }
 

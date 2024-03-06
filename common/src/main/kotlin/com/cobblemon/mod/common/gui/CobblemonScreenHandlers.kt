@@ -13,6 +13,7 @@ import net.minecraft.util.Identifier
 
 object CobblemonScreenHandlers {
     val TMM_SCREEN = register(cobblemonResource("tmm_screen"), ::TMMScreenHandler)
+    val MOD_STATION_SCREEN = register(cobblemonResource("mod_station_screen"), ::ModStationScreenHandler)
 
     fun <T : ScreenHandler> register(identifier: Identifier, factory: Factory<T>): ScreenHandlerType<T> {
 

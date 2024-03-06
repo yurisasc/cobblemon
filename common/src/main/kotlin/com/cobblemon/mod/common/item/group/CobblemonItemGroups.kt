@@ -233,6 +233,7 @@ object CobblemonItemGroups {
         entries.add(CobblemonItems.TM_MACHINE)
         entries.add(CobblemonItems.HEALING_MACHINE)
         entries.add(CobblemonItems.PASTURE)
+        entries.add(CobblemonItems.MOD_STATION)
 
         entries.add(CobblemonItems.GILDED_CHEST)
         entries.add(CobblemonItems.YELLOW_GILDED_CHEST)

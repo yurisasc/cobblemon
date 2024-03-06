@@ -410,6 +410,19 @@ object CobblemonBlocks : PlatformRegistry<Registry<Block>, RegistryKey<Registry<
         )
     )
 
+    @JvmField
+    val MODIFICATION_STATION = create(
+        "modification_station",
+        ModStationBlock(
+            AbstractBlock.Settings.create()
+                .sounds(BlockSoundGroup.WOOD)
+                .nonOpaque()
+                .pistonBehavior(PistonBehavior.BLOCK)
+                .mapColor(MapColor.BROWN)
+                .strength(0.3f)
+        )
+    )
+
     val RED_MINT = create("red_mint", MintBlock(MintType.RED, AbstractBlock.Settings.create().mapColor(MapColor.RED).noCollision().ticksRandomly().breakInstantly().sounds(CobblemonSounds.MINT_SOUNDS)))
     @JvmField
     val BLUE_MINT = create("blue_mint", MintBlock(MintType.BLUE, AbstractBlock.Settings.create().mapColor(MapColor.BLUE).noCollision().ticksRandomly().breakInstantly().sounds(CobblemonSounds.MINT_SOUNDS)))
