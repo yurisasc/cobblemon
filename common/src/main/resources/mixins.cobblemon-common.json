@@ -7,18 +7,19 @@
     "BuiltinModelItemRendererMixin",
     "EntityRenderDispatcherMixin",
     "GameRendererMixin",
+    "ModelLoaderMixin",
     "ModelPartMixin",
-    "ParticleManagerMixin",
     "MusicTrackerMixin",
+    "ParticleManagerMixin",
     "PartyScrollMixin",
     "SoundManagerMixin",
     "SoundSystemMixin",
     "accessor.KeyBindingAccessor",
     "invoker.ClientPlayNetworkHandlerInvoker",
-    "pokeball.ItemRendererMixin",
-    "ModelLoaderMixin"
+    "pokeball.ItemRendererMixin"
   ],
   "mixins": [
+    "CrashReportMixin",
     "DecoratedPotPatternsMixin",
     "EntityVillagerMixin",
     "ExplosionMixin",
@@ -43,10 +44,7 @@
     "invoker.PressurePlateBlockInvoker",
     "invoker.StairsBlockInvoker",
     "invoker.TrapdoorBlockInvoker",
-    "pokeball.ThrownEntityMixin",
-    "StructurePoolGeneratorMixin",
-    "StructurePoolAccessor",
-    "StructureProcessorListMixin"
+    "pokeball.ThrownEntityMixin"
   ],
   "injectors": {
     "defaultRequire": 1
