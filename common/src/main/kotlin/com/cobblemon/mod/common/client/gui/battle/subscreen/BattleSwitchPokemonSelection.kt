@@ -32,7 +32,7 @@ class BattleSwitchPokemonSelection(
     battleGUI,
     request,
     x = 12,
-    y = ceil((MinecraftClient.getInstance().window.scaledHeight / 2) - (((SWITCH_TILE_HEIGHT * 3) + (SWITCH_TILE_VERTICAL_SPACING * 2)) / 2)),
+    y = ceil(SWITCH_TILE_HEIGHT*(CobblemonClient.battle?.battleFormat?.battleType?.pokemonPerSide ?: 1) + (SWITCH_TILE_VERTICAL_SPACING * 3)),
     width = 250,
     height = 100,
     battleLang("switch_pokemon")
