@@ -18,6 +18,7 @@
 - Added 6 Pokémon-themed Pottery Sherds, obtained from ruin structures.
 - Added a Pokémon-themed armor trim, obtained from ruin structures.
 - You can now find Nether Fire Stone Ore in, surprisingly, the Nether.
+- You'll also find Terracotta Sun Stone Ore in Badlands biomes.
 - Added effects for many Poké Balls when sending out Pokémon or capturing.
 - Added a new send-out ball toss animation that showcases the ball used for the Pokémon.
 - Added simple move animations for Pokémon in battle with a proof of concept for more complicated animations.

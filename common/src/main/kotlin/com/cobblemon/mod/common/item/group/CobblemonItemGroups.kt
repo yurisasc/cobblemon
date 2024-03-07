@@ -271,6 +271,7 @@ object CobblemonItemGroups {
         entries.add(CobblemonItems.DEEPSLATE_SHINY_STONE_ORE)
         entries.add(CobblemonItems.SUN_STONE_ORE)
         entries.add(CobblemonItems.DEEPSLATE_SUN_STONE_ORE)
+        entries.add(CobblemonItems.TERRACOTTA_SUN_STONE_ORE)
         entries.add(CobblemonItems.THUNDER_STONE_ORE)
         entries.add(CobblemonItems.DEEPSLATE_THUNDER_STONE_ORE)
         entries.add(CobblemonItems.WATER_STONE_ORE)
