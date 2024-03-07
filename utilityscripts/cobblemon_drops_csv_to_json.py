@@ -84,7 +84,7 @@ def get_drops_df():
 
 def modify_files(file, pokemon_data_dir, drops_df):
 
-    with open(pokemon_data_dir + "/" + file, 'r', encoding="utf8") as f:
+    with open(pokemon_data_dir + "/" + file, 'r', encoding="utf-8-sig") as f:
         data = json.load(f)
 
     for _, row in drops_df.iterrows():
@@ -123,7 +123,7 @@ def modify_files(file, pokemon_data_dir, drops_df):
                 else:
                     no_form_entry_files.append(f'{pokemon} [{pokemon_form}]')
 
-    with open(pokemon_data_dir + "/" + file, 'w', encoding="utf8") as f:
+    with open(pokemon_data_dir + "/" + file, 'w', encoding="utf-8") as f:
         json.dump(data, f, ensure_ascii=False, indent=2)
 
 

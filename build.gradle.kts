@@ -9,5 +9,5 @@ version = "${project.property("mod_version")}+${project.property("mc_version")}"
 
 val isSnapshot = project.property("snapshot")?.equals("true") ?: false
 if (isSnapshot) {
-    version = "$version-SNAPSHOT-${versioning.info.branch}-${versioning.info.build}"
+    version = "$version-${versioning.info.branch}-${versioning.info.build}-SNAPSHOT"
 }

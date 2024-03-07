@@ -16,9 +16,13 @@ import com.cobblemon.mod.common.api.net.Encodable
 import com.cobblemon.mod.common.api.pokeball.PokeBalls
 import com.cobblemon.mod.common.api.pokemon.Natures
 import com.cobblemon.mod.common.api.pokemon.PokemonSpecies
+import com.cobblemon.mod.common.api.pokemon.feature.SpeciesFeatures
+import com.cobblemon.mod.common.api.pokemon.feature.SynchronizedSpeciesFeature
+import com.cobblemon.mod.common.api.pokemon.feature.SynchronizedSpeciesFeatureProvider
 import com.cobblemon.mod.common.api.pokemon.status.Statuses
 import com.cobblemon.mod.common.api.types.ElementalTypes
 import com.cobblemon.mod.common.net.IntSize
+import com.cobblemon.mod.common.net.messages.client.pokemon.update.SpeciesFeatureUpdatePacket
 import com.cobblemon.mod.common.pokemon.*
 import com.cobblemon.mod.common.pokemon.activestate.PokemonState
 import com.cobblemon.mod.common.pokemon.status.PersistentStatus
@@ -71,6 +75,8 @@ class PokemonDTO : Encodable, Decodable {
     var dmaxLevel = 0
     var gmaxFactor = false
     var tradeable = true
+//    var features: List<SynchronizedSpeciesFeature> = emptyList()
+    lateinit var featuresBuffer: PacketByteBuf
     var originalTrainerType: OriginalTrainerType = OriginalTrainerType.NONE
     var originalTrainer: String? = null
     var originalTrainerName: String? = null
@@ -108,6 +114,15 @@ class PokemonDTO : Encodable, Decodable {
         this.dmaxLevel = pokemon.dmaxLevel
         this.gmaxFactor = pokemon.gmaxFactor
         this.tradeable = pokemon.tradeable
+        this.featuresBuffer = PacketByteBuf(Unpooled.buffer())
+        val visibleFeatures = pokemon.features
+            .filterIsInstance<SynchronizedSpeciesFeature>()
+            .filter { (SpeciesFeatures.getFeature(it.name)!! as SynchronizedSpeciesFeatureProvider<*>).visible }
+        featuresBuffer.writeCollection(visibleFeatures) { _, value ->
+            featuresBuffer.writeString(value.name)
+            value.encode(featuresBuffer)
+        }
+
         this.originalTrainerType = pokemon.originalTrainerType
         this.originalTrainer = pokemon.originalTrainer
         this.originalTrainerName = pokemon.originalTrainerName
@@ -148,6 +163,10 @@ class PokemonDTO : Encodable, Decodable {
         buffer.writeInt(dmaxLevel)
         buffer.writeBoolean(gmaxFactor)
         buffer.writeBoolean(tradeable)
+        val featureByteCount = featuresBuffer.readableBytes()
+        buffer.writeSizedInt(IntSize.U_SHORT, featureByteCount)
+        buffer.writeBytes(featuresBuffer)
+        featuresBuffer.release()
         buffer.writeString(originalTrainerType.name)
         buffer.writeNullable(originalTrainer) { _, v -> buffer.writeString(v) }
         buffer.writeNullable(originalTrainerName) { _, v -> buffer.writeString(v) }
@@ -189,6 +208,9 @@ class PokemonDTO : Encodable, Decodable {
         dmaxLevel = buffer.readInt()
         gmaxFactor = buffer.readBoolean()
         tradeable = buffer.readBoolean()
+
+        val featureBytesToRead = buffer.readSizedInt(IntSize.U_SHORT)
+        featuresBuffer = PacketByteBuf(buffer.readBytes(featureBytesToRead))
         originalTrainerType = OriginalTrainerType.valueOf(buffer.readString())
         originalTrainer = buffer.readNullable { buffer.readString() }
         originalTrainerName = buffer.readNullable { buffer.readString() }
@@ -241,6 +263,17 @@ class PokemonDTO : Encodable, Decodable {
             it.dmaxLevel = dmaxLevel
             it.gmaxFactor = gmaxFactor
             it.tradeable = tradeable
+            repeat(times = featuresBuffer.readSizedInt(IntSize.U_BYTE)) { _ ->
+                val species = PokemonSpecies.getByIdentifier(this.species)!!
+                val speciesFeatureName = featuresBuffer.readString()
+                val featureProviders = SpeciesFeatures
+                    .getFeaturesFor(species)
+                    .filterIsInstance<SynchronizedSpeciesFeatureProvider<*>>()
+                val feature = featureProviders.firstNotNullOfOrNull { it(featuresBuffer, speciesFeatureName) } as? SynchronizedSpeciesFeature
+                    ?: throw IllegalArgumentException("Couldn't find a feature provider to deserialize this feature. Something's wrong.")
+                it.features.removeIf { it.name == feature.name }
+                it.features.add(feature)
+            }
             when (originalTrainerType)
             {
                 OriginalTrainerType.NONE -> {

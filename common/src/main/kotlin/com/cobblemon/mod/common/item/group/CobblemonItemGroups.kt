@@ -142,10 +142,10 @@ object CobblemonItemGroups {
         entries.add(CobblemonItems.PLUME_FOSSIL)
         entries.add(CobblemonItems.JAW_FOSSIL)
         entries.add(CobblemonItems.SAIL_FOSSIL)
-        entries.add(CobblemonItems.BIRD_FOSSIL)
-        entries.add(CobblemonItems.FISH_FOSSIL)
-        entries.add(CobblemonItems.DRAKE_FOSSIL)
-        entries.add(CobblemonItems.DINO_FOSSIL)
+        entries.add(CobblemonItems.FOSSILIZED_BIRD)
+        entries.add(CobblemonItems.FOSSILIZED_FISH)
+        entries.add(CobblemonItems.FOSSILIZED_DRAKE)
+        entries.add(CobblemonItems.FOSSILIZED_DINO)
 
         entries.add(CobblemonItems.TUMBLESTONE)
         entries.add(CobblemonItems.BLACK_TUMBLESTONE)
@@ -180,6 +180,18 @@ object CobblemonItemGroups {
 
         entries.add(CobblemonItems.AUTOMATON_ARMOR_TRIM_SMITHING_TEMPLATE)
 
+        entries.add(CobblemonItems.RELIC_COIN)
+        entries.add(CobblemonItems.RELIC_COIN_POUCH)
+        entries.add(CobblemonItems.RELIC_COIN_SACK)
+        entries.add(CobblemonItems.GILDED_CHEST)
+        entries.add(CobblemonItems.YELLOW_GILDED_CHEST)
+        entries.add(CobblemonItems.GREEN_GILDED_CHEST)
+        entries.add(CobblemonItems.BLUE_GILDED_CHEST)
+        entries.add(CobblemonItems.PINK_GILDED_CHEST)
+        entries.add(CobblemonItems.BLACK_GILDED_CHEST)
+        entries.add(CobblemonItems.WHITE_GILDED_CHEST)
+        entries.add(CobblemonItems.GIMMIGHOUL_CHEST)
+
         entries.add(CobblemonItems.NORMAL_GEM)
         entries.add(CobblemonItems.FIRE_GEM)
         entries.add(CobblemonItems.WATER_GEM)
@@ -207,6 +219,19 @@ object CobblemonItemGroups {
         entries.add(CobblemonItems.PC)
         entries.add(CobblemonItems.HEALING_MACHINE)
         entries.add(CobblemonItems.PASTURE)
+
+        entries.add(CobblemonItems.GILDED_CHEST)
+        entries.add(CobblemonItems.YELLOW_GILDED_CHEST)
+        entries.add(CobblemonItems.GREEN_GILDED_CHEST)
+        entries.add(CobblemonItems.BLUE_GILDED_CHEST)
+        entries.add(CobblemonItems.PINK_GILDED_CHEST)
+        entries.add(CobblemonItems.BLACK_GILDED_CHEST)
+        entries.add(CobblemonItems.WHITE_GILDED_CHEST)
+        entries.add(CobblemonItems.GIMMIGHOUL_CHEST)
+        entries.add(CobblemonItems.RELIC_COIN_POUCH)
+        entries.add(CobblemonItems.RELIC_COIN_SACK)
+
+        entries.add(CobblemonItems.DISPLAY_CASE)
         entries.add(CobblemonItems.APRICORN_LOG)
         entries.add(CobblemonItems.APRICORN_WOOD)
         entries.add(CobblemonItems.STRIPPED_APRICORN_LOG)
@@ -339,6 +364,9 @@ object CobblemonItemGroups {
         entries.add(CobblemonItems.JOLLY_MINT)
         entries.add(CobblemonItems.NAIVE_MINT)
         entries.add(CobblemonItems.SERIOUS_MINT)
+
+        entries.add(CobblemonItems.ABILITY_CAPSULE)
+        entries.add(CobblemonItems.ABILITY_PATCH)
     }
 
     private fun evolutionItemEntries(displayContext: DisplayContext, entries: Entries) {
