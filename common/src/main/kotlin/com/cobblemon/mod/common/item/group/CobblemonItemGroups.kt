@@ -440,6 +440,7 @@ object CobblemonItemGroups {
         entries.add(CobblemonItems.QUICK_POWDER)
         entries.add(CobblemonItems.RAZOR_CLAW)
         entries.add(CobblemonItems.RAZOR_FANG)
+        entries.add(CobblemonItems.RING_TARGET)
         entries.add(CobblemonItems.ROCKY_HELMET)
         entries.add(CobblemonItems.SAFETY_GOGGLES)
         entries.add(CobblemonItems.SHARP_BEAK)
