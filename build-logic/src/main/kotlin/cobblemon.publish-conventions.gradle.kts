@@ -1,3 +1,6 @@
+import extensions.VersionType
+import extensions.writeVersion
+
 plugins {
     java
     `java-library`
@@ -31,7 +34,7 @@ publishing {
 
             groupId = "com.cobblemon"
             artifactId = project.findProperty("maven.artifactId")?.toString() ?: project.name
-            version = rootProject.version.toString()
+            version = project.writeVersion(VersionType.PUBLISHING)
         }
     }
 }
