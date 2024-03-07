@@ -22,7 +22,8 @@
 - Added simple move animations for Pokémon in battle with a proof of concept for more complicated animations.
 - Added the EV Boosting Feathers.
 - Added Type Gems. 
-- Added various new tags for searchability and better compatibility. 
+- Added various new tags for searchability and better compatibility.
+- Added new held items: Ability Shield, Absorb Bulb, Air Balloon, Binding Band, Blunder Policy, Cell Battery, Covert Cloak, Damp Rock, Eviolite, Expert Belt, Focus Sash, Heat Rock, Icy Rock, Iron Ball, Light Ball, Loaded Dice, Red Card, Shell Bell, Smooth Rock and Soothe Bell.
 
 ### Changes
 - Pokémon now transition more smoothly between different poses.
