@@ -40,7 +40,8 @@ def process_json_file(json_path, file_handle):
         tags = [entry['id'] if isinstance(entry, dict) and 'id' in entry else entry for entry in data.get('values', [])]
         tag_directory = os.path.basename(os.path.dirname(json_path))
         json_file_base = os.path.basename(json_path)
-        file_handle.write(f"\n*Tag:* #{tag_directory}:{json_file_base[:-5]}\n<details>\n<summary>Tags ▼</summary>\n\n")
+        # Adjusting this line to be the summary for the collapsible content
+        file_handle.write(f"\n<details>\n<summary><b>Tag:</b> #{tag_directory}:{json_file_base[:-5]}</summary>\n\n")
         for tag in tags:
             file_handle.write(f"- {tag}\n")
         file_handle.write("\n</details>\n")
