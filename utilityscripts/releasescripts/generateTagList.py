@@ -1,54 +1,60 @@
 import os
 import json
 
-# base paths relative to the script's location in utilityscripts/releasescripts
+# Define base paths relative to the script's location in utilityscripts/releasescripts
 base_paths = [
     "../../common/src/main/resources/data/cobblemon/tags",
     "../../common/src/main/resources/data/minecraft/tags"
 ]
 
-# Path to the output markdown file, relative to the script's location
-output_md_path = "../../docs/TagCollection.md"
+# Define output paths for each category, relative to the script's location
+output_paths = {
+    'blocks': "../../docs/BlocksTags.md",
+    'entity_types': "../../docs/EntityTypesTags.md",
+    'items': "../../docs/ItemTags.md",
+    'biome': "../../docs/BiomeTags.md",
+}
 
-def main():
-    # Ensure the output directory exists
-    os.makedirs(os.path.dirname(output_md_path), exist_ok=True)
-    # Create or open the TagCollection.md file
-    with open(output_md_path, "w", encoding='utf-8') as tag_collection:
+# Ensure the output directory exists
+os.makedirs(os.path.dirname(next(iter(output_paths.values()))), exist_ok=True)
 
-        # Iterate through each base path
-        for base_path in base_paths:
-            base_depth = len(base_path.split(os.sep))
-            # Walk through the directory
-            for root, dirs, files in os.walk(base_path):
-                if files:  # Only proceed if there are JSON files in the directory
-                    relative_path = os.path.relpath(root, base_path)
-                    depth = determine_depth(relative_path)
-                    # Determine the heading level based on depth
-                    heading_level = '#' * (depth + 1)
-                    tag_directory = os.path.basename(root)
-                    # Write a new chapter or subchapter for the tag directory
-                    tag_collection.write(f"\n{heading_level} {tag_directory}\n")
-                    for file_name in files:
-                        if file_name.endswith('.json'):
-                            with open(os.path.join(root, file_name), 'r') as json_file:
-                                data = json.load(json_file)
-                                # Extract tags from both strings and dictionaries
-                                tags = [entry['id'] if isinstance(entry, dict) and 'id' in entry else entry for entry in
-                                        data['values']]
-                                # Write the tag and filename
-                                tag_collection.write(
-                                    f"\n*Tag:* #{'/'.join(relative_path.split(os.sep))}:{file_name[:-5]}\n")
-                                # Write the tags in a collapsible section
-                                tag_collection.write("<details>\n<summary>Biome-Tags ▼</summary>\n\n")
-                                for tag in tags:
-                                    tag_collection.write(f"- {tag}\n")
-                                tag_collection.write("\n</details>\n")
+# Open file handles for each category with UTF-8 encoding
+output_files = {key: open(path, "w", encoding='utf-8') for key, path in output_paths.items()}
 
+def determine_category(root):
+    # Example logic based on directory names, adjust as needed
+    if 'blocks' in root:
+        return 'blocks'
+    elif 'entity_types' in root:
+        return 'entity_types'
+    elif 'items' in root:
+        return 'items'
+    elif 'biome' in root:
+        return 'biome'
+    # Extend with more conditions as necessary
+    return None
 
-# Function to determine the depth of a directory relative to the base path
-def determine_depth(relative_path):
-    return len(relative_path.split(os.sep)) - 1
+def process_json_file(json_path, file_handle):
+    with open(json_path, 'r', encoding='utf-8') as json_file:
+        data = json.load(json_file)
+        tags = [entry['id'] if isinstance(entry, dict) and 'id' in entry else entry for entry in data.get('values', [])]
+        tag_directory = os.path.basename(os.path.dirname(json_path))
+        json_file_base = os.path.basename(json_path)
+        file_handle.write(f"\n*Tag:* #{tag_directory}:{json_file_base[:-5]}\n<details>\n<summary>Tags ▼</summary>\n\n")
+        for tag in tags:
+            file_handle.write(f"- {tag}\n")
+        file_handle.write("\n</details>\n")
 
-if __name__ == "__main__":
-    main()
+# Iterate through each base path
+for base_path in base_paths:
+    for root, dirs, files in os.walk(base_path):
+        category = determine_category(root)
+        if category and category in output_files:
+            for file_name in files:
+                if file_name.endswith('.json'):
+                    process_json_file(os.path.join(root, file_name), output_files[category])
+
+# Close all file handles
+for file_handle in output_files.values():
+    file_handle.close()
+
