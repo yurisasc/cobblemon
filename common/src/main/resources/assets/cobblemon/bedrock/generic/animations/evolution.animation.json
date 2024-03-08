@@ -4,7 +4,7 @@
 		"animation.evolution.evolution": {
 			"animation_length": 12.0,
 			"bones": {
-				"root_part": {
+				"root_part":  {
 					"rotation": {
 						"0.0": [0, 0, 0.01],
 						"0.2083": [0, 16.19157, 0],
@@ -223,9 +223,9 @@
 				}
 			},
 			"particle_effects": {
-				"5.0": {
-					"effect": "evo_obscuring",
-					"locator": "test"
+				"0.0": {
+					"effect": "cobblemon:evo_particles",
+					"locator": "middle"
 				}
 			}
 		}
