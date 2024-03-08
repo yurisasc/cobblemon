@@ -1,0 +1,16 @@
+{
+  "pokemon": [
+    {
+      "name": "cobblemon:meltan",
+      "forms": [
+        "normal"
+      ]
+    },
+    {
+      "name": "cobblemon:melmetal",
+      "forms": [
+        "normal"
+      ]
+    }
+  ]
+}

@@ -44,6 +44,7 @@ class Pokedex(
     val speciesEntries: MutableMap<Identifier, SpeciesPokedexEntry> = mutableMapOf(),
     val globalTrackedData: MutableSet<GlobalTrackedData> = mutableSetOf()
 ) : InstancedPlayerData {
+
     //GSON sets this field to null when deserializing even when marked transient sigh
     @Transient
     var gennedFactories = mutableSetOf<EventTriggerType>()

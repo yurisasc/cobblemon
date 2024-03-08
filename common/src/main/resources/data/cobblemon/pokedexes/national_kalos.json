@@ -1,0 +1,436 @@
+{
+  "pokemon": [
+    {
+      "name": "cobblemon:chespin",
+      "forms": [
+        "normal"
+      ]
+    },
+    {
+      "name": "cobblemon:quilladin",
+      "forms": [
+        "normal"
+      ]
+    },
+    {
+      "name": "cobblemon:chesnaught",
+      "forms": [
+        "normal"
+      ]
+    },
+    {
+      "name": "cobblemon:fennekin",
+      "forms": [
+        "normal"
+      ]
+    },
+    {
+      "name": "cobblemon:braixen",
+      "forms": [
+        "normal"
+      ]
+    },
+    {
+      "name": "cobblemon:delphox",
+      "forms": [
+        "normal"
+      ]
+    },
+    {
+      "name": "cobblemon:froakie",
+      "forms": [
+        "normal"
+      ]
+    },
+    {
+      "name": "cobblemon:frogadier",
+      "forms": [
+        "normal"
+      ]
+    },
+    {
+      "name": "cobblemon:greninja",
+      "forms": [
+        "normal"
+      ]
+    },
+    {
+      "name": "cobblemon:bunnelby",
+      "forms": [
+        "normal"
+      ]
+    },
+    {
+      "name": "cobblemon:diggersby",
+      "forms": [
+        "normal"
+      ]
+    },
+    {
+      "name": "cobblemon:fletchling",
+      "forms": [
+        "normal"
+      ]
+    },
+    {
+      "name": "cobblemon:fletchinder",
+      "forms": [
+        "normal"
+      ]
+    },
+    {
+      "name": "cobblemon:talonflame",
+      "forms": [
+        "normal"
+      ]
+    },
+    {
+      "name": "cobblemon:scatterbug",
+      "forms": [
+        "normal"
+      ]
+    },
+    {
+      "name": "cobblemon:spewpa",
+      "forms": [
+        "normal"
+      ]
+    },
+    {
+      "name": "cobblemon:vivillon",
+      "forms": [
+        "normal"
+      ]
+    },
+    {
+      "name": "cobblemon:litleo",
+      "forms": [
+        "normal"
+      ]
+    },
+    {
+      "name": "cobblemon:pyroar",
+      "forms": [
+        "normal"
+      ]
+    },
+    {
+      "name": "cobblemon:flabébé",
+      "forms": [
+        "normal"
+      ]
+    },
+    {
+      "name": "cobblemon:floette",
+      "forms": [
+        "normal"
+      ]
+    },
+    {
+      "name": "cobblemon:florges",
+      "forms": [
+        "normal"
+      ]
+    },
+    {
+      "name": "cobblemon:skiddo",
+      "forms": [
+        "normal"
+      ]
+    },
+    {
+      "name": "cobblemon:gogoat",
+      "forms": [
+        "normal"
+      ]
+    },
+    {
+      "name": "cobblemon:pancham",
+      "forms": [
+        "normal"
+      ]
+    },
+    {
+      "name": "cobblemon:pangoro",
+      "forms": [
+        "normal"
+      ]
+    },
+    {
+      "name": "cobblemon:furfrou",
+      "forms": [
+        "normal"
+      ]
+    },
+    {
+      "name": "cobblemon:espurr",
+      "forms": [
+        "normal"
+      ]
+    },
+    {
+      "name": "cobblemon:meowstic",
+      "forms": [
+        "normal"
+      ]
+    },
+    {
+      "name": "cobblemon:honedge",
+      "forms": [
+        "normal"
+      ]
+    },
+    {
+      "name": "cobblemon:doublade",
+      "forms": [
+        "normal"
+      ]
+    },
+    {
+      "name": "cobblemon:aegislash",
+      "forms": [
+        "normal"
+      ]
+    },
+    {
+      "name": "cobblemon:spritzee",
+      "forms": [
+        "normal"
+      ]
+    },
+    {
+      "name": "cobblemon:aromatisse",
+      "forms": [
+        "normal"
+      ]
+    },
+    {
+      "name": "cobblemon:swirlix",
+      "forms": [
+        "normal"
+      ]
+    },
+    {
+      "name": "cobblemon:slurpuff",
+      "forms": [
+        "normal"
+      ]
+    },
+    {
+      "name": "cobblemon:inkay",
+      "forms": [
+        "normal"
+      ]
+    },
+    {
+      "name": "cobblemon:malamar",
+      "forms": [
+        "normal"
+      ]
+    },
+    {
+      "name": "cobblemon:binacle",
+      "forms": [
+        "normal"
+      ]
+    },
+    {
+      "name": "cobblemon:barbaracle",
+      "forms": [
+        "normal"
+      ]
+    },
+    {
+      "name": "cobblemon:skrelp",
+      "forms": [
+        "normal"
+      ]
+    },
+    {
+      "name": "cobblemon:dragalge",
+      "forms": [
+        "normal"
+      ]
+    },
+    {
+      "name": "cobblemon:clauncher",
+      "forms": [
+        "normal"
+      ]
+    },
+    {
+      "name": "cobblemon:clawitzer",
+      "forms": [
+        "normal"
+      ]
+    },
+    {
+      "name": "cobblemon:helioptile",
+      "forms": [
+        "normal"
+      ]
+    },
+    {
+      "name": "cobblemon:heliolisk",
+      "forms": [
+        "normal"
+      ]
+    },
+    {
+      "name": "cobblemon:tyrunt",
+      "forms": [
+        "normal"
+      ]
+    },
+    {
+      "name": "cobblemon:tyrantrum",
+      "forms": [
+        "normal"
+      ]
+    },
+    {
+      "name": "cobblemon:amaura",
+      "forms": [
+        "normal"
+      ]
+    },
+    {
+      "name": "cobblemon:aurorus",
+      "forms": [
+        "normal"
+      ]
+    },
+    {
+      "name": "cobblemon:sylveon",
+      "forms": [
+        "normal"
+      ]
+    },
+    {
+      "name": "cobblemon:hawlucha",
+      "forms": [
+        "normal"
+      ]
+    },
+    {
+      "name": "cobblemon:dedenne",
+      "forms": [
+        "normal"
+      ]
+    },
+    {
+      "name": "cobblemon:carbink",
+      "forms": [
+        "normal"
+      ]
+    },
+    {
+      "name": "cobblemon:goomy",
+      "forms": [
+        "normal"
+      ]
+    },
+    {
+      "name": "cobblemon:sliggoo",
+      "forms": [
+        "normal"
+      ]
+    },
+    {
+      "name": "cobblemon:goodra",
+      "forms": [
+        "normal"
+      ]
+    },
+    {
+      "name": "cobblemon:klefki",
+      "forms": [
+        "normal"
+      ]
+    },
+    {
+      "name": "cobblemon:phantump",
+      "forms": [
+        "normal"
+      ]
+    },
+    {
+      "name": "cobblemon:trevenant",
+      "forms": [
+        "normal"
+      ]
+    },
+    {
+      "name": "cobblemon:pumpkaboo",
+      "forms": [
+        "normal"
+      ]
+    },
+    {
+      "name": "cobblemon:gourgeist",
+      "forms": [
+        "normal"
+      ]
+    },
+    {
+      "name": "cobblemon:bergmite",
+      "forms": [
+        "normal"
+      ]
+    },
+    {
+      "name": "cobblemon:avalugg",
+      "forms": [
+        "normal"
+      ]
+    },
+    {
+      "name": "cobblemon:noibat",
+      "forms": [
+        "normal"
+      ]
+    },
+    {
+      "name": "cobblemon:noivern",
+      "forms": [
+        "normal"
+      ]
+    },
+    {
+      "name": "cobblemon:xerneas",
+      "forms": [
+        "normal"
+      ]
+    },
+    {
+      "name": "cobblemon:yveltal",
+      "forms": [
+        "normal"
+      ]
+    },
+    {
+      "name": "cobblemon:zygarde",
+      "forms": [
+        "normal"
+      ]
+    },
+    {
+      "name": "cobblemon:diancie",
+      "forms": [
+        "normal"
+      ]
+    },
+    {
+      "name": "cobblemon:hoopa",
+      "forms": [
+        "normal"
+      ]
+    },
+    {
+      "name": "cobblemon:volcanion",
+      "forms": [
+        "normal"
+      ]
+    }
+  ]
+}

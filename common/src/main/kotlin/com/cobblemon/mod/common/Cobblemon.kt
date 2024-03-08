@@ -85,6 +85,7 @@ import com.cobblemon.mod.common.command.argument.SpawnBucketArgumentType
 import com.cobblemon.mod.common.config.CobblemonConfig
 import com.cobblemon.mod.common.config.LastChangedVersion
 import com.cobblemon.mod.common.config.constraint.IntConstraint
+import com.cobblemon.mod.common.config.pokedex.PokedexDeltaConfig
 import com.cobblemon.mod.common.config.starter.StarterConfig
 import com.cobblemon.mod.common.data.CobblemonDataProvider
 import com.cobblemon.mod.common.events.AdvancementHandler
@@ -479,6 +480,7 @@ object Cobblemon {
 
         bestSpawner.loadConfig()
         PokemonSpecies.observable.subscribe { starterConfig = this.loadStarterConfig() }
+        this.loadPokedexConfig()
     }
 
     fun loadStarterConfig(): StarterConfig {
@@ -498,6 +500,26 @@ object Cobblemon {
             return config
         } else {
             return StarterConfig()
+        }
+    }
+
+    fun loadPokedexConfig(): PokedexDeltaConfig {
+        if (config.exportStarterConfig) {
+            val file = File("config/cobblemon/pokedex.json")
+            file.parentFile.mkdirs()
+            if (!file.exists()) {
+                val config = PokedexDeltaConfig()
+                val pw = PrintWriter(file)
+                PokedexDeltaConfig.GSON.toJson(config, pw)
+                pw.close()
+                return config
+            }
+            val reader = FileReader(file)
+            val config = PokedexDeltaConfig.GSON.fromJson(reader, PokedexDeltaConfig::class.java)
+            reader.close()
+            return config
+        } else {
+            return PokedexDeltaConfig()
         }
     }
 

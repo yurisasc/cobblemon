@@ -1,0 +1,46 @@
+{
+  "pokemon": [
+    {
+      "name": "cobblemon:wyrdeer",
+      "forms": [
+        "normal"
+      ]
+    },
+    {
+      "name": "cobblemon:kleavor",
+      "forms": [
+        "normal"
+      ]
+    },
+    {
+      "name": "cobblemon:ursaluna",
+      "forms": [
+        "normal"
+      ]
+    },
+    {
+      "name": "cobblemon:basculegion",
+      "forms": [
+        "normal"
+      ]
+    },
+    {
+      "name": "cobblemon:sneasler",
+      "forms": [
+        "normal"
+      ]
+    },
+    {
+      "name": "cobblemon:overqwil",
+      "forms": [
+        "normal"
+      ]
+    },
+    {
+      "name": "cobblemon:enamorus",
+      "forms": [
+        "normal"
+      ]
+    }
+  ]
+}
