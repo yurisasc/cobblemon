@@ -21,6 +21,7 @@ os.makedirs(os.path.dirname(next(iter(output_paths.values()))), exist_ok=True)
 # Open file handles for each category with UTF-8 encoding
 output_files = {key: open(path, "w", encoding='utf-8') for key, path in output_paths.items()}
 
+
 def determine_category(root):
     # Example logic based on directory names, adjust as needed
     if 'blocks' in root:
@@ -34,6 +35,7 @@ def determine_category(root):
     # Extend with more conditions as necessary
     return None
 
+
 def process_json_file(json_path, file_handle):
     with open(json_path, 'r', encoding='utf-8') as json_file:
         data = json.load(json_file)
@@ -45,6 +47,7 @@ def process_json_file(json_path, file_handle):
         for tag in tags:
             file_handle.write(f"- {tag}\n")
         file_handle.write("\n</details>\n")
+
 
 # Iterate through each base path
 for base_path in base_paths:
@@ -58,4 +61,3 @@ for base_path in base_paths:
 # Close all file handles
 for file_handle in output_files.values():
     file_handle.close()
-
