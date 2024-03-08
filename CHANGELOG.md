@@ -119,6 +119,7 @@
 ```
 - Following up on this change ``light_source`` was removed as a possible shoulder effect due to becoming unnecessary and never having had a default implementation.
 - Added the item tag ``cobblemon:ability_changers``, contains the ``cobblemon:ability_capsule`` & ``cobblemon:ability_patch`` by default.
+- Added the item tag ``cobblemon:held/is_friendship_booster``, allows items to give the Soothe Bell effect of a boost of 1.5x Friendship gained, contains ``cobblemon:soothe_bell`` by default.
 
 ## [1.4.1 (December 23rd, 2023)](#1-4-1)
 
