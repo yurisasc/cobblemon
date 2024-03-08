@@ -27,6 +27,9 @@ public final class CrashReportMixin {
         cobblemon.add("Git Commit", CobblemonBuildDetails.INSTANCE.smallCommitHash() + " (" + "https://gitlab.com/cable-mc/cobblemon/-/commit/" + CobblemonBuildDetails.GIT_COMMIT + ")");
         cobblemon.add("Branch", CobblemonBuildDetails.BRANCH);
         cobblemon.add("Timestamp", CobblemonBuildDetails.TIMESTAMP);
+
+        cobblemon.addStackTrace(builder);
+        builder.append("\n\n");
     }
 
 }
