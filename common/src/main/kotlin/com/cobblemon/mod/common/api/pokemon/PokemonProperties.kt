@@ -20,6 +20,7 @@ import com.cobblemon.mod.common.api.pokemon.stats.Stats
 import com.cobblemon.mod.common.api.pokemon.status.Statuses
 import com.cobblemon.mod.common.api.properties.CustomPokemonProperty
 import com.cobblemon.mod.common.api.types.ElementalTypes
+import com.cobblemon.mod.common.api.types.tera.TeraTypes
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.pokemon.*
 import com.cobblemon.mod.common.pokemon.status.PersistentStatus
@@ -339,7 +340,7 @@ open class PokemonProperties {
                 pokemon.setEV(stat.key, stat.value)
             }
         }
-        teraType?.let { ElementalTypes.get(it)?.let { type -> pokemon.teraType = type } }
+        teraType?.let { TeraTypes.get(it.asIdentifierDefaultingNamespace())?.let { type -> pokemon.teraType = type } }
         dmaxLevel?.let { pokemon.dmaxLevel = it }
         gmaxFactor?.let { pokemon.gmaxFactor = it }
         tradeable?.let { pokemon.tradeable = it }
@@ -409,7 +410,7 @@ open class PokemonProperties {
         evs?.forEach{ stat ->
             if (stat.value != pokemon.evs[stat.key]) { return false }
         }
-        teraType?.takeIf { it != pokemon.teraType.name }?.let { return false }
+        teraType?.takeIf { it.asIdentifierDefaultingNamespace() != pokemon.teraType.id }?.let { return false }
         dmaxLevel?.takeIf { it != pokemon.dmaxLevel }?.let { return false }
         gmaxFactor?.takeIf { it != pokemon.gmaxFactor }?.let { return false }
         tradeable?.takeIf { it != pokemon.tradeable }?.let { return false }
@@ -476,11 +477,11 @@ open class PokemonProperties {
 
     // TEST YOUR LUCK!
     fun roll(pokemon: Pokemon) {
-        val baseTypes = pokemon.species.types.toList()
+        val baseTypes = pokemon.form.types.toList()
         if (this.shiny == null) pokemon.shiny = Cobblemon.config.shinyRate.checkRate()
         if (this.teraType == null) pokemon.teraType =
-            if (Cobblemon.config.teraTypeRate.checkRate()) ElementalTypes.all().filter { !baseTypes.contains(it) }.random()
-            else baseTypes.random()
+            if (Cobblemon.config.teraTypeRate.checkRate()) TeraTypes.random(true)
+            else TeraTypes.forElementalType(baseTypes.random())
     }
 
     fun createEntity(world: World): PokemonEntity {

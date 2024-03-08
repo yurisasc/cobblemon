@@ -19,10 +19,8 @@ import com.cobblemon.mod.common.api.abilities.AbilityPool
 import com.cobblemon.mod.common.api.data.ShowdownIdentifiable
 import com.cobblemon.mod.common.api.events.CobblemonEvents
 import com.cobblemon.mod.common.api.events.CobblemonEvents.FRIENDSHIP_UPDATED
-import com.cobblemon.mod.common.api.events.CobblemonEvents.HELD_ITEM_UPDATED
 import com.cobblemon.mod.common.api.events.CobblemonEvents.POKEMON_FAINTED
 import com.cobblemon.mod.common.api.events.pokemon.*
-import com.cobblemon.mod.common.api.events.pokemon.interaction.HeldItemUpdatedEvent
 import com.cobblemon.mod.common.api.moves.*
 import com.cobblemon.mod.common.api.pokeball.PokeBalls
 import com.cobblemon.mod.common.api.pokemon.Natures
@@ -51,7 +49,8 @@ import com.cobblemon.mod.common.api.storage.StoreCoordinates
 import com.cobblemon.mod.common.api.storage.party.PlayerPartyStore
 import com.cobblemon.mod.common.api.storage.pc.PCStore
 import com.cobblemon.mod.common.api.types.ElementalType
-import com.cobblemon.mod.common.api.types.ElementalTypes
+import com.cobblemon.mod.common.api.types.tera.TeraType
+import com.cobblemon.mod.common.api.types.tera.TeraTypes
 import com.cobblemon.mod.common.config.CobblemonConfig
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.net.messages.client.PokemonUpdatePacket
@@ -279,7 +278,7 @@ open class Pokemon : ShowdownIdentifiable {
     val types: Iterable<ElementalType>
         get() = form.types
 
-    var teraType = primaryType
+    var teraType: TeraType = TeraTypes.forElementalType(this.primaryType)
         set(value) {
             field = value
             _teraType.emit(value)
@@ -746,7 +745,7 @@ open class Pokemon : ShowdownIdentifiable {
         if (tetheringId != null) {
             nbt.putUuid(DataKeys.TETHERING_ID, tetheringId)
         }
-        nbt.putString(DataKeys.POKEMON_TERA_TYPE, teraType.name)
+        nbt.putString(DataKeys.POKEMON_TERA_TYPE, teraType.id.toString())
         nbt.putInt(DataKeys.POKEMON_DMAX_LEVEL, dmaxLevel)
         nbt.putBoolean(DataKeys.POKEMON_GMAX_FACTOR, gmaxFactor)
         nbt.putBoolean(DataKeys.POKEMON_TRADEABLE, tradeable)
@@ -819,7 +818,9 @@ open class Pokemon : ShowdownIdentifiable {
         }
         this.persistentData = nbt.getCompound(DataKeys.POKEMON_PERSISTENT_DATA)
         tetheringId = if (nbt.containsUuid(DataKeys.TETHERING_ID)) nbt.getUuid(DataKeys.TETHERING_ID) else null
-        this.teraType = ElementalTypes.get(nbt.getString(DataKeys.POKEMON_TERA_TYPE)) ?: this.primaryType
+        TeraTypes.get(nbt.getString(DataKeys.POKEMON_TERA_TYPE).asIdentifierDefaultingNamespace())?.let {
+            this.teraType = it
+        }
         this.dmaxLevel = nbt.getInt(DataKeys.POKEMON_DMAX_LEVEL)
         this.gmaxFactor = nbt.getBoolean(DataKeys.POKEMON_GMAX_FACTOR)
         this.tradeable = if (nbt.contains(DataKeys.POKEMON_TRADEABLE)) nbt.getBoolean(DataKeys.POKEMON_TRADEABLE) else true
@@ -867,7 +868,7 @@ open class Pokemon : ShowdownIdentifiable {
         if (tetheringId != null) {
             json.addProperty(DataKeys.TETHERING_ID, tetheringId.toString())
         }
-        json.addProperty(DataKeys.POKEMON_TERA_TYPE, teraType.name)
+        json.addProperty(DataKeys.POKEMON_TERA_TYPE, teraType.id.toString())
         json.addProperty(DataKeys.POKEMON_DMAX_LEVEL, dmaxLevel)
         json.addProperty(DataKeys.POKEMON_GMAX_FACTOR, gmaxFactor)
         json.addProperty(DataKeys.POKEMON_TRADEABLE, tradeable)
@@ -953,9 +954,11 @@ open class Pokemon : ShowdownIdentifiable {
             this.tetheringId = UUID.fromString(json.get(DataKeys.TETHERING_ID).asString)
         }
         if (json.has(DataKeys.POKEMON_TERA_TYPE)) {
-            this.teraType = ElementalTypes.get(json.get(DataKeys.POKEMON_TERA_TYPE).asString) ?: this.primaryType
+            TeraTypes.get(json.get(DataKeys.POKEMON_TERA_TYPE).asString.asIdentifierDefaultingNamespace())?.let {
+                this.teraType = it
+            }
         } else {
-            this.teraType = this.primaryType
+            this.teraType = TeraTypes.forElementalType(this.form.types.toList().random())
         }
         if (json.has(DataKeys.POKEMON_DMAX_LEVEL)) {
             this.dmaxLevel = json.get(DataKeys.POKEMON_DMAX_LEVEL).asInt
@@ -1548,7 +1551,7 @@ open class Pokemon : ShowdownIdentifiable {
     private val _ability = registerObservable(SimpleObservable<Ability>()) { AbilityUpdatePacket({ this }, it.template) }
     private val _heldItem = registerObservable(SimpleObservable<ItemStack>()) { HeldItemUpdatePacket({ this }, it) }
     private val _tetheringId = registerObservable(SimpleObservable<UUID?>()) { TetheringUpdatePacket({ this }, it) }
-    private val _teraType = registerObservable(SimpleObservable<ElementalType>()) { TeraTypeUpdatePacket({ this }, it) }
+    private val _teraType = registerObservable(SimpleObservable<TeraType>()) { TeraTypeUpdatePacket({ this }, it) }
     private val _dmaxLevel = registerObservable(SimpleObservable<Int>()) { DmaxLevelUpdatePacket({ this }, it) }
     private val _gmaxFactor = registerObservable(SimpleObservable<Boolean>()) { GmaxFactorUpdatePacket({ this }, it) }
     private val _originalTrainerName = registerObservable(SimpleObservable<String?>()) { OriginalTrainerUpdatePacket({ this }, it) }
