@@ -24,13 +24,14 @@ class SingleActionRequest(
                 request.iterate(actor.activePokemon) { targetable, moveSet, forceSwitch ->
                     val singleRequest = SingleActionRequest(targetable, request.side, moveSet, forceSwitch, !request.noCancel)
                     // Known quirk of Showdown. It'll ask for actions on fainted slots
+                    // Also during a forced switch in doubles/triples it'll ask for actions on non-switching slots
                     // Need to find better place to fix this
                     // Probably should find a way to fix this serverside so clients don't
                     // need to deal with this silliness.
                     val pokemon = request.side?.pokemon?.firstOrNull {
                         it.uuid == targetable.battlePokemon?.uuid
                     }
-                    if(pokemon != null && pokemon.condition.contains("fnt")) {
+                    if((pokemon != null && pokemon.condition.contains("fnt")) || (moveSet == null && !forceSwitch)) {
                         singleRequest.response = PassActionResponse
                     }
                     singleRequest

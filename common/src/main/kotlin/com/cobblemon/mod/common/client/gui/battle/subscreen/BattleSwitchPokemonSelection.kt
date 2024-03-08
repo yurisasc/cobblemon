@@ -123,7 +123,9 @@ class BattleSwitchPokemonSelection(
             return
         }
         tiles.forEach { it.render(context, mouseX.toDouble(), mouseY.toDouble(), delta) }
-        backButton.render(context.matrices, mouseX, mouseY, delta)
+        if(!request.forceSwitch) {
+            backButton.render(context.matrices, mouseX, mouseY, delta)
+        }
     }
 
     override fun mouseClicked(mouseX: Double, mouseY: Double, button: Int): Boolean {
