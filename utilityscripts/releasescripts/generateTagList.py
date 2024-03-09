@@ -9,10 +9,10 @@ base_paths = [
 
 # Define output paths for each category, relative to the script's location
 output_paths = {
-    'blocks': "../../docs/BlocksTags.md",
-    'entity_types': "../../docs/EntityTypesTags.md",
-    'items': "../../docs/ItemTags.md",
-    'biome': "../../docs/BiomeTags.md",
+    'blocks': "../../docs/cobblemon-tags/BlocksTags.md",
+    'entity_types': "../../docs/cobblemon-tags/EntityTypesTags.md",
+    'items': "../../docs/cobblemon-tags/ItemTags.md",
+    'biome': "../../docs/cobblemon-tags/BiomeTags.md",
 }
 
 # Ensure the output directory exists
