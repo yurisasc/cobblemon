@@ -127,13 +127,16 @@
   "item.cobblemon.hyper_potion": "Hyper Potion",
   "item.cobblemon.max_potion": "Max Potion",
   "item.cobblemon.full_restore": "Full Restore",
-  
+
   "item.cobblemon.health_feather": "Health Feather",
   "item.cobblemon.muscle_feather": "Muscle Feather",
   "item.cobblemon.resist_feather": "Resist Feather",
   "item.cobblemon.genius_feather": "Genius Feather",
   "item.cobblemon.clever_feather": "Clever Feather",
   "item.cobblemon.swift_feather": "Swift Feather",
+
+  "item.cobblemon.ability_capsule": "Ability Capsule",
+  "item.cobblemon.ability_patch": "Ability Patch",
 
   "item.cobblemon.red_mint_leaf": "Red Mint Leaf",
   "item.cobblemon.red_mint_leaf.tooltip": "Capable of influencing a Pokémon's attack stat",
@@ -454,6 +457,7 @@
   "block.cobblemon.black_gilded_chest": "Black Gilded Chest",
   "block.cobblemon.green_gilded_chest": "Green Gilded Chest",
   "block.cobblemon.white_gilded_chest": "White Gilded Chest",
+  "block.cobblemon.display_case": "Display Case",
 
   "block.cobblemon.small_budding_tumblestone": "Small Tumblestone Bud",
   "block.cobblemon.medium_budding_tumblestone": "Medium Tumblestone Bud",
@@ -494,7 +498,8 @@
   "cobblemon.ui.starter.alreadyselected": "You already selected a starter!",
   "cobblemon.ui.starter.cannotchoose": "You cannot choose a starter right now.",
   "cobblemon.ui.starter.hasalreadychosen": "%1$s has already chosen a starter.",
-  "cobblemon.ui.starter.choose_starter_title": "Choose your starter!",
+  "cobblemon.ui.starter.skippedchoosing": "You have not yet selected a starter, but have already received a Pokémon. To select your starter, place all your Pokémon in a PC and then press \"%1$s\".",
+  "cobblemon.ui.starter.choose_starter_title": "Check out the starters!",
   "cobblemon.ui.starter.choose_starter_description": "Press the \"%1$s\" key",
   "cobblemon.ui.starter.chooseyourstarter": "Press %1$s to choose your Pokémon and begin your journey!",
   "cobblemon.ui.moves": "Moves",
@@ -636,6 +641,8 @@
 
   "cobblemon.mint.interact": "%1$s's stats have changed!",
   "cobblemon.mint.same_nature": "%1$s's stats seem unaffected by the %2$s.",
+
+  "cobblemon.ability_changer.changed": "%1$s's ability changed to %2$s!",
 
   "itemGroup.cobblemon.plants": "Plants",
   "item.cobblemon.aguav_berry": "Aguav Berry",
@@ -1374,6 +1381,7 @@
   "cobblemon.type.rock": "Rock",
   "cobblemon.type.poison": "Poison",
   "cobblemon.type.dragon": "Dragon",
+  "cobblemon.terra_type.stellar": "Stellar",
 
   "cobblemon.nature.hardy": "Hardy",
   "cobblemon.nature.lonely": "Lonely",
@@ -1467,6 +1475,7 @@
   "block.cobblemon.deepslate_water_stone_ore": "Deepslate Water Stone Ore",
   "block.cobblemon.dripstone_moon_stone_ore": "Dripstone Moon Stone Ore",
   "block.cobblemon.nether_fire_stone_ore": "Nether Fire Stone Ore",
+  "block.cobblemon.terracotta_sun_stone_ore": "Terracotta Sun Stone Ore",
   "block.cobblemon.pasture": "Pasture Block",
 
   "gamerule.doPokemonSpawning": "Spawn Pokémon",

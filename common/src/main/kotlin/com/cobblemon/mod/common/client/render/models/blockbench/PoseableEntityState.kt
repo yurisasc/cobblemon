@@ -270,7 +270,7 @@ abstract class PoseableEntityState<T : Entity> : Schedulable {
             val pose = currentPose?.let(model::getPose)
             allStatefulAnimations.forEach { it.applyEffects(entity, this, previousSeconds, currentSeconds) }
             primaryAnimation?.animation?.applyEffects(entity, this, previousSeconds, currentSeconds)
-            pose?.idleAnimations?.filter { shouldIdleRun(it, 0.5F) }
+            pose?.idleAnimations?.filter { shouldIdleRun(it, 0.5F) }?.forEach { it.applyEffects(entity, this, previousSeconds, currentSeconds) }
         }
     }
 

@@ -231,6 +231,7 @@ object CobblemonItemGroups {
         entries.add(CobblemonItems.RELIC_COIN_POUCH)
         entries.add(CobblemonItems.RELIC_COIN_SACK)
 
+        entries.add(CobblemonItems.DISPLAY_CASE)
         entries.add(CobblemonItems.APRICORN_LOG)
         entries.add(CobblemonItems.APRICORN_WOOD)
         entries.add(CobblemonItems.STRIPPED_APRICORN_LOG)
@@ -270,6 +271,7 @@ object CobblemonItemGroups {
         entries.add(CobblemonItems.DEEPSLATE_SHINY_STONE_ORE)
         entries.add(CobblemonItems.SUN_STONE_ORE)
         entries.add(CobblemonItems.DEEPSLATE_SUN_STONE_ORE)
+        entries.add(CobblemonItems.TERRACOTTA_SUN_STONE_ORE)
         entries.add(CobblemonItems.THUNDER_STONE_ORE)
         entries.add(CobblemonItems.DEEPSLATE_THUNDER_STONE_ORE)
         entries.add(CobblemonItems.WATER_STONE_ORE)
@@ -363,6 +365,9 @@ object CobblemonItemGroups {
         entries.add(CobblemonItems.JOLLY_MINT)
         entries.add(CobblemonItems.NAIVE_MINT)
         entries.add(CobblemonItems.SERIOUS_MINT)
+
+        entries.add(CobblemonItems.ABILITY_CAPSULE)
+        entries.add(CobblemonItems.ABILITY_PATCH)
     }
 
     private fun evolutionItemEntries(displayContext: DisplayContext, entries: Entries) {
@@ -500,10 +505,11 @@ object CobblemonItemGroups {
     }
 
     private fun foodInjections(injector: Injector) {
-        injector.putLast(CobblemonItems.ROASTED_LEEK)
-        injector.putAfter(CobblemonItems.LEEK_AND_POTATO_STEW, CobblemonItems.ROASTED_LEEK)
-        injector.putAfter(CobblemonItems.BRAISED_VIVICHOKE, CobblemonItems.LEEK_AND_POTATO_STEW)
-        injector.putAfter(CobblemonItems.VIVICHOKE_DIP, CobblemonItems.BRAISED_VIVICHOKE)
+        injector.putAfter(CobblemonItems.MEDICINAL_LEEK, Items.POISONOUS_POTATO)
+        injector.putAfter(CobblemonItems.ROASTED_LEEK, CobblemonItems.MEDICINAL_LEEK)
+        injector.putAfter(CobblemonItems.BRAISED_VIVICHOKE, CobblemonItems.ROASTED_LEEK)
+        injector.putAfter(CobblemonItems.LEEK_AND_POTATO_STEW, Items.RABBIT_STEW)
+        injector.putAfter(CobblemonItems.VIVICHOKE_DIP, CobblemonItems.LEEK_AND_POTATO_STEW)
     }
 
     private fun toolsAndUtilitiesInjections(injector: Injector) {

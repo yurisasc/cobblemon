@@ -1,0 +1,41 @@
+{
+    "type": "minecraft:chest",
+    "pools": [
+        {
+            "rolls": {
+                "type": "minecraft:uniform",
+                "max": 6.0,
+                "min": 1.0
+            },
+            "bonus_rolls": 0.0,
+            "entries": [
+                {
+                    "type": "minecraft:item",
+                    "name": "cobblemon:exp_candy_xs",
+                    "weight": 4
+                },
+                {
+                    "type": "minecraft:item",
+                    "name": "cobblemon:exp_candy_s",
+                    "weight": 4
+                },
+                {
+                    "type": "minecraft:item",
+                    "name": "cobblemon:exp_candy_m",
+                    "weight": 2
+                },
+                {
+                    "type": "minecraft:item",
+                    "name": "cobblemon:exp_candy_l",
+                    "weight": 2
+                },
+                {
+                    "type": "minecraft:item",
+                    "name": "cobblemon:exp_candy_xl",
+                    "weight": 1
+                }
+            ]
+        }
+    ],
+    "random_sequence": "cobblemon:sets/any_exp_candy"
+}

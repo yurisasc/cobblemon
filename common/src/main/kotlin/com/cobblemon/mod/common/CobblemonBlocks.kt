@@ -72,6 +72,8 @@ object CobblemonBlocks : PlatformRegistry<Registry<Block>, RegistryKey<Registry<
     @JvmField
     val SUN_STONE_ORE = evolutionStoneOre("sun_stone_ore")
     @JvmField
+    val TERRACOTTA_SUN_STONE_ORE = evolutionStoneOre("terracotta_sun_stone_ore")
+    @JvmField
     val THUNDER_STONE_ORE = evolutionStoneOre("thunder_stone_ore")
     @JvmField
     val WATER_STONE_ORE = evolutionStoneOre("water_stone_ore")
@@ -387,6 +389,18 @@ object CobblemonBlocks : PlatformRegistry<Registry<Block>, RegistryKey<Registry<
     )
 
     @JvmField
+    val DISPLAY_CASE = create(
+        "display_case",
+        DisplayCaseBlock(
+            AbstractBlock.Settings.create()
+                .sounds(CobblemonSounds.DISPLAY_CASE_SOUNDS)
+                .nonOpaque()
+                .pistonBehavior(PistonBehavior.BLOCK)
+                .mapColor(MapColor.STONE_GRAY)
+                .strength(0.3f)
+        )
+    )
+
     val RED_MINT = create("red_mint", MintBlock(MintType.RED, AbstractBlock.Settings.create().mapColor(MapColor.RED).noCollision().ticksRandomly().breakInstantly().sounds(CobblemonSounds.MINT_SOUNDS)))
     @JvmField
     val BLUE_MINT = create("blue_mint", MintBlock(MintType.BLUE, AbstractBlock.Settings.create().mapColor(MapColor.BLUE).noCollision().ticksRandomly().breakInstantly().sounds(CobblemonSounds.MINT_SOUNDS)))

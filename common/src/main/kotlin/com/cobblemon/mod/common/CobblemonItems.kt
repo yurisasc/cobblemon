@@ -8,6 +8,7 @@
 
 package com.cobblemon.mod.common
 
+import com.cobblemon.mod.common.api.item.ability.AbilityChanger
 import com.cobblemon.mod.common.api.mulch.MulchVariant
 import com.cobblemon.mod.common.api.pokeball.PokeBalls
 import com.cobblemon.mod.common.api.pokemon.Natures
@@ -29,6 +30,7 @@ import com.cobblemon.mod.common.item.berry.PortionHealingBerryItem
 import com.cobblemon.mod.common.item.berry.StatusCuringBerryItem
 import com.cobblemon.mod.common.item.berry.VolatileCuringBerryItem
 import com.cobblemon.mod.common.item.interactive.*
+import com.cobblemon.mod.common.item.interactive.ability.AbilityChangeItem
 import com.cobblemon.mod.common.platform.PlatformRegistry
 import com.cobblemon.mod.common.pokeball.PokeBall
 import com.cobblemon.mod.common.pokemon.helditem.CobblemonHeldItemManager
@@ -258,6 +260,8 @@ object CobblemonItems : PlatformRegistry<Registry<Item>, RegistryKey<Registry<It
     val PC = blockItem("pc", CobblemonBlocks.PC)
     @JvmField
     val PASTURE = blockItem("pasture", CobblemonBlocks.PASTURE)
+    @JvmField
+    val DISPLAY_CASE = blockItem("display_case", CobblemonBlocks.DISPLAY_CASE)
 
     // Evolution items
     @JvmField val LINK_CABLE = create("link_cable", LinkCableItem())
@@ -558,6 +562,11 @@ object CobblemonItems : PlatformRegistry<Registry<Item>, RegistryKey<Registry<It
     @JvmField val ELIXIR = create("elixir", ElixirItem(max = false))
     @JvmField val MAX_ELIXIR = create("max_elixir", ElixirItem(max = true))
 
+    @JvmField
+    val ABILITY_CAPSULE = this.create("ability_capsule", AbilityChangeItem(AbilityChanger.COMMON_ABILITY))
+    @JvmField
+    val ABILITY_PATCH = this.create("ability_patch", AbilityChangeItem(AbilityChanger.HIDDEN_ABILITY))
+
     /**
      * Evolution Ores and Stones
      */
@@ -577,6 +586,8 @@ object CobblemonItems : PlatformRegistry<Registry<Item>, RegistryKey<Registry<It
     val SHINY_STONE_ORE = blockItem("shiny_stone_ore", CobblemonBlocks.SHINY_STONE_ORE)
     @JvmField
     val SUN_STONE_ORE = blockItem("sun_stone_ore", CobblemonBlocks.SUN_STONE_ORE)
+    @JvmField
+    val TERRACOTTA_SUN_STONE_ORE = blockItem("terracotta_sun_stone_ore", CobblemonBlocks.TERRACOTTA_SUN_STONE_ORE)
     @JvmField
     val THUNDER_STONE_ORE = blockItem("thunder_stone_ore", CobblemonBlocks.THUNDER_STONE_ORE)
     @JvmField

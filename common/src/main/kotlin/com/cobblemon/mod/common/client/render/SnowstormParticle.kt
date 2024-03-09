@@ -89,6 +89,14 @@ class SnowstormParticle(
     var viewDirection = Vec3d.ZERO
     var originPos = Vec3d(storm.getX(), storm.getY(), storm.getZ())
 
+    fun getX() = x
+    fun getY() = y
+    fun getZ() = z
+
+    fun getVelocityX() = velocityX
+    fun getVelocityY() = velocityY
+    fun getVelocityZ() = velocityZ
+
     fun getSpriteFromAtlas(): Sprite {
         val atlas = MinecraftClient.getInstance().particleManager.particleAtlasTexture
 
@@ -118,6 +126,7 @@ class SnowstormParticle(
         storm.particles.add(this)
         gravityStrength = 0F
         particleTextureSheet = if (invisible) NO_RENDER else PARTICLE_SHEET_TRANSLUCENT
+        storm.effect.particle.creationEvents.forEach { it.trigger(storm, this) }
 //            when (storm.effect.particle.material) {
 //            ParticleMaterial.ALPHA -> ParticleMaterials.ALPHA
 //            ParticleMaterial.OPAQUE -> ParticleMaterials.OPAQUE
@@ -245,6 +254,7 @@ class SnowstormParticle(
         angularVelocity += storm.effect.particle.rotation.getAngularAcceleration(storm.runtime, angularVelocity) / 20
 
         if (age > maxAge || storm.runtime.resolveBoolean(storm.effect.particle.killExpression)) {
+            storm.effect.particle.expirationEvents.forEach { it.trigger(storm, this)}
             markDead()
             return
         } else {
@@ -285,6 +295,8 @@ class SnowstormParticle(
         age++
 
         this.move(velocityX, velocityY, velocityZ)
+
+        storm.effect.particle.timeline.check(storm, this, (age - 1) / 20.0, age / 20.0)
     }
 
     override fun move(dx: Double, dy: Double, dz: Double) {
