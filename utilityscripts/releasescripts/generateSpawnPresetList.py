@@ -13,10 +13,11 @@ def generate_markdown(json_directory, output_markdown_file):
 
         # Extract the root name from the file_name for the markdown section title
         root_name = file_name.split('.')[0]
-        markdown_content += f"## {root_name.capitalize()}\n\n"
+        markdown_content += f"## {root_name}\n\n"
 
-        markdown_content += "| Conditions | Anticonditions |\n"
-        markdown_content += "|------------|----------------|\n"
+        # Update the table header to include the new column
+        markdown_content += "| Key | Conditions | Anticonditions |\n"
+        markdown_content += "| --- | ---------- | -------------- |\n"
 
         conditions = data.get("condition", {})
         anticonditions = data.get("anticondition", {})
@@ -34,13 +35,9 @@ def generate_markdown(json_directory, output_markdown_file):
             if not isinstance(anticondition_values, list):
                 anticondition_values = [anticondition_values]
 
-            # Check if the key is in conditions or anticonditions
-            if key in conditions:
-                # Prepend the key to the conditions column
-                markdown_content += f"| *{key}:* {'; '.join([f'`{v}`' for v in condition_values])} | {'; '.join([f'`{v}`' for v in anticondition_values])} |\n"
-            else:
-                # Prepend the key to the anticonditions column
-                markdown_content += f"| {'; '.join([f'`{v}`' for v in condition_values])} | *{key}:* {'; '.join([f'`{v}`' for v in anticondition_values])} |\n"
+            # Add a third column at the front and put the key there in bold
+            markdown_content += f"| **{key}** | {'; '.join([f'`{v}`' for v in condition_values])} | {'; '.join([f'`{v}`' for v in anticondition_values])} |\n"
+
 
     # Write markdown content to the specified output file
     with open(output_markdown_file, 'w') as output_file:
