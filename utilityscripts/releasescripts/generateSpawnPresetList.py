@@ -32,6 +32,8 @@ def generate_markdown(json_directory, output_markdown_file):
         # Collect all unique keys from conditions and anticonditions
         all_keys = set(conditions.keys()) | set(anticonditions.keys())
 
+        # Collect all rows in a list
+        rows = []
         for key in all_keys:
             condition_values = conditions.get(key, [])
             anticondition_values = anticonditions.get(key, [])
@@ -43,8 +45,12 @@ def generate_markdown(json_directory, output_markdown_file):
                 anticondition_values = [anticondition_values]
 
             # Add a third column at the front and put the key there in bold
-            markdown_content += f"| **{key}** | {'; '.join([f'`{v}`' for v in condition_values])} | {'; '.join([f'`{v}`' for v in anticondition_values])} |\n"
+            row = f"| **{key}** | {'; '.join([f'`{v}`' for v in condition_values])} | {'; '.join([f'`{v}`' for v in anticondition_values])} |\n"
+            rows.append((key, row))
 
+        # Sort the rows alphabetically by key and add them to the markdown content
+        for _, row in sorted(rows):
+            markdown_content += row
 
     # Write markdown content to the specified output file
     with open(output_markdown_file, 'w') as output_file:
