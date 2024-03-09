@@ -39,27 +39,6 @@
                     "#cobblemon:is_salt"
                 ]
             }
-        },
-        {
-            "id": "nacli-3",
-            "pokemon": "nacli",
-            "presets": [
-                "natural",
-                "wild"
-            ],
-            "type": "pokemon",
-            "context": "grounded",
-            "bucket": "common",
-            "level": "3-28",
-            "weight": 9.0,
-            "condition": {
-                "biomes": [
-                    "#cobblemon:is_nether_quartz"
-                ],
-                "neededBaseBlocks": [
-                    "minecraft:quartz_block"
-                ]
-            }
         }
     ]
 }

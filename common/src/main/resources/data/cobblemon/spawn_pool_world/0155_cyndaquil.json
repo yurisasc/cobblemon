@@ -25,6 +25,44 @@
                     "#cobblemon:is_spooky"
                 ]
             }
+        },
+        {
+            "id": "cyndaquil-hisuian-2",
+            "pokemon": "cyndaquil hisuian",
+            "presets": [
+                "natural"
+            ],
+            "type": "pokemon",
+            "context": "grounded",
+            "bucket": "ultra-rare",
+            "level": "5-31",
+            "weight": 9.0,
+            "condition": {
+                "canSeeSky": true,
+                "biomes": [
+                    "#cobblemon:is_taiga"
+                ],
+                "isRaining": false
+            }
+        },
+        {
+            "id": "cyndaquil-hisuian-3",
+            "pokemon": "cyndaquil hisuian",
+            "presets": [
+                "natural"
+            ],
+            "type": "pokemon",
+            "context": "grounded",
+            "bucket": "ultra-rare",
+            "level": "5-31",
+            "weight": 9.0,
+            "condition": {
+                "biomes": [
+                    "#cobblemon:is_nether_crimson",
+                    "#cobblemon:is_nether_forest",
+                    "#cobblemon:is_nether_overgrowth"
+                ]
+            }
         }
     ]
 }

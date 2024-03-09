@@ -14,7 +14,7 @@
             "context": "grounded",
             "bucket": "common",
             "level": "13-38",
-            "weight": 6.0,
+            "weight": 10.0,
             "condition": {
                 "canSeeSky": false,
                 "biomes": [
@@ -24,6 +24,24 @@
         },
         {
             "id": "sableye-2",
+            "pokemon": "sableye",
+            "presets": [
+                "natural"
+            ],
+            "type": "pokemon",
+            "context": "grounded",
+            "bucket": "rare",
+            "level": "13-38",
+            "weight": 10.0,
+            "condition": {
+                "canSeeSky": false,
+                "biomes": [
+                    "#cobblemon:is_deep_dark"
+                ]
+            }
+        },
+        {
+            "id": "sableye-3",
             "pokemon": "sableye",
             "type": "pokemon",
             "context": "grounded",

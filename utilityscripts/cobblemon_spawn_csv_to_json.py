@@ -17,7 +17,7 @@ from scriptutils import printCobblemonHeader, print_cobblemon_script_footer, pri
 
 # Define what kind of pokémon should be included, if nothing is specified (empty array), all will be included.
 # filter by number ranges (dex range)
-pokemon_numbers = range(0, 2000)
+pokemon_numbers = range(859, 862)
 # filter by type
 included_types = ['basic', 'boss']
 # filter by context
@@ -31,20 +31,16 @@ included_generations = []
 excluded_forms = ['[Nether]', '[Quartz]']
 # Biome mapping, used to convert the Biome column to the format used in the spawn json
 biome_mapping = {
-    'abyss': '#cobblemon:is_abyss',
     'arid': '#cobblemon:is_arid',
     'badlands': '#cobblemon:is_badlands',
     'bamboo': '#cobblemon:is_bamboo',
     'beach': '#cobblemon:is_beach',
-    'birch forest': '#cobblemon:birch_forest',
     'bumblezone': '#the_bumblezone:the_bumblezone',
     'cherry grove': 'minecraft:cherry_grove',
     'coast': '#cobblemon:is_coast',
     'cold': '#cobblemon:is_cold',
     'cold ocean': '#cobblemon:is_cold_ocean',
-    'crag': '#cobblemon:is_crag',
     'crystal canyon': 'the_bumblezone:crystal_canyon',
-    'deep': '#cobblemon:is_deep',
     'deep dark': '#cobblemon:is_deep_dark',
     'deep ocean': '#cobblemon:is_deep_ocean',
     'desert': '#cobblemon:is_desert',
@@ -55,9 +51,6 @@ biome_mapping = {
     'floral meadow': 'the_bumblezone:floral_meadow',
     'forest': '#cobblemon:is_forest',
     'freezing': '#cobblemon:is_freezing',
-    'freshwater': '#cobblemon:is_freshwater',
-    'frigid': '#cobblemon:is_frigid',
-    'frozen': '#cobblemon:is_frozen',
     'frozen ocean': '#cobblemon:is_frozen_ocean',
     'glacial': '#cobblemon:is_glacial',
     'grassland': '#cobblemon:is_grassland',
@@ -94,8 +87,6 @@ biome_mapping = {
     'plains': '#cobblemon:is_plains',
     'plateau': '#cobblemon:is_plateau',
     'pollinated fields': 'the_bumblezone:pollinated_fields',
-    'red sand': '#cobblemon:is_red_sand',
-    'river': '#cobblemon:is_river',
     'salt': '#cobblemon:is_salt',
     'sandy': '#cobblemon:is_sandy',
     'savanna': '#cobblemon:is_savanna',
@@ -104,7 +95,7 @@ biome_mapping = {
     'skylands spring': 'terralith:skylands_spring',
     'skylands summer': 'terralith:skylands_summer',
     'skylands winter': 'terralith:skylands_winter',
-    'snowy': '#cobblemon:is_snowy',
+    'snowy beach': 'minecraft:snowy_beach',
     'snowy forest': '#cobblemon:is_snowy_forest',
     'snowy taiga': '#cobblemon:is_snowy_taiga',
     'spooky': '#cobblemon:is_spooky',
@@ -116,7 +107,6 @@ biome_mapping = {
     'thermal': '#cobblemon:is_thermal',
     'tropical island': '#cobblemon:is_tropical_island',
     'tundra': '#cobblemon:is_tundra',
-    'void': '#cobblemon:is_void',
     'volcanic': '#cobblemon:is_volcanic',
     'warm ocean': '#cobblemon:is_warm_ocean',
     'warped desert': 'byg:warped_desert'
@@ -576,10 +566,6 @@ def parse_biomes(biomes_str, invalid_biome_tags):
     for biome in biomes_str.split(','):
         biome = biome.lower().strip()
         if biome in biome_mapping:
-            # Verify that the biome is not in the invalid_biome_tags list
-            if biome_mapping[biome] in invalid_biome_tags:
-                raise ValueError(
-                    f"Tried to use invalid biome tag: {biome}\nThe wrong tag specified in biome_mapping is: {biome_mapping[biome]}")
             biomes.append(biome_mapping[biome])
         elif biome in ignored_biomes:
             pass
