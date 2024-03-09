@@ -15,11 +15,23 @@ output_paths = {
     'biome': "../../docs/cobblemon-tags/BiomeTags.md",
 }
 
+# Define headers for each category
+headers = {
+    'blocks': "# Block Tags\n\nThis file contains tags related to blocks in cobblemon.\n\n## Tags:\n",
+    'entity_types': "# Entity Types Tags\n\nThis file contains tags related to different types of entities in cobblemon.\n\n## Tags:\n",
+    'items': "# Item Tags\n\nThis file contains tags related to items in cobblemon.\n\n## Tags:\n",
+    'biome': "# Biome Tags\n\nThis file contains tags related to different biomes in cobblemon, as well as some worldgen and special evolution tags.\n\n## Tags:\n",
+}
+
 # Ensure the output directory exists
 os.makedirs(os.path.dirname(next(iter(output_paths.values()))), exist_ok=True)
 
-# Open file handles for each category with UTF-8 encoding
+# Open file handles for each category with UTF-8 encoding and write the header
 output_files = {key: open(path, "w", encoding='utf-8') for key, path in output_paths.items()}
+
+# Write the headers to the output files
+for key, file_handle in output_files.items():
+    file_handle.write(headers[key])
 
 
 def determine_category(root):

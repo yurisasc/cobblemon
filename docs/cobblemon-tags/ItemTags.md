@@ -1,3 +1,8 @@
+# Item Tags
+
+This file contains tags related to items in cobblemon.
+
+## Tags:
 
 <details>
 <summary><b>Tag:</b> #items:ability_changers</summary>

@@ -1,3 +1,8 @@
+# Block Tags
+
+This file contains tags related to blocks in cobblemon.
+
+## Tags:
 
 <details>
 <summary><b>Tag:</b> #blocks:all_hanging_signs</summary>

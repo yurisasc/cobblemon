@@ -1,3 +1,8 @@
+# Biome Tags
+
+This file contains tags related to different biomes in cobblemon, as well as some worldgen and special evolution tags.
+
+## Tags:
 
 <details>
 <summary><b>Tag:</b> #biome:is_arid</summary>
