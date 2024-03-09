@@ -68,10 +68,6 @@
       "required": false
     },
     {
-      "id": "wythers:subtropical_forest",
-      "required": false
-    },
-    {
       "id": "wythers:tangled_forest",
       "required": false
     },
