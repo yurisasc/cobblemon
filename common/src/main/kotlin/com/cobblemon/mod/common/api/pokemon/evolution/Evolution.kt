@@ -17,15 +17,15 @@ import com.cobblemon.mod.common.api.moves.MoveTemplate
 import com.cobblemon.mod.common.api.pokemon.PokemonProperties
 import com.cobblemon.mod.common.api.pokemon.evolution.requirement.EvolutionRequirement
 import com.cobblemon.mod.common.api.scheduling.afterOnServer
-import com.cobblemon.mod.common.entity.generic.GenericBedrockEntity
 import com.cobblemon.mod.common.net.messages.client.animation.PlayPoseableAnimationPacket
 import com.cobblemon.mod.common.net.messages.client.effect.SpawnSnowstormEntityParticlePacket
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.pokemon.activestate.ShoulderedState
+import com.cobblemon.mod.common.pokemon.ai.MoveBehaviour
+import com.cobblemon.mod.common.pokemon.ai.WalkBehaviour
 import com.cobblemon.mod.common.pokemon.evolution.variants.ItemInteractionEvolution
 import com.cobblemon.mod.common.pokemon.evolution.variants.LevelUpEvolution
 import com.cobblemon.mod.common.pokemon.evolution.variants.TradeEvolution
-import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.lang
 import net.minecraft.entity.Entity
 import net.minecraft.item.ItemStack
@@ -118,7 +118,11 @@ interface Evolution : EvolutionLike {
         if (pokemonEntity == null || !useEvolutionEffect) {
             evolutionMethod(pokemon)
         } else {
+            pokemonEntity.busyLocks.add("evolving")
             evolutionAnimation(pokemonEntity)
+            afterOnServer(seconds = 10.2F) {
+                pokemonEntity.busyLocks.remove("evolving")
+            }
         }
     }
 

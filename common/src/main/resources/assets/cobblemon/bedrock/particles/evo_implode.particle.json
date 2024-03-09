@@ -9,6 +9,10 @@
 			}
 		},
 		"components": {
+			"minecraft:emitter_local_space": {
+				"position": true,
+				"rotation": false
+			},
 			"minecraft:emitter_rate_instant": {
 				"num_particles": 64
 			},
@@ -16,7 +20,7 @@
 				"active_time": 5
 			},
 			"minecraft:emitter_shape_sphere": {
-				"radius": "q.entity_size * 4",
+				"radius": "q.entity_size",
 				"surface_only": true,
 				"direction": "inwards"
 			},

@@ -9,8 +9,12 @@
 			}
 		},
 		"components": {
+			"minecraft:emitter_local_space": {
+				"position": true,
+				"rotation": false
+			},
 			"minecraft:emitter_rate_instant": {
-				"num_particles": "130 * q.entity_size"
+				"num_particles": "math.clamp(130 * q.entity_size, 1, 260)"
 			},
 			"minecraft:emitter_lifetime_once": {
 				"active_time": 1
@@ -27,13 +31,13 @@
 			"minecraft:particle_initial_spin": {
 				"rotation": "math.random_integer(1,4)*90"
 			},
-			"minecraft:particle_initial_speed": "math.random(10,12.5)",
+			"minecraft:particle_initial_speed": "math.clamp(math.random(10,12.5) * q.entity_size, 9, 20 )",
 			"minecraft:particle_motion_dynamic": {
-				"linear_acceleration": ["(v.particle_random_2*15 - 15/2) + math.random(-4,4)", "(v.particle_random_3*8 - 4) + math.random(-4,4)", "(v.particle_random_4*15 - 15/2) + math.random(-4,4)"],
-				"linear_drag_coefficient": "math.random(4,5)"
+				"linear_acceleration": ["(v.particle_random_2*15 - 15/2) + (math.random(-4,4) * q.entity_size)", "(v.particle_random_3*8 - 4) + (math.random(-4,4) * q.entity_size)", "(v.particle_random_4*15 - 15/2) + (math.random(-4,4) * q.entity_size)"],
+				"linear_drag_coefficient": "math.random(4,5) / (q.entity_size)"
 			},
 			"minecraft:particle_appearance_billboard": {
-				"size": ["0.15 * q.entity_size", "0.15 * q.entity_size"],
+				"size": ["math.clamp(0.15 * q.entity_size,0,2)", "math.clamp(0.15 * q.entity_size,0,2)"],
 				"facing_camera_mode": "rotate_xyz",
 				"uv": {
 					"texture_width": 8,
@@ -58,7 +62,7 @@
 						"0.0": "#FFFFFFFF",
 						"0.18": "#B5FFFFFF",
 						"0.5": "#A3FFFFFF",
-						"1.0": "#FF00FFF6"
+						"1.0": "#FF96FFFA"
 					}
 				}
 			}

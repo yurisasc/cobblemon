@@ -2,7 +2,7 @@
 	"format_version": "1.10.0",
 	"particle_effect": {
 		"description": {
-			"identifier": "cobblemon:evo_godrays",
+			"identifier": "cobblemon:evo_godrays_small",
 			"basic_render_parameters": {
 				"material": "particles_blend",
 				"texture": "textures/particles/lightbeam"
@@ -18,7 +18,7 @@
 				"max_particles": 100
 			},
 			"minecraft:emitter_lifetime_once": {
-				"active_time": 4
+				"active_time": 3
 			},
 			"minecraft:emitter_shape_point": {},
 			"minecraft:particle_lifetime_expression": {
@@ -31,7 +31,7 @@
 			"minecraft:particle_initial_speed": 0,
 			"minecraft:particle_motion_dynamic": {},
 			"minecraft:particle_appearance_billboard": {
-				"size": ["(6/128) * 1 * v.particle_age * q.entity_size", "3 * v.particle_age * q.entity_size"],
+				"size": [0, "2 * v.particle_age * q.entity_size"],
 				"facing_camera_mode": "rotate_xyz",
 				"uv": {
 					"texture_width": 6,
@@ -45,9 +45,9 @@
 					"interpolant": "v.particle_age / v.particle_lifetime",
 					"gradient": {
 						"0.0": "#0037FFF7",
-						"0.24": "#FFC9FFF4",
-						"0.5": "#FFE9FFFD",
-						"0.8": "#94C2FFFD",
+						"0.24": "#FFFF9BAF",
+						"0.5": "#FFFFF864",
+						"0.8": "#FFB63EFB",
 						"1.0": "#0082F8FF"
 					}
 				}

@@ -16,7 +16,11 @@
 				"nodes": [1, 0]
 			}
 		},
-		"components": {
+		"components": {			
+			"minecraft:emitter_local_space": {
+				"position": true,
+				"rotation": false
+			},
 			"minecraft:emitter_rate_steady": {
 				"spawn_rate": "200 * q.entity_size",
 				"max_particles": "15 * q.entity_size"
