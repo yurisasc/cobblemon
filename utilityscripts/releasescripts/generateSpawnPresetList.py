@@ -4,7 +4,14 @@ import os
 
 def generate_markdown(json_directory, output_markdown_file):
     json_files = [f for f in os.listdir(json_directory) if f.endswith('.json')]
-    markdown_content = ""
+
+    # Define the header
+    header = "# Spawn Presets\n\nThis file contains all current spawn presets of cobblemon.\n\n"
+
+    # Use GitLab flavored markdown's [TOC] for generating the table of contents
+    toc = "[[_TOC_]]\n\n# Spawn Preset List\n\n"
+
+    markdown_content = header + toc
 
     for file_name in json_files:
         file_path = os.path.join(json_directory, file_name)
