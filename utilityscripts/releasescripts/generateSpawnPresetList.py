@@ -1,6 +1,7 @@
 import json
 import os
 
+
 def generate_markdown(json_directory, output_markdown_file):
     json_files = [f for f in os.listdir(json_directory) if f.endswith('.json')]
     markdown_content = ""
@@ -33,14 +34,18 @@ def generate_markdown(json_directory, output_markdown_file):
             if not isinstance(anticondition_values, list):
                 anticondition_values = [anticondition_values]
 
-            # Generating markdown table rows
-            markdown_content += f"| {'; '.join([f'+ `{v}`' for v in condition_values])} | {'; '.join([f'- `{v}`' for v in anticondition_values])} |\n"
-
-        markdown_content += "\n"
+            # Check if the key is in conditions or anticonditions
+            if key in conditions:
+                # Prepend the key to the conditions column
+                markdown_content += f"| *{key}:* {'; '.join([f'`{v}`' for v in condition_values])} | {'; '.join([f'`{v}`' for v in anticondition_values])} |\n"
+            else:
+                # Prepend the key to the anticonditions column
+                markdown_content += f"| {'; '.join([f'`{v}`' for v in condition_values])} | *{key}:* {'; '.join([f'`{v}`' for v in anticondition_values])} |\n"
 
     # Write markdown content to the specified output file
     with open(output_markdown_file, 'w') as output_file:
         output_file.write(markdown_content)
+
 
 # Example usage
 json_directory = '../../common/src/main/resources/data/cobblemon/spawn_detail_presets'
