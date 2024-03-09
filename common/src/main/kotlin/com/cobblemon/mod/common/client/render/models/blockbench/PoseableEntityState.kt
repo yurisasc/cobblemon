@@ -166,6 +166,11 @@ abstract class PoseableEntityState<T : Entity> : Schedulable {
         val previousAge = age
         updateAge(age + 1)
         runEffects(entity, previousAge, age)
+        val primaryAnimation = primaryAnimation ?: return
+        if (primaryAnimation.started + primaryAnimation.duration <= animationSeconds) {
+            this.primaryAnimation = null
+            primaryAnimation.afterAction.accept(Unit)
+        }
     }
 
     abstract fun updatePartialTicks(partialTicks: Float)
