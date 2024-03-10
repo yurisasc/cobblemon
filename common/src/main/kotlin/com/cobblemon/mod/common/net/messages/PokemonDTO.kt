@@ -20,13 +20,13 @@ import com.cobblemon.mod.common.api.pokemon.feature.SpeciesFeatures
 import com.cobblemon.mod.common.api.pokemon.feature.SynchronizedSpeciesFeature
 import com.cobblemon.mod.common.api.pokemon.feature.SynchronizedSpeciesFeatureProvider
 import com.cobblemon.mod.common.api.pokemon.status.Statuses
-import com.cobblemon.mod.common.api.types.ElementalTypes
+import com.cobblemon.mod.common.api.types.tera.TeraTypes
 import com.cobblemon.mod.common.net.IntSize
-import com.cobblemon.mod.common.net.messages.client.pokemon.update.SpeciesFeatureUpdatePacket
 import com.cobblemon.mod.common.pokemon.*
 import com.cobblemon.mod.common.pokemon.activestate.PokemonState
 import com.cobblemon.mod.common.pokemon.status.PersistentStatus
 import com.cobblemon.mod.common.pokemon.status.PersistentStatusContainer
+import com.cobblemon.mod.common.util.asIdentifierDefaultingNamespace
 import com.cobblemon.mod.common.util.readSizedInt
 import com.cobblemon.mod.common.util.writeSizedInt
 import io.netty.buffer.Unpooled
@@ -110,7 +110,7 @@ class PokemonDTO : Encodable, Decodable {
         this.mintNature = pokemon.mintedNature?.name
         this.heldItem = pokemon.heldItemNoCopy()
         this.tetheringId = pokemon.tetheringId
-        this.teraType = pokemon.teraType.name
+        this.teraType = pokemon.teraType.id.toString()
         this.dmaxLevel = pokemon.dmaxLevel
         this.gmaxFactor = pokemon.gmaxFactor
         this.tradeable = pokemon.tradeable
@@ -259,7 +259,7 @@ class PokemonDTO : Encodable, Decodable {
             it.mintedNature = mintNature?.let { id -> Natures.getNature(id)!! }
             it.swapHeldItem(heldItem, false)
             it.tetheringId = tetheringId
-            it.teraType = ElementalTypes.getOrException(teraType)
+            it.teraType = TeraTypes.get(this.teraType.asIdentifierDefaultingNamespace())!!
             it.dmaxLevel = dmaxLevel
             it.gmaxFactor = gmaxFactor
             it.tradeable = tradeable
@@ -269,7 +269,7 @@ class PokemonDTO : Encodable, Decodable {
                 val featureProviders = SpeciesFeatures
                     .getFeaturesFor(species)
                     .filterIsInstance<SynchronizedSpeciesFeatureProvider<*>>()
-                val feature = featureProviders.firstNotNullOfOrNull { it(featuresBuffer, speciesFeatureName) } as? SynchronizedSpeciesFeature
+                val feature = featureProviders.firstNotNullOfOrNull { it(featuresBuffer, speciesFeatureName) }
                     ?: throw IllegalArgumentException("Couldn't find a feature provider to deserialize this feature. Something's wrong.")
                 it.features.removeIf { it.name == feature.name }
                 it.features.add(feature)

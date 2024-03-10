@@ -15,6 +15,7 @@ import com.cobblemon.mod.common.api.gui.ColourLibrary
 import com.cobblemon.mod.common.api.gui.MultiLineLabelK
 import com.cobblemon.mod.common.api.gui.blitk
 import com.cobblemon.mod.common.api.text.bold
+import com.cobblemon.mod.common.client.CobblemonClient
 import com.cobblemon.mod.common.client.CobblemonResources
 import com.cobblemon.mod.common.client.gui.startselection.widgets.CategoryList
 import com.cobblemon.mod.common.client.gui.startselection.widgets.ExitButton
@@ -37,7 +38,7 @@ import net.minecraft.client.MinecraftClient
 import net.minecraft.client.gui.DrawContext
 import net.minecraft.client.gui.screen.Screen
 import net.minecraft.client.sound.PositionedSoundInstance
-import net.minecraft.client.util.math.MatrixStack
+import net.minecraft.client.toast.Toast
 import net.minecraft.text.Text
 
 /**
@@ -74,6 +75,12 @@ class StarterSelectionScreen(private val categories: List<RenderableStarterCateg
 
     override fun init() {
         super.init()
+        // Hide toast once checkedStarterScreen was set, which happens during the opening of the starter screen.
+        if (CobblemonClient.checkedStarterScreen) {
+            if (CobblemonClient.overlay.starterToast.nextVisibility != Toast.Visibility.HIDE) {
+                CobblemonClient.overlay.starterToast.nextVisibility = Toast.Visibility.HIDE
+            }
+        }
 
         val x = (width - BASE_WIDTH) / 2
         val y = (height - BASE_HEIGHT) / 2
