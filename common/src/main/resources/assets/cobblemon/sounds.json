@@ -75,10 +75,10 @@
     "sounds": [ "cobblemon:pokemon/evolution_notification"]
   },
   "evolution.evolve": {
-    "sounds": ["cobblemon:evolve"]
+    "sounds": []
   },
-  "pokemon.evolving": {
-    "sounds": [ "cobblemon:pokemon/evolving"]
+  "evolution.evolving": {
+    "sounds": ["cobblemon:evolution/evolve_full"]
   },
   "gui.click": {
     "sounds": [ "cobblemon:click" ]

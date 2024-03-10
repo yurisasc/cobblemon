@@ -121,7 +121,11 @@ interface Evolution : EvolutionLike {
             pokemonEntity.busyLocks.add("evolving")
             evolutionAnimation(pokemonEntity)
             afterOnServer(seconds = 10.2F) {
+                evolutionMethod(pokemon)
                 pokemonEntity.busyLocks.remove("evolving")
+            }
+            afterOnServer ( seconds = 11F ) {
+                cryAnimation(pokemonEntity)
             }
         }
     }
@@ -131,9 +135,9 @@ interface Evolution : EvolutionLike {
         playPoseableAnimationPacket.sendToPlayersAround(pokemon.x, pokemon.y, pokemon.z, 64.0, pokemon.world.registryKey)
     }
 
-    private fun particleEffect(id: Identifier, entity: Entity, anchor: String = "root") {
-        val spawnSnowstormParticlePacket = SpawnSnowstormEntityParticlePacket(id, entity.id, anchor)
-        spawnSnowstormParticlePacket.sendToPlayersAround(entity.x, entity.y, entity.z, 64.0, entity.world.registryKey)
+    private fun cryAnimation(pokemon: Entity) {
+        val playPoseableAnimationPacket = PlayPoseableAnimationPacket(pokemon.id, setOf("cry"), emptySet())
+        playPoseableAnimationPacket.sendToPlayersAround(pokemon.x, pokemon.y, pokemon.z, 64.0, pokemon.world.registryKey)
     }
 
     fun evolutionMethod(pokemon: Pokemon) {
@@ -148,7 +152,6 @@ interface Evolution : EvolutionLike {
         }
         // we want to instantly tick for example you might only evolve your Bulbasaur at level 34 so Venusaur should be immediately available
         pokemon.evolutions.filterIsInstance<PassiveEvolution>().forEach { evolution -> evolution.attemptEvolution(pokemon) }
-        pokemon.getOwnerPlayer()?.playSound(CobblemonSounds.EVOLVING, SoundCategory.NEUTRAL, 1F, 1F)
         CobblemonEvents.EVOLUTION_COMPLETE.post(EvolutionCompleteEvent(pokemon, this))
     }
 

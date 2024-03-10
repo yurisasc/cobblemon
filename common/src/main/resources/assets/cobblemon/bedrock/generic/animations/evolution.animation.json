@@ -161,6 +161,11 @@
 					}
 				}
 			},
+			"sound_effects": {
+				"0.0": {
+					"effect": "evolution.evolving"
+				}
+			},
 			"particle_effects": {
 				"0.0": {
 					"effect": "cobblemon:evo_particles",
