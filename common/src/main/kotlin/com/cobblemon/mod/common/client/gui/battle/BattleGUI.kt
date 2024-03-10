@@ -8,6 +8,7 @@
 
 package com.cobblemon.mod.common.client.gui.battle
 
+import com.cobblemon.mod.common.battles.PassActionResponse
 import com.cobblemon.mod.common.battles.ShowdownActionResponse
 import com.cobblemon.mod.common.client.CobblemonClient
 import com.cobblemon.mod.common.client.battle.ClientBattleActor
@@ -130,11 +131,21 @@ class BattleGUI : Screen(battleLang("gui.title")) {
         queuedActions.clear()
     }
 
-    fun deriveRootActionSelection(actor: ClientBattleActor, request: SingleActionRequest): BattleActionSelection {
+    fun deriveRootActionSelection(actor: ClientBattleActor, request: SingleActionRequest): BattleActionSelection? {
+
+
         return if (request.forceSwitch) {
             BattleSwitchPokemonSelection(this, request)
         } else {
-            BattleGeneralActionSelection(this, request)
+            // Known quirk of Showdown. It'll ask for actions on fainted slots
+            // Also during a forced switch in doubles/triples it'll ask for actions on non-switching slots
+            val pokemon = request.side?.pokemon?.firstOrNull { it.uuid === request.activePokemon.battlePokemon?.uuid }
+            if((pokemon != null && pokemon.condition.contains("fnt")) || (request.moveSet == null)) {
+                request.response = PassActionResponse
+                null
+            } else {
+                BattleGeneralActionSelection(this, request)
+            }
         }
     }
 
