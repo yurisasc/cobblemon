@@ -95,6 +95,7 @@ enum class ShowdownActionResponseType(val loader: (PacketByteBuf) -> ShowdownAct
     DEFAULT({ DefaultActionResponse() }),
     FORCE_PASS({ ForcePassActionResponse() }),
     PASS({ PassActionResponse }),
+    SHIFT({ ShiftActionResponse()}),
     HEAL_ITEM({ HealItemActionResponse("potion") });
 }
 
@@ -190,6 +191,16 @@ data class HealItemActionResponse(var item: String) : ShowdownActionResponse(Sho
     }
 }
 
+class ShiftActionResponse() : ShowdownActionResponse(ShowdownActionResponseType.SHIFT) {
+    override fun isValid(activeBattlePokemon: ActiveBattlePokemon, showdownMoveSet: ShowdownMoveset?, forceSwitch: Boolean): Boolean {
+        return !forceSwitch && activeBattlePokemon.getPNX()[1] != 'b' && activeBattlePokemon.battle.format.battleType.pokemonPerSide == 3
+    }
+
+    override fun toShowdownString(activeBattlePokemon: ActiveBattlePokemon, showdownMoveSet: ShowdownMoveset?): String {
+        return "shift"
+    }
+
+}
 data class SwitchActionResponse(var newPokemonId: UUID) : ShowdownActionResponse(ShowdownActionResponseType.SWITCH) {
     override fun saveToBuffer(buffer: PacketByteBuf) {
         super.saveToBuffer(buffer)

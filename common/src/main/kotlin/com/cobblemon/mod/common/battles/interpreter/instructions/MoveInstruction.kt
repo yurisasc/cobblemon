@@ -72,7 +72,7 @@ class MoveInstruction(
             val lang = when {
                 optionalEffect?.id == "magicbounce" ->
                     battleLang("ability.magicbounce", pokemonName, move.displayName)
-                move.name != "struggle" && targetPokemon != null && targetPokemon != userPokemon ->
+                move.name != "struggle" && spreadTargetPokemon.isEmpty() && targetPokemon != null && targetPokemon != userPokemon ->
                     battleLang("used_move_on", pokemonName, move.displayName, targetPokemon.getName())
                 else ->
                     battleLang("used_move", pokemonName, move.displayName)
