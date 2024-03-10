@@ -1290,7 +1290,7 @@ object ShowdownInterpreter {
      *
      * Figures out the sendout position for an arbitrary battle
      * Code is very much WIP and will be refactored to heck and back.
-     * Triples positioning is def incorrect atm
+     *
      */
     private fun getSendoutPosition(battle: PokemonBattle, pnx:String, battleActor: BattleActor,  pokemonID: String): Vec3d? {
         val (actor, activePokemon) = battle.getActorAndActiveSlotFromPNX(pnx)

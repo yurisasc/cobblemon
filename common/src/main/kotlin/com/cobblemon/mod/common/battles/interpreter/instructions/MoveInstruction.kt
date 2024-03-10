@@ -29,6 +29,7 @@ import com.cobblemon.mod.common.battles.dispatch.UntilDispatch
 import com.cobblemon.mod.common.battles.pokemon.BattlePokemon
 import com.cobblemon.mod.common.pokemon.evolution.progress.UseMoveEvolutionProgress
 import com.cobblemon.mod.common.util.battleLang
+import net.minecraft.entity.Entity
 import java.util.concurrent.CompletableFuture
 
 class MoveInstruction(
@@ -58,6 +59,8 @@ class MoveInstruction(
 
         battle.dispatch {
             ShowdownInterpreter.lastCauser[battle.battleId] = message
+            // For Spread targets the message data only gives the pnx strings. So we can't know what pokemon are actually targeted until the previous messages have been interpreted
+            val spreadTargetPokemon = message.getSpreadBattlePokemon(battle)
 
             userPokemon.effectedPokemon.let { pokemon ->
                 if (UseMoveEvolutionProgress.supports(pokemon, move)) {
@@ -79,7 +82,11 @@ class MoveInstruction(
 
             val providers = mutableListOf<Any>(battle)
             userPokemon.effectedPokemon.entity?.let { UsersProvider(it) }?.let(providers::add)
-            targetPokemon?.effectedPokemon?.entity?.let { TargetsProvider(it) }?.let(providers::add)
+            if(spreadTargetPokemon.isNotEmpty()) {
+                providers.add(TargetsProvider( spreadTargetPokemon.filter { it.effectedPokemon.entity != null}.map { spreadTarget -> spreadTarget.effectedPokemon.entity!! } ))
+            } else {
+                targetPokemon?.effectedPokemon?.entity?.let { TargetsProvider(it) }?.let(providers::add)
+            }
             val runtime = MoLangRuntime().also {
                 battle.addQueryFunctions(it.environment.getQueryStruct()).addStandardFunctions()
             }
