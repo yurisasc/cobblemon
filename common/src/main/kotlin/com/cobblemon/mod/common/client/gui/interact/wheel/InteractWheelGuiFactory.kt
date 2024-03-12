@@ -14,6 +14,7 @@ import com.cobblemon.mod.common.api.events.pokemon.interaction.PokemonInteractio
 import com.cobblemon.mod.common.client.CobblemonClient
 import com.cobblemon.mod.common.net.messages.client.PlayerInteractOptionsPacket
 import com.cobblemon.mod.common.net.messages.server.BattleChallengePacket
+import com.cobblemon.mod.common.net.messages.server.BattleChallengeResponsePacket
 import com.cobblemon.mod.common.net.messages.server.battle.SpectateBattlePacket
 import com.cobblemon.mod.common.net.messages.server.pokemon.interact.InteractPokemonPacket
 import com.cobblemon.mod.common.net.messages.server.trade.AcceptTradeRequestPacket
@@ -93,7 +94,7 @@ fun createPlayerInteractGui(optionsPacket: PlayerInteractOptionsPacket): Interac
             }
     )
     val tripleBattle = InteractWheelOption(
-            iconResource = cobblemonResource("textures/gui/interact/icon_battle.png"), // Need double battle icon
+            iconResource = cobblemonResource("textures/gui/interact/icon_battle.png"), // Need triple battle icon
             colour = { if (CobblemonClient.requests.battleChallenges.any { it.challengerId == optionsPacket.targetId }) Vector3f(0F, 0.6F, 0F) else null },
             tooltipText = "cobblemon.ui.interact.triplebattle",
             onPress = {
@@ -103,6 +104,36 @@ fun createPlayerInteractGui(optionsPacket: PlayerInteractOptionsPacket): Interac
                 closeGUI()
             }
     )
+//    val multibattle = InteractWheelOption(
+//            iconResource = cobblemonResource("textures/gui/interact/icon_battle.png"), // Need Multi battle icon
+//            colour = { if (CobblemonClient.requests.battleChallenges.any { it.challengerId == optionsPacket.targetId }) Vector3f(0F, 0.6F, 0F) else null },
+//            tooltipText = "cobblemon.ui.interact.multibattle",
+//            onPress = {
+//                val battleRequest = CobblemonClient.requests.battleChallenges.find { it.challengerId == optionsPacket.targetId }
+//                // This can be improved in future with more detailed battle challenge data.
+//                BattleChallengePacket(optionsPacket.numericTargetId, optionsPacket.selectedPokemonId, "multi").sendToServer()
+//                closeGUI()
+//            }
+//    )
+    val battleAccept = InteractWheelOption(
+        iconResource = cobblemonResource("textures/gui/interact/icon_battle.png"), // Need Accept icon
+        colour = { if (CobblemonClient.requests.battleChallenges.any { it.challengerId == optionsPacket.targetId }) Vector3f(0F, 0.6F, 0F) else null },
+        tooltipText = "cobblemon.ui.interact.battle.accept",
+        onPress = {
+            BattleChallengeResponsePacket(optionsPacket.numericTargetId, optionsPacket.selectedPokemonId, true).sendToServer()
+            closeGUI()
+        }
+    )
+
+    val battleDecline = InteractWheelOption(
+        iconResource = cobblemonResource("textures/gui/interact/icon_battle.png"), // Need Decline icon
+        colour = { if (CobblemonClient.requests.battleChallenges.any { it.challengerId == optionsPacket.targetId }) Vector3f(0F, 0.6F, 0F) else null },
+        tooltipText = "cobblemon.ui.interact.battle.decline",
+        onPress = {
+            BattleChallengeResponsePacket(optionsPacket.numericTargetId, optionsPacket.selectedPokemonId, false).sendToServer()
+            closeGUI()
+        }
+    )
     val spectate = InteractWheelOption(
         iconResource = cobblemonResource("textures/gui/interact/icon_spectate_battle.png"),
         colour = { if (CobblemonClient.requests.battleChallenges.any { it.challengerId == optionsPacket.targetId }) Vector3f(0F, 0.6F, 0F) else null },
@@ -111,17 +142,24 @@ fun createPlayerInteractGui(optionsPacket: PlayerInteractOptionsPacket): Interac
             closeGUI()
         },
         tooltipText = "cobblemon.ui.interact.spectate"
-        )
+    )
     val options: Multimap<Orientation, InteractWheelOption> = ArrayListMultimap.create()
+    val hasChallenge = CobblemonClient.requests.battleChallenges.any { it.challengerId == optionsPacket.targetId }
     //The way things are positioned should probably be more thought out if more options are added
     optionsPacket.options.map {
         if (it.equals(PlayerInteractOptionsPacket.Options.TRADE)) {
             options.put(Orientation.TOP_LEFT, trade)
         }
         if (it.equals(PlayerInteractOptionsPacket.Options.BATTLE)) {
-            options.put(Orientation.TOP_RIGHT, battle)
-            options.put(Orientation.BOTTOM_RIGHT, doubleBattle)
-            options.put(Orientation.BOTTOM_LEFT, tripleBattle)
+            if(hasChallenge) {
+                options.put(Orientation.BOTTOM_RIGHT, battleAccept)
+                options.put(Orientation.BOTTOM_LEFT, battleDecline)
+            } else {
+                options.put(Orientation.TOP_RIGHT, battle)
+                options.put(Orientation.BOTTOM_RIGHT, doubleBattle)
+                options.put(Orientation.BOTTOM_LEFT, tripleBattle)
+//                options.put(Orientation.BOTTOM_LEFT, multibattle)
+            }
         }
         if (it.equals(PlayerInteractOptionsPacket.Options.SPECTATE_BATTLE)) {
             options.put(Orientation.TOP_RIGHT, spectate)

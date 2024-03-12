@@ -22,7 +22,6 @@ import com.cobblemon.mod.common.net.messages.client.battle.BattleChallengeExpire
 import com.cobblemon.mod.common.util.getPlayer
 import com.google.gson.GsonBuilder
 import java.time.Instant
-import java.util.Optional
 import java.util.UUID
 import java.util.concurrent.ConcurrentHashMap
 import net.minecraft.server.network.ServerPlayerEntity
@@ -33,11 +32,18 @@ object BattleRegistry {
         val challengeId: UUID,
         val challengedPlayerUUID: UUID,
         val selectedPokemonId: UUID,
+        val battleType: String,
         var expiryTimeSeconds: Int = 60
     ) {
         val challengedTime = Instant.now()
         fun isExpired() = Instant.now().isAfter(challengedTime.plusSeconds(expiryTimeSeconds.toLong()))
     }
+
+//    class MultiBattleTeam(
+//            val teamID: UUID,
+//            val teamPlayersUUID: MutableList<UUID>,
+//            val battleType: String,
+//    )
 
     val gson = GsonBuilder()
         .disableHtmlEscaping()
@@ -46,10 +52,12 @@ object BattleRegistry {
     private val battleMap = ConcurrentHashMap<UUID, PokemonBattle>()
     // Challenger to challenge
     val pvpChallenges = mutableMapOf<UUID, BattleChallenge>()
+//    val pvpTeams = mutableMapOf<UUID, MultiBattleTeam>()
 
     fun onServerStarted() {
         battleMap.clear()
         pvpChallenges.clear()
+//        pvpTeams.clear()
     }
 
     fun removeChallenge(challengerId: UUID, challengeId: UUID? = null) {
@@ -163,7 +171,7 @@ object BattleRegistry {
          * See the lines about multi battles and free for alls. The same side of the battle will share 'parity' (even or odd) across
          * all participants. So side 1 will be 1, 3, 5, ... while side 2 will be 2, 4, 6, ...
          *
-         * That isn't how our code works, as we have the BattleSide thing, but it's how Showdown works so we need to play along a bit.
+         * That isn't how our code works, as we have the BattleSide thing, but it's how Showdown works, so we need to play along a bit.
          */
 
         var actorIndex = 1

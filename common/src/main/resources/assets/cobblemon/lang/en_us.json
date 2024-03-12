@@ -581,6 +581,11 @@
   "cobblemon.challenge_label": "Press %1$s to battle.",
   "cobblemon.challenge.sender": "You challenged %1$s to a battle!",
   "cobblemon.challenge.receiver": "%1$s has challenged you to battle!",
+  "cobblemon.challenge.multi.ally.sender": "You requested %1s to pair up for a Multibattle!",
+  "cobblemon.challenge.multi.ally.receiver": "%1$s has you to pair up for a Multibattle!",
+  "cobblemon.challenge.decline.sender": "You declined %1$s's battle challenge...",
+  "cobblemon.challenge.decline.receiver": "%1$s declined your battle challenge...",
+
 
   "cobblemon.drop.item.inventory": "You received %2$s (%1$sx).",
   "cobblemon.drop.item.full": "Your inventory was full so the %1$s dropped to the ground.",

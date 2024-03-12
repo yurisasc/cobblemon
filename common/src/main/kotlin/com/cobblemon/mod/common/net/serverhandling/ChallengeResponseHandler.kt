@@ -18,17 +18,15 @@ import com.cobblemon.mod.common.battles.BattleBuilder
 import com.cobblemon.mod.common.battles.BattleFormat
 import com.cobblemon.mod.common.battles.BattleRegistry
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
-import com.cobblemon.mod.common.net.messages.client.battle.BattleChallengeNotificationPacket
-import com.cobblemon.mod.common.net.messages.server.BattleChallengePacket
+import com.cobblemon.mod.common.net.messages.server.BattleChallengeResponsePacket
 import com.cobblemon.mod.common.util.battleLang
 import com.cobblemon.mod.common.util.lang
 import com.cobblemon.mod.common.util.party
-import java.util.UUID
 import net.minecraft.server.MinecraftServer
 import net.minecraft.server.network.ServerPlayerEntity
 
-object ChallengeHandler : ServerNetworkPacketHandler<BattleChallengePacket> {
-    override fun handle(packet: BattleChallengePacket, server: MinecraftServer, player: ServerPlayerEntity) {
+object ChallengeResponseHandler : ServerNetworkPacketHandler<BattleChallengeResponsePacket> {
+    override fun handle(packet: BattleChallengeResponsePacket, server: MinecraftServer, player: ServerPlayerEntity) {
         if(player.isSpectator) return
 
         val targetedEntity = player.world.getEntityById(packet.targetedEntityId)?.let {
@@ -59,17 +57,35 @@ object ChallengeHandler : ServerNetworkPacketHandler<BattleChallengePacket> {
                 if (player == targetedEntity) {
                     return
                 }
+                // Check in on battle requests, if the other player has challenged me, this starts the battle
                 val existingChallenge = BattleRegistry.pvpChallenges[targetedEntity.uuid]
+                var existingChallengePokemon = existingChallenge?.selectedPokemonId
                 if (existingChallenge != null && !existingChallenge.isExpired() && existingChallenge.challengedPlayerUUID == player.uuid) {
-                    // Overwrite the challenge or do nothing.
-                } else {
-                    val challenge = BattleRegistry.BattleChallenge(UUID.randomUUID(), targetedEntity.uuid, leadingPokemon, packet.battleType)
-                    BattleRegistry.pvpChallenges[player.uuid] = challenge
-                    afterOnServer(seconds = challenge.expiryTimeSeconds.toFloat()) {
-                        BattleRegistry.removeChallenge(player.uuid, challengeId = challenge.challengeId)
+
+                    val battleFormat = when (existingChallenge.battleType) {
+                        "doubles" -> BattleFormat.GEN_9_DOUBLES
+                        "triples" -> BattleFormat.GEN_9_TRIPLES
+                        "multi" -> BattleFormat.GEN_9_MULTI
+                        else -> BattleFormat.GEN_9_SINGLES
                     }
-                    targetedEntity.sendPacket(BattleChallengeNotificationPacket(challenge.challengeId, player.uuid, player.name.copy().aqua()))
-                    player.sendMessage(lang("challenge.sender", targetedEntity.name).yellow())
+
+                    if(packet.accept) {
+                        if (targetedEntity.party()[existingChallengePokemon!!] == null) {
+                            if (targetedEntity.party().none()) {
+                                player.sendMessage(battleLang("error.no_pokemon_opponent"))
+                                targetedEntity.sendMessage(battleLang("error.no_pokemon"))
+                                BattleRegistry.removeChallenge(targetedEntity.uuid)
+                                return
+                            }
+                            existingChallengePokemon = targetedEntity.party().first().uuid
+                        }
+                        BattleBuilder.pvp1v1(player, targetedEntity, leadingPokemon, existingChallengePokemon, battleFormat)
+                    } else {
+                        // Play messages to both sides that the battle was declined
+                        targetedEntity.sendMessage(lang("challenge.decline.receiver", player.name).yellow())
+                        player.sendMessage(lang("challenge.decline.sender", targetedEntity.name).yellow())
+                    }
+                    BattleRegistry.removeChallenge(targetedEntity.uuid, existingChallenge.challengeId)
                 }
             }
             else -> {
@@ -77,4 +93,5 @@ object ChallengeHandler : ServerNetworkPacketHandler<BattleChallengePacket> {
             }
         }
     }
+
 }
