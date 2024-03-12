@@ -99,27 +99,27 @@ object CobblemonSounds : PlatformRegistry<Registry<SoundEvent>, RegistryKey<Regi
     val MULCH_REMOVE = this.create("mulch.remove")
 
     @JvmField
-    val FOSSIL_MACHINE_ACTIVATE = this.create("fossilmachine.activate")
+    val FOSSIL_MACHINE_ACTIVATE = this.create("fossil_machine.activate")
     @JvmField
-    val FOSSIL_MACHINE_ACTIVE_LOOP = this.create("fossilmachine.active_loop")
+    val FOSSIL_MACHINE_ACTIVE_LOOP = this.create("fossil_machine.active_loop")
     @JvmField
-    val FOSSIL_MACHINE_ASSEMBLE = this.create("fossilmachine.assemble")
+    val FOSSIL_MACHINE_ASSEMBLE = this.create("fossil_machine.assemble")
     @JvmField
-    val FOSSIL_MACHINE_DNA_FULL = this.create("fossilmachine.dna_full")
+    val FOSSIL_MACHINE_DNA_FULL = this.create("fossil_machine.dna_full")
     @JvmField
-    val FOSSIL_MACHINE_FINISHED = this.create("fossilmachine.finished")
+    val FOSSIL_MACHINE_FINISHED = this.create("fossil_machine.finished")
     @JvmField
-    val FOSSIL_MACHINE_INSERT_DNA = this.create("fossilmachine.insert_dna")
+    val FOSSIL_MACHINE_INSERT_DNA = this.create("fossil_machine.insert_dna")
     @JvmField
-    val FOSSIL_MACHINE_INSERT_DNA_SMALL = this.create("fossilmachine.insert_dna_small")
+    val FOSSIL_MACHINE_INSERT_DNA_SMALL = this.create("fossil_machine.insert_dna_small")
     @JvmField
-    val FOSSIL_MACHINE_INSERT_FOSSIL = this.create("fossilmachine.insert_fossil")
+    val FOSSIL_MACHINE_INSERT_FOSSIL = this.create("fossil_machine.insert_fossil")
     @JvmField
-    val FOSSIL_MACHINE_RETRIEVE_FOSSIL = this.create("fossilmachine.retrieve_fossil")
+    val FOSSIL_MACHINE_RETRIEVE_FOSSIL = this.create("fossil_machine.retrieve_fossil")
     @JvmField
-    val FOSSIL_MACHINE_RETRIEVE_POKEMON = this.create("fossilmachine.retrieve_pokemon")
+    val FOSSIL_MACHINE_RETRIEVE_POKEMON = this.create("fossil_machine.retrieve_pokemon")
     @JvmField
-    val FOSSIL_MACHINE_UNPROTECTED = this.create("fossilmachine.unprotected")
+    val FOSSIL_MACHINE_UNPROTECTED = this.create("fossil_machine.unprotected")
 
     @JvmField
     val COIN_POUCH_BREAK = this.create("coin_pouch.break")

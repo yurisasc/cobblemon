@@ -104,49 +104,54 @@
   "berry.eat": {
     "sounds": [ "cobblemon:berry_eat" ]
   },
-  "fossilmachine.activate": {
+  "fossil_machine.activate": {
     "subtitle": "cobblemon.subtitle.fossilmachine.activate",
-    "sounds": [ "cobblemon:fossilmachine/activate" ]
+    "sounds": [ "cobblemon:block/fossil_machine/fossil_machine_activate" ]
   },
-  "fossilmachine.active_loop": {
+  "fossil_machine.active_loop": {
     "subtitle": "cobblemon.subtitle.fossilmachine.active_loop",
-    "sounds": [ "cobblemon:fossilmachine/active_loop" ]
+    "sounds": [ { "name": "cobblemon:block/fossil_machine/fossil_machine_active_loop", "volume": 0.6 } ]
   },
-  "fossilmachine.assemble": {
+  "fossil_machine.assemble": {
     "subtitle": "cobblemon.subtitle.fossilmachine.assemble",
-    "sounds": [ "cobblemon:fossilmachine/assemble" ]
+    "sounds": [ { "name": "cobblemon:block/fossil_machine/fossil_machine_assemble", "volume": 0.3 } ]
   },
-  "fossilmachine.dna_full": {
+  "fossil_machine.dna_full": {
     "subtitle": "cobblemon.subtitle.fossilmachine.dna_full",
-    "sounds": [ "cobblemon:fossilmachine/dna_full" ]
+    "sounds": [ "cobblemon:block/fossil_machine/fossil_machine_dna_full" ]
   },
-  "fossilmachine.finished": {
+  "fossil_machine.finished": {
     "subtitle": "cobblemon.subtitle.fossilmachine.finished",
-    "sounds": [ "cobblemon:fossilmachine/finished" ]
+    "sounds": [ "cobblemon:block/fossil_machine/fossil_machine_finished" ]
   },
-  "fossilmachine.insert_dna": {
+  "fossil_machine.insert_dna": {
     "subtitle": "cobblemon.subtitle.fossilmachine.insert_dna",
-    "sounds": [ "cobblemon:fossilmachine/insert_dna" ]
+    "sounds": [ "cobblemon:block/fossil_machine/fossil_machine_insert_dna" ]
   },
-  "fossilmachine.insert_dna_small": {
+  "fossil_machine.insert_dna_small": {
     "subtitle": "cobblemon.subtitle.fossilmachine.insert_dna_small",
-    "sounds": [ "cobblemon:fossilmachine/insert_dna_small" ]
+    "sounds": [
+      { "name": "cobblemon:block/fossil_machine/fossil_machine_insert_dna_small_1", "volume": 0.7 },
+      { "name": "cobblemon:block/fossil_machine/fossil_machine_insert_dna_small_2", "volume": 0.7 },
+      { "name": "cobblemon:block/fossil_machine/fossil_machine_insert_dna_small_3", "volume": 0.7 },
+      { "name": "cobblemon:block/fossil_machine/fossil_machine_insert_dna_small_4", "volume": 0.7 }
+    ]
   },
-  "fossilmachine.insert_fossil": {
+  "fossil_machine.insert_fossil": {
     "subtitle": "cobblemon.subtitle.fossilmachine.insert_fossil",
-    "sounds": [ "cobblemon:fossilmachine/insert_fossil" ]
+    "sounds": [ "cobblemon:block/fossil_machine/fossil_machine_insert_fossil" ]
   },
-  "fossilmachine.retrieve_fossil": {
+  "fossil_machine.retrieve_fossil": {
     "subtitle": "cobblemon.subtitle.fossilmachine.retrieve_fossil",
-    "sounds": [ "cobblemon:fossilmachine/retrieve_fossil" ]
+    "sounds": [ "cobblemon:block/fossil_machine/fossil_machine_retrieve_fossil" ]
   },
-  "fossilmachine.retrieve_pokemon": {
+  "fossil_machine.retrieve_pokemon": {
     "subtitle": "cobblemon.subtitle.fossilmachine.retrieve_pokemon",
-    "sounds": [ "cobblemon:fossilmachine/retrieve_pokemon" ]
+    "sounds": [ "cobblemon:block/fossil_machine/fossil_machine_retrieve_pokemon" ]
   },
-  "fossilmachine.unprotected": {
+  "fossil_machine.unprotected": {
     "subtitle": "cobblemon.subtitle.fossilmachine.unprotected",
-    "sounds": [ "cobblemon:fossilmachine/unprotected" ]
+    "sounds": [ "cobblemon:block/fossil_machine/fossil_machine_unprotected" ]
   },
   "gimmighoul.give_item_small": {
     "sounds": [ "cobblemon:gimmighoul_give_item_small" ]
