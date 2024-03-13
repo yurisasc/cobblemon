@@ -20,7 +20,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public abstract class SpawnRestrictionMixin {
     @Inject(method = "canSpawn", at = @At(value = "HEAD"), cancellable = true)
     private static <T extends Entity> void cobblemon$cancelVanillaSpawns(EntityType<T> type, ServerWorldAccess world, SpawnReason spawnReason, BlockPos pos, Random random, CallbackInfoReturnable<Boolean> cir) {
-        if (!Cobblemon.config.getVanillaSpawns()) {
+        if (!Cobblemon.config.getDoVanillaSpawns()) {
             cir.setReturnValue(false);
         }
     }

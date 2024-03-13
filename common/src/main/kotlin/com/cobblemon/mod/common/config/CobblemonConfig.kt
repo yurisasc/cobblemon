@@ -225,5 +225,5 @@ class CobblemonConfig {
 
     // TODO: figure out an efficient way to disable structure-based mob spawns
     @NodeCategory(Category.Spawning)
-    var vanillaSpawns = false
+    var doVanillaSpawns = false
 }

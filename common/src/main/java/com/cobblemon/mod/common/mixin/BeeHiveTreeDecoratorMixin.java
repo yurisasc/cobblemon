@@ -12,7 +12,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public abstract class BeeHiveTreeDecoratorMixin extends TreeDecorator {
     @Inject(method = "generate", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/gen/treedecorator/TreeDecorator$Generator;getWorld()Lnet/minecraft/world/TestableWorld;"), cancellable = true)
     private void cobblemon$cancelBeeSpawn(Generator generator, CallbackInfo ci) {
-        if (!Cobblemon.config.getVanillaSpawns()) {
+        if (!Cobblemon.config.getDoVanillaSpawns()) {
             ci.cancel();
         }
     }

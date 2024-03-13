@@ -15,7 +15,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public abstract class OceanRuinGeneratorMixin {
     @Inject(method = "handleMetadata", at = @At(value = "HEAD"), cancellable = true)
     private void cobblemon$cancelDrownedSpawns(String metadata, BlockPos pos, ServerWorldAccess world, Random random, BlockBox boundingBox, CallbackInfo ci) {
-        if (!Cobblemon.config.getVanillaSpawns() && "drowned".equals(metadata)) {
+        if (!Cobblemon.config.getDoVanillaSpawns() && "drowned".equals(metadata)) {
             System.out.println("cancelling drowned spawn");
             ci.cancel();
         }

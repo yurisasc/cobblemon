@@ -1,5 +1,6 @@
 package com.cobblemon.mod.common.mixin.structure;
 
+import com.cobblemon.mod.common.Cobblemon;
 import net.minecraft.structure.WoodlandMansionGenerator;
 import net.minecraft.util.math.BlockBox;
 import net.minecraft.util.math.BlockPos;
@@ -14,7 +15,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class WoodlandMansionGeneratorMixin {
     @Inject(method = "handleMetadata", at = @At(value = "HEAD"), cancellable = true)
     private void cobblemon$cancelMansionSpawns(String metadata, BlockPos pos, ServerWorldAccess world, Random random, BlockBox boundingBox, CallbackInfo ci) {
-        if (!metadata.startsWith("Chest")) {
+        if (Cobblemon.config.getDoVanillaSpawns() && !metadata.startsWith("Chest")) {
             ci.cancel();
         }
     }
