@@ -24,14 +24,19 @@ import java.util.UUID
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.sound.SoundEvent
 import net.minecraft.text.MutableText
+import net.minecraft.util.math.Vec3d
 
 class PlayerBattleActor(
     uuid: UUID,
     pokemonList: List<BattlePokemon>
 ) : BattleActor(uuid, pokemonList.toMutableList()), EntityBackedBattleActor<ServerPlayerEntity> {
 
+    override val initialPos: Vec3d?
     override val entity: ServerPlayerEntity?
         get() = this.uuid.getPlayer()
+    init {
+        initialPos = entity?.pos;
+    }
 
     /** The [SoundEvent] to play to the player during a battle. Will start playing as soon as the battle starts. */
     var battleTheme: SoundEvent? = null

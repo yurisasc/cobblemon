@@ -25,12 +25,17 @@ import net.minecraft.text.MutableText
 import net.minecraft.text.Text
 import net.minecraft.util.math.Vec3d
 
-open class PokemonBattleActor(
+class PokemonBattleActor(
     uuid: UUID,
     val pokemon: BattlePokemon,
     override val fleeDistance: Float,
     artificialDecider: BattleAI = RandomBattleAI()
 ) : AIBattleActor(uuid, listOf(pokemon), artificialDecider), EntityBackedBattleActor<PokemonEntity>, FleeableBattleActor {
+
+    override val initialPos: Vec3d?
+    init {
+        initialPos = entity?.pos
+    }
     override fun getName() = pokemon.effectedPokemon.species.translatedName
     override fun nameOwned(name: String): MutableText = Text.literal(name)
     override fun getWorldAndPosition(): Pair<ServerWorld, Vec3d>? {

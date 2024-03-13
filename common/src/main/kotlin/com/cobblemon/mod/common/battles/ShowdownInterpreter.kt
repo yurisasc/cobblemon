@@ -1174,23 +1174,33 @@ object ShowdownInterpreter {
         battle.dispatchWaiting {
             val battlePokemonA = message.getBattlePokemon(0, battle) ?: return@dispatchWaiting
             val pnxA = message.argumentAt(0)?.substring(0, 3)
-            val posA = battlePokemonA.entity?.pos
-            val (actor, activePokemon) = battle.getActorAndActiveSlotFromPNX(pnxA!!)
+            var posA:Vec3d? = null
+            if(battlePokemonA.entity == null) {
+                posA = getSendoutPosition(battle, pnxA!!, battlePokemonA.actor)
+            } else {
+                posA = battlePokemonA.entity?.pos
+            }
 
+            val (actor, activePokemon) = battle.getActorAndActiveSlotFromPNX(pnxA!!)
             val activeBattlePokemonB = activePokemon.getAdjacentAllies().firstOrNull()
             if(activeBattlePokemonB != null) {
                 val pnxB = activeBattlePokemonB.getPNX()
                 val (actorB, activePokemonB) = battle.getActorAndActiveSlotFromPNX(pnxB)
-                val posB = activePokemonB.battlePokemon?.entity?.pos
-                if (posB != null) {
+                var posB: Vec3d? = null
+                if(activePokemonB.battlePokemon?.entity == null) {
+                    posB = getSendoutPosition(battle, activePokemonB.getPNX(), actorB)
+                } else {
+                    posB = activePokemonB.battlePokemon?.entity?.pos
+                }
+                if (posB != null && battlePokemonA.entity != null) {
                     battlePokemonA.entity?.setPositionSafely(posB)
                 }
-                if(posA != null) {
+                if(posA != null && activePokemonB.battlePokemon?.entity != null) {
                     activePokemonB.battlePokemon?.entity?.setPositionSafely(posA)
                 }
                 battle.sendUpdate(BattleSwapPokemonPacket(pnxA))
                 // TODO: differentiate with Triples shift
-                val lang = battleLang("activate.allyswitch", battlePokemonA.getName(), activePokemonB.battlePokemon!!.getName(), )
+                val lang = battleLang("activate.allyswitch", battlePokemonA.getName(), activePokemonB.battlePokemon?.getName() ?: "", )
                 battle.broadcastChatMessage(lang)
             }
 
@@ -1292,20 +1302,16 @@ object ShowdownInterpreter {
      * Code is very much WIP and will be refactored to heck and back.
      *
      */
-    private fun getSendoutPosition(battle: PokemonBattle, pnx:String, battleActor: BattleActor,  pokemonID: String): Vec3d? {
+    private fun getSendoutPosition(battle: PokemonBattle, pnx:String, battleActor: BattleActor): Vec3d? {
         val (actor, activePokemon) = battle.getActorAndActiveSlotFromPNX(pnx)
-        val pokemon = battle.getBattlePokemon(pnx, pokemonID)
-        val entity = if (actor is EntityBackedBattleActor<*>) actor.entity else null
-        var result = entity?.pos
-        val baseOffset = battleActor.getSide().getOppositeSide().actors.filterIsInstance<EntityBackedBattleActor<*>>().firstOrNull()?.entity?.pos?.let { pos ->
-            pos.subtract(entity?.pos)
+        var entityPos = if (actor is EntityBackedBattleActor<*>) actor.initialPos else null
+        val baseOffset = battleActor.getSide().getOppositeSide().actors.filterIsInstance<EntityBackedBattleActor<*>>().firstOrNull()?.initialPos.let { pos ->
+            pos?.subtract(entityPos)
         }
 
         if(battle.format.battleType.pokemonPerSide == 1) {
-            if (entity != null) {
-                if (baseOffset != null) {
-                    result = entity.pos?.add(baseOffset.multiply(0.33))
-                }
+            if (baseOffset != null) {
+                entityPos = entityPos?.add(baseOffset.multiply(0.33))
             }
         } else if(battle.format.battleType.pokemonPerSide == 2) {
             if(battle.actors.first() !== battle.actors.last() && baseOffset != null) {
@@ -1314,7 +1320,7 @@ object ShowdownInterpreter {
                     vector = vector.crossProduct(Vec3d(0.0, 1.0, 0.0))
                 }
                     val offsetB = if(pnx[2] == 'a') vector.multiply(-1.0) else vector
-                    result = entity?.pos?.add(baseOffset.multiply(0.33))?.add(offsetB.multiply(2.5))
+                    entityPos = entityPos?.add(baseOffset.multiply(0.33))?.add(offsetB.multiply(2.5))
             }
         } else if(battle.format.battleType.pokemonPerSide == 3) {
             if(battle.actors.first() !== battle.actors.last() && baseOffset != null) {
@@ -1322,16 +1328,16 @@ object ShowdownInterpreter {
                 if (vector != null) {
                     vector = vector.crossProduct(Vec3d(0.0, 1.0, 0.0))
                 }
-                result = when (pnx[2]) {
-                    'a' -> entity?.pos?.add(baseOffset.multiply(0.15))?.add(vector.multiply(-3.5))
-                    'b' -> entity?.pos?.add(baseOffset.multiply(0.3))
-                    'c' -> entity?.pos?.add(baseOffset.multiply(0.15))?.add(vector.multiply(3.5))
-                    else -> result
+                entityPos = when (pnx[2]) {
+                    'a' -> entityPos?.add(baseOffset.multiply(0.15))?.add(vector.multiply(-3.5))
+                    'b' -> entityPos?.add(baseOffset.multiply(0.3))
+                    'c' -> entityPos?.add(baseOffset.multiply(0.15))?.add(vector.multiply(3.5))
+                    else -> entityPos
                 }
             }
         }
 
-        return result
+        return entityPos
     }
 
     /**
@@ -1352,7 +1358,7 @@ object ShowdownInterpreter {
             activePokemon.battlePokemon = pokemon
             val pokemonEntity = pokemon.entity
             if (pokemonEntity == null && entity != null) {
-                val targetPos = getSendoutPosition(battle, pnx, battleActor, pokemonID)
+                val targetPos = getSendoutPosition(battle, pnx, battleActor)
                 actor.stillSendingOutCount++
                 if (targetPos != null) {
                     pokemon.effectedPokemon.sendOutWithAnimation(
