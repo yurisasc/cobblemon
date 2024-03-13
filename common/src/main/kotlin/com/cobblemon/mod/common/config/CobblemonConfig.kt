@@ -222,4 +222,8 @@ class CobblemonConfig {
 
     @NodeCategory(Category.Battles)
     var walkingInBattleAnimations = false
+
+    // TODO: figure out an efficient way to disable structure-based mob spawns
+    @NodeCategory(Category.Spawning)
+    var vanillaSpawns = false
 }
