@@ -62,14 +62,23 @@ object ChallengeHandler : ServerNetworkPacketHandler<BattleChallengePacket> {
                 val existingChallenge = BattleRegistry.pvpChallenges[targetedEntity.uuid]
                 if (existingChallenge != null && !existingChallenge.isExpired() && existingChallenge.challengedPlayerUUID == player.uuid) {
                     // Overwrite the challenge or do nothing.
+                    // Probably need to send a message about there being an existing challenge
                 } else {
                     val challenge = BattleRegistry.BattleChallenge(UUID.randomUUID(), targetedEntity.uuid, leadingPokemon, packet.battleType)
                     BattleRegistry.pvpChallenges[player.uuid] = challenge
                     afterOnServer(seconds = challenge.expiryTimeSeconds.toFloat()) {
                         BattleRegistry.removeChallenge(player.uuid, challengeId = challenge.challengeId)
                     }
-                    targetedEntity.sendPacket(BattleChallengeNotificationPacket(challenge.challengeId, player.uuid, player.name.copy().aqua()))
-                    player.sendMessage(lang("challenge.sender", targetedEntity.name).yellow())
+
+                    val battleFormatLang = when (packet.battleType) {
+                        "doubles" -> "challenge.doublebattle"
+                        "triples" -> "challenge.triplebattle"
+                        "multi" -> "challenge.multibattle"
+                        else -> "challenge.singlebattle"
+                    }
+
+                    targetedEntity.sendPacket(BattleChallengeNotificationPacket(challenge.challengeId, player.uuid, player.name.copy().aqua(), battleFormatLang))
+                    player.sendMessage(lang("challenge.sender", targetedEntity.name, lang(battleFormatLang)).yellow())
                 }
             }
             else -> {

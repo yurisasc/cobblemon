@@ -25,6 +25,7 @@ object BattleChallengeNotificationHandler : ClientNetworkPacketHandler<BattleCha
             lang(
                 "challenge.receiver",
                 packet.challengerName,
+                lang(packet.battleFormatString),
                 PartySendBinding.boundKey().localizedText
             ),
             true

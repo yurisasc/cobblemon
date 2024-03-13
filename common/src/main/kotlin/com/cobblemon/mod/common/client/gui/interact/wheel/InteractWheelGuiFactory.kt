@@ -74,7 +74,7 @@ fun createPlayerInteractGui(optionsPacket: PlayerInteractOptionsPacket): Interac
     val battle = InteractWheelOption(
         iconResource = cobblemonResource("textures/gui/interact/icon_battle.png"),
         colour = { if (CobblemonClient.requests.battleChallenges.any { it.challengerId == optionsPacket.targetId }) Vector3f(0F, 0.6F, 0F) else null },
-        tooltipText = "cobblemon.ui.interact.battle",
+        tooltipText = "cobblemon.challenge.singlebattle",
         onPress = {
             val battleRequest = CobblemonClient.requests.battleChallenges.find { it.challengerId == optionsPacket.targetId }
             // This can be improved in future with more detailed battle challenge data.
@@ -85,7 +85,7 @@ fun createPlayerInteractGui(optionsPacket: PlayerInteractOptionsPacket): Interac
     val doubleBattle = InteractWheelOption(
             iconResource = cobblemonResource("textures/gui/interact/icon_battle.png"), // Need double battle icon
             colour = { if (CobblemonClient.requests.battleChallenges.any { it.challengerId == optionsPacket.targetId }) Vector3f(0F, 0.6F, 0F) else null },
-            tooltipText = "cobblemon.ui.interact.doublebattle",
+            tooltipText = "cobblemon.challenge.doublebattle",
             onPress = {
                 val battleRequest = CobblemonClient.requests.battleChallenges.find { it.challengerId == optionsPacket.targetId }
                 // This can be improved in future with more detailed battle challenge data.
@@ -96,7 +96,7 @@ fun createPlayerInteractGui(optionsPacket: PlayerInteractOptionsPacket): Interac
     val tripleBattle = InteractWheelOption(
             iconResource = cobblemonResource("textures/gui/interact/icon_battle.png"), // Need triple battle icon
             colour = { if (CobblemonClient.requests.battleChallenges.any { it.challengerId == optionsPacket.targetId }) Vector3f(0F, 0.6F, 0F) else null },
-            tooltipText = "cobblemon.ui.interact.triplebattle",
+            tooltipText = "cobblemon.challenge.triplebattle",
             onPress = {
                 val battleRequest = CobblemonClient.requests.battleChallenges.find { it.challengerId == optionsPacket.targetId }
                 // This can be improved in future with more detailed battle challenge data.
@@ -117,8 +117,8 @@ fun createPlayerInteractGui(optionsPacket: PlayerInteractOptionsPacket): Interac
 //    )
     val battleAccept = InteractWheelOption(
         iconResource = cobblemonResource("textures/gui/interact/icon_battle.png"), // Need Accept icon
-        colour = { if (CobblemonClient.requests.battleChallenges.any { it.challengerId == optionsPacket.targetId }) Vector3f(0F, 0.6F, 0F) else null },
-        tooltipText = "cobblemon.ui.interact.battle.accept",
+            colour = { Vector3f(0F, 0.6F, 0F) },
+        tooltipText = "cobblemon.ui.interact.accept",
         onPress = {
             BattleChallengeResponsePacket(optionsPacket.numericTargetId, optionsPacket.selectedPokemonId, true).sendToServer()
             closeGUI()
@@ -127,8 +127,8 @@ fun createPlayerInteractGui(optionsPacket: PlayerInteractOptionsPacket): Interac
 
     val battleDecline = InteractWheelOption(
         iconResource = cobblemonResource("textures/gui/interact/icon_battle.png"), // Need Decline icon
-        colour = { if (CobblemonClient.requests.battleChallenges.any { it.challengerId == optionsPacket.targetId }) Vector3f(0F, 0.6F, 0F) else null },
-        tooltipText = "cobblemon.ui.interact.battle.decline",
+        colour = { Vector3f(0.6F, 0F, 0F) },
+        tooltipText = "cobblemon.ui.interact.decline",
         onPress = {
             BattleChallengeResponsePacket(optionsPacket.numericTargetId, optionsPacket.selectedPokemonId, false).sendToServer()
             closeGUI()
@@ -158,7 +158,7 @@ fun createPlayerInteractGui(optionsPacket: PlayerInteractOptionsPacket): Interac
                 options.put(Orientation.TOP_RIGHT, battle)
                 options.put(Orientation.BOTTOM_RIGHT, doubleBattle)
                 options.put(Orientation.BOTTOM_LEFT, tripleBattle)
-//                options.put(Orientation.BOTTOM_LEFT, multibattle)
+                // options.put(Orientation.BOTTOM_LEFT, multibattle)
             }
         }
         if (it.equals(PlayerInteractOptionsPacket.Options.SPECTATE_BATTLE)) {

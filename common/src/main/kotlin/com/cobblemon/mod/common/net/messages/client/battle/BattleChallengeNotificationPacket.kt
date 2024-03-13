@@ -28,17 +28,19 @@ import net.minecraft.text.MutableText
 class BattleChallengeNotificationPacket(
     val battleChallengeId: UUID,
     val challengerId: UUID,
-    val challengerName: MutableText
+    val challengerName: MutableText,
+    val battleFormatString: String
 ): NetworkPacket<BattleChallengeNotificationPacket> {
     override val id = ID
     override fun encode(buffer: PacketByteBuf) {
         buffer.writeUuid(battleChallengeId)
         buffer.writeUuid(challengerId)
         buffer.writeText(challengerName)
+        buffer.writeString(battleFormatString)
     }
 
     companion object {
         val ID = cobblemonResource("battle_challenge_notification")
-        fun decode(buffer: PacketByteBuf) = BattleChallengeNotificationPacket(buffer.readUuid(), buffer.readUuid(), buffer.readText().copy())
+        fun decode(buffer: PacketByteBuf) = BattleChallengeNotificationPacket(buffer.readUuid(), buffer.readUuid(), buffer.readText().copy(), buffer.readString())
     }
 }
