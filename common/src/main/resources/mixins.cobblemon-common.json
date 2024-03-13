@@ -47,7 +47,9 @@
     "invoker.StairsBlockInvoker",
     "invoker.TrapdoorBlockInvoker",
     "pokeball.ThrownEntityMixin",
+    "structure.OceanMonumentGeneratorMixin",
     "structure.OceanRuinGeneratorMixin",
+    "structure.StructureTemplateMixin",
     "structure.WoodlandMansionGeneratorMixin"
   ],
   "injectors": {

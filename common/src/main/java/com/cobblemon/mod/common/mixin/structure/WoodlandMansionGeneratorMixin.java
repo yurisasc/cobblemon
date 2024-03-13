@@ -15,7 +15,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class WoodlandMansionGeneratorMixin {
     @Inject(method = "handleMetadata", at = @At(value = "HEAD"), cancellable = true)
     private void cobblemon$cancelMansionSpawns(String metadata, BlockPos pos, ServerWorldAccess world, Random random, BlockBox boundingBox, CallbackInfo ci) {
-        if (Cobblemon.config.getDoVanillaSpawns() && !metadata.startsWith("Chest")) {
+        if (!Cobblemon.config.getDoVanillaSpawns() && !metadata.startsWith("Chest")) {
             ci.cancel();
         }
     }
