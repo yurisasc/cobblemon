@@ -2,7 +2,7 @@
   "condition": {
     "neededNearbyBlocks": [
 	  "#minecraft:flowers",
-      "#c:flowers"
+	  "#c:flowers",
 	  "aether_redux:pink_prismatic_petals",
 	  "aether_redux:mixed_prismatic_petals",
 	  "aether_redux:teal_prismatic_petals",
