@@ -35,6 +35,7 @@
     "StructurePoolAccessor",
     "StructurePoolGeneratorMixin",
     "StructureProcessorListMixin",
+    "SculkShriekerBlockEntityMixin",
     "accessor.AccessorEntity",
     "accessor.BoatEntityAccessor",
     "accessor.StatusEffectInstanceAccessor",
