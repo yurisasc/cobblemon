@@ -224,5 +224,5 @@ class CobblemonConfig {
     var walkingInBattleAnimations = false
 
     @NodeCategory(Category.Spawning)
-    var doVanillaSpawns = true
+    var doVanillaSpawns = false
 }
