@@ -2,6 +2,26 @@
   "replace": false,
   "values": [
 	{
+      "id": "biomesoplenty:hot_springs",
+      "required": false
+    },
+	{
+      "id": "terralith:amethyst_canyon",
+      "required": false
+    },
+	{
+      "id": "terralith:amethyst_rainforest",
+      "required": false
+    },
+	{
+      "id": "terralith:skylands_winter",
+      "required": false
+    },
+	{
+      "id": "terralith:yellowstone",
+      "required": false
+    },
+	{
       "id": "wythers:calcite_caverns",
       "required": false
     },

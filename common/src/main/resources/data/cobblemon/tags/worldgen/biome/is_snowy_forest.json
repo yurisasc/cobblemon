@@ -2,6 +2,18 @@
   "replace": false,
   "values": [
 	{
+      "id": "biomesoplenty:auroral_garden",
+      "required": false
+    },
+	{
+      "id": "biomesoplenty:muskeg",
+      "required": false
+    },
+	{
+      "id": "biomesoplenty:snowy_maple_woods",
+      "required": false
+    },
+	{
       "id": "terralith:alpha_islands_winter",
       "required": false
     },
@@ -11,6 +23,10 @@
     },
 	{
       "id": "terralith:siberian_grove",
+      "required": false
+    },
+	{
+      "id": "terralith:snowy_cherry_grove",
       "required": false
     },
 	{

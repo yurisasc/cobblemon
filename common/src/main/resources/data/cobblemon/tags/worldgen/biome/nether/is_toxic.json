@@ -2,6 +2,10 @@
   "replace": false,
   "values": [
 	{
+      "id": "biomesoplenty:erupting_inferno",
+      "required": false
+    },
+	{
       "id": "byg:brimstone_caverns",
       "required": false
     },

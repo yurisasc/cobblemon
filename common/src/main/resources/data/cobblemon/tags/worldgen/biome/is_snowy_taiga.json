@@ -4,7 +4,23 @@
     "minecraft:grove",
 	"minecraft:snowy_taiga",
 	{
+      "id": "biomesoplenty:snowy_coniferous_forest",
+      "required": false
+    },
+	{
+      "id": "biomesoplenty:snowy_fir_clearing",
+      "required": false
+    },
+	{
+      "id": "biomesoplenty:snowy_maple_woods",
+      "required": false
+    },
+	{
       "id": "terralith:alpine_grove",
+      "required": false
+    },
+	{
+      "id": "terralith:cold_shrubland",
       "required": false
     },
 	{
@@ -17,6 +33,10 @@
     },
 	{
       "id": "terralith:snowy_shield",
+      "required": false
+    },
+	{
+      "id": "terralith:wintry_forest",
       "required": false
     },
 	{

@@ -7,6 +7,10 @@
       "required": false
     },
 	{
+      "id": "betternether:soul_plain",
+      "required": false
+    },
+	{
       "id": "byg:quartz_desert",
       "required": false
     },

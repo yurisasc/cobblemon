@@ -7,7 +7,19 @@
       "required": false
     },
 	{
+      "id": "betternether:nether_grasslands",
+      "required": false
+    },
+	{
       "id": "betternether:poor_nether_grasslands",
+      "required": false
+    },
+	{
+      "id": "biomesoplenty:crystalline_chasm",
+      "required": false
+    },
+	{
+      "id": "biomesoplenty:erupting_inferno",
       "required": false
     },
 	{

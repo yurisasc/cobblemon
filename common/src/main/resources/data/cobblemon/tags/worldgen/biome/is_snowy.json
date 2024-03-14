@@ -7,6 +7,7 @@
     "minecraft:snowy_slopes",
     "#cobblemon:is_glacial",
     "#cobblemon:is_snowy_forest",
+	"#cobblemon:is_snowy_taiga",
     {
       "id": "#byg:is_snowy",
       "required": false

@@ -7,6 +7,26 @@
       "required": false
     },
 	{
+      "id": "betternether:nether_grasslands",
+      "required": false
+    },
+	{
+      "id": "betternether:nether_swampland",
+      "required": false
+    },
+	{
+      "id": "betternether:nether_swampland_terraces",
+      "required": false
+    },
+	{
+      "id": "betternether:old_swampland",
+      "required": false
+    },
+	{
+      "id": "betternether:poor_nether_grasslands",
+      "required": false
+    },
+	{
       "id": "betternether:wart_forest",
       "required": false
     },

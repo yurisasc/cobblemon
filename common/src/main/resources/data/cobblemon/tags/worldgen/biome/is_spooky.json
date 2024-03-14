@@ -15,6 +15,10 @@
       "required": false
     },
 	{
+      "id": "biomesoplenty:ominous_woods",
+      "required": false
+    },
+	{
       "id": "byg:ebony_woods",
       "required": false
     },
@@ -28,6 +32,10 @@
     },
     {
       "id": "wythers:tangled_forest",
+      "required": false
+    },
+    {
+      "id": "wythers:forbidden_forest",
       "required": false
     }
   ]

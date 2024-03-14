@@ -18,6 +18,18 @@
       "required": false
     },
 	{
+      "id": "betternether:upside_down_forest",
+      "required": false
+    },
+	{
+      "id": "betternether:upside_down_forest_cleared",
+      "required": false
+    },
+	{
+      "id": "biomesoplenty:overgrowth",
+      "required": false
+    },
+	{
       "id": "byg:sythian_torrids",
       "required": false
     }

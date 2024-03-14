@@ -1,0 +1,66 @@
+{
+  "replace": false,
+  "values": [
+	"minecraft:lush_caves",
+	{
+      "id": "terralith:blooming_valley",
+      "required": false
+    },
+	{
+      "id": "terralith:desert_oasis",
+      "required": false
+    },
+	{
+      "id": "terralith:desert_spires",
+      "required": false
+    },
+	{
+      "id": "terralith:red_oasis",
+      "required": false
+    },
+	{
+      "id": "terralith:sandstone_valley",
+      "required": false
+    },
+	{
+      "id": "terralith:skylands_summer",
+      "required": false
+    },
+    {
+      "id": "wythers:flooded_jungle",
+      "required": false
+    },
+    {
+      "id": "wythers:flowering_platanal",
+      "required": false
+    },
+    {
+      "id": "wythers:pantanal",
+      "required": false
+    },
+    {
+      "id": "wythers:sandy_jungle",
+      "required": false
+    },
+    {
+      "id": "wythers:sparse_bamboo_jungle",
+      "required": false
+    },
+    {
+      "id": "wythers:tropical_grassland",
+      "required": false
+    },
+    {
+      "id": "wythers:tropical_island",
+      "required": false
+    },
+    {
+      "id": "wythers:tropical_rainforest",
+      "required": false
+    },
+    {
+      "id": "wythers:tsingy_forest",
+      "required": false
+    }
+  ]
+}

@@ -12,11 +12,11 @@
       "required": false
     },
 	{
-      "id": "betternether:mushroom_forest",
+      "id": "betternether:nether_mushroom_forest",
       "required": false
     },
 	{
-      "id": "betternether:mushroom_forest_edge",
+      "id": "betternether:nether_mushroom_forest_edge",
       "required": false
     },
 	{

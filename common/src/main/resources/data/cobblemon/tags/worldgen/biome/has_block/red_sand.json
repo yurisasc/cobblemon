@@ -6,6 +6,10 @@
       "id": "byg:atacama_desert",
       "required": false
     },
+	{
+      "id": "byg:red_rock_valley",
+      "required": false
+    },
     {
       "id": "terralith:ancient_sands",
       "required": false

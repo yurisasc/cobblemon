@@ -14,6 +14,14 @@
       "required": false
     },
 	{
+      "id": "betternether:old_swampland",
+      "required": false
+    },
+	{
+      "id": "betternether:upside_down_forest",
+      "required": false
+    },
+	{
       "id": "byg:weeping_mire",
       "required": false
     },
