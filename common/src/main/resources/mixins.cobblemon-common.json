@@ -51,7 +51,6 @@
     "structure.EndCityGeneratorMixin",
     "structure.OceanMonumentGeneratorMixin",
     "structure.OceanRuinGeneratorMixin",
-    "structure.StructureTemplateMixin",
     "structure.SwampHutGeneratorMixin",
     "structure.WoodlandMansionGeneratorMixin"
   ],

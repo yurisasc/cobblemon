@@ -1,4 +1,12 @@
-package com.cobblemon.mod.common.mixin.structure;
+/*
+ * Copyright (C) 2023 Cobblemon Contributors
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/.
+ */
+
+package com.cobblemon.mod.fabric.mixin.structure;
 
 import com.cobblemon.mod.common.Cobblemon;
 import net.minecraft.entity.Entity;
@@ -13,11 +21,10 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
 @Mixin(StructureTemplate.class) // this probably removes spawns for all(!!) structures so probably needs some work
 public class StructureTemplateMixin {
-    @Inject(method = "method_17917", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/Entity;applyRotation(Lnet/minecraft/util/BlockRotation;)F"), cancellable = true, locals = LocalCapture.CAPTURE_FAILHARD)
+    @Inject(method = "method_17917", at = @At(value = "HEAD"), cancellable = true)
     private static void cobblemon$cancelStructureSpawns(BlockRotation blockRotation, BlockMirror blockMirror, Vec3d vec3d, boolean bl, ServerWorldAccess serverWorldAccess, NbtCompound nbtCompound, Entity entity, CallbackInfo ci) {
         if (!Cobblemon.config.getDoVanillaSpawns() && entity instanceof MobEntity) {
             ci.cancel();
