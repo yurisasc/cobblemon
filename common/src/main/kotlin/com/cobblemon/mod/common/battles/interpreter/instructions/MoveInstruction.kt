@@ -39,6 +39,7 @@ class MoveInstruction(
     val effect = message.effectAt(1) ?: Effect.pure("", "")
     val move = Moves.getByNameOrDummy(effect.id)
     val actionEffect = move.actionEffect
+    val spreadTargets = message.optionalArgument("spread")?.split(",") ?: emptyList()
 
     var future = CompletableFuture.completedFuture(Unit)
     var holds = mutableSetOf<String>()
@@ -60,6 +61,7 @@ class MoveInstruction(
         battle.dispatch {
             ShowdownInterpreter.lastCauser[battle.battleId] = message
             // For Spread targets the message data only gives the pnx strings. So we can't know what pokemon are actually targeted until the previous messages have been interpreted
+            // TODO: Rewrite so this function is not necessary
             val spreadTargetPokemon = message.getSpreadBattlePokemon(battle)
 
             userPokemon.effectedPokemon.let { pokemon ->

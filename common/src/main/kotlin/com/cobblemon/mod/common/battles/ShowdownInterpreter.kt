@@ -121,6 +121,9 @@ object ShowdownInterpreter {
         updateInstructionParser["-activate"] = { _, instructionSet, message, _ -> ActivateInstruction(instructionSet, message) }
         updateInstructionParser["-ability"] = { _, instructionSet, message, _ -> AbilityInstruction(instructionSet, message) }
         updateInstructionParser["-miss"] = { battle, instructionSet, message, _ -> MissInstruction(battle, instructionSet, message) }
+        updateInstructionParser["-resisted"] = { battle, instructionSet, message, _ -> ResistInstruction(battle, instructionSet, message) }
+        updateInstructionParser["-supereffective"] = { battle, instructionSet, message, _ -> SuperEffectiveInstruction(battle, instructionSet, message) }
+        updateInstructionParser["-crit"] = { battle, instructionSet, message, _ -> CritInstruction(battle, instructionSet, message) }
         splitInstructionParser["-damage"] = { _, targetActor, instructionSet, publicMessage, privateMessage, _ ->
             DamageInstruction(instructionSet, targetActor, publicMessage, privateMessage)
         }
@@ -130,9 +133,6 @@ object ShowdownInterpreter {
         updateInstructions["|win|"] = this::handleWinInstruction
         updateInstructions["|cant|"] = this::handleCantInstruction
         updateInstructions["|bagitem|"] = this::handleBagItemInstruction
-        updateInstructions["|-supereffective|"] = this::handleSuperEffectiveInstruction
-        updateInstructions["|-resisted|"] = this::handleResistInstruction
-        updateInstructions["|-crit"] = this::handleCritInstruction
         updateInstructions["|-weather|"] = this::handleWeatherInstruction
         updateInstructions["|-mustrecharge|"] = this::handleRechargeInstructions
         updateInstructions["|-fail|"] = this::handleFailInstruction
@@ -660,19 +660,6 @@ object ShowdownInterpreter {
         }
     }
 
-    /**
-     * Format:
-     * |-resisted|p%a
-     *
-     * player % resisted the attack.
-     */
-    private fun handleResistInstruction(battle: PokemonBattle, message: BattleMessage, remainingLines: MutableList<String>) {
-        battle.dispatchGo {
-            val pokemon = message.getBattlePokemon(0, battle) ?: return@dispatchGo
-            battle.broadcastChatMessage(battleLang("resisted"))
-            battle.minorBattleActions[pokemon.uuid] = message
-        }
-    }
 
     /**
      * Format:
@@ -690,41 +677,6 @@ object ShowdownInterpreter {
                 move.currentPp = movePp.toInt()
             }
             GO
-        }
-    }
-
-    /**
-     * Format:
-     * |-supereffective|p%a
-     *
-     * player % was weak against the attack.
-     */
-    private fun handleSuperEffectiveInstruction(battle: PokemonBattle, message: BattleMessage, remainingLines: MutableList<String>) {
-        battle.dispatchGo {
-            val pokemon = message.getBattlePokemon(0, battle) ?: return@dispatchGo
-            battle.broadcastChatMessage(battleLang("superEffective"))
-            battle.minorBattleActions[pokemon.uuid] = message
-        }
-    }
-
-    /**
-     * Format:
-     * |-crit|p%a
-     *
-     * player % received a critical hit.
-     */
-    private fun handleCritInstruction(battle: PokemonBattle, message: BattleMessage, remainingLines: MutableList<String>) {
-        battle.dispatchGo {
-            val pokemon = message.getBattlePokemon(0, battle) ?: return@dispatchGo
-            battle.broadcastChatMessage(battleLang("crit").yellow())
-            this.lastCauser[battle.battleId]?.let { message ->
-                val battlePokemon = message.getBattlePokemon(0, battle) ?: return@let
-                if (LastBattleCriticalHitsEvolutionProgress.supports(battlePokemon.effectedPokemon)) {
-                    val progress = battlePokemon.effectedPokemon.evolutionProxy.current().progressFirstOrCreate({ it is LastBattleCriticalHitsEvolutionProgress }) { LastBattleCriticalHitsEvolutionProgress() }
-                    progress.updateProgress(LastBattleCriticalHitsEvolutionProgress.Progress(progress.currentProgress().amount + 1))
-                }
-            }
-            battle.minorBattleActions[pokemon.uuid] = message
         }
     }
 
