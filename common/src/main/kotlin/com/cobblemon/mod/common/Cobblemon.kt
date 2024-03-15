@@ -17,6 +17,7 @@ import com.cobblemon.mod.common.api.data.DataProvider
 import com.cobblemon.mod.common.api.drop.CommandDropEntry
 import com.cobblemon.mod.common.api.drop.DropEntry
 import com.cobblemon.mod.common.api.drop.ItemDropEntry
+import com.cobblemon.mod.common.api.events.CobblemonEvents
 import com.cobblemon.mod.common.api.events.CobblemonEvents.BATTLE_VICTORY
 import com.cobblemon.mod.common.api.events.CobblemonEvents.DATA_SYNCHRONIZED
 import com.cobblemon.mod.common.api.events.CobblemonEvents.EVOLUTION_COMPLETE
@@ -65,6 +66,7 @@ import com.cobblemon.mod.common.api.storage.player.PlayerDataStoreManager
 import com.cobblemon.mod.common.api.storage.player.factory.JsonPlayerDataStoreFactory
 import com.cobblemon.mod.common.api.storage.player.factory.MongoPlayerDataStoreFactory
 import com.cobblemon.mod.common.api.tags.CobblemonEntityTypeTags
+import com.cobblemon.mod.common.api.tags.CobblemonItemTags
 import com.cobblemon.mod.common.battles.BagItems
 import com.cobblemon.mod.common.battles.BattleFormat
 import com.cobblemon.mod.common.battles.BattleRegistry
@@ -136,6 +138,7 @@ import kotlin.properties.Delegates
 import kotlin.reflect.full.memberProperties
 import kotlin.reflect.jvm.isAccessible
 import kotlin.reflect.jvm.javaField
+import kotlin.math.roundToInt
 
 object Cobblemon {
     const val MODID = "cobblemon"
@@ -252,6 +255,16 @@ object Cobblemon {
         TrackedDataHandlerRegistry.register(StringSetDataSerializer)
         TrackedDataHandlerRegistry.register(PoseTypeDataSerializer)
         TrackedDataHandlerRegistry.register(IdentifierDataSerializer)
+
+        // Lowest priority because this applies after luxury ball bonus as of gen 4
+        CobblemonEvents.FRIENDSHIP_UPDATED.subscribe(Priority.LOWEST) { event ->
+            var increment = (event.newFriendship - event.pokemon.friendship).toFloat()
+            // Our Luxury ball spec is diff from official, but we will still assume these stack
+            if (event.pokemon.heldItemNoCopy().isIn(CobblemonItemTags.IS_FRIENDSHIP_BOOSTER)) {
+                increment += increment * 0.5F
+            }
+            event.newFriendship = event.pokemon.friendship + increment.roundToInt()
+        }
 
         HeldItemProvider.register(CobblemonHeldItemManager, Priority.LOWEST)
     }
