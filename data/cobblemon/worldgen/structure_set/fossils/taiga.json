@@ -1,0 +1,15 @@
+{
+    "placement": {
+        "type": "minecraft:random_spread",
+        "spacing": 13,
+        "separation": 7,
+        "salt": 1610760712,
+        "spread_type": "triangular"
+    },
+    "structures": [
+        {
+            "structure": "cobblemon:fossils/prehistoric_spruce_tree",
+            "weight": 1
+        }
+    ]
+}

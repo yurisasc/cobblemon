@@ -1,0 +1,42 @@
+{
+    "type": "minecraft:archaeology",
+    "pools": [
+        {
+            "bonus_rolls": 0.0,
+            "entries": [
+                {
+                    "type": "minecraft:item",
+                    "name": "cobblemon:everstone",
+                    "weight": 3
+                },
+                {
+                    "type": "minecraft:item",
+                    "name": "cobblemon:dawn_stone",
+                    "weight": 2
+                },
+                {
+                    "type": "minecraft:item",
+                    "name": "cobblemon:covert_cloak",
+                    "weight": 1
+                },
+                {
+                    "type": "minecraft:item",
+                    "name": "cobblemon:destiny_knot",
+                    "weight": 1
+                },
+                {
+                    "type": "minecraft:item",
+                    "name": "cobblemon:dome_sherd",
+                    "weight": 1
+                },
+                {
+                    "type": "minecraft:item",
+                    "name": "cobblemon:helix_sherd",
+                    "weight": 1
+                }
+            ],
+            "rolls": 1.0
+        }
+    ],
+    "random_sequence": "cobblemon:ruins/uncommon/gimmi_tower_frozen"
+}
