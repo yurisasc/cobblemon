@@ -1,0 +1,39 @@
+{
+    "name": "cobblemon:forest_ruins_gate",
+    "fallback": "minecraft:empty",
+    "elements": [
+        {
+            "weight": 1,
+            "element": {
+                "location": "cobblemon:ruins/decorations/forest_gate1",
+                "element_type": "minecraft:single_pool_element",
+                "processors": "cobblemon:ruins/toppled_pillars_ruins",
+                "projection": "rigid"
+            }
+        },
+        {
+            "weight": 2,
+            "element": {
+                "location": "cobblemon:ruins/decorations/forest_gate2",
+                "element_type": "minecraft:single_pool_element",
+                "processors": "cobblemon:ruins/toppled_pillars_ruins",
+                "projection": "rigid"
+            }
+        },
+        {
+            "weight": 2,
+            "element": {
+                "location": "cobblemon:ruins/decorations/forest_gate3",
+                "element_type": "minecraft:single_pool_element",
+                "processors": "cobblemon:ruins/toppled_pillars_ruins",
+                "projection": "rigid"
+            }
+        },
+        {
+            "weight": 2,
+            "element": {
+                "element_type": "minecraft:empty_pool_element"
+            }
+        }
+    ]
+}

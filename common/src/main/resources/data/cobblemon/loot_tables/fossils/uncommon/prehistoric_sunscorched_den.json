@@ -1,0 +1,52 @@
+{
+    "type": "minecraft:archaeology",
+    "pools": [
+        {
+            "bonus_rolls": 0.0,
+            "entries": [
+                {
+                    "type": "minecraft:item",
+                    "name": "cobblemon:everstone",
+                    "weight": 5
+                },
+                {
+                    "type": "minecraft:item",
+                    "name": "cobblemon:heat_rock",
+                    "weight": 5
+                },
+                {
+                    "type": "minecraft:item",
+                    "name": "cobblemon:smooth_rock",
+                    "weight": 5
+                },
+                {
+                    "type": "minecraft:item",
+                    "name": "cobblemon:razor_fang",
+                    "weight": 3
+                },
+                {
+                    "type": "minecraft:item",
+                    "name": "cobblemon:dome_fossil",
+                    "weight": 1
+                },
+                {
+                    "type": "minecraft:item",
+                    "name": "cobblemon:jaw_fossil",
+                    "weight": 1
+                },
+                {
+                    "type": "minecraft:item",
+                    "name": "cobblemon:fossilized_drake",
+                    "weight": 1
+                },
+                {
+                    "type": "minecraft:item",
+                    "name": "cobblemon:armor_fossil",
+                    "weight": 1
+                }
+            ],
+            "rolls": 1.0
+        }
+    ],
+    "random_sequence": "cobblemon:fossils/uncommon/prehistoric_sunscorched_den"
+}
