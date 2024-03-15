@@ -72,6 +72,8 @@ object CobblemonBlocks : PlatformRegistry<Registry<Block>, RegistryKey<Registry<
     @JvmField
     val SUN_STONE_ORE = evolutionStoneOre("sun_stone_ore")
     @JvmField
+    val TERRACOTTA_SUN_STONE_ORE = evolutionStoneOre("terracotta_sun_stone_ore")
+    @JvmField
     val THUNDER_STONE_ORE = evolutionStoneOre("thunder_stone_ore")
     @JvmField
     val WATER_STONE_ORE = evolutionStoneOre("water_stone_ore")

@@ -10,9 +10,11 @@ package com.cobblemon.mod.common.config.starter
 
 import com.cobblemon.mod.common.api.pokemon.PokemonProperties
 import com.cobblemon.mod.common.config.Category
+import com.cobblemon.mod.common.config.LastChangedVersion
 import com.cobblemon.mod.common.config.NodeCategory
 import com.cobblemon.mod.common.util.adapters.pokemonPropertiesShortAdapter
 import com.google.gson.GsonBuilder
+
 class StarterConfig {
     companion object {
         val GSON = GsonBuilder()
@@ -26,7 +28,8 @@ class StarterConfig {
     var allowStarterOnJoin = true
 
     @NodeCategory(Category.Starter)
-    var promptStarterOnceOnly = false
+    @LastChangedVersion("1.5.0")
+    var promptStarterOnceOnly = true
 
     @NodeCategory(Category.Starter)
     var starters = mutableListOf(
