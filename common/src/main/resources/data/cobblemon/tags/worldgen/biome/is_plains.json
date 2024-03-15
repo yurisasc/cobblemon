@@ -37,11 +37,11 @@
       "required": false
     },
 	{
-      "id": "biomesoplenty:lavender_forest",
+      "id": "biomesoplenty:marsh",
       "required": false
     },
 	{
-      "id": "biomesoplenty:marsh",
+      "id": "biomesoplenty:orchard",
       "required": false
     },
 	{
@@ -50,6 +50,14 @@
     },
 	{
       "id": "biomesoplenty:prairie",
+      "required": false
+    },
+	{
+      "id": "biomesoplenty:seasonal_orchard",
+      "required": false
+    },
+	{
+      "id": "terralith:scrubland",
       "required": false
     },
 	{

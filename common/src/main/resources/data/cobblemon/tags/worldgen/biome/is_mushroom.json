@@ -20,6 +20,10 @@
       "required": false
     },
 	{
+      "id": "biomesoplenty:glowing_grotto",
+      "required": false
+    },
+	{
       "id": "biomesoplenty:mystic_grove",
       "required": false
     },

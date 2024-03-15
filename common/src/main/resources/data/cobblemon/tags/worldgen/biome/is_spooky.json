@@ -27,15 +27,11 @@
       "required": false
     },
     {
-      "id": "wythers:bayou",
-      "required": false
-    },
-    {
       "id": "wythers:tangled_forest",
       "required": false
     },
     {
-      "id": "wythers:forbidden_forest",
+      "id": "wythers:twilight_meadow",
       "required": false
     }
   ]

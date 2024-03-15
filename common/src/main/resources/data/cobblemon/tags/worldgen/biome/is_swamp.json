@@ -24,6 +24,10 @@
       "required": false
     },
 	{
+      "id": "biomesoplenty:bog",
+      "required": false
+    },
+	{
       "id": "biomesoplenty:floodplain",
       "required": false
     },

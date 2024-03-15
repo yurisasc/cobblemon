@@ -13,6 +13,14 @@
 	{
       "id": "terralith:gravel_desert",
       "required": false
+    },
+    {
+      "id": "wythers:gravelly_beach",
+      "required": false
+    },
+    {
+      "id": "wythers:gravelly_river",
+      "required": false
     }
   ]
 }
