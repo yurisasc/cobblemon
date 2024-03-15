@@ -26,6 +26,7 @@
             "id": "nacli-2",
             "pokemon": "nacli",
             "presets": [
+                "salt",
                 "natural",
                 "wild"
             ],
@@ -33,10 +34,19 @@
             "context": "grounded",
             "bucket": "common",
             "level": "3-28",
+            "weight": 9.0
+        },
+        {
+            "id": "nacli-3",
+            "pokemon": "nacli",
+            "type": "pokemon",
+            "context": "grounded",
+            "bucket": "common",
+            "level": "3-28",
             "weight": 9.0,
             "condition": {
                 "biomes": [
-                    "#cobblemon:is_salt"
+                    "#cobblemon:nether/is_quartz"
                 ]
             }
         }

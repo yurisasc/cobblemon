@@ -66,7 +66,7 @@
             "weight": 9.0,
             "condition": {
                 "biomes": [
-                    "#cobblemon:is_nether_toxic"
+                    "#cobblemon:nether/is_toxic"
                 ]
             }
         }

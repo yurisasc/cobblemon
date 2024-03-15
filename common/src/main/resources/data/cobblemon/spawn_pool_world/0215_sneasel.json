@@ -15,12 +15,17 @@
             "bucket": "uncommon",
             "level": "18-43",
             "weight": 9.0,
+            "weightMultiplier": {
+                "multiplier": 0.25,
+                "condition": {
+                    "timeRange": "day"
+                }
+            },
             "condition": {
                 "canSeeSky": true,
                 "biomes": [
                     "#cobblemon:is_taiga"
-                ],
-                "timeRange": "night"
+                ]
             }
         },
         {
@@ -35,6 +40,12 @@
             "bucket": "uncommon",
             "level": "18-43",
             "weight": 9.0,
+            "weightMultiplier": {
+                "multiplier": 0.25,
+                "condition": {
+                    "timeRange": "night"
+                }
+            },
             "condition": {
                 "canSeeSky": true,
                 "biomes": [

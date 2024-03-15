@@ -26,6 +26,7 @@
             "id": "garganacl-2",
             "pokemon": "garganacl",
             "presets": [
+                "salt",
                 "natural",
                 "wild"
             ],
@@ -33,10 +34,19 @@
             "context": "grounded",
             "bucket": "common",
             "level": "38-50",
+            "weight": 0.1
+        },
+        {
+            "id": "garganacl-3",
+            "pokemon": "garganacl",
+            "type": "pokemon",
+            "context": "grounded",
+            "bucket": "common",
+            "level": "38-50",
             "weight": 0.1,
             "condition": {
                 "biomes": [
-                    "#cobblemon:is_salt"
+                    "#cobblemon:nether/is_quartz"
                 ]
             }
         }

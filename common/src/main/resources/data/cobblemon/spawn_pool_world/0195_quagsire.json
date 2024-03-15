@@ -110,7 +110,7 @@
             },
             "anticondition": {
                 "biomes": [
-                    "minecraft:mangrove_swamp"
+                    "#cobblemon:has_block/mud"
                 ]
             }
         },
@@ -133,7 +133,7 @@
             },
             "anticondition": {
                 "biomes": [
-                    "minecraft:mangrove_swamp"
+                    "#cobblemon:has_block/mud"
                 ]
             }
         }

@@ -124,7 +124,7 @@
             "weight": 0.6,
             "condition": {
                 "biomes": [
-                    "#cobblemon:is_nether_desert"
+                    "#cobblemon:nether/is_desert"
                 ]
             }
         }

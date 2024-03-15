@@ -61,7 +61,7 @@
             "weight": 0.1,
             "condition": {
                 "biomes": [
-                    "#cobblemon:is_nether_basalt"
+                    "#cobblemon:nether/is_basalt"
                 ]
             }
         },
@@ -78,7 +78,7 @@
             "weight": 0.06,
             "condition": {
                 "biomes": [
-                    "#cobblemon:is_nether_desert"
+                    "#cobblemon:nether/is_desert"
                 ]
             }
         }

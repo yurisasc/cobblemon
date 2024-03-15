@@ -4,21 +4,20 @@
     "neededUninstalledMods": [],
     "spawns": [
         {
-            "id": "raboot-1",
-            "pokemon": "raboot",
+            "id": "bewear-1",
+            "pokemon": "bewear",
             "presets": [
                 "natural"
             ],
             "type": "pokemon",
             "context": "grounded",
-            "bucket": "ultra-rare",
-            "level": "16-42",
-            "weight": 0.9,
+            "bucket": "common",
+            "level": "27-50",
+            "weight": 1.0,
             "condition": {
                 "canSeeSky": true,
                 "biomes": [
-                    "#cobblemon:is_grassland",
-                    "#cobblemon:is_tundra"
+                    "#cobblemon:is_bamboo"
                 ]
             }
         }

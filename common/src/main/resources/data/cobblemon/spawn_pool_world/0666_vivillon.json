@@ -38,7 +38,7 @@
             "condition": {
                 "canSeeSky": true,
                 "biomes": [
-                    "minecraft:cherry_grove"
+                    "#cobblemon:is_cherry_blossom"
                 ],
                 "timeRange": "day",
                 "isRaining": false

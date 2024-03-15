@@ -58,9 +58,9 @@
             "weight": 0.9,
             "condition": {
                 "biomes": [
-                    "#cobblemon:is_nether_crimson",
-                    "#cobblemon:is_nether_forest",
-                    "#cobblemon:is_nether_overgrowth"
+                    "#cobblemon:nether/is_crimson",
+                    "#cobblemon:nether/is_forest",
+                    "#cobblemon:nether/is_overgrowth"
                 ]
             }
         }

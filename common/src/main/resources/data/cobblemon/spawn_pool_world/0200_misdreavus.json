@@ -92,7 +92,7 @@
             "weight": 5.4,
             "condition": {
                 "biomes": [
-                    "#cobblemon:is_nether_warped"
+                    "#cobblemon:nether/is_warped"
                 ]
             }
         }

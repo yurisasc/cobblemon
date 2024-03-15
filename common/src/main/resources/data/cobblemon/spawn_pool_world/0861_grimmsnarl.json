@@ -43,13 +43,13 @@
             "condition": {
                 "canSeeSky": true,
                 "biomes": [
-                    "#cobblemon:is_nether_forest",
-                    "#cobblemon:is_nether_warped"
+                    "#cobblemon:nether/is_forest",
+                    "#cobblemon:nether/is_warped"
                 ]
             },
             "anticondition": {
                 "biomes": [
-                    "#cobblemon:is_nether_desert"
+                    "#cobblemon:nether/is_desert"
                 ]
             }
         }

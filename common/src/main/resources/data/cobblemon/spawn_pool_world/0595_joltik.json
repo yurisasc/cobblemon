@@ -57,6 +57,7 @@
             "id": "joltik-3",
             "pokemon": "joltik",
             "presets": [
+                "webs",
                 "natural"
             ],
             "type": "pokemon",
@@ -65,10 +66,7 @@
             "level": "7-32",
             "weight": 9.0,
             "condition": {
-                "canSeeSky": false,
-                "biomes": [
-                    "terralith:cave/infested_caves"
-                ]
+                "canSeeSky": false
             }
         }
     ]

@@ -46,12 +46,12 @@
             "weight": 1.8,
             "condition": {
                 "biomes": [
-                    "#cobblemon:is_nether_forest"
+                    "#cobblemon:nether/is_forest"
                 ]
             },
             "anticondition": {
                 "biomes": [
-                    "#cobblemon:is_nether_frozen"
+                    "#cobblemon:nether/is_frozen"
                 ]
             }
         },
@@ -76,7 +76,7 @@
                 "canSeeSky": true,
                 "biomes": [
                     "#cobblemon:is_snowy_forest",
-					"#cobblemon:is_snowy_taiga"
+                    "#cobblemon:is_snowy_taiga"
                 ]
             }
         },
@@ -93,7 +93,7 @@
             "weight": 1.8,
             "condition": {
                 "biomes": [
-                    "#cobblemon:is_nether_frozen"
+                    "#cobblemon:nether/is_frozen"
                 ]
             }
         }

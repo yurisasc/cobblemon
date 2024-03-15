@@ -17,7 +17,9 @@
             "weight": 9.0,
             "weightMultiplier": {
                 "multiplier": 1.5,
-                "condition": {}
+                "condition": {
+                    "isRaining": true
+                }
             },
             "condition": {
                 "canSeeSky": true,

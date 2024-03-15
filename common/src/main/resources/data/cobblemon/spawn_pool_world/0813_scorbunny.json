@@ -18,7 +18,7 @@
                 "canSeeSky": true,
                 "biomes": [
                     "#cobblemon:is_grassland",
-					"#cobblemon:is_tundra"
+                    "#cobblemon:is_tundra"
                 ]
             }
         }

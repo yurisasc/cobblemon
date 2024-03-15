@@ -75,8 +75,8 @@
             "weight": 0.54,
             "condition": {
                 "biomes": [
-                    "#cobblemon:is_nether_forest",
-                    "#cobblemon:is_nether_fungus"
+                    "#cobblemon:nether/is_forest",
+                    "#cobblemon:nether/is_fungus"
                 ]
             }
         }
