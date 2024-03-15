@@ -33,10 +33,10 @@ class FennekinModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quad
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("fennekin", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("fennekin", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("fennekin", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("fennekin", "blink") }
         standing = registerPose(
                 poseName = "standing",
                 poseTypes = setOf(PoseType.NONE, PoseType.STAND, PoseType.PORTRAIT, PoseType.PROFILE),

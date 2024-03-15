@@ -162,11 +162,10 @@
         "gen9"
       ],
       "aspects": [
-        "blue"
+        "squawkabilly-color-blue"
       ],
       "height": 6,
       "weight": 24,
-      "evolutions": [],
       "cannotDynamax": false,
       "battleOnly": false
     },
@@ -208,11 +207,10 @@
         "gen9"
       ],
       "aspects": [
-        "yellow"
+        "squawkabilly-color-yellow"
       ],
       "height": 6,
       "weight": 24,
-      "evolutions": [],
       "cannotDynamax": false,
       "battleOnly": false
     },
@@ -254,11 +252,10 @@
         "gen9"
       ],
       "aspects": [
-        "white"
+        "squawkabilly-color-white"
       ],
       "height": 6,
       "weight": 24,
-      "evolutions": [],
       "cannotDynamax": false,
       "battleOnly": false
     }

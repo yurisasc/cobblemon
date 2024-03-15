@@ -22,7 +22,6 @@ import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen9.*
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.Bone
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.util.cobblemonResource
-import com.cobblemon.mod.common.util.fromJson
 import com.google.gson.JsonObject
 
 object PokemonModelRepository : VaryingModelRepository<PokemonEntity, PokemonPoseableModel>() {
@@ -45,7 +44,6 @@ object PokemonModelRepository : VaryingModelRepository<PokemonEntity, PokemonPos
         inbuilt("charizard", ::CharizardModel)
         inbuilt("squirtle", ::SquirtleModel)
         inbuilt("wartortle", ::WartortleModel)
-        inbuilt("blastoise", ::BlastoiseModel)
         inbuilt("caterpie", ::CaterpieModel)
         inbuilt("metapod", ::MetapodModel)
         inbuilt("butterfree", ::ButterfreeModel)
@@ -590,6 +588,9 @@ object PokemonModelRepository : VaryingModelRepository<PokemonEntity, PokemonPos
         inbuilt("litwick", ::LitwickModel)
         inbuilt("lampent", ::LampentModel)
         inbuilt("chandelure", ::ChandelureModel)
+        inbuilt("gimmighoulroaming", ::GimmighoulRoamingModel)
+        inbuilt("gimmighoulchest", ::GimmighoulChestModel)
+        inbuilt("gholdengo", ::GholdengoModel)
         inbuilt("drifloon", ::DrifloonModel)
         inbuilt("drifblim", ::DrifblimModel)
     }
@@ -599,7 +600,9 @@ object PokemonModelRepository : VaryingModelRepository<PokemonEntity, PokemonPos
         val jsonObject = JsonPokemonPoseableModel.gson.fromJson(json, JsonObject::class.java)
         return {
             JsonPokemonPoseableModel.JsonPokemonPoseableModelAdapter.modelPart = it
-            JsonPokemonPoseableModel.gson.fromJson(jsonObject, JsonPokemonPoseableModel::class.java)
+            JsonPokemonPoseableModel.gson.fromJson(jsonObject, JsonPokemonPoseableModel::class.java).also {
+                it.poses.forEach { poseName, pose -> pose.poseName = poseName }
+            }
         }
     }
 }

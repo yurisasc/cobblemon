@@ -87,9 +87,6 @@ class CobblemonConfig {
     var maxNearbyBlocksVerticalRange = 2
 
     @NodeCategory(Category.Spawning)
-    var maxHorizontalSpace = 6
-
-    @NodeCategory(Category.Spawning)
     var maxVerticalSpace = 8
 
     @NodeCategory(Category.Spawning)
@@ -222,4 +219,7 @@ class CobblemonConfig {
 
     @NodeCategory(Category.World)
     var maxInsertedFossilItems = 2
+
+    @NodeCategory(Category.Battles)
+    var walkingInBattleAnimations = false
 }

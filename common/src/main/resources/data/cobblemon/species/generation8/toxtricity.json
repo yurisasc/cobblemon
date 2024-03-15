@@ -148,7 +148,6 @@
       "height": 16,
       "weight": 400,
       "preEvolution": "toxel",
-      "evolutions": [],
       "cannotDynamax": false,
       "battleOnly": false
     },
@@ -195,7 +194,6 @@
       ],
       "height": 240,
       "weight": 0,
-      "evolutions": [],
       "cannotDynamax": false,
       "battleOnly": false
     },
@@ -242,7 +240,6 @@
       ],
       "height": 240,
       "weight": 0,
-      "evolutions": [],
       "cannotDynamax": false,
       "battleOnly": true
     }

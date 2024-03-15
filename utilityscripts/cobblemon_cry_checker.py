@@ -41,13 +41,14 @@ def main(print_missing_models=False, print_missing_animations=False):
     gen_numbers = df.iloc[3:, 0]  # Column A
     dex_numbers = df.iloc[3:, 1]  # Column B
     pokemon_names = df.iloc[3:, 2]  # Column C
-    cry_statuses = df.iloc[3:, 53]  # Column BB
+    cry_statuses = df.iloc[3:, 54]  # Column BC [Cry Audio | In-Game]
 
     # Initialize lists for false positives and negatives
     false_positives = []
     false_negatives = []
     invalid_model_files = []
     invalid_animation_files = []
+    other_warnings = []
 
     # Iterate over the DataFrame rows
     for pokemon_name, gen_number, dex_number, cry_status in zip(pokemon_names, gen_numbers, dex_numbers, cry_statuses):
@@ -59,11 +60,17 @@ def main(print_missing_models=False, print_missing_animations=False):
         sanitized_pokemon_name = sanitized_pokemon_name_lower.capitalize()
         # Construct the path to the audio file
         audio_file_path = f"../common/src/main/resources/assets/cobblemon/sounds/pokemon/{sanitized_pokemon_name_lower}/{sanitized_pokemon_name_lower}_cry.ogg"
+
         # Construct the path to the model file
-        model_file_path = f"../common/src/main/kotlin/com/cobblemon/mod/common/client/render/models/blockbench/pokemon/gen{int(gen_number)}/{sanitized_pokemon_name}Model.kt"
-        # Construct the path to the animation.json file
+        # Try to convert gen_number to an integer and handle ValueError
+        try:
+            model_file_path = f"../common/src/main/kotlin/com/cobblemon/mod/common/client/render/models/blockbench/pokemon/gen{int(gen_number.strip())}/{sanitized_pokemon_name}Model.kt"
+        except ValueError:
+            other_warnings.append(f"⚠️ Warning: Invalid gen_number for pokemon {pokemon_name}. Skipping this line.")
+            continue        # Construct the path to the animation.json file
         dex_number = str(dex_number).zfill(4)  # prepend with 0s to make it 4 digits long
         animation_file_path = f"../common/src/main/resources/assets/cobblemon/bedrock/pokemon/animations/{dex_number}_{sanitized_pokemon_name_lower.lower()}/{sanitized_pokemon_name_lower.lower()}.animation.json"
+
         # Check if the audio file exists
         audio_file_exists = os.path.isfile(audio_file_path)
 
@@ -81,13 +88,13 @@ def main(print_missing_models=False, print_missing_animations=False):
         # Check if the Model.kt file exists and contains the required import and cryAnimation override
         if cry_status == "✔":
             if os.path.isfile(model_file_path):
-                with (open(model_file_path, 'r', encoding='utf-8') as file):
+                with (open(model_file_path, 'r', encoding='utf-8-sig') as file):
                     content = file.read()
                     if "import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider" not in content:
                         invalid_model_files.append(("Missing import", model_file_path.replace(
                             '../common/src/main/kotlin/com/cobblemon/mod/common/client/render/models/blockbench/pokemon/',
                             "")))
-                    elif f'override val cryAnimation = CryProvider {{ _, _ -> bedrockStateful("{sanitized_pokemon_name_lower}", "cry").setPreventsIdle(false) }}' not in content:
+                    elif f'override val cryAnimation = CryProvider {{ _, _ -> bedrockStateful("{sanitized_pokemon_name_lower}", "cry") }}' not in content:
                         if "override val cryAnimation = CryProvider {" not in content or 'bedrockStateful("' not in content:
                             invalid_model_files.append(("Missing cryAnimation override", model_file_path.replace(
                                 '../common/src/main/kotlin/com/cobblemon/mod/common/client/render/models/blockbench/pokemon/',
@@ -99,7 +106,7 @@ def main(print_missing_models=False, print_missing_animations=False):
             # Check if the animation.json file exists and contains the correct effect
             if os.path.isfile(animation_file_path):
                 try:
-                    with open(animation_file_path, 'r', encoding="utf-8") as file:
+                    with open(animation_file_path, 'r', encoding="utf-8-sig") as file:
                         data = json.load(file)
                         # Iterate through all animations and check if the cry effect is present
                         for animation_name, animation_data in data['animations'].items():
@@ -112,8 +119,10 @@ def main(print_missing_models=False, print_missing_animations=False):
                     invalid_animation_files.append(("Invalid JSON in ", animation_file_path.replace(
                         '../common/src/main/resources/assets/cobblemon/bedrock/pokemon/animations/', "")))
 
+
+
     # Check if lists are empty
-    if not false_positives and not false_negatives and not invalid_model_files and not invalid_animation_files:
+    if not other_warnings and not false_positives and not false_negatives and not invalid_model_files and not invalid_animation_files:
         print("No issues found. All cries are in order! ♪♫")
     else:
         # Print out the lists of false positives and negatives
@@ -123,7 +132,14 @@ def main(print_missing_models=False, print_missing_animations=False):
 
         if false_negatives:
             print("\nFalse negatives (audio file found but cry marked as not done):")
-            print_list_filtered(false_negatives)
+            # create a list of entries that do not contain G-Max or Mega
+            false_negatives_filtered_no_gmax_mega = [x for x in false_negatives if "G-Max" not in x and "Mega" not in x]
+            print_list_filtered(false_negatives_filtered_no_gmax_mega)
+
+            print("\nFalse negatives (G-Max and Mega are Not Implemented Yet):")
+            # Only print entries that contain G-Max or Mega
+            false_negatives_filtered = [x for x in false_negatives if "G-Max" in x or "Mega" in x]
+            print_list_filtered(false_negatives_filtered)
 
         # Print out the lists of invalid Model.kt and animation.json files
         if invalid_model_files:
@@ -142,6 +158,10 @@ def main(print_missing_models=False, print_missing_animations=False):
             else:
                 print_warning("[[not showing missing animation.json files]]")
                 print_problems_and_paths(invalid_animation_files, "Missing animation.json")
+
+        if other_warnings:
+            print("\nOther warnings:")
+            print_list_filtered(other_warnings)
 
     print_cobblemon_script_footer("Thanks for using the Cobblemon cry checker, provided to you by Waldleufer!")
 

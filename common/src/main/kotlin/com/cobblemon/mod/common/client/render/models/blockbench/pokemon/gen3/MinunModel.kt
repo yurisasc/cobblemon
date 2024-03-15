@@ -36,7 +36,7 @@ class MinunModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedFr
     lateinit var walk: PokemonPose
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("minun", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("minun", "blink") }
         standing = registerPose(
             poseName = "standing",
             poseTypes = STATIONARY_POSES + UI_POSES,

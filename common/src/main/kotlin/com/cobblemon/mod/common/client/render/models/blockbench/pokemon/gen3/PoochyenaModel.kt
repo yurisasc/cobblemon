@@ -38,10 +38,10 @@ class PoochyenaModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Qua
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("poochyena", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("poochyena", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("poochyena", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("poochyena", "blink") }
         standing = registerPose(
             poseName = "standing",
             poseTypes = UI_POSES + STATIONARY_POSES,

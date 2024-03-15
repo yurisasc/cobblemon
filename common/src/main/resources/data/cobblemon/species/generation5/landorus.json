@@ -1,4 +1,4 @@
-{
+﻿{
   "name": "Landorus",
   "nationalPokedexNumber": 645,
   "primaryType": "ground",
@@ -77,6 +77,7 @@
     "tm:frustration",
     "tm:gigaimpact",
     "tm:grassknot",
+    "tm:gravity",
     "tm:hiddenpower",
     "tm:hyperbeam",
     "tm:imprison",
@@ -99,6 +100,7 @@
     "tm:sandstorm",
     "tm:sandtomb",
     "tm:scaryface",
+    "tm:scorchingsands",
     "tm:secretpower",
     "tm:selfdestruct",
     "tm:sleeptalk",
@@ -198,7 +200,6 @@
       ],
       "height": 13,
       "weight": 680,
-      "evolutions": [],
       "cannotDynamax": false,
       "battleOnly": false
     }

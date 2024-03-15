@@ -40,7 +40,7 @@ class PokemonMoveControl(val pokemonEntity: PokemonEntity) : MoveControl(pokemon
         }
 
         val behaviour = pokemonEntity.behaviour
-        val mediumSpeed = if (pokemonEntity.getPoseType() in setOf(PoseType.FLY, PoseType.HOVER)) {
+        val mediumSpeed = if (pokemonEntity.getCurrentPoseType() in setOf(PoseType.FLY, PoseType.HOVER)) {
             behaviour.moving.fly.flySpeedHorizontal
         } else if (pokemonEntity.isSubmergedIn(FluidTags.WATER) || pokemonEntity.isSubmergedIn(FluidTags.LAVA)) {
             behaviour.moving.swim.swimSpeed

@@ -108,7 +108,7 @@ class PokemonSpawnDetail : SpawnDetail() {
         return super.isValid() && isValidSpecies
     }
 
-    override fun doSpawn(ctx: SpawningContext): SpawnAction<*> {
+    override fun doSpawn(ctx: SpawningContext): SingleEntitySpawnAction<PokemonEntity> {
         // TODO should do more maybe
         return PokemonSpawnAction(ctx, this)
     }

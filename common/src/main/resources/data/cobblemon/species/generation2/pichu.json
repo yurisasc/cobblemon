@@ -119,7 +119,6 @@
       ],
       "height": 3,
       "weight": 20,
-      "evolutions": [],
       "cannotDynamax": false,
       "battleOnly": false
     }
@@ -160,6 +159,7 @@
     "tm:attract",
     "tm:bodyslam",
     "tm:captivate",
+    "tm:charge",
     "tm:chargebeam",
     "tm:charm",
     "tm:confide",

@@ -51,10 +51,10 @@ class ArbokModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     val tail4WaveSegment = WaveSegment(modelPart = tail4, length = 11F)
     val tail5WaveSegment = WaveSegment(modelPart = tail5, length = 11F)
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("arbok", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("arbok", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("arbok", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("arbok", "blink") }
         // TODO tongue_flick
 
         val wave = WaveAnimation<PokemonEntity>(

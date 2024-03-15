@@ -31,7 +31,7 @@ class MagnemiteModel(root: ModelPart) : PokemonPoseableModel() {
 
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("magnemite", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("magnemite", "blink") }
         sleep = registerPose(
             poseType = PoseType.SLEEP,
             idleAnimations = arrayOf(bedrock("magnemite", "sleep"))

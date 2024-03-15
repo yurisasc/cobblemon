@@ -9,6 +9,8 @@ versions:
   # other
   licenser: 0.6.1
   shadow: 7.1.2
+  blossom: 2.1.0
+  idea-ext: 1.1.7
 
   # fabric/remap
   loom: 1.1-SNAPSHOT
@@ -19,6 +21,7 @@ versions:
   flywheelFabric: 0.6.9-1
   fabric-permissions-api: 0.2-SNAPSHOT
   adorn-fabric: 5.0.0-fabric
+  lamb-dynamic-lights: 2.3.2+1.20.1
 
   # forge
   forge: 1.20.1-47.1.0
@@ -28,7 +31,7 @@ versions:
 
   # common
   graal: 22.3.0
-  molang: 1.1.9
+  molang: 1.1.11
 
   # test
   junit: 5.9.0
@@ -53,6 +56,14 @@ dependencies:
     group: gradle.plugin.com.github.johnrengelman
     name: shadow
     version: { ref: shadow }
+  blossom:
+    group: net.kyori
+    name: blossom
+    version: { ref: blossom }
+  ideaExt:
+    group: org.jetbrains.gradle.plugin.idea-ext
+    name: org.jetbrains.gradle.plugin.idea-ext.gradle.plugin
+    version: { ref: idea-ext }
   loom:
     group: dev.architectury
     name: architectury-loom
@@ -126,6 +137,10 @@ dependencies:
     group: maven.modrinth
     name: adorn
     version: { ref: adorn-fabric }
+  lambDynamicLights:
+    group: maven.modrinth
+    name: lambdynamiclights
+    version: { ref: lamb-dynamic-lights }
 
   # forge
   forge:

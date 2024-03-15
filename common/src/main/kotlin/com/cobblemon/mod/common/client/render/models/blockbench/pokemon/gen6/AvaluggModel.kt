@@ -45,10 +45,10 @@ class AvaluggModel (root: ModelPart) : PokemonPoseableModel(), QuadrupedFrame, H
 
     val wateroffset = -3.5
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("avalugg", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("avalugg", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("avalugg", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("avalugg", "blink") }
         sleep = registerPose(
             poseType = PoseType.SLEEP,
             idleAnimations = arrayOf(bedrock("avalugg", "sleep"))

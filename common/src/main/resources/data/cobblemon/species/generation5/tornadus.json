@@ -1,4 +1,4 @@
-{
+﻿{
   "name": "Tornadus",
   "nationalPokedexNumber": 641,
   "primaryType": "flying",
@@ -85,6 +85,8 @@
     "tm:icywind",
     "tm:incinerate",
     "tm:irontail",
+    "tm:knockoff",
+    "tm:lashout",
     "tm:metronome",
     "tm:nastyplot",
     "tm:payback",
@@ -201,7 +203,6 @@
       ],
       "height": 14,
       "weight": 630,
-      "evolutions": [],
       "cannotDynamax": false,
       "battleOnly": false
     }

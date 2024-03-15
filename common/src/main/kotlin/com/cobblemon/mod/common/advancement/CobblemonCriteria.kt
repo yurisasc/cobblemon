@@ -113,6 +113,14 @@ object CobblemonCriteria {
         )
     )
 
+    // Advancement criteria for [grow_tumblestone.json]
+    val PLANT_TUMBLESTONE = this.create(
+        SimpleCriterionTrigger(
+            cobblemonResource("plant_tumblestone"),
+            PlantTumblestoneCriterionCondition::class.java
+        )
+    )
+
     private fun <T : Criterion<*>> create(criteria: T): T = Cobblemon.implementation.registerCriteria(criteria)
 
 }

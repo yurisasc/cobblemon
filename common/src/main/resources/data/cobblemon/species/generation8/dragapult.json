@@ -55,8 +55,12 @@
     "tm:bodyslam",
     "tm:breakingswipe",
     "tm:brine",
+    "tm:confuseray",
+    "tm:curse",
     "tm:dive",
+    "tm:doubleedge",
     "tm:dracometeor",
+    "tm:dragoncheer",
     "tm:dragonclaw",
     "tm:dragondance",
     "tm:dragonpulse",
@@ -100,7 +104,11 @@
     "tm:triattack",
     "tm:uturn",
     "tm:willowisp",
-    "tutor:dracometeor"
+    "tutor:dracometeor",
+    "tutor:dragondarts",
+    "tutor:phantomforce",
+    "tutor:terablast",
+    "tutor:uturn"
   ],
   "labels": [
     "gen8",

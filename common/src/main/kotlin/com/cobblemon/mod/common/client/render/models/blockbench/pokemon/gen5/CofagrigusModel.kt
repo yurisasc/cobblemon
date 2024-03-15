@@ -31,10 +31,10 @@ class CofagrigusModel (root: ModelPart) : PokemonPoseableModel() {
     lateinit var fly: PokemonPose
     lateinit var sleep: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("cofagrigus", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("cofagrigus", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("cofagrigus", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("cofagrigus", "blink") }
 
         sleep = registerPose(
                 poseType = PoseType.SLEEP,
