@@ -35,11 +35,14 @@ import com.cobblemon.mod.common.api.scheduling.Schedulable
 import com.cobblemon.mod.common.api.scheduling.SchedulingTracker
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.Poseable
+import com.cobblemon.mod.common.entity.ai.AttackAngryAtTask
 import com.cobblemon.mod.common.entity.ai.FollowWalkTargetTask
 import com.cobblemon.mod.common.entity.ai.GetAngryAtAttackerTask
+import com.cobblemon.mod.common.entity.ai.MoveToAttackTargetTask
 import com.cobblemon.mod.common.entity.ai.StayAfloatTask
 import com.cobblemon.mod.common.entity.npc.ai.ChooseWanderTargetTask
 import com.cobblemon.mod.common.entity.npc.ai.LookAtBattlingPokemonTask
+import com.cobblemon.mod.common.entity.npc.ai.MeleeAttackTask
 import com.cobblemon.mod.common.entity.npc.ai.SwitchFromBattleTask
 import com.cobblemon.mod.common.entity.npc.ai.SwitchToBattleTask
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
@@ -57,6 +60,7 @@ import com.mojang.datafixers.util.Pair
 import com.mojang.serialization.Dynamic
 import java.util.UUID
 import java.util.concurrent.CompletableFuture
+import net.minecraft.entity.Entity
 import net.minecraft.entity.EntityPose
 import net.minecraft.entity.Npc
 import net.minecraft.entity.ai.brain.Activity
@@ -64,10 +68,14 @@ import net.minecraft.entity.ai.brain.Brain
 import net.minecraft.entity.ai.brain.MemoryModuleType
 import net.minecraft.entity.ai.brain.sensor.Sensor
 import net.minecraft.entity.ai.brain.sensor.SensorType
+import net.minecraft.entity.ai.brain.task.ForgetAngryAtTargetTask
 import net.minecraft.entity.ai.brain.task.LookAroundTask
 import net.minecraft.entity.ai.brain.task.LookAtMobTask
 import net.minecraft.entity.ai.brain.task.RandomTask
 import net.minecraft.entity.attribute.DefaultAttributeContainer
+import net.minecraft.entity.attribute.EntityAttributes
+import net.minecraft.entity.damage.DamageSource
+import net.minecraft.entity.damage.DamageSources
 import net.minecraft.entity.data.DataTracker
 import net.minecraft.entity.data.TrackedData
 import net.minecraft.entity.passive.PassiveEntity
@@ -143,6 +151,7 @@ class NPCEntity(world: World) : PassiveEntity(CobblemonEntities.NPC, world), Npc
     // This has to be below constructor and entity tracker fields otherwise initialization order is weird and breaks them syncing
     companion object {
         fun createAttributes(): DefaultAttributeContainer.Builder = createMobAttributes()
+            .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 1.0)
 
         val NPC_CLASS = DataTracker.registerData(NPCEntity::class.java, IdentifierDataSerializer)
         val ASPECTS = DataTracker.registerData(NPCEntity::class.java, StringSetDataSerializer)
@@ -162,6 +171,7 @@ class NPCEntity(world: World) : PassiveEntity(CobblemonEntities.NPC, world), Npc
         val MEMORY_MODULES: List<MemoryModuleType<*>> = ImmutableList.of(
             MemoryModuleType.LOOK_TARGET,
             MemoryModuleType.WALK_TARGET,
+            MemoryModuleType.ATTACK_TARGET,
             MemoryModuleType.CANT_REACH_WALK_TARGET_SINCE,
             MemoryModuleType.PATH,
             MemoryModuleType.IS_PANICKING,
@@ -172,6 +182,7 @@ class NPCEntity(world: World) : PassiveEntity(CobblemonEntities.NPC, world), Npc
             MemoryModuleType.HURT_BY_ENTITY,
             MemoryModuleType.NEAREST_VISIBLE_PLAYER,
             MemoryModuleType.ANGRY_AT,
+            MemoryModuleType.ATTACK_COOLING_DOWN,
         )
 
         const val SEND_OUT_ANIMATION = "send_out"
@@ -196,7 +207,8 @@ class NPCEntity(world: World) : PassiveEntity(CobblemonEntities.NPC, world), Npc
         val brain = createBrainProfile().deserialize(dynamic)
         brain.setTaskList(Activity.CORE, ImmutableList.of(
             Pair.of(0, StayAfloatTask(0.8F)),
-            Pair.of(0, GetAngryAtAttackerTask.create())
+            Pair.of(0, GetAngryAtAttackerTask.create()),
+            Pair.of(0, ForgetAngryAtTargetTask.create())
         ))
         brain.setTaskList(Activity.IDLE, ImmutableList.of(
             Pair.of(1, RandomTask(
@@ -207,7 +219,10 @@ class NPCEntity(world: World) : PassiveEntity(CobblemonEntities.NPC, world), Npc
                 )
             )),
             Pair.of(1, FollowWalkTargetTask()),
-            Pair.of(0, SwitchToBattleTask.create())
+            Pair.of(0, SwitchToBattleTask.create()),
+            Pair.of(1, AttackAngryAtTask.create()),
+            Pair.of(1, MoveToAttackTargetTask.create()),
+            Pair.of(1, MeleeAttackTask.create(2F, 30L))
         ))
         brain.setTaskList(BATTLING, ImmutableList.of(
             Pair.of(0, SwitchFromBattleTask.create()),
@@ -219,6 +234,11 @@ class NPCEntity(world: World) : PassiveEntity(CobblemonEntities.NPC, world), Npc
         brain.setDefaultActivity(Activity.IDLE)
         brain.resetPossibleActivities()
         return brain
+    }
+
+    override fun tryAttack(target: Entity): Boolean {
+        target as ServerPlayerEntity
+        return target.damage(this.damageSources.mobAttack(this), attributes.getValue(EntityAttributes.GENERIC_ATTACK_DAMAGE).toFloat() * 5F)
     }
 
     override fun onFinishPathfinding() {
