@@ -444,7 +444,7 @@ object CobblemonItemGroups {
         entries.add(CobblemonItems.DEEP_SEA_TOOTH)
         entries.add(CobblemonItems.DESTINY_KNOT)
         entries.add(CobblemonItems.DRAGON_FANG)
-//        entries.add(CobblemonItems.EJECT_BUTTON)
+        entries.add(CobblemonItems.EJECT_BUTTON)
 //        entries.add(CobblemonItems.EJECT_PACK)
         entries.add(CobblemonItems.EVERSTONE)
         entries.add(CobblemonItems.EVIOLITE)
