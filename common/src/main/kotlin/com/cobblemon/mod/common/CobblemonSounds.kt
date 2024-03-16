@@ -156,9 +156,19 @@ object CobblemonSounds : PlatformRegistry<Registry<SoundEvent>, RegistryKey<Regi
     val ENERGY_ROOT_PLACE = this.create("energy_root.place")
 
     @JvmField
+    val VIVICHOKE_BREAK = this.create("vivichoke.break")
+    @JvmField
+    val VIVICHOKE_PLACE = this.create("vivichoke.place")
+
+    @JvmField
     val MINT_BREAK = this.create("mint.break")
     @JvmField
     val MINT_PLACE = this.create("mint.place")
+
+    @JvmField
+    val REVIVAL_HERB_BREAK = this.create("revival_herb.break")
+    @JvmField
+    val REVIVAL_HERB_PLACE = this.create("revival_herb.place")
 
     @JvmField
     val MEDICINAL_LEEK_BREAK = this.create("medicinal_leek.break")
@@ -278,10 +288,28 @@ object CobblemonSounds : PlatformRegistry<Registry<SoundEvent>, RegistryKey<Regi
     )
 
     @JvmField
+    val VIVICHOKE_SOUNDS = BlockSoundGroup(1f, 1f,
+        VIVICHOKE_BREAK,
+        SoundEvents.BLOCK_GRASS_STEP,
+        VIVICHOKE_PLACE,
+        SoundEvents.BLOCK_GRASS_HIT,
+        SoundEvents.BLOCK_GRASS_FALL
+    )
+
+    @JvmField
     val MINT_SOUNDS = BlockSoundGroup(1f, 1f,
         MINT_BREAK,
         SoundEvents.BLOCK_GRASS_STEP,
         MINT_PLACE,
+        SoundEvents.BLOCK_GRASS_HIT,
+        SoundEvents.BLOCK_GRASS_FALL
+    )
+
+    @JvmField
+    val REVIVAL_HERB_SOUNDS = BlockSoundGroup(1f, 1f,
+        REVIVAL_HERB_BREAK,
+        SoundEvents.BLOCK_GRASS_STEP,
+        REVIVAL_HERB_PLACE,
         SoundEvents.BLOCK_GRASS_HIT,
         SoundEvents.BLOCK_GRASS_FALL
     )
