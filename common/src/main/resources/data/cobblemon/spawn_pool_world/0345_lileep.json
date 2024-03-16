@@ -4,16 +4,16 @@
     "neededUninstalledMods": [],
     "spawns": [
         {
-            "id": "aerodactyl-1",
-            "pokemon": "aerodactyl",
+            "id": "lileep-1",
+            "pokemon": "lileep",
             "presets": [
-                "natural"
+                "underwater"
             ],
             "type": "pokemon",
-            "context": "grounded",
+            "context": "seafloor",
             "bucket": "ultra-rare",
-            "level": "27-52",
-            "weight": 10.0,
+            "level": "11-36",
+            "weight": 9.0,
             "condition": {
                 "canSeeSky": false,
                 "biomes": [

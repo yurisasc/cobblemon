@@ -17,7 +17,7 @@ from scriptutils import printCobblemonHeader, print_cobblemon_script_footer, pri
 
 # Define what kind of pokémon should be included, if nothing is specified (empty array), all will be included.
 # filter by number ranges (dex range)
-pokemon_numbers = range(302, 303)
+pokemon_numbers = range(100, 700)
 # filter by group
 included_groups = ['basic', 'boss']
 # filter by context

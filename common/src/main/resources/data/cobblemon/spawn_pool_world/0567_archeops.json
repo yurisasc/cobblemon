@@ -4,16 +4,16 @@
     "neededUninstalledMods": [],
     "spawns": [
         {
-            "id": "aerodactyl-1",
-            "pokemon": "aerodactyl",
+            "id": "archeops-1",
+            "pokemon": "archeops",
             "presets": [
                 "natural"
             ],
             "type": "pokemon",
             "context": "grounded",
             "bucket": "ultra-rare",
-            "level": "27-52",
-            "weight": 10.0,
+            "level": "37-57",
+            "weight": 1.0,
             "condition": {
                 "canSeeSky": false,
                 "biomes": [

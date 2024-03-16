@@ -4,16 +4,16 @@
     "neededUninstalledMods": [],
     "spawns": [
         {
-            "id": "kabuto-1",
-            "pokemon": "kabuto",
+            "id": "carracosta-1",
+            "pokemon": "carracosta",
             "presets": [
                 "natural"
             ],
             "type": "pokemon",
             "context": "grounded",
             "bucket": "ultra-rare",
-            "level": "11-36",
-            "weight": 9.0,
+            "level": "37-57",
+            "weight": 1.0,
             "condition": {
                 "canSeeSky": false,
                 "biomes": [
@@ -22,16 +22,16 @@
             }
         },
         {
-            "id": "kabuto-2",
-            "pokemon": "kabuto",
+            "id": "carracosta-2",
+            "pokemon": "carracosta",
             "presets": [
                 "underwater"
             ],
             "type": "pokemon",
             "context": "submerged",
             "bucket": "ultra-rare",
-            "level": "11-36",
-            "weight": 9.0,
+            "level": "37-57",
+            "weight": 1.0,
             "condition": {
                 "canSeeSky": false,
                 "biomes": [

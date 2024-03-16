@@ -4,16 +4,16 @@
     "neededUninstalledMods": [],
     "spawns": [
         {
-            "id": "aerodactyl-1",
-            "pokemon": "aerodactyl",
+            "id": "aurorus-1",
+            "pokemon": "aurorus",
             "presets": [
                 "natural"
             ],
             "type": "pokemon",
             "context": "grounded",
             "bucket": "ultra-rare",
-            "level": "27-52",
-            "weight": 10.0,
+            "level": "39-52",
+            "weight": 1.0,
             "condition": {
                 "canSeeSky": false,
                 "biomes": [

@@ -4,8 +4,8 @@
     "neededUninstalledMods": [],
     "spawns": [
         {
-            "id": "kabuto-1",
-            "pokemon": "kabuto",
+            "id": "anorith-1",
+            "pokemon": "anorith",
             "presets": [
                 "natural"
             ],
@@ -22,8 +22,8 @@
             }
         },
         {
-            "id": "kabuto-2",
-            "pokemon": "kabuto",
+            "id": "anorith-2",
+            "pokemon": "anorith",
             "presets": [
                 "underwater"
             ],
