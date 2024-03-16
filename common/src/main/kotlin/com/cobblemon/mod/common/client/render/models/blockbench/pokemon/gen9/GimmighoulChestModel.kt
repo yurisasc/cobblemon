@@ -86,7 +86,7 @@ class GimmighoulChestModel (root: ModelPart) : PokemonPoseableModel(), HeadedFra
         )
 
         closed.transitions[battle.poseName] = { _, _ ->
-            bedrockStateful("gimmighoul_chest", "surprise").andThen { _, state -> state.setPose(battle.poseName) }
+            bedrockStateful("gimmighoul_chest", "surprise")
         }
     }
 
