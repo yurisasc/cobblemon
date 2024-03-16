@@ -2,7 +2,7 @@
     "type": "minecraft:crafting_shaped",
     "pattern": [
         " W ",
-        "InW",
+        "INW",
         "II "
     ],
     "key": {
@@ -10,10 +10,10 @@
             "item": "minecraft:iron_ingot"
         },
         "W": {
-            "item": "cobblemon:wool"
+            "tag": "minecraft:wool"
         },
-        "n": {
-            "item": "cobblemon:iron_nugget"
+        "N": {
+            "item": "minecraft:iron_nugget"
         }
     },
     "result":
