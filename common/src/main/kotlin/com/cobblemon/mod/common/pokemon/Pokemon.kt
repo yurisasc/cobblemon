@@ -1474,7 +1474,7 @@ open class Pokemon : ShowdownIdentifiable {
     }
 
     private val observables = mutableListOf<Observable<*>>()
-    private val anyChangeObservable = SimpleObservable<Pokemon>()
+    val anyChangeObservable = SimpleObservable<Pokemon>()
 
     fun markFeatureDirty(feature: SpeciesFeature) {
         _features.emit(feature)

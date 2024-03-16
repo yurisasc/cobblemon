@@ -756,6 +756,7 @@ abstract class PoseableEntityModel<T : Entity>(
                 primaryAnimation.afterAction += {
                     state.setPose(desirablePose.poseName)
                 }
+                state.addPrimaryAnimation(primaryAnimation)
             } else {
                 state.setPose(poses.values.first { desirablePoseType in it.poseTypes && (it.condition == null || (entity != null && it.condition.invoke(entity))) }.poseName)
             }
