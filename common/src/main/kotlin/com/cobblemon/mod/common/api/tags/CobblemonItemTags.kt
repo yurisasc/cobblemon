@@ -147,6 +147,9 @@ object CobblemonItemTags {
     @JvmField
     val ABILITY_CHANGERS = create("ability_changers")
 
+    @JvmField
+    val IS_FRIENDSHIP_BOOSTER = create("is_friendship_booster")
+
     private fun create(path: String) = TagKey.of(RegistryKeys.ITEM, cobblemonResource(path))
 
 }
