@@ -150,12 +150,6 @@ class BattleMessage(rawMessage: String) {
         return this.getBattlePokemon(actorID, pokemonID, battle)
     }
 
-    fun getSpreadBattlePokemon(battle: PokemonBattle): List<BattlePokemon> {
-        val actorIDs = this.optionalArguments["spread"]?.split(",") ?: emptyList()
-        val activeSpreadPokemon = battle.activePokemon.filter { it.getPNX() in actorIDs }
-        return activeSpreadPokemon.map { it.battlePokemon!! }
-    }
-
     fun getSourceBattlePokemon(battle: PokemonBattle): BattlePokemon? {
         val sourcePokemonArgument = this.optionalArguments.get("of") ?: return null
         val actorAndPokemonID = sourcePokemonArgument.takeIf { it.length >= 2 }?.split(": ") ?: return null
