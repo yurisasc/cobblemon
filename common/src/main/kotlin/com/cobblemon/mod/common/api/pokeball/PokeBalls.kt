@@ -205,8 +205,8 @@ object PokeBalls : JsonDataRegistry<PokeBall> {
         createDefault("ancient_wing_ball", throwPower = 2.5f, ancient = true)
         createDefault("ancient_jet_ball", throwPower = 2.5f, ancient = true)
         createDefault("ancient_origin_ball", GuaranteedModifier(), ancient = true)
-        // Luxury ball effect
-        CobblemonEvents.FRIENDSHIP_UPDATED.subscribe(priority = Priority.LOWEST) { event ->
+        // Luxury ball effect, low priority as it must be triggered before soothe bell as of gen 4
+        CobblemonEvents.FRIENDSHIP_UPDATED.subscribe(priority = Priority.LOW) { event ->
             var increment = (event.newFriendship - event.pokemon.friendship).toFloat()
             if (increment <= 1F) {
                 event.pokemon.caughtBall.effects.filterIsInstance<FriendshipEarningBoostEffect>()

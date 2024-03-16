@@ -8,6 +8,7 @@
 
 package com.cobblemon.mod.common
 
+import com.cobblemon.mod.common.CobblemonBuildDetails.smallCommitHash
 import com.cobblemon.mod.common.advancement.CobblemonCriteria
 import com.cobblemon.mod.common.advancement.criterion.EvolvePokemonContext
 import com.cobblemon.mod.common.api.Priority
@@ -16,10 +17,10 @@ import com.cobblemon.mod.common.api.data.DataProvider
 import com.cobblemon.mod.common.api.drop.CommandDropEntry
 import com.cobblemon.mod.common.api.drop.DropEntry
 import com.cobblemon.mod.common.api.drop.ItemDropEntry
+import com.cobblemon.mod.common.api.events.CobblemonEvents
 import com.cobblemon.mod.common.api.events.CobblemonEvents.BATTLE_VICTORY
 import com.cobblemon.mod.common.api.events.CobblemonEvents.DATA_SYNCHRONIZED
 import com.cobblemon.mod.common.api.events.CobblemonEvents.EVOLUTION_COMPLETE
-import com.cobblemon.mod.common.api.events.CobblemonEvents.HELD_ITEM_UPDATED
 import com.cobblemon.mod.common.api.events.CobblemonEvents.LEVEL_UP_EVENT
 import com.cobblemon.mod.common.api.events.CobblemonEvents.POKEMON_CAPTURED
 import com.cobblemon.mod.common.api.events.CobblemonEvents.TRADE_COMPLETED
@@ -35,7 +36,10 @@ import com.cobblemon.mod.common.api.pokemon.effect.ShoulderEffectRegistry
 import com.cobblemon.mod.common.api.pokemon.experience.ExperienceCalculator
 import com.cobblemon.mod.common.api.pokemon.experience.ExperienceGroups
 import com.cobblemon.mod.common.api.pokemon.experience.StandardExperienceCalculator
-import com.cobblemon.mod.common.api.pokemon.feature.*
+import com.cobblemon.mod.common.api.pokemon.feature.ChoiceSpeciesFeatureProvider
+import com.cobblemon.mod.common.api.pokemon.feature.FlagSpeciesFeatureProvider
+import com.cobblemon.mod.common.api.pokemon.feature.IntSpeciesFeatureProvider
+import com.cobblemon.mod.common.api.pokemon.feature.SpeciesFeatures
 import com.cobblemon.mod.common.api.pokemon.helditem.HeldItemProvider
 import com.cobblemon.mod.common.api.pokemon.stats.EvCalculator
 import com.cobblemon.mod.common.api.pokemon.stats.Generation8EvCalculator
@@ -62,6 +66,7 @@ import com.cobblemon.mod.common.api.storage.player.PlayerDataStoreManager
 import com.cobblemon.mod.common.api.storage.player.factory.JsonPlayerDataStoreFactory
 import com.cobblemon.mod.common.api.storage.player.factory.MongoPlayerDataStoreFactory
 import com.cobblemon.mod.common.api.tags.CobblemonEntityTypeTags
+import com.cobblemon.mod.common.api.tags.CobblemonItemTags
 import com.cobblemon.mod.common.battles.BagItems
 import com.cobblemon.mod.common.battles.BattleFormat
 import com.cobblemon.mod.common.battles.BattleRegistry
@@ -83,7 +88,6 @@ import com.cobblemon.mod.common.config.starter.StarterConfig
 import com.cobblemon.mod.common.data.CobblemonDataProvider
 import com.cobblemon.mod.common.events.AdvancementHandler
 import com.cobblemon.mod.common.events.ServerTickHandler
-import com.cobblemon.mod.common.item.CobblemonItem
 import com.cobblemon.mod.common.item.PokeBallItem
 import com.cobblemon.mod.common.net.messages.client.settings.ServerSettingsPacket
 import com.cobblemon.mod.common.permission.LaxPermissionValidator
@@ -94,7 +98,6 @@ import com.cobblemon.mod.common.pokemon.aspects.SHINY_ASPECT
 import com.cobblemon.mod.common.pokemon.evolution.variants.BlockClickEvolution
 import com.cobblemon.mod.common.pokemon.feature.TagSeasonResolver
 import com.cobblemon.mod.common.pokemon.helditem.CobblemonHeldItemManager
-import com.cobblemon.mod.common.pokemon.misc.GimmighoulStashHandler
 import com.cobblemon.mod.common.pokemon.properties.HiddenAbilityPropertyType
 import com.cobblemon.mod.common.pokemon.properties.UncatchableProperty
 import com.cobblemon.mod.common.pokemon.properties.tags.PokemonFlagProperty
@@ -116,31 +119,32 @@ import com.mongodb.ConnectionString
 import com.mongodb.MongoClientSettings
 import com.mongodb.client.MongoClient
 import com.mongodb.client.MongoClients
-import java.io.File
-import java.io.FileReader
-import java.io.FileWriter
-import java.io.PrintWriter
-import java.util.UUID
-import kotlin.properties.Delegates
-import kotlin.reflect.full.memberProperties
-import kotlin.reflect.jvm.isAccessible
-import kotlin.reflect.jvm.javaField
 import net.minecraft.client.MinecraftClient
 import net.minecraft.command.argument.serialize.ConstantArgumentSerializer
 import net.minecraft.entity.data.TrackedDataHandlerRegistry
 import net.minecraft.item.Items
 import net.minecraft.item.NameTagItem
 import net.minecraft.registry.RegistryKey
-import net.minecraft.sound.SoundCategory
 import net.minecraft.util.WorldSavePath
 import net.minecraft.world.World
 import org.apache.logging.log4j.LogManager
+import org.apache.logging.log4j.Logger
+import java.io.File
+import java.io.FileReader
+import java.io.FileWriter
+import java.io.PrintWriter
+import java.util.*
+import kotlin.properties.Delegates
+import kotlin.reflect.full.memberProperties
+import kotlin.reflect.jvm.isAccessible
+import kotlin.reflect.jvm.javaField
+import kotlin.math.roundToInt
 
 object Cobblemon {
     const val MODID = "cobblemon"
     const val VERSION = "1.4.0"
     const val CONFIG_PATH = "config/$MODID/main.json"
-    val LOGGER = LogManager.getLogger()
+    val LOGGER: Logger = LogManager.getLogger()
 
     lateinit var implementation: CobblemonImplementation
     @Deprecated("This field is now a config value", ReplaceWith("Cobblemon.config.captureCalculator"))
@@ -170,6 +174,14 @@ object Cobblemon {
 
     fun preInitialize(implementation: CobblemonImplementation) {
         this.implementation = implementation
+
+        this.LOGGER.info("Launching Cobblemon ${CobblemonBuildDetails.VERSION}${if(CobblemonBuildDetails.SNAPSHOT) "-SNAPSHOT" else ""} ")
+        if(CobblemonBuildDetails.SNAPSHOT) {
+            this.LOGGER.info("  - Git Commit: ${smallCommitHash()} (https://gitlab.com/cable-mc/cobblemon/-/commit/${CobblemonBuildDetails.GIT_COMMIT})")
+            this.LOGGER.info("  - Branch: ${CobblemonBuildDetails.BRANCH}")
+            this.LOGGER.info("  - Timestamp: ${CobblemonBuildDetails.TIMESTAMP}")
+        }
+
         implementation.registerPermissionValidator()
         implementation.registerSoundEvents()
         implementation.registerBlocks()
@@ -243,6 +255,16 @@ object Cobblemon {
         TrackedDataHandlerRegistry.register(StringSetDataSerializer)
         TrackedDataHandlerRegistry.register(PoseTypeDataSerializer)
         TrackedDataHandlerRegistry.register(IdentifierDataSerializer)
+
+        // Lowest priority because this applies after luxury ball bonus as of gen 4
+        CobblemonEvents.FRIENDSHIP_UPDATED.subscribe(Priority.LOWEST) { event ->
+            var increment = (event.newFriendship - event.pokemon.friendship).toFloat()
+            // Our Luxury ball spec is diff from official, but we will still assume these stack
+            if (event.pokemon.heldItemNoCopy().isIn(CobblemonItemTags.IS_FRIENDSHIP_BOOSTER)) {
+                increment += increment * 0.5F
+            }
+            event.newFriendship = event.pokemon.friendship + increment.roundToInt()
+        }
 
         HeldItemProvider.register(CobblemonHeldItemManager, Priority.LOWEST)
     }

@@ -19,6 +19,7 @@
 - Added 6 Pokémon-themed Pottery Sherds, obtained from ruin structures.
 - Added a Pokémon-themed armor trim, obtained from ruin structures.
 - You can now find Nether Fire Stone Ore in, surprisingly, the Nether.
+- You'll also find Terracotta Sun Stone Ore in Badlands biomes.
 - Added effects for many Poké Balls when sending out Pokémon or capturing.
 - Added a new send-out ball toss animation that showcases the ball used for the Pokémon.
 - Added simple move animations for Pokémon in battle with a proof of concept for more complicated animations.
@@ -134,6 +135,7 @@
   - Using Relic Coins, you can increase Gimmighoul's Coin Stash. Upon reaching 999, it can be evolved into Gholdengo.
   - Additionally, if you give Gimmighoul a Netherite Scrap, you can increase its Netherite Stash. Who knows what might happen if it fills up?
 - Completed the advancement for placing a Tumblestone near Lava or Magma to make it grow.
+- Added new held items: Ability Shield, Absorb Bulb, Air Balloon, Binding Band, Blunder Policy, Cell Battery, Covert Cloak, Damp Rock, Eviolite, Expert Belt, Focus Sash, Heat Rock, Icy Rock, Iron Ball, Light Ball, Loaded Dice, Red Card, Shell Bell, Smooth Rock and Soothe Bell.
 
 ### Changes
 - Pokémon now transition more smoothly between different poses.
@@ -149,6 +151,8 @@
 - Apricorn Sprouts can now be planted directly on Apricorn leaves to create a new Apricorn of the same color.
 - Added tooltips to interaction GUIs to make it clearer what they do.
 - Poké Ball recipes now use tags for their center ingredient, rather than specificied Copper Ingot, Iron Ingot, Gold Ingot, and Diamond, allowing for further datapack customisation.
+- Starter Toast now closes once corresponding button is pressed once.
+- Moved some items in the vanilla Food & Drinks category.
 
 ### Fixes
 - Resized Snorlax
@@ -224,6 +228,7 @@
 ```
 - Following up on this change ``light_source`` was removed as a possible shoulder effect due to becoming unnecessary and never having had a default implementation.
 - Added the item tag ``cobblemon:ability_changers``, contains the ``cobblemon:ability_capsule`` & ``cobblemon:ability_patch`` by default.
+- Added the item tag ``cobblemon:held/is_friendship_booster``, allows items to give the Soothe Bell effect of a boost of 1.5x Friendship gained, contains ``cobblemon:soothe_bell`` by default.
 
 ## [1.4.1 (December 23rd, 2023)](#1-4-1)
 
