@@ -25,9 +25,10 @@ public class LootManagerMixin {
 
     private static final String LOAD_CONDITIONS = "cobblemon:forge_load_conditions";
 
+    // TODO(Deltric)
     // Forge was going to add support to LootTable for their ICondition in 1.20, then it was 1.20.1, now it looks like it's 1.20.2
     // Who knows when it will actually make it in, keep an eye on the necessity of this
-    @Redirect(method = "load", at = @At(value = "INVOKE", target = "Ljava/util/Map;forEach(Ljava/util/function/BiConsumer;)V"))
+    /*@Redirect(method = "load", at = @At(value = "INVOKE", target = "Ljava/util/Map;forEach(Ljava/util/function/BiConsumer;)V"))
     private void cobblemon$supportICondition(Map<Identifier, JsonElement> map, BiConsumer<Identifier, JsonElement> consumer) {
         map.forEach((identifier, jsonElement) -> {
             // If the element isn't present the result is true as well, also, it's safe to cast as JsonObject
@@ -35,6 +36,6 @@ public class LootManagerMixin {
                 consumer.accept(identifier, jsonElement);
             }
         });
-    }
+    }*/
 
 }

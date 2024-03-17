@@ -83,7 +83,7 @@ class GildedChestBlockEntity(pos: BlockPos, state: BlockState, val type: Type = 
         }
     }
 
-    override fun getInvStackList(): DefaultedList<ItemStack> = inventoryContents
+    override fun method_11282(): DefaultedList<ItemStack> = inventoryContents
 
     override fun setInvStackList(list: DefaultedList<ItemStack>) {
         inventoryContents = list
@@ -132,7 +132,7 @@ class GildedChestBlockEntity(pos: BlockPos, state: BlockState, val type: Type = 
     }
     override fun writeNbt(nbt: NbtCompound?) {
         super.writeNbt(nbt)
-        if (!serializeLootTable(nbt)) {
+        if (!writeLootTable(nbt)) {
             Inventories.writeNbt(nbt, inventoryContents)
         }
     }
@@ -142,7 +142,7 @@ class GildedChestBlockEntity(pos: BlockPos, state: BlockState, val type: Type = 
         inventoryContents= DefaultedList.ofSize(
             size(), ItemStack.EMPTY
         )
-        if (!deserializeLootTable(nbt)) {
+        if (!readLootTable(nbt)) {
             Inventories.readNbt(nbt, inventoryContents)
         }
     }

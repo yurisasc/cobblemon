@@ -56,6 +56,7 @@ import com.cobblemon.mod.common.pokemon.ai.FormPokemonBehaviour
 import com.cobblemon.mod.common.pokemon.evolution.variants.ItemInteractionEvolution
 import com.cobblemon.mod.common.util.*
 import com.cobblemon.mod.common.world.gamerules.CobblemonGameRules
+import net.minecraft.block.SuspiciousStewIngredient.StewEffect
 import java.util.EnumSet
 import java.util.Optional
 import java.util.UUID
@@ -73,6 +74,7 @@ import net.minecraft.entity.data.DataTracker
 import net.minecraft.entity.data.TrackedData
 import net.minecraft.entity.data.TrackedDataHandlerRegistry
 import net.minecraft.entity.effect.StatusEffect
+import net.minecraft.entity.effect.StatusEffects
 import net.minecraft.entity.passive.AnimalEntity
 import net.minecraft.entity.passive.PassiveEntity
 import net.minecraft.entity.passive.TameableShoulderEntity
@@ -95,6 +97,7 @@ import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.sound.SoundCategory
 import net.minecraft.sound.SoundEvents
+import net.minecraft.text.PlainTextContent
 import net.minecraft.text.Text
 import net.minecraft.text.TextContent
 import net.minecraft.util.ActionResult
@@ -587,59 +590,34 @@ open class PokemonEntity(
                 player.playSound(SoundEvents.ENTITY_MOOSHROOM_MILK, 1.0f, 1.0f)
                 // if the Mooshtank ate a Flower beforehand
                 if (pokemon.lastFlowerFed != ItemStack.EMPTY && pokemon.aspects.any() {it.contains("mooshtank-brown")}) {
-                    var effect: StatusEffect? = null
-                    var duration = 0
-
-                    if (pokemon.lastFlowerFed.isOf(Items.ALLIUM)) {
-                        effect = StatusEffect.byRawId(12) // Fire Resistance
-                        duration = 80 // 4 seconds
-                    } else if (pokemon.lastFlowerFed.isOf(Items.AZURE_BLUET)) {
-                        effect = StatusEffect.byRawId(15) // Blindness
-                        duration = 160 // 8 seconds
-                    } else if (pokemon.lastFlowerFed.isOf(Items.BLUE_ORCHID) || pokemon.lastFlowerFed.isOf(Items.DANDELION)) {
-                        effect = StatusEffect.byRawId(23) // Saturation
-                        duration = 7 // .35 seconds
-                    } else if (pokemon.lastFlowerFed.isOf(Items.CORNFLOWER)) {
-                        effect = StatusEffect.byRawId(8) // Jump Boost
-                        duration = 120 // 6 seconds
-                    } else if (pokemon.lastFlowerFed.isOf(Items.LILY_OF_THE_VALLEY)) {
-                        effect = StatusEffect.byRawId(19) // Poison
-                        duration = 240 // 12 seconds
-                    } else if (pokemon.lastFlowerFed.isOf(Items.OXEYE_DAISY)) {
-                        effect = StatusEffect.byRawId(10) // Regeneration
-                        duration = 160 // 8 seconds
-                    } else if (pokemon.lastFlowerFed.isOf(Items.POPPY) || pokemon.lastFlowerFed.isOf(Items.TORCHFLOWER)) {
-                        effect = StatusEffect.byRawId(16) // Night Vision
-                        duration = 100 // 5 seconds
-                    } else if (pokemon.lastFlowerFed.isOf(Items.PINK_TULIP) || pokemon.lastFlowerFed.isOf(Items.RED_TULIP) || pokemon.lastFlowerFed.isOf(Items.WHITE_TULIP) || pokemon.lastFlowerFed.isOf(Items.ORANGE_TULIP)) {
-                        effect = StatusEffect.byRawId(18) // Weakness
-                        duration = 180 // 9 seconds
-                    } else if (pokemon.lastFlowerFed.isOf(Items.WITHER_ROSE)) {
-                        effect = StatusEffect.byRawId(20) // Wither
-                        duration = 160 // 8 seconds
-                    } else if (pokemon.lastFlowerFed.isOf(CobblemonItems.PEP_UP_FLOWER)) {
-                        effect = StatusEffect.byRawId(25) // Levitation
-                        duration = 160 // 8 seconds
+                    when (pokemon.lastFlowerFed.item) {
+                        Items.ALLIUM -> StatusEffects.FIRE_RESISTANCE to 80
+                        Items.AZURE_BLUET -> StatusEffects.BLINDNESS to 160
+                        Items.BLUE_ORCHID, Items.DANDELION -> StatusEffects.SATURATION to 7
+                        Items.CORNFLOWER -> StatusEffects.JUMP_BOOST to 120
+                        Items.LILY_OF_THE_VALLEY -> StatusEffects.POISON to 240
+                        Items.OXEYE_DAISY -> StatusEffects.REGENERATION to 160
+                        Items.POPPY, Items.TORCHFLOWER -> StatusEffects.NIGHT_VISION to 100
+                        Items.PINK_TULIP, Items.RED_TULIP, Items.WHITE_TULIP, Items.ORANGE_TULIP -> StatusEffects.WEAKNESS to 180
+                        Items.WITHER_ROSE -> StatusEffects.WITHER to 160
+                        CobblemonItems.PEP_UP_FLOWER -> StatusEffects.LEVITATION to 160
+                        else -> null
+                    }?.let {
+                        // modify the suspicious stew with the effect
+                        val susStewStack = Items.SUSPICIOUS_STEW.defaultStack
+                        SuspiciousStewItem.addEffectsToStew(susStewStack, listOf(StewEffect(it.first, it.second)))
+                        val susStewEffect = ItemUsage.exchangeStack(itemStack, player, susStewStack)
+                        //give player modified Suspicious Stew
+                        player.setStackInHand(hand, susStewEffect)
+                        // reset the flower fed state
+                        pokemon.lastFlowerFed = ItemStack.EMPTY
                     }
-
-
-                    // modify the suspicious stew with the effect
-                    val susStewStack = Items.SUSPICIOUS_STEW.defaultStack
-                    SuspiciousStewItem.addEffectToStew(susStewStack, effect, duration)
-                    val susStewEffect = ItemUsage.exchangeStack(itemStack, player, susStewStack)
-                    //give player modified Suspicious Stew
-                    player.setStackInHand(hand, susStewEffect)
-                    // reset the flower fed state
-                    pokemon.lastFlowerFed = ItemStack.EMPTY
                     return ActionResult.success(world.isClient)
-                }
-
-                else {
+                } else {
                     val mushroomStew = ItemUsage.exchangeStack(itemStack, player, Items.MUSHROOM_STEW.defaultStack)
                     player.setStackInHand(hand, mushroomStew)
                     return ActionResult.success(world.isClient)
                 }
-
             }
         }
         // Flowers used on brown MooshTanks
@@ -999,7 +977,7 @@ open class PokemonEntity(
      */
     override fun getName(): Text {
         if (!dataTracker.get(NICKNAME_VISIBLE)) return defaultName
-        return dataTracker.get(NICKNAME)?.takeIf { it.content != TextContent.EMPTY } ?: pokemon.getDisplayName()
+        return dataTracker.get(NICKNAME)?.takeIf { it.content != PlainTextContent.EMPTY } ?: pokemon.getDisplayName()
     }
 
     /**
@@ -1025,7 +1003,7 @@ open class PokemonEntity(
      *
      * @return If the backing [pokemon] has a non-null [Pokemon.nickname].
      */
-    override fun hasCustomName(): Boolean = pokemon.nickname != null && pokemon.nickname?.content != TextContent.EMPTY
+    override fun hasCustomName(): Boolean = pokemon.nickname != null && pokemon.nickname?.content != PlainTextContent.EMPTY
 
     /**
      * This method toggles the visibility of the entity name,

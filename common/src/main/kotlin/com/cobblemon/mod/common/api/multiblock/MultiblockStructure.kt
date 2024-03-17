@@ -43,6 +43,6 @@ interface MultiblockStructure {
         return 0
     }
 
-    fun markRemoved(world: World):Unit
+    fun markRemoved(world: World)
     fun onTriggerEvent(state: BlockState?, world: ServerWorld?, pos: BlockPos?, random: Random?)
 }

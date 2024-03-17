@@ -11,7 +11,13 @@ package com.cobblemon.mod.common.block
 import com.cobblemon.mod.common.CobblemonBlocks
 import com.cobblemon.mod.common.CobblemonItems
 import com.cobblemon.mod.common.item.MintLeafItem
-import net.minecraft.block.*
+import com.mojang.serialization.MapCodec
+import com.mojang.serialization.codecs.RecordCodecBuilder
+import net.minecraft.block.Block
+import net.minecraft.block.BlockState
+import net.minecraft.block.CropBlock
+import net.minecraft.block.Fertilizable
+import net.minecraft.block.ShapeContext
 import net.minecraft.item.Item
 import net.minecraft.item.ItemConvertible
 import net.minecraft.registry.tag.BlockTags
@@ -19,6 +25,7 @@ import net.minecraft.server.world.ServerWorld
 import net.minecraft.state.StateManager
 import net.minecraft.state.property.BooleanProperty
 import net.minecraft.state.property.IntProperty
+import net.minecraft.util.StringIdentifiable
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.random.Random
 import net.minecraft.util.shape.VoxelShape
@@ -74,8 +81,12 @@ class MintBlock(private val mintType: MintType, settings: Settings) : CropBlock(
         world.setBlockState(pos, state.with(AGE, newAge), NOTIFY_LISTENERS)
     }
 
+    override fun getCodec(): MapCodec<out CropBlock> {
+        return CODEC
+    }
+
     @Suppress("unused")
-    enum class MintType {
+    enum class MintType : StringIdentifiable {
 
         RED,
         BLUE,
@@ -111,9 +122,18 @@ class MintBlock(private val mintType: MintType, settings: Settings) : CropBlock(
             WHITE -> CobblemonBlocks.WHITE_MINT
         }
 
+        override fun asString(): String = this.name.lowercase()
+
+        companion object {
+            val CODEC = StringIdentifiable.createBasicCodec(::values)
+        }
     }
 
     companion object {
+        val CODEC: MapCodec<MintBlock> = RecordCodecBuilder.mapCodec { it.group(
+            MintType.CODEC.fieldOf("mintType").forGetter(MintBlock::mintType),
+            createSettingsCodec()
+        ).apply(it, ::MintBlock) }
 
         val AGE: IntProperty = CropBlock.AGE
         const val MATURE_AGE = MAX_AGE

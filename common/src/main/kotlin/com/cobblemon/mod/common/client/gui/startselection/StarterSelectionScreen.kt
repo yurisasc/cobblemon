@@ -93,7 +93,7 @@ class StarterSelectionScreen(private val categories: List<RenderableStarterCateg
         addDrawableChild(
             CategoryList(
                 paneWidth = 71, paneHeight = BASE_HEIGHT - 11,
-                topOffset = 6, bottomOffset = 5,
+                topOffset = 6,
                 entryHeight = 20, entryWidth = 57,
                 categories = categories,
                 x = x - 2, y = y + 8,

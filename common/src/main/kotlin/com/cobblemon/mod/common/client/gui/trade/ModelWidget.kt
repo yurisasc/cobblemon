@@ -14,7 +14,6 @@ import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonF
 import com.cobblemon.mod.common.pokemon.RenderablePokemon
 import com.cobblemon.mod.common.util.math.fromEulerXYZDegrees
 import net.minecraft.client.gui.DrawContext
-import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.text.Text
 import org.joml.Quaternionf
 import org.joml.Vector3f
@@ -30,7 +29,7 @@ class ModelWidget(
     var state = PokemonFloatingState()
     private var rotVec = Vector3f(13F, rotationY, 0F)
 
-    override fun renderButton(context: DrawContext, mouseX: Int, mouseY: Int, delta: Float) {
+    override fun renderWidget(context: DrawContext, mouseX: Int, mouseY: Int, delta: Float) {
         val matrices = context.matrices
         matrices.push()
         matrices.translate(x + width * 0.5, y.toDouble() + offsetY, 0.0)

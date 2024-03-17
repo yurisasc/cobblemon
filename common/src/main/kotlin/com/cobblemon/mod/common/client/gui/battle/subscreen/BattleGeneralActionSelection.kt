@@ -10,8 +10,6 @@ package com.cobblemon.mod.common.client.gui.battle.subscreen
 
 import com.cobblemon.mod.common.CobblemonSounds
 import com.cobblemon.mod.common.api.battles.model.actor.ActorType
-import com.cobblemon.mod.common.api.text.yellow
-import com.cobblemon.mod.common.battles.BattleRegistry
 import com.cobblemon.mod.common.client.CobblemonClient
 import com.cobblemon.mod.common.client.battle.SingleActionRequest
 import com.cobblemon.mod.common.client.gui.battle.BattleGUI
@@ -25,6 +23,7 @@ import net.minecraft.client.sound.PositionedSoundInstance
 import net.minecraft.client.sound.SoundManager
 import net.minecraft.text.MutableText
 import net.minecraft.util.Identifier
+
 class BattleGeneralActionSelection(
     battleGUI: BattleGUI,
     request: SingleActionRequest
@@ -85,7 +84,7 @@ class BattleGeneralActionSelection(
         )
     }
 
-    override fun renderButton(context: DrawContext, mouseX: Int, mouseY: Int, delta: Float) {
+    override fun renderWidget(context: DrawContext, mouseX: Int, mouseY: Int, delta: Float) {
         for (tile in tiles) {
             tile.render(context, mouseX, mouseY, delta)
         }

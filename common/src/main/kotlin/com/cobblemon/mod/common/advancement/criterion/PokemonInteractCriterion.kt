@@ -9,26 +9,33 @@
 package com.cobblemon.mod.common.advancement.criterion
 
 import com.cobblemon.mod.common.util.asIdentifierDefaultingNamespace
-import com.google.gson.JsonObject
+import com.mojang.serialization.Codec
+import com.mojang.serialization.codecs.RecordCodecBuilder
+import net.minecraft.predicate.entity.EntityPredicate
 import net.minecraft.predicate.entity.LootContextPredicate
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.util.Identifier
+import net.minecraft.util.dynamic.Codecs
+import java.util.Optional
 
-open class PokemonInteractContext(var type: Identifier, var item : Identifier)
-class PokemonInteractCriterion(id: Identifier, entity: LootContextPredicate) : SimpleCriterionCondition<PokemonInteractContext>(id, entity) {
-    var type = "any"
-    var item = "any"
-    override fun toJson(json: JsonObject) {
-        json.addProperty("type", type)
-        json.addProperty("item", item)
-    }
+class PokemonInteractContext(val type: Identifier, val item: Identifier)
 
-    override fun fromJson(json: JsonObject) {
-        type = json.get("type")?.asString ?: "any"
-        item = json.get("item")?.asString ?: "any"
+class PokemonInteractCriterion(
+    playerCtx: Optional<LootContextPredicate>,
+    val type: Optional<String>,
+    val item: Optional<String>
+): SimpleCriterionCondition<PokemonInteractContext>(playerCtx) {
+    companion object {
+        val CODEC: Codec<PokemonInteractCriterion> = RecordCodecBuilder.create { it.group(
+            Codecs.createStrictOptionalFieldCodec(EntityPredicate.LOOT_CONTEXT_PREDICATE_CODEC, "player").forGetter(PokemonInteractCriterion::playerCtx),
+            Codecs.createStrictOptionalFieldCodec(Codec.STRING, "type").forGetter(PokemonInteractCriterion::type),
+            Codecs.createStrictOptionalFieldCodec(Codec.STRING, "item").forGetter(PokemonInteractCriterion::item)
+        ).apply(it, ::PokemonInteractCriterion) }
     }
 
     override fun matches(player: ServerPlayerEntity, context: PokemonInteractContext): Boolean {
-        return (context.type == type.asIdentifierDefaultingNamespace() || type == "any") && (context.item == item.asIdentifierDefaultingNamespace() || item == "any")
+        val otherType = this.type.orElse("any")
+        val otherItem = this.item.orElse("any")
+        return (context.type == otherType.asIdentifierDefaultingNamespace() || otherType == "any") && (context.type == otherItem.asIdentifierDefaultingNamespace() || otherItem == "any")
     }
 }

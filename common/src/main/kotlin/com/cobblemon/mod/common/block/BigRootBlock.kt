@@ -8,6 +8,8 @@
 
 package com.cobblemon.mod.common.block
 
+import com.mojang.serialization.MapCodec
+import net.minecraft.block.Block
 import net.minecraft.block.BlockState
 import net.minecraft.block.Blocks
 import net.minecraft.block.ShapeContext
@@ -39,10 +41,14 @@ class BigRootBlock(settings: Settings) : RootBlock(settings) {
 
     override fun shearedDrop(): ItemStack = Items.STRING.defaultStack
 
+    override fun getCodec(): MapCodec<out Block> {
+        return CODEC
+    }
+
     companion object {
+        val CODEC = createCodec(::BigRootBlock)
 
         private val AABB = VoxelShapes.cuboid(0.2, 0.3, 0.2, 0.8, 1.0, 0.8)
-
     }
 
 }

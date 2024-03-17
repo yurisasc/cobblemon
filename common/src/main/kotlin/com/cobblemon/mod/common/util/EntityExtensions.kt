@@ -17,6 +17,8 @@ import net.minecraft.util.math.Direction
 import net.minecraft.util.math.Vec3d
 import net.minecraft.util.shape.VoxelShapes
 
+fun Entity.effectiveName() = this.displayName ?: this.name
+
 fun Entity.setPositionSafely(pos: Vec3d): Boolean {
     var result = pos
     val eyes = pos.withAxis(Direction.Axis.Y, pos.y + this.standingEyeHeight)
@@ -61,7 +63,7 @@ fun Entity.setPositionSafely(pos: Vec3d): Boolean {
                 )
         if (collides) {
             val x = eyes.toBlockPos()
-            for (direction in Direction.values()) {
+            for (direction in Direction.entries) {
                 if (conflicts.contains(direction)) continue
 
                 val conflict = target.toVec3d()

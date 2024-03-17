@@ -19,8 +19,8 @@ import com.bedrockk.molang.runtime.value.MoValue
 import com.bedrockk.molang.runtime.value.StringValue
 import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.api.dialogue.PlayerDialogueFaceProvider
-import com.cobblemon.mod.common.client.render.models.blockbench.wavefunction.WaveFunction
 import com.cobblemon.mod.common.client.render.models.blockbench.wavefunction.WaveFunctions
+import com.cobblemon.mod.common.util.effectiveName
 import com.cobblemon.mod.common.util.isInt
 import com.cobblemon.mod.common.util.itemRegistry
 import net.minecraft.block.Block
@@ -102,7 +102,7 @@ object MoLangFunctions {
     fun ServerPlayerEntity.asMoLangValue(): ObjectValue<ServerPlayerEntity> {
         val value = ObjectValue(
             obj = this,
-            stringify = { it.entityName }
+            stringify = { it.effectiveName().string }
         )
         value.addFunctions(playerFunctions.flatMap { it(this).entries.map { it.key to it.value } }.toMap())
         return value

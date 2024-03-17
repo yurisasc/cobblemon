@@ -10,9 +10,15 @@ package com.cobblemon.mod.common.pokemon.evolution.predicate
 
 import com.cobblemon.mod.common.api.conditional.RegistryLikeCondition
 import net.minecraft.item.Item
+import net.minecraft.item.ItemStack
 import net.minecraft.predicate.NbtPredicate
+import net.minecraft.registry.Registries
 
 data class NbtItemPredicate(
     val item: RegistryLikeCondition<Item>,
-    val nbt: NbtPredicate = NbtPredicate.ANY
-)
+    val nbt: NbtPredicate? = null
+) {
+    fun test(item: ItemStack): Boolean {
+        return this.item.fits(item.item, Registries.ITEM) && (this.nbt?.test(item) ?: true)
+    }
+}

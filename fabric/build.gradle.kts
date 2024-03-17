@@ -57,7 +57,6 @@ dependencies {
     modApi(libs.fabricKotlin)
     modApi(libs.fabricPermissionsApi)
     modCompileOnly(libs.lambDynamicLights) { isTransitive = false }
-    modRuntimeOnly(libs.jeiFabric)
     //modImplementation(libs.flywheelFabric)
     //include(libs.flywheelFabric)
 

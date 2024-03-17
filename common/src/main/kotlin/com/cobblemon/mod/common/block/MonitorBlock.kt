@@ -12,8 +12,10 @@ import com.cobblemon.mod.common.api.multiblock.MultiblockBlock
 import com.cobblemon.mod.common.api.multiblock.MultiblockEntity
 import com.cobblemon.mod.common.block.entity.FossilMultiblockEntity
 import com.cobblemon.mod.common.block.multiblock.FossilMultiblockBuilder
+import com.mojang.serialization.MapCodec
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
+import net.minecraft.block.BlockWithEntity
 import net.minecraft.block.HorizontalFacingBlock
 import net.minecraft.block.ShapeContext
 import net.minecraft.entity.ai.pathing.NavigationType
@@ -40,6 +42,10 @@ class MonitorBlock(properties: Settings) : MultiblockBlock(properties) {
         return FossilMultiblockEntity(
             pos, state, FossilMultiblockBuilder(pos)
         )
+    }
+
+    override fun getCodec(): MapCodec<out BlockWithEntity> {
+        return CODEC
     }
 
     override fun getPlacementState(blockPlaceContext: ItemPlacementContext): BlockState? {
@@ -84,6 +90,8 @@ class MonitorBlock(properties: Settings) : MultiblockBlock(properties) {
     }
 
     companion object {
+        val CODEC = createCodec(::MonitorBlock)
+
         //0 is off
         val SCREEN = EnumProperty.of("screen", MonitorScreen::class.java)
         val HITBOX = VoxelShapes.union(

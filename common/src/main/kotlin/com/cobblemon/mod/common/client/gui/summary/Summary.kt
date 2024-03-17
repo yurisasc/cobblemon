@@ -8,7 +8,6 @@
 
 package com.cobblemon.mod.common.client.gui.summary
 
-import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.CobblemonSounds
 import com.cobblemon.mod.common.api.gui.blitk
 import com.cobblemon.mod.common.api.moves.Move
@@ -591,8 +590,8 @@ class Summary private constructor(party: Collection<Pokemon?>, private val edita
      */
     override fun shouldPause(): Boolean = false
 
-    override fun mouseScrolled(mouseX: Double, mouseY: Double, amount: Double): Boolean {
-        return children().any { it.mouseScrolled(mouseX, mouseY, amount) }
+    override fun mouseScrolled(mouseX: Double, mouseY: Double, amount: Double, verticalAmount: Double): Boolean {
+        return children().any { it.mouseScrolled(mouseX, mouseY, amount, verticalAmount) }
     }
 
     /*

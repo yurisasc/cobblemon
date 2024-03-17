@@ -9,7 +9,9 @@
 package com.cobblemon.mod.common.api.multiblock
 
 import com.cobblemon.mod.common.block.entity.FossilMultiblockEntity
-import net.minecraft.block.*
+import net.minecraft.block.BlockRenderType
+import net.minecraft.block.BlockState
+import net.minecraft.block.BlockWithEntity
 import net.minecraft.block.entity.BlockEntity
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.player.PlayerEntity
@@ -19,8 +21,8 @@ import net.minecraft.util.ActionResult
 import net.minecraft.util.Hand
 import net.minecraft.util.hit.BlockHitResult
 import net.minecraft.util.math.BlockPos
-import net.minecraft.world.BlockView
 import net.minecraft.world.World
+import net.minecraft.world.WorldView
 
 /**
  * A block that can be part of a [MultiblockStructure]
@@ -59,14 +61,15 @@ abstract class MultiblockBlock(properties: Settings) : BlockWithEntity(propertie
         return super.onUse(state, world, pos, player, hand, hit)
     }
 
-    override fun onBreak(world: World, pos: BlockPos, state: BlockState, player: PlayerEntity?) {
-        super.onBreak(world, pos, state, player)
+    override fun onBreak(world: World, pos: BlockPos, state: BlockState, player: PlayerEntity?): BlockState {
+        val result = super.onBreak(world, pos, state, player)
         if (!world.isClient) {
             val entity = world.getBlockEntity(pos)
             if (entity is MultiblockEntity && entity.multiblockStructure != null) {
                 entity.multiblockStructure!!.onBreak(world, pos, state, player)
             }
         }
+        return result
     }
 
     override fun createBlockEntity(pos: BlockPos, state: BlockState): BlockEntity? {
@@ -78,7 +81,7 @@ abstract class MultiblockBlock(properties: Settings) : BlockWithEntity(propertie
         return BlockRenderType.MODEL
     }
 
-    override fun getPickStack(world: BlockView, pos: BlockPos, state: BlockState): ItemStack {
+    override fun getPickStack(world: WorldView, pos: BlockPos, state: BlockState): ItemStack {
         val blockEntity = world.getBlockEntity(pos) as? MultiblockEntity ?: return ItemStack.EMPTY
         return if (blockEntity.multiblockStructure == null) super.getPickStack(world, pos, state) else ItemStack.EMPTY
     }

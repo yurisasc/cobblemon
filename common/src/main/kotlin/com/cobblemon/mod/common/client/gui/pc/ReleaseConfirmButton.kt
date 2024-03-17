@@ -17,7 +17,6 @@ import com.cobblemon.mod.common.util.lang
 import net.minecraft.client.gui.DrawContext
 import net.minecraft.client.gui.widget.ButtonWidget
 import net.minecraft.client.sound.SoundManager
-import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.text.Text
 
 class ReleaseConfirmButton(
@@ -34,7 +33,7 @@ class ReleaseConfirmButton(
         private val buttonResource = cobblemonResource("textures/gui/pc/pc_release_button_confirm.png")
     }
 
-    override fun render(context: DrawContext, mouseX: Int, mouseY: Int, delta: Float) {
+    override fun renderWidget(context: DrawContext, mouseX: Int, mouseY: Int, delta: Float) {
         if (parent.canDeleteSelected() && parent.displayConfirmRelease) {
             blitk(
                 matrixStack = context.matrices,
