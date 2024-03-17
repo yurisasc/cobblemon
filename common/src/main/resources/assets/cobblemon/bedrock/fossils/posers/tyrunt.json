@@ -5,5 +5,16 @@
 
   "animations": [
     "bedrock(tyrunt_fetus, sleep)"
+  ],
+  "quirks": [
+    {
+      "name": "quirk",
+      "animations": [
+        "bedrock(tyrunt_fetus, quirk)"
+      ],
+      "loopTimes": 1,
+      "minSeconds": 30,
+      "maxSeconds": 60
+    }
   ]
 }
