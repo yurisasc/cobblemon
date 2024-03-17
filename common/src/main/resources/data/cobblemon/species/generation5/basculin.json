@@ -1,4 +1,4 @@
-{
+﻿{
   "implemented": true,
   "name": "Basculin",
   "nationalPokedexNumber": 550,
@@ -167,8 +167,8 @@
   "evolutions": [],
   "baseScale": 1,
   "hitbox": {
-    "width": 1.1,
-    "height": 0.8,
+    "width": 1.18,
+    "height": 0.95,
     "fixed": false
   },
   "baseFriendship": 50,

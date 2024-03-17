@@ -94,6 +94,12 @@
   "pokedex": [
     "cobblemon.species.gholdengo.desc"
   ],
+  "baseScale": 1,
+  "hitbox": {
+    "width": 0.85,
+    "height": 2.15,
+    "fixed": false
+  },
   "drops": {
     "amount": 48,
     "entries": [

@@ -136,8 +136,8 @@
   "evolutions": [],
   "baseScale": 1.25,
   "hitbox": {
-    "width": 1,
-    "height": 1,
+    "width": 2.4,
+    "height": 5.1,
     "fixed": false
   },
   "baseFriendship": 50,
