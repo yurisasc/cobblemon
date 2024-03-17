@@ -62,8 +62,9 @@ class BattleGeneralActionSelection(
                 }
 
                 addOption(rank++, battleLang("ui.run"), BattleGUI.runResource) {
-
-                    MinecraftClient.getInstance().player?.sendMessage(battleLang("flee"))
+                    CobblemonClient.battle?.minimised = true
+                    MinecraftClient.getInstance().player?.sendMessage(battleLang("run_prompt"), false)
+                    playDownSound(MinecraftClient.getInstance().soundManager)
                 }
             }
         }
