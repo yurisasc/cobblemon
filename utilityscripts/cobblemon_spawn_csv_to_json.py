@@ -298,7 +298,7 @@ def transform_pokemon_to_json(pokemon_rows, invalid_biome_tags):
                 # split weight multipliers row by comma, then split each string by "x" and add it to the weight_multipliers dictionary
                 for string in str(row['Multipliers']).split(','):
                     string = string.strip()
-                    if not string: # skip empty strings
+                    if not string:  # skip empty strings
                         continue
                     items = string.split('x')
                     identifier = items[0].strip()
@@ -335,10 +335,19 @@ def transform_pokemon_to_json(pokemon_rows, invalid_biome_tags):
             # Condition field
             condition = {}
 
+            # canSeeSky is different from SkyLight, in that it treats leaves and water of any thickness as fully transparent.
             if pd.notna(row['canSeeSky']) and row['canSeeSky'] == 'true':
                 condition['canSeeSky'] = True
             elif row['canSeeSky'] == 'false':
                 condition['canSeeSky'] = False
+
+            # check if skyLightMin and skyLightMax are not empty, then add them to the condition dictionary
+            if pd.notna(row['skyLightMin']) and pd.notna(row['skyLightMax']):
+                # raise error if skyLightMin is greater than skyLightMax
+                if int(row['skyLightMin']) > int(row['skyLightMax']):
+                    raise ValueError(f"skyLightMin is greater than skyLightMax in {currentID}")
+                condition['minSkyLight'] = f"{int(row['skyLightMin'])}"
+                condition['maxSkyLight'] = f"{int(row['skyLightMax'])}"
 
             if pd.notna(row['Biomes']):
                 parsed_biomes = parse_biomes(row['Biomes'], invalid_biome_tags)
@@ -659,7 +668,8 @@ def verifyBiomeTags():
     # Check if the biome directories exist and are not empty
     if not os.path.exists(directory_path) or not os.listdir(directory_path) or not os.path.exists(
             minecraft_biome_directory_path) or not os.listdir(minecraft_biome_directory_path):
-        print_warning("BiomeTags are currently not validated outside of a development environment with a completed gradle build.")
+        print_warning(
+            "BiomeTags are currently not validated outside of a development environment with a completed gradle build.")
         return []
 
     # get the list of all biomes by reading the filenames in the directory
