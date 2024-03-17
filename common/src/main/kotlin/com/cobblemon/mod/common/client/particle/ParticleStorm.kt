@@ -44,10 +44,10 @@ class ParticleStorm(
     fun spawn() {
         if (entity != null) {
             runtime.environment.getQueryStruct()
-                .addFunction("entity_width") { DoubleValue(entity.boundingBox.xLength) }
-                .addFunction("entity_height") { DoubleValue(entity.boundingBox.yLength) }
-                .addFunction("entity_size") { DoubleValue(entity.boundingBox.run { if (xLength > yLength) xLength else yLength }) }
-                .addFunction("entity_radius") { DoubleValue(entity.boundingBox.run { if (xLength > yLength) xLength else yLength } / 2) }
+                .addFunction("entity_width") { DoubleValue(entity.boundingBox.lengthX) }
+                .addFunction("entity_height") { DoubleValue(entity.boundingBox.lengthY) }
+                .addFunction("entity_size") { DoubleValue(entity.boundingBox.run { if (lengthX > lengthY) lengthX else lengthY }) }
+                .addFunction("entity_radius") { DoubleValue(entity.boundingBox.run { if (lengthX > lengthY) lengthX else lengthY } / 2) }
             // TODO replace with a generified call to if (entity is MoLangEntity) entity.applyVariables(env) or w/e
             runtime.environment.setSimpleVariable("entity_width", DoubleValue(entity.boundingBox.lengthX))
             runtime.environment.setSimpleVariable("entity_height", DoubleValue(entity.boundingBox.lengthY))
