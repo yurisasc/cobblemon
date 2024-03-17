@@ -13,8 +13,8 @@
         "bedrock(cranidos_fetus, quirk)"
       ],
       "loopTimes": 1,
-      "minSeconds": 12,
-      "maxSeconds": 20
+      "minSeconds": 30,
+      "maxSeconds": 60
     }
   ]
 }

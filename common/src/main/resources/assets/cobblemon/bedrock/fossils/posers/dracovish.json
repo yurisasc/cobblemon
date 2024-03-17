@@ -13,8 +13,8 @@
         "bedrock(dracovish_fetus, quirk1)"
       ],
       "loopTimes": 1,
-      "minSeconds": 12,
-      "maxSeconds": 20
+      "minSeconds": 60,
+      "maxSeconds": 180
     },
     {
       "name": "quirk",
@@ -22,8 +22,8 @@
         "bedrock(dracovish_fetus, quirk2)"
       ],
       "loopTimes": 1,
-      "minSeconds": 5,
-      "maxSeconds": 20
+      "minSeconds": 60,
+      "maxSeconds": 180
     },
     {
       "name": "quirk",
@@ -31,8 +31,8 @@
         "bedrock(dracovish_fetus, quirk3)"
       ],
       "loopTimes": 1,
-      "minSeconds": 5,
-      "maxSeconds": 20
+      "minSeconds": 60,
+      "maxSeconds": 180
     }
   ]
 }
