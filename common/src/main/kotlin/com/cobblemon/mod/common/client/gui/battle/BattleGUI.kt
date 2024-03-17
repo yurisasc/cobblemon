@@ -139,8 +139,8 @@ class BattleGUI : Screen(battleLang("gui.title")) {
         } else {
             // Known quirk of Showdown. It'll ask for actions on fainted slots
             // Also during a forced switch in doubles/triples it'll ask for actions on non-switching slots
-            val pokemon = request.side?.pokemon?.firstOrNull { it.uuid === request.activePokemon.battlePokemon?.uuid }
-            if((pokemon != null && pokemon.condition.contains("fnt")) || (request.moveSet == null)) {
+            val pokemon = request.side?.pokemon?.firstOrNull { it.uuid == request.activePokemon.battlePokemon?.uuid }
+            if(pokemon == null || pokemon.condition.contains("fnt") || request.moveSet == null) {
                 this.selectAction(request, PassActionResponse)
                 null
             } else {
