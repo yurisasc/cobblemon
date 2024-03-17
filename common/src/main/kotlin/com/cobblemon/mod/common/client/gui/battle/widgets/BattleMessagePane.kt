@@ -56,7 +56,7 @@ class BattleMessagePane(
 
     private fun correctSize() {
         val textBoxHeight = if (expanded) TEXT_BOX_HEIGHT * 2 else TEXT_BOX_HEIGHT
-        setDimensionsAndPosition(TEXT_BOX_WIDTH, textBoxHeight, appropriateY + 6, appropriateY + 6 + textBoxHeight)
+        setDimensionsAndPosition(TEXT_BOX_WIDTH, textBoxHeight, appropriateY + 6, appropriateY + 6)
         this.x = appropriateX
     }
 
@@ -87,10 +87,6 @@ class BattleMessagePane(
         return this.x + 154
     }
 
-    private fun scaleIt(i: Number): Int {
-        return (client.window.scaleFactor * i.toFloat()).toInt()
-    }
-
     override fun renderWidget(context: DrawContext, mouseX: Int, mouseY: Int, partialTicks: Float) {
         correctSize()
         blitk(
@@ -110,7 +106,7 @@ class BattleMessagePane(
             this.x + 5 + width,
             appropriateY + 6 + textBoxHeight
         )
-        super.render(context, mouseX, mouseY, partialTicks)
+        super.renderWidget(context, mouseX, mouseY, partialTicks)
         context.disableScissor()
     }
 
