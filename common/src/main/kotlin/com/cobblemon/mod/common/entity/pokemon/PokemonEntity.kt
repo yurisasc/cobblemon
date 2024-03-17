@@ -10,6 +10,7 @@ package com.cobblemon.mod.common.entity.pokemon
 
 import com.cobblemon.mod.common.*
 import com.cobblemon.mod.common.CobblemonNetwork.sendPacket
+import com.cobblemon.mod.common.GenericsCheatClass.createPokemonBrain
 import com.cobblemon.mod.common.api.drop.DropTable
 import com.cobblemon.mod.common.api.entity.Despawner
 import com.cobblemon.mod.common.api.events.CobblemonEvents
@@ -36,6 +37,12 @@ import com.cobblemon.mod.common.block.entity.PokemonPastureBlockEntity
 import com.cobblemon.mod.common.client.entity.PokemonClientDelegate
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.Poseable
+import com.cobblemon.mod.common.entity.ai.AttackAngryAtTask
+import com.cobblemon.mod.common.entity.ai.ChooseLandWanderTargetTask
+import com.cobblemon.mod.common.entity.ai.FollowWalkTargetTask
+import com.cobblemon.mod.common.entity.ai.GetAngryAtAttackerTask
+import com.cobblemon.mod.common.entity.ai.MoveToAttackTargetTask
+import com.cobblemon.mod.common.entity.ai.StayAfloatTask
 import com.cobblemon.mod.common.entity.generic.GenericBedrockEntity
 import com.cobblemon.mod.common.entity.pokeball.EmptyPokeBallEntity
 import com.cobblemon.mod.common.entity.pokemon.ai.PokemonMoveControl
@@ -56,11 +63,22 @@ import com.cobblemon.mod.common.pokemon.ai.FormPokemonBehaviour
 import com.cobblemon.mod.common.pokemon.evolution.variants.ItemInteractionEvolution
 import com.cobblemon.mod.common.util.*
 import com.cobblemon.mod.common.world.gamerules.CobblemonGameRules
+import com.google.common.collect.ImmutableList
+import com.mojang.serialization.Dynamic
 import java.util.EnumSet
 import java.util.Optional
 import java.util.UUID
 import java.util.concurrent.CompletableFuture
 import net.minecraft.entity.*
+import net.minecraft.entity.ai.brain.Activity
+import net.minecraft.entity.ai.brain.Brain
+import net.minecraft.entity.ai.brain.MemoryModuleType
+import net.minecraft.entity.ai.brain.sensor.Sensor
+import net.minecraft.entity.ai.brain.sensor.SensorType
+import net.minecraft.entity.ai.brain.task.ForgetAngryAtTargetTask
+import net.minecraft.entity.ai.brain.task.LookAroundTask
+import net.minecraft.entity.ai.brain.task.LookAtMobTask
+import net.minecraft.entity.ai.brain.task.RandomTask
 import net.minecraft.entity.ai.control.MoveControl
 import net.minecraft.entity.ai.goal.EatGrassGoal
 import net.minecraft.entity.ai.goal.Goal
@@ -137,6 +155,33 @@ open class PokemonEntity(
         fun createAttributes(): DefaultAttributeContainer.Builder = LivingEntity.createLivingAttributes()
             .add(EntityAttributes.GENERIC_FOLLOW_RANGE)
             .add(EntityAttributes.GENERIC_ATTACK_KNOCKBACK)
+
+
+        val SENSORS: Collection<SensorType<out Sensor<in PokemonEntity>>> = listOf(
+            SensorType.NEAREST_LIVING_ENTITIES,
+            SensorType.HURT_BY,
+            SensorType.NEAREST_PLAYERS,
+//            CobblemonSensors.BATTLING_POKEMON,
+//            CobblemonSensors.NPC_BATTLING
+        )
+
+        val MEMORY_MODULES: List<MemoryModuleType<*>> = ImmutableList.of(
+            MemoryModuleType.LOOK_TARGET,
+            MemoryModuleType.WALK_TARGET,
+            MemoryModuleType.ATTACK_TARGET,
+            MemoryModuleType.CANT_REACH_WALK_TARGET_SINCE,
+            MemoryModuleType.PATH,
+            MemoryModuleType.IS_PANICKING,
+            MemoryModuleType.VISIBLE_MOBS,
+//            CobblemonMemories.NPC_BATTLING,
+//            CobblemonMemories.BATTLING_POKEMON,
+            MemoryModuleType.HURT_BY,
+            MemoryModuleType.HURT_BY_ENTITY,
+            MemoryModuleType.NEAREST_VISIBLE_PLAYER,
+            MemoryModuleType.ANGRY_AT,
+            MemoryModuleType.ATTACK_COOLING_DOWN,
+        )
+
     }
     val removalObservable = SimpleObservable<RemovalReason?>()
     /** A list of observable subscriptions related to this entity that need to be cleaned up when the entity is removed. */
@@ -315,6 +360,11 @@ open class PokemonEntity(
         }
 
         schedulingTracker.update(1/20F)
+    }
+
+    override fun mobTick() {
+        super.mobTick()
+        getBrain().tick(world as ServerWorld, this)
     }
 
     fun setMoveControl(moveControl: MoveControl) {
@@ -505,45 +555,80 @@ open class PokemonEntity(
     override fun getNavigation() = navigation as PokemonNavigation
     override fun createNavigation(world: World) = PokemonNavigation(world, this)
 
-    @Suppress("SENSELESS_COMPARISON")
-    public override fun initGoals() {
-        // DO NOT REMOVE
-        // LivingEntity#getActiveEyeHeight is called in the constructor of Entity
-        // Pokémon param is not available yet
-        if (this.pokemon == null) {
-            return
-        }
-        moveControl = PokemonMoveControl(this)
-        goalSelector.clear { true }
-        goalSelector.add(0, PokemonInBattleMovementGoal(this, 10))
-        goalSelector.add(0, object : Goal() {
-            override fun canStart() = this@PokemonEntity.dataTracker.get(PHASING_TARGET_ID) != -1 || pokemon.status?.status == Statuses.SLEEP || dataTracker.get(DYING_EFFECTS_STARTED) || evolutionEntity != null
-            override fun shouldContinue(): Boolean {
-                if (pokemon.status?.status == Statuses.SLEEP && !canSleep() && !isBusy) {
-                    return false
-                } else if (pokemon.status?.status == Statuses.SLEEP || isBusy) {
-                    return true
-                }
-                return false
-            }
-            override fun getControls() = EnumSet.allOf(Control::class.java)
-        })
-
-        goalSelector.add(1, PokemonBreatheAirGoal(this))
-        goalSelector.add(2, PokemonFloatToSurfaceGoal(this))
-        goalSelector.add(3, PokemonFollowOwnerGoal(this, 1.0, 8F, 2F, false))
-        goalSelector.add(4, PokemonMoveIntoFluidGoal(this))
-        goalSelector.add(5, SleepOnTrainerGoal(this))
-        goalSelector.add(5, WildRestGoal(this))
-
-        if (pokemon.getFeature<FlagSpeciesFeature>(DataKeys.HAS_BEEN_SHEARED) != null) {
-            goalSelector.add(5, EatGrassGoal(this))
-        }
-
-        goalSelector.add(6, PokemonWanderAroundGoal(this))
-        goalSelector.add(7, PokemonLookAtEntityGoal(this, ServerPlayerEntity::class.java, 5F))
-        goalSelector.add(8, PokemonPointAtSpawnGoal(this))
+    override fun createBrainProfile() = createPokemonBrain(MEMORY_MODULES, SENSORS)
+    override fun getBrain() = super.getBrain() as Brain<PokemonEntity>
+    override fun deserializeBrain(dynamic: Dynamic<*>): Brain<PokemonEntity> {
+        val brain = createBrainProfile().deserialize(dynamic)
+        brain.setTaskList(Activity.CORE, ImmutableList.of(
+            0 toDF StayAfloatTask(0.8F),
+            0 toDF GetAngryAtAttackerTask.create(),
+            0 toDF ForgetAngryAtTargetTask.create()
+        ))
+        brain.setTaskList(Activity.IDLE, ImmutableList.of(
+            1 toDF RandomTask(
+                ImmutableList.of(
+                    LookAroundTask(45, 90) toDF 2,
+                    LookAtMobTask.create(15F) toDF 2,
+                    ChooseLandWanderTargetTask.create(horizontalRange = 10, verticalRange = 5, walkSpeed = 0.33F, completionRange = 1) toDF 1
+                )
+            ),
+            1 toDF FollowWalkTargetTask(),
+//            0 toDF SwitchToBattleTask.create(),
+            1 toDF AttackAngryAtTask.create(),
+            1 toDF MoveToAttackTargetTask.create(),
+//            1 toDF MeleeAttackTask.create(2F, 30L)
+        ))
+        brain.setTaskList(CobblemonActivities.BATTLING_ACTIVITY, ImmutableList.of(
+//            0 toDF SwitchFromBattleTask.create(),
+            1 toDF LookAroundTask(45, 90),
+//            2 toDF LookAtBattlingPokemonTask.create(),
+        ))
+        brain.setCoreActivities(setOf(Activity.CORE))
+        brain.setDefaultActivity(Activity.IDLE)
+        brain.resetPossibleActivities()
+        return brain
     }
+
+//
+//    @Suppress("SENSELESS_COMPARISON")
+//    public override fun initGoals() {
+//        // DO NOT REMOVE
+//        // LivingEntity#getActiveEyeHeight is called in the constructor of Entity
+//        // Pokémon param is not available yet
+//        if (this.pokemon == null) {
+//            return
+//        }
+//        moveControl = PokemonMoveControl(this)
+//        goalSelector.clear { true }
+//        goalSelector.add(0, PokemonInBattleMovementGoal(this, 10))
+//        goalSelector.add(0, object : Goal() {
+//            override fun canStart() = this@PokemonEntity.dataTracker.get(PHASING_TARGET_ID) != -1 || pokemon.status?.status == Statuses.SLEEP || dataTracker.get(DYING_EFFECTS_STARTED) || evolutionEntity != null
+//            override fun shouldContinue(): Boolean {
+//                if (pokemon.status?.status == Statuses.SLEEP && !canSleep() && !isBusy) {
+//                    return false
+//                } else if (pokemon.status?.status == Statuses.SLEEP || isBusy) {
+//                    return true
+//                }
+//                return false
+//            }
+//            override fun getControls() = EnumSet.allOf(Control::class.java)
+//        })
+//
+//        goalSelector.add(1, PokemonBreatheAirGoal(this))
+//        goalSelector.add(2, PokemonFloatToSurfaceGoal(this))
+//        goalSelector.add(3, PokemonFollowOwnerGoal(this, 1.0, 8F, 2F, false))
+//        goalSelector.add(4, PokemonMoveIntoFluidGoal(this))
+//        goalSelector.add(5, SleepOnTrainerGoal(this))
+//        goalSelector.add(5, WildRestGoal(this))
+//
+//        if (pokemon.getFeature<FlagSpeciesFeature>(DataKeys.HAS_BEEN_SHEARED) != null) {
+//            goalSelector.add(5, EatGrassGoal(this))
+//        }
+//
+//        goalSelector.add(6, PokemonWanderAroundGoal(this))
+//        goalSelector.add(7, PokemonLookAtEntityGoal(this, ServerPlayerEntity::class.java, 5F))
+//        goalSelector.add(8, PokemonPointAtSpawnGoal(this))
+//    }
 
     fun canSleep(): Boolean {
         val rest = behaviour.resting
