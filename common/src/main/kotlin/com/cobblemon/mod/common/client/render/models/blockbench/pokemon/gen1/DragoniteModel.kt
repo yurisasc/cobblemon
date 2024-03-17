@@ -25,15 +25,9 @@ import com.cobblemon.mod.common.util.math.geometry.toRadians
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class DragoniteModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BiWingedFrame, BipedFrame, BimanualFrame {
+class DragoniteModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("dragonite")
     override val head = getPart("head")
-    override val leftLeg = getPart("leg_left")
-    override val rightLeg = getPart("leg_right")
-    override val leftWing = getPart("wing_left")
-    override val rightWing = getPart("wing_right")
-    override val leftArm = getPart("arm_left")
-    override val rightArm = getPart("arm_right")
 
     override var portraitScale = 1.2F
     override var portraitTranslation = Vec3d(-0.2, 2.6, 0.0)
@@ -43,14 +37,29 @@ class DragoniteModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BiW
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
+    lateinit var wateridle: PokemonPose
+    lateinit var waterswim: PokemonPose
+    lateinit var surfacewateridle: PokemonPose
+    lateinit var surfacewaterswim: PokemonPose
+    lateinit var battleidle: PokemonPose
+    lateinit var sleep: PokemonPose
     lateinit var hover: PokemonPose
     lateinit var fly: PokemonPose
 
     override fun registerPoses() {
         val blink = quirk { bedrockStateful("dragonite", "blink")}
+        sleep = registerPose(
+            poseName = "sleep",
+            poseType = PoseType.SLEEP,
+            idleAnimations = arrayOf(
+                bedrock("dragonite", "sleep")
+            )
+        )
+
         standing = registerPose(
             poseName = "standing",
             poseTypes = UI_POSES + PoseType.STAND,
+            condition = { !it.isBattling},
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
@@ -64,39 +73,82 @@ class DragoniteModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BiW
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
-                bedrock("dragonite", "ground_idle"),
-                BipedWalkAnimation(this, periodMultiplier = 0.6F, amplitudeMultiplier = 0.9F),
-                BimanualSwingAnimation(this, swingPeriodMultiplier = 0.6F, amplitudeMultiplier = 0.9F)
+                bedrock("dragonite", "ground_idle")
+            )
+        )
+
+        battleidle = registerPose(
+            poseName = "battleidle",
+            poseTypes = PoseType.STATIONARY_POSES,
+            condition = { it.isBattling},
+            quirks = arrayOf(blink),
+            idleAnimations = arrayOf(
+                singleBoneLook(),
+                bedrock("dragonite", "battle_idle")
             )
         )
 
         hover = registerPose(
             poseName = "hover",
-            poseTypes = setOf(PoseType.HOVER, PoseType.FLOAT),
+            poseType = PoseType.HOVER,
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
-                bedrock("dragonite", "ground_idle"),
-                WingFlapIdleAnimation(this,
-                    flapFunction = sineFunction(verticalShift = -10F.toRadians(), period = 0.9F, amplitude = 0.6F),
-                    timeVariable = { state, _, _ -> state?.animationSeconds ?: 0F },
-                    axis = ModelPartTransformation.Y_AXIS
-                )
+                bedrock("dragonite", "air_idle")
             )
         )
 
         fly = registerPose(
             poseName = "fly",
-            poseTypes = setOf(PoseType.FLY, PoseType.SWIM),
+            poseType = PoseType.FLY,
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
-                bedrock("dragonite", "ground_idle"),
-                WingFlapIdleAnimation(this,
-                    flapFunction = sineFunction(verticalShift = -14F.toRadians(), period = 0.9F, amplitude = 0.6F),
-                    timeVariable = { state, _, _ -> state?.animationSeconds ?: 0F },
-                    axis = ModelPartTransformation.Y_AXIS
-                )
+                bedrock("dragonite", "air_fly")
+            )
+        )
+
+        wateridle = registerPose(
+            poseName = "wateridle",
+            poseType = PoseType.FLOAT,
+            condition = { it.isSubmergedInWater },
+            quirks = arrayOf(blink),
+            idleAnimations = arrayOf(
+                singleBoneLook(),
+                bedrock("dragonite", "water_idle")
+            )
+        )
+
+        waterswim = registerPose(
+            poseName = "waterswim",
+            poseType = PoseType.SWIM,
+            condition = { it.isSubmergedInWater },
+            quirks = arrayOf(blink),
+            idleAnimations = arrayOf(
+                singleBoneLook(),
+                bedrock("dragonite", "water_swim")
+            )
+        )
+
+        surfacewateridle = registerPose(
+            poseName = "surfacewateridle",
+            poseType = PoseType.FLOAT,
+            condition = { !it.isSubmergedInWater },
+            quirks = arrayOf(blink),
+            idleAnimations = arrayOf(
+                singleBoneLook(),
+                bedrock("dragonite", "surfacewater_idle")
+            )
+        )
+
+        surfacewaterswim = registerPose(
+            poseName = "surfacewaterswim",
+            poseType = PoseType.SWIM,
+            condition = { !it.isSubmergedInWater },
+            quirks = arrayOf(blink),
+            idleAnimations = arrayOf(
+                singleBoneLook(),
+                bedrock("dragonite", "surfacewater_swim")
             )
         )
     }

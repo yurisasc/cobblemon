@@ -26,42 +26,71 @@ class OmastarModel(root: ModelPart) : PokemonPoseableModel() {
     override var profileScale = 1.1F
 
     lateinit var standing: PokemonPose
-//    lateinit var walk: PokemonPose
-//    lateinit var float: PokemonPose
-//    lateinit var swim: PokemonPose
+    lateinit var walk: PokemonPose
+    lateinit var float: PokemonPose
+    lateinit var swim: PokemonPose
+    lateinit var sleep: PokemonPose
+    lateinit var battleidle: PokemonPose
 
     override fun registerPoses() {
+        val blink = quirk { bedrockStateful("omastar", "blink") }
+        sleep = registerPose(
+            poseName = "sleep",
+            poseType = PoseType.SLEEP,
+            idleAnimations = arrayOf(bedrock("omastar", "sleep"))
+        )
+
         standing = registerPose(
             poseName = "standing",
-            poseTypes = ALL_POSES,
+            poseTypes = PoseType.UI_POSES + PoseType.STAND,
+            quirks = arrayOf(blink),
+            transformTicks = 10,
+            condition = { !it.isBattling},
             idleAnimations = arrayOf(
-//                bedrock("omastar", "ground_idle")
+                bedrock("omastar", "ground_idle")
             )
         )
 
-//        walk = registerPose(
-//            poseName = "walk",
-//            poseType = PoseType.WALK,
-//            idleAnimations = arrayOf(
-//                bedrock("omastar", "ground_idle")
-//            )
-//        )
-//
-//        float = registerPose(
-//            poseName = "float",
-//            poseTypes = setOf(PoseType.FLOAT, PoseType.HOVER),
-//            idleAnimations = arrayOf(
-//                bedrock("omastar", "water_idle")
-//            )
-//        )
-//
-//        swim = registerPose(
-//            poseName = "swim",
-//            poseTypes = setOf(PoseType.SWIM, PoseType.FLY),
-//            idleAnimations = arrayOf(
-//                bedrock("omastar", "water_swim")
-//            )
-//        )
+        walk = registerPose(
+            poseName = "walk",
+            poseType = PoseType.WALK,
+            quirks = arrayOf(blink),
+            transformTicks = 10,
+            idleAnimations = arrayOf(
+                bedrock("omastar", "ground_walk")
+            )
+        )
+
+        float = registerPose(
+            poseName = "float",
+            poseTypes = setOf(PoseType.FLOAT, PoseType.HOVER),
+            quirks = arrayOf(blink),
+            transformTicks = 10,
+            idleAnimations = arrayOf(
+                bedrock("omastar", "water_idle")
+            )
+        )
+
+        swim = registerPose(
+            poseName = "swim",
+            poseTypes = setOf(PoseType.SWIM, PoseType.FLY),
+            quirks = arrayOf(blink),
+            transformTicks = 10,
+            idleAnimations = arrayOf(
+                bedrock("omastar", "water_swim")
+            )
+        )
+
+        battleidle = registerPose(
+            poseName = "standing",
+            poseTypes = PoseType.STATIONARY_POSES,
+            quirks = arrayOf(blink),
+            transformTicks = 10,
+            condition = { it.isBattling},
+            idleAnimations = arrayOf(
+                bedrock("omastar", "battle_idle")
+            )
+        )
     }
 
 //    override fun getFaintAnimation(

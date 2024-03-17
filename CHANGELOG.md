@@ -33,6 +33,8 @@
 - Added Type Gems. These items hold no functionality for now. Start collecting though...
 - Added 6 custom Pottery Sherds, obtained from ruin structures.
 - Added cries to Meowth, Alolan Meowth, Galaraian Meowth,
+- Completed the advancement for placing a Tumblestone near Lava or Magma to make it grow.
+- Added new held items: Ability Shield, Absorb Bulb, Air Balloon, Binding Band, Blunder Policy, Cell Battery, Covert Cloak, Damp Rock, Eviolite, Expert Belt, Focus Sash, Heat Rock, Icy Rock, Iron Ball, Light Ball, Loaded Dice, Red Card, Shell Bell, Smooth Rock and Soothe Bell.
 
 ### Pokémon Added
 #### Gen 2
@@ -134,13 +136,12 @@
 - Gimmighoul.
   - Using Relic Coins, you can increase Gimmighoul's Coin Stash. Upon reaching 999, it can be evolved into Gholdengo.
   - Additionally, if you give Gimmighoul a Netherite Scrap, you can increase its Netherite Stash. Who knows what might happen if it fills up?
-- Completed the advancement for placing a Tumblestone near Lava or Magma to make it grow.
-- Added new held items: Ability Shield, Absorb Bulb, Air Balloon, Binding Band, Blunder Policy, Cell Battery, Covert Cloak, Damp Rock, Eviolite, Expert Belt, Focus Sash, Heat Rock, Icy Rock, Iron Ball, Light Ball, Loaded Dice, Red Card, Shell Bell, Smooth Rock and Soothe Bell.
+
 
 ### Changes
 - Pokémon now transition more smoothly between different poses.
 - Updated models for Mimikyu, Alcremie, Squirtle, Wartortle, Blastoise, Omanyte, Omastar, Growlithe, Swinub, Piloswine, Basculine, Rowlet, Dartrix, Decidueye, Kabuto, Kabutops, Piplup, Prinplup, Elekid, Electabuzz, Cubone, Marowak, Paras, Drifloon, Drifblim, Venonat, Venomoth, Yanma, Yanmega, and Raboot.
-- Updated animations for Falinks, Lechonk, Litwick, Lampent, Chandelure, Carnivine, Galarian Meowth, Galarian Rapidash, Venonat, Venomoth, Phanphy, Donphan, Dratini, Dragonair, Happiny, Chansey, Blissey, Volbeat, Illumise, Numel, Drifloon, and Drifblim.
+- Updated animations for Dragonite, Omanyte, Omastar, Pinsir, Falinks, Lechonk, Litwick, Lampent, Chandelure, Carnivine, Galarian Meowth, Galarian Rapidash, Venonat, Venomoth, Phanphy, Donphan, Dratini, Dragonair, Happiny, Chansey, Blissey, Volbeat, Illumise, Numel, Drifloon, and Drifblim.
 - Added more held items to the held item tag, and Metal Coat to the held item tab.
 - Added all ores to the modloader ore tags, and added tags for each ore type to the mod (both blocks and items).
 - Changed the Destiny Knot to be crafted with a Ghast Tear, rather than a diamond.
