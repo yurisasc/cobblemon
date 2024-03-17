@@ -7,6 +7,13 @@
     "size": 7,
     "step": "surface_structures",
     "start_height": {
+        "type": "minecraft:uniform",
+        "max_inclusive": {
+            "absolute": 60
+        },
+        "min_inclusive": {
+            "absolute": -37
+        },
         "absolute": -14
     },
     "project_start_to_heightmap": "OCEAN_FLOOR_WG",

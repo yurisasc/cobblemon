@@ -7,6 +7,13 @@
     "size": 7,
     "step": "surface_structures",
     "start_height": {
+        "type": "minecraft:uniform",
+        "max_inclusive": {
+            "absolute": 250
+        },
+        "min_inclusive": {
+            "absolute": 65
+        },
         "absolute": -1
     },
     "project_start_to_heightmap": "WORLD_SURFACE_WG",
