@@ -166,8 +166,8 @@ preset_list = [
 unknown_conditions = []
 unknown_weight_multiplier_identifiers = []
 
-def main(only_update_existing_files=False, ignore_filters=False):
 
+def main(only_update_existing_files=False, ignore_filters=False):
     printCobblemonHeader()
 
     scriptName = "♥ Cobblemon Spawn CSV to JSON Script ♥"
@@ -569,7 +569,8 @@ def generateName(pokemon_name):
 
 
 def sanitize_pokemon(pokemon):
-    return pokemon.replace("-", "").replace("♂", "m").replace("♀", "f").replace(".", "").replace("'", "").replace(' ', '').lower()
+    return (pokemon.replace("-", "").replace("♂", "m").replace("♀", "f")
+            .replace(".", "").replace("'", "").replace(' ', '').lower())
 
 
 def parse_biomes(biomes_str, invalid_biome_tags):
@@ -577,6 +578,12 @@ def parse_biomes(biomes_str, invalid_biome_tags):
     biomes = []
     for biome in biomes_str.split(','):
         biome = biome.lower().strip()
+
+        # Verify that the biome is not in the invalid_biome_tags list
+        if invalid_biome_tags and biome_mapping[biome] in invalid_biome_tags:
+            raise ValueError(
+                f"Tried to use invalid biome tag: {biome}\nThe wrong tag specified in biome_mapping is: {biome_mapping[biome]}")
+
         if biome in biome_mapping:
             biomes.append(biome_mapping[biome])
         elif biome in ignored_biomes:
@@ -645,8 +652,18 @@ def load_special_drops_data():
 
 
 def verifyBiomeTags():
-    # get the list of all biomes by reading the filenames in common/src/main/resources/data/cobblemon/tags/worldgen/biome/
-    biome_files = os.listdir('../common/src/main/resources/data/cobblemon/tags/worldgen/biome/')
+    # Define the directory path
+    directory_path = '../common/src/main/resources/data/cobblemon/tags/worldgen/biome/'
+    minecraft_biome_directory_path = '../common/src/main/resources/data/minecraft/worldgen/biome/'
+
+    # Check if the biome directories exist and are not empty
+    if not os.path.exists(directory_path) or not os.listdir(directory_path) or not os.path.exists(
+            minecraft_biome_directory_path) or not os.listdir(minecraft_biome_directory_path):
+        print_warning("BiomeTags are currently not validated outside of a development environment with a completed gradle build.")
+        return []
+
+    # get the list of all biomes by reading the filenames in the directory
+    biome_files = os.listdir(directory_path)
     # remove the .json from the filenames and prepend "#cobblemon:" to the biome name
     biome_files = [f"#cobblemon:{file[:-5]}" for file in biome_files]
     unknown_biomes = []
