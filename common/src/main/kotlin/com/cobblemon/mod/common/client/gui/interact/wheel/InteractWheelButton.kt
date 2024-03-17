@@ -14,11 +14,9 @@ import net.minecraft.client.gui.DrawContext
 import net.minecraft.client.gui.tooltip.Tooltip
 import net.minecraft.client.gui.widget.ButtonWidget
 import net.minecraft.client.sound.SoundManager
-import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.text.Text
 import net.minecraft.util.Identifier
 import org.joml.Vector3f
-import org.joml.Vector4f
 
 class InteractWheelButton(
     private val iconResource: Identifier?,
@@ -39,7 +37,7 @@ class InteractWheelButton(
         const val ICON_OFFSET = 26.5
     }
 
-    override fun render(context: DrawContext, mouseX: Int, mouseY: Int, delta: Float) {
+    override fun renderWidget(context: DrawContext, mouseX: Int, mouseY: Int, delta: Float) {
         val matrices = context.matrices
         blitk(
             matrixStack = matrices,

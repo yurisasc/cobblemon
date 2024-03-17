@@ -14,6 +14,7 @@ import com.cobblemon.mod.common.api.multiblock.MultiblockEntity
 import com.cobblemon.mod.common.block.entity.FossilMultiblockEntity
 import com.cobblemon.mod.common.block.entity.RestorationTankBlockEntity
 import com.cobblemon.mod.common.block.multiblock.FossilMultiblockBuilder
+import com.mojang.serialization.MapCodec
 import net.minecraft.block.*
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.ai.pathing.NavigationType
@@ -51,7 +52,6 @@ class RestorationTankBlock(properties: Settings) : MultiblockBlock(properties), 
             .with(ON, false)
     }
 
-
     fun getPositionOfOtherPart(state: BlockState, pos: BlockPos): BlockPos {
         return if (state.get(PART) == TankPart.BOTTOM) {
             pos.up()
@@ -70,13 +70,16 @@ class RestorationTankBlock(properties: Settings) : MultiblockBlock(properties), 
 
     private fun isBase(state: BlockState): Boolean = state.get(PART) == TankPart.BOTTOM
 
-    override fun onBreak(world: World, pos: BlockPos, state: BlockState, player: PlayerEntity?) {
-        super.onBreak(world, pos, state, player)
+    override fun onBreak(world: World, pos: BlockPos, state: BlockState, player: PlayerEntity?): BlockState {
+        val result = super.onBreak(world, pos, state, player)
         val otherPart = world.getBlockState(getPositionOfOtherPart(state, pos))
+
         if (otherPart.block is RestorationTankBlock) {
             world.setBlockState(getPositionOfOtherPart(state, pos), Blocks.AIR.defaultState, 35)
             world.syncWorldEvent(player, 2001, getPositionOfOtherPart(state, pos), getRawIdFromState(otherPart))
         }
+
+        return result
     }
 
     override fun onPlaced(
@@ -222,7 +225,13 @@ class RestorationTankBlock(properties: Settings) : MultiblockBlock(properties), 
         return false
     }
 
+    override fun getCodec(): MapCodec<out BlockWithEntity> {
+        return CODEC
+    }
+
     companion object {
+        val CODEC = createCodec(::RestorationTankBlock)
+
         val PART = EnumProperty.of("part", TankPart::class.java)
         val TRIGGERED = Properties.TRIGGERED
         val ON = BooleanProperty.of("on")

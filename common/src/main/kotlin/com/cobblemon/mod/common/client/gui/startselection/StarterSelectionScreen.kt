@@ -37,7 +37,6 @@ import net.minecraft.client.MinecraftClient
 import net.minecraft.client.gui.DrawContext
 import net.minecraft.client.gui.screen.Screen
 import net.minecraft.client.sound.PositionedSoundInstance
-import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.text.Text
 
 /**
@@ -86,7 +85,7 @@ class StarterSelectionScreen(private val categories: List<RenderableStarterCateg
         addDrawableChild(
             CategoryList(
                 paneWidth = 71, paneHeight = BASE_HEIGHT - 11,
-                topOffset = 6, bottomOffset = 5,
+                topOffset = 6,
                 entryHeight = 20, entryWidth = 57,
                 categories = categories,
                 x = x - 2, y = y + 8,

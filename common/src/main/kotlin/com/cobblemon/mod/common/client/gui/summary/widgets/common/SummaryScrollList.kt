@@ -19,8 +19,8 @@ import net.minecraft.client.gui.widget.AlwaysSelectedEntryListWidget
 import net.minecraft.text.MutableText
 
 abstract class SummaryScrollList<T : AlwaysSelectedEntryListWidget.Entry<T>>(
-    val x: Int,
-    val y: Int,
+    x: Int,
+    y: Int,
     val label: MutableText,
     slotHeight: Int
 ) : AlwaysSelectedEntryListWidget<T>(
@@ -28,7 +28,6 @@ abstract class SummaryScrollList<T : AlwaysSelectedEntryListWidget.Entry<T>>(
     WIDTH, // width
     HEIGHT, // height
     0, // top
-    HEIGHT, // bottom
     slotHeight
 ) {
     companion object {
@@ -47,35 +46,35 @@ abstract class SummaryScrollList<T : AlwaysSelectedEntryListWidget.Entry<T>>(
     }
 
     init {
+        this.x = x
+        this.y = y
         correctSize()
-        setRenderHorizontalShadows(false)
         setRenderBackground(false)
-        setRenderSelection(false)
     }
 
     override fun getScrollbarPositionX(): Int {
-        return left + width - 3
+        return x + width - 3
     }
 
-    override fun render(context: DrawContext, mouseX: Int, mouseY: Int, partialTicks: Float) {
+    override fun renderWidget(context: DrawContext, mouseX: Int, mouseY: Int, partialTicks: Float) {
         val matrices = context.matrices
         correctSize()
         blitk(
             matrixStack = matrices,
             texture = backgroundResource,
-            x = left,
-            y = top,
+            x = x,
+            y = y,
             height = HEIGHT,
             width = WIDTH
         )
 
         context.enableScissor(
-            left,
-            top + 1,
-            left + width,
-            top + 1 + height
+            x,
+            y + 1,
+            x + width,
+            y + 1 + height
         )
-        super.render(context, mouseX, mouseY, partialTicks)
+        super.renderWidget(context, mouseX, mouseY, partialTicks)
         context.disableScissor()
 
         // Scroll Overlay
@@ -83,8 +82,8 @@ abstract class SummaryScrollList<T : AlwaysSelectedEntryListWidget.Entry<T>>(
         blitk(
             matrixStack = matrices,
             texture = scrollOverlayResource,
-            x = left,
-            y = top - (scrollOverlayOffset / 2),
+            x = x,
+            y = y - (scrollOverlayOffset / 2),
             height = HEIGHT + scrollOverlayOffset,
             width = WIDTH
         )
@@ -94,8 +93,8 @@ abstract class SummaryScrollList<T : AlwaysSelectedEntryListWidget.Entry<T>>(
             context = context,
             font = CobblemonResources.DEFAULT_LARGE,
             text = label.bold(),
-            x = left + 32.5,
-            y = top - 13.5,
+            x = x + 32.5,
+            y = y - 13.5,
             centered = true,
             shadow = true
         )
@@ -112,7 +111,7 @@ abstract class SummaryScrollList<T : AlwaysSelectedEntryListWidget.Entry<T>>(
 
     override fun mouseDragged(mouseX: Double, mouseY: Double, button: Int, deltaX: Double, deltaY: Double): Boolean {
         if (scrolling) {
-            if (mouseY < top) {
+            if (mouseY < y) {
                 setScrollAmount(0.0)
             } else if (mouseY > bottom) {
                 setScrollAmount(maxScroll.toDouble())
@@ -126,13 +125,13 @@ abstract class SummaryScrollList<T : AlwaysSelectedEntryListWidget.Entry<T>>(
     private fun updateScrollingState(mouseX: Double, mouseY: Double) {
         scrolling = mouseX >= this.scrollbarPositionX.toDouble()
                 && mouseX < (this.scrollbarPositionX + 3).toDouble()
-                && mouseY >= top
+                && mouseY >= y
                 && mouseY < bottom
     }
 
     private fun correctSize() {
-        updateSize(WIDTH, HEIGHT, y + 1, (y + 1) + (HEIGHT - 2))
-        setLeftPos(x)
+        setDimensionsAndPosition(WIDTH, HEIGHT, y + 1, (y + 1) + (HEIGHT - 2))
+        setX(x)
     }
 
     private fun scaleIt(i: Int): Int {

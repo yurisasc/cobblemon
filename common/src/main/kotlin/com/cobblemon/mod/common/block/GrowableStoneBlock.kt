@@ -34,7 +34,7 @@ abstract class GrowableStoneBlock(
     settings: Settings,
     val stage: Int,
     val height: Int,
-    xzOffset: Int,
+    val xzOffset: Int,
     val nextStage: Block?
 ) : FacingBlock(settings) {
 

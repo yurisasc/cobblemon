@@ -43,9 +43,9 @@ class ParticleStorm(
     fun spawn() {
         if (entity != null) {
             // TODO replace with a generified call to if (entity is MoLangEntity) entity.applyVariables(env) or w/e
-            runtime.environment.setSimpleVariable("entity_width", DoubleValue(entity.boundingBox.xLength))
-            runtime.environment.setSimpleVariable("entity_height", DoubleValue(entity.boundingBox.yLength))
-            val longerDiameter = entity.boundingBox.run { if (xLength > yLength) xLength else yLength }
+            runtime.environment.setSimpleVariable("entity_width", DoubleValue(entity.boundingBox.lengthX))
+            runtime.environment.setSimpleVariable("entity_height", DoubleValue(entity.boundingBox.lengthY))
+            val longerDiameter = entity.boundingBox.run { if (lengthX > lengthY) lengthX else lengthY }
             runtime.environment.setSimpleVariable("entity_size", DoubleValue(longerDiameter))
             runtime.environment.setSimpleVariable("entity_radius", DoubleValue(longerDiameter / 2))
         }

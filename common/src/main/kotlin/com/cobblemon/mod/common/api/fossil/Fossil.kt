@@ -11,7 +11,6 @@ package com.cobblemon.mod.common.api.fossil
 import com.cobblemon.mod.common.api.pokemon.PokemonProperties
 import com.cobblemon.mod.common.pokemon.evolution.predicate.NbtItemPredicate
 import net.minecraft.item.ItemStack
-import net.minecraft.registry.Registries
 import net.minecraft.text.MutableText
 import net.minecraft.text.Text
 import net.minecraft.util.Identifier
@@ -48,7 +47,7 @@ class Fossil(
         }
 
         return this.fossils.all { fossil ->
-            ingredients.any { fossil.item.fits(it.item, Registries.ITEM) && fossil.nbt.test(it) }
+            ingredients.any { fossil.test(it) }
         }
     }
 
@@ -64,7 +63,7 @@ class Fossil(
 
         return ingredients.all { ingredient ->
             ingredients.count { item -> ingredient.itemMatches(item.registryEntry) }  <=
-                    this.fossils.count { fossil -> fossil.item.fits(ingredient.item, Registries.ITEM) && fossil.nbt.test(ingredient) }
+                    this.fossils.count { fossil -> fossil.test(ingredient) }
         }
     }
 
@@ -74,7 +73,7 @@ class Fossil(
      * @return True if the [ItemStack] is an ingredient, false otherwise.
      */
     fun isIngredient(itemStack: ItemStack): Boolean {
-        return this.fossils.any { it.item.fits(itemStack.item, Registries.ITEM) && it.nbt.test(itemStack) }
+        return this.fossils.any { it.test(itemStack) }
     }
 
 }

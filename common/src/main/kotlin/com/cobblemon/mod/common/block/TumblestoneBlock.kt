@@ -9,17 +9,13 @@
 package com.cobblemon.mod.common.block
 
 import com.cobblemon.mod.common.api.tags.CobblemonBlockTags
-import net.minecraft.block.*
-import net.minecraft.item.ItemPlacementContext
-import net.minecraft.server.world.ServerWorld
-import net.minecraft.state.StateManager
+import com.mojang.serialization.MapCodec
+import com.mojang.serialization.codecs.PrimitiveCodec
+import com.mojang.serialization.codecs.RecordCodecBuilder
+import net.minecraft.block.Block
+import net.minecraft.block.FacingBlock
 import net.minecraft.util.math.BlockPos
-import net.minecraft.util.math.Direction
-import net.minecraft.util.math.random.Random
-import net.minecraft.util.shape.VoxelShape
 import net.minecraft.world.BlockView
-import net.minecraft.world.WorldAccess
-import net.minecraft.world.WorldView
 
 @Suppress("DEPRECATION", "OVERRIDE_DEPRECATION")
 class TumblestoneBlock(
@@ -43,4 +39,18 @@ class TumblestoneBlock(
         return true
     }
 
+    override fun getCodec(): MapCodec<out FacingBlock> {
+        return CODEC
+    }
+
+    // TODO(Deltric): Look into Block.CODEC for being optional more
+    companion object {
+        val CODEC: MapCodec<TumblestoneBlock> = RecordCodecBuilder.mapCodec { it.group(
+            createSettingsCodec(),
+            PrimitiveCodec.INT.fieldOf("stage").forGetter { it.stage },
+            PrimitiveCodec.INT.fieldOf("height").forGetter { it.height },
+            PrimitiveCodec.INT.fieldOf("xzOffset").forGetter { it.xzOffset },
+            Block.CODEC.fieldOf("nextStage").forGetter { it.nextStage }
+        ).apply(it, ::TumblestoneBlock) }
+    }
 }

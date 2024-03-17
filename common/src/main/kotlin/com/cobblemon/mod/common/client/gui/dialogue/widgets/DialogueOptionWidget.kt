@@ -14,7 +14,6 @@ import com.cobblemon.mod.common.api.gui.drawCenteredText
 import com.cobblemon.mod.common.client.gui.dialogue.DialogueScreen
 import com.cobblemon.mod.common.net.messages.server.dialogue.InputToDialoguePacket
 import net.minecraft.client.gui.DrawContext
-import net.minecraft.client.render.OverlayTexture
 import net.minecraft.text.MutableText
 import net.minecraft.util.Identifier
 
@@ -30,8 +29,7 @@ class DialogueOptionWidget(
     val texture: Identifier,
     val overlayTexture: Identifier
 ) : ParentWidget(x, y, width, height, text) {
-    override fun renderButton(context: DrawContext, mouseX: Int, mouseY: Int, delta: Float) {
-
+    override fun renderWidget(context: DrawContext, mouseX: Int, mouseY: Int, delta: Float) {
         blitk(
             texture = texture,
             matrixStack = context.matrices,

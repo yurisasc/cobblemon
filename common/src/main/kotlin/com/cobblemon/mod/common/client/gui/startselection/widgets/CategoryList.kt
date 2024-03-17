@@ -18,18 +18,17 @@ import net.minecraft.client.MinecraftClient
 import net.minecraft.client.gui.DrawContext
 import net.minecraft.client.gui.widget.AlwaysSelectedEntryListWidget
 import net.minecraft.client.sound.PositionedSoundInstance
-import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.text.Text
 
 class CategoryList(
     private val paneWidth: Int,
     private val paneHeight: Int,
     topOffset: Int,
-    bottomOffset: Int,
     private val entryWidth: Int,
     entryHeight: Int,
     private val categories: List<RenderableStarterCategory>,
-    val x: Int, val y: Int,
+    x: Int,
+    y: Int,
     private val minecraft: MinecraftClient = MinecraftClient.getInstance(),
     private val starterSelectionScreen: StarterSelectionScreen
 ) : AlwaysSelectedEntryListWidget<CategoryList.Category>(
@@ -37,7 +36,6 @@ class CategoryList(
     paneWidth,
     paneHeight,
     topOffset,
-    bottomOffset,
     entryHeight
 ) {
 
@@ -49,10 +47,10 @@ class CategoryList(
     }
 
     init {
+        this.x = x
+        this.y = y
         this.correctSize()
-        this.setRenderHorizontalShadows(false)
         this.setRenderBackground(false)
-        this.setRenderSelection(false)
     }
 
     private var entriesCreated = false
@@ -61,7 +59,7 @@ class CategoryList(
         Category(it)
     }
 
-    override fun render(context: DrawContext, mouseX: Int, mouseY: Int, delta: Float) {
+    override fun renderWidget(context: DrawContext, mouseX: Int, mouseY: Int, delta: Float) {
         if (!entriesCreated) {
             createEntries().forEach { addEntry(it) }
             entriesCreated = true
@@ -72,19 +70,18 @@ class CategoryList(
             x + width,
             y + height
         )
-        super.render(context, mouseX, mouseY, delta)
         context.disableScissor()
     }
 
     private fun correctSize() {
-        this.updateSize(this.paneWidth, this.paneHeight, this.y, this.y + this.paneHeight)
-        this.setLeftPos(this.x)
+        this.setDimensionsAndPosition(this.paneWidth, this.paneHeight, this.y, this.y + this.paneHeight)
+        this.setX(this.x)
     }
 
     private fun scale(n: Int): Int = (this.client.window.scaleFactor * n).toInt()
     override fun getRowWidth() = this.entryWidth
     override fun getScrollbarPositionX(): Int {
-        return this.left + this.width - 5
+        return this.x + this.width - 5
     }
 
 

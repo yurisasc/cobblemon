@@ -19,9 +19,9 @@ import net.minecraft.util.StringIdentifiable
  * Represents the various wooden boats in Cobblemon.
  *
  */
-enum class CobblemonBoatType(val mountedOffset: Double) : StringIdentifiable {
+enum class CobblemonBoatType(val mountedOffset: Float) : StringIdentifiable {
 
-    APRICORN(-0.1);
+    APRICORN(-0.1f);
 
     /**
      * The base [Item] form of this [CobblemonBoatType].
@@ -55,7 +55,7 @@ enum class CobblemonBoatType(val mountedOffset: Double) : StringIdentifiable {
 
     companion object {
 
-        internal fun ofOrdinal(ordinal: Int) = CobblemonBoatType.values()[ordinal]
+        internal fun ofOrdinal(ordinal: Int) = entries[ordinal]
 
     }
 

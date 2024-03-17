@@ -290,7 +290,7 @@ class CobblemonForge : CobblemonImplementation {
 
     override fun <T : GameRules.Rule<T>> registerGameRule(name: String, category: GameRules.Category, type: GameRules.Type<T>): GameRules.Key<T> = GameRules.register(name, category, type)
 
-    override fun <T : Criterion<*>> registerCriteria(criteria: T): T = Criteria.register(criteria)
+    override fun <T : Criterion<*>> registerCriteria(id: String, criteria: T): T = Criteria.register(id, criteria)
 
     override fun registerResourceReloader(identifier: Identifier, reloader: ResourceReloader, type: ResourceType, dependencies: Collection<Identifier>) {
         if (type == ResourceType.SERVER_DATA) {
@@ -347,7 +347,21 @@ class CobblemonForge : CobblemonImplementation {
         this.queuedBuiltinResourcePacks.forEach { (id, title, activationBehaviour) ->
             // Fabric expects resourcepacks as the root so we do too here
             val path = modFile.findResource("resourcepacks/${id.path}")
-            val factory = PackFactory { name -> PathPackResources(name, true, path) }
+            //val factory = PackFactory { name -> PathPackResources(name, true, path) }
+
+            //TODO(Deltric)
+            val factory = object : PackFactory {
+                override fun open(var1: String): ResourcePack {
+                    // Implement the logic here
+                    return PathPackResources(var1, true, path)
+                }
+
+                override fun openWithOverlays(name: String, metadata: ResourcePackProfile.Metadata?): ResourcePack {
+                    return PathPackResources(name, true, path)
+
+                }
+            }
+
             val profile = ResourcePackProfile.create(
                 id.toString(),
                 title,

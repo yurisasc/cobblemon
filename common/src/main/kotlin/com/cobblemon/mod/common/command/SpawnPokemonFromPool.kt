@@ -17,6 +17,7 @@ import com.cobblemon.mod.common.api.text.green
 import com.cobblemon.mod.common.api.text.red
 import com.cobblemon.mod.common.util.alias
 import com.cobblemon.mod.common.util.commandLang
+import com.cobblemon.mod.common.util.effectiveName
 import com.cobblemon.mod.common.util.permission
 import com.mojang.brigadier.CommandDispatcher
 import com.mojang.brigadier.arguments.IntegerArgumentType
@@ -24,7 +25,6 @@ import com.mojang.brigadier.context.CommandContext
 import net.minecraft.server.command.CommandManager
 import net.minecraft.server.command.CommandManager.literal
 import net.minecraft.server.command.ServerCommandSource
-import net.minecraft.text.Text
 
 /**
  * Spawn Pokemon From Surrounding Pool
@@ -87,7 +87,7 @@ object SpawnPokemonFromPool {
             spawnAction.future.thenApply {
                 if (it is EntitySpawnResult) {
                     for (entity in it.entities) {
-                        player.sendMessage(commandLang("spawnpokemonfrompool.success", entity.displayName).green())
+                        player.sendMessage(commandLang("spawnpokemonfrompool.success", entity.effectiveName()).green())
                     }
                 }
             }
