@@ -199,11 +199,12 @@ open class PokemonBattle(
 
     fun turn(newTurnNumber: Int) {
         actors.forEach { it.turn() }
+        // TODO: If a pokemon switches in the same turn another pokemon is KO'd it will not receive exp for the KO
         for (side in sides) {
             val opposite = side.getOppositeSide()
-            side.activePokemon.forEach {
-                val battlePokemon = it.battlePokemon ?: return@forEach
-                battlePokemon.facedOpponents.addAll(opposite.activePokemon.mapNotNull { it.battlePokemon })
+            side.activePokemon.filter{ it.isAlive() }.forEach { activePokemon ->
+                val battlePokemon = activePokemon.battlePokemon ?: return@forEach
+                battlePokemon.facedOpponents.addAll(opposite.activePokemon.filter { opposingActivePokemon -> opposingActivePokemon.isAlive() }.mapNotNull { it.battlePokemon })
             }
         }
         this.turn = newTurnNumber
