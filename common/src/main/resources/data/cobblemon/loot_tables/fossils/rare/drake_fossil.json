@@ -6,12 +6,12 @@
             "entries": [
                 {
                     "type": "minecraft:item",
-                    "name": "cobblemon:fossilized_fish",
+                    "name": "cobblemon:fossilized_drake",
                     "weight": 2
                 }
             ],
             "rolls": 1.0
         }
     ],
-    "random_sequence": "cobblemon:fossils/rare/fish_fossil"
+    "random_sequence": "cobblemon:fossils/rare/drake_fossil"
 }

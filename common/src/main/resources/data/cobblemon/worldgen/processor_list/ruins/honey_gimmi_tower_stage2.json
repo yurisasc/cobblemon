@@ -17,8 +17,8 @@
                         "Properties": {
                             "facing": "west",
                             "natural": "true"
+                        }
                     }
-                }
                 },
                 {
                     "input_predicate": {
@@ -195,11 +195,11 @@
                     "output_state": {
                         "Name": "minecraft:jungle_fence",
                         "Properties": {
-                                "east": "true",
-                                "north": "true",
-                                "south": "false",
-                                "west": "false",
-                                "waterlogged": "false"
+                            "east": "true",
+                            "north": "true",
+                            "south": "false",
+                            "west": "false",
+                            "waterlogged": "false"
                         }
                     }
                 },

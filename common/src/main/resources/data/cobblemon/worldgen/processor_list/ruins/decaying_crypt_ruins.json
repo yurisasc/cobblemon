@@ -229,7 +229,11 @@
                         "predicate_type": "minecraft:always_true"
                     },
                     "output_state": {
-                        "Name": "cobblemon:relic_coin_pouch"
+                        "Name": "cobblemon:relic_coin_pouch",
+                        "Properties": {
+                            "facing": "west",
+                            "natural": "true"
+                        }
                     }
                 },
                 {
@@ -1973,6 +1977,74 @@
                         "Name": "cobblemon:gimmighoul_chest",
                         "Properties": {
                             "facing": "west"
+                        }
+                    }
+                },
+                {
+                    "input_predicate": {
+                        "block": "cobblemon:relic_coin_pouch",
+                        "predicate_type": "minecraft:random_block_match",
+                        "probability": 0.4
+                    },
+                    "location_predicate": {
+                        "predicate_type": "minecraft:always_true"
+                    },
+                    "output_state": {
+                        "Name": "cobblemon:relic_coin_pouch",
+                        "Properties": {
+                            "facing": "north",
+                            "natural": "true"
+                        }
+                    }
+                },
+                {
+                    "input_predicate": {
+                        "block": "cobblemon:relic_coin_pouch",
+                        "predicate_type": "minecraft:random_block_match",
+                        "probability": 0.3
+                    },
+                    "location_predicate": {
+                        "predicate_type": "minecraft:always_true"
+                    },
+                    "output_state": {
+                        "Name": "cobblemon:relic_coin_pouch",
+                        "Properties": {
+                            "facing": "south",
+                            "natural": "true"
+                        }
+                    }
+                },
+                {
+                    "input_predicate": {
+                        "block": "cobblemon:relic_coin_pouch",
+                        "predicate_type": "minecraft:random_block_match",
+                        "probability": 0.2
+                    },
+                    "location_predicate": {
+                        "predicate_type": "minecraft:always_true"
+                    },
+                    "output_state": {
+                        "Name": "cobblemon:relic_coin_pouch",
+                        "Properties": {
+                            "facing": "east",
+                            "natural": "true"
+                        }
+                    }
+                },
+                {
+                    "input_predicate": {
+                        "block": "cobblemon:relic_coin_pouch",
+                        "predicate_type": "minecraft:random_block_match",
+                        "probability": 0.1
+                    },
+                    "location_predicate": {
+                        "predicate_type": "minecraft:always_true"
+                    },
+                    "output_state": {
+                        "Name": "cobblemon:relic_coin_pouch",
+                        "Properties": {
+                            "facing": "west",
+                            "natural": "true"
                         }
                     }
                 }

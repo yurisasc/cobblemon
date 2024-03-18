@@ -1,5 +1,5 @@
 {
-    "biomes": "#cobblemon:is_taiga",
+    "biomes": "#cobblemon:has_block/spruce_log",
     "adapt_noise": false,
     "spawn_overrides": {},
     "type": "minecraft:jigsaw",

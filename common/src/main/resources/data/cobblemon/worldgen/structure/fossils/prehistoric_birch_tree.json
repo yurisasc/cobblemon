@@ -1,5 +1,5 @@
 {
-    "biomes": "minecraft:forest",
+    "biomes": "#cobblemon:has_block/birch_log",
     "adapt_noise": false,
     "spawn_overrides": {},
     "type": "minecraft:jigsaw",
@@ -7,6 +7,7 @@
     "size": 7,
     "step": "surface_structures",
     "start_height": {
+        "type": "minecraft:uniform",
         "absolute": 0
     },
     "project_start_to_heightmap": "WORLD_SURFACE_WG",

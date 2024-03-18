@@ -26,12 +26,12 @@
                 },
                 {
                     "type": "minecraft:item",
-                    "name": "cobblemon:dino_fossil",
+                    "name": "cobblemon:fossilized_dino",
                     "weight": 1
                 },
                 {
                     "type": "minecraft:item",
-                    "name": "cobblemon:bird_fossil",
+                    "name": "cobblemon:fossilized_bird",
                     "weight": 1
                 },
                 {
