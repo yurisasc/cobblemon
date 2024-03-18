@@ -1,0 +1,14 @@
+{
+  "type": "choice",
+  "keys": ["flower"],
+  "default": "random",
+  "choices": [
+    "white",
+    "orange",
+    "yellow",
+    "blue",
+    "red"
+  ],
+  "isAspect": true,
+  "aspectFormat": "flower-{{choice}}"
+}

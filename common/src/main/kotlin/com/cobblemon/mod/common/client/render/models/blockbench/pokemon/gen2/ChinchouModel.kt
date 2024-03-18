@@ -17,11 +17,11 @@ import net.minecraft.util.math.Vec3d
 class ChinchouModel (root: ModelPart) : PokemonPoseableModel() {
     override val rootPart = root.registerChildWithAllChildren("chinchou")
 
-    override val portraitScale = 1.75F
-    override val portraitTranslation = Vec3d(-0.3, -0.8, 0.0)
+    override var portraitScale = 1.75F
+    override var portraitTranslation = Vec3d(-0.3, -0.8, 0.0)
 
-    override val profileScale = 0.65F
-    override val profileTranslation = Vec3d(-0.05, 0.45, 0.0)
+    override var profileScale = 0.65F
+    override var profileTranslation = Vec3d(-0.05, 0.45, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var swim: PokemonPose

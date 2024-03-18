@@ -32,11 +32,11 @@ class TranquillModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bi
     override val head = getPart("head_ai")
     private val tail = getPart("tail")
 
-    override val portraitScale = 2.4F
-    override val portraitTranslation = Vec3d(-0.3, -0.2, 0.0)
+    override var portraitScale = 2.4F
+    override var portraitTranslation = Vec3d(-0.3, -0.2, 0.0)
 
-    override val profileScale = 1.0F
-    override val profileTranslation = Vec3d(0.0, 0.3, 0.0)
+    override var profileScale = 1.0F
+    override var profileTranslation = Vec3d(0.0, 0.3, 0.0)
 
     //    lateinit var sleep: PokemonPose
     lateinit var stand: PokemonPose

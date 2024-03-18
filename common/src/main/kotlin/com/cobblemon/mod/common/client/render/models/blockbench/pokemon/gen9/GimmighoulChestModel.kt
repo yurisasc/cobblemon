@@ -27,11 +27,11 @@ class GimmighoulChestModel (root: ModelPart) : PokemonPoseableModel(), HeadedFra
     override val leftLeg = getPart("leg_left")
     override val rightLeg = getPart("leg_right")
 
-    override val portraitScale = 2.0F
-    override val portraitTranslation = Vec3d(0.3, -0.7, 0.0)
+    override var portraitScale = 2.0F
+    override var portraitTranslation = Vec3d(0.3, -0.7, 0.0)
 
-    override val profileScale = 0.65F
-    override val profileTranslation = Vec3d(0.0, 0.76, 0.0)
+    override var profileScale = 0.65F
+    override var profileTranslation = Vec3d(0.0, 0.76, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
@@ -86,7 +86,7 @@ class GimmighoulChestModel (root: ModelPart) : PokemonPoseableModel(), HeadedFra
         )
 
         closed.transitions[battle.poseName] = { _, _ ->
-            bedrockStateful("gimmighoul_chest", "surprise").andThen { _, state -> state.setPose(battle.poseName) }
+            bedrockStateful("gimmighoul_chest", "surprise")
         }
     }
 

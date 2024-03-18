@@ -13,6 +13,7 @@ import com.cobblemon.mod.common.CobblemonSounds
 import com.cobblemon.mod.common.api.gui.blitk
 import com.cobblemon.mod.common.api.moves.Move
 import com.cobblemon.mod.common.api.moves.MoveSet
+import com.cobblemon.mod.common.api.pokemon.PokemonSpecies.species
 import com.cobblemon.mod.common.api.reactive.Observable.Companion.emitWhile
 import com.cobblemon.mod.common.api.reactive.ObservableSubscription
 import com.cobblemon.mod.common.api.scheduling.Schedulable
@@ -34,6 +35,7 @@ import com.cobblemon.mod.common.client.gui.summary.widgets.screens.moves.MoveSwa
 import com.cobblemon.mod.common.client.gui.summary.widgets.screens.moves.MovesWidget
 import com.cobblemon.mod.common.client.gui.summary.widgets.screens.stats.StatWidget
 import com.cobblemon.mod.common.client.render.drawScaledText
+import com.cobblemon.mod.common.client.render.models.blockbench.repository.PokemonModelRepository
 import com.cobblemon.mod.common.net.messages.server.storage.party.MovePartyPokemonPacket
 import com.cobblemon.mod.common.net.messages.server.storage.party.SwapPartyPokemonPacket
 import com.cobblemon.mod.common.pokemon.Gender
@@ -613,6 +615,27 @@ class Summary private constructor(party: Collection<Pokemon?>, private val edita
         ) {
             this.focused = null
         }
+        if (Cobblemon.config.enableDebugKeys) {
+            val model = PokemonModelRepository.getPoser(selectedPokemon.species.resourceIdentifier, selectedPokemon.aspects)
+            if (keyCode == InputUtil.GLFW_KEY_UP) {
+                model.profileTranslation = model.profileTranslation.add(0.0, -0.01, 0.0)
+            }
+            if (keyCode == InputUtil.GLFW_KEY_DOWN) {
+                model.profileTranslation = model.profileTranslation.add(0.0, 0.01, 0.0)
+            }
+            if (keyCode == InputUtil.GLFW_KEY_LEFT) {
+                model.profileTranslation = model.profileTranslation.add(-0.01, 0.0, 0.0)
+            }
+            if (keyCode == InputUtil.GLFW_KEY_RIGHT) {
+                model.profileTranslation = model.profileTranslation.add(0.01, 0.0, 0.0)
+            }
+            if (keyCode == InputUtil.GLFW_KEY_EQUAL) {
+                model.profileScale += 0.01F
+            }
+            if (keyCode == InputUtil.GLFW_KEY_MINUS) {
+                model.profileScale -= 0.01F
+            }
+        }
         return super.keyPressed(keyCode, scanCode, modifiers)
     }
 
@@ -620,4 +643,14 @@ class Summary private constructor(party: Collection<Pokemon?>, private val edita
         MinecraftClient.getInstance().soundManager.play(PositionedSoundInstance.master(soundEvent, 1.0F))
     }
 
+    override fun close() {
+        if (Cobblemon.config.enableDebugKeys) {
+            val model = PokemonModelRepository.getPoser(selectedPokemon.species.resourceIdentifier, selectedPokemon.aspects)
+            MinecraftClient.getInstance().player?.sendMessage(Text.of("Profile Translation: ${model.profileTranslation}"))
+            MinecraftClient.getInstance().player?.sendMessage(Text.of("Profile Scale: ${model.profileScale}"))
+            Cobblemon.LOGGER.info("override var profileTranslation = Vec3d(${model.profileTranslation.x}, ${model.profileTranslation.y}, ${model.profileTranslation.z})")
+            Cobblemon.LOGGER.info("override var profileScale = ${model.profileScale}F")
+        }
+        super.close()
+    }
 }
