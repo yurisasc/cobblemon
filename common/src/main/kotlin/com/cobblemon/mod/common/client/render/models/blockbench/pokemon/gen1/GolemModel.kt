@@ -52,7 +52,7 @@ class GolemModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedFr
             poseTypes = MOVING_POSES,
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
-                BipedWalkAnimation(this, periodMultiplier = 1.2F, amplitudeMultiplier = 0.9f),
+                BipedWalkAnimation(this, periodMultiplier = 0.7F, amplitudeMultiplier = 0.6f),
                 singleBoneLook(),
                 bedrock("golem", "test")
                 //bedrock("golem", "ground_walk")

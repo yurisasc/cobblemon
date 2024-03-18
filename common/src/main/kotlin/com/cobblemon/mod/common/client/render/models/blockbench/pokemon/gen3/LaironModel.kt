@@ -53,7 +53,7 @@ class LaironModel  (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quad
             poseTypes = PoseType.MOVING_POSES,
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
-                QuadrupedWalkAnimation(this, periodMultiplier = 1.1F),
+                QuadrupedWalkAnimation(this, amplitudeMultiplier = 1.0F, periodMultiplier = 0.7F),
                 singleBoneLook(),
                 bedrock("lairon", "ground_idle")
             )
