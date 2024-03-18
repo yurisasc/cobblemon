@@ -46,7 +46,7 @@ class PokemonMoveControl(val pokemonEntity: PokemonEntity) : MoveControl(pokemon
             behaviour.moving.swim.swimSpeed
         } else {
             behaviour.moving.walk.walkSpeed
-        }
+        } * 2.5F
 
         val baseSpeed = entity.getAttributeValue(EntityAttributes.GENERIC_MOVEMENT_SPEED).toFloat() * this.speed.toFloat()
         val adjustedSpeed = baseSpeed * mediumSpeed
@@ -179,5 +179,11 @@ class PokemonMoveControl(val pokemonEntity: PokemonEntity) : MoveControl(pokemon
             }
         }
         return true
+    }
+
+    fun stop() {
+        state = State.WAIT
+        forwardMovement = 0.0f
+        sidewaysMovement = 0.0f
     }
 }

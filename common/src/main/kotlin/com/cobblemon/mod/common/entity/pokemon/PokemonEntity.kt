@@ -173,6 +173,7 @@ open class PokemonEntity(
             MemoryModuleType.PATH,
             MemoryModuleType.IS_PANICKING,
             MemoryModuleType.VISIBLE_MOBS,
+            CobblemonMemories.POKEMON_FLYING,
 //            CobblemonMemories.NPC_BATTLING,
 //            CobblemonMemories.BATTLING_POKEMON,
             MemoryModuleType.HURT_BY,
@@ -557,6 +558,17 @@ open class PokemonEntity(
 
     override fun createBrainProfile() = createPokemonBrain(MEMORY_MODULES, SENSORS)
     override fun getBrain() = super.getBrain() as Brain<PokemonEntity>
+
+    override fun initGoals() {
+        super.initGoals()
+        moveControl = PokemonMoveControl(this)
+    }
+
+    override fun onFinishPathfinding() {
+        super.onFinishPathfinding()
+        (moveControl as PokemonMoveControl).stop()
+    }
+
     override fun deserializeBrain(dynamic: Dynamic<*>): Brain<PokemonEntity> {
         val brain = createBrainProfile().deserialize(dynamic)
         brain.setTaskList(Activity.CORE, ImmutableList.of(
