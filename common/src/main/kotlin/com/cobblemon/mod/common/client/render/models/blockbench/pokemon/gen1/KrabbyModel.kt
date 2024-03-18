@@ -8,6 +8,7 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1
 
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cobblemon.mod.common.entity.PoseType
@@ -29,6 +30,8 @@ class KrabbyModel(root: ModelPart) : PokemonPoseableModel() {
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
     lateinit var battleidle: PokemonPose
+
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("krabby", "cry") }
 
     override fun registerPoses() {
         val blink = quirk { bedrockStateful("krabby", "blink")}

@@ -41,6 +41,8 @@ def main(print_missing_models=False, print_missing_animations=False):
     gen_numbers = df.iloc[3:, 0]  # Column A
     dex_numbers = df.iloc[3:, 1]  # Column B
     pokemon_names = df.iloc[3:, 2]  # Column C
+    pokemon_in_game = df.iloc[3:, 7]  # Column H
+    cry_on_repo = df.iloc[3:, 53]  # Column BB
     cry_statuses = df.iloc[3:, 54]  # Column BC [Cry Audio | In-Game]
 
     # Initialize lists for false positives and negatives
@@ -49,9 +51,10 @@ def main(print_missing_models=False, print_missing_animations=False):
     invalid_model_files = []
     invalid_animation_files = []
     other_warnings = []
+    pokemon_ready_to_be_added_list = []
 
     # Iterate over the DataFrame rows
-    for pokemon_name, gen_number, dex_number, cry_status in zip(pokemon_names, gen_numbers, dex_numbers, cry_statuses):
+    for pokemon_name, gen_number, dex_number, cry_status, this_pokemon_in_game, this_cry_on_repo in zip(pokemon_names, gen_numbers, dex_numbers, cry_statuses, pokemon_in_game, cry_on_repo ):
         cry_status = str(cry_status).strip()  # remove whitespace
         # make the first letter of the Pokémon name uppercase and remove all spaces
         sanitized_pokemon_name_lower = sanitize_pokemon(pokemon_name).replace("é", "e")
@@ -67,7 +70,7 @@ def main(print_missing_models=False, print_missing_animations=False):
             model_file_path = f"../common/src/main/kotlin/com/cobblemon/mod/common/client/render/models/blockbench/pokemon/gen{int(gen_number.strip())}/{sanitized_pokemon_name}Model.kt"
         except ValueError:
             other_warnings.append(f"⚠️ Warning: Invalid gen_number for pokemon {pokemon_name}. Skipping this line.")
-            continue        # Construct the path to the animation.json file
+            continue  # Construct the path to the animation.json file
         dex_number = str(dex_number).zfill(4)  # prepend with 0s to make it 4 digits long
         animation_file_path = f"../common/src/main/resources/assets/cobblemon/bedrock/pokemon/animations/{dex_number}_{sanitized_pokemon_name_lower.lower()}/{sanitized_pokemon_name_lower.lower()}.animation.json"
 
@@ -119,15 +122,22 @@ def main(print_missing_models=False, print_missing_animations=False):
                     invalid_animation_files.append(("Invalid JSON in ", animation_file_path.replace(
                         '../common/src/main/resources/assets/cobblemon/bedrock/pokemon/animations/', "")))
 
-
+        # Check the condition
+        if this_pokemon_in_game == "✔" and this_cry_on_repo == "✔" and cry_status != "✔":
+            pokemon_ready_to_be_added_list.append(pokemon_name)
 
     # Check if lists are empty
-    if not other_warnings and not false_positives and not false_negatives and not invalid_model_files and not invalid_animation_files:
+    if not other_warnings and not false_positives and not false_negatives and not invalid_model_files and not invalid_animation_files and not pokemon_ready_to_be_added_list:
         print("No issues found. All cries are in order! ♪♫")
     else:
+        # Print out pokemon cries ready to be added to the game
+        if pokemon_ready_to_be_added_list:
+            print("\nPokemon that have cries ready to be added to the game:")
+            print_list_filtered(pokemon_ready_to_be_added_list)
+
         # Print out the lists of false positives and negatives
         if false_positives:
-            print("False positives (cry marked as done but no audio file found):")
+            print("\nFalse positives (cry marked as done but no audio file found):")
             print_list_filtered(false_positives)
 
         if false_negatives:
@@ -143,7 +153,8 @@ def main(print_missing_models=False, print_missing_animations=False):
 
         # Print out the lists of invalid Model.kt and animation.json files
         if invalid_model_files:
-            print("\nInvalid Model.kt files: [Located in common/src/main/kotlin/com/cobblemon/mod/common/client/render/models/blockbench/pokemon/]")
+            print(
+                "\nInvalid Model.kt files: [Located in common/src/main/kotlin/com/cobblemon/mod/common/client/render/models/blockbench/pokemon/]")
             if print_missing_models:
                 print_problems_and_paths(invalid_model_files)
             else:
@@ -184,3 +195,5 @@ def check_sound_effects(animation_data, sanitized_pokemon_name_lower, animation_
 
 if (__name__ == "__main__"):
     main()
+
+input()

@@ -199,6 +199,11 @@
 						}
 					}
 				}
+			},
+			"sound_effects": {
+				"0.2083": {
+					"effect": "pokemon.cubone.cry"
+				}
 			}
 		}
 	}

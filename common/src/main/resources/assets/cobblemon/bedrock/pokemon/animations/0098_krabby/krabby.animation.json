@@ -478,6 +478,14 @@
 					}
 				}
 			}
+		},
+		"animation.krabby.cry": {
+			"animation_length": 0.625,
+			"sound_effects": {
+				"0.0417": {
+					"effect": "pokemon.krabby.cry"
+				}
+			}
 		}
 	}
 }

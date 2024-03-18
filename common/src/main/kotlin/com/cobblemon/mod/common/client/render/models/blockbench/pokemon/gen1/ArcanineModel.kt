@@ -9,6 +9,7 @@
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1
 
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.QuadrupedWalkAnimation
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.QuadrupedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
@@ -35,6 +36,8 @@ class ArcanineModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quad
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
+
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("arcanine", "cry") }
 
     override fun registerPoses() {
         standing = registerPose(
