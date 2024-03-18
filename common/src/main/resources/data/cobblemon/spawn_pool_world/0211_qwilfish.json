@@ -27,7 +27,7 @@
             "pokemon": "qwilfish",
             "presets": [
                 "underwater",
-                "ocean monument"
+                "ocean_monument"
             ],
             "type": "pokemon",
             "context": "submerged",
