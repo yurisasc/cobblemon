@@ -25,11 +25,11 @@ class GabiteModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedF
     override val rightLeg = getPart("leg_right")
     override val leftLeg = getPart("leg_left")
 
-    override val portraitScale = 3.0F
-    override val portraitTranslation = Vec3d(-0.7, 0.6, 0.0)
+    override var portraitScale = 3.0F
+    override var portraitTranslation = Vec3d(-0.7, 0.6, 0.0)
 
-    override val profileScale = 0.8F
-    override val profileTranslation = Vec3d(0.0, 0.55, 0.0)
+    override var profileScale = 0.8F
+    override var profileTranslation = Vec3d(0.0, 0.55, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose

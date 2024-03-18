@@ -24,11 +24,11 @@ class TyrogueModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("tyrogue")
     override val head = getPart("head")
 
-    override val portraitScale = 2.56F
-    override val portraitTranslation = Vec3d(-0.24, 0.1, 0.0)
+    override var portraitScale = 2.56F
+    override var portraitTranslation = Vec3d(-0.24, 0.1, 0.0)
 
-    override val profileScale = 0.73F
-    override val profileTranslation = Vec3d(-0.03, 0.7, 0.0)
+    override var profileScale = 0.73F
+    override var profileTranslation = Vec3d(-0.03, 0.7, 0.0)
 
     lateinit var sleep: PokemonPose
     lateinit var standing: PokemonPose

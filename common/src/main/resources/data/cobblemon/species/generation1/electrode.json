@@ -1,4 +1,4 @@
-﻿{
+{
   "implemented": true,
   "name": "Electrode",
   "nationalPokedexNumber": 101,
@@ -126,7 +126,7 @@
       ],
       "height": 12,
       "weight": 710,
-      "preEvolution": "voltorb form=hisui",
+      "preEvolution": "voltorb hisuian",
       "cannotDynamax": false,
       "battleOnly": false
     }

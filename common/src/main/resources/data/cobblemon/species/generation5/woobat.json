@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Woobat",
   "nationalPokedexNumber": 527,
   "primaryType": "psychic",
@@ -180,8 +181,8 @@
   ],
   "baseScale": 1,
   "hitbox": {
-    "width": 1,
-    "height": 1,
+    "width": 0.75,
+    "height": 0.88,
     "fixed": false
   },
   "baseFriendship": 50,

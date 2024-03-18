@@ -12,33 +12,13 @@
   },
   "parent": "cobblemon:obtain_tumblestone",
   "criteria": {
-    "plant_tumblestone": {
-      "trigger": "minecraft:item_used_on_block",
-      "conditions": {
-        "location": [
-          {
-            "condition": "minecraft:location_check",
-            "predicate": {
-              "block": {
-                "blocks": [
-                  "minecraft:dripstone_block"
-                ]
-              }
-            }
-          },
-          {
-            "condition": "minecraft:match_tool",
-            "predicate": {
-              "tag": "cobblemon:tumblestones"
-            }
-          }
-        ]
-      }
+    "planted_tumblestone": {
+      "trigger": "cobblemon:plant_tumblestone"
     }
   },
   "requirements": [
     [
-      "plant_tumblestone"
+      "planted_tumblestone"
     ]
   ],
   "sends_telemetry_event": false

@@ -20,11 +20,11 @@ class LuvdiscModel (root: ModelPart) : PokemonPoseableModel() {
     override val rootPart = root.registerChildWithAllChildren("luvdisc")
 
 
-    override val portraitScale = 6.0F
-    override val portraitTranslation = Vec3d(0.15, -6.5, 0.0)
+    override var portraitScale = 6.0F
+    override var portraitTranslation = Vec3d(0.15, -6.5, 0.0)
 
-    override val profileScale = 2.0F
-    override val profileTranslation = Vec3d(0.0, -1.3, 0.0)
+    override var profileScale = 2.0F
+    override var profileTranslation = Vec3d(0.0, -1.3, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var sleep: PokemonPose

@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Sliggoo",
   "nationalPokedexNumber": 705,
   "primaryType": "dragon",
@@ -112,12 +113,12 @@
       ],
       "height": 7,
       "weight": 685,
-      "preEvolution": "goomy",
+      "preEvolution": "goomy hisuian",
       "evolutions": [
         {
           "id": "sliggoo_goodra",
           "variant": "level_up",
-          "result": "goodra form=hisui",
+          "result": "goodra hisuian",
           "consumeHeldItem": false,
           "learnableMoves": [
             "irontail"
@@ -232,8 +233,8 @@
   ],
   "baseScale": 1,
   "hitbox": {
-    "width": 1,
-    "height": 1,
+    "width": 1.1,
+    "height": 1.65,
     "fixed": false
   },
   "baseFriendship": 35,

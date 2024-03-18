@@ -27,11 +27,11 @@ class AmbipomModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bipe
     override val leftLeg = getPart("left_upper_leg")
     override val rightLeg = getPart("right_upper_leg")
 
-    override val portraitScale = 1.8F
-    override val portraitTranslation = Vec3d(-0.45, 1.15, 0.0)
+    override var portraitScale = 1.8F
+    override var portraitTranslation = Vec3d(-0.45, 1.15, 0.0)
 
-    override val profileScale = 0.65F
-    override val profileTranslation = Vec3d(0.0, 0.85, 0.0)
+    override var profileScale = 0.65F
+    override var profileTranslation = Vec3d(0.0, 0.85, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walking: PokemonPose

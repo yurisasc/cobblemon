@@ -33,10 +33,10 @@ class PidgeotModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Biped
     override val head = getPart("neck")
     private val tail = getPart("tail")
 
-    override val portraitScale = 2.2F
-    override val portraitTranslation = Vec3d(-0.6, 0.15, 0.0)
-    override val profileScale = 0.9F
-    override val profileTranslation = Vec3d(0.0, 0.4, 0.0)
+    override var portraitScale = 2.2F
+    override var portraitTranslation = Vec3d(-0.6, 0.15, 0.0)
+    override var profileScale = 0.9F
+    override var profileTranslation = Vec3d(0.0, 0.4, 0.0)
 
     lateinit var sleep: PokemonPose
     lateinit var stand: PokemonPose

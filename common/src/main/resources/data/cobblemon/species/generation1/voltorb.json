@@ -128,7 +128,7 @@
         {
           "id": "voltorb_electrode",
           "variant": "item_interact",
-          "result": "electrode form=hisui",
+          "result": "electrode hisuian",
           "consumeHeldItem": false,
           "learnableMoves": [
             "chloroblast"

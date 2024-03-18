@@ -24,17 +24,27 @@ class DonphanModel (root: ModelPart) : PokemonPoseableModel(), QuadrupedFrame {
     override val hindLeftLeg = getPart("leg_back_left")
     override val hindRightLeg = getPart("leg_back_right")
 
-    override val portraitScale = 1.4F
-    override val portraitTranslation = Vec3d(-0.85, -0.3, 0.0)
+    override var portraitScale = 1.4F
+    override var portraitTranslation = Vec3d(-0.85, -0.3, 0.0)
 
-    override val profileScale = 0.6F
-    override val profileTranslation = Vec3d(-0.1, 0.73, 0.0)
+    override var profileScale = 0.6F
+    override var profileTranslation = Vec3d(-0.1, 0.73, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
+    lateinit var sleep: PokemonPose
+    lateinit var battle_idle: PokemonPose
 
     override fun registerPoses() {
         val blink = quirk { bedrockStateful("donphan", "blink") }
+
+        sleep = registerPose(
+            poseName = "sleep",
+            poseType = PoseType.SLEEP,
+            idleAnimations = arrayOf(
+                bedrock("donphan", "sleep")
+            )
+        )
 
         standing = registerPose(
             poseName = "standing",
@@ -50,8 +60,16 @@ class DonphanModel (root: ModelPart) : PokemonPoseableModel(), QuadrupedFrame {
             poseTypes = PoseType.MOVING_POSES,
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
-                QuadrupedWalkAnimation(this, periodMultiplier = 1.1F),
                 bedrock("donphan", "ground_idle")
+            )
+        )
+
+        battle_idle = registerPose(
+            poseName = "battle_idle",
+            poseTypes = PoseType.STATIONARY_POSES,
+            condition = { it.isBattling },
+            idleAnimations = arrayOf(
+                bedrock("donphan", "battle_idle")
             )
         )
     }

@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Larvesta",
   "nationalPokedexNumber": 636,
   "primaryType": "bug",
@@ -156,8 +157,8 @@
   ],
   "baseScale": 1,
   "hitbox": {
-    "width": 1,
-    "height": 1,
+    "width": 1.2,
+    "height": 0.85,
     "fixed": false
   },
   "baseFriendship": 50,
