@@ -23,7 +23,10 @@ class DragInstruction(val instructionSet: InstructionSet, val battleActor: Battl
         battle.dispatchInsert {
             val (pnx, pokemonID) = publicMessage.pnxAndUuid(0)!!
             val (_, activePokemon) = battle.getActorAndActiveSlotFromPNX(pnx)
-            val pokemon = battle.getBattlePokemon(pnx, pokemonID)
+
+            val optionalID = publicMessage.optionalArgument("is")
+            val pokemon = battle.getBattlePokemon(pnx, optionalID ?: pokemonID)
+            val illusion = optionalID?.let { battle.getBattlePokemon(pnx, pokemonID) }
 
             battle.broadcastChatMessage(battleLang("dragged_out", pokemon.getName()))
             activePokemon.battlePokemon?.let { oldPokemon ->
@@ -36,9 +39,9 @@ class DragInstruction(val instructionSet: InstructionSet, val battleActor: Battl
             setOf(
                     BattleDispatch {
                         if (entity != null) {
-                            SwitchInstruction.createEntitySwitch(battle, battleActor, entity, pnx, activePokemon, pokemon)
+                            SwitchInstruction.createEntitySwitch(battle, battleActor, entity, pnx, activePokemon, pokemon, illusion)
                         } else {
-                            SwitchInstruction.createNonEntitySwitch(battle, battleActor, pnx, activePokemon, pokemon)
+                            SwitchInstruction.createNonEntitySwitch(battle, battleActor, pnx, activePokemon, pokemon, illusion)
                         }
                     }
             )

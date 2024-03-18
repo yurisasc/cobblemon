@@ -13,7 +13,6 @@ import com.cobblemon.mod.common.api.pokeball.PokeBalls
 import com.cobblemon.mod.common.api.pokemon.PokemonSpecies
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
-import com.cobblemon.mod.common.pokeball.PokeBall
 import com.cobblemon.mod.common.pokemon.FormData
 import com.cobblemon.mod.common.pokemon.Species
 import com.cobblemon.mod.common.util.cobblemonResource
@@ -47,7 +46,7 @@ class SpawnPokemonPacket(
     constructor(entity: PokemonEntity, vanillaSpawnPacket: EntitySpawnS2CPacket) : this(
         entity.ownerUuid,
         entity.pokemon.scaleModifier,
-        entity.pokemon.species,
+        entity.exposedSpecies,
         entity.pokemon.form,
         entity.pokemon.aspects,
         entity.battleId,

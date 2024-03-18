@@ -64,7 +64,7 @@ class BattleInitializePacket() : NetworkPacket<BattleInitializePacket> {
                         showdownId = actor.showdownId,
                         displayName = actor.getName(),
                         activePokemon = actor.activePokemon.map { it.battlePokemon?.let {
-                            pkm -> ActiveBattlePokemonDTO.fromPokemon(pkm, allySide == side)
+                            pkm -> ActiveBattlePokemonDTO.fromPokemon(pkm, allySide == side, illusion = it.illusion)
                         } },
                         type = actor.type
                     )
@@ -156,18 +156,19 @@ class BattleInitializePacket() : NetworkPacket<BattleInitializePacket> {
         val statChanges: MutableMap<Stat, Int>
     ) {
         companion object {
-            fun fromPokemon(battlePokemon: BattlePokemon, isAlly: Boolean): ActiveBattlePokemonDTO {
+            fun fromPokemon(battlePokemon: BattlePokemon, isAlly: Boolean, illusion: BattlePokemon?): ActiveBattlePokemonDTO {
                 val pokemon = battlePokemon.effectedPokemon
+                val disguise = if (isAlly) pokemon else illusion?.effectedPokemon ?: pokemon
                 val hpValue = if (isAlly) pokemon.currentHealth.toFloat() else pokemon.currentHealth.toFloat() / pokemon.hp
                 return ActiveBattlePokemonDTO(
-                    uuid = pokemon.uuid,
-                    displayName = pokemon.getDisplayName(),
-                    properties = pokemon.createPokemonProperties(
+                    uuid = disguise.uuid,
+                    displayName = disguise.getDisplayName(),
+                    properties = disguise.createPokemonProperties(
                         PokemonPropertyExtractor.SPECIES,
                         PokemonPropertyExtractor.LEVEL,
                         PokemonPropertyExtractor.GENDER
                     ),
-                    aspects = pokemon.aspects,
+                    aspects = disguise.aspects,
                     status = pokemon.status?.status,
                     hpValue = hpValue,
                     maxHp = pokemon.hp.toFloat(),

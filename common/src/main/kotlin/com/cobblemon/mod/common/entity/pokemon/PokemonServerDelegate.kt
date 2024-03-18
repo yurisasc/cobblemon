@@ -10,6 +10,7 @@ package com.cobblemon.mod.common.entity.pokemon
 
 import com.cobblemon.mod.common.CobblemonSounds
 import com.cobblemon.mod.common.api.entity.PokemonSideDelegate
+import com.cobblemon.mod.common.api.pokemon.PokemonProperties
 import com.cobblemon.mod.common.api.pokemon.stats.Stats
 import com.cobblemon.mod.common.api.pokemon.status.Statuses
 import com.cobblemon.mod.common.battles.BattleRegistry
@@ -35,6 +36,10 @@ import net.minecraft.text.Text
 class PokemonServerDelegate : PokemonSideDelegate {
     lateinit var entity: PokemonEntity
     var acknowledgedHPStat = -1
+
+    /** Mocked properties exposed to the client [PokemonEntity]. */
+    private val mock: PokemonProperties?
+        get() = entity.effects.mockEffect?.mock
 
     override fun changePokemon(pokemon: Pokemon) {
         updatePathfindingPenalties(pokemon)
@@ -155,11 +160,15 @@ class PokemonServerDelegate : PokemonSideDelegate {
             entity.remove(Entity.RemovalReason.DISCARDED)
         }
 
-        entity.dataTracker.set(PokemonEntity.SPECIES, entity.pokemon.species.resourceIdentifier.toString())
-        if (entity.dataTracker.get(PokemonEntity.NICKNAME) != entity.pokemon.nickname) {
-            entity.dataTracker.set(PokemonEntity.NICKNAME, entity.pokemon.nickname ?: Text.empty())
+        val trackedSpecies = mock?.species ?: entity.pokemon.species.resourceIdentifier.toString()
+        val trackedNickname =  mock?.nickname ?: entity.pokemon.nickname ?: Text.empty()
+        val trackedAspects = mock?.aspects ?: entity.pokemon.aspects
+
+        entity.dataTracker.set(PokemonEntity.SPECIES, trackedSpecies)
+        if (entity.dataTracker.get(PokemonEntity.NICKNAME) != trackedNickname) {
+            entity.dataTracker.set(PokemonEntity.NICKNAME, trackedNickname)
         }
-        entity.dataTracker.set(PokemonEntity.ASPECTS, entity.pokemon.aspects)
+        entity.dataTracker.set(PokemonEntity.ASPECTS, trackedAspects)
         entity.dataTracker.set(PokemonEntity.LABEL_LEVEL, entity.pokemon.level)
         entity.dataTracker.set(PokemonEntity.MOVING, !entity.navigation.isIdle)
 
@@ -195,6 +204,16 @@ class PokemonServerDelegate : PokemonSideDelegate {
     }
 
     override fun updatePostDeath() {
+        // clear active effects before proceeding
+        if (entity.deathTime == 0) {
+            entity.effects.wipe()
+            entity.deathTime = 1
+            return
+        }
+        else if (entity.effects.progress?.isDone == false) {
+            return
+        }
+
         entity.dataTracker.set(PokemonEntity.DYING_EFFECTS_STARTED, true)
         ++entity.deathTime
 

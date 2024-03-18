@@ -38,6 +38,14 @@ open class BattlePokemon(
             effectedPokemon = pokemon.clone(),
             postBattleEntityOperation = { entity -> entity.discard() }
         )
+
+        fun playerOwned(pokemon: Pokemon): BattlePokemon = BattlePokemon(
+            originalPokemon = pokemon,
+            effectedPokemon = pokemon,
+            postBattleEntityOperation = { entity ->
+                entity.effects.wipe()
+            }
+        )
     }
 
     val uuid: UUID

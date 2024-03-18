@@ -50,6 +50,7 @@ import com.cobblemon.mod.common.api.types.ElementalType
 import com.cobblemon.mod.common.api.types.ElementalTypes
 import com.cobblemon.mod.common.config.CobblemonConfig
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
+import com.cobblemon.mod.common.entity.pokemon.effects.IllusionEffect
 import com.cobblemon.mod.common.net.messages.client.PokemonUpdatePacket
 import com.cobblemon.mod.common.net.messages.client.pokemon.update.*
 import com.cobblemon.mod.common.net.serverhandling.storage.SendOutPokemonHandler.SEND_OUT_DURATION
@@ -451,10 +452,11 @@ open class Pokemon : ShowdownIdentifiable {
         return this.form.showdownId()
     }
 
-    fun sendOut(level: ServerWorld, position: Vec3d, mutation: (PokemonEntity) -> Unit = {}): PokemonEntity? {
+    fun sendOut(level: ServerWorld, position: Vec3d, illusion: IllusionEffect?, mutation: (PokemonEntity) -> Unit = {}): PokemonEntity? {
         CobblemonEvents.POKEMON_SENT_PRE.postThen(PokemonSentPreEvent(this, level, position)) {
             SeasonFeatureHandler.updateSeason(this, level, position.toBlockPos())
             val entity = PokemonEntity(level, this)
+            illusion?.start(entity)
             entity.setPositionSafely(position)
             mutation(entity)
             level.spawnEntity(entity)
@@ -470,16 +472,17 @@ open class Pokemon : ShowdownIdentifiable {
         position: Vec3d,
         battleId: UUID? = null,
         doCry: Boolean = true,
+        illusion: IllusionEffect? = null,
         mutation: (PokemonEntity) -> Unit = {},
     ): CompletableFuture<PokemonEntity> {
         // Handle special case of shouldered Cobblemon
         if (this.state is ShoulderedState) {
-            return sendOutFromShoulder(source as ServerPlayerEntity, level, position, battleId, doCry, mutation)
+            return sendOutFromShoulder(source as ServerPlayerEntity, level, position, battleId, doCry, illusion, mutation)
         }
 
         // Proceed as normal for non-shouldered Cobblemon
         val future = CompletableFuture<PokemonEntity>()
-        sendOut(level, position) {
+        sendOut(level, position, illusion) {
             getOwnerPlayer()?.let{
                 it.swingHand(Hand.MAIN_HAND, true)
                 level.playSoundServer(it.pos, CobblemonSounds.POKE_BALL_THROW, volume = 0.6F)
@@ -512,6 +515,7 @@ open class Pokemon : ShowdownIdentifiable {
         targetPosition: Vec3d,
         battleId: UUID? = null,
         doCry: Boolean = true,
+        illusion: IllusionEffect? = null,
         mutation: (PokemonEntity) -> Unit = {}
     ): CompletableFuture<PokemonEntity> {
         val future = CompletableFuture<PokemonEntity>()
@@ -526,7 +530,7 @@ open class Pokemon : ShowdownIdentifiable {
         val rotatedOffset = Vec3d(shoulderHorizontalOffset, approxShoulderMonHight, 0.0).rotateY(-rotation * (Math.PI.toFloat() / 180f))
         val currentPosition = player.pos.add(rotatedOffset)
 
-        sendOut(level, currentPosition) {
+        sendOut(level, currentPosition, illusion) {
             // Play some sound indicating hopping off
             level.playSoundServer(currentPosition, CobblemonSounds.PC_DROP, volume = 0.6F)
 
