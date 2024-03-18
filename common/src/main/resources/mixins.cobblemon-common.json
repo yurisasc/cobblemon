@@ -19,6 +19,7 @@
     "pokeball.ItemRendererMixin"
   ],
   "mixins": [
+    "BeeHiveTreeDecoratorMixin",
     "CrashReportMixin",
     "DecoratedPotPatternsMixin",
     "EntityVillagerMixin",
@@ -30,9 +31,11 @@
     "PlayerMixin",
     "PointedDripstoneBlockMixin",
     "ShearsDispenserBehaviorMixin",
+    "SpawnRestrictionMixin",
     "StructurePoolAccessor",
     "StructurePoolGeneratorMixin",
     "StructureProcessorListMixin",
+    "SculkShriekerBlockEntityMixin",
     "accessor.AccessorEntity",
     "accessor.BoatEntityAccessor",
     "accessor.StatusEffectInstanceAccessor",
@@ -44,7 +47,12 @@
     "invoker.PressurePlateBlockInvoker",
     "invoker.StairsBlockInvoker",
     "invoker.TrapdoorBlockInvoker",
-    "pokeball.ThrownEntityMixin"
+    "pokeball.ThrownEntityMixin",
+    "structure.EndCityGeneratorMixin",
+    "structure.OceanMonumentGeneratorMixin",
+    "structure.OceanRuinGeneratorMixin",
+    "structure.SwampHutGeneratorMixin",
+    "structure.WoodlandMansionGeneratorMixin"
   ],
   "injectors": {
     "defaultRequire": 1
