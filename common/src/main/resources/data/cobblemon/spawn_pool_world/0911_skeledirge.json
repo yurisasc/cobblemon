@@ -34,7 +34,7 @@
             "weight": 0.1,
             "condition": {
                 "biomes": [
-                    "#cobblemon:is_nether_wasteland"
+                    "#cobblemon:nether/is_wasteland"
                 ]
             }
         }

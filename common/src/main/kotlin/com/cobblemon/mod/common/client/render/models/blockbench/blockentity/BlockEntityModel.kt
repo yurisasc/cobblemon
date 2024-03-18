@@ -32,11 +32,11 @@ class BlockEntityModel(val root: Bone) : PoseableEntityModel<Entity>() {
         )
 
         closedPose.transitions[openPose.poseName] = { _, _ ->
-            bedrockStateful("gilded_chest", "opening").andThen { _, state -> state.setPose(openPose.poseName) }
+            bedrockStateful("gilded_chest", "opening")
         }
 
         openPose.transitions[closedPose.poseName] = { _, _ ->
-            bedrockStateful("gilded_chest", "closing").andThen { _, state -> state.setPose(closedPose.poseName) }
+            bedrockStateful("gilded_chest", "closing")
         }
     }
 

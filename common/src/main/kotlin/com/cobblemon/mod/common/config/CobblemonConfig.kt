@@ -222,4 +222,7 @@ class CobblemonConfig {
 
     @NodeCategory(Category.Battles)
     var walkingInBattleAnimations = false
+
+    @NodeCategory(Category.Debug)
+    var enableDebugKeys = false
 }

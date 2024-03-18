@@ -26,7 +26,7 @@
                 },
                 {
                     "type": "minecraft:item",
-                    "name": "cobblemon:fish_fossil",
+                    "name": "cobblemon:fossilized_fish",
                     "weight": 1
                 },
                 {
@@ -41,7 +41,7 @@
                 },
                 {
                     "type": "minecraft:item",
-                    "name": "cobblemon:dino_fossil",
+                    "name": "cobblemon:fossilized_dino",
                     "weight": 1
                 }
             ],

@@ -17,9 +17,9 @@ from scriptutils import printCobblemonHeader, print_cobblemon_script_footer, pri
 
 # Define what kind of pokémon should be included, if nothing is specified (empty array), all will be included.
 # filter by number ranges (dex range)
-pokemon_numbers = range(0, 2000)
-# filter by type
-included_types = ['basic', 'boss']
+pokemon_numbers = range(100, 700)
+# filter by group
+included_groups = ['basic', 'boss']
 # filter by context
 known_contexts = ['grounded', 'submerged', 'seafloor', 'lavafloor', 'surface']
 # filter by bucket ['common', 'uncommon', 'rare', 'ultra-rare']
@@ -28,22 +28,20 @@ bucket_mapping = ['common', 'uncommon', 'rare', 'ultra-rare']
 included_generations = []
 
 # exclude the following forms - make them spawn, but don't put these tags in the name.
-excluded_forms = ['[Nether]', '[Quartz]']
+excluded_forms = []
 # Biome mapping, used to convert the Biome column to the format used in the spawn json
 biome_mapping = {
-    'abyss': '#cobblemon:is_abyss',
     'arid': '#cobblemon:is_arid',
     'badlands': '#cobblemon:is_badlands',
     'bamboo': '#cobblemon:is_bamboo',
     'beach': '#cobblemon:is_beach',
     'bumblezone': '#the_bumblezone:the_bumblezone',
-    'cherry grove': 'minecraft:cherry_grove',
+    'cherry blossom': '#cobblemon:is_cherry_blossom',
     'coast': '#cobblemon:is_coast',
     'cold': '#cobblemon:is_cold',
     'cold ocean': '#cobblemon:is_cold_ocean',
-    'crag': '#cobblemon:is_crag',
     'crystal canyon': 'the_bumblezone:crystal_canyon',
-    'deep': '#cobblemon:is_deep',
+    'crystalline chasm': 'biomesoplenty:crystalline_chasm',
     'deep dark': '#cobblemon:is_deep_dark',
     'deep ocean': '#cobblemon:is_deep_ocean',
     'desert': '#cobblemon:is_desert',
@@ -54,111 +52,122 @@ biome_mapping = {
     'floral meadow': 'the_bumblezone:floral_meadow',
     'forest': '#cobblemon:is_forest',
     'freezing': '#cobblemon:is_freezing',
-    'frigid': '#cobblemon:is_frigid',
-    'frozen': '#cobblemon:is_frozen',
     'frozen ocean': '#cobblemon:is_frozen_ocean',
     'glacial': '#cobblemon:is_glacial',
     'grassland': '#cobblemon:is_grassland',
     'highlands': '#cobblemon:is_highlands',
     'hills': '#cobblemon:is_hills',
     'howling constructs': 'the_bumblezone:howling_constructs',
-    'infested caves': 'terralith:cave/infested_caves',
+    'island': '#cobblemon:is_island',
     'jungle': '#cobblemon:is_jungle',
     'lukewarm ocean': '#cobblemon:is_lukewarm_ocean',
     'lush': '#cobblemon:is_lush',
     'magical': '#cobblemon:is_magical',
     'mangrove swamp': 'minecraft:mangrove_swamp',
     'mountain': '#cobblemon:is_mountain',
+    'muddy': '#cobblemon:has_block/mud',
     'mushroom': '#cobblemon:is_mushroom',
     'mushroom fields': 'minecraft:mushroom_fields',
     'nether': '#minecraft:is_nether',
-    'nether basalt': '#cobblemon:is_nether_basalt',
-    'nether crimson': '#cobblemon:is_nether_crimson',
-    'nether desert': '#cobblemon:is_nether_desert',
-    'nether forest': '#cobblemon:is_nether_forest',
-    'nether frozen': '#cobblemon:is_nether_frozen',
-    'nether fungus': '#cobblemon:is_nether_fungus',
-    'nether mountain': '#cobblemon:is_nether_mountain',
-    'nether overgrowth': '#cobblemon:is_nether_overgrowth',
-    'nether quartz': '#cobblemon:is_nether_quartz',
-    'nether soul fire': '#cobblemon:is_nether_soul_fire',
-    'nether soul sand': '#cobblemon:is_nether_soul_sand',
-    'nether toxic': '#cobblemon:is_nether_toxic',
-    'nether warped': '#cobblemon:is_nether_warped',
-    'nether wasteland': '#cobblemon:is_nether_wasteland',
+    'nether basalt': '#cobblemon:nether/is_basalt',
+    'nether crimson': '#cobblemon:nether/is_crimson',
+    'nether desert': '#cobblemon:nether/is_desert',
+    'nether forest': '#cobblemon:nether/is_forest',
+    'nether frozen': '#cobblemon:nether/is_frozen',
+    'nether fungus': '#cobblemon:nether/is_fungus',
+    'nether mountain': '#cobblemon:nether/is_mountain',
+    'nether overgrowth': '#cobblemon:nether/is_overgrowth',
+    'nether quartz': '#cobblemon:nether/is_quartz',
+    'nether soul fire': '#cobblemon:nether/is_soul_fire',
+    'nether soul sand': '#cobblemon:nether/is_soul_sand',
+    'nether toxic': '#cobblemon:nether/is_toxic',
+    'nether warped': '#cobblemon:nether/is_warped',
+    'nether wasteland': '#cobblemon:nether/is_wasteland',
     'ocean': '#cobblemon:is_ocean',
     'overworld': '#cobblemon:is_overworld',
     'peak': '#cobblemon:is_peak',
     'plains': '#cobblemon:is_plains',
     'plateau': '#cobblemon:is_plateau',
     'pollinated fields': 'the_bumblezone:pollinated_fields',
-    'reef': '#cobblemon:is_reef',
-    'salt': '#cobblemon:is_salt',
     'sandy': '#cobblemon:is_sandy',
     'savanna': '#cobblemon:is_savanna',
+    'shrubland': '#cobblemon:is_shrubland',
     'sky': '#cobblemon:is_sky',
     'skylands autumn': 'terralith:skylands_autumn',
     'skylands spring': 'terralith:skylands_spring',
     'skylands summer': 'terralith:skylands_summer',
     'skylands winter': 'terralith:skylands_winter',
     'snowy': '#cobblemon:is_snowy',
+    'snowy beach': 'minecraft:snowy_beach',
     'snowy forest': '#cobblemon:is_snowy_forest',
+    'snowy taiga': '#cobblemon:is_snowy_taiga',
     'spooky': '#cobblemon:is_spooky',
     'sunflower plains': 'minecraft:sunflower_plains',
     'swamp': '#cobblemon:is_swamp',
     'taiga': '#cobblemon:is_taiga',
     'temperate': '#cobblemon:is_temperate',
+    'temperate ocean': '#cobblemon:is_temperate_ocean',
     'thermal': '#cobblemon:is_thermal',
     'tropical island': '#cobblemon:is_tropical_island',
     'tundra': '#cobblemon:is_tundra',
-    'void': '#cobblemon:is_void',
     'volcanic': '#cobblemon:is_volcanic',
     'warm ocean': '#cobblemon:is_warm_ocean',
     'warped desert': 'byg:warped_desert'
 }
 # List of ignored biome identifiers
-ignored_biomes = ['freshwater']
+ignored_biomes = ['freshwater', 'preset', 'river']
 # List of all currently known presets
 preset_list = [
     'ancient_city',
+    'apricorns',
+    'blue_flowers',
     'derelict',
     'desert_pyramid',
     'end_city',
     'flowers',
     'foliage',
     'freshwater',
-    'gemstone',
+    'gemstones',
     'illager_structures',
     'jungle_pyramid',
     'lava_surface',
+    'mansion',
     'natural',
     'nether_fossil',
     'nether_structures',
     'ocean_monument',
     'ocean_ruins',
+    'orange_flowers',
     'pillager_outpost',
+    'pink_flowers',
+    'red_flowers',
     'redstone',
     'river',
     'ruined_portal',
+    'ruins',
+    'salt',
     'shipwreck',
     'stronghold',
     'trail_ruins',
+    'trash',
     'treetop',
     'underlava',
     'underwater',
     'urban',
     'village',
     'water_surface',
+    'webs',
+    'white_flowers',
     'wild',
-    'woodland_mansion'
+    'yellow_flowers'
 ]
 
 # Initialize lists for the report
-unknown_requirements = []
+unknown_conditions = []
 unknown_weight_multiplier_identifiers = []
 
-def main(only_update_existing_files=True, ignore_filters=False):
 
+def main(only_update_existing_files=False, ignore_filters=False):
     printCobblemonHeader()
 
     scriptName = "♥ Cobblemon Spawn CSV to JSON Script ♥"
@@ -217,9 +226,9 @@ def print_report():
     if unknown_weight_multiplier_identifiers:
         print_warning("The following weight multiplier identifiers are unknown:")
         print_list_filtered(unknown_weight_multiplier_identifiers)
-    if unknown_requirements:
-        print_warning("The following requirements are unknown:")
-        print_list_filtered(unknown_requirements)
+    if unknown_conditions:
+        print_warning("The following conditions are unknown:")
+        print_list_filtered(unknown_conditions)
 
 
 def validateAndFilterData(csv_df, only_update_existing_files=False, ignore_filters=False):
@@ -235,9 +244,9 @@ def validateAndFilterData(csv_df, only_update_existing_files=False, ignore_filte
         # Filter by pokemon number
         if pokemon_numbers:
             csv_df = csv_df[csv_df['No.'].isin(list(pokemon_numbers))]
-        # Filter by type
-        if included_types:
-            csv_df = csv_df[csv_df['Type'].isin(included_types)]
+        # Filter by group
+        if included_groups:
+            csv_df = csv_df[csv_df['Group'].isin(included_groups)]
         # Filter by context
         if known_contexts:
             csv_df = csv_df[csv_df['Context'].isin(known_contexts)]
@@ -271,8 +280,8 @@ def transform_pokemon_to_json(pokemon_rows, invalid_biome_tags):
                 "pokemon": currentPokemon,
             }
             # Conditional fields
-            if pd.notna(row['Preset']):
-                spawn_data['presets'] = [preset.strip().lower() for preset in row['Preset'].split(',')]
+            if pd.notna(row['Presets']):
+                spawn_data['presets'] = [preset.strip().lower() for preset in row['Presets'].split(',')]
 
             more_spawn_data = {
                 "type": "pokemon",
@@ -285,11 +294,11 @@ def transform_pokemon_to_json(pokemon_rows, invalid_biome_tags):
 
             # Weight Multipliers field
             weight_multipliers = []
-            if pd.notna(row['Multiplier']):
+            if pd.notna(row['Multipliers']):
                 # split weight multipliers row by comma, then split each string by "x" and add it to the weight_multipliers dictionary
-                for string in str(row['Multiplier']).split(','):
+                for string in str(row['Multipliers']).split(','):
                     string = string.strip()
-                    if not string: # skip empty strings
+                    if not string:  # skip empty strings
                         continue
                     items = string.split('x')
                     identifier = items[0].strip()
@@ -297,6 +306,8 @@ def transform_pokemon_to_json(pokemon_rows, invalid_biome_tags):
                     # check if the identifier is a weather condition or night, and add it to the weight_multipliers dictionary
                     condition = {}
                     match identifier:
+                        case "Rain":
+                            condition["isRaining"] = True
                         case "Storm":
                             condition["isThundering"] = True
                         case "Night":
@@ -307,6 +318,12 @@ def transform_pokemon_to_json(pokemon_rows, invalid_biome_tags):
                             condition["timeRange"] = "twilight"
                         case "Beehive":
                             condition["neededNearbyBlocks"] = ["#minecraft:beehives"]
+                        case "Full Moon":
+                            condition["moonPhase"] = "1"
+                        case "New Moon":
+                            condition["moonPhase"] = "5"
+                        case "Shipwreck":
+                            condition["structures"] = ["#minecraft:shipwreck"]
                         case _:
                             unknown_weight_multiplier_identifiers.append(f"'{identifier}' ({currentID})")
                     weight_multipliers.append({"multiplier": multiplier, "condition": condition})
@@ -318,13 +335,22 @@ def transform_pokemon_to_json(pokemon_rows, invalid_biome_tags):
             # Condition field
             condition = {}
 
+            # canSeeSky is different from SkyLight, in that it treats leaves and water of any thickness as fully transparent.
             if pd.notna(row['canSeeSky']) and row['canSeeSky'] == 'true':
                 condition['canSeeSky'] = True
             elif row['canSeeSky'] == 'false':
                 condition['canSeeSky'] = False
 
-            if pd.notna(row['Biome']):
-                parsed_biomes = parse_biomes(row['Biome'], invalid_biome_tags)
+            # check if skyLightMin and skyLightMax are not empty, then add them to the condition dictionary
+            if pd.notna(row['skyLightMin']) and pd.notna(row['skyLightMax']):
+                # raise error if skyLightMin is greater than skyLightMax
+                if int(row['skyLightMin']) > int(row['skyLightMax']):
+                    raise ValueError(f"skyLightMin is greater than skyLightMax in {currentID}")
+                condition['minSkyLight'] = f"{int(row['skyLightMin'])}"
+                condition['maxSkyLight'] = f"{int(row['skyLightMax'])}"
+
+            if pd.notna(row['Biomes']):
+                parsed_biomes = parse_biomes(row['Biomes'], invalid_biome_tags)
                 if parsed_biomes:
                     condition['biomes'] = parsed_biomes
 
@@ -342,10 +368,10 @@ def transform_pokemon_to_json(pokemon_rows, invalid_biome_tags):
                 elif row['Weather'].lower() == 'rain':
                     condition['isRaining'] = True
 
-            # Requirements
-            if pd.notna(row['Requirements']):
+            # Conditions
+            if pd.notna(row['Conditions']):
                 # split by "," and then strip each string
-                strings = str(row['Requirements']).split(',')
+                strings = str(row['Conditions']).split(',')
                 for string in strings:
                     s = string.strip()
                     # if the string is "Desert Well" then add structure = "minecraft:desert_well" to the condition dictionary
@@ -396,7 +422,7 @@ def transform_pokemon_to_json(pokemon_rows, invalid_biome_tags):
                     elif string.strip().isdigit():
                         pass
                     else:
-                        unknown_requirements.append(f"'{string}' ({currentID})")
+                        unknown_conditions.append(f"'{string}' ({currentID})")
 
             if condition:
                 spawn_data['condition'] = condition
@@ -404,14 +430,14 @@ def transform_pokemon_to_json(pokemon_rows, invalid_biome_tags):
             # Anticondition field
             anticondition = {}
 
-            if pd.notna(row['Excluded']):
-                parsed_biomes = parse_biomes(row['Excluded'], invalid_biome_tags)
+            if pd.notna(row['Excluded Biomes']):
+                parsed_biomes = parse_biomes(row['Excluded Biomes'], invalid_biome_tags)
                 if parsed_biomes:
                     anticondition['biomes'] = parsed_biomes
 
-            # Check Prohibitions column, and add the values to the anticondition field.
-            if pd.notna(row['Prohibitions']):
-                s = str(row['Prohibitions'])
+            # Check Anticonditions column, and add the values to the anticondition field.
+            if pd.notna(row['Anticonditions']):
+                s = str(row['Anticonditions'])
                 if ":" in s:
                     # split the string by " " and check if the first string is "on"
                     if s.split(' ')[0] == "on":
@@ -427,7 +453,7 @@ def transform_pokemon_to_json(pokemon_rows, invalid_biome_tags):
                         case "Sempiternal Sanctum":
                             anticondition['structures'] = ["#the_bumblezone:sempiternal_sanctums"]
                         case "Village":
-                            anticondition['structures'] = [f"#minecraft:{row['Prohibitions'].lower()}"]
+                            anticondition['structures'] = [f"#minecraft:{row['Anticonditions'].lower()}"]
 
             if anticondition:
                 spawn_data['anticondition'] = anticondition
@@ -552,7 +578,8 @@ def generateName(pokemon_name):
 
 
 def sanitize_pokemon(pokemon):
-    return pokemon.replace("-", "").replace("♂", "m").replace("♀", "f").replace(".", "").replace("'", "").replace(' ', '').lower()
+    return (pokemon.replace("-", "").replace("♂", "m").replace("♀", "f")
+            .replace(".", "").replace("'", "").replace(' ', '').lower())
 
 
 def parse_biomes(biomes_str, invalid_biome_tags):
@@ -560,11 +587,13 @@ def parse_biomes(biomes_str, invalid_biome_tags):
     biomes = []
     for biome in biomes_str.split(','):
         biome = biome.lower().strip()
+
+        # Verify that the biome is not in the invalid_biome_tags list
+        if invalid_biome_tags and biome_mapping[biome] in invalid_biome_tags:
+            raise ValueError(
+                f"Tried to use invalid biome tag: {biome}\nThe wrong tag specified in biome_mapping is: {biome_mapping[biome]}")
+
         if biome in biome_mapping:
-            # Verify that the biome is not in the invalid_biome_tags list
-            if biome_mapping[biome] in invalid_biome_tags:
-                raise ValueError(
-                    f"Tried to use invalid biome tag: {biome}\nThe wrong tag specified in biome_mapping is: {biome_mapping[biome]}")
             biomes.append(biome_mapping[biome])
         elif biome in ignored_biomes:
             pass
@@ -632,8 +661,19 @@ def load_special_drops_data():
 
 
 def verifyBiomeTags():
-    # get the list of all biomes by reading the filenames in common/src/main/resources/data/cobblemon/tags/worldgen/biome/
-    biome_files = os.listdir('../common/src/main/resources/data/cobblemon/tags/worldgen/biome/')
+    # Define the directory path
+    directory_path = '../common/src/main/resources/data/cobblemon/tags/worldgen/biome/'
+    minecraft_biome_directory_path = '../common/src/main/resources/data/minecraft/worldgen/biome/'
+
+    # Check if the biome directories exist and are not empty
+    if not os.path.exists(directory_path) or not os.listdir(directory_path) or not os.path.exists(
+            minecraft_biome_directory_path) or not os.listdir(minecraft_biome_directory_path):
+        print_warning(
+            "BiomeTags are currently not validated outside of a development environment with a completed gradle build.")
+        return []
+
+    # get the list of all biomes by reading the filenames in the directory
+    biome_files = os.listdir(directory_path)
     # remove the .json from the filenames and prepend "#cobblemon:" to the biome name
     biome_files = [f"#cobblemon:{file[:-5]}" for file in biome_files]
     unknown_biomes = []

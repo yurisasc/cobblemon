@@ -100,7 +100,7 @@
     "cobblemon:damp_rock",
     "cobblemon:heat_rock",
     "cobblemon:smooth_rock",
-    "cobblemon:icy_rock"
+    "cobblemon:icy_rock",
     "cobblemon:life_orb",
     "cobblemon:toxic_orb",
     "cobblemon:flame_orb",
@@ -111,11 +111,9 @@
 	"cobblemon:deep_sea_scale",
 	"cobblemon:deep_sea_tooth",
 	"cobblemon:metal_coat",
-	
 	"cobblemon:medicinal_leek",
 	"minecraft:bone",
 	"minecraft:snowball",
-	
 	"#cobblemon:type_gems"
   ]
 }

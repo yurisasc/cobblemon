@@ -29,10 +29,10 @@ class SamurottModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Qua
     val seamitar_right = getPart("seamitar_hand_right")
     val seamitar_left = getPart("seamitar_hand_left")
 
-    override val portraitScale = 2.2F
-    override val portraitTranslation = Vec3d(-1.0, 1.8, 0.0)
-    override val profileScale = 0.6F
-    override val profileTranslation = Vec3d(0.0, 0.8, 0.0)
+    override var portraitScale = 2.2F
+    override var portraitTranslation = Vec3d(-1.0, 1.8, 0.0)
+    override var profileScale = 0.6F
+    override var profileTranslation = Vec3d(0.0, 0.8, 0.0)
 
     lateinit var sleep: PokemonPose
     lateinit var standing: PokemonPose

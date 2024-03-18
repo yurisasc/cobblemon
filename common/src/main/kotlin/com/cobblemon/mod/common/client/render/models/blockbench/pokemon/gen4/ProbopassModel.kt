@@ -22,11 +22,11 @@ import net.minecraft.util.math.Vec3d
 class ProbopassModel(root: ModelPart) : PokemonPoseableModel() {
     override val rootPart = root.registerChildWithAllChildren("probopass")
 
-    override val portraitScale = 1F
-    override val portraitTranslation = Vec3d(0.0, 0.425, 0.0)
+    override var portraitScale = 1F
+    override var portraitTranslation = Vec3d(0.0, 0.425, 0.0)
 
-    override val profileScale = 0.75F
-    override val profileTranslation = Vec3d(0.0, 0.7, 0.0)
+    override var profileScale = 0.75F
+    override var profileTranslation = Vec3d(0.0, 0.7, 0.0)
 
     lateinit var sleep: PokemonPose
     lateinit var standing: PokemonPose

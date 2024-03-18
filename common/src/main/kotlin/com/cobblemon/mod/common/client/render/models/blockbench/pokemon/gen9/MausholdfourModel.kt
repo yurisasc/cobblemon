@@ -22,11 +22,11 @@ class MausholdfourModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame 
     override val rootPart = root.registerChildWithAllChildren("maushold")
     override val head = getPart("head")
 
-    override val portraitScale = 1.0F
-    override val portraitTranslation = Vec3d(0.1, 0.0, 0.0)
+    override var portraitScale = 1.0F
+    override var portraitTranslation = Vec3d(0.1, 0.0, 0.0)
 
-    override val profileScale = 0.8F
-    override val profileTranslation = Vec3d(0.0, 0.4, 0.0)
+    override var profileScale = 0.8F
+    override var profileTranslation = Vec3d(0.0, 0.4, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose

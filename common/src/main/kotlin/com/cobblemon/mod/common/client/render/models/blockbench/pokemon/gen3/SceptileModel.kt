@@ -26,11 +26,11 @@ class SceptileModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
     override val leftLeg = getPart("leg_left")
     override val rightLeg = getPart("leg_right")
 
-    override val portraitScale = 2.8F
-    override val portraitTranslation = Vec3d(-0.3, 1.9, 0.0)
+    override var portraitScale = 2.8F
+    override var portraitTranslation = Vec3d(-0.3, 1.9, 0.0)
 
-    override val profileScale = 0.7F
-    override val profileTranslation = Vec3d(0.0, 0.73, 0.0)
+    override var profileScale = 0.7F
+    override var profileTranslation = Vec3d(0.0, 0.73, 0.0)
 
     lateinit var sleep: PokemonPose
     lateinit var standing: PokemonPose
