@@ -19,6 +19,17 @@
                 "biomes": [
                     "#cobblemon:is_cold_ocean"
                 ]
+            },
+            "anticondition": {
+                "structures": [
+                    "minecraft:ocean_monument"
+                ],
+				"maxY": 62,
+				"neededNearbyBlocks": [
+				"minecraft:dark_prismarine",
+				"minecraft:prismarine",
+				"minecraft:prismarine_bricks"
+				]
             }
         },
         {

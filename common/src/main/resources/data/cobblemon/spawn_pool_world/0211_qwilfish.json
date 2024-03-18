@@ -20,6 +20,17 @@
                     "#cobblemon:is_lukewarm_ocean",
                     "#cobblemon:is_warm_ocean"
                 ]
+            },
+            "anticondition": {
+                "structures": [
+                    "minecraft:ocean_monument"
+                ],
+				"maxY": 62,
+				"neededNearbyBlocks": [
+				"minecraft:dark_prismarine",
+				"minecraft:prismarine",
+				"minecraft:prismarine_bricks"
+				]
             }
         },
         {
@@ -63,6 +74,17 @@
                 "biomes": [
                     "#cobblemon:is_cold_ocean"
                 ]
+            },
+            "anticondition": {
+                "structures": [
+                    "minecraft:ocean_monument"
+                ],
+				"maxY": 62,
+				"neededNearbyBlocks": [
+				"minecraft:dark_prismarine",
+				"minecraft:prismarine",
+				"minecraft:prismarine_bricks"
+				]
             }
         },
         {
