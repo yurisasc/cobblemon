@@ -20,11 +20,11 @@ import net.minecraft.util.math.Vec3d
 class GeodudeModel(root: ModelPart) : PokemonPoseableModel() {
     override val rootPart = root.registerChildWithAllChildren("geodude")
 
-    override val portraitScale = 1.9F
-    override val portraitTranslation = Vec3d(0.0, -1.4, 0.0)
+    override var portraitScale = 1.9F
+    override var portraitTranslation = Vec3d(0.0, -1.4, 0.0)
 
-    override val profileScale = 0.9F
-    override val profileTranslation = Vec3d(-0.05, 0.3, 0.0)
+    override var profileScale = 0.9F
+    override var profileTranslation = Vec3d(-0.05, 0.3, 0.0)
 
     lateinit var sleep: PokemonPose
     lateinit var standing: PokemonPose

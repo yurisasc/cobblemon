@@ -15,6 +15,7 @@ import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonP
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.ModelPartTransformation
 import com.cobblemon.mod.common.client.render.models.blockbench.wavefunction.triangleFunction
+import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.PoseType.Companion.MOVING_POSES
 import com.cobblemon.mod.common.entity.PoseType.Companion.STATIONARY_POSES
 import com.cobblemon.mod.common.entity.PoseType.Companion.UI_POSES
@@ -25,14 +26,16 @@ class YanmegaModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("yanmega")
     override val head = getPart("head")
 
-    override val portraitScale = 2.0F
-    override val portraitTranslation = Vec3d(-0.9, -0.35, 0.0)
+    override var portraitScale = 1.6F
+    override var portraitTranslation = Vec3d(-0.55, -0.9, 0.0)
 
-    override val profileScale = 0.6F
-    override val profileTranslation = Vec3d(0.0, 0.8, 0.0)
+    override var profileScale = 0.61F
+    override var profileTranslation = Vec3d(0.0, 0.8, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
+    lateinit var hover: PokemonPose
+    lateinit var flying:PokemonPose
 
     override fun registerPoses() {
         val wingFrame1 = object : BiWingedFrame {
@@ -49,17 +52,49 @@ class YanmegaModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
 
         standing = registerPose(
             poseName = "standing",
-            poseTypes = STATIONARY_POSES + UI_POSES,
+            poseTypes = STATIONARY_POSES + UI_POSES - PoseType.HOVER,
             idleAnimations = arrayOf(
                 singleBoneLook(),
-                bedrock("yanmega", "ground_idle"),
+                bedrock("yanmega", "ground_idle")
+            )
+        )
+
+        walk = registerPose(
+            poseName = "walk",
+            poseTypes = MOVING_POSES - PoseType.FLY,
+            idleAnimations = arrayOf(
+                singleBoneLook(),
+                bedrock("yanmega", "air_idle"),
                 wingFrame1.wingFlap(
-                    flapFunction = triangleFunction(period = 0.1F, amplitude = 0.4F),
+                    flapFunction = triangleFunction(period = 0.1F, amplitude = 0.5F),
                     timeVariable = { state, _, ageInTicks -> state?.animationSeconds ?: ageInTicks },
                     axis = ModelPartTransformation.Z_AXIS
                 ),
                 wingFrame2.wingFlap(
-                    flapFunction = triangleFunction(period = 0.1F, amplitude = 0.4F),
+                    flapFunction = triangleFunction(period = 0.1F, amplitude = 0.5F),
+                    timeVariable = { state, _, ageInTicks -> 0.01F + (state?.animationSeconds ?: (ageInTicks / 20)) },
+                    axis = ModelPartTransformation.Z_AXIS
+                )
+                //bedrock("yanmega", "ground_walk")
+            ),
+            transformedParts = arrayOf(
+                rootPart.createTransformation().addPosition(ModelPartTransformation.Y_AXIS, -4)
+            )
+        )
+
+        hover = registerPose(
+            poseName = "hovering",
+            poseType = PoseType.HOVER,
+            idleAnimations = arrayOf(
+                singleBoneLook(),
+                bedrock("yanmega", "air_idle"),
+                wingFrame1.wingFlap(
+                    flapFunction = triangleFunction(period = 0.1F, amplitude = 0.5F),
+                    timeVariable = { state, _, ageInTicks -> state?.animationSeconds ?: ageInTicks },
+                    axis = ModelPartTransformation.Z_AXIS
+                ),
+                wingFrame2.wingFlap(
+                    flapFunction = triangleFunction(period = 0.1F, amplitude = 0.5F),
                     timeVariable = { state, _, ageInTicks -> 0.01F + (state?.animationSeconds ?: (ageInTicks / 20)) },
                     axis = ModelPartTransformation.Z_AXIS
                 )
@@ -69,19 +104,19 @@ class YanmegaModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             )
         )
 
-        walk = registerPose(
-            poseName = "walk",
-            poseTypes = MOVING_POSES,
+        flying = registerPose(
+            poseName = "flying",
+            poseType = PoseType.FLY,
             idleAnimations = arrayOf(
                 singleBoneLook(),
-                bedrock("yanmega", "ground_idle"),
+                bedrock("yanmega", "air_idle"),
                 wingFrame1.wingFlap(
-                    flapFunction = triangleFunction(period = 0.1F, amplitude = 0.4F),
+                    flapFunction = triangleFunction(period = 0.1F, amplitude = 0.5F),
                     timeVariable = { state, _, ageInTicks -> state?.animationSeconds ?: ageInTicks },
                     axis = ModelPartTransformation.Z_AXIS
                 ),
                 wingFrame2.wingFlap(
-                    flapFunction = triangleFunction(period = 0.1F, amplitude = 0.4F),
+                    flapFunction = triangleFunction(period = 0.1F, amplitude = 0.5F),
                     timeVariable = { state, _, ageInTicks -> 0.01F + (state?.animationSeconds ?: (ageInTicks / 20)) },
                     axis = ModelPartTransformation.Z_AXIS
                 )

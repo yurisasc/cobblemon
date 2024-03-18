@@ -23,11 +23,11 @@ class IronleavesModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     val neck_sword_right = getPart("neck_sword_right")
     val sword_head = getPart("sword_head")
 
-    override val portraitScale = 3.0F
-    override val portraitTranslation = Vec3d(-0.9, 2.2, 0.0)
+    override var portraitScale = 3.0F
+    override var portraitTranslation = Vec3d(-0.9, 2.2, 0.0)
 
-    override val profileScale = 0.65F
-    override val profileTranslation = Vec3d(0.0, 0.8, 0.0)
+    override var profileScale = 0.65F
+    override var profileTranslation = Vec3d(0.0, 0.8, 0.0)
 
     lateinit var sleep: PokemonPose
     lateinit var standing: PokemonPose

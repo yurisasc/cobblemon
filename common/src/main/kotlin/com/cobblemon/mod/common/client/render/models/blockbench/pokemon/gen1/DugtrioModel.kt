@@ -9,6 +9,7 @@
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1
 
 import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cobblemon.mod.common.entity.PoseType
@@ -22,35 +23,55 @@ import net.minecraft.util.math.Vec3d
 class DugtrioModel(root: ModelPart) : PokemonPoseableModel() {
     override val rootPart = root.registerChildWithAllChildren("dugtrio")
 
-    override val portraitScale = 1.3F
-    override val portraitTranslation = Vec3d(0.0, -0.4, 0.0)
+    override var portraitScale = 1.3F
+    override var portraitTranslation = Vec3d(-0.11, -0.1, 0.0)
 
-    override val profileScale = 0.9F
-    override val profileTranslation = Vec3d(0.0, 0.15, 0.0)
+    override var profileScale = 0.9F
+    override var profileTranslation = Vec3d(0.0, 0.29, 0.0)
 
+    lateinit var standing: PokemonPose
+    lateinit var walking: PokemonPose
+    lateinit var battleidle: PokemonPose
     lateinit var sleep: PokemonPose
+
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("dugtrio", "cry") }
 
     override fun registerPoses() {
         val blink = quirk { bedrockStateful("dugtrio", "blink")}
         val blink2 = quirk { bedrockStateful("dugtrio", "blink2")}
         val blink3 = quirk { bedrockStateful("dugtrio", "blink3")}
-        registerPose(
+
+        val quirk = quirk { bedrockStateful("dugtrio", "quirk_idle")}
+        val quirk2 = quirk { bedrockStateful("dugtrio", "quirk_idle2")}
+        val quirk3 = quirk { bedrockStateful("dugtrio", "quirk_idle3")}
+
+        sleep = registerPose(
+            poseName = "sleep",
+            poseType = PoseType.SLEEP,
+            idleAnimations = arrayOf(bedrock("dugtrio", "sleep"))
+        )
+
+        standing = registerPose(
             poseName = "stand",
             poseTypes = STATIONARY_POSES + UI_POSES,
-            quirks = arrayOf(blink, blink2, blink3),
+            condition = { !it.isBattling },
+            quirks = arrayOf(blink, blink2, blink3, quirk, quirk2, quirk3),
             idleAnimations = arrayOf(bedrock("dugtrio", "ground_idle"))
         )
 
-        sleep = registerPose(
-                poseType = PoseType.SLEEP,
-                idleAnimations = arrayOf(bedrock("dugtrio", "sleep"))
-        )
-
-        registerPose(
+        walking = registerPose(
             poseName = "walk",
             poseTypes = MOVING_POSES,
             quirks = arrayOf(blink, blink2, blink3),
             idleAnimations = arrayOf(bedrock("dugtrio", "ground_walk"))
+        )
+
+        battleidle = registerPose(
+            poseName = "battleidle",
+            poseTypes = STATIONARY_POSES,
+            condition = { it.isBattling },
+            quirks = arrayOf(blink, blink2, blink3, quirk, quirk2, quirk3),
+            idleAnimations = arrayOf(bedrock("dugtrio", "battle_idle"))
         )
     }
 

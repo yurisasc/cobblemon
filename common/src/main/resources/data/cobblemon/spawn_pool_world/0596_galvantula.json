@@ -57,6 +57,7 @@
             "id": "galvantula-3",
             "pokemon": "galvantula",
             "presets": [
+                "webs",
                 "natural"
             ],
             "type": "pokemon",
@@ -65,10 +66,7 @@
             "level": "36-47",
             "weight": 1.0,
             "condition": {
-                "canSeeSky": false,
-                "biomes": [
-                    "terralith:cave/infested_caves"
-                ]
+                "canSeeSky": false
             }
         }
     ]

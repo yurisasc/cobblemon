@@ -25,6 +25,44 @@
                     "#cobblemon:is_spooky"
                 ]
             }
+        },
+        {
+            "id": "quilava-hisuian-2",
+            "pokemon": "quilava hisuian",
+            "presets": [
+                "natural"
+            ],
+            "type": "pokemon",
+            "context": "grounded",
+            "bucket": "ultra-rare",
+            "level": "17-41",
+            "weight": 0.9,
+            "condition": {
+                "canSeeSky": true,
+                "biomes": [
+                    "#cobblemon:is_taiga"
+                ],
+                "isRaining": false
+            }
+        },
+        {
+            "id": "quilava-hisuian-3",
+            "pokemon": "quilava hisuian",
+            "presets": [
+                "natural"
+            ],
+            "type": "pokemon",
+            "context": "grounded",
+            "bucket": "ultra-rare",
+            "level": "17-41",
+            "weight": 0.9,
+            "condition": {
+                "biomes": [
+                    "#cobblemon:nether/is_crimson",
+                    "#cobblemon:nether/is_forest",
+                    "#cobblemon:nether/is_overgrowth"
+                ]
+            }
         }
     ]
 }

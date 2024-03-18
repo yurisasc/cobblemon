@@ -28,11 +28,11 @@ class LoudredModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bipe
     override val leftLeg = getPart("leg_left")
     override val rightLeg = getPart("leg_right")
 
-    override val portraitScale = 1.5F
-    override val portraitTranslation = Vec3d(-0.05, 0.15, 0.0)
+    override var portraitScale = 1.5F
+    override var portraitTranslation = Vec3d(-0.05, 0.15, 0.0)
 
-    override val profileScale = 0.65F
-    override val profileTranslation = Vec3d(0.0, 0.76, 0.0)
+    override var profileScale = 0.65F
+    override var profileTranslation = Vec3d(0.0, 0.76, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose

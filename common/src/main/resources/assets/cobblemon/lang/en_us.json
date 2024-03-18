@@ -611,6 +611,15 @@
   "key.cobblemon.summary": "Open Summary",
   "key.cobblemon.categories.cobblemon": "Cobblemon",
 
+  "key.cobblemon.scaleportraitup": "Scale Portrait Up",
+  "key.cobblemon.scaleportraitdown": "Scale Portrait Down",
+  "key.cobblemon.translateportraitup": "Translate Portrait Up",
+  "key.cobblemon.translateportraitdown": "Translate Portrait Down",
+  "key.cobblemon.translateportraitleft": "Translate Portrait Left",
+  "key.cobblemon.translateportraitright": "Translate Portrait Right",
+  "key.cobblemon.printmodelsettings": "Print Model Settings",
+  "key.cobblemon.categories.cobblemon.debug": "Cobblemon Debug",
+
   "cobblemon.subtitle.poke_ball.capture_succeeded": "Poké Ball capture succeeds",
   "cobblemon.subtitle.fossilmachine.activate": "Restoration Machine activates",
   "cobblemon.subtitle.fossilmachine.active_loop": "Restoration Machine hums",

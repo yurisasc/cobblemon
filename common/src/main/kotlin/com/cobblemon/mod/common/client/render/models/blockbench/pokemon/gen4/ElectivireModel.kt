@@ -28,11 +28,11 @@ class ElectivireModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bi
     override val leftArm = getPart("arm_left")
     override val rightArm = getPart("arm_right")
 
-    override val portraitScale = 2.2F
-    override val portraitTranslation = Vec3d(-0.65, 1.3, 0.0)
+    override var portraitScale = 2.2F
+    override var portraitTranslation = Vec3d(-0.65, 1.3, 0.0)
 
-    override val profileScale = 0.65F
-    override val profileTranslation = Vec3d(0.0, 0.75, 0.0)
+    override var profileScale = 0.65F
+    override var profileTranslation = Vec3d(0.0, 0.75, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose

@@ -56,6 +56,8 @@ import net.minecraft.util.math.Vec3d
  * handling all the state for an entity's model, and needs to be conscious of the fact that the
  * model may change without this state changing.
  *
+ * This also handles setting up the molang runtime that animations have access to
+ *
  * @author Hiroku
  * @since December 5th, 2021
  */
@@ -164,6 +166,11 @@ abstract class PoseableEntityState<T : Entity> : Schedulable {
         val previousAge = age
         updateAge(age + 1)
         runEffects(entity, previousAge, age)
+        val primaryAnimation = primaryAnimation ?: return
+        if (primaryAnimation.started + primaryAnimation.duration <= animationSeconds) {
+            this.primaryAnimation = null
+            primaryAnimation.afterAction.accept(Unit)
+        }
     }
 
     abstract fun updatePartialTicks(partialTicks: Float)

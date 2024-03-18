@@ -1,0 +1,184 @@
+{
+	"format_version": "1.8.0",
+	"animations": {
+		"animation.cradily.ground_idle": {
+			"loop": true,
+			"bones": {
+				"neck": {
+					"rotation": [-17.5, 0, 0]
+				},
+				"neck2": {
+					"rotation": [15, 0, 0]
+				},
+				"neck3": {
+					"rotation": [10, 0, 0]
+				},
+				"neck4": {
+					"rotation": [15, 0, 0]
+				},
+				"neck5": {
+					"rotation": [32.5, 0, 0]
+				},
+				"neck6": {
+					"rotation": [15, 0, 0]
+				},
+				"neck7": {
+					"rotation": [30, 0, 0]
+				},
+				"head": {
+					"rotation": [22.5, 0, 0]
+				},
+				"frontleg_right": {
+					"rotation": [0, 47.5, 0]
+				},
+				"frontleg_left": {
+					"rotation": [0, -47.5, 0]
+				},
+				"backleg_right": {
+					"rotation": [0, -45, 0]
+				},
+				"backleg_left": {
+					"rotation": [0, 45, 0]
+				},
+				"tail": {
+					"rotation": [-12.5, 0, 0]
+				},
+				"neck_base": {
+					"rotation": [-17.5, 0, 0]
+				},
+				"front_right_middle_petal": {
+					"rotation": [7.28197, 2.49048, -32.50474]
+				},
+				"front_right_middle_petal2": {
+					"rotation": [0, -30, 0]
+				},
+				"front_right_middle_petal4": {
+					"rotation": [0, -47.5, 0]
+				},
+				"front_right_middle_petal3": {
+					"rotation": [0, -25, 0]
+				},
+				"back_right_middle_petal": {
+					"rotation": [1.07244, 25.88062, 12.18622]
+				},
+				"back_right_middle_petal2": {
+					"rotation": [12.5, -30, 0]
+				},
+				"back_right_middle_petal3": {
+					"rotation": [0, -45, 0]
+				},
+				"back_right_middle_petal4": {
+					"rotation": [0, -20, 0]
+				},
+				"back_left_middle_petal": {
+					"rotation": [1.07244, -25.8806, -12.1862]
+				},
+				"front_left_middle_petal": {
+					"rotation": [9.78197, -2.4905, 32.5047]
+				},
+				"front_left_middle_petal2": {
+					"rotation": [0, 30, 0]
+				},
+				"front_left_middle_petal3": {
+					"rotation": [0, 25, 0]
+				},
+				"front_left_middle_petal4": {
+					"rotation": [0, 47.5, 0]
+				},
+				"back_left_middle_petal2": {
+					"rotation": [12.5, 30, 0]
+				},
+				"back_left_middle_petal3": {
+					"rotation": [0, 45, 0]
+				},
+				"back_left_middle_petal4": {
+					"rotation": [0, 20, 0]
+				},
+				"back_right_petal": {
+					"rotation": [-22.32648, 2.86313, -18.06512]
+				},
+				"back_right_petal2": {
+					"rotation": [31.88034, 6.6782, -10.59061]
+				},
+				"back_right_petal3": {
+					"rotation": [20, 0, 0]
+				},
+				"back_right_petal4": {
+					"rotation": [30, 0, 0]
+				},
+				"back_left_petal": {
+					"rotation": [-22.32648, -2.86313, 18.06512]
+				},
+				"back_left_petal2": {
+					"rotation": [31.88034, -6.6782, 10.5906]
+				},
+				"back_left_petal3": {
+					"rotation": [20, 0, 0]
+				},
+				"back_left_petal4": {
+					"rotation": [30, 0, 0]
+				},
+				"front_right_petal": {
+					"rotation": [5.04292, -7.4713, 16.8426]
+				},
+				"front_right_petal2": {
+					"rotation": [-25, 0, 0]
+				},
+				"front_right_petal3": {
+					"rotation": [-20, 0, 0]
+				},
+				"front_right_petal4": {
+					"rotation": [-35, 0, 0]
+				},
+				"front_left_petal": {
+					"rotation": [5.04292, 7.4713, -16.8426]
+				},
+				"front_left_petal2": {
+					"rotation": [-25, 0, 0]
+				},
+				"front_left_petal3": {
+					"rotation": [-20, 0, 0]
+				},
+				"front_left_petal4": {
+					"rotation": [-35, 0, 0]
+				},
+				"eyes": {
+					"position": [0, 0.25, 0]
+				}
+			}
+		},
+		"animation.cradily.blink": {
+			"animation_length": 0.16667,
+			"bones": {
+				"eyelid_left": {
+					"position": {
+						"0.0": [-0.1, 0, 0],
+						"0.125": [-0.1, 0, 0],
+						"0.1667": [0, 0, 0]
+					}
+				},
+				"eyelid_right": {
+					"position": {
+						"0.0": [0.1, 0, 0],
+						"0.125": [0.1, 0, 0],
+						"0.1667": [0, 0, 0]
+					}
+				}
+			}
+		},
+		"animation.cradily.cry": {
+			"animation_length": 1,
+			"bones": {
+				"head": {
+					"rotation": {
+						"0.0": [0, 0, 0],
+						"0.125": [15, 0, 0],
+						"0.2917": [-7.5, 0, 0],
+						"0.875": [-7.5, 0, 0],
+						"1.0": [0, 0, 0]
+					}
+				}
+			}
+		}
+	}
+}

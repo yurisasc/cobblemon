@@ -31,11 +31,11 @@ class GreninjaModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bipe
     val shurikenright = getPart("hand_shuriken_right")
     val shurikenleft = getPart("hand_shuriken_left")
 
-    override val portraitScale = 2.2F
-    override val portraitTranslation = Vec3d(-0.1, 1.34, 0.0)
+    override var portraitScale = 2.2F
+    override var portraitTranslation = Vec3d(-0.1, 1.34, 0.0)
 
-    override val profileScale = 0.7F
-    override val profileTranslation = Vec3d(0.0, 0.7, 0.0)
+    override var profileScale = 0.7F
+    override var profileTranslation = Vec3d(0.0, 0.7, 0.0)
 
     lateinit var sleep: PokemonPose
     lateinit var standing: PokemonPose
