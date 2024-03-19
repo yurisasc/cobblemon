@@ -646,7 +646,7 @@
 			}
 		},
 		"animation.psyduck.blink": {
-			"animation_length": 0.5,
+			"animation_length": 0.5
 		},
 		"animation.psyduck.cry": {
 			"animation_length": 0.91667,

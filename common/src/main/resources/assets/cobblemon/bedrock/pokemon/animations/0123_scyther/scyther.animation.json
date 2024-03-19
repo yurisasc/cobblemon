@@ -283,6 +283,11 @@
 				"jaw": {
 					"rotation": [45, 0, 0]
 				}
+			},
+			"sound_effects": {
+				"0.0833": {
+					"effect": "pokemon.scyther.cry"
+				}
 			}
 		}
 	}
