@@ -84,7 +84,7 @@ abstract class ScrollingWidget<T : AlwaysSelectedEntryListWidget.Entry<T>>(
     }
 
     override fun getRowWidth(): Int {
-        return this.width - scrollBarWidth
+        return this.width
     }
 
     override fun getRowTop(index: Int): Int {

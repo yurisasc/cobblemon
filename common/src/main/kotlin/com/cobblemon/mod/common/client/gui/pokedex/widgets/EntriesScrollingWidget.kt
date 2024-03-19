@@ -10,6 +10,7 @@ package com.cobblemon.mod.common.client.gui.pokedex.widgets
 
 import com.cobblemon.mod.common.api.gui.blitk
 import com.cobblemon.mod.common.api.gui.drawPortraitPokemon
+import com.cobblemon.mod.common.api.gui.drawText
 import com.cobblemon.mod.common.api.pokedex.SpeciesPokedexEntry
 import com.cobblemon.mod.common.api.text.text
 import com.cobblemon.mod.common.client.gui.ScrollingWidget
@@ -23,6 +24,7 @@ import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.lang
 import net.minecraft.client.gui.DrawContext
 import net.minecraft.text.MutableText
+import net.minecraft.text.Text
 
 class EntriesScrollingWidget<PokemonScrollSlot : ScrollingWidget.Slot<EntriesScrollingWidget.PokemonScrollSlot>>(val pX: Int, val pY: Int, val setPokedexEntry: (Pair<Species, SpeciesPokedexEntry?>) -> (Unit)
 ): ScrollingWidget<EntriesScrollingWidget.PokemonScrollSlot>(
@@ -149,6 +151,15 @@ class EntriesScrollingWidget<PokemonScrollSlot : ScrollingWidget.Slot<EntriesScr
 
             matrices.pop()
             context.disableScissor()
+
+            if(hovered) {
+                drawScaledText(
+                    context = context,
+                    text = Text.literal("Hovering"),
+                    x = x,
+                    y = y
+                )
+            }
         }
 
         override fun mouseClicked(d: Double, e: Double, i: Int): Boolean {
