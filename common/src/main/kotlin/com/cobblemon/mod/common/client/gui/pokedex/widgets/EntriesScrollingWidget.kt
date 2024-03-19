@@ -152,15 +152,6 @@ class EntriesScrollingWidget<PokemonScrollSlot : ScrollingWidget.Slot<EntriesScr
 
             matrices.pop()
             context.disableScissor()
-
-            if(hovered) {
-                drawScaledText(
-                    context = context,
-                    text = Text.literal("Hovering"),
-                    x = x,
-                    y = y
-                )
-            }
         }
 
         override fun mouseClicked(d: Double, e: Double, i: Int): Boolean {
