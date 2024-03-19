@@ -82,11 +82,8 @@ class FormsWidget (val pX: Int, val pY: Int, val setFormData : (FormData) -> (Un
         }
 
         override fun mouseClicked(mouseX: Double, mouseY: Double, button: Int): Boolean {
-            if (isMouseOver(mouseX, mouseY)) {
-                setFormData.invoke(form)
-                return true
-            }
-            return false
+            setFormData.invoke(form)
+            return true
         }
     }
 }

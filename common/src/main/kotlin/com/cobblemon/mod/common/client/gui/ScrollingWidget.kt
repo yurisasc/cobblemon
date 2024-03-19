@@ -1,9 +1,12 @@
 package com.cobblemon.mod.common.client.gui
 
-import com.cobblemon.mod.common.client.gui.pokedex.widgets.EntriesScrollingWidget
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.gui.DrawContext
+import net.minecraft.client.gui.Element
+import net.minecraft.client.gui.ParentElement
 import net.minecraft.client.gui.widget.AlwaysSelectedEntryListWidget
+import net.minecraft.client.gui.widget.EntryListWidget
+import net.minecraft.util.math.MathHelper
 
 abstract class ScrollingWidget<T : AlwaysSelectedEntryListWidget.Entry<T>>(
     top : Int = 0,
@@ -96,6 +99,47 @@ abstract class ScrollingWidget<T : AlwaysSelectedEntryListWidget.Entry<T>>(
     }
 
     override fun getScrollbarPositionX() = this.left + this.width - this.scrollBarWidth
+
+    fun getSlotAtPosition(x: Double, y: Double): T? {
+        val i = this.rowWidth / 2
+        val j = this.left + this.width / 2
+        val k = j - i
+        val l = j + i
+        val m = MathHelper.floor(y - top.toDouble()) - this.headerHeight + scrollAmount.toInt()
+        val n = m / this.itemHeight
+        return if ((x < this.scrollbarPositionX.toDouble() && x >= k.toDouble() && x <= l.toDouble() && n >= 0 && m >= 0) && n < this.entryCount) children()[n] as T else null
+    }
+    override fun mouseClicked(mouseX: Double, mouseY: Double, button: Int): Boolean {
+        this.updateScrollingState(mouseX, mouseY, button)
+        if (!this.isMouseOver(mouseX, mouseY)) {
+            return false
+        } else {
+            val entry: T? = this.getSlotAtPosition(mouseX, mouseY)
+            if (entry != null) {
+                if (entry.mouseClicked(mouseX, mouseY, button)) {
+                    val entry2: T? = this.focused
+                    if (entry2 !== entry && entry2 is ParentElement) {
+                        val parentElement = entry2 as ParentElement
+                        parentElement.focused = null as Element?
+                    }
+
+                    this.setFocused(entry)
+                    this.isDragging = true
+                    return true
+                }
+            } else if (button == 0) {
+                this.clickedHeader(
+                    (mouseX - (this.left + this.width / 2 - this.rowWidth / 2).toDouble()).toInt(),
+                    (mouseY - top.toDouble()).toInt() + scrollAmount.toInt()
+                )
+                return true
+            }
+
+            // Cant do the default minecraft thing since scrolling is private
+            // return this.scrolling
+            return false
+        }
+    }
 
     abstract class Slot<T : Slot<T>>(): Entry<T>() {
         // Override render to show each individual element

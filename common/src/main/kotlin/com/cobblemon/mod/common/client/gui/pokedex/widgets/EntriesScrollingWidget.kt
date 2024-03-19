@@ -8,6 +8,7 @@
 
 package com.cobblemon.mod.common.client.gui.pokedex.widgets
 
+import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.api.gui.blitk
 import com.cobblemon.mod.common.api.gui.drawPortraitPokemon
 import com.cobblemon.mod.common.api.gui.drawText
@@ -163,14 +164,11 @@ class EntriesScrollingWidget<PokemonScrollSlot : ScrollingWidget.Slot<EntriesScr
         }
 
         override fun mouseClicked(d: Double, e: Double, i: Int): Boolean {
-            if (isMouseOver(d, e)) {
-                if(pokemonSpecies == null) return false
+            if(pokemonSpecies == null) return false
 
-                setPokedexEntry.invoke(Pair(pokemonSpecies!!, speciesPokedexEntry))
+            setPokedexEntry.invoke(Pair(pokemonSpecies!!, speciesPokedexEntry))
 
-                return true
-            }
-            return false
+            return true
         }
 
         override fun getNarration() = pokemonName
