@@ -51,7 +51,7 @@
                 },
                 {
                     "type": "minecraft:item",
-                    "name": "cobblemon:dino_fossil",
+                    "name": "cobblemon:fossilized_dino",
                     "weight": 1
                 }
             ],

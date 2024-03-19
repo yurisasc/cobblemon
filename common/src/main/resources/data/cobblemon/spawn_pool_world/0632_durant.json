@@ -54,7 +54,7 @@
             "weight": 10.0,
             "condition": {
                 "biomes": [
-                    "#cobblemon:is_nether_mountain"
+                    "#cobblemon:nether/is_mountain"
                 ]
             }
         }

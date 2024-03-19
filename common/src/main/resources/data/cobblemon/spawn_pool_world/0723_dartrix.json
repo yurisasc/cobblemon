@@ -18,13 +18,33 @@
             "condition": {
                 "canSeeSky": true,
                 "biomes": [
+                    "#cobblemon:is_forest",
                     "#cobblemon:is_taiga"
-                ],
-                "isRaining": false
+                ]
             },
             "anticondition": {
                 "biomes": [
-                    "#cobblemon:is_snowy_forest"
+                    "#cobblemon:is_freezing"
+                ]
+            }
+        },
+        {
+            "id": "dartrix-hisuian-3",
+            "pokemon": "dartrix hisuian",
+            "presets": [
+                "natural",
+                "treetop"
+            ],
+            "type": "pokemon",
+            "context": "grounded",
+            "bucket": "ultra-rare",
+            "level": "17-42",
+            "weight": 0.9,
+            "condition": {
+                "canSeeSky": true,
+                "biomes": [
+                    "#cobblemon:is_snowy_forest",
+                    "#cobblemon:is_snowy_taiga"
                 ]
             }
         }

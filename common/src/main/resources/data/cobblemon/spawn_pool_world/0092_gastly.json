@@ -11,24 +11,6 @@
             ],
             "type": "pokemon",
             "context": "grounded",
-            "bucket": "uncommon",
-            "level": "6-31",
-            "weight": 5.4,
-            "condition": {
-                "canSeeSky": false,
-                "biomes": [
-                    "#cobblemon:is_deep_dark"
-                ]
-            }
-        },
-        {
-            "id": "gastly-2",
-            "pokemon": "gastly",
-            "presets": [
-                "natural"
-            ],
-            "type": "pokemon",
-            "context": "grounded",
             "bucket": "common",
             "level": "6-31",
             "weight": 9.0,
@@ -46,7 +28,7 @@
             }
         },
         {
-            "id": "gastly-3",
+            "id": "gastly-2",
             "pokemon": "gastly",
             "presets": [
                 "derelict"
@@ -69,7 +51,7 @@
             }
         },
         {
-            "id": "gastly-4",
+            "id": "gastly-3",
             "pokemon": "gastly",
             "presets": [
                 "natural"
@@ -88,7 +70,7 @@
             }
         },
         {
-            "id": "gastly-5",
+            "id": "gastly-4",
             "pokemon": "gastly",
             "presets": [
                 "natural"

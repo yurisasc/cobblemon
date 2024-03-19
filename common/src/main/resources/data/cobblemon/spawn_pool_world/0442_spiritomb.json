@@ -13,7 +13,7 @@
             "context": "grounded",
             "bucket": "uncommon",
             "level": "24-49",
-            "weight": 6.0,
+            "weight": 60.0,
             "condition": {
                 "canSeeSky": false,
                 "biomes": [
@@ -35,7 +35,8 @@
             "condition": {
                 "biomes": [
                     "#cobblemon:is_overworld"
-                ]
+                ],
+                "minY": 32
             }
         },
         {
@@ -55,7 +56,8 @@
                 "canSeeSky": false,
                 "biomes": [
                     "#cobblemon:is_overworld"
-                ]
+                ],
+                "minY": 48
             }
         },
         {

@@ -55,8 +55,8 @@
             "weight": 0.6,
             "condition": {
                 "biomes": [
-                    "#cobblemon:is_nether_desert",
-                    "#cobblemon:is_nether_soul_fire"
+                    "#cobblemon:nether/is_desert",
+                    "#cobblemon:nether/is_soul_fire"
                 ]
             }
         }

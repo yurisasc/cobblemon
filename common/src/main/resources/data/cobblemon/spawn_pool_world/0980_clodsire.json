@@ -17,7 +17,7 @@
             "condition": {
                 "canSeeSky": true,
                 "biomes": [
-                    "minecraft:mangrove_swamp"
+                    "#cobblemon:has_block/mud"
                 ]
             }
         },
@@ -35,7 +35,7 @@
             "condition": {
                 "canSeeSky": true,
                 "biomes": [
-                    "minecraft:mangrove_swamp"
+                    "#cobblemon:has_block/mud"
                 ]
             }
         },

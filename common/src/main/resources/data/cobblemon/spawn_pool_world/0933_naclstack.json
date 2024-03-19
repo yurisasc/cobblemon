@@ -26,6 +26,7 @@
             "id": "naclstack-2",
             "pokemon": "naclstack",
             "presets": [
+                "salt",
                 "natural",
                 "wild"
             ],
@@ -33,20 +34,11 @@
             "context": "grounded",
             "bucket": "common",
             "level": "24-36",
-            "weight": 0.9,
-            "condition": {
-                "biomes": [
-                    "#cobblemon:is_salt"
-                ]
-            }
+            "weight": 0.9
         },
         {
             "id": "naclstack-3",
             "pokemon": "naclstack",
-            "presets": [
-                "natural",
-                "wild"
-            ],
             "type": "pokemon",
             "context": "grounded",
             "bucket": "common",
@@ -54,10 +46,7 @@
             "weight": 0.9,
             "condition": {
                 "biomes": [
-                    "#cobblemon:is_nether_quartz"
-                ],
-                "neededBaseBlocks": [
-                    "minecraft:quartz_block"
+                    "#cobblemon:nether/is_quartz"
                 ]
             }
         }

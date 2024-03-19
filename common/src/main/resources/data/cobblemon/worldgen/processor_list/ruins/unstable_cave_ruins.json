@@ -63,13 +63,17 @@
                     "input_predicate": {
                         "block": "minecraft:granite",
                         "predicate_type": "minecraft:random_block_match",
-                        "probability": 0.3
+                        "probability": 0.2
                     },
                     "location_predicate": {
                         "predicate_type": "minecraft:always_true"
                     },
                     "output_state": {
-                        "Name": "minecraft:flower_pot"
+                        "Name": "cobblemon:relic_coin_pouch",
+                        "Properties": {
+                            "facing": "west",
+                            "natural": "true"
+                        }
                     }
                 },
                 {
@@ -149,7 +153,6 @@
                         "Name": "minecraft:air"
                     }
                 },
-                
                 {
                     "input_predicate": {
                         "block": "minecraft:clay",
@@ -459,6 +462,74 @@
                             "rotation": "15"
                         }
                     }
+                },
+                {
+                    "input_predicate": {
+                        "block": "cobblemon:relic_coin_pouch",
+                        "predicate_type": "minecraft:random_block_match",
+                        "probability": 0.4
+                    },
+                    "location_predicate": {
+                        "predicate_type": "minecraft:always_true"
+                    },
+                    "output_state": {
+                        "Name": "cobblemon:relic_coin_pouch",
+                        "Properties": {
+                            "facing": "north",
+                            "natural": "true"
+                        }
+                    }
+                },
+                {
+                    "input_predicate": {
+                        "block": "cobblemon:relic_coin_pouch",
+                        "predicate_type": "minecraft:random_block_match",
+                        "probability": 0.3
+                    },
+                    "location_predicate": {
+                        "predicate_type": "minecraft:always_true"
+                    },
+                    "output_state": {
+                        "Name": "cobblemon:relic_coin_pouch",
+                        "Properties": {
+                            "facing": "south",
+                            "natural": "true"
+                        }
+                    }
+                },
+                {
+                    "input_predicate": {
+                        "block": "cobblemon:relic_coin_pouch",
+                        "predicate_type": "minecraft:random_block_match",
+                        "probability": 0.3
+                    },
+                    "location_predicate": {
+                        "predicate_type": "minecraft:always_true"
+                    },
+                    "output_state": {
+                        "Name": "cobblemon:relic_coin_pouch",
+                        "Properties": {
+                            "facing": "east",
+                            "natural": "true"
+                        }
+                    }
+                },
+                {
+                    "input_predicate": {
+                        "block": "cobblemon:relic_coin_pouch",
+                        "predicate_type": "minecraft:random_block_match",
+                        "probability": 0.1
+                    },
+                    "location_predicate": {
+                        "predicate_type": "minecraft:always_true"
+                    },
+                    "output_state": {
+                        "Name": "cobblemon:relic_coin_pouch",
+                        "Properties": {
+                            "facing": "west",
+                            "natural": "true"
+                        }
+                    }
                 }
             ]
         },
@@ -518,7 +589,7 @@
             "delegate": {
                 "processor_type": "minecraft:rule",
                 "rules": [
-                {
+                    {
                         "input_predicate": {
                             "block_state": {
                                 "Name": "minecraft:chest",
@@ -719,7 +790,6 @@
                             }
                         }
                     }
-                    
                 ]
             },
             "limit": 1,
@@ -750,17 +820,17 @@
                             "predicate_type": "minecraft:always_true"
                         },
                         "output_state": {
-                            "Name": "cobblemon:chest",
+                            "Name": "minecraft:chest",
                             "Properties": {
                                 "facing": "north"
                             }
                         }
                     },
                     {
-                       "block_entity_modifier": {
-                        "type": "minecraft:append_loot",
-                        "loot_table": "cobblemon:ruins/vanilla_loot/vanilla_loot"
-                    },
+                        "block_entity_modifier": {
+                            "type": "minecraft:append_loot",
+                            "loot_table": "cobblemon:ruins/vanilla_loot/vanilla_loot"
+                        },
                         "input_predicate": {
                             "block_state": {
                                 "Name": "minecraft:chest",
@@ -777,7 +847,7 @@
                             "predicate_type": "minecraft:always_true"
                         },
                         "output_state": {
-                            "Name": "cobblemon:chest",
+                            "Name": "minecraft:chest",
                             "Properties": {
                                 "facing": "south"
                             }
@@ -804,7 +874,7 @@
                             "predicate_type": "minecraft:always_true"
                         },
                         "output_state": {
-                            "Name": "cobblemon:chest",
+                            "Name": "minecraft:chest",
                             "Properties": {
                                 "facing": "east"
                             }
@@ -831,7 +901,7 @@
                             "predicate_type": "minecraft:always_true"
                         },
                         "output_state": {
-                            "Name": "cobblemon:chest",
+                            "Name": "minecraft:chest",
                             "Properties": {
                                 "facing": "west"
                             }
