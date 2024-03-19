@@ -6,15 +6,12 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-package com.cobblemon.mod.common.fishing
+package com.cobblemon.mod.common.api.fishing
 
 import com.cobblemon.mod.common.api.pokeball.PokeBalls
-import com.cobblemon.mod.common.item.interactive.PokerodItem
 import com.cobblemon.mod.common.pokeball.PokeBall
-import net.minecraft.item.ItemStack
 import net.minecraft.network.PacketByteBuf
 import net.minecraft.util.Identifier
-import net.minecraft.util.StringIdentifiable
 
 /**
  * Base poke rod object

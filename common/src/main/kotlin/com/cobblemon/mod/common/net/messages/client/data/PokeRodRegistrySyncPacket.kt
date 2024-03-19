@@ -9,10 +9,9 @@
 package com.cobblemon.mod.common.net.messages.client.data
 
 import com.cobblemon.mod.common.api.fishing.PokeRods
-import com.cobblemon.mod.common.fishing.PokeRod
+import com.cobblemon.mod.common.api.fishing.PokeRod
 import com.cobblemon.mod.common.util.cobblemonResource
 import net.minecraft.network.PacketByteBuf
-import net.minecraft.util.Identifier
 
 class PokeRodRegistrySyncPacket(rods: Collection<PokeRod>) : DataRegistrySyncPacket<PokeRod, PokeRodRegistrySyncPacket>(rods) {
 
