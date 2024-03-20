@@ -51,6 +51,7 @@ import net.minecraft.text.MutableText
 import net.minecraft.util.math.MathHelper.ceil
 import net.minecraft.util.math.RotationAxis
 import org.joml.Vector3f
+import com.cobblemon.mod.common.api.gui.ColourLibrary.BATTLE_COMMAND_COLOUR
 
 class BattleOverlay : InGameHud(MinecraftClient.getInstance(), MinecraftClient.getInstance().itemRenderer), Schedulable {
     companion object {
@@ -106,7 +107,12 @@ class BattleOverlay : InGameHud(MinecraftClient.getInstance(), MinecraftClient.g
         val side1 = if (battle.side1.actors.any { it.uuid == playerUUID }) battle.side1 else battle.side2
         val side2 = if (side1 == battle.side1) battle.side2 else battle.side1
 
-        side1.activeClientBattlePokemon.forEachIndexed { index, activeClientBattlePokemon -> drawTile(context, tickDelta, activeClientBattlePokemon, true, index) }
+        // Command highlight for Double and Triple Battles
+        val currentScreen = MinecraftClient.getInstance().currentScreen
+        val isBattleGUIActive = currentScreen is BattleGUI && currentScreen.getCurrentActionSelection() != null
+        val selectedPNX = if(battle.battleFormat.battleType.slotsPerActor > 1 && isBattleGUIActive) battle.getFirstUnansweredRequest()?.activePokemon?.getPNX() else null
+
+        side1.activeClientBattlePokemon.forEachIndexed { index, activeClientBattlePokemon -> drawTile(context, tickDelta, activeClientBattlePokemon, true, index, activeClientBattlePokemon.getPNX() == selectedPNX) }
         side2.activeClientBattlePokemon.forEachIndexed { index, activeClientBattlePokemon -> drawTile(context, tickDelta, activeClientBattlePokemon, false, side2.activeClientBattlePokemon.count() - index - 1) }
 
         if (MinecraftClient.getInstance().currentScreen !is BattleGUI && battle.mustChoose) {
@@ -121,7 +127,6 @@ class BattleOverlay : InGameHud(MinecraftClient.getInstance(), MinecraftClient.g
             )
         }
 
-        val currentScreen = MinecraftClient.getInstance().currentScreen
 
         if (currentScreen == null || currentScreen is ChatScreen) {
             if (lastKnownBattle != battle.battleId) {
@@ -134,7 +139,7 @@ class BattleOverlay : InGameHud(MinecraftClient.getInstance(), MinecraftClient.g
     }
 
 
-    fun drawTile(context: DrawContext, tickDelta: Float, activeBattlePokemon: ActiveClientBattlePokemon, left: Boolean, rank: Int) {
+    fun drawTile(context: DrawContext, tickDelta: Float, activeBattlePokemon: ActiveClientBattlePokemon, left: Boolean, rank: Int, hasCommand: Boolean = false) {
         val mc = MinecraftClient.getInstance()
 
         val battlePokemon = activeBattlePokemon.battlePokemon ?: return
@@ -180,7 +185,8 @@ class BattleOverlay : InGameHud(MinecraftClient.getInstance(), MinecraftClient.g
             ballState = activeBattlePokemon.ballCapturing,
             maxHealth = battlePokemon.maxHp.toInt(),
             health = battlePokemon.hpValue,
-            isFlatHealth = battlePokemon.isHpFlat
+            isFlatHealth = battlePokemon.isHpFlat,
+            isSelected = hasCommand
         )
     }
 
@@ -202,7 +208,8 @@ class BattleOverlay : InGameHud(MinecraftClient.getInstance(), MinecraftClient.g
         ballState: ClientBallDisplay? = null,
         maxHealth: Int,
         health: Float,
-        isFlatHealth: Boolean
+        isFlatHealth: Boolean,
+        isSelected: Boolean = false
     ) {
         val portraitStartX = x + if (!reversed) PORTRAIT_OFFSET_X else { TILE_WIDTH - PORTRAIT_DIAMETER - PORTRAIT_OFFSET_X }
         val matrices = context.matrices
@@ -260,7 +267,10 @@ class BattleOverlay : InGameHud(MinecraftClient.getInstance(), MinecraftClient.g
             y = y,
             height = TILE_HEIGHT,
             width = TILE_WIDTH,
-            alpha = opacity
+            alpha = opacity,
+            red = if(isSelected) ((BATTLE_COMMAND_COLOUR shr 16) and 0b11111111) / 255F else 1.0f,
+            green = if(isSelected) ((BATTLE_COMMAND_COLOUR shr 8) and 0b11111111) / 255F else 1.0f,
+            blue = if(isSelected) ((BATTLE_COMMAND_COLOUR) and 0b11111111) / 255F else 1.0f
         )
 
         if (colour != null) {
