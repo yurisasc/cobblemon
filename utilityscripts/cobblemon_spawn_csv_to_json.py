@@ -204,9 +204,6 @@ def main(only_update_existing_files=False, ignore_filters=False):
     # Group the data by dex number
     csv_grouped = csv_df.groupby('No.')
 
-    #print the first few rows of the csv_grouped
-    #print(csv_grouped.head(10))
-
     print_warning("Modifying files...")
     # Processing each Pokémon group and converting it to JSON
     try:
@@ -306,164 +303,40 @@ def transform_pokemon_to_json(pokemon_rows, invalid_biome_tags, drops_df):
                     identifier = items[0].strip()
                     multiplier = float(items[1].strip())
                     # check if the identifier is a weather condition or night, and add it to the weight_multipliers dictionary
-                    condition = {}
+                    multiplier_condition = {}
                     match identifier:
                         case "Rain":
-                            condition["isRaining"] = True
+                            multiplier_condition["isRaining"] = True
                         case "Storm":
-                            condition["isThundering"] = True
+                            multiplier_condition["isThundering"] = True
                         case "Night":
-                            condition["timeRange"] = "night"
+                            multiplier_condition["timeRange"] = "night"
                         case "Day":
-                            condition["timeRange"] = "day"
+                            multiplier_condition["timeRange"] = "day"
                         case "Twilight":
-                            condition["timeRange"] = "twilight"
+                            multiplier_condition["timeRange"] = "twilight"
                         case "Beehive":
-                            condition["neededNearbyBlocks"] = ["#minecraft:beehives"]
+                            multiplier_condition["neededNearbyBlocks"] = ["#minecraft:beehives"]
                         case "Full Moon":
-                            condition["moonPhase"] = "1"
+                            multiplier_condition["moonPhase"] = "1"
                         case "New Moon":
-                            condition["moonPhase"] = "5"
+                            multiplier_condition["moonPhase"] = "5"
                         case "Shipwreck":
-                            condition["structures"] = ["#minecraft:shipwreck"]
+                            multiplier_condition["structures"] = ["#minecraft:shipwreck"]
                         case _:
                             unknown_weight_multiplier_identifiers.append(f"'{identifier}' ({currentID})")
-                    weight_multipliers.append({"multiplier": multiplier, "condition": condition})
+                    weight_multipliers.append({"multiplier": multiplier, "condition": multiplier_condition})
                 if len(weight_multipliers) == 1:
                     spawn_data['weightMultiplier'] = weight_multipliers[0]
                 elif len(weight_multipliers) > 1:
                     spawn_data['weightMultipliers'] = weight_multipliers
 
-            # Condition field
-            condition = {}
-
-            # canSeeSky is different from SkyLight, in that it treats leaves and water of any thickness as fully transparent.
-            if pd.notna(row['canSeeSky']) and row['canSeeSky'] == 'true':
-                condition['canSeeSky'] = True
-            elif row['canSeeSky'] == 'false':
-                condition['canSeeSky'] = False
-
-            # check if skyLightMin and skyLightMax are not empty, then add them to the condition dictionary
-            if pd.notna(row['skyLightMin']) and pd.notna(row['skyLightMax']):
-                # raise error if skyLightMin is greater than skyLightMax
-                if int(row['skyLightMin']) > int(row['skyLightMax']):
-                    raise ValueError(f"skyLightMin is greater than skyLightMax in {currentID}")
-                condition['minSkyLight'] = f"{int(row['skyLightMin'])}"
-                condition['maxSkyLight'] = f"{int(row['skyLightMax'])}"
-
-            if pd.notna(row['Biomes']):
-                parsed_biomes = parse_biomes(row['Biomes'], invalid_biome_tags)
-                if parsed_biomes:
-                    condition['biomes'] = parsed_biomes
-
-            # check if Time column is day or night or any
-            if pd.notna(row['Time']):
-                if row['Time'].lower() == 'day':
-                    condition['timeRange'] = row['Time'].lower()
-                elif row['Time'].lower() == 'night':
-                    condition['timeRange'] = row['Time'].lower()
-
-            # check if Weather column is clear or rain or any
-            if pd.notna(row['Weather']):
-                if row['Weather'].lower() == 'clear':
-                    condition['isRaining'] = False
-                elif row['Weather'].lower() == 'rain':
-                    condition['isRaining'] = True
-
-            # Conditions
-            if pd.notna(row['Conditions']):
-                # split by "," and then strip each string
-                strings = str(row['Conditions']).split(',')
-                for string in strings:
-                    s = string.strip()
-                    # if the string is "Desert Well" then add structure = "minecraft:desert_well" to the condition dictionary
-                    if s == "Desert Well":
-                        condition['structures'] = ["minecraft:desert_well"]
-                    # if the string contains ":" then use it as is and add it to the condition dictionary under "neededBaseBlocks"
-                    elif ":" in s:
-                        # split the string by " " and check if the first string is "on"
-                        if s.split(' ')[0] == "on":
-                            if 'neededBaseBlocks' not in condition:
-                                condition['neededBaseBlocks'] = []
-                            condition['neededBaseBlocks'].append(s.split(' ')[1].strip())
-                        else:
-                            if 'neededNearbyBlocks' not in condition:
-                                condition['neededNearbyBlocks'] = []
-                            condition['neededNearbyBlocks'].append(s)
-                    # if the string contains "minY = " then split it and add it to the condition dictionary
-                    elif "minY = " in string:
-                        condition['minY'] = int(string.split('=')[1].strip())
-                    # if the string contains "maxY = " then split it and add it to the condition dictionary
-                    elif "maxY = " in string:
-                        condition['maxY'] = int(string.split('=')[1].strip())
-                    # if the string is "Full Moon" then add moonPhase = 0 to the condition dictionary
-                    elif string == "Full Moon":
-                        condition['moonPhase'] = "0"
-                    # if the string contains "moonPhase =" then split it and look at the next entries in strings that are a number
-                    elif "moonPhase = " in string:
-                        # get the first integer in the string
-                        digitsArray = [int(string.split('=')[1].strip())]
-                        # get the index of the current string
-                        index = strings.index(string)
-                        # get the next strings that are a number and add them to the digitsArray
-                        while index < len(strings) - 1:
-                            index += 1
-                            if strings[index].strip().isdigit():
-                                digitsArray.append(int(strings[index].strip()))
-                            else:
-                                break
-                        # add the digitsArray to the condition dictionary in the format moonPhase = "1,2,4"
-                        condition['moonPhase'] = ','.join(str(x) for x in digitsArray)
-                    # if the string contains "maxLight = " then split it and add it to the condition dictionary
-                    elif "maxLight = " in string:
-                        condition['maxLight'] = int(string.split('=')[1].strip())
-                    # if the string contains "minLight = " then split it and add it to the condition dictionary
-                    elif "minLight = " in string:
-                        condition['minLight'] = int(string.split('=')[1].strip())
-                    # if the string is a digit, pass (was already hanlded by other conditions)
-                    elif string.strip().isdigit():
-                        pass
-                    else:
-                        unknown_conditions.append(f"'{string}' ({currentID})")
-
-            if condition:
-                spawn_data['condition'] = condition
-
-            # Anticondition field
-            anticondition = {}
-
-            if pd.notna(row['Excluded Biomes']):
-                parsed_biomes = parse_biomes(row['Excluded Biomes'], invalid_biome_tags)
-                if parsed_biomes:
-                    anticondition['biomes'] = parsed_biomes
-
-            # Check Anticonditions column, and add the values to the anticondition field.
-            if pd.notna(row['Anticonditions']):
-                s = str(row['Anticonditions'])
-                if ":" in s:
-                    # split the string by " " and check if the first string is "on"
-                    if s.split(' ')[0] == "on":
-                        if 'neededBaseBlocks' not in anticondition:
-                            anticondition['neededBaseBlocks'] = []
-                        anticondition['neededBaseBlocks'].append(s.split(' ')[1].strip())
-                    else:
-                        if 'neededNearbyBlocks' not in anticondition:
-                            anticondition['neededNearbyBlocks'] = []
-                        anticondition['neededNearbyBlocks'].append(s)
-                else:
-                    match s:
-                        case "Sempiternal Sanctum":
-                            anticondition['structures'] = ["#the_bumblezone:sempiternal_sanctums"]
-                        case "Village":
-                            anticondition['structures'] = [f"#minecraft:{row['Anticonditions'].lower()}"]
-                        case _:
-                            if s.lower() in preset_list:
-                                anticondition['presets'] = [s.lower()]
-                            else:
-                                unknown_conditions.append(f"'{s}' ({currentID})")
-
-            if anticondition:
-                spawn_data['anticondition'] = anticondition
+            # Handle Conditions that have their own columns
+            condition = handle_common_conditions('Conditions', currentID, invalid_biome_tags, row, spawn_data)
+            # Handle Conditions and Anticonditions columns
+            spawn_data = special_condtions_anticonditions(condition, "Conditions", currentID, invalid_biome_tags, row,
+                                                          spawn_data)
+            spawn_data = special_condtions_anticonditions({}, 'Anticonditions', currentID, invalid_biome_tags, row, spawn_data)
 
             # Spawn specific drops field
             spawn_specific_drops = drops_df[drops_df['Pokémon'] == currentPokemon]["Spawn Specific Drops"]
@@ -471,11 +344,11 @@ def transform_pokemon_to_json(pokemon_rows, invalid_biome_tags, drops_df):
                 # Iterate through the spawn_specific_drops
                 for drop in spawn_specific_drops:
                     # Split the string by = and strip each string
-                    dropcondtion, unprocessedDrops = drop.split('=')[0].strip(), drop.split('=')[1].strip()
-                    if dropcondtion.startswith("preset:"):
+                    dropcondition, unprocessedDrops = drop.split('=')[0].strip(), drop.split('=')[1].strip()
+                    if dropcondition.startswith("preset:"):
                         # split dropcondition by "," remove ":preset" and strip each string
-                        presets = [drop.strip().replace("preset:", "").lower() for drop in dropcondtion.split(',')]
-                        # check if the dropcondtion is in the preset_list, if not, then add it to the unknown_conditions list
+                        presets = [drop.strip().replace("preset:", "").lower() for drop in dropcondition.split(',')]
+                        # check if the dropcondition is in the preset_list, if not, then add it to the unknown_conditions list
                         for preset in presets:
                             if preset not in preset_list:
                                 print_warning(f"Unknown preset: {preset}")
@@ -485,10 +358,10 @@ def transform_pokemon_to_json(pokemon_rows, invalid_biome_tags, drops_df):
                                 spawn_data["drops"] = parse_drops(unprocessedDrops)
                     else:
                         # Apply the biome mapping to the condition
-                        if dropcondtion.lower() in biome_mapping:
-                            dropcondtion = biome_mapping[dropcondtion.lower()]
+                        if dropcondition.lower() in biome_mapping:
+                            dropcondition = biome_mapping[dropcondition.lower()]
                         # if the current entry's biome matches with the condition, then add the drops to the json_data
-                        if dropcondtion in condition['biomes']:
+                        if dropcondition in condition['biomes']:
                             spawn_data["drops"] = parse_drops(unprocessedDrops)
 
             # Handle Patternkey=value field and Append the spawn_data to the json_data
@@ -536,6 +409,146 @@ def transform_pokemon_to_json(pokemon_rows, invalid_biome_tags, drops_df):
             raise e
 
     return json_data
+
+
+def handle_common_conditions(column_name, currentID, invalid_biome_tags, row, spawn_data):
+    condition = {}
+    # Common Conditions that have their own columns
+
+    # canSeeSky is different from SkyLight, in that it treats leaves and water of any thickness as fully transparent.
+    if pd.notna(row['canSeeSky']) and row['canSeeSky'] == 'true':
+        condition['canSeeSky'] = True
+    elif row['canSeeSky'] == 'false':
+        condition['canSeeSky'] = False
+
+    # SkyLight
+    if pd.notna(row['skyLightMin']) or pd.notna(row['skyLightMax']):
+        # If one of them is empty, set them to 0 or 15 respectively
+        if pd.isna(row['skyLightMin']):
+            row['skyLightMin'] = 0
+        if pd.isna(row['skyLightMax']):
+            row['skyLightMax'] = 15
+        # raise error if skyLightMin is greater than skyLightMax
+        if int(row['skyLightMin']) > int(row['skyLightMax']):
+            raise ValueError(f"skyLightMin is greater than skyLightMax in {currentID}")
+        condition['minSkyLight'] = int(row['skyLightMin'])
+        condition['maxSkyLight'] = int(row['skyLightMax'])
+
+    # Biomes
+    if pd.notna(row['Biomes']):
+        parsed_biomes = parse_biomes(row['Biomes'], invalid_biome_tags)
+        if parsed_biomes:
+            condition['biomes'] = parsed_biomes
+
+    # check if Time column is day or night or any
+    if pd.notna(row['Time']):
+        if row['Time'].lower() == 'day':
+            condition['timeRange'] = row['Time'].lower()
+        elif row['Time'].lower() == 'night':
+            condition['timeRange'] = row['Time'].lower()
+
+    # check if Weather column is clear or rain or any
+    if pd.notna(row['Weather']):
+        if row['Weather'].lower() == 'clear':
+            condition['isRaining'] = False
+        elif row['Weather'].lower() == 'rain':
+            condition['isRaining'] = True
+
+    return condition
+
+
+def special_condtions_anticonditions(condition, column_name, currentID, invalid_biome_tags, row, spawn_data):
+    # More Rare Conditions (all contained in the Conditions or Anticonditions column)
+    if pd.notna(row[column_name]):
+        # split by "," and then strip each string
+        strings = str(row[column_name]).split(',')
+        for string in strings:
+            s = string.strip()
+            # if the string contains "structure:" then split it and add it to the condition dictionary under "structures"
+            if "structure:" in s:
+                if 'structures' not in condition:
+                    condition['structures'] = []
+                structure = s.split("structure:")[1].lower().strip()
+                if ":" not in structure:
+                    raise ValueError(
+                        f"Invalid structure tag: {structure} in {currentID}. Please specify the full tag, including its prefix. (e.g. 'minecraft:desert_well')")
+                condition['structures'].append(structure)
+            # if the string contains ":" then use it as is and add it to the condition dictionary under "neededBaseBlocks"
+            elif ":" in s:
+                # split the string by " " and check if the first string is "on"
+                if s.split(' ')[0] == "on":
+                    if 'neededBaseBlocks' not in condition:
+                        condition['neededBaseBlocks'] = []
+                    condition['neededBaseBlocks'].append(s.split(' ')[1].strip())
+                else:
+                    if 'neededNearbyBlocks' not in condition:
+                        condition['neededNearbyBlocks'] = []
+                    condition['neededNearbyBlocks'].append(s)
+            # if the string contains "minY = " then split it and add it to the condition dictionary
+            elif "minY" in string:
+                condition['minY'] = int(string.split('=')[1].strip())
+            # if the string contains "maxY = " then split it and add it to the condition dictionary
+            elif "maxY" in string:
+                condition['maxY'] = int(string.split('=')[1].strip())
+            # if the string is "Full Moon" then add moonPhase = 0 to the condition dictionary
+            elif string == "Full Moon":
+                condition['moonPhase'] = "0"
+            # if the string contains "moonPhase =" then split it and look at the next entries in strings that are a number
+            elif "moonPhase = " in string:
+                # get the first integer in the string
+                digitsArray = [int(string.split('=')[1].strip())]
+                # get the index of the current string
+                index = strings.index(string)
+                # get the next strings that are a number and add them to the digitsArray
+                while index < len(strings) - 1:
+                    index += 1
+                    if strings[index].strip().isdigit():
+                        digitsArray.append(int(strings[index].strip()))
+                    else:
+                        break
+                # add the digitsArray to the condition dictionary in the format moonPhase = "1,2,4"
+                condition['moonPhase'] = ','.join(str(x) for x in digitsArray)
+            # if the string contains "maxLight = " then split it and add it to the condition dictionary
+            elif "maxLight" in string:
+                condition['maxLight'] = int(string.split('=')[1].strip())
+            # if the string contains "minLight = " then split it and add it to the condition dictionary
+            elif "minLight" in string:
+                condition['minLight'] = int(string.split('=')[1].strip())
+            elif "maxSkyLight" in string:
+                condition['maxSkyLight'] = int(string.split('=')[1].strip())
+            elif "minSkyLight" in string:
+                condition['minSkyLight'] = int(string.split('=')[1].strip())
+            # if the string is a digit, pass (was already hanlded by other conditions)
+            elif string.strip().isdigit():
+                pass
+            else:
+                unknown_conditions.append(f"'{string}' ({currentID})")
+
+    # Handle Excluded Biomes if currently handling the Anticonditions column
+    if column_name == "Anticonditions":
+        if pd.notna(row['Excluded Biomes']):
+            parsed_biomes = parse_biomes(row['Excluded Biomes'], invalid_biome_tags)
+            if parsed_biomes:
+                condition['biomes'] = parsed_biomes
+
+    # Do sanity checks for minLight, minSkyLight, minY and their respective max values
+    if 'minLight' in condition and 'maxLight' in condition:
+        if condition['minLight'] > condition['maxLight']:
+            raise ValueError(f"minLight is greater than maxLight in {currentID}")
+    if 'minSkyLight' in condition and 'maxSkyLight' in condition:
+        if condition['minSkyLight'] > condition['maxSkyLight']:
+            raise ValueError(f"minSkyLight is greater than maxSkyLight in {currentID}")
+    if 'minY' in condition and 'maxY' in condition:
+        if condition['minY'] > condition['maxY']:
+            raise ValueError(f"minY is greater than maxY in {currentID}")
+
+    # Add the condition to the spawn_data
+    if condition:
+        if column_name == "Anticonditions":
+            spawn_data['anticondition'] = condition
+        else:
+            spawn_data['condition'] = condition
+    return spawn_data
 
 
 def reducePokemonJson(pokemon_json):
