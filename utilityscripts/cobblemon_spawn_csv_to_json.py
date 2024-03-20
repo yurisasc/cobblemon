@@ -11,13 +11,13 @@ import openpyxl
 from tqdm import tqdm
 from cobblemon_drops_csv_to_json import get_drops_df, parse_drops
 from scriptutils import printCobblemonHeader, print_cobblemon_script_footer, print_cobblemon_script_description, \
-    print_warning, print_list_filtered
+    print_warning, print_list_filtered, sanitize_pokemon
 
 # This script is used to convert the data from the cobblemon spawning spreadsheet into a json format
 
 # Define what kind of pokémon should be included, if nothing is specified (empty array), all will be included.
 # filter by number ranges (dex range)
-pokemon_numbers = range(455, 456)
+pokemon_numbers = range(0, 712)
 # filter by group
 included_groups = ['basic', 'boss']
 # filter by context
@@ -183,10 +183,6 @@ def main(only_update_existing_files=False, ignore_filters=False):
     # Apply filters
     csv_df = validateAndFilterData(csv_df, only_update_existing_files, ignore_filters)
 
-    # add the drops column to the csv_df
-    drops_df = load_special_drops_data()
-    csv_df = csv_df.merge(drops_df, on='Pokémon', how='left')
-
     # alter the data in the b column to be a 4-digit number by prepending 0s if necessary
     csv_df['No.'] = csv_df['No.'].apply(lambda x: str(x).zfill(4))
 
@@ -195,6 +191,9 @@ def main(only_update_existing_files=False, ignore_filters=False):
 
     # alter the data in the Pokémon column by using generateName
     csv_df['Pokémon'] = csv_df['Pokémon'].apply(generateName)
+
+    # add the drops column to the csv_df
+    drops_df = load_special_drops_data()
 
     # make the canSeeSky column lowercase
     csv_df['canSeeSky'] = csv_df['canSeeSky'].apply(lambda x: str(x).lower())
@@ -205,13 +204,16 @@ def main(only_update_existing_files=False, ignore_filters=False):
     # Group the data by dex number
     csv_grouped = csv_df.groupby('No.')
 
+    #print the first few rows of the csv_grouped
+    #print(csv_grouped.head(10))
+
     print_warning("Modifying files...")
     # Processing each Pokémon group and converting it to JSON
     try:
         for dex, group in tqdm(csv_grouped, bar_format='\033[92m' + '{l_bar}\033[0m{bar:58}\033[92m{r_bar}\033[0m',
                                colour='blue'):
             file_id = dex
-            pokemon_json = transform_pokemon_to_json(group, invalid_biome_tags)
+            pokemon_json = transform_pokemon_to_json(group, invalid_biome_tags, drops_df)
             save_json_to_file(pokemon_json, file_id, group['Pokémon'].iloc[0], pokemon_data_dir)
     finally:
         print_report()
@@ -263,7 +265,7 @@ def validateAndFilterData(csv_df, only_update_existing_files=False, ignore_filte
     return csv_df
 
 
-def transform_pokemon_to_json(pokemon_rows, invalid_biome_tags):
+def transform_pokemon_to_json(pokemon_rows, invalid_biome_tags, drops_df):
     json_data = {
         "enabled": True,
         "neededInstalledMods": [],
@@ -454,21 +456,40 @@ def transform_pokemon_to_json(pokemon_rows, invalid_biome_tags):
                             anticondition['structures'] = ["#the_bumblezone:sempiternal_sanctums"]
                         case "Village":
                             anticondition['structures'] = [f"#minecraft:{row['Anticonditions'].lower()}"]
+                        case _:
+                            if s.lower() in preset_list:
+                                anticondition['presets'] = [s.lower()]
+                            else:
+                                unknown_conditions.append(f"'{s}' ({currentID})")
 
             if anticondition:
                 spawn_data['anticondition'] = anticondition
 
-            # Drops field
-            if pd.notna(row['Spawn Specific Drops']):
-                # Split the string by = and strip each string
-                dropcondtion, unprocessedDrops = row['Spawn Specific Drops'].split('=')[0].strip(), \
-                    row['Spawn Specific Drops'].split('=')[1].strip()
-                # Apply the biome mapping to the condition
-                if dropcondtion.lower() in biome_mapping:
-                    dropcondtion = biome_mapping[dropcondtion.lower()]
-                # if the current entry's biome matches with the condition, then add the drops to the json_data
-                if dropcondtion in condition['biomes']:
-                    spawn_data["drops"] = parse_drops(unprocessedDrops)
+            # Spawn specific drops field
+            spawn_specific_drops = drops_df[drops_df['Pokémon'] == currentPokemon]["Spawn Specific Drops"]
+            if not spawn_specific_drops.empty:
+                # Iterate through the spawn_specific_drops
+                for drop in spawn_specific_drops:
+                    # Split the string by = and strip each string
+                    dropcondtion, unprocessedDrops = drop.split('=')[0].strip(), drop.split('=')[1].strip()
+                    if dropcondtion.startswith("preset:"):
+                        # split dropcondition by "," remove ":preset" and strip each string
+                        presets = [drop.strip().replace("preset:", "").lower() for drop in dropcondtion.split(',')]
+                        # check if the dropcondtion is in the preset_list, if not, then add it to the unknown_conditions list
+                        for preset in presets:
+                            if preset not in preset_list:
+                                print_warning(f"Unknown preset: {preset}")
+                            # if the current entry's preset matches with the condition, then add the drops to the json_data
+                            # check if the presets field is in the spawn_data
+                            if "presets" in spawn_data and preset in spawn_data['presets']:
+                                spawn_data["drops"] = parse_drops(unprocessedDrops)
+                    else:
+                        # Apply the biome mapping to the condition
+                        if dropcondtion.lower() in biome_mapping:
+                            dropcondtion = biome_mapping[dropcondtion.lower()]
+                        # if the current entry's biome matches with the condition, then add the drops to the json_data
+                        if dropcondtion in condition['biomes']:
+                            spawn_data["drops"] = parse_drops(unprocessedDrops)
 
             # Handle Patternkey=value field and Append the spawn_data to the json_data
             if pd.notna(row['Patternkey=Value']):
@@ -577,11 +598,6 @@ def generateName(pokemon_name):
     return sanitize_pokemon(pokemon_name)
 
 
-def sanitize_pokemon(pokemon):
-    return (pokemon.replace("-", "").replace("♂", "m").replace("♀", "f")
-            .replace(".", "").replace("'", "").replace(' ', '').lower())
-
-
 def parse_biomes(biomes_str, invalid_biome_tags):
     # Use the biome_mapping to convert the Biome column to the format used in the spawn json
     biomes = []
@@ -657,6 +673,8 @@ def load_special_drops_data():
     drops_df = drops_df[drops_df['Spawn Specific Drops'].notna()]
     # remove all columns except "Pokémon" and "Spawn Specific Drops"
     drops_df = drops_df[['Pokémon', 'Spawn Specific Drops']]
+    # apply sanitize_pokemon to the "Pokémon" column
+    drops_df['Pokémon'] = drops_df['Pokémon'].apply(sanitize_pokemon)
     return drops_df
 
 

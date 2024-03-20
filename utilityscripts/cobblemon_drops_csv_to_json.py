@@ -7,7 +7,7 @@ from io import StringIO
 from sqlalchemy import create_engine
 from tqdm import tqdm
 from scriptutils import printCobblemonHeader, print_cobblemon_script_description, print_cobblemon_script_footer, \
-    print_list_filtered, print_warning
+    print_list_filtered, print_warning, sanitize_pokemon
 
 # Initialize lists for report
 no_drops_base_forms = []
@@ -88,7 +88,7 @@ def modify_files(file, pokemon_data_dir, drops_df):
         data = json.load(f)
 
     for _, row in drops_df.iterrows():
-        pokemon = sanitize_crysheet_pokemon(row['Pokémon'].split("[")[0].strip())
+        pokemon = sanitize_pokemon(row['Pokémon'].split("[")[0].strip())
         pokemon_form = row['Pokémon'].split("[")[1].split("]")[0].strip() if "[" in row['Pokémon'] else None
         if pokemon_form is None:
             if pokemon == file.split('/')[-1][:-5].lower():
@@ -217,7 +217,7 @@ def load_data_from_csv(csv_data):
 
 def filter_filenames_by_pokemon_names(directory, pokemon_names):
     # Apply the sanitize_pokemon function to the pokemon_names
-    pokemon_names = pokemon_names.apply(sanitize_crysheet_pokemon)
+    pokemon_names = pokemon_names.apply(sanitize_pokemon)
 
     # Get list of subdirectories in the provided directory
     subdirectories = [d for d in os.listdir(directory) if os.path.isdir(os.path.join(directory, d))]
@@ -244,10 +244,6 @@ def filter_filenames_by_pokemon_names(directory, pokemon_names):
 def write_to_sqlite(df, db_name, table_name):
     engine = create_engine(f'sqlite:///{db_name}', echo=True)
     df.to_sql(table_name, con=engine, if_exists='replace', index=False)
-
-
-def sanitize_crysheet_pokemon(pokemon):
-    return pokemon.replace("-", "").replace("♂", "m").replace("♀", "f").replace(".", "").replace("'", "").replace(' ', '').replace('é', 'e').replace(':', '').lower()
 
 
 if __name__ == "__main__":
