@@ -30,6 +30,7 @@ import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.fluid.FluidState
 import net.minecraft.fluid.Fluids
 import net.minecraft.item.ItemPlacementContext
+import net.minecraft.screen.ScreenHandler
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.sound.SoundCategory
 import net.minecraft.state.StateManager
@@ -227,6 +228,14 @@ class GildedChestBlock(settings: Settings, val type: Type = Type.RED) : BlockWit
                 state.get(Properties.HORIZONTAL_FACING) as Direction
             )
         ) as BlockState
+    }
+
+    override fun hasComparatorOutput(state: BlockState?): Boolean {
+        return true
+    }
+
+    override fun getComparatorOutput(state: BlockState?, world: World, pos: BlockPos?): Int {
+        return ScreenHandler.calculateComparatorOutput(world.getBlockEntity(pos))
     }
 
     override fun mirror(state: BlockState, mirror: BlockMirror): BlockState {
