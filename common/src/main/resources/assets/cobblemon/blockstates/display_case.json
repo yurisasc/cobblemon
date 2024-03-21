@@ -4,13 +4,16 @@
       "model": "cobblemon:block/display_case"
     },
     "facing=west": {
-      "model": "cobblemon:block/display_case"
+      "model": "cobblemon:block/display_case",
+      "y": 90
     },
     "facing=north": {
-      "model": "cobblemon:block/display_case"
+      "model": "cobblemon:block/display_case",
+      "y": 180
     },
     "facing=east": {
-      "model": "cobblemon:block/display_case"
+      "model": "cobblemon:block/display_case",
+      "y": 270
     }
   }
 }
