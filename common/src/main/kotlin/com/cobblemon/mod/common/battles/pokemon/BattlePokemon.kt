@@ -80,10 +80,11 @@ open class BattlePokemon(
     val contextManager = ContextManager()
 
     open fun getName(): MutableText {
+        val displayPokemon = getIllusion()?.effectedPokemon ?: effectedPokemon
         return if (actor is PokemonBattleActor || actor is MultiPokemonBattleActor) {
-            effectedPokemon.getDisplayName()
+            displayPokemon.getDisplayName()
         } else {
-            battleLang("owned_pokemon", actor.getName(), effectedPokemon.getDisplayName())
+            battleLang("owned_pokemon", actor.getName(), displayPokemon.getDisplayName())
         }
     }
 
@@ -102,4 +103,6 @@ open class BattlePokemon(
     fun writeVariables(struct: VariableStruct) {
         effectedPokemon.writeVariables(struct)
     }
+
+    fun getIllusion(): BattlePokemon? = this.actor.activePokemon.find { it.battlePokemon == this }?.illusion
 }

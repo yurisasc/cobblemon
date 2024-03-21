@@ -19,7 +19,7 @@ class FieldStartInstruction(val message: BattleMessage): InterpreterInstruction 
 
     override fun invoke(battle: PokemonBattle) {
         val effect = message.effectAt(0) ?: return
-        val user = message.getSourceBattlePokemon(battle)?.getName() ?: Text.literal("UNKNOWN")
+        val user = message.battlePokemonFromOptional(battle)?.getName() ?: Text.literal("UNKNOWN")
         ShowdownInterpreter.broadcastOptionalAbility(battle, effect, user)
 
         battle.dispatchWaiting(1.5F) {

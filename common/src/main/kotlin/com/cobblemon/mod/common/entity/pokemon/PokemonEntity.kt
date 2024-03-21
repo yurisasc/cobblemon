@@ -220,11 +220,6 @@ open class PokemonEntity(
     val exposedForm: FormData get() = this.effects.mockEffect?.exposedForm ?: this.pokemon.form
 
     init {
-        if (!this.world.isClient && this.pokemon.species.nationalPokedexNumber == 571) {
-            val test = PokemonProperties.parse("vulpix alolan=true").create()
-            this.effects.mockEffect = IllusionEffect(test)
-            Cobblemon.LOGGER.error("server entity init - " + this.effects.mockEffect?.mock?.species + " - " + this.effects.mockEffect?.mock?.form)
-        }
         delegate.initialize(this)
         delegate.changePokemon(pokemon)
         calculateDimensions()

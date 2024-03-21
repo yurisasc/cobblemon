@@ -22,7 +22,7 @@ class SetHpInstruction(val actor: BattleActor, val publicMessage: BattleMessage,
             val (pnx, _) = privateMessage.pnxAndUuid(0) ?: return@dispatchWaiting
             val flatHp = privateMessage.argumentAt(1)?.split("/")?.getOrNull(0)?.toFloatOrNull() ?: return@dispatchWaiting
             val ratioHp = publicMessage.argumentAt(1)?.split("/")?.getOrNull(0)?.toFloatOrNull()?.times(0.01F) ?: return@dispatchWaiting
-            val battlePokemon = privateMessage.getBattlePokemon(0, battle) ?: return@dispatchWaiting
+            val battlePokemon = privateMessage.battlePokemon(0, battle) ?: return@dispatchWaiting
             battlePokemon.effectedPokemon.currentHealth = flatHp.roundToInt()
             battle.sendSidedUpdate(actor, BattleHealthChangePacket(pnx, flatHp), BattleHealthChangePacket(pnx, ratioHp))
             // It doesn't matter which we check when silent both have it

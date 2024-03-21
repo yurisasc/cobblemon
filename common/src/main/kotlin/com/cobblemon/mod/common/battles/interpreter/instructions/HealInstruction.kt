@@ -25,7 +25,7 @@ class HealInstruction(val actor: BattleActor, val publicMessage: BattleMessage, 
 
     override fun invoke(battle: PokemonBattle) {
         val pnx = privateMessage.pnxAndUuid(0)?.first
-        val battlePokemon = privateMessage.getBattlePokemon(0, battle) ?: return
+        val battlePokemon = privateMessage.battlePokemon(0, battle) ?: return
         val rawHpAndStatus = privateMessage.argumentAt(1)?.split(" ") ?: return
         val rawHpRatio = rawHpAndStatus.getOrNull(0) ?: return
         val newHealth = rawHpRatio.split("/").map { it.toFloatOrNull() ?: return }
@@ -58,7 +58,7 @@ class HealInstruction(val actor: BattleActor, val publicMessage: BattleMessage, 
                             }
                             else -> when (effect.id) {
                                 "drain" -> {
-                                    val drained = privateMessage.getSourceBattlePokemon(battle) ?: return@dispatchWaiting
+                                    val drained = privateMessage.battlePokemonFromOptional(battle) ?: return@dispatchWaiting
                                     battleLang("heal.drain", drained.getName())
                                 }
                                 else -> battleLang("heal.${effect.id}", battlePokemon.getName())

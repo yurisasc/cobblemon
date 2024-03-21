@@ -16,7 +16,7 @@ class SuperEffectiveInstruction(val message: BattleMessage): InterpreterInstruct
 
     override fun invoke(battle: PokemonBattle) {
         battle.dispatchGo {
-            val pokemon = message.getBattlePokemon(0, battle) ?: return@dispatchGo
+            val pokemon = message.battlePokemon(0, battle) ?: return@dispatchGo
             battle.broadcastChatMessage(battleLang("superEffective"))
             battle.minorBattleActions[pokemon.uuid] = message
         }

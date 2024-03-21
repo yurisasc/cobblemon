@@ -90,6 +90,7 @@ object ShowdownInterpreter {
         updateInstructionParser["pp_update"]             = { _, _, message, _ -> PpUpdateInstruction(message) }
         updateInstructionParser["-prepare"]              = { _, _, message, _ -> RechargeInstruction(message) }
         updateInstructionParser["-mustrecharge"]         = { _, _, message, _ -> RechargeInstruction(message) }
+        updateInstructionParser["replace"]               = { _, _, message, _ -> ReplaceInstruction(message) }
         updateInstructionParser["-resisted"]             = { _, _, message, _ -> ResistedInstruction(message) }
         updateInstructionParser["-resisted"]             = { _, _, message, _ -> ResistedInstruction(message) }
         updateInstructionParser["-setboost"]             = { _, _, message, _ -> SetBoostInstruction(message) }
@@ -235,7 +236,7 @@ object ShowdownInterpreter {
                 // damage from moves and suicide
                 lastCauser[battle.battleId]?.let {
                     val move = it.effectAt(1)!!.id
-                    val origin = it.getBattlePokemon(0, battle)
+                    val origin = it.battlePokemon(0, battle)
                     BasicContext(move, battle.turn, BattleContext.Type.FAINT, origin)
                 } ?:
                 MissingContext()
@@ -251,7 +252,7 @@ object ShowdownInterpreter {
             // destiny bond
             "-activate" -> {
                 cause.effectAt(1)?.let {
-                    val origin = cause.getBattlePokemon(0, battle)
+                    val origin = cause.battlePokemon(0, battle)
                     BasicContext(it.id, battle.turn, BattleContext.Type.FAINT, origin)
                 } ?:
                 MissingContext()
@@ -272,7 +273,7 @@ object ShowdownInterpreter {
             // ex: |-status|p2a: ###|par -> |move|p1a: ###|Glare|p2a: ###
             // ex: |-unboost|p1a: ###|atk|1 -> |-ability|p2a: ###|Intimidate|boost
             val effectID = message.effectAt(1)?.id ?: return@let MissingContext()
-            val origin = lastCauser[battle.battleId]?.getBattlePokemon(0, battle) ?: return@let MissingContext()
+            val origin = lastCauser[battle.battleId]?.battlePokemon(0, battle) ?: return@let MissingContext()
             BasicContext(effectID, battle.turn, type, origin)
         } ?:
         // |-action|EFFECT
@@ -280,7 +281,7 @@ object ShowdownInterpreter {
             // ex: |-sidestart|p2: ###|move: Toxic Spikes -> |-activate|p1a: ###|ability: Toxic Debris
             // ex: |-weather|Sandstorm -> |move|p1a: ###|Sandstorm|p1a: ###
             val effectID = message.effectAt(1)?.id ?: message.effectAt(0)?.id ?: return@let MissingContext()
-            BasicContext(effectID, battle.turn, type, it.getBattlePokemon(0, battle))
+            BasicContext(effectID, battle.turn, type, it.battlePokemon(0, battle))
         } ?:
         MissingContext()
     }

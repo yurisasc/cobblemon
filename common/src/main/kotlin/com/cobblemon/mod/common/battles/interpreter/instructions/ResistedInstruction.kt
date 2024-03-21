@@ -16,7 +16,7 @@ class ResistedInstruction(val message: BattleMessage): InterpreterInstruction {
 
     override fun invoke(battle: PokemonBattle) {
         battle.dispatchGo {
-            val pokemon = message.getBattlePokemon(0, battle) ?: return@dispatchGo
+            val pokemon = message.battlePokemon(0, battle) ?: return@dispatchGo
             battle.broadcastChatMessage(battleLang("resisted"))
             battle.minorBattleActions[pokemon.uuid] = message
         }

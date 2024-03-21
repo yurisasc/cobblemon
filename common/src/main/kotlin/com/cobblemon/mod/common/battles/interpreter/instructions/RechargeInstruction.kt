@@ -16,7 +16,7 @@ class RechargeInstruction(val message: BattleMessage): InterpreterInstruction {
 
     override fun invoke(battle: PokemonBattle) {
         battle.dispatchWaiting(2F){
-            val pokemon = message.getBattlePokemon(0, battle) ?: return@dispatchWaiting
+            val pokemon = message.battlePokemon(0, battle) ?: return@dispatchWaiting
             battle.broadcastChatMessage(battleLang("recharge", pokemon.getName()))
             battle.minorBattleActions[pokemon.uuid] = message
         }

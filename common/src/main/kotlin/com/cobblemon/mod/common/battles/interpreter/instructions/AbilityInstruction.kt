@@ -31,11 +31,11 @@ import com.cobblemon.mod.common.util.battleLang
  */
 class AbilityInstruction(val instructionSet: InstructionSet, val message: BattleMessage) : InterpreterInstruction, CauserInstruction {
     override fun invoke(battle: PokemonBattle) {
-        val pokemon = message.getBattlePokemon(0, battle) ?: return
+        val pokemon = message.battlePokemon(0, battle) ?: return
         val pokemonName = pokemon.getName()
         val effect = message.effectAt(1) ?: return
         val optionalEffect = message.effect()
-        val optionalPokemon = message.getSourceBattlePokemon(battle)
+        val optionalPokemon = message.battlePokemonFromOptional(battle)
         val optionalPokemonName = optionalPokemon?.getName()
 
         // If there is an optional effect causing the activation, broadcast that instead of the standard effect

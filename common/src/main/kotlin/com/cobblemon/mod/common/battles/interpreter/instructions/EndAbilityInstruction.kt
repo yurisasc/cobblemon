@@ -16,7 +16,7 @@ class EndAbilityInstruction(val message: BattleMessage): InterpreterInstruction 
 
     override fun invoke(battle: PokemonBattle) {
         battle.dispatchWaiting(1.5F) {
-            val pokemon = message.getBattlePokemon(0, battle) ?: return@dispatchWaiting
+            val pokemon = message.battlePokemon(0, battle) ?: return@dispatchWaiting
             val pokemonName = pokemon.getName()
 
             val lang = battleLang("endability", pokemonName)

@@ -24,7 +24,7 @@ class EndItemInstruction(val message: BattleMessage): InterpreterInstruction {
     override fun invoke(battle: PokemonBattle) {
         battle.dispatchGo {
             // All logic regarding broadcasting battle messages is handled in CobblemonHeldItemManager
-            val battlePokemon = message.getBattlePokemon(0, battle) ?: return@dispatchGo
+            val battlePokemon = message.battlePokemon(0, battle) ?: return@dispatchGo
             val itemEffect = message.effectAt(1) ?: return@dispatchGo
             battlePokemon.heldItemManager.handleEndInstruction(battlePokemon, battle, message)
             battle.minorBattleActions[battlePokemon.uuid] = message

@@ -166,7 +166,7 @@ open class PokemonBattle(
     fun getActor(player: ServerPlayerEntity) = actors.firstOrNull { it.isForPlayer(player) }
 
     /**
-     * Gets a BattleActor and an [ActiveBattlePokemon] from a pnx key, e.g. p2a
+     * Gets a [BattleActor] and an [ActiveBattlePokemon] from a pnx key, e.g. p2a
      *
      * Returns null if either the pn or x is invalid.
      */
@@ -179,6 +179,11 @@ open class PokemonBattle(
         return actor to pokemon
     }
 
+    /**
+     * Gets a [BattlePokemon] from a pnx key and uuid.
+     *
+     * Returns null if the pnx key is invalid or the uuid does not exist.
+     */
     fun getBattlePokemon(pnx: String, pokemonID: String): BattlePokemon {
         val actor = actors.find { it.showdownId == pnx.substring(0, 2) }
             ?: throw IllegalStateException("Invalid pnx: $pnx - unknown actor")

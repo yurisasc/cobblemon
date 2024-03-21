@@ -17,9 +17,9 @@ class CopyBoostInstruction(val message: BattleMessage): InterpreterInstruction {
 
     override fun invoke(battle: PokemonBattle) {
         battle.dispatchWaiting {
-            val pokemon = message.getBattlePokemon(0, battle) ?: return@dispatchWaiting
+            val pokemon = message.battlePokemon(0, battle) ?: return@dispatchWaiting
             val pokemonName = pokemon.getName()
-            val targetPokemon = message.getBattlePokemon(1, battle) ?: return@dispatchWaiting
+            val targetPokemon = message.battlePokemon(1, battle) ?: return@dispatchWaiting
             val targetPokemonName = targetPokemon.getName()
             val lang = battleLang("copyboost.generic", pokemonName, targetPokemonName)
             battle.broadcastChatMessage(lang)

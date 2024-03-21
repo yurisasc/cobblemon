@@ -22,7 +22,7 @@ class CureStatusInstruction(val message: BattleMessage): InterpreterInstruction 
 
     override fun invoke(battle: PokemonBattle) {
         val maybeActivePokemon = message.actorAndActivePokemon(0, battle)?.second?.battlePokemon
-        val maybePartyPokemon = message.getBattlePokemon(0, battle)
+        val maybePartyPokemon = message.battlePokemon(0, battle)
         val pokemon = maybeActivePokemon ?: maybePartyPokemon ?: return
         val pokemonName = pokemon.getName()
         val status = message.argumentAt(1)?.let(Statuses::getStatus) ?: return

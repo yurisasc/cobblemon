@@ -22,7 +22,7 @@ class StatusInstruction( val message: BattleMessage): InterpreterInstruction {
 
     override fun invoke(battle: PokemonBattle) {
         val (pnx, _) = message.pnxAndUuid(0) ?: return
-        val pokemon = message.getBattlePokemon(0, battle) ?: return
+        val pokemon = message.battlePokemon(0, battle) ?: return
         val otherPokemon = message.actorAndActivePokemonFromOptional(battle, "of")?.second?.battlePokemon
         val statusLabel = message.argumentAt(1) ?: return
         val status = Statuses.getStatus(statusLabel) ?: return Cobblemon.LOGGER.error("Unrecognized status: $statusLabel")

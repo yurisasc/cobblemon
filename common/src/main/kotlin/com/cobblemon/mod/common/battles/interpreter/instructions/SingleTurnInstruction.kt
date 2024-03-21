@@ -17,9 +17,9 @@ class SingleTurnInstruction(val message: BattleMessage): InterpreterInstruction 
 
     override fun invoke(battle: PokemonBattle) {
         battle.dispatchWaiting(1.5F) {
-            val pokemon = message.getBattlePokemon(0, battle) ?: return@dispatchWaiting
+            val pokemon = message.battlePokemon(0, battle) ?: return@dispatchWaiting
             val pokemonName = pokemon.getName()
-            val sourceName = message.getSourceBattlePokemon(battle)?.getName() ?: Text.literal("UNKOWN")
+            val sourceName = message.battlePokemonFromOptional(battle)?.getName() ?: Text.literal("UNKOWN")
             val effectID = message.effectAt(1)?.id ?: return@dispatchWaiting
             val lang = battleLang("singleturn.$effectID", pokemonName, sourceName)
             battle.broadcastChatMessage(lang)

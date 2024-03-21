@@ -21,11 +21,11 @@ import net.minecraft.text.Text
 class ItemInstruction(val message: BattleMessage): InterpreterInstruction {
 
     override fun invoke(battle: PokemonBattle) {
-        val sourceName = message.getSourceBattlePokemon(battle)?.getName() ?: Text.literal("UNKOWN")
+        val sourceName = message.battlePokemonFromOptional(battle)?.getName() ?: Text.literal("UNKOWN")
         ShowdownInterpreter.broadcastOptionalAbility(battle, message.effect(), sourceName)
 
         battle.dispatchGo {
-            val battlePokemon = message.getBattlePokemon(0, battle) ?: return@dispatchGo
+            val battlePokemon = message.battlePokemon(0, battle) ?: return@dispatchGo
             battlePokemon.heldItemManager.handleStartInstruction(battlePokemon, battle, message)
             battle.minorBattleActions[battlePokemon.uuid] = message
             battlePokemon.contextManager.add(ShowdownInterpreter.getContextFromAction(message, BattleContext.Type.ITEM, battle))

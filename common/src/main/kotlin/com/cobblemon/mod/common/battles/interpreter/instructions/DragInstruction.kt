@@ -21,12 +21,11 @@ import com.cobblemon.mod.common.util.battleLang
 class DragInstruction(val instructionSet: InstructionSet, val battleActor: BattleActor, val publicMessage: BattleMessage, val privateMessage: BattleMessage): InterpreterInstruction {
     override fun invoke(battle: PokemonBattle) {
         battle.dispatchInsert {
-            val (pnx, pokemonID) = publicMessage.pnxAndUuid(0)!!
+            val (pnx, _) = publicMessage.pnxAndUuid(0)!!
             val (_, activePokemon) = battle.getActorAndActiveSlotFromPNX(pnx)
 
-            val optionalID = publicMessage.optionalArgument("is")
-            val pokemon = battle.getBattlePokemon(pnx, optionalID ?: pokemonID)
-            val illusion = optionalID?.let { battle.getBattlePokemon(pnx, pokemonID) }
+            val illusion = publicMessage.battlePokemonFromOptional(battle , "is")
+            val pokemon = publicMessage.battlePokemon(0, battle) ?: return@dispatchInsert emptySet()
 
             battle.broadcastChatMessage(battleLang("dragged_out", pokemon.getName()))
             activePokemon.battlePokemon?.let { oldPokemon ->

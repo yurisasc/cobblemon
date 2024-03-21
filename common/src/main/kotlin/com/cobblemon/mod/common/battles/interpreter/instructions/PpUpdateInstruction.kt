@@ -15,7 +15,7 @@ class PpUpdateInstruction( val message: BattleMessage): InterpreterInstruction {
 
     override fun invoke(battle: PokemonBattle) {
         battle.dispatch {
-            val pokemon = message.getBattlePokemon(0, battle) ?: return@dispatch GO
+            val pokemon = message.battlePokemon(0, battle) ?: return@dispatch GO
             val moveDatum = message.argumentAt(1)?.split(", ") ?: return@dispatch GO
             moveDatum.forEach { moveData ->
                 val moveIdAndPp = moveData.split(": ")

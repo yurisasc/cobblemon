@@ -18,11 +18,11 @@ class FailInstruction(val message: BattleMessage): InterpreterInstruction {
 
     override fun invoke(battle: PokemonBattle) {
         battle.dispatchWaiting(1.5F){
-            val pokemon = message.getBattlePokemon(0, battle) ?: return@dispatchWaiting
+            val pokemon = message.battlePokemon(0, battle) ?: return@dispatchWaiting
             val pokemonName = pokemon.getName()
             val effectID = message.effectAt(1)?.id
             val cause = message.effect("from")
-            val of = message.getSourceBattlePokemon(battle)
+            val of = message.battlePokemonFromOptional(battle)
 
             val lang = when (effectID) {
                 null, "burnup", "doubleshock" -> battleLang("fail") // Moves that use default fail lang. (Null included for moves that fail with no effect, for example: Baton Pass.)

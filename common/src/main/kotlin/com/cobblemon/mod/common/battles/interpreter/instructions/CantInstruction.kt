@@ -20,7 +20,7 @@ class CantInstruction(val message: BattleMessage): InterpreterInstruction {
 
     override fun invoke(battle: PokemonBattle) {
         battle.dispatchWaiting {
-            val pokemon = message.getBattlePokemon(0, battle) ?: return@dispatchWaiting
+            val pokemon = message.battlePokemon(0, battle) ?: return@dispatchWaiting
             val effectID = message.effectAt(1)?.id ?: return@dispatchWaiting
             val name = pokemon.getName()
             // Move may be null as it's not always given

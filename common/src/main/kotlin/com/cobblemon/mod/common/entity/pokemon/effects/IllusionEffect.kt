@@ -3,6 +3,7 @@ package com.cobblemon.mod.common.entity.pokemon.effects
 import com.cobblemon.mod.common.api.entity.pokemon.*
 import com.cobblemon.mod.common.api.pokemon.PokemonProperties
 import com.cobblemon.mod.common.api.pokemon.PokemonPropertyExtractor
+import com.cobblemon.mod.common.api.scheduling.afterOnServer
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.util.DataKeys
@@ -33,8 +34,10 @@ class IllusionEffect(
 
     override fun revert(entity: PokemonEntity, future: CompletableFuture<PokemonEntity>) {
         entity.effects.mockEffect = null
-        entity.cry()
-        future.complete(entity)
+        afterOnServer(seconds = 1.0F) {
+            entity.cry()
+            future.complete(entity)
+        }
     }
 
     override fun saveToNbt(): NbtCompound {

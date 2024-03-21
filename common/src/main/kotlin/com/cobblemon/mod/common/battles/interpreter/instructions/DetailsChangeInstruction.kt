@@ -15,7 +15,7 @@ import com.cobblemon.mod.common.util.battleLang
 class DetailsChangeInstruction(val message: BattleMessage): InterpreterInstruction {
 
     override fun invoke(battle: PokemonBattle) {
-        val battlePokemon = message.getBattlePokemon(0, battle) ?: return
+        val battlePokemon = message.battlePokemon(0, battle) ?: return
         val pokemonName = battlePokemon.getName()
         val formName = message.argumentAt(1)?.split(',')?.get(0)?.substringAfter('-')?.lowercase() ?: return
         battle.dispatchWaiting {

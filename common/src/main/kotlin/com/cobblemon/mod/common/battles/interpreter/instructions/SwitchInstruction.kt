@@ -28,13 +28,12 @@ class SwitchInstruction(val instructionSet: InstructionSet, val battleActor: Bat
 
     override fun invoke(battle: PokemonBattle) {
 
-        val (pnx, pokemonID) = publicMessage.pnxAndUuid(0) ?: return
+        val (pnx, _) = publicMessage.pnxAndUuid(0) ?: return
         val (actor, activePokemon) = battle.getActorAndActiveSlotFromPNX(pnx)
         val entity = if (actor is EntityBackedBattleActor<*>) actor.entity else null
 
-        val optionalID = publicMessage.optionalArgument("is")
-        val pokemon = battle.getBattlePokemon(pnx, optionalID ?: pokemonID)
-        val illusion = optionalID?.let { battle.getBattlePokemon(pnx, pokemonID) }
+        val illusion = publicMessage.battlePokemonFromOptional(battle, "is")
+        val pokemon = publicMessage.battlePokemon(0, battle) ?: return
 
         if (!battle.started) {
             activePokemon.battlePokemon = pokemon

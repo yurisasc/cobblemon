@@ -19,6 +19,7 @@ import com.cobblemon.mod.common.battles.dispatch.InstructionSet
 import com.cobblemon.mod.common.battles.dispatch.InterpreterInstruction
 import com.cobblemon.mod.common.battles.dispatch.UntilDispatch
 import com.cobblemon.mod.common.battles.dispatch.WaitDispatch
+import com.cobblemon.mod.common.battles.pokemon.BattlePokemon
 import com.cobblemon.mod.common.net.messages.client.animation.PlayPoseableAnimationPacket
 import com.cobblemon.mod.common.net.messages.client.battle.BattleHealthChangePacket
 import com.cobblemon.mod.common.pokemon.evolution.progress.DamageTakenEvolutionProgress
@@ -43,10 +44,10 @@ class DamageInstruction(
     val privateMessage: BattleMessage
 ) : InterpreterInstruction {
     var future = CompletableFuture.completedFuture(Unit)
-    val battlePokemon = publicMessage.getBattlePokemon(0, actor.battle)
+    val expectedTarget = publicMessage.battlePokemon(0, actor.battle)
 
     override fun invoke(battle: PokemonBattle) {
-        battlePokemon ?: return
+        val battlePokemon = publicMessage.battlePokemon(0, actor.battle) ?: return
         val recoiling = privateMessage.optionalArgument("from")?.equals("recoil", true) == true
         val lastCauser  = instructionSet.getMostRecentCauser(comparedTo = this)
         if (recoiling) {
@@ -65,7 +66,7 @@ class DamageInstruction(
         val newHealth = privateMessage.argumentAt(1)?.split(" ")?.get(0) ?: return
         val effect = privateMessage.effect()
         val pokemonName = battlePokemon.getName()
-        val sourceName = privateMessage.getSourceBattlePokemon(battle)?.getName() ?: Text.literal("UNKNOWN")
+        val sourceName = privateMessage.battlePokemonFromOptional(battle)?.getName() ?: Text.literal("UNKNOWN")
         var causedFaint = newHealth == "0"
 
         battle.dispatch {

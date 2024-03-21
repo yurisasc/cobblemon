@@ -19,10 +19,10 @@ class CritInstruction(val message: BattleMessage): InterpreterInstruction {
 
     override fun invoke(battle: PokemonBattle) {
         battle.dispatchGo {
-            val pokemon = message.getBattlePokemon(0, battle) ?: return@dispatchGo
+            val pokemon = message.battlePokemon(0, battle) ?: return@dispatchGo
             battle.broadcastChatMessage(battleLang("crit").yellow())
             ShowdownInterpreter.lastCauser[battle.battleId]?.let { message ->
-                val battlePokemon = message.getBattlePokemon(0, battle) ?: return@let
+                val battlePokemon = message.battlePokemon(0, battle) ?: return@let
                 if (LastBattleCriticalHitsEvolutionProgress.supports(battlePokemon.effectedPokemon)) {
                     val progress = battlePokemon.effectedPokemon.evolutionProxy.current().progressFirstOrCreate({ it is LastBattleCriticalHitsEvolutionProgress }) { LastBattleCriticalHitsEvolutionProgress() }
                     progress.updateProgress(LastBattleCriticalHitsEvolutionProgress.Progress(progress.currentProgress().amount + 1))

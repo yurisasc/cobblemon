@@ -22,11 +22,11 @@ import com.cobblemon.mod.common.util.battleLang
  * @since October 3, 2022
  */
 class MissInstruction(val battle: PokemonBattle, val message: BattleMessage): InterpreterInstruction {
-    val target = message.getBattlePokemon(1, battle)
+    val target = message.battlePokemon(1, battle)
 
     override fun invoke(battle: PokemonBattle) {
         battle.dispatchGo {
-            val pokemon = message.getBattlePokemon(0, battle) ?: return@dispatchGo
+            val pokemon = message.battlePokemon(0, battle) ?: return@dispatchGo
             battle.broadcastChatMessage(battleLang("missed").red())
             battle.minorBattleActions[pokemon.uuid] = message
         }

@@ -30,9 +30,9 @@ import net.minecraft.text.Text
  */
 class ActivateInstruction(val instructionSet: InstructionSet, val message: BattleMessage) : InterpreterInstruction, CauserInstruction {
     override fun invoke(battle: PokemonBattle) {
-        val pokemon = message.getBattlePokemon(0, battle) ?: return
+        val pokemon = message.battlePokemon(0, battle) ?: return
         val pokemonName = pokemon.getName()
-        val sourceName = message.getSourceBattlePokemon(battle)?.getName() ?: Text.literal("UNKNOWN")
+        val sourceName = message.battlePokemonFromOptional(battle)?.getName() ?: Text.literal("UNKNOWN")
         val effect = message.effectAt(1) ?: return
         val extraEffect = message.effectAt(2)?.typelessData ?: Text.literal("UNKNOWN")
         ShowdownInterpreter.broadcastOptionalAbility(battle, effect, pokemonName)

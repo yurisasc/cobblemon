@@ -20,7 +20,7 @@ import com.cobblemon.mod.common.util.battleLang
 class BoostInstruction(val instructionSet: InstructionSet, val message: BattleMessage, val remainingLines: Iterator<BattleMessage>, val isBoost: Boolean = true): InterpreterInstruction {
 
     override fun invoke(battle: PokemonBattle) {
-        val pokemon = message.getBattlePokemon(0, battle) ?: return
+        val pokemon = message.battlePokemon(0, battle) ?: return
         val statKey = message.argumentAt(1) ?: return
         val stages = message.argumentAt(2)?.toInt() ?: return
         val stat = Stats.getStat(statKey).displayName

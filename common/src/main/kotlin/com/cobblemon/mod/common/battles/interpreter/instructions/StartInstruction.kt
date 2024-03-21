@@ -22,11 +22,11 @@ class StartInstruction(val message: BattleMessage): InterpreterInstruction {
 
     override fun invoke(battle: PokemonBattle) {
         battle.dispatch {
-            val pokemon = message.getBattlePokemon(0, battle) ?: return@dispatch GO
+            val pokemon = message.battlePokemon(0, battle) ?: return@dispatch GO
             val effectID = message.effectAt(1)?.id ?: return@dispatch GO
 
             val optionalEffect = message.effect()
-            val optionalPokemon = message.getSourceBattlePokemon(battle)
+            val optionalPokemon = message.battlePokemonFromOptional(battle)
             val optionalPokemonName = optionalPokemon?.getName()
             val extraEffect = message.effectAt(2)?.typelessData ?: Text.literal("UNKOWN")
 
@@ -46,7 +46,7 @@ class StartInstruction(val message: BattleMessage): InterpreterInstruction {
                         "perish2", "perish1", "perish0",
                         "stockpile1", "stockpile2", "stockpile3" -> battleLang("start.${effectID.dropLast(1)}", pokemon.getName(), effectID.last().digitToInt())
                         "dynamax" -> battleLang("start.${message.effectAt(2)?.id ?: effectID}", pokemon.getName()).yellow()
-                        "curse" -> battleLang("start.curse", message.getSourceBattlePokemon(battle)!!.getName(), pokemon.getName())
+                        "curse" -> battleLang("start.curse", message.battlePokemonFromOptional(battle)!!.getName(), pokemon.getName())
                         else -> battleLang("start.$effectID", pokemon.getName(), extraEffect)
                     }
                 battle.broadcastChatMessage(lang)

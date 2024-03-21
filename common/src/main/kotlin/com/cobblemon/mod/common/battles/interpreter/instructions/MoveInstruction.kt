@@ -53,8 +53,8 @@ class MoveInstruction(
     var targetPokemon: BattlePokemon? = null
 
     override fun invoke(battle: PokemonBattle) {
-        userPokemon = message.getBattlePokemon(0, battle)!!
-        targetPokemon = message.getBattlePokemon(2, battle)
+        userPokemon = message.battlePokemon(0, battle)!!
+        targetPokemon = message.battlePokemon(2, battle)
         val targetPokemon = targetPokemon // So smart non-null casts can happen
 
         val optionalEffect = message.effect()
@@ -110,7 +110,7 @@ class MoveInstruction(
                 }
             }
 
-            val hurtTargets = subsequentInstructions.filterIsInstance<DamageInstruction>().mapNotNull { it.battlePokemon }
+            val hurtTargets = subsequentInstructions.filterIsInstance<DamageInstruction>().mapNotNull { it.expectedTarget }
             runtime.environment.getQueryStruct().addFunction("hurt") { params ->
                 if (params.params.size == 0) {
                     return@addFunction DoubleValue(hurtTargets.isNotEmpty())

@@ -28,7 +28,7 @@ import com.cobblemon.mod.common.util.battleLang
  */
 class FaintInstruction(battle: PokemonBattle, val message: BattleMessage) : InterpreterInstruction {
     var waitTime = 2.5F
-    val faintingPokemon = message.getBattlePokemon(0, battle)!!
+    val faintingPokemon = message.battlePokemon(0, battle)!!
 
     override fun invoke(battle: PokemonBattle) {
         val faintMessage = battleLang("fainted", faintingPokemon.getName()).red()
