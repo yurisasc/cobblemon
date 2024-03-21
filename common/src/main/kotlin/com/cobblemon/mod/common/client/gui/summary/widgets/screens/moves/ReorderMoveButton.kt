@@ -15,14 +15,13 @@ import net.minecraft.client.gui.DrawContext
 import net.minecraft.client.gui.widget.ButtonWidget
 import net.minecraft.client.sound.PositionedSoundInstance
 import net.minecraft.client.sound.SoundManager
-import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.text.Text
 
 class ReorderMoveButton(
     val pX: Int, val pY: Int,
     private val isUp: Boolean,
     onPress: PressAction
-): ButtonWidget((pX - OFFSET_X).toInt(), (pY + (if (isUp) OFFSET_Y_UP else OFFSET_Y_DOWN)), (WIDTH * SCALE).toInt(), (HEIGHT * SCALE).toInt(), Text.literal(""), onPress, DEFAULT_NARRATION_SUPPLIER) {
+): ButtonWidget((pX - OFFSET_X).toInt(), (pY + (if (isUp) OFFSET_Y_UP else OFFSET_Y_DOWN)), (WIDTH * SCALE).toInt(), (HEIGHT * SCALE).toInt(), Text.empty(), onPress, DEFAULT_NARRATION_SUPPLIER) {
 
     companion object {
         private const val WIDTH = 8

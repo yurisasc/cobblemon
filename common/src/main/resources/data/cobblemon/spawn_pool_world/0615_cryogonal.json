@@ -13,13 +13,18 @@
             "context": "grounded",
             "bucket": "uncommon",
             "level": "27-52",
-            "weight": 10.0,
+            "weight": 2.0,
+            "weightMultiplier": {
+                "multiplier": 5.0,
+                "condition": {
+                    "isRaining": true
+                }
+            },
             "condition": {
                 "canSeeSky": true,
                 "biomes": [
                     "#cobblemon:is_freezing"
-                ],
-                "isRaining": true
+                ]
             }
         },
         {
@@ -35,7 +40,7 @@
             "weight": 2.0,
             "condition": {
                 "biomes": [
-                    "#cobblemon:is_nether_frozen"
+                    "#cobblemon:nether/is_frozen"
                 ]
             }
         }

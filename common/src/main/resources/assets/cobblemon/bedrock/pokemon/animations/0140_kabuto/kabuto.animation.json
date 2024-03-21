@@ -4,11 +4,68 @@
 		"animation.kabuto.ground_idle": {
 			"loop": true,
 			"bones": {
-				"leftbackarm": {
-					"rotation": [0, -22.5, 0]
+				"right_back_leg": {
+					"rotation": [34.07203, -7.56965, 105.7295]
 				},
-				"rightbackarm": {
-					"rotation": [0, 22.5, 0]
+				"right_front_leg": {
+					"rotation": [-28.49765, 15.40014, 101.16302]
+				},
+				"left_front_leg": {
+					"rotation": [-28.49765, -15.4001, -101.163]
+				},
+				"left_back_leg": {
+					"rotation": [33.77055, 8.96491, -107.82576]
+				},
+				"left_back_leg2": {
+					"rotation": [0, 0, -47.5]
+				},
+				"right_front_leg2": {
+					"rotation": [0, 0, 52.5]
+				},
+				"right_back_leg2": {
+					"rotation": [0, 0, 52.5]
+				},
+				"left_front_leg2": {
+					"rotation": [0, 0, -52.5]
+				}
+			}
+		},
+		"animation.kabuto.render": {
+			"loop": true,
+			"bones": {
+				"right_back_leg": {
+					"rotation": [8.0634, 21.07593, 21.50238]
+				},
+				"body": {
+					"rotation": [-15, 0, 25]
+				},
+				"right_front_leg": {
+					"rotation": [0, 0, 22.5]
+				},
+				"left_front_leg": {
+					"rotation": [0, 0, -25]
+				},
+				"left_back_leg": {
+					"rotation": [0, 0, -27.5]
+				}
+			}
+		},
+		"animation.kabuto.blink": {
+			"animation_length": 0.16667,
+			"bones": {
+				"left_eye": {
+					"position": {
+						"0.0": [0, 0, 0.1],
+						"0.125": [0, 0, 0.1],
+						"0.1667": [0, 0, 0]
+					}
+				},
+				"right_eye": {
+					"position": {
+						"0.0": [0, 0, 0.1],
+						"0.125": [0, 0, 0.1],
+						"0.1667": [0, 0, 0]
+					}
 				}
 			}
 		}

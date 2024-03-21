@@ -22,6 +22,7 @@ import com.cobblemon.mod.common.battles.dispatch.WaitDispatch
 import com.cobblemon.mod.common.battles.pokemon.BattlePokemon
 import com.cobblemon.mod.common.net.messages.client.animation.PlayPoseableAnimationPacket
 import com.cobblemon.mod.common.net.messages.client.battle.BattleHealthChangePacket
+import com.cobblemon.mod.common.net.messages.client.effect.RunPosableMoLangPacket
 import com.cobblemon.mod.common.pokemon.evolution.progress.DamageTakenEvolutionProgress
 import com.cobblemon.mod.common.pokemon.evolution.progress.RecoilEvolutionProgress
 import com.cobblemon.mod.common.util.battleLang
@@ -78,18 +79,26 @@ class DamageInstruction(
         }
 
         battle.dispatch {
-            if (!causedFaint) {
+            val pokemonEntity = battlePokemon.entity
+            if (!causedFaint && pokemonEntity != null) {
+                val pkt = PlayPoseableAnimationPacket(pokemonEntity.id, setOf("recoil"), emptySet())
+                pkt.sendToPlayersAround(
+                    x = pokemonEntity.x,
+                    y = pokemonEntity.y,
+                    z = pokemonEntity.z,
+                    worldKey = pokemonEntity.world.registryKey,
+                    distance = 50.0
+                )
+            }
 
-                battlePokemon.entity?.let { pokemonEntity ->
-                    val pkt = PlayPoseableAnimationPacket(pokemonEntity.id, setOf("recoil"), emptySet())
-                    pkt.sendToPlayersAround(
-                        x = pokemonEntity.x,
-                        y = pokemonEntity.y,
-                        z = pokemonEntity.z,
-                        worldKey = pokemonEntity.world.registryKey,
-                        distance = 50.0
-                    )
-                }
+            if (pokemonEntity != null) {
+                RunPosableMoLangPacket(pokemonEntity.id, setOf("q.particle('cobblemon:hit', 'target')")).sendToPlayersAround(
+                    x = pokemonEntity.x,
+                    y = pokemonEntity.y,
+                    z = pokemonEntity.z,
+                    worldKey = pokemonEntity.world.registryKey,
+                    distance = 50.0
+                )
             }
 
 

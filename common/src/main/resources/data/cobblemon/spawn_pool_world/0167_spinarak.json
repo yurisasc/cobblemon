@@ -82,6 +82,7 @@
             "id": "spinarak-4",
             "pokemon": "spinarak",
             "presets": [
+                "webs",
                 "natural"
             ],
             "type": "pokemon",
@@ -90,10 +91,7 @@
             "level": "1-25",
             "weight": 9.0,
             "condition": {
-                "canSeeSky": false,
-                "biomes": [
-                    "terralith:cave/infested_caves"
-                ]
+                "canSeeSky": false
             }
         },
         {

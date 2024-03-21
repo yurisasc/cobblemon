@@ -1,0 +1,19 @@
+{
+    "placement": {
+        "type": "minecraft:random_spread",
+        "spacing": 20,
+        "separation": 10,
+        "salt": 1695780712,
+        "spread_type": "triangular"
+    },
+    "structures": [
+        {
+            "structure": "cobblemon:fossils/prehistoric_mud_pit",
+            "weight": 1
+        },
+        {
+            "structure": "cobblemon:fossils/prehistoric_lush_den",
+            "weight": 1
+        }
+    ]
+}

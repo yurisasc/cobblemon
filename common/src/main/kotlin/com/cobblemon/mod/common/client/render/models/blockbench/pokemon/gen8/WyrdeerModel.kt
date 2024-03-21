@@ -25,11 +25,11 @@ class WyrdeerModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quad
     override val hindLeftLeg = getPart("leg_back_left")
     override val hindRightLeg = getPart("leg_back_right")
 
-    override val portraitScale = 3.0F
-    override val portraitTranslation = Vec3d(-0.8, 0.8, 0.0)
+    override var portraitScale = 3.0F
+    override var portraitTranslation = Vec3d(-0.8, 0.8, 0.0)
 
-    override val profileScale = 0.7F
-    override val profileTranslation = Vec3d(0.0, 0.7, 0.0)
+    override var profileScale = 0.7F
+    override var profileTranslation = Vec3d(0.0, 0.7, 0.0)
 
     lateinit var sleep: PokemonPose
     lateinit var standing: PokemonPose

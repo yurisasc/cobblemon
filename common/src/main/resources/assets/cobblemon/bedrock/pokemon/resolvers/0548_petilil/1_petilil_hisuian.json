@@ -1,0 +1,19 @@
+{
+  "species": "cobblemon:petilil",
+  "order": 1,
+  "variations": [
+    {
+      "aspects": ["hisuian"],
+      "poser": "cobblemon:petilil_hisuian",
+      "model": "cobblemon:petilil_hisuian.geo",
+      "texture": "cobblemon:textures/pokemon/0548_petilil/petilil_hisuian.png",
+      "layers": []
+    },
+    {
+      "aspects": [
+        "shiny", "hisuian"
+      ],
+      "texture": "cobblemon:textures/pokemon/0548_petilil/petilil_hisuian_shiny.png"
+    }
+  ]
+}

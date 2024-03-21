@@ -38,6 +38,7 @@ class SpawnPokemonPacket(
     private val unbattlable: Boolean,
     private val hideLabel: Boolean,
     private val caughtBall: Identifier,
+    private val spawnYaw: Float,
     vanillaSpawnPacket: EntitySpawnS2CPacket
 ) : SpawnExtraDataEntityPacket<SpawnPokemonPacket, PokemonEntity>(vanillaSpawnPacket) {
 
@@ -58,6 +59,7 @@ class SpawnPokemonPacket(
         entity.dataTracker.get(PokemonEntity.UNBATTLEABLE),
         entity.dataTracker.get(PokemonEntity.HIDE_LABEL),
         entity.pokemon.caughtBall.name,
+        entity.dataTracker.get(PokemonEntity.SPAWN_DIRECTION),
         vanillaSpawnPacket
     )
 
@@ -76,6 +78,7 @@ class SpawnPokemonPacket(
         buffer.writeBoolean(this.unbattlable)
         buffer.writeBoolean(this.hideLabel)
         buffer.writeIdentifier(this.caughtBall)
+        buffer.writeFloat(this.spawnYaw)
     }
 
     override fun applyData(entity: PokemonEntity) {
@@ -97,6 +100,7 @@ class SpawnPokemonPacket(
         entity.dataTracker.set(PokemonEntity.POSE_TYPE, poseType)
         entity.dataTracker.set(PokemonEntity.UNBATTLEABLE, unbattlable)
         entity.dataTracker.set(PokemonEntity.HIDE_LABEL, hideLabel)
+        entity.dataTracker.set(PokemonEntity.SPAWN_DIRECTION, spawnYaw)
     }
 
     override fun checkType(entity: Entity): Boolean = entity is PokemonEntity
@@ -119,8 +123,10 @@ class SpawnPokemonPacket(
             val unbattlable = buffer.readBoolean()
             val hideLabel = buffer.readBoolean()
             val caughtBall = buffer.readIdentifier()
+            val spawnAngle = buffer.readFloat()
             val vanillaPacket = decodeVanillaPacket(buffer)
-            return SpawnPokemonPacket(ownerId, scaleModifier, species, form, aspects, battleId, phasingTargetId, beamModeEmitter, nickname, labelLevel, poseType, unbattlable, hideLabel, caughtBall, vanillaPacket)
+
+            return SpawnPokemonPacket(ownerId, scaleModifier, species, form, aspects, battleId, phasingTargetId, beamModeEmitter, nickname, labelLevel, poseType, unbattlable, hideLabel, caughtBall, spawnAngle, vanillaPacket)
         }
     }
 

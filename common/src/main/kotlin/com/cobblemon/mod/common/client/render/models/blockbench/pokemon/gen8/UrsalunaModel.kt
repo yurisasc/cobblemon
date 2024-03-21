@@ -27,11 +27,11 @@ class UrsalunaModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Qua
     override val hindLeftLeg = getPart("thigh_left")
     override val hindRightLeg = getPart("thigh_right")
 
-    override val portraitScale = 1.2F
-    override val portraitTranslation = Vec3d(-1.1, 0.4, 0.0)
+    override var portraitScale = 1.2F
+    override var portraitTranslation = Vec3d(-1.1, 0.4, 0.0)
 
-    override val profileScale = 0.45F
-    override val profileTranslation = Vec3d(0.0, 0.9, 0.0)
+    override var profileScale = 0.45F
+    override var profileTranslation = Vec3d(0.0, 0.9, 0.0)
 
     //    lateinit var sleep: PokemonPose
     lateinit var standing: PokemonPose

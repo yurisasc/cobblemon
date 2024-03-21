@@ -24,14 +24,18 @@
     "cobblemon:flower_sweet",
     "cobblemon:star_sweet",
     "cobblemon:ribbon_sweet",
-    "cobblemon:chipped_pot",
-    "cobblemon:cracked_pot",
+    "#cobblemon:teapots",
+    "#cobblemon:teacups",
     "cobblemon:sweet_apple",
     "cobblemon:tart_apple",
     "cobblemon:galarica_cuff",
     "cobblemon:galarica_wreath",
     "cobblemon:black_augurite",
     "cobblemon:peat_block",
-    "#cobblemon:evolution_stones"
+    "#cobblemon:evolution_stones",
+	"cobblemon:razor_claw",
+	"cobblemon:razor_fang",
+	"cobblemon:auspicious_armor",
+	"cobblemon:malicious_armor"
   ]
 }

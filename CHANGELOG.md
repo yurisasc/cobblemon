@@ -1,5 +1,6 @@
 # Changelog
 ## [1.5.0](#1-5-0)
+
 ### Additions
 - Added over (number here) ruin structures, where you can find Pokémon-themed Armor Trims and Pottery Sherds, Tumblestones, and more.
 - Added (number here) fossil structures, where you can brush Suspicious Sand/Gravel for Fossils.
@@ -14,15 +15,133 @@
 - Added the hidden "True Vivillionaire" advancement.
 - The "Poké Ball" Vivillon variant is now obtainable by evolving a Spewpa after obtaining the "Aspiring Vivillionaire" advancement.
 - Added dynamic lighting support for any Species or Forms when using [LambDynamicLights](https://modrinth.com/mod/lambdynamiclights) or [Dynamic Lights Reforged](https://www.curseforge.com/minecraft/mc-mods/dynamiclights-reforged), at this time we don't ship with any defaults for this feature but addon creators can make use of this feature.
+- Added a Display Case block! Use it to display your archaeological findings, or other items.
 - Added 6 Pokémon-themed Pottery Sherds, obtained from ruin structures.
 - Added a Pokémon-themed armor trim, obtained from ruin structures.
 - You can now find Nether Fire Stone Ore in, surprisingly, the Nether.
+- You'll also find Terracotta Sun Stone Ore in Badlands biomes.
 - Added effects for many Poké Balls when sending out Pokémon or capturing.
 - Added a new send-out ball toss animation that showcases the ball used for the Pokémon.
 - Added simple move animations for Pokémon in battle with a proof of concept for more complicated animations.
+- Added the EV Boosting Feathers.
+- Added Type Gems. 
+- Added various new tags for searchability and better compatibility.
+- Added the [Ability Capsule](https://bulbapedia.bulbagarden.net/wiki/Ability_Capsule) and [Patch](https://bulbapedia.bulbagarden.net/wiki/Ability_Patch), these have no acquisition method for now and only work as intended with the traditional ability format of 1 to 2 common abilities and 1 hidden ability.
+- Added Gilded Chests, available in all Apricorn colors.
+- Added Relic Coins, Relic Coin Pouches, and Relic Coin Sacks.
+- Added various new tags for searchability and better compatibility. 
+- Added Type Gems. These items hold no functionality for now. Start collecting though...
+- Added 6 custom Pottery Sherds, obtained from ruin structures.
+- Added cries to Meowth, Alolan Meowth, Galaraian Meowth,
+- Completed the advancement for placing a Tumblestone near Lava or Magma to make it grow.
+- Added new held items: Ability Shield, Absorb Bulb, Air Balloon, Binding Band, Blunder Policy, Cell Battery, Covert Cloak, Damp Rock, Eject Button, Eviolite, Expert Belt, Float Stone, Focus Sash, Heat Rock, Icy Rock, Iron Ball, Light Ball, Loaded Dice, Red Card, Shell Bell, Sticky Barb, Smooth Rock, Soothe Bell and Weakness Policy.
+
+### Pokémon Added
+#### Gen 2
+- Sentret
+- Furret
+- Qwilfish
+- Heracross
+- Skarmory
+- Ferroseed
+- Ferrothorn
+
+#### Gen 3
+- Lileep
+- Cradily
+- Anorith
+- Armaldo
+- Tropius
+- Roselia
+
+#### Gen 4
+- Shieldon
+- Bastiodon
+- Cranidos
+- Rampardos
+- Budew
+- Roserade
+
+#### Gen 5
+- Tirtouga
+- Carracosta
+- Archen
+- Archeops
+- Zorua
+- Zoroark
+- Petilil
+- Lilligant
+- Darumaka
+- Darmanitan
+- Woobat
+- Swoobat
+- Sandile
+- Krokorok
+- Krookodile
+- Frillish
+- Jellicent
+- Cubchoo
+- Beartic
+- Deino
+- Zweilous
+- Hydreigon
+- Larvesta
+- Volcarona
+
+#### Gen 6
+- Tyrunt
+- Tyrantrum
+- Amaura
+- Aurorus
+- Goomy
+- Sliggoo
+- Goodra
+
+#### Gen 7
+- Turtonator
+- Fomantis
+- Lurantis
+- Salandit
+- Salazzle
+- Jangmo-o
+- Hakamo-o
+- Kommo-o
+
+#### Gen 8
+- Gossifleur
+- Eldegoss
+- Arctozolt
+- Arctovish
+- Dracozolt
+- Dracovish
+- Basculegion
+- Hisuian Zorua
+- Hisuian Zoroark
+- Hisuian Voltorb
+- Hisuian Electrode
+- Hisuian Qwilfish
+- Overqwil
+- Hisuian Sneasel
+- Sneasler
+- Stonjourner
+- Cufant
+- Copperajah
+- Dreepy
+- Drakloak
+- Dragapult
+- Hisuian Sliggoo
+- Hisuian Goodra
+
+#### Gen 9
+- Gimmighoul.
+  - Using Relic Coins, you can increase Gimmighoul's Coin Stash. Upon reaching 999, it can be evolved into Gholdengo.
+  - Additionally, if you give Gimmighoul a Netherite Scrap, you can increase its Netherite Stash. Who knows what might happen if it fills up?
+
 
 ### Changes
 - Pokémon now transition more smoothly between different poses.
+- Updated models for Mimikyu, Alcremie, Squirtle, Wartortle, Blastoise, Omanyte, Omastar, Growlithe, Swinub, Piloswine, Basculine, Rowlet, Dartrix, Decidueye, Kabuto, Kabutops, Piplup, Prinplup, Elekid, Electabuzz, Cubone, Marowak, Paras, Drifloon, Drifblim, Venonat, Venomoth, Yanma, Yanmega, and Raboot.
+- Updated animations for Diglett, Dugtrio, Dragonite, Omanyte, Omastar, Pinsir, Falinks, Lechonk, Litwick, Lampent, Chandelure, Carnivine, Galarian Meowth, Galarian Rapidash, Venonat, Venomoth, Phanphy, Donphan, Dratini, Dragonair, Happiny, Chansey, Blissey, Volbeat, Illumise, Numel, Drifloon, and Drifblim.
 - Added more held items to the held item tag, and Metal Coat to the held item tab.
 - Added all ores to the modloader ore tags, and added tags for each ore type to the mod (both blocks and items).
 - Changed the Destiny Knot to be crafted with a Ghast Tear, rather than a diamond.
@@ -32,8 +151,12 @@
 - Updated movesets to add Gen 9 DLC moves.
 - Apricorn Sprouts can now be planted directly on Apricorn leaves to create a new Apricorn of the same color.
 - Added tooltips to interaction GUIs to make it clearer what they do.
+- Poké Ball recipes now use tags for their center ingredient, rather than specificied Copper Ingot, Iron Ingot, Gold Ingot, and Diamond, allowing for further datapack customisation.
+- Starter Toast now closes once corresponding button is pressed once.
+- Moved some items in the vanilla Food & Drinks category.
 
 ### Fixes
+- Resized Snorlax
 - Re-added the recipe for the Iron Vitamin.
 - Cleaned up empty evolutions declaration in species files (no, I'm not listing all 169 by name).
 - Fixed Exeggcute not being able to evolve.
@@ -46,6 +169,14 @@
 - Fixed Poké Balls freezing in an open state if you look away when it's meant to close.
 - Adds a translation string name to the Empty Pokeball entity.
 - Fixed very many issues with Bedrock particle effects.
+- Fixed Arbok patterns not being as specific in spawning as they were intended.
+- Fixed Pokémon not avoiding danger at all when pathfinding. 
+- Fixed Sobble line not being able to swim or breathe underwater.
+- Fixed incompatibility with [Just Enough Resources](https://modrinth.com/mod/just-enough-resources-jer).
+- Fixed incompatibility with [Visual Overhaul](https://modrinth.com/mod/visual-overhaul).
+- Fixed an issue that allowed Pokemon to spawn on rails.
+- Fixed the data set on Pokémon when abilities are given via properties such as in ``/spawnpokemon``.
+- Fixed sometimes Pokémon losing hidden abilities when evolving, this fix will only take effect to newly created Pokémon.
 
 ### Developer
 - Significantly changed the way properties in PokemonEntity work. This could break some plugins (not in a big way, but changes will be needed).
@@ -57,6 +188,13 @@
 - Made PokemonProperties.parse more interoperable with Java.
 - Added the ``HeldItemEvent``, this comes with 2 implementation ``HeldItemEvent.Pre`` and ``HeldItemEvent.Post``. 
 - API to support dynamic lighting in any mod that implements this feature has been added to all Species & Forms, see LightingData class for details.
+- Added a Mixin for the BrewingStandScreenHandler to fix the incorrect handling of quickMove in Fabric.
+- Corrections to the ability implementation have been made that make ``Ability.forced`` function as intended and never reroll an ability for a Pokémon, please check your implementations to ensure the corrected behavior is intended for your use case.
+- ``Pokemon.ability`` no longer has a public setter, please migrate to using ``Pokemon#updateAbility``, this handles the ability coordinate storage for you when necessary.
+- ``Ability.forced``, ``Ability.index`` and ``Ability.priority`` have all had their setters internalized, there is no longer any need to manually adjust these migrate to the method mentioned above to handle that process for you.
+- ``AbilityChanger`` has been added to API alongside some implementations, this is subject to change as the ability capsule and patch currently only expect the traditional behaviour in the Pokémon games of 1 to 2 regular abilities and 1 hidden.
+- ``Pokemon#rollAbility`` has been added, this rerolls a legal ability for the Pokémon.
+- `docs/cobblemon-tags` tags and spawn-presets can now be auto-generated from the current tags in the cobblemon mod with the `generateSpawnPresetList.py` and `generateTagList.py` scripts.
 
 ### Datapack & Resourcepack Creators
 - The maximum amount of fossils that can fit in the Fossil Analyzer can be adjusted in the config.
@@ -91,6 +229,8 @@
 }
 ```
 - Following up on this change ``light_source`` was removed as a possible shoulder effect due to becoming unnecessary and never having had a default implementation.
+- Added the item tag ``cobblemon:ability_changers``, contains the ``cobblemon:ability_capsule`` & ``cobblemon:ability_patch`` by default.
+- Added the item tag ``cobblemon:held/is_friendship_booster``, allows items to give the Soothe Bell effect of a boost of 1.5x Friendship gained, contains ``cobblemon:soothe_bell`` by default.
 
 ## [1.4.1 (December 23rd, 2023)](#1-4-1)
 

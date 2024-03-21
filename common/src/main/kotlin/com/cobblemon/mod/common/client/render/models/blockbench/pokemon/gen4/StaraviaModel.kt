@@ -31,10 +31,10 @@ class StaraviaModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
     override val head = getPart("head_ai")
     private val tail = getPart("tail")
 
-    override val portraitScale = 2.8F
-    override val portraitTranslation = Vec3d(-0.4, -0.9, 0.0)
-    override val profileScale = 1.1F
-    override val profileTranslation = Vec3d(0.0, 0.1, 0.0)
+    override var portraitScale = 2.8F
+    override var portraitTranslation = Vec3d(-0.4, -0.9, 0.0)
+    override var profileScale = 1.1F
+    override var profileTranslation = Vec3d(0.0, 0.1, 0.0)
 
 //    lateinit var sleep: PokemonPose
     lateinit var stand: PokemonPose

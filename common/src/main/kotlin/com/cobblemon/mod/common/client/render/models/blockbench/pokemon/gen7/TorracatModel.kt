@@ -29,11 +29,11 @@ class TorracatModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quad
     override val foreLeftLeg= getPart("leg_front_left1")
     override val foreRightLeg = getPart("leg_front_right1")
 
-    override val portraitScale = 2.1F
-    override val portraitTranslation = Vec3d(-0.6, -0.7, 0.0)
+    override var portraitScale = 2.1F
+    override var portraitTranslation = Vec3d(-0.6, -0.7, 0.0)
 
-    override val profileScale = 0.75F
-    override val profileTranslation = Vec3d(0.0, 0.6, 0.0)
+    override var profileScale = 0.75F
+    override var profileTranslation = Vec3d(0.0, 0.6, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose

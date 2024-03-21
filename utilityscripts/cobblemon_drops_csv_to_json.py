@@ -6,8 +6,8 @@ import json
 from io import StringIO
 from sqlalchemy import create_engine
 from tqdm import tqdm
-from scriptutils import printCobblemonHeader, print_cobblemon_script_description, print_cobblemon_script_footer, print_list_filtered, print_warning
-
+from scriptutils import printCobblemonHeader, print_cobblemon_script_description, print_cobblemon_script_footer, \
+    print_list_filtered, print_warning
 
 # Initialize lists for report
 no_drops_base_forms = []
@@ -78,13 +78,13 @@ def get_drops_df():
     # Replace the Item names with the Minecraft IDs
     drops_df['Drops'] = drops_df['Drops'].apply(lambda x: replace_names_in_string(x, mapping_dict))
     # Do the same for the "Spawn Specific Drops" column
-    drops_df['Spawn Specific Drops'] = drops_df['Spawn Specific Drops'].apply(lambda x: replace_names_in_string(x, mapping_dict))
+    drops_df['Spawn Specific Drops'] = drops_df['Spawn Specific Drops'].apply(
+        lambda x: replace_names_in_string(x, mapping_dict))
     return drops_df, pokemon_data_dir, sqlite_db_name, sqlite_table_name
 
 
 def modify_files(file, pokemon_data_dir, drops_df):
-
-    with open(pokemon_data_dir + "/" + file, 'r', encoding="utf8") as f:
+    with open(pokemon_data_dir + "/" + file, 'r', encoding="utf-8-sig") as f:
         data = json.load(f)
 
     for _, row in drops_df.iterrows():
@@ -123,7 +123,7 @@ def modify_files(file, pokemon_data_dir, drops_df):
                 else:
                     no_form_entry_files.append(f'{pokemon} [{pokemon_form}]')
 
-    with open(pokemon_data_dir + "/" + file, 'w', encoding="utf8") as f:
+    with open(pokemon_data_dir + "/" + file, 'w', encoding="utf-8") as f:
         json.dump(data, f, ensure_ascii=False, indent=2)
 
 
@@ -150,8 +150,12 @@ def parse_drops(drops_str):
         # Iterate over remaining item info fields and add their values to the currentDrop
         for i in range(1, len(item_info)):
             if '-' in item_info[i]:
-                if no_or:
-                    amount += (int(item_info[i].split('-')[1]))
+                try:
+                    if no_or:
+                        amount += (int(item_info[i].split('-')[1]))
+                except ValueError:
+                    raise ValueError(
+                        f"The item '{item_id} {item_info[i]}' is not part of the Cobblemon Drops Natural_Name to minecraft_ID spreadsheet yet.")
                 quantity_range = item_info[i]
                 current_drop.update({"quantityRange": quantity_range})
                 quantity_range_present = True
@@ -163,11 +167,15 @@ def parse_drops(drops_str):
             elif '(Nether)' in item_info[i] or '(End)' in item_info[i] or '(Overworld)' in item_info[i] or item_info[i] == '':
                 pass
             else:
-                quantity = item_info[i]
-                if quantity != "1":
-                    current_drop.update({"quantityRange": quantity})
-                if no_or:
-                    amount += (int(item_info[i]))
+                try:
+                    quantity = item_info[i]
+                    if quantity != "1":
+                        current_drop.update({"quantityRange": quantity})
+                    if no_or:
+                        amount += (int(item_info[i]))
+                except ValueError:
+                    raise ValueError(
+                        f"The item '{item_id} {item_info[i]}' is not part of the Cobblemon Drops Natural_Name to minecraft_ID spreadsheet yet.")
 
         if len(item_info) == 1 and no_or:
             amount += 1

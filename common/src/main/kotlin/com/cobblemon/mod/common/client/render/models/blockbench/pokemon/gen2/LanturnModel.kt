@@ -17,11 +17,11 @@ import net.minecraft.util.math.Vec3d
 class LanturnModel (root: ModelPart) : PokemonPoseableModel() {
     override val rootPart = root.registerChildWithAllChildren("lanturn")
 
-    override val portraitScale = 1.7F
-    override val portraitTranslation = Vec3d(-0.65, -0.7, 0.0)
+    override var portraitScale = 1.7F
+    override var portraitTranslation = Vec3d(-0.65, -0.7, 0.0)
 
-    override val profileScale = 0.6F
-    override val profileTranslation = Vec3d(0.0, 0.7, 0.0)
+    override var profileScale = 0.6F
+    override var profileTranslation = Vec3d(0.0, 0.7, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose

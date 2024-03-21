@@ -1,0 +1,15 @@
+{
+    "placement": {
+        "type": "minecraft:random_spread",
+        "spacing": 50,
+        "separation": 25,
+        "salt": 1691860155,
+        "spread_type": "triangular"
+    },
+    "structures": [
+        {
+            "structure": "cobblemon:ruins/toppled_pillars_ruins",
+            "weight": 1
+        }
+    ]
+}
