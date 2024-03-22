@@ -26,8 +26,8 @@ import net.minecraft.text.MutableText
 import net.minecraft.text.Text
 
 abstract class BattleActor(
-    val uuid: UUID,
-    val pokemonList: MutableList<BattlePokemon>
+        val uuid: UUID,
+        var pokemonList: MutableList<BattlePokemon>
 ) {
     init {
         pokemonList.forEach { it.actor = this }

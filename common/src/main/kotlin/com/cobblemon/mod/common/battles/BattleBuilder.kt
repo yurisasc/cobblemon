@@ -105,6 +105,17 @@ object BattleBuilder {
         val wildActor = PokemonBattleActor(pokemonEntity.pokemon.uuid, BattlePokemon(pokemonEntity.pokemon), fleeDistance)
         val errors = ErroredBattleStart()
 
+        /** Find a way to do this while keeping pokemonList in BattleActor.kt a val */
+        playerActor.pokemonList = playerTeam.sortedBy { it.health <= 0 }.toMutableList()
+
+        if (playerActor.pokemonList[0].health <= 0){
+            errors.participantErrors[playerActor] += BattleStartError.insufficientPokemon(
+                player = player,
+                requiredCount = battleFormat.battleType.slotsPerActor,
+                hadCount = playerActor.pokemonList.size
+            )
+        }
+
         if (playerActor.pokemonList.size < battleFormat.battleType.slotsPerActor) {
             errors.participantErrors[playerActor] += BattleStartError.insufficientPokemon(
                 player = player,
