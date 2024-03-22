@@ -13,19 +13,31 @@ from cobblemon_drops_csv_to_json import get_drops_df, parse_drops
 from scriptutils import printCobblemonHeader, print_cobblemon_script_footer, print_cobblemon_script_description, \
     print_warning, print_list_filtered, sanitize_pokemon
 
-# This script is used to convert the data from the cobblemon spawning spreadsheet into a json format
 
-# Define what kind of pokémon should be included, if nothing is specified (empty array), all will be included.
-# filter by number ranges (dex range)
-pokemon_numbers = range(0, 712)
-# filter by group
-included_groups = ['basic', 'boss']
-# filter by context
-known_contexts = ['grounded', 'submerged', 'seafloor', 'lavafloor', 'surface']
-# filter by bucket ['common', 'uncommon', 'rare', 'ultra-rare']
-bucket_mapping = ['common', 'uncommon', 'rare', 'ultra-rare']
-# filter by generation
-included_generations = []
+# This script is used to convert the data from the cobblemon spawning spreadsheet into a json format
+def init_filters():
+    global pokemon_numbers, included_groups, known_contexts, bucket_mapping, included_generations
+    # Define what kind of pokémon should be included, if nothing is specified (empty array), all will be included.
+    # filter by number ranges (dex range)
+    pokemon_numbers = range(0, 712)
+    # filter by group
+    included_groups = ['basic', 'boss', 'fossil']
+    # filter by context
+    known_contexts = ['grounded', 'submerged', 'seafloor', 'surface']
+    # filter by bucket ['common', 'uncommon', 'rare', 'ultra-rare']
+    bucket_mapping = ['common', 'uncommon', 'rare', 'ultra-rare']
+    # filter by generation
+    included_generations = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+
+
+def ui_init_filters(pokemon_nrs_min, pokemon_nrs_max, included_grps, known_cntxts, bucket_map):
+    global pokemon_numbers, included_groups, known_contexts, bucket_mapping, included_generations
+    pokemon_numbers = range(pokemon_nrs_min, pokemon_nrs_max+1)
+    included_groups = included_grps
+    known_contexts = known_cntxts
+    bucket_mapping = bucket_map
+    included_generations = []
+
 
 # exclude the following forms - make them spawn, but don't put these tags in the name.
 excluded_forms = []
@@ -167,15 +179,27 @@ unknown_conditions = []
 unknown_weight_multiplier_identifiers = []
 
 
-def main(only_update_existing_files=False, ignore_filters=False):
+def main(pokemon_data_dir, spawn_spreadsheet_path="", only_update_existing_files=False, ignore_filters=False):
     printCobblemonHeader()
 
     scriptName = "♥ Cobblemon Spawn CSV to JSON Script ♥"
     scriptDescription = "This script is used to convert the data from the cobblemon spawning spreadsheet into a json format. It also provides a report about any possible issues."
 
     print_cobblemon_script_description(scriptName, scriptDescription)
-    # Download Excel file and convert it into csv format
-    csv_df = download_excel_data(spawn_spreadsheet_excel_url)
+
+    if spawn_spreadsheet_path:
+        # if the file is an excel file, read it with pandas
+        if spawn_spreadsheet_path.endswith('.xlsx'):
+            csv_df = pd.read_excel(spawn_spreadsheet_path)
+        # if the file is a csv file, read it with pandas
+        elif spawn_spreadsheet_path.endswith('.csv'):
+            csv_df = pd.read_csv(spawn_spreadsheet_path)
+        else:
+            print_warning("Invalid file format. Please provide a valid excel or csv file.")
+            return
+    else:
+        # Download Excel file and convert it into csv format
+        csv_df = download_excel_data(spawn_spreadsheet_excel_url)
 
     # Verify all biome tags are valid
     invalid_biome_tags = verifyBiomeTags()
@@ -336,7 +360,8 @@ def transform_pokemon_to_json(pokemon_rows, invalid_biome_tags, drops_df):
             # Handle Conditions and Anticonditions columns
             spawn_data = special_condtions_anticonditions(condition, "Conditions", currentID, invalid_biome_tags, row,
                                                           spawn_data)
-            spawn_data = special_condtions_anticonditions({}, 'Anticonditions', currentID, invalid_biome_tags, row, spawn_data)
+            spawn_data = special_condtions_anticonditions({}, 'Anticonditions', currentID, invalid_biome_tags, row,
+                                                          spawn_data)
 
             # Spawn specific drops field
             spawn_specific_drops = drops_df[drops_df['Pokémon'] == currentPokemon]["Spawn Specific Drops"]
@@ -748,12 +773,11 @@ def is_filepattern_in_jars(biome_file_pattern):
     return False
 
 
-# Configuration data
-# Read excel url from .env in same directory as this script
-spawn_spreadsheet_excel_url = readEnvFile('SPAWN_SPREADSHEET_EXCEL_URL')
-pokemon_data_dir = '../common/src/main/resources/data/cobblemon/spawn_pool_world'
-sqlite_db_name = 'cobblemon_spawn_data.sqlite'
-sqlite_table_name = 'cobblemon_spawns'
-
 if __name__ == "__main__":
-    main()
+    init_filters()
+    # Configuration data
+    # Read excel url from .env in same directory as this script
+    spawn_spreadsheet_excel_url = readEnvFile('SPAWN_SPREADSHEET_EXCEL_URL')
+    pokemon_data_dir = '../common/src/main/resources/data/cobblemon/spawn_pool_world'
+    main(pokemon_data_dir, only_update_existing_files=False, ignore_filters=False)
+    input("Press Enter to close the program...")

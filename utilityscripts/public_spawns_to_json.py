@@ -1,19 +1,45 @@
 import tkinter as tk
 from tkinter import filedialog, messagebox, ttk
 
+import pandas as pd
 
-def process_file(input_file, output_directory, filters):
+import cobblemon_spawn_csv_to_json
+
+groups = ["basic", "boss", "fossil"]
+contexts = ["grounded", "submerged", "seafloor", "surface"]
+buckets = ["common", "uncommon", "rare", "ultra-rare"]
+process_button = None
+
+
+def process_file(input_file, output_directory, filters, pokemon_number_start, pokemon_number_end):
+    # Filter the filters to only include options that have been toggled on
+    filtered_filters = {}
+    for category, options in filters.items():
+        filtered_filters[category] = [name for name, var in options.items() if var.get() == 1]
+
+    # Apply the filters to the groups, contexts, and buckets
+    cobblemon_spawn_csv_to_json.ui_init_filters(pokemon_number_start, pokemon_number_end,
+                                                included_grps=filtered_filters['included_groups'],
+                                                known_cntxts=filtered_filters['known_contexts'],
+                                                bucket_map=filtered_filters['bucket_mapping'])
+
+    print("filteredfilters: ", filtered_filters)
     print(f"Processing file: {input_file}")
     print(f"Output directory: {output_directory}")
     print(f"Filters: {filters}")
-    messagebox.showinfo("Processing", "Processing completed successfully!")
+    if not validate_number_range(pokemon_number_start, pokemon_number_end):
+        messagebox.showinfo("Invalid Pokémon number range. Please provide a valid range.")
+        return
+    cobblemon_spawn_csv_to_json.main(output_directory, input_file)
 
 
 def validate_number_range(a, b):
     return 0 <= a <= b
 
 
-def select_input_file(input_file_var, input_file_label, output_dir_var, process_button):
+def select_input_file(input_file_var, input_file_label, output_dir_var, pokemon_number_start_var,
+                      pokemon_number_end_var, filter_vars, frame3):
+    global groups, contexts, buckets, process_button
     filepath = filedialog.askopenfilename()
     if filepath:
         input_file_var.set(filepath)
@@ -21,8 +47,46 @@ def select_input_file(input_file_var, input_file_label, output_dir_var, process_
         if filepath and output_dir_var.get():
             process_button['state'] = 'normal'
 
+        # Display a loading message
+        loading_label = ttk.Label(frame3, text="Loading...")
+        loading_label.grid(column=0, row=0, pady=5)
 
-def select_output_directory(output_dir_var, output_dir_label, input_file_var, process_button):
+        # Disable all input options on frame3
+        for child in frame3.winfo_children():
+            if isinstance(child, (ttk.Button, ttk.Entry, ttk.Checkbutton, ttk.Combobox)):
+                child.config(state='disabled')
+
+        frame3.update()
+
+        # if the file is an excel file, read it with pandas
+        if input_file_var.get().endswith('.xlsx'):
+            csv_df = pd.read_excel(input_file_var.get())
+        # if the file is a csv file, read it with pandas
+        elif input_file_var.get().endswith('.csv'):
+            csv_df = pd.read_csv(input_file_var)
+        else:
+            # show message
+            messagebox.showinfo("Invalid file format. Please provide a valid excel or csv file")
+            return
+        # find all unique values in the 'group' column
+        groups = csv_df['Group'].unique()
+        groups = [group if group == group else '' for group in groups]
+        # find all unique values in the 'context' column
+        contexts = csv_df['Context'].unique()
+        contexts = [context if context == context else '' for context in contexts]
+        # find all unique values in the 'bucket' column
+        buckets = csv_df['Bucket'].unique()
+        buckets = [bucket if bucket == bucket else '' for bucket in buckets]
+
+        update_filter_ui(filter_vars, frame3, input_file_var, output_dir_var, pokemon_number_start_var,
+                         pokemon_number_end_var)
+
+        # Remove the loading message
+        loading_label.destroy()
+
+
+def select_output_directory(output_dir_var, output_dir_label, input_file_var):
+    global process_button
     directory = filedialog.askdirectory()
     if directory:
         output_dir_var.set(directory)
@@ -65,17 +129,31 @@ def setup_ui(root):
     frame.grid()
     ttk.Separator(root, orient='horizontal').grid(row=20, column=0, sticky="ew", pady=5)
 
-    filter_vars, process_button = setup_filter_ui(root, input_file_var, output_dir_var, pokemon_number_start_var,
-                                                  pokemon_number_end_var)
-    input_file_label, output_dir_label = setup_file_selection_ui(frame, input_file_var, output_dir_var, process_button)
+    frame3 = ttk.Frame(root, padding="10")
+    frame3.grid(sticky="wens")
+
+    filter_vars, frame3 = setup_filter_ui(frame3, input_file_var, output_dir_var,
+                                          pokemon_number_start_var,
+                                          pokemon_number_end_var)
+    input_file_label, output_dir_label = setup_file_selection_ui(frame, input_file_var, output_dir_var,
+                                                                 pokemon_number_start_var, pokemon_number_end_var,
+                                                                 filter_vars, frame3)
+
+    # Display a warning popup to remind the user to backup their spawn.json files before they run the script
+    messagebox.showwarning("Warning",
+                           "Please ensure you have backed up your spawn.json files before running this script!\n"
+                           "This script will OVERWRITE the spawn.json files in the specified output directory with the new data.")
 
     root.mainloop()
 
 
-def setup_file_selection_ui(frame, input_file_var, output_dir_var, process_button):
+def setup_file_selection_ui(frame, input_file_var, output_dir_var, pokemon_number_start_var,
+                            pokemon_number_end_var, filter_vars, frame3):
     input_file_button = ttk.Button(frame, text="Select Input File",
-                                   command=lambda: select_input_file(input_file_var, input_file_label, output_dir_var,
-                                                                     process_button))
+                                   command=lambda: select_input_file(input_file_var, input_file_label,
+                                                                     output_dir_var,
+                                                                     pokemon_number_start_var, pokemon_number_end_var,
+                                                                     filter_vars, frame3))
     input_file_button.grid(column=0, row=0, pady=5)
 
     input_file_label = ttk.Label(frame, text="No file selected", foreground='red')
@@ -83,7 +161,7 @@ def setup_file_selection_ui(frame, input_file_var, output_dir_var, process_butto
 
     output_dir_button = ttk.Button(frame, text="Select Output Directory",
                                    command=lambda: select_output_directory(output_dir_var, output_dir_label,
-                                                                           input_file_var, process_button))
+                                                                           input_file_var))
     output_dir_button.grid(column=0, row=2, pady=5)
 
     output_dir_label = ttk.Label(frame, text="No directory selected", foreground='red')
@@ -92,22 +170,33 @@ def setup_file_selection_ui(frame, input_file_var, output_dir_var, process_butto
     return input_file_label, output_dir_label
 
 
-def setup_filter_ui(root, input_file_var, output_dir_var, pokemon_number_start_var, pokemon_number_end_var):
+def update_filter_ui(filter_vars, frame3, input_file_var, output_dir_var, pokemon_number_start_var,
+                     pokemon_number_end_var):
+    # Clear the current filter UI
+    for widget in frame3.winfo_children():
+        widget.destroy()
 
-    frame3 = ttk.Frame(root, padding="10")
-    frame3.grid(sticky=(tk.W, tk.E, tk.N, tk.S))
+    # Update the filter_vars based on the new unique values
+    filter_vars['included_groups'] = {name: tk.IntVar(value=1) for name in groups}
+    filter_vars['known_contexts'] = {name: tk.IntVar(value=1) for name in contexts}
+    filter_vars['bucket_mapping'] = {name: tk.IntVar(value=1) for name in buckets}
 
+    # Recreate the filter UI
+    setup_filter_ui(frame3, input_file_var, output_dir_var, pokemon_number_start_var, pokemon_number_end_var)
+
+
+def setup_filter_ui(frame3, input_file_var, output_dir_var, pokemon_number_start_var, pokemon_number_end_var):
+    global process_button
     # Label and entry for specifying the range of Pokémon numbers to include
-    ttk.Label(frame3, text="Pokémon Number Range:").grid(column=0, row=0, columnspan=5, pady=5)
+    ttk.Label(frame3, text="Pokédex Number Range:").grid(column=0, row=0, columnspan=5, pady=5)
     ttk.Entry(frame3, textvariable=pokemon_number_start_var, width=5).grid(column=1, row=1, pady=5)
     ttk.Label(frame3, text="-").grid(column=2, row=1, pady=5)
     ttk.Entry(frame3, textvariable=pokemon_number_end_var, width=5).grid(column=3, row=1, pady=5)
 
     filter_vars = {
-        'included_groups': {name: tk.IntVar(value=1) for name in ['basic', 'boss', 'fossil']},
-        'known_contexts': {name: tk.IntVar(value=1) for name in ['grounded', 'submerged', 'seafloor', 'surface']},
-        'bucket_mapping': {name: tk.IntVar(value=1) for name in ['common', 'uncommon', 'rare', 'ultra-rare']},
-        'included_generations': {str(gen): tk.IntVar(value=1) for gen in range(1, 10)}
+        'included_groups': {name: tk.IntVar(value=1) for name in groups},
+        'known_contexts': {name: tk.IntVar(value=1) for name in contexts},
+        'bucket_mapping': {name: tk.IntVar(value=1) for name in buckets},
     }
 
     # Custom styles for toggle buttons
@@ -120,12 +209,14 @@ def setup_filter_ui(root, input_file_var, output_dir_var, pokemon_number_start_v
         ('included_groups', "Groups"),
         ('known_contexts', "Contexts"),
         ('bucket_mapping', "Buckets"),
-        ('included_generations', "Generations")
     ]
 
     current_row = 2
     ttk.Label(frame3, text="Toggle the following filters to exclude certain "
                            "categories of cobblemon:").grid(column=0, row=current_row, columnspan=5, pady=5)
+    current_row += 1
+    (ttk.Label(frame3, text="An empty button means that you have some empty fields in your spreadsheet:").
+     grid(column=0, row=current_row, columnspan=5, pady=5))
     current_row += 1
     for category, label_text in filter_sections:
         ttk.Label(frame3, text=f"{label_text}:").grid(column=0, row=current_row + 1, sticky=tk.W, pady=2)
@@ -136,11 +227,13 @@ def setup_filter_ui(root, input_file_var, output_dir_var, pokemon_number_start_v
     current_row += 1
 
     process_button = ttk.Button(frame3, text="Execute Spawns Writer",
-                                command=lambda: process_file(input_file_var.get(), output_dir_var.get(), filter_vars),
+                                command=lambda: process_file(input_file_var.get(), output_dir_var.get(), filter_vars,
+                                                             pokemon_number_start_var.get(),
+                                                             pokemon_number_end_var.get()),
                                 state='disabled')
     process_button.grid(column=0, row=current_row + 1, columnspan=5, sticky=(tk.W, tk.E), pady=5)
 
-    return filter_vars, process_button
+    return filter_vars, frame3
 
 
 if __name__ == "__main__":
