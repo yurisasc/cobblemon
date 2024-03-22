@@ -195,6 +195,7 @@
 - ``AbilityChanger`` has been added to API alongside some implementations, this is subject to change as the ability capsule and patch currently only expect the traditional behaviour in the Pokémon games of 1 to 2 regular abilities and 1 hidden.
 - ``Pokemon#rollAbility`` has been added, this rerolls a legal ability for the Pokémon.
 - `docs/cobblemon-tags` tags and spawn-presets can now be auto-generated from the current tags in the cobblemon mod with the `generateSpawnPresetList.py` and `generateTagList.py` scripts.
+- `public_spawns_to_json.py` script has been added to give the powerful spawn.json generator a simplistic UI.
 
 ### Datapack & Resourcepack Creators
 - The maximum amount of fossils that can fit in the Fossil Analyzer can be adjusted in the config.
