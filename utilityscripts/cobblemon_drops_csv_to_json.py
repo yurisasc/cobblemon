@@ -80,7 +80,7 @@ def main(dex_range=None):
     print_cobblemon_script_footer("Thanks for using the Cobblemon Drops Generator, provided to you by Waldleufer!")
 
 
-def get_drops_df(dex_range=None):
+def get_drops_df(dex_range=range(0, 1111)):
     drops_spreadsheet_csv_url = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vR51bmzKMTvCfa1UKf454nnlNBCUVMtVNQvxdAiYU09E5pWS7mbsrVt45ABsCGZTByt9N_YEgnSwj8V/pub?gid=0&single=true&output=csv'
     conversion_csv_url = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRmvHzUc6_UUKbcvRche7AVebNoljqC1bf3iccusJqW9-C3k0KtESJxOCXShykSejIarAB2jHJ2bHCb/pub?gid=0&single=true&output=csv'
     pokemon_data_dir = '../common/src/main/resources/data/cobblemon/species'
@@ -238,12 +238,12 @@ def replace_names_in_string(drop_str, mapping_dict):
         # if natural name is not of type str, show an error
         if not isinstance(natural_name, str):
             # Raise custom error
-            raise ValueError(f"'{natural_name}' is of type int, indicating an error during the fetching of some spreadsheet data. Please rerun the script.")
+            raise ValueError(f"'{natural_name}' is of type int, indicating an error during the fetching some spreadsheet data. Please rerun the script.")
         drop_str = drop_str.replace(natural_name, minecraft_id)
     return drop_str
 
 
-def download_spreadsheet_data(url, max_retries=5):
+def download_spreadsheet_data(url, max_retries=10):
     delay = 1
     for attempt in range(max_retries):
         try:

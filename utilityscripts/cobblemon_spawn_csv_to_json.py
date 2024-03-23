@@ -7,7 +7,7 @@ from io import BytesIO
 import requests
 import pandas as pd
 from sqlalchemy import create_engine
-import openpyxl
+import openpyxl # required to read excel files
 from tqdm import tqdm
 from cobblemon_drops_csv_to_json import get_drops_df, parse_drops
 from scriptutils import printCobblemonHeader, print_cobblemon_script_footer, print_cobblemon_script_description, \
@@ -19,7 +19,7 @@ def init_filters():
     global pokemon_numbers, included_groups, known_contexts, bucket_mapping, included_generations
     # Define what kind of pokémon should be included, if nothing is specified (empty array), all will be included.
     # filter by number ranges (dex range)
-    pokemon_numbers = range(900, 1100)
+    pokemon_numbers = range(0, 1111)
     # filter by group
     included_groups = ['basic', 'boss', 'fossil']
     # filter by context
@@ -706,7 +706,7 @@ def readEnvFile(param):
 
 
 def load_special_drops_data():
-    drops_df, _a, _b, _c = get_drops_df()
+    drops_df, _a, _b, _c = get_drops_df(pokemon_numbers)
     # delete all rows that have a blank "Spawn Specific Drops" column
     drops_df = drops_df[drops_df['Spawn Specific Drops'].notna()]
     # remove all columns except "Pokémon" and "Spawn Specific Drops"
