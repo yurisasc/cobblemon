@@ -16,7 +16,8 @@
             "level": "52-57",
             "weight": 0.9,
             "condition": {
-                "canSeeSky": true,
+                "minSkyLight": 8,
+                "maxSkyLight": 15,
                 "biomes": [
                     "#cobblemon:is_bamboo"
                 ]
@@ -36,7 +37,8 @@
             "level": "52-57",
             "weight": 0.9,
             "condition": {
-                "canSeeSky": true
+                "minSkyLight": 8,
+                "maxSkyLight": 15
             }
         }
     ]
