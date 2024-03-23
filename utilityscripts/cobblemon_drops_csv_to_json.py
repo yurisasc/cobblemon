@@ -235,7 +235,11 @@ def replace_names_in_string(drop_str, mapping_dict):
     for natural_name, minecraft_id in mapping_dict.items():
         if pd.isna(drop_str):
             break
-        drop_str = drop_str.replace(str(natural_name), minecraft_id)
+        # if natural name is of type int, show an error
+        if isinstance(natural_name, int):
+            # Raise custom error
+            raise ValueError(f"Natural name '{natural_name}' is of type int, indicating an error during the fetching of some spreadsheet data. Please rerun the script.")
+        drop_str = drop_str.replace(natural_name, minecraft_id)
     return drop_str
 
 
