@@ -246,12 +246,14 @@ def replace_names_in_string(drop_str, mapping_dict):
 def replace_names_in__specific_drops_string(special_drops_str, mapping_dict):
     if pd.isna(special_drops_str):
         return special_drops_str
+    output_drops = []
     drops = special_drops_str.split(';')
     for drop in drops:
         left_side, right_side_drops = drop.split('=')
         right_side_drops = replace_names_in_string(right_side_drops, mapping_dict)
         drop = left_side + "=" + right_side_drops
-        return drop
+        output_drops.append(drop)
+    return ";".join(output_drops)
 
 
 def download_spreadsheet_data(url, max_retries=10):
