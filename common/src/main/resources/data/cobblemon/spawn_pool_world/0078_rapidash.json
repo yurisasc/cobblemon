@@ -45,6 +45,23 @@
                     "#cobblemon:nether/is_overgrowth",
                     "#cobblemon:nether/is_wasteland"
                 ]
+            },
+            "drops": {
+                "amount": 4,
+                "entries": [
+                    {
+                        "item": "minecraft:leather",
+                        "quantityRange": "0-2"
+                    },
+                    {
+                        "item": "minecraft:blaze_powder",
+                        "percentage": 10.0
+                    },
+                    {
+                        "item": "cobblemon:shuca_berry",
+                        "percentage": 5.0
+                    }
+                ]
             }
         },
         {

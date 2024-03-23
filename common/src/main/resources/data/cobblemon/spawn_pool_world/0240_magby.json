@@ -68,6 +68,23 @@
                     "#cobblemon:nether/is_basalt",
                     "#cobblemon:nether/is_wasteland"
                 ]
+            },
+            "drops": {
+                "amount": 3,
+                "entries": [
+                    {
+                        "item": "minecraft:blaze_powder",
+                        "percentage": 5.0
+                    },
+                    {
+                        "item": "cobblemon:magmarizer",
+                        "percentage": 2.5
+                    },
+                    {
+                        "item": "cobblemon:rawst_berry",
+                        "percentage": 2.5
+                    }
+                ]
             }
         }
     ]

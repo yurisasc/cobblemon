@@ -86,6 +86,23 @@
                 "biomes": [
                     "#minecraft:is_nether"
                 ]
+            },
+            "drops": {
+                "amount": 3,
+                "entries": [
+                    {
+                        "item": "cobblemon:spell_tag",
+                        "percentage": 5.0
+                    },
+                    {
+                        "item": "cobblemon:payapa_berry",
+                        "percentage": 5.0
+                    },
+                    {
+                        "item": "minecraft:ghast_tear",
+                        "percentage": 10.0
+                    }
+                ]
             }
         }
     ]

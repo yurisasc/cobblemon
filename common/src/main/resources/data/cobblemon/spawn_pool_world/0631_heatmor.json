@@ -46,6 +46,23 @@
                 "biomes": [
                     "#cobblemon:nether/is_mountain"
                 ]
+            },
+            "drops": {
+                "amount": 3,
+                "entries": [
+                    {
+                        "item": "cobblemon:flame_orb",
+                        "percentage": 5.0
+                    },
+                    {
+                        "item": "minecraft:blaze_powder",
+                        "percentage": 10.0
+                    },
+                    {
+                        "item": "cobblemon:rawst_berry",
+                        "percentage": 5.0
+                    }
+                ]
             }
         }
     ]
