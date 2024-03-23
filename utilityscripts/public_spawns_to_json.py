@@ -60,9 +60,10 @@ def select_input_file(input_file_var, input_file_label, output_dir_var, pokemon_
 
         # if the file is an excel file, read it with pandas
         if input_file_var.get().endswith('.xlsx'):
-            csv_df = pd.read_excel(input_file_var.get())
+            csv_df = pd.read_excel(input_file_var.get(), engine='openpyxl',
+                                   dtype={'Pokémon': str, 'Entry': str, 'No.': int})
         # if the file is a csv file, read it with pandas
-        elif input_file_var.get().endswith('.csv'):
+        elif input_file_var.get().endswith('.csv', dtype={'Pokémon': str, 'Entry': str, 'No.': int}):
             csv_df = pd.read_csv(input_file_var)
         else:
             # show message
