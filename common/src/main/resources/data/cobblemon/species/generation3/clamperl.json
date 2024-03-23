@@ -100,11 +100,11 @@
     "tutor:whirlpool"
   ],
   "drops": {
-    "amount": 2,
+    "amount": 1,
     "entries": [
       {
-        "item": "minecraft:prismarine_shard",
-        "quantityRange": "0-2"
+        "item": "cobblemon:shell_bell",
+        "percentage": 2.5
       }
     ]
   },

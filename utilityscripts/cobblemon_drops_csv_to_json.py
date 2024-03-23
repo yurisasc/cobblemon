@@ -185,6 +185,7 @@ def parse_drops(drops_str):
 
         if "minecraft:" not in item_id and "cobblemon:" not in item_id:
             print("Item ID: " + item_id)
+            print("Drops String: " + drops_str)
 
         current_drop = {"item": item_id}
         quantity_range_present = False
