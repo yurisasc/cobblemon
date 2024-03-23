@@ -7,7 +7,7 @@
             "element": {
                 "location": "cobblemon:ruins/decorations/desert_center1",
                 "element_type": "minecraft:single_pool_element",
-                "processors": "cobblemon:ruins/decorations/desert_center",
+                "processors": "cobblemon:ruins/decorations/desert_pillars",
                 "projection": "rigid"
             }
         },
