@@ -15,8 +15,15 @@ removed_drops_pokemon = []
 no_form_entry_files = []
 no_drops_forms = []
 
+form_entry_mapping = {
+    "Alolan": "Alola",
+    "Galarian": "Galar",
+    "Hisuian": "Hisui",
+    "Paldean": "Paldea",
+}
 
-def main():
+
+def main(dex_range=None):
     """
     The drops_csv to json script does the following:
     1. Retrieves the DataFrame containing the drops data.
@@ -31,7 +38,15 @@ def main():
     print_cobblemon_script_description(scriptname, scriptdescription)
 
     # Retrieve the DataFrame containing the drops data
-    drops_df, pokemon_data_dir, _sqlite_db_name, _sqlite_table_name = get_drops_df()
+    drops_df, pokemon_data_dir, _sqlite_db_name, _sqlite_table_name = get_drops_df(dex_range)
+
+    # Add a forms column to the DataFrame, and sanitize the Pokémon names
+    drops_df['forms'] = drops_df['Pokémon'].apply(lambda x: x.split("[")[1].split("]")[0] if "[" in x else None)
+    drops_df['Pokémon'] = drops_df['Pokémon'].apply(lambda san: sanitize_pokemon(san.split("[")[0].strip()))
+
+    # Group the drops data by Pokémon names, then convert it to a dictionary
+    drops_dict = drops_df.groupby('Pokémon').apply(lambda x: x.to_dict(orient='records')).to_dict()
+
 
     # Filter the filenames by Pokémon names
     files_to_change = filter_filenames_by_pokemon_names(pokemon_data_dir, drops_df['Pokémon'])
@@ -40,7 +55,11 @@ def main():
     print_warning("Modifying files...")
     for file in tqdm(files_to_change, bar_format='\033[92m' + '{l_bar}\033[0m{bar:58}\033[92m{r_bar}\033[0m',
                      colour='blue'):
-        modify_files(file, pokemon_data_dir, drops_df)
+        try:
+            modify_files(file, pokemon_data_dir, drops_dict)
+        except Exception as e:
+            print_warning(f"Error modifying {file}: {e}")
+            raise e
 
     # Write the DataFrame to an SQLite database
     # write_to_sqlite(drops_df, _sqlite_db_name, _sqlite_table_name)
@@ -61,7 +80,7 @@ def main():
     print_cobblemon_script_footer("Thanks for using the Cobblemon Drops Generator, provided to you by Waldleufer!")
 
 
-def get_drops_df():
+def get_drops_df(dex_range=None):
     drops_spreadsheet_csv_url = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vR51bmzKMTvCfa1UKf454nnlNBCUVMtVNQvxdAiYU09E5pWS7mbsrVt45ABsCGZTByt9N_YEgnSwj8V/pub?gid=0&single=true&output=csv'
     conversion_csv_url = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRmvHzUc6_UUKbcvRche7AVebNoljqC1bf3iccusJqW9-C3k0KtESJxOCXShykSejIarAB2jHJ2bHCb/pub?gid=0&single=true&output=csv'
     pokemon_data_dir = '../common/src/main/resources/data/cobblemon/species'
@@ -72,6 +91,11 @@ def get_drops_df():
     csv_data_for_matching = download_spreadsheet_data(conversion_csv_url)
     # Load the data into a DataFrame
     drops_df = load_data_from_csv(csv_data)
+
+    # Only include the specified range of dex numbers
+    if dex_range is not None:
+        drops_df = drops_df[drops_df['No.'].isin(dex_range)]
+
     mapping_df = load_data_from_csv(csv_data_for_matching)
     # Create a mapping dictionary from the Pokémon names to the Minecraft IDs
     mapping_dict = dict(zip(mapping_df['natural_name'], mapping_df['minecraft_ID']))
@@ -83,30 +107,27 @@ def get_drops_df():
     return drops_df, pokemon_data_dir, sqlite_db_name, sqlite_table_name
 
 
-def modify_files(file, pokemon_data_dir, drops_df):
+def modify_files(file, pokemon_data_dir, drops_dict):
+    # Open the file with 'utf-8-sig' encoding and read its contents
     with open(pokemon_data_dir + "/" + file, 'r', encoding="utf-8-sig") as f:
         data = json.load(f)
 
-    for _, row in drops_df.iterrows():
-        pokemon = sanitize_pokemon(row['Pokémon'].split("[")[0].strip())
-        pokemon_form = row['Pokémon'].split("[")[1].split("]")[0].strip() if "[" in row['Pokémon'] else None
-        if pokemon_form is None:
-            if pokemon == file.split('/')[-1][:-5].lower():
-                if pd.isna(row['Drops']) or row['Drops'] == '':
-                    no_drops_base_forms.append(file)
-                    data.pop('drops', None)
-                elif "REMOVED" in row['Drops']:
-                    removed_drops_pokemon.append(file)
-                    data.pop('drops', None)
-                else:
-                    data['drops'] = parse_drops(row['Drops'])
-        else:
-            if pokemon == file.split('/')[-1][:-5].lower():
+    # make sure to write the file with utf-8 encoding
+    with open(pokemon_data_dir + "/" + file, 'r+', encoding="utf-8") as f:
+        pokemon = sanitize_pokemon(data['name'])
+
+        for row in drops_dict[pokemon]:
+
+            pokemon_form = row['forms'] if 'forms' in row else None
+
+            if pokemon in drops_dict:
+
                 if 'forms' in data:
-                    form_found = False
                     for form in data['forms']:
+                        # Apply the form entry mapping to the form name if applicable
+                        if pokemon_form in form_entry_mapping:
+                            pokemon_form = form_entry_mapping[pokemon_form]
                         if form['name'] == pokemon_form:
-                            form_found = True
                             if pd.isna(row['Drops']) or row['Drops'] == '':
                                 no_drops_forms.append(f'{pokemon} [{pokemon_form}]')
                                 form.pop('drops', None)
@@ -118,14 +139,22 @@ def modify_files(file, pokemon_data_dir, drops_df):
                             if 'drops' in form and 'drops' in data:
                                 if form['drops'] == data['drops']:
                                     form.pop('drops')
-                    if not form_found:
-                        no_form_entry_files.append(f'{pokemon} [{pokemon_form}]')
+                        else:
+                            no_form_entry_files.append(f'{pokemon} [{pokemon_form}]')
                 else:
-                    no_form_entry_files.append(f'{pokemon} [{pokemon_form}]')
+                    if pd.isna(row['Drops']) or row['Drops'] == '':
+                        no_drops_base_forms.append(file)
+                        data.pop('drops', None)
+                    elif "REMOVED" in row['Drops']:
+                        removed_drops_pokemon.append(file)
+                        data.pop('drops', None)
+                    else:
+                        data['drops'] = parse_drops(row['Drops'])
 
-    with open(pokemon_data_dir + "/" + file, 'w', encoding="utf-8") as f:
+        # Write the modified data back to the file
+        f.seek(0)
         json.dump(data, f, ensure_ascii=False, indent=2)
-
+        f.truncate()
 
 def parse_drops(drops_str):
     entries = []
@@ -236,8 +265,9 @@ def filter_filenames_by_pokemon_names(directory, pokemon_names):
     # Get the files that did not pass the filter
     not_filtered_files = [file for file in all_files if file not in filtered_files]
 
-    print("\nSpecies file found, but ignored:  [[located at resources/data/cobblemon/species/]]")
-    print_list_filtered(not_filtered_files)
+    if not_filtered_files:
+        print("\nSpecies file found, but ignored:  [[located at resources/data/cobblemon/species/]]")
+        print_list_filtered(not_filtered_files)
     return filtered_files
 
 
@@ -247,4 +277,5 @@ def write_to_sqlite(df, db_name, table_name):
 
 
 if __name__ == "__main__":
-    main()
+    dex_range = range(0, 1111)
+    main(dex_range)
