@@ -190,10 +190,11 @@ def main(pokemon_data_dir, spawn_spreadsheet_path="", only_update_existing_files
     if spawn_spreadsheet_path:
         # if the file is an excel file, read it with pandas
         if spawn_spreadsheet_path.endswith('.xlsx'):
-            csv_df = pd.read_excel(spawn_spreadsheet_path)
+            csv_df = pd.read_excel(spawn_spreadsheet_path, engine='openpyxl',
+                                   dtype={'Pokémon': str, 'Entry': str, 'No.': int})
         # if the file is a csv file, read it with pandas
         elif spawn_spreadsheet_path.endswith('.csv'):
-            csv_df = pd.read_csv(spawn_spreadsheet_path)
+            csv_df = pd.read_csv(spawn_spreadsheet_path, dtype={'Pokémon': str, 'Entry': str, 'No.': int})
         else:
             print_warning("Invalid file format. Please provide a valid excel or csv file.")
             return

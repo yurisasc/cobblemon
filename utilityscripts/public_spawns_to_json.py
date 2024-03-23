@@ -23,10 +23,6 @@ def process_file(input_file, output_directory, filters, pokemon_number_start, po
                                                 known_cntxts=filtered_filters['known_contexts'],
                                                 bucket_map=filtered_filters['bucket_mapping'])
 
-    print("filteredfilters: ", filtered_filters)
-    print(f"Processing file: {input_file}")
-    print(f"Output directory: {output_directory}")
-    print(f"Filters: {filters}")
     if not validate_number_range(pokemon_number_start, pokemon_number_end):
         messagebox.showinfo("Invalid Pokémon number range. Please provide a valid range.")
         return
@@ -63,8 +59,8 @@ def select_input_file(input_file_var, input_file_label, output_dir_var, pokemon_
             csv_df = pd.read_excel(input_file_var.get(), engine='openpyxl',
                                    dtype={'Pokémon': str, 'Entry': str, 'No.': int})
         # if the file is a csv file, read it with pandas
-        elif input_file_var.get().endswith('.csv', dtype={'Pokémon': str, 'Entry': str, 'No.': int}):
-            csv_df = pd.read_csv(input_file_var)
+        elif input_file_var.get().endswith('.csv'):
+            csv_df = pd.read_csv(input_file_var.get(), dtype={'Pokémon': str, 'Entry': str, 'No.': int})
         else:
             # show message
             messagebox.showinfo("Invalid file format. Please provide a valid excel or csv file")
@@ -84,6 +80,8 @@ def select_input_file(input_file_var, input_file_label, output_dir_var, pokemon_
 
         # Remove the loading message
         loading_label.destroy()
+        if output_dir_var.get() and input_file_var.get():
+            process_button['state'] = 'normal'
 
 
 def select_output_directory(output_dir_var, output_dir_label, input_file_var):
