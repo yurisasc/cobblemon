@@ -76,6 +76,11 @@ def main(print_missing_models=False, print_missing_animations=False):
 
         # Check if the audio file exists
         audio_file_exists = os.path.isfile(audio_file_path)
+        # if the length of the audio file is smaller or equals to 0.11725 seconds, it is considered empty
+        if audio_file_exists:
+            audio = OggVorbis(audio_file_path)
+            if audio.info.length <= 0.11725:
+                audio_file_exists = False
 
         # Check the cry status and update the lists of false positives and negatives
         if cry_status == "✔" and not audio_file_exists:
@@ -195,5 +200,6 @@ def check_sound_effects(animation_data, sanitized_pokemon_name_lower, animation_
 
 if (__name__ == "__main__"):
     main()
+    input("Press Enter to continue...")
 
 input()
