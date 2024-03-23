@@ -1,0 +1,20 @@
+{
+  "species": "cobblemon:rowlet",
+  "order": 1,
+  "variations": [
+    {
+      "aspects": ["hisuian"],
+      "poser": "cobblemon:rowlet_hisuian",
+      "model": "cobblemon:rowlet_hisuian.geo",
+      "texture": "cobblemon:textures/pokemon/0722_rowlet/rowlet_hisuian.png",
+      "layers": []
+    },
+    {
+      "aspects": [
+        "hisuian",
+        "shiny"
+      ],
+      "texture": "cobblemon:textures/pokemon/0722_rowlet/rowlet_hisuian_shiny.png"
+    }
+  ]
+}

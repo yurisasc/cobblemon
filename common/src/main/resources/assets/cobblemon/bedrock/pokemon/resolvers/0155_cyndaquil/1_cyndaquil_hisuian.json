@@ -1,0 +1,27 @@
+{
+  "species": "cobblemon:cyndaquil",
+  "order": 1,
+  "variations": [
+    {
+      "aspects": ["hisuian"],
+      "poser": "cobblemon:cyndaquil_hisuian",
+      "model": "cobblemon:cyndaquil_hisuian.geo",
+      "texture": "cobblemon:textures/pokemon/0155_cyndaquil/cyndaquil_hisuian.png",
+      "layers": [
+        {
+          "name": "emissive",
+          "texture": "cobblemon:textures/pokemon/0155_cyndaquil/cyndaquil_hisuian_emissives.png",
+          "emissive": true,
+          "translucent": true
+        }
+      ]
+    },
+    {
+      "aspects": [
+        "hisuian",
+        "shiny"
+      ],
+      "texture": "cobblemon:textures/pokemon/0155_cyndaquil/cyndaquil_hisuian_shiny.png"
+    }
+  ]
+}

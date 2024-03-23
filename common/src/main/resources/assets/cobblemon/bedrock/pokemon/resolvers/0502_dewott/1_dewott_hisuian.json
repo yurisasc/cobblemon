@@ -1,0 +1,20 @@
+{
+  "species": "cobblemon:dewott",
+  "order": 1,
+  "variations": [
+    {
+      "aspects": ["hisuian"],
+      "poser": "cobblemon:dewott_hisuian",
+      "model": "cobblemon:dewott_hisuian.geo",
+      "texture": "cobblemon:textures/pokemon/0502_dewott/dewott_hisuian.png",
+      "layers": []
+    },
+    {
+      "aspects": [
+        "hisuian",
+        "shiny"
+      ],
+      "texture": "cobblemon:textures/pokemon/0502_dewott/dewott_hisuian_shiny.png"
+    }
+  ]
+}

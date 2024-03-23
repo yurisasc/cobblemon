@@ -23,41 +23,45 @@ class ArcanineModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quad
     override val rootPart = root.registerChildWithAllChildren("arcanine")
     override val head = getPart("head")
 
-    override val foreLeftLeg = getPart("leg_front_left")
-    override val foreRightLeg = getPart("leg_front_right")
-    override val hindLeftLeg = getPart("leg_back_left")
-    override val hindRightLeg = getPart("leg_back_right")
+    override val foreLeftLeg = getPart("left_shoulder")
+    override val foreRightLeg = getPart("right_shoulder")
+    override val hindLeftLeg = getPart("left_thigh")
+    override val hindRightLeg = getPart("right_thigh")
 
-    override var portraitScale = 1.5F
-    override var portraitTranslation = Vec3d(-0.4, 0.7, 0.0)
+    override var portraitScale = 1.37F
+    override var portraitTranslation = Vec3d(-0.58, 1.21, 0.0)
 
-    override var profileScale = 0.76F
-    override var profileTranslation = Vec3d(0.0, 0.57, 0.0)
+    override var profileScale = 0.58F
+    override var profileTranslation = Vec3d(0.14, 0.92, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("arcanine", "cry") }
+    //override val cryAnimation = CryProvider { _, _ -> bedrockStateful("arcanine", "cry") }
 
     override fun registerPoses() {
+        val blink = quirk { bedrockStateful("arcanine", "blink") }
         standing = registerPose(
-            poseName = "standing",
-            poseTypes = STATIONARY_POSES + UI_POSES,
-            transformTicks = 10,
-            idleAnimations = arrayOf(
-                singleBoneLook()
-            )
+                poseName = "standing",
+                poseTypes = STATIONARY_POSES + UI_POSES,
+                transformTicks = 10,
+                quirks = arrayOf(blink),
+                idleAnimations = arrayOf(
+                        singleBoneLook(),
+                        bedrock("arcanine", "idle")
+                )
         )
 
         walk = registerPose(
-            poseName = "walk",
-            poseTypes = MOVING_POSES,
-            transformTicks = 10,
-            idleAnimations = arrayOf(
-                singleBoneLook(),
-                QuadrupedWalkAnimation(this, periodMultiplier = 0.75F, amplitudeMultiplier = 1F)
-                //bedrock("arcanine", "ground_walk")
-            )
+                poseName = "walk",
+                poseTypes = MOVING_POSES,
+                transformTicks = 10,
+                quirks = arrayOf(blink),
+                idleAnimations = arrayOf(
+                        singleBoneLook(),
+                        bedrock("arcanine", "idle"),
+                        QuadrupedWalkAnimation(this)
+                )
         )
     }
 

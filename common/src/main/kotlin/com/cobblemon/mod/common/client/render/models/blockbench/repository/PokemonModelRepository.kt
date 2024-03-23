@@ -696,6 +696,25 @@ object PokemonModelRepository : VaryingModelRepository<PokemonEntity, PokemonPos
         inbuilt("jangmo-o", ::JangmoOModel)
         inbuilt("hakamo-o", ::HakamoOModel)
         inbuilt("kommo-o", ::KommoOModel)
+        inbuilt("vibrava", ::VibravaModel)
+        inbuilt("flygon", ::FlygonModel)
+        inbuilt("larvitar", ::LarvitarModel)
+        inbuilt("pupitar", ::PupitarModel)
+        inbuilt("tyranitar", ::TyranitarModel)
+        inbuilt("impidimp", ::ImpidimpModel)
+        inbuilt("morgrem", ::MorgremModel)
+        inbuilt("grimmsnarl", ::GrimmsnarlModel)
+        inbuilt("klefki", ::KlefkiModel)
+        inbuilt("samurott_hisuian", ::SamurottHisuianModel)
+        inbuilt("oshawott_hisuian", ::OshawottHisuianModel)
+        inbuilt("dewott_hisuian", ::DewottHisuianModel)
+        inbuilt("cyndaquil_hisuian", ::CyndaquilHisuianModel)
+        inbuilt("quilava_hisuian", ::QuilavaHisuianModel)
+        inbuilt("typhlosion_hisuian", ::TyphlosionHisuianModel)
+        inbuilt("rowlet_hisuian", ::RowletHisuianModel)
+        inbuilt("dartrix_hisuian", ::DartrixHisuianModel)
+        inbuilt("decidueye_hisuian", ::DecidueyeHisuianModel)
+
     }
 
     override fun loadJsonPoser(json: String): (Bone) -> PokemonPoseableModel {
