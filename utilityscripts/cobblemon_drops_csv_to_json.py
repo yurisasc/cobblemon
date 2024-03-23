@@ -69,13 +69,13 @@ def main(dex_range=None):
         print("\nNo drops specified for base forms in the drops sheet, but species files exists:")
         print_list_filtered(no_drops_base_forms)
     if no_drops_forms:
-        print("\nNo drops specified for forms in the drops sheet, but form entries exist:")
+        print("\nNo drops specified for forms in the drops sheet, even though form entries exist in .json files:")
         print_list_filtered(no_drops_forms)
     if removed_drops_pokemon:
         print("\nRemoved drops specified for Pokémon in the drops sheet:")
         print_list_filtered(removed_drops_pokemon)
     if no_form_entry_files:
-        print("\nNo form entry found for the following files, but form drops were specified in the drops sheet:")
+        print("\nNo form entry found in the respective .json file for the following pokemon, but form drops were specified in the drops sheet:")
         print_list_filtered(no_form_entry_files)
     print_cobblemon_script_footer("Thanks for using the Cobblemon Drops Generator, provided to you by Waldleufer!")
 
@@ -116,6 +116,21 @@ def modify_files(file, pokemon_data_dir, drops_dict):
     with open(pokemon_data_dir + "/" + file, 'r+', encoding="utf-8") as f:
         pokemon = sanitize_pokemon(data['name'])
 
+        # compare all forms of the file with all forms of the drops_dict pokemon
+        file_forms = set(form['name'] for form in data['forms']) if 'forms' in data else set()
+        # always add None to the file_forms set, as the base form is always present in the files
+        file_forms.add(None)
+        drops_dict_forms = set(row['forms'] for row in drops_dict[pokemon] if 'forms' in row)
+        # apply the mapping to al the drops_forms
+        drops_dict_forms = set(form_entry_mapping.get(form, form) for form in drops_dict_forms)
+
+        # Add forms that are in the file but not in drops_dict to no_drops_forms
+        difference = file_forms - drops_dict_forms
+        no_drops_forms.extend(f'{pokemon} [{form}]' for form in difference)
+
+        # Add forms that are in drops_dict but not in the file to no_form_entry_files
+        no_form_entry_files.extend(f'{pokemon} [{form}]' for form in drops_dict_forms - file_forms)
+
         for row in drops_dict[pokemon]:
 
             pokemon_form = row['forms'] if 'forms' in row else None
@@ -139,8 +154,6 @@ def modify_files(file, pokemon_data_dir, drops_dict):
                             if 'drops' in form and 'drops' in data:
                                 if form['drops'] == data['drops']:
                                     form.pop('drops')
-                        else:
-                            no_form_entry_files.append(f'{pokemon} [{pokemon_form}]')
                 else:
                     if pd.isna(row['Drops']) or row['Drops'] == '':
                         no_drops_base_forms.append(file)
@@ -221,7 +234,7 @@ def replace_names_in_string(drop_str, mapping_dict):
     for natural_name, minecraft_id in mapping_dict.items():
         if pd.isna(drop_str):
             break
-        drop_str = drop_str.replace(natural_name, minecraft_id)
+        drop_str = drop_str.replace(str(natural_name), minecraft_id)
     return drop_str
 
 
