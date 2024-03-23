@@ -45,9 +45,8 @@ def main(dex_range=None):
     drops_df['Pokémon'] = drops_df['Pokémon'].apply(lambda san: sanitize_pokemon(san.split("[")[0].strip()))
 
     # Group the drops data by Pokémon names, then convert it to a dictionary
-    drops_dict = drops_df.groupby('Pokémon').apply(lambda x: x.to_dict(orient='records')).to_dict()
-
-
+    drops_dict = drops_df.groupby('Pokémon').apply(lambda x: x.to_dict(orient='records'),
+                                                   include_groups=False).to_dict()
     # Filter the filenames by Pokémon names
     files_to_change = filter_filenames_by_pokemon_names(pokemon_data_dir, drops_df['Pokémon'])
 
@@ -80,6 +79,7 @@ def main(dex_range=None):
     print_cobblemon_script_footer("Thanks for using the Cobblemon Drops Generator, provided to you by Waldleufer!")
 
 
+
 def get_drops_df(dex_range=range(0, 1111)):
     drops_spreadsheet_csv_url = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vR51bmzKMTvCfa1UKf454nnlNBCUVMtVNQvxdAiYU09E5pWS7mbsrVt45ABsCGZTByt9N_YEgnSwj8V/pub?gid=0&single=true&output=csv'
     conversion_csv_url = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRmvHzUc6_UUKbcvRche7AVebNoljqC1bf3iccusJqW9-C3k0KtESJxOCXShykSejIarAB2jHJ2bHCb/pub?gid=0&single=true&output=csv'
@@ -97,13 +97,13 @@ def get_drops_df(dex_range=range(0, 1111)):
         drops_df = drops_df[drops_df['No.'].isin(dex_range)]
 
     mapping_df = load_data_from_csv(csv_data_for_matching)
-    # Create a mapping dictionary from the Pokémon names to the Minecraft IDs
+    # Create a mapping dictionary from the natural names to the Minecraft IDs
     mapping_dict = dict(zip(mapping_df['natural_name'], mapping_df['minecraft_ID']))
     # Replace the Item names with the Minecraft IDs
     drops_df['Drops'] = drops_df['Drops'].apply(lambda x: replace_names_in_string(x, mapping_dict))
     # Do the same for the "Spawn Specific Drops" column
     drops_df['Spawn Specific Drops'] = drops_df['Spawn Specific Drops'].apply(
-        lambda x: replace_names_in_string(x, mapping_dict))
+        lambda x: replace_names_in__specific_drops_string(x, mapping_dict))
     return drops_df, pokemon_data_dir, sqlite_db_name, sqlite_table_name
 
 
@@ -241,6 +241,17 @@ def replace_names_in_string(drop_str, mapping_dict):
             raise ValueError(f"'{natural_name}' is of type int, indicating an error during the fetching some spreadsheet data. Please rerun the script.")
         drop_str = drop_str.replace(natural_name, minecraft_id)
     return drop_str
+
+
+def replace_names_in__specific_drops_string(special_drops_str, mapping_dict):
+    if pd.isna(special_drops_str):
+        return special_drops_str
+    drops = special_drops_str.split(';')
+    for drop in drops:
+        left_side, right_side_drops = drop.split('=')
+        right_side_drops = replace_names_in_string(right_side_drops, mapping_dict)
+        drop = left_side + "=" + right_side_drops
+        return drop
 
 
 def download_spreadsheet_data(url, max_retries=10):

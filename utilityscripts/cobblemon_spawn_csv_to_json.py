@@ -204,6 +204,9 @@ def main(pokemon_data_dir, spawn_spreadsheet_path="", only_update_existing_files
     # Verify all biome tags are valid
     invalid_biome_tags = verifyBiomeTags()
 
+    # Print "Script is loading data..." message
+    print("\nScript is loading data...")
+
     # Apply filters
     csv_df = validateAndFilterData(csv_df, only_update_existing_files, ignore_filters)
 
@@ -366,28 +369,36 @@ def transform_pokemon_to_json(pokemon_rows, invalid_biome_tags, drops_df):
             # Spawn specific drops field
             spawn_specific_drops = drops_df[drops_df['Pokémon'] == currentPokemon]["Spawn Specific Drops"]
             if not spawn_specific_drops.empty:
+                # Split spawn specific drops by ;
+                spawn_specific_drops = spawn_specific_drops.iloc[0].split(';')
                 # Iterate through the spawn_specific_drops
                 for drop in spawn_specific_drops:
                     # Split the string by = and strip each string
-                    dropcondition, unprocessedDrops = drop.split('=')[0].strip(), drop.split('=')[1].strip()
-                    if dropcondition.startswith("preset:"):
-                        # split dropcondition by "," remove ":preset" and strip each string
-                        presets = [drop.strip().replace("preset:", "").lower() for drop in dropcondition.split(',')]
-                        # check if the dropcondition is in the preset_list, if not, then add it to the unknown_conditions list
-                        for preset in presets:
-                            if preset not in preset_list:
-                                print_warning(f"Unknown preset: {preset}")
-                            # if the current entry's preset matches with the condition, then add the drops to the json_data
-                            # check if the presets field is in the spawn_data
-                            if "presets" in spawn_data and preset in spawn_data['presets']:
-                                spawn_data["drops"] = parse_drops(unprocessedDrops)
-                    else:
-                        # Apply the biome mapping to the condition
-                        if dropcondition.lower() in biome_mapping:
-                            dropcondition = biome_mapping[dropcondition.lower()]
-                        # if the current entry's biome matches with the condition, then add the drops to the json_data
-                        if dropcondition in condition['biomes']:
-                            spawn_data["drops"] = parse_drops(unprocessedDrops)
+                    dropconditions, unprocessedDrops = drop.split('=')[0].strip(), drop.split('=')[1].strip()
+                    for dropcondition in dropconditions.split(','):
+                        if dropcondition.startswith("preset:"):
+                            # split dropcondition by "," remove ":preset" and strip each string
+                            presets = [drop.strip().replace("preset:", "").lower() for drop in dropcondition.split(',')]
+                            # check if the dropcondition is in the preset_list, if not, then add it to the unknown_conditions list
+                            for preset in presets:
+                                if preset not in preset_list:
+                                    print_warning(f"Unknown preset: {preset}")
+                                # if the current entry's preset matches with the condition, then add the drops to the json_data
+                                # check if the presets field is in the spawn_data
+                                if "presets" in spawn_data and preset in spawn_data['presets']:
+                                    spawn_data["drops"] = parse_drops(unprocessedDrops)
+                        elif dropcondition.startswith("biome:"):
+                            biomes = [drop.strip().replace("biome:", "").lower() for drop in dropcondition.split(',')]
+                            for biome in biomes:
+                                biome = biome.lower()
+                                if biome not in biome_mapping:
+                                    print_warning(f"Unknown biome: {biome}")
+                                # Apply the biome mapping to the condition
+                                if biome in biome_mapping:
+                                    biome = biome_mapping[biome]
+                                # if the current entry's biome matches with the condition, then add the drops to the json_data
+                                if biome in condition['biomes']:
+                                    spawn_data["drops"] = parse_drops(unprocessedDrops)
 
             # Handle Patternkey=value field and Append the spawn_data to the json_data
             if pd.notna(row['Patternkey=Value']):
@@ -644,8 +655,7 @@ def parse_biomes(biomes_str, invalid_biome_tags):
 
         # Verify that the biome is not in the invalid_biome_tags list
         if invalid_biome_tags and biome_mapping[biome] in invalid_biome_tags:
-            raise ValueError(
-                f"Tried to use invalid biome tag: {biome}\nThe wrong tag specified in biome_mapping is: {biome_mapping[biome]}")
+            print_warning(f"Used possibly invalid biome tag: {biome}\nThe wrong tag specified in biome_mapping is: {biome_mapping[biome]}")
 
         if biome in biome_mapping:
             biomes.append(biome_mapping[biome])
@@ -719,19 +729,41 @@ def load_special_drops_data():
 def verifyBiomeTags():
     # Define the directory path
     directory_path = '../common/src/main/resources/data/cobblemon/tags/worldgen/biome/'
-    minecraft_biome_directory_path = '../common/src/main/resources/data/minecraft/worldgen/biome/'
+    minecraft_biome_directory_path = '../.gradle/loom-cache/minecraftMaven/net/minecraft/'
 
     # Check if the biome directories exist and are not empty
-    if not os.path.exists(directory_path) or not os.listdir(directory_path) or not os.path.exists(
-            minecraft_biome_directory_path) or not os.listdir(minecraft_biome_directory_path):
+    if not os.path.exists(minecraft_biome_directory_path) or not os.listdir(minecraft_biome_directory_path):
         print_warning(
-            "BiomeTags are currently not validated outside of a development environment with a completed gradle build.")
-        return []
+            "Minecraft BiomeTags are currently not validated outside of a development environment with a completed gradle build.")
+
+    # Check if the biome directories exist and are not empty
+    if not os.path.exists(directory_path) or not os.listdir(directory_path):
+        print_warning(
+            "Cobblemon BiomeTags are currently not validated outside of a development environment")
 
     # get the list of all biomes by reading the filenames in the directory
-    biome_files = os.listdir(directory_path)
+    biome_files = []
+    for root, dirs, files in os.walk(directory_path):
+        for file in files:
+            if root == directory_path:
+                biome_files.append(file)
+            else:
+                # Get the directory name
+                directory_name = os.path.basename(root)
+                biome_files.append(f"{directory_name}/{file}")
     # remove the .json from the filenames and prepend "#cobblemon:" to the biome name
     biome_files = [f"#cobblemon:{file[:-5]}" for file in biome_files]
+
+    # get the list of all minecraft biomes by reading the filenames in the directory
+    minecraft_biomes = []
+    # Construct the path pattern for JAR files
+    jar_pattern = os.path.join("..", ".gradle", "loom-cache", "minecraftMaven", "net", "minecraft", "*",
+                               "*", "*.jar")
+    for jar_path in glob.glob(jar_pattern):
+        with zipfile.ZipFile(jar_path, 'r') as jar:
+            for file in jar.namelist():
+                   minecraft_biomes.append(file)
+
     unknown_biomes = []
 
     print_warning("The following biome tags can currently not be verified, please make sure they are correct:")
@@ -740,17 +772,14 @@ def verifyBiomeTags():
         if biome.startswith("#cobblemon:"):
             if biome not in biome_files:
                 unknown_biomes.append(biome)
-        elif biome.startswith("minecraft:"):
-            # search for the biome folder in all external gradle dependencies: data/minecraft/worldgen/biome
-            # if it is not found, then add it to unknown_biomes
+        elif biome.startswith("minecraft:") or biome.startswith("#minecraft"):
             biome_name = biome.split(":")[1]
-            biome_file_pattern = f"data/minecraft/worldgen/biome/{biome_name}.json"
-            if not is_filepattern_in_jars(biome_file_pattern):
-                unknown_biomes.append(biome)
-        elif biome.startswith("#minecraft"):
-            biome_name = biome.split(":")[1]
-            biome_file_pattern = f"data/minecraft/tags/worldgen/biome/{biome_name}.json"
-            if not is_filepattern_in_jars(biome_file_pattern):
+            if biome.startswith("minecraft:"):
+                biome_path = f"data/minecraft/worldgen/biome/{biome_name}.json"
+            else:  # starts with #minecraft
+                biome_path = f"data/minecraft/tags/worldgen/biome/{biome_name}.json"
+            # Check if the biome path is in minecraft_biomes
+            if biome_path not in minecraft_biomes:
                 unknown_biomes.append(biome)
         else:
             print(f"  Unverified biome tag: {biome}")
@@ -780,4 +809,3 @@ if __name__ == "__main__":
     spawn_spreadsheet_excel_url = readEnvFile('SPAWN_SPREADSHEET_EXCEL_URL')
     pokemon_data_dir = '../common/src/main/resources/data/cobblemon/spawn_pool_world'
     main(pokemon_data_dir, only_update_existing_files=False, ignore_filters=False)
-    input("Press Enter to close the program...")
