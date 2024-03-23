@@ -44,7 +44,7 @@ class BlisseyModel(root: ModelPart) : PokemonPoseableModel(), BipedFrame, Bimanu
 
     override fun registerPoses() {
         val blink = quirk { bedrockStateful("blissey", "blink") }
-        val eggQuirk = quirk { bedrockStateful("blissey", "egg_quirk") }
+        val eggQuirk = quirk { bedrockStateful("blissey", "eggadjust_quirk") }
 
         sleep = registerPose(
             poseName = "sleep",

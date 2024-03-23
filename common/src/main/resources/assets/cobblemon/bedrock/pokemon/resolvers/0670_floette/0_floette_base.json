@@ -54,6 +54,14 @@
           "texture": "cobblemon:textures/pokemon/0670_floette/floette_flower_red.png"
         }
       ]
+    },
+    {
+      "aspects": ["flower-pink"],
+      "layers": [
+        {
+          "texture": "cobblemon:textures/pokemon/0670_floette/floette_flower_pink.png"
+        }
+      ]
     }
   ]
 }

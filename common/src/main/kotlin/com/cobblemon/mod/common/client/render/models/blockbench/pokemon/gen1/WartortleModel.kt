@@ -62,7 +62,7 @@ class WartortleModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
         val faint = "q.bedrock_primary('wartortle', 'faint', q.curve('one'))".asExpressionLike()
 
         val blink = quirk { bedrockStateful("wartortle", "blink") }
-        val quirkidle = quirk { bedrockStateful("wartortle", "quirk_ground_idle") }
+        val quirkidle = quirk { bedrockStateful("wartortle", "quirk_idle") }
 
         sleep = registerPose(
             poseType = PoseType.SLEEP,

@@ -1,0 +1,20 @@
+{
+  "species": "cobblemon:dartrix",
+  "order": 1,
+  "variations": [
+    {
+      "aspects": ["hisuian"],
+      "poser": "cobblemon:dartrix_hisuian",
+      "model": "cobblemon:dartrix_hisuian.geo",
+      "texture": "cobblemon:textures/pokemon/0723_dartrix/dartrix_hisuian.png",
+      "layers": []
+    },
+    {
+      "aspects": [
+        "hisuian",
+        "shiny"
+      ],
+      "texture": "cobblemon:textures/pokemon/0723_dartrix/dartrix_hisuian_shiny.png"
+    }
+  ]
+}

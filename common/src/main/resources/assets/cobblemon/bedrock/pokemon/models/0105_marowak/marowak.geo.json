@@ -257,6 +257,7 @@
 				},
 				{
 					"name": "bone_body",
+					"parent": "marowak",
 					"pivot": [0, 0, 0]
 				},
 				{

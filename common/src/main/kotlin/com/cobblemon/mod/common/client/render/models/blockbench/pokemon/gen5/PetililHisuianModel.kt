@@ -16,11 +16,11 @@ import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
 class PetililHisuianModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
-    override val rootPart = root.registerChildWithAllChildren("petilil_hisuian")
+    override val rootPart = root.registerChildWithAllChildren("petilil_hisui")
     override val head = getPart("head")
 
-    override var portraitScale = 2.0F
-    override var portraitTranslation = Vec3d(-0.3, -1.2, 0.0)
+    override var portraitScale = 1.75F
+    override var portraitTranslation = Vec3d(0.01, -0.39, 0.0)
 
     override var profileScale = 0.8F
     override var profileTranslation = Vec3d(0.0, 0.5, 0.0)
@@ -30,7 +30,7 @@ class PetililHisuianModel (root: ModelPart) : PokemonPoseableModel(), HeadedFram
     lateinit var sleep: PokemonPose
 
     override fun registerPoses() {
-        val blink = quirk { bedrockStateful("petilil_hisuian", "blink") }
+        val blink = quirk { bedrockStateful("petilil_hisui", "blink") }
 
         standing = registerPose(
             poseName = "standing",
@@ -38,7 +38,8 @@ class PetililHisuianModel (root: ModelPart) : PokemonPoseableModel(), HeadedFram
             condition = { !it.isBattling },
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
-                bedrock("petilil_hisuian", "ground_idle")
+                    singleBoneLook(),
+                bedrock("petilil_hisui", "ground_idle")
             )
         )
 
@@ -47,7 +48,8 @@ class PetililHisuianModel (root: ModelPart) : PokemonPoseableModel(), HeadedFram
             poseTypes = PoseType.MOVING_POSES,
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
-                bedrock("petilil_hisuian", "ground_idle")
+                    singleBoneLook(),
+                bedrock("petilil_hisui", "ground_idle")
             )
         )
     }
