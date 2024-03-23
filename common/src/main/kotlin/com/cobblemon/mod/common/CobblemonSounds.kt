@@ -232,6 +232,8 @@ object CobblemonSounds : PlatformRegistry<Registry<SoundEvent>, RegistryKey<Regi
     val IMPACT_STEEL = this.create("impact.steel")
     @JvmField
     val IMPACT_WATER = this.create("impact.water")
+    @JvmField
+    val SUPER_EFFECTIVE = this.create("supereffective")
 
     @JvmField
     val TUMBLESTONE_SOUNDS = BlockSoundGroup(1f, 1f,
