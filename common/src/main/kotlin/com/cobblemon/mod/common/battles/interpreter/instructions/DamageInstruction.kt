@@ -78,6 +78,8 @@ class DamageInstruction(
             }
         }
 
+        ShowdownInterpreter.broadcastOptionalAbility(battle, effect, sourceName)
+
         battle.dispatch {
             val pokemonEntity = battlePokemon.entity
             if (!causedFaint && pokemonEntity != null) {
@@ -101,8 +103,6 @@ class DamageInstruction(
                 )
             }
 
-
-            ShowdownInterpreter.broadcastOptionalAbility(battle, effect, sourceName)
             val newHealthRatio: Float
             val remainingHealth = newHealth.split("/")[0].toInt()
 

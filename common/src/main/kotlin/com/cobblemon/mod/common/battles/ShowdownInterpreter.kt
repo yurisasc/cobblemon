@@ -64,7 +64,7 @@ object ShowdownInterpreter {
         updateInstructionParser["bagitem"]               = { _, _, message, _ -> BagItemInstruction(message) }
         updateInstructionParser["-boost"]                = { _, instructionSet, message, remainingLines -> BoostInstruction(instructionSet, message, remainingLines, true) }
         updateInstructionParser["-block"]                = { _, _, message, _ -> BlockInstruction(message) }
-        updateInstructionParser["-cant"]                 = { _, _, message, _ -> CantInstruction(message) }
+        updateInstructionParser["cant"]                  = { _, _, message, _ -> CantInstruction(message) }
         updateInstructionParser["-clearallboost"]        = { _, _, message, _ -> ClearAllBoostInstruction(message) }
         updateInstructionParser["-clearnegativeboost"]   = { _, _, message, _ -> ClearNegativeBoostInstruction(message) }
         updateInstructionParser["-copyboost"]            = { _, _, message, _ -> CopyBoostInstruction(message) }
