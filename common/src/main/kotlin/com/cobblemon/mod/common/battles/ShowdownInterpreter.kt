@@ -116,6 +116,9 @@ object ShowdownInterpreter {
         updateInstructionParser["upkeep"] = { _, _, _, _ -> UpkeepInstruction() }
         updateInstructionParser["faint"] = { battle, _, message, _ -> FaintInstruction(battle, message) }
         updateInstructionParser["move"] = { _, instructionSet, message, _ -> MoveInstruction(instructionSet, message) }
+        updateInstructionParser["-supereffective"] = { battle, _, message, _ -> EffectivenessInstruction(battle, message, "supereffective") }
+        updateInstructionParser["-resisted"] = { battle, _, message, _ -> EffectivenessInstruction(battle, message, "resisted") }
+        updateInstructionParser["-immune"] = { battle, _, message, _ -> EffectivenessInstruction(battle, message, "immune") }
         updateInstructionParser["-activate"] = { _, instructionSet, message, _ -> ActivateInstruction(instructionSet, message) }
         updateInstructionParser["-ability"] = { _, instructionSet, message, _ -> AbilityInstruction(instructionSet, message) }
         updateInstructionParser["-miss"] = { battle, instructionSet, message, _ -> MissInstruction(battle, instructionSet, message) }
@@ -128,8 +131,6 @@ object ShowdownInterpreter {
         updateInstructions["|win|"] = this::handleWinInstruction
         updateInstructions["|cant|"] = this::handleCantInstruction
         updateInstructions["|bagitem|"] = this::handleBagItemInstruction
-        updateInstructions["|-supereffective|"] = this::handleSuperEffectiveInstruction
-        updateInstructions["|-resisted|"] = this::handleResistInstruction
         updateInstructions["|-crit"] = this::handleCritInstruction
         updateInstructions["|-weather|"] = this::handleWeatherInstruction
         updateInstructions["|-mustrecharge|"] = this::handleRechargeInstructions
@@ -156,7 +157,6 @@ object ShowdownInterpreter {
         updateInstructions["|-setboost|"] = this::handleSetBoostInstruction
         updateInstructions["|t:|"] = {_, _, _ -> }
         updateInstructions["|pp_update|"] = this::handlePpUpdateInstruction
-        updateInstructions["|-immune"] = this::handleImmuneInstruction
         updateInstructions["|-invertboost|"] = this::handleInvertBoostInstruction
         updateInstructions["|-status|"] = this::handleStatusInstruction
         updateInstructions["|-end|"] = this::handleEndInstruction
@@ -584,20 +584,6 @@ object ShowdownInterpreter {
         }
     }
 
-    /**
-     * Format:
-     * |-immune|POKEMON
-     *
-     * The POKEMON was immune to a move.
-     */
-    private fun handleImmuneInstruction(battle: PokemonBattle, message: BattleMessage, remainingLines: MutableList<String>) {
-        battle.dispatchWaiting {
-            val pokemon = message.getBattlePokemon(0, battle) ?: return@dispatchWaiting
-            val name = pokemon.getName()
-            battle.broadcastChatMessage(battleLang("immune", name).red())
-            battle.minorBattleActions[pokemon.uuid] = message
-        }
-    }
 
     /**
      * Format:
@@ -656,19 +642,6 @@ object ShowdownInterpreter {
         }
     }
 
-    /**
-     * Format:
-     * |-resisted|p%a
-     *
-     * player % resisted the attack.
-     */
-    private fun handleResistInstruction(battle: PokemonBattle, message: BattleMessage, remainingLines: MutableList<String>) {
-        battle.dispatchGo {
-            val pokemon = message.getBattlePokemon(0, battle) ?: return@dispatchGo
-            battle.broadcastChatMessage(battleLang("resisted"))
-            battle.minorBattleActions[pokemon.uuid] = message
-        }
-    }
 
     /**
      * Format:
@@ -689,19 +662,6 @@ object ShowdownInterpreter {
         }
     }
 
-    /**
-     * Format:
-     * |-supereffective|p%a
-     *
-     * player % was weak against the attack.
-     */
-    private fun handleSuperEffectiveInstruction(battle: PokemonBattle, message: BattleMessage, remainingLines: MutableList<String>) {
-        battle.dispatchGo {
-            val pokemon = message.getBattlePokemon(0, battle) ?: return@dispatchGo
-            battle.broadcastChatMessage(battleLang("superEffective"))
-            battle.minorBattleActions[pokemon.uuid] = message
-        }
-    }
 
     /**
      * Format:
