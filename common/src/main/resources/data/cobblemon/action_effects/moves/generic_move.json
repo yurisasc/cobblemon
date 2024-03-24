@@ -11,7 +11,7 @@
     },
     {
       "type": "sequence",
-      "condition": "q.move.damage_category != 'status' && q.missed(q.entity.uuid) == false",
+      "condition": "q.move.damage_category != 'status' && q.missed(q.entity.uuid) == false && q.effectiveness != 'immune'",
       "keyframes": [
         {
           "type": "entity_sound",
