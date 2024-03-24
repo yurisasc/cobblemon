@@ -3,7 +3,7 @@
     "adapt_noise": false,
     "spawn_overrides": {},
     "type": "minecraft:jigsaw",
-    "start_pool": "cobblemon:fossils/prehistoric_spruce_tree",
+    "start_pool": "cobblemon:fossils/prehistoric_birch_tree",
     "size": 7,
     "step": "underground_structures",
     "start_height": {
