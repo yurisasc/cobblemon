@@ -45,8 +45,6 @@ class EntitySoundActionEffectKeyframe : ConditionalActionEffectKeyframe(), Entit
         val volumeValue = volume.resolveFloat(context.runtime)
         val pitchValue = pitch.resolveFloat(context.runtime)
 
-        println("Playing sound $soundIdentifier with volume $volumeValue and pitch $pitchValue")
-
         entities.forEach { entity ->
             val soundEvent =
                 entity.world.registryManager.get(RegistryKeys.SOUND_EVENT).get(soundIdentifier) ?: return skip()
