@@ -134,7 +134,7 @@
 			"animation_length": 2,
 			"sound_effects": {
 				"0.0": {
-					"effect": "effective"
+					"effect": "impact.fire"
 				}
 			},
 			"particle_effects": {
