@@ -607,6 +607,10 @@ open class Pokemon : ShowdownIdentifiable {
         }
     }
 
+    fun isFireImmune(): Boolean {
+        return ElementalTypes.FIRE in types || !form.behaviour.moving.swim.hurtByLava
+    }
+
     /**
      * A utility method that checks if this Pokémon species or form data contains the [CobblemonPokemonLabels.LEGENDARY] label.
      * This is used in Pokémon officially considered legendary.
