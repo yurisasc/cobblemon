@@ -10,6 +10,7 @@ package com.cobblemon.mod.common.util
 
 import net.minecraft.block.BlockState
 import net.minecraft.entity.Entity
+import net.minecraft.entity.ai.pathing.NavigationType
 import net.minecraft.item.Item
 import net.minecraft.particle.ParticleEffect
 import net.minecraft.registry.Registry
@@ -97,6 +98,19 @@ fun BlockView.getBlockStatesWithPos(box: Box): Iterable<Pair<BlockState, BlockPo
     return states
 }
 
+fun BlockView.getBlockPositions(box: Box): Iterable<BlockPos> {
+    val positions = mutableListOf<BlockPos>()
+    val (xRange, yRange, zRange) = box.getRanges()
+    for (x in xRange) {
+        for (y in yRange) {
+            for (z in zRange) {
+                positions.add(BlockPos(x, y, z))
+            }
+        }
+    }
+    return positions
+}
+
 fun BlockView.getWaterAndLavaIn(box: Box): Pair<Boolean, Boolean> {
     var hasWater = false
     var hasLava = false
@@ -118,6 +132,63 @@ fun Entity.canFit(pos: BlockPos) = canFit(pos.toVec3d())
 fun Entity.canFit(vec: Vec3d): Boolean {
     val box = boundingBox.offset(vec.subtract(this.pos))
     return world.isSpaceEmpty(box)
+}
+
+enum class PositionType {
+    LAND,
+    WATER,
+    SEAFLOOR,
+    LAVAFLOOR
+}
+
+fun World.canEntityStayAt(position: BlockPos, width: Int = 1, height: Int = 1, positionType: PositionType): Boolean {
+    val minX = kotlin.math.floor(position.x + 0.5 - (width - 1) / 2F).toInt()
+    val maxX = kotlin.math.ceil(position.x + 0.5 + (width - 1) / 2F).toInt()
+    val maxY = position.y + height
+
+    val minZ = kotlin.math.floor(position.z + 0.5 - (width - 1) / 2F).toInt()
+    val maxZ = kotlin.math.ceil(position.z + 0.5 + (width - 1) / 2F).toInt()
+
+    val mutable = BlockPos.Mutable()
+    for (x in minX until maxX) {
+        for (y in position.y..maxY) {
+            for (z in minZ until maxZ) {
+                val state = getBlockState(mutable.set(x, y, z))
+
+                // If it's a floor check, we likely need to do something different than surrounding blocks
+                if (y == position.y) {
+                    if (positionType == PositionType.LAND) {
+                        // Land entities need to be standing on solid ground
+                        if (state.canPathfindThrough(this, mutable, NavigationType.LAND)) {
+                            return false
+                        }
+                    }
+                } else {
+                    when (positionType) {
+                        PositionType.LAND -> {
+                            if (!state.canPathfindThrough(this, mutable, NavigationType.LAND)) {
+                                return false
+                            }
+                        }
+
+                        PositionType.WATER, PositionType.SEAFLOOR -> {
+                            if (!state.fluidState.isIn(FluidTags.WATER)) {
+                                return false
+                            }
+                        }
+
+                        PositionType.LAVAFLOOR -> {
+                            if (!state.fluidState.isIn(FluidTags.LAVA)) {
+                                return false
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    return true
 }
 
 val World.itemRegistry: Registry<Item>

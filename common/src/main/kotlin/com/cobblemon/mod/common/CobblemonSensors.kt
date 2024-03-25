@@ -8,6 +8,7 @@
 
 package com.cobblemon.mod.common
 
+import com.cobblemon.mod.common.entity.pokemon.ai.sensors.DrowsySensor
 import java.util.function.Supplier
 import net.minecraft.entity.Entity
 import net.minecraft.entity.ai.brain.sensor.Sensor
@@ -17,6 +18,7 @@ object CobblemonSensors {
     val sensors = mutableMapOf<String, SensorType<*>>()
 
 //    val NPC_BATTLING = register("npc_battling", ::NPCBattlingSensor)
+    val POKEMON_DROWSY = register("pokemon_drowsy", ::DrowsySensor)
 
     fun <E : Entity, U : Sensor<E>> register(id: String, supplier: Supplier<U>): SensorType<U> {
         val sensor = SensorType(supplier)

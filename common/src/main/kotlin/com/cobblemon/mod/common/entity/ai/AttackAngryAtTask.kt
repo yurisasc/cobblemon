@@ -15,7 +15,7 @@ import net.minecraft.entity.ai.brain.task.TaskRunnable
 import net.minecraft.entity.ai.brain.task.TaskTriggerer
 
 object AttackAngryAtTask {
-    fun create(): SingleTickTask<LivingEntity>  = TaskTriggerer.task {
+    fun create(): SingleTickTask<LivingEntity> = TaskTriggerer.task {
         it.group(
             it.queryMemoryValue(MemoryModuleType.ANGRY_AT),
             it.queryMemoryAbsent(MemoryModuleType.ATTACK_TARGET)

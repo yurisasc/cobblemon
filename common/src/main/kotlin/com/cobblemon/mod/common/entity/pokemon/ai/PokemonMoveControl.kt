@@ -33,7 +33,7 @@ class PokemonMoveControl(val pokemonEntity: PokemonEntity) : MoveControl(pokemon
     }
 
     override fun tick() {
-        if (pokemonEntity.pokemon.status?.status == Statuses.SLEEP || pokemonEntity.isDead) {
+        if (pokemonEntity.isDead) {
             pokemonEntity.movementSpeed = 0F
             pokemonEntity.upwardSpeed = 0F
             return

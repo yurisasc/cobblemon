@@ -22,7 +22,6 @@ import com.cobblemon.mod.common.api.interaction.PokemonEntityInteraction
 import com.cobblemon.mod.common.api.net.serializers.PoseTypeDataSerializer
 import com.cobblemon.mod.common.api.net.serializers.StringSetDataSerializer
 import com.cobblemon.mod.common.api.pokemon.feature.FlagSpeciesFeature
-import com.cobblemon.mod.common.api.pokemon.status.Statuses
 import com.cobblemon.mod.common.api.reactive.ObservableSubscription
 import com.cobblemon.mod.common.api.reactive.SimpleObservable
 import com.cobblemon.mod.common.api.scheduling.Schedulable
@@ -48,6 +47,9 @@ import com.cobblemon.mod.common.entity.pokeball.EmptyPokeBallEntity
 import com.cobblemon.mod.common.entity.pokemon.ai.PokemonMoveControl
 import com.cobblemon.mod.common.entity.pokemon.ai.PokemonNavigation
 import com.cobblemon.mod.common.entity.pokemon.ai.goals.*
+import com.cobblemon.mod.common.entity.pokemon.ai.tasks.FindRestingPlaceTask
+import com.cobblemon.mod.common.entity.pokemon.ai.tasks.GoToSleepTask
+import com.cobblemon.mod.common.entity.pokemon.ai.tasks.WakeUpTask
 import com.cobblemon.mod.common.net.messages.client.animation.PlayPoseableAnimationPacket
 import com.cobblemon.mod.common.net.messages.client.sound.UnvalidatedPlaySoundS2CPacket
 import com.cobblemon.mod.common.net.messages.client.spawn.SpawnPokemonPacket
@@ -65,10 +67,10 @@ import com.cobblemon.mod.common.util.*
 import com.cobblemon.mod.common.world.gamerules.CobblemonGameRules
 import com.google.common.collect.ImmutableList
 import com.mojang.serialization.Dynamic
-import java.util.EnumSet
 import java.util.Optional
 import java.util.UUID
 import java.util.concurrent.CompletableFuture
+import kotlin.math.ceil
 import net.minecraft.entity.*
 import net.minecraft.entity.ai.brain.Activity
 import net.minecraft.entity.ai.brain.Brain
@@ -80,8 +82,6 @@ import net.minecraft.entity.ai.brain.task.LookAroundTask
 import net.minecraft.entity.ai.brain.task.LookAtMobTask
 import net.minecraft.entity.ai.brain.task.RandomTask
 import net.minecraft.entity.ai.control.MoveControl
-import net.minecraft.entity.ai.goal.EatGrassGoal
-import net.minecraft.entity.ai.goal.Goal
 import net.minecraft.entity.ai.pathing.PathNodeType
 import net.minecraft.entity.attribute.DefaultAttributeContainer
 import net.minecraft.entity.attribute.EntityAttributes
@@ -122,6 +122,7 @@ import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Box
 import net.minecraft.util.math.Vec3d
 import net.minecraft.world.EntityView
+import net.minecraft.world.LightType
 import net.minecraft.world.World
 import net.minecraft.world.event.GameEvent
 
@@ -161,6 +162,7 @@ open class PokemonEntity(
             SensorType.NEAREST_LIVING_ENTITIES,
             SensorType.HURT_BY,
             SensorType.NEAREST_PLAYERS,
+            CobblemonSensors.POKEMON_DROWSY
 //            CobblemonSensors.BATTLING_POKEMON,
 //            CobblemonSensors.NPC_BATTLING
         )
@@ -181,6 +183,10 @@ open class PokemonEntity(
             MemoryModuleType.NEAREST_VISIBLE_PLAYER,
             MemoryModuleType.ANGRY_AT,
             MemoryModuleType.ATTACK_COOLING_DOWN,
+            CobblemonMemories.POKEMON_DROWSY,
+            CobblemonMemories.POKEMON_BATTLE,
+            MemoryModuleType.HOME,
+            CobblemonMemories.REST_PATH_COOLDOWN
         )
 
     }
@@ -299,8 +305,10 @@ open class PokemonEntity(
                 if (battleId != null) {
                     busyLocks.remove(BATTLE_LOCK) // Remove in case it's hopped across to another battle, don't want extra battle locks
                     busyLocks.add(BATTLE_LOCK)
+                    brain.remember(CobblemonMemories.POKEMON_BATTLE, battleId)
                 } else {
                     busyLocks.remove(BATTLE_LOCK)
+                    brain.forget(CobblemonMemories.POKEMON_BATTLE)
                 }
             }
         }
@@ -577,23 +585,29 @@ open class PokemonEntity(
             0 toDF ForgetAngryAtTargetTask.create()
         ))
         brain.setTaskList(Activity.IDLE, ImmutableList.of(
-            1 toDF RandomTask(
+            3 toDF RandomTask(
                 ImmutableList.of(
-                    LookAroundTask(45, 90) toDF 2,
-                    LookAtMobTask.create(15F) toDF 2,
-                    ChooseLandWanderTargetTask.create(horizontalRange = 10, verticalRange = 5, walkSpeed = 0.33F, completionRange = 1) toDF 1
+                    LookAroundTask(45, 90) toDF 3,
+                    LookAtMobTask.create(15F) toDF 3,
+                    ChooseLandWanderTargetTask.create(horizontalRange = 10, verticalRange = 5, walkSpeed = 0.33F, completionRange = 1) toDF 100
                 )
             ),
+            2 toDF GoToSleepTask.create(),
+            2 toDF FindRestingPlaceTask.create(16, 8),
             1 toDF FollowWalkTargetTask(),
 //            0 toDF SwitchToBattleTask.create(),
             1 toDF AttackAngryAtTask.create(),
-            1 toDF MoveToAttackTargetTask.create(),
+            2 toDF MoveToAttackTargetTask.create(),
 //            1 toDF MeleeAttackTask.create(2F, 30L)
         ))
         brain.setTaskList(CobblemonActivities.BATTLING_ACTIVITY, ImmutableList.of(
 //            0 toDF SwitchFromBattleTask.create(),
             1 toDF LookAroundTask(45, 90),
 //            2 toDF LookAtBattlingPokemonTask.create(),
+        ))
+        brain.setTaskList(CobblemonActivities.POKEMON_SLEEPING_ACTIVITY, ImmutableList.of(
+            1 toDF WakeUpTask.create(),
+//            1 toDF StartBattleTask
         ))
         brain.setCoreActivities(setOf(Activity.CORE))
         brain.setDefaultActivity(Activity.IDLE)
@@ -655,6 +669,25 @@ open class PokemonEntity(
                 light in rest.light &&
                 (rest.blocks.isEmpty() || rest.blocks.any { it.fits(block, this.world.registryManager.get(RegistryKeys.BLOCK)) }) &&
                 (rest.biomes.isEmpty() || rest.biomes.any { it.fits(biome, this.world.registryManager.get(RegistryKeys.BIOME)) })
+    }
+
+    fun canSleepAt(pos: BlockPos): Boolean {
+        val rest = behaviour.resting
+        val light = world.getLightLevel(pos)
+        val blockState = world.getBlockState(pos)
+        val block = blockState.block
+        val biome = world.getBiome(pos).value()
+        val seesSky = world.isSkyVisible(pos.up())
+        val fits = true
+        val canStayAt = world.canEntityStayAt(pos, ceil(width).toInt(), ceil(height).toInt(), PositionType.LAND)
+
+        return light in rest.light &&
+                (rest.skyLight == null || world.lightingProvider.get(LightType.SKY).getLightLevel(pos) in rest.skyLight) &&
+                (rest.blocks.isEmpty() || rest.blocks.any { it.fits(block, this.world.registryManager.get(RegistryKeys.BLOCK)) }) &&
+                (rest.biomes.isEmpty() || rest.biomes.any { it.fits(biome, this.world.registryManager.get(RegistryKeys.BIOME)) }) &&
+                (rest.canSeeSky == null || rest.canSeeSky == seesSky) &&
+                fits &&
+                canStayAt
     }
 
     override fun createChild(level: ServerWorld, partner: PassiveEntity) = null
