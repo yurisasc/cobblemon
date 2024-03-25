@@ -154,6 +154,7 @@
 - Poké Ball recipes now use tags for their center ingredient, rather than specificied Copper Ingot, Iron Ingot, Gold Ingot, and Diamond, allowing for further datapack customisation.
 - Starter Toast now closes once corresponding button is pressed once.
 - Moved some items in the vanilla Food & Drinks category.
+- Stacked Cobblemon Potion Bases can now be quick moved into Brewing Stands.
 
 ### Fixes
 - Resized Snorlax
@@ -188,7 +189,6 @@
 - Made PokemonProperties.parse more interoperable with Java.
 - Added the ``HeldItemEvent``, this comes with 2 implementation ``HeldItemEvent.Pre`` and ``HeldItemEvent.Post``. 
 - API to support dynamic lighting in any mod that implements this feature has been added to all Species & Forms, see LightingData class for details.
-- Added a Mixin for the BrewingStandScreenHandler to fix the incorrect handling of quickMove in Fabric.
 - Corrections to the ability implementation have been made that make ``Ability.forced`` function as intended and never reroll an ability for a Pokémon, please check your implementations to ensure the corrected behavior is intended for your use case.
 - ``Pokemon.ability`` no longer has a public setter, please migrate to using ``Pokemon#updateAbility``, this handles the ability coordinate storage for you when necessary.
 - ``Ability.forced``, ``Ability.index`` and ``Ability.priority`` have all had their setters internalized, there is no longer any need to manually adjust these migrate to the method mentioned above to handle that process for you.
