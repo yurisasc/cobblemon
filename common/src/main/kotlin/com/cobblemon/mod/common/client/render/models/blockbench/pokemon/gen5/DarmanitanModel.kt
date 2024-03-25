@@ -19,7 +19,7 @@ import com.cobblemon.mod.common.entity.PoseType
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class DarmanitanModel (root: ModelPart) : PokemonPoseableModel(), BipedFrame, BimanualFrame {
+class DarmanitanModel(root: ModelPart) : PokemonPoseableModel(), BipedFrame, BimanualFrame {
     override val rootPart = root.registerChildWithAllChildren("darmanitan")
 
     override val leftArm = getPart("arm_left")
@@ -35,28 +35,48 @@ class DarmanitanModel (root: ModelPart) : PokemonPoseableModel(), BipedFrame, Bi
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
+    lateinit var sleep: PokemonPose
+    lateinit var battleidle: PokemonPose
 
+    //    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("darmanitan", "cry") }
     override fun registerPoses() {
         val blink = quirk { bedrockStateful("darmanitan", "blink") }
+        val quirk = quirk { bedrockStateful("darmanitan", "quirk") }
+
+        sleep = registerPose(
+                poseType = PoseType.SLEEP,
+                transformTicks = 10,
+                condition = { !it.isBattling },
+                idleAnimations = arrayOf(bedrock("darmanitan", "sleep"))
+        )
+
         standing = registerPose(
-            poseName = "standing",
-            poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
-            quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
-                bedrock("darmanitan", "ground_idle")
-            )
+                poseName = "standing",
+                poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
+                quirks = arrayOf(blink, quirk),
+                condition = { !it.isBattling },
+                idleAnimations = arrayOf(
+                        bedrock("darmanitan", "ground_idle")
+                )
+        )
+
+        battleidle = registerPose(
+                poseTypes = setOf(PoseType.STAND),
+                poseName = "battle_standing",
+                quirks = arrayOf(blink, quirk),
+                condition = { it.isBattling },
+                idleAnimations = arrayOf(
+                        bedrock("darmanitan", "battle_idle")
+                )
         )
 
         walk = registerPose(
-            poseName = "walk",
-            poseTypes = PoseType.MOVING_POSES,
-            quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
-                bedrock("darmanitan", "ground_idle"),
-                BipedWalkAnimation(this, periodMultiplier = 0.6F, amplitudeMultiplier = 0.9F),
-                BimanualSwingAnimation(this, swingPeriodMultiplier = 0.6F, amplitudeMultiplier = 0.9F)
-                //bedrock("darmanitan", "ground_walk")
-            )
+                poseName = "walk",
+                poseTypes = PoseType.MOVING_POSES,
+                quirks = arrayOf(blink, quirk),
+                idleAnimations = arrayOf(
+                        bedrock("darmanitan", "ground_walk")
+                )
         )
     }
 
