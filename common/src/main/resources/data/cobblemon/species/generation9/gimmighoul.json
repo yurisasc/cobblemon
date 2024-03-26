@@ -33,11 +33,21 @@
   "behaviour": {
     "moving": {
       "walk": {
-        "canWalk": true
+        "canWalk": true,
+        "walkSpeed": 0.15
       },
       "swim": {
-        "canSwimInWater": true
-      }
+        "swimSpeed": 0.1,
+        "canSwimInWater": false,
+        "canBreatheUnderwater": true
+      },
+      "wanderChance": 2000000,
+      "canLook": false
+    },
+    "resting": {
+      "canSleep": true,
+      "depth": "normal",
+      "light": "0-4"
     }
   },
   "features": ["minecraft"],
@@ -249,11 +259,21 @@
       "behaviour": {
         "moving": {
           "walk": {
-            "canWalk": false
+            "canWalk": true,
+            "walkSpeed": 0.3
           },
           "swim": {
-            "canSwimInWater": false
-          }
+            "swimSpeed": 0.3,
+            "canSwimInWater": false,
+            "canBreatheUnderwater": true
+          },
+          "wanderChance": 120,
+          "canLook": true
+        },
+        "resting": {
+          "canSleep": true,
+          "depth": "normal",
+          "light": "0-4"
         }
       },
       "evYield": {
