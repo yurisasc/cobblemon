@@ -25,6 +25,9 @@
       "walk": {
         "canWalk": false
       },
+      "fly": {
+        "canFly": true
+      },
       "canLook": false
     }
   },
@@ -207,7 +210,7 @@
   ],
   "preEvolution": "natu",
   "evolutions": [],
-  "baseScale": 1.1,
+  "baseScale": 0.9,
   "hitbox": {
     "width": 0.7,
     "height": 1.85,
