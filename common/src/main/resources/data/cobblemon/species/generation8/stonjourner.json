@@ -104,7 +104,7 @@
     "cobblemon.species.stonjourner.desc"
   ],
   "evolutions": [],
-  "baseScale": 1,
+  "baseScale": 1.25,
   "hitbox": {
     "width": 2.3,
     "height": 3,

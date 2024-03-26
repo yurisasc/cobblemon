@@ -143,6 +143,12 @@
       "height": 16,
       "weight": 730,
       "preEvolution": "zorua form=hisui",
+      "baseScale": 0.85,
+      "hitbox": {
+        "width": 0.9,
+        "height": 2.7,
+        "fixed": false
+      },
       "cannotDynamax": false,
       "battleOnly": false
     }
@@ -288,7 +294,7 @@
   ],
   "preEvolution": "zorua",
   "evolutions": [],
-  "baseScale": 1,
+  "baseScale": 0.65,
   "hitbox": {
     "width": 0.9,
     "height": 2.7,

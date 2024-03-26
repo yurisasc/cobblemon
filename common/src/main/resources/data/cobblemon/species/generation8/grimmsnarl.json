@@ -180,7 +180,7 @@
   ],
   "preEvolution": "morgrem",
   "evolutions": [],
-  "baseScale": 1,
+  "baseScale": 0.9,
   "hitbox": {
     "width": 1.5,
     "height": 2.58,
