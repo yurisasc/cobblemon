@@ -33,7 +33,6 @@ class MawileModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Biped
     override var profileScale = 0.8F
     override var profileTranslation = Vec3d(0.09, 0.6, 0.0)
 
-    lateinit var sleep: PokemonPose
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
     lateinit var battleidle: PokemonPose
