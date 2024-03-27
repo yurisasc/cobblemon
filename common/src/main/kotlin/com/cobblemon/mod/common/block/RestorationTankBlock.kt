@@ -149,8 +149,8 @@ class RestorationTankBlock(properties: Settings) : MultiblockBlock(properties), 
         if(world == null || pos == null) {
             return 0
         }
-        val tankEntity = world.getBlockEntity(pos) as MultiblockEntity
-        val multiBlockEntity = tankEntity.multiblockStructure
+        val tankEntity = world.getBlockEntity(pos) as? MultiblockEntity
+        val multiBlockEntity = tankEntity?.multiblockStructure
         if(multiBlockEntity != null) {
             return multiBlockEntity.getComparatorOutput(state, world, pos)
         }
@@ -180,7 +180,7 @@ class RestorationTankBlock(properties: Settings) : MultiblockBlock(properties), 
             return
         }
         val tankEntity = world.getBlockEntity(pos) as? MultiblockEntity
-        tankEntity?.multiblockStructure!!.onTriggerEvent(state, world, pos, random)
+        tankEntity?.multiblockStructure?.onTriggerEvent(state, world, pos, random)
     }
 
     override fun getOutlineShape(
