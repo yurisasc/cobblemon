@@ -11,10 +11,13 @@ package com.cobblemon.mod.common.pokemon.misc
 import com.cobblemon.mod.common.CobblemonItems
 import com.cobblemon.mod.common.CobblemonSounds
 import com.cobblemon.mod.common.api.events.pokemon.HeldItemEvent
-import com.cobblemon.mod.common.api.events.pokemon.interaction.HeldItemUpdatedEvent
 import com.cobblemon.mod.common.api.pokemon.feature.IntSpeciesFeature
+import com.cobblemon.mod.common.pokemon.Pokemon
+import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.item.Item
 import net.minecraft.item.Items
-import net.minecraft.sound.SoundCategory
+import net.minecraft.server.network.ServerPlayerEntity
+import net.minecraft.util.Hand
 
 /**
  * Handles logic relating to Gimmighoul's Coin Stash and Scrap Stash bars.
@@ -30,13 +33,30 @@ object GimmighoulStashHandler {
     val SCRAP_VALUE = 1
     val INGOT_VALUE = SCRAP_VALUE * 4
     val BLOCK_VALUE = INGOT_VALUE * 9
+    fun interactMob(player: PlayerEntity, hand: Hand, pokemon:Pokemon) : Boolean {
+        val itemStack = player.getStackInHand(hand)
+        var success = false
+        if(player is ServerPlayerEntity && pokemon.getOwnerPlayer() == player) {
+            success = handleItem(pokemon, itemStack.item)
+            if(success) {
+                itemStack.decrement(1)
+            }
+        }
+        return success
+    }
 
     fun giveHeldItem(event: HeldItemEvent.Post) {
-        val goldHoard = event.pokemon.getFeature<IntSpeciesFeature>("gimmighoul_coins")
-        val netheriteHoard = event.pokemon.getFeature<IntSpeciesFeature>("gimmighoul_netherite")
-
+        val pokemon = event.pokemon
+        val item = event.received.item
+        if(handleItem(pokemon, item)) {
+            pokemon.removeHeldItem()
+        }
+    }
+    fun handleItem(pokemon: Pokemon, item: Item) : Boolean {
+        val goldHoard = pokemon.getFeature<IntSpeciesFeature>("gimmighoul_coins")
+        val netheriteHoard = pokemon.getFeature<IntSpeciesFeature>("gimmighoul_netherite")
         if (goldHoard != null && goldHoard.value < 999) {
-            val increase = when (event.received.item) {
+            val increase = when (item) {
                 CobblemonItems.RELIC_COIN -> COIN_VALUE
                 CobblemonItems.RELIC_COIN_POUCH -> POUCH_VALUE
                 CobblemonItems.RELIC_COIN_SACK -> SACK_VALUE
@@ -46,14 +66,14 @@ object GimmighoulStashHandler {
             if (increase != 0) {
                 goldHoard.value += increase
                 if (goldHoard.value > 999) goldHoard.value = 999
-                if (event.pokemon.entity != null) event.pokemon.entity!!.playSound(CobblemonSounds.GIMMIGHOUL_GIVE_ITEM_SMALL, 1f, 1f)
-                event.pokemon.markFeatureDirty(goldHoard)
-                event.pokemon.removeHeldItem()
+                if (pokemon.entity != null) pokemon.entity!!.playSound(CobblemonSounds.GIMMIGHOUL_GIVE_ITEM_SMALL, 1f, 1f)
+                pokemon.markFeatureDirty(goldHoard)
+                return true
             }
         }
 
         if (netheriteHoard != null && netheriteHoard.value < 256) {
-            val increase = when (event.received.item) {
+            val increase = when (item) {
                 Items.NETHERITE_SCRAP -> SCRAP_VALUE
                 Items.NETHERITE_INGOT -> INGOT_VALUE
                 Items.NETHERITE_BLOCK -> BLOCK_VALUE
@@ -63,11 +83,12 @@ object GimmighoulStashHandler {
             if (increase != 0) {
                 netheriteHoard.value += increase
                 if (netheriteHoard.value > 256) netheriteHoard.value = 256
-                if (event.pokemon.entity != null) event.pokemon.entity!!.playSound(CobblemonSounds.GIMMIGHOUL_GIVE_ITEM_SMALL, 1f, 1f)
-                event.pokemon.markFeatureDirty(netheriteHoard)
-                event.pokemon.removeHeldItem()
+                if (pokemon.entity != null) pokemon.entity!!.playSound(CobblemonSounds.GIMMIGHOUL_GIVE_ITEM_SMALL, 1f, 1f)
+                pokemon.markFeatureDirty(netheriteHoard)
+                return true
             }
         }
+        return false
     }
 
 }

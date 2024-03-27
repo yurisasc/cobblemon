@@ -149,7 +149,20 @@
         "fixed": false
       },
       "cannotDynamax": false,
-      "battleOnly": false
+      "battleOnly": false,
+      "drops": {
+        "amount": 2,
+        "entries": [
+          {
+            "item": "cobblemon:mystic_water",
+            "percentage": 25.0
+          },
+          {
+            "item": "cobblemon:shell_bell",
+            "percentage": 25.0
+          }
+        ]
+      }
     }
   ],
   "baseExperienceYield": 238,

@@ -15,7 +15,6 @@
             "level": "33-48",
             "weight": 0.1,
             "condition": {
-                "canSeeSky": true,
                 "biomes": [
                     "#cobblemon:is_volcanic"
                 ]
@@ -33,7 +32,8 @@
             "level": "33-48",
             "weight": 0.1,
             "condition": {
-                "canSeeSky": false,
+                "minSkyLight": 0,
+                "maxSkyLight": 7,
                 "biomes": [
                     "#cobblemon:is_badlands",
                     "#cobblemon:is_mountain"

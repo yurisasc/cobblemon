@@ -226,7 +226,7 @@
     }
   },
   "drops": {
-    "amount": 3,
+    "amount": 4,
     "entries": [
       {
         "item": "minecraft:slime_ball",
@@ -234,6 +234,10 @@
       },
       {
         "item": "cobblemon:black_sludge",
+        "percentage": 5.0
+      },
+      {
+        "item": "cobblemon:toxic_orb",
         "percentage": 5.0
       }
     ]

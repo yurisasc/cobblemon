@@ -1,8 +1,8 @@
 {
     "placement": {
         "type": "minecraft:random_spread",
-        "spacing": 20,
-        "separation": 10,
+        "spacing": 25,
+        "separation": 13,
         "salt": 1695780755,
         "spread_type": "triangular"
     },
@@ -13,11 +13,11 @@
         },
         {
             "structure": "cobblemon:ruins/deserted_house_ruins",
-            "weight": 10
+            "weight": 8
         },
         {
             "structure": "cobblemon:ruins/fallen_statue_ruins",
-            "weight": 10
+            "weight": 8
         },
         {
             "structure": "cobblemon:ruins/unstable_cave_ruins",
@@ -25,7 +25,7 @@
         },
         {
             "structure": "cobblemon:ruins/deserted_town_center_ruins",
-            "weight": 15
+            "weight": 8
         }
     ]
 }
