@@ -15,7 +15,8 @@
             "level": "36-50",
             "weight": 0.1,
             "condition": {
-                "canSeeSky": false,
+                "minSkyLight": 0,
+                "maxSkyLight": 0,
                 "biomes": [
                     "#cobblemon:is_overworld"
                 ],
@@ -62,7 +63,8 @@
             "level": "36-50",
             "weight": 0.1,
             "condition": {
-                "canSeeSky": true,
+                "minSkyLight": 8,
+                "maxSkyLight": 15,
                 "biomes": [
                     "#cobblemon:is_spooky"
                 ],
@@ -98,7 +100,7 @@
                     },
                     {
                         "item": "minecraft:ghast_tear",
-                        "percentage": 10.0
+                        "percentage": 25.0
                     }
                 ]
             }

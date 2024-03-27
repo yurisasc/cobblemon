@@ -137,8 +137,12 @@
   "aspects": [],
   "cannotDynamax": false,
   "drops": {
-    "amount": 1,
+    "amount": 4,
     "entries": [
+      {
+        "item": "minecraft:poppy",
+        "quantityRange": "0-3"
+      },
       {
         "item": "cobblemon:kebia_berry",
         "percentage": 10.0
