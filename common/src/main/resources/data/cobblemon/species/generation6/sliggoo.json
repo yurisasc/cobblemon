@@ -133,6 +133,10 @@
             {
               "variant": "level",
               "minLevel": 50
+            },
+            {
+              "variant": "weather",
+              "isRaining": true
             }
           ]
         }
@@ -233,6 +237,10 @@
         {
           "variant": "level",
           "minLevel": 50
+        },
+        {
+          "variant": "weather",
+          "isRaining": true
         }
       ]
     }

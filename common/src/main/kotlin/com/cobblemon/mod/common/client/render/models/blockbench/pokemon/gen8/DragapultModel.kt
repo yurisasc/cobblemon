@@ -8,9 +8,11 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen8
 
+import com.cobblemon.mod.common.client.render.models.blockbench.createTransformation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.pose.ModelPartTransformation
 import com.cobblemon.mod.common.entity.PoseType
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
@@ -27,24 +29,40 @@ class DragapultModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
+    lateinit var ui_poses: PokemonPose
 
     override fun registerPoses() {
         val blink = quirk { bedrockStateful("dragapult", "blink") }
 
-        standing = registerPose(
-            poseName = "standing",
-            poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
+        ui_poses = registerPose(
+            poseName = "ui_poses",
+            poseTypes = PoseType.UI_POSES,
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
-                singleBoneLook(),
                 bedrock("dragapult", "ground_idle")
             )
+        )
+
+        standing = registerPose(
+                poseName = "standing",
+                poseTypes = PoseType.STANDING_POSES,
+                quirks = arrayOf(blink),
+                transformedParts = arrayOf(
+                        rootPart.createTransformation().addPosition(ModelPartTransformation.Y_AXIS, -16)
+                ),
+                idleAnimations = arrayOf(
+                        singleBoneLook(),
+                        bedrock("dragapult", "ground_idle")
+                )
         )
 
         walk = registerPose(
             poseName = "walk",
             poseTypes = PoseType.MOVING_POSES,
             quirks = arrayOf(blink),
+                transformedParts = arrayOf(
+                        rootPart.createTransformation().addPosition(ModelPartTransformation.Y_AXIS, -16)
+                ),
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("dragapult", "ground_idle")
