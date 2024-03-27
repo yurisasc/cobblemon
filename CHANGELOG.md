@@ -154,9 +154,12 @@
 - Poké Ball recipes now use tags for their center ingredient, rather than specificied Copper Ingot, Iron Ingot, Gold Ingot, and Diamond, allowing for further datapack customisation.
 - Starter Toast now closes once corresponding button is pressed once.
 - Moved some items in the vanilla Food & Drinks category.
+- Changed Healer recipe to swap the Max Revive for a Revive.
+- Upped the rate that Gastly drop Ghast Tears from 2.5% to 5%.
+- Pokémon with a low Blaze Powder drop chance now drop it more frequently in the Nether.
 
 ### Fixes
-- Resized Snorlax
+- Resized Snorlax.
 - Re-added the recipe for the Iron Vitamin.
 - Cleaned up empty evolutions declaration in species files (no, I'm not listing all 169 by name).
 - Fixed Exeggcute not being able to evolve.
