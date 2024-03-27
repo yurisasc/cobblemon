@@ -8,6 +8,7 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen2
 
+import com.cobblemon.mod.common.client.render.models.blockbench.createTransformation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
@@ -31,6 +32,11 @@ class TyphlosionHisuianModel  (root: ModelPart) : PokemonPoseableModel(), Headed
     lateinit var sleep: PokemonPose
     lateinit var battleidle: PokemonPose
 
+    val spoopy_flame = getPart("fire_main")
+    val spoopy_orb1 = getPart("fire_orb_right1")
+    val spoopy_orb2 = getPart("fire_orb_middle1")
+    val spoopy_orb3 = getPart("fire_orb_left1")
+
     override val cryAnimation = CryProvider { entity, _ -> if (entity.isBattling) bedrockStateful("typhlosion", "battle_cry") else bedrockStateful("typhlosion", "cry") }
 
     override fun registerPoses() {
@@ -38,6 +44,12 @@ class TyphlosionHisuianModel  (root: ModelPart) : PokemonPoseableModel(), Headed
 
         sleep = registerPose(
                 poseType = PoseType.SLEEP,
+                transformedParts = arrayOf(
+                        spoopy_flame.createTransformation().withVisibility(visibility = false),
+                        spoopy_orb1.createTransformation().withVisibility(visibility = false),
+                        spoopy_orb2.createTransformation().withVisibility(visibility = false),
+                        spoopy_orb3.createTransformation().withVisibility(visibility = false)
+                ),
                 idleAnimations = arrayOf(bedrock("typhlosion", "sleep"))
         )
 
@@ -47,6 +59,12 @@ class TyphlosionHisuianModel  (root: ModelPart) : PokemonPoseableModel(), Headed
                 transformTicks = 10,
                 condition = { !it.isBattling },
                 quirks = arrayOf(blink),
+                transformedParts = arrayOf(
+                        spoopy_flame.createTransformation().withVisibility(visibility = false),
+                        spoopy_orb1.createTransformation().withVisibility(visibility = false),
+                        spoopy_orb2.createTransformation().withVisibility(visibility = false),
+                        spoopy_orb3.createTransformation().withVisibility(visibility = false)
+                ),
                 idleAnimations = arrayOf(
                         singleBoneLook(),
                         bedrock("typhlosion", "ground_idle")
@@ -58,6 +76,12 @@ class TyphlosionHisuianModel  (root: ModelPart) : PokemonPoseableModel(), Headed
                 poseTypes = PoseType.MOVING_POSES,
                 transformTicks = 10,
                 quirks = arrayOf(blink),
+                transformedParts = arrayOf(
+                        spoopy_flame.createTransformation().withVisibility(visibility = false),
+                        spoopy_orb1.createTransformation().withVisibility(visibility = false),
+                        spoopy_orb2.createTransformation().withVisibility(visibility = false),
+                        spoopy_orb3.createTransformation().withVisibility(visibility = false)
+                ),
                 idleAnimations = arrayOf(
                         singleBoneLook(),
                         bedrock("typhlosion", "ground_walk")
@@ -69,6 +93,12 @@ class TyphlosionHisuianModel  (root: ModelPart) : PokemonPoseableModel(), Headed
                 poseTypes = PoseType.STATIONARY_POSES,
                 transformTicks = 10,
                 quirks = arrayOf(blink),
+                transformedParts = arrayOf(
+                        spoopy_flame.createTransformation().withVisibility(visibility = true),
+                        spoopy_orb1.createTransformation().withVisibility(visibility = true),
+                        spoopy_orb2.createTransformation().withVisibility(visibility = true),
+                        spoopy_orb3.createTransformation().withVisibility(visibility = true)
+                ),
                 condition = { it.isBattling },
                 idleAnimations = arrayOf(
                         singleBoneLook(),
