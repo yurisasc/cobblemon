@@ -150,6 +150,12 @@
       "height": 16,
       "weight": 698,
       "preEvolution": "quilava form=hisui",
+      "baseScale": 0.75,
+      "hitbox": {
+        "width": 1.35,
+        "height": 2.65,
+        "fixed": false
+      },
       "cannotDynamax": false,
       "battleOnly": false
     }

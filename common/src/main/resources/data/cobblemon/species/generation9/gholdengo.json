@@ -95,7 +95,7 @@
   "pokedex": [
     "cobblemon.species.gholdengo.desc"
   ],
-  "baseScale": 1,
+  "baseScale": 0.8,
   "hitbox": {
     "width": 0.85,
     "height": 2.15,

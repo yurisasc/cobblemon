@@ -173,7 +173,7 @@
           ]
         }
       ],
-      "baseScale": 0.7,
+      "baseScale": 0.6,
       "hitbox": {
         "width": 0.95,
         "height": 0.8,
@@ -351,7 +351,7 @@
       ]
     }
   ],
-  "baseScale": 0.7,
+  "baseScale": 0.6,
   "hitbox": {
     "width": 0.95,
     "height": 0.8,

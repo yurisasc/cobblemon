@@ -113,12 +113,18 @@
       ],
       "height": 7,
       "weight": 685,
-      "preEvolution": "goomy hisuian",
+      "preEvolution": "goomy form=hisui",
+      "baseScale": 0.65,
+      "hitbox": {
+        "width": 1.45,
+        "height": 1.75,
+        "fixed": false
+      },
       "evolutions": [
         {
           "id": "sliggoo_goodra",
           "variant": "level_up",
-          "result": "goodra hisuian",
+          "result": "goodra form=hisui",
           "consumeHeldItem": false,
           "learnableMoves": [
             "irontail"
@@ -127,6 +133,10 @@
             {
               "variant": "level",
               "minLevel": 50
+            },
+            {
+              "variant": "weather",
+              "isRaining": true
             }
           ]
         }
@@ -227,11 +237,15 @@
         {
           "variant": "level",
           "minLevel": 50
+        },
+        {
+          "variant": "weather",
+          "isRaining": true
         }
       ]
     }
   ],
-  "baseScale": 1,
+  "baseScale": 0.65,
   "hitbox": {
     "width": 1.1,
     "height": 1.65,

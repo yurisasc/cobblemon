@@ -9,10 +9,12 @@
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen5
 
 import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
+import com.cobblemon.mod.common.client.render.models.blockbench.createTransformation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.pose.ModelPartTransformation
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import net.minecraft.client.model.ModelPart
@@ -33,6 +35,8 @@ class RoggenrolaModel (root: ModelPart) : PokemonPoseableModel(), BipedFrame {
     lateinit var walking: PokemonPose
     lateinit var sleep: PokemonPose
     lateinit var battleidle: PokemonPose
+    lateinit var shoulderLeft: PokemonPose
+    lateinit var shoulderRight: PokemonPose
 
     override val cryAnimation = CryProvider { _, _ -> bedrockStateful("roggenrola", "cry") }
 
@@ -73,6 +77,28 @@ class RoggenrolaModel (root: ModelPart) : PokemonPoseableModel(), BipedFrame {
             idleAnimations = arrayOf(
                 bedrock("roggenrola", "battle_idle")
             )
+        )
+
+        shoulderLeft = registerPose(
+                poseType = PoseType.SHOULDER_LEFT,
+                quirks = arrayOf(twitch),
+                idleAnimations = arrayOf(
+                        bedrock("roggenrola", "shoulder_left")
+                ),
+                transformedParts = arrayOf(
+                        rootPart.createTransformation().addPosition(ModelPartTransformation.Y_AXIS, 0.3)
+                )
+        )
+
+        shoulderRight = registerPose(
+                poseType = PoseType.SHOULDER_RIGHT,
+                quirks = arrayOf(twitch),
+                idleAnimations = arrayOf(
+                        bedrock("roggenrola", "shoulder_right")
+                ),
+                transformedParts = arrayOf(
+                        rootPart.createTransformation().addPosition(ModelPartTransformation.Y_AXIS, 0.3)
+                )
         )
     }
     override fun getFaintAnimation(

@@ -300,7 +300,7 @@
     "cobblemon.species.lapras.desc"
   ],
   "evolutions": [],
-  "baseScale": 1,
+  "baseScale": 1.1,
   "hitbox": {
     "width": 2.4,
     "height": 2.8,

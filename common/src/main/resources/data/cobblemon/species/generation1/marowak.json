@@ -562,7 +562,7 @@
   ],
   "preEvolution": "cubone",
   "evolutions": [],
-  "baseScale": 0.8,
+  "baseScale": 0.85,
   "hitbox": {
     "width": 0.85,
     "height": 1.3,

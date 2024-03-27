@@ -19,7 +19,7 @@
   },
   "catchRate": 190,
   "maleRatio": 0.5,
-  "shoulderMountable": false,
+  "shoulderMountable": true,
   "baseExperienceYield": 61,
   "experienceGroup": "medium_fast",
   "eggCycles": 20,
@@ -32,6 +32,12 @@
         "canSwimInLava": true,
         "canBreatheUnderlava": true
       }
+    },
+    "resting": {
+      "canSleep": true,
+      "willSleepOnBed": true,
+      "depth": "normal",
+      "light": "0-4"
     }
   },
   "drops": {
@@ -109,7 +115,7 @@
       ]
     }
   ],
-  "baseScale": 0.7,
+  "baseScale": 0.45,
   "hitbox": {
     "width": 1,
     "height": 0.2,

@@ -46,7 +46,6 @@ class DarmanitanModel(root: ModelPart) : PokemonPoseableModel(), BipedFrame, Bim
         sleep = registerPose(
                 poseType = PoseType.SLEEP,
                 transformTicks = 10,
-                condition = { !it.isBattling },
                 idleAnimations = arrayOf(bedrock("darmanitan", "sleep"))
         )
 

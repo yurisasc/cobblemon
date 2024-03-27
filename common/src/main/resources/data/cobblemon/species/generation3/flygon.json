@@ -213,7 +213,7 @@
   ],
   "preEvolution": "vibrava",
   "evolutions": [],
-  "baseScale": 1,
+  "baseScale": 0.75,
   "hitbox": {
     "width": 1.85,
     "height": 3.2,
