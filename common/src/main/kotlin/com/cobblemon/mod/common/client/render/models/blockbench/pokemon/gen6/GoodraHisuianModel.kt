@@ -17,10 +17,10 @@ import net.minecraft.util.math.Vec3d
 class GoodraHisuianModel (root: ModelPart) : PokemonPoseableModel() {
     override val rootPart = root.registerChildWithAllChildren("goodra_hisuian")
     override var portraitScale = 1.8F
-    override var portraitTranslation = Vec3d(0.0, 0.2, 0.0)
+    override var portraitTranslation = Vec3d(-1.9, 2.02, 0.0)
 
-    override var profileScale = 0.85F
-    override var profileTranslation = Vec3d(0.0, 0.7, 0.0)
+    override var profileScale = 0.41F
+    override var profileTranslation = Vec3d(0.04, 1.24, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
