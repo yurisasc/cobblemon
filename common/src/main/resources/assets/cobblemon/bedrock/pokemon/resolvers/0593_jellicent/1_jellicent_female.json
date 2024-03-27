@@ -6,7 +6,6 @@
       "aspects": [
         "female"
       ],
-      "poser": "cobblemon:jellicent_female",
       "model": "cobblemon:jellicent_female.geo",
       "texture": "cobblemon:textures/pokemon/0593_jellicent/jellicent_female.png"
     },

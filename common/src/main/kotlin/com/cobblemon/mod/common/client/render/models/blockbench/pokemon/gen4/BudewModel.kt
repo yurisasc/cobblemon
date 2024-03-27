@@ -8,19 +8,19 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen4
 
+import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.BipedWalkAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cobblemon.mod.common.entity.PoseType
+import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class BudewModel (root: ModelPart) : PokemonPoseableModel(), BipedFrame {
+class BudewModel (root: ModelPart) : PokemonPoseableModel() {
     override val rootPart = root.registerChildWithAllChildren("budew")
-
-    override val leftLeg = getPart("left_leg")
-    override val rightLeg = getPart("right_leg")
 
     override var portraitScale = 2.57F
     override var portraitTranslation = Vec3d(-0.24, -1.84, 0.0)
@@ -30,13 +30,28 @@ class BudewModel (root: ModelPart) : PokemonPoseableModel(), BipedFrame {
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
+    lateinit var sleep: PokemonPose
+    lateinit var battleIdle: PokemonPose
+
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("budew", "cry") }
 
     override fun registerPoses() {
         val blink = quirk { bedrockStateful("budew", "blink") }
+        val quirk = quirk { bedrockStateful("budew", "quirk_idle") }
+
+        sleep = registerPose(
+            poseName = "sleep",
+            poseType = PoseType.SLEEP,
+            idleAnimations = arrayOf(
+                bedrock("budew", "sleep")
+            )
+        )
+
         standing = registerPose(
             poseName = "standing",
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
-            quirks = arrayOf(blink),
+            condition = { !it.isBattling },
+            quirks = arrayOf(blink, quirk),
             idleAnimations = arrayOf(
                 bedrock("budew", "ground_idle")
             )
@@ -47,15 +62,23 @@ class BudewModel (root: ModelPart) : PokemonPoseableModel(), BipedFrame {
             poseTypes = PoseType.MOVING_POSES,
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
-                bedrock("budew", "ground_idle"),
-                BipedWalkAnimation(this, periodMultiplier = 0.6F, amplitudeMultiplier = 0.9F)
-                //bedrock("budew", "ground_walk")
+                bedrock("budew", "ground_walk")
+            )
+        )
+
+        battleIdle = registerPose(
+            poseName = "battle_idle",
+            poseTypes = PoseType.STATIONARY_POSES,
+            condition = { it.isBattling },
+            quirks = arrayOf(blink),
+            idleAnimations = arrayOf(
+                bedrock("budew", "battle_idle")
             )
         )
     }
 
-//    override fun getFaintAnimation(
-//        pokemonEntity: PokemonEntity,
-//        state: PoseableEntityState<PokemonEntity>
-//    ) = if (state.isPosedIn(standing, walk)) bedrockStateful("budew", "faint") else null
+    override fun getFaintAnimation(
+        pokemonEntity: PokemonEntity,
+        state: PoseableEntityState<PokemonEntity>
+    ) = if (state.isPosedIn(standing, walk)) bedrockStateful("budew", "faint") else null
 }

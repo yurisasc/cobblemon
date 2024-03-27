@@ -9,17 +9,25 @@
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen3
 
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.BipedWalkAnimation
+import com.cobblemon.mod.common.client.render.models.blockbench.animation.WingFlapIdleAnimation
+import com.cobblemon.mod.common.client.render.models.blockbench.frame.BiWingedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.pose.ModelPartTransformation
+import com.cobblemon.mod.common.client.render.models.blockbench.wavefunction.sineFunction
 import com.cobblemon.mod.common.entity.PoseType
+import com.cobblemon.mod.common.util.math.geometry.toRadians
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class FlygonModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedFrame {
+class FlygonModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedFrame, BiWingedFrame {
     override val rootPart = root.registerChildWithAllChildren("flygon")
     override val head = getPart("head")
+
+    override val leftWing = getPart("wing_left")
+    override val rightWing = getPart("wing_right")
 
     override val leftLeg = getPart("leg_left")
     override val rightLeg = getPart("leg_right")
@@ -32,29 +40,49 @@ class FlygonModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Biped
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
+    lateinit var hover: PokemonPose
 
     override fun registerPoses() {
         val blink = quirk { bedrockStateful("flygon", "blink") }
+
         standing = registerPose(
-                poseName = "standing",
-                poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
-                quirks = arrayOf(blink),
-                idleAnimations = arrayOf(
-                        singleBoneLook(),
-                        bedrock("flygon", "ground_idle")
-                )
+            poseName = "standing",
+            poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES - PoseType.HOVER,
+            quirks = arrayOf(blink),
+            idleAnimations = arrayOf(
+                singleBoneLook(),
+                bedrock("flygon", "ground_idle")
+            )
         )
 
         walk = registerPose(
-                poseName = "walk",
-                poseTypes = PoseType.MOVING_POSES,
-                quirks = arrayOf(blink),
-                idleAnimations = arrayOf(
-                        singleBoneLook(),
-                        bedrock("flygon", "ground_idle"),
-                        BipedWalkAnimation(this)
-                        //bedrock("flygon", "ground_walk")
+            poseName = "walk",
+            poseTypes = PoseType.MOVING_POSES,
+            quirks = arrayOf(blink),
+            idleAnimations = arrayOf(
+                singleBoneLook(),
+                bedrock("flygon", "air_fly"),
+                WingFlapIdleAnimation(this,
+                    flapFunction = sineFunction(verticalShift = -10F.toRadians(), period = 0.7F, amplitude = 0.6F),
+                    timeVariable = { state, _, _ -> state?.animationSeconds ?: 0F },
+                    axis = ModelPartTransformation.Z_AXIS
                 )
+            )
+        )
+
+        hover = registerPose(
+            poseName = "hover",
+            poseType = PoseType.HOVER,
+            quirks = arrayOf(blink),
+            idleAnimations = arrayOf(
+                singleBoneLook(),
+                bedrock("flygon", "air_hover"),
+                WingFlapIdleAnimation(this,
+                    flapFunction = sineFunction(verticalShift = -10F.toRadians(), period = 0.9F, amplitude = 0.5F),
+                    timeVariable = { state, _, _ -> state?.animationSeconds ?: 0F },
+                    axis = ModelPartTransformation.Z_AXIS
+                )
+            )
         )
     }
 }

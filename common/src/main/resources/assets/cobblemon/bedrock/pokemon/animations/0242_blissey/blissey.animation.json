@@ -692,7 +692,7 @@
 				}
 			}
 		},
-		"animation.blissey.ground_sleep": {
+		"animation.blissey.sleep": {
 			"loop": true,
 			"bones": {
 				"body": {

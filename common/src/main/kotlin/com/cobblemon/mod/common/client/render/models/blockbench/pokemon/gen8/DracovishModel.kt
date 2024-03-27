@@ -9,6 +9,7 @@
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen8
 
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cobblemon.mod.common.entity.PoseType
@@ -28,13 +29,47 @@ class DracovishModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     lateinit var sleep: PokemonPose
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
+    lateinit var battleidle: PokemonPose
+    lateinit var waterbattleidle: PokemonPose
+    lateinit var float: PokemonPose
+    lateinit var swim: PokemonPose
+    lateinit var watersleep: PokemonPose
+
+    override val cryAnimation = CryProvider { _, pose ->
+        when {
+            pose.isPosedIn(float, swim, waterbattleidle ) -> bedrockStateful("dracovish", "water_cry")
+            else -> bedrockStateful("dracovish", "cry")
+        }
+    }
 
     override fun registerPoses() {
         val blink = quirk { bedrockStateful("dracovish", "blink") }
 
+        sleep = registerPose(
+            poseName = "sleep",
+            poseType = PoseType.SLEEP,
+            transformTicks = 10,
+            quirks = arrayOf(blink),
+            idleAnimations = arrayOf(
+                bedrock("dracovish", "sleep")
+            )
+        )
+
+        watersleep = registerPose(
+            poseName = "watersleep",
+            poseType = PoseType.SLEEP,
+            condition = { it.isTouchingWater },
+            transformTicks = 10,
+            quirks = arrayOf(blink),
+            idleAnimations = arrayOf(
+                bedrock("dracovish", "watersleep")
+            )
+        )
+
         standing = registerPose(
             poseName = "standing",
-            poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
+            poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES - PoseType.FLOAT,
+            condition = { it.isBattling },
             transformTicks = 10,
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
@@ -44,11 +79,53 @@ class DracovishModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
 
         walk = registerPose(
             poseName = "walk",
-            poseTypes = PoseType.MOVING_POSES,
+            poseTypes = PoseType.MOVING_POSES - PoseType.SWIM,
             transformTicks = 10,
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 bedrock("dracovish", "ground_idle")
+            )
+        )
+
+        float = registerPose(
+            poseName = "float",
+            poseType = PoseType.FLOAT,
+            transformTicks = 10,
+            quirks = arrayOf(blink),
+            idleAnimations = arrayOf(
+                bedrock("dracovish", "water_idle")
+            )
+        )
+
+        swim = registerPose(
+            poseName = "swim",
+            poseType = PoseType.SWIM,
+            transformTicks = 10,
+            quirks = arrayOf(blink),
+            idleAnimations = arrayOf(
+                bedrock("dracovish", "water_swim")
+            )
+        )
+
+        battleidle = registerPose(
+            poseName = "battleidle",
+            poseTypes = PoseType.STATIONARY_POSES,
+            condition = { it.isBattling },
+            transformTicks = 10,
+            quirks = arrayOf(blink),
+            idleAnimations = arrayOf(
+                bedrock("dracovish", "battle_idle")
+            )
+        )
+
+        waterbattleidle = registerPose(
+            poseName = "waterbattleidle",
+            poseTypes = PoseType.STATIONARY_POSES,
+            condition = { it.isBattling && it.isTouchingWater},
+            transformTicks = 10,
+            quirks = arrayOf(blink),
+            idleAnimations = arrayOf(
+                bedrock("dracovish", "water_battle_idle")
             )
         )
     }

@@ -1,7 +1,7 @@
 {
 	"format_version": "1.8.0",
 	"animations": {
-		"animation.jellicent_male.ground_idle": {
+		"animation.jellicent.render": {
 			"loop": true,
 			"bones": {
 				"right_arm": {
@@ -33,7 +33,7 @@
 				}
 			}
 		},
-		"animation.jellicent_male.blink": {
+		"animation.jellicent.blink": {
 			"animation_length": 0.16667,
 			"bones": {
 				"left_eye_closed": {

@@ -15,8 +15,8 @@ import com.cobblemon.mod.common.entity.PoseType
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class FrillishMaleModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
-    override val rootPart = root.registerChildWithAllChildren("frillish_male")
+class FrillishModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
+    override val rootPart = root.registerChildWithAllChildren("frillish")
     override val head = getPart("head")
 
     override var portraitScale = 2.14F
@@ -29,7 +29,7 @@ class FrillishMaleModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame 
     lateinit var walk: PokemonPose
 
     override fun registerPoses() {
-        val blink = quirk { bedrockStateful("frillish_male", "blink") }
+        val blink = quirk { bedrockStateful("frillish", "blink") }
 
         standing = registerPose(
             poseName = "standing",
@@ -37,7 +37,7 @@ class FrillishMaleModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame 
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
-                bedrock("frillish_male", "water_idle")
+                bedrock("frillish", "water_idle")
             )
         )
 
@@ -47,7 +47,7 @@ class FrillishMaleModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame 
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
-                bedrock("frillish_male", "water_idle")
+                bedrock("frillish", "water_swim")
             )
         )
     }
@@ -55,5 +55,5 @@ class FrillishMaleModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame 
 //    override fun getFaintAnimation(
 //        pokemonEntity: PokemonEntity,
 //        state: PoseableEntityState<PokemonEntity>
-//    ) = if (state.isPosedIn(standing, walk)) bedrockStateful("frillish_male", "faint") else null
+//    ) = if (state.isPosedIn(standing, walk)) bedrockStateful("frillish", "faint") else null
 }

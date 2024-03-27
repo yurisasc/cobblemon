@@ -15,8 +15,8 @@ import com.cobblemon.mod.common.entity.PoseType
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class JellicentMaleModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
-    override val rootPart = root.registerChildWithAllChildren("jellicent_male")
+class JellicentModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
+    override val rootPart = root.registerChildWithAllChildren("jellicent")
     override val head = getPart("head")
 
     override var portraitScale = 1.13F
@@ -29,7 +29,7 @@ class JellicentMaleModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame
     lateinit var walk: PokemonPose
 
     override fun registerPoses() {
-        val blink = quirk { bedrockStateful("jellicent_male", "blink") }
+        val blink = quirk { bedrockStateful("jellicent", "blink") }
 
         standing = registerPose(
             poseName = "standing",
@@ -37,7 +37,7 @@ class JellicentMaleModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
-                bedrock("jellicent_male", "ground_idle")
+                bedrock("jellicent", "render")
             )
         )
 
@@ -47,7 +47,7 @@ class JellicentMaleModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
-                bedrock("jellicent_male", "ground_idle")
+                bedrock("jellicent", "render")
             )
         )
     }
@@ -55,5 +55,5 @@ class JellicentMaleModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame
 //    override fun getFaintAnimation(
 //        pokemonEntity: PokemonEntity,
 //        state: PoseableEntityState<PokemonEntity>
-//    ) = if (state.isPosedIn(standing, walk)) bedrockStateful("jellicent_male", "faint") else null
+//    ) = if (state.isPosedIn(standing, walk)) bedrockStateful("jellicent", "faint") else null
 }

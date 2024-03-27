@@ -84,7 +84,7 @@ class SquirtleModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
         )
 
         battleidle = registerPose(
-            poseTypes = setOf(PoseType.STAND),
+            poseType = PoseType.STAND,
             poseName = "battle_standing",
             quirks = arrayOf(blink, quirkidle),
             condition = { it.isBattling },

@@ -1,7 +1,7 @@
 {
 	"format_version": "1.8.0",
 	"animations": {
-		"animation.petilil_hisui.ground_idle": {
+		"animation.petilil_hisuian.ground_idle": {
 			"loop": true,
 			"bones": {
 				"body": {
@@ -11,14 +11,14 @@
 					"rotation": [5, 0, 0]
 				},
 				"leg_left_rotation": {
-					"rotation": [7.5, 0, 0]
+					"rotation": [0, 0, -12.5]
 				},
 				"leg_right_rotation": {
-					"rotation": [7.5, 0, 0]
+					"rotation": [0, 0, 7.5]
 				}
 			}
 		},
-		"animation.petilil_hisui.blink": {
+		"animation.petilil_hisuian.blink": {
 			"animation_length": 0.16667,
 			"bones": {
 				"eyelid_left": {

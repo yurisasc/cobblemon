@@ -27,11 +27,25 @@ class LileepModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
+    lateinit var sleep: PokemonPose
+    lateinit var waterIdle: PokemonPose
+    lateinit var waterSwim: PokemonPose
 
     override fun registerPoses() {
+        val blink = quirk { bedrockStateful("lileep", "blink") }
+
+        sleep = registerPose(
+            poseName = "sleep",
+            poseType = PoseType.SLEEP,
+            idleAnimations = arrayOf(
+                bedrock("lileep", "sleep")
+            )
+        )
+
         standing = registerPose(
             poseName = "standing",
-            poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
+            poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES - PoseType.FLOAT,
+            quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("lileep", "ground_idle")
@@ -40,10 +54,31 @@ class LileepModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
 
         walk = registerPose(
             poseName = "walk",
-            poseTypes = PoseType.MOVING_POSES,
+            poseTypes = PoseType.MOVING_POSES - PoseType.SWIM,
+            quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
-                bedrock("lileep", "ground_idle")
+                bedrock("lileep", "ground_walk")
+            )
+        )
+
+        waterIdle = registerPose(
+            poseName = "water_idle",
+            poseType = PoseType.FLOAT,
+            quirks = arrayOf(blink),
+            idleAnimations = arrayOf(
+                singleBoneLook(),
+                bedrock("lileep", "water_idle")
+            )
+        )
+
+        waterSwim = registerPose(
+            poseName = "water_swim",
+            poseType = PoseType.SWIM,
+            quirks = arrayOf(blink),
+            idleAnimations = arrayOf(
+                singleBoneLook(),
+                bedrock("lileep", "water_swim")
             )
         )
     }

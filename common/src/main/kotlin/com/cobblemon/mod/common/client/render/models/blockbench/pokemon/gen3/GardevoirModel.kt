@@ -20,14 +20,9 @@ import com.cobblemon.mod.common.entity.PoseType
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class GardevoirModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedFrame, BimanualFrame {
+class GardevoirModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("gardevoir")
     override val head = getPart("head")
-
-    override val leftArm = getPart("arm_left")
-    override val rightArm = getPart("arm_right")
-    override val leftLeg = getPart("leg_left")
-    override val rightLeg = getPart("leg_right")
 
     override var portraitScale = 2.6F
     override var portraitTranslation = Vec3d(-0.1, 1.9, 0.0)
@@ -37,14 +32,27 @@ class GardevoirModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bi
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
+    lateinit var sleep: PokemonPose
+    lateinit var battleidle: PokemonPose
 
     override val cryAnimation = CryProvider { _, _ -> bedrockStateful("gardevoir", "cry") }
 
     override fun registerPoses() {
         val blink = quirk { bedrockStateful("gardevoir", "blink") }
+
+        sleep = registerPose(
+            poseName = "sleep",
+            poseType = PoseType.SLEEP,
+            idleAnimations = arrayOf(
+                singleBoneLook(),
+                bedrock("gardevoir", "sleep")
+            )
+        )
+
         standing = registerPose(
             poseName = "standing",
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
+            condition = { !it.isBattling },
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
@@ -58,10 +66,18 @@ class GardevoirModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bi
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
-                bedrock("gardevoir", "ground_idle"),
-                BipedWalkAnimation(this, periodMultiplier = 0.6F, amplitudeMultiplier = 0.9F),
-                BimanualSwingAnimation(this, swingPeriodMultiplier = 0.6F, amplitudeMultiplier = 0.9F)
-                //bedrock("gardevoir", "ground_walk")
+                bedrock("gardevoir", "ground_walk")
+            )
+        )
+
+        battleidle = registerPose(
+            poseName = "battleidle",
+            poseTypes = PoseType.STATIONARY_POSES,
+            condition = { it.isBattling },
+            quirks = arrayOf(blink),
+            idleAnimations = arrayOf(
+                singleBoneLook(),
+                bedrock("gardevoir", "battle_idle")
             )
         )
     }

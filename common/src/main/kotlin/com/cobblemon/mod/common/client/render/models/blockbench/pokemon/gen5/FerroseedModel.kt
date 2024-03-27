@@ -25,12 +25,23 @@ class FerroseedModel (root: ModelPart) : PokemonPoseableModel() {
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
+    lateinit var battleIdle: PokemonPose
+    lateinit var sleep: PokemonPose
     override fun registerPoses() {
         val blink = quirk { bedrockStateful("ferroseed", "blink") }
+
+        sleep = registerPose(
+            poseName = "sleep",
+            poseType = PoseType.SLEEP,
+            idleAnimations = arrayOf(
+                bedrock("ferroseed", "sleep")
+            )
+        )
 
         standing = registerPose(
             poseName = "standing",
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
+            condition = { !it.isBattling },
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 bedrock("ferroseed", "ground_idle")
@@ -42,7 +53,17 @@ class FerroseedModel (root: ModelPart) : PokemonPoseableModel() {
             poseTypes = PoseType.MOVING_POSES,
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
-                bedrock("ferroseed", "ground_idle"),
+                bedrock("ferroseed", "ground_walk"),
+            )
+        )
+
+        battleIdle = registerPose(
+            poseName = "battle_idle",
+            poseTypes = PoseType.STATIONARY_POSES,
+            condition = { it.isBattling },
+            quirks = arrayOf(blink),
+            idleAnimations = arrayOf(
+                bedrock("ferroseed", "battle_idle")
             )
         )
     }

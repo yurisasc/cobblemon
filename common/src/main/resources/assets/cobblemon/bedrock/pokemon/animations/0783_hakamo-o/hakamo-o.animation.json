@@ -20,7 +20,7 @@
 					"rotation": [7.09999, 21.40584, 18.84359]
 				},
 				"hand_left": {
-					"rotation": [3.90399, 17.07228, 13.08619]
+					"rotation": [4.40318, 32.03347, 14.27726]
 				},
 				"hand_scale_left": {
 					"rotation": [0, 0, -2.5]
@@ -29,7 +29,7 @@
 					"rotation": [0, 0, -7.5]
 				},
 				"arm_right": {
-					"rotation": [12.68252, 1.22705, -32.62302]
+					"rotation": [13.36473, -18.26883, -37.15846]
 				},
 				"arm_scale_right": {
 					"rotation": [0, 0, 0]
@@ -38,7 +38,7 @@
 					"rotation": [7.09999, -21.40584, -18.84359]
 				},
 				"hand_right": {
-					"rotation": [3.90399, -17.07228, -13.08619]
+					"rotation": [4.67559, -37.01782, -14.75743]
 				},
 				"hand_scale_right": {
 					"rotation": [0, 0, 2.5]
@@ -84,6 +84,21 @@
 				},
 				"leg_left": {
 					"rotation": [-2.09019, -10.28859, 22.90981]
+				},
+				"body": {
+					"position": [0, 1, 0]
+				},
+				"leg_left2": {
+					"rotation": [-12.5, 0, 0]
+				},
+				"leg_left3": {
+					"rotation": [12.5, 0, 0]
+				},
+				"leg_right2": {
+					"rotation": [-12.5, 0, 0]
+				},
+				"leg_right3": {
+					"rotation": [12.5, 0, 0]
 				}
 			}
 		},

@@ -50,7 +50,7 @@ class BlisseyModel(root: ModelPart) : PokemonPoseableModel(), BipedFrame, Bimanu
             poseName = "sleep",
             poseType = PoseType.SLEEP,
             idleAnimations = arrayOf(
-                bedrock("blissey", "ground_sleep")
+                bedrock("blissey", "sleep")
             )
         )
 

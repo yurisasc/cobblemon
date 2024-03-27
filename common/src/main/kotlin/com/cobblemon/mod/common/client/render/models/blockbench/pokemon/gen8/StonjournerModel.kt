@@ -67,5 +67,5 @@ class StonjournerModel (root: ModelPart) : PokemonPoseableModel() {
     override fun getFaintAnimation(
             pokemonEntity: PokemonEntity,
             state: PoseableEntityState<PokemonEntity>
-    ) = if (state.isPosedIn(standing, walk)) bedrockStateful("stonjourner", "faint") else null
+    ) = bedrockStateful("stonjourner", "faint")
 }

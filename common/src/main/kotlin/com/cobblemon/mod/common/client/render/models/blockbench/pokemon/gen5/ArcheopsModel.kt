@@ -15,6 +15,7 @@ import com.cobblemon.mod.common.client.render.models.blockbench.frame.BiWingedFr
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BimanualFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.ModelPartTransformation
@@ -24,18 +25,9 @@ import com.cobblemon.mod.common.util.math.geometry.toRadians
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class ArcheopsModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedFrame, BimanualFrame, BiWingedFrame {
+class ArcheopsModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("archeops")
     override val head = getPart("neck")
-
-    override val leftLeg = getPart("leg_left")
-    override val rightLeg = getPart("leg_right")
-
-    override val leftArm = getPart("arm_left")
-    override val rightArm = getPart("arm_right")
-
-    override val leftWing = getPart("arm_left")
-    override val rightWing = getPart("arm_right")
 
     override var portraitTranslation = Vec3d(-1.19, 0.89, 0.0)
     override var portraitScale = 1.51F
@@ -47,12 +39,33 @@ class ArcheopsModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bipe
     lateinit var walking: PokemonPose
     lateinit var hovering: PokemonPose
     lateinit var flying: PokemonPose
+    lateinit var swim: PokemonPose
+    lateinit var float: PokemonPose
+    lateinit var sleep: PokemonPose
+    lateinit var battleIdle: PokemonPose
+
+    override val cryAnimation = CryProvider { _, pose -> if (pose.isPosedIn(hovering, flying)) bedrockStateful("archeops", "air_cry") else bedrockStateful("archeops", "cry") }
+
 
     override fun registerPoses() {
+        val blink = quirk { bedrockStateful("archeops", "blink") }
+        val quirk1 = quirk { bedrockStateful("archeops", "quirk1") }
+        val quirk2 = quirk { bedrockStateful("archeops", "quirk2") }
+
+        sleep = registerPose(
+            poseName = "sleep",
+            poseType = PoseType.SLEEP,
+            transformTicks = 10,
+            idleAnimations = arrayOf(
+                bedrock("archeops", "sleep")
+            )
+        )
 
         standing = registerPose(
             poseName = "standing",
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES - PoseType.HOVER,
+            condition = { !it.isBattling && !it.isTouchingWater },
+            quirks = arrayOf(blink, quirk1, quirk2),
             transformTicks = 10,
             idleAnimations = arrayOf(
                 singleBoneLook(),
@@ -63,44 +76,73 @@ class ArcheopsModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bipe
         walking = registerPose(
             poseName = "walking",
             poseTypes = PoseType.MOVING_POSES - PoseType.FLY,
+            condition = { !it.isTouchingWater },
+            quirks = arrayOf(blink),
             transformTicks = 10,
             idleAnimations = arrayOf(
                 singleBoneLook(),
-                bedrock("archeops", "ground_idle"),
-                BipedWalkAnimation(this, 0.5F, 0.5F),
-                BimanualSwingAnimation(this, 0.5F, 0.5F)
+                bedrock("archeops", "ground_walk")
             )
         )
 
         hovering = registerPose(
             poseName = "hovering",
             poseType = PoseType.HOVER,
+            quirks = arrayOf(blink, quirk1, quirk2),
             transformTicks = 10,
             idleAnimations = arrayOf(
                 singleBoneLook(),
-                bedrock("archeops", "ground_idle"),
-                WingFlapIdleAnimation(this,
-                    flapFunction = sineFunction(verticalShift = (-14F).toRadians(), period = 0.9F, amplitude = 0.7F),
-                    timeVariable = { state, _, _ -> state?.animationSeconds ?: 0F },
-                    axis = ModelPartTransformation.X_AXIS
-                )
+                bedrock("archeops", "air_idle")
             )
         )
 
         flying = registerPose(
             poseName = "flying",
             poseType = PoseType.FLY,
+            quirks = arrayOf(blink),
             transformTicks = 10,
             idleAnimations = arrayOf(
                 singleBoneLook(),
-                bedrock("archeops", "ground_idle"),
-                WingFlapIdleAnimation(this,
-                    flapFunction = sineFunction(verticalShift = (-18F).toRadians(), period = 0.9F, amplitude = 0.8F),
-                    timeVariable = { state, _, _ -> state?.animationSeconds ?: 0F },
-                    axis = ModelPartTransformation.X_AXIS
-                )
+                bedrock("archeops", "air_fly")
             )
         )
+
+        swim = registerPose(
+            poseName = "swim",
+            poseTypes = PoseType.MOVING_POSES,
+            quirks = arrayOf(blink),
+            condition = { it.isTouchingWater },
+            transformTicks = 10,
+            idleAnimations = arrayOf(
+                singleBoneLook(),
+                bedrock("archeops", "surfacewater_swim")
+            )
+        )
+
+        float = registerPose(
+            poseName = "float",
+            poseTypes = PoseType.STATIONARY_POSES,
+            quirks = arrayOf(blink, quirk1),
+            condition = { it.isTouchingWater },
+            transformTicks = 10,
+            idleAnimations = arrayOf(
+                singleBoneLook(),
+                bedrock("archeops", "surfacewater_idle")
+            )
+        )
+
+        battleIdle = registerPose(
+            poseName = "battle_idle",
+            poseTypes = PoseType.STATIONARY_POSES,
+            quirks = arrayOf(blink, quirk2),
+            condition = { it.isBattling },
+            transformTicks = 10,
+            idleAnimations = arrayOf(
+                singleBoneLook(),
+                bedrock("archeops", "battle_idle")
+            )
+        )
+
     }
 //    override fun getFaintAnimation(
 //        pokemonEntity: PokemonEntity,

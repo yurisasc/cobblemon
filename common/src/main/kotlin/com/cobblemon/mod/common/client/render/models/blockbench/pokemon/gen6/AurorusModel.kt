@@ -8,11 +8,13 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen6
 
+import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cobblemon.mod.common.entity.PoseType
+import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
@@ -37,16 +39,17 @@ class AurorusModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
         val blink = quirk { bedrockStateful("aurorus", "blink") }
 
         sleep = registerPose(
-                poseType = PoseType.SLEEP,
-                idleAnimations = arrayOf(bedrock("aurorus", "sleep"))
+            poseName = "sleep",
+            poseType = PoseType.SLEEP,
+            idleAnimations = arrayOf(bedrock("aurorus", "sleep"))
         )
 
         standing = registerPose(
             poseName = "standing",
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
             transformTicks = 10,
-                condition = { !it.isBattling },
-                quirks = arrayOf(blink),
+            condition = { !it.isBattling },
+            quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("aurorus", "ground_idle")
@@ -54,22 +57,22 @@ class AurorusModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
         )
 
         battleidle = registerPose(
-                poseName = "battle_idle",
-                poseTypes = PoseType.STATIONARY_POSES,
-                transformTicks = 10,
-                quirks = arrayOf(blink),
-                condition = { it.isBattling },
-                idleAnimations = arrayOf(
-                        singleBoneLook(),
-                        bedrock("aurorus", "battle_idle")
-                )
+            poseName = "battle_idle",
+            poseTypes = PoseType.STATIONARY_POSES,
+            transformTicks = 10,
+            quirks = arrayOf(blink),
+            condition = { it.isBattling },
+            idleAnimations = arrayOf(
+                singleBoneLook(),
+                bedrock("aurorus", "battle_idle")
+            )
         )
 
         walk = registerPose(
             poseName = "walk",
             poseTypes = PoseType.MOVING_POSES,
             transformTicks = 10,
-                quirks = arrayOf(blink),
+            quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("aurorus", "ground_walk")
@@ -77,8 +80,8 @@ class AurorusModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
         )
     }
 
-//    override fun getFaintAnimation(
-//        pokemonEntity: PokemonEntity,
-//        state: PoseableEntityState<PokemonEntity>
-//    ) = if (state.isPosedIn(standing, walk)) bedrockStateful("aurorus", "faint") else null
+    override fun getFaintAnimation(
+        pokemonEntity: PokemonEntity,
+        state: PoseableEntityState<PokemonEntity>
+    ) = bedrockStateful("aurorus", "faint")
 }
