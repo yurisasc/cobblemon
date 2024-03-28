@@ -19,6 +19,7 @@ import com.cobblemon.mod.common.api.reactive.Observable.Companion.filter
 import com.cobblemon.mod.common.api.reactive.Observable.Companion.takeFirst
 import com.cobblemon.mod.common.battles.BattleRegistry
 import com.cobblemon.mod.common.platform.events.PlatformEvents
+import com.cobblemon.mod.common.pokemon.Pokemon
 import net.minecraft.block.BlockState
 import net.minecraft.entity.Entity
 import net.minecraft.entity.player.PlayerEntity
@@ -265,7 +266,8 @@ fun ServerPlayerEntity.raycast(maxDistance: Float, fluidHandling: RaycastContext
     return world.raycast(RaycastContext(vec3d, vec3d2, RaycastContext.ShapeType.OUTLINE, fluidHandling, this))
 }
 
-fun ServerPlayerEntity.raycastToNearbyGround(maxDistance: Double, dropHeight: Double, fluidHandling: RaycastContext.FluidHandling?): Vec3d? {
+fun ServerPlayerEntity.raycastSafeSendout(pokemon: Pokemon, maxDistance: Double, dropHeight: Double, fluidHandling: RaycastContext.FluidHandling?): Vec3d? {
+    // Crazy math stuff, don't worry about it
     val f = pitch
     val g = yaw
     val vec3d = eyePos
@@ -275,30 +277,30 @@ fun ServerPlayerEntity.raycastToNearbyGround(maxDistance: Double, dropHeight: Do
     val k = MathHelper.sin(-f * 0.017453292f)
     val l = i * j
     val n = h * j
-
-    val result: BlockHitResult
-    var traceDown: TraceResult?
-
     val vec3d2 = vec3d.add(l.toDouble() * maxDistance, k.toDouble() * maxDistance, n.toDouble() * maxDistance)
-    result = world.raycast(RaycastContext(vec3d, vec3d2, RaycastContext.ShapeType.OUTLINE, fluidHandling, this))
+    val result = world.raycast(RaycastContext(vec3d, vec3d2, RaycastContext.ShapeType.OUTLINE, fluidHandling, this))
 
-    if (this.world.getBlockState(result.blockPos).isAir) {
+
+    if (world.getBlockState(result.blockPos).isAir) {
+        // If the trace returns air, the player isn't aiming at any blocks within range
+        var traceDown: TraceResult?
         val minDrop = min(2.5, maxDistance)
         val stepDistance = 0.05
-        var step = stepDistance + minDrop
+        var step = minDrop
         var stepDrop = minDrop
         var stepPos: Vec3d
         var traceHeight: Double
         var smallestHeight = dropHeight
         var fallLoc: TraceResult? = null
 
+        // Try to find a valid block below the player's aim instead
         while (step <= maxDistance) {
             stepPos = vec3d.add(l.toDouble() * step, k.toDouble() * step, n.toDouble() * step)
             if (minDrop != maxDistance) {
                 stepDrop = ((step - minDrop) / (maxDistance - minDrop)) * dropHeight
             }
             traceDown = stepPos.traceDownwards(this.world, maxDistance = stepDrop.toFloat())
-            if (traceDown != null) {
+            if (traceDown != null && pokemon.isPositionSafe(world, traceDown.blockPos)) {
                 traceHeight = (stepPos.y - traceDown.location.y)
                 if (traceHeight < smallestHeight) {
                     smallestHeight = traceHeight
@@ -309,18 +311,24 @@ fun ServerPlayerEntity.raycastToNearbyGround(maxDistance: Double, dropHeight: Do
             step += stepDistance
         }
 
+        // If a valid block was found below the player's aim, return the location directly above it
         return if (fallLoc == null) {
             null
         } else {
             Vec3d(fallLoc.location.x, fallLoc.blockPos.up().toVec3d().y, fallLoc.location.z)
         }
     } else if (result.side != Direction.UP) {
+        // If the player targets the side or bottom of a block, try to find a valid spot in front of / below that block
         val posOffset = result.pos.offset(result.side, 0.5)
-        traceDown = posOffset.traceDownwards(this.world, maxDistance = dropHeight.toFloat())
-        if (traceDown != null) {
+        val traceDown = posOffset.traceDownwards(this.world, maxDistance = dropHeight.toFloat())
+
+        return if (traceDown == null || !pokemon.isPositionSafe(world, traceDown.blockPos)) {
+            null
+        } else {
             return Vec3d(traceDown.location.x, traceDown.blockPos.up().toVec3d().y, traceDown.location.z)
         }
-    } else if (!this.world.getBlockState(result.blockPos.up()).isSolid) {
+    } else if (!this.world.getBlockState(result.blockPos.up()).isSolid && pokemon.isPositionSafe(world, result.blockPos)) {
+        // If the player is targeting the top of a block, and the block above it isn't solid, it will spawn on that block
         return Vec3d(result.pos.x, result.blockPos.up().toVec3d().y, result.pos.z)
     }
     return null

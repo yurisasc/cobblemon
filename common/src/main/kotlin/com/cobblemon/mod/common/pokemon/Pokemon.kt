@@ -68,6 +68,7 @@ import com.google.gson.JsonObject
 import com.google.gson.JsonPrimitive
 import com.mojang.serialization.Dynamic
 import com.mojang.serialization.JsonOps
+import net.minecraft.block.*
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
@@ -76,6 +77,7 @@ import net.minecraft.nbt.NbtElement.COMPOUND_TYPE
 import net.minecraft.nbt.NbtList
 import net.minecraft.nbt.NbtOps
 import net.minecraft.nbt.NbtString
+import net.minecraft.registry.tag.FluidTags
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.text.MutableText
@@ -84,9 +86,11 @@ import net.minecraft.text.TextContent
 import net.minecraft.util.Hand
 import net.minecraft.util.Identifier
 import net.minecraft.util.InvalidIdentifierException
+import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.MathHelper.ceil
 import net.minecraft.util.math.MathHelper.clamp
 import net.minecraft.util.math.Vec3d
+import net.minecraft.world.World
 import java.util.*
 import java.util.concurrent.CompletableFuture
 import kotlin.math.absoluteValue
@@ -609,6 +613,50 @@ open class Pokemon : ShowdownIdentifiable {
 
     fun isFireImmune(): Boolean {
         return ElementalTypes.FIRE in types || !form.behaviour.moving.swim.hurtByLava
+    }
+
+    fun isPositionSafe(world: World, pos: Vec3d): Boolean {
+        return isPositionSafe(world, pos.toBlockPos())
+    }
+
+    fun isPositionSafe(world: World, pos1: BlockPos): Boolean {
+        // To make sure a location is safe, both the block the Pokemon is standing ON,
+        // and the block it's standing IN need to be safe. pos2 represents the other position in that set.
+        val pos2: BlockPos = if (world.getBlockState(pos1).isSolid) {
+            pos1.up()
+        } else {
+            pos1.down()
+        }
+
+        val positions = arrayOf(pos1, pos2)
+        var isSafe = true
+
+        for (pos in positions) {
+            if (isSafe) {
+                val block = world.getBlockState(pos).block
+
+                if (block is SweetBerryBushBlock ||
+                    block is CactusBlock ||
+                    block is WitherRoseBlock
+                )
+                {
+                    isSafe = false
+                }
+
+                if (!this.isFireImmune()) {
+                    if (block is FireBlock ||
+                        block is MagmaBlock ||
+                        block is CampfireBlock ||
+                        world.getBlockState(pos).fluidState.isIn(FluidTags.LAVA)
+                    )
+                    {
+                        isSafe = false
+                    }
+                }
+            }
+        }
+
+        return isSafe
     }
 
     /**

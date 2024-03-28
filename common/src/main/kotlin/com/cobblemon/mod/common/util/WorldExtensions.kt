@@ -130,7 +130,6 @@ fun Vec3d.traceDownwards(
     world: World,
     maxDistance: Float = 10F,
     stepDistance: Float = 0.5F,
-    blockFilter: (BlockState) -> Boolean = { it.isSolid }
 ): TraceResult? {
     var step = stepDistance
     val startPos = Vec3d(x, y, z)
@@ -151,7 +150,7 @@ fun Vec3d.traceDownwards(
         }
 
         val block = world.getBlockState(blockPos)
-        if (blockFilter(block)) {
+        if (!block.isAir) {
             val dir = findDirectionForIntercept(startPos, location, blockPos)
             return TraceResult(
                 location = location,
