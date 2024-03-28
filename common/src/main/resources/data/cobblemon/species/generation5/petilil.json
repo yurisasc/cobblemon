@@ -33,6 +33,13 @@
     "special_defence": 50,
     "speed": 30
   },
+  "behaviour": {
+    "moving": {
+      "walk": {
+        "walkSpeed": 0.14
+      }
+    }
+  },
   "features": [ "hisuian" ],
   "forms": [
     {
