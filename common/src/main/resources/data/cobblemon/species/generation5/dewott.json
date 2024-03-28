@@ -47,16 +47,18 @@
         "field"
       ],
       "behaviour": {
+        "moving": {
+          "swim": {
+            "canSwimInWater": true,
+            "canBreatheUnderwater": true,
+            "canWalkOnWater": true
+          }
+        },
         "resting": {
           "canSleep": true,
           "willSleepOnBed": false,
           "depth": "normal",
           "light": "0-4"
-        },
-        "swim": {
-          "canSwimInWater": true,
-          "canBreatheUnderwater": true,
-          "canWalkOnWater": true
         }
       },
       "moves": [
@@ -232,16 +234,18 @@
     "field"
   ],
   "behaviour": {
+    "moving": {
+      "swim": {
+        "canSwimInWater": true,
+        "canBreatheUnderwater": true,
+        "canWalkOnWater": true
+      }
+    },
     "resting": {
       "canSleep": true,
       "willSleepOnBed": false,
       "depth": "normal",
       "light": "0-4"
-    },
-    "swim": {
-      "canSwimInWater": true,
-      "canBreatheUnderwater": true,
-      "canWalkOnWater": true
     }
   },
   "moves": [

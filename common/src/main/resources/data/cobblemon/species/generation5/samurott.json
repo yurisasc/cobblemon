@@ -51,6 +51,20 @@
         "special_defence": 65,
         "speed": 85
       },
+      "behaviour": {
+        "resting": {
+          "canSleep": true,
+          "willSleepOnBed": false,
+          "depth": "normal",
+          "light": "0-4"
+        },
+        "moving": {
+          "swim": {
+            "canSwimInWater": true,
+            "canBreatheUnderwater": true
+          }
+        }
+      },
       "catchRate": 45,
       "maleRatio": 0.875,
       "baseExperienceYield": 238,

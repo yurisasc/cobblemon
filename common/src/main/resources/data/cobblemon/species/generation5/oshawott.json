@@ -47,16 +47,18 @@
         "field"
       ],
       "behaviour": {
+        "moving": {
+          "swim": {
+            "canSwimInWater": true,
+            "canBreatheUnderwater": true,
+            "canWalkOnWater": true
+          }
+        },
         "resting": {
           "canSleep": true,
-          "willSleepOnBed": false,
+          "willSleepOnBed": true,
           "depth": "normal",
           "light": "0-4"
-        },
-        "swim": {
-          "canSwimInWater": true,
-          "canBreatheUnderwater": true,
-          "canWalkOnWater": true
         }
       },
       "moves": [
@@ -213,6 +215,21 @@
     "special_defence": 45,
     "speed": 45
   },
+  "behaviour": {
+    "moving": {
+      "swim": {
+        "canSwimInWater": true,
+        "canBreatheUnderwater": true,
+        "canWalkOnWater": true
+      }
+    },
+    "resting": {
+      "canSleep": true,
+      "willSleepOnBed": true,
+      "depth": "normal",
+      "light": "0-4"
+    }
+  },
   "catchRate": 45,
   "maleRatio": 0.875,
   "shoulderMountable": false,
@@ -222,19 +239,6 @@
   "eggGroups": [
     "field"
   ],
-  "behaviour": {
-    "resting": {
-      "canSleep": true,
-      "willSleepOnBed": false,
-      "depth": "normal",
-      "light": "0-4"
-    },
-    "swim": {
-      "canSwimInWater": true,
-      "canBreatheUnderwater": true,
-      "canWalkOnWater": true
-    }
-  },
   "moves": [
     "1:tackle",
     "5:tailwhip",

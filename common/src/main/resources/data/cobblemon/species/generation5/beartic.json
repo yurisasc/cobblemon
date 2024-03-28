@@ -33,6 +33,21 @@
     "special_defence": 80,
     "speed": 50
   },
+  "behaviour": {
+    "moving": {
+      "swim": {
+        "swimSpeed": 0.3,
+        "canSwimInWater": true,
+        "canBreatheUnderwater": false
+      }
+    },
+    "resting": {
+      "canSleep": true,
+      "willSleepOnBed": false,
+      "depth": "normal",
+      "light": "0-4"
+    }
+  },
   "catchRate": 60,
   "maleRatio": 0.5,
   "shoulderMountable": false,

@@ -26,6 +26,24 @@
     "special_defence": 45,
     "speed": 22
   },
+  "behaviour": {
+    "moving": {
+      "walk": {
+        "avoidsLand": true
+      },
+      "swim": {
+        "swimSpeed": 0.3,
+        "canSwimInWater": true,
+        "canBreatheUnderwater": true
+      }
+    },
+    "resting": {
+      "canSleep": true,
+      "willSleepOnBed": false,
+      "depth": "normal",
+      "light": "0-4"
+    }
+  },
   "catchRate": 45,
   "maleRatio": 0.875,
   "shoulderMountable": false,
@@ -36,13 +54,6 @@
     "water_1",
     "water_3"
   ],
-  "behaviour": {
-    "resting": {
-      "canSleep": true,
-      "depth": "normal",
-      "light": "0-4"
-    }
-  },
   "moves": [
     "1:bide",
     "1:watergun",

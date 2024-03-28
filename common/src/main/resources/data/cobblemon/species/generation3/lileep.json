@@ -26,8 +26,16 @@
     "water_3"
   ],
   "behaviour": {
+    "moving": {
+      "swim": {
+        "swimSpeed": 0.1,
+        "canSwimInWater": false,
+        "canBreatheUnderwater": true
+      }
+    },
     "resting": {
       "canSleep": true,
+      "willSleepOnBed": false,
       "depth": "normal",
       "light": "0-4"
     }
