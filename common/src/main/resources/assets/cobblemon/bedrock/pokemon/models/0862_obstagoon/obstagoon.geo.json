@@ -13,7 +13,7 @@
 			"bones": [
 				{
 					"name": "obstagoon",
-					"pivot": [0, 2, -9]
+					"pivot": [0, 0, 0]
 				},
 				{
 					"name": "body",
