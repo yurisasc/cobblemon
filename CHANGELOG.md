@@ -157,6 +157,7 @@
 - Changed Healer recipe to swap the Max Revive for a Revive.
 - Upped the rate that Gastly drop Ghast Tears from 2.5% to 5%.
 - Pokémon with a low Blaze Powder drop chance now drop it more frequently in the Nether.
+- Reorganised a few advancements.
 
 ### Fixes
 - Resized Snorlax.
