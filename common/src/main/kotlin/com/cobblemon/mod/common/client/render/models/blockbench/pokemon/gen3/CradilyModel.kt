@@ -28,8 +28,8 @@ class CradilyModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
     lateinit var sleep: PokemonPose
-    lateinit var waterIdle: PokemonPose
-    lateinit var waterSwim: PokemonPose
+//    lateinit var waterIdle: PokemonPose
+//    lateinit var waterSwim: PokemonPose
 
     override fun registerPoses() {
         val blink = quirk { bedrockStateful("cradily", "blink") }
@@ -61,25 +61,24 @@ class CradilyModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
                 bedrock("cradily", "ground_walk")
             )
         )
-
-        waterIdle = registerPose(
-            poseName = "water_idle",
-            poseType = PoseType.FLOAT,
-            quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
-                singleBoneLook(),
-                bedrock("cradily", "water_idle")
-            )
-        )
-
-        waterSwim = registerPose(
-            poseName = "water_swim",
-            poseType = PoseType.SWIM,
-            quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
-                singleBoneLook(),
-                bedrock("cradily", "water_swim")
-            )
-        )
+//        waterIdle = registerPose(
+//            poseName = "water_idle",
+//            poseType = PoseType.FLOAT,
+//            quirks = arrayOf(blink),
+//            idleAnimations = arrayOf(
+//                singleBoneLook(),
+//                bedrock("cradily", "water_idle")
+//            )
+//        )
+//
+//        waterSwim = registerPose(
+//            poseName = "water_swim",
+//            poseType = PoseType.SWIM,
+//            quirks = arrayOf(blink),
+//            idleAnimations = arrayOf(
+//                singleBoneLook(),
+//                bedrock("cradily", "water_swim")
+//            )
+//        )
     }
 }

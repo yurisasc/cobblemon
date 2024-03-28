@@ -22,15 +22,12 @@ import com.cobblemon.mod.common.util.math.geometry.toRadians
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class FlygonModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedFrame, BiWingedFrame {
+class FlygonModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BiWingedFrame {
     override val rootPart = root.registerChildWithAllChildren("flygon")
     override val head = getPart("head")
 
     override val leftWing = getPart("wing_left")
     override val rightWing = getPart("wing_right")
-
-    override val leftLeg = getPart("leg_left")
-    override val rightLeg = getPart("leg_right")
 
     override var portraitScale = 1.27F
     override var portraitTranslation = Vec3d(-0.42, 2.49, 0.0)
@@ -76,7 +73,7 @@ class FlygonModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Biped
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
-                bedrock("flygon", "air_hover"),
+                bedrock("flygon", "air_idle"),
                 WingFlapIdleAnimation(this,
                     flapFunction = sineFunction(verticalShift = -10F.toRadians(), period = 0.9F, amplitude = 0.5F),
                     timeVariable = { state, _, _ -> state?.animationSeconds ?: 0F },

@@ -71,7 +71,7 @@ class ArctovishModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             transformTicks = 10,
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
-                bedrock("arctovish", "ground_idle")
+                bedrock("arctovish", "ground_walk")
             )
         )
 

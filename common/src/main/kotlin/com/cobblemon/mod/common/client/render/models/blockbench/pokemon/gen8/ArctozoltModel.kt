@@ -58,7 +58,7 @@ class ArctozoltModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             transformTicks = 10,
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
-                bedrock("arctozolt", "ground_idle")
+                bedrock("arctozolt", "ground_walk")
             )
         )
 

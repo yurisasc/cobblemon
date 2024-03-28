@@ -41,7 +41,7 @@ class PidgeotModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Biped
     override var profileScale = 0.9F
     override var profileTranslation = Vec3d(0.0, 0.4, 0.0)
 
-    lateinit var sleep: PokemonPose
+//    lateinit var sleep: PokemonPose
     lateinit var stand: PokemonPose
     lateinit var walk: PokemonPose
     lateinit var hover: PokemonPose
@@ -54,17 +54,17 @@ class PidgeotModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Biped
         val flyQuirk1 = quirk { bedrockStateful("pidgeot", "air_fly_quirk") }
         val flyQuirk2 = quirk { bedrockStateful("pidgeot", "air_fly_quirk2") }
 
-        sleep = registerPose(
-            poseName = "sleeping",
-            transformedParts = arrayOf(
-                wingClosedLeft.createTransformation().withVisibility(visibility = true),
-                wingClosedRight.createTransformation().withVisibility(visibility = true),
-                wingOpenLeft.createTransformation().withVisibility(visibility = false),
-                wingOpenRight.createTransformation().withVisibility(visibility = false)
-            ),
-            poseType = PoseType.SLEEP,
-            idleAnimations = arrayOf(bedrock("pidgeot", "sleep"))
-        )
+//        sleep = registerPose(
+//            poseName = "sleeping",
+//            transformedParts = arrayOf(
+//                wingClosedLeft.createTransformation().withVisibility(visibility = true),
+//                wingClosedRight.createTransformation().withVisibility(visibility = true),
+//                wingOpenLeft.createTransformation().withVisibility(visibility = false),
+//                wingOpenRight.createTransformation().withVisibility(visibility = false)
+//            ),
+//            poseType = PoseType.SLEEP,
+//            idleAnimations = arrayOf(bedrock("pidgeot", "sleep"))
+//        )
 
         stand = registerPose(
             poseName = "stand",

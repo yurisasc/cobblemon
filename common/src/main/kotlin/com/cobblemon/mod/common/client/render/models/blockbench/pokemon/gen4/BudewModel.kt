@@ -49,7 +49,7 @@ class BudewModel (root: ModelPart) : PokemonPoseableModel() {
 
         standing = registerPose(
             poseName = "standing",
-            poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
+            poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES + PoseType.SHOULDER_POSES,
             condition = { !it.isBattling },
             quirks = arrayOf(blink, quirk),
             idleAnimations = arrayOf(

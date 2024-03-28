@@ -60,7 +60,7 @@ class DonphanModel (root: ModelPart) : PokemonPoseableModel(), QuadrupedFrame {
             poseTypes = PoseType.MOVING_POSES,
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
-                bedrock("donphan", "ground_idle")
+                bedrock("donphan", "ground_walk")
             )
         )
 

@@ -38,6 +38,13 @@
   "eggGroups": [
     "human_like"
   ],
+  "behaviour": {
+    "moving" : {
+      "walk": {
+        "walkSpeed": 0.15
+      }
+    }
+  },
   "moves": [
     "1:leer",
     "1:pound",

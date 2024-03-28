@@ -62,7 +62,7 @@ class GholdengoModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             condition = { it.isTouchingWater },
             transformTicks = 10,
             idleAnimations = arrayOf(
-                bedrock("gholdengo", "watersurface_sleep")
+                bedrock("gholdengo", "surfacewater_sleep")
             ),
             transformedParts = arrayOf(
                 rootPart.createTransformation().addPosition(ModelPartTransformation.Y_AXIS, wateroffset)
@@ -98,7 +98,7 @@ class GholdengoModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
-                bedrock("gholdengo", "watersurface_idle")
+                bedrock("gholdengo", "surfacewater_idle")
             ),
             transformedParts = arrayOf(
                 rootPart.createTransformation().addPosition(ModelPartTransformation.Y_AXIS, wateroffset)
@@ -112,7 +112,7 @@ class GholdengoModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
-                bedrock("gholdengo", "watersurface_swim")
+                bedrock("gholdengo", "surfacewater_swim")
             ),
             transformedParts = arrayOf(
                 rootPart.createTransformation().addPosition(ModelPartTransformation.Y_AXIS, wateroffset)

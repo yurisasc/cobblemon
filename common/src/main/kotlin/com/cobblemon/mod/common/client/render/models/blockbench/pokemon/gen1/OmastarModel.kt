@@ -45,7 +45,7 @@ class OmastarModel(root: ModelPart) : PokemonPoseableModel() {
 
         standing = registerPose(
             poseName = "standing",
-            poseTypes = PoseType.UI_POSES + PoseType.STAND,
+            poseTypes = PoseType.STANDING_POSES + PoseType.UI_POSES,
             quirks = arrayOf(blink),
             transformTicks = 10,
             condition = { !it.isBattling},
@@ -56,7 +56,7 @@ class OmastarModel(root: ModelPart) : PokemonPoseableModel() {
 
         walk = registerPose(
             poseName = "walk",
-            poseType = PoseType.WALK,
+            poseTypes = PoseType.MOVING_POSES - PoseType.SWIM,
             quirks = arrayOf(blink),
             transformTicks = 10,
             idleAnimations = arrayOf(

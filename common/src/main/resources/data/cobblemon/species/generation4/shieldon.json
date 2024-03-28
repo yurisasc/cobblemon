@@ -34,6 +34,13 @@
   "eggGroups": [
     "monster"
   ],
+  "behaviour": {
+    "moving" : {
+      "walk": {
+        "walkSpeed": 0.16
+      }
+    }
+  },
   "moves": [
     "1:protect",
     "1:tackle",

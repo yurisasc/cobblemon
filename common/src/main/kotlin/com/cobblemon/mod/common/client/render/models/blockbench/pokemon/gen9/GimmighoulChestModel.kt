@@ -28,8 +28,8 @@ class GimmighoulChestModel (root: ModelPart) : PokemonPoseableModel(), HeadedFra
     override val leftLeg = getPart("leg_left")
     override val rightLeg = getPart("leg_right")
 
-    override var portraitScale = 2.0F
-    override var portraitTranslation = Vec3d(0.3, -0.7, 0.0)
+    override var portraitScale = 2.54F
+    override var portraitTranslation = Vec3d(-0.01, -1.6, 0.0)
 
     override var profileScale = 0.65F
     override var profileTranslation = Vec3d(0.0, 0.76, 0.0)
@@ -39,12 +39,11 @@ class GimmighoulChestModel (root: ModelPart) : PokemonPoseableModel(), HeadedFra
     lateinit var closed: PokemonPose
     lateinit var battle: PokemonPose
 
-    override val cryAnimation = CryProvider { _, pose -> if (pose.isPosedIn(battle)) bedrockStateful("archen", "battle_cry") else bedrockStateful("archen", "cry") }
+    override val cryAnimation = CryProvider { _, pose -> if (pose.isPosedIn(battle)) bedrockStateful("gimmighoul_chest", "battle_cry") else bedrockStateful("gimmighoul_chest", "cry") }
 
     override fun registerPoses() {
         val blink = quirk { bedrockStateful("gimmighoul_chest", "blink") }
         val quirk = quirk(secondsBetweenOccurrences = 30F to 120F) { bedrockStateful("gimmighoul_chest", "idle_quirk") }
-
 
         standing = registerPose(
             poseName = "standing",

@@ -63,7 +63,7 @@
 				}
 			}
 		},
-		"animation.roselia.battle_Idle": {
+		"animation.roselia.battle_idle": {
 			"loop": true,
 			"bones": {
 				"body": {

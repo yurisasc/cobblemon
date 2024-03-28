@@ -48,7 +48,6 @@ class StonjournerModel (root: ModelPart) : PokemonPoseableModel() {
             poseName = "standing",
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
             quirks = arrayOf(blink),
-            condition = { !it.isBattling },
             idleAnimations = arrayOf(
                 bedrock("stonjourner", "ground_idle")
             )

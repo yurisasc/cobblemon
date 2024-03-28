@@ -39,6 +39,9 @@
       "fly": {
         "canFly": true
       }
+    },
+    "walk": {
+      "walkSpeed": 0.27
     }
   },
   "moves": [

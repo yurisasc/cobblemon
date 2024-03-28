@@ -63,7 +63,7 @@ class DracozoltModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             transformTicks = 10,
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
-                bedrock("dracozolt", "ground_idle")
+                bedrock("dracozolt", "ground_walk")
             )
         )
 

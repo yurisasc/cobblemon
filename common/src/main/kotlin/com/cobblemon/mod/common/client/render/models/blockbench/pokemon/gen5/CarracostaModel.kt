@@ -84,7 +84,7 @@ class CarracostaModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
-                bedrock("carracosta", "float")
+                bedrock("carracosta", "water_idle")
             )
         )
 
@@ -94,7 +94,7 @@ class CarracostaModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
-                bedrock("carracosta", "swim")
+                bedrock("carracosta", "water_swim")
             )
         )
 
