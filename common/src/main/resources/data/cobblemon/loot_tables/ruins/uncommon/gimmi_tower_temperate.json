@@ -12,17 +12,17 @@
                 {
                     "type": "minecraft:item",
                     "name": "cobblemon:shiny_stone",
-                    "weight": 2
+                    "weight": 3
                 },
                 {
                     "type": "minecraft:item",
                     "name": "cobblemon:destiny_knot",
-                    "weight": 1
+                    "weight": 2
                 },
                 {
                     "type": "minecraft:item",
                     "name": "cobblemon:focus_sash",
-                    "weight": 2
+                    "weight": 3
                 },
                 {
                     "type": "minecraft:item",
