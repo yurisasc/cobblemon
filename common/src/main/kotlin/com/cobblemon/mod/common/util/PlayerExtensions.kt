@@ -319,7 +319,17 @@ fun ServerPlayerEntity.raycastSafeSendout(pokemon: Pokemon, maxDistance: Double,
         }
     } else if (result.side != Direction.UP) {
         // If the player targets the side or bottom of a block, try to find a valid spot in front of / below that block
-        val posOffset = result.pos.offset(result.side, 0.5)
+        val offset: Double = if (result.side == Direction.DOWN) {
+            pokemon.form.hitbox.height*pokemon.form.baseScale*0.55
+        } else {
+            pokemon.form.hitbox.width*pokemon.form.baseScale*0.55
+        }
+        println(offset)
+        val posOffset = result.pos.offset(result.side, offset)
+
+        // If the offset puts the Pokemon inside another block, just cancel sendout
+        if (world.getBlockState(posOffset.toBlockPos()).isSolid) return null
+
         val traceDown = posOffset.traceDownwards(this.world, maxDistance = dropHeight.toFloat())
 
         return if (traceDown == null || !pokemon.isPositionSafe(world, traceDown.blockPos)) {
