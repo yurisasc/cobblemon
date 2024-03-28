@@ -11,7 +11,7 @@
                 },
                 {
                     "type": "minecraft:item",
-                    "name": "cobblemon:ice_rock",
+                    "name": "cobblemon:icy_rock",
                     "weight": 5
                 },
                 {
@@ -31,7 +31,7 @@
                 },
                 {
                     "type": "minecraft:item",
-                    "name": "cobblemon:dino_fossil",
+                    "name": "cobblemon:fossilized_dino",
                     "weight": 1
                 },
                 {

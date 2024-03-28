@@ -37,7 +37,7 @@ class MagcargoShinyModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame 
 
         sleep = registerPose(
             poseType = PoseType.SLEEP,
-            idleAnimations = arrayOf(bedrock("magcargo_shiny", "ground_sleep"))
+            idleAnimations = arrayOf(bedrock("magcargo_shiny", "sleep"))
         )
 
         standing = registerPose(

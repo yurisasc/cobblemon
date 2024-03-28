@@ -35,13 +35,13 @@ class HydreigonModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override fun registerPoses() {
         val blink = quirk { bedrockStateful("hydreigon", "blink") }
 
-        standing = registerPose(
+        standing = registerPose (
             poseName = "standing",
             quirks = arrayOf(blink),
             poseTypes = PoseType.UI_POSES + PoseType.STATIONARY_POSES,
             idleAnimations = arrayOf(
                 singleBoneLook(),
-                bedrock("hydreigon", "ground_idle")
+                bedrock("hydreigon", "air_idle")
             )
         )
 
@@ -51,7 +51,7 @@ class HydreigonModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             poseTypes = PoseType.MOVING_POSES,
             idleAnimations = arrayOf(
                 singleBoneLook(),
-                bedrock("hydreigon", "ground_idle")
+                bedrock("hydreigon", "air_fly")
                 //bedrock("hydreigon", "ground_walk")
             )
         )

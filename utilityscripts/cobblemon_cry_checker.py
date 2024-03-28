@@ -4,9 +4,8 @@ from io import StringIO
 import pandas as pd
 from mutagen.oggvorbis import OggVorbis
 from cobblemon_drops_csv_to_json import download_spreadsheet_data
-from cobblemon_spawn_csv_to_json import sanitize_pokemon
 from scriptutils import printCobblemonHeader, print_list_filtered, print_cobblemon_script_description, \
-    print_cobblemon_script_footer, print_problems_and_paths, print_warning
+    print_cobblemon_script_footer, print_problems_and_paths, print_warning, sanitize_pokemon
 
 # Download the CSV file
 ASSETS_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSTisDTkJvV0GzKV1zKjAPdMAQAO7znWxjEWXrM1gZPUVmsTU91oy54aJGMpbbvOqAOg03ER1wl7eeA/pub?gid=0&single=true&output=csv"

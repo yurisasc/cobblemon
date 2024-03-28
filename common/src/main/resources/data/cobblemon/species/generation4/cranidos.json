@@ -33,6 +33,19 @@
   "eggGroups": [
     "monster"
   ],
+  "behaviour": {
+    "resting": {
+      "canSleep": true,
+      "willSleepOnBed": false,
+      "depth": "normal",
+      "light": "0-4"
+    },
+    "moving" : {
+      "walk": {
+        "walkSpeed": 0.18
+      }
+    }
+  },
   "moves": [
     "1:headbutt",
     "1:leer",

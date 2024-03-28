@@ -28,7 +28,8 @@
                     "type": "minecraft:item",
                     "name": "minecraft:suspicious_gravel",
                     "weight": 1
-                },{
+                },
+                {
                     "type": "minecraft:item",
                     "name": "cobblemon:cracked_pot",
                     "weight": 3

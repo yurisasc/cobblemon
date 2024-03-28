@@ -50,7 +50,9 @@
       "light": "0-4"
     }
   },
-  "features": ["minecraft"],
+  "features": [
+    "minecraft"
+  ],
   "moves": [
     "1:astonish",
     "1:tackle",

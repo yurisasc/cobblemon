@@ -155,7 +155,7 @@
   "aspects": [],
   "cannotDynamax": false,
   "drops": {
-    "amount": 2,
+    "amount": 3,
     "entries": [
       {
         "item": "minecraft:diamond",
@@ -163,6 +163,10 @@
       },
       {
         "item": "cobblemon:babiri_berry",
+        "percentage": 5.0
+      },
+      {
+        "item": "cobblemon:float_stone",
         "percentage": 5.0
       }
     ]

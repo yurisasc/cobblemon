@@ -39,6 +39,7 @@ class OmanyteModel(root: ModelPart) : PokemonPoseableModel() {
 
     override fun registerPoses() {
         val blink = quirk { bedrockStateful("omanyte", "blink") }
+
         sleep = registerPose(
             poseName = "sleep",
             poseType = PoseType.SLEEP,
@@ -47,7 +48,7 @@ class OmanyteModel(root: ModelPart) : PokemonPoseableModel() {
 
         standing = registerPose(
             poseName = "standing",
-            poseTypes = PoseType.UI_POSES + PoseType.STAND,
+            poseTypes = PoseType.STANDING_POSES + PoseType.UI_POSES,
             quirks = arrayOf(blink),
             transformTicks = 10,
             condition = { !it.isBattling},
@@ -58,7 +59,7 @@ class OmanyteModel(root: ModelPart) : PokemonPoseableModel() {
 
         walk = registerPose(
             poseName = "walk",
-            poseType = PoseType.WALK,
+            poseTypes = PoseType.MOVING_POSES - PoseType.SWIM,
             quirks = arrayOf(blink),
             transformTicks = 10,
             idleAnimations = arrayOf(

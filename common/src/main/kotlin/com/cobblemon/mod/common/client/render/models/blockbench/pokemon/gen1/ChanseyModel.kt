@@ -43,7 +43,7 @@ class ChanseyModel(root: ModelPart) : PokemonPoseableModel(), BipedFrame {
             poseName = "sleep",
             poseType = PoseType.SLEEP,
             idleAnimations = arrayOf(
-                bedrock("chansey", "ground_sleep")
+                bedrock("chansey", "sleep")
             )
         )
 

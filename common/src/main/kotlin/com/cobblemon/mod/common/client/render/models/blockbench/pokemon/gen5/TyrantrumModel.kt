@@ -17,31 +17,37 @@ import com.cobblemon.mod.common.entity.PoseType
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class TyrantrumModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedFrame {
+class TyrantrumModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("tyrantrum")
 
     override val head = getPart("head")
-    override val leftLeg = getPart("leg_left")
-    override val rightLeg = getPart("leg_right")
 
     override var portraitTranslation = Vec3d(-0.86, 2.0, 0.0)
     override var portraitScale = 0.59F
 
     override var profileTranslation = Vec3d(0.02, 1.28, -10.0)
     override var profileScale = 0.29F
-    //    lateinit var sleep: PokemonPose
+
+    lateinit var sleep: PokemonPose
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
+    lateinit var battleidle: PokemonPose
 
     override fun registerPoses() {
-//        sleep = registerPose(
-//            poseType = PoseType.SLEEP,
-//            idleAnimations = arrayOf(bedrock("tyrantrum", "sleep"))
-//        )
+        val blink = quirk { bedrockStateful("tyrantrum", "blink") }
+        val walkquirk = quirk { bedrockStateful("tyrantrum", "quirk_idle_walk") }
+
+        sleep = registerPose(
+            poseName = "sleep",
+            poseType = PoseType.SLEEP,
+            idleAnimations = arrayOf(bedrock("tyrantrum", "sleep"))
+        )
 
         standing = registerPose(
             poseName = "standing",
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
+            condition = { !it.isBattling },
+            quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("tyrantrum", "ground_idle")
@@ -51,10 +57,21 @@ class TyrantrumModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bi
         walk = registerPose(
             poseName = "walk",
             poseTypes = PoseType.MOVING_POSES,
+            quirks = arrayOf(blink, walkquirk),
             idleAnimations = arrayOf(
                 singleBoneLook(),
-                bedrock("tyrantrum", "ground_idle"),
-                BipedWalkAnimation(this, periodMultiplier = 0.6F, amplitudeMultiplier = 0.9F)
+                bedrock("tyrantrum", "ground_walk")
+            )
+        )
+
+        battleidle = registerPose(
+            poseName = "battleidle",
+            poseTypes = PoseType.STATIONARY_POSES,
+            quirks = arrayOf(blink),
+            condition = { it.isBattling },
+            idleAnimations = arrayOf(
+                singleBoneLook(),
+                bedrock("tyrantrum", "battle_idle")
             )
         )
     }

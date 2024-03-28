@@ -8,6 +8,8 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen3
 
+import com.cobblemon.mod.common.client.render.models.blockbench.animation.BimanualSwingAnimation
+import com.cobblemon.mod.common.client.render.models.blockbench.animation.BipedWalkAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.createTransformation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BimanualFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
@@ -20,14 +22,9 @@ import com.cobblemon.mod.common.entity.PoseType
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class RaltsModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedFrame, BimanualFrame {
+class RaltsModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("ralts")
     override val head = getPart("head")
-
-    override val leftArm = getPart("arm_left")
-    override val rightArm = getPart("arm_right")
-    override val leftLeg = getPart("leg_left")
-    override val rightLeg = getPart("leg_right")
 
     override var portraitScale = 2.6F
     override var portraitTranslation = Vec3d(-0.1, -1.1, 0.0)
@@ -44,34 +41,27 @@ class RaltsModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedF
 
     override val cryAnimation = CryProvider { _, _ -> bedrockStateful("ralts", "cry") }
 
+    val shoulderOffset = 0
+
     override fun registerPoses() {
         val blink = quirk { bedrockStateful("ralts", "blink") }
-        val quirkidle = quirk { bedrockStateful("ralts", "quirk_idle") }
-        val quirkbattle = quirk { bedrockStateful("ralts", "quirk_battle_idle") }
+        val idlequirk = quirk(secondsBetweenOccurrences = 60F to 120F) { bedrockStateful("ralts", "quirk_idle") }
+        val battlequirk = quirk(secondsBetweenOccurrences = 60F to 120F) { bedrockStateful("ralts", "quirk_battle_idle") }
 
         sleep = registerPose(
-                poseType = PoseType.SLEEP,
-                transformTicks = 10,
-                idleAnimations = arrayOf(bedrock("ralts", "sleep"))
-        )
-
-        battleidle = registerPose(
-                poseName = "battle_idle",
-                poseTypes = PoseType.STATIONARY_POSES,
-                transformTicks = 10,
-                quirks = arrayOf(blink, quirkbattle),
-                condition = { it.isBattling },
-                idleAnimations = arrayOf(
-                        singleBoneLook(),
-                        bedrock("ralts", "battle_idle")
-                )
+            poseName = "sleep",
+            poseType = PoseType.SLEEP,
+            idleAnimations = arrayOf(
+                singleBoneLook(),
+                bedrock("ralts", "sleep")
+            )
         )
 
         standing = registerPose(
             poseName = "standing",
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
-            quirks = arrayOf(blink, quirkidle),
-                condition = { !it.isBattling },
+            condition = { !it.isBattling },
+            quirks = arrayOf(blink, idlequirk),
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("ralts", "ground_idle")
@@ -81,35 +71,46 @@ class RaltsModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedF
         walk = registerPose(
             poseName = "walk",
             poseTypes = PoseType.MOVING_POSES,
-            quirks = arrayOf(blink, quirkidle),
+            quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("ralts", "ground_walk")
             )
         )
 
+        battleidle = registerPose(
+            poseName = "battleidle",
+            poseTypes = PoseType.STATIONARY_POSES,
+            condition = { it.isBattling },
+            quirks = arrayOf(blink, battlequirk),
+            idleAnimations = arrayOf(
+                singleBoneLook(),
+                bedrock("ralts", "battle_idle")
+            )
+        )
+
         shoulderLeft = registerPose(
-                poseType = PoseType.SHOULDER_LEFT,
-                quirks = arrayOf(blink),
-                idleAnimations = arrayOf(
-                        singleBoneLook(),
-                        bedrock("ralts", "shoulder_left")
-                ),
-                transformedParts = arrayOf(
-                        rootPart.createTransformation().addPosition(ModelPartTransformation.Y_AXIS, -0.3)
-                )
+            poseType = PoseType.SHOULDER_LEFT,
+            quirks = arrayOf(blink),
+            idleAnimations = arrayOf(
+                singleBoneLook(),
+                bedrock("ralts", "shoulder_left")
+            ),
+            transformedParts = arrayOf(
+                rootPart.createTransformation().addPosition(ModelPartTransformation.X_AXIS, shoulderOffset)
+            )
         )
 
         shoulderRight = registerPose(
-                poseType = PoseType.SHOULDER_RIGHT,
-                quirks = arrayOf(blink),
-                idleAnimations = arrayOf(
-                        singleBoneLook(),
-                        bedrock("ralts", "shoulder_right")
-                ),
-                transformedParts = arrayOf(
-                        rootPart.createTransformation().addPosition(ModelPartTransformation.Y_AXIS, -0.3)
-                )
+            poseType = PoseType.SHOULDER_RIGHT,
+            quirks = arrayOf(blink),
+            idleAnimations = arrayOf(
+                singleBoneLook(),
+                bedrock("ralts", "shoulder_right")
+            ),
+            transformedParts = arrayOf(
+                rootPart.createTransformation().addPosition(ModelPartTransformation.X_AXIS, -shoulderOffset)
+            )
         )
     }
 

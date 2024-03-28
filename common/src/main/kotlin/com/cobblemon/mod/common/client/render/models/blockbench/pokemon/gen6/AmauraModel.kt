@@ -40,16 +40,16 @@ class AmauraModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
         val quirk = quirk(secondsBetweenOccurrences = 60F to 360F) { bedrockStateful("amaura", "quirk_idle") }
 
         sleep = registerPose(
-                poseType = PoseType.SLEEP,
-                idleAnimations = arrayOf(bedrock("amaura", "sleep"))
+            poseType = PoseType.SLEEP,
+            idleAnimations = arrayOf(bedrock("amaura", "sleep"))
         )
 
         standing = registerPose(
             poseName = "standing",
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
             transformTicks = 10,
-                condition = { !it.isBattling },
-                quirks = arrayOf(blink, quirk),
+            condition = { !it.isBattling },
+            quirks = arrayOf(blink, quirk),
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("amaura", "ground_idle")
@@ -57,22 +57,22 @@ class AmauraModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
         )
 
         battleidle = registerPose(
-                poseName = "battle_idle",
-                poseTypes = PoseType.STATIONARY_POSES,
-                transformTicks = 10,
-                quirks = arrayOf(blink, quirk),
-                condition = { it.isBattling },
-                idleAnimations = arrayOf(
-                        singleBoneLook(),
-                        bedrock("amaura", "battle_idle")
-                )
+            poseName = "battle_idle",
+            poseTypes = PoseType.STATIONARY_POSES,
+            transformTicks = 10,
+            quirks = arrayOf(blink, quirk),
+            condition = { it.isBattling },
+            idleAnimations = arrayOf(
+                    singleBoneLook(),
+                    bedrock("amaura", "battle_idle")
             )
+        )
 
         walk = registerPose(
             poseName = "walk",
             poseTypes = PoseType.MOVING_POSES,
             transformTicks = 10,
-                quirks = arrayOf(blink),
+            quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("amaura", "ground_walk")
@@ -84,5 +84,5 @@ class AmauraModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override fun getFaintAnimation(
             pokemonEntity: PokemonEntity,
             state: PoseableEntityState<PokemonEntity>
-    ) = if (state.isPosedIn(standing, walk)) bedrockStateful("amaura", "faint") else null
+    ) = bedrockStateful("amaura", "faint")
 }

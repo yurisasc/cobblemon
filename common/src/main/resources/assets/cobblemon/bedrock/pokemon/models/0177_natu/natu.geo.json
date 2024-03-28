@@ -13,7 +13,7 @@
 			"bones": [
 				{
 					"name": "natu",
-					"pivot": [0, 2.5, 0]
+					"pivot": [0, 0, 0]
 				},
 				{
 					"name": "body",

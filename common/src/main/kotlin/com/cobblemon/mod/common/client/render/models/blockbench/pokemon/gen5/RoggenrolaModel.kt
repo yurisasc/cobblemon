@@ -40,6 +40,8 @@ class RoggenrolaModel (root: ModelPart) : PokemonPoseableModel(), BipedFrame {
 
     override val cryAnimation = CryProvider { _, _ -> bedrockStateful("roggenrola", "cry") }
 
+    val shoulderOffset = 1
+
     override fun registerPoses() {
         val twitch = quirk(secondsBetweenOccurrences = 60F to 120F) { bedrockStateful("roggenrola", "quirk_twitch") }
         sleep = registerPose(
@@ -80,29 +82,27 @@ class RoggenrolaModel (root: ModelPart) : PokemonPoseableModel(), BipedFrame {
         )
 
         shoulderLeft = registerPose(
-                poseType = PoseType.SHOULDER_LEFT,
-                quirks = arrayOf(twitch),
-                idleAnimations = arrayOf(
-                        bedrock("roggenrola", "shoulder_left")
-                ),
-                transformedParts = arrayOf(
-                        rootPart.createTransformation().addPosition(ModelPartTransformation.Y_AXIS, 0.3)
-                )
+            poseType = PoseType.SHOULDER_LEFT,
+            idleAnimations = arrayOf(
+                bedrock("roggenrola", "shoulder_left")
+            ),
+            transformedParts = arrayOf(
+                rootPart.createTransformation().addPosition(ModelPartTransformation.X_AXIS, shoulderOffset)
+            )
         )
 
         shoulderRight = registerPose(
-                poseType = PoseType.SHOULDER_RIGHT,
-                quirks = arrayOf(twitch),
-                idleAnimations = arrayOf(
-                        bedrock("roggenrola", "shoulder_right")
-                ),
-                transformedParts = arrayOf(
-                        rootPart.createTransformation().addPosition(ModelPartTransformation.Y_AXIS, 0.3)
-                )
+            poseType = PoseType.SHOULDER_RIGHT,
+            idleAnimations = arrayOf(
+                bedrock("roggenrola", "shoulder_right")
+            ),
+            transformedParts = arrayOf(
+                rootPart.createTransformation().addPosition(ModelPartTransformation.X_AXIS, -shoulderOffset)
+            )
         )
     }
     override fun getFaintAnimation(
         pokemonEntity: PokemonEntity,
         state: PoseableEntityState<PokemonEntity>
-    ) = if (state.isPosedIn(standing, walking, battleidle, sleep)) bedrockStateful("roggenrola", "faint") else null
+    ) = bedrockStateful("roggenrola", "faint")
 }

@@ -54,8 +54,10 @@ import com.cobblemon.mod.common.pokemon.activestate.InactivePokemonState
 import com.cobblemon.mod.common.pokemon.activestate.ShoulderedState
 import com.cobblemon.mod.common.pokemon.ai.FormPokemonBehaviour
 import com.cobblemon.mod.common.pokemon.evolution.variants.ItemInteractionEvolution
+import com.cobblemon.mod.common.pokemon.misc.GimmighoulStashHandler
 import com.cobblemon.mod.common.util.*
 import com.cobblemon.mod.common.world.gamerules.CobblemonGameRules
+import net.minecraft.block.Blocks
 import java.util.EnumSet
 import java.util.Optional
 import java.util.UUID
@@ -560,6 +562,45 @@ open class PokemonEntity(
                 (rest.biomes.isEmpty() || rest.biomes.any { it.fits(biome, this.world.registryManager.get(RegistryKeys.BIOME)) })
     }
 
+    fun isStandingOnSandOrRedSand(): Boolean {
+        val sandDepth = 2 // Define the depth you want to check
+        for (a in 1..sandDepth) {
+            val sandBlockState = this.world.getBlockState(blockPos.down(a))
+            val sandBlock = sandBlockState.block
+            if (sandBlock == Blocks.SAND && !sandBlockState.isAir && sandBlockState.isFullCube(this.world, blockPos.down(a))) {
+                return true
+            }
+            if (sandBlock == Blocks.RED_SAND && !sandBlockState.isAir && sandBlockState.isFullCube(this.world, blockPos.down(a))) {
+                return true
+            }
+        }
+        return false
+    }
+
+    fun isStandingOnSand(): Boolean {
+        val sandDepth = 2 // Define the depth you want to check
+        for (a in 1..sandDepth) {
+            val sandBlockState = this.world.getBlockState(blockPos.down(a))
+            val sandBlock = sandBlockState.block
+            if (sandBlock == Blocks.SAND && !sandBlockState.isAir && sandBlockState.isFullCube(this.world, blockPos.down(a))) {
+                return true
+            }
+        }
+        return false
+    }
+
+    fun isStandingOnRedSand(): Boolean {
+        val redSandDepth = 2 // Define the depth you want to check
+        for (i in 1..redSandDepth) {
+            val redSandBlockState = this.world.getBlockState(blockPos.down(i))
+            val redSandBlock = redSandBlockState.block
+            if (redSandBlock == Blocks.RED_SAND && !redSandBlockState.isAir && redSandBlockState.isFullCube(this.world, blockPos.down(i))) {
+                return true
+            }
+        }
+        return false
+    }
+
     override fun createChild(level: ServerWorld, partner: PassiveEntity) = null
 
     override fun isReadyToSitOnPlayer(): Boolean {
@@ -662,6 +703,16 @@ open class PokemonEntity(
                 player.playSound(SoundEvents.ENTITY_MOOSHROOM_EAT, 1.0f, 1.0f)
                 pokemon.lastFlowerFed = itemStack
                 return ActionResult.success(world.isClient)
+            }
+        } else if(!player.isSneaking && (itemStack.isOf(CobblemonItems.RELIC_COIN)
+                || itemStack.isOf(CobblemonItems.RELIC_COIN_POUCH)
+                || itemStack.isOf(CobblemonItems.RELIC_COIN_SACK)
+                || itemStack.isOf(Items.NETHERITE_SCRAP)
+                || itemStack.isOf(Items.NETHERITE_INGOT)
+                || itemStack.isOf(Items.NETHERITE_BLOCK))) {
+
+            if(GimmighoulStashHandler.interactMob(player, hand, pokemon)) {
+                return ActionResult.SUCCESS
             }
         }
 

@@ -17,7 +17,7 @@
   },
   "behaviour": {
     "resting": {
-      "canSleep": true,
+      "canSleep": false,
       "depth": "normal",
       "light": "0-4"
     },

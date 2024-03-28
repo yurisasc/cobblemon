@@ -87,6 +87,14 @@
       "battleOnly": true
     }
   ],
+  "behaviour": {
+    "resting": {
+      "canSleep": true,
+      "willSleepOnBed": true,
+      "depth": "normal",
+      "light": "0-4"
+    }
+  },
   "baseExperienceYield": 259,
   "experienceGroup": "slow",
   "eggCycles": 20,

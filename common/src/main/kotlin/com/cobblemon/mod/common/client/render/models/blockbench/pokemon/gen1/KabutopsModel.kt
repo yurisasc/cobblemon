@@ -34,15 +34,31 @@ class KabutopsModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bipe
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
+    lateinit var sleep: PokemonPose
+    lateinit var battleidle: PokemonPose
 //    lateinit var float: PokemonPose
 //    lateinit var swim: PokemonPose
 
     override val cryAnimation = CryProvider { _, _ -> bedrockStateful("kabutops", "cry") }
 
     override fun registerPoses() {
+        val blink = quirk { bedrockStateful("kabutops", "blink") }
+
+        sleep = registerPose(
+            poseName = "sleep",
+            poseType = PoseType.SLEEP,
+            quirks = arrayOf(blink),
+            idleAnimations = arrayOf(
+                singleBoneLook(),
+                bedrock("kabutops", "sleep")
+            )
+        )
+
         standing = registerPose(
             poseName = "standing",
             poseTypes = UI_POSES + PoseType.STAND,
+            condition = { !it.isBattling },
+            quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("kabutops", "ground_idle")
@@ -52,10 +68,21 @@ class KabutopsModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bipe
         walk = registerPose(
             poseName = "walk",
             poseType = PoseType.WALK,
+            quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
-                bedrock("kabutops", "ground_idle"),
-                BipedWalkAnimation(this, periodMultiplier = 0.9F, amplitudeMultiplier = 1.0f),
+                bedrock("kabutops", "ground_walk")
+            )
+        )
+
+        battleidle = registerPose(
+            poseName = "battleidle",
+            poseTypes = PoseType.STATIONARY_POSES,
+            condition = { it.isBattling },
+            quirks = arrayOf(blink),
+            idleAnimations = arrayOf(
+                singleBoneLook(),
+                bedrock("kabutops", "battle_idle")
             )
         )
 

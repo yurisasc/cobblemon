@@ -73,7 +73,7 @@ class DragoniteModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
-                bedrock("dragonite", "ground_idle")
+                bedrock("dragonite", "ground_walk")
             )
         )
 
@@ -132,8 +132,8 @@ class DragoniteModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
 
         surfacewateridle = registerPose(
             poseName = "surfacewateridle",
-            poseType = PoseType.FLOAT,
-            condition = { !it.isSubmergedInWater },
+            poseTypes = PoseType.STANDING_POSES,
+            condition = { !it.isSubmergedInWater && it.isTouchingWater },
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
@@ -143,8 +143,8 @@ class DragoniteModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
 
         surfacewaterswim = registerPose(
             poseName = "surfacewaterswim",
-            poseType = PoseType.SWIM,
-            condition = { !it.isSubmergedInWater },
+            poseTypes = PoseType.MOVING_POSES,
+            condition = { !it.isSubmergedInWater && it.isTouchingWater },
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),

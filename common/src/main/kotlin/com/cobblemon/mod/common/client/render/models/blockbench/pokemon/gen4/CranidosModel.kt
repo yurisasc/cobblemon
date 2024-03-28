@@ -8,21 +8,23 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen4
 
+import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.BipedWalkAnimation
+import com.cobblemon.mod.common.client.render.models.blockbench.createTransformation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.pose.ModelPartTransformation
 import com.cobblemon.mod.common.entity.PoseType
+import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class CranidosModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedFrame {
+class CranidosModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("cranidos")
-    override val head = getPart("head")
-
-    override val leftLeg = getPart("leg_left")
-    override val rightLeg = getPart("leg_right")
+    override val head = getPart("neck")
 
     override var portraitScale = 2.0F
     override var portraitTranslation = Vec3d(-0.3, -0.2, 0.0)
@@ -32,15 +34,32 @@ class CranidosModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
+    lateinit var sleep: PokemonPose
+    lateinit var battleidle: PokemonPose
+    lateinit var shoulderLeft: PokemonPose
+    lateinit var shoulderRight: PokemonPose
 
-//    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("cranidos", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("cranidos", "cry") }
+
     override fun registerPoses() {
         val blink = quirk { bedrockStateful("cranidos", "blink") }
+        val idlequirk = quirk(secondsBetweenOccurrences = 60F to 120F) { bedrockStateful("cranidos", "quirk_idle") }
+        val shakequirk = quirk(secondsBetweenOccurrences = 60F to 120F) { bedrockStateful("cranidos", "quirk_shake") }
+
+        sleep = registerPose(
+            poseName = "sleep",
+            poseType = PoseType.SLEEP,
+            idleAnimations = arrayOf(
+                singleBoneLook(),
+                bedrock("cranidos", "sleep")
+            )
+        )
 
         standing = registerPose(
             poseName = "standing",
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
-            quirks = arrayOf(blink),
+            condition = { !it.isBattling },
+            quirks = arrayOf(blink, idlequirk, shakequirk),
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("cranidos", "ground_idle")
@@ -53,15 +72,24 @@ class CranidosModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
-                bedrock("cranidos", "ground_idle"),
-                BipedWalkAnimation(this, amplitudeMultiplier = 0.7F, periodMultiplier = 0.7F),
-                //bedrock("cranidos", "ground_walk")
+                bedrock("cranidos", "ground_walk")
+            )
+        )
+
+        battleidle = registerPose(
+            poseName = "battleidle",
+            poseTypes = PoseType.STATIONARY_POSES,
+            condition = { it.isBattling },
+            quirks = arrayOf(blink, shakequirk),
+            idleAnimations = arrayOf(
+                singleBoneLook(),
+                bedrock("cranidos", "battle_idle")
             )
         )
     }
 
-//    override fun getFaintAnimation(
-//        pokemonEntity: PokemonEntity,
-//        state: PoseableEntityState<PokemonEntity>
-//    ) = if (state.isPosedIn(standing, walk)) bedrockStateful("cranidos", "faint") else null
+    override fun getFaintAnimation(
+        pokemonEntity: PokemonEntity,
+        state: PoseableEntityState<PokemonEntity>
+    ) = bedrockStateful("cranidos", "faint")
 }

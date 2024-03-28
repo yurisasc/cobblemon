@@ -39,7 +39,7 @@ class NosepassModel(root: ModelPart) : PokemonPoseableModel(), BipedFrame {
 
         sleep = registerPose(
             poseType = PoseType.SLEEP,
-            idleAnimations = arrayOf(bedrock("nosepass", "ground_sleep"))
+            idleAnimations = arrayOf(bedrock("nosepass", "sleep"))
         )
 
         standing = registerPose(

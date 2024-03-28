@@ -9,6 +9,7 @@
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1
 
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.WingFlapIdleAnimation
+import com.cobblemon.mod.common.client.render.models.blockbench.createTransformation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BiWingedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
@@ -25,14 +26,14 @@ import com.cobblemon.mod.common.util.math.geometry.toRadians
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class PidgeyModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedFrame, BiWingedFrame{
+class PidgeyModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("pidgey")
-    override val leftWing = getPart("wing_open_left")
-    override val rightWing = getPart("wing_open_right")
-    override val leftLeg = getPart("leg_left")
-    override val rightLeg = getPart("leg_right")
     override val head = getPart("head")
-    private val tail = getPart("tail")
+
+    private val wingOpenRight = getPart("wing_open_right")
+    private val wingOpenLeft = getPart("wing_open_left")
+    private val wingClosedRight = getPart("wing_closed_right")
+    private val wingClosedLeft = getPart("wing_closed_left")
 
     override var portraitScale = 3.5F
     override var portraitTranslation = Vec3d(-0.1, -2.1, 0.0)
@@ -49,15 +50,30 @@ class PidgeyModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedF
     override val cryAnimation = CryProvider { _, _ -> bedrockStateful("pidgey", "cry") }
 
     override fun registerPoses() {
-        sleep = registerPose(
-                poseType = PoseType.SLEEP,
-                idleAnimations = arrayOf(bedrock("pidgey", "sleep"))
-        )
         val blink = quirk { bedrockStateful("pidgey", "blink") }
+
+        sleep = registerPose(
+            poseName = "sleeping",
+            transformedParts = arrayOf(
+                wingClosedLeft.createTransformation().withVisibility(visibility = true),
+                wingClosedRight.createTransformation().withVisibility(visibility = true),
+                wingOpenLeft.createTransformation().withVisibility(visibility = false),
+                wingOpenRight.createTransformation().withVisibility(visibility = false)
+            ),
+            poseType = PoseType.SLEEP,
+            idleAnimations = arrayOf(bedrock("pidgey", "sleep_PLACEHOLDER"))
+        )
+
         stand = registerPose(
             poseName = "standing",
-            poseTypes = SHOULDER_POSES + UI_POSES + PoseType.STAND,
+            poseTypes = SHOULDER_POSES + UI_POSES + PoseType.STANDING_POSES,
             transformTicks = 10,
+            transformedParts = arrayOf(
+                wingClosedLeft.createTransformation().withVisibility(visibility = true),
+                wingClosedRight.createTransformation().withVisibility(visibility = true),
+                wingOpenLeft.createTransformation().withVisibility(visibility = false),
+                wingOpenRight.createTransformation().withVisibility(visibility = false)
+            ),
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
@@ -68,114 +84,51 @@ class PidgeyModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedF
         hover = registerPose(
             poseName = "hover",
             poseType = PoseType.HOVER,
+            transformedParts = arrayOf(
+                wingClosedLeft.createTransformation().withVisibility(visibility = false),
+                wingClosedRight.createTransformation().withVisibility(visibility = false),
+                wingOpenLeft.createTransformation().withVisibility(visibility = true),
+                wingOpenRight.createTransformation().withVisibility(visibility = true)
+            ),
             transformTicks = 10,
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
-                bedrock("pidgey", "air_idle"),
-                WingFlapIdleAnimation(this,
-                    flapFunction = sineFunction(verticalShift = -10F.toRadians(), period = 0.9F, amplitude = 0.6F),
-                    timeVariable = { state, _, _ -> state?.animationSeconds ?: 0F },
-                    axis = ModelPartTransformation.Z_AXIS
-                )
+                bedrock("pidgey", "air_idle")
             )
         )
 
         fly = registerPose(
             poseName = "fly",
             poseType = PoseType.FLY,
+            transformedParts = arrayOf(
+                wingClosedLeft.createTransformation().withVisibility(visibility = false),
+                wingClosedRight.createTransformation().withVisibility(visibility = false),
+                wingOpenLeft.createTransformation().withVisibility(visibility = true),
+                wingOpenRight.createTransformation().withVisibility(visibility = true)
+            ),
             transformTicks = 10,
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
-                bedrock("pidgey", "air_fly"),
-                WingFlapIdleAnimation(this,
-                    flapFunction = sineFunction(verticalShift = -14F.toRadians(), period = 0.9F, amplitude = 0.9F),
-                    timeVariable = { state, _, _ -> state?.animationSeconds ?: 0F },
-                    axis = ModelPartTransformation.Z_AXIS
-                )
+                bedrock("pidgey", "air_fly")
             )
         )
 
         walk = registerPose(
             poseName = "walking",
-            poseType = PoseType.WALK,
+            poseTypes = PoseType.MOVING_POSES - PoseType.FLY,
+            transformedParts = arrayOf(
+                wingClosedLeft.createTransformation().withVisibility(visibility = true),
+                wingClosedRight.createTransformation().withVisibility(visibility = true),
+                wingOpenLeft.createTransformation().withVisibility(visibility = false),
+                wingOpenRight.createTransformation().withVisibility(visibility = false)
+            ),
             transformTicks = 10,
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
-                bedrock("pidgey", "ground_idle"),
-                rootPart.translation(
-                    function = parabolaFunction(
-                        peak = -4F,
-                        period = 0.4F
-                    ),
-                    timeVariable = { state, _, _ -> state?.animationSeconds },
-                    axis = ModelPartTransformation.Y_AXIS
-                ),
-                head.translation(
-                    function = sineFunction(
-                        amplitude = (-20F).toRadians(),
-                        period = 1F,
-                        verticalShift = (-10F).toRadians()
-                    ),
-                    axis = ModelPartTransformation.X_AXIS,
-                    timeVariable = { state, _, _ -> state?.animationSeconds }
-                ),
-                leftLeg.rotation(
-                    function = parabolaFunction(
-                        tightness = -20F,
-                        phaseShift = 0F,
-                        verticalShift = (30F).toRadians()
-                    ),
-                    axis = ModelPartTransformation.X_AXIS,
-                    timeVariable = { _, _, ageInTicks -> ageInTicks / 20 },
-                ),
-                rightLeg.rotation(
-                    function = parabolaFunction(
-                        tightness = -20F,
-                        phaseShift = 0F,
-                        verticalShift = (30F).toRadians()
-                    ),
-                    axis = ModelPartTransformation.X_AXIS,
-                    timeVariable = { _, _, ageInTicks -> ageInTicks / 20 },
-                ),
-                tail.rotation(
-                    function = sineFunction(
-                        amplitude = (-5F).toRadians(),
-                        period = 1F
-                    ),
-                    axis = ModelPartTransformation.X_AXIS,
-                    timeVariable = { _, _, ageInTicks -> ageInTicks / 20 },
-                ),
-                wingFlap(
-                    flapFunction = sineFunction(
-                        amplitude = (-5F).toRadians(),
-                        period = 0.4F,
-                        phaseShift = 0.00F,
-                        verticalShift = (-20F).toRadians()
-                    ),
-                    timeVariable = { state, _, _ -> state?.animationSeconds },
-                    axis = ModelPartTransformation.Z_AXIS
-                ),
-                rightWing.translation(
-                    function = parabolaFunction(
-                        tightness = -10F,
-                        phaseShift = 30F,
-                        verticalShift = (25F).toRadians()
-                    ),
-                    axis = ModelPartTransformation.Y_AXIS,
-                    timeVariable = { _, _, ageInTicks -> ageInTicks / 20 },
-                ),
-                leftWing.translation(
-                    function = parabolaFunction(
-                        tightness = -10F,
-                        phaseShift = 30F,
-                        verticalShift = (25F).toRadians()
-                    ),
-                    axis = ModelPartTransformation.Y_AXIS,
-                    timeVariable = { _, _, ageInTicks -> ageInTicks / 20 },
-                ),
+                bedrock("pidgey", "ground_idle")
             )
         )
     }

@@ -142,7 +142,24 @@
         "fixed": false
       },
       "cannotDynamax": false,
-      "battleOnly": false
+      "battleOnly": false,
+      "drops": {
+        "amount": 7,
+        "entries": [
+          {
+            "item": "minecraft:slime_ball",
+            "quantityRange": "0-3"
+          },
+          {
+            "item": "minecraft:iron_ingot",
+            "quantityRange": "0-3"
+          },
+          {
+            "item": "cobblemon:bluk_berry",
+            "percentage": 10.0
+          }
+        ]
+      }
     }
   ],
   "baseExperienceYield": 300,

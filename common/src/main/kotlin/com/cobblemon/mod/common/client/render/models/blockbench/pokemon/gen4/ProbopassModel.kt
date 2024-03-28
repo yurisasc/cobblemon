@@ -37,7 +37,7 @@ class ProbopassModel(root: ModelPart) : PokemonPoseableModel() {
 
         sleep = registerPose(
             poseType = PoseType.SLEEP,
-            idleAnimations = arrayOf(bedrock("probopass", "ground_sleep"))
+            idleAnimations = arrayOf(bedrock("probopass", "sleep"))
         )
 
         standing = registerPose(

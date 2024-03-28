@@ -16,7 +16,7 @@ import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
 class PetililHisuianModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
-    override val rootPart = root.registerChildWithAllChildren("petilil_hisui")
+    override val rootPart = root.registerChildWithAllChildren("petilil_hisuian")
     override val head = getPart("head")
 
     override var portraitScale = 1.75F
@@ -30,7 +30,7 @@ class PetililHisuianModel (root: ModelPart) : PokemonPoseableModel(), HeadedFram
     lateinit var sleep: PokemonPose
 
     override fun registerPoses() {
-        val blink = quirk { bedrockStateful("petilil_hisui", "blink") }
+        val blink = quirk { bedrockStateful("petilil_hisuian", "blink") }
 
         standing = registerPose(
             poseName = "standing",
@@ -39,7 +39,7 @@ class PetililHisuianModel (root: ModelPart) : PokemonPoseableModel(), HeadedFram
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                     singleBoneLook(),
-                bedrock("petilil_hisui", "ground_idle")
+                bedrock("petilil_hisuian", "ground_idle")
             )
         )
 
@@ -49,7 +49,7 @@ class PetililHisuianModel (root: ModelPart) : PokemonPoseableModel(), HeadedFram
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                     singleBoneLook(),
-                bedrock("petilil_hisui", "ground_idle")
+                bedrock("petilil_hisuian", "ground_idle")
             )
         )
     }
@@ -57,5 +57,5 @@ class PetililHisuianModel (root: ModelPart) : PokemonPoseableModel(), HeadedFram
 //    override fun getFaintAnimation(
 //        pokemonEntity: PokemonEntity,
 //        state: PoseableEntityState<PokemonEntity>
-//    ) = if (state.isPosedIn(standing, walk)) bedrockStateful("petilil_hisuian", "faint") else null
+//    ) = if (state.isPosedIn(standing, walk)) bedrockStateful("petilil_hisuianan", "faint") else null
 }

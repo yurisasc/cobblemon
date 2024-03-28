@@ -500,7 +500,7 @@
 				}
 			}
 		},
-		"animation.chansey.ground_sleep": {
+		"animation.chansey.sleep": {
 			"loop": true,
 			"bones": {
 				"left_arm": {

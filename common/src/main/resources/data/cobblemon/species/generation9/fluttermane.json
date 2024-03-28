@@ -104,5 +104,13 @@
   "cannotDynamax": false,
   "pokedex": [
     "cobblemon.species.fluttermane.desc"
-  ]
+  ],
+  "drops": {
+    "amount": 1,
+    "entries": [
+      {
+        "item": "cobblemon:fairy_feather"
+      }
+    ]
+  }
 }

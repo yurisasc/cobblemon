@@ -9,6 +9,7 @@
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen8
 
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cobblemon.mod.common.entity.PoseType
@@ -28,13 +29,35 @@ class ArctovishModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     lateinit var sleep: PokemonPose
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
+    lateinit var float: PokemonPose
+    lateinit var swim: PokemonPose
+    lateinit var battleidle: PokemonPose
+
+    override val cryAnimation = CryProvider { _, pose ->
+        when {
+            pose.isPosedIn(float, swim ) -> bedrockStateful("arctovish", "water_cry")
+            else -> bedrockStateful("arctovish", "cry")
+        }
+    }
 
     override fun registerPoses() {
         val blink = quirk { bedrockStateful("arctovish", "blink") }
+        val waterquirk = quirk (secondsBetweenOccurrences = 30F to 60f) { bedrockStateful("arctovish", "water_quirk") }
+
+        sleep = registerPose(
+            poseName = "sleep",
+            poseType = PoseType.SLEEP,
+            transformTicks = 10,
+            quirks = arrayOf(blink),
+            idleAnimations = arrayOf(
+                bedrock("arctovish", "sleep")
+            )
+        )
 
         standing = registerPose(
             poseName = "standing",
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
+            condition = { it.isBattling },
             transformTicks = 10,
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
@@ -48,7 +71,27 @@ class ArctovishModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             transformTicks = 10,
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
-                bedrock("arctovish", "ground_idle")
+                bedrock("arctovish", "ground_walk")
+            )
+        )
+
+        float = registerPose(
+            poseName = "float",
+            poseType = PoseType.FLOAT,
+            transformTicks = 10,
+            quirks = arrayOf(blink, waterquirk),
+            idleAnimations = arrayOf(
+                bedrock("arctovish", "water_idle")
+            )
+        )
+
+        swim = registerPose(
+            poseName = "swim",
+            poseType = PoseType.SWIM,
+            transformTicks = 10,
+            quirks = arrayOf(blink, waterquirk),
+            idleAnimations = arrayOf(
+                bedrock("arctovish", "water_idle")
             )
         )
     }
