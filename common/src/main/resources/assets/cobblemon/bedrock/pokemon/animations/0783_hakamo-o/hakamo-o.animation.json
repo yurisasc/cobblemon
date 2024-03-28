@@ -14,7 +14,7 @@
 					"rotation": [13.36473, 18.26883, 37.15846]
 				},
 				"arm_scale_left": {
-					"rotation": [0, 0, -2.5]
+					"rotation": [0, 0, -2]
 				},
 				"arm_left2": {
 					"rotation": [7.09999, 21.40584, 18.84359]
@@ -32,7 +32,7 @@
 					"rotation": [13.36473, -18.26883, -37.15846]
 				},
 				"arm_scale_right": {
-					"rotation": [0, 0, 0]
+					"rotation": [0, 0, 2]
 				},
 				"arm_right2": {
 					"rotation": [7.09999, -21.40584, -18.84359]

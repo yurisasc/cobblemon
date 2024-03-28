@@ -186,7 +186,7 @@
 					"parent": "arm_right",
 					"pivot": [-2, 22, 1],
 					"cubes": [
-						{"origin": [-8, 22, -1], "size": [6, 0, 4], "uv": [68, 5], "mirror": true}
+						{"origin": [-8.02, 22, -1], "size": [6, 0, 4], "uv": [68, 5], "mirror": true}
 					]
 				},
 				{

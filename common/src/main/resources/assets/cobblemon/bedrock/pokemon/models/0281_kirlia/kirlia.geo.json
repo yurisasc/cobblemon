@@ -12,12 +12,12 @@
 			},
 			"bones": [
 				{
-					"name": "Kirlia",
+					"name": "kirlia",
 					"pivot": [0, -1, 0]
 				},
 				{
 					"name": "body",
-					"parent": "Kirlia",
+					"parent": "kirlia",
 					"pivot": [0, 11, 0]
 				},
 				{

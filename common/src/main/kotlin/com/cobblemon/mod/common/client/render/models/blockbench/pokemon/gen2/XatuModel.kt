@@ -18,11 +18,11 @@ import net.minecraft.util.math.Vec3d
 
 class XatuModel(root: ModelPart) : PokemonPoseableModel() {
     override val rootPart = root.registerChildWithAllChildren("xatu")
-    override var portraitScale = 3.0F
-    override var portraitTranslation = Vec3d(-0.05, 0.0, 0.0)
+    override var portraitScale = 1.91F
+    override var portraitTranslation = Vec3d(-0.04, 1.16, 0.0)
 
-    override var profileScale = 1.0F
-    override var profileTranslation = Vec3d(0.0, 0.25, 0.0)
+    override var profileScale = 0.69F
+    override var profileTranslation = Vec3d(0.0, 0.75, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var sleep: PokemonPose

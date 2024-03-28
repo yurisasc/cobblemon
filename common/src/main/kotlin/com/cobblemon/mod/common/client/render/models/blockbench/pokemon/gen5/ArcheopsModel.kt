@@ -49,7 +49,7 @@ class ArcheopsModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
 
     override fun registerPoses() {
         val blink = quirk { bedrockStateful("archeops", "blink") }
-        val quirk1 = quirk { bedrockStateful("archeops", "quirk1") }
+        val quirk1 = quirk { bedrockStateful("archeops", "quirk") }
         val quirk2 = quirk { bedrockStateful("archeops", "quirk2") }
 
         sleep = registerPose(

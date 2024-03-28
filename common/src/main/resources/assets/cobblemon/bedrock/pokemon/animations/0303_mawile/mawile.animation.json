@@ -41,7 +41,7 @@
 					"rotation": [10, 0, 0]
 				},
 				"hair_left": {
-					"rotation": [0, 12.5, 0]
+					"rotation": [-0.44329, 12.49226, -2.04852]
 				},
 				"hair_left2": {
 					"rotation": [0, 0, 47.5]
@@ -71,7 +71,7 @@
 					"rotation": [0, 0, 22.5]
 				},
 				"hair_right": {
-					"rotation": [0, -12.5, 0]
+					"rotation": [-0.44329, -12.49226, 2.04852]
 				},
 				"hair_right2": {
 					"rotation": [0, 0, -47.5]
@@ -151,7 +151,7 @@
 					"rotation": [14.00194, 44.13603, 9.85108]
 				},
 				"hair_left": {
-					"rotation": [0, 12.5, 0]
+					"rotation": [-0.44329, 12.49226, -2.04852]
 				},
 				"hair_left2": {
 					"rotation": [0, 0, 37.5]
@@ -181,7 +181,7 @@
 					"rotation": [0, 0, 22.5]
 				},
 				"hair_right": {
-					"rotation": [0, 10, 0]
+					"rotation": [-0.44329, -12.49226, 2.04852]
 				},
 				"hair_right2": {
 					"rotation": [0, 0, -37.5]

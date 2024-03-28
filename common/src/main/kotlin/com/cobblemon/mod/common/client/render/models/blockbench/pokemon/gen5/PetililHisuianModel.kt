@@ -16,7 +16,7 @@ import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
 class PetililHisuianModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
-    override val rootPart = root.registerChildWithAllChildren("petilil_hisuian")
+    override val rootPart = root.registerChildWithAllChildren("petilil_hisui")
     override val head = getPart("head")
 
     override var portraitScale = 1.75F

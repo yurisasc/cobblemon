@@ -22,11 +22,11 @@ class CentiskorchModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("centiskorch")
     override val head = getPart("head")
 
-    override var portraitScale = 4.0F
-    override var portraitTranslation = Vec3d(-6.1, -5.2, 0.0)
+    override var portraitScale = 1.4F
+    override var portraitTranslation = Vec3d(-0.62, 2.01, 0.0)
 
-    override var profileScale = 0.35F
-    override var profileTranslation = Vec3d(0.0, 0.7, 0.0)
+    override var profileScale = 0.45F
+    override var profileTranslation = Vec3d(0.02, 0.98, 0.0)
 
     lateinit var sleep: PokemonPose
     lateinit var standing: PokemonPose

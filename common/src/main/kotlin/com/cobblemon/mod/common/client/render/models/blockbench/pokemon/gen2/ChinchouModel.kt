@@ -41,8 +41,8 @@ class ChinchouModel (root: ModelPart) : PokemonPoseableModel() {
 
     override fun registerPoses() {
         val blink = quirk { bedrockStateful("chinchou", "blink")}
-        val idleQuirk = quirk(secondsBetweenOccurrences = 60F to 120F) { bedrockStateful("chinchou", "sleep_quirk")}
-        val waterQuirk = quirk(secondsBetweenOccurrences = 60F to 120F) { bedrockStateful("chinchou", "bitey_quirk")}
+        val idleQuirk = quirk(secondsBetweenOccurrences = 60F to 120F) { bedrockStateful("chinchou", "ground_quirk")}
+        val waterQuirk = quirk(secondsBetweenOccurrences = 60F to 120F) { bedrockStateful("chinchou", "water_idle_quirk")}
 
         sleep = registerPose(
             poseName = "sleeping",
