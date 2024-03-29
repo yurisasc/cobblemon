@@ -24,11 +24,11 @@ import net.minecraft.util.math.Vec3d
 class ChinglingModel(root: ModelPart) : PokemonPoseableModel() {
     override val rootPart = root.registerChildWithAllChildren("chingling")
 
-    override val portraitScale = 2.8F
-    override val portraitTranslation = Vec3d(0.0, -2.4, 0.0)
+    override var portraitScale = 2.8F
+    override var portraitTranslation = Vec3d(0.0, -2.4, 0.0)
 
-    override val profileScale = 1.3F
-    override val profileTranslation = Vec3d(0.0, -0.2, 0.0)
+    override var profileScale = 1.3F
+    override var profileTranslation = Vec3d(0.0, -0.2, 0.0)
 
     lateinit var sleep: PokemonPose
     lateinit var standing: PokemonPose

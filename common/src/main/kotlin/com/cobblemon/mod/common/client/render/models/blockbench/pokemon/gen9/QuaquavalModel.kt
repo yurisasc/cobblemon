@@ -27,11 +27,11 @@ class QuaquavalModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bi
 
     val water_feathers = getPart("water_feathers")
 
-    override val portraitScale = 2.3F
-    override val portraitTranslation = Vec3d(-0.42, 3.7, 0.0)
+    override var portraitScale = 2.3F
+    override var portraitTranslation = Vec3d(-0.42, 3.7, 0.0)
 
-    override val profileScale = 0.4F
-    override val profileTranslation = Vec3d(0.0, 1.1, 0.0)
+    override var profileScale = 0.4F
+    override var profileTranslation = Vec3d(0.0, 1.1, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var standing2: PokemonPose

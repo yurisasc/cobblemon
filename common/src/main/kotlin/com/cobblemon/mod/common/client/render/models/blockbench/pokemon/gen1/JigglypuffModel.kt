@@ -22,11 +22,11 @@ import net.minecraft.util.math.Vec3d
 class JigglypuffModel(root: ModelPart) : PokemonPoseableModel() {
     override val rootPart = root.registerChildWithAllChildren("jigglypuff")
 
-    override val portraitScale = 1.8F
-    override val portraitTranslation = Vec3d(0.0, -0.9, 0.0)
+    override var portraitScale = 1.8F
+    override var portraitTranslation = Vec3d(0.0, -0.9, 0.0)
 
-    override val profileScale = 1.1F
-    override val profileTranslation = Vec3d(0.0, 0.08, 0.0)
+    override var profileScale = 1.1F
+    override var profileTranslation = Vec3d(0.0, 0.08, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose

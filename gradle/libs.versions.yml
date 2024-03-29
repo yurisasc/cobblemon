@@ -9,6 +9,8 @@ versions:
   # other
   licenser: 0.6.1
   shadow: 7.1.2
+  blossom: 2.1.0
+  idea-ext: 1.1.7
 
   # fabric/remap
   loom: 1.1-SNAPSHOT
@@ -54,6 +56,14 @@ dependencies:
     group: gradle.plugin.com.github.johnrengelman
     name: shadow
     version: { ref: shadow }
+  blossom:
+    group: net.kyori
+    name: blossom
+    version: { ref: blossom }
+  ideaExt:
+    group: org.jetbrains.gradle.plugin.idea-ext
+    name: org.jetbrains.gradle.plugin.idea-ext.gradle.plugin
+    version: { ref: idea-ext }
   loom:
     group: dev.architectury
     name: architectury-loom
@@ -166,14 +176,10 @@ dependencies:
     version: 4.10.2
 
   # test
-  junitEngine:
-    group: org.junit.jupiter
-    name: junit-jupiter-engine
-    version: { ref: junit }
-  junitApi:
-    group: org.junit.jupiter
-    name: junit-jupiter-api
-    version: { ref: junit }
+  fabricJunit:
+    group: net.fabricmc
+    name: fabric-loader-junit
+    version: { ref: fabric-loader }
   junitParams:
     group: org.junit.jupiter
     name: junit-jupiter-params

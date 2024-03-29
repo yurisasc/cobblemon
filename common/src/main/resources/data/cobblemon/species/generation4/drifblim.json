@@ -10,10 +10,14 @@
     "h:flareboost"
   ],
   "drops": {
-    "amount": 1,
+    "amount": 2,
     "entries": [
       {
         "item": "cobblemon:kasib_berry",
+        "percentage": 5.0
+      },
+      {
+        "item": "cobblemon:air_balloon",
         "percentage": 5.0
       }
     ]
@@ -40,6 +44,12 @@
       "fly": {
         "canFly": true
       }
+    },
+    "resting": {
+      "canSleep": true,
+      "willSleepOnBed": false,
+      "depth": "normal",
+      "light": "0-4"
     }
   },
   "moves": [

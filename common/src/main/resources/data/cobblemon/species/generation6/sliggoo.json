@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Sliggoo",
   "nationalPokedexNumber": 705,
   "primaryType": "dragon",
@@ -112,12 +113,12 @@
       ],
       "height": 7,
       "weight": 685,
-      "preEvolution": "goomy",
+      "preEvolution": "goomy hisuian",
       "evolutions": [
         {
           "id": "sliggoo_goodra",
           "variant": "level_up",
-          "result": "goodra form=hisui",
+          "result": "goodra hisuian",
           "consumeHeldItem": false,
           "learnableMoves": [
             "irontail"
@@ -131,7 +132,24 @@
         }
       ],
       "cannotDynamax": false,
-      "battleOnly": false
+      "battleOnly": false,
+      "drops": {
+        "amount": 5,
+        "entries": [
+          {
+            "item": "minecraft:slime_ball",
+            "quantityRange": "0-2"
+          },
+          {
+            "item": "minecraft:iron_ingot",
+            "quantityRange": "0-2"
+          },
+          {
+            "item": "cobblemon:bluk_berry",
+            "percentage": 5.0
+          }
+        ]
+      }
     }
   ],
   "baseExperienceYield": 158,
@@ -232,8 +250,8 @@
   ],
   "baseScale": 1,
   "hitbox": {
-    "width": 1,
-    "height": 1,
+    "width": 1.1,
+    "height": 1.65,
     "fixed": false
   },
   "baseFriendship": 35,

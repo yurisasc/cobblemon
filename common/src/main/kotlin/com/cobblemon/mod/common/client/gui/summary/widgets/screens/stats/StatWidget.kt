@@ -10,6 +10,8 @@ package com.cobblemon.mod.common.client.gui.summary.widgets.screens.stats
 
 import com.cobblemon.mod.common.CobblemonSounds
 import com.cobblemon.mod.common.api.gui.blitk
+import com.cobblemon.mod.common.api.pokemon.feature.SpeciesFeatures
+import com.cobblemon.mod.common.api.pokemon.feature.SynchronizedSpeciesFeatureProvider
 import com.cobblemon.mod.common.api.pokemon.stats.Stat
 import com.cobblemon.mod.common.api.pokemon.stats.Stats
 import com.cobblemon.mod.common.api.text.bold
@@ -54,7 +56,7 @@ class StatWidget(
 
         private const val WIDTH = 134
         private const val HEIGHT = 148
-        private const val SCALE = 0.5F
+        const val SCALE = 0.5F
 
         private const val WHITE = 0x00FFFFFF
         private const val GREY = 0x00AAAAAA
@@ -64,6 +66,7 @@ class StatWidget(
         private val statsBaseResource = cobblemonResource("textures/gui/summary/summary_stats_chart_base.png")
         private val statsChartResource = cobblemonResource("textures/gui/summary/summary_stats_chart.png")
         private val statsOtherBaseResource = cobblemonResource("textures/gui/summary/summary_stats_other_base.png")
+        private val statsOtherBarTemplate = cobblemonResource("textures/gui/summary/summary_stats_other_bar.png")
         private val friendshipOverlayResource = cobblemonResource("textures/gui/summary/summary_stats_friendship_overlay.png")
         private val tabMarkerResource = cobblemonResource("textures/gui/summary/summary_stats_tab_marker.png")
         private val statIncreaseResource = cobblemonResource("textures/gui/summary/summary_stats_icon_increase.png")
@@ -84,6 +87,10 @@ class StatWidget(
     }
 
     var statTabIndex = tabIndex
+    val renderableFeatures = SpeciesFeatures
+        .getFeaturesFor(pokemon.species)
+        .filterIsInstance<SynchronizedSpeciesFeatureProvider<*>>()
+        .mapNotNull { it.getRenderer(pokemon) }
 
     private fun drawTriangle(
         colour: Vector3f,
@@ -178,6 +185,74 @@ class StatWidget(
 //        drawTriangle(colour, specialAttackPoint, centerPoint, hpPoint)
     }
 
+    private fun drawFriendship(moduleX: Int, moduleY: Int, matrices: MatrixStack, context: DrawContext, friendship: Int) {
+        val barRatio = friendship / 255F
+        val barWidth = ceil(barRatio * 108)
+
+        blitk(
+            matrixStack = matrices,
+            texture = statsOtherBarTemplate,
+            x = moduleX,
+            y = moduleY,
+            height = 28,
+            width = 124
+        )
+
+        val red = 1
+        val green: Number = if (pokemon.friendship >= 160) 0.28 else 0.56
+        val blue: Number = if (pokemon.friendship >= 160) 0.4 else 0.64
+
+        blitk(
+            matrixStack = matrices,
+            texture = CobblemonResources.WHITE,
+            x = moduleX + 8,
+            y = moduleY + 18,
+            height = 8,
+            width = barWidth,
+            red = red,
+            green = green,
+            blue = blue
+        )
+
+        blitk(
+            matrixStack = matrices,
+            texture = friendshipOverlayResource,
+            x = moduleX / SCALE,
+            y = (moduleY + 16) / SCALE,
+            height = 20,
+            width = 248,
+            scale = SCALE
+        )
+
+        // Label
+        drawScaledText(
+            context = context,
+            font = CobblemonResources.DEFAULT_LARGE,
+            text = lang("ui.stats.friendship").bold(),
+            x = moduleX + 62,
+            y = moduleY + 2.5,
+            centered = true,
+            shadow = true
+        )
+
+        drawScaledText(
+            context = context,
+            text = friendship.toString().text(),
+            x = moduleX + 11,
+            y = moduleY + 6,
+            scale = SCALE,
+            centered = true
+        )
+
+        drawScaledText(
+            context = context,
+            text = "${floor(barRatio * 100)}%".text(),
+            x = moduleX + 113,
+            y = moduleY + 6,
+            scale = SCALE,
+            centered = true
+        )
+    }
 
     override fun renderButton(context: DrawContext, pMouseX: Int, pMouseY: Int, pPartialTicks: Float) {
         val renderChart = statTabIndex != OTHER
@@ -328,60 +403,28 @@ class StatWidget(
                 renderModifiedStatIcon(matrices, nature.decreasedStat, false)
             }
         } else {
-            // Friendship
-            val friendshipBarWidthMax = 108
-            val friendshipRatio = pokemon.friendship / 255F
-            val friendshipBarWidth = ceil(friendshipRatio * friendshipBarWidthMax)
-            blitk(
-                matrixStack = matrices,
-                texture = CobblemonResources.WHITE,
-                x = x + 13,
-                y = y + 27,
-                height = 8,
-                width = friendshipBarWidth,
-                red = 0.92,
-                green = if (pokemon.friendship >= 160) 0.28 else 0.7,
-                blue = if (pokemon.friendship >= 160) 0.4 else 0.28
-            )
+            var drawY = y + 11
 
-            blitk(
-                matrixStack = matrices,
-                texture = friendshipOverlayResource,
-                x = (x + 5) / SCALE,
-                y = (y + 26) / SCALE,
-                height = 20,
-                width = 248,
-                scale = SCALE
-            )
+            drawFriendship(x + 5, drawY, matrices, context, pokemon.friendship)
+            drawY += 30
 
-            // Label
-            drawScaledText(
-                context = context,
-                font = CobblemonResources.DEFAULT_LARGE,
-                text = lang("ui.stats.friendship").bold(),
-                x = x + 67,
-                y = y + 12.5,
-                centered = true,
-                shadow = true
-            )
+            for (renderableFeature in renderableFeatures) {
+                val rendered = renderableFeature.render(
+                    drawContext = context,
+                    x = x + 5F,
+                    y = drawY.toFloat(),
+                    pokemon = pokemon
+                )
 
-            drawScaledText(
-                context = context,
-                text = pokemon.friendship.toString().text(),
-                x = x + 16,
-                y = y + 16,
-                scale = SCALE,
-                centered = true
-            )
+                if (rendered) {
+                    drawY += 30
+                }
+            }
 
-            drawScaledText(
-                context = context,
-                text = "${floor(friendshipRatio * 100)}%".text(),
-                x = x + 118,
-                y = y + 16,
-                scale = SCALE,
-                centered = true
-            )
+//            for (value in summaries) {
+//                drawBarModule(x + 5, drawY, matrices, context, value)
+//            }
+
         }
     }
 

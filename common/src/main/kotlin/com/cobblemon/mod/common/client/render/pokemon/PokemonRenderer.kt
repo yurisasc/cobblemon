@@ -31,6 +31,7 @@ import com.cobblemon.mod.common.util.lang
 import com.cobblemon.mod.common.util.math.DoubleRange
 import com.cobblemon.mod.common.util.math.geometry.toRadians
 import com.cobblemon.mod.common.util.math.remap
+import kotlin.math.*
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.font.TextRenderer
 import net.minecraft.client.render.*
@@ -110,6 +111,12 @@ class PokemonRenderer(
 //                progressUniform?.set((sin(entity.ticksLived/20f) + 1f)/2f)
 //            }
 //        }
+
+        if (entity.ticksLived < 10) {
+            entity.bodyYaw = entity.dataTracker.get(SPAWN_DIRECTION)
+            entity.prevBodyYaw = entity.bodyYaw
+        }
+
         super.render(entity, entityYaw, partialTicks, poseMatrix, buffer, packedLight)
 
         modelNow.green = 1F

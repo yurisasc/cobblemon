@@ -1,0 +1,15 @@
+{
+    "placement": {
+        "type": "minecraft:random_spread",
+        "spacing": 10,
+        "separation": 5,
+        "salt": 6127171151,
+        "spread_type": "triangular"
+    },
+    "structures": [
+        {
+            "structure": "cobblemon:fossils/prehistoric_underwater_fissure",
+            "weight": 1
+        }
+    ]
+}

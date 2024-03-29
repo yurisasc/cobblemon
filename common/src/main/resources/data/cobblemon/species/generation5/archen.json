@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Archen",
   "nationalPokedexNumber": 566,
   "primaryType": "rock",
@@ -168,8 +169,8 @@
   ],
   "baseScale": 1,
   "hitbox": {
-    "width": 1,
-    "height": 1,
+    "width": 0.65,
+    "height": 1.2,
     "fixed": false
   },
   "baseFriendship": 50,

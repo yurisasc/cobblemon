@@ -1,4 +1,4 @@
-﻿{
+{
   "implemented": true,
   "name": "Raichu",
   "nationalPokedexNumber": 26,
@@ -8,8 +8,12 @@
     "h:lightningrod"
   ],
   "drops": {
-    "amount": 2,
+    "amount": 3,
     "entries": [
+      {
+        "item": "cobblemon:light_ball",
+        "percentage": 10.0
+      },
       {
         "item": "cobblemon:thunder_stone",
         "percentage": 10.0

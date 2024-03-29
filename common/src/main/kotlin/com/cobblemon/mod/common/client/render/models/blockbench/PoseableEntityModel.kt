@@ -18,7 +18,6 @@ import com.cobblemon.mod.common.api.molang.MoLangFunctions.addFunctions
 import com.cobblemon.mod.common.api.molang.MoLangFunctions.getQueryStruct
 import com.cobblemon.mod.common.api.molang.MoLangFunctions.setup
 import com.cobblemon.mod.common.api.molang.ObjectValue
-import com.cobblemon.mod.common.api.scheduling.afterOnClient
 import com.cobblemon.mod.common.client.ClientMoLangFunctions.setupClient
 import com.cobblemon.mod.common.client.entity.PokemonClientDelegate
 import com.cobblemon.mod.common.client.render.MatrixWrapper
@@ -46,6 +45,7 @@ import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.util.asExpressionLike
 import com.cobblemon.mod.common.util.getDoubleOrNull
 import com.cobblemon.mod.common.util.getStringOrNull
+import com.cobblemon.mod.common.util.plus
 import net.minecraft.client.model.ModelPart
 import net.minecraft.client.render.OverlayTexture
 import net.minecraft.client.render.RenderLayer
@@ -697,6 +697,7 @@ abstract class PoseableEntityModel<T : Entity>(
             val portion = (state.animationSeconds - primaryAnimation.started) / primaryAnimation.duration
             state.primaryOverridePortion = 1 - primaryAnimation.curve(portion)
             if (!primaryAnimation.run(entity, this, state, limbSwing, limbSwingAmount, ageInTicks, headYaw, headPitch, 1 - state.primaryOverridePortion)) {
+                primaryAnimation.afterAction.accept(Unit)
                 state.primaryAnimation = null
                 state.primaryOverridePortion = 1F
             }
@@ -715,6 +716,7 @@ abstract class PoseableEntityModel<T : Entity>(
     //This is used to set additional entity type specific context
     open fun setupEntityTypeContext(entity: T?) {}
 
+    //Called by LivingEntityRenderer's render method before calling model.render (which is this.render in this case)
     override fun setAngles(
         entity: T,
         limbSwing: Float,
@@ -745,19 +747,16 @@ abstract class PoseableEntityModel<T : Entity>(
                     curve = { 1F }
                 )
                 state.addPrimaryAnimation(primaryAnimation)
-                afterOnClient(seconds = primaryAnimation.duration) {
+                primaryAnimation.afterAction += {
                     state.setPose(desirablePose.poseName)
-                    if (state.primaryAnimation == primaryAnimation) {
-                        state.primaryAnimation = null
-                    }
                 }
             } else if (transition != null) {
                 val animation = transition(previousPose, desirablePose)
-                val primaryAnimation = PrimaryAnimation(animation, curve = { 1F })
-                state.addPrimaryAnimation(primaryAnimation)
-                afterOnClient(seconds = primaryAnimation.duration) {
+                val primaryAnimation = if (animation is PrimaryAnimation) animation else PrimaryAnimation(animation, curve = { 1F })
+                primaryAnimation.afterAction += {
                     state.setPose(desirablePose.poseName)
                 }
+                state.addPrimaryAnimation(primaryAnimation)
             } else {
                 state.setPose(poses.values.first { desirablePoseType in it.poseTypes && (it.condition == null || (entity != null && it.condition.invoke(entity))) }.poseName)
             }

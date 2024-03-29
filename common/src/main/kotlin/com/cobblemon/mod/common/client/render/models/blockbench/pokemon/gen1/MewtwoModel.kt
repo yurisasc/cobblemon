@@ -28,11 +28,11 @@ class MewtwoModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bimanu
     override val leftArm = getPart("arm_left")
     override val rightArm = getPart("arm_right")
 
-    override val portraitScale = 2.8F
-    override val portraitTranslation = Vec3d(-0.15, 1.5, 0.0)
+    override var portraitScale = 2.8F
+    override var portraitTranslation = Vec3d(-0.15, 1.5, 0.0)
 
-    override val profileScale = 0.7F
-    override val profileTranslation = Vec3d(0.0, 0.61, 0.0)
+    override var profileScale = 0.7F
+    override var profileTranslation = Vec3d(0.0, 0.61, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose

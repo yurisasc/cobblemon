@@ -20,11 +20,11 @@ class LaprasModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("lapras")
     override val head = getPart("head_ai")
 
-    override val portraitScale = 2.5F
-    override val portraitTranslation = Vec3d(-0.7, 0.2, 0.0)
+    override var portraitScale = 2.5F
+    override var portraitTranslation = Vec3d(-0.7, 0.2, 0.0)
 
-    override val profileScale = 0.85F
-    override val profileTranslation = Vec3d(0.0, 0.4, 0.0)
+    override var profileScale = 0.85F
+    override var profileTranslation = Vec3d(0.0, 0.4, 0.0)
 
     lateinit var landIdle: PokemonPose
     lateinit var landMove: PokemonPose

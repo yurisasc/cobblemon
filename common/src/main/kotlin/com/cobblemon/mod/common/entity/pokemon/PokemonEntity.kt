@@ -29,6 +29,7 @@ import com.cobblemon.mod.common.api.scheduling.SchedulingTracker
 import com.cobblemon.mod.common.api.storage.InvalidSpeciesException
 import com.cobblemon.mod.common.api.types.ElementalTypes
 import com.cobblemon.mod.common.battles.BagItems
+import com.cobblemon.mod.common.battles.BattleBuilder
 import com.cobblemon.mod.common.battles.BattleRegistry
 import com.cobblemon.mod.common.block.entity.PokemonPastureBlockEntity
 import com.cobblemon.mod.common.client.entity.PokemonClientDelegate
@@ -52,6 +53,7 @@ import com.cobblemon.mod.common.pokemon.activestate.InactivePokemonState
 import com.cobblemon.mod.common.pokemon.activestate.ShoulderedState
 import com.cobblemon.mod.common.pokemon.ai.FormPokemonBehaviour
 import com.cobblemon.mod.common.pokemon.evolution.variants.ItemInteractionEvolution
+import com.cobblemon.mod.common.pokemon.misc.GimmighoulStashHandler
 import com.cobblemon.mod.common.util.*
 import com.cobblemon.mod.common.world.gamerules.CobblemonGameRules
 import net.minecraft.entity.*
@@ -126,6 +128,7 @@ open class PokemonEntity(
         @JvmStatic val HIDE_LABEL = DataTracker.registerData(PokemonEntity::class.java, TrackedDataHandlerRegistry.BOOLEAN)
         @JvmStatic val UNBATTLEABLE = DataTracker.registerData(PokemonEntity::class.java, TrackedDataHandlerRegistry.BOOLEAN)
         @JvmStatic val COUNTS_TOWARDS_SPAWN_CAP = DataTracker.registerData(PokemonEntity::class.java, TrackedDataHandlerRegistry.BOOLEAN)
+        @JvmStatic val SPAWN_DIRECTION = DataTracker.registerData(PokemonEntity::class.java, TrackedDataHandlerRegistry.FLOAT)
 
         const val BATTLE_LOCK = "battle"
 
@@ -229,6 +232,7 @@ open class PokemonEntity(
         dataTracker.startTracking(LABEL_LEVEL, 1)
         dataTracker.startTracking(HIDE_LABEL, false)
         dataTracker.startTracking(UNBATTLEABLE, false)
+        dataTracker.startTracking(SPAWN_DIRECTION, world.random.nextFloat() * 360F)
     }
 
     override fun onTrackedDataSet(data: TrackedData<*>) {
@@ -294,6 +298,13 @@ open class PokemonEntity(
         ticksLived++
         if (this.ticksLived % 20 == 0) {
             this.updateEyeHeight()
+        }
+
+        if (ticksLived <= 20) {
+            clearPositionTarget()
+            val spawnDirection = dataTracker.get(SPAWN_DIRECTION)
+            setBodyYaw(spawnDirection)
+            prevBodyYaw = spawnDirection
         }
 
         if (this.tethering != null && !this.tethering!!.box.contains(this.x, this.y, this.z)) {
@@ -650,6 +661,16 @@ open class PokemonEntity(
                 pokemon.lastFlowerFed = itemStack
                 return ActionResult.success(world.isClient)
             }
+        } else if(!player.isSneaking && (itemStack.isOf(CobblemonItems.RELIC_COIN)
+                || itemStack.isOf(CobblemonItems.RELIC_COIN_POUCH)
+                || itemStack.isOf(CobblemonItems.RELIC_COIN_SACK)
+                || itemStack.isOf(Items.NETHERITE_SCRAP)
+                || itemStack.isOf(Items.NETHERITE_INGOT)
+                || itemStack.isOf(Items.NETHERITE_BLOCK))) {
+
+            if(GimmighoulStashHandler.interactMob(player, hand, pokemon)) {
+                return ActionResult.SUCCESS
+            }
         }
 
 
@@ -821,7 +842,7 @@ open class PokemonEntity(
             player.sendMessage(lang("held_item.already_holding", this.pokemon.getDisplayName(), stack.name))
             return true
         }
-        val returned = this.pokemon.swapHeldItem(stack, !player.isCreative)
+        val returned = this.pokemon.swapHeldItem(stack = stack, decrement = !player.isCreative)
         val text = when {
             giving.isEmpty -> lang("held_item.take", returned.name, this.pokemon.getDisplayName())
             returned.isEmpty -> lang("held_item.give", this.pokemon.getDisplayName(), giving.name)
@@ -1023,6 +1044,21 @@ open class PokemonEntity(
     override fun setCustomNameVisible(visible: Boolean) {
         // We do this as a compromise to keep as much compatibility as possible with other mods expecting this entity to act like a vanilla one
         dataTracker.set(NICKNAME_VISIBLE, visible)
+    }
+
+    /**
+     * Attempts to force initiate a battle with this Pokémon.
+     *
+     * @param player The player to attempt a battle with.
+     * @return Whether the battle was successfully started.
+     */
+    fun forceBattle(player: ServerPlayerEntity): Boolean {
+        if (!canBattle(player)) {
+            return false
+        }
+        var isSuccessful = false
+        BattleBuilder.pve(player, this).ifSuccessful { isSuccessful = true }
+        return isSuccessful
     }
 
     /**

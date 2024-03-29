@@ -1,0 +1,112 @@
+{
+	"format_version": "1.8.0",
+	"animations": {
+		"animation.dugtrio_alolan.ground_idle": {
+			"loop": true,
+			"bones": {
+				"body1": {
+					"rotation": [0, 0, -5]
+				},
+				"body1_2": {
+					"rotation": [0, 0, 5]
+				},
+				"hair1_left2": {
+					"rotation": [0, 0, 7.5]
+				},
+				"hair1_left3": {
+					"rotation": [2.5, 0, 17.5]
+				},
+				"hair1_right3": {
+					"rotation": [5, 0, 0]
+				},
+				"hair1_right4": {
+					"rotation": [-2.5, 0, 0]
+				},
+				"body2": {
+					"rotation": [0, 0, 2.5]
+				},
+				"hair2_right": {
+					"rotation": [0, 0, -7.5]
+				},
+				"body3": {
+					"rotation": [-2.5, 0, 0]
+				},
+				"hair3_left2": {
+					"rotation": [0, 0, -2.5]
+				},
+				"hair3_left3": {
+					"rotation": [0, 0, -7.5]
+				},
+				"hair3_right2": {
+					"rotation": [0, 0, 2.5]
+				},
+				"hair3_right3": {
+					"rotation": [0, 0, 7.5]
+				},
+				"hair1_front_left2": {
+					"rotation": [-12.39638, -1.61888, -7.32417]
+				},
+				"hair1_front_right2": {
+					"rotation": [-5, 0, 10]
+				}
+			}
+		},
+		"animation.dugtrio_alolan.blink": {
+			"animation_length": 0.16667,
+			"bones": {
+				"eyelid_left1": {
+					"position": {
+						"0.0": [0, 0, -0.1],
+						"0.125": [0, 0, -0.1],
+						"0.1667": [0, 0, 0]
+					}
+				},
+				"eyelid_right1": {
+					"position": {
+						"0.0": [0, 0, -0.1],
+						"0.125": [0, 0, -0.1],
+						"0.1667": [0, 0, 0]
+					}
+				}
+			}
+		},
+		"animation.dugtrio_alolan.blink2": {
+			"animation_length": 0.16667,
+			"bones": {
+				"eyelid_left2": {
+					"position": {
+						"0.0": [0, 0, -0.1],
+						"0.125": [0, 0, -0.1],
+						"0.1667": [0, 0, 0]
+					}
+				},
+				"eyelid_right2": {
+					"position": {
+						"0.0": [0, 0, -0.1],
+						"0.125": [0, 0, -0.1],
+						"0.1667": [0, 0, 0]
+					}
+				}
+			}
+		},
+		"animation.dugtrio_alolan.blink3": {
+			"animation_length": 0.16667,
+			"bones": {
+				"eyelid_left3": {
+					"position": {
+						"0.0": [0, 0, -0.1],
+						"0.125": [0, 0, -0.1],
+						"0.1667": [0, 0, 0]
+					}
+				},
+				"eyelid_right3": {
+					"position": {
+						"0.0": [0, 0, -0.1],
+						"0.125": [0, 0, -0.1],
+						"0.1667": [0, 0, 0]
+					}
+				}
+			}
+		}
+	}
+}

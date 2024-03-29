@@ -25,11 +25,11 @@ class NosepassModel(root: ModelPart) : PokemonPoseableModel(), BipedFrame {
     override val leftLeg = getPart("leg_left")
     override val rightLeg = getPart("leg_right")
 
-    override val portraitScale = 1.5F
-    override val portraitTranslation = Vec3d(-0.1, -0.1, 0.0)
+    override var portraitScale = 1.5F
+    override var portraitTranslation = Vec3d(-0.1, -0.1, 0.0)
 
-    override val profileScale = 0.75F
-    override val profileTranslation = Vec3d(0.0, 0.65, 0.0)
+    override var profileScale = 0.75F
+    override var profileTranslation = Vec3d(0.0, 0.65, 0.0)
 
     lateinit var sleep: PokemonPose
     lateinit var standing: PokemonPose

@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Hippopotas",
   "nationalPokedexNumber": 449,
   "primaryType": "ground",
@@ -163,7 +164,7 @@
   ],
   "baseScale": 1,
   "hitbox": {
-    "width": 1,
+    "width": 0.7,
     "height": 1,
     "fixed": false
   },

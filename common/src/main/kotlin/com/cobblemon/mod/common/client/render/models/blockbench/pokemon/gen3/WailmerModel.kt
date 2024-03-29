@@ -24,11 +24,11 @@ class WailmerModel(root: ModelPart) : PokemonPoseableModel() {
     val finRight = getPart("fin_right")
     val jaw = getPart("jaw")
 
-    override val portraitScale = 1.2F
-    override val portraitTranslation = Vec3d(-0.15, -0.3, 0.0)
+    override var portraitScale = 1.2F
+    override var portraitTranslation = Vec3d(-0.15, -0.3, 0.0)
 
-    override val profileScale = 0.8F
-    override val profileTranslation = Vec3d(0.0, 0.3, 0.0)
+    override var profileScale = 0.8F
+    override var profileTranslation = Vec3d(0.0, 0.3, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose

@@ -9,6 +9,9 @@
 			}
 		},
 		"components": {
+			"minecraft:emitter_initialization": {
+				"creation_expression": "variable.entity_radius = 1;"
+			},
 			"minecraft:emitter_rate_steady": {
 				"spawn_rate": "v.emitter_age * 10",
 				"max_particles": 100
