@@ -15,7 +15,8 @@
             "level": "21-46",
             "weight": 10.0,
             "condition": {
-                "canSeeSky": true,
+                "minSkyLight": 8,
+                "maxSkyLight": 15,
                 "biomes": [
                     "#cobblemon:is_dripstone"
                 ],
@@ -40,7 +41,8 @@
                 }
             },
             "condition": {
-                "canSeeSky": false,
+                "minSkyLight": 0,
+                "maxSkyLight": 7,
                 "biomes": [
                     "#cobblemon:is_dripstone"
                 ]
@@ -58,7 +60,8 @@
             "level": "21-46",
             "weight": 2.0,
             "condition": {
-                "canSeeSky": true,
+                "minSkyLight": 8,
+                "maxSkyLight": 15,
                 "biomes": [
                     "#cobblemon:is_mountain"
                 ],

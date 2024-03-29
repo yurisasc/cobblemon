@@ -155,9 +155,12 @@
 - Starter Toast now closes once corresponding button is pressed once.
 - Moved some items in the vanilla Food & Drinks category.
 - Stacked Cobblemon Potion Bases can now be quick moved into Brewing Stands.
+- Changed Healer recipe to swap the Max Revive for a Revive.
+- Upped the rate that Gastly drop Ghast Tears from 2.5% to 5%.
+- Pokémon with a low Blaze Powder drop chance now drop it more frequently in the Nether.
 
 ### Fixes
-- Resized Snorlax
+- Resized Snorlax.
 - Re-added the recipe for the Iron Vitamin.
 - Cleaned up empty evolutions declaration in species files (no, I'm not listing all 169 by name).
 - Fixed Exeggcute not being able to evolve.
@@ -195,6 +198,7 @@
 - ``AbilityChanger`` has been added to API alongside some implementations, this is subject to change as the ability capsule and patch currently only expect the traditional behaviour in the Pokémon games of 1 to 2 regular abilities and 1 hidden.
 - ``Pokemon#rollAbility`` has been added, this rerolls a legal ability for the Pokémon.
 - `docs/cobblemon-tags` tags and spawn-presets can now be auto-generated from the current tags in the cobblemon mod with the `generateSpawnPresetList.py` and `generateTagList.py` scripts.
+- `public_spawns_to_json.py` script has been added to give the powerful spawn.json generator a simplistic UI.
 
 ### Datapack & Resourcepack Creators
 - The maximum amount of fossils that can fit in the Fossil Analyzer can be adjusted in the config.

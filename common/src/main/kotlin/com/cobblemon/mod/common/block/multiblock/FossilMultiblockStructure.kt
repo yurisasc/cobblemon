@@ -306,22 +306,22 @@ class FossilMultiblockStructure (
     }
 
     override fun onBreak(world: World, pos: BlockPos, state: BlockState, player: PlayerEntity?) {
-        val monitorEntity = world.getBlockEntity(monitorPos) as MultiblockEntity
-        val analyzerEntity = world.getBlockEntity(analyzerPos) as MultiblockEntity
-        val tankBaseEntity = world.getBlockEntity(tankBasePos) as MultiblockEntity
-        val tankTopEntity = world.getBlockEntity(tankBasePos.up()) as MultiblockEntity
-        val state = world.getBlockState(tankBaseEntity.pos)
+        val monitorEntity = world.getBlockEntity(monitorPos) as? MultiblockEntity
+        val analyzerEntity = world.getBlockEntity(analyzerPos) as? MultiblockEntity
+        val tankBaseEntity = world.getBlockEntity(tankBasePos) as? MultiblockEntity
+        val tankTopEntity = world.getBlockEntity(tankBasePos.up()) as? MultiblockEntity
+        val state = world.getBlockState(tankBaseEntity?.pos)
         val direction = state.get(HorizontalFacingBlock.FACING).getOpposite()
         val wildPokemon: Pokemon? = this.createdPokemon
 
-        monitorEntity.multiblockStructure = null
-        analyzerEntity.multiblockStructure = null
-        tankBaseEntity.multiblockStructure = null
-        tankTopEntity.multiblockStructure = null
-        monitorEntity.masterBlockPos = null
-        analyzerEntity.masterBlockPos = null
-        tankBaseEntity.masterBlockPos = null
-        tankTopEntity.masterBlockPos = null
+        monitorEntity?.multiblockStructure = null
+        analyzerEntity?.multiblockStructure = null
+        tankBaseEntity?.multiblockStructure = null
+        tankTopEntity?.multiblockStructure = null
+        monitorEntity?.masterBlockPos = null
+        analyzerEntity?.masterBlockPos = null
+        tankBaseEntity?.masterBlockPos = null
+        tankTopEntity?.masterBlockPos = null
 
         // Drop fossils from machine as long as the machine is not started or near completion
         if (this.timeRemaining == -1 || this.timeRemaining >= 20) {

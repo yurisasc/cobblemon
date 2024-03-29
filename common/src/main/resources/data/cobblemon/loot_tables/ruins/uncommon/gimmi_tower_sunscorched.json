@@ -12,17 +12,17 @@
                 {
                     "type": "minecraft:item",
                     "name": "cobblemon:sun_stone",
-                    "weight": 2
+                    "weight": 3
                 },
                 {
                     "type": "minecraft:item",
                     "name": "cobblemon:protector",
-                    "weight": 1
+                    "weight": 2
                 },
                 {
                     "type": "minecraft:item",
                     "name": "cobblemon:covert_cloak",
-                    "weight": 1
+                    "weight": 2
                 },
                 {
                     "type": "minecraft:item",

@@ -22,9 +22,22 @@
                 }
             },
             "condition": {
-                "canSeeSky": true,
+                "minSkyLight": 8,
+                "maxSkyLight": 15,
                 "biomes": [
                     "#cobblemon:is_overworld"
+                ]
+            },
+            "drops": {
+                "amount": 2,
+                "entries": [
+                    {
+                        "item": "minecraft:poppy"
+                    },
+                    {
+                        "item": "cobblemon:kebia_berry",
+                        "percentage": 2.5
+                    }
                 ]
             }
         },
@@ -47,9 +60,22 @@
                 }
             },
             "condition": {
-                "canSeeSky": true,
+                "minSkyLight": 8,
+                "maxSkyLight": 15,
                 "biomes": [
                     "#cobblemon:is_overworld"
+                ]
+            },
+            "drops": {
+                "amount": 2,
+                "entries": [
+                    {
+                        "item": "minecraft:dandelion"
+                    },
+                    {
+                        "item": "cobblemon:kebia_berry",
+                        "percentage": 2.5
+                    }
                 ]
             }
         },
@@ -72,9 +98,22 @@
                 }
             },
             "condition": {
-                "canSeeSky": true,
+                "minSkyLight": 8,
+                "maxSkyLight": 15,
                 "biomes": [
                     "#cobblemon:is_overworld"
+                ]
+            },
+            "drops": {
+                "amount": 2,
+                "entries": [
+                    {
+                        "item": "minecraft:orange_tulip"
+                    },
+                    {
+                        "item": "cobblemon:kebia_berry",
+                        "percentage": 2.5
+                    }
                 ]
             }
         },
@@ -97,9 +136,22 @@
                 }
             },
             "condition": {
-                "canSeeSky": true,
+                "minSkyLight": 8,
+                "maxSkyLight": 15,
                 "biomes": [
                     "#cobblemon:is_overworld"
+                ]
+            },
+            "drops": {
+                "amount": 2,
+                "entries": [
+                    {
+                        "item": "minecraft:cornflower"
+                    },
+                    {
+                        "item": "cobblemon:kebia_berry",
+                        "percentage": 2.5
+                    }
                 ]
             }
         },
@@ -122,9 +174,22 @@
                 }
             },
             "condition": {
-                "canSeeSky": true,
+                "minSkyLight": 8,
+                "maxSkyLight": 15,
                 "biomes": [
                     "#cobblemon:is_overworld"
+                ]
+            },
+            "drops": {
+                "amount": 2,
+                "entries": [
+                    {
+                        "item": "minecraft:oxeye_daisy"
+                    },
+                    {
+                        "item": "cobblemon:kebia_berry",
+                        "percentage": 2.5
+                    }
                 ]
             }
         },
@@ -147,9 +212,22 @@
                 }
             },
             "condition": {
-                "canSeeSky": true,
+                "minSkyLight": 8,
+                "maxSkyLight": 15,
                 "biomes": [
                     "#cobblemon:is_overworld"
+                ]
+            },
+            "drops": {
+                "amount": 2,
+                "entries": [
+                    {
+                        "item": "minecraft:allium"
+                    },
+                    {
+                        "item": "cobblemon:kebia_berry",
+                        "percentage": 2.5
+                    }
                 ]
             }
         },

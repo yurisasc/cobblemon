@@ -16,7 +16,8 @@
             "level": "26-50",
             "weight": 0.2,
             "condition": {
-                "canSeeSky": true
+                "minSkyLight": 8,
+                "maxSkyLight": 15
             }
         },
         {
@@ -48,7 +49,8 @@
             "level": "26-50",
             "weight": 0.2,
             "condition": {
-                "canSeeSky": true
+                "minSkyLight": 8,
+                "maxSkyLight": 15
             }
         }
     ]
