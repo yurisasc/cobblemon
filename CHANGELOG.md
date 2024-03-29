@@ -43,6 +43,8 @@
 - Qwilfish
 - Heracross
 - Skarmory
+- Ferroseed
+- Ferrothorn
 - Larvitar
 - Pupitar
 - Tyranitar
@@ -158,6 +160,8 @@
 - Dreepy
 - Drakloak
 - Dragapult
+- Hisuian Sliggoo
+- Hisuian Goodra
 - Impidimp
 - Morgrem
 - Grimmsnarl
@@ -168,7 +172,7 @@
   - Additionally, if you give Gimmighoul a Netherite Scrap, you can increase its Netherite Stash. Who knows what might happen if it fills up?
 - Gholdengo
 
-#### Cobblemon Exclusives
+#### Cobblemon Exclusives Patterns
 - Hisuian Rowlet
 - Hisuian Dartrix
 - Hisuian Cyndaquil
@@ -195,6 +199,11 @@
 - Poké Ball recipes now use tags for their center ingredient, rather than specificied Copper Ingot, Iron Ingot, Gold Ingot, and Diamond, allowing for further datapack customisation.
 - Starter Toast now closes once corresponding button is pressed once.
 - Moved some items in the vanilla Food & Drinks category.
+- Stacked Cobblemon Potion Bases can now be quick moved into Brewing Stands.
+- Changed Healer recipe to swap the Max Revive for a Revive.
+- Upped the rate that Gastly drop Ghast Tears from 2.5% to 5%.
+- Pokémon with a low Blaze Powder drop chance now drop it more frequently in the Nether.
+- Reorganised a few advancements.
 
 ### Fixes
 - Resized Snorlax
@@ -235,6 +244,8 @@
 - ``Ability.forced``, ``Ability.index`` and ``Ability.priority`` have all had their setters internalized, there is no longer any need to manually adjust these migrate to the method mentioned above to handle that process for you.
 - ``AbilityChanger`` has been added to API alongside some implementations, this is subject to change as the ability capsule and patch currently only expect the traditional behaviour in the Pokémon games of 1 to 2 regular abilities and 1 hidden.
 - ``Pokemon#rollAbility`` has been added, this rerolls a legal ability for the Pokémon.
+- `docs/cobblemon-tags` tags and spawn-presets can now be auto-generated from the current tags in the cobblemon mod with the `generateSpawnPresetList.py` and `generateTagList.py` scripts.
+- `public_spawns_to_json.py` script has been added to give the powerful spawn.json generator a simplistic UI.
 
 ### Datapack & Resourcepack Creators
 - The maximum amount of fossils that can fit in the Fossil Analyzer can be adjusted in the config.

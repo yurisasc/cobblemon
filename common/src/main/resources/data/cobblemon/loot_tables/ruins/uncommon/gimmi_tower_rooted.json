@@ -7,22 +7,22 @@
                 {
                     "type": "minecraft:item",
                     "name": "cobblemon:everstone",
-                    "weight": 1
+                    "weight": 3
                 },
                 {
                     "type": "minecraft:item",
                     "name": "cobblemon:dusk_stone",
-                    "weight": 1
+                    "weight": 3
                 },
                 {
                     "type": "minecraft:item",
                     "name": "cobblemon:ability_shield",
-                    "weight": 1
+                    "weight": 2
                 },
                 {
                     "type": "minecraft:item",
                     "name": "cobblemon:smoke_ball",
-                    "weight": 1
+                    "weight": 2
                 },
                 {
                     "type": "minecraft:item",
