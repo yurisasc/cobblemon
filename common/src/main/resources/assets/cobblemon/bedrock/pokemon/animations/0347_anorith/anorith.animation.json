@@ -1526,6 +1526,22 @@
 					"rotation": [12.12961, -3.58192, -1.96011]
 				}
 			}
+		},
+		"animation.anorith.walk_test": {
+			"loop": true,
+			"bones": {
+				"anorith": {
+					"position": [0, 0, "43-query.anim_time*90*0.05"]
+				}
+			}
+		},
+		"animation.anorith.swim_test": {
+			"loop": true,
+			"bones": {
+				"anorith": {
+					"position": [0, 0, "43-query.anim_time*90*0.1"]
+				}
+			}
 		}
 	}
 }

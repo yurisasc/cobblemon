@@ -2486,6 +2486,22 @@
 					"effect": "pokemon.armaldo.cry"
 				}
 			}
+		},
+		"animation.armaldo.walk_test": {
+			"loop": true,
+			"bones": {
+				"armaldo": {
+					"position": [0, 0, "-query.anim_time*90*0.09"]
+				}
+			}
+		},
+		"animation.armaldo.swim_test": {
+			"loop": true,
+			"bones": {
+				"armaldo": {
+					"position": [0, -13, "47-query.anim_time*90*0.2"]
+				}
+			}
 		}
 	}
 }
