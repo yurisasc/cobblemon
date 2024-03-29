@@ -29,6 +29,9 @@ fun Entity.setPositionSafely(pos: Vec3d): Boolean {
         return true
     }
 
+    // TODO: use getCollisions iterator and VoxelShapes.combineAndSimplify to create a single cube to represent collision area
+    // Use that cube to "push" the Pokemon out of the wall at an angle
+
     for (target in BlockPos.stream(box)) {
         val blockState = this.world.getBlockState(target)
         val collides = !blockState.isAir &&
@@ -70,25 +73,22 @@ fun Entity.setPositionSafely(pos: Vec3d): Boolean {
 
     box = boundingBox.offset(result)
     if (world.getCollisions(this, box).iterator().hasNext()) {
-        val yChanges = listOf(1.0, -1.0, 2.0, -2.0, 3.0)
+        val yChanges = listOf(1.0, -1.0, 2.0, -2.0)
         var previousChange = 0.0
         for (yChange in yChanges) {
-
             box = box.offset(0.0, yChange - previousChange, 0.0)
-            val it = world.getBlockCollisions(this, box).iterator()
             previousChange = yChange
-            if (it.hasNext()) {
+            if (world.getBlockCollisions(this, box).iterator().hasNext()) {
                 continue
             } else {
                 val roundedY = (result.y + yChange).toInt()
                 box = box.offset(0.0, roundedY - result.y, 0.0)
                 // If the rounded position actually collides again, then don't round at all.
                 if (world.getBlockCollisions(this, box).iterator().hasNext()) {
-                    setPosition(result.add(0.0, yChange, 0.0))
-                    return true
+                    result = result.add(0.0, yChange, 0.0)
+                } else {
+                    result = Vec3d(result.x, roundedY.toDouble(), result.z)
                 }
-                setPosition(Vec3d(result.x, roundedY.toDouble(), result.z))
-                return true
             }
         }
     }
