@@ -80,8 +80,7 @@ def main(print_missing_models=True, print_missing_animations=True):
             'override_correct': False,
             'in_game': False,
             'audio_file_exists': False,
-            'sound_effects': False,
-            'keyframe_exists': False
+            'sound_effects_and_keyframes': False,
         }
         # Construct the path to the model file
         # Try to convert gen_number to an integer and handle ValueError
