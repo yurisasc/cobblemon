@@ -62,7 +62,8 @@
 				},
 				"girder_connected": {
 					"rotation": [2.37935, 9.13672, -39.60443],
-					"position": [1.5, 0.5, -0.75]
+					"position": [1.5, 0.5, -0.75],
+					"scale": 0
 				},
 				"shoulder_right": {
 					"rotation": [-0.43688, -4.98093, 12.519]
@@ -511,7 +512,8 @@
 				},
 				"girder_connected": {
 					"rotation": [2.37935, 4.13672, -39.60443],
-					"position": [1.5, 0.5, -0.75]
+					"position": [1.5, 0.5, -0.75],
+					"scale": 0
 				},
 				"shoulder_right": {
 					"rotation": [-0.43688, "-4.9809-3*math.sin(q.anim_time*90*3+50)", 7.519]
@@ -781,7 +783,8 @@
 				},
 				"girder_connected": {
 					"rotation": [-10, 95.79602, 0],
-					"position": [19.75, -1.5, -2.25]
+					"position": [19.75, -1.5, -2.25],
+					"scale": 0
 				},
 				"shoulder_right": {
 					"rotation": [2.15825, 1.59979, 28.97006],
@@ -1247,7 +1250,8 @@
 							"lerp_mode": "catmullrom"
 						},
 						"3.4583": [1.5, 0.5, -0.75]
-					}
+					},
+					"scale": 0
 				},
 				"shoulder_right": {
 					"rotation": {
@@ -1946,7 +1950,8 @@
 				},
 				"girder_connected": {
 					"rotation": [2.37935, 9.13672, -39.60443],
-					"position": [1.5, 0.5, -0.75]
+					"position": [1.5, 0.5, -0.75],
+					"scale": 0
 				},
 				"shoulder_right": {
 					"rotation": [-2.93688, -12.48093, 12.519]
@@ -3317,7 +3322,8 @@
 				},
 				"girder_connected": {
 					"rotation": [2.37935, 9.13672, -39.60443],
-					"position": [1.5, 0.5, -0.75]
+					"position": [1.5, 0.5, -0.75],
+					"scale": 0
 				},
 				"shoulder_right": {
 					"rotation": {
@@ -4010,6 +4016,14 @@
 				"girder_disconnected": {
 					"rotation": [-10, 95.79602, 0],
 					"position": [19.75, -1.5, -2.25]
+				}
+			}
+		},
+		"animation.gurdurr.walkspeedtest": {
+			"loop": true,
+			"bones": {
+				"gurdurr": {
+					"position": [0, 0, "-q.anim_time*90*0.12"]
 				}
 			}
 		}
