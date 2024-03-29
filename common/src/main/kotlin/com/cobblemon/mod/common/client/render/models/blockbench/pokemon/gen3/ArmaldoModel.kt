@@ -29,11 +29,11 @@ class ArmaldoModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bima
     override val leftLeg = getPart("left_leg")
     override val rightLeg = getPart("right_leg")
 
-    override var portraitTranslation = Vec3d(-0.43, 1.47, 0.0)
-    override var portraitScale = 1.76F
+    override var portraitTranslation = Vec3d(-0.46, 1.5, 0.0)
+    override var portraitScale = 1.73F
 
-    override var profileTranslation = Vec3d(0.0, 0.72, 0.0)
-    override var profileScale = 0.66F
+    override var profileTranslation = Vec3d(0.0, 0.77, 0.0)
+    override var profileScale = 0.63F
 
     lateinit var standing: PokemonPose
     lateinit var walking: PokemonPose
@@ -47,6 +47,7 @@ class ArmaldoModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bima
     lateinit var water_battleidle: PokemonPose
     lateinit var water_surface_swim: PokemonPose
     lateinit var water_swim:PokemonPose
+    lateinit var ui_poses: PokemonPose
 
     val wateroffset = -4.5
     val watersurfaceoffset = 10
@@ -56,6 +57,15 @@ class ArmaldoModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bima
     override fun registerPoses() {
         val blink = quirk { bedrockStateful("armaldo", "blink") }
         val look = quirk { bedrockStateful("armaldo", "look_quirk") }
+
+        ui_poses = registerPose (
+                poseName = "ui_poses",
+                poseTypes = PoseType.UI_POSES,
+                quirks = arrayOf(blink, look),
+                idleAnimations = arrayOf(
+                        bedrock("armaldo", "ground_idle")
+                )
+        )
 
         sleep = registerPose(
                 poseName = "sleep",
