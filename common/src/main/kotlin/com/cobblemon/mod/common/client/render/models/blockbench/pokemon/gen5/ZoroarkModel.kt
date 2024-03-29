@@ -31,7 +31,7 @@ class ZoroarkModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bipe
     override var portraitTranslation = Vec3d(-0.89, 2.09, 0.0)
     override var portraitScale = 1.49F
 
-    override var profileTranslation = Vec3d(0.0, 1.08, 0.0)
+    override var profileTranslation = Vec3d(0.0, 1.08, -6.0)
     override var profileScale = 0.44F
 
     lateinit var standing: PokemonPose

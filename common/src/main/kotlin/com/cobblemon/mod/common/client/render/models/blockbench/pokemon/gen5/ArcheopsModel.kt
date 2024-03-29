@@ -32,7 +32,7 @@ class ArcheopsModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override var portraitTranslation = Vec3d(-1.19, 1.15, 0.0)
     override var portraitScale = 1.51F
 
-    override var profileTranslation = Vec3d(-0.04, 0.97, 0.0)
+    override var profileTranslation = Vec3d(-0.04, 0.97, -6.0)
     override var profileScale = 0.49F
 
     lateinit var standing: PokemonPose
