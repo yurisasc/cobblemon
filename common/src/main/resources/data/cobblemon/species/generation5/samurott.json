@@ -155,7 +155,7 @@
       ],
       "height": 15,
       "weight": 582,
-      "preEvolution": "dewott form=hisui",
+      "preEvolution": "dewott pattern=hisui",
       "baseScale": 0.75,
       "hitbox": {
         "width": 1.6,

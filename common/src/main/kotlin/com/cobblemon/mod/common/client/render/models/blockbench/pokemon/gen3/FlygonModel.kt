@@ -62,7 +62,7 @@ class FlygonModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BiWin
                 WingFlapIdleAnimation(this,
                     flapFunction = sineFunction(verticalShift = -10F.toRadians(), period = 0.7F, amplitude = 0.6F),
                     timeVariable = { state, _, _ -> state?.animationSeconds ?: 0F },
-                    axis = ModelPartTransformation.Z_AXIS
+                    axis = ModelPartTransformation.X_AXIS
                 )
             )
         )
@@ -77,7 +77,7 @@ class FlygonModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BiWin
                 WingFlapIdleAnimation(this,
                     flapFunction = sineFunction(verticalShift = -10F.toRadians(), period = 0.9F, amplitude = 0.5F),
                     timeVariable = { state, _, _ -> state?.animationSeconds ?: 0F },
-                    axis = ModelPartTransformation.Z_AXIS
+                    axis = ModelPartTransformation.X_AXIS
                 )
             )
         )

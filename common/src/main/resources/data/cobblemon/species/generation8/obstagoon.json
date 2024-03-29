@@ -43,7 +43,7 @@
     },
     "moving": {
       "walk": {
-        "walkSpeed": 0.3
+        "walkSpeed": 0.21
       }
     }
   },
@@ -140,7 +140,7 @@
   "pokedex": [
     "cobblemon.species.obstagoon.desc"
   ],
-  "preEvolution": "linoone form=galar",
+  "preEvolution": "linoone galarian",
   "evolutions": [],
   "baseScale": 0.65,
   "hitbox": {

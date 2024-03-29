@@ -134,7 +134,7 @@
     {
       "id": "lechonk_oinkologne",
       "variant": "level_up",
-      "result": "oinkologne form=f",
+      "result": "oinkologne f",
       "consumeHeldItem": false,
       "learnableMoves": [],
       "requirements": [

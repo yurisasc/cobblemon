@@ -3,7 +3,7 @@
   "order": 2,
   "variations": [
     {
-      "aspects": ["alolan"],
+      "aspects": ["alolan", "pattern-alola"],
       "model": "cobblemon:exeggcute_alolan.geo",
       "texture": "cobblemon:textures/pokemon/0102_exeggcute/exeggcute_alolan.png",
       "layers": []
@@ -11,7 +11,8 @@
     {
       "aspects": [
         "shiny",
-        "alolan"
+        "alolan",
+        "pattern-alola"
       ],
       "texture": "cobblemon:textures/pokemon/0102_exeggcute/exeggcute_alolan_shiny.png"
     }

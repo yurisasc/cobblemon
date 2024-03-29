@@ -33,6 +33,7 @@ class SalazzleModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
+    lateinit var battleIdle: PokemonPose
 
     override fun registerPoses() {
         val blink = quirk { bedrockStateful("salazzle", "blink") }
@@ -40,6 +41,7 @@ class SalazzleModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
         standing = registerPose(
             poseName = "standing",
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
+            condition = { !it.isBattling },
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
@@ -55,6 +57,17 @@ class SalazzleModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
                 singleBoneLook(),
                 bedrock("salazzle", "ground_idle"),
                 BipedWalkAnimation(this,0.6F, 1F)
+            )
+        )
+
+        battleIdle = registerPose(
+            poseName = "battleidle",
+            poseTypes = PoseType.STATIONARY_POSES,
+            condition = { it.isBattling },
+            quirks = arrayOf(blink),
+            idleAnimations = arrayOf(
+                singleBoneLook(),
+                bedrock("salazzle", "battle_idle")
             )
         )
     }

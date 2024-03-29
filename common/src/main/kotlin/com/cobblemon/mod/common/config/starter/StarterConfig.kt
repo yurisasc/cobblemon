@@ -106,6 +106,15 @@ class StarterConfig {
             )
         ),
         StarterCategory(
+            name = "Hisuian Variants",
+            displayName = "cobblemon.starterselection.category.hisuian_pattern",
+            pokemon = mutableListOf(
+                PokemonProperties.parse("Rowlet pattern=hisui level=10"),
+                PokemonProperties.parse("Cyndaquil pattern=hisui level=10"),
+                PokemonProperties.parse("Oshawott pattern=hisui level=10"),
+            )
+        ),
+        StarterCategory(
             name = "Paldea",
             displayName = "cobblemon.starterselection.category.paldea",
             pokemon = mutableListOf(

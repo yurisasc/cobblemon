@@ -123,5 +123,5 @@ class LanturnModel (root: ModelPart) : PokemonPoseableModel() {
     override fun getFaintAnimation(
         pokemonEntity: PokemonEntity,
         state: PoseableEntityState<PokemonEntity>
-    ) = if (state.isPosedIn(standing, walk, battleidle, sleep)) bedrockStateful("lanturn", "water_faint") else if (state.isPosedIn( waterbattleidle, watersleep )) bedrockStateful("lanturn", "water_faint") else null
+    ) = if (state.isPosedIn(standing, walk, battleidle, sleep)) bedrockStateful("lanturn", "faint") else if (state.isPosedIn( waterbattleidle, watersleep, floating, swimming )) bedrockStateful("lanturn", "water_faint") else null
 }

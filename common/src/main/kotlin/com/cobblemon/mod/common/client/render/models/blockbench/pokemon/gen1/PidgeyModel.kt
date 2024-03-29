@@ -128,7 +128,7 @@ class PidgeyModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
-                bedrock("pidgey", "ground_idle")
+                bedrock("pidgey", "ground_walk")
             )
         )
     }

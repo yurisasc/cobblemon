@@ -8,10 +8,10 @@
     "overgrow",
     "h:longreach"
   ],
-  "features": ["hisuian"],
+  "features": ["pattern"],
   "forms": [
     {
-      "name": "Hisui",
+      "name": "Hisui Pattern",
       "primaryType": "grass",
       "secondaryType": "flying",
       "abilities": [
@@ -150,10 +150,25 @@
         "gen7",
         "hisui_regional"
       ],
-      "preEvolution": "rowlet form=hisui",
+      "preEvolution": "rowlet pattern=hisui",
       "evolutions": [
         {
-          "id": "dartrix_decidueye",
+          "id": "hisui_dartrix_hisui_decidueye",
+          "variant": "level_up",
+          "result": "decidueye hisuian",
+          "consumeHeldItem": false,
+          "learnableMoves": [
+            "triplearrows"
+          ],
+          "requirements": [
+            {
+              "variant": "level",
+              "minLevel": 36
+            }
+          ]
+        },
+        {
+          "id": "hisui_dartrix_decidueye",
           "variant": "level_up",
           "result": "decidueye",
           "consumeHeldItem": false,
@@ -164,21 +179,18 @@
             {
               "variant": "level",
               "minLevel": 34
-            }
-          ]
-        },
-        {
-          "id": "dartrix_decidueye",
-          "variant": "level_up",
-          "result": "decidueye form=hisui",
-          "consumeHeldItem": false,
-          "learnableMoves": [
-            "triplearrows"
-          ],
-          "requirements": [
+            },
             {
-              "variant": "level",
-              "minLevel": 36
+              "variant": "biome",
+              "biomeCondition": "#cobblemon:is_forest"
+            },
+            {
+              "variant": "biome",
+              "biomeCondition": "#cobblemon:is_taiga"
+            },
+            {
+              "variant": "biome",
+              "biomeAnticondition": "#cobblemon:is_freezing"
             }
           ]
         }
@@ -200,7 +212,7 @@
       },
       "height": 7,
       "weight": 160,
-      "aspects": [],
+      "aspects": ["pattern-hisui"],
       "cannotDynamax": false
     }
   ],
@@ -356,9 +368,9 @@
       ]
     },
     {
-      "id": "dartrix_decidueye",
+      "id": "dartrix_decidueye_hisui",
       "variant": "level_up",
-      "result": "decidueye form=hisui",
+      "result": "decidueye hisuian",
       "consumeHeldItem": false,
       "learnableMoves": [
         "triplearrows"
@@ -367,6 +379,14 @@
         {
           "variant": "level",
           "minLevel": 36
+        },
+        {
+          "variant": "biome",
+          "biomeCondition": "#cobblemon:is_snowy_forest"
+        },
+        {
+          "variant": "biome",
+          "biomeCondition": "#cobblemon:is_snowy_taiga"
         }
       ]
     }

@@ -49,7 +49,7 @@ class DartrixHisuianModel(root: ModelPart) : PokemonPoseableModel(), BipedFrame,
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("dartrix", "cry") }
+//    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("dartrix", "cry") }
 
     override fun registerPoses() {
         standing = registerPose(

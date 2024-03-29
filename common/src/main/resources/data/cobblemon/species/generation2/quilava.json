@@ -16,7 +16,7 @@
       }
     ]
   },
-  "features": ["hisuian"],
+  "features": ["pattern"],
   "forms": [
     {
       "name": "Hisui",
@@ -184,25 +184,12 @@
         "gen2",
         "hisui_regional"
       ],
-      "preEvolution": "cyndaquil form=hisui",
+      "preEvolution": "cyndaquil hisuian",
       "evolutions": [
         {
-          "id": "quilava_typhlosion",
+          "id": "hisui_quilava_hisui_typhlosion",
           "variant": "level_up",
-          "result": "typhlosion",
-          "consumeHeldItem": false,
-          "learnableMoves": [],
-          "requirements": [
-            {
-              "variant": "level",
-              "minLevel": 36
-            }
-          ]
-        },
-        {
-          "id": "quilava_typhlosion",
-          "variant": "level_up",
-          "result": "typhlosion form=hisui",
+          "result": "typhlosion hisuian",
           "consumeHeldItem": false,
           "learnableMoves": [
             "infernalparade"
@@ -211,6 +198,27 @@
             {
               "variant": "level",
               "minLevel": 36
+            }
+          ]
+        },
+        {
+          "id": "hisui_quilava_typhlosion",
+          "variant": "level_up",
+          "result": "typhlosion",
+          "consumeHeldItem": false,
+          "learnableMoves": [],
+          "requirements": [
+            {
+              "variant": "level",
+              "minLevel": 36
+            },
+            {
+              "variant": "biome",
+              "biomeCondition": "#cobblemon:is_temperate"
+            },
+            {
+              "variant": "biome",
+              "biomeAnticondition": "#cobblemon:is_spooky"
             }
           ]
         }
@@ -232,7 +240,7 @@
       },
       "height": 9,
       "weight": 190,
-      "aspects": ["hisuian"],
+      "aspects": ["pattern-hisui"],
       "cannotDynamax": false
     }
   ],
@@ -404,9 +412,9 @@
       ]
     },
     {
-      "id": "quilava_typhlosion",
+      "id": "quilava_hisui_typhlosion",
       "variant": "level_up",
-      "result": "typhlosion form=hisui",
+      "result": "typhlosion hisuian",
       "consumeHeldItem": false,
       "learnableMoves": [
         "infernalparade"
@@ -415,6 +423,22 @@
         {
           "variant": "level",
           "minLevel": 36
+        },
+        {
+          "variant": "biome",
+          "biomeCondition": "#cobblemon:is_taiga"
+        },
+        {
+          "variant": "biome",
+          "biomeCondition": "#cobblemon:nether/is_crimson"
+        },
+        {
+          "variant": "biome",
+          "biomeCondition": "#cobblemon:nether/is_forest"
+        },
+        {
+          "variant": "biome",
+          "biomeCondition": "#cobblemon:nether/is_overgrowth"
         }
       ]
     }

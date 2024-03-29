@@ -172,18 +172,19 @@
   - Additionally, if you give Gimmighoul a Netherite Scrap, you can increase its Netherite Stash. Who knows what might happen if it fills up?
 - Gholdengo
 
-#### Cobblemon Exclusives Patterns
-- Hisuian Rowlet
-- Hisuian Dartrix
-- Hisuian Cyndaquil
-- Hisuian Quilava
-- Hisuian Oshawott
-- Hisuian Dewott
-- Hisuian Goomy
-- Hisuian Petilil
+#### Cobblemon Exclusive Patterns
+- Hisui Pattern Rowlet
+- Hisui Pattern Dartrix
+- Hisui Pattern Cyndaquil
+- Hisui Pattern Quilava
+- Hisui Pattern Oshawott
+- Hisui Pattern Dewott
+- Hisui Pattern Goomy
+- Hisui Pattern Petilil
 
 
 ### Changes
+- Alolan Pikachu and Exeggcute changed to Alola pattern's.
 - Pokémon now transition more smoothly between different poses.
 - Updated models for Mimikyu, Alcremie, Squirtle, Wartortle, Blastoise, Pidgey, Pidgeotto, Pidgeot, Omanyte, Omastar, Growlithe, Arcanine, Nidoran Male, Nidoran Female, Lapras, Swinub, Piloswine, Basculin, Rowlet, Dartrix, Decidueye, Kabuto, Kabutops, Piplup, Prinplup, Elekid, Electabuzz, Cubone, Marowak, Paras, Mawile, Drifloon, Drifblim, Venonat, Venomoth, Yanma, Yanmega, Psyduck, Dusknoir, Diglett, Dugtrio, Natu, Xatu, Oshawott, Samurott, Torchic, Grovyle, Sceptile, Sizzlipede, and Raboot.
 - Updated animations for Squirtle, Wartortle, Blastoise, Pidgey, Pidgeotto, Diglett, Dugtrio, Magikarp, Dragonite, Omanyte, Omastar, Kabuto, Pinsir, Chinchou, Lanturn, Ralts, Kirlia, Gardevoir, Gallade, Buizel, Garchomp, Pumpkaboo, Falinks, Lechonk, Litwick, Lampent, Chandelure, Carnivine, Galarian Meowth, Galarian Rapidash, Venonat, Venomoth, Phanphy, Donphan, Dratini, Dragonair, Happiny, Chansey, Blissey, Volbeat, Illumise, Numel, Sizzlipede, Centiskorch, Obstagoon, Timburr, Gurdurr, Conkeldurr, Drifloon, and Drifblim.

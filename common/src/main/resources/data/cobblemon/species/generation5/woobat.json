@@ -39,6 +39,13 @@
     "flying",
     "field"
   ],
+  "behaviour": {
+    "moving": {
+      "fly": {
+        "canFly": true
+      }
+    }
+  },
   "moves": [
     "1:attract",
     "1:gust",

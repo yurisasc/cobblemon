@@ -295,23 +295,24 @@
 					"parent": "eye_left",
 					"pivot": [2.55, 29.25, -16.52],
 					"cubes": [
-						{"origin": [1.65, 28.25, -16.52], "size": [1.75, 1.75, 0], "uv": [6, 2]}
+						{"origin": [1.5, 29, -16.53], "size": [2, 1, 0], "uv": [0, 4]},
+						{"origin": [1.5, 28.5, -16.52], "size": [2, 1, 0], "uv": [0, 4]}
 					]
 				},
 				{
 					"name": "pupil_left",
 					"parent": "eye_main_left",
-					"pivot": [2.5, 29.5, -16.53],
+					"pivot": [2.5, 29.5, -16.54],
 					"cubes": [
-						{"origin": [2, 29, -16.53], "size": [1, 1, 0], "uv": [6, 0]}
+						{"origin": [2, 29, -16.54], "size": [1, 1, 0], "uv": [6, 0]}
 					]
 				},
 				{
 					"name": "eyelid_left",
 					"parent": "eye_main_left",
-					"pivot": [2.55, 29, -15.93],
+					"pivot": [2.5, 29, -15.94],
 					"cubes": [
-						{"origin": [1.55, 28, -16.43], "size": [2, 2, 1], "inflate": 0.01, "uv": [34, 0]}
+						{"origin": [1.5, 28, -16.44], "size": [2, 2, 1], "inflate": 0.01, "uv": [34, 0]}
 					]
 				},
 				{
@@ -327,23 +328,24 @@
 					"parent": "eye_right",
 					"pivot": [-2.55, 29.25, -16.52],
 					"cubes": [
-						{"origin": [-3.4, 28.25, -16.52], "size": [1.75, 1.75, 0], "uv": [6, 3], "mirror": true}
+						{"origin": [-3.5, 29, -16.53], "size": [2, 1, 0], "uv": [0, 5], "mirror": true},
+						{"origin": [-3.5, 28.5, -16.52], "size": [2, 1, 0], "uv": [0, 5], "mirror": true}
 					]
 				},
 				{
 					"name": "pupil_right",
 					"parent": "eye_main_right",
-					"pivot": [-2.5, 29.5, -16.53],
+					"pivot": [-2.5, 29.5, -16.54],
 					"cubes": [
-						{"origin": [-3, 29, -16.53], "size": [1, 1, 0], "uv": [6, 1], "mirror": true}
+						{"origin": [-3, 29, -16.54], "size": [1, 1, 0], "uv": [6, 1], "mirror": true}
 					]
 				},
 				{
 					"name": "eyelid_right",
 					"parent": "eye_main_right",
-					"pivot": [-2.55, 29, -15.93],
+					"pivot": [-2.5, 29, -15.94],
 					"cubes": [
-						{"origin": [-3.55, 28, -16.43], "size": [2, 2, 1], "inflate": 0.01, "uv": [38, 3], "mirror": true}
+						{"origin": [-3.5, 28, -16.44], "size": [2, 2, 1], "inflate": 0.01, "uv": [38, 3], "mirror": true}
 					]
 				},
 				{

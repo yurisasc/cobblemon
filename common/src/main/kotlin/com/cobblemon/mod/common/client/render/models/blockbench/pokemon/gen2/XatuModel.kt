@@ -9,15 +9,24 @@
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen2
 
 import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
+import com.cobblemon.mod.common.client.render.models.blockbench.animation.WingFlapIdleAnimation
+import com.cobblemon.mod.common.client.render.models.blockbench.frame.BiWingedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.pose.ModelPartTransformation
+import com.cobblemon.mod.common.client.render.models.blockbench.wavefunction.sineFunction
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
+import com.cobblemon.mod.common.util.math.geometry.toRadians
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class XatuModel(root: ModelPart) : PokemonPoseableModel() {
+class XatuModel(root: ModelPart) : PokemonPoseableModel(), BiWingedFrame {
     override val rootPart = root.registerChildWithAllChildren("xatu")
+
+    override val leftWing = getPart("wing_open_left")
+    override val rightWing = getPart("wing_open_right")
+
     override var portraitScale = 1.91F
     override var portraitTranslation = Vec3d(-0.04, 1.16, 0.0)
 
@@ -25,6 +34,7 @@ class XatuModel(root: ModelPart) : PokemonPoseableModel() {
     override var profileTranslation = Vec3d(0.0, 0.75, 0.0)
 
     lateinit var standing: PokemonPose
+    lateinit var walking: PokemonPose
     lateinit var sleep: PokemonPose
     override fun registerPoses() {
         val blink = quirk { bedrockStateful("xatu", "blink") }
@@ -41,6 +51,20 @@ class XatuModel(root: ModelPart) : PokemonPoseableModel() {
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 bedrock("xatu", "ground_idle")
+            )
+        )
+
+        walking = registerPose(
+            poseName = "walking",
+            poseTypes = PoseType.MOVING_POSES,
+            quirks = arrayOf(blink),
+            idleAnimations = arrayOf(
+                bedrock("xatu", "air_idle"),
+                WingFlapIdleAnimation(this,
+                    flapFunction = sineFunction(verticalShift = -10F.toRadians(), period = 0.9F, amplitude = 0.6F),
+                    timeVariable = { state, _, _ -> state?.animationSeconds ?: 0F },
+                    axis = ModelPartTransformation.X_AXIS
+                )
             )
         )
     }

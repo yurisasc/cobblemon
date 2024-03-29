@@ -135,7 +135,7 @@
         {
           "id": "growlithe_arcanine",
           "variant": "item_interact",
-          "result": "arcanine form=hisui",
+          "result": "arcanine hisuian",
           "consumeHeldItem": false,
           "learnableMoves": [
             "extremespeed"

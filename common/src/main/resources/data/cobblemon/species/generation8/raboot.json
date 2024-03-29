@@ -45,6 +45,13 @@
       }
     ]
   },
+  "behaviour": {
+    "moving" : {
+      "walk": {
+        "walkSpeed": 0.21
+      }
+    }
+  },
   "moves": [
     "1:ember",
     "1:growl",

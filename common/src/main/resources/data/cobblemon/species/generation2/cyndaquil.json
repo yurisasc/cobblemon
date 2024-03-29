@@ -16,10 +16,10 @@
       }
     ]
   },
-  "features": ["hisuian"],
+  "features": ["pattern"],
   "forms": [
     {
-      "name": "Hisui",
+      "name": "Hisui Pattern",
       "primaryType": "fire",
       "abilities": [
         "blaze",
@@ -197,15 +197,36 @@
       ],
       "evolutions": [
         {
-          "id": "cyndaquil_quilava",
+          "id": "hisui_cyndaquil_hisui_quilava",
           "variant": "level_up",
-          "result": "quilava form=hisui",
+          "result": "quilava pattern=hisui",
           "consumeHeldItem": false,
           "learnableMoves": [],
           "requirements": [
             {
               "variant": "level",
               "minLevel": 14
+            }
+          ]
+        },
+        {
+          "id": "hisui_cyndaquil_quilava",
+          "variant": "level_up",
+          "result": "quilava",
+          "consumeHeldItem": false,
+          "learnableMoves": [],
+          "requirements": [
+            {
+              "variant": "level",
+              "minLevel": 14
+            },
+            {
+              "variant": "biome",
+              "biomeCondition": "#cobblemon:is_temperate"
+            },
+            {
+              "variant": "biome",
+              "biomeAnticondition": "#cobblemon:is_spooky"
             }
           ]
         }
@@ -227,7 +248,7 @@
       },
       "height": 5,
       "weight": 79,
-      "aspects": ["hisuian"],
+      "aspects": ["pattern-hisui"],
       "cannotDynamax": false
     }
   ],
@@ -405,6 +426,35 @@
         {
           "variant": "level",
           "minLevel": 14
+        }
+      ]
+    },
+    {
+      "id": "cyndaquil_hisui_quilava",
+      "variant": "level_up",
+      "result": "quilava pattern=hisui",
+      "consumeHeldItem": false,
+      "learnableMoves": [],
+      "requirements": [
+        {
+          "variant": "level",
+          "minLevel": 14
+        },
+        {
+          "variant": "biome",
+          "biomeCondition": "#cobblemon:is_taiga"
+        },
+        {
+          "variant": "biome",
+          "biomeCondition": "#cobblemon:nether/is_crimson"
+        },
+        {
+          "variant": "biome",
+          "biomeCondition": "#cobblemon:nether/is_forest"
+        },
+        {
+          "variant": "biome",
+          "biomeCondition": "#cobblemon:nether/is_overgrowth"
         }
       ]
     }

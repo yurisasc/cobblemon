@@ -135,7 +135,7 @@
         {
           "id": "zorua_zoroark",
           "variant": "level_up",
-          "result": "zoroark form=hisui",
+          "result": "zoroark hisuian",
           "consumeHeldItem": false,
           "learnableMoves": [
             "shadowclaw"

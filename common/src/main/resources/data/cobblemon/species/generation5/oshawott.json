@@ -7,10 +7,10 @@
     "torrent",
     "h:shellarmor"
   ],
-  "features": ["hisuian"],
+  "features": ["pattern"],
   "forms": [
     {
-      "name": "Hisui",
+      "name": "Hisui Pattern",
       "primaryType": "water",
       "abilities": [
         "torrent",
@@ -160,15 +160,36 @@
       ],
       "evolutions": [
         {
-          "id": "oshawott_dewott",
+          "id": "hisui_oshawott_hisui_dewott",
           "variant": "level_up",
-          "result": "dewott form=hisui",
+          "result": "dewott pattern=hisui",
           "consumeHeldItem": false,
           "learnableMoves": [],
           "requirements": [
             {
               "variant": "level",
               "minLevel": 17
+            }
+          ]
+        },
+        {
+          "id": "hisui_oshawott_dewott",
+          "variant": "level_up",
+          "result": "dewott",
+          "consumeHeldItem": false,
+          "learnableMoves": [],
+          "requirements": [
+            {
+              "variant": "level",
+              "minLevel": 17
+            },
+            {
+              "variant": "biome",
+              "biomeCondition": "#cobblemon:is_beach"
+            },
+            {
+              "variant": "biome",
+              "biomeAnticondition": "#cobblemon:is_freezing"
             }
           ]
         }
@@ -190,7 +211,7 @@
       },
       "height": 5,
       "weight": 59,
-      "aspects": ["hisuian"],
+      "aspects": ["pattern-hisui"],
       "cannotDynamax": false
     }
   ],
@@ -349,6 +370,31 @@
         {
           "variant": "level",
           "minLevel": 17
+        }
+      ]
+    },
+    {
+      "id": "oshawott_hisui_dewott",
+      "variant": "level_up",
+      "result": "dewott pattern=hisui",
+      "consumeHeldItem": false,
+      "learnableMoves": [],
+      "requirements": [
+        {
+          "variant": "level",
+          "minLevel": 17
+        },
+        {
+          "variant": "biome",
+          "biomeCondition": "#cobblemon:is_coast"
+        },
+        {
+          "variant": "biome",
+          "biomeCondition": "#cobblemon:is_snowy_beach"
+        },
+        {
+          "variant": "biome",
+          "biomeAnticondition": "#cobblemon:is_beach"
         }
       ]
     }

@@ -8,7 +8,7 @@
     "overgrow",
     "h:longreach"
   ],
-  "features": ["hisuian"],
+  "features": ["pattern"],
   "forms": [
     {
       "name": "Hisui",
@@ -160,15 +160,40 @@
       ],
       "evolutions": [
         {
-          "id": "rowlet_dartrix",
+          "id": "hisui_rowlet_hisui_dartrix",
           "variant": "level_up",
-          "result": "dartrix form=hisui",
+          "result": "dartrix pattern=hisui",
           "consumeHeldItem": false,
           "learnableMoves": [],
           "requirements": [
             {
               "variant": "level",
               "minLevel": 17
+            }
+          ]
+        },
+        {
+          "id": "hisui_rowlet_dartrix",
+          "variant": "level_up",
+          "result": "dartrix",
+          "consumeHeldItem": false,
+          "learnableMoves": [],
+          "requirements": [
+            {
+              "variant": "level",
+              "minLevel": 17
+            },
+            {
+              "variant": "biome",
+              "biomeCondition": "#cobblemon:is_forest"
+            },
+            {
+              "variant": "biome",
+              "biomeCondition": "#cobblemon:is_taiga"
+            },
+            {
+              "variant": "biome",
+              "biomeAnticondition": "#cobblemon:is_freezing"
             }
           ]
         }
@@ -190,7 +215,7 @@
       },
       "height": 3,
       "weight": 15,
-      "aspects": ["hisuian"],
+      "aspects": ["pattern-hisui"],
       "cannotDynamax": false
     }
   ],
@@ -347,6 +372,27 @@
         {
           "variant": "level",
           "minLevel": 17
+        }
+      ]
+    },
+    {
+      "id": "rowlet_hisui_dartrix",
+      "variant": "level_up",
+      "result": "dartrix pattern=hisui",
+      "consumeHeldItem": false,
+      "learnableMoves": [],
+      "requirements": [
+        {
+          "variant": "level",
+          "minLevel": 17
+        },
+        {
+          "variant": "biome",
+          "biomeCondition": "#cobblemon:is_snowy_forest"
+        },
+        {
+          "variant": "biome",
+          "biomeCondition": "#cobblemon:is_snowy_taiga"
         }
       ]
     }

@@ -41,7 +41,7 @@ class GoodraHisuianModel (root: ModelPart) : PokemonPoseableModel() {
             poseTypes = PoseType.MOVING_POSES,
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
-                bedrock("goodra_hisuian", "ground_idle"),
+                bedrock("goodra_hisuian", "ground_walk"),
             )
         )
     }

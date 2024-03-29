@@ -21,7 +21,7 @@
   "shoulderMountable": false,
   "forms": [
     {
-      "name": "Alolan",
+      "name": "Alola Variant",
       "maleRatio": 0.5,
       "labels": [
         "alola_regional"
@@ -31,9 +31,19 @@
       ],
       "evolutions": [
         {
-          "id": "exeggcute_exeggutor_alolan_kantonian",
+          "id": "alola_exeggcute_alola_exeggutor",
           "variant": "item_interact",
-          "result": "exeggutor alolan=false",
+          "result": "exeggutor pattern=alola",
+          "consumeHeldItem": false,
+          "learnableMoves": [
+            "dragonhammer"
+          ],
+          "requiredContext": "cobblemon:leaf_stone"
+        },
+        {
+          "id": "alola_exeggcute_exeggutor",
+          "variant": "item_interact",
+          "result": "exeggutor",
           "consumeHeldItem": false,
           "learnableMoves": [
             "stomp"
@@ -42,22 +52,6 @@
             {
               "variant": "biome",
               "biomeCondition": "#cobblemon:is_jungle"
-            }
-          ],
-          "requiredContext": "cobblemon:leaf_stone"
-        },
-        {
-          "id": "exeggcute_exeggutor_alolan",
-          "variant": "item_interact",
-          "result": "exeggutor alolan",
-          "consumeHeldItem": false,
-          "learnableMoves": [
-            "dragonhammer"
-          ],
-          "requirements": [
-            {
-              "variant": "biome",
-              "biomeAnticondition": "#cobblemon:is_jungle"
             }
           ],
           "requiredContext": "cobblemon:leaf_stone"
@@ -264,13 +258,24 @@
     "cobblemon.species.exeggcute.desc"
   ],
   "features": [
-    "alolan"
+    "alolan",
+    "pattern"
   ],
   "evolutions": [
     {
-      "id": "exeggcute_exeggutor_kantonian_alolan",
+      "id": "exeggcute_exeggutor",
       "variant": "item_interact",
-      "result": "exeggutor alolan",
+      "result": "exeggutor",
+      "consumeHeldItem": false,
+      "learnableMoves": [
+        "stomp"
+      ],
+      "requiredContext": "cobblemon:leaf_stone"
+    },
+    {
+      "id": "exeggcute_alola_exeggutor",
+      "variant": "item_interact",
+      "result": "exeggutor pattern=alola",
       "consumeHeldItem": false,
       "learnableMoves": [
         "dragonhammer"
@@ -279,22 +284,14 @@
         {
           "variant": "biome",
           "biomeCondition": "#minecraft:is_beach"
-        }
-      ],
-      "requiredContext": "cobblemon:leaf_stone"
-    },
-    {
-      "id": "exeggcute_exeggutor_kantonian",
-      "variant": "item_interact",
-      "result": "exeggutor alolan=false",
-      "consumeHeldItem": false,
-      "learnableMoves": [
-        "stomp"
-      ],
-      "requirements": [
+        },
         {
           "variant": "biome",
-          "biomeAnticondition": "#minecraft:is_beach"
+          "biomeCondition": "#minecraft:is_tropical_island"
+        },
+        {
+          "variant": "biome",
+          "biomeAnticondition": "#minecraft:is_freezing"
         }
       ],
       "requiredContext": "cobblemon:leaf_stone"

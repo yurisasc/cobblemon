@@ -3,7 +3,7 @@
   "order": 1,
   "variations": [
     {
-      "aspects": ["hisuian"],
+      "aspects": ["pattern-hisui"],
       "poser": "cobblemon:rowlet_hisuian",
       "model": "cobblemon:rowlet_hisuian.geo",
       "texture": "cobblemon:textures/pokemon/0722_rowlet/rowlet_hisuian.png",
@@ -11,7 +11,7 @@
     },
     {
       "aspects": [
-        "hisuian",
+        "pattern-hisui",
         "shiny"
       ],
       "texture": "cobblemon:textures/pokemon/0722_rowlet/rowlet_hisuian_shiny.png"

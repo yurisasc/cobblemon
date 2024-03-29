@@ -3,7 +3,7 @@
   "order": 1,
   "variations": [
     {
-      "aspects": ["hisuian"],
+      "aspects": ["pattern-hisui"],
       "poser": "cobblemon:oshawott_hisuian",
       "model": "cobblemon:oshawott_hisuian.geo",
       "texture": "cobblemon:textures/pokemon/0501_oshawott/oshawott_hisuian.png",
@@ -11,7 +11,7 @@
     },
     {
       "aspects": [
-        "hisuian",
+        "pattern-hisui",
         "shiny"
       ],
       "texture": "cobblemon:textures/pokemon/0501_oshawott/oshawott_hisuian_shiny.png"
