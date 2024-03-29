@@ -16,17 +16,17 @@
                 },
                 {
                     "type": "minecraft:item",
-                    "name": "minecraft:suspicious_gravel",
-                    "weight": 2
-                },
-                {
-                    "type": "minecraft:item",
                     "name": "cobblemon:shell_bell",
                     "weight": 3
                 },
                 {
                     "type": "minecraft:item",
-                    "name": "minecraft:suspicious_gravel",
+                    "name": "cobblemon:cracked_pot",
+                    "weight": 2
+                },
+                {
+                    "type": "minecraft:item",
+                    "name": "cobblemon:chipped_pot",
                     "weight": 1
                 },
                 {

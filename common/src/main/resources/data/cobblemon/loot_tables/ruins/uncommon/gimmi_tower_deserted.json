@@ -22,7 +22,7 @@
                 {
                     "type": "minecraft:item",
                     "name": "cobblemon:focus_sash",
-                    "weight": 1
+                    "weight": 3
                 },
                 {
                     "type": "minecraft:item",
