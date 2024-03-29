@@ -1534,6 +1534,7 @@
 
   "gamerule.doPokemonSpawning": "Spawn Pokémon",
   "gamerule.doShinyStarters": "Starters will be shiny",
+  "gamerule.doPokemonLoot": "Drop Pokémon Loot",
   "cobblemon.command.checkspawns.invalid-bucket": "Invalid Spawn Bucket",
   "cobblemon.command.checkspawns.spawns": "Spawns",
   "cobblemon.command.checkspawns.nothing": "Nothing can spawn here right now.",
