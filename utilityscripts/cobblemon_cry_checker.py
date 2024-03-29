@@ -47,6 +47,7 @@ def main(print_missing_models=True, print_missing_animations=True):
     # Initialize lists for false positives and negatives
     false_positives = []
     false_negatives = []
+    implemented_and_not_marked = []
     invalid_model_files = []
     invalid_animation_files = []
     all_warnings_combined = []
@@ -147,8 +148,11 @@ def main(print_missing_models=True, print_missing_animations=True):
         # If any of the checks failed, add the Pokemon to the corresponding lists, but not if all checks are false
         if all(value is False for value in checks.values()) and checks["in_game"] is False:
             continue
+        if not checks["in_game"]:
+            implemented_and_not_marked.append(f"{pokemon_name}")
         if all(value is True for value in checks.values()):
             continue
+
 
         if not checks["override_correct"] and not checks["import_correct"]:
             invalid_model_files.append((pokemon_name, " [Problems with both import and override]"))
@@ -193,6 +197,11 @@ def main(print_missing_models=True, print_missing_animations=True):
             # Only print entries that contain G-Max or Mega
             false_negatives_filtered = [x for x in false_negatives if "G-Max" in x or "Mega" in x]
             print_list_filtered(false_negatives_filtered)
+
+        if implemented_and_not_marked:
+            print_separator()
+            print("\nPokemon that are (at least partially) implemented in the game but not marked as cry in-game in the spreadsheet:")
+            print_list_filtered(implemented_and_not_marked)
 
         # Print out the lists of invalid Model.kt and animation.json files
         if invalid_model_files:
