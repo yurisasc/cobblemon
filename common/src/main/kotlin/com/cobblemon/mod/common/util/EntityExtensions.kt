@@ -24,30 +24,9 @@ fun Entity.setPositionSafely(pos: Vec3d): Boolean {
     var box = boundingBox.offset(pos)
     val conflicts = mutableSetOf<Direction>()
 
-    if (!world.getBlockCollisions(this, box).iterator().hasNext()) {
+    if (!world.getCollisions(this, box).iterator().hasNext()) {
         setPosition(pos)
         return true
-    }
-
-    val yChanges = listOf(1.0, -1.0, 2.0, -2.0)
-    var previousChange = 0.0
-    for (yChange in yChanges) {
-        box = box.offset(0.0, yChange - previousChange, 0.0)
-        val it = world.getBlockCollisions(this, box).iterator()
-        previousChange = yChange
-        if (it.hasNext()) {
-            continue
-        } else {
-            val roundedY = (pos.y + yChange).toInt()
-            box = box.offset(0.0, roundedY - pos.y, 0.0)
-            // If the rounded position actually collides again, then don't round at all.
-            if (world.getBlockCollisions(this, box).iterator().hasNext()) {
-                setPosition(pos.add(0.0, yChange, 0.0))
-                return true
-            }
-            setPosition(Vec3d(pos.x, roundedY.toDouble(), pos.z))
-            return true
-        }
     }
 
     for (target in BlockPos.stream(box)) {
@@ -73,19 +52,44 @@ fun Entity.setPositionSafely(pos: Vec3d): Boolean {
                             result = result.add(Vec3d(0.0, 0.0, 1 + (conflict.z - box.minZ + (1.0 / 8.0))))
                         }
                         Direction.SOUTH -> {
-                            result = result.add(Vec3d(0.0, 0.0, -1 * (1 - (conflict.z - box.minZ) + (1.0 / 8.0))))
+                            result = result.add(Vec3d(0.0, 0.0, (conflict.z - box.maxZ) - (1.0 / 8.0)))
                         }
                         Direction.WEST -> {
                             result = result.add(Vec3d(1 + (conflict.x - box.minX  + (1.0 / 8.0)), 0.0, 0.0))
                         }
                         Direction.EAST -> {
-                            result = result.add(Vec3d(-1 * (1 - (conflict.x - box.minX) + (1.0 / 8.0)), 0.0, 0.0))
+                            result = result.add(Vec3d((conflict.x - box.maxX) - (1.0 / 8.0), 0.0, 0.0))
                         }
                         else -> {}
                     }
                 }
             }
 
+        }
+    }
+
+    box = boundingBox.offset(result)
+    if (world.getCollisions(this, box).iterator().hasNext()) {
+        val yChanges = listOf(1.0, -1.0, 2.0, -2.0, 3.0)
+        var previousChange = 0.0
+        for (yChange in yChanges) {
+
+            box = box.offset(0.0, yChange - previousChange, 0.0)
+            val it = world.getBlockCollisions(this, box).iterator()
+            previousChange = yChange
+            if (it.hasNext()) {
+                continue
+            } else {
+                val roundedY = (result.y + yChange).toInt()
+                box = box.offset(0.0, roundedY - result.y, 0.0)
+                // If the rounded position actually collides again, then don't round at all.
+                if (world.getBlockCollisions(this, box).iterator().hasNext()) {
+                    setPosition(result.add(0.0, yChange, 0.0))
+                    return true
+                }
+                setPosition(Vec3d(result.x, roundedY.toDouble(), result.z))
+                return true
+            }
         }
     }
 
