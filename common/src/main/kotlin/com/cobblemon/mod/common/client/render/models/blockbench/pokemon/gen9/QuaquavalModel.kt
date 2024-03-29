@@ -14,6 +14,7 @@ import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFram
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.pose.ModelPartTransformation
 import com.cobblemon.mod.common.entity.PoseType
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
@@ -38,6 +39,12 @@ class QuaquavalModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bi
     lateinit var walking: PokemonPose
     lateinit var sleep: PokemonPose
     lateinit var battleidle: PokemonPose
+    lateinit var floating: PokemonPose
+    lateinit var swimming: PokemonPose
+    lateinit var surface_floating: PokemonPose
+    lateinit var surface_swimming: PokemonPose
+
+    val wateroffset = 19
 
     override val cryAnimation = CryProvider { _, _ -> bedrockStateful("quaquaval", "cry") }
 
@@ -67,20 +74,21 @@ class QuaquavalModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bi
             poseName = "standing2",
             poseTypes = PoseType.STATIONARY_POSES,
             transformTicks = 10,
-            condition = { !it.isBattling && it.isTouchingWaterOrRain},
+            condition = { !it.isBattling && it.isTouchingWaterOrRain && !it.isSubmergedInWater},
             transformedParts = arrayOf(
                 water_feathers.createTransformation().withVisibility(visibility = false)
             ),
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
-                bedrock("quaquaval", "ground_idle")
+                bedrock("quaquaval", "ground_idle2")
             )
         )
 
         walking = registerPose(
             poseName = "walking",
             poseTypes = PoseType.MOVING_POSES,
+                condition = { !it.isTouchingWater},
             transformTicks = 10,
             transformedParts = arrayOf(
                 water_feathers.createTransformation().withVisibility(visibility = false)
@@ -105,6 +113,64 @@ class QuaquavalModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bi
                 singleBoneLook(),
                 bedrock("quaquaval", "battle_idle")
             )
+        )
+
+        floating = registerPose(
+                transformTicks = 10,
+                condition = { it.isTouchingWater },
+                poseType = PoseType.FLOAT,
+                quirks = arrayOf(blink),
+                transformedParts = arrayOf(
+                        water_feathers.createTransformation().withVisibility(visibility = false)
+                ),
+                idleAnimations = arrayOf(
+                        singleBoneLook(),
+                        bedrock("quaquaval", "water_idle"),
+                )
+        )
+
+        swimming = registerPose(
+                transformTicks = 10,
+                condition = { it.isTouchingWater },
+                poseType = PoseType.SWIM,
+                quirks = arrayOf(blink),
+                transformedParts = arrayOf(
+                        water_feathers.createTransformation().withVisibility(visibility = false)
+                ),
+                idleAnimations = arrayOf(
+                        singleBoneLook(),
+                        bedrock("quaquaval", "water_swim"),
+                )
+        )
+
+        surface_floating = registerPose(
+                transformTicks = 10,
+                condition = { it.isTouchingWater && !it.isSubmergedInWater},
+                poseType = PoseType.STAND,
+                quirks = arrayOf(blink),
+                transformedParts = arrayOf(
+                        water_feathers.createTransformation().withVisibility(visibility = false),
+                        rootPart.createTransformation().addPosition(ModelPartTransformation.Y_AXIS, wateroffset)
+                ),
+                idleAnimations = arrayOf(
+                        singleBoneLook(),
+                        bedrock("quaquaval", "water_idle"),
+                )
+        )
+
+        surface_swimming = registerPose(
+                transformTicks = 10,
+                condition = { it.isTouchingWater && !it.isSubmergedInWater},
+                poseType = PoseType.WALK,
+                quirks = arrayOf(blink),
+                transformedParts = arrayOf(
+                        water_feathers.createTransformation().withVisibility(visibility = false),
+                        rootPart.createTransformation().addPosition(ModelPartTransformation.Y_AXIS, wateroffset)
+                ),
+                idleAnimations = arrayOf(
+                        singleBoneLook(),
+                        bedrock("quaquaval", "water_swim"),
+                )
         )
     }
 //    override fun getFaintAnimation(
