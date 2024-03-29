@@ -22,7 +22,7 @@ class FerrothornModel(root: ModelPart) : PokemonPoseableModel() {
     override var portraitTranslation = Vec3d(-0.41, 0.55, 0.0)
 
     override var profileScale = 0.39F
-    override var profileTranslation = Vec3d(-0.08, 0.9, 0.0)
+    override var profileTranslation = Vec3d(-0.08, 0.9, -6.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose

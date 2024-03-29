@@ -12,6 +12,7 @@ import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntitySt
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.BipedWalkAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cobblemon.mod.common.entity.PoseType
@@ -29,13 +30,15 @@ class GurdurrModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bipe
     override var portraitScale = 1.7F
     override var portraitTranslation = Vec3d(-0.36, 1.1, 0.0)
 
-    override var profileScale = 0.6F
-    override var profileTranslation = Vec3d(0.0, 0.8, 0.0)
+    override var profileScale = 0.47F
+    override var profileTranslation = Vec3d(0.0, 0.98, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
     lateinit var sleep: PokemonPose
     lateinit var battleidle: PokemonPose
+
+    override val cryAnimation = CryProvider { entity, _ -> if (entity.isBattling) bedrockStateful("gurdurr", "battle_cry") else bedrockStateful("gurdurr", "cry") }
 
     override fun registerPoses() {
         val blink = quirk { bedrockStateful("gurdurr", "blink") }
