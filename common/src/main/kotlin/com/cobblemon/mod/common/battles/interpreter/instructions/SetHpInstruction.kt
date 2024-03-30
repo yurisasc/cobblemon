@@ -13,7 +13,7 @@ import kotlin.math.roundToInt
  *
  * POKEMON now has HP hit points.
  * @author Licious
- * @since February 8, 2023
+ * @since February 8th, 2023
  */
 class SetHpInstruction(val actor: BattleActor, val publicMessage: BattleMessage, val privateMessage: BattleMessage): InterpreterInstruction {
 

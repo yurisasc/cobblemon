@@ -27,25 +27,21 @@ import com.cobblemon.mod.common.util.battleLang
  *
  * POKEMON has just switched-in, and its ABILITY is being announced to have a long-term effect.
  * @author Xylopia
- * @since January 31, 2023
+ * @since January 31st, 2023
  */
 class AbilityInstruction(val instructionSet: InstructionSet, val message: BattleMessage) : InterpreterInstruction, CauserInstruction {
     override fun invoke(battle: PokemonBattle) {
         val pokemon = message.battlePokemon(0, battle) ?: return
-        val pokemonName = pokemon.getName()
         val effect = message.effectAt(1) ?: return
         val optionalEffect = message.effect()
         val optionalPokemon = message.battlePokemonFromOptional(battle)
-        val optionalPokemonName = optionalPokemon?.getName()
 
         // If there is an optional effect causing the activation, broadcast that instead of the standard effect
-        if (optionalEffect != null) {
-            ShowdownInterpreter.broadcastAbility(battle, optionalEffect, pokemonName)
-        } else {
-            ShowdownInterpreter.broadcastAbility(battle, effect, pokemonName)
-        }
+        ShowdownInterpreter.broadcastAbility(battle, optionalEffect ?: effect, pokemon)
 
         battle.dispatch {
+            val pokemonName = pokemon.getName()
+            val optionalPokemonName = optionalPokemon?.getName()
             ShowdownInterpreter.lastCauser[battle.battleId] = message
 
             val lang = when (optionalEffect?.id) {

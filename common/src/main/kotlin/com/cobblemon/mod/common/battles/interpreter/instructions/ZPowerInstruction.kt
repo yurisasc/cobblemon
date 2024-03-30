@@ -11,14 +11,14 @@ import com.cobblemon.mod.common.util.battleLang
  *
  * POKEMON has used the z-move variant of its move.
  * @author Segfault Guy
- * @since September 10, 2023
+ * @since September 10th, 2023
  */
 class ZPowerInstruction(val message: BattleMessage): InterpreterInstruction {
 
     override fun invoke(battle: PokemonBattle) {
         val battlePokemon = message.battlePokemon(0, battle) ?: return
-        val pokemonName = battlePokemon.getName()
         battle.dispatchWaiting {
+            val pokemonName = battlePokemon.getName()
             battle.broadcastChatMessage(battleLang("zpower", pokemonName).yellow())
             battle.minorBattleActions[battlePokemon.uuid] = message
         }

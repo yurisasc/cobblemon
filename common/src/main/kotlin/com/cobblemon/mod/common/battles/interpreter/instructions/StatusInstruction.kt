@@ -16,7 +16,7 @@ import com.cobblemon.mod.common.util.asTranslated
  *
  * POKEMON has been inflicted with STATUS.
  * @author Hiroku
- * @since October 3, 2022
+ * @since October 3rd, 2022
  */
 class StatusInstruction( val message: BattleMessage): InterpreterInstruction {
 
@@ -26,10 +26,8 @@ class StatusInstruction( val message: BattleMessage): InterpreterInstruction {
         val otherPokemon = message.actorAndActivePokemonFromOptional(battle, "of")?.second?.battlePokemon
         val statusLabel = message.argumentAt(1) ?: return
         val status = Statuses.getStatus(statusLabel) ?: return Cobblemon.LOGGER.error("Unrecognized status: $statusLabel")
-        if (otherPokemon == null)
-            ShowdownInterpreter.broadcastOptionalAbility(battle, message.effect(), pokemon.getName())
-        else
-            ShowdownInterpreter.broadcastOptionalAbility(battle, message.effect(), otherPokemon.getName())
+
+        ShowdownInterpreter.broadcastOptionalAbility(battle, message.effect(), otherPokemon ?: pokemon)
 
         battle.dispatchWaiting {
             if (status is PersistentStatus) {

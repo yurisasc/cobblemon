@@ -88,7 +88,7 @@ object ShowdownInterpreter {
         updateInstructionParser["move"]                  = { _, instructionSet, message, _ -> MoveInstruction(instructionSet, message) }
         updateInstructionParser["-nothing"]              = { _, _, _, _ -> NothingInstruction() }
         updateInstructionParser["pp_update"]             = { _, _, message, _ -> PpUpdateInstruction(message) }
-        updateInstructionParser["-prepare"]              = { _, _, message, _ -> RechargeInstruction(message) }
+        updateInstructionParser["-prepare"]              = { _, _, message, _ -> PrepareInstruction(message) }
         updateInstructionParser["-mustrecharge"]         = { _, _, message, _ -> RechargeInstruction(message) }
         updateInstructionParser["replace"]               = { _, _, message, _ -> ReplaceInstruction(message) }
         updateInstructionParser["-resisted"]             = { _, _, message, _ -> ResistedInstruction(message) }
@@ -128,9 +128,9 @@ object ShowdownInterpreter {
         splitInstructionParser["-sethp"]                 = { _, targetActor, _, publicMessage, privateMessage, _ ->
                                                                 SetHpInstruction(targetActor, publicMessage, privateMessage)
                                                            }
-        splitInstructionParser["switch"]                = { _, targetActor, instructionSet, publicMessage, privateMessage, _ ->
+        splitInstructionParser["switch"]                 = { _, targetActor, instructionSet, publicMessage, privateMessage, _ ->
                                                                 SwitchInstruction(instructionSet, targetActor, publicMessage, privateMessage)
-                                                          }
+                                                           }
 
         // Note '-cureteam' is a legacy thing that is only used in generation 2 and 4 mods for heal bell and aromatherapy respectively as such we can just ignore that
     }
@@ -199,15 +199,15 @@ object ShowdownInterpreter {
         }
     }
 
-    fun broadcastOptionalAbility(battle: PokemonBattle, effect: Effect?, pokemonName: MutableText) {
+    fun broadcastOptionalAbility(battle: PokemonBattle, effect: Effect?, pokemon: BattlePokemon) {
         if (effect != null && effect.type == Effect.Type.ABILITY)
-            broadcastAbility(battle, effect, pokemonName)
+            broadcastAbility(battle, effect, pokemon)
     }
 
     // Broadcasts a generic lang to notify players of ability activations (effects are broadcasted separately)
-    fun broadcastAbility(battle: PokemonBattle, effect: Effect, pokemonName: MutableText) {
+    fun broadcastAbility(battle: PokemonBattle, effect: Effect, pokemon: BattlePokemon) {
         battle.dispatchGo {
-            val lang = battleLang("ability.generic", pokemonName, effect.typelessData).yellow()
+            val lang = battleLang("ability.generic", pokemon.getName(), effect.typelessData).yellow()
             battle.broadcastChatMessage(lang)
         }
     }

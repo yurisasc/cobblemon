@@ -19,7 +19,7 @@ import com.cobblemon.mod.common.util.battleLang
  *
  * The move used by the SOURCE Pokémon missed (maybe absent) the TARGET Pokémon.
  * @author Hiroku
- * @since October 3, 2022
+ * @since October 3rd, 2022
  */
 class MissInstruction(val battle: PokemonBattle, val message: BattleMessage): InterpreterInstruction {
     val target = message.battlePokemon(1, battle)

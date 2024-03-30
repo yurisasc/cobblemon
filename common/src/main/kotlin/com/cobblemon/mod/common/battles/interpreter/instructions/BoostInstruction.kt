@@ -15,7 +15,7 @@ import com.cobblemon.mod.common.util.battleLang
  * POKEMON has gained or lost AMOUNT in STAT, using the standard rules for stat changes in-battle.
  * STAT is a standard three-letter abbreviation fot the stat in question.
  * @author Hiroku
- * @since August 20, 2022
+ * @since August 20th, 2022
  */
 class BoostInstruction(val instructionSet: InstructionSet, val message: BattleMessage, val remainingLines: Iterator<BattleMessage>, val isBoost: Boolean = true): InterpreterInstruction {
 

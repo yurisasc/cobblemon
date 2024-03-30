@@ -9,7 +9,7 @@ import com.cobblemon.mod.common.battles.dispatch.InterpreterInstruction
  * Format: |pp_update|<side_id>: <pokemon_uuid>|...<move_id>: <move_pp>
  *
  * @author Licious
- * @since September 22, 2022
+ * @since September 22nd, 2022
  */
 class PpUpdateInstruction( val message: BattleMessage): InterpreterInstruction {
 

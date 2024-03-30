@@ -16,13 +16,13 @@ import net.minecraft.text.Text
  *
  * POKEMON has just switched in, and its ITEM is being announced to have a long-term effect.
  * @author Licious
- * @since December 30, 2022
+ * @since December 30th, 2022
  */
 class ItemInstruction(val message: BattleMessage): InterpreterInstruction {
 
     override fun invoke(battle: PokemonBattle) {
-        val sourceName = message.battlePokemonFromOptional(battle)?.getName() ?: Text.literal("UNKOWN")
-        ShowdownInterpreter.broadcastOptionalAbility(battle, message.effect(), sourceName)
+        val source = message.battlePokemonFromOptional(battle)
+        source?.let { ShowdownInterpreter.broadcastOptionalAbility(battle, message.effect(), source) }
 
         battle.dispatchGo {
             val battlePokemon = message.battlePokemon(0, battle) ?: return@dispatchGo

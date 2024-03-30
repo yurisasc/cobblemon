@@ -12,7 +12,7 @@ import com.cobblemon.mod.common.util.battleLang
  *
  * A side CONDITION has started on SIDE.
  * @author Segfault Guy
- * @since April 5, 2023
+ * @since April 5th, 2023
  */
 class SideStartInstruction(val message: BattleMessage): InterpreterInstruction {
 

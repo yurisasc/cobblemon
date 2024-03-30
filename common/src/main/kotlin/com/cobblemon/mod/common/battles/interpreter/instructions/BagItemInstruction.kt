@@ -11,7 +11,7 @@ import com.cobblemon.mod.common.util.battleLang
  *
  * POKEMON had ITEM used on it from the 'bag'.
  * @author landonjw
- * @since July 31, 2023
+ * @since July 31st, 2023
  */
 class BagItemInstruction(val message: BattleMessage): InterpreterInstruction {
 

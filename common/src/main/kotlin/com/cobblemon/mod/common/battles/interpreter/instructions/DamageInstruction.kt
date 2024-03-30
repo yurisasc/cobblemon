@@ -36,7 +36,7 @@ import net.minecraft.text.Text
  *
  * POKEMON has taken damage and is now at HP STATUS
  * @author Hiroku
- * @since March 11, 2022
+ * @since March 11th, 2022
  */
 class DamageInstruction(
     val instructionSet: InstructionSet,
@@ -66,8 +66,7 @@ class DamageInstruction(
         }
         val newHealth = privateMessage.argumentAt(1)?.split(" ")?.get(0) ?: return
         val effect = privateMessage.effect()
-        val pokemonName = battlePokemon.getName()
-        val sourceName = privateMessage.battlePokemonFromOptional(battle)?.getName() ?: Text.literal("UNKNOWN")
+        val source = privateMessage.battlePokemonFromOptional(battle)
         var causedFaint = newHealth == "0"
 
         battle.dispatch {
@@ -78,9 +77,10 @@ class DamageInstruction(
             }
         }
 
-        ShowdownInterpreter.broadcastOptionalAbility(battle, effect, sourceName)
+        source?.let { ShowdownInterpreter.broadcastOptionalAbility(battle, effect, it) }
 
         battle.dispatch {
+            val pokemonName = battlePokemon.getName()
             val pokemonEntity = battlePokemon.entity
             if (!causedFaint && pokemonEntity != null) {
                 val pkt = PlayPoseableAnimationPacket(pokemonEntity.id, setOf("recoil"), emptySet())
@@ -116,7 +116,7 @@ class DamageInstruction(
                     "aftermath" -> battleLang("damage.generic", pokemonName)
                     "chloroblast", "steelbeam" -> battleLang("damage.mindblown", pokemonName)
                     "jumpkick" -> battleLang("damage.highjumpkick", pokemonName)
-                    else -> battleLang("damage.${effect.id}", pokemonName, sourceName)
+                    else -> battleLang("damage.${effect.id}", pokemonName, source?.getName() ?: Text.literal("UNKOWN"))
                 }
                 battle.broadcastChatMessage(lang.red())
             }

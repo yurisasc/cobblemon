@@ -11,7 +11,7 @@ import com.cobblemon.mod.common.util.battleLang
  *
  * Indicates that the side CONDITION ended for the given SIDE.
  * @author Segfault Guy
- * @since April 5, 2023
+ * @since April 5th, 2023
  */
 class SideEndInstruction(val message: BattleMessage): InterpreterInstruction {
 

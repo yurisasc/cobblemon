@@ -11,7 +11,7 @@ import com.cobblemon.mod.common.util.battleLang
  *
  * POKEMON was immune to a move.
  * @author Hiroku
- * @since October 3, 2022
+ * @since October 3rd, 2022
  */
 class ImmuneInstruction(val message: BattleMessage): InterpreterInstruction {
 

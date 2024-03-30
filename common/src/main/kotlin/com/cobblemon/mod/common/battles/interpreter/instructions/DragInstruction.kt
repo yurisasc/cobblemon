@@ -16,7 +16,8 @@ import com.cobblemon.mod.common.util.battleLang
  * POKEMON has switched in (if there was an old Pokémon in that position, it is switched out).
  * POKEMON|DETAILS represents all the information that can be used to tell Pokémon apart.
  * The switched Pokémon has HP health points and STATUS status.
- * @author
+ * @author Hiroku
+ * @since April 24th, 2022
  */
 class DragInstruction(val instructionSet: InstructionSet, val battleActor: BattleActor, val publicMessage: BattleMessage, val privateMessage: BattleMessage): InterpreterInstruction {
     override fun invoke(battle: PokemonBattle) {
@@ -36,13 +37,13 @@ class DragInstruction(val instructionSet: InstructionSet, val battleActor: Battl
 
             val entity = if (battleActor is EntityBackedBattleActor<*>) battleActor.entity else null
             setOf(
-                    BattleDispatch {
-                        if (entity != null) {
-                            SwitchInstruction.createEntitySwitch(battle, battleActor, entity, pnx, activePokemon, pokemon, illusion)
-                        } else {
-                            SwitchInstruction.createNonEntitySwitch(battle, battleActor, pnx, activePokemon, pokemon, illusion)
-                        }
+                BattleDispatch {
+                    if (entity != null) {
+                        SwitchInstruction.createEntitySwitch(battle, battleActor, entity, pnx, activePokemon, pokemon, illusion)
+                    } else {
+                        SwitchInstruction.createNonEntitySwitch(battle, battleActor, pnx, activePokemon, pokemon, illusion)
                     }
+                }
             )
         }
     }

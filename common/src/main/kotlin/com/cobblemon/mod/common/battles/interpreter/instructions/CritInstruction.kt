@@ -13,7 +13,7 @@ import com.cobblemon.mod.common.util.battleLang
  *
  * POKEMON received a critical hit.
  * @author Hunter
- * @since August 18, 2022
+ * @since August 18th, 2022
  */
 class CritInstruction(val message: BattleMessage): InterpreterInstruction {
 

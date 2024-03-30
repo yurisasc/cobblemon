@@ -11,7 +11,7 @@ import com.cobblemon.mod.common.battles.dispatch.InterpreterInstruction
  *
  * Swaps side conditions between sides. Used for Court Change.
  * @author Segfault Guy
- * @since February 19, 2024
+ * @since February 19th, 2024
  */
 class SwapSideConditionsInstruction(val message: BattleMessage): InterpreterInstruction {
 

@@ -10,7 +10,7 @@ import com.cobblemon.mod.common.util.battleLang
  *
  * A move was super effective against POKEMON.
  * @author Hunter
- * @since August 18, 2022
+ * @since August 18th, 2022
  */
 class SuperEffectiveInstruction(val message: BattleMessage): InterpreterInstruction {
 

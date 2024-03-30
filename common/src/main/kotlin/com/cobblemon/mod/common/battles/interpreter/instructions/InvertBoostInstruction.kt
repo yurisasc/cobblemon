@@ -13,7 +13,7 @@ import com.cobblemon.mod.common.util.battleLang
  *
  * POKEMON had its stat changes inverted.
  * @author JMMCP
- * @since November 26, 2023
+ * @since November 26th, 2023
  */
 class InvertBoostInstruction(val message: BattleMessage): InterpreterInstruction {
 

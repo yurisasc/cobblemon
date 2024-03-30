@@ -11,7 +11,7 @@ import com.cobblemon.mod.common.util.battleLang
  *
  * Copies any stat changes from the TARGET Pokémon to the SOURCE Pokémon due to EFFECT.
  * @author JMMCP
- * @since November 27, 2023
+ * @since November 27th, 2023
  */
 class CopyBoostInstruction(val message: BattleMessage): InterpreterInstruction {
 

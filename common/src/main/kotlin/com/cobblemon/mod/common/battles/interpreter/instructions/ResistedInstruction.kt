@@ -9,8 +9,8 @@ import com.cobblemon.mod.common.util.battleLang
  * Format: |-resisted|POKEMON
  *
  * POKEMON resisted the attack.
- * @author
- * @since
+ * @author Hunter
+ * @since August 18th, 2022
  */
 class ResistedInstruction(val message: BattleMessage): InterpreterInstruction {
 

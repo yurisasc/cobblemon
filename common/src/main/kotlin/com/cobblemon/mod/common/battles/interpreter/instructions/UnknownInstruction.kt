@@ -18,7 +18,7 @@ import com.cobblemon.mod.common.battles.ShowdownInterpreter
  * Catch-all for unimplemented instructions that need to be added to the [ShowdownInterpreter].
  *
  * @author Hiroku
- * @since December 25, 2023
+ * @since December 25th, 2023
  */
 class UnknownInstruction(val battleMessage: BattleMessage) : InterpreterInstruction {
     override fun invoke(battle: PokemonBattle) {

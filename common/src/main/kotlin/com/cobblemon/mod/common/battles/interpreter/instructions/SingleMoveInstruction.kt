@@ -10,7 +10,7 @@ import com.cobblemon.mod.common.util.battleLang
  *
  * POKEMON used MOVE which causes a temporary effect lasting the duration of the move.
  * @author Renaissance
- * @since March 24, 2023
+ * @since March 24th, 2023
  */
 class SingleMoveInstruction(val message: BattleMessage): InterpreterInstruction {
 

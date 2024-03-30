@@ -16,13 +16,13 @@ import net.minecraft.server.world.ServerWorld
 import java.util.concurrent.CompletableFuture
 
 /**
- * Format: |switch|POKEMON|DETAILS|HP STATUS or |drag|POKEMON|DETAILS|HP STATUS
+ * Format: |switch|POKEMON|DETAILS|HP STATUS
  *
  * POKEMON has switched in (if there was an old Pokémon at that position, it is switched out).
  * POKEMON|DETAILS represents all the information that can be used to tell Pokémon apart.
  * The switched Pokémon has HP health points and STATUS status.
  * @author Deltric
- * @since January 22, 2022
+ * @since January 22nd, 2022
  */
 class SwitchInstruction(val instructionSet: InstructionSet, val battleActor: BattleActor, val publicMessage: BattleMessage, val privateMessage: BattleMessage): InterpreterInstruction {
 

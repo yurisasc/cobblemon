@@ -19,7 +19,7 @@ import java.util.UUID
  *
  * USER has won the battle.
  * @author Deltric
- * @since January 22, 2022
+ * @since January 22nd, 2022
  */
 class WinInstruction(val message: BattleMessage): InterpreterInstruction {
 

@@ -10,7 +10,7 @@ import com.cobblemon.mod.common.util.battleLang
  *
  * ATTACKER Pokémon is preparing to use a charge MOVE on DEFENDER or an unknown target.
  * @author Renaissance
- * @since March 24, 2023
+ * @since March 24th, 2023
  */
 class PrepareInstruction(val message: BattleMessage): InterpreterInstruction {
 

@@ -16,7 +16,7 @@ import net.minecraft.text.Text
  *
  * A volatile status has been inflicted on POKEMON by EFFECT.
  * @author Deltric
- * @since January 21, 2022
+ * @since January 21st, 2022
  */
 class StartInstruction(val message: BattleMessage): InterpreterInstruction {
 

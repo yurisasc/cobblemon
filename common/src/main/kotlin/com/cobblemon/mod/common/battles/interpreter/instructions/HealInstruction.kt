@@ -19,7 +19,7 @@ import com.cobblemon.mod.common.util.battleLang
  *
  * POKEMON has healed damage and is now at HP STATUS.
  * @author Licious
- * @since February 6, 2023
+ * @since February 6th, 2023
  */
 class HealInstruction(val actor: BattleActor, val publicMessage: BattleMessage, val privateMessage: BattleMessage): InterpreterInstruction {
 
@@ -31,8 +31,7 @@ class HealInstruction(val actor: BattleActor, val publicMessage: BattleMessage, 
         val newHealth = rawHpRatio.split("/").map { it.toFloatOrNull() ?: return }
         val newHealthRatio = rawHpRatio.split("/").map { it.toFloatOrNull()?.div(newHealth[1]) ?: return }
         val effect = privateMessage.effect()
-        val pokemonName = battlePokemon.getName()
-        ShowdownInterpreter.broadcastOptionalAbility(battle, effect, pokemonName)
+        ShowdownInterpreter.broadcastOptionalAbility(battle, effect, battlePokemon)
 
         battle.dispatchWaiting {
             if (pnx != null) {

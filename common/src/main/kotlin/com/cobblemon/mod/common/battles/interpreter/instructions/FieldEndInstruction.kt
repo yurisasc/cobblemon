@@ -14,7 +14,7 @@ import com.cobblemon.mod.common.util.battleLang
  *
  * The field CONDITION has ended.
  * @author Licious
- * @since February 8, 2023
+ * @since February 8th, 2023
  */
 class FieldEndInstruction(val message: BattleMessage): InterpreterInstruction {
 

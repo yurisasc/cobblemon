@@ -16,7 +16,7 @@ import com.cobblemon.mod.common.util.battleLang
  *
  * The POKEMON has recovered from its STATUS.
  * @author Hiroku
- * @since November 5, 2022
+ * @since November 5th, 2022
  */
 class CureStatusInstruction(val message: BattleMessage): InterpreterInstruction {
 
@@ -24,12 +24,12 @@ class CureStatusInstruction(val message: BattleMessage): InterpreterInstruction 
         val maybeActivePokemon = message.actorAndActivePokemon(0, battle)?.second?.battlePokemon
         val maybePartyPokemon = message.battlePokemon(0, battle)
         val pokemon = maybeActivePokemon ?: maybePartyPokemon ?: return
-        val pokemonName = pokemon.getName()
         val status = message.argumentAt(1)?.let(Statuses::getStatus) ?: return
         val effect = message.effect()
-        ShowdownInterpreter.broadcastOptionalAbility(battle, effect, pokemonName)
+        ShowdownInterpreter.broadcastOptionalAbility(battle, effect, pokemon)
 
         battle.dispatchWaiting {
+            val pokemonName = pokemon.getName()
             pokemon.effectedPokemon.status = null
             pokemon.sendUpdate()
 

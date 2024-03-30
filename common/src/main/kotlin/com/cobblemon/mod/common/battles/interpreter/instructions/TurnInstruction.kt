@@ -28,7 +28,7 @@ import com.cobblemon.mod.common.util.battleLang
  *
  * It is now turn NUMBER.
  * @author Deltric
- * @since January 22, 2022
+ * @since January 22nd, 2022
  */
 class TurnInstruction(val message: BattleMessage) : InterpreterInstruction {
     override fun invoke(battle: PokemonBattle) {

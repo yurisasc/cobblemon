@@ -36,7 +36,7 @@ import java.util.concurrent.CompletableFuture
  *
  * POKEMON has used MOVE at TARGET.
  * @author Deltric
- * @since January 22, 2022
+ * @since January 22nd, 2022
  */
 class MoveInstruction(
     val instructionSet: InstructionSet,
@@ -58,12 +58,12 @@ class MoveInstruction(
         val targetPokemon = targetPokemon // So smart non-null casts can happen
 
         val optionalEffect = message.effect()
-        val pokemonName = userPokemon.getName()
-        ShowdownInterpreter.broadcastOptionalAbility(battle, optionalEffect, pokemonName)
+        ShowdownInterpreter.broadcastOptionalAbility(battle, optionalEffect, userPokemon)
 
         battle.dispatch { UntilDispatch { instructionSet.getMostRecentInstruction<MoveInstruction>(this)?.future?.isDone != false } }
 
         battle.dispatch {
+            val pokemonName = userPokemon.getName()
             ShowdownInterpreter.lastCauser[battle.battleId] = message
 
             userPokemon.effectedPokemon.let { pokemon ->

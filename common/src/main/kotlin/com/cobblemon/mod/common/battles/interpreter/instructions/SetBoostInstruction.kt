@@ -12,7 +12,7 @@ import com.cobblemon.mod.common.util.battleLang
  *
  * Same as -boost and -unboost, but STAT is set to AMOUNT instead of boosted by AMOUNT.\
  * @author Renaissance
- * @since February 16, 2023
+ * @since February 16th, 2023
  */
 class SetBoostInstruction(val message: BattleMessage): InterpreterInstruction {
 

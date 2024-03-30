@@ -12,7 +12,7 @@ import com.cobblemon.mod.common.util.battleLang
  *
  * ACTION has failed against POKEMON.
  * @author Hunter
- * @since September 25, 2022
+ * @since September 25th, 2022
  */
 class FailInstruction(val message: BattleMessage): InterpreterInstruction {
 

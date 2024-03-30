@@ -10,7 +10,7 @@ import com.cobblemon.mod.common.util.battleLang
  *
  * POKEMON must spend the turn recharging from a previous move.
  * @author Hunter
- * @since September 25, 2022
+ * @since September 25th, 2022
  */
 class RechargeInstruction(val message: BattleMessage): InterpreterInstruction {
 

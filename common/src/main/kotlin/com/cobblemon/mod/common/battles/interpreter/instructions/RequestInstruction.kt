@@ -14,7 +14,7 @@ import com.cobblemon.mod.common.net.messages.client.battle.BattleQueueRequestPac
  *
  * It's time for the actor to make a decision.
  * @author Deltric
- * @since January 22, 2022
+ * @since January 22nd, 2022
  */
 class RequestInstruction(val battleActor: BattleActor, val message: BattleMessage): InterpreterInstruction {
     override fun invoke(battle: PokemonBattle) {

@@ -24,14 +24,13 @@ import com.cobblemon.mod.common.util.battleLang
  *
  * POKEMON has fainted.
  * @author Deltric
- * @since January 22, 2022
+ * @since January 22nd, 2022
  */
 class FaintInstruction(battle: PokemonBattle, val message: BattleMessage) : InterpreterInstruction {
     var waitTime = 2.5F
     val faintingPokemon = message.battlePokemon(0, battle)!!
 
     override fun invoke(battle: PokemonBattle) {
-        val faintMessage = battleLang("fainted", faintingPokemon.getName()).red()
 
         battle.dispatchWaiting(waitTime) {
             val (pnx, _) = message.pnxAndUuid(0) ?: return@dispatchWaiting
@@ -47,6 +46,7 @@ class FaintInstruction(battle: PokemonBattle, val message: BattleMessage) : Inte
             battle.majorBattleActions[faintingPokemon.uuid] = message
         }
         battle.dispatchGo {
+            val faintMessage = battleLang("fainted", faintingPokemon.getName()).red()
             battle.broadcastChatMessage(faintMessage)
         }
     }

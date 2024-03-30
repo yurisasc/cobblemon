@@ -9,7 +9,7 @@ import com.cobblemon.mod.common.util.battleLang
  *
  * Pathetic. Your move did absolutely nothing. You should feel bad for being bad.
  * @author Hiroku
- * @since August 20, 2022
+ * @since August 20th, 2022
  */
 class NothingInstruction() : InterpreterInstruction {
 

@@ -10,7 +10,7 @@ import com.cobblemon.mod.common.util.battleLang
  *
  * A multi-hit move hit the POKEMON NUM times.
  * @author Licious
- * @since December 30, 2022
+ * @since December 30th, 2022
  */
 class HitCountInstruction(val message: BattleMessage): InterpreterInstruction {
 

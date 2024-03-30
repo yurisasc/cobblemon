@@ -16,13 +16,13 @@ import net.minecraft.text.Text
  * If upkeep is present, it means that WEATHER was active previously and is still in effect that turn.
  * Otherwise, it means that the weather has changed due to a move or ability, or has expired, in which case WEATHER will be none.
  * @author Hunter
- * @since September 25, 2022
+ * @since September 25th, 2022
  */
 class WeatherInstruction(val message: BattleMessage): InterpreterInstruction {
 
     override fun invoke(battle: PokemonBattle) {
         val weather = message.effectAt(0)?.id ?: return
-        val user = message.battlePokemonFromOptional(battle)?.getName() ?: Text.literal("UNKNOWN")
+        val user = message.battlePokemonFromOptional(battle) ?: return
         ShowdownInterpreter.broadcastOptionalAbility(battle, message.effect(), user)
 
         battle.dispatchWaiting(1.5F) {

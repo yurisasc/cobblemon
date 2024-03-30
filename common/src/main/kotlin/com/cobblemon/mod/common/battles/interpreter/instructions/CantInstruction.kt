@@ -14,7 +14,7 @@ import com.cobblemon.mod.common.util.lang
  *
  * The POKEMON could not perform a move because of the indicated REASON.
  * @author Deltric
- * @since January 22, 2022
+ * @since January 22nd, 2022
  */
 class CantInstruction(val message: BattleMessage): InterpreterInstruction {
 

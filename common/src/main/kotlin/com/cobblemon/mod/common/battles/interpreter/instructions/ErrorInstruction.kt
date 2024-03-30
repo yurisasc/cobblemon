@@ -13,7 +13,7 @@ import com.cobblemon.mod.common.util.battleLang
  *
  * The actor needs to send a different decision due to ERROR.
  * @author Yaseen
- * @since April 22, 2023
+ * @since April 22nd, 2023
  */
 class ErrorInstruction(val battleActor: BattleActor, val message: BattleMessage): InterpreterInstruction {
 

@@ -10,15 +10,15 @@ import com.cobblemon.mod.common.util.battleLang
  *
  * POKEMON has changed formes permanently (i.e. Mega Evolution) to DETAILS.
  * @author Segfault Guy
- * @since September 10, 2023
+ * @since September 10th, 2023
  */
 class DetailsChangeInstruction(val message: BattleMessage): InterpreterInstruction {
 
     override fun invoke(battle: PokemonBattle) {
         val battlePokemon = message.battlePokemon(0, battle) ?: return
-        val pokemonName = battlePokemon.getName()
         val formName = message.argumentAt(1)?.split(',')?.get(0)?.substringAfter('-')?.lowercase() ?: return
         battle.dispatchWaiting {
+            val pokemonName = battlePokemon.getName()
             battle.broadcastChatMessage(battleLang("detailschange.$formName", pokemonName))
             battle.majorBattleActions[battlePokemon.uuid] = message
         }

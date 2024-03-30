@@ -10,7 +10,7 @@ import com.cobblemon.mod.common.util.battleLang
  *
  * The POKEMON's Ability was suppressed.
  * @author jeffw773
- * @since November 28, 2023
+ * @since November 28th, 2023
  */
 class EndAbilityInstruction(val message: BattleMessage): InterpreterInstruction {
 

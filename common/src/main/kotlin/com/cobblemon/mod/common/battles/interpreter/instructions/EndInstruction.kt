@@ -13,7 +13,7 @@ import com.cobblemon.mod.common.util.lang
  *
  * The volatile status from EFFECT inflicted on POKEMON has ended.
  * @author Hiroku
- * @since October 3, 2022
+ * @since October 3rd, 2022
  */
 class EndInstruction(val message: BattleMessage): InterpreterInstruction {
 

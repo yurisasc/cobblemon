@@ -11,7 +11,7 @@ import net.minecraft.text.Text
  *
  * POKEMON used MOVE which causes a temporary effect lasting the duration of the turn.
  * @author Renaissance
- * @since March 24, 2023
+ * @since March 24th, 2023
  */
 class SingleTurnInstruction(val message: BattleMessage): InterpreterInstruction {
 

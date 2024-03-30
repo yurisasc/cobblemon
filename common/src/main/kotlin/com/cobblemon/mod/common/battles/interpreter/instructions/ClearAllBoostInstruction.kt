@@ -11,7 +11,7 @@ import com.cobblemon.mod.common.util.battleLang
  *
  * Clears all boosts from all Pokémon on both sides.
  * @author Segfault Guy
- * @since April 26, 2023
+ * @since April 26th, 2023
  */
 class ClearAllBoostInstruction(val message: BattleMessage): InterpreterInstruction {
 

@@ -12,7 +12,7 @@ import com.cobblemon.mod.common.util.battleLang
  *
  * An optional SOURCE will note the owner of the EFFECT, in the case that it's not EFFECT (for instance, an ally with Aroma Veil.)
  * @author jeffw773
- * @since November 6, 2023
+ * @since November 6th, 2023
  */
 class BlockInstruction(val message: BattleMessage): InterpreterInstruction {
 

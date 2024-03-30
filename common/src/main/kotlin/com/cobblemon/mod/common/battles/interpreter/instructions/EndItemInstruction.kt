@@ -17,7 +17,7 @@ import com.cobblemon.mod.common.util.battleLang
  *
  * POKEMON's ITEM has destroyed itself (consumed or used).
  * @author Licious
- * @since December 30, 2022
+ * @since December 30th, 2022
  */
 class EndItemInstruction(val message: BattleMessage): InterpreterInstruction {
 

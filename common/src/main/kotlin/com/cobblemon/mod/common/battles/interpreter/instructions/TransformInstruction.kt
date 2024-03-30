@@ -16,7 +16,7 @@ import com.cobblemon.mod.common.util.battleLang
  *
  * POKEMON used Transform to turn into target POKEMON.
  * @author jeffw773
- * @since November 28, 2023
+ * @since November 28th, 2023
  */
 class TransformInstruction(val message: BattleMessage): InterpreterInstruction {
 

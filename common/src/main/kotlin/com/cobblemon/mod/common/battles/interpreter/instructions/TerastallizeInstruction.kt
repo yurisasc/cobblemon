@@ -12,15 +12,15 @@ import com.cobblemon.mod.common.util.battleLang
  *
  * POKEMON terastallized into TYPE.
  * @author Segfault Guy
- * @since September 10, 2023
+ * @since September 10th, 2023
  */
 class TerastallizeInstruction(val message: BattleMessage): InterpreterInstruction {
 
     override fun invoke(battle: PokemonBattle) {
         val battlePokemon = message.battlePokemon(0, battle) ?: return
-        val pokemonName = battlePokemon.getName()
         val type = message.effectAt(1)?.let { ElementalTypes.get(it.id) } ?: return
         battle.dispatchWaiting {
+            val pokemonName = battlePokemon.getName()
             battle.broadcastChatMessage(battleLang("terastallize", pokemonName, type.displayName).yellow())
             battle.minorBattleActions[battlePokemon.uuid] = message
         }

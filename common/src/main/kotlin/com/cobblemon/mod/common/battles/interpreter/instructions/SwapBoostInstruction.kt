@@ -11,7 +11,7 @@ import com.cobblemon.mod.common.util.battleLang
  *
  * Swaps the boosts from STATS between the SOURCE Pokémon and TARGET Pokémon.
  * @author Renaissance
- * @since March 24, 2023
+ * @since March 24th, 2023
  */
 class SwapBoostInstruction(val message: BattleMessage): InterpreterInstruction {
 

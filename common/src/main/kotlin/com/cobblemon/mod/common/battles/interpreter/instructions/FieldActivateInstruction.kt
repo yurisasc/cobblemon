@@ -14,7 +14,7 @@ import com.cobblemon.mod.common.util.battleLang
  *
  * A miscellaneous EFFECT has activated for the entire field.
  * @author Segfault Guy
- * @since April 5, 2023
+ * @since April 5th, 2023
  */
 class FieldActivateInstruction(val message: BattleMessage): InterpreterInstruction {
 

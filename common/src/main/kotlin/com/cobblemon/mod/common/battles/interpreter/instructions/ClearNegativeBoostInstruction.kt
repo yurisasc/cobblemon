@@ -11,14 +11,15 @@ import com.cobblemon.mod.common.util.battleLang
  *
  * Clear the negative boosts from the target POKEMON (usually as the result of a zeffect).
  * @author Segfault Guy
- * @since September 10, 2023
+ * @since September 10th, 2023
  */
 class ClearNegativeBoostInstruction(val message: BattleMessage): InterpreterInstruction {
 
     override fun invoke(battle: PokemonBattle) {
         val battlePokemon = message.battlePokemon(0, battle) ?: return
-        val pokemonName = battlePokemon.getName()
+
         battle.dispatchWaiting(1.5F) {
+            val pokemonName = battlePokemon.getName()
             val lang = when {
                 message.hasOptionalArgument("zeffect") -> battleLang("clearallnegativeboost.zeffect", pokemonName)
                 else -> battleLang("clearallnegativeboost", pokemonName)
