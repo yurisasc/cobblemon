@@ -8,14 +8,19 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen6
 
+import com.cobblemon.mod.common.client.render.models.blockbench.animation.BipedWalkAnimation
+import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cobblemon.mod.common.entity.PoseType
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class GoodraHisuianModel (root: ModelPart) : PokemonPoseableModel() {
+class GoodraHisuianModel (root: ModelPart) : PokemonPoseableModel(), BipedFrame {
     override val rootPart = root.registerChildWithAllChildren("goodra_hisuian")
+    override val leftLeg = getPart("leg_left")
+    override val rightLeg = getPart("leg_right")
+
     override var portraitScale = 1.8F
     override var portraitTranslation = Vec3d(-1.9, 2.02, 0.0)
 
@@ -41,7 +46,8 @@ class GoodraHisuianModel (root: ModelPart) : PokemonPoseableModel() {
             poseTypes = PoseType.MOVING_POSES,
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
-                bedrock("goodra_hisuian", "ground_walk"),
+                    bedrock("goodra_hisuian", "ground_idle"),
+                    BipedWalkAnimation(this, periodMultiplier = 0.6F, amplitudeMultiplier = 0.9F)
             )
         )
     }

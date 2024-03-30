@@ -25,7 +25,8 @@
         "canWalkOnWater": true
       },
       "walk": {
-        "avoidsLand": false
+        "avoidsLand": false,
+        "walkSpeed": 0.14
       }
     },
     "resting": {
