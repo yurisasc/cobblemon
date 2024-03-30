@@ -17,12 +17,12 @@
                 {
                     "type": "minecraft:item",
                     "name": "cobblemon:covert_cloak",
-                    "weight": 3
+                    "weight": 2
                 },
                 {
                     "type": "minecraft:item",
                     "name": "cobblemon:protector",
-                    "weight": 1
+                    "weight": 2
                 },
                 {
                     "type": "minecraft:item",
