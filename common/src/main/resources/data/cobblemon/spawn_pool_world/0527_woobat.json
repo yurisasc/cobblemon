@@ -16,7 +16,8 @@
             "level": "7-32",
             "weight": 9.0,
             "condition": {
-                "canSeeSky": true,
+                "minSkyLight": 8,
+                "maxSkyLight": 15,
                 "biomes": [
                     "#cobblemon:is_jungle",
                     "#cobblemon:is_savanna"
@@ -43,7 +44,8 @@
                 }
             },
             "condition": {
-                "canSeeSky": true,
+                "minSkyLight": 0,
+                "maxSkyLight": 7,
                 "biomes": [
                     "#cobblemon:is_jungle",
                     "#cobblemon:is_savanna"

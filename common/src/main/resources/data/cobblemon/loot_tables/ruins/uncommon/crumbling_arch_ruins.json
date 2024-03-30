@@ -12,7 +12,7 @@
                 {
                     "type": "minecraft:item",
                     "name": "cobblemon:twisted_spoon",
-                    "weight": 3
+                    "weight": 2
                 },
                 {
                     "type": "minecraft:item",
@@ -21,12 +21,12 @@
                 },
                 {
                     "type": "minecraft:item",
-                    "name": "minecraft:suspicious_gravel",
-                    "weight": 3
+                    "name": "cobblemon:cracked_pot",
+                    "weight": 2
                 },
                 {
                     "type": "minecraft:item",
-                    "name": "minecraft:suspicious_gravel",
+                    "name": "cobblemon:chipped_pot",
                     "weight": 1
                 },
                 {

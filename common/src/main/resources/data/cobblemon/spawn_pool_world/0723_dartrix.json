@@ -16,7 +16,8 @@
             "level": "17-42",
             "weight": 0.9,
             "condition": {
-                "canSeeSky": true,
+                "minSkyLight": 8,
+                "maxSkyLight": 15,
                 "biomes": [
                     "#cobblemon:is_forest",
                     "#cobblemon:is_taiga"
@@ -41,7 +42,8 @@
             "level": "17-42",
             "weight": 0.9,
             "condition": {
-                "canSeeSky": true,
+                "minSkyLight": 8,
+                "maxSkyLight": 15,
                 "biomes": [
                     "#cobblemon:is_snowy_forest",
                     "#cobblemon:is_snowy_taiga"

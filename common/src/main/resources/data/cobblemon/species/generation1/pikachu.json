@@ -8,8 +8,12 @@
     "h:lightningrod"
   ],
   "drops": {
-    "amount": 2,
+    "amount": 3,
     "entries": [
+      {
+        "item": "cobblemon:light_ball",
+        "percentage": 5.0
+      },
       {
         "item": "cobblemon:thunder_stone",
         "percentage": 5.0

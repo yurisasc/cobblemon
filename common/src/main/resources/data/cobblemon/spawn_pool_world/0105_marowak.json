@@ -16,7 +16,8 @@
             "level": "28-43",
             "weight": 0.2,
             "condition": {
-                "canSeeSky": true,
+                "minSkyLight": 8,
+                "maxSkyLight": 15,
                 "biomes": [
                     "#cobblemon:is_sandy"
                 ]
@@ -35,7 +36,8 @@
             "level": "28-43",
             "weight": 0.2,
             "condition": {
-                "canSeeSky": true,
+                "minSkyLight": 8,
+                "maxSkyLight": 15,
                 "biomes": [
                     "#cobblemon:is_volcanic"
                 ]

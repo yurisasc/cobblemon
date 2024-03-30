@@ -57,6 +57,7 @@ import com.cobblemon.mod.common.pokemon.activestate.InactivePokemonState
 import com.cobblemon.mod.common.pokemon.activestate.ShoulderedState
 import com.cobblemon.mod.common.pokemon.ai.FormPokemonBehaviour
 import com.cobblemon.mod.common.pokemon.evolution.variants.ItemInteractionEvolution
+import com.cobblemon.mod.common.pokemon.misc.GimmighoulStashHandler
 import com.cobblemon.mod.common.util.*
 import com.cobblemon.mod.common.world.gamerules.CobblemonGameRules
 import java.util.EnumSet
@@ -682,6 +683,16 @@ open class PokemonEntity(
                 player.playSound(SoundEvents.ENTITY_MOOSHROOM_EAT, 1.0f, 1.0f)
                 pokemon.lastFlowerFed = itemStack
                 return ActionResult.success(world.isClient)
+            }
+        } else if(!player.isSneaking && (itemStack.isOf(CobblemonItems.RELIC_COIN)
+                || itemStack.isOf(CobblemonItems.RELIC_COIN_POUCH)
+                || itemStack.isOf(CobblemonItems.RELIC_COIN_SACK)
+                || itemStack.isOf(Items.NETHERITE_SCRAP)
+                || itemStack.isOf(Items.NETHERITE_INGOT)
+                || itemStack.isOf(Items.NETHERITE_BLOCK))) {
+
+            if(GimmighoulStashHandler.interactMob(player, hand, pokemon)) {
+                return ActionResult.SUCCESS
             }
         }
 
