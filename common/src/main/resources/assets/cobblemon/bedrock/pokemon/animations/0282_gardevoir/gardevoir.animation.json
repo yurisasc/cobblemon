@@ -877,7 +877,7 @@
 			},
 			"sound_effects": {
 				"0.25": {
-					"effect": "gardevoir_ambient"
+					"effect": "pokemon.gardevoir.cry"
 				}
 			}
 		}
