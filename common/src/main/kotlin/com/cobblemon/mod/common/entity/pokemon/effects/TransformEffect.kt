@@ -6,6 +6,7 @@ import com.cobblemon.mod.common.api.pokemon.PokemonPropertyExtractor
 import com.cobblemon.mod.common.api.scheduling.afterOnServer
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.pokemon.Pokemon
+import com.cobblemon.mod.common.pokemon.aspects.SHINY_ASPECT
 import com.cobblemon.mod.common.util.DataKeys
 import net.minecraft.nbt.NbtCompound
 import java.util.concurrent.CompletableFuture
@@ -28,7 +29,7 @@ class TransformEffect(
     )
 
     override fun apply(entity: PokemonEntity, future: CompletableFuture<PokemonEntity>) {
-        mock.shiny = entity.pokemon.shiny   // apply shiny property to new appearance
+        mock.aspects += SHINY_ASPECT.provide(entity.pokemon)    // apply shiny property to new appearance
         entity.effects.mockEffect = this
         afterOnServer(seconds = 1.0F) {
             entity.cry()
