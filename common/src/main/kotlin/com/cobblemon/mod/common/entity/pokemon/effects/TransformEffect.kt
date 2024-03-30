@@ -28,6 +28,7 @@ class TransformEffect(
     )
 
     override fun apply(entity: PokemonEntity, future: CompletableFuture<PokemonEntity>) {
+        mock.shiny = entity.pokemon.shiny   // apply shiny property to new appearance
         entity.effects.mockEffect = this
         afterOnServer(seconds = 1.0F) {
             entity.cry()

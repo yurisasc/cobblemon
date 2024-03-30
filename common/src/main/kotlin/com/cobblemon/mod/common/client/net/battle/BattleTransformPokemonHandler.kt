@@ -1,0 +1,32 @@
+package com.cobblemon.mod.common.client.net.battle
+
+import com.cobblemon.mod.common.api.net.ClientNetworkPacketHandler
+import com.cobblemon.mod.common.client.CobblemonClient
+import com.cobblemon.mod.common.client.battle.ClientBattlePokemon
+import com.cobblemon.mod.common.net.messages.client.battle.BattleTransformPokemonPacket
+import net.minecraft.client.MinecraftClient
+
+/**
+ * The handler for [BattleTransformPokemonPacket]s. Updates the [ClientBattlePokemon] after a transformation.
+ *
+ * @author Segfault Guy
+ * @since April 22nd, 2023
+ */
+object BattleTransformPokemonHandler : ClientNetworkPacketHandler<BattleTransformPokemonPacket> {
+    override fun handle(packet: BattleTransformPokemonPacket, client: MinecraftClient) {
+        val battle = CobblemonClient.battle ?: return
+        val (_, activeBattlePokemon) = battle.getPokemonFromPNX(packet.pnx)
+        val update = packet.updatedPokemon
+
+        activeBattlePokemon.battlePokemon?.apply {
+            displayName = update.displayName
+            properties = update.properties
+            aspects = update.aspects
+            hpValue = update.hpValue
+            maxHp = update.maxHp
+            isHpFlat = update.isFlatHp
+            status = update.status
+            statChanges = update.statChanges
+        }
+    }
+}

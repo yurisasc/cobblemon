@@ -4,6 +4,8 @@ import com.cobblemon.mod.common.api.battles.interpreter.BattleMessage
 import com.cobblemon.mod.common.api.battles.model.PokemonBattle
 import com.cobblemon.mod.common.api.text.yellow
 import com.cobblemon.mod.common.battles.dispatch.InterpreterInstruction
+import com.cobblemon.mod.common.net.messages.client.battle.BattleReplacePokemonPacket
+import com.cobblemon.mod.common.net.messages.client.battle.BattleTransformPokemonPacket
 import com.cobblemon.mod.common.util.battleLang
 
 /**
@@ -16,10 +18,23 @@ import com.cobblemon.mod.common.util.battleLang
 class ReplaceInstruction(val message: BattleMessage): InterpreterInstruction {
 
     override fun invoke(battle: PokemonBattle) {
-        battle.dispatchWaiting(1F) {
-            val pokemon = message.battlePokemon(0, battle) ?: return@dispatchWaiting
+
+        val (pnx, _) = message.pnxAndUuid(0) ?: return
+        val (actor, activePokemon) = battle.getActorAndActiveSlotFromPNX(pnx)
+        val pokemon = message.battlePokemon(0, battle) ?: return
+
+        battle.dispatchGo {
             val entity = pokemon.entity
             entity?.let { it.effects.mockEffect?.end(it) }
+
+            battle.sendSidedUpdate(
+                source = actor,
+                allyPacket = BattleReplacePokemonPacket(pnx, pokemon, true),
+                opponentPacket = BattleReplacePokemonPacket(pnx, pokemon, false)
+            )
+
+            activePokemon.illusion = null
+            //lang done by EndInstruction
         }
     }
 }
