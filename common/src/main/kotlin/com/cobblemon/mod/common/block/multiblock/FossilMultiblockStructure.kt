@@ -619,8 +619,8 @@ class FossilMultiblockStructure (
         }
 
         const val TICKS_PER_MINUTE = 1200
-        const val MATERIAL_TO_START = 256
-        const val TIME_TO_TAKE = TICKS_PER_MINUTE * 15
+        const val MATERIAL_TO_START = 128
+        const val TIME_TO_TAKE = TICKS_PER_MINUTE * 12
         const val TIME_PER_STAGE = TIME_TO_TAKE / 8
         const val PROTECTION_TIME = TICKS_PER_MINUTE * 5
 
