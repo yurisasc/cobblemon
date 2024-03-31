@@ -1223,9 +1223,6 @@
 				}
 			},
 			"sound_effects": {
-				"0.125": {
-					"effect": "pokemon.gimmighoul.cry"
-				},
 				"0.1667": {
 					"effect": "gilded_chest_open"
 				}

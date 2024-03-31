@@ -4348,11 +4348,6 @@
 						"2.8333": [0, 0, 0]
 					}
 				}
-			},
-			"sound_effects": {
-				"0.5": {
-					"effect": "pokemon.archen.quirk"
-				}
 			}
 		},
 		"animation.archen.quirk": {
@@ -4655,7 +4650,7 @@
 			},
 			"sound_effects": {
 				"0.875": {
-					"effect": "archen_quirk1"
+					"effect": "pokemon.archen.quirk"
 				}
 			}
 		},
