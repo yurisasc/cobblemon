@@ -22,7 +22,7 @@
                 {
                     "type": "minecraft:item",
                     "name": "cobblemon:relic_coin",
-                    "weight": 10
+                    "weight": 25
                 },
                 {
                     "type": "minecraft:item",
