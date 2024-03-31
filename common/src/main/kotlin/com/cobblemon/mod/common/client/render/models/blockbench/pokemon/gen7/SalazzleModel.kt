@@ -55,8 +55,7 @@ class SalazzleModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
-                bedrock("salazzle", "ground_idle"),
-                BipedWalkAnimation(this,0.6F, 1F)
+                bedrock("salazzle", "ground_walk")
             )
         )
 
