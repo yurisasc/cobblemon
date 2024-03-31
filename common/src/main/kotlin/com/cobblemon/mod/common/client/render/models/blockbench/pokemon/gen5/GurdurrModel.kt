@@ -10,6 +10,7 @@ package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen5
 
 import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.BipedWalkAnimation
+import com.cobblemon.mod.common.client.render.models.blockbench.animation.PrimaryAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
@@ -42,7 +43,7 @@ class GurdurrModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bipe
 
     override fun registerPoses() {
         val blink = quirk { bedrockStateful("gurdurr", "blink") }
-        val quirk = quirk { bedrockStateful("gurdurr", "quirk_idle") }
+        val quirk = quirk { PrimaryAnimation(bedrockStateful("gurdurr", "quirk_idle"),   ) }
 
         sleep = registerPose(
             poseName = "sleep",
