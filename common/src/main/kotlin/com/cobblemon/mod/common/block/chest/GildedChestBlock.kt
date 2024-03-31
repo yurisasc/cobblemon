@@ -16,20 +16,15 @@ import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.party
 import com.cobblemon.mod.common.util.toVec3d
-import net.minecraft.block.Block
-import net.minecraft.block.BlockRenderType
-import net.minecraft.block.BlockState
-import net.minecraft.block.BlockWithEntity
-import net.minecraft.block.Blocks
-import net.minecraft.block.HorizontalFacingBlock
-import net.minecraft.block.ShapeContext
-import net.minecraft.block.Waterloggable
+import net.minecraft.block.*
+import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.ai.pathing.NavigationType
 import net.minecraft.entity.mob.PiglinBrain
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.fluid.FluidState
 import net.minecraft.fluid.Fluids
 import net.minecraft.item.ItemPlacementContext
+import net.minecraft.item.ItemStack
 import net.minecraft.screen.ScreenHandler
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.sound.SoundCategory
@@ -38,12 +33,7 @@ import net.minecraft.state.property.BooleanProperty
 import net.minecraft.state.property.Properties
 import net.minecraft.text.MutableText
 import net.minecraft.text.Text
-import net.minecraft.util.ActionResult
-import net.minecraft.util.BlockMirror
-import net.minecraft.util.BlockRotation
-import net.minecraft.util.Hand
-import net.minecraft.util.Identifier
-import net.minecraft.util.ItemScatterer
+import net.minecraft.util.*
 import net.minecraft.util.hit.BlockHitResult
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
@@ -256,6 +246,19 @@ class GildedChestBlock(settings: Settings, val type: Type = Type.RED) : BlockWit
     @Deprecated("Deprecated in Java")
     override fun canPathfindThrough(state: BlockState?, world: BlockView?, pos: BlockPos?, type: NavigationType?): Boolean {
         return false
+    }
+
+    override fun onPlaced(
+        world: World,
+        pos: BlockPos,
+        state: BlockState,
+        placer: LivingEntity?,
+        itemStack: ItemStack
+    ) {
+        val blockEntity = world.getBlockEntity(pos)
+        if (itemStack.hasCustomName() && blockEntity is GildedChestBlockEntity) {
+            blockEntity.customName = itemStack.name
+        }
     }
 
 }
