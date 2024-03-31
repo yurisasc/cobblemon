@@ -106,7 +106,7 @@ class GildedChestBlock(settings: Settings, val type: Type = Type.RED) : BlockWit
         neighborPos: BlockPos
     ): BlockState {
         if (state.get(WATERLOGGED)) world.scheduleFluidTick(pos, Fluids.WATER, Fluids.WATER.getTickRate(world))
-        return super.getStateForNeighborUpdate(state, direction, neighborState, world, pos, neighborPos)
+        return super.getStateForNeighborUpdate(state,   direction, neighborState, world, pos, neighborPos)
     }
 
     override fun getFluidState(state: BlockState): FluidState {
