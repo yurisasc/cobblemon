@@ -249,14 +249,14 @@ class GildedChestBlock(settings: Settings, val type: Type = Type.RED) : BlockWit
     }
 
     override fun onPlaced(
-        world: World?,
-        pos: BlockPos?,
-        state: BlockState?,
-        placer: LivingEntity?,
-        itemStack: ItemStack?
+        world: World,
+        pos: BlockPos,
+        state: BlockState,
+        placer: LivingEntity,
+        itemStack: ItemStack
     ) {
-        val blockEntity = world!!.getBlockEntity(pos)
-        if (itemStack!!.hasCustomName() && blockEntity is GildedChestBlockEntity) {
+        val blockEntity = world.getBlockEntity(pos)
+        if (itemStack.hasCustomName() && blockEntity is GildedChestBlockEntity) {
             blockEntity.customName = itemStack.name
         }
     }
