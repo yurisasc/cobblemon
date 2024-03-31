@@ -213,8 +213,8 @@
                 },
                 {
                     "type": "minecraft:item",
-                    "name": "cobblemon:automaton_armor_trim_smitthing_template",
-                    "weight": 3
+                    "name": "cobblemon:automaton_armor_trim_smithing_template",
+                    "weight": 2
                 }
             ]
         }
