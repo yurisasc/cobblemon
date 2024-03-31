@@ -7,12 +7,12 @@
                 {
                     "type": "minecraft:item",
                     "name": "minecraft:copper_ingot",
-                    "weight": 3
+                    "weight": 10
                 },
                 {
                     "type": "minecraft:item",
                     "name": "minecraft:iron_ingot",
-                    "weight": 2
+                    "weight": 5
                 },
                 {
                     "type": "minecraft:item",
@@ -21,18 +21,23 @@
                 },
                 {
                     "type": "minecraft:item",
-                    "name": "minecraft:emerald",
-                    "weight": 1
-                },
-                {
-                    "type": "minecraft:item",
                     "name": "cobblemon:relic_coin",
-                    "weight": 1
+                    "weight": 10
                 },
                 {
                     "type": "minecraft:item",
                     "name": "cobblemon:poison_barb",
+                    "weight": 2
+                },
+                {
+                    "type": "minecraft:item",
+                    "name": "cobblemon:suspicious_sherd",
                     "weight": 1
+                },
+                {
+                    "type": "minecraft:item",
+                    "name": "cobblemon:electric_gem",
+                    "weight": 5
                 }
             ],
             "rolls": 1.0

@@ -336,7 +336,7 @@
                     {
                         "block_entity_modifier": {
                             "type": "minecraft:append_loot",
-                            "loot_table": "cobblemon:ruins/uncommon/crumbling_arch_ruins"
+                            "loot_table": "cobblemon:ruins/uncommon/toppled_pillars_ruins"
                         },
                         "input_predicate": {
                             "block": "minecraft:suspicious_gravel",

@@ -6,42 +6,37 @@
             "entries": [
                 {
                     "type": "minecraft:item",
-                    "name": "cobblemon:everstone",
-                    "weight": 3
-                },
-                {
-                    "type": "minecraft:item",
                     "name": "cobblemon:twisted_spoon",
-                    "weight": 3
+                    "weight": 5
                 },
                 {
                     "type": "minecraft:item",
                     "name": "cobblemon:covert_cloak",
-                    "weight": 2
+                    "weight": 5
                 },
                 {
                     "type": "minecraft:item",
                     "name": "cobblemon:shell_bell",
-                    "weight": 3
+                    "weight": 5
                 },
                 {
                     "type": "minecraft:item",
-                    "name": "cobblemon:cracked_pot",
-                    "weight": 2
+                    "name": "cobblemon:unremarkable_teacup",
+                    "weight": 5
                 },
                 {
                     "type": "minecraft:item",
-                    "name": "cobblemon:chipped_pot",
+                    "name": "cobblemon:masterpiece_teacup",
                     "weight": 1
                 },
                 {
                     "type": "minecraft:item",
                     "name": "cobblemon:helix_sherd",
-                    "weight": 1
+                    "weight": 40
                 }
             ],
             "rolls": 1.0
         }
     ],
-    "random_sequence": "cobblemon:ruins/uncommon/toppled_pillar_ruins"
+    "random_sequence": "cobblemon:ruins/uncommon/toppled_pillars_ruins"
 }
