@@ -35,6 +35,7 @@ class XatuModel(root: ModelPart) : PokemonPoseableModel(), BiWingedFrame {
 
     lateinit var standing: PokemonPose
     lateinit var walking: PokemonPose
+    lateinit var hover: PokemonPose
     lateinit var sleep: PokemonPose
     override fun registerPoses() {
         val blink = quirk { bedrockStateful("xatu", "blink") }
@@ -47,7 +48,7 @@ class XatuModel(root: ModelPart) : PokemonPoseableModel(), BiWingedFrame {
         )
         standing = registerPose(
             poseName = "standing",
-            poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
+            poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES - PoseType.HOVER,
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 bedrock("xatu", "ground_idle")
@@ -57,6 +58,20 @@ class XatuModel(root: ModelPart) : PokemonPoseableModel(), BiWingedFrame {
         walking = registerPose(
             poseName = "walking",
             poseTypes = PoseType.MOVING_POSES,
+            quirks = arrayOf(blink),
+            idleAnimations = arrayOf(
+                bedrock("xatu", "air_idle"),
+                WingFlapIdleAnimation(this,
+                    flapFunction = sineFunction(verticalShift = -10F.toRadians(), period = 0.9F, amplitude = 0.6F),
+                    timeVariable = { state, _, _ -> state?.animationSeconds ?: 0F },
+                    axis = ModelPartTransformation.X_AXIS
+                )
+            )
+        )
+
+        hover = registerPose(
+            poseName = "hover",
+            poseType = PoseType.HOVER,
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 bedrock("xatu", "air_idle"),
