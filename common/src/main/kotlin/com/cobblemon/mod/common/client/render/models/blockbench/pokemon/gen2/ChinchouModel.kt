@@ -84,7 +84,7 @@ class ChinchouModel (root: ModelPart) : PokemonPoseableModel() {
             poseName = "floating",
             transformTicks = 10,
             poseType = PoseType.FLOAT,
-            condition = { it.isSubmergedInWater },
+            condition = { it.isTouchingWater },
             quirks = arrayOf(blink, waterQuirk),
             idleAnimations = arrayOf(
                 bedrock("chinchou", "water_idle")
@@ -94,8 +94,8 @@ class ChinchouModel (root: ModelPart) : PokemonPoseableModel() {
         swimming = registerPose(
             poseName = "swimming",
             transformTicks = 10,
-            condition = { it.isSubmergedInWater },
-            poseType = PoseType.SWIM,
+            condition = { it.isTouchingWater },
+            poseTypes = PoseType.MOVING_POSES,
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 bedrock("chinchou", "water_swim"),
