@@ -27,7 +27,7 @@
   "behaviour": {
     "moving": {
       "walk": {
-        "walkSpeed": 0.28
+        "walkSpeed": 0.2
       }
     },
     "resting": {

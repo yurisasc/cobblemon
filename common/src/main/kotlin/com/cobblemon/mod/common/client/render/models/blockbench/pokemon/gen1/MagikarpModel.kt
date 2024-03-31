@@ -73,7 +73,7 @@ class MagikarpModel(root: ModelPart) : PokemonPoseableModel() {
             poseName = "standing",
             poseTypes = PoseType.UI_POSES + PoseType.STAND,
             transformTicks = 10,
-            condition = { !it.isBattling && !it.isTouchingWater && !it.isSubmergedInWater},
+            condition = {!it.isTouchingWater && !it.isSubmergedInWater},
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 bedrock("magikarp", "ground_idle")
