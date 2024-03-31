@@ -38,6 +38,12 @@
       "walk": {
         "walkSpeed": 0.14
       }
+    },
+    "resting": {
+      "canSleep": true,
+      "willSleepOnBed": true,
+      "depth": "normal",
+      "light": "0-4"
     }
   },
   "features": [ "hisuian" ],
