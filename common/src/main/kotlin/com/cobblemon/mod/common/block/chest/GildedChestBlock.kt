@@ -252,7 +252,7 @@ class GildedChestBlock(settings: Settings, val type: Type = Type.RED) : BlockWit
         world: World,
         pos: BlockPos,
         state: BlockState,
-        placer: LivingEntity,
+        placer: LivingEntity?,
         itemStack: ItemStack
     ) {
         val blockEntity = world.getBlockEntity(pos)
