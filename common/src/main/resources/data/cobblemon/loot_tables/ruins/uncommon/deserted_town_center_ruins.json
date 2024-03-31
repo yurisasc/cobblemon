@@ -6,23 +6,18 @@
             "entries": [
                 {
                     "type": "minecraft:item",
-                    "name": "cobblemon:everstone",
-                    "weight": 3
-                },
-                {
-                    "type": "minecraft:item",
                     "name": "cobblemon:twisted_spoon",
-                    "weight": 3
+                    "weight": 5
                 },
                 {
                     "type": "minecraft:item",
                     "name": "cobblemon:shell_bell",
-                    "weight": 2
+                    "weight": 5
                 },
                 {
                     "type": "minecraft:item",
                     "name": "cobblemon:cracked_pot",
-                    "weight": 2
+                    "weight": 5
                 },
                 {
                     "type": "minecraft:item",
@@ -32,32 +27,32 @@
                 {
                     "type": "minecraft:item",
                     "name": "cobblemon:covert_cloak",
-                    "weight": 2
+                    "weight": 5
                 },
                 {
                     "type": "minecraft:item",
                     "name": "cobblemon:destiny_knot",
-                    "weight": 2
+                    "weight": 5
                 },
                 {
                     "type": "minecraft:item",
                     "name": "cobblemon:protector",
-                    "weight": 2
+                    "weight": 5
                 },
                 {
                     "type": "minecraft:item",
                     "name": "cobblemon:ability_shield",
-                    "weight": 2
+                    "weight": 5
                 },
                 {
                     "type": "minecraft:item",
                     "name": "cobblemon:focus_sash",
-                    "weight": 2
+                    "weight": 10
                 },
                 {
                     "type": "minecraft:item",
                     "name": "cobblemon:helix_sherd",
-                    "weight": 1
+                    "weight": 90
                 }
             ],
             "rolls": 1.0
