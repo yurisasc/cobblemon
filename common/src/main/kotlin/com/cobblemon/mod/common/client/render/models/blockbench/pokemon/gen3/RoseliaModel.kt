@@ -77,7 +77,7 @@ class RoseliaModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             condition = { it.isBattling },
             idleAnimations = arrayOf(
                 singleBoneLook(),
-                bedrock("roselia", "ground_idle")
+                bedrock("roselia", "battle_idle")
             )
         )
     }
