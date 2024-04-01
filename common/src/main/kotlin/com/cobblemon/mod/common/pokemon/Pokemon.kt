@@ -647,8 +647,7 @@ open class Pokemon : ShowdownIdentifiable {
                 if (block is SweetBerryBushBlock ||
                     block is CactusBlock ||
                     block is WitherRoseBlock
-                )
-                {
+                ) {
                     isSafe = false
                 }
 
@@ -657,8 +656,7 @@ open class Pokemon : ShowdownIdentifiable {
                         block is MagmaBlock ||
                         block is CampfireBlock ||
                         world.getBlockState(pos).fluidState.isIn(FluidTags.LAVA)
-                    )
-                    {
+                    ) {
                         isSafe = false
                     }
                 }
