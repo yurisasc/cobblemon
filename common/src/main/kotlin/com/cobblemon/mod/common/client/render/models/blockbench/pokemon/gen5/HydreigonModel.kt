@@ -65,17 +65,17 @@ class HydreigonModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
                 singleBoneLook(),
                 bedrock("hydreigon", "air_idle"),
                     wingFrame1.wingFlap(
-                            flapFunction = sineFunction(verticalShift = -25F.toRadians(), period = 2.5F, amplitude = 0.8F),
+                            flapFunction = sineFunction(verticalShift = -25F.toRadians(), period = 2F, amplitude = 0.8F),
                             timeVariable = { state, _, ageInTicks -> state?.animationSeconds ?: ageInTicks },
                             axis = ModelPartTransformation.Y_AXIS
                     ),
                     wingFrame2.wingFlap(
-                            flapFunction = cosineFunction(verticalShift = -25F.toRadians(), period = 2.5F, amplitude = 0.65F),
+                            flapFunction = cosineFunction(verticalShift = -25F.toRadians(), period = 2F, amplitude = 0.65F),
                             timeVariable = { state, _, ageInTicks -> 0.01F + (state?.animationSeconds ?: (ageInTicks / 200)) },
                             axis = ModelPartTransformation.Y_AXIS
                     ),
                     wingFrame3.wingFlap(
-                            flapFunction = sineFunction(verticalShift = -25F.toRadians(), period = 2.5F, amplitude = 0.5F),
+                            flapFunction = sineFunction(verticalShift = -25F.toRadians(), period = 2F, amplitude = 0.5F),
                             timeVariable = { state, _, ageInTicks -> 0.01F + (state?.animationSeconds ?: (ageInTicks / 400)) },
                             axis = ModelPartTransformation.Y_AXIS
                     )
@@ -91,17 +91,17 @@ class HydreigonModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
                 singleBoneLook(),
                 bedrock("hydreigon", "air_fly"),
                     wingFrame1.wingFlap(
-                            flapFunction = sineFunction(verticalShift = -25F.toRadians(), period = 2.5F, amplitude = 0.5F),
+                            flapFunction = sineFunction(verticalShift = -25F.toRadians(), period = 2F, amplitude = 0.5F),
                             timeVariable = { state, _, ageInTicks -> state?.animationSeconds ?: ageInTicks },
                             axis = ModelPartTransformation.Y_AXIS
                     ),
                     wingFrame2.wingFlap(
-                            flapFunction = cosineFunction(verticalShift = -25F.toRadians(), period = 2.5F, amplitude = 0.65F),
+                            flapFunction = cosineFunction(verticalShift = -25F.toRadians(), period = 2F, amplitude = 0.65F),
                             timeVariable = { state, _, ageInTicks -> 0.01F + (state?.animationSeconds ?: (ageInTicks / 20)) },
                             axis = ModelPartTransformation.Y_AXIS
                     ),
                     wingFrame3.wingFlap(
-                            flapFunction = sineFunction(verticalShift = -25F.toRadians(), period = 2.0F, amplitude = 0.8F),
+                            flapFunction = sineFunction(verticalShift = -25F.toRadians(), period = 1.5F, amplitude = 0.8F),
                             timeVariable = { state, _, ageInTicks -> 0.01F + (state?.animationSeconds ?: (ageInTicks / 40)) },
                             axis = ModelPartTransformation.Y_AXIS
                     )
