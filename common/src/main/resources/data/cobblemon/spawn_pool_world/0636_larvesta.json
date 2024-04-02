@@ -41,6 +41,27 @@
                     "#cobblemon:nether/is_crimson",
                     "#cobblemon:nether/is_forest"
                 ]
+            },
+            "drops": {
+                "amount": 4,
+                "entries": [
+                    {
+                        "item": "minecraft:string",
+                        "quantityRange": "0-1"
+                    },
+                    {
+                        "item": "minecraft:blaze_powder",
+                        "percentage": 5.0
+                    },
+                    {
+                        "item": "cobblemon:silver_powder",
+                        "percentage": 2.5
+                    },
+                    {
+                        "item": "cobblemon:charti_berry",
+                        "percentage": 2.5
+                    }
+                ]
             }
         }
     ]

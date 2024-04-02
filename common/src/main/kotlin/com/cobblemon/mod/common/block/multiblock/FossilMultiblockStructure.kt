@@ -306,22 +306,22 @@ class FossilMultiblockStructure (
     }
 
     override fun onBreak(world: World, pos: BlockPos, state: BlockState, player: PlayerEntity?) {
-        val monitorEntity = world.getBlockEntity(monitorPos) as MultiblockEntity
-        val analyzerEntity = world.getBlockEntity(analyzerPos) as MultiblockEntity
-        val tankBaseEntity = world.getBlockEntity(tankBasePos) as MultiblockEntity
-        val tankTopEntity = world.getBlockEntity(tankBasePos.up()) as MultiblockEntity
-        val state = world.getBlockState(tankBaseEntity.pos)
+        val monitorEntity = world.getBlockEntity(monitorPos) as? MultiblockEntity
+        val analyzerEntity = world.getBlockEntity(analyzerPos) as? MultiblockEntity
+        val tankBaseEntity = world.getBlockEntity(tankBasePos) as? MultiblockEntity
+        val tankTopEntity = world.getBlockEntity(tankBasePos.up()) as? MultiblockEntity
+        val state = world.getBlockState(tankBaseEntity?.pos)
         val direction = state.get(HorizontalFacingBlock.FACING).getOpposite()
         val wildPokemon: Pokemon? = this.createdPokemon
 
-        monitorEntity.multiblockStructure = null
-        analyzerEntity.multiblockStructure = null
-        tankBaseEntity.multiblockStructure = null
-        tankTopEntity.multiblockStructure = null
-        monitorEntity.masterBlockPos = null
-        analyzerEntity.masterBlockPos = null
-        tankBaseEntity.masterBlockPos = null
-        tankTopEntity.masterBlockPos = null
+        monitorEntity?.multiblockStructure = null
+        analyzerEntity?.multiblockStructure = null
+        tankBaseEntity?.multiblockStructure = null
+        tankTopEntity?.multiblockStructure = null
+        monitorEntity?.masterBlockPos = null
+        analyzerEntity?.masterBlockPos = null
+        tankBaseEntity?.masterBlockPos = null
+        tankTopEntity?.masterBlockPos = null
 
         // Drop fossils from machine as long as the machine is not started or near completion
         if (this.timeRemaining == -1 || this.timeRemaining >= 20) {
@@ -619,8 +619,8 @@ class FossilMultiblockStructure (
         }
 
         const val TICKS_PER_MINUTE = 1200
-        const val MATERIAL_TO_START = 256
-        const val TIME_TO_TAKE = TICKS_PER_MINUTE * 15
+        const val MATERIAL_TO_START = 128
+        const val TIME_TO_TAKE = TICKS_PER_MINUTE * 12
         const val TIME_PER_STAGE = TIME_TO_TAKE / 8
         const val PROTECTION_TIME = TICKS_PER_MINUTE * 5
 

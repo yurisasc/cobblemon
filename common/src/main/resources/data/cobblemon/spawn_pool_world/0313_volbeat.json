@@ -17,7 +17,8 @@
             "level": "18-43",
             "weight": 5.0,
             "condition": {
-                "canSeeSky": true,
+                "minSkyLight": 8,
+                "maxSkyLight": 15,
                 "timeRange": "night",
                 "isRaining": false
             }
@@ -35,7 +36,8 @@
             "level": "18-43",
             "weight": 5.0,
             "condition": {
-                "canSeeSky": true,
+                "minSkyLight": 8,
+                "maxSkyLight": 15,
                 "timeRange": "night",
                 "isRaining": false
             }

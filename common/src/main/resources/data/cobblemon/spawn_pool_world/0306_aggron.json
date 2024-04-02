@@ -16,7 +16,6 @@
             "level": "42-53",
             "weight": 0.1,
             "condition": {
-                "canSeeSky": true,
                 "biomes": [
                     "#cobblemon:is_mountain"
                 ],
@@ -42,7 +41,8 @@
             "level": "42-53",
             "weight": 0.1,
             "condition": {
-                "canSeeSky": false,
+                "minSkyLight": 0,
+                "maxSkyLight": 7,
                 "biomes": [
                     "#cobblemon:is_overworld"
                 ],
