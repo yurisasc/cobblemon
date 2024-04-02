@@ -28,7 +28,6 @@ import com.cobblemon.mod.common.api.scheduling.Schedulable
 import com.cobblemon.mod.common.api.scheduling.SchedulingTracker
 import com.cobblemon.mod.common.api.storage.InvalidSpeciesException
 import com.cobblemon.mod.common.api.types.ElementalTypes
-import com.cobblemon.mod.common.api.types.ElementalTypes.FIRE
 import com.cobblemon.mod.common.battles.BagItems
 import com.cobblemon.mod.common.battles.BattleBuilder
 import com.cobblemon.mod.common.battles.BattleRegistry
@@ -108,6 +107,8 @@ import net.minecraft.util.math.Vec3d
 import net.minecraft.world.EntityView
 import net.minecraft.world.World
 import net.minecraft.world.event.GameEvent
+import java.util.*
+import java.util.concurrent.CompletableFuture
 
 @Suppress("unused")
 open class PokemonEntity(
@@ -334,7 +335,7 @@ open class PokemonEntity(
      * Prevents fire type Pokémon from taking fire damage.
      */
     override fun isFireImmune(): Boolean {
-        return FIRE in pokemon.types || !behaviour.moving.swim.hurtByLava
+        return pokemon.isFireImmune()
     }
 
     /**
@@ -379,10 +380,10 @@ open class PokemonEntity(
         if (dataTracker.get(PHASING_TARGET_ID) == -1 && owner != null) {
             owner.getWorld().playSoundServer(pos, CobblemonSounds.POKE_BALL_RECALL, volume = 0.6F)
             dataTracker.set(PHASING_TARGET_ID, owner.id)
-            dataTracker.set(BEAM_MODE, 2)
+            dataTracker.set(BEAM_MODE, 3)
             val state = pokemon.state
             after(seconds = SEND_OUT_DURATION) {
-                // only recall if the pokemon hasn't been recalled yet for this state
+                // only recall if the Pokémon hasn't been recalled yet for this state
                 if (state == pokemon.state) {
                     pokemon.recall()
                 }
