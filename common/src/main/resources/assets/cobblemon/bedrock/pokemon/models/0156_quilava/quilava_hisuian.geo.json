@@ -12,12 +12,12 @@
 			},
 			"bones": [
 				{
-					"name": "quilava_hisui",
+					"name": "quilava",
 					"pivot": [0, 0, 4]
 				},
 				{
 					"name": "body",
-					"parent": "quilava_hisui",
+					"parent": "quilava",
 					"pivot": [0, 11, 4]
 				},
 				{

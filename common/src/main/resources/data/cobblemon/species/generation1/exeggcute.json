@@ -21,23 +21,24 @@
   "shoulderMountable": false,
   "forms": [
     {
-      "name": "Alola Variant",
+      "name": "Alola Bias",
       "maleRatio": 0.5,
       "labels": [
         "alola_regional"
       ],
       "aspects": [
-        "alolan"
+        "region-bias-alola"
       ],
       "evolutions": [
         {
           "id": "alola_exeggcute_alola_exeggutor",
           "variant": "item_interact",
-          "result": "exeggutor pattern=alola",
+          "result": "exeggutor alolan",
           "consumeHeldItem": false,
           "learnableMoves": [
             "dragonhammer"
           ],
+          "requirements": [],
           "requiredContext": "cobblemon:leaf_stone"
         },
         {
@@ -259,7 +260,7 @@
   ],
   "features": [
     "alolan",
-    "pattern"
+    "region_bias"
   ],
   "evolutions": [
     {
@@ -270,12 +271,13 @@
       "learnableMoves": [
         "stomp"
       ],
+      "requirements": [],
       "requiredContext": "cobblemon:leaf_stone"
     },
     {
       "id": "exeggcute_alola_exeggutor",
       "variant": "item_interact",
-      "result": "exeggutor pattern=alola",
+      "result": "exeggutor alolan",
       "consumeHeldItem": false,
       "learnableMoves": [
         "dragonhammer"

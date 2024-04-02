@@ -7,10 +7,10 @@
     "torrent",
     "h:shellarmor"
   ],
-  "features": [ "pattern-hisui"],
+  "features": ["region_bias"],
   "forms": [
     {
-      "name": "Hisui Pattern",
+      "name": "Hisui Bias",
       "primaryType": "water",
       "abilities": [
         "torrent",
@@ -149,7 +149,7 @@
         "gen5",
         "hisui_regional"
       ],
-      "preEvolution": "oshawott pattern=hisui",
+      "preEvolution": "oshawott region_bias=hisui",
       "evolutions": [
         {
           "id": "hisui_dewott_hisui_samurott",
@@ -207,7 +207,7 @@
       },
       "height": 8,
       "weight": 245,
-      "aspects": ["pattern-hisui"],
+      "aspects": ["region-bias-hisui"],
       "cannotDynamax": false
     }
   ],

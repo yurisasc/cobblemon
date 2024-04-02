@@ -3,15 +3,14 @@
   "order": 1,
   "variations": [
     {
-      "aspects": ["pattern-hisui"],
-      "poser": "cobblemon:dewott_hisuian",
+      "aspects": ["region-bias-hisui"],
       "model": "cobblemon:dewott_hisuian.geo",
       "texture": "cobblemon:textures/pokemon/0502_dewott/dewott_hisuian.png",
       "layers": []
     },
     {
       "aspects": [
-        "pattern-hisui",
+        "region-bias-hisui",
         "shiny"
       ],
       "texture": "cobblemon:textures/pokemon/0502_dewott/dewott_hisuian_shiny.png"

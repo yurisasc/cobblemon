@@ -3,15 +3,14 @@
   "order": 1,
   "variations": [
     {
-      "aspects": ["pattern-hisui"],
-      "poser": "cobblemon:dartrix_hisuian",
+      "aspects": ["region-bias-hisui"],
       "model": "cobblemon:dartrix_hisuian.geo",
       "texture": "cobblemon:textures/pokemon/0723_dartrix/dartrix_hisuian.png",
       "layers": []
     },
     {
       "aspects": [
-        "pattern-hisui",
+        "region-bias-hisui",
         "shiny"
       ],
       "texture": "cobblemon:textures/pokemon/0723_dartrix/dartrix_hisuian_shiny.png"

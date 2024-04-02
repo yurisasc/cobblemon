@@ -16,10 +16,10 @@
       }
     ]
   },
-  "features": ["pattern"],
+  "features": ["region_bias"],
   "forms": [
     {
-      "name": "Hisui",
+      "name": "Hisui Bias",
       "primaryType": "fire",
       "abilities": [
         "blaze",
@@ -184,7 +184,7 @@
         "gen2",
         "hisui_regional"
       ],
-      "preEvolution": "cyndaquil hisuian",
+      "preEvolution": "cyndaquil region_bias=hisui",
       "evolutions": [
         {
           "id": "hisui_quilava_hisui_typhlosion",
@@ -240,7 +240,7 @@
       },
       "height": 9,
       "weight": 190,
-      "aspects": ["pattern-hisui"],
+      "aspects": ["region-bias-hisui"],
       "cannotDynamax": false
     }
   ],

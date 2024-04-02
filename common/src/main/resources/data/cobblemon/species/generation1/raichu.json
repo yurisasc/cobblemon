@@ -236,7 +236,7 @@
       ],
       "height": 7,
       "weight": 210,
-      "preEvolution": "pikachu pattern=alola",
+      "preEvolution": "pikachu region_bias=alola",
       "baseScale": 0.75,
       "hitbox": {
         "width": 0.8,

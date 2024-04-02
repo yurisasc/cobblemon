@@ -7,10 +7,10 @@
     "torrent",
     "h:shellarmor"
   ],
-  "features": ["pattern"],
+  "features": ["region_bias"],
   "forms": [
     {
-      "name": "Hisui Pattern",
+      "name": "Hisui Bias",
       "primaryType": "water",
       "abilities": [
         "torrent",
@@ -162,7 +162,7 @@
         {
           "id": "hisui_oshawott_hisui_dewott",
           "variant": "level_up",
-          "result": "dewott pattern=hisui",
+          "result": "dewott region_bias=hisui",
           "consumeHeldItem": false,
           "learnableMoves": [],
           "requirements": [
@@ -211,7 +211,7 @@
       },
       "height": 5,
       "weight": 59,
-      "aspects": ["pattern-hisui"],
+      "aspects": ["region-bias-hisui"],
       "cannotDynamax": false
     }
   ],
@@ -376,7 +376,7 @@
     {
       "id": "oshawott_hisui_dewott",
       "variant": "level_up",
-      "result": "dewott pattern=hisui",
+      "result": "dewott region_bias=hisui",
       "consumeHeldItem": false,
       "learnableMoves": [],
       "requirements": [

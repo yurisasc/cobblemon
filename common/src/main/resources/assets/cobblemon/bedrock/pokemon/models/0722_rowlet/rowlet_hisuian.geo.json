@@ -12,12 +12,12 @@
 			},
 			"bones": [
 				{
-					"name": "rowlet_hisui",
+					"name": "rowlet",
 					"pivot": [0, 0, 0]
 				},
 				{
 					"name": "body",
-					"parent": "rowlet_hisui",
+					"parent": "rowlet",
 					"pivot": [0, 9.25, 0]
 				},
 				{

@@ -8,10 +8,10 @@
     "overgrow",
     "h:longreach"
   ],
-  "features": ["pattern"],
+  "features": ["region_bias"],
   "forms": [
     {
-      "name": "Hisui Pattern",
+      "name": "Hisui Bias",
       "primaryType": "grass",
       "secondaryType": "flying",
       "abilities": [
@@ -150,7 +150,7 @@
         "gen7",
         "hisui_regional"
       ],
-      "preEvolution": "rowlet pattern=hisui",
+      "preEvolution": "rowlet region_bias=hisui",
       "evolutions": [
         {
           "id": "hisui_dartrix_hisui_decidueye",
@@ -212,7 +212,7 @@
       },
       "height": 7,
       "weight": 160,
-      "aspects": ["pattern-hisui"],
+      "aspects": ["region-bias-hisui"],
       "cannotDynamax": false
     }
   ],
