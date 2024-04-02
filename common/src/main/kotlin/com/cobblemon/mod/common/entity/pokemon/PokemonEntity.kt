@@ -108,7 +108,6 @@ import net.minecraft.world.EntityView
 import net.minecraft.world.World
 import net.minecraft.world.event.GameEvent
 import java.util.*
-import java.util.concurrent.CompletableFuture
 
 @Suppress("unused")
 open class PokemonEntity(
