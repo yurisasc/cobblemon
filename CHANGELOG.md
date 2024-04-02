@@ -159,6 +159,7 @@
 - Upped the rate that Gastly drop Ghast Tears from 2.5% to 5%.
 - Pokémon with a low Blaze Powder drop chance now drop it more frequently in the Nether.
 - Reorganised a few advancements.
+- Pokémon entity shadows now scale when the Pokémon is being sent out or recalled.
 
 ### Fixes
 - Resized Snorlax.
