@@ -154,5 +154,13 @@
   "height": 3,
   "weight": 14,
   "aspects": [],
-  "cannotDynamax": false
+  "cannotDynamax": false,
+  "drops": {
+    "amount": 1,
+    "entries": [
+      {
+        "item": "minecraft:heart_of_the_sea"
+      }
+    ]
+  }
 }

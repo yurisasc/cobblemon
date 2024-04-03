@@ -69,3 +69,9 @@ def print_problems_and_paths(problem_path_tuples, filter_words=None):
         # Only print the tuple if the problem description does not contain the filter_words
         if filter_words not in problem:
             print("  {:<{}} {}".format(problem, max_width, path))
+
+
+def sanitize_pokemon(pokemon):
+    return (pokemon.replace("-", "").replace("♂", "m").replace("♀", "f")
+            .replace(".", "").replace("'", "").replace(' ', '')
+            .replace('é', 'e').replace(':', '').replace('’', '').replace('é', 'e').lower())

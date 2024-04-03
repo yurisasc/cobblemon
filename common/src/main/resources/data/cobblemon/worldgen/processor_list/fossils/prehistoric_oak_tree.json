@@ -301,7 +301,7 @@
                     {
                         "block_entity_modifier": {
                             "type": "minecraft:append_loot",
-                            "loot_table": "cobblemon:fossils/rare/plume_fossil"
+                            "loot_table": "cobblemon:fossils/rare/old_amber_fossil"
                         },
                         "input_predicate": {
                             "block": "minecraft:suspicious_gravel",

@@ -40,7 +40,9 @@
       }
     }
   },
-  "features": ["minecraft"],
+  "features": [
+    "minecraft"
+  ],
   "moves": [
     "1:astonish",
     "1:tackle",
