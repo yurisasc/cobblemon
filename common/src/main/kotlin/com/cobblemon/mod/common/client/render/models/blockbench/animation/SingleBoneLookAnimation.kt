@@ -35,6 +35,7 @@ class SingleBoneLookAnimation<T : Entity>(
     val maxPitch: Float = 70F,
     val minPitch: Float = 45F,
     val maxYaw: Float = 45F,
+    val minYaw: Float = -45F,
 ) : StatelessAnimation<T, ModelFrame>(frame) {
     constructor(
         frame: HeadedFrame,
@@ -47,6 +48,7 @@ class SingleBoneLookAnimation<T : Entity>(
         maxPitch: Float? = null,
         minPitch: Float? = null,
         maxYaw: Float? = null,
+        minYaw: Float? = null,
     ): this(
         frame = frame,
         bone = frame.head,
@@ -55,6 +57,7 @@ class SingleBoneLookAnimation<T : Entity>(
         maxPitch = maxPitch ?: if (invertX) -45F else 45F,
         minPitch = minPitch ?: if (invertX) -70F else -45F,
         maxYaw = maxYaw ?: if (invertY) -45F else 45F,
+        minYaw = minYaw ?: if (invertY) -70F else -45F,
     )
 
 
@@ -63,7 +66,7 @@ class SingleBoneLookAnimation<T : Entity>(
     override fun setAngles(entity: T?, model: PoseableEntityModel<T>, state: PoseableEntityState<T>?, limbSwing: Float, limbSwingAmount: Float, ageInTicks: Float, headYaw: Float, headPitch: Float, intensity: Float) {
         val head = bone ?: return
         val pitch = pitchMultiplier * headPitch.coerceIn(minPitch, maxPitch)
-        val yaw = yawMultiplier * headYaw.coerceIn(-maxYaw, maxYaw)
+        val yaw = yawMultiplier * headYaw.coerceIn(minYaw, maxYaw)
         head.addRotation(X_AXIS, pitch.toRadians() * intensity)
         head.addRotation(Y_AXIS, yaw.toRadians() * intensity)
     }
