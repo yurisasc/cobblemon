@@ -37,7 +37,7 @@ data class PlayerData(
         fun defaultData(forPlayer: UUID) = PlayerData(
             uuid = forPlayer,
             starterPrompted = false,
-            starterLocked = !Cobblemon.starterConfig.allowStarterOnJoin,
+            starterLocked = !Cobblemon.config.allowStarterOnJoin,
             starterSelected =  false,
             starterUUID =  null,
             keyItems = mutableSetOf(),

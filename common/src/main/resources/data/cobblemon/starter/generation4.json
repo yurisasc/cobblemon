@@ -1,0 +1,10 @@
+{
+  "displayName": {
+    "translate": "cobblemon.starterselection.category.sinnoh"
+  },
+  "pokemon": [
+    "Turtwig level=10",
+    "Chimchar level=10",
+    "Piplup level=10"
+  ]
+}

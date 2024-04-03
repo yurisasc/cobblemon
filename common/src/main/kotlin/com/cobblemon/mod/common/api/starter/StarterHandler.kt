@@ -8,12 +8,12 @@
 
 package com.cobblemon.mod.common.api.starter
 
-import com.cobblemon.mod.common.config.starter.StarterCategory
 import net.minecraft.server.network.ServerPlayerEntity
+import net.minecraft.util.Identifier
 
 interface StarterHandler {
-    fun getStarterList(player: ServerPlayerEntity): List<StarterCategory>
+    fun getStarters(player: ServerPlayerEntity): Map<Identifier, StarterCategory>
     fun handleJoin(player: ServerPlayerEntity)
     fun requestStarterChoice(player: ServerPlayerEntity)
-    fun chooseStarter(player: ServerPlayerEntity, categoryName: String, index: Int)
+    fun chooseStarter(player: ServerPlayerEntity, categoryId: Identifier, index: Int)
 }

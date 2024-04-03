@@ -1,0 +1,10 @@
+{
+  "displayName": {
+    "translate": "cobblemon.starterselection.category.kanto"
+  },
+  "pokemon": [
+    "Bulbasaur level=10",
+    "Charmander level=10",
+    "Squirtle level=10"
+  ]
+}

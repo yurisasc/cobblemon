@@ -113,6 +113,12 @@ class CobblemonConfig {
     @NodeCategory(Category.Starter)
     var exportStarterConfig = false
 
+    @NodeCategory(Category.Starter)
+    var allowStarterOnJoin = true
+
+    @NodeCategory(Category.Starter)
+    var promptStarterOnceOnly = true
+
     @NodeCategory(Category.Battles)
     var autoUpdateShowdown = true
 

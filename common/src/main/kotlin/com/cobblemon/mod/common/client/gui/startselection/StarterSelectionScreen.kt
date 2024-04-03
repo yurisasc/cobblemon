@@ -27,7 +27,7 @@ import com.cobblemon.mod.common.client.gui.summary.widgets.type.DualTypeWidget
 import com.cobblemon.mod.common.client.gui.summary.widgets.type.SingleTypeWidget
 import com.cobblemon.mod.common.client.gui.summary.widgets.type.TypeWidget
 import com.cobblemon.mod.common.client.render.drawScaledText
-import com.cobblemon.mod.common.config.starter.RenderableStarterCategory
+import com.cobblemon.mod.common.api.starter.RenderableStarterCategory
 import com.cobblemon.mod.common.net.messages.server.SelectStarterPacket
 import com.cobblemon.mod.common.pokemon.RenderablePokemon
 import com.cobblemon.mod.common.util.asTranslated
@@ -40,6 +40,7 @@ import net.minecraft.client.gui.screen.Screen
 import net.minecraft.client.sound.PositionedSoundInstance
 import net.minecraft.client.toast.Toast
 import net.minecraft.text.Text
+import net.minecraft.util.Identifier
 
 /**
  * Starterselection Screen Thingy
@@ -47,7 +48,7 @@ import net.minecraft.text.Text
  * @author Qu
  * @since 2022-06-18
  */
-class StarterSelectionScreen(private val categories: List<RenderableStarterCategory>): Screen("cobblemon.ui.starter.title".asTranslated()) {
+class StarterSelectionScreen(categories: Map<Identifier, RenderableStarterCategory>): Screen("cobblemon.ui.starter.title".asTranslated()) {
 
     companion object {
         // Size of UI at scale 1
@@ -64,8 +65,9 @@ class StarterSelectionScreen(private val categories: List<RenderableStarterCateg
         private val doubleTypeBackground = cobblemonResource("textures/gui/starterselection/starterselection_type_slot2.png")
     }
 
+    private val categories = categories.toSortedMap { a, b -> a.compareTo(b) }
     private var currentSelection = 0
-    private lateinit var currentCategory: RenderableStarterCategory
+    private lateinit var currentCategoryId: Identifier
     private lateinit var modelWidget: ModelWidget
     private lateinit var currentPokemon: RenderablePokemon
     private lateinit var typeWidget: TypeWidget
@@ -95,7 +97,7 @@ class StarterSelectionScreen(private val categories: List<RenderableStarterCateg
                 paneWidth = 71, paneHeight = BASE_HEIGHT - 11,
                 topOffset = 6, bottomOffset = 5,
                 entryHeight = 20, entryWidth = 57,
-                categories = categories,
+                categories = this.categories,
                 x = x - 2, y = y + 8,
                 starterSelectionScreen = this
             )
@@ -120,8 +122,8 @@ class StarterSelectionScreen(private val categories: List<RenderableStarterCateg
         addDrawableChild(rightButton)
         addDrawableChild(leftButton)
 
-        currentCategory = categories.first()
-        currentPokemon = currentCategory.pokemon[currentSelection]
+        currentCategoryId = categories.firstKey()
+        currentPokemon = this.currentCategory().pokemon[currentSelection]
 
         with(currentPokemon) {
             modelWidget = ModelWidget(
@@ -142,11 +144,11 @@ class StarterSelectionScreen(private val categories: List<RenderableStarterCateg
         ) {
             CobblemonNetwork.sendPacketToServer(
                 SelectStarterPacket(
-                    categoryName = currentCategory.name,
+                    categoryId = currentCategoryId,
                     selected = currentSelection
                 )
             )
-            MinecraftClient.getInstance().setScreen(null)
+            this.close()
         }
 
         addDrawableChild(selectionButton)
@@ -161,7 +163,7 @@ class StarterSelectionScreen(private val categories: List<RenderableStarterCateg
         starterRoundaboutLeft = StarterRoundabout(
             pX = x + 89, pY = height / 2 + 84,
             pWidth = StarterRoundabout.MODEL_WIDTH, pHeight = StarterRoundabout.MODEL_HEIGHT,
-            pokemon = currentCategory.pokemon[leftOfCurrentSelection()],
+            pokemon = this.currentCategory().pokemon[leftOfCurrentSelection()],
             clickAction = { _, _ -> this.left()  },
             rotationVector = this.modelWidget.rotVec
         )
@@ -169,7 +171,7 @@ class StarterSelectionScreen(private val categories: List<RenderableStarterCateg
         starterRoundaboutRight = StarterRoundabout(
             pX = x + 149, pY = height / 2 + 84,
             pWidth = StarterRoundabout.MODEL_WIDTH, pHeight = StarterRoundabout.MODEL_HEIGHT,
-            pokemon = currentCategory.pokemon[rightOfCurrentSelection()],
+            pokemon = this.currentCategory().pokemon[rightOfCurrentSelection()],
             clickAction = { _, _ -> this.right()  },
             rotationVector = this.modelWidget.rotVec
         )
@@ -276,8 +278,8 @@ class StarterSelectionScreen(private val categories: List<RenderableStarterCateg
         super.render(context, mouseX, mouseY, delta)
     }
 
-    fun changeCategory(category: RenderableStarterCategory) {
-        currentCategory = category
+    fun changeCategory(id: Identifier) {
+        currentCategoryId = id
         currentSelection = 0
         updateSelection()
     }
@@ -288,7 +290,7 @@ class StarterSelectionScreen(private val categories: List<RenderableStarterCateg
         updateSelection()
     }
 
-    private fun rightOfCurrentSelection() : Int = if (currentSelection + 1 <= currentCategory.pokemon.size - 1) currentSelection + 1 else 0
+    private fun rightOfCurrentSelection() : Int = if (currentSelection + 1 <= this.currentCategory().pokemon.size - 1) currentSelection + 1 else 0
 
     private fun left() {
         MinecraftClient.getInstance().soundManager.play(PositionedSoundInstance.master(CobblemonSounds.GUI_CLICK, 1.0F))
@@ -296,16 +298,16 @@ class StarterSelectionScreen(private val categories: List<RenderableStarterCateg
         updateSelection()
     }
 
-    private fun leftOfCurrentSelection() : Int = if (currentSelection - 1 == -1) currentCategory.pokemon.size - 1 else currentSelection - 1
+    private fun leftOfCurrentSelection() : Int = if (currentSelection - 1 == -1) this.currentCategory().pokemon.size - 1 else currentSelection - 1
 
     private fun updateSelection() {
-        currentPokemon = currentCategory.pokemon[currentSelection].also {
+        currentPokemon = this.currentCategory().pokemon[currentSelection].also {
             modelWidget.pokemon = it
             typeWidget = typeWidget(it, (width - BASE_WIDTH) / 2, (height - BASE_HEIGHT) / 2)
         }
-        starterRoundaboutLeft.pokemon = currentCategory.pokemon[leftOfCurrentSelection()]
+        starterRoundaboutLeft.pokemon = this.currentCategory().pokemon[leftOfCurrentSelection()]
         starterRoundaboutCenter.pokemon = currentPokemon
-        starterRoundaboutRight.pokemon = currentCategory.pokemon[rightOfCurrentSelection()]
+        starterRoundaboutRight.pokemon = this.currentCategory().pokemon[rightOfCurrentSelection()]
     }
 
     private fun typeWidget(pokemon: RenderablePokemon, x: Int, y: Int) : TypeWidget {
@@ -323,6 +325,8 @@ class StarterSelectionScreen(private val categories: List<RenderableStarterCateg
             renderText = false
         )
     }
+
+    private fun currentCategory(): RenderableStarterCategory = this.categories[this.currentCategoryId]!!
 
     override fun shouldPause() = true
 }

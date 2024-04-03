@@ -1,0 +1,10 @@
+{
+  "displayName": {
+    "translate": "cobblemon.starterselection.category.hoenn"
+  },
+  "pokemon": [
+    "Treecko level=10",
+    "Torchic level=10",
+    "Mudkip level=10"
+  ]
+}
