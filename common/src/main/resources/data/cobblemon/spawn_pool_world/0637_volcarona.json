@@ -8,7 +8,26 @@
             "pokemon": "volcarona",
             "presets": [
                 "natural",
-                "desert_pyramid",
+                "desert_pyramid"
+            ],
+            "type": "pokemon",
+            "context": "grounded",
+            "bucket": "uncommon",
+            "level": "59-64",
+            "weight": 10.0,
+            "condition": {
+                "canSeeSky": false,
+                "biomes": [
+                    "#cobblemon:is_desert"
+                ],
+                "minY": 48
+            }
+        },
+        {
+            "id": "volcarona-2",
+            "pokemon": "volcarona",
+            "presets": [
+                "natural",
                 "jungle_pyramid"
             ],
             "type": "pokemon",
@@ -19,13 +38,13 @@
             "condition": {
                 "canSeeSky": false,
                 "biomes": [
-                    "#cobblemon:is_overworld"
+                    "#cobblemon:is_jungle"
                 ],
                 "minY": 48
             }
         },
         {
-            "id": "volcarona-2",
+            "id": "volcarona-3",
             "pokemon": "volcarona",
             "presets": [
                 "natural",
