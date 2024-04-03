@@ -140,8 +140,12 @@
   "aspects": [],
   "cannotDynamax": false,
   "drops": {
-    "amount": 1,
+    "amount": 2,
     "entries": [
+      {
+        "item": "minecraft:phantom_membrane",
+        "percentage": 10.0
+      },
       {
         "item": "cobblemon:haban_berry",
         "percentage": 10.0
