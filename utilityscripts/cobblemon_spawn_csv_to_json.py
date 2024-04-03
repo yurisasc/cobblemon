@@ -7,7 +7,7 @@ from io import BytesIO
 import requests
 import pandas as pd
 from sqlalchemy import create_engine
-import openpyxl # required to read excel files
+import openpyxl  # required to read excel files
 from tqdm import tqdm
 from cobblemon_drops_csv_to_json import get_drops_df, parse_drops
 from scriptutils import printCobblemonHeader, print_cobblemon_script_footer, print_cobblemon_script_description, \
@@ -32,7 +32,7 @@ def init_filters():
 
 def ui_init_filters(pokemon_nrs_min, pokemon_nrs_max, included_grps, known_cntxts, bucket_map):
     global pokemon_numbers, included_groups, known_contexts, bucket_mapping, included_generations
-    pokemon_numbers = range(pokemon_nrs_min, pokemon_nrs_max+1)
+    pokemon_numbers = range(pokemon_nrs_min, pokemon_nrs_max + 1)
     included_groups = included_grps
     known_contexts = known_cntxts
     bucket_mapping = bucket_map
@@ -188,11 +188,9 @@ def main(pokemon_data_dir, spawn_spreadsheet_path="", only_update_existing_files
     print_cobblemon_script_description(scriptName, scriptDescription)
 
     if spawn_spreadsheet_path:
-        # if the file is an excel file, read it with pandas
         if spawn_spreadsheet_path.endswith('.xlsx'):
             csv_df = pd.read_excel(spawn_spreadsheet_path, engine='openpyxl',
                                    dtype={'Pokémon': str, 'Entry': str, 'No.': int})
-        # if the file is a csv file, read it with pandas
         elif spawn_spreadsheet_path.endswith('.csv'):
             csv_df = pd.read_csv(spawn_spreadsheet_path, dtype={'Pokémon': str, 'Entry': str, 'No.': int})
         else:
@@ -229,17 +227,46 @@ def main(pokemon_data_dir, spawn_spreadsheet_path="", only_update_existing_files
     # Creating the output directory if it doesn't exist
     os.makedirs(pokemon_data_dir, exist_ok=True)
 
-    # Group the data by dex number
-    csv_grouped = csv_df.groupby('No.')
+    # Handle dataframes depending on the usage of the public template spreadsheet
+    csv_grouped_with_folder_file = []
+    # Create two separate DataFrames: one for rows with 'folder' and 'file_name' and another for rows without them
+    if {'Folder', 'File Name'}.issubset(csv_df.columns):
+        csv_df_with_folder_file = csv_df.dropna(subset=['Folder', 'File Name'])
+        # Group the DataFrame with 'folder' and 'file_name' by these columns
+        csv_grouped_with_folder_file = csv_df_with_folder_file.groupby(['Folder', 'File Name'])
+        csv_df_without_folder_file = csv_df[csv_df['Folder'].isna() | csv_df['File Name'].isna()]
+        # Group the DataFrame without 'folder' and 'file_name' by dex number
+        csv_grouped_without_folder_file = csv_df_without_folder_file.groupby('No.')
+    else:
+        csv_grouped_without_folder_file = csv_df.groupby('No.')
 
     print_warning("Modifying files...")
     # Processing each Pokémon group and converting it to JSON
     try:
-        for dex, group in tqdm(csv_grouped, bar_format='\033[92m' + '{l_bar}\033[0m{bar:58}\033[92m{r_bar}\033[0m',
-                               colour='blue'):
-            file_id = dex
-            pokemon_json = transform_pokemon_to_json(group, invalid_biome_tags, drops_df)
-            save_json_to_file(pokemon_json, file_id, group['Pokémon'].iloc[0], pokemon_data_dir)
+        dataframes_to_process = [(csv_grouped_with_folder_file, MERGED_TOGETHER),
+                                 (csv_grouped_without_folder_file, 'Default Groupings')]
+
+        for df, id_type in dataframes_to_process:
+            for id_value, group in tqdm(df, desc=f"Processing {id_type} ...",
+                                        bar_format='\033[92m' + '{l_bar}\033[0m{bar:58}\033[92m{r_bar}\033[0m',
+                                        colour='blue'):
+
+                # Determine the file_id based on the id_type
+                if id_type == MERGED_TOGETHER:
+                    file_id = group['No.'].iloc[0]
+                    file_name = group['File Name'].iloc[0] or None
+                else:
+                    file_id = id_value
+                    file_name = None
+                pokemon_json = transform_pokemon_to_json(group, invalid_biome_tags, drops_df)
+                # put files into folders if 'Folder' is not null
+                if 'Folder' in group.columns and pd.notna(group['Folder'].iloc[0]):
+                    save_json_to_file(pokemon_json, file_id, group['Pokémon'].iloc[0],
+                                      os.path.join(pokemon_data_dir, group['Folder'].iloc[0]), file_name)
+                else:
+                    # Handle the case when 'Folder' is null
+                    save_json_to_file(pokemon_json, file_id, group['Pokémon'].iloc[0], pokemon_data_dir, file_name)
+            print()
     finally:
         print_report()
 
@@ -285,7 +312,7 @@ def validateAndFilterData(csv_df, only_update_existing_files=False, ignore_filte
             csv_df = csv_df[csv_df['Gen'].isin(included_generations)]
     if only_update_existing_files:
         # extract the dex numbers from the filenames of the existing files
-        existing_dex_numbers = [int(file.split('/')[-1].split('_')[0]) for file in os.listdir(pokemon_data_dir)]
+        existing_dex_numbers = [int(file.split('/')[-1].split('_')[0]) for file in os.listdir(default_pokemon_data_dir)]
         csv_df = csv_df[csv_df['No.'].isin(existing_dex_numbers)]
     return csv_df
 
@@ -656,14 +683,16 @@ def parse_biomes(biomes_str, invalid_biome_tags):
 
         # Verify that the biome is not in the invalid_biome_tags list
         if invalid_biome_tags and biome_mapping[biome] in invalid_biome_tags:
-            print_warning(f"Used possibly invalid biome tag: {biome}\nThe wrong tag specified in biome_mapping is: {biome_mapping[biome]}")
+            print_warning(
+                f"Used possibly invalid biome tag: {biome}\nThe wrong tag specified in biome_mapping is: {biome_mapping[biome]}")
 
         if biome in biome_mapping:
             biomes.append(biome_mapping[biome])
         elif biome in ignored_biomes:
             pass
         else:
-            raise ValueError(f"Unknown biome: {biome}")
+            raise ValueError(
+                f"Unknown biome: {biome}. To fix this error, add the biome to the biome_mapping dictionary at the top of the script.")
     return biomes
 
 
@@ -694,14 +723,18 @@ def write_to_sqlite(df, db_name, table_name):
     df.to_sql(table_name, con=engine, if_exists='replace', index=False)
 
 
-def save_json_to_file(json_data, file_id, pokemon_name, output_directory):
+def save_json_to_file(json_data, file_id, pokemon_name, output_directory, file_name=None):
     # Remove any ' from the pokemon name
     pokemon_name = pokemon_name.replace("'", "")
     # If the pokemon name contains a space, remove everything after the space (because of basculin)
     if " " in pokemon_name:
         pokemon_name = pokemon_name.split(" ")[0]
-    filename = f"{str(file_id).zfill(4)}_{pokemon_name.lower()}.json"
+    if file_name:
+        filename = f"{file_name}.json"
+    else:
+        filename = f"{str(file_id).zfill(4)}_{pokemon_name.lower()}.json"
     file_path = os.path.join(output_directory, filename)
+    os.makedirs(output_directory, exist_ok=True)
     with open(file_path, 'w', encoding='utf-8') as file:
         json.dump(json_data, file, indent=4)
     return file_path
@@ -763,7 +796,7 @@ def verifyBiomeTags():
     for jar_path in glob.glob(jar_pattern):
         with zipfile.ZipFile(jar_path, 'r') as jar:
             for file in jar.namelist():
-                   minecraft_biomes.append(file)
+                minecraft_biomes.append(file)
 
     unknown_biomes = []
 
@@ -803,10 +836,12 @@ def is_filepattern_in_jars(biome_file_pattern):
     return False
 
 
+MERGED_TOGETHER = 'Custom Folders and Files'
+
 if __name__ == "__main__":
     init_filters()
     # Configuration data
     # Read excel url from .env in same directory as this script
     spawn_spreadsheet_excel_url = readEnvFile('SPAWN_SPREADSHEET_EXCEL_URL')
-    pokemon_data_dir = '../common/src/main/resources/data/cobblemon/spawn_pool_world'
-    main(pokemon_data_dir, only_update_existing_files=False, ignore_filters=False)
+    default_pokemon_data_dir = '../common/src/main/resources/data/cobblemon/spawn_pool_world'
+    main(default_pokemon_data_dir, only_update_existing_files=False, ignore_filters=False)
