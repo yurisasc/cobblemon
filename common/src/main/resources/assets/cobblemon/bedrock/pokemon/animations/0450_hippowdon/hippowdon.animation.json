@@ -2184,7 +2184,7 @@
 			},
 			"sound_effects": {
 				"0.4167": {
-					"effect": "hippowdon_quirk1_cry"
+					"effect": "pokemon.hippowdon.quirk1_cry"
 				}
 			}
 		},
