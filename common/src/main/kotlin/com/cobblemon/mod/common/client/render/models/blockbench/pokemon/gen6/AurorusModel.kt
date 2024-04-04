@@ -80,8 +80,8 @@ class AurorusModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
         )
     }
 
-    override fun getFaintAnimation(
-        pokemonEntity: PokemonEntity,
-        state: PoseableEntityState<PokemonEntity>
-    ) = bedrockStateful("aurorus", "faint")
+    //override fun getFaintAnimation(
+    //    pokemonEntity: PokemonEntity,
+    //    state: PoseableEntityState<PokemonEntity>
+    //) = bedrockStateful("aurorus", "faint")
 }

@@ -87,8 +87,8 @@ class MightyenaModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             )
         )
     }
-    override fun getFaintAnimation(
-        pokemonEntity: PokemonEntity,
-        state: PoseableEntityState<PokemonEntity>
-    ) = bedrockStateful("mightyena", "faint")
+    //override fun getFaintAnimation(
+    //    pokemonEntity: PokemonEntity,
+    //    state: PoseableEntityState<PokemonEntity>
+    //) = bedrockStateful("mightyena", "faint")
 }

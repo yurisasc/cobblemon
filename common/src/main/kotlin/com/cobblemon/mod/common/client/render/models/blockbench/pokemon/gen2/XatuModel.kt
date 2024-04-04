@@ -84,8 +84,8 @@ class XatuModel(root: ModelPart) : PokemonPoseableModel(), BiWingedFrame {
         )
     }
 
-    override fun getFaintAnimation(
-        pokemonEntity: PokemonEntity,
-        state: PoseableEntityState<PokemonEntity>
-    ) = if (state.isPosedIn(standing, sleep)) bedrockStateful("xatu", "faint") else null
+    //override fun getFaintAnimation(
+    //    pokemonEntity: PokemonEntity,
+    //    state: PoseableEntityState<PokemonEntity>
+    //) = if (state.isPosedIn(standing, sleep)) bedrockStateful("xatu", "faint") else null
 }
