@@ -70,20 +70,6 @@ class HippowdonModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             )
         )
 
-        sleepsand = registerPose(
-            poseName = "sleepsand",
-            poseType = PoseType.SLEEP,
-            condition = { it.isStandingOnSand() },
-            transformedParts = arrayOf(
-                sand.createTransformation().withVisibility(visibility = false),
-                redsand.createTransformation().withVisibility(visibility = false)
-            ),
-            idleAnimations = arrayOf(
-                singleBoneLook(),
-                bedrock("hippowdon", "sand_sleep")
-            )
-        )
-
         sleepredsand = registerPose(
             poseName = "sleepsand",
             poseType = PoseType.SLEEP,

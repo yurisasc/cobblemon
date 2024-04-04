@@ -48,6 +48,7 @@ class DracovishModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
         sleep = registerPose(
             poseName = "sleep",
             poseType = PoseType.SLEEP,
+            condition = { !it.isTouchingWater },
             transformTicks = 10,
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
@@ -69,7 +70,7 @@ class DracovishModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
         standing = registerPose(
             poseName = "standing",
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES - PoseType.FLOAT,
-            condition = { it.isBattling },
+            condition = { !it.isBattling },
             transformTicks = 10,
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(

@@ -44,7 +44,7 @@ class ArctozoltModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
         standing = registerPose(
             poseName = "standing",
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES - PoseType.FLOAT,
-            condition = { it.isBattling },
+            condition = { !it.isBattling },
             transformTicks = 10,
             quirks = arrayOf(blink, quirk),
             idleAnimations = arrayOf(

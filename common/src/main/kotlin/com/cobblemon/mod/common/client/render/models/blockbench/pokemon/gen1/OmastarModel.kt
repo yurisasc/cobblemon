@@ -85,7 +85,7 @@ class OmastarModel(root: ModelPart) : PokemonPoseableModel() {
         )
 
         battleidle = registerPose(
-            poseName = "standing",
+            poseName = "battle-standing",
             poseTypes = PoseType.STATIONARY_POSES,
             quirks = arrayOf(blink),
             transformTicks = 10,
