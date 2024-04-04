@@ -8,7 +8,9 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1
 
+import com.cobblemon.mod.common.client.render.models.blockbench.animation.QuadrupedWalkAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
+import com.cobblemon.mod.common.client.render.models.blockbench.frame.QuadrupedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
@@ -17,9 +19,14 @@ import com.cobblemon.mod.common.entity.PoseType.Companion.UI_POSES
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class LaprasModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
+class LaprasModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, QuadrupedFrame {
     override val rootPart = root.registerChildWithAllChildren("lapras")
     override val head = getPart("head_ai")
+
+    override val foreLeftLeg = getPart("leg_front_left")
+    override val foreRightLeg = getPart("leg_front_right")
+    override val hindLeftLeg = getPart("leg_back_left")
+    override val hindRightLeg = getPart("leg_back_right")
 
     override var portraitScale = 1.14F
     override var portraitTranslation = Vec3d(-0.66, 1.91, 0.0)
@@ -57,6 +64,7 @@ class LaprasModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("lapras", "ground_idle"),
+                QuadrupedWalkAnimation(this, 2.5F, 0.25F )
             )
         )
 
@@ -78,7 +86,7 @@ class LaprasModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
-                bedrock("lapras", "surfacewater_idle"),
+                bedrock("lapras", "surfacewater_idle")
             )
         )
 
