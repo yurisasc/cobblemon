@@ -54,10 +54,10 @@ class SingleBoneLookAnimation<T : Entity>(
         bone = frame.head,
         pitchMultiplier = pitchMultiplier ?: if (disableX) 0F else if (invertX) -1F else 1F,
         yawMultiplier = yawMultiplier ?: if (disableY) 0F else if (invertY) -1F else 1F,
-        maxPitch = maxPitch ?: if (invertX) -45F else 45F,
-        minPitch = minPitch ?: if (invertX) -70F else -45F,
-        maxYaw = maxYaw ?: if (invertY) -45F else 45F,
-        minYaw = minYaw ?: if (invertY) -70F else -45F,
+        maxPitch = maxPitch ?: 45F,
+        minPitch = minPitch ?: -70F,
+        maxYaw = maxYaw ?: 45F,
+        minYaw = minYaw ?: -45F,
     )
 
 
