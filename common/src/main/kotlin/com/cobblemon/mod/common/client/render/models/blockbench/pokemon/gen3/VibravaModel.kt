@@ -9,10 +9,15 @@
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen3
 
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.QuadrupedWalkAnimation
+import com.cobblemon.mod.common.client.render.models.blockbench.createTransformation
+import com.cobblemon.mod.common.client.render.models.blockbench.frame.BiWingedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.QuadrupedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.pose.ModelPartTransformation
+import com.cobblemon.mod.common.client.render.models.blockbench.wavefunction.triangleFunction
 import com.cobblemon.mod.common.entity.PoseType
+import com.cobblemon.mod.common.util.math.geometry.toRadians
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
@@ -33,15 +38,35 @@ class VibravaModel  (root: ModelPart) : PokemonPoseableModel(), QuadrupedFrame {
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
 
+    val wing_front_left = getPart("wing_front_left")
+    val wing_front_right = getPart("wing_front_right")
+
     override fun registerPoses() {
         val blink = quirk { bedrockStateful("vibrava", "blink") }
+
+        val wingFrame1 = object : BiWingedFrame {
+            override val rootPart = this@VibravaModel.rootPart
+            override val leftWing = getPart("wing_front_left")
+            override val rightWing = getPart("wing_front_right")
+        }
+
+        val wingFrame2 = object : BiWingedFrame {
+            override val rootPart = this@VibravaModel.rootPart
+            override val leftWing = getPart("wing_back_left")
+            override val rightWing = getPart("wing_back_right")
+        }
+
         standing = registerPose(
                 poseName = "standing",
                 poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
-                transformTicks = 10,
+                transformTicks = 30,
                 quirks = arrayOf(blink),
                 idleAnimations = arrayOf(
                         bedrock("vibrava", "ground_idle")
+                ),
+                transformedParts = arrayOf(
+                        wing_front_left.createTransformation().addRotationDegrees(ModelPartTransformation.Y_AXIS, -75),
+                        wing_front_right.createTransformation().addRotationDegrees(ModelPartTransformation.Y_AXIS, 75)
                 )
         )
 
@@ -52,7 +77,22 @@ class VibravaModel  (root: ModelPart) : PokemonPoseableModel(), QuadrupedFrame {
                 quirks = arrayOf(blink),
                 idleAnimations = arrayOf(
                         bedrock("vibrava", "ground_idle"),
-                        QuadrupedWalkAnimation(this, periodMultiplier = 0.7F, amplitudeMultiplier = 0.7F)
+                        wingFrame1.wingFlap(
+                                flapFunction = triangleFunction( period = 0.08F, amplitude = 0.6F),
+                                timeVariable = { state, _, ageInTicks -> state?.animationSeconds ?: ageInTicks },
+                                axis = ModelPartTransformation.Z_AXIS
+                        ),
+                        wingFrame2.wingFlap(
+                                flapFunction = triangleFunction( period = 0.1F, amplitude = 0.4F),
+                                timeVariable = { state, _, ageInTicks -> 0.01F + (state?.animationSeconds ?: (ageInTicks / 20)) },
+                                axis = ModelPartTransformation.Z_AXIS
+                        )
+                ),
+                transformedParts = arrayOf(
+                        rootPart.createTransformation().addPosition(ModelPartTransformation.Y_AXIS, -4),
+                        wing_front_left.createTransformation().addRotationDegrees(ModelPartTransformation.Z_AXIS, -30),
+                        wing_front_right.createTransformation().addRotationDegrees(ModelPartTransformation.Z_AXIS, 30)
+
                 )
         )
     }

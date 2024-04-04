@@ -12,12 +12,12 @@
 			},
 			"bones": [
 				{
-					"name": "cyndaquil_hisui",
+					"name": "cyndaquil",
 					"pivot": [0, 0, 0]
 				},
 				{
 					"name": "body",
-					"parent": "cyndaquil_hisui",
+					"parent": "cyndaquil",
 					"pivot": [0, 11, 0]
 				},
 				{

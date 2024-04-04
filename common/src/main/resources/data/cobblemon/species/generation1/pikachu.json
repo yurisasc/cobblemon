@@ -34,7 +34,7 @@
   },
   "features": [
     "alolan",
-    "pattern"
+    "region_bias"
   ],
   "behaviour": {
     "moving": {
@@ -1761,14 +1761,14 @@
       "battleOnly": false
     },
     {
-      "name": "Alola Variant",
+      "name": "Alola Bias",
       "maleRatio": 0.5,
       "labels": [
         "alola_regional"
       ],
       "aspects": [
         "alolan",
-        "pattern"
+        "region-bias-alola"
       ],
       "evolutions": [
         {
@@ -1779,6 +1779,7 @@
           "learnableMoves": [
             "psychic"
           ],
+          "requirements": [],
           "requiredContext": "cobblemon:thunder_stone"
         },
         {
@@ -2018,6 +2019,7 @@
       "learnableMoves": [
         "thunderpunch"
       ],
+      "requirements": [],
       "requiredContext": "cobblemon:thunder_stone"
     },
     {

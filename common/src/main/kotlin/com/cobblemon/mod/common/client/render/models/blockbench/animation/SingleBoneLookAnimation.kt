@@ -35,21 +35,29 @@ class SingleBoneLookAnimation<T : Entity>(
     val maxPitch: Float = 70F,
     val minPitch: Float = 45F,
     val maxYaw: Float = 45F,
+    val minYaw: Float = -45F,
 ) : StatelessAnimation<T, ModelFrame>(frame) {
     constructor(
         frame: HeadedFrame,
         invertX: Boolean,
         invertY: Boolean,
         disableX: Boolean,
-        disableY: Boolean
+        disableY: Boolean,
+        pitchMultiplier: Float? = null,
+        yawMultiplier: Float? = null,
+        maxPitch: Float? = null,
+        minPitch: Float? = null,
+        maxYaw: Float? = null,
+        minYaw: Float? = null,
     ): this(
         frame = frame,
         bone = frame.head,
-        pitchMultiplier = if (disableX) 0F else if (invertX) -1F else 1F,
-        yawMultiplier = if (disableY) 0F else if (invertY) -1F else 1F,
-        maxPitch = if (invertX) -45F else 45F,
-        minPitch = if (invertX) -70F else -45F,
-        maxYaw = if (invertY) -45F else 45F,
+        pitchMultiplier = pitchMultiplier ?: if (disableX) 0F else if (invertX) -1F else 1F,
+        yawMultiplier = yawMultiplier ?: if (disableY) 0F else if (invertY) -1F else 1F,
+        maxPitch = maxPitch ?: if (invertX) -45F else 45F,
+        minPitch = minPitch ?: if (invertX) -70F else -45F,
+        maxYaw = maxYaw ?: if (invertY) -45F else 45F,
+        minYaw = minYaw ?: if (invertY) -70F else -45F,
     )
 
 
@@ -58,7 +66,7 @@ class SingleBoneLookAnimation<T : Entity>(
     override fun setAngles(entity: T?, model: PoseableEntityModel<T>, state: PoseableEntityState<T>?, limbSwing: Float, limbSwingAmount: Float, ageInTicks: Float, headYaw: Float, headPitch: Float, intensity: Float) {
         val head = bone ?: return
         val pitch = pitchMultiplier * headPitch.coerceIn(minPitch, maxPitch)
-        val yaw = yawMultiplier * headYaw.coerceIn(-maxYaw, maxYaw)
+        val yaw = yawMultiplier * headYaw.coerceIn(minYaw, maxYaw)
         head.addRotation(X_AXIS, pitch.toRadians() * intensity)
         head.addRotation(Y_AXIS, yaw.toRadians() * intensity)
     }

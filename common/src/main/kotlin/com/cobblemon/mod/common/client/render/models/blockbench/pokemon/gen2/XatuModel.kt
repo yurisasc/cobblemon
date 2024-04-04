@@ -64,7 +64,7 @@ class XatuModel(root: ModelPart) : PokemonPoseableModel(), BiWingedFrame {
                 WingFlapIdleAnimation(this,
                     flapFunction = sineFunction(verticalShift = -10F.toRadians(), period = 0.9F, amplitude = 0.6F),
                     timeVariable = { state, _, _ -> state?.animationSeconds ?: 0F },
-                    axis = ModelPartTransformation.X_AXIS
+                    axis = ModelPartTransformation.Y_AXIS
                 )
             )
         )
@@ -78,7 +78,7 @@ class XatuModel(root: ModelPart) : PokemonPoseableModel(), BiWingedFrame {
                 WingFlapIdleAnimation(this,
                     flapFunction = sineFunction(verticalShift = -10F.toRadians(), period = 0.9F, amplitude = 0.6F),
                     timeVariable = { state, _, _ -> state?.animationSeconds ?: 0F },
-                    axis = ModelPartTransformation.X_AXIS
+                    axis = ModelPartTransformation.Y_AXIS
                 )
             )
         )

@@ -237,7 +237,7 @@
       ],
       "height": 109,
       "weight": 4156,
-      "preEvolution": "exeggcute pattern=alola",
+      "preEvolution": "exeggcute region_bias=alola",
       "cannotDynamax": false,
       "battleOnly": false
     }

@@ -3,8 +3,7 @@
   "order": 1,
   "variations": [
     {
-      "aspects": ["pattern-hisui"],
-      "poser": "cobblemon:quilava_hisuian",
+      "aspects": ["region-bias-hisui"],
       "model": "cobblemon:quilava_hisuian.geo",
       "texture": "cobblemon:textures/pokemon/0156_quilava/quilava_hisuian.png",
       "layers": [
@@ -18,7 +17,7 @@
     },
     {
       "aspects": [
-        "pattern-hisui",
+        "region-bias-hisui",
         "shiny"
       ],
       "texture": "cobblemon:textures/pokemon/0156_quilava/quilava_hisuian_shiny.png"

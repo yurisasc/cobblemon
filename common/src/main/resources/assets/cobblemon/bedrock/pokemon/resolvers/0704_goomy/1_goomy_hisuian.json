@@ -3,7 +3,7 @@
   "order": 1,
   "variations": [
     {
-      "aspects": ["pattern-hisui"],
+      "aspects": ["region-bias-hisui"],
       "poser": "cobblemon:goomy_hisuian",
       "model": "cobblemon:goomy_hisuian.geo",
       "texture": "cobblemon:textures/pokemon/0704_goomy/goomy_hisuian.png",
@@ -11,7 +11,7 @@
     },
     {
       "aspects": [
-        "shiny", "pattern-hisui"
+        "shiny", "region-bias-hisui"
       ],
       "texture": "cobblemon:textures/pokemon/0704_goomy/goomy_hisuian_shiny.png",
       "layers": []

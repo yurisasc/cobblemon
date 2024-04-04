@@ -16,10 +16,10 @@
       }
     ]
   },
-  "features": ["pattern"],
+  "features": ["region_bias"],
   "forms": [
     {
-      "name": "Hisui Pattern",
+      "name": "Hisui Bias",
       "primaryType": "fire",
       "abilities": [
         "blaze",
@@ -199,7 +199,7 @@
         {
           "id": "hisui_cyndaquil_hisui_quilava",
           "variant": "level_up",
-          "result": "quilava pattern=hisui",
+          "result": "quilava region_bias=hisui",
           "consumeHeldItem": false,
           "learnableMoves": [],
           "requirements": [
@@ -248,7 +248,7 @@
       },
       "height": 5,
       "weight": 79,
-      "aspects": ["pattern-hisui"],
+      "aspects": ["region-bias-hisui"],
       "cannotDynamax": false
     }
   ],
@@ -432,7 +432,7 @@
     {
       "id": "cyndaquil_hisui_quilava",
       "variant": "level_up",
-      "result": "quilava pattern=hisui",
+      "result": "quilava region_bias=hisui",
       "consumeHeldItem": false,
       "learnableMoves": [],
       "requirements": [

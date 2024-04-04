@@ -12,12 +12,12 @@
 			},
 			"bones": [
 				{
-					"name": "dartrix_hisui",
+					"name": "dartrix",
 					"pivot": [0, 0, 0]
 				},
 				{
 					"name": "body",
-					"parent": "dartrix_hisui",
+					"parent": "dartrix",
 					"pivot": [0, 17.5, 0]
 				},
 				{

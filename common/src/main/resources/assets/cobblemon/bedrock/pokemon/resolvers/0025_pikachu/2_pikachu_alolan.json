@@ -3,7 +3,13 @@
   "order": 2,
   "variations": [
     {
-      "aspects": ["alolan", "pattern-alola"],
+      "aspects": ["alolan"],
+      "model": "cobblemon:pikachu_alolan_male.geo",
+      "texture": "cobblemon:textures/pokemon/0025_pikachu/pikachu_alola.png",
+      "layers": []
+    },
+    {
+      "aspects": [ "region-bias-alola" ],
       "model": "cobblemon:pikachu_alolan_male.geo",
       "texture": "cobblemon:textures/pokemon/0025_pikachu/pikachu_alola.png",
       "layers": []
@@ -11,8 +17,15 @@
     {
       "aspects": [
         "shiny",
+        "alolan"
+      ],
+      "texture": "cobblemon:textures/pokemon/0025_pikachu/pikachu_alola_shiny.png"
+    },
+    {
+      "aspects": [
+        "shiny",
         "alolan",
-        "pattern-alola"
+        "region-bias-alola"
       ],
       "texture": "cobblemon:textures/pokemon/0025_pikachu/pikachu_alola_shiny.png"
     }

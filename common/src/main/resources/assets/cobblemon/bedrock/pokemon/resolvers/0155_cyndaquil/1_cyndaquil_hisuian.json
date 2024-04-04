@@ -3,8 +3,7 @@
   "order": 1,
   "variations": [
     {
-      "aspects": ["pattern-hisui"],
-      "poser": "cobblemon:cyndaquil_hisuian",
+      "aspects": ["region-bias-hisui"],
       "model": "cobblemon:cyndaquil_hisuian.geo",
       "texture": "cobblemon:textures/pokemon/0155_cyndaquil/cyndaquil_hisuian.png",
       "layers": [
@@ -18,7 +17,7 @@
     },
     {
       "aspects": [
-        "pattern-hisui",
+        "region-bias-hisui",
         "shiny"
       ],
       "texture": "cobblemon:textures/pokemon/0155_cyndaquil/cyndaquil_hisuian_shiny.png"

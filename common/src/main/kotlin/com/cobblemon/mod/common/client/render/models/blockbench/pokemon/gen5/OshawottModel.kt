@@ -8,6 +8,8 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen5
 
+import com.cobblemon.mod.common.client.render.models.blockbench.animation.BimanualSwingAnimation
+import com.cobblemon.mod.common.client.render.models.blockbench.animation.BipedWalkAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.createTransformation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BimanualFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
@@ -39,23 +41,11 @@ class OshawottModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
     lateinit var sleep: PokemonPose
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
-    lateinit var water_surface_sleep: PokemonPose
 
     override val cryAnimation = CryProvider { _, _ -> bedrockStateful("oshawott", "cry") }
 
     override fun registerPoses() {
         val blink = quirk { bedrockStateful("oshawott", "blink") }
-        water_surface_sleep = registerPose(
-            poseType = PoseType.SLEEP,
-            transformTicks = 10,
-            condition = { it.isTouchingWater && !it.isSubmergedInWater &&!it.isBattling },
-            transformedParts = arrayOf(
-                    scalchop.createTransformation().withVisibility(visibility = false),
-                    scalchopbody.createTransformation().withVisibility(visibility = true),
-                    rootPart.createTransformation().addPosition(ModelPartTransformation.Y_AXIS, -7)
-            ),
-            idleAnimations = arrayOf(bedrock("oshawott", "sleep"))
-        )
 
         sleep = registerPose(
                 poseType = PoseType.SLEEP,
@@ -96,7 +86,9 @@ class OshawottModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
             ),
             idleAnimations = arrayOf(
                 singleBoneLook(),
-                bedrock("oshawott", "ground_walk")
+                bedrock("oshawott", "ground_idle"),
+                BipedWalkAnimation(this, periodMultiplier = 0.6F, amplitudeMultiplier = 0.9F),
+                BimanualSwingAnimation(this, swingPeriodMultiplier = 0.6F, amplitudeMultiplier = 0.9F)
             )
         )
 
@@ -114,7 +106,6 @@ class OshawottModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
                 singleBoneLook(),
                 bedrock("oshawott", "ground_idle")
             )
-
         )
     }
 }

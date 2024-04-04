@@ -20,7 +20,7 @@ import net.minecraft.util.math.Vec3d
 
 class FlaaffyModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("flaaffy")
-    override val head = getPart("head")
+    override val head = getPart("head_back")
 
     override var portraitScale = 2.4F
     override var portraitTranslation = Vec3d(-0.4, -0.1, 0.0)

@@ -8,10 +8,10 @@
     "overgrow",
     "h:longreach"
   ],
-  "features": ["pattern"],
+  "features": ["region_bias"],
   "forms": [
     {
-      "name": "Hisui",
+      "name": "Hisui Bias",
       "primaryType": "grass",
       "secondaryType": "flying",
       "abilities": [
@@ -162,7 +162,7 @@
         {
           "id": "hisui_rowlet_hisui_dartrix",
           "variant": "level_up",
-          "result": "dartrix pattern=hisui",
+          "result": "dartrix region_bias=hisui",
           "consumeHeldItem": false,
           "learnableMoves": [],
           "requirements": [
@@ -215,7 +215,7 @@
       },
       "height": 3,
       "weight": 15,
-      "aspects": ["pattern-hisui"],
+      "aspects": ["region-bias-hisui"],
       "cannotDynamax": false
     }
   ],
@@ -378,7 +378,7 @@
     {
       "id": "rowlet_hisui_dartrix",
       "variant": "level_up",
-      "result": "dartrix pattern=hisui",
+      "result": "dartrix region_bias=hisui",
       "consumeHeldItem": false,
       "learnableMoves": [],
       "requirements": [

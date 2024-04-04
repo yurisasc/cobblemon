@@ -19,10 +19,10 @@
   "catchRate": 45,
   "maleRatio": 0.5,
   "shoulderMountable": false,
-  "features": ["pattern"],
+  "features": ["region_bias"],
   "forms": [
     {
-      "name": "Hisui Pattern",
+      "name": "Hisui Bias",
       "primaryType": "dragon",
       "abilities": [
         "sapsipper",
@@ -174,7 +174,7 @@
       },
       "height": 3,
       "weight": 28,
-      "aspects": ["pattern-hisui"],
+      "aspects": ["region-bias-hisui"],
       "cannotDynamax": false,
       "drops": {
         "amount": 2,
