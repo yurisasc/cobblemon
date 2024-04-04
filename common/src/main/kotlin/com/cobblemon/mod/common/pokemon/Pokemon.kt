@@ -534,7 +534,6 @@ open class Pokemon : ShowdownIdentifiable {
         val arbitraryXOffset = player.width * 0.3 + this.form.hitbox.width * 0.3
         val shoulderHorizontalOffset = if (isLeftShoulder) arbitraryXOffset else -arbitraryXOffset
         val rotation = player.yaw
-        Cobblemon.LOGGER.info("rotation: $rotation")
         val approxShoulderMonHight = player.height.toDouble() - this.form.hitbox.height * 0.4
         val rotatedOffset = Vec3d(shoulderHorizontalOffset, approxShoulderMonHight, 0.0).rotateY(-rotation * (Math.PI.toFloat() / 180f))
         val currentPosition = player.pos.add(rotatedOffset)
