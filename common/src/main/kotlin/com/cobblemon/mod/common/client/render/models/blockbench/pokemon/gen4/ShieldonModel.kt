@@ -41,8 +41,8 @@ class ShieldonModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
 
     override fun registerPoses() {
         val blink = quirk { bedrockStateful("shieldon", "blink") }
-        val glancequirk = quirk(secondsBetweenOccurrences = 60F to 120F) { bedrockStateful("shieldon", "glance_idle") }
-        val grazequirk = quirk(secondsBetweenOccurrences = 60F to 120F) { bedrockStateful("shieldon", "graze_shake") }
+        val glancequirk = quirk(secondsBetweenOccurrences = 60F to 120F) { bedrockStateful("shieldon", "glance_quirk") }
+        val grazequirk = quirk(secondsBetweenOccurrences = 60F to 120F) { bedrockStateful("shieldon", "graze_quirk") }
 
         sleep = registerPose(
             poseName = "sleep",
