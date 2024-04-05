@@ -52,9 +52,22 @@
 				{
 					"name": "mouth",
 					"parent": "head",
+					"pivot": [-0.5, 43.3, -5.9]
+				},
+				{
+					"name": "mouth_closed",
+					"parent": "mouth",
+					"pivot": [-0.5, 43.3, -6.01],
+					"cubes": [
+						{"origin": [-2, 42.8, -6.01], "size": [3, 1, 0], "uv": [3, 1]}
+					]
+				},
+				{
+					"name": "mouth_open",
+					"parent": "mouth",
 					"pivot": [-0.5, 43.3, -5.9],
 					"cubes": [
-						{"origin": [-2, 42.8, -5.9], "size": [3, 1, 0], "inflate": 0.01, "uv": [0, 0]}
+						{"origin": [-2, 42.8, -5.91], "size": [3, 1, 0], "inflate": 0.01, "uv": [0, 0]}
 					]
 				},
 				{
