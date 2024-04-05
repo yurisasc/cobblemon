@@ -176,6 +176,12 @@
           ]
         }
       ],
+      "baseScale": 0.8,
+      "hitbox": {
+        "width": 0.6,
+        "height": 1.25,
+        "fixed": false
+      },
       "cannotDynamax": false,
       "battleOnly": false
     }
@@ -421,7 +427,7 @@
   "baseScale": 0.8,
   "hitbox": {
     "width": 0.6,
-    "height": 1.1,
+    "height": 1.25,
     "fixed": false
   },
   "baseFriendship": 35,

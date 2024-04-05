@@ -52,7 +52,7 @@ class HeracrossModel (root: ModelPart) : PokemonPoseableModel(), BipedFrame, Bim
 
         standing = registerPose(
             poseName = "standing",
-            poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
+            poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES - PoseType.HOVER,
             quirks = arrayOf(blink),
                 transformedParts = arrayOf(
                         leftWing.createTransformation().withVisibility(visibility = false),
