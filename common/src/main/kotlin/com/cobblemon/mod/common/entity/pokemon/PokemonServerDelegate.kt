@@ -224,7 +224,7 @@ class PokemonServerDelegate : PokemonSideDelegate {
             if (owner != null) {
                 entity.world.playSoundServer(owner.pos, CobblemonSounds.POKE_BALL_RECALL, volume = 0.6F)
                 entity.dataTracker.set(PokemonEntity.PHASING_TARGET_ID, owner.id)
-                entity.dataTracker.set(PokemonEntity.BEAM_MODE, 2)
+                entity.dataTracker.set(PokemonEntity.BEAM_MODE, 3)
             }
         }
 
