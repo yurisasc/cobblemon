@@ -162,6 +162,7 @@
           "variant": "level_up",
           "result": "sneasler",
           "consumeHeldItem": true,
+          "permanent": true,
           "learnableMoves": [],
           "requirements": [
             {
@@ -403,6 +404,7 @@
       "variant": "level_up",
       "result": "weavile",
       "consumeHeldItem": true,
+      "permanent": true,
       "learnableMoves": [],
       "requirements": [
         {

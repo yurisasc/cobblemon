@@ -226,6 +226,7 @@
       "variant": "level_up",
       "result": "gliscor",
       "consumeHeldItem": true,
+      "permanent": true,
       "learnableMoves": [],
       "requirements": [
         {
