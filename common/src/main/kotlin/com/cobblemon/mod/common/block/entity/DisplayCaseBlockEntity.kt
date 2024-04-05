@@ -92,8 +92,7 @@ class DisplayCaseBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(Cob
         } else {
             world!!.playSound(null, pos, CobblemonSounds.DISPLAY_CASE_ADD_ITEM, SoundCategory.BLOCKS)
         }
-        world!!.updateListeners(pos, oldState, world!!.getBlockState(pos), Block.NOTIFY_LISTENERS)
-        world!!.updateComparators(pos, world!!.getBlockState(pos).block)
+        onItemUpdated(world!!, oldState, world!!.getBlockState(pos))
     }
 
     override fun writeNbt(nbt: NbtCompound) {
@@ -116,9 +115,9 @@ class DisplayCaseBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(Cob
     }
 
     private fun onItemUpdated(world: World, oldState: BlockState, newState: BlockState) {
-        markDirty()
         world.updateListeners(pos, oldState, newState, Block.NOTIFY_LISTENERS)
         world.updateComparators(pos, world.getBlockState(pos).block)
+        markDirty()
     }
 
     override fun clear() {
