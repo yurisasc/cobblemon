@@ -35,6 +35,7 @@
 - Added cries to Meowth, Alolan Meowth, Galaraian Meowth,
 - Completed the advancement for placing a Tumblestone near Lava or Magma to make it grow.
 - Added new held items: Ability Shield, Absorb Bulb, Air Balloon, Binding Band, Blunder Policy, Cell Battery, Covert Cloak, Damp Rock, Eject Button, Eviolite, Expert Belt, Float Stone, Focus Sash, Heat Rock, Icy Rock, Iron Ball, Light Ball, Loaded Dice, Red Card, Shell Bell, Sticky Barb, Smooth Rock, Soothe Bell and Weakness Policy.
+- Added Hisui starters to the starter selection menu.
 
 ### Pokémon Added
 #### Gen 2
