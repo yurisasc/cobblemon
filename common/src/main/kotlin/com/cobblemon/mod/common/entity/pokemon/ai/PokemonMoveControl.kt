@@ -76,9 +76,25 @@ class PokemonMoveControl(val pokemonEntity: PokemonEntity) : MoveControl(pokemon
             entity.setSidewaysSpeed(sidewaysMovement)
             state = State.WAIT
         } else if (state == State.MOVE_TO) {
+            // Don't instantly move to WAIT for fluid movements as they overshoot their mark.
+            if (!pokemonEntity.isFlying() && !pokemonEntity.isSwimming) {
+                state = State.WAIT
+            }
             var xDist = targetX - entity.x
             var zDist = targetZ - entity.z
             var yDist = targetY - entity.y
+
+            if (xDist * xDist + yDist * yDist + zDist * zDist < VERY_CLOSE) {
+                // If we're close enough, pull up stumps here.
+                entity.setForwardSpeed(0F)
+                entity.setUpwardSpeed(0F)
+                // If we're super close and we're fluid movers, forcefully stop moving so you don't overshoot
+                if ((pokemonEntity.isFlying() || pokemonEntity.isSwimming)) {
+                    state = State.WAIT
+                    entity.velocity = Vec3d.ZERO
+                }
+                return
+            }
 
             val horizontalDistanceFromTarget = xDist * xDist + zDist * zDist
             val closeHorizontally = horizontalDistanceFromTarget < VERY_CLOSE
@@ -158,7 +174,7 @@ class PokemonMoveControl(val pokemonEntity: PokemonEntity) : MoveControl(pokemon
             entity.upwardSpeed = 0F
         }
 
-        if (state == State.WAIT) {
+        if (state == State.WAIT && !entity.navigation.isFollowingPath) {
             if (entity.isOnGround && behaviour.moving.walk.canWalk && pokemonEntity.getBehaviourFlag(PokemonBehaviourFlag.FLYING)) {
                 pokemonEntity.setBehaviourFlag(PokemonBehaviourFlag.FLYING, false)
             }
