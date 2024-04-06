@@ -46,6 +46,7 @@ import com.cobblemon.mod.common.entity.pokeball.EmptyPokeBallEntity
 import com.cobblemon.mod.common.entity.pokemon.ai.PokemonMoveControl
 import com.cobblemon.mod.common.entity.pokemon.ai.PokemonNavigation
 import com.cobblemon.mod.common.entity.pokemon.ai.goals.*
+import com.cobblemon.mod.common.entity.pokemon.ai.tasks.EatGrassTask
 import com.cobblemon.mod.common.entity.pokemon.ai.tasks.FindRestingPlaceTask
 import com.cobblemon.mod.common.entity.pokemon.ai.tasks.GoToSleepTask
 import com.cobblemon.mod.common.entity.pokemon.ai.tasks.WakeUpTask
@@ -67,8 +68,7 @@ import com.cobblemon.mod.common.util.*
 import com.cobblemon.mod.common.world.gamerules.CobblemonGameRules
 import com.google.common.collect.ImmutableList
 import com.mojang.serialization.Dynamic
-import java.util.Optional
-import java.util.UUID
+import java.util.*
 import java.util.concurrent.CompletableFuture
 import kotlin.math.ceil
 import net.minecraft.entity.*
@@ -125,8 +125,6 @@ import net.minecraft.world.EntityView
 import net.minecraft.world.LightType
 import net.minecraft.world.World
 import net.minecraft.world.event.GameEvent
-import java.util.*
-import java.util.concurrent.CompletableFuture
 
 @Suppress("unused")
 open class PokemonEntity(
@@ -188,9 +186,8 @@ open class PokemonEntity(
             CobblemonMemories.POKEMON_DROWSY,
             CobblemonMemories.POKEMON_BATTLE,
             MemoryModuleType.HOME,
-            CobblemonMemories.REST_PATH_COOLDOWN
+            CobblemonMemories.REST_PATH_COOLDOWN,
         )
-
     }
     val removalObservable = SimpleObservable<RemovalReason?>()
     /** A list of observable subscriptions related to this entity that need to be cleaned up when the entity is removed. */
@@ -210,6 +207,7 @@ open class PokemonEntity(
             stepHeight = behaviour.moving.stepHeight
             // We need to update this value every time the Pokémon changes, other eye height related things will be dynamic.
             this.updateEyeHeight()
+            setupTasks()
         }
 
     var despawner: Despawner<PokemonEntity> = Cobblemon.bestSpawner.defaultPokemonDespawner
@@ -269,6 +267,7 @@ open class PokemonEntity(
         delegate.initialize(this)
         delegate.changePokemon(pokemon)
         calculateDimensions()
+        setupTasks()
     }
 
     override fun initDataTracker() {
@@ -581,22 +580,28 @@ open class PokemonEntity(
 
     override fun deserializeBrain(dynamic: Dynamic<*>): Brain<PokemonEntity> {
         val brain = createBrainProfile().deserialize(dynamic)
+        if (pokemon == null) {
+            return brain
+        }
+        setupTasks()
+        return brain
+    }
+
+    fun setupTasks() {
+        val brain = this.getBrain()
         brain.setTaskList(Activity.CORE, ImmutableList.of(
             0 toDF StayAfloatTask(0.8F),
             0 toDF GetAngryAtAttackerTask.create(),
             0 toDF ForgetAngryAtTargetTask.create()
         ))
         brain.setTaskList(Activity.IDLE, ImmutableList.of(
-            3 toDF RandomTask(
-                ImmutableList.of(
-                    LookAroundTask(45, 90) toDF 3,
-                    LookAtMobTask.create(15F) toDF 3,
-                    ChooseLandWanderTargetTask.create(horizontalRange = 10, verticalRange = 5, walkSpeed = 0.33F, completionRange = 1) toDF 100
-                )
-            ),
+            3 toDF LookAroundTask(45, 90),
+            3 toDF LookAtMobTask.create(15F),
+            3 toDF ChooseLandWanderTargetTask.create(pokemon.form.behaviour.moving.wanderChance, horizontalRange = 10, verticalRange = 5, walkSpeed = 0.33F, completionRange = 1),
             2 toDF GoToSleepTask.create(),
             2 toDF FindRestingPlaceTask.create(16, 8),
             1 toDF FollowWalkTargetTask(),
+            1 toDF EatGrassTask(),
 //            0 toDF SwitchToBattleTask.create(),
             1 toDF AttackAngryAtTask.create(),
             2 toDF MoveToAttackTargetTask.create(),
@@ -614,7 +619,6 @@ open class PokemonEntity(
         brain.setCoreActivities(setOf(Activity.CORE))
         brain.setDefaultActivity(Activity.IDLE)
         brain.resetPossibleActivities()
-        return brain
     }
 
 //
