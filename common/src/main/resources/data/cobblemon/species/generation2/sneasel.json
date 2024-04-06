@@ -59,7 +59,7 @@
         "field"
       ],
       "drops": {
-        "amount": 2,
+        "amount": 3,
         "entries": [
           {
             "item": "cobblemon:razor_claw",
@@ -67,6 +67,10 @@
           },
           {
             "item": "cobblemon:poison_barb",
+            "percentage": 2.5
+          },
+          {
+            "item": "cobblemon:payapa_berry",
             "percentage": 2.5
           }
         ]
@@ -158,6 +162,7 @@
           "variant": "level_up",
           "result": "sneasler",
           "consumeHeldItem": true,
+          "permanent": true,
           "learnableMoves": [],
           "requirements": [
             {
@@ -399,6 +404,7 @@
       "variant": "level_up",
       "result": "weavile",
       "consumeHeldItem": true,
+      "permanent": true,
       "learnableMoves": [],
       "requirements": [
         {

@@ -9,7 +9,7 @@
     "h:anticipation"
   ],
   "drops": {
-    "amount": 3,
+    "amount": 4,
     "entries": [
       {
         "item": "minecraft:raw_iron",
@@ -17,6 +17,10 @@
       },
       {
         "item": "cobblemon:occa_berry",
+        "percentage": 5.0
+      },
+      {
+        "item": "cobblemon:sticky_barb",
         "percentage": 5.0
       }
     ]

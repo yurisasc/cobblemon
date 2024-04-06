@@ -1,5 +1,5 @@
 {
-    "biomes": "#cobblemon:is_desert",
+    "biomes": "#cobblemon:has_block/sand",
     "adapt_noise": false,
     "spawn_overrides": {},
     "type": "minecraft:jigsaw",

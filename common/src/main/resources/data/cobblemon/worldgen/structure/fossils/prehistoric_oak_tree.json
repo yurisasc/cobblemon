@@ -1,5 +1,5 @@
 {
-    "biomes":  "minecraft:forest",
+    "biomes": "#cobblemon:has_block/oak_log",
     "adapt_noise": false,
     "spawn_overrides": {},
     "type": "minecraft:jigsaw",

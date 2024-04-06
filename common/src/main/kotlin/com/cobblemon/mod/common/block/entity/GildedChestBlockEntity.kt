@@ -20,6 +20,7 @@ import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.entity.player.PlayerInventory
 import net.minecraft.inventory.DoubleInventory
 import net.minecraft.inventory.Inventories
+import net.minecraft.inventory.SidedInventory
 import net.minecraft.item.ItemStack
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.screen.GenericContainerScreenHandler
@@ -28,9 +29,10 @@ import net.minecraft.state.property.Properties
 import net.minecraft.text.Text
 import net.minecraft.util.collection.DefaultedList
 import net.minecraft.util.math.BlockPos
+import net.minecraft.util.math.Direction
 import net.minecraft.world.World
 
-class GildedChestBlockEntity(pos: BlockPos, state: BlockState, val type: Type = Type.RED) : LootableContainerBlockEntity(CobblemonBlockEntities.GILDED_CHEST, pos, state) {
+class GildedChestBlockEntity(pos: BlockPos, state: BlockState, val type: Type = Type.RED) : LootableContainerBlockEntity(CobblemonBlockEntities.GILDED_CHEST, pos, state), SidedInventory {
     var inventoryContents: DefaultedList<ItemStack> = DefaultedList.ofSize(NUM_SLOTS, ItemStack.EMPTY)
     val poseableState: GildedState = GildedState()
 
@@ -69,7 +71,7 @@ class GildedChestBlockEntity(pos: BlockPos, state: BlockState, val type: Type = 
 
     override fun getContainerName() = Text.translatable("block.cobblemon.gilded_chest")
     override fun createScreenHandler(syncId: Int, playerInventory: PlayerInventory?) =
-        GenericContainerScreenHandler.createGeneric9x3(syncId, playerInventory, this);
+        GenericContainerScreenHandler.createGeneric9x3(syncId, playerInventory, this)
 
     override fun onOpen(player: PlayerEntity) {
         if (!this.removed && !player.isSpectator && type != Type.FAKE) {
@@ -82,6 +84,22 @@ class GildedChestBlockEntity(pos: BlockPos, state: BlockState, val type: Type = 
             stateManager.closeContainer(player, this.getWorld(), this.getPos(), this.cachedState)
         }
     }
+
+    override fun getAvailableSlots(side: Direction): IntArray {
+        return if (type == Type.FAKE) IntArray(0) else IntArray(NUM_SLOTS)
+    }
+
+    override fun canInsert(slot: Int, stack: ItemStack?, dir: Direction?): Boolean {
+        if (type == Type.FAKE) return false
+        return dir != Direction.DOWN
+    }
+
+    override fun canExtract(slot: Int, stack: ItemStack?, dir: Direction?): Boolean {
+        if (type == Type.FAKE) return false
+        return dir == Direction.DOWN
+    }
+
+    override fun canPlayerUse(player: PlayerEntity) = !player.isSpectator
 
     override fun getInvStackList(): DefaultedList<ItemStack> = inventoryContents
 

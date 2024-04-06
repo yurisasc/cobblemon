@@ -15,7 +15,8 @@
             "level": "1-21",
             "weight": 9.0,
             "condition": {
-                "canSeeSky": false,
+                "minSkyLight": 0,
+                "maxSkyLight": 7,
                 "biomes": [
                     "#cobblemon:is_lush"
                 ]
@@ -33,7 +34,8 @@
             "level": "1-21",
             "weight": 9.0,
             "condition": {
-                "canSeeSky": false,
+                "minSkyLight": 0,
+                "maxSkyLight": 7,
                 "biomes": [
                     "#cobblemon:is_lush"
                 ]
@@ -51,7 +53,8 @@
             "level": "1-21",
             "weight": 9.0,
             "condition": {
-                "canSeeSky": false,
+                "minSkyLight": 0,
+                "maxSkyLight": 7,
                 "biomes": [
                     "#cobblemon:is_overworld"
                 ],
@@ -78,7 +81,8 @@
             "level": "1-21",
             "weight": 9.0,
             "condition": {
-                "canSeeSky": false,
+                "minSkyLight": 0,
+                "maxSkyLight": 7,
                 "biomes": [
                     "#cobblemon:is_overworld"
                 ],
@@ -102,7 +106,8 @@
             "level": "1-21",
             "weight": 1.8,
             "condition": {
-                "canSeeSky": true,
+                "minSkyLight": 8,
+                "maxSkyLight": 15,
                 "biomes": [
                     "#cobblemon:is_swamp"
                 ],
@@ -149,7 +154,8 @@
             "level": "1-21",
             "weight": 9.0,
             "condition": {
-                "canSeeSky": true,
+                "minSkyLight": 8,
+                "maxSkyLight": 15,
                 "biomes": [
                     "#cobblemon:has_block/mud"
                 ]
@@ -185,7 +191,8 @@
             "level": "1-21",
             "weight": 9.0,
             "condition": {
-                "canSeeSky": true,
+                "minSkyLight": 8,
+                "maxSkyLight": 15,
                 "biomes": [
                     "#cobblemon:is_savanna"
                 ],
