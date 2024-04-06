@@ -69,7 +69,7 @@ class CobblemonFabricClient: ClientModInitializer, CobblemonClientImplementation
         ResourceManagerHelper.get(ResourceType.CLIENT_RESOURCES).registerReloadListener(object : IdentifiableResourceReloadListener {
             override fun reload(
                 synchronizer: ResourceReloader.Synchronizer?,
-                manager: ResourceManager?,
+                manager: ResourceManager,
                 prepareProfiler: Profiler?,
                 applyProfiler: Profiler?,
                 prepareExecutor: Executor?,
@@ -79,8 +79,9 @@ class CobblemonFabricClient: ClientModInitializer, CobblemonClientImplementation
                 CobblemonAtlases.atlases.forEach {
                     atlasFutures.add(it.reload(synchronizer, manager, prepareProfiler, applyProfiler, prepareExecutor, applyExecutor))
                 }
-                val codedAssetFuture = CompletableFuture.runAsync { reloadCodedAssets(manager!!) }
-                val result = CompletableFuture.allOf(*atlasFutures.toTypedArray(), codedAssetFuture)
+                val result = CompletableFuture.allOf(*atlasFutures.toTypedArray()).thenRun {
+                    reloadCodedAssets(manager)
+                }
                 return result
             }
 
