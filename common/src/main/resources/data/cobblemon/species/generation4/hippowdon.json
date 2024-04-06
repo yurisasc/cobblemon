@@ -39,10 +39,10 @@
   ],
   "behaviour": {
     "moving": {
-      "stepHeight": 1.0
-    },
-    "walk": {
-      "walkSpeed": 0.12
+      "stepHeight": 1.0,
+      "walk": {
+        "walkSpeed": 0.12
+      }
     }
   },
   "moves": [

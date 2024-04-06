@@ -58,7 +58,7 @@ class VibravaModel  (root: ModelPart) : PokemonPoseableModel(), QuadrupedFrame {
 
         standing = registerPose(
                 poseName = "standing",
-                poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
+                poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES - PoseType.HOVER,
                 transformTicks = 30,
                 quirks = arrayOf(blink),
                 idleAnimations = arrayOf(
@@ -72,7 +72,7 @@ class VibravaModel  (root: ModelPart) : PokemonPoseableModel(), QuadrupedFrame {
 
         walk = registerPose(
                 poseName = "walk",
-                poseTypes = PoseType.MOVING_POSES,
+                poseTypes = PoseType.MOVING_POSES + PoseType.HOVER,
                 transformTicks = 10,
                 quirks = arrayOf(blink),
                 idleAnimations = arrayOf(

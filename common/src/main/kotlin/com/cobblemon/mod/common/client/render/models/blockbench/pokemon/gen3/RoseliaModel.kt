@@ -53,7 +53,7 @@ class RoseliaModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             poseName = "standing",
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
             condition = { !it.isBattling },
-            quirks = arrayOf(blink),
+            quirks = arrayOf(blink, quirk),
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("roselia", "ground_idle")

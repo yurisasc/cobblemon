@@ -27,6 +27,7 @@ class ArctovishModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override var profileTranslation = Vec3d(0.0, 1.25, 0.0)
 
     lateinit var sleep: PokemonPose
+    lateinit var water_sleep: PokemonPose
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
     lateinit var float: PokemonPose
@@ -47,16 +48,26 @@ class ArctovishModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
         sleep = registerPose(
             poseName = "sleep",
             poseType = PoseType.SLEEP,
+            condition = { !it.isTouchingWater },
             transformTicks = 10,
-            quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 bedrock("arctovish", "sleep")
             )
         )
 
+        water_sleep = registerPose(
+                poseName = "water_sleep",
+                poseType = PoseType.SLEEP,
+                condition = { it.isTouchingWater },
+                transformTicks = 10,
+                idleAnimations = arrayOf(
+                        bedrock("arctovish", "water_sleep")
+                )
+        )
+
         standing = registerPose(
             poseName = "standing",
-            poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
+            poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES - PoseType.FLOAT,
             transformTicks = 10,
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
@@ -66,7 +77,7 @@ class ArctovishModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
 
         walk = registerPose(
             poseName = "walk",
-            poseTypes = PoseType.MOVING_POSES,
+            poseTypes = PoseType.MOVING_POSES - PoseType.SWIM,
             transformTicks = 10,
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
@@ -90,7 +101,7 @@ class ArctovishModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             transformTicks = 10,
             quirks = arrayOf(blink, waterquirk),
             idleAnimations = arrayOf(
-                bedrock("arctovish", "water_idle")
+                bedrock("arctovish", "water_swim")
             )
         )
     }

@@ -105,6 +105,9 @@ class BuizelModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("buizel", "water_idle")
+            ),
+            transformedParts = arrayOf(
+                rootPart.createTransformation().addPosition(ModelPartTransformation.Y_AXIS, wateroffset)
             )
         )
 

@@ -80,5 +80,5 @@ class PetililModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override fun getFaintAnimation(
             pokemonEntity: PokemonEntity,
             state: PoseableEntityState<PokemonEntity>
-    ) = if (state.isPosedIn(standing, walk, battleIdle)) bedrockStateful("petilil", "faint") else null
+    ) = if (state.isPosedIn(standing, walk, battleIdle, sleep)) bedrockStateful("petilil", "faint") else null
 }
