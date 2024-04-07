@@ -64,6 +64,7 @@ class PetililHisuianModel (root: ModelPart) : PokemonPoseableModel(), HeadedFram
                 condition = { !it.isBattling },
                 quirks = arrayOf(blink, quirk),
                 idleAnimations = arrayOf(
+                        singleBoneLook(pitchMultiplier = 0.9F, yawMultiplier = 0.9F),
                         bedrock("petilil", "ground_idle")
                 ),
                 transformedParts = arrayOf(
@@ -78,6 +79,7 @@ class PetililHisuianModel (root: ModelPart) : PokemonPoseableModel(), HeadedFram
                 poseTypes = PoseType.MOVING_POSES,
                 quirks = arrayOf(blink, quirk),
                 idleAnimations = arrayOf(
+                        singleBoneLook(pitchMultiplier = 0.9F, yawMultiplier = 0.9F),
                         bedrock("petilil", "ground_walk")
                 ),
                 transformedParts = arrayOf(
@@ -92,6 +94,7 @@ class PetililHisuianModel (root: ModelPart) : PokemonPoseableModel(), HeadedFram
                 poseTypes = PoseType.STATIONARY_POSES,
                 quirks = arrayOf(blink, quirk),
                 idleAnimations = arrayOf(
+                        singleBoneLook(pitchMultiplier = 0.9F, yawMultiplier = 0.9F),
                         bedrock("petilil", "battle_idle")
                 ),
                 transformedParts = arrayOf(

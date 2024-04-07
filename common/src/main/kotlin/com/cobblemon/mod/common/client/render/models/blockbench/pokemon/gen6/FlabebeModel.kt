@@ -9,6 +9,7 @@
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen6
 
 import com.cobblemon.mod.common.client.render.models.blockbench.createTransformation
+import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.ModelPartTransformation
@@ -16,8 +17,10 @@ import com.cobblemon.mod.common.entity.PoseType
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class FlabebeModel (root: ModelPart) : PokemonPoseableModel() {
+class FlabebeModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("flabebe")
+    override val head = getPart("head")
+
     override var portraitScale = 2.26F
     override var portraitTranslation = Vec3d(0.0, -0.14, 0.0)
 
@@ -38,6 +41,7 @@ class FlabebeModel (root: ModelPart) : PokemonPoseableModel() {
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
+                singleBoneLook(),
                 bedrock("flabebe", "ground_idle")
             )
         )
@@ -47,6 +51,7 @@ class FlabebeModel (root: ModelPart) : PokemonPoseableModel() {
             poseTypes = PoseType.MOVING_POSES,
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
+                singleBoneLook(),
                 bedrock("flabebe", "ground_idle"),
             )
         )
@@ -55,6 +60,7 @@ class FlabebeModel (root: ModelPart) : PokemonPoseableModel() {
                 poseType = PoseType.SHOULDER_LEFT,
                 quirks = arrayOf(blink),
                 idleAnimations = arrayOf(
+                        singleBoneLook(),
                         bedrock("flabebe", "ground_idle")
                 ),
                 transformedParts = arrayOf(
@@ -66,6 +72,7 @@ class FlabebeModel (root: ModelPart) : PokemonPoseableModel() {
                 poseType = PoseType.SHOULDER_RIGHT,
                 quirks = arrayOf(blink),
                 idleAnimations = arrayOf(
+                        singleBoneLook(),
                         bedrock("flabebe", "ground_idle")
                 ),
                 transformedParts = arrayOf(

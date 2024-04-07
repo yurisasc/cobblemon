@@ -49,7 +49,7 @@ class FlaaffyModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             condition = { !it.isBattling },
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
-                singleBoneLook(),
+                singleBoneLook(maxPitch = 0F),
                 bedrock("flaaffy", "ground_idle")
             )
         )
@@ -60,7 +60,7 @@ class FlaaffyModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             transformTicks = 10,
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
-                singleBoneLook(),
+                singleBoneLook(maxPitch = 0F),
                 bedrock("flaaffy", "ground_walk")
             )
         )
@@ -72,7 +72,7 @@ class FlaaffyModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             quirks = arrayOf(blink),
             condition = { it.isBattling },
             idleAnimations = arrayOf(
-                singleBoneLook(),
+                singleBoneLook(maxPitch = 0F),
                 bedrock("flaaffy", "battle_idle")
             )
         )
