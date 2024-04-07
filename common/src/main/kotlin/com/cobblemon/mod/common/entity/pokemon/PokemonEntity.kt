@@ -582,6 +582,11 @@ open class PokemonEntity(
                 (rest.biomes.isEmpty() || rest.biomes.any { it.fits(biome, this.world.registryManager.get(RegistryKeys.BIOME)) })
     }
 
+    fun isDusk(): Boolean {
+        val time = world.timeOfDay % 24000
+        return time in 12000..13000
+    }
+
     fun isStandingOnSandOrRedSand(): Boolean {
         val sandDepth = 2 // Define the depth you want to check
         for (a in 1..sandDepth) {
