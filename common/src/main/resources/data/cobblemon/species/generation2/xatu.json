@@ -28,7 +28,7 @@
       "fly": {
         "canFly": true
       },
-      "canLook": false
+      "canLook": true
     }
   },
   "catchRate": 75,

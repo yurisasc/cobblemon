@@ -77,7 +77,7 @@ class TimburrModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bipe
         battleidle = registerPose(
             poseName = "battleidle",
             poseTypes = PoseType.STATIONARY_POSES,
-            quirks = arrayOf(blink, quirk),
+            quirks = arrayOf(blink),
             condition = { it.isBattling },
             idleAnimations = arrayOf(
                 singleBoneLook(),

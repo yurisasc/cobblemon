@@ -22,7 +22,7 @@ class TyphlosionHisuianModel  (root: ModelPart) : PokemonPoseableModel(), Headed
     override val head = getPart("head")
 
     override var portraitScale = 1.4F
-    override var portraitTranslation = Vec3d(-0.65, 1.8, 0.0)
+    override var portraitTranslation = Vec3d(-0.45, 2.37, 0.0)
 
     override var profileScale = 0.5F
     override var profileTranslation = Vec3d(0.0, 1.0, 0.0)
@@ -37,10 +37,10 @@ class TyphlosionHisuianModel  (root: ModelPart) : PokemonPoseableModel(), Headed
     val spoopy_orb2 = getPart("fire_orb_middle1")
     val spoopy_orb3 = getPart("fire_orb_left1")
 
-    override val cryAnimation = CryProvider { entity, _ -> if (entity.isBattling) bedrockStateful("typhlosion", "battle_cry") else bedrockStateful("typhlosion", "cry") }
+    override val cryAnimation = CryProvider { entity, _ -> if (entity.isBattling) bedrockStateful("typhlosion_hisuian", "battle_cry") else bedrockStateful("typhlosion_hisuian", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk { bedrockStateful("typhlosion", "blink") }
+        val blink = quirk { bedrockStateful("typhlosion_hisuian", "blink") }
 
         sleep = registerPose(
                 poseType = PoseType.SLEEP,
@@ -50,7 +50,7 @@ class TyphlosionHisuianModel  (root: ModelPart) : PokemonPoseableModel(), Headed
                         spoopy_orb2.createTransformation().withVisibility(visibility = false),
                         spoopy_orb3.createTransformation().withVisibility(visibility = false)
                 ),
-                idleAnimations = arrayOf(bedrock("typhlosion", "sleep"))
+                idleAnimations = arrayOf(bedrock("typhlosion_hisuian", "sleep"))
         )
 
         standing = registerPose(
@@ -67,7 +67,7 @@ class TyphlosionHisuianModel  (root: ModelPart) : PokemonPoseableModel(), Headed
                 ),
                 idleAnimations = arrayOf(
                         singleBoneLook(),
-                        bedrock("typhlosion", "ground_idle")
+                        bedrock("typhlosion_hisuian", "ground_idle")
                 )
         )
 
@@ -84,7 +84,7 @@ class TyphlosionHisuianModel  (root: ModelPart) : PokemonPoseableModel(), Headed
                 ),
                 idleAnimations = arrayOf(
                         singleBoneLook(),
-                        bedrock("typhlosion", "ground_walk")
+                        bedrock("typhlosion_hisuian", "ground_walk")
                 )
         )
 
@@ -102,12 +102,12 @@ class TyphlosionHisuianModel  (root: ModelPart) : PokemonPoseableModel(), Headed
                 condition = { it.isBattling },
                 idleAnimations = arrayOf(
                         singleBoneLook(),
-                        bedrock("typhlosion", "battle_idle")
+                        bedrock("typhlosion_hisuian", "battle_idle")
                 )
         )
     }
 //    override fun getFaintAnimation(
 //        pokemonEntity: PokemonEntity,
 //        state: PoseableEntityState<PokemonEntity>
-//    ) = if (state.isPosedIn(standing, walking, battleidle, sleep)) bedrockStateful("typhlosion", "faint") else null
+//    ) = if (state.isPosedIn(standing, walking, battleidle, sleep)) bedrockStateful("typhlosion_hisuian", "faint") else null
 }

@@ -11,6 +11,7 @@ package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen3
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.QuadrupedWalkAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.createTransformation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BiWingedFrame
+import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.QuadrupedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
@@ -21,8 +22,9 @@ import com.cobblemon.mod.common.util.math.geometry.toRadians
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class VibravaModel  (root: ModelPart) : PokemonPoseableModel(), QuadrupedFrame {
+class VibravaModel  (root: ModelPart) : PokemonPoseableModel(), QuadrupedFrame, HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("vibrava")
+    override val head = getPart("head")
 
     override val foreLeftLeg= getPart("leg_front_left")
     override val foreRightLeg = getPart("leg_front_right")
@@ -58,10 +60,11 @@ class VibravaModel  (root: ModelPart) : PokemonPoseableModel(), QuadrupedFrame {
 
         standing = registerPose(
                 poseName = "standing",
-                poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
+                poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES - PoseType.HOVER,
                 transformTicks = 30,
                 quirks = arrayOf(blink),
                 idleAnimations = arrayOf(
+                        singleBoneLook(pitchMultiplier = 0.6F, yawMultiplier = 0.3F),
                         bedrock("vibrava", "ground_idle")
                 ),
                 transformedParts = arrayOf(
@@ -72,10 +75,11 @@ class VibravaModel  (root: ModelPart) : PokemonPoseableModel(), QuadrupedFrame {
 
         walk = registerPose(
                 poseName = "walk",
-                poseTypes = PoseType.MOVING_POSES,
+                poseTypes = PoseType.MOVING_POSES + PoseType.HOVER,
                 transformTicks = 10,
                 quirks = arrayOf(blink),
                 idleAnimations = arrayOf(
+                        singleBoneLook(pitchMultiplier = 0.6F, yawMultiplier = 0.3F),
                         bedrock("vibrava", "ground_idle"),
                         wingFrame1.wingFlap(
                                 flapFunction = triangleFunction( period = 0.08F, amplitude = 0.6F),

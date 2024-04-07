@@ -54,6 +54,7 @@ class PetililModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             condition = { !it.isBattling },
             quirks = arrayOf(blink, quirk),
             idleAnimations = arrayOf(
+                singleBoneLook(pitchMultiplier = 0.9F, yawMultiplier = 0.9F),
                 bedrock("petilil", "ground_idle")
             )
         )
@@ -63,6 +64,7 @@ class PetililModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             poseTypes = PoseType.MOVING_POSES,
             quirks = arrayOf(blink, quirk),
             idleAnimations = arrayOf(
+                singleBoneLook(pitchMultiplier = 0.9F, yawMultiplier = 0.9F),
                 bedrock("petilil", "ground_walk")
             )
         )
@@ -72,6 +74,7 @@ class PetililModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             poseTypes = PoseType.STATIONARY_POSES,
             quirks = arrayOf(blink, quirk),
             idleAnimations = arrayOf(
+                singleBoneLook(pitchMultiplier = 0.9F, yawMultiplier = 0.9F),
                 bedrock("petilil", "battle_idle")
             )
         )
@@ -80,5 +83,5 @@ class PetililModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override fun getFaintAnimation(
             pokemonEntity: PokemonEntity,
             state: PoseableEntityState<PokemonEntity>
-    ) = if (state.isPosedIn(standing, walk, battleIdle)) bedrockStateful("petilil", "faint") else null
+    ) = if (state.isPosedIn(standing, walk, battleIdle, sleep)) bedrockStateful("petilil", "faint") else null
 }

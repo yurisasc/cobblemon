@@ -8,16 +8,23 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen6
 
+import com.cobblemon.mod.common.client.render.models.blockbench.animation.BimanualSwingAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.BipedWalkAnimation
+import com.cobblemon.mod.common.client.render.models.blockbench.frame.BimanualFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
+import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cobblemon.mod.common.entity.PoseType
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class GoodraHisuianModel (root: ModelPart) : PokemonPoseableModel(), BipedFrame {
+class GoodraHisuianModel (root: ModelPart) : PokemonPoseableModel(), BipedFrame, BimanualFrame, HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("goodra_hisuian")
+    override val head = getPart("head_ai")
+
+    override val leftArm = getPart("arm_left")
+    override val rightArm = getPart("arm_right")
     override val leftLeg = getPart("leg_left")
     override val rightLeg = getPart("leg_right")
 
@@ -37,6 +44,7 @@ class GoodraHisuianModel (root: ModelPart) : PokemonPoseableModel(), BipedFrame 
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
+                singleBoneLook(),
                 bedrock("goodra_hisuian", "ground_idle")
             )
         )
@@ -46,8 +54,10 @@ class GoodraHisuianModel (root: ModelPart) : PokemonPoseableModel(), BipedFrame 
             poseTypes = PoseType.MOVING_POSES,
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
+                    singleBoneLook(),
                     bedrock("goodra_hisuian", "ground_idle"),
-                    BipedWalkAnimation(this, periodMultiplier = 0.6F, amplitudeMultiplier = 0.9F)
+                    BipedWalkAnimation(this, periodMultiplier = 0.6F, amplitudeMultiplier = 0.9F),
+                    BimanualSwingAnimation(this, swingPeriodMultiplier = 0.6F, amplitudeMultiplier = 0.5F)
             )
         )
     }

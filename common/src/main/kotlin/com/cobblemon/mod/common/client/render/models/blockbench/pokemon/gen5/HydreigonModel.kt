@@ -65,7 +65,7 @@ class HydreigonModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
                 singleBoneLook(),
                 bedrock("hydreigon", "air_idle"),
                     wingFrame1.wingFlap(
-                            flapFunction = sineFunction(verticalShift = -25F.toRadians(), period = 2F, amplitude = 0.8F),
+                            flapFunction = sineFunction(verticalShift = -25F.toRadians(), period = 1.5F, amplitude = 0.8F),
                             timeVariable = { state, _, ageInTicks -> state?.animationSeconds ?: ageInTicks },
                             axis = ModelPartTransformation.Y_AXIS
                     ),

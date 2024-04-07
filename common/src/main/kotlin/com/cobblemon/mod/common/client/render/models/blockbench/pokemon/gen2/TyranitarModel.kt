@@ -12,14 +12,16 @@ import com.cobblemon.mod.common.client.render.models.blockbench.animation.Bimanu
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.BipedWalkAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BimanualFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
+import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cobblemon.mod.common.entity.PoseType
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class TyranitarModel(root: ModelPart) : PokemonPoseableModel(), BipedFrame, BimanualFrame {
+class TyranitarModel(root: ModelPart) : PokemonPoseableModel(), BipedFrame, BimanualFrame, HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("tyranitar")
+    override val head = getPart("head")
 
     override val leftArm = getPart("arm_left")
     override val rightArm = getPart("arm_right")
@@ -42,6 +44,7 @@ class TyranitarModel(root: ModelPart) : PokemonPoseableModel(), BipedFrame, Bima
                 poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
                 quirks = arrayOf(blink),
                 idleAnimations = arrayOf(
+                        singleBoneLook(pitchMultiplier = 0.2F, yawMultiplier = 0.4F),
                         bedrock("tyranitar", "ground_idle")
                 )
         )
@@ -51,6 +54,7 @@ class TyranitarModel(root: ModelPart) : PokemonPoseableModel(), BipedFrame, Bima
                 poseTypes = PoseType.MOVING_POSES,
                 quirks = arrayOf(blink),
                 idleAnimations = arrayOf(
+                        singleBoneLook(pitchMultiplier = 0.2F, yawMultiplier = 0.4F),
                         bedrock("tyranitar", "ground_idle"),
                         BipedWalkAnimation(this, periodMultiplier = 0.6F, amplitudeMultiplier = 0.9F),
                         BimanualSwingAnimation(this, swingPeriodMultiplier = 0.6F, amplitudeMultiplier = 0.9F)

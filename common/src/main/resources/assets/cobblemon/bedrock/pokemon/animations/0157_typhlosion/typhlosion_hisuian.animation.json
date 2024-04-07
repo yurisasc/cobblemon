@@ -1,7 +1,7 @@
 {
 	"format_version": "1.8.0",
 	"animations": {
-		"animation.typhlosion.ground_idle": {
+		"animation.typhlosion_hisuian.ground_idle": {
 			"loop": true,
 			"bones": {
 				"torso": {
@@ -93,7 +93,7 @@
 				}
 			}
 		},
-		"animation.typhlosion.battle_idle": {
+		"animation.typhlosion_hisuian.battle_idle": {
 			"loop": true,
 			"animation_length": 8,
 			"bones": {
@@ -268,7 +268,7 @@
 				}
 			}
 		},
-		"animation.typhlosion.ground_walk": {
+		"animation.typhlosion_hisuian.ground_walk": {
 			"loop": true,
 			"animation_length": 2,
 			"bones": {
@@ -458,7 +458,7 @@
 				}
 			}
 		},
-		"animation.typhlosion.cry": {
+		"animation.typhlosion_hisuian.cry": {
 			"animation_length": 2.20833,
 			"bones": {
 				"torso": {
@@ -686,7 +686,7 @@
 				}
 			}
 		},
-		"animation.typhlosion.battle_cry": {
+		"animation.typhlosion_hisuian.battle_cry": {
 			"animation_length": 2.20833,
 			"bones": {
 				"torso": {
@@ -914,7 +914,7 @@
 				}
 			}
 		},
-		"animation.typhlosion.sleep": {
+		"animation.typhlosion_hisuian.sleep": {
 			"loop": true,
 			"bones": {
 				"torso": {
@@ -1000,7 +1000,7 @@
 				}
 			}
 		},
-		"animation.typhlosion.blink": {
+		"animation.typhlosion_hisuian.blink": {
 			"animation_length": 0.16667,
 			"bones": {
 				"eyelid_left": {
@@ -1019,7 +1019,7 @@
 				}
 			}
 		},
-		"animation.typhlosion.render": {
+		"animation.typhlosion_hisuian.render": {
 			"loop": true,
 			"bones": {
 				"body": {
