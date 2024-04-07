@@ -47,7 +47,7 @@ class SpawnPokemonPacket(
     constructor(entity: PokemonEntity, vanillaSpawnPacket: EntitySpawnS2CPacket) : this(
         entity.ownerUuid,
         entity.pokemon.scaleModifier,
-        entity.pokemon.species,
+        entity.exposedSpecies,
         entity.pokemon.form,
         entity.pokemon.aspects,
         entity.battleId,
