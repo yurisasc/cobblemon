@@ -171,15 +171,15 @@
   - Additionally, if you give Gimmighoul a Netherite Scrap, you can increase its Netherite Stash. Who knows what might happen if it fills up?
 - Gholdengo
 
-#### Cobblemon Exclusive Patterns
-- Hisui Pattern Rowlet
-- Hisui Pattern Dartrix
-- Hisui Pattern Cyndaquil
-- Hisui Pattern Quilava
-- Hisui Pattern Oshawott
-- Hisui Pattern Dewott
-- Hisui Pattern Goomy
-- Hisui Pattern Petilil
+#### Cobblemon Exclusive's
+- Hisui Bias Rowlet
+- Hisui Bias Dartrix
+- Hisui Bias Cyndaquil
+- Hisui Bias Quilava
+- Hisui Bias Oshawott
+- Hisui Bias Dewott
+- Hisui Bias Goomy
+- Hisui Bias Petilil
 
 
 ### Changes

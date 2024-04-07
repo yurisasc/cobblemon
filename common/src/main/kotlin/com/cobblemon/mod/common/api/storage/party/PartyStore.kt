@@ -260,7 +260,7 @@ open class PartyStore(override val uuid: UUID) : PokemonStore<PartyPosition>() {
         return@mapNotNull if (clone) {
             BattlePokemon.safeCopyOf(it)
         } else {
-            BattlePokemon(it)
+            BattlePokemon.playerOwned(it)
         }
     }.sortedBy { if (it.uuid == leadingPokemon) 0 else (indexOf(it.originalPokemon) + 1) }
 

@@ -30,18 +30,41 @@ class KrabbyModel(root: ModelPart) : PokemonPoseableModel() {
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
     lateinit var battleidle: PokemonPose
+    lateinit var standingBubbles: PokemonPose
+    lateinit var standingRain: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("krabby", "cry") }
+//    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("krabby", "cry") }
 
     override fun registerPoses() {
         val blink = quirk { bedrockStateful("krabby", "blink")}
         val snipLeft = quirk { bedrockStateful("krabby", "snip_left")}
         val snipRight = quirk { bedrockStateful("krabby", "snip_right")}
+        val bubble = quirk(10F to 20F) { bedrockStateful("krabby", "quirk_bubble")}
 
         standing = registerPose(
             poseName = "standing",
             poseTypes = STATIONARY_POSES + UI_POSES,
-            condition = { !it.isBattling },
+            condition = { !it.isBattling && !it.isDusk() },
+            quirks = arrayOf(blink, snipLeft, snipRight ),
+            idleAnimations = arrayOf(
+                bedrock("krabby", "ground_idle")
+            )
+        )
+
+        standingBubbles = registerPose(
+            poseName = "standing_bubbles",
+            poseTypes = STATIONARY_POSES,
+            condition = { !it.isBattling && it.isDusk() && !it.isTouchingWaterOrRain },
+            quirks = arrayOf(blink, snipLeft, snipRight, bubble),
+            idleAnimations = arrayOf(
+                bedrock("krabby", "ground_idle")
+            )
+        )
+
+        standingRain = registerPose(
+            poseName = "standing_rain",
+            poseTypes = STATIONARY_POSES,
+            condition = { !it.isBattling && it.isDusk() && it.isTouchingWaterOrRain},
             quirks = arrayOf(blink, snipLeft, snipRight),
             idleAnimations = arrayOf(
                 bedrock("krabby", "ground_idle")

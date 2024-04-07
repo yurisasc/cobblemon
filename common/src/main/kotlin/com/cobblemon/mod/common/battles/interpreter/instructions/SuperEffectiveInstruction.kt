@@ -10,16 +10,23 @@ package com.cobblemon.mod.common.battles.interpreter.instructions
 
 import com.cobblemon.mod.common.api.battles.interpreter.BattleMessage
 import com.cobblemon.mod.common.api.battles.model.PokemonBattle
-import com.cobblemon.mod.common.api.battles.model.actor.BattleActor
 import com.cobblemon.mod.common.battles.dispatch.InterpreterInstruction
+import com.cobblemon.mod.common.util.battleLang
 
-class DeprecatedSplitInstruction(
-    val battleActor: BattleActor,
-    val publicMessage: BattleMessage,
-    val privateMessage: BattleMessage,
-    val function: (PokemonBattle, BattleActor, BattleMessage, BattleMessage) -> Unit
-) : InterpreterInstruction {
+/**
+ * Format: |-supereffective|POKEMON
+ *
+ * A move was super effective against POKEMON.
+ * @author Hunter
+ * @since August 18th, 2022
+ */
+class SuperEffectiveInstruction(val message: BattleMessage): InterpreterInstruction {
+
     override fun invoke(battle: PokemonBattle) {
-        function(battle, battleActor, publicMessage, privateMessage)
+        battle.dispatchGo {
+            val pokemon = message.battlePokemon(0, battle) ?: return@dispatchGo
+            battle.broadcastChatMessage(battleLang("superEffective"))
+            battle.minorBattleActions[pokemon.uuid] = message
+        }
     }
 }
