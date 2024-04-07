@@ -44,8 +44,6 @@
 - Qwilfish
 - Heracross
 - Skarmory
-- Ferroseed
-- Ferrothorn
 - Larvitar
 - Pupitar
 - Tyranitar
