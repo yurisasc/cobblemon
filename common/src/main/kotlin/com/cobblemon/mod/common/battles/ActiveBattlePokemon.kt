@@ -17,6 +17,8 @@ class ActiveBattlePokemon(val actor: BattleActor, var battlePokemon: BattlePokem
     fun getSide() = actor.getSide()
     var position: Pair<ServerWorld, Vec3d>? = null
 
+    var illusion: BattlePokemon? = null
+
     override fun getAllActivePokemon() = battle.activePokemon
     override fun getActorShowdownId() = actor.showdownId
     override fun getActorPokemon() = actor.activePokemon

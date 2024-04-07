@@ -8,12 +8,20 @@
 
 package com.cobblemon.mod.common.battles.interpreter.instructions
 
-import com.cobblemon.mod.common.api.battles.interpreter.BattleMessage
 import com.cobblemon.mod.common.api.battles.model.PokemonBattle
 import com.cobblemon.mod.common.battles.dispatch.InterpreterInstruction
+import com.cobblemon.mod.common.util.battleLang
 
-class DeprecatedInstruction(val message: BattleMessage, val function: (PokemonBattle, BattleMessage, MutableList<String>) -> Unit) : InterpreterInstruction {
+/**
+ * Format: |-nothing
+ *
+ * Pathetic. Your move did absolutely nothing. You should feel bad for being bad.
+ * @author Hiroku
+ * @since August 20th, 2022
+ */
+class NothingInstruction() : InterpreterInstruction {
+
     override fun invoke(battle: PokemonBattle) {
-        function(battle, message, mutableListOf())
+        battle.dispatchGo { battle.broadcastChatMessage(battleLang("nothing")) }
     }
 }
