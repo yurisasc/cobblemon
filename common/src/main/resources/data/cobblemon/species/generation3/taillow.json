@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Taillow",
   "nationalPokedexNumber": 276,
   "primaryType": "normal",
@@ -7,6 +8,22 @@
     "guts",
     "h:scrappy"
   ],
+  "drops": {
+    "amount": 3,
+    "entries": [
+      {
+        "item": "minecraft:feather",
+        "quantityRange": "0-1"
+      },
+      {
+        "item": "minecraft:chicken"
+      },
+      {
+        "item": "cobblemon:charti_berry",
+        "percentage": 2.5
+      }
+    ]
+  },
   "baseStats": {
     "hp": 40,
     "attack": 55,
@@ -24,6 +41,19 @@
   "eggGroups": [
     "flying"
   ],
+  "behaviour": {
+    "moving": {
+      "fly": {
+        "canFly": true
+      }
+    },
+    "resting": {
+      "canSleep": true,
+      "willSleepOnBed": true,
+      "depth": "normal",
+      "light": "0-4"
+    }
+  },
   "moves": [
     "1:growl",
     "1:peck",
@@ -128,10 +158,10 @@
       ]
     }
   ],
-  "baseScale": 1,
+  "baseScale": 0.8,
   "hitbox": {
-    "width": 1,
-    "height": 1,
+    "width": 0.5,
+    "height": 0.65,
     "fixed": false
   },
   "baseFriendship": 70,

@@ -8,6 +8,22 @@
     "sheerforce",
     "h:hustle"
   ],
+  "drops": {
+    "amount": 3,
+    "entries": [
+      {
+        "item": "minecraft:feather",
+        "quantityRange": "0-1"
+      },
+      {
+        "item": "minecraft:chicken"
+      },
+      {
+        "item": "cobblemon:razz_berry",
+        "percentage": 2.5
+      }
+    ]
+  },
   "baseStats": {
     "hp": 70,
     "attack": 83,
@@ -57,9 +73,12 @@
     "tm:closecombat",
     "tm:confide",
     "tm:cut",
+    "tm:doubleedge",
     "tm:doubleteam",
+    "tm:dualwingbeat",
     "tm:endure",
     "tm:facade",
+    "tm:featherdance",
     "tm:fly",
     "tm:frustration",
     "tm:heatwave",

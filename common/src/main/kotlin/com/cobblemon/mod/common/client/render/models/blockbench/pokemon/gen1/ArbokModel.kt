@@ -12,9 +12,10 @@ import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntitySt
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.WaveAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.WaveSegment
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pose.TransformedModelPart
+import com.cobblemon.mod.common.client.render.models.blockbench.pose.ModelPartTransformation
 import com.cobblemon.mod.common.client.render.models.blockbench.wavefunction.sineFunction
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.PoseType.Companion.MOVING_POSES
@@ -28,11 +29,11 @@ class ArbokModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("arbok")
     override val head = getPart("head_ai")
 
-    override val portraitScale = 1.5F
-    override val portraitTranslation = Vec3d(-0.4, 1.0, 0.0)
+    override var portraitScale = 1.5F
+    override var portraitTranslation = Vec3d(-0.4, 1.0, 0.0)
 
-    override val profileScale = 0.67F
-    override val profileTranslation = Vec3d(0.0, 0.7, 0.0)
+    override var profileScale = 0.67F
+    override var profileTranslation = Vec3d(0.0, 0.7, 0.0)
 
     lateinit var sleep: PokemonPose
     lateinit var standing: PokemonPose
@@ -50,8 +51,10 @@ class ArbokModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     val tail4WaveSegment = WaveSegment(modelPart = tail4, length = 11F)
     val tail5WaveSegment = WaveSegment(modelPart = tail5, length = 11F)
 
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("arbok", "cry") }
+
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("arbok", "blink").setPreventsIdle(false)}
+        val blink = quirk { bedrockStateful("arbok", "blink") }
         // TODO tongue_flick
 
         val wave = WaveAnimation<PokemonEntity>(
@@ -63,8 +66,8 @@ class ArbokModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             basedOnLimbSwing = true,
             oscillationsScalar = 8F,
             head = tail,
-            rotationAxis = TransformedModelPart.Y_AXIS,
-            motionAxis = TransformedModelPart.X_AXIS,
+            rotationAxis = ModelPartTransformation.Y_AXIS,
+            motionAxis = ModelPartTransformation.X_AXIS,
             headLength = 0.1F,
             segments = arrayOf(
                 tailWaveSegment,
@@ -76,8 +79,8 @@ class ArbokModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
         )
 
         sleep = registerPose(
-                poseType = PoseType.SLEEP,
-                idleAnimations = arrayOf(bedrock("arbok", "sleep"))
+            poseType = PoseType.SLEEP,
+            idleAnimations = arrayOf(bedrock("arbok", "sleep"))
         )
 
 
@@ -118,6 +121,6 @@ class ArbokModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
 
     override fun getFaintAnimation(
         pokemonEntity: PokemonEntity,
-        state: PoseableEntityState<PokemonEntity>
-    ) = if (state.isPosedIn(standing, walk)) bedrockStateful("arbok", "faint") else null
+        state: PoseableEntityState<PokemonEntity>,
+    ) = if (state.isPosedIn(standing, walk, sleep)) bedrockStateful("arbok", "faint") else null
 }

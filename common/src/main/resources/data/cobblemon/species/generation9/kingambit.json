@@ -39,6 +39,7 @@
     "1:metalburst",
     "1:metalclaw",
     "1:scratch",
+    "1:kowtowcleave",
     "15:torment",
     "20:scaryface",
     "25:assurance",
@@ -105,5 +106,18 @@
   "cannotDynamax": false,
   "pokedex": [
     "cobblemon.species.kingambit.desc"
-  ]
+  ],
+  "drops": {
+    "amount": 2,
+    "entries": [
+      {
+        "item": "cobblemon:rocky_helmet",
+        "percentage": 5.0
+      },
+      {
+        "item": "cobblemon:cheri_berry",
+        "percentage": 5.0
+      }
+    ]
+  }
 }

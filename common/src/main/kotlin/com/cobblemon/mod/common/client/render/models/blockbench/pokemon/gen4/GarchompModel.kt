@@ -25,64 +25,78 @@ class GarchompModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bipe
     override val rightLeg = getPart("leg_right1")
     override val leftLeg = getPart("leg_left1")
 
-    override val portraitScale = 2.4F
-    override val portraitTranslation = Vec3d(-1.1, 1.9, 0.0)
+    override var portraitScale = 2.4F
+    override var portraitTranslation = Vec3d(-1.1, 1.9, 0.0)
 
-    override val profileScale = 0.55F
-    override val profileTranslation = Vec3d(0.0, 0.9, 0.0)
+    override var profileScale = 0.55F
+    override var profileTranslation = Vec3d(0.0, 0.9, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
     lateinit var flyidle: PokemonPose
     lateinit var fly: PokemonPose
+    lateinit var battleidle: PokemonPose
 
     override fun registerPoses() {
 
-        val blink = quirk("blink") { bedrockStateful("garchomp", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("garchomp", "blink") }
 
         standing = registerPose(
-                poseName = "standing",
-                poseTypes = setOf(PoseType.NONE, PoseType.STAND, PoseType.PORTRAIT, PoseType.PROFILE, PoseType.FLOAT, PoseType.SWIM),
-                transformTicks = 10,
-                quirks = arrayOf(blink),
-                idleAnimations = arrayOf(
-                        singleBoneLook(),
-                        bedrock("garchomp", "ground_idle")
-                )
+            poseName = "standing",
+            poseTypes = setOf(PoseType.NONE, PoseType.STAND, PoseType.PORTRAIT, PoseType.PROFILE, PoseType.FLOAT, PoseType.SWIM),
+            transformTicks = 10,
+            quirks = arrayOf(blink),
+            condition = { !it.isBattling },
+            idleAnimations = arrayOf(
+                    singleBoneLook(),
+                    bedrock("garchomp", "ground_idle")
+            )
         )
 
         walk = registerPose(
-                poseName = "walk",
-                poseTypes = setOf(PoseType.WALK),
-                transformTicks = 5,
-                quirks = arrayOf(blink),
-                idleAnimations = arrayOf(
-                        singleBoneLook(),
-                        bedrock("garchomp", "ground_idle"),
-                        bedrock("garchomp", "ground_run")
-                )
+            poseName = "walk",
+            poseTypes = setOf(PoseType.WALK),
+            transformTicks = 5,
+            quirks = arrayOf(blink),
+            idleAnimations = arrayOf(
+                    singleBoneLook(),
+                    bedrock("garchomp", "ground_idle"),
+                    bedrock("garchomp", "ground_run")
+            )
         )
 
         flyidle = registerPose(
-                poseName = "hover",
+            poseName = "hover",
             poseTypes = setOf(PoseType.HOVER),
-                transformTicks = 10,
-                quirks = arrayOf(blink),
-                idleAnimations = arrayOf(
-                        singleBoneLook(),
-                        bedrock("garchomp", "air_idle")
-                )
+            transformTicks = 10,
+            quirks = arrayOf(blink),
+            idleAnimations = arrayOf(
+                    singleBoneLook(),
+                    bedrock("garchomp", "air_idle")
+            )
         )
 
         fly = registerPose(
-                poseName = "fly",
-                poseTypes = setOf(PoseType.FLY),
-                transformTicks = 10,
-                quirks = arrayOf(blink),
-                idleAnimations = arrayOf(
-                        singleBoneLook(),
-                        bedrock("garchomp", "air_idle")
-                )
+            poseName = "fly",
+            poseTypes = setOf(PoseType.FLY),
+            transformTicks = 10,
+            quirks = arrayOf(blink),
+            idleAnimations = arrayOf(
+                    singleBoneLook(),
+                    bedrock("garchomp", "air_idle")
+            )
+        )
+
+        battleidle = registerPose(
+            poseName = "battle_idle",
+            poseTypes = PoseType.STATIONARY_POSES,
+            transformTicks = 10,
+            quirks = arrayOf(blink),
+            condition = { it.isBattling },
+            idleAnimations = arrayOf(
+                singleBoneLook(),
+                bedrock("garchomp", "battle_idle")
+            )
         )
     }
 }

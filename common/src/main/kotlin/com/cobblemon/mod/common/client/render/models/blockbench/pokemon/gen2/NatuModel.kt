@@ -21,17 +21,17 @@ class NatuModel(root: ModelPart) : PokemonPoseableModel(), BipedFrame {
     override val leftLeg = getPart("leg_left")
     override val rightLeg = getPart("leg_right")
 
-    override val portraitScale = 3.0F
-    override val portraitTranslation = Vec3d(0.1, -2.5, 0.0)
+    override var portraitScale = 3.0F
+    override var portraitTranslation = Vec3d(0.1, -2.5, 0.0)
 
-    override val profileScale = 1.4F
-    override val profileTranslation = Vec3d(0.0, -0.35, 0.0)
+    override var profileScale = 1.4F
+    override var profileTranslation = Vec3d(0.0, -0.35, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
     lateinit var sleep: PokemonPose
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("natu", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("natu", "blink") }
         sleep = registerPose(
             poseType = PoseType.SLEEP,
             idleAnimations = arrayOf(

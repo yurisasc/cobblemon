@@ -8,14 +8,12 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen4
 
-import com.cobblemon.mod.common.client.render.models.blockbench.animation.BipedWalkAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cobblemon.mod.common.entity.PoseType
-import com.cobblemon.mod.common.entity.PoseType.Companion.MOVING_POSES
-import com.cobblemon.mod.common.entity.PoseType.Companion.STATIONARY_POSES
 import com.cobblemon.mod.common.entity.PoseType.Companion.UI_POSES
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
@@ -27,20 +25,23 @@ class EmpoleonModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bipe
     override val leftLeg = getPart("leg_left")
     override val rightLeg = getPart("leg_right")
 
-    override val portraitScale = 3.0F
-    override val portraitTranslation = Vec3d(-0.2, 1.8, 0.0)
+    override var portraitScale = 3.0F
+    override var portraitTranslation = Vec3d(-0.2, 1.8, 0.0)
 
-    override val profileScale = 0.7F
-    override val profileTranslation = Vec3d(0.0, 0.7, 0.0)
+    override var profileScale = 0.7F
+    override var profileTranslation = Vec3d(0.0, 0.7, 0.0)
 
     lateinit var sleep: PokemonPose
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
     lateinit var float: PokemonPose
     lateinit var swim: PokemonPose
+    lateinit var battleidle: PokemonPose
+
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("empoleon", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("empoleon", "blink").setPreventsIdle(false)}
+        val blink = quirk { bedrockStateful("empoleon", "blink")}
         sleep = registerPose(
             poseType = PoseType.SLEEP,
             idleAnimations = arrayOf(bedrock("empoleon", "sleep"))
@@ -49,6 +50,7 @@ class EmpoleonModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bipe
         standing = registerPose(
             poseName = "standing",
             poseTypes = UI_POSES + PoseType.STAND,
+            condition = { !it.isBattling },
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
@@ -82,6 +84,18 @@ class EmpoleonModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bipe
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("empoleon", "water_swim")
+            )
+        )
+
+        battleidle = registerPose(
+            poseName = "battle_idle",
+            poseTypes = PoseType.STATIONARY_POSES,
+            transformTicks = 10,
+            quirks = arrayOf(blink),
+            condition = { it.isBattling },
+            idleAnimations = arrayOf(
+                singleBoneLook(),
+                bedrock("empoleon", "battle_idle")
             )
         )
     }

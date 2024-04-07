@@ -10,8 +10,8 @@ package com.cobblemon.mod.common.pokeball.catching.calculators
 
 import com.cobblemon.mod.common.api.pokeball.catching.CaptureContext
 import com.cobblemon.mod.common.api.pokeball.catching.calculators.CaptureCalculator
-import com.cobblemon.mod.common.pokeball.PokeBall
-import com.cobblemon.mod.common.pokemon.Pokemon
+import com.cobblemon.mod.common.entity.pokeball.EmptyPokeBallEntity
+import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.pokemon.status.statuses.BurnStatus
 import com.cobblemon.mod.common.pokemon.status.statuses.FrozenStatus
 import com.cobblemon.mod.common.pokemon.status.statuses.ParalysisStatus
@@ -36,19 +36,21 @@ class Gen2CaptureCalculator(val bugsFixed: Boolean) : CaptureCalculator {
 
     override fun id(): String = "generation_2" + if (this.bugsFixed) "_fixed" else ""
 
-    override fun processCapture(thrower: LivingEntity, pokeBall: PokeBall, target: Pokemon): CaptureContext {
+    override fun processCapture(thrower: LivingEntity, pokeBallEntity: EmptyPokeBallEntity, target: PokemonEntity): CaptureContext {
+        val pokeBall = pokeBallEntity.pokeBall
+        val pokemon = target.pokemon
         if (pokeBall.catchRateModifier.isGuaranteed()) {
             return CaptureContext.successful()
         }
-        val catchRate = target.form.catchRate.toFloat()
-        val modifiedRate = if (pokeBall.catchRateModifier.isValid(thrower, target)) pokeBall.catchRateModifier.modifyCatchRate(catchRate, thrower, target) else catchRate
-        val status = target.status?.status
+        val catchRate = getCatchRate(thrower, pokeBallEntity, target, pokemon.form.catchRate.toFloat())
+        val modifiedRate = if (pokeBall.catchRateModifier.isValid(thrower, pokemon)) pokeBall.catchRateModifier.modifyCatchRate(catchRate, thrower, pokemon) else catchRate
+        val status = pokemon.status?.status
         val bonusStatus = when {
             status is SleepStatus || status is FrozenStatus -> 10
             this.bugsFixed && (status is ParalysisStatus || status is BurnStatus || status is PoisonStatus || status is PoisonBadlyStatus) -> 5
             else -> 1
         }
-        val modifiedCatchRate = max((((3F * target.hp - 2F * target.currentHealth) * modifiedRate) / (3F * target.hp)) + bonusStatus, 1F).coerceAtMost(255F).roundToInt()
+        val modifiedCatchRate = max((((3F * pokemon.hp - 2F * pokemon.currentHealth) * modifiedRate) / (3F * pokemon.hp)) + bonusStatus, 1F).coerceAtMost(255F).roundToInt()
         if (Random.nextInt(256) <= modifiedCatchRate) {
             return CaptureContext.successful()
         }

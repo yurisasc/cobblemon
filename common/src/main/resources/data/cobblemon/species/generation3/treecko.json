@@ -34,15 +34,15 @@
     "dragon"
   ],
   "drops": {
-    "amount": "2",
+    "amount": 2,
     "entries": [
       {
         "item": "minecraft:stick",
-        "percentage": 50
+        "quantityRange": "0-1"
       },
       {
         "item": "cobblemon:miracle_seed",
-        "percentage": 5
+        "percentage": 5.0
       }
     ]
   },
@@ -90,6 +90,7 @@
     "tm:assurance",
     "tm:attract",
     "tm:bodyslam",
+    "tm:breakingswipe",
     "tm:brickbreak",
     "tm:bulletseed",
     "tm:captivate",
@@ -97,8 +98,10 @@
     "tm:crunch",
     "tm:cut",
     "tm:dig",
+    "tm:dragontail",
     "tm:doubleteam",
     "tm:drainpunch",
+    "tm:endeavor",
     "tm:endure",
     "tm:energyball",
     "tm:facade",
@@ -108,7 +111,10 @@
     "tm:frustration",
     "tm:gigadrain",
     "tm:grassknot",
+    "tm:grasspledge",
+    "tm:grassyglide",
     "tm:grassyterrain",
+    "tm:helpinghand",
     "tm:hiddenpower",
     "tm:irontail",
     "tm:leafstorm",
@@ -139,8 +145,13 @@
     "tm:swagger",
     "tm:swift",
     "tm:swordsdance",
+    "tm:takedown",
+    "tm:terablast",
+    "tm:thief",
     "tm:thunderpunch",
     "tm:toxic",
+    "tm:trailblaze",
+    "tm:upperhand",
     "tm:workup",
     "tutor:absorb",
     "tutor:bodyslam",

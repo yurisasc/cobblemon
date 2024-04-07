@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Barboach",
   "nationalPokedexNumber": 339,
   "primaryType": "water",
@@ -8,6 +9,19 @@
     "anticipation",
     "h:hydration"
   ],
+  "drops": {
+    "amount": 2,
+    "entries": [
+      {
+        "item": "minecraft:clay_ball",
+        "quantityRange": "0-1"
+      },
+      {
+        "item": "cobblemon:rindo_berry",
+        "percentage": 2.5
+      }
+    ]
+  },
   "baseStats": {
     "hp": 50,
     "attack": 48,
@@ -25,6 +39,19 @@
   "eggGroups": [
     "water_2"
   ],
+  "behaviour": {
+    "moving": {
+      "canLook": false,
+      "walk": {
+        "avoidsLand": true
+      },
+      "swim": {
+        "swimSpeed": 0.2,
+        "canSwimInWater": true,
+        "canBreatheUnderwater": true
+      }
+    }
+  },
   "moves": [
     "1:mudslap",
     "1:watergun",
@@ -60,6 +87,7 @@
     "tm:chillingwater",
     "tm:confide",
     "tm:dive",
+    "tm:doubleedge",
     "tm:doubleteam",
     "tm:dragondance",
     "tm:earthpower",
@@ -71,6 +99,7 @@
     "tm:hail",
     "tm:helpinghand",
     "tm:hiddenpower",
+    "tm:highhorsepower",
     "tm:hydropump",
     "tm:icebeam",
     "tm:icywind",
@@ -147,10 +176,10 @@
       ]
     }
   ],
-  "baseScale": 1,
+  "baseScale": 0.65,
   "hitbox": {
     "width": 1,
-    "height": 1,
+    "height": 0.5,
     "fixed": false
   },
   "baseFriendship": 50,

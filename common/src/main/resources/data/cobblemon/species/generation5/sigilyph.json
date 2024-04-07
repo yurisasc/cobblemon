@@ -9,6 +9,23 @@
     "magicguard",
     "h:tintedlens"
   ],
+  "drops": {
+    "amount": 3,
+    "entries": [
+      {
+        "item": "minecraft:ender_pearl",
+        "quantityRange": "0-1"
+      },
+      {
+        "item": "cobblemon:light_clay",
+        "percentage": 5.0
+      },
+      {
+        "item": "cobblemon:colbur_berry",
+        "percentage": 5.0
+      }
+    ]
+  },
   "baseStats": {
     "hp": 72,
     "attack": 58,
@@ -18,6 +35,11 @@
     "speed": 97
   },
   "behaviour": {
+    "moving": {
+      "fly": {
+        "canFly": true
+      }
+    },
     "resting": {
       "canSleep": true,
       "willSleepOnBed": false,
@@ -34,15 +56,6 @@
   "eggGroups": [
     "flying"
   ],
-  "drops": {
-    "amount": "1",
-    "entries": [
-      {
-        "item": "cobblemon:light_clay",
-        "percentage": 5
-      }
-    ]
-  },
   "moves": [
     "1:confusion",
     "1:gust",

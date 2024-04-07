@@ -12,14 +12,20 @@
             "type": "pokemon",
             "context": "grounded",
             "bucket": "common",
-            "level": "28-40",
+            "level": "28-41",
             "weight": 0.54,
+            "weightMultiplier": {
+                "multiplier": 0.25,
+                "condition": {
+                    "timeRange": "night"
+                }
+            },
             "condition": {
-                "canSeeSky": true,
+                "minSkyLight": 8,
+                "maxSkyLight": 15,
                 "biomes": [
                     "#cobblemon:is_hills"
-                ],
-                "timeRange": "day"
+                ]
             }
         }
     ]

@@ -8,6 +8,19 @@
     "chlorophyll",
     "h:effectspore"
   ],
+  "drops": {
+    "amount": 2,
+    "entries": [
+      {
+        "item": "cobblemon:absorb_bulb",
+        "percentage": 10.0
+      },
+      {
+        "item": "cobblemon:pecha_berry",
+        "percentage": 10.0
+      }
+    ]
+  },
   "baseStats": {
     "hp": 75,
     "attack": 80,
@@ -54,6 +67,7 @@
     "1:toxic",
     "49:petalblizzard",
     "69:solarbeam",
+    "tm:acidspray",
     "tm:attract",
     "tm:bodyslam",
     "tm:bulletseed",
@@ -73,12 +87,17 @@
     "tm:gigadrain",
     "tm:gigaimpact",
     "tm:grassknot",
+    "tm:grassyglide",
     "tm:grassyterrain",
+    "tm:helpinghand",
     "tm:hiddenpower",
     "tm:hyperbeam",
     "tm:infestation",
+    "tm:leafstorm",
+    "tm:magicalleaf",
     "tm:naturalgift",
     "tm:naturepower",
+    "tm:petalblizzard",
     "tm:pollenpuff",
     "tm:protect",
     "tm:rest",
@@ -92,12 +111,16 @@
     "tm:sludgewave",
     "tm:snore",
     "tm:solarbeam",
+    "tm:solarblade",
     "tm:substitute",
     "tm:sunnyday",
     "tm:swagger",
     "tm:swordsdance",
+    "tm:terablast",
     "tm:toxic",
+    "tm:trailblaze",
     "tm:venoshock",
+    "tm:weatherball",
     "tutor:absorb",
     "tutor:acid",
     "tutor:afteryou",

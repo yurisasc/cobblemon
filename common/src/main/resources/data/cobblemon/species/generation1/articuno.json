@@ -8,6 +8,21 @@
     "pressure",
     "h:snowcloak"
   ],
+  "drops": {
+    "amount": 6,
+    "entries": [
+      {
+        "item": "minecraft:feather",
+        "quantityRange": "2-4"
+      },
+      {
+        "item": "minecraft:chicken"
+      },
+      {
+        "item": "cobblemon:never_melt_ice"
+      }
+    ]
+  },
   "baseStats": {
     "hp": 90,
     "attack": 85,
@@ -16,6 +31,9 @@
     "special_defence": 125,
     "speed": 85
   },
+  "features": [
+    "galarian"
+  ],
   "catchRate": 3,
   "maleRatio": -1,
   "shoulderMountable": false,
@@ -76,7 +94,9 @@
         "tm:allyswitch",
         "tm:bravebird",
         "tm:calmmind",
+        "tm:dualwingbeat",
         "tm:endure",
+        "tm:expandingforce",
         "tm:facade",
         "tm:fly",
         "tm:futuresight",
@@ -92,6 +112,7 @@
         "tm:protect",
         "tm:psybeam",
         "tm:psychic",
+        "tm:psychicnoise",
         "tm:psychocut",
         "tm:psyshock",
         "tm:raindance",
@@ -132,9 +153,23 @@
       ],
       "height": 17,
       "weight": 509,
-      "evolutions": [],
       "cannotDynamax": false,
-      "battleOnly": false
+      "battleOnly": false,
+      "drops": {
+        "amount": 6,
+        "entries": [
+          {
+            "item": "minecraft:feather",
+            "quantityRange": "2-4"
+          },
+          {
+            "item": "minecraft:chicken"
+          },
+          {
+            "item": "cobblemon:twisted_spoon"
+          }
+        ]
+      }
     }
   ],
   "baseExperienceYield": 290,
@@ -179,14 +214,18 @@
     "tm:bravebird",
     "tm:confide",
     "tm:defog",
+    "tm:doubleedge",
     "tm:doubleteam",
+    "tm:dualwingbeat",
     "tm:endure",
     "tm:facade",
+    "tm:featherdance",
     "tm:fly",
     "tm:frostbreath",
     "tm:frustration",
     "tm:gigaimpact",
     "tm:hail",
+    "tm:haze",
     "tm:helpinghand",
     "tm:hiddenpower",
     "tm:hurricane",
@@ -222,6 +261,7 @@
     "tm:takedown",
     "tm:terablast",
     "tm:toxic",
+    "tm:tripleaxel",
     "tm:uturn",
     "tm:waterpulse",
     "tm:weatherball",

@@ -8,21 +8,42 @@
             "pokemon": "natu",
             "presets": [
                 "natural",
-				"treetop"
+                "treetop"
             ],
             "type": "pokemon",
             "context": "grounded",
-            "bucket": "uncommon",
-            "level": "10-32",
-            "weight": 9.0,
+            "bucket": "common",
+            "level": "7-32",
+            "weight": 5.4,
             "condition": {
-                "canSeeSky": true,
+                "minSkyLight": 8,
+                "maxSkyLight": 15,
                 "biomes": [
                     "#cobblemon:is_badlands",
                     "#cobblemon:is_plateau"
                 ],
                 "timeRange": "day"
-			}
+            }
+        },
+        {
+            "id": "natu-3",
+            "pokemon": "natu",
+            "presets": [
+                "trail_ruins"
+            ],
+            "type": "pokemon",
+            "context": "grounded",
+            "bucket": "common",
+            "level": "7-32",
+            "weight": 90.0,
+            "condition": {
+                "minSkyLight": 8,
+                "maxSkyLight": 15,
+                "biomes": [
+                    "#cobblemon:is_overworld"
+                ],
+                "timeRange": "day"
+            }
         }
     ]
 }

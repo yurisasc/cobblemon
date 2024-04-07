@@ -14,6 +14,7 @@ import com.cobblemon.mod.common.client.CobblemonResources
 import com.mojang.blaze3d.platform.GlStateManager
 import com.mojang.blaze3d.systems.RenderSystem
 import net.minecraft.client.MinecraftClient
+import net.minecraft.client.gui.DrawContext
 import net.minecraft.client.render.DiffuseLighting
 import net.minecraft.client.render.OverlayTexture
 import net.minecraft.client.render.RenderLayer
@@ -22,7 +23,6 @@ import net.minecraft.client.render.VertexConsumer
 import net.minecraft.client.render.VertexConsumerProvider
 import net.minecraft.client.render.VertexFormat
 import net.minecraft.client.render.VertexFormats
-import net.minecraft.client.render.model.json.ModelTransformation
 import net.minecraft.client.render.model.json.ModelTransformationMode
 import net.minecraft.client.texture.SpriteAtlasTexture
 import net.minecraft.client.util.math.MatrixStack
@@ -115,8 +115,9 @@ fun getDepletableRedGreen(
     return r.toFloat() to g.toFloat()
 }
 
+
 fun drawScaledText(
-    matrixStack: MatrixStack,
+    context: DrawContext,
     font: Identifier? = null,
     text: MutableText,
     x: Number,
@@ -126,7 +127,9 @@ fun drawScaledText(
     maxCharacterWidth: Int = Int.MAX_VALUE,
     colour: Int = 0x00FFFFFF + ((opacity.toFloat() * 255).toInt() shl 24),
     centered: Boolean = false,
-    shadow: Boolean = false
+    shadow: Boolean = false,
+    pMouseX: Int? = null,
+    pMouseY: Int? = null
 ) {
     if (opacity.toFloat() < 0.05F) {
         return
@@ -135,24 +138,30 @@ fun drawScaledText(
     val textWidth = MinecraftClient.getInstance().textRenderer.getWidth(if (font != null) text.font(font) else text)
     val extraScale = if (textWidth < maxCharacterWidth) 1F else (maxCharacterWidth / textWidth.toFloat())
     val fontHeight = if (font == null) 5 else 6
-
-    matrixStack.push()
-    matrixStack.scale(scale * extraScale, scale * extraScale, 1F)
-    drawText(
-        poseStack = matrixStack,
+    val matrices = context.matrices
+    matrices.push()
+    matrices.scale(scale * extraScale, scale * extraScale, 1F)
+    val isHovered = drawText(
+        context = context,
         font = font,
         text = text,
         x = x.toFloat() / (scale * extraScale),
         y = y.toFloat() / (scale * extraScale) + (1 - extraScale) * fontHeight * scale,
         centered = centered,
         colour = colour,
-        shadow = shadow
+        shadow = shadow,
+        pMouseX = pMouseX?.toFloat()?.div((scale * extraScale)),
+        pMouseY = pMouseY?.toFloat()?.div(scale * extraScale)?.plus((1 - extraScale) * fontHeight * scale)
     )
-    matrixStack.pop()
+    matrices.pop()
+    // Draw tooltip that was created with onHover and is attached to the MutableText
+    if (isHovered) {
+        context.drawHoverEvent(MinecraftClient.getInstance().textRenderer, text.style, pMouseX!!, pMouseY!!)
+    }
 }
 
 fun drawScaledText(
-    matrixStack: MatrixStack,
+    context: DrawContext,
     text: OrderedText,
     x: Number,
     y: Number,
@@ -166,10 +175,11 @@ fun drawScaledText(
     if (opacity.toFloat() < 0.05F) {
         return
     }
+    val matrixStack = context.matrices
     matrixStack.push()
     matrixStack.scale(scaleX, scaleY, 1F)
     drawText(
-        poseStack = matrixStack,
+        context = context,
         text = text,
         x = x.toFloat() / scaleX,
         y = y.toFloat() / scaleY,

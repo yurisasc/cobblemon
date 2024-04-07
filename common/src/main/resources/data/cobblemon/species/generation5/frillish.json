@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Frillish",
   "nationalPokedexNumber": 592,
   "primaryType": "water",
@@ -8,6 +9,19 @@
     "cursedbody",
     "h:damp"
   ],
+  "drops": {
+    "amount": 2,
+    "entries": [
+      {
+        "item": "minecraft:glow_ink_sac",
+        "quantityRange": "0-1"
+      },
+      {
+        "item": "cobblemon:kasib_berry",
+        "percentage": 2.5
+      }
+    ]
+  },
   "baseStats": {
     "hp": 55,
     "attack": 40,
@@ -137,8 +151,8 @@
   ],
   "baseScale": 1,
   "hitbox": {
-    "width": 1,
-    "height": 1,
+    "width": 0.65,
+    "height": 1.45,
     "fixed": false
   },
   "baseFriendship": 50,

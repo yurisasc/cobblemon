@@ -8,12 +8,16 @@
 
 package com.cobblemon.mod.common.client.gui
 
+import com.cobblemon.mod.common.CobblemonItems
 import com.cobblemon.mod.common.api.gui.blitk
 import com.cobblemon.mod.common.api.gui.drawPortraitPokemon
+import com.cobblemon.mod.common.api.text.darkGray
+import com.cobblemon.mod.common.api.text.red
 import com.cobblemon.mod.common.api.text.text
 import com.cobblemon.mod.common.client.CobblemonClient
 import com.cobblemon.mod.common.client.CobblemonResources
 import com.cobblemon.mod.common.client.gui.battle.BattleGUI
+import com.cobblemon.mod.common.client.gui.toast.CobblemonToast
 import com.cobblemon.mod.common.client.keybind.boundKey
 import com.cobblemon.mod.common.client.keybind.keybinds.HidePartyBinding
 import com.cobblemon.mod.common.client.keybind.keybinds.SummaryBinding
@@ -24,11 +28,12 @@ import com.cobblemon.mod.common.pokemon.Gender
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.lang
 import net.minecraft.client.MinecraftClient
-import net.minecraft.client.gui.DrawableHelper
+import net.minecraft.client.gui.DrawContext
 import net.minecraft.client.gui.hud.InGameHud
 import net.minecraft.client.gui.screen.ChatScreen
 import net.minecraft.client.gui.screen.Screen
-import net.minecraft.client.util.math.MatrixStack
+import net.minecraft.client.toast.Toast
+import net.minecraft.util.math.MathHelper
 
 class PartyOverlay : InGameHud(MinecraftClient.getInstance(), MinecraftClient.getInstance().itemRenderer) {
 
@@ -54,7 +59,26 @@ class PartyOverlay : InGameHud(MinecraftClient.getInstance(), MinecraftClient.ge
         BattleGUI::class.java
     )
 
-    override fun render(matrixStack: MatrixStack, partialDeltaTicks: Float) {
+    val starterToast = CobblemonToast(
+        MathHelper.randomUuid(),
+        CobblemonItems.POKE_BALL.defaultStack,
+        lang("ui.starter.choose_starter_title", SummaryBinding.boundKey().localizedText).red(),
+        lang("ui.starter.choose_starter_description", SummaryBinding.boundKey().localizedText).darkGray(),
+        Toast.TEXTURE,
+        -1F,
+        0
+    )
+
+    private var attachedToast = false
+
+    fun resetAttachedToast() {
+        val minecraft = MinecraftClient.getInstance()
+        minecraft.toastManager.clear()
+        starterToast.nextVisibility = Toast.Visibility.SHOW
+        attachedToast = false
+    }
+
+    override fun render(context: DrawContext, partialDeltaTicks: Float) {
         val minecraft = MinecraftClient.getInstance()
 
         // Hiding if a Screen is open and not exempt
@@ -72,23 +96,20 @@ class PartyOverlay : InGameHud(MinecraftClient.getInstance(), MinecraftClient.ge
 
         val panelX = 0
         val party = CobblemonClient.storage.myParty
+        val matrices = context.matrices
         if (party.slots.none { it != null }) {
             if (CobblemonClient.clientPlayerData.promptStarter &&
                 !CobblemonClient.clientPlayerData.starterLocked &&
                 !CobblemonClient.clientPlayerData.starterSelected &&
                 !CobblemonClient.checkedStarterScreen
             ) {
-                // ToDo replace back to PokeNav once reimplemented
-                drawScaledText(
-                    matrixStack = matrixStack,
-                    text = lang("ui.starter.chooseyourstarter", SummaryBinding.boundKey().localizedText),
-                    x = minecraft.window.scaledWidth / 2,
-                    y = 70,
-                    centered = true,
-                    shadow = true
-                )
+                if (!this.attachedToast) {
+                    // Adding starter toast on start and connect of client to server.
+                    minecraft.toastManager.add(this.starterToast)
+                    this.attachedToast = true
+                }
             }
-            return
+            return // Don't render the stuff below if no Pokémon in party
         }
 
         val totalHeight = party.slots.size * SLOT_HEIGHT
@@ -105,7 +126,7 @@ class PartyOverlay : InGameHud(MinecraftClient.getInstance(), MinecraftClient.ge
                 val y = startY + indexOffsetY + portraitFrameOffsetY
 
                 blitk(
-                    matrixStack = matrixStack,
+                    matrixStack = matrices,
                     texture = portraitBackground,
                     x = panelX + portraitFrameOffsetX + selectedOffsetX,
                     y = y,
@@ -113,23 +134,23 @@ class PartyOverlay : InGameHud(MinecraftClient.getInstance(), MinecraftClient.ge
                     width = PORTRAIT_DIAMETER
                 )
 
-                DrawableHelper.enableScissor(
+                context.enableScissor(
                     panelX + portraitFrameOffsetX + selectedOffsetX,
                     y,
                     panelX + portraitFrameOffsetX + selectedOffsetX + PORTRAIT_DIAMETER,
                     y + PORTRAIT_DIAMETER
                 )
 
-                matrixStack.push()
-                matrixStack.translate(
+                matrices.push()
+                matrices.translate(
                     panelX + portraitFrameOffsetX + selectedOffsetX + PORTRAIT_DIAMETER / 2.0 - 1.0,
                     y.toDouble() - 12,
                     0.0
                 )
 
-                drawPortraitPokemon(pokemon.species, pokemon.aspects, matrixStack)
-                matrixStack.pop()
-                DrawableHelper.disableScissor()
+                drawPortraitPokemon(pokemon.species, pokemon.aspects, matrices, partialTicks = partialDeltaTicks)
+                matrices.pop()
+                context.disableScissor()
             }
 
             val selectedOffsetX = if (selectedSlot == index) 6 else 0
@@ -144,7 +165,7 @@ class PartyOverlay : InGameHud(MinecraftClient.getInstance(), MinecraftClient.ge
             else partySlotCollapsed
 
             blitk(
-                matrixStack = matrixStack,
+                matrixStack = matrices,
                 texture = slotTexture,
                 x = panelX,
                 y = indexY,
@@ -156,7 +177,7 @@ class PartyOverlay : InGameHud(MinecraftClient.getInstance(), MinecraftClient.ge
                 val stateIcon = pokemon.state.getIcon(pokemon)
                 if (stateIcon != null) {
                     blitk(
-                        matrixStack = matrixStack,
+                        matrixStack = matrices,
                         texture = stateIcon,
                         x = (panelX + selectedOffsetX + 8) / SCALE,
                         y = (indexY + portraitFrameOffsetY + 1) / SCALE,
@@ -167,7 +188,7 @@ class PartyOverlay : InGameHud(MinecraftClient.getInstance(), MinecraftClient.ge
                 }
 
                 drawScaledText(
-                    matrixStack = matrixStack,
+                    context = context,
                     text = lang("ui.lv"),
                     x = panelX + selectedOffsetX + 6.5F,
                     y = indexY + 13.5,
@@ -177,7 +198,7 @@ class PartyOverlay : InGameHud(MinecraftClient.getInstance(), MinecraftClient.ge
                 )
 
                 drawScaledText(
-                    matrixStack = matrixStack,
+                    context = context,
                     text = pokemon.level.toString().text(),
                     x = panelX + selectedOffsetX + 6.5F,
                     y = indexY + 18,
@@ -187,7 +208,7 @@ class PartyOverlay : InGameHud(MinecraftClient.getInstance(), MinecraftClient.ge
                 )
 
                 drawScaledText(
-                    matrixStack = matrixStack,
+                    context = context,
                     text = pokemon.getDisplayName(),
                     x = panelX + selectedOffsetX + 2.5F,
                     y = indexY + 25,
@@ -196,7 +217,7 @@ class PartyOverlay : InGameHud(MinecraftClient.getInstance(), MinecraftClient.ge
 
                 if (pokemon.gender != Gender.GENDERLESS) {
                     blitk(
-                        matrixStack = matrixStack,
+                        matrixStack = matrices,
                         texture = if (pokemon.gender == Gender.MALE) genderIconMale else genderIconFemale,
                         x = (panelX + selectedOffsetX + 40) / SCALE,
                         y = (indexY + 25)  / SCALE,
@@ -214,7 +235,7 @@ class PartyOverlay : InGameHud(MinecraftClient.getInstance(), MinecraftClient.ge
                 val (red, green) = getDepletableRedGreen(hpRatio)
 
                 blitk(
-                    matrixStack = matrixStack,
+                    matrixStack = matrices,
                     texture = CobblemonResources.WHITE,
                     x = panelX + selectedOffsetX + 46,
                     y = indexY + (barHeightMax - hpBarHeight) + 5,
@@ -235,7 +256,7 @@ class PartyOverlay : InGameHud(MinecraftClient.getInstance(), MinecraftClient.ge
                 val expBarHeight = expRatio * barHeightMax
 
                 blitk(
-                    matrixStack = matrixStack,
+                    matrixStack = matrices,
                     texture = CobblemonResources.WHITE,
                     x = panelX + selectedOffsetX + 49,
                     y = indexY + (barHeightMax - expBarHeight) + 5,
@@ -251,7 +272,7 @@ class PartyOverlay : InGameHud(MinecraftClient.getInstance(), MinecraftClient.ge
                 val ballIcon = cobblemonResource("textures/gui/ball/" + pokemon.caughtBall.name.path + ".png")
                 val ballHeight = 22
                 blitk(
-                    matrixStack = matrixStack,
+                    matrixStack = matrices,
                     texture = ballIcon,
                     x = (panelX + selectedOffsetX + 43.5) / SCALE,
                     y = (indexY + 22) / SCALE,
@@ -266,7 +287,7 @@ class PartyOverlay : InGameHud(MinecraftClient.getInstance(), MinecraftClient.ge
                 if (!pokemon.isFainted() && status != null) {
                     val statusName = status.showdownName
                     blitk(
-                        matrixStack = matrixStack,
+                        matrixStack = matrices,
                         texture = cobblemonResource("textures/gui/party/status_$statusName.png"),
                         x = panelX + selectedOffsetX + 51,
                         y = indexY + 8,
@@ -283,7 +304,7 @@ class PartyOverlay : InGameHud(MinecraftClient.getInstance(), MinecraftClient.ge
                         x = panelX + selectedOffsetX + 12.0,
                         y = indexY + 14.0,
                         scale = 0.5,
-                        matrixStack = matrixStack,
+                        matrixStack = matrices,
                         zTranslation = 0.0F
                     )
                 }

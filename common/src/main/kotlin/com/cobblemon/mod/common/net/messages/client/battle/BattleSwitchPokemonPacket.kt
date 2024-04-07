@@ -26,7 +26,8 @@ class BattleSwitchPokemonPacket(val pnx: String, val newPokemon: BattleInitializ
 
     override val id = ID
 
-    constructor(pnx: String, newPokemon: BattlePokemon, isAlly: Boolean) : this(pnx, BattleInitializePacket.ActiveBattlePokemonDTO.fromPokemon(newPokemon, isAlly), isAlly)
+    constructor(pnx: String, newPokemon: BattlePokemon, isAlly: Boolean, illusion: BattlePokemon?) :
+        this(pnx, BattleInitializePacket.ActiveBattlePokemonDTO.fromPokemon(newPokemon, isAlly, illusion), isAlly)
 
     override fun encode(buffer: PacketByteBuf) {
         buffer.writeString(pnx)

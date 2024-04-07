@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Vespiquen",
   "nationalPokedexNumber": 416,
   "primaryType": "bug",
@@ -7,6 +8,27 @@
     "pressure",
     "h:unnerve"
   ],
+  "drops": {
+    "amount": 6,
+    "entries": [
+      {
+        "item": "minecraft:honey_bottle",
+        "quantityRange": "0-3"
+      },
+      {
+        "item": "minecraft:honeycomb",
+        "percentage": 10.0
+      },
+      {
+        "item": "cobblemon:poison_barb",
+        "percentage": 10.0
+      },
+      {
+        "item": "cobblemon:charti_berry",
+        "percentage": 10.0
+      }
+    ]
+  },
   "baseStats": {
     "hp": 70,
     "attack": 80,
@@ -24,6 +46,19 @@
   "eggGroups": [
     "bug"
   ],
+  "behaviour": {
+    "resting": {
+      "canSleep": true,
+      "depth": "normal",
+      "light": "0-4"
+    },
+    "moving": {
+      "fly": {
+        "canFly": true,
+        "flySpeedHorizontal": 0.6
+      }
+    }
+  },
   "moves": [
     "1:bugbite",
     "1:confuseray",
@@ -80,6 +115,7 @@
     "tm:assurance",
     "tm:attract",
     "tm:beatup",
+    "tm:bugbite",
     "tm:bugbuzz",
     "tm:captivate",
     "tm:confide",
@@ -88,6 +124,8 @@
     "tm:cut",
     "tm:defog",
     "tm:doubleteam",
+    "tm:dualwingbeat",
+    "tm:endeavor",
     "tm:endure",
     "tm:facade",
     "tm:flash",
@@ -101,12 +139,14 @@
     "tm:hurricane",
     "tm:hyperbeam",
     "tm:infestation",
+    "tm:lunge",
     "tm:naturalgift",
     "tm:pinmissile",
     "tm:pollenpuff",
     "tm:pounce",
     "tm:powergem",
     "tm:protect",
+    "tm:psychicnoise",
     "tm:quash",
     "tm:raindance",
     "tm:rest",
@@ -119,10 +159,12 @@
     "tm:screech",
     "tm:secretpower",
     "tm:silverwind",
+    "tm:skittersmack",
     "tm:sleeptalk",
     "tm:sludgebomb",
     "tm:snore",
     "tm:spikes",
+    "tm:spite",
     "tm:strugglebug",
     "tm:substitute",
     "tm:sunnyday",
@@ -163,10 +205,10 @@
   ],
   "preEvolution": "combee",
   "evolutions": [],
-  "baseScale": 1,
+  "baseScale": 0.9,
   "hitbox": {
     "width": 1,
-    "height": 1,
+    "height": 1.7,
     "fixed": false
   },
   "baseFriendship": 50,

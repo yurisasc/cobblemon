@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Aggron",
   "nationalPokedexNumber": 306,
   "primaryType": "steel",
@@ -60,7 +61,6 @@
       ],
       "height": 22,
       "weight": 3950,
-      "evolutions": [],
       "cannotDynamax": false,
       "battleOnly": true
     }
@@ -249,8 +249,8 @@
   "evolutions": [],
   "baseScale": 1,
   "hitbox": {
-    "width": 1,
-    "height": 1,
+    "width": 1.4,
+    "height": 3.1,
     "fixed": false
   },
   "baseFriendship": 35,
@@ -265,5 +265,22 @@
   "height": 21,
   "weight": 3600,
   "aspects": [],
-  "cannotDynamax": false
+  "cannotDynamax": false,
+  "drops": {
+    "amount": 5,
+    "entries": [
+      {
+        "item": "minecraft:raw_iron",
+        "quantityRange": "0-3"
+      },
+      {
+        "item": "cobblemon:hard_stone",
+        "percentage": 10.0
+      },
+      {
+        "item": "cobblemon:chople_berry",
+        "percentage": 10.0
+      }
+    ]
+  }
 }

@@ -33,11 +33,19 @@
     "bug"
   ],
   "drops": {
-    "amount": "1",
+    "amount": 3,
     "entries": [
       {
         "item": "minecraft:string",
-        "percentage": 50
+        "quantityRange": "0-1"
+      },
+      {
+        "item": "cobblemon:occa_berry",
+        "percentage": 2.5
+      },
+      {
+        "item": "cobblemon:iron_ball",
+        "percentage": 2.5
       }
     ]
   },
@@ -72,11 +80,14 @@
     "egg:toxicspikes",
     "tm:attract",
     "tm:bodyslam",
+    "tm:bugbite",
     "tm:bugbuzz",
     "tm:bulldoze",
     "tm:captivate",
     "tm:confide",
+    "tm:curse",
     "tm:dig",
+    "tm:doubleedge",
     "tm:doubleteam",
     "tm:drillrun",
     "tm:earthquake",
@@ -85,13 +96,16 @@
     "tm:facade",
     "tm:frustration",
     "tm:gigadrain",
+    "tm:gravity",
     "tm:gyroball",
     "tm:helpinghand",
     "tm:hiddenpower",
     "tm:icespinner",
     "tm:irondefense",
     "tm:lightscreen",
+    "tm:lunge",
     "tm:naturalgift",
+    "tm:painsplit",
     "tm:payback",
     "tm:poisonjab",
     "tm:pounce",
@@ -107,6 +121,7 @@
     "tm:rocktomb",
     "tm:round",
     "tm:sandstorm",
+    "tm:sandtomb",
     "tm:secretpower",
     "tm:seedbomb",
     "tm:sleeptalk",
@@ -192,6 +207,25 @@
         {
           "variant": "level",
           "minLevel": 31
+        }
+      ]
+    },
+    {
+      "id": "pineco_forretress_shulker",
+      "variant": "level_up",
+      "result": "forretress shulker",
+      "consumeHeldItem": true,
+      "learnableMoves": [
+        "heavyslam"
+      ],
+      "requirements": [
+        {
+          "variant": "level",
+          "minLevel": 31
+        },
+        {
+          "variant": "held_item",
+          "itemCondition": "minecraft:shulker_shell"
         }
       ]
     }

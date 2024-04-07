@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Ferroseed",
   "nationalPokedexNumber": 597,
   "primaryType": "grass",
@@ -6,6 +7,23 @@
   "abilities": [
     "ironbarbs"
   ],
+  "drops": {
+    "amount": 3,
+    "entries": [
+      {
+        "item": "minecraft:raw_iron",
+        "quantityRange": "0-1"
+      },
+      {
+        "item": "cobblemon:occa_berry",
+        "percentage": 2.5
+      },
+      {
+        "item": "cobblemon:sticky_barb",
+        "percentage": 2.5
+      }
+    ]
+  },
   "baseStats": {
     "hp": 44,
     "attack": 50,
@@ -134,8 +152,8 @@
   ],
   "baseScale": 1,
   "hitbox": {
-    "width": 1,
-    "height": 1,
+    "width": 0.7,
+    "height": 0.7,
     "fixed": false
   },
   "baseFriendship": 50,

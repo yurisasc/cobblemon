@@ -8,6 +8,15 @@
     "aftermath",
     "h:keeneye"
   ],
+  "drops": {
+    "amount": 1,
+    "entries": [
+      {
+        "item": "cobblemon:pecha_berry",
+        "percentage": 2.5
+      }
+    ]
+  },
   "baseStats": {
     "hp": 63,
     "attack": 63,
@@ -95,6 +104,7 @@
     "tm:darkpulse",
     "tm:defog",
     "tm:dig",
+    "tm:doubleedge",
     "tm:doubleteam",
     "tm:endure",
     "tm:explosion",
@@ -105,12 +115,15 @@
     "tm:foulplay",
     "tm:frustration",
     "tm:gunkshot",
+    "tm:haze",
     "tm:helpinghand",
     "tm:hex",
     "tm:hiddenpower",
     "tm:honeclaws",
     "tm:incinerate",
     "tm:irontail",
+    "tm:knockoff",
+    "tm:lashout",
     "tm:nastyplot",
     "tm:naturalgift",
     "tm:payback",
@@ -131,6 +144,7 @@
     "tm:shadowclaw",
     "tm:sleeptalk",
     "tm:sludgebomb",
+    "tm:sludgewave",
     "tm:snarl",
     "tm:snatch",
     "tm:snore",
@@ -141,6 +155,7 @@
     "tm:tailslap",
     "tm:takedown",
     "tm:taunt",
+    "tm:temperflare",
     "tm:terablast",
     "tm:thief",
     "tm:throatchop",

@@ -25,12 +25,26 @@
     "water_1",
     "field"
   ],
+  "behaviour": {
+    "moving": {
+      "swim": {
+        "canSwimInWater": true,
+        "canBreatheUnderwater": true
+      }
+    },
+    "resting": {
+      "canSleep": true,
+      "willSleepOnBed": false,
+      "depth": "normal",
+      "light": "0-4"
+    }
+  },
   "drops": {
-    "amount": "1",
+    "amount": 1,
     "entries": [
       {
         "item": "cobblemon:mystic_water",
-        "percentage": 10
+        "percentage": 10.0
       }
     ]
   },
@@ -54,6 +68,7 @@
     "tm:endure",
     "tm:facade",
     "tm:fling",
+    "tm:haze",
     "tm:hydropump",
     "tm:lightscreen",
     "tm:liquidation",

@@ -8,9 +8,12 @@
 
 package com.cobblemon.mod.common.api.pokeball.catching.calculators
 
+import com.cobblemon.mod.common.api.events.CobblemonEvents
+import com.cobblemon.mod.common.api.events.pokeball.PokemonCatchRateEvent
 import com.cobblemon.mod.common.api.pokeball.catching.CaptureContext
+import com.cobblemon.mod.common.entity.pokeball.EmptyPokeBallEntity
+import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.pokeball.PokeBall
-import com.cobblemon.mod.common.pokemon.Pokemon
 import net.minecraft.entity.LivingEntity
 
 /**
@@ -24,7 +27,6 @@ import net.minecraft.entity.LivingEntity
  * @since November 30, 2021
  */
 interface CaptureCalculator {
-
     /**
      * The literal ID of this calculator.
      * Used when registering the calculator to the registry in order to be used by the game rule.
@@ -37,10 +39,22 @@ interface CaptureCalculator {
      * Processes a capture attempt with the given params.
      *
      * @param thrower The [LivingEntity] that threw the [PokeBall].
-     * @param pokeBall The [PokeBall] used.
-     * @param target The target [Pokemon] attempting to be captured.
-     * @return
+     * @param pokeBallEntity The [EmptyPokeBallEntity] used.
+     * @param target The target [PokemonEntity] attempting to be captured.
+     * @return a [CaptureContext] that is the result of the capture attempt.
      */
-    fun processCapture(thrower: LivingEntity, pokeBall: PokeBall, target: Pokemon) : CaptureContext
+    fun processCapture(thrower: LivingEntity, pokeBallEntity: EmptyPokeBallEntity, target: PokemonEntity) : CaptureContext
 
+    fun getCatchRate(thrower: LivingEntity, pokeBallEntity: EmptyPokeBallEntity, target: PokemonEntity, catchRate: Float): Float {
+        val event = PokemonCatchRateEvent(
+            thrower = thrower,
+            pokemonEntity = target,
+            pokeBallEntity = pokeBallEntity,
+            catchRate = catchRate
+        )
+
+        CobblemonEvents.POKEMON_CATCH_RATE.post(event)
+
+        return event.catchRate
+    }
 }

@@ -16,21 +16,23 @@ import com.cobblemon.mod.common.entity.PoseType.Companion.STATIONARY_POSES
 import com.cobblemon.mod.common.entity.PoseType.Companion.UI_POSES
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
+
 class GastlyModel(root: ModelPart) : PokemonPoseableModel() {
     override val rootPart = root.registerChildWithAllChildren("gastly")
 
-    override val portraitScale = 2.4F
-    override val portraitTranslation = Vec3d(0.0, -2.0, 0.0)
+    override var portraitScale = 2.4F
+    override var portraitTranslation = Vec3d(0.0, -2.0, 0.0)
 
-    override val profileScale = 1.3F
-    override val profileTranslation = Vec3d(0.0, -0.3, 0.0)
+    override var profileScale = 1.3F
+    override var profileTranslation = Vec3d(0.0, -0.3, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
     lateinit var sleep: PokemonPose
 
+
     override fun registerPoses() {
-        val blink = quirk(name = "blink") { bedrockStateful("gastly", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("gastly", "blink") }
 
         sleep = registerPose(
             poseType = PoseType.SLEEP,

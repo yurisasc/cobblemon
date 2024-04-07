@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Fidough",
   "nationalPokedexNumber": 926,
   "primaryType": "fairy",
@@ -6,6 +7,19 @@
     "owntempo",
     "h:klutz"
   ],
+  "drops": {
+    "amount": 2,
+    "entries": [
+      {
+        "item": "minecraft:bread",
+        "quantityRange": "0-1"
+      },
+      {
+        "item": "cobblemon:nanab_berry",
+        "percentage": 2.5
+      }
+    ]
+  },
   "baseStats": {
     "hp": 37,
     "attack": 55,
@@ -83,6 +97,25 @@
     "tm:thunderfang",
     "tm:trailblaze"
   ],
+  "behaviour": {
+    "moving": {
+      "walk": {
+        "walkSpeed": 0.3
+      }
+    },
+    "resting": {
+      "canSleep": true,
+      "willSleepOnBed": true,
+      "depth": "normal",
+      "light": "0-4"
+    }
+  },
+  "baseScale": 0.5,
+  "hitbox": {
+    "width": 1.1,
+    "height": 1,
+    "fixed": false
+  },
   "labels": [
     "gen9"
   ],

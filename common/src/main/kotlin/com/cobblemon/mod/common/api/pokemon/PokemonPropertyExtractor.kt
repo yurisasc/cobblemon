@@ -21,28 +21,42 @@ import com.cobblemon.mod.common.pokemon.Pokemon
 fun interface PokemonPropertyExtractor {
     companion object {
         @JvmField
-        val SPECIES = PokemonPropertyExtractor { pokemon, properties -> properties.species = pokemon.species.resourceIdentifier.toString() }
-        @JvmField
-        val FORM = PokemonPropertyExtractor { pokemon, properties -> properties.form = pokemon.form.formOnlyShowdownId() }
-        @JvmField
-        val SHINY = PokemonPropertyExtractor { pokemon, properties -> properties.shiny = pokemon.shiny }
-        @JvmField
-        val ASPECTS = PokemonPropertyExtractor { pokemon, properties -> properties.aspects = pokemon.aspects }
-        @JvmField
-        val LEVEL = PokemonPropertyExtractor { pokemon, properties -> properties.level = pokemon.level }
-        @JvmField
-        val GENDER = PokemonPropertyExtractor { pokemon, properties -> properties.gender = pokemon.gender }
-        @JvmField
-        val FRIENDSHIP = PokemonPropertyExtractor { pokemon, properties -> properties.friendship = pokemon.friendship }
-        @JvmField
-        val POKEBALL = PokemonPropertyExtractor { pokemon, properties ->  properties.pokeball = pokemon.caughtBall.name.toString() }
-        @JvmField
-        val NATURE = PokemonPropertyExtractor { pokemon, properties ->  properties.nature = pokemon.nature.name.toString() }
-        @JvmField
-        val ABILITY = PokemonPropertyExtractor { pokemon, properties ->  properties.ability = pokemon.ability.name }
+        val ALL = mutableListOf<PokemonPropertyExtractor>()
 
         @JvmField
-        val ALL = arrayOf(SPECIES, FORM, SHINY, ASPECTS, LEVEL, GENDER, FRIENDSHIP, POKEBALL, NATURE, ABILITY)
+        val SPECIES = add { pokemon, properties -> properties.species = pokemon.species.resourceIdentifier.toString() }
+        @JvmField
+        val FORM = add { pokemon, properties -> properties.form = pokemon.form.formOnlyShowdownId() }
+        @JvmField
+        val SHINY = add { pokemon, properties -> properties.shiny = pokemon.shiny }
+        @JvmField
+        val ASPECTS = add { pokemon, properties -> properties.aspects = pokemon.aspects }
+        @JvmField
+        val LEVEL = add { pokemon, properties -> properties.level = pokemon.level }
+        @JvmField
+        val GENDER = add { pokemon, properties -> properties.gender = pokemon.gender }
+        @JvmField
+        val FRIENDSHIP = add { pokemon, properties -> properties.friendship = pokemon.friendship }
+        @JvmField
+        val POKEBALL = add { pokemon, properties ->  properties.pokeball = pokemon.caughtBall.name.toString() }
+        @JvmField
+        val NATURE = add { pokemon, properties ->  properties.nature = pokemon.nature.name.toString() }
+        @JvmField
+        val ABILITY = add { pokemon, properties ->  properties.ability = pokemon.ability.name }
+        @JvmField
+        val NICKNAME = add { pokemon, properties -> properties.nickname = pokemon.nickname }
+        @JvmField
+        val STATUS = add { pokemon, properties -> properties.status = pokemon.status?.status?.showdownName }
+
+        @JvmField
+        val ILLUSION = mutableListOf(SPECIES, FORM, ASPECTS, GENDER, NICKNAME, SHINY)
+        @JvmField
+        val TRANSFORM = mutableListOf(SPECIES, FORM, ASPECTS, GENDER)
+
+        fun add(extractor: PokemonPropertyExtractor): PokemonPropertyExtractor {
+            ALL.add(extractor)
+            return extractor
+        }
     }
 
     operator fun invoke(pokemon: Pokemon, properties: PokemonProperties)

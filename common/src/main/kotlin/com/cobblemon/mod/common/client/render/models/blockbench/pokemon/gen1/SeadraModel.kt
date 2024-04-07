@@ -20,11 +20,11 @@ class SeadraModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("seadra")
     override val head = getPart("head")
 
-    override val portraitScale = 1.9F
-    override val portraitTranslation = Vec3d(-0.25, 0.62, 0.0)
+    override var portraitScale = 1.9F
+    override var portraitTranslation = Vec3d(-0.25, 0.62, 0.0)
 
-    override val profileScale = 0.69F
-    override val profileTranslation = Vec3d(-0.06, 0.7, 0.0)
+    override var profileScale = 0.69F
+    override var profileTranslation = Vec3d(-0.06, 0.7, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
@@ -32,7 +32,7 @@ class SeadraModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     lateinit var swim: PokemonPose
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("seadra", "blink").setPreventsIdle(false)}
+        val blink = quirk { bedrockStateful("seadra", "blink")}
         standing = registerPose(
             poseName = "standing",
             poseType = PoseType.STAND,

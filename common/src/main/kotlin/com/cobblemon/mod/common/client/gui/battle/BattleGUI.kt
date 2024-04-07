@@ -13,6 +13,7 @@ import com.cobblemon.mod.common.client.CobblemonClient
 import com.cobblemon.mod.common.client.battle.ClientBattleActor
 import com.cobblemon.mod.common.client.battle.SingleActionRequest
 import com.cobblemon.mod.common.client.gui.battle.subscreen.BattleActionSelection
+import com.cobblemon.mod.common.client.gui.battle.subscreen.BattleBackButton
 import com.cobblemon.mod.common.client.gui.battle.subscreen.BattleGeneralActionSelection
 import com.cobblemon.mod.common.client.gui.battle.subscreen.BattleSwitchPokemonSelection
 import com.cobblemon.mod.common.client.gui.battle.subscreen.ForfeitConfirmationSelection
@@ -20,9 +21,11 @@ import com.cobblemon.mod.common.client.gui.battle.widgets.BattleMessagePane
 import com.cobblemon.mod.common.client.keybind.boundKey
 import com.cobblemon.mod.common.client.keybind.keybinds.PartySendBinding
 import com.cobblemon.mod.common.client.render.drawScaledText
+import com.cobblemon.mod.common.net.messages.server.battle.RemoveSpectatorPacket
 import com.cobblemon.mod.common.util.battleLang
 import com.cobblemon.mod.common.util.cobblemonResource
 import net.minecraft.client.MinecraftClient
+import net.minecraft.client.gui.DrawContext
 import net.minecraft.client.gui.screen.Screen
 import net.minecraft.client.util.math.MatrixStack
 class BattleGUI : Screen(battleLang("gui.title")) {
@@ -41,6 +44,7 @@ class BattleGUI : Screen(battleLang("gui.title")) {
     private lateinit var messagePane: BattleMessagePane
     var opacity = 0F
     val actor = CobblemonClient.battle?.side1?.actors?.find { it.uuid == MinecraftClient.getInstance().player?.uuid }
+    val specBackButton = BattleBackButton(12f, MinecraftClient.getInstance().window.scaledHeight - 32f)
 
     var queuedActions = mutableListOf<() -> Unit>()
 
@@ -77,13 +81,13 @@ class BattleGUI : Screen(battleLang("gui.title")) {
         }
     }
 
-    override fun render(poseStack: MatrixStack, mouseX: Int, mouseY: Int, delta: Float) {
+    override fun render(context: DrawContext, mouseX: Int, mouseY: Int, delta: Float) {
         opacity = CobblemonClient.battleOverlay.opacityRatio.toFloat()
         children().filterIsInstance<BattleMessagePane>().forEach { it.opacity = opacity.coerceAtLeast(0.3F) }
 
         queuedActions.forEach { it() }
         queuedActions.clear()
-        super.render(poseStack, mouseX, mouseY, delta)
+        super.render(context, mouseX, mouseY, delta)
         val battle = CobblemonClient.battle
         if (battle == null) {
             close()
@@ -106,10 +110,14 @@ class BattleGUI : Screen(battleLang("gui.title")) {
             }
         }
 
+        if (battle.spectating) {
+            specBackButton.render(context.matrices, mouseX, mouseY, delta)
+        }
+
         val currentSelection = getCurrentActionSelection()
         if (currentSelection == null || currentSelection is BattleGeneralActionSelection ) {
             drawScaledText(
-                matrixStack = poseStack,
+                context = context,
                 text = battleLang("ui.hide_label", PartySendBinding.boundKey().localizedText),
                 x = MinecraftClient.getInstance().window.scaledWidth / 2,
                 y = (MinecraftClient.getInstance().window.scaledHeight / 5),
@@ -118,7 +126,7 @@ class BattleGUI : Screen(battleLang("gui.title")) {
             )
         } else if (currentSelection is ForfeitConfirmationSelection) {
             drawScaledText(
-                matrixStack = poseStack,
+                context = context,
                 text = battleLang("ui.forfeit_confirmation", PartySendBinding.boundKey().localizedText),
                 x = MinecraftClient.getInstance().window.scaledWidth / 2,
                 y = (MinecraftClient.getInstance().window.scaledHeight / 5),
@@ -144,6 +152,8 @@ class BattleGUI : Screen(battleLang("gui.title")) {
     override fun close() {
         super.close()
         CobblemonClient.battle?.minimised = true
+        PartySendBinding.canApplyChange = false
+        PartySendBinding.wasDown = true
     }
 
     override fun mouseDragged(mouseX: Double, mouseY: Double, button: Int, deltaX: Double, deltaY: Double): Boolean {
@@ -152,12 +162,21 @@ class BattleGUI : Screen(battleLang("gui.title")) {
     }
 
     override fun charTyped(chr: Char, modifiers: Int): Boolean {
-        if (chr.toString() == PartySendBinding.boundKey().localizedText.string && CobblemonClient.battleOverlay.opacity == BattleOverlay.MAX_OPACITY && PartySendBinding.canAction()) {
+        if (chr.toString().equals(PartySendBinding.boundKey().localizedText.string, ignoreCase = true) && CobblemonClient.battleOverlay.opacity == BattleOverlay.MAX_OPACITY && PartySendBinding.canAction()) {
             val battle = CobblemonClient.battle ?: return false
             battle.minimised = !battle.minimised
             PartySendBinding.actioned()
             return true
         }
         return super.charTyped(chr, modifiers)
+    }
+
+    override fun mouseClicked(mouseX: Double, mouseY: Double, button: Int): Boolean {
+        val battle = CobblemonClient.battle
+        if (battle?.spectating == true && specBackButton.isHovered(mouseX, mouseY)) {
+            RemoveSpectatorPacket(battle.battleId).sendToServer()
+            CobblemonClient.endBattle()
+        }
+        return super.mouseClicked(mouseX, mouseY, button)
     }
 }

@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Aron",
   "nationalPokedexNumber": 304,
   "primaryType": "steel",
@@ -161,8 +162,8 @@
   ],
   "baseScale": 1,
   "hitbox": {
-    "width": 1,
-    "height": 1,
+    "width": 0.5,
+    "height": 0.7,
     "fixed": false
   },
   "baseFriendship": 35,
@@ -177,5 +178,22 @@
   "height": 4,
   "weight": 600,
   "aspects": [],
-  "cannotDynamax": false
+  "cannotDynamax": false,
+  "drops": {
+    "amount": 3,
+    "entries": [
+      {
+        "item": "minecraft:raw_iron",
+        "quantityRange": "0-1"
+      },
+      {
+        "item": "cobblemon:hard_stone",
+        "percentage": 2.5
+      },
+      {
+        "item": "cobblemon:chople_berry",
+        "percentage": 2.5
+      }
+    ]
+  }
 }

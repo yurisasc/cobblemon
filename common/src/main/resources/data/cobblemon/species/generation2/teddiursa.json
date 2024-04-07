@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Teddiursa",
   "nationalPokedexNumber": 216,
   "primaryType": "normal",
@@ -7,6 +8,27 @@
     "quickfeet",
     "h:honeygather"
   ],
+  "drops": {
+    "amount": 6,
+    "entries": [
+      {
+        "item": "minecraft:sweet_berries",
+        "quantityRange": "1-3"
+      },
+      {
+        "item": "minecraft:honey_bottle",
+        "percentage": 2.5
+      },
+      {
+        "item": "cobblemon:peat_block",
+        "percentage": 2.5
+      },
+      {
+        "item": "cobblemon:oran_berry",
+        "percentage": 2.5
+      }
+    ]
+  },
   "baseStats": {
     "hp": 60,
     "attack": 80,
@@ -24,6 +46,14 @@
   "eggGroups": [
     "field"
   ],
+  "behaviour": {
+    "resting": {
+      "canSleep": true,
+      "willSleepOnBed": true,
+      "depth": "normal",
+      "light": "0-4"
+    }
+  },
   "moves": [
     "1:babydolleyes",
     "1:covet",
@@ -73,6 +103,7 @@
     "tm:crunch",
     "tm:cut",
     "tm:dig",
+    "tm:doubleedge",
     "tm:doubleteam",
     "tm:earthquake",
     "tm:endure",
@@ -109,6 +140,7 @@
     "tm:seedbomb",
     "tm:shadowclaw",
     "tm:sleeptalk",
+    "tm:smackdown",
     "tm:strength",
     "tm:substitute",
     "tm:sunnyday",
@@ -123,6 +155,7 @@
     "tm:torment",
     "tm:toxic",
     "tm:trailblaze",
+    "tm:uproar",
     "tm:workup",
     "tutor:attract",
     "tutor:bodyslam",
@@ -208,9 +241,9 @@
       ]
     }
   ],
-  "baseScale": 1,
+  "baseScale": 0.55,
   "hitbox": {
-    "width": 1,
+    "width": 0.7,
     "height": 1,
     "fixed": false
   },

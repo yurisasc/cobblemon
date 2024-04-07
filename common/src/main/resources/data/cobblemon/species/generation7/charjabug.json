@@ -6,6 +6,23 @@
   "abilities": [
     "battery"
   ],
+  "drops": {
+    "amount": 4,
+    "entries": [
+      {
+        "item": "minecraft:string",
+        "quantityRange": "0-2"
+      },
+      {
+        "item": "cobblemon:wepear_berry",
+        "percentage": 5.0
+      },
+      {
+        "item": "cobblemon:cell_battery",
+        "percentage": 5.0
+      }
+    ]
+  },
   "baseStats": {
     "hp": 57,
     "attack": 82,
@@ -40,12 +57,16 @@
     "64:discharge",
     "tm:acrobatics",
     "tm:attract",
+    "tm:batonpass",
+    "tm:bugbite",
+    "tm:charge",
     "tm:chargebeam",
     "tm:confide",
     "tm:crunch",
     "tm:dig",
     "tm:doubleteam",
     "tm:eerieimpulse",
+    "tm:electricterrain",
     "tm:electroball",
     "tm:electroweb",
     "tm:endure",
@@ -54,18 +75,26 @@
     "tm:hiddenpower",
     "tm:irondefense",
     "tm:lightscreen",
+    "tm:lunge",
     "tm:mudshot",
+    "tm:mudslap",
     "tm:poisonjab",
+    "tm:pounce",
     "tm:protect",
     "tm:raindance",
     "tm:rest",
     "tm:return",
     "tm:round",
     "tm:screech",
+    "tm:skittersmack",
     "tm:sleeptalk",
     "tm:snore",
+    "tm:strugglebug",
     "tm:substitute",
     "tm:swagger",
+    "tm:takedown",
+    "tm:terablast",
+    "tm:thunder",
     "tm:thunderbolt",
     "tm:thunderwave",
     "tm:toxic",

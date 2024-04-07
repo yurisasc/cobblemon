@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Anorith",
   "nationalPokedexNumber": 347,
   "primaryType": "rock",
@@ -147,8 +148,8 @@
   ],
   "baseScale": 1,
   "hitbox": {
-    "width": 1,
-    "height": 1,
+    "width": 0.9,
+    "height": 0.2,
     "fixed": false
   },
   "baseFriendship": 50,
@@ -163,5 +164,14 @@
   "height": 7,
   "weight": 125,
   "aspects": [],
-  "cannotDynamax": false
+  "cannotDynamax": false,
+  "drops": {
+    "amount": 2,
+    "entries": [
+      {
+        "item": "minecraft:scute",
+        "quantityRange": "0-2"
+      }
+    ]
+  }
 }

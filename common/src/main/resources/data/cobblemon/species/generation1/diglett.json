@@ -16,12 +16,20 @@
     "special_defence": 45,
     "speed": 95
   },
+  "features": [
+    "alolan"
+  ],
   "behaviour": {
     "resting": {
       "canSleep": true,
       "willSleepOnBed": false,
       "depth": "normal",
       "light": "0-4"
+    },
+    "moving": {
+      "swim": {
+        "canSwimInWater": false
+      }
     }
   },
   "catchRate": 255,
@@ -115,6 +123,7 @@
         "tm:irondefense",
         "tm:ironhead",
         "tm:metalclaw",
+        "tm:metalsound",
         "tm:mudshot",
         "tm:mudslap",
         "tm:protect",
@@ -126,11 +135,14 @@
         "tm:rocktomb",
         "tm:round",
         "tm:sandstorm",
+        "tm:sandtomb",
         "tm:scaryface",
+        "tm:scorchingsands",
         "tm:screech",
         "tm:shadowclaw",
         "tm:sleeptalk",
         "tm:sludgebomb",
+        "tm:smackdown",
         "tm:snore",
         "tm:stealthrock",
         "tm:steelbeam",
@@ -190,7 +202,7 @@
         {
           "id": "diglett_dugtrio",
           "variant": "level_up",
-          "result": "dugtrio form=alola",
+          "result": "dugtrio alolan",
           "consumeHeldItem": false,
           "learnableMoves": [
             "sandtomb"
@@ -214,14 +226,18 @@
     "field"
   ],
   "drops": {
-    "amount": "2",
+    "amount": 3,
     "entries": [
       {
         "item": "minecraft:potato",
-        "percentage": 50
+        "percentage": 2.5
       },
       {
         "item": "cobblemon:big_root",
+        "percentage": 2.5
+      },
+      {
+        "item": "cobblemon:soft_sand",
         "percentage": 2.5
       }
     ]
@@ -269,12 +285,15 @@
     "tm:captivate",
     "tm:charm",
     "tm:confide",
+    "tm:curse",
     "tm:cut",
     "tm:dig",
+    "tm:doubleedge",
     "tm:doubleteam",
     "tm:earthpower",
     "tm:earthquake",
     "tm:echoedvoice",
+    "tm:endeavor",
     "tm:endure",
     "tm:facade",
     "tm:foulplay",
@@ -295,11 +314,14 @@
     "tm:rocktomb",
     "tm:round",
     "tm:sandstorm",
+    "tm:sandtomb",
+    "tm:scorchingsands",
     "tm:screech",
     "tm:secretpower",
     "tm:shadowclaw",
     "tm:sleeptalk",
     "tm:sludgebomb",
+    "tm:smackdown",
     "tm:snore",
     "tm:stealthrock",
     "tm:stompingtantrum",
@@ -311,6 +333,7 @@
     "tm:takedown",
     "tm:terablast",
     "tm:thief",
+    "tm:throatchop",
     "tm:toxic",
     "tm:uproar",
     "tm:workup",
@@ -391,8 +414,8 @@
   ],
   "baseScale": 0.8,
   "hitbox": {
-    "width": 0.5,
-    "height": 0.6,
+    "width": 1.05,
+    "height": 1.1,
     "fixed": false
   },
   "baseFriendship": 50,

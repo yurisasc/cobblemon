@@ -7,6 +7,15 @@
   "abilities": [
     "airlock"
   ],
+  "drops": {
+    "amount": 5,
+    "entries": [
+      {
+        "item": "minecraft:dragon_breath",
+        "quantityRange": "3-5"
+      }
+    ]
+  },
   "baseStats": {
     "hp": 105,
     "attack": 150,
@@ -61,9 +70,9 @@
       ],
       "height": 108,
       "weight": 3920,
-      "evolutions": [],
       "cannotDynamax": false,
-      "battleOnly": true
+      "battleOnly": true,
+      "requiredMove": "Dragon Ascent"
     }
   ],
   "baseExperienceYield": 340,
@@ -103,8 +112,10 @@
     "tm:cosmicpower",
     "tm:crunch",
     "tm:dive",
+    "tm:doubleedge",
     "tm:doubleteam",
     "tm:dracometeor",
+    "tm:dragoncheer",
     "tm:dragonclaw",
     "tm:dragondance",
     "tm:dragonpulse",
@@ -135,6 +146,7 @@
     "tm:incinerate",
     "tm:ironhead",
     "tm:irontail",
+    "tm:meteorbeam",
     "tm:naturalgift",
     "tm:outrage",
     "tm:overheat",
@@ -149,6 +161,7 @@
     "tm:rocktomb",
     "tm:round",
     "tm:sandstorm",
+    "tm:scaleshot",
     "tm:scaryface",
     "tm:secretpower",
     "tm:shadowclaw",

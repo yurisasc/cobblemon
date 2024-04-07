@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Zigzagoon",
   "nationalPokedexNumber": 263,
   "primaryType": "normal",
@@ -7,6 +8,15 @@
     "gluttony",
     "h:quickfeet"
   ],
+  "drops": {
+    "amount": 1,
+    "entries": [
+      {
+        "item": "cobblemon:oran_berry",
+        "percentage": 2.5
+      }
+    ]
+  },
   "baseStats": {
     "hp": 38,
     "attack": 30,
@@ -15,9 +25,12 @@
     "special_defence": 41,
     "speed": 60
   },
+  "features": [
+    "galarian"
+  ],
   "catchRate": 255,
   "maleRatio": 0.5,
-  "shoulderMountable": false,
+  "shoulderMountable": true,
   "forms": [
     {
       "name": "Galar",
@@ -127,7 +140,7 @@
       "weight": 175,
       "evolutions": [
         {
-          "id": "zigzagoon_linoone",
+          "id": "galarian_zigzagoon_linoone",
           "variant": "level_up",
           "result": "linoone form=galar",
           "consumeHeldItem": false,
@@ -142,8 +155,23 @@
           ]
         }
       ],
+      "baseScale": 0.8,
+      "hitbox": {
+        "width": 0.6,
+        "height": 0.4,
+        "fixed": false
+      },
       "cannotDynamax": false,
-      "battleOnly": false
+      "battleOnly": false,
+      "drops": {
+        "amount": 1,
+        "entries": [
+          {
+            "item": "cobblemon:chople_berry",
+            "percentage": 2.5
+          }
+        ]
+      }
     }
   ],
   "baseExperienceYield": 56,
@@ -152,6 +180,14 @@
   "eggGroups": [
     "field"
   ],
+  "behaviour": {
+    "resting": {
+      "canSleep": true,
+      "willSleepOnBed": true,
+      "depth": "normal",
+      "light": "0-4"
+    }
+  },
   "moves": [
     "1:growl",
     "1:tackle",
@@ -292,10 +328,10 @@
       ]
     }
   ],
-  "baseScale": 1,
+  "baseScale": 0.8,
   "hitbox": {
-    "width": 1,
-    "height": 1,
+    "width": 0.6,
+    "height": 0.4,
     "fixed": false
   },
   "baseFriendship": 50,

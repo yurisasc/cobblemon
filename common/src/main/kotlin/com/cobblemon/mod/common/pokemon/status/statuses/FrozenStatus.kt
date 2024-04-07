@@ -14,6 +14,6 @@ class FrozenStatus : PersistentStatus(
     name = cobblemonResource("frozen"),
     showdownName = "frz",
     applyMessage = "cobblemon.status.frozen.apply",
-    removeMessage = "cobblemon.status.frozen.thawed",
+    removeMessage = "cobblemon.status.frozen.cure",
     defaultDuration = IntRange(180, 300)
 )

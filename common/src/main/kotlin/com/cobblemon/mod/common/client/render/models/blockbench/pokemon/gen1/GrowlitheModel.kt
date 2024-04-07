@@ -19,31 +19,32 @@ import com.cobblemon.mod.common.entity.PoseType.Companion.STATIONARY_POSES
 import com.cobblemon.mod.common.entity.PoseType.Companion.UI_POSES
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
+
 class GrowlitheModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, QuadrupedFrame {
     override val rootPart = root.registerChildWithAllChildren("growlithe")
-    override val head = getPart("head")
+    override val head = getPart("neck")
 
-    override val foreLeftLeg = getPart("leg_front_left1")
-    override val foreRightLeg = getPart("leg_front_right1")
-    override val hindLeftLeg = getPart("leg_back_left1")
-    override val hindRightLeg = getPart("leg_back_right1")
+    override val foreLeftLeg= getPart("left_shoulder")
+    override val foreRightLeg = getPart("right_shoulder")
+    override val hindLeftLeg = getPart("left_thigh")
+    override val hindRightLeg = getPart("right_thigh")
 
-    override val portraitScale = 2.1F
-    override val portraitTranslation = Vec3d(-0.2, -0.6, 0.0)
+    override var portraitScale = 2.1F
+    override var portraitTranslation = Vec3d(-0.2, -0.6, 0.0)
 
-    override val profileScale = 0.9F
-    override val profileTranslation = Vec3d(0.0, 0.4, 0.0)
+    override var profileScale = 0.9F
+    override var profileTranslation = Vec3d(0.0, 0.4, 0.0)
 
-    lateinit var sleep: PokemonPose
+//    lateinit var sleep: PokemonPose
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("growlithe", "blink").setPreventsIdle(false) }
-        sleep = registerPose(
-            poseType = PoseType.SLEEP,
-            idleAnimations = arrayOf(bedrock("growlithe", "sleep"))
-        )
+        val blink = quirk { bedrockStateful("growlithe", "blink") }
+//        sleep = registerPose(
+//            poseType = PoseType.SLEEP,
+//            idleAnimations = arrayOf(bedrock("growlithe", "sleep"))
+//        )
 
         standing = registerPose(
             poseName = "standing",
@@ -52,7 +53,7 @@ class GrowlitheModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Qua
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
-                bedrock("growlithe", "ground_idle")
+                bedrock("growlithe", "idle")
             )
         )
 
@@ -63,7 +64,8 @@ class GrowlitheModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Qua
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
-                bedrock("growlithe", "ground_walk")
+                bedrock("growlithe", "idle"),
+                QuadrupedWalkAnimation(this, periodMultiplier = 0.6F, amplitudeMultiplier = 0.9F)
             )
         )
     }

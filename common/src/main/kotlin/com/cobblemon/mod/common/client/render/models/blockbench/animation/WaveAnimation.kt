@@ -54,7 +54,7 @@ class WaveAnimation<T : Entity>(
 ): StatelessAnimation<T, ModelFrame>(frame) {
     override val targetFrame = ModelFrame::class.java
 
-    override fun setAngles(entity: T?, model: PoseableEntityModel<T>, state: PoseableEntityState<T>?, limbSwing: Float, limbSwingAmount: Float, ageInTicks: Float, headYaw: Float, headPitch: Float) {
+    override fun setAngles(entity: T?, model: PoseableEntityModel<T>, state: PoseableEntityState<T>?, limbSwing: Float, limbSwingAmount: Float, ageInTicks: Float, headYaw: Float, headPitch: Float, intensity: Float) {
         val t = if (basedOnLimbSwing) {
             limbSwing
         } else {
@@ -64,7 +64,7 @@ class WaveAnimation<T : Entity>(
         var totalTimeDisplacement = (headLength + segments.map { it.length }.sum()) / oscillationsScalar
         if (moveHead) {
             val headDisplacement = waveFunction(t + totalTimeDisplacement - headLength / oscillationsScalar) * 16
-            head.addPosition(motionAxis, model.scaleForPart(head, -headDisplacement))
+            head.addPosition(motionAxis, -headDisplacement * intensity)
         }
 
         totalTimeDisplacement -= headLength / oscillationsScalar
@@ -87,7 +87,7 @@ class WaveAnimation<T : Entity>(
              * To do this perfectly, we need to calculate the error of this action and apply a
              * translation to this part so that it counters the error. In most cases the error is insignificant.
              */
-            segment.modelPart.addRotation(rotationAxis, model.scaleForPart(segment.modelPart, theta - previousTheta))
+            segment.modelPart.addRotation(rotationAxis, (theta - previousTheta) * intensity)
             previousTheta = theta
             previousSegmentLength = segment.length
             totalTimeDisplacement -= segment.length / oscillationsScalar

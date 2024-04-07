@@ -13,5 +13,7 @@ import com.mojang.serialization.JsonOps
 import net.minecraft.item.ItemStack
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.nbt.NbtOps
+import net.minecraft.server.network.ServerPlayerEntity
 
 fun ItemStack.saveToJson(): JsonElement = NbtOps.INSTANCE.convertTo(JsonOps.INSTANCE, this.writeNbt(NbtCompound()))
+fun ItemStack.isHeld(player: ServerPlayerEntity) = this in player.handItems && !isEmpty

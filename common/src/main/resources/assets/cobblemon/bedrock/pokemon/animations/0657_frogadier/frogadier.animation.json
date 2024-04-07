@@ -990,7 +990,6 @@
 			}
 		},
 		"animation.frogadier.cry": {
-			"loop": true,
 			"animation_length": 1.16667,
 			"bones": {
 				"head": {
@@ -1011,6 +1010,11 @@
 						"0.875": [20, 0, 0],
 						"1.1667": [0, 0, 0]
 					}
+				}
+			},
+			"sound_effects": {
+				"0.0417": {
+					"effect": "pokemon.frogadier.cry"
 				}
 			}
 		}

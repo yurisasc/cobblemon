@@ -9,6 +9,15 @@
     "innerfocus",
     "h:justified"
   ],
+  "drops": {
+    "amount": 1,
+    "entries": [
+      {
+        "item": "cobblemon:chople_berry",
+        "percentage": 5.0
+      }
+    ]
+  },
   "baseStats": {
     "hp": 70,
     "attack": 110,
@@ -63,7 +72,6 @@
       ],
       "height": 13,
       "weight": 575,
-      "evolutions": [],
       "cannotDynamax": false,
       "battleOnly": true
     }
@@ -151,6 +159,7 @@
     "tm:calmmind",
     "tm:captivate",
     "tm:closecombat",
+    "tm:coaching",
     "tm:confide",
     "tm:crunch",
     "tm:darkpulse",
@@ -180,6 +189,7 @@
     "tm:megakick",
     "tm:megapunch",
     "tm:metalclaw",
+    "tm:metalsound",
     "tm:metronome",
     "tm:nastyplot",
     "tm:naturalgift",
@@ -188,6 +198,7 @@
     "tm:poweruppunch",
     "tm:protect",
     "tm:psychic",
+    "tm:psychup",
     "tm:raindance",
     "tm:rest",
     "tm:retaliate",
@@ -220,6 +231,8 @@
     "tm:thunderpunch",
     "tm:toxic",
     "tm:trailblaze",
+    "tm:upperhand",
+    "tm:vacuumwave",
     "tm:waterpulse",
     "tm:workup",
     "tm:zenheadbutt",
@@ -275,10 +288,10 @@
   ],
   "preEvolution": "riolu",
   "evolutions": [],
-  "baseScale": 0.94,
+  "baseScale": 0.8,
   "hitbox": {
-    "width": 0.9,
-    "height": 1.8,
+    "width": 0.8,
+    "height": 2.45,
     "fixed": false
   },
   "baseFriendship": 50,

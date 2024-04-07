@@ -36,12 +36,15 @@
     }
   },
   "drops": {
-    "amount": "1",
+    "amount": 3,
     "entries": [
       {
         "item": "minecraft:clay_ball",
-        "quantityRange": "1-2",
-        "percentage": 66
+        "quantityRange": "0-2"
+      },
+      {
+        "item": "cobblemon:rindo_berry",
+        "percentage": 5.0
       }
     ]
   },
@@ -73,8 +76,10 @@
     "tm:captivate",
     "tm:chillingwater",
     "tm:confide",
+    "tm:curse",
     "tm:dig",
     "tm:dive",
+    "tm:doubleedge",
     "tm:doubleteam",
     "tm:drainpunch",
     "tm:earthpower",
@@ -91,6 +96,7 @@
     "tm:gigaimpact",
     "tm:guardswap",
     "tm:hail",
+    "tm:haze",
     "tm:helpinghand",
     "tm:hiddenpower",
     "tm:highhorsepower",

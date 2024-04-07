@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Metang",
   "nationalPokedexNumber": 375,
   "primaryType": "steel",
@@ -7,6 +8,19 @@
     "clearbody",
     "h:lightmetal"
   ],
+  "drops": {
+    "amount": 3,
+    "entries": [
+      {
+        "item": "minecraft:ender_pearl",
+        "quantityRange": "0-2"
+      },
+      {
+        "item": "cobblemon:metal_coat",
+        "percentage": 5.0
+      }
+    ]
+  },
   "baseStats": {
     "hp": 60,
     "attack": 75,
@@ -24,9 +38,23 @@
   "eggGroups": [
     "mineral"
   ],
+  "behaviour": {
+    "moving": {
+      "fly": {
+        "canFly": true
+      }
+    },
+    "resting": {
+      "canSleep": true,
+      "willSleepOnBed": false,
+      "depth": "normal",
+      "light": "0-4"
+    }
+  },
   "moves": [
     "1:bulletpunch",
     "1:confusion",
+    "1:honeclaws",
     "1:metalclaw",
     "1:tackle",
     "6:zenheadbutt",
@@ -50,16 +78,24 @@
     "tm:confide",
     "tm:cosmicpower",
     "tm:cut",
+    "tm:doubleedge",
     "tm:doubleteam",
     "tm:earthquake",
     "tm:endure",
+    "tm:expandingforce",
     "tm:explosion",
     "tm:facade",
     "tm:flash",
     "tm:flashcannon",
+    "tm:focuspunch",
     "tm:frustration",
+    "tm:futuresight",
+    "tm:gigaimpact",
     "tm:grassknot",
+    "tm:gravity",
     "tm:gyroball",
+    "tm:hardpress",
+    "tm:heavyslam",
     "tm:hiddenpower",
     "tm:honeclaws",
     "tm:hyperbeam",
@@ -68,10 +104,13 @@
     "tm:irondefense",
     "tm:ironhead",
     "tm:lightscreen",
+    "tm:metalclaw",
+    "tm:meteorbeam",
     "tm:naturalgift",
     "tm:poweruppunch",
     "tm:protect",
     "tm:psychic",
+    "tm:psychicnoise",
     "tm:psychocut",
     "tm:psychup",
     "tm:psyshock",
@@ -93,14 +132,18 @@
     "tm:sludgebomb",
     "tm:snore",
     "tm:stealthrock",
+    "tm:steelbeam",
     "tm:strength",
     "tm:substitute",
     "tm:sunnyday",
     "tm:swagger",
     "tm:swift",
+    "tm:takedown",
     "tm:telekinesis",
+    "tm:terablast",
     "tm:thunderpunch",
     "tm:toxic",
+    "tm:trailblaze",
     "tm:trick",
     "tm:zenheadbutt",
     "tutor:allyswitch",
@@ -171,7 +214,7 @@
   "baseScale": 1,
   "hitbox": {
     "width": 1,
-    "height": 1,
+    "height": 1.2,
     "fixed": false
   },
   "baseFriendship": 35,

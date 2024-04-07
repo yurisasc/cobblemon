@@ -7,6 +7,15 @@
     "overgrow",
     "h:contrary"
   ],
+  "drops": {
+    "amount": 1,
+    "entries": [
+      {
+        "item": "cobblemon:miracle_seed",
+        "percentage": 5.0
+      }
+    ]
+  },
   "baseStats": {
     "hp": 45,
     "attack": 45,
@@ -25,14 +34,13 @@
     "field",
     "grass"
   ],
-  "drops": {
-    "amount": "1",
-    "entries": [
-      {
-        "item": "cobblemon:miracle_seed",
-        "percentage": 5
-      }
-    ]
+  "behaviour": {
+    "resting": {
+      "canSleep": true,
+      "willSleepOnBed": false,
+      "depth": "normal",
+      "light": "0-4"
+    }
   },
   "moves": [
     "1:tackle",
@@ -41,15 +49,16 @@
     "10:wrap",
     "13:growth",
     "16:leaftornado",
+    "16:magicalleaf",
     "19:leechseed",
     "22:megadrain",
     "25:slam",
     "28:leafblade",
     "31:coil",
     "34:gigadrain",
+    "37:gastroacid",
     "37:wringout",
-    "40:gastroacid",
-    "43:leafstorm",
+    "40:leafstorm",
     "egg:captivate",
     "egg:glare",
     "egg:grassyterrain",
@@ -60,21 +69,34 @@
     "egg:naturalgift",
     "egg:pursuit",
     "egg:sweetscent",
+    "egg:synthesis",
     "egg:twister",
     "tm:aerialace",
     "tm:attract",
+    "tm:bulletseed",
     "tm:calmmind",
     "tm:confide",
     "tm:cut",
+    "tm:doubleedge",
     "tm:doubleteam",
+    "tm:endure",
     "tm:energyball",
     "tm:facade",
     "tm:flash",
     "tm:frustration",
+    "tm:gigadrain",
     "tm:grassknot",
+    "tm:grasspledge",
+    "tm:grassyglide",
+    "tm:grassyterrain",
+    "tm:helpinghand",
     "tm:hiddenpower",
+    "tm:knockoff",
+    "tm:leafstorm",
     "tm:lightscreen",
+    "tm:magicalleaf",
     "tm:naturepower",
+    "tm:petalblizzard",
     "tm:protect",
     "tm:reflect",
     "tm:rest",
@@ -82,15 +104,20 @@
     "tm:round",
     "tm:safeguard",
     "tm:secretpower",
+    "tm:seedbomb",
     "tm:sleeptalk",
     "tm:solarbeam",
     "tm:substitute",
     "tm:sunnyday",
     "tm:swagger",
+    "tm:swift",
     "tm:swordsdance",
+    "tm:takedown",
     "tm:taunt",
+    "tm:terablast",
     "tm:torment",
     "tm:toxic",
+    "tm:trailblaze",
     "tm:workup",
     "tutor:aquatail",
     "tutor:aromatherapy",

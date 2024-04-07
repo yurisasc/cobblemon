@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Tirtouga",
   "nationalPokedexNumber": 564,
   "primaryType": "water",
@@ -8,6 +9,15 @@
     "sturdy",
     "h:swiftswim"
   ],
+  "drops": {
+    "amount": 2,
+    "entries": [
+      {
+        "item": "minecraft:scute",
+        "quantityRange": "0-2"
+      }
+    ]
+  },
   "baseStats": {
     "hp": 54,
     "attack": 78,
@@ -154,8 +164,8 @@
   ],
   "baseScale": 1,
   "hitbox": {
-    "width": 1,
-    "height": 1,
+    "width": 1.1,
+    "height": 0.5,
     "fixed": false
   },
   "baseFriendship": 50,

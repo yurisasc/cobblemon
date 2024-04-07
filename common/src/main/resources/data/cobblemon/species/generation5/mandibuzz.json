@@ -8,6 +8,30 @@
     "overcoat",
     "h:weakarmor"
   ],
+  "drops": {
+    "amount": 7,
+    "entries": [
+      {
+        "item": "minecraft:feather",
+        "quantityRange": "0-2"
+      },
+      {
+        "item": "minecraft:rotten_flesh",
+        "quantityRange": "0-2"
+      },
+      {
+        "item": "minecraft:chicken"
+      },
+      {
+        "item": "cobblemon:sharp_beak",
+        "percentage": 2.5
+      },
+      {
+        "item": "cobblemon:bluk_berry",
+        "percentage": 5.0
+      }
+    ]
+  },
   "baseStats": {
     "hp": 110,
     "attack": 65,
@@ -48,7 +72,9 @@
     "64:defog",
     "72:attract",
     "80:bravebird",
+    "tm:acrobatics",
     "tm:aerialace",
+    "tm:aircutter",
     "tm:airslash",
     "tm:assurance",
     "tm:attract",
@@ -56,20 +82,26 @@
     "tm:confide",
     "tm:cut",
     "tm:darkpulse",
+    "tm:doubleedge",
     "tm:doubleteam",
+    "tm:dualwingbeat",
     "tm:embargo",
     "tm:endure",
     "tm:facade",
     "tm:faketears",
+    "tm:featherdance",
     "tm:fly",
     "tm:foulplay",
     "tm:frustration",
     "tm:gigaimpact",
     "tm:heatwave",
     "tm:hiddenpower",
+    "tm:hurricane",
     "tm:hyperbeam",
     "tm:incinerate",
     "tm:irondefense",
+    "tm:knockoff",
+    "tm:lashout",
     "tm:nastyplot",
     "tm:payback",
     "tm:pluck",
@@ -83,21 +115,28 @@
     "tm:rocktomb",
     "tm:roost",
     "tm:round",
+    "tm:sandstorm",
     "tm:scaryface",
     "tm:secretpower",
     "tm:shadowball",
     "tm:sleeptalk",
     "tm:snarl",
     "tm:snore",
+    "tm:spite",
     "tm:steelwing",
     "tm:substitute",
     "tm:sunnyday",
     "tm:swagger",
     "tm:swift",
+    "tm:tailwind",
+    "tm:takedown",
     "tm:taunt",
+    "tm:terablast",
     "tm:thief",
+    "tm:throatchop",
     "tm:torment",
     "tm:toxic",
+    "tm:uproar",
     "tm:uturn",
     "tutor:block",
     "tutor:darkpulse",

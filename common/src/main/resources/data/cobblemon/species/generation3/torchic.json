@@ -25,18 +25,18 @@
     "field"
   ],
   "drops": {
-    "amount": "3",
+    "amount": 3,
     "entries": [
       {
         "item": "minecraft:feather",
-        "percentage": 50
+        "quantityRange": "0-1"
       },
       {
         "item": "minecraft:chicken"
       },
       {
         "item": "cobblemon:charcoal_stick",
-        "percentage": 5
+        "percentage": 5.0
       }
     ]
   },
@@ -86,13 +86,17 @@
     "tm:bounce",
     "tm:captivate",
     "tm:confide",
+    "tm:curse",
     "tm:cut",
     "tm:dig",
+    "tm:doubleedge",
     "tm:doubleteam",
     "tm:echoedvoice",
     "tm:endure",
     "tm:facade",
+    "tm:featherdance",
     "tm:fireblast",
+    "tm:firepledge",
     "tm:firespin",
     "tm:flamecharge",
     "tm:flamethrower",
@@ -125,8 +129,13 @@
     "tm:substitute",
     "tm:sunnyday",
     "tm:swagger",
+    "tm:swift",
     "tm:swordsdance",
+    "tm:takedown",
+    "tm:temperflare",
+    "tm:terablast",
     "tm:toxic",
+    "tm:uproar",
     "tm:willowisp",
     "tm:workup",
     "tutor:bodyslam",

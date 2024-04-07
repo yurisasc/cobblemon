@@ -5,15 +5,15 @@
     {
       "aspects": [],
       "poser": "cobblemon:mrmime",
-      "model": "cobblemon:mrmime.geo",
-      "texture": "cobblemon:textures/pokemon/0122_mrmime/mrmime.png",
+      "model": "cobblemon:mr_mime.geo",
+      "texture": "cobblemon:textures/pokemon/0122_mrmime/mr_mime.png",
       "layers": []
     },
     {
       "aspects": [
         "shiny"
       ],
-      "texture": "cobblemon:textures/pokemon/0122_mrmime/mrmime_shiny.png"
+      "texture": "cobblemon:textures/pokemon/0122_mrmime/mr_mime_shiny.png"
     }
   ]
 }

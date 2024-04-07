@@ -8,8 +8,8 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.frame
 
-import net.minecraft.client.model.ModelPart
+import com.cobblemon.mod.common.client.render.models.blockbench.pose.Bone
 
 interface ModelFrame {
-    val rootPart: ModelPart
+    val rootPart: Bone
 }

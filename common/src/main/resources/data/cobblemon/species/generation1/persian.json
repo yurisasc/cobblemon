@@ -16,6 +16,9 @@
     "special_defence": 65,
     "speed": 115
   },
+  "features": [
+    "alolan"
+  ],
   "behaviour": {
     "resting": {
       "canSleep": true,
@@ -90,16 +93,20 @@
         "tm:attract",
         "tm:beatup",
         "tm:bodyslam",
+        "tm:burningjealousy",
         "tm:charm",
         "tm:chillingwater",
         "tm:confide",
         "tm:confuseray",
+        "tm:curse",
         "tm:darkpulse",
         "tm:dig",
+        "tm:doubleedge",
         "tm:doubleteam",
         "tm:dreameater",
         "tm:echoedvoice",
         "tm:embargo",
+        "tm:endeavor",
         "tm:endure",
         "tm:facade",
         "tm:faketears",
@@ -113,6 +120,8 @@
         "tm:hypervoice",
         "tm:icywind",
         "tm:irontail",
+        "tm:knockoff",
+        "tm:lashout",
         "tm:metalclaw",
         "tm:nastyplot",
         "tm:payback",
@@ -132,9 +141,12 @@
         "tm:seedbomb",
         "tm:shadowball",
         "tm:shadowclaw",
+        "tm:skittersmack",
         "tm:sleeptalk",
+        "tm:smackdown",
         "tm:snarl",
         "tm:snore",
+        "tm:spite",
         "tm:substitute",
         "tm:sunnyday",
         "tm:swagger",
@@ -210,10 +222,26 @@
       ],
       "height": 11,
       "weight": 330,
-      "preEvolution": "meowth form=alola",
-      "evolutions": [],
+      "preEvolution": "meowth alolan",
       "cannotDynamax": false,
-      "battleOnly": false
+      "battleOnly": false,
+      "drops": {
+        "amount": 4,
+        "entries": [
+          {
+            "item": "minecraft:gold_nugget",
+            "quantityRange": "0-2"
+          },
+          {
+            "item": "cobblemon:quick_claw",
+            "percentage": 5.0
+          },
+          {
+            "item": "cobblemon:bluk_berry",
+            "percentage": 5.0
+          }
+        ]
+      }
     }
   ],
   "baseExperienceYield": 154,
@@ -223,15 +251,19 @@
     "field"
   ],
   "drops": {
-    "amount": "2",
+    "amount": 4,
     "entries": [
       {
-        "item": "minecraft:raw_gold",
-        "percentage": 20
+        "item": "minecraft:gold_nugget",
+        "quantityRange": "0-2"
       },
       {
         "item": "cobblemon:quick_claw",
-        "percentage": 5
+        "percentage": 5.0
+      },
+      {
+        "item": "cobblemon:pinap_berry",
+        "percentage": 5.0
       }
     ]
   },
@@ -269,10 +301,12 @@
     "tm:cut",
     "tm:darkpulse",
     "tm:dig",
+    "tm:doubleedge",
     "tm:doubleteam",
     "tm:dreameater",
     "tm:echoedvoice",
     "tm:embargo",
+    "tm:endeavor",
     "tm:endure",
     "tm:facade",
     "tm:faketears",
@@ -289,9 +323,12 @@
     "tm:hypervoice",
     "tm:icywind",
     "tm:irontail",
+    "tm:knockoff",
+    "tm:lashout",
     "tm:metalclaw",
     "tm:nastyplot",
     "tm:naturalgift",
+    "tm:painsplit",
     "tm:payback",
     "tm:payday",
     "tm:playrough",
@@ -310,10 +347,12 @@
     "tm:shadowball",
     "tm:shadowclaw",
     "tm:shockwave",
+    "tm:skittersmack",
     "tm:sleeptalk",
     "tm:snarl",
     "tm:snatch",
     "tm:snore",
+    "tm:spite",
     "tm:substitute",
     "tm:sunnyday",
     "tm:swagger",

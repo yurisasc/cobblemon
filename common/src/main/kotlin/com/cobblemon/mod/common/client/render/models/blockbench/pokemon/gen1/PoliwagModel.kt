@@ -19,11 +19,11 @@ import net.minecraft.util.math.Vec3d
 class PoliwagModel(root: ModelPart) : PokemonPoseableModel() {
     override val rootPart = root.registerChildWithAllChildren("poliwag")
 
-    override val portraitScale = 1.8F
-    override val portraitTranslation = Vec3d(0.0, -0.7, 0.0)
+    override var portraitScale = 1.8F
+    override var portraitTranslation = Vec3d(0.0, -0.7, 0.0)
 
-    override val profileScale = 0.9F
-    override val profileTranslation = Vec3d(0.0, 0.38, 0.0)
+    override var profileScale = 0.9F
+    override var profileTranslation = Vec3d(0.0, 0.38, 0.0)
 
     lateinit var sleep: PokemonPose
     lateinit var standing: PokemonPose
@@ -31,7 +31,7 @@ class PoliwagModel(root: ModelPart) : PokemonPoseableModel() {
     lateinit var swim: PokemonPose
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("poliwag", "blink").setPreventsIdle(false)}
+        val blink = quirk { bedrockStateful("poliwag", "blink")}
         standing = registerPose(
             poseName = "standing",
             poseTypes = STANDING_POSES + UI_POSES,

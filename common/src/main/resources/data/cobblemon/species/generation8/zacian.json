@@ -61,9 +61,16 @@
       ],
       "height": 28,
       "weight": 3550,
-      "evolutions": [],
       "cannotDynamax": true,
-      "battleOnly": true
+      "battleOnly": true,
+      "drops": {
+        "amount": 1,
+        "entries": [
+          {
+            "item": "minecraft:diamond_sword"
+          }
+        ]
+      }
     }
   ],
   "baseExperienceYield": 335,

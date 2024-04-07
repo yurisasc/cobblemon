@@ -9,21 +9,24 @@
 package com.cobblemon.mod.common.api.storage.party
 
 import com.cobblemon.mod.common.Cobblemon
+import com.cobblemon.mod.common.advancement.CobblemonCriteria
+import com.cobblemon.mod.common.advancement.criterion.PartyCheckContext
+import com.cobblemon.mod.common.api.pokemon.evolution.Evolution
 import com.cobblemon.mod.common.api.pokemon.evolution.PassiveEvolution
 import com.cobblemon.mod.common.api.storage.pc.PCStore
 import com.cobblemon.mod.common.battles.BattleRegistry
+import com.cobblemon.mod.common.pokemon.OriginalTrainerType
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.pokemon.activestate.ShoulderedState
-import com.cobblemon.mod.common.util.DataKeys
-import com.cobblemon.mod.common.util.getPlayer
-import com.cobblemon.mod.common.util.isPokemonEntity
-import com.cobblemon.mod.common.util.lang
-import java.util.UUID
-import kotlin.math.round
-import kotlin.random.Random
+import com.cobblemon.mod.common.pokemon.evolution.variants.LevelUpEvolution
+import com.cobblemon.mod.common.util.*
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.text.Text
+import java.util.*
+import kotlin.math.ceil
+import kotlin.math.round
+import kotlin.random.Random
 
 /**
  * A [PartyStore] used for a single player. This uses the player's UUID as the store's UUID, and is declared as its own
@@ -35,10 +38,14 @@ import net.minecraft.text.Text
  */
 open class PlayerPartyStore(
     /** The UUID of the player this store is for. */
-    val playerUUID: UUID
-) : PartyStore(playerUUID) {
+    val playerUUID: UUID,
+    /** The UUID of the store. This is the same as [playerUUID] by default, but can be changed to allow for multiple parties. */
+    storageUUID: UUID = playerUUID
+) : PartyStore(storageUUID) {
 
     private var secondsSinceFriendshipUpdate = 0
+
+    constructor(playerUUID: UUID): this(playerUUID, playerUUID)
 
     override fun initialize() {
         super.initialize()
@@ -50,7 +57,13 @@ open class PlayerPartyStore(
     }
 
     override fun add(pokemon: Pokemon): Boolean {
+        if (pokemon.originalTrainerType == OriginalTrainerType.NONE) {
+            pokemon.setOriginalTrainer(playerUUID)
+        }
+        pokemon.refreshOriginalTrainer()
+
         return if (super.add(pokemon)) {
+            pokemon.getOwnerPlayer()?.let { CobblemonCriteria.PARTY_CHECK.trigger(it, PartyCheckContext(this)) }
             true
         } else {
             val player = playerUUID.getPlayer()
@@ -83,7 +96,8 @@ open class PlayerPartyStore(
                 if (pokemon.isFainted()) {
                     pokemon.faintedTimer -= 1
                     if (pokemon.faintedTimer <= -1) {
-                        pokemon.currentHealth = (pokemon.hp * Cobblemon.config.faintAwakenHealthPercent).toInt()
+                        val php = ceil(pokemon.hp * Cobblemon.config.faintAwakenHealthPercent)
+                        pokemon.currentHealth = php.toInt()
                         player.sendMessage(Text.translatable("cobblemon.party.faintRecover", pokemon.getDisplayName()))
                     }
                 }
@@ -93,7 +107,7 @@ open class PlayerPartyStore(
                     if (pokemon.healTimer <= -1) {
                         pokemon.healTimer = Cobblemon.config.healTimer
                         val healAmount = 1.0.coerceAtLeast(pokemon.hp.toDouble() * Cobblemon.config.healPercent)
-                        pokemon.currentHealth = pokemon.currentHealth + round(healAmount).toInt();
+                        pokemon.currentHealth = pokemon.currentHealth + round(healAmount).toInt()
                     }
                 }
 
@@ -111,6 +125,12 @@ open class PlayerPartyStore(
 
                 // Passive evolutions
                 pokemon.evolutions.filterIsInstance<PassiveEvolution>().forEach { it.attemptEvolution(pokemon) }
+                val removeList = mutableListOf<Evolution>()
+                pokemon.evolutionProxy.server().forEach {
+                    if (!it.test(pokemon) && it is LevelUpEvolution && !it.permanent)
+                        removeList.add(it)
+                }
+                removeList.forEach { pokemon.evolutionProxy.server().remove(it) }
             }
             // Friendship
             // ToDo expand this down the line just a very basic implementation for the first releases
@@ -148,5 +168,32 @@ open class PlayerPartyStore(
             return false
         }
         return true
+    }
+
+    override fun swap(position1: PartyPosition, position2: PartyPosition) {
+        super.swap(position1, position2)
+
+        //Make it so we can check what's in the Player's party
+        val pokemon1 = get(position1)
+        val pokemon2 = get(position2)
+        if (pokemon1 != null && pokemon2 != null) {
+            val player = pokemon1.getOwnerPlayer()
+            if (player != null) {
+                CobblemonCriteria.PARTY_CHECK.trigger(player, PartyCheckContext(this))
+            }
+        } else if (pokemon1 != null || pokemon2 != null) {
+            var player = pokemon1?.getOwnerPlayer()
+            if (player != null) {
+                CobblemonCriteria.PARTY_CHECK.trigger(player, PartyCheckContext(this))
+            } else {
+                player = pokemon2!!.getOwnerPlayer()
+                CobblemonCriteria.PARTY_CHECK.trigger(player!!, PartyCheckContext(this))
+            }
+        }
+    }
+
+    override fun set(position: PartyPosition, pokemon: Pokemon) {
+        super.set(position, pokemon)
+        pokemon.getOwnerPlayer()?.let { CobblemonCriteria.PARTY_CHECK.trigger(it, PartyCheckContext(this)) }
     }
 }

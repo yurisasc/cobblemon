@@ -9,10 +9,11 @@
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen6
 
 import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
-import com.cobblemon.mod.common.client.render.models.blockbench.asTransformed
+import com.cobblemon.mod.common.client.render.models.blockbench.createTransformation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BimanualFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cobblemon.mod.common.entity.PoseType
@@ -30,11 +31,11 @@ class GreninjaModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bipe
     val shurikenright = getPart("hand_shuriken_right")
     val shurikenleft = getPart("hand_shuriken_left")
 
-    override val portraitScale = 2.2F
-    override val portraitTranslation = Vec3d(-0.1, 1.34, 0.0)
+    override var portraitScale = 2.2F
+    override var portraitTranslation = Vec3d(-0.1, 1.34, 0.0)
 
-    override val profileScale = 0.7F
-    override val profileTranslation = Vec3d(0.0, 0.7, 0.0)
+    override var profileScale = 0.7F
+    override var profileTranslation = Vec3d(0.0, 0.7, 0.0)
 
     lateinit var sleep: PokemonPose
     lateinit var standing: PokemonPose
@@ -43,15 +44,16 @@ class GreninjaModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bipe
     lateinit var walk: PokemonPose
     lateinit var battleidle: PokemonPose
 
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("greninja", "cry") }
+
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("greninja", "blink").setPreventsIdle(false)}
+        val blink = quirk { bedrockStateful("greninja", "blink")}
         sleep = registerPose(
                 poseType = PoseType.SLEEP,
                 transformTicks = 10,
-                quirks = arrayOf(blink),
                 transformedParts = arrayOf(
-                        shurikenleft.asTransformed().withVisibility(visibility = false),
-                        shurikenright.asTransformed().withVisibility(visibility = false)
+                        shurikenleft.createTransformation().withVisibility(visibility = false),
+                        shurikenright.createTransformation().withVisibility(visibility = false)
                 ),
                 idleAnimations = arrayOf(bedrock("greninja", "sleep"))
         )
@@ -63,8 +65,8 @@ class GreninjaModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bipe
                 quirks = arrayOf(blink),
                 condition = { !it.isBattling },
                 transformedParts = arrayOf(
-                        shurikenleft.asTransformed().withVisibility(visibility = false),
-                        shurikenright.asTransformed().withVisibility(visibility = false)
+                        shurikenleft.createTransformation().withVisibility(visibility = false),
+                        shurikenright.createTransformation().withVisibility(visibility = false)
                 ),
                 idleAnimations = arrayOf(
                         singleBoneLook(),
@@ -77,10 +79,9 @@ class GreninjaModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bipe
                 poseType = PoseType.WALK,
                 transformTicks = 10,
                 quirks = arrayOf(blink),
-                condition = { !it.isBattling },
                 transformedParts = arrayOf(
-                        shurikenleft.asTransformed().withVisibility(visibility = false),
-                        shurikenright.asTransformed().withVisibility(visibility = false)
+                        shurikenleft.createTransformation().withVisibility(visibility = false),
+                        shurikenright.createTransformation().withVisibility(visibility = false)
                 ),
                 idleAnimations = arrayOf(
                         singleBoneLook(),
@@ -95,8 +96,8 @@ class GreninjaModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bipe
                 quirks = arrayOf(blink),
                 condition = { !it.isBattling },
                 transformedParts = arrayOf(
-                        shurikenleft.asTransformed().withVisibility(visibility = false),
-                        shurikenright.asTransformed().withVisibility(visibility = false)
+                        shurikenleft.createTransformation().withVisibility(visibility = false),
+                        shurikenright.createTransformation().withVisibility(visibility = false)
                 ),
                 idleAnimations = arrayOf(
                         singleBoneLook(),
@@ -111,8 +112,8 @@ class GreninjaModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bipe
                 quirks = arrayOf(blink),
                 condition = { !it.isBattling },
                 transformedParts = arrayOf(
-                        shurikenleft.asTransformed().withVisibility(visibility = false),
-                        shurikenright.asTransformed().withVisibility(visibility = false)
+                        shurikenleft.createTransformation().withVisibility(visibility = false),
+                        shurikenright.createTransformation().withVisibility(visibility = false)
                 ),
                 idleAnimations = arrayOf(
                         singleBoneLook(),
@@ -127,8 +128,8 @@ class GreninjaModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bipe
                 quirks = arrayOf(blink),
                 condition = { it.isBattling },
                 transformedParts = arrayOf(
-                        shurikenleft.asTransformed().withVisibility(visibility = false),
-                        shurikenright.asTransformed().withVisibility(visibility = false)
+                        shurikenleft.createTransformation().withVisibility(visibility = false),
+                        shurikenright.createTransformation().withVisibility(visibility = false)
                 ),
                 idleAnimations = arrayOf(
                         singleBoneLook(),
@@ -141,5 +142,5 @@ class GreninjaModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bipe
     override fun getFaintAnimation(
             pokemonEntity: PokemonEntity,
             state: PoseableEntityState<PokemonEntity>
-    ) = if (state.isPosedIn(standing, walk, battleidle, swim, float)) bedrockStateful("greninja", "faint") else null
+    ) = if (state.isPosedIn(standing, walk, battleidle, swim, float, sleep)) bedrockStateful("greninja", "faint") else null
 }

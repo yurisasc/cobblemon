@@ -55,4 +55,8 @@ object PlatformEvents {
 
     @JvmField
     val CHANGE_DIMENSION = EventObservable<ChangeDimensionEvent>()
+
+    @JvmField
+    val CLIENT_ITEM_TOOLTIP = EventObservable<ItemTooltipEvent>()
+
 }

@@ -8,14 +8,16 @@
 
 package com.cobblemon.mod.common.client.gui.startselection.widgets
 
+import com.cobblemon.mod.common.CobblemonSounds
 import com.cobblemon.mod.common.api.gui.blitk
 import com.cobblemon.mod.common.client.gui.startselection.StarterSelectionScreen
 import com.cobblemon.mod.common.client.render.drawScaledText
 import com.cobblemon.mod.common.config.starter.RenderableStarterCategory
 import com.cobblemon.mod.common.util.cobblemonResource
 import net.minecraft.client.MinecraftClient
-import net.minecraft.client.gui.DrawableHelper
+import net.minecraft.client.gui.DrawContext
 import net.minecraft.client.gui.widget.AlwaysSelectedEntryListWidget
+import net.minecraft.client.sound.PositionedSoundInstance
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.text.Text
 
@@ -59,19 +61,19 @@ class CategoryList(
         Category(it)
     }
 
-    override fun render(matrices: MatrixStack, mouseX: Int, mouseY: Int, delta: Float) {
+    override fun render(context: DrawContext, mouseX: Int, mouseY: Int, delta: Float) {
         if (!entriesCreated) {
             createEntries().forEach { addEntry(it) }
             entriesCreated = true
         }
-        DrawableHelper.enableScissor(
+        context.enableScissor(
             x,
             y,
             x + width,
             y + height
         )
-        super.render(matrices, mouseX, mouseY, delta)
-        DrawableHelper.disableScissor()
+        super.render(context, mouseX, mouseY, delta)
+        context.disableScissor()
     }
 
     private fun correctSize() {
@@ -89,7 +91,7 @@ class CategoryList(
     inner class Category(private val category: RenderableStarterCategory) : Entry<Category>() {
 
         override fun render(
-            matrices: MatrixStack,
+            context: DrawContext,
             index: Int,
             y: Int,
             x: Int,
@@ -100,6 +102,7 @@ class CategoryList(
             hovered: Boolean,
             tickDelta: Float
         ) {
+            val matrices = context.matrices
             val isHovered = mouseX >= x && mouseY >= y && mouseX < x + entryWidth && mouseY < y + (entryHeight - 1)
             if (isHovered) {
                 blitk(
@@ -117,7 +120,7 @@ class CategoryList(
                     width = CATEGORY_BUTTON_WIDTH, height = CATEGORY_BUTTON_HEIGHT
                 )
             drawScaledText(
-                matrixStack = matrices,
+                context = context,
                 text = category.displayNameText,
                 x = x + 28,
                 y = y + 4.5F,
@@ -130,6 +133,7 @@ class CategoryList(
 
         override fun mouseClicked(mouseX: Double, mouseY: Double, button: Int): Boolean {
             starterSelectionScreen.changeCategory(category = category)
+            minecraft.soundManager.play(PositionedSoundInstance.master(CobblemonSounds.GUI_CLICK, 1.0F))
             return true
         }
 

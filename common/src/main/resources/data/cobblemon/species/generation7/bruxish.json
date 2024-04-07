@@ -8,6 +8,22 @@
     "strongjaw",
     "h:wonderskin"
   ],
+  "drops": {
+    "amount": 3,
+    "entries": [
+      {
+        "item": "minecraft:cod"
+      },
+      {
+        "item": "minecraft:bone_meal",
+        "percentage": 5.0
+      },
+      {
+        "item": "cobblemon:razor_fang",
+        "percentage": 5.0
+      }
+    ]
+  },
   "baseStats": {
     "hp": 68,
     "attack": 105,
@@ -58,8 +74,10 @@
     "tm:dreameater",
     "tm:embargo",
     "tm:endure",
+    "tm:expandingforce",
     "tm:facade",
     "tm:fling",
+    "tm:flipturn",
     "tm:frostbreath",
     "tm:frustration",
     "tm:gigaimpact",
@@ -71,10 +89,12 @@
     "tm:icywind",
     "tm:lightscreen",
     "tm:liquidation",
+    "tm:painsplit",
     "tm:payback",
     "tm:protect",
     "tm:psychic",
     "tm:psychicfangs",
+    "tm:psychicnoise",
     "tm:psychicterrain",
     "tm:psyshock",
     "tm:raindance",
@@ -87,6 +107,7 @@
     "tm:scaryface",
     "tm:sleeptalk",
     "tm:substitute",
+    "tm:superfang",
     "tm:surf",
     "tm:swagger",
     "tm:swordsdance",
@@ -99,6 +120,7 @@
     "tm:venoshock",
     "tm:waterfall",
     "tm:waterpulse",
+    "tm:whirlpool",
     "tutor:afteryou",
     "tutor:allyswitch",
     "tutor:aquatail",

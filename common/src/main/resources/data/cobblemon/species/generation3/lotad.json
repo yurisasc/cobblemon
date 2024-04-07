@@ -27,12 +27,39 @@
     "water_1",
     "grass"
   ],
+  "behaviour": {
+    "moving": {
+      "walk": {
+        "walkSpeed": 0.2
+      },
+      "swim": {
+        "swimSpeed": 0.3,
+        "canSwimInWater": true,
+        "canBreatheUnderwater": true,
+        "canWalkOnWater": true
+      }
+    },
+    "resting": {
+      "canSleep": true,
+      "willSleepOnBed": false,
+      "depth": "normal",
+      "light": "0-4"
+    }
+  },
   "drops": {
-    "amount": "1",
+    "amount": 3,
     "entries": [
       {
         "item": "minecraft:lily_pad",
-        "percentage": 50
+        "quantityRange": "0-1"
+      },
+      {
+        "item": "cobblemon:mental_herb",
+        "percentage": 2.5
+      },
+      {
+        "item": "cobblemon:kebia_berry",
+        "percentage": 2.5
       }
     ]
   },
@@ -47,6 +74,7 @@
     "12:naturalgift",
     "16:flail",
     "20:bubblebeam",
+    "24:leechseed",
     "24:naturepower",
     "28:gigadrain",
     "33:raindance",
@@ -67,8 +95,11 @@
     "tm:bodyslam",
     "tm:bulletseed",
     "tm:captivate",
+    "tm:chillingwater",
     "tm:confide",
+    "tm:disarmingvoice",
     "tm:doubleteam",
+    "tm:doubleedge",
     "tm:echoedvoice",
     "tm:endure",
     "tm:energyball",
@@ -77,10 +108,14 @@
     "tm:frustration",
     "tm:gigadrain",
     "tm:grassknot",
+    "tm:grassyglide",
+    "tm:grassyterrain",
     "tm:hail",
     "tm:hiddenpower",
     "tm:icebeam",
     "tm:icywind",
+    "tm:magicalleaf",
+    "tm:muddywater",
     "tm:naturalgift",
     "tm:naturepower",
     "tm:protect",
@@ -99,10 +134,14 @@
     "tm:surf",
     "tm:swagger",
     "tm:swordsdance",
+    "tm:takedown",
+    "tm:terablast",
     "tm:thief",
     "tm:toxic",
+    "tm:trailblaze",
     "tm:uproar",
     "tm:waterpulse",
+    "tm:weatherball",
     "tm:whirlpool",
     "tm:zenheadbutt",
     "tutor:absorb",

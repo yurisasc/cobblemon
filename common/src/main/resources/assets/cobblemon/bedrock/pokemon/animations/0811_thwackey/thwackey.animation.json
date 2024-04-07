@@ -232,32 +232,29 @@
 			}
 		},
 		"animation.thwackey.cry": {
-			"animation_length": 2,
+			"animation_length": 1.08333,
 			"bones": {
-				"neck": {
-					"rotation": {
-						"0.0": [0, 0, 0],
-						"0.25": [10, 0, 0],
-						"1.25": [10, 0, 0],
-						"1.5": [0, 0, 0]
-					}
-				},
 				"head": {
 					"rotation": {
 						"0.0": ["0+math.sin(q.anim_time*90*6+45)*2", 0, 0],
-						"0.25": ["0+math.sin(q.anim_time*90*6+45)*4", 0, 0],
-						"0.3333": ["-5+math.sin(q.anim_time*90*3+95)*4", 0, 0],
-						"1.0": ["-5+math.sin(q.anim_time*90*3)*2", 0, 0],
-						"1.5": [0, 0, 0]
+						"0.0833": ["0+math.sin(q.anim_time*90*6+45)*4", 0, 0],
+						"0.1667": ["-5+math.sin(q.anim_time*90*3+95)*4", 0, 0],
+						"0.75": ["-5+math.sin(q.anim_time*90*3)*2", 0, 0],
+						"1.0833": [0, 0, 0]
 					}
 				},
 				"jaw": {
 					"rotation": {
 						"0.0": [0, 0, 0],
 						"0.25": [25, 0, 0],
-						"1.25": [25, 0, 0],
-						"1.5": [0, 0, 0]
+						"0.75": [25, 0, 0],
+						"1.0833": [0, 0, 0]
 					}
+				}
+			},
+			"sound_effects": {
+				"0.1667": {
+					"effect": "pokemon.thwackey.cry"
 				}
 			}
 		}

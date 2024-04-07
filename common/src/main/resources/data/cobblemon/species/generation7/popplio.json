@@ -17,7 +17,7 @@
   },
   "catchRate": 45,
   "maleRatio": 0.875,
-  "shoulderMountable": false,
+  "shoulderMountable": true,
   "baseExperienceYield": 64,
   "experienceGroup": "medium_slow",
   "eggCycles": 15,
@@ -25,12 +25,29 @@
     "water_1",
     "field"
   ],
+  "behaviour": {
+    "moving": {
+      "walk": {
+        "walkSpeed": 0.15
+      },
+      "swim": {
+        "canSwimInWater": true,
+        "canBreatheUnderwater": true
+      }
+    },
+    "resting": {
+      "canSleep": true,
+      "willSleepOnBed": true,
+      "depth": "normal",
+      "light": "0-4"
+    }
+  },
   "drops": {
-    "amount": "1",
+    "amount": 1,
     "entries": [
       {
         "item": "cobblemon:mystic_water",
-        "percentage": 5
+        "percentage": 5.0
       }
     ]
   },
@@ -64,7 +81,9 @@
     "tm:blizzard",
     "tm:brine",
     "tm:charm",
+    "tm:chillingwater",
     "tm:confide",
+    "tm:disarmingvoice",
     "tm:dive",
     "tm:doubleteam",
     "tm:drainingkiss",
@@ -72,6 +91,7 @@
     "tm:encore",
     "tm:endure",
     "tm:facade",
+    "tm:flipturn",
     "tm:frustration",
     "tm:hail",
     "tm:helpinghand",
@@ -79,6 +99,7 @@
     "tm:hydropump",
     "tm:hypervoice",
     "tm:icebeam",
+    "tm:icespinner",
     "tm:icywind",
     "tm:irontail",
     "tm:mistyterrain",
@@ -94,9 +115,14 @@
     "tm:substitute",
     "tm:surf",
     "tm:swagger",
+    "tm:swift",
+    "tm:terablast",
     "tm:toxic",
+    "tm:tripleaxel",
     "tm:uproar",
     "tm:waterfall",
+    "tm:waterpledge",
+    "tm:waterpulse",
     "tm:whirlpool",
     "tm:wonderroom",
     "tm:workup",

@@ -9,13 +9,10 @@
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen3
 
 import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
-import com.cobblemon.mod.common.client.render.models.blockbench.animation.BipedWalkAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
-import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cobblemon.mod.common.entity.PoseType
-import com.cobblemon.mod.common.entity.PoseType.Companion.MOVING_POSES
 import com.cobblemon.mod.common.entity.PoseType.Companion.STATIONARY_POSES
 import com.cobblemon.mod.common.entity.PoseType.Companion.UI_POSES
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
@@ -28,11 +25,11 @@ class NosepassModel(root: ModelPart) : PokemonPoseableModel(), BipedFrame {
     override val leftLeg = getPart("leg_left")
     override val rightLeg = getPart("leg_right")
 
-    override val portraitScale = 1.5F
-    override val portraitTranslation = Vec3d(-0.1, -0.1, 0.0)
+    override var portraitScale = 1.5F
+    override var portraitTranslation = Vec3d(-0.1, -0.1, 0.0)
 
-    override val profileScale = 0.75F
-    override val profileTranslation = Vec3d(0.0, 0.65, 0.0)
+    override var profileScale = 0.75F
+    override var profileTranslation = Vec3d(0.0, 0.65, 0.0)
 
     lateinit var sleep: PokemonPose
     lateinit var standing: PokemonPose

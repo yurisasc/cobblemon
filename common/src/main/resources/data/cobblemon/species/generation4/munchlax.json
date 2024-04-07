@@ -8,6 +8,23 @@
     "thickfat",
     "h:gluttony"
   ],
+  "drops": {
+    "amount": 5,
+    "entries": [
+      {
+        "item": "minecraft:apple",
+        "quantityRange": "0-3"
+      },
+      {
+        "item": "cobblemon:leftovers",
+        "percentage": 2.5
+      },
+      {
+        "item": "cobblemon:chesto_berry",
+        "percentage": 2.5
+      }
+    ]
+  },
   "baseStats": {
     "hp": 135,
     "attack": 85,
@@ -25,17 +42,6 @@
   "eggGroups": [
     "undiscovered"
   ],
-  "drops": {
-    "amount": "1",
-    "entries": [
-      {
-        "item": "minecraft:apple",
-        "quantityRange": "1-3",
-        "percentage": 75,
-        "maxSelectableTimes": 2
-      }
-    ]
-  },
   "moves": [
     "1:lastresort",
     "1:lick",
@@ -105,7 +111,12 @@
     "tm:bulldoze",
     "tm:captivate",
     "tm:charm",
+    "tm:chillingwater",
     "tm:confide",
+    "tm:crunch",
+    "tm:curse",
+    "tm:dig",
+    "tm:doubleedge",
     "tm:doubleteam",
     "tm:earthquake",
     "tm:encore",
@@ -117,7 +128,9 @@
     "tm:fling",
     "tm:focuspunch",
     "tm:frustration",
+    "tm:gigaimpact",
     "tm:gunkshot",
+    "tm:helpinghand",
     "tm:hiddenpower",
     "tm:hydropump",
     "tm:hypervoice",
@@ -128,6 +141,7 @@
     "tm:megakick",
     "tm:megapunch",
     "tm:metronome",
+    "tm:mudslap",
     "tm:naturalgift",
     "tm:payday",
     "tm:poweruppunch",
@@ -160,10 +174,13 @@
     "tm:superpower",
     "tm:surf",
     "tm:swagger",
+    "tm:takedown",
+    "tm:terablast",
     "tm:thunder",
     "tm:thunderbolt",
     "tm:thunderpunch",
     "tm:toxic",
+    "tm:trailblaze",
     "tm:uproar",
     "tm:waterpulse",
     "tm:whirlpool",
@@ -183,6 +200,7 @@
     "tutor:icepunch",
     "tutor:icywind",
     "tutor:lastresort",
+    "tutor:lick",
     "tutor:metronome",
     "tutor:mudslap",
     "tutor:odorsleuth",

@@ -11,6 +11,7 @@ package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen3
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.QuadrupedWalkAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.QuadrupedFrame
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cobblemon.mod.common.entity.PoseType
@@ -24,22 +25,24 @@ class MudkipModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quadru
 
     override val hindLeftLeg = getPart("leg_back_left")
     override val hindRightLeg = getPart("leg_back_right")
-    override val foreLeftLeg = getPart("leg_front_left")
+    override val foreLeftLeg= getPart("leg_front_left")
     override val foreRightLeg = getPart("leg_front_right")
 
-    override val portraitScale = 2.3F
-    override val portraitTranslation = Vec3d(-0.25, -1.2, 0.0)
+    override var portraitScale = 2.3F
+    override var portraitTranslation = Vec3d(-0.25, -1.2, 0.0)
 
-    override val profileScale = 0.9F
-    override val profileTranslation = Vec3d(0.0, 0.4, 0.0)
+    override var profileScale = 0.9F
+    override var profileTranslation = Vec3d(0.0, 0.4, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
     lateinit var float: PokemonPose
     lateinit var swim: PokemonPose
 
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("mudkip", "cry") }
+
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("mudkip", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("mudkip", "blink") }
         standing = registerPose(
             poseName = "standing",
             poseTypes = UI_POSES + PoseType.STAND,

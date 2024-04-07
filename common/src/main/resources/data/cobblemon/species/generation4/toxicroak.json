@@ -8,6 +8,19 @@
     "dryskin",
     "h:poisontouch"
   ],
+  "drops": {
+    "amount": 2,
+    "entries": [
+      {
+        "item": "cobblemon:black_sludge",
+        "percentage": 5.0
+      },
+      {
+        "item": "cobblemon:payapa_berry",
+        "percentage": 5.0
+      }
+    ]
+  },
   "baseStats": {
     "hp": 83,
     "attack": 106,
@@ -70,6 +83,7 @@
     "tm:captivate",
     "tm:chillingwater",
     "tm:closecombat",
+    "tm:coaching",
     "tm:confide",
     "tm:crosspoison",
     "tm:cut",
@@ -94,6 +108,8 @@
     "tm:hyperbeam",
     "tm:icepunch",
     "tm:icywind",
+    "tm:knockoff",
+    "tm:lashout",
     "tm:lowkick",
     "tm:lowsweep",
     "tm:megakick",
@@ -127,10 +143,12 @@
     "tm:sludgewave",
     "tm:snatch",
     "tm:snore",
+    "tm:spite",
     "tm:stoneedge",
     "tm:strength",
     "tm:substitute",
     "tm:sunnyday",
+    "tm:superfang",
     "tm:swagger",
     "tm:swordsdance",
     "tm:takedown",
@@ -141,6 +159,8 @@
     "tm:thunderpunch",
     "tm:torment",
     "tm:toxic",
+    "tm:upperhand",
+    "tm:vacuumwave",
     "tm:venomdrench",
     "tm:venoshock",
     "tm:workup",

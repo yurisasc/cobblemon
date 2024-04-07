@@ -40,7 +40,7 @@ object OpenStarterScreenCommand {
         val player = EntityArgumentType.getPlayer(context, "player")
         val playerData = Cobblemon.playerData.get(player)
         if (playerData.starterSelected) {
-            context.source.sendFeedback(lang("ui.starter.hasalreadychosen", player.name).red(), true)
+            context.source.sendFeedback({ lang("ui.starter.hasalreadychosen", player.name).red() }, true)
             return 0
         }
         if (playerData.starterLocked) {

@@ -9,7 +9,6 @@
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1
 
 import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
-import com.cobblemon.mod.common.client.render.models.blockbench.animation.BipedWalkAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
@@ -21,24 +20,25 @@ import com.cobblemon.mod.common.entity.PoseType.Companion.UI_POSES
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
+
 class PorygonModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedFrame {
     override val rootPart = root.registerChildWithAllChildren("porygon")
     override val head = getPart("head")
     override val leftLeg = getPart("leg_left")
     override val rightLeg = getPart("leg_right")
 
-    override val portraitScale = 2.0F
-    override val portraitTranslation = Vec3d(-0.2, 0.5, 0.0)
+    override var portraitScale = 2.0F
+    override var portraitTranslation = Vec3d(-0.2, 0.5, 0.0)
 
-    override val profileScale = 1.0F
-    override val profileTranslation = Vec3d(0.0, 0.8, 0.0)
+    override var profileScale = 1.0F
+    override var profileTranslation = Vec3d(0.0, 0.8, 0.0)
 
     lateinit var sleep: PokemonPose
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("porygonz", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("porygonz", "blink") }
         sleep = registerPose(
             poseType = PoseType.SLEEP,
             idleAnimations = arrayOf(bedrock("porygon", "sleep"))
@@ -70,5 +70,5 @@ class PorygonModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Biped
     override fun getFaintAnimation(
         pokemonEntity: PokemonEntity,
         state: PoseableEntityState<PokemonEntity>
-    ) = if (state.isPosedIn(standing, walk)) bedrockStateful("porygon", "faint2") else null
+    ) = bedrockStateful("porygon", "faint2")
 }

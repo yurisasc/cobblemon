@@ -5,6 +5,15 @@
   "abilities": [
     "levitate"
   ],
+  "drops": {
+    "amount": 2,
+    "entries": [
+      {
+        "item": "minecraft:slime_ball",
+        "quantityRange": "0-2"
+      }
+    ]
+  },
   "baseStats": {
     "hp": 65,
     "attack": 85,
@@ -42,6 +51,7 @@
     "tm:acrobatics",
     "tm:attract",
     "tm:bodyslam",
+    "tm:charge",
     "tm:chargebeam",
     "tm:confide",
     "tm:crunch",
@@ -49,6 +59,7 @@
     "tm:eerieimpulse",
     "tm:electricterrain",
     "tm:electroball",
+    "tm:electroweb",
     "tm:endure",
     "tm:facade",
     "tm:flash",
@@ -56,7 +67,9 @@
     "tm:frustration",
     "tm:gigadrain",
     "tm:hiddenpower",
+    "tm:knockoff",
     "tm:lightscreen",
+    "tm:lunge",
     "tm:protect",
     "tm:raindance",
     "tm:rest",
@@ -66,9 +79,11 @@
     "tm:secretpower",
     "tm:sleeptalk",
     "tm:substitute",
+    "tm:superfang",
     "tm:swagger",
     "tm:takedown",
     "tm:terablast",
+    "tm:throatchop",
     "tm:thunder",
     "tm:thunderbolt",
     "tm:thunderfang",

@@ -46,14 +46,18 @@
     "tm:blizzard",
     "tm:brine",
     "tm:captivate",
+    "tm:chillingwater",
     "tm:confide",
+    "tm:confuseray",
     "tm:dive",
+    "tm:doubleedge",
     "tm:doubleteam",
     "tm:dragonpulse",
     "tm:endure",
     "tm:facade",
     "tm:frustration",
     "tm:hail",
+    "tm:haze",
     "tm:hiddenpower",
     "tm:icebeam",
     "tm:icywind",
@@ -68,6 +72,7 @@
     "tm:return",
     "tm:round",
     "tm:scald",
+    "tm:scaleshot",
     "tm:secretpower",
     "tm:sleeptalk",
     "tm:snore",
@@ -75,6 +80,7 @@
     "tm:surf",
     "tm:swagger",
     "tm:swift",
+    "tm:terablast",
     "tm:toxic",
     "tm:waterfall",
     "tm:waterpulse",
@@ -138,5 +144,21 @@
   "height": 6,
   "weight": 74,
   "aspects": [],
-  "cannotDynamax": false
+  "cannotDynamax": false,
+  "drops": {
+    "amount": 3,
+    "entries": [
+      {
+        "item": "minecraft:salmon"
+      },
+      {
+        "item": "minecraft:bone_meal",
+        "percentage": 5.0
+      },
+      {
+        "item": "cobblemon:prism_scale",
+        "percentage": 2.5
+      }
+    ]
+  }
 }

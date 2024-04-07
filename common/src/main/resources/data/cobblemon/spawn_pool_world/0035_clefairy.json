@@ -12,10 +12,11 @@
             "type": "pokemon",
             "context": "grounded",
             "bucket": "uncommon",
-            "level": "20-32",
+            "level": "17-32",
             "weight": 0.9,
             "condition": {
-				"canSeeSky": true,
+                "minSkyLight": 8,
+                "maxSkyLight": 15,
                 "biomes": [
                     "#cobblemon:is_dripstone"
                 ],
@@ -26,15 +27,16 @@
             "id": "clefairy-2",
             "pokemon": "clefairy",
             "presets": [
-                "underground"
+                "natural"
             ],
             "type": "pokemon",
             "context": "grounded",
             "bucket": "uncommon",
-            "level": "20-32",
+            "level": "17-32",
             "weight": 0.9,
             "condition": {
-                "canSeeSky": false,
+                "minSkyLight": 0,
+                "maxSkyLight": 7,
                 "biomes": [
                     "#cobblemon:is_dripstone"
                 ]
@@ -43,36 +45,38 @@
         {
             "id": "clefairy-3",
             "pokemon": "clefairy",
-			"presets": [
+            "presets": [
                 "natural"
             ],
             "type": "pokemon",
             "context": "grounded",
             "bucket": "uncommon",
-            "level": "20-32",
+            "level": "17-32",
             "weight": 0.9,
             "condition": {
-                "canSeeSky": true,
+                "minSkyLight": 8,
+                "maxSkyLight": 15,
                 "biomes": [
                     "#cobblemon:is_hills"
                 ],
                 "timeRange": "night",
-				"moonPhase": 1
+                "moonPhase": "0"
             }
         },
         {
             "id": "clefairy-4",
             "pokemon": "clefairy",
-			"presets": [
+            "presets": [
                 "natural"
             ],
             "type": "pokemon",
             "context": "grounded",
             "bucket": "uncommon",
-            "level": "20-32",
+            "level": "17-32",
             "weight": 0.9,
             "condition": {
-                "canSeeSky": true,
+                "minSkyLight": 8,
+                "maxSkyLight": 15,
                 "biomes": [
                     "#cobblemon:is_magical"
                 ],

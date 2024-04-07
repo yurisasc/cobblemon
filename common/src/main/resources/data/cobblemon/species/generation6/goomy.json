@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Goomy",
   "nationalPokedexNumber": 704,
   "primaryType": "dragon",
@@ -51,6 +52,7 @@
     "tm:charm",
     "tm:chillingwater",
     "tm:confide",
+    "tm:curse",
     "tm:doubleteam",
     "tm:dracometeor",
     "tm:dragonpulse",
@@ -70,6 +72,7 @@
     "tm:rockslide",
     "tm:round",
     "tm:secretpower",
+    "tm:skittersmack",
     "tm:sleeptalk",
     "tm:sludgebomb",
     "tm:sludgewave",
@@ -118,7 +121,7 @@
     {
       "id": "goomy_sliggoo",
       "variant": "level_up",
-      "result": "sliggoo form=hisui",
+      "result": "sliggoo hisuian",
       "consumeHeldItem": false,
       "learnableMoves": [
         "shelter"
@@ -133,8 +136,8 @@
   ],
   "baseScale": 1,
   "hitbox": {
-    "width": 1,
-    "height": 1,
+    "width": 0.83,
+    "height": 0.7,
     "fixed": false
   },
   "baseFriendship": 35,
@@ -149,5 +152,18 @@
   "height": 3,
   "weight": 28,
   "aspects": [],
-  "cannotDynamax": false
+  "cannotDynamax": false,
+  "drops": {
+    "amount": 2,
+    "entries": [
+      {
+        "item": "minecraft:slime_ball",
+        "quantityRange": "0-1"
+      },
+      {
+        "item": "cobblemon:haban_berry",
+        "percentage": 2.5
+      }
+    ]
+  }
 }

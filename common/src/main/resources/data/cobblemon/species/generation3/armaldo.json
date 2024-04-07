@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Armaldo",
   "nationalPokedexNumber": 348,
   "primaryType": "rock",
@@ -141,7 +142,7 @@
   "baseScale": 1,
   "hitbox": {
     "width": 1,
-    "height": 1,
+    "height": 2.2,
     "fixed": false
   },
   "baseFriendship": 50,
@@ -156,5 +157,14 @@
   "height": 15,
   "weight": 682,
   "aspects": [],
-  "cannotDynamax": false
+  "cannotDynamax": false,
+  "drops": {
+    "amount": 3,
+    "entries": [
+      {
+        "item": "minecraft:scute",
+        "quantityRange": "0-3"
+      }
+    ]
+  }
 }

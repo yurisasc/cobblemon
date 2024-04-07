@@ -8,6 +8,10 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1
 
+import com.cobblemon.mod.common.client.render.models.blockbench.animation.BimanualSwingAnimation
+import com.cobblemon.mod.common.client.render.models.blockbench.animation.BipedWalkAnimation
+import com.cobblemon.mod.common.client.render.models.blockbench.frame.BimanualFrame
+import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
@@ -16,15 +20,21 @@ import com.cobblemon.mod.common.entity.PoseType.Companion.STATIONARY_POSES
 import com.cobblemon.mod.common.entity.PoseType.Companion.UI_POSES
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
-class RhydonModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
+
+class RhydonModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedFrame, BimanualFrame {
     override val rootPart = root.registerChildWithAllChildren("rhydon")
     override val head = getPart("head")
 
-    override val portraitScale = 1.9F
-    override val portraitTranslation = Vec3d(-0.45, 0.8, 0.0)
+    override val leftArm = getPart("leftarm")
+    override val rightArm = getPart("rightarm")
+    override val leftLeg = getPart("leftleg")
+    override val rightLeg = getPart("rightleg")
 
-    override val profileScale = 0.7F
-    override val profileTranslation = Vec3d(0.0, 0.65, 0.0)
+    override var portraitScale = 1.9F
+    override var portraitTranslation = Vec3d(-0.45, 0.8, 0.0)
+
+    override var profileScale = 0.7F
+    override var profileTranslation = Vec3d(0.0, 0.65, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
@@ -44,7 +54,9 @@ class RhydonModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             poseTypes = MOVING_POSES,
             idleAnimations = arrayOf(
                 singleBoneLook(),
-                bedrock("rhydon", "ground_idle")
+                bedrock("rhydon", "ground_idle"),
+                BipedWalkAnimation(this, periodMultiplier = 0.6F, amplitudeMultiplier = 0.9F),
+                BimanualSwingAnimation(this, swingPeriodMultiplier = 0.6F, amplitudeMultiplier = 0.9F)
                 //bedrock("rhydon", "ground_walk")
             )
         )

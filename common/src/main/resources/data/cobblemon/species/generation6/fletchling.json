@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Fletchling",
   "nationalPokedexNumber": 661,
   "primaryType": "normal",
@@ -7,6 +8,22 @@
     "bigpecks",
     "h:galewings"
   ],
+  "drops": {
+    "amount": 3,
+    "entries": [
+      {
+        "item": "minecraft:feather",
+        "quantityRange": "0-1"
+      },
+      {
+        "item": "minecraft:chicken"
+      },
+      {
+        "item": "cobblemon:rawst_berry",
+        "percentage": 2.5
+      }
+    ]
+  },
   "baseStats": {
     "hp": 45,
     "attack": 50,
@@ -24,6 +41,13 @@
   "eggGroups": [
     "flying"
   ],
+  "behaviour": {
+    "moving": {
+      "fly": {
+        "canFly": true
+      }
+    }
+  },
   "moves": [
     "1:growl",
     "1:peck",
@@ -55,9 +79,12 @@
     "tm:attract",
     "tm:bravebird",
     "tm:confide",
+    "tm:doubleedge",
     "tm:doubleteam",
+    "tm:dualwingbeat",
     "tm:endure",
     "tm:facade",
+    "tm:featherdance",
     "tm:flamecharge",
     "tm:flareblitz",
     "tm:fly",
@@ -120,10 +147,10 @@
       ]
     }
   ],
-  "baseScale": 1,
+  "baseScale": 0.6,
   "hitbox": {
-    "width": 1,
-    "height": 1,
+    "width": 0.45,
+    "height": 0.7,
     "fixed": false
   },
   "baseFriendship": 50,

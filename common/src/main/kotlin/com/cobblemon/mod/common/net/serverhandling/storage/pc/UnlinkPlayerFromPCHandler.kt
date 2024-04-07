@@ -9,6 +9,7 @@
 package com.cobblemon.mod.common.net.serverhandling.storage.pc
 
 import com.cobblemon.mod.common.api.net.ServerNetworkPacketHandler
+import com.cobblemon.mod.common.api.pasture.PastureLinkManager
 import com.cobblemon.mod.common.api.storage.pc.link.PCLinkManager
 import com.cobblemon.mod.common.net.messages.server.storage.pc.UnlinkPlayerFromPCPacket
 import net.minecraft.server.MinecraftServer
@@ -17,5 +18,6 @@ import net.minecraft.server.network.ServerPlayerEntity
 object UnlinkPlayerFromPCHandler : ServerNetworkPacketHandler<UnlinkPlayerFromPCPacket> {
     override fun handle(packet: UnlinkPlayerFromPCPacket, server: MinecraftServer, player: ServerPlayerEntity) {
         PCLinkManager.removeLink(player.uuid)
+        PastureLinkManager.links.remove(player.uuid) // Can remove this if same logic is done in closing a pasture GUI
     }
 }

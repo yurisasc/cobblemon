@@ -8,22 +8,20 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen3
 
-import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cobblemon.mod.common.entity.PoseType
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class CarvanhaModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
+class CarvanhaModel (root: ModelPart) : PokemonPoseableModel() {
     override val rootPart = root.registerChildWithAllChildren("carvanha")
-    override val head = getPart("body")
 
-    override val portraitScale = 2.1F
-    override val portraitTranslation = Vec3d(-0.3, -0.5, 0.0)
+    override var portraitScale = 2.1F
+    override var portraitTranslation = Vec3d(-0.3, -0.5, 0.0)
 
-    override val profileScale = 0.8F
-    override val profileTranslation = Vec3d(0.0, 0.7, 0.0)
+    override var profileScale = 0.8F
+    override var profileTranslation = Vec3d(0.0, 0.7, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
@@ -33,7 +31,6 @@ class CarvanhaModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             poseName = "standing",
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
             idleAnimations = arrayOf(
-                singleBoneLook(),
                 bedrock("carvanha", "water_idle")
             )
         )
@@ -42,7 +39,6 @@ class CarvanhaModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             poseName = "walk",
             poseTypes = PoseType.MOVING_POSES,
             idleAnimations = arrayOf(
-                singleBoneLook(),
                 bedrock("carvanha", "water_idle")
             )
         )

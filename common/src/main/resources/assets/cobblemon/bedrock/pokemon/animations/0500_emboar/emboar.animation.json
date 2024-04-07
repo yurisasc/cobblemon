@@ -704,7 +704,36 @@
 					"rotation": [15, 0, 0]
 				}
 			}
+		},
+		"animation.emboar.cry": {
+			"animation_length": 1.29167,
+			"bones": {
+				"head": {
+					"rotation": {
+						"0.0": {
+							"post": [0, 0, 0],
+							"lerp_mode": "catmullrom"
+						},
+						"0.125": {
+							"post": [-5, 0, 0],
+							"lerp_mode": "catmullrom"
+						},
+						"0.875": {
+							"post": [-7.5, 0, 0],
+							"lerp_mode": "catmullrom"
+						},
+						"1.2917": {
+							"post": [0, 0, 0],
+							"lerp_mode": "catmullrom"
+						}
+					}
+				}
+			},
+			"sound_effects": {
+				"0.0833": {
+					"effect": "pokemon.emboar.cry"
+				}
+			}
 		}
-	},
-	"geckolib_format_version": 2
+	}
 }

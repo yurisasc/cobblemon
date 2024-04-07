@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Ariados",
   "nationalPokedexNumber": 168,
   "primaryType": "bug",
@@ -8,6 +9,27 @@
     "insomnia",
     "h:sniper"
   ],
+  "drops": {
+    "amount": 7,
+    "entries": [
+      {
+        "item": "minecraft:string",
+        "quantityRange": "0-2"
+      },
+      {
+        "item": "minecraft:spider_eye",
+        "quantityRange": "0-2"
+      },
+      {
+        "item": "minecraft:rotten_flesh",
+        "quantityRange": "0-2"
+      },
+      {
+        "item": "cobblemon:poison_barb",
+        "percentage": 5.0
+      }
+    ]
+  },
   "baseStats": {
     "hp": 70,
     "attack": 90,
@@ -51,40 +73,60 @@
     "58:stickyweb",
     "63:toxicthread",
     "tm:attract",
+    "tm:acidspray",
+    "tm:agility",
+    "tm:batonpass",
+    "tm:bugbite",
+    "tm:bugbuzz",
     "tm:captivate",
     "tm:confide",
     "tm:dig",
     "tm:doubleteam",
+    "tm:electroweb",
     "tm:endure",
     "tm:facade",
     "tm:flash",
+    "tm:foulplay",
     "tm:frustration",
     "tm:gigadrain",
     "tm:gigaimpact",
+    "tm:hex",
     "tm:hiddenpower",
     "tm:honeclaws",
     "tm:hyperbeam",
     "tm:infestation",
+    "tm:knockoff",
     "tm:leechlife",
+    "tm:lunge",
     "tm:naturalgift",
+    "tm:nightshade",
     "tm:poisonjab",
+    "tm:pounce",
     "tm:protect",
     "tm:psychic",
     "tm:rest",
     "tm:return",
     "tm:round",
+    "tm:scaryface",
     "tm:secretpower",
+    "tm:skittersmack",
     "tm:sleeptalk",
     "tm:sludgebomb",
+    "tm:sludgewave",
     "tm:smartstrike",
     "tm:solarbeam",
+    "tm:spite",
     "tm:strugglebug",
     "tm:substitute",
     "tm:sunnyday",
     "tm:swagger",
     "tm:swordsdance",
+    "tm:terablast",
     "tm:thief",
+    "tm:throatchop",
     "tm:toxic",
+    "tm:toxicspikes",
+    "tm:trailblaze",
     "tm:venoshock",
     "tm:xscissor",
     "tutor:agility",
@@ -93,6 +135,7 @@
     "tutor:bounce",
     "tutor:bugbite",
     "tutor:constrict",
+    "tutor:crosspoison",
     "tutor:curse",
     "tutor:dig",
     "tutor:doubleedge",
@@ -109,6 +152,7 @@
     "tutor:leechlife",
     "tutor:mimic",
     "tutor:nightshade",
+    "tutor:poisonjab",
     "tutor:poisonsting",
     "tutor:protect",
     "tutor:psychic",
@@ -122,6 +166,7 @@
     "tutor:snore",
     "tutor:solarbeam",
     "tutor:spiderweb",
+    "tutor:stickyweb",
     "tutor:stompingtantrum",
     "tutor:stringshot",
     "tutor:substitute",
@@ -130,7 +175,8 @@
     "tutor:swagger",
     "tutor:thief",
     "tutor:throatchop",
-    "tutor:toxic"
+    "tutor:toxic",
+    "tutor:toxicthread"
   ],
   "labels": [
     "gen2"
@@ -140,7 +186,7 @@
   ],
   "preEvolution": "spinarak",
   "evolutions": [],
-  "baseScale": 1,
+  "baseScale": 0.8,
   "hitbox": {
     "width": 1,
     "height": 1,

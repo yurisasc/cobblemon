@@ -244,4 +244,12 @@ open class PCStore(
             boxes[position.box][position.slot]
         }
     }
+
+    fun clearPC() {
+        boxes.forEach { box ->
+            box.getNonEmptySlots().forEach{
+                remove(PCPosition(box.boxNumber, it.key))
+            }
+        }
+    }
 }

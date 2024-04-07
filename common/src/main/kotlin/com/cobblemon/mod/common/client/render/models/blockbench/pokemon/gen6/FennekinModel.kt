@@ -10,6 +10,7 @@ package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen6
 
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.QuadrupedFrame
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cobblemon.mod.common.entity.PoseType
@@ -19,21 +20,23 @@ import net.minecraft.util.math.Vec3d
 class FennekinModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, QuadrupedFrame {
     override val rootPart = root.registerChildWithAllChildren("fennekin")
     override val head = getPart("head")
-    override val foreLeftLeg = getPart("leg_front_left")
+    override val foreLeftLeg= getPart("leg_front_left")
     override val foreRightLeg = getPart("leg_front_right")
     override val hindLeftLeg = getPart("leg_back_left")
     override val hindRightLeg = getPart("leg_back_right")
 
-    override val portraitScale = 1.8F
-    override val portraitTranslation = Vec3d(-0.35, 0.0, 0.0)
-    override val profileScale = 0.6F
-    override val profileTranslation = Vec3d(0.0, 0.84, 0.0)
+    override var portraitScale = 1.8F
+    override var portraitTranslation = Vec3d(-0.35, 0.0, 0.0)
+    override var profileScale = 0.6F
+    override var profileTranslation = Vec3d(0.0, 0.84, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
 
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("fennekin", "cry") }
+
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("fennekin", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("fennekin", "blink") }
         standing = registerPose(
                 poseName = "standing",
                 poseTypes = setOf(PoseType.NONE, PoseType.STAND, PoseType.PORTRAIT, PoseType.PROFILE),

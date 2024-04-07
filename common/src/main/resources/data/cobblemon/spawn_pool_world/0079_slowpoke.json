@@ -12,12 +12,13 @@
             "type": "pokemon",
             "context": "grounded",
             "bucket": "common",
-            "level": "12-31",
+            "level": "7-32",
             "weight": 5.4,
             "condition": {
-                "canSeeSky": true,
+                "minSkyLight": 8,
+                "maxSkyLight": 15,
                 "biomes": [
-                    "#minecraft:is_beach"
+                    "#cobblemon:is_beach"
                 ]
             }
         }

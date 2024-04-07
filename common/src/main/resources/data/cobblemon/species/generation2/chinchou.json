@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Chinchou",
   "nationalPokedexNumber": 170,
   "primaryType": "water",
@@ -8,6 +9,23 @@
     "illuminate",
     "h:waterabsorb"
   ],
+  "drops": {
+    "amount": 3,
+    "entries": [
+      {
+        "item": "minecraft:prismarine_crystals",
+        "quantityRange": "0-1"
+      },
+      {
+        "item": "cobblemon:deep_sea_scale",
+        "percentage": 2.5
+      },
+      {
+        "item": "cobblemon:persim_berry",
+        "percentage": 2.5
+      }
+    ]
+  },
   "baseStats": {
     "hp": 75,
     "attack": 38,
@@ -25,6 +43,19 @@
   "eggGroups": [
     "water_2"
   ],
+  "behaviour": {
+    "moving": {
+      "canLook": false,
+      "walk": {
+        "avoidsLand": true
+      },
+      "swim": {
+        "swimSpeed": 0.1,
+        "canSwimInWater": true,
+        "canBreatheUnderwater": true
+      }
+    }
+  },
   "moves": [
     "1:bubble",
     "1:supersonic",
@@ -51,6 +82,7 @@
     "egg:screech",
     "egg:shockwave",
     "egg:soak",
+    "egg:suckerpunch",
     "egg:waterpulse",
     "egg:whirlpool",
     "tm:agility",
@@ -60,23 +92,35 @@
     "tm:bounce",
     "tm:brine",
     "tm:captivate",
+    "tm:charge",
     "tm:chargebeam",
+    "tm:chillingwater",
     "tm:confide",
+    "tm:confuseray",
+    "tm:curse",
     "tm:dazzlinggleam",
     "tm:dive",
+    "tm:doubleedge",
     "tm:doubleteam",
+    "tm:eerieimpulse",
+    "tm:electricterrain",
     "tm:electroball",
+    "tm:electroweb",
     "tm:endure",
     "tm:facade",
     "tm:flash",
+    "tm:flipturn",
     "tm:frustration",
     "tm:hail",
     "tm:hiddenpower",
     "tm:hydropump",
     "tm:icebeam",
     "tm:icywind",
+    "tm:liquidation",
+    "tm:muddywater",
     "tm:naturalgift",
     "tm:protect",
+    "tm:psybeam",
     "tm:raindance",
     "tm:rest",
     "tm:return",
@@ -90,6 +134,8 @@
     "tm:substitute",
     "tm:surf",
     "tm:swagger",
+    "tm:takedown",
+    "tm:terablast",
     "tm:thunder",
     "tm:thunderbolt",
     "tm:thunderwave",
@@ -168,7 +214,7 @@
       ]
     }
   ],
-  "baseScale": 1,
+  "baseScale": 0.6,
   "hitbox": {
     "width": 1,
     "height": 1,

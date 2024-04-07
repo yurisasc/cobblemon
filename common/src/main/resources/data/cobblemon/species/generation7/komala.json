@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Komala",
   "nationalPokedexNumber": 775,
   "primaryType": "normal",
@@ -13,6 +14,18 @@
     "special_defence": 95,
     "speed": 65
   },
+  "drops": {
+    "amount": 2,
+    "entries": [
+      {
+        "item": "minecraft:acacia_log"
+      },
+      {
+        "item": "cobblemon:chesto_berry",
+        "percentage": 5.0
+      }
+    ]
+  },
   "catchRate": 45,
   "maleRatio": 0.5,
   "shoulderMountable": false,
@@ -22,6 +35,17 @@
   "eggGroups": [
     "field"
   ],
+  "behaviour": {
+    "moving": {
+      "walk": {
+        "canWalk": false
+      },
+      "swim": {
+        "canSwimInWater": false
+      },
+      "canLook": false
+    }
+  },
   "moves": [
     "1:defensecurl",
     "1:rollout",
@@ -50,8 +74,11 @@
     "tm:calmmind",
     "tm:charm",
     "tm:confide",
+    "tm:curse",
+    "tm:doubleedge",
     "tm:doubleteam",
     "tm:earthquake",
+    "tm:endeavor",
     "tm:endure",
     "tm:facade",
     "tm:fling",
@@ -62,6 +89,7 @@
     "tm:hyperbeam",
     "tm:icespinner",
     "tm:ironhead",
+    "tm:knockoff",
     "tm:lowkick",
     "tm:lowsweep",
     "tm:metalclaw",
@@ -82,6 +110,7 @@
     "tm:stompingtantrum",
     "tm:substitute",
     "tm:sunnyday",
+    "tm:superfang",
     "tm:swagger",
     "tm:swordsdance",
     "tm:takedown",
@@ -108,9 +137,9 @@
     "cobblemon.species.komala.desc"
   ],
   "evolutions": [],
-  "baseScale": 1,
+  "baseScale": 0.6,
   "hitbox": {
-    "width": 1,
+    "width": 0.7,
     "height": 1,
     "fixed": false
   },

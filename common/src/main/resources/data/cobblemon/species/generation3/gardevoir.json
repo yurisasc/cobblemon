@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Gardevoir",
   "nationalPokedexNumber": 282,
   "primaryType": "psychic",
@@ -8,6 +9,27 @@
     "trace",
     "h:telepathy"
   ],
+  "drops": {
+    "amount": 6,
+    "entries": [
+      {
+        "item": "minecraft:ender_pearl",
+        "quantityRange": "0-3"
+      },
+      {
+        "item": "cobblemon:dawn_stone",
+        "percentage": 10.0
+      },
+      {
+        "item": "cobblemon:twisted_spoon",
+        "percentage": 10.0
+      },
+      {
+        "item": "cobblemon:kasib_berry",
+        "percentage": 10.0
+      }
+    ]
+  },
   "baseStats": {
     "hp": 68,
     "attack": 65,
@@ -61,7 +83,6 @@
       ],
       "height": 16,
       "weight": 484,
-      "evolutions": [],
       "cannotDynamax": false,
       "battleOnly": true
     }
@@ -98,6 +119,7 @@
     "49:moonblast",
     "56:dreameater",
     "63:futuresight",
+    "tm:alluringvoice",
     "tm:allyswitch",
     "tm:attract",
     "tm:aurasphere",
@@ -117,6 +139,7 @@
     "tm:encore",
     "tm:endure",
     "tm:energyball",
+    "tm:expandingforce",
     "tm:facade",
     "tm:firepunch",
     "tm:flash",
@@ -126,6 +149,7 @@
     "tm:futuresight",
     "tm:gigaimpact",
     "tm:grassknot",
+    "tm:gravity",
     "tm:guardswap",
     "tm:helpinghand",
     "tm:hiddenpower",
@@ -134,20 +158,24 @@
     "tm:icepunch",
     "tm:icywind",
     "tm:imprison",
+    "tm:knockoff",
     "tm:lightscreen",
     "tm:magicalleaf",
     "tm:magicroom",
     "tm:megakick",
     "tm:megapunch",
     "tm:metronome",
+    "tm:mistyexplosion",
     "tm:mistyterrain",
     "tm:mysticalfire",
     "tm:naturalgift",
     "tm:nightshade",
+    "tm:painsplit",
     "tm:powerswap",
     "tm:protect",
     "tm:psybeam",
     "tm:psychic",
+    "tm:psychicnoise",
     "tm:psychicterrain",
     "tm:psychup",
     "tm:psyshock",
@@ -181,6 +209,8 @@
     "tm:toxic",
     "tm:trick",
     "tm:trickroom",
+    "tm:tripleaxel",
+    "tm:vacuumwave",
     "tm:willowisp",
     "tm:wonderroom",
     "tm:zenheadbutt",
@@ -241,10 +271,10 @@
   ],
   "preEvolution": "kirlia",
   "evolutions": [],
-  "baseScale": 1,
+  "baseScale": 0.9,
   "hitbox": {
-    "width": 1,
-    "height": 1,
+    "width": 0.6,
+    "height": 2.2,
     "fixed": false
   },
   "baseFriendship": 35,

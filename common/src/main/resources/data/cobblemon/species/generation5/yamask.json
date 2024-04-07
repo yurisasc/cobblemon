@@ -1,10 +1,20 @@
 {
+  "implemented": true,
   "name": "Yamask",
   "nationalPokedexNumber": 562,
   "primaryType": "ghost",
   "abilities": [
     "mummy"
   ],
+  "drops": {
+    "amount": 1,
+    "entries": [
+      {
+        "item": "cobblemon:spell_tag",
+        "percentage": 2.5
+      }
+    ]
+  },
   "baseStats": {
     "hp": 38,
     "attack": 30,
@@ -12,6 +22,19 @@
     "special_attack": 55,
     "special_defence": 65,
     "speed": 30
+  },
+  "behaviour": {
+    "resting": {
+      "canSleep": true,
+      "willSleepOnBed": true,
+      "depth": "normal",
+      "light": "0-4"
+    },
+    "moving": {
+      "fly": {
+        "canFly": true
+      }
+    }
   },
   "catchRate": 190,
   "maleRatio": 0.5,
@@ -132,7 +155,16 @@
         }
       ],
       "cannotDynamax": false,
-      "battleOnly": false
+      "battleOnly": false,
+      "drops": {
+        "amount": 1,
+        "entries": [
+          {
+            "item": "cobblemon:kasib_berry",
+            "percentage": 2.5
+          }
+        ]
+      }
     }
   ],
   "baseExperienceYield": 61,
@@ -261,10 +293,10 @@
       ]
     }
   ],
-  "baseScale": 1,
+  "baseScale": 0.5,
   "hitbox": {
     "width": 1,
-    "height": 1,
+    "height": 1.4,
     "fixed": false
   },
   "baseFriendship": 50,

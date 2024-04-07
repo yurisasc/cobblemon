@@ -9,6 +9,27 @@
     "snowcloak",
     "h:thickfat"
   ],
+  "drops": {
+    "amount": 8,
+    "entries": [
+      {
+        "item": "minecraft:porkchop",
+        "quantityRange": "2-3"
+      },
+      {
+        "item": "minecraft:brown_wool",
+        "quantityRange": "2-3"
+      },
+      {
+        "item": "cobblemon:never_melt_ice",
+        "percentage": 10.0
+      },
+      {
+        "item": "cobblemon:aspear_berry",
+        "percentage": 10.0
+      }
+    ]
+  },
   "baseStats": {
     "hp": 110,
     "attack": 130,
@@ -34,19 +55,6 @@
   "eggGroups": [
     "field"
   ],
-  "drops": {
-    "amount": "2",
-    "entries": [
-      {
-        "item": "minecraft:raw_porkchop",
-        "quantityRange": "2-3"
-      },
-      {
-        "item": "minecraft:brown_wool",
-        "quantityRange": "2-3"
-      }
-    ]
-  },
   "moves": [
     "1:ancientpower",
     "1:flail",
@@ -97,16 +105,22 @@
     "tm:bodyslam",
     "tm:bulldoze",
     "tm:captivate",
+    "tm:charm",
     "tm:confide",
+    "tm:curse",
     "tm:dig",
+    "tm:doubleedge",
     "tm:doubleteam",
     "tm:earthpower",
     "tm:earthquake",
+    "tm:endeavor",
     "tm:endure",
     "tm:facade",
     "tm:frustration",
     "tm:gigaimpact",
     "tm:hail",
+    "tm:hardpress",
+    "tm:haze",
     "tm:heavyslam",
     "tm:hiddenpower",
     "tm:highhorsepower",
@@ -116,14 +130,17 @@
     "tm:iciclespear",
     "tm:icywind",
     "tm:ironhead",
+    "tm:knockoff",
     "tm:lightscreen",
     "tm:mudshot",
+    "tm:mudslap",
     "tm:naturalgift",
     "tm:protect",
     "tm:raindance",
     "tm:reflect",
     "tm:rest",
     "tm:return",
+    "tm:reversal",
     "tm:roar",
     "tm:rockblast",
     "tm:rockclimb",
@@ -136,7 +153,9 @@
     "tm:scaryface",
     "tm:secretpower",
     "tm:sleeptalk",
+    "tm:smackdown",
     "tm:snore",
+    "tm:snowscape",
     "tm:stealthrock",
     "tm:stompingtantrum",
     "tm:stoneedge",
@@ -144,7 +163,11 @@
     "tm:substitute",
     "tm:superpower",
     "tm:swagger",
+    "tm:takedown",
+    "tm:terablast",
+    "tm:throatchop",
     "tm:toxic",
+    "tm:trailblaze",
     "tutor:ancientpower",
     "tutor:block",
     "tutor:doublehit",
@@ -177,10 +200,10 @@
   ],
   "preEvolution": "piloswine",
   "evolutions": [],
-  "baseScale": 3,
+  "baseScale": 1,
   "hitbox": {
-    "width": 1.3,
-    "height": 1.2,
+    "width": 2.7,
+    "height": 3.5,
     "fixed": false
   },
   "baseFriendship": 50,

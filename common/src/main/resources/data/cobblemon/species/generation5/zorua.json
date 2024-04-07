@@ -1,10 +1,24 @@
 {
+  "implemented": true,
   "name": "Zorua",
   "nationalPokedexNumber": 570,
   "primaryType": "dark",
   "abilities": [
     "illusion"
   ],
+  "drops": {
+    "amount": 4,
+    "entries": [
+      {
+        "item": "minecraft:sweet_berries",
+        "quantityRange": "1-3"
+      },
+      {
+        "item": "cobblemon:roseli_berry",
+        "percentage": 2.5
+      }
+    ]
+  },
   "baseStats": {
     "hp": 40,
     "attack": 65,
@@ -13,6 +27,9 @@
     "special_defence": 40,
     "speed": 65
   },
+  "features": [
+    "hisuian"
+  ],
   "catchRate": 75,
   "maleRatio": 0.875,
   "shoulderMountable": false,
@@ -132,7 +149,20 @@
         }
       ],
       "cannotDynamax": false,
-      "battleOnly": false
+      "battleOnly": false,
+      "drops": {
+        "amount": 4,
+        "entries": [
+          {
+            "item": "minecraft:sweet_berries",
+            "quantityRange": "1-3"
+          },
+          {
+            "item": "cobblemon:colbur_berry",
+            "percentage": 2.5
+          }
+        ]
+      }
     }
   ],
   "baseExperienceYield": 66,
@@ -273,8 +303,8 @@
   ],
   "baseScale": 1,
   "hitbox": {
-    "width": 1,
-    "height": 1,
+    "width": 0.5,
+    "height": 0.7,
     "fixed": false
   },
   "baseFriendship": 50,

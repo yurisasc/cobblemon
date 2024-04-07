@@ -60,6 +60,7 @@
     "tm:bulletseed",
     "tm:captivate",
     "tm:confide",
+    "tm:curse",
     "tm:doubleteam",
     "tm:dreameater",
     "tm:encore",
@@ -79,6 +80,7 @@
     "tm:mudshot",
     "tm:mudslap",
     "tm:naturalgift",
+    "tm:painsplit",
     "tm:poisonjab",
     "tm:poweruppunch",
     "tm:protect",
@@ -186,5 +188,18 @@
   "height": 4,
   "weight": 103,
   "aspects": [],
-  "cannotDynamax": false
+  "cannotDynamax": false,
+  "drops": {
+    "amount": 2,
+    "entries": [
+      {
+        "item": "cobblemon:black_sludge",
+        "percentage": 2.5
+      },
+      {
+        "item": "cobblemon:oran_berry",
+        "percentage": 2.5
+      }
+    ]
+  }
 }

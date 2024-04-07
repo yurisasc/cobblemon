@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Cufant",
   "nationalPokedexNumber": 878,
   "primaryType": "steel",
@@ -52,9 +53,12 @@
     "tm:brickbreak",
     "tm:brutalswing",
     "tm:bulldoze",
+    "tm:curse",
     "tm:dig",
+    "tm:doubleedge",
     "tm:earthpower",
     "tm:earthquake",
+    "tm:endeavor",
     "tm:endure",
     "tm:facade",
     "tm:flashcannon",
@@ -115,8 +119,8 @@
   ],
   "baseScale": 1,
   "hitbox": {
-    "width": 1,
-    "height": 1,
+    "width": 1.15,
+    "height": 1.4,
     "fixed": false
   },
   "baseFriendship": 50,
@@ -131,5 +135,18 @@
   "height": 12,
   "weight": 1000,
   "aspects": [],
-  "cannotDynamax": false
+  "cannotDynamax": false,
+  "drops": {
+    "amount": 2,
+    "entries": [
+      {
+        "item": "minecraft:raw_copper",
+        "quantityRange": "0-1"
+      },
+      {
+        "item": "cobblemon:nanab_berry",
+        "percentage": 2.5
+      }
+    ]
+  }
 }

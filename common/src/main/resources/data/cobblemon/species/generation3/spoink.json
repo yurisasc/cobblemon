@@ -67,11 +67,14 @@
     "tm:doubleteam",
     "tm:dreameater",
     "tm:encore",
+    "tm:endeavor",
     "tm:endure",
+    "tm:expandingforce",
     "tm:facade",
     "tm:flash",
     "tm:flashcannon",
     "tm:frustration",
+    "tm:futuresight",
     "tm:grassknot",
     "tm:helpinghand",
     "tm:hiddenpower",
@@ -79,6 +82,7 @@
     "tm:imprison",
     "tm:irontail",
     "tm:lightscreen",
+    "tm:lunge",
     "tm:naturalgift",
     "tm:nightshade",
     "tm:payback",
@@ -119,6 +123,7 @@
     "tm:trailblaze",
     "tm:trick",
     "tm:trickroom",
+    "tm:uproar",
     "tm:zenheadbutt",
     "tutor:allyswitch",
     "tutor:bodyslam",
@@ -193,5 +198,22 @@
   "height": 7,
   "weight": 306,
   "aspects": [],
-  "cannotDynamax": false
+  "cannotDynamax": false,
+  "drops": {
+    "amount": 4,
+    "entries": [
+      {
+        "item": "minecraft:porkchop",
+        "quantityRange": "1-2"
+      },
+      {
+        "item": "minecraft:ender_pearl",
+        "quantityRange": "0-1"
+      },
+      {
+        "item": "cobblemon:tanga_berry",
+        "percentage": 2.5
+      }
+    ]
+  }
 }

@@ -23,6 +23,23 @@
             "id": "magikarp-2",
             "pokemon": "magikarp",
             "presets": [
+                "freshwater",
+                "water_surface"
+            ],
+            "type": "pokemon",
+            "context": "surface",
+            "bucket": "common",
+            "level": "1-20",
+            "weight": 1.98,
+            "condition": {
+                "minSkyLight": 8,
+                "maxSkyLight": 15
+            }
+        },
+        {
+            "id": "magikarp-3",
+            "pokemon": "magikarp",
+            "presets": [
                 "underwater"
             ],
             "type": "pokemon",
@@ -33,7 +50,26 @@
             "condition": {
                 "canSeeSky": true,
                 "biomes": [
-                    "#minecraft:is_ocean"
+                    "#cobblemon:is_ocean"
+                ]
+            }
+        },
+        {
+            "id": "magikarp-4",
+            "pokemon": "magikarp",
+            "presets": [
+                "water_surface"
+            ],
+            "type": "pokemon",
+            "context": "surface",
+            "bucket": "common",
+            "level": "1-20",
+            "weight": 1.98,
+            "condition": {
+                "minSkyLight": 8,
+                "maxSkyLight": 15,
+                "biomes": [
+                    "#cobblemon:is_ocean"
                 ]
             }
         }

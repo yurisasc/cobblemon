@@ -72,6 +72,7 @@
     "tm:charm",
     "tm:confide",
     "tm:dazzlinggleam",
+    "tm:doubleedge",
     "tm:doubleteam",
     "tm:encore",
     "tm:endure",
@@ -88,6 +89,7 @@
     "tm:infestation",
     "tm:leafstorm",
     "tm:lightscreen",
+    "tm:lunge",
     "tm:magicalleaf",
     "tm:naturalgift",
     "tm:pollenpuff",
@@ -199,5 +201,14 @@
   "height": 4,
   "weight": 5,
   "aspects": [],
-  "cannotDynamax": false
+  "cannotDynamax": false,
+  "drops": {
+    "amount": 1,
+    "entries": [
+      {
+        "item": "cobblemon:yache_berry",
+        "percentage": 2.5
+      }
+    ]
+  }
 }

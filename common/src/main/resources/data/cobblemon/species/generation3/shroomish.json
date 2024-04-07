@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Shroomish",
   "nationalPokedexNumber": 285,
   "primaryType": "grass",
@@ -7,6 +8,19 @@
     "poisonheal",
     "h:quickfeet"
   ],
+  "drops": {
+    "amount": 2,
+    "entries": [
+      {
+        "item": "minecraft:brown_mushroom",
+        "quantityRange": "0-1"
+      },
+      {
+        "item": "cobblemon:kebia_berry",
+        "percentage": 2.5
+      }
+    ]
+  },
   "baseStats": {
     "hp": 60,
     "attack": 40,
@@ -25,6 +39,14 @@
     "fairy",
     "grass"
   ],
+  "behaviour": {
+    "resting": {
+      "canSleep": true,
+      "willSleepOnBed": false,
+      "depth": "normal",
+      "light": "0-4"
+    }
+  },
   "moves": [
     "1:absorb",
     "1:tackle",
@@ -144,10 +166,10 @@
       ]
     }
   ],
-  "baseScale": 1,
+  "baseScale": 0.8,
   "hitbox": {
-    "width": 1,
-    "height": 1,
+    "width": 0.7,
+    "height": 0.6,
     "fixed": false
   },
   "baseFriendship": 70,

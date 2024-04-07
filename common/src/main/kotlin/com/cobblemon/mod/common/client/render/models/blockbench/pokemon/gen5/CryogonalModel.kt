@@ -21,18 +21,18 @@ class CryogonalModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("cryogonal")
     override val head = getPart("body")
 
-    override val portraitScale = 1.4F
-    override val portraitTranslation = Vec3d(0.05, 0.61, 0.0)
+    override var portraitScale = 1.4F
+    override var portraitTranslation = Vec3d(0.05, 0.61, 0.0)
 
-    override val profileScale = 0.65F
-    override val profileTranslation = Vec3d(0.0, 0.9, 0.0)
+    override var profileScale = 0.65F
+    override var profileTranslation = Vec3d(0.0, 0.9, 0.0)
 
     lateinit var sleep: PokemonPose
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("cryogonal", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("cryogonal", "blink") }
 
         standing = registerPose(
             poseName = "standing",

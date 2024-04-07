@@ -349,6 +349,11 @@
 						"1.5": [0, 0, 0]
 					}
 				}
+			},
+			"sound_effects": {
+				"0.25": {
+					"effect": "pokemon.pignite.cry"
+				}
 			}
 		},
 		"animation.pignite.blink": {
@@ -817,6 +822,5 @@
 				}
 			}
 		}
-	},
-	"geckolib_format_version": 2
+	}
 }

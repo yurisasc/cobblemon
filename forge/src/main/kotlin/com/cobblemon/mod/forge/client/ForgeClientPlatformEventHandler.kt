@@ -17,7 +17,9 @@ import net.minecraftforge.api.distmarker.OnlyIn
 import net.minecraftforge.client.event.ClientPlayerNetworkEvent
 import net.minecraftforge.common.MinecraftForge
 import net.minecraftforge.event.TickEvent
+import net.minecraftforge.event.entity.player.ItemTooltipEvent
 import net.minecraftforge.eventbus.api.SubscribeEvent
+
 
 @OnlyIn(Dist.CLIENT)
 object ForgeClientPlatformEventHandler {
@@ -44,6 +46,11 @@ object ForgeClientPlatformEventHandler {
     @SubscribeEvent
     fun onLogout(e: ClientPlayerNetworkEvent.LoggingOut) {
         PlatformEvents.CLIENT_PLAYER_LOGOUT.post(ClientPlayerEvent.Logout(e.player ?: return))
+    }
+
+    @SubscribeEvent
+    fun onItemTooltip(e: ItemTooltipEvent) {
+        PlatformEvents.CLIENT_ITEM_TOOLTIP.post(com.cobblemon.mod.common.platform.events.ItemTooltipEvent(e.itemStack, e.flags, e.toolTip))
     }
 
 }

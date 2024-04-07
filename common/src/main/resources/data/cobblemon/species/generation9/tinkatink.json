@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Tinkatink",
   "nationalPokedexNumber": 957,
   "primaryType": "fairy",
@@ -8,6 +9,19 @@
     "owntempo",
     "h:pickpocket"
   ],
+  "drops": {
+    "amount": 2,
+    "entries": [
+      {
+        "item": "minecraft:raw_iron",
+        "quantityRange": "0-1"
+      },
+      {
+        "item": "cobblemon:razz_berry",
+        "percentage": 2.5
+      }
+    ]
+  },
   "baseStats": {
     "hp": 50,
     "attack": 45,
@@ -33,6 +47,14 @@
   "eggGroups": [
     "fairy"
   ],
+  "behaviour": {
+    "resting": {
+      "canSleep": true,
+      "willSleepOnBed": false,
+      "depth": "normal",
+      "light": "0-4"
+    }
+  },
   "moves": [
     "1:astonish",
     "1:fairywind",
@@ -104,6 +126,12 @@
       ]
     }
   ],
+  "baseScale": 1.0,
+  "hitbox": {
+    "width": 1.0,
+    "height": 1.0,
+    "fixed": false
+  },
   "cannotDynamax": false,
   "pokedex": [
     "cobblemon.species.tinkatink.desc"

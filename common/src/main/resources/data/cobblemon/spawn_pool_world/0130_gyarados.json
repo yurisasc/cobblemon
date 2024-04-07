@@ -3,27 +3,12 @@
     "neededInstalledMods": [],
     "neededUninstalledMods": [],
     "spawns": [
-		{
+        {
             "id": "gyarados-1",
             "pokemon": "gyarados",
             "presets": [
-                "water_surface",
-                "freshwater"
-            ],
-            "type": "pokemon",
-            "bucket": "uncommon",
-            "level": "20-54",
-            "weight": 2,
-            "condition": {
-                "canSeeSky": true
-            }
-        },
-        {
-            "id": "gyarados-2",
-            "pokemon": "gyarados",
-            "presets": [
-                "underwater",
-                "freshwater"
+                "freshwater",
+                "underwater"
             ],
             "type": "pokemon",
             "context": "submerged",
@@ -35,24 +20,24 @@
             }
         },
         {
-            "id": "gyarados-3",
+            "id": "gyarados-2",
             "pokemon": "gyarados",
             "presets": [
+                "freshwater",
                 "water_surface"
             ],
             "type": "pokemon",
-            "bucket": "uncommon",
+            "context": "surface",
+            "bucket": "common",
             "level": "20-54",
-            "weight": 2,
+            "weight": 0.02,
             "condition": {
-                "canSeeSky": true,
-                "biomes": [
-                    "#minecraft:is_ocean"
-                ]
+                "minSkyLight": 8,
+                "maxSkyLight": 15
             }
         },
         {
-            "id": "gyarados-4",
+            "id": "gyarados-3",
             "pokemon": "gyarados",
             "presets": [
                 "underwater"
@@ -65,7 +50,26 @@
             "condition": {
                 "canSeeSky": true,
                 "biomes": [
-                    "#minecraft:is_ocean"
+                    "#cobblemon:is_ocean"
+                ]
+            }
+        },
+        {
+            "id": "gyarados-4",
+            "pokemon": "gyarados",
+            "presets": [
+                "water_surface"
+            ],
+            "type": "pokemon",
+            "context": "surface",
+            "bucket": "common",
+            "level": "20-54",
+            "weight": 0.02,
+            "condition": {
+                "minSkyLight": 8,
+                "maxSkyLight": 15,
+                "biomes": [
+                    "#cobblemon:is_ocean"
                 ]
             }
         }

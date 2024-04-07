@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Typhlosion",
   "nationalPokedexNumber": 157,
   "primaryType": "fire",
@@ -6,6 +7,15 @@
     "blaze",
     "h:flashfire"
   ],
+  "drops": {
+    "amount": 1,
+    "entries": [
+      {
+        "item": "cobblemon:charcoal_stick",
+        "percentage": 25.0
+      }
+    ]
+  },
   "baseStats": {
     "hp": 78,
     "attack": 84,
@@ -14,6 +24,9 @@
     "special_defence": 85,
     "speed": 100
   },
+  "features": [
+    "hisuian"
+  ],
   "catchRate": 45,
   "maleRatio": 0.875,
   "shoulderMountable": false,
@@ -74,10 +87,14 @@
         "tm:bodyslam",
         "tm:brickbreak",
         "tm:bulldoze",
+        "tm:burningjealousy",
         "tm:calmmind",
         "tm:confuseray",
+        "tm:curse",
         "tm:dig",
+        "tm:doubleedge",
         "tm:earthquake",
+        "tm:endeavor",
         "tm:endure",
         "tm:facade",
         "tm:fireblast",
@@ -89,7 +106,9 @@
         "tm:flamethrower",
         "tm:flareblitz",
         "tm:focusblast",
+        "tm:focuspunch",
         "tm:gigaimpact",
+        "tm:gyroball",
         "tm:heatwave",
         "tm:hex",
         "tm:hyperbeam",
@@ -98,19 +117,23 @@
         "tm:nightshade",
         "tm:overheat",
         "tm:playrough",
+        "tm:poltergeist",
         "tm:protect",
         "tm:rest",
         "tm:reversal",
+        "tm:roar",
         "tm:rockslide",
         "tm:shadowball",
         "tm:shadowclaw",
         "tm:sleeptalk",
         "tm:solarbeam",
+        "tm:spite",
         "tm:stompingtantrum",
         "tm:substitute",
         "tm:sunnyday",
         "tm:swift",
         "tm:takedown",
+        "tm:temperflare",
         "tm:terablast",
         "tm:thunderpunch",
         "tm:wildcharge",
@@ -127,7 +150,6 @@
       "height": 16,
       "weight": 698,
       "preEvolution": "quilava",
-      "evolutions": [],
       "cannotDynamax": false,
       "battleOnly": false
     }
@@ -138,6 +160,19 @@
   "eggGroups": [
     "field"
   ],
+  "behaviour": {
+    "resting": {
+      "canSleep": true,
+      "willSleepOnBed": false,
+      "depth": "normal",
+      "light": "0-4"
+    },
+    "moving": {
+      "walk": {
+        "walkSpeed": 0.15
+      }
+    }
+  },
   "moves": [
     "1:doubleedge",
     "1:ember",
@@ -163,12 +198,16 @@
     "tm:bodyslam",
     "tm:brickbreak",
     "tm:bulldoze",
+    "tm:burningjealousy",
     "tm:captivate",
     "tm:confide",
+    "tm:curse",
     "tm:cut",
     "tm:dig",
+    "tm:doubleedge",
     "tm:doubleteam",
     "tm:earthquake",
+    "tm:endeavor",
     "tm:endure",
     "tm:facade",
     "tm:fireblast",
@@ -207,6 +246,7 @@
     "tm:rocksmash",
     "tm:rocktomb",
     "tm:round",
+    "tm:scorchingsands",
     "tm:secretpower",
     "tm:shadowball",
     "tm:shadowclaw",
@@ -219,7 +259,9 @@
     "tm:swagger",
     "tm:swift",
     "tm:takedown",
+    "tm:temperflare",
     "tm:terablast",
+    "tm:throatchop",
     "tm:thunderpunch",
     "tm:toxic",
     "tm:wildcharge",
@@ -296,10 +338,10 @@
   ],
   "preEvolution": "quilava",
   "evolutions": [],
-  "baseScale": 1,
+  "baseScale": 0.65,
   "hitbox": {
-    "width": 1,
-    "height": 1,
+    "width": 1.35,
+    "height": 2.65,
     "fixed": false
   },
   "baseFriendship": 70,

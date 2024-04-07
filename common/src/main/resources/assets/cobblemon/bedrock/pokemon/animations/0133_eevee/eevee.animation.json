@@ -458,6 +458,68 @@
 					}
 				}
 			}
+		},
+		"animation.eevee.cry": {
+			"animation_length": 1.25,
+			"bones": {
+				"torso": {
+					"rotation": {
+						"0.0": {
+							"post": [0, 0, 0],
+							"lerp_mode": "catmullrom"
+						},
+						"0.3333": {
+							"post": [-17.5, 0, 0],
+							"lerp_mode": "catmullrom"
+						},
+						"1.0417": {
+							"post": [0, 0, 0],
+							"lerp_mode": "catmullrom"
+						}
+					}
+				},
+				"head": {
+					"rotation": {
+						"0.0": {
+							"post": [0, 0, 0],
+							"lerp_mode": "catmullrom"
+						},
+						"0.3333": {
+							"post": [-20, 0, 0],
+							"lerp_mode": "catmullrom"
+						},
+						"0.7083": {
+							"post": [0, 0, 0],
+							"lerp_mode": "catmullrom"
+						}
+					}
+				},
+				"mouth_open": {
+					"position": {
+						"0.0": {
+							"post": [0, 0, 0],
+							"lerp_mode": "catmullrom"
+						},
+						"0.1667": {
+							"post": [0, 0, -0.1],
+							"lerp_mode": "catmullrom"
+						},
+						"0.5833": {
+							"post": [0, 0, -0.1],
+							"lerp_mode": "catmullrom"
+						},
+						"0.75": {
+							"post": [0, 0, 0],
+							"lerp_mode": "catmullrom"
+						}
+					}
+				}
+			},
+			"sound_effects": {
+				"0.0833": {
+					"effect": "pokemon.eevee.cry"
+				}
+			}
 		}
 	}
 }

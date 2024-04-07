@@ -12,16 +12,23 @@
             "type": "pokemon",
             "context": "grounded",
             "bucket": "common",
-            "level": "12-27",
+            "level": "16-27",
             "weight": 0.9,
+            "weightMultiplier": {
+                "multiplier": 1.5,
+                "condition": {
+                    "timeRange": "night"
+                }
+            },
             "condition": {
-                "canSeeSky": true,
+                "minSkyLight": 8,
+                "maxSkyLight": 15,
                 "biomes": [
                     "#cobblemon:is_floral"
                 ]
             }
         },
-		{
+        {
             "id": "jigglypuff-2",
             "pokemon": "jigglypuff",
             "presets": [
@@ -30,10 +37,17 @@
             "type": "pokemon",
             "context": "grounded",
             "bucket": "common",
-            "level": "12-27",
+            "level": "16-27",
             "weight": 0.18,
+            "weightMultiplier": {
+                "multiplier": 1.5,
+                "condition": {
+                    "timeRange": "night"
+                }
+            },
             "condition": {
-                "canSeeSky": true,
+                "minSkyLight": 8,
+                "maxSkyLight": 15,
                 "biomes": [
                     "#cobblemon:is_plains"
                 ]

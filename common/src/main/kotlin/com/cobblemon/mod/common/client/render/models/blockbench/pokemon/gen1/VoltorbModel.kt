@@ -15,20 +15,21 @@ import com.cobblemon.mod.common.entity.PoseType.Companion.STATIONARY_POSES
 import com.cobblemon.mod.common.entity.PoseType.Companion.UI_POSES
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
+
 class VoltorbModel(root: ModelPart) : PokemonPoseableModel() {
     override val rootPart = root.registerChildWithAllChildren("voltorb")
 
-    override val portraitScale = 2.4F
-    override val portraitTranslation = Vec3d(0.0, -1.85, 0.0)
+    override var portraitScale = 2.0F
+    override var portraitTranslation = Vec3d(-0.2, -1.2, 0.0)
 
-    override val profileScale = 1.4F
-    override val profileTranslation = Vec3d(0.0, -0.4, 0.0)
+    override var profileScale = 1.1F
+    override var profileTranslation = Vec3d(0.0, 0.1, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("voltorb", "blink").setPreventsIdle(false)}
+        val blink = quirk { bedrockStateful("voltorb", "blink")}
         standing = registerPose(
             poseName = "standing",
             poseTypes = STATIONARY_POSES + UI_POSES,
@@ -42,7 +43,7 @@ class VoltorbModel(root: ModelPart) : PokemonPoseableModel() {
         walk = registerPose(
             poseName = "walk",
             poseTypes = MOVING_POSES,
-            onTransitionedInto = { it?.animationSeconds = 0F },
+            onTransitionedInto = { it?.reset() },
             transformTicks = 0,
             idleAnimations = arrayOf(
                 bedrock("voltorb", "ground_walk")

@@ -19,17 +19,17 @@ class MismagiusModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("mismagius")
     override val head = getPart("head")
 
-    override val portraitScale = 2.6F
-    override val portraitTranslation = Vec3d(-0.15, 0.0, 0.0)
+    override var portraitScale = 2.0F
+    override var portraitTranslation = Vec3d(-0.2, 1.5, 0.0)
 
-    override val profileScale = 0.8F
-    override val profileTranslation = Vec3d(0.0, 0.6, 0.0)
+    override var profileScale = 0.6F
+    override var profileTranslation = Vec3d(0.0, 0.9, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("mismagius", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("mismagius", "blink") }
         standing = registerPose(
             poseName = "standing",
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,

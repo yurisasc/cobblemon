@@ -8,6 +8,10 @@
 
 package com.cobblemon.mod.common.api.spawning.detail
 
+import com.bedrockk.molang.runtime.struct.ArrayStruct
+import com.bedrockk.molang.runtime.struct.VariableStruct
+import com.bedrockk.molang.runtime.value.DoubleValue
+import com.bedrockk.molang.runtime.value.StringValue
 import com.cobblemon.mod.common.api.ModDependant
 import com.cobblemon.mod.common.api.spawning.SpawnBucket
 import com.cobblemon.mod.common.api.spawning.condition.CompositeSpawningCondition
@@ -42,30 +46,49 @@ abstract class SpawnDetail : ModDependant {
     var anticonditions = mutableListOf<SpawningCondition<*>>()
     var compositeCondition: CompositeSpawningCondition? = null
     var weightMultipliers = mutableListOf<WeightMultiplier>()
+    var width = -1
+    var height = -1
 
     var weight = -1F
     var percentage = -1F
 
     var labels = mutableListOf<String>()
 
+    val struct: VariableStruct = VariableStruct()
+
     override var neededInstalledMods = listOf<String>()
     override var neededUninstalledMods = listOf<String>()
 
-    open fun autoLabel() {}
+    open fun autoLabel() {
+        struct.setDirectly("weight", DoubleValue(weight.toDouble()))
+        struct.setDirectly("percentage", DoubleValue(percentage.toDouble()))
+        struct.setDirectly("id", StringValue(id))
+        struct.setDirectly("bucket", StringValue(bucket.name))
+        struct.setDirectly("width", DoubleValue(width.toDouble()))
+        struct.setDirectly("height", DoubleValue(height.toDouble()))
+        struct.setDirectly("context", StringValue(context.name))
+        struct.setDirectly("labels", ArrayStruct(labels.mapIndexed { index, s -> "$index" to StringValue(s) }.toMap()))
+    }
+
     open fun getName() = displayName?.asTranslated() ?: id.text()
 
     open fun isSatisfiedBy(ctx: SpawningContext): Boolean {
         if (!ctx.preFilter(this)) {
             return false
-        } else if (conditions.isNotEmpty() && conditions.none { it.isSatisfiedBy(ctx, this) }) {
+        } else if (conditions.isNotEmpty() && conditions.none { it.isSatisfiedBy(ctx) }) {
             return false
-        } else if (anticonditions.isNotEmpty() && anticonditions.any { it.isSatisfiedBy(ctx, this) }) {
+        } else if (anticonditions.isNotEmpty() && anticonditions.any { it.isSatisfiedBy(ctx) }) {
             return false
-        } else if (compositeCondition?.satisfiedBy(ctx, this) == false) {
+        } else if (compositeCondition?.satisfiedBy(ctx) == false) {
+            return false
+        } else if (!ctx.postFilter(this)) {
             return false
         }
+
         return true
     }
+
+    open fun isValid(): Boolean = isModDependencySatisfied()
 
     abstract fun doSpawn(ctx: SpawningContext): SpawnAction<*>
 }

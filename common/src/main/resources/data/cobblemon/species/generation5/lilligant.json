@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Lilligant",
   "nationalPokedexNumber": 549,
   "primaryType": "grass",
@@ -7,6 +8,23 @@
     "owntempo",
     "h:leafguard"
   ],
+  "drops": {
+    "amount": 3,
+    "entries": [
+      {
+        "item": "cobblemon:big_root",
+        "percentage": 5.0
+      },
+      {
+        "item": "cobblemon:revival_herb",
+        "percentage": 5.0
+      },
+      {
+        "item": "cobblemon:persim_berry",
+        "percentage": 5.0
+      }
+    ]
+  },
   "baseStats": {
     "hp": 70,
     "attack": 60,
@@ -15,6 +33,9 @@
     "special_defence": 75,
     "speed": 90
   },
+  "features": [
+    "hisuian"
+  ],
   "catchRate": 75,
   "maleRatio": 0,
   "shoulderMountable": false,
@@ -122,12 +143,30 @@
       "aspects": [
         "hisuian"
       ],
+      "baseScale": 0.8,
+      "hitbox": {
+        "width": 0.5,
+        "height": 2.1,
+        "fixed": false
+      },
       "height": 12,
       "weight": 192,
-      "preEvolution": "petilil",
-      "evolutions": [],
+      "preEvolution": "petilil hisuian",
       "cannotDynamax": false,
-      "battleOnly": false
+      "battleOnly": false,
+      "drops": {
+        "amount": 2,
+        "entries": [
+          {
+            "item": "cobblemon:revival_herb",
+            "percentage": 5.0
+          },
+          {
+            "item": "cobblemon:coba_berry",
+            "percentage": 5.0
+          }
+        ]
+      }
     }
   ],
   "baseExperienceYield": 168,
@@ -225,10 +264,10 @@
   ],
   "preEvolution": "petilil",
   "evolutions": [],
-  "baseScale": 1,
+  "baseScale": 0.7,
   "hitbox": {
-    "width": 1,
-    "height": 1,
+    "width": 1.1,
+    "height": 2.3,
     "fixed": false
   },
   "baseFriendship": 50,

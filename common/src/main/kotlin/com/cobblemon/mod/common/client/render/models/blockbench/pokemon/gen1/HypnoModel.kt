@@ -8,36 +8,47 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1
 
-import com.cobblemon.mod.common.client.render.models.blockbench.animation.BipedWalkAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
+import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.PoseType.Companion.MOVING_POSES
 import com.cobblemon.mod.common.entity.PoseType.Companion.STATIONARY_POSES
 import com.cobblemon.mod.common.entity.PoseType.Companion.UI_POSES
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
+
 class HypnoModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedFrame {
     override val rootPart = root.registerChildWithAllChildren("hypno")
     override val head = getPart("head")
 
-    override val leftLeg = getPart("leftleg")
-    override val rightLeg = getPart("rightleg")
+    override val leftLeg = getPart("left_upper_leg")
+    override val rightLeg = getPart("right_upper_leg")
 
-    override val portraitScale = 2.3F
-    override val portraitTranslation = Vec3d(0.0, 0.1, 0.0)
+    override var portraitScale = 2.1F
+    override var portraitTranslation = Vec3d(-0.3, 0.6, 0.0)
 
-    override val profileScale = 0.95F
-    override val profileTranslation = Vec3d(0.0, 0.35, 0.0)
+    override var profileScale = 0.8F
+    override var profileTranslation = Vec3d(-0.05, 0.5, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
+    lateinit var sleep: PokemonPose
+    lateinit var battleidle: PokemonPose
 
     override fun registerPoses() {
+        val blink = quirk { bedrockStateful("hypno", "blink")}
+        sleep = registerPose(
+            poseType = PoseType.SLEEP,
+            idleAnimations = arrayOf(bedrock("hypno", "sleep"))
+        )
+
         standing = registerPose(
             poseName = "standing",
             poseTypes = STATIONARY_POSES + UI_POSES,
+            quirks = arrayOf(blink),
+            condition = { !it.isBattling },
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("hypno", "ground_idle")
@@ -47,11 +58,22 @@ class HypnoModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedFr
         walk = registerPose(
             poseName = "walk",
             poseTypes = MOVING_POSES,
+            quirks = arrayOf(blink),
             idleAnimations = arrayOf(
-                BipedWalkAnimation(this, periodMultiplier = 0.7F, amplitudeMultiplier = 0.85F),
                 singleBoneLook(),
-                bedrock("hypno", "ground_idle")
-                //bedrock("hypno", "ground_walk")
+                bedrock("hypno", "ground_walk")
+            )
+        )
+
+        battleidle = registerPose(
+            poseName = "battle_idle",
+            poseTypes = PoseType.STATIONARY_POSES,
+            transformTicks = 10,
+            quirks = arrayOf(blink),
+            condition = { it.isBattling },
+            idleAnimations = arrayOf(
+                singleBoneLook(),
+                bedrock("hypno", "battle_idle")
             )
         )
     }

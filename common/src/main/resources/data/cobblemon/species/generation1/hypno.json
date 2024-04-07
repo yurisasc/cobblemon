@@ -8,6 +8,15 @@
     "forewarn",
     "h:innerfocus"
   ],
+  "drops": {
+    "amount": 1,
+    "entries": [
+      {
+        "item": "cobblemon:chesto_berry",
+        "percentage": 5.0
+      }
+    ]
+  },
   "baseStats": {
     "hp": 85,
     "attack": 73,
@@ -25,6 +34,14 @@
   "eggGroups": [
     "human_like"
   ],
+  "behaviour": {
+    "resting": {
+      "canSleep": true,
+      "willSleepOnBed": false,
+      "depth": "normal",
+      "light": "0-4"
+    }
+  },
   "moves": [
     "1:confusion",
     "1:disable",
@@ -54,13 +71,17 @@
     "tm:captivate",
     "tm:confide",
     "tm:confuseray",
+    "tm:curse",
     "tm:dazzlinggleam",
+    "tm:doubleedge",
     "tm:doubleteam",
     "tm:drainingkiss",
     "tm:drainpunch",
     "tm:dreameater",
     "tm:encore",
+    "tm:endeavor",
     "tm:endure",
+    "tm:expandingforce",
     "tm:facade",
     "tm:firepunch",
     "tm:flash",
@@ -69,14 +90,17 @@
     "tm:focuspunch",
     "tm:foulplay",
     "tm:frustration",
+    "tm:futuresight",
     "tm:gigaimpact",
     "tm:grassknot",
+    "tm:haze",
     "tm:helpinghand",
     "tm:hex",
     "tm:hiddenpower",
     "tm:hyperbeam",
     "tm:icepunch",
     "tm:imprison",
+    "tm:knockoff",
     "tm:lightscreen",
     "tm:lowkick",
     "tm:lowsweep",
@@ -88,6 +112,7 @@
     "tm:protect",
     "tm:psybeam",
     "tm:psychic",
+    "tm:psychicnoise",
     "tm:psychicterrain",
     "tm:psychup",
     "tm:psyshock",
@@ -210,10 +235,10 @@
   ],
   "preEvolution": "drowzee",
   "evolutions": [],
-  "baseScale": 1.1,
+  "baseScale": 1,
   "hitbox": {
-    "width": 0.5,
-    "height": 1.3,
+    "width": 0.9,
+    "height": 1.6,
     "fixed": false
   },
   "baseFriendship": 70,

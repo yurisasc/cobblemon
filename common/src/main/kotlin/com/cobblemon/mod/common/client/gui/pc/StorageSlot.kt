@@ -10,6 +10,7 @@ package com.cobblemon.mod.common.client.gui.pc
 
 import com.cobblemon.mod.common.api.gui.blitk
 import com.cobblemon.mod.common.client.gui.drawProfilePokemon
+import com.cobblemon.mod.common.client.gui.pasture.PasturePCGUIConfiguration
 import com.cobblemon.mod.common.client.render.drawScaledText
 import com.cobblemon.mod.common.client.render.renderScaledGuiItemIcon
 import com.cobblemon.mod.common.pokemon.Gender
@@ -17,10 +18,10 @@ import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.lang
 import com.cobblemon.mod.common.util.math.fromEulerXYZDegrees
-import net.minecraft.client.gui.DrawableHelper
+import net.minecraft.client.MinecraftClient
+import net.minecraft.client.gui.DrawContext
 import net.minecraft.client.gui.widget.ButtonWidget
 import net.minecraft.client.sound.SoundManager
-import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.text.Text
 import org.joml.Quaternionf
 import org.joml.Vector3f
@@ -37,21 +38,24 @@ open class StorageSlot(
         private val genderIconMale = cobblemonResource("textures/gui/pc/gender_icon_male.png")
         private val genderIconFemale = cobblemonResource("textures/gui/pc/gender_icon_female.png")
         private val selectPointerResource = cobblemonResource("textures/gui/pc/pc_pointer.png")
+        private val slotOverlayResource = cobblemonResource("textures/gui/pc/pc_slot_overlay.png")
+        private val slotOverlayPastureIconResource = cobblemonResource("textures/gui/pasture/pc_slot_icon_pasture.png")
+        private val slotOverlayMoveIconResource = cobblemonResource("textures/gui/pasture/pc_slot_icon_move.png")
     }
 
     override fun playDownSound(soundManager: SoundManager) {
     }
 
-    override fun render(matrices: MatrixStack, mouseX: Int, mouseY: Int, delta: Float) {
+    override fun render(context: DrawContext, mouseX: Int, mouseY: Int, delta: Float) {
         if (shouldRender()) {
-            renderSlot(matrices, x, y)
+            renderSlot(context, x, y, delta)
         }
     }
 
-    fun renderSlot(matrices: MatrixStack, posX: Int, posY: Int) {
+    fun renderSlot(context: DrawContext, posX: Int, posY: Int, partialTicks: Float) {
         val pokemon = getPokemon() ?: return
-
-        DrawableHelper.enableScissor(
+        val matrices = context.matrices
+        context.enableScissor(
             posX - 2,
             posY + 2,
             posX + SIZE + 4,
@@ -67,18 +71,19 @@ open class StorageSlot(
             matrixStack = matrices,
             rotation = Quaternionf().fromEulerXYZDegrees(Vector3f(13F, 35F, 0F)),
             state = null,
+            partialTicks = partialTicks,
             scale = 4.5F
         )
         matrices.pop()
 
-        DrawableHelper.disableScissor()
+        context.disableScissor()
 
         // Ensure elements are not hidden behind Pokémon render
         matrices.push()
         matrices.translate(0.0, 0.0, 100.0)
         // Level
         drawScaledText(
-            matrixStack = matrices,
+            context = context,
             text = lang("ui.lv.number", pokemon.level),
             x = posX + 1,
             y = posY + 1,
@@ -97,19 +102,6 @@ open class StorageSlot(
                 scale = PCGUI.SCALE
             )
         }
-        matrices.pop()
-
-        if (isSelected) {
-            blitk(
-                matrixStack = matrices,
-                texture = selectPointerResource,
-                x = (posX + 10) / PCGUI.SCALE,
-                y = ((posY - 3) / PCGUI.SCALE) - parent.pcGui.selectPointerOffsetY,
-                width = 11,
-                height = 8,
-                scale = PCGUI.SCALE
-            )
-        }
 
         // Held Item
         val heldItem = pokemon.heldItemNoCopy()
@@ -122,6 +114,85 @@ open class StorageSlot(
                 matrixStack = matrices
             )
         }
+        matrices.pop()
+
+        // Ensure overlay elements are on top
+        matrices.push()
+        matrices.translate(0.0, 0.0, 500.0)
+
+        val config = parent.pcGui.configuration
+        if (pokemon.tetheringId != null) {
+            if (isStationary()) {
+                blitk(
+                    matrixStack = matrices,
+                    x = posX,
+                    y = posY,
+                    width = SIZE,
+                    height = SIZE,
+                    texture = slotOverlayResource
+                )
+            }
+
+            val opacity = if (config is PasturePCGUIConfiguration && config.pasturedPokemon.get().none { it.pokemonId == pokemon.uuid }) 0.5F else 1F
+
+            blitk(
+                matrixStack = matrices,
+                x = (posX + 7.5) / PCGUI.SCALE,
+                y = (posY + 7.5) / PCGUI.SCALE,
+                width = 20,
+                height = 20,
+                texture = slotOverlayPastureIconResource,
+                scale = PCGUI.SCALE,
+                alpha = opacity
+            )
+        }
+
+        if (isSelected) {
+            // If pasture UI and slot is not in pasture
+            if (config is PasturePCGUIConfiguration
+                && pokemon.tetheringId == null
+                && isStationary()
+                && config.permissions.canPasture
+                && config.canSelect(pokemon)
+                && config.pasturedPokemon.get().size < config.limit
+                && config.pasturedPokemon.get().count { it.playerId == MinecraftClient.getInstance().player!!.uuid } < config.permissions.maxPokemon
+            ) {
+                blitk(
+                    matrixStack = matrices,
+                    x = posX,
+                    y = posY,
+                    width = SIZE,
+                    height = SIZE,
+                    texture = slotOverlayResource
+                )
+
+                blitk(
+                    matrixStack = matrices,
+                    x = (posX + 7.5) / PCGUI.SCALE,
+                    y = (posY + 7.5) / PCGUI.SCALE,
+                    width = 20,
+                    height = 20,
+                    texture = slotOverlayMoveIconResource,
+                    scale = PCGUI.SCALE
+                )
+            }
+
+            // Arrow pointer
+            blitk(
+                matrixStack = matrices,
+                texture = selectPointerResource,
+                x = (posX + 10) / PCGUI.SCALE,
+                y = ((posY - 3) / PCGUI.SCALE) - parent.pcGui.selectPointerOffsetY,
+                width = 11,
+                height = 8,
+                scale = PCGUI.SCALE
+            )
+        }
+        matrices.pop()
+    }
+
+    open fun isStationary(): Boolean {
+        return true
     }
 
     open fun getPokemon(): Pokemon? {

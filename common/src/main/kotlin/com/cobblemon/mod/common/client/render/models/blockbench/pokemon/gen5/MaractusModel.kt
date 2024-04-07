@@ -11,6 +11,7 @@ package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen5
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.BimanualSwingAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BimanualFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cobblemon.mod.common.entity.PoseType.Companion.MOVING_POSES
@@ -26,17 +27,19 @@ class MaractusModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bima
     override val leftArm = getPart("arm_left1")
     override val rightArm = getPart("arm_right1")
 
-    override val portraitScale = 2.4F
-    override val portraitTranslation = Vec3d(-0.05, -0.7, 0.0)
+    override var portraitScale = 2.4F
+    override var portraitTranslation = Vec3d(-0.05, -0.7, 0.0)
 
-    override val profileScale = 0.8F
-    override val profileTranslation = Vec3d(0.0, 0.55, 0.0)
+    override var profileScale = 0.8F
+    override var profileTranslation = Vec3d(0.0, 0.55, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
 
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("maractus", "cry") }
+
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("maractus", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("maractus", "blink") }
         standing = registerPose(
             poseName = "standing",
             poseTypes = STATIONARY_POSES + UI_POSES,

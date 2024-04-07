@@ -15,6 +15,14 @@
     "special_defence": 65,
     "speed": 65
   },
+  "behaviour": {
+    "resting": {
+      "canSleep": true,
+      "willSleepOnBed": true,
+      "depth": "normal",
+      "light": "0-4"
+    }
+  },
   "catchRate": 190,
   "maleRatio": 0.25,
   "shoulderMountable": false,
@@ -72,9 +80,10 @@
         "40:mist",
         "44:auroraveil",
         "47:captivate",
+        "48:freezedry",
         "48:sheercold",
         "52:grudge",
-        "56:blizzard",
+        "52:blizzard",
         "egg:agility",
         "egg:babydolleyes",
         "egg:charm",
@@ -94,28 +103,41 @@
         "tm:agility",
         "tm:attract",
         "tm:auroraveil",
+        "tm:batonpass",
         "tm:blizzard",
         "tm:bodyslam",
         "tm:charm",
+        "tm:chillingwater",
         "tm:confide",
+        "tm:confuseray",
         "tm:darkpulse",
+        "tm:dazzlinggleam",
         "tm:dig",
+        "tm:disarmingvoice",
+        "tm:doubleedge",
         "tm:doubleteam",
         "tm:drainingkiss",
         "tm:encore",
         "tm:endure",
         "tm:facade",
+        "tm:faketears",
         "tm:foulplay",
         "tm:frostbreath",
         "tm:frustration",
         "tm:hail",
+        "tm:helpinghand",
         "tm:hex",
         "tm:hiddenpower",
         "tm:icebeam",
+        "tm:iciclespear",
         "tm:icywind",
         "tm:imprison",
         "tm:irontail",
+        "tm:mistyterrain",
+        "tm:nastyplot",
+        "tm:painsplit",
         "tm:payback",
+        "tm:playrough",
         "tm:powerswap",
         "tm:protect",
         "tm:psychup",
@@ -127,10 +149,15 @@
         "tm:safeguard",
         "tm:sleeptalk",
         "tm:snore",
+        "tm:snowscape",
+        "tm:spite",
+        "tm:storedpower",
         "tm:substitute",
         "tm:swagger",
         "tm:swift",
         "tm:tailslap",
+        "tm:takedown",
+        "tm:terablast",
         "tm:toxic",
         "tm:weatherball",
         "tm:zenheadbutt",
@@ -191,7 +218,24 @@
         }
       ],
       "cannotDynamax": false,
-      "battleOnly": false
+      "battleOnly": false,
+      "drops": {
+        "amount": 5,
+        "entries": [
+          {
+            "item": "minecraft:sweet_berries",
+            "quantityRange": "1-3"
+          },
+          {
+            "item": "minecraft:snowball",
+            "quantityRange": "0-1"
+          },
+          {
+            "item": "cobblemon:babiri_berry",
+            "percentage": 2.5
+          }
+        ]
+      }
     }
   ],
   "features": [
@@ -204,11 +248,19 @@
     "field"
   ],
   "drops": {
-    "amount": "1",
+    "amount": 5,
     "entries": [
       {
         "item": "minecraft:sweet_berries",
-        "quantityRange": "2-3"
+        "quantityRange": "1-3"
+      },
+      {
+        "item": "minecraft:charcoal",
+        "percentage": 2.5
+      },
+      {
+        "item": "cobblemon:rawst_berry",
+        "percentage": 2.5
       }
     ]
   },
@@ -235,7 +287,7 @@
     "47:captivate",
     "48:inferno",
     "52:grudge",
-    "56:fireblast",
+    "52:fireblast",
     "egg:babydolleyes",
     "egg:captivate",
     "egg:disable",
@@ -245,6 +297,7 @@
     "egg:flail",
     "egg:flamecharge",
     "egg:flareblitz",
+    "egg:healingwish",
     "egg:heatwave",
     "egg:hex",
     "egg:howl",
@@ -258,11 +311,16 @@
     "egg:tailslap",
     "tm:agility",
     "tm:attract",
+    "tm:batonpass",
     "tm:bodyslam",
+    "tm:burningjealousy",
     "tm:captivate",
+    "tm:charm",
     "tm:confide",
+    "tm:confuseray",
     "tm:darkpulse",
     "tm:dig",
+    "tm:doubleedge",
     "tm:doubleteam",
     "tm:encore",
     "tm:endure",
@@ -276,6 +334,7 @@
     "tm:foulplay",
     "tm:frustration",
     "tm:heatwave",
+    "tm:helpinghand",
     "tm:hex",
     "tm:hiddenpower",
     "tm:imprison",
@@ -283,7 +342,9 @@
     "tm:irontail",
     "tm:mysticalfire",
     "tm:naturalgift",
+    "tm:nastyplot",
     "tm:overheat",
+    "tm:painsplit",
     "tm:payback",
     "tm:powerswap",
     "tm:protect",
@@ -295,12 +356,16 @@
     "tm:safeguard",
     "tm:secretpower",
     "tm:sleeptalk",
+    "tm:snarl",
     "tm:snore",
+    "tm:spite",
     "tm:substitute",
     "tm:sunnyday",
     "tm:swagger",
     "tm:swift",
     "tm:tailslap",
+    "tm:takedown",
+    "tm:terablast",
     "tm:toxic",
     "tm:weatherball",
     "tm:willowisp",

@@ -29,7 +29,7 @@ object TakePokemon {
                 CommandManager.argument("player", EntityArgumentType.player())
                     .then(
                         CommandManager.argument("slot", IntegerArgumentType.integer(1, 99))
-                            .executes { execute(it) }
+                            .executes(::execute)
                     )
             )
 
@@ -60,12 +60,12 @@ object TakePokemon {
                     val player = context.source.player ?: return Command.SINGLE_SUCCESS
                     val toParty = player.party()
                     toParty.add(pokemon)
-                    context.source.sendFeedback("You took ${pokemon.species.name}".text(), true)
+                    context.source.sendFeedback({ "You took ${pokemon.species.name}".text() }, true)
                     return Command.SINGLE_SUCCESS
                 }
             }
 
-            context.source.sendFeedback("${pokemon.species.name} was removed.".text(), true)
+            context.source.sendFeedback({ "${pokemon.species.name} was removed.".text() }, true)
             return Command.SINGLE_SUCCESS
         } catch (e: Exception) {
             e.printStackTrace()

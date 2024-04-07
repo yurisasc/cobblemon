@@ -15,6 +15,7 @@ import com.cobblemon.mod.common.client.gui.battle.BattleOverlay
 import com.cobblemon.mod.common.client.gui.battle.widgets.BattleOptionTile
 import com.cobblemon.mod.common.util.battleLang
 import net.minecraft.client.MinecraftClient
+import net.minecraft.client.gui.DrawContext
 import net.minecraft.client.util.math.MatrixStack
 
 class ForfeitConfirmationSelection(
@@ -38,17 +39,17 @@ class ForfeitConfirmationSelection(
         val y = (MinecraftClient.getInstance().window.scaledHeight / 2) - (BattleOptionTile.OPTION_HEIGHT / 2)
 
         forfeitButton = BattleOptionTile(battleGUI, x, y, BattleGUI.runResource, battleLang("ui.forfeit")) {
-            battleGUI.selectAction(request, ForfeitActionResponse)
+            battleGUI.selectAction(request, ForfeitActionResponse())
             playDownSound(MinecraftClient.getInstance().soundManager)
         }
     }
 
-    override fun renderButton(matrices: MatrixStack, mouseX: Int, mouseY: Int, delta: Float) {
+    override fun renderButton(context: DrawContext, mouseX: Int, mouseY: Int, delta: Float) {
         if (opacity <= 0.05F) {
             return
         }
-        forfeitButton.render(matrices, mouseX, mouseY, delta)
-        backButton.render(matrices, mouseX, mouseY, delta)
+        forfeitButton.render(context, mouseX, mouseY, delta)
+        backButton.render(context.matrices, mouseX, mouseY, delta)
     }
 
     override fun mouseClicked(mouseX: Double, mouseY: Double, button: Int): Boolean {

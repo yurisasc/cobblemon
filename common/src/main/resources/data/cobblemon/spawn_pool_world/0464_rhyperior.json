@@ -7,19 +7,26 @@
             "id": "rhyperior-1",
             "pokemon": "rhyperior",
             "presets": [
-                "natural"
+                "natural",
+                "wild"
             ],
             "type": "pokemon",
             "context": "grounded",
             "bucket": "common",
-            "level": "49-53",
+            "level": "44-54",
             "weight": 0.02,
+            "weightMultiplier": {
+                "multiplier": 0.25,
+                "condition": {
+                    "timeRange": "night"
+                }
+            },
             "condition": {
-                "canSeeSky": true,
+                "minSkyLight": 8,
+                "maxSkyLight": 15,
                 "biomes": [
                     "#cobblemon:is_hills"
-                ],
-                "timeRange": "day"
+                ]
             }
         }
     ]

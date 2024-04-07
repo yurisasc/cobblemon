@@ -7,6 +7,19 @@
     "torrent",
     "h:shellarmor"
   ],
+  "drops": {
+    "amount": 2,
+    "entries": [
+      {
+        "item": "cobblemon:mystic_water",
+        "percentage": 10.0
+      },
+      {
+        "item": "cobblemon:shell_bell",
+        "percentage": 10.0
+      }
+    ]
+  },
   "baseStats": {
     "hp": 75,
     "attack": 75,
@@ -24,19 +37,18 @@
   "eggGroups": [
     "field"
   ],
-  "drops": {
-    "amount": "2",
-    "entries": [
-      {
-        "item": "minecraft:nautilus_shell",
-        "quantityRange": "1-2",
-        "percentage": 66
-      },
-      {
-        "item": "cobblemon:mystic_water",
-        "percentage": 10
-      }
-    ]
+  "behaviour": {
+    "resting": {
+      "canSleep": true,
+      "willSleepOnBed": false,
+      "depth": "normal",
+      "light": "0-4"
+    },
+    "swim": {
+      "canSwimInWater": true,
+      "canBreatheUnderwater": true,
+      "canWalkOnWater": true
+    }
   },
   "moves": [
     "1:soak",
@@ -73,6 +85,7 @@
     "tm:facade",
     "tm:falseswipe",
     "tm:fling",
+    "tm:flipturn",
     "tm:frustration",
     "tm:grassknot",
     "tm:hail",
@@ -81,6 +94,7 @@
     "tm:hydropump",
     "tm:icebeam",
     "tm:icywind",
+    "tm:knockoff",
     "tm:liquidation",
     "tm:protect",
     "tm:raindance",
@@ -103,9 +117,11 @@
     "tm:terablast",
     "tm:thief",
     "tm:toxic",
+    "tm:vacuumwave",
     "tm:waterfall",
     "tm:waterpledge",
     "tm:waterpulse",
+    "tm:whirlpool",
     "tm:workup",
     "tm:xscissor",
     "tutor:aquatail",

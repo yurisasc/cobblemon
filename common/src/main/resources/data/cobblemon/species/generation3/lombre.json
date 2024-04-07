@@ -27,13 +27,36 @@
     "water_1",
     "grass"
   ],
+  "behaviour": {
+    "moving": {
+      "swim": {
+        "swimSpeed": 0.3,
+        "canSwimInWater": true,
+        "canBreatheUnderwater": true,
+        "canWalkOnWater": true
+      }
+    },
+    "resting": {
+      "canSleep": true,
+      "willSleepOnBed": false,
+      "depth": "normal",
+      "light": "0-4"
+    }
+  },
   "drops": {
-    "amount": "1",
+    "amount": 4,
     "entries": [
       {
         "item": "minecraft:lily_pad",
-        "quantityRange": "1-2",
-        "percentage": 66
+        "quantityRange": "0-2"
+      },
+      {
+        "item": "cobblemon:mental_herb",
+        "percentage": 5.0
+      },
+      {
+        "item": "cobblemon:kebia_berry",
+        "percentage": 5.0
       }
     ]
   },
@@ -52,6 +75,7 @@
     "18:furyswipes",
     "20:watersport",
     "24:bubblebeam",
+    "30:leechseed",
     "30:naturepower",
     "32:uproar",
     "36:gigadrain",
@@ -66,8 +90,11 @@
     "tm:brickbreak",
     "tm:bulletseed",
     "tm:captivate",
+    "tm:chillingwater",
     "tm:confide",
+    "tm:disarmingvoice",
     "tm:dive",
+    "tm:doubleedge",
     "tm:doubleteam",
     "tm:drainpunch",
     "tm:echoedvoice",
@@ -81,6 +108,8 @@
     "tm:frustration",
     "tm:gigadrain",
     "tm:grassknot",
+    "tm:grassyglide",
+    "tm:grassyterrain",
     "tm:hail",
     "tm:hiddenpower",
     "tm:honeclaws",
@@ -89,8 +118,11 @@
     "tm:icebeam",
     "tm:icepunch",
     "tm:icywind",
+    "tm:knockoff",
+    "tm:magicalleaf",
     "tm:megakick",
     "tm:megapunch",
+    "tm:metronome",
     "tm:muddywater",
     "tm:mudshot",
     "tm:naturalgift",
@@ -114,12 +146,16 @@
     "tm:surf",
     "tm:swagger",
     "tm:swordsdance",
+    "tm:takedown",
+    "tm:terablast",
     "tm:thief",
     "tm:thunderpunch",
     "tm:toxic",
+    "tm:trailblaze",
     "tm:uproar",
     "tm:waterfall",
     "tm:waterpulse",
+    "tm:weatherball",
     "tm:whirlpool",
     "tm:zenheadbutt",
     "tutor:bodyslam",

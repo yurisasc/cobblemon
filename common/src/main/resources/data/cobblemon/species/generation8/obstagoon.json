@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Obstagoon",
   "nationalPokedexNumber": 862,
   "primaryType": "dark",
@@ -8,6 +9,15 @@
     "guts",
     "h:defiant"
   ],
+  "drops": {
+    "amount": 1,
+    "entries": [
+      {
+        "item": "cobblemon:chople_berry",
+        "percentage": 10.0
+      }
+    ]
+  },
   "baseStats": {
     "hp": 93,
     "attack": 90,
@@ -120,10 +130,10 @@
   ],
   "preEvolution": "linoone form=galar",
   "evolutions": [],
-  "baseScale": 1,
+  "baseScale": 0.65,
   "hitbox": {
-    "width": 1,
-    "height": 1,
+    "width": 1.2,
+    "height": 2.7,
     "fixed": false
   },
   "baseFriendship": 50,

@@ -1,0 +1,15 @@
+{
+    "placement": {
+        "type": "minecraft:random_spread",
+        "spacing": 20,
+        "separation": 10,
+        "salt": 1895720816,
+        "spread_type": "triangular"
+    },
+    "structures": [
+        {
+            "structure": "cobblemon:fossils/prehistoric_sandy_den",
+            "weight": 1
+        }
+    ]
+}

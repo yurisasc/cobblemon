@@ -12,13 +12,11 @@ import com.cobblemon.mod.common.client.render.models.blockbench.repository.Pokem
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.item.PokemonItem
 import com.cobblemon.mod.common.util.math.fromEulerXYZDegrees
-import com.mojang.blaze3d.systems.RenderSystem
-import net.minecraft.client.MinecraftClient
+import net.minecraft.client.render.DiffuseLighting
 import net.minecraft.client.render.LightmapTextureManager
 import net.minecraft.client.render.OverlayTexture
 import net.minecraft.client.render.VertexConsumer
 import net.minecraft.client.render.VertexConsumerProvider
-import net.minecraft.client.render.model.json.ModelTransformation
 import net.minecraft.client.render.model.json.ModelTransformationMode
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.item.ItemStack
@@ -32,38 +30,38 @@ class PokemonItemRenderer : CobblemonBuiltinItemRenderer {
 
         matrices.push()
         val model = PokemonModelRepository.getPoser(species.resourceIdentifier, aspects)
-        val renderLayer = model.getLayer(PokemonModelRepository.getTexture(species.resourceIdentifier, aspects, null))
+        val renderLayer = model.getLayer(PokemonModelRepository.getTexture(species.resourceIdentifier, aspects, 0F))
 
         val transformations = positions[mode]!!
 
-        RenderSystem.applyModelViewMatrix()
+        DiffuseLighting.enableGuiDepthLighting()
         matrices.scale(transformations.scale.x, transformations.scale.y, transformations.scale.z)
         matrices.translate(transformations.translation.x, transformations.translation.y, transformations.translation.z)
         model.setupAnimStateless(PoseType.PROFILE)
         matrices.translate(model.profileTranslation.x, model.profileTranslation.y,  model.profileTranslation.z - 4.0)
-        matrices.scale(model.profileScale, model.profileScale, 0.1F)
+        matrices.scale(model.profileScale, model.profileScale, 0.15F)
 
         val rotation = Quaternionf().fromEulerXYZDegrees(Vector3f(transformations.rotation.x, transformations.rotation.y, transformations.rotation.z))
         matrices.multiply(rotation)
         rotation.conjugate()
-        MinecraftClient.getInstance().entityRenderDispatcher.rotation = rotation
-
-        val light1 = Vector3f(-1F, 1F, 1.0F)
-        val light2 = Vector3f(1.3F, -1F, 1.0F)
-        RenderSystem.setShaderLights(light1, light2)
-//        val packedLight = LightmapTextureManager.pack(12, 12)
         val vertexConsumer: VertexConsumer = vertexConsumers.getBuffer(renderLayer)
         matrices.push()
-
-        val packedLight = LightmapTextureManager.pack(11, 7)
-        model.withLayerContext(vertexConsumers, null, PokemonModelRepository.getLayers(species.resourceIdentifier, aspects)) {
-            model.render(matrices, vertexConsumer, packedLight, OverlayTexture.DEFAULT_UV, 1F, 1F, 1F, 1F)
+        val packedLight = if (mode == ModelTransformationMode.GUI) {
+            LightmapTextureManager.pack(13, 13)
+        } else {
+            light
         }
 
-        matrices.pop()
-        matrices.pop()
+        // x = red, y = green, z = blue, w = alpha
+        val tint = pokemonItem.tint(stack)
+        model.withLayerContext(vertexConsumers, null, PokemonModelRepository.getLayers(species.resourceIdentifier, aspects)) {
+            model.render(matrices, vertexConsumer, packedLight, OverlayTexture.DEFAULT_UV, tint.x, tint.y, tint.z, tint.w)
+        }
 
-        MinecraftClient.getInstance().bufferBuilders.entityVertexConsumers.draw()
+        model.setDefault()
+        matrices.pop()
+        matrices.pop()
+        DiffuseLighting.disableGuiDepthLighting()
     }
 
     companion object {

@@ -61,9 +61,16 @@
       ],
       "height": 29,
       "weight": 7850,
-      "evolutions": [],
       "cannotDynamax": true,
-      "battleOnly": true
+      "battleOnly": true,
+      "drops": {
+        "amount": 1,
+        "entries": [
+          {
+            "item": "cobblemon:ability_shield"
+          }
+        ]
+      }
     }
   ],
   "baseExperienceYield": 335,
@@ -92,6 +99,7 @@
     "tm:bodyslam",
     "tm:brickbreak",
     "tm:closecombat",
+    "tm:coaching",
     "tm:crunch",
     "tm:dazzlinggleam",
     "tm:dig",
@@ -125,6 +133,7 @@
     "tm:retaliate",
     "tm:revenge",
     "tm:reversal",
+    "tm:roar",
     "tm:round",
     "tm:safeguard",
     "tm:sandstorm",

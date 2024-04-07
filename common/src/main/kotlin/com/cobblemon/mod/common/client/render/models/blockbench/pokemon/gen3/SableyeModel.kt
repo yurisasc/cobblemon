@@ -8,13 +8,13 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen3
 
-import com.cobblemon.mod.common.client.render.models.blockbench.asTransformed
+import com.cobblemon.mod.common.client.render.models.blockbench.createTransformation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BimanualFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pose.TransformedModelPart
+import com.cobblemon.mod.common.client.render.models.blockbench.pose.ModelPartTransformation
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.PoseType.Companion.MOVING_POSES
 import com.cobblemon.mod.common.entity.PoseType.Companion.STATIONARY_POSES
@@ -31,11 +31,11 @@ class SableyeModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Biped
     override val leftLeg = getPart("leg_left")
     override val rightLeg = getPart("leg_right")
 
-    override val portraitScale = 2.2F
-    override val portraitTranslation = Vec3d(-0.15, -0.5, 0.0)
+    override var portraitScale = 2.2F
+    override var portraitTranslation = Vec3d(-0.15, -0.5, 0.0)
 
-    override val profileScale = 1.0F
-    override val profileTranslation = Vec3d(0.0, 0.28, 0.0)
+    override var profileScale = 1.0F
+    override var profileTranslation = Vec3d(0.0, 0.28, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
@@ -71,7 +71,7 @@ class SableyeModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Biped
                 bedrock("sableye", "shoulder_left")
             ),
             transformedParts = arrayOf(
-                rootPart.asTransformed().addPosition(TransformedModelPart.X_AXIS, shoulderOffset)
+                rootPart.createTransformation().addPosition(ModelPartTransformation.X_AXIS, shoulderOffset)
             )
         )
 
@@ -82,7 +82,7 @@ class SableyeModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Biped
                 bedrock("sableye", "shoulder_right")
             ),
             transformedParts = arrayOf(
-                rootPart.asTransformed().addPosition(TransformedModelPart.X_AXIS, -shoulderOffset)
+                rootPart.createTransformation().addPosition(ModelPartTransformation.X_AXIS, -shoulderOffset)
             )
         )
     }

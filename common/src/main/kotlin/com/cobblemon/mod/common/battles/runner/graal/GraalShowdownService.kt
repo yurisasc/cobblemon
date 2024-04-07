@@ -11,16 +11,28 @@ package com.cobblemon.mod.common.battles.runner.graal
 import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.api.battles.model.PokemonBattle
 import com.cobblemon.mod.common.api.pokemon.PokemonSpecies
+import com.cobblemon.mod.common.battles.BagItems
 import com.cobblemon.mod.common.battles.ShowdownInterpreter
 import com.cobblemon.mod.common.battles.runner.ShowdownService
 import com.google.gson.Gson
 import com.google.gson.JsonArray
+import java.io.File
+import java.io.IOException
+import java.net.URI
+import java.nio.file.AccessMode
+import java.nio.file.DirectoryStream
+import java.nio.file.LinkOption
+import java.nio.file.OpenOption
+import java.nio.file.Path
+import java.nio.file.Paths
+import java.nio.file.attribute.FileAttribute
+import java.util.UUID
 import org.graalvm.polyglot.Context
 import org.graalvm.polyglot.HostAccess
+import org.graalvm.polyglot.HostAccess.Export
 import org.graalvm.polyglot.PolyglotAccess
 import org.graalvm.polyglot.Value
-import java.io.File
-import java.util.*
+import org.graalvm.polyglot.io.FileSystem
 
 /**
  * Mediator service for communicating between the Cobblemon Minecraft mod and Cobblemon showdown service via
@@ -49,13 +61,38 @@ class GraalShowdownService : ShowdownService {
     }
 
     private fun createContext() {
-        val access = HostAccess.newBuilder(HostAccess.ALL).build()
+        val wd = Paths.get("./showdown")
+        val access = HostAccess.newBuilder(HostAccess.EXPLICIT)
+            .allowIterableAccess(true)
+            .allowArrayAccess(true)
+            .allowListAccess(true)
+            .allowMapAccess(true)
+            .build()
         context = Context.newBuilder("js")
             .allowIO(true)
+            .fileSystem(object : FileSystem
+                {
+                    val default = FileSystem.newDefaultFileSystem()
+                    override fun parsePath(uri: URI) = default.parsePath(uri)
+                    override fun parsePath(path: String) = default.parsePath(path)
+                    override fun createDirectory(dir: Path, vararg attrs: FileAttribute<*>) = default.createDirectory(dir, *attrs)
+                    override fun delete(path: Path) = default.delete(path)
+                    override fun newByteChannel(path: Path, options: MutableSet<out OpenOption>, vararg attrs: FileAttribute<*>) = default.newByteChannel(path, options, *attrs)
+                    override fun newDirectoryStream(dir: Path, filter: DirectoryStream.Filter<in Path>) = default.newDirectoryStream(dir, filter)
+                    override fun toAbsolutePath(path: Path) = default.toAbsolutePath(path)
+                    override fun toRealPath(path: Path, vararg linkOptions: LinkOption) = default.toRealPath(path, *linkOptions)
+                    override fun readAttributes(path: Path, attributes: String, vararg options: LinkOption) = default.readAttributes(path, attributes, *options)
+                    override fun checkAccess(path: Path, modes: MutableSet<out AccessMode>, vararg linkOptions: LinkOption) {
+                        if (!path.toRealPath(LinkOption.NOFOLLOW_LINKS).startsWith(wd.toRealPath(LinkOption.NOFOLLOW_LINKS))) {
+                            Cobblemon.LOGGER.error("Hacked JS files in datapacks or some weird file system setup that Hiroku failed to anticipate.")
+                            throw IOException("Someone has put hacked JS files into datapacks because file access is being attempted outside of controlled folders.")
+                        }
+                    }
+                }
+            )
             .allowExperimentalOptions(true)
             .allowPolyglotAccess(PolyglotAccess.ALL)
             .allowHostAccess(access)
-            .allowAllAccess(true)
             .allowCreateThread(true)
             .logHandler(GraalLogger)
             .option("engine.WarnInterpreterOnly", "false")
@@ -130,14 +167,28 @@ class GraalShowdownService : ShowdownService {
         receiveSpeciesDataFn.execute(jsArray)
     }
 
+    override fun indicateSpeciesInitialized() {
+        val afterCobbledSpeciesInitFn = this.context.getBindings("js").getMember("afterCobbledSpeciesInit")
+        afterCobbledSpeciesInitFn.execute()
+    }
+
+    override fun registerBagItems() {
+        val receiveBagItemDataFn = this.context.getBindings("js").getMember("receiveBagItemData")
+        for ((itemId, js) in BagItems.bagItemsScripts) {
+            receiveBagItemDataFn.execute(itemId, js.replace("\n", " "))
+        }
+    }
+
     private fun sendToShowdown(battleId: UUID, messages: Array<String>) {
         sendBattleMessageFunction.execute(battleId.toString(), messages)
     }
 
+    @Export
     fun sendFromShowdown(battleId: String, message: String) {
         ShowdownInterpreter.interpretMessage(UUID.fromString(battleId), message)
     }
 
+    @Export
     fun log(message: String) {
         Cobblemon.LOGGER.info(message)
     }

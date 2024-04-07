@@ -9,11 +9,11 @@
 package com.cobblemon.mod.common.client.render.models.blockbench.frame
 
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.SingleBoneLookAnimation
-import net.minecraft.client.model.ModelPart
+import com.cobblemon.mod.common.client.render.models.blockbench.pose.Bone
 import net.minecraft.entity.Entity
 
 interface HeadedFrame : ModelFrame {
-    val head: ModelPart
+    val head: Bone
 
-    fun <T : Entity> singleBoneLook(invertX: Boolean = false, invertY: Boolean = false) = SingleBoneLookAnimation<T>(this, invertX, invertY)
+    fun <T : Entity> singleBoneLook(invertX: Boolean = false, invertY: Boolean = false, disableX: Boolean = false, disableY: Boolean = false) = SingleBoneLookAnimation<T>(this, invertX, invertY, disableX, disableY)
 }

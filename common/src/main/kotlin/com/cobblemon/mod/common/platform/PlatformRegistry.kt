@@ -8,6 +8,9 @@
 
 package com.cobblemon.mod.common.platform
 
+import com.cobblemon.mod.common.api.Priority
+import com.cobblemon.mod.common.battles.BagItems
+import com.cobblemon.mod.common.item.battle.BagItemConvertible
 import com.cobblemon.mod.common.util.cobblemonResource
 import net.minecraft.registry.Registry
 import net.minecraft.registry.RegistryKey
@@ -48,6 +51,12 @@ abstract class PlatformRegistry<R : Registry<T>, K : RegistryKey<R>, T> {
     open fun <E : T> create(name: String, entry: E): E {
         val identifier = cobblemonResource(name)
         this.queue[identifier] = entry
+        if (entry is BagItemConvertible) {
+            BagItems.bagItems.add(
+                priority = Priority.NORMAL,
+                value = entry
+            )
+        }
         return entry
     }
 

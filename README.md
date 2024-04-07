@@ -4,14 +4,15 @@ An open-source Pokémon mod for Minecraft Java Edition, written in Kotlin for Fa
 
 ## Getting started
 
-To set up the development workspace, first clone the project and open the build.gradle with Intellij.  There will be
-errors until you go to File -> Settings -> Build, Execution, Deployment -> Build Tools -> Gradle and change the Gradle JVM
-to 17. After changing this, click the icon for reloading the project. This will automatically
-put together all the dependencies and project setup.
+To set up the development workspace, first clone the project and open the build.gradle with Intellij. Make sure that you clone it to a folder that has no spaces in its path (for example, C:/Development/Cobblemon Stuff/cobblemon/ is bad) since Architectury Plugin seems to dislike it.
 
-Run `./gradlew genEclipseRuns`, and then in Intellij go to your run configurations, and change whichever you plan on
-running to use a Java 17 JRE. runClient is as if you booted up in singleplayer, runServer is a server without a client,
-and runData is for summoning the Eldritch gods or something, idk.
+After it takes ages to load, you should hopefully have runnable configurations of the project in the top right, such as Minecraft Client (:fabric). If not, try running `./gradlew genEclipseRuns`.
+
+Troubleshooting:
+- Try running `./gradlew --refresh-dependencies`
+- Try File -> Invalidate Caches.
+- Try deleting the `.idea` folder in the project root (make sure IntelliJ is closed when you try it).
+- Try completely reclone the thing lmao.
 
 ## Contributing
 
@@ -19,4 +20,4 @@ If you're interested in contributing to the project, you can simply fork the rep
 [here](https://gitlab.com/cable-mc/cobblemon/-/issues?scope=all&state=opened&label_name[]=accepted&assignee_id=None).
 
 If you want a more involved role in the project, involving branches on the main repository instead of forking and involvement
-in design discussions, add and message Hiroku#4373 on our Discord here: https://discord.gg/AsNpJSST7G.
+in design discussions, you can either apply in the `application-box` forum of our Discord or add and message Hiroku (`hiroku_dev`) on our Discord here: https://discord.gg/cobblemon.

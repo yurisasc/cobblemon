@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Ralts",
   "nationalPokedexNumber": 280,
   "primaryType": "psychic",
@@ -8,6 +9,27 @@
     "trace",
     "h:telepathy"
   ],
+  "drops": {
+    "amount": 4,
+    "entries": [
+      {
+        "item": "minecraft:ender_pearl",
+        "quantityRange": "0-1"
+      },
+      {
+        "item": "cobblemon:dawn_stone",
+        "percentage": 2.5
+      },
+      {
+        "item": "cobblemon:twisted_spoon",
+        "percentage": 2.5
+      },
+      {
+        "item": "cobblemon:kasib_berry",
+        "percentage": 2.5
+      }
+    ]
+  },
   "baseStats": {
     "hp": 28,
     "attack": 25,
@@ -61,6 +83,7 @@
     "egg:skillswap",
     "egg:synchronoise",
     "egg:willowisp",
+    "tm:alluringvoice",
     "tm:allyswitch",
     "tm:attract",
     "tm:bodyslam",
@@ -78,6 +101,7 @@
     "tm:echoedvoice",
     "tm:encore",
     "tm:endure",
+    "tm:expandingforce",
     "tm:facade",
     "tm:firepunch",
     "tm:flash",
@@ -91,6 +115,7 @@
     "tm:icepunch",
     "tm:icywind",
     "tm:imprison",
+    "tm:knockoff",
     "tm:lightscreen",
     "tm:magicalleaf",
     "tm:magicroom",
@@ -99,6 +124,7 @@
     "tm:metronome",
     "tm:mistyterrain",
     "tm:naturalgift",
+    "tm:painsplit",
     "tm:protect",
     "tm:psybeam",
     "tm:psychic",
@@ -204,10 +230,10 @@
       ]
     }
   ],
-  "baseScale": 1,
+  "baseScale": 0.8,
   "hitbox": {
-    "width": 1,
-    "height": 1,
+    "width": 0.5,
+    "height": 0.9,
     "fixed": false
   },
   "baseFriendship": 35,

@@ -8,12 +8,14 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1
 
+import com.cobblemon.mod.common.client.render.models.blockbench.animation.WingFlapIdleAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BiWingedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pose.TransformedModelPart
+import com.cobblemon.mod.common.client.render.models.blockbench.pose.ModelPartTransformation
 import com.cobblemon.mod.common.client.render.models.blockbench.wavefunction.parabolaFunction
 import com.cobblemon.mod.common.client.render.models.blockbench.wavefunction.sineFunction
 import com.cobblemon.mod.common.entity.PoseType
@@ -25,18 +27,18 @@ import net.minecraft.util.math.Vec3d
 
 class PidgeyModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedFrame, BiWingedFrame{
     override val rootPart = root.registerChildWithAllChildren("pidgey")
-    override val leftWing = getPart("wing_left")
-    override val rightWing = getPart("wing_right")
+    override val leftWing = getPart("wing_open_left")
+    override val rightWing = getPart("wing_open_right")
     override val leftLeg = getPart("leg_left")
     override val rightLeg = getPart("leg_right")
     override val head = getPart("head")
     private val tail = getPart("tail")
 
-    override val portraitScale = 3.5F
-    override val portraitTranslation = Vec3d(-0.1, -2.1, 0.0)
+    override var portraitScale = 3.5F
+    override var portraitTranslation = Vec3d(-0.1, -2.1, 0.0)
 
-    override val profileScale = 1.2F
-    override val profileTranslation = Vec3d(0.0, -0.01, 0.0)
+    override var profileScale = 1.2F
+    override var profileTranslation = Vec3d(0.0, -0.01, 0.0)
 
     lateinit var sleep: PokemonPose
     lateinit var stand: PokemonPose
@@ -44,12 +46,14 @@ class PidgeyModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedF
     lateinit var hover: PokemonPose
     lateinit var fly: PokemonPose
 
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("pidgey", "cry") }
+
     override fun registerPoses() {
         sleep = registerPose(
                 poseType = PoseType.SLEEP,
                 idleAnimations = arrayOf(bedrock("pidgey", "sleep"))
         )
-        val blink = quirk("blink") { bedrockStateful("pidgey", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("pidgey", "blink") }
         stand = registerPose(
             poseName = "standing",
             poseTypes = SHOULDER_POSES + UI_POSES + PoseType.STAND,
@@ -68,7 +72,12 @@ class PidgeyModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedF
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
-                bedrock("pidgey", "air_idle")
+                bedrock("pidgey", "air_idle"),
+                WingFlapIdleAnimation(this,
+                    flapFunction = sineFunction(verticalShift = -10F.toRadians(), period = 0.9F, amplitude = 0.6F),
+                    timeVariable = { state, _, _ -> state?.animationSeconds ?: 0F },
+                    axis = ModelPartTransformation.Z_AXIS
+                )
             )
         )
 
@@ -79,7 +88,12 @@ class PidgeyModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedF
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
-                bedrock("pidgey", "air_fly")
+                bedrock("pidgey", "air_fly"),
+                WingFlapIdleAnimation(this,
+                    flapFunction = sineFunction(verticalShift = -14F.toRadians(), period = 0.9F, amplitude = 0.9F),
+                    timeVariable = { state, _, _ -> state?.animationSeconds ?: 0F },
+                    axis = ModelPartTransformation.Z_AXIS
+                )
             )
         )
 
@@ -97,7 +111,7 @@ class PidgeyModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedF
                         period = 0.4F
                     ),
                     timeVariable = { state, _, _ -> state?.animationSeconds },
-                    axis = TransformedModelPart.Y_AXIS
+                    axis = ModelPartTransformation.Y_AXIS
                 ),
                 head.translation(
                     function = sineFunction(
@@ -105,7 +119,7 @@ class PidgeyModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedF
                         period = 1F,
                         verticalShift = (-10F).toRadians()
                     ),
-                    axis = TransformedModelPart.X_AXIS,
+                    axis = ModelPartTransformation.X_AXIS,
                     timeVariable = { state, _, _ -> state?.animationSeconds }
                 ),
                 leftLeg.rotation(
@@ -114,7 +128,7 @@ class PidgeyModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedF
                         phaseShift = 0F,
                         verticalShift = (30F).toRadians()
                     ),
-                    axis = TransformedModelPart.X_AXIS,
+                    axis = ModelPartTransformation.X_AXIS,
                     timeVariable = { _, _, ageInTicks -> ageInTicks / 20 },
                 ),
                 rightLeg.rotation(
@@ -123,7 +137,7 @@ class PidgeyModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedF
                         phaseShift = 0F,
                         verticalShift = (30F).toRadians()
                     ),
-                    axis = TransformedModelPart.X_AXIS,
+                    axis = ModelPartTransformation.X_AXIS,
                     timeVariable = { _, _, ageInTicks -> ageInTicks / 20 },
                 ),
                 tail.rotation(
@@ -131,7 +145,7 @@ class PidgeyModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedF
                         amplitude = (-5F).toRadians(),
                         period = 1F
                     ),
-                    axis = TransformedModelPart.X_AXIS,
+                    axis = ModelPartTransformation.X_AXIS,
                     timeVariable = { _, _, ageInTicks -> ageInTicks / 20 },
                 ),
                 wingFlap(
@@ -142,7 +156,7 @@ class PidgeyModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedF
                         verticalShift = (-20F).toRadians()
                     ),
                     timeVariable = { state, _, _ -> state?.animationSeconds },
-                    axis = TransformedModelPart.Z_AXIS
+                    axis = ModelPartTransformation.Z_AXIS
                 ),
                 rightWing.translation(
                     function = parabolaFunction(
@@ -150,7 +164,7 @@ class PidgeyModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedF
                         phaseShift = 30F,
                         verticalShift = (25F).toRadians()
                     ),
-                    axis = TransformedModelPart.Y_AXIS,
+                    axis = ModelPartTransformation.Y_AXIS,
                     timeVariable = { _, _, ageInTicks -> ageInTicks / 20 },
                 ),
                 leftWing.translation(
@@ -159,7 +173,7 @@ class PidgeyModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedF
                         phaseShift = 30F,
                         verticalShift = (25F).toRadians()
                     ),
-                    axis = TransformedModelPart.Y_AXIS,
+                    axis = ModelPartTransformation.Y_AXIS,
                     timeVariable = { _, _, ageInTicks -> ageInTicks / 20 },
                 ),
             )

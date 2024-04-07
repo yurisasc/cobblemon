@@ -7,6 +7,19 @@
     "torrent",
     "h:shellarmor"
   ],
+  "drops": {
+    "amount": 2,
+    "entries": [
+      {
+        "item": "cobblemon:mystic_water",
+        "percentage": 25.0
+      },
+      {
+        "item": "minecraft:nautilus_shell",
+        "percentage": 25.0
+      }
+    ]
+  },
   "baseStats": {
     "hp": 95,
     "attack": 100,
@@ -15,6 +28,9 @@
     "special_defence": 70,
     "speed": 70
   },
+  "features": [
+    "hisuian"
+  ],
   "catchRate": 45,
   "maleRatio": 0.875,
   "shoulderMountable": false,
@@ -126,9 +142,21 @@
       "height": 15,
       "weight": 582,
       "preEvolution": "dewott",
-      "evolutions": [],
       "cannotDynamax": false,
-      "battleOnly": false
+      "battleOnly": false,
+      "drops": {
+        "amount": 2,
+        "entries": [
+          {
+            "item": "cobblemon:mystic_water",
+            "percentage": 25.0
+          },
+          {
+            "item": "cobblemon:shell_bell",
+            "percentage": 25.0
+          }
+        ]
+      }
     }
   ],
   "baseExperienceYield": 238,
@@ -137,6 +165,20 @@
   "eggGroups": [
     "field"
   ],
+  "behaviour": {
+    "resting": {
+      "canSleep": true,
+      "willSleepOnBed": false,
+      "depth": "normal",
+      "light": "0-4"
+    },
+    "moving": {
+      "swim": {
+        "canSwimInWater": true,
+        "canBreatheUnderwater": true
+      }
+    }
+  },
   "moves": [
     "1:megahorn",
     "1:slash",

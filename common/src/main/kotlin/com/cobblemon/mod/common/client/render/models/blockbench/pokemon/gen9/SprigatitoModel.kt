@@ -9,42 +9,77 @@
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen9
 
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
-import com.cobblemon.mod.common.client.render.models.blockbench.frame.QuadrupedFrame
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
-import com.cobblemon.mod.common.entity.PoseType.Companion.STATIONARY_POSES
-import com.cobblemon.mod.common.entity.PoseType.Companion.UI_POSES
+import com.cobblemon.mod.common.entity.PoseType
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class SprigatitoModel(root:ModelPart) :PokemonPoseableModel(), HeadedFrame, QuadrupedFrame {
+class SprigatitoModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("sprigatito")
     override val head = getPart("head")
 
-    override val foreLeftLeg = getPart("leg_left")
-    override val foreRightLeg = getPart("leg_right")
-    override val hindLeftLeg = getPart("leg_back_left")
-    override val hindRightLeg = getPart("leg_back_right")
+    override var portraitScale = 2.1F
+    override var portraitTranslation = Vec3d(-0.35, -0.7, 0.0)
 
-    override val portraitScale = 2.3F
-    override val portraitTranslation = Vec3d(-0.2, -1.0, 0.0)
-
-    override val profileScale = 1.0F
-    override val profileTranslation = Vec3d(0.0, 0.25, 0.0)
+    override var profileScale = 0.8F
+    override var profileTranslation = Vec3d(0.0, 0.53, 0.0)
 
     lateinit var standing: PokemonPose
+    lateinit var walking: PokemonPose
+    lateinit var sleep: PokemonPose
+    lateinit var battleidle: PokemonPose
+
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("sprigatito", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("sprigatito", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("sprigatito", "blink") }
+        val earTwitchRight = quirk(secondsBetweenOccurrences = 60F to 120F) { bedrockStateful("sprigatito", "quirk_ear-twitch-left") }
+        val earTwitchLeft = quirk(secondsBetweenOccurrences = 60F to 120F) { bedrockStateful("sprigatito", "quirk_ear-twitch-right") }
+        sleep = registerPose(
+            poseType = PoseType.SLEEP,
+            quirks = arrayOf(earTwitchRight, earTwitchLeft),
+            idleAnimations = arrayOf(bedrock("sprigatito", "sleep"))
+        )
+
         standing = registerPose(
-                poseName = "standing",
-                poseTypes = STATIONARY_POSES + UI_POSES,
-                transformTicks = 10,
-                quirks = arrayOf(blink),
-                idleAnimations = arrayOf(
-                        singleBoneLook(),
-                        bedrock("sprigatito", "ground_idle")
-                )
+            poseName = "standing",
+            poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
+            transformTicks = 10,
+            condition = { !it.isBattling },
+            quirks = arrayOf(blink, earTwitchRight, earTwitchLeft),
+            idleAnimations = arrayOf(
+                singleBoneLook(),
+                bedrock("sprigatito", "ground_idle")
+            )
+        )
+
+        walking = registerPose(
+            poseName = "walking",
+            poseTypes = PoseType.MOVING_POSES,
+            transformTicks = 10,
+            quirks = arrayOf(blink, earTwitchRight, earTwitchLeft),
+            idleAnimations = arrayOf(
+                singleBoneLook(),
+                bedrock("sprigatito", "ground_walk")
+            )
+        )
+
+        battleidle = registerPose(
+            poseName = "battle_idle",
+            poseTypes = PoseType.STATIONARY_POSES,
+            transformTicks = 10,
+            quirks = arrayOf(blink, earTwitchRight, earTwitchLeft),
+            condition = { it.isBattling },
+            idleAnimations = arrayOf(
+                singleBoneLook(),
+                bedrock("sprigatito", "battle_idle")
+            )
         )
     }
+//    override fun getFaintAnimation(
+//        pokemonEntity: PokemonEntity,
+//        state: PoseableEntityState<PokemonEntity>
+//    ) = if (state.isPosedIn(standing, walking, battleidle, sleep)) bedrockStateful("sprigatito", "faint") else null
 }

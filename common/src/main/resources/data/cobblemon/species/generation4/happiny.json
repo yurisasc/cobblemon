@@ -26,13 +26,26 @@
     "undiscovered"
   ],
   "drops": {
-    "amount": "1",
+    "amount": 1,
     "entries": [
       {
         "item": "cobblemon:oval_stone",
-        "percentage": 20
+        "percentage": 25.0
       }
     ]
+  },
+  "behaviour": {
+    "moving": {
+      "walk": {
+        "walkSpeed": 0.25
+      }
+    },
+    "resting": {
+      "canSleep": true,
+      "willSleepOnBed": true,
+      "depth": "normal",
+      "light": "0-4"
+    }
   },
   "moves": [
     "1:charm",
@@ -77,6 +90,7 @@
     "tm:fling",
     "tm:frustration",
     "tm:grassknot",
+    "tm:gravity",
     "tm:hail",
     "tm:helpinghand",
     "tm:hiddenpower",
@@ -160,10 +174,10 @@
       ]
     }
   ],
-  "baseScale": 0.8,
+  "baseScale": 0.7,
   "hitbox": {
     "width": 0.6,
-    "height": 0.7,
+    "height": 0.9,
     "fixed": false
   },
   "baseFriendship": 140,

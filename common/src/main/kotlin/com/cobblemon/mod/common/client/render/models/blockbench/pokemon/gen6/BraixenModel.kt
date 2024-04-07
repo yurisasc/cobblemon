@@ -8,12 +8,15 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen6
 
+import com.cobblemon.mod.common.client.render.models.blockbench.createTransformation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BimanualFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cobblemon.mod.common.entity.PoseType
+import com.cobblemon.mod.common.entity.PoseType.Companion.UI_POSES
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
@@ -25,37 +28,68 @@ class BraixenModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Biped
     override val rightLeg = getPart("leg_right")
     override val leftLeg = getPart("leg_left")
 
-    override val portraitScale = 2.2F
-    override val portraitTranslation = Vec3d(-0.3, 1.8, 0.0)
+    val stick = getPart("hand_stick")
+    val sticktail = getPart("stick_tail")
 
-    override val profileScale = 0.55F
-    override val profileTranslation = Vec3d(0.0, 1.0, 0.0)
+    override var portraitScale = 2.2F
+    override var portraitTranslation = Vec3d(-0.3, 1.8, 0.0)
+
+    override var profileScale = 0.55F
+    override var profileTranslation = Vec3d(0.0, 1.0, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
+    lateinit var battleidle: PokemonPose
+
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("braixen", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("braixen", "blink").setPreventsIdle(false)}
+        val blink = quirk { bedrockStateful("braixen", "blink")}
         standing = registerPose(
-                poseName = "standing",
-                poseTypes = setOf(PoseType.NONE, PoseType.PROFILE, PoseType.STAND, PoseType.FLOAT, PoseType.PORTRAIT),
-                transformTicks = 10,
-                quirks = arrayOf(blink),
-                idleAnimations = arrayOf(
-                        singleBoneLook(),
-                        bedrock("braixen", "ground_idle")
-                )
+            poseName = "standing",
+            poseTypes = PoseType.STATIONARY_POSES + UI_POSES,
+            transformTicks = 10,
+            condition = { !it.isBattling },
+            transformedParts = arrayOf(
+                stick.createTransformation().withVisibility(visibility = false),
+                sticktail.createTransformation().withVisibility(visibility = true)
+            ),
+            quirks = arrayOf(blink),
+            idleAnimations = arrayOf(
+                    singleBoneLook(),
+                    bedrock("braixen", "ground_idle")
+            )
         )
 
         walk = registerPose(
-                poseName = "walk",
-                poseTypes = PoseType.MOVING_POSES,
-                transformTicks = 10,
-                quirks = arrayOf(blink),
-                idleAnimations = arrayOf(
-                        singleBoneLook(),
-                        bedrock("braixen", "ground_walk")
-                )
+            poseName = "walk",
+            poseTypes = PoseType.MOVING_POSES,
+            transformTicks = 10,
+            transformedParts = arrayOf(
+                stick.createTransformation().withVisibility(visibility = false),
+                sticktail.createTransformation().withVisibility(visibility = true)
+            ),
+            quirks = arrayOf(blink),
+            idleAnimations = arrayOf(
+                    singleBoneLook(),
+                    bedrock("braixen", "ground_walk")
+            )
+        )
+
+        battleidle = registerPose(
+            poseName = "battle_idle",
+            poseTypes = PoseType.STATIONARY_POSES,
+            transformTicks = 10,
+            transformedParts = arrayOf(
+                stick.createTransformation().withVisibility(visibility = true),
+                sticktail.createTransformation().withVisibility(visibility = false)
+            ),
+            quirks = arrayOf(blink),
+            condition = { it.isBattling },
+            idleAnimations = arrayOf(
+                singleBoneLook(),
+                bedrock("braixen", "battle_idle")
+            )
         )
     }
 }

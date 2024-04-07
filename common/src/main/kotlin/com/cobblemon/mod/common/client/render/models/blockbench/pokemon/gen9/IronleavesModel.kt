@@ -8,9 +8,8 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen9
 
-import com.cobblemon.mod.common.client.render.models.blockbench.asTransformed
+import com.cobblemon.mod.common.client.render.models.blockbench.createTransformation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
-import com.cobblemon.mod.common.client.render.models.blockbench.frame.QuadrupedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cobblemon.mod.common.entity.PoseType
@@ -24,18 +23,18 @@ class IronleavesModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     val neck_sword_right = getPart("neck_sword_right")
     val sword_head = getPart("sword_head")
 
-    override val portraitScale = 3.0F
-    override val portraitTranslation = Vec3d(-0.9, 2.2, 0.0)
+    override var portraitScale = 3.0F
+    override var portraitTranslation = Vec3d(-0.9, 2.2, 0.0)
 
-    override val profileScale = 0.65F
-    override val profileTranslation = Vec3d(0.0, 0.8, 0.0)
+    override var profileScale = 0.65F
+    override var profileTranslation = Vec3d(0.0, 0.8, 0.0)
 
     lateinit var sleep: PokemonPose
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("ironleaves", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("ironleaves", "blink") }
 
         standing = registerPose(
             poseName = "standing",
@@ -43,9 +42,9 @@ class IronleavesModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             transformTicks = 10,
             quirks = arrayOf(blink),
             transformedParts = arrayOf(
-                neck_sword_left.asTransformed().withVisibility(visibility = false),
-                neck_sword_right.asTransformed().withVisibility(visibility = false),
-                sword_head.asTransformed().withVisibility(visibility = false)
+                neck_sword_left.createTransformation().withVisibility(visibility = false),
+                neck_sword_right.createTransformation().withVisibility(visibility = false),
+                sword_head.createTransformation().withVisibility(visibility = false)
             ),
             idleAnimations = arrayOf(
                 singleBoneLook(),
@@ -56,9 +55,9 @@ class IronleavesModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
         sleep = registerPose(
             poseType = PoseType.SLEEP,
             transformedParts = arrayOf(
-                neck_sword_left.asTransformed().withVisibility(visibility = false),
-                neck_sword_right.asTransformed().withVisibility(visibility = false),
-                sword_head.asTransformed().withVisibility(visibility = false)
+                neck_sword_left.createTransformation().withVisibility(visibility = false),
+                neck_sword_right.createTransformation().withVisibility(visibility = false),
+                sword_head.createTransformation().withVisibility(visibility = false)
             ),
             idleAnimations = arrayOf(bedrock("ironleaves", "sleep"))
         )
@@ -69,9 +68,9 @@ class IronleavesModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             transformTicks = 10,
             quirks = arrayOf(blink),
             transformedParts = arrayOf(
-                neck_sword_left.asTransformed().withVisibility(visibility = false),
-                neck_sword_right.asTransformed().withVisibility(visibility = false),
-                sword_head.asTransformed().withVisibility(visibility = false)
+                neck_sword_left.createTransformation().withVisibility(visibility = false),
+                neck_sword_right.createTransformation().withVisibility(visibility = false),
+                sword_head.createTransformation().withVisibility(visibility = false)
             ),
             idleAnimations = arrayOf(
                 singleBoneLook(),

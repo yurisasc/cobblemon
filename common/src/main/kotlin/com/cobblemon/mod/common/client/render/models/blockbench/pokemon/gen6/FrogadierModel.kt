@@ -12,6 +12,7 @@ import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntitySt
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BimanualFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cobblemon.mod.common.entity.PoseType
@@ -27,11 +28,11 @@ class FrogadierModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
     override val rightLeg = getPart("leg_right")
     override val leftLeg = getPart("leg_left")
 
-    override val portraitScale = 1.9F
-    override val portraitTranslation = Vec3d(-0.1, 1.4, 0.0)
+    override var portraitScale = 1.9F
+    override var portraitTranslation = Vec3d(-0.1, 1.4, 0.0)
 
-    override val profileScale = 0.7F
-    override val profileTranslation = Vec3d(0.0, 0.7, 0.0)
+    override var profileScale = 0.7F
+    override var profileTranslation = Vec3d(0.0, 0.7, 0.0)
 
     lateinit var sleep: PokemonPose
     lateinit var standing: PokemonPose
@@ -40,8 +41,10 @@ class FrogadierModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
     lateinit var walk: PokemonPose
     lateinit var battleidle: PokemonPose
 
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("frogadier", "cry") }
+
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("frogadier", "blink").setPreventsIdle(false)}
+        val blink = quirk { bedrockStateful("frogadier", "blink")}
         sleep = registerPose(
                 poseType = PoseType.SLEEP,
                 transformTicks = 10,
@@ -114,5 +117,5 @@ class FrogadierModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
     override fun getFaintAnimation(
             pokemonEntity: PokemonEntity,
             state: PoseableEntityState<PokemonEntity>
-    ) = if (state.isPosedIn(standing, walk, battleidle, swim, float)) bedrockStateful("frogadier", "faint") else null
+    ) = if (state.isPosedIn(standing, walk, battleidle, swim, float, sleep)) bedrockStateful("frogadier", "faint") else null
 }

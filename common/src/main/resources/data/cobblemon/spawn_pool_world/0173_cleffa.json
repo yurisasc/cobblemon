@@ -12,10 +12,11 @@
             "type": "pokemon",
             "context": "grounded",
             "bucket": "uncommon",
-            "level": "4-22",
+            "level": "1-22",
             "weight": 9.0,
             "condition": {
-				"canSeeSky": true,
+                "minSkyLight": 8,
+                "maxSkyLight": 15,
                 "biomes": [
                     "#cobblemon:is_dripstone"
                 ],
@@ -26,15 +27,16 @@
             "id": "cleffa-2",
             "pokemon": "cleffa",
             "presets": [
-                "underground"
+                "natural"
             ],
             "type": "pokemon",
             "context": "grounded",
             "bucket": "uncommon",
-            "level": "4-22",
+            "level": "1-22",
             "weight": 9.0,
             "condition": {
-                "canSeeSky": false,
+                "minSkyLight": 0,
+                "maxSkyLight": 7,
                 "biomes": [
                     "#cobblemon:is_dripstone"
                 ]
@@ -49,15 +51,15 @@
             "type": "pokemon",
             "context": "grounded",
             "bucket": "uncommon",
-            "level": "4-22",
+            "level": "1-22",
             "weight": 9.0,
             "condition": {
-                "canSeeSky": true,
+                "minSkyLight": 8,
+                "maxSkyLight": 15,
                 "biomes": [
                     "#cobblemon:is_hills"
                 ],
-                "timeRange": "night",
-				"moonPhase": 1
+                "timeRange": "night"
             }
         },
         {
@@ -69,10 +71,11 @@
             "type": "pokemon",
             "context": "grounded",
             "bucket": "uncommon",
-            "level": "4-22",
+            "level": "1-22",
             "weight": 9.0,
             "condition": {
-                "canSeeSky": true,
+                "minSkyLight": 8,
+                "maxSkyLight": 15,
                 "biomes": [
                     "#cobblemon:is_magical"
                 ],

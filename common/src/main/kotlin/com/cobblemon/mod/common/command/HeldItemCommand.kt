@@ -48,7 +48,7 @@ object HeldItemCommand {
         val stackArgument = ItemStackArgumentType.getItemStackArgument(ctx, ITEM)
         val stack = stackArgument.createStack(1, false)
         pokemon.swapHeldItem(stack)
-        ctx.source.sendFeedback(commandLang(NAME, player.name, pokemon.species.translatedName, stack.name), true)
+        ctx.source.sendFeedback({ commandLang(NAME, player.name, pokemon.species.translatedName, stack.name) }, true)
         return Command.SINGLE_SUCCESS
     }
 

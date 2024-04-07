@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Archeops",
   "nationalPokedexNumber": 567,
   "primaryType": "rock",
@@ -6,6 +7,15 @@
   "abilities": [
     "defeatist"
   ],
+  "drops": {
+    "amount": 3,
+    "entries": [
+      {
+        "item": "minecraft:feather",
+        "quantityRange": "0-3"
+      }
+    ]
+  },
   "baseStats": {
     "hp": 75,
     "attack": 140,
@@ -24,6 +34,13 @@
     "flying",
     "water_3"
   ],
+  "behaviour": {
+    "moving": {
+      "fly": {
+        "canFly": true
+      }
+    }
+  },
   "moves": [
     "1:leer",
     "1:quickattack",
@@ -141,8 +158,8 @@
   "evolutions": [],
   "baseScale": 1,
   "hitbox": {
-    "width": 1,
-    "height": 1,
+    "width": 1.2,
+    "height": 2,
     "fixed": false
   },
   "baseFriendship": 50,

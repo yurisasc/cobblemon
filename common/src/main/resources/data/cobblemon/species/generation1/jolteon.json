@@ -7,6 +7,19 @@
     "voltabsorb",
     "h:quickfeet"
   ],
+  "drops": {
+    "amount": 2,
+    "entries": [
+      {
+        "item": "cobblemon:thunder_stone",
+        "percentage": 25.0
+      },
+      {
+        "item": "cobblemon:magnet",
+        "percentage": 10.0
+      }
+    ]
+  },
   "baseStats": {
     "hp": 65,
     "attack": 65,
@@ -50,20 +63,25 @@
     "50:thunder",
     "55:lastresort",
     "tm:agility",
+    "tm:alluringvoice",
     "tm:attract",
     "tm:batonpass",
     "tm:bodyslam",
     "tm:calmmind",
     "tm:captivate",
+    "tm:charge",
     "tm:chargebeam",
     "tm:charm",
     "tm:confide",
+    "tm:curse",
     "tm:dig",
+    "tm:doubleedge",
     "tm:doubleteam",
     "tm:echoedvoice",
     "tm:eerieimpulse",
     "tm:electricterrain",
     "tm:electroball",
+    "tm:electroweb",
     "tm:endure",
     "tm:facade",
     "tm:faketears",
@@ -78,6 +96,7 @@
     "tm:hypervoice",
     "tm:irontail",
     "tm:lightscreen",
+    "tm:metalsound",
     "tm:mudslap",
     "tm:naturalgift",
     "tm:payday",

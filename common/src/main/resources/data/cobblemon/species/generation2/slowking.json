@@ -9,6 +9,19 @@
     "owntempo",
     "h:regenerator"
   ],
+  "drops": {
+    "amount": 2,
+    "entries": [
+      {
+        "item": "cobblemon:kings_rock",
+        "percentage": 10.0
+      },
+      {
+        "item": "cobblemon:chesto_berry",
+        "percentage": 10.0
+      }
+    ]
+  },
   "baseStats": {
     "hp": 95,
     "attack": 75,
@@ -17,6 +30,9 @@
     "special_defence": 110,
     "speed": 30
   },
+  "features": [
+    "galarian"
+  ],
   "catchRate": 70,
   "maleRatio": 0.5,
   "shoulderMountable": false,
@@ -56,6 +72,13 @@
         "monster",
         "water_1"
       ],
+      "behaviour": {
+        "moving": {
+          "walk": {
+            "walkSpeed": 0.23
+          }
+        }
+      },
       "moves": [
         "1:acid",
         "1:chillyreception",
@@ -92,11 +115,13 @@
         "tm:bulldoze",
         "tm:calmmind",
         "tm:chillingwater",
+        "tm:curse",
         "tm:dig",
         "tm:dive",
         "tm:drainpunch",
         "tm:earthquake",
         "tm:endure",
+        "tm:expandingforce",
         "tm:facade",
         "tm:fireblast",
         "tm:firepunch",
@@ -109,6 +134,7 @@
         "tm:grassknot",
         "tm:gunkshot",
         "tm:hail",
+        "tm:helpinghand",
         "tm:hex",
         "tm:hydropump",
         "tm:hyperbeam",
@@ -133,7 +159,9 @@
         "tm:protect",
         "tm:psybeam",
         "tm:psychic",
+        "tm:psychicnoise",
         "tm:psychicterrain",
+        "tm:psychup",
         "tm:psyshock",
         "tm:raindance",
         "tm:razorshell",
@@ -149,6 +177,7 @@
         "tm:sludgewave",
         "tm:snarl",
         "tm:snore",
+        "tm:snowscape",
         "tm:stompingtantrum",
         "tm:storedpower",
         "tm:substitute",
@@ -160,12 +189,14 @@
         "tm:terablast",
         "tm:thunderpunch",
         "tm:thunderwave",
+        "tm:toxic",
         "tm:toxicspikes",
         "tm:triattack",
         "tm:trick",
         "tm:trickroom",
         "tm:venomdrench",
         "tm:venoshock",
+        "tm:waterfall",
         "tm:waterpulse",
         "tm:weatherball",
         "tm:whirlpool",
@@ -183,9 +214,17 @@
       "height": 18,
       "weight": 795,
       "preEvolution": "slowpoke form=galar",
-      "evolutions": [],
       "cannotDynamax": false,
-      "battleOnly": false
+      "battleOnly": false,
+      "drops": {
+        "amount": 1,
+        "entries": [
+          {
+            "item": "cobblemon:chesto_berry",
+            "percentage": 10.0
+          }
+        ]
+      }
     }
   ],
   "baseExperienceYield": 172,
@@ -200,6 +239,9 @@
       "swim": {
         "canSwimInWater": true,
         "canBreatheUnderwater": true
+      },
+      "walk": {
+        "walkSpeed": 0.2
       }
     }
   },
@@ -240,6 +282,7 @@
     "tm:captivate",
     "tm:chillingwater",
     "tm:confide",
+    "tm:curse",
     "tm:dig",
     "tm:dive",
     "tm:doubleteam",
@@ -249,6 +292,7 @@
     "tm:earthquake",
     "tm:echoedvoice",
     "tm:endure",
+    "tm:expandingforce",
     "tm:facade",
     "tm:fireblast",
     "tm:firepunch",
@@ -263,6 +307,7 @@
     "tm:gigaimpact",
     "tm:grassknot",
     "tm:hail",
+    "tm:helpinghand",
     "tm:hiddenpower",
     "tm:hydropump",
     "tm:hyperbeam",
@@ -288,6 +333,7 @@
     "tm:protect",
     "tm:psybeam",
     "tm:psychic",
+    "tm:psychicnoise",
     "tm:psychicterrain",
     "tm:psychup",
     "tm:psyshock",

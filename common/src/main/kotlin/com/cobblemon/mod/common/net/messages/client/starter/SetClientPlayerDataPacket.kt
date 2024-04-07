@@ -21,11 +21,20 @@ import net.minecraft.network.PacketByteBuf
  * @author Hiroku
  * @since August 1st, 2022
  */
-class SetClientPlayerDataPacket(val promptStarter: Boolean, val starterLocked: Boolean, val starterSelected: Boolean, val starterUUID: UUID?) : NetworkPacket<SetClientPlayerDataPacket> {
+class SetClientPlayerDataPacket(val promptStarter: Boolean, val starterLocked: Boolean, val starterSelected: Boolean, val starterUUID: UUID?, val resetStarterPrompt: Boolean?) : NetworkPacket<SetClientPlayerDataPacket> {
 
     override val id = ID
 
-    constructor(playerData: PlayerData): this(!playerData.starterPrompted || !Cobblemon.starterConfig.promptStarterOnceOnly, playerData.starterLocked, playerData.starterSelected, playerData.starterUUID)
+    constructor(
+        playerData: PlayerData,
+        resetStarterPrompt: Boolean? = null
+    ) : this(
+        !playerData.starterPrompted || !Cobblemon.starterConfig.promptStarterOnceOnly,
+        playerData.starterLocked,
+        playerData.starterSelected,
+        playerData.starterUUID,
+        resetStarterPrompt
+    )
 
     override fun encode(buffer: PacketByteBuf) {
         buffer.writeBoolean(promptStarter)
@@ -33,6 +42,8 @@ class SetClientPlayerDataPacket(val promptStarter: Boolean, val starterLocked: B
         buffer.writeBoolean(starterSelected)
         val starterUUID = starterUUID
         buffer.writeNullable(starterUUID) { pb, value -> pb.writeUuid(value) }
+        val resetStarterPrompt = resetStarterPrompt
+        buffer.writeNullable(resetStarterPrompt) { pb, value -> pb.writeBoolean(value) }
     }
 
     companion object {
@@ -42,7 +53,8 @@ class SetClientPlayerDataPacket(val promptStarter: Boolean, val starterLocked: B
             val starterLocked = buffer.readBoolean()
             val starterSelected = buffer.readBoolean()
             val starterUUID = buffer.readNullable { it.readUuid() }
-            return SetClientPlayerDataPacket(promptStarter, starterLocked, starterSelected, starterUUID)
+            val resetStarterPrompt = buffer.readNullable { it.readBoolean() }
+            return SetClientPlayerDataPacket(promptStarter, starterLocked, starterSelected, starterUUID, resetStarterPrompt)
         }
     }
 }

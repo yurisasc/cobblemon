@@ -11,6 +11,7 @@ package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen3
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.BipedWalkAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cobblemon.mod.common.entity.PoseType.Companion.MOVING_POSES
@@ -26,17 +27,19 @@ class CombuskenModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
     override val leftLeg = getPart("leg_left")
     override val rightLeg = getPart("leg_right")
 
-    override val portraitScale = 2.5F
-    override val portraitTranslation = Vec3d(0.0, 0.3, 0.0)
+    override var portraitScale = 2.5F
+    override var portraitTranslation = Vec3d(0.0, 0.3, 0.0)
 
-    override val profileScale = 0.76F
-    override val profileTranslation = Vec3d(0.0, 0.6, 0.0)
+    override var profileScale = 0.76F
+    override var profileTranslation = Vec3d(0.0, 0.6, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
 
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("combusken", "cry") }
+
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("combusken", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("combusken", "blink") }
         standing = registerPose(
             poseName = "standing",
             poseTypes = STATIONARY_POSES + UI_POSES,

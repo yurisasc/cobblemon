@@ -59,7 +59,6 @@
       ],
       "height": 50,
       "weight": 9997,
-      "evolutions": [],
       "cannotDynamax": false,
       "battleOnly": true
     }
@@ -97,6 +96,7 @@
     "tm:crunch",
     "tm:cut",
     "tm:dig",
+    "tm:doubleedge",
     "tm:doubleteam",
     "tm:dragonclaw",
     "tm:dragonpulse",
@@ -111,6 +111,7 @@
     "tm:flamethrower",
     "tm:fling",
     "tm:focusblast",
+    "tm:focuspunch",
     "tm:frustration",
     "tm:gigaimpact",
     "tm:heatcrash",
@@ -146,7 +147,9 @@
     "tm:round",
     "tm:safeguard",
     "tm:sandstorm",
+    "tm:sandtomb",
     "tm:scaryface",
+    "tm:scorchingsands",
     "tm:secretpower",
     "tm:shadowclaw",
     "tm:shockwave",
@@ -248,5 +251,13 @@
   "height": 35,
   "weight": 9500,
   "aspects": [],
-  "cannotDynamax": false
+  "cannotDynamax": false,
+  "drops": {
+    "amount": 1,
+    "entries": [
+      {
+        "item": "minecraft:nether_star"
+      }
+    ]
+  }
 }

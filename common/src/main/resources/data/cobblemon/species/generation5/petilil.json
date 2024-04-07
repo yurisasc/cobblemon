@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Petilil",
   "nationalPokedexNumber": 548,
   "primaryType": "grass",
@@ -7,6 +8,23 @@
     "owntempo",
     "h:leafguard"
   ],
+  "drops": {
+    "amount": 3,
+    "entries": [
+      {
+        "item": "cobblemon:revival_herb",
+        "percentage": 2.5
+      },
+      {
+        "item": "cobblemon:persim_berry",
+        "percentage": 2.5
+      },
+      {
+        "item": "cobblemon:absorb_bulb",
+        "percentage": 2.5
+      }
+    ]
+  },
   "baseStats": {
     "hp": 45,
     "attack": 35,
@@ -16,6 +34,9 @@
     "speed": 30
   },
   "catchRate": 190,
+  "features": [
+    "hisuian"
+  ],
   "maleRatio": 0,
   "shoulderMountable": false,
   "baseExperienceYield": 56,
@@ -67,6 +88,7 @@
     "tm:frustration",
     "tm:gigadrain",
     "tm:grassknot",
+    "tm:grassyglide",
     "tm:helpinghand",
     "tm:hiddenpower",
     "tm:leafstorm",
@@ -126,7 +148,7 @@
     {
       "id": "petilil_lilligant",
       "variant": "item_interact",
-      "result": "lilligant form=hisui",
+      "result": "lilligant hisuian",
       "consumeHeldItem": false,
       "learnableMoves": [
         "victorydance"
@@ -135,9 +157,9 @@
       "requiredContext": "cobblemon:sun_stone"
     }
   ],
-  "baseScale": 1,
+  "baseScale": 0.5,
   "hitbox": {
-    "width": 1,
+    "width": 0.7,
     "height": 1,
     "fixed": false
   },

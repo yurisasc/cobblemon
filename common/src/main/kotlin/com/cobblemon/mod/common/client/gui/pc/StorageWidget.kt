@@ -16,6 +16,8 @@ import com.cobblemon.mod.common.api.storage.party.PartyPosition
 import com.cobblemon.mod.common.api.storage.pc.PCPosition
 import com.cobblemon.mod.common.api.text.bold
 import com.cobblemon.mod.common.client.CobblemonResources
+import com.cobblemon.mod.common.client.gui.pasture.PasturePCGUIConfiguration
+import com.cobblemon.mod.common.client.gui.pasture.PastureWidget
 import com.cobblemon.mod.common.client.gui.summary.widgets.SoundlessWidget
 import com.cobblemon.mod.common.client.render.drawScaledText
 import com.cobblemon.mod.common.client.settings.ServerSettings
@@ -34,10 +36,10 @@ import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.lang
 import net.minecraft.client.MinecraftClient
+import net.minecraft.client.gui.DrawContext
 import net.minecraft.client.gui.screen.Screen
 import net.minecraft.client.gui.widget.ButtonWidget
 import net.minecraft.client.sound.PositionedSoundInstance
-import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.sound.SoundEvent
 import net.minecraft.text.Text
 
@@ -58,6 +60,7 @@ class StorageWidget(
         const val BOX_SLOT_PADDING = 2
         const val PARTY_SLOT_PADDING = 6
 
+        private val partyPanelResource = cobblemonResource("textures/gui/pc/party_panel.png")
         private val screenOverlayResource = cobblemonResource("textures/gui/pc/pc_screen_overlay.png")
     }
 
@@ -66,6 +69,8 @@ class StorageWidget(
     private val releaseButton: ReleaseButton
     private val releaseYesButton: ReleaseConfirmButton
     private val releaseNoButton: ReleaseConfirmButton
+
+    var pastureWidget: PastureWidget? = null
 
     var displayConfirmRelease = false
     var screenLoaded = false
@@ -91,9 +96,9 @@ class StorageWidget(
             y = y + 124,
             parent = this,
             onPress = {
-                if (!displayConfirmRelease) {
+                if (!displayConfirmRelease && canDeleteSelected()) {
                     displayConfirmRelease = true
-                    playSound(CobblemonSounds.GUI_CLICK)
+                    playSound(CobblemonSounds.PC_CLICK)
                 }
             }
         )
@@ -130,10 +135,14 @@ class StorageWidget(
             onPress = {
                 if (displayConfirmRelease) {
                     displayConfirmRelease = false
-                    playSound(CobblemonSounds.GUI_CLICK)
+                    playSound(CobblemonSounds.PC_CLICK)
                 }
             }
         )
+
+        if (pcGui.configuration is PasturePCGUIConfiguration) {
+            this.pastureWidget = PastureWidget(this, pcGui.configuration, x + 182, y - 19)
+        }
     }
 
     fun canDeleteSelected(): Boolean {
@@ -168,30 +177,32 @@ class StorageWidget(
         }
 
         // Party Slots
-        for (partyIndex in 0..5) {
-            var partyX = x + PARTY_SLOT_START_OFFSET_X
-            var partyY = y + PARTY_SLOT_START_OFFSET_Y
+        if (pcGui.configuration.showParty) {
+            for (partyIndex in 0..5) {
+                var partyX = x + PARTY_SLOT_START_OFFSET_X
+                var partyY = y + PARTY_SLOT_START_OFFSET_Y
 
-            if (partyIndex > 0) {
-                val isEven = partyIndex % 2 == 0
-                val offsetIndex = (partyIndex - (if (isEven) 0 else 1)) / 2
-                val offsetX = if (isEven) 0 else (StorageSlot.SIZE + PARTY_SLOT_PADDING)
-                val offsetY = if (isEven) 0 else 8
+                if (partyIndex > 0) {
+                    val isEven = partyIndex % 2 == 0
+                    val offsetIndex = (partyIndex - (if (isEven) 0 else 1)) / 2
+                    val offsetX = if (isEven) 0 else (StorageSlot.SIZE + PARTY_SLOT_PADDING)
+                    val offsetY = if (isEven) 0 else 8
 
-                partyX += offsetX
-                partyY += ((StorageSlot.SIZE + PARTY_SLOT_PADDING) * offsetIndex) + offsetY
-            }
+                    partyX += offsetX
+                    partyY += ((StorageSlot.SIZE + PARTY_SLOT_PADDING) * offsetIndex) + offsetY
+                }
 
-            PartyStorageSlot(
-                x = partyX,
-                y = partyY,
-                parent = this,
-                party = party,
-                position = PartyPosition(partyIndex),
-                onPress = { this.onStorageSlotClicked(it) }
-            ).also { widget ->
-                this.addWidget(widget)
-                this.partySlots.add(widget)
+                PartyStorageSlot(
+                    x = partyX,
+                    y = partyY,
+                    parent = this,
+                    party = party,
+                    position = PartyPosition(partyIndex),
+                    onPress = { this.onStorageSlotClicked(it) }
+                ).also { widget ->
+                    this.addWidget(widget)
+                    this.partySlots.add(widget)
+                }
             }
         }
     }
@@ -205,33 +216,46 @@ class StorageWidget(
         }
     }
 
-    override fun renderButton(matrices: MatrixStack, mouseX: Int, mouseY: Int, delta: Float) {
+    override fun renderButton(context: DrawContext, mouseX: Int, mouseY: Int, delta: Float) {
+        val matrices = context.matrices
         // Party  Label
-        drawScaledText(
-            matrixStack = matrices,
-            font = CobblemonResources.DEFAULT_LARGE,
-            text = lang("ui.party").bold(),
-            x = x + 213,
-            y = y - 15.5,
-            centered = true,
-            shadow = true
-        )
-
-        if (canDeleteSelected() && displayConfirmRelease) {
-            drawScaledText(
-                matrixStack = matrices,
-                font = CobblemonResources.DEFAULT_LARGE,
-                text = lang("ui.pc.release").bold(),
-                x = x + 223,
-                y = y + 119,
-                centered = true
+        if (pcGui.configuration.showParty) {
+            blitk(
+                matrixStack = context.matrices,
+                texture = partyPanelResource,
+                x = x + 182,
+                y = y - 19,
+                width = PCGUI.RIGHT_PANEL_WIDTH,
+                height = PCGUI.RIGHT_PANEL_HEIGHT
             )
+
+            drawScaledText(
+                context = context,
+                font = CobblemonResources.DEFAULT_LARGE,
+                text = lang("ui.party").bold(),
+                x = x + 213,
+                y = y - 15.5,
+                centered = true,
+                shadow = true
+            )
+
+
+            if (canDeleteSelected() && displayConfirmRelease) {
+                drawScaledText(
+                    context = context,
+                    font = CobblemonResources.DEFAULT_LARGE,
+                    text = lang("ui.pc.release").bold(),
+                    x = x + 223,
+                    y = y + 119,
+                    centered = true
+                )
+            }
+
+            this.releaseButton.render(context, mouseX, mouseY, delta)
+            this.releaseYesButton.render(context, mouseX, mouseY, delta)
+            this.releaseNoButton.render(context, mouseX, mouseY, delta)
         }
 
-        this.releaseButton.render(matrices, mouseX, mouseY, delta)
-        this.releaseYesButton.render(matrices, mouseX, mouseY, delta)
-        this.releaseNoButton.render(matrices, mouseX, mouseY, delta)
-        
         // Screen Overlay
         blitk(
             matrixStack = matrices,
@@ -245,7 +269,7 @@ class StorageWidget(
 
         if (screenLoaded) {
             this.boxSlots.forEach { slot ->
-                slot.render(matrices, mouseX, mouseY, delta)
+                slot.render(context, mouseX, mouseY, delta)
                 val pokemon = slot.getPokemon()
                 if (grabbedSlot == null && slot.isHovered(mouseX, mouseY)
                     && pokemon != null && pokemon != pcGui.previewPokemon) pcGui.setPreviewPokemon(pokemon)
@@ -254,14 +278,20 @@ class StorageWidget(
             if (pcGui.ticksElapsed >= 10)  screenLoaded = true
         }
 
-        this.partySlots.forEach { slot ->
-            slot.render(matrices, mouseX, mouseY, delta)
-            val pokemon = slot.getPokemon()
-            if (grabbedSlot == null && slot.isHovered(mouseX, mouseY)
-                && pokemon != null && pokemon != pcGui.previewPokemon) pcGui.setPreviewPokemon(pokemon)
+        // Party slots
+        if (pcGui.configuration.showParty) {
+            this.partySlots.forEach { slot ->
+                slot.render(context, mouseX, mouseY, delta)
+                val pokemon = slot.getPokemon()
+                if (grabbedSlot == null && slot.isHovered(mouseX, mouseY)
+                    && pokemon != null && pokemon != pcGui.previewPokemon
+                ) pcGui.setPreviewPokemon(pokemon)
+            }
         }
 
-        grabbedSlot?.render(matrices, mouseX, mouseY, delta)
+        pastureWidget?.renderButton(context, mouseX, mouseY, delta)
+
+        grabbedSlot?.render(context, mouseX, mouseY, delta)
     }
 
     override fun mouseClicked(pMouseX: Double, pMouseY: Double, pButton: Int): Boolean {
@@ -272,6 +302,7 @@ class StorageWidget(
             if (releaseButton.isHovered(pMouseX, pMouseY)) releaseButton.mouseClicked(pMouseX, pMouseY, pButton)
         }
 
+        pastureWidget?.mouseClicked(pMouseX, pMouseY, pButton)
         return super.mouseClicked(pMouseX, pMouseY, pButton)
     }
 
@@ -288,7 +319,6 @@ class StorageWidget(
     }
 
     private fun onStorageSlotClicked(button: ButtonWidget) {
-
         // Check if storage slot
         val clickedPosition = when(button) {
             is BoxStorageSlot -> button.position
@@ -311,6 +341,12 @@ class StorageWidget(
             is BoxStorageSlot -> pc.get(clickedPosition as PCPosition)
             is PartyStorageSlot -> party.get(clickedPosition as PartyPosition)
             else -> null
+        }
+
+        val selectOverride = pcGui.configuration.selectOverride
+        if (selectOverride != null) {
+            selectOverride(pcGui, clickedPosition, clickedPokemon)
+            return
         }
 
         if (grabbedSlot == null) {

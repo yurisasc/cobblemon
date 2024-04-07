@@ -9,10 +9,11 @@
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen2
 
 import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
-import com.cobblemon.mod.common.client.render.models.blockbench.asTransformed
+import com.cobblemon.mod.common.client.render.models.blockbench.createTransformation
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pose.TransformedModelPart.Companion.X_AXIS
+import com.cobblemon.mod.common.client.render.models.blockbench.pose.ModelPartTransformation.Companion.X_AXIS
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.PoseType.Companion.MOVING_POSES
 import com.cobblemon.mod.common.entity.PoseType.Companion.STATIONARY_POSES
@@ -20,22 +21,25 @@ import com.cobblemon.mod.common.entity.PoseType.Companion.UI_POSES
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
+
 class CleffaModel(root: ModelPart) : PokemonPoseableModel() {
     override val rootPart = root.registerChildWithAllChildren("cleffa")
 
-    override val portraitScale = 2.0F
-    override val portraitTranslation = Vec3d(0.0, -1.3, 0.0)
+    override var portraitScale = 2.0F
+    override var portraitTranslation = Vec3d(0.0, -1.3, 0.0)
 
-    override val profileScale = 1.15F
-    override val profileTranslation = Vec3d(0.0, 0.05, 0.0)
+    override var profileScale = 1.15F
+    override var profileTranslation = Vec3d(0.0, 0.05, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
     lateinit var leftShoulder: PokemonPose
     lateinit var rightShoulder: PokemonPose
 
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("cleffa", "cry") }
+
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("cleffa", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("cleffa", "blink") }
         standing = registerPose(
             poseName = "standing",
             poseTypes = STATIONARY_POSES + UI_POSES,
@@ -50,27 +54,27 @@ class CleffaModel(root: ModelPart) : PokemonPoseableModel() {
 
         leftShoulder = registerPose(
             poseName = "left_shoulder",
-            poseTypes = setOf(PoseType.SHOULDER_LEFT),
+            poseType = PoseType.SHOULDER_LEFT,
             transformTicks = 10,
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 bedrock("cleffa", "ground_idle")
             ),
             transformedParts = arrayOf(
-                rootPart.asTransformed().addPosition(X_AXIS, shoulderDisplacement)
+                rootPart.createTransformation().addPosition(X_AXIS, shoulderDisplacement)
             )
         )
 
         rightShoulder = registerPose(
             poseName = "right_shoulder",
-            poseTypes = setOf(PoseType.SHOULDER_RIGHT),
+            poseType = PoseType.SHOULDER_RIGHT,
             transformTicks = 10,
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 bedrock("cleffa", "ground_idle")
             ),
             transformedParts = arrayOf(
-                rootPart.asTransformed().addPosition(X_AXIS, -shoulderDisplacement)
+                rootPart.createTransformation().addPosition(X_AXIS, -shoulderDisplacement)
             )
         )
 

@@ -48,7 +48,7 @@ object HealPokemonCommand {
         if (!target.world.isClient) {
             val party = target.party()
             party.heal()
-            source.sendFeedback(commandLang("healpokemon.heal", target.name), true)
+            source.sendFeedback({ commandLang("healpokemon.heal", target.name) }, true)
         }
         return Command.SINGLE_SUCCESS
     }

@@ -8,6 +8,19 @@
     "earlybird",
     "h:pickpocket"
   ],
+  "drops": {
+    "amount": 2,
+    "entries": [
+      {
+        "item": "minecraft:dark_oak_sapling",
+        "quantityRange": "0-1"
+      },
+      {
+        "item": "cobblemon:tanga_berry",
+        "percentage": 2.5
+      }
+    ]
+  },
   "baseStats": {
     "hp": 40,
     "attack": 40,
@@ -36,6 +49,7 @@
     "12:rollout",
     "15:megadrain",
     "18:payback",
+    "21:headbutt",
     "21:naturepower",
     "24:sunnyday",
     "27:synthesis",
@@ -63,8 +77,11 @@
     "tm:bulletseed",
     "tm:captivate",
     "tm:confide",
+    "tm:curse",
     "tm:dig",
+    "tm:doubleedge",
     "tm:doubleteam",
+    "tm:endeavor",
     "tm:endure",
     "tm:energyball",
     "tm:explosion",
@@ -75,14 +92,18 @@
     "tm:frustration",
     "tm:gigadrain",
     "tm:grassknot",
+    "tm:grassyglide",
     "tm:grassyterrain",
     "tm:hiddenpower",
+    "tm:leafstorm",
+    "tm:magicalleaf",
     "tm:nastyplot",
     "tm:naturalgift",
     "tm:naturepower",
     "tm:payback",
     "tm:powerswap",
     "tm:protect",
+    "tm:raindance",
     "tm:rest",
     "tm:retaliate",
     "tm:return",
@@ -95,11 +116,15 @@
     "tm:sleeptalk",
     "tm:snore",
     "tm:solarbeam",
+    "tm:spite",
     "tm:substitute",
     "tm:sunnyday",
     "tm:swagger",
     "tm:swordsdance",
+    "tm:takedown",
+    "tm:terablast",
     "tm:toxic",
+    "tm:trailblaze",
     "tutor:bide",
     "tutor:bodyslam",
     "tutor:bulletseed",

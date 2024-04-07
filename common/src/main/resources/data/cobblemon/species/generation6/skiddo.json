@@ -52,13 +52,16 @@
     "tm:bulletseed",
     "tm:confide",
     "tm:dig",
+    "tm:doubleedge",
     "tm:doubleteam",
+    "tm:endeavor",
     "tm:endure",
     "tm:energyball",
     "tm:facade",
     "tm:frustration",
     "tm:gigadrain",
     "tm:grassknot",
+    "tm:grassyglide",
     "tm:grassyterrain",
     "tm:helpinghand",
     "tm:hiddenpower",
@@ -144,5 +147,18 @@
   "height": 9,
   "weight": 310,
   "aspects": [],
-  "cannotDynamax": false
+  "cannotDynamax": false,
+  "drops": {
+    "amount": 3,
+    "entries": [
+      {
+        "item": "minecraft:mutton",
+        "quantityRange": "1-2"
+      },
+      {
+        "item": "cobblemon:oran_berry",
+        "percentage": 2.5
+      }
+    ]
+  }
 }

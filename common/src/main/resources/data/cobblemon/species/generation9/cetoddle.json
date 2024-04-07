@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Cetoddle",
   "nationalPokedexNumber": 974,
   "primaryType": "ice",
@@ -7,6 +8,19 @@
     "snowcloak",
     "h:sheerforce"
   ],
+  "drops": {
+    "amount": 2,
+    "entries": [
+      {
+        "item": "minecraft:bone_block",
+        "quantityRange": "0-1"
+      },
+      {
+        "item": "cobblemon:aspear_berry",
+        "percentage": 2.5
+      }
+    ]
+  },
   "baseStats": {
     "hp": 108,
     "attack": 68,
@@ -32,6 +46,19 @@
   "eggGroups": [
     "field"
   ],
+  "behaviour": {
+    "moving": {
+      "walk": {
+        "walkSpeed": 0.25
+      }
+    },
+    "resting": {
+      "canSleep": true,
+      "willSleepOnBed": false,
+      "depth": "normal",
+      "light": "0-4"
+    }
+  },
   "moves": [
     "1:powdersnow",
     "1:tackle",
@@ -102,6 +129,12 @@
       "requiredContext": "cobblemon:ice_stone"
     }
   ],
+  "baseScale": 1.0,
+  "hitbox": {
+    "width": 1.0,
+    "height": 1.0,
+    "fixed": false
+  },
   "cannotDynamax": false,
   "pokedex": [
     "cobblemon.species.cetoddle.desc"

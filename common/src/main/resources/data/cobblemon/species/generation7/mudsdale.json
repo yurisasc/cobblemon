@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Mudsdale",
   "nationalPokedexNumber": 750,
   "primaryType": "ground",
@@ -7,6 +8,27 @@
     "stamina",
     "h:innerfocus"
   ],
+  "drops": {
+    "amount": 6,
+    "entries": [
+      {
+        "item": "minecraft:leather",
+        "quantityRange": "0-2"
+      },
+      {
+        "item": "minecraft:clay_ball",
+        "quantityRange": "0-2"
+      },
+      {
+        "item": "cobblemon:light_clay",
+        "percentage": 5.0
+      },
+      {
+        "item": "cobblemon:passho_berry",
+        "percentage": 5.0
+      }
+    ]
+  },
   "baseStats": {
     "hp": 100,
     "attack": 125,
@@ -14,6 +36,14 @@
     "special_attack": 55,
     "special_defence": 85,
     "speed": 35
+  },
+  "behaviour": {
+    "resting": {
+      "canSleep": true,
+      "willSleepOnBed": false,
+      "depth": "normal",
+      "light": "0-4"
+    }
   },
   "catchRate": 60,
   "maleRatio": 0.5,
@@ -47,9 +77,12 @@
     "tm:bulldoze",
     "tm:closecombat",
     "tm:confide",
+    "tm:curse",
+    "tm:doubleedge",
     "tm:doubleteam",
     "tm:earthpower",
     "tm:earthquake",
+    "tm:endeavor",
     "tm:endure",
     "tm:facade",
     "tm:focusblast",
@@ -61,6 +94,7 @@
     "tm:hyperbeam",
     "tm:irondefense",
     "tm:ironhead",
+    "tm:lashout",
     "tm:lowkick",
     "tm:lowsweep",
     "tm:megakick",
@@ -79,6 +113,7 @@
     "tm:sandtomb",
     "tm:scaryface",
     "tm:sleeptalk",
+    "tm:smackdown",
     "tm:snore",
     "tm:stealthrock",
     "tm:stompingtantrum",
@@ -111,8 +146,8 @@
   "evolutions": [],
   "baseScale": 1,
   "hitbox": {
-    "width": 1,
-    "height": 1,
+    "width": 1.3,
+    "height": 2.6,
     "fixed": false
   },
   "baseFriendship": 50,

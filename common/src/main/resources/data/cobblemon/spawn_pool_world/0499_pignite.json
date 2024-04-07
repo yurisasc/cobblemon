@@ -1,5 +1,5 @@
 {
-    "enabled": "true",
+    "enabled": true,
     "neededInstalledMods": [],
     "neededUninstalledMods": [],
     "spawns": [
@@ -15,10 +15,12 @@
             "level": "17-42",
             "weight": 0.9,
             "condition": {
-				"biomes": [
-                    "minecraft:crimson_forest"
+                "minSkyLight": 8,
+                "maxSkyLight": 15,
+                "biomes": [
+                    "#cobblemon:is_plains"
                 ]
-			}
+            }
         },
         {
             "id": "pignite-2",
@@ -32,11 +34,10 @@
             "level": "17-42",
             "weight": 0.9,
             "condition": {
-                "canSeeSky": true,
                 "biomes": [
-                    "#cobblemon:is_plains"
-                ],
-                "isRaining": false
+                    "#cobblemon:nether/is_crimson",
+                    "#cobblemon:nether/is_overgrowth"
+                ]
             }
         }
     ]

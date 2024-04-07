@@ -19,23 +19,20 @@ class SharpedoModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("sharpedo")
     override val head = getPart("body")
 
-    override val portraitScale = 1.5F
-    override val portraitTranslation = Vec3d(-0.24, -0.9, 0.0)
+    override var portraitScale = 1.5F
+    override var portraitTranslation = Vec3d(-0.24, -0.9, 0.0)
 
-    override val profileScale = 0.6F
-    override val profileTranslation = Vec3d(0.0, 0.61, 0.0)
+    override var profileScale = 0.6F
+    override var profileTranslation = Vec3d(0.0, 0.61, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("sharpedo", "blink").setPreventsIdle(false) }
         standing = registerPose(
             poseName = "standing",
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
-            quirks = arrayOf(blink),
             idleAnimations = arrayOf(
-                singleBoneLook(),
                 bedrock("sharpedo", "water_idle")
             )
         )
@@ -43,9 +40,7 @@ class SharpedoModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
         walk = registerPose(
             poseName = "walk",
             poseTypes = PoseType.MOVING_POSES,
-            quirks = arrayOf(blink),
             idleAnimations = arrayOf(
-                singleBoneLook(),
                 bedrock("sharpedo", "water_idle")
             )
         )

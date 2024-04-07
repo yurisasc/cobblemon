@@ -8,7 +8,7 @@
             "pokemon": "wartortle",
             "presets": [
                 "natural",
-				"river"
+                "river"
             ],
             "type": "pokemon",
             "context": "grounded",
@@ -16,7 +16,8 @@
             "level": "16-40",
             "weight": 0.9,
             "condition": {
-                "canSeeSky": true
+                "minSkyLight": 8,
+                "maxSkyLight": 15
             }
         },
         {

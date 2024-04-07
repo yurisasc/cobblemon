@@ -846,6 +846,111 @@
 					}
 				}
 			}
+		},
+		"animation.charmeleon.cry": {
+			"animation_length": 0.875,
+			"bones": {
+				"head": {
+					"rotation": {
+						"0.0": {
+							"post": [0, 0, 0],
+							"lerp_mode": "catmullrom"
+						},
+						"0.1667": {
+							"post": [-7.5, 0, 0],
+							"lerp_mode": "catmullrom"
+						},
+						"0.3333": {
+							"post": [0, 0, 0],
+							"lerp_mode": "catmullrom"
+						},
+						"0.625": {
+							"post": [-2.5, 0, 0],
+							"lerp_mode": "catmullrom"
+						},
+						"0.8333": {
+							"post": [0, 0, 0],
+							"lerp_mode": "catmullrom"
+						}
+					}
+				},
+				"jaw": {
+					"rotation": {
+						"0.0": {
+							"post": [0, 0, 0],
+							"lerp_mode": "catmullrom"
+						},
+						"0.0833": {
+							"post": [22.5, 0, 0],
+							"lerp_mode": "catmullrom"
+						},
+						"0.3333": {
+							"post": [5, 0, 0],
+							"lerp_mode": "catmullrom"
+						},
+						"0.625": {
+							"post": [10, 0, 0],
+							"lerp_mode": "catmullrom"
+						},
+						"0.8333": {
+							"post": [0, 0, 0],
+							"lerp_mode": "catmullrom"
+						}
+					}
+				}
+			},
+			"sound_effects": {
+				"0.0417": {
+					"effect": "pokemon.charmeleon.cry"
+				}
+			}
+		},
+		"animation.charmeleon.render": {
+			"loop": true,
+			"bones": {
+				"torso": {
+					"rotation": [-5, 0, 0]
+				},
+				"neck": {
+					"rotation": [7.5, 0, 0]
+				},
+				"head": {
+					"rotation": [0, -7.5, 0]
+				},
+				"tail": {
+					"rotation": [7.5, 17.5, 0]
+				},
+				"tail2": {
+					"rotation": [15, 7.5, 0]
+				},
+				"fire": {
+					"rotation": [-4.95744, 0.65182, 7.47178]
+				},
+				"arm_right": {
+					"rotation": [6.0339, -19.00937, -21.15451]
+				},
+				"hand_right": {
+					"rotation": [0, 0, -32.5]
+				},
+				"arm_left": {
+					"rotation": [0, 0, 20]
+				},
+				"hand_left": {
+					"rotation": [5.12076, 12.45167, 51.10693]
+				},
+				"leg_right": {
+					"rotation": [-5, 0, 7.5]
+				},
+				"leg_right2": {
+					"rotation": [5, 0, -5]
+				},
+				"leg_left": {
+					"rotation": [-12.5, 0, 0]
+				},
+				"leg_left2": {
+					"rotation": [15, 0, 0]
+				}
+			}
 		}
 	}
 }

@@ -8,6 +8,19 @@
     "innerfocus",
     "h:infiltrator"
   ],
+  "drops": {
+    "amount": 2,
+    "entries": [
+      {
+        "item": "cobblemon:razor_fang",
+        "percentage": 10.0
+      },
+      {
+        "item": "cobblemon:persim_berry",
+        "percentage": 10.0
+      }
+    ]
+  },
   "baseStats": {
     "hp": 85,
     "attack": 90,
@@ -27,12 +40,18 @@
   ],
   "behaviour": {
     "moving": {
-      "swim": {
-        "canWalkOnWater": true
+      "walk": {
+        "canWalk": false
       },
       "fly": {
         "canFly": true
       }
+    },
+    "resting": {
+      "canSleep": true,
+      "willSleepOnBed": false,
+      "depth": "normal",
+      "light": "0-4"
     }
   },
   "moves": [
@@ -171,10 +190,10 @@
   ],
   "preEvolution": "golbat",
   "evolutions": [],
-  "baseScale": 1.5,
+  "baseScale": 1.0,
   "hitbox": {
     "width": 1,
-    "height": 1,
+    "height": 2.2,
     "fixed": false
   },
   "baseFriendship": 50,

@@ -1,5 +1,5 @@
 {
-    "enabled": "true",
+    "enabled": true,
     "neededInstalledMods": [],
     "neededUninstalledMods": [],
     "spawns": [
@@ -15,7 +15,8 @@
             "level": "14-34",
             "weight": 0.18,
             "condition": {
-                "canSeeSky": true,
+                "minSkyLight": 8,
+                "maxSkyLight": 15,
                 "biomes": [
                     "#cobblemon:is_swamp"
                 ],
@@ -23,7 +24,7 @@
             }
         },
         {
-            "id": "lombre-1",
+            "id": "lombre-2",
             "pokemon": "lombre",
             "presets": [
                 "water_surface"
@@ -34,7 +35,8 @@
             "level": "14-34",
             "weight": 0.54,
             "condition": {
-                "canSeeSky": true,
+                "minSkyLight": 8,
+                "maxSkyLight": 15,
                 "biomes": [
                     "#cobblemon:is_swamp"
                 ]

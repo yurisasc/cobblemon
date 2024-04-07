@@ -1,5 +1,5 @@
 {
-    "enabled": "true",
+    "enabled": true,
     "neededInstalledMods": [],
     "neededUninstalledMods": [],
     "spawns": [
@@ -15,9 +15,15 @@
             "level": "5-31",
             "weight": 9.0,
             "condition": {
-                "canSeeSky": true,
+                "minSkyLight": 8,
+                "maxSkyLight": 15,
                 "biomes": [
-                    "#cobblemon:is_coast"
+                    "#cobblemon:is_beach"
+                ]
+            },
+            "anticondition": {
+                "biomes": [
+                    "#cobblemon:is_freezing"
                 ]
             }
         },
@@ -25,17 +31,109 @@
             "id": "oshawott-2",
             "pokemon": "oshawott",
             "presets": [
-                "underwater"
+                "water_surface"
             ],
             "type": "pokemon",
-            "context": "submerged",
+            "context": "surface",
             "bucket": "ultra-rare",
             "level": "5-31",
             "weight": 9.0,
             "condition": {
-                "canSeeSky": true,
+                "minSkyLight": 8,
+                "maxSkyLight": 15,
+                "biomes": [
+                    "#cobblemon:is_beach"
+                ]
+            },
+            "anticondition": {
+                "biomes": [
+                    "#cobblemon:is_freezing"
+                ]
+            }
+        },
+        {
+            "id": "oshawott-hisuian-3",
+            "pokemon": "oshawott hisuian",
+            "presets": [
+                "natural"
+            ],
+            "type": "pokemon",
+            "context": "grounded",
+            "bucket": "ultra-rare",
+            "level": "5-31",
+            "weight": 9.0,
+            "condition": {
+                "minSkyLight": 8,
+                "maxSkyLight": 15,
                 "biomes": [
                     "#cobblemon:is_coast"
+                ]
+            },
+            "anticondition": {
+                "biomes": [
+                    "#cobblemon:is_beach"
+                ]
+            }
+        },
+        {
+            "id": "oshawott-hisuian-4",
+            "pokemon": "oshawott hisuian",
+            "presets": [
+                "water_surface"
+            ],
+            "type": "pokemon",
+            "context": "surface",
+            "bucket": "ultra-rare",
+            "level": "5-31",
+            "weight": 9.0,
+            "condition": {
+                "minSkyLight": 8,
+                "maxSkyLight": 15,
+                "biomes": [
+                    "#cobblemon:is_coast"
+                ]
+            },
+            "anticondition": {
+                "biomes": [
+                    "#cobblemon:is_beach"
+                ]
+            }
+        },
+        {
+            "id": "oshawott-hisuian-5",
+            "pokemon": "oshawott hisuian",
+            "presets": [
+                "natural"
+            ],
+            "type": "pokemon",
+            "context": "grounded",
+            "bucket": "ultra-rare",
+            "level": "5-31",
+            "weight": 9.0,
+            "condition": {
+                "minSkyLight": 8,
+                "maxSkyLight": 15,
+                "biomes": [
+                    "minecraft:snowy_beach"
+                ]
+            }
+        },
+        {
+            "id": "oshawott-hisuian-6",
+            "pokemon": "oshawott hisuian",
+            "presets": [
+                "water_surface"
+            ],
+            "type": "pokemon",
+            "context": "surface",
+            "bucket": "ultra-rare",
+            "level": "5-31",
+            "weight": 9.0,
+            "condition": {
+                "minSkyLight": 8,
+                "maxSkyLight": 15,
+                "biomes": [
+                    "minecraft:snowy_beach"
                 ]
             }
         }

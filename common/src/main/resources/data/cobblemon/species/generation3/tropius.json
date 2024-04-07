@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Tropius",
   "nationalPokedexNumber": 357,
   "primaryType": "grass",
@@ -67,14 +68,18 @@
     "tm:brutalswing",
     "tm:bulldoze",
     "tm:bulletseed",
+    "tm:calmmind",
     "tm:captivate",
     "tm:confide",
+    "tm:curse",
     "tm:cut",
     "tm:defog",
+    "tm:doubleedge",
     "tm:doubleteam",
     "tm:dragondance",
     "tm:dragonpulse",
     "tm:dragontail",
+    "tm:dualwingbeat",
     "tm:earthquake",
     "tm:endure",
     "tm:energyball",
@@ -95,6 +100,7 @@
     "tm:naturalgift",
     "tm:naturepower",
     "tm:outrage",
+    "tm:petalblizzard",
     "tm:protect",
     "tm:raindance",
     "tm:rest",
@@ -109,6 +115,8 @@
     "tm:silverwind",
     "tm:sleeptalk",
     "tm:solarbeam",
+    "tm:solarblade",
+    "tm:spite",
     "tm:steelwing",
     "tm:stompingtantrum",
     "tm:strength",
@@ -164,8 +172,8 @@
   "evolutions": [],
   "baseScale": 1,
   "hitbox": {
-    "width": 1,
-    "height": 1,
+    "width": 2.2,
+    "height": 5,
     "fixed": false
   },
   "baseFriendship": 70,
@@ -180,5 +188,14 @@
   "height": 20,
   "weight": 1000,
   "aspects": [],
-  "cannotDynamax": false
+  "cannotDynamax": false,
+  "drops": {
+    "amount": 2,
+    "entries": [
+      {
+        "item": "cobblemon:nanab_berry",
+        "quantityRange": "0-2"
+      }
+    ]
+  }
 }

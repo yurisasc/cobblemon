@@ -8,6 +8,19 @@
     "icebody",
     "h:sturdy"
   ],
+  "drops": {
+    "amount": 2,
+    "entries": [
+      {
+        "item": "cobblemon:never_melt_ice",
+        "percentage": 5.0
+      },
+      {
+        "item": "cobblemon:aspear_berry",
+        "percentage": 5.0
+      }
+    ]
+  },
   "baseStats": {
     "hp": 95,
     "attack": 117,
@@ -16,6 +29,9 @@
     "special_defence": 46,
     "speed": 28
   },
+  "features": [
+    "hisuian"
+  ],
   "catchRate": 55,
   "maleRatio": 0.5,
   "shoulderMountable": false,
@@ -122,9 +138,21 @@
       "height": 14,
       "weight": 2624,
       "preEvolution": "bergmite",
-      "evolutions": [],
       "cannotDynamax": false,
-      "battleOnly": false
+      "battleOnly": false,
+      "drops": {
+        "amount": 2,
+        "entries": [
+          {
+            "item": "cobblemon:never_melt_ice",
+            "percentage": 5.0
+          },
+          {
+            "item": "cobblemon:babiri_berry",
+            "percentage": 5.0
+          }
+        ]
+      }
     }
   ],
   "baseExperienceYield": 180,
@@ -135,11 +163,22 @@
     "mineral"
   ],
   "behaviour": {
-    "swim": {
-      "swimSpeed": 0.1,
-      "canSwimInWater": true,
-      "canBreatheUnderwater": true,
-      "canWalkOnWater": true
+    "moving": {
+      "walk": {
+        "walkSpeed": 0.2
+      },
+      "swim": {
+        "swimSpeed": 0.1,
+        "canSwimInWater": true,
+        "canBreatheUnderwater": true,
+        "canWalkOnWater": true
+      }
+    },
+    "resting": {
+      "canSleep": true,
+      "willSleepOnBed": false,
+      "depth": "normal",
+      "light": "0-4"
     }
   },
   "moves": [

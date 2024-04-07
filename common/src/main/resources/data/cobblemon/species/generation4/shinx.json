@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Shinx",
   "nationalPokedexNumber": 403,
   "primaryType": "electric",
@@ -7,6 +8,19 @@
     "intimidate",
     "h:guts"
   ],
+  "drops": {
+    "amount": 2,
+    "entries": [
+      {
+        "item": "cobblemon:quick_claw",
+        "percentage": 2.5
+      },
+      {
+        "item": "cobblemon:shuca_berry",
+        "percentage": 2.5
+      }
+    ]
+  },
   "baseStats": {
     "hp": 45,
     "attack": 65,
@@ -70,14 +84,17 @@
     "egg:thunderfang",
     "tm:attract",
     "tm:captivate",
+    "tm:charge",
     "tm:chargebeam",
     "tm:confide",
     "tm:confuseray",
     "tm:crunch",
+    "tm:doubleedge",
     "tm:doubleteam",
     "tm:eerieimpulse",
     "tm:electricterrain",
     "tm:electroball",
+    "tm:electroweb",
     "tm:endure",
     "tm:facade",
     "tm:faketears",
@@ -156,9 +173,9 @@
       ]
     }
   ],
-  "baseScale": 1,
+  "baseScale": 0.7,
   "hitbox": {
-    "width": 1,
+    "width": 0.7,
     "height": 1,
     "fixed": false
   },

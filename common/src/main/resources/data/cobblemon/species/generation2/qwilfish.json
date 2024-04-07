@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Qwilfish",
   "nationalPokedexNumber": 211,
   "primaryType": "water",
@@ -16,6 +17,9 @@
     "special_defence": 55,
     "speed": 85
   },
+  "features": [
+    "hisuian"
+  ],
   "catchRate": 45,
   "maleRatio": 0.5,
   "shoulderMountable": false,
@@ -87,28 +91,36 @@
         "tm:blizzard",
         "tm:chillingwater",
         "tm:crunch",
+        "tm:curse",
         "tm:darkpulse",
+        "tm:doubleedge",
         "tm:endure",
         "tm:facade",
         "tm:gigaimpact",
         "tm:gunkshot",
+        "tm:gyroball",
+        "tm:haze",
         "tm:hex",
         "tm:hydropump",
         "tm:icebeam",
         "tm:icywind",
+        "tm:lashout",
         "tm:liquidation",
         "tm:mudshot",
+        "tm:painsplit",
         "tm:poisonjab",
         "tm:poisontail",
         "tm:protect",
         "tm:raindance",
         "tm:rest",
         "tm:reversal",
+        "tm:scaleshot",
         "tm:scaryface",
         "tm:shadowball",
         "tm:sleeptalk",
         "tm:sludgebomb",
         "tm:spikes",
+        "tm:spite",
         "tm:substitute",
         "tm:surf",
         "tm:swift",
@@ -116,6 +128,8 @@
         "tm:takedown",
         "tm:taunt",
         "tm:terablast",
+        "tm:throatchop",
+        "tm:toxic",
         "tm:toxicspikes",
         "tm:venoshock",
         "tm:waterfall",
@@ -203,16 +217,20 @@
     "tm:chillingwater",
     "tm:confide",
     "tm:crunch",
+    "tm:curse",
     "tm:dive",
+    "tm:doubleedge",
     "tm:doubleteam",
     "tm:endure",
     "tm:explosion",
     "tm:facade",
+    "tm:flipturn",
     "tm:frustration",
     "tm:gigaimpact",
     "tm:gunkshot",
     "tm:gyroball",
     "tm:hail",
+    "tm:haze",
     "tm:hex",
     "tm:hiddenpower",
     "tm:hydropump",
@@ -221,6 +239,7 @@
     "tm:liquidation",
     "tm:mudshot",
     "tm:naturalgift",
+    "tm:painsplit",
     "tm:payback",
     "tm:pinmissile",
     "tm:poisonjab",
@@ -233,6 +252,7 @@
     "tm:reversal",
     "tm:round",
     "tm:scald",
+    "tm:scaleshot",
     "tm:scaryface",
     "tm:secretpower",
     "tm:selfdestruct",
@@ -243,6 +263,7 @@
     "tm:sludgewave",
     "tm:snore",
     "tm:spikes",
+    "tm:spite",
     "tm:substitute",
     "tm:surf",
     "tm:swagger",
@@ -327,8 +348,8 @@
   "evolutions": [],
   "baseScale": 1,
   "hitbox": {
-    "width": 1,
-    "height": 1,
+    "width": 0.6,
+    "height": 0.8,
     "fixed": false
   },
   "baseFriendship": 50,
@@ -343,5 +364,21 @@
   "height": 5,
   "weight": 39,
   "aspects": [],
-  "cannotDynamax": false
+  "cannotDynamax": false,
+  "drops": {
+    "amount": 3,
+    "entries": [
+      {
+        "item": "minecraft:pufferfish"
+      },
+      {
+        "item": "minecraft:prismarine_shard",
+        "quantityRange": "0-1"
+      },
+      {
+        "item": "cobblemon:poison_barb",
+        "percentage": 2.5
+      }
+    ]
+  }
 }

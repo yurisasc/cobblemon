@@ -8,10 +8,13 @@
 
 package com.cobblemon.mod.common.pokemon
 
+import com.cobblemon.mod.common.junit.BootstrapMinecraft
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 
+@BootstrapMinecraft
 internal class IVsKtTest {
+
     @Test
     fun `should create a randomized set of IVs with 3 perfect values`() {
         val ivs = IVs.createRandomIVs(3)

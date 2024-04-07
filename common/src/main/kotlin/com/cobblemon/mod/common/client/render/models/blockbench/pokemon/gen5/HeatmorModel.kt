@@ -8,8 +8,6 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen5
 
-import com.cobblemon.mod.common.client.render.models.blockbench.animation.BimanualSwingAnimation
-import com.cobblemon.mod.common.client.render.models.blockbench.animation.BipedWalkAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BimanualFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
@@ -28,24 +26,30 @@ class HeatmorModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bipe
     override val leftLeg = getPart("leg_left")
     override val rightLeg = getPart("leg_right")
 
-    override val portraitScale = 3.5F
-    override val portraitTranslation = Vec3d(-0.7, -0.5, 0.0)
+    override var portraitScale = 3.5F
+    override var portraitTranslation = Vec3d(-0.7, -0.5, 0.0)
 
-    override val profileScale = 0.9F
-    override val profileTranslation = Vec3d(0.0, 0.4, 0.0)
+    override var profileScale = 0.9F
+    override var profileTranslation = Vec3d(0.0, 0.4, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
+    lateinit var sleep: PokemonPose
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("heatmor", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("heatmor", "blink") }
+            sleep = registerPose(
+            poseType = PoseType.SLEEP,
+            idleAnimations = arrayOf(bedrock("heatmor", "sleep"))
+        )
+
         standing = registerPose(
             poseName = "standing",
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
-                bedrock("heatmor", "idle")
+                bedrock("heatmor", "ground_idle")
             )
         )
 
@@ -55,10 +59,7 @@ class HeatmorModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bipe
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
-                bedrock("heatmor", "idle"),
-                BipedWalkAnimation(this, periodMultiplier = 0.6F, amplitudeMultiplier = 0.9F),
-                BimanualSwingAnimation(this, swingPeriodMultiplier = 0.6F, amplitudeMultiplier = 0.9F)
-                //bedrock("heatmor", "ground_walk")
+                bedrock("heatmor", "ground_walk")
             )
         )
     }

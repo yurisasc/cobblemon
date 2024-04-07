@@ -129,6 +129,124 @@
 					}
 				}
 			}
+		},
+		"animation.metapod.cry": {
+			"animation_length": 1.41667,
+			"bones": {
+				"body": {
+					"rotation": {
+						"0.0": {
+							"post": [0, 0, 0],
+							"lerp_mode": "catmullrom"
+						},
+						"0.125": {
+							"post": [0.24495, 2.5286, -6.33169],
+							"lerp_mode": "catmullrom"
+						},
+						"0.25": {
+							"post": [5.05167, -1.52982, 3.02713],
+							"lerp_mode": "catmullrom"
+						},
+						"0.375": {
+							"post": [0, 2.5, 0],
+							"lerp_mode": "catmullrom"
+						},
+						"0.5": {
+							"post": [0, -2.5, 0],
+							"lerp_mode": "catmullrom"
+						},
+						"0.75": {
+							"post": [0, 2.5, 0],
+							"lerp_mode": "catmullrom"
+						},
+						"0.875": {
+							"post": [0, -2.5, 0],
+							"lerp_mode": "catmullrom"
+						},
+						"1.1667": {
+							"post": [0, 0, 0],
+							"lerp_mode": "catmullrom"
+						}
+					},
+					"position": {
+						"0.0": {
+							"post": [0, 0, 0],
+							"lerp_mode": "catmullrom"
+						},
+						"1.1667": {
+							"post": [0, 0, 0],
+							"lerp_mode": "catmullrom"
+						}
+					}
+				},
+				"body_segment": {
+					"rotation": {
+						"0.0": {
+							"post": [0, 0, 0],
+							"lerp_mode": "catmullrom"
+						},
+						"0.125": {
+							"post": [0.2074, -2.5008, 4.95993],
+							"lerp_mode": "catmullrom"
+						},
+						"0.25": {
+							"post": [-4.81906, 2.96226, -5.45921],
+							"lerp_mode": "catmullrom"
+						},
+						"0.375": {
+							"post": [-0.09209, -0.00633, -0.26004],
+							"lerp_mode": "catmullrom"
+						},
+						"0.5": {
+							"post": [-0.69275, 2.49348, -0.29026],
+							"lerp_mode": "catmullrom"
+						},
+						"0.75": {
+							"post": [0.27379, -2.50469, -0.15728],
+							"lerp_mode": "catmullrom"
+						},
+						"0.875": {
+							"post": [-0.38046, 2.49075, -0.36995],
+							"lerp_mode": "catmullrom"
+						},
+						"1.0": {
+							"post": [0, 0, 0],
+							"lerp_mode": "catmullrom"
+						}
+					},
+					"position": [0, 0, 0]
+				},
+				"eyelid_right": {
+					"position": {
+						"0.0": [0, 0, 0],
+						"0.0833": [-0.12441, 0.01024, -0.00643],
+						"0.625": [-0.12441, 0.01024, -0.00643],
+						"0.75": [0, 0, 0]
+					}
+				},
+				"eyelid_left": {
+					"position": {
+						"0.0": [0, 0, 0],
+						"0.0833": [0.09953, -0.00819, 0.00514],
+						"0.625": [0.09953, -0.00819, 0.00514],
+						"0.75": [0, 0, 0]
+					}
+				}
+			},
+			"sound_effects": {
+				"0.0417": {
+					"effect": "pokemon.metapod.cry"
+				}
+			}
+		},
+		"animation.metapod.render": {
+			"loop": true,
+			"bones": {
+				"body": {
+					"rotation": [-10, 0, 0],
+					"position": [0, 1, 0]
+				}
+			}
 		}
 	}
 }

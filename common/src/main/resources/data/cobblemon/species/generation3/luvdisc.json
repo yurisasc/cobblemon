@@ -34,10 +34,16 @@
         "canSwimInWater": true,
         "canBreatheUnderwater": true
       }
+    },
+    "resting": {
+      "canSleep": true,
+      "willSleepOnBed": false,
+      "depth": "normal",
+      "light": "0-4"
     }
   },
   "drops": {
-    "amount": "1",
+    "amount": 1,
     "entries": [
       {
         "item": "cobblemon:deep_sea_scale",
@@ -85,8 +91,10 @@
     "tm:dive",
     "tm:doubleteam",
     "tm:drainingkiss",
+    "tm:endeavor",
     "tm:endure",
     "tm:facade",
+    "tm:flipturn",
     "tm:frustration",
     "tm:hail",
     "tm:hiddenpower",
@@ -103,6 +111,7 @@
     "tm:round",
     "tm:safeguard",
     "tm:scald",
+    "tm:scaleshot",
     "tm:secretpower",
     "tm:sleeptalk",
     "tm:snowscape",

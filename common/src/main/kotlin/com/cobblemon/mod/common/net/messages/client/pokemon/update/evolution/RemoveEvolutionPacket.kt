@@ -18,11 +18,11 @@ import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.util.cobblemonResource
 import net.minecraft.network.PacketByteBuf
 
-class RemoveEvolutionPacket(pokemon: Pokemon, value: EvolutionDisplay) : SingleUpdatePacket<EvolutionDisplay, RemoveEvolutionPacket>(pokemon, value) {
+class RemoveEvolutionPacket(pokemon: () -> Pokemon, value: EvolutionDisplay) : SingleUpdatePacket<EvolutionDisplay, RemoveEvolutionPacket>(pokemon, value) {
 
     override val id = ID
 
-    constructor(pokemon: Pokemon, value: Evolution) : this(pokemon, value.convertToDisplay(pokemon))
+    constructor(pokemon: Pokemon, value: Evolution) : this({ pokemon }, value.convertToDisplay(pokemon))
 
     override fun encodeValue(buffer: PacketByteBuf) {
         this.value.encode(buffer)

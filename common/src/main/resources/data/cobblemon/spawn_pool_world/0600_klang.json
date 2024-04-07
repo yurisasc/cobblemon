@@ -1,21 +1,22 @@
 {
-    "enabled": "true",
+    "enabled": true,
     "neededInstalledMods": [],
     "neededUninstalledMods": [],
     "spawns": [
         {
             "id": "klang-1",
             "pokemon": "klang",
-			"presets": [
-                "underground"
+            "presets": [
+                "natural"
             ],
             "type": "pokemon",
             "context": "grounded",
-            "bucket": "uncommon",
+            "bucket": "common",
             "level": "38-44",
             "weight": 0.9,
             "condition": {
-                "canSeeSky": false,
+                "minSkyLight": 0,
+                "maxSkyLight": 7,
                 "biomes": [
                     "#cobblemon:is_overworld"
                 ],
@@ -26,7 +27,7 @@
             },
             "anticondition": {
                 "biomes": [
-                    "#cobblemon:is_abyss"
+                    "#cobblemon:is_deep_dark"
                 ]
             }
         },
@@ -38,7 +39,7 @@
             ],
             "type": "pokemon",
             "context": "grounded",
-            "bucket": "uncommon",
+            "bucket": "common",
             "level": "38-44",
             "weight": 0.9,
             "condition": {

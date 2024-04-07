@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Hoothoot",
   "nationalPokedexNumber": 163,
   "primaryType": "normal",
@@ -8,6 +9,26 @@
     "keeneye",
     "h:tintedlens"
   ],
+  "drops": {
+    "amount": 4,
+    "entries": [
+      {
+        "item": "minecraft:feather",
+        "quantityRange": "0-1"
+      },
+      {
+        "item": "minecraft:chicken"
+      },
+      {
+        "item": "cobblemon:wise_glasses",
+        "percentage": 2.5
+      },
+      {
+        "item": "cobblemon:chilan_berry",
+        "percentage": 2.5
+      }
+    ]
+  },
   "baseStats": {
     "hp": 60,
     "attack": 30,
@@ -25,6 +46,19 @@
   "eggGroups": [
     "flying"
   ],
+  "behaviour": {
+    "moving": {
+      "fly": {
+        "canFly": true
+      }
+    },
+    "resting": {
+      "canSleep": true,
+      "willSleepOnBed": false,
+      "depth": "normal",
+      "light": "0-4"
+    }
+  },
   "moves": [
     "1:foresight",
     "1:growl",
@@ -33,6 +67,7 @@
     "6:echoedvoice",
     "9:confusion",
     "12:reflect",
+    "15:defog",
     "15:psychoshift",
     "16:zenheadbutt",
     "18:airslash",
@@ -56,23 +91,30 @@
     "egg:supersonic",
     "egg:whirlwind",
     "egg:wingattack",
+    "tm:acrobatics",
     "tm:aerialace",
     "tm:agility",
+    "tm:aircutter",
     "tm:airslash",
     "tm:amnesia",
     "tm:attract",
+    "tm:bravebird",
     "tm:calmmind",
     "tm:captivate",
     "tm:confide",
+    "tm:confuseray",
     "tm:defog",
     "tm:doubleteam",
     "tm:dreameater",
+    "tm:dualwingbeat",
     "tm:echoedvoice",
     "tm:endure",
     "tm:facade",
+    "tm:featherdance",
     "tm:flash",
     "tm:fly",
     "tm:frustration",
+    "tm:haze",
     "tm:heatwave",
     "tm:hiddenpower",
     "tm:hurricane",
@@ -80,8 +122,10 @@
     "tm:imprison",
     "tm:nastyplot",
     "tm:naturalgift",
+    "tm:nightshade",
     "tm:pluck",
     "tm:protect",
+    "tm:psybeam",
     "tm:psychic",
     "tm:psychup",
     "tm:raindance",
@@ -95,14 +139,19 @@
     "tm:secretpower",
     "tm:shadowball",
     "tm:silverwind",
+    "tm:skillswap",
     "tm:sleeptalk",
     "tm:snore",
+    "tm:spite",
     "tm:steelwing",
     "tm:storedpower",
     "tm:substitute",
     "tm:sunnyday",
     "tm:swagger",
     "tm:swift",
+    "tm:tailwind",
+    "tm:takedown",
+    "tm:terablast",
     "tm:thief",
     "tm:toxic",
     "tm:uproar",
@@ -184,9 +233,9 @@
       ]
     }
   ],
-  "baseScale": 1,
+  "baseScale": 0.7,
   "hitbox": {
-    "width": 1,
+    "width": 0.7,
     "height": 1,
     "fixed": false
   },

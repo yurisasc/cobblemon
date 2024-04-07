@@ -13,23 +13,27 @@ import com.cobblemon.mod.common.client.render.ModelLayer
 import com.cobblemon.mod.common.client.render.ModelVariationSet
 import com.cobblemon.mod.common.client.render.VaryingRenderableResolver
 import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityModel
-import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
 import com.cobblemon.mod.common.client.render.models.blockbench.TexturedModel
+import com.cobblemon.mod.common.client.render.models.blockbench.pose.Bone
+import com.cobblemon.mod.common.client.util.exists
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.endsWith
 import com.cobblemon.mod.common.util.fromJson
 import java.io.File
 import java.nio.charset.StandardCharsets
+import java.util.function.BiFunction
+import java.util.function.Function
 import net.minecraft.client.model.ModelPart
 import net.minecraft.entity.Entity
+import net.minecraft.resource.Resource
 import net.minecraft.resource.ResourceManager
 import net.minecraft.util.Identifier
+import net.minecraft.util.Pair
 
 abstract class VaryingModelRepository<E : Entity, M : PoseableEntityModel<E>> {
-    val posers = mutableMapOf<Identifier, (ModelPart) -> M>()
+    val posers = mutableMapOf<Identifier, (Bone) -> M>()
     val variations = mutableMapOf<Identifier, VaryingRenderableResolver<E, M>>()
-
-    val texturedModels = mutableMapOf<Identifier, TexturedModel>()
+    val texturedModels = mutableMapOf<Identifier, (isForLivingEntityRenderer: Boolean) -> Bone>()
 
     abstract val title: String
     abstract val type: String
@@ -38,8 +42,10 @@ abstract class VaryingModelRepository<E : Entity, M : PoseableEntityModel<E>> {
     abstract val modelDirectories: List<String>
     abstract val animationDirectories: List<String>
     abstract val fallback: Identifier
+    /** When using the living entity renderer in Java Edition, a root joint 24F (1.5) Y offset is necessary. I've no fucking idea why. */
+    abstract val isForLivingEntityRenderer: Boolean
 
-    abstract fun loadJsonPoser(json: String): (ModelPart) -> M
+    abstract fun loadJsonPoser(json: String): (Bone) -> M
 
     fun registerPosers(resourceManager: ResourceManager) {
         posers.clear()
@@ -64,7 +70,7 @@ abstract class VaryingModelRepository<E : Entity, M : PoseableEntityModel<E>> {
     }
 
     fun inbuilt(name: String, model: (ModelPart) -> M) {
-        posers[cobblemonResource(name)] = model
+        posers[cobblemonResource(name)] = { bone -> model.invoke(bone as ModelPart) }
     }
 
     fun registerVariations(resourceManager: ResourceManager) {
@@ -92,16 +98,15 @@ abstract class VaryingModelRepository<E : Entity, M : PoseableEntityModel<E>> {
     fun registerModels(resourceManager: ResourceManager) {
         var models = 0
         for (directory in modelDirectories) {
-            resourceManager
-                .findResources(directory) { path -> path.endsWith(".geo.json") }
-                .forEach { (identifier, resource) ->
-                    resource.inputStream.use { stream ->
-                        val json = String(stream.readAllBytes(), StandardCharsets.UTF_8)
-                        val resolvedIdentifier = Identifier(identifier.namespace, File(identifier.path).nameWithoutExtension)
-                        texturedModels[resolvedIdentifier] = TexturedModel.from(json)
+            MODEL_FACTORIES.forEach { (key, func) ->
+                resourceManager.findResources(directory) { path -> path.endsWith(key) }
+                    .map { func.apply(it.key, it.value) }
+                    .forEach {
+                        texturedModels[it.left] = { isForLivingEntityRenderer -> it.right.apply(isForLivingEntityRenderer) }
                         models++
                     }
-                }
+            }
+
         }
 
         Cobblemon.LOGGER.info("Loaded $models $title models.")
@@ -111,8 +116,8 @@ abstract class VaryingModelRepository<E : Entity, M : PoseableEntityModel<E>> {
         this.variations.clear()
         this.posers.clear()
         Cobblemon.LOGGER.info("Loading $title models...")
-        registerPosers(resourceManager)
         registerModels(resourceManager)
+        registerPosers(resourceManager)
         registerVariations(resourceManager)
     }
 
@@ -128,14 +133,24 @@ abstract class VaryingModelRepository<E : Entity, M : PoseableEntityModel<E>> {
         return this.variations[fallback]!!.getPoser(aspects)
     }
 
-    fun getTexture(name: Identifier, aspects: Set<String>, state: PoseableEntityState<E>?): Identifier {
+    fun getTexture(name: Identifier, aspects: Set<String>, animationSeconds: Float = 0F): Identifier {
         try {
-            val texture = this.variations[name]?.getTexture(aspects, state?.animationSeconds ?: 0F)
-            if (texture != null) {
+            val texture = this.variations[name]?.getTexture(aspects, animationSeconds)
+            if (texture != null && texture.exists()) {
                 return texture
             }
         } catch(_: IllegalStateException) { }
-        return this.variations[fallback]!!.getTexture(aspects, state?.animationSeconds ?: 0F)
+        return this.variations[fallback]!!.getTexture(aspects, animationSeconds)
+    }
+
+    fun getTextureNoSubstitute(name: Identifier, aspects: Set<String>, animationSeconds: Float = 0F): Identifier? {
+        try {
+            val texture = this.variations[name]?.getTexture(aspects, animationSeconds)
+            if (texture != null && texture.exists()) {
+                return texture
+            }
+        } catch(_: IllegalStateException) {}
+        return null
     }
 
     fun getLayers(name: Identifier, aspects: Set<String>): Iterable<ModelLayer> {
@@ -146,5 +161,28 @@ abstract class VaryingModelRepository<E : Entity, M : PoseableEntityModel<E>> {
             }
         } catch(_: IllegalStateException) { }
         return this.variations[fallback]!!.getLayers(aspects)
+    }
+
+    companion object {
+        fun registerFactory(id: String, factory: BiFunction<Identifier, Resource, Pair<Identifier, Function<Boolean, Bone>>>) {
+            MODEL_FACTORIES[id] = factory
+        }
+
+        /*
+            Needs to be java function to work with non kotlin sidemods.
+            - Waterpicker
+         */
+        private var MODEL_FACTORIES = mutableMapOf<String, BiFunction<Identifier, Resource, Pair<Identifier, Function<Boolean, Bone>>>>().also {
+            it[".geo.json"] = BiFunction<Identifier, Resource, Pair<Identifier, Function<Boolean, Bone>>> { identifier: Identifier, resource: Resource ->
+                resource.inputStream.use { stream ->
+                    val json = String(stream.readAllBytes(), StandardCharsets.UTF_8)
+                    val resolvedIdentifier = Identifier(identifier.namespace, File(identifier.path).nameWithoutExtension)
+
+                    val texturedModel = TexturedModel.from(json)
+                    val boneCreator: Function<Boolean, Bone> = Function { texturedModel.create(it).createModel() }
+                    Pair(resolvedIdentifier, boneCreator)
+                }
+            }
+        }
     }
 }

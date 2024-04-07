@@ -19,11 +19,11 @@ import com.cobblemon.mod.common.pokemon.evolution.CobblemonEvolutionDisplay
 import com.cobblemon.mod.common.util.cobblemonResource
 import net.minecraft.network.PacketByteBuf
 
-class AddEvolutionPacket(pokemon: Pokemon, value: EvolutionDisplay) : SingleUpdatePacket<EvolutionDisplay, AddEvolutionPacket>(pokemon, value) {
+class AddEvolutionPacket(pokemon: () -> Pokemon, value: EvolutionDisplay) : SingleUpdatePacket<EvolutionDisplay, AddEvolutionPacket>(pokemon, value) {
 
     override val id = ID
 
-    constructor(pokemon: Pokemon, value: Evolution) : this(pokemon, value.convertToDisplay(pokemon))
+    constructor(pokemon: Pokemon, value: Evolution) : this({ pokemon }, value.convertToDisplay(pokemon))
 
     override fun encodeValue(buffer: PacketByteBuf) {
         this.value.encode(buffer)
@@ -57,11 +57,10 @@ class AddEvolutionPacket(pokemon: Pokemon, value: EvolutionDisplay) : SingleUpda
         internal fun decodeDisplay(buffer: PacketByteBuf): EvolutionDisplay {
             val id = buffer.readString()
             val speciesIdentifier = buffer.readIdentifier()
-            val species = PokemonSpecies.getByIdentifier(speciesIdentifier) ?: throw IllegalArgumentException("Cannot resolve species from $speciesIdentifier")
+            val species = PokemonSpecies.getByIdentifier(speciesIdentifier)
+                ?: throw IllegalArgumentException("Cannot resolve species from $speciesIdentifier")
             val aspects = buffer.readList(PacketByteBuf::readString).toSet()
             return CobblemonEvolutionDisplay(id, species, aspects)
         }
-
     }
-
 }

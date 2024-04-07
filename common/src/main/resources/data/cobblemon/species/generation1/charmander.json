@@ -16,6 +16,11 @@
     "speed": 65
   },
   "behaviour": {
+    "moving": {
+      "walk": {
+        "walkSpeed": 0.3
+      }
+    },
     "resting": {
       "canSleep": true,
       "willSleepOnBed": true,
@@ -34,15 +39,15 @@
     "dragon"
   ],
   "drops": {
-    "amount": "2",
+    "amount": 2,
     "entries": [
       {
         "item": "minecraft:blaze_powder",
-        "percentage": 50
+        "quantityRange": "0-1"
       },
       {
         "item": "cobblemon:charcoal_stick",
-        "percentage": 5
+        "percentage": 5.0
       }
     ]
   },
@@ -87,6 +92,7 @@
     "tm:attract",
     "tm:beatup",
     "tm:bodyslam",
+    "tm:breakingswipe",
     "tm:brickbreak",
     "tm:captivate",
     "tm:confide",
@@ -130,6 +136,7 @@
     "tm:protect",
     "tm:rest",
     "tm:return",
+    "tm:roar",
     "tm:rockslide",
     "tm:rocksmash",
     "tm:rocktomb",
@@ -146,6 +153,7 @@
     "tm:swift",
     "tm:swordsdance",
     "tm:takedown",
+    "tm:temperflare",
     "tm:terablast",
     "tm:thunderpunch",
     "tm:toxic",

@@ -33,18 +33,18 @@
     }
   },
   "drops": {
-    "amount": "3",
+    "amount": 3,
     "entries": [
       {
         "item": "minecraft:feather",
-        "percentage": 50
+        "quantityRange": "0-1"
       },
       {
         "item": "minecraft:chicken"
       },
       {
         "item": "cobblemon:miracle_seed",
-        "percentage": 5
+        "percentage": 5.0
       }
     ]
   },
@@ -85,18 +85,23 @@
     "tm:confide",
     "tm:confuseray",
     "tm:doubleteam",
+    "tm:dualwingbeat",
     "tm:echoedvoice",
     "tm:endure",
     "tm:energyball",
     "tm:facade",
     "tm:falseswipe",
+    "tm:featherdance",
     "tm:frustration",
     "tm:gigadrain",
     "tm:grassknot",
     "tm:grasspledge",
+    "tm:grassyglide",
     "tm:grassyterrain",
+    "tm:haze",
     "tm:helpinghand",
     "tm:hiddenpower",
+    "tm:knockoff",
     "tm:leafblade",
     "tm:leafstorm",
     "tm:lightscreen",
@@ -162,8 +167,8 @@
   ],
   "baseScale": 0.7,
   "hitbox": {
-    "width": 0.7,
-    "height": 0.7,
+    "width": 0.95,
+    "height": 0.8,
     "fixed": false
   },
   "baseFriendship": 50,

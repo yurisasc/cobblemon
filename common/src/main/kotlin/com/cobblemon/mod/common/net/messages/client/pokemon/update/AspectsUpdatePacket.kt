@@ -12,7 +12,7 @@ import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.util.cobblemonResource
 import net.minecraft.network.PacketByteBuf
 
-class AspectsUpdatePacket(pokemon: Pokemon, value: Set<String>): SingleUpdatePacket<Set<String>, AspectsUpdatePacket>(pokemon, value) {
+class AspectsUpdatePacket(pokemon: () -> Pokemon, value: Set<String>): SingleUpdatePacket<Set<String>, AspectsUpdatePacket>(pokemon, value) {
     override val id = ID
     override fun encodeValue(buffer: PacketByteBuf) {
         buffer.writeCollection(this.value) { pb, value -> pb.writeString(value) }

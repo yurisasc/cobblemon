@@ -16,12 +16,20 @@
     "special_defence": 70,
     "speed": 120
   },
+  "features": [
+    "alolan"
+  ],
   "behaviour": {
     "resting": {
       "canSleep": true,
       "willSleepOnBed": false,
       "depth": "normal",
       "light": "0-4"
+    },
+    "moving": {
+      "swim": {
+        "canSwimInWater": false
+      }
     }
   },
   "catchRate": 50,
@@ -92,11 +100,14 @@
         "tm:bulldoze",
         "tm:charm",
         "tm:confide",
+        "tm:curse",
         "tm:dig",
+        "tm:doubleedge",
         "tm:doubleteam",
         "tm:earthpower",
         "tm:earthquake",
         "tm:echoedvoice",
+        "tm:endeavor",
         "tm:endure",
         "tm:facade",
         "tm:flashcannon",
@@ -110,6 +121,7 @@
         "tm:irondefense",
         "tm:ironhead",
         "tm:metalclaw",
+        "tm:metalsound",
         "tm:mudshot",
         "tm:mudslap",
         "tm:protect",
@@ -122,11 +134,14 @@
         "tm:round",
         "tm:sandstorm",
         "tm:sandtomb",
+        "tm:scaryface",
+        "tm:scorchingsands",
         "tm:screech",
         "tm:shadowclaw",
         "tm:sleeptalk",
         "tm:sludgebomb",
         "tm:sludgewave",
+        "tm:smackdown",
         "tm:snore",
         "tm:stealthrock",
         "tm:steelbeam",
@@ -139,6 +154,7 @@
         "tm:takedown",
         "tm:terablast",
         "tm:thief",
+        "tm:throatchop",
         "tm:toxic",
         "tm:triattack",
         "tm:uproar",
@@ -183,8 +199,7 @@
       ],
       "height": 7,
       "weight": 666,
-      "preEvolution": "diglett form=alola",
-      "evolutions": [],
+      "preEvolution": "diglett alolan",
       "cannotDynamax": false,
       "battleOnly": false
     }
@@ -196,16 +211,19 @@
     "field"
   ],
   "drops": {
-    "amount": "2",
+    "amount": 3,
     "entries": [
       {
         "item": "minecraft:potato",
-        "quantityRange": "1-2",
-        "percentage": 66
+        "percentage": 5.0
       },
       {
         "item": "cobblemon:big_root",
-        "percentage": 5
+        "percentage": 5.0
+      },
+      {
+        "item": "cobblemon:soft_sand",
+        "percentage": 5.0
       }
     ]
   },
@@ -241,17 +259,21 @@
     "tm:captivate",
     "tm:charm",
     "tm:confide",
+    "tm:curse",
     "tm:cut",
     "tm:dig",
+    "tm:doubleedge",
     "tm:doubleteam",
     "tm:earthpower",
     "tm:earthquake",
     "tm:echoedvoice",
+    "tm:endeavor",
     "tm:endure",
     "tm:facade",
     "tm:foulplay",
     "tm:frustration",
     "tm:gigaimpact",
+    "tm:helpinghand",
     "tm:hiddenpower",
     "tm:highhorsepower",
     "tm:honeclaws",
@@ -271,12 +293,14 @@
     "tm:sandstorm",
     "tm:sandtomb",
     "tm:scaryface",
+    "tm:scorchingsands",
     "tm:screech",
     "tm:secretpower",
     "tm:shadowclaw",
     "tm:sleeptalk",
     "tm:sludgebomb",
     "tm:sludgewave",
+    "tm:smackdown",
     "tm:snore",
     "tm:stealthrock",
     "tm:stompingtantrum",
@@ -288,6 +312,7 @@
     "tm:takedown",
     "tm:terablast",
     "tm:thief",
+    "tm:throatchop",
     "tm:toxic",
     "tm:triattack",
     "tm:uproar",
@@ -354,8 +379,8 @@
   "evolutions": [],
   "baseScale": 0.8,
   "hitbox": {
-    "width": 0.9,
-    "height": 0.8,
+    "width": 0.5,
+    "height": 0.7,
     "fixed": false
   },
   "baseFriendship": 50,

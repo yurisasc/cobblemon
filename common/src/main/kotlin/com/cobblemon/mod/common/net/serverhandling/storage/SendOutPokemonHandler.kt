@@ -12,12 +12,11 @@ import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.api.net.ServerNetworkPacketHandler
 import com.cobblemon.mod.common.net.messages.server.SendOutPokemonPacket
 import com.cobblemon.mod.common.pokemon.activestate.ActivePokemonState
-import com.cobblemon.mod.common.util.toVec3d
-import com.cobblemon.mod.common.util.traceBlockCollision
+import com.cobblemon.mod.common.pokemon.activestate.ShoulderedState
+import com.cobblemon.mod.common.util.raycastSafeSendout
 import net.minecraft.server.MinecraftServer
 import net.minecraft.server.network.ServerPlayerEntity
-import net.minecraft.util.math.Direction
-import net.minecraft.util.math.Vec3d
+import net.minecraft.world.RaycastContext
 
 object SendOutPokemonHandler : ServerNetworkPacketHandler<SendOutPokemonPacket> {
 
@@ -27,16 +26,15 @@ object SendOutPokemonHandler : ServerNetworkPacketHandler<SendOutPokemonPacket> 
         val slot = packet.slot.takeIf { it >= 0 } ?: return
         val party = Cobblemon.storage.getParty(player)
         val pokemon = party.get(slot) ?: return
-        if (pokemon.currentHealth <= 0) {
+        if (pokemon.isFainted()) {
             return
         }
         val state = pokemon.state
+        if (state is ShoulderedState || state !is ActivePokemonState) {
+            val position = player.raycastSafeSendout(pokemon, 12.0, 5.0, RaycastContext.FluidHandling.ANY)
 
-        if (state !is ActivePokemonState) {
-            val trace = player.traceBlockCollision(maxDistance = 15F)
-            if (trace != null && trace.direction == Direction.UP && !player.world.getBlockState(trace.blockPos.up()).material.isSolid) {
-                val position = Vec3d(trace.location.x, trace.blockPos.up().toVec3d().y, trace.location.z)
-                pokemon.sendOutWithAnimation(player, player.getWorld(), position)
+            if (position != null) {
+                pokemon.sendOutWithAnimation(player, player.serverWorld, position)
             }
         } else {
             val entity = state.entity

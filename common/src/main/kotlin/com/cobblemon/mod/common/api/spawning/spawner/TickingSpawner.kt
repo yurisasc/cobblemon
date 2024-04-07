@@ -11,6 +11,7 @@ package com.cobblemon.mod.common.api.spawning.spawner
 import com.cobblemon.mod.common.api.spawning.SpawnCause
 import com.cobblemon.mod.common.api.spawning.SpawnerManager
 import com.cobblemon.mod.common.api.spawning.context.SpawningContext
+import com.cobblemon.mod.common.api.spawning.detail.EntitySpawnResult
 import com.cobblemon.mod.common.api.spawning.detail.SpawnAction
 import com.cobblemon.mod.common.api.spawning.detail.SpawnDetail
 import com.cobblemon.mod.common.api.spawning.detail.SpawnPool
@@ -48,11 +49,8 @@ abstract class TickingSpawner(
 
     var lastSpawnTime = 0L
     var ticksUntilNextSpawn = 100F
-    var ticksBetweenSpawns = 20F
+    abstract var ticksBetweenSpawns: Float
     var tickTimerMultiplier = 1F
-
-    @Volatile
-    var scheduledSpawn: SpawnAction<*>? = null
 
     var removalCheckTicks = 0
 
@@ -68,35 +66,25 @@ abstract class TickingSpawner(
             return
         }
 
-        val scheduledSpawn = scheduledSpawn
-        if (scheduledSpawn != null) {
-            performSpawn(scheduledSpawn)
-            this.scheduledSpawn = null
-        }
-
         ticksUntilNextSpawn -= tickTimerMultiplier
         if (ticksUntilNextSpawn <= 0) {
-            // TODO some kind of async logic would be nice.
             val spawn = run(SpawnCause(spawner = this, bucket = chooseBucket(), entity = getCauseEntity()))
             ticksUntilNextSpawn = ticksBetweenSpawns
             if (spawn != null) {
                 val ctx = spawn.first
                 val detail = spawn.second
                 val spawnAction = detail.doSpawn(ctx = ctx)
-                this.scheduledSpawn = spawnAction
+                spawnAction.complete()
             }
         }
     }
 
-    override fun afterSpawn(entity: Entity) {
-        super.afterSpawn(entity)
-        spawnedEntities.add(entity)
+    override fun <R> afterSpawn(action: SpawnAction<R>, result: R) {
+        super.afterSpawn(action, result)
+        if (result is EntitySpawnResult) {
+            spawnedEntities.addAll(result.entities)
+        }
         lastSpawnTime = System.currentTimeMillis()
-    }
-
-    fun performSpawn(spawnAction: SpawnAction<*>) {
-        spawnAction.entity.subscribe { afterSpawn(it) }
-        spawnAction.run()
     }
 
     open fun getCauseEntity(): Entity? = null

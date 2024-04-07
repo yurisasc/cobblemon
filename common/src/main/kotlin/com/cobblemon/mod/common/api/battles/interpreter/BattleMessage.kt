@@ -10,8 +10,11 @@ package com.cobblemon.mod.common.api.battles.interpreter
 
 import com.cobblemon.mod.common.api.battles.model.PokemonBattle
 import com.cobblemon.mod.common.api.battles.model.actor.BattleActor
+import com.cobblemon.mod.common.api.moves.MoveTemplate
+import com.cobblemon.mod.common.api.moves.Moves
 import com.cobblemon.mod.common.battles.ActiveBattlePokemon
 import com.cobblemon.mod.common.battles.pokemon.BattlePokemon
+import java.util.UUID
 
 /**
  * A class responsible for parsing a raw simulator protocol message received from Showdown.
@@ -25,7 +28,6 @@ import com.cobblemon.mod.common.battles.pokemon.BattlePokemon
  * @since December 31st, 2022
  */
 class BattleMessage(rawMessage: String) {
-
     /**
      * The ID of the action received in the message.
      */
@@ -52,11 +54,6 @@ class BattleMessage(rawMessage: String) {
      * Pattern to match the start of an optional argument.
      */
     private val optionalArgumentMatcher = Regex("^\\$OPTIONAL_ARG_START([^]]+)$OPTIONAL_ARG_END")
-
-    /**
-     * Pattern to match a Showdown position.
-     */
-    private val pnxMatcher = Regex("p\\d[a-c]")
 
     init {
         this.parse(rawMessage)
@@ -122,6 +119,10 @@ class BattleMessage(rawMessage: String) {
         return this
     }
 
+    fun pokemonByUuid(index: Int, battle: PokemonBattle): BattlePokemon? {
+        return this.argumentAt(index)?.let { UUID.fromString(it) }?.let { uuid -> battle.actors.flatMap { it.pokemonList }.find { it.uuid == uuid } }
+    }
+
     /**
      * Queries an argument at the given [index] for a 'pnx' that will be parsed into a [BattleActor] and [ActiveBattlePokemon].
      *
@@ -134,28 +135,31 @@ class BattleMessage(rawMessage: String) {
         return this.actorAndActivePokemon(pnx, battle)
     }
 
-    /*
-        Example:
-        |-curestatus|p1: a8e5710e-6835-4387-99d3-331b45f848e6|slp|[msg]
-        |-curestatus|p1: 0686b20d-3019-4167-92e2-786834245743|slp|[msg]
-        // Function used to grab BattlePokemon (As we need to be able to grab non active pokemon to cure their status)
-        // by using playerNumber(actorID) and pokemon uuid(pokemonID)
+    /**
+     * Queries an argument at the given [index] for a 'pnx' and uuid that will be parsed into a [BattlePokemon].
+     *
+     * @param index The index of the argument referencing the [BattlePokemon].
+     * @param battle The [PokemonBattle] being queried.
+     * @return The [BattlePokemon] if the argument exists and is successfully parsed; otherwise null.
      */
-    fun getBattlePokemon(index: Int, battle: PokemonBattle): BattlePokemon? {
-        val actorAndPokemonID = this.argumentAt(index)?.takeIf { it.length >= 2 }?.split(": ") ?: return null
-        if (actorAndPokemonID.count() < 2) return null
-        val actorID = actorAndPokemonID[0]
-        val pokemonID = actorAndPokemonID[1]
-        return this.getBattlePokemon(actorID, pokemonID, battle)
+    fun battlePokemon(index: Int, battle: PokemonBattle): BattlePokemon? {
+        val (actorID, pokemonID) = this.pnxAndUuid(index) ?: return null
+        return this.battlePokemon(actorID, pokemonID, battle)
     }
 
-    fun getSourceBattlePokemon(battle: PokemonBattle): BattlePokemon? {
-        val sourcePokemonArgument = this.optionalArguments.get("of") ?: return null
-        val actorAndPokemonID = sourcePokemonArgument.takeIf { it.length >= 2 }?.split(": ") ?: return null
-        if (actorAndPokemonID.count() < 2) return null
-        val actorID = actorAndPokemonID[0]
-        val pokemonID = actorAndPokemonID[1]
-        return this.getBattlePokemon(actorID, pokemonID, battle)
+    /**
+     * Queries an optional argument identified by [optionalArg] for a 'pnx' and uuid that will be parsed into a [BattlePokemon].
+     *
+     * @param optionalArg The id of the optional argument referencing the [BattlePokemon].
+     * @param battle The [PokemonBattle] being queried.
+     * @return The [BattlePokemon] if the argument exists and is successfully parsed; otherwise null.
+     */
+    fun battlePokemonFromOptional(battle: PokemonBattle, optionalArg: String = "of"): BattlePokemon? {
+        val optional = this.optionalArguments.get(optionalArg) ?: return null
+        val pokemonID = optional.takeIf { it.length >= 2 }?.split(":")?.takeIf { it.size == 2 } ?: return null
+        val pnx = pokemonID[0].takeIf { it.matches(PNX_MATCHER) || it.matches(PN_MATCHER) } ?: return null
+        val uuid = pokemonID[1].trim()
+        return this.battlePokemon(pnx, uuid, battle)
     }
 
     /**
@@ -165,11 +169,13 @@ class BattleMessage(rawMessage: String) {
      * @return A 'pnx' String representing position and a 'uuid' String representing the unique Pokemon if parsed correctly, otherwise null.
      */
     fun pnxAndUuid(index: Int): Pair<String, String>? {
-        val argument = this.argumentAt(index)?.takeIf { it.length >= 3 }?.split(":")?.takeIf { it.size == 2 } ?: return null
-        val pnx = argument[0].takeIf { it.matches(pnxMatcher) } ?: return null
+        val argument = this.argumentAt(index)?.takeIf { it.length >= 2 }?.split(":")?.takeIf { it.size == 2 } ?: return null
+        val pnx = argument[0].takeIf { it.matches(PNX_MATCHER) } ?: return null
         val uuid = argument[1].trim()
         return pnx to uuid
     }
+
+
 
     /**
      * Attempts to parse an [Effect] from an argument at the given [index].
@@ -191,6 +197,11 @@ class BattleMessage(rawMessage: String) {
     fun effect(argumentName: String = "from"): Effect? {
         val data = this.optionalArgument(argumentName) ?: return null
         return Effect.parse(data)
+    }
+
+    fun moveAt(index: Int): MoveTemplate? {
+        val argument = argumentAt(index)?.lowercase()?.replace("[^a-z0-9]".toRegex(), "") ?: return null
+        return Moves.getByName(argument)
     }
 
     /**
@@ -226,7 +237,7 @@ class BattleMessage(rawMessage: String) {
         null
     }
 
-    private fun getBattlePokemon(pnx: String, pokemonID: String, battle: PokemonBattle): BattlePokemon? = try {
+    private fun battlePokemon(pnx: String, pokemonID: String, battle: PokemonBattle): BattlePokemon? = try {
         battle.getBattlePokemon(pnx, pokemonID)
     } catch (_: Exception) {
         null
@@ -238,6 +249,14 @@ class BattleMessage(rawMessage: String) {
         private const val OPTIONAL_ARG_START = "["
         private const val OPTIONAL_ARG_END = "]"
 
-    }
+        /**
+         * Pattern to match a Showdown position e.g. p2a, p1b
+         */
+        val PNX_MATCHER = Regex("p\\d[a-c]")
 
+        /**
+         * Pattern to match a Showdown side position e.g. p2, p1
+         */
+        val PN_MATCHER = Regex("p\\d")
+    }
 }

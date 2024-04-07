@@ -15,14 +15,15 @@ import com.cobblemon.mod.common.entity.PoseType.Companion.STATIONARY_POSES
 import com.cobblemon.mod.common.entity.PoseType.Companion.UI_POSES
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
+
 class WeepinbellModel(root: ModelPart) : PokemonPoseableModel() {
     override val rootPart = root.registerChildWithAllChildren("weepinbell")
 
-    override val portraitScale = 1.73F
-    override val portraitTranslation = Vec3d(0.0, -1.0, 0.0)
+    override var portraitScale = 1.73F
+    override var portraitTranslation = Vec3d(0.0, -1.0, 0.0)
 
-    override val profileScale = 1.1F
-    override val profileTranslation = Vec3d(0.0, 0.2, 0.0)
+    override var profileScale = 1.1F
+    override var profileTranslation = Vec3d(0.0, 0.2, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose

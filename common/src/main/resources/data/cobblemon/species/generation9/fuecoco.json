@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Fuecoco",
   "nationalPokedexNumber": 909,
   "primaryType": "fire",
@@ -6,6 +7,15 @@
     "blaze",
     "h:unaware"
   ],
+  "drops": {
+    "amount": 1,
+    "entries": [
+      {
+        "item": "cobblemon:charcoal_stick",
+        "percentage": 5.0
+      }
+    ]
+  },
   "baseStats": {
     "hp": 67,
     "attack": 45,
@@ -31,6 +41,14 @@
   "eggGroups": [
     "field"
   ],
+  "behaviour": {
+    "resting": {
+      "canSleep": true,
+      "willSleepOnBed": true,
+      "depth": "normal",
+      "light": "0-4"
+    }
+  },
   "moves": [
     "1:ember",
     "1:leer",
@@ -103,6 +121,12 @@
       ]
     }
   ],
+  "baseScale": 0.6,
+  "hitbox": {
+    "width": 0.8,
+    "height": 1.1,
+    "fixed": false
+  },
   "cannotDynamax": false,
   "pokedex": [
     "cobblemon.species.fuecoco.desc"

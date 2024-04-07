@@ -10,8 +10,7 @@ package com.cobblemon.mod.common.client.battle
 
 import com.cobblemon.mod.common.api.reactive.SettableObservable
 import com.cobblemon.mod.common.api.reactive.SimpleObservable
-import com.cobblemon.mod.common.api.scheduling.after
-import com.cobblemon.mod.common.api.scheduling.lerp
+import com.cobblemon.mod.common.api.scheduling.ClientTaskTracker
 import com.cobblemon.mod.common.client.render.pokeball.PokeBallPoseableState
 import com.cobblemon.mod.common.entity.pokeball.EmptyPokeBallEntity
 import com.cobblemon.mod.common.pokeball.PokeBall
@@ -25,6 +24,12 @@ import com.cobblemon.mod.common.pokeball.PokeBall
 class ClientBallDisplay(val pokeBall: PokeBall, val aspects: Set<String>) : PokeBallPoseableState() {
     override val stateEmitter = SettableObservable(EmptyPokeBallEntity.CaptureState.FALL)
     override val shakeEmitter = SimpleObservable<Unit>()
+    override val schedulingTracker = ClientTaskTracker
+
+    override fun getEntity() = null
+    override fun updatePartialTicks(partialTicks: Float) {
+        this.currentPartialTicks += partialTicks
+    }
 
     var scale = 1F
 
@@ -36,16 +41,6 @@ class ClientBallDisplay(val pokeBall: PokeBall, val aspects: Set<String>) : Poke
             after(seconds = 0.3F) {
                 stateEmitter.set(EmptyPokeBallEntity.CaptureState.SHAKE)
                 lerp(seconds = 0.3F) { scale = it }
-            }
-        }
-    }
-
-    fun finish() {
-        lerp(seconds = 0.3F) { scale = 1 - it }
-        after(seconds = 0.3F) {
-            lerp(seconds = 0.3F) { scale = it }
-            after(seconds = 0.3F) {
-
             }
         }
     }

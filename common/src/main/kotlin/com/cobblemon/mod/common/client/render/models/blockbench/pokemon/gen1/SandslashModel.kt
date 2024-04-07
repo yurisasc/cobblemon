@@ -17,22 +17,23 @@ import com.cobblemon.mod.common.entity.PoseType.Companion.STATIONARY_POSES
 import com.cobblemon.mod.common.entity.PoseType.Companion.UI_POSES
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
+
 class SandslashModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("sandslash")
     override val head = getPart("head")
 
-    override val portraitScale = 2.0F
-    override val portraitTranslation = Vec3d(-0.15, 0.0, 0.0)
+    override var portraitScale = 2.0F
+    override var portraitTranslation = Vec3d(-0.15, 0.0, 0.0)
 
-    override val profileScale = 0.8F
-    override val profileTranslation = Vec3d(0.0, 0.55, 0.0)
+    override var profileScale = 0.8F
+    override var profileTranslation = Vec3d(0.0, 0.55, 0.0)
 
     lateinit var sleep: PokemonPose
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("sandslash", "blink").setPreventsIdle(false)}
+        val blink = quirk { bedrockStateful("sandslash", "blink")}
         standing = registerPose(
             poseName = "standing",
             poseTypes = STATIONARY_POSES + UI_POSES,

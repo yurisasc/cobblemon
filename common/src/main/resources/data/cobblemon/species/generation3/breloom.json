@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Breloom",
   "nationalPokedexNumber": 286,
   "primaryType": "grass",
@@ -8,6 +9,19 @@
     "poisonheal",
     "h:technician"
   ],
+  "drops": {
+    "amount": 3,
+    "entries": [
+      {
+        "item": "minecraft:brown_mushroom",
+        "quantityRange": "0-2"
+      },
+      {
+        "item": "cobblemon:kebia_berry",
+        "percentage": 5.0
+      }
+    ]
+  },
   "baseStats": {
     "hp": 60,
     "attack": 130,
@@ -26,12 +40,26 @@
     "fairy",
     "grass"
   ],
+  "behaviour": {
+    "moving": {
+      "walk": {
+        "walkSpeed": 0.25
+      }
+    },
+    "resting": {
+      "canSleep": true,
+      "willSleepOnBed": false,
+      "depth": "normal",
+      "light": "0-4"
+    }
+  },
   "moves": [
     "1:absorb",
     "1:growth",
     "1:leechseed",
     "1:machpunch",
     "1:poisonpowder",
+    "1:spore",
     "1:stunspore",
     "1:tackle",
     "1:toxic",
@@ -161,10 +189,10 @@
   ],
   "preEvolution": "shroomish",
   "evolutions": [],
-  "baseScale": 1,
+  "baseScale": 0.9,
   "hitbox": {
-    "width": 1,
-    "height": 1,
+    "width": 0.7,
+    "height": 1.5,
     "fixed": false
   },
   "baseFriendship": 70,

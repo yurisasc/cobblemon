@@ -16,6 +16,9 @@
     "special_defence": 60,
     "speed": 40
   },
+  "features": [
+    "shulker"
+  ],
   "behaviour": {
     "resting": {
       "canSleep": true,
@@ -34,16 +37,19 @@
     "bug"
   ],
   "drops": {
-    "amount": "2",
+    "amount": 4,
     "entries": [
       {
         "item": "minecraft:string",
-        "quantityRange": "1-2",
-        "percentage": 66
+        "quantityRange": "0-2"
       },
       {
-        "item": "cobblemon:metal_coat",
-        "percentage": 5
+        "item": "cobblemon:occa_berry",
+        "percentage": 5.0
+      },
+      {
+        "item": "cobblemon:iron_ball",
+        "percentage": 5.0
       }
     ]
   },
@@ -73,11 +79,14 @@
     "tm:attract",
     "tm:bodypress",
     "tm:bodyslam",
+    "tm:bugbite",
     "tm:bugbuzz",
     "tm:bulldoze",
     "tm:captivate",
     "tm:confide",
+    "tm:curse",
     "tm:dig",
+    "tm:doubleedge",
     "tm:doubleteam",
     "tm:drillrun",
     "tm:earthpower",
@@ -89,7 +98,9 @@
     "tm:frustration",
     "tm:gigadrain",
     "tm:gigaimpact",
+    "tm:gravity",
     "tm:gyroball",
+    "tm:hardpress",
     "tm:heavyslam",
     "tm:helpinghand",
     "tm:hiddenpower",
@@ -98,7 +109,10 @@
     "tm:irondefense",
     "tm:ironhead",
     "tm:lightscreen",
+    "tm:lunge",
+    "tm:metalsound",
     "tm:naturalgift",
+    "tm:painsplit",
     "tm:payback",
     "tm:poisonjab",
     "tm:pounce",
@@ -115,6 +129,7 @@
     "tm:rocktomb",
     "tm:round",
     "tm:sandstorm",
+    "tm:sandtomb",
     "tm:secretpower",
     "tm:seedbomb",
     "tm:sleeptalk",

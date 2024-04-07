@@ -18,20 +18,21 @@ import com.cobblemon.mod.common.entity.PoseType.Companion.STATIONARY_POSES
 import com.cobblemon.mod.common.entity.PoseType.Companion.UI_POSES
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
+
 class RhyhornModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, QuadrupedFrame {
     override val rootPart = root.registerChildWithAllChildren("rhyhorn")
     override val head = getPart("head")
 
-    override val foreLeftLeg = getPart("leftfrontleg")
+    override val foreLeftLeg= getPart("leftfrontleg")
     override val foreRightLeg = getPart("rightfrontleg")
     override val hindLeftLeg = getPart("leftbackleg")
     override val hindRightLeg = getPart("rightbackleg")
 
-    override val portraitScale = 2.6F
-    override val portraitTranslation = Vec3d(-0.85, -2.2, 0.0)
+    override var portraitScale = 2.6F
+    override var portraitTranslation = Vec3d(-0.85, -2.2, 0.0)
 
-    override val profileScale = 0.95F
-    override val profileTranslation = Vec3d(0.05, 0.3, 0.0)
+    override var profileScale = 0.95F
+    override var profileTranslation = Vec3d(0.05, 0.3, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose

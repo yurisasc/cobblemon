@@ -14,7 +14,7 @@ import com.cobblemon.mod.common.pokemon.Species
 import com.cobblemon.mod.common.util.cobblemonResource
 import net.minecraft.network.PacketByteBuf
 
-class SpeciesUpdatePacket(pokemon: Pokemon, value: Species) : SingleUpdatePacket<Species, SpeciesUpdatePacket>(pokemon, value) {
+class SpeciesUpdatePacket(pokemon: () -> Pokemon, value: Species) : SingleUpdatePacket<Species, SpeciesUpdatePacket>(pokemon, value) {
     override val id = ID
     override fun encodeValue(buffer: PacketByteBuf) {
         buffer.writeIdentifier(this.value.resourceIdentifier)

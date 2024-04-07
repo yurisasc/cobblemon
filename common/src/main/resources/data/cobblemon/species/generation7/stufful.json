@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Stufful",
   "nationalPokedexNumber": 759,
   "primaryType": "normal",
@@ -8,6 +9,15 @@
     "klutz",
     "h:cutecharm"
   ],
+  "drops": {
+    "amount": 1,
+    "entries": [
+      {
+        "item": "cobblemon:chople_berry",
+        "percentage": 2.5
+      }
+    ]
+  },
   "baseStats": {
     "hp": 70,
     "attack": 75,
@@ -15,6 +25,14 @@
     "special_attack": 45,
     "special_defence": 50,
     "speed": 50
+  },
+  "behaviour": {
+    "resting": {
+      "canSleep": true,
+      "willSleepOnBed": true,
+      "depth": "normal",
+      "light": "0-4"
+    }
   },
   "catchRate": 140,
   "maleRatio": 0.5,
@@ -129,9 +147,9 @@
       ]
     }
   ],
-  "baseScale": 1,
+  "baseScale": 0.7,
   "hitbox": {
-    "width": 1,
+    "width": 0.9,
     "height": 1,
     "fixed": false
   },

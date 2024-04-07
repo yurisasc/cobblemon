@@ -26,16 +26,23 @@
     "field"
   ],
   "drops": {
-    "amount": "2",
+    "amount": 5,
     "entries": [
       {
         "item": "minecraft:coal",
-        "quantityRange": "1-2",
-        "percentage": 66
+        "quantityRange": "0-2"
       },
       {
         "item": "cobblemon:charcoal_stick",
-        "percentage": 5
+        "percentage": 5.0
+      },
+      {
+        "item": "cobblemon:smoke_ball",
+        "percentage": 5.0
+      },
+      {
+        "item": "cobblemon:charti_berry",
+        "percentage": 5.0
       }
     ]
   },
@@ -77,8 +84,11 @@
     "tm:bodypress",
     "tm:bodyslam",
     "tm:bulldoze",
+    "tm:burningjealousy",
     "tm:captivate",
     "tm:confide",
+    "tm:curse",
+    "tm:doubleedge",
     "tm:doubleteam",
     "tm:earthpower",
     "tm:earthquake",
@@ -113,6 +123,7 @@
     "tm:rocktomb",
     "tm:round",
     "tm:sandstorm",
+    "tm:scorchingsands",
     "tm:secretpower",
     "tm:selfdestruct",
     "tm:sleeptalk",
@@ -128,6 +139,7 @@
     "tm:superpower",
     "tm:swagger",
     "tm:takedown",
+    "tm:temperflare",
     "tm:terablast",
     "tm:toxic",
     "tm:weatherball",

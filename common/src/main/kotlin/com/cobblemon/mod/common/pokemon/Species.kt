@@ -9,10 +9,12 @@
 package com.cobblemon.mod.common.pokemon
 
 import com.cobblemon.mod.common.Cobblemon
+import com.cobblemon.mod.common.CobblemonSounds
 import com.cobblemon.mod.common.api.abilities.AbilityPool
 import com.cobblemon.mod.common.api.data.ClientDataSynchronizer
 import com.cobblemon.mod.common.api.data.ShowdownIdentifiable
 import com.cobblemon.mod.common.api.drop.DropTable
+import com.cobblemon.mod.common.api.pokemon.PokemonProperties
 import com.cobblemon.mod.common.api.pokemon.PokemonSpecies
 import com.cobblemon.mod.common.api.pokemon.effect.ShoulderEffect
 import com.cobblemon.mod.common.api.pokemon.egg.EggGroup
@@ -28,6 +30,7 @@ import com.cobblemon.mod.common.entity.PoseType.Companion.SWIMMING_POSES
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.net.IntSize
 import com.cobblemon.mod.common.pokemon.ai.PokemonBehaviour
+import com.cobblemon.mod.common.pokemon.lighthing.LightingData
 import com.cobblemon.mod.common.util.readSizedInt
 import com.cobblemon.mod.common.util.writeSizedInt
 import net.minecraft.entity.EntityDimensions
@@ -35,7 +38,6 @@ import net.minecraft.network.PacketByteBuf
 import net.minecraft.text.MutableText
 import net.minecraft.text.Text
 import net.minecraft.util.Identifier
-import net.minecraft.util.InvalidIdentifierException
 
 class Species : ClientDataSynchronizer<Species>, ShowdownIdentifiable {
     var name: String = "Bulbasaur"
@@ -105,14 +107,20 @@ class Species : ClientDataSynchronizer<Species>, ShowdownIdentifiable {
 
     val standardForm by lazy { FormData(_evolutions = this.evolutions).initialize(this) }
 
-    internal var labels = hashSetOf<String>()
+    var labels = hashSetOf<String>()
         private set
 
-    // Only exists for use of the field in Pokémon do not expose to end user due to how the species/form data is structured
-    internal var evolutions: MutableSet<Evolution> = hashSetOf()
+    /**
+     * Contains the evolutions of this species.
+     * If you're trying to find out the possible evolutions of a Pokémon you should always work with their [FormData].
+     * The base species is the [standardForm].
+     * Do not access this property immediately after a species is loaded, it requires all species in the game to be loaded.
+     * To be aware of this gamestage subscribe to [PokemonSpecies.observable].
+     */
+    var evolutions: MutableSet<Evolution> = hashSetOf()
         private set
 
-    internal var preEvolution: PreEvolution? = null
+    var preEvolution: PreEvolution? = null
         private set
 
     @Transient
@@ -121,12 +129,18 @@ class Species : ClientDataSynchronizer<Species>, ShowdownIdentifiable {
     val types: Iterable<ElementalType>
         get() = secondaryType?.let { listOf(primaryType, it) } ?: listOf(primaryType)
 
+    var battleTheme: Identifier = CobblemonSounds.PVW_BATTLE.id
+
+    var lightingData: LightingData? = null
+        private set
+
     fun initialize() {
         Cobblemon.statProvider.provide(this)
         this.forms.forEach { it.initialize(this) }
         if (this.forms.isNotEmpty() && this.forms.none { it == this.standardForm }) {
             this.forms.add(0, this.standardForm)
         }
+        this.lightingData?.let { this.lightingData = it.copy(lightLevel = it.lightLevel.coerceIn(0, 15)) }
         // These properties are lazy, these need all species to be reloaded but SpeciesAdditions is what will eventually trigger this after all species have been loaded
         this.preEvolution?.species
         this.preEvolution?.form
@@ -144,11 +158,7 @@ class Species : ClientDataSynchronizer<Species>, ShowdownIdentifiable {
         this.forms.forEach(FormData::resolveEvolutionMoves)
     }
 
-    fun create(level: Int = 10) = Pokemon().apply {
-        species = this@Species
-        this.level = level
-        initialize()
-    }
+    fun create(level: Int = 10) = PokemonProperties.parse("species=\"${this.name}\" level=${level}").create()
 
     fun getForm(aspects: Set<String>) = forms.lastOrNull { it.aspects.all { it in aspects } } ?: standardForm
 
@@ -158,10 +168,12 @@ class Species : ClientDataSynchronizer<Species>, ShowdownIdentifiable {
     }
 
     private fun resolveEyeHeight(entity: PokemonEntity): Float? = when {
-        entity.getPoseType() in SWIMMING_POSES -> this.swimmingEyeHeight ?: standingEyeHeight
-        entity.getPoseType() in FLYING_POSES -> this.flyingEyeHeight ?: standingEyeHeight
+        entity.getCurrentPoseType() in SWIMMING_POSES -> this.swimmingEyeHeight ?: standingEyeHeight
+        entity.getCurrentPoseType() in FLYING_POSES -> this.flyingEyeHeight ?: standingEyeHeight
         else -> this.standingEyeHeight
     }
+
+    fun canGmax() = this.forms.find { it.formOnlyShowdownId() == "gmax" } != null
 
     override fun encode(buffer: PacketByteBuf) {
         buffer.writeBoolean(this.implemented)
@@ -186,6 +198,12 @@ class Species : ClientDataSynchronizer<Species>, ShowdownIdentifiable {
         this.moves.encode(buffer)
         buffer.writeCollection(this.pokedex) { pb, line -> pb.writeString(line) }
         buffer.writeCollection(this.forms) { pb, form -> form.encode(pb) }
+        buffer.writeIdentifier(this.battleTheme)
+        buffer.writeCollection(this.features) { pb, feature -> pb.writeString(feature) }
+        buffer.writeNullable(this.lightingData) { pb, data ->
+            pb.writeInt(data.lightLevel)
+            pb.writeEnumConstant(data.liquidGlowMode)
+        }
     }
 
     override fun decode(buffer: PacketByteBuf) {
@@ -208,6 +226,10 @@ class Species : ClientDataSynchronizer<Species>, ShowdownIdentifiable {
         this.pokedex += buffer.readList { pb -> pb.readString() }
         this.forms.clear()
         this.forms += buffer.readList{ pb -> FormData().apply { decode(pb) } }.filterNotNull()
+        this.battleTheme = buffer.readIdentifier()
+        this.features.clear()
+        this.features += buffer.readList { pb -> pb.readString() }
+        this.lightingData = buffer.readNullable { pb -> LightingData(pb.readInt(), pb.readEnumConstant(LightingData.LiquidGlowMode::class.java)) }
         this.initialize()
     }
 
@@ -228,6 +250,8 @@ class Species : ClientDataSynchronizer<Species>, ShowdownIdentifiable {
                 || other.forms != this.forms
                 // We only sync level up moves atm
                 || this.moves.shouldSynchronize(other.moves)
+                || other.battleTheme != this.battleTheme
+                || other.features != this.features
     }
 
     /**

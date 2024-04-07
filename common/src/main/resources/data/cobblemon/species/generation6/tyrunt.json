@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Tyrunt",
   "nationalPokedexNumber": 696,
   "primaryType": "rock",
@@ -158,8 +159,8 @@
   ],
   "baseScale": 1,
   "hitbox": {
-    "width": 1,
-    "height": 1,
+    "width": 1.1,
+    "height": 1.45,
     "fixed": false
   },
   "baseFriendship": 50,
@@ -174,5 +175,14 @@
   "height": 8,
   "weight": 260,
   "aspects": [],
-  "cannotDynamax": false
+  "cannotDynamax": false,
+  "drops": {
+    "amount": 1,
+    "entries": [
+      {
+        "item": "cobblemon:razor_fang",
+        "percentage": 5.0
+      }
+    ]
+  }
 }

@@ -1,5 +1,5 @@
 {
-    "enabled": "true",
+    "enabled": true,
     "neededInstalledMods": [],
     "neededUninstalledMods": [],
     "spawns": [
@@ -13,12 +13,15 @@
             "type": "pokemon",
             "context": "grounded",
             "bucket": "ultra-rare",
-            "level": "14-40",
+            "level": "14-41",
             "weight": 0.9,
             "condition": {
+                "minSkyLight": 8,
+                "maxSkyLight": 15,
                 "biomes": [
-                    "minecraft:crimson_forest"
-                ]
+                    "#cobblemon:is_mountain"
+                ],
+                "isRaining": false
             }
         },
         {
@@ -31,14 +34,12 @@
             "type": "pokemon",
             "context": "grounded",
             "bucket": "ultra-rare",
-            "level": "14-40",
+            "level": "14-41",
             "weight": 0.9,
             "condition": {
-                "canSeeSky": true,
                 "biomes": [
-                    "#cobblemon:is_mountain"
-                ],
-                "isRaining": false
+                    "#cobblemon:nether/is_forest"
+                ]
             }
         }
     ]

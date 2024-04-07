@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Perrserker",
   "nationalPokedexNumber": 863,
   "primaryType": "steel",
@@ -7,6 +8,19 @@
     "toughclaws",
     "h:steelyspirit"
   ],
+  "drops": {
+    "amount": 2,
+    "entries": [
+      {
+        "item": "cobblemon:razor_claw",
+        "percentage": 5.0
+      },
+      {
+        "item": "cobblemon:wepear_berry",
+        "percentage": 5.0
+      }
+    ]
+  },
   "baseStats": {
     "hp": 70,
     "attack": 110,
@@ -40,6 +54,7 @@
     "42:slash",
     "48:metalsound",
     "54:thrash",
+    "tm:aerialace",
     "tm:amnesia",
     "tm:assurance",
     "tm:attract",
@@ -50,12 +65,16 @@
     "tm:chillingwater",
     "tm:closecombat",
     "tm:crunch",
+    "tm:curse",
     "tm:darkpulse",
     "tm:dig",
+    "tm:doubleedge",
+    "tm:endeavor",
     "tm:endure",
     "tm:facade",
     "tm:faketears",
     "tm:falseswipe",
+    "tm:flashcannon",
     "tm:fling",
     "tm:foulplay",
     "tm:gigaimpact",
@@ -68,7 +87,10 @@
     "tm:irondefense",
     "tm:ironhead",
     "tm:irontail",
+    "tm:knockoff",
+    "tm:lashout",
     "tm:metalclaw",
+    "tm:metalsound",
     "tm:metronome",
     "tm:nastyplot",
     "tm:payback",
@@ -85,6 +107,7 @@
     "tm:shadowclaw",
     "tm:sleeptalk",
     "tm:snore",
+    "tm:spite",
     "tm:stealthrock",
     "tm:steelbeam",
     "tm:substitute",
@@ -111,9 +134,9 @@
   "pokedex": [
     "cobblemon.species.perrserker.desc"
   ],
-  "preEvolution": "meowth form=galar",
+  "preEvolution": "meowth galarian",
   "evolutions": [],
-  "baseScale": 1,
+  "baseScale": 0.8,
   "hitbox": {
     "width": 1,
     "height": 1,

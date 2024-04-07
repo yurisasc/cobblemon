@@ -8,6 +8,19 @@
     "chlorophyll",
     "h:runaway"
   ],
+  "drops": {
+    "amount": 2,
+    "entries": [
+      {
+        "item": "cobblemon:absorb_bulb",
+        "percentage": 2.5
+      },
+      {
+        "item": "cobblemon:pecha_berry",
+        "percentage": 2.5
+      }
+    ]
+  },
   "baseStats": {
     "hp": 45,
     "attack": 50,
@@ -66,6 +79,7 @@
     "egg:synthesis",
     "egg:teeterdance",
     "egg:tickle",
+    "tm:acidspray",
     "tm:attract",
     "tm:bulletseed",
     "tm:captivate",
@@ -81,9 +95,13 @@
     "tm:frustration",
     "tm:gigadrain",
     "tm:grassknot",
+    "tm:grassyglide",
     "tm:grassyterrain",
+    "tm:helpinghand",
     "tm:hiddenpower",
     "tm:infestation",
+    "tm:leafstorm",
+    "tm:magicalleaf",
     "tm:naturalgift",
     "tm:naturepower",
     "tm:protect",
@@ -100,7 +118,9 @@
     "tm:sunnyday",
     "tm:swagger",
     "tm:swordsdance",
+    "tm:terablast",
     "tm:toxic",
+    "tm:trailblaze",
     "tm:venoshock",
     "tutor:absorb",
     "tutor:acid",

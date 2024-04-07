@@ -33,6 +33,9 @@
       "light": "0-4"
     },
     "moving": {
+      "walk": {
+        "walkSpeed": 0.29
+      },
       "swim": {
         "canSwimInWater": true,
         "canBreatheUnderwater": true
@@ -40,15 +43,15 @@
     }
   },
   "drops": {
-    "amount": "2",
+    "amount": 2,
     "entries": [
       {
         "item": "minecraft:scute",
-        "percentage": 50
+        "quantityRange": "0-1"
       },
       {
         "item": "cobblemon:mystic_water",
-        "percentage": 5
+        "percentage": 5.0
       }
     ]
   },
@@ -68,6 +71,7 @@
     "30:irondefense",
     "33:hydropump",
     "36:skullbash",
+    "36:wavecrash",
     "egg:aquajet",
     "egg:aquaring",
     "egg:aurasphere",
@@ -92,30 +96,37 @@
     "tm:brickbreak",
     "tm:brine",
     "tm:captivate",
+    "tm:chillingwater",
     "tm:confide",
     "tm:dig",
     "tm:dive",
+    "tm:doubleedge",
     "tm:doubleteam",
     "tm:dragonpulse",
     "tm:endure",
     "tm:facade",
     "tm:falseswipe",
     "tm:fling",
+    "tm:flipturn",
     "tm:focuspunch",
     "tm:frustration",
     "tm:gyroball",
     "tm:hail",
+    "tm:haze",
     "tm:helpinghand",
     "tm:hiddenpower",
     "tm:hydropump",
     "tm:icebeam",
     "tm:icepunch",
+    "tm:icespinner",
     "tm:icywind",
     "tm:irondefense",
     "tm:irontail",
+    "tm:liquidation",
     "tm:megakick",
     "tm:megapunch",
     "tm:muddywater",
+    "tm:mudshot",
     "tm:naturalgift",
     "tm:poweruppunch",
     "tm:protect",
@@ -133,8 +144,11 @@
     "tm:substitute",
     "tm:surf",
     "tm:swagger",
+    "tm:takedown",
+    "tm:terablast",
     "tm:toxic",
     "tm:waterfall",
+    "tm:waterpledge",
     "tm:waterpulse",
     "tm:weatherball",
     "tm:whirlpool",

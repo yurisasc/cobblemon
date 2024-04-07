@@ -9,6 +9,7 @@
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1
 
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cobblemon.mod.common.entity.PoseType
@@ -16,20 +17,23 @@ import com.cobblemon.mod.common.entity.PoseType.Companion.STATIONARY_POSES
 import com.cobblemon.mod.common.entity.PoseType.Companion.UI_POSES
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
+
 class VaporeonModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("vaporeon")
     override val head = getPart("head")
 
-    override val portraitScale = 2.2F
-    override val portraitTranslation = Vec3d(-0.6, -0.58, 0.0)
+    override var portraitScale = 2.2F
+    override var portraitTranslation = Vec3d(-0.6, -0.58, 0.0)
 
-    override val profileScale = 0.9F
-    override val profileTranslation = Vec3d(0.0, 0.35, 0.0)
+    override var profileScale = 0.9F
+    override var profileTranslation = Vec3d(0.0, 0.35, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
     lateinit var swimIdle: PokemonPose
     lateinit var swimMove: PokemonPose
+
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("vaporeon", "cry") }
 
     override fun registerPoses() {
         standing = registerPose(

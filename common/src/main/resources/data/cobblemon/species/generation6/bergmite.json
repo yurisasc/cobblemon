@@ -8,6 +8,19 @@
     "icebody",
     "h:sturdy"
   ],
+  "drops": {
+    "amount": 2,
+    "entries": [
+      {
+        "item": "cobblemon:never_melt_ice",
+        "percentage": 2.5
+      },
+      {
+        "item": "cobblemon:aspear_berry",
+        "percentage": 2.5
+      }
+    ]
+  },
   "baseStats": {
     "hp": 55,
     "attack": 69,
@@ -27,11 +40,22 @@
     "mineral"
   ],
   "behaviour": {
-    "swim": {
-      "swimSpeed": 0.1,
-      "canSwimInWater": true,
-      "canBreatheUnderwater": true,
-      "canWalkOnWater": true
+    "moving": {
+      "swim": {
+        "swimSpeed": 0.1,
+        "canSwimInWater": true,
+        "canBreatheUnderwater": true,
+        "canWalkOnWater": true
+      },
+      "walk": {
+        "walkSpeed": 0.15
+      }
+    },
+    "resting": {
+      "canSleep": true,
+      "willSleepOnBed": false,
+      "depth": "normal",
+      "light": "0-4"
     }
   },
   "moves": [
@@ -66,6 +90,8 @@
     "tm:chillingwater",
     "tm:confide",
     "tm:crunch",
+    "tm:curse",
+    "tm:doubleedge",
     "tm:doubleteam",
     "tm:endure",
     "tm:facade",

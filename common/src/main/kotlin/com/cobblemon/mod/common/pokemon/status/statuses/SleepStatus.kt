@@ -14,6 +14,6 @@ class SleepStatus : PersistentStatus(
     name = cobblemonResource("sleep"),
     showdownName = "slp",
     applyMessage = "cobblemon.status.sleep.apply",
-    removeMessage = "cobblemon.status.sleep.woke",
+    removeMessage = "cobblemon.status.sleep.cure",
     defaultDuration = IntRange(180, 300)
 )

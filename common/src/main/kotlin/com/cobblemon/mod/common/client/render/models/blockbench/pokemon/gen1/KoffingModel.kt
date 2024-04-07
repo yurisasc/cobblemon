@@ -15,26 +15,27 @@ import com.cobblemon.mod.common.entity.PoseType.Companion.STATIONARY_POSES
 import com.cobblemon.mod.common.entity.PoseType.Companion.UI_POSES
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
+
 class KoffingModel(root: ModelPart) : PokemonPoseableModel() {
     override val rootPart = root.registerChildWithAllChildren("koffing")
 
-    override val portraitScale = 1.9F
-    override val portraitTranslation = Vec3d(-0.4, -0.2, 0.0)
+    override var portraitScale = 1.9F
+    override var portraitTranslation = Vec3d(-0.4, -0.2, 0.0)
 
-    override val profileScale = 0.8F
-    override val profileTranslation = Vec3d(0.0, 0.6, 0.0)
+    override var profileScale = 0.8F
+    override var profileTranslation = Vec3d(0.0, 0.6, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("koffing", "blink").setPreventsIdle(false)}
+        val blink = quirk { bedrockStateful("koffing", "blink")}
         standing = registerPose(
             poseName = "standing",
             poseTypes = STATIONARY_POSES + UI_POSES,
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
-                bedrock("koffing", "ground_idle")
+                bedrock("koffing", "air_idle")
             )
         )
 
@@ -43,7 +44,7 @@ class KoffingModel(root: ModelPart) : PokemonPoseableModel() {
             poseTypes = MOVING_POSES,
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
-                bedrock("koffing", "ground_walk")
+                bedrock("koffing", "air_fly")
             )
         )
     }

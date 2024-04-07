@@ -8,7 +8,6 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen4
 
-import com.cobblemon.mod.common.client.render.models.blockbench.animation.QuadrupedWalkAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.QuadrupedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
@@ -22,16 +21,16 @@ import net.minecraft.util.math.Vec3d
 class MamoswineModel(root: ModelPart) : PokemonPoseableModel(), QuadrupedFrame {
     override val rootPart = root.registerChildWithAllChildren("mamoswine")
 
-    override val hindLeftLeg = getPart("leftbackleg")
-    override val hindRightLeg = getPart("rightbackleg")
-    override val foreLeftLeg = getPart("leftfrontleg")
-    override val foreRightLeg = getPart("rightfrontleg")
+    override val hindLeftLeg = getPart("leg_back_left")
+    override val hindRightLeg = getPart("leg_back_right")
+    override val foreLeftLeg= getPart("leg_front_left")
+    override val foreRightLeg = getPart("leg_front_right")
 
-    override val portraitScale = 2.0F
-    override val portraitTranslation = Vec3d(-0.5, -0.45, 0.0)
+    override var portraitScale = 0.67F
+    override var portraitTranslation = Vec3d(-0.67, 1.53, 0.0)
 
-    override val profileScale = 0.95F
-    override val profileTranslation = Vec3d(0.0, 0.3, 0.0)
+    override var profileScale = 0.35F
+    override var profileTranslation = Vec3d(-0.07, 1.1, 0.0)
 
     lateinit var sleep: PokemonPose
     lateinit var standing: PokemonPose
@@ -43,7 +42,7 @@ class MamoswineModel(root: ModelPart) : PokemonPoseableModel(), QuadrupedFrame {
             idleAnimations = arrayOf(bedrock("mamoswine", "sleep"))
         )
 
-        val blink = quirk("blink") { bedrockStateful("mamoswine", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("mamoswine", "blink") }
         standing = registerPose(
             poseName = "standing",
             poseTypes = STATIONARY_POSES + UI_POSES,

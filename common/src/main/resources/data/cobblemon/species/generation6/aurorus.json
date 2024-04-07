@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Aurorus",
   "nationalPokedexNumber": 699,
   "primaryType": "rock",
@@ -133,10 +134,10 @@
   ],
   "preEvolution": "amaura",
   "evolutions": [],
-  "baseScale": 1,
+  "baseScale": 1.25,
   "hitbox": {
-    "width": 1,
-    "height": 1,
+    "width": 2.4,
+    "height": 5.1,
     "fixed": false
   },
   "baseFriendship": 50,
@@ -151,5 +152,14 @@
   "height": 27,
   "weight": 2250,
   "aspects": [],
-  "cannotDynamax": false
+  "cannotDynamax": false,
+  "drops": {
+    "amount": 1,
+    "entries": [
+      {
+        "item": "cobblemon:never_melt_ice",
+        "percentage": 10.0
+      }
+    ]
+  }
 }

@@ -10,11 +10,14 @@ package com.cobblemon.mod.common.pokemon
 
 import com.cobblemon.mod.common.api.pokemon.stats.Stat
 import com.cobblemon.mod.common.api.pokemon.stats.Stats
+import com.cobblemon.mod.common.junit.BootstrapMinecraft
 import com.cobblemon.mod.common.pokemon.stat.CobblemonStatProvider
 import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Test
 
+@BootstrapMinecraft
 internal class EVsKtTest {
+
     @Test
     fun `should create a empty set of EVs`() {
         val evs = EVs.createEmpty()
@@ -43,5 +46,12 @@ internal class EVsKtTest {
     fun `default value must be 0`() {
         val evs = EVs()
         assert(evs.getOrDefault(Stats.HP) == 0)
+    }
+
+    @Test
+    fun `decrement EVs`() {
+        val evs = EVs.createEmpty()
+        evs[Stats.HP] = EVs.MAX_STAT_VALUE
+        assert(evs.add(Stats.HP, -(EVs.MAX_STAT_VALUE + 1)) == -EVs.MAX_STAT_VALUE)
     }
 }

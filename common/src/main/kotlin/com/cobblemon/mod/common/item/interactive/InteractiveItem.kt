@@ -8,7 +8,6 @@
 
 package com.cobblemon.mod.common.item.interactive
 
-import com.cobblemon.mod.common.item.CobblemonItem
 import net.minecraft.entity.Entity
 import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
@@ -21,7 +20,7 @@ import net.minecraft.server.network.ServerPlayerEntity
  *
  * @param properties The [Item.Settings] of this item.
  */
-abstract class InteractiveItem<T : Entity>(properties: Settings) : CobblemonItem(properties) {
+interface InteractiveItem<T : Entity> {
 
     /**
      * Fired when a [ServerPlayerEntity] interacts with the target entity.
@@ -31,6 +30,6 @@ abstract class InteractiveItem<T : Entity>(properties: Settings) : CobblemonItem
      * @param stack The [ItemStack] used in this interaction. [ItemStack.getItem] will always be of the same type as this [InteractiveItem].
      * @return true if the interaction was successful and no further interactions should be processed
      */
-    abstract fun onInteraction(player: ServerPlayerEntity, entity: T, stack: ItemStack): Boolean
+    fun onInteraction(player: ServerPlayerEntity, entity: T, stack: ItemStack): Boolean
 
 }

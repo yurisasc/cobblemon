@@ -6,9 +6,26 @@
         {
             "id": "bidoof-1",
             "pokemon": "bidoof",
-			"presets": [
+            "presets": [
+                "freshwater",
+                "water_surface"
+            ],
+            "type": "pokemon",
+            "context": "surface",
+            "bucket": "common",
+            "level": "1-25",
+            "weight": 9.0,
+            "condition": {
+                "minSkyLight": 8,
+                "maxSkyLight": 15
+            }
+        },
+        {
+            "id": "bidoof-2",
+            "pokemon": "bidoof",
+            "presets": [
                 "natural",
-				"freshwater"
+                "freshwater"
             ],
             "type": "pokemon",
             "context": "grounded",
@@ -16,22 +33,8 @@
             "level": "1-25",
             "weight": 9.0,
             "condition": {
-                "canSeeSky": true
-            }
-        },
-        {
-            "id": "bidoof-2",
-            "pokemon": "bidoof",
-			"presets": [
-                "water_surface",
-                "freshwater"
-            ],
-            "type": "pokemon",
-            "bucket": "common",
-            "level": "1-25",
-            "weight": 9.0,
-            "condition": {
-                "canSeeSky": true
+                "minSkyLight": 8,
+                "maxSkyLight": 15
             }
         }
     ]

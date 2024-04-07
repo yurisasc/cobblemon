@@ -11,6 +11,7 @@ package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen3
 import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cobblemon.mod.common.entity.PoseType
@@ -25,22 +26,24 @@ class SceptileModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
     override val leftLeg = getPart("leg_left")
     override val rightLeg = getPart("leg_right")
 
-    override val portraitScale = 2.8F
-    override val portraitTranslation = Vec3d(-0.3, 1.9, 0.0)
+    override var portraitScale = 2.8F
+    override var portraitTranslation = Vec3d(-0.3, 1.9, 0.0)
 
-    override val profileScale = 0.7F
-    override val profileTranslation = Vec3d(0.0, 0.73, 0.0)
+    override var profileScale = 0.7F
+    override var profileTranslation = Vec3d(0.0, 0.73, 0.0)
 
     lateinit var sleep: PokemonPose
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
+
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("sceptile", "cry") }
 
     override fun registerPoses() {
         sleep = registerPose(
             poseType = PoseType.SLEEP,
             idleAnimations = arrayOf(bedrock("sceptile", "sleep"))
         )
-        val blink = quirk("blink") { bedrockStateful("sceptile", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("sceptile", "blink") }
         standing = registerPose(
             poseName = "standing",
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,

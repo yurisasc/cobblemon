@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Ampharos",
   "nationalPokedexNumber": 181,
   "primaryType": "electric",
@@ -6,6 +7,19 @@
     "static",
     "h:plus"
   ],
+  "drops": {
+    "amount": 5,
+    "entries": [
+      {
+        "item": "minecraft:mutton",
+        "quantityRange": "2-4"
+      },
+      {
+        "item": "cobblemon:cheri_berry",
+        "percentage": 10.0
+      }
+    ]
+  },
   "baseStats": {
     "hp": 90,
     "attack": 75,
@@ -60,7 +74,6 @@
       ],
       "height": 14,
       "weight": 615,
-      "evolutions": [],
       "cannotDynamax": false,
       "battleOnly": true
     }
@@ -72,6 +85,18 @@
     "monster",
     "field"
   ],
+  "behaviour": {
+    "moving": {
+      "walk": {
+        "walkSpeed": 0.2
+      }
+    },
+    "resting": {
+      "canSleep": true,
+      "depth": "normal",
+      "light": "0-4"
+    }
+  },
   "moves": [
     "1:dragonpulse",
     "1:firepunch",
@@ -98,22 +123,28 @@
     "tm:agility",
     "tm:attract",
     "tm:bodyslam",
+    "tm:breakingswipe",
     "tm:brickbreak",
     "tm:brutalswing",
     "tm:bulldoze",
     "tm:captivate",
+    "tm:charge",
     "tm:chargebeam",
     "tm:confide",
     "tm:confuseray",
     "tm:dazzlinggleam",
     "tm:dig",
+    "tm:doubleedge",
     "tm:doubleteam",
+    "tm:dragoncheer",
     "tm:dragonpulse",
     "tm:dragontail",
     "tm:echoedvoice",
     "tm:eerieimpulse",
     "tm:electricterrain",
     "tm:electroball",
+    "tm:electroweb",
+    "tm:endeavor",
     "tm:endure",
     "tm:facade",
     "tm:firepunch",
@@ -130,6 +161,7 @@
     "tm:irontail",
     "tm:lightscreen",
     "tm:lowkick",
+    "tm:meteorbeam",
     "tm:naturalgift",
     "tm:outrage",
     "tm:powergem",
@@ -139,6 +171,7 @@
     "tm:reflect",
     "tm:rest",
     "tm:return",
+    "tm:roar",
     "tm:rockclimb",
     "tm:rocksmash",
     "tm:round",
@@ -150,6 +183,7 @@
     "tm:strength",
     "tm:substitute",
     "tm:sunnyday",
+    "tm:supercellslam",
     "tm:swagger",
     "tm:swift",
     "tm:takedown",
@@ -222,10 +256,10 @@
   ],
   "preEvolution": "flaaffy",
   "evolutions": [],
-  "baseScale": 1,
+  "baseScale": 0.8,
   "hitbox": {
     "width": 1,
-    "height": 1,
+    "height": 2.5,
     "fixed": false
   },
   "baseFriendship": 70,

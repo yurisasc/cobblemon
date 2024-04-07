@@ -62,7 +62,6 @@
       ],
       "height": 350,
       "weight": 0,
-      "evolutions": [],
       "cannotDynamax": false,
       "battleOnly": false
     }
@@ -74,13 +73,23 @@
     "monster"
   ],
   "drops": {
-    "amount": "2",
+    "amount": 8,
     "entries": [
       {
         "item": "minecraft:apple",
-        "quantityRange": "1-3",
-        "percentage": 75,
-        "maxSelectableTimes": 2
+        "quantityRange": "0-3"
+      },
+      {
+        "item": "minecraft:apple",
+        "quantityRange": "0-3"
+      },
+      {
+        "item": "cobblemon:chesto_berry",
+        "percentage": 5.0
+      },
+      {
+        "item": "cobblemon:leftovers",
+        "percentage": 5.0
       }
     ]
   },
@@ -139,9 +148,13 @@
     "tm:bulldoze",
     "tm:captivate",
     "tm:charm",
+    "tm:chillingwater",
     "tm:confide",
     "tm:crunch",
+    "tm:curse",
+    "tm:dig",
     "tm:darkestlariat",
+    "tm:doubleedge",
     "tm:doubleteam",
     "tm:earthquake",
     "tm:encore",
@@ -156,8 +169,10 @@
     "tm:frustration",
     "tm:gigaimpact",
     "tm:gunkshot",
+    "tm:hardpress",
     "tm:heatcrash",
     "tm:heavyslam",
+    "tm:helpinghand",
     "tm:hiddenpower",
     "tm:highhorsepower",
     "tm:hydropump",
@@ -171,6 +186,7 @@
     "tm:megakick",
     "tm:megapunch",
     "tm:metronome",
+    "tm:mudslap",
     "tm:naturalgift",
     "tm:outrage",
     "tm:payday",
@@ -202,13 +218,17 @@
     "tm:strength",
     "tm:substitute",
     "tm:sunnyday",
+    "tm:supercellslam",
     "tm:superpower",
     "tm:surf",
     "tm:swagger",
+    "tm:takedown",
+    "tm:terablast",
     "tm:thunder",
     "tm:thunderbolt",
     "tm:thunderpunch",
     "tm:toxic",
+    "tm:trailblaze",
     "tm:uproar",
     "tm:waterpulse",
     "tm:whirlpool",
@@ -318,7 +338,7 @@
   ],
   "preEvolution": "munchlax",
   "evolutions": [],
-  "baseScale": 2,
+  "baseScale": 1,
   "hitbox": {
     "width": 1.2,
     "height": 1.7,

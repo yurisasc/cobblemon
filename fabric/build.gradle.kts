@@ -1,3 +1,13 @@
+/*
+ *
+ *  * Copyright (C) 2023 Cobblemon Contributors
+ *  *
+ *  * This Source Code Form is subject to the terms of the Mozilla Public
+ *  * License, v. 2.0. If a copy of the MPL was not distributed with this
+ *  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
+ *
+ */
+
 configurations.all {
     resolutionStrategy {
         force(libs.fabricLoader)
@@ -28,6 +38,7 @@ repositories {
     maven(url = "${rootProject.projectDir}/deps")
     mavenLocal()
     maven("https://oss.sonatype.org/content/repositories/snapshots")
+    maven(url = "https://api.modrinth.com/maven")
 }
 
 dependencies {
@@ -45,6 +56,11 @@ dependencies {
     modApi(libs.fabricApi)
     modApi(libs.fabricKotlin)
     modApi(libs.fabricPermissionsApi)
+    modCompileOnly(libs.lambDynamicLights) { isTransitive = false }
+    modRuntimeOnly(libs.jeiFabric)
+    modCompileOnly(libs.adornFabric)
+//    modImplementation(libs.flywheelFabric)
+//    include(libs.flywheelFabric)
 
     listOf(
         libs.stdlib,
@@ -66,10 +82,7 @@ tasks {
     val copyAccessWidener by registering(Copy::class) {
         from(loom.accessWidenerPath)
         into(generatedResources)
-    }
-
-    shadowJar {
-        exclude("architectury.common.json")
+        dependsOn(checkLicenseMain)
     }
 
     processResources {
@@ -85,5 +98,9 @@ tasks {
                 "minecraft_version" to rootProject.property("mc_version").toString()
             )
         }
+    }
+
+    sourcesJar {
+        dependsOn(copyAccessWidener)
     }
 }

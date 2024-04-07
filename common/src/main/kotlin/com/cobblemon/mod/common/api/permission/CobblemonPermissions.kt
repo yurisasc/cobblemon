@@ -14,7 +14,7 @@ object CobblemonPermissions {
     private val permissions = arrayListOf<Permission>()
 
     val CHANGE_SCALE_AND_SIZE = this.create("${COMMAND_PREFIX}changescaleandsize", PermissionLevel.ALL_COMMANDS)
-
+    val CHANGE_WALK_SPEED = this.create("${COMMAND_PREFIX}changewalkspeed", PermissionLevel.ALL_COMMANDS)
     val CHECKSPAWNS = this.create("${COMMAND_PREFIX}checkspawns", PermissionLevel.CHEAT_COMMANDS_AND_COMMAND_BLOCKS)
 
     val GET_NBT = this.create("${COMMAND_PREFIX}getnbt", PermissionLevel.ALL_COMMANDS)
@@ -27,11 +27,14 @@ object CobblemonPermissions {
     val HEAL_POKEMON_SELF = this.create("$HEAL_POKEMON_BASE.self", PermissionLevel.CHEAT_COMMANDS_AND_COMMAND_BLOCKS)
     val HEAL_POKEMON_OTHER = this.create("$HEAL_POKEMON_BASE.other", PermissionLevel.CHEAT_COMMANDS_AND_COMMAND_BLOCKS)
 
+
     private const val LEVEL_UP_BASE = "${COMMAND_PREFIX}levelup"
     val LEVEL_UP_SELF = this.create("$LEVEL_UP_BASE.self", PermissionLevel.CHEAT_COMMANDS_AND_COMMAND_BLOCKS)
     val LEVEL_UP_OTHER = this.create("$LEVEL_UP_BASE.other", PermissionLevel.CHEAT_COMMANDS_AND_COMMAND_BLOCKS)
 
     val OPEN_STARTER_SCREEN = this.create("${COMMAND_PREFIX}openstarterscreen", PermissionLevel.CHEAT_COMMANDS_AND_COMMAND_BLOCKS)
+    val BEDROCK_PARTICLE = this.create("${COMMAND_PREFIX}bedrockparticle", PermissionLevel.CHEAT_COMMANDS_AND_COMMAND_BLOCKS)
+    val OPEN_DIALOGUE = this.create("${COMMAND_PREFIX}opendialogue", PermissionLevel.CHEAT_COMMANDS_AND_COMMAND_BLOCKS)
 
     private const val POKEMON_EDIT_BASE = "${COMMAND_PREFIX}pokemonedit"
     val POKEMON_EDIT_SELF = this.create("$POKEMON_EDIT_BASE.self", PermissionLevel.CHEAT_COMMANDS_AND_COMMAND_BLOCKS)
@@ -63,6 +66,9 @@ object CobblemonPermissions {
 
     val TEST_PC_SLOT = this.create("${COMMAND_PREFIX}testpcslot", PermissionLevel.CHEAT_COMMANDS_AND_COMMAND_BLOCKS)
     val TEST_PARTY_SLOT = this.create("${COMMAND_PREFIX}testpartyslot", PermissionLevel.CHEAT_COMMANDS_AND_COMMAND_BLOCKS)
+
+    val CLEAR_PARTY = this.create("${COMMAND_PREFIX}clearparty", PermissionLevel.CHEAT_COMMANDS_AND_COMMAND_BLOCKS)
+    val CLEAR_PC = this.create("${COMMAND_PREFIX}clearpc", PermissionLevel.CHEAT_COMMANDS_AND_COMMAND_BLOCKS)
 
     fun all(): Iterable<Permission> = this.permissions
 

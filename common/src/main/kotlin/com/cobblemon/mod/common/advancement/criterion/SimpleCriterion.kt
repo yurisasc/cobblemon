@@ -13,7 +13,7 @@ import net.minecraft.advancement.criterion.AbstractCriterion
 import net.minecraft.advancement.criterion.AbstractCriterionConditions
 import net.minecraft.predicate.entity.AdvancementEntityPredicateDeserializer
 import net.minecraft.predicate.entity.AdvancementEntityPredicateSerializer
-import net.minecraft.predicate.entity.EntityPredicate.Extended
+import net.minecraft.predicate.entity.LootContextPredicate
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.util.Identifier
 
@@ -31,16 +31,17 @@ open class SimpleCriterionTrigger<T, C : SimpleCriterionCondition<T>>(
     val criterionClass: Class<C>
 ) : AbstractCriterion<C>() {
     override fun getId() = _id
-    fun trigger(player: ServerPlayerEntity, context: T) = this.trigger(player) { it.matches(player, context) }
     override fun conditionsFromJson(
         obj: JsonObject,
-        playerPredicate: Extended,
+        playerPredicate: LootContextPredicate,
         predicateDeserializer: AdvancementEntityPredicateDeserializer
     ): C {
-        val instance = criterionClass.getConstructor(Identifier::class.java, Extended::class.java).newInstance(id, playerPredicate)
+        val instance = criterionClass.getConstructor(Identifier::class.java, LootContextPredicate::class.java).newInstance(id, playerPredicate)
         instance.fromJson(obj)
         return instance
     }
+
+    fun trigger(player: ServerPlayerEntity, context: T) = this.trigger(player) { it.matches(player, context) }
 }
 
 /**
@@ -52,8 +53,8 @@ open class SimpleCriterionTrigger<T, C : SimpleCriterionCondition<T>>(
  */
 abstract class SimpleCriterionCondition<T>(
     id: Identifier,
-    entity: Extended
-): AbstractCriterionConditions(id, entity) {
+    playerPredicate: LootContextPredicate
+): AbstractCriterionConditions(id, playerPredicate) {
     override fun toJson(predicateSerializer: AdvancementEntityPredicateSerializer): JsonObject {
         val json = super.toJson(predicateSerializer)
         toJson(json)

@@ -17,6 +17,11 @@
     "speed": 25
   },
   "behaviour": {
+    "moving": {
+      "walk": {
+        "walkSpeed": 0.125
+      }
+    },
     "resting": {
       "canSleep": true,
       "willSleepOnBed": false,
@@ -42,11 +47,15 @@
     "mineral"
   ],
   "drops": {
-    "amount": "1",
+    "amount": 2,
     "entries": [
       {
-        "item": "minecraft:flint",
-        "percentage": 50
+        "item": "minecraft:quartz",
+        "quantityRange": "0-1"
+      },
+      {
+        "item": "cobblemon:passho_berry",
+        "percentage": 2.5
       }
     ]
   },
@@ -121,6 +130,12 @@
       ]
     }
   ],
+  "baseScale": 1,
+  "hitbox": {
+    "width": 0.5,
+    "height": 0.5,
+    "fixed": false
+  },
   "cannotDynamax": false,
   "pokedex": [
     "cobblemon.species.nacli.desc"

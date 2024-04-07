@@ -8,39 +8,39 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen2
 
-import com.cobblemon.mod.common.client.render.models.blockbench.animation.BipedWalkAnimation
-import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
-import com.cobblemon.mod.common.entity.PoseType.Companion.MOVING_POSES
-import com.cobblemon.mod.common.entity.PoseType.Companion.STATIONARY_POSES
+import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.PoseType.Companion.UI_POSES
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class SlowkingModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedFrame {
+class SlowkingModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("slowking")
     override val head = getPart("head")
 
-    override val portraitScale = 2.0F
-    override val portraitTranslation = Vec3d(-0.1, 0.1, 0.0)
+    override var portraitScale = 2.0F
+    override var portraitTranslation = Vec3d(-0.1, 0.1, 0.0)
 
-    override val profileScale = 0.8F
-    override val profileTranslation = Vec3d(0.0, 0.55, 0.0)
-
-    override val leftLeg = getPart("leg_left")
-    override val rightLeg = getPart("leg_right")
+    override var profileScale = 0.8F
+    override var profileTranslation = Vec3d(0.0, 0.55, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
+    lateinit var float: PokemonPose
+    lateinit var swim: PokemonPose
+    lateinit var battleidle: PokemonPose
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("slowking", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("slowking", "blink") }
+        val blink2 = quirk { bedrockStateful("slowking", "blink2") }
+
         standing = registerPose(
             poseName = "standing",
-            poseTypes = STATIONARY_POSES + UI_POSES,
-            quirks = arrayOf(blink),
+            poseTypes = UI_POSES + PoseType.STAND,
+            quirks = arrayOf(blink, blink2),
+            condition = { !it.isBattling },
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("slowking", "ground_idle")
@@ -49,13 +49,43 @@ class SlowkingModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bipe
 
         walk = registerPose(
             poseName = "walk",
-            poseTypes = MOVING_POSES,
-            quirks = arrayOf(blink),
+            poseType = PoseType.WALK,
+            quirks = arrayOf(blink, blink2),
             idleAnimations = arrayOf(
                 singleBoneLook(),
-                bedrock("slowking", "ground_idle"),
-                BipedWalkAnimation(this, periodMultiplier = 0.72F, amplitudeMultiplier = 1F)
-                //bedrock("slowking", "ground_walk")
+                bedrock("slowking", "ground_walk")
+            )
+        )
+
+        float = registerPose(
+            poseName = "float",
+            poseType = PoseType.FLOAT,
+            quirks = arrayOf(blink, blink2),
+            idleAnimations = arrayOf(
+                singleBoneLook(),
+                bedrock("slowking", "water_idle")
+            )
+        )
+
+        swim = registerPose(
+            poseName = "swim",
+            poseType = PoseType.SWIM,
+            quirks = arrayOf(blink, blink2),
+            idleAnimations = arrayOf(
+                singleBoneLook(),
+                bedrock("slowking", "water_swim")
+            )
+        )
+
+        battleidle = registerPose(
+            poseName = "battle_idle",
+            poseTypes = PoseType.STATIONARY_POSES,
+            transformTicks = 10,
+            quirks = arrayOf(blink, blink2),
+            condition = { it.isBattling && it.isTouchingWater},
+            idleAnimations = arrayOf(
+                singleBoneLook(),
+                bedrock("slowking", "battle_idle")
             )
         )
     }

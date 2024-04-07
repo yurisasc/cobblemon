@@ -20,6 +20,7 @@ object CobblemonCommands {
         GivePokemon.register(dispatcher)
         TakePokemon.register(dispatcher)
         ChangeScaleAndSize.register(dispatcher)
+        ChangeWalkSpeed.register(dispatcher)
         TestCommand.register(dispatcher)
         ReloadShowdownCommand.register(dispatcher)
         ClickTextCommand.register(dispatcher)
@@ -42,5 +43,14 @@ object CobblemonCommands {
         QueryLearnsetCommand.register(dispatcher)
         TestPcSlotCommand.register(dispatcher)
         TestPartySlotCommand.register(dispatcher)
+        ClearPartyCommand.register(dispatcher)
+        ClearPCCommand.register(dispatcher)
+        PokemonRestartCommand.register(dispatcher)
+        BedrockParticleCommand.register(dispatcher)
+        OpenDialogueCommand.register(dispatcher)
+
+        // Possibly lock down registration if and only if under dev environment or running in an environment
+        // with a certain system environment variable set
+        CobblemonInfoCommand.register(dispatcher)
     }
 }

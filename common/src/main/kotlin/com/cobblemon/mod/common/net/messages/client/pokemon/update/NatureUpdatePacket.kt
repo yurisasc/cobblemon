@@ -8,6 +8,7 @@
 
 package com.cobblemon.mod.common.net.messages.client.pokemon.update
 
+import com.cobblemon.mod.common.Cobblemon.LOGGER
 import com.cobblemon.mod.common.api.pokemon.Natures
 import com.cobblemon.mod.common.net.messages.client.PokemonUpdatePacket
 import com.cobblemon.mod.common.pokemon.Nature
@@ -15,28 +16,39 @@ import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.util.cobblemonResource
 import net.minecraft.network.PacketByteBuf
 
-class NatureUpdatePacket(pokemon: Pokemon, val nature: Nature, val minted: Boolean) : PokemonUpdatePacket<NatureUpdatePacket>(pokemon) {
+class NatureUpdatePacket(pokemon: () -> Pokemon, val nature: Nature?, val minted: Boolean) : PokemonUpdatePacket<NatureUpdatePacket>(pokemon) {
 
     override val id = ID
 
     override fun encodeDetails(buffer: PacketByteBuf) {
-        buffer.writeIdentifier(this.nature.name)
+        buffer.writeNullable(nature) { _, v -> buffer.writeIdentifier(v.name) }
         buffer.writeBoolean(this.minted)
     }
 
     override fun applyToPokemon() {
-        if (this.minted) {
-            this.pokemon.mintedNature = this.nature
-        }
-        else {
-            this.pokemon.nature = this.nature
+        // Check for removing mint
+        if (minted && nature == null) {
+            pokemon().mintedNature = null
+            return
+        } else {
+            // Validate the nature locally
+            if (nature == null) {
+                LOGGER.warn("A null nature was attempted to be put onto: '$pokemon'")
+                return
+            }
+
+            // Check which nature to modify
+            if (!minted) {
+                pokemon().nature = nature
+            } else {
+                pokemon().mintedNature = nature
+            }
         }
     }
 
     companion object {
         val ID = cobblemonResource("nature_update")
-        fun decode(buffer: PacketByteBuf) = NatureUpdatePacket(decodePokemon(buffer), Natures.getNature(buffer.readIdentifier())!!, buffer.readBoolean())
-
+        fun decode(buffer: PacketByteBuf) = NatureUpdatePacket(decodePokemon(buffer), buffer.readNullable { Natures.getNature(buffer.readIdentifier()) }, buffer.readBoolean())
     }
 
 }

@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Phanpy",
   "nationalPokedexNumber": 231,
   "primaryType": "ground",
@@ -6,6 +7,19 @@
     "pickup",
     "h:sandveil"
   ],
+  "drops": {
+    "amount": 2,
+    "entries": [
+      {
+        "item": "minecraft:clay_ball",
+        "quantityRange": "0-1"
+      },
+      {
+        "item": "cobblemon:passho_berry",
+        "percentage": 2.5
+      }
+    ]
+  },
   "baseStats": {
     "hp": 90,
     "attack": 60,
@@ -23,6 +37,19 @@
   "eggGroups": [
     "field"
   ],
+  "behaviour": {
+    "moving": {
+      "walk": {
+        "walkSpeed": 0.25
+      }
+    },
+    "resting": {
+      "canSleep": true,
+      "willSleepOnBed": true,
+      "depth": "normal",
+      "light": "0-4"
+    }
+  },
   "moves": [
     "1:defensecurl",
     "1:growl",
@@ -57,12 +84,15 @@
     "tm:captivate",
     "tm:charm",
     "tm:confide",
+    "tm:curse",
     "tm:dig",
+    "tm:doubleedge",
     "tm:doubleteam",
     "tm:earthpower",
     "tm:earthquake",
     "tm:echoedvoice",
     "tm:encore",
+    "tm:endeavor",
     "tm:endure",
     "tm:facade",
     "tm:frustration",
@@ -70,9 +100,11 @@
     "tm:heavyslam",
     "tm:helpinghand",
     "tm:hiddenpower",
+    "tm:highhorsepower",
     "tm:hypervoice",
     "tm:ironhead",
     "tm:irontail",
+    "tm:knockoff",
     "tm:mudshot",
     "tm:mudslap",
     "tm:naturalgift",
@@ -87,9 +119,11 @@
     "tm:rocktomb",
     "tm:round",
     "tm:sandstorm",
+    "tm:sandtomb",
     "tm:secretpower",
     "tm:seedbomb",
     "tm:sleeptalk",
+    "tm:smackdown",
     "tm:stealthrock",
     "tm:stompingtantrum",
     "tm:stoneedge",
@@ -172,10 +206,10 @@
       ]
     }
   ],
-  "baseScale": 1,
+  "baseScale": 0.7,
   "hitbox": {
-    "width": 1,
-    "height": 1,
+    "width": 0.7,
+    "height": 0.9,
     "fixed": false
   },
   "baseFriendship": 70,

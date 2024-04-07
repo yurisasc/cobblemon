@@ -1,3 +1,6 @@
+import extensions.VersionType
+import extensions.writeVersion
+
 plugins {
     java
     `java-library`
@@ -15,8 +18,8 @@ publishing {
         maven("https://maven.impactdev.net/repository/development/") {
             name = "ImpactDev-Public"
             credentials {
-                username = System.getenv("NEXUS_USER")
-                password = System.getenv("NEXUS_PW")
+                username = System.getenv("COBBLEMON_MAVEN_USER")
+                password = System.getenv("COBBLEMON_MAVEN_PASSWORD")
             }
         }
     }
@@ -31,7 +34,7 @@ publishing {
 
             groupId = "com.cobblemon"
             artifactId = project.findProperty("maven.artifactId")?.toString() ?: project.name
-            version = rootProject.version.toString()
+            version = project.writeVersion(VersionType.PUBLISHING)
         }
     }
 }

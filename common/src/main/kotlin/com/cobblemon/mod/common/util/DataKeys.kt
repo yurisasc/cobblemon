@@ -43,7 +43,12 @@ object DataKeys {
     const val POKEMON_HEALING_TIMER = "HealingTimer"
     const val POKEMON_DATA = "PokemonData"
     const val POKEMON_NATURE = "Nature"
+    const val POKEMON_MINTED_NATURE = "MintedNature"
     const val HELD_ITEM = "HeldItem"
+    const val POKEMON_TERA_TYPE = "TeraType"
+    const val POKEMON_DMAX_LEVEL = "DmaxLevel"
+    const val POKEMON_GMAX_FACTOR = "GmaxFactor"
+    const val POKEMON_TRADEABLE = "Tradeable"
 
     const val POKEMON_STATE = "State"
     const val POKEMON_STATE_TYPE = "StateType"
@@ -56,6 +61,20 @@ object DataKeys {
     const val POKEMON_POSE_TYPE = "PoseType"
     const val POKEMON_BEHAVIOUR_FLAGS = "BehaviourFlags"
     const val POKEMON_OWNER_ID = "PokemonOwnerId"
+    const val POKEMON_HIDE_LABEL = "HideLabel"
+    const val POKEMON_UNBATTLEABLE = "Unbattleable"
+    const val POKEMON_COUNTS_TOWARDS_SPAWN_CAP = "CountsTowardsSpawnCap"
+
+    const val POKEMON_ORIGINAL_TRAINER = "PokemonOriginalTrainer"
+    const val POKEMON_ORIGINAL_TRAINER_TYPE = "PokemonOriginalTrainerType"
+
+    // Entity effects
+    const val ENTITY_EFFECTS = "EntityEffects"
+    const val ENTITY_EFFECT_MOCK = "EntityEffectMock"
+    const val ENTITY_EFFECT_ID = "EntityEffectID"
+
+    const val POKEMON_ENTITY_MOCK = "PokemonEntityMock"
+    const val POKEMON_ENTITY_SCALE = "PokemonEntityScale"
 
     // Evolution stuff
     const val POKEMON_EVOLUTIONS = "Evolutions"
@@ -63,14 +82,25 @@ object DataKeys {
 
     const val BENCHED_MOVES = "BenchedMoves"
 
-    const val OWNED_BY_PLAYER = "OwnedByPlayer"
-    const val STORE_IS_PARTY = "IsParty"
+    const val PC_ID = "PCId"
     const val STORE_SLOT = "Slot"
     const val STORE_SLOT_COUNT = "SlotCount"
     const val STORE_BOX = "Box"
     const val STORE_BOX_COUNT = "BoxCount"
     const val STORE_BOX_COUNT_LOCKED = "BoxCountLocked"
     const val STORE_BACKUP = "BackupStore"
+
+    const val TETHER_OWNER_ID = "TetherOwnerId"
+    const val TETHER_OWNER_NAME = "TetherOwnerName"
+    const val TETHERING_ID = "TetheringId"
+    const val TETHER_POKEMON = "TetherPokemon"
+    const val TETHER_MIN_ROAM_POS = "TetherMinRoamPos"
+    const val TETHER_MAX_ROAM_POS = "TetherMaxRoamPos"
+    const val TETHER_COUNT = "TetherCount"
+    const val TETHERING = "Tethering"
+    const val TETHERING_POS = "Pos"
+    const val TETHERING_PLAYER_ID = "PlayerId"
+    const val TETHERING_ENTITY_ID = "EntityId"
 
     /* Form stuff */
     const val ALOLAN = "alolan"
@@ -96,8 +126,58 @@ object DataKeys {
     // Pokemon Item
     const val POKEMON_ITEM_SPECIES = "species"
     const val POKEMON_ITEM_ASPECTS = "aspects"
+    const val POKEMON_ITEM_TINT_RED = "TintRed"
+    const val POKEMON_ITEM_TINT_GREEN = "TintGreen"
+    const val POKEMON_ITEM_TINT_BLUE = "TintBlue"
+    const val POKEMON_ITEM_TINT_ALPHA = "TintAlpha"
 
     // Features
     const val CAN_BE_MILKED = "milkable"
     const val HAS_BEEN_SHEARED = "sheared"
+
+    // Variants
+    const val IS_MOOSHTANK = "mooshtank"
+
+    // Persistent Data
+    const val POKEMON_PERSISTENT_DATA = "PersistentData"
+
+    // Item Tooltips
+    const val HIDE_TOOLTIP = "HideTooltip"
+
+    // Shoulder Mount
+    const val SHOULDER_UUID = "shoulder_uuid"
+    const val SHOULDER_SPECIES = "shoulder_species"
+    const val SHOULDER_FORM = "shoulder_form"
+    const val SHOULDER_ASPECTS = "shoulder_aspects"
+    const val SHOULDER_SCALE_MODIFIER = "shoulder_scale"
+
+    //Multiblock Stuff
+    const val MULTIBLOCK_STORAGE = "MultiblockStore"
+    const val CONTROLLER_BLOCK = "ControllerBlock"
+
+    //FossilMultiblockStructure Serialization
+    const val MONITOR_POS = "MonitorPos"
+    const val TANK_BASE_POS = "TankBasePos"
+    const val ANALYZER_POS = "AnalyzerPos"
+    const val ORGANIC_MATERIAL = "OrganicContent"
+    const val INSERTED_FOSSIL = "InsertedFossil"
+    const val FOSSIL_INVENTORY = "InsertedFossilStacks"
+    const val TANK_FILL_LEVEL = "TankFillLevel"
+    const val CONNECTOR_DIRECTION = "ConnectorDirection"
+    const val TIME_LEFT = "TimeLeft"
+    const val PROTECTED_TIME_LEFT = "ProtectedTimeLeft"
+    const val FORMED = "Formed"
+    const val CREATED_POKEMON = "CreatedPokemon"
+    const val FOSSIL_OWNER = "FossilOwner"
+    const val FOSSIL_STATE = "FossilState"
+
+    /* Generic Bedrock Entity */
+    const val GENERIC_BEDROCK_CATEGORY = "Category"
+    const val GENERIC_BEDROCK_ASPECTS = "Aspects"
+    const val GENERIC_BEDROCK_POSE_TYPE = "PoseType"
+    const val GENERIC_BEDROCK_SCALE = "Scale"
+    const val GENERIC_BEDROCK_COLLIDER_WIDTH = "Width"
+    const val GENERIC_BEDROCK_COLLIDER_HEIGHT = "Height"
+    const val GENERIC_BEDROCK_SYNC_AGE = "SyncAge"
+
 }

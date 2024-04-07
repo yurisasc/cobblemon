@@ -5,6 +5,15 @@
   "abilities": [
     "levitate"
   ],
+  "drops": {
+    "amount": 1,
+    "entries": [
+      {
+        "item": "minecraft:slime_ball",
+        "quantityRange": "0-1"
+      }
+    ]
+  },
   "baseStats": {
     "hp": 35,
     "attack": 55,
@@ -27,7 +36,9 @@
     "1:spark",
     "1:tackle",
     "1:thunderwave",
+    "tm:charge",
     "tm:chargebeam",
+    "tm:knockoff",
     "tm:terablast",
     "tm:thunderwave",
     "tutor:magnetrise"

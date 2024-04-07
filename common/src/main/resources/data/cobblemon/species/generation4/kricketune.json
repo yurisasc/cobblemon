@@ -7,6 +7,15 @@
     "swarm",
     "h:technician"
   ],
+  "drops": {
+    "amount": 1,
+    "entries": [
+      {
+        "item": "cobblemon:coba_berry",
+        "percentage": 5.0
+      }
+    ]
+  },
   "baseStats": {
     "hp": 77,
     "attack": 85,
@@ -24,14 +33,18 @@
   "eggGroups": [
     "bug"
   ],
-  "drops": {
-    "amount": "1",
-    "entries": [
-      {
-        "item": "cobblemon:metronome",
-        "percentage": 5
+  "behaviour": {
+    "moving": {
+      "fly": {
+        "canFly": true
       }
-    ]
+    },
+    "resting": {
+      "canSleep": true,
+      "willSleepOnBed": false,
+      "depth": "normal",
+      "light": "0-4"
+    }
   },
   "moves": [
     "1:bide",
@@ -60,12 +73,14 @@
     "tm:attract",
     "tm:batonpass",
     "tm:brickbreak",
+    "tm:bugbite",
     "tm:bugbuzz",
     "tm:captivate",
     "tm:confide",
     "tm:cut",
     "tm:doubleteam",
     "tm:echoedvoice",
+    "tm:endeavor",
     "tm:endure",
     "tm:facade",
     "tm:falseswipe",
@@ -79,7 +94,9 @@
     "tm:hyperbeam",
     "tm:hypervoice",
     "tm:infestation",
+    "tm:knockoff",
     "tm:leechlife",
+    "tm:lunge",
     "tm:naturalgift",
     "tm:pounce",
     "tm:poweruppunch",
@@ -91,6 +108,7 @@
     "tm:round",
     "tm:secretpower",
     "tm:silverwind",
+    "tm:skittersmack",
     "tm:sleeptalk",
     "tm:strength",
     "tm:strugglebug",
@@ -101,8 +119,10 @@
     "tm:takedown",
     "tm:taunt",
     "tm:terablast",
+    "tm:throatchop",
     "tm:toxic",
     "tm:trailblaze",
+    "tm:uproar",
     "tm:xscissor",
     "tutor:bugbite",
     "tutor:endeavor",
@@ -126,10 +146,10 @@
   ],
   "preEvolution": "kricketot",
   "evolutions": [],
-  "baseScale": 1,
+  "baseScale": 0.7,
   "hitbox": {
-    "width": 1,
-    "height": 1,
+    "width": 0.9,
+    "height": 1.7,
     "fixed": false
   },
   "baseFriendship": 70,

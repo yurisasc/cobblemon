@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Makuhita",
   "nationalPokedexNumber": 296,
   "primaryType": "fighting",
@@ -68,8 +69,10 @@
     "tm:captivate",
     "tm:chillingwater",
     "tm:closecombat",
+    "tm:coaching",
     "tm:confide",
     "tm:dig",
+    "tm:doubleedge",
     "tm:doubleteam",
     "tm:drainpunch",
     "tm:earthquake",
@@ -84,6 +87,7 @@
     "tm:helpinghand",
     "tm:hiddenpower",
     "tm:icepunch",
+    "tm:knockoff",
     "tm:lowkick",
     "tm:lowsweep",
     "tm:metronome",
@@ -120,6 +124,8 @@
     "tm:thief",
     "tm:thunderpunch",
     "tm:toxic",
+    "tm:upperhand",
+    "tm:vacuumwave",
     "tm:whirlpool",
     "tm:workup",
     "tm:zenheadbutt",
@@ -178,8 +184,8 @@
   ],
   "baseScale": 1,
   "hitbox": {
-    "width": 1,
-    "height": 1,
+    "width": 1.05,
+    "height": 1.1,
     "fixed": false
   },
   "baseFriendship": 70,
@@ -194,5 +200,22 @@
   "height": 10,
   "weight": 864,
   "aspects": [],
-  "cannotDynamax": false
+  "cannotDynamax": false,
+  "drops": {
+    "amount": 3,
+    "entries": [
+      {
+        "item": "cobblemon:black_belt",
+        "percentage": 2.5
+      },
+      {
+        "item": "cobblemon:kings_rock",
+        "percentage": 2.5
+      },
+      {
+        "item": "cobblemon:payapa_berry",
+        "percentage": 2.5
+      }
+    ]
+  }
 }

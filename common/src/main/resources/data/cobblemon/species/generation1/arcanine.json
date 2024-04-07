@@ -16,6 +16,9 @@
     "special_defence": 80,
     "speed": 95
   },
+  "features": [
+    "hisuian"
+  ],
   "catchRate": 75,
   "maleRatio": 0.75,
   "shoulderMountable": false,
@@ -80,6 +83,7 @@
         "tm:closecombat",
         "tm:crunch",
         "tm:dig",
+        "tm:doubleedge",
         "tm:dragonpulse",
         "tm:endure",
         "tm:facade",
@@ -90,6 +94,7 @@
         "tm:flamethrower",
         "tm:flareblitz",
         "tm:gigaimpact",
+        "tm:heatcrash",
         "tm:heatwave",
         "tm:helpinghand",
         "tm:hyperbeam",
@@ -102,12 +107,15 @@
         "tm:psychicfangs",
         "tm:rest",
         "tm:reversal",
+        "tm:roar",
         "tm:rockblast",
         "tm:rockslide",
         "tm:rocktomb",
         "tm:sandstorm",
         "tm:scaryface",
+        "tm:scorchingsands",
         "tm:sleeptalk",
+        "tm:smackdown",
         "tm:smartstrike",
         "tm:snarl",
         "tm:solarbeam",
@@ -116,6 +124,7 @@
         "tm:substitute",
         "tm:sunnyday",
         "tm:takedown",
+        "tm:temperflare",
         "tm:terablast",
         "tm:thief",
         "tm:thunderfang",
@@ -132,7 +141,6 @@
       "height": 20,
       "weight": 1680,
       "preEvolution": "growlithe form=hisui",
-      "evolutions": [],
       "cannotDynamax": false,
       "battleOnly": false
     }
@@ -144,12 +152,15 @@
     "field"
   ],
   "drops": {
-    "amount": "1",
+    "amount": 3,
     "entries": [
       {
         "item": "minecraft:bone",
-        "quantityRange": "1-2",
-        "percentage": 66
+        "quantityRange": "0-2"
+      },
+      {
+        "item": "cobblemon:rawst_berry",
+        "percentage": 5.0
       }
     ]
   },
@@ -184,7 +195,9 @@
     "tm:closecombat",
     "tm:confide",
     "tm:crunch",
+    "tm:curse",
     "tm:dig",
+    "tm:doubleedge",
     "tm:doubleteam",
     "tm:dragonpulse",
     "tm:endure",
@@ -197,6 +210,7 @@
     "tm:flareblitz",
     "tm:frustration",
     "tm:gigaimpact",
+    "tm:heatcrash",
     "tm:heatwave",
     "tm:helpinghand",
     "tm:hiddenpower",
@@ -221,6 +235,7 @@
     "tm:round",
     "tm:safeguard",
     "tm:scaryface",
+    "tm:scorchingsands",
     "tm:secretpower",
     "tm:sleeptalk",
     "tm:snarl",
@@ -232,6 +247,7 @@
     "tm:swagger",
     "tm:swift",
     "tm:takedown",
+    "tm:temperflare",
     "tm:terablast",
     "tm:thief",
     "tm:thunderfang",
@@ -305,7 +321,7 @@
   ],
   "preEvolution": "growlithe",
   "evolutions": [],
-  "baseScale": 1.2,
+  "baseScale": 1.5,
   "hitbox": {
     "width": 1.2,
     "height": 1.7,

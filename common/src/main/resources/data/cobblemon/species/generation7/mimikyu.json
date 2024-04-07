@@ -17,7 +17,7 @@
   },
   "catchRate": 45,
   "maleRatio": 0.5,
-  "shoulderMountable": false,
+  "shoulderMountable": true,
   "baseExperienceYield": 167,
   "experienceGroup": "medium_fast",
   "eggCycles": 20,
@@ -25,11 +25,15 @@
     "amorphous"
   ],
   "drops": {
-    "amount": "1",
+    "amount": 2,
     "entries": [
       {
         "item": "cobblemon:spell_tag",
-        "percentage": 10
+        "percentage": 5.0
+      },
+      {
+        "item": "cobblemon:chesto_berry",
+        "percentage": 5.0
       }
     ]
   },
@@ -57,10 +61,12 @@
     "tm:attract",
     "tm:beatup",
     "tm:bulkup",
+    "tm:burningjealousy",
     "tm:chargebeam",
     "tm:charm",
     "tm:confide",
     "tm:confuseray",
+    "tm:curse",
     "tm:darkpulse",
     "tm:dazzlinggleam",
     "tm:doubleteam",
@@ -84,6 +90,7 @@
     "tm:mistyterrain",
     "tm:nightshade",
     "tm:payback",
+    "tm:painsplit",
     "tm:phantomforce",
     "tm:playrough",
     "tm:pounce",
@@ -100,6 +107,7 @@
     "tm:shadowclaw",
     "tm:sleeptalk",
     "tm:snore",
+    "tm:spite",
     "tm:substitute",
     "tm:sunnyday",
     "tm:swagger",
@@ -124,6 +132,7 @@
     "tutor:burningjealousy",
     "tutor:copycat",
     "tutor:covet",
+    "tutor:curse",
     "tutor:destinybond",
     "tutor:drainpunch",
     "tutor:gigadrain",
@@ -131,6 +140,7 @@
     "tutor:magicroom",
     "tutor:mimic",
     "tutor:painsplit",
+    "tutor:phantomforce",
     "tutor:playrough",
     "tutor:snatch",
     "tutor:snore",
@@ -138,6 +148,7 @@
     "tutor:splash",
     "tutor:substitute",
     "tutor:telekinesis",
+    "tutor:thunderbolt",
     "tutor:trick"
   ],
   "labels": [
@@ -205,7 +216,6 @@
       ],
       "height": 2,
       "weight": 7,
-      "evolutions": [],
       "cannotDynamax": false,
       "battleOnly": true
     },
@@ -325,7 +335,6 @@
       ],
       "height": 4,
       "weight": 28,
-      "evolutions": [],
       "cannotDynamax": false,
       "battleOnly": false
     },
@@ -370,7 +379,6 @@
       ],
       "height": 4,
       "weight": 28,
-      "evolutions": [],
       "cannotDynamax": false,
       "battleOnly": true
     }

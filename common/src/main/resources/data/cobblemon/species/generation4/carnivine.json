@@ -1,10 +1,28 @@
 {
+  "implemented": true,
   "name": "Carnivine",
   "nationalPokedexNumber": 455,
   "primaryType": "grass",
   "abilities": [
     "levitate"
   ],
+  "drops": {
+    "amount": 3,
+    "entries": [
+      {
+        "item": "cobblemon:miracle_seed",
+        "percentage": 5.0
+      },
+      {
+        "item": "cobblemon:big_root",
+        "percentage": 5.0
+      },
+      {
+        "item": "cobblemon:kebia_berry",
+        "percentage": 5.0
+      }
+    ]
+  },
   "baseStats": {
     "hp": 74,
     "attack": 100,
@@ -22,6 +40,16 @@
   "eggGroups": [
     "grass"
   ],
+  "behaviour": {
+    "moving": {
+      "walk": {
+        "walkSpeed": 0.35
+      },
+      "fly": {
+        "canFly": true
+      }
+    }
+  },
   "moves": [
     "1:bind",
     "1:growth",
@@ -115,10 +143,10 @@
     "cobblemon.species.carnivine.desc"
   ],
   "evolutions": [],
-  "baseScale": 1,
+  "baseScale": 0.75,
   "hitbox": {
-    "width": 1,
-    "height": 1,
+    "width": 1.1,
+    "height": 2.1,
     "fixed": false
   },
   "baseFriendship": 70,

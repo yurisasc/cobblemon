@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Bonsly",
   "nationalPokedexNumber": 438,
   "primaryType": "rock",
@@ -7,6 +8,19 @@
     "rockhead",
     "h:rattled"
   ],
+  "drops": {
+    "amount": 2,
+    "entries": [
+      {
+        "item": "cobblemon:hard_stone",
+        "percentage": 2.5
+      },
+      {
+        "item": "cobblemon:passho_berry",
+        "percentage": 2.5
+      }
+    ]
+  },
   "baseStats": {
     "hp": 50,
     "attack": 80,
@@ -14,6 +28,18 @@
     "special_attack": 10,
     "special_defence": 45,
     "speed": 10
+  },
+  "behaviour": {
+    "moving": {
+      "walk": {
+        "walkSpeed": 0.25
+      }
+    },
+    "resting": {
+      "canSleep": true,
+      "depth": "normal",
+      "light": "0-4"
+    }
   },
   "catchRate": 255,
   "maleRatio": 0.5,
@@ -83,7 +109,9 @@
     "tm:calmmind",
     "tm:captivate",
     "tm:confide",
+    "tm:curse",
     "tm:dig",
+    "tm:doubleedge",
     "tm:doubleteam",
     "tm:earthpower",
     "tm:earthquake",
@@ -161,7 +189,9 @@
       "variant": "level_up",
       "result": "sudowoodo",
       "consumeHeldItem": false,
-      "learnableMoves": [],
+      "learnableMoves": [
+        "slam"
+      ],
       "requirements": [
         {
           "variant": "has_move",
@@ -170,10 +200,10 @@
       ]
     }
   ],
-  "baseScale": 1,
+  "baseScale": 0.6,
   "hitbox": {
-    "width": 1,
-    "height": 1,
+    "width": 0.5,
+    "height": 1.7,
     "fixed": false
   },
   "baseFriendship": 50,

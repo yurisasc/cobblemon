@@ -7,6 +7,19 @@
     "anticipation",
     "h:overcoat"
   ],
+  "drops": {
+    "amount": 3,
+    "entries": [
+      {
+        "item": "minecraft:string",
+        "quantityRange": "0-2"
+      },
+      {
+        "item": "cobblemon:occa_berry",
+        "percentage": 5.0
+      }
+    ]
+  },
   "baseStats": {
     "hp": 60,
     "attack": 59,
@@ -234,7 +247,6 @@
       "height": 5,
       "weight": 65,
       "preEvolution": "burmy",
-      "evolutions": [],
       "cannotDynamax": false,
       "battleOnly": false
     },
@@ -354,7 +366,6 @@
       "height": 5,
       "weight": 65,
       "preEvolution": "burmy",
-      "evolutions": [],
       "cannotDynamax": false,
       "battleOnly": false
     }

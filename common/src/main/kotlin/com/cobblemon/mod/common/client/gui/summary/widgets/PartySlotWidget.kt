@@ -10,7 +10,6 @@ package com.cobblemon.mod.common.client.gui.summary.widgets
 
 import com.cobblemon.mod.common.CobblemonSounds
 import com.cobblemon.mod.common.api.gui.blitk
-import com.cobblemon.mod.common.api.text.text
 import com.cobblemon.mod.common.client.CobblemonResources
 import com.cobblemon.mod.common.client.gui.drawProfilePokemon
 import com.cobblemon.mod.common.client.gui.summary.Summary
@@ -22,15 +21,15 @@ import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.lang
 import com.cobblemon.mod.common.util.math.fromEulerXYZDegrees
-import net.minecraft.client.util.math.MatrixStack
+import net.minecraft.client.gui.DrawContext
 import net.minecraft.text.Text
 import net.minecraft.util.Identifier
 import org.joml.Quaternionf
 import org.joml.Vector3f
 
 class PartySlotWidget(
-    private val pX: Number,
-    private val pY: Number,
+    pX: Number,
+    pY: Number,
     private val partyWidget: PartyWidget,
     private val summary: Summary,
     private val pokemon: Pokemon?,
@@ -46,8 +45,8 @@ class PartySlotWidget(
         private val slotResource = cobblemonResource("textures/gui/summary/summary_party_slot.png")
         private val slotFaintedResource = cobblemonResource("textures/gui/summary/summary_party_slot_fainted.png")
         private val slotEmptyResource = cobblemonResource("textures/gui/summary/summary_party_slot_empty.png")
-        private val genderIconMale = cobblemonResource("textures/gui/party/party_gender_male.png")
-        private val genderIconFemale = cobblemonResource("textures/gui/party/party_gender_female.png")
+        val genderIconMale = cobblemonResource("textures/gui/party/party_gender_male.png")
+        val genderIconFemale = cobblemonResource("textures/gui/party/party_gender_female.png")
     }
 
     private fun getSlotTexture(pokemon: Pokemon?): Identifier {
@@ -69,9 +68,9 @@ class PartySlotWidget(
         return 0
     }
 
-    override fun renderButton(matrices: MatrixStack, mouseX: Int, mouseY: Int, delta: Float) {
+    override fun renderButton(context: DrawContext, mouseX: Int, mouseY: Int, delta: Float) {
         hovered = mouseX >= x && mouseY >= y && mouseX < x + width && mouseY < y + height;
-
+        val matrices = context.matrices
         val isDraggedSlot = partyWidget.swapEnabled && partyWidget.swapSource == index
         val slotPokemon = if (isDraggedSlot) null else pokemon
         val isSelected = this.isClientPartyMember && this.summary.selectedPokemon.uuid == slotPokemon?.uuid
@@ -153,17 +152,18 @@ class PartySlotWidget(
             matrices.translate(x + (PORTRAIT_DIAMETER / 2.0), y - 3.0, 0.0)
             matrices.scale(2.5F, 2.5F, 1F)
             drawProfilePokemon(
-                species = slotPokemon.species,
+                species = slotPokemon.species.resourceIdentifier,
                 aspects = slotPokemon.aspects.toSet(),
                 matrixStack = matrices,
                 rotation = Quaternionf().fromEulerXYZDegrees(Vector3f(13F, 35F, 0F)),
                 state = null,
-                scale = 4.5F
+                scale = 4.5F,
+                partialTicks = delta
             )
             matrices.pop()
 
             drawScaledText(
-                matrixStack = matrices,
+                context = context,
                 text = slotPokemon.getDisplayName(),
                 x = x + 4,
                 y = y + 20,
@@ -174,7 +174,7 @@ class PartySlotWidget(
                 blitk(
                     matrixStack = matrices,
                     texture = if (slotPokemon.gender == Gender.MALE) genderIconMale else genderIconFemale,
-                    x = (x + 36.5) / halfScale,
+                    x = (x + 40) / halfScale,
                     y = (y + 20) / halfScale,
                     height = 7,
                     width = 5,
@@ -183,7 +183,7 @@ class PartySlotWidget(
             }
 
             drawScaledText(
-                matrixStack = matrices,
+                context = context,
                 text = lang("ui.lv.number", slotPokemon.level),
                 x = x + 31,
                 y = y + 13,

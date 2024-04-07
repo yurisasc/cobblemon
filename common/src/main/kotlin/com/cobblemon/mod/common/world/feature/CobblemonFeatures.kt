@@ -9,7 +9,6 @@
 package com.cobblemon.mod.common.world.feature
 
 import com.cobblemon.mod.common.platform.PlatformRegistry
-import com.cobblemon.mod.common.world.feature.apricorn.ApricornTreeFeature
 import net.minecraft.registry.Registries
 import net.minecraft.registry.Registry
 import net.minecraft.registry.RegistryKey
@@ -21,6 +20,10 @@ object CobblemonFeatures : PlatformRegistry<Registry<Feature<*>>, RegistryKey<Re
     override val registry: Registry<Feature<*>> = Registries.FEATURE
     override val registryKey: RegistryKey<Registry<Feature<*>>> = RegistryKeys.FEATURE
 
-    val APRICORN_TREE_FEATURE = this.create("apricorn_tree", ApricornTreeFeature())
-
+    @JvmField
+    val APRICORN_TREE_FEATURE = create("apricorn_tree", ApricornTreeFeature())
+    @JvmField
+    val MINT_FEATURE = create("mint", MintBlockFeature())
+    @JvmField
+    val BERRY_GROVE_FEATURE = CobblemonFeatures.create("berry_grove", BerryGroveFeature())
 }

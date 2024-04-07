@@ -26,19 +26,19 @@
     "fairy"
   ],
   "drops": {
-    "amount": "1",
+    "amount": 1,
     "entries": [
       {
         "item": "cobblemon:lucky_egg",
-        "percentage": 20
+        "percentage": 25.0
       },
       {
         "item": "cobblemon:oval_stone",
-        "percentage": 20
+        "percentage": 25.0
       },
       {
         "item": "minecraft:egg",
-        "percentage": 50
+        "percentage": 50.0
       }
     ]
   },
@@ -69,6 +69,7 @@
     "44:softboiled",
     "48:lastresort",
     "52:healingwish",
+    "tm:alluringvoice",
     "tm:allyswitch",
     "tm:attract",
     "tm:avalanche",
@@ -84,12 +85,14 @@
     "tm:confide",
     "tm:dazzlinggleam",
     "tm:disarmingvoice",
+    "tm:doubleedge",
     "tm:doubleteam",
     "tm:drainpunch",
     "tm:dreameater",
     "tm:earthquake",
     "tm:echoedvoice",
     "tm:electricterrain",
+    "tm:endeavor",
     "tm:endure",
     "tm:facade",
     "tm:fireblast",
@@ -102,6 +105,7 @@
     "tm:frustration",
     "tm:gigaimpact",
     "tm:grassknot",
+    "tm:gravity",
     "tm:hail",
     "tm:helpinghand",
     "tm:hiddenpower",
@@ -254,10 +258,10 @@
   ],
   "preEvolution": "chansey",
   "evolutions": [],
-  "baseScale": 1.3,
+  "baseScale": 1,
   "hitbox": {
-    "width": 1,
-    "height": 1.2,
+    "width": 1.3,
+    "height": 1.7,
     "fixed": false
   },
   "baseFriendship": 140,

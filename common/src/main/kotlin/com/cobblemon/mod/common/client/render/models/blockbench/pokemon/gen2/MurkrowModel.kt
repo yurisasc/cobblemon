@@ -8,7 +8,6 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen2
 
-import com.cobblemon.mod.common.client.render.models.blockbench.animation.BipedWalkAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
@@ -23,17 +22,19 @@ class MurkrowModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Biped
     override val leftLeg = getPart("leg_left")
     override val rightLeg = getPart("leg_right")
 
-    override val portraitScale = 3.0F
-    override val portraitTranslation = Vec3d(-0.1, -1.65, 0.0)
+    override var portraitScale = 3.0F
+    override var portraitTranslation = Vec3d(-0.1, -1.65, 0.0)
 
-    override val profileScale = 0.95F
-    override val profileTranslation = Vec3d(0.0, 0.35, 0.0)
+    override var profileScale = 0.95F
+    override var profileTranslation = Vec3d(0.0, 0.35, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
+    lateinit var hover: PokemonPose
+    lateinit var fly: PokemonPose
     lateinit var sleep: PokemonPose
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("murkrow", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("murkrow", "blink") }
         sleep = registerPose(
             poseType = PoseType.SLEEP,
             idleAnimations = arrayOf(
@@ -42,21 +43,44 @@ class MurkrowModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Biped
         )
         standing = registerPose(
             poseName = "standing",
-            poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
-            quirks = arrayOf(blink), idleAnimations = arrayOf(
+            poseTypes = PoseType.UI_POSES + PoseType.STAND,
+            quirks = arrayOf(blink),
+            idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("murkrow", "ground_idle")
             )
         )
         walk = registerPose(
             poseName = "walk",
-            poseTypes = PoseType.MOVING_POSES,
-            quirks = arrayOf(blink), idleAnimations = arrayOf(
+            poseType = PoseType.WALK,
+            quirks = arrayOf(blink),
+            idleAnimations = arrayOf(
                 singleBoneLook(),
-                bedrock("murkrow", "ground_idle"),
-                BipedWalkAnimation(this, periodMultiplier = 0.8F, amplitudeMultiplier = 0.8F)
-//                bedrock("murkrow", "ground_walk")
+                bedrock("murkrow", "ground_walk")
             )
         )
+
+        hover = registerPose(
+            poseName = "hover",
+            poseType = PoseType.HOVER,
+            transformTicks = 10,
+            quirks = arrayOf(blink),
+            idleAnimations = arrayOf(
+                singleBoneLook(),
+                bedrock("murkrow", "air_idle")
+            )
+        )
+
+        fly = registerPose(
+            poseName = "fly",
+            poseType = PoseType.FLY,
+            transformTicks = 10,
+            quirks = arrayOf(blink),
+            idleAnimations = arrayOf(
+                singleBoneLook(),
+                bedrock("murkrow", "air_fly")
+            )
+        )
+
     }
 }

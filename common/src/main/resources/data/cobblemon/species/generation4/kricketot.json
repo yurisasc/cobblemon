@@ -7,6 +7,15 @@
     "shedskin",
     "h:runaway"
   ],
+  "drops": {
+    "amount": 1,
+    "entries": [
+      {
+        "item": "cobblemon:coba_berry",
+        "percentage": 2.5
+      }
+    ]
+  },
   "baseStats": {
     "hp": 37,
     "attack": 25,
@@ -17,21 +26,20 @@
   },
   "catchRate": 255,
   "maleRatio": 0.5,
-  "shoulderMountable": false,
+  "shoulderMountable": true,
   "baseExperienceYield": 39,
   "experienceGroup": "medium_slow",
   "eggCycles": 15,
   "eggGroups": [
     "bug"
   ],
-  "drops": {
-    "amount": "1",
-    "entries": [
-      {
-        "item": "cobblemon:metronome",
-        "percentage": 2.5
-      }
-    ]
+  "behaviour": {
+    "resting": {
+      "canSleep": true,
+      "willSleepOnBed": true,
+      "depth": "normal",
+      "light": "0-4"
+    }
   },
   "moves": [
     "1:bide",
@@ -39,6 +47,10 @@
     "1:tackle",
     "6:strugglebug",
     "16:bugbite",
+    "tm:bugbite",
+    "tm:endeavor",
+    "tm:lunge",
+    "tm:skittersmack",
     "tm:strugglebug",
     "tm:terablast",
     "tutor:bugbite",
@@ -72,10 +84,10 @@
       ]
     }
   ],
-  "baseScale": 1,
+  "baseScale": 0.6,
   "hitbox": {
-    "width": 1,
-    "height": 1,
+    "width": 0.6,
+    "height": 0.9,
     "fixed": false
   },
   "baseFriendship": 70,

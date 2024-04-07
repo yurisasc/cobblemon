@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Dusknoir",
   "nationalPokedexNumber": 477,
   "primaryType": "ghost",
@@ -23,6 +24,19 @@
   "eggGroups": [
     "amorphous"
   ],
+  "behaviour": {
+    "moving": {
+      "fly": {
+        "canFly": true
+      }
+    },
+    "resting": {
+      "canSleep": true,
+      "willSleepOnBed": false,
+      "depth": "normal",
+      "light": "0-4"
+    }
+  },
   "moves": [
     "1:astonish",
     "1:bind",
@@ -80,6 +94,8 @@
     "tm:captivate",
     "tm:chargebeam",
     "tm:confide",
+    "tm:confuseray",
+    "tm:curse",
     "tm:darkestlariat",
     "tm:darkpulse",
     "tm:doubleteam",
@@ -96,6 +112,9 @@
     "tm:frustration",
     "tm:futuresight",
     "tm:gigaimpact",
+    "tm:gravity",
+    "tm:hardpress",
+    "tm:haze",
     "tm:helpinghand",
     "tm:hex",
     "tm:hiddenpower",
@@ -105,11 +124,16 @@
     "tm:icywind",
     "tm:imprison",
     "tm:infestation",
+    "tm:leechlife",
     "tm:megakick",
     "tm:megapunch",
     "tm:metronome",
     "tm:naturalgift",
+    "tm:nightshade",
+    "tm:painsplit",
     "tm:payback",
+    "tm:phantomforce",
+    "tm:poltergeist",
     "tm:poweruppunch",
     "tm:protect",
     "tm:psychic",
@@ -125,15 +149,19 @@
     "tm:secretpower",
     "tm:shadowball",
     "tm:skillswap",
+    "tm:skittersmack",
     "tm:sleeptalk",
     "tm:snatch",
     "tm:snore",
+    "tm:spite",
     "tm:strength",
     "tm:substitute",
     "tm:sunnyday",
     "tm:swagger",
+    "tm:swift",
     "tm:taunt",
     "tm:telekinesis",
+    "tm:terablast",
     "tm:thief",
     "tm:thunderpunch",
     "tm:torment",
@@ -178,8 +206,8 @@
   "evolutions": [],
   "baseScale": 1,
   "hitbox": {
-    "width": 1,
-    "height": 1,
+    "width": 1.8,
+    "height": 3.4,
     "fixed": false
   },
   "baseFriendship": 35,
@@ -194,5 +222,18 @@
   "height": 22,
   "weight": 1066,
   "aspects": [],
-  "cannotDynamax": false
+  "cannotDynamax": false,
+  "drops": {
+    "amount": 2,
+    "entries": [
+      {
+        "item": "cobblemon:reaper_cloth",
+        "percentage": 10.0
+      },
+      {
+        "item": "cobblemon:kasib_berry",
+        "percentage": 10.0
+      }
+    ]
+  }
 }

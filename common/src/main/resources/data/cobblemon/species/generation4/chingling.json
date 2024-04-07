@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Chingling",
   "nationalPokedexNumber": 433,
   "primaryType": "psychic",
@@ -15,13 +16,29 @@
   },
   "catchRate": 120,
   "maleRatio": 0.5,
-  "shoulderMountable": false,
+  "shoulderMountable": true,
   "baseExperienceYield": 57,
   "experienceGroup": "fast",
   "eggCycles": 25,
   "eggGroups": [
     "undiscovered"
   ],
+  "behaviour": {
+    "moving": {
+      "fly": {
+        "canFly": true
+      },
+      "walk": {
+        "walkSpeed": 0.2
+      }
+    },
+    "resting": {
+      "canSleep": true,
+      "willSleepOnBed": true,
+      "depth": "normal",
+      "light": "0-4"
+    }
+  },
   "moves": [
     "1:wrap",
     "4:growl",
@@ -44,28 +61,40 @@
     "egg:futuresight",
     "egg:hypnosis",
     "egg:recover",
+    "egg:recycle",
     "egg:skillswap",
     "egg:storedpower",
     "egg:wish",
     "tm:attract",
+    "tm:batonpass",
     "tm:calmmind",
     "tm:captivate",
     "tm:chargebeam",
     "tm:confide",
+    "tm:curse",
     "tm:dazzlinggleam",
+    "tm:doubleedge",
     "tm:doubleteam",
     "tm:dreameater",
     "tm:echoedvoice",
     "tm:endure",
+    "tm:energyball",
     "tm:facade",
     "tm:flash",
     "tm:frustration",
+    "tm:futuresight",
     "tm:grassknot",
+    "tm:gravity",
+    "tm:helpinghand",
     "tm:hiddenpower",
+    "tm:hypervoice",
+    "tm:icywind",
+    "tm:knockoff",
     "tm:lightscreen",
     "tm:naturalgift",
     "tm:protect",
     "tm:psychic",
+    "tm:psychicnoise",
     "tm:psychup",
     "tm:psyshock",
     "tm:raindance",
@@ -81,15 +110,20 @@
     "tm:skillswap",
     "tm:sleeptalk",
     "tm:snatch",
+    "tm:storedpower",
     "tm:substitute",
     "tm:sunnyday",
     "tm:swagger",
     "tm:taunt",
     "tm:telekinesis",
+    "tm:terablast",
     "tm:thunderwave",
     "tm:torment",
     "tm:toxic",
+    "tm:trick",
     "tm:trickroom",
+    "tm:uproar",
+    "tm:zenheadbutt",
     "tutor:allyswitch",
     "tutor:bind",
     "tutor:gravity",
@@ -140,10 +174,10 @@
       ]
     }
   ],
-  "baseScale": 1,
+  "baseScale": 0.7,
   "hitbox": {
-    "width": 1,
-    "height": 1,
+    "width": 0.45,
+    "height": 0.5,
     "fixed": false
   },
   "baseFriendship": 70,
@@ -158,5 +192,22 @@
   "height": 2,
   "weight": 6,
   "aspects": [],
-  "cannotDynamax": false
+  "cannotDynamax": false,
+  "drops": {
+    "amount": 3,
+    "entries": [
+      {
+        "item": "cobblemon:colbur_berry",
+        "percentage": 2.5
+      },
+      {
+        "item": "cobblemon:soothe_bell",
+        "percentage": 2.5
+      },
+      {
+        "item": "cobblemon:cleanse_tag",
+        "percentage": 2.5
+      }
+    ]
+  }
 }

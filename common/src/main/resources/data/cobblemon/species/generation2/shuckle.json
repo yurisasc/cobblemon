@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Shuckle",
   "nationalPokedexNumber": 213,
   "primaryType": "bug",
@@ -8,6 +9,14 @@
     "gluttony",
     "h:contrary"
   ],
+  "drops": {
+    "amount": 1,
+    "entries": [
+      {
+        "item": "cobblemon:berry_juice"
+      }
+    ]
+  },
   "baseStats": {
     "hp": 20,
     "attack": 10,
@@ -25,6 +34,19 @@
   "eggGroups": [
     "bug"
   ],
+  "behaviour": {
+    "moving": {
+      "walk": {
+        "walkSpeed": 0.2
+      }
+    },
+    "resting": {
+      "canSleep": true,
+      "willSleepOnBed": false,
+      "depth": "normal",
+      "light": "0-4"
+    }
+  },
   "moves": [
     "1:bide",
     "1:constrict",
@@ -166,7 +188,7 @@
     "cobblemon.species.shuckle.desc"
   ],
   "evolutions": [],
-  "baseScale": 1,
+  "baseScale": 0.5,
   "hitbox": {
     "width": 1,
     "height": 1,

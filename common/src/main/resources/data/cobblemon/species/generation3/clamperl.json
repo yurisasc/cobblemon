@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Clamperl",
   "nationalPokedexNumber": 366,
   "primaryType": "water",
@@ -16,6 +17,10 @@
   },
   "behaviour": {
     "moving": {
+      "walk": {
+        "walkSpeed": 0.175,
+        "avoidsLand": true
+      },
       "swim": {
         "swimSpeed": 0.1,
         "canSwimInWater": false,
@@ -37,7 +42,7 @@
     "1:irondefense",
     "1:watergun",
     "1:whirlpool",
-    "50:shellsmash",
+    "51:shellsmash",
     "egg:aquaring",
     "egg:barrier",
     "egg:bodyslam",
@@ -94,6 +99,15 @@
     "tutor:waterpulse",
     "tutor:whirlpool"
   ],
+  "drops": {
+    "amount": 1,
+    "entries": [
+      {
+        "item": "cobblemon:shell_bell",
+        "percentage": 2.5
+      }
+    ]
+  },
   "labels": [
     "gen3"
   ],
@@ -128,10 +142,10 @@
       ]
     }
   ],
-  "baseScale": 1,
+  "baseScale": 0.75,
   "hitbox": {
-    "width": 1,
-    "height": 1,
+    "width": 0.75,
+    "height": 0.67,
     "fixed": false
   },
   "baseFriendship": 70,

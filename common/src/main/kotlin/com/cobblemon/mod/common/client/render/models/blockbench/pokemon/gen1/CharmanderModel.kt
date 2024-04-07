@@ -12,6 +12,7 @@ import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntitySt
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BimanualFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cobblemon.mod.common.entity.PoseType
@@ -30,15 +31,17 @@ class CharmanderModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bi
     override val rightLeg = getPart("leg_right")
     override val leftLeg = getPart("leg_left")
 
-    override val portraitScale = 2.2F
-    override val portraitTranslation = Vec3d(-0.1, -0.1, 0.0)
+    override var portraitScale = 2.2F
+    override var portraitTranslation = Vec3d(-0.1, -0.1, 0.0)
 
-    override val profileScale = 0.71F
-    override val profileTranslation = Vec3d(0.0, 0.72, 0.0)
+    override var profileScale = 0.71F
+    override var profileTranslation = Vec3d(0.0, 0.72, 0.0)
 
     lateinit var sleep: PokemonPose
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
+
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("charmander", "cry") }
 
     override fun registerPoses() {
         sleep = registerPose(
@@ -46,7 +49,7 @@ class CharmanderModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bi
             idleAnimations = arrayOf(bedrock("charmander", "sleep"))
         )
 
-        val blink = quirk("blink") { bedrockStateful("charmander", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("charmander", "blink") }
 
         standing = registerPose(
             poseName = "standing",
@@ -75,5 +78,5 @@ class CharmanderModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bi
     override fun getFaintAnimation(
         pokemonEntity: PokemonEntity,
         state: PoseableEntityState<PokemonEntity>
-    ) = if (state.isNotPosedIn(sleep)) bedrockStateful("charmander", "faint") else null
+    ) = bedrockStateful("charmander", "faint")
 }

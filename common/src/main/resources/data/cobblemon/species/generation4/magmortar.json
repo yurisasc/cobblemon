@@ -7,6 +7,23 @@
     "flamebody",
     "h:vitalspirit"
   ],
+  "drops": {
+    "amount": 3,
+    "entries": [
+      {
+        "item": "minecraft:blaze_powder",
+        "percentage": 10.0
+      },
+      {
+        "item": "cobblemon:magmarizer",
+        "percentage": 10.0
+      },
+      {
+        "item": "cobblemon:rawst_berry",
+        "percentage": 10.0
+      }
+    ]
+  },
   "baseStats": {
     "hp": 75,
     "attack": 95,
@@ -24,19 +41,6 @@
   "eggGroups": [
     "human_like"
   ],
-  "drops": {
-    "amount": "1",
-    "entries": [
-      {
-        "item": "minecraft:blaze_powder",
-        "percentage": 10
-      },
-      {
-        "item": "cobblemon:magmarizer",
-        "percentage": 10
-      }
-    ]
-  },
   "moves": [
     "1:ember",
     "1:leer",
@@ -46,45 +50,31 @@
     "12:clearsmog",
     "12:feintattack",
     "15:firespin",
-    "16:feintattack",
     "16:flamewheel",
-    "19:clearsmog",
-    "19:firespin",
     "20:confuseray",
-    "21:firespin",
     "22:flameburst",
     "24:scaryface",
     "25:confuseray",
-    "26:confuseray",
     "28:firepunch",
-    "29:firepunch",
-    "32:flameburst",
     "34:lavaplume",
-    "36:lavaplume",
-    "37:lavaplume",
     "38:firepunch",
     "40:lowkick",
     "42:sunnyday",
     "43:flamethrower",
-    "44:lavaplume",
-    "46:flamethrower",
-    "49:flamethrower",
-    "50:flamethrower",
     "52:sunnyday",
-    "55:fireblast",
-    "56:sunnyday",
     "58:fireblast",
-    "62:fireblast",
     "62:hyperbeam",
-    "64:hyperbeam",
-    "67:hyperbeam",
-    "68:hyperbeam",
+    "tm:acidspray",
     "tm:attract",
     "tm:bodyslam",
     "tm:brickbreak",
     "tm:bulldoze",
+    "tm:burningjealousy",
     "tm:captivate",
     "tm:confide",
+    "tm:confuseray",
+    "tm:curse",
+    "tm:doubleedge",
     "tm:doubleteam",
     "tm:earthquake",
     "tm:endure",
@@ -101,25 +91,31 @@
     "tm:focuspunch",
     "tm:frustration",
     "tm:gigaimpact",
+    "tm:heatcrash",
     "tm:heatwave",
     "tm:helpinghand",
     "tm:hiddenpower",
     "tm:hyperbeam",
+    "tm:hypervoice",
     "tm:incinerate",
     "tm:irontail",
+    "tm:knockoff",
     "tm:lowkick",
     "tm:lowsweep",
     "tm:megakick",
     "tm:megapunch",
+    "tm:metronome",
     "tm:mysticalfire",
     "tm:naturalgift",
     "tm:overheat",
+    "tm:poisonjab",
     "tm:powerswap",
     "tm:poweruppunch",
     "tm:protect",
     "tm:psychic",
     "tm:rest",
     "tm:return",
+    "tm:roar",
     "tm:rockclimb",
     "tm:rockslide",
     "tm:rocksmash",
@@ -127,6 +123,7 @@
     "tm:round",
     "tm:scaryface",
     "tm:screech",
+    "tm:scorchingsands",
     "tm:secretpower",
     "tm:sleeptalk",
     "tm:snore",
@@ -136,7 +133,10 @@
     "tm:substitute",
     "tm:sunnyday",
     "tm:swagger",
+    "tm:takedown",
     "tm:taunt",
+    "tm:temperflare",
+    "tm:terablast",
     "tm:thief",
     "tm:thunderbolt",
     "tm:thunderpunch",

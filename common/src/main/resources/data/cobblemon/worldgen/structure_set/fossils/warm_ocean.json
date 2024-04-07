@@ -1,0 +1,15 @@
+{
+    "placement": {
+        "type": "minecraft:random_spread",
+        "spacing": 10,
+        "separation": 5,
+        "salt": 1695780836,
+        "spread_type": "triangular"
+    },
+    "structures": [
+        {
+            "structure": "cobblemon:fossils/prehistoric_vibrant_hydrothermal_vents",
+            "weight": 1
+        }
+    ]
+}

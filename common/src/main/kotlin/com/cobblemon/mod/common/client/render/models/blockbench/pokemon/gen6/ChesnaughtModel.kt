@@ -8,12 +8,14 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen6
 
+import com.cobblemon.mod.common.client.render.models.blockbench.animation.BimanualSwingAnimation
+import com.cobblemon.mod.common.client.render.models.blockbench.animation.BipedWalkAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BimanualFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
-import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.PoseType.Companion.MOVING_POSES
 import com.cobblemon.mod.common.entity.PoseType.Companion.STATIONARY_POSES
 import com.cobblemon.mod.common.entity.PoseType.Companion.UI_POSES
@@ -28,24 +30,20 @@ class ChesnaughtModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, B
     override val leftLeg = getPart("leg_left")
     override val rightLeg = getPart("leg_right")
 
-    override val portraitScale = 2.5F
-    override val portraitTranslation = Vec3d(-1.0, 1.3, 0.0)
+    override var portraitScale = 2.2F
+    override var portraitTranslation = Vec3d(-1.0, 1.65, 0.0)
 
-    override val profileScale = 0.6F
-    override val profileTranslation = Vec3d(0.0, 0.85, 0.0)
+    override var profileScale = 0.6F
+    override var profileTranslation = Vec3d(0.0, 0.85, 0.0)
 
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
-    lateinit var sleep: PokemonPose
+
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("chesnaught", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("chesnaught", "blink").setPreventsIdle(false)}
-
-        sleep = registerPose(
-            poseType = PoseType.SLEEP,
-            idleAnimations = arrayOf(bedrock("chesnaught", "sleep"))
-        )
+        val blink = quirk { bedrockStateful("chesnaught", "blink")}
 
         standing = registerPose(
             poseName = "standing",
@@ -63,14 +61,10 @@ class ChesnaughtModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, B
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
-                bedrock("chesnaught", "ground_walk")
+                BimanualSwingAnimation(this),
+                BipedWalkAnimation(this),
+                bedrock("chesnaught", "ground_idle")
             )
-        )
-
-        sleep = registerPose(
-                poseType = PoseType.SLEEP,
-                transformTicks = 10,
-                idleAnimations = arrayOf(bedrock("chesnaught", "sleep"))
         )
     }
 }

@@ -27,9 +27,13 @@ abstract class SubmergedTypeSpawningCondition<T : SubmergedSpawningContext> : Ar
     var fluidIsSource: Boolean? = null
     var fluid: RegistryLikeCondition<Fluid>? = null
 
-    override fun fits(ctx: T, detail: SpawnDetail): Boolean {
-        return if (!super.fits(ctx, detail)) {
+    override fun fits(ctx: T): Boolean {
+        return if (!super.fits(ctx)) {
             false
+        } else if (minHeight != null && ctx.height < minHeight!!) {
+            return false
+        } else if (maxHeight != null && ctx.height > maxHeight!!) {
+            return false
         } else if (minDepth != null && ctx.depth < minDepth!!) {
             false
         } else if (maxDepth != null && ctx.depth > maxDepth!!) {

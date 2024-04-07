@@ -12,8 +12,8 @@ import com.cobblemon.mod.common.api.spawning.SpawnCause
 import com.cobblemon.mod.common.api.spawning.WorldSlice
 import com.cobblemon.mod.common.api.spawning.influence.SpawningInfluence
 import net.minecraft.block.BlockState
+import net.minecraft.server.world.ServerWorld
 import net.minecraft.util.math.BlockPos
-import net.minecraft.world.World
 
 /**
  * A type of area based spawning context with a fluid base block.
@@ -23,16 +23,18 @@ import net.minecraft.world.World
  */
 open class SubmergedSpawningContext(
     cause: SpawnCause,
-    world: World,
+    world: ServerWorld,
     position: BlockPos,
     light: Int,
+    skyLight: Int,
     canSeeSky: Boolean,
     influences: MutableList<SpawningInfluence>,
-    width: Int,
     height: Int,
     val depth: Int,
     nearbyBlocks: List<BlockState>,
     slice: WorldSlice
-) : AreaSpawningContext(cause, world, position, light, canSeeSky, influences, width, height, nearbyBlocks, slice) {
+) : AreaSpawningContext(cause, world, position, light, skyLight, canSeeSky, influences, height, nearbyBlocks, slice) {
     val fluid = slice.getBlockState(position.x, position.y, position.z).fluidState
+
+    override fun isSafeSpace(world: ServerWorld, pos: BlockPos, state: BlockState) = state.fluidState.fluid == fluid.fluid
 }

@@ -8,6 +8,7 @@
 
 package com.cobblemon.mod.common.api.storage.adapter.conversions
 
+import com.cobblemon.mod.common.api.abilities.Abilities
 import com.cobblemon.mod.common.api.moves.Moves
 import com.cobblemon.mod.common.api.pokeball.PokeBalls
 import com.cobblemon.mod.common.api.pokemon.Natures
@@ -98,8 +99,9 @@ class ReforgedConversion(val base: Path) : CobblemonConverter<NbtCompound> {
         result.level = nbt.getInt("Level")
         result.addExperience(SidemodExperienceSource("Reforged"), nbt.getInt("EXP"))
         result.setFriendship(nbt.getInt("Friendship"))
-        result.ability = (result.form.abilities.find { it.template.name == nbt.getString("Ability") } ?: result.form.abilities.first())
-            .template.create()
+        Abilities.get(nbt.getString("Ability"))?.let { template ->
+            result.updateAbility(template.create(forced = result.form.abilities.none { it.template == template }))
+        }
         result.nature = Natures.getNature(Identifier(ReforgedNatures.values()[nbt.getInt("Nature")].name.lowercase())) ?: Natures.getRandomNature()
         result.mintedNature = Natures.getNature(Identifier(ReforgedNatures.values()[nbt.getInt("MintNature")].name.lowercase()))
         result.currentHealth = nbt.getInt("Health")
@@ -121,8 +123,12 @@ class ReforgedConversion(val base: Path) : CobblemonConverter<NbtCompound> {
         evs[Stats.SPECIAL_DEFENCE] = nbt.getInt("EVSpecialDefense")
         evs[Stats.SPEED] = nbt.getInt("EVSpeed")
 
-        result.evs = evs
-        result.ivs = ivs
+        ivs.forEach { stat ->
+            result.setIV(stat.key, stat.value)
+        }
+        evs.forEach { stat ->
+            result.setEV(stat.key, stat.value)
+        }
 
         for (move in nbt.getList("Moveset", 10)) {
             val compound = move as NbtCompound

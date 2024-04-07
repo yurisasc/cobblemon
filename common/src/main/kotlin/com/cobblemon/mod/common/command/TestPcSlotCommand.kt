@@ -51,7 +51,7 @@ object TestPcSlotCommand {
         val boxNumber = IntegerArgumentType.getInteger(context, BOX)
         val slot = IntegerArgumentType.getInteger(context, SLOT)
         val properties = PokemonPropertiesArgumentType.getPokemonProperties(context, PROPERTIES)
-        return if (player.pc().boxes[boxNumber - 1][slot - 1]?.createPokemonProperties(*PokemonPropertyExtractor.ALL)
+        return if (player.pc().boxes[boxNumber - 1][slot - 1]?.createPokemonProperties(PokemonPropertyExtractor.ALL)
                 ?.let { properties.isSubSetOf(it) } == true) Command.SINGLE_SUCCESS else NO_SUCCESS
     }
 }

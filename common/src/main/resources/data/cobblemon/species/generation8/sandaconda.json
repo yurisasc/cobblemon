@@ -62,7 +62,6 @@
       ],
       "height": 220,
       "weight": 0,
-      "evolutions": [],
       "cannotDynamax": false,
       "battleOnly": false
     }
@@ -97,6 +96,7 @@
     "tm:drillrun",
     "tm:earthpower",
     "tm:earthquake",
+    "tm:endeavor",
     "tm:endure",
     "tm:facade",
     "tm:firefang",
@@ -118,8 +118,11 @@
     "tm:round",
     "tm:sandstorm",
     "tm:sandtomb",
+    "tm:scaleshot",
     "tm:scaryface",
+    "tm:scorchingsands",
     "tm:screech",
+    "tm:skittersmack",
     "tm:sleeptalk",
     "tm:snore",
     "tm:stealthrock",
@@ -159,5 +162,14 @@
   "height": 38,
   "weight": 655,
   "aspects": [],
-  "cannotDynamax": false
+  "cannotDynamax": false,
+  "drops": {
+    "amount": 1,
+    "entries": [
+      {
+        "item": "cobblemon:soft_sand",
+        "percentage": 5.0
+      }
+    ]
+  }
 }

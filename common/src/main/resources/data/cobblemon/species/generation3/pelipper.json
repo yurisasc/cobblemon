@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Pelipper",
   "nationalPokedexNumber": 279,
   "primaryType": "water",
@@ -8,6 +9,22 @@
     "drizzle",
     "h:raindish"
   ],
+  "drops": {
+    "amount": 4,
+    "entries": [
+      {
+        "item": "minecraft:feather",
+        "quantityRange": "0-2"
+      },
+      {
+        "item": "minecraft:chicken"
+      },
+      {
+        "item": "cobblemon:wacan_berry",
+        "percentage": 5.0
+      }
+    ]
+  },
   "baseStats": {
     "hp": 60,
     "attack": 50,
@@ -26,6 +43,24 @@
     "water_1",
     "flying"
   ],
+  "behaviour": {
+    "moving": {
+      "fly": {
+        "canFly": true
+      },
+      "swim": {
+        "canSwimInWater": true,
+        "canBreatheUnderwater": true,
+        "canWalkOnWater": true
+      }
+    },
+    "resting": {
+      "canSleep": true,
+      "willSleepOnBed": false,
+      "depth": "normal",
+      "light": "0-4"
+    }
+  },
   "moves": [
     "1:agility",
     "1:airslash",
@@ -64,9 +99,11 @@
     "tm:confide",
     "tm:defog",
     "tm:doubleteam",
+    "tm:dualwingbeat",
     "tm:echoedvoice",
     "tm:endure",
     "tm:facade",
+    "tm:featherdance",
     "tm:fling",
     "tm:fly",
     "tm:frustration",
@@ -80,7 +117,9 @@
     "tm:hyperbeam",
     "tm:icebeam",
     "tm:icywind",
+    "tm:knockoff",
     "tm:liquidation",
+    "tm:muddywater",
     "tm:naturalgift",
     "tm:payback",
     "tm:pluck",
@@ -148,10 +187,10 @@
   ],
   "preEvolution": "wingull",
   "evolutions": [],
-  "baseScale": 1,
+  "baseScale": 1.2,
   "hitbox": {
-    "width": 1,
-    "height": 1,
+    "width": 0.8,
+    "height": 1.2,
     "fixed": false
   },
   "baseFriendship": 50,

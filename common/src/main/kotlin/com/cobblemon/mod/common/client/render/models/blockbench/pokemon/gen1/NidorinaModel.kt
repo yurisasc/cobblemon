@@ -19,39 +19,42 @@ import com.cobblemon.mod.common.entity.PoseType.Companion.STATIONARY_POSES
 import com.cobblemon.mod.common.entity.PoseType.Companion.UI_POSES
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
+
 class NidorinaModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, QuadrupedFrame {
     override val rootPart = root.registerChildWithAllChildren("nidorina")
     override val head = getPart("head")
-    override val foreLeftLeg = getPart("leg_front_left")
-    override val foreRightLeg = getPart("leg_front_right")
-    override val hindLeftLeg = getPart("leg_back_left")
-    override val hindRightLeg = getPart("leg_back_right")
+    override val foreLeftLeg= getPart("left_upper_arm")
+    override val foreRightLeg = getPart("right_upper_arm")
+    override val hindLeftLeg = getPart("left_leg")
+    override val hindRightLeg = getPart("right_leg")
 
-    override val portraitScale = 1.8F
-    override val portraitTranslation = Vec3d(-0.35, -0.8, 0.0)
+    override var portraitScale = 1.8F
+    override var portraitTranslation = Vec3d(-0.35, -0.8, 0.0)
 
-    override val profileScale = 1.0F
-    override val profileTranslation = Vec3d(0.0, 0.21, 0.0)
+    override var profileScale = 1.0F
+    override var profileTranslation = Vec3d(0.0, 0.21, 0.0)
 
     lateinit var sleep: PokemonPose
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
+    lateinit var battleidle: PokemonPose
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("nidorina", "blink").setPreventsIdle(false)}
+        val blink = quirk { bedrockStateful("nidorina", "blink")}
         standing = registerPose(
             poseName = "standing",
             poseTypes = STATIONARY_POSES + UI_POSES,
+            condition = { !it.isBattling },
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
-                bedrock("nidorina", "ground_idle")
+                bedrock("nidorina", "idle3")
             )
         )
 
         sleep = registerPose(
                 poseType = PoseType.SLEEP,
-                idleAnimations = arrayOf(bedrock("nidorina", "sleep"))
+                idleAnimations = arrayOf(bedrock("nidorina", "idle2"))
         )
 
         walk = registerPose(
@@ -60,8 +63,20 @@ class NidorinaModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quad
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
-                bedrock("nidorina", "ground_idle"),
-                QuadrupedWalkAnimation(this, periodMultiplier = 0.7F, amplitudeMultiplier = 0.7F)
+                bedrock("nidorina", "idle2"),
+                QuadrupedWalkAnimation(this)
+            )
+        )
+
+        battleidle = registerPose(
+            poseName = "battle_idle",
+            poseTypes = PoseType.STATIONARY_POSES,
+            transformTicks = 10,
+            quirks = arrayOf(blink),
+            condition = { it.isBattling },
+            idleAnimations = arrayOf(
+                singleBoneLook(),
+                bedrock("nidorina", "idle")
             )
         )
     }

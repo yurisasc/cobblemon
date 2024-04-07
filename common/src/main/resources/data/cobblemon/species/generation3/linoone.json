@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Linoone",
   "nationalPokedexNumber": 264,
   "primaryType": "normal",
@@ -7,6 +8,15 @@
     "gluttony",
     "h:quickfeet"
   ],
+  "drops": {
+    "amount": 1,
+    "entries": [
+      {
+        "item": "cobblemon:oran_berry",
+        "percentage": 5.0
+      }
+    ]
+  },
   "baseStats": {
     "hp": 78,
     "attack": 70,
@@ -15,6 +25,9 @@
     "special_defence": 61,
     "speed": 100
   },
+  "features": [
+    "galarian"
+  ],
   "catchRate": 90,
   "maleRatio": 0.5,
   "shoulderMountable": false,
@@ -152,7 +165,16 @@
         }
       ],
       "cannotDynamax": false,
-      "battleOnly": false
+      "battleOnly": false,
+      "drops": {
+        "amount": 1,
+        "entries": [
+          {
+            "item": "cobblemon:chople_berry",
+            "percentage": 5.0
+          }
+        ]
+      }
     }
   ],
   "baseExperienceYield": 147,
@@ -161,6 +183,19 @@
   "eggGroups": [
     "field"
   ],
+  "behaviour": {
+    "moving": {
+      "walk": {
+        "walkSpeed": 0.31
+      }
+    },
+    "resting": {
+      "canSleep": true,
+      "willSleepOnBed": false,
+      "depth": "normal",
+      "light": "0-4"
+    }
+  },
   "moves": [
     "1:babydolleyes",
     "1:growl",
@@ -291,8 +326,8 @@
   "preEvolution": "zigzagoon",
   "baseScale": 1,
   "hitbox": {
-    "width": 1,
-    "height": 1,
+    "width": 0.6,
+    "height": 0.5,
     "fixed": false
   },
   "baseFriendship": 50,

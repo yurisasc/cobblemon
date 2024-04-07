@@ -9,7 +9,7 @@
 package com.cobblemon.mod.common.advancement.criterion
 
 import com.google.gson.JsonObject
-import net.minecraft.predicate.entity.EntityPredicate.Extended
+import net.minecraft.predicate.entity.LootContextPredicate
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.util.Identifier
 
@@ -21,7 +21,7 @@ import net.minecraft.util.Identifier
  */
 open class CountablePokemonTypeContext(times: Int, var type: String) : CountableContext(times)
 
-class CaughtPokemonCriterionCondition(id: Identifier, entity: Extended) : CountableCriterionCondition<CountablePokemonTypeContext>(id, entity) {
+class CaughtPokemonCriterionCondition(id: Identifier, predicate: LootContextPredicate) : CountableCriterionCondition<CountablePokemonTypeContext>(id, predicate) {
     var type = "any"
     override fun toJson(json: JsonObject) {
         super.toJson(json)
@@ -34,6 +34,6 @@ class CaughtPokemonCriterionCondition(id: Identifier, entity: Extended) : Counta
     }
 
     override fun matches(player: ServerPlayerEntity, context: CountablePokemonTypeContext): Boolean {
-        return super.matches(player, context) && context.type == type
+        return super.matches(player, context) && (context.type == type || type == "any")
     }
 }

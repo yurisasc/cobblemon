@@ -14,6 +14,7 @@ import com.cobblemon.mod.common.api.events.CobblemonEvents;
 import com.cobblemon.mod.common.api.events.item.LeftoversCreatedEvent;
 import com.cobblemon.mod.common.api.storage.NoPokemonStoreException;
 import com.cobblemon.mod.common.api.storage.party.PartyStore;
+import com.cobblemon.mod.common.api.tags.CobblemonItemTags;
 import com.cobblemon.mod.common.pokemon.Pokemon;
 import com.cobblemon.mod.common.util.CompoundTagExtensionsKt;
 import com.cobblemon.mod.common.util.DataKeys;
@@ -22,11 +23,8 @@ import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.sound.SoundEvent;
-import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.Text;
 import net.minecraft.world.World;
 import org.objectweb.asm.Opcodes;
@@ -39,8 +37,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.Objects;
 import java.util.UUID;
-
-import static com.cobblemon.mod.common.util.LocalizationUtilsKt.lang;
 
 @Mixin(PlayerEntity.class)
 public abstract class PlayerMixin extends LivingEntity {
@@ -144,7 +140,7 @@ public abstract class PlayerMixin extends LivingEntity {
     )
     public void onEatFood(World world, ItemStack stack, CallbackInfoReturnable<ItemStack> cir) {
         if (!getWorld().isClient) {
-            if (stack.getItem() == Items.APPLE && getWorld().random.nextDouble() < Cobblemon.config.getAppleLeftoversChance()) {
+            if (stack.isIn(CobblemonItemTags.LEAVES_LEFTOVERS) && getWorld().random.nextDouble() < Cobblemon.config.getAppleLeftoversChance()) {
                 ItemStack leftovers = new ItemStack(CobblemonItems.LEFTOVERS);
                 ServerPlayerEntity player = Objects.requireNonNull(getServer()).getPlayerManager().getPlayer(uuid);
                 assert player != null;

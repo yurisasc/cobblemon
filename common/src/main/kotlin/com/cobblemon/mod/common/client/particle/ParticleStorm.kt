@@ -10,14 +10,13 @@ package com.cobblemon.mod.common.client.particle
 
 import com.bedrockk.molang.runtime.MoLangRuntime
 import com.bedrockk.molang.runtime.value.DoubleValue
+import com.cobblemon.mod.common.api.molang.MoLangFunctions.getQueryStruct
 import com.cobblemon.mod.common.api.snowstorm.BedrockParticleEffect
 import com.cobblemon.mod.common.api.snowstorm.ParticleEmitterAction
 import com.cobblemon.mod.common.client.render.MatrixWrapper
 import com.cobblemon.mod.common.client.render.SnowstormParticle
 import com.cobblemon.mod.common.particle.SnowstormParticleEffect
-import com.cobblemon.mod.common.util.math.geometry.getOrigin
 import com.cobblemon.mod.common.util.math.geometry.transformDirection
-import com.cobblemon.mod.common.util.math.geometry.transformPosition
 import kotlin.random.Random
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.particle.NoRenderParticle
@@ -33,14 +32,29 @@ import net.minecraft.util.math.Vec3d
  */
 class ParticleStorm(
     val effect: BedrockParticleEffect,
-    private val matrixWrapper: MatrixWrapper,
+    val matrixWrapper: MatrixWrapper,
     val world: ClientWorld,
     val sourceVelocity: () -> Vec3d = { Vec3d.ZERO },
     val sourceAlive: () -> Boolean = { true },
     val sourceVisible: () -> Boolean = { true },
-    val runtime: MoLangRuntime = MoLangRuntime()
+    val onDespawn: () -> Unit = {},
+    val runtime: MoLangRuntime = MoLangRuntime(),
+    val entity: Entity? = null
 ): NoRenderParticle(world, matrixWrapper.getOrigin().x, matrixWrapper.getOrigin().y, matrixWrapper.getOrigin().z) {
     fun spawn() {
+        if (entity != null) {
+            runtime.environment.getQueryStruct()
+                .addFunction("entity_width") { DoubleValue(entity.boundingBox.xLength) }
+                .addFunction("entity_height") { DoubleValue(entity.boundingBox.yLength) }
+                .addFunction("entity_size") { DoubleValue(entity.boundingBox.run { if (xLength > yLength) xLength else yLength }) }
+                .addFunction("entity_radius") { DoubleValue(entity.boundingBox.run { if (xLength > yLength) xLength else yLength } / 2) }
+            // TODO replace with a generified call to if (entity is MoLangEntity) entity.applyVariables(env) or w/e
+            runtime.environment.setSimpleVariable("entity_width", DoubleValue(entity.boundingBox.xLength))
+            runtime.environment.setSimpleVariable("entity_height", DoubleValue(entity.boundingBox.yLength))
+            val longerDiameter = entity.boundingBox.run { if (xLength > yLength) xLength else yLength }
+            runtime.environment.setSimpleVariable("entity_size", DoubleValue(longerDiameter))
+            runtime.environment.setSimpleVariable("entity_radius", DoubleValue(longerDiameter / 2))
+        }
         MinecraftClient.getInstance().particleManager.addParticle(this)
     }
 
@@ -55,8 +69,11 @@ class ParticleStorm(
     val particles = mutableListOf<SnowstormParticle>()
     var started = false
     var stopped = false
+    var despawned = false
+    // The idea is that some instantaneous particle effects could teeeechnically be over before they start.
+    var hasPlayedOnce = false
 
-    var entity: Entity? = null
+    var distanceTravelled = 0F
 
     companion object {
         var contextStorm: ParticleStorm? = null
@@ -66,17 +83,32 @@ class ParticleStorm(
 
     init {
         runtime.execute(effect.emitter.startExpressions)
+        effect.emitter.creationEvents.forEach { it.trigger(this, null) }
     }
 
     override fun getMaxAge(): Int {
         return if (stopped) 0 else Int.MAX_VALUE
     }
 
+    override fun markDead() {
+        super.markDead()
+        if (!despawned) {
+            effect.emitter.expirationEvents.forEach { it.trigger(this, null) }
+            despawned = true
+            onDespawn()
+        }
+    }
+
     override fun tick() {
         setMaxAge(getMaxAge())
         super.tick()
 
-        if (!sourceAlive()) {
+        if (!hasPlayedOnce) {
+            age = 0
+            hasPlayedOnce = true
+        }
+
+        if (!sourceAlive() && !stopped) {
             stopped = true
             markDead()
         }
@@ -94,6 +126,12 @@ class ParticleStorm(
         y = pos.y
         z = pos.z
 
+        val oldDistanceTravelled = distanceTravelled
+        distanceTravelled += Vec3d(x - prevPosX, y - prevPosY, z - prevPosZ).length().toFloat()
+
+        effect.emitter.travelDistanceEvents.check(this, null, oldDistanceTravelled.toDouble(), distanceTravelled.toDouble())
+        effect.emitter.loopingTravelDistanceEvents.forEach { it.check(this, null, oldDistanceTravelled.toDouble(), distanceTravelled.toDouble()) }
+        effect.emitter.eventTimeline.check(this, null, (age - 1) / 20.0, age / 20.0)
 
         runtime.environment.setSimpleVariable("emitter_random_1", DoubleValue(Random.Default.nextDouble()))
         runtime.environment.setSimpleVariable("emitter_random_2", DoubleValue(Random.Default.nextDouble()))
@@ -104,11 +142,10 @@ class ParticleStorm(
 
         when (effect.emitter.lifetime.getAction(runtime, started, age / 20.0)) {
             ParticleEmitterAction.GO -> {
+                effect.curves.forEach { it.apply(runtime) }
                 val toEmit = effect.emitter.rate.getEmitCount(runtime, started, particles.size)
                 started = true
-                repeat(times = toEmit) {
-                    spawnParticle()
-                }
+                repeat(times = toEmit) { spawnParticle() }
             }
             ParticleEmitterAction.NOTHING -> {}
             ParticleEmitterAction.STOP -> stopped = true
@@ -116,18 +153,27 @@ class ParticleStorm(
         }
     }
 
-    fun spawnParticle() {
+    fun getNextParticleSpawnPosition(): Vec3d {
         runtime.environment.setSimpleVariable("particle_random_1", DoubleValue(Random.Default.nextDouble()))
         runtime.environment.setSimpleVariable("particle_random_2", DoubleValue(Random.Default.nextDouble()))
         runtime.environment.setSimpleVariable("particle_random_3", DoubleValue(Random.Default.nextDouble()))
         runtime.environment.setSimpleVariable("particle_random_4", DoubleValue(Random.Default.nextDouble()))
 
-        val center = transformPosition(effect.emitter.shape.getCenter(runtime, entity))
         val newPosition = transformPosition(effect.emitter.shape.getNewParticlePosition(runtime, entity))
-        val initialVelocity = effect.particle.motion.getInitialVelocity(runtime, particlePos = newPosition, emitterPos = center)
-        val velocity = (if (effect.space.localPosition) transformDirection(initialVelocity) else initialVelocity)
+        return newPosition
+    }
+
+    fun getNextParticleVelocity(nextParticlePosition: Vec3d): Vec3d {
+        val center = transformPosition(effect.emitter.shape.getCenter(runtime, entity))
+        val initialVelocity = effect.particle.motion.getInitialVelocity(runtime, storm = this, particlePos = nextParticlePosition, emitterPos = center)
+        return initialVelocity
             .multiply(1 / 20.0)
             .add(if (effect.space.localVelocity) sourceVelocity() else Vec3d.ZERO)
+    }
+
+    fun spawnParticle() {
+        val newPosition = getNextParticleSpawnPosition()
+        val velocity = getNextParticleVelocity(newPosition)
 
         contextStorm = this
         world.addParticle(particleEffect, newPosition.x, newPosition.y, newPosition.z, velocity.x, velocity.y, velocity.z)

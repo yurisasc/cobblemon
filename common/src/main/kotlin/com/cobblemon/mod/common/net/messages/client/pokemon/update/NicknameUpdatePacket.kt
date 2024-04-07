@@ -13,7 +13,7 @@ import com.cobblemon.mod.common.util.cobblemonResource
 import net.minecraft.network.PacketByteBuf
 import net.minecraft.text.MutableText
 
-class NicknameUpdatePacket(pokemon: Pokemon, value: MutableText?): SingleUpdatePacket<MutableText?, NicknameUpdatePacket>(pokemon, value) {
+class NicknameUpdatePacket(pokemon: () -> Pokemon, value: MutableText?): SingleUpdatePacket<MutableText?, NicknameUpdatePacket>(pokemon, value) {
     override val id = ID
 
     override fun encodeValue(buffer: PacketByteBuf) {

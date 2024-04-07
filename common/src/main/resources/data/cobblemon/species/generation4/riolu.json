@@ -8,6 +8,19 @@
     "innerfocus",
     "h:prankster"
   ],
+  "drops": {
+    "amount": 2,
+    "entries": [
+      {
+        "item": "cobblemon:chople_berry",
+        "percentage": 2.5
+      },
+      {
+        "item": "cobblemon:expert_belt",
+        "percentage": 2.5
+      }
+    ]
+  },
   "baseStats": {
     "hp": 40,
     "attack": 70,
@@ -83,6 +96,7 @@
     "tm:bulldoze",
     "tm:captivate",
     "tm:closecombat",
+    "tm:coaching",
     "tm:confide",
     "tm:crunch",
     "tm:dig",
@@ -111,6 +125,7 @@
     "tm:poisonjab",
     "tm:poweruppunch",
     "tm:protect",
+    "tm:psychup",
     "tm:raindance",
     "tm:rest",
     "tm:retaliate",
@@ -138,6 +153,8 @@
     "tm:thunderpunch",
     "tm:toxic",
     "tm:trailblaze",
+    "tm:upperhand",
+    "tm:vacuumwave",
     "tm:workup",
     "tm:zenheadbutt",
     "tutor:aurasphere",
@@ -196,8 +213,8 @@
   ],
   "baseScale": 0.8,
   "hitbox": {
-    "width": 0.8,
-    "height": 1.2,
+    "width": 0.6,
+    "height": 1.3,
     "fixed": false
   },
   "baseFriendship": 50,

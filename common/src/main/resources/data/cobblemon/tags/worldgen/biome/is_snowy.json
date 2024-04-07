@@ -1,42 +1,63 @@
 {
   "replace": false,
   "values": [
-    "minecraft:grove",
-	"minecraft:snowy_taiga",
+    "minecraft:jagged_peaks",
+    "minecraft:snowy_beach",
+    "minecraft:snowy_plains",
+    "minecraft:snowy_slopes",
+    "#cobblemon:is_glacial",
+    "#cobblemon:is_snowy_forest",
+	"#cobblemon:is_snowy_taiga",
     {
       "id": "#byg:is_snowy",
       "required": false
     },
 	{
-      "id": "terralith:alpha_islands_winter",
+      "id": "#c:snowy",
       "required": false
     },
 	{
-      "id": "terralith:alpine_grove",
+      "id": "byg:cardinal_tundra",
       "required": false
     },
 	{
-      "id": "terralith:ice_marsh",
+      "id": "terralith:emerald_peaks",
       "required": false
     },
 	{
-      "id": "terralith:siberian_grove",
+      "id": "terralith:scarlet_mountains",
       "required": false
     },
 	{
-      "id": "terralith:snowy_maple_forest",
+      "id": "terralith:skylands_winter",
       "required": false
     },
 	{
-      "id": "terralith:snowy_shield",
+      "id": "terralith:snowy_badlands",
       "required": false
     },
-	{
-      "id": "terralith:wintry_forest",
+    {
+      "id": "wythers:crimson_tundra",
       "required": false
     },
-	{
-      "id": "terralith:wintry_lowlands",
+    {
+      "id": "wythers:frozen_island",
+      "required": false
+    },
+    {
+      "id": "wythers:snowy_bog",
+      "required": false
+    },
+    {
+      "id": "wythers:snowy_canyon",
+      "required": false
+    },
+    {
+      "id": "wythers:snowy_peaks",
+      "required": false
+    },
+    {
+      "id": "wythers:snowy_tundra",
       "required": false
     }
   ]

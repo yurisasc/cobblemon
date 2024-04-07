@@ -1,10 +1,28 @@
 {
+  "implemented": true,
   "name": "Chimecho",
   "nationalPokedexNumber": 358,
   "primaryType": "psychic",
   "abilities": [
     "levitate"
   ],
+  "drops": {
+    "amount": 3,
+    "entries": [
+      {
+        "item": "cobblemon:colbur_berry",
+        "percentage": 5.0
+      },
+      {
+        "item": "cobblemon:cleanse_tag",
+        "percentage": 5.0
+      },
+      {
+        "item": "cobblemon:soothe_bell",
+        "percentage": 5.0
+      }
+    ]
+  },
   "baseStats": {
     "hp": 75,
     "attack": 50,
@@ -22,6 +40,19 @@
   "eggGroups": [
     "amorphous"
   ],
+  "behaviour": {
+    "moving": {
+      "fly": {
+        "canFly": true
+      }
+    },
+    "resting": {
+      "canSleep": true,
+      "willSleepOnBed": false,
+      "depth": "normal",
+      "light": "0-4"
+    }
+  },
   "moves": [
     "1:astonish",
     "1:confusion",
@@ -31,6 +62,7 @@
     "1:wrap",
     "13:yawn",
     "16:psywave",
+    "16:storedpower",
     "19:takedown",
     "22:extrasensory",
     "27:healbell",
@@ -52,25 +84,43 @@
     "egg:storedpower",
     "egg:wish",
     "tm:attract",
+    "tm:batonpass",
     "tm:calmmind",
     "tm:captivate",
     "tm:chargebeam",
+    "tm:charm",
     "tm:confide",
+    "tm:curse",
     "tm:dazzlinggleam",
+    "tm:disarmingvoice",
+    "tm:doubleedge",
     "tm:doubleteam",
+    "tm:drainingkiss",
     "tm:dreameater",
     "tm:echoedvoice",
+    "tm:encore",
     "tm:endure",
     "tm:energyball",
+    "tm:expandingforce",
     "tm:facade",
+    "tm:faketears",
     "tm:flash",
     "tm:frustration",
+    "tm:futuresight",
     "tm:grassknot",
+    "tm:gravity",
+    "tm:helpinghand",
     "tm:hiddenpower",
+    "tm:hypervoice",
+    "tm:icywind",
+    "tm:imprison",
+    "tm:knockoff",
     "tm:lightscreen",
     "tm:naturalgift",
     "tm:protect",
+    "tm:psybeam",
     "tm:psychic",
+    "tm:psychicnoise",
     "tm:psychup",
     "tm:psyshock",
     "tm:raindance",
@@ -85,16 +135,24 @@
     "tm:shockwave",
     "tm:skillswap",
     "tm:sleeptalk",
+    "tm:snarl",
     "tm:snatch",
+    "tm:storedpower",
     "tm:substitute",
     "tm:sunnyday",
     "tm:swagger",
+    "tm:swift",
+    "tm:takedown",
     "tm:taunt",
     "tm:telekinesis",
+    "tm:terablast",
     "tm:thunderwave",
     "tm:torment",
     "tm:toxic",
+    "tm:trick",
     "tm:trickroom",
+    "tm:uproar",
+    "tm:zenheadbutt",
     "tutor:allyswitch",
     "tutor:astonish",
     "tutor:bind",
@@ -141,10 +199,10 @@
   ],
   "preEvolution": "chingling",
   "evolutions": [],
-  "baseScale": 1,
+  "baseScale": 0.8,
   "hitbox": {
-    "width": 1,
-    "height": 1,
+    "width": 0.4,
+    "height": 1.2,
     "fixed": false
   },
   "baseFriendship": 70,

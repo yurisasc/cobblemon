@@ -31,10 +31,7 @@ object FriendshipCommand {
     }
 
     private fun execute(source: ServerCommandSource, target: ServerPlayerEntity, pokemon: Pokemon) : Int {
-        if (!target.world.isClient) {
-            val feedback = commandLang("friendship", pokemon.getDisplayName(), pokemon.friendship)
-            source.sendFeedback(feedback, true)
-        }
+        source.sendFeedback({ commandLang("friendship", pokemon.getDisplayName(), pokemon.friendship) }, true)
         return Command.SINGLE_SUCCESS
     }
 

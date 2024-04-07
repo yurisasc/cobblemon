@@ -7,6 +7,23 @@
     "static",
     "h:lightningrod"
   ],
+  "drops": {
+    "amount": 3,
+    "entries": [
+      {
+        "item": "cobblemon:light_ball",
+        "percentage": 5.0
+      },
+      {
+        "item": "cobblemon:thunder_stone",
+        "percentage": 5.0
+      },
+      {
+        "item": "cobblemon:oran_berry",
+        "percentage": 5.0
+      }
+    ]
+  },
   "baseStats": {
     "hp": 35,
     "attack": 55,
@@ -15,12 +32,25 @@
     "special_defence": 50,
     "speed": 90
   },
+  "features": [
+    "alolan"
+  ],
+  "behaviour": {
+    "moving": {
+      "walk": {
+        "walkSpeed": 0.42
+      }
+    },
+    "resting": {
+      "canSleep": true,
+      "willSleepOnBed": true,
+      "depth": "normal",
+      "light": "0-4"
+    }
+  },
   "catchRate": 190,
   "maleRatio": 0.5,
   "shoulderMountable": true,
-  "shoulderEffects": [
-    "speed"
-  ],
   "forms": [
     {
       "name": "Cosplay",
@@ -424,9 +454,11 @@
         "egg:tickle",
         "egg:wish",
         "tm:agility",
+        "tm:alluringvoice",
         "tm:attract",
         "tm:bodyslam",
         "tm:brickbreak",
+        "tm:charge",
         "tm:chargebeam",
         "tm:charm",
         "tm:confide",
@@ -440,15 +472,18 @@
         "tm:electroball",
         "tm:electroweb",
         "tm:encore",
+        "tm:endeavor",
         "tm:endure",
         "tm:facade",
         "tm:faketears",
         "tm:fling",
+        "tm:focuspunch",
         "tm:frustration",
         "tm:grassknot",
         "tm:helpinghand",
         "tm:hiddenpower",
         "tm:irontail",
+        "tm:knockoff",
         "tm:lightscreen",
         "tm:megakick",
         "tm:megapunch",
@@ -478,6 +513,7 @@
         "tm:toxic",
         "tm:trailblaze",
         "tm:uproar",
+        "tm:upperhand",
         "tm:voltswitch",
         "tm:wildcharge",
         "tutor:agility",
@@ -574,9 +610,11 @@
         "egg:tickle",
         "egg:wish",
         "tm:agility",
+        "tm:alluringvoice",
         "tm:attract",
         "tm:bodyslam",
         "tm:brickbreak",
+        "tm:charge",
         "tm:chargebeam",
         "tm:charm",
         "tm:confide",
@@ -590,15 +628,18 @@
         "tm:electroball",
         "tm:electroweb",
         "tm:encore",
+        "tm:endeavor",
         "tm:endure",
         "tm:facade",
         "tm:faketears",
         "tm:fling",
+        "tm:focuspunch",
         "tm:frustration",
         "tm:grassknot",
         "tm:helpinghand",
         "tm:hiddenpower",
         "tm:irontail",
+        "tm:knockoff",
         "tm:lightscreen",
         "tm:megakick",
         "tm:megapunch",
@@ -627,6 +668,7 @@
         "tm:thunderwave",
         "tm:toxic",
         "tm:trailblaze",
+        "tm:upperhand",
         "tm:uproar",
         "tm:voltswitch",
         "tm:wildcharge",
@@ -723,9 +765,11 @@
         "egg:tickle",
         "egg:wish",
         "tm:agility",
+        "tm:alluringvoice",
         "tm:attract",
         "tm:bodyslam",
         "tm:brickbreak",
+        "tm:charge",
         "tm:chargebeam",
         "tm:charm",
         "tm:confide",
@@ -739,15 +783,18 @@
         "tm:electroball",
         "tm:electroweb",
         "tm:encore",
+        "tm:endeavor",
         "tm:endure",
         "tm:facade",
         "tm:faketears",
         "tm:fling",
+        "tm:focuspunch",
         "tm:frustration",
         "tm:grassknot",
         "tm:helpinghand",
         "tm:hiddenpower",
         "tm:irontail",
+        "tm:knockoff",
         "tm:lightscreen",
         "tm:megakick",
         "tm:megapunch",
@@ -776,6 +823,7 @@
         "tm:thunderwave",
         "tm:toxic",
         "tm:trailblaze",
+        "tm:upperhand",
         "tm:uproar",
         "tm:voltswitch",
         "tm:wildcharge",
@@ -871,9 +919,11 @@
         "egg:tickle",
         "egg:wish",
         "tm:agility",
+        "tm:alluringvoice",
         "tm:attract",
         "tm:bodyslam",
         "tm:brickbreak",
+        "tm:charge",
         "tm:chargebeam",
         "tm:charm",
         "tm:confide",
@@ -887,15 +937,18 @@
         "tm:electroball",
         "tm:electroweb",
         "tm:encore",
+        "tm:endeavor",
         "tm:endure",
         "tm:facade",
         "tm:faketears",
         "tm:fling",
+        "tm:focuspunch",
         "tm:frustration",
         "tm:grassknot",
         "tm:helpinghand",
         "tm:hiddenpower",
         "tm:irontail",
+        "tm:knockoff",
         "tm:lightscreen",
         "tm:megakick",
         "tm:megapunch",
@@ -924,6 +977,7 @@
         "tm:thunderwave",
         "tm:toxic",
         "tm:trailblaze",
+        "tm:upperhand",
         "tm:uproar",
         "tm:voltswitch",
         "tm:wildcharge",
@@ -1019,9 +1073,11 @@
         "egg:tickle",
         "egg:wish",
         "tm:agility",
+        "tm:alluringvoice",
         "tm:attract",
         "tm:bodyslam",
         "tm:brickbreak",
+        "tm:charge",
         "tm:chargebeam",
         "tm:charm",
         "tm:confide",
@@ -1035,15 +1091,18 @@
         "tm:electroball",
         "tm:electroweb",
         "tm:encore",
+        "tm:endeavor",
         "tm:endure",
         "tm:facade",
         "tm:faketears",
         "tm:fling",
+        "tm:focuspunch",
         "tm:frustration",
         "tm:grassknot",
         "tm:helpinghand",
         "tm:hiddenpower",
         "tm:irontail",
+        "tm:knockoff",
         "tm:lightscreen",
         "tm:megakick",
         "tm:megapunch",
@@ -1072,6 +1131,7 @@
         "tm:thunderwave",
         "tm:toxic",
         "tm:trailblaze",
+        "tm:upperhand",
         "tm:uproar",
         "tm:voltswitch",
         "tm:wildcharge",
@@ -1168,9 +1228,11 @@
         "egg:tickle",
         "egg:wish",
         "tm:agility",
+        "tm:alluringvoice",
         "tm:attract",
         "tm:bodyslam",
         "tm:brickbreak",
+        "tm:charge",
         "tm:chargebeam",
         "tm:charm",
         "tm:confide",
@@ -1184,15 +1246,18 @@
         "tm:electroball",
         "tm:electroweb",
         "tm:encore",
+        "tm:endeavor",
         "tm:endure",
         "tm:facade",
         "tm:faketears",
         "tm:fling",
+        "tm:focuspunch",
         "tm:frustration",
         "tm:grassknot",
         "tm:helpinghand",
         "tm:hiddenpower",
         "tm:irontail",
+        "tm:knockoff",
         "tm:lightscreen",
         "tm:megakick",
         "tm:megapunch",
@@ -1221,6 +1286,7 @@
         "tm:thunderwave",
         "tm:toxic",
         "tm:trailblaze",
+        "tm:upperhand",
         "tm:uproar",
         "tm:voltswitch",
         "tm:wildcharge",
@@ -1247,7 +1313,7 @@
         "alola_regional"
       ],
       "aspects": [
-        "alolan"
+        "alola"
       ],
       "height": 4,
       "weight": 60,
@@ -1318,9 +1384,11 @@
         "egg:tickle",
         "egg:wish",
         "tm:agility",
+        "tm:alluringvoice",
         "tm:attract",
         "tm:bodyslam",
         "tm:brickbreak",
+        "tm:charge",
         "tm:chargebeam",
         "tm:charm",
         "tm:confide",
@@ -1334,15 +1402,18 @@
         "tm:electroball",
         "tm:electroweb",
         "tm:encore",
+        "tm:endeavor",
         "tm:endure",
         "tm:facade",
         "tm:faketears",
         "tm:fling",
+        "tm:focuspunch",
         "tm:frustration",
         "tm:grassknot",
         "tm:helpinghand",
         "tm:hiddenpower",
         "tm:irontail",
+        "tm:knockoff",
         "tm:lightscreen",
         "tm:megakick",
         "tm:megapunch",
@@ -1371,6 +1442,7 @@
         "tm:thunderwave",
         "tm:toxic",
         "tm:trailblaze",
+        "tm:upperhand",
         "tm:uproar",
         "tm:voltswitch",
         "tm:wildcharge",
@@ -1686,6 +1758,50 @@
       "evolutions": [],
       "cannotDynamax": false,
       "battleOnly": false
+    },
+    {
+      "name": "Alolan",
+      "maleRatio": 0.5,
+      "labels": [
+        "alola_regional"
+      ],
+      "aspects": [
+        "alolan"
+      ],
+      "evolutions": [
+        {
+          "id": "pikachu_raichu_alolan_kantonian",
+          "variant": "item_interact",
+          "result": "raichu alolan=false",
+          "consumeHeldItem": false,
+          "learnableMoves": [
+            "thunderpunch"
+          ],
+          "requirements": [
+            {
+              "variant": "biome",
+              "biomeCondition": "#cobblemon:is_temperate"
+            }
+          ],
+          "requiredContext": "cobblemon:thunder_stone"
+        },
+        {
+          "id": "pikachu_raichu_alolan",
+          "variant": "item_interact",
+          "result": "raichu alolan",
+          "consumeHeldItem": false,
+          "learnableMoves": [
+            "psychic"
+          ],
+          "requirements": [
+            {
+              "variant": "biome",
+              "biomeAnticondition": "#cobblemon:is_temperate"
+            }
+          ],
+          "requiredContext": "cobblemon:thunder_stone"
+        }
+      ]
     }
   ],
   "baseExperienceYield": 112,
@@ -1719,10 +1835,12 @@
     "44:thunder",
     "50:wildcharge",
     "tm:agility",
+    "tm:alluringvoice",
     "tm:attract",
     "tm:bodyslam",
     "tm:brickbreak",
     "tm:captivate",
+    "tm:charge",
     "tm:chargebeam",
     "tm:charm",
     "tm:confide",
@@ -1736,6 +1854,7 @@
     "tm:electroball",
     "tm:electroweb",
     "tm:encore",
+    "tm:endeavor",
     "tm:endure",
     "tm:facade",
     "tm:faketears",
@@ -1747,6 +1866,7 @@
     "tm:helpinghand",
     "tm:hiddenpower",
     "tm:irontail",
+    "tm:knockoff",
     "tm:lightscreen",
     "tm:megakick",
     "tm:megapunch",
@@ -1780,6 +1900,7 @@
     "tm:thunderwave",
     "tm:toxic",
     "tm:trailblaze",
+    "tm:upperhand",
     "tm:uproar",
     "tm:voltswitch",
     "tm:wildcharge",
@@ -1837,6 +1958,7 @@
     "tutor:nuzzle",
     "tutor:payday",
     "tutor:playnice",
+    "tutor:playrough",
     "tutor:present",
     "tutor:protect",
     "tutor:quickattack",
@@ -1889,25 +2011,35 @@
   "preEvolution": "pichu",
   "evolutions": [
     {
-      "id": "pikachu_raichu",
+      "id": "pikachu_raichu_kantonian_alolan",
       "variant": "item_interact",
-      "result": "raichu",
-      "consumeHeldItem": false,
-      "learnableMoves": [
-        "thunderpunch"
-      ],
-      "requirements": [],
-      "requiredContext": "cobblemon:thunder_stone"
-    },
-    {
-      "id": "pikachu_raichu",
-      "variant": "item_interact",
-      "result": "raichu form=alola",
+      "result": "raichu alolan",
       "consumeHeldItem": false,
       "learnableMoves": [
         "psychic"
       ],
-      "requirements": [],
+      "requirements": [
+        {
+          "variant": "biome",
+          "biomeCondition": "#minecraft:is_beach"
+        }
+      ],
+      "requiredContext": "cobblemon:thunder_stone"
+    },
+    {
+      "id": "pikachu_raichu_kantonian",
+      "variant": "item_interact",
+      "result": "raichu alolan=false",
+      "consumeHeldItem": false,
+      "learnableMoves": [
+        "thunderpunch"
+      ],
+      "requirements": [
+        {
+          "variant": "biome",
+          "biomeAnticondition": "#minecraft:is_beach"
+        }
+      ],
       "requiredContext": "cobblemon:thunder_stone"
     }
   ],

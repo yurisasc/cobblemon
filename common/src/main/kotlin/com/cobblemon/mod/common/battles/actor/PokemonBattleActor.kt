@@ -39,7 +39,7 @@ open class PokemonBattleActor(
         // to an entity perishing -> which is grounds for flee triggering.
         val ownerPlayer = pokemon.effectedPokemon.getOwnerPlayer()
         if (ownerPlayer != null) {
-            return ownerPlayer.getWorld() to ownerPlayer.pos
+            return ownerPlayer.serverWorld to ownerPlayer.pos
         }
 
         val entity = this.entity ?: return null
@@ -52,7 +52,7 @@ open class PokemonBattleActor(
         if (packet is BattleEndPacket) {
             // Do some shit
             val entity = entity ?: return
-            entity.battleId.set(Optional.empty())
+            entity.battleId = null
         }
     }
 

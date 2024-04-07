@@ -36,29 +36,29 @@
         "canSwimInWater": true,
         "canBreatheUnderwater": true
       }
+    },
+    "resting": {
+      "canSleep": true,
+      "willSleepOnBed": false,
+      "depth": "normal",
+      "light": "0-4"
     }
   },
-  "resting": {
-    "canSleep": true,
-    "willSleepOnBed": false,
-    "depth": "normal",
-    "light": "0-4"
-  },
   "drops": {
-    "amount": "1",
+    "amount": 7,
     "entries": [
       {
-        "item": "cobblemon:poison_barb",
-        "percentage": 2.5
+        "item": "minecraft:ink_sac",
+        "quantityRange": "1-3"
       },
       {
         "item": "minecraft:glow_ink_sac",
         "quantityRange": "1-3",
-        "percentage": 10
+        "percentage": 10.0
       },
       {
-        "item": "minecraft:ink_sac",
-        "quantityRange": "1-3"
+        "item": "cobblemon:poison_barb",
+        "percentage": 2.5
       }
     ]
   },
@@ -95,12 +95,15 @@
     "egg:rapidspin",
     "egg:safeguard",
     "egg:tickle",
+    "tm:acidspray",
     "tm:attract",
     "tm:blizzard",
     "tm:brine",
     "tm:brutalswing",
     "tm:captivate",
+    "tm:chillingwater",
     "tm:confide",
+    "tm:confuseray",
     "tm:crosspoison",
     "tm:cut",
     "tm:dazzlinggleam",
@@ -108,19 +111,26 @@
     "tm:doubleteam",
     "tm:endure",
     "tm:facade",
+    "tm:flipturn",
     "tm:frustration",
     "tm:gigadrain",
+    "tm:gunkshot",
     "tm:hail",
+    "tm:haze",
     "tm:hex",
     "tm:hiddenpower",
     "tm:hydropump",
     "tm:icebeam",
     "tm:icywind",
     "tm:infestation",
+    "tm:knockoff",
+    "tm:liquidation",
     "tm:muddywater",
+    "tm:mudshot",
     "tm:naturalgift",
     "tm:payback",
     "tm:poisonjab",
+    "tm:pounce",
     "tm:protect",
     "tm:raindance",
     "tm:rest",
@@ -137,8 +147,11 @@
     "tm:substitute",
     "tm:surf",
     "tm:swagger",
+    "tm:swift",
     "tm:swordsdance",
+    "tm:terablast",
     "tm:thief",
+    "tm:throatchop",
     "tm:toxic",
     "tm:toxicspikes",
     "tm:venoshock",

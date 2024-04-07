@@ -31,7 +31,7 @@
         "canFly": true
       },
       "walk": {
-        "canWalk": false
+        "canWalk": true
       }
     },
     "resting": {
@@ -42,19 +42,22 @@
     }
   },
   "drops": {
-    "amount": "2",
+    "amount": 5,
     "entries": [
       {
         "item": "minecraft:feather",
-        "quantityRange": "1-2",
-        "percentage": 66
+        "quantityRange": "0-2"
       },
       {
         "item": "minecraft:chicken"
       },
       {
         "item": "cobblemon:sharp_beak",
-        "percentage": 5
+        "percentage": 5.0
+      },
+      {
+        "item": "cobblemon:charti_berry",
+        "percentage": 5.0
       }
     ]
   },
@@ -170,10 +173,10 @@
   ],
   "preEvolution": "spearow",
   "evolutions": [],
-  "baseScale": 2,
+  "baseScale": 1.3,
   "hitbox": {
     "width": 1,
-    "height": 0.7,
+    "height": 1.4,
     "fixed": false
   },
   "baseFriendship": 70,

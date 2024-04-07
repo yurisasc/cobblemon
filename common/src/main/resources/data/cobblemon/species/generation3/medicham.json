@@ -60,7 +60,6 @@
       ],
       "height": 13,
       "weight": 315,
-      "evolutions": [],
       "cannotDynamax": false,
       "battleOnly": true
     }
@@ -113,6 +112,7 @@
     "tm:dreameater",
     "tm:endure",
     "tm:energyball",
+    "tm:expandingforce",
     "tm:facade",
     "tm:firepunch",
     "tm:flash",
@@ -122,6 +122,7 @@
     "tm:frustration",
     "tm:gigaimpact",
     "tm:grassknot",
+    "tm:gravity",
     "tm:helpinghand",
     "tm:hiddenpower",
     "tm:hyperbeam",
@@ -133,6 +134,7 @@
     "tm:metronome",
     "tm:naturalgift",
     "tm:nightshade",
+    "tm:painsplit",
     "tm:poisonjab",
     "tm:poweruppunch",
     "tm:protect",
@@ -172,6 +174,8 @@
     "tm:trailblaze",
     "tm:trick",
     "tm:trickroom",
+    "tm:upperhand",
+    "tm:vacuumwave",
     "tm:workup",
     "tm:zenheadbutt",
     "tutor:bodyslam",
@@ -239,5 +243,22 @@
   "height": 13,
   "weight": 315,
   "aspects": [],
-  "cannotDynamax": false
+  "cannotDynamax": false,
+  "drops": {
+    "amount": 3,
+    "entries": [
+      {
+        "item": "cobblemon:wise_glasses",
+        "percentage": 5.0
+      },
+      {
+        "item": "cobblemon:black_belt",
+        "percentage": 5.0
+      },
+      {
+        "item": "cobblemon:nanab_berry",
+        "percentage": 5.0
+      }
+    ]
+  }
 }

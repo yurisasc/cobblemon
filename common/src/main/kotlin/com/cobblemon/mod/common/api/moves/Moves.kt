@@ -10,12 +10,15 @@ package com.cobblemon.mod.common.api.moves
 
 import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.api.data.DataRegistry
+import com.cobblemon.mod.common.api.moves.animations.ActionEffectTimeline
+import com.cobblemon.mod.common.api.moves.animations.ActionEffects
 import com.cobblemon.mod.common.api.moves.categories.DamageCategories
 import com.cobblemon.mod.common.api.reactive.SimpleObservable
 import com.cobblemon.mod.common.api.types.ElementalTypes
 import com.cobblemon.mod.common.battles.MoveTarget
 import com.cobblemon.mod.common.battles.runner.ShowdownService
 import com.cobblemon.mod.common.net.messages.client.data.MovesRegistrySyncPacket
+import com.cobblemon.mod.common.util.asIdentifierDefaultingNamespace
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
@@ -38,7 +41,7 @@ object Moves : DataRegistry {
     override fun reload(manager: ResourceManager) {
         this.allMoves.clear()
         this.idMapping.clear()
-        val movesJson = ShowdownService.get().getMoves()
+        val movesJson = ShowdownService.service.getMoves()
         for (i in 0 until movesJson.size()) {
             val jsMove = movesJson[i].asJsonObject
             val id = jsMove.get("id").asString
@@ -72,7 +75,18 @@ object Moves : DataRegistry {
                         effectChances += secondaryMember.get("chance").asDouble
                     }
                 }
-                val move = MoveTemplate(id, num, elementalType, damageCategory, power, target, accuracy, pp, priority, critRatio, effectChances.toTypedArray())
+                val actionEffect = ActionEffects.actionEffects[id.asIdentifierDefaultingNamespace()]
+                    ?: run {
+                        ActionEffects.actionEffects["generic_move".asIdentifierDefaultingNamespace()]
+//                        if (damageCategory == DamageCategories.STATUS) {
+//                            ActionEffects.actionEffects[cobblemonResource("status")]
+//                        } else {
+//                            val type = elementalType.name.lowercase()
+//                            val category = damageCategory.name.lowercase()
+//                            ActionEffects.actionEffects["${category}_$type".asIdentifierDefaultingNamespace()]
+//                        }
+                    }
+                val move = MoveTemplate(id, num, elementalType, damageCategory, power, target, accuracy, pp, priority, critRatio, effectChances.toTypedArray(), actionEffect)
                 this.register(move)
             } catch (e: Exception) {
                 Cobblemon.LOGGER.error("Caught exception trying to resolve the move '{}'", id, e)

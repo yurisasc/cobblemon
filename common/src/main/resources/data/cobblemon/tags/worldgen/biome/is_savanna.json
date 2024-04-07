@@ -2,6 +2,14 @@
   "replace": false,
   "values": [
     "#minecraft:is_savanna",
+	{
+      "id": "biomesoplenty:lush_desert",
+      "required": false
+    },
+	{
+      "id": "biomesoplenty:lush_savanna",
+      "required": false
+    },
     {
       "id": "terralith:arid_highlands",
       "required": false
@@ -40,6 +48,18 @@
     },
 	{
       "id": "terralith:shrubland",
+      "required": false
+    },
+    {
+      "id": "wythers:granite_canyon",
+      "required": false
+    },
+    {
+      "id": "wythers:tropical_forest_canyon",
+      "required": false
+    },
+    {
+      "id": "wythers:tropical_forest",
       "required": false
     }
   ]

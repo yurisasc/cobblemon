@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Camerupt",
   "nationalPokedexNumber": 323,
   "primaryType": "fire",
@@ -8,6 +9,19 @@
     "solidrock",
     "h:angerpoint"
   ],
+  "drops": {
+    "amount": 2,
+    "entries": [
+      {
+        "item": "minecraft:magma_cream",
+        "percentage": 5.0
+      },
+      {
+        "item": "cobblemon:rawst_berry",
+        "percentage": 5.0
+      }
+    ]
+  },
   "baseStats": {
     "hp": 70,
     "attack": 100,
@@ -61,7 +75,6 @@
       ],
       "height": 25,
       "weight": 3205,
-      "evolutions": [],
       "cannotDynamax": false,
       "battleOnly": true
     }
@@ -99,11 +112,14 @@
     "tm:captivate",
     "tm:charm",
     "tm:confide",
+    "tm:curse",
     "tm:dig",
+    "tm:doubleedge",
     "tm:doubleteam",
     "tm:earthpower",
     "tm:earthquake",
     "tm:echoedvoice",
+    "tm:endeavor",
     "tm:endure",
     "tm:explosion",
     "tm:facade",
@@ -115,13 +131,16 @@
     "tm:flashcannon",
     "tm:frustration",
     "tm:gigaimpact",
+    "tm:heatcrash",
     "tm:heatwave",
     "tm:heavyslam",
     "tm:helpinghand",
     "tm:hiddenpower",
+    "tm:highhorsepower",
     "tm:hyperbeam",
     "tm:incinerate",
     "tm:ironhead",
+    "tm:lashout",
     "tm:mudshot",
     "tm:mudslap",
     "tm:naturalgift",
@@ -139,8 +158,10 @@
     "tm:round",
     "tm:sandstorm",
     "tm:scaryface",
+    "tm:scorchingsands",
     "tm:secretpower",
     "tm:sleeptalk",
+    "tm:smackdown",
     "tm:solarbeam",
     "tm:stealthrock",
     "tm:stompingtantrum",
@@ -150,6 +171,7 @@
     "tm:sunnyday",
     "tm:swagger",
     "tm:takedown",
+    "tm:temperflare",
     "tm:terablast",
     "tm:toxic",
     "tm:trailblaze",
@@ -188,10 +210,10 @@
   ],
   "preEvolution": "numel",
   "evolutions": [],
-  "baseScale": 1,
+  "baseScale": 1.2,
   "hitbox": {
-    "width": 1,
-    "height": 1,
+    "width": 2,
+    "height": 1.5,
     "fixed": false
   },
   "baseFriendship": 70,

@@ -7,6 +7,23 @@
     "snowwarning",
     "h:soundproof"
   ],
+  "drops": {
+    "amount": 3,
+    "entries": [
+      {
+        "item": "minecraft:snowball",
+        "quantityRange": "0-1"
+      },
+      {
+        "item": "cobblemon:never_melt_ice",
+        "percentage": 2.5
+      },
+      {
+        "item": "cobblemon:occa_berry",
+        "percentage": 2.5
+      }
+    ]
+  },
   "baseStats": {
     "hp": 60,
     "attack": 62,
@@ -68,6 +85,8 @@
     "tm:captivate",
     "tm:chillingwater",
     "tm:confide",
+    "tm:curse",
+    "tm:doubleedge",
     "tm:doubleteam",
     "tm:endure",
     "tm:energyball",
@@ -77,12 +96,14 @@
     "tm:frustration",
     "tm:gigadrain",
     "tm:grassknot",
+    "tm:grassyglide",
     "tm:hail",
     "tm:helpinghand",
     "tm:hiddenpower",
     "tm:icebeam",
     "tm:icepunch",
     "tm:icespinner",
+    "tm:iciclespear",
     "tm:icywind",
     "tm:irontail",
     "tm:leafstorm",

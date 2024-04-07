@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Woobat",
   "nationalPokedexNumber": 527,
   "primaryType": "psychic",
@@ -8,6 +9,18 @@
     "klutz",
     "h:simple"
   ],
+  "drops": {
+    "amount": 2,
+    "entries": [
+      {
+        "item": "minecraft:light_blue_wool"
+      },
+      {
+        "item": "cobblemon:colbur_berry",
+        "percentage": 2.5
+      }
+    ]
+  },
   "baseStats": {
     "hp": 65,
     "attack": 45,
@@ -168,8 +181,8 @@
   ],
   "baseScale": 1,
   "hitbox": {
-    "width": 1,
-    "height": 1,
+    "width": 0.75,
+    "height": 0.88,
     "fixed": false
   },
   "baseFriendship": 50,

@@ -13,12 +13,13 @@ import com.cobblemon.mod.common.api.gui.blitk
 import com.cobblemon.mod.common.api.text.bold
 import com.cobblemon.mod.common.client.CobblemonResources
 import com.cobblemon.mod.common.client.render.drawScaledText
+import net.minecraft.client.gui.DrawContext
 import net.minecraft.client.gui.screen.narration.NarrationMessageBuilder
 import net.minecraft.client.gui.widget.ButtonWidget
 import net.minecraft.client.sound.PositionedSoundInstance
 import net.minecraft.client.sound.SoundManager
-import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.text.MutableText
+import net.minecraft.text.Text
 import net.minecraft.util.Identifier
 
 class SummaryButton(
@@ -27,7 +28,7 @@ class SummaryButton(
     val buttonWidth: Number,
     val buttonHeight: Number,
     val clickAction: PressAction,
-    private val text: MutableText? = null,
+    private val text: MutableText = Text.empty(),
     private val resource: Identifier,
     private val activeResource: Identifier? = null,
     private val renderRequirement: ((button: SummaryButton) -> Boolean) = { true },
@@ -49,14 +50,15 @@ class SummaryButton(
     override fun appendDefaultNarrations(builder: NarrationMessageBuilder) {
     }
 
-    override fun renderButton(poseStack: MatrixStack, pMouseX: Int, pMouseY: Int, pPartialTicks: Float) {
+    override fun renderButton(context: DrawContext, pMouseX: Int, pMouseY: Int, pPartialTicks: Float) {
         if (!this.renderRequirement.invoke(this)) {
             return
         }
+        val matrices = context.matrices
 
         // Render Button
         blitk(
-            matrixStack = poseStack,
+            matrixStack = matrices,
             texture = if (isActive && activeResource != null) activeResource else resource,
             x = buttonX,
             y = buttonY,
@@ -67,18 +69,16 @@ class SummaryButton(
         )
 
         // Render Text
-        if (text != null) {
-            drawScaledText(
-                matrixStack = poseStack,
-                font = if (largeText) CobblemonResources.DEFAULT_LARGE else null,
-                text = if (boldText) text.bold() else text,
-                x = buttonX + (buttonWidth.toFloat() / 2),
-                y = buttonY + (buttonHeight.toFloat() / 2) - ((TEXT_HEIGHT / 2) * textScale),
-                scale = textScale,
-                centered = true,
-                shadow = true
-            )
-        }
+        drawScaledText(
+            context = context,
+            font = if (largeText) CobblemonResources.DEFAULT_LARGE else null,
+            text = if (boldText) text.bold() else text,
+            x = buttonX + (buttonWidth.toFloat() / 2),
+            y = buttonY + (buttonHeight.toFloat() / 2) - ((TEXT_HEIGHT / 2) * textScale),
+            scale = textScale,
+            centered = true,
+            shadow = true
+        )
     }
 
     override fun mouseClicked(mouseX: Double, mouseY: Double, button: Int): Boolean {

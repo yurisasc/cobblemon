@@ -62,7 +62,6 @@
       ],
       "height": 65,
       "weight": 3050,
-      "evolutions": [],
       "cannotDynamax": false,
       "battleOnly": true
     }
@@ -80,6 +79,9 @@
         "canWalk": true,
         "avoidsLand": true
       },
+      "fly": {
+        "canFly": false
+      },
       "swim": {
         "swimSpeed": 0.1,
         "canSwimInWater": true,
@@ -89,14 +91,18 @@
     }
   },
   "drops": {
-    "amount": "2",
+    "amount": 3,
     "entries": [
       {
         "item": "minecraft:salmon"
       },
       {
         "item": "minecraft:bone_meal",
-        "percentage": 10
+        "percentage": 10.0
+      },
+      {
+        "item": "cobblemon:wacan_berry",
+        "percentage": 5.0
       }
     ]
   },
@@ -135,11 +141,14 @@
     "tm:crunch",
     "tm:darkpulse",
     "tm:dive",
+    "tm:doubleedge",
     "tm:doubleteam",
+    "tm:dragoncheer",
     "tm:dragondance",
     "tm:dragonpulse",
     "tm:dragontail",
     "tm:earthquake",
+    "tm:endeavor",
     "tm:endure",
     "tm:facade",
     "tm:fireblast",
@@ -158,6 +167,7 @@
     "tm:incinerate",
     "tm:ironhead",
     "tm:irontail",
+    "tm:lashout",
     "tm:muddywater",
     "tm:naturalgift",
     "tm:outrage",
@@ -172,10 +182,12 @@
     "tm:round",
     "tm:sandstorm",
     "tm:scald",
+    "tm:scaleshot",
     "tm:scaryface",
     "tm:secretpower",
     "tm:sleeptalk",
     "tm:snore",
+    "tm:spite",
     "tm:stoneedge",
     "tm:strength",
     "tm:substitute",
@@ -184,6 +196,7 @@
     "tm:swagger",
     "tm:takedown",
     "tm:taunt",
+    "tm:temperflare",
     "tm:terablast",
     "tm:thunder",
     "tm:thunderbolt",

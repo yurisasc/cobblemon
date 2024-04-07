@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Archen",
   "nationalPokedexNumber": 566,
   "primaryType": "rock",
@@ -6,6 +7,15 @@
   "abilities": [
     "defeatist"
   ],
+  "drops": {
+    "amount": 2,
+    "entries": [
+      {
+        "item": "minecraft:feather",
+        "quantityRange": "0-2"
+      }
+    ]
+  },
   "baseStats": {
     "hp": 55,
     "attack": 112,
@@ -159,8 +169,8 @@
   ],
   "baseScale": 1,
   "hitbox": {
-    "width": 1,
-    "height": 1,
+    "width": 0.65,
+    "height": 1.2,
     "fixed": false
   },
   "baseFriendship": 50,

@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Cyndaquil",
   "nationalPokedexNumber": 155,
   "primaryType": "fire",
@@ -6,6 +7,15 @@
     "blaze",
     "h:flashfire"
   ],
+  "drops": {
+    "amount": 1,
+    "entries": [
+      {
+        "item": "cobblemon:charcoal_stick",
+        "percentage": 5.0
+      }
+    ]
+  },
   "baseStats": {
     "hp": 39,
     "attack": 52,
@@ -23,6 +33,19 @@
   "eggGroups": [
     "field"
   ],
+  "behaviour": {
+    "resting": {
+      "canSleep": true,
+      "willSleepOnBed": true,
+      "depth": "normal",
+      "light": "0-4"
+    },
+    "moving": {
+      "walk": {
+        "walkSpeed": 0.2
+      }
+    }
+  },
   "moves": [
     "1:leer",
     "1:tackle",
@@ -59,10 +82,13 @@
     "tm:aerialace",
     "tm:attract",
     "tm:bodyslam",
+    "tm:burningjealousy",
     "tm:captivate",
     "tm:confide",
+    "tm:curse",
     "tm:cut",
     "tm:dig",
+    "tm:doubleedge",
     "tm:doubleteam",
     "tm:endure",
     "tm:facade",
@@ -86,6 +112,7 @@
     "tm:rest",
     "tm:return",
     "tm:reversal",
+    "tm:roar",
     "tm:round",
     "tm:secretpower",
     "tm:sleeptalk",
@@ -94,6 +121,7 @@
     "tm:swagger",
     "tm:swift",
     "tm:takedown",
+    "tm:temperflare",
     "tm:terablast",
     "tm:toxic",
     "tm:wildcharge",
@@ -166,10 +194,10 @@
       ]
     }
   ],
-  "baseScale": 1,
+  "baseScale": 0.5,
   "hitbox": {
-    "width": 1,
-    "height": 1,
+    "width": 0.8,
+    "height": 1.15,
     "fixed": false
   },
   "baseFriendship": 70,

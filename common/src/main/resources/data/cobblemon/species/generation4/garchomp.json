@@ -8,6 +8,19 @@
     "sandveil",
     "h:roughskin"
   ],
+  "drops": {
+    "amount": 2,
+    "entries": [
+      {
+        "item": "cobblemon:dragon_fang",
+        "percentage": 10.0
+      },
+      {
+        "item": "cobblemon:haban_berry",
+        "percentage": 10.0
+      }
+    ]
+  },
   "baseStats": {
     "hp": 108,
     "attack": 130,
@@ -19,7 +32,7 @@
   "behaviour": {
     "moving": {
       "walk": {
-        "walkSpeed": 0.5
+        "walkSpeed": 0.55
       },
       "fly": {
         "canFly": true
@@ -73,7 +86,6 @@
       ],
       "height": 19,
       "weight": 950,
-      "evolutions": [],
       "cannotDynamax": false,
       "battleOnly": true
     }
@@ -85,15 +97,6 @@
     "monster",
     "dragon"
   ],
-  "drops": {
-    "amount": "1",
-    "entries": [
-      {
-        "item": "cobblemon:dragon_fang",
-        "percentage": 10
-      }
-    ]
-  },
   "moves": [
     "1:crunch",
     "1:dragonbreath",
@@ -132,8 +135,10 @@
     "tm:crunch",
     "tm:cut",
     "tm:dig",
+    "tm:doubleedge",
     "tm:doubleteam",
     "tm:dracometeor",
+    "tm:dragoncheer",
     "tm:dragonclaw",
     "tm:dragonpulse",
     "tm:dragontail",
@@ -174,7 +179,9 @@
     "tm:round",
     "tm:sandstorm",
     "tm:sandtomb",
+    "tm:scaleshot",
     "tm:scaryface",
+    "tm:scorchingsands",
     "tm:secretpower",
     "tm:shadowclaw",
     "tm:sleeptalk",

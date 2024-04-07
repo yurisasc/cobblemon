@@ -20,9 +20,6 @@
   "catchRate": 255,
   "maleRatio": 0.5,
   "shoulderMountable": true,
-  "shoulderEffects": [
-    "slow_fall"
-  ],
   "baseExperienceYield": 50,
   "experienceGroup": "medium_slow",
   "eggCycles": 15,
@@ -43,14 +40,18 @@
     }
   },
   "drops": {
-    "amount": "2",
+    "amount": 3,
     "entries": [
       {
         "item": "minecraft:feather",
-        "percentage": 50
+        "quantityRange": "0-1"
       },
       {
         "item": "minecraft:chicken"
+      },
+      {
+        "item": "cobblemon:chilan_berry",
+        "percentage": 2.5
       }
     ]
   },

@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Dragapult",
   "nationalPokedexNumber": 887,
   "primaryType": "dragon",
@@ -55,8 +56,12 @@
     "tm:bodyslam",
     "tm:breakingswipe",
     "tm:brine",
+    "tm:confuseray",
+    "tm:curse",
     "tm:dive",
+    "tm:doubleedge",
     "tm:dracometeor",
+    "tm:dragoncheer",
     "tm:dragonclaw",
     "tm:dragondance",
     "tm:dragonpulse",
@@ -100,7 +105,11 @@
     "tm:triattack",
     "tm:uturn",
     "tm:willowisp",
-    "tutor:dracometeor"
+    "tutor:dracometeor",
+    "tutor:dragondarts",
+    "tutor:phantomforce",
+    "tutor:terablast",
+    "tutor:uturn"
   ],
   "labels": [
     "gen8",
@@ -113,8 +122,8 @@
   "evolutions": [],
   "baseScale": 1,
   "hitbox": {
-    "width": 1,
-    "height": 1,
+    "width": 0.8,
+    "height": 2.2,
     "fixed": false
   },
   "baseFriendship": 50,
@@ -129,5 +138,14 @@
   "height": 30,
   "weight": 500,
   "aspects": [],
-  "cannotDynamax": false
+  "cannotDynamax": false,
+  "drops": {
+    "amount": 1,
+    "entries": [
+      {
+        "item": "cobblemon:haban_berry",
+        "percentage": 10.0
+      }
+    ]
+  }
 }

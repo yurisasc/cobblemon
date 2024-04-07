@@ -69,14 +69,19 @@
     "tm:dazzlinggleam",
     "tm:disarmingvoice",
     "tm:doubleteam",
+    "tm:dragoncheer",
     "tm:dragonpulse",
     "tm:dreameater",
+    "tm:dualwingbeat",
     "tm:echoedvoice",
+    "tm:endeavor",
     "tm:endure",
     "tm:facade",
     "tm:falseswipe",
+    "tm:featherdance",
     "tm:fly",
     "tm:frustration",
+    "tm:haze",
     "tm:heatwave",
     "tm:helpinghand",
     "tm:hiddenpower",
@@ -184,5 +189,21 @@
   "height": 4,
   "weight": 12,
   "aspects": [],
-  "cannotDynamax": false
+  "cannotDynamax": false,
+  "drops": {
+    "amount": 3,
+    "entries": [
+      {
+        "item": "minecraft:white_wool",
+        "quantityRange": "0-1"
+      },
+      {
+        "item": "minecraft:chicken"
+      },
+      {
+        "item": "cobblemon:yache_berry",
+        "percentage": 2.5
+      }
+    ]
+  }
 }

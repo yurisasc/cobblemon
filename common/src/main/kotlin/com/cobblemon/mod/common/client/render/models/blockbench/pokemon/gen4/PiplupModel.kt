@@ -8,14 +8,12 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen4
 
-import com.cobblemon.mod.common.client.render.models.blockbench.animation.BipedWalkAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cobblemon.mod.common.entity.PoseType
-import com.cobblemon.mod.common.entity.PoseType.Companion.MOVING_POSES
-import com.cobblemon.mod.common.entity.PoseType.Companion.STATIONARY_POSES
 import com.cobblemon.mod.common.entity.PoseType.Companion.UI_POSES
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
@@ -27,20 +25,23 @@ class PiplupModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedF
     override val leftLeg = getPart("leg_left")
     override val rightLeg = getPart("leg_right")
 
-    override val portraitScale = 2.2F
-    override val portraitTranslation = Vec3d(-0.1, -0.65, 0.0)
+    override var portraitScale = 2.2F
+    override var portraitTranslation = Vec3d(-0.1, -0.65, 0.0)
 
-    override val profileScale = 0.85F
-    override val profileTranslation = Vec3d(0.0, 0.48, 0.0)
+    override var profileScale = 0.85F
+    override var profileTranslation = Vec3d(0.0, 0.48, 0.0)
 
     lateinit var sleep: PokemonPose
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
     lateinit var float: PokemonPose
     lateinit var swim: PokemonPose
+    lateinit var battleidle: PokemonPose
+
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("piplup", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("piplup", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("piplup", "blink") }
         sleep = registerPose(
             poseType = PoseType.SLEEP,
             idleAnimations = arrayOf(bedrock("piplup", "sleep"))
@@ -50,6 +51,7 @@ class PiplupModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedF
             poseName = "standing",
             poseTypes = UI_POSES + PoseType.STAND,
             quirks = arrayOf(blink),
+            condition = { !it.isBattling },
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("piplup", "ground_idle")
@@ -84,6 +86,19 @@ class PiplupModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedF
                 singleBoneLook(),
                 bedrock("piplup", "water_swim")
             )
+        )
+
+        battleidle = registerPose(
+            poseName = "battle_idle",
+            poseTypes = PoseType.STATIONARY_POSES,
+            transformTicks = 10,
+            quirks = arrayOf(blink),
+            condition = { it.isBattling },
+            idleAnimations = arrayOf(
+                singleBoneLook(),
+                bedrock("piplup", "battle_idle")
+            )
+
         )
     }
 

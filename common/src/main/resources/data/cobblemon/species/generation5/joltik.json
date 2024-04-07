@@ -9,6 +9,27 @@
     "unnerve",
     "h:swarm"
   ],
+  "drops": {
+    "amount": 4,
+    "entries": [
+      {
+        "item": "minecraft:string",
+        "quantityRange": "0-1"
+      },
+      {
+        "item": "minecraft:spider_eye",
+        "quantityRange": "0-1"
+      },
+      {
+        "item": "minecraft:rotten_flesh",
+        "quantityRange": "0-1"
+      },
+      {
+        "item": "cobblemon:nanab_berry",
+        "percentage": 2.5
+      }
+    ]
+  },
   "baseStats": {
     "hp": 50,
     "attack": 47,
@@ -20,28 +41,12 @@
   "catchRate": 190,
   "maleRatio": 0.5,
   "shoulderMountable": true,
-  "shoulderEffects": [
-    "haste"
-  ],
   "baseExperienceYield": 64,
   "experienceGroup": "medium_fast",
   "eggCycles": 20,
   "eggGroups": [
     "bug"
   ],
-  "drops": {
-    "amount": "2",
-    "entries": [
-      {
-        "item": "minecraft:string",
-        "percentage": 50
-      },
-      {
-        "item": "minecraft:spider_eye",
-        "percentage": 50
-      }
-    ]
-  },
   "moves": [
     "1:absorb",
     "1:furycutter",
@@ -75,6 +80,7 @@
     "tm:agility",
     "tm:attract",
     "tm:bounce",
+    "tm:bugbite",
     "tm:bugbuzz",
     "tm:chargebeam",
     "tm:confide",
@@ -89,12 +95,15 @@
     "tm:flash",
     "tm:frustration",
     "tm:gigadrain",
+    "tm:helpinghand",
     "tm:hiddenpower",
     "tm:infestation",
     "tm:leechlife",
     "tm:lightscreen",
+    "tm:lunge",
     "tm:pinmissile",
     "tm:poisonjab",
+    "tm:pounce",
     "tm:protect",
     "tm:raindance",
     "tm:rest",
@@ -102,6 +111,7 @@
     "tm:round",
     "tm:screech",
     "tm:secretpower",
+    "tm:skittersmack",
     "tm:sleeptalk",
     "tm:snore",
     "tm:speedswap",
@@ -109,7 +119,9 @@
     "tm:substitute",
     "tm:swagger",
     "tm:swift",
+    "tm:terablast",
     "tm:thief",
+    "tm:thunder",
     "tm:thunderbolt",
     "tm:thunderwave",
     "tm:toxic",

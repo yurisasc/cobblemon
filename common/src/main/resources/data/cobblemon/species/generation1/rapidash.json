@@ -16,6 +16,9 @@
     "special_defence": 80,
     "speed": 105
   },
+  "features": [
+    "galarian"
+  ],
   "catchRate": 60,
   "maleRatio": 0.5,
   "shoulderMountable": false,
@@ -125,9 +128,21 @@
       "height": 17,
       "weight": 800,
       "preEvolution": "ponyta form=galar",
-      "evolutions": [],
       "cannotDynamax": false,
-      "battleOnly": false
+      "battleOnly": false,
+      "drops": {
+        "amount": 3,
+        "entries": [
+          {
+            "item": "minecraft:leather",
+            "quantityRange": "0-2"
+          },
+          {
+            "item": "cobblemon:razz_berry",
+            "percentage": 5.0
+          }
+        ]
+      }
     }
   ],
   "baseExperienceYield": 175,
@@ -136,17 +151,33 @@
   "eggGroups": [
     "field"
   ],
+  "behaviour": {
+    "resting": {
+      "canSleep": true,
+      "willSleepOnBed": false,
+      "depth": "normal",
+      "light": "0-4"
+    },
+    "moving": {
+      "walk": {
+        "walkSpeed": 0.35
+      }
+    }
+  },
   "drops": {
-    "amount": "2",
+    "amount": 4,
     "entries": [
       {
         "item": "minecraft:leather",
-        "quantityRange": "1-2",
-        "percentage": 66
+        "quantityRange": "0-2"
       },
       {
         "item": "minecraft:blaze_powder",
-        "percentage": 5
+        "percentage": 5.0
+      },
+      {
+        "item": "cobblemon:shuca_berry",
+        "percentage": 5.0
       }
     ]
   },

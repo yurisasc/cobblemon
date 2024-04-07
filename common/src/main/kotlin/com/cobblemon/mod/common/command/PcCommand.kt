@@ -8,15 +8,13 @@
 
 package com.cobblemon.mod.common.command
 
+import com.cobblemon.mod.common.CobblemonSounds
 import com.cobblemon.mod.common.api.permission.CobblemonPermissions
 import com.cobblemon.mod.common.api.storage.pc.link.PCLinkManager
 import com.cobblemon.mod.common.api.storage.pc.link.PermissiblePcLink
 import com.cobblemon.mod.common.api.text.red
 import com.cobblemon.mod.common.net.messages.client.storage.pc.OpenPCPacket
-import com.cobblemon.mod.common.util.isInBattle
-import com.cobblemon.mod.common.util.lang
-import com.cobblemon.mod.common.util.pc
-import com.cobblemon.mod.common.util.permission
+import com.cobblemon.mod.common.util.*
 import com.mojang.brigadier.Command
 import com.mojang.brigadier.CommandDispatcher
 import com.mojang.brigadier.context.CommandContext
@@ -44,6 +42,12 @@ object PcCommand {
         }
         PCLinkManager.addLink(PermissiblePcLink(pc, player, CobblemonPermissions.PC))
         OpenPCPacket(pc.uuid).sendToPlayer(player)
+        context.source.world.playSoundServer(
+                position = context.source.player!!.pos,
+                sound = CobblemonSounds.PC_ON,
+                volume = 0.5F,
+                pitch = 1F
+        )
         return Command.SINGLE_SUCCESS
     }
 

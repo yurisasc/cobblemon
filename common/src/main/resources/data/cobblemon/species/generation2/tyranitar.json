@@ -61,7 +61,6 @@
       ],
       "height": 25,
       "weight": 2550,
-      "evolutions": [],
       "cannotDynamax": false,
       "battleOnly": true
     }
@@ -110,9 +109,11 @@
     "tm:captivate",
     "tm:confide",
     "tm:crunch",
+    "tm:curse",
     "tm:cut",
     "tm:darkpulse",
     "tm:dig",
+    "tm:doubleedge",
     "tm:doubleteam",
     "tm:dragonclaw",
     "tm:dragondance",
@@ -133,6 +134,7 @@
     "tm:foulplay",
     "tm:frustration",
     "tm:gigaimpact",
+    "tm:hardpress",
     "tm:heavyslam",
     "tm:helpinghand",
     "tm:hiddenpower",
@@ -148,6 +150,8 @@
     "tm:irondefense",
     "tm:ironhead",
     "tm:irontail",
+    "tm:knockoff",
+    "tm:lashout",
     "tm:lowkick",
     "tm:megakick",
     "tm:megapunch",
@@ -184,6 +188,7 @@
     "tm:smackdown",
     "tm:snarl",
     "tm:snore",
+    "tm:spite",
     "tm:stealthrock",
     "tm:stompingtantrum",
     "tm:stoneedge",
@@ -309,5 +314,18 @@
   "height": 20,
   "weight": 2020,
   "aspects": [],
-  "cannotDynamax": false
+  "cannotDynamax": false,
+  "drops": {
+    "amount": 2,
+    "entries": [
+      {
+        "item": "cobblemon:hard_stone",
+        "percentage": 10.0
+      },
+      {
+        "item": "cobblemon:chople_berry",
+        "percentage": 10.0
+      }
+    ]
+  }
 }

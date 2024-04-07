@@ -20,9 +20,10 @@ import net.minecraft.network.PacketByteBuf
  * @author Hiroku
  * @since November 28th, 2021
  */
-abstract class PokemonUpdatePacket<T>(val pokemon: Pokemon) : NetworkPacket<T> where T : NetworkPacket<T> {
+abstract class PokemonUpdatePacket<T>(val pokemon: () -> Pokemon) : NetworkPacket<T> where T : NetworkPacket<T> {
 
     final override fun encode(buffer: PacketByteBuf) {
+        val pokemon = pokemon()
         // This won't ever happen in instances where packets get sent out, but they protect us from NPEs on fields that require synchronization on load/save
         buffer.writeUuid(pokemon.storeCoordinates.get()?.store?.uuid ?: UUID.randomUUID())
         buffer.writeUuid(pokemon.uuid)
@@ -42,11 +43,10 @@ abstract class PokemonUpdatePacket<T>(val pokemon: Pokemon) : NetworkPacket<T> w
          * @param buffer The [PacketByteBuf] being decoded.
          * @return The [Pokemon] found.
          */
-        fun decodePokemon(buffer: PacketByteBuf) : Pokemon {
+        fun decodePokemon(buffer: PacketByteBuf) : () -> Pokemon {
             val storeId = buffer.readUuid()
             val pokemonId = buffer.readUuid()
-            return CobblemonClient.storage.locatePokemon(storeId, pokemonId)!!
+            return { CobblemonClient.storage.locatePokemon(storeId, pokemonId)!! }
         }
     }
-
 }

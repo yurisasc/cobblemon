@@ -7,15 +7,17 @@
             "id": "golem-1",
             "pokemon": "golem",
             "presets": [
-                "natural"
+                "natural",
+                "wild"
             ],
             "type": "pokemon",
             "context": "grounded",
             "bucket": "common",
-            "level": "40-49",
+            "level": "34-50",
             "weight": 0.1,
             "condition": {
-                "canSeeSky": true,
+                "minSkyLight": 8,
+                "maxSkyLight": 15,
                 "biomes": [
                     "#cobblemon:is_mountain"
                 ]
@@ -25,22 +27,23 @@
             "id": "golem-2",
             "pokemon": "golem",
             "presets": [
-                "underground"
+                "natural"
             ],
             "type": "pokemon",
             "context": "grounded",
             "bucket": "common",
-            "level": "40-49",
+            "level": "34-50",
             "weight": 0.1,
             "condition": {
-                "canSeeSky": false,
+                "minSkyLight": 0,
+                "maxSkyLight": 7,
                 "biomes": [
                     "#cobblemon:is_overworld"
                 ]
             },
             "anticondition": {
                 "biomes": [
-                    "#cobblemon:is_abyss"
+                    "#cobblemon:is_deep_dark"
                 ]
             }
         }

@@ -6,5 +6,6 @@
   "client": [
   ],
   "mixins": [
+    "LootManagerMixin"
   ]
 }

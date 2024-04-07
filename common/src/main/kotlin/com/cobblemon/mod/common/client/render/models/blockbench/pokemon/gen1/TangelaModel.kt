@@ -17,17 +17,18 @@ import com.cobblemon.mod.common.entity.PoseType.Companion.STATIONARY_POSES
 import com.cobblemon.mod.common.entity.PoseType.Companion.UI_POSES
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
+
 class TangelaModel(root: ModelPart) : PokemonPoseableModel(), BipedFrame {
     override val rootPart = root.registerChildWithAllChildren("tangela")
 
     override val leftLeg = getPart("leftfoot")
     override val rightLeg = getPart("rightfoot")
 
-    override val portraitScale = 2.2F
-    override val portraitTranslation = Vec3d(-0.1, -1.6, 0.0)
+    override var portraitScale = 2.2F
+    override var portraitTranslation = Vec3d(-0.1, -1.6, 0.0)
 
-    override val profileScale = 1.2F
-    override val profileTranslation = Vec3d(0.0, -0.09, 0.0)
+    override var profileScale = 1.2F
+    override var profileTranslation = Vec3d(0.0, -0.09, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose

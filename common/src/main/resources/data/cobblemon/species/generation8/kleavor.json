@@ -27,12 +27,15 @@
     "bug"
   ],
   "drops": {
-    "amount": "1",
+    "amount": 3,
     "entries": [
       {
         "item": "minecraft:stone_axe",
-        "quantityRange": "1-2",
-        "percentage": 66
+        "quantityRange": "0-2"
+      },
+      {
+        "item": "cobblemon:wepear_berry",
+        "percentage": 5.0
       }
     ]
   },
@@ -57,8 +60,11 @@
     "tm:airslash",
     "tm:batonpass",
     "tm:brickbreak",
+    "tm:bugbite",
     "tm:bugbuzz",
     "tm:closecombat",
+    "tm:doubleedge",
+    "tm:dualwingbeat",
     "tm:endure",
     "tm:facade",
     "tm:falseswipe",
@@ -66,8 +72,10 @@
     "tm:helpinghand",
     "tm:hyperbeam",
     "tm:lightscreen",
+    "tm:lunge",
     "tm:pounce",
     "tm:protect",
+    "tm:raindance",
     "tm:rest",
     "tm:reversal",
     "tm:rockblast",
@@ -75,7 +83,9 @@
     "tm:rocktomb",
     "tm:sandstorm",
     "tm:scaryface",
+    "tm:skittersmack",
     "tm:sleeptalk",
+    "tm:smackdown",
     "tm:stealthrock",
     "tm:stoneedge",
     "tm:strugglebug",
@@ -89,6 +99,7 @@
     "tm:thief",
     "tm:trailblaze",
     "tm:uturn",
+    "tm:vacuumwave",
     "tm:xscissor"
   ],
   "labels": [
@@ -99,7 +110,7 @@
   ],
   "preEvolution": "scyther",
   "evolutions": [],
-  "baseScale": 0.9,
+  "baseScale": 0.8,
   "hitbox": {
     "width": 1.2,
     "height": 2,

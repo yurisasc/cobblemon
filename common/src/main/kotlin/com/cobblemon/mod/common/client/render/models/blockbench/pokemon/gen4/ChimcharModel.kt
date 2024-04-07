@@ -8,14 +8,17 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen4
 
-import com.cobblemon.mod.common.client.render.models.blockbench.animation.BipedWalkAnimation
+import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
+import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.PoseType.Companion.MOVING_POSES
 import com.cobblemon.mod.common.entity.PoseType.Companion.STATIONARY_POSES
 import com.cobblemon.mod.common.entity.PoseType.Companion.UI_POSES
+import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
@@ -26,24 +29,28 @@ class ChimcharModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bipe
     override val leftLeg = getPart("leg_left")
     override val rightLeg = getPart("leg_right")
 
-    override val portraitScale = 2.0F
-    override val portraitTranslation = Vec3d(-0.1, 0.0, 0.0)
+    override var portraitScale = 2.0F
+    override var portraitTranslation = Vec3d(-0.1, 0.0, 0.0)
 
-    override val profileScale = 0.7F
-    override val profileTranslation = Vec3d(0.0, 0.7, 0.0)
+    override var profileScale = 0.7F
+    override var profileTranslation = Vec3d(0.0, 0.7, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
+    lateinit var battleidle: PokemonPose
+
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("chimchar", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("chimchar", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("chimchar", "blink") }
         standing = registerPose(
                 poseName = "standing",
                 poseTypes = STATIONARY_POSES + UI_POSES,
                 quirks = arrayOf(blink),
+                condition = { !it.isBattling },
                 idleAnimations = arrayOf(
                         singleBoneLook(),
-                        bedrock("chimchar", "idle")
+                        bedrock("chimchar", "ground_idle")
                 )
         )
 
@@ -51,17 +58,29 @@ class ChimcharModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bipe
                 poseName = "walk",
                 poseTypes = MOVING_POSES,
                 quirks = arrayOf(blink),
+                condition = { !it.isBattling },
                 idleAnimations = arrayOf(
                         singleBoneLook(),
-                        bedrock("chimchar", "idle"),
-                        BipedWalkAnimation(this, periodMultiplier = 0.75F, amplitudeMultiplier = 0.8F)
-                        //bedrock("chimchar", "ground_walk")
+                        bedrock("chimchar", "ground_walk")
                 )
+        )
+
+        battleidle = registerPose(
+            poseName = "battle_idle",
+            poseTypes = PoseType.STATIONARY_POSES,
+            transformTicks = 10,
+            quirks = arrayOf(blink),
+            condition = { it.isBattling },
+            idleAnimations = arrayOf(
+                singleBoneLook(),
+                bedrock("chimchar", "battle_idle")
+            )
+
         )
     }
 
-//    override fun getFaintAnimation(
-//        pokemonEntity: PokemonEntity,
-//        state: PoseableEntityState<PokemonEntity>
-//    ) = if (state.isPosedIn(standing, walk)) bedrockStateful("chimchar", "faint") else null
+    override fun getFaintAnimation(
+        pokemonEntity: PokemonEntity,
+        state: PoseableEntityState<PokemonEntity>
+    ) = if (state.isPosedIn(standing, walk, battleidle)) bedrockStateful("chimchar", "faint") else null
 }

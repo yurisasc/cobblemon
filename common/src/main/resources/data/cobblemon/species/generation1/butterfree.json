@@ -62,7 +62,6 @@
       ],
       "height": 170,
       "weight": 0,
-      "evolutions": [],
       "cannotDynamax": false,
       "battleOnly": false
     }
@@ -88,15 +87,22 @@
       },
       "fly": {
         "canFly": true
+      },
+      "walk": {
+        "walkSpeed": 0.4
       }
     }
   },
   "drops": {
-    "amount": "1",
+    "amount": 2,
     "entries": [
       {
         "item": "cobblemon:silver_powder",
-        "percentage": 2.5
+        "percentage": 5.0
+      },
+      {
+        "item": "cobblemon:wepear_berry",
+        "percentage": 5.0
       }
     ]
   },

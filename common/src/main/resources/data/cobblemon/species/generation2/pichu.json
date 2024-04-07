@@ -7,6 +7,19 @@
     "static",
     "h:lightningrod"
   ],
+  "drops": {
+    "amount": 2,
+    "entries": [
+      {
+        "item": "cobblemon:thunder_stone",
+        "percentage": 2.5
+      },
+      {
+        "item": "cobblemon:oran_berry",
+        "percentage": 2.5
+      }
+    ]
+  },
   "baseStats": {
     "hp": 20,
     "attack": 40,
@@ -18,9 +31,6 @@
   "catchRate": 190,
   "maleRatio": 0.5,
   "shoulderMountable": true,
-  "shoulderEffects": [
-    "speed"
-  ],
   "forms": [
     {
       "name": "Spiky-eared",
@@ -109,7 +119,6 @@
       ],
       "height": 3,
       "weight": 20,
-      "evolutions": [],
       "cannotDynamax": false,
       "battleOnly": false
     }
@@ -150,6 +159,7 @@
     "tm:attract",
     "tm:bodyslam",
     "tm:captivate",
+    "tm:charge",
     "tm:chargebeam",
     "tm:charm",
     "tm:confide",

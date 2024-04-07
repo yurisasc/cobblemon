@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Kirlia",
   "nationalPokedexNumber": 281,
   "primaryType": "psychic",
@@ -8,6 +9,27 @@
     "trace",
     "h:telepathy"
   ],
+  "drops": {
+    "amount": 5,
+    "entries": [
+      {
+        "item": "minecraft:ender_pearl",
+        "quantityRange": "0-2"
+      },
+      {
+        "item": "cobblemon:dawn_stone",
+        "percentage": 5.0
+      },
+      {
+        "item": "cobblemon:twisted_spoon",
+        "percentage": 5.0
+      },
+      {
+        "item": "cobblemon:kasib_berry",
+        "percentage": 5.0
+      }
+    ]
+  },
   "baseStats": {
     "hp": 38,
     "attack": 35,
@@ -46,6 +68,7 @@
     "48:dreameater",
     "51:storedpower",
     "53:futuresight",
+    "tm:alluringvoice",
     "tm:allyswitch",
     "tm:attract",
     "tm:bodyslam",
@@ -63,6 +86,7 @@
     "tm:echoedvoice",
     "tm:encore",
     "tm:endure",
+    "tm:expandingforce",
     "tm:facade",
     "tm:firepunch",
     "tm:flash",
@@ -77,6 +101,7 @@
     "tm:icepunch",
     "tm:icywind",
     "tm:imprison",
+    "tm:knockoff",
     "tm:lightscreen",
     "tm:magicalleaf",
     "tm:magicroom",
@@ -85,6 +110,7 @@
     "tm:metronome",
     "tm:mistyterrain",
     "tm:naturalgift",
+    "tm:painsplit",
     "tm:protect",
     "tm:psybeam",
     "tm:psychic",
@@ -121,6 +147,7 @@
     "tm:toxic",
     "tm:trick",
     "tm:trickroom",
+    "tm:tripleaxel",
     "tm:willowisp",
     "tm:wonderroom",
     "tm:zenheadbutt",
@@ -200,10 +227,10 @@
       "requiredContext": "cobblemon:dawn_stone"
     }
   ],
-  "baseScale": 1,
+  "baseScale": 0.8,
   "hitbox": {
-    "width": 1,
-    "height": 1,
+    "width": 0.5,
+    "height": 1.4,
     "fixed": false
   },
   "baseFriendship": 35,

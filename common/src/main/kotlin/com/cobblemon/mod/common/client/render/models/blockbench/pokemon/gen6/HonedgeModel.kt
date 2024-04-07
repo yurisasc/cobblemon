@@ -8,6 +8,7 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen6
 
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cobblemon.mod.common.entity.PoseType
@@ -17,17 +18,19 @@ import net.minecraft.util.math.Vec3d
 class HonedgeModel(root: ModelPart) : PokemonPoseableModel() {
     override val rootPart = root.registerChildWithAllChildren("honedge")
 
-    override val portraitScale = 3.0F
-    override val portraitTranslation = Vec3d(-0.4, 0.3, 0.0)
+    override var portraitScale = 3.0F
+    override var portraitTranslation = Vec3d(-0.4, 0.3, 0.0)
 
-    override val profileScale = 0.8F
-    override val profileTranslation = Vec3d(-0.2, 0.7, 0.0)
+    override var profileScale = 0.8F
+    override var profileTranslation = Vec3d(-0.2, 0.7, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
 
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("honedge", "cry") }
+
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("honedge", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("honedge", "blink") }
         standing = registerPose(
                 poseName = "standing",
                 poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,

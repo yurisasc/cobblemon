@@ -13,10 +13,15 @@ import com.cobblemon.mod.common.api.abilities.Abilities
 import com.cobblemon.mod.common.api.data.DataRegistry
 import com.cobblemon.mod.common.api.pokeball.PokeBalls
 import com.cobblemon.mod.common.api.pokemon.Natures
+import com.cobblemon.mod.common.api.pokemon.stats.Stats
+import com.cobblemon.mod.common.api.pokemon.status.Statuses
 import com.cobblemon.mod.common.api.properties.CustomPokemonProperty
 import com.cobblemon.mod.common.api.reactive.SimpleObservable
+import com.cobblemon.mod.common.api.types.ElementalTypes
 import com.cobblemon.mod.common.net.messages.client.data.PropertiesCompletionRegistrySyncPacket
+import com.cobblemon.mod.common.pokemon.EVs
 import com.cobblemon.mod.common.pokemon.Gender
+import com.cobblemon.mod.common.pokemon.IVs
 import com.cobblemon.mod.common.util.asIdentifierDefaultingNamespace
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.mojang.brigadier.suggestion.Suggestions
@@ -132,6 +137,20 @@ internal object PropertiesCompletionProvider : DataRegistry {
         this.inject(setOf("pokeball"), PokeBalls.all().map { if (it.name.namespace == Cobblemon.MODID) it.name.path else it.name.toString() })
         this.inject(setOf("nature"), Natures.all().map { if (it.name.namespace == Cobblemon.MODID) it.name.path else it.name.toString() })
         this.inject(setOf("ability"), Abilities.all().map { if (it.name.asIdentifierDefaultingNamespace().namespace == Cobblemon.MODID) it.name.asIdentifierDefaultingNamespace().path else it.name })
+        this.inject(setOf("dmax"), setOf("0", Cobblemon.config.maxDynamaxLevel.toString()))
+        this.inject(setOf("gmax"), setOf("yes", "no"))
+        this.inject(setOf("tera"), ElementalTypes.all().map { it.name })
+        this.inject(setOf("tradeable"), setOf("yes", "no"))
+        this.inject(setOf("originaltrainer", "ot"), setOf(""))
+        this.inject(setOf("originaltrainertype", "ottype"), setOf("None", "Player", "NPC"))
+
+        Stats.PERMANENT.forEach{ stat ->
+            val statName = stat.toString().lowercase()
+            this.inject(setOf("${statName}_iv"), setOf("0", IVs.MAX_VALUE.toString()))
+            this.inject(setOf("${statName}_ev"), setOf("0", EVs.MAX_STAT_VALUE.toString()))
+        }
+
+        this.inject(setOf("status"), Statuses.getPersistentStatuses().map { if (it.name.namespace == Cobblemon.MODID) it.name.path else it.name.toString() })
     }
 
     private fun addCustom() {

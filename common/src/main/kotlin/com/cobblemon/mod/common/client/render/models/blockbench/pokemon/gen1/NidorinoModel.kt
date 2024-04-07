@@ -13,31 +13,31 @@ import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFram
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.QuadrupedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
-import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.PoseType.Companion.MOVING_POSES
 import com.cobblemon.mod.common.entity.PoseType.Companion.STATIONARY_POSES
 import com.cobblemon.mod.common.entity.PoseType.Companion.UI_POSES
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
+
 class NidorinoModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, QuadrupedFrame {
     override val rootPart = root.registerChildWithAllChildren("nidorino")
     override val head = getPart("head")
-    override val foreLeftLeg = getPart("leg_front_left")
+    override val foreLeftLeg= getPart("leg_front_left")
     override val foreRightLeg = getPart("leg_front_right")
     override val hindLeftLeg = getPart("leg_back_left")
     override val hindRightLeg = getPart("leg_back_right")
 
-    override val portraitScale = 2.6F
-    override val portraitTranslation = Vec3d(-0.71, -2.0, 0.0)
+    override var portraitScale = 2.6F
+    override var portraitTranslation = Vec3d(-0.71, -2.0, 0.0)
 
-    override val profileScale = 1.0F
-    override val profileTranslation = Vec3d(-0.1, 0.21, 0.0)
+    override var profileScale = 1.0F
+    override var profileTranslation = Vec3d(-0.1, 0.21, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("nidorino", "blink").setPreventsIdle(false)}
+        val blink = quirk { bedrockStateful("nidorino", "blink")}
         standing = registerPose(
             poseName = "standing",
             poseTypes = STATIONARY_POSES + UI_POSES,

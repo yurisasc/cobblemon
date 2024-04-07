@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Volcarona",
   "nationalPokedexNumber": 637,
   "primaryType": "bug",
@@ -7,6 +8,23 @@
     "flamebody",
     "h:swarm"
   ],
+  "drops": {
+    "amount": 3,
+    "entries": [
+      {
+        "item": "minecraft:blaze_powder",
+        "percentage": 5.0
+      },
+      {
+        "item": "cobblemon:silver_powder",
+        "percentage": 5.0
+      },
+      {
+        "item": "cobblemon:charti_berry",
+        "percentage": 5.0
+      }
+    ]
+  },
   "baseStats": {
     "hp": 85,
     "attack": 60,
@@ -57,10 +75,13 @@
     "tm:amnesia",
     "tm:attract",
     "tm:bodyslam",
+    "tm:bugbite",
     "tm:bugbuzz",
     "tm:calmmind",
     "tm:confide",
+    "tm:doubleedge",
     "tm:doubleteam",
+    "tm:dualwingbeat",
     "tm:endure",
     "tm:facade",
     "tm:fireblast",
@@ -79,6 +100,7 @@
     "tm:incinerate",
     "tm:leechlife",
     "tm:lightscreen",
+    "tm:lunge",
     "tm:mysticalfire",
     "tm:overheat",
     "tm:poisonjab",
@@ -93,6 +115,7 @@
     "tm:safeguard",
     "tm:screech",
     "tm:secretpower",
+    "tm:skittersmack",
     "tm:sleeptalk",
     "tm:snore",
     "tm:solarbeam",
@@ -141,8 +164,8 @@
   "evolutions": [],
   "baseScale": 1,
   "hitbox": {
-    "width": 1,
-    "height": 1,
+    "width": 1.1,
+    "height": 2.4,
     "fixed": false
   },
   "baseFriendship": 50,

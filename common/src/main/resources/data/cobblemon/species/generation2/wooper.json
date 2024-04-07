@@ -20,9 +20,6 @@
   "catchRate": 255,
   "maleRatio": 0.5,
   "shoulderMountable": true,
-  "shoulderEffects": [
-    "water_breathing"
-  ],
   "forms": [
     {
       "name": "Paldea",
@@ -90,12 +87,15 @@
         "tm:bodyslam",
         "tm:bulldoze",
         "tm:chillingwater",
+        "tm:curse",
         "tm:dig",
+        "tm:doubleedge",
         "tm:earthpower",
         "tm:earthquake",
         "tm:endure",
         "tm:facade",
         "tm:gunkshot",
+        "tm:haze",
         "tm:helpinghand",
         "tm:hydropump",
         "tm:liquidation",
@@ -112,6 +112,7 @@
         "tm:sandstorm",
         "tm:sleeptalk",
         "tm:sludgebomb",
+        "tm:sludgewave",
         "tm:spikes",
         "tm:stealthrock",
         "tm:stompingtantrum",
@@ -120,6 +121,7 @@
         "tm:surf",
         "tm:takedown",
         "tm:terablast",
+        "tm:toxic",
         "tm:toxicspikes",
         "tm:trailblaze",
         "tm:venoshock",
@@ -151,7 +153,20 @@
         }
       ],
       "cannotDynamax": false,
-      "battleOnly": false
+      "battleOnly": false,
+      "drops": {
+        "amount": 2,
+        "entries": [
+          {
+            "item": "minecraft:clay_ball",
+            "quantityRange": "0-1"
+          },
+          {
+            "item": "cobblemon:pecha_berry",
+            "percentage": 2.5
+          }
+        ]
+      }
     }
   ],
   "baseExperienceYield": 42,
@@ -167,14 +182,24 @@
         "canSwimInWater": true,
         "canBreatheUnderwater": true
       }
+    },
+    "resting": {
+      "canSleep": true,
+      "willSleepOnBed": true,
+      "depth": "normal",
+      "light": "0-4"
     }
   },
   "drops": {
-    "amount": "1",
+    "amount": 2,
     "entries": [
       {
         "item": "minecraft:clay_ball",
-        "percentage": 50
+        "quantityRange": "0-1"
+      },
+      {
+        "item": "cobblemon:rindo_berry",
+        "percentage": 2.5
       }
     ]
   },
@@ -222,8 +247,10 @@
     "tm:captivate",
     "tm:chillingwater",
     "tm:confide",
+    "tm:curse",
     "tm:dig",
     "tm:dive",
+    "tm:doubleedge",
     "tm:doubleteam",
     "tm:earthpower",
     "tm:earthquake",
@@ -235,6 +262,7 @@
     "tm:frustration",
     "tm:guardswap",
     "tm:hail",
+    "tm:haze",
     "tm:helpinghand",
     "tm:hiddenpower",
     "tm:hydropump",
@@ -331,6 +359,9 @@
   "labels": [
     "gen2",
     "johto_regional"
+  ],
+  "features": [
+    "paldean"
   ],
   "pokedex": [
     "cobblemon.species.wooper.desc"

@@ -26,11 +26,15 @@
     "monster"
   ],
   "drops": {
-    "amount": "1",
+    "amount": 2,
     "entries": [
       {
         "item": "minecraft:bone",
-        "percentage": 50
+        "quantityRange": "0-1"
+      },
+      {
+        "item": "cobblemon:nanab_berry",
+        "percentage": 2.5
       }
     ]
   },
@@ -227,7 +231,7 @@
       ]
     },
     {
-      "id": "cubone_marowak",
+      "id": "cubone_marowak_alolan",
       "variant": "level_up",
       "result": "marowak form=alola",
       "consumeHeldItem": false,
@@ -248,8 +252,8 @@
   ],
   "baseScale": 0.7,
   "hitbox": {
-    "width": 0.5,
-    "height": 0.8,
+    "width": 0.55,
+    "height": 0.87,
     "fixed": false
   },
   "baseFriendship": 50,

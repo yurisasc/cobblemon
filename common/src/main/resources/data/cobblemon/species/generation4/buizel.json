@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Buizel",
   "nationalPokedexNumber": 418,
   "primaryType": "water",
@@ -6,6 +7,19 @@
     "swiftswim",
     "h:waterveil"
   ],
+  "drops": {
+    "amount": 2,
+    "entries": [
+      {
+        "item": "minecraft:salmon",
+        "quantityRange": "0-1"
+      },
+      {
+        "item": "cobblemon:wacan_berry",
+        "percentage": 2.5
+      }
+    ]
+  },
   "baseStats": {
     "hp": 55,
     "attack": 65,
@@ -24,6 +38,15 @@
     "water_1",
     "field"
   ],
+  "behaviour": {
+    "moving": {
+      "swim": {
+        "swimSpeed": 0.4,
+        "canSwimInWater": true,
+        "canBreatheUnderwater": true
+      }
+    }
+  },
   "moves": [
     "1:growl",
     "1:sonicboom",
@@ -88,6 +111,7 @@
     "tm:endure",
     "tm:facade",
     "tm:fling",
+    "tm:flipturn",
     "tm:focuspunch",
     "tm:frustration",
     "tm:hail",
@@ -110,6 +134,7 @@
     "tm:raindance",
     "tm:rest",
     "tm:return",
+    "tm:roar",
     "tm:rocksmash",
     "tm:rocktomb",
     "tm:round",
@@ -167,10 +192,10 @@
       ]
     }
   ],
-  "baseScale": 1,
+  "baseScale": 0.7,
   "hitbox": {
-    "width": 1,
-    "height": 1,
+    "width": 0.7,
+    "height": 1.4,
     "fixed": false
   },
   "baseFriendship": 70,

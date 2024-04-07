@@ -16,21 +16,22 @@ import com.cobblemon.mod.common.entity.PoseType.Companion.STATIONARY_POSES
 import com.cobblemon.mod.common.entity.PoseType.Companion.UI_POSES
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
+
 class GeodudeModel(root: ModelPart) : PokemonPoseableModel() {
     override val rootPart = root.registerChildWithAllChildren("geodude")
 
-    override val portraitScale = 1.9F
-    override val portraitTranslation = Vec3d(0.0, -1.4, 0.0)
+    override var portraitScale = 1.9F
+    override var portraitTranslation = Vec3d(0.0, -1.4, 0.0)
 
-    override val profileScale = 0.9F
-    override val profileTranslation = Vec3d(-0.05, 0.3, 0.0)
+    override var profileScale = 0.9F
+    override var profileTranslation = Vec3d(-0.05, 0.3, 0.0)
 
     lateinit var sleep: PokemonPose
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("geodude", "blink").setPreventsIdle(false)}
+        val blink = quirk { bedrockStateful("geodude", "blink")}
         sleep = registerPose(
             poseType = PoseType.SLEEP,
             idleAnimations = arrayOf(bedrock("geodude", "sleep"))

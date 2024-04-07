@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Masquerain",
   "nationalPokedexNumber": 284,
   "primaryType": "bug",
@@ -7,6 +8,23 @@
     "intimidate",
     "h:unnerve"
   ],
+  "drops": {
+    "amount": 3,
+    "entries": [
+      {
+        "item": "minecraft:honey_bottle",
+        "percentage": 2.5
+      },
+      {
+        "item": "cobblemon:silver_powder",
+        "percentage": 5.0
+      },
+      {
+        "item": "cobblemon:wacan_berry",
+        "percentage": 5.0
+      }
+    ]
+  },
   "baseStats": {
     "hp": 70,
     "attack": 60,
@@ -25,6 +43,19 @@
     "water_1",
     "bug"
   ],
+  "behaviour": {
+    "moving": {
+      "walk": {
+        "walkSpeed": 0.4
+      },
+      "swim": {
+        "canWalkOnWater": true
+      },
+      "fly": {
+        "canFly": true
+      }
+    }
+  },
   "moves": [
     "1:bubble",
     "1:ominouswind",
@@ -51,12 +82,14 @@
     "tm:attract",
     "tm:batonpass",
     "tm:blizzard",
+    "tm:bugbite",
     "tm:bugbuzz",
     "tm:captivate",
     "tm:chillingwater",
     "tm:confide",
     "tm:defog",
     "tm:doubleteam",
+    "tm:dualwingbeat",
     "tm:endure",
     "tm:energyball",
     "tm:facade",
@@ -65,6 +98,7 @@
     "tm:frustration",
     "tm:gigadrain",
     "tm:gigaimpact",
+    "tm:haze",
     "tm:helpinghand",
     "tm:hiddenpower",
     "tm:hurricane",
@@ -75,6 +109,7 @@
     "tm:infestation",
     "tm:leechlife",
     "tm:liquidation",
+    "tm:lunge",
     "tm:mudshot",
     "tm:mudslap",
     "tm:naturalgift",
@@ -92,6 +127,7 @@
     "tm:secretpower",
     "tm:shadowball",
     "tm:silverwind",
+    "tm:skittersmack",
     "tm:sleeptalk",
     "tm:solarbeam",
     "tm:strugglebug",
@@ -108,6 +144,7 @@
     "tm:uturn",
     "tm:waterfall",
     "tm:waterpulse",
+    "tm:weatherball",
     "tutor:aircutter",
     "tutor:bugbite",
     "tutor:defog",
@@ -141,7 +178,7 @@
   ],
   "preEvolution": "surskit",
   "evolutions": [],
-  "baseScale": 1,
+  "baseScale": 0.8,
   "hitbox": {
     "width": 1,
     "height": 1,

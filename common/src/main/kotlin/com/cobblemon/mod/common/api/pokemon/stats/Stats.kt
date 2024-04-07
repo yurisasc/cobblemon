@@ -18,16 +18,16 @@ import net.minecraft.util.Identifier
  * An enumeration of the default implemented [Stat]s.
  * Contains all the traditional stats in official Pokémon games.
  */
-enum class Stats(override val identifier: Identifier, override val displayName: Text, override val type: Stat.Type) : Stat {
+enum class Stats(override val identifier: Identifier, override val displayName: Text, override val type: Stat.Type, override val showdownId: String) : Stat {
 
-    HP(cobblemonResource("hp"), lang("stat.hp.name"), Stat.Type.PERMANENT),
-    ATTACK(cobblemonResource("attack"), lang("stat.attack.name"), Stat.Type.PERMANENT),
-    DEFENCE(cobblemonResource("defence"), lang("stat.defence.name"), Stat.Type.PERMANENT),
-    SPECIAL_ATTACK(cobblemonResource("special_attack"), lang("stat.special_attack.name"), Stat.Type.PERMANENT),
-    SPECIAL_DEFENCE(cobblemonResource("special_defence"), lang("stat.special_defence.name"), Stat.Type.PERMANENT),
-    SPEED(cobblemonResource("speed"), lang("stat.speed.name"), Stat.Type.PERMANENT),
-    EVASION(cobblemonResource("evasion"), lang("stat.evasion.name"), Stat.Type.BATTLE_ONLY),
-    ACCURACY(cobblemonResource("accuracy"), lang("stat.accuracy.name"), Stat.Type.BATTLE_ONLY);
+    HP(cobblemonResource("hp"), lang("stat.hp.name"), Stat.Type.PERMANENT, "hp"),
+    ATTACK(cobblemonResource("attack"), lang("stat.attack.name"), Stat.Type.PERMANENT, "atk"),
+    DEFENCE(cobblemonResource("defence"), lang("stat.defence.name"), Stat.Type.PERMANENT, "def"),
+    SPECIAL_ATTACK(cobblemonResource("special_attack"), lang("stat.special_attack.name"), Stat.Type.PERMANENT, "spa"),
+    SPECIAL_DEFENCE(cobblemonResource("special_defence"), lang("stat.special_defence.name"), Stat.Type.PERMANENT, "spd"),
+    SPEED(cobblemonResource("speed"), lang("stat.speed.name"), Stat.Type.PERMANENT, "spe"),
+    EVASION(cobblemonResource("evasion"), lang("stat.evasion.name"), Stat.Type.BATTLE_ONLY, "evasion"),
+    ACCURACY(cobblemonResource("accuracy"), lang("stat.accuracy.name"), Stat.Type.BATTLE_ONLY, "accuracy");
 
     companion object {
 
@@ -48,6 +48,25 @@ enum class Stats(override val identifier: Identifier, override val displayName: 
          * Using [StatProvider.ofType] with type [Stat.Type.BATTLE_ONLY] is recommended instead for maximum addon compatibility.
          */
         val BATTLE_ONLY: Set<Stat> = EnumSet.of(EVASION, ACCURACY)
+
+        /** Gets the [Stat] from the respective Showdown id. */
+        fun getStat(statKey: String) = when(statKey) {
+            "atk" -> ATTACK
+            "def" -> DEFENCE
+            "spa" -> SPECIAL_ATTACK
+            "spd" -> SPECIAL_DEFENCE
+            "spe" -> SPEED
+            "evasion" -> EVASION
+            else -> ACCURACY
+        }
+
+        /** Gets the severity lang key from the respective boost/unboost stage. */
+        fun getSeverity(stages: Int) = when(stages) {
+            0 -> "cap.single"
+            1 -> "slight"
+            2 -> "sharp"
+            else -> "severe"
+        }
 
     }
 

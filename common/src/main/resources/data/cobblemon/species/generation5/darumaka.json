@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Darumaka",
   "nationalPokedexNumber": 554,
   "primaryType": "fire",
@@ -6,6 +7,15 @@
     "hustle",
     "h:innerfocus"
   ],
+  "drops": {
+    "amount": 1,
+    "entries": [
+      {
+        "item": "cobblemon:rawst_berry",
+        "percentage": 2.5
+      }
+    ]
+  },
   "baseStats": {
     "hp": 70,
     "attack": 90,
@@ -14,6 +24,9 @@
     "special_defence": 45,
     "speed": 50
   },
+  "features": [
+    "galarian"
+  ],
   "catchRate": 120,
   "maleRatio": 0.5,
   "shoulderMountable": false,
@@ -130,7 +143,7 @@
         {
           "id": "darumaka_darmanitan",
           "variant": "item_interact",
-          "result": "darmanitan form=galar",
+          "result": "darmanitan galarian",
           "consumeHeldItem": false,
           "learnableMoves": [
             "iciclecrash"
@@ -140,7 +153,20 @@
         }
       ],
       "cannotDynamax": false,
-      "battleOnly": false
+      "battleOnly": false,
+      "drops": {
+        "amount": 2,
+        "entries": [
+          {
+            "item": "cobblemon:ice_stone",
+            "percentage": 2.5
+          },
+          {
+            "item": "cobblemon:occa_berry",
+            "percentage": 2.5
+          }
+        ]
+      }
     }
   ],
   "baseExperienceYield": 63,
@@ -268,8 +294,8 @@
   ],
   "baseScale": 1,
   "hitbox": {
-    "width": 1,
-    "height": 1,
+    "width": 0.7,
+    "height": 0.83,
     "fixed": false
   },
   "baseFriendship": 50,

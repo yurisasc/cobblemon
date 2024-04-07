@@ -14,7 +14,7 @@ import com.cobblemon.mod.common.pokemon.status.PersistentStatus
 import com.cobblemon.mod.common.util.cobblemonResource
 import net.minecraft.network.PacketByteBuf
 
-class StatusUpdatePacket(pokemon: Pokemon, value: PersistentStatus?): SingleUpdatePacket<PersistentStatus?, StatusUpdatePacket>(pokemon, value) {
+class StatusUpdatePacket(pokemon: () -> Pokemon, value: PersistentStatus?): SingleUpdatePacket<PersistentStatus?, StatusUpdatePacket>(pokemon, value) {
     override val id = ID
     override fun encodeValue(buffer: PacketByteBuf) {
         buffer.writeNullable(this.value) { pb, value -> pb.writeIdentifier(value.name) }

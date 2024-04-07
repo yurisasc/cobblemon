@@ -24,19 +24,19 @@ import net.minecraft.util.math.RotationAxis
 class PokeBallRenderer(context: EntityRendererFactory.Context) : EntityRenderer<EmptyPokeBallEntity>(context) {
 
     override fun getTexture(pEntity: EmptyPokeBallEntity): Identifier {
-        return PokeBallModelRepository.getTexture(pEntity.pokeBall.name, pEntity.aspects.get(), pEntity.delegate as EmptyPokeBallClientDelegate)
+        return PokeBallModelRepository.getTexture(pEntity.pokeBall.name, pEntity.aspects, (pEntity.delegate as EmptyPokeBallClientDelegate).animationSeconds)
     }
 
     override fun render(entity: EmptyPokeBallEntity, yaw: Float, partialTicks: Float, poseStack: MatrixStack, buffer: VertexConsumerProvider, packedLight: Int) {
-        val model = PokeBallModelRepository.getPoser(entity.pokeBall.name, entity.aspects.get())
+        val model = PokeBallModelRepository.getPoser(entity.pokeBall.name, entity.aspects)
         poseStack.push()
-        poseStack.translate(0.0, 1.5 * 0.7F, 0.0)
         poseStack.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(yaw))
         poseStack.scale(0.7F, -0.7F, -0.7F)
         val vertexConsumer = ItemRenderer.getDirectItemGlintConsumer(buffer, model.getLayer(getTexture(entity)), false, false)
 
         val state = entity.delegate as EmptyPokeBallClientDelegate
-        model.setLayerContext(buffer, state, PokemonModelRepository.getLayers(entity.pokeBall.name, entity.aspects.get()))
+        state.updatePartialTicks(partialTicks)
+        model.setLayerContext(buffer, state, PokemonModelRepository.getLayers(entity.pokeBall.name, entity.aspects))
         model.setAngles(entity, 0f, 0f, entity.age + partialTicks, 0F, 0F)
         model.render(poseStack, vertexConsumer, packedLight, OverlayTexture.DEFAULT_UV, 1.0f, 1.0f, 1.0f, 1.0f)
 

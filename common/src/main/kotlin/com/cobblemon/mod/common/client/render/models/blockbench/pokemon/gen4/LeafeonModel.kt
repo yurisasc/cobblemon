@@ -9,6 +9,7 @@
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen4
 
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cobblemon.mod.common.entity.PoseType.Companion.MOVING_POSES
@@ -16,21 +17,24 @@ import com.cobblemon.mod.common.entity.PoseType.Companion.STATIONARY_POSES
 import com.cobblemon.mod.common.entity.PoseType.Companion.UI_POSES
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
+
 class LeafeonModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("leafeon")
     override val head = getPart("head")
 
-    override val portraitScale = 2.3F
-    override val portraitTranslation = Vec3d(-0.7, -0.7, 0.0)
+    override var portraitScale = 2.3F
+    override var portraitTranslation = Vec3d(-0.7, -0.7, 0.0)
 
-    override val profileScale = 0.9F
-    override val profileTranslation = Vec3d(0.0, 0.35, 0.0)
+    override var profileScale = 0.9F
+    override var profileTranslation = Vec3d(0.0, 0.35, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
 
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("leafeon", "cry") }
+
     override fun registerPoses() {
-//        val blink = quirk("blink") { bedrockStateful("leafeon", "blink").setPreventsIdle(false)}
+//        val blink = quirk { bedrockStateful("leafeon", "blink")}
         standing = registerPose(
             poseName = "standing",
             poseTypes = STATIONARY_POSES + UI_POSES,

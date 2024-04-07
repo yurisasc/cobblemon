@@ -24,29 +24,19 @@ import net.minecraft.entity.Entity
  */
 open class BedrockStatefulAnimation<T : Entity>(
     val animation: BedrockAnimation,
-    var preventsIdleCheck: (T?, PoseableEntityState<T>, StatelessAnimation<T, *>) -> Boolean
 ) : StatefulAnimation<T, ModelFrame> {
-    fun setPreventsIdle(preventsIdle: Boolean): BedrockStatefulAnimation<T> {
-        this.preventsIdleCheck = { _, _, _ -> preventsIdle }
-        return this
-    }
-
-    var secondsPassed = 0F
+    var startedSeconds = -1F
     var isTransformAnimation = false
+    override val duration = animation.animationLength.toFloat()
     private var afterAction: (T, PoseableEntityState<T>) -> Unit = { _, _ -> }
 
     override val isTransform: Boolean
         get() = isTransformAnimation
 
-    fun isTransformAnimation(value: Boolean) = this.also {
-        it.isTransformAnimation = value
-    }
-
     fun andThen(action: (entity: T, PoseableEntityState<T>) -> Unit) = this.also {
         it.afterAction = action
     }
 
-    override fun preventsIdle(entity: T?, state: PoseableEntityState<T>, idleAnimation: StatelessAnimation<T, *>) = preventsIdleCheck(entity, state, idleAnimation)
     override fun run(
         entity: T?,
         model: PoseableEntityModel<T>,
@@ -55,14 +45,23 @@ open class BedrockStatefulAnimation<T : Entity>(
         limbSwingAmount: Float,
         ageInTicks: Float,
         headYaw: Float,
-        headPitch: Float
+        headPitch: Float,
+        intensity: Float
     ): Boolean {
-        val previousSeconds = secondsPassed
-        secondsPassed += state.deltaSeconds
-        return animation.run(model, entity, state, previousSeconds.toDouble(), secondsPassed.toDouble()).also {
+        if (startedSeconds == -1F) {
+            startedSeconds = state.animationSeconds
+        }
+
+        return animation.run(model, state, state.animationSeconds - startedSeconds, intensity).also {
             if (!it && entity != null) {
                 afterAction(entity, state)
             }
         }
+    }
+
+    override fun applyEffects(entity: T, state: PoseableEntityState<T>, previousSeconds: Float, newSeconds: Float) {
+        val previousSecondsOffset = previousSeconds - startedSeconds
+        val currentSecondsOffset = newSeconds - startedSeconds
+        animation.applyEffects(entity, state, previousSecondsOffset, currentSecondsOffset)
     }
 }

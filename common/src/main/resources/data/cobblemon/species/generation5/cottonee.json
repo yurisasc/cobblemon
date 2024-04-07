@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Cottonee",
   "nationalPokedexNumber": 546,
   "primaryType": "grass",
@@ -8,6 +9,22 @@
     "infiltrator",
     "h:chlorophyll"
   ],
+  "drops": {
+    "amount": 3,
+    "entries": [
+      {
+        "item": "minecraft:white_wool"
+      },
+      {
+        "item": "cobblemon:kebia_berry",
+        "percentage": 2.5
+      },
+      {
+        "item": "cobblemon:absorb_bulb",
+        "percentage": 2.5
+      }
+    ]
+  },
   "baseStats": {
     "hp": 40,
     "attack": 27,
@@ -26,6 +43,13 @@
     "fairy",
     "grass"
   ],
+  "behaviour": {
+    "moving": {
+      "fly": {
+        "canFly": true
+      }
+    }
+  },
   "moves": [
     "1:absorb",
     "1:helpinghand",
@@ -64,6 +88,7 @@
     "tm:doubleteam",
     "tm:dreameater",
     "tm:encore",
+    "tm:endeavor",
     "tm:endure",
     "tm:energyball",
     "tm:facade",
@@ -72,6 +97,7 @@
     "tm:frustration",
     "tm:gigadrain",
     "tm:grassknot",
+    "tm:grassyglide",
     "tm:grassyterrain",
     "tm:helpinghand",
     "tm:hiddenpower",
@@ -92,6 +118,7 @@
     "tm:swagger",
     "tm:swift",
     "tm:taunt",
+    "tm:terablast",
     "tm:toxic",
     "tutor:covet",
     "tutor:defog",
@@ -125,10 +152,10 @@
       "requiredContext": "cobblemon:sun_stone"
     }
   ],
-  "baseScale": 1,
+  "baseScale": 0.8,
   "hitbox": {
-    "width": 1,
-    "height": 1,
+    "width": 0.8,
+    "height": 0.7,
     "fixed": false
   },
   "baseFriendship": 50,

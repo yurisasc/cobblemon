@@ -8,11 +8,14 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen4
 
+import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.QuadrupedFrame
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cobblemon.mod.common.entity.PoseType
+import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
@@ -21,21 +24,26 @@ class GrotleModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quadr
     override val head = getPart("head")
     override val hindLeftLeg = getPart("leg_back_left")
     override val hindRightLeg = getPart("leg_back_right")
-    override val foreLeftLeg = getPart("leg_front_left")
+    override val foreLeftLeg= getPart("leg_front_left")
     override val foreRightLeg = getPart("leg_front_right")
 
-    override val portraitScale = 2.2F
-    override val portraitTranslation = Vec3d(-0.8, -1.0, 0.0)
+    override var portraitScale = 2.2F
+    override var portraitTranslation = Vec3d(-0.8, -1.0, 0.0)
 
-    override val profileScale = 0.7F
-    override val profileTranslation = Vec3d(0.0, 0.65, 0.0)
+    override var profileScale = 0.7F
+    override var profileTranslation = Vec3d(0.0, 0.65, 0.0)
 
     lateinit var sleep: PokemonPose
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
+    lateinit var battleidle: PokemonPose
+
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("grotle", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("grotle", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("grotle", "blink") }
+        val shake = quirk(secondsBetweenOccurrences = 30F to 360F) { bedrockStateful("grotle", "quirk") }
+
         sleep = registerPose(
             poseType = PoseType.SLEEP,
             idleAnimations = arrayOf(bedrock("grotle", "sleep"))
@@ -45,7 +53,8 @@ class GrotleModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quadr
             poseName = "standing",
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
             transformTicks = 10,
-            quirks = arrayOf(blink),
+            condition = { !it.isBattling },
+            quirks = arrayOf(blink, shake),
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("grotle", "ground_idle")
@@ -62,5 +71,21 @@ class GrotleModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quadr
                 bedrock("grotle", "ground_walk")
             )
         )
+
+        battleidle = registerPose(
+            poseName = "battle_idle",
+            poseTypes = PoseType.STATIONARY_POSES,
+            transformTicks = 10,
+            quirks = arrayOf(blink, shake),
+            condition = { it.isBattling },
+            idleAnimations = arrayOf(
+                singleBoneLook(),
+                bedrock("grotle", "battle_idle")
+            )
+        )
     }
+    override fun getFaintAnimation(
+        pokemonEntity: PokemonEntity,
+        state: PoseableEntityState<PokemonEntity>
+    ) = if (state.isPosedIn(standing, walk, battleidle, sleep)) bedrockStateful("grotle", "faint") else null
 }

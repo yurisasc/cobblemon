@@ -11,6 +11,7 @@ package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen6
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BimanualFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cobblemon.mod.common.entity.PoseType
@@ -25,18 +26,20 @@ class ChespinModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bipe
     override val leftLeg = getPart("leg_left")
     override val rightLeg = getPart("leg_right")
 
-    override val portraitScale = 2.7F
-    override val portraitTranslation = Vec3d(-0.15, -1.2, 0.0)
+    override var portraitScale = 2.7F
+    override var portraitTranslation = Vec3d(-0.15, -1.2, 0.0)
 
-    override val profileScale = 0.85F
-    override val profileTranslation = Vec3d(0.0, 0.5, 0.0)
+    override var profileScale = 0.85F
+    override var profileTranslation = Vec3d(0.0, 0.5, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
     lateinit var sleep: PokemonPose
 
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("chespin", "cry") }
+
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("chespin", "blink").setPreventsIdle(false)}
+        val blink = quirk { bedrockStateful("chespin", "blink")}
 
         sleep = registerPose(
             poseType = PoseType.SLEEP,

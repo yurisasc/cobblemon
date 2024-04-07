@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Salandit",
   "nationalPokedexNumber": 757,
   "primaryType": "poison",
@@ -53,10 +54,12 @@
     "tm:agility",
     "tm:attract",
     "tm:beatup",
+    "tm:burningjealousy",
     "tm:confide",
     "tm:doubleteam",
     "tm:dragonclaw",
     "tm:dragonpulse",
+    "tm:endeavor",
     "tm:endure",
     "tm:facade",
     "tm:fireblast",
@@ -72,6 +75,7 @@
     "tm:helpinghand",
     "tm:hiddenpower",
     "tm:irontail",
+    "tm:knockoff",
     "tm:leechlife",
     "tm:mudslap",
     "tm:nastyplot",
@@ -83,8 +87,10 @@
     "tm:rest",
     "tm:return",
     "tm:round",
+    "tm:scaleshot",
     "tm:scaryface",
     "tm:shadowclaw",
+    "tm:skittersmack",
     "tm:sleeptalk",
     "tm:sludgebomb",
     "tm:sludgewave",
@@ -95,6 +101,7 @@
     "tm:swift",
     "tm:takedown",
     "tm:taunt",
+    "tm:temperflare",
     "tm:terablast",
     "tm:thief",
     "tm:thunderwave",
@@ -147,8 +154,8 @@
   ],
   "baseScale": 1,
   "hitbox": {
-    "width": 1,
-    "height": 1,
+    "width": 1.1,
+    "height": 0.85,
     "fixed": false
   },
   "baseFriendship": 50,
@@ -163,5 +170,22 @@
   "height": 6,
   "weight": 48,
   "aspects": [],
-  "cannotDynamax": false
+  "cannotDynamax": false,
+  "drops": {
+    "amount": 3,
+    "entries": [
+      {
+        "item": "minecraft:rotten_flesh",
+        "quantityRange": "0-1"
+      },
+      {
+        "item": "cobblemon:shuca_berry",
+        "percentage": 2.5
+      },
+      {
+        "item": "cobblemon:smoke_ball",
+        "percentage": 2.5
+      }
+    ]
+  }
 }

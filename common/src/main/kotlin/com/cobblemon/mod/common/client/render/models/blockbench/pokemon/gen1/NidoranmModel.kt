@@ -8,7 +8,9 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1
 
+import com.cobblemon.mod.common.client.render.models.blockbench.animation.QuadrupedWalkAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
+import com.cobblemon.mod.common.client.render.models.blockbench.frame.QuadrupedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cobblemon.mod.common.entity.PoseType
@@ -17,15 +19,21 @@ import com.cobblemon.mod.common.entity.PoseType.Companion.STATIONARY_POSES
 import com.cobblemon.mod.common.entity.PoseType.Companion.UI_POSES
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
-class NidoranmModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
+
+class NidoranmModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, QuadrupedFrame {
     override val rootPart = root.registerChildWithAllChildren("nidoran_m")
     override val head = getPart("head")
+    override val foreLeftLeg = getPart("leg_front_left")
+    override val foreRightLeg = getPart("leg_front_right")
+    override val hindLeftLeg = getPart("leg_back_left")
+    override val hindRightLeg = getPart("leg_back_right")
 
-    override val portraitScale = 1.8F
-    override val portraitTranslation = Vec3d(-0.1, -1.0, 0.0)
 
-    override val profileScale = 0.95F
-    override val profileTranslation = Vec3d(0.0, 0.3, 0.0)
+    override var portraitScale = 1.8F
+    override var portraitTranslation = Vec3d(-0.1, -1.0, 0.0)
+
+    override var profileScale = 0.95F
+    override var profileTranslation = Vec3d(0.0, 0.3, 0.0)
 
     lateinit var sleep: PokemonPose
     lateinit var standing: PokemonPose
@@ -52,7 +60,8 @@ class NidoranmModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             poseTypes = MOVING_POSES,
             transformTicks = 10,
             idleAnimations = arrayOf(
-                singleBoneLook()
+                singleBoneLook(),
+                QuadrupedWalkAnimation(this)
                 //bedrock("nidoranm", "ground_walk")
             )
         )

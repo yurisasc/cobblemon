@@ -17,12 +17,26 @@
     "special_defence": 55,
     "speed": 51
   },
+  "behaviour": {
+    "moving": {
+      "fly": {
+        "canFly": true
+      }
+    },
+    "resting": {
+      "canSleep": true,
+      "willSleepOnBed": false,
+      "depth": "normal",
+      "light": "11-15"
+    }
+  },
   "catchRate": 120,
   "maleRatio": 0.5,
   "shoulderMountable": false,
   "forms": [
     {
       "name": "Small",
+      "baseScale": 0.6,
       "primaryType": "ghost",
       "secondaryType": "grass",
       "abilities": [
@@ -78,6 +92,7 @@
     },
     {
       "name": "Large",
+      "baseScale": 1.0,
       "primaryType": "ghost",
       "secondaryType": "grass",
       "abilities": [
@@ -133,6 +148,7 @@
     },
     {
       "name": "Super",
+      "baseScale": 1.4,
       "primaryType": "ghost",
       "secondaryType": "grass",
       "abilities": [
@@ -286,14 +302,18 @@
     "amorphous"
   ],
   "drops": {
-    "amount": "2",
+    "amount": 3,
     "entries": [
       {
         "item": "minecraft:pumpkin_seeds",
-        "percentage": 50
+        "quantityRange": "0-1"
       },
       {
         "item": "cobblemon:miracle_seed",
+        "percentage": 2.5
+      },
+      {
+        "item": "cobblemon:kasib_berry",
         "percentage": 2.5
       }
     ]
@@ -402,10 +422,10 @@
       "requirements": []
     }
   ],
-  "baseScale": 1,
+  "baseScale": 0.8,
   "hitbox": {
-    "width": 1,
-    "height": 1,
+    "width": 0.8,
+    "height": 0.9,
     "fixed": false
   },
   "baseFriendship": 50,

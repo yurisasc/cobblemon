@@ -28,24 +28,24 @@ class WeavileModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bipe
     override val leftLeg = getPart("leg_left")
     override val rightLeg = getPart("leg_right")
 
-    override val portraitScale = 3.2F
-    override val portraitTranslation = Vec3d(-0.4, -1.0, 0.0)
+    override var portraitScale = 2.3F
+    override var portraitTranslation = Vec3d(-0.25, 0.0, 0.0)
 
-    override val profileScale = 1.0F
-    override val profileTranslation = Vec3d(0.0, 0.3, 0.0)
+    override var profileScale = 1.0F
+    override var profileTranslation = Vec3d(0.0, 0.3, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("weavile", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("weavile", "blink") }
         standing = registerPose(
             poseName = "standing",
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
-                bedrock("weavile", "idle")
+                bedrock("weavile", "ground_idle")
             )
         )
 
@@ -55,7 +55,7 @@ class WeavileModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bipe
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
-                bedrock("weavile", "idle"),
+                bedrock("weavile", "ground_idle"),
                 BipedWalkAnimation(this, periodMultiplier = 0.6F, amplitudeMultiplier = 0.9F),
                 BimanualSwingAnimation(this, swingPeriodMultiplier = 0.6F, amplitudeMultiplier = 0.9F)
                 //bedrock("weavile", "ground_walk")

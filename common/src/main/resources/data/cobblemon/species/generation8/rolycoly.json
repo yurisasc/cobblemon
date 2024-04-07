@@ -41,6 +41,7 @@
     "tm:attract",
     "tm:bodyslam",
     "tm:bulldoze",
+    "tm:curse",
     "tm:dig",
     "tm:endure",
     "tm:facade",
@@ -48,6 +49,7 @@
     "tm:heatcrash",
     "tm:irondefense",
     "tm:ironhead",
+    "tm:meteorbeam",
     "tm:mudslap",
     "tm:powergem",
     "tm:protect",
@@ -61,12 +63,14 @@
     "tm:sandtomb",
     "tm:selfdestruct",
     "tm:sleeptalk",
+    "tm:smackdown",
     "tm:snore",
     "tm:spikes",
     "tm:stealthrock",
     "tm:stoneedge",
     "tm:substitute",
     "tm:takedown",
+    "tm:temperflare",
     "tm:terablast",
     "tm:willowisp",
     "tutor:meteorbeam"
@@ -112,5 +116,22 @@
   "height": 3,
   "weight": 120,
   "aspects": [],
-  "cannotDynamax": false
+  "cannotDynamax": false,
+  "drops": {
+    "amount": 3,
+    "entries": [
+      {
+        "item": "minecraft:coal",
+        "quantityRange": "0-1"
+      },
+      {
+        "item": "cobblemon:black_augurite",
+        "percentage": 2.5
+      },
+      {
+        "item": "cobblemon:passho_berry",
+        "percentage": 2.5
+      }
+    ]
+  }
 }

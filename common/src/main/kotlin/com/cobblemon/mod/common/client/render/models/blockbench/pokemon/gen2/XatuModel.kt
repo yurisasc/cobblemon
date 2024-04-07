@@ -18,16 +18,16 @@ import net.minecraft.util.math.Vec3d
 
 class XatuModel(root: ModelPart) : PokemonPoseableModel() {
     override val rootPart = root.registerChildWithAllChildren("xatu")
-    override val portraitScale = 3.0F
-    override val portraitTranslation = Vec3d(-0.05, 0.0, 0.0)
+    override var portraitScale = 3.0F
+    override var portraitTranslation = Vec3d(-0.05, 0.0, 0.0)
 
-    override val profileScale = 1.0F
-    override val profileTranslation = Vec3d(0.0, 0.25, 0.0)
+    override var profileScale = 1.0F
+    override var profileTranslation = Vec3d(0.0, 0.25, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var sleep: PokemonPose
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("xatu", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("xatu", "blink") }
 
         sleep = registerPose(
             poseType = PoseType.SLEEP,
@@ -48,5 +48,5 @@ class XatuModel(root: ModelPart) : PokemonPoseableModel() {
     override fun getFaintAnimation(
         pokemonEntity: PokemonEntity,
         state: PoseableEntityState<PokemonEntity>
-    ) = if (state.isPosedIn(standing)) bedrockStateful("xatu", "faint") else null
+    ) = if (state.isPosedIn(standing, sleep)) bedrockStateful("xatu", "faint") else null
 }

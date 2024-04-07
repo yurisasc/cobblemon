@@ -123,7 +123,6 @@
       ],
       "height": 14,
       "weight": 600,
-      "evolutions": [],
       "cannotDynamax": false,
       "battleOnly": false
     }
@@ -159,15 +158,19 @@
     "tm:chillingwater",
     "tm:confide",
     "tm:crunch",
+    "tm:curse",
     "tm:dig",
+    "tm:doubleedge",
     "tm:doubleteam",
     "tm:earthquake",
     "tm:echoedvoice",
+    "tm:endeavor",
     "tm:endure",
     "tm:facade",
     "tm:firefang",
     "tm:firepunch",
     "tm:fling",
+    "tm:focuspunch",
     "tm:frustration",
     "tm:gigaimpact",
     "tm:helpinghand",
@@ -176,6 +179,7 @@
     "tm:icefang",
     "tm:icepunch",
     "tm:ironhead",
+    "tm:knockoff",
     "tm:lowsweep",
     "tm:mudshot",
     "tm:mudslap",
@@ -196,6 +200,7 @@
     "tm:stompingtantrum",
     "tm:substitute",
     "tm:sunnyday",
+    "tm:superfang",
     "tm:swagger",
     "tm:takedown",
     "tm:taunt",
@@ -252,5 +257,14 @@
   "height": 7,
   "weight": 142,
   "aspects": [],
-  "cannotDynamax": false
+  "cannotDynamax": false,
+  "drops": {
+    "amount": 1,
+    "entries": [
+      {
+        "item": "cobblemon:pecha_berry",
+        "percentage": 5.0
+      }
+    ]
+  }
 }
