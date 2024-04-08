@@ -123,7 +123,7 @@ def main(print_missing_models=True, print_missing_animations=True):
                     for animation_name, animation_data in data['animations'].items():
                         if animation_name == f"animation.{sanitized_pokemon_name_lower}.cry":
                             # Check if the "sound_effects" field is present
-                            checks["sound_effects"] = check_sound_effects(animation_data, sanitized_pokemon_name_lower)
+                            checks["sound_effects_and_keyframes"] = check_sound_effects(animation_data, sanitized_pokemon_name_lower)
 
             except json.decoder.JSONDecodeError:
                 print_warning("Invalid JSON in " + animation_file_path.replace(
@@ -164,7 +164,7 @@ def main(print_missing_models=True, print_missing_animations=True):
             all_warnings_combined.append((pokemon_name, "⚠️ Warning: Model.kt import not correct"))
 
         # If any of the remaining checks failed, add the Pokemon to the all_warnings_combined list
-        if not checks["sound_effects"]:
+        if not checks["sound_effects_and_keyframes"]:
             invalid_animation_files.append((pokemon_name, " [problem with Sound Effects in Animation.json]"))
             all_warnings_combined.append((pokemon_name, "⚠️ Warning: Sound effect in Animation.json not correct"))
 
