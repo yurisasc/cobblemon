@@ -28,6 +28,46 @@
             "id": "darmanitan-2",
             "pokemon": "darmanitan",
             "presets": [
+                "natural",
+                "desert_pyramid"
+            ],
+            "type": "pokemon",
+            "context": "grounded",
+            "bucket": "common",
+            "level": "35-54",
+            "weight": 5.4,
+            "condition": {
+                "minSkyLight": 8,
+                "maxSkyLight": 15,
+                "biomes": [
+                    "#cobblemon:is_desert"
+                ]
+            }
+        },
+        {
+            "id": "darmanitan-3",
+            "pokemon": "darmanitan",
+            "presets": [
+                "natural",
+                "jungle_pyramid"
+            ],
+            "type": "pokemon",
+            "context": "grounded",
+            "bucket": "common",
+            "level": "35-54",
+            "weight": 5.4,
+            "condition": {
+                "minSkyLight": 8,
+                "maxSkyLight": 15,
+                "biomes": [
+                    "#cobblemon:is_jungle"
+                ]
+            }
+        },
+        {
+            "id": "darmanitan-4",
+            "pokemon": "darmanitan",
+            "presets": [
                 "natural"
             ],
             "type": "pokemon",
