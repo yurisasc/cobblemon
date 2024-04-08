@@ -440,12 +440,22 @@ open class PokemonBattle(
     }
 
     fun checkForInputDispatch() {
-        val playerDidForfeit = actors.any{ it.responses.any { it is ForfeitActionResponse } }
-        val readyToInput = (actors.any { !it.mustChoose && it.responses.isNotEmpty() } && actors.none { it.mustChoose }) || playerDidForfeit
+        if (checkForfeit()) return  // ignore actors that are still choosing, their choices don't matter anymore
+        val readyToInput = (actors.any { !it.mustChoose && it.responses.isNotEmpty() } && actors.none { it.mustChoose })
         if (readyToInput && captureActions.isEmpty()) {
             actors.filter { it.responses.isNotEmpty() }.forEach { it.writeShowdownResponse() }
             actors.forEach { it.responses.clear() ; it.request = null }
         }
+    }
+
+    /** Forces Showdown to end the battle when a [BattleActor] chooses to forfeit. */
+    private fun checkForfeit(): Boolean {
+        val forfeit = actors.find { it.responses.any { it is ForfeitActionResponse } }
+        return forfeit?.let {
+            this.dispatchWaiting { this.broadcastChatMessage(battleLang("forfeit", it.getName()).red()) }
+            writeShowdownAction(">forcelose ${it.showdownId}")
+            true
+        } ?: false
     }
 
     /**
