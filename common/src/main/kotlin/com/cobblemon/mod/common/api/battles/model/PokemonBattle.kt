@@ -37,6 +37,7 @@ import com.cobblemon.mod.common.battles.dispatch.WaitDispatch
 import com.cobblemon.mod.common.battles.interpreter.ContextManager
 import com.cobblemon.mod.common.battles.pokemon.BattlePokemon
 import com.cobblemon.mod.common.battles.runner.ShowdownService
+import com.cobblemon.mod.common.battles.ForfeitActionResponse
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.net.messages.client.battle.BattleEndPacket
 import com.cobblemon.mod.common.net.messages.client.battle.BattleMessagePacket
@@ -439,11 +440,22 @@ open class PokemonBattle(
     }
 
     fun checkForInputDispatch() {
-        val readyToInput = actors.any { !it.mustChoose && it.responses.isNotEmpty() } && actors.none { it.mustChoose }
+        if (checkForfeit()) return  // ignore actors that are still choosing, their choices don't matter anymore
+        val readyToInput = (actors.any { !it.mustChoose && it.responses.isNotEmpty() } && actors.none { it.mustChoose })
         if (readyToInput && captureActions.isEmpty()) {
             actors.filter { it.responses.isNotEmpty() }.forEach { it.writeShowdownResponse() }
             actors.forEach { it.responses.clear() ; it.request = null }
         }
+    }
+
+    /** Forces Showdown to end the battle when a [BattleActor] chooses to forfeit. */
+    private fun checkForfeit(): Boolean {
+        val forfeit = actors.find { it.responses.any { it is ForfeitActionResponse } }
+        return forfeit?.let {
+            this.dispatchWaiting { this.broadcastChatMessage(battleLang("forfeit", it.getName()).red()) }
+            writeShowdownAction(">forcelose ${it.showdownId}")
+            true
+        } ?: false
     }
 
     /**
