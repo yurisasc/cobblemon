@@ -56,7 +56,7 @@ object ShowdownInterpreter {
         }
 
         listOf(
-            "player", "teamsize", "gametype", "gen", "tier", "rated", "clearpoke", "poke", "teampreview", "start", "rule", "t:", ""
+            "player", "teamsize", "gametype", "gen", "tier", "rated", "clearpoke", "poke", "teampreview", "start", "rule", "t:", "", "capture"
         ).forEach { updateInstructionParser[it] = { _, _, _, _ -> IgnoredInstruction() } }
 
         updateInstructionParser["-ability"]              = { _, instructionSet, message, _ -> AbilityInstruction(instructionSet, message) }

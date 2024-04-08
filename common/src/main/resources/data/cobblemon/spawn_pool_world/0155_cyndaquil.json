@@ -28,8 +28,8 @@
             }
         },
         {
-            "id": "cyndaquil-hisuian-2",
-            "pokemon": "cyndaquil hisuian",
+            "id": "cyndaquil-hisui-2",
+            "pokemon": "cyndaquil region_bias=hisui",
             "presets": [
                 "natural"
             ],
@@ -48,8 +48,8 @@
             }
         },
         {
-            "id": "cyndaquil-hisuian-3",
-            "pokemon": "cyndaquil hisuian",
+            "id": "cyndaquil-hisui-3",
+            "pokemon": "cyndaquil region_bias=hisui",
             "presets": [
                 "natural"
             ],

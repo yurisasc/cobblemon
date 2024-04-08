@@ -41,11 +41,6 @@ class ChespinModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bipe
     override fun registerPoses() {
         val blink = quirk { bedrockStateful("chespin", "blink")}
 
-        sleep = registerPose(
-            poseType = PoseType.SLEEP,
-            idleAnimations = arrayOf(bedrock("chespin", "sleep"))
-        )
-
         standing = registerPose(
             poseName = "standing",
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
@@ -67,9 +62,9 @@ class ChespinModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bipe
         )
 
         sleep = registerPose(
-                poseType = PoseType.SLEEP,
-                transformTicks = 10,
-                idleAnimations = arrayOf(bedrock("chespin", "sleep"))
+            poseType = PoseType.SLEEP,
+            transformTicks = 10,
+            idleAnimations = arrayOf(bedrock("chespin", "sleep"))
         )
     }
 }

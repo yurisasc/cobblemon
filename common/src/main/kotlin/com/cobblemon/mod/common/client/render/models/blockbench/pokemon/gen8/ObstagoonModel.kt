@@ -17,12 +17,9 @@ import com.cobblemon.mod.common.entity.PoseType
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class ObstagoonModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedFrame{
+class ObstagoonModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("obstagoon")
     override val head = getPart("head")
-
-    override val leftLeg = getPart("left_leg")
-    override val rightLeg = getPart("right_leg")
 
     override var portraitScale = 1.7F
     override var portraitTranslation = Vec3d(-1.1, 1.9, 0.0)
@@ -30,14 +27,24 @@ class ObstagoonModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bi
     override var profileScale = 0.5F
     override var profileTranslation = Vec3d(0.0, 0.9, 0.0)
 
+    lateinit var sleep: PokemonPose
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
+    lateinit var battleidle: PokemonPose
 
     override fun registerPoses() {
         val blink = quirk { bedrockStateful("obstagoon", "blink") }
+
+        sleep = registerPose(
+            poseName = "sleep",
+            poseType = PoseType.SLEEP,
+            idleAnimations = arrayOf(bedrock("obstagoon", "sleep"))
+        )
+
         standing = registerPose(
             poseName = "standing",
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
+            condition = { !it.isBattling },
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
@@ -51,9 +58,18 @@ class ObstagoonModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bi
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
-                bedrock("obstagoon", "ground_idle"),
-                BipedWalkAnimation(this)
-                //bedrock("obstagoon", "ground_walk")
+                bedrock("obstagoon", "ground_walk")
+            )
+        )
+
+        battleidle = registerPose(
+            poseName = "battleidle",
+            poseTypes = PoseType.STATIONARY_POSES,
+            quirks = arrayOf(blink),
+            condition = { it.isBattling },
+            idleAnimations = arrayOf(
+                singleBoneLook(),
+                bedrock("obstagoon", "battle_idle")
             )
         )
     }

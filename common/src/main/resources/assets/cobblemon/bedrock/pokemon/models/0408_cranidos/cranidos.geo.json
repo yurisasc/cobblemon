@@ -13,12 +13,12 @@
 			"bones": [
 				{
 					"name": "cranidos",
-					"pivot": [0.25, 0, 0]
+					"pivot": [0, 0, 0]
 				},
 				{
 					"name": "body",
 					"parent": "cranidos",
-					"pivot": [0.25, 0, 0]
+					"pivot": [0, 0, 0]
 				},
 				{
 					"name": "torso",

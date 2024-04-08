@@ -38,7 +38,7 @@ class FlittleModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     lateinit var shoulderRight: PokemonPose
     lateinit var sleep: PokemonPose
 
-    val shoulderOffsetX = 6
+    val shoulderOffsetX = 11
     val shoulderOffsetY = 6
 
     override val cryAnimation = CryProvider { _, _ -> bedrockStateful("flittle", "cry") }

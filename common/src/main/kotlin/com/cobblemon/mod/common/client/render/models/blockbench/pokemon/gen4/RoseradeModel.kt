@@ -8,25 +8,23 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen4
 
+import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.BimanualSwingAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.BipedWalkAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BimanualFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cobblemon.mod.common.entity.PoseType
+import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class RoseradeModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedFrame, BimanualFrame {
+class RoseradeModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("roserade")
     override val head = getPart("head")
-
-    override val leftArm = getPart("left_upper_arm")
-    override val rightArm = getPart("right_upper_arm")
-    override val leftLeg = getPart("left_upper_leg")
-    override val rightLeg = getPart("right_upper_leg")
 
     override var portraitScale = 2.64F
     override var portraitTranslation = Vec3d(-0.29, 0.49, 0.0)
@@ -36,13 +34,29 @@ class RoseradeModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
+    lateinit var sleep: PokemonPose
+    lateinit var battleIdle: PokemonPose
+
+    override val cryAnimation = CryProvider { _, pose -> if (pose.isPosedIn(battleIdle)) bedrockStateful("roserade", "battle_cry") else bedrockStateful("roserade", "cry") }
+
 
     override fun registerPoses() {
         val blink = quirk { bedrockStateful("roserade", "blink") }
+        val quirk = quirk { bedrockStateful("roserade", "quirk_idle") }
+
+        sleep = registerPose(
+            poseName = "sleep",
+            poseType = PoseType.SLEEP,
+            idleAnimations = arrayOf(
+                bedrock("roserade", "sleep")
+            )
+        )
+
         standing = registerPose(
             poseName = "standing",
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
-            quirks = arrayOf(blink),
+            quirks = arrayOf(blink, quirk),
+            condition = { !it.isBattling },
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("roserade", "ground_idle")
@@ -55,10 +69,18 @@ class RoseradeModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
-                bedrock("roserade", "ground_idle"),
-                BipedWalkAnimation(this, periodMultiplier = 0.6F, amplitudeMultiplier = 0.9F),
-                BimanualSwingAnimation(this, swingPeriodMultiplier = 0.6F, amplitudeMultiplier = 0.9F)
-                //bedrock("roserade", "ground_walk")
+                bedrock("roserade", "ground_walk")
+            )
+        )
+
+        battleIdle = registerPose(
+            poseName = "battle_idle",
+            poseTypes = PoseType.STATIONARY_POSES,
+            condition = { it.isBattling },
+            quirks = arrayOf(blink, quirk),
+            idleAnimations = arrayOf(
+                singleBoneLook(),
+                bedrock("roserade", "battle_idle")
             )
         )
     }
@@ -66,5 +88,5 @@ class RoseradeModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
 //    override fun getFaintAnimation(
 //        pokemonEntity: PokemonEntity,
 //        state: PoseableEntityState<PokemonEntity>
-//    ) = if (state.isPosedIn(standing, walk)) bedrockStateful("roserade", "faint") else null
+//    ) = bedrockStateful("roserade", "faint")
 }

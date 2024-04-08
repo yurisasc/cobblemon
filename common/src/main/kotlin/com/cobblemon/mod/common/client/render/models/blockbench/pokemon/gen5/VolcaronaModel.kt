@@ -36,7 +36,7 @@ class VolcaronaModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             poseName = "standing",
             poseTypes = PoseType.UI_POSES + PoseType.STATIONARY_POSES,
             idleAnimations = arrayOf(
-                singleBoneLook(),
+                singleBoneLook(pitchMultiplier = 0.2F, yawMultiplier = 0.3F),
                 bedrock("volcarona", "ground_idle")
             )
         )
@@ -45,7 +45,7 @@ class VolcaronaModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             poseName = "walk",
             poseTypes = PoseType.MOVING_POSES,
             idleAnimations = arrayOf(
-                singleBoneLook(),
+                singleBoneLook(pitchMultiplier = 0.2F, yawMultiplier = 0.3F),
                 bedrock("volcarona", "ground_idle")
                 //bedrock("volcarona", "ground_walk")
             )

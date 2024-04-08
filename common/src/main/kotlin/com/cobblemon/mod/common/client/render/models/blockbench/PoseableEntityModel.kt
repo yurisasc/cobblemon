@@ -383,7 +383,7 @@ abstract class PoseableEntityModel<T : Entity>(
             transformedParts,
             quirks
         ).also {
-            poses[poseType.name] = it
+            setPose(poseType.name, it)
         }
     }
 
@@ -409,7 +409,7 @@ abstract class PoseableEntityModel<T : Entity>(
             transformedParts,
             quirks
         ).also {
-            poses[poseName] = it
+            setPose(poseName, it)
         }
     }
 
@@ -435,8 +435,16 @@ abstract class PoseableEntityModel<T : Entity>(
             transformedParts,
             quirks
         ).also {
-            poses[poseName] = it
+            setPose(poseName, it)
         }
+    }
+
+    fun <F : ModelFrame> setPose(poseName: String, pose: Pose<T, F>) {
+        // if pose already exists for poseName, log the name of the class and pose name
+        if (poses.containsKey(poseName)) {
+            LOGGER.error("Pose with name $poseName already exists for class ${this::class.simpleName}")
+        }
+        poses[poseName] = pose
     }
 
     fun ModelPart.registerChildWithAllChildren(name: String): ModelPart {

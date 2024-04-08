@@ -233,7 +233,7 @@
     {
       "id": "cubone_marowak_alolan",
       "variant": "level_up",
-      "result": "marowak form=alola",
+      "result": "marowak alolan",
       "consumeHeldItem": false,
       "learnableMoves": [
         "shadowbone"

@@ -31,7 +31,7 @@ class WalkingwakeModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, 
     override var portraitTranslation = Vec3d(-2.5, 2.4, 0.0)
 
     override var profileScale = 0.35F
-    override var profileTranslation = Vec3d(0.0, 1.2, 0.0)
+    override var profileTranslation = Vec3d(0.0, 1.2, -6.0)
 
     val hair = getPart("hair")
 

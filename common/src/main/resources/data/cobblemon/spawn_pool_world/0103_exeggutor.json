@@ -40,6 +40,11 @@
                     "#cobblemon:is_beach",
                     "#cobblemon:is_tropical_island"
                 ]
+            },
+            "anticondition": {
+                "biomes": [
+                    "#cobblemon:is_freezing"
+                ]
             }
         }
     ]

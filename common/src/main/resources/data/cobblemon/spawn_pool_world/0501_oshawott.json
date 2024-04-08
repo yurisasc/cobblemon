@@ -52,8 +52,8 @@
             }
         },
         {
-            "id": "oshawott-hisuian-3",
-            "pokemon": "oshawott hisuian",
+            "id": "oshawott-hisui-3",
+            "pokemon": "oshawott region_bias=hisui",
             "presets": [
                 "natural"
             ],
@@ -76,8 +76,8 @@
             }
         },
         {
-            "id": "oshawott-hisuian-4",
-            "pokemon": "oshawott hisuian",
+            "id": "oshawott-hisui-4",
+            "pokemon": "oshawott region_bias=hisui",
             "presets": [
                 "water_surface"
             ],
@@ -100,8 +100,8 @@
             }
         },
         {
-            "id": "oshawott-hisuian-5",
-            "pokemon": "oshawott hisuian",
+            "id": "oshawott-hisui-5",
+            "pokemon": "oshawott region_bias=hisui",
             "presets": [
                 "natural"
             ],
@@ -119,8 +119,8 @@
             }
         },
         {
-            "id": "oshawott-hisuian-6",
-            "pokemon": "oshawott hisuian",
+            "id": "oshawott-hisui-6",
+            "pokemon": "oshawott region_bias=hisui",
             "presets": [
                 "water_surface"
             ],

@@ -5,7 +5,7 @@
 			"description": {
 				"identifier": "geometry.hippowdon",
 				"texture_width": 256,
-				"texture_height": 256,
+				"texture_height": 320,
 				"visible_bounds_width": 6,
 				"visible_bounds_height": 3.5,
 				"visible_bounds_offset": [0, 1.25, 0]
@@ -27,6 +27,15 @@
 					"cubes": [
 						{"origin": [-24, 0, -22], "size": [48, 3, 48], "uv": [0, 64]},
 						{"origin": [-32, 0.01, -30], "size": [64, 0, 64], "uv": [0, 0]}
+					]
+				},
+				{
+					"name": "redsand",
+					"parent": "body",
+					"pivot": [0, 0, 2],
+					"cubes": [
+						{"origin": [-24, 0, -22], "size": [48, 3, 48], "uv": [0, 202]},
+						{"origin": [-32, 0.01, -30], "size": [64, 0, 64], "uv": [-63, 256]}
 					]
 				},
 				{

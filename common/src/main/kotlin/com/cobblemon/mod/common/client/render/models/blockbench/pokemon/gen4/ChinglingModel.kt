@@ -84,8 +84,8 @@ class ChinglingModel(root: ModelPart) : PokemonPoseableModel() {
         )
     }
 
-    override fun getFaintAnimation(
-        pokemonEntity: PokemonEntity,
-        state: PoseableEntityState<PokemonEntity>
-    ) = if (state.isPosedIn(standing, walk, hover, fly, sleep )) bedrockStateful("chingling", "faint") else null
+    //override fun getFaintAnimation(
+    //    pokemonEntity: PokemonEntity,
+    //    state: PoseableEntityState<PokemonEntity>
+    //) = if (state.isPosedIn(standing, walk, hover, fly, sleep )) bedrockStateful("chingling", "faint") else null
 }

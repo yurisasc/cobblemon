@@ -20,7 +20,7 @@ import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
 class DarmanitanZenModel (root: ModelPart) : PokemonPoseableModel() {
-    override val rootPart = root.registerChildWithAllChildren("darmanitan_zen")
+    override val rootPart = root.registerChildWithAllChildren("darmanitan")
 
     override var portraitScale = 1.05F
     override var portraitTranslation = Vec3d(-0.28, 0.48, 0.0)
@@ -30,13 +30,23 @@ class DarmanitanZenModel (root: ModelPart) : PokemonPoseableModel() {
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
+    lateinit var sleep: PokemonPose
+    lateinit var battleIdle: PokemonPose
 
     override fun registerPoses() {
+
+        sleep = registerPose(
+            poseName = "sleeping",
+            poseType = PoseType.SLEEP,
+            idleAnimations = arrayOf(bedrock("darmanitan_zen", "sleep"))
+        )
+
         standing = registerPose(
             poseName = "standing",
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
+            condition = { !it.isBattling },
             idleAnimations = arrayOf(
-                //bedrock("darmanitan_zen", "ground_idle")
+                bedrock("darmanitan_zen", "ground_idle")
             )
         )
 
@@ -44,7 +54,16 @@ class DarmanitanZenModel (root: ModelPart) : PokemonPoseableModel() {
             poseName = "walk",
             poseTypes = PoseType.MOVING_POSES,
             idleAnimations = arrayOf(
-                //bedrock("darmanitan_zen", "ground_walk")
+                bedrock("darmanitan_zen", "ground_walk")
+            )
+        )
+
+        battleIdle = registerPose(
+            poseName = "battle_idle",
+            poseTypes = PoseType.STATIONARY_POSES,
+            condition = { it.isBattling },
+            idleAnimations = arrayOf(
+                bedrock("darmanitan_zen", "battle_idle")
             )
         )
     }

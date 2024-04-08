@@ -8,6 +8,7 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1
 
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cobblemon.mod.common.entity.PoseType
@@ -34,8 +35,11 @@ class OmanyteModel(root: ModelPart) : PokemonPoseableModel() {
     lateinit var sleep: PokemonPose
     lateinit var battleidle: PokemonPose
 
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("omanyte", "cry") }
+
     override fun registerPoses() {
         val blink = quirk { bedrockStateful("omanyte", "blink") }
+
         sleep = registerPose(
             poseName = "sleep",
             poseType = PoseType.SLEEP,
@@ -44,7 +48,7 @@ class OmanyteModel(root: ModelPart) : PokemonPoseableModel() {
 
         standing = registerPose(
             poseName = "standing",
-            poseTypes = PoseType.UI_POSES + PoseType.STAND,
+            poseTypes = PoseType.STANDING_POSES + PoseType.UI_POSES,
             quirks = arrayOf(blink),
             transformTicks = 10,
             condition = { !it.isBattling},
@@ -55,7 +59,7 @@ class OmanyteModel(root: ModelPart) : PokemonPoseableModel() {
 
         walk = registerPose(
             poseName = "walk",
-            poseType = PoseType.WALK,
+            poseTypes = PoseType.MOVING_POSES - PoseType.SWIM,
             quirks = arrayOf(blink),
             transformTicks = 10,
             idleAnimations = arrayOf(
@@ -84,7 +88,7 @@ class OmanyteModel(root: ModelPart) : PokemonPoseableModel() {
         )
 
         battleidle = registerPose(
-            poseName = "standing",
+            poseName = "battle-standing",
             poseTypes = PoseType.STATIONARY_POSES,
             quirks = arrayOf(blink),
             transformTicks = 10,

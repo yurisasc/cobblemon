@@ -151,7 +151,7 @@
       },
       "height": 12,
       "weight": 192,
-      "preEvolution": "petilil hisuian",
+      "preEvolution": "petilil region_bias=hisui",
       "cannotDynamax": false,
       "battleOnly": false,
       "drops": {
@@ -264,7 +264,7 @@
   ],
   "preEvolution": "petilil",
   "evolutions": [],
-  "baseScale": 0.7,
+  "baseScale": 0.6,
   "hitbox": {
     "width": 1.1,
     "height": 2.3,

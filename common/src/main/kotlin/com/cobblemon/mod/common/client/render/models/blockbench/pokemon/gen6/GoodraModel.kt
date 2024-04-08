@@ -8,19 +8,31 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen6
 
+import com.cobblemon.mod.common.client.render.models.blockbench.animation.BimanualSwingAnimation
+import com.cobblemon.mod.common.client.render.models.blockbench.animation.BipedWalkAnimation
+import com.cobblemon.mod.common.client.render.models.blockbench.frame.BimanualFrame
+import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
+import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cobblemon.mod.common.entity.PoseType
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class GoodraModel (root: ModelPart) : PokemonPoseableModel() {
+class GoodraModel(root: ModelPart) : PokemonPoseableModel(), BipedFrame, BimanualFrame, HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("goodra")
-    override var portraitScale = 1.8F
-    override var portraitTranslation = Vec3d(0.0, 0.2, 0.0)
+    override val head = getPart("head_ai")
 
-    override var profileScale = 0.85F
-    override var profileTranslation = Vec3d(0.0, 0.7, 0.0)
+    override val leftArm = getPart("arm_left")
+    override val rightArm = getPart("arm_right")
+    override val leftLeg = getPart("leg_left")
+    override val rightLeg = getPart("leg_right")
+
+    override var portraitScale = 1.58F
+    override var portraitTranslation = Vec3d(-0.57, 3.35, 0.0)
+
+    override var profileScale = 0.44F
+    override var profileTranslation = Vec3d(0.02, 1.18, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
@@ -32,6 +44,7 @@ class GoodraModel (root: ModelPart) : PokemonPoseableModel() {
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
+                singleBoneLook(),
                 bedrock("goodra", "ground_idle")
             )
         )
@@ -41,7 +54,10 @@ class GoodraModel (root: ModelPart) : PokemonPoseableModel() {
             poseTypes = PoseType.MOVING_POSES,
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
+                singleBoneLook(),
                 bedrock("goodra", "ground_idle"),
+                BipedWalkAnimation(this, periodMultiplier = 0.6F, amplitudeMultiplier = 0.9F),
+                BimanualSwingAnimation(this, swingPeriodMultiplier = 0.6F, amplitudeMultiplier = 0.9F)
             )
         )
     }

@@ -59,6 +59,11 @@ import com.cobblemon.mod.common.pokemon.evolution.variants.ItemInteractionEvolut
 import com.cobblemon.mod.common.pokemon.misc.GimmighoulStashHandler
 import com.cobblemon.mod.common.util.*
 import com.cobblemon.mod.common.world.gamerules.CobblemonGameRules
+import net.minecraft.block.Blocks
+import java.util.EnumSet
+import java.util.Optional
+import java.util.UUID
+import java.util.concurrent.CompletableFuture
 import net.minecraft.entity.*
 import net.minecraft.entity.ai.control.MoveControl
 import net.minecraft.entity.ai.goal.EatGrassGoal
@@ -106,7 +111,6 @@ import net.minecraft.world.EntityView
 import net.minecraft.world.World
 import net.minecraft.world.event.GameEvent
 import java.util.*
-import java.util.concurrent.CompletableFuture
 
 @Suppress("unused")
 open class PokemonEntity(

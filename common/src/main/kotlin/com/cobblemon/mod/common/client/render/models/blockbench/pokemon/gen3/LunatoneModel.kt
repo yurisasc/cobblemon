@@ -18,7 +18,7 @@ class LunatoneModel (root: ModelPart) : PokemonPoseableModel() {
     override val rootPart = root.registerChildWithAllChildren("lunatone")
 
     override var portraitScale = 1.05F
-    override var portraitTranslation = Vec3d(0.07, 0.53, 0.0)
+    override var portraitTranslation = Vec3d(0.23, 0.53, 0.0)
 
     override var profileScale = 0.73F
     override var profileTranslation = Vec3d(0.05, 0.68, 0.0)

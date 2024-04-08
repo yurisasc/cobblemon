@@ -106,8 +106,12 @@
     "cobblemon.species.fluttermane.desc"
   ],
   "drops": {
-    "amount": 1,
+    "amount": 4,
     "entries": [
+      {
+        "item": "minecraft:phantom_membrane",
+        "quantityRange": "0-3"
+      },
       {
         "item": "cobblemon:fairy_feather"
       }
