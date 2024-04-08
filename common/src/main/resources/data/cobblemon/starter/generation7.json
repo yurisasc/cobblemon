@@ -1,0 +1,10 @@
+{
+  "displayName": {
+    "translate": "cobblemon.starterselection.category.alola"
+  },
+  "pokemon": [
+    "Rowlet level=10",
+    "Litten level=10",
+    "Popplio level=10"
+  ]
+}

@@ -29,7 +29,7 @@ class SetClientPlayerDataPacket(val promptStarter: Boolean, val starterLocked: B
         playerData: PlayerData,
         resetStarterPrompt: Boolean? = null
     ) : this(
-        !playerData.starterPrompted || !Cobblemon.starterConfig.promptStarterOnceOnly,
+        !playerData.starterPrompted || !Cobblemon.config.promptStarterOnceOnly,
         playerData.starterLocked,
         playerData.starterSelected,
         playerData.starterUUID,

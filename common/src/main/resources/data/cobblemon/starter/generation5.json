@@ -1,0 +1,10 @@
+{
+  "displayName": {
+    "translate": "cobblemon.starterselection.category.unova"
+  },
+  "pokemon": [
+    "Snivy level=10",
+    "Tepig level=10",
+    "Oshawott level=10"
+  ]
+}

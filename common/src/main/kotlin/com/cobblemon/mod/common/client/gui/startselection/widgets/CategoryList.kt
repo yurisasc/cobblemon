@@ -12,14 +12,14 @@ import com.cobblemon.mod.common.CobblemonSounds
 import com.cobblemon.mod.common.api.gui.blitk
 import com.cobblemon.mod.common.client.gui.startselection.StarterSelectionScreen
 import com.cobblemon.mod.common.client.render.drawScaledText
-import com.cobblemon.mod.common.config.starter.RenderableStarterCategory
+import com.cobblemon.mod.common.api.starter.RenderableStarterCategory
 import com.cobblemon.mod.common.util.cobblemonResource
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.gui.DrawContext
 import net.minecraft.client.gui.widget.AlwaysSelectedEntryListWidget
 import net.minecraft.client.sound.PositionedSoundInstance
-import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.text.Text
+import net.minecraft.util.Identifier
 
 class CategoryList(
     private val paneWidth: Int,
@@ -28,7 +28,7 @@ class CategoryList(
     bottomOffset: Int,
     private val entryWidth: Int,
     entryHeight: Int,
-    private val categories: List<RenderableStarterCategory>,
+    private val categories: Map<Identifier, RenderableStarterCategory>,
     val x: Int, val y: Int,
     private val minecraft: MinecraftClient = MinecraftClient.getInstance(),
     private val starterSelectionScreen: StarterSelectionScreen
@@ -44,7 +44,6 @@ class CategoryList(
     companion object {
         private const val CATEGORY_BUTTON_WIDTH = 51.5f
         private const val CATEGORY_BUTTON_HEIGHT = 16f
-        private const val ENTRY_X_OFFSET = 10f
         private val categoryResource = cobblemonResource("textures/gui/starterselection/starterselection_slot.png")
     }
 
@@ -53,19 +52,12 @@ class CategoryList(
         this.setRenderHorizontalShadows(false)
         this.setRenderBackground(false)
         this.setRenderSelection(false)
-    }
-
-    private var entriesCreated = false
-
-    private fun createEntries() = categories.map {
-        Category(it)
+        this.categories.forEach { (id, category) ->
+            this.addEntry(Category(id, category))
+        }
     }
 
     override fun render(context: DrawContext, mouseX: Int, mouseY: Int, delta: Float) {
-        if (!entriesCreated) {
-            createEntries().forEach { addEntry(it) }
-            entriesCreated = true
-        }
         context.enableScissor(
             x,
             y,
@@ -80,15 +72,13 @@ class CategoryList(
         this.updateSize(this.paneWidth, this.paneHeight, this.y, this.y + this.paneHeight)
         this.setLeftPos(this.x)
     }
-
-    private fun scale(n: Int): Int = (this.client.window.scaleFactor * n).toInt()
     override fun getRowWidth() = this.entryWidth
     override fun getScrollbarPositionX(): Int {
         return this.left + this.width - 5
     }
 
 
-    inner class Category(private val category: RenderableStarterCategory) : Entry<Category>() {
+    inner class Category(private val id: Identifier, private val category: RenderableStarterCategory) : Entry<Category>() {
 
         override fun render(
             context: DrawContext,
@@ -121,7 +111,7 @@ class CategoryList(
                 )
             drawScaledText(
                 context = context,
-                text = category.displayNameText,
+                text = category.displayName.copy(),
                 x = x + 28,
                 y = y + 4.5F,
                 scale = 1F,
@@ -132,7 +122,7 @@ class CategoryList(
         }
 
         override fun mouseClicked(mouseX: Double, mouseY: Double, button: Int): Boolean {
-            starterSelectionScreen.changeCategory(category = category)
+            starterSelectionScreen.changeCategory(this.id)
             minecraft.soundManager.play(PositionedSoundInstance.master(CobblemonSounds.GUI_CLICK, 1.0F))
             return true
         }

@@ -67,24 +67,13 @@ import com.cobblemon.mod.common.api.storage.player.factory.JsonPlayerDataStoreFa
 import com.cobblemon.mod.common.api.storage.player.factory.MongoPlayerDataStoreFactory
 import com.cobblemon.mod.common.api.tags.CobblemonEntityTypeTags
 import com.cobblemon.mod.common.api.tags.CobblemonItemTags
-import com.cobblemon.mod.common.battles.BagItems
-import com.cobblemon.mod.common.battles.BattleFormat
-import com.cobblemon.mod.common.battles.BattleRegistry
-import com.cobblemon.mod.common.battles.BattleSide
-import com.cobblemon.mod.common.battles.ShowdownThread
+import com.cobblemon.mod.common.battles.*
 import com.cobblemon.mod.common.battles.actor.PokemonBattleActor
 import com.cobblemon.mod.common.battles.pokemon.BattlePokemon
-import com.cobblemon.mod.common.command.argument.DialogueArgumentType
-import com.cobblemon.mod.common.command.argument.MoveArgumentType
-import com.cobblemon.mod.common.command.argument.PartySlotArgumentType
-import com.cobblemon.mod.common.command.argument.PokemonArgumentType
-import com.cobblemon.mod.common.command.argument.PokemonPropertiesArgumentType
-import com.cobblemon.mod.common.command.argument.PokemonStoreArgumentType
-import com.cobblemon.mod.common.command.argument.SpawnBucketArgumentType
+import com.cobblemon.mod.common.command.argument.*
 import com.cobblemon.mod.common.config.CobblemonConfig
 import com.cobblemon.mod.common.config.LastChangedVersion
 import com.cobblemon.mod.common.config.constraint.IntConstraint
-import com.cobblemon.mod.common.config.starter.StarterConfig
 import com.cobblemon.mod.common.data.CobblemonDataProvider
 import com.cobblemon.mod.common.events.AdvancementHandler
 import com.cobblemon.mod.common.events.ServerTickHandler
@@ -105,13 +94,7 @@ import com.cobblemon.mod.common.pokemon.stat.CobblemonStatProvider
 import com.cobblemon.mod.common.sherds.CobblemonSherds
 import com.cobblemon.mod.common.starter.CobblemonStarterHandler
 import com.cobblemon.mod.common.trade.TradeManager
-import com.cobblemon.mod.common.util.DataKeys
-import com.cobblemon.mod.common.util.cobblemonResource
-import com.cobblemon.mod.common.util.ifDedicatedServer
-import com.cobblemon.mod.common.util.isLaterVersion
-import com.cobblemon.mod.common.util.party
-import com.cobblemon.mod.common.util.removeAmountIf
-import com.cobblemon.mod.common.util.server
+import com.cobblemon.mod.common.util.*
 import com.cobblemon.mod.common.world.feature.CobblemonPlacedFeatures
 import com.cobblemon.mod.common.world.feature.ore.CobblemonOrePlacedFeatures
 import com.cobblemon.mod.common.world.gamerules.CobblemonGameRules
@@ -132,13 +115,16 @@ import org.apache.logging.log4j.Logger
 import java.io.File
 import java.io.FileReader
 import java.io.FileWriter
-import java.io.PrintWriter
 import java.util.*
+import kotlin.collections.filterIsInstance
+import kotlin.collections.forEach
+import kotlin.collections.listOf
+import kotlin.collections.set
+import kotlin.math.roundToInt
 import kotlin.properties.Delegates
 import kotlin.reflect.full.memberProperties
 import kotlin.reflect.jvm.isAccessible
 import kotlin.reflect.jvm.javaField
-import kotlin.math.roundToInt
 
 object Cobblemon {
     const val MODID = "cobblemon"
@@ -166,7 +152,6 @@ object Cobblemon {
     var storage = PokemonStoreManager()
     var molangData = NbtMoLangDataStoreFactory
     lateinit var playerData: PlayerDataStoreManager
-    lateinit var starterConfig: StarterConfig
     val dataProvider: DataProvider = CobblemonDataProvider
     var permissionValidator: PermissionValidator by Delegates.observable(LaxPermissionValidator().also { it.initialize() }) { _, _, newValue -> newValue.initialize() }
     var statProvider: StatProvider = CobblemonStatProvider
@@ -477,27 +462,6 @@ object Cobblemon {
         this.saveConfig()
 
         bestSpawner.loadConfig()
-        PokemonSpecies.observable.subscribe { starterConfig = this.loadStarterConfig() }
-    }
-
-    fun loadStarterConfig(): StarterConfig {
-        if (config.exportStarterConfig) {
-            val file = File("config/cobblemon/starters.json")
-            file.parentFile.mkdirs()
-            if (!file.exists()) {
-                val config = StarterConfig()
-                val pw = PrintWriter(file)
-                StarterConfig.GSON.toJson(config, pw)
-                pw.close()
-                return config
-            }
-            val reader = FileReader(file)
-            val config = StarterConfig.GSON.fromJson(reader, StarterConfig::class.java)
-            reader.close()
-            return config
-        } else {
-            return StarterConfig()
-        }
     }
 
     fun saveConfig() {

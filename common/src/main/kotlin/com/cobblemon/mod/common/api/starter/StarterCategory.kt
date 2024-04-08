@@ -6,24 +6,19 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-package com.cobblemon.mod.common.config.starter
+package com.cobblemon.mod.common.api.starter
 
 import com.cobblemon.mod.common.api.pokemon.PokemonProperties
 import com.cobblemon.mod.common.pokemon.RenderablePokemon
 import com.cobblemon.mod.common.util.asTranslated
+import net.minecraft.text.Text
 
 data class StarterCategory(
-    val name: String,
-    val displayName: String,
+    val displayName: Text,
     val pokemon: List<PokemonProperties>
-) {
-    fun asRenderableStarterCategory() = RenderableStarterCategory(name, displayName, pokemon.map { it.asRenderablePokemon() })
-}
+)
 
 data class RenderableStarterCategory(
-    val name: String,
-    val displayName: String,
+    val displayName: Text,
     val pokemon: List<RenderablePokemon>
-) {
-    val displayNameText = displayName.asTranslated()
-}
+)

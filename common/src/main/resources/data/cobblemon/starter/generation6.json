@@ -1,0 +1,10 @@
+{
+  "displayName": {
+    "translate": "cobblemon.starterselection.category.kalos"
+  },
+  "pokemon": [
+    "Chespin level=10",
+    "Fennekin level=10",
+    "Froakie level=10"
+  ]
+}
