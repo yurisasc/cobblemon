@@ -14,6 +14,9 @@ import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvi
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cobblemon.mod.common.entity.PoseType
+import com.cobblemon.mod.common.util.isStandingOnRedSand
+import com.cobblemon.mod.common.util.isStandingOnSand
+import com.cobblemon.mod.common.util.isStandingOnSandOrRedSand
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 

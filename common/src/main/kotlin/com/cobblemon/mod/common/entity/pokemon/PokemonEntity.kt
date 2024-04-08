@@ -582,50 +582,6 @@ open class PokemonEntity(
                 (rest.biomes.isEmpty() || rest.biomes.any { it.fits(biome, this.world.registryManager.get(RegistryKeys.BIOME)) })
     }
 
-    fun isDusk(): Boolean {
-        val time = world.timeOfDay % 24000
-        return time in 12000..13000
-    }
-
-    fun isStandingOnSandOrRedSand(): Boolean {
-        val sandDepth = 2 // Define the depth you want to check
-        for (a in 1..sandDepth) {
-            val sandBlockState = this.world.getBlockState(blockPos.down(a))
-            val sandBlock = sandBlockState.block
-            if (sandBlock == Blocks.SAND && !sandBlockState.isAir && sandBlockState.isFullCube(this.world, blockPos.down(a))) {
-                return true
-            }
-            if (sandBlock == Blocks.RED_SAND && !sandBlockState.isAir && sandBlockState.isFullCube(this.world, blockPos.down(a))) {
-                return true
-            }
-        }
-        return false
-    }
-
-    fun isStandingOnSand(): Boolean {
-        val sandDepth = 2 // Define the depth you want to check
-        for (a in 1..sandDepth) {
-            val sandBlockState = this.world.getBlockState(blockPos.down(a))
-            val sandBlock = sandBlockState.block
-            if (sandBlock == Blocks.SAND && !sandBlockState.isAir && sandBlockState.isFullCube(this.world, blockPos.down(a))) {
-                return true
-            }
-        }
-        return false
-    }
-
-    fun isStandingOnRedSand(): Boolean {
-        val redSandDepth = 2 // Define the depth you want to check
-        for (i in 1..redSandDepth) {
-            val redSandBlockState = this.world.getBlockState(blockPos.down(i))
-            val redSandBlock = redSandBlockState.block
-            if (redSandBlock == Blocks.RED_SAND && !redSandBlockState.isAir && redSandBlockState.isFullCube(this.world, blockPos.down(i))) {
-                return true
-            }
-        }
-        return false
-    }
-
     override fun createChild(level: ServerWorld, partner: PassiveEntity) = null
 
     override fun isReadyToSitOnPlayer(): Boolean {
