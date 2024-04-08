@@ -86,7 +86,7 @@ class LaprasModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quadru
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
-                bedrock("lapras", "surfacewater_idle")
+                bedrock("lapras", "surfacewater_swim")
             )
         )
 
@@ -106,7 +106,7 @@ class LaprasModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quadru
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
-                bedrock("lapras", "surfacewater_idle")
+                bedrock("lapras", "surfacewater_swim")
             )
         )
     }
