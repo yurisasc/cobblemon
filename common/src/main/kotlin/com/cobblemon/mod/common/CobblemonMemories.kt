@@ -22,6 +22,7 @@ object CobblemonMemories {
     val POKEMON_DROWSY = register("pokemon_drowsy", PrimitiveCodec.BOOL)
     val POKEMON_BATTLE = register<UUID>("pokemon_battle") // No codec because it shouldn't survive relogs
     val REST_PATH_COOLDOWN = register("rest_path_cooldown", PrimitiveCodec.BOOL)
+    val TARGETED_BATTLE_POKEMON = register<UUID>("targeted_battle_pokemon")
 
     fun <U> register(id: String, codec: Codec<U>): MemoryModuleType<U> {
         val memoryModule = MemoryModuleType(Optional.of(codec))

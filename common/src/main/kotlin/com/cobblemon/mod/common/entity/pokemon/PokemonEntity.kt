@@ -11,6 +11,7 @@ package com.cobblemon.mod.common.entity.pokemon
 import com.cobblemon.mod.common.*
 import com.cobblemon.mod.common.CobblemonNetwork.sendPacket
 import com.cobblemon.mod.common.GenericsCheatClass.createPokemonBrain
+import com.cobblemon.mod.common.api.battles.model.PokemonBattle
 import com.cobblemon.mod.common.api.drop.DropTable
 import com.cobblemon.mod.common.api.entity.Despawner
 import com.cobblemon.mod.common.api.events.CobblemonEvents
@@ -21,7 +22,6 @@ import com.cobblemon.mod.common.api.events.pokemon.ShoulderMountEvent
 import com.cobblemon.mod.common.api.interaction.PokemonEntityInteraction
 import com.cobblemon.mod.common.api.net.serializers.PoseTypeDataSerializer
 import com.cobblemon.mod.common.api.net.serializers.StringSetDataSerializer
-import com.cobblemon.mod.common.api.pokemon.PokemonProperties
 import com.cobblemon.mod.common.api.pokemon.feature.FlagSpeciesFeature
 import com.cobblemon.mod.common.api.reactive.ObservableSubscription
 import com.cobblemon.mod.common.api.reactive.SimpleObservable
@@ -50,6 +50,8 @@ import com.cobblemon.mod.common.entity.pokemon.ai.goals.*
 import com.cobblemon.mod.common.entity.pokemon.ai.tasks.EatGrassTask
 import com.cobblemon.mod.common.entity.pokemon.ai.tasks.FindRestingPlaceTask
 import com.cobblemon.mod.common.entity.pokemon.ai.tasks.GoToSleepTask
+import com.cobblemon.mod.common.entity.pokemon.ai.tasks.HandleBattleActivityGoal
+import com.cobblemon.mod.common.entity.pokemon.ai.tasks.LookAtTargetedBattlePokemonTask
 import com.cobblemon.mod.common.entity.pokemon.ai.tasks.WakeUpTask
 import com.cobblemon.mod.common.entity.pokemon.effects.EffectTracker
 import com.cobblemon.mod.common.entity.pokemon.effects.IllusionEffect
@@ -83,7 +85,7 @@ import net.minecraft.entity.ai.brain.sensor.SensorType
 import net.minecraft.entity.ai.brain.task.ForgetAngryAtTargetTask
 import net.minecraft.entity.ai.brain.task.LookAroundTask
 import net.minecraft.entity.ai.brain.task.LookAtMobTask
-import net.minecraft.entity.ai.brain.task.RandomTask
+import net.minecraft.entity.ai.brain.task.Task
 import net.minecraft.entity.ai.control.MoveControl
 import net.minecraft.entity.ai.pathing.PathNodeType
 import net.minecraft.entity.attribute.DefaultAttributeContainer
@@ -190,6 +192,7 @@ open class PokemonEntity(
             CobblemonMemories.POKEMON_BATTLE,
             MemoryModuleType.HOME,
             CobblemonMemories.REST_PATH_COOLDOWN,
+            CobblemonMemories.TARGETED_BATTLE_POKEMON
         )
     }
     val removalObservable = SimpleObservable<RemovalReason?>()
@@ -229,6 +232,8 @@ open class PokemonEntity(
     var battleId: UUID?
         get() = dataTracker.get(BATTLE_ID).orElse(null)
         set(value) = dataTracker.set(BATTLE_ID, Optional.ofNullable(value))
+    val battle: PokemonBattle?
+        get() = battleId?.let { BattleRegistry.getBattle(it) }
     val isBattling: Boolean
         get() = dataTracker.get(BATTLE_ID).isPresent
 
@@ -607,35 +612,58 @@ open class PokemonEntity(
         return brain
     }
 
+    fun getCoreTasks(): List<com.mojang.datafixers.util.Pair<Int, Task<in PokemonEntity>>> {
+        val tasks: MutableList<com.mojang.datafixers.util.Pair<Int, Task<in PokemonEntity>>> = mutableListOf()
+        if (!pokemon.form.behaviour.moving.swim.canBreatheUnderwater) {
+            tasks.add(0 toDF StayAfloatTask(0.8F))
+        }
+        tasks.add(0 toDF GetAngryAtAttackerTask.create())
+        tasks.add(0 toDF ForgetAngryAtTargetTask.create())
+        tasks.add(0 toDF HandleBattleActivityGoal.create())
+        return tasks
+    }
+
+    fun getIdleTasks(): List<com.mojang.datafixers.util.Pair<Int, Task<in PokemonEntity>>> {
+        val tasks: MutableList<com.mojang.datafixers.util.Pair<Int, Task<in PokemonEntity>>> = mutableListOf()
+        if (pokemon.form.behaviour.moving.canLook) {
+            if (pokemon.form.behaviour.moving.looksAtEntities) {
+                tasks.add(0 toDF LookAtMobTask.create(15F))
+            }
+            tasks.add(0 toDF LookAroundTask(45, 90))
+        }
+        tasks.add(0 toDF ChooseLandWanderTargetTask.create(pokemon.form.behaviour.moving.wanderChance, horizontalRange = 10, verticalRange = 5, walkSpeed = 0.33F, completionRange = 1))
+        tasks.add(0 toDF GoToSleepTask.create())
+        tasks.add(0 toDF FindRestingPlaceTask.create(16, 8))
+        tasks.add(0 toDF FollowWalkTargetTask())
+        tasks.add(0 toDF EatGrassTask())
+        tasks.add(0 toDF AttackAngryAtTask.create())
+        tasks.add(0 toDF MoveToAttackTargetTask.create())
+        return tasks
+    }
+
+    fun getBattlingTasks(): List<com.mojang.datafixers.util.Pair<Int, Task<in PokemonEntity>>> {
+        val tasks: MutableList<com.mojang.datafixers.util.Pair<Int, Task<in PokemonEntity>>> = mutableListOf()
+
+        tasks.add(0 toDF LookAtTargetedBattlePokemonTask.create())
+        tasks.add(0 toDF LookAroundTask(Int.MAX_VALUE - 1, Int.MAX_VALUE - 1))
+
+        return tasks
+    }
+
+    fun getSleepingTasks(): List<com.mojang.datafixers.util.Pair<Int, Task<in PokemonEntity>>> {
+        val tasks: MutableList<com.mojang.datafixers.util.Pair<Int, Task<in PokemonEntity>>> = mutableListOf()
+        tasks.add(1 toDF WakeUpTask.create())
+        return tasks
+    }
+
     fun setupTasks() {
         val brain = this.getBrain()
-        brain.setTaskList(Activity.CORE, ImmutableList.of(
-            0 toDF StayAfloatTask(0.8F),
-            0 toDF GetAngryAtAttackerTask.create(),
-            0 toDF ForgetAngryAtTargetTask.create()
-        ))
-        brain.setTaskList(Activity.IDLE, ImmutableList.of(
-            3 toDF LookAroundTask(45, 90),
-            3 toDF LookAtMobTask.create(15F),
-            3 toDF ChooseLandWanderTargetTask.create(pokemon.form.behaviour.moving.wanderChance, horizontalRange = 10, verticalRange = 5, walkSpeed = 0.33F, completionRange = 1),
-            2 toDF GoToSleepTask.create(),
-            2 toDF FindRestingPlaceTask.create(16, 8),
-            1 toDF FollowWalkTargetTask(),
-            1 toDF EatGrassTask(),
-//            0 toDF SwitchToBattleTask.create(),
-            1 toDF AttackAngryAtTask.create(),
-            2 toDF MoveToAttackTargetTask.create(),
-//            1 toDF MeleeAttackTask.create(2F, 30L)
-        ))
-        brain.setTaskList(CobblemonActivities.BATTLING_ACTIVITY, ImmutableList.of(
-//            0 toDF SwitchFromBattleTask.create(),
-            1 toDF LookAroundTask(45, 90),
-//            2 toDF LookAtBattlingPokemonTask.create(),
-        ))
-        brain.setTaskList(CobblemonActivities.POKEMON_SLEEPING_ACTIVITY, ImmutableList.of(
-            1 toDF WakeUpTask.create(),
-//            1 toDF StartBattleTask
-        ))
+
+        brain.setTaskList(Activity.CORE, ImmutableList.copyOf(getCoreTasks()))
+        brain.setTaskList(Activity.IDLE, ImmutableList.copyOf(getIdleTasks()))
+        brain.setTaskList(CobblemonActivities.BATTLING_ACTIVITY, ImmutableList.copyOf(getBattlingTasks()))
+        brain.setTaskList(CobblemonActivities.POKEMON_SLEEPING_ACTIVITY, ImmutableList.copyOf(getSleepingTasks()))
+
         brain.setCoreActivities(setOf(Activity.CORE))
         brain.setDefaultActivity(Activity.IDLE)
         brain.resetPossibleActivities()

@@ -10,10 +10,10 @@ package com.cobblemon.mod.common.battles.interpreter.instructions
 
 import com.bedrockk.molang.runtime.MoLangRuntime
 import com.bedrockk.molang.runtime.value.DoubleValue
+import com.cobblemon.mod.common.CobblemonMemories
 import com.cobblemon.mod.common.api.battles.interpreter.BattleMessage
 import com.cobblemon.mod.common.api.battles.interpreter.Effect
 import com.cobblemon.mod.common.api.battles.model.PokemonBattle
-import com.cobblemon.mod.common.api.molang.MoLangFunctions.addFunction
 import com.cobblemon.mod.common.api.molang.MoLangFunctions.addStandardFunctions
 import com.cobblemon.mod.common.api.molang.MoLangFunctions.getQueryStruct
 import com.cobblemon.mod.common.api.moves.Moves
@@ -65,6 +65,11 @@ class MoveInstruction(
         battle.dispatch {
             val pokemonName = userPokemon.getName()
             ShowdownInterpreter.lastCauser[battle.battleId] = message
+
+            val targetPokemonEntity = targetPokemon?.entity
+            if (targetPokemonEntity != null) {
+                userPokemon.entity?.brain?.remember(CobblemonMemories.TARGETED_BATTLE_POKEMON, targetPokemonEntity.uuid)
+            }
 
             userPokemon.effectedPokemon.let { pokemon ->
                 if (UseMoveEvolutionProgress.supports(pokemon, move)) {
@@ -125,7 +130,11 @@ class MoveInstruction(
             this.future = actionEffect.run(context)
             holds = context.holds // Reference so future things can check on this action effect's holds
             future.thenApply { holds.clear() }
-            return@dispatch UntilDispatch { "effects" !in holds }
+            return@dispatch UntilDispatch { "effects" !in holds }.andThen {
+                val userPokemonId = userPokemon.entity?.uuid ?: return@andThen
+                val targets = hurtTargets.mapNotNull { it.entity }
+                userPokemonId.let { id -> targets.forEach { it.brain.remember(CobblemonMemories.TARGETED_BATTLE_POKEMON, id) } }
+            }
         }
     }
 }
