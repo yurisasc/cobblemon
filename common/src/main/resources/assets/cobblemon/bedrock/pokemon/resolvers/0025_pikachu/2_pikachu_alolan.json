@@ -9,9 +9,23 @@
       "layers": []
     },
     {
+      "aspects": [ "region-bias-alola" ],
+      "model": "cobblemon:pikachu_alolan_male.geo",
+      "texture": "cobblemon:textures/pokemon/0025_pikachu/pikachu_alola.png",
+      "layers": []
+    },
+    {
       "aspects": [
         "shiny",
         "alolan"
+      ],
+      "texture": "cobblemon:textures/pokemon/0025_pikachu/pikachu_alola_shiny.png"
+    },
+    {
+      "aspects": [
+        "shiny",
+        "alolan",
+        "region-bias-alola"
       ],
       "texture": "cobblemon:textures/pokemon/0025_pikachu/pikachu_alola_shiny.png"
     }

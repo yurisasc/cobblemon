@@ -113,10 +113,16 @@
       ],
       "height": 7,
       "weight": 685,
-      "preEvolution": "goomy hisuian",
+      "preEvolution": "goomy region_bias=hisui",
+      "baseScale": 0.65,
+      "hitbox": {
+        "width": 1.45,
+        "height": 1.75,
+        "fixed": false
+      },
       "evolutions": [
         {
-          "id": "sliggoo_goodra",
+          "id": "hisui_sliggoo_hisui_goodra",
           "variant": "level_up",
           "result": "goodra hisuian",
           "consumeHeldItem": false,
@@ -127,6 +133,33 @@
             {
               "variant": "level",
               "minLevel": 50
+            },
+            {
+              "variant": "weather",
+              "isRaining": true
+            }
+          ]
+        },
+        {
+          "id": "hisui_sliggoo_goodra",
+          "variant": "level_up",
+          "result": "goodra",
+          "consumeHeldItem": false,
+          "learnableMoves": [
+            "aquatail"
+          ],
+          "requirements": [
+            {
+              "variant": "level",
+              "minLevel": 50
+            },
+            {
+              "variant": "weather",
+              "isRaining": true
+            },
+            {
+              "variant": "biome",
+              "biomeCondition": "#minecraft:is_swamp"
             }
           ]
         }
@@ -244,11 +277,42 @@
         {
           "variant": "level",
           "minLevel": 50
+        },
+        {
+          "variant": "weather",
+          "isRaining": true
+        }
+      ]
+    },
+    {
+      "id": "sliggoo_hisui_goodra",
+      "variant": "level_up",
+      "result": "goodra hisuian",
+      "consumeHeldItem": false,
+      "learnableMoves": [
+        "irontail"
+      ],
+      "requirements": [
+        {
+          "variant": "level",
+          "minLevel": 50
+        },
+        {
+          "variant": "weather",
+          "isRaining": true
+        },
+        {
+          "variant": "biome",
+          "biomeCondition": "#minecraft:is_dripstone"
+        },
+        {
+          "variant": "biome",
+          "biomeCondition": "#minecraft:is_lush"
         }
       ]
     }
   ],
-  "baseScale": 1,
+  "baseScale": 0.65,
   "hitbox": {
     "width": 1.1,
     "height": 1.65,

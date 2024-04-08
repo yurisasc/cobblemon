@@ -211,7 +211,7 @@
         {
           "id": "grimer_muk",
           "variant": "level_up",
-          "result": "muk form=alola",
+          "result": "muk alolan",
           "consumeHeldItem": false,
           "learnableMoves": [],
           "requirements": [

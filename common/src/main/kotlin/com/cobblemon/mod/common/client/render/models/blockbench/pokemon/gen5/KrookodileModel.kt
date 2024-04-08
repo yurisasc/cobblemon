@@ -22,7 +22,7 @@ class KrookodileModel (root: ModelPart) : PokemonPoseableModel() {
     override var portraitTranslation = Vec3d(-0.57, 1.6, 0.0)
 
     override var profileScale = 0.52F
-    override var profileTranslation = Vec3d(-3.47, 0.91, 0.0)
+    override var profileTranslation = Vec3d(0.06, 0.91, 0.0)
 
     lateinit var sleep: PokemonPose
     lateinit var standing: PokemonPose

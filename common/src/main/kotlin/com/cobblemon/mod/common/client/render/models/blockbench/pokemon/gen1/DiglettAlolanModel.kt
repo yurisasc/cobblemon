@@ -31,25 +31,26 @@ class DiglettAlolanModel(root: ModelPart) : PokemonPoseableModel() {
 
     lateinit var stand: PokemonPose
     lateinit var walk: PokemonPose
-//    lateinit var battleidle: PokemonPose
-//    lateinit var sleep: PokemonPose
+    lateinit var battleidle: PokemonPose
+    lateinit var sleep: PokemonPose
 
-//    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("diglett_alolan", "cry") }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("diglett_alolan", "cry") }
 
     override fun registerPoses() {
         val blink = quirk { bedrockStateful("diglett_alolan", "blink")}
-//        val quirk = quirk { bedrockStateful("diglett_alolan", "quirk_idle")}
+        val quirk = quirk { bedrockStateful("diglett_alolan", "quirk_idle")}
 
-//        sleep = registerPose(
-//            poseName = "sleep",
-//            poseType = PoseType.SLEEP,
-//            idleAnimations = arrayOf(bedrock("diglett_alolan", "sleep"))
-//        )
+        sleep = registerPose(
+            poseName = "sleep",
+            poseType = PoseType.SLEEP,
+            idleAnimations = arrayOf(bedrock("diglett_alolan", "sleep"))
+        )
 
         stand = registerPose(
             poseName = "stand",
             poseTypes = STATIONARY_POSES + UI_POSES,
-            quirks = arrayOf(blink),
+            condition = { !it.isBattling },
+            quirks = arrayOf(blink,quirk),
             idleAnimations = arrayOf(bedrock("diglett_alolan", "ground_idle"))
         )
 
@@ -60,16 +61,17 @@ class DiglettAlolanModel(root: ModelPart) : PokemonPoseableModel() {
             idleAnimations = arrayOf(bedrock("diglett_alolan", "ground_idle"))
         )
 
-//        battleidle = registerPose(
-//            poseName = "battleidle",
-//            poseTypes = STATIONARY_POSES,
-//            quirks = arrayOf(blink),
-//            idleAnimations = arrayOf(bedrock("diglett_alolan", "battle_idle"))
-//        )
+        battleidle = registerPose(
+            poseName = "battleidle",
+            poseTypes = STATIONARY_POSES,
+            condition = { it.isBattling },
+            quirks = arrayOf(blink),
+            idleAnimations = arrayOf(bedrock("diglett_alolan", "battle_idle"))
+        )
     }
 
-//    override fun getFaintAnimation(
-//        pokemonEntity: PokemonEntity,
-//        state: PoseableEntityState<PokemonEntity>
-//    ) = bedrockStateful("diglett_alolan", "faint")
+    override fun getFaintAnimation(
+        pokemonEntity: PokemonEntity,
+        state: PoseableEntityState<PokemonEntity>
+    ) = bedrockStateful("diglett_alolan", "faint")
 }

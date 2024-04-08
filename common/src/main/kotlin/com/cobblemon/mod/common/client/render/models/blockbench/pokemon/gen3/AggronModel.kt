@@ -32,7 +32,7 @@ class AggronModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Biman
     override var portraitTranslation = Vec3d(-0.78, 2.25, 0.0)
 
     override var profileScale = 0.46F
-    override var profileTranslation = Vec3d(-0.06, 0.98, 0.0)
+    override var profileTranslation = Vec3d(-0.06, 0.98, -6.0)
 
     lateinit var standing: PokemonPose
     lateinit var walking: PokemonPose

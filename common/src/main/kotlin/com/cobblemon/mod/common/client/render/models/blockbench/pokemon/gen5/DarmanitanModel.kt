@@ -13,19 +13,15 @@ import com.cobblemon.mod.common.client.render.models.blockbench.animation.BipedW
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BimanualFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cobblemon.mod.common.entity.PoseType
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class DarmanitanModel (root: ModelPart) : PokemonPoseableModel(), BipedFrame, BimanualFrame {
+class DarmanitanModel (root: ModelPart) : PokemonPoseableModel() {
     override val rootPart = root.registerChildWithAllChildren("darmanitan")
-
-    override val leftArm = getPart("arm_left")
-    override val rightArm = getPart("arm_right")
-    override val leftLeg = getPart("left_upper_leg")
-    override val rightLeg = getPart("right_upper_leg")
 
     override var portraitScale = 0.96F
     override var portraitTranslation = Vec3d(-0.35, 0.71, 0.0)
@@ -35,16 +31,41 @@ class DarmanitanModel (root: ModelPart) : PokemonPoseableModel(), BipedFrame, Bi
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
+    lateinit var sleep: PokemonPose
+    lateinit var battleidle: PokemonPose
+
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("darmanitan", "cry") }
 
     override fun registerPoses() {
         val blink = quirk { bedrockStateful("darmanitan", "blink") }
+        val quirk = quirk(secondsBetweenOccurrences = 15F to 100F) { bedrockStateful("darmanitan", "quirk") }
+
+        sleep = registerPose(
+            poseName = "sleeping",
+            poseType = PoseType.SLEEP,
+            idleAnimations = arrayOf(bedrock("darmanitan", "sleep"))
+        )
+
         standing = registerPose(
             poseName = "standing",
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
-            quirks = arrayOf(blink),
+            quirks = arrayOf(blink, quirk),
+            condition = { !it.isBattling },
             idleAnimations = arrayOf(
                 bedrock("darmanitan", "ground_idle")
             )
+        )
+
+        battleidle = registerPose(
+            poseName = "battle_idle",
+            poseTypes = PoseType.STATIONARY_POSES,
+            transformTicks = 10,
+            quirks = arrayOf(blink, quirk),
+            condition = { it.isBattling },
+            idleAnimations = arrayOf(
+                bedrock("darmanitan", "battle_idle")
+            )
+
         )
 
         walk = registerPose(
@@ -52,10 +73,7 @@ class DarmanitanModel (root: ModelPart) : PokemonPoseableModel(), BipedFrame, Bi
             poseTypes = PoseType.MOVING_POSES,
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
-                bedrock("darmanitan", "ground_idle"),
-                BipedWalkAnimation(this, periodMultiplier = 0.6F, amplitudeMultiplier = 0.9F),
-                BimanualSwingAnimation(this, swingPeriodMultiplier = 0.6F, amplitudeMultiplier = 0.9F)
-                //bedrock("darmanitan", "ground_walk")
+                bedrock("darmanitan", "ground_walk")
             )
         )
     }

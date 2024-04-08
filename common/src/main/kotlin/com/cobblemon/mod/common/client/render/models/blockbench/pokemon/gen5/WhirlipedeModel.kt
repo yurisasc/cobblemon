@@ -36,6 +36,7 @@ class WhirlipedeModel (root: ModelPart) : PokemonPoseableModel() {
 
         standing = registerPose(
             poseName = "standing",
+            transformTicks = 20,
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
             quirks = arrayOf(blink),
             condition = { !it.isBattling },

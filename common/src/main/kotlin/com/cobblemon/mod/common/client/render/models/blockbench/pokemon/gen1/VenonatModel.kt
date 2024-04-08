@@ -10,6 +10,7 @@ package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1
 
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.BipedWalkAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cobblemon.mod.common.entity.PoseType
@@ -22,8 +23,8 @@ import net.minecraft.util.math.Vec3d
 class VenonatModel(root: ModelPart) : PokemonPoseableModel() {
     override val rootPart = root.registerChildWithAllChildren("venonat")
 
-    override var portraitScale = 1.71F
-    override var portraitTranslation = Vec3d(-0.21, -0.73, 0.0)
+    override var portraitScale = 1.66F
+    override var portraitTranslation = Vec3d(-0.08, -0.66, 0.0)
 
     override var profileScale = 0.86F
     override var profileTranslation = Vec3d(0.0, 0.43, 0.0)
@@ -32,6 +33,8 @@ class VenonatModel(root: ModelPart) : PokemonPoseableModel() {
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
     lateinit var battleidle: PokemonPose
+
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("venonat", "cry") }
 
     override fun registerPoses() {
         val blink = quirk { bedrockStateful("venonat", "blink") }

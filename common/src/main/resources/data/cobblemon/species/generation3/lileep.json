@@ -25,6 +25,24 @@
   "eggGroups": [
     "water_3"
   ],
+  "behaviour": {
+    "moving": {
+      "swim": {
+        "swimSpeed": 0.12,
+        "canSwimInWater": false,
+        "canBreatheUnderwater": true
+      },
+      "walk": {
+        "walkSpeed": 0.12
+      }
+    },
+    "resting": {
+      "canSleep": true,
+      "willSleepOnBed": false,
+      "depth": "normal",
+      "light": "0-4"
+    }
+  },
   "moves": [
     "1:astonish",
     "1:constrict",

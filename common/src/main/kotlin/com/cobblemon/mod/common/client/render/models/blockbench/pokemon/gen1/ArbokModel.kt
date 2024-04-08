@@ -91,7 +91,7 @@ class ArbokModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
-                bedrock("arbok", "ground_idle"),
+                bedrock("arbok", "summary_idle"),
                 wave
             )
         )

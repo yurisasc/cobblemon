@@ -58,7 +58,7 @@ class PikachuModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
 
         sleep = registerPose(
             poseType = PoseType.SLEEP,
-            idleAnimations = arrayOf(bedrock("pikachu", "ground_sleep"))
+            idleAnimations = arrayOf(bedrock("pikachu", "sleep"))
         )
 
         walk = registerPose(

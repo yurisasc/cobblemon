@@ -84,7 +84,7 @@ class SquirtleModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
         )
 
         battleidle = registerPose(
-            poseTypes = setOf(PoseType.STAND),
+            poseType = PoseType.STAND,
             poseName = "battle_standing",
             quirks = arrayOf(blink, quirkidle),
             condition = { it.isBattling },
@@ -170,9 +170,9 @@ class SquirtleModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
                 singleBoneLook(),
                 bedrock("squirtle", "shoulder_left")
             ),
-            transformedParts = arrayOf(
-                rootPart.createTransformation().addPosition(ModelPartTransformation.X_AXIS, shoulderOffset)
-            )
+                transformedParts = arrayOf(
+                        rootPart.createTransformation().addPosition(ModelPartTransformation.Y_AXIS, -2)
+                )
         )
 
         shoulderRight = registerPose(
@@ -182,9 +182,9 @@ class SquirtleModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
                 singleBoneLook(),
                 bedrock("squirtle", "shoulder_right")
             ),
-            transformedParts = arrayOf(
-                rootPart.createTransformation().addPosition(ModelPartTransformation.X_AXIS, -shoulderOffset)
-            )
+                transformedParts = arrayOf(
+                        rootPart.createTransformation().addPosition(ModelPartTransformation.Y_AXIS, -2)
+                )
         )
 
     }
