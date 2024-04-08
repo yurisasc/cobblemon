@@ -950,6 +950,7 @@
   "cobblemon.battle.owned_pokemon": "%1$s's %2$s",
   "cobblemon.battle.fainted": "%1$s fainted!",
   "cobblemon.battle.win": "%1$s won!",
+  "cobblemon.battle.lose": "%1$s is out of usable Pokémon!",
   "cobblemon.battle.flee": "The battle was fled.",
   "cobblemon.battle.switch_option": "Switch Pokémon: ",
   "cobblemon.battle.your_team": "Your Team:",
