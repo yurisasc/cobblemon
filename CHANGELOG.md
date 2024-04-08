@@ -36,6 +36,7 @@
 - Completed the advancement for placing a Tumblestone near Lava or Magma to make it grow.
 - Added new held items: Ability Shield, Absorb Bulb, Air Balloon, Binding Band, Blunder Policy, Cell Battery, Covert Cloak, Damp Rock, Eject Button, Eviolite, Expert Belt, Float Stone, Focus Sash, Heat Rock, Icy Rock, Iron Ball, Light Ball, Loaded Dice, Red Card, Shell Bell, Sticky Barb, Smooth Rock, Soothe Bell and Weakness Policy.
 - Added Hisui starters to the starter selection menu.
+- Added bubble quirk to Krabby that only play during clear sunrise's.
 
 ### Pokémon Added
 #### Gen 2
@@ -205,6 +206,7 @@
 - Pokémon with a low Blaze Powder drop chance now drop it more frequently in the Nether.
 - Reorganised a few advancements.
 - Pokémon entity shadows now scale when the Pokémon is being sent out or recalled.
+- Remade Torkoal particles, now they only appear when in battle.
 
 ### Fixes
 - Resized Snorlax
