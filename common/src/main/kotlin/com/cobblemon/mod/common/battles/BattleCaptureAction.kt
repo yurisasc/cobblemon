@@ -44,10 +44,10 @@ class BattleCaptureAction(
         pokeBallEntity.captureFuture.thenAccept { successful ->
             if (successful) {
                 targetPokemon.battlePokemon?.gone = true
+                battle.dispatchWaiting(2F) { battle.broadcastChatMessage(lang("capture.succeeded", pokemonName).green()) }
                 battle.writeShowdownAction(">capture ${targetPokemon.getPNX()}")
-                battle.broadcastChatMessage(lang("capture.succeeded", pokemonName).green())
             } else {
-                battle.broadcastChatMessage(lang("capture.broke_free", pokemonName).red())
+                battle.dispatchWaiting(2F) { battle.broadcastChatMessage(lang("capture.broke_free", pokemonName).red()) }
             }
             battle.sendUpdate(BattleCaptureEndPacket(targetPokemon.getPNX(), successful))
             battle.finishCaptureAction(this)
