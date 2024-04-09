@@ -8,9 +8,11 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen4
 
+import com.cobblemon.mod.common.client.render.models.blockbench.createTransformation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.pose.ModelPartTransformation
 import com.cobblemon.mod.common.entity.PoseType
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
@@ -32,12 +34,17 @@ class DusknoirModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     lateinit var walk: PokemonPose
     lateinit var battleidle: PokemonPose
 
+    var spoopytail = getPart("tail")
+
     override fun registerPoses() {
-        val blink = quirk { bedrockStateful("dusknoir", "blink") }
+        //val blink = quirk { bedrockStateful("dusknoir", "blink") }
 
         sleep = registerPose(
             poseType = PoseType.SLEEP,
-            idleAnimations = arrayOf(bedrock("dusknoir", "sleep"))
+            idleAnimations = arrayOf(bedrock("dusknoir", "sleep")),
+            transformedParts = arrayOf(
+                spoopytail.createTransformation().addRotationDegrees(ModelPartTransformation.Y_AXIS, 20)
+            )
         )
 
         standing = registerPose(
@@ -47,6 +54,9 @@ class DusknoirModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("dusknoir", "ground_idle")
+            ),
+            transformedParts = arrayOf(
+                spoopytail.createTransformation().addRotationDegrees(ModelPartTransformation.Y_AXIS, 20)
             )
         )
 
@@ -56,6 +66,9 @@ class DusknoirModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("dusknoir", "ground_walk")
+            ),
+            transformedParts = arrayOf(
+                spoopytail.createTransformation().addRotationDegrees(ModelPartTransformation.Y_AXIS, 20)
             )
         )
 
@@ -86,8 +99,10 @@ class DusknoirModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             condition = { it.isBattling },
             idleAnimations = arrayOf(
                 bedrock("dusknoir", "battle_idle")
+            ),
+            transformedParts = arrayOf(
+                spoopytail.createTransformation().addRotationDegrees(ModelPartTransformation.Y_AXIS, 20)
             )
-
         )
     }
 //
