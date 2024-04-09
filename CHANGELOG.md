@@ -182,6 +182,34 @@
 - Hisui Bias Goomy
 - Hisui Bias Petilil
 
+### Added cries to the following Pokémon
+- Vulpix, Ninetales
+- Zubat, Golbat
+- Meowth, Persian
+- Psyduck, Golduck
+- Growlithe, Arcanine
+- Geodude, Graveler, Golem
+- Doduo, Dodrio
+- Seel, Dewgong
+- Muk, Grimer
+- Krabby, Kingler
+- Voltorb, Electrode
+- Cubone, Marowak
+- Koffing, Weezing
+- Aerodactyl
+- Electabuzz
+- Omanyte, Omastar
+- Kabuto, Kabutops
+- Lapras
+- Scythert
+- Lileep, Cradily
+- Darumaka, Darmanitan
+- Archen, Archeops
+- Tyrunt, Tyrantrum
+- Komala
+- Cufant, Copperajah
+- Dracozolt, Arctozolt, Dracovish, Arctovish
+
 
 ### Changes
 - Alolan Pikachu and Exeggcute changed to Alola bias.
