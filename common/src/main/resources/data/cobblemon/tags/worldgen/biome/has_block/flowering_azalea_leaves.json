@@ -30,10 +30,6 @@
       "id": "terralith:sandstone_valley",
       "required": false
     },
-	{
-      "id": "terralith:skylands_summer",
-      "required": false
-    },
     {
       "id": "wythers:ancient_mossy_swamp",
       "required": false

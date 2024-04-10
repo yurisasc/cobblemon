@@ -60,10 +60,6 @@
       "id": "terralith:savanna_slopes",
       "required": false
     },
-	{
-      "id": "terralith:skylands_summer",
-      "required": false
-    },
     {
       "id": "wythers:bamboo_jungle_canyon",
       "required": false

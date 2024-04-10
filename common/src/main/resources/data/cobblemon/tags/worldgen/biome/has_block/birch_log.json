@@ -97,14 +97,6 @@
       "id": "terralith:shield",
       "required": false
     },
-	{
-      "id": "terralith:skylands_autumn",
-      "required": false
-    },
-	{
-      "id": "terralith:skylands_spring",
-      "required": false
-    },
     {
       "id": "terralith:temperate_highlands",
       "required": false

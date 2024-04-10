@@ -45,7 +45,7 @@ class FaintInstruction(battle: PokemonBattle, val message: BattleMessage) : Inte
             faintingPokemon.contextManager.clear(BattleContext.Type.STATUS, BattleContext.Type.VOLATILE, BattleContext.Type.BOOST, BattleContext.Type.UNBOOST)
             battle.majorBattleActions[faintingPokemon.uuid] = message
         }
-        battle.dispatchGo {
+        battle.dispatchWaiting(0.5F) {
             val faintMessage = battleLang("fainted", faintingPokemon.getName()).red()
             battle.broadcastChatMessage(faintMessage)
         }

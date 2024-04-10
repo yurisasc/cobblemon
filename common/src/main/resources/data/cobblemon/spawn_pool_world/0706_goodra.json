@@ -43,6 +43,28 @@
                     "#cobblemon:is_lush"
                 ]
             }
+        },
+        {
+            "id": "goodra-hisuian-3",
+            "pokemon": "goodra hisuian",
+            "presets": [
+                "natural"
+            ],
+            "type": "pokemon",
+            "context": "grounded",
+            "bucket": "ultra-rare",
+            "level": "50-60",
+            "weight": 0.1,
+            "condition": {
+                "minSkyLight": 0,
+                "maxSkyLight": 7,
+                "biomes": [
+                    "#cobblemon:is_overworld"
+                ],
+                "neededNearbyBlocks": [
+                    "#minecraft:water"
+                ]
+            }
         }
     ]
 }
