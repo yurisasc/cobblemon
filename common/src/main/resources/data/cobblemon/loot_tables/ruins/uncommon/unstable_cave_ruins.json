@@ -22,7 +22,12 @@
                 {
                     "type": "minecraft:item",
                     "name": "cobblemon:suspicious_sherd",
-                    "weight": 40
+                    "weight": 20
+                },
+                {
+                    "type": "minecraft:item",
+                    "name": "cobblemon:capture_sherd",
+                    "weight": 20
                 }
             ],
             "rolls": 1.0
