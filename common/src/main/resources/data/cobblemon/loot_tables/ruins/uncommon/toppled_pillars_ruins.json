@@ -32,7 +32,12 @@
                 {
                     "type": "minecraft:item",
                     "name": "cobblemon:helix_sherd",
-                    "weight": 40
+                    "weight": 20
+                },
+                {
+                    "type": "minecraft:item",
+                    "name": "cobblemon:dome_sherd",
+                    "weight": 20
                 }
             ],
             "rolls": 1.0
