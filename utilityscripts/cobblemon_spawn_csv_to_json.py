@@ -30,12 +30,15 @@ def init_filters():
     included_generations = [1, 2, 3, 4, 5, 6, 7, 8, 9]
 
 
-def ui_init_filters(pokemon_nrs_min, pokemon_nrs_max, included_grps, known_cntxts, bucket_map):
-    global pokemon_numbers, included_groups, known_contexts, bucket_mapping, included_generations
+def ui_init_filters(pokemon_nrs_min, pokemon_nrs_max, included_grps, known_cntxts, bucket_map, cstm_files, cstm_dirs):
+    global pokemon_numbers, included_groups, known_contexts, bucket_mapping, included_generations, custom_files, custom_dirs
     pokemon_numbers = range(pokemon_nrs_min, pokemon_nrs_max + 1)
     included_groups = included_grps
     known_contexts = known_cntxts
     bucket_mapping = bucket_map
+    custom_files = cstm_files
+    custom_dirs = cstm_dirs
+
     included_generations = []
 
 
@@ -228,25 +231,43 @@ def main(pokemon_data_dir, spawn_spreadsheet_path="", only_update_existing_files
     os.makedirs(pokemon_data_dir, exist_ok=True)
 
     # Handle dataframes depending on the usage of the public template spreadsheet
-    csv_grouped_with_folder_file = []
+    csvs_grouped_by_folder_and_or_file = []
     # Create two separate DataFrames: one for rows with 'folder' and 'file_name' and another for rows without them
     if {'Folder', 'File Name'}.issubset(csv_df.columns):
-        csv_df_with_folder_file = csv_df.dropna(subset=['Folder', 'File Name'])
+        csv_df_with_folder_or_file = csv_df.dropna(subset=['Folder', 'File Name'], how='all')
         # Group the DataFrame with 'folder' and 'file_name' by these columns
-        csv_grouped_with_folder_file = csv_df_with_folder_file.groupby(['Folder', 'File Name'])
-        csv_df_without_folder_file = csv_df[csv_df['Folder'].isna() | csv_df['File Name'].isna()]
-        # Group the DataFrame without 'folder' and 'file_name' by dex number
-        csv_grouped_without_folder_file = csv_df_without_folder_file.groupby('No.')
+        if csv_df_with_folder_or_file['Folder'].isna().any():
+            csv_folder_file = csv_df_with_folder_or_file[csv_df_with_folder_or_file['Folder'].isna()]
+            csv_grouped_by_folder_file = csv_folder_file.groupby('File Name')
+            csvs_grouped_by_folder_and_or_file.append(csv_grouped_by_folder_file)
+        # If 'File Name' is NaN, group by 'Folder' only
+        if csv_df_with_folder_or_file['File Name'].isna().any():
+            csv_with_file_name = csv_df_with_folder_or_file[csv_df_with_folder_or_file['File Name'].isna()]
+            csv_grouped_by_folder_and_no = csv_with_file_name.groupby(['Folder', 'No.'])
+            csvs_grouped_by_folder_and_or_file.append(csv_grouped_by_folder_and_no)
+        # If there are any entries where neither is NaN, group those by both
+        if csv_df_with_folder_or_file[['Folder', 'File Name']].notna().all(axis=1).any():
+            csv_folder_and_file = csv_df_with_folder_or_file.dropna(subset=['Folder', 'File Name'], how='any')
+            csv_grouped_by_folder_and_file = csv_folder_and_file.groupby(['Folder', 'File Name'])
+            csvs_grouped_by_folder_and_or_file.append(csv_grouped_by_folder_and_file)
+        # Only fill the with_folder_file DataFrame with rows that have 'folder' and 'file_name' columns empty if both filters include ''
+        if ('' in custom_files) and ('' in custom_dirs):
+            csv_df_without_folder_file = csv_df[csv_df['Folder'].isna() & csv_df['File Name'].isna()]
+            # Group the DataFrame without 'folder' and 'file_name' by dex number
+            csv_grouped_without_folder_file = csv_df_without_folder_file.groupby('No.')
+        else:
+            csv_grouped_without_folder_file = pd.DataFrame()
     else:
         csv_grouped_without_folder_file = csv_df.groupby('No.')
 
     print_warning("Modifying files...")
     # Processing each Pokémon group and converting it to JSON
     try:
-        dataframes_to_process = [(csv_grouped_with_folder_file, MERGED_TOGETHER),
-                                 (csv_grouped_without_folder_file, 'Default Groupings')]
+        dataframes_to_process = [(df, MERGED_TOGETHER) for df in csvs_grouped_by_folder_and_or_file]
+        dataframes_to_process.append((csv_grouped_without_folder_file, 'Default Groupings'))
 
         for df, id_type in dataframes_to_process:
+            print(df.head(10))
             for id_value, group in tqdm(df, desc=f"Processing {id_type} ...",
                                         bar_format='\033[92m' + '{l_bar}\033[0m{bar:58}\033[92m{r_bar}\033[0m',
                                         colour='blue'):
@@ -254,7 +275,9 @@ def main(pokemon_data_dir, spawn_spreadsheet_path="", only_update_existing_files
                 # Determine the file_id based on the id_type
                 if id_type == MERGED_TOGETHER:
                     file_id = group['No.'].iloc[0]
-                    file_name = group['File Name'].iloc[0] or None
+                    file_name = group['File Name'].iloc[0]
+                    if pd.isna(file_name):
+                        file_name = None
                 else:
                     file_id = id_value
                     file_name = None
@@ -266,7 +289,6 @@ def main(pokemon_data_dir, spawn_spreadsheet_path="", only_update_existing_files
                 else:
                     # Handle the case when 'Folder' is null
                     save_json_to_file(pokemon_json, file_id, group['Pokémon'].iloc[0], pokemon_data_dir, file_name)
-            print()
     finally:
         print_report()
 
@@ -295,21 +317,38 @@ def validateAndFilterData(csv_df, only_update_existing_files=False, ignore_filte
     csv_df = csv_df[csv_df['Pokémon'].notna()]
     # Filter the data
     if not ignore_filters:
-        # Filter by pokemon number
-        if pokemon_numbers:
-            csv_df = csv_df[csv_df['No.'].isin(list(pokemon_numbers))]
-        # Filter by group
-        if included_groups:
-            csv_df = csv_df[csv_df['Group'].isin(included_groups)]
-        # Filter by context
-        if known_contexts:
-            csv_df = csv_df[csv_df['Context'].isin(known_contexts)]
-        # Filter by bucket
-        if bucket_mapping:
-            csv_df = csv_df[csv_df['Bucket'].isin(bucket_mapping)]
-        # Filter by generation
-        if included_generations:
-            csv_df = csv_df[csv_df['Gen'].isin(included_generations)]
+        # Define a dictionary mapping filter variables to DataFrame column names
+        filter_dict = {
+            'pokemon_numbers': 'No.',
+            'included_groups': 'Group',
+            'known_contexts': 'Context',
+            'bucket_mapping': 'Bucket',
+            'included_generations': 'Gen',
+            'custom_dirs': 'Folder',
+            'custom_files': 'File Name'
+        }
+
+        # Iterate over the dictionary and apply the filters
+        for filter_var, column_name in filter_dict.items():
+            filter_values = globals()[filter_var]
+            if filter_values:
+                # Replace '' with None in filter_values
+                filter_values = [value if value != '' else None for value in filter_values]
+                if None in filter_values:
+                    csv_df = csv_df[csv_df[column_name].isin(filter_values) | csv_df[column_name].isnull()]
+                else:
+                    csv_df = csv_df[csv_df[column_name].isin(filter_values)]
+
+                def is_continuous_range(lst):
+                    try:
+                        return lst == list(range(min(lst), max(lst)+1))
+                    except Exception as e:
+                        return False
+
+                if is_continuous_range(filter_values):
+                    print(f"Filtering by {filter_var}: ({min(filter_values)} - {max(filter_values)})")
+                else:
+                    print(f"Filtering by {filter_var}: {filter_values}")
     if only_update_existing_files:
         # extract the dex numbers from the filenames of the existing files
         existing_dex_numbers = [int(file.split('/')[-1].split('_')[0]) for file in os.listdir(default_pokemon_data_dir)]
@@ -724,6 +763,7 @@ def write_to_sqlite(df, db_name, table_name):
 
 
 def save_json_to_file(json_data, file_id, pokemon_name, output_directory, file_name=None):
+    print(f"Saving {pokemon_name} to {output_directory}")
     # Remove any ' from the pokemon name
     pokemon_name = pokemon_name.replace("'", "")
     # If the pokemon name contains a space, remove everything after the space (because of basculin)
