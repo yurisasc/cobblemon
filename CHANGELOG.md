@@ -160,8 +160,6 @@
 - Dreepy
 - Drakloak
 - Dragapult
-- Hisuian Sliggoo
-- Hisuian Goodra
 - Impidimp
 - Morgrem
 - Grimmsnarl
