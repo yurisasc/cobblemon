@@ -9,6 +9,7 @@
 package com.cobblemon.mod.common.util
 
 import com.cobblemon.mod.common.Cobblemon
+import java.util.concurrent.CompletableFuture
 import java.util.function.Consumer
 import kotlin.math.min
 import kotlin.random.Random
@@ -89,4 +90,15 @@ fun VoxelShape.blockPositionsAsList(): List<BlockPos> {
 
 operator fun <T> Consumer<T>.plus(action: (T) -> Unit): Consumer<T> {
     return andThen(action)
+}
+
+fun chainFutures(others: Iterator<() -> CompletableFuture<*>>, finalFuture: CompletableFuture<Unit>) {
+    if (!others.hasNext()) {
+        finalFuture.complete(Unit)
+        return
+    }
+
+    others.next().invoke().thenApply {
+        chainFutures(others, finalFuture)
+    }
 }

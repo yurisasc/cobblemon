@@ -87,11 +87,11 @@ abstract class PoseableEntityModel<T : Entity>(
     var blue = 1F
     var alpha = 1F
 
-    open val portraitScale: Float = 1F
-    open val portraitTranslation: Vec3d = Vec3d.ZERO
+    open var portraitScale: Float = 1F
+    open var portraitTranslation: Vec3d = Vec3d.ZERO
 
-    open val profileScale: Float = 1F
-    open val profileTranslation: Vec3d = Vec3d.ZERO
+    open var profileScale: Float = 1F
+    open var profileTranslation: Vec3d = Vec3d.ZERO
 
     @Transient
     var currentLayers: Iterable<ModelLayer> = listOf()

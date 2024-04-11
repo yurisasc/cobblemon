@@ -1022,15 +1022,6 @@ object CobblemonItems : PlatformRegistry<Registry<Item>, RegistryKey<Registry<It
         }
     )
 
-    private fun heldItem(name: String, item: Item, remappedName: String? = null) = create(
-        name = name,
-        entry = item.also {
-            if (remappedName != null) {
-                CobblemonHeldItemManager.registerRemap(it, remappedName)
-            }
-        }
-    )
-
     private fun compostable(item: Item, increaseLevelChance: Float) = Cobblemon.implementation.registerCompostable(item, increaseLevelChance)
 
     private fun berryItem(name: String, berryBlock: BerryBlock): BerryItem {

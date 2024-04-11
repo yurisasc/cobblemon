@@ -175,14 +175,14 @@ class PokemonClientDelegate : PoseableEntityState<PokemonEntity>(), PokemonSideD
                                     }
                                 }
                             }
-                        }
-                        currentEntity.after(seconds = BEAM_EXTEND_TIME) {
-                            lerpOnClient(BEAM_SHRINK_TIME) { entityScaleModifier = it }
-                            currentEntity.isInvisible = false
-                            currentEntity.after(seconds = POKEBALL_AIR_TIME*2){
-                                ballOffset = 0f
-                                ballRotOffset = 0f
-                                sendOutPosition = null
+                            currentEntity.after(seconds = BEAM_EXTEND_TIME) {
+                                lerpOnClient(BEAM_SHRINK_TIME) { entityScaleModifier = it }
+                                currentEntity.isInvisible = false
+                                currentEntity.after(seconds = POKEBALL_AIR_TIME*2){
+                                    ballOffset = 0f
+                                    ballRotOffset = 0f
+                                    sendOutPosition = null
+                                }
                             }
                         }
                     }

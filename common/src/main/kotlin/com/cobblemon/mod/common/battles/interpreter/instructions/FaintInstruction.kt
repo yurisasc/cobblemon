@@ -38,7 +38,7 @@ class FaintInstruction(battle: PokemonBattle, val message: BattleMessage) : Inte
 
         battle.dispatchFuture {
             val (pnx, _) = message.pnxAndUuid(0) ?: return@dispatchFuture CompletableFuture.completedFuture(Unit)
-            val pokemon = message.getBattlePokemon(0, battle) ?: return@dispatchFuture CompletableFuture.completedFuture(Unit)
+            val pokemon = message.battlePokemon(0, battle) ?: return@dispatchFuture CompletableFuture.completedFuture(Unit)
             battle.sendUpdate(BattleFaintPacket(pnx))
             val actor = pokemon.actor
             pokemon.effectedPokemon.currentHealth = 0
