@@ -6445,8 +6445,11 @@
   "pokemon.lechonk.cry": {
     "sounds": [ { "name": "cobblemon:pokemon/lechonk/lechonk_cry", "volume": 0.8 } ]
   },
-  "pokemon.oinkologne.cry": {
-    "sounds": [ { "name": "cobblemon:pokemon/oinkologne/oinkologne_cry", "volume": 0.8 } ]
+  "pokemon.oinkologne_male.cry": {
+    "sounds": [ { "name": "cobblemon:pokemon/oinkologne/oinkologne_male_cry", "volume": 0.8 } ]
+  },
+  "pokemon.oinkologne_female.cry": {
+    "sounds": [ { "name": "cobblemon:pokemon/oinkologne/oinkologne_female_cry", "volume": 0.8 } ]
   },
   "pokemon.dudunsparce.cry": {
     "sounds": [ { "name": "cobblemon:pokemon/dudunsparce/dudunsparce_cry", "volume": 0.8 } ]

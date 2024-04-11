@@ -66,7 +66,7 @@ class TyphlosionHisuianModel  (root: ModelPart) : PokemonPoseableModel(), Headed
                         spoopy_orb3.createTransformation().withVisibility(visibility = false)
                 ),
                 idleAnimations = arrayOf(
-                        singleBoneLook(),
+                        singleBoneLook(minPitch = 0F),
                         bedrock("typhlosion_hisuian", "ground_idle")
                 )
         )
@@ -83,7 +83,7 @@ class TyphlosionHisuianModel  (root: ModelPart) : PokemonPoseableModel(), Headed
                         spoopy_orb3.createTransformation().withVisibility(visibility = false)
                 ),
                 idleAnimations = arrayOf(
-                        singleBoneLook(),
+                        singleBoneLook(minPitch = 0F),
                         bedrock("typhlosion_hisuian", "ground_walk")
                 )
         )
@@ -101,7 +101,7 @@ class TyphlosionHisuianModel  (root: ModelPart) : PokemonPoseableModel(), Headed
                 ),
                 condition = { it.isBattling },
                 idleAnimations = arrayOf(
-                        singleBoneLook(),
+                        singleBoneLook(minPitch = 0F),
                         bedrock("typhlosion_hisuian", "battle_idle")
                 )
         )

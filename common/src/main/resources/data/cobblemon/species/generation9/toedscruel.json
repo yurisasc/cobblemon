@@ -29,7 +29,7 @@
   "experienceGroup": "medium_slow",
   "eggCycles": 20,
   "eggGroups": [
-    "field"
+    "grass"
   ],
   "moves": [
     "1:mudslap",
