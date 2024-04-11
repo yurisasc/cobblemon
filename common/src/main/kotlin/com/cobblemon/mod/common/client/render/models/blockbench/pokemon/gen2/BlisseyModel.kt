@@ -44,19 +44,20 @@ class BlisseyModel(root: ModelPart) : PokemonPoseableModel(), BipedFrame, Bimanu
 
     override fun registerPoses() {
         val blink = quirk { bedrockStateful("blissey", "blink") }
-        val eggQuirk = quirk { bedrockStateful("blissey", "egg_quirk") }
+        val eggQuirk = quirk { bedrockStateful("blissey", "eggadjust_quirk") }
 
         sleep = registerPose(
             poseName = "sleep",
             poseType = PoseType.SLEEP,
             idleAnimations = arrayOf(
-                bedrock("blissey", "ground_sleep")
+                bedrock("blissey", "sleep")
             )
         )
 
         standing = registerPose(
             poseName = "standing",
             poseTypes = STATIONARY_POSES + UI_POSES,
+            condition = { !it.isBattling },
             quirks = arrayOf(blink, eggQuirk),
             idleAnimations = arrayOf(
                 bedrock("blissey", "ground_idle")
@@ -75,6 +76,7 @@ class BlisseyModel(root: ModelPart) : PokemonPoseableModel(), BipedFrame, Bimanu
         battle_idle = registerPose(
             poseName = "battle_idle",
             poseTypes = STATIONARY_POSES,
+            condition = { it.isBattling },
             quirks = arrayOf(blink, eggQuirk),
             idleAnimations = arrayOf(
                 bedrock("blissey", "battle_idle")

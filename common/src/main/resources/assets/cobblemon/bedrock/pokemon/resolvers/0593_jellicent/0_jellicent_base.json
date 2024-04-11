@@ -4,7 +4,7 @@
   "variations": [
     {
       "aspects": [],
-      "poser": "cobblemon:jellicent_male",
+      "poser": "cobblemon:jellicent",
       "model": "cobblemon:jellicent_male.geo",
       "texture": "cobblemon:textures/pokemon/0593_jellicent/jellicent_male.png",
       "layers": []

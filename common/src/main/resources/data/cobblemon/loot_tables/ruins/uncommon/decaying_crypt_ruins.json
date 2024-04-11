@@ -7,12 +7,12 @@
                 {
                     "type": "minecraft:item",
                     "name": "cobblemon:kings_rock",
-                    "weight": 5
+                    "weight": 3
                 },
                 {
                     "type": "minecraft:item",
                     "name": "cobblemon:cracked_pot",
-                    "weight": 5
+                    "weight": 3
                 },
                 {
                     "type": "minecraft:item",
@@ -22,7 +22,12 @@
                 {
                     "type": "minecraft:item",
                     "name": "cobblemon:bygone_sherd",
-                    "weight": 20
+                    "weight": 10
+                },
+                {
+                    "type": "minecraft:item",
+                    "name": "cobblemon:dome_sherd",
+                    "weight": 10
                 }
             ],
             "rolls": 1.0

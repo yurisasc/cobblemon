@@ -211,7 +211,7 @@
     {
       "id": "koffing_weezing",
       "variant": "level_up",
-      "result": "weezing form=galar",
+      "result": "weezing galarian",
       "consumeHeldItem": false,
       "learnableMoves": [
         "doublehit"

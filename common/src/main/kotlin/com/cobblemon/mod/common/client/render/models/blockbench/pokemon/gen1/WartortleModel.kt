@@ -32,8 +32,8 @@ class WartortleModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("wartortle")
     override val head = getPart("head_ai")
 
-    override var portraitScale = 1.82F
-    override var portraitTranslation = Vec3d(-0.25, -0.44, 0.0)
+    override var portraitScale = 1.57F
+    override var portraitTranslation = Vec3d(-0.05, 0.54, 0.0)
 
     override var profileScale = 0.69F
     override var profileTranslation = Vec3d(-0.04, 0.69, 0.0)
@@ -62,7 +62,7 @@ class WartortleModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
         val faint = "q.bedrock_primary('wartortle', 'faint', q.curve('one'))".asExpressionLike()
 
         val blink = quirk { bedrockStateful("wartortle", "blink") }
-        val quirkidle = quirk { bedrockStateful("wartortle", "quirk_ground_idle") }
+        val quirkidle = quirk { bedrockStateful("wartortle", "quirk_idle") }
 
         sleep = registerPose(
             poseType = PoseType.SLEEP,

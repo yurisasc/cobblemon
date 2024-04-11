@@ -183,7 +183,7 @@
         {
           "id": "poltchageist_sinistcha",
           "variant": "item_interact",
-          "result": "sinistcha form=masterpiece",
+          "result": "sinistcha masterpiece",
           "consumeHeldItem": false,
           "learnableMoves": [
             "matchagotcha"

@@ -45,12 +45,14 @@ class PelipperModel (root: ModelPart) : PokemonPoseableModel(), BipedFrame, BiWi
     override fun registerPoses() {
         val blink = quirk { bedrockStateful("pelipper", "blink") }
         sleep = registerPose(
+            poseName = "non_water_sleep",
             poseType = PoseType.SLEEP,
             condition = { !it.isTouchingWater },
             idleAnimations = arrayOf(bedrock("pelipper", "sleep"))
         )
 
         water_surface_sleep = registerPose(
+            poseName = "water_surface_sleep",
             poseType = PoseType.SLEEP,
             condition = { it.isTouchingWater },
             idleAnimations = arrayOf(bedrock("pelipper", "surfacewater_sleep")),

@@ -1244,6 +1244,18 @@
 					"position": [0, 0, "-q.anim_time*90*0.04"]
 				}
 			}
+		},
+		"animation.omastar.new": {
+			"loop": true,
+			"bones": {
+				"body": {
+					"rotation": [0, -116, 0],
+					"position": [-26.6, 10, 15]
+				},
+				"torso": {
+					"scale": 0
+				}
+			}
 		}
 	}
 }

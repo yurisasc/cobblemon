@@ -18,7 +18,7 @@ import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
 class JangmoOModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, QuadrupedFrame {
-    override val rootPart = root.registerChildWithAllChildren("jangmo-o")
+    override val rootPart = root.registerChildWithAllChildren("jangmo_o")
     override val head = getPart("head")
 
     override val foreLeftLeg = getPart("leg_front_left1")
@@ -44,6 +44,7 @@ class JangmoOModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quad
             poseTypes = PoseType.UI_POSES + PoseType.STATIONARY_POSES,
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
+                    bedrock("jangmo-o", "ground_idle"),
                 singleBoneLook()
             )
         )
@@ -53,9 +54,9 @@ class JangmoOModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quad
             poseTypes = PoseType.MOVING_POSES,
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
+                    bedrock("jangmo-o", "ground_idle"),
                 QuadrupedWalkAnimation(this, periodMultiplier = 1.1F),
-                singleBoneLook(),
-                //bedrock("jangmo-o", "ground_walk")
+                singleBoneLook()
             )
         )
     }

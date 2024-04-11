@@ -1,0 +1,19 @@
+{
+  "species": "cobblemon:dewott",
+  "order": 1,
+  "variations": [
+    {
+      "aspects": ["region-bias-hisui"],
+      "model": "cobblemon:dewott_hisuian.geo",
+      "texture": "cobblemon:textures/pokemon/0502_dewott/dewott_hisuian.png",
+      "layers": []
+    },
+    {
+      "aspects": [
+        "region-bias-hisui",
+        "shiny"
+      ],
+      "texture": "cobblemon:textures/pokemon/0502_dewott/dewott_hisuian_shiny.png"
+    }
+  ]
+}

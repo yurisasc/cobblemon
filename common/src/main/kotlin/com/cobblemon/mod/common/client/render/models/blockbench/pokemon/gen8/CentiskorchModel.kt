@@ -11,6 +11,7 @@ package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen8
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
+import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.PoseType.Companion.MOVING_POSES
 import com.cobblemon.mod.common.entity.PoseType.Companion.STATIONARY_POSES
 import com.cobblemon.mod.common.entity.PoseType.Companion.UI_POSES
@@ -21,31 +22,55 @@ class CentiskorchModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("centiskorch")
     override val head = getPart("head")
 
-    override var portraitScale = 4.0F
-    override var portraitTranslation = Vec3d(-6.1, -5.2, 0.0)
+    override var portraitScale = 1.4F
+    override var portraitTranslation = Vec3d(-0.62, 2.01, 0.0)
 
-    override var profileScale = 0.35F
-    override var profileTranslation = Vec3d(0.0, 0.7, 0.0)
+    override var profileScale = 0.45F
+    override var profileTranslation = Vec3d(0.02, 0.98, 0.0)
 
+    lateinit var sleep: PokemonPose
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
+    lateinit var battleidle: PokemonPose
 
     override fun registerPoses() {
+        val blink = quirk { bedrockStateful("centiskorch", "blink") }
+
+        sleep = registerPose(
+            poseName = "sleep",
+            poseType = PoseType.SLEEP,
+            idleAnimations = arrayOf(bedrock("centiskorch", "sleep"))
+        )
+
         standing = registerPose(
             poseName = "standing",
-            poseTypes = STATIONARY_POSES + UI_POSES,
+            poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
+            condition = { !it.isBattling },
+            quirks = arrayOf(blink),
             idleAnimations = arrayOf(
-                singleBoneLook()
-                //bedrock("centiskorch", "ground_idle")
+                singleBoneLook(),
+                bedrock("centiskorch", "ground_idle")
             )
         )
 
         walk = registerPose(
             poseName = "walk",
-            poseTypes = MOVING_POSES,
+            poseTypes = PoseType.MOVING_POSES,
+            quirks = arrayOf(blink),
             idleAnimations = arrayOf(
-                singleBoneLook()
-                //bedrock("centiskorch", "ground_walk")
+                singleBoneLook(),
+                bedrock("centiskorch", "ground_walk")
+            )
+        )
+
+        battleidle = registerPose(
+            poseName = "battleidle",
+            poseTypes = PoseType.STATIONARY_POSES,
+            quirks = arrayOf(blink),
+            condition = { it.isBattling },
+            idleAnimations = arrayOf(
+                singleBoneLook(),
+                bedrock("centiskorch", "battle_idle")
             )
         )
     }

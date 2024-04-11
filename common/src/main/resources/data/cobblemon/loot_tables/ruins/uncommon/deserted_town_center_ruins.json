@@ -52,7 +52,12 @@
                 {
                     "type": "minecraft:item",
                     "name": "cobblemon:helix_sherd",
-                    "weight": 90
+                    "weight": 45
+                },
+                {
+                    "type": "minecraft:item",
+                    "name": "cobblemon:nostalgic_sherd",
+                    "weight": 45
                 }
             ],
             "rolls": 1.0

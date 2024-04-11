@@ -34,8 +34,8 @@
             }
         },
         {
-            "id": "pikachu-alolan-2",
-            "pokemon": "pikachu alolan",
+            "id": "pikachu-alola-2",
+            "pokemon": "pikachu region_bias=alola",
             "presets": [
                 "natural"
             ],
@@ -56,6 +56,11 @@
                 "biomes": [
                     "#cobblemon:is_beach",
                     "#cobblemon:is_tropical_island"
+                ]
+            },
+            "anticondition": {
+                "biomes": [
+                    "#cobblemon:is_freezing"
                 ]
             }
         }

@@ -23,7 +23,7 @@ class WailordModel(root: ModelPart) : PokemonPoseableModel() {
     override var portraitTranslation = Vec3d(-0.38, 0.8, 0.0)
 
     override var profileScale = 0.25F
-    override var profileTranslation = Vec3d(0.0, 1.2, 0.0)
+    override var profileTranslation = Vec3d(0.0, 1.2, -10.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
