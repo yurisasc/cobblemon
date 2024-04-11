@@ -4138,6 +4138,9 @@
   "pokemon.cyndaquil.cry": {
     "sounds": [ { "name": "cobblemon:pokemon/cyndaquil/cyndaquil_cry", "volume": 0.8 } ]
   },
+  "pokemon.cyndaquil_hisuian.cry": {
+    "sounds": [ { "name": "cobblemon:pokemon/cyndaquil/cyndaquil_hisuian_cry", "volume": 0.8 } ]
+  },
   "pokemon.quilava.cry": {
     "sounds": [ { "name": "cobblemon:pokemon/quilava/quilava_cry", "volume": 0.8 } ]
   },
@@ -5329,6 +5332,9 @@
   "pokemon.lilligant.cry": {
     "sounds": [ { "name": "cobblemon:pokemon/lilligant/lilligant_cry", "volume": 0.8 } ]
   },
+  "pokemon.lilligant_hisuian.cry": {
+    "sounds": [ { "name": "cobblemon:pokemon/lilligant/lilligant_hisuian_cry", "volume": 0.8 } ]
+  },
   "pokemon.basculin.cry": {
     "sounds": [ { "name": "cobblemon:pokemon/basculin/basculin_cry", "volume": 0.8 } ]
   },
@@ -5398,8 +5404,14 @@
   "pokemon.zorua.cry": {
     "sounds": [ {  "name": "cobblemon:pokemon/zorua/zorua_cry", "volume": 0.8 } ]
   },
+  "pokemon.zorua_hisuian.cry": {
+    "sounds": [ {  "name": "cobblemon:pokemon/zorua/zorua_hisuian_cry", "volume": 0.8 } ]
+  },
   "pokemon.zoroark.cry": {
     "sounds": [ { "name": "cobblemon:pokemon/zoroark/zoroark_cry", "volume": 0.8 } ]
+  },
+  "pokemon.zoroark_hisuian.cry": {
+    "sounds": [ { "name": "cobblemon:pokemon/zoroark/zoroark_hisuian_cry", "volume": 0.8 } ]
   },
   "pokemon.minccino.cry": {
     "sounds": [ { "name": "cobblemon:pokemon/minccino/minccino_cry", "volume": 0.8 } ]

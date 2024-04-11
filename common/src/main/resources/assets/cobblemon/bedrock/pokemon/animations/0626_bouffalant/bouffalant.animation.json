@@ -470,6 +470,14 @@
 					"rotation": ["-math.sin(q.anim_time*90*4*2-33*7+45)*14", "math.sin(q.anim_time*90*2-33*7+180)*10", 0]
 				}
 			}
+		},
+		"animation.bouffalant.cry": {
+			"animation_length": 1.2,
+			"sound_effects": {
+				"0.04": {
+					"effect": "pokemon.bouffalant.cry"
+				}
+			}
 		}
 	}
 }
