@@ -1,6 +1,6 @@
 {
   "maxScale": 0.9,
-  "yTranslation": 0.1,
+  "yTranslation": 0,
   "yGrowthPoint": 0.4375,
 
   "animations": [
@@ -13,8 +13,8 @@
         "bedrock(omanyte_fetus, quirk)"
       ],
       "loopTimes": 1,
-      "minSeconds": 12,
-      "maxSeconds": 20
+      "minSeconds": 30,
+      "maxSeconds": 60
     }
   ]
 }

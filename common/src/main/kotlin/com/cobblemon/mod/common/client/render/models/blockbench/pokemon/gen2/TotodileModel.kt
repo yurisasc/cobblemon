@@ -28,11 +28,11 @@ class TotodileModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
     override val leftLeg = getPart("leg_left")
     override val rightLeg = getPart("leg_right")
 
-    override val portraitScale = 1.4F
-    override val portraitTranslation = Vec3d(-0.15, 0.3, 0.0)
+    override var portraitScale = 1.4F
+    override var portraitTranslation = Vec3d(-0.15, 0.3, 0.0)
 
-    override val profileScale = 0.65F
-    override val profileTranslation = Vec3d(0.0, 0.71, 0.0)
+    override var profileScale = 0.65F
+    override var profileTranslation = Vec3d(0.0, 0.71, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose

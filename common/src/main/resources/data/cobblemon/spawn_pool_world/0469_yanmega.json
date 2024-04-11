@@ -14,9 +14,10 @@
             "context": "surface",
             "bucket": "common",
             "level": "33-52",
-            "weight": 0.6,
+            "weight": 0.06,
             "condition": {
-                "canSeeSky": true,
+                "minSkyLight": 8,
+                "maxSkyLight": 15,
                 "timeRange": "day",
                 "isRaining": false
             }
@@ -31,9 +32,10 @@
             "context": "surface",
             "bucket": "common",
             "level": "33-52",
-            "weight": 0.2,
+            "weight": 0.02,
             "condition": {
-                "canSeeSky": false,
+                "minSkyLight": 0,
+                "maxSkyLight": 7,
                 "biomes": [
                     "#cobblemon:is_lush"
                 ]
@@ -49,7 +51,7 @@
             "context": "surface",
             "bucket": "common",
             "level": "33-52",
-            "weight": 0.2,
+            "weight": 0.02,
             "condition": {
                 "biomes": [
                     "#the_bumblezone:the_bumblezone"

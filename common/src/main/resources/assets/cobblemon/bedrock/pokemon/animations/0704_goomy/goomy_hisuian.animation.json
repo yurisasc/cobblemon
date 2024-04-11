@@ -1,0 +1,44 @@
+{
+	"format_version": "1.8.0",
+	"animations": {
+		"animation.goomy_hisuian.ground_idle": {
+			"loop": true,
+			"bones": {
+				"antenna_front_left_rotation": {
+					"rotation": [0.20212, -6.64851, 11.52125]
+				},
+				"antenna_back_left_rotation": {
+					"rotation": [-5, 0, 10]
+				},
+				"antenna_back_left2": {
+					"rotation": [0, 0, 15]
+				},
+				"antenna_back_right_rotation": {
+					"rotation": [0, 10, 0]
+				},
+				"antenna_back_right2": {
+					"rotation": [0, 0, 25]
+				}
+			}
+		},
+		"animation.goomy_hisuian.blink": {
+			"animation_length": 0.16667,
+			"bones": {
+				"eyelid_left": {
+					"position": {
+						"0.0": [0, 0, -0.1],
+						"0.125": [0, 0, -0.1],
+						"0.1667": [0, 0, 0]
+					}
+				},
+				"eyelid_right": {
+					"position": {
+						"0.0": [0, 0, -0.1],
+						"0.125": [0, 0, -0.1],
+						"0.1667": [0, 0, 0]
+					}
+				}
+			}
+		}
+	}
+}

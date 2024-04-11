@@ -90,7 +90,7 @@ object CobblemonHeldItemManager : BaseCobblemonHeldItemManager() {
             battle.broadcastChatMessage(battleLang("item.$itemID.start", battlerName))
             return
         }
-        val sourceName = battleMessage.getSourceBattlePokemon(battle)?.getName() ?: Text.of("UNKNOWN")
+        val sourceName = battleMessage.battlePokemonFromOptional(battle)?.getName() ?: Text.of("UNKNOWN")
         val itemName = this.nameOf(itemID)
         val effectId = effect.id
         val text = when (effectId) {
@@ -126,7 +126,7 @@ object CobblemonHeldItemManager : BaseCobblemonHeldItemManager() {
             this.take(pokemon, itemID)
             return
         }
-        val sourceName = battleMessage.getSourceBattlePokemon(battle)?.getName() ?: Text.of("UNKNOWN")
+        val sourceName = battleMessage.battlePokemonFromOptional(battle)?.getName() ?: Text.of("UNKNOWN")
         val effect = battleMessage.effect()
         val text = when {
             effect?.id != null -> battleLang("enditem.${effect.id}", battlerName, itemName, sourceName)

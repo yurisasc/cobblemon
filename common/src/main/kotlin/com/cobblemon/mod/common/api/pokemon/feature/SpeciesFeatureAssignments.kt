@@ -8,10 +8,13 @@
 
 package com.cobblemon.mod.common.api.pokemon.feature
 
+import com.cobblemon.mod.common.CobblemonNetwork.sendPacket
 import com.cobblemon.mod.common.api.data.JsonDataRegistry
 import com.cobblemon.mod.common.api.pokemon.PokemonSpecies
 import com.cobblemon.mod.common.api.reactive.SimpleObservable
+import com.cobblemon.mod.common.net.messages.client.data.SpeciesFeatureAssignmentSyncPacket
 import com.cobblemon.mod.common.pokemon.Species
+import com.cobblemon.mod.common.util.asIdentifierDefaultingNamespace
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
@@ -38,17 +41,24 @@ object SpeciesFeatureAssignments : JsonDataRegistry<SpeciesFeatureAssignment> {
     override val typeToken = TypeToken.get(SpeciesFeatureAssignment::class.java)
     override val resourcePath = "species_feature_assignments"
 
-    private val assignments = mutableMapOf<String, MutableSet<String>>()
+    private val assignments = mutableMapOf<Identifier, MutableSet<String>>()
 
-    override fun sync(player: ServerPlayerEntity) {}
+    override fun sync(player: ServerPlayerEntity) {
+        player.sendPacket(SpeciesFeatureAssignmentSyncPacket(assignments))
+    }
     override fun reload(data: Map<Identifier, SpeciesFeatureAssignment>) {
         data.values.forEach {
             it.pokemon.forEach { pokemon ->
-                assignments.getOrPut(pokemon) { mutableSetOf() }.addAll(it.features)
+                assignments.getOrPut(pokemon.asIdentifierDefaultingNamespace()) { mutableSetOf() }.addAll(it.features)
             }
         }
         this.observable.emit(this)
     }
 
-    fun getFeatures(species: Species) = assignments[species.showdownId()] ?: emptySet()
+    fun loadOnClient(data: Map<Identifier, MutableSet<String>>) {
+        this.assignments.clear()
+        this.assignments.putAll(data)
+    }
+
+    fun getFeatures(species: Species) = assignments[species.resourceIdentifier] ?: emptySet()
 }

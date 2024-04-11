@@ -29,11 +29,11 @@ class InteleonModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
     override val rightLeg = getPart("leg_right")
     val cape_unfolded = getPart("cape_unfolded")
 
-    override val portraitScale = 2.8F
-    override val portraitTranslation = Vec3d(-0.25, 3.0, 0.0)
+    override var portraitScale = 2.8F
+    override var portraitTranslation = Vec3d(-0.25, 3.0, 0.0)
 
-    override val profileScale = 0.6F
-    override val profileTranslation = Vec3d(0.0, 0.89, 0.0)
+    override var profileScale = 0.6F
+    override var profileTranslation = Vec3d(0.0, 0.89, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose

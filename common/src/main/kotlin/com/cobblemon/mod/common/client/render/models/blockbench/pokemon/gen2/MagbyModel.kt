@@ -21,11 +21,11 @@ class MagbyModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("magby")
     override val head = getPart("head")
 
-    override val portraitScale = 2.4F
-    override val portraitTranslation = Vec3d(-0.05, -0.45, 0.0)
+    override var portraitScale = 2.4F
+    override var portraitTranslation = Vec3d(-0.05, -0.45, 0.0)
 
-    override val profileScale = 0.78F
-    override val profileTranslation = Vec3d(-0.03, 0.61, 0.0)
+    override var profileScale = 0.78F
+    override var profileTranslation = Vec3d(-0.03, 0.61, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose

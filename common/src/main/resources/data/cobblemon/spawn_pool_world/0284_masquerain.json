@@ -14,9 +14,10 @@
             "context": "surface",
             "bucket": "common",
             "level": "22-45",
-            "weight": 0.2,
+            "weight": 0.02,
             "condition": {
-                "canSeeSky": true,
+                "minSkyLight": 8,
+                "maxSkyLight": 15,
                 "timeRange": "night",
                 "isRaining": false
             }
@@ -31,7 +32,7 @@
             "context": "surface",
             "bucket": "common",
             "level": "22-45",
-            "weight": 1.0,
+            "weight": 0.1,
             "condition": {
                 "biomes": [
                     "#the_bumblezone:the_bumblezone"

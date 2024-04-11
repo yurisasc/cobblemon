@@ -12,6 +12,7 @@ import com.cobblemon.mod.common.api.properties.CustomPokemonProperty
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.google.gson.JsonObject
 import net.minecraft.nbt.NbtCompound
+import net.minecraft.network.PacketByteBuf
 
 /**
  * A species feature value that is a string value.
@@ -22,7 +23,7 @@ import net.minecraft.nbt.NbtCompound
 class StringSpeciesFeature(
     override val name: String,
     var value: String
-) : SpeciesFeature, CustomPokemonProperty {
+) : SynchronizedSpeciesFeature, CustomPokemonProperty {
     override fun saveToNBT(pokemonNBT: NbtCompound): NbtCompound {
         pokemonNBT.putString(name, value)
         return pokemonNBT
@@ -41,6 +42,14 @@ class StringSpeciesFeature(
     override fun loadFromJSON(pokemonJSON: JsonObject): SpeciesFeature {
         value = pokemonJSON.get(name)?.asString?.lowercase() ?: return this
         return this
+    }
+
+    override fun encode(buffer: PacketByteBuf) {
+        buffer.writeString(value)
+    }
+
+    override fun decode(buffer: PacketByteBuf) {
+        value = buffer.readString()
     }
 
     override fun asString() = "$name=$value"

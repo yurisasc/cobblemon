@@ -22,7 +22,6 @@ import com.cobblemon.mod.common.net.messages.client.battle.BattleChallengeExpire
 import com.cobblemon.mod.common.util.getPlayer
 import com.google.gson.GsonBuilder
 import java.time.Instant
-import java.util.Optional
 import java.util.UUID
 import java.util.concurrent.ConcurrentHashMap
 import net.minecraft.server.network.ServerPlayerEntity
@@ -139,7 +138,7 @@ object BattleRegistry {
             // 0 - 9, empty == 10
             packedTeamBuilder.append("${if (pk.dmaxLevel < 10) pk.dmaxLevel else ""},")
             // Teratype
-            packedTeamBuilder.append("${pokemon.effectedPokemon.teraType.name},")
+            packedTeamBuilder.append("${pokemon.effectedPokemon.teraType.showdownId()},")
 
             team.add(packedTeamBuilder.toString())
         }
