@@ -43,13 +43,13 @@
 				"toe_front_left2": {
 					"rotation": [0, -12.5, 0]
 				}
-			},
-			"animation.dartrix.cry": {
-				"animation_length": 1.33333,
-				"sound_effects": {
-					"0.04": {
-						"effect": "pokemon.dartrix.cry"
-					}
+			}
+		},
+		"animation.dartrix.cry": {
+			"animation_length": 1.33333,
+			"sound_effects": {
+				"0.04": {
+					"effect": "pokemon.dartrix.cry"
 				}
 			}
 		}

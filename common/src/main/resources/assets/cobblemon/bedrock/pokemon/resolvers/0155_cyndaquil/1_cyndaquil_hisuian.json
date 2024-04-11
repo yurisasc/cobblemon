@@ -4,6 +4,7 @@
   "variations": [
     {
       "aspects": ["region-bias-hisui"],
+      "poser": "cobblemon:cyndaquil_hisuian",
       "model": "cobblemon:cyndaquil_hisuian.geo",
       "texture": "cobblemon:textures/pokemon/0155_cyndaquil/cyndaquil_hisuian.png",
       "layers": [

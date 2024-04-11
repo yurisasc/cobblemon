@@ -1,7 +1,7 @@
 {
 	"format_version": "1.8.0",
 	"animations": {
-		"animation.rowlet.ground_idle": {
+		"animation.rowlet_hisuian.ground_idle": {
 			"loop": true,
 			"bones": {
 				"waist": {
@@ -24,7 +24,7 @@
 				}
 			}
 		},
-		"animation.rowlet.flying_idle": {
+		"animation.rowlet_hisuian.flying_idle": {
 			"loop": true,
 			"bones": {
 				"body": {
@@ -71,7 +71,7 @@
 				}
 			}
 		},
-		"animation.rowlet.blink": {
+		"animation.rowlet_hisuian.blink": {
 			"animation_length": 0.16667,
 			"bones": {
 				"eyelid_left": {
@@ -90,7 +90,7 @@
 				}
 			}
 		},
-		"animation.rowlet.cry": {
+		"animation.rowlet_hisuian.cry": {
 			"animation_length": 2,
 			"bones": {
 				"waist": {
@@ -111,6 +111,11 @@
 						"1.7083": [40, 0, 0],
 						"2.0": [0, 0, 0]
 					}
+				}
+			},
+			"sound_effects": {
+				"0.0": {
+					"effect": "pokemon.rowlet_hisuian.cry"
 				}
 			}
 		}

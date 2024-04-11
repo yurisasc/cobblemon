@@ -4,6 +4,7 @@
   "variations": [
     {
       "aspects": ["region-bias-hisui"],
+      "poser": "cobblemon:quilava_hisuian",
       "model": "cobblemon:quilava_hisuian.geo",
       "texture": "cobblemon:textures/pokemon/0156_quilava/quilava_hisuian.png",
       "layers": [

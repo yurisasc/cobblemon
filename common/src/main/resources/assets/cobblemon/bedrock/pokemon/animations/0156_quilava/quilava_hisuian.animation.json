@@ -1,7 +1,7 @@
 {
 	"format_version": "1.8.0",
 	"animations": {
-		"animation.quilava.ground_idle": {
+		"animation.quilava_hisuian.ground_idle": {
 			"loop": true,
 			"animation_length": 1.58333,
 			"bones": {
@@ -79,7 +79,7 @@
 				}
 			}
 		},
-		"animation.quilava.battle_idle": {
+		"animation.quilava_hisuian.battle_idle": {
 			"loop": true,
 			"bones": {
 				"torso": {
@@ -151,7 +151,7 @@
 				}
 			}
 		},
-		"animation.quilava.ground_walk": {
+		"animation.quilava_hisuian.ground_walk": {
 			"loop": true,
 			"animation_length": 4.7917,
 			"bones": {
@@ -421,7 +421,7 @@
 				}
 			}
 		},
-		"animation.quilava.ground_run_WIP": {
+		"animation.quilava_hisuian.ground_run_WIP": {
 			"loop": true,
 			"animation_length": 1,
 			"bones": {
@@ -504,7 +504,7 @@
 				}
 			}
 		},
-		"animation.quilava.cry": {
+		"animation.quilava_hisuian.cry": {
 			"animation_length": 1.58333,
 			"bones": {
 				"torso": {
@@ -704,11 +704,11 @@
 			},
 			"sound_effects": {
 				"0.0833": {
-					"effect": "pokemon.quilava.cry"
+					"effect": "pokemon.quilava_hisuian.cry"
 				}
 			}
 		},
-		"animation.quilava.battle_cry": {
+		"animation.quilava_hisuian.battle_cry": {
 			"animation_length": 1.16667,
 			"bones": {
 				"head": {
@@ -855,11 +855,11 @@
 			},
 			"sound_effects": {
 				"0.0833": {
-					"effect": "pokemon.quilava.cry"
+					"effect": "pokemon.quilava_hisuian.cry"
 				}
 			}
 		},
-		"animation.quilava.sleep": {
+		"animation.quilava_hisuian.sleep": {
 			"loop": true,
 			"bones": {
 				"torso": {
@@ -940,7 +940,7 @@
 				}
 			}
 		},
-		"animation.quilava.blink": {
+		"animation.quilava_hisuian.blink": {
 			"animation_length": 0.16667,
 			"bones": {
 				"eyelid_right": {
@@ -959,7 +959,7 @@
 				}
 			}
 		},
-		"animation.quilava.render": {
+		"animation.quilava_hisuian.render": {
 			"loop": true,
 			"bones": {
 				"body": {
@@ -1027,7 +1027,7 @@
 				}
 			}
 		},
-		"animation.quilava.fire_idle": {
+		"animation.quilava_hisuian.fire_idle": {
 			"loop": true,
 			"bones": {
 				"fire_back_main": {

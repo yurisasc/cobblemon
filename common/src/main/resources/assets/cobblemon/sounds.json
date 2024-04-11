@@ -4144,8 +4144,14 @@
   "pokemon.quilava.cry": {
     "sounds": [ { "name": "cobblemon:pokemon/quilava/quilava_cry", "volume": 0.8 } ]
   },
+  "pokemon.quilava_hisuian.cry": {
+    "sounds": [ { "name": "cobblemon:pokemon/quilava/quilava_hisuian_cry", "volume": 0.8 } ]
+  },
   "pokemon.typhlosion.cry": {
     "sounds": [ { "name": "cobblemon:pokemon/typhlosion/typhlosion_cry", "volume": 0.8 } ]
+  },
+  "pokemon.typhlosion_hisuian.cry": {
+    "sounds": [ { "name": "cobblemon:pokemon/typhlosion/typhlosion_hisuian_cry", "volume": 0.8 } ]
   },
   "pokemon.totodile.cry": {
     "sounds": [ { "name": "cobblemon:pokemon/totodile/totodile_cry", "volume": 0.8 } ]
@@ -5188,11 +5194,20 @@
   "pokemon.oshawott.cry": {
     "sounds": [ { "name": "cobblemon:pokemon/oshawott/oshawott_cry", "volume": 0.8 } ]
   },
+  "pokemon.oshawott_hisuian.cry": {
+    "sounds": [ { "name": "cobblemon:pokemon/oshawott/oshawott_hisuian_cry", "volume": 0.8 } ]
+  },
   "pokemon.dewott.cry": {
     "sounds": [ {  "name": "cobblemon:pokemon/dewott/dewott_cry", "volume": 0.8 } ]
   },
+  "pokemon.dewott_hisuian.cry": {
+    "sounds": [ {  "name": "cobblemon:pokemon/dewott/dewott_hisuian_cry", "volume": 0.8 } ]
+  },
   "pokemon.samurott.cry": {
     "sounds": [ { "name": "cobblemon:pokemon/samurott/samurott_cry", "volume": 0.8 } ]
+  },
+  "pokemon.samurott_hisuian.cry": {
+    "sounds": [ { "name": "cobblemon:pokemon/samurott/samurott_hisuian_cry", "volume": 0.8 } ]
   },
   "pokemon.patrat.cry": {
     "sounds": [ {  "name": "cobblemon:pokemon/patrat/patrat_cry", "volume": 0.8 } ]
@@ -5866,11 +5881,20 @@
   "pokemon.rowlet.cry": {
     "sounds": [ {  "name": "cobblemon:pokemon/rowlet/rowlet_cry", "volume": 0.8 } ]
   },
+  "pokemon.rowlet_hisuian.cry": {
+    "sounds": [ {  "name": "cobblemon:pokemon/rowlet/rowlet_hisuian_cry", "volume": 0.8 } ]
+  },
   "pokemon.dartrix.cry": {
     "sounds": [ { "name": "cobblemon:pokemon/dartrix/dartrix_cry", "volume": 0.8 } ]
   },
+  "pokemon.dartrix_hisuian.cry": {
+    "sounds": [ { "name": "cobblemon:pokemon/dartrix/dartrix_hisuian_cry", "volume": 0.8 } ]
+  },
   "pokemon.decidueye.cry": {
     "sounds": [ { "name": "cobblemon:pokemon/decidueye/decidueye_cry", "volume": 0.8 } ]
+  },
+  "pokemon.decidueye_hisuian.cry": {
+    "sounds": [ { "name": "cobblemon:pokemon/decidueye/decidueye_hisuian_cry", "volume": 0.8 } ]
   },
   "pokemon.litten.cry": {
     "sounds": [ {  "name": "cobblemon:pokemon/litten/litten_cry", "volume": 0.8 } ]

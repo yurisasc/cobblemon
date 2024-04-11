@@ -3,7 +3,7 @@
 	"minecraft:geometry": [
 		{
 			"description": {
-				"identifier": "geometry.quilava",
+				"identifier": "geometry.quilava_hisuian",
 				"texture_width": 128,
 				"texture_height": 64,
 				"visible_bounds_width": 4,
@@ -12,12 +12,12 @@
 			},
 			"bones": [
 				{
-					"name": "quilava",
+					"name": "quilava_hisuian",
 					"pivot": [0, 0, 4]
 				},
 				{
 					"name": "body",
-					"parent": "quilava",
+					"parent": "quilava_hisuian",
 					"pivot": [0, 11, 4]
 				},
 				{

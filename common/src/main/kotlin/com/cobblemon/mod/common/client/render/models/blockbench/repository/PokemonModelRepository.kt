@@ -705,8 +705,14 @@ object PokemonModelRepository : VaryingModelRepository<PokemonEntity, PokemonPos
         inbuilt("morgrem", ::MorgremModel)
         inbuilt("grimmsnarl", ::GrimmsnarlModel)
         inbuilt("klefki", ::KlefkiModel)
+        inbuilt("oshawott_hisuian", ::OshawottHisuianModel)
+        inbuilt("dewott_hisuian", ::DewottHisuianModel)
         inbuilt("samurott_hisuian", ::SamurottHisuianModel)
+        inbuilt("cyndaquil_hisuian", ::CyndaquilHisuianModel)
+        inbuilt("quilava_hisuian", ::QuilavaHisuianModel)
         inbuilt("typhlosion_hisuian", ::TyphlosionHisuianModel)
+        inbuilt("rowlet_hisuian", ::RowletHisuianModel)
+        inbuilt("dartrix_hisuian", ::DartrixHisuianModel)
         inbuilt("decidueye_hisuian", ::DecidueyeHisuianModel)
     }
 

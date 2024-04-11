@@ -1,7 +1,7 @@
 {
 	"format_version": "1.8.0",
 	"animations": {
-		"animation.cyndaquil.ground_idle": {
+		"animation.cyndaquil_hisuian.ground_idle": {
 			"loop": true,
 			"bones": {
 				"torso": {
@@ -41,7 +41,7 @@
 				}
 			}
 		},
-		"animation.cyndaquil.battle_idle": {
+		"animation.cyndaquil_hisuian.battle_idle": {
 			"loop": true,
 			"bones": {
 				"torso": {
@@ -84,7 +84,7 @@
 				}
 			}
 		},
-		"animation.cyndaquil.ground_walk": {
+		"animation.cyndaquil_hisuian.ground_walk": {
 			"loop": true,
 			"animation_length": 1,
 			"bones": {
@@ -178,7 +178,7 @@
 				}
 			}
 		},
-		"animation.cyndaquil.ground_run": {
+		"animation.cyndaquil_hisuian.ground_run": {
 			"loop": true,
 			"bones": {
 				"torso": {
@@ -259,7 +259,7 @@
 				}
 			}
 		},
-		"animation.cyndaquil.battle_entrance": {
+		"animation.cyndaquil_hisuian.battle_entrance": {
 			"loop": "hold_on_last_frame",
 			"animation_length": 2.5,
 			"bones": {
@@ -416,7 +416,7 @@
 				}
 			}
 		},
-		"animation.cyndaquil.cry": {
+		"animation.cyndaquil_hisuian.cry": {
 			"animation_length": 1.375,
 			"bones": {
 				"torso": {
@@ -555,11 +555,11 @@
 			},
 			"sound_effects": {
 				"0.25": {
-					"effect": "pokemon.cyndaquil.cry"
+					"effect": "pokemon.cyndaquil_hisuian.cry"
 				}
 			}
 		},
-		"animation.cyndaquil.battle_cry": {
+		"animation.cyndaquil_hisuian.battle_cry": {
 			"animation_length": 2,
 			"bones": {
 				"torso": {
@@ -676,7 +676,7 @@
 				}
 			}
 		},
-		"animation.cyndaquil.sleep": {
+		"animation.cyndaquil_hisuian.sleep": {
 			"loop": true,
 			"bones": {
 				"torso": {
@@ -732,7 +732,7 @@
 				}
 			}
 		},
-		"animation.cyndaquil.render": {
+		"animation.cyndaquil_hisuian.render": {
 			"loop": true,
 			"bones": {
 				"torso": {
@@ -764,7 +764,7 @@
 				}
 			}
 		},
-		"animation.cyndaquil.sneeze_quirk_WIP": {
+		"animation.cyndaquil_hisuian.sneeze_quirk_WIP": {
 			"animation_length": 5.41667,
 			"bones": {
 				"body": {
@@ -958,7 +958,7 @@
 				}
 			}
 		},
-		"animation.cyndaquil.faint_WIP": {
+		"animation.cyndaquil_hisuian.faint_WIP": {
 			"animation_length": 3,
 			"bones": {
 				"torso": {

@@ -144,6 +144,56 @@
 					"effect": "pokemon.oshawott.cry"
 				}
 			}
+		},
+		"animation.oshawott.hisuian_cry": {
+			"animation_length": 0.58333,
+			"bones": {
+				"head": {
+					"rotation": {
+						"0.0": {
+							"post": [0, 0, 0],
+							"lerp_mode": "catmullrom"
+						},
+						"0.0833": {
+							"post": [-7.5, 0, 0],
+							"lerp_mode": "catmullrom"
+						},
+						"0.375": {
+							"post": [-12.5, 0, 0],
+							"lerp_mode": "catmullrom"
+						},
+						"0.5833": {
+							"post": [0, 0, 0],
+							"lerp_mode": "catmullrom"
+						}
+					}
+				},
+				"mouth_open": {
+					"position": {
+						"0.0": [0, 0, 0],
+						"0.0833": [0, 0, 0],
+						"0.125": [0, 0, -0.1],
+						"0.375": [0, 0, -0.1],
+						"0.4167": [0, 0, 0],
+						"0.5833": [0, 0, 0]
+					}
+				},
+				"mouth_closed": {
+					"position": {
+						"0.0": [0, 0, 0],
+						"0.0833": [0, 0, 0],
+						"0.125": [0, 0, 0.1],
+						"0.375": [0, 0, 0.1],
+						"0.4167": [0, 0, 0],
+						"0.5833": [0, 0, 0]
+					}
+				}
+			},
+			"sound_effects": {
+				"0.0833": {
+					"effect": "pokemon.oshawott_hisuian.cry"
+				}
+			}
 		}
 	}
 }

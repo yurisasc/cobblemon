@@ -3,7 +3,7 @@
 	"minecraft:geometry": [
 		{
 			"description": {
-				"identifier": "geometry.rowlet",
+				"identifier": "geometry.rowlet_hisuian",
 				"texture_width": 64,
 				"texture_height": 64,
 				"visible_bounds_width": 4,
@@ -12,12 +12,12 @@
 			},
 			"bones": [
 				{
-					"name": "rowlet",
+					"name": "rowlet_hisuian",
 					"pivot": [0, 0, 0]
 				},
 				{
 					"name": "body",
-					"parent": "rowlet",
+					"parent": "rowlet_hisuian",
 					"pivot": [0, 9.25, 0]
 				},
 				{

@@ -4,6 +4,7 @@
   "variations": [
     {
       "aspects": ["region-bias-hisui"],
+      "poser": "cobblemon:oshawott_hisuian",
       "model": "cobblemon:oshawott_hisuian.geo",
       "texture": "cobblemon:textures/pokemon/0501_oshawott/oshawott_hisuian.png",
       "layers": []
