@@ -53,6 +53,7 @@ import com.cobblemon.mod.common.entity.pokemon.ai.tasks.GoToSleepTask
 import com.cobblemon.mod.common.entity.pokemon.ai.tasks.HandleBattleActivityGoal
 import com.cobblemon.mod.common.entity.pokemon.ai.tasks.LookAtTargetedBattlePokemonTask
 import com.cobblemon.mod.common.entity.pokemon.ai.tasks.WakeUpTask
+import com.cobblemon.mod.common.entity.pokemon.ai.tasks.MoveToOwnerTask
 import com.cobblemon.mod.common.entity.pokemon.effects.EffectTracker
 import com.cobblemon.mod.common.entity.pokemon.effects.IllusionEffect
 import com.cobblemon.mod.common.net.messages.client.animation.PlayPoseableAnimationPacket
@@ -620,6 +621,7 @@ open class PokemonEntity(
         tasks.add(0 toDF GetAngryAtAttackerTask.create())
         tasks.add(0 toDF ForgetAngryAtTargetTask.create())
         tasks.add(0 toDF HandleBattleActivityGoal.create())
+        tasks.add(0 toDF FollowWalkTargetTask())
         return tasks
     }
 
@@ -634,10 +636,10 @@ open class PokemonEntity(
         tasks.add(0 toDF ChooseLandWanderTargetTask.create(pokemon.form.behaviour.moving.wanderChance, horizontalRange = 10, verticalRange = 5, walkSpeed = 0.33F, completionRange = 1))
         tasks.add(0 toDF GoToSleepTask.create())
         tasks.add(0 toDF FindRestingPlaceTask.create(16, 8))
-        tasks.add(0 toDF FollowWalkTargetTask())
         tasks.add(0 toDF EatGrassTask())
         tasks.add(0 toDF AttackAngryAtTask.create())
         tasks.add(0 toDF MoveToAttackTargetTask.create())
+        tasks.add(0 toDF MoveToOwnerTask.create(completionRange = 4, maxDistance = 14F, teleportDistance = 24F))
         return tasks
     }
 
