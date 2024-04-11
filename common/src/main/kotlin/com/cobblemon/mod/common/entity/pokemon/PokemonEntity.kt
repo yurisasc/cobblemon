@@ -52,8 +52,8 @@ import com.cobblemon.mod.common.entity.pokemon.ai.tasks.FindRestingPlaceTask
 import com.cobblemon.mod.common.entity.pokemon.ai.tasks.GoToSleepTask
 import com.cobblemon.mod.common.entity.pokemon.ai.tasks.HandleBattleActivityGoal
 import com.cobblemon.mod.common.entity.pokemon.ai.tasks.LookAtTargetedBattlePokemonTask
-import com.cobblemon.mod.common.entity.pokemon.ai.tasks.WakeUpTask
 import com.cobblemon.mod.common.entity.pokemon.ai.tasks.MoveToOwnerTask
+import com.cobblemon.mod.common.entity.pokemon.ai.tasks.WakeUpTask
 import com.cobblemon.mod.common.entity.pokemon.effects.EffectTracker
 import com.cobblemon.mod.common.entity.pokemon.effects.IllusionEffect
 import com.cobblemon.mod.common.net.messages.client.animation.PlayPoseableAnimationPacket
@@ -72,11 +72,6 @@ import com.cobblemon.mod.common.pokemon.evolution.variants.ItemInteractionEvolut
 import com.cobblemon.mod.common.pokemon.misc.GimmighoulStashHandler
 import com.cobblemon.mod.common.util.*
 import com.cobblemon.mod.common.world.gamerules.CobblemonGameRules
-import net.minecraft.block.Blocks
-import java.util.EnumSet
-import java.util.Optional
-import java.util.UUID
-import java.util.concurrent.CompletableFuture
 import com.google.common.collect.ImmutableList
 import com.mojang.serialization.Dynamic
 import java.util.*
@@ -136,7 +131,6 @@ import net.minecraft.world.EntityView
 import net.minecraft.world.LightType
 import net.minecraft.world.World
 import net.minecraft.world.event.GameEvent
-import java.util.*
 
 @Suppress("unused")
 open class PokemonEntity(
@@ -803,7 +797,10 @@ open class PokemonEntity(
                     } else if (pokemon.lastFlowerFed.isOf(Items.POPPY) || pokemon.lastFlowerFed.isOf(Items.TORCHFLOWER)) {
                         effect = StatusEffect.byRawId(16) // Night Vision
                         duration = 100 // 5 seconds
-                    } else if (pokemon.lastFlowerFed.isOf(Items.PINK_TULIP) || pokemon.lastFlowerFed.isOf(Items.RED_TULIP) || pokemon.lastFlowerFed.isOf(Items.WHITE_TULIP) || pokemon.lastFlowerFed.isOf(Items.ORANGE_TULIP)) {
+                    } else if (pokemon.lastFlowerFed.isOf(Items.PINK_TULIP) || pokemon.lastFlowerFed.isOf(Items.RED_TULIP) || pokemon.lastFlowerFed.isOf(
+                            Items.WHITE_TULIP
+                        ) || pokemon.lastFlowerFed.isOf(Items.ORANGE_TULIP)
+                    ) {
                         effect = StatusEffect.byRawId(18) // Weakness
                         duration = 180 // 9 seconds
                     } else if (pokemon.lastFlowerFed.isOf(Items.WITHER_ROSE)) {
@@ -824,9 +821,7 @@ open class PokemonEntity(
                     // reset the flower fed state
                     pokemon.lastFlowerFed = ItemStack.EMPTY
                     return ActionResult.success(world.isClient)
-                }
-
-                else {
+                } else {
                     val mushroomStew = ItemUsage.exchangeStack(itemStack, player, Items.MUSHROOM_STEW.defaultStack)
                     player.setStackInHand(hand, mushroomStew)
                     return ActionResult.success(world.isClient)
