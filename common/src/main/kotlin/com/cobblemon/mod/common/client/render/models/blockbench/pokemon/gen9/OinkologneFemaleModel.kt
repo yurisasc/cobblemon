@@ -11,14 +11,15 @@ package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen9
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.QuadrupedWalkAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.QuadrupedFrame
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cobblemon.mod.common.entity.PoseType
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class OinkologneModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, QuadrupedFrame {
-    override val rootPart = root.registerChildWithAllChildren("oinkologne")
+class OinkologneFemaleModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, QuadrupedFrame {
+    override val rootPart = root.registerChildWithAllChildren("oinkologne_female")
     override val head = getPart("head")
 
     override val foreLeftLeg = getPart("leg_front_left")
@@ -36,40 +37,42 @@ class OinkologneModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Q
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
 
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("oinkologne_female", "cry") }
+
     override fun registerPoses() {
 //        sleep = registerPose(
 //            poseType = PoseType.SLEEP,
-//            idleAnimations = arrayOf(bedrock("oinkologne", "sleep"))
+//            idleAnimations = arrayOf(bedrock("oinkologne_female", "sleep"))
 //        )
 
-        val blink = quirk { bedrockStateful("oinkologne", "blink") }
+        val blink = quirk { bedrockStateful("oinkologne_female", "blink") }
 
         standing = registerPose(
-            poseName = "standing",
-            poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
-            transformTicks = 10,
-            quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
-                singleBoneLook(),
-                bedrock("oinkologne", "ground_idle")
-            )
+                poseName = "standing",
+                poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
+                transformTicks = 10,
+                quirks = arrayOf(blink),
+                idleAnimations = arrayOf(
+                        singleBoneLook(),
+                        bedrock("oinkologne_female", "ground_idle")
+                )
         )
 
         walk = registerPose(
-            poseName = "walk",
-            poseTypes = PoseType.MOVING_POSES,
-            transformTicks = 5,
-            quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
-                singleBoneLook(),
-                bedrock("oinkologne", "ground_idle"),
-                QuadrupedWalkAnimation(this, periodMultiplier = 0.75F, amplitudeMultiplier = 1F)
-            )
+                poseName = "walk",
+                poseTypes = PoseType.MOVING_POSES,
+                transformTicks = 5,
+                quirks = arrayOf(blink),
+                idleAnimations = arrayOf(
+                        singleBoneLook(),
+                        bedrock("oinkologne_female", "ground_idle"),
+                        QuadrupedWalkAnimation(this, periodMultiplier = 0.75F, amplitudeMultiplier = 1F)
+                )
         )
     }
 
 //    override fun getFaintAnimation(
 //        pokemonEntity: PokemonEntity,
 //        state: PoseableEntityState<PokemonEntity>
-//    ) = if (state.isNotPosedIn(sleep)) bedrockStateful("oinkologne", "faint") else null
+//    ) = if (state.isNotPosedIn(sleep)) bedrockStateful("oinkologne_female", "faint") else null
 }
