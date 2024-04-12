@@ -170,7 +170,7 @@
   - Additionally, if you give Gimmighoul a Netherite Scrap, you can increase its Netherite Stash. Who knows what might happen if it fills up?
 - Gholdengo
 
-#### Cobblemon Exclusive's
+#### Cobblemon Exclusives
 - Hisui Bias Rowlet
 - Hisui Bias Dartrix
 - Hisui Bias Cyndaquil
@@ -183,7 +183,7 @@
 ### Added cries to the following Pokémon
 - Alolan Raticate
 - Vulpix, Ninetales
-- Zubat, Golbat
+- Zubat, Golbat, Crobat
 - Meowth, Persian
 - Psyduck, Golduck
 - Growlithe, Arcanine
@@ -203,6 +203,7 @@
 - Kabuto, Kabutops
 - Lapras
 - Scyther
+- Hisui Bias Cyndaquil, Hisui Bias Quilava
 - Igglybuff
 - Yanma, Yanmega
 - Gligar, Gliscor
@@ -218,13 +219,21 @@
 - Bidoof, Bibarel
 - Buizel, Floatzel
 - Gible, Gabite, Garchomp
+- Hisui Bias Oshawott, Hisui Bias Dewott
+- Petilil, Lilligant, Hisui Bias Petilil, Hisuian Lilligant
+- Basculin
+- Sandile, Krokolok, Krookodile
 - Darumaka, Darmanitan
 - Archen, Archeops
 - Tyrunt, Tyrantrum
+- Amaura Aurorus
+- Goomy, Sliggoo, Goodra, Hisui Bias Goomy, Hisuian Sliggoo, Hisuian Goodra
+- Klefki
+- Hisui Bias Rowlet, Hisui Bias Dartrix
 - Komala
 - Cufant, Copperajah
 - Dracozolt, Arctozolt, Dracovish, Arctovish
-- Oinkologne
+- Lechonk, Oinkologne
 - Maushold family of three and four
 
 

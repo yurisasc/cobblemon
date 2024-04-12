@@ -5848,6 +5848,15 @@
   "pokemon.goodra.cry": {
     "sounds": [ {  "name": "cobblemon:pokemon/goodra/goodra_cry", "volume": 0.8 } ]
   },
+  "pokemon.goomy_hisui_bias.cry": {
+    "sounds": [ {  "name": "cobblemon:pokemon/goomy/goomy_hisui_bias_cry", "volume": 0.8 } ]
+  },
+  "pokemon.sliggoo_hisuian.cry": {
+    "sounds": [ { "name": "cobblemon:pokemon/sliggoo/sliggoo_hisuian_cry", "volume": 0.8 } ]
+  },
+  "pokemon.goodra_hisuian.cry": {
+    "sounds": [ {  "name": "cobblemon:pokemon/goodra/goodra_hisuian_cry", "volume": 0.8 } ]
+  },
   "pokemon.klefki.cry": {
     "sounds": [ {  "name": "cobblemon:pokemon/klefki/klefki_cry", "volume": 0.8 } ]
   },

@@ -48,6 +48,14 @@
 					}
 				}
 			}
+		},
+		"animation.goomy_hisui_bias.cry": {
+			"animation_length": 1.2,
+			"sound_effects": {
+				"0.04": {
+					"effect": "pokemon.goomy_hisui_bias.cry"
+				}
+			}
 		}
 	}
 }
