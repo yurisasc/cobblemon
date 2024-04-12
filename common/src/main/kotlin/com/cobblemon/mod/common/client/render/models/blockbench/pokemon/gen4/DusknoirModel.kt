@@ -41,10 +41,7 @@ class DusknoirModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
 
         sleep = registerPose(
             poseType = PoseType.SLEEP,
-            idleAnimations = arrayOf(bedrock("dusknoir", "sleep")),
-            transformedParts = arrayOf(
-                spoopytail.createTransformation().addRotationDegrees(ModelPartTransformation.Y_AXIS, 20)
-            )
+            idleAnimations = arrayOf(bedrock("dusknoir", "sleep"))
         )
 
         standing = registerPose(
@@ -54,9 +51,6 @@ class DusknoirModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("dusknoir", "ground_idle")
-            ),
-            transformedParts = arrayOf(
-                spoopytail.createTransformation().addRotationDegrees(ModelPartTransformation.Y_AXIS, 20)
             )
         )
 
@@ -66,9 +60,6 @@ class DusknoirModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("dusknoir", "ground_walk")
-            ),
-            transformedParts = arrayOf(
-                spoopytail.createTransformation().addRotationDegrees(ModelPartTransformation.Y_AXIS, 20)
             )
         )
 
@@ -99,9 +90,6 @@ class DusknoirModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             condition = { it.isBattling },
             idleAnimations = arrayOf(
                 bedrock("dusknoir", "battle_idle")
-            ),
-            transformedParts = arrayOf(
-                spoopytail.createTransformation().addRotationDegrees(ModelPartTransformation.Y_AXIS, 20)
             )
         )
     }

@@ -5,15 +5,15 @@
     {
       "aspects": ["region-bias-hisui"],
       "poser": "cobblemon:goomy_hisuian",
-      "model": "cobblemon:goomy_hisuian.geo",
-      "texture": "cobblemon:textures/pokemon/0704_goomy/goomy_hisuian.png",
+      "model": "cobblemon:goomy_hisui_bias.geo",
+      "texture": "cobblemon:textures/pokemon/0704_goomy/goomy_hisui_bias.png",
       "layers": []
     },
     {
       "aspects": [
         "shiny", "region-bias-hisui"
       ],
-      "texture": "cobblemon:textures/pokemon/0704_goomy/goomy_hisuian_shiny.png",
+      "texture": "cobblemon:textures/pokemon/0704_goomy/goomy_hisui_bias_shiny.png",
       "layers": []
     }
   ]

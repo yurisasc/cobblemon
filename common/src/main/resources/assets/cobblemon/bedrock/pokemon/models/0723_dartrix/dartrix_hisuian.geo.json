@@ -3,7 +3,7 @@
 	"minecraft:geometry": [
 		{
 			"description": {
-				"identifier": "geometry.dartrix",
+				"identifier": "geometry.dartrix_hisuian",
 				"texture_width": 128,
 				"texture_height": 128,
 				"visible_bounds_width": 6,
@@ -12,12 +12,12 @@
 			},
 			"bones": [
 				{
-					"name": "dartrix",
+					"name": "dartrix_hisuian",
 					"pivot": [0, 0, 0]
 				},
 				{
 					"name": "body",
-					"parent": "dartrix",
+					"parent": "dartrix_hisuian",
 					"pivot": [0, 17.5, 0]
 				},
 				{

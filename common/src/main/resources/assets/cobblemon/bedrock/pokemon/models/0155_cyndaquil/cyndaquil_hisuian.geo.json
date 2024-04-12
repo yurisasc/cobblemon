@@ -3,7 +3,7 @@
 	"minecraft:geometry": [
 		{
 			"description": {
-				"identifier": "geometry.cyndaquil",
+				"identifier": "geometry.cyndaquil_hisuian",
 				"texture_width": 128,
 				"texture_height": 64,
 				"visible_bounds_width": 4,
@@ -12,12 +12,12 @@
 			},
 			"bones": [
 				{
-					"name": "cyndaquil",
+					"name": "cyndaquil_hisuian",
 					"pivot": [0, 0, 0]
 				},
 				{
 					"name": "body",
-					"parent": "cyndaquil",
+					"parent": "cyndaquil_hisuian",
 					"pivot": [0, 11, 0]
 				},
 				{

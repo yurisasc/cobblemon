@@ -222,6 +222,11 @@
 		},
 		"animation.lurantis.cry": {
 			"animation_length": 1.25,
+			"sound_effects": {
+				"0.04": {
+					"effect": "pokemon.lurantis.cry"
+				}
+			},
 			"bones": {
 				"head": {
 					"rotation": {

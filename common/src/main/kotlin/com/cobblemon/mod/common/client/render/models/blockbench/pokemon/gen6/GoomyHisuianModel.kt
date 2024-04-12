@@ -8,6 +8,7 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen6
 
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cobblemon.mod.common.entity.PoseType
@@ -15,7 +16,7 @@ import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
 class GoomyHisuianModel (root: ModelPart) : PokemonPoseableModel() {
-    override val rootPart = root.registerChildWithAllChildren("goomy_hisuian")
+    override val rootPart = root.registerChildWithAllChildren("goomy_hisui_pattern")
     override var portraitScale = 1.73F
     override var portraitTranslation = Vec3d(-0.09, -0.98, 0.0)
 
@@ -24,15 +25,18 @@ class GoomyHisuianModel (root: ModelPart) : PokemonPoseableModel() {
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
+
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("goomy_hisui_bias", "cry") }
+
     override fun registerPoses() {
-        val blink = quirk { bedrockStateful("goomy_hisuian", "blink") }
+        val blink = quirk { bedrockStateful("goomy_hisui_bias", "blink") }
 
         standing = registerPose(
             poseName = "standing",
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
-                bedrock("goomy_hisuian", "ground_idle")
+                bedrock("goomy_hisui_bias", "ground_idle")
             )
         )
 
@@ -41,7 +45,7 @@ class GoomyHisuianModel (root: ModelPart) : PokemonPoseableModel() {
             poseTypes = PoseType.MOVING_POSES,
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
-                bedrock("goomy_hisuian", "ground_idle"),
+                bedrock("goomy_hisui_bias", "ground_idle"),
             )
         )
     }

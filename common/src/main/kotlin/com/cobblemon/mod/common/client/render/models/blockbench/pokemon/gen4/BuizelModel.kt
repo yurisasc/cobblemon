@@ -15,6 +15,7 @@ import com.cobblemon.mod.common.client.render.models.blockbench.createTransforma
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BimanualFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.ModelPartTransformation
@@ -44,6 +45,8 @@ class BuizelModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     lateinit var surfaceWaterSleep: PokemonPose
 
     val wateroffset = -8
+
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("buizel", "cry") }
 
     override fun registerPoses() {
         val blink = quirk { bedrockStateful("buizel", "blink") }

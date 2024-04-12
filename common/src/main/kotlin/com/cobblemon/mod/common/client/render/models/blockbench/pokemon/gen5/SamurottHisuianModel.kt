@@ -39,7 +39,7 @@ class SamurottHisuianModel (root: ModelPart) : PokemonPoseableModel(), HeadedFra
     lateinit var walk: PokemonPose
     lateinit var battleidle: PokemonPose
 
-    //override val cryAnimation = CryProvider { _, _ -> bedrockStateful("samurott_hisuian", "cry") }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("samurott_hisuian", "cry") }
 
     override fun registerPoses() {
         val blink = quirk { bedrockStateful("samurott_hisuian", "blink") }

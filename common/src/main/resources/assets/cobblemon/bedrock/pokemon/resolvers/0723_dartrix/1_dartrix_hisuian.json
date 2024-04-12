@@ -4,6 +4,7 @@
   "variations": [
     {
       "aspects": ["region-bias-hisui"],
+      "poser": "cobblemon:dartrix_hisuian",
       "model": "cobblemon:dartrix_hisuian.geo",
       "texture": "cobblemon:textures/pokemon/0723_dartrix/dartrix_hisuian.png",
       "layers": []
