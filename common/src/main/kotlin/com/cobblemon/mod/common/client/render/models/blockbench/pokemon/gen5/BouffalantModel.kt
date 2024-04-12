@@ -34,8 +34,8 @@ class BouffalantModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override val cryAnimation = CryProvider { _, _ -> bedrockStateful("bouffalant", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk { bedrockStateful("charmander", "blink")}
-        // bouffalant does not have a blink!! someone fix pls
+        val blink = quirk { bedrockStateful("bouffalant", "blink")}
+        // Forgive me. I have animated illegally yet again.
         standing = registerPose(
             poseName = "standing",
             poseTypes = STATIONARY_POSES + UI_POSES,

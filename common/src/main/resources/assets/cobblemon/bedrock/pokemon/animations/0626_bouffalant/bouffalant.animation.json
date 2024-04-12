@@ -478,6 +478,23 @@
 					"effect": "pokemon.bouffalant.cry"
 				}
 			}
+		},
+		"animation.bouffalant.blink": {
+			"animation_length": 0.375,
+			"bones": {
+				"eyelid_left": {
+					"position": {
+						"0.0": [0.1, -0.1, -0.1],
+						"0.375": [0, 0, 0]
+					}
+				},
+				"eyelid_right": {
+					"position": {
+						"0.0": [-0.1, -0.1, -0.1],
+						"0.375": [0, 0, 0]
+					}
+				}
+			}
 		}
 	}
 }
