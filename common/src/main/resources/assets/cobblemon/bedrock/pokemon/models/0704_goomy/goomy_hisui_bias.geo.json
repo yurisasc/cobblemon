@@ -3,7 +3,7 @@
 	"minecraft:geometry": [
 		{
 			"description": {
-				"identifier": "geometry.goomy_hisuian",
+				"identifier": "geometry.goomy_hisui_pattern",
 				"texture_width": 64,
 				"texture_height": 64,
 				"visible_bounds_width": 3,
@@ -12,12 +12,12 @@
 			},
 			"bones": [
 				{
-					"name": "goomy_hisuian",
+					"name": "goomy_hisui_pattern",
 					"pivot": [0, 0, 0]
 				},
 				{
 					"name": "body",
-					"parent": "goomy_hisuian",
+					"parent": "goomy_hisui_pattern",
 					"pivot": [0, 5, -2]
 				},
 				{
@@ -91,71 +91,77 @@
 				{
 					"name": "antenna_front_left",
 					"parent": "antennae",
-					"pivot": [3.5, 9, -5.5],
+					"pivot": [2.5, 9, -5.5],
 					"rotation": [0, 0, 15]
 				},
 				{
-					"name": "antenna_front_left_rotation",
+					"name": "antenna_front_left_rotation2",
 					"parent": "antenna_front_left",
-					"pivot": [3.5, 9, -5.5],
-					"rotation": [27.5, 0, 0],
+					"pivot": [2.5, 9, -5.5],
+					"rotation": [42.5, 0, 0],
 					"cubes": [
-						{"origin": [3.5, 9, -7.5], "size": [0, 4, 2], "uv": [30, -2]}
+						{"origin": [2.5, 9, -7.5], "size": [0, 4, 2], "uv": [30, -2]}
 					]
 				},
 				{
 					"name": "antenna_back_left",
 					"parent": "antennae",
-					"pivot": [3, 9, -3.5],
-					"rotation": [0, 0, 37.5]
+					"pivot": [2.5, 9, -3.5],
+					"rotation": [0, 0, 12.5]
 				},
 				{
 					"name": "antenna_back_left_rotation",
 					"parent": "antenna_back_left",
-					"pivot": [3, 9, -3.5],
+					"pivot": [2.5, 9, -3.5],
 					"rotation": [5, 0, 0],
 					"cubes": [
-						{"origin": [3, 9, -5.5], "size": [0, 3, 3], "uv": [30, 1]}
+						{"origin": [2.5, 9, -5.5], "size": [0, 3, 3], "uv": [30, 1]}
 					]
 				},
 				{
 					"name": "antenna_back_left2",
 					"parent": "antenna_back_left_rotation",
-					"pivot": [3, 12, -5.5],
+					"pivot": [2.5, 12, -5.5],
 					"cubes": [
-						{"origin": [3, 12, -5.5], "size": [0, 5, 3], "inflate": 0.01, "uv": [30, 12]}
+						{"origin": [2.5, 12, -5.5], "size": [0, 5, 3], "inflate": 0.01, "uv": [30, 12]}
+					]
+				},
+				{
+					"name": "antenna_front_right",
+					"parent": "antennae",
+					"pivot": [-2.5, 9, -5.5],
+					"rotation": [0, 0, -15]
+				},
+				{
+					"name": "antenna_front_right_rotation",
+					"parent": "antenna_front_right",
+					"pivot": [-2.5, 9, -5.5],
+					"rotation": [42.5, 0, 0],
+					"cubes": [
+						{"origin": [-2.5, 9, -7.5], "size": [0, 4, 2], "uv": [34, -2], "mirror": true}
 					]
 				},
 				{
 					"name": "antenna_back_right",
 					"parent": "antennae",
-					"pivot": [-5, 8, -3.5],
-					"rotation": [0, 0, -112.5]
+					"pivot": [-2.5, 9, -3.5],
+					"rotation": [0, 0, -12.5]
 				},
 				{
 					"name": "antenna_back_right_rotation",
 					"parent": "antenna_back_right",
-					"pivot": [-5, 8, -3.5],
+					"pivot": [-2.5, 9, -3.5],
 					"rotation": [5, 0, 0],
 					"cubes": [
-						{"origin": [-5, 8, -5.5], "size": [0, 3, 3], "uv": [30, 4], "mirror": true}
+						{"origin": [-2.5, 9, -5.5], "size": [0, 3, 3], "uv": [30, 4], "mirror": true}
 					]
 				},
 				{
 					"name": "antenna_back_right2",
 					"parent": "antenna_back_right_rotation",
-					"pivot": [-5, 11, -5.5],
+					"pivot": [-2.5, 12, -5.5],
 					"cubes": [
-						{"origin": [-5, 11, -5.5], "size": [0, 5, 3], "inflate": 0.01, "uv": [30, 17], "mirror": true}
-					]
-				},
-				{
-					"name": "shell",
-					"parent": "head",
-					"pivot": [-1.5, 9, -3],
-					"rotation": [12.5, 0, -12.5],
-					"cubes": [
-						{"origin": [-7.5, 9, -8], "size": [11, 4, 11], "uv": [0, 49]}
+						{"origin": [-2.5, 12, -5.5], "size": [0, 5, 3], "inflate": 0.01, "uv": [30, 17], "mirror": true}
 					]
 				},
 				{
