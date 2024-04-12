@@ -209,29 +209,36 @@
 - Gligar, Gliscor
 - Qwilfish, Hisuian Qwilfish, Overqwil
 - Sneasel, Hisuian Sneasel, Weavile, Sneasler
+- Larvitar, Pupitar, Tyranitar
 - Swinub, Piloswine, Mamoswine
 - Aron, Lairon, Aggron
+- Trapinch, Vibrava, Flygon
 - Cacnea, Cacturne
 - Barboach, Whiscash
+- Lileep, Cradily
+- Anorith, Armaldo
 - Tropius
 - Chimecho
-- Lileep, Cradily
 - Bidoof, Bibarel
 - Buizel, Floatzel
 - Gible, Gabite, Garchomp
 - Hisui Bias Oshawott, Hisui Bias Dewott
 - Petilil, Lilligant, Hisui Bias Petilil, Hisuian Lilligant
-- Basculin
+- Basculin, Basculegion
 - Sandile, Krokolok, Krookodile
 - Darumaka, Darmanitan
 - Archen, Archeops
+- Zorua, Zoroark, Hisuian Zorua, Hisuian Zoroark
 - Tyrunt, Tyrantrum
 - Amaura Aurorus
+- Carbink
 - Goomy, Sliggoo, Goodra, Hisui Bias Goomy, Hisuian Sliggoo, Hisuian Goodra
 - Klefki
 - Hisui Bias Rowlet, Hisui Bias Dartrix
 - Komala
+- Impidimp, Morgrem, Grimmsnarl
 - Cufant, Copperajah
+- Dreepy, Drakloak, Dragapult
 - Dracozolt, Arctozolt, Dracovish, Arctovish
 - Lechonk, Oinkologne
 - Maushold family of three and four
