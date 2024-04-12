@@ -181,6 +181,7 @@
 - Hisui Bias Petilil
 
 ### Added cries to the following Pokémon
+- Alolan Raticate
 - Vulpix, Ninetales
 - Zubat, Golbat
 - Meowth, Persian
@@ -191,22 +192,40 @@
 - Seel, Dewgong
 - Muk, Grimer
 - Krabby, Kingler
-- Voltorb, Electrode
+- Voltorb, Electrode, Hisuian Voltorb, Hisuian Electrode
+- Tangela, Tangrowth
+- Snorlax
 - Cubone, Marowak
 - Koffing, Weezing
 - Aerodactyl
-- Electabuzz
+- Elekid, Electabuzz, Electivire
 - Omanyte, Omastar
 - Kabuto, Kabutops
 - Lapras
-- Scythert
+- Scyther
+- Igglybuff
+- Yanma, Yanmega
+- Gligar, Gliscor
+- Qwilfish, Hisuian Qwilfish, Overqwil
+- Sneasel, Hisuian Sneasel, Weavile, Sneasler
+- Swinub, Piloswine, Mamoswine
+- Aron, Lairon, Aggron
+- Cacnea, Cacturne
+- Barboach, Whiscash
+- Tropius
+- Chimecho
 - Lileep, Cradily
+- Bidoof, Bibarel
+- Buizel, Floatzel
+- Gible, Gabite, Garchomp
 - Darumaka, Darmanitan
 - Archen, Archeops
 - Tyrunt, Tyrantrum
 - Komala
 - Cufant, Copperajah
 - Dracozolt, Arctozolt, Dracovish, Arctovish
+- Oinkologne
+- Maushold family of three and four
 
 
 ### Changes

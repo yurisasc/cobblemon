@@ -3709,8 +3709,14 @@
   "pokemon.rattata.cry": {
     "sounds": [ { "name": "cobblemon:pokemon/rattata/rattata_cry", "volume": 0.8 } ]
   },
+  "pokemon.rattata_alolan.cry": {
+    "sounds": [ { "name": "cobblemon:pokemon/rattata/rattata_alolan_cry", "volume": 0.8 } ]
+  },
   "pokemon.raticate.cry": {
     "sounds": [ { "name": "cobblemon:pokemon/raticate/raticate_cry", "volume": 0.8 } ]
+  },
+  "pokemon.raticate_alolan.cry": {
+    "sounds": [ { "name": "cobblemon:pokemon/raticate/raticate_alolan_cry", "volume": 0.8 } ]
   },
   "pokemon.spearow.cry": {
     "sounds": [ { "name": "cobblemon:pokemon/spearow/spearow_cry", "volume": 0.8 } ]
@@ -3970,8 +3976,14 @@
   "pokemon.voltorb.cry": {
     "sounds": [ { "name": "cobblemon:pokemon/voltorb/voltorb_cry", "volume": 0.8 } ]
   },
+  "pokemon.voltorb_hisuian.cry": {
+    "sounds": [ { "name": "cobblemon:pokemon/voltorb/voltorb_hisuian_cry", "volume": 0.8 } ]
+  },
   "pokemon.electrode.cry": {
     "sounds": [ { "name": "cobblemon:pokemon/electrode/electrode_cry", "volume": 0.8 } ]
+  },
+  "pokemon.electrode_hisuian.cry": {
+    "sounds": [ { "name": "cobblemon:pokemon/electrode/electrode_hisuian_cry", "volume": 0.8 } ]
   },
   "pokemon.exeggcute.cry": {
     "sounds": [ { "name": "cobblemon:pokemon/exeggcute/exeggcute_cry", "volume": 0.8 } ]
@@ -4314,6 +4326,9 @@
   },
   "pokemon.qwilfish.cry": {
     "sounds": [ { "name": "cobblemon:pokemon/qwilfish/qwilfish_cry", "volume": 0.8 } ]
+  },
+  "pokemon.qwilfish_hisuian.cry": {
+    "sounds": [ { "name": "cobblemon:pokemon/qwilfish/qwilfish_hisuian_cry", "volume": 0.8 } ]
   },
   "pokemon.scizor.cry": {
     "sounds": [ {  "name": "cobblemon:pokemon/scizor/scizor_cry", "volume": 0.8 } ]
@@ -6562,10 +6577,10 @@
   "pokemon.tandemaus.cry": {
     "sounds": [ { "name": "cobblemon:pokemon/tandemaus/tandemaus_cry", "volume": 0.8 } ]
   },
-  "pokemon.maushold.cry": {
+  "pokemon.maushold_three.cry": {
     "sounds": [ { "name": "cobblemon:pokemon/maushold/maushold_three_cry", "volume": 0.8 } ]
   },
-  "pokemon.mausholdfour.cry": {
+  "pokemon.maushold_four.cry": {
     "sounds": [ { "name": "cobblemon:pokemon/maushold/maushold_four_cry", "volume": 0.8 } ]
   },
   "pokemon.cetoddle.cry": {

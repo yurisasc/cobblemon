@@ -38,7 +38,7 @@ class SneaslerModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("overqwil", "cry") }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("sneasler", "cry") }
 
     override fun registerPoses() {
         val blink = quirk { bedrockStateful("sneasler", "blink") }
