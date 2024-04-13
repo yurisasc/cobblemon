@@ -8,6 +8,8 @@ import cobblemon_spawn_csv_to_json
 groups = ["basic", "boss", "fossil"]
 contexts = ["grounded", "submerged", "seafloor", "surface"]
 buckets = ["common", "uncommon", "rare", "ultra-rare"]
+folders = set()
+file_names = set()
 process_button = None
 
 
@@ -21,7 +23,9 @@ def process_file(input_file, output_directory, filters, pokemon_number_start, po
     cobblemon_spawn_csv_to_json.ui_init_filters(pokemon_number_start, pokemon_number_end,
                                                 included_grps=filtered_filters['included_groups'],
                                                 known_cntxts=filtered_filters['known_contexts'],
-                                                bucket_map=filtered_filters['bucket_mapping'])
+                                                bucket_map=filtered_filters['bucket_mapping'],
+                                                cstm_files=filtered_filters['file_name'],
+                                                cstm_dirs=filtered_filters['folder'])
 
     if not validate_number_range(pokemon_number_start, pokemon_number_end):
         messagebox.showinfo("Invalid Pokémon number range. Please provide a valid range.")
@@ -34,8 +38,8 @@ def validate_number_range(a, b):
 
 
 def select_input_file(input_file_var, input_file_label, output_dir_var, pokemon_number_start_var,
-                      pokemon_number_end_var, filter_vars, frame3):
-    global groups, contexts, buckets, process_button
+                      pokemon_number_end_var, filter_vars, frame3, folder_var, file_name_var):
+    global groups, contexts, buckets, process_button, folders, file_names
     filepath = filedialog.askopenfilename()
     if filepath:
         input_file_var.set(filepath)
@@ -57,10 +61,10 @@ def select_input_file(input_file_var, input_file_label, output_dir_var, pokemon_
         # if the file is an excel file, read it with pandas
         if input_file_var.get().endswith('.xlsx'):
             csv_df = pd.read_excel(input_file_var.get(), engine='openpyxl',
-                                   dtype={'Pokémon': str, 'Entry': str, 'No.': int})
+                                   dtype={'Pokémon': str, 'Entry': str, 'No.': int, 'Folder': str, 'File Name': str})
         # if the file is a csv file, read it with pandas
         elif input_file_var.get().endswith('.csv'):
-            csv_df = pd.read_csv(input_file_var.get(), dtype={'Pokémon': str, 'Entry': str, 'No.': int})
+            csv_df = pd.read_csv(input_file_var.get(), dtype={'Pokémon': str, 'Entry': str, 'No.': int, 'Folder': str, 'File Name': str})
         else:
             # show message
             messagebox.showinfo("Invalid file format. Please provide a valid excel or csv file")
@@ -75,8 +79,16 @@ def select_input_file(input_file_var, input_file_label, output_dir_var, pokemon_
         buckets = csv_df['Bucket'].unique()
         buckets = [bucket if bucket == bucket else '' for bucket in buckets]
 
+        # Parse the Folder and File Name columns
+        folders = set(csv_df['Folder'].unique())
+        folders = {folder if folder == folder else "" for folder in folders}
+        folder_var.set(next(iter(folders), ""))
+        file_names = set(csv_df['File Name'].unique())
+        file_names = {file_name if file_name == file_name else "" for file_name in file_names}
+        file_name_var.set(next(iter(file_names), ""))
+
         update_filter_ui(filter_vars, frame3, input_file_var, output_dir_var, pokemon_number_start_var,
-                         pokemon_number_end_var)
+                         pokemon_number_end_var, folder_var, file_name_var)
 
         # Remove the loading message
         loading_label.destroy()
@@ -123,6 +135,8 @@ def setup_ui(root):
     output_dir_var = tk.StringVar()
     pokemon_number_start_var = tk.IntVar(value=0)  # Default start of dex range
     pokemon_number_end_var = tk.IntVar(value=1111)  # Default end of dex range
+    folder_var = tk.StringVar()
+    file_name_var = tk.StringVar()
 
     frame = ttk.Frame(root, padding="10")
     frame.grid()
@@ -132,11 +146,10 @@ def setup_ui(root):
     frame3.grid(sticky="wens")
 
     filter_vars, frame3 = setup_filter_ui(frame3, input_file_var, output_dir_var,
-                                          pokemon_number_start_var,
-                                          pokemon_number_end_var)
+                                          pokemon_number_start_var, pokemon_number_end_var, folder_var, file_name_var)
     input_file_label, output_dir_label = setup_file_selection_ui(frame, input_file_var, output_dir_var,
                                                                  pokemon_number_start_var, pokemon_number_end_var,
-                                                                 filter_vars, frame3)
+                                                                 filter_vars, frame3, folder_var, file_name_var)
 
     # Display a warning popup to remind the user to backup their spawn.json files before they run the script
     messagebox.showwarning("Warning",
@@ -147,12 +160,12 @@ def setup_ui(root):
 
 
 def setup_file_selection_ui(frame, input_file_var, output_dir_var, pokemon_number_start_var,
-                            pokemon_number_end_var, filter_vars, frame3):
+                            pokemon_number_end_var, filter_vars, frame3, folder_var, file_name_var):
     input_file_button = ttk.Button(frame, text="Select Input File",
                                    command=lambda: select_input_file(input_file_var, input_file_label,
                                                                      output_dir_var,
                                                                      pokemon_number_start_var, pokemon_number_end_var,
-                                                                     filter_vars, frame3))
+                                                                     filter_vars, frame3, folder_var, file_name_var))
     input_file_button.grid(column=0, row=0, pady=5)
 
     input_file_label = ttk.Label(frame, text="No file selected", foreground='red')
@@ -170,7 +183,8 @@ def setup_file_selection_ui(frame, input_file_var, output_dir_var, pokemon_numbe
 
 
 def update_filter_ui(filter_vars, frame3, input_file_var, output_dir_var, pokemon_number_start_var,
-                     pokemon_number_end_var):
+                     pokemon_number_end_var, folder_var, file_name_var):
+    global folders, file_names
     # Clear the current filter UI
     for widget in frame3.winfo_children():
         widget.destroy()
@@ -179,12 +193,14 @@ def update_filter_ui(filter_vars, frame3, input_file_var, output_dir_var, pokemo
     filter_vars['included_groups'] = {name: tk.IntVar(value=1) for name in groups}
     filter_vars['known_contexts'] = {name: tk.IntVar(value=1) for name in contexts}
     filter_vars['bucket_mapping'] = {name: tk.IntVar(value=1) for name in buckets}
+    filter_vars['folder'] = {name: tk.IntVar(value=1) for name in folders}
+    filter_vars['file_name'] = {name: tk.IntVar(value=1) for name in file_names}
 
     # Recreate the filter UI
-    setup_filter_ui(frame3, input_file_var, output_dir_var, pokemon_number_start_var, pokemon_number_end_var)
+    setup_filter_ui(frame3, input_file_var, output_dir_var, pokemon_number_start_var, pokemon_number_end_var, folder_var, file_name_var)
 
 
-def setup_filter_ui(frame3, input_file_var, output_dir_var, pokemon_number_start_var, pokemon_number_end_var):
+def setup_filter_ui(frame3, input_file_var, output_dir_var, pokemon_number_start_var, pokemon_number_end_var, folder_var, file_name_var):
     global process_button
     # Label and entry for specifying the range of Pokémon numbers to include
     ttk.Label(frame3, text="Pokédex Number Range:").grid(column=0, row=0, columnspan=5, pady=5)
@@ -196,6 +212,8 @@ def setup_filter_ui(frame3, input_file_var, output_dir_var, pokemon_number_start
         'included_groups': {name: tk.IntVar(value=1) for name in groups},
         'known_contexts': {name: tk.IntVar(value=1) for name in contexts},
         'bucket_mapping': {name: tk.IntVar(value=1) for name in buckets},
+        'folder': {name: tk.IntVar(value=1) for name in folders},
+        'file_name': {name: tk.IntVar(value=1) for name in file_names},
     }
 
     # Custom styles for toggle buttons
@@ -208,6 +226,8 @@ def setup_filter_ui(frame3, input_file_var, output_dir_var, pokemon_number_start
         ('included_groups', "Groups"),
         ('known_contexts', "Contexts"),
         ('bucket_mapping', "Buckets"),
+        ('folder', "Folders"),
+        ('file_name', "File Names"),
     ]
 
     current_row = 2
