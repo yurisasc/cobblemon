@@ -88,7 +88,21 @@ def main(print_missing_models=True, print_missing_animations=True):
         # Construct the path to the model file
         # Try to convert gen_number to an integer and handle ValueError
         try:
-            model_file_path = f"../common/src/main/kotlin/com/cobblemon/mod/common/client/render/models/blockbench/pokemon/gen{int(gen_number.strip())}/{sanitized_pokemon_name}Model.kt"
+            if pokemon_form:
+                # Check if the form is a regional form or F or M, if not, use the default model file
+                model_file_path = f"../common/src/main/kotlin/com/cobblemon/mod/common/client/render/models/blockbench/pokemon/gen{int(gen_number.strip())}/{sanitized_pokemon_name}{pokemon_form.capitalize()}Model.kt"
+                if pokemon_form == "F" or pokemon_form == "M":
+                    if pokemon_form == "F":
+                        model_file_path = f"../common/src/main/kotlin/com/cobblemon/mod/common/client/render/models/blockbench/pokemon/gen{int(gen_number.strip())}/{sanitized_pokemon_name}FemaleModel.kt"
+                    elif pokemon_form == "M":
+                        model_file_path = f"../common/src/main/kotlin/com/cobblemon/mod/common/client/render/models/blockbench/pokemon/gen{int(gen_number.strip())}/{sanitized_pokemon_name}MaleModel.kt"
+                    if not os.path.isfile(model_file_path):
+                        # Fallback for models that share one model file and all forms that are no regional forms
+                        model_file_path = f"../common/src/main/kotlin/com/cobblemon/mod/common/client/render/models/blockbench/pokemon/gen{int(gen_number.strip())}/{sanitized_pokemon_name}Model.kt"
+                elif pokemon_form not in ["hisuian", "alolan", "galarian", "valencian", "paldean"]:
+                    model_file_path = f"../common/src/main/kotlin/com/cobblemon/mod/common/client/render/models/blockbench/pokemon/gen{int(gen_number.strip())}/{sanitized_pokemon_name}Model.kt"
+            else:
+                model_file_path = f"../common/src/main/kotlin/com/cobblemon/mod/common/client/render/models/blockbench/pokemon/gen{int(gen_number.strip())}/{sanitized_pokemon_name}Model.kt"
         except ValueError:
             all_warnings_combined.append(
                 f"⚠️ Warning: Invalid gen_number for pokemon {pokemon_name}. Skipping this line.")
@@ -137,7 +151,8 @@ def main(print_missing_models=True, print_missing_animations=True):
                             all_warnings_combined))
         else:
             all_warnings_combined.append(
-                (pokemon_name, f"⚠️ Warning: Model.kt file not found at: {model_file_path.replace('../common/src/main/kotlin/com/cobblemon/mod/common/client/render/models/blockbench/pokemon/', '...')}"))
+                (pokemon_name,
+                 f"⚠️ Warning: Model.kt file not found at: {model_file_path.replace('../common/src/main/kotlin/com/cobblemon/mod/common/client/render/models/blockbench/pokemon/', '...')}"))
             # Ignore the checks for this file
             checks["override_correct"] = True
             checks["import_correct"] = True
@@ -169,7 +184,8 @@ def main(print_missing_models=True, print_missing_animations=True):
                     '../common/src/main/resources/assets/cobblemon/bedrock/pokemon/animations/', ""))
         else:
             all_warnings_combined.append(
-                (pokemon_name, f"⚠️ Warning: animation.json file not found at: {animation_file_path.replace('../common/src/main/resources/assets/cobblemon/bedrock/pokemon/animations/', '...')}"))
+                (pokemon_name,
+                 f"⚠️ Warning: animation.json file not found at: {animation_file_path.replace('../common/src/main/resources/assets/cobblemon/bedrock/pokemon/animations/', '...')}"))
             # Ignore the checks for this file
             checks["sound_effects_and_keyframes"] = True
 
