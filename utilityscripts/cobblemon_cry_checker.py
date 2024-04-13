@@ -109,12 +109,13 @@ def main(print_missing_models=True, print_missing_animations=True):
 
         # Check if the Model.kt file exists and contains the required import and cryAnimation override
         if os.path.isfile(model_file_path):
-            with (open(model_file_path, 'r', encoding='utf-8-sig') as file):
-                content = file.read()
-                if "import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider" in content:
-                    checks["import_correct"] = True
-                if f'override val cryAnimation = CryProvider {{ _, _ -> bedrockStateful("{sanitized_pokemon_name_lower}", "cry") }}' in content:
-                    checks["override_correct"] = True
+            content = read_file_ignore_comments(model_file_path)
+            if "import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider" in content:
+                checks["import_correct"] = True
+            if f'override val cryAnimation = CryProvider {{ _, _ -> bedrockStateful("{sanitized_pokemon_name_lower}", "cry") }}' in content:
+                checks["override_correct"] = True
+            if f'animations["cry"] = "q.bedrock_stateful(\'{sanitized_pokemon_name_lower}\', \'cry\')".asExpressionLike()' in content:
+                checks["override_correct"] = True
 
         # Check if the animation.json file exists and contains the correct effect
         if os.path.isfile(animation_file_path):
@@ -248,6 +249,25 @@ def check_sound_effects(animation_data, sanitized_pokemon_name_lower):
         return False
     else:
         return False
+
+
+def read_file_ignore_comments(file_path):
+    with open(file_path, 'r', encoding='utf-8-sig') as file:
+        lines = file.readlines()
+        content = ""
+        multi_line_comment = False
+        for line in lines:
+            stripped_line = line.strip()
+            if stripped_line.startswith("//"):
+                continue
+            elif stripped_line.startswith("/*"):
+                multi_line_comment = True
+            elif stripped_line.endswith("*/"):
+                multi_line_comment = False
+                continue
+            if not multi_line_comment:
+                content += line
+    return content
 
 
 if __name__ == "__main__":
