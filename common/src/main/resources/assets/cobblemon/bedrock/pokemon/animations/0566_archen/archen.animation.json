@@ -6328,7 +6328,7 @@
 			},
 			"sound_effects": {
 				"0.4583": {
-					"effect": "archen_cry"
+					"effect": "pokemon.archen.cry"
 				}
 			}
 		},
