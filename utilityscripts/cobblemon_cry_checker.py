@@ -137,7 +137,10 @@ def main(print_missing_models=True, print_missing_animations=True):
                             all_warnings_combined))
         else:
             all_warnings_combined.append(
-                (pokemon_name, f"⚠️ Warning: Model.kt file not found. \n\t\tExpected path: {model_file_path}"))
+                (pokemon_name, f"⚠️ Warning: Model.kt file not found at: {model_file_path.replace('../common/src/main/kotlin/com/cobblemon/mod/common/client/render/models/blockbench/pokemon/', '...')}"))
+            # Ignore the checks for this file
+            checks["override_correct"] = True
+            checks["import_correct"] = True
 
         # Check if the animation.json file exists and contains the correct effect
         if os.path.isfile(animation_file_path):
@@ -166,7 +169,9 @@ def main(print_missing_models=True, print_missing_animations=True):
                     '../common/src/main/resources/assets/cobblemon/bedrock/pokemon/animations/', ""))
         else:
             all_warnings_combined.append(
-                (pokemon_name, f"⚠️ Warning: animation.json file not found. \n\t\tExpected path: {animation_file_path}"))
+                (pokemon_name, f"⚠️ Warning: animation.json file not found at: {animation_file_path.replace('../common/src/main/resources/assets/cobblemon/bedrock/pokemon/animations/', '...')}"))
+            # Ignore the checks for this file
+            checks["sound_effects_and_keyframes"] = True
 
         # Check the condition
         if this_pokemon_in_game == "✔" and this_cry_on_repo == "✔" and cry_in_game != "✔":
