@@ -116,6 +116,7 @@ def main(print_missing_models=True, print_missing_animations=True):
                 checks["override_correct"] = True
             if f'animations["cry"] = "q.bedrock_stateful(\'{sanitized_pokemon_name_lower}\', \'cry\')".asExpressionLike()' in content:
                 checks["override_correct"] = True
+                checks["import_correct"] = True
 
         # Check if the animation.json file exists and contains the correct effect
         if os.path.isfile(animation_file_path):
