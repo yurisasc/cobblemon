@@ -1,7 +1,7 @@
 {
 	"format_version": "1.8.0",
 	"animations": {
-		"animation.dewott.blink": {
+		"animation.dewott_hisui_bias.blink": {
 			"animation_length": 0.1667,
 			"bones": {
 				"eyelid_right": {
@@ -20,7 +20,7 @@
 				}
 			}
 		},
-		"animation.dewott.ground_idle": {
+		"animation.dewott_hisui_bias.ground_idle": {
 			"loop": true,
 			"bones": {
 				"waist": {
@@ -63,7 +63,7 @@
 				}
 			}
 		},
-		"animation.dewott.ground_walk": {
+		"animation.dewott_hisui_bias.ground_walk": {
 			"loop": true,
 			"animation_length": 1.5,
 			"bones": {
@@ -181,7 +181,7 @@
 				}
 			}
 		},
-		"animation.dewott.sleep": {
+		"animation.dewott_hisui_bias.sleep": {
 			"loop": true,
 			"bones": {
 				"body": {
@@ -232,7 +232,7 @@
 				}
 			}
 		},
-		"animation.dewott.cry": {
+		"animation.dewott_hisui_bias.cry": {
 			"animation_length": 0.875,
 			"bones": {
 				"head": {
@@ -268,7 +268,7 @@
 			},
 			"sound_effects": {
 				"0.0833": {
-					"effect": "pokemon.dewott.cry"
+					"effect": "pokemon.dewott_hisui_bias.cry"
 				}
 			}
 		}

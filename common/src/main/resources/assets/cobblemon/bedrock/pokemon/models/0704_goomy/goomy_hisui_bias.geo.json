@@ -3,7 +3,7 @@
 	"minecraft:geometry": [
 		{
 			"description": {
-				"identifier": "geometry.goomy_hisui_pattern",
+				"identifier": "geometry.goomy_hisui_bias",
 				"texture_width": 64,
 				"texture_height": 64,
 				"visible_bounds_width": 3,
@@ -12,12 +12,12 @@
 			},
 			"bones": [
 				{
-					"name": "goomy_hisui_pattern",
+					"name": "goomy_hisui_bias",
 					"pivot": [0, 0, 0]
 				},
 				{
 					"name": "body",
-					"parent": "goomy_hisui_pattern",
+					"parent": "goomy_hisui_bias",
 					"pivot": [0, 5, -2]
 				},
 				{
