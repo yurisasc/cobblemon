@@ -1,5 +1,6 @@
 import json
 import os
+import re
 from io import StringIO
 import pandas as pd
 from mutagen.oggvorbis import OggVorbis
@@ -107,6 +108,8 @@ def main(print_missing_models=True, print_missing_animations=True):
         if cry_in_game == "✔":
             checks["cry_in_game"] = True
 
+        animations = None
+
         # Check if the Model.kt file exists and contains the required import and cryAnimation override
         if os.path.isfile(model_file_path):
             content = read_file_ignore_comments(model_file_path)
@@ -117,18 +120,43 @@ def main(print_missing_models=True, print_missing_animations=True):
             if f'animations["cry"] = "q.bedrock_stateful(\'{sanitized_pokemon_name_lower}\', \'cry\')".asExpressionLike()' in content:
                 checks["override_correct"] = True
                 checks["import_correct"] = True
+            if not checks["override_correct"]:
+                # it might be an elaborate cry with multiple animations
+                # Search for the override and capture the content between the curly braces
+                pattern = r'override val cryAnimation = CryProvider \{(.*?)\}'
+                match = re.search(pattern, content, re.DOTALL)
+
+                if match:
+                    # Extract the content between the curly braces
+                    content_between_braces = match.group(1)
+                    # Extract the animations from the content
+                    animations, all_warnings_combined, checks["override_correct"] = (
+                        read_content_and_extract_animations(
+                            content_between_braces,
+                            sanitized_pokemon_name_lower,
+                            all_warnings_combined))
 
         # Check if the animation.json file exists and contains the correct effect
         if os.path.isfile(animation_file_path):
             try:
                 with open(animation_file_path, 'r', encoding="utf-8-sig") as file:
                     data = json.load(file)
-                    # Iterate through all animations and check if the cry effect is present
-                    for animation_name, animation_data in data['animations'].items():
-                        if animation_name == f"animation.{sanitized_pokemon_name_lower}.cry":
-                            # Check if the "sound_effects" field is present
-                            checks["sound_effects_and_keyframes"] = check_sound_effects(animation_data,
-                                                                                        sanitized_pokemon_name_lower)
+                    if not animations:
+                        # Iterate through all animations and check if the cry effect is present
+                        for animation_name, animation_data in data['animations'].items():
+                            if animation_name == f"animation.{sanitized_pokemon_name_lower}.cry":
+                                # Check if the "sound_effects" field is present
+                                checks["sound_effects_and_keyframes"] = check_sound_effects(animation_data,
+                                                                                            sanitized_pokemon_name_lower)
+                    else:
+                        for animation_name, animation_data in data['animations'].items():
+                            for animation in animations:
+                                if animation_name == f"animation.{sanitized_pokemon_name_lower}.{animation[1]}":
+                                    # Check if the "sound_effects" field is present
+                                    if check_sound_effects(animation_data, sanitized_pokemon_name_lower):
+                                        animations.remove(animation)
+                        if not animations:
+                            checks["sound_effects_and_keyframes"] = True
 
             except json.decoder.JSONDecodeError:
                 print_warning("Invalid JSON in " + animation_file_path.replace(
@@ -271,6 +299,28 @@ def read_file_ignore_comments(file_path):
     return content
 
 
+def read_content_and_extract_animations(content, sanitized_pokemon_name_lower, all_warnings_combined):
+    # Find all occurrences of bedrockStateful function call
+    pattern = r'bedrockStateful\("(.*?)", "(.*?)"\)'
+    matches = re.findall(pattern, content)
+
+    # Extract pokemonName and cryAnimationName from each occurrence
+    animations = [(match[0], match[1]) for match in matches]
+
+    # Count the number of occurrences
+    count = len(matches)
+
+    # Count the number of bedrockStateful function calls
+    bedrockStateful_count = content.count('bedrockStateful')
+
+    # Check if the pokemonName was misspelled
+    if count != bedrockStateful_count:
+        all_warnings_combined.append(
+            (sanitized_pokemon_name_lower, f"⚠️ Warning: The pokemonName might be misspelled in the Model.kt file."))
+
+    return animations, all_warnings_combined, count == bedrockStateful_count
+
+
 if __name__ == "__main__":
     main()
-    input("Press Enter to continue...")
+    input("Press Enter to exit...")
