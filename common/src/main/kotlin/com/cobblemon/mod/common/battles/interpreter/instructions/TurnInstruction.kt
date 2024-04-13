@@ -8,6 +8,7 @@
 
 package com.cobblemon.mod.common.battles.interpreter.instructions
 
+import com.cobblemon.mod.common.api.battles.effects.BattleStartConditions
 import com.cobblemon.mod.common.api.battles.interpreter.BattleMessage
 import com.cobblemon.mod.common.api.battles.model.PokemonBattle
 import com.cobblemon.mod.common.api.scheduling.afterOnServer
@@ -56,6 +57,17 @@ class TurnInstruction(val message: BattleMessage) : InterpreterInstruction {
 
         // TODO maybe tell the client that the turn number has changed
         val turnNumber = message.argumentAt(0)?.toInt() ?: return
+
+        // Try to apply battle start conditions
+        if (turnNumber == 1) {
+            val effect = BattleStartConditions.all().firstOrNull { it.matches(battle) }
+            if (effect != null) {
+                battle.writeShowdownAction(">eval battle.field.setWeather('${effect.result}', 'debug')")
+                afterOnServer(0, 2.5F) {
+                    battle.getOrCreateBedrockEntity()
+                }
+            }
+        }
 
         battle.dispatch {
             battle.sendToActors(BattleMakeChoicePacket())

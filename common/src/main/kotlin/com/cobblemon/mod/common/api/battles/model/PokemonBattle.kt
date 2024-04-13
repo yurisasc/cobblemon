@@ -8,13 +8,11 @@
 
 package com.cobblemon.mod.common.api.battles.model
 
-import com.bedrockk.molang.runtime.MoLangEnvironment
 import com.bedrockk.molang.runtime.struct.QueryStruct
 import com.bedrockk.molang.runtime.value.DoubleValue
 import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.Cobblemon.LOGGER
 import com.cobblemon.mod.common.CobblemonNetwork
-import com.cobblemon.mod.common.Environment
 import com.cobblemon.mod.common.api.battles.interpreter.BattleMessage
 import com.cobblemon.mod.common.api.battles.model.actor.ActorType
 import com.cobblemon.mod.common.api.battles.model.actor.BattleActor
@@ -22,8 +20,6 @@ import com.cobblemon.mod.common.api.battles.model.actor.EntityBackedBattleActor
 import com.cobblemon.mod.common.api.battles.model.actor.FleeableBattleActor
 import com.cobblemon.mod.common.api.events.CobblemonEvents
 import com.cobblemon.mod.common.api.events.battles.BattleFledEvent
-import com.cobblemon.mod.common.api.molang.MoLangFunctions.addFunction
-import com.cobblemon.mod.common.api.molang.MoLangFunctions.getQueryStruct
 import com.cobblemon.mod.common.api.net.NetworkPacket
 import com.cobblemon.mod.common.api.tags.CobblemonItemTags
 import com.cobblemon.mod.common.api.text.red
@@ -41,19 +37,23 @@ import com.cobblemon.mod.common.battles.dispatch.WaitDispatch
 import com.cobblemon.mod.common.battles.interpreter.ContextManager
 import com.cobblemon.mod.common.battles.pokemon.BattlePokemon
 import com.cobblemon.mod.common.battles.runner.ShowdownService
+import com.cobblemon.mod.common.entity.generic.GenericBedrockEntity
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.net.messages.client.battle.BattleEndPacket
 import com.cobblemon.mod.common.net.messages.client.battle.BattleMessagePacket
-import com.cobblemon.mod.common.net.messages.client.battle.BattleMusicPacket
 import com.cobblemon.mod.common.pokemon.evolution.progress.DefeatEvolutionProgress
 import com.cobblemon.mod.common.pokemon.evolution.progress.LastBattleCriticalHitsEvolutionProgress
 import com.cobblemon.mod.common.pokemon.evolution.requirements.DefeatRequirement
 import com.cobblemon.mod.common.util.battleLang
+import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.getPlayer
+import net.minecraft.entity.Entity
 import java.io.File
 import java.util.UUID
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.text.Text
+import net.minecraft.util.math.Vec3d
+import net.minecraft.world.World
 import java.util.concurrent.ConcurrentLinkedDeque
 
 /**
@@ -69,7 +69,7 @@ open class PokemonBattle(
     val side2: BattleSide
 ) {
     /** Whether logging will be silenced for this battle. */
-    var mute = true
+    var mute = false
 
     init {
         side1.battle = this
@@ -117,6 +117,47 @@ open class PokemonBattle(
     val majorBattleActions = hashMapOf<UUID, BattleMessage>()
     val minorBattleActions = hashMapOf<UUID, BattleMessage>()
     val contextManager = ContextManager()
+
+    var bedrockEntity: GenericBedrockEntity? = null
+    val world: World
+        get() = this.players.first().world
+
+    val pokemonPositions: Set<Vec3d>
+        get() {
+            val vectors = mutableSetOf<Vec3d>()
+            activePokemon.forEach {
+                if (it.position != null) vectors.add(it.position!!.second)
+            }
+            return vectors
+        }
+
+    fun getOrCreateBedrockEntity(): GenericBedrockEntity {
+        return if (bedrockEntity != null) {
+            bedrockEntity!!
+        } else {
+            bedrockEntity = GenericBedrockEntity(world = world)
+            bedrockEntity!!.apply {
+                category = cobblemonResource("field_particles")
+                syncAge = false
+                if (pokemonPositions.isNotEmpty()) setPosition(getPosForBedrockEntity(pokemonPositions))
+            }
+            world.spawnEntity(bedrockEntity)
+            bedrockEntity!!
+        }
+    }
+
+    fun getPosForBedrockEntity(vectors: Set<Vec3d>): Vec3d {
+        var sumX = 0.0
+        var sumZ = 0.0
+        for (vector in vectors) {
+            sumX += vector.x
+            sumZ += vector.z
+        }
+        val count = vectors.size
+        val y = vectors.maxByOrNull { it.y }?.y ?: 0.0
+
+        return Vec3d(sumX / count, y + 5.0, sumZ / count)
+    }
 
     /** Whether or not there is one side with at least one player, and the other only has wild Pokémon. */
     val isPvW: Boolean
@@ -211,6 +252,7 @@ open class PokemonBattle(
 
     fun end() {
         ended = true
+        bedrockEntity?.remove(Entity.RemovalReason.DISCARDED)
         this.actors.forEach { actor ->
             val faintedPokemons = actor.pokemonList.filter { it.health <= 0 }
             actor.getSide().getOppositeSide().actors.forEach { opponent ->
@@ -389,6 +431,8 @@ open class PokemonBattle(
             this.stop()
             return
         }
+
+        bedrockEntity?.setPosition(getPosForBedrockEntity(pokemonPositions))
 
         if (started && isPvW && !ended && dispatches.isEmpty()) {
             checkFlee()
