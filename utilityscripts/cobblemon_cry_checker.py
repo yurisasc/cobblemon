@@ -60,6 +60,8 @@ def main(print_missing_models=True, print_missing_animations=True):
                                                                                                          cries_in_game,
                                                                                                          pokemon_in_game,
                                                                                                          cries_on_repo):
+        if this_pokemon_in_game == "❌":
+            continue
         cry_in_game = str(cry_in_game).strip()  # remove whitespace
         # make the first letter of the Pokémon name uppercase and remove all spaces
         sanitized_pokemon_name_lower = sanitize_pokemon(pokemon_name)
@@ -78,7 +80,7 @@ def main(print_missing_models=True, print_missing_animations=True):
             'in_repo': False,
             'import_correct': False,
             'override_correct': False,
-            'in_game': False,
+            'cry_in_game': False,
             'audio_file_exists': False,
             'sound_effects_and_keyframes': False,
         }
@@ -103,7 +105,7 @@ def main(print_missing_models=True, print_missing_animations=True):
 
         # Check the cry status
         if cry_in_game == "✔":
-            checks["in_game"] = True
+            checks["cry_in_game"] = True
 
         # Check if the Model.kt file exists and contains the required import and cryAnimation override
         if os.path.isfile(model_file_path):
@@ -123,7 +125,8 @@ def main(print_missing_models=True, print_missing_animations=True):
                     for animation_name, animation_data in data['animations'].items():
                         if animation_name == f"animation.{sanitized_pokemon_name_lower}.cry":
                             # Check if the "sound_effects" field is present
-                            checks["sound_effects_and_keyframes"] = check_sound_effects(animation_data, sanitized_pokemon_name_lower)
+                            checks["sound_effects_and_keyframes"] = check_sound_effects(animation_data,
+                                                                                        sanitized_pokemon_name_lower)
 
             except json.decoder.JSONDecodeError:
                 print_warning("Invalid JSON in " + animation_file_path.replace(
@@ -136,22 +139,22 @@ def main(print_missing_models=True, print_missing_animations=True):
                 pokemon_ready_to_be_added_list.append(pokemon_name)
 
         # Construct results
-        if not checks["in_game"] and checks["audio_file_exists"]:
+        if not checks["cry_in_game"] and checks["audio_file_exists"]:
             false_negatives.append(f"{pokemon_name}")
-        elif checks["in_game"] and not checks["audio_file_exists"]:
+        elif checks["cry_in_game"] and not checks["audio_file_exists"]:
             false_positives.append(f"{pokemon_name}")
 
         if "Mega" in pokemon_name or "G-Max" in pokemon_name:
             continue
 
         # If any of the checks failed, add the Pokemon to the corresponding lists, but not if all checks are false
-        if all(value is False for value in checks.values()) and checks["in_game"] is False:
+        if all(value is False for value in checks.values()) and checks["cry_in_game"] is False:
             continue
-        if not checks["in_game"]:
+        if not checks["cry_in_game"]:
             implemented_and_not_marked.append(f"{pokemon_name}")
+            continue
         if all(value is True for value in checks.values()):
             continue
-
 
         if not checks["override_correct"] and not checks["import_correct"]:
             invalid_model_files.append((pokemon_name, " [Problems with both import and override]"))
@@ -199,7 +202,8 @@ def main(print_missing_models=True, print_missing_animations=True):
 
         if implemented_and_not_marked:
             print_separator()
-            print("\nPokemon that are (at least partially) implemented in the game but not marked as cry in-game in the spreadsheet:")
+            print("\nPokemon that are (at least partially) implemented in the game but not marked as cry "
+                  "in-game in the spreadsheet:")
             print_list_filtered(implemented_and_not_marked)
 
         # Print out the lists of invalid Model.kt and animation.json files
@@ -246,6 +250,6 @@ def check_sound_effects(animation_data, sanitized_pokemon_name_lower):
         return False
 
 
-if (__name__ == "__main__"):
+if __name__ == "__main__":
     main()
     input("Press Enter to continue...")
