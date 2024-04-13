@@ -1,0 +1,10 @@
+{
+  "id": "cobblemon:desert_sun",
+  "timeRange": "midday",
+  "biomes": [
+    "#cobblemon:is_sandy"
+  ],
+  "isRaining": false,
+  "isThundering": false,
+  "result": "sunnyday"
+}

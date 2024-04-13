@@ -9,6 +9,7 @@
 package com.cobblemon.mod.common.battles
 
 import com.cobblemon.mod.common.CobblemonNetwork.sendPacket
+import com.cobblemon.mod.common.api.battles.effects.BattleStartConditions
 import com.cobblemon.mod.common.api.battles.model.PokemonBattle
 import com.cobblemon.mod.common.api.events.CobblemonEvents
 import com.cobblemon.mod.common.api.events.battles.BattleStartedPostEvent
@@ -146,10 +147,16 @@ object BattleRegistry {
     }
 
     private fun startShowdown(battle: PokemonBattle) {
+        // Check for battle start condition
+        val effect = BattleStartConditions.all().firstOrNull { it.matches(battle) }
 
         // Build request message
         val messages = mutableListOf<String>()
-        messages.add(">start { \"format\": ${battle.format.toFormatJSON()} }")
+        if (effect != null) {
+            messages.add(">start { \"format\": ${battle.format.toFormatJSON()}, \"defaultWeather\": \"${effect.result}\" }")
+        } else {
+            messages.add(">start { \"format\": ${battle.format.toFormatJSON()} }")
+        }
 
         /*
          * Showdown IDs are like p1, p2, p3, etc. Showdown uses these keys to identify who is doing what to whom.

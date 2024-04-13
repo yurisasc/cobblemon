@@ -12,6 +12,7 @@ import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.Cobblemon.LOGGER
 import com.cobblemon.mod.common.CobblemonMechanics
 import com.cobblemon.mod.common.api.abilities.Abilities
+import com.cobblemon.mod.common.api.battles.effects.BattleStartConditions
 import com.cobblemon.mod.common.api.berry.Berries
 import com.cobblemon.mod.common.api.data.DataProvider
 import com.cobblemon.mod.common.api.data.DataRegistry
@@ -72,6 +73,7 @@ object CobblemonDataProvider : DataProvider {
         this.register(Dialogues)
         this.register(NaturalMaterials)
         this.register(Fossils)
+        this.register(BattleStartConditions)
 
         CobblemonSpawnPools.load()
         this.register(Berries)

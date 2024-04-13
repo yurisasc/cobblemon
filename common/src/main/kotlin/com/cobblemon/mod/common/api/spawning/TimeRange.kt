@@ -39,7 +39,8 @@ class TimeRange : IntRanges {
             "dusk" to TimeRange(11834..13701),
             "twilight" to TimeRange(11834..13701, 22300..23999, 0..166),
             "morning" to TimeRange(0..4999),
-            "afternoon" to TimeRange(7000..12039)
+            "afternoon" to TimeRange(7000..12039),
+            "midday" to TimeRange(1000..11000)
         )
     }
 
