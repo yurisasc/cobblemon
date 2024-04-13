@@ -133,8 +133,11 @@ def main(print_missing_models=True, print_missing_animations=True):
                     animations, all_warnings_combined, checks["override_correct"] = (
                         read_content_and_extract_animations(
                             content_between_braces,
-                            sanitized_pokemon_name_lower,
+                            pokemon_name,
                             all_warnings_combined))
+        else:
+            all_warnings_combined.append(
+                (pokemon_name, f"⚠️ Warning: Model.kt file not found. \n\t\tExpected path: {model_file_path}"))
 
         # Check if the animation.json file exists and contains the correct effect
         if os.path.isfile(animation_file_path):
@@ -161,6 +164,9 @@ def main(print_missing_models=True, print_missing_animations=True):
             except json.decoder.JSONDecodeError:
                 print_warning("Invalid JSON in " + animation_file_path.replace(
                     '../common/src/main/resources/assets/cobblemon/bedrock/pokemon/animations/', ""))
+        else:
+            all_warnings_combined.append(
+                (pokemon_name, f"⚠️ Warning: animation.json file not found. \n\t\tExpected path: {animation_file_path}"))
 
         # Check the condition
         if this_pokemon_in_game == "✔" and this_cry_on_repo == "✔" and cry_in_game != "✔":
@@ -299,7 +305,7 @@ def read_file_ignore_comments(file_path):
     return content
 
 
-def read_content_and_extract_animations(content, sanitized_pokemon_name_lower, all_warnings_combined):
+def read_content_and_extract_animations(content, pokemon_name, all_warnings_combined):
     # Find all occurrences of bedrockStateful function call
     pattern = r'bedrockStateful\("(.*?)", "(.*?)"\)'
     matches = re.findall(pattern, content)
@@ -316,7 +322,7 @@ def read_content_and_extract_animations(content, sanitized_pokemon_name_lower, a
     # Check if the pokemonName was misspelled
     if count != bedrockStateful_count:
         all_warnings_combined.append(
-            (sanitized_pokemon_name_lower, f"⚠️ Warning: The pokemonName might be misspelled in the Model.kt file."))
+            (pokemon_name, f"⚠️ Warning: The pokemonName might be misspelled in the Model.kt file."))
 
     return animations, all_warnings_combined, count == bedrockStateful_count
 
