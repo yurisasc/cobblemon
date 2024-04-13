@@ -268,6 +268,7 @@
 - Reorganised a few advancements.
 - Pokémon entity shadows now scale when the Pokémon is being sent out or recalled.
 - Remade Torkoal particles, now they only appear when in battle.
+- Added particles to Lucario when in battle.
 
 ### Fixes
 - Resized Snorlax
