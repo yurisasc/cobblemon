@@ -8,6 +8,8 @@ from cobblemon_drops_csv_to_json import download_spreadsheet_data
 from scriptutils import printCobblemonHeader, print_list_filtered, print_cobblemon_script_description, \
     print_cobblemon_script_footer, print_problems_and_paths, print_warning, sanitize_pokemon, print_separator
 
+DEFAULT_POKEMON_MODELS_PATH = "../common/src/main/kotlin/com/cobblemon/mod/common/client/render/models/blockbench/pokemon/"
+
 # Download the CSV file
 ASSETS_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSTisDTkJvV0GzKV1zKjAPdMAQAO7znWxjEWXrM1gZPUVmsTU91oy54aJGMpbbvOqAOg03ER1wl7eeA/pub?gid=0&single=true&output=csv"
 
@@ -86,23 +88,37 @@ def main(print_missing_models=True, print_missing_animations=True):
             'sound_effects_and_keyframes': False,
         }
         # Construct the path to the model file
+        if pokemon_name == "Rattata [Alolan]":
+            print(pokemon_name)
         # Try to convert gen_number to an integer and handle ValueError
         try:
             if pokemon_form:
                 # Check if the form is a regional form or F or M, if not, use the default model file
-                model_file_path = f"../common/src/main/kotlin/com/cobblemon/mod/common/client/render/models/blockbench/pokemon/gen{int(gen_number.strip())}/{sanitized_pokemon_name}{pokemon_form.capitalize()}Model.kt"
+                model_file_path = f"{DEFAULT_POKEMON_MODELS_PATH}gen{int(gen_number.strip())}/{sanitized_pokemon_name}{pokemon_form.capitalize()}Model.kt"
                 if pokemon_form == "F" or pokemon_form == "M":
                     if pokemon_form == "F":
-                        model_file_path = f"../common/src/main/kotlin/com/cobblemon/mod/common/client/render/models/blockbench/pokemon/gen{int(gen_number.strip())}/{sanitized_pokemon_name}FemaleModel.kt"
+                        model_file_path = f"{DEFAULT_POKEMON_MODELS_PATH}gen{int(gen_number.strip())}/{sanitized_pokemon_name}FemaleModel.kt"
                     elif pokemon_form == "M":
-                        model_file_path = f"../common/src/main/kotlin/com/cobblemon/mod/common/client/render/models/blockbench/pokemon/gen{int(gen_number.strip())}/{sanitized_pokemon_name}MaleModel.kt"
+                        model_file_path = f"{DEFAULT_POKEMON_MODELS_PATH}gen{int(gen_number.strip())}/{sanitized_pokemon_name}MaleModel.kt"
                     if not os.path.isfile(model_file_path):
                         # Fallback for models that share one model file and all forms that are no regional forms
-                        model_file_path = f"../common/src/main/kotlin/com/cobblemon/mod/common/client/render/models/blockbench/pokemon/gen{int(gen_number.strip())}/{sanitized_pokemon_name}Model.kt"
-                elif pokemon_form not in ["hisuian", "alolan", "galarian", "valencian", "paldean"]:
-                    model_file_path = f"../common/src/main/kotlin/com/cobblemon/mod/common/client/render/models/blockbench/pokemon/gen{int(gen_number.strip())}/{sanitized_pokemon_name}Model.kt"
+                        model_file_path = f"{DEFAULT_POKEMON_MODELS_PATH}gen{int(gen_number.strip())}/{sanitized_pokemon_name}Model.kt"
+                elif pokemon_form in ["hisuian", "alolan", "galarian", "valencian", "paldean"]:
+                    # search for the model file with the form name in all gen folders
+                    model_pokemon_path = DEFAULT_POKEMON_MODELS_PATH
+                    for gen_folder in os.listdir(model_pokemon_path):
+                        if os.path.isdir(os.path.join(model_pokemon_path, gen_folder)):
+                            model_file_path = f"{DEFAULT_POKEMON_MODELS_PATH}{gen_folder}/{sanitized_pokemon_name}{pokemon_form.capitalize()}Model.kt"
+                            if not os.path.isfile(model_file_path):
+                                model_file_path = ""
+                                continue
+                            break
+                    if not model_file_path:
+                        model_file_path = f"../gen*/{sanitized_pokemon_name}{pokemon_form.capitalize()}Model.kt"
+                else:
+                    model_file_path = f"{DEFAULT_POKEMON_MODELS_PATH}gen{int(gen_number.strip())}/{sanitized_pokemon_name}Model.kt"
             else:
-                model_file_path = f"../common/src/main/kotlin/com/cobblemon/mod/common/client/render/models/blockbench/pokemon/gen{int(gen_number.strip())}/{sanitized_pokemon_name}Model.kt"
+                model_file_path = f"{DEFAULT_POKEMON_MODELS_PATH}gen{int(gen_number.strip())}/{sanitized_pokemon_name}Model.kt"
         except ValueError:
             all_warnings_combined.append(
                 f"⚠️ Warning: Invalid gen_number for pokemon {pokemon_name}. Skipping this line.")
@@ -152,7 +168,7 @@ def main(print_missing_models=True, print_missing_animations=True):
         else:
             all_warnings_combined.append(
                 (pokemon_name,
-                 f"⚠️ Warning: Model.kt file not found at: {model_file_path.replace('../common/src/main/kotlin/com/cobblemon/mod/common/client/render/models/blockbench/pokemon/', '...')}"))
+                 f"⚠️ Warning: Model.kt file not found at: {model_file_path.replace(DEFAULT_POKEMON_MODELS_PATH, '...')}"))
             # Ignore the checks for this file
             checks["override_correct"] = True
             checks["import_correct"] = True
