@@ -128,12 +128,6 @@ class MoveInstruction(
 
             runtime.environment.getQueryStruct().addFunction("move") { move.struct }
 
-            runtime.environment.getQueryStruct().addFunction("target_types") { _ ->
-                val targetTypes = "${targetPokemon?.effectedPokemon?.primaryType?.name?.lowercase()};${targetPokemon?.effectedPokemon?.secondaryType?.name?.lowercase()}"
-                println(targetTypes)
-                return@addFunction StringValue(targetTypes)
-            }
-
             this.future = actionEffect.run(context)
             holds = context.holds // Reference so future things can check on this action effect's holds
             future.thenApply { holds.clear() }
