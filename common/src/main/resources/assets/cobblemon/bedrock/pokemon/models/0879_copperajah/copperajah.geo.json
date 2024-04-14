@@ -6,7 +6,7 @@
 				"identifier": "geometry.copperajah",
 				"texture_width": 256,
 				"texture_height": 256,
-				"visible_bounds_width": 7,
+				"visible_bounds_width": 14,
 				"visible_bounds_height": 6.5,
 				"visible_bounds_offset": [0, 2.75, 0]
 			},
@@ -224,7 +224,7 @@
 					"parent": "body",
 					"pivot": [9.5, 23.5, -16.5],
 					"cubes": [
-						{"origin": [3.75, 12, -23], "size": [11.5, 15, 13], "uv": [162, 37]}
+						{"origin": [4.25, 12, -23], "size": [11, 15, 13], "uv": [162, 37]}
 					]
 				},
 				{
@@ -232,7 +232,7 @@
 					"parent": "leg_front_left",
 					"pivot": [9.5, 12, -23],
 					"cubes": [
-						{"origin": [3.75, 0, -23], "size": [11.5, 12, 13], "inflate": 0.01, "uv": [173, 109]}
+						{"origin": [4.25, 0, -23], "size": [11, 12, 13], "inflate": 0.01, "uv": [173, 109]}
 					]
 				},
 				{
@@ -240,7 +240,7 @@
 					"parent": "body",
 					"pivot": [-9.5, 23.5, -16.5],
 					"cubes": [
-						{"origin": [-15.25, 12, -23], "size": [11.5, 15, 13], "uv": [0, 158]}
+						{"origin": [-15.25, 12, -23], "size": [11, 15, 13], "uv": [0, 158]}
 					]
 				},
 				{
@@ -248,7 +248,7 @@
 					"parent": "leg_front_right",
 					"pivot": [-9.5, 12, -23],
 					"cubes": [
-						{"origin": [-15.25, 0, -23], "size": [11.5, 12, 13], "inflate": 0.01, "uv": [144, 163]}
+						{"origin": [-15.25, 0, -23], "size": [11, 12, 13], "inflate": 0.01, "uv": [144, 163]}
 					]
 				},
 				{
@@ -256,7 +256,7 @@
 					"parent": "body",
 					"pivot": [9.5, 23.5, 16.5],
 					"cubes": [
-						{"origin": [3.75, 12, 10], "size": [11.5, 15, 13], "uv": [48, 163]}
+						{"origin": [4.25, 12, 10], "size": [11, 15, 13], "uv": [48, 163]}
 					]
 				},
 				{
@@ -264,7 +264,7 @@
 					"parent": "leg_back_left",
 					"pivot": [9.5, 12, 10],
 					"cubes": [
-						{"origin": [3.75, 0, 10], "size": [11.5, 12, 13], "inflate": 0.01, "uv": [179, 150]}
+						{"origin": [4.25, 0, 10], "size": [11, 12, 13], "inflate": 0.01, "uv": [179, 150]}
 					]
 				},
 				{
@@ -272,7 +272,7 @@
 					"parent": "body",
 					"pivot": [-9.5, 23.5, 16.5],
 					"cubes": [
-						{"origin": [-15.25, 12, 10], "size": [11.5, 15, 13], "uv": [0, 0]}
+						{"origin": [-15.25, 12, 10], "size": [11, 15, 13], "uv": [0, 0]}
 					]
 				},
 				{
@@ -280,7 +280,7 @@
 					"parent": "leg_back_right",
 					"pivot": [-9.5, 12, 10],
 					"cubes": [
-						{"origin": [-15.25, 0, 10], "size": [11.5, 12, 13], "inflate": 0.01, "uv": [96, 163]}
+						{"origin": [-15.25, 0, 10], "size": [11, 12, 13], "inflate": 0.01, "uv": [96, 163]}
 					]
 				}
 			]

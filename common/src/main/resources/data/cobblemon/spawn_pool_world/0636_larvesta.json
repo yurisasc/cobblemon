@@ -8,7 +8,26 @@
             "pokemon": "larvesta",
             "presets": [
                 "natural",
-                "desert_pyramid",
+                "desert_pyramid"
+            ],
+            "type": "pokemon",
+            "context": "grounded",
+            "bucket": "uncommon",
+            "level": "11-36",
+            "weight": 90.0,
+            "condition": {
+                "canSeeSky": false,
+                "biomes": [
+                    "#cobblemon:is_desert"
+                ],
+                "minY": 48
+            }
+        },
+        {
+            "id": "larvesta-2",
+            "pokemon": "larvesta",
+            "presets": [
+                "natural",
                 "jungle_pyramid"
             ],
             "type": "pokemon",
@@ -19,13 +38,13 @@
             "condition": {
                 "canSeeSky": false,
                 "biomes": [
-                    "#cobblemon:is_overworld"
+                    "#cobblemon:is_jungle"
                 ],
                 "minY": 48
             }
         },
         {
-            "id": "larvesta-2",
+            "id": "larvesta-3",
             "pokemon": "larvesta",
             "presets": [
                 "natural",
@@ -40,6 +59,27 @@
                 "biomes": [
                     "#cobblemon:nether/is_crimson",
                     "#cobblemon:nether/is_forest"
+                ]
+            },
+            "drops": {
+                "amount": 4,
+                "entries": [
+                    {
+                        "item": "minecraft:string",
+                        "quantityRange": "0-1"
+                    },
+                    {
+                        "item": "minecraft:blaze_powder",
+                        "percentage": 5.0
+                    },
+                    {
+                        "item": "cobblemon:silver_powder",
+                        "percentage": 2.5
+                    },
+                    {
+                        "item": "cobblemon:charti_berry",
+                        "percentage": 2.5
+                    }
                 ]
             }
         }

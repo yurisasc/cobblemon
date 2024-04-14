@@ -151,9 +151,22 @@
       },
       "height": 12,
       "weight": 192,
-      "preEvolution": "petilil hisuian",
+      "preEvolution": "petilil region_bias=hisui",
       "cannotDynamax": false,
-      "battleOnly": false
+      "battleOnly": false,
+      "drops": {
+        "amount": 2,
+        "entries": [
+          {
+            "item": "cobblemon:revival_herb",
+            "percentage": 5.0
+          },
+          {
+            "item": "cobblemon:coba_berry",
+            "percentage": 5.0
+          }
+        ]
+      }
     }
   ],
   "baseExperienceYield": 168,
@@ -251,7 +264,7 @@
   ],
   "preEvolution": "petilil",
   "evolutions": [],
-  "baseScale": 0.7,
+  "baseScale": 0.6,
   "hitbox": {
     "width": 1.1,
     "height": 2.3,

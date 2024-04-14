@@ -109,7 +109,7 @@
   ],
   "height": 30,
   "weight": 1100,
-  "preEvolution": "basculin form=whitestriped",
+  "preEvolution": "basculin whitestriped",
   "evolutions": [],
   "forms": [
     {
@@ -219,7 +219,7 @@
       ],
       "height": 30,
       "weight": 1100,
-      "preEvolution": "basculin form=whitestriped",
+      "preEvolution": "basculin whitestriped",
       "cannotDynamax": false,
       "battleOnly": false
     }

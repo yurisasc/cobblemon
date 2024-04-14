@@ -22,7 +22,8 @@
                 }
             },
             "condition": {
-                "canSeeSky": true,
+                "minSkyLight": 8,
+                "maxSkyLight": 15,
                 "biomes": [
                     "#cobblemon:is_floral"
                 ]
@@ -52,7 +53,8 @@
                 }
             },
             "condition": {
-                "canSeeSky": true,
+                "minSkyLight": 8,
+                "maxSkyLight": 15,
                 "biomes": [
                     "#cobblemon:is_forest",
                     "#cobblemon:is_tropical_island"
@@ -82,6 +84,39 @@
             "anticondition": {
                 "structures": [
                     "#the_bumblezone:sempiternal_sanctums"
+                ]
+            }
+        },
+        {
+            "id": "lilligant-hisuian-4",
+            "pokemon": "lilligant hisuian",
+            "presets": [
+                "natural",
+                "wild"
+            ],
+            "type": "pokemon",
+            "context": "grounded",
+            "bucket": "common",
+            "level": "23-48",
+            "weight": 0.6,
+            "weightMultiplier": {
+                "multiplier": 0.25,
+                "condition": {
+                    "timeRange": "night"
+                }
+            },
+            "condition": {
+                "minSkyLight": 8,
+                "maxSkyLight": 15,
+                "biomes": [
+                    "#cobblemon:is_hills"
+                ]
+            },
+            "anticondition": {
+                "biomes": [
+                    "#cobblemon:is_arid",
+                    "#cobblemon:is_freezing",
+                    "#cobblemon:is_spooky"
                 ]
             }
         }

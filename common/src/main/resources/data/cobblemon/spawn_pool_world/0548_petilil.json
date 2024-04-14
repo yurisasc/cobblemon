@@ -22,7 +22,8 @@
                 }
             },
             "condition": {
-                "canSeeSky": true,
+                "minSkyLight": 8,
+                "maxSkyLight": 15,
                 "biomes": [
                     "#cobblemon:is_floral"
                 ]
@@ -52,7 +53,8 @@
                 }
             },
             "condition": {
-                "canSeeSky": true,
+                "minSkyLight": 8,
+                "maxSkyLight": 15,
                 "biomes": [
                     "#cobblemon:is_forest",
                     "#cobblemon:is_tropical_island"
@@ -86,8 +88,8 @@
             }
         },
         {
-            "id": "petilil-hisuian-4",
-            "pokemon": "petilil hisuian",
+            "id": "petilil-hisui-4",
+            "pokemon": "petilil region_bias=hisui",
             "presets": [
                 "natural",
                 "wild"
@@ -96,7 +98,7 @@
             "context": "grounded",
             "bucket": "common",
             "level": "3-28",
-            "weight": NaN,
+            "weight": 5.4,
             "weightMultiplier": {
                 "multiplier": 0.25,
                 "condition": {
@@ -104,7 +106,8 @@
                 }
             },
             "condition": {
-                "canSeeSky": true,
+                "minSkyLight": 8,
+                "maxSkyLight": 15,
                 "biomes": [
                     "#cobblemon:is_hills"
                 ]

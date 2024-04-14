@@ -37,7 +37,7 @@ class SlugmaModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
 
         sleep = registerPose(
             poseType = PoseType.SLEEP,
-            idleAnimations = arrayOf(bedrock("slugma", "ground_sleep"))
+            idleAnimations = arrayOf(bedrock("slugma", "sleep"))
         )
 
         standing = registerPose(

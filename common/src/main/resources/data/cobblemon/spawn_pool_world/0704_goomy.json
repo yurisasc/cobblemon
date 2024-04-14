@@ -16,7 +16,8 @@
             "level": "5-30",
             "weight": 9.0,
             "condition": {
-                "canSeeSky": true,
+                "minSkyLight": 8,
+                "maxSkyLight": 15,
                 "biomes": [
                     "#cobblemon:is_swamp"
                 ],
@@ -24,8 +25,8 @@
             }
         },
         {
-            "id": "goomy-hisuian-2",
-            "pokemon": "goomy hisuian",
+            "id": "goomy-hisui-2",
+            "pokemon": "goomy region_bias=hisui",
             "presets": [
                 "natural"
             ],
@@ -35,10 +36,33 @@
             "level": "5-30",
             "weight": 9.0,
             "condition": {
-                "canSeeSky": false,
+                "minSkyLight": 0,
+                "maxSkyLight": 7,
                 "biomes": [
                     "#cobblemon:is_dripstone",
                     "#cobblemon:is_lush"
+                ]
+            }
+        },
+        {
+            "id": "goomy-hisui-3",
+            "pokemon": "goomy region_bias=hisui",
+            "presets": [
+                "natural"
+            ],
+            "type": "pokemon",
+            "context": "grounded",
+            "bucket": "ultra-rare",
+            "level": "5-30",
+            "weight": 9.0,
+            "condition": {
+                "minSkyLight": 0,
+                "maxSkyLight": 7,
+                "biomes": [
+                    "#cobblemon:is_overworld"
+                ],
+                "neededNearbyBlocks": [
+                    "#minecraft:water"
                 ]
             }
         }

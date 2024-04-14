@@ -19,7 +19,7 @@ import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
 class HakamoOModel (root: ModelPart) : PokemonPoseableModel(), BipedFrame, BimanualFrame {
-    override val rootPart = root.registerChildWithAllChildren("hakamo-o")
+    override val rootPart = root.registerChildWithAllChildren("hakamo_o")
 
     override val leftArm = getPart("arm_right")
     override val rightArm = getPart("arm_left")

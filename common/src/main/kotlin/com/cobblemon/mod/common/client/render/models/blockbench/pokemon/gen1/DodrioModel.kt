@@ -8,6 +8,9 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1
 
+import com.cobblemon.mod.common.client.render.models.blockbench.animation.SingleBoneLookAnimation
+import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cobblemon.mod.common.entity.PoseType
@@ -17,8 +20,18 @@ import com.cobblemon.mod.common.entity.PoseType.Companion.UI_POSES
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class DodrioModel (root: ModelPart) : PokemonPoseableModel() {
+class DodrioModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("dodrio")
+    override val head = getPart("head4")
+
+    val lefthead = object : HeadedFrame {
+        override val rootPart = this@DodrioModel.rootPart
+        override val head: ModelPart = getPart("head3")
+    }
+    val righthead = object : HeadedFrame {
+        override val rootPart = this@DodrioModel.rootPart
+        override val head: ModelPart = getPart("head2")
+    }
 
     override var portraitScale = 1.5F
     override var portraitTranslation = Vec3d(-0.15, 0.9, 0.0)
@@ -30,6 +43,8 @@ class DodrioModel (root: ModelPart) : PokemonPoseableModel() {
     lateinit var walking: PokemonPose
     lateinit var sleep: PokemonPose
     lateinit var battleidle: PokemonPose
+
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("dodrio", "cry") }
 
     override fun registerPoses() {
         val blink1 = quirk { bedrockStateful("dodrio", "blink1") }
@@ -47,6 +62,9 @@ class DodrioModel (root: ModelPart) : PokemonPoseableModel() {
             condition = { !it.isBattling },
             quirks = arrayOf(blink1, blink2, blink3),
             idleAnimations = arrayOf(
+                singleBoneLook(pitchMultiplier = 1F, yawMultiplier = 0.4F),
+                SingleBoneLookAnimation(lefthead, false, false, false, false, 1F, 1.5F, 45F, -45F, 45F, 10F),
+                SingleBoneLookAnimation(righthead, false, false, false, false, 1F, 1.5F, 45F, -45F, 10F, -45F),
                 bedrock("dodrio", "ground_idle")
             )
         )

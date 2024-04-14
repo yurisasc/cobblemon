@@ -25,7 +25,7 @@ class RayquazaModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override var portraitTranslation = Vec3d(-1.85, 3.5, 0.0)
 
     override var profileScale = 0.4F
-    override var profileTranslation = Vec3d(0.0, 1.3, 0.0)
+    override var profileTranslation = Vec3d(0.0, 1.3, -6.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose

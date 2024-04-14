@@ -15,9 +15,22 @@
     "special_defence": 79,
     "speed": 42
   },
+  "behaviour": {
+    "moving": {
+      "fly": {
+        "canFly": true
+      }
+    },
+    "resting": {
+      "canSleep": true,
+      "willSleepOnBed": false,
+      "depth": "normal",
+      "light": "0-4"
+    }
+  },
   "catchRate": 225,
   "maleRatio": 0,
-  "shoulderMountable": false,
+  "shoulderMountable": true,
   "baseExperienceYield": 61,
   "experienceGroup": "medium_fast",
   "eggCycles": 20,
@@ -151,7 +164,7 @@
     "amount": 2,
     "entries": [
       {
-        "item": "minecraft:lily_of_the_valley"
+        "item": "minecraft:poppy"
       },
       {
         "item": "cobblemon:kebia_berry",

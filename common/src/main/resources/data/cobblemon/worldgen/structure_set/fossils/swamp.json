@@ -1,8 +1,12 @@
 {
     "placement": {
         "type": "minecraft:random_spread",
-        "spacing": 12,
-        "separation": 5,
+        "exclusion_zone": {
+            "chunk_count": 10,
+            "other_set": "minecraft:swamp_huts"
+        },
+        "spacing": 8,
+        "separation": 4,
         "salt": 1691118712,
         "spread_type": "triangular"
     },

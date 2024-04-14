@@ -5029,6 +5029,9 @@
   "pokemon.hippowdon.cry": {
     "sounds": [ { "name": "cobblemon:pokemon/hippowdon/hippowdon_cry", "volume": 0.8 } ]
   },
+  "pokemon.hippowdon.quirk1_cry": {
+    "sounds": [ { "name": "cobblemon:pokemon/hippowdon/hippowdon_quirk1_cry", "volume": 0.8 } ]
+  },
   "pokemon.skorupi.cry": {
     "sounds": [ { "name": "cobblemon:pokemon/skorupi/skorupi_cry", "volume": 0.8 } ]
   },
@@ -5377,8 +5380,14 @@
   "pokemon.archen.cry": {
     "sounds": [ {  "name": "cobblemon:pokemon/archen/archen_cry", "volume": 0.8 } ]
   },
+  "pokemon.archen.quirk": {
+    "sounds": [ {  "name": "cobblemon:pokemon/archen/archen_quirk1_cry", "volume": 0.8 } ]
+  },
   "pokemon.archeops.cry": {
     "sounds": [ { "name": "cobblemon:pokemon/archeops/archeops_cry", "volume": 0.8 } ]
+  },
+  "pokemon.archeops.quirk": {
+    "sounds": [ { "name": "cobblemon:pokemon/archeops/archeops_quirk2", "volume": 0.8 } ]
   },
   "pokemon.trubbish.cry": {
     "sounds": [ { "name": "cobblemon:pokemon/trubbish/trubbish_cry", "volume": 0.8 } ]
@@ -6609,6 +6618,9 @@
   },
   "pokemon.gimmighoul.cry": {
     "sounds": [ { "name": "cobblemon:pokemon/gimmighoul/gimmighoul_cry", "volume": 0.8 } ]
+  },
+  "pokemon.gimmighoul_roaming.cry": {
+    "sounds": [ { "name": "cobblemon:pokemon/gimmighoul/gimmighoul_roaming_cry", "volume": 0.8 } ]
   },
   "pokemon.gholdengo.cry": {
     "sounds": [ { "name": "cobblemon:pokemon/gholdengo/gholdengo_cry", "volume": 0.8 } ]

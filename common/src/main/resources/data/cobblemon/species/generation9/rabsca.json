@@ -113,11 +113,10 @@
     "cobblemon.species.rabsca.desc"
   ],
   "drops": {
-    "amount": 2,
+    "amount": 1,
     "entries": [
       {
-        "item": "minecraft:clay",
-        "quantityRange": "0-2"
+        "item": "minecraft:ender_pearl"
       }
     ]
   }

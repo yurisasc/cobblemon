@@ -20,7 +20,7 @@ class SolrockModel (root: ModelPart) : PokemonPoseableModel() {
     override val rootPart = root.registerChildWithAllChildren("solrock")
 
     override var portraitScale = 1.6F
-    override var portraitTranslation = Vec3d(-0.29, -0.49, 0.0)
+    override var portraitTranslation = Vec3d(-0.08, 0.31, 0.0)
 
     override var profileScale = 0.8F
     override var profileTranslation = Vec3d(0.0, 0.74, 0.0)

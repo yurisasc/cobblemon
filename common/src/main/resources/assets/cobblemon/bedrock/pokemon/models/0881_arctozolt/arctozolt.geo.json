@@ -3,7 +3,7 @@
 	"minecraft:geometry": [
 		{
 			"description": {
-				"identifier": "geometry.Arctozolt",
+				"identifier": "geometry.arctozolt",
 				"texture_width": 256,
 				"texture_height": 128,
 				"visible_bounds_width": 7,
@@ -23,7 +23,7 @@
 				{
 					"name": "torso",
 					"parent": "body",
-					"pivot": [0, 9, -0.5],
+					"pivot": [0, 13.25, -7],
 					"cubes": [
 						{"origin": [-9, 6, -10], "size": [18, 5, 19], "uv": [0, 61]},
 						{"origin": [-12, 11, -13], "size": [24, 18, 25], "uv": [0, 85]}
@@ -511,7 +511,7 @@
 					"parent": "head_rotation",
 					"pivot": [0, 60.5, -6],
 					"cubes": [
-						{"origin": [-1.5, 60.5, -7], "size": [3, 3, 1], "inflate": 0.02, "uv": [16, 0]}
+						{"origin": [-1.5, 60.5, -7], "size": [3, 3, 1], "inflate": 0.03, "uv": [16, 0]}
 					]
 				},
 				{
@@ -599,7 +599,6 @@
 					"name": "tail",
 					"parent": "torso",
 					"pivot": [0, 11, 9],
-					"rotation": [-45, 0, 0],
 					"cubes": [
 						{"origin": [-6.5, 6, 8], "size": [12, 12, 8], "inflate": 0.03, "uv": [216, 73]}
 					]
@@ -669,8 +668,13 @@
 				},
 				{
 					"name": "leg_left3",
-					"parent": "leg_left",
-					"pivot": [12.5, 0, -7],
+					"parent": "leg_left2",
+					"pivot": [12.5, 0, -7]
+				},
+				{
+					"name": "leg_left3_rot",
+					"parent": "leg_left3",
+					"pivot": [10, 0, -7],
 					"cubes": [
 						{"origin": [10, -12, -11.5], "size": [5, 12, 9], "inflate": 0.01, "uv": [202, 0]},
 						{"origin": [15.02, -8, -8], "size": [0, 5, 2], "uv": [196, -2]}
@@ -678,7 +682,7 @@
 				},
 				{
 					"name": "leg_left4",
-					"parent": "leg_left3",
+					"parent": "leg_left3_rot",
 					"pivot": [12, -12, -7],
 					"cubes": [
 						{"origin": [10, -16, -10], "size": [4, 4, 6], "uv": [182, 0]}
@@ -703,8 +707,13 @@
 				},
 				{
 					"name": "leg_right3",
-					"parent": "leg_right",
-					"pivot": [-12.5, 0, -7],
+					"parent": "leg_right2",
+					"pivot": [-12.5, 0, -7]
+				},
+				{
+					"name": "leg_right3_rot",
+					"parent": "leg_right3",
+					"pivot": [-10, 0, -7],
 					"cubes": [
 						{"origin": [-15, -12, -11.5], "size": [5, 12, 9], "inflate": 0.01, "uv": [202, 21], "mirror": true},
 						{"origin": [-15.02, -8, -8], "size": [0, 5, 2], "uv": [200, -2], "mirror": true}
@@ -712,7 +721,7 @@
 				},
 				{
 					"name": "leg_right4",
-					"parent": "leg_right3",
+					"parent": "leg_right3_rot",
 					"pivot": [-12, -12, -7],
 					"cubes": [
 						{"origin": [-14, -16, -10], "size": [4, 4, 6], "uv": [182, 10], "mirror": true}

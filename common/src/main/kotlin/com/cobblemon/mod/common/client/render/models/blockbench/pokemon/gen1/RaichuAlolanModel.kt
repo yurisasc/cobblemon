@@ -52,7 +52,7 @@ class RaichuAlolanModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
 
         sleep = registerPose(
                 poseType = PoseType.SLEEP,
-                idleAnimations = arrayOf(bedrock("raichu_alolan", "ground_sleep"))
+                idleAnimations = arrayOf(bedrock("raichu_alolan", "sleep"))
         )
 
         walk = registerPose(

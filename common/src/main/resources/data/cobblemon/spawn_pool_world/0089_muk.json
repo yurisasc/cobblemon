@@ -13,7 +13,7 @@
             "context": "surface",
             "bucket": "common",
             "level": "38-50",
-            "weight": 0.2,
+            "weight": 0.02,
             "weightMultiplier": {
                 "multiplier": 1.5,
                 "condition": {
@@ -21,7 +21,8 @@
                 }
             },
             "condition": {
-                "canSeeSky": true,
+                "minSkyLight": 8,
+                "maxSkyLight": 15,
                 "biomes": [
                     "#cobblemon:is_swamp"
                 ]
@@ -38,7 +39,7 @@
             "context": "surface",
             "bucket": "common",
             "level": "38-50",
-            "weight": 0.6,
+            "weight": 0.06,
             "weightMultiplier": {
                 "multiplier": 1.5,
                 "condition": {
@@ -46,7 +47,8 @@
                 }
             },
             "condition": {
-                "canSeeSky": true,
+                "minSkyLight": 8,
+                "maxSkyLight": 15,
                 "biomes": [
                     "#cobblemon:is_overworld"
                 ]
@@ -63,7 +65,7 @@
             "context": "surface",
             "bucket": "common",
             "level": "38-50",
-            "weight": 0.6,
+            "weight": 0.06,
             "weightMultiplier": {
                 "multiplier": 1.5,
                 "condition": {
@@ -71,7 +73,8 @@
                 }
             },
             "condition": {
-                "canSeeSky": true,
+                "minSkyLight": 8,
+                "maxSkyLight": 15,
                 "biomes": [
                     "#cobblemon:is_overworld"
                 ]

@@ -66,6 +66,11 @@ class BattleGeneralActionSelection(
                     MinecraftClient.getInstance().player?.sendMessage(battleLang("run_prompt"), false)
                     playDownSound(MinecraftClient.getInstance().soundManager)
                 }
+            } else {
+                addOption(rank++, battleLang("ui.forfeit"), BattleGUI.runResource) {
+                    battleGUI.changeActionSelection(ForfeitConfirmationSelection(battleGUI, request))
+                    playDownSound(MinecraftClient.getInstance().soundManager)
+                }
             }
         }
     }

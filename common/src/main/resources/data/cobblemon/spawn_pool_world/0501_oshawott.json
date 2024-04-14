@@ -15,7 +15,8 @@
             "level": "5-31",
             "weight": 9.0,
             "condition": {
-                "canSeeSky": true,
+                "minSkyLight": 8,
+                "maxSkyLight": 15,
                 "biomes": [
                     "#cobblemon:is_beach"
                 ]
@@ -30,15 +31,16 @@
             "id": "oshawott-2",
             "pokemon": "oshawott",
             "presets": [
-                "natural"
+                "water_surface"
             ],
             "type": "pokemon",
-            "context": "grounded",
+            "context": "surface",
             "bucket": "ultra-rare",
             "level": "5-31",
             "weight": 9.0,
             "condition": {
-                "canSeeSky": true,
+                "minSkyLight": 8,
+                "maxSkyLight": 15,
                 "biomes": [
                     "#cobblemon:is_beach"
                 ]
@@ -50,8 +52,8 @@
             }
         },
         {
-            "id": "oshawott-hisuian-3",
-            "pokemon": "oshawott hisuian",
+            "id": "oshawott-hisui-3",
+            "pokemon": "oshawott region_bias=hisui",
             "presets": [
                 "natural"
             ],
@@ -61,7 +63,8 @@
             "level": "5-31",
             "weight": 9.0,
             "condition": {
-                "canSeeSky": true,
+                "minSkyLight": 8,
+                "maxSkyLight": 15,
                 "biomes": [
                     "#cobblemon:is_coast"
                 ]
@@ -73,8 +76,8 @@
             }
         },
         {
-            "id": "oshawott-hisuian-4",
-            "pokemon": "oshawott hisuian",
+            "id": "oshawott-hisui-4",
+            "pokemon": "oshawott region_bias=hisui",
             "presets": [
                 "water_surface"
             ],
@@ -84,7 +87,8 @@
             "level": "5-31",
             "weight": 9.0,
             "condition": {
-                "canSeeSky": true,
+                "minSkyLight": 8,
+                "maxSkyLight": 15,
                 "biomes": [
                     "#cobblemon:is_coast"
                 ]
@@ -96,8 +100,8 @@
             }
         },
         {
-            "id": "oshawott-hisuian-5",
-            "pokemon": "oshawott hisuian",
+            "id": "oshawott-hisui-5",
+            "pokemon": "oshawott region_bias=hisui",
             "presets": [
                 "natural"
             ],
@@ -107,15 +111,16 @@
             "level": "5-31",
             "weight": 9.0,
             "condition": {
-                "canSeeSky": true,
+                "minSkyLight": 8,
+                "maxSkyLight": 15,
                 "biomes": [
                     "minecraft:snowy_beach"
                 ]
             }
         },
         {
-            "id": "oshawott-hisuian-6",
-            "pokemon": "oshawott hisuian",
+            "id": "oshawott-hisui-6",
+            "pokemon": "oshawott region_bias=hisui",
             "presets": [
                 "water_surface"
             ],
@@ -125,7 +130,8 @@
             "level": "5-31",
             "weight": 9.0,
             "condition": {
-                "canSeeSky": true,
+                "minSkyLight": 8,
+                "maxSkyLight": 15,
                 "biomes": [
                     "minecraft:snowy_beach"
                 ]

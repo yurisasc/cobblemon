@@ -38,9 +38,10 @@
             "context": "surface",
             "bucket": "common",
             "level": "9-34",
-            "weight": 5.4,
+            "weight": 0.54,
             "condition": {
-                "canSeeSky": true,
+                "minSkyLight": 8,
+                "maxSkyLight": 15,
                 "biomes": [
                     "#cobblemon:is_ocean"
                 ],
@@ -57,7 +58,7 @@
             "context": "surface",
             "bucket": "common",
             "level": "9-34",
-            "weight": 5.4,
+            "weight": 0.54,
             "weightMultiplier": {
                 "multiplier": 5.0,
                 "condition": {
@@ -65,7 +66,8 @@
                 }
             },
             "condition": {
-                "canSeeSky": true,
+                "minSkyLight": 8,
+                "maxSkyLight": 15,
                 "biomes": [
                     "#cobblemon:is_ocean"
                 ],
