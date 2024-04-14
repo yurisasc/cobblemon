@@ -6,10 +6,8 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen5
+package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen6
 
-import com.cobblemon.mod.common.client.render.models.blockbench.animation.BipedWalkAnimation
-import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
@@ -18,32 +16,31 @@ import com.cobblemon.mod.common.entity.PoseType
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class TyrantrumModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
-    override val rootPart = root.registerChildWithAllChildren("tyrantrum")
+class TyruntModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
+    override val rootPart = root.registerChildWithAllChildren("tyrunt")
 
     override val head = getPart("head")
 
-    override var portraitTranslation = Vec3d(-0.86, 2.0, 0.0)
-    override var portraitScale = 0.59F
+    override var portraitTranslation = Vec3d(-0.43, 0.40, 0.0)
+    override var portraitScale = 1.08F
 
-    override var profileTranslation = Vec3d(0.02, 1.28, -10.0)
-    override var profileScale = 0.29F
+    override var profileTranslation = Vec3d(-0.03, 0.89, 0.0)
+    override var profileScale = 0.56F
 
     lateinit var sleep: PokemonPose
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
     lateinit var battleidle: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("tyrantrum", "cry") }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("tyrunt", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk { bedrockStateful("tyrantrum", "blink") }
-        val walkquirk = quirk { bedrockStateful("tyrantrum", "quirk_idle_walk") }
+        val blink = quirk { bedrockStateful("tyrunt", "blink") }
 
         sleep = registerPose(
             poseName = "sleep",
             poseType = PoseType.SLEEP,
-            idleAnimations = arrayOf(bedrock("tyrantrum", "sleep"))
+            idleAnimations = arrayOf(bedrock("tyrunt", "sleep"))
         )
 
         standing = registerPose(
@@ -53,17 +50,17 @@ class TyrantrumModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
-                bedrock("tyrantrum", "ground_idle")
+                bedrock("tyrunt", "ground_idle")
             )
         )
 
         walk = registerPose(
             poseName = "walk",
             poseTypes = PoseType.MOVING_POSES,
-            quirks = arrayOf(blink, walkquirk),
+            quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
-                bedrock("tyrantrum", "ground_walk")
+                bedrock("tyrunt", "ground_walk")
             )
         )
 
@@ -74,7 +71,7 @@ class TyrantrumModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             condition = { it.isBattling },
             idleAnimations = arrayOf(
                 singleBoneLook(),
-                bedrock("tyrantrum", "battle_idle")
+                bedrock("tyrunt", "battle_idle")
             )
         )
     }
@@ -82,5 +79,5 @@ class TyrantrumModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
 //    override fun getFaintAnimation(
 //        pokemonEntity: PokemonEntity,
 //        state: PoseableEntityState<PokemonEntity>
-//    ) = if (state.isPosedIn(standing, walk)) bedrockStateful("tyrantrum", "faint") else null
+//    ) = if (state.isPosedIn(standing, walk)) bedrockStateful("tyrunt", "faint") else null
 }
