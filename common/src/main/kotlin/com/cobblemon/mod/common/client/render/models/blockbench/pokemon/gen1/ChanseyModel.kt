@@ -35,6 +35,7 @@ class ChanseyModel(root: ModelPart) : PokemonPoseableModel(), BipedFrame {
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
     lateinit var sleep: PokemonPose
+    lateinit var battleIdle: PokemonPose
 
     override fun registerPoses() {
         val blink = quirk { bedrockStateful("chansey", "blink") }
@@ -43,13 +44,14 @@ class ChanseyModel(root: ModelPart) : PokemonPoseableModel(), BipedFrame {
             poseName = "sleep",
             poseType = PoseType.SLEEP,
             idleAnimations = arrayOf(
-                bedrock("chansey", "ground_sleep")
+                bedrock("chansey", "sleep")
             )
         )
 
         standing = registerPose(
             poseName = "standing",
             poseTypes = STATIONARY_POSES + UI_POSES,
+            condition = { !it.isBattling },
             transformTicks = 10,
             idleAnimations = arrayOf(
                 bedrock("chansey", "ground_idle")
@@ -63,6 +65,16 @@ class ChanseyModel(root: ModelPart) : PokemonPoseableModel(), BipedFrame {
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 bedrock("chansey", "ground_walk")
+            )
+        )
+
+        battleIdle = registerPose(
+            poseName = "battle_idle",
+            poseTypes = PoseType.STATIONARY_POSES,
+            condition = { it.isBattling },
+            transformTicks = 10,
+            idleAnimations = arrayOf(
+                bedrock("chansey", "battle_idle")
             )
         )
     }

@@ -8,6 +8,8 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen5
 
+import com.cobblemon.mod.common.client.render.models.blockbench.animation.BimanualSwingAnimation
+import com.cobblemon.mod.common.client.render.models.blockbench.animation.BipedWalkAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.createTransformation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BimanualFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
@@ -15,6 +17,7 @@ import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFram
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.pose.ModelPartTransformation
 import com.cobblemon.mod.common.entity.PoseType
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
@@ -43,15 +46,16 @@ class OshawottModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
 
     override fun registerPoses() {
         val blink = quirk { bedrockStateful("oshawott", "blink") }
+
         sleep = registerPose(
-            poseType = PoseType.SLEEP,
-            transformTicks = 10,
-            condition = { !it.isBattling },
-            transformedParts = arrayOf(
-                scalchop.createTransformation().withVisibility(visibility = false),
-                scalchopbody.createTransformation().withVisibility(visibility = true)
-            ),
-            idleAnimations = arrayOf(bedrock("oshawott", "sleep"))
+                poseType = PoseType.SLEEP,
+                transformTicks = 10,
+                transformedParts = arrayOf(
+                        scalchop.createTransformation().withVisibility(visibility = false),
+                        scalchopbody.createTransformation().withVisibility(visibility = true),
+                        rootPart.createTransformation().addPosition(ModelPartTransformation.Y_AXIS, -7)
+                ),
+                idleAnimations = arrayOf(bedrock("oshawott", "sleep"))
         )
 
         standing = registerPose(
@@ -82,13 +86,15 @@ class OshawottModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
             ),
             idleAnimations = arrayOf(
                 singleBoneLook(),
-                bedrock("oshawott", "ground_walk")
+                bedrock("oshawott", "ground_idle"),
+                BipedWalkAnimation(this, periodMultiplier = 0.6F, amplitudeMultiplier = 0.9F),
+                BimanualSwingAnimation(this, swingPeriodMultiplier = 0.6F, amplitudeMultiplier = 0.9F)
             )
         )
 
         battleidle = registerPose(
             poseName = "battle_idle",
-            poseTypes = PoseType.STATIONARY_POSES,
+            poseTypes = PoseType.STATIONARY_POSES + PoseType.FLOAT,
             transformTicks = 10,
             quirks = arrayOf(blink),
             condition = { it.isBattling },
@@ -100,7 +106,6 @@ class OshawottModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
                 singleBoneLook(),
                 bedrock("oshawott", "ground_idle")
             )
-
         )
     }
 }

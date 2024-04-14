@@ -18,14 +18,9 @@ import com.cobblemon.mod.common.entity.PoseType
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class RabootModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedFrame, BimanualFrame {
+class RabootModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("raboot")
     override val head = getPart("head")
-
-    override val leftArm = getPart("arm_left")
-    override val rightArm = getPart("arm_right")
-    override val leftLeg = getPart("leg_left")
-    override val rightLeg = getPart("leg_right")
 
     override var portraitScale = 2.5F
     override var portraitTranslation = Vec3d(-0.15, 0.3, 0.0)
@@ -35,15 +30,28 @@ class RabootModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Biped
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
+    lateinit var battleIdle: PokemonPose
+    lateinit var sleep: PokemonPose
 
     override val cryAnimation = CryProvider { _, _ -> bedrockStateful("raboot", "cry") }
 
     override fun registerPoses() {
         val blink = quirk { bedrockStateful("raboot", "blink") }
+        val hipQuirk = quirk { bedrockStateful("raboot", "hip_quirk") }
+        val sleepQuirk = quirk { bedrockStateful("raboot", "sleep_ear_quirk") }
+
+        sleep = registerPose(
+            poseName = "sleep",
+            quirks = arrayOf(sleepQuirk),
+            poseType = PoseType.SLEEP,
+            idleAnimations = arrayOf(bedrock("raboot", "sleep"))
+        )
+
         standing = registerPose(
             poseName = "standing",
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
-            quirks = arrayOf(blink),
+            condition = { !it.isBattling },
+            quirks = arrayOf(blink, hipQuirk),
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("raboot", "ground_idle")
@@ -57,6 +65,17 @@ class RabootModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Biped
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("raboot", "ground_walk")
+            )
+        )
+
+        battleIdle = registerPose(
+            poseName = "battle_idle",
+            poseTypes = PoseType.STATIONARY_POSES,
+            condition = { it.isBattling },
+            quirks = arrayOf(blink, hipQuirk),
+            idleAnimations = arrayOf(
+                singleBoneLook(),
+                bedrock("raboot", "battle_idle")
             )
         )
     }

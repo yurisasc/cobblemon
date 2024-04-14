@@ -3,7 +3,7 @@
   "order": 1,
   "variations": [
     {
-      "aspects": ["hisuian"],
+      "aspects": ["region-bias-hisui"],
       "poser": "cobblemon:petilil_hisuian",
       "model": "cobblemon:petilil_hisuian.geo",
       "texture": "cobblemon:textures/pokemon/0548_petilil/petilil_hisuian.png",
@@ -11,7 +11,7 @@
     },
     {
       "aspects": [
-        "shiny", "hisuian"
+        "shiny", "region-bias-hisui"
       ],
       "texture": "cobblemon:textures/pokemon/0548_petilil/petilil_hisuian_shiny.png"
     }

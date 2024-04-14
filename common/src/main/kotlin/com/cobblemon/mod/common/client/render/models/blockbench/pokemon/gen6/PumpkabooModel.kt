@@ -28,16 +28,28 @@ class PumpkabooModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
+    lateinit var battleidle: PokemonPose
     lateinit var sleep: PokemonPose
 
     override val cryAnimation = CryProvider { _, _ -> bedrockStateful("pumpkaboo", "cry") }
 
     override fun registerPoses() {
         val blink = quirk { bedrockStateful("pumpkaboo", "blink") }
+        val quirk = quirk { bedrockStateful("pumpkaboo", "quirk_idle") }
+
+        sleep = registerPose(
+            poseName = "sleep",
+            poseType = PoseType.SLEEP,
+            quirks = arrayOf(blink),
+            idleAnimations = arrayOf(
+                bedrock("pumpkaboo", "sleep")
+            )
+        )
+
         standing = registerPose(
             poseName = "standing",
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
-            quirks = arrayOf(blink),
+            quirks = arrayOf(blink, quirk),
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("pumpkaboo", "ground_idle")
@@ -53,12 +65,12 @@ class PumpkabooModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             )
         )
 
-        sleep = registerPose(
-            poseName = "sleep",
-            poseType = PoseType.SLEEP,
+        battleidle = registerPose(
+            poseName = "battleidle",
+            poseTypes = PoseType.STATIONARY_POSES,
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
-                bedrock("pumpkaboo", "sleep")
+                bedrock("pumpkaboo", "battle_idle")
             )
         )
     }

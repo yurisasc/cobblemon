@@ -54,6 +54,14 @@
           "texture": "cobblemon:textures/pokemon/0669_flabebe/flabebe_flower_red.png"
         }
       ]
+    },
+    {
+      "aspects": ["flower-pink"],
+      "layers": [
+        {
+          "texture": "cobblemon:textures/pokemon/0669_flabebe/flabebe_flower_pink.png"
+        }
+      ]
     }
   ]
 }

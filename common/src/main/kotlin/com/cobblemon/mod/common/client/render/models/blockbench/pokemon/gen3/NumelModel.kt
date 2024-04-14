@@ -64,9 +64,8 @@ class NumelModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quadru
             poseTypes = PoseType.MOVING_POSES,
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
-                QuadrupedWalkAnimation(this, periodMultiplier = 1.1F),
                 singleBoneLook(disableY = true),
-                bedrock("numel", "ground_idle")
+                bedrock("numel", "ground_walk")
             )
         )
 
@@ -76,7 +75,7 @@ class NumelModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quadru
             condition = { it.isBattling },
             idleAnimations = arrayOf(
                 singleBoneLook(disableY = true),
-                bedrock("numel", "ground_idle")
+                bedrock("numel", "battle_idle")
             )
         )
     }

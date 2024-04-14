@@ -8,9 +8,12 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen8
 
+import com.cobblemon.mod.common.client.render.models.blockbench.createTransformation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.pose.ModelPartTransformation
 import com.cobblemon.mod.common.entity.PoseType
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
@@ -28,14 +31,59 @@ class ArctozoltModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     lateinit var sleep: PokemonPose
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
+    lateinit var float: PokemonPose
+    lateinit var swim: PokemonPose
+    lateinit var surfacefloat: PokemonPose
+    lateinit var surfaceswim: PokemonPose
+    lateinit var battleidle: PokemonPose
+    lateinit var water_sleep: PokemonPose
+    lateinit var surface_sleep: PokemonPose
+
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("arctozolt", "cry") }
 
     override fun registerPoses() {
         val blink = quirk { bedrockStateful("arctozolt", "blink") }
+        val quirk = quirk (secondsBetweenOccurrences = 30F to 60f) { bedrockStateful("arctozolt", "quirk") }
+
+        sleep = registerPose(
+                poseName = "sleep",
+                poseType = PoseType.SLEEP,
+                condition = { !it.isTouchingWater },
+                transformTicks = 10,
+                idleAnimations = arrayOf(
+                        bedrock("arctozolt", "sleep")
+                )
+        )
+
+        surface_sleep = registerPose(
+                poseName = "surface_sleep",
+                poseType = PoseType.SLEEP,
+                condition = { !it.isSubmergedInWater && it.isTouchingWater},
+                transformTicks = 10,
+                idleAnimations = arrayOf(
+                        bedrock("arctozolt", "surfacewater_sleep")
+                )
+        )
+
+        water_sleep = registerPose(
+                poseName = "water_sleep",
+                poseType = PoseType.SLEEP,
+                condition = { it.isTouchingWater && it.isSubmergedInWater},
+                transformTicks = 10,
+                idleAnimations = arrayOf(
+                        bedrock("arctozolt", "surfacewater_sleep")
+                ),
+                transformedParts = arrayOf(
+                        rootPart.createTransformation().addPosition(ModelPartTransformation.Y_AXIS, -53)
+                )
+        )
+
         standing = registerPose(
             poseName = "standing",
-            poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
+            poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES - PoseType.FLOAT,
+            condition = { !it.isBattling && !it.isTouchingWater},
             transformTicks = 10,
-            quirks = arrayOf(blink),
+            quirks = arrayOf(blink, quirk),
             idleAnimations = arrayOf(
                 bedrock("arctozolt", "ground_idle")
             )
@@ -43,11 +91,67 @@ class ArctozoltModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
 
         walk = registerPose(
             poseName = "walk",
-            poseTypes = PoseType.MOVING_POSES,
+            poseTypes = PoseType.MOVING_POSES - PoseType.SWIM,
+            condition = { !it.isTouchingWater },
             transformTicks = 10,
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
-                bedrock("arctozolt", "ground_idle")
+                bedrock("arctozolt", "ground_walk")
+            )
+        )
+
+        float = registerPose(
+            poseName = "float",
+            poseType = PoseType.FLOAT,
+            condition = { it.isSubmergedInWater },
+            transformTicks = 10,
+            quirks = arrayOf(blink),
+            idleAnimations = arrayOf(
+                bedrock("arctozolt", "water_idle")
+            )
+        )
+
+        swim = registerPose(
+            poseName = "swim",
+            poseType = PoseType.SWIM,
+            condition = { it.isSubmergedInWater },
+            transformTicks = 10,
+            quirks = arrayOf(blink),
+            idleAnimations = arrayOf(
+                bedrock("arctozolt", "water_swim")
+            )
+        )
+
+        surfacefloat = registerPose(
+            poseName = "surfacefloat",
+            poseType = PoseType.STAND,
+            condition = { !it.isSubmergedInWater && it.isTouchingWater },
+            transformTicks = 10,
+            quirks = arrayOf(blink, quirk),
+            idleAnimations = arrayOf(
+                bedrock("arctozolt", "surfacewater_idle")
+            )
+        )
+
+        surfaceswim = registerPose(
+            poseName = "surfaceswim",
+            poseType = PoseType.WALK,
+            condition = { !it.isSubmergedInWater && it.isTouchingWater },
+            transformTicks = 10,
+            quirks = arrayOf(blink),
+            idleAnimations = arrayOf(
+                bedrock("arctozolt", "surfacewater_swim")
+            )
+        )
+
+        battleidle = registerPose(
+            poseName = "battleidle",
+            poseTypes = PoseType.STATIONARY_POSES,
+            condition = { it.isBattling },
+            transformTicks = 10,
+            quirks = arrayOf(blink, quirk),
+            idleAnimations = arrayOf(
+                bedrock("arctozolt", "battle_idle")
             )
         )
     }

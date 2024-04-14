@@ -25,10 +25,11 @@ import com.cobblemon.mod.common.net.messages.client.battle.BattleSetTeamPokemonP
 import com.cobblemon.mod.common.util.battleLang
 
 /**
- * Format:
- * |turn|NUMBER
+ * Format: |turn|NUMBER
  *
  * It is now turn NUMBER.
+ * @author Deltric
+ * @since January 22nd, 2022
  */
 class TurnInstruction(val message: BattleMessage) : InterpreterInstruction {
     override fun invoke(battle: PokemonBattle) {

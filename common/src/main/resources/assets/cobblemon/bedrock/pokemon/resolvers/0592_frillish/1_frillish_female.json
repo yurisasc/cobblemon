@@ -6,7 +6,6 @@
       "aspects": [
         "female"
       ],
-      "poser": "cobblemon:frillish_female",
       "model": "cobblemon:frillish_female.geo",
       "texture": "cobblemon:textures/pokemon/0592_frillish/frillish_female.png"
     },

@@ -24,7 +24,7 @@ class DragalgeModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override var portraitTranslation = Vec3d(-0.55, 1.5, 0.0)
 
     override var profileScale = 0.7F
-    override var profileTranslation = Vec3d(0.0, 1.0, 0.0)
+    override var profileTranslation = Vec3d(0.0, 1.0, -6.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose

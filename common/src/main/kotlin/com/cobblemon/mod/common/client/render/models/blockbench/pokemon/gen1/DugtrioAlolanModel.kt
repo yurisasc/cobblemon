@@ -31,31 +31,31 @@ class DugtrioAlolanModel(root: ModelPart) : PokemonPoseableModel() {
 
     lateinit var standing: PokemonPose
     lateinit var walking: PokemonPose
-//    lateinit var battleidle: PokemonPose
-//    lateinit var sleep: PokemonPose
-//
-//    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("dugtrio_alolan", "cry") }
+    lateinit var battleidle: PokemonPose
+    lateinit var sleep: PokemonPose
+
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("dugtrio_alolan", "cry") }
 
     override fun registerPoses() {
         val blink = quirk { bedrockStateful("dugtrio_alolan", "blink")}
         val blink2 = quirk { bedrockStateful("dugtrio_alolan", "blink2")}
         val blink3 = quirk { bedrockStateful("dugtrio_alolan", "blink3")}
 
-//        val quirk = quirk { bedrockStateful("dugtrio_alolan", "quirk_idle")}
-//        val quirk2 = quirk { bedrockStateful("dugtrio_alolan", "quirk_idle2")}
-//        val quirk3 = quirk { bedrockStateful("dugtrio_alolan", "quirk_idle3")}
+        val quirk = quirk { bedrockStateful("dugtrio_alolan", "quirk_idle")}
+        val quirk2 = quirk { bedrockStateful("dugtrio_alolan", "quirk_idle2")}
+        val quirk3 = quirk { bedrockStateful("dugtrio_alolan", "quirk_idle3")}
 
-//        sleep = registerPose(
-//            poseName = "sleep",
-//            poseType = PoseType.SLEEP,
-//            idleAnimations = arrayOf(bedrock("dugtrio_alolan", "sleep"))
-//        )
+        sleep = registerPose(
+            poseName = "sleep",
+            poseType = PoseType.SLEEP,
+            idleAnimations = arrayOf(bedrock("dugtrio_alolan", "sleep"))
+        )
 
         standing = registerPose(
             poseName = "stand",
             poseTypes = STATIONARY_POSES + UI_POSES,
             condition = { !it.isBattling },
-            quirks = arrayOf(blink, blink2, blink3),
+            quirks = arrayOf(blink, blink2, blink3, quirk, quirk2, quirk3),
             idleAnimations = arrayOf(bedrock("dugtrio_alolan", "ground_idle"))
         )
 
@@ -66,17 +66,17 @@ class DugtrioAlolanModel(root: ModelPart) : PokemonPoseableModel() {
             idleAnimations = arrayOf(bedrock("dugtrio_alolan", "ground_idle"))
         )
 
-//        battleidle = registerPose(
-//            poseName = "battleidle",
-//            poseTypes = STATIONARY_POSES,
-//            condition = { it.isBattling },
-//            quirks = arrayOf(blink, blink2, blink3, quirk, quirk2, quirk3),
-//            idleAnimations = arrayOf(bedrock("dugtrio_alolan", "battle_idle"))
-//        )
+        battleidle = registerPose(
+            poseName = "battleidle",
+            poseTypes = STATIONARY_POSES,
+            condition = { it.isBattling },
+            quirks = arrayOf(blink, blink2, blink3, quirk, quirk2, quirk3),
+            idleAnimations = arrayOf(bedrock("dugtrio_alolan", "battle_idle"))
+        )
     }
 
-//    override fun getFaintAnimation(
-//        pokemonEntity: PokemonEntity,
-//        state: PoseableEntityState<PokemonEntity>
-//    ) = bedrockStateful("dugtrio_alolan", "faint")
+    override fun getFaintAnimation(
+        pokemonEntity: PokemonEntity,
+        state: PoseableEntityState<PokemonEntity>
+    ) = bedrockStateful("dugtrio_alolan", "faint")
 }

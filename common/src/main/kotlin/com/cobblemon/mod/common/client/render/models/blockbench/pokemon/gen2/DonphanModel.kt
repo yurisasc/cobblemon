@@ -49,6 +49,7 @@ class DonphanModel (root: ModelPart) : PokemonPoseableModel(), QuadrupedFrame {
         standing = registerPose(
             poseName = "standing",
             poseTypes = PoseType.UI_POSES + PoseType.STATIONARY_POSES,
+            condition = { !it.isBattling },
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 bedrock("donphan", "ground_idle")
@@ -60,7 +61,7 @@ class DonphanModel (root: ModelPart) : PokemonPoseableModel(), QuadrupedFrame {
             poseTypes = PoseType.MOVING_POSES,
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
-                bedrock("donphan", "ground_idle")
+                bedrock("donphan", "ground_walk")
             )
         )
 

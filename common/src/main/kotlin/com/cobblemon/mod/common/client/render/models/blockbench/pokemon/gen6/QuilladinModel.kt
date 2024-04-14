@@ -44,11 +44,6 @@ class QuilladinModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bi
     override fun registerPoses() {
         val blink = quirk { bedrockStateful("quilladin", "blink")}
 
-        sleep = registerPose(
-            poseType = PoseType.SLEEP,
-            idleAnimations = arrayOf(bedrock("quilladin", "sleep"))
-        )
-
         standing = registerPose(
             poseName = "standing",
             poseTypes = STATIONARY_POSES + UI_POSES,
@@ -70,9 +65,9 @@ class QuilladinModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bi
         )
 
         sleep = registerPose(
-                poseType = PoseType.SLEEP,
-                transformTicks = 10,
-                idleAnimations = arrayOf(bedrock("quilladin", "sleep"))
+            poseType = PoseType.SLEEP,
+            transformTicks = 10,
+            idleAnimations = arrayOf(bedrock("quilladin", "sleep"))
         )
     }
 }

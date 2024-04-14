@@ -421,9 +421,7 @@
   "block.cobblemon.relic_coin_pouch": "Relic Coin Pouch",
   "block.cobblemon.relic_coin_sack": "Relic Coin Sack",
 
-  "trim_pattern.cobblemon.automaton": "Automaton",
-
-  "item.cobblemon.automaton_armor_trim_smithing_template": "Automaton Armor Trim",
+  "trim_pattern.cobblemon.automaton": "Automaton Armour Trim",
 
   "cobblemon.fossil.armor": "Armor",
   "cobblemon.fossil.bird": "Bird",
@@ -665,6 +663,8 @@
   "cobblemon.battle.ui.switch": "Switch",
   "cobblemon.battle.ui.capture": "Catch",
   "cobblemon.battle.ui.run": "Run",
+  "cobblemon.battle.ui.forfeit": "Forfeit",
+  "cobblemon.battle.ui.forfeit_confirmation": "Forfeiting makes you lose the battle. Are you sure?",
   "cobblemon.battle.ui.hide_label": "Press %1$s to move around.",
   "cobblemon.battle.ui.actions_label": "You need to choose an action. Press %1$s.",
 
@@ -952,6 +952,8 @@
   "cobblemon.battle.owned_pokemon": "%1$s's %2$s",
   "cobblemon.battle.fainted": "%1$s fainted!",
   "cobblemon.battle.win": "%1$s won!",
+  "cobblemon.battle.lose": "%1$s is out of usable Pokémon!",
+  "cobblemon.battle.forfeit": "%1$s forfeited the battle!",
   "cobblemon.battle.flee": "The battle was fled.",
   "cobblemon.battle.switch_option": "Switch Pokémon: ",
   "cobblemon.battle.your_team": "Your Team:",
@@ -1063,7 +1065,6 @@
   "cobblemon.battle.start.typeadd": "%2$s type was added to %1$s!",
   "cobblemon.battle.start.reflecttype": "%1$s's type became the same as %2$s's type!",
   "cobblemon.battle.start.tarshot": "%1$s became weaker to fire!",
-
 
   "cobblemon.battle.fieldstart.electricterrain": "An electric current ran across the battlefield!",
   "cobblemon.battle.fieldstart.grassyterrain": "Grass grew to cover the battlefield!",
@@ -1299,6 +1300,7 @@
   "cobblemon.battle.end.powertrick": "%1$s switched its Attack and Defense!",
   "cobblemon.battle.end.healblock": "%1$s's Heal Block wore off!",
   "cobblemon.battle.end.skydrop": "%1$s was freed from the Sky Drop!",
+  "cobblemon.battle.end.illusion": "%1$s's illusion wore off!",
 
   "cobblemon.battle.block.uproar": "But the uproar kept %1$s awake!",
 
@@ -1475,6 +1477,7 @@
   "cobblemon.starterselection.category.kalos": "Kalos",
   "cobblemon.starterselection.category.alola": "Alola",
   "cobblemon.starterselection.category.galar": "Galar",
+  "cobblemon.starterselection.category.hisui_bias": "Hisui",
   "cobblemon.starterselection.category.paldea": "Paldea",
 
   "cobblemon.stat.hp.name": "HP",

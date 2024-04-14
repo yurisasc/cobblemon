@@ -144,18 +144,6 @@
       "required": false
     },
 	{
-      "id": "terralith:skylands_autumn",
-      "required": false
-    },
-	{
-      "id": "terralith:skylands_spring",
-      "required": false
-    },
-	{
-      "id": "terralith:skylands_winter",
-      "required": false
-    },
-	{
       "id": "terralith:snowy_maple_forest",
       "required": false
     },

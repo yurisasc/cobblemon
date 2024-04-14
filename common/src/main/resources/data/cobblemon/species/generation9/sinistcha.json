@@ -170,7 +170,7 @@
       ],
       "height": 2,
       "weight": 22,
-      "preEvolution": "poltchageist form=artisan",
+      "preEvolution": "poltchageist artisan",
       "cannotDynamax": false,
       "battleOnly": false
     }
