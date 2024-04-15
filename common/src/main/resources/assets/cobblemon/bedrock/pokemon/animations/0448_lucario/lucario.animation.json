@@ -223,7 +223,7 @@
 			},
 			"sound_effects": {
 				"0.0833": {
-					"effect": "lucario_cry"
+					"effect": "pokemon.lucario.cry"
 				}
 			}
 		}
