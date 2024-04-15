@@ -524,10 +524,10 @@ class Summary private constructor(party: Collection<Pokemon?>, private val edita
             blitk(
                     matrixStack = matrices,
                     texture = iconShinyResource,
-                    x = (x + 63.5) / SCALE,
+                    x = (x + 62.5) / SCALE,
                     y = (y + 33.5) / SCALE,
-                    width = 14,
-                    height = 14,
+                    width = 16,
+                    height = 16,
                     scale = SCALE
             )
         }
