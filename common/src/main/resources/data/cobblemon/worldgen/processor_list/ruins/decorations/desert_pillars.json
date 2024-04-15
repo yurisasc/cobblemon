@@ -34,11 +34,11 @@
                     }
                 },
                 {
+                    "block_entity_modifier": {
+                        "type": "minecraft:append_loot",
+                        "loot_table": "cobblemon:ruins/gilded_chests/ruins"
+                    },
                     "input_predicate": {
-                        "block_entity_modifier": {
-                            "type": "minecraft:append_loot",
-                            "loot_table": "cobblemon:ruins/gilded_chests/ruins"
-                        },
                         "block_state": {
                             "Name": "minecraft:chest",
                             "Properties": {
@@ -61,11 +61,11 @@
                     }
                 },
                 {
+                    "block_entity_modifier": {
+                        "type": "minecraft:append_loot",
+                        "loot_table": "cobblemon:ruins/gilded_chests/ruins"
+                    },
                     "input_predicate": {
-                        "block_entity_modifier": {
-                            "type": "minecraft:append_loot",
-                            "loot_table": "cobblemon:ruins/gilded_chests/ruins"
-                        },
                         "block_state": {
                             "Name": "minecraft:chest",
                             "Properties": {
@@ -88,11 +88,11 @@
                     }
                 },
                 {
+                    "block_entity_modifier": {
+                        "type": "minecraft:append_loot",
+                        "loot_table": "cobblemon:ruins/gilded_chests/ruins"
+                    },
                     "input_predicate": {
-                        "block_entity_modifier": {
-                            "type": "minecraft:append_loot",
-                            "loot_table": "cobblemon:ruins/gilded_chests/ruins"
-                        },
                         "block_state": {
                             "Name": "minecraft:chest",
                             "Properties": {
@@ -115,11 +115,11 @@
                     }
                 },
                 {
+                    "block_entity_modifier": {
+                        "type": "minecraft:append_loot",
+                        "loot_table": "cobblemon:ruins/gilded_chests/ruins"
+                    },
                     "input_predicate": {
-                        "block_entity_modifier": {
-                            "type": "minecraft:append_loot",
-                            "loot_table": "cobblemon:ruins/gilded_chests/ruins"
-                        },
                         "block_state": {
                             "Name": "minecraft:chest",
                             "Properties": {
