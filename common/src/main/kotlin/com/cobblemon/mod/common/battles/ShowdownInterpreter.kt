@@ -104,7 +104,7 @@ object ShowdownInterpreter {
         updateInstructionParser["-swapboost"]            = { _, _, message, _ -> SwapBoostInstruction(message) }
         updateInstructionParser["-swapsideconditions"]   = { _, _, message, _ -> SwapSideConditionsInstruction(message) }
         updateInstructionParser["-terastallize"]         = { _, _, message, _ -> TerastallizeInstruction(message) }
-        updateInstructionParser["-transform"]            = { _, _, message, _ -> TransformInstruction(message) }
+        updateInstructionParser["-transform"]            = { battle, _, message, _ -> TransformInstruction(battle, message) }
         updateInstructionParser["turn"]                  = { _, _, message, _ -> TurnInstruction(message) }
         updateInstructionParser["-unboost"]              = { _, instructionSet, message, remainingLines -> BoostInstruction(instructionSet, message, remainingLines, false) }
         updateInstructionParser["upkeep"]                = { _, _, _, _ -> UpkeepInstruction() }
