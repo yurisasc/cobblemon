@@ -24,19 +24,17 @@
 - Added a new send-out ball toss animation that showcases the ball used for the Pokémon.
 - Added simple move animations for Pokémon in battle with a proof of concept for more complicated animations.
 - Added the EV Boosting Feathers.
-- Added Type Gems. 
 - Added various new tags for searchability and better compatibility.
 - Added the [Ability Capsule](https://bulbapedia.bulbagarden.net/wiki/Ability_Capsule) and [Patch](https://bulbapedia.bulbagarden.net/wiki/Ability_Patch), these have no acquisition method for now and only work as intended with the traditional ability format of 1 to 2 common abilities and 1 hidden ability.
 - Added Gilded Chests, available in all Apricorn colors.
 - Added Relic Coins, Relic Coin Pouches, and Relic Coin Sacks.
-- Added various new tags for searchability and better compatibility. 
 - Added Type Gems. These items hold no functionality for now. Start collecting though...
-- Added 6 custom Pottery Sherds, obtained from ruin structures.
 - Added cries to Meowth, Alolan Meowth, Galaraian Meowth,
 - Completed the advancement for placing a Tumblestone near Lava or Magma to make it grow.
 - Added new held items: Ability Shield, Absorb Bulb, Air Balloon, Binding Band, Blunder Policy, Cell Battery, Covert Cloak, Damp Rock, Eject Button, Eviolite, Expert Belt, Float Stone, Focus Sash, Heat Rock, Icy Rock, Iron Ball, Light Ball, Loaded Dice, Red Card, Shell Bell, Sticky Barb, Smooth Rock, Soothe Bell and Weakness Policy.
 - Added Hisui starters to the starter selection menu.
 - Added bubble quirk to Krabby that only play during clear sunset's.
+- Added shoulder mounting for Squirtle, Ralts, Roggenrola, Charcadet, Sizzlipede, Litwick, Cutiefly, Flabebe, Flittle, and Scatterbug
 
 ### Pokémon Added
 #### Gen 2
