@@ -209,6 +209,7 @@
 - Reorganised a few advancements.
 - Pokémon entity shadows now scale when the Pokémon is being sent out or recalled.
 - Remade Torkoal particles, now they only appear when in battle.
+- Updated shiny icon within summary and PC interfaces.
 
 ### Fixes
 - Resized Snorlax
