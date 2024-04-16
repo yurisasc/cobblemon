@@ -32,6 +32,16 @@ object RequestInteractionsHandler : ServerNetworkPacketHandler<RequestPlayerInte
         }
         else {
             options.add(PlayerInteractOptionsPacket.Options.BATTLE)
+            if(BattleRegistry.playerToTeam[player.uuid] != null && BattleRegistry.playerToTeam[packet.targetId] !== null) {
+                if(BattleRegistry.playerToTeam[player.uuid]?.teamID != BattleRegistry.playerToTeam[packet.targetId]?.teamID) {
+                    options.add(PlayerInteractOptionsPacket.Options.MULTI_BATTLE)
+                } else {
+                    options.add(PlayerInteractOptionsPacket.Options.TEAM_LEAVE)
+                }
+            } else if(BattleRegistry.playerToTeam[player.uuid] === null && BattleRegistry.playerToTeam[packet.targetId] === null) {
+                // TODO: Max team size checking, allow for team of size > 2
+                options.add(PlayerInteractOptionsPacket.Options.TEAM_REQUEST)
+            }
         }
         PlayerInteractOptionsPacket(options, packet.targetId, packet.targetNumericId, packet.pokemonId).sendToPlayer(player)
 

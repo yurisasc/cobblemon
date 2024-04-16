@@ -13,8 +13,7 @@ import com.cobblemon.mod.common.api.events.CobblemonEvents
 import com.cobblemon.mod.common.api.events.pokemon.interaction.PokemonInteractionGUICreationEvent
 import com.cobblemon.mod.common.client.CobblemonClient
 import com.cobblemon.mod.common.net.messages.client.PlayerInteractOptionsPacket
-import com.cobblemon.mod.common.net.messages.server.BattleChallengePacket
-import com.cobblemon.mod.common.net.messages.server.BattleChallengeResponsePacket
+import com.cobblemon.mod.common.net.messages.server.*
 import com.cobblemon.mod.common.net.messages.server.battle.SpectateBattlePacket
 import com.cobblemon.mod.common.net.messages.server.pokemon.interact.InteractPokemonPacket
 import com.cobblemon.mod.common.net.messages.server.trade.AcceptTradeRequestPacket
@@ -71,12 +70,11 @@ fun createPlayerInteractGui(optionsPacket: PlayerInteractOptionsPacket): Interac
             closeGUI()
         }
     )
-    val battle = InteractWheelOption(
+    val singleBattle = InteractWheelOption(
         iconResource = cobblemonResource("textures/gui/interact/icon_battle.png"),
-        colour = { if (CobblemonClient.requests.battleChallenges.any { it.challengerId == optionsPacket.targetId }) Vector3f(0F, 0.6F, 0F) else null },
+        colour = { null },
         tooltipText = "cobblemon.challenge.singlebattle",
         onPress = {
-            val battleRequest = CobblemonClient.requests.battleChallenges.find { it.challengerId == optionsPacket.targetId }
             // This can be improved in future with more detailed battle challenge data.
             BattleChallengePacket(optionsPacket.numericTargetId, optionsPacket.selectedPokemonId, "singles").sendToServer()
             closeGUI()
@@ -84,10 +82,9 @@ fun createPlayerInteractGui(optionsPacket: PlayerInteractOptionsPacket): Interac
     )
     val doubleBattle = InteractWheelOption(
             iconResource = cobblemonResource("textures/gui/interact/icon_battle.png"), // Need double battle icon
-            colour = { if (CobblemonClient.requests.battleChallenges.any { it.challengerId == optionsPacket.targetId }) Vector3f(0F, 0.6F, 0F) else null },
+            colour = { null },
             tooltipText = "cobblemon.challenge.doublebattle",
             onPress = {
-                val battleRequest = CobblemonClient.requests.battleChallenges.find { it.challengerId == optionsPacket.targetId }
                 // This can be improved in future with more detailed battle challenge data.
                 BattleChallengePacket(optionsPacket.numericTargetId, optionsPacket.selectedPokemonId, "doubles").sendToServer()
                 closeGUI()
@@ -95,36 +92,34 @@ fun createPlayerInteractGui(optionsPacket: PlayerInteractOptionsPacket): Interac
     )
     val tripleBattle = InteractWheelOption(
             iconResource = cobblemonResource("textures/gui/interact/icon_battle.png"), // Need triple battle icon
-            colour = { if (CobblemonClient.requests.battleChallenges.any { it.challengerId == optionsPacket.targetId }) Vector3f(0F, 0.6F, 0F) else null },
+            colour = { null },
             tooltipText = "cobblemon.challenge.triplebattle",
             onPress = {
-                val battleRequest = CobblemonClient.requests.battleChallenges.find { it.challengerId == optionsPacket.targetId }
                 // This can be improved in future with more detailed battle challenge data.
                 BattleChallengePacket(optionsPacket.numericTargetId, optionsPacket.selectedPokemonId, "triples").sendToServer()
                 closeGUI()
             }
     )
-//    val multibattle = InteractWheelOption(
-//            iconResource = cobblemonResource("textures/gui/interact/icon_battle.png"), // Need Multi battle icon
-//            colour = { if (CobblemonClient.requests.battleChallenges.any { it.challengerId == optionsPacket.targetId }) Vector3f(0F, 0.6F, 0F) else null },
-//            tooltipText = "cobblemon.ui.interact.multibattle",
-//            onPress = {
-//                val battleRequest = CobblemonClient.requests.battleChallenges.find { it.challengerId == optionsPacket.targetId }
-//                // This can be improved in future with more detailed battle challenge data.
-//                BattleChallengePacket(optionsPacket.numericTargetId, optionsPacket.selectedPokemonId, "multi").sendToServer()
-//                closeGUI()
-//            }
-//    )
+    val multiBattle = InteractWheelOption(
+            iconResource = cobblemonResource("textures/gui/interact/icon_battle.png"), // Need Multi battle icon
+            colour = { if (CobblemonClient.requests.battleChallenges.any { it.challengerId == optionsPacket.targetId }) Vector3f(0F, 0.6F, 0F) else null },
+            tooltipText = "cobblemon.ui.interact.multibattle",
+            onPress = {
+                // This can be improved in future with more detailed battle challenge data.
+                BattleChallengePacket(optionsPacket.numericTargetId, optionsPacket.selectedPokemonId, "multi").sendToServer()
+                closeGUI()
+            }
+    )
+    // TODO: Need more details on the UI to discern between battles and team requests
     val battleAccept = InteractWheelOption(
         iconResource = cobblemonResource("textures/gui/interact/icon_battle.png"), // Need Accept icon
-            colour = { Vector3f(0F, 0.6F, 0F) },
+        colour = { Vector3f(0F, 0.6F, 0F) },
         tooltipText = "cobblemon.ui.interact.accept",
         onPress = {
             BattleChallengeResponsePacket(optionsPacket.numericTargetId, optionsPacket.selectedPokemonId, true).sendToServer()
             closeGUI()
         }
     )
-
     val battleDecline = InteractWheelOption(
         iconResource = cobblemonResource("textures/gui/interact/icon_battle.png"), // Need Decline icon
         colour = { Vector3f(0.6F, 0F, 0F) },
@@ -134,6 +129,46 @@ fun createPlayerInteractGui(optionsPacket: PlayerInteractOptionsPacket): Interac
             closeGUI()
         }
     )
+
+    val teamAccept = InteractWheelOption(
+            iconResource = cobblemonResource("textures/gui/interact/icon_battle.png"), // Need Accept icon
+            colour = { Vector3f(0F, 0.6F, 0F) },
+            tooltipText = "cobblemon.ui.interact.accept",
+            onPress = {
+                BattleTeamResponsePacket(optionsPacket.numericTargetId,true).sendToServer()
+                closeGUI()
+            }
+    )
+    val teamDecline = InteractWheelOption(
+            iconResource = cobblemonResource("textures/gui/interact/icon_battle.png"), // Need Decline icon
+            colour = { Vector3f(0.6F, 0F, 0F) },
+            tooltipText = "cobblemon.ui.interact.decline",
+            onPress = {
+                BattleTeamResponsePacket(optionsPacket.numericTargetId,false).sendToServer()
+                closeGUI()
+            }
+    )
+
+    val teamRequest = InteractWheelOption(
+            iconResource = cobblemonResource("textures/gui/interact/icon_battle.png"), // Team Request Icon
+            colour = { Vector3f(0.384F, 0.811F, 0.976F) },
+            tooltipText = "cobblemon.ui.interact.team_request",
+            onPress = {
+                BattleTeamRequestPacket(optionsPacket.numericTargetId).sendToServer()
+                closeGUI()
+            }
+    )
+
+    val teamLeave = InteractWheelOption(
+            iconResource = cobblemonResource("textures/gui/interact/icon_battle.png"), // Team Abandon Icon
+            colour = { Vector3f(0.8F, 0F, 0.0F) },
+            tooltipText = "cobblemon.ui.interact.team_leave",
+            onPress = {
+                BattleTeamLeavePacket().sendToServer()
+                closeGUI()
+            }
+    )
+
     val spectate = InteractWheelOption(
         iconResource = cobblemonResource("textures/gui/interact/icon_spectate_battle.png"),
         colour = { if (CobblemonClient.requests.battleChallenges.any { it.challengerId == optionsPacket.targetId }) Vector3f(0F, 0.6F, 0F) else null },
@@ -145,24 +180,38 @@ fun createPlayerInteractGui(optionsPacket: PlayerInteractOptionsPacket): Interac
     )
     val options: Multimap<Orientation, InteractWheelOption> = ArrayListMultimap.create()
     val hasChallenge = CobblemonClient.requests.battleChallenges.any { it.challengerId == optionsPacket.targetId }
+    val hasTeamRequest = CobblemonClient.requests.multiBattleTeamRequests.any { it.challengerId == optionsPacket.targetId }
     //The way things are positioned should probably be more thought out if more options are added
     optionsPacket.options.map {
         if (it.equals(PlayerInteractOptionsPacket.Options.TRADE)) {
             options.put(Orientation.TOP_LEFT, trade)
         }
         if (it.equals(PlayerInteractOptionsPacket.Options.BATTLE)) {
-            if(hasChallenge) {
+            if (hasChallenge) {
                 options.put(Orientation.BOTTOM_RIGHT, battleAccept)
                 options.put(Orientation.BOTTOM_LEFT, battleDecline)
+            } else if (hasTeamRequest) {
+                options.put(Orientation.BOTTOM_RIGHT, teamAccept)
+                options.put(Orientation.BOTTOM_LEFT, teamDecline)
             } else {
-                options.put(Orientation.TOP_RIGHT, battle)
+                options.put(Orientation.TOP_RIGHT, singleBattle)
                 options.put(Orientation.BOTTOM_RIGHT, doubleBattle)
                 options.put(Orientation.BOTTOM_LEFT, tripleBattle)
-                // options.put(Orientation.BOTTOM_LEFT, multibattle)
             }
         }
+        if (it.equals(PlayerInteractOptionsPacket.Options.TEAM_REQUEST)) {
+            options.put(Orientation.TOP_LEFT, teamRequest)
+        }
+        if (it.equals(PlayerInteractOptionsPacket.Options.MULTI_BATTLE)) {
+            options.put(Orientation.BOTTOM_LEFT, multiBattle)
+        }
         if (it.equals(PlayerInteractOptionsPacket.Options.SPECTATE_BATTLE)) {
-            options.put(Orientation.TOP_RIGHT, spectate)
+            if(!hasChallenge) {
+                options.put(Orientation.TOP_RIGHT, spectate)
+            }
+        }
+        if (it.equals(PlayerInteractOptionsPacket.Options.TEAM_LEAVE)) {
+            options.put(Orientation.TOP_LEFT, teamLeave)
         }
     }
     return InteractWheelGUI(options, Text.translatable("cobblemon.ui.interact.player"))

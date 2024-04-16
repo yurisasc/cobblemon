@@ -8,6 +8,7 @@
 
 package com.cobblemon.mod.common.net.serverhandling
 
+import com.cobblemon.mod.common.CobblemonNetwork
 import com.cobblemon.mod.common.CobblemonNetwork.sendPacket
 import com.cobblemon.mod.common.api.net.ServerNetworkPacketHandler
 import com.cobblemon.mod.common.api.scheduling.afterOnServer
@@ -15,12 +16,11 @@ import com.cobblemon.mod.common.api.text.aqua
 import com.cobblemon.mod.common.api.text.red
 import com.cobblemon.mod.common.api.text.yellow
 import com.cobblemon.mod.common.battles.BattleBuilder
-import com.cobblemon.mod.common.battles.BattleFormat
 import com.cobblemon.mod.common.battles.BattleRegistry
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.net.messages.client.battle.BattleChallengeNotificationPacket
 import com.cobblemon.mod.common.net.messages.server.BattleChallengePacket
-import com.cobblemon.mod.common.util.battleLang
+import com.cobblemon.mod.common.util.getPlayer
 import com.cobblemon.mod.common.util.lang
 import com.cobblemon.mod.common.util.party
 import java.util.UUID
@@ -62,23 +62,50 @@ object ChallengeHandler : ServerNetworkPacketHandler<BattleChallengePacket> {
                 val existingChallenge = BattleRegistry.pvpChallenges[targetedEntity.uuid]
                 if (existingChallenge != null && !existingChallenge.isExpired() && existingChallenge.challengedPlayerUUID == player.uuid) {
                     // Overwrite the challenge or do nothing.
-                    // Probably need to send a message about there being an existing challenge
+                    // send a message about there being an existing challenge
+                    player.sendMessage(lang("challenge.pending", targetedEntity.name).yellow())
                 } else {
-                    val challenge = BattleRegistry.BattleChallenge(UUID.randomUUID(), targetedEntity.uuid, leadingPokemon, packet.battleType)
-                    BattleRegistry.pvpChallenges[player.uuid] = challenge
-                    afterOnServer(seconds = challenge.expiryTimeSeconds.toFloat()) {
-                        BattleRegistry.removeChallenge(player.uuid, challengeId = challenge.challengeId)
-                    }
+                    if (packet.battleType == "multi") {
+                        // check for team
+                        val existingPlayerTeam = BattleRegistry.playerToTeam[player.uuid]
+                        val existingTargetTeam = BattleRegistry.playerToTeam[targetedEntity.uuid]
+                        if(existingPlayerTeam != null && existingTargetTeam != null && existingTargetTeam.teamID != existingPlayerTeam.teamID) {
+                            // Send a request to start a battle
+                            val challenge = BattleRegistry.BattleChallenge(UUID.randomUUID(), existingTargetTeam.teamID, leadingPokemon, packet.battleType)
+                            BattleRegistry.pvpChallenges[existingPlayerTeam.teamID] = challenge
+                            afterOnServer(seconds = challenge.expiryTimeSeconds.toFloat()) {
+                                BattleRegistry.removeChallenge(existingPlayerTeam.teamID, challengeId = challenge.challengeId)
+                            }
+                            // Notify everyone of the challenge
 
-                    val battleFormatLang = when (packet.battleType) {
-                        "doubles" -> "challenge.doublebattle"
-                        "triples" -> "challenge.triplebattle"
-                        "multi" -> "challenge.multibattle"
-                        else -> "challenge.singlebattle"
-                    }
+                            // Notify challenging team
+                            existingPlayerTeam.teamPlayersUUID.forEach { UUID ->
+                                val serverPlayerEntity = UUID.getPlayer()
+                                serverPlayerEntity?.sendMessage(lang("challenge.multi.sender", targetedEntity.name, existingTargetTeam.teamPlayersUUID.size))
+                            }
+                            // Notify challenged tam
+                            CobblemonNetwork.sendPacketToPlayers(
+                                existingTargetTeam.teamPlayersUUID.map { it.getPlayer() }.mapNotNull { it },
+                                BattleChallengeNotificationPacket(challenge.challengeId, player.uuid, player.name.copy().aqua(), "challenge.multibattle")
+                            )
+                        }
+                    } else {
+                        val challenge = BattleRegistry.BattleChallenge(UUID.randomUUID(), targetedEntity.uuid, leadingPokemon, packet.battleType)
+                        BattleRegistry.pvpChallenges[player.uuid] = challenge
+                        afterOnServer(seconds = challenge.expiryTimeSeconds.toFloat()) {
+                            BattleRegistry.removeChallenge(player.uuid, challengeId = challenge.challengeId)
+                        }
 
-                    targetedEntity.sendPacket(BattleChallengeNotificationPacket(challenge.challengeId, player.uuid, player.name.copy().aqua(), battleFormatLang))
-                    player.sendMessage(lang("challenge.sender", targetedEntity.name, lang(battleFormatLang)).yellow())
+                        val battleFormatLang = when (packet.battleType) {
+                            "doubles" -> "challenge.doublebattle"
+                            "triples" -> "challenge.triplebattle"
+                            "multi" -> "challenge.multibattle"
+                            else -> "challenge.singlebattle"
+                        }
+
+                        targetedEntity.sendPacket(BattleChallengeNotificationPacket(challenge.challengeId, player.uuid, player.name.copy().aqua(), battleFormatLang))
+                        player.sendMessage(lang("challenge.sender", targetedEntity.name, lang(battleFormatLang)).yellow())
+                    }
                 }
             }
             else -> {

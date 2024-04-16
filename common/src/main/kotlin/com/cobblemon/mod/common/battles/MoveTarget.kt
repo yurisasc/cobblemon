@@ -61,7 +61,7 @@ interface Targetable {
 
     fun getLetter(): Char {
         var index = 0
-        for (activePokemon in getActorPokemon()) {
+        for (activePokemon in getSidePokemon()) {
             if (activePokemon == this) {
                 break
             } else {

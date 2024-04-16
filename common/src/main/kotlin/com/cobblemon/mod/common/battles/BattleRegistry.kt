@@ -8,6 +8,7 @@
 
 package com.cobblemon.mod.common.battles
 
+import com.cobblemon.mod.common.CobblemonNetwork
 import com.cobblemon.mod.common.CobblemonNetwork.sendPacket
 import com.cobblemon.mod.common.api.battles.model.PokemonBattle
 import com.cobblemon.mod.common.api.events.CobblemonEvents
@@ -19,7 +20,11 @@ import com.cobblemon.mod.common.api.pokemon.status.Statuses
 import com.cobblemon.mod.common.battles.pokemon.BattlePokemon
 import com.cobblemon.mod.common.battles.runner.ShowdownService
 import com.cobblemon.mod.common.net.messages.client.battle.BattleChallengeExpiredPacket
+import com.cobblemon.mod.common.net.messages.client.battle.TeamMemberRemoveNotificationPacket
+import com.cobblemon.mod.common.net.messages.client.battle.TeamRequestExpiredPacket
 import com.cobblemon.mod.common.util.getPlayer
+import com.cobblemon.mod.common.util.server
+import com.cobblemon.mod.common.util.lang
 import com.google.gson.GsonBuilder
 import java.time.Instant
 import java.util.UUID
@@ -28,6 +33,8 @@ import net.minecraft.server.network.ServerPlayerEntity
 
 object BattleRegistry {
 
+    const val MAX_TEAM_MEMBER_COUNT = 2
+    const val MAX_BATTLE_RADIUS = 15.0
     class BattleChallenge(
         val challengeId: UUID,
         val challengedPlayerUUID: UUID,
@@ -39,11 +46,20 @@ object BattleRegistry {
         fun isExpired() = Instant.now().isAfter(challengedTime.plusSeconds(expiryTimeSeconds.toLong()))
     }
 
-//    class MultiBattleTeam(
-//            val teamID: UUID,
-//            val teamPlayersUUID: MutableList<UUID>,
-//            val battleType: String,
-//    )
+
+
+    class TeamRequest(
+            val requestID: UUID,
+            val requestedPlayerUUID: UUID,
+            var expiryTimeSeconds: Int = 60
+    ) {
+        val challengedTime = Instant.now()
+        fun isExpired() = Instant.now().isAfter(challengedTime.plusSeconds(expiryTimeSeconds.toLong()))
+    }
+    class MultiBattleTeam(
+            val teamID: UUID,
+            val teamPlayersUUID: MutableList<UUID>,
+    )
 
     val gson = GsonBuilder()
         .disableHtmlEscaping()
@@ -52,21 +68,93 @@ object BattleRegistry {
     private val battleMap = ConcurrentHashMap<UUID, PokemonBattle>()
     // Challenger to challenge
     val pvpChallenges = mutableMapOf<UUID, BattleChallenge>()
-//    val pvpTeams = mutableMapOf<UUID, MultiBattleTeam>()
+
+    // Multi-battle teams
+    val playerToTeam = mutableMapOf<UUID, MultiBattleTeam>()
+    val multiBattleTeams = mutableMapOf<UUID, MultiBattleTeam>()
+    val multiBattleTeamRequests = mutableMapOf<UUID, TeamRequest>()
 
     fun onServerStarted() {
         battleMap.clear()
         pvpChallenges.clear()
-//        pvpTeams.clear()
+        playerToTeam.clear()
     }
 
-    fun removeChallenge(challengerId: UUID, challengeId: UUID? = null) {
+    fun removeChallenge(challengerId: UUID, challengeId: UUID? = null, isMultiBattleTeam: Boolean = false) {
         val existing = pvpChallenges[challengerId] ?: return
         if (existing.challengeId != challengeId) {
             return
         }
         pvpChallenges.remove(challengerId)
-        existing.challengedPlayerUUID.getPlayer()?.sendPacket(BattleChallengeExpiredPacket(existing.challengeId))
+        if (isMultiBattleTeam) {
+            multiBattleTeams[existing.challengedPlayerUUID]?.teamPlayersUUID?.let {
+                CobblemonNetwork.sendPacketToPlayers(it.mapNotNull { serverPlayer -> serverPlayer.getPlayer() }, BattleChallengeExpiredPacket(existing.challengeId))
+            }
+        } else {
+            existing.challengedPlayerUUID.getPlayer()?.sendPacket(BattleChallengeExpiredPacket(existing.challengeId))
+        }
+    }
+
+    fun removeTeamUpRequest(requesterId: UUID, requestId: UUID? = null) {
+        val existing = multiBattleTeamRequests[requesterId] ?: return
+        if (existing.requestID != requestId) {
+            return
+        }
+        multiBattleTeamRequests.remove(requesterId)
+        existing.requestedPlayerUUID.getPlayer()?.sendPacket(TeamRequestExpiredPacket(existing.requestID))
+    }
+
+    fun onPlayerDisconnect(player: ServerPlayerEntity) {
+        // Stop battles
+        getBattleByParticipatingPlayer(player)?.stop()
+        // Remove player from any teams they may be a part of
+        removeTeamMember(player)
+    }
+
+    fun removeTeamMember(player: ServerPlayerEntity) {
+        val teamEntry = playerToTeam[player.uuid]
+        if (teamEntry != null) {
+            teamEntry.teamPlayersUUID.remove(player.uuid)
+            playerToTeam.remove(player.uuid)
+            val notificationPacket = TeamMemberRemoveNotificationPacket(player.uuid)
+            CobblemonNetwork.sendPacketToPlayer(player, notificationPacket)
+
+            // Notify remaining members that the player has left the group
+            server()?.let {
+                val teamServerPlayers = teamEntry.teamPlayersUUID.mapNotNull { uuid -> it.playerManager.getPlayer(uuid) }
+                CobblemonNetwork.sendPacketToPlayers(teamServerPlayers, notificationPacket)
+            }
+
+
+            if (teamEntry.teamPlayersUUID.count() == 1) {
+                val remainingPlayerUUID = teamEntry.teamPlayersUUID.first()
+
+                // Remove any outstanding battle requests for the team
+                // TODO: Find a way to not do a reverse map look up
+                val battleChallengeEntry = pvpChallenges.entries.firstOrNull { it -> it.value.challengedPlayerUUID == teamEntry.teamID }
+                if(battleChallengeEntry != null) {
+                    val battleChallenge = battleChallengeEntry.value
+                    removeChallenge(battleChallengeEntry.key, battleChallenge.challengeId, true)
+
+                    // Notify opposing team that the challenge was cancelled
+                    val opposingTeam = multiBattleTeams[battleChallengeEntry.key]
+                    opposingTeam?.teamPlayersUUID?.map { it.getPlayer() }?.forEach { serverPlayerEntity ->
+                        serverPlayerEntity?.sendMessage(lang("challenge.multi.decline.disband"))
+                    }
+                }
+
+                // Disband the team
+                playerToTeam.remove(remainingPlayerUUID)
+                multiBattleTeams.remove(teamEntry.teamID)
+
+                // Notify remaining player that the team has been disbanded
+                server()?.let {
+                    it.playerManager.getPlayer(remainingPlayerUUID)?.let { serverPlayerEntity ->
+                        CobblemonNetwork.sendPacketToPlayer(serverPlayerEntity, TeamMemberRemoveNotificationPacket(remainingPlayerUUID))
+                    }
+                }
+            }
+        }
     }
 
     /**

@@ -47,8 +47,11 @@ class PlayerInteractOptionsPacket(
 
     enum class Options {
         BATTLE,
+        MULTI_BATTLE,
         SPECTATE_BATTLE,
-        TRADE
+        TRADE,
+        TEAM_REQUEST,
+        TEAM_LEAVE,
     }
 
 }

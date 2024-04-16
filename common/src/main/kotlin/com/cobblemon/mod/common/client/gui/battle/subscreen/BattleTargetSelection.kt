@@ -57,7 +57,7 @@ class BattleTargetSelection(
     val multiTargetList = if(selectableTargetList == null) request.activePokemon.getMultiTargetList(move.target) else null
 
     val baseTiles = targets.mapIndexed { index, target ->
-        val isAlly = target.getPNX()[1] == request.activePokemon.getPNX()[1] //TODO FreeForAlL
+        val isAlly = target.isAllied(request.activePokemon)
         val teamSize = request.activePokemon.getSidePokemon().count()
         val fieldPos = if(isAlly) index % teamSize else teamSize - 1 - (index % teamSize)
         val x = this.x + MOVE_HORIZONTAL_SPACING + fieldPos * TARGET_WIDTH

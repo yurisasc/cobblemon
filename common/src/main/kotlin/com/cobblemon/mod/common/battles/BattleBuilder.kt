@@ -9,7 +9,6 @@
 package com.cobblemon.mod.common.battles
 
 import com.cobblemon.mod.common.Cobblemon
-import com.cobblemon.mod.common.CobblemonSounds
 import com.cobblemon.mod.common.api.battles.model.PokemonBattle
 import com.cobblemon.mod.common.api.battles.model.actor.BattleActor
 import com.cobblemon.mod.common.api.storage.party.PartyStore
@@ -21,7 +20,6 @@ import com.cobblemon.mod.common.util.battleLang
 import com.cobblemon.mod.common.util.getBattleTheme
 import com.cobblemon.mod.common.util.getPlayer
 import com.cobblemon.mod.common.util.party
-import java.util.Optional
 import java.util.UUID
 import net.minecraft.entity.Entity
 import net.minecraft.server.network.ServerPlayerEntity
@@ -76,6 +74,64 @@ object BattleBuilder {
             errors
         }
     }
+
+    @JvmOverloads
+    fun pvp2v2(
+            players: List<ServerPlayerEntity> = emptyList(),
+            leadingPokemon: List<UUID> = emptyList(),
+            battleFormat: BattleFormat = BattleFormat.GEN_9_MULTI,
+            cloneParties: Boolean = false,
+            healFirst: Boolean = false,
+            partyAccessor: (ServerPlayerEntity) -> PartyStore = { it.party() }
+    ): BattleStartResult {
+        val teams = players.mapIndexed { index, it -> partyAccessor(it).toBattleTeam(clone = cloneParties, checkHealth = !healFirst, leadingPokemon[index]) }
+        val playerActors = teams.mapIndexed { index, team -> PlayerBattleActor(players[index].uuid, team)}
+
+        val errors = ErroredBattleStart()
+
+        if (players.size != BattleRegistry.MAX_TEAM_MEMBER_COUNT * 2) {
+            playerActors.forEach {actor ->
+                errors.participantErrors[actor] += BattleStartError.incorrectActorCount(
+                    requiredCount = BattleRegistry.MAX_TEAM_MEMBER_COUNT * 2,
+                    hadCount = players.size
+                )
+            }
+        }
+
+        for ((player, actor) in players.zip(playerActors)) {
+            if (actor.pokemonList.size < battleFormat.battleType.slotsPerActor) {
+                errors.participantErrors[actor] += BattleStartError.insufficientPokemon(
+                        player = player,
+                        requiredCount = battleFormat.battleType.slotsPerActor,
+                        hadCount = actor.pokemonList.size
+                )
+            }
+
+            if (BattleRegistry.getBattleByParticipatingPlayer(player) != null) {
+                errors.participantErrors[actor] += BattleStartError.alreadyInBattle(player)
+            }
+        }
+
+        return if (errors.isEmpty) {
+            BattleRegistry.startBattle(
+                    battleFormat = battleFormat,
+                    side1 = BattleSide(playerActors[0], playerActors[1]),
+                    side2 = BattleSide(playerActors[2], playerActors[3])
+            ).ifSuccessful {
+                // TODO: less hard coding
+                playerActors[0].battleTheme = players[2].getBattleTheme()
+                playerActors[1].battleTheme = players[2].getBattleTheme()
+
+                playerActors[2].battleTheme = players[0].getBattleTheme()
+                playerActors[3].battleTheme = players[0].getBattleTheme()
+            }
+            errors
+        } else {
+            errors
+        }
+    }
+
+
 
     /**
      * Attempts to create a PvE battle against the given Pokémon.
@@ -172,7 +228,10 @@ interface BattleStartError {
             requiredCount: Int,
             hadCount: Int
         ) = InsufficientPokemonError(player, requiredCount, hadCount)
-
+        fun incorrectActorCount(
+            requiredCount: Int,
+            hadCount: Int
+        ) = IncorrectActorCountError(requiredCount, hadCount)
         fun canceledByEvent(reason: MutableText?) = CanceledError(reason)
     }
 }
@@ -208,6 +267,19 @@ class InsufficientPokemonError(
                 hadCount
             )
         }
+    }
+}
+
+class IncorrectActorCountError(
+        val requiredCount: Int,
+        val hadCount: Int
+) : BattleStartError {
+    override fun getMessageFor(entity: Entity): MutableText {
+        return battleLang(
+            "error.incorrect_actor_count",
+            requiredCount,
+            hadCount
+        )
     }
 }
 class AlreadyInBattleError(
