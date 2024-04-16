@@ -1,0 +1,18 @@
+{
+  "type": "choice",
+  "keys": ["weather"],
+  "default": "false",
+  "choices": [
+    "sunnyday_day",
+    "sunnyday_night",
+    "raindance",
+    "snow",
+    "hail",
+    "sandstorm",
+    "deltasteam",
+    "primordialsea",
+    "desolateland"
+  ],
+  "isAspect": true,
+  "aspectFormat": "weather-{{choice}}"
+}

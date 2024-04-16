@@ -1,0 +1,69 @@
+{
+  "name": "cobblemon:weather",
+  "order": 0,
+  "variations": [
+    {
+      "aspects": ["weather-sunnyday_day"],
+      "poser": "cobblemon:weather_sunnyday_day",
+      "model": "cobblemon:weather.geo",
+      "texture": "cobblemon:textures/white.png",
+      "layers": []
+    },
+    {
+      "aspects": ["weather-sunnyday_night"],
+      "poser": "cobblemon:weather_sunnyday_night",
+      "model": "cobblemon:weather.geo",
+      "texture": "cobblemon:textures/white.png",
+      "layers": []
+    },
+    {
+      "aspects": ["weather-raindance"],
+      "poser": "cobblemon:weather_raindance",
+      "model": "cobblemon:weather.geo",
+      "texture": "cobblemon:textures/white.png",
+      "layers": []
+    },
+    {
+      "aspects": ["weather-hail"],
+      "poser": "cobblemon:weather_hail",
+      "model": "cobblemon:weather.geo",
+      "texture": "cobblemon:textures/white.png",
+      "layers": []
+    },
+    {
+      "aspects": ["weather-snow"],
+      "poser": "cobblemon:weather_snow",
+      "model": "cobblemon:weather.geo",
+      "texture": "cobblemon:textures/white.png",
+      "layers": []
+    },
+    {
+      "aspects": ["weather-sandstorm"],
+      "poser": "cobblemon:weather_sandstorm",
+      "model": "cobblemon:weather.geo",
+      "texture": "cobblemon:textures/white.png",
+      "layers": []
+    },
+    {
+      "aspects": ["weather-primordialsea"],
+      "poser": "cobblemon:weather_primordialsea",
+      "model": "cobblemon:weather.geo",
+      "texture": "cobblemon:textures/white.png",
+      "layers": []
+    },
+    {
+      "aspects": ["weather-desolateland"],
+      "poser": "cobblemon:weather_desolateland",
+      "model": "cobblemon:weather.geo",
+      "texture": "cobblemon:textures/white.png",
+      "layers": []
+    },
+    {
+      "aspects": ["weather-deltastream"],
+      "poser": "cobblemon:weather_deltastream",
+      "model": "cobblemon:weather.geo",
+      "texture": "cobblemon:textures/white.png",
+      "layers": []
+    }
+  ]
+}

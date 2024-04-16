@@ -66,6 +66,9 @@
     "cobblemon:capturestar",
     "cobblemon:pop_particle",
     "cobblemon:white",
-    "cobblemon:invisible"
+    "cobblemon:invisible",
+    "cobblemon:snow",
+    "cobblemon:rain",
+    "cobblemon:rain_splash"
   ]
 }

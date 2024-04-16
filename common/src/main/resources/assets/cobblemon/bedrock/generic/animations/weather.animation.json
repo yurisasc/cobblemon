@@ -1,0 +1,77 @@
+{
+	"format_version": "1.8.0",
+	"animations": {
+		"animation.weather.sunnyday_day": {
+			"loop": true,
+			"particle_effects": {
+				"0.0": {
+					"effect": "cobblemon:weather/sunnyday_day"
+				}
+			}
+		},
+		"animation.weather.sunnyday_night": {
+			"loop": true,
+			"particle_effects": {
+				"0.0": {
+					"effect": "cobblemon:weather/sunnyday_night"
+				}
+			}
+		},
+		"animation.weather.raindance": {
+			"loop": true,
+			"particle_effects": {
+				"0.0": {
+					"effect": "cobblemon:weather/raindance"
+				}
+			}
+		},
+		"animation.weather.sandstorm": {
+			"loop": true,
+			"particle_effects": {
+				"0.0": {
+					"effect": "cobblemon:weather/sandstorm"
+				}
+			}
+		},
+		"animation.weather.snow": {
+			"loop": true,
+			"particle_effects": {
+				"0.0": {
+					"effect": "cobblemon:weather/snow"
+				}
+			}
+		},
+		"animation.weather.hail": {
+			"loop": true,
+			"particle_effects": {
+				"0.0": {
+					"effect": "cobblemon:weather/hail"
+				}
+			}
+		},
+		"animation.weather.primordialsea": {
+			"loop": true,
+			"particle_effects": {
+				"0.0": {
+					"effect": "cobblemon:weather/primordialsea"
+				}
+			}
+		},
+		"animation.weather.desolateland": {
+			"loop": true,
+			"particle_effects": {
+				"0.0": {
+					"effect": "cobblemon:weather/desolateland"
+				}
+			}
+		},
+		"animation.weather.deltastream": {
+			"loop": true,
+			"particle_effects": {
+				"0.0": {
+					"effect": "cobblemon:weather/deltastream"
+				}
+			}
+		}
+	}
+}

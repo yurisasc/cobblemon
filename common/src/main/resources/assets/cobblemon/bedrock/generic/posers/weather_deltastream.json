@@ -1,0 +1,12 @@
+{
+  "poses": {
+    "evolve": {
+      "poseName": "weather",
+      "transformTicks": 0,
+      "poseTypes": ["NONE"],
+      "animations": [
+        "bedrock(weather, deltastream)"
+      ]
+    }
+  }
+}
