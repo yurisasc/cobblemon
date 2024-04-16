@@ -6,7 +6,7 @@
       "entityCondition": "q.effectiveness == 'superEffective' && q.entity.is_user == false && q.missed(q.entity.uuid) == false",
       "sound": "cobblemon:supereffective",
       "pitch": 1.0,
-      "volume": 1.0
+      "volume": 1.6
     },
     {
       "type": "entity_sound",
