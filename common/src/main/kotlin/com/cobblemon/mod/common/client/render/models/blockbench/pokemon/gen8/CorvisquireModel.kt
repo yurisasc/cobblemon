@@ -16,6 +16,7 @@ import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonP
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cobblemon.mod.common.entity.PoseType
 import net.minecraft.client.model.ModelPart
+import net.minecraft.client.render.entity.model.ParrotEntityModel.Pose
 import net.minecraft.util.math.Vec3d
 
 class CorvisquireModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedFrame, BiWingedFrame {
@@ -27,11 +28,11 @@ class CorvisquireModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, 
     override val head = getPart("head")
 
 
-    override val portraitScale = 2.6F
-    override val portraitTranslation = Vec3d(-0.4, -0.6, 0.0)
+    override var portraitScale = 2.6F
+    override var portraitTranslation = Vec3d(-0.4, -0.6, 0.0)
 
-    override val profileScale = 1.0F
-    override val profileTranslation = Vec3d(0.0, 0.25, 0.0)
+    override var profileScale = 1.0F
+    override var profileTranslation = Vec3d(0.0, 0.25, 0.0)
 
 
     lateinit var stand: PokemonPose
@@ -63,7 +64,7 @@ class CorvisquireModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, 
 
         hover = registerPose(
             poseName = "hover",
-            poseType = PoseType.HOVER,
+            poseTypes = PoseType.STATIONARY_POSES - PoseType.STAND - PoseType.UI_POSES - PoseType.SHOULDER_POSES,
             transformTicks = 10,
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
@@ -74,7 +75,7 @@ class CorvisquireModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, 
 
         fly = registerPose(
             poseName = "fly",
-            poseType = PoseType.FLY,
+            poseTypes = PoseType.MOVING_POSES - PoseType.WALK,
             transformTicks = 10,
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(

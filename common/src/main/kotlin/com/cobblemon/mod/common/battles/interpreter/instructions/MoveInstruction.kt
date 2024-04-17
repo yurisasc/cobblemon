@@ -32,6 +32,13 @@ import com.cobblemon.mod.common.util.battleLang
 import net.minecraft.entity.Entity
 import java.util.concurrent.CompletableFuture
 
+/**
+ * Format: |move|POKEMON|MOVE|TARGET
+ *
+ * POKEMON has used MOVE at TARGET.
+ * @author Deltric
+ * @since January 22nd, 2022
+ */
 class MoveInstruction(
     val instructionSet: InstructionSet,
     val message: BattleMessage
@@ -48,17 +55,17 @@ class MoveInstruction(
     var targetPokemon: BattlePokemon? = null
 
     override fun invoke(battle: PokemonBattle) {
-        userPokemon = message.getBattlePokemon(0, battle)!!
-        targetPokemon = message.getBattlePokemon(2, battle)
+        userPokemon = message.battlePokemon(0, battle)!!
+        targetPokemon = message.battlePokemon(2, battle)
         val targetPokemon = targetPokemon // So smart non-null casts can happen
 
         val optionalEffect = message.effect()
-        val pokemonName = userPokemon.getName()
-        ShowdownInterpreter.broadcastOptionalAbility(battle, optionalEffect, pokemonName)
+        ShowdownInterpreter.broadcastOptionalAbility(battle, optionalEffect, userPokemon)
 
         battle.dispatch { UntilDispatch { instructionSet.getMostRecentInstruction<MoveInstruction>(this)?.future?.isDone != false } }
 
         battle.dispatch {
+            val pokemonName = userPokemon.getName()
             ShowdownInterpreter.lastCauser[battle.battleId] = message
             // For Spread targets the message data only gives the pnx strings. So we can't know what pokemon are actually targeted until the previous messages have been interpreted
             val spreadTargetPokemon = spreadTargets.map { battle.activePokemon.firstOrNull() { poke -> poke.getPNX() == it }?.battlePokemon }
@@ -111,7 +118,7 @@ class MoveInstruction(
                 }
             }
 
-            val hurtTargets = subsequentInstructions.filterIsInstance<DamageInstruction>().mapNotNull { it.battlePokemon }
+            val hurtTargets = subsequentInstructions.filterIsInstance<DamageInstruction>().mapNotNull { it.expectedTarget }
             runtime.environment.getQueryStruct().addFunction("hurt") { params ->
                 if (params.params.size == 0) {
                     return@addFunction DoubleValue(hurtTargets.isNotEmpty())

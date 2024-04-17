@@ -12,6 +12,7 @@ import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityMo
 import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.ModelFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.wavefunction.WaveFunction
+import java.util.function.Consumer
 import net.minecraft.entity.Entity
 
 /**
@@ -39,6 +40,7 @@ class PrimaryAnimation<T : Entity>(
 ): StatefulAnimation<T, ModelFrame> {
     var started = -1F
     override val duration: Float = animation.duration
+    var afterAction: Consumer<Unit> = Consumer { }
 
     override fun run(
         entity: T?,

@@ -235,7 +235,7 @@ object BattleRegistry {
             // 0 - 9, empty == 10
             packedTeamBuilder.append("${if (pk.dmaxLevel < 10) pk.dmaxLevel else ""},")
             // Teratype
-            packedTeamBuilder.append("${pokemon.effectedPokemon.teraType.name},")
+            packedTeamBuilder.append("${pokemon.effectedPokemon.teraType.showdownId()},")
 
             team.add(packedTeamBuilder.toString())
         }

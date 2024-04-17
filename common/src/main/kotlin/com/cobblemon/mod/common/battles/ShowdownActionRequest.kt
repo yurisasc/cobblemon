@@ -97,6 +97,7 @@ enum class ShowdownActionResponseType(val loader: (PacketByteBuf) -> ShowdownAct
     PASS({ PassActionResponse }),
     SHIFT({ ShiftActionResponse()}),
     HEAL_ITEM({ HealItemActionResponse("potion") });
+    FORFEIT({ ForfeitActionResponse() });
 }
 
 abstract class ShowdownActionResponse(val type: ShowdownActionResponseType) {
@@ -274,6 +275,11 @@ class BagItemActionResponse(val bagItem: BagItem, val target: BattlePokemon, val
     override fun toShowdownString(activeBattlePokemon: ActiveBattlePokemon, showdownMoveSet: ShowdownMoveset?): String {
         return "useitem ${target.uuid} ${bagItem.itemName} ${bagItem.getShowdownInput(target.actor, target, data)}"
     }
+}
+
+class ForfeitActionResponse : ShowdownActionResponse(ShowdownActionResponseType.FORFEIT) {
+    override fun isValid(activeBattlePokemon: ActiveBattlePokemon, showdownMoveSet: ShowdownMoveset?, forceSwitch: Boolean) = true
+    override fun toShowdownString(activeBattlePokemon: ActiveBattlePokemon, showdownMoveSet: ShowdownMoveset?) = "forfeit"
 }
 
 class ShowdownMoveset {

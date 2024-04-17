@@ -15,30 +15,27 @@ import com.cobblemon.mod.common.battles.dispatch.InterpreterInstruction
 import com.cobblemon.mod.common.util.battleLang
 
 /**
- * Format:
- * |-supereffective|p%a
+ * Format: |-supereffective|POKEMON
  *
- * player % was weak against the attack.
+ * A move was super effective against POKEMON.
+ * @author Hunter
+ * @since August 18th, 2022
  */
-class SuperEffectiveInstruction(
-    val battle: PokemonBattle,
-    val instructionSet: InstructionSet,
-    val publicMessage: BattleMessage,
-) : InterpreterInstruction {
-    val battlePokemon = publicMessage.getBattlePokemon(0, battle)
+class SuperEffectiveInstruction(val message: BattleMessage,val instructionSet: InstructionSet,
+): InterpreterInstruction {
 
     override fun invoke(battle: PokemonBattle) {
-        battlePokemon ?: return
-        val lastCauser  = instructionSet.getMostRecentCauser(comparedTo = this)
+        val lastCauser = instructionSet.getMostRecentCauser(comparedTo = this)
         battle.dispatchGo {
+            val pokemon = message.battlePokemon(0, battle) ?: return@dispatchGo
             if (lastCauser is MoveInstruction && lastCauser.spreadTargets.isNotEmpty()) {
-                val pokemonName = battlePokemon.getName()
+                val pokemonName = pokemon.getName()
                 battle.broadcastChatMessage(battleLang("superEffective_spread", pokemonName))
             } else {
                 battle.broadcastChatMessage(battleLang("superEffective"))
             }
-            battle.minorBattleActions[battlePokemon.uuid] = publicMessage
+            battle.broadcastChatMessage(battleLang("superEffective"))
+            battle.minorBattleActions[pokemon.uuid] = message
         }
-
     }
 }

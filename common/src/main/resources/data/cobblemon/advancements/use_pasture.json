@@ -10,7 +10,7 @@
       "translate": "advancements.cobblemon.use_pasture.description"
     }
   },
-  "parent": "cobblemon:first_catch",
+  "parent": "cobblemon:full_party",
   "criteria": {
     "use_pasture": {
       "trigger": "cobblemon:pasture_use"

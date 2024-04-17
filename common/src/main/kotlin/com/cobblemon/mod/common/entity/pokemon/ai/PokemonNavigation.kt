@@ -71,6 +71,11 @@ class PokemonNavigation(val world: World, val pokemonEntity: PokemonEntity) : Mo
         return moving.swim.canSwimInWater
     }
 
+    fun setCanPathThroughFire(canPathThroughFire: Boolean) {
+        val omniPathNodeMaker = this.nodeMaker as OmniPathNodeMaker
+        omniPathNodeMaker.canPathThroughFire = canPathThroughFire
+    }
+
     override fun getPos() = Vec3d(entity.x, getPathfindingY().toDouble(), entity.z)
 
     override fun continueFollowingPath() {
@@ -317,8 +322,6 @@ class PokemonNavigation(val world: World, val pokemonEntity: PokemonEntity) : Mo
 
         return entity.blockY
     }
-
-    override fun adjustTargetY(pos: Vec3d) = pos.y
 
     override fun stop() {
         super.stop()

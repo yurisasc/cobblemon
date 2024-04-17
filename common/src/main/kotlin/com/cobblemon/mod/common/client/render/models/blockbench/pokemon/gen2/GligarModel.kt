@@ -22,14 +22,14 @@ import net.minecraft.util.math.Vec3d
 class GligarModel(root: ModelPart) : PokemonPoseableModel(), BipedFrame {
     override val rootPart = root.registerChildWithAllChildren("gligar")
 
-    override val portraitScale = 2.4F
-    override val portraitTranslation = Vec3d(-0.1, -0.8, 0.0)
+    override var portraitScale = 2.4F
+    override var portraitTranslation = Vec3d(-0.1, -0.8, 0.0)
 
     override val leftLeg = getPart("left_upper_leg")
     override val rightLeg = getPart("right_upper_leg")
 
-    override val profileScale = 0.8F
-    override val profileTranslation = Vec3d(0.0, 0.6, 0.0)
+    override var profileScale = 0.8F
+    override var profileTranslation = Vec3d(0.0, 0.6, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var battling: PokemonPose

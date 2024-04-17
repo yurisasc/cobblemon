@@ -11,7 +11,7 @@
     },
     "frame": "task"
   },
-  "parent": "cobblemon:craft_poke_ball",
+  "parent": "cobblemon:use_revive",
   "criteria": {
     "use_healing_machine": {
       "trigger": "minecraft:item_used_on_block",

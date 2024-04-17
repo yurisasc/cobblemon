@@ -19,6 +19,7 @@ import net.minecraft.client.gui.widget.ButtonWidget
 import net.minecraft.client.sound.PositionedSoundInstance
 import net.minecraft.client.sound.SoundManager
 import net.minecraft.text.MutableText
+import net.minecraft.text.Text
 import net.minecraft.util.Identifier
 
 class SummaryButton(
@@ -27,7 +28,7 @@ class SummaryButton(
     val buttonWidth: Number,
     val buttonHeight: Number,
     val clickAction: PressAction,
-    private val text: MutableText? = null,
+    private val text: MutableText = Text.empty(),
     private val resource: Identifier,
     private val activeResource: Identifier? = null,
     private val renderRequirement: ((button: SummaryButton) -> Boolean) = { true },
@@ -68,18 +69,16 @@ class SummaryButton(
         )
 
         // Render Text
-        if (text != null) {
-            drawScaledText(
-                context = context,
-                font = if (largeText) CobblemonResources.DEFAULT_LARGE else null,
-                text = if (boldText) text.bold() else text,
-                x = buttonX + (buttonWidth.toFloat() / 2),
-                y = buttonY + (buttonHeight.toFloat() / 2) - ((TEXT_HEIGHT / 2) * textScale),
-                scale = textScale,
-                centered = true,
-                shadow = true
-            )
-        }
+        drawScaledText(
+            context = context,
+            font = if (largeText) CobblemonResources.DEFAULT_LARGE else null,
+            text = if (boldText) text.bold() else text,
+            x = buttonX + (buttonWidth.toFloat() / 2),
+            y = buttonY + (buttonHeight.toFloat() / 2) - ((TEXT_HEIGHT / 2) * textScale),
+            scale = textScale,
+            centered = true,
+            shadow = true
+        )
     }
 
     override fun mouseClicked(mouseX: Double, mouseY: Double, button: Int): Boolean {

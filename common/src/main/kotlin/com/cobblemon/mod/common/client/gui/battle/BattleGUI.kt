@@ -17,6 +17,7 @@ import com.cobblemon.mod.common.client.gui.battle.subscreen.BattleActionSelectio
 import com.cobblemon.mod.common.client.gui.battle.subscreen.BattleBackButton
 import com.cobblemon.mod.common.client.gui.battle.subscreen.BattleGeneralActionSelection
 import com.cobblemon.mod.common.client.gui.battle.subscreen.BattleSwitchPokemonSelection
+import com.cobblemon.mod.common.client.gui.battle.subscreen.ForfeitConfirmationSelection
 import com.cobblemon.mod.common.client.gui.battle.widgets.BattleMessagePane
 import com.cobblemon.mod.common.client.keybind.boundKey
 import com.cobblemon.mod.common.client.keybind.keybinds.PartySendBinding
@@ -119,6 +120,15 @@ class BattleGUI : Screen(battleLang("gui.title")) {
             drawScaledText(
                 context = context,
                 text = battleLang("ui.hide_label", PartySendBinding.boundKey().localizedText),
+                x = MinecraftClient.getInstance().window.scaledWidth / 2,
+                y = (MinecraftClient.getInstance().window.scaledHeight / 5),
+                opacity = 0.75F * opacity,
+                centered = true
+            )
+        } else if (currentSelection is ForfeitConfirmationSelection) {
+            drawScaledText(
+                context = context,
+                text = battleLang("ui.forfeit_confirmation", PartySendBinding.boundKey().localizedText),
                 x = MinecraftClient.getInstance().window.scaledWidth / 2,
                 y = (MinecraftClient.getInstance().window.scaledHeight / 5),
                 opacity = 0.75F * opacity,
