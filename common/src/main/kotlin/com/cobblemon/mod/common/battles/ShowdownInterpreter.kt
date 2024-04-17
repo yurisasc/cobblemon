@@ -23,11 +23,8 @@ import com.cobblemon.mod.common.battles.dispatch.InterpreterInstruction
 import com.cobblemon.mod.common.battles.interpreter.ContextManager
 import com.cobblemon.mod.common.battles.interpreter.instructions.*
 import com.cobblemon.mod.common.battles.pokemon.BattlePokemon
-import com.cobblemon.mod.common.net.messages.client.battle.BattleSwapPokemonPacket
 import com.cobblemon.mod.common.util.battleLang
 import com.cobblemon.mod.common.util.runOnServer
-import com.cobblemon.mod.common.util.swap
-import com.cobblemon.mod.common.util.setPositionSafely
 import java.util.UUID
 import kotlin.collections.Iterator
 import kotlin.collections.filter
@@ -39,8 +36,6 @@ import kotlin.collections.mutableMapOf
 import kotlin.collections.set
 import kotlin.collections.toMutableList
 import kotlin.collections.toTypedArray
-import net.minecraft.text.MutableText
-import net.minecraft.text.Text
 import net.minecraft.util.math.Vec3d
 
 @Suppress("KotlinPlaceholderCountMatchesArgumentCount", "UNUSED_PARAMETER")
@@ -97,8 +92,7 @@ object ShowdownInterpreter {
         updateInstructionParser["-prepare"]              = { _, _, message, _ -> PrepareInstruction(message) }
         updateInstructionParser["-mustrecharge"]         = { _, _, message, _ -> RechargeInstruction(message) }
         updateInstructionParser["replace"]               = { _, _, message, _ -> ReplaceInstruction(message) }
-        updateInstructionParser["-resisted"]             = { _, _, message, _ -> ResistedInstruction(message) }
-        updateInstructionParser["-resisted"]             = { battle, instructionSet, message, _ -> ResistInstruction(battle, instructionSet, message) }
+        updateInstructionParser["-resisted"]             = { _, instructionSet, message, _ -> ResistedInstruction(message, instructionSet) }
         updateInstructionParser["-setboost"]             = { _, _, message, _ -> SetBoostInstruction(message) }
         updateInstructionParser["-sideend"]              = { _, _, message, _ -> SideEndInstruction(message) }
         updateInstructionParser["-sidestart"]            = { _, _, message, _ -> SideStartInstruction(message) }
