@@ -96,7 +96,7 @@ enum class ShowdownActionResponseType(val loader: (PacketByteBuf) -> ShowdownAct
     FORCE_PASS({ ForcePassActionResponse() }),
     PASS({ PassActionResponse }),
     SHIFT({ ShiftActionResponse()}),
-    HEAL_ITEM({ HealItemActionResponse("potion") });
+    HEAL_ITEM({ HealItemActionResponse("potion") }),
     FORFEIT({ ForfeitActionResponse() });
 }
 

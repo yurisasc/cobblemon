@@ -19,7 +19,7 @@ class ResistInstruction(
     val instructionSet: InstructionSet,
     val publicMessage: BattleMessage,
 ) : InterpreterInstruction {
-    val battlePokemon = publicMessage.getBattlePokemon(0, battle)
+    val battlePokemon = publicMessage.battlePokemon(0, battle)
 
     override fun invoke(battle: PokemonBattle) {
         battlePokemon ?: return

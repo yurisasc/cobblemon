@@ -33,7 +33,7 @@ class CritInstruction(val message: BattleMessage, val instructionSet: Instructio
             val pokemon = message.battlePokemon(0, battle) ?: return@dispatchGo
             ShowdownInterpreter.lastCauser[battle.battleId]?.let { message ->
                 val battlePokemon = message.battlePokemon(0, battle) ?: return@let
-                if(lastCauser.spreadTargets.isNotEmpty()) {
+                if (lastCauser is MoveInstruction && lastCauser.spreadTargets.isNotEmpty()) {
                     val pokemonName = battlePokemon.getName()
                     battle.broadcastChatMessage(battleLang("crit_spread", pokemonName).yellow())
                 } else {

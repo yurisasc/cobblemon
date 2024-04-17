@@ -118,7 +118,7 @@ object ShowdownInterpreter {
         updateInstructionParser["win"]                   = { _, _, message, _ -> WinInstruction(message) }
         updateInstructionParser["-zbroken"]              = { _, _, message, _ -> ZBrokenInstruction(message) }
         updateInstructionParser["-zpower"]               = { _, _, message, _ -> ZPowerInstruction(message) }
-        updateInstructionParser["|swap|"]                = { battle, _, message, _ -> handleSwapInstruction(battle, message) }
+        updateInstructionParser["|swap|"]                = { _, _, message, _ -> SwapInstruction(message) }
 
         sideInstructionParser["error"]                   = { _, targetActor, _, message -> ErrorInstruction(targetActor, message) }
         sideInstructionParser["request"]                 = { _, targetActor, _, message -> RequestInstruction(targetActor, message) }
@@ -149,7 +149,7 @@ object ShowdownInterpreter {
      * Code is very much WIP and will be refactored to heck and back.
      *
      */
-    private fun getSendoutPosition(battle: PokemonBattle, pnx:String, battleActor: BattleActor): Vec3d? {
+     fun getSendoutPosition(battle: PokemonBattle, pnx:String, battleActor: BattleActor): Vec3d? {
         val (actor, activePokemon) = battle.getActorAndActiveSlotFromPNX(pnx)
         var entityPos = if (actor is EntityBackedBattleActor<*>) actor.initialPos else null
         val baseOffset = battleActor.getSide().getOppositeSide().actors.filterIsInstance<EntityBackedBattleActor<*>>().firstOrNull()?.initialPos.let { pos ->
@@ -187,50 +187,7 @@ object ShowdownInterpreter {
         return entityPos
     }
 
-    /**
-     * Format:
-     * |swap|POKEMON|(from)EFFECT
-     *
-     * Indicates that a pokemon has swapped its field position with an ally.
-     */
-    private fun handleSwapInstruction(battle: PokemonBattle, message: BattleMessage) {
-        // TODO: more error checks
-        battle.dispatchWaiting {
-            val battlePokemonA = message.getBattlePokemon(0, battle) ?: return@dispatchWaiting
-            val pnxA = message.argumentAt(0)?.substring(0, 3)
-            var posA:Vec3d? = null
-            if(battlePokemonA.entity == null) {
-                posA = getSendoutPosition(battle, pnxA!!, battlePokemonA.actor)
-            } else {
-                posA = battlePokemonA.entity?.pos
-            }
 
-            val (actor, activePokemon) = battle.getActorAndActiveSlotFromPNX(pnxA!!)
-            val activeBattlePokemonB = activePokemon.getAdjacentAllies().firstOrNull()
-            if(activeBattlePokemonB != null) {
-                val pnxB = activeBattlePokemonB.getPNX()
-                val (actorB, activePokemonB) = battle.getActorAndActiveSlotFromPNX(pnxB)
-                var posB: Vec3d? = null
-                if(activePokemonB.battlePokemon?.entity == null) {
-                    posB = getSendoutPosition(battle, activePokemonB.getPNX(), actorB)
-                } else {
-                    posB = activePokemonB.battlePokemon?.entity?.pos
-                }
-                if (posB != null && battlePokemonA.entity != null) {
-                    battlePokemonA.entity?.setPositionSafely(posB)
-                }
-                if(posA != null && activePokemonB.battlePokemon?.entity != null) {
-                    activePokemonB.battlePokemon?.entity?.setPositionSafely(posA)
-                }
-                battle.sendUpdate(BattleSwapPokemonPacket(pnxA))
-                // TODO: differentiate with Triples shift
-                val lang = battleLang("activate.allyswitch", battlePokemonA.getName(), activePokemonB.battlePokemon?.getName() ?: "", )
-                battle.broadcastChatMessage(lang)
-            }
-
-        }
-
-    }
 
     fun interpretMessage(battleId: UUID, message: String) {
         // Check key map and use function if matching
