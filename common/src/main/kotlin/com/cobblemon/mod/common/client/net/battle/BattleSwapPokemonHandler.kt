@@ -23,18 +23,17 @@ object BattleSwapPokemonHandler : ClientNetworkPacketHandler<BattleSwapPokemonPa
         val (actor, activeBattlePokemon) = battle.getPokemonFromPNX(packet.pnx)
 
         val swapPokemon = activeBattlePokemon.getAdjacentAllies().first() as ActiveClientBattlePokemon
-        val lastAnimation = activeBattlePokemon.animations.lastOrNull()
-        if (lastAnimation !is MoveTileOffscreenAnimation) {
+        val swapBattlePokemon = swapPokemon.battlePokemon
+
+        if (swapBattlePokemon != null && swapBattlePokemon.hpValue > 0) {
+            activeBattlePokemon.animations.add(
+                SwapAndMoveTileOnscreenAnimation(
+                    swapPokemon.battlePokemon as ClientBattlePokemon
+                )
+            )
+        } else {
             activeBattlePokemon.animations.add(MoveTileOffscreenAnimation())
         }
-
-
-
-        activeBattlePokemon.animations.add(
-            SwapAndMoveTileOnscreenAnimation(
-                    swapPokemon.battlePokemon as ClientBattlePokemon
-            )
-        )
 
         swapPokemon.animations.add(
             SwapAndMoveTileOnscreenAnimation(
@@ -42,9 +41,5 @@ object BattleSwapPokemonHandler : ClientNetworkPacketHandler<BattleSwapPokemonPa
             )
         )
 
-        // Only update currently selected Pokémon if it's our Pokémon being switched in
-//        if (actor == battle.getParticipatingActor(client.session.profile.id)) {
-//            CobblemonClient.storage.switchToPokemon(packet.newPokemon.uuid)
-//        }
     }
 }
