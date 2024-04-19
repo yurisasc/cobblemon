@@ -107,6 +107,10 @@ class BattleSwitchPokemonSelection(
             .filter { it.second.uuid !in battleGUI.actor!!.activePokemon.map { it.battlePokemon?.uuid } }
             .filter { it.second.uuid !in switchingInPokemon }
 
+        if(showdownPokemonToPokemon.isEmpty()) {
+            // Occurs after a multi-knock out and the player doesn't have enough pokemon to fill every vacant slot
+            battleGUI.selectAction(request, PassActionResponse)
+        }
         showdownPokemonToPokemon.forEachIndexed { index, (showdownPokemon, pokemon) ->
             val row = index / 2
             val column = index % 2
