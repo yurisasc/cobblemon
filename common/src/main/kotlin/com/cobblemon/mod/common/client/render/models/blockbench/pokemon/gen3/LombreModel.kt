@@ -30,11 +30,11 @@ class LombreModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Biped
     override val leftLeg = getPart("leg_left")
     override val rightLeg = getPart("leg_right")
 
-    override val portraitScale = 2.4F
-    override val portraitTranslation = Vec3d(-0.15, -0.55, 0.0)
+    override var portraitScale = 2.4F
+    override var portraitTranslation = Vec3d(-0.15, -0.55, 0.0)
 
-    override val profileScale = 0.9F
-    override val profileTranslation = Vec3d(0.0, 0.44, 0.0)
+    override var profileScale = 0.9F
+    override var profileTranslation = Vec3d(0.0, 0.44, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var waterstanding: PokemonPose
@@ -47,7 +47,7 @@ class LombreModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Biped
     val wateroffset = 1
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("lombre", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("lombre", "blink") }
         standing = registerPose(
             poseName = "standing",
             poseTypes = PoseType.UI_POSES + PoseType.STAND,

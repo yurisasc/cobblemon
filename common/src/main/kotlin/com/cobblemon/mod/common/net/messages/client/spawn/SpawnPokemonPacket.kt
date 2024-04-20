@@ -9,6 +9,7 @@
 package com.cobblemon.mod.common.net.messages.client.spawn
 
 import com.cobblemon.mod.common.Cobblemon
+import com.cobblemon.mod.common.api.pokeball.PokeBalls
 import com.cobblemon.mod.common.api.pokemon.PokemonSpecies
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
@@ -36,6 +37,8 @@ class SpawnPokemonPacket(
     private val poseType: PoseType,
     private val unbattlable: Boolean,
     private val hideLabel: Boolean,
+    private val caughtBall: Identifier,
+    private val spawnYaw: Float,
     vanillaSpawnPacket: EntitySpawnS2CPacket
 ) : SpawnExtraDataEntityPacket<SpawnPokemonPacket, PokemonEntity>(vanillaSpawnPacket) {
 
@@ -44,7 +47,7 @@ class SpawnPokemonPacket(
     constructor(entity: PokemonEntity, vanillaSpawnPacket: EntitySpawnS2CPacket) : this(
         entity.ownerUuid,
         entity.pokemon.scaleModifier,
-        entity.pokemon.species,
+        entity.exposedSpecies,
         entity.pokemon.form,
         entity.pokemon.aspects,
         entity.battleId,
@@ -52,9 +55,11 @@ class SpawnPokemonPacket(
         entity.beamMode.toByte(),
         entity.pokemon.nickname,
         if (Cobblemon.config.displayEntityLevelLabel) entity.dataTracker.get(PokemonEntity.LABEL_LEVEL) else -1,
-        entity.getPoseType(),
+        entity.dataTracker.get(PokemonEntity.POSE_TYPE),
         entity.dataTracker.get(PokemonEntity.UNBATTLEABLE),
         entity.dataTracker.get(PokemonEntity.HIDE_LABEL),
+        entity.pokemon.caughtBall.name,
+        entity.dataTracker.get(PokemonEntity.SPAWN_DIRECTION),
         vanillaSpawnPacket
     )
 
@@ -72,6 +77,8 @@ class SpawnPokemonPacket(
         buffer.writeEnumConstant(this.poseType)
         buffer.writeBoolean(this.unbattlable)
         buffer.writeBoolean(this.hideLabel)
+        buffer.writeIdentifier(this.caughtBall)
+        buffer.writeFloat(this.spawnYaw)
     }
 
     override fun applyData(entity: PokemonEntity) {
@@ -82,6 +89,7 @@ class SpawnPokemonPacket(
             form = this@SpawnPokemonPacket.form
             aspects = this@SpawnPokemonPacket.aspects
             nickname = this@SpawnPokemonPacket.nickname
+            PokeBalls.getPokeBall(this@SpawnPokemonPacket.caughtBall)?.let { caughtBall = it }
         }
         entity.phasingTargetId = this.phasingTargetId
         entity.beamMode = this.beamMode.toInt()
@@ -92,6 +100,7 @@ class SpawnPokemonPacket(
         entity.dataTracker.set(PokemonEntity.POSE_TYPE, poseType)
         entity.dataTracker.set(PokemonEntity.UNBATTLEABLE, unbattlable)
         entity.dataTracker.set(PokemonEntity.HIDE_LABEL, hideLabel)
+        entity.dataTracker.set(PokemonEntity.SPAWN_DIRECTION, spawnYaw)
     }
 
     override fun checkType(entity: Entity): Boolean = entity is PokemonEntity
@@ -113,8 +122,11 @@ class SpawnPokemonPacket(
             val poseType = buffer.readEnumConstant(PoseType::class.java)
             val unbattlable = buffer.readBoolean()
             val hideLabel = buffer.readBoolean()
+            val caughtBall = buffer.readIdentifier()
+            val spawnAngle = buffer.readFloat()
             val vanillaPacket = decodeVanillaPacket(buffer)
-            return SpawnPokemonPacket(ownerId, scaleModifier, species, form, aspects, battleId, phasingTargetId, beamModeEmitter, nickname, labelLevel, poseType, unbattlable, hideLabel, vanillaPacket)
+
+            return SpawnPokemonPacket(ownerId, scaleModifier, species, form, aspects, battleId, phasingTargetId, beamModeEmitter, nickname, labelLevel, poseType, unbattlable, hideLabel, caughtBall, spawnAngle, vanillaPacket)
         }
     }
 

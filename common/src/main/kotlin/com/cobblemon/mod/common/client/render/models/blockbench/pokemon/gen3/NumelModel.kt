@@ -26,22 +26,33 @@ class NumelModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quadru
     override val hindLeftLeg = getPart("leg_back_left")
     override val hindRightLeg = getPart("leg_back_right")
 
-    override val portraitScale = 1.8F
-    override val portraitTranslation = Vec3d(-0.6, -0.25, 0.0)
+    override var portraitScale = 1.8F
+    override var portraitTranslation = Vec3d(-0.6, -0.25, 0.0)
 
-    override val profileScale = 0.9F
-    override val profileTranslation = Vec3d(0.0, 0.35, 0.0)
+    override var profileScale = 0.9F
+    override var profileTranslation = Vec3d(0.0, 0.35, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
+    lateinit var sleep: PokemonPose
+    lateinit var battle_idle: PokemonPose
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("numel", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("numel", "blink") }
+
+        sleep = registerPose(
+            poseName = "sleep",
+            poseType = PoseType.SLEEP,
+            idleAnimations = arrayOf(
+                bedrock("numel", "sleep")
+            )
+        )
 
         standing = registerPose(
             poseName = "standing",
             poseTypes = PoseType.UI_POSES + PoseType.STATIONARY_POSES,
             quirks = arrayOf(blink),
+            condition = { !it.isBattling },
             idleAnimations = arrayOf(
                 singleBoneLook(disableY = true),
                 bedrock("numel", "ground_idle")
@@ -53,9 +64,18 @@ class NumelModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quadru
             poseTypes = PoseType.MOVING_POSES,
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
-                QuadrupedWalkAnimation(this, periodMultiplier = 1.1F),
                 singleBoneLook(disableY = true),
-                bedrock("numel", "ground_idle")
+                bedrock("numel", "ground_walk")
+            )
+        )
+
+        battle_idle = registerPose(
+            poseName = "battle_idle",
+            poseTypes = PoseType.STATIONARY_POSES,
+            condition = { it.isBattling },
+            idleAnimations = arrayOf(
+                singleBoneLook(disableY = true),
+                bedrock("numel", "battle_idle")
             )
         )
     }

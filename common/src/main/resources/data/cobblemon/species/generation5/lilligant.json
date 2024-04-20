@@ -1,4 +1,5 @@
-﻿{
+{
+  "implemented": true,
   "name": "Lilligant",
   "nationalPokedexNumber": 549,
   "primaryType": "grass",
@@ -142,11 +143,30 @@
       "aspects": [
         "hisuian"
       ],
+      "baseScale": 0.8,
+      "hitbox": {
+        "width": 0.5,
+        "height": 2.1,
+        "fixed": false
+      },
       "height": 12,
       "weight": 192,
-      "preEvolution": "petilil",
+      "preEvolution": "petilil region_bias=hisui",
       "cannotDynamax": false,
-      "battleOnly": false
+      "battleOnly": false,
+      "drops": {
+        "amount": 2,
+        "entries": [
+          {
+            "item": "cobblemon:revival_herb",
+            "percentage": 5.0
+          },
+          {
+            "item": "cobblemon:coba_berry",
+            "percentage": 5.0
+          }
+        ]
+      }
     }
   ],
   "baseExperienceYield": 168,
@@ -244,10 +264,10 @@
   ],
   "preEvolution": "petilil",
   "evolutions": [],
-  "baseScale": 1,
+  "baseScale": 0.6,
   "hitbox": {
-    "width": 1,
-    "height": 1,
+    "width": 1.1,
+    "height": 2.3,
     "fixed": false
   },
   "baseFriendship": 50,

@@ -22,19 +22,19 @@ class LeafeonModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("leafeon")
     override val head = getPart("head")
 
-    override val portraitScale = 2.3F
-    override val portraitTranslation = Vec3d(-0.7, -0.7, 0.0)
+    override var portraitScale = 2.3F
+    override var portraitTranslation = Vec3d(-0.7, -0.7, 0.0)
 
-    override val profileScale = 0.9F
-    override val profileTranslation = Vec3d(0.0, 0.35, 0.0)
+    override var profileScale = 0.9F
+    override var profileTranslation = Vec3d(0.0, 0.35, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("leafeon", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("leafeon", "cry") }
 
     override fun registerPoses() {
-//        val blink = quirk("blink") { bedrockStateful("leafeon", "blink").setPreventsIdle(false)}
+//        val blink = quirk { bedrockStateful("leafeon", "blink")}
         standing = registerPose(
             poseName = "standing",
             poseTypes = STATIONARY_POSES + UI_POSES,

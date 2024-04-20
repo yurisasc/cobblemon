@@ -33,21 +33,21 @@ class FearowModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedF
     override val head = getPart("neck")
     private val tail = getPart("tail")
 
-    override val portraitScale = 1.9F
-    override val portraitTranslation = Vec3d(-1.6, 0.4, 0.0)
+    override var portraitScale = 1.9F
+    override var portraitTranslation = Vec3d(-1.6, 0.4, 0.0)
 
-    override val profileScale = 0.7F
-    override val profileTranslation = Vec3d(-0.2, 0.7, 0.0)
+    override var profileScale = 0.7F
+    override var profileTranslation = Vec3d(-0.2, 0.7, 0.0)
 
     lateinit var stand: PokemonPose
     lateinit var walk: PokemonPose
     lateinit var hover: PokemonPose
     lateinit var fly: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("fearow", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("fearow", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("fearow", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("fearow", "blink") }
         stand = registerPose(
             poseName = "standing",
             poseTypes = UI_POSES + PoseType.STAND,

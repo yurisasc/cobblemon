@@ -1,8 +1,8 @@
-import extensions.getLatestGitCommitHash
+import extensions.isSnapshot
+import extensions.version
 import java.time.OffsetDateTime
 import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
-import java.util.StringJoiner
 
 /*
  *
@@ -17,14 +17,14 @@ import java.util.StringJoiner
 plugins {
     id("cobblemon.base-conventions")
     id("cobblemon.publish-conventions")
+
+    id("net.kyori.blossom")
+    id("org.jetbrains.gradle.plugin.idea-ext")
+    id ("net.nemerosa.versioning") version "2.8.2"
 }
 
 architectury {
     common("forge", "fabric")
-}
-
-loom {
-
 }
 
 repositories {
@@ -43,6 +43,7 @@ dependencies {
     modApi(libs.molang)
     compileOnlyApi(libs.jeiApi)
     modCompileOnly(libs.adornFabric)
+    modCompileOnly(libs.lambDynamicLights) { isTransitive = false }
 
     // For Showdown
     modCompileOnly(libs.graal)
@@ -53,8 +54,7 @@ dependencies {
     modCompileOnly(libs.mongoDriverCore)
     modCompileOnly(libs.mongoDriverSync)
 
-    testRuntimeOnly(libs.junitEngine)
-    testImplementation(libs.junitApi)
+    testImplementation(libs.fabricJunit)
     testImplementation(libs.junitParams)
     testImplementation(libs.mockito)
     testImplementation(libs.mockk)
@@ -89,11 +89,10 @@ sourceSets {
 
                 property("license", generateLicenseHeader())
                 property("modid", "cobblemon")
-                property("version", rootProject.version.toString())
-                property("modVersion", rootProject.property("mod_version").toString())
-                property("gameVersion", rootProject.property("mc_version").toString())
-                property("isSnapshot", (rootProject.property("snapshot")?.equals("true") ?: false).toString())
-                property("gitCommit", rootProject.getLatestGitCommitHash())
+                property("version", project.version())
+                property("isSnapshot", if(rootProject.isSnapshot()) "true" else "false")
+                property("gitCommit", versioning.info.commit)
+                property("branch", versioning.info.branch)
                 System.getProperty("buildNumber")?.let { property("buildNumber", it) }
                 property("timestamp", OffsetDateTime.now(ZoneOffset.UTC).format(DateTimeFormatter.ofPattern("MM/dd/yyyy hh:mm:ss")) + " UTC")
             }

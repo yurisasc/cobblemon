@@ -21,7 +21,7 @@ import com.google.gson.JsonObject
 import net.minecraft.entity.Entity
 
 /**
- * Repository for models referenced by fossils, to render in the tube.
+ * Repository for models referenced by fossils, to render in the tank.
  */
 object FossilModelRepository : VaryingModelRepository<Entity, FossilModel>() {
     override val title = "Fossil Pokémon"
@@ -39,13 +39,16 @@ object FossilModelRepository : VaryingModelRepository<Entity, FossilModel>() {
         val animations = jsonObject.getAsJsonArray("animations")
         val maxScale = jsonObject.get("maxScale")?.asFloat ?: 1F
         val yTranslation = jsonObject.get("yTranslation")?.asFloat ?: 0F
+        val yGrowthPoint = jsonObject.get("yGrowthPoint")?.asFloat ?: 0F
+
         return { bone ->
             val model = FossilModel(bone)
             model.maxScale = maxScale
             model.yTranslation = yTranslation
+            model.yGrowthPoint = yGrowthPoint
             // Refactor this bullshit to not mention pokemon at all, it should be common to anything using animation factories.
             // Even better: move to molang functions, this is ass
-            model.animations = animations.mapNotNull {
+            model.tankAnimations = animations.mapNotNull {
                 val animString = it.asString
                 val anim = animString.substringBefore("(")
                 if (JsonPokemonPoseableModel.ANIMATION_FACTORIES.contains(anim)) {
@@ -58,29 +61,25 @@ object FossilModelRepository : VaryingModelRepository<Entity, FossilModel>() {
             // borrowed code from JsonPokemonPoseableModel's PoseAdapter Deserializer
             val tankQuirks = (jsonObject.get("quirks")?.asJsonArray ?: JsonArray()).map { json ->
                 json as JsonObject
-                val name = json.get("name").asString
                 val quirkAnimations: (state: PoseableEntityState<Entity>) -> List<StatefulAnimation<Entity, *>> = { _ ->
                     (json.get("animations")?.asJsonArray ?: JsonArray()).mapNotNull { animJson ->
                         val animString = animJson.asString
 
                         val anim = animString.substringBefore("(")
 
-                        JsonPokemonPoseableModel.StatefulAnimationAdapter.preventsIdleDefault = false
                         val animation = if (JsonPokemonPoseableModel.ANIMATION_FACTORIES.contains(anim)) {
                             JsonPokemonPoseableModel.ANIMATION_FACTORIES[anim]?.stateful(model, animString)
                         } else {
                             null
                         }
-                        JsonPokemonPoseableModel.StatefulAnimationAdapter.preventsIdleDefault = true
                         animation
                     }
                 }
                 val loopTimes = json.get("loopTimes")?.asInt ?: 1
-                val minSeconds = json.get("minSecondsBetweenOccurrences")?.asFloat ?: 8F
-                val maxSeconds = json.get("maxSecondsBetweenOccurrences")?.asFloat ?: 30F
+                val minSeconds = json.get("minSeconds")?.asFloat ?: 8F
+                val maxSeconds = json.get("maxSeconds")?.asFloat ?: 30F
 
                 model.quirkMultiple(
-                    name = name,
                     secondsBetweenOccurrences = minSeconds to maxSeconds,
                     condition = { true },
                     loopTimes = 1..loopTimes,

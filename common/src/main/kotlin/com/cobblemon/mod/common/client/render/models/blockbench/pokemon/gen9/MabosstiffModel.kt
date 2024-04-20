@@ -27,19 +27,19 @@ class MabosstiffModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Q
     override val hindLeftLeg = getPart("leg_back_left1")
     override val hindRightLeg = getPart("leg_back_right1")
 
-    override val portraitScale = 1.2F
-    override val portraitTranslation = Vec3d(-1.0, 0.75, 0.0)
+    override var portraitScale = 1.2F
+    override var portraitTranslation = Vec3d(-1.0, 0.75, 0.0)
 
-    override val profileScale = 0.55F
-    override val profileTranslation = Vec3d(0.0, 0.85, 0.0)
+    override var profileScale = 0.55F
+    override var profileTranslation = Vec3d(0.0, 0.85, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("mabosstiff", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("mabosstiff", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("mabosstiff", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("mabosstiff", "blink") }
 
         standing = registerPose(
             poseName = "standing",

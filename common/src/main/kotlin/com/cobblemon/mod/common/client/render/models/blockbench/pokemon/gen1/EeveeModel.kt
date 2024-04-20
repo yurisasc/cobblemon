@@ -38,23 +38,23 @@ class EeveeModel(root: ModelPart) : PokemonPoseableModel(), EaredFrame, HeadedFr
     override val leftEarJoint = EarJoint(getPart("ear_left"), Z_AXIS, RangeOfMotion(50F.toRadians(), 0F))
     override val rightEarJoint = EarJoint(getPart("ear_right"), Z_AXIS, RangeOfMotion((-50F).toRadians(), 0F))
 
-    override val portraitScale = 2.2F
-    override val portraitTranslation = Vec3d(-0.4, -0.54, 0.0)
+    override var portraitScale = 2.2F
+    override var portraitTranslation = Vec3d(-0.4, -0.54, 0.0)
 
-    override val profileScale = 0.8F
-    override val profileTranslation = Vec3d(0.0, 0.55, 0.0)
+    override var profileScale = 0.8F
+    override var profileTranslation = Vec3d(0.0, 0.55, 0.0)
 
     lateinit var stand: PokemonPose
     lateinit var walk: PokemonPose
     lateinit var shoulderLeft: PokemonPose
     lateinit var shoulderRight: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("eevee", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("eevee", "cry") }
 
     val shoulderOffset = 4
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("eevee", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("eevee", "blink") }
         stand = registerPose(
             poseName = "standing",
             poseTypes = STATIONARY_POSES + UI_POSES,

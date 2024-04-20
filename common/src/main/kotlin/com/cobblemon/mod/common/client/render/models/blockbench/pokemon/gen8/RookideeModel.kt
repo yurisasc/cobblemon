@@ -25,11 +25,11 @@ class RookideeModel (root: ModelPart) : PokemonPoseableModel(), BipedFrame, BiWi
     override val rightLeg = getPart("leg_right")
 
 
-    override val portraitScale = 3.0F
-    override val portraitTranslation = Vec3d(-0.2, -2.4, 0.0)
+    override var portraitScale = 3.0F
+    override var portraitTranslation = Vec3d(-0.2, -2.4, 0.0)
 
-    override val profileScale = 1.2F
-    override val profileTranslation = Vec3d(0.0, -0.01, 0.0)
+    override var profileScale = 1.2F
+    override var profileTranslation = Vec3d(0.0, -0.01, 0.0)
 
 
     lateinit var stand: PokemonPose
@@ -38,10 +38,10 @@ class RookideeModel (root: ModelPart) : PokemonPoseableModel(), BipedFrame, BiWi
     lateinit var fly: PokemonPose
     lateinit var sleep: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("rookidee", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("rookidee", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("rookidee", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("rookidee", "blink") }
         sleep = registerPose(
             poseType = PoseType.SLEEP,
             idleAnimations = arrayOf(bedrock("rookidee", "sleep"))
@@ -59,7 +59,7 @@ class RookideeModel (root: ModelPart) : PokemonPoseableModel(), BipedFrame, BiWi
 
         hover = registerPose(
             poseName = "hover",
-            poseType = PoseType.HOVER,
+            poseTypes = PoseType.STATIONARY_POSES - PoseType.STAND - PoseType.UI_POSES - PoseType.SHOULDER_POSES,
             transformTicks = 10,
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
@@ -69,7 +69,7 @@ class RookideeModel (root: ModelPart) : PokemonPoseableModel(), BipedFrame, BiWi
 
         fly = registerPose(
             poseName = "fly",
-            poseType = PoseType.FLY,
+            poseTypes = PoseType.MOVING_POSES - PoseType.WALK,
             transformTicks = 10,
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(

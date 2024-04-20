@@ -23,11 +23,11 @@ class ComfeyModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Biman
     override val rightArm = getPart("arm_right")
     override val leftArm = getPart("arm_left")
 
-    override val portraitScale = 2.3F
-    override val portraitTranslation = Vec3d(-0.4, 2.0, 0.0)
+    override var portraitScale = 2.3F
+    override var portraitTranslation = Vec3d(-0.4, 2.0, 0.0)
 
-    override val profileScale = 0.5F
-    override val profileTranslation = Vec3d(0.1, 1.0, 0.0)
+    override var profileScale = 0.5F
+    override var profileTranslation = Vec3d(0.1, 1.0, 0.0)
 
     lateinit var sleep: PokemonPose
     lateinit var standing: PokemonPose
@@ -38,7 +38,7 @@ class ComfeyModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Biman
     val shoulderOffset = 1.5
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("comfey", "blink").setPreventsIdle(false)}
+        val blink = quirk { bedrockStateful("comfey", "blink")}
         sleep = registerPose(
             poseType = PoseType.SLEEP,
             idleAnimations = arrayOf(bedrock("comfey", "sleep"))

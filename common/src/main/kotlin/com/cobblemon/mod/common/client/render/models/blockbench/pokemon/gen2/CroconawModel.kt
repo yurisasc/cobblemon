@@ -28,11 +28,11 @@ class CroconawModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
     override val leftLeg = getPart("leg_left")
     override val rightLeg = getPart("leg_right")
 
-    override val portraitScale = 1.3F
-    override val portraitTranslation = Vec3d(-0.2, 1.0, 0.0)
+    override var portraitScale = 1.3F
+    override var portraitTranslation = Vec3d(-0.2, 1.0, 0.0)
 
-    override val profileScale = 0.6F
-    override val profileTranslation = Vec3d(0.0, 0.76, 0.0)
+    override var profileScale = 0.6F
+    override var profileTranslation = Vec3d(0.0, 0.76, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
@@ -46,10 +46,10 @@ class CroconawModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
 
     val wateroffset = -10
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("croconaw", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("croconaw", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("croconaw", "blink").setPreventsIdle(false)}
+        val blink = quirk { bedrockStateful("croconaw", "blink")}
 
         sleep = registerPose(
             poseName = "sleeping",

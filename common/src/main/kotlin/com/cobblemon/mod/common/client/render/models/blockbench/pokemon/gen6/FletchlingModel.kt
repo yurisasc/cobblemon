@@ -32,11 +32,11 @@ class FletchlingModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, B
     override val head = getPart("head_ai")
     private val tail = getPart("tail")
 
-    override val portraitScale = 2.8F
-    override val portraitTranslation = Vec3d(-0.25, -1.65, 0.0)
+    override var portraitScale = 2.8F
+    override var portraitTranslation = Vec3d(-0.25, -1.65, 0.0)
 
-    override val profileScale = 1.2F
-    override val profileTranslation = Vec3d(0.0, -0.01, 0.0)
+    override var profileScale = 1.2F
+    override var profileTranslation = Vec3d(0.0, -0.01, 0.0)
 
     //    lateinit var sleep: PokemonPose
     lateinit var stand: PokemonPose
@@ -44,14 +44,14 @@ class FletchlingModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, B
     lateinit var hover: PokemonPose
     lateinit var fly: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("fletchling", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("fletchling", "cry") }
 
     override fun registerPoses() {
 //        sleep = registerPose(
 //            poseType = PoseType.SLEEP,
 //            idleAnimations = arrayOf(bedrock("fletchling", "sleep"))
 //        )
-        val blink = quirk("blink") { bedrockStateful("fletchling", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("fletchling", "blink") }
         stand = registerPose(
             poseName = "standing",
             poseTypes = PoseType.SHOULDER_POSES + PoseType.UI_POSES + PoseType.STAND,

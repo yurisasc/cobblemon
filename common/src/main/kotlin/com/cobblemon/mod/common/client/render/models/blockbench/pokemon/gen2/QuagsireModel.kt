@@ -31,19 +31,19 @@ class QuagsireModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bipe
     override val leftLeg = getPart("leg_left")
     override val rightLeg = getPart("leg_right")
 
-    override val portraitScale = 2.2F
-    override val portraitTranslation = Vec3d(-0.3, 0.2, 0.0)
+    override var portraitScale = 2.2F
+    override var portraitTranslation = Vec3d(-0.3, 0.2, 0.0)
 
-    override val profileScale = 0.92F
-    override val profileTranslation = Vec3d(0.0, 0.35, 0.0)
+    override var profileScale = 0.92F
+    override var profileTranslation = Vec3d(0.0, 0.35, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("quagsire", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("quagsire", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("quagsire", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("quagsire", "blink") }
         standing = registerPose(
             poseName = "standing",
             poseTypes = STATIONARY_POSES + UI_POSES,

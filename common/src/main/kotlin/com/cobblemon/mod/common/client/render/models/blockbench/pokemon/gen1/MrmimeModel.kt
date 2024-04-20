@@ -25,17 +25,17 @@ class MrmimeModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedF
     override val leftLeg = getPart("leg_left1")
     override val rightLeg = getPart("leg_right1")
 
-    override val portraitScale = 2.1F
-    override val portraitTranslation = Vec3d(-0.15, 1.25, 0.0)
+    override var portraitScale = 2.1F
+    override var portraitTranslation = Vec3d(-0.15, 1.25, 0.0)
 
-    override val profileScale = 0.7F
-    override val profileTranslation = Vec3d(0.0, 0.7, 0.0)
+    override var profileScale = 0.7F
+    override var profileTranslation = Vec3d(0.0, 0.7, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("mr_mime", "blink").setPreventsIdle(false)}
+        val blink = quirk { bedrockStateful("mr_mime", "blink")}
         standing = registerPose(
             poseName = "standing",
             poseTypes = STATIONARY_POSES + UI_POSES,

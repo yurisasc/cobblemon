@@ -28,11 +28,11 @@ class NidorinaModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quad
     override val hindLeftLeg = getPart("left_leg")
     override val hindRightLeg = getPart("right_leg")
 
-    override val portraitScale = 1.8F
-    override val portraitTranslation = Vec3d(-0.35, -0.8, 0.0)
+    override var portraitScale = 1.8F
+    override var portraitTranslation = Vec3d(-0.35, -0.8, 0.0)
 
-    override val profileScale = 1.0F
-    override val profileTranslation = Vec3d(0.0, 0.21, 0.0)
+    override var profileScale = 1.0F
+    override var profileTranslation = Vec3d(0.0, 0.21, 0.0)
 
     lateinit var sleep: PokemonPose
     lateinit var standing: PokemonPose
@@ -40,7 +40,7 @@ class NidorinaModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quad
     lateinit var battleidle: PokemonPose
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("nidorina", "blink").setPreventsIdle(false)}
+        val blink = quirk { bedrockStateful("nidorina", "blink")}
         standing = registerPose(
             poseName = "standing",
             poseTypes = STATIONARY_POSES + UI_POSES,

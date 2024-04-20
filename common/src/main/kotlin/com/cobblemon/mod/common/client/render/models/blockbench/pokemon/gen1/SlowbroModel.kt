@@ -20,11 +20,11 @@ class SlowbroModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("slowbro")
     override val head = getPart("head")
 
-    override val portraitScale = 2.0F
-    override val portraitTranslation = Vec3d(-0.23, -0.1, 0.0)
+    override var portraitScale = 2.0F
+    override var portraitTranslation = Vec3d(-0.23, -0.1, 0.0)
 
-    override val profileScale = 0.95F
-    override val profileTranslation = Vec3d(0.0, 0.3, 0.0)
+    override var profileScale = 0.95F
+    override var profileTranslation = Vec3d(0.0, 0.3, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
@@ -33,9 +33,9 @@ class SlowbroModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     lateinit var battleidle: PokemonPose
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("slowbro", "blink1").setPreventsIdle(false) }
-        val blink2 = quirk("blink2") { bedrockStateful("slowbro", "blink2").setPreventsIdle(false) }
-        val bite = quirk("bite", secondsBetweenOccurrences = 60F to 120F) { bedrockStateful("slowbro", "bite_quirk").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("slowbro", "blink1") }
+        val blink2 = quirk { bedrockStateful("slowbro", "blink2") }
+        val bite = quirk(secondsBetweenOccurrences = 60F to 120F) { bedrockStateful("slowbro", "bite_quirk") }
 
         standing = registerPose(
             poseName = "standing",

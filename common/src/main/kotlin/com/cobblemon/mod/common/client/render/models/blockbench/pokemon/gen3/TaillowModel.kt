@@ -26,11 +26,11 @@ class TaillowModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bipe
     override val rightLeg = getPart("leg_right")
     override val head = getPart("head")
 
-    override val portraitScale = 3.5F
-    override val portraitTranslation = Vec3d(-0.2, -2.5, 0.0)
+    override var portraitScale = 3.5F
+    override var portraitTranslation = Vec3d(-0.2, -2.5, 0.0)
 
-    override val profileScale = 1.2F
-    override val profileTranslation = Vec3d(0.0, -0.01, 0.0)
+    override var profileScale = 1.2F
+    override var profileTranslation = Vec3d(0.0, -0.01, 0.0)
 
     lateinit var sleep: PokemonPose
     lateinit var stand: PokemonPose
@@ -38,10 +38,10 @@ class TaillowModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bipe
     lateinit var hover: PokemonPose
     lateinit var fly: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("taillow", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("taillow", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("taillow", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("taillow", "blink") }
         sleep = registerPose(
             poseType = PoseType.SLEEP,
             idleAnimations = arrayOf(bedrock("taillow", "sleep"))

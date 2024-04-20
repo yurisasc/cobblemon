@@ -35,18 +35,18 @@ class ChatotModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedF
     override val head = getPart("head")
     private val tail = getPart("tail")
 
-    override val portraitScale = 3.5F
-    override val portraitTranslation = Vec3d(-0.1, -2.1, 0.0)
+    override var portraitScale = 3.5F
+    override var portraitTranslation = Vec3d(-0.1, -2.1, 0.0)
 
-    override val profileScale = 1.2F
-    override val profileTranslation = Vec3d(0.0, -0.01, 0.0)
+    override var profileScale = 1.2F
+    override var profileTranslation = Vec3d(0.0, -0.01, 0.0)
 
     lateinit var sleep: PokemonPose
     lateinit var stand: PokemonPose
     lateinit var walk: PokemonPose
     lateinit var fly: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("chatot", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("chatot", "cry") }
 
     override fun registerPoses() {
 
@@ -56,7 +56,7 @@ class ChatotModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedF
 //                idleAnimations = arrayOf(bedrock("chatot", "sleep"))
 //        )
 
-        val blink = quirk("blink") { bedrockStateful("chatot", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("chatot", "blink") }
 
         stand = registerPose(
             poseName = "standing",

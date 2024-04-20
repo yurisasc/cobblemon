@@ -28,11 +28,11 @@ class TotodileModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
     override val leftLeg = getPart("leg_left")
     override val rightLeg = getPart("leg_right")
 
-    override val portraitScale = 1.4F
-    override val portraitTranslation = Vec3d(-0.15, 0.3, 0.0)
+    override var portraitScale = 1.4F
+    override var portraitTranslation = Vec3d(-0.15, 0.3, 0.0)
 
-    override val profileScale = 0.65F
-    override val profileTranslation = Vec3d(0.0, 0.71, 0.0)
+    override var profileScale = 0.65F
+    override var profileTranslation = Vec3d(0.0, 0.71, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
@@ -49,12 +49,12 @@ class TotodileModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
     val wateroffset = -10
     val shoulderOffset = 5.5
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("totodile", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("totodile", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("totodile", "blink").setPreventsIdle(false)}
-        val sleepQuirk = quirk("sleep_quirk", secondsBetweenOccurrences = 60F to 120F) { bedrockStateful("totodile", "sleep_quirk").setPreventsIdle(false)}
-        val biteyQuirk = quirk("bite_quirk", secondsBetweenOccurrences = 60F to 120F) { bedrockStateful("totodile", "bitey_quirk").setPreventsIdle(false)}
+        val blink = quirk { bedrockStateful("totodile", "blink")}
+        val sleepQuirk = quirk(secondsBetweenOccurrences = 60F to 120F) { bedrockStateful("totodile", "sleep_quirk")}
+        val biteyQuirk = quirk(secondsBetweenOccurrences = 60F to 120F) { bedrockStateful("totodile", "bitey_quirk")}
 
         sleep = registerPose(
             poseName = "sleeping",

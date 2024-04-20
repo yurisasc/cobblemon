@@ -9,6 +9,7 @@
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen8
 
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.BipedWalkAnimation
+import com.cobblemon.mod.common.client.render.models.blockbench.animation.PrimaryAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
@@ -25,20 +26,20 @@ class SirfetchdModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bi
     override val leftLeg = getPart("leg_left")
     override val rightLeg = getPart("leg_right")
 
-    override val portraitScale = 2.2F
-    override val portraitTranslation = Vec3d(-0.35, -0.5, 0.0)
+    override var portraitScale = 2.2F
+    override var portraitTranslation = Vec3d(-0.35, -0.5, 0.0)
 
-    override val profileScale = 0.9F
-    override val profileTranslation = Vec3d(-0.1, 0.42, 0.0)
+    override var profileScale = 0.9F
+    override var profileTranslation = Vec3d(-0.1, 0.42, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("sirfetchd", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("sirfetchd", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("sirfetchd", "blink").setPreventsIdle(false) }
-        val swag = quirk("swag") { bedrockStateful("sirfetchd", "quirk").setPreventsIdle(true) }
+        val blink = quirk { bedrockStateful("sirfetchd", "blink") }
+        val swag = quirk { PrimaryAnimation(bedrockStateful("sirfetchd", "quirk")) }
         standing = registerPose(
             poseName = "standing",
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,

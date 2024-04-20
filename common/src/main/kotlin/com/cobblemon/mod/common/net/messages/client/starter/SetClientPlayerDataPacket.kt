@@ -25,7 +25,16 @@ class SetClientPlayerDataPacket(val promptStarter: Boolean, val starterLocked: B
 
     override val id = ID
 
-    constructor(playerData: PlayerData, resetStarterPrompt: Boolean? = null): this(!playerData.starterPrompted || !Cobblemon.starterConfig.promptStarterOnceOnly, playerData.starterLocked, playerData.starterSelected, playerData.starterUUID, resetStarterPrompt)
+    constructor(
+        playerData: PlayerData,
+        resetStarterPrompt: Boolean? = null
+    ) : this(
+        !playerData.starterPrompted || !Cobblemon.starterConfig.promptStarterOnceOnly,
+        playerData.starterLocked,
+        playerData.starterSelected,
+        playerData.starterUUID,
+        resetStarterPrompt
+    )
 
     override fun encode(buffer: PacketByteBuf) {
         buffer.writeBoolean(promptStarter)

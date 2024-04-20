@@ -32,11 +32,11 @@ class PidoveModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Biped
     override val head = getPart("head_ai")
     private val tail = getPart("tail")
 
-    override val portraitScale = 2.4F
-    override val portraitTranslation = Vec3d(-0.2, -1.0, 0.0)
+    override var portraitScale = 2.4F
+    override var portraitTranslation = Vec3d(-0.2, -1.0, 0.0)
 
-    override val profileScale = 1.0F
-    override val profileTranslation = Vec3d(0.0, 0.3, 0.0)
+    override var profileScale = 1.0F
+    override var profileTranslation = Vec3d(0.0, 0.3, 0.0)
 
     //    lateinit var sleep: PokemonPose
     lateinit var stand: PokemonPose
@@ -44,14 +44,14 @@ class PidoveModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Biped
     lateinit var hover: PokemonPose
     lateinit var fly: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("pidove", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("pidove", "cry") }
 
     override fun registerPoses() {
 //        sleep = registerPose(
 //            poseType = PoseType.SLEEP,
 //            idleAnimations = arrayOf(bedrock("pidove", "sleep"))
 //        )
-        val blink = quirk("blink") { bedrockStateful("pidove", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("pidove", "blink") }
         stand = registerPose(
             poseName = "standing",
             poseTypes = PoseType.SHOULDER_POSES + PoseType.UI_POSES + PoseType.STAND,

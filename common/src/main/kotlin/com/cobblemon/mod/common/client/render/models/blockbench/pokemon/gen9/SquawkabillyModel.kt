@@ -33,11 +33,11 @@ class SquawkabillyModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame,
     override val rightLeg = getPart("leg_right")
     private val tail = getPart("tail")
 
-    override val portraitScale = 2.0F
-    override val portraitTranslation = Vec3d(-0.2, -0.2, 0.0)
+    override var portraitScale = 2.0F
+    override var portraitTranslation = Vec3d(-0.2, -0.2, 0.0)
 
-    override val profileScale = 0.85F
-    override val profileTranslation = Vec3d(0.0, 0.51, 0.0)
+    override var profileScale = 0.85F
+    override var profileTranslation = Vec3d(0.0, 0.51, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
@@ -46,12 +46,12 @@ class SquawkabillyModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame,
     lateinit var shoulderLeft: PokemonPose
     lateinit var shoulderRight: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("squawkabilly", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("squawkabilly", "cry") }
 
     val shoulderOffsetX = -1.0
     val shoulderOffsetY = 0
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("squawkabilly", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("squawkabilly", "blink") }
 
         standing = registerPose(
             poseName = "standing",

@@ -27,15 +27,15 @@ class ButterfreeModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bi
     val leftWingBack = getPart("wing_left2")
     val rightWingBack = getPart("wing_right2")
 
-    override val portraitScale = 2.4F
-    override val portraitTranslation = Vec3d(-0.1, 0.2, 0.0)
+    override var portraitScale = 2.4F
+    override var portraitTranslation = Vec3d(-0.1, 0.2, 0.0)
 
-    override val profileScale = 0.7F
-    override val profileTranslation = Vec3d(0.1, 0.8, 0.0)
+    override var profileScale = 0.7F
+    override var profileTranslation = Vec3d(0.1, 0.8, 0.0)
 
     lateinit var sleep: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("butterfree", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("butterfree", "cry") }
 
     override fun registerPoses() {
         sleep = registerPose(

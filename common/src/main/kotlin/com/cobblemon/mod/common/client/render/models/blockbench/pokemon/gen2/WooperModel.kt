@@ -27,11 +27,11 @@ class WooperModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("wooper")
     override val head = getPart("head")
 
-    override val portraitScale = 2.0F
-    override val portraitTranslation = Vec3d(-0.15, -0.65, 0.0)
+    override var portraitScale = 2.0F
+    override var portraitTranslation = Vec3d(-0.15, -0.65, 0.0)
 
-    override val profileScale = 0.9F
-    override val profileTranslation = Vec3d(0.0, 0.4, 0.0)
+    override var profileScale = 0.9F
+    override var profileTranslation = Vec3d(0.0, 0.4, 0.0)
 
     lateinit var shoulderLeft: PokemonPose
     lateinit var shoulderRight: PokemonPose
@@ -41,11 +41,11 @@ class WooperModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     lateinit var float: PokemonPose
     lateinit var swim: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("wooper", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("wooper", "cry") }
 
     val shoulderOffset = 2.5
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("wooper", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("wooper", "blink") }
 
         sleep = registerPose(
             poseName = "sleep",

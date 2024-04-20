@@ -1,0 +1,19 @@
+{
+  "species": "cobblemon:oshawott",
+  "order": 1,
+  "variations": [
+    {
+      "aspects": ["region-bias-hisui"],
+      "model": "cobblemon:oshawott_hisuian.geo",
+      "texture": "cobblemon:textures/pokemon/0501_oshawott/oshawott_hisuian.png",
+      "layers": []
+    },
+    {
+      "aspects": [
+        "region-bias-hisui",
+        "shiny"
+      ],
+      "texture": "cobblemon:textures/pokemon/0501_oshawott/oshawott_hisuian_shiny.png"
+    }
+  ]
+}

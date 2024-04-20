@@ -8,6 +8,7 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1
 
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cobblemon.mod.common.entity.PoseType.Companion.MOVING_POSES
@@ -19,18 +20,20 @@ import net.minecraft.util.math.Vec3d
 class WeezingModel(root: ModelPart) : PokemonPoseableModel() {
     override val rootPart = root.registerChildWithAllChildren("weezing")
 
-    override val portraitScale = 1.5F
-    override val portraitTranslation = Vec3d(0.0, 0.0, 0.0)
+    override var portraitScale = 1.5F
+    override var portraitTranslation = Vec3d(0.0, 0.0, 0.0)
 
-    override val profileScale = 1.0F
-    override val profileTranslation = Vec3d(0.05, 0.4, 0.0)
+    override var profileScale = 1.0F
+    override var profileTranslation = Vec3d(0.05, 0.4, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
 
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("weezing", "cry") }
+
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("weezing", "blink").setPreventsIdle(false)}
-        val blink2 = quirk("blink2") { bedrockStateful("weezing", "blink2").setPreventsIdle(false)}
+        val blink = quirk { bedrockStateful("weezing", "blink")}
+        val blink2 = quirk { bedrockStateful("weezing", "blink2")}
         standing = registerPose(
             poseName = "standing",
             poseTypes = STATIONARY_POSES + UI_POSES,

@@ -17,11 +17,11 @@ import net.minecraft.util.math.Vec3d
 class BarraskewdaModel (root: ModelPart) : PokemonPoseableModel() {
     override val rootPart = root.registerChildWithAllChildren("barraskewda")
 
-    override val portraitScale = 2.8F
-    override val portraitTranslation = Vec3d(-0.7, -2.8, 0.0)
+    override var portraitScale = 2.8F
+    override var portraitTranslation = Vec3d(-0.7, -2.8, 0.0)
 
-    override val profileScale = 0.8F
-    override val profileTranslation = Vec3d(0.0, 0.5, 0.0)
+    override var profileScale = 0.8F
+    override var profileTranslation = Vec3d(0.0, 0.5, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
@@ -33,7 +33,7 @@ class BarraskewdaModel (root: ModelPart) : PokemonPoseableModel() {
     lateinit var waterbattleidle: PokemonPose
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("barraskewda", "blink").setPreventsIdle(false)}
+        val blink = quirk { bedrockStateful("barraskewda", "blink")}
         sleep = registerPose(
             poseName = "sleeping",
             transformTicks = 10,

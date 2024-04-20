@@ -19,11 +19,11 @@ import net.minecraft.util.math.Vec3d
 class MagnemiteModel(root: ModelPart) : PokemonPoseableModel() {
     override val rootPart = root.registerChildWithAllChildren("magnemite")
 
-    override val portraitScale = 2.2F
-    override val portraitTranslation = Vec3d(-0.1, -1.5, 0.0)
+    override var portraitScale = 2.2F
+    override var portraitTranslation = Vec3d(-0.1, -1.5, 0.0)
 
-    override val profileScale = 1.0F
-    override val profileTranslation = Vec3d(0.0, 0.18, 0.0)
+    override var profileScale = 1.0F
+    override var profileTranslation = Vec3d(0.0, 0.18, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
@@ -31,7 +31,7 @@ class MagnemiteModel(root: ModelPart) : PokemonPoseableModel() {
 
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("magnemite", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("magnemite", "blink") }
         sleep = registerPose(
             poseType = PoseType.SLEEP,
             idleAnimations = arrayOf(bedrock("magnemite", "sleep"))

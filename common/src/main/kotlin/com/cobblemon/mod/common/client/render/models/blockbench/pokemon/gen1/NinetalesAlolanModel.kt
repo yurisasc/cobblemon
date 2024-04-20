@@ -29,25 +29,25 @@ class NinetalesAlolanModel(root: ModelPart) : PokemonPoseableModel(), HeadedFram
     override val hindLeftLeg = getPart("leg_back_left")
     override val hindRightLeg = getPart("leg_back_right")
 
-    override val portraitScale = 1.7F
-    override val portraitTranslation = Vec3d(-0.4, 0.85, 0.0)
+    override var portraitScale = 1.7F
+    override var portraitTranslation = Vec3d(-0.4, 0.85, 0.0)
 
-    override val profileScale = 0.7F
-    override val profileTranslation = Vec3d(0.0, 0.67, 0.0)
+    override var profileScale = 0.7F
+    override var profileTranslation = Vec3d(0.0, 0.67, 0.0)
 
     // Alolan Nintales Portaits/Profiles
-    // override val portraitScale = 1.65F
-    // override val portraitTranslation = Vec3d(-0.4, 0.93, 0.0)
+    // override var portraitScale = 1.65F
+    // override var portraitTranslation = Vec3d(-0.4, 0.93, 0.0)
 
-    // override val profileScale = 0.7F
-    // override val profileTranslation = Vec3d(0.0, 0.67, 0.0)
+    // override var profileScale = 0.7F
+    // override var profileTranslation = Vec3d(0.0, 0.67, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
     lateinit var sleep: PokemonPose
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("ninetales_alolan", "blink").setPreventsIdle(false)}
+        val blink = quirk { bedrockStateful("ninetales_alolan", "blink")}
         sleep = registerPose(
             poseType = PoseType.SLEEP,
             idleAnimations = arrayOf(bedrock("ninetales_alolan", "sleep"))

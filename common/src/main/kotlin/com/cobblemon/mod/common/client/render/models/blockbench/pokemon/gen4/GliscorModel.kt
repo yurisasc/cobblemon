@@ -22,21 +22,21 @@ import net.minecraft.util.math.Vec3d
 class GliscorModel(root: ModelPart) : PokemonPoseableModel(), BipedFrame {
     override val rootPart = root.registerChildWithAllChildren("gliscor")
 
-    override val portraitScale = 2.2F
-    override val portraitTranslation = Vec3d(-0.4, 0.4, 0.0)
+    override var portraitScale = 2.2F
+    override var portraitTranslation = Vec3d(-0.4, 0.4, 0.0)
 
     override val leftLeg = getPart("left_thigh")
     override val rightLeg = getPart("right_thigh")
 
-    override val profileScale = 0.7F
-    override val profileTranslation = Vec3d(0.0, 0.7, 0.0)
+    override var profileScale = 0.7F
+    override var profileTranslation = Vec3d(0.0, 0.7, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
 
     override fun registerPoses() {
 
-        val blink = quirk("blink") { bedrockStateful("gliscor", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("gliscor", "blink") }
 
         standing = registerPose(
             poseName = "standing",

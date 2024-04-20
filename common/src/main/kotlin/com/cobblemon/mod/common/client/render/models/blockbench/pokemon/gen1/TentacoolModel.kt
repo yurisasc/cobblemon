@@ -18,11 +18,11 @@ import net.minecraft.util.math.Vec3d
 class TentacoolModel(root: ModelPart) : PokemonPoseableModel() {
     override val rootPart = root.registerChildWithAllChildren("tentacool")
 
-    override val portraitScale = 1.2F
-    override val portraitTranslation = Vec3d(0.1, 1.1, 0.0)
+    override var portraitScale = 1.2F
+    override var portraitTranslation = Vec3d(0.1, 1.1, 0.0)
 
-    override val profileScale = 0.6F
-    override val profileTranslation = Vec3d(0.0, 0.8, 0.0)
+    override var profileScale = 0.6F
+    override var profileTranslation = Vec3d(0.0, 0.8, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
@@ -32,7 +32,7 @@ class TentacoolModel(root: ModelPart) : PokemonPoseableModel() {
     lateinit var watersleep: PokemonPose
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("tentacool", "blink").setPreventsIdle(false)}
+        val blink = quirk { bedrockStateful("tentacool", "blink")}
         standing = registerPose(
             poseName = "standing",
             poseType = PoseType.STAND,
@@ -74,7 +74,7 @@ class TentacoolModel(root: ModelPart) : PokemonPoseableModel() {
                 poseName = "sleep",
                 poseType = PoseType.SLEEP,
                 condition = { !it.isTouchingWater },
-                idleAnimations = arrayOf(bedrock("tentacool", "ground_sleep"))
+                idleAnimations = arrayOf(bedrock("tentacool", "sleep"))
         )
 
         watersleep = registerPose(

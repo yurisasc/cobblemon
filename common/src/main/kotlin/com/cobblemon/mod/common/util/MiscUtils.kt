@@ -9,13 +9,13 @@
 package com.cobblemon.mod.common.util
 
 import com.cobblemon.mod.common.Cobblemon
-import net.minecraft.client.util.ModelIdentifier
+import java.util.function.Consumer
 import kotlin.math.min
 import kotlin.random.Random
+import net.minecraft.client.util.ModelIdentifier
 import net.minecraft.text.Text
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.BlockPos
-import net.minecraft.util.math.Direction
 import net.minecraft.util.shape.VoxelShape
 import kotlin.math.ceil
 import kotlin.math.floor
@@ -68,6 +68,8 @@ fun Random.nextBetween(min: Int, max: Int): Int {
     return nextInt(max - min + 1) + min
 }
 
+infix fun <A, B> A.toDF(b: B): com.mojang.datafixers.util.Pair<A, B> = com.mojang.datafixers.util.Pair(this, b)
+
 fun isUuid(string: String) : Boolean {
     return Regex("^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}\$").matches(string)
 }
@@ -100,4 +102,8 @@ fun VoxelShape.blockPositionsAsList(): List<BlockPos> {
     }
 
     return result
+}
+
+operator fun <T> Consumer<T>.plus(action: (T) -> Unit): Consumer<T> {
+    return andThen(action)
 }

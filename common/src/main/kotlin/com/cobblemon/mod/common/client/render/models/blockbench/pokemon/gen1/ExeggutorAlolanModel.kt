@@ -36,11 +36,11 @@ class ExeggutorAlolanModel(root: ModelPart) : PokemonPoseableModel(), HeadedFram
         override val head: ModelPart = getPart("head3")
     }
 
-    override val portraitScale = 1.0F
-    override val portraitTranslation = Vec3d(-1.4, 16.55, 0.0)
+    override var portraitScale = 1.0F
+    override var portraitTranslation = Vec3d(-1.4, 16.55, 0.0)
 
-    override val profileScale = 0.45F
-    override val profileTranslation = Vec3d(0.0, 1.0, 0.0)
+    override var profileScale = 0.45F
+    override var profileTranslation = Vec3d(0.0, 1.0, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
@@ -48,10 +48,10 @@ class ExeggutorAlolanModel(root: ModelPart) : PokemonPoseableModel(), HeadedFram
     lateinit var battleidle: PokemonPose
 
     override fun registerPoses() {
-        val blink1 = quirk("blink") { bedrockStateful("exeggutor_alolan", "blink").setPreventsIdle(false) }
-        val blink2 = quirk("blink") { bedrockStateful("exeggutor_alolan", "blink2").setPreventsIdle(false) }
-        val blink3 = quirk("blink") { bedrockStateful("exeggutor_alolan", "blink3").setPreventsIdle(false) }
-        val blink4 = quirk("blink") { bedrockStateful("exeggutor_alolan", "blink4").setPreventsIdle(false) }
+        val blink1 = quirk { bedrockStateful("exeggutor_alolan", "blink") }
+        val blink2 = quirk { bedrockStateful("exeggutor_alolan", "blink2") }
+        val blink3 = quirk { bedrockStateful("exeggutor_alolan", "blink3") }
+        val blink4 = quirk { bedrockStateful("exeggutor_alolan", "blink4") }
         sleep = registerPose(
             poseType = PoseType.SLEEP,
             idleAnimations = arrayOf(bedrock("exeggutor_alolan", "sleep"))

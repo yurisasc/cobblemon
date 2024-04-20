@@ -27,20 +27,20 @@ class TorterraCherryModel (root: ModelPart) : PokemonPoseableModel(), HeadedFram
     override val foreLeftLeg= getPart("leg_front_left")
     override val foreRightLeg = getPart("leg_front_right")
 
-    override val portraitScale = 2.0F
-    override val portraitTranslation = Vec3d(-1.5, -0.92, 0.0)
+    override var portraitScale = 2.0F
+    override var portraitTranslation = Vec3d(-1.5, -0.92, 0.0)
 
-    override val profileScale = 0.4F
-    override val profileTranslation = Vec3d(0.0, 1.1, 0.0)
+    override var profileScale = 0.4F
+    override var profileTranslation = Vec3d(0.0, 1.1, 0.0)
 
     lateinit var sleep: PokemonPose
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("torterra_cherry", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("torterra_cherry", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("torterra_cherry", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("torterra_cherry", "blink") }
         sleep = registerPose(
             poseType = PoseType.SLEEP,
             idleAnimations = arrayOf(bedrock("torterra_cherry", "sleep"))

@@ -18,11 +18,11 @@ import net.minecraft.util.math.Vec3d
 class MetangModel (root: ModelPart) : PokemonPoseableModel() {
     override val rootPart = root.registerChildWithAllChildren("metang")
 
-    override val portraitScale = 1.8F
-    override val portraitTranslation = Vec3d(-0.35, 0.0, 0.0)
+    override var portraitScale = 1.8F
+    override var portraitTranslation = Vec3d(-0.35, 0.0, 0.0)
 
-    override val profileScale = 0.8F
-    override val profileTranslation = Vec3d(0.0, 0.65, 0.0)
+    override var profileScale = 0.8F
+    override var profileTranslation = Vec3d(0.0, 0.65, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
@@ -31,10 +31,10 @@ class MetangModel (root: ModelPart) : PokemonPoseableModel() {
     lateinit var sleep: PokemonPose
     lateinit var battleidle: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("metang", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("metang", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("metang", "blink").setPreventsIdle(false)}
+        val blink = quirk { bedrockStateful("metang", "blink")}
 
         sleep = registerPose(
             poseType = PoseType.SLEEP,

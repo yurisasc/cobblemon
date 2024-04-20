@@ -19,11 +19,11 @@ import net.minecraft.util.math.Vec3d
 class MagnetonModel(root: ModelPart) : PokemonPoseableModel() {
     override val rootPart = root.registerChildWithAllChildren("magneton")
 
-    override val portraitScale = 1.2F
-    override val portraitTranslation = Vec3d(0.0, 0.2, 0.0)
+    override var portraitScale = 1.2F
+    override var portraitTranslation = Vec3d(0.0, 0.2, 0.0)
 
-    override val profileScale = 0.84F
-    override val profileTranslation = Vec3d(0.0, 0.5, 0.0)
+    override var profileScale = 0.84F
+    override var profileTranslation = Vec3d(0.0, 0.5, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
@@ -31,7 +31,7 @@ class MagnetonModel(root: ModelPart) : PokemonPoseableModel() {
 
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("magneton", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("magneton", "blink") }
         sleep = registerPose(
             poseType = PoseType.SLEEP,
             idleAnimations = arrayOf(bedrock("magneton", "sleep"))

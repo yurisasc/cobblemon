@@ -31,21 +31,21 @@ class PonytaModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quadru
     override val hindLeftLeg = getPart("leg_back_left")
     override val hindRightLeg = getPart("leg_back_right")
 
-    override val portraitScale = 3.0F
-    override val portraitTranslation = Vec3d(-0.6, -0.2, 0.0)
+    override var portraitScale = 3.0F
+    override var portraitTranslation = Vec3d(-0.6, -0.2, 0.0)
 
-    override val profileScale = 0.9F
-    override val profileTranslation = Vec3d(0.0, 0.43, 0.0)
+    override var profileScale = 0.9F
+    override var profileTranslation = Vec3d(0.0, 0.43, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
     lateinit var sleep: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("ponyta", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("ponyta", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("ponyta", "blink").setPreventsIdle(false) }
-        val quirk = quirk("quirk", secondsBetweenOccurrences = 60F to 360F) { bedrockStateful("ponyta", "quirk1").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("ponyta", "blink") }
+        val quirk = quirk(secondsBetweenOccurrences = 60F to 360F) { bedrockStateful("ponyta", "quirk1") }
 
         sleep = registerPose(
             poseType = PoseType.SLEEP,

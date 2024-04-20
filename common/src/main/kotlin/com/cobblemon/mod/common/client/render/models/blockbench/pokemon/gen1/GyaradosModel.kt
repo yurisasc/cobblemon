@@ -55,13 +55,13 @@ class GyaradosModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     val wseg11 = WaveSegment(seg11, 5F)
     val wseg12 = WaveSegment(seg12, 4F)
 
-    override val portraitScale = 1.8F
-    override val portraitTranslation = Vec3d(-1.55, 0.35, 0.0)
-    override val profileScale = 0.7F
-    override val profileTranslation = Vec3d(-0.1, 0.65, 0.0)
+    override var portraitScale = 1.8F
+    override var portraitTranslation = Vec3d(-1.55, 0.35, 0.0)
+    override var profileScale = 0.7F
+    override var profileTranslation = Vec3d(-0.1, 0.65, 0.0)
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("gyarados", "blink").setPreventsIdle(false)}
+        val blink = quirk { bedrockStateful("gyarados", "blink")}
         registerPose(
             poseName = "land",
             poseTypes = STANDING_POSES + UI_POSES,

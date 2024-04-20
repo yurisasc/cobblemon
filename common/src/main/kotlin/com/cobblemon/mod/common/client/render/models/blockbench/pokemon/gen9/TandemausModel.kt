@@ -23,22 +23,22 @@ class TandemausModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("tandemaus")
     override val head = getPart("head")
 
-    override val portraitScale = 1.0F
-    override val portraitTranslation = Vec3d(0.1, 0.0, 0.0)
+    override var portraitScale = 1.0F
+    override var portraitTranslation = Vec3d(0.1, 0.0, 0.0)
 
-    override val profileScale = 0.8F
-    override val profileTranslation = Vec3d(0.0, 0.4, 0.0)
+    override var profileScale = 0.8F
+    override var profileTranslation = Vec3d(0.0, 0.4, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
 //    lateinit var sleep: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("tandemaus", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("tandemaus", "cry") }
 
     override fun registerPoses() {
 
-        val blink1 = quirk("blink1") { bedrockStateful("tandemaus", "blink1").setPreventsIdle(false)}
-        val blink2 = quirk("blink2") { bedrockStateful("tandemaus", "blink2").setPreventsIdle(false)}
+        val blink1 = quirk { bedrockStateful("tandemaus", "blink1")}
+        val blink2 = quirk { bedrockStateful("tandemaus", "blink2")}
 
         val head2 = object : HeadedFrame {
             override val rootPart = this@TandemausModel.rootPart

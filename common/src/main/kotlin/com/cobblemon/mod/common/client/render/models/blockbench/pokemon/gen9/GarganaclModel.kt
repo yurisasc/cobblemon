@@ -29,11 +29,11 @@ class GarganaclModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
     override val rightLeg = getPart("leg_right")
     val shoulder = getPart("shoulder_right")
 
-    override val portraitScale = 2.6F
-    override val portraitTranslation = Vec3d(-0.4, 3.0, 0.0)
+    override var portraitScale = 2.6F
+    override var portraitTranslation = Vec3d(-0.4, 3.0, 0.0)
 
-    override val profileScale = 0.45F
-    override val profileTranslation = Vec3d(0.0, 1.0, 0.0)
+    override var profileScale = 0.45F
+    override var profileTranslation = Vec3d(0.0, 1.0, 0.0)
 
     lateinit var sleep: PokemonPose
     lateinit var standing: PokemonPose
@@ -41,7 +41,7 @@ class GarganaclModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
     lateinit var walk: PokemonPose
     lateinit var portrait: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("garganacl", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("garganacl", "cry") }
 
     override fun registerPoses() {
         standing = registerPose(

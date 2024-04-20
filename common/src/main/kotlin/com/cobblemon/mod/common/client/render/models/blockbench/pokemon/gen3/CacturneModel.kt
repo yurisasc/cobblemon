@@ -26,11 +26,11 @@ class CacturneModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bim
     override val leftArm = getPart("arm_left")
     override val rightArm = getPart("arm_right")
 
-    override val portraitScale = 2.5F
-    override val portraitTranslation = Vec3d(0.0, 0.5, 0.0)
+    override var portraitScale = 2.5F
+    override var portraitTranslation = Vec3d(0.0, 0.5, 0.0)
 
-    override val profileScale = 0.75F
-    override val profileTranslation = Vec3d(0.0, 0.6, 0.0)
+    override var profileScale = 0.75F
+    override var profileTranslation = Vec3d(0.0, 0.6, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
@@ -38,7 +38,7 @@ class CacturneModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bim
     lateinit var battleidle: PokemonPose
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("cacturne", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("cacturne", "blink") }
         sleep = registerPose(
             poseType = PoseType.SLEEP,
             idleAnimations = arrayOf(bedrock("cacturne", "sleep"))

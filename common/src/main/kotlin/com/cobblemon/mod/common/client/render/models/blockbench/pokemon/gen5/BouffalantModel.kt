@@ -20,17 +20,17 @@ class BouffalantModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("bouffalant")
     override val head = getPart("head")
 
-    override val portraitScale = 1.9F
-    override val portraitTranslation = Vec3d(-0.9, -0.7, 0.0)
+    override var portraitScale = 1.9F
+    override var portraitTranslation = Vec3d(-0.9, -0.7, 0.0)
 
-    override val profileScale = 0.75F
-    override val profileTranslation = Vec3d(0.0, 0.6, 0.0)
+    override var profileScale = 0.75F
+    override var profileTranslation = Vec3d(0.0, 0.6, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("charmander", "blink").setPreventsIdle(false)}
+        val blink = quirk { bedrockStateful("charmander", "blink")}
         // bouffalant does not have a blink!! someone fix pls
         standing = registerPose(
             poseName = "standing",

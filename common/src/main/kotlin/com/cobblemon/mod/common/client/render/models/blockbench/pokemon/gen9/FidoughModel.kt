@@ -29,20 +29,20 @@ class FidoughModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quadr
     override val foreLeftLeg = getPart("leg_front_left")
     override val foreRightLeg = getPart("leg_front_right")
 
-    override val portraitScale = 1.5F
-    override val portraitTranslation = Vec3d(-0.5, 0.05, 0.0)
+    override var portraitScale = 1.5F
+    override var portraitTranslation = Vec3d(-0.5, 0.05, 0.0)
 
-    override val profileScale = 0.6F
-    override val profileTranslation = Vec3d(0.0, 0.8, 0.0)
+    override var profileScale = 0.6F
+    override var profileTranslation = Vec3d(0.0, 0.8, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walking: PokemonPose
     lateinit var sleeping: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("fidough", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("fidough", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("fidough", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("fidough", "blink") }
         standing = registerPose(
             poseName = "standing",
             poseTypes = STATIONARY_POSES + UI_POSES,

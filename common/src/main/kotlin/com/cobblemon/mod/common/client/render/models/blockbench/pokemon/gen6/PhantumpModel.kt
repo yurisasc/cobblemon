@@ -20,11 +20,11 @@ import net.minecraft.util.math.Vec3d
 class PhantumpModel (root: ModelPart) : PokemonPoseableModel() {
     override val rootPart = root.registerChildWithAllChildren("phantump")
 
-    override val portraitScale = 2.0F
-    override val portraitTranslation = Vec3d(-0.1, -0.2, 0.0)
+    override var portraitScale = 2.0F
+    override var portraitTranslation = Vec3d(-0.1, -0.2, 0.0)
 
-    override val profileScale = 0.9F
-    override val profileTranslation = Vec3d(0.0, 0.5, 0.0)
+    override var profileScale = 0.9F
+    override var profileTranslation = Vec3d(0.0, 0.5, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
@@ -33,10 +33,10 @@ class PhantumpModel (root: ModelPart) : PokemonPoseableModel() {
     lateinit var sleep: PokemonPose
     lateinit var battleidle: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("phantump", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("phantump", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("phantump", "blink").setPreventsIdle(false)}
+        val blink = quirk { bedrockStateful("phantump", "blink")}
         sleep = registerPose(
             poseType = PoseType.SLEEP,
             idleAnimations = arrayOf(bedrock("phantump", "sleep"))

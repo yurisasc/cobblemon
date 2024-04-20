@@ -22,21 +22,21 @@ class SpewpaModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("spewpa")
     override val head = getPart("head")
 
-    override val portraitScale = 2.8F
-    override val portraitTranslation = Vec3d(0.0, -1.8, 0.0)
+    override var portraitScale = 2.8F
+    override var portraitTranslation = Vec3d(0.0, -1.8, 0.0)
 
-    override val profileScale = 1.2F
-    override val profileTranslation = Vec3d(0.0, 0.0, 0.0)
+    override var profileScale = 1.2F
+    override var profileTranslation = Vec3d(0.0, 0.0, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
     lateinit var sleep: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("spewpa", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("spewpa", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("spewpa", "blink").setPreventsIdle(false) }
-        val fluff = quirk("fluff", secondsBetweenOccurrences = 60F to 360F) { bedrockStateful("spewpa", "quirk_fluff").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("spewpa", "blink") }
+        val fluff = quirk(secondsBetweenOccurrences = 60F to 360F) { bedrockStateful("spewpa", "quirk_fluff") }
 
         sleep = registerPose(
             poseType = PoseType.SLEEP,

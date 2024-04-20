@@ -23,11 +23,11 @@ class ZubatModel(root: ModelPart) : PokemonPoseableModel() {
     val wings_folded = getPart("wings_folded")
     val wings_open = getPart("wings_open")
 
-    override val portraitScale = 1.7F
-    override val portraitTranslation = Vec3d(0.0, 0.0, 0.0)
+    override var portraitScale = 1.7F
+    override var portraitTranslation = Vec3d(0.0, 0.0, 0.0)
 
-    override val profileScale = 0.7F
-    override val profileTranslation = Vec3d(0.0, 0.7, 0.0)
+    override var profileScale = 0.7F
+    override var profileTranslation = Vec3d(0.0, 0.7, 0.0)
 
     lateinit var sleep: PokemonPose
     lateinit var standing: PokemonPose
@@ -39,10 +39,10 @@ class ZubatModel(root: ModelPart) : PokemonPoseableModel() {
 
     val shoulderOffset = 0
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("zubat", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("zubat", "cry") }
 
     override fun registerPoses() {
-        val twitch = quirk("twitch") { bedrockStateful("zubat", "eartwitch").setPreventsIdle(false) }
+        val twitch = quirk { bedrockStateful("zubat", "eartwitch") }
         sleep = registerPose(
             poseType = PoseType.SLEEP,
             transformedParts = arrayOf(

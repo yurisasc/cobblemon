@@ -20,20 +20,20 @@ class WatchogModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("watchog")
     override val head = getPart("head")
 
-    override val portraitScale = 1.8F
-    override val portraitTranslation = Vec3d(-0.23, 2.0, 0.0)
+    override var portraitScale = 1.8F
+    override var portraitTranslation = Vec3d(-0.23, 2.0, 0.0)
 
-    override val profileScale = 0.55F
-    override val profileTranslation = Vec3d(0.0, 0.87, 0.0)
+    override var profileScale = 0.55F
+    override var profileTranslation = Vec3d(0.0, 0.87, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
     lateinit var sleep: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("watchog", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("watchog", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("watchog", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("watchog", "blink") }
         standing = registerPose(
             poseName = "standing",
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,

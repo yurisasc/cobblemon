@@ -31,20 +31,20 @@ class InfernapeModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
     override val leftArm = getPart("arm_left")
     override val rightArm = getPart("arm_right")
 
-    override val portraitScale = 1.8F
-    override val portraitTranslation = Vec3d(-0.65, 1.55, 0.0)
+    override var portraitScale = 1.8F
+    override var portraitTranslation = Vec3d(-0.65, 1.55, 0.0)
 
-    override val profileScale = 0.5F
-    override val profileTranslation = Vec3d(0.0, 1.0, 0.0)
+    override var profileScale = 0.5F
+    override var profileTranslation = Vec3d(0.0, 1.0, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
     lateinit var battleidle: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("infernape", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("infernape", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("infernape", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("infernape", "blink") }
         standing = registerPose(
                 poseName = "standing",
                 poseTypes = STATIONARY_POSES + UI_POSES,

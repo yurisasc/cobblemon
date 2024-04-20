@@ -24,21 +24,21 @@ import net.minecraft.util.math.Vec3d
 class CetitanModel(root: ModelPart) : PokemonPoseableModel() {
     override val rootPart = root.registerChildWithAllChildren("cetitan")
 
-    override val portraitScale = 0.55F
-    override val portraitTranslation = Vec3d(-0.4, 1.0, 0.0)
+    override var portraitScale = 0.55F
+    override var portraitTranslation = Vec3d(-0.4, 1.0, 0.0)
 
-    override val profileScale = 0.4F
-    override val profileTranslation = Vec3d(-0.1, 1.1, 0.0)
+    override var profileScale = 0.4F
+    override var profileTranslation = Vec3d(-0.1, 1.1, -6.0)
 
     lateinit var standing: PokemonPose
     lateinit var walking: PokemonPose
     lateinit var sleep: PokemonPose
     lateinit var battleidle: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("cetitan", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("cetitan", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("cetitan", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("cetitan", "blink") }
         sleep = registerPose(
             poseType = PoseType.SLEEP,
             idleAnimations = arrayOf(bedrock("cetitan", "sleep"))

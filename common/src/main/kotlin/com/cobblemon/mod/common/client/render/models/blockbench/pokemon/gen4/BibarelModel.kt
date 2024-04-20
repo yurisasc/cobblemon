@@ -31,11 +31,11 @@ class BibarelModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quadr
     override val foreLeftLeg= getPart("leg_front_left")
     override val foreRightLeg = getPart("leg_front_right")
 
-    override val portraitScale = 1.8F
-    override val portraitTranslation = Vec3d(-0.75, -0.5, 0.0)
+    override var portraitScale = 1.8F
+    override var portraitTranslation = Vec3d(-0.75, -0.5, 0.0)
 
-    override val profileScale = 0.8F
-    override val profileTranslation = Vec3d(0.0, 0.5, 0.0)
+    override var profileScale = 0.8F
+    override var profileTranslation = Vec3d(0.0, 0.5, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
@@ -44,7 +44,7 @@ class BibarelModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quadr
     val wateroffset = -1
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("bibarel", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("bibarel", "blink") }
         standing = registerPose(
             poseName = "standing",
             poseTypes = STATIONARY_POSES + UI_POSES,

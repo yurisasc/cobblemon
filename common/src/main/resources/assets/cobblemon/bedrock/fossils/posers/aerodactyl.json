@@ -1,7 +1,19 @@
 {
-  "maxScale": 0.7,
-  "yTranslation": 0.5,
+  "maxScale": 0.9,
+  "yTranslation": 0.0,
+  "yGrowthPoint": 0.6875,
   "animations": [
     "bedrock(aerodactyl_fetus, sleep)"
+  ],
+  "quirks": [
+    {
+      "name": "quirk",
+      "animations": [
+        "bedrock(shieldon_fetus, quirk)"
+      ],
+      "loopTimes": 1,
+      "minSeconds": 30,
+      "maxSeconds": 60
+    }
   ]
 }

@@ -18,10 +18,10 @@ import net.minecraft.util.math.Vec3d
 class HoothootModel (root: ModelPart) : PokemonPoseableModel() {
     override val rootPart = root.registerChildWithAllChildren("hoothoot")
 
-    override val portraitScale = 2.2F
-    override val portraitTranslation = Vec3d(-0.25, -0.9, 0.0)
-    override val profileScale = 1.0F
-    override val profileTranslation = Vec3d(0.0, 0.3, 0.0)
+    override var portraitScale = 2.2F
+    override var portraitTranslation = Vec3d(-0.25, -0.9, 0.0)
+    override var profileScale = 1.0F
+    override var profileTranslation = Vec3d(0.0, 0.3, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
@@ -30,11 +30,11 @@ class HoothootModel (root: ModelPart) : PokemonPoseableModel() {
     lateinit var sleep: PokemonPose
     lateinit var battleidle: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("hoothoot", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("hoothoot", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("hoothoot", "blink").setPreventsIdle(false)}
-        val quirk = quirk("quirk") { bedrockStateful("hoothoot", "quirk_foot").setPreventsIdle(false)}
+        val blink = quirk { bedrockStateful("hoothoot", "blink")}
+        val quirk = quirk { bedrockStateful("hoothoot", "quirk_foot")}
 
         sleep = registerPose(
             poseType = PoseType.SLEEP,

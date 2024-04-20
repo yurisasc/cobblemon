@@ -27,19 +27,19 @@ class YamperModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quadr
     override val hindLeftLeg = getPart("leg_back_left")
     override val hindRightLeg = getPart("leg_back_right")
 
-    override val portraitScale = 2.1F
-    override val portraitTranslation = Vec3d(-0.2, -0.7, 0.0)
+    override var portraitScale = 2.1F
+    override var portraitTranslation = Vec3d(-0.2, -0.7, 0.0)
 
-    override val profileScale = 0.8F
-    override val profileTranslation = Vec3d(0.0, 0.5, 0.0)
+    override var profileScale = 0.8F
+    override var profileTranslation = Vec3d(0.0, 0.5, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("yamper", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("yamper", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("yamper", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("yamper", "blink") }
 
         standing = registerPose(
             poseName = "standing",

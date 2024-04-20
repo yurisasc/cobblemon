@@ -33,11 +33,11 @@ class SpearowModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Biped
     override val head = getPart("head")
     private val tail = getPart("tail")
 
-    override val portraitScale = 3.5F
-    override val portraitTranslation = Vec3d(-0.1, -2.1, 0.0)
+    override var portraitScale = 3.5F
+    override var portraitTranslation = Vec3d(-0.1, -2.1, 0.0)
 
-    override val profileScale = 1.2F
-    override val profileTranslation = Vec3d(0.0, -0.01, 0.0)
+    override var profileScale = 1.2F
+    override var profileTranslation = Vec3d(0.0, -0.01, 0.0)
 
     lateinit var sleep: PokemonPose
     lateinit var stand: PokemonPose
@@ -45,10 +45,10 @@ class SpearowModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Biped
     lateinit var hover: PokemonPose
     lateinit var fly: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("spearow", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("spearow", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("spearow", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("spearow", "blink") }
         stand = registerPose(
             poseName = "standing",
             poseTypes = PoseType.SHOULDER_POSES + UI_POSES + PoseType.STAND,

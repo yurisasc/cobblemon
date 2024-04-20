@@ -45,22 +45,22 @@ class EkansModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     val tail5Segment = WaveSegment(modelPart = tail5, length = 10F)
     val tail6Segment = WaveSegment(modelPart = tail6, length = 10F)
 
-    override val portraitScale = 1.7F
-    override val portraitTranslation = Vec3d(-0.3, -0.45, 0.0)
+    override var portraitScale = 1.7F
+    override var portraitTranslation = Vec3d(-0.3, -0.45, 0.0)
 
-    override val profileScale = 0.7F
-    override val profileTranslation = Vec3d(-0.05, 0.6, 0.0)
+    override var profileScale = 0.7F
+    override var profileTranslation = Vec3d(-0.05, 0.6, 0.0)
 
     lateinit var sleep: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("ekans", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("ekans", "cry") }
 
     override fun registerPoses() {
         sleep = registerPose(
             poseType = PoseType.SLEEP,
             idleAnimations = arrayOf(bedrock("ekans", "sleep"))
         )
-        val blink = quirk("blink") { bedrockStateful("ekans", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("ekans", "blink") }
         registerPose(
             poseName = "normal",
             poseTypes = STATIONARY_POSES + MOVING_POSES,

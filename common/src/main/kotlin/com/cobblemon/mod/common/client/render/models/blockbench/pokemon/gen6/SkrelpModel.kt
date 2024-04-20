@@ -20,19 +20,19 @@ class SkrelpModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("skrelp")
     override val head = getPart("head")
 
-    override val portraitScale = 2.4F
-    override val portraitTranslation = Vec3d(-0.1, 0.0, 0.0)
+    override var portraitScale = 2.4F
+    override var portraitTranslation = Vec3d(-0.1, 0.0, 0.0)
 
-    override val profileScale = 0.9F
-    override val profileTranslation = Vec3d(0.0, 0.6, 0.0)
+    override var profileScale = 0.9F
+    override var profileTranslation = Vec3d(0.0, 0.6, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("skrelp", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("skrelp", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("skrelp", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("skrelp", "blink") }
         standing = registerPose(
             poseName = "standing",
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,

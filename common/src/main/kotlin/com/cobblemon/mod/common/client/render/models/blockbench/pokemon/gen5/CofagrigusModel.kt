@@ -20,21 +20,21 @@ import net.minecraft.util.math.Vec3d
 class CofagrigusModel (root: ModelPart) : PokemonPoseableModel() {
     override val rootPart = root.registerChildWithAllChildren("cofagrigus")
 
-    override val portraitScale = 2.0F
-    override val portraitTranslation = Vec3d(0.0, 2.8, 0.0)
+    override var portraitScale = 2.0F
+    override var portraitTranslation = Vec3d(0.0, 2.8, 0.0)
 
-    override val profileScale = 0.35F
-    override val profileTranslation = Vec3d(0.0, 1.3, 0.0)
+    override var profileScale = 0.35F
+    override var profileTranslation = Vec3d(0.0, 1.3, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
     lateinit var fly: PokemonPose
     lateinit var sleep: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("cofagrigus", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("cofagrigus", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("cofagrigus", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("cofagrigus", "blink") }
 
         sleep = registerPose(
                 poseType = PoseType.SLEEP,

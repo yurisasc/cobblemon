@@ -30,20 +30,20 @@ class ChesnaughtModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, B
     override val leftLeg = getPart("leg_left")
     override val rightLeg = getPart("leg_right")
 
-    override val portraitScale = 2.2F
-    override val portraitTranslation = Vec3d(-1.0, 1.65, 0.0)
+    override var portraitScale = 2.2F
+    override var portraitTranslation = Vec3d(-1.0, 1.65, 0.0)
 
-    override val profileScale = 0.6F
-    override val profileTranslation = Vec3d(0.0, 0.85, 0.0)
+    override var profileScale = 0.6F
+    override var profileTranslation = Vec3d(0.0, 0.85, 0.0)
 
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("chesnaught", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("chesnaught", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("chesnaught", "blink").setPreventsIdle(false)}
+        val blink = quirk { bedrockStateful("chesnaught", "blink")}
 
         standing = registerPose(
             poseName = "standing",

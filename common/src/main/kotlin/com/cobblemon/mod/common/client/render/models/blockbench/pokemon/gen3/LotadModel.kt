@@ -27,11 +27,11 @@ class LotadModel (root: ModelPart) : PokemonPoseableModel(), QuadrupedFrame {
     override val hindLeftLeg = getPart("leg_left2")
     override val hindRightLeg = getPart("leg_right2")
 
-    override val portraitScale = 2.5F
-    override val portraitTranslation = Vec3d(-0.15, -2.0, 0.0)
+    override var portraitScale = 2.5F
+    override var portraitTranslation = Vec3d(-0.15, -2.0, 0.0)
 
-    override val profileScale = 1.0F
-    override val profileTranslation = Vec3d(0.0, 0.25, 0.0)
+    override var profileScale = 1.0F
+    override var profileTranslation = Vec3d(0.0, 0.25, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var waterstanding: PokemonPose
@@ -44,7 +44,7 @@ class LotadModel (root: ModelPart) : PokemonPoseableModel(), QuadrupedFrame {
     val wateroffset = -2
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("charmander", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("charmander", "blink") }
 
         standing = registerPose(
             poseName = "standing",

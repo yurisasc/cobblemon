@@ -32,11 +32,11 @@ class TranquillModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bi
     override val head = getPart("head_ai")
     private val tail = getPart("tail")
 
-    override val portraitScale = 2.4F
-    override val portraitTranslation = Vec3d(-0.3, -0.2, 0.0)
+    override var portraitScale = 2.4F
+    override var portraitTranslation = Vec3d(-0.3, -0.2, 0.0)
 
-    override val profileScale = 1.0F
-    override val profileTranslation = Vec3d(0.0, 0.3, 0.0)
+    override var profileScale = 1.0F
+    override var profileTranslation = Vec3d(0.0, 0.3, 0.0)
 
     //    lateinit var sleep: PokemonPose
     lateinit var stand: PokemonPose
@@ -44,14 +44,14 @@ class TranquillModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bi
     lateinit var hover: PokemonPose
     lateinit var fly: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("tranquill", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("tranquill", "cry") }
 
     override fun registerPoses() {
 //        sleep = registerPose(
 //            poseType = PoseType.SLEEP,
 //            idleAnimations = arrayOf(bedrock("tranquill", "sleep"))
 //        )
-        val blink = quirk("blink") { bedrockStateful("tranquill", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("tranquill", "blink") }
         stand = registerPose(
             poseName = "standing",
             poseTypes = PoseType.SHOULDER_POSES + PoseType.UI_POSES + PoseType.STAND,

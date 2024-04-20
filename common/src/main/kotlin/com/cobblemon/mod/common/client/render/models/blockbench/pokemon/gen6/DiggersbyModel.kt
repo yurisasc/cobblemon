@@ -20,11 +20,11 @@ class DiggersbyModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("diggersby")
     override val head = getPart("head")
 
-    override val portraitScale = 1.8F
-    override val portraitTranslation = Vec3d(-0.15, 1.5, 0.0)
+    override var portraitScale = 1.8F
+    override var portraitTranslation = Vec3d(-0.15, 1.5, 0.0)
 
-    override val profileScale = 0.5F
-    override val profileTranslation = Vec3d(0.0, 1.0, 0.0)
+    override var profileScale = 0.5F
+    override var profileTranslation = Vec3d(0.0, 1.0, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walking: PokemonPose
@@ -32,10 +32,10 @@ class DiggersbyModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     lateinit var battleidle: PokemonPose
     lateinit var portrait: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("diggersby", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("diggersby", "cry") }
 
     override fun registerPoses() {
-        val sleep1 = quirk("sleep1", secondsBetweenOccurrences = 60F to 120F) { bedrockStateful("diggersby", "quirk_sleep").setPreventsIdle(false) }
+        val sleep1 = quirk(secondsBetweenOccurrences = 60F to 120F) { bedrockStateful("diggersby", "quirk_sleep") }
 
         sleep = registerPose(
             poseType = PoseType.SLEEP,

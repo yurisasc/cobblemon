@@ -24,11 +24,11 @@ class CacneaModel (root: ModelPart) : PokemonPoseableModel(), BimanualFrame, Bip
     override val leftArm = getPart("arm_left")
     override val rightArm = getPart("arm_right")
 
-    override val portraitScale = 2.0F
-    override val portraitTranslation = Vec3d(-0.2, -1.0, 0.0)
+    override var portraitScale = 2.0F
+    override var portraitTranslation = Vec3d(-0.2, -1.0, 0.0)
 
-    override val profileScale = 0.85F
-    override val profileTranslation = Vec3d(0.0, 0.5, 0.0)
+    override var profileScale = 0.85F
+    override var profileTranslation = Vec3d(0.0, 0.5, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
@@ -36,7 +36,7 @@ class CacneaModel (root: ModelPart) : PokemonPoseableModel(), BimanualFrame, Bip
     lateinit var battleidle: PokemonPose
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("cacnea", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("cacnea", "blink") }
         sleep = registerPose(
             poseType = PoseType.SLEEP,
             idleAnimations = arrayOf(bedrock("cacnea", "sleep"))

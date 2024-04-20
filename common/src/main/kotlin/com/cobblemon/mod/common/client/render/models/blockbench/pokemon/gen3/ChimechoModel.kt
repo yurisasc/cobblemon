@@ -19,18 +19,18 @@ import net.minecraft.util.math.Vec3d
 class ChimechoModel(root: ModelPart) : PokemonPoseableModel() {
     override val rootPart = root.registerChildWithAllChildren("chimecho")
 
-    override val portraitScale = 3.6F
-    override val portraitTranslation = Vec3d(-0.1, -0.4, 0.0)
+    override var portraitScale = 3.6F
+    override var portraitTranslation = Vec3d(-0.1, -0.4, 0.0)
 
-    override val profileScale = 1.0F
-    override val profileTranslation = Vec3d(0.0, 0.3, 0.0)
+    override var profileScale = 1.0F
+    override var profileTranslation = Vec3d(0.0, 0.3, 0.0)
 
     lateinit var sleep: PokemonPose
     lateinit var hover: PokemonPose
     lateinit var fly: PokemonPose
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("chimecho", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("chimecho", "blink") }
         sleep = registerPose(
             poseType = PoseType.SLEEP,
             idleAnimations = arrayOf(bedrock("chimecho", "sleep"))

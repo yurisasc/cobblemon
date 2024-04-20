@@ -31,20 +31,20 @@ class DewottModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Biped
     val scalchop_right = getPart("scalchop_hand_right")
     val scalchop_left = getPart("scalchop_hand_left")
 
-    override val portraitScale = 2.0F
-    override val portraitTranslation = Vec3d(-0.15, 0.8, 0.0)
-    override val profileScale = 0.7F
-    override val profileTranslation = Vec3d(0.0, 0.69, 0.0)
+    override var portraitScale = 2.0F
+    override var portraitTranslation = Vec3d(-0.15, 0.8, 0.0)
+    override var profileScale = 0.7F
+    override var profileTranslation = Vec3d(0.0, 0.69, 0.0)
 
     lateinit var battleidle: PokemonPose
     lateinit var sleep: PokemonPose
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("dewott", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("dewott", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("dewott", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("dewott", "blink") }
         sleep = registerPose(
             poseType = PoseType.SLEEP,
             transformTicks = 10,

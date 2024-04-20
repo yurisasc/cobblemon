@@ -26,17 +26,17 @@ class TreeckoModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bipe
     override val leftLeg = getPart("leg_left")
     override val rightLeg = getPart("leg_right")
 
-    override val portraitScale = 2.8F
-    override val portraitTranslation = Vec3d(0.05, -0.55, 0.0)
+    override var portraitScale = 2.8F
+    override var portraitTranslation = Vec3d(0.05, -0.55, 0.0)
 
-    override val profileScale = 0.85F
-    override val profileTranslation = Vec3d(0.0, 0.5, 0.0)
+    override var profileScale = 0.85F
+    override var profileTranslation = Vec3d(0.0, 0.5, 0.0)
 
     lateinit var sleep: PokemonPose
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("treecko", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("treecko", "cry") }
 
     override fun registerPoses() {
         sleep = registerPose(
@@ -44,7 +44,7 @@ class TreeckoModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bipe
             idleAnimations = arrayOf(bedrock("treecko", "sleep"))
         )
 
-        val blink = quirk("blink") { bedrockStateful("treecko", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("treecko", "blink") }
         standing = registerPose(
             poseName = "standing",
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,

@@ -29,18 +29,18 @@ class PersianAlolanModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame,
     override val hindLeftLeg = getPart("leg_back_left1")
     override val hindRightLeg = getPart("leg_back_right1")
 
-    override val portraitScale = 2.0F
-    override val portraitTranslation = Vec3d(-0.76, -0.11, 0.0)
+    override var portraitScale = 2.0F
+    override var portraitTranslation = Vec3d(-0.76, -0.11, 0.0)
 
-    override val profileScale = 0.9F
-    override val profileTranslation = Vec3d(0.0, 0.38, 0.0)
+    override var profileScale = 0.9F
+    override var profileTranslation = Vec3d(0.0, 0.38, 0.0)
 
     lateinit var sleep: PokemonPose
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("persian_alolan", "blink").setPreventsIdle(false)}
+        val blink = quirk { bedrockStateful("persian_alolan", "blink")}
         standing = registerPose(
             poseName = "standing",
             poseTypes = STATIONARY_POSES + UI_POSES,

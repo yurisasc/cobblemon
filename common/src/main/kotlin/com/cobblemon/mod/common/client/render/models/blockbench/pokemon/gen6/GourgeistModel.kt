@@ -20,11 +20,11 @@ class GourgeistModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("gourgeist")
     override val head = getPart("head")
 
-    override val portraitScale = 4.0F
-    override val portraitTranslation = Vec3d(-0.1, 0.6, 0.0)
+    override var portraitScale = 4.0F
+    override var portraitTranslation = Vec3d(-0.1, 0.6, 0.0)
 
-    override val profileScale = 0.8F
-    override val profileTranslation = Vec3d(0.0, 0.55, 0.0)
+    override var profileScale = 0.8F
+    override var profileTranslation = Vec3d(0.0, 0.55, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
@@ -32,10 +32,10 @@ class GourgeistModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     lateinit var fly: PokemonPose
     lateinit var sleep: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("gourgeist", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("gourgeist", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("gourgeist", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("gourgeist", "blink") }
         standing = registerPose(
             poseName = "standing",
             poseTypes = PoseType.UI_POSES + PoseType.STAND,

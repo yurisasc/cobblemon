@@ -37,10 +37,10 @@ class UnfezantModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
     val closedWingLeft = getPart("closed_left")
     val closedWingRight = getPart("closed_right")
 
-    override val portraitScale = 2.1F
-    override val portraitTranslation = Vec3d(-0.5, 1.5, 0.0)
-    override val profileScale = 0.7F
-    override val profileTranslation = Vec3d(0.0, 0.7, 0.0)
+    override var portraitScale = 2.1F
+    override var portraitTranslation = Vec3d(-0.5, 1.5, 0.0)
+    override var profileScale = 0.7F
+    override var profileTranslation = Vec3d(0.0, 0.7, 0.0)
 
     //    lateinit var sleep: PokemonPose
     lateinit var stand: PokemonPose
@@ -48,7 +48,7 @@ class UnfezantModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
     lateinit var hover: PokemonPose
     lateinit var fly: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("unfezant", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("unfezant", "cry") }
 
     override fun registerPoses() {
 //        sleep = registerPose(
@@ -56,7 +56,7 @@ class UnfezantModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
 //            idleAnimations = arrayOf(bedrock("unfezant", "sleep"))
 //        )
 
-        val blink = quirk("blink") { bedrockStateful("unfezant", "blink").setPreventsIdle(false)}
+        val blink = quirk { bedrockStateful("unfezant", "blink")}
         stand = registerPose(
             poseName = "stand",
             poseTypes = PoseType.STATIONARY_POSES - PoseType.HOVER - PoseType.FLOAT + PoseType.UI_POSES,

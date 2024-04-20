@@ -24,11 +24,11 @@ class FlittleModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("flittle")
     override val head = getPart("body")
 
-    override val portraitScale = 2.0F
-    override val portraitTranslation = Vec3d(0.0, 0.0, 0.0)
+    override var portraitScale = 2.0F
+    override var portraitTranslation = Vec3d(0.0, 0.0, 0.0)
 
-    override val profileScale = 0.85F
-    override val profileTranslation = Vec3d(0.0, 0.65, 0.0)
+    override var profileScale = 0.85F
+    override var profileTranslation = Vec3d(0.0, 0.65, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
@@ -38,13 +38,13 @@ class FlittleModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     lateinit var shoulderRight: PokemonPose
     lateinit var sleep: PokemonPose
 
-    val shoulderOffsetX = 6
+    val shoulderOffsetX = 11
     val shoulderOffsetY = 6
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("flittle", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("flittle", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("flittle", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("flittle", "blink") }
         sleep = registerPose(
                 poseType = PoseType.SLEEP,
                 idleAnimations = arrayOf(bedrock("flittle", "sleep"))

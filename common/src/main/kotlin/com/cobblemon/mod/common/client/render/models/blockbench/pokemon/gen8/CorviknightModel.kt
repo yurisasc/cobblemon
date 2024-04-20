@@ -32,11 +32,11 @@ class CorviknightModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, 
     val closedWingLeft = getPart("wing_closed_left")
     val closedWingRight = getPart("wing_closed_right")
 
-    override val portraitScale = 1.0F
-    override val portraitTranslation = Vec3d(-0.45, 3.0, 0.0)
+    override var portraitScale = 1.0F
+    override var portraitTranslation = Vec3d(-0.45, 3.0, 0.0)
 
-    override val profileScale = 0.36F
-    override val profileTranslation = Vec3d(0.0, 1.2, 0.0)
+    override var profileScale = 0.36F
+    override var profileTranslation = Vec3d(0.0, 1.2, 0.0)
 
 
     lateinit var stand: PokemonPose
@@ -45,10 +45,10 @@ class CorviknightModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, 
     lateinit var fly: PokemonPose
     lateinit var sleep: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("corviknight", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("corviknight", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("corviknight", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("corviknight", "blink") }
         sleep = registerPose(
             poseType = PoseType.SLEEP,
             idleAnimations = arrayOf(bedrock("corviknight", "sleep"))

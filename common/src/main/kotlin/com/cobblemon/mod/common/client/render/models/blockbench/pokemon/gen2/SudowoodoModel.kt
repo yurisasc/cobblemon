@@ -30,17 +30,17 @@ class SudowoodoModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
     override val leftLeg = getPart("leg_left")
     override val rightLeg = getPart("leg_right")
 
-    override val portraitScale = 1.9F
-    override val portraitTranslation = Vec3d(-0.7, 1.6, 0.0)
+    override var portraitScale = 1.9F
+    override var portraitTranslation = Vec3d(-0.7, 1.6, 0.0)
 
-    override val profileScale = 0.5F
-    override val profileTranslation = Vec3d(-0.1, 0.95, 0.0)
+    override var profileScale = 0.5F
+    override var profileTranslation = Vec3d(-0.1, 0.95, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("sudowoodo", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("sudowoodo", "blink") }
         standing = registerPose(
             poseName = "standing",
             poseTypes = STATIONARY_POSES + UI_POSES,

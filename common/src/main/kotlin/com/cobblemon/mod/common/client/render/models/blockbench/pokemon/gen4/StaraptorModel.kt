@@ -30,10 +30,10 @@ class StaraptorModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bi
     override val rightLeg = getPart("leg_right")
     override val head = getPart("head_ai")
 
-    override val portraitScale = 2.2F
-    override val portraitTranslation = Vec3d(-0.6, 0.15, 0.0)
-    override val profileScale = 0.9F
-    override val profileTranslation = Vec3d(0.0, 0.4, 0.0)
+    override var portraitScale = 2.2F
+    override var portraitTranslation = Vec3d(-0.6, 0.15, 0.0)
+    override var profileScale = 0.9F
+    override var profileTranslation = Vec3d(0.0, 0.4, 0.0)
 
 //    lateinit var sleep: PokemonPose
     lateinit var stand: PokemonPose
@@ -47,7 +47,7 @@ class StaraptorModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bi
 //            idleAnimations = arrayOf(bedrock("staraptor", "sleep"))
 //        )
 
-        val blink = quirk("blink") { bedrockStateful("staraptor", "blink").setPreventsIdle(false)}
+        val blink = quirk { bedrockStateful("staraptor", "blink")}
         stand = registerPose(
             poseName = "stand",
             poseTypes = PoseType.STATIONARY_POSES - PoseType.HOVER - PoseType.FLOAT + PoseType.UI_POSES,

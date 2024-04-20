@@ -19,11 +19,11 @@ import net.minecraft.util.math.Vec3d
 class VespiquenModel (root: ModelPart) : PokemonPoseableModel() {
     override val rootPart = root.registerChildWithAllChildren("vespiquen")
 
-    override val portraitScale = 1.9F
-    override val portraitTranslation = Vec3d(-0.14, 0.8, 0.0)
+    override var portraitScale = 1.9F
+    override var portraitTranslation = Vec3d(-0.14, 0.8, 0.0)
 
-    override val profileScale = 0.75F
-    override val profileTranslation = Vec3d(0.0, 0.6, 0.0)
+    override var profileScale = 0.75F
+    override var profileTranslation = Vec3d(0.0, 0.6, 0.0)
 
     lateinit var hover: PokemonPose
     lateinit var fly: PokemonPose
@@ -31,8 +31,8 @@ class VespiquenModel (root: ModelPart) : PokemonPoseableModel() {
     lateinit var standing: PokemonPose
 
     override fun registerPoses() {
-        val blink1 = quirk("blink") { bedrockStateful("vespiquen", "blink").setPreventsIdle(false) }
-        val wingsleep = quirk("wingsleep") { bedrockStateful("vespiquen", "sleep_flap").setPreventsIdle(false) }
+        val blink1 = quirk { bedrockStateful("vespiquen", "blink") }
+        val wingsleep = quirk { bedrockStateful("vespiquen", "sleep_flap") }
 
         sleep = registerPose(
             poseType = PoseType.SLEEP,

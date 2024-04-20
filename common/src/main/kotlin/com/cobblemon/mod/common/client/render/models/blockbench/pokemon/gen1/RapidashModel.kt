@@ -31,21 +31,21 @@ class RapidashModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quad
     override val hindLeftLeg = getPart("leg_back_left")
     override val hindRightLeg = getPart("leg_back_right")
 
-    override val portraitScale = 2.5F
-    override val portraitTranslation = Vec3d(-0.7, 1.11, 0.0)
+    override var portraitScale = 2.5F
+    override var portraitTranslation = Vec3d(-0.7, 1.11, 0.0)
 
-    override val profileScale = 0.75F
-    override val profileTranslation = Vec3d(0.0, 0.65, 0.0)
+    override var profileScale = 0.75F
+    override var profileTranslation = Vec3d(0.0, 0.65, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
     lateinit var sleep: PokemonPose
     lateinit var battling: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("rapidash", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("rapidash", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("rapidash", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("rapidash", "blink") }
         sleep = registerPose(
             poseType = PoseType.SLEEP,
             idleAnimations = arrayOf(bedrock("rapidash", "sleep"))

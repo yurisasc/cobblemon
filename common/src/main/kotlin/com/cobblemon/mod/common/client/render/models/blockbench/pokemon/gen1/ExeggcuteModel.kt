@@ -21,11 +21,11 @@ import net.minecraft.util.math.Vec3d
 class ExeggcuteModel(root: ModelPart) : PokemonPoseableModel() {
     override val rootPart = root.registerChildWithAllChildren("exeggcute")
 
-    override val portraitScale = 2.1F
-    override val portraitTranslation = Vec3d(0.0, -1.9, 0.0)
+    override var portraitScale = 2.1F
+    override var portraitTranslation = Vec3d(0.0, -1.9, 0.0)
 
-    override val profileScale = 1.0F
-    override val profileTranslation = Vec3d(-0.15, 0.0, 0.0)
+    override var profileScale = 1.0F
+    override var profileTranslation = Vec3d(-0.15, 0.0, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
@@ -33,12 +33,12 @@ class ExeggcuteModel(root: ModelPart) : PokemonPoseableModel() {
     lateinit var uiPortrait: PokemonPose
 
     override fun registerPoses() {
-        val blink1 = quirk("blink") { bedrockStateful("exeggcute", "blink").setPreventsIdle(false) }
-        val blink2 = quirk("blink") { bedrockStateful("exeggcute", "blink2").setPreventsIdle(false) }
-        val blink3 = quirk("blink") { bedrockStateful("exeggcute", "blink3").setPreventsIdle(false) }
-        val blink4 = quirk("blink") { bedrockStateful("exeggcute", "blink4").setPreventsIdle(false) }
-        val blink5 = quirk("blink") { bedrockStateful("exeggcute", "blink5").setPreventsIdle(false) }
-        val blink6 = quirk("blink") { bedrockStateful("exeggcute", "blink6").setPreventsIdle(false) }
+        val blink1 = quirk { bedrockStateful("exeggcute", "blink") }
+        val blink2 = quirk { bedrockStateful("exeggcute", "blink2") }
+        val blink3 = quirk { bedrockStateful("exeggcute", "blink3") }
+        val blink4 = quirk { bedrockStateful("exeggcute", "blink4") }
+        val blink5 = quirk { bedrockStateful("exeggcute", "blink5") }
+        val blink6 = quirk { bedrockStateful("exeggcute", "blink6") }
         uiPortrait = registerPose(
             poseName = "portrait",
             poseType = PoseType.PORTRAIT,

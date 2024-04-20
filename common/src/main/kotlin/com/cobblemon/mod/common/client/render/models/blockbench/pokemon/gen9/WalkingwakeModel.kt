@@ -27,11 +27,11 @@ class WalkingwakeModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, 
     override val leftLeg = getPart("leg_left")
     override val rightLeg = getPart("leg_right")
 
-    override val portraitScale = 2.2F
-    override val portraitTranslation = Vec3d(-2.5, 2.4, 0.0)
+    override var portraitScale = 2.2F
+    override var portraitTranslation = Vec3d(-2.5, 2.4, 0.0)
 
-    override val profileScale = 0.35F
-    override val profileTranslation = Vec3d(0.0, 1.2, 0.0)
+    override var profileScale = 0.35F
+    override var profileTranslation = Vec3d(0.0, 1.2, -6.0)
 
     val hair = getPart("hair")
 
@@ -52,7 +52,7 @@ class WalkingwakeModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, 
             idleAnimations = arrayOf(bedrock("walkingwake", "sleep"))
         )
 
-        val blink = quirk("blink") { bedrockStateful("walkingwake", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("walkingwake", "blink") }
         standing = registerPose(
             poseName = "standing",
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,

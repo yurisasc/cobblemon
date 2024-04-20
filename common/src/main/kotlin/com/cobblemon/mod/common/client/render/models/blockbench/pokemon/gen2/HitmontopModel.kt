@@ -21,21 +21,21 @@ class HitmontopModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("hitmontop")
     override val head = getPart("head")
 
-    override val portraitScale = 2.6F
-    override val portraitTranslation = Vec3d(-0.26, -0.5, 0.0)
+    override var portraitScale = 2.6F
+    override var portraitTranslation = Vec3d(-0.26, -0.5, 0.0)
 
-    override val profileScale = 0.91F
-    override val profileTranslation = Vec3d(0.0, 0.4, 0.0)
+    override var profileScale = 0.91F
+    override var profileTranslation = Vec3d(0.0, 0.4, 0.0)
 
     lateinit var sleep: PokemonPose
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
     lateinit var battleidle: PokemonPose
 
-//    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("hitmontop", "cry").setPreventsIdle(false) }
+//    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("hitmontop", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("hitmontop", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("hitmontop", "blink") }
         sleep = registerPose(
             poseType = PoseType.SLEEP,
             idleAnimations = arrayOf(bedrock("hitmontop", "sleep"))

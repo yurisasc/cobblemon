@@ -22,23 +22,23 @@ class SlugmaShinyModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("slugma_shiny")
     override val head = getPart("head")
 
-    override val portraitScale = 1.7F
-    override val portraitTranslation = Vec3d(-0.35, -0.3, 0.0)
+    override var portraitScale = 1.7F
+    override var portraitTranslation = Vec3d(-0.35, -0.3, 0.0)
 
-    override val profileScale = 0.75F
-    override val profileTranslation = Vec3d(0.0, 0.575, 0.0)
+    override var profileScale = 0.75F
+    override var profileTranslation = Vec3d(0.0, 0.575, 0.0)
 
     lateinit var shiny_sleep: PokemonPose
     lateinit var shiny_standing: PokemonPose
     lateinit var shiny_walk: PokemonPose
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("slugma_shiny", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("slugma_shiny", "blink") }
 
         shiny_sleep = registerPose(
             poseName = "shiny_sleeping",
             poseType = PoseType.SLEEP,
-            idleAnimations = arrayOf(bedrock("slugma_shiny", "ground_sleep"))
+            idleAnimations = arrayOf(bedrock("slugma_shiny", "sleep"))
         )
 
         shiny_standing = registerPose(

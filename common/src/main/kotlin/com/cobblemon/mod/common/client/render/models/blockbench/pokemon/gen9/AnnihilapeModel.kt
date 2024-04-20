@@ -27,21 +27,21 @@ class AnnihilapeModel (root: ModelPart) : PokemonPoseableModel(), BipedFrame, Bi
     override val leftLeg = getPart("leg_left")
     override val rightLeg = getPart("leg_right")
 
-    override val portraitScale = 1.4F
-    override val portraitTranslation = Vec3d(0.0, 0.1, 0.0)
+    override var portraitScale = 1.4F
+    override var portraitTranslation = Vec3d(0.0, 0.1, 0.0)
 
-    override val profileScale = 0.85F
-    override val profileTranslation = Vec3d(0.0, 0.45, 0.0)
+    override var profileScale = 0.85F
+    override var profileTranslation = Vec3d(0.0, 0.45, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walking: PokemonPose
     lateinit var sleep: PokemonPose
     lateinit var battleidle: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("annihilape", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("annihilape", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("annihilape", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("annihilape", "blink") }
         sleep = registerPose(
             poseType = PoseType.SLEEP,
             idleAnimations = arrayOf(

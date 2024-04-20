@@ -21,11 +21,11 @@ class RayquazaModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("rayquaza")
     override val head = getPart("head")
 
-    override val portraitScale = 1.5F
-    override val portraitTranslation = Vec3d(-1.85, 3.5, 0.0)
+    override var portraitScale = 1.5F
+    override var portraitTranslation = Vec3d(-1.85, 3.5, 0.0)
 
-    override val profileScale = 0.4F
-    override val profileTranslation = Vec3d(0.0, 1.3, 0.0)
+    override var profileScale = 0.4F
+    override var profileTranslation = Vec3d(0.0, 1.3, -6.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose

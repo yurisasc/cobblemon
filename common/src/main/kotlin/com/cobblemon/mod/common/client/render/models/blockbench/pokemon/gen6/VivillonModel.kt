@@ -25,20 +25,20 @@ class VivillonModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BiWi
     override val leftWing = getPart("wing_left")
     override val rightWing = getPart("wing_right")
 
-    override val portraitScale = 2.8F
-    override val portraitTranslation = Vec3d(-0.3, 0.2, 0.0)
+    override var portraitScale = 2.8F
+    override var portraitTranslation = Vec3d(-0.3, 0.2, 0.0)
 
-    override val profileScale = 0.7F
-    override val profileTranslation = Vec3d(0.1, 0.8, 0.0)
+    override var profileScale = 0.7F
+    override var profileTranslation = Vec3d(0.1, 0.8, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
     lateinit var sleep: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("vivillon", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("vivillon", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("vivillon", "blink").setPreventsIdle(false)}
+        val blink = quirk { bedrockStateful("vivillon", "blink")}
 
         sleep = registerPose(
             poseName = "sleep",

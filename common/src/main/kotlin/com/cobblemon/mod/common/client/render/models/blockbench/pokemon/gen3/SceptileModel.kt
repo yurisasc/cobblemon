@@ -9,6 +9,7 @@
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen3
 
 import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
+import com.cobblemon.mod.common.client.render.models.blockbench.animation.BipedWalkAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
@@ -23,27 +24,27 @@ class SceptileModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
     override val rootPart = root.registerChildWithAllChildren("sceptile")
     override val head = getPart("head")
 
-    override val leftLeg = getPart("leg_left")
-    override val rightLeg = getPart("leg_right")
+    override val leftLeg = getPart("left_upper_leg")
+    override val rightLeg = getPart("right_upper_leg")
 
-    override val portraitScale = 2.8F
-    override val portraitTranslation = Vec3d(-0.3, 1.9, 0.0)
+    override var portraitScale = 2.34F
+    override var portraitTranslation = Vec3d(-0.25, 2.22, 0.0)
 
-    override val profileScale = 0.7F
-    override val profileTranslation = Vec3d(0.0, 0.73, 0.0)
+    override var profileScale = 0.63F
+    override var profileTranslation = Vec3d(0.06, 0.91, 0.0)
 
     lateinit var sleep: PokemonPose
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("sceptile", "cry").setPreventsIdle(false) }
+    //override val cryAnimation = CryProvider { _, _ -> bedrockStateful("sceptile", "cry") }
 
     override fun registerPoses() {
-        sleep = registerPose(
-            poseType = PoseType.SLEEP,
-            idleAnimations = arrayOf(bedrock("sceptile", "sleep"))
-        )
-        val blink = quirk("blink") { bedrockStateful("sceptile", "blink").setPreventsIdle(false) }
+       // sleep = registerPose(
+       //     poseType = PoseType.SLEEP,
+       //     idleAnimations = arrayOf(bedrock("sceptile", "sleep"))
+        // )
+        val blink = quirk { bedrockStateful("sceptile", "blink") }
         standing = registerPose(
             poseName = "standing",
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
@@ -60,13 +61,14 @@ class SceptileModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
-                bedrock("sceptile", "ground_walk"),
+                bedrock("sceptile", "ground_idle"),
+                    BipedWalkAnimation(this, periodMultiplier = 0.6F, amplitudeMultiplier = 0.9F)
             )
         )
     }
-    override fun getFaintAnimation(
-        pokemonEntity: PokemonEntity,
-        state: PoseableEntityState<PokemonEntity>
-    ) = if (state.isNotPosedIn(sleep)) bedrockStateful("sceptile", "faint") else null
+    //override fun getFaintAnimation(
+    //    pokemonEntity: PokemonEntity,
+    //    state: PoseableEntityState<PokemonEntity>
+    //) = if (state.isNotPosedIn(sleep)) bedrockStateful("sceptile", "faint") else null
 
 }

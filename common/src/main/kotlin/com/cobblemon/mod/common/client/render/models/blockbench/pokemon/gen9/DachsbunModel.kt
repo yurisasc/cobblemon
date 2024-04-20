@@ -29,20 +29,20 @@ class DachsbunModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quad
     override val foreLeftLeg = getPart("leg_front_left")
     override val foreRightLeg = getPart("leg_front_right")
 
-    override val portraitScale = 1.5F
-    override val portraitTranslation = Vec3d(-0.8, 0.25, 0.0)
+    override var portraitScale = 1.5F
+    override var portraitTranslation = Vec3d(-0.8, 0.25, 0.0)
 
-    override val profileScale = 0.6F
-    override val profileTranslation = Vec3d(0.0, 0.8, 0.0)
+    override var profileScale = 0.6F
+    override var profileTranslation = Vec3d(0.0, 0.8, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walking: PokemonPose
     lateinit var sleeping: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("dachsbun", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("dachsbun", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("dachsbun", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("dachsbun", "blink") }
         standing = registerPose(
             poseName = "standing",
             poseTypes = STATIONARY_POSES + UI_POSES,

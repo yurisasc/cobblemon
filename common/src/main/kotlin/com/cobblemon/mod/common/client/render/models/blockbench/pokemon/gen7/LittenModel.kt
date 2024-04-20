@@ -29,19 +29,19 @@ class LittenModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quadru
     override val foreLeftLeg= getPart("leg_front_left1")
     override val foreRightLeg = getPart("leg_front_right1")
 
-    override val portraitScale = 2.2F
-    override val portraitTranslation = Vec3d(-0.35, -1.0, 0.0)
+    override var portraitScale = 2.2F
+    override var portraitTranslation = Vec3d(-0.35, -1.0, 0.0)
 
-    override val profileScale = 0.85F
-    override val profileTranslation = Vec3d(0.0, 0.48, 0.0)
+    override var profileScale = 0.85F
+    override var profileTranslation = Vec3d(0.0, 0.48, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("litten", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("litten", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("litten", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("litten", "blink") }
         standing = registerPose(
             poseName = "standing",
             poseTypes = STATIONARY_POSES + UI_POSES,

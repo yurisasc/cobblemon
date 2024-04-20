@@ -31,18 +31,18 @@ class KadabraModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Biped
     override val leftLeg = getPart("leg_left")
     override val rightLeg = getPart("leg_right")
 
-    override val portraitScale = 1.65F
-    override val portraitTranslation = Vec3d(-0.25, 0.45, 0.0)
+    override var portraitScale = 1.65F
+    override var portraitTranslation = Vec3d(-0.25, 0.45, 0.0)
 
-    override val profileScale = 0.75F
-    override val profileTranslation = Vec3d(0.0, 0.6, 0.0)
+    override var profileScale = 0.75F
+    override var profileTranslation = Vec3d(0.0, 0.6, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
     lateinit var battleidle: PokemonPose
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("kadabra", "blink").setPreventsIdle(false)}
+        val blink = quirk { bedrockStateful("kadabra", "blink")}
         standing = registerPose(
             poseName = "standing",
             poseTypes = STATIONARY_POSES + UI_POSES,

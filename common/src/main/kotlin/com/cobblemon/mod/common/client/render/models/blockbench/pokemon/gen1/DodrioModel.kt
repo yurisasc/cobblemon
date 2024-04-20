@@ -8,6 +8,9 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1
 
+import com.cobblemon.mod.common.client.render.models.blockbench.animation.SingleBoneLookAnimation
+import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cobblemon.mod.common.entity.PoseType
@@ -17,24 +20,36 @@ import com.cobblemon.mod.common.entity.PoseType.Companion.UI_POSES
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class DodrioModel (root: ModelPart) : PokemonPoseableModel() {
+class DodrioModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("dodrio")
+    override val head = getPart("head4")
 
-    override val portraitScale = 1.5F
-    override val portraitTranslation = Vec3d(-0.15, 0.9, 0.0)
+    val lefthead = object : HeadedFrame {
+        override val rootPart = this@DodrioModel.rootPart
+        override val head: ModelPart = getPart("head3")
+    }
+    val righthead = object : HeadedFrame {
+        override val rootPart = this@DodrioModel.rootPart
+        override val head: ModelPart = getPart("head2")
+    }
 
-    override val profileScale = 0.8F
-    override val profileTranslation = Vec3d(0.0, 0.6, 0.0)
+    override var portraitScale = 1.5F
+    override var portraitTranslation = Vec3d(-0.15, 0.9, 0.0)
+
+    override var profileScale = 0.8F
+    override var profileTranslation = Vec3d(0.0, 0.6, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walking: PokemonPose
     lateinit var sleep: PokemonPose
     lateinit var battleidle: PokemonPose
 
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("dodrio", "cry") }
+
     override fun registerPoses() {
-        val blink1 = quirk("blink1") { bedrockStateful("dodrio", "blink1").setPreventsIdle(false) }
-        val blink2 = quirk("blink2") { bedrockStateful("dodrio", "blink2").setPreventsIdle(false) }
-        val blink3 = quirk("blink3") { bedrockStateful("dodrio", "blink3").setPreventsIdle(false) }
+        val blink1 = quirk { bedrockStateful("dodrio", "blink1") }
+        val blink2 = quirk { bedrockStateful("dodrio", "blink2") }
+        val blink3 = quirk { bedrockStateful("dodrio", "blink3") }
         sleep = registerPose(
             poseType = PoseType.SLEEP,
             idleAnimations = arrayOf(bedrock("dodrio", "sleep"))
@@ -47,6 +62,9 @@ class DodrioModel (root: ModelPart) : PokemonPoseableModel() {
             condition = { !it.isBattling },
             quirks = arrayOf(blink1, blink2, blink3),
             idleAnimations = arrayOf(
+                singleBoneLook(pitchMultiplier = 1F, yawMultiplier = 0.4F),
+                SingleBoneLookAnimation(lefthead, false, false, false, false, 1F, 1.5F, 45F, -45F, 45F, 10F),
+                SingleBoneLookAnimation(righthead, false, false, false, false, 1F, 1.5F, 45F, -45F, 10F, -45F),
                 bedrock("dodrio", "ground_idle")
             )
         )

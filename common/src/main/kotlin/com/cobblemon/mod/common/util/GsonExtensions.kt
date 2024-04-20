@@ -33,3 +33,13 @@ fun JsonObject.singularToPluralList(rootName: String, pluralName: String = "${ro
         remove(rootName)
     }
 }
+
+fun JsonElement.normalizeToArray(): JsonArray {
+    if (this is JsonArray) {
+        return this
+    } else {
+        val array = JsonArray()
+        array.add(this)
+        return array
+    }
+}

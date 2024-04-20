@@ -26,18 +26,18 @@ class LuxioModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quadru
     override val hindLeftLeg = getPart("back_leg_left")
     override val hindRightLeg = getPart("back_leg_right")
 
-    override val portraitScale = 1.8F
-    override val portraitTranslation = Vec3d(-0.6, -0.25, 0.0)
+    override var portraitScale = 1.8F
+    override var portraitTranslation = Vec3d(-0.6, -0.25, 0.0)
 
-    override val profileScale = 0.7F
-    override val profileTranslation = Vec3d(0.0, 0.7, 0.0)
+    override var profileScale = 0.7F
+    override var profileTranslation = Vec3d(0.0, 0.7, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
     lateinit var sleep: PokemonPose
 
     override fun registerPoses() {
-//        val blink = quirk("blink") { bedrockStateful("luxio", "blink").setPreventsIdle(false) }
+//        val blink = quirk { bedrockStateful("luxio", "blink") }
         sleep = registerPose(
             poseType = PoseType.SLEEP,
             idleAnimations = arrayOf(bedrock("luxio", "sleep"))

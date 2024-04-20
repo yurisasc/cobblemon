@@ -30,11 +30,11 @@ class AvaluggModel (root: ModelPart) : PokemonPoseableModel(), QuadrupedFrame, H
     override val foreLeftLeg= getPart("leg_front_left")
     override val foreRightLeg = getPart("leg_front_right")
 
-    override val portraitScale = 1.0F
-    override val portraitTranslation = Vec3d(-1.35, 1.5, 0.0)
+    override var portraitScale = 1.0F
+    override var portraitTranslation = Vec3d(-1.35, 1.5, 0.0)
 
-    override val profileScale = 0.27F
-    override val profileTranslation = Vec3d(-0.05, 1.2, 0.0)
+    override var profileScale = 0.27F
+    override var profileTranslation = Vec3d(-0.05, 1.2, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walking: PokemonPose
@@ -45,10 +45,10 @@ class AvaluggModel (root: ModelPart) : PokemonPoseableModel(), QuadrupedFrame, H
 
     val wateroffset = -3.5
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("avalugg", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("avalugg", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("avalugg", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("avalugg", "blink") }
         sleep = registerPose(
             poseType = PoseType.SLEEP,
             idleAnimations = arrayOf(bedrock("avalugg", "sleep"))

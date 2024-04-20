@@ -25,11 +25,11 @@ class OnixModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("onix")
     override val head = getPart("head")
 
-    override val portraitScale = 1.1F
-    override val portraitTranslation = Vec3d(-0.2, 1.4, 0.0)
+    override var portraitScale = 1.1F
+    override var portraitTranslation = Vec3d(-0.2, 1.4, 0.0)
 
-    override val profileScale = 0.55F
-    override val profileTranslation = Vec3d(-0.1, 0.9, 0.0)
+    override var profileScale = 0.55F
+    override var profileTranslation = Vec3d(-0.1, 0.9, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
@@ -37,10 +37,10 @@ class OnixModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     lateinit var sleep: PokemonPose
     lateinit var battleidle: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("onix", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("onix", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("onix", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("onix", "blink") }
         ui = registerPose(
             poseName = "ui",
             poseTypes = UI_POSES,

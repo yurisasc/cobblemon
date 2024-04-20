@@ -18,11 +18,11 @@ import net.minecraft.util.math.Vec3d
 class PoliwhirlModel(root: ModelPart) : PokemonPoseableModel() {
     override val rootPart = root.registerChildWithAllChildren("poliwhirl")
 
-    override val portraitScale = 1.4F
-    override val portraitTranslation = Vec3d(-0.1, 0.2, 0.0)
+    override var portraitScale = 1.4F
+    override var portraitTranslation = Vec3d(-0.1, 0.2, 0.0)
 
-    override val profileScale = 0.8F
-    override val profileTranslation = Vec3d(0.0, 0.5, 0.0)
+    override var profileScale = 0.8F
+    override var profileTranslation = Vec3d(0.0, 0.5, 0.0)
 
     lateinit var sleep: PokemonPose
     lateinit var standing: PokemonPose
@@ -30,7 +30,7 @@ class PoliwhirlModel(root: ModelPart) : PokemonPoseableModel() {
     lateinit var swim: PokemonPose
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("poliwhirl", "blink").setPreventsIdle(false)}
+        val blink = quirk { bedrockStateful("poliwhirl", "blink")}
 
         sleep = registerPose(
             poseType = PoseType.SLEEP,

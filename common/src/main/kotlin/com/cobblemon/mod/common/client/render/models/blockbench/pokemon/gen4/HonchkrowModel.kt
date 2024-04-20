@@ -30,11 +30,11 @@ class HonchkrowModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
     override val leftWing = getPart("wing_left")
     override val rightWing = getPart("wing_right")
 
-    override val portraitScale = 3.4F
-    override val portraitTranslation = Vec3d(-0.35, -1.2, 0.0)
+    override var portraitScale = 3.4F
+    override var portraitTranslation = Vec3d(-0.35, -1.2, 0.0)
 
-    override val profileScale = 1.2F
-    override val profileTranslation = Vec3d(0.0, -0.05, 0.0)
+    override var profileScale = 1.2F
+    override var profileTranslation = Vec3d(0.0, -0.05, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
@@ -43,7 +43,7 @@ class HonchkrowModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
     lateinit var fly: PokemonPose
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("honchkrow", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("honchkrow", "blink") }
 
         sleep = registerPose(
             poseType = PoseType.SLEEP,

@@ -8,6 +8,7 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1
 
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cobblemon.mod.common.entity.PoseType
@@ -20,22 +21,24 @@ import net.minecraft.util.math.Vec3d
 class DoduoModel (root: ModelPart) : PokemonPoseableModel() {
     override val rootPart = root.registerChildWithAllChildren("doduo")
 
-    override val portraitScale = 2.0F
-    override val portraitTranslation = Vec3d(-0.1, 0.35, 0.0)
+    override var portraitScale = 2.0F
+    override var portraitTranslation = Vec3d(-0.1, 0.35, 0.0)
 
-    override val profileScale = 0.85F
-    override val profileTranslation = Vec3d(0.0, 0.5, 0.0)
+    override var profileScale = 0.85F
+    override var profileTranslation = Vec3d(0.0, 0.5, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walking: PokemonPose
     lateinit var sleep: PokemonPose
     lateinit var battleidle: PokemonPose
 
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("doduo", "cry") }
+
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("doduo", "blink1").setPreventsIdle(false) }
-        val blink2 = quirk("blink2") { bedrockStateful("doduo", "blink2").setPreventsIdle(false) }
-        val bite = quirk("bite") { bedrockStateful("doduo", "bite_quirk1").setPreventsIdle(false) }
-        val bite2 = quirk("bite2") { bedrockStateful("doduo", "bite_quirk2").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("doduo", "blink1") }
+        val blink2 = quirk { bedrockStateful("doduo", "blink2") }
+        val bite = quirk { bedrockStateful("doduo", "bite_quirk1") }
+        val bite2 = quirk { bedrockStateful("doduo", "bite_quirk2") }
 
         sleep = registerPose(
             poseType = PoseType.SLEEP,
