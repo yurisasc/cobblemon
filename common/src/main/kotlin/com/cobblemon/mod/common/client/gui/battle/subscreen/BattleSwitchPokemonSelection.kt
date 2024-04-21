@@ -98,13 +98,12 @@ class BattleSwitchPokemonSelection(
                     ?.let { showdownPokemon to it }
             }
             .filter {
-                if (request.side.pokemon[0].reviving) {
-                    "fnt" in it.first.condition
+                if (request.side.pokemon.any { revivingPokemon -> revivingPokemon.reviving }) {
+                    "fnt" in it.first.condition//Fainted pokemon in doubles can be on the field
                 } else {
-                    "fnt" !in it.first.condition
+                    "fnt" !in it.first.condition && it.second.uuid !in battleGUI.actor!!.activePokemon.map { it.battlePokemon?.uuid }
                 }
             }
-            .filter { it.second.uuid !in battleGUI.actor!!.activePokemon.map { it.battlePokemon?.uuid } }
             .filter { it.second.uuid !in switchingInPokemon }
 
         if(showdownPokemonToPokemon.isEmpty()) {

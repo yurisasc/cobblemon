@@ -34,7 +34,6 @@ class SuperEffectiveInstruction(val message: BattleMessage,val instructionSet: I
             } else {
                 battle.broadcastChatMessage(battleLang("superEffective"))
             }
-            battle.broadcastChatMessage(battleLang("superEffective"))
             battle.minorBattleActions[pokemon.uuid] = message
         }
     }
