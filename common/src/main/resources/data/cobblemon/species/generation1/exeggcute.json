@@ -44,7 +44,7 @@
         {
           "id": "alola_exeggcute_exeggutor",
           "variant": "item_interact",
-          "result": "exeggutor",
+          "result": "exeggutor alolan=false",
           "consumeHeldItem": false,
           "learnableMoves": [
             "stomp"
@@ -266,7 +266,7 @@
     {
       "id": "exeggcute_exeggutor",
       "variant": "item_interact",
-      "result": "exeggutor",
+      "result": "exeggutor alolan=false",
       "consumeHeldItem": false,
       "learnableMoves": [
         "stomp"
@@ -285,11 +285,7 @@
       "requirements": [
         {
           "variant": "biome",
-          "biomeCondition": "#minecraft:is_beach"
-        },
-        {
-          "variant": "biome",
-          "biomeCondition": "#minecraft:is_tropical_island"
+          "biomeCondition": "#cobblemon:alolan_evolutions/alolan"
         },
         {
           "variant": "biome",
