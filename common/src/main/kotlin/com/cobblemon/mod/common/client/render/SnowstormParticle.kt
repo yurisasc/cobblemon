@@ -387,7 +387,6 @@ class SnowstormParticle(
             colliding = false
             return movement
         } else if (expiresOnContact) {
-            // TODO
             runExpirationEvents()
             markDead()
             return movement
