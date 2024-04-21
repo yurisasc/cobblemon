@@ -254,6 +254,7 @@ class SnowstormParticle(
 
         applyRandoms()
         setParticleAgeInRuntime()
+        storm.effect.curves.forEach { it.apply(storm.runtime) }
         storm.runtime.execute(storm.effect.particle.updateExpressions)
         angularVelocity += storm.effect.particle.rotation.getAngularAcceleration(storm.runtime, angularVelocity) / 20
 
@@ -265,7 +266,7 @@ class SnowstormParticle(
             val acceleration = storm.effect.particle.motion.getAcceleration(
                 storm.runtime,
                 Vec3d(velocityX, velocityY, velocityZ).multiply(20.0) // Uses blocks per second, not blocks per tick
-            ).multiply(1 / 20.0).multiply(1 / 20.0)
+            ).multiply(1 / 20.0).multiply(1 / 20.0) // blocks per second per second -> blocks per tick per tick
 
             velocityX += acceleration.x
             velocityY += acceleration.y
