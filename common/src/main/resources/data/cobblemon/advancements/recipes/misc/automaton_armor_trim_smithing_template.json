@@ -1,7 +1,7 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_coast_armor_trim_smithing_template": {
+    "has_automaton_armor_trim_smithing_template": {
       "conditions": {
         "items": [
           {
