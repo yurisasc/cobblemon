@@ -243,6 +243,10 @@ class SnowstormParticle(
             .next()
     }
 
+    fun runExpirationEvents() {
+        storm.effect.particle.expirationEvents.forEach { it.trigger(storm, this)}
+    }
+
     override fun tick() {
         if (storm.effect.space.localPosition) {
             originPos = storm.matrixWrapper.getOrigin()
@@ -254,7 +258,7 @@ class SnowstormParticle(
         angularVelocity += storm.effect.particle.rotation.getAngularAcceleration(storm.runtime, angularVelocity) / 20
 
         if (age > maxAge || storm.runtime.resolveBoolean(storm.effect.particle.killExpression)) {
-            storm.effect.particle.expirationEvents.forEach { it.trigger(storm, this)}
+            runExpirationEvents()
             markDead()
             return
         } else {
@@ -354,7 +358,7 @@ class SnowstormParticle(
 //                velocityZ = 0.0
 //            }
         } else {
-            collidesWithWorld =  false
+            collidesWithWorld = false
             if (dx != 0.0 || dy != 0.0 || dz != 0.0) {
                 localX += dx
                 localY += dy
@@ -383,6 +387,8 @@ class SnowstormParticle(
             colliding = false
             return movement
         } else if (expiresOnContact) {
+            // TODO
+            runExpirationEvents()
             markDead()
             return movement
         }
