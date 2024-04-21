@@ -30,11 +30,11 @@ class SteeneeModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Biman
     override val leftLeg = getPart("leg_left")
     override val rightLeg = getPart("leg_right")
 
-    override val portraitScale = 3.0F
-    override val portraitTranslation = Vec3d(-0.2, -0.5, 0.0)
+    override var portraitScale = 3.0F
+    override var portraitTranslation = Vec3d(-0.2, -0.5, 0.0)
 
-    override val profileScale = 0.95F
-    override val profileTranslation = Vec3d(0.0, 0.4, 0.0)
+    override var profileScale = 0.95F
+    override var profileTranslation = Vec3d(0.0, 0.4, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose

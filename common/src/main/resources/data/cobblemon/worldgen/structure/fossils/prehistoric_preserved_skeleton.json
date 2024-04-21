@@ -1,5 +1,5 @@
 {
-    "biomes":  "#cobblemon:is_frozen_ocean",
+    "biomes": "#cobblemon:is_frozen_ocean",
     "adapt_noise": false,
     "spawn_overrides": {},
     "type": "minecraft:jigsaw",

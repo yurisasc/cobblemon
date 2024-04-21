@@ -54,8 +54,7 @@ dependencies {
     modCompileOnly(libs.mongoDriverCore)
     modCompileOnly(libs.mongoDriverSync)
 
-    testRuntimeOnly(libs.junitEngine)
-    testImplementation(libs.junitApi)
+    testImplementation(libs.fabricJunit)
     testImplementation(libs.junitParams)
     testImplementation(libs.mockito)
     testImplementation(libs.mockk)

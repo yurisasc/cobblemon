@@ -46,6 +46,8 @@ import net.minecraft.world.chunk.ChunkCache
 class OmniPathNodeMaker : PathNodeMaker() {
     private val nodePosToType: Long2ObjectMap<PathNodeType> = Long2ObjectOpenHashMap()
 
+    var canPathThroughFire: Boolean = false
+
     override fun init(cachedWorld: ChunkCache, entity: MobEntity) {
         super.init(cachedWorld, entity)
         nodePosToType.clear()
@@ -226,10 +228,22 @@ class OmniPathNodeMaker : PathNodeMaker() {
         val below = BlockPos(x, y - 1, z)
         val blockState = world.getBlockState(pos)
         val blockStateBelow = world.getBlockState(below)
-        val belowSolid = blockStateBelow.isSolidBlock(world, below)
+        val belowSolid = blockStateBelow.isSolid
         val isWater = blockState.fluidState.isIn(FluidTags.WATER)
         val isLava = blockState.fluidState.isIn(FluidTags.LAVA)
         val canBreatheUnderFluid = canSwimUnderFluid(blockState.fluidState)
+        val solid = blockState.isSolid
+
+        /*
+         * There are a lot of commented out pairs of checks here. I was experimenting with how to simultaneously
+         * fix the following situations (without breaking any in the process):
+         * - Walking up slabs
+         * - Walking up stairs
+         * - Lifting off from snow layers
+         * - Lifting off from carpets.
+         *
+         * It seems to work now but nothing works forever so my other attempts are here for reference.
+         */
 
         val figuredNode = if (blockStateBelow.isIn(BlockTags.FENCES) || blockStateBelow.isIn(BlockTags.WALLS) || (blockStateBelow.block is FenceGateBlock && !blockStateBelow.get(FenceGateBlock.OPEN))) {
             PathNodeType.FENCE
@@ -237,10 +251,20 @@ class OmniPathNodeMaker : PathNodeMaker() {
             PathNodeType.WALKABLE
         } else if (isWater || (isLava && canSwimUnderlava())) {
             PathNodeType.WATER
-        } else if (blockState.canPathfindThrough(world, pos, NavigationType.LAND) && !blockStateBelow.canPathfindThrough(world, below, NavigationType.AIR)) {
+            // This breaks lifting off from snow layers and carpets
+//        } else if (blockState.canPathfindThrough(world, pos, NavigationType.LAND) && !blockStateBelow.canPathfindThrough(world, below, NavigationType.AIR)) {
+//            PathNodeType.WALKABLE
+//        } else if (blockState.canPathfindThrough(world, pos, NavigationType.AIR) && blockStateBelow.canPathfindThrough(world, below, NavigationType.AIR)) {
+//            PathNodeType.OPEN
+        } else if (!solid && belowSolid) {
             PathNodeType.WALKABLE
-        } else if (blockState.canPathfindThrough(world, pos, NavigationType.AIR) && blockStateBelow.canPathfindThrough(world, below, NavigationType.AIR)) {
+        } else if (!solid && !belowSolid) {
             PathNodeType.OPEN
+            // This breaks walking up slabs
+//        } else if (blockState.canPathfindThrough(world, pos, NavigationType.LAND) && blockStateBelow.isSideSolid(world, below, Direction.UP, SideShapeType.FULL)) {
+//            PathNodeType.WALKABLE
+//        } else if (blockState.canPathfindThrough(world, pos, NavigationType.AIR) && !blockStateBelow.isSideSolid(world, below, Direction.UP, SideShapeType.FULL)) {
+//            PathNodeType.OPEN
         } else PathNodeType.BLOCKED
 
         return adjustNodeType(world, canOpenDoors, canEnterOpenDoors, below, figuredNode)
@@ -333,7 +357,7 @@ class OmniPathNodeMaker : PathNodeMaker() {
             return PathNodeType.DANGER_OTHER
         }
 
-        if (LandPathNodeMaker.inflictsFireDamage(blockState) && !entity.isFireImmune) {
+        if (LandPathNodeMaker.inflictsFireDamage(blockState) && !this.canPathThroughFire) {
             return PathNodeType.DANGER_FIRE
         }
 

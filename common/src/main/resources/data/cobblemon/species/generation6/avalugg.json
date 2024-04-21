@@ -139,7 +139,20 @@
       "weight": 2624,
       "preEvolution": "bergmite",
       "cannotDynamax": false,
-      "battleOnly": false
+      "battleOnly": false,
+      "drops": {
+        "amount": 2,
+        "entries": [
+          {
+            "item": "cobblemon:never_melt_ice",
+            "percentage": 5.0
+          },
+          {
+            "item": "cobblemon:babiri_berry",
+            "percentage": 5.0
+          }
+        ]
+      }
     }
   ],
   "baseExperienceYield": 180,

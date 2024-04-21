@@ -73,15 +73,17 @@
                     }
                 },
                 {
+                    "block_entity_modifier": {
+                        "type": "minecraft:append_loot",
+                        "loot_table": "cobblemon:ruins/gilded_chests/ruins"
+                    },
                     "input_predicate": {
-                        "block_entity_modifier": {
-                            "type": "minecraft:append_loot",
-                            "loot_table": "cobblemon:ruins/gilded_chests/ruins"
-                        },
                         "block_state": {
                             "Name": "minecraft:chest",
                             "Properties": {
-                                "facing": "north"
+                                "facing": "north",
+                                "type": "single",
+                                "waterlogged": "false"
                             }
                         },
                         "predicate_type": "minecraft:random_blockstate_match",
@@ -98,15 +100,17 @@
                     }
                 },
                 {
+                    "block_entity_modifier": {
+                        "type": "minecraft:append_loot",
+                        "loot_table": "cobblemon:ruins/gilded_chests/ruins"
+                    },
                     "input_predicate": {
-                        "block_entity_modifier": {
-                            "type": "minecraft:append_loot",
-                            "loot_table": "cobblemon:ruins/gilded_chests/ruins"
-                        },
                         "block_state": {
                             "Name": "minecraft:chest",
                             "Properties": {
-                                "facing": "south"
+                                "facing": "south",
+                                "type": "single",
+                                "waterlogged": "false"
                             }
                         },
                         "predicate_type": "minecraft:random_blockstate_match",
@@ -123,15 +127,17 @@
                     }
                 },
                 {
+                    "block_entity_modifier": {
+                        "type": "minecraft:append_loot",
+                        "loot_table": "cobblemon:ruins/gilded_chests/ruins"
+                    },
                     "input_predicate": {
-                        "block_entity_modifier": {
-                            "type": "minecraft:append_loot",
-                            "loot_table": "cobblemon:ruins/gilded_chests/ruins"
-                        },
                         "block_state": {
                             "Name": "minecraft:chest",
                             "Properties": {
-                                "facing": "east"
+                                "facing": "east",
+                                "type": "single",
+                                "waterlogged": "false"
                             }
                         },
                         "predicate_type": "minecraft:random_blockstate_match",
@@ -148,15 +154,17 @@
                     }
                 },
                 {
+                    "block_entity_modifier": {
+                        "type": "minecraft:append_loot",
+                        "loot_table": "cobblemon:ruins/gilded_chests/ruins"
+                    },
                     "input_predicate": {
-                        "block_entity_modifier": {
-                            "type": "minecraft:append_loot",
-                            "loot_table": "cobblemon:ruins/gilded_chests/ruins"
-                        },
                         "block_state": {
                             "Name": "minecraft:chest",
                             "Properties": {
-                                "facing": "west"
+                                "facing": "west",
+                                "type": "single",
+                                "waterlogged": "false"
                             }
                         },
                         "predicate_type": "minecraft:random_blockstate_match",

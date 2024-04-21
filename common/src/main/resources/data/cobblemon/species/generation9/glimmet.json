@@ -9,7 +9,7 @@
     "h:corrosion"
   ],
   "drops": {
-    "amount": 2,
+    "amount": 3,
     "entries": [
       {
         "item": "minecraft:amethyst_shard",
@@ -17,6 +17,10 @@
       },
       {
         "item": "cobblemon:shuca_berry",
+        "percentage": 2.5
+      },
+      {
+        "item": "cobblemon:float_stone",
         "percentage": 2.5
       }
     ]

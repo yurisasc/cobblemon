@@ -45,7 +45,7 @@ object SpawnAllPokemon {
         for (species in PokemonSpecies.implemented) {
             if (species.nationalPokedexNumber in range) {
                 LOGGER.debug(species.name)
-                species.create().sendOut(player.world as ServerWorld, player.pos)
+                species.create().sendOut(player.world as ServerWorld, player.pos, null)
             }
         }
 

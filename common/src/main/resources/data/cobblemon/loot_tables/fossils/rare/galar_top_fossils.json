@@ -6,17 +6,17 @@
             "entries": [
                 {
                     "type": "minecraft:item",
-                    "name": "cobblemon:dino_fossil",
+                    "name": "cobblemon:fossilized_dino",
                     "weight": 2
                 },
                 {
                     "type": "minecraft:item",
-                    "name": "cobblemon:bird_fossil",
+                    "name": "cobblemon:fossilized_bird",
                     "weight": 2
                 }
             ],
             "rolls": 1.0
         }
     ],
-    "random_sequence": "cobblemon:fossils/rare/galar__fossils"
+    "random_sequence": "cobblemon:fossils/rare/galar_fossils"
 }

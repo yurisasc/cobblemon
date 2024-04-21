@@ -65,18 +65,18 @@
                         "type": "minecraft:append_loot",
                         "loot_table": "cobblemon:fossils/common/prehistoric_submerged_impact"
                     },
-                        "input_predicate": {
-                            "block": "minecraft:gravel",
-                            "predicate_type": "minecraft:random_block_match",
-                            "probability": 0.4
-                        },
-                        "location_predicate": {
-                            "predicate_type": "minecraft:always_true"
-                        },
-                        "output_state": {
-                            "Name": "minecraft:suspicious_gravel"
-                        }
+                    "input_predicate": {
+                        "block": "minecraft:gravel",
+                        "predicate_type": "minecraft:random_block_match",
+                        "probability": 0.1
+                    },
+                    "location_predicate": {
+                        "predicate_type": "minecraft:always_true"
+                    },
+                    "output_state": {
+                        "Name": "minecraft:suspicious_gravel"
                     }
+                }
             ]
         },
         {

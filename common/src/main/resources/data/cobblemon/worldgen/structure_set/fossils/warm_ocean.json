@@ -1,7 +1,11 @@
 {
     "placement": {
         "type": "minecraft:random_spread",
-        "spacing": 15,
+        "exclusion_zone": {
+            "chunk_count": 10,
+            "other_set": "minecraft:ocean_ruins"
+        },
+        "spacing": 10,
         "separation": 5,
         "salt": 1695780836,
         "spread_type": "triangular"

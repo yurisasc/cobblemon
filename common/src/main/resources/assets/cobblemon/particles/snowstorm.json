@@ -63,6 +63,9 @@
     "cobblemon:glowing_sparkle_yellow",
     "cobblemon:afterspark",
     "cobblemon:capturesparks",
-    "cobblemon:capturestar"
+    "cobblemon:capturestar",
+    "cobblemon:pop_particle",
+    "cobblemon:white",
+    "cobblemon:invisible"
   ]
 }

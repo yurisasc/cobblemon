@@ -17,7 +17,8 @@
     "speed": 70
   },
   "features": [
-    "hisuian"
+    "hisuian",
+    "regional"
   ],
   "catchRate": 45,
   "maleRatio": 0.875,
@@ -127,11 +128,18 @@
         "hisui_regional"
       ],
       "aspects": [
-        "hisuian"
+        "hisuian",
+        "regional-hisui"
       ],
       "height": 16,
       "weight": 370,
-      "preEvolution": "dartrix",
+      "preEvolution": "dartrix region_bias=hisui",
+      "baseScale": 0.65,
+      "hitbox": {
+        "width": 0.9,
+        "height": 3,
+        "fixed": false
+      },
       "cannotDynamax": false,
       "battleOnly": false
     }
@@ -287,10 +295,10 @@
   ],
   "preEvolution": "dartrix",
   "evolutions": [],
-  "baseScale": 1.2,
+  "baseScale": 0.65,
   "hitbox": {
-    "width": 0.8,
-    "height": 1.65,
+    "width": 0.9,
+    "height": 3,
     "fixed": false
   },
   "baseFriendship": 50,

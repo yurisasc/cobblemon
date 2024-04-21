@@ -80,10 +80,10 @@
                         "predicate_type": "minecraft:always_true"
                     },
                     "output_state": {
-                       "Name": "cobblemon:relic_coin_pouch",
-                    "Properties": {
-                        "facing": "north",
-                        "natural": "true"
+                        "Name": "cobblemon:relic_coin_pouch",
+                        "Properties": {
+                            "facing": "north",
+                            "natural": "true"
                         }
                     }
                 },

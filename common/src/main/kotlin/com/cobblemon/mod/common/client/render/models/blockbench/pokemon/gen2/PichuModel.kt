@@ -25,11 +25,11 @@ class PichuModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("pichu")
     override val head = getPart("head")
 
-    override val portraitScale = 2.1F
-    override val portraitTranslation = Vec3d(-0.1, -0.8, 0.0)
+    override var portraitScale = 2.1F
+    override var portraitTranslation = Vec3d(-0.1, -0.8, 0.0)
 
-    override val profileScale = 0.7F
-    override val profileTranslation = Vec3d(0.0, 0.7, 0.0)
+    override var profileScale = 0.7F
+    override var profileTranslation = Vec3d(0.0, 0.7, 0.0)
 
     lateinit var shoulderLeft: PokemonPose
     lateinit var shoulderRight: PokemonPose

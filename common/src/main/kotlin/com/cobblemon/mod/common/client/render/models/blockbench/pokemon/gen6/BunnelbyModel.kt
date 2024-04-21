@@ -20,11 +20,11 @@ class BunnelbyModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("bunnelby")
     override val head = getPart("head")
 
-    override val portraitScale = 2.0F
-    override val portraitTranslation = Vec3d(-0.15, -0.3, 0.0)
+    override var portraitScale = 2.0F
+    override var portraitTranslation = Vec3d(-0.15, -0.3, 0.0)
 
-    override val profileScale = 0.6F
-    override val profileTranslation = Vec3d(0.0, 0.81, 0.0)
+    override var profileScale = 0.6F
+    override var profileTranslation = Vec3d(0.0, 0.81, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walking: PokemonPose

@@ -20,11 +20,11 @@ class TyphlosionModel  (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("typhlosion")
     override val head = getPart("head")
 
-    override val portraitScale = 1.4F
-    override val portraitTranslation = Vec3d(-0.65, 1.8, 0.0)
+    override var portraitScale = 1.4F
+    override var portraitTranslation = Vec3d(-0.65, 1.8, 0.0)
 
-    override val profileScale = 0.5F
-    override val profileTranslation = Vec3d(0.0, 1.0, 0.0)
+    override var profileScale = 0.5F
+    override var profileTranslation = Vec3d(0.0, 1.0, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walking: PokemonPose
