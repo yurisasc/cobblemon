@@ -12,6 +12,8 @@ import com.bedrockk.molang.runtime.value.DoubleValue
 import com.bedrockk.molang.runtime.value.StringValue
 import com.cobblemon.mod.common.CobblemonSounds
 import com.cobblemon.mod.common.api.entity.PokemonSideDelegate
+import com.cobblemon.mod.common.api.events.CobblemonClientEvents
+import com.cobblemon.mod.common.api.events.client.ClientSendoutEvent
 import com.cobblemon.mod.common.api.molang.MoLangFunctions.addFunctions
 import com.cobblemon.mod.common.api.molang.MoLangFunctions.getQueryStruct
 import com.cobblemon.mod.common.api.pokemon.PokemonSpecies
@@ -134,6 +136,19 @@ class PokemonClientDelegate : PoseableEntityState<PokemonEntity>(), PokemonSideD
                         if(!playedThrowingSound){
                             client.soundManager.play(sound)
                             playedThrowingSound = true
+                            sendOutPosition?.let {
+                                sendOutOffset?.let { it1 ->
+                                    ClientSendoutEvent(
+                                        it1,
+                                        it,
+                                        currentEntity
+                                    )
+                                }
+                            }?.let {
+                                CobblemonClientEvents.CLIENT_SENDOUT.emit(
+                                    it
+                                )
+                            }
                         }
                         lerpOnClient(POKEBALL_AIR_TIME) { ballOffset = it }
                         ballRotOffset = ((Math.random()) * currentEntity.world.random.nextBetween(-15, 15)).toFloat()
