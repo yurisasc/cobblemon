@@ -38,8 +38,8 @@ object BattleBuilder {
         healFirst: Boolean = false,
         partyAccessor: (ServerPlayerEntity) -> PartyStore = { it.party() }
     ): BattleStartResult {
-        val team1 = partyAccessor(player1).toBattleTeam(clone = cloneParties, checkHealth = !healFirst, leadingPokemonPlayer1)
-        val team2 = partyAccessor(player2).toBattleTeam(clone = cloneParties, checkHealth = !healFirst, leadingPokemonPlayer2)
+        val team1 = partyAccessor(player1).toBattleTeam(clone = cloneParties, checkHealth = !healFirst, leadingPokemonPlayer1).sortedBy { it.health <= 0 }
+        val team2 = partyAccessor(player2).toBattleTeam(clone = cloneParties, checkHealth = !healFirst, leadingPokemonPlayer2).sortedBy { it.health <= 0 }
 
         val player1Actor = PlayerBattleActor(player1.uuid, team1)
         val player2Actor = PlayerBattleActor(player2.uuid, team2)
@@ -47,11 +47,11 @@ object BattleBuilder {
         val errors = ErroredBattleStart()
 
         for ((player, actor) in arrayOf(player1 to player1Actor, player2 to player2Actor)) {
-            if (actor.pokemonList.size < battleFormat.battleType.slotsPerActor) {
+            if (actor.pokemonList.filter { it.health > 0 }.size < battleFormat.battleType.slotsPerActor) {
                 errors.participantErrors[actor] += BattleStartError.insufficientPokemon(
                     player = player,
                     requiredCount = battleFormat.battleType.slotsPerActor,
-                    hadCount = actor.pokemonList.size
+                    hadCount = actor.pokemonList.filter { it.health > 0 }.size
                 )
             }
 
@@ -264,15 +264,15 @@ class InsufficientPokemonError(
             val key = if (hadCount == 0) "no_pokemon" else "insufficient_pokemon.personal"
             battleLang(
                 "error.$key",
-                requiredCount,
-                hadCount
+                hadCount,
+                requiredCount
             )
         } else {
             battleLang(
                 "error.insufficient_pokemon",
                 player.displayName,
-                requiredCount,
-                hadCount
+                hadCount,
+                requiredCount
             )
         }
     }
