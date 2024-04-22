@@ -19,7 +19,7 @@ import com.cobblemon.mod.common.api.spawning.SpawnBucket
 import com.cobblemon.mod.common.api.spawning.detail.EntitySpawnResult
 import com.cobblemon.mod.common.api.spawning.fishing.FishingSpawnCause
 import com.cobblemon.mod.common.api.text.red
-import com.cobblemon.mod.common.api.types.ElementalTypes
+import com.cobblemon.mod.common.api.types.tera.TeraTypes
 import com.cobblemon.mod.common.battles.BattleBuilder
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.item.interactive.PokerodItem
@@ -30,9 +30,14 @@ import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.pokemon.abilities.HiddenAbility
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.toBlockPos
+import kotlin.math.sqrt
 import net.minecraft.advancement.criterion.Criteria
 import net.minecraft.block.Blocks
-import net.minecraft.entity.*
+import net.minecraft.entity.Entity
+import net.minecraft.entity.EntityType
+import net.minecraft.entity.ExperienceOrbEntity
+import net.minecraft.entity.ItemEntity
+import net.minecraft.entity.MovementType
 import net.minecraft.entity.data.DataTracker
 import net.minecraft.entity.data.TrackedData
 import net.minecraft.entity.data.TrackedDataHandlerRegistry
@@ -61,7 +66,6 @@ import net.minecraft.util.math.MathHelper
 import net.minecraft.util.math.Vec3d
 import net.minecraft.util.math.random.Random
 import net.minecraft.world.World
-import kotlin.math.sqrt
 
 class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity>, world: World) : FishingBobberEntity(type, world) {
 
@@ -132,8 +136,8 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
     override fun initDataTracker() {
         this.dataTracker.startTracking(HOOK_ENTITY_ID, 0)
         this.dataTracker.startTracking(CAUGHT_FISH, false)
-        this.dataTracker.startTracking(POKEROD_ID, pokeRodId.toString())
-        this.dataTracker.startTracking(POKEBOBBER_BAIT, bobberBait)
+        this.dataTracker.startTracking(POKEROD_ID, "")
+        this.dataTracker.startTracking(POKEBOBBER_BAIT, ItemStack.EMPTY)
     }
 
     override fun onTrackedDataSet(data: TrackedData<*>) {
@@ -919,7 +923,7 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
         val effect = bait.effects.filter { it.type == FishingBait.Effects.TERA }.random()
         if (!checkBaitSuccessRate(effect.chance)) return
 
-        pokemon.teraType = effect.subcategory?.let { ElementalTypes.get(it.path) } ?: return
+        pokemon.teraType = effect.subcategory?.let { TeraTypes.get(it.path) } ?: return
     }
 
     // try to reroll for a shiny based on the bait effect
