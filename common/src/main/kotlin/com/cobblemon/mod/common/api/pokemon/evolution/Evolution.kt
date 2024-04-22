@@ -113,11 +113,14 @@ interface Evolution : EvolutionLike {
             evolutionMethod(pokemon)
         } else {
             pokemonEntity.busyLocks.add("evolving")
-            evolutionAnimation(pokemonEntity)
-            afterOnServer(seconds = 10.2F) {
+            pokemonEntity.navigation.stop()
+            afterOnServer(seconds = 1F){
+                evolutionAnimation(pokemonEntity)
+            }
+            afterOnServer(seconds = 11.2F) {
                 evolutionMethod(pokemon)
             }
-            afterOnServer ( seconds = 11F ) {
+            afterOnServer ( seconds = 12F ) {
                 cryAnimation(pokemonEntity)
                 pokemonEntity.busyLocks.remove("evolving")
             }
@@ -126,12 +129,12 @@ interface Evolution : EvolutionLike {
 
     private fun evolutionAnimation(pokemon: Entity) {
         val playPoseableAnimationPacket = PlayPoseableAnimationPacket(pokemon.id, setOf("q.bedrock_stateful('evolution', 'evolution')"), emptySet())
-        playPoseableAnimationPacket.sendToPlayersAround(pokemon.x, pokemon.y, pokemon.z, 64.0, pokemon.world.registryKey)
+        playPoseableAnimationPacket.sendToPlayersAround(pokemon.x, pokemon.y, pokemon.z, 128.0, pokemon.world.registryKey)
     }
 
     private fun cryAnimation(pokemon: Entity) {
         val playPoseableAnimationPacket = PlayPoseableAnimationPacket(pokemon.id, setOf("cry"), emptySet())
-        playPoseableAnimationPacket.sendToPlayersAround(pokemon.x, pokemon.y, pokemon.z, 64.0, pokemon.world.registryKey)
+        playPoseableAnimationPacket.sendToPlayersAround(pokemon.x, pokemon.y, pokemon.z, 128.0, pokemon.world.registryKey)
     }
 
     fun evolutionMethod(pokemon: Pokemon) {

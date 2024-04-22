@@ -55,9 +55,9 @@
 					"interpolant": "v.particle_random_4",
 					"gradient": {
 						"0.0": "#FFFFFFFF",
-						"0.22": "#FF2EFFF4",
-						"0.56": "#FF6C90FF",
-						"0.77": "#FFF5A9FF",
+						"0.22": "#FFCCFFFC",
+						"0.56": "#FFDCE5FE",
+						"0.77": "#FFFADDFE",
 						"1.0": "#FF86FBFF"
 					}
 				}
