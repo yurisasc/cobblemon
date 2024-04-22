@@ -291,6 +291,7 @@
 - Fixed an issue that allowed Pokemon to spawn on rails.
 - Fixed the data set on Pokémon when abilities are given via properties such as in ``/spawnpokemon``.
 - Fixed sometimes Pokémon losing hidden abilities when evolving, this fix will only take effect to newly created Pokémon.
+- Fixed some issues with eyes in the faint animations for Hitmonlee and Phantump
 
 ### Developer
 - Significantly changed the way properties in PokemonEntity work. This could break some plugins (not in a big way, but changes will be needed).
