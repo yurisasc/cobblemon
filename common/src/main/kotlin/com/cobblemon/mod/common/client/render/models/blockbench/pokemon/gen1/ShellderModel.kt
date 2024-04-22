@@ -19,11 +19,11 @@ import net.minecraft.util.math.Vec3d
 class ShellderModel(root: ModelPart) : PokemonPoseableModel() {
     override val rootPart = root.registerChildWithAllChildren("shellder")
 
-    override val portraitScale = 2.2F
-    override val portraitTranslation = Vec3d(0.0, -1.7, 0.0)
+    override var portraitScale = 2.2F
+    override var portraitTranslation = Vec3d(0.0, -1.7, 0.0)
 
-    override val profileScale = 1.4F
-    override val profileTranslation = Vec3d(0.0, -0.35, 0.0)
+    override var profileScale = 1.4F
+    override var profileTranslation = Vec3d(0.0, -0.35, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose

@@ -19,6 +19,7 @@ import net.minecraft.util.ActionResult
 import net.minecraft.util.Hand
 import net.minecraft.util.hit.BlockHitResult
 import net.minecraft.util.math.BlockPos
+import net.minecraft.world.BlockView
 import net.minecraft.world.World
 
 /**
@@ -34,8 +35,8 @@ abstract class MultiblockBlock(properties: Settings) : BlockWithEntity(propertie
         itemStack: ItemStack?
     ) {
         if (world is ServerWorld) {
-            val multiblockEntity = world.getBlockEntity(pos) as MultiblockEntity
-            multiblockEntity.multiblockBuilder?.validate(world)
+            val multiblockEntity = world.getBlockEntity(pos) as? MultiblockEntity
+            multiblockEntity?.multiblockBuilder?.validate(world)
         }
         super.onPlaced(world, pos, state, placer, itemStack)
     }
@@ -51,8 +52,8 @@ abstract class MultiblockBlock(properties: Settings) : BlockWithEntity(propertie
         if(hand == Hand.OFF_HAND) {
             return ActionResult.SUCCESS
         }
-        val entity = world.getBlockEntity(pos) as MultiblockEntity
-        if (entity.multiblockStructure != null) {
+        val entity = world.getBlockEntity(pos) as MultiblockEntity?
+        if (entity?.multiblockStructure != null) {
             return entity.multiblockStructure!!.onUse(state, world, pos, player, hand, hit)
         }
         return super.onUse(state, world, pos, player, hand, hit)
@@ -75,6 +76,11 @@ abstract class MultiblockBlock(properties: Settings) : BlockWithEntity(propertie
     @Deprecated("Deprecated in Java")
     override fun getRenderType(state: BlockState?): BlockRenderType {
         return BlockRenderType.MODEL
+    }
+
+    override fun getPickStack(world: BlockView, pos: BlockPos, state: BlockState): ItemStack {
+        val blockEntity = world.getBlockEntity(pos) as? MultiblockEntity ?: return ItemStack.EMPTY
+        return if (blockEntity.multiblockStructure == null) super.getPickStack(world, pos, state) else ItemStack.EMPTY
     }
 
     abstract fun createMultiBlockEntity(pos: BlockPos, state: BlockState): FossilMultiblockEntity

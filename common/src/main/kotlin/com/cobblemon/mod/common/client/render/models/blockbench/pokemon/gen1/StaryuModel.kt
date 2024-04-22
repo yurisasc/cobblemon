@@ -18,11 +18,11 @@ import net.minecraft.util.math.Vec3d
 class StaryuModel(root: ModelPart) : PokemonPoseableModel() {
     override val rootPart = root.registerChildWithAllChildren("staryu")
 
-    override val portraitScale = 2.2F
-    override val portraitTranslation = Vec3d(-0.1, -1.25, 0.0)
+    override var portraitScale = 2.2F
+    override var portraitTranslation = Vec3d(-0.1, -1.25, 0.0)
 
-    override val profileScale = 1.2F
-    override val profileTranslation = Vec3d(0.0, 0.0, 0.0)
+    override var profileScale = 1.2F
+    override var profileTranslation = Vec3d(0.0, 0.0, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose

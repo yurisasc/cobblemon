@@ -14,25 +14,7 @@ import com.cobblemon.mod.common.api.net.ServerNetworkPacketHandler
 import com.cobblemon.mod.common.client.net.PlayerInteractOptionsHandler
 import com.cobblemon.mod.common.client.net.SetClientPlayerDataHandler
 import com.cobblemon.mod.common.client.net.animation.PlayPoseableAnimationHandler
-import com.cobblemon.mod.common.client.net.battle.BattleApplyPassResponseHandler
-import com.cobblemon.mod.common.client.net.battle.BattleCaptureEndHandler
-import com.cobblemon.mod.common.client.net.battle.BattleCaptureShakeHandler
-import com.cobblemon.mod.common.client.net.battle.BattleCaptureStartHandler
-import com.cobblemon.mod.common.client.net.battle.BattleChallengeExpiredHandler
-import com.cobblemon.mod.common.client.net.battle.BattleChallengeNotificationHandler
-import com.cobblemon.mod.common.client.net.battle.BattleEndHandler
-import com.cobblemon.mod.common.client.net.battle.BattleFaintHandler
-import com.cobblemon.mod.common.client.net.battle.BattleHealthChangeHandler
-import com.cobblemon.mod.common.client.net.battle.BattleInitializeHandler
-import com.cobblemon.mod.common.client.net.battle.BattleMadeInvalidChoiceHandler
-import com.cobblemon.mod.common.client.net.battle.BattleMakeChoiceHandler
-import com.cobblemon.mod.common.client.net.battle.BattleMessageHandler
-import com.cobblemon.mod.common.client.net.battle.BattleMusicHandler
-import com.cobblemon.mod.common.client.net.battle.BattlePersistentStatusHandler
-import com.cobblemon.mod.common.client.net.battle.BattleQueueRequestHandler
-import com.cobblemon.mod.common.client.net.battle.BattleSetTeamPokemonHandler
-import com.cobblemon.mod.common.client.net.battle.BattleSwitchPokemonHandler
-import com.cobblemon.mod.common.client.net.battle.BattleUpdateTeamPokemonHandler
+import com.cobblemon.mod.common.client.net.battle.*
 import com.cobblemon.mod.common.client.net.callback.move.OpenMoveCallbackHandler
 import com.cobblemon.mod.common.client.net.callback.party.OpenPartyCallbackHandler
 import com.cobblemon.mod.common.client.net.callback.partymove.OpenPartyMoveCallbackHandler
@@ -81,8 +63,6 @@ import com.cobblemon.mod.common.net.messages.client.callback.OpenMoveCallbackPac
 import com.cobblemon.mod.common.net.messages.client.callback.OpenPartyCallbackPacket
 import com.cobblemon.mod.common.net.messages.client.callback.OpenPartyMoveCallbackPacket
 import com.cobblemon.mod.common.net.messages.client.data.*
-import com.cobblemon.mod.common.net.messages.client.data.PropertiesCompletionRegistrySyncPacket
-import com.cobblemon.mod.common.net.messages.client.data.UnlockReloadPacket
 import com.cobblemon.mod.common.net.messages.client.dialogue.DialogueClosedPacket
 import com.cobblemon.mod.common.net.messages.client.dialogue.DialogueOpenedPacket
 import com.cobblemon.mod.common.net.messages.client.effect.RunPosableMoLangPacket
@@ -245,6 +225,7 @@ object CobblemonNetwork : NetworkManager {
         this.createClientBound(PokemonStateUpdatePacket.ID, PokemonStateUpdatePacket::decode, PokemonUpdatePacketHandler())
         this.createClientBound(TetheringUpdatePacket.ID, TetheringUpdatePacket::decode, PokemonUpdatePacketHandler())
         this.createClientBound(TradeableUpdatePacket.ID, TradeableUpdatePacket::decode, PokemonUpdatePacketHandler())
+        this.createClientBound(SpeciesFeatureUpdatePacket.ID, SpeciesFeatureUpdatePacket::decode, PokemonUpdatePacketHandler())
         this.createClientBound(OriginalTrainerUpdatePacket.ID, OriginalTrainerUpdatePacket::decode, PokemonUpdatePacketHandler())
 
         // Evolution start
@@ -298,6 +279,8 @@ object CobblemonNetwork : NetworkManager {
         this.createClientBound(BattleMadeInvalidChoicePacket.ID, BattleMadeInvalidChoicePacket::decode, BattleMadeInvalidChoiceHandler)
         this.createClientBound(BattleMusicPacket.ID, BattleMusicPacket::decode, BattleMusicHandler)
         this.createClientBound(BattleChallengeExpiredPacket.ID, BattleChallengeExpiredPacket::decode, BattleChallengeExpiredHandler)
+        this.createClientBound(BattleReplacePokemonPacket.ID, BattleReplacePokemonPacket::decode, BattleReplacePokemonHandler)
+        this.createClientBound(BattleTransformPokemonPacket.ID, BattleTransformPokemonPacket::decode, BattleTransformPokemonHandler)
 
 
 
@@ -311,6 +294,9 @@ object CobblemonNetwork : NetworkManager {
         this.createClientBound(PropertiesCompletionRegistrySyncPacket.ID, PropertiesCompletionRegistrySyncPacket::decode, DataRegistrySyncPacketHandler())
         this.createClientBound(UnlockReloadPacket.ID, UnlockReloadPacket::decode, UnlockReloadPacketHandler)
         this.createClientBound(BerryRegistrySyncPacket.ID, BerryRegistrySyncPacket::decode, DataRegistrySyncPacketHandler())
+        this.createClientBound(StandardSpeciesFeatureSyncPacket.ID, StandardSpeciesFeatureSyncPacket::decode, DataRegistrySyncPacketHandler())
+        this.createClientBound(GlobalSpeciesFeatureSyncPacket.ID, GlobalSpeciesFeatureSyncPacket::decode, DataRegistrySyncPacketHandler())
+        this.createClientBound(SpeciesFeatureAssignmentSyncPacket.ID, SpeciesFeatureAssignmentSyncPacket::decode, DataRegistrySyncPacketHandler())
         this.createClientBound(NaturalMaterialRegistrySyncPacket.ID, NaturalMaterialRegistrySyncPacket::decode, DataRegistrySyncPacketHandler())
         this.createClientBound(FossilRegistrySyncPacket.ID, FossilRegistrySyncPacket::decode, DataRegistrySyncPacketHandler())
         this.createClientBound(PokeRodRegistrySyncPacket.ID, PokeRodRegistrySyncPacket::decode, DataRegistrySyncPacketHandler())

@@ -10,7 +10,6 @@ package com.cobblemon.mod.common.client.gui.summary.widgets
 
 import com.cobblemon.mod.common.CobblemonSounds
 import com.cobblemon.mod.common.api.gui.blitk
-import com.cobblemon.mod.common.api.text.text
 import com.cobblemon.mod.common.client.CobblemonResources
 import com.cobblemon.mod.common.client.gui.drawProfilePokemon
 import com.cobblemon.mod.common.client.gui.summary.Summary
@@ -23,15 +22,14 @@ import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.lang
 import com.cobblemon.mod.common.util.math.fromEulerXYZDegrees
 import net.minecraft.client.gui.DrawContext
-import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.text.Text
 import net.minecraft.util.Identifier
 import org.joml.Quaternionf
 import org.joml.Vector3f
 
 class PartySlotWidget(
-    private val pX: Number,
-    private val pY: Number,
+    pX: Number,
+    pY: Number,
     private val partyWidget: PartyWidget,
     private val summary: Summary,
     private val pokemon: Pokemon?,

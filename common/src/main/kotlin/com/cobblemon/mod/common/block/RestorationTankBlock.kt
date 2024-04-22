@@ -16,6 +16,7 @@ import com.cobblemon.mod.common.block.entity.RestorationTankBlockEntity
 import com.cobblemon.mod.common.block.multiblock.FossilMultiblockBuilder
 import net.minecraft.block.*
 import net.minecraft.entity.LivingEntity
+import net.minecraft.entity.ai.pathing.NavigationType
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.inventory.SidedInventory
 import net.minecraft.item.ItemPlacementContext
@@ -148,8 +149,8 @@ class RestorationTankBlock(properties: Settings) : MultiblockBlock(properties), 
         if(world == null || pos == null) {
             return 0
         }
-        val tankEntity = world.getBlockEntity(pos) as MultiblockEntity
-        val multiBlockEntity = tankEntity.multiblockStructure
+        val tankEntity = world.getBlockEntity(pos) as? MultiblockEntity
+        val multiBlockEntity = tankEntity?.multiblockStructure
         if(multiBlockEntity != null) {
             return multiBlockEntity.getComparatorOutput(state, world, pos)
         }
@@ -179,7 +180,7 @@ class RestorationTankBlock(properties: Settings) : MultiblockBlock(properties), 
             return
         }
         val tankEntity = world.getBlockEntity(pos) as? MultiblockEntity
-        tankEntity?.multiblockStructure!!.onTriggerEvent(state, world, pos, random)
+        tankEntity?.multiblockStructure?.onTriggerEvent(state, world, pos, random)
     }
 
     override fun getOutlineShape(
@@ -214,6 +215,11 @@ class RestorationTankBlock(properties: Settings) : MultiblockBlock(properties), 
         TOP("top"),
         BOTTOM("bottom");
         override fun asString() = label
+    }
+
+    @Deprecated("Deprecated in Java")
+    override fun canPathfindThrough(state: BlockState?, world: BlockView?, pos: BlockPos?, type: NavigationType?): Boolean {
+        return false
     }
 
     companion object {

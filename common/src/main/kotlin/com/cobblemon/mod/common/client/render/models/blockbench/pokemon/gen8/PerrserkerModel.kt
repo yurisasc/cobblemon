@@ -30,11 +30,11 @@ class PerrserkerModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bi
     override val leftArm = getPart("arm_left")
     override val rightArm = getPart("arm_right")
 
-    override val portraitScale = 1.6F
-    override val portraitTranslation = Vec3d(-0.2, 0.2, 0.0)
+    override var portraitScale = 1.6F
+    override var portraitTranslation = Vec3d(-0.2, 0.2, 0.0)
 
-    override val profileScale = 0.8F
-    override val profileTranslation = Vec3d(0.0, 0.54, 0.0)
+    override var profileScale = 0.8F
+    override var profileTranslation = Vec3d(0.0, 0.54, 0.0)
 
 //    lateinit var sleep: PokemonPose
     lateinit var standing: PokemonPose

@@ -134,8 +134,6 @@ object CobblemonItemTags {
     val CONSUMED_IN_PVP_BATTLE = create("held/consumed_in_pvp_battle")
     @JvmField
     val CONSUMED_IN_WILD_BATTLE = create("held/consumed_in_wild_battle")
-    @JvmField
-    val MOB_HEADS = create("mob_heads")
 
     /**
      * Tag that flags items as being able to "create" [CobblemonItems.LEFTOVERS].
@@ -145,6 +143,12 @@ object CobblemonItemTags {
 
     @JvmField
     val POTTERY_SHERDS = create("decorated_pot_sherds")
+
+    @JvmField
+    val ABILITY_CHANGERS = create("ability_changers")
+
+    @JvmField
+    val IS_FRIENDSHIP_BOOSTER = create("is_friendship_booster")
 
     private fun create(path: String) = TagKey.of(RegistryKeys.ITEM, cobblemonResource(path))
 

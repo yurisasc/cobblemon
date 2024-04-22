@@ -26,19 +26,21 @@ class TorkoalModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quad
     override val hindLeftLeg = getPart("leg_back_left")
     override val hindRightLeg = getPart("leg_back_right")
 
-    override val portraitScale = 2.5F
-    override val portraitTranslation = Vec3d(-1.3, -0.5, 0.0)
+    override var portraitScale = 2.5F
+    override var portraitTranslation = Vec3d(-1.3, -0.5, 0.0)
 
-    override val profileScale = 0.8F
-    override val profileTranslation = Vec3d(0.0, 0.43, 0.0)
+    override var profileScale = 0.8F
+    override var profileTranslation = Vec3d(0.0, 0.43, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
+    lateinit var battleidle: PokemonPose
 
     override fun registerPoses() {
         standing = registerPose(
             poseName = "standing",
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
+            condition = { !it.isBattling },
             transformTicks = 10,
             idleAnimations = arrayOf(
                 singleBoneLook(),
@@ -54,6 +56,17 @@ class TorkoalModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quad
                 singleBoneLook(),
                 bedrock("torkoal", "ground_idle"),
                 QuadrupedWalkAnimation(this, periodMultiplier = 0.7F, amplitudeMultiplier = 0.7F)
+            )
+        )
+
+        battleidle = registerPose(
+            poseName = "battleidle",
+            poseTypes = PoseType.STATIONARY_POSES,
+            condition = { it.isBattling },
+            transformTicks = 10,
+            idleAnimations = arrayOf(
+                singleBoneLook(),
+                bedrock("torkoal", "battle_idle")
             )
         )
     }

@@ -47,6 +47,18 @@ object CobblemonBlockEntities : PlatformRegistry<Registry<BlockEntityType<*>>, R
     val HANGING_SIGN: BlockEntityType<CobblemonHangingSignBlockEntity> = this.create("hanging_sign", BlockEntityType.Builder.create(::CobblemonHangingSignBlockEntity, CobblemonBlocks.APRICORN_HANGING_SIGN, CobblemonBlocks.APRICORN_WALL_HANGING_SIGN).build(null))
 
     @JvmField
+    val GILDED_CHEST: BlockEntityType<GildedChestBlockEntity> = this.create("chest", BlockEntityType.Builder.create(::GildedChestBlockEntity,
+        CobblemonBlocks.GILDED_CHEST,
+        CobblemonBlocks.BLUE_GILDED_CHEST,
+        CobblemonBlocks.YELLOW_GILDED_CHEST,
+        CobblemonBlocks.PINK_GILDED_CHEST,
+        CobblemonBlocks.BLACK_GILDED_CHEST,
+        CobblemonBlocks.WHITE_GILDED_CHEST,
+        CobblemonBlocks.GREEN_GILDED_CHEST,
+        CobblemonBlocks.GIMMIGHOUL_CHEST
+    ).build(null))
+
+    @JvmField
     val FOSSIL_MULTIBLOCK: BlockEntityType<FossilMultiblockEntity> = this.create("fossil_multiblock",
         BlockEntityType.Builder.create({ pos, state -> FossilMultiblockEntity(pos, state, FossilMultiblockBuilder(pos)) },
             CobblemonBlocks.MONITOR

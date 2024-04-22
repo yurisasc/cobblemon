@@ -91,14 +91,18 @@ class JsonPokemonPoseableModel(override val rootPart: Bone) : PokemonPoseableMod
     @SerializedName("profileTranslation")
     private val _profileTranslation: Vec3d? = null
 
-    override val portraitScale
+    //Some weirdness going on here, vars have to be initialized, gson doesn't like multiple fields with the same name
+    @Transient
+    override var portraitScale = 1F
         get() = _portraitScale ?: 1F
-    override val portraitTranslation
+    @Transient
+    override var portraitTranslation = Vec3d.ZERO
         get() = _portraitTranslation ?: Vec3d(0.0, 0.0, 0.0)
-
-    override val profileScale
+    @Transient
+    override var profileScale = 1F
         get() = _profileScale ?: 1F
-    override val profileTranslation
+    @Transient
+    override var profileTranslation = Vec3d.ZERO
         get() = _profileTranslation ?: Vec3d(0.0, 0.0, 0.0)
 
 

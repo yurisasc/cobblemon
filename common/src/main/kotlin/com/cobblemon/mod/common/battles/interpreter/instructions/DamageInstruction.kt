@@ -19,6 +19,7 @@ import com.cobblemon.mod.common.battles.dispatch.InstructionSet
 import com.cobblemon.mod.common.battles.dispatch.InterpreterInstruction
 import com.cobblemon.mod.common.battles.dispatch.UntilDispatch
 import com.cobblemon.mod.common.battles.dispatch.WaitDispatch
+import com.cobblemon.mod.common.battles.pokemon.BattlePokemon
 import com.cobblemon.mod.common.net.messages.client.animation.PlayPoseableAnimationPacket
 import com.cobblemon.mod.common.net.messages.client.battle.BattleHealthChangePacket
 import com.cobblemon.mod.common.net.messages.client.effect.RunPosableMoLangPacket
@@ -30,6 +31,13 @@ import java.util.concurrent.CompletableFuture
 import kotlin.math.roundToInt
 import net.minecraft.text.Text
 
+/**
+ * Format: |-damage|POKEMON|HP STATUS
+ *
+ * POKEMON has taken damage and is now at HP STATUS
+ * @author Hiroku
+ * @since March 11th, 2022
+ */
 class DamageInstruction(
     val instructionSet: InstructionSet,
     val actor: BattleActor,
@@ -37,10 +45,10 @@ class DamageInstruction(
     val privateMessage: BattleMessage
 ) : InterpreterInstruction {
     var future = CompletableFuture.completedFuture(Unit)
-    val battlePokemon = publicMessage.getBattlePokemon(0, actor.battle)
+    val expectedTarget = publicMessage.battlePokemon(0, actor.battle)
 
     override fun invoke(battle: PokemonBattle) {
-        battlePokemon ?: return
+        val battlePokemon = publicMessage.battlePokemon(0, actor.battle) ?: return
         val recoiling = privateMessage.optionalArgument("from")?.equals("recoil", true) == true
         val lastCauser  = instructionSet.getMostRecentCauser(comparedTo = this)
         if (recoiling) {
@@ -58,8 +66,7 @@ class DamageInstruction(
         }
         val newHealth = privateMessage.argumentAt(1)?.split(" ")?.get(0) ?: return
         val effect = privateMessage.effect()
-        val pokemonName = battlePokemon.getName()
-        val sourceName = privateMessage.getSourceBattlePokemon(battle)?.getName() ?: Text.literal("UNKNOWN")
+        val source = privateMessage.battlePokemonFromOptional(battle)
         var causedFaint = newHealth == "0"
 
         battle.dispatch {
@@ -70,7 +77,10 @@ class DamageInstruction(
             }
         }
 
+        source?.let { ShowdownInterpreter.broadcastOptionalAbility(battle, effect, it) }
+
         battle.dispatch {
+            val pokemonName = battlePokemon.getName()
             val pokemonEntity = battlePokemon.entity
             if (!causedFaint && pokemonEntity != null) {
                 val pkt = PlayPoseableAnimationPacket(pokemonEntity.id, setOf("recoil"), emptySet())
@@ -93,8 +103,6 @@ class DamageInstruction(
                 )
             }
 
-
-            ShowdownInterpreter.broadcastOptionalAbility(battle, effect, sourceName)
             val newHealthRatio: Float
             val remainingHealth = newHealth.split("/")[0].toInt()
 
@@ -108,7 +116,7 @@ class DamageInstruction(
                     "aftermath" -> battleLang("damage.generic", pokemonName)
                     "chloroblast", "steelbeam" -> battleLang("damage.mindblown", pokemonName)
                     "jumpkick" -> battleLang("damage.highjumpkick", pokemonName)
-                    else -> battleLang("damage.${effect.id}", pokemonName, sourceName)
+                    else -> battleLang("damage.${effect.id}", pokemonName, source?.getName() ?: Text.literal("UNKOWN"))
                 }
                 battle.broadcastChatMessage(lang.red())
             }

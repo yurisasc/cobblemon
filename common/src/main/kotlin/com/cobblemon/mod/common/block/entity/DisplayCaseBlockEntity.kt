@@ -9,6 +9,7 @@
 package com.cobblemon.mod.common.block.entity
 
 import com.cobblemon.mod.common.CobblemonBlockEntities
+import com.cobblemon.mod.common.CobblemonSounds
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
 import net.minecraft.block.entity.BlockEntity
@@ -16,12 +17,12 @@ import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.inventory.Inventories
 import net.minecraft.inventory.SidedInventory
 import net.minecraft.item.ItemStack
+import net.minecraft.item.Items
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.network.listener.ClientPlayPacketListener
 import net.minecraft.network.packet.Packet
 import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket
 import net.minecraft.sound.SoundCategory
-import net.minecraft.sound.SoundEvents
 import net.minecraft.util.ActionResult
 import net.minecraft.util.Hand
 import net.minecraft.util.collection.DefaultedList
@@ -45,7 +46,7 @@ class DisplayCaseBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(Cob
 
         // Player and case item are the same - do nothing
         if (playerStack.item == getStack().item) {
-            return ActionResult.FAIL
+            return if (playerStack.item != Items.AIR) ActionResult.SUCCESS else ActionResult.FAIL
         }
 
         // Player's hand is empty, case is not empty - give player the item in the case
@@ -87,12 +88,11 @@ class DisplayCaseBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(Cob
         newStack.count = 1
         inv[0] = newStack
         if (newStack.isEmpty) {
-            world!!.playSound(null, pos, SoundEvents.ENTITY_ITEM_FRAME_REMOVE_ITEM, SoundCategory.BLOCKS)
+            world!!.playSound(null, pos, CobblemonSounds.DISPLAY_CASE_REMOVE_ITEM, SoundCategory.BLOCKS)
         } else {
-            world!!.playSound(null, pos, SoundEvents.ENTITY_ITEM_FRAME_ADD_ITEM, SoundCategory.BLOCKS)
+            world!!.playSound(null, pos, CobblemonSounds.DISPLAY_CASE_ADD_ITEM, SoundCategory.BLOCKS)
         }
-        world!!.updateListeners(pos, oldState, world!!.getBlockState(pos), Block.NOTIFY_LISTENERS)
-        world!!.updateComparators(pos, world!!.getBlockState(pos).block)
+        onItemUpdated(world!!, oldState, world!!.getBlockState(pos))
     }
 
     override fun writeNbt(nbt: NbtCompound) {
@@ -115,9 +115,9 @@ class DisplayCaseBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(Cob
     }
 
     private fun onItemUpdated(world: World, oldState: BlockState, newState: BlockState) {
-        markDirty()
         world.updateListeners(pos, oldState, newState, Block.NOTIFY_LISTENERS)
         world.updateComparators(pos, world.getBlockState(pos).block)
+        markDirty()
     }
 
     override fun clear() {
