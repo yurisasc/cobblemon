@@ -138,7 +138,9 @@ abstract class PoseableEntityModel<T : Entity>(
         .addFunction("bedrock_stateful") { params ->
             val group = params.getString(0)
             val animation = params.getString(1)
+            val enduresPrimary = "endures_primary_animations" in params.params.mapNotNull { it.asString() }
             val anim = bedrockStateful(group, animation)
+            anim.enduresPrimaryAnimations = enduresPrimary
             return@addFunction ObjectValue(anim)
         }
         .addFunction("bedrock") { params ->
@@ -877,6 +879,7 @@ abstract class PoseableEntityModel<T : Entity>(
     val dummyAnimation = object : StatefulAnimation<T, ModelFrame> {
         override val isTransform = false
         override val duration: Float = 1F
+        override val enduresPrimaryAnimations = false
 
         override fun run(
             entity: T?,

@@ -128,7 +128,7 @@ interface Evolution : EvolutionLike {
     }
 
     private fun evolutionAnimation(pokemon: Entity) {
-        val playPoseableAnimationPacket = PlayPoseableAnimationPacket(pokemon.id, setOf("q.bedrock_stateful('evolution', 'evolution')"), emptySet())
+        val playPoseableAnimationPacket = PlayPoseableAnimationPacket(pokemon.id, setOf("q.bedrock_stateful('evolution', 'evolution', 'endures_primary_animations')"), emptySet())
         playPoseableAnimationPacket.sendToPlayersAround(pokemon.x, pokemon.y, pokemon.z, 128.0, pokemon.world.registryKey)
     }
 
