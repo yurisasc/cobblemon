@@ -285,7 +285,7 @@
       "requirements": [
         {
           "variant": "biome",
-          "biomeCondition": "#cobblemon:alolan_evolutions/alolan"
+          "biomeCondition": "#cobblemon:regional_bias_evolutions/alolan"
         },
         {
           "variant": "biome",
