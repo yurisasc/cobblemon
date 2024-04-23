@@ -209,7 +209,7 @@
 					"name": "ear_right",
 					"parent": "head",
 					"pivot": [-4, 10, -9.5],
-					"rotation": [-25, -15, -25],
+					"rotation": [-4.5, -18, -139],
 					"cubes": [
 						{"origin": [-4, 9.5, -11], "size": [0, 5, 3], "uv": [33, 1]}
 					]
@@ -218,7 +218,7 @@
 					"name": "ear_left",
 					"parent": "head",
 					"pivot": [4, 10, -9.5],
-					"rotation": [-25, 15, 25],
+					"rotation": [-4.5, 18, 139],
 					"cubes": [
 						{"origin": [4, 9.5, -11], "size": [0, 5, 3], "uv": [44, 40]}
 					]
