@@ -78,9 +78,9 @@ class BattleTargetSelection(
         private val isMultiTarget = multiTargetList?.firstOrNull { it.getPNX() == target.getPNX() } != null
         open val response: MoveActionResponse get() = MoveActionResponse(targetSelection.move.id, responseTarget)
 
-        open val selectable: Boolean get() = isMultiTarget || responseTarget != null
+        open val selectable: Boolean get() = isMultiTarget || (responseTarget != null && (target.battlePokemon?.hpValue ?: 0F) > 0)
         val hue = target.getHue()
-        val rgb = if(target.battlePokemon?.hpValue!!  > 0)
+        val rgb = if ((target.battlePokemon?.hpValue ?: 0F) > 0)
             Triple(((hue shr 16) and 0b11111111) / 255F, ((hue shr 8) and 0b11111111) / 255F, (hue and 0b11111111) / 255F)
             else Triple(0.5f, 0.5f, 0.5f)
 
