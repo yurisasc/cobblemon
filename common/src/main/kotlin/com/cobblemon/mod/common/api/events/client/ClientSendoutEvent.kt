@@ -6,5 +6,4 @@ import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.util.math.Vec3d
 import org.joml.Vector3f
 
-class ClientSendoutEvent(val sendoutOffset: Vec3d, val startPos: Vec3d, val pokemon: PokemonEntity) {
-}
+data class ClientSendoutEvent(var sendoutOffset: Vec3d, var startPos: Vec3d, val pokemon: PokemonEntity)
