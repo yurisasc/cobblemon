@@ -480,7 +480,7 @@
 				}
 			},
 			"timeline": {
-				"5.25": "evo_glow_time(5.08);"
+				"5.25": "q.evo_glow_time(5.08);"
 			}
 		}
 	}
