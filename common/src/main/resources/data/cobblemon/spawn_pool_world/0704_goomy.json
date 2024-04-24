@@ -25,7 +25,28 @@
             }
         },
         {
-            "id": "goomy-hisui-2",
+            "id": "goomy-2",
+            "pokemon": "goomy",
+            "presets": [
+                "natural",
+                "wild"
+            ],
+            "type": "pokemon",
+            "context": "grounded",
+            "bucket": "ultra-rare",
+            "level": "5-30",
+            "weight": 9.0,
+            "condition": {
+                "minSkyLight": 8,
+                "maxSkyLight": 15,
+                "biomes": [
+                    "#cobblemon:is_swamp"
+                ],
+                "isRaining": false
+            }
+        },
+        {
+            "id": "goomy-hisui-3",
             "pokemon": "goomy region_bias=hisui",
             "presets": [
                 "natural"
@@ -45,7 +66,7 @@
             }
         },
         {
-            "id": "goomy-hisui-3",
+            "id": "goomy-hisui-4",
             "pokemon": "goomy region_bias=hisui",
             "presets": [
                 "natural"

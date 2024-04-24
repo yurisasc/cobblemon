@@ -2,8 +2,8 @@
 ## [1.5.0](#1-5-0)
 
 ### Additions
-- Added over (number here) ruin structures, where you can find Pokémon-themed Armor Trims and Pottery Sherds, Tumblestones, and more.
-- Added (number here) fossil structures, where you can brush Suspicious Sand/Gravel for Fossils.
+- Added 17 ruin structures, where you can find Pokémon-themed Armor Trims and Pottery Sherds, Tumblestones, and more.
+- Added 22 fossil structures, where you can brush Suspicious Sand/Gravel for Fossils.
 - Added the Data Monitor, Fossil Compartment, and Restoration Tank. Placed in the correct formation, you can use these to create a Restoration Machine where you can bring fossils back to life.
 - Added 3 variants of Tumblestones, which can be planted near Lava or Magma to grow harvestable Tumblestone Clusters.
 - Added Tumblestone Blocks, a storage block crafted from 9 Tumblestones.
@@ -29,7 +29,6 @@
 - Added the [Ability Capsule](https://bulbapedia.bulbagarden.net/wiki/Ability_Capsule) and [Patch](https://bulbapedia.bulbagarden.net/wiki/Ability_Patch), these have no acquisition method for now and only work as intended with the traditional ability format of 1 to 2 common abilities and 1 hidden ability.
 - Added Gilded Chests, available in all Apricorn colors.
 - Added Relic Coins, Relic Coin Pouches, and Relic Coin Sacks.
-- Added various new tags for searchability and better compatibility. 
 - Added Type Gems. These items hold no functionality for now. Start collecting though...
 - Added 6 custom Pottery Sherds, obtained from ruin structures.
 - Added cries to Meowth, Alolan Meowth, Galaraian Meowth,
@@ -210,6 +209,9 @@
 - Pokémon entity shadows now scale when the Pokémon is being sent out or recalled.
 - Remade Torkoal particles, now they only appear when in battle.
 - Updated shiny icon within summary and PC interfaces.
+- Changed the Poison Barb sprite so that it doesn't look like a sword when held.
+- Moon Stone ore generates more frequently in Taigas and has been added to Magical and Spooky biomes.
+- Density, Season, and Nether biome tags have been moved and renamed within the biome tags directory.
 
 ### Fixes
 - Resized Snorlax
