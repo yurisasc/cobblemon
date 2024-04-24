@@ -218,7 +218,7 @@ data class SwitchActionResponse(var newPokemonId: UUID) : ShowdownActionResponse
         val pokemon = activeBattlePokemon.actor.pokemonList.find { it.uuid == newPokemonId }
         return when {
             pokemon == null -> false // No such Pokémon
-            (!activeBattlePokemon.actor.request?.side?.pokemon?.any{ it.reviving }!! && pokemon.health <= 0) -> false // Checks if the active Pokémon is reviving, if so ignore this check. If not, return false if dead
+            (!activeBattlePokemon.actor.request?.side?.pokemon?.any{ it.uuid == activeBattlePokemon.battlePokemon?.uuid && it.reviving }!! && pokemon.health <= 0) -> false // Checks if the active Pokémon is reviving, if so ignore this check. If not, return false if dead
             showdownMoveSet != null && showdownMoveSet.trapped -> false // You're not allowed to switch
             activeBattlePokemon.actor.getSide().activePokemon.any { it.battlePokemon?.uuid == newPokemonId } -> false // Pokémon is already sent out
             else -> true

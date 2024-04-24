@@ -98,7 +98,7 @@ class BattleSwitchPokemonSelection(
                     ?.let { showdownPokemon to it }
             }
             .filter {
-                if (request.side.pokemon.any { revivingPokemon -> revivingPokemon.reviving }) {
+                if (request.side.pokemon.any { revivingPokemon -> revivingPokemon.uuid == request.activePokemon.battlePokemon?.uuid && revivingPokemon.reviving }) {
                     "fnt" in it.first.condition//Fainted pokemon in doubles can be on the field
                 } else {
                     "fnt" !in it.first.condition && it.second.uuid !in battleGUI.actor!!.activePokemon.map { it.battlePokemon?.uuid }
