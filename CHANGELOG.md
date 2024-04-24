@@ -2,8 +2,8 @@
 ## [1.5.0](#1-5-0)
 
 ### Additions
-- Added over (number here) ruin structures, where you can find Pokémon-themed Armor Trims and Pottery Sherds, Tumblestones, and more.
-- Added (number here) fossil structures, where you can brush Suspicious Sand/Gravel for Fossils.
+- Added 17 ruin structures, where you can find Pokémon-themed Armor Trims and Pottery Sherds, Tumblestones, and more.
+- Added 22 fossil structures, where you can brush Suspicious Sand/Gravel for Fossils.
 - Added the Data Monitor, Fossil Compartment, and Restoration Tank. Placed in the correct formation, you can use these to create a Restoration Machine where you can bring fossils back to life.
 - Added 3 variants of Tumblestones, which can be planted near Lava or Magma to grow harvestable Tumblestone Clusters.
 - Added Tumblestone Blocks, a storage block crafted from 9 Tumblestones.
@@ -36,6 +36,8 @@
 - Added new held items: Ability Shield, Absorb Bulb, Air Balloon, Binding Band, Blunder Policy, Cell Battery, Covert Cloak, Damp Rock, Eject Button, Eviolite, Expert Belt, Float Stone, Focus Sash, Heat Rock, Icy Rock, Iron Ball, Light Ball, Loaded Dice, Red Card, Shell Bell, Sticky Barb, Smooth Rock, Soothe Bell and Weakness Policy.
 - Added Hisui starters to the starter selection menu.
 - Added bubble quirk to Krabby that only play during clear sunset's.
+- Added forfeit option to PVP battles.
+- Added visual changes for entities affected by Illusion, Imposter, or Transform in battle.
 
 ### Pokémon Added
 #### Gen 2
@@ -206,6 +208,7 @@
 - Reorganised a few advancements.
 - Pokémon entity shadows now scale when the Pokémon is being sent out or recalled.
 - Remade Torkoal particles, now they only appear when in battle.
+- Updated shiny icon within summary and PC interfaces.
 - Changed the Poison Barb sprite so that it doesn't look like a sword when held.
 - Moon Stone ore generates more frequently in Taigas and has been added to Magical and Spooky biomes.
 - Density, Season, and Nether biome tags have been moved and renamed within the biome tags directory.
@@ -233,6 +236,9 @@
 - Fixed an issue that allowed Pokemon to spawn on rails.
 - Fixed the data set on Pokémon when abilities are given via properties such as in ``/spawnpokemon``.
 - Fixed sometimes Pokémon losing hidden abilities when evolving, this fix will only take effect to newly created Pokémon.
+- Fixed capture messages not displaying.
+- Fixed illusion ability causing the wrong Pokémon to be targeted in battle. 
+- Battles starting with fainted party members no longer cause a softlock on defeat.
 
 ### Developer
 - Significantly changed the way properties in PokemonEntity work. This could break some plugins (not in a big way, but changes will be needed).
@@ -252,6 +258,7 @@
 - ``Pokemon#rollAbility`` has been added, this rerolls a legal ability for the Pokémon.
 - `docs/cobblemon-tags` tags and spawn-presets can now be auto-generated from the current tags in the cobblemon mod with the `generateSpawnPresetList.py` and `generateTagList.py` scripts.
 - `public_spawns_to_json.py` script has been added to give the powerful spawn.json generator a simplistic UI.
+- Updated Showdown with Gen 9 DLC. 
 
 ### Datapack & Resourcepack Creators
 - The maximum amount of fossils that can fit in the Fossil Analyzer can be adjusted in the config.

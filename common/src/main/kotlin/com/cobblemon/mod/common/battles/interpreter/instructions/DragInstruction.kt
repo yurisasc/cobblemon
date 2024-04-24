@@ -33,6 +33,7 @@ class DragInstruction(val instructionSet: InstructionSet, val battleActor: Battl
             val (pnx, _) = publicMessage.pnxAndUuid(0)!!
             val (_, activePokemon) = battle.getActorAndActiveSlotFromPNX(pnx)
 
+            val imposter = instructionSet.getNextInstruction<TransformInstruction>(this)?.expectedTarget != null
             val illusion = publicMessage.battlePokemonFromOptional(battle , "is")
             val pokemon = publicMessage.battlePokemon(0, battle) ?: return@dispatchInsert emptySet()
 
@@ -47,7 +48,7 @@ class DragInstruction(val instructionSet: InstructionSet, val battleActor: Battl
             setOf(
                 BattleDispatch {
                     if (entity != null) {
-                        SwitchInstruction.createEntitySwitch(battle, battleActor, entity, pnx, activePokemon, pokemon, illusion)
+                        SwitchInstruction.createEntitySwitch(battle, battleActor, entity, pnx, activePokemon, pokemon, illusion, imposter)
                     } else {
                         SwitchInstruction.createNonEntitySwitch(battle, battleActor, pnx, activePokemon, pokemon, illusion)
                     }
