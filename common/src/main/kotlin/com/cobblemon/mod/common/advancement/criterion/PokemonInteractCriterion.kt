@@ -27,9 +27,9 @@ class PokemonInteractCriterion(
 ): SimpleCriterionCondition<PokemonInteractContext>(playerCtx) {
     companion object {
         val CODEC: Codec<PokemonInteractCriterion> = RecordCodecBuilder.create { it.group(
-            Codecs.createStrictOptionalFieldCodec(EntityPredicate.LOOT_CONTEXT_PREDICATE_CODEC, "player").forGetter(PokemonInteractCriterion::playerCtx),
-            Codecs.createStrictOptionalFieldCodec(Codec.STRING, "type").forGetter(PokemonInteractCriterion::type),
-            Codecs.createStrictOptionalFieldCodec(Codec.STRING, "item").forGetter(PokemonInteractCriterion::item)
+            EntityPredicate.LOOT_CONTEXT_PREDICATE_CODEC.optionalFieldOf("player").forGetter(PokemonInteractCriterion::playerCtx),
+            Codec.STRING.optionalFieldOf("type").forGetter(PokemonInteractCriterion::type),
+            Codec.STRING.optionalFieldOf("item").forGetter(PokemonInteractCriterion::item)
         ).apply(it, ::PokemonInteractCriterion) }
     }
 

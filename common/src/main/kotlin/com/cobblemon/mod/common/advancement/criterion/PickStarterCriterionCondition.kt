@@ -25,8 +25,8 @@ class PokemonCriterion(
 
     companion object {
         val CODEC: Codec<PokemonCriterion> = RecordCodecBuilder.create { it.group(
-            Codecs.createStrictOptionalFieldCodec(EntityPredicate.LOOT_CONTEXT_PREDICATE_CODEC, "player").forGetter(PokemonCriterion::playerCtx),
-            Codecs.createStrictOptionalFieldCodec(PokemonProperties.CODEC, "properties", PokemonProperties()).forGetter(PokemonCriterion::properties)
+            EntityPredicate.LOOT_CONTEXT_PREDICATE_CODEC.optionalFieldOf("player").forGetter(PokemonCriterion::playerCtx),
+            PokemonProperties.CODEC.optionalFieldOf("properties", PokemonProperties()).forGetter(PokemonCriterion::properties)
         ).apply(it, ::PokemonCriterion) }
     }
 

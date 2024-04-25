@@ -37,6 +37,7 @@ import com.cobblemon.mod.common.pokeball.PokeBall
 import com.cobblemon.mod.common.pokemon.helditem.CobblemonHeldItemManager
 import com.cobblemon.mod.common.util.cobblemonResource
 import net.minecraft.block.Block
+import net.minecraft.component.type.FoodComponent
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.effect.StatusEffectInstance
 import net.minecraft.entity.effect.StatusEffects
@@ -408,15 +409,15 @@ object CobblemonItems : PlatformRegistry<Registry<Item>, RegistryKey<Registry<It
     @JvmField
     val CLEVER_FEATHER = create("clever_feather", FeatherItem(Stats.SPECIAL_DEFENCE))
     @JvmField
-    val MEDICINAL_LEEK = heldItem("medicinal_leek", MedicinalLeekItem(CobblemonBlocks.MEDICINAL_LEEK, Item.Settings().food(FoodComponent.Builder().snack().hunger(1).saturationModifier(0.2f).build())), "leek")
+    val MEDICINAL_LEEK = heldItem("medicinal_leek", MedicinalLeekItem(CobblemonBlocks.MEDICINAL_LEEK, Item.Settings().food(FoodComponent.Builder().snack().nutrition(1).saturationModifier(0.2f).build())), "leek")
     @JvmField
-    val ROASTED_LEEK = create("roasted_leek", Item(Item.Settings().food(FoodComponent.Builder().snack().hunger(3).saturationModifier(0.3f).build())))
+    val ROASTED_LEEK = create("roasted_leek", Item(Item.Settings().food(FoodComponent.Builder().snack().nutrition(3).saturationModifier(0.3f).build())))
     @JvmField
-    val BRAISED_VIVICHOKE = create("braised_vivichoke", Item(Item.Settings().food(FoodComponent.Builder().hunger(6).saturationModifier(0.6f).build())))
+    val BRAISED_VIVICHOKE = create("braised_vivichoke", Item(Item.Settings().food(FoodComponent.Builder().nutrition(6).saturationModifier(0.6f).build())))
     @JvmField
     val VIVICHOKE_DIP = create("vivichoke_dip", object : StewItem(Settings().maxCount(1)
         .food(FoodComponent.Builder()
-            .hunger(10)
+            .nutrition(10)
             .saturationModifier(1.2F)
             .statusEffect(StatusEffectInstance(StatusEffects.ABSORPTION, 900, 0), 1F)
             .alwaysEdible()
@@ -427,7 +428,7 @@ object CobblemonItems : PlatformRegistry<Registry<Item>, RegistryKey<Registry<It
         }
     })
     @JvmField
-    val ENERGY_ROOT = compostableItem("energy_root", EnergyRootItem(CobblemonBlocks.ENERGY_ROOT, Item.Settings().food(FoodComponent.Builder().hunger(1).snack().saturationModifier(0.2f).build())))
+    val ENERGY_ROOT = compostableItem("energy_root", EnergyRootItem(CobblemonBlocks.ENERGY_ROOT, Item.Settings().food(FoodComponent.Builder().nutrition(1).snack().saturationModifier(0.2f).build())))
     @JvmField
     val REVIVAL_HERB = compostableItem("revival_herb", RevivalHerbItem(CobblemonBlocks.REVIVAL_HERB))
     @JvmField
@@ -455,7 +456,7 @@ object CobblemonItems : PlatformRegistry<Registry<Item>, RegistryKey<Registry<It
     @JvmField
     val HEAL_POWDER = create("heal_powder", HealPowderItem())
     @JvmField
-    val LEEK_AND_POTATO_STEW = create("leek_and_potato_stew", StewItem(Item.Settings().food(FoodComponent.Builder().hunger(8).saturationModifier(0.6f).build()).maxCount(1)))
+    val LEEK_AND_POTATO_STEW = create("leek_and_potato_stew", StewItem(Item.Settings().food(FoodComponent.Builder().nutrition(8).saturationModifier(0.6f).build()).maxCount(1)))
     @JvmField
     val REVIVE = create("revive", ReviveItem(max = false))
     @JvmField

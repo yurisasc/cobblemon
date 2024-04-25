@@ -8,6 +8,7 @@
 
 package com.cobblemon.mod.common.advancement.criterion
 
+import com.cobblemon.mod.common.util.cobblemonResource
 import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
 import net.minecraft.predicate.entity.LootContextPredicate
@@ -24,9 +25,10 @@ class AspectCriterion(
 
     companion object {
         val CODEC: Codec<AspectCriterion> = RecordCodecBuilder.create { it.group(
-            Codecs.createStrictOptionalFieldCodec(LootContextPredicate.CODEC, "player").forGetter(AspectCriterion::playerCtx),
-            Codecs.createStrictOptionalFieldCodec(Identifier.CODEC, "pokemon", Identifier("cobblemon:pikachu")).forGetter(AspectCriterion::pokemon),
-            Codecs.createStrictOptionalFieldCodec(Codec.STRING.listOf(), "aspects", listOf()).forGetter(AspectCriterion::aspects)
+            //All three of these codecs used to use Codecs.createStrictOptionalFieldCodec, that no longer exists
+            Codecs.optional(LootContextPredicate.CODEC).fieldOf("player").forGetter(AspectCriterion::playerCtx),
+            Identifier.CODEC.optionalFieldOf("pokemon", cobblemonResource("pikachu")).forGetter(AspectCriterion::pokemon),
+            Codec.STRING.listOf().optionalFieldOf("aspects", listOf()).forGetter(AspectCriterion::aspects)
         ) .apply(it, ::AspectCriterion) }
     }
 

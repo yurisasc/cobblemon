@@ -25,7 +25,7 @@ class PlantTumblestoneCriterion(
 
     companion object {
         val CODEC: Codec<PlantTumblestoneCriterion> = RecordCodecBuilder.create { it.group(
-            Codecs.createStrictOptionalFieldCodec(LootContextPredicate.CODEC, "player").forGetter(PlantTumblestoneCriterion::playerCtx)
+            LootContextPredicate.CODEC.optionalFieldOf("player").forGetter(PlantTumblestoneCriterion::playerCtx)
         ).apply(it, ::PlantTumblestoneCriterion) }
     }
 

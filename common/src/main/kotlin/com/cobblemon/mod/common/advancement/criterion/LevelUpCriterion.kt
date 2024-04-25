@@ -27,9 +27,9 @@ class LevelUpCriterion(
 
     companion object {
         val CODEC: Codec<LevelUpCriterion> = RecordCodecBuilder.create { it.group(
-            Codecs.createStrictOptionalFieldCodec(EntityPredicate.LOOT_CONTEXT_PREDICATE_CODEC, "player").forGetter(LevelUpCriterion::playerCtx),
-            Codecs.createStrictOptionalFieldCodec(Codec.INT, "level", 0).forGetter(LevelUpCriterion::level),
-            Codecs.createStrictOptionalFieldCodec(Codec.BOOL, "evolved", true).forGetter(LevelUpCriterion::evolved)
+            EntityPredicate.LOOT_CONTEXT_PREDICATE_CODEC.optionalFieldOf("player").forGetter(LevelUpCriterion::playerCtx),
+            Codec.INT.optionalFieldOf("level", 0).forGetter(LevelUpCriterion::level),
+            Codec.BOOL.optionalFieldOf("evolved", true).forGetter(LevelUpCriterion::evolved)
         ).apply(it, ::LevelUpCriterion) }
     }
 

@@ -53,7 +53,7 @@ object CobblemonEntities : PlatformRegistry<Registry<EntityType<*>>, RegistryKey
     @JvmField
     val BOAT: EntityType<CobblemonBoatEntity> = this.create(
         BOAT_KEY.path,
-        EntityType.Builder.create(::CobblemonBoatEntity, SpawnGroup.MISC).setDimensions(1.375F, 0.5625F).maxTrackingRange(10)
+        EntityType.Builder.create(::CobblemonBoatEntity, SpawnGroup.MISC).dimensions(1.375F, 0.5625F).maxTrackingRange(10)
             .build(BOAT_KEY.toString())
     )
 
@@ -62,7 +62,7 @@ object CobblemonEntities : PlatformRegistry<Registry<EntityType<*>>, RegistryKey
     @JvmField
     val CHEST_BOAT: EntityType<CobblemonChestBoatEntity> = this.create(
         CHEST_BOAT_KEY.path,
-        EntityType.Builder.create(::CobblemonChestBoatEntity, SpawnGroup.MISC).setDimensions(1.375F, 0.5625F).maxTrackingRange(10)
+        EntityType.Builder.create(::CobblemonChestBoatEntity, SpawnGroup.MISC).dimensions(1.375F, 0.5625F).maxTrackingRange(10)
             .build(CHEST_BOAT_KEY.toString())
     )
 

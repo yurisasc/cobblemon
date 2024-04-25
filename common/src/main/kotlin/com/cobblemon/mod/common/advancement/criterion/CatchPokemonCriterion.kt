@@ -32,9 +32,9 @@ class CaughtPokemonCriterion(
 
     companion object {
         val CODEC: Codec<CaughtPokemonCriterion> = RecordCodecBuilder.create { it.group(
-            Codecs.createStrictOptionalFieldCodec(EntityPredicate.LOOT_CONTEXT_PREDICATE_CODEC, "player").forGetter(CaughtPokemonCriterion::playerCtx),
-            Codecs.createStrictOptionalFieldCodec(Codec.STRING, "type", "any").forGetter(CaughtPokemonCriterion::type),
-            Codecs.createStrictOptionalFieldCodec(Codec.INT, "count", 0).forGetter(CaughtPokemonCriterion::count)
+            EntityPredicate.LOOT_CONTEXT_PREDICATE_CODEC.optionalFieldOf("player").forGetter(CaughtPokemonCriterion::playerCtx),
+            Codec.STRING.optionalFieldOf("type", "any").forGetter(CaughtPokemonCriterion::type),
+            Codec.INT.optionalFieldOf("count", 0).forGetter(CaughtPokemonCriterion::count)
         ).apply(it, ::CaughtPokemonCriterion) }
     }
 

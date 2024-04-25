@@ -27,9 +27,9 @@ class BattleCountableCriterion(
 
     companion object {
         val CODEC: Codec<BattleCountableCriterion> = RecordCodecBuilder.create { it.group(
-            Codecs.createStrictOptionalFieldCodec(LootContextPredicate.CODEC, "player").forGetter(BattleCountableCriterion::playerCtx),
-            Codecs.createStrictOptionalFieldCodec(Codec.STRING.listOf(), "battle_types", listOf("any")).forGetter(BattleCountableCriterion::battleTypes),
-            Codecs.createStrictOptionalFieldCodec(Codec.INT, "count", 0).forGetter(BattleCountableCriterion::count)
+            LootContextPredicate.CODEC.optionalFieldOf("player").forGetter(BattleCountableCriterion::playerCtx),
+            Codec.STRING.listOf().optionalFieldOf("battle_types", listOf("any")).forGetter(BattleCountableCriterion::battleTypes),
+            Codec.INT.optionalFieldOf( "count", 0).forGetter(BattleCountableCriterion::count)
         ).apply(it, ::BattleCountableCriterion) }
     }
 

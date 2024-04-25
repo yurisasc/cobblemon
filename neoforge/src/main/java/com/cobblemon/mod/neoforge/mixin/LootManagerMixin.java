@@ -9,10 +9,7 @@
 package com.cobblemon.mod.neoforge.mixin;
 
 import com.google.gson.JsonElement;
-import net.minecraft.loot.LootManager;
 import net.minecraft.util.Identifier;
-import net.minecraftforge.common.crafting.CraftingHelper;
-import net.minecraftforge.common.crafting.conditions.ICondition;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
@@ -20,7 +17,7 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 import java.util.Map;
 import java.util.function.BiConsumer;
 
-@Mixin(LootManager.class)
+//@Mixin(LootManager.class)
 public class LootManagerMixin {
 
     private static final String LOAD_CONDITIONS = "cobblemon:forge_load_conditions";

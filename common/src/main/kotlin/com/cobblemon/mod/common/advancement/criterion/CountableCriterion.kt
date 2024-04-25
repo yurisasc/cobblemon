@@ -25,8 +25,8 @@ open class CountableCriterion<T : CountableContext>(
 
     companion object {
         val CODEC: Codec<CountableCriterion<CountableContext>> = RecordCodecBuilder.create { it.group(
-            Codecs.createStrictOptionalFieldCodec(EntityPredicate.LOOT_CONTEXT_PREDICATE_CODEC, "player").forGetter(CountableCriterion<CountableContext>::playerCtx),
-            Codecs.createStrictOptionalFieldCodec(Codec.INT, "count", 0).forGetter(CountableCriterion<CountableContext>::count)
+            EntityPredicate.LOOT_CONTEXT_PREDICATE_CODEC.optionalFieldOf("player").forGetter(CountableCriterion<CountableContext>::playerCtx),
+            Codec.INT.optionalFieldOf("count", 0).forGetter(CountableCriterion<CountableContext>::count)
         ).apply(it, ::CountableCriterion) }
     }
 

@@ -430,7 +430,7 @@ object CobblemonBlocks : PlatformRegistry<Registry<Block>, RegistryKey<Registry<
     @JvmField
     val VIVICHOKE_SEEDS = this.create("vivichoke_seeds", VivichokeBlock(AbstractBlock.Settings.create().pistonBehavior(PistonBehavior.DESTROY).burnable().mapColor(MapColor.DARK_GREEN).noCollision().ticksRandomly().breakInstantly().sounds(CobblemonSounds.VIVICHOKE_SOUNDS)))
     @JvmField
-    val PEP_UP_FLOWER = this.create("pep_up_flower", FlowerBlock(StatusEffects.LEVITATION, 10, AbstractBlock.Settings.create().mapColor(MapColor.DARK_GREEN).noCollision().breakInstantly().sounds(BlockSoundGroup.GRASS).offset(AbstractBlock.OffsetType.XZ).pistonBehavior(PistonBehavior.DESTROY)))
+    val PEP_UP_FLOWER = this.create("pep_up_flower", FlowerBlock(StatusEffects.LEVITATION, 10F, AbstractBlock.Settings.create().mapColor(MapColor.DARK_GREEN).noCollision().breakInstantly().sounds(BlockSoundGroup.GRASS).offset(AbstractBlock.OffsetType.XZ).pistonBehavior(PistonBehavior.DESTROY)))
     @JvmField
     val POTTED_PEP_UP_FLOWER = this.create("potted_pep_up_flower", BlocksInvoker.createFlowerPotBlock(PEP_UP_FLOWER))
 

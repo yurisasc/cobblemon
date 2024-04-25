@@ -26,8 +26,8 @@ class PartyCheckCriterion(
 
     companion object {
         val CODEC: Codec<PartyCheckCriterion> = RecordCodecBuilder.create { it.group(
-            Codecs.createStrictOptionalFieldCodec(EntityPredicate.LOOT_CONTEXT_PREDICATE_CODEC, "player").forGetter(PartyCheckCriterion::playerCtx),
-            Codecs.createStrictOptionalFieldCodec(Identifier.CODEC.listOf(), "id", listOf()).forGetter(PartyCheckCriterion::party)
+            EntityPredicate.LOOT_CONTEXT_PREDICATE_CODEC.optionalFieldOf("player").forGetter(PartyCheckCriterion::playerCtx),
+            Identifier.CODEC.listOf().optionalFieldOf("id", listOf()).forGetter(PartyCheckCriterion::party)
         ).apply(it, ::PartyCheckCriterion) }
     }
 

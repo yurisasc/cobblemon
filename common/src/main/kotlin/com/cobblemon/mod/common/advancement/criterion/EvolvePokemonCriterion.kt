@@ -28,10 +28,10 @@ class EvolvePokemonCriterion(
 
     companion object {
         val CODEC: Codec<EvolvePokemonCriterion> = RecordCodecBuilder.create { it.group(
-            Codecs.createStrictOptionalFieldCodec(LootContextPredicate.CODEC, "player").forGetter(EvolvePokemonCriterion::playerCtx),
-            Codecs.createStrictOptionalFieldCodec(Codec.STRING, "species", "any").forGetter(EvolvePokemonCriterion::species),
-            Codecs.createStrictOptionalFieldCodec(Codec.STRING, "evolution", "any").forGetter(EvolvePokemonCriterion::evolution),
-            Codecs.createStrictOptionalFieldCodec(Codec.INT, "count", 0).forGetter(EvolvePokemonCriterion::count)
+            LootContextPredicate.CODEC.optionalFieldOf("player").forGetter(EvolvePokemonCriterion::playerCtx),
+            Codec.STRING.optionalFieldOf("species", "any").forGetter(EvolvePokemonCriterion::species),
+            Codec.STRING.optionalFieldOf("evolution", "any").forGetter(EvolvePokemonCriterion::evolution),
+            Codec.INT.optionalFieldOf("count", 0).forGetter(EvolvePokemonCriterion::count)
         ).apply(it, ::EvolvePokemonCriterion) }
     }
 

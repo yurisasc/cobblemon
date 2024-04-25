@@ -30,11 +30,11 @@ class TradePokemonCriterion(
 
     companion object {
         val CODEC: Codec<TradePokemonCriterion> = RecordCodecBuilder.create { it.group(
-            Codecs.createStrictOptionalFieldCodec(EntityPredicate.LOOT_CONTEXT_PREDICATE_CODEC, "player").forGetter(TradePokemonCriterion::playerCtx),
-            Codecs.createStrictOptionalFieldCodec(Codec.STRING, "traded", "any").forGetter(TradePokemonCriterion::traded),
-            Codecs.createStrictOptionalFieldCodec(Codec.STRING, "received", "any").forGetter(TradePokemonCriterion::received),
-            Codecs.createStrictOptionalFieldCodec(Codec.STRING, "traded_held_item", "minecraft:air").forGetter(TradePokemonCriterion::tradedHeldItem),
-            Codecs.createStrictOptionalFieldCodec(Codec.STRING, "received_held_item", "minecraft:air").forGetter(TradePokemonCriterion::receivedHeldItem)
+            EntityPredicate.LOOT_CONTEXT_PREDICATE_CODEC.optionalFieldOf("player").forGetter(TradePokemonCriterion::playerCtx),
+            Codec.STRING.optionalFieldOf("traded", "any").forGetter(TradePokemonCriterion::traded),
+            Codec.STRING.optionalFieldOf("received", "any").forGetter(TradePokemonCriterion::received),
+            Codec.STRING.optionalFieldOf("traded_held_item", "minecraft:air").forGetter(TradePokemonCriterion::tradedHeldItem),
+            Codec.STRING.optionalFieldOf("received_held_item", "minecraft:air").forGetter(TradePokemonCriterion::receivedHeldItem)
         ).apply(it, ::TradePokemonCriterion) }
     }
 
