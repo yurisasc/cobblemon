@@ -37,10 +37,6 @@ class DisplayCaseBlock(settings: Settings) : BlockWithEntity(settings) {
             .with(ITEM_DIRECTION, Direction.NORTH)
     }
 
-    companion object {
-        val ITEM_DIRECTION = DirectionProperty.of("item_facing")
-    }
-
     override fun getPlacementState(ctx: ItemPlacementContext): BlockState? {
         var blockState = defaultState
         val worldView = ctx.world
@@ -124,6 +120,7 @@ class DisplayCaseBlock(settings: Settings) : BlockWithEntity(settings) {
 
     companion object {
         val CODEC = createCodec(::DisplayCaseBlock)
+        val ITEM_DIRECTION = DirectionProperty.of("item_facing")
     }
 
 }
