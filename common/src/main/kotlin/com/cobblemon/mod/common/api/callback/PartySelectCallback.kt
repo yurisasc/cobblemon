@@ -20,6 +20,8 @@ import java.util.UUID
 import net.minecraft.item.ItemStack
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.network.PacketByteBuf
+import net.minecraft.network.RegistryByteBuf
+import net.minecraft.network.codec.PacketCodec
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.text.Text
 
@@ -143,19 +145,19 @@ open class PartySelectPokemonDTO(
         enabled = enabled
     )
 
-    constructor(buffer: PacketByteBuf): this(
+    constructor(buffer: RegistryByteBuf): this(
         pokemonProperties = PokemonProperties().loadFromNBT(buffer.readNbt() as NbtCompound),
         aspects = buffer.readList { it.readString() }.toSet(),
-        heldItem = buffer.readItemStack(),
+        heldItem = ItemStack.PACKET_CODEC.decode(buffer),
         currentHealth = buffer.readInt(),
         maxHealth = buffer.readInt(),
         enabled = buffer.readBoolean()
     )
 
-    fun writeToBuffer(buffer: PacketByteBuf) {
+    fun writeToBuffer(buffer: RegistryByteBuf) {
         buffer.writeNbt(pokemonProperties.saveToNBT())
         buffer.writeCollection(aspects) { _, aspect -> buffer.writeString(aspect) }
-        buffer.writeItemStack(heldItem)
+        ItemStack.PACKET_CODEC.encode(buffer, heldItem)
         buffer.writeInt(currentHealth)
         buffer.writeInt(maxHealth)
         buffer.writeBoolean(enabled)

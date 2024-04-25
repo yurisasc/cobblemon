@@ -38,7 +38,7 @@ class BedrockParticleEffect(
                 Identifier.CODEC.fieldOf("id").forGetter { it.id },
                 BedrockParticleEmitter.CODEC.fieldOf("emitter").forGetter { it.emitter },
                 BedrockParticle.CODEC.fieldOf("particle").forGetter { it.particle },
-                ListCodec(MoLangCurve.codec).fieldOf("curves").forGetter { it.curves },
+                MoLangCurve.codec.listOf().fieldOf("curves").forGetter { it.curves },
                 ParticleSpace.CODEC.fieldOf("space").forGetter { it.space },
                 UnboundedMapCodec(PrimitiveCodec.STRING, ParticleEvent.CODEC).fieldOf("events").forGetter { it.events }
             ).apply(instance) { id, emitter, particle, curves, space, events ->

@@ -116,7 +116,7 @@ class GradientParticleTinting(
             instance.group(
                 PrimitiveCodec.STRING.fieldOf("type").forGetter { it.type.name },
                 EXPRESSION_CODEC.fieldOf("interpolant").forGetter { it.interpolant },
-                ListCodec(GradientEntry.CODEC).fieldOf("gradient").forGetter { it.gradient.entries.map { (key, colour) -> GradientEntry(key, colour) } }
+                GradientEntry.CODEC.listOf().fieldOf("gradient").forGetter { it.gradient.entries.map { (key, colour) -> GradientEntry(key, colour) } }
             ).apply(instance) { _, interpolant, gradient ->
                 GradientParticleTinting(
                     interpolant = interpolant,

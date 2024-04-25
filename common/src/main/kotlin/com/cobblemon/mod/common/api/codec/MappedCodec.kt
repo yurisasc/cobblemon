@@ -32,7 +32,7 @@ class MappedCodec<A : CodecMapped, K>(
                 .apply(instance, ::ThingWithType)
         }
         val thingWithType = thingCodec.decode(ops, input).map { it.first }
-        val key = thingWithType.get().left().get().string
+        val key = thingWithType.getOrThrow().string
         val codec = codecRetriever(keyFromString(key))
         return codec.decode(ops, input).map { Pair(it.first, it.second) }
     }

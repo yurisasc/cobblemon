@@ -37,6 +37,6 @@ object EntityDimensionsAdapter : JsonSerializer<EntityDimensions>, JsonDeseriali
 
     override fun deserialize(json: JsonElement, type: Type, ctx: JsonDeserializationContext): EntityDimensions {
         json as JsonObject
-        return EntityDimensions(json.get(WIDTH).asFloat, json.get(HEIGHT).asFloat, false)
+        return EntityDimensions.changing(json.get(WIDTH).asFloat, json.get(HEIGHT).asFloat)
     }
 }

@@ -39,16 +39,16 @@ class BedrockParticleEmitter(
     companion object {
         val CODEC: Codec<BedrockParticleEmitter> = RecordCodecBuilder.create { instance ->
             instance.group(
-                ListCodec(EXPRESSION_CODEC).fieldOf("startExpressions").forGetter { it.startExpressions },
-                ListCodec(EXPRESSION_CODEC).fieldOf("updateExpressions").forGetter { it.updateExpressions },
+                EXPRESSION_CODEC.listOf().fieldOf("startExpressions").forGetter { it.startExpressions },
+                EXPRESSION_CODEC.listOf().fieldOf("updateExpressions").forGetter { it.updateExpressions },
                 ParticleEmitterRate.codec.fieldOf("rate").forGetter { it.rate },
                 ParticleEmitterShape.codec.fieldOf("shape").forGetter { it.shape },
                 ParticleEmitterLifetime.codec.fieldOf("lifetime").forGetter { it.lifetime },
                 EventTriggerTimeline.CODEC.fieldOf("eventTimeline").forGetter { it.eventTimeline },
-                ListCodec(SimpleEventTrigger.CODEC).fieldOf("creationEvents").forGetter { it.creationEvents },
-                ListCodec(SimpleEventTrigger.CODEC).fieldOf("expirationEvents").forGetter { it.expirationEvents },
+                SimpleEventTrigger.CODEC.listOf().fieldOf("creationEvents").forGetter { it.creationEvents },
+                SimpleEventTrigger.CODEC.listOf().fieldOf("expirationEvents").forGetter { it.expirationEvents },
                 EventTriggerTimeline.CODEC.fieldOf("travelDistanceEvents").forGetter { it.travelDistanceEvents },
-                ListCodec(LoopingTravelDistanceEventTrigger.CODEC).fieldOf("loopingTravelDistanceEvents").forGetter { it.loopingTravelDistanceEvents }
+                LoopingTravelDistanceEventTrigger.CODEC.listOf().fieldOf("loopingTravelDistanceEvents").forGetter { it.loopingTravelDistanceEvents }
             ).apply(instance) { startExpressions, updateExpressions, rate, shape, lifetime, eventTimeline, creationEvents, expirationEvents, travelDistanceEvents, loopingTravelDistanceEvents ->
                 BedrockParticleEmitter(
                     startExpressions = startExpressions,

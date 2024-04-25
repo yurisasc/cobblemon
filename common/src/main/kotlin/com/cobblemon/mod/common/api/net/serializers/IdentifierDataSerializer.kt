@@ -10,6 +10,8 @@ package com.cobblemon.mod.common.api.net.serializers
 
 import net.minecraft.entity.data.TrackedDataHandler
 import net.minecraft.network.PacketByteBuf
+import net.minecraft.network.RegistryByteBuf
+import net.minecraft.network.codec.PacketCodec
 import net.minecraft.util.Identifier
 
 /**
@@ -20,9 +22,11 @@ import net.minecraft.util.Identifier
  */
 object IdentifierDataSerializer : TrackedDataHandler<Identifier> {
     override fun copy(value: Identifier) = Identifier(value.namespace, value.path)
-    override fun read(buf: PacketByteBuf) = Identifier(buf.readString(), buf.readString())
-    override fun write(buf: PacketByteBuf, value: Identifier) {
+    fun read(buf: PacketByteBuf) = Identifier(buf.readString(), buf.readString())
+    fun write(buf: PacketByteBuf, value: Identifier) {
         buf.writeString(value.namespace)
         buf.writeString(value.path)
     }
+
+    override fun codec() = PacketCodec.ofStatic(::write, ::read)
 }

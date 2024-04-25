@@ -125,11 +125,17 @@ class ApricornBlock(settings: Settings, val apricorn: Apricorn) : HorizontalFaci
         builder.add(FACING, AGE)
     }
 
-    override fun canPathfindThrough(state: BlockState, world: BlockView, pos: BlockPos, type: NavigationType) = false
+    override fun canPathfindThrough(state: BlockState?, type: NavigationType?): Boolean = false
 
-    override fun onUse(state: BlockState, world: World, pos: BlockPos, player: PlayerEntity, hand: Hand, hit: BlockHitResult): ActionResult {
+    override fun onUse(
+        state: BlockState,
+        world: World,
+        pos: BlockPos,
+        player: PlayerEntity,
+        hit: BlockHitResult
+    ): ActionResult? {
         if (state.get(AGE) != MAX_AGE) {
-            return super.onUse(state, world, pos, player, hand, hit)
+            return super.onUse(state, world, pos, player, hit)
         }
 
         doHarvest(world, state, pos, player)

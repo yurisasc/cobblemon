@@ -79,15 +79,15 @@ class BedrockParticle(
                 EXPRESSION_CODEC.fieldOf("sizeY").forGetter { it.sizeY },
                 EXPRESSION_CODEC.fieldOf("maxAge").forGetter { it.maxAge },
                 EXPRESSION_CODEC.fieldOf("killExpression").forGetter { it.killExpression },
-                ListCodec(EXPRESSION_CODEC).fieldOf("updateExpressions").forGetter { it.updateExpressions },
-                ListCodec(EXPRESSION_CODEC).fieldOf("renderExpressions").forGetter { it.renderExpressions }
+                EXPRESSION_CODEC.listOf().fieldOf("updateExpressions").forGetter { it.updateExpressions },
+                EXPRESSION_CODEC.listOf().fieldOf("renderExpressions").forGetter { it.renderExpressions }
             ).apply(instance, ::ExpressionSet)
         }
 
         val EVENT_SET_CODEC = RecordCodecBuilder.create<EventSet> { instance ->
             instance.group(
-                ListCodec(SimpleEventTrigger.CODEC).fieldOf("creationEvents").forGetter { it.creationEvents },
-                ListCodec(SimpleEventTrigger.CODEC).fieldOf("expirationEvents").forGetter { it.expirationEvents },
+                SimpleEventTrigger.CODEC.listOf().fieldOf("creationEvents").forGetter { it.creationEvents },
+                SimpleEventTrigger.CODEC.listOf().fieldOf("expirationEvents").forGetter { it.expirationEvents },
                 EventTriggerTimeline.CODEC.fieldOf("timeline").forGetter { it.timeline }
             ).apply(instance, ::EventSet)
         }

@@ -163,9 +163,15 @@ class BerryBlock(private val berryIdentifier: Identifier, settings: Settings) : 
     }
 
     @Deprecated("Deprecated in Java")
-    override fun onUse(state: BlockState, world: World, pos: BlockPos, player: PlayerEntity, hand: Hand, hit: BlockHitResult): ActionResult {
+    override fun onUse(
+        state: BlockState,
+        world: World,
+        pos: BlockPos,
+        player: PlayerEntity,
+        hit: BlockHitResult
+    ): ActionResult? {
         val treeEntity = world.getBlockEntity(pos) as BerryBlockEntity
-        if (player.getStackInHand(hand).item is ShovelItem && getMulch(state) != MulchVariant.NONE) {
+        if (player.getStackInHand(Hand.MAIN_HAND).item is ShovelItem && getMulch(state) != MulchVariant.NONE) {
             setMulch(world, pos, state, MulchVariant.NONE)
             treeEntity.markDirty()
             world.playSound(null, pos, CobblemonSounds.MULCH_REMOVE, SoundCategory.BLOCKS, 0.6F, 1F)
@@ -173,7 +179,7 @@ class BerryBlock(private val berryIdentifier: Identifier, settings: Settings) : 
             return ActionResult.SUCCESS
         }
 
-        if (player.getStackInHand(hand).isOf(Items.BONE_MEAL) && !this.isMaxAge(state)) {
+        if (player.getStackInHand(Hand.MAIN_HAND).isOf(Items.BONE_MEAL) && !this.isMaxAge(state)) {
             return ActionResult.PASS
         } else if (this.isMaxAge(state)) {
             val blockEntity = world.getBlockEntity(pos) as? BerryBlockEntity ?: return ActionResult.PASS
@@ -183,7 +189,7 @@ class BerryBlock(private val berryIdentifier: Identifier, settings: Settings) : 
             world.playSound(null, pos, CobblemonSounds.BERRY_HARVEST, SoundCategory.BLOCKS, 0.4F, 1F)
             return ActionResult.success(world.isClient)
         }
-        return super.onUse(state, world, pos, player, hand, hit)
+        return super.onUse(state, world, pos, player, hit)
     }
 
     @Deprecated("Deprecated in Java")

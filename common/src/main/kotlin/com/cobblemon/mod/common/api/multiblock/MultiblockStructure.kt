@@ -27,7 +27,6 @@ interface MultiblockStructure {
         world: World,
         blockPos: BlockPos,
         player: PlayerEntity,
-        interactionHand: Hand,
         blockHitResult: BlockHitResult
     ): ActionResult
 

@@ -71,7 +71,7 @@ class LinearMoLangCurve(
                 PrimitiveCodec.STRING.fieldOf("name").forGetter { it.name },
                 EXPRESSION_CODEC.fieldOf("input").forGetter { it.input },
                 EXPRESSION_CODEC.fieldOf("horizontalRange").forGetter { it.horizontalRange },
-                ListCodec(PrimitiveCodec.DOUBLE).fieldOf("nodes").forGetter { it.nodes }
+                PrimitiveCodec.DOUBLE.listOf().fieldOf("nodes").forGetter { it.nodes }
             ).apply(instance) { _, name, input, horizontalRange, nodes ->
                 LinearMoLangCurve(name, input, horizontalRange, nodes)
             }
@@ -132,7 +132,7 @@ class CatmullRomMoLangCurve(
                 PrimitiveCodec.STRING.fieldOf("name").forGetter { it.name },
                 EXPRESSION_CODEC.fieldOf("input").forGetter { it.input },
                 EXPRESSION_CODEC.fieldOf("horizontalRange").forGetter { it.horizontalRange },
-                ListCodec(PrimitiveCodec.DOUBLE).fieldOf("nodes").forGetter { it.nodes }
+                PrimitiveCodec.DOUBLE.listOf().fieldOf("nodes").forGetter { it.nodes }
             ).apply(instance) { _, name, input, horizontalRange, nodes -> CatmullRomMoLangCurve(name, input, horizontalRange, nodes) }
         }
     }

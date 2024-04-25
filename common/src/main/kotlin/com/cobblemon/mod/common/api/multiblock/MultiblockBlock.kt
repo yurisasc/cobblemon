@@ -48,17 +48,13 @@ abstract class MultiblockBlock(properties: Settings) : BlockWithEntity(propertie
         world: World,
         pos: BlockPos,
         player: PlayerEntity,
-        hand: Hand,
         hit: BlockHitResult
-    ): ActionResult {
-        if(hand == Hand.OFF_HAND) {
-            return ActionResult.SUCCESS
-        }
+    ): ActionResult? {
         val entity = world.getBlockEntity(pos) as MultiblockEntity?
         if (entity?.multiblockStructure != null) {
-            return entity.multiblockStructure!!.onUse(state, world, pos, player, hand, hit)
+            return entity.multiblockStructure!!.onUse(state, world, pos, player, hit)
         }
-        return super.onUse(state, world, pos, player, hand, hit)
+        return super.onUse(state, world, pos, player, hit)
     }
 
     override fun onBreak(world: World, pos: BlockPos, state: BlockState, player: PlayerEntity?): BlockState {
