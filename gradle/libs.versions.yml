@@ -25,7 +25,7 @@ versions:
 
   # forge
   forge: 1.20.1-47.1.0
-  kotlinForForge: 4.3.0
+  kotlinForForge: 4.10.0
   flywheelForge: 0.6.10-7
   adorn-forge: 5.0.0-forge
 
