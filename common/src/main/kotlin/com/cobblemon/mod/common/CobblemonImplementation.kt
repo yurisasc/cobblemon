@@ -214,7 +214,8 @@ enum class ResourcePackActivationBehaviour {
 
 enum class ModAPI {
     FABRIC,
-    FORGE
+    FORGE,
+    NEOFORGE
 }
 
 interface NetworkManager {

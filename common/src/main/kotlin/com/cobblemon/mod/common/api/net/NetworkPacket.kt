@@ -12,6 +12,7 @@ import com.cobblemon.mod.common.CobblemonNetwork
 import com.cobblemon.mod.common.util.server
 import io.netty.buffer.Unpooled
 import net.minecraft.network.PacketByteBuf
+import net.minecraft.network.packet.CustomPayload
 import net.minecraft.registry.RegistryKey
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.util.Identifier
@@ -24,7 +25,7 @@ import net.minecraft.world.World
  * @author Hiroku, Licious
  * @since November 27th, 2021
  */
-interface NetworkPacket<T: NetworkPacket<T>> : Encodable {
+interface NetworkPacket<T: NetworkPacket<T>> : CustomPayload, Encodable {
 
     /**
      *
@@ -95,5 +96,7 @@ interface NetworkPacket<T: NetworkPacket<T>> : Encodable {
         this.encode(buffer)
         return buffer
     }
+
+    override fun getId(): CustomPayload.Id<out CustomPayload> = CustomPayload.id(id.path)
 
 }

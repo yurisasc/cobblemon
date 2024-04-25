@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-package com.cobblemon.mod.forge.event
+package com.cobblemon.mod.neoforge.event
 
 import com.cobblemon.mod.common.platform.events.ChangeDimensionEvent
 import com.cobblemon.mod.common.platform.events.PlatformEvents
@@ -14,24 +14,22 @@ import com.cobblemon.mod.common.platform.events.ServerEvent
 import com.cobblemon.mod.common.platform.events.ServerPlayerEvent
 import com.cobblemon.mod.common.platform.events.ServerTickEvent
 import net.minecraft.server.network.ServerPlayerEntity
-import net.minecraftforge.common.MinecraftForge
-import net.minecraftforge.event.TickEvent
-import net.minecraftforge.event.entity.living.LivingDeathEvent
-import net.minecraftforge.event.entity.player.PlayerEvent
-import net.minecraftforge.event.entity.player.PlayerEvent.PlayerChangedDimensionEvent
-import net.minecraftforge.event.entity.player.PlayerInteractEvent
-import net.minecraftforge.event.server.ServerAboutToStartEvent
-import net.minecraftforge.event.server.ServerStartedEvent
-import net.minecraftforge.event.server.ServerStartingEvent
-import net.minecraftforge.event.server.ServerStoppedEvent
-import net.minecraftforge.event.server.ServerStoppingEvent
-import net.minecraftforge.eventbus.api.SubscribeEvent
-import net.minecraftforge.server.ServerLifecycleHooks
+import net.neoforged.bus.api.SubscribeEvent
+import net.neoforged.neoforge.common.NeoForge
+import net.neoforged.neoforge.event.TickEvent
+import net.neoforged.neoforge.event.entity.living.LivingDeathEvent
+import net.neoforged.neoforge.event.entity.player.PlayerEvent
+import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent
+import net.neoforged.neoforge.event.server.ServerAboutToStartEvent
+import net.neoforged.neoforge.event.server.ServerStartedEvent
+import net.neoforged.neoforge.event.server.ServerStoppedEvent
+import net.neoforged.neoforge.event.server.ServerStoppingEvent
+import net.neoforged.neoforge.server.ServerLifecycleHooks
 
-object ForgePlatformEventHandler {
+object NeoForgePlatformEventHandler {
 
     fun register() {
-        MinecraftForge.EVENT_BUS.register(this)
+        NeoForge.EVENT_BUS.register(this)
     }
 
     @SubscribeEvent
@@ -114,7 +112,7 @@ object ForgePlatformEventHandler {
     }
 
     @SubscribeEvent
-    fun onChangeDimension(e: PlayerChangedDimensionEvent) {
+    fun onChangeDimension(e: PlayerEvent.PlayerChangedDimensionEvent) {
         val player = e.entity
         if (player is ServerPlayerEntity) {
             PlatformEvents.CHANGE_DIMENSION.post(ChangeDimensionEvent(player))

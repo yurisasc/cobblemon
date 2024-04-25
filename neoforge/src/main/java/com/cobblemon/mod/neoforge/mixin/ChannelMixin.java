@@ -6,9 +6,9 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-package com.cobblemon.mod.forge.mixin;
+package com.cobblemon.mod.neoforge.mixin;
 
-import com.cobblemon.mod.forge.net.ExtendedChannel;
+import com.cobblemon.mod.neoforge.net.ExtendedChannel;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.util.Identifier;

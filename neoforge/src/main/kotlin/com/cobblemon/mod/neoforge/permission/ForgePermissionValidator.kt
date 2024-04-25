@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-package com.cobblemon.mod.forge.permission
+package com.cobblemon.mod.neoforge.permission
 
 import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.api.permission.CobblemonPermissions
@@ -16,18 +16,18 @@ import net.minecraft.command.CommandSource
 import net.minecraft.server.command.ServerCommandSource
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.util.Identifier
-import net.minecraftforge.common.MinecraftForge
-import net.minecraftforge.server.permission.PermissionAPI
-import net.minecraftforge.server.permission.events.PermissionGatherEvent
-import net.minecraftforge.server.permission.nodes.PermissionNode
-import net.minecraftforge.server.permission.nodes.PermissionTypes
+import net.neoforged.neoforge.common.NeoForge
+import net.neoforged.neoforge.server.permission.PermissionAPI
+import net.neoforged.neoforge.server.permission.events.PermissionGatherEvent
+import net.neoforged.neoforge.server.permission.nodes.PermissionNode
+import net.neoforged.neoforge.server.permission.nodes.PermissionTypes
 
 object ForgePermissionValidator : PermissionValidator {
 
     private val nodes = hashMapOf<Identifier, PermissionNode<Boolean>>()
 
     init {
-        MinecraftForge.EVENT_BUS.addListener<PermissionGatherEvent.Nodes> { event ->
+        NeoForge.EVENT_BUS.addListener<PermissionGatherEvent.Nodes> { event ->
             Cobblemon.LOGGER.info("Starting Forge permission node registry")
             event.addNodes(this.createNodes())
             Cobblemon.LOGGER.debug("Finished Forge permission node registry")

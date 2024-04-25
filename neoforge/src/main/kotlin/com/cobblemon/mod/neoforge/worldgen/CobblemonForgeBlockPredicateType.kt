@@ -6,11 +6,11 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-package com.cobblemon.mod.forge.worldgen
+package com.cobblemon.mod.neoforge.worldgen
 
 import com.cobblemon.mod.common.world.predicate.CobblemonBlockPredicates
 import net.minecraft.registry.RegistryKeys
-import net.minecraftforge.registries.RegisterEvent
+import net.neoforged.neoforge.registries.RegisterEvent
 
 object CobblemonForgeBlockPredicateType {
     fun register(event: RegisterEvent) {

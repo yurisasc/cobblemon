@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-package com.cobblemon.mod.forge.client
+package com.cobblemon.mod.neoforge.client
 
 import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.CobblemonClientImplementation
@@ -50,23 +50,23 @@ import net.minecraft.particle.ParticleEffect
 import net.minecraft.particle.ParticleType
 import net.minecraft.resource.ReloadableResourceManagerImpl
 import net.minecraft.resource.ResourceReloader
-import net.minecraftforge.client.ForgeHooksClient
-import net.minecraftforge.client.event.ModelEvent
-import net.minecraftforge.client.event.RegisterClientReloadListenersEvent
-import net.minecraftforge.client.event.RegisterKeyMappingsEvent
-import net.minecraftforge.client.event.RegisterParticleProvidersEvent
-import net.minecraftforge.client.event.RegisterShadersEvent
-import net.minecraftforge.client.event.RenderGuiOverlayEvent
-import net.minecraftforge.client.gui.overlay.VanillaGuiOverlay
-import net.minecraftforge.common.MinecraftForge
-import net.minecraftforge.common.util.MutableHashedLinkedMap
-import net.minecraftforge.event.BuildCreativeModeTabContentsEvent
-import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent
-import thedarkcolour.kotlinforforge.forge.MOD_BUS
+import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent
+import net.neoforged.neoforge.client.ClientHooks
+import net.neoforged.neoforge.client.event.ModelEvent
+import net.neoforged.neoforge.client.event.RegisterClientReloadListenersEvent
+import net.neoforged.neoforge.client.event.RegisterKeyMappingsEvent
+import net.neoforged.neoforge.client.event.RegisterParticleProvidersEvent
+import net.neoforged.neoforge.client.event.RegisterShadersEvent
+import net.neoforged.neoforge.client.event.RenderGuiLayerEvent
+import net.neoforged.neoforge.client.gui.VanillaGuiLayers
+import net.neoforged.neoforge.common.NeoForge
+import net.neoforged.neoforge.common.util.MutableHashedLinkedMap
+import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent
+import thedarkcolour.kotlinforforge.neoforge.forge.MOD_BUS
 import java.util.concurrent.CompletableFuture
 import java.util.function.Supplier
 
-object CobblemonForgeClient : CobblemonClientImplementation {
+object CobblemonNeoForgeClient : CobblemonClientImplementation {
 
     fun init() {
         with(MOD_BUS) {
@@ -78,7 +78,7 @@ object CobblemonForgeClient : CobblemonClientImplementation {
             addListener(::onRegisterReloadListener)
             addListener(::onShaderRegistration)
         }
-        MinecraftForge.EVENT_BUS.addListener(this::onRenderGuiOverlayEvent)
+        NeoForge.EVENT_BUS.addListener(this::onRenderGuiOverlayEvent)
     }
 
     private fun onClientSetup(event: FMLClientSetupEvent) {
@@ -86,7 +86,7 @@ object CobblemonForgeClient : CobblemonClientImplementation {
             CobblemonClient.initialize(this)
             this.attemptModCompat()
         }
-        ForgeClientPlatformEventHandler.register()
+        NeoForgeClientPlatformEventHandler.register()
     }
 
     private fun onRegisterReloadListener(event: RegisterClientReloadListenersEvent) {
@@ -123,7 +123,7 @@ object CobblemonForgeClient : CobblemonClientImplementation {
 
     @Suppress("UnstableApiUsage")
     override fun registerLayer(modelLayer: EntityModelLayer, supplier: Supplier<TexturedModelData>) {
-        ForgeHooksClient.registerLayerDefinition(modelLayer, supplier)
+        ClientHooks.registerLayerDefinition(modelLayer, supplier)
     }
 
     override fun <T : ParticleEffect> registerParticleFactory(type: ParticleType<T>, factory: (SpriteProvider) -> ParticleFactory<T>) {
@@ -171,8 +171,8 @@ object CobblemonForgeClient : CobblemonClientImplementation {
 
     var lastUpdateTime: Long? = null
 
-    private fun onRenderGuiOverlayEvent(event: RenderGuiOverlayEvent.Pre) {
-        if (event.overlay.id == VanillaGuiOverlay.CHAT_PANEL.id()) {
+    private fun onRenderGuiOverlayEvent(event: RenderGuiLayerEvent.Pre) {
+        if (event.name == VanillaGuiLayers.CHAT) {
             val lastUpdateTime = lastUpdateTime
             if (lastUpdateTime != null) {
                 // "Why don't you just use the event.partialDetalTicks"

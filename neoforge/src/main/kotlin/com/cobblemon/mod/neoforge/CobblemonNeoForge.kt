@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-package com.cobblemon.mod.forge
+package com.cobblemon.mod.neoforge
 
 import com.cobblemon.mod.common.*
 import com.cobblemon.mod.common.api.data.JsonDataRegistry
@@ -22,12 +22,12 @@ import com.cobblemon.mod.common.world.placementmodifier.CobblemonPlacementModifi
 import com.cobblemon.mod.common.world.predicate.CobblemonBlockPredicates
 import com.cobblemon.mod.common.world.structureprocessors.CobblemonProcessorTypes
 import com.cobblemon.mod.common.world.structureprocessors.CobblemonStructureProcessorListOverrides
-import com.cobblemon.mod.forge.brewing.CobblemonForgeBrewingRegistry
-import com.cobblemon.mod.forge.client.CobblemonForgeClient
-import com.cobblemon.mod.forge.event.ForgePlatformEventHandler
-import com.cobblemon.mod.forge.net.CobblemonForgeNetworkManager
-import com.cobblemon.mod.forge.permission.ForgePermissionValidator
-import com.cobblemon.mod.forge.worldgen.CobblemonBiomeModifiers
+import com.cobblemon.mod.neoforge.brewing.CobblemonNeoForgeBrewingRegistry
+import com.cobblemon.mod.neoforge.client.CobblemonNeoForgeClient
+import com.cobblemon.mod.neoforge.event.NeoForgePlatformEventHandler
+import com.cobblemon.mod.neoforge.net.CobblemonNeoForgeNetworkManager
+import com.cobblemon.mod.neoforge.permission.ForgePermissionValidator
+import com.cobblemon.mod.neoforge.worldgen.CobblemonBiomeModifiers
 import com.mojang.brigadier.arguments.ArgumentType
 import net.minecraft.advancement.criterion.Criteria
 import net.minecraft.advancement.criterion.Criterion
@@ -48,40 +48,42 @@ import net.minecraft.world.GameRules
 import net.minecraft.world.biome.Biome
 import net.minecraft.world.gen.GenerationStep
 import net.minecraft.world.gen.feature.PlacedFeature
-import net.minecraftforge.api.distmarker.Dist
-import net.minecraftforge.common.ForgeMod
-import net.minecraftforge.common.MinecraftForge
-import net.minecraftforge.common.ToolActions
-import net.minecraftforge.event.*
-import net.minecraftforge.event.entity.EntityAttributeCreationEvent
-import net.minecraftforge.event.entity.player.PlayerEvent
-import net.minecraftforge.event.entity.player.PlayerWakeUpEvent
-import net.minecraftforge.event.level.BlockEvent
-import net.minecraftforge.event.server.ServerAboutToStartEvent
-import net.minecraftforge.event.village.VillagerTradesEvent
-import net.minecraftforge.event.village.WandererTradesEvent
-import net.minecraftforge.fml.DistExecutor
-import net.minecraftforge.fml.InterModComms
-import net.minecraftforge.fml.ModList
-import net.minecraftforge.fml.common.Mod
-import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent
-import net.minecraftforge.fml.event.lifecycle.FMLDedicatedServerSetupEvent
-import net.minecraftforge.fml.loading.FMLEnvironment
-import net.minecraftforge.registries.DeferredRegister
-import net.minecraftforge.registries.RegisterEvent
-import net.minecraftforge.resource.PathPackResources
-import net.minecraftforge.server.ServerLifecycleHooks
-import thedarkcolour.kotlinforforge.forge.MOD_BUS
+import net.neoforged.api.distmarker.Dist
+import net.neoforged.fml.InterModComms
+import net.neoforged.fml.ModList
+import net.neoforged.fml.common.Mod
+import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent
+import net.neoforged.fml.event.lifecycle.FMLDedicatedServerSetupEvent
+import net.neoforged.fml.loading.FMLEnvironment
+import net.neoforged.neoforge.common.NeoForge
+import net.neoforged.neoforge.common.NeoForgeMod
+import net.neoforged.neoforge.common.ToolActions
+import net.neoforged.neoforge.event.AddPackFindersEvent
+import net.neoforged.neoforge.event.AddReloadListenerEvent
+import net.neoforged.neoforge.event.LootTableLoadEvent
+import net.neoforged.neoforge.event.OnDatapackSyncEvent
+import net.neoforged.neoforge.event.RegisterCommandsEvent
+import net.neoforged.neoforge.event.brewing.RegisterBrewingRecipesEvent
+import net.neoforged.neoforge.event.entity.EntityAttributeCreationEvent
+import net.neoforged.neoforge.event.entity.player.PlayerEvent
+import net.neoforged.neoforge.event.entity.player.PlayerWakeUpEvent
+import net.neoforged.neoforge.event.level.BlockEvent
+import net.neoforged.neoforge.event.server.ServerAboutToStartEvent
+import net.neoforged.neoforge.event.village.VillagerTradesEvent
+import net.neoforged.neoforge.event.village.WandererTradesEvent
+import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent
+import net.neoforged.neoforge.registries.DeferredRegister
+import net.neoforged.neoforge.registries.RegisterEvent
+import net.neoforged.neoforge.server.ServerLifecycleHooks
+import thedarkcolour.kotlinforforge.neoforge.forge.MOD_BUS
 import java.io.File
 import java.util.*
 import java.util.concurrent.ExecutionException
 import kotlin.reflect.KClass
-import net.minecraft.entity.ai.brain.Activity
-import net.minecraftforge.registries.ForgeRegistries
 
 @Mod(Cobblemon.MODID)
-class CobblemonForge : CobblemonImplementation {
-    override val modAPI = ModAPI.FORGE
+class CobblemonNeoForge : CobblemonImplementation {
+    override val modAPI = ModAPI.NEOFORGE
     private val hasBeenSynced = hashSetOf<UUID>()
 
     private val commandArgumentTypes = DeferredRegister.create(RegistryKeys.COMMAND_ARGUMENT_TYPE, Cobblemon.MODID)
@@ -89,33 +91,37 @@ class CobblemonForge : CobblemonImplementation {
     private val queuedWork = arrayListOf<() -> Unit>()
     private val queuedBuiltinResourcePacks = arrayListOf<Triple<Identifier, Text, ResourcePackActivationBehaviour>>()
 
-    override val networkManager: NetworkManager = CobblemonForgeNetworkManager
+    override val networkManager: NetworkManager = CobblemonNeoForgeNetworkManager
 
     init {
         with(MOD_BUS) {
-            this@CobblemonForge.commandArgumentTypes.register(this)
-            addListener(this@CobblemonForge::initialize)
-            addListener(this@CobblemonForge::serverInit)
-            Cobblemon.preInitialize(this@CobblemonForge)
+            this@CobblemonNeoForge.commandArgumentTypes.register(this)
+            addListener(this@CobblemonNeoForge::initialize)
+            addListener(this@CobblemonNeoForge::serverInit)
+            Cobblemon.preInitialize(this@CobblemonNeoForge)
             addListener(CobblemonBiomeModifiers::register)
-            addListener(this@CobblemonForge::on)
-            addListener(this@CobblemonForge::onAddPackFindersEvent)
+            addListener(this@CobblemonNeoForge::on)
+            addListener(this@CobblemonNeoForge::onAddPackFindersEvent)
         }
-        with(MinecraftForge.EVENT_BUS) {
-            addListener(this@CobblemonForge::onDataPackSync)
-            addListener(this@CobblemonForge::onLogin)
-            addListener(this@CobblemonForge::onLogout)
-            addListener(this@CobblemonForge::wakeUp)
-            addListener(this@CobblemonForge::handleBlockStripping)
-            addListener(this@CobblemonForge::registerCommands)
-            addListener(this@CobblemonForge::onReload)
-            addListener(this@CobblemonForge::addCobblemonStructures)
+        with(NeoForge.EVENT_BUS) {
+            addListener(this@CobblemonNeoForge::onDataPackSync)
+            addListener(this@CobblemonNeoForge::onLogin)
+            addListener(this@CobblemonNeoForge::onLogout)
+            addListener(this@CobblemonNeoForge::wakeUp)
+            addListener(this@CobblemonNeoForge::handleBlockStripping)
+            addListener(this@CobblemonNeoForge::registerCommands)
+            addListener(this@CobblemonNeoForge::onReload)
+            addListener(this@CobblemonNeoForge::addCobblemonStructures)
+            addListener(::registerPackets)
             addListener(::onVillagerTradesRegistry)
             addListener(::onWanderingTraderRegistry)
             addListener(::onLootTableLoad)
+            addListener(::onRegisterBrewingRecipes)
         }
-        ForgePlatformEventHandler.register()
-        DistExecutor.safeRunWhenOn(Dist.CLIENT) { DistExecutor.SafeRunnable(CobblemonForgeClient::init) }
+        NeoForgePlatformEventHandler.register()
+        if (FMLEnvironment.dist == Dist.CLIENT) {
+            CobblemonNeoForgeClient.init()
+        }
     }
 
     fun addCobblemonStructures(event: ServerAboutToStartEvent) {
@@ -134,14 +140,20 @@ class CobblemonForge : CobblemonImplementation {
 
     fun initialize(event: FMLCommonSetupEvent) {
         Cobblemon.LOGGER.info("Initializing...")
-        this.networkManager.registerClientBound()
-        this.networkManager.registerServerBound()
         event.enqueueWork {
             this.queuedWork.forEach { it.invoke() }
             this.attemptModCompat()
-            CobblemonForgeBrewingRegistry.register()
         }
         Cobblemon.initialize()
+    }
+
+    fun registerPackets(event: RegisterPayloadHandlersEvent) {
+        (networkManager as CobblemonNeoForgeNetworkManager).registrar = event
+            .registrar(Cobblemon.MODID)
+            .versioned(CobblemonNeoForgeNetworkManager.PROTOCOL_VERSION)
+        this.networkManager.registerClientBound()
+        this.networkManager.registerServerBound()
+        networkManager.registrar = null
     }
 
     fun on(event: RegisterEvent) {
@@ -157,9 +169,9 @@ class CobblemonForge : CobblemonImplementation {
             CobblemonProcessorTypes.touch()
         }
 
-        event.register(RegistryKeys.ACTIVITY) {
+        event.register(RegistryKeys.ACTIVITY) { registry ->
             CobblemonActivities.activities.forEach {
-                ForgeRegistries.ACTIVITIES.register(cobblemonResource(it.id), it)
+                registry.register(cobblemonResource(it.id), it)
             }
         }
     }
@@ -214,7 +226,7 @@ class CobblemonForge : CobblemonImplementation {
         if (e.toolAction == ToolActions.AXE_STRIP) {
             val start = e.state.block
             val result = CobblemonBlocks.strippedBlocks()[start] ?: return
-            e.finalState = result.getStateWithProperties(e.state)
+            e.setFinalState(result.getStateWithProperties(e.state))
         }
     }
 
@@ -252,9 +264,9 @@ class CobblemonForge : CobblemonImplementation {
     override fun registerEntityAttributes() {
         MOD_BUS.addListener<EntityAttributeCreationEvent> { event ->
             CobblemonEntities.registerAttributes { entityType, builder ->
-                builder.add(ForgeMod.ENTITY_GRAVITY.get())
-                    .add(ForgeMod.NAMETAG_DISTANCE.get())
-                    .add(ForgeMod.SWIM_SPEED.get())
+                builder.add(NeoForgeMod.NAMETAG_DISTANCE)
+                    .add(NeoForgeMod.SWIM_SPEED)
+                    //.add(ForgeMod.ENTITY_GRAVITY)
                 event.put(entityType, builder.build())
             }
         }
@@ -281,7 +293,12 @@ class CobblemonForge : CobblemonImplementation {
     }
 
     override fun <A : ArgumentType<*>, T : ArgumentSerializer.ArgumentTypeProperties<A>> registerCommandArgument(identifier: Identifier, argumentClass: KClass<A>, serializer: ArgumentSerializer<A, T>) {
-        this.commandArgumentTypes.register(identifier.path) { ArgumentTypes.registerByClass(argumentClass.java, serializer) }
+
+        //This is technically a supplier not a function (it is unused), but we need to explicitly say whether its a supplier or a function
+        //Idk how to explicitly say its a supplier, so lets just make it a function by specifying a param
+        this.commandArgumentTypes.register(identifier.path) { it ->
+            ArgumentTypes.registerByClass(argumentClass.java, serializer)
+        }
     }
 
     private fun registerCommands(e: RegisterCommandsEvent) {
@@ -297,7 +314,7 @@ class CobblemonForge : CobblemonImplementation {
             this.reloadableResources += reloader
         }
         else {
-            CobblemonForgeClient.registerResourceReloader(reloader)
+            CobblemonNeoForgeClient.registerResourceReloader(reloader)
         }
     }
 
@@ -339,6 +356,7 @@ class CobblemonForge : CobblemonImplementation {
         this.queuedBuiltinResourcePacks += Triple(id, title, activationBehaviour)
     }
 
+    //TODO: I dont really know wtf is happening here, someone needs to check
     fun onAddPackFindersEvent(event: AddPackFindersEvent) {
         if (event.packType != ResourceType.CLIENT_RESOURCES) {
             return
@@ -351,25 +369,30 @@ class CobblemonForge : CobblemonImplementation {
 
             //TODO(Deltric)
             val factory = object : PackFactory {
-                override fun open(var1: String): ResourcePack {
+                override fun open(info: ResourcePackInfo): ResourcePack {
                     // Implement the logic here
-                    return PathPackResources(var1, true, path)
+                    return DirectoryResourcePack(info, path)
                 }
 
-                override fun openWithOverlays(name: String, metadata: ResourcePackProfile.Metadata?): ResourcePack {
-                    return PathPackResources(name, true, path)
+                override fun openWithOverlays(
+                    info: ResourcePackInfo?,
+                    metadata: ResourcePackProfile.Metadata?
+                ): ResourcePack {
+                    return DirectoryResourcePack(info, path)
 
                 }
             }
 
             val profile = ResourcePackProfile.create(
-                id.toString(),
-                title,
-                activationBehaviour == ResourcePackActivationBehaviour.ALWAYS_ENABLED,
+                ResourcePackInfo(
+                    id.toString(),
+                    title,
+                    ResourcePackSource.BUILTIN,
+                    null
+                ),
                 factory,
                 ResourceType.CLIENT_RESOURCES,
-                ResourcePackProfile.InsertionPosition.TOP, // Go top to match Fabric behaviour
-                ResourcePackSource.BUILTIN
+                ResourcePackPosition(true, ResourcePackProfile.InsertionPosition.TOP, true)
             )
             event.addRepositorySource { consumer -> consumer.accept(profile) }
         }
@@ -390,6 +413,10 @@ class CobblemonForge : CobblemonImplementation {
 
     private fun onLootTableLoad(e: LootTableLoadEvent) {
         LootInjector.attemptInjection(e.name) { builder -> e.table.addPool(builder.build()) }
+    }
+
+    private fun onRegisterBrewingRecipes(e: RegisterBrewingRecipesEvent) {
+        CobblemonNeoForgeBrewingRegistry.register(e)
     }
 
     private fun attemptModCompat() {

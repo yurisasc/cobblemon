@@ -6,26 +6,26 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-package com.cobblemon.mod.forge.client
+package com.cobblemon.mod.neoforge.client
 
 import com.cobblemon.mod.common.platform.events.ClientPlayerEvent
 import com.cobblemon.mod.common.platform.events.ClientTickEvent
 import com.cobblemon.mod.common.platform.events.PlatformEvents
 import net.minecraft.client.MinecraftClient
-import net.minecraftforge.api.distmarker.Dist
-import net.minecraftforge.api.distmarker.OnlyIn
-import net.minecraftforge.client.event.ClientPlayerNetworkEvent
-import net.minecraftforge.common.MinecraftForge
-import net.minecraftforge.event.TickEvent
-import net.minecraftforge.event.entity.player.ItemTooltipEvent
-import net.minecraftforge.eventbus.api.SubscribeEvent
+import net.neoforged.api.distmarker.Dist
+import net.neoforged.api.distmarker.OnlyIn
+import net.neoforged.bus.api.SubscribeEvent
+import net.neoforged.neoforge.client.event.ClientPlayerNetworkEvent
+import net.neoforged.neoforge.common.NeoForge
+import net.neoforged.neoforge.event.TickEvent
+import net.neoforged.neoforge.event.entity.player.ItemTooltipEvent
 
 
 @OnlyIn(Dist.CLIENT)
-object ForgeClientPlatformEventHandler {
+object NeoForgeClientPlatformEventHandler {
 
     fun register() {
-        MinecraftForge.EVENT_BUS.register(this)
+        NeoForge.EVENT_BUS.register(this)
     }
 
     @SubscribeEvent

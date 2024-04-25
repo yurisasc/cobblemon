@@ -11,7 +11,6 @@ package com.cobblemon.mod.common.brewing.ingredient
 import net.minecraft.item.ItemStack
 import net.minecraft.item.Items
 import net.minecraft.potion.Potion
-import net.minecraft.potion.PotionUtil
 import org.jetbrains.annotations.ApiStatus
 
 @ApiStatus.Internal

@@ -134,7 +134,7 @@ dependencies:
     version: { ref: neoforge }
   kotlinForForge:
     group: thedarkcolour
-    name: kotlinforforge
+    name: kotlinforforge-neoforge
     version: { ref: kotlinForForge }
 
   # datastore

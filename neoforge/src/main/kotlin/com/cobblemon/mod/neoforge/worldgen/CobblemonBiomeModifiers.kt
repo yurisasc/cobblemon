@@ -6,10 +6,11 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-package com.cobblemon.mod.forge.worldgen
+package com.cobblemon.mod.neoforge.worldgen
 
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.mojang.serialization.Codec
+import com.mojang.serialization.MapCodec
 import net.minecraft.registry.RegistryKey
 import net.minecraft.registry.RegistryKeys
 import net.minecraft.registry.entry.RegistryEntry
@@ -17,11 +18,11 @@ import net.minecraft.registry.tag.TagKey
 import net.minecraft.world.biome.Biome
 import net.minecraft.world.gen.GenerationStep
 import net.minecraft.world.gen.feature.PlacedFeature
-import net.minecraftforge.common.world.BiomeModifier
-import net.minecraftforge.common.world.ModifiableBiomeInfo
-import net.minecraftforge.registries.ForgeRegistries
-import net.minecraftforge.registries.RegisterEvent
-import net.minecraftforge.server.ServerLifecycleHooks
+import net.neoforged.neoforge.common.world.BiomeModifier
+import net.neoforged.neoforge.common.world.ModifiableBiomeInfo
+import net.neoforged.neoforge.registries.NeoForgeRegistries
+import net.neoforged.neoforge.registries.RegisterEvent
+import net.neoforged.neoforge.server.ServerLifecycleHooks
 
 /**
  * This class serves as a cheat to inject all our features via code instead of needing to use the Forge specific biome modifications system.
@@ -31,13 +32,15 @@ import net.minecraftforge.server.ServerLifecycleHooks
  */
 internal object CobblemonBiomeModifiers : BiomeModifier {
 
-    private var codec: Codec<out BiomeModifier>? = null
+    private var codec: MapCodec<out BiomeModifier>? = null
     private val entries = arrayListOf<Entry>()
 
     fun register(event: RegisterEvent) {
-        event.register(ForgeRegistries.Keys.BIOME_MODIFIER_SERIALIZERS) { helper ->
-            this.codec = Codec.unit(CobblemonBiomeModifiers)
-            helper.register(cobblemonResource("inject_coded"), this.codec)
+        event.register(NeoForgeRegistries.Keys.BIOME_MODIFIER_SERIALIZERS) { helper ->
+            this.codec = MapCodec.unit(CobblemonBiomeModifiers)
+            helper.register(cobblemonResource("inject_coded"),
+                this.codec as MapCodec<out BiomeModifier>
+            )
         }
     }
 
@@ -58,7 +61,7 @@ internal object CobblemonBiomeModifiers : BiomeModifier {
         }
     }
 
-    override fun codec(): Codec<out BiomeModifier> = this.codec ?: Codec.unit(CobblemonBiomeModifiers)
+    override fun codec(): MapCodec<out BiomeModifier> = this.codec ?: MapCodec.unit(CobblemonBiomeModifiers)
 
     private data class Entry(val feature: RegistryKey<PlacedFeature>, val step: GenerationStep.Feature, val validTag: TagKey<Biome>?)
 

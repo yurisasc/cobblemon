@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-package com.cobblemon.mod.forge.mixin;
+package com.cobblemon.mod.neoforge.mixin;
 
 import com.google.gson.JsonElement;
 import net.minecraft.loot.LootManager;
