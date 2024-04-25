@@ -24,12 +24,13 @@ plugins {
 }
 
 architectury {
-    common("forge", "fabric")
+    common("neoforge", "fabric")
 }
 
 repositories {
     maven(url = "${rootProject.projectDir}/deps")
     maven(url = "https://api.modrinth.com/maven")
+    maven(url = "https://maven.neoforged.net/releases")
     mavenLocal()
 }
 
@@ -41,7 +42,7 @@ dependencies {
     //Flywheel has no common dep so just pick one and don't use any platform specific code in common
     //modCompileOnly(libs.flywheelFabric)
     modApi(libs.molang)
-    modCompileOnly(libs.lambDynamicLights) { isTransitive = false }
+    //modCompileOnly(libs.lambDynamicLights) { isTransitive = false }
 
     // For Showdown
     modCompileOnly(libs.graal)

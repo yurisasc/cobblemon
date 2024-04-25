@@ -1,7 +1,7 @@
 versions:
 
   # jetbrains
-  kotlin: 1.9.22
+  kotlin: 1.9.23
   coroutines: 1.7.3
   annotations: 23.0.0
   serialization: 1.6.2
@@ -14,16 +14,16 @@ versions:
 
   # fabric/remap
   loom: 1.6-SNAPSHOT
-  fabric-loader: 0.15.6
-  fabric-api: 0.95.4+1.20.4
-  fabric-kotlin: 1.10.18+kotlin.1.9.22
+  fabric-loader: 0.15.10
+  fabric-api: 0.97.6+1.20.5
+  fabric-kotlin: 1.10.19+kotlin.1.9.23
   architectury-plugin: 3.4-SNAPSHOT
   flywheelFabric: 0.6.9-1
   fabric-permissions-api: 0.2-SNAPSHOT
   lamb-dynamic-lights: 2.3.4+1.20.4
 
-  # forge
-  forge: 1.20.4-49.0.27
+  # neoforge
+  neoforge: 20.5.3-beta
   kotlinForForge: 4.10.0
   flywheelForge: 0.6.10-7
 
@@ -128,18 +128,14 @@ dependencies:
     version: { ref: lamb-dynamic-lights }
 
   # forge
-  forge:
-    group: net.minecraftforge
-    name: forge
-    version: { ref: forge }
+  neoforge:
+    group: net.neoforged
+    name: neoforge
+    version: { ref: neoforge }
   kotlinForForge:
     group: thedarkcolour
     name: kotlinforforge
     version: { ref: kotlinForForge }
-  flywheelForge:
-    group: com.jozufozu.flywheel
-    name: flywheel-forge-1.20.1
-    version: { ref: flywheelForge }
 
   # datastore
   mongoDriverCore:

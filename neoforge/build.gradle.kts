@@ -19,11 +19,8 @@ architectury {
 }
 
 loom {
-    forge {
-        convertAccessWideners.set(true)
+    neoForge {
 
-        mixinConfig("mixins.cobblemon-forge.json")
-        mixinConfig("mixins.cobblemon-common.json")
     }
 }
 
@@ -31,11 +28,12 @@ repositories {
     maven(url = "${rootProject.projectDir}/deps")
     maven(url = "https://thedarkcolour.github.io/KotlinForForge/")
     maven(url = "https://api.modrinth.com/maven")
+    maven(url = "https://maven.neoforged.net/releases")
     mavenLocal()
 }
 
 dependencies {
-    forge(libs.forge)
+    neoForge(libs.neoforge)
     //Because of the JEI mapping issues if we want
     //a forge launch we gotta do some wacky stuff
     //modImplementation(libs.jeiForge)
@@ -94,6 +92,11 @@ tasks {
             exclude("architectury.accessWidener")
         }
     }
+}
+
+//Stole from architect discord, replaces loom.forge.convertAccessWideners
+tasks.remapJar {
+    atAccessWideners.add("cobblemon-common.accesswidener")
 }
 
 

@@ -33,8 +33,8 @@ license {
 }
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_17
-    targetCompatibility = JavaVersion.VERSION_17
+    sourceCompatibility = JavaVersion.VERSION_21
+    targetCompatibility = JavaVersion.VERSION_21
 }
 
 architectury {
@@ -44,25 +44,25 @@ architectury {
 loom {
     silentMojangMappingsLicense()
     accessWidenerPath.set(project(":common").file(ACCESS_WIDENER))
-
-    mixin {
-        defaultRefmapName.set("cobblemon-${project.name}-refmap.json")
-    }
 }
 
 dependencies {
     minecraft("net.minecraft:minecraft:${rootProject.property("mc_version")}")
-    mappings("net.fabricmc:yarn:${rootProject.property("yarn_version")}:v2")
+    mappings(loom.layered() {
+        mappings("net.fabricmc:yarn:${rootProject.property("yarn_version")}:v2")
+        mappings("dev.architectury:yarn-mappings-patch-neoforge:${rootProject.property("yarn_arch_patch_version")}")
+    })
+
 }
 
 tasks {
     withType<JavaCompile> {
         options.encoding = "UTF-8"
-        options.release.set(17)
+        options.release.set(21)
     }
 
     withType<KotlinCompile> {
-        kotlinOptions.jvmTarget = "17"
+        kotlinOptions.jvmTarget = "21"
     }
 
     withType<Jar> {
