@@ -13,6 +13,7 @@ import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntitySt
 import com.cobblemon.mod.common.client.render.models.blockbench.createTransformation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.QuadrupedFrame
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.ModelPartTransformation
@@ -46,6 +47,8 @@ class BidoofModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quadru
     lateinit var sleeping: PokemonPose
 
     val wateroffset = -2
+
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("bidoof", "cry") }
 
     override fun registerPoses() {
         val blink = quirk { bedrockStateful("bidoof", "blink") }
