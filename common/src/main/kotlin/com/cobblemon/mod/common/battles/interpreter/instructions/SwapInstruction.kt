@@ -12,6 +12,7 @@ import com.cobblemon.mod.common.api.battles.interpreter.BattleMessage
 import com.cobblemon.mod.common.api.battles.model.PokemonBattle
 import com.cobblemon.mod.common.api.text.yellow
 import com.cobblemon.mod.common.battles.ShowdownInterpreter
+import com.cobblemon.mod.common.battles.dispatch.InstructionSet
 import com.cobblemon.mod.common.battles.dispatch.InterpreterInstruction
 import com.cobblemon.mod.common.net.messages.client.battle.BattleSwapPokemonPacket
 import com.cobblemon.mod.common.util.battleLang
@@ -27,7 +28,7 @@ import net.minecraft.util.math.Vec3d
  * Indicates that a pokemon has swapped its field position with an ally.
  * @author JazzMcNade
  */
-class SwapInstruction(val message: BattleMessage): InterpreterInstruction {
+class SwapInstruction(val message: BattleMessage, val instructionSet: InstructionSet): InterpreterInstruction {
     override fun invoke(battle: PokemonBattle) {
         // TODO: more error checks
         battle.dispatchWaiting {
@@ -67,8 +68,14 @@ class SwapInstruction(val message: BattleMessage): InterpreterInstruction {
                 battle.sendUpdate(BattleSwapPokemonPacket(pnxA))
 
                 // Send battle message
-                // TODO: differentiate with Triples shift
-                val lang = battleLang("activate.allyswitch", battlePokemonA.getName(), activePokemonB.battlePokemon?.getName() ?: "", )
+                val lastCauser = instructionSet.getMostRecentCauser(comparedTo = this)
+                val lang = if (lastCauser is MoveInstruction && lastCauser.move.name == "allyswitch") {
+                    // Ally Switch
+                    battleLang("activate.allyswitch", battlePokemonA.getName(), activePokemonB.battlePokemon?.getName() ?: "")
+                } else {
+                    // Triple battle shift
+                    battleLang("shift", battlePokemonA.getName())
+                }
                 battle.broadcastChatMessage(lang)
             }
         }

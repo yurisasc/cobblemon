@@ -112,7 +112,7 @@ object ShowdownInterpreter {
         updateInstructionParser["win"]                   = { _, _, message, _ -> WinInstruction(message) }
         updateInstructionParser["-zbroken"]              = { _, _, message, _ -> ZBrokenInstruction(message) }
         updateInstructionParser["-zpower"]               = { _, _, message, _ -> ZPowerInstruction(message) }
-        updateInstructionParser["swap"]                = { _, _, message, _ -> SwapInstruction(message) }
+        updateInstructionParser["swap"]                  = { _, instructionSet, message, _ -> SwapInstruction(message, instructionSet) }
 
         sideInstructionParser["error"]                   = { _, targetActor, _, message -> ErrorInstruction(targetActor, message) }
         sideInstructionParser["request"]                 = { _, targetActor, _, message -> RequestInstruction(targetActor, message) }
