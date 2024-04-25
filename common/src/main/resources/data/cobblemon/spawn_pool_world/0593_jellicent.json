@@ -38,7 +38,7 @@
             "context": "surface",
             "bucket": "common",
             "level": "40-48",
-            "weight": 0.6,
+            "weight": 0.06,
             "condition": {
                 "minSkyLight": 8,
                 "maxSkyLight": 15,
@@ -58,7 +58,7 @@
             "context": "surface",
             "bucket": "common",
             "level": "40-48",
-            "weight": 0.6,
+            "weight": 0.06,
             "weightMultiplier": {
                 "multiplier": 5.0,
                 "condition": {

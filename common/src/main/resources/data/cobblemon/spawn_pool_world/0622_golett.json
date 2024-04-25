@@ -26,6 +26,26 @@
             "id": "golett-2",
             "pokemon": "golett",
             "presets": [
+                "natural",
+                "ruins"
+            ],
+            "type": "pokemon",
+            "context": "grounded",
+            "bucket": "rare",
+            "level": "5-30",
+            "weight": 18.0,
+            "condition": {
+                "minSkyLight": 8,
+                "maxSkyLight": 15,
+                "biomes": [
+                    "#cobblemon:is_overworld"
+                ]
+            }
+        },
+        {
+            "id": "golett-3",
+            "pokemon": "golett",
+            "presets": [
                 "trail_ruins"
             ],
             "type": "pokemon",
@@ -42,11 +62,28 @@
             }
         },
         {
-            "id": "golett-3",
+            "id": "golett-4",
             "pokemon": "golett",
             "presets": [
                 "natural",
-                "desert_pyramid",
+                "desert_pyramid"
+            ],
+            "type": "pokemon",
+            "context": "grounded",
+            "bucket": "common",
+            "level": "5-30",
+            "weight": 18.0,
+            "condition": {
+                "biomes": [
+                    "#cobblemon:is_desert"
+                ]
+            }
+        },
+        {
+            "id": "golett-5",
+            "pokemon": "golett",
+            "presets": [
+                "natural",
                 "jungle_pyramid"
             ],
             "type": "pokemon",
@@ -56,12 +93,12 @@
             "weight": 18.0,
             "condition": {
                 "biomes": [
-                    "#cobblemon:is_overworld"
+                    "#cobblemon:is_jungle"
                 ]
             }
         },
         {
-            "id": "golett-4",
+            "id": "golett-6",
             "pokemon": "golett",
             "type": "pokemon",
             "context": "grounded",

@@ -623,7 +623,7 @@
                     {
                         "block_entity_modifier": {
                             "type": "minecraft:append_loot",
-                            "loot_table": "cobblemon:ruins/uncommon/fimmi_tower_lush"
+                            "loot_table": "cobblemon:ruins/uncommon/gimmi_tower_lush"
                         },
                         "input_predicate": {
                             "block": "minecraft:suspicious_gravel",

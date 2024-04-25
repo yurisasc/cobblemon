@@ -267,7 +267,6 @@
 			}
 		},
 		"animation.pumpkaboo.cry": {
-			"loop": true,
 			"animation_length": 2,
 			"bones": {
 				"body": {

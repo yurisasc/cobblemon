@@ -37,8 +37,8 @@ class DoduoModel (root: ModelPart) : PokemonPoseableModel() {
     override fun registerPoses() {
         val blink = quirk { bedrockStateful("doduo", "blink1") }
         val blink2 = quirk { bedrockStateful("doduo", "blink2") }
-        val bite = quirk { bedrockStateful("doduo", "bite_quirk1") }
-        val bite2 = quirk { bedrockStateful("doduo", "bite_quirk2") }
+        val bite = quirk(secondsBetweenOccurrences = 5F to 20F) { bedrockStateful("doduo", "bite_quirk1") }
+        val bite2 = quirk(secondsBetweenOccurrences = 5F to 20F) { bedrockStateful("doduo", "bite_quirk2") }
 
         sleep = registerPose(
             poseType = PoseType.SLEEP,
@@ -50,7 +50,7 @@ class DoduoModel (root: ModelPart) : PokemonPoseableModel() {
             poseTypes = STATIONARY_POSES + UI_POSES,
             transformTicks = 10,
             condition = { !it.isBattling },
-            quirks = arrayOf(blink, blink2, bite, bite2),
+            quirks = arrayOf(blink, blink2),
             idleAnimations = arrayOf(
                 bedrock("doduo", "ground_idle")
             )
@@ -60,7 +60,7 @@ class DoduoModel (root: ModelPart) : PokemonPoseableModel() {
             poseName = "walking",
             poseTypes = MOVING_POSES,
             transformTicks = 10,
-            quirks = arrayOf(blink, blink2, bite, bite2),
+            quirks = arrayOf(blink, blink2),
             idleAnimations = arrayOf(
                 bedrock("doduo", "ground_walk")
             )

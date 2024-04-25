@@ -23,8 +23,8 @@
             }
         },
         {
-            "id": "exeggcute-alolan-2",
-            "pokemon": "exeggcute alolan",
+            "id": "exeggcute-alola-2",
+            "pokemon": "exeggcute region_bias=alola",
             "presets": [
                 "natural"
             ],
@@ -39,6 +39,11 @@
                 "biomes": [
                     "#cobblemon:is_beach",
                     "#cobblemon:is_tropical_island"
+                ]
+            },
+            "anticondition": {
+                "biomes": [
+                    "#cobblemon:is_freezing"
                 ]
             }
         }

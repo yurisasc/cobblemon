@@ -30,8 +30,8 @@
             }
         },
         {
-            "id": "dartrix-hisuian-3",
-            "pokemon": "dartrix hisuian",
+            "id": "dartrix-hisui-3",
+            "pokemon": "dartrix region_bias=hisui",
             "presets": [
                 "natural",
                 "treetop"

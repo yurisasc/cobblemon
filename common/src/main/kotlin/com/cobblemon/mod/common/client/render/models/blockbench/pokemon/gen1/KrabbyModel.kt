@@ -34,7 +34,7 @@ class KrabbyModel(root: ModelPart) : PokemonPoseableModel() {
     lateinit var standingBubbles: PokemonPose
     lateinit var standingRain: PokemonPose
 
-//    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("krabby", "cry") }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("krabby", "cry") }
 
     override fun registerPoses() {
         val blink = quirk { bedrockStateful("krabby", "blink")}

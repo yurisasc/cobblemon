@@ -3,7 +3,7 @@
     "fallback": "minecraft:empty",
     "elements": [
         {
-            "weight": 2,
+            "weight": 3,
             "element": {
                 "location": "cobblemon:ruins/decorations/gate_rubble1",
                 "element_type": "minecraft:single_pool_element",
@@ -12,7 +12,7 @@
             }
         },
         {
-            "weight": 2,
+            "weight": 3,
             "element": {
                 "location": "cobblemon:ruins/decorations/gate_rubble2",
                 "element_type": "minecraft:single_pool_element",
@@ -21,7 +21,7 @@
             }
         },
         {
-            "weight": 2,
+            "weight": 3,
             "element": {
                 "location": "cobblemon:ruins/decorations/gate_rubble3",
                 "element_type": "minecraft:single_pool_element",
@@ -30,7 +30,7 @@
             }
         },
         {
-            "weight": 2,
+            "weight": 3,
             "element": {
                 "location": "cobblemon:ruins/decorations/gate_rubble4",
                 "element_type": "minecraft:single_pool_element",
@@ -39,7 +39,7 @@
             }
         },
         {
-            "weight": 2,
+            "weight": 3,
             "element": {
                 "location": "cobblemon:ruins/decorations/gate_rubble5",
                 "element_type": "minecraft:single_pool_element",
@@ -48,7 +48,7 @@
             }
         },
         {
-            "weight": 2,
+            "weight": 3,
             "element": {
                 "location": "cobblemon:ruins/decorations/gate_rubble6",
                 "element_type": "minecraft:single_pool_element",
@@ -75,7 +75,7 @@
             }
         },
         {
-            "weight": 3,
+            "weight": 4,
             "element": {
                 "element_type": "minecraft:empty_pool_element"
             }

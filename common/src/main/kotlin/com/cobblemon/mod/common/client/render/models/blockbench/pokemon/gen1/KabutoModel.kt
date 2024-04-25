@@ -29,7 +29,7 @@ class KabutoModel(root: ModelPart) : PokemonPoseableModel() {
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
 
-//    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("kabuto", "cry") }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("kabuto", "cry") }
 
     override fun registerPoses() {
         val blink = quirk { bedrockStateful("kabuto", "blink") }
