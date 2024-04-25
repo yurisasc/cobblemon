@@ -130,16 +130,21 @@ object BattleBuilder {
         }
 
         return if (errors.isEmpty) {
+            var result: PokemonBattle? = null
             BattleRegistry.startBattle(
                 battleFormat = battleFormat,
                 side1 = BattleSide(playerActor),
                 side2 = BattleSide(wildActor)
-            ).ifSuccessful {
+            ).ifSuccessful { result = it }
+
+            result?.let {
                 if (!cloneParties) {
                     pokemonEntity.battleId = it.battleId
                 }
                 playerActor.battleTheme = pokemonEntity.getBattleTheme()
+                return SuccessfulBattleStart(it)
             }
+
             errors
         } else {
             errors
