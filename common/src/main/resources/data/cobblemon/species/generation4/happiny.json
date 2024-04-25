@@ -161,6 +161,7 @@
       "variant": "level_up",
       "result": "chansey",
       "consumeHeldItem": true,
+      "permanent": true,
       "learnableMoves": [],
       "requirements": [
         {

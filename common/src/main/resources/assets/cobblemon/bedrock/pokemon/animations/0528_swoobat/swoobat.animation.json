@@ -246,6 +246,11 @@
 		},
 		"animation.swoobat.cry": {
 			"animation_length": 1.45833,
+			"sound_effects": {
+				"0.04": {
+					"effect": "pokemon.swoobat.cry"
+				}
+			},
 			"bones": {
 				"head": {
 					"rotation": {

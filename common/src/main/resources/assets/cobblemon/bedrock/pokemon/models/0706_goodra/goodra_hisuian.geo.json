@@ -3,7 +3,7 @@
 	"minecraft:geometry": [
 		{
 			"description": {
-				"identifier": "geometry.goodra_hisuian",
+				"identifier": "geometry.goodra_hisui",
 				"texture_width": 128,
 				"texture_height": 256,
 				"visible_bounds_width": 5,
@@ -206,7 +206,9 @@
 					"parent": "eyes",
 					"pivot": [3.01, 51, 0.99],
 					"cubes": [
-						{"origin": [2.01, 50, -0.01], "size": [2, 2, 2], "uv": [0, 27]}
+						{"origin": [2.01, 50, -0.01], "size": [2, 2, 2], "uv": [0, 27]},
+						{"origin": [4.01, 51.5, 0.99], "size": [0, 1, 1], "inflate": 0.01, "uv": [6, 5]},
+						{"origin": [3.01, 52, -0.02], "size": [1, 1, 0], "inflate": 0.01, "uv": [6, 4]}
 					]
 				},
 				{
@@ -222,7 +224,7 @@
 					"parent": "pupil_left",
 					"pivot": [3.01, 51.7, -0.03],
 					"cubes": [
-						{"origin": [2.51, 51.2, -0.03], "size": [1, 1, 0], "uv": [6, 27]}
+						{"origin": [2.51, 51.2, -0.04], "size": [1, 1, 0], "uv": [6, 27]}
 					]
 				},
 				{
@@ -230,7 +232,7 @@
 					"parent": "eye_left",
 					"pivot": [2.91, 51.5, 1.07],
 					"cubes": [
-						{"origin": [1.91, 50, 0.07], "size": [2, 3, 2], "inflate": 0.01, "uv": [8, 27]}
+						{"origin": [1.91, 50, 0.07], "size": [2, 3, 2], "inflate": 0.02, "uv": [8, 27]}
 					]
 				},
 				{
@@ -238,7 +240,9 @@
 					"parent": "eyes",
 					"pivot": [-3.01, 51, 0.99],
 					"cubes": [
-						{"origin": [-4.01, 50, -0.01], "size": [2, 2, 2], "uv": [0, 31], "mirror": true}
+						{"origin": [-4.01, 50, -0.01], "size": [2, 2, 2], "uv": [0, 31], "mirror": true},
+						{"origin": [-4.01, 51.5, 0.99], "size": [0, 1, 1], "inflate": 0.01, "uv": [6, 6], "mirror": true},
+						{"origin": [-4.01, 52, -0.02], "size": [1, 1, 0], "inflate": 0.01, "uv": [6, 5], "mirror": true}
 					]
 				},
 				{
@@ -254,7 +258,7 @@
 					"parent": "pupil_right",
 					"pivot": [-3.01, 51.7, -0.03],
 					"cubes": [
-						{"origin": [-3.51, 51.2, -0.03], "size": [1, 1, 0], "uv": [6, 28], "mirror": true}
+						{"origin": [-3.51, 51.2, -0.04], "size": [1, 1, 0], "uv": [6, 28], "mirror": true}
 					]
 				},
 				{
@@ -262,7 +266,7 @@
 					"parent": "eye_right",
 					"pivot": [-2.91, 51.5, 1.07],
 					"cubes": [
-						{"origin": [-3.91, 50, 0.07], "size": [2, 3, 2], "inflate": 0.01, "uv": [8, 32], "mirror": true}
+						{"origin": [-3.91, 50, 0.07], "size": [2, 3, 2], "inflate": 0.02, "uv": [8, 32], "mirror": true}
 					]
 				},
 				{

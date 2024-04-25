@@ -271,6 +271,11 @@
 		},
 		"animation.charcadet.cry": {
 			"animation_length": 1.25,
+			"sound_effects": {
+				"0.04": {
+					"effect": "pokemon.charcadet.cry"
+				}
+			},
 			"bones": {
 				"back_flame": {
 					"rotation": {

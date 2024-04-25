@@ -212,7 +212,7 @@
         {
           "id": "hisui_cyndaquil_quilava",
           "variant": "level_up",
-          "result": "quilava",
+          "result": "quilava region_bias=johto",
           "consumeHeldItem": false,
           "learnableMoves": [],
           "requirements": [
@@ -442,19 +442,7 @@
         },
         {
           "variant": "biome",
-          "biomeCondition": "#cobblemon:is_taiga"
-        },
-        {
-          "variant": "biome",
-          "biomeCondition": "#cobblemon:nether/is_crimson"
-        },
-        {
-          "variant": "biome",
-          "biomeCondition": "#cobblemon:nether/is_forest"
-        },
-        {
-          "variant": "biome",
-          "biomeCondition": "#cobblemon:nether/is_overgrowth"
+          "biomeCondition": "#cobblemon:regional_bias_evolutions/cyndaquil_quilava_hisui_bias"
         }
       ]
     }

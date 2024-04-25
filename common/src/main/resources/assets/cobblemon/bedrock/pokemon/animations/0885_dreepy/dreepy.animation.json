@@ -51,6 +51,11 @@
 		},
 		"animation.dreepy.cry": {
 			"animation_length": 1.5,
+			"sound_effects": {
+				"0.04": {
+					"effect": "pokemon.dreepy.cry"
+				}
+			},
 			"bones": {
 				"neck": {
 					"rotation": {
