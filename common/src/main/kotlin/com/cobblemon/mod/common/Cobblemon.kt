@@ -141,8 +141,8 @@ import kotlin.reflect.jvm.javaField
 import kotlin.math.roundToInt
 
 object Cobblemon {
-    const val MODID = "cobblemon"
-    const val VERSION = "1.4.0"
+    const val MODID = CobblemonBuildDetails.MOD_ID
+    const val VERSION = CobblemonBuildDetails.VERSION
     const val CONFIG_PATH = "config/$MODID/main.json"
     val LOGGER: Logger = LogManager.getLogger()
 

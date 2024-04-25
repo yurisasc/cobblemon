@@ -32,7 +32,7 @@ class FloetteModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
 
         standing = registerPose(
             poseName = "standing",
-            poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
+            poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES + PoseType.SLEEP,
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(maxYaw = 10F),

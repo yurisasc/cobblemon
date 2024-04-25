@@ -153,6 +153,11 @@
 		},
 		"animation.sneasler.cry": {
 			"animation_length": 1,
+			"sound_effects": {
+				"0.04": {
+					"effect": "pokemon.sneasler.cry"
+				}
+			},
 			"bones": {
 				"head": {
 					"rotation": {
@@ -208,11 +213,6 @@
 						"0.4583": {"pre": [0, 0, 0.61], "post": [0, 0, 0.61]},
 						"0.5": {"pre": [0, 0, 0.61], "post": [0, 0, 0]}
 					}
-				}
-			},
-			"sound_effects": {
-				"0.0": {
-					"effect": "903sneasler"
 				}
 			}
 		}

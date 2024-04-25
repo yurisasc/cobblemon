@@ -45,7 +45,7 @@ class ScytherModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Biped
     lateinit var hover: PokemonPose
     lateinit var fly: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("voltorb", "cry") }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("scyther", "cry") }
 
     override fun registerPoses() {
         val blink = quirk { bedrockStateful("scyther", "blink")}
