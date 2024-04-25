@@ -13,6 +13,7 @@ import net.minecraft.block.Block
 import net.minecraft.block.BlockState
 import net.minecraft.block.Blocks
 import net.minecraft.block.ShapeContext
+import net.minecraft.entity.EquipmentSlot
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
 import net.minecraft.item.Items
@@ -39,8 +40,8 @@ class BigRootBlock(settings: Settings) : RootBlock(settings) {
         val stack = player.getStackInHand(Hand.MAIN_HAND)
         if (stack.isOf(Items.SHEARS)) {
             this.attemptShear(world, state, pos) {
-                player.getStackInHand(Hand.MAIN_HAND).damage(1, player)
-                player.sendEquipmentBreakStatus()
+                player.getStackInHand(Hand.MAIN_HAND).damage(1, player, EquipmentSlot.MAINHAND)
+                player.sendEquipmentBreakStatus(EquipmentSlot.MAINHAND)
             }
             return ActionResult.success(world.isClient)
         }

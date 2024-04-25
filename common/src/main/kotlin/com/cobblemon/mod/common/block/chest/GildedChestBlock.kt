@@ -183,9 +183,8 @@ class GildedChestBlock(settings: Settings, val type: Type = Type.RED) : BlockWit
         world: World,
         pos: BlockPos,
         player: PlayerEntity,
-        hand: Hand,
         hit: BlockHitResult
-    ): ActionResult {
+    ): ActionResult? {
         if (isFake()) {
             if (player is ServerPlayerEntity) {
                 return spawnPokemon(world, pos, state, player)
@@ -268,7 +267,7 @@ class GildedChestBlock(settings: Settings, val type: Type = Type.RED) : BlockWit
     }
 
     @Deprecated("Deprecated in Java")
-    override fun canPathfindThrough(state: BlockState?, world: BlockView?, pos: BlockPos?, type: NavigationType?): Boolean {
+    override fun canPathfindThrough(state: BlockState?, type: NavigationType?): Boolean {
         return false
     }
 

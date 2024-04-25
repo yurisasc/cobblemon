@@ -85,7 +85,7 @@ class MonitorBlock(properties: Settings) : MultiblockBlock(properties) {
         return HITBOX
     }
     @Deprecated("Deprecated in Java")
-    override fun canPathfindThrough(state: BlockState?, world: BlockView?, pos: BlockPos?, type: NavigationType?): Boolean {
+    override fun canPathfindThrough(state: BlockState?, type: NavigationType?): Boolean {
         return false
     }
 

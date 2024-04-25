@@ -20,10 +20,11 @@ import net.minecraft.block.*
 import net.minecraft.block.entity.BlockEntity
 import net.minecraft.block.entity.BlockEntityTicker
 import net.minecraft.block.entity.BlockEntityType
-import net.minecraft.client.item.TooltipContext
+import net.minecraft.client.item.TooltipType
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.ai.pathing.NavigationType
 import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.item.Item
 import net.minecraft.item.ItemPlacementContext
 import net.minecraft.item.ItemStack
 import net.minecraft.particle.ParticleTypes
@@ -100,7 +101,10 @@ class HealingMachineBlock(properties: Settings) : BlockWithEntity(properties) {
         return CODEC
     }
 
-    override fun canPathfindThrough(blockState: BlockState, blockGetter: BlockView, blockPos: BlockPos, pathComputationType: NavigationType): Boolean {
+    override fun canPathfindThrough(
+        blockState: BlockState?,
+        pathComputationType: NavigationType?
+    ): Boolean {
         return false
     }
 
@@ -122,8 +126,14 @@ class HealingMachineBlock(properties: Settings) : BlockWithEntity(properties) {
         if (!state.isOf(newState.block)) super.onStateReplaced(state, world, pos, newState, moved)
     }
 
-    override fun onUse(blockState: BlockState, world: World, blockPos: BlockPos, player: PlayerEntity, interactionHand: Hand, blockHitResult: BlockHitResult): ActionResult {
-        if (world.isClient || interactionHand == Hand.OFF_HAND) {
+    override fun onUse(
+        blockState: BlockState,
+        world: World,
+        blockPos: BlockPos,
+        player: PlayerEntity,
+        blockHitResult: BlockHitResult
+    ): ActionResult {
+        if (world.isClient) {
             return ActionResult.SUCCESS
         }
 
@@ -203,7 +213,12 @@ class HealingMachineBlock(properties: Settings) : BlockWithEntity(properties) {
         return BlockRenderType.MODEL
     }
 
-    override fun appendTooltip(stack: ItemStack?, world: BlockView?, tooltip: MutableList<Text>, options: TooltipContext?) {
+    override fun appendTooltip(
+        stack: ItemStack,
+        context: Item.TooltipContext,
+        tooltip: MutableList<Text>,
+        options: TooltipType
+    ) {
         tooltip.add("block.${Cobblemon.MODID}.healing_machine.tooltip1".asTranslated().gray())
         tooltip.add("block.${Cobblemon.MODID}.healing_machine.tooltip2".asTranslated().gray())
     }

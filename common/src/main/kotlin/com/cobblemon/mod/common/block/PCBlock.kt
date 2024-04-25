@@ -226,7 +226,10 @@ class PCBlock(properties: Settings): BlockWithEntity(properties), Waterloggable 
     override fun getCodec() = CODEC
 
     @Deprecated("Deprecated in Java")
-    override fun canPathfindThrough(blockState: BlockState, blockGetter: BlockView, blockPos: BlockPos, pathComputationType: NavigationType) = false
+    override fun canPathfindThrough(
+        blockState: BlockState?,
+        pathComputationType: NavigationType?
+    ): Boolean = false
 
     override fun appendProperties(builder: StateManager.Builder<Block, BlockState>) {
         builder.add(HorizontalFacingBlock.FACING)
@@ -255,9 +258,8 @@ class PCBlock(properties: Settings): BlockWithEntity(properties), Waterloggable 
         world: World,
         blockPos: BlockPos,
         player: PlayerEntity,
-        interactionHand: Hand,
         blockHitResult: BlockHitResult
-    ): ActionResult {
+    ): ActionResult? {
         if (player !is ServerPlayerEntity) return ActionResult.SUCCESS
 
         val basePos = getBasePosition(blockState, blockPos)

@@ -97,16 +97,22 @@ class RestorationTankBlock(properties: Settings) : MultiblockBlock(properties), 
     }
 
     @Deprecated("Deprecated in Java")
-    override fun onUse(state: BlockState, world: World, pos: BlockPos, player: PlayerEntity, hand: Hand, hit: BlockHitResult): ActionResult {
+    override fun onUse(
+        state: BlockState,
+        world: World,
+        pos: BlockPos,
+        player: PlayerEntity,
+        hit: BlockHitResult
+    ): ActionResult? {
         if(state.get(PART) == TankPart.TOP) {
             // TankTop isn't reliably up to date on clients, need to look at the bottom half
             val tankBottomPos = pos.down()
             val tankBottomState = world.getBlockState(tankBottomPos)
             if(tankBottomState.block.equals(CobblemonBlocks.RESTORATION_TANK.asBlock()) && tankBottomState.get(PART) == TankPart.BOTTOM) {
-                return super.onUse(tankBottomState, world, tankBottomPos, player, hand, hit)
+                return super.onUse(tankBottomState, world, tankBottomPos, player, hit)
             }
         }
-        return super.onUse(state, world, pos, player, hand, hit)
+        return super.onUse(state, world, pos, player, hit)
     }
 
     override fun createMultiBlockEntity(pos: BlockPos, state: BlockState): FossilMultiblockEntity {
@@ -221,7 +227,7 @@ class RestorationTankBlock(properties: Settings) : MultiblockBlock(properties), 
     }
 
     @Deprecated("Deprecated in Java")
-    override fun canPathfindThrough(state: BlockState?, world: BlockView?, pos: BlockPos?, type: NavigationType?): Boolean {
+    override fun canPathfindThrough(state: BlockState?, type: NavigationType?): Boolean {
         return false
     }
 

@@ -81,11 +81,10 @@ class DisplayCaseBlock(settings: Settings) : BlockWithEntity(settings) {
         world: World,
         pos: BlockPos,
         player: PlayerEntity,
-        hand: Hand,
         hit: BlockHitResult
     ): ActionResult {
         val entity = world.getBlockEntity(pos) as DisplayCaseBlockEntity
-        val result = entity.updateItem(player, hand)
+        val result = entity.updateItem(player, Hand.MAIN_HAND)
         if ((hit.side != Direction.UP && hit.side != Direction.DOWN) && result == ActionResult.SUCCESS) {
             world.setBlockState(pos, state.with(ITEM_DIRECTION, hit.side.opposite))
         }
@@ -116,7 +115,7 @@ class DisplayCaseBlock(settings: Settings) : BlockWithEntity(settings) {
         return CODEC
     }
 
-    override fun canPathfindThrough(state: BlockState, world: BlockView, pos: BlockPos, type: NavigationType) = false
+    override fun canPathfindThrough(state: BlockState?, type: NavigationType?): Boolean = false
 
     companion object {
         val CODEC = createCodec(::DisplayCaseBlock)
