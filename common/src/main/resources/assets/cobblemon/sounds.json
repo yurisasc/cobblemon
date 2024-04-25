@@ -397,9 +397,6 @@
   "effective": {
     "sounds": [ "cobblemon:effective" ]
   },
-  "fuse": {
-    "sounds": [ "cobblemon:fuse" ]
-  },
   "notveryeffective": {
     "sounds": [ "cobblemon:notveryeffective" ]
   },
