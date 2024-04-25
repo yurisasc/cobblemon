@@ -23,18 +23,18 @@ class GalladeModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("gallade")
     override val head = getPart("head")
 
-    override val portraitScale = 2.6F
-    override val portraitTranslation = Vec3d(-0.15, 2.1, 0.0)
+    override var portraitScale = 2.6F
+    override var portraitTranslation = Vec3d(-0.15, 2.1, 0.0)
 
-    override val profileScale = 0.65F
-    override val profileTranslation = Vec3d(0.0, 0.76, 0.0)
+    override var profileScale = 0.65F
+    override var profileTranslation = Vec3d(0.0, 0.76, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walking: PokemonPose
     lateinit var sleep: PokemonPose
     lateinit var battleidle: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("gallade", "cry") }
+    override val cryAnimation = CryProvider { entity, _ -> if (entity.isBattling) bedrockStateful("gallade", "battle_cry") else bedrockStateful("gallade", "cry") }
 
     override fun registerPoses() {
         val blink = quirk { bedrockStateful("gallade", "blink") }

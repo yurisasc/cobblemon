@@ -37,8 +37,8 @@ abstract class MultiblockBlock(properties: Settings) : BlockWithEntity(propertie
         itemStack: ItemStack?
     ) {
         if (world is ServerWorld) {
-            val multiblockEntity = world.getBlockEntity(pos) as MultiblockEntity
-            multiblockEntity.multiblockBuilder?.validate(world)
+            val multiblockEntity = world.getBlockEntity(pos) as? MultiblockEntity
+            multiblockEntity?.multiblockBuilder?.validate(world)
         }
         super.onPlaced(world, pos, state, placer, itemStack)
     }
@@ -54,8 +54,8 @@ abstract class MultiblockBlock(properties: Settings) : BlockWithEntity(propertie
         if(hand == Hand.OFF_HAND) {
             return ActionResult.SUCCESS
         }
-        val entity = world.getBlockEntity(pos) as MultiblockEntity
-        if (entity.multiblockStructure != null) {
+        val entity = world.getBlockEntity(pos) as MultiblockEntity?
+        if (entity?.multiblockStructure != null) {
             return entity.multiblockStructure!!.onUse(state, world, pos, player, hand, hit)
         }
         return super.onUse(state, world, pos, player, hand, hit)

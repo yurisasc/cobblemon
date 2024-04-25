@@ -10,6 +10,7 @@ package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen4
 
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BimanualFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cobblemon.mod.common.entity.PoseType
@@ -24,14 +25,16 @@ class GibleModel(root: ModelPart) : PokemonPoseableModel(), BipedFrame, Bimanual
     override val rightLeg = getPart("leg_right")
     override val leftLeg = getPart("leg_left")
 
-    override val portraitScale = 1.65F
-    override val portraitTranslation = Vec3d(0.1, -0.5, 0.0)
+    override var portraitScale = 1.65F
+    override var portraitTranslation = Vec3d(0.1, -0.5, 0.0)
 
-    override val profileScale = 0.71F
-    override val profileTranslation = Vec3d(0.0, 0.72, 0.0)
+    override var profileScale = 0.71F
+    override var profileTranslation = Vec3d(0.0, 0.72, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
+
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("gible", "cry") }
 
     override fun registerPoses() {
         val blink = quirk { bedrockStateful("gible", "blink") }

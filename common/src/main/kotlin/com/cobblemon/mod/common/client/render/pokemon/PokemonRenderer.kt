@@ -33,7 +33,6 @@ import com.cobblemon.mod.common.util.lang
 import com.cobblemon.mod.common.util.math.DoubleRange
 import com.cobblemon.mod.common.util.math.geometry.toRadians
 import com.cobblemon.mod.common.util.math.remap
-import kotlin.math.*
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.font.TextRenderer
 import net.minecraft.client.render.*
@@ -54,6 +53,7 @@ import org.joml.Math
 import org.joml.Quaternionf
 import org.joml.Vector3f
 import org.joml.Vector4f
+import kotlin.math.*
 
 class PokemonRenderer(
     context: EntityRendererFactory.Context
@@ -61,7 +61,7 @@ class PokemonRenderer(
     companion object {
         val recallBeamColour = Vector4f(1F, 0.1F, 0.1F, 1F)
         fun ease(x: Double): Double {
-            return 1 - (1 - x).pow(3);
+            return 1 - (1 - x).pow(3)
         }
     }
 
@@ -77,7 +77,7 @@ class PokemonRenderer(
         buffer: VertexConsumerProvider,
         packedLight: Int
     ) {
-        shadowRadius = min((entity.boundingBox.maxX - entity.boundingBox.minX), (entity.boundingBox.maxZ) - (entity.boundingBox.minZ)).toFloat() / 1.5F
+        shadowRadius = min((entity.boundingBox.maxX - entity.boundingBox.minX), (entity.boundingBox.maxZ) - (entity.boundingBox.minZ)).toFloat() / 1.5F * (entity.delegate as PokemonClientDelegate).entityScaleModifier
         model = PokemonModelRepository.getPoser(entity.pokemon.species.resourceIdentifier, entity.aspects)
 
         val clientDelegate = entity.delegate as PokemonClientDelegate
@@ -87,7 +87,7 @@ class PokemonRenderer(
         if (entity.beamMode != 0) {
             renderTransition(
                 modelNow,
-                entity.beamMode == 1,
+                entity.beamMode,
                 entity,
                 partialTicks,
                 poseMatrix,
@@ -131,7 +131,7 @@ class PokemonRenderer(
 
     fun renderTransition(
         modelNow: PoseableEntityModel<PokemonEntity>,
-        sendingOut: Boolean,
+        beamMode: Int,
         entity: PokemonEntity,
         partialTicks: Float,
         poseMatrix: MatrixStack,
@@ -140,7 +140,7 @@ class PokemonRenderer(
         clientDelegate: PokemonClientDelegate
     ) {
         val s = clientDelegate.secondsSinceBeamEffectStarted
-        if (modelNow is PokemonPoseableModel && !sendingOut) {
+        if (modelNow is PokemonPoseableModel && beamMode == 3) {
             if (s > BEAM_EXTEND_TIME) {
                 val value = (s - BEAM_EXTEND_TIME) /  BEAM_SHRINK_TIME
                 val colourValue = 1F - min(0.6F, value)
@@ -164,9 +164,9 @@ class PokemonRenderer(
             }
         }
 
-        if (clientDelegate.sendOutPosition == null && sendingOut) {
+        if (clientDelegate.sendOutPosition == null && beamMode == 1) {
             clientDelegate.sendOutPosition = beamSourcePosition
-        } else if (sendingOut) {
+        } else if (beamMode == 1) {
             clientDelegate.sendOutPosition = clientDelegate.sendOutPosition!!.add(0.0, 0.04, 0.0)
             beamSourcePosition = clientDelegate.sendOutPosition!!
         }
@@ -185,9 +185,9 @@ class PokemonRenderer(
         poseMatrix.multiply(RotationAxis.POSITIVE_Y.rotation(-angle.toFloat() + (180 * Math.PI / 180).toFloat()))
 
         // TODO: if you want to remove the open ball, add `!clientDelegate.ballDone` to the if statement
-        if (sendingOut && !clientDelegate.ballDone){
+        if (beamMode == 1 && !clientDelegate.ballDone){
             if(entity.pokemon.caughtBall.name.toString().contains("beast")){
-                // get rotation angle on x acis for facingDir
+                // get rotation angle on x-axis for facingDir
                 val xAngleFacingDir = MathHelper.atan2(facingDir.y, sqrt(facingDir.x * facingDir.x + facingDir.z * facingDir.z))
                 poseMatrix.multiply(RotationAxis.POSITIVE_X.rotation(-xAngleFacingDir.toFloat()))
             }
@@ -204,7 +204,7 @@ class PokemonRenderer(
             )
         }
         poseMatrix.pop()
-        if (!sendingOut) {
+        if (beamMode == 3) {
             renderBeam(poseMatrix, partialTicks, entity, phaseTarget, buffer, offsetDirection)
         }
     }

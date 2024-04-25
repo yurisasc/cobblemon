@@ -403,7 +403,7 @@ open class PokemonProperties {
                 return false
             }
         }
-        nickname?.takeIf { it != pokemon.nickname }?.let { return false }
+        nickname?.takeIf { it.string != pokemon.nickname?.string }?.let { return false }
         form?.takeIf { !it.equals(pokemon.form.name, true) }?.let { return false }
         friendship?.takeIf { it != pokemon.friendship }?.let { return false }
         pokeball?.takeIf { it != pokemon.caughtBall.name.toString() }?.let { return false }
@@ -443,7 +443,7 @@ open class PokemonProperties {
                 }
             } catch (_: InvalidIdentifierException) {}
         }
-        nickname?.takeIf { it != properties.nickname }?.let { return false }
+        nickname?.takeIf { it.string != properties.nickname?.string }?.let { return false }
         form?.takeIf { !it.equals(properties.form, true) }?.let { return false }
         friendship?.takeIf { it != properties.friendship }?.let { return false }
         pokeball?.takeIf { it != properties.pokeball }?.let { return false }

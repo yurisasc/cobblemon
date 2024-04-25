@@ -140,7 +140,7 @@ class PokemonPastureBlockEntity(pos: BlockPos, val state: BlockState) : BlockEnt
             if (fixedPosition != null) {
                 entity.setPosition(fixedPosition.toCenterPos().subtract(0.0, 0.5, 0.0))
                 val pc = Cobblemon.storage.getPC(player.uuid)
-                entity.beamMode = 1
+                entity.beamMode = 2
                 afterOnServer(seconds = SendOutPokemonHandler.SEND_OUT_DURATION) {
                     entity.beamMode = 0
                 }

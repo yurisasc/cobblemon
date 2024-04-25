@@ -68,8 +68,8 @@ class MonitorBlock(properties: Settings) : MultiblockBlock(properties) {
         if(world == null || pos == null) {
             return 0
         }
-        val monitorEntity = world.getBlockEntity(pos) as MultiblockEntity
-        val multiBlockEntity = monitorEntity.multiblockStructure
+        val monitorEntity = world.getBlockEntity(pos) as? MultiblockEntity
+        val multiBlockEntity = monitorEntity?.multiblockStructure
         if(multiBlockEntity != null) {
             return multiBlockEntity.getComparatorOutput(state, world, pos)
         }

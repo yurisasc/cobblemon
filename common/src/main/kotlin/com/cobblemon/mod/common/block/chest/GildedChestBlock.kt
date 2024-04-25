@@ -18,20 +18,16 @@ import com.cobblemon.mod.common.util.party
 import com.cobblemon.mod.common.util.toVec3d
 import com.mojang.serialization.MapCodec
 import com.mojang.serialization.codecs.RecordCodecBuilder
-import net.minecraft.block.Block
-import net.minecraft.block.BlockRenderType
-import net.minecraft.block.BlockState
-import net.minecraft.block.BlockWithEntity
-import net.minecraft.block.Blocks
-import net.minecraft.block.HorizontalFacingBlock
-import net.minecraft.block.ShapeContext
-import net.minecraft.block.Waterloggable
+import net.minecraft.block.*
+import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.ai.pathing.NavigationType
 import net.minecraft.entity.mob.PiglinBrain
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.fluid.FluidState
 import net.minecraft.fluid.Fluids
 import net.minecraft.item.ItemPlacementContext
+import net.minecraft.item.ItemStack
+import net.minecraft.screen.ScreenHandler
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.sound.SoundCategory
 import net.minecraft.state.StateManager
@@ -113,7 +109,7 @@ class GildedChestBlock(settings: Settings, val type: Type = Type.RED) : BlockWit
         neighborPos: BlockPos
     ): BlockState {
         if (state.get(WATERLOGGED)) world.scheduleFluidTick(pos, Fluids.WATER, Fluids.WATER.getTickRate(world))
-        return super.getStateForNeighborUpdate(state, direction, neighborState, world, pos, neighborPos)
+        return super.getStateForNeighborUpdate(state,   direction, neighborState, world, pos, neighborPos)
     }
 
     override fun getFluidState(state: BlockState): FluidState {
@@ -240,6 +236,14 @@ class GildedChestBlock(settings: Settings, val type: Type = Type.RED) : BlockWit
         ) as BlockState
     }
 
+    override fun hasComparatorOutput(state: BlockState?): Boolean {
+        return true
+    }
+
+    override fun getComparatorOutput(state: BlockState?, world: World, pos: BlockPos?): Int {
+        return ScreenHandler.calculateComparatorOutput(world.getBlockEntity(pos))
+    }
+
     override fun mirror(state: BlockState, mirror: BlockMirror): BlockState {
         return state.rotate(mirror.getRotation(state.get(Properties.HORIZONTAL_FACING) as Direction))
     }
@@ -270,6 +274,19 @@ class GildedChestBlock(settings: Settings, val type: Type = Type.RED) : BlockWit
 
     override fun getCodec(): MapCodec<out BlockWithEntity> {
         return CODEC
+    }
+
+    override fun onPlaced(
+        world: World,
+        pos: BlockPos,
+        state: BlockState,
+        placer: LivingEntity?,
+        itemStack: ItemStack
+    ) {
+        val blockEntity = world.getBlockEntity(pos)
+        if (itemStack.hasCustomName() && blockEntity is GildedChestBlockEntity) {
+            blockEntity.customName = itemStack.name
+        }
     }
 
 }

@@ -306,22 +306,22 @@ class FossilMultiblockStructure (
     }
 
     override fun onBreak(world: World, pos: BlockPos, state: BlockState, player: PlayerEntity?) {
-        val monitorEntity = world.getBlockEntity(monitorPos) as MultiblockEntity
-        val analyzerEntity = world.getBlockEntity(analyzerPos) as MultiblockEntity
-        val tankBaseEntity = world.getBlockEntity(tankBasePos) as MultiblockEntity
-        val tankTopEntity = world.getBlockEntity(tankBasePos.up()) as MultiblockEntity
-        val state = world.getBlockState(tankBaseEntity.pos)
+        val monitorEntity = world.getBlockEntity(monitorPos) as? MultiblockEntity
+        val analyzerEntity = world.getBlockEntity(analyzerPos) as? MultiblockEntity
+        val tankBaseEntity = world.getBlockEntity(tankBasePos) as? MultiblockEntity
+        val tankTopEntity = world.getBlockEntity(tankBasePos.up()) as? MultiblockEntity
+        val state = world.getBlockState(tankBaseEntity?.pos)
         val direction = state.get(HorizontalFacingBlock.FACING).getOpposite()
         val wildPokemon: Pokemon? = this.createdPokemon
 
-        monitorEntity.multiblockStructure = null
-        analyzerEntity.multiblockStructure = null
-        tankBaseEntity.multiblockStructure = null
-        tankTopEntity.multiblockStructure = null
-        monitorEntity.masterBlockPos = null
-        analyzerEntity.masterBlockPos = null
-        tankBaseEntity.masterBlockPos = null
-        tankTopEntity.masterBlockPos = null
+        monitorEntity?.multiblockStructure = null
+        analyzerEntity?.multiblockStructure = null
+        tankBaseEntity?.multiblockStructure = null
+        tankTopEntity?.multiblockStructure = null
+        monitorEntity?.masterBlockPos = null
+        analyzerEntity?.masterBlockPos = null
+        tankBaseEntity?.masterBlockPos = null
+        tankTopEntity?.masterBlockPos = null
 
         // Drop fossils from machine as long as the machine is not started or near completion
         if (this.timeRemaining == -1 || this.timeRemaining >= 20) {
@@ -539,7 +539,7 @@ class FossilMultiblockStructure (
         }
 
         if (natureValue < 0 && organicMaterialInside == 0) return false
-        val oldFillStage = organicMaterialInside / 8
+        val oldFillStage = organicMaterialInside * 8 / MATERIAL_TO_START
 
         // to prevent over/under filling the tank causing a crash
         if ((organicMaterialInside + natureValue) > MATERIAL_TO_START) {
@@ -557,7 +557,7 @@ class FossilMultiblockStructure (
             world.playSound(null, this.tankBasePos, CobblemonSounds.FOSSIL_MACHINE_INSERT_DNA, SoundCategory.BLOCKS, 1.0F, 1.0F)
         }
         this.markDirty(world)
-        if (oldFillStage != (organicMaterialInside / 8)) {
+        if (oldFillStage != (organicMaterialInside * 8 / MATERIAL_TO_START)) {
             this.syncToClient(world)
         }
         return true
@@ -619,10 +619,10 @@ class FossilMultiblockStructure (
         }
 
         const val TICKS_PER_MINUTE = 1200
-        const val MATERIAL_TO_START = 64
-        const val TIME_TO_TAKE = TICKS_PER_MINUTE * 1
+        const val MATERIAL_TO_START = 128
+        const val TIME_TO_TAKE = TICKS_PER_MINUTE * 12
         const val TIME_PER_STAGE = TIME_TO_TAKE / 8
-        const val PROTECTION_TIME = 6000
+        const val PROTECTION_TIME = TICKS_PER_MINUTE * 5
 
         fun fromNbt(nbt: NbtCompound, animAge: Int = -1, partialTicks: Float = 0f): FossilMultiblockStructure {
             val monitorPos = NbtHelper.toBlockPos(nbt.getCompound(DataKeys.MONITOR_POS))
@@ -657,7 +657,7 @@ class FossilMultiblockStructure (
             if (nbt.contains(DataKeys.CREATED_POKEMON)) {
                 result.createdPokemon = Pokemon.loadFromNBT(nbt.getCompound(DataKeys.CREATED_POKEMON))
             }
-            result.fillLevel = result.organicMaterialInside / 8
+            result.fillLevel = result.organicMaterialInside * 8 / MATERIAL_TO_START
             return result
         }
 

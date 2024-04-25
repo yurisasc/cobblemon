@@ -18,6 +18,7 @@ import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.BlockItem
 import net.minecraft.item.ItemPlacementContext
 import net.minecraft.state.StateManager
+import net.minecraft.state.property.DirectionProperty
 import net.minecraft.util.ActionResult
 import net.minecraft.util.Hand
 import net.minecraft.util.ItemScatterer
@@ -33,6 +34,11 @@ class DisplayCaseBlock(settings: Settings) : BlockWithEntity(settings) {
     init {
         this.defaultState = this.stateManager.defaultState
             .with(FACING, Direction.NORTH)
+            .with(ITEM_DIRECTION, Direction.NORTH)
+    }
+
+    companion object {
+        val ITEM_DIRECTION = DirectionProperty.of("item_facing")
     }
 
     override fun getPlacementState(ctx: ItemPlacementContext): BlockState? {
@@ -41,7 +47,10 @@ class DisplayCaseBlock(settings: Settings) : BlockWithEntity(settings) {
         val blockPos = ctx.blockPos
         ctx.placementDirections.forEach { direction ->
             if (direction.axis.isHorizontal) {
-                blockState = blockState.with(FACING, direction) as BlockState
+                blockState = blockState
+                    .with(FACING, direction)
+                    .with(ITEM_DIRECTION, direction)
+                        as BlockState
                 if (blockState.canPlaceAt(worldView, blockPos)) {
                     return blockState
                 }
@@ -52,6 +61,7 @@ class DisplayCaseBlock(settings: Settings) : BlockWithEntity(settings) {
 
     override fun appendProperties(builder: StateManager.Builder<Block, BlockState>) {
         builder.add(FACING)
+        builder.add(ITEM_DIRECTION)
     }
 
     override fun createBlockEntity(pos: BlockPos, state: BlockState): DisplayCaseBlockEntity {
@@ -81,7 +91,7 @@ class DisplayCaseBlock(settings: Settings) : BlockWithEntity(settings) {
         val entity = world.getBlockEntity(pos) as DisplayCaseBlockEntity
         val result = entity.updateItem(player, hand)
         if ((hit.side != Direction.UP && hit.side != Direction.DOWN) && result == ActionResult.SUCCESS) {
-            world.setBlockState(pos, state.with(FACING, hit.side.opposite))
+            world.setBlockState(pos, state.with(ITEM_DIRECTION, hit.side.opposite))
         }
         return result
     }

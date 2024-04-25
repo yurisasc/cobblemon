@@ -279,10 +279,10 @@ class PCGUI(
                 blitk(
                     matrixStack = matrices,
                     texture = Summary.iconShinyResource,
-                    x = (x + 63.5) / SCALE,
+                    x = (x + 62.5) / SCALE,
                     y = (y + 28.5) / SCALE,
-                    width = 14,
-                    height = 14,
+                    width = 16,
+                    height = 16,
                     scale = SCALE
                 )
             }

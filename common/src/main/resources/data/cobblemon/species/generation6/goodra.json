@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Goodra",
   "nationalPokedexNumber": 706,
   "primaryType": "dragon",
@@ -133,9 +134,32 @@
       ],
       "height": 17,
       "weight": 3341,
-      "preEvolution": "sliggoo form=hisui",
+      "preEvolution": "sliggoo hisuian",
+      "baseScale": 1,
+      "hitbox": {
+        "width": 2.5,
+        "height": 3.6,
+        "fixed": false
+      },
       "cannotDynamax": false,
-      "battleOnly": false
+      "battleOnly": false,
+      "drops": {
+        "amount": 7,
+        "entries": [
+          {
+            "item": "minecraft:slime_ball",
+            "quantityRange": "0-3"
+          },
+          {
+            "item": "minecraft:iron_ingot",
+            "quantityRange": "0-3"
+          },
+          {
+            "item": "cobblemon:bluk_berry",
+            "percentage": 10.0
+          }
+        ]
+      }
     }
   ],
   "baseExperienceYield": 300,
@@ -260,10 +284,10 @@
   ],
   "preEvolution": "sliggoo",
   "evolutions": [],
-  "baseScale": 1,
+  "baseScale": 0.9,
   "hitbox": {
-    "width": 1,
-    "height": 1,
+    "width": 1.8,
+    "height": 3.3,
     "fixed": false
   },
   "baseFriendship": 35,

@@ -34,6 +34,10 @@
                     }
                 },
                 {
+                    "block_entity_modifier": {
+                        "type": "minecraft:append_loot",
+                        "loot_table": "cobblemon:ruins/gilded_chests/ruins"
+                    },
                     "input_predicate": {
                         "block_state": {
                             "Name": "minecraft:chest",
@@ -50,13 +54,17 @@
                         "predicate_type": "minecraft:always_true"
                     },
                     "output_state": {
-                        "Name": "cobblemon:gimmighoul_chest",
+                        "Name": "cobblemon:gilded_chest",
                         "Properties": {
                             "facing": "north"
                         }
                     }
                 },
                 {
+                    "block_entity_modifier": {
+                        "type": "minecraft:append_loot",
+                        "loot_table": "cobblemon:ruins/gilded_chests/ruins"
+                    },
                     "input_predicate": {
                         "block_state": {
                             "Name": "minecraft:chest",
@@ -73,13 +81,17 @@
                         "predicate_type": "minecraft:always_true"
                     },
                     "output_state": {
-                        "Name": "cobblemon:gimmighoul_chest",
+                        "Name": "cobblemon:gilded_chest",
                         "Properties": {
                             "facing": "south"
                         }
                     }
                 },
                 {
+                    "block_entity_modifier": {
+                        "type": "minecraft:append_loot",
+                        "loot_table": "cobblemon:ruins/gilded_chests/ruins"
+                    },
                     "input_predicate": {
                         "block_state": {
                             "Name": "minecraft:chest",
@@ -96,13 +108,17 @@
                         "predicate_type": "minecraft:always_true"
                     },
                     "output_state": {
-                        "Name": "cobblemon:gimmighoul_chest",
+                        "Name": "cobblemon:gilded_chest",
                         "Properties": {
                             "facing": "east"
                         }
                     }
                 },
                 {
+                    "block_entity_modifier": {
+                        "type": "minecraft:append_loot",
+                        "loot_table": "cobblemon:ruins/gilded_chests/ruins"
+                    },
                     "input_predicate": {
                         "block_state": {
                             "Name": "minecraft:chest",
@@ -119,7 +135,7 @@
                         "predicate_type": "minecraft:always_true"
                     },
                     "output_state": {
-                        "Name": "cobblemon:gimmighoul_chest",
+                        "Name": "cobblemon:gilded_chest",
                         "Properties": {
                             "facing": "west"
                         }
@@ -132,12 +148,8 @@
             "rules": [
                 {
                     "input_predicate": {
-                        "block_entity_modifier": {
-                            "type": "minecraft:append_loot",
-                            "loot_table": "cobblemon:ruins/gilded_chests/ruins"
-                        },
                         "block_state": {
-                            "Name": "cobblemon:gimmighoul_chest",
+                            "Name": "cobblemon:gilded_chest",
                             "Properties": {
                                 "facing": "north"
                             }
@@ -149,7 +161,7 @@
                         "predicate_type": "minecraft:always_true"
                     },
                     "output_state": {
-                        "Name": "cobblemon:gilded_chest",
+                        "Name": "cobblemon:gimmighoul_chest",
                         "Properties": {
                             "facing": "north"
                         }
@@ -157,12 +169,8 @@
                 },
                 {
                     "input_predicate": {
-                        "block_entity_modifier": {
-                            "type": "minecraft:append_loot",
-                            "loot_table": "cobblemon:ruins/gilded_chests/ruins"
-                        },
                         "block_state": {
-                            "Name": "cobblemon:gimmighoul_chest",
+                            "Name": "cobblemon:gilded_chest",
                             "Properties": {
                                 "facing": "south"
                             }
@@ -174,7 +182,7 @@
                         "predicate_type": "minecraft:always_true"
                     },
                     "output_state": {
-                        "Name": "cobblemon:gilded_chest",
+                        "Name": "cobblemon:gimmighoul_chest",
                         "Properties": {
                             "facing": "south"
                         }
@@ -182,12 +190,8 @@
                 },
                 {
                     "input_predicate": {
-                        "block_entity_modifier": {
-                            "type": "minecraft:append_loot",
-                            "loot_table": "cobblemon:ruins/gilded_chests/ruins"
-                        },
                         "block_state": {
-                            "Name": "cobblemon:gimmighoul_chest",
+                            "Name": "cobblemon:gilded_chest",
                             "Properties": {
                                 "facing": "east"
                             }
@@ -199,7 +203,7 @@
                         "predicate_type": "minecraft:always_true"
                     },
                     "output_state": {
-                        "Name": "cobblemon:gilded_chest",
+                        "Name": "cobblemon:gimmighoul_chest",
                         "Properties": {
                             "facing": "east"
                         }
@@ -207,12 +211,8 @@
                 },
                 {
                     "input_predicate": {
-                        "block_entity_modifier": {
-                            "type": "minecraft:append_loot",
-                            "loot_table": "cobblemon:ruins/gilded_chests/ruins"
-                        },
                         "block_state": {
-                            "Name": "cobblemon:gimmighoul_chest",
+                            "Name": "cobblemon:gilded_chest",
                             "Properties": {
                                 "facing": "west"
                             }
@@ -224,7 +224,7 @@
                         "predicate_type": "minecraft:always_true"
                     },
                     "output_state": {
-                        "Name": "cobblemon:gilded_chest",
+                        "Name": "cobblemon:gimmighoul_chest",
                         "Properties": {
                             "facing": "west"
                         }

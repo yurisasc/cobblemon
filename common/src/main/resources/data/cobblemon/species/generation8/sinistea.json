@@ -109,7 +109,7 @@
         {
           "id": "sinistea_polteageist",
           "variant": "item_interact",
-          "result": "polteageist form=antique",
+          "result": "polteageist antique",
           "consumeHeldItem": false,
           "learnableMoves": [],
           "requirements": [],

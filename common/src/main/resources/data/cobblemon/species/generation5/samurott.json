@@ -51,6 +51,20 @@
         "special_defence": 65,
         "speed": 85
       },
+      "behaviour": {
+        "resting": {
+          "canSleep": true,
+          "willSleepOnBed": false,
+          "depth": "normal",
+          "light": "0-4"
+        },
+        "moving": {
+          "swim": {
+            "canSwimInWater": true,
+            "canBreatheUnderwater": true
+          }
+        }
+      },
       "catchRate": 45,
       "maleRatio": 0.875,
       "baseExperienceYield": 238,
@@ -141,9 +155,28 @@
       ],
       "height": 15,
       "weight": 582,
-      "preEvolution": "dewott",
+      "preEvolution": "dewott region_bias=hisui",
+      "baseScale": 0.75,
+      "hitbox": {
+        "width": 1.6,
+        "height": 2.2,
+        "fixed": false
+      },
       "cannotDynamax": false,
-      "battleOnly": false
+      "battleOnly": false,
+      "drops": {
+        "amount": 2,
+        "entries": [
+          {
+            "item": "cobblemon:mystic_water",
+            "percentage": 25.0
+          },
+          {
+            "item": "cobblemon:shell_bell",
+            "percentage": 25.0
+          }
+        ]
+      }
     }
   ],
   "baseExperienceYield": 238,
@@ -278,7 +311,7 @@
   ],
   "preEvolution": "dewott",
   "evolutions": [],
-  "baseScale": 1,
+  "baseScale": 0.8,
   "hitbox": {
     "width": 1.6,
     "height": 2.2,

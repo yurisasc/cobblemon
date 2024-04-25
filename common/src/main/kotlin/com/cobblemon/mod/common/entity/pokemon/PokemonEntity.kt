@@ -20,6 +20,7 @@ import com.cobblemon.mod.common.api.events.pokemon.ShoulderMountEvent
 import com.cobblemon.mod.common.api.interaction.PokemonEntityInteraction
 import com.cobblemon.mod.common.api.net.serializers.PoseTypeDataSerializer
 import com.cobblemon.mod.common.api.net.serializers.StringSetDataSerializer
+import com.cobblemon.mod.common.api.pokemon.PokemonProperties
 import com.cobblemon.mod.common.api.pokemon.feature.FlagSpeciesFeature
 import com.cobblemon.mod.common.api.pokemon.status.Statuses
 import com.cobblemon.mod.common.api.reactive.ObservableSubscription
@@ -28,7 +29,6 @@ import com.cobblemon.mod.common.api.scheduling.Schedulable
 import com.cobblemon.mod.common.api.scheduling.SchedulingTracker
 import com.cobblemon.mod.common.api.storage.InvalidSpeciesException
 import com.cobblemon.mod.common.api.types.ElementalTypes
-import com.cobblemon.mod.common.api.types.ElementalTypes.FIRE
 import com.cobblemon.mod.common.battles.BagItems
 import com.cobblemon.mod.common.battles.BattleBuilder
 import com.cobblemon.mod.common.battles.BattleRegistry
@@ -41,6 +41,8 @@ import com.cobblemon.mod.common.entity.pokeball.EmptyPokeBallEntity
 import com.cobblemon.mod.common.entity.pokemon.ai.PokemonMoveControl
 import com.cobblemon.mod.common.entity.pokemon.ai.PokemonNavigation
 import com.cobblemon.mod.common.entity.pokemon.ai.goals.*
+import com.cobblemon.mod.common.entity.pokemon.effects.EffectTracker
+import com.cobblemon.mod.common.entity.pokemon.effects.IllusionEffect
 import com.cobblemon.mod.common.net.messages.client.animation.PlayPoseableAnimationPacket
 import com.cobblemon.mod.common.net.messages.client.sound.UnvalidatedPlaySoundS2CPacket
 import com.cobblemon.mod.common.net.messages.client.spawn.SpawnPokemonPacket
@@ -54,9 +56,11 @@ import com.cobblemon.mod.common.pokemon.activestate.InactivePokemonState
 import com.cobblemon.mod.common.pokemon.activestate.ShoulderedState
 import com.cobblemon.mod.common.pokemon.ai.FormPokemonBehaviour
 import com.cobblemon.mod.common.pokemon.evolution.variants.ItemInteractionEvolution
+import com.cobblemon.mod.common.pokemon.misc.GimmighoulStashHandler
 import com.cobblemon.mod.common.util.*
 import com.cobblemon.mod.common.world.gamerules.CobblemonGameRules
 import net.minecraft.block.SuspiciousStewIngredient.StewEffect
+import net.minecraft.block.Blocks
 import java.util.EnumSet
 import java.util.Optional
 import java.util.UUID
@@ -109,6 +113,7 @@ import net.minecraft.util.math.Vec3d
 import net.minecraft.world.EntityView
 import net.minecraft.world.World
 import net.minecraft.world.event.GameEvent
+import java.util.*
 
 @Suppress("unused")
 open class PokemonEntity(
@@ -212,9 +217,16 @@ open class PokemonEntity(
         PokemonServerDelegate()
     }
 
+    /** The effects that are modifying this entity. */
+    var effects: EffectTracker = EffectTracker(this)
+
+    /** The species exposed to the client and used on entity spawn. */
+    val exposedSpecies: Species get() = this.effects.mockEffect?.exposedSpecies ?: this.pokemon.species
+
+    /** The form exposed to the client and used for calculating hitbox and height. */
+    val exposedForm: FormData get() = this.effects.mockEffect?.exposedForm ?: this.pokemon.form
+
     init {
-        dataTracker.set(SPECIES, pokemon.species.resourceIdentifier.toString())
-        dataTracker.set(NICKNAME, pokemon.nickname ?: Text.empty())
         delegate.initialize(this)
         delegate.changePokemon(pokemon)
         calculateDimensions()
@@ -242,6 +254,11 @@ open class PokemonEntity(
 
     override fun onTrackedDataSet(data: TrackedData<*>) {
         super.onTrackedDataSet(data)
+        // "But it's imposs-" shut up nerd, it happens during super construction and that's before delegate is assigned by class construction
+        if (delegate != null) {
+            delegate.onTrackedDataSet(data)
+        }
+        // common datatracker handling
         when (data) {
             SPECIES -> calculateDimensions()
             POSE_TYPE -> {
@@ -261,19 +278,15 @@ open class PokemonEntity(
                 }
             }
         }
-        // "But it's imposs-" shut up nerd, it happens during super construction and that's before delegate is assigned by class construction
-        if (delegate != null) {
-            delegate.onTrackedDataSet(data)
-        }
     }
 
     override fun canWalkOnFluid(state: FluidState): Boolean {
 //        val node = navigation.currentPath?.currentNode
 //        val targetPos = node?.blockPos
 //        if (targetPos == null || world.getBlockState(targetPos.up()).isAir) {
-        return if (state.isIn(FluidTags.WATER)) {
+        return if (state.isIn(FluidTags.WATER) && !isSubmergedIn(FluidTags.WATER)) {
             behaviour.moving.swim.canWalkOnWater
-        } else if (state.isIn(FluidTags.LAVA)) {
+        } else if (state.isIn(FluidTags.LAVA) && !isSubmergedIn(FluidTags.LAVA)) {
             behaviour.moving.swim.canWalkOnLava
         } else {
             super.canWalkOnFluid(state)
@@ -335,7 +348,7 @@ open class PokemonEntity(
      * Prevents fire type Pokémon from taking fire damage.
      */
     override fun isFireImmune(): Boolean {
-        return FIRE in pokemon.types || !behaviour.moving.swim.hurtByLava
+        return pokemon.isFireImmune()
     }
 
     /**
@@ -380,10 +393,10 @@ open class PokemonEntity(
         if (dataTracker.get(PHASING_TARGET_ID) == -1 && owner != null) {
             owner.getWorld().playSoundServer(pos, CobblemonSounds.POKE_BALL_RECALL, volume = 0.6F)
             dataTracker.set(PHASING_TARGET_ID, owner.id)
-            dataTracker.set(BEAM_MODE, 2)
+            dataTracker.set(BEAM_MODE, 3)
             val state = pokemon.state
             after(seconds = SEND_OUT_DURATION) {
-                // only recall if the pokemon hasn't been recalled yet for this state
+                // only recall if the Pokémon hasn't been recalled yet for this state
                 if (state == pokemon.state) {
                     pokemon.recall()
                 }
@@ -428,6 +441,9 @@ open class PokemonEntity(
             nbt.putBoolean(DataKeys.POKEMON_COUNTS_TOWARDS_SPAWN_CAP, false)
         }
 
+        // save active effects
+        nbt.put(DataKeys.ENTITY_EFFECTS, effects.saveToNbt())
+
         CobblemonEvents.POKEMON_ENTITY_SAVE.post(PokemonEntitySaveEvent(this, nbt))
 
         return super.writeNbt(nbt)
@@ -469,9 +485,7 @@ open class PokemonEntity(
                 Pokemon()
             }
         }
-        dataTracker.set(SPECIES, pokemon.species.resourceIdentifier.toString())
-        dataTracker.set(NICKNAME, pokemon.nickname ?: Text.empty())
-        dataTracker.set(LABEL_LEVEL, pokemon.level)
+
         val savedBattleId = if (nbt.containsUuid(DataKeys.POKEMON_BATTLE_ID)) nbt.getUuid(DataKeys.POKEMON_BATTLE_ID) else null
         if (savedBattleId != null) {
             val battle = BattleRegistry.getBattle(savedBattleId)
@@ -479,6 +493,14 @@ open class PokemonEntity(
                 battleId = savedBattleId
             }
         }
+
+        // apply active effects
+        if (nbt.contains(DataKeys.ENTITY_EFFECTS)) effects.loadFromNBT(nbt.getCompound(DataKeys.ENTITY_EFFECTS))
+
+        // init dataTracker
+        dataTracker.set(SPECIES, effects.mockEffect?.mock?.species ?: pokemon.species.resourceIdentifier.toString())
+        dataTracker.set(NICKNAME, pokemon.nickname ?: Text.empty())
+        dataTracker.set(LABEL_LEVEL, pokemon.level)
         dataTracker.set(POSE_TYPE, PoseType.valueOf(nbt.getString(DataKeys.POKEMON_POSE_TYPE)))
         dataTracker.set(BEHAVIOUR_FLAGS, nbt.getByte(DataKeys.POKEMON_BEHAVIOUR_FLAGS))
 
@@ -641,6 +663,16 @@ open class PokemonEntity(
                 pokemon.lastFlowerFed = itemStack
                 return ActionResult.success(world.isClient)
             }
+        } else if(!player.isSneaking && (itemStack.isOf(CobblemonItems.RELIC_COIN)
+                || itemStack.isOf(CobblemonItems.RELIC_COIN_POUCH)
+                || itemStack.isOf(CobblemonItems.RELIC_COIN_SACK)
+                || itemStack.isOf(Items.NETHERITE_SCRAP)
+                || itemStack.isOf(Items.NETHERITE_INGOT)
+                || itemStack.isOf(Items.NETHERITE_BLOCK))) {
+
+            if(GimmighoulStashHandler.interactMob(player, hand, pokemon)) {
+                return ActionResult.SUCCESS
+            }
         }
 
 
@@ -657,13 +689,14 @@ open class PokemonEntity(
     }
 
     override fun getDimensions(pose: EntityPose): EntityDimensions {
-        val scale = pokemon.form.baseScale * pokemon.scaleModifier
-        return pokemon.form.hitbox.scaled(scale)
+        val scale = effects.mockEffect?.scale ?: (form.baseScale * pokemon.scaleModifier)
+        return this.exposedForm.hitbox.scaled(scale)
     }
 
     override fun canTakeDamage() = super.canTakeDamage() && !isBusy
     override fun damage(source: DamageSource?, amount: Float): Boolean {
         return if (super.damage(source, amount)) {
+            effects.mockEffect?.takeIf { it is IllusionEffect && this.battleId == null }?.end(this)
             if (this.health == 0F) {
                 pokemon.currentHealth = 0
             } else {
@@ -688,7 +721,7 @@ open class PokemonEntity(
         }
     }
 
-    override fun getEyeHeight(pose: EntityPose): Float = this.pokemon.form.eyeHeight(this)
+    override fun getEyeHeight(pose: EntityPose): Float = this.exposedForm.eyeHeight(this)
 
     @Suppress("SENSELESS_COMPARISON")
     override fun getActiveEyeHeight(pose: EntityPose, dimensions: EntityDimensions): Float {
@@ -698,7 +731,7 @@ open class PokemonEntity(
         if (this.pokemon == null) {
             return super.getActiveEyeHeight(pose, dimensions)
         }
-        return this.pokemon.form.eyeHeight(this)
+        return this.exposedForm.eyeHeight(this)
     }
 
     fun setBehaviourFlag(flag: PokemonBehaviourFlag, on: Boolean) {

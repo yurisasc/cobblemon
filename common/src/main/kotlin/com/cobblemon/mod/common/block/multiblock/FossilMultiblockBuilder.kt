@@ -117,10 +117,10 @@ class FossilMultiblockBuilder(val centerPos: BlockPos) : MultiblockStructureBuil
         val monitorPos = monitorPositions[fossilTankIndex]
         val fossilAnalyzerPos = fossilAnalyzerPositions[fossilTankIndex]!!
         val restorationTankPos = restorationTankPositions[fossilTankIndex]!!
-        val monitorEntity = world.getBlockEntity(monitorPos) as MultiblockEntity
-        val analyzerEntity = world.getBlockEntity(fossilAnalyzerPos) as MultiblockEntity
-        val tankBaseEntity = world.getBlockEntity(restorationTankPos) as MultiblockEntity
-        val tankTopEntity = world.getBlockEntity(restorationTankPos.up()) as MultiblockEntity
+        val monitorEntity = world.getBlockEntity(monitorPos) as? MultiblockEntity
+        val analyzerEntity = world.getBlockEntity(fossilAnalyzerPos) as? MultiblockEntity
+        val tankBaseEntity = world.getBlockEntity(restorationTankPos) as? MultiblockEntity
+        val tankTopEntity = world.getBlockEntity(restorationTankPos.up()) as? MultiblockEntity
         val structure = FossilMultiblockStructure(monitorPos, fossilAnalyzerPos, restorationTankPos)
 
         structure.tankConnectorDirection = dirsToCheck.filter {
@@ -128,20 +128,20 @@ class FossilMultiblockBuilder(val centerPos: BlockPos) : MultiblockStructureBuil
             return@filter adjPos == fossilAnalyzerPos
         }.first()
 
-        analyzerEntity.multiblockStructure = structure
-        tankBaseEntity.multiblockStructure = structure
-        tankTopEntity.multiblockStructure = structure
-        monitorEntity.multiblockStructure = structure
+        analyzerEntity?.multiblockStructure = structure
+        tankBaseEntity?.multiblockStructure = structure
+        tankTopEntity?.multiblockStructure = structure
+        monitorEntity?.multiblockStructure = structure
         structure.syncToClient(world)
         structure.markDirty(world)
 
         world.playSound(null, centerPos, CobblemonSounds.FOSSIL_MACHINE_ASSEMBLE, SoundCategory.BLOCKS)
 
         //Set these to null so the builders can be freed
-        analyzerEntity.multiblockBuilder = null
-        tankBaseEntity.multiblockBuilder = null
-        tankTopEntity.multiblockBuilder = null
-        monitorEntity.multiblockBuilder = null
+        analyzerEntity?.multiblockBuilder = null
+        tankBaseEntity?.multiblockBuilder = null
+        tankTopEntity?.multiblockBuilder = null
+        monitorEntity?.multiblockBuilder = null
     }
 
     companion object {

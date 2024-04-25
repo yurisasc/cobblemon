@@ -14,8 +14,22 @@ import com.mojang.serialization.codecs.PrimitiveCodec
 import com.mojang.serialization.codecs.RecordCodecBuilder
 import net.minecraft.block.Block
 import net.minecraft.block.FacingBlock
+import com.cobblemon.mod.common.block.chest.GildedChestBlock
+import net.minecraft.block.*
+import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.fluid.FluidState
+import net.minecraft.fluid.Fluids
+import net.minecraft.item.ItemPlacementContext
+import net.minecraft.server.network.ServerPlayerEntity
+import net.minecraft.server.world.ServerWorld
+import net.minecraft.state.StateManager
+import net.minecraft.state.property.BooleanProperty
+import net.minecraft.state.property.Properties
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.BlockView
+import net.minecraft.world.World
+import net.minecraft.world.WorldAccess
+import net.minecraft.world.WorldView
 
 @Suppress("DEPRECATION", "OVERRIDE_DEPRECATION")
 class TumblestoneBlock(
@@ -24,7 +38,18 @@ class TumblestoneBlock(
     height: Int,
     xzOffset: Int,
     nextStage: Block?
-) : GrowableStoneBlock(settings, stage, height, xzOffset, nextStage) {
+) : GrowableStoneBlock(settings, stage, height, xzOffset, nextStage), Waterloggable {
+
+    init {
+        this.defaultState = this.stateManager.defaultState
+            .with(FACING, Direction.DOWN)
+            .with(WATERLOGGED, false)
+    }
+
+    companion object {
+        val WATERLOGGED = BooleanProperty.of("waterlogged")
+    }
+
     override fun canGrow(pos: BlockPos, world: BlockView): Boolean {
         if (stage == MAX_STAGE) return false
         val iterator: Iterator<BlockPos> =
@@ -52,5 +77,32 @@ class TumblestoneBlock(
             PrimitiveCodec.INT.fieldOf("xzOffset").forGetter { it.xzOffset },
             Block.CODEC.fieldOf("nextStage").forGetter { it.nextStage }
         ).apply(it, ::TumblestoneBlock) }
+    }
+    override fun getFluidState(state: BlockState): FluidState {
+        return if (state.get(GildedChestBlock.WATERLOGGED)) {
+            Fluids.WATER.getStill(false)
+        } else super.getFluidState(state)
+    }
+
+    override fun appendProperties(builder: StateManager.Builder<Block, BlockState>) {
+        super.appendProperties(builder)
+        builder.add(GildedChestBlock.WATERLOGGED)
+    }
+
+    override fun getPlacementState(blockPlaceContext: ItemPlacementContext): BlockState? {
+        return super.getPlacementState(blockPlaceContext)?.with(GildedChestBlock.WATERLOGGED, blockPlaceContext.world.getFluidState(blockPlaceContext.blockPos).fluid == Fluids.WATER)
+
+    }
+
+    override fun getStateForNeighborUpdate(
+        state: BlockState,
+        direction: Direction,
+        neighborState: BlockState,
+        world: WorldAccess,
+        pos: BlockPos,
+        neighborPos: BlockPos
+    ): BlockState? {
+        if (state.get(GildedChestBlock.WATERLOGGED)) world.scheduleFluidTick(pos, Fluids.WATER, Fluids.WATER.getTickRate(world))
+        return super.getStateForNeighborUpdate(state, direction, neighborState, world, pos, neighborPos)
     }
 }
