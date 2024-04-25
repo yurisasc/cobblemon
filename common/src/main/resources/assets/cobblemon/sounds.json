@@ -401,12 +401,7 @@
     "sounds": [ { "name": "cobblemon:attacks/effectiveness_layer/not_very_effective_layer", "volume": 0.8 } ]
   },
   "supereffective": {
-    "sounds": [
-      { "name": "cobblemon:attacks/effectiveness_layer/super_effective_layer_1", "volume": 0.7 },
-      { "name": "cobblemon:attacks/effectiveness_layer/super_effective_layer_2", "volume": 0.7 },
-      { "name": "cobblemon:attacks/effectiveness_layer/super_effective_layer_3", "volume": 0.7 },
-      { "name": "cobblemon:attacks/effectiveness_layer/super_effective_layer_4", "volume": 0.7 }
-    ]
+    "sounds": [ { "name": "cobblemon:attacks/effectiveness_layer/super_effective_layer", "volume": 0.6 } ]
   },
   "impact.normal": {
     "sounds": [

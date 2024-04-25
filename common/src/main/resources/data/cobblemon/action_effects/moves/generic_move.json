@@ -32,7 +32,7 @@
           "entityCondition": "q.effectiveness == 'resisted' && q.entity.is_user == false && q.missed(q.entity.uuid) == false",
           "sound": "'cobblemon:impact.' + q.move.type",
           "pitch": 1.0,
-          "volume": 0.4
+          "volume": 0.6
         },
         {
           "type": "entity_particles",
