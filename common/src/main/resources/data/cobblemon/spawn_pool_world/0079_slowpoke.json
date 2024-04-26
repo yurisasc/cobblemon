@@ -26,7 +26,8 @@
             "id": "slowpoke-2",
             "pokemon": "slowpoke",
             "presets": [
-                "natural"
+                "natural",
+                "river"
             ],
             "type": "pokemon",
             "context": "grounded",

@@ -338,7 +338,7 @@
   ],
   "preEvolution": "munchlax",
   "evolutions": [],
-  "baseScale": 1,
+  "baseScale": 2,
   "hitbox": {
     "width": 1.2,
     "height": 1.7,
