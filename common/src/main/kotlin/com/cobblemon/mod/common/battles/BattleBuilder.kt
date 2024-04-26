@@ -71,7 +71,6 @@ object BattleBuilder {
                 player1Actor.battleTheme = player2.getBattleTheme()
                 player2Actor.battleTheme = player1.getBattleTheme()
             }
-            errors
         } else {
             errors
         }
@@ -140,7 +139,6 @@ object BattleBuilder {
                 }
                 playerActor.battleTheme = pokemonEntity.getBattleTheme()
             }
-            errors
         } else {
             errors
         }
