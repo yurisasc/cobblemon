@@ -124,7 +124,7 @@ class PokemonRenderer(
         modelNow.blue = 1F
         modelNow.resetLayerContext()
         if (this.shouldRenderLabel(entity)) {
-            this.renderLabelIfPresent(entity, entity.effectiveName(), poseMatrix, buffer, packedLight)
+            this.renderLabelIfPresent(entity, entity.effectiveName(), poseMatrix, buffer, packedLight, partialTicks)
         }
 //        MinecraftClient.getInstance().bufferBuilders.entityVertexConsumers.draw()
     }
@@ -310,7 +310,14 @@ class PokemonRenderer(
         return player.isLookingAt(entity) && delegate.phaseTarget == null
     }
 
-    override fun renderLabelIfPresent(entity: PokemonEntity, text: Text, matrices: MatrixStack, vertexConsumers: VertexConsumerProvider, light: Int) {
+    override fun renderLabelIfPresent(
+        entity: PokemonEntity,
+        text: Text,
+        matrices: MatrixStack,
+        vertexConsumers: VertexConsumerProvider,
+        light: Int,
+        tickDelta: Float
+    ) {
         if (entity.isInvisible) {
             return
         }

@@ -60,7 +60,7 @@ class PasturePokemonScrollList(
         this.x = x
         this.y = y
         correctSize()
-        setRenderBackground(false)
+        //setRenderBackground(false)
 
         parent.pasturePCGUIConfiguration.pasturedPokemon.subscribeIncludingCurrent {
             val children = children()
@@ -72,7 +72,7 @@ class PasturePokemonScrollList(
         }
     }
 
-    override fun getScrollbarPositionX() = x + width - 3
+    override fun getScrollbarX() = x + width - 3
 
     public override fun addEntry(entry: PastureSlot) = super.addEntry(entry)
     public override fun removeEntry(entry: PastureSlot) = super.removeEntry(entry)
@@ -135,8 +135,8 @@ class PasturePokemonScrollList(
     }
 
     private fun updateScrollingState(mouseX: Double, mouseY: Double) {
-        scrolling = mouseX >= this.scrollbarPositionX.toDouble()
-                && mouseX < (this.scrollbarPositionX + 3).toDouble()
+        scrolling = mouseX >= this.scrollbarX.toDouble()
+                && mouseX < (this.scrollbarX + 3).toDouble()
                 && mouseY >= y
                 && mouseY < bottom
     }

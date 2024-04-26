@@ -19,6 +19,8 @@ import com.cobblemon.mod.common.util.toVec3d
 import com.mojang.serialization.MapCodec
 import com.mojang.serialization.codecs.RecordCodecBuilder
 import net.minecraft.block.*
+import net.minecraft.component.DataComponentType
+import net.minecraft.component.DataComponentTypes
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.ai.pathing.NavigationType
 import net.minecraft.entity.mob.PiglinBrain
@@ -282,10 +284,13 @@ class GildedChestBlock(settings: Settings, val type: Type = Type.RED) : BlockWit
         placer: LivingEntity?,
         itemStack: ItemStack
     ) {
+        //Theoretically this is no longer needed according to https://fabricmc.net/2024/04/19/1205.html
+        /*
         val blockEntity = world.getBlockEntity(pos)
-        if (itemStack.hasCustomName() && blockEntity is GildedChestBlockEntity) {
+        if (itemStack.get(DataComponentTypes.CUSTOM_NAME) !=  && blockEntity is GildedChestBlockEntity) {
             blockEntity.customName = itemStack.name
         }
+        */
     }
 
 }

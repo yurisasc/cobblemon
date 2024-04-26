@@ -17,6 +17,7 @@ import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.util.cobblemonResource
 import java.util.UUID
 import net.minecraft.network.PacketByteBuf
+import net.minecraft.network.RegistryByteBuf
 
 /**
  * Sets a specific Pokémon in a specific slot of the client-side representation of a PC.
@@ -32,7 +33,7 @@ class SetPCPokemonPacket internal constructor(val storeID: UUID, val storePositi
 
     constructor(storeID: UUID, storePosition: PCPosition, pokemon: Pokemon) : this(storeID, storePosition, PokemonDTO(pokemon, true))
 
-    override fun encode(buffer: PacketByteBuf) {
+    override fun encode(buffer: RegistryByteBuf) {
         buffer.writeUuid(this.storeID)
         buffer.writePCPosition(this.storePosition)
         this.pokemonDTO.encode(buffer)

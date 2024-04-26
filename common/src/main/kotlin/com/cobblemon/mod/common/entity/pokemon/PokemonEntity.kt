@@ -59,7 +59,6 @@ import com.cobblemon.mod.common.pokemon.evolution.variants.ItemInteractionEvolut
 import com.cobblemon.mod.common.pokemon.misc.GimmighoulStashHandler
 import com.cobblemon.mod.common.util.*
 import com.cobblemon.mod.common.world.gamerules.CobblemonGameRules
-import net.minecraft.block.SuspiciousStewIngredient.StewEffect
 import net.minecraft.block.Blocks
 import java.util.EnumSet
 import java.util.Optional
@@ -161,9 +160,10 @@ open class PokemonEntity(
         set(value) {
             field = value
             delegate.changePokemon(value)
-            stepHeight = behaviour.moving.stepHeight
+
+            //stepHeight = behaviour.moving.stepHeight
             // We need to update this value every time the Pokémon changes, other eye height related things will be dynamic.
-            this.updateEyeHeight()
+            //this.updateEyeHeight()
         }
 
     var despawner: Despawner<PokemonEntity> = Cobblemon.bestSpawner.defaultPokemonDespawner
@@ -232,24 +232,24 @@ open class PokemonEntity(
         calculateDimensions()
     }
 
-    override fun initDataTracker() {
-        super.initDataTracker()
-        dataTracker.startTracking(SPECIES, "")
-        dataTracker.startTracking(NICKNAME, Text.empty())
-        dataTracker.startTracking(NICKNAME_VISIBLE, true)
-        dataTracker.startTracking(SHOULD_RENDER_NAME, true)
-        dataTracker.startTracking(MOVING, false)
-        dataTracker.startTracking(BEHAVIOUR_FLAGS, 0)
-        dataTracker.startTracking(BEAM_MODE, 0)
-        dataTracker.startTracking(PHASING_TARGET_ID, -1)
-        dataTracker.startTracking(BATTLE_ID, Optional.empty())
-        dataTracker.startTracking(ASPECTS, emptySet())
-        dataTracker.startTracking(DYING_EFFECTS_STARTED, false)
-        dataTracker.startTracking(POSE_TYPE, PoseType.STAND)
-        dataTracker.startTracking(LABEL_LEVEL, 1)
-        dataTracker.startTracking(HIDE_LABEL, false)
-        dataTracker.startTracking(UNBATTLEABLE, false)
-        dataTracker.startTracking(SPAWN_DIRECTION, world.random.nextFloat() * 360F)
+    override fun initDataTracker(builder: DataTracker.Builder) {
+        super.initDataTracker(builder)
+        builder.add(SPECIES, "")
+        builder.add(NICKNAME, Text.empty())
+        builder.add(NICKNAME_VISIBLE, true)
+        builder.add(SHOULD_RENDER_NAME, true)
+        builder.add(MOVING, false)
+        builder.add(BEHAVIOUR_FLAGS, 0)
+        builder.add(BEAM_MODE, 0)
+        builder.add(PHASING_TARGET_ID, -1)
+        builder.add(BATTLE_ID, Optional.empty())
+        builder.add(ASPECTS, emptySet())
+        builder.add(DYING_EFFECTS_STARTED, false)
+        builder.add(POSE_TYPE, PoseType.STAND)
+        builder.add(LABEL_LEVEL, 1)
+        builder.add(HIDE_LABEL, false)
+        builder.add(UNBATTLEABLE, false)
+        builder.add(SPAWN_DIRECTION, world.random.nextFloat() * 360F)
     }
 
     override fun onTrackedDataSet(data: TrackedData<*>) {
@@ -315,7 +315,7 @@ open class PokemonEntity(
         delegate.tick(this)
         ticksLived++
         if (this.ticksLived % 20 == 0) {
-            this.updateEyeHeight()
+            //this.updateEyeHeight()
         }
 
         if (ticksLived <= 20) {
@@ -457,8 +457,8 @@ open class PokemonEntity(
             val pcId = tetheringNBT.getUuid(DataKeys.PC_ID)
             val pokemonId = tetheringNBT.getUuid(DataKeys.POKEMON_UUID)
             val playerId = tetheringNBT.getUuid(DataKeys.POKEMON_OWNER_ID)
-            val minRoamPos = NbtHelper.toBlockPos(tetheringNBT.getCompound(DataKeys.TETHER_MIN_ROAM_POS))
-            val maxRoamPos = NbtHelper.toBlockPos(tetheringNBT.getCompound(DataKeys.TETHER_MAX_ROAM_POS))
+            val minRoamPos = NbtHelper.toBlockPos(tetheringNBT, DataKeys.TETHER_MIN_ROAM_POS).get()
+            val maxRoamPos = NbtHelper.toBlockPos(tetheringNBT, DataKeys.TETHER_MAX_ROAM_POS).get()
 
             val loadedPokemon = Cobblemon.storage.getPC(pcId)[pokemonId]
             if (loadedPokemon != null && loadedPokemon.tetheringId == tetheringId) {
@@ -597,7 +597,7 @@ open class PokemonEntity(
         if (itemStack.isOf(Items.SHEARS) && this.isShearable) {
             this.sheared(SoundCategory.PLAYERS)
             this.emitGameEvent(GameEvent.SHEAR, player)
-            itemStack.damage(1, player) { it.sendToolBreakStatus(hand) }
+            itemStack.damage(1, player, EquipmentSlot.MAINHAND)
             return ActionResult.SUCCESS
         }
         else if (itemStack.isOf(Items.BUCKET)) {
@@ -627,7 +627,7 @@ open class PokemonEntity(
                     }?.let {
                         // modify the suspicious stew with the effect
                         val susStewStack = Items.SUSPICIOUS_STEW.defaultStack
-                        SuspiciousStewItem.addEffectsToStew(susStewStack, listOf(StewEffect(it.first, it.second)))
+                        //SuspiciousStewItem.addEffectsToStew(susStewStack, listOf(StewEffect(it.first, it.second)))
                         val susStewEffect = ItemUsage.exchangeStack(itemStack, player, susStewStack)
                         //give player modified Suspicious Stew
                         player.setStackInHand(hand, susStewEffect)
@@ -688,10 +688,13 @@ open class PokemonEntity(
         return super.interactMob(player, hand)
     }
 
+    /*
     override fun getDimensions(pose: EntityPose): EntityDimensions {
         val scale = effects.mockEffect?.scale ?: (form.baseScale * pokemon.scaleModifier)
         return this.exposedForm.hitbox.scaled(scale)
     }
+
+     */
 
     override fun canTakeDamage() = super.canTakeDamage() && !isBusy
     override fun damage(source: DamageSource?, amount: Float): Boolean {
@@ -721,8 +724,9 @@ open class PokemonEntity(
         }
     }
 
-    override fun getEyeHeight(pose: EntityPose): Float = this.exposedForm.eyeHeight(this)
+    //override fun getEyeHeight(pose: EntityPose): Float = this.exposedForm.eyeHeight(this)
 
+    /*
     @Suppress("SENSELESS_COMPARISON")
     override fun getActiveEyeHeight(pose: EntityPose, dimensions: EntityDimensions): Float {
         // DO NOT REMOVE
@@ -733,6 +737,8 @@ open class PokemonEntity(
         }
         return this.exposedForm.eyeHeight(this)
     }
+
+     */
 
     fun setBehaviourFlag(flag: PokemonBehaviourFlag, on: Boolean) {
         dataTracker.set(BEHAVIOUR_FLAGS, setBitForByte(dataTracker.get(BEHAVIOUR_FLAGS), flag.bit, on))
@@ -984,10 +990,13 @@ open class PokemonEntity(
         if (blocksTaken > 0) this.blocksTraveled += blocksTaken
     }
 
+    /*
     private fun updateEyeHeight() {
         @Suppress("CAST_NEVER_SUCCEEDS")
         (this as com.cobblemon.mod.common.mixin.accessor.AccessorEntity).standingEyeHeight(this.getActiveEyeHeight(EntityPose.STANDING, this.type.dimensions))
     }
+
+     */
 
     fun isFlying() = this.getBehaviourFlag(PokemonBehaviourFlag.FLYING)
     fun couldStopFlying() = isFlying() && !behaviour.moving.walk.avoidsLand && behaviour.moving.walk.canWalk

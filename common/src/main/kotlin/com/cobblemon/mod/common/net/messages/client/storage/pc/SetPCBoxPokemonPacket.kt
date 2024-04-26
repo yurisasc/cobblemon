@@ -19,6 +19,7 @@ import com.cobblemon.mod.common.util.writeMapK
 import com.cobblemon.mod.common.util.writeSizedInt
 import java.util.UUID
 import net.minecraft.network.PacketByteBuf
+import net.minecraft.network.RegistryByteBuf
 
 /**
  * Sets an entire box of Pokémon in the client side representation of a PC. This is used
@@ -36,7 +37,7 @@ class SetPCBoxPokemonPacket internal constructor(val storeID: UUID, val boxNumbe
 
     constructor(box: PCBox): this(box.pc.uuid, box.boxNumber, box.getNonEmptySlots().map { it.key to PokemonDTO(it.value, toClient = true) }.toMap())
 
-    override fun encode(buffer: PacketByteBuf) {
+    override fun encode(buffer: RegistryByteBuf) {
         buffer.writeUuid(storeID)
         buffer.writeSizedInt(IntSize.U_BYTE, boxNumber)
         buffer.writeMapK(map = pokemon) { (slot, pokemon) ->

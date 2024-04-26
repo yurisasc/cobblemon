@@ -11,6 +11,7 @@ package com.cobblemon.mod.common.net.messages.client.effect
 import com.cobblemon.mod.common.api.net.NetworkPacket
 import com.cobblemon.mod.common.util.cobblemonResource
 import net.minecraft.network.PacketByteBuf
+import net.minecraft.network.RegistryByteBuf
 import net.minecraft.util.Identifier
 
 /**
@@ -28,7 +29,7 @@ class SpawnSnowstormEntityParticlePacket(val effectId: Identifier, val entityId:
 
     override val id = ID
 
-    override fun encode(buffer: PacketByteBuf) {
+    override fun encode(buffer: RegistryByteBuf) {
         buffer.writeIdentifier(effectId)
         buffer.writeInt(entityId)
         buffer.writeString(locator)

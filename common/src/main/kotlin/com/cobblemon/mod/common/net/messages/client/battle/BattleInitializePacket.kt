@@ -16,7 +16,6 @@ import com.cobblemon.mod.common.api.pokemon.PokemonProperties
 import com.cobblemon.mod.common.api.pokemon.PokemonPropertyExtractor
 import com.cobblemon.mod.common.api.pokemon.stats.Stat
 import com.cobblemon.mod.common.api.pokemon.status.Statuses
-import com.cobblemon.mod.common.api.text.text
 import com.cobblemon.mod.common.battles.BattleFormat
 import com.cobblemon.mod.common.battles.BattleSide
 import com.cobblemon.mod.common.battles.pokemon.BattlePokemon
@@ -29,7 +28,9 @@ import com.cobblemon.mod.common.util.writeMapK
 import com.cobblemon.mod.common.util.writeSizedInt
 import java.util.UUID
 import net.minecraft.network.PacketByteBuf
+import net.minecraft.network.RegistryByteBuf
 import net.minecraft.text.MutableText
+import net.minecraft.text.TextCodecs
 
 /**
  * Initializes the client's understanding of a battle. This can be for a participant or for a spectator.
@@ -75,14 +76,14 @@ class BattleInitializePacket() : NetworkPacket<BattleInitializePacket> {
         side2 = sides[1]
     }
 
-    override fun encode(buffer: PacketByteBuf) {
+    override fun encode(buffer: RegistryByteBuf) {
         buffer.writeUuid(battleId)
         battleFormat.saveToBuffer(buffer)
         for (side in arrayOf(side1, side2)) {
             buffer.writeSizedInt(IntSize.U_BYTE, side.actors.size)
             for (actor in side.actors) {
                 buffer.writeUuid(actor.uuid)
-                buffer.writeText(actor.displayName)
+                TextCodecs.PACKET_CODEC.encode(buffer, actor.displayName)
                 buffer.writeString(actor.showdownId)
                 buffer.writeSizedInt(IntSize.U_BYTE, actor.activePokemon.size)
                 for (activePokemon in actor.activePokemon) {
@@ -102,7 +103,7 @@ class BattleInitializePacket() : NetworkPacket<BattleInitializePacket> {
             val actors = mutableListOf<BattleActorDTO>()
             repeat(times = buffer.readSizedInt(IntSize.U_BYTE)) {
                 val uuid = buffer.readUuid()
-                val displayName = buffer.readText().copy()
+                val displayName = TextCodecs.PACKET_CODEC.decode(buffer) as MutableText
                 val showdownId = buffer.readString()
                 val activePokemon = mutableListOf<ActiveBattlePokemonDTO?>()
                 repeat(times = buffer.readSizedInt(IntSize.U_BYTE)) {
@@ -194,7 +195,7 @@ class BattleInitializePacket() : NetworkPacket<BattleInitializePacket> {
 
             fun loadFromBuffer(buffer: PacketByteBuf): ActiveBattlePokemonDTO {
                 val uuid = buffer.readUuid()
-                val pokemonDisplayName = buffer.readText().copy()
+                val pokemonDisplayName = TextCodecs.PACKET_CODEC.decode(buffer).copy()
                 val properties = PokemonProperties.parse(buffer.readString(), delimiter = " ")
                 val aspects = buffer.readList { buffer.readString() }.toSet()
                 val status = if (buffer.readBoolean()) {
@@ -227,7 +228,7 @@ class BattleInitializePacket() : NetworkPacket<BattleInitializePacket> {
 
         fun saveToBuffer(buffer: PacketByteBuf): ActiveBattlePokemonDTO {
             buffer.writeUuid(uuid)
-            buffer.writeText(displayName)
+            TextCodecs.PACKET_CODEC.encode(buffer, displayName)
             buffer.writeString(properties.asString())
             buffer.writeCollection(aspects) { buf, it -> buf.writeString(it) }
             buffer.writeBoolean(status != null)

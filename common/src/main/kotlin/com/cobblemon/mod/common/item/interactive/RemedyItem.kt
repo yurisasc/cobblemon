@@ -52,7 +52,7 @@ class RemedyItem(val remedyStrength: String) : CobblemonItem(Settings()), Pokemo
         return if (!pokemon.isFullHealth() && pokemon.currentHealth > 0) {
             val amount = CobblemonMechanics.remedies.getHealingAmount(remedyStrength, runtime, 20)
             pokemon.currentHealth += amount
-            player.playSound(CobblemonSounds.MEDICINE_HERB_USE, SoundCategory.PLAYERS, 1F, 1F)
+            player.playSound(CobblemonSounds.MEDICINE_HERB_USE, 1F, 1F)
             pokemon.decrementFriendship(CobblemonMechanics.remedies.getFriendshipDrop(runtime))
             if (!player.isCreative) {
                 stack.decrement(1)
@@ -65,7 +65,7 @@ class RemedyItem(val remedyStrength: String) : CobblemonItem(Settings()), Pokemo
 
     override fun applyToBattlePokemon(player: ServerPlayerEntity, stack: ItemStack, battlePokemon: BattlePokemon) {
         super.applyToBattlePokemon(player, stack, battlePokemon)
-        player.playSound(CobblemonSounds.MEDICINE_HERB_USE, SoundCategory.PLAYERS, 1F, 1F)
+        player.playSound(CobblemonSounds.MEDICINE_HERB_USE, 1F, 1F)
     }
 
     override fun use(world: World, user: PlayerEntity, hand: Hand): TypedActionResult<ItemStack> {

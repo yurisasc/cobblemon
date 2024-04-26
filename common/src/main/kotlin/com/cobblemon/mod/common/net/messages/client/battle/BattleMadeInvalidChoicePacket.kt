@@ -11,6 +11,7 @@ package com.cobblemon.mod.common.net.messages.client.battle
 import com.cobblemon.mod.common.api.net.NetworkPacket
 import com.cobblemon.mod.common.util.cobblemonResource
 import net.minecraft.network.PacketByteBuf
+import net.minecraft.network.RegistryByteBuf
 
 /**
  * Packet sent to tell the player they can't do a thing.
@@ -25,5 +26,5 @@ class BattleMadeInvalidChoicePacket : NetworkPacket<BattleMadeInvalidChoicePacke
     }
 
     override val id = ID
-    override fun encode(buffer: PacketByteBuf) {}
+    override fun encode(buffer: RegistryByteBuf) {}
 }

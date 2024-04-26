@@ -83,11 +83,11 @@ class GenericBedrockEntity(world: World) : Entity(CobblemonEntities.GENERIC_BEDR
 
     var syncAge = false
 
-    override fun initDataTracker() {
-        this.dataTracker.startTracking(CATEGORY, cobblemonResource("generic"))
-        this.dataTracker.startTracking(ASPECTS, emptySet())
-        this.dataTracker.startTracking(SCALE, 1F)
-        this.dataTracker.startTracking(POSE_TYPE, PoseType.NONE)
+    override fun initDataTracker(builder: DataTracker.Builder) {
+        builder.add(CATEGORY, cobblemonResource("generic"))
+        builder.add(ASPECTS, emptySet())
+        builder.add(SCALE, 1F)
+        builder.add(POSE_TYPE, PoseType.NONE)
     }
 
     override fun readCustomDataFromNbt(nbt: NbtCompound) {

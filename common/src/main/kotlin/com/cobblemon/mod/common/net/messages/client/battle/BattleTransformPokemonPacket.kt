@@ -14,6 +14,7 @@ import com.cobblemon.mod.common.battles.ActiveBattlePokemon
 import com.cobblemon.mod.common.battles.pokemon.BattlePokemon
 import com.cobblemon.mod.common.util.cobblemonResource
 import net.minecraft.network.PacketByteBuf
+import net.minecraft.network.RegistryByteBuf
 
 /**
  * Updates the client about an [ActiveBattlePokemon] that has changed due to transformation during a battle.
@@ -35,7 +36,7 @@ class BattleTransformPokemonPacket(val pnx: String, val updatedPokemon: BattleIn
     constructor(pnx: String, updatedPokemon: BattlePokemon, mock: PokemonProperties, isAlly: Boolean) :
             this(pnx, BattleInitializePacket.ActiveBattlePokemonDTO.fromMock(updatedPokemon, isAlly, mock), isAlly)
 
-    override fun encode(buffer: PacketByteBuf) {
+    override fun encode(buffer: RegistryByteBuf) {
         buffer.writeString(pnx)
         updatedPokemon.saveToBuffer(buffer)
         buffer.writeBoolean(isAlly)

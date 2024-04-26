@@ -87,7 +87,7 @@ class EmptyPokeBallEntity : ThrownItemEntity, Poseable, WaterDragModifier, Sched
         const val SECONDS_BETWEEN_SHAKES = 1.25F
         const val SECONDS_BEFORE_SHAKE = 1F
 
-        val DIMENSIONS = EntityDimensions(0.4F, 0.4F, true)
+        val DIMENSIONS = EntityDimensions.fixed(0.4F, 0.4F)
     }
 
     val dataTrackerEmitter = SimpleObservable<TrackedData<*>>()
@@ -108,13 +108,13 @@ class EmptyPokeBallEntity : ThrownItemEntity, Poseable, WaterDragModifier, Sched
         EmptyPokeBallServerDelegate()
     }
 
-    override fun initDataTracker() {
-        super.initDataTracker()
-        dataTracker.startTracking(CAPTURE_STATE, CaptureState.NOT.ordinal.toByte())
-        dataTracker.startTracking(ASPECTS, emptySet())
-        dataTracker.startTracking(HIT_TARGET_POSITION, Vec3d.ZERO)
-        dataTracker.startTracking(HIT_VELOCITY, Vec3d.ZERO)
-        dataTracker.startTracking(SHAKE, false)
+    override fun initDataTracker(builder: DataTracker.Builder) {
+        super.initDataTracker(builder)
+        builder.add(CAPTURE_STATE, CaptureState.NOT.ordinal.toByte())
+        builder.add(ASPECTS, emptySet())
+        builder.add(HIT_TARGET_POSITION, Vec3d.ZERO)
+        builder.add(HIT_VELOCITY, Vec3d.ZERO)
+        builder.add(SHAKE, false)
     }
 
     override fun onTrackedDataSet(data: TrackedData<*>) {

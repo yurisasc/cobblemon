@@ -16,6 +16,7 @@ import com.cobblemon.mod.common.util.readSizedInt
 import com.cobblemon.mod.common.util.writeSizedInt
 import java.util.UUID
 import net.minecraft.network.PacketByteBuf
+import net.minecraft.network.RegistryByteBuf
 
 /**
  * Initializes a client side representation of a PC. It is given the ID, the number of boxes,
@@ -32,7 +33,7 @@ class InitializePCPacket internal constructor(val storeID: UUID, val boxCount: I
 
     constructor(pc: PCStore): this(pc.uuid, pc.boxes.size, pc.backupStore.any())
 
-    override fun encode(buffer: PacketByteBuf) {
+    override fun encode(buffer: RegistryByteBuf) {
         buffer.writeUuid(storeID)
         buffer.writeSizedInt(IntSize.U_SHORT, boxCount)
         buffer.writeBoolean(hasOverflowed)

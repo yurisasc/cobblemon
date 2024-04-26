@@ -13,6 +13,7 @@ import com.cobblemon.mod.common.api.net.NetworkPacket
 import com.cobblemon.mod.common.util.cobblemonResource
 import java.util.UUID
 import net.minecraft.network.PacketByteBuf
+import net.minecraft.network.RegistryByteBuf
 import net.minecraft.text.MutableText
 
 /**
@@ -32,7 +33,7 @@ class OpenMoveCallbackPacket(val uuid: UUID, val title: MutableText, val moves: 
     }
 
     override val id = ID
-    override fun encode(buffer: PacketByteBuf) {
+    override fun encode(buffer: RegistryByteBuf) {
         buffer.writeUuid(uuid)
         buffer.writeText(title)
         buffer.writeCollection(moves) { _, v -> v.writeToBuffer(buffer) }

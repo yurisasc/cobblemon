@@ -11,7 +11,6 @@ package com.cobblemon.mod.common.net.messages.client.dialogue.dto
 import com.cobblemon.mod.common.api.dialogue.ActiveDialogue
 import com.cobblemon.mod.common.api.dialogue.ArtificialDialogueFaceProvider
 import com.cobblemon.mod.common.api.dialogue.DialogueFaceProvider
-import com.cobblemon.mod.common.api.dialogue.DialogueSpeaker
 import com.cobblemon.mod.common.api.dialogue.ExpressionLikeDialogueFaceProvider
 import com.cobblemon.mod.common.api.dialogue.PlayerDialogueFaceProvider
 import com.cobblemon.mod.common.api.dialogue.ReferenceDialogueFaceProvider
@@ -23,7 +22,7 @@ import com.cobblemon.mod.common.api.net.Decodable
 import com.cobblemon.mod.common.api.net.Encodable
 import com.cobblemon.mod.common.util.resolve
 import java.util.UUID
-import net.minecraft.network.PacketByteBuf
+import net.minecraft.network.RegistryByteBuf
 
 class DialogueDTO : Encodable, Decodable {
     lateinit var dialogueId: UUID
@@ -56,7 +55,7 @@ class DialogueDTO : Encodable, Decodable {
         }
     }
 
-    override fun encode(buffer: PacketByteBuf) {
+    override fun encode(buffer: RegistryByteBuf) {
         buffer.writeUuid(dialogueId)
         currentPageDTO.encode(buffer)
         dialogueInput.encode(buffer)
@@ -88,7 +87,7 @@ class DialogueDTO : Encodable, Decodable {
         }
     }
 
-    override fun decode(buffer: PacketByteBuf) {
+    override fun decode(buffer: RegistryByteBuf) {
         dialogueId = buffer.readUuid()
         currentPageDTO = DialoguePageDTO()
         currentPageDTO.decode(buffer)

@@ -44,7 +44,7 @@ object ChangeScaleAndSize {
         val height = FloatArgumentType.getFloat(context, "height")
 
         pkm.baseScale = scale
-        pkm.hitbox = EntityDimensions(width, height, false)
+        pkm.hitbox = EntityDimensions.changing(width, height)
         pkm.forms.clear()
         pkm.forms.add(FormData().also { it.initialize(pkm) })
         return Command.SINGLE_SUCCESS

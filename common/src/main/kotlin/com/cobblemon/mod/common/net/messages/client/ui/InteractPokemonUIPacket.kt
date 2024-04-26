@@ -13,6 +13,7 @@ import com.cobblemon.mod.common.client.net.gui.InteractPokemonUIPacketHandler
 import com.cobblemon.mod.common.util.cobblemonResource
 import java.util.UUID
 import net.minecraft.network.PacketByteBuf
+import net.minecraft.network.RegistryByteBuf
 
 /**
  * Tells the client to open the Pokémon interaction interface.
@@ -26,7 +27,7 @@ class InteractPokemonUIPacket(val pokemonID: UUID, val canMountShoulder: Boolean
 
     override val id = ID
 
-    override fun encode(buffer: PacketByteBuf) {
+    override fun encode(buffer: RegistryByteBuf) {
         buffer.writeUuid(pokemonID)
         buffer.writeBoolean(canMountShoulder)
     }

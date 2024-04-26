@@ -15,7 +15,7 @@ import com.cobblemon.mod.common.api.dialogue.input.DialogueTextInput
 import com.cobblemon.mod.common.api.net.Decodable
 import com.cobblemon.mod.common.api.net.Encodable
 import java.util.UUID
-import net.minecraft.network.PacketByteBuf
+import net.minecraft.network.RegistryByteBuf
 
 /**
  * Combined DTO file for all dialogue inputs. This is used to send the input data to the client.
@@ -75,7 +75,7 @@ class DialogueInputDTO() : Encodable, Decodable {
         this.inputId = activeDialogue.activeInput.inputId
     }
 
-    override fun encode(buffer: PacketByteBuf) {
+    override fun encode(buffer: RegistryByteBuf) {
         buffer.writeUuid(inputId)
         buffer.writeEnumConstant(inputType)
         buffer.writeFloat(deadline)
@@ -94,7 +94,7 @@ class DialogueInputDTO() : Encodable, Decodable {
         }
     }
 
-    override fun decode(buffer: PacketByteBuf) {
+    override fun decode(buffer: RegistryByteBuf) {
         inputId = buffer.readUuid()
         inputType = buffer.readEnumConstant(InputType::class.java)
         deadline = buffer.readFloat()

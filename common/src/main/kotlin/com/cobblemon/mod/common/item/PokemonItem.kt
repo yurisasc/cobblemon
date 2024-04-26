@@ -24,6 +24,7 @@ import net.minecraft.util.Identifier
 import net.minecraft.util.InvalidIdentifierException
 import org.joml.Vector4f
 
+/*
 class PokemonItem : CobblemonItem(Settings().maxCount(1)) {
 
     override fun getName(stack: ItemStack): Text = this.species(stack)?.translatedName ?: super.getName(stack)
@@ -133,3 +134,5 @@ class PokemonItem : CobblemonItem(Settings().maxCount(1)) {
     }
 
 }
+
+ */

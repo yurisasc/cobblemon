@@ -12,6 +12,7 @@ import com.cobblemon.mod.common.api.net.NetworkPacket
 import com.cobblemon.mod.common.util.cobblemonResource
 import java.util.UUID
 import net.minecraft.network.PacketByteBuf
+import net.minecraft.network.RegistryByteBuf
 
 /**
  * Packet sent to the client when the open trade has been completed.
@@ -29,7 +30,7 @@ class TradeCompletedPacket(val pokemonId1: UUID, val pokemonId2: UUID) : Network
 
     override val id = ID
 
-    override fun encode(buffer: PacketByteBuf) {
+    override fun encode(buffer: RegistryByteBuf) {
         buffer.writeUuid(pokemonId1)
         buffer.writeUuid(pokemonId2)
     }

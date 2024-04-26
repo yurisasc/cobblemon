@@ -13,6 +13,7 @@ import com.cobblemon.mod.common.net.serverhandling.pokemon.interact.InteractPoke
 import com.cobblemon.mod.common.util.cobblemonResource
 import java.util.UUID
 import net.minecraft.network.PacketByteBuf
+import net.minecraft.network.RegistryByteBuf
 
 /**
  * Tells the server to handle Pokémon interaction.
@@ -24,7 +25,7 @@ import net.minecraft.network.PacketByteBuf
  */
 class InteractPokemonPacket(val pokemonID: UUID, val mountShoulder: Boolean) : NetworkPacket<InteractPokemonPacket> {
     override val id = ID
-    override fun encode(buffer: PacketByteBuf) {
+    override fun encode(buffer: RegistryByteBuf) {
         buffer.writeUuid(pokemonID)
         buffer.writeBoolean(mountShoulder)
     }

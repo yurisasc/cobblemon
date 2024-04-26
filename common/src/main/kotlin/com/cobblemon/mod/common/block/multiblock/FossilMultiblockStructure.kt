@@ -93,10 +93,9 @@ class FossilMultiblockStructure (
         world: World,
         blockPos: BlockPos,
         player: PlayerEntity,
-        interactionHand: Hand,
         blockHitResult: BlockHitResult
     ): ActionResult {
-        val stack = player.getStackInHand(interactionHand)
+        val stack = player.getStackInHand(Hand.MAIN_HAND)
 
         if(stack.isIn(CobblemonItemTags.POKE_BALLS) || stack.item is PokeBallItem) {
             if (player !is ServerPlayerEntity) {
@@ -123,7 +122,7 @@ class FossilMultiblockStructure (
                 this.createdPokemon!!.caughtBall = ballType
                 player.party().add(this.createdPokemon!!)
                 this.fossilState.growthState = "Taken"
-                player.playSound(CobblemonSounds.FOSSIL_MACHINE_RETRIEVE_POKEMON, SoundCategory.BLOCKS, 1.0F, 1.0F)
+                player.playSound(CobblemonSounds.FOSSIL_MACHINE_RETRIEVE_POKEMON, 1.0F, 1.0F)
                 CobblemonCriteria.RESURRECT_POKEMON.trigger(player, createdPokemon!!)
 
                 // Turn the monitor off
@@ -143,12 +142,12 @@ class FossilMultiblockStructure (
         }
 
         // Reclaim the last fossil from the machine if their hand is empty
-        if (player.getStackInHand(interactionHand).isEmpty) {
+        if (player.getStackInHand(Hand.MAIN_HAND).isEmpty) {
             if(!this.isRunning() && this.createdPokemon == null) {
                 if (fossilInventory.isEmpty()) {
                     return ActionResult.CONSUME
                 }
-                player.setStackInHand(interactionHand, fossilInventory.last())
+                player.setStackInHand(Hand.MAIN_HAND, fossilInventory.last())
 
                 // remove last fossil in the fossil machine stack when grabbed out of the machine
                 this.fossilInventory.removeAt(fossilInventory.size - 1)
@@ -594,9 +593,13 @@ class FossilMultiblockStructure (
             result.putUuid(DataKeys.FOSSIL_OWNER, fossilOwnerUUID)
         result.putInt(DataKeys.ORGANIC_MATERIAL, organicMaterialInside)
         val fossilInv = NbtList()
+        //TODO: Add this back
+        /*
         fossilInventory.forEach{ item ->
             fossilInv.add(item.writeNbt(NbtCompound()))
         }
+
+         */
         result.put(DataKeys.FOSSIL_INVENTORY, fossilInv)
         result.putString(DataKeys.CONNECTOR_DIRECTION, tankConnectorDirection?.toString())
 
@@ -625,9 +628,9 @@ class FossilMultiblockStructure (
         const val PROTECTION_TIME = TICKS_PER_MINUTE * 5
 
         fun fromNbt(nbt: NbtCompound, animAge: Int = -1, partialTicks: Float = 0f): FossilMultiblockStructure {
-            val monitorPos = NbtHelper.toBlockPos(nbt.getCompound(DataKeys.MONITOR_POS))
-            val compartmentPos = NbtHelper.toBlockPos(nbt.getCompound(DataKeys.ANALYZER_POS))
-            val tankBasePos = NbtHelper.toBlockPos(nbt.getCompound(DataKeys.TANK_BASE_POS))
+            val monitorPos = NbtHelper.toBlockPos(nbt, DataKeys.MONITOR_POS).get()
+            val compartmentPos = NbtHelper.toBlockPos(nbt, DataKeys.ANALYZER_POS).get()
+            val tankBasePos = NbtHelper.toBlockPos(nbt, DataKeys.TANK_BASE_POS).get()
 
             val result = FossilMultiblockStructure(monitorPos, compartmentPos, tankBasePos, animAge, partialTicks)
             result.organicMaterialInside = nbt.getInt(DataKeys.ORGANIC_MATERIAL)
@@ -637,9 +640,11 @@ class FossilMultiblockStructure (
 
             val fossilInv = (nbt.get(DataKeys.FOSSIL_INVENTORY) as NbtList)
             val actualFossilList = mutableListOf<ItemStack>()
+            /*
             fossilInv.forEach {
                 actualFossilList.add(ItemStack.fromNbt(it as NbtCompound))
             }
+             */
             result.fossilInventory = actualFossilList
             result.tankConnectorDirection = Direction.byName(nbt.getString(DataKeys.CONNECTOR_DIRECTION))
 

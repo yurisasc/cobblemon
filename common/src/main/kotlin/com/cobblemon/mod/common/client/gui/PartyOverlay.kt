@@ -36,7 +36,7 @@ import net.minecraft.client.toast.AdvancementToast
 import net.minecraft.client.toast.Toast
 import net.minecraft.util.math.MathHelper
 
-class PartyOverlay : InGameHud(MinecraftClient.getInstance(), MinecraftClient.getInstance().itemRenderer) {
+class PartyOverlay : InGameHud(MinecraftClient.getInstance()) {
 
     companion object {
         private const val SLOT_HEIGHT = 30

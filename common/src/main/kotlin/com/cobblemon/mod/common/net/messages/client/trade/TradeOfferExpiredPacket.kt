@@ -12,6 +12,7 @@ import com.cobblemon.mod.common.api.net.NetworkPacket
 import com.cobblemon.mod.common.util.cobblemonResource
 import java.util.UUID
 import net.minecraft.network.PacketByteBuf
+import net.minecraft.network.RegistryByteBuf
 
 /**
  * Packet fired to tell the client that a trade offer expired.
@@ -26,7 +27,7 @@ class TradeOfferExpiredPacket(val tradeOfferId: UUID) : NetworkPacket<TradeOffer
     }
 
     override val id = ID
-    override fun encode(buffer: PacketByteBuf) {
+    override fun encode(buffer: RegistryByteBuf) {
         buffer.writeUuid(tradeOfferId)
     }
 }

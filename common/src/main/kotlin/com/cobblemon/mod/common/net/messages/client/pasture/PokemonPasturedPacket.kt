@@ -11,6 +11,7 @@ package com.cobblemon.mod.common.net.messages.client.pasture
 import com.cobblemon.mod.common.api.net.NetworkPacket
 import com.cobblemon.mod.common.util.cobblemonResource
 import net.minecraft.network.PacketByteBuf
+import net.minecraft.network.RegistryByteBuf
 
 /**
  * Packet fired when a Pokémon is added to a pasture block and a player has the menu open. This is so GUI updates are
@@ -27,7 +28,7 @@ class PokemonPasturedPacket(val pasturePokemonDTO: OpenPasturePacket.PasturePoke
 
     override val id = ID
 
-    override fun encode(buffer: PacketByteBuf) {
+    override fun encode(buffer: RegistryByteBuf) {
         pasturePokemonDTO.encode(buffer)
     }
 }

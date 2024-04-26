@@ -15,6 +15,7 @@ import com.cobblemon.mod.common.util.readSizedInt
 import com.cobblemon.mod.common.util.writeSizedInt
 import java.util.UUID
 import net.minecraft.network.PacketByteBuf
+import net.minecraft.network.RegistryByteBuf
 
 /**
  * Creates a party on the client side with the given UUID and slot count.
@@ -32,7 +33,7 @@ class InitializePartyPacket(val isThisPlayerParty: Boolean, val uuid: UUID, val 
 
     override val id = ID
 
-    override fun encode(buffer: PacketByteBuf) {
+    override fun encode(buffer: RegistryByteBuf) {
         buffer.writeBoolean(isThisPlayerParty)
         buffer.writeUuid(uuid)
         buffer.writeSizedInt(IntSize.U_BYTE, slots)

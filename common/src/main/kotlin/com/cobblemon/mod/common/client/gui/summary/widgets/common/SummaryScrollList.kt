@@ -49,10 +49,10 @@ abstract class SummaryScrollList<T : AlwaysSelectedEntryListWidget.Entry<T>>(
         this.x = x
         this.y = y
         correctSize()
-        setRenderBackground(false)
+        //setRenderBackground(false)
     }
 
-    override fun getScrollbarPositionX(): Int {
+    override fun getScrollbarX(): Int {
         return x + width - 3
     }
 
@@ -123,8 +123,8 @@ abstract class SummaryScrollList<T : AlwaysSelectedEntryListWidget.Entry<T>>(
     }
 
     private fun updateScrollingState(mouseX: Double, mouseY: Double) {
-        scrolling = mouseX >= this.scrollbarPositionX.toDouble()
-                && mouseX < (this.scrollbarPositionX + 3).toDouble()
+        scrolling = mouseX >= this.scrollbarX.toDouble()
+                && mouseX < (this.scrollbarX + 3).toDouble()
                 && mouseY >= y
                 && mouseY < bottom
     }

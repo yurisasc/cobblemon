@@ -35,7 +35,7 @@ class PPUpItem(val amount: Int) : CobblemonItem(Settings()), PokemonAndMoveSelec
             if (!player.isCreative) {
                 stack.decrement(1)
             }
-            player.playSound(CobblemonSounds.MEDICINE_PILLS_USE, SoundCategory.PLAYERS, 1F, 1F)
+            player.playSound(CobblemonSounds.MEDICINE_PILLS_USE, 1F, 1F)
         }
     }
 

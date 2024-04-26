@@ -13,6 +13,7 @@ import com.cobblemon.mod.common.client.CobblemonClient
 import com.cobblemon.mod.common.pokemon.Pokemon
 import java.util.UUID
 import net.minecraft.network.PacketByteBuf
+import net.minecraft.network.RegistryByteBuf
 
 /**
  * Base packet for all the single-field Pokémon update packets.
@@ -22,7 +23,7 @@ import net.minecraft.network.PacketByteBuf
  */
 abstract class PokemonUpdatePacket<T>(val pokemon: () -> Pokemon) : NetworkPacket<T> where T : NetworkPacket<T> {
 
-    final override fun encode(buffer: PacketByteBuf) {
+    final override fun encode(buffer: RegistryByteBuf) {
         val pokemon = pokemon()
         // This won't ever happen in instances where packets get sent out, but they protect us from NPEs on fields that require synchronization on load/save
         buffer.writeUuid(pokemon.storeCoordinates.get()?.store?.uuid ?: UUID.randomUUID())

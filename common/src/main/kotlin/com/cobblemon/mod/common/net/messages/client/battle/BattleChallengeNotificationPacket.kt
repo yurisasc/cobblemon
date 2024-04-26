@@ -12,7 +12,9 @@ import com.cobblemon.mod.common.api.net.NetworkPacket
 import com.cobblemon.mod.common.util.cobblemonResource
 import java.util.UUID
 import net.minecraft.network.PacketByteBuf
+import net.minecraft.network.RegistryByteBuf
 import net.minecraft.text.MutableText
+import net.minecraft.text.TextCodecs
 
 /**
  * Packet send when a player has challenged to battle. The responsibility
@@ -31,10 +33,10 @@ class BattleChallengeNotificationPacket(
     val challengerName: MutableText
 ): NetworkPacket<BattleChallengeNotificationPacket> {
     override val id = ID
-    override fun encode(buffer: PacketByteBuf) {
+    override fun encode(buffer: RegistryByteBuf) {
         buffer.writeUuid(battleChallengeId)
         buffer.writeUuid(challengerId)
-        buffer.writeText(challengerName)
+        TextCodecs.PACKET_CODEC.encode(buffer, challengerName)
     }
 
     companion object {

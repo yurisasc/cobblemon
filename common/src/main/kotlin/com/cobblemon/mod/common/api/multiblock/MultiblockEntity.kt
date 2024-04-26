@@ -60,6 +60,6 @@ abstract class MultiblockEntity(
         }
     }
 
-    abstract override fun readNbt(nbt: NbtCompound?, registryLookup: RegistryWrapper.WrapperLookup?)
+    abstract override fun readNbt(nbt: NbtCompound, registryLookup: RegistryWrapper.WrapperLookup)
 
 }

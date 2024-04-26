@@ -55,7 +55,7 @@ class DialogueBox(
         this.x = x
         this.y = y
         correctSize()
-        setRenderBackground(false)
+        //setRenderBackground(false)
 
         val textRenderer = MinecraftClient.getInstance().textRenderer
 
@@ -84,7 +84,7 @@ class DialogueBox(
         return 80
     }
 
-    override fun getScrollbarPositionX(): Int {
+    override fun getScrollbarX(): Int {
         return this.x + 144
     }
 
@@ -158,8 +158,8 @@ class DialogueBox(
     }
 
     private fun updateScrollingState(mouseX: Double, mouseY: Double) {
-        scrolling = mouseX >= this.scrollbarPositionX.toDouble()
-                && mouseX < (this.scrollbarPositionX + 3).toDouble()
+        scrolling = mouseX >= this.scrollbarX.toDouble()
+                && mouseX < (this.scrollbarX + 3).toDouble()
                 && mouseY >= this.y
                 && mouseY < bottom
     }

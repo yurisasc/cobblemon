@@ -56,7 +56,7 @@ class PlayerRenderableFace(val playerId: UUID) : RenderableFace {
         entity.setPitch(-g * 20.0f)
         entity.headYaw = entity.yaw
         entity.prevHeadYaw = entity.yaw
-        val size = 37
+        val size = 37F
         val xOffset = 0
         val yOffset = 75
         InventoryScreen.drawEntity(drawContext, xOffset.toFloat(), yOffset.toFloat(), size, Vector3f(), quaternionf, quaternionf2, entity)

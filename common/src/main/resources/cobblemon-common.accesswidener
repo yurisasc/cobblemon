@@ -65,9 +65,9 @@ transitive-accessible field net/minecraft/client/render/RenderPhase CUTOUT_PROGR
 transitive-accessible field net/minecraft/client/render/RenderPhase ENABLE_LIGHTMAP Lnet/minecraft/client/render/RenderPhase$Lightmap;
 transitive-accessible field net/minecraft/client/render/RenderPhase DISABLE_CULLING Lnet/minecraft/client/render/RenderPhase$Cull;
 
-transitive-accessible field  net/minecraft/recipe/BrewingRecipeRegistry ITEM_RECIPES Ljava/util/List;
-transitive-accessible field  net/minecraft/recipe/BrewingRecipeRegistry POTION_RECIPES Ljava/util/List;
-transitive-accessible field  net/minecraft/recipe/BrewingRecipeRegistry POTION_TYPES Ljava/util/List;
+#transitive-accessible field  net/minecraft/recipe/BrewingRecipeRegistry ITEM_RECIPES Ljava/util/List;
+#transitive-accessible field  net/minecraft/recipe/BrewingRecipeRegistry POTION_RECIPES Ljava/util/List;
+#transitive-accessible field  net/minecraft/recipe/BrewingRecipeRegistry POTION_TYPES Ljava/util/List;
 transitive-accessible class  net/minecraft/recipe/BrewingRecipeRegistry$Recipe
 
 accessible field net/minecraft/server/network/ServerCommonNetworkHandler connection Lnet/minecraft/network/ClientConnection;
@@ -77,7 +77,7 @@ transitive-accessible class net/minecraft/screen/BrewingStandScreenHandler$Potio
 transitive-accessible class net/minecraft/world/biome/Biome$Weather
 transitive-accessible field net/minecraft/world/biome/Biome weather Lnet/minecraft/world/biome/Biome$Weather;
 accessible field net/minecraft/client/toast/AdvancementToast TEXTURE Lnet/minecraft/util/Identifier;
-accessible method net/minecraft/text/Text$Serialization fromJson (Lcom/google/gson/JsonElement;)Lnet/minecraft/text/MutableText;
+#accessible method net/minecraft/text/Text$Serialization fromJson (Lcom/google/gson/JsonElement;)Lnet/minecraft/text/MutableText;
 
 
 transitive-accessible class net/minecraft/village/TradeOffers$SellItemFactory

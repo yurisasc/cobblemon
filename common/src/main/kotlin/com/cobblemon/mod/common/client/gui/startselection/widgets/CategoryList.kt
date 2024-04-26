@@ -50,7 +50,7 @@ class CategoryList(
         this.x = x
         this.y = y
         this.correctSize()
-        this.setRenderBackground(false)
+        //this.setRenderBackground(false)
     }
 
     private var entriesCreated = false
@@ -80,7 +80,7 @@ class CategoryList(
 
     private fun scale(n: Int): Int = (this.client.window.scaleFactor * n).toInt()
     override fun getRowWidth() = this.entryWidth
-    override fun getScrollbarPositionX(): Int {
+    override fun getScrollbarX(): Int {
         return this.x + this.width - 5
     }
 

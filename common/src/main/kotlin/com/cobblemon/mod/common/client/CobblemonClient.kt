@@ -63,6 +63,8 @@ import net.minecraft.client.render.entity.model.BoatEntityModel
 import net.minecraft.client.render.entity.model.ChestBoatEntityModel
 import net.minecraft.client.render.entity.model.PlayerEntityModel
 import net.minecraft.client.util.SkinTextures
+import net.minecraft.component.DataComponentType
+import net.minecraft.component.DataComponentTypes
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
 import net.minecraft.resource.ResourceManager
@@ -123,7 +125,7 @@ object CobblemonClient {
             val lines = event.lines
             @Suppress("DEPRECATION")
             if (stack.item.registryEntry.key.isPresent && stack.item.registryEntry.key.get().value.namespace == Cobblemon.MODID) {
-                if (stack.nbt?.getBoolean(DataKeys.HIDE_TOOLTIP) == true) {
+                if (stack.get(DataComponentTypes.HIDE_TOOLTIP) != null) {
                     return@subscribe
                 }
                 val language = Language.getInstance()

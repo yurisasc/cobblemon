@@ -67,9 +67,9 @@ open class CobblemonBoatEntity(entityType: EntityType<out BoatEntity>, world: Wo
 
     override fun createSpawnPacket(): Packet<ClientPlayPacketListener> = EntitySpawnS2CPacket(this)
 
-    override fun initDataTracker() {
-        super.initDataTracker()
-        this.dataTracker.startTracking(TYPE_TRACKED_DATA, CobblemonBoatType.APRICORN.ordinal)
+    override fun initDataTracker(builder: DataTracker.Builder) {
+        super.initDataTracker(builder)
+        builder.add(TYPE_TRACKED_DATA, CobblemonBoatType.APRICORN.ordinal)
     }
 
     override fun getDefaultName(): Text = EntityType.BOAT.name

@@ -12,7 +12,7 @@ import com.cobblemon.mod.common.api.net.NetworkPacket
 import com.cobblemon.mod.common.util.cobblemonResource
 import java.util.UUID
 import net.minecraft.network.PacketByteBuf
-import net.minecraft.util.math.BlockPos
+import net.minecraft.network.RegistryByteBuf
 
 /**
  * Packet sent to the server to pasture a Pokémon.
@@ -30,7 +30,7 @@ class PasturePokemonPacket(val pokemonId: UUID, val pastureId: UUID) : NetworkPa
     }
 
     override val id = ID
-    override fun encode(buffer: PacketByteBuf) {
+    override fun encode(buffer: RegistryByteBuf) {
         buffer.writeUuid(pokemonId)
         buffer.writeUuid(pastureId)
     }

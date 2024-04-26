@@ -21,6 +21,7 @@ import com.google.gson.JsonObject
 import com.google.gson.annotations.SerializedName
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.network.PacketByteBuf
+import net.minecraft.network.RegistryByteBuf
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.Vec3d
 
@@ -56,11 +57,11 @@ class IntSpeciesFeature(override var name: String) : SynchronizedSpeciesFeature,
         return this
     }
 
-    override fun encode(buffer: PacketByteBuf) {
+    override fun encode(buffer: RegistryByteBuf) {
         buffer.writeInt(value)
     }
 
-    override fun decode(buffer: PacketByteBuf) {
+    override fun decode(buffer: RegistryByteBuf) {
         value = buffer.readInt()
     }
 
@@ -89,14 +90,14 @@ class IntSpeciesFeatureProvider : SynchronizedSpeciesFeatureProvider<IntSpeciesF
         var underlay: Identifier? = null
         var overlay: Identifier? = null
 
-        override fun decode(buffer: PacketByteBuf) {
+        override fun decode(buffer: RegistryByteBuf) {
             name = buffer.readString()
             colour = Vec3d(buffer.readDouble(), buffer.readDouble(), buffer.readDouble())
             underlay = buffer.readNullable { buffer.readIdentifier() }
             overlay = buffer.readNullable { buffer.readIdentifier() }
         }
 
-        override fun encode(buffer: PacketByteBuf) {
+        override fun encode(buffer: RegistryByteBuf) {
             buffer.writeString(name)
             buffer.writeDouble(colour.x)
             buffer.writeDouble(colour.y)
@@ -148,7 +149,7 @@ class IntSpeciesFeatureProvider : SynchronizedSpeciesFeatureProvider<IntSpeciesF
 
     override fun get(pokemon: Pokemon) = pokemon.features.filterIsInstance<IntSpeciesFeature>().find { it.name in keys }
 
-    override fun encode(buffer: PacketByteBuf) {
+    override fun encode(buffer: RegistryByteBuf) {
         buffer.writeCollection(keys) { _, value -> buffer.writeString(value) }
         buffer.writeNullable(default) { _, value -> buffer.writeInt(value) }
         buffer.writeInt(min)
@@ -156,7 +157,7 @@ class IntSpeciesFeatureProvider : SynchronizedSpeciesFeatureProvider<IntSpeciesF
         buffer.writeNullable(display) { _, value -> value.encode(buffer) }
     }
 
-    override fun decode(buffer: PacketByteBuf) {
+    override fun decode(buffer: RegistryByteBuf) {
         keys = buffer.readList { buffer.readString() }
         default = buffer.readNullable { buffer.readInt() }
         min = buffer.readInt()

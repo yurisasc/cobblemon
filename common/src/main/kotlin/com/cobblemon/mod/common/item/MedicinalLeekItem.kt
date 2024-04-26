@@ -32,10 +32,13 @@ class MedicinalLeekItem(block: MedicinalLeekBlock, settings: Settings) : Aliased
         val placeResult = this.place(ItemPlacementContext(ItemUsageContext(user, hand, blockHitResult2)))
         val stack = user.getStackInHand(hand)
         // This will always be true but just in case we change it down the line.
+        /*
         if (!placeResult.isAccepted && this.isFood && user.canConsume(this.foodComponent?.isAlwaysEdible == true)) {
             user.setCurrentHand(hand)
             return TypedActionResult.consume(stack)
         }
+
+         */
         return TypedActionResult(placeResult, stack)
     }
 

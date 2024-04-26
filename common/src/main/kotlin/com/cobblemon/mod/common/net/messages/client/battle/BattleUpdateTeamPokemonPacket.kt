@@ -13,6 +13,7 @@ import com.cobblemon.mod.common.net.messages.PokemonDTO
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.util.cobblemonResource
 import net.minecraft.network.PacketByteBuf
+import net.minecraft.network.RegistryByteBuf
 
 /**
  * Packet sent to the client to give a player a total update of one of their battle
@@ -27,7 +28,7 @@ import net.minecraft.network.PacketByteBuf
 class BattleUpdateTeamPokemonPacket(val pokemon: PokemonDTO) : NetworkPacket<BattleUpdateTeamPokemonPacket> {
     override val id = ID
     constructor(pokemon: Pokemon) : this(PokemonDTO(pokemon, true))
-    override fun encode(buffer: PacketByteBuf) {
+    override fun encode(buffer: RegistryByteBuf) {
         pokemon.encode(buffer)
     }
     companion object {

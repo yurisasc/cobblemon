@@ -43,7 +43,7 @@ class BattleMessagePane(
 
     init {
         correctSize()
-        setRenderBackground(false)
+        //setRenderBackground(false)
 
         messageQueue.subscribe {
             val fullyScrolledDown = maxScroll - scrollAmount < 10
@@ -83,7 +83,7 @@ class BattleMessagePane(
         return 80
     }
 
-    override fun getScrollbarPositionX(): Int {
+    override fun getScrollbarX(): Int {
         return this.x + 154
     }
 
@@ -139,8 +139,8 @@ class BattleMessagePane(
     }
 
     private fun updateScrollingState(mouseX: Double, mouseY: Double) {
-        scrolling = mouseX >= this.scrollbarPositionX.toDouble()
-                && mouseX < (this.scrollbarPositionX + 3).toDouble()
+        scrolling = mouseX >= this.scrollbarX.toDouble()
+                && mouseX < (this.scrollbarX + 3).toDouble()
                 && mouseY >= this.y
                 && mouseY < bottom
     }

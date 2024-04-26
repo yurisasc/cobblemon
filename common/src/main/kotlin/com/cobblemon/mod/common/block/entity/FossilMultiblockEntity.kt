@@ -18,6 +18,7 @@ import net.minecraft.block.BlockState
 import net.minecraft.block.entity.BlockEntityType
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.nbt.NbtHelper
+import net.minecraft.registry.RegistryWrapper
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.ChunkPos
 
@@ -59,7 +60,7 @@ open class FossilMultiblockEntity(
         }
     }
 
-    override fun readNbt(nbt: NbtCompound) {
+    override fun readNbt(nbt: NbtCompound, registryLookup: RegistryWrapper.WrapperLookup) {
         val oldMultiblockStructure = this.multiblockStructure as? FossilMultiblockStructure
         multiblockStructure = if (nbt.contains(DataKeys.MULTIBLOCK_STORAGE)) {
             if(oldMultiblockStructure?.fossilState != null) {
@@ -75,7 +76,7 @@ open class FossilMultiblockEntity(
             null
         }
         masterBlockPos = if (nbt.contains(DataKeys.CONTROLLER_BLOCK)) {
-            NbtHelper.toBlockPos(nbt.getCompound(DataKeys.CONTROLLER_BLOCK))
+            NbtHelper.toBlockPos(nbt, DataKeys.CONTROLLER_BLOCK).get()
         } else {
             null
         }

@@ -24,6 +24,7 @@ import net.minecraft.entity.ai.pathing.PathNodeType
 import net.minecraft.entity.attribute.EntityAttributes
 import net.minecraft.registry.tag.BlockTags
 import net.minecraft.registry.tag.FluidTags
+import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
 import net.minecraft.util.math.MathHelper
 import net.minecraft.util.math.Vec3d
@@ -192,10 +193,12 @@ class PokemonMoveControl(val pokemonEntity: PokemonEntity) : MoveControl(pokemon
             val pathNodeMaker = entityNavigation.nodeMaker
             if (pathNodeMaker != null &&
                 pathNodeMaker.getDefaultNodeType(
-                    entity.world,
-                    MathHelper.floor(entity.x + xMovement.toDouble()),
-                    entity.blockY,
-                    MathHelper.floor(entity.z + zMovement.toDouble())
+                    entity,
+                    BlockPos(
+                        MathHelper.floor(entity.x + xMovement.toDouble()),
+                        entity.blockY,
+                        MathHelper.floor(entity.z + zMovement.toDouble())
+                    )
                 ) != PathNodeType.WALKABLE
             ) {
                 return false

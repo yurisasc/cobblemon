@@ -11,6 +11,7 @@ package com.cobblemon.mod.common.net.messages.client.trade
 import com.cobblemon.mod.common.api.net.NetworkPacket
 import com.cobblemon.mod.common.util.cobblemonResource
 import net.minecraft.network.PacketByteBuf
+import net.minecraft.network.RegistryByteBuf
 
 /**
  * Packet sent to close the trade GUI as the trade was cancelled (programmatically, by log-off, or by player action).
@@ -27,5 +28,5 @@ class TradeCancelledPacket : NetworkPacket<TradeCancelledPacket> {
     }
 
     override val id = ID
-    override fun encode(buffer: PacketByteBuf) {}
+    override fun encode(buffer: RegistryByteBuf) {}
 }

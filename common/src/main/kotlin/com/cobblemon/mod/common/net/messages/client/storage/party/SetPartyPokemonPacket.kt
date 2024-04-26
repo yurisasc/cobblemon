@@ -17,6 +17,7 @@ import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.util.cobblemonResource
 import java.util.UUID
 import net.minecraft.network.PacketByteBuf
+import net.minecraft.network.RegistryByteBuf
 
 /**
  * Adds the given Pokémon to a specific location in the client storage. This should be a new
@@ -33,7 +34,7 @@ class SetPartyPokemonPacket internal constructor(val storeID: UUID, val storePos
 
     constructor(storeID: UUID, storePosition: PartyPosition, pokemon: Pokemon) : this(storeID, storePosition, PokemonDTO(pokemon, true))
 
-    override fun encode(buffer: PacketByteBuf) {
+    override fun encode(buffer: RegistryByteBuf) {
         buffer.writeUuid(this.storeID)
         buffer.writePartyPosition(this.storePosition)
         this.pokemonDTO.encode(buffer)
