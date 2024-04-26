@@ -78,6 +78,9 @@
 				},
 				"front_attenna_right": {
 					"scale": 0
+				},
+				"head": {
+					"rotation": [10, 0, 0]
 				}
 			}
 		},
