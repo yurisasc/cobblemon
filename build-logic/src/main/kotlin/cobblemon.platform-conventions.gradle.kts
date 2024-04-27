@@ -1,6 +1,3 @@
-import gradle.kotlin.dsl.accessors._56d0f1caa5d9b078747b452e7c6e7f8d.shadowJar
-import net.fabricmc.loom.util.srg.CoreModClassRemapper.remapJar
-
 plugins {
     id("cobblemon.base-conventions")
     id("com.github.johnrengelman.shadow")
