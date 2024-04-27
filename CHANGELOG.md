@@ -275,7 +275,7 @@
 - Added particles to Lucario when in battle.
 
 ### Fixes
-- Resized Snorlax
+- Resized Drifloon
 - Re-added the recipe for the Iron Vitamin.
 - Cleaned up empty evolutions declaration in species files (no, I'm not listing all 169 by name).
 - Fixed Exeggcute and Pikachu not being able to evolve.

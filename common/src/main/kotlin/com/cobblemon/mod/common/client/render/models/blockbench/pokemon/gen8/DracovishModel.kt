@@ -18,9 +18,9 @@ import net.minecraft.util.math.Vec3d
 
 class DracovishModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("dracovish")
-    override val head = getPart("head")
+    override val head = getPart("head_ai")
 
-    override var portraitTranslation = Vec3d(-0.25, 2.15, 0.0)
+    override var portraitTranslation = Vec3d(-0.25, 1.90, 0.0)
     override var portraitScale = 0.55F
 
     override var profileScale = 0.3F
@@ -74,6 +74,7 @@ class DracovishModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             transformTicks = 10,
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
+                singleBoneLook(),
                 bedrock("dracovish", "ground_idle")
             )
         )
@@ -84,6 +85,7 @@ class DracovishModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             transformTicks = 10,
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
+                singleBoneLook(),
                 bedrock("dracovish", "ground_walk")
             )
         )
@@ -94,6 +96,7 @@ class DracovishModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             transformTicks = 10,
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
+                singleBoneLook(),
                 bedrock("dracovish", "water_idle")
             )
         )
@@ -104,6 +107,7 @@ class DracovishModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             transformTicks = 10,
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
+                singleBoneLook(),
                 bedrock("dracovish", "water_swim")
             )
         )
@@ -115,6 +119,7 @@ class DracovishModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             transformTicks = 10,
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
+                singleBoneLook(),
                 bedrock("dracovish", "battle_idle")
             )
         )
@@ -126,6 +131,7 @@ class DracovishModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             transformTicks = 10,
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
+                singleBoneLook(),
                 bedrock("dracovish", "water_battle_idle")
             )
         )
