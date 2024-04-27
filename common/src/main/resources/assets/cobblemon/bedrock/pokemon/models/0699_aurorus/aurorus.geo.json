@@ -445,7 +445,7 @@
 					]
 				},
 				{
-					"name": "tailten",
+					"name": "tail_10",
 					"parent": "tail9",
 					"pivot": [0, 21.5, 66],
 					"cubes": [
@@ -453,8 +453,8 @@
 					]
 				},
 				{
-					"name": "taileleven",
-					"parent": "tailten",
+					"name": "tail_11",
+					"parent": "tail_10",
 					"pivot": [0, 21.5, 69],
 					"cubes": [
 						{"origin": [-1, 21.5, 69], "size": [2, 2, 4], "uv": [0, 7]}
@@ -462,7 +462,7 @@
 				},
 				{
 					"name": "tail12",
-					"parent": "taileleven",
+					"parent": "tail_11",
 					"pivot": [0, 21.5, 73],
 					"cubes": [
 						{"origin": [-1, 21.5, 73], "size": [2, 2, 4], "inflate": 0.01, "uv": [53, 9]}

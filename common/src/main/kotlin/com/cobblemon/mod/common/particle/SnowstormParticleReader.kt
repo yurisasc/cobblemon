@@ -137,11 +137,11 @@ object SnowstormParticleReader {
         var direction: ParticleMotionDirection? = null
         val speed = (componentsJson.get("minecraft:particle_initial_speed")?.asString ?: "0.0").asExpression()
         val rate = if (instantRateJson != null) {
-            InstantParticleEmitterRate(amount = instantRateJson.get("num_particles").asString.asExpression())
+            InstantParticleEmitterRate(amount = (instantRateJson.get("num_particles")?.asString ?: "1.0").asExpression())
         } else if (steadyRateJson != null) {
             SteadyParticleEmitterRate(
-                rate = steadyRateJson.get("spawn_rate").asString.asExpression(),
-                maximum = steadyRateJson.get("max_particles").asString.asExpression()
+                rate = (steadyRateJson.get("spawn_rate")?.asString ?: "1.0").asExpression(),
+                maximum = (steadyRateJson.get("max_particles").asString ?: "1.0").asExpression()
             )
         } else {
             throw IllegalStateException("Missing or unspecified emitter rate")

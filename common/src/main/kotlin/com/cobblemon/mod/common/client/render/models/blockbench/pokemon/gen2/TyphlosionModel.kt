@@ -48,7 +48,7 @@ class TyphlosionModel  (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             condition = { !it.isBattling },
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
-                singleBoneLook(),
+                singleBoneLook(minPitch = 0F),
                 bedrock("typhlosion", "ground_idle")
             )
         )
@@ -59,7 +59,7 @@ class TyphlosionModel  (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             transformTicks = 10,
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
-                singleBoneLook(),
+                singleBoneLook(minPitch = 0F),
                 bedrock("typhlosion", "ground_walk")
             )
         )
@@ -71,7 +71,7 @@ class TyphlosionModel  (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             quirks = arrayOf(blink),
             condition = { it.isBattling },
             idleAnimations = arrayOf(
-                singleBoneLook(),
+                singleBoneLook(minPitch = 0F),
                 bedrock("typhlosion", "battle_idle")
             )
         )

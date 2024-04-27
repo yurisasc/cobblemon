@@ -289,7 +289,7 @@
 			},
 			"sound_effects": {
 				"0.0": {
-					"effect": "zoroarkcry"
+					"effect": "pokemon.zoroark.cry"
 				}
 			}
 		},

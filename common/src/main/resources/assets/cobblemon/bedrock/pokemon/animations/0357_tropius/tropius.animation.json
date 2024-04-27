@@ -466,7 +466,7 @@
 			},
 			"sound_effects": {
 				"0.0": {
-					"effect": "tropius_ambient"
+					"effect": "pokemon.tropius.cry"
 				}
 			}
 		},

@@ -26,7 +26,7 @@
       },
       "walk": {
         "avoidsLand": false,
-        "walkSpeed": 0.14
+        "walkSpeed": 0.16
       }
     },
     "resting": {

@@ -1767,7 +1767,6 @@
         "alola_regional"
       ],
       "aspects": [
-        "alolan",
         "region-bias-alola"
       ],
       "evolutions": [
@@ -1785,7 +1784,7 @@
         {
           "id": "alola_pikachu_raichu",
           "variant": "item_interact",
-          "result": "raichu",
+          "result": "raichu alolan=false",
           "consumeHeldItem": false,
           "learnableMoves": [
             "thunderpunch"
@@ -2014,7 +2013,7 @@
     {
       "id": "pikachu_raichu",
       "variant": "item_interact",
-      "result": "raichu",
+      "result": "raichu alolan=false",
       "consumeHeldItem": false,
       "learnableMoves": [
         "thunderpunch"
@@ -2033,11 +2032,7 @@
       "requirements": [
         {
           "variant": "biome",
-          "biomeCondition": "#minecraft:is_beach"
-        },
-        {
-          "variant": "biome",
-          "biomeCondition": "#minecraft:is_tropical_island"
+          "biomeCondition": "#cobblemon:regional_bias_evolutions/alolan"
         },
         {
           "variant": "biome",
