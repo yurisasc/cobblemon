@@ -8,6 +8,11 @@ val bundle: Configuration by configurations.creating {
     isCanBeResolved = true
 }
 
+loom {
+    runConfigs.getByName("client").runDir = "runClient"
+    runConfigs.getByName("server").runDir = "runServer"
+}
+
 tasks {
 
     jar {
