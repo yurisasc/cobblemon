@@ -79,11 +79,17 @@ class PokemonRenderer(
         if(entity.hasPassengers()) {
             val yaw = entityYaw
             val ticks = partialTicks
-            val matrix = poseMatrix
             val buf = buffer
             val light = packedLight
-
-            DelayedPokemonRenders.append { this.renderInternal(entity, yaw, ticks, matrix, buf, light) }
+            DelayedPokemonRenders.append {matrix ->
+                matrix.push()
+                val prevX = entity.prevX + (entity.x - entity.prevX) * ticks
+                val prevY = entity.prevY + (entity.y - entity.prevY) * ticks
+                val prevZ = entity.prevZ + (entity.z - entity.prevZ) * ticks
+                matrix.translate(prevX, prevY, prevZ)
+                this.renderInternal(entity, yaw, ticks, matrix, buf, light)
+                matrix.pop()
+            }
             return
         }
 

@@ -99,7 +99,13 @@ class CobblemonFabricClient: ClientModInitializer, CobblemonClientImplementation
         ClientPlayConnectionEvents.JOIN.register { _, _, client -> client.player?.let { PlatformEvents.CLIENT_PLAYER_LOGIN.post(ClientPlayerEvent.Login(it)) } }
         ClientPlayConnectionEvents.DISCONNECT.register { _, client -> client.player?.let { PlatformEvents.CLIENT_PLAYER_LOGOUT.post(ClientPlayerEvent.Logout(it)) } }
         ItemTooltipCallback.EVENT.register { stack, context, lines -> PlatformEvents.CLIENT_ITEM_TOOLTIP.post(ItemTooltipEvent(stack, context, lines)) }
-        WorldRenderEvents.AFTER_TRANSLUCENT.register { _ -> DelayedPokemonRenders.render() }
+        WorldRenderEvents.AFTER_TRANSLUCENT.register { ctx ->
+            ctx.matrixStack().push()
+            val cameraPos = ctx.camera().getPos()
+            ctx.matrixStack().translate(-cameraPos.x, -cameraPos.y, -cameraPos.z)
+            DelayedPokemonRenders.render(ctx.matrixStack())
+            ctx.matrixStack().pop()
+        }
     }
 
     override fun registerLayer(modelLayer: EntityModelLayer, supplier: Supplier<TexturedModelData>) {
