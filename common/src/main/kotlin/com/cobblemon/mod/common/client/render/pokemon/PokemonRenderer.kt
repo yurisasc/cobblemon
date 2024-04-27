@@ -76,6 +76,28 @@ class PokemonRenderer(
         buffer: VertexConsumerProvider,
         packedLight: Int
     ) {
+        if(entity.hasPassengers()) {
+            val yaw = entityYaw
+            val ticks = partialTicks
+            val matrix = poseMatrix
+            val buf = buffer
+            val light = packedLight
+
+            DelayedPokemonRenders.append { this.renderInternal(entity, yaw, ticks, matrix, buf, light) }
+            return
+        }
+
+        this.renderInternal(entity, entityYaw, partialTicks, poseMatrix, buffer, packedLight)
+    }
+
+    private fun renderInternal(
+        entity: PokemonEntity,
+        entityYaw: Float,
+        partialTicks: Float,
+        poseMatrix: MatrixStack,
+        buffer: VertexConsumerProvider,
+        packedLight: Int
+    ) {
         shadowRadius = min((entity.boundingBox.maxX - entity.boundingBox.minX), (entity.boundingBox.maxZ) - (entity.boundingBox.minZ)).toFloat() / 1.5F * (entity.delegate as PokemonClientDelegate).entityScaleModifier
         model = PokemonModelRepository.getPoser(entity.pokemon.species.resourceIdentifier, entity.aspects)
 
@@ -97,7 +119,6 @@ class PokemonRenderer(
         }
 
         modelNow.setLayerContext(buffer, clientDelegate, PokemonModelRepository.getLayers(entity.pokemon.species.resourceIdentifier, entity.aspects))
-
 
         // TODO: Need a way to get a shader from a render layer, and need a way to get the renderlayer for the pokemon's main model
         // TODO: Need packet to sync evo time from server to client
@@ -126,6 +147,15 @@ class PokemonRenderer(
             this.renderLabelIfPresent(entity, entity.displayName, poseMatrix, buffer, packedLight)
         }
 //        MinecraftClient.getInstance().bufferBuilders.entityVertexConsumers.draw()
+    }
+
+    override fun getRenderLayer(
+        entity: PokemonEntity,
+        showBody: Boolean,
+        translucent: Boolean,
+        showOutline: Boolean
+    ): RenderLayer? {
+        return super.getRenderLayer(entity, showBody, entity.hasPassengers(), showOutline)
     }
 
     fun renderTransition(

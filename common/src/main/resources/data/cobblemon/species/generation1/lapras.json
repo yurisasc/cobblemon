@@ -355,7 +355,8 @@
       },
       {
         "key": "cobblemon:swim/dash",
-        "dashSpeed": 0.35
+        "dashSpeed": 0.35,
+        "canDive": false
       }
     ],
     "seats": [
