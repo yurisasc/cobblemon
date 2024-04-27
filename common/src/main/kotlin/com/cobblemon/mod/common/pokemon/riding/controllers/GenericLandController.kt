@@ -18,6 +18,7 @@ import com.cobblemon.mod.common.api.riding.controller.properties.RideControllerP
 import com.cobblemon.mod.common.api.riding.controller.properties.RideControllerPropertyKeys
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
+import com.cobblemon.mod.common.util.blockPositionsAsListRounded
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.google.gson.JsonElement
 import net.minecraft.entity.LivingEntity
@@ -26,6 +27,7 @@ import net.minecraft.network.PacketByteBuf
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.Vec2f
 import net.minecraft.util.math.Vec3d
+import net.minecraft.util.shape.VoxelShapes
 import java.util.function.Predicate
 import kotlin.math.max
 import kotlin.math.min
@@ -33,8 +35,25 @@ import kotlin.math.min
 object GenericLandController : RideController {
 
     override val key: Identifier = cobblemonResource("land_generic")
-    override val poseProvider: PoseProvider = PoseProvider(PoseType.STAND).with(PoseOption(PoseType.WALK) { it.dataTracker.get(PokemonEntity.MOVING) })
-    override val conditions: Predicate<PokemonEntity> = Predicate<PokemonEntity> { it.isOnGround }
+    override val poseProvider: PoseProvider = PoseProvider(PoseType.STAND)
+        .with(PoseOption(PoseType.WALK) { it.dataTracker.get(PokemonEntity.MOVING) })
+    override val condition: (PokemonEntity) -> Boolean = { entity ->
+        //Are there any blocks under the mon that aren't air or fluid
+        //Cant just check one block since some mons may be more than one block big
+        //This should be changed so that the any predicate is only ran on blocks under the mon
+        VoxelShapes.cuboid(entity.boundingBox).blockPositionsAsListRounded().any {
+            //Need to check other fluids
+            if (entity.isTouchingWater || entity.isSubmergedInWater) {
+                return@any false
+            }
+            //This might not actually work, depending on what the yPos actually is. yPos of the middle of the entity? the feet?
+            if (it.y.toDouble() == (entity.pos.y)) {
+                val blockState = entity.world.getBlockState(it.down())
+                return@any !blockState.isAir && blockState.fluidState.isEmpty
+            }
+            false
+        }
+    }
 
     override fun speed(entity: PokemonEntity, driver: PlayerEntity, context: RidingContext): Float {
         val max: Float = context.propertyOrDefault(RideControllerPropertyKeys.SPEED, 0.0F)

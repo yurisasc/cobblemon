@@ -106,9 +106,7 @@ class FormData(
     @SerializedName("battleTheme")
     private var _battleTheme: Identifier? = null,
     @SerializedName("lightingData")
-    private var _lightingData: LightingData? = null
-    private var _battleTheme: Identifier? = null,
-
+    private var _lightingData: LightingData? = null,
 
     @SerializedName("riding")
     private var _riding: RidingProperties? = null

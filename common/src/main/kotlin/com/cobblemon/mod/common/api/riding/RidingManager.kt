@@ -17,6 +17,7 @@ import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.text.Text
 import net.minecraft.util.Formatting
+import net.minecraft.util.math.Vec2f
 import net.minecraft.util.math.Vec3d
 
 data class RidingManager(val entity: () -> PokemonEntity) {
@@ -62,5 +63,27 @@ data class RidingManager(val entity: () -> PokemonEntity) {
 
         context.speed = if(input == Vec3d.ZERO) 0F else controller.speed(entity, driver, this.context)
         driver.sendMessage(Text.literal("Speed: ").styled { it.withColor(Formatting.GREEN) }.append(Text.literal("${context.speed} b/t")), true)
+    }
+
+    fun controlledRotation(entity: PokemonEntity, driver: PlayerEntity): Vec2f {
+        if(!this::capabilities.isInitialized) {
+            return Vec2f.ZERO
+        }
+
+        val capability = this.capabilities.keys.firstOrNull { it.condition.test(entity) }
+        val controller = this.capabilities[capability] ?: return Vec2f.ZERO
+
+        return controller.rotation(driver)
+    }
+
+    fun velocity(entity: PokemonEntity, driver: PlayerEntity, input: Vec3d): Vec3d {
+        if(!this::capabilities.isInitialized) {
+            return Vec3d.ZERO
+        }
+
+        val capability = this.capabilities.keys.firstOrNull { it.condition.test(entity) }
+        val controller = this.capabilities[capability] ?: return Vec3d.ZERO
+
+        return controller.velocity(driver, input)
     }
 }

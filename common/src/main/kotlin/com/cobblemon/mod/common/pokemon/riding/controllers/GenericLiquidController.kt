@@ -1,3 +1,11 @@
+/*
+ * Copyright (C) 2023 Cobblemon Contributors
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/.
+ */
+
 package com.cobblemon.mod.common.pokemon.riding.controllers
 
 import com.cobblemon.mod.common.api.riding.context.RidingContext
@@ -24,8 +32,10 @@ import kotlin.math.min
 
 object GenericLiquidController : RideController {
     override val key: Identifier = cobblemonResource("swim")
-    override val poseProvider: PoseProvider = PoseProvider(PoseType.FLOAT).with(PoseOption(PoseType.SWIM) { it.isSwimming && it.dataTracker.get(PokemonEntity.MOVING) })
-    override val conditions: Predicate<PokemonEntity> = Predicate<PokemonEntity> { it.isSwimming }
+    override val poseProvider: PoseProvider = PoseProvider(PoseType.FLOAT)
+        .with(PoseOption(PoseType.SWIM) { it.isSwimming && it.dataTracker.get(PokemonEntity.MOVING) })
+    override val condition: (PokemonEntity) -> Boolean
+        get() = TODO("Not yet implemented")
 
     override fun speed(entity: PokemonEntity, driver: PlayerEntity, context: RidingContext): Float {
         val max: Float = context.propertyOrDefault(RideControllerPropertyKeys.SPEED, 0.0F)

@@ -1,7 +1,7 @@
 {
   "required": true,
   "package": "com.cobblemon.mod.common.mixin",
-  "compatibilityLevel": "JAVA_16",
+  "compatibilityLevel": "JAVA_17",
   "minVersion": "0.8",
   "client": [
     "BuiltinModelItemRendererMixin",
@@ -16,9 +16,7 @@
     "SoundSystemMixin",
     "accessor.KeyBindingAccessor",
     "invoker.ClientPlayNetworkHandlerInvoker",
-    "pokeball.ItemRendererMixin"
     "pokeball.ItemRendererMixin",
-    "ModelLoaderMixin",
     "riding.JetMixin"
   ],
   "mixins": [
@@ -41,7 +39,6 @@
     "accessor.StatusEffectInstanceAccessor",
     "entity.EntityMixin",
     "entity.TameableEntityMixin",
-    "info.CrashReportMixin",
     "invoker.BlocksInvoker",
     "invoker.BooleanRuleInvoker",
     "invoker.ClientPlayNetworkHandlerInvoker",

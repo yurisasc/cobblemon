@@ -8,7 +8,7 @@
 
 package com.cobblemon.mod.common.api.riding.conditions
 
-import com.cobblemon.mod.common.pokemon.Pokemon
+import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import net.minecraft.server.network.ServerPlayerEntity
 
 /**
@@ -25,7 +25,7 @@ fun interface RidingCondition {
      * @return `true` when the condition is satisfactory, `false` otherwise
      * @since 1.5.0
      */
-    fun validate(player: ServerPlayerEntity, pokemon: Pokemon) : Boolean
+    fun validate(player: ServerPlayerEntity, entity: PokemonEntity) : Boolean
 
     /**
      * Creates a new [RidingCondition] which evaluates two conditions based on an OR logic gate.

@@ -8,13 +8,13 @@ versions:
 
   # other
   licenser: 0.6.1
-  shadow: 7.1.2
+  shadow: 8.1.1
   blossom: 2.1.0
   idea-ext: 1.1.7
 
   # fabric/remap
-  loom: 1.1-SNAPSHOT
-  fabric-loader: 0.14.21
+  loom: 1.5-SNAPSHOT
+  fabric-loader: 0.15.10
   fabric-api: 0.89.0+1.20.1
   fabric-kotlin: 1.9.3+kotlin.1.8.20
   architectury-plugin: 3.4-SNAPSHOT
@@ -53,7 +53,7 @@ dependencies:
     name: licenser
     version: { ref: licenser }
   shadow:
-    group: gradle.plugin.com.github.johnrengelman
+    group: com.github.johnrengelman
     name: shadow
     version: { ref: shadow }
   blossom:

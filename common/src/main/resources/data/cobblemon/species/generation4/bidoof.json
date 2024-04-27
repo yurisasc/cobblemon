@@ -203,6 +203,7 @@
         "controller": "cobblemon:land_generic",
         "properties": {
           "speed": 0.4,
+          "maxBlockSpeed": 0.35,
           "acceleration": 0.2
         }
       },
@@ -210,6 +211,7 @@
         "controller": "cobblemon:swim",
         "properties": {
           "speed": 0.2,
+          "maxBlockSpeed": 0.4,
           "acceleration": 0.2
         }
       }

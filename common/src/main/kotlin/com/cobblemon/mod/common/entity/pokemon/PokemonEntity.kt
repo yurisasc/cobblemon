@@ -1210,7 +1210,7 @@ open class PokemonEntity(
     }
 
     private fun getControlledRotation(controller: LivingEntity): Vec2f {
-        return GenericLandController.rotation(controller)
+        return this.riding.controlledRotation(this, controller as PlayerEntity)
     }
 
     override fun updatePassengerPosition(passenger: Entity, positionUpdater: PositionUpdater) {
@@ -1244,7 +1244,7 @@ open class PokemonEntity(
     }
 
     override fun getControlledMovementInput(controller: PlayerEntity, movementInput: Vec3d): Vec3d {
-        return GenericLandController.velocity(controller, movementInput)
+        return this.riding.velocity(this, controller, movementInput)
     }
 
     override fun getSaddledSpeed(controller: PlayerEntity): Float {

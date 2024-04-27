@@ -327,5 +327,46 @@
   "height": 25,
   "weight": 2200,
   "aspects": [],
-  "cannotDynamax": false
+  "cannotDynamax": false,
+  "riding": {
+    "capabilities": {
+      "land": {
+        "controller": "cobblemon:land_generic",
+        "properties": {
+          "speed": 0.1,
+          "maxBlockSpeed": 0.15,
+          "acceleration": 0.2
+        }
+      },
+      "liquids": {
+        "controller": "cobblemon:swim",
+        "properties": {
+          "speed": 0.4,
+          "maxBlockSpeed": 0.35,
+          "acceleration": 0.8
+        }
+      }
+    },
+    "controllers": [
+      {
+        "key": "cobblemon:land/generic",
+        "speed": 0.1,
+        "acceleration": 0.2
+      },
+      {
+        "key": "cobblemon:swim/dash",
+        "dashSpeed": 0.35
+      }
+    ],
+    "seats": [
+      {
+        "driver": true,
+        "offset": {
+          "x": 0.0,
+          "y": 0.6,
+          "z": 0.0
+        }
+      }
+    ]
+  }
 }

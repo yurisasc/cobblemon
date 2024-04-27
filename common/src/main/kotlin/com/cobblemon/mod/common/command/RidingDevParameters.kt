@@ -8,12 +8,17 @@
 
 package com.cobblemon.mod.common.command
 
+import com.cobblemon.mod.common.api.riding.seats.properties.SeatDTO
+import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.mojang.brigadier.Command
 import com.mojang.brigadier.CommandDispatcher
 import com.mojang.brigadier.arguments.FloatArgumentType
 import com.mojang.brigadier.context.CommandContext
+import net.minecraft.command.argument.ArgumentTypes
+import net.minecraft.command.argument.Vec3ArgumentType
 import net.minecraft.server.command.CommandManager
 import net.minecraft.server.command.ServerCommandSource
+import net.minecraft.server.network.ServerPlayerEntity
 
 object RidingDevParameters {
 
@@ -24,11 +29,21 @@ object RidingDevParameters {
     fun register(dispatcher: CommandDispatcher<ServerCommandSource>) {
         val command = CommandManager.literal("riding")
             .requires { it.hasPermissionLevel(4) }
+            .then(CommandManager.literal("seat").then(CommandManager.argument("offsets", Vec3ArgumentType.vec3()).executes { updateSeatPosition(it) }))
             .then(CommandManager.literal("speed").then(CommandManager.argument("value", FloatArgumentType.floatArg()).executes { updateSpeed(it) }))
             .then(CommandManager.literal("acceleration").then(CommandManager.argument("value", FloatArgumentType.floatArg()).executes { updateAcceleration(it) }))
             .then(CommandManager.literal("weight").then(CommandManager.argument("value", FloatArgumentType.floatArg()).executes { updateWeight(it) }))
 
         dispatcher.register(command)
+    }
+
+    private fun updateSeatPosition(context: CommandContext<ServerCommandSource>) : Int {
+        val source = context.source.playerOrThrow
+        val mount = source.rootVehicle as PokemonEntity
+
+//        mount.riding.seats.get(0).properties.offset
+
+        return Command.SINGLE_SUCCESS
     }
 
     private fun updateSpeed(context: CommandContext<ServerCommandSource>) : Int {

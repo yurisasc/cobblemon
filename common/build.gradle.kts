@@ -20,7 +20,7 @@ plugins {
 
     id("net.kyori.blossom")
     id("org.jetbrains.gradle.plugin.idea-ext")
-    id ("net.nemerosa.versioning") version "2.8.2"
+    id ("net.nemerosa.versioning") version "3.1.0"
 }
 
 architectury {
@@ -94,7 +94,6 @@ sourceSets {
                 property("gitCommit", versioning.info.commit)
                 property("branch", versioning.info.branch)
                 System.getProperty("buildNumber")?.let { property("buildNumber", it) }
-                property("timestamp", OffsetDateTime.now(ZoneOffset.UTC).format(DateTimeFormatter.ofPattern("MM/dd/yyyy hh:mm:ss")) + " UTC")
             }
         }
     }

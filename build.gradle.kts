@@ -1,7 +1,7 @@
 plugins {
     base
     id("cobblemon.root-conventions")
-    id ("net.nemerosa.versioning") version "2.8.2"
+    id ("net.nemerosa.versioning") version "3.1.0"
 }
 
 group = "com.cobblemon.mod"

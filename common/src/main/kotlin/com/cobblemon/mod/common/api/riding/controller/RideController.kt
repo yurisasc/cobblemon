@@ -8,6 +8,7 @@
 
 package com.cobblemon.mod.common.api.riding.controller
 
+import com.cobblemon.mod.common.api.riding.conditions.RidingCondition
 import com.cobblemon.mod.common.api.riding.context.RidingContext
 import com.cobblemon.mod.common.api.riding.controller.posing.PoseProvider
 import com.cobblemon.mod.common.entity.PoseType
@@ -55,11 +56,10 @@ interface RideController {
     val poseProvider: PoseProvider
 
     /**
-     * Specifies conditions that would make this controller viable for the pokemon being
-     * ridden. These conditions are wrapped into one predicate, as opposed to a list,
-     * to simplify the internal logic.
+     * Represents a condition that must be met for this controller to be active. For instance, this can be used
+     * to evaluate things such as current velocity or block state of the entity.
      */
-    val conditions: Predicate<PokemonEntity>
+    val condition: (PokemonEntity) -> Boolean
 
     /**
      * Specifies the pose the ridden mount should be positioned in. This queries the pose provider using

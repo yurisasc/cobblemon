@@ -11,7 +11,7 @@ package com.cobblemon.mod.common.pokemon
 import com.bedrockk.molang.runtime.struct.VariableStruct
 import com.bedrockk.molang.runtime.value.DoubleValue
 import com.cobblemon.mod.common.Cobblemon
-import com.cobblemon.mod.common.CobblemonConstants
+import com.cobblemon.mod.common.CobblemonBuildDetails
 import com.cobblemon.mod.common.CobblemonNetwork.sendPacketToPlayers
 import com.cobblemon.mod.common.CobblemonSounds
 import com.cobblemon.mod.common.api.abilities.Abilities
@@ -770,7 +770,7 @@ open class Pokemon : ShowdownIdentifiable {
     fun removeHeldItem(): ItemStack = this.swapHeldItem(ItemStack.EMPTY)
 
     fun saveToNBT(nbt: NbtCompound): NbtCompound {
-        nbt.putString(DataKeys.POKEMON_LAST_SAVED_VERSION, CobblemonConstants.MOD_VERSION)
+        nbt.putString(DataKeys.POKEMON_LAST_SAVED_VERSION, CobblemonBuildDetails.version())
         nbt.putUuid(DataKeys.POKEMON_UUID, uuid)
         nbt.putString(DataKeys.POKEMON_SPECIES_IDENTIFIER, species.resourceIdentifier.toString())
         nickname?.let { nbt.putString(DataKeys.POKEMON_NICKNAME, Text.Serializer.toJson(it)) }
@@ -893,7 +893,7 @@ open class Pokemon : ShowdownIdentifiable {
     }
 
     fun saveToJSON(json: JsonObject): JsonObject {
-        json.addProperty(DataKeys.POKEMON_LAST_SAVED_VERSION, CobblemonConstants.MOD_VERSION)
+        json.addProperty(DataKeys.POKEMON_LAST_SAVED_VERSION, CobblemonBuildDetails.version())
         json.addProperty(DataKeys.POKEMON_UUID, uuid.toString())
         json.addProperty(DataKeys.POKEMON_SPECIES_IDENTIFIER, species.resourceIdentifier.toString())
         nickname?.let { json.add(DataKeys.POKEMON_NICKNAME, Text.Serializer.toJsonTree(it)) }

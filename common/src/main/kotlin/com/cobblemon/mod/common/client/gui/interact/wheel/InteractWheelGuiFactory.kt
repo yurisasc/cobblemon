@@ -45,11 +45,10 @@ fun createPokemonInteractGui(pokemonID: UUID, canMountShoulder: Boolean, canRide
             closeGUI()
         }
     )
-    val options: Multimap<Orientation, InteractWheelOption> = ArrayListMultimap.create()
-    options.put(Orientation.TOP_RIGHT, giveItem)
 
     val ride = InteractWheelOption(
         iconResource = cobblemonResource("textures/gui/interact/icon_held_item.png"),
+        tooltipText = "cobblemon.ui.interact.ride",
         onPress = {
             if (canRide) {
                 InteractPokemonPacket(pokemonID, false, true).sendToServer()
@@ -58,13 +57,16 @@ fun createPokemonInteractGui(pokemonID: UUID, canMountShoulder: Boolean, canRide
         }
     )
 
-    val options = mutableMapOf(
-        Orientation.TOP_RIGHT to giveItem,
-        Orientation.BOTTOM_LEFT to ride
-    )
+    val options: Multimap<Orientation, InteractWheelOption> = ArrayListMultimap.create()
+    options.put(Orientation.TOP_RIGHT, giveItem)
+    if(canRide) {
+        options.put(Orientation.BOTTOM_LEFT, ride)
+    }
+
     if (canMountShoulder) {
         options.put(Orientation.TOP_LEFT, mountShoulder)
     }
+
     CobblemonEvents.POKEMON_INTERACTION_GUI_CREATION.post(PokemonInteractionGUICreationEvent(pokemonID, canMountShoulder, options))
     return InteractWheelGUI(options, Text.translatable("cobblemon.ui.interact.pokemon"))
 }
