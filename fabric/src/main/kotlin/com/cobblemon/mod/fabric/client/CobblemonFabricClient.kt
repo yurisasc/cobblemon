@@ -13,6 +13,7 @@ import com.cobblemon.mod.common.client.CobblemonClient
 import com.cobblemon.mod.common.client.CobblemonClient.reloadCodedAssets
 import com.cobblemon.mod.common.client.keybind.CobblemonKeyBinds
 import com.cobblemon.mod.common.client.render.atlas.CobblemonAtlases
+import com.cobblemon.mod.common.client.render.pokemon.DelayedPokemonRenders
 import com.cobblemon.mod.common.particle.CobblemonParticles
 import com.cobblemon.mod.common.particle.SnowstormParticleType
 import com.cobblemon.mod.common.platform.events.ClientPlayerEvent
@@ -34,6 +35,7 @@ import net.fabricmc.fabric.api.client.particle.v1.ParticleFactoryRegistry
 import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry
+import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderEvents
 import net.fabricmc.fabric.api.resource.IdentifiableResourceReloadListener
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper
 import net.minecraft.block.Block
@@ -97,6 +99,13 @@ class CobblemonFabricClient: ClientModInitializer, CobblemonClientImplementation
         ClientPlayConnectionEvents.JOIN.register { _, _, client -> client.player?.let { PlatformEvents.CLIENT_PLAYER_LOGIN.post(ClientPlayerEvent.Login(it)) } }
         ClientPlayConnectionEvents.DISCONNECT.register { _, client -> client.player?.let { PlatformEvents.CLIENT_PLAYER_LOGOUT.post(ClientPlayerEvent.Logout(it)) } }
         ItemTooltipCallback.EVENT.register { stack, context, lines -> PlatformEvents.CLIENT_ITEM_TOOLTIP.post(ItemTooltipEvent(stack, context, lines)) }
+        WorldRenderEvents.AFTER_TRANSLUCENT.register { ctx ->
+            ctx.matrixStack().push()
+            val cameraPos = ctx.camera().getPos()
+            ctx.matrixStack().translate(-cameraPos.x, -cameraPos.y, -cameraPos.z)
+            DelayedPokemonRenders.render(ctx.matrixStack())
+            ctx.matrixStack().pop()
+        }
     }
 
     override fun registerLayer(modelLayer: EntityModelLayer, supplier: Supplier<TexturedModelData>) {
