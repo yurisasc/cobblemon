@@ -537,7 +537,7 @@ abstract class PoseableEntityModel<T : Entity>(
             red * r,
             green * g,
             blue * b,
-            alpha * (context.request(RenderContext.ENTITY)?.let { _ -> 0.15F } ?: a)
+            alpha * (context.request(RenderContext.ENTITY)?.let { _ -> 0.4F } ?: a)
         )
 
         val provider = bufferProvider

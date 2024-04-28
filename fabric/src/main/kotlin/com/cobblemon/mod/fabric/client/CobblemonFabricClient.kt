@@ -101,7 +101,7 @@ class CobblemonFabricClient: ClientModInitializer, CobblemonClientImplementation
         ItemTooltipCallback.EVENT.register { stack, context, lines -> PlatformEvents.CLIENT_ITEM_TOOLTIP.post(ItemTooltipEvent(stack, context, lines)) }
         WorldRenderEvents.AFTER_TRANSLUCENT.register { ctx ->
             ctx.matrixStack().push()
-            val cameraPos = ctx.camera().getPos()
+            val cameraPos = ctx.camera().pos
             ctx.matrixStack().translate(-cameraPos.x, -cameraPos.y, -cameraPos.z)
             DelayedPokemonRenders.render(ctx.matrixStack())
             ctx.matrixStack().pop()

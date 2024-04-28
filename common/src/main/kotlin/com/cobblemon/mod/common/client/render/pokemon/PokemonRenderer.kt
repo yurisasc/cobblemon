@@ -76,18 +76,16 @@ class PokemonRenderer(
         buffer: VertexConsumerProvider,
         packedLight: Int
     ) {
-        if(entity.hasPassengers()) {
-            val yaw = entityYaw
-            val ticks = partialTicks
-            val buf = buffer
-            val light = packedLight
-            DelayedPokemonRenders.append {matrix ->
+        if(entity.hasPassengers() && !MinecraftClient.isFabulousGraphicsOrBetter()) {
+            DelayedPokemonRenders.append { matrix ->
                 matrix.push()
-                val prevX = entity.prevX + (entity.x - entity.prevX) * ticks
-                val prevY = entity.prevY + (entity.y - entity.prevY) * ticks
-                val prevZ = entity.prevZ + (entity.z - entity.prevZ) * ticks
+
+                val prevX = entity.prevX + (entity.x - entity.prevX) * partialTicks
+                val prevY = entity.prevY + (entity.y - entity.prevY) * partialTicks
+                val prevZ = entity.prevZ + (entity.z - entity.prevZ) * partialTicks
+
                 matrix.translate(prevX, prevY, prevZ)
-                this.renderInternal(entity, yaw, ticks, matrix, buf, light)
+                this.renderInternal(entity, entityYaw, partialTicks, matrix, buffer, packedLight)
                 matrix.pop()
             }
             return
