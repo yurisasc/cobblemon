@@ -19,9 +19,9 @@ import net.minecraft.network.PacketByteBuf
  * @author Hiroku
  * @since November 13th, 2023
  */
-abstract class SpeciesFeatureSyncPacket(
+abstract class SpeciesFeatureSyncPacket<T : SpeciesFeatureSyncPacket<T>>(
     speciesFeatureProviders: Map<String, SpeciesFeatureProvider<*>>
-) : DataRegistrySyncPacket<Map.Entry<String, SynchronizedSpeciesFeatureProvider<*>>, SpeciesFeatureSyncPacket>(
+) : DataRegistrySyncPacket<Map.Entry<String, SynchronizedSpeciesFeatureProvider<*>>, T>(
     speciesFeatureProviders.entries.filterIsInstance<Map.Entry<String, SynchronizedSpeciesFeatureProvider<*>>>().filter { it.value.visible }
 ) {
     override fun encodeEntry(buffer: PacketByteBuf, entry: Map.Entry<String, SynchronizedSpeciesFeatureProvider<*>>) {

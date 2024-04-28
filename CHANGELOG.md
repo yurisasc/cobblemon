@@ -2,8 +2,8 @@
 ## [1.5.0](#1-5-0)
 
 ### Additions
-- Added over (number here) ruin structures, where you can find Pokémon-themed Armor Trims and Pottery Sherds, Tumblestones, and more.
-- Added (number here) fossil structures, where you can brush Suspicious Sand/Gravel for Fossils.
+- Added 17 ruin structures, where you can find Pokémon-themed Armor Trims and Pottery Sherds, Tumblestones, and more.
+- Added 22 fossil structures, where you can brush Suspicious Sand/Gravel for Fossils.
 - Added the Data Monitor, Fossil Compartment, and Restoration Tank. Placed in the correct formation, you can use these to create a Restoration Machine where you can bring fossils back to life.
 - Added 3 variants of Tumblestones, which can be planted near Lava or Magma to grow harvestable Tumblestone Clusters.
 - Added Tumblestone Blocks, a storage block crafted from 9 Tumblestones.
@@ -24,14 +24,11 @@
 - Added a new send-out ball toss animation that showcases the ball used for the Pokémon.
 - Added simple move animations for Pokémon in battle with a proof of concept for more complicated animations.
 - Added the EV Boosting Feathers.
-- Added Type Gems. 
 - Added various new tags for searchability and better compatibility.
 - Added the [Ability Capsule](https://bulbapedia.bulbagarden.net/wiki/Ability_Capsule) and [Patch](https://bulbapedia.bulbagarden.net/wiki/Ability_Patch), these have no acquisition method for now and only work as intended with the traditional ability format of 1 to 2 common abilities and 1 hidden ability.
 - Added Gilded Chests, available in all Apricorn colors.
 - Added Relic Coins, Relic Coin Pouches, and Relic Coin Sacks.
-- Added various new tags for searchability and better compatibility. 
 - Added Type Gems. These items hold no functionality for now. Start collecting though...
-- Added 6 custom Pottery Sherds, obtained from ruin structures.
 - Added cries to Meowth, Alolan Meowth, Galaraian Meowth,
 - Completed the advancement for placing a Tumblestone near Lava or Magma to make it grow.
 - Added new held items: Ability Shield, Absorb Bulb, Air Balloon, Binding Band, Blunder Policy, Cell Battery, Covert Cloak, Damp Rock, Eject Button, Eviolite, Expert Belt, Float Stone, Focus Sash, Heat Rock, Icy Rock, Iron Ball, Light Ball, Loaded Dice, Red Card, Shell Bell, Sticky Barb, Smooth Rock, Soothe Bell and Weakness Policy.
@@ -39,6 +36,7 @@
 - Added bubble quirk to Krabby that only play during clear sunset's.
 - Added forfeit option to PVP battles.
 - Added visual changes for entities affected by Illusion, Imposter, or Transform in battle.
+- Added shoulder mounting for Squirtle, Ralts, Roggenrola, Charcadet, Sizzlipede, Litwick, Cutiefly, Flabebe, Flittle, and Scatterbug
 
 ### Pokémon Added
 #### Gen 2
@@ -162,8 +160,6 @@
 - Dreepy
 - Drakloak
 - Dragapult
-- Hisuian Sliggoo
-- Hisuian Goodra
 - Impidimp
 - Morgrem
 - Grimmsnarl
@@ -174,7 +170,7 @@
   - Additionally, if you give Gimmighoul a Netherite Scrap, you can increase its Netherite Stash. Who knows what might happen if it fills up?
 - Gholdengo
 
-#### Cobblemon Exclusive's
+#### Cobblemon Exclusives
 - Hisui Bias Rowlet
 - Hisui Bias Dartrix
 - Hisui Bias Cyndaquil
@@ -183,6 +179,69 @@
 - Hisui Bias Dewott
 - Hisui Bias Goomy
 - Hisui Bias Petilil
+
+### Added cries to the following Pokémon
+- Alolan Raticate
+- Vulpix, Ninetales
+- Zubat, Golbat, Crobat
+- Meowth, Persian
+- Psyduck, Golduck
+- Growlithe, Arcanine
+- Geodude, Graveler, Golem
+- Doduo, Dodrio
+- Seel, Dewgong
+- Muk, Grimer
+- Krabby, Kingler
+- Voltorb, Electrode, Hisuian Voltorb, Hisuian Electrode
+- Tangela, Tangrowth
+- Snorlax
+- Cubone, Marowak
+- Koffing, Weezing
+- Aerodactyl
+- Elekid, Electabuzz, Electivire
+- Omanyte, Omastar
+- Kabuto, Kabutops
+- Lapras
+- Scyther
+- Hisui Bias Cyndaquil, Hisui Bias Quilava
+- Igglybuff
+- Yanma, Yanmega
+- Gligar, Gliscor
+- Qwilfish, Hisuian Qwilfish, Overqwil
+- Sneasel, Hisuian Sneasel, Weavile, Sneasler
+- Larvitar, Pupitar, Tyranitar
+- Swinub, Piloswine, Mamoswine
+- Aron, Lairon, Aggron
+- Trapinch, Vibrava, Flygon
+- Cacnea, Cacturne
+- Barboach, Whiscash
+- Lileep, Cradily
+- Anorith, Armaldo
+- Tropius
+- Chimecho
+- Bidoof, Bibarel
+- Buizel, Floatzel
+- Gible, Gabite, Garchomp
+- Hisui Bias Oshawott, Hisui Bias Dewott
+- Petilil, Lilligant, Hisui Bias Petilil, Hisuian Lilligant
+- Basculin, Basculegion
+- Sandile, Krokolok, Krookodile
+- Darumaka, Darmanitan
+- Archen, Archeops
+- Zorua, Zoroark, Hisuian Zorua, Hisuian Zoroark
+- Tyrunt, Tyrantrum
+- Amaura Aurorus
+- Carbink
+- Goomy, Sliggoo, Goodra, Hisui Bias Goomy, Hisuian Sliggoo, Hisuian Goodra
+- Klefki
+- Hisui Bias Rowlet, Hisui Bias Dartrix
+- Komala
+- Impidimp, Morgrem, Grimmsnarl
+- Cufant, Copperajah
+- Dreepy, Drakloak, Dragapult
+- Dracozolt, Arctozolt, Dracovish, Arctovish
+- Lechonk, Oinkologne
+- Maushold family of three and four
 
 
 ### Changes
@@ -210,12 +269,16 @@
 - Pokémon entity shadows now scale when the Pokémon is being sent out or recalled.
 - Remade Torkoal particles, now they only appear when in battle.
 - Updated shiny icon within summary and PC interfaces.
+- Changed the Poison Barb sprite so that it doesn't look like a sword when held.
+- Moon Stone ore generates more frequently in Taigas and has been added to Magical and Spooky biomes.
+- Density, Season, and Nether biome tags have been moved and renamed within the biome tags directory.
+- Added particles to Lucario when in battle.
 
 ### Fixes
-- Resized Snorlax
+- Resized Drifloon
 - Re-added the recipe for the Iron Vitamin.
 - Cleaned up empty evolutions declaration in species files (no, I'm not listing all 169 by name).
-- Fixed Exeggcute not being able to evolve.
+- Fixed Exeggcute and Pikachu not being able to evolve.
 - Fixed battle lang for Poison Touch Ability
 - Fixed Cubone not being able to evolve into Alolan Marowak.
 - Fixed Squawkabilly forms not being recognized.
@@ -237,6 +300,7 @@
 - Fixed capture messages not displaying.
 - Fixed illusion ability causing the wrong Pokémon to be targeted in battle. 
 - Battles starting with fainted party members no longer cause a softlock on defeat.
+- Fixed some issues with eyes in the faint animations for Hitmonlee and Phantump
 
 ### Developer
 - Significantly changed the way properties in PokemonEntity work. This could break some plugins (not in a big way, but changes will be needed).

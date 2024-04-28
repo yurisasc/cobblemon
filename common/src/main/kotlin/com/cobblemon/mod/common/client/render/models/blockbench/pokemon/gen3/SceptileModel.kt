@@ -37,7 +37,7 @@ class SceptileModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
 
-    //override val cryAnimation = CryProvider { _, _ -> bedrockStateful("sceptile", "cry") }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("sceptile", "cry") }
 
     override fun registerPoses() {
        // sleep = registerPose(

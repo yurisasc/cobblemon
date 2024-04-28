@@ -8,13 +8,11 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen6
 
-import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cobblemon.mod.common.entity.PoseType
-import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
@@ -51,7 +49,7 @@ class AurorusModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             condition = { !it.isBattling },
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
-                singleBoneLook(),
+                singleBoneLook(minPitch = -15F),
                 bedrock("aurorus", "ground_idle")
             )
         )
@@ -63,7 +61,7 @@ class AurorusModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             quirks = arrayOf(blink),
             condition = { it.isBattling },
             idleAnimations = arrayOf(
-                singleBoneLook(),
+                singleBoneLook(minPitch = -15F),
                 bedrock("aurorus", "battle_idle")
             )
         )
@@ -74,7 +72,7 @@ class AurorusModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             transformTicks = 10,
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
-                singleBoneLook(),
+                singleBoneLook(minPitch = -15F),
                 bedrock("aurorus", "ground_walk")
             )
         )

@@ -170,7 +170,7 @@ class BattleMessage(rawMessage: String) {
      */
     fun pnxAndUuid(index: Int): Pair<String, String>? {
         val argument = this.argumentAt(index)?.takeIf { it.length >= 2 }?.split(":")?.takeIf { it.size == 2 } ?: return null
-        val pnx = argument[0].takeIf { it.matches(PNX_MATCHER) } ?: return null
+        val pnx = argument[0].takeIf { it.matches(PNX_MATCHER) || it.matches(PN_MATCHER) } ?: return null
         val uuid = argument[1].trim()
         return pnx to uuid
     }

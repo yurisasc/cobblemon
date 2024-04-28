@@ -29,8 +29,8 @@ class SamurottHisuianModel (root: ModelPart) : PokemonPoseableModel(), HeadedFra
     val seamitar_right = getPart("seamitar_hand_right")
     val seamitar_left = getPart("seamitar_hand_left")
 
-    override var portraitScale = 2.2F
-    override var portraitTranslation = Vec3d(-1.0, 1.8, 0.0)
+    override var portraitScale = 1.32F
+    override var portraitTranslation = Vec3d(-0.67, 1.3, 0.0)
     override var profileScale = 0.6F
     override var profileTranslation = Vec3d(0.0, 0.8, 0.0)
 
@@ -39,7 +39,7 @@ class SamurottHisuianModel (root: ModelPart) : PokemonPoseableModel(), HeadedFra
     lateinit var walk: PokemonPose
     lateinit var battleidle: PokemonPose
 
-    //override val cryAnimation = CryProvider { _, _ -> bedrockStateful("samurott_hisuian", "cry") }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("samurott_hisuian", "cry") }
 
     override fun registerPoses() {
         val blink = quirk { bedrockStateful("samurott_hisuian", "blink") }

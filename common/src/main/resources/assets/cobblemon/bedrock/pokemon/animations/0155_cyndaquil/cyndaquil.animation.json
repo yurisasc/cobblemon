@@ -561,6 +561,11 @@
 		},
 		"animation.cyndaquil.battle_cry": {
 			"animation_length": 2,
+			"sound_effects": {
+				"0.25": {
+					"effect": "pokemon.cyndaquil.cry"
+				}
+			},
 			"bones": {
 				"torso": {
 					"rotation": {

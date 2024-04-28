@@ -71,7 +71,7 @@ class CyndaquilModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
 //            quirks = arrayOf(sneeze),
             condition = { it.isBattling },
             idleAnimations = arrayOf(
-                singleBoneLook(),
+                singleBoneLook(minPitch = 0F),
                 bedrock("cyndaquil", "battle_idle")
             )
         )

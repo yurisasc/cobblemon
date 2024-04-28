@@ -682,7 +682,7 @@
 			},
 			"sound_effects": {
 				"0.1667": {
-					"effect": "pokemon.typhlosion.cry"
+					"effect": "pokemon.typhlosion_hisuian.cry"
 				}
 			}
 		},
@@ -910,7 +910,7 @@
 			},
 			"sound_effects": {
 				"0.1667": {
-					"effect": "pokemon.typhlosion.cry"
+					"effect": "pokemon.typhlosion_hisuian.cry"
 				}
 			}
 		},

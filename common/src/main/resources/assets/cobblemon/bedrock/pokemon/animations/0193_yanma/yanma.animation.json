@@ -223,6 +223,14 @@
 					"rotation": [47.5, 0, 0]
 				}
 			}
+		},
+		"animation.yanma.cry": {
+			"animation_length": 1.33333,
+			"sound_effects": {
+				"0.0417": {
+					"effect": "pokemon.yanma.cry"
+				}
+			}
 		}
 	}
 }

@@ -20,7 +20,7 @@ import net.minecraft.network.PacketByteBuf
  * @author Hiroku
  * @since November 13th, 2023
  */
-class GlobalSpeciesFeatureSyncPacket(speciesFeatures: Map<String, SpeciesFeatureProvider<*>>) : SpeciesFeatureSyncPacket(speciesFeatures) {
+class GlobalSpeciesFeatureSyncPacket(speciesFeatures: Map<String, SpeciesFeatureProvider<*>>) : SpeciesFeatureSyncPacket<GlobalSpeciesFeatureSyncPacket>(speciesFeatures) {
     override val id = ID
     override fun synchronizeDecoded(entries: Collection<Map.Entry<String, SynchronizedSpeciesFeatureProvider<*>>>) = GlobalSpeciesFeatures.loadOnClient(entries)
     companion object {

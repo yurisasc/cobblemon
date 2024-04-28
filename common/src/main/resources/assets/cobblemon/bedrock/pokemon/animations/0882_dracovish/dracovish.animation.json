@@ -3765,7 +3765,7 @@
 			},
 			"sound_effects": {
 				"1.0833": {
-					"effect": "dracovish_cry"
+					"effect": "pokemon.dracovish.cry"
 				}
 			}
 		},

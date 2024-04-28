@@ -143,7 +143,7 @@ import kotlin.math.roundToInt
 
 object Cobblemon {
     const val MODID = CobblemonBuildDetails.MOD_ID
-
+    const val VERSION = CobblemonBuildDetails.VERSION
     const val CONFIG_PATH = "config/$MODID/main.json"
     val LOGGER: Logger = LogManager.getLogger()
 
