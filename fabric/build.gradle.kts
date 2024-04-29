@@ -75,6 +75,8 @@ dependencies {
         runtimeOnly(it)
     }
 
+    minecraftServerLibraries(libs.icu4j)
+
 }
 
 tasks {
