@@ -212,7 +212,6 @@
 			}
 		},
 		"animation.zoroark.cry": {
-			"loop": true,
 			"animation_length": 1.04167,
 			"bones": {
 				"head": {
