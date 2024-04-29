@@ -8,19 +8,16 @@
 
 package com.cobblemon.mod.common.api.riding.controller
 
-import com.cobblemon.mod.common.api.riding.conditions.RidingCondition
-import com.cobblemon.mod.common.api.riding.context.RidingContext
 import com.cobblemon.mod.common.api.riding.controller.posing.PoseProvider
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
-import com.cobblemon.mod.common.pokemon.riding.controllers.GenericLandController
-import com.cobblemon.mod.common.pokemon.riding.controllers.GenericLiquidController
+import com.google.gson.JsonElement
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.network.PacketByteBuf
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.Vec2f
 import net.minecraft.util.math.Vec3d
-import java.util.function.Predicate
 
 /**
  * A riding controller is the internal control mechanism for determining how a pokemon
@@ -32,16 +29,6 @@ import java.util.function.Predicate
  * @since x.x.x
  */
 interface RideController {
-
-    companion object {
-
-        val controllers: MutableMap<Identifier, RideController> = mutableMapOf()
-
-        init {
-            controllers[GenericLandController.key] = GenericLandController
-            controllers[GenericLiquidController.key] = GenericLiquidController
-        }
-    }
 
     /** A reference key used to denote the individual controller */
     val key: Identifier
@@ -73,7 +60,7 @@ interface RideController {
     /**
      * Calculates the current speed of the mount.
      */
-    fun speed(entity: PokemonEntity, driver: PlayerEntity, context: RidingContext) : Float
+    fun speed(entity: PokemonEntity, driver: PlayerEntity) : Float
 
     /**
      * Sets the rotation of the mount. This is typically based on the controlling driver and is manipulated as
@@ -87,5 +74,17 @@ interface RideController {
      * it would otherwise be slower than normal forward movement.
      */
     fun velocity(driver: PlayerEntity, input: Vec3d) : Vec3d
+
+    fun encode(buffer: PacketByteBuf) {
+        buffer.writeIdentifier(this.key)
+    }
+
+    interface Deserializer {
+
+        fun deserialize(json: JsonElement): RideController
+
+        fun decode(buffer: PacketByteBuf): RideController
+
+    }
 
 }

@@ -11,7 +11,8 @@ package com.cobblemon.mod.common.pokemon.riding
 import com.cobblemon.mod.common.api.net.Encodable
 import com.cobblemon.mod.common.api.riding.conditions.RidingCondition
 import com.cobblemon.mod.common.api.riding.RidingProperties
-import com.cobblemon.mod.common.api.riding.capability.RidingCapability
+import com.cobblemon.mod.common.api.riding.controller.RideController
+import com.cobblemon.mod.common.api.riding.controller.RideControllerDeserializer
 import com.cobblemon.mod.common.api.riding.seats.properties.SeatProperties
 import com.google.gson.annotations.SerializedName
 import net.minecraft.network.PacketByteBuf
@@ -24,7 +25,7 @@ data class CobblemonRidingProperties(
     override val conditions: List<RidingCondition>,
 
     @SerializedName("capabilities")
-    override val capabilities: List<RidingCapability>
+    override val controllers: List<RideController>
 ): RidingProperties, Encodable {
 
     companion object {
@@ -32,9 +33,9 @@ data class CobblemonRidingProperties(
 
         fun decode(buffer: PacketByteBuf): RidingProperties {
             val seats: List<SeatProperties> = buffer.readList { _ -> SeatProperties.decode(buffer) }
-            val capabilities: List<RidingCapability> = buffer.readList { _ -> RidingCapability.decode(buffer) }
+            val controllers: List<RideController> = buffer.readList { _ -> RideControllerDeserializer.decode(buffer) }
 
-            return CobblemonRidingProperties(seats, emptyList(), capabilities)
+            return CobblemonRidingProperties(seats, emptyList(), controllers)
         }
     }
 
@@ -44,7 +45,7 @@ data class CobblemonRidingProperties(
 
     override fun encode(buffer: PacketByteBuf) {
         buffer.writeNullable(this.seats) { _, seats -> buffer.writeCollection(seats) { _, seat -> seat.encode(buffer) } }
-        buffer.writeCollection(this.capabilities) { _, capability -> capability.encode(buffer) }
+        buffer.writeCollection(this.controllers) { _, controller -> controller.encode(buffer) }
     }
 
 }

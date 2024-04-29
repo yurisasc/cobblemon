@@ -21,7 +21,6 @@ import com.cobblemon.mod.common.api.interaction.PokemonEntityInteraction
 import com.cobblemon.mod.common.api.net.serializers.PoseTypeDataSerializer
 import com.cobblemon.mod.common.api.net.serializers.SeatDataSerializer
 import com.cobblemon.mod.common.api.net.serializers.StringSetDataSerializer
-import com.cobblemon.mod.common.api.pokemon.PokemonProperties
 import com.cobblemon.mod.common.api.pokemon.feature.FlagSpeciesFeature
 import com.cobblemon.mod.common.api.pokemon.status.Statuses
 import com.cobblemon.mod.common.api.reactive.ObservableSubscription
@@ -31,9 +30,6 @@ import com.cobblemon.mod.common.api.scheduling.SchedulingTracker
 import com.cobblemon.mod.common.api.storage.InvalidSpeciesException
 import com.cobblemon.mod.common.api.riding.Rideable
 import com.cobblemon.mod.common.api.riding.RidingManager
-import com.cobblemon.mod.common.api.riding.context.RidingContext
-import com.cobblemon.mod.common.api.riding.context.state.RidingStateKeys
-import com.cobblemon.mod.common.api.riding.seats.Seat
 
 import com.cobblemon.mod.common.api.types.ElementalTypes
 import com.cobblemon.mod.common.battles.BagItems
@@ -64,11 +60,8 @@ import com.cobblemon.mod.common.pokemon.activestate.ShoulderedState
 import com.cobblemon.mod.common.pokemon.ai.FormPokemonBehaviour
 import com.cobblemon.mod.common.pokemon.evolution.variants.ItemInteractionEvolution
 import com.cobblemon.mod.common.pokemon.misc.GimmighoulStashHandler
-import com.cobblemon.mod.common.pokemon.riding.RidingState
-import com.cobblemon.mod.common.pokemon.riding.controllers.GenericLandController
 import com.cobblemon.mod.common.util.*
 import com.cobblemon.mod.common.world.gamerules.CobblemonGameRules
-import net.minecraft.block.Blocks
 import java.util.EnumSet
 import java.util.Optional
 import java.util.UUID
@@ -205,7 +198,7 @@ open class PokemonEntity(
     var blocksTraveled: Double = 0.0
     var countsTowardsSpawnCap = true
 
-    override val riding: RidingManager = RidingManager { this }
+    override val riding: RidingManager = RidingManager(this)
 
     /**
      * 0 is do nothing,
@@ -1248,7 +1241,7 @@ open class PokemonEntity(
     }
 
     override fun getSaddledSpeed(controller: PlayerEntity): Float {
-        return this.riding.context.speed
+        return this.riding.speed(this, controller)
     }
 
     override fun setJumpStrength(strength: Int) {

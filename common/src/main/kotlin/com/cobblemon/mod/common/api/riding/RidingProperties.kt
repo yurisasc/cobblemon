@@ -8,8 +8,8 @@
 
 package com.cobblemon.mod.common.api.riding
 
-import com.cobblemon.mod.common.api.riding.capability.RidingCapability
 import com.cobblemon.mod.common.api.riding.conditions.RidingCondition
+import com.cobblemon.mod.common.api.riding.controller.RideController
 import com.cobblemon.mod.common.api.riding.seats.properties.SeatProperties
 
 interface RidingProperties {
@@ -18,7 +18,7 @@ interface RidingProperties {
 
     val conditions: List<RidingCondition>
 
-    val capabilities: List<RidingCapability>
+    val controllers: List<RideController>
 
     fun supported(): Boolean
 
