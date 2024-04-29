@@ -1253,7 +1253,7 @@ open class PokemonEntity(
 
     override fun setJumpStrength(strength: Int) {
         // See if this controls the hot bar element
-
+        println("Strength set on ${side()}")
     }
 
     override fun canJump(): Boolean {
@@ -1261,8 +1261,10 @@ open class PokemonEntity(
     }
 
     override fun startJumping(height: Int) {
-
+        println("Starting jumping ${side()}")
     }
+
+    fun side() = if (delegate is PokemonServerDelegate) "SERVER" else "CLIENT"
 
     override fun stopJumping() {
         // Set back to land pose type?

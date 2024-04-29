@@ -8,7 +8,6 @@
 
 package com.cobblemon.mod.common.api.riding.controller
 
-import com.cobblemon.mod.common.api.riding.conditions.RidingCondition
 import com.cobblemon.mod.common.api.riding.context.RidingContext
 import com.cobblemon.mod.common.api.riding.controller.posing.PoseProvider
 import com.cobblemon.mod.common.entity.PoseType
@@ -20,7 +19,6 @@ import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.Vec2f
 import net.minecraft.util.math.Vec3d
-import java.util.function.Predicate
 
 /**
  * A riding controller is the internal control mechanism for determining how a pokemon
