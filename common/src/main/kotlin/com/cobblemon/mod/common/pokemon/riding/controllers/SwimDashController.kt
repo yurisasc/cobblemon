@@ -14,6 +14,7 @@ import com.cobblemon.mod.common.api.riding.controller.posing.PoseProvider
 import com.cobblemon.mod.common.api.riding.controller.properties.RideControllerPropertyKey
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
+import com.cobblemon.mod.common.util.blockPositionsAsListRounded
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.google.gson.JsonElement
 import net.minecraft.entity.LivingEntity
@@ -22,6 +23,7 @@ import net.minecraft.network.PacketByteBuf
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.Vec2f
 import net.minecraft.util.math.Vec3d
+import net.minecraft.util.shape.VoxelShapes
 
 data class SwimDashController(val dashSpeed: Float) : RideController {
 
@@ -35,7 +37,16 @@ data class SwimDashController(val dashSpeed: Float) : RideController {
     override val key: Identifier = KEY
     override val poseProvider: PoseProvider = PoseProvider(PoseType.FLOAT)
         .with(PoseOption(PoseType.SWIM) { it.isSwimming && it.dataTracker.get(PokemonEntity.MOVING) })
-    override val condition: (PokemonEntity) -> Boolean = { false }
+    override val condition: (PokemonEntity) -> Boolean = { entity ->
+        //This could be kinda weird... what if the top of the mon is in a fluid but the bottom isnt?
+        VoxelShapes.cuboid(entity.boundingBox).blockPositionsAsListRounded().any {
+            if (entity.isTouchingWater || entity.isSubmergedInWater) {
+                return@any true
+            }
+            val blockState = entity.world.getBlockState(it)
+            return@any !blockState.fluidState.isEmpty
+        }
+    }
 
     /** Indicates that we are currently enacting a dash, and that further movement inputs should be ignored */
     private var dashing = false

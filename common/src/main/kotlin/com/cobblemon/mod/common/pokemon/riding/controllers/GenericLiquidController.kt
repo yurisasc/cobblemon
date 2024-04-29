@@ -13,6 +13,7 @@ import com.cobblemon.mod.common.api.riding.controller.posing.PoseOption
 import com.cobblemon.mod.common.api.riding.controller.posing.PoseProvider
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
+import com.cobblemon.mod.common.util.blockPositionsAsListRounded
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.google.gson.JsonElement
 import net.minecraft.entity.LivingEntity
@@ -21,6 +22,7 @@ import net.minecraft.network.PacketByteBuf
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.Vec2f
 import net.minecraft.util.math.Vec3d
+import net.minecraft.util.shape.VoxelShapes
 import kotlin.math.max
 import kotlin.math.min
 
@@ -33,8 +35,16 @@ data class GenericLiquidController(val speed: Float, val acceleration: Float) : 
     override val key: Identifier = KEY
     override val poseProvider: PoseProvider = PoseProvider(PoseType.FLOAT)
         .with(PoseOption(PoseType.SWIM) { it.isSwimming && it.dataTracker.get(PokemonEntity.MOVING) })
-    override val condition: (PokemonEntity) -> Boolean
-        get() = TODO("Not yet implemented")
+    override val condition: (PokemonEntity) -> Boolean = { entity ->
+        //This could be kinda weird... what if the top of the mon is in a fluid but the bottom isnt?
+        VoxelShapes.cuboid(entity.boundingBox).blockPositionsAsListRounded().any {
+            if (entity.isTouchingWater || entity.isSubmergedInWater) {
+                return@any true
+            }
+            val blockState = entity.world.getBlockState(it)
+            return@any !blockState.fluidState.isEmpty
+        }
+    }
 
     override fun speed(entity: PokemonEntity, driver: PlayerEntity): Float {
         return min(max(this.speed + this.acceleration(), 0.0F), 1.0F)
