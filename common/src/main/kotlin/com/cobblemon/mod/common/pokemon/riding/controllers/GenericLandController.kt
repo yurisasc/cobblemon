@@ -51,7 +51,7 @@ object GenericLandController : RideController {
                 val blockState = entity.world.getBlockState(it.down())
                 return@any !blockState.isAir && blockState.fluidState.isEmpty
             }
-            false
+            true
         }
     }
 

@@ -25,6 +25,22 @@ import java.util.function.Predicate
 class LandCapability(override val properties: RideControllerProperties) : RidingCapability {
 
     override val key: Identifier = RidingCapability.LAND
-    override val condition: Predicate<PokemonEntity> = Predicate<PokemonEntity> { _ -> false }
+    override val condition: Predicate<PokemonEntity> = Predicate<PokemonEntity> { entity ->
+        //Are there any blocks under the mon that aren't air or fluid
+        //Cant just check one block since some mons may be more than one block big
+        //This should be changed so that the any predicate is only ran on blocks under the mon
+        VoxelShapes.cuboid(entity.boundingBox).blockPositionsAsListRounded().any {
+            //Need to check other fluids
+            if (entity.isTouchingWater || entity.isSubmergedInWater) {
+                return@any false
+            }
+            //This might not actually work, depending on what the yPos actually is. yPos of the middle of the entity? the feet?
+            if (it.y.toDouble() == (entity.pos.y)) {
+                val blockState = entity.world.getBlockState(it.down())
+                return@any !blockState.isAir && blockState.fluidState.isEmpty
+            }
+            false
+        }
+    }
 
 }
