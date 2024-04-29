@@ -10,6 +10,8 @@ package com.cobblemon.mod.common.client.battle
 
 import com.cobblemon.mod.common.CobblemonNetwork
 import com.cobblemon.mod.common.battles.BattleFormat
+import com.cobblemon.mod.common.battles.ForcePassActionResponse
+import com.cobblemon.mod.common.battles.PassActionResponse
 import com.cobblemon.mod.common.net.messages.server.battle.BattleSelectActionsPacket
 import java.util.UUID
 
@@ -32,7 +34,20 @@ class ClientBattle(
 
     fun getFirstUnansweredRequest() = pendingActionRequests.firstOrNull { it.response == null }
 
-    fun getLastAnsweredRequest() = pendingActionRequests.lastOrNull() { it.response != null }
+    fun getLastAnsweredRequest() = pendingActionRequests.lastOrNull { it.response != null && it.response != PassActionResponse && it.response !is ForcePassActionResponse }
+
+    fun cancelLastAnsweredRequest() {
+        var index = pendingActionRequests.indexOfLast { it.response != null && it.response != PassActionResponse && it.response !is ForcePassActionResponse }
+        if (index != -1) {
+           while(index < pendingActionRequests.size) {
+               val request = pendingActionRequests[index]
+               if(request.response != PassActionResponse && request.response !is ForcePassActionResponse)
+                   request.response = null
+               index++
+           }
+        }
+    }
+
     fun checkForFinishedChoosing() {
         if (getFirstUnansweredRequest() == null) {
             CobblemonNetwork.sendPacketToServer(

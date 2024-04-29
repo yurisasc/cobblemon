@@ -10,8 +10,6 @@ package com.cobblemon.mod.common.client.gui.battle.subscreen
 
 import com.cobblemon.mod.common.CobblemonSounds
 import com.cobblemon.mod.common.api.battles.model.actor.ActorType
-import com.cobblemon.mod.common.api.text.yellow
-import com.cobblemon.mod.common.battles.BattleRegistry
 import com.cobblemon.mod.common.client.CobblemonClient
 import com.cobblemon.mod.common.client.battle.SingleActionRequest
 import com.cobblemon.mod.common.client.gui.battle.BattleGUI
@@ -106,11 +104,8 @@ class BattleGeneralActionSelection(
     override fun mouseClicked(mouseX: Double, mouseY: Double, button: Int): Boolean {
         if (backButton.isHovered(mouseX, mouseY)) {
             playDownSound(MinecraftClient.getInstance().soundManager)
-            val lastAnwseredRequest = CobblemonClient.battle?.getLastAnsweredRequest()
-            if(lastAnwseredRequest != null) {
-                lastAnwseredRequest.response = null
-                battleGUI.selectAction(request, null)
-            }
+            CobblemonClient.battle?.cancelLastAnsweredRequest()
+            battleGUI.selectAction(request, null)
             battleGUI.changeActionSelection(null)
         }
         return tiles.any { it.mouseClicked(mouseX, mouseY, button) }
