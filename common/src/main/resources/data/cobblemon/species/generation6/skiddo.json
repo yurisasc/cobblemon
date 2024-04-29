@@ -16,13 +16,51 @@
   },
   "catchRate": 200,
   "maleRatio": 0.5,
-  "shoulderMountable": false,
-  "baseExperienceYield": 70,
+  "baseFriendship": 70,
   "experienceGroup": "medium_fast",
   "eggCycles": 20,
   "eggGroups": [
     "field"
   ],
+  "height": 9,
+  "weight": 310,
+  "pokedex": [
+    "cobblemon.species.skiddo.desc"
+  ],
+  "labels": [
+    "gen6"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 70,
+  "evYield": {
+    "hp": 1,
+    "attack": 0,
+    "defence": 0,
+    "special_attack": 0,
+    "special_defence": 0,
+    "speed": 0
+  },
+  "drops": {
+    "amount": 3,
+    "entries": [
+      {
+        "item": "minecraft:mutton",
+        "quantityRange": "1-2"
+      },
+      {
+        "item": "cobblemon:oran_berry",
+        "percentage": 2.5
+      }
+    ]
+  },
+  "baseScale": 1,
+  "hitbox": {
+    "width": 1,
+    "height": 1,
+    "fixed": false
+  },
+  "cannotDynamax": false,
+  "shoulderMountable": false,
   "moves": [
     "1:growth",
     "1:tackle",
@@ -106,18 +144,10 @@
     "tutor:worryseed",
     "tutor:zenheadbutt"
   ],
-  "labels": [
-    "gen6"
-  ],
-  "pokedex": [
-    "cobblemon.species.skiddo.desc"
-  ],
   "evolutions": [
     {
       "id": "skiddo_gogoat",
-      "variant": "level_up",
       "result": "gogoat",
-      "consumeHeldItem": false,
       "learnableMoves": [
         "aerialace"
       ],
@@ -126,39 +156,10 @@
           "variant": "level",
           "minLevel": 32
         }
-      ]
-    }
-  ],
-  "baseScale": 1,
-  "hitbox": {
-    "width": 1,
-    "height": 1,
-    "fixed": false
-  },
-  "baseFriendship": 70,
-  "evYield": {
-    "hp": 1,
-    "attack": 0,
-    "defence": 0,
-    "special_attack": 0,
-    "special_defence": 0,
-    "speed": 0
-  },
-  "height": 9,
-  "weight": 310,
-  "aspects": [],
-  "cannotDynamax": false,
-  "drops": {
-    "amount": 3,
-    "entries": [
-      {
-        "item": "minecraft:mutton",
-        "quantityRange": "1-2"
-      },
-      {
-        "item": "cobblemon:oran_berry",
-        "percentage": 2.5
+      ],
+      "trigger": {
+        "variant": "level_up"
       }
-    ]
-  }
+    }
+  ]
 }

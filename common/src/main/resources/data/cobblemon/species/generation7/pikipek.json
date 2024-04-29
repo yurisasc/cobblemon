@@ -18,13 +18,50 @@
   },
   "catchRate": 255,
   "maleRatio": 0.5,
-  "shoulderMountable": false,
-  "baseExperienceYield": 53,
+  "baseFriendship": 70,
   "experienceGroup": "medium_fast",
   "eggCycles": 15,
   "eggGroups": [
     "flying"
   ],
+  "height": 3,
+  "weight": 12,
+  "pokedex": [
+    "cobblemon.species.pikipek.desc"
+  ],
+  "labels": [
+    "gen7"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 53,
+  "evYield": {
+    "hp": 0,
+    "attack": 1,
+    "defence": 0,
+    "special_attack": 0,
+    "special_defence": 0,
+    "speed": 0
+  },
+  "drops": {
+    "amount": 2,
+    "entries": [
+      {
+        "item": "minecraft:feather",
+        "quantityRange": "0-1"
+      },
+      {
+        "item": "minecraft:chicken"
+      }
+    ]
+  },
+  "baseScale": 1,
+  "hitbox": {
+    "width": 1,
+    "height": 1,
+    "fixed": false
+  },
+  "cannotDynamax": false,
+  "shoulderMountable": false,
   "moves": [
     "1:peck",
     "3:growl",
@@ -101,56 +138,20 @@
     "tutor:tailwind",
     "tutor:uproar"
   ],
-  "labels": [
-    "gen7"
-  ],
-  "pokedex": [
-    "cobblemon.species.pikipek.desc"
-  ],
   "evolutions": [
     {
       "id": "pikipek_trumbeak",
-      "variant": "level_up",
       "result": "trumbeak",
-      "consumeHeldItem": false,
       "learnableMoves": [],
       "requirements": [
         {
           "variant": "level",
           "minLevel": 14
         }
-      ]
-    }
-  ],
-  "baseScale": 1,
-  "hitbox": {
-    "width": 1,
-    "height": 1,
-    "fixed": false
-  },
-  "baseFriendship": 70,
-  "evYield": {
-    "hp": 0,
-    "attack": 1,
-    "defence": 0,
-    "special_attack": 0,
-    "special_defence": 0,
-    "speed": 0
-  },
-  "height": 3,
-  "weight": 12,
-  "aspects": [],
-  "cannotDynamax": false,
-  "drops": {
-    "amount": 2,
-    "entries": [
-      {
-        "item": "minecraft:feather",
-        "quantityRange": "0-1"
-      },
-      {
-        "item": "minecraft:chicken"
+      ],
+      "trigger": {
+        "variant": "level_up"
       }
-    ]
-  }
+    }
+  ]
 }

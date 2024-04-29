@@ -18,8 +18,22 @@
   },
   "catchRate": 45,
   "maleRatio": 0.5,
-  "baseExperienceYield": 260,
   "baseFriendship": 50,
+  "experienceGroup": "medium_fast",
+  "eggCycles": 20,
+  "eggGroups": [
+    "field"
+  ],
+  "height": 32,
+  "weight": 1600,
+  "pokedex": [
+    "cobblemon.species.farigiraf.desc"
+  ],
+  "labels": [
+    "gen9"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 260,
   "evYield": {
     "hp": 3,
     "attack": 0,
@@ -28,11 +42,24 @@
     "special_defence": 0,
     "speed": 0
   },
-  "experienceGroup": "medium_fast",
-  "eggCycles": 20,
-  "eggGroups": [
-    "field"
-  ],
+  "drops": {
+    "amount": 4,
+    "entries": [
+      {
+        "item": "minecraft:leather",
+        "quantityRange": "0-2"
+      },
+      {
+        "item": "cobblemon:razor_fang",
+        "percentage": 5.0
+      },
+      {
+        "item": "cobblemon:persim_berry",
+        "percentage": 5.0
+      }
+    ]
+  },
+  "cannotDynamax": false,
   "moves": [
     "1:astonish",
     "1:growl",
@@ -104,33 +131,6 @@
     "tm:trickroom",
     "tm:zenheadbutt"
   ],
-  "labels": [
-    "gen9"
-  ],
-  "aspects": [],
-  "height": 32,
-  "weight": 1600,
   "preEvolution": "girafarig",
-  "evolutions": [],
-  "cannotDynamax": false,
-  "pokedex": [
-    "cobblemon.species.farigiraf.desc"
-  ],
-  "drops": {
-    "amount": 4,
-    "entries": [
-      {
-        "item": "minecraft:leather",
-        "quantityRange": "0-2"
-      },
-      {
-        "item": "cobblemon:razor_fang",
-        "percentage": 5.0
-      },
-      {
-        "item": "cobblemon:persim_berry",
-        "percentage": 5.0
-      }
-    ]
-  }
+  "evolutions": []
 }

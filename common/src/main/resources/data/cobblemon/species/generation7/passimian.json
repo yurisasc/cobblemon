@@ -16,13 +16,51 @@
   },
   "catchRate": 45,
   "maleRatio": 0.5,
-  "shoulderMountable": false,
-  "baseExperienceYield": 172,
+  "baseFriendship": 50,
   "experienceGroup": "slow",
   "eggCycles": 20,
   "eggGroups": [
     "field"
   ],
+  "height": 20,
+  "weight": 828,
+  "pokedex": [
+    "cobblemon.species.passimian.desc"
+  ],
+  "labels": [
+    "gen7"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 172,
+  "evYield": {
+    "hp": 0,
+    "attack": 2,
+    "defence": 0,
+    "special_attack": 0,
+    "special_defence": 0,
+    "speed": 0
+  },
+  "drops": {
+    "amount": 2,
+    "entries": [
+      {
+        "item": "cobblemon:muscle_band",
+        "percentage": 5.0
+      },
+      {
+        "item": "cobblemon:payapa_berry",
+        "percentage": 5.0
+      }
+    ]
+  },
+  "baseScale": 1,
+  "hitbox": {
+    "width": 1,
+    "height": 1,
+    "fixed": false
+  },
+  "cannotDynamax": false,
+  "shoulderMountable": false,
   "moves": [
     "1:leer",
     "1:tackle",
@@ -145,43 +183,5 @@
     "tutor:uproar",
     "tutor:uturn"
   ],
-  "labels": [
-    "gen7"
-  ],
-  "pokedex": [
-    "cobblemon.species.passimian.desc"
-  ],
-  "evolutions": [],
-  "baseScale": 1,
-  "hitbox": {
-    "width": 1,
-    "height": 1,
-    "fixed": false
-  },
-  "baseFriendship": 50,
-  "evYield": {
-    "hp": 0,
-    "attack": 2,
-    "defence": 0,
-    "special_attack": 0,
-    "special_defence": 0,
-    "speed": 0
-  },
-  "height": 20,
-  "weight": 828,
-  "aspects": [],
-  "cannotDynamax": false,
-  "drops": {
-    "amount": 2,
-    "entries": [
-      {
-        "item": "cobblemon:muscle_band",
-        "percentage": 5.0
-      },
-      {
-        "item": "cobblemon:payapa_berry",
-        "percentage": 5.0
-      }
-    ]
-  }
+  "evolutions": []
 }

@@ -15,8 +15,23 @@
   },
   "catchRate": 200,
   "maleRatio": 0.5,
-  "baseExperienceYield": 63,
   "baseFriendship": 50,
+  "experienceGroup": "slow",
+  "eggCycles": 40,
+  "eggGroups": [
+    "field",
+    "water_2"
+  ],
+  "height": 13,
+  "weight": 602,
+  "pokedex": [
+    "cobblemon.species.finizen.desc"
+  ],
+  "labels": [
+    "gen9"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 63,
   "evYield": {
     "hp": 0,
     "attack": 0,
@@ -25,12 +40,16 @@
     "special_defence": 0,
     "speed": 1
   },
-  "experienceGroup": "slow",
-  "eggCycles": 40,
-  "eggGroups": [
-    "field",
-    "water_2"
-  ],
+  "drops": {
+    "amount": 1,
+    "entries": [
+      {
+        "item": "minecraft:cod",
+        "quantityRange": "0-1"
+      }
+    ]
+  },
+  "cannotDynamax": false,
   "moves": [
     "1:supersonic",
     "1:watergun",
@@ -80,18 +99,10 @@
     "tm:waterpulse",
     "tm:zenheadbutt"
   ],
-  "labels": [
-    "gen9"
-  ],
-  "aspects": [],
-  "height": 13,
-  "weight": 602,
   "evolutions": [
     {
       "id": "finizen_palafin",
-      "variant": "level_up",
       "result": "palafin",
-      "consumeHeldItem": false,
       "learnableMoves": [
         "flipturn"
       ],
@@ -100,20 +111,10 @@
           "variant": "level",
           "minLevel": 38
         }
-      ]
-    }
-  ],
-  "cannotDynamax": false,
-  "pokedex": [
-    "cobblemon.species.finizen.desc"
-  ],
-  "drops": {
-    "amount": 1,
-    "entries": [
-      {
-        "item": "minecraft:cod",
-        "quantityRange": "0-1"
+      ],
+      "trigger": {
+        "variant": "level_up"
       }
-    ]
-  }
+    }
+  ]
 }

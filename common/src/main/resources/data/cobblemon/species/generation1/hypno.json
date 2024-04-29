@@ -8,15 +8,6 @@
     "forewarn",
     "h:innerfocus"
   ],
-  "drops": {
-    "amount": 1,
-    "entries": [
-      {
-        "item": "cobblemon:chesto_berry",
-        "percentage": 5.0
-      }
-    ]
-  },
   "baseStats": {
     "hp": 85,
     "attack": 73,
@@ -27,13 +18,47 @@
   },
   "catchRate": 75,
   "maleRatio": 0.5,
-  "shoulderMountable": false,
-  "baseExperienceYield": 169,
+  "baseFriendship": 70,
   "experienceGroup": "medium_fast",
   "eggCycles": 20,
   "eggGroups": [
     "human_like"
   ],
+  "height": 16,
+  "weight": 756,
+  "pokedex": [
+    "cobblemon.species.hypno.desc"
+  ],
+  "labels": [
+    "gen1"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 169,
+  "evYield": {
+    "hp": 0,
+    "attack": 0,
+    "defence": 0,
+    "special_attack": 0,
+    "special_defence": 2,
+    "speed": 0
+  },
+  "drops": {
+    "amount": 1,
+    "entries": [
+      {
+        "item": "cobblemon:chesto_berry",
+        "percentage": 5.0
+      }
+    ]
+  },
+  "baseScale": 1,
+  "hitbox": {
+    "width": 0.9,
+    "height": 1.6,
+    "fixed": false
+  },
+  "cannotDynamax": false,
+  "shoulderMountable": false,
   "behaviour": {
     "resting": {
       "canSleep": true,
@@ -227,31 +252,6 @@
     "tutor:zapcannon",
     "tutor:zenheadbutt"
   ],
-  "labels": [
-    "gen1"
-  ],
-  "pokedex": [
-    "cobblemon.species.hypno.desc"
-  ],
   "preEvolution": "drowzee",
-  "evolutions": [],
-  "baseScale": 1,
-  "hitbox": {
-    "width": 0.9,
-    "height": 1.6,
-    "fixed": false
-  },
-  "baseFriendship": 70,
-  "evYield": {
-    "hp": 0,
-    "attack": 0,
-    "defence": 0,
-    "special_attack": 0,
-    "special_defence": 2,
-    "speed": 0
-  },
-  "height": 16,
-  "weight": 756,
-  "aspects": [],
-  "cannotDynamax": false
+  "evolutions": []
 }

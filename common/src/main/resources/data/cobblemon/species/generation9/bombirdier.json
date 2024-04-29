@@ -18,8 +18,22 @@
   },
   "catchRate": 25,
   "maleRatio": 0.5,
-  "baseExperienceYield": 243,
   "baseFriendship": 50,
+  "experienceGroup": "slow",
+  "eggCycles": 35,
+  "eggGroups": [
+    "flying"
+  ],
+  "height": 15,
+  "weight": 429,
+  "pokedex": [
+    "cobblemon.species.bombirdier.desc"
+  ],
+  "labels": [
+    "gen9"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 243,
   "evYield": {
     "hp": 0,
     "attack": 2,
@@ -28,11 +42,23 @@
     "special_defence": 0,
     "speed": 0
   },
-  "experienceGroup": "slow",
-  "eggCycles": 35,
-  "eggGroups": [
-    "flying"
-  ],
+  "drops": {
+    "amount": 4,
+    "entries": [
+      {
+        "item": "minecraft:feather",
+        "quantityRange": "0-2"
+      },
+      {
+        "item": "minecraft:chicken"
+      },
+      {
+        "item": "cobblemon:razz_berry",
+        "percentage": 5.0
+      }
+    ]
+  },
+  "cannotDynamax": false,
   "moves": [
     "1:honeclaws",
     "1:leer",
@@ -98,31 +124,5 @@
     "tutor:torment",
     "tutor:wingattack"
   ],
-  "labels": [
-    "gen9"
-  ],
-  "aspects": [],
-  "height": 15,
-  "weight": 429,
-  "evolutions": [],
-  "cannotDynamax": false,
-  "pokedex": [
-    "cobblemon.species.bombirdier.desc"
-  ],
-  "drops": {
-    "amount": 4,
-    "entries": [
-      {
-        "item": "minecraft:feather",
-        "quantityRange": "0-2"
-      },
-      {
-        "item": "minecraft:chicken"
-      },
-      {
-        "item": "cobblemon:razz_berry",
-        "percentage": 5.0
-      }
-    ]
-  }
+  "evolutions": []
 }

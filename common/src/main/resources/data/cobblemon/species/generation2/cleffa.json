@@ -8,6 +8,41 @@
     "magicguard",
     "h:friendguard"
   ],
+  "baseStats": {
+    "hp": 50,
+    "attack": 25,
+    "defence": 28,
+    "special_attack": 45,
+    "special_defence": 55,
+    "speed": 15
+  },
+  "catchRate": 150,
+  "maleRatio": 0.25,
+  "baseFriendship": 140,
+  "experienceGroup": "fast",
+  "eggCycles": 10,
+  "eggGroups": [
+    "undiscovered"
+  ],
+  "height": 3,
+  "weight": 30,
+  "pokedex": [
+    "cobblemon.species.cleffa.desc"
+  ],
+  "labels": [
+    "gen2",
+    "baby"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 44,
+  "evYield": {
+    "hp": 0,
+    "attack": 0,
+    "defence": 0,
+    "special_attack": 0,
+    "special_defence": 1,
+    "speed": 0
+  },
   "drops": {
     "amount": 3,
     "entries": [
@@ -25,23 +60,14 @@
       }
     ]
   },
-  "baseStats": {
-    "hp": 50,
-    "attack": 25,
-    "defence": 28,
-    "special_attack": 45,
-    "special_defence": 55,
-    "speed": 15
+  "baseScale": 0.7,
+  "hitbox": {
+    "width": 0.6,
+    "height": 0.6,
+    "fixed": false
   },
-  "catchRate": 150,
-  "maleRatio": 0.25,
+  "cannotDynamax": false,
   "shoulderMountable": true,
-  "baseExperienceYield": 44,
-  "experienceGroup": "fast",
-  "eggCycles": 10,
-  "eggGroups": [
-    "undiscovered"
-  ],
   "moves": [
     "1:copycat",
     "1:pound",
@@ -213,45 +239,20 @@
     "tutor:zapcannon",
     "tutor:zenheadbutt"
   ],
-  "labels": [
-    "gen2",
-    "baby"
-  ],
-  "pokedex": [
-    "cobblemon.species.cleffa.desc"
-  ],
   "evolutions": [
     {
       "id": "cleffa_clefairy",
-      "variant": "level_up",
       "result": "clefairy",
-      "consumeHeldItem": false,
       "learnableMoves": [],
       "requirements": [
         {
           "variant": "friendship",
           "amount": 160
         }
-      ]
+      ],
+      "trigger": {
+        "variant": "level_up"
+      }
     }
-  ],
-  "baseScale": 0.7,
-  "hitbox": {
-    "width": 0.6,
-    "height": 0.6,
-    "fixed": false
-  },
-  "baseFriendship": 140,
-  "evYield": {
-    "hp": 0,
-    "attack": 0,
-    "defence": 0,
-    "special_attack": 0,
-    "special_defence": 1,
-    "speed": 0
-  },
-  "height": 3,
-  "weight": 30,
-  "aspects": [],
-  "cannotDynamax": false
+  ]
 }

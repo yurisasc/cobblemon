@@ -7,6 +7,44 @@
     "hustle",
     "h:innerfocus"
   ],
+  "baseStats": {
+    "hp": 70,
+    "attack": 90,
+    "defence": 45,
+    "special_attack": 15,
+    "special_defence": 45,
+    "speed": 50
+  },
+  "catchRate": 120,
+  "maleRatio": 0.5,
+  "baseFriendship": 50,
+  "experienceGroup": "medium_slow",
+  "eggCycles": 20,
+  "eggGroups": [
+    "field"
+  ],
+  "height": 6,
+  "weight": 375,
+  "pokedex": [
+    "cobblemon.species.darumaka.desc"
+  ],
+  "labels": [
+    "gen5",
+    "unova_regional"
+  ],
+  "features": [
+    "galarian"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 63,
+  "evYield": {
+    "hp": 0,
+    "attack": 1,
+    "defence": 0,
+    "special_attack": 0,
+    "special_defence": 0,
+    "speed": 0
+  },
   "drops": {
     "amount": 1,
     "entries": [
@@ -16,177 +54,26 @@
       }
     ]
   },
-  "baseStats": {
-    "hp": 70,
-    "attack": 90,
-    "defence": 45,
-    "special_attack": 15,
-    "special_defence": 45,
-    "speed": 50
+  "baseScale": 1,
+  "hitbox": {
+    "width": 0.7,
+    "height": 0.83,
+    "fixed": false
   },
+  "cannotDynamax": false,
+  "shoulderMountable": false,
   "behaviour": {
     "resting": {
       "canSleep": true,
       "depth": "normal",
       "light": "0-4"
     },
-    "moving" : {
+    "moving": {
       "walk": {
         "walkSpeed": 0.2
       }
     }
   },
-  "features": [
-    "galarian"
-  ],
-  "catchRate": 120,
-  "maleRatio": 0.5,
-  "shoulderMountable": false,
-  "forms": [
-    {
-      "name": "Galar",
-      "primaryType": "ice",
-      "abilities": [
-        "hustle",
-        "h:innerfocus"
-      ],
-      "baseStats": {
-        "hp": 70,
-        "attack": 90,
-        "defence": 45,
-        "special_attack": 15,
-        "special_defence": 45,
-        "speed": 50
-      },
-      "catchRate": 120,
-      "maleRatio": 0.5,
-      "baseExperienceYield": 63,
-      "baseFriendship": 50,
-      "evYield": {
-        "hp": 0,
-        "attack": 1,
-        "defence": 0,
-        "special_attack": 0,
-        "special_defence": 0,
-        "speed": 0
-      },
-      "experienceGroup": "medium_slow",
-      "eggCycles": 20,
-      "eggGroups": [
-        "field"
-      ],
-      "moves": [
-        "1:powdersnow",
-        "1:tackle",
-        "4:taunt",
-        "8:bite",
-        "12:avalanche",
-        "16:workup",
-        "20:icefang",
-        "24:headbutt",
-        "28:icepunch",
-        "32:uproar",
-        "36:bellydrum",
-        "40:blizzard",
-        "44:thrash",
-        "48:superpower",
-        "egg:flamewheel",
-        "egg:focuspunch",
-        "egg:freezedry",
-        "egg:hammerarm",
-        "egg:incinerate",
-        "egg:poweruppunch",
-        "egg:takedown",
-        "egg:yawn",
-        "tm:attract",
-        "tm:avalanche",
-        "tm:blizzard",
-        "tm:brickbreak",
-        "tm:dig",
-        "tm:encore",
-        "tm:endure",
-        "tm:facade",
-        "tm:fireblast",
-        "tm:firefang",
-        "tm:firepunch",
-        "tm:firespin",
-        "tm:flamethrower",
-        "tm:flareblitz",
-        "tm:fling",
-        "tm:focusenergy",
-        "tm:grassknot",
-        "tm:gyroball",
-        "tm:heatwave",
-        "tm:icebeam",
-        "tm:icefang",
-        "tm:icepunch",
-        "tm:megakick",
-        "tm:megapunch",
-        "tm:overheat",
-        "tm:protect",
-        "tm:rest",
-        "tm:rockslide",
-        "tm:rocktomb",
-        "tm:round",
-        "tm:sleeptalk",
-        "tm:snore",
-        "tm:solarbeam",
-        "tm:substitute",
-        "tm:sunnyday",
-        "tm:superpower",
-        "tm:taunt",
-        "tm:thief",
-        "tm:uproar",
-        "tm:uturn",
-        "tm:willowisp",
-        "tm:workup",
-        "tm:zenheadbutt"
-      ],
-      "labels": [
-        "gen8",
-        "galar_regional"
-      ],
-      "aspects": [
-        "galarian"
-      ],
-      "height": 7,
-      "weight": 400,
-      "evolutions": [
-        {
-          "id": "darumaka_darmanitan",
-          "variant": "item_interact",
-          "result": "darmanitan galarian",
-          "consumeHeldItem": false,
-          "learnableMoves": [
-            "iciclecrash"
-          ],
-          "requirements": [],
-          "requiredContext": "cobblemon:ice_stone"
-        }
-      ],
-      "cannotDynamax": false,
-      "battleOnly": false,
-      "drops": {
-        "amount": 2,
-        "entries": [
-          {
-            "item": "cobblemon:ice_stone",
-            "percentage": 2.5
-          },
-          {
-            "item": "cobblemon:occa_berry",
-            "percentage": 2.5
-          }
-        ]
-      }
-    }
-  ],
-  "baseExperienceYield": 63,
-  "experienceGroup": "medium_slow",
-  "eggCycles": 20,
-  "eggGroups": [
-    "field"
-  ],
   "moves": [
     "1:ember",
     "1:tackle",
@@ -280,19 +167,10 @@
     "tutor:uproar",
     "tutor:zenheadbutt"
   ],
-  "labels": [
-    "gen5",
-    "unova_regional"
-  ],
-  "pokedex": [
-    "cobblemon.species.darumaka.desc"
-  ],
   "evolutions": [
     {
       "id": "darumaka_darmanitan",
-      "variant": "level_up",
       "result": "darmanitan",
-      "consumeHeldItem": false,
       "learnableMoves": [
         "hammerarm"
       ],
@@ -301,26 +179,149 @@
           "variant": "level",
           "minLevel": 35
         }
-      ]
+      ],
+      "trigger": {
+        "variant": "level_up"
+      }
     }
   ],
-  "baseScale": 1,
-  "hitbox": {
-    "width": 0.7,
-    "height": 0.83,
-    "fixed": false
-  },
-  "baseFriendship": 50,
-  "evYield": {
-    "hp": 0,
-    "attack": 1,
-    "defence": 0,
-    "special_attack": 0,
-    "special_defence": 0,
-    "speed": 0
-  },
-  "height": 6,
-  "weight": 375,
-  "aspects": [],
-  "cannotDynamax": false
+  "permanentForms": [
+    {
+      "name": "Galar",
+      "primaryType": "ice",
+      "abilities": [
+        "hustle",
+        "h:innerfocus"
+      ],
+      "baseStats": {
+        "hp": 70,
+        "attack": 90,
+        "defence": 45,
+        "special_attack": 15,
+        "special_defence": 45,
+        "speed": 50
+      },
+      "catchRate": 120,
+      "maleRatio": 0.5,
+      "baseFriendship": 50,
+      "experienceGroup": "medium_slow",
+      "eggCycles": 20,
+      "eggGroups": [
+        "field"
+      ],
+      "height": 7,
+      "weight": 400,
+      "labels": [
+        "gen8",
+        "galar_regional"
+      ],
+      "aspects": [
+        "galarian"
+      ],
+      "baseExperienceYield": 63,
+      "evYield": {
+        "hp": 0,
+        "attack": 1,
+        "defence": 0,
+        "special_attack": 0,
+        "special_defence": 0,
+        "speed": 0
+      },
+      "drops": {
+        "amount": 2,
+        "entries": [
+          {
+            "item": "cobblemon:ice_stone",
+            "percentage": 2.5
+          },
+          {
+            "item": "cobblemon:occa_berry",
+            "percentage": 2.5
+          }
+        ]
+      },
+      "cannotDynamax": false,
+      "moves": [
+        "1:powdersnow",
+        "1:tackle",
+        "4:taunt",
+        "8:bite",
+        "12:avalanche",
+        "16:workup",
+        "20:icefang",
+        "24:headbutt",
+        "28:icepunch",
+        "32:uproar",
+        "36:bellydrum",
+        "40:blizzard",
+        "44:thrash",
+        "48:superpower",
+        "egg:flamewheel",
+        "egg:focuspunch",
+        "egg:freezedry",
+        "egg:hammerarm",
+        "egg:incinerate",
+        "egg:poweruppunch",
+        "egg:takedown",
+        "egg:yawn",
+        "tm:attract",
+        "tm:avalanche",
+        "tm:blizzard",
+        "tm:brickbreak",
+        "tm:dig",
+        "tm:encore",
+        "tm:endure",
+        "tm:facade",
+        "tm:fireblast",
+        "tm:firefang",
+        "tm:firepunch",
+        "tm:firespin",
+        "tm:flamethrower",
+        "tm:flareblitz",
+        "tm:fling",
+        "tm:focusenergy",
+        "tm:grassknot",
+        "tm:gyroball",
+        "tm:heatwave",
+        "tm:icebeam",
+        "tm:icefang",
+        "tm:icepunch",
+        "tm:megakick",
+        "tm:megapunch",
+        "tm:overheat",
+        "tm:protect",
+        "tm:rest",
+        "tm:rockslide",
+        "tm:rocktomb",
+        "tm:round",
+        "tm:sleeptalk",
+        "tm:snore",
+        "tm:solarbeam",
+        "tm:substitute",
+        "tm:sunnyday",
+        "tm:superpower",
+        "tm:taunt",
+        "tm:thief",
+        "tm:uproar",
+        "tm:uturn",
+        "tm:willowisp",
+        "tm:workup",
+        "tm:zenheadbutt"
+      ],
+      "evolutions": [
+        {
+          "id": "darumaka_darmanitan",
+          "result": "darmanitan galarian",
+          "learnableMoves": [
+            "iciclecrash"
+          ],
+          "requirements": [],
+          "trigger": {
+            "variant": "item_interact",
+            "requiredContext": "cobblemon:ice_stone"
+          }
+        }
+      ]
+    }
+  ]
 }

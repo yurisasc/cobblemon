@@ -8,6 +8,40 @@
     "magicguard",
     "h:unaware"
   ],
+  "baseStats": {
+    "hp": 95,
+    "attack": 70,
+    "defence": 73,
+    "special_attack": 95,
+    "special_defence": 90,
+    "speed": 60
+  },
+  "catchRate": 25,
+  "maleRatio": 0.25,
+  "baseFriendship": 140,
+  "experienceGroup": "fast",
+  "eggCycles": 10,
+  "eggGroups": [
+    "fairy"
+  ],
+  "height": 13,
+  "weight": 400,
+  "pokedex": [
+    "cobblemon.species.clefable.desc"
+  ],
+  "labels": [
+    "gen1"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 242,
+  "evYield": {
+    "hp": 3,
+    "attack": 0,
+    "defence": 0,
+    "special_attack": 0,
+    "special_defence": 0,
+    "speed": 0
+  },
   "drops": {
     "amount": 3,
     "entries": [
@@ -25,14 +59,14 @@
       }
     ]
   },
-  "baseStats": {
-    "hp": 95,
-    "attack": 70,
-    "defence": 73,
-    "special_attack": 95,
-    "special_defence": 90,
-    "speed": 60
+  "baseScale": 1.2,
+  "hitbox": {
+    "width": 0.7,
+    "height": 1,
+    "fixed": false
   },
+  "cannotDynamax": false,
+  "shoulderMountable": false,
   "behaviour": {
     "resting": {
       "canSleep": true,
@@ -41,15 +75,6 @@
       "light": "0-4"
     }
   },
-  "catchRate": 25,
-  "maleRatio": 0.25,
-  "shoulderMountable": false,
-  "baseExperienceYield": 242,
-  "experienceGroup": "fast",
-  "eggCycles": 10,
-  "eggGroups": [
-    "fairy"
-  ],
   "moves": [
     "1:afteryou",
     "1:charm",
@@ -293,31 +318,6 @@
     "tutor:zapcannon",
     "tutor:zenheadbutt"
   ],
-  "labels": [
-    "gen1"
-  ],
-  "pokedex": [
-    "cobblemon.species.clefable.desc"
-  ],
   "preEvolution": "clefairy",
-  "evolutions": [],
-  "baseScale": 1.2,
-  "hitbox": {
-    "width": 0.7,
-    "height": 1,
-    "fixed": false
-  },
-  "baseFriendship": 140,
-  "evYield": {
-    "hp": 3,
-    "attack": 0,
-    "defence": 0,
-    "special_attack": 0,
-    "special_defence": 0,
-    "speed": 0
-  },
-  "height": 13,
-  "weight": 400,
-  "aspects": [],
-  "cannotDynamax": false
+  "evolutions": []
 }

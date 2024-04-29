@@ -16,13 +16,51 @@
   },
   "catchRate": 45,
   "maleRatio": 0.5,
-  "shoulderMountable": false,
-  "baseExperienceYield": 186,
+  "baseFriendship": 70,
   "experienceGroup": "medium_fast",
   "eggCycles": 20,
   "eggGroups": [
     "field"
   ],
+  "height": 17,
+  "weight": 910,
+  "pokedex": [
+    "cobblemon.species.gogoat.desc"
+  ],
+  "labels": [
+    "gen6"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 186,
+  "evYield": {
+    "hp": 2,
+    "attack": 0,
+    "defence": 0,
+    "special_attack": 0,
+    "special_defence": 0,
+    "speed": 0
+  },
+  "drops": {
+    "amount": 4,
+    "entries": [
+      {
+        "item": "minecraft:mutton",
+        "quantityRange": "1-3"
+      },
+      {
+        "item": "cobblemon:oran_berry",
+        "percentage": 5.0
+      }
+    ]
+  },
+  "baseScale": 1,
+  "hitbox": {
+    "width": 1,
+    "height": 1,
+    "fixed": false
+  },
+  "cannotDynamax": false,
+  "shoulderMountable": false,
   "moves": [
     "1:aerialace",
     "1:earthquake",
@@ -113,44 +151,6 @@
     "tutor:worryseed",
     "tutor:zenheadbutt"
   ],
-  "labels": [
-    "gen6"
-  ],
-  "pokedex": [
-    "cobblemon.species.gogoat.desc"
-  ],
   "preEvolution": "skiddo",
-  "evolutions": [],
-  "baseScale": 1,
-  "hitbox": {
-    "width": 1,
-    "height": 1,
-    "fixed": false
-  },
-  "baseFriendship": 70,
-  "evYield": {
-    "hp": 2,
-    "attack": 0,
-    "defence": 0,
-    "special_attack": 0,
-    "special_defence": 0,
-    "speed": 0
-  },
-  "height": 17,
-  "weight": 910,
-  "aspects": [],
-  "cannotDynamax": false,
-  "drops": {
-    "amount": 4,
-    "entries": [
-      {
-        "item": "minecraft:mutton",
-        "quantityRange": "1-3"
-      },
-      {
-        "item": "cobblemon:oran_berry",
-        "percentage": 5.0
-      }
-    ]
-  }
+  "evolutions": []
 }

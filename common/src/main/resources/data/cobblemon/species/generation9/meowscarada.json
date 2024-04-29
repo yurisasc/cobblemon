@@ -8,15 +8,6 @@
     "overgrow",
     "h:protean"
   ],
-  "drops": {
-    "amount": 1,
-    "entries": [
-      {
-        "item": "cobblemon:miracle_seed",
-        "percentage": 25.0
-      }
-    ]
-  },
   "baseStats": {
     "hp": 76,
     "attack": 110,
@@ -27,8 +18,23 @@
   },
   "catchRate": 45,
   "maleRatio": 0.875,
-  "baseExperienceYield": 265,
   "baseFriendship": 50,
+  "experienceGroup": "medium_slow",
+  "eggCycles": 20,
+  "eggGroups": [
+    "field",
+    "grass"
+  ],
+  "height": 15,
+  "weight": 312,
+  "pokedex": [
+    "cobblemon.species.meowscarada.desc"
+  ],
+  "labels": [
+    "gen9"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 265,
   "evYield": {
     "hp": 0,
     "attack": 0,
@@ -37,12 +43,22 @@
     "special_defence": 0,
     "speed": 3
   },
-  "experienceGroup": "medium_slow",
-  "eggCycles": 20,
-  "eggGroups": [
-    "field",
-    "grass"
-  ],
+  "drops": {
+    "amount": 1,
+    "entries": [
+      {
+        "item": "cobblemon:miracle_seed",
+        "percentage": 25.0
+      }
+    ]
+  },
+  "baseScale": 0.67,
+  "hitbox": {
+    "width": 1,
+    "height": 3.0,
+    "fixed": false
+  },
+  "cannotDynamax": false,
   "behaviour": {
     "resting": {
       "canSleep": true,
@@ -131,22 +147,6 @@
     "tm:trickroom",
     "tm:uturn"
   ],
-  "labels": [
-    "gen9"
-  ],
-  "aspects": [],
-  "height": 15,
-  "weight": 312,
   "preEvolution": "floragato",
-  "evolutions": [],
-  "baseScale": 0.67,
-  "hitbox": {
-    "width": 1,
-    "height": 3.0,
-    "fixed": false
-  },
-  "cannotDynamax": false,
-  "pokedex": [
-    "cobblemon.species.meowscarada.desc"
-  ]
+  "evolutions": []
 }

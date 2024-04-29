@@ -17,23 +17,32 @@
     "special_defence": 30,
     "speed": 50
   },
-  "behaviour": {
-    "resting": {
-      "canSleep": true,
-      "willSleepOnBed": true,
-      "depth": "normal",
-      "light": "0-4"
-    }
-  },
   "catchRate": 225,
   "maleRatio": 0.5,
-  "shoulderMountable": false,
-  "baseExperienceYield": 50,
+  "baseFriendship": 50,
   "experienceGroup": "slow",
   "eggCycles": 20,
   "eggGroups": [
     "field"
   ],
+  "height": 4,
+  "weight": 65,
+  "pokedex": [
+    "cobblemon.species.swinub.desc"
+  ],
+  "labels": [
+    "gen2"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 50,
+  "evYield": {
+    "hp": 0,
+    "attack": 1,
+    "defence": 0,
+    "special_attack": 0,
+    "special_defence": 0,
+    "speed": 0
+  },
   "drops": {
     "amount": 4,
     "entries": [
@@ -52,6 +61,22 @@
         "percentage": 2.5
       }
     ]
+  },
+  "baseScale": 1.1,
+  "hitbox": {
+    "width": 0.7,
+    "height": 0.4,
+    "fixed": false
+  },
+  "cannotDynamax": false,
+  "shoulderMountable": false,
+  "behaviour": {
+    "resting": {
+      "canSleep": true,
+      "willSleepOnBed": true,
+      "depth": "normal",
+      "light": "0-4"
+    }
   },
   "moves": [
     "1:mudslap",
@@ -189,18 +214,10 @@
     "tutor:takedown",
     "tutor:toxic"
   ],
-  "labels": [
-    "gen2"
-  ],
-  "pokedex": [
-    "cobblemon.species.swinub.desc"
-  ],
   "evolutions": [
     {
       "id": "swinub_piloswine",
-      "variant": "level_up",
       "result": "piloswine",
-      "consumeHeldItem": false,
       "learnableMoves": [
         "icefang"
       ],
@@ -209,26 +226,10 @@
           "variant": "level",
           "minLevel": 33
         }
-      ]
+      ],
+      "trigger": {
+        "variant": "level_up"
+      }
     }
-  ],
-  "baseScale": 1.1,
-  "hitbox": {
-    "width": 0.7,
-    "height": 0.4,
-    "fixed": false
-  },
-  "baseFriendship": 50,
-  "evYield": {
-    "hp": 0,
-    "attack": 1,
-    "defence": 0,
-    "special_attack": 0,
-    "special_defence": 0,
-    "speed": 0
-  },
-  "height": 4,
-  "weight": 65,
-  "aspects": [],
-  "cannotDynamax": false
+  ]
 }

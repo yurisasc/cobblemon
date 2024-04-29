@@ -8,6 +8,42 @@
     "sandveil",
     "h:roughskin"
   ],
+  "baseStats": {
+    "hp": 108,
+    "attack": 130,
+    "defence": 95,
+    "special_attack": 80,
+    "special_defence": 85,
+    "speed": 102
+  },
+  "catchRate": 45,
+  "maleRatio": 0.5,
+  "baseFriendship": 50,
+  "experienceGroup": "slow",
+  "eggCycles": 40,
+  "eggGroups": [
+    "monster",
+    "dragon"
+  ],
+  "height": 19,
+  "weight": 950,
+  "pokedex": [
+    "cobblemon.species.garchomp.desc"
+  ],
+  "labels": [
+    "gen4",
+    "pseudo_legendary"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 300,
+  "evYield": {
+    "hp": 0,
+    "attack": 3,
+    "defence": 0,
+    "special_attack": 0,
+    "special_defence": 0,
+    "speed": 0
+  },
   "drops": {
     "amount": 2,
     "entries": [
@@ -21,14 +57,14 @@
       }
     ]
   },
-  "baseStats": {
-    "hp": 108,
-    "attack": 130,
-    "defence": 95,
-    "special_attack": 80,
-    "special_defence": 85,
-    "speed": 102
+  "baseScale": 1.2,
+  "hitbox": {
+    "width": 1.3,
+    "height": 2.3,
+    "fixed": false
   },
+  "cannotDynamax": false,
+  "shoulderMountable": false,
   "behaviour": {
     "moving": {
       "walk": {
@@ -39,64 +75,6 @@
       }
     }
   },
-  "catchRate": 45,
-  "maleRatio": 0.5,
-  "shoulderMountable": false,
-  "forms": [
-    {
-      "name": "Mega",
-      "primaryType": "dragon",
-      "secondaryType": "ground",
-      "abilities": [
-        "sandforce"
-      ],
-      "baseStats": {
-        "hp": 108,
-        "attack": 170,
-        "defence": 115,
-        "special_attack": 120,
-        "special_defence": 95,
-        "speed": 92
-      },
-      "catchRate": 45,
-      "maleRatio": 0.5,
-      "baseExperienceYield": 300,
-      "baseFriendship": 50,
-      "evYield": {
-        "hp": 0,
-        "attack": 3,
-        "defence": 0,
-        "special_attack": 0,
-        "special_defence": 0,
-        "speed": 0
-      },
-      "experienceGroup": "slow",
-      "eggCycles": 40,
-      "eggGroups": [
-        "monster",
-        "dragon"
-      ],
-      "labels": [
-        "gen6",
-        "mega",
-        "pseudo_legendary"
-      ],
-      "aspects": [
-        "mega"
-      ],
-      "height": 19,
-      "weight": 950,
-      "cannotDynamax": false,
-      "battleOnly": true
-    }
-  ],
-  "baseExperienceYield": 300,
-  "experienceGroup": "slow",
-  "eggCycles": 40,
-  "eggGroups": [
-    "monster",
-    "dragon"
-  ],
   "moves": [
     "1:crunch",
     "1:dragonbreath",
@@ -233,32 +211,54 @@
     "tutor:swordsdance",
     "tutor:twister"
   ],
-  "labels": [
-    "gen4",
-    "pseudo_legendary"
-  ],
-  "pokedex": [
-    "cobblemon.species.garchomp.desc"
-  ],
   "preEvolution": "gabite",
   "evolutions": [],
-  "baseScale": 1.2,
-  "hitbox": {
-    "width": 1.3,
-    "height": 2.3,
-    "fixed": false
-  },
-  "baseFriendship": 50,
-  "evYield": {
-    "hp": 0,
-    "attack": 3,
-    "defence": 0,
-    "special_attack": 0,
-    "special_defence": 0,
-    "speed": 0
-  },
-  "height": 19,
-  "weight": 950,
-  "aspects": [],
-  "cannotDynamax": false
+  "temporaryForms": [
+    {
+      "name": "Mega",
+      "primaryType": "dragon",
+      "secondaryType": "ground",
+      "abilities": [
+        "sandforce"
+      ],
+      "baseStats": {
+        "hp": 108,
+        "attack": 170,
+        "defence": 115,
+        "special_attack": 120,
+        "special_defence": 95,
+        "speed": 92
+      },
+      "catchRate": 45,
+      "maleRatio": 0.5,
+      "baseFriendship": 50,
+      "experienceGroup": "slow",
+      "eggCycles": 40,
+      "eggGroups": [
+        "monster",
+        "dragon"
+      ],
+      "height": 19,
+      "weight": 950,
+      "labels": [
+        "gen6",
+        "mega",
+        "pseudo_legendary"
+      ],
+      "aspects": [
+        "mega"
+      ],
+      "baseExperienceYield": 300,
+      "evYield": {
+        "hp": 0,
+        "attack": 3,
+        "defence": 0,
+        "special_attack": 0,
+        "special_defence": 0,
+        "speed": 0
+      },
+      "cannotDynamax": false,
+      "battleOnly": true
+    }
+  ]
 }

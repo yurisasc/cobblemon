@@ -16,23 +16,24 @@
     "special_defence": 35,
     "speed": 25
   },
-  "behaviour": {
-    "moving": {
-      "walk": {
-        "walkSpeed": 0.125
-      }
-    },
-    "resting": {
-      "canSleep": true,
-      "willSleepOnBed": false,
-      "depth": "normal",
-      "light": "0-4"
-    }
-  },
   "catchRate": 255,
   "maleRatio": 0.5,
-  "baseExperienceYield": 56,
   "baseFriendship": 50,
+  "experienceGroup": "medium_slow",
+  "eggCycles": 20,
+  "eggGroups": [
+    "mineral"
+  ],
+  "height": 4,
+  "weight": 160,
+  "pokedex": [
+    "cobblemon.species.nacli.desc"
+  ],
+  "labels": [
+    "gen9"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 56,
   "evYield": {
     "hp": 0,
     "attack": 0,
@@ -41,11 +42,6 @@
     "special_defence": 0,
     "speed": 0
   },
-  "experienceGroup": "medium_slow",
-  "eggCycles": 20,
-  "eggGroups": [
-    "mineral"
-  ],
   "drops": {
     "amount": 2,
     "entries": [
@@ -58,6 +54,26 @@
         "percentage": 2.5
       }
     ]
+  },
+  "baseScale": 1,
+  "hitbox": {
+    "width": 0.5,
+    "height": 0.5,
+    "fixed": false
+  },
+  "cannotDynamax": false,
+  "behaviour": {
+    "moving": {
+      "walk": {
+        "walkSpeed": 0.125
+      }
+    },
+    "resting": {
+      "canSleep": true,
+      "willSleepOnBed": false,
+      "depth": "normal",
+      "light": "0-4"
+    }
   },
   "moves": [
     "1:harden",
@@ -107,18 +123,10 @@
     "tm:terablast",
     "tm:zenheadbutt"
   ],
-  "labels": [
-    "gen9"
-  ],
-  "aspects": [],
-  "height": 4,
-  "weight": 160,
   "evolutions": [
     {
       "id": "nacli_naclstack",
-      "variant": "level_up",
       "result": "naclstack",
-      "consumeHeldItem": false,
       "learnableMoves": [
         "saltcure"
       ],
@@ -127,17 +135,10 @@
           "variant": "level",
           "minLevel": 24
         }
-      ]
+      ],
+      "trigger": {
+        "variant": "level_up"
+      }
     }
-  ],
-  "baseScale": 1,
-  "hitbox": {
-    "width": 0.5,
-    "height": 0.5,
-    "fixed": false
-  },
-  "cannotDynamax": false,
-  "pokedex": [
-    "cobblemon.species.nacli.desc"
   ]
 }

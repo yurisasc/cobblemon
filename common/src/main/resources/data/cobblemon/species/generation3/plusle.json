@@ -17,13 +17,30 @@
   },
   "catchRate": 200,
   "maleRatio": 0.5,
-  "shoulderMountable": false,
-  "baseExperienceYield": 142,
+  "baseFriendship": 70,
   "experienceGroup": "medium_fast",
   "eggCycles": 20,
   "eggGroups": [
     "fairy"
   ],
+  "height": 4,
+  "weight": 42,
+  "pokedex": [
+    "cobblemon.species.plusle.desc"
+  ],
+  "labels": [
+    "gen3"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 142,
+  "evYield": {
+    "hp": 0,
+    "attack": 0,
+    "defence": 0,
+    "special_attack": 0,
+    "special_defence": 0,
+    "speed": 1
+  },
   "drops": {
     "amount": 3,
     "entries": [
@@ -41,6 +58,14 @@
       }
     ]
   },
+  "baseScale": 0.6,
+  "hitbox": {
+    "width": 0.7,
+    "height": 0.9,
+    "fixed": false
+  },
+  "cannotDynamax": false,
+  "shoulderMountable": false,
   "moves": [
     "1:growl",
     "1:nuzzle",
@@ -164,30 +189,5 @@
     "tutor:uproar",
     "tutor:watersport"
   ],
-  "labels": [
-    "gen3"
-  ],
-  "pokedex": [
-    "cobblemon.species.plusle.desc"
-  ],
-  "evolutions": [],
-  "baseScale": 0.6,
-  "hitbox": {
-    "width": 0.7,
-    "height": 0.9,
-    "fixed": false
-  },
-  "baseFriendship": 70,
-  "evYield": {
-    "hp": 0,
-    "attack": 0,
-    "defence": 0,
-    "special_attack": 0,
-    "special_defence": 0,
-    "speed": 1
-  },
-  "height": 4,
-  "weight": 42,
-  "aspects": [],
-  "cannotDynamax": false
+  "evolutions": []
 }

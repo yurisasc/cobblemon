@@ -16,144 +16,36 @@
     "special_defence": 50,
     "speed": 60
   },
-  "features": [
-    "hisuian"
-  ],
   "catchRate": 190,
   "maleRatio": 0.75,
-  "shoulderMountable": false,
-  "forms": [
-    {
-      "name": "Hisui",
-      "primaryType": "fire",
-      "secondaryType": "rock",
-      "abilities": [
-        "intimidate",
-        "flashfire",
-        "h:rockhead"
-      ],
-      "baseStats": {
-        "hp": 60,
-        "attack": 75,
-        "defence": 45,
-        "special_attack": 65,
-        "special_defence": 50,
-        "speed": 55
-      },
-      "catchRate": 190,
-      "maleRatio": 0.75,
-      "baseExperienceYield": 70,
-      "baseFriendship": 50,
-      "evYield": {
-        "hp": 0,
-        "attack": 1,
-        "defence": 0,
-        "special_attack": 0,
-        "special_defence": 0,
-        "speed": 0
-      },
-      "experienceGroup": "slow",
-      "eggCycles": 20,
-      "eggGroups": [
-        "field"
-      ],
-      "moves": [
-        "1:ember",
-        "1:leer",
-        "4:howl",
-        "8:bite",
-        "12:flamewheel",
-        "16:helpinghand",
-        "24:firefang",
-        "28:retaliate",
-        "32:crunch",
-        "36:takedown",
-        "40:flamethrower",
-        "44:roar",
-        "48:rockslide",
-        "52:reversal",
-        "56:flareblitz",
-        "egg:covet",
-        "egg:doubleedge",
-        "egg:doublekick",
-        "egg:headsmash",
-        "egg:morningsun",
-        "egg:thrash",
-        "tm:agility",
-        "tm:bodyslam",
-        "tm:closecombat",
-        "tm:crunch",
-        "tm:dig",
-        "tm:doubleedge",
-        "tm:endure",
-        "tm:facade",
-        "tm:fireblast",
-        "tm:firefang",
-        "tm:firespin",
-        "tm:flamecharge",
-        "tm:flamethrower",
-        "tm:flareblitz",
-        "tm:heatwave",
-        "tm:helpinghand",
-        "tm:outrage",
-        "tm:overheat",
-        "tm:powergem",
-        "tm:protect",
-        "tm:psychicfangs",
-        "tm:rest",
-        "tm:reversal",
-        "tm:roar",
-        "tm:rockblast",
-        "tm:rockslide",
-        "tm:rocktomb",
-        "tm:sandstorm",
-        "tm:scaryface",
-        "tm:scorchingsands",
-        "tm:sleeptalk",
-        "tm:smackdown",
-        "tm:smartstrike",
-        "tm:stealthrock",
-        "tm:stoneedge",
-        "tm:substitute",
-        "tm:sunnyday",
-        "tm:takedown",
-        "tm:temperflare",
-        "tm:terablast",
-        "tm:thunderfang",
-        "tm:willowisp"
-      ],
-      "labels": [
-        "gen8",
-        "hisui_regional"
-      ],
-      "aspects": [
-        "hisuian"
-      ],
-      "height": 8,
-      "weight": 227,
-      "evolutions": [
-        {
-          "id": "growlithe_arcanine",
-          "variant": "item_interact",
-          "result": "arcanine hisuian",
-          "consumeHeldItem": false,
-          "learnableMoves": [
-            "extremespeed"
-          ],
-          "requirements": [],
-          "requiredContext": "cobblemon:fire_stone"
-        }
-      ],
-      "cannotDynamax": false,
-      "battleOnly": false
-    }
-  ],
-  "baseExperienceYield": 70,
+  "baseFriendship": 50,
   "experienceGroup": "slow",
   "eggCycles": 20,
   "eggGroups": [
     "field"
   ],
+  "height": 7,
+  "weight": 190,
+  "pokedex": [
+    "cobblemon.species.growlithe.desc"
+  ],
+  "labels": [
+    "gen1",
+    "kanto_regional"
+  ],
+  "features": [
+    "hisuian"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 70,
+  "evYield": {
+    "hp": 0,
+    "attack": 1,
+    "defence": 0,
+    "special_attack": 0,
+    "special_defence": 0,
+    "speed": 0
+  },
   "drops": {
     "amount": 2,
     "entries": [
@@ -167,6 +59,14 @@
       }
     ]
   },
+  "baseScale": 0.75,
+  "hitbox": {
+    "width": 1.1,
+    "height": 1.15,
+    "fixed": false
+  },
+  "cannotDynamax": false,
+  "shoulderMountable": false,
   "behaviour": {
     "resting": {
       "canSleep": true,
@@ -325,43 +225,144 @@
     "tutor:toxic",
     "tutor:willowisp"
   ],
-  "labels": [
-    "gen1",
-    "kanto_regional"
-  ],
-  "pokedex": [
-    "cobblemon.species.growlithe.desc"
-  ],
   "evolutions": [
     {
       "id": "growlithe_arcanine",
-      "variant": "item_interact",
       "result": "arcanine",
-      "consumeHeldItem": false,
       "learnableMoves": [
         "extremespeed"
       ],
       "requirements": [],
-      "requiredContext": "cobblemon:fire_stone"
+      "trigger": {
+        "variant": "item_interact",
+        "requiredContext": "cobblemon:fire_stone"
+      }
     }
   ],
-  "baseScale": 0.75,
-  "hitbox": {
-    "width": 1.1,
-    "height": 1.15,
-    "fixed": false
-  },
-  "baseFriendship": 50,
-  "evYield": {
-    "hp": 0,
-    "attack": 1,
-    "defence": 0,
-    "special_attack": 0,
-    "special_defence": 0,
-    "speed": 0
-  },
-  "height": 7,
-  "weight": 190,
-  "aspects": [],
-  "cannotDynamax": false
+  "permanentForms": [
+    {
+      "name": "Hisui",
+      "primaryType": "fire",
+      "secondaryType": "rock",
+      "abilities": [
+        "intimidate",
+        "flashfire",
+        "h:rockhead"
+      ],
+      "baseStats": {
+        "hp": 60,
+        "attack": 75,
+        "defence": 45,
+        "special_attack": 65,
+        "special_defence": 50,
+        "speed": 55
+      },
+      "catchRate": 190,
+      "maleRatio": 0.75,
+      "baseFriendship": 50,
+      "experienceGroup": "slow",
+      "eggCycles": 20,
+      "eggGroups": [
+        "field"
+      ],
+      "height": 8,
+      "weight": 227,
+      "labels": [
+        "gen8",
+        "hisui_regional"
+      ],
+      "aspects": [
+        "hisuian"
+      ],
+      "baseExperienceYield": 70,
+      "evYield": {
+        "hp": 0,
+        "attack": 1,
+        "defence": 0,
+        "special_attack": 0,
+        "special_defence": 0,
+        "speed": 0
+      },
+      "cannotDynamax": false,
+      "moves": [
+        "1:ember",
+        "1:leer",
+        "4:howl",
+        "8:bite",
+        "12:flamewheel",
+        "16:helpinghand",
+        "24:firefang",
+        "28:retaliate",
+        "32:crunch",
+        "36:takedown",
+        "40:flamethrower",
+        "44:roar",
+        "48:rockslide",
+        "52:reversal",
+        "56:flareblitz",
+        "egg:covet",
+        "egg:doubleedge",
+        "egg:doublekick",
+        "egg:headsmash",
+        "egg:morningsun",
+        "egg:thrash",
+        "tm:agility",
+        "tm:bodyslam",
+        "tm:closecombat",
+        "tm:crunch",
+        "tm:dig",
+        "tm:doubleedge",
+        "tm:endure",
+        "tm:facade",
+        "tm:fireblast",
+        "tm:firefang",
+        "tm:firespin",
+        "tm:flamecharge",
+        "tm:flamethrower",
+        "tm:flareblitz",
+        "tm:heatwave",
+        "tm:helpinghand",
+        "tm:outrage",
+        "tm:overheat",
+        "tm:powergem",
+        "tm:protect",
+        "tm:psychicfangs",
+        "tm:rest",
+        "tm:reversal",
+        "tm:roar",
+        "tm:rockblast",
+        "tm:rockslide",
+        "tm:rocktomb",
+        "tm:sandstorm",
+        "tm:scaryface",
+        "tm:scorchingsands",
+        "tm:sleeptalk",
+        "tm:smackdown",
+        "tm:smartstrike",
+        "tm:stealthrock",
+        "tm:stoneedge",
+        "tm:substitute",
+        "tm:sunnyday",
+        "tm:takedown",
+        "tm:temperflare",
+        "tm:terablast",
+        "tm:thunderfang",
+        "tm:willowisp"
+      ],
+      "evolutions": [
+        {
+          "id": "growlithe_arcanine",
+          "result": "arcanine hisuian",
+          "learnableMoves": [
+            "extremespeed"
+          ],
+          "requirements": [],
+          "trigger": {
+            "variant": "item_interact",
+            "requiredContext": "cobblemon:fire_stone"
+          }
+        }
+      ]
+    }
+  ]
 }

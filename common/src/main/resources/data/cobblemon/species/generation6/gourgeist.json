@@ -17,174 +17,34 @@
     "special_defence": 75,
     "speed": 84
   },
-  "behaviour": {
-    "moving": {
-      "walk": {
-        "walkSpeed": 0.2
-      },
-      "fly": {
-        "canFly": true
-      }
-    },
-    "resting": {
-      "canSleep": true,
-      "willSleepOnBed": false,
-      "depth": "normal",
-      "light": "11-15"
-    }
-  },
   "catchRate": 60,
   "maleRatio": 0.5,
-  "shoulderMountable": false,
-  "forms": [
-    {
-      "name": "Small",
-      "baseScale": 0.43,
-      "primaryType": "ghost",
-      "secondaryType": "grass",
-      "abilities": [
-        "pickup",
-        "frisk",
-        "h:insomnia"
-      ],
-      "baseStats": {
-        "hp": 55,
-        "attack": 85,
-        "defence": 122,
-        "special_attack": 58,
-        "special_defence": 75,
-        "speed": 99
-      },
-      "catchRate": 60,
-      "maleRatio": 0.5,
-      "baseExperienceYield": 173,
-      "baseFriendship": 50,
-      "evYield": {
-        "hp": 0,
-        "attack": 0,
-        "defence": 2,
-        "special_attack": 0,
-        "special_defence": 0,
-        "speed": 0
-      },
-      "experienceGroup": "medium_fast",
-      "eggCycles": 20,
-      "eggGroups": [
-        "amorphous"
-      ],
-      "labels": [
-        "gen6"
-      ],
-      "aspects": [
-        "pumpkin-size-small"
-      ],
-      "height": 7,
-      "weight": 95,
-      "preEvolution": "pumpkaboo small",
-      "cannotDynamax": false,
-      "battleOnly": false
-    },
-    {
-      "name": "Large",
-      "baseScale": 0.7,
-      "primaryType": "ghost",
-      "secondaryType": "grass",
-      "abilities": [
-        "pickup",
-        "frisk",
-        "h:insomnia"
-      ],
-      "baseStats": {
-        "hp": 75,
-        "attack": 95,
-        "defence": 122,
-        "special_attack": 58,
-        "special_defence": 75,
-        "speed": 69
-      },
-      "catchRate": 60,
-      "maleRatio": 0.5,
-      "baseExperienceYield": 173,
-      "baseFriendship": 50,
-      "evYield": {
-        "hp": 0,
-        "attack": 0,
-        "defence": 2,
-        "special_attack": 0,
-        "special_defence": 0,
-        "speed": 0
-      },
-      "experienceGroup": "medium_fast",
-      "eggCycles": 20,
-      "eggGroups": [
-        "amorphous"
-      ],
-      "labels": [
-        "gen6"
-      ],
-      "aspects": [
-        "pumpkin-size-large"
-      ],
-      "height": 11,
-      "weight": 140,
-      "preEvolution": "pumpkaboo large",
-      "cannotDynamax": false,
-      "battleOnly": false
-    },
-    {
-      "name": "Super",
-      "baseScale": 1,
-      "primaryType": "ghost",
-      "secondaryType": "grass",
-      "abilities": [
-        "pickup",
-        "frisk",
-        "h:insomnia"
-      ],
-      "baseStats": {
-        "hp": 85,
-        "attack": 100,
-        "defence": 122,
-        "special_attack": 58,
-        "special_defence": 75,
-        "speed": 54
-      },
-      "catchRate": 60,
-      "maleRatio": 0.5,
-      "baseExperienceYield": 173,
-      "baseFriendship": 50,
-      "evYield": {
-        "hp": 0,
-        "attack": 0,
-        "defence": 2,
-        "special_attack": 0,
-        "special_defence": 0,
-        "speed": 0
-      },
-      "experienceGroup": "medium_fast",
-      "eggCycles": 20,
-      "eggGroups": [
-        "amorphous"
-      ],
-      "labels": [
-        "gen6"
-      ],
-      "aspects": [
-        "pumpkin-size-super"
-      ],
-      "height": 17,
-      "weight": 390,
-      "preEvolution": "pumpkaboo super",
-      "cannotDynamax": false,
-      "battleOnly": false
-    }
-  ],
-  "baseExperienceYield": 173,
+  "baseFriendship": 50,
   "experienceGroup": "medium_fast",
   "eggCycles": 20,
   "eggGroups": [
     "amorphous"
   ],
+  "height": 9,
+  "weight": 125,
+  "pokedex": [
+    "cobblemon.species.gourgeist.desc"
+  ],
+  "labels": [
+    "gen6"
+  ],
+  "aspects": [
+    "pumpkin-size-average"
+  ],
+  "baseExperienceYield": 173,
+  "evYield": {
+    "hp": 0,
+    "attack": 0,
+    "defence": 2,
+    "special_attack": 0,
+    "special_defence": 0,
+    "speed": 0
+  },
   "drops": {
     "amount": 4,
     "entries": [
@@ -201,6 +61,30 @@
         "percentage": 5.0
       }
     ]
+  },
+  "baseScale": 0.57,
+  "hitbox": {
+    "width": 0.9,
+    "height": 1.6,
+    "fixed": false
+  },
+  "cannotDynamax": false,
+  "shoulderMountable": false,
+  "behaviour": {
+    "moving": {
+      "walk": {
+        "walkSpeed": 0.2
+      },
+      "fly": {
+        "canFly": true
+      }
+    },
+    "resting": {
+      "canSleep": true,
+      "willSleepOnBed": false,
+      "depth": "normal",
+      "light": "11-15"
+    }
   },
   "moves": [
     "1:astonish",
@@ -296,33 +180,146 @@
     "tutor:trick",
     "tutor:worryseed"
   ],
-  "labels": [
-    "gen6"
-  ],
-  "pokedex": [
-    "cobblemon.species.gourgeist.desc"
-  ],
   "preEvolution": "pumpkaboo",
   "evolutions": [],
-  "baseScale": 0.57,
-  "hitbox": {
-    "width": 0.9,
-    "height": 1.6,
-    "fixed": false
-  },
-  "baseFriendship": 50,
-  "evYield": {
-    "hp": 0,
-    "attack": 0,
-    "defence": 2,
-    "special_attack": 0,
-    "special_defence": 0,
-    "speed": 0
-  },
-  "height": 9,
-  "weight": 125,
-  "aspects": [
-    "pumpkin-size-average"
-  ],
-  "cannotDynamax": false
+  "permanentForms": [
+    {
+      "name": "Small",
+      "primaryType": "ghost",
+      "secondaryType": "grass",
+      "abilities": [
+        "pickup",
+        "frisk",
+        "h:insomnia"
+      ],
+      "baseStats": {
+        "hp": 55,
+        "attack": 85,
+        "defence": 122,
+        "special_attack": 58,
+        "special_defence": 75,
+        "speed": 99
+      },
+      "catchRate": 60,
+      "maleRatio": 0.5,
+      "baseFriendship": 50,
+      "experienceGroup": "medium_fast",
+      "eggCycles": 20,
+      "eggGroups": [
+        "amorphous"
+      ],
+      "height": 7,
+      "weight": 95,
+      "labels": [
+        "gen6"
+      ],
+      "aspects": [
+        "pumpkin-size-small"
+      ],
+      "baseExperienceYield": 173,
+      "evYield": {
+        "hp": 0,
+        "attack": 0,
+        "defence": 2,
+        "special_attack": 0,
+        "special_defence": 0,
+        "speed": 0
+      },
+      "baseScale": 0.43,
+      "cannotDynamax": false,
+      "preEvolution": "pumpkaboo small"
+    },
+    {
+      "name": "Large",
+      "primaryType": "ghost",
+      "secondaryType": "grass",
+      "abilities": [
+        "pickup",
+        "frisk",
+        "h:insomnia"
+      ],
+      "baseStats": {
+        "hp": 75,
+        "attack": 95,
+        "defence": 122,
+        "special_attack": 58,
+        "special_defence": 75,
+        "speed": 69
+      },
+      "catchRate": 60,
+      "maleRatio": 0.5,
+      "baseFriendship": 50,
+      "experienceGroup": "medium_fast",
+      "eggCycles": 20,
+      "eggGroups": [
+        "amorphous"
+      ],
+      "height": 11,
+      "weight": 140,
+      "labels": [
+        "gen6"
+      ],
+      "aspects": [
+        "pumpkin-size-large"
+      ],
+      "baseExperienceYield": 173,
+      "evYield": {
+        "hp": 0,
+        "attack": 0,
+        "defence": 2,
+        "special_attack": 0,
+        "special_defence": 0,
+        "speed": 0
+      },
+      "baseScale": 0.7,
+      "cannotDynamax": false,
+      "preEvolution": "pumpkaboo large"
+    },
+    {
+      "name": "Super",
+      "primaryType": "ghost",
+      "secondaryType": "grass",
+      "abilities": [
+        "pickup",
+        "frisk",
+        "h:insomnia"
+      ],
+      "baseStats": {
+        "hp": 85,
+        "attack": 100,
+        "defence": 122,
+        "special_attack": 58,
+        "special_defence": 75,
+        "speed": 54
+      },
+      "catchRate": 60,
+      "maleRatio": 0.5,
+      "baseFriendship": 50,
+      "experienceGroup": "medium_fast",
+      "eggCycles": 20,
+      "eggGroups": [
+        "amorphous"
+      ],
+      "height": 17,
+      "weight": 390,
+      "labels": [
+        "gen6"
+      ],
+      "aspects": [
+        "pumpkin-size-super"
+      ],
+      "baseExperienceYield": 173,
+      "evYield": {
+        "hp": 0,
+        "attack": 0,
+        "defence": 2,
+        "special_attack": 0,
+        "special_defence": 0,
+        "speed": 0
+      },
+      "baseScale": 1,
+      "cannotDynamax": false,
+      "preEvolution": "pumpkaboo super"
+    }
+  ]
 }

@@ -8,15 +8,6 @@
     "keeneye",
     "h:analytic"
   ],
-  "drops": {
-    "amount": 1,
-    "entries": [
-      {
-        "item": "cobblemon:babiri_berry",
-        "percentage": 5.0
-      }
-    ]
-  },
   "baseStats": {
     "hp": 60,
     "attack": 85,
@@ -27,13 +18,47 @@
   },
   "catchRate": 255,
   "maleRatio": 0.5,
-  "shoulderMountable": false,
-  "baseExperienceYield": 147,
+  "baseFriendship": 70,
   "experienceGroup": "medium_fast",
   "eggCycles": 20,
   "eggGroups": [
     "field"
   ],
+  "height": 11,
+  "weight": 270,
+  "pokedex": [
+    "cobblemon.species.watchog.desc"
+  ],
+  "labels": [
+    "gen5"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 147,
+  "evYield": {
+    "hp": 0,
+    "attack": 2,
+    "defence": 0,
+    "special_attack": 0,
+    "special_defence": 0,
+    "speed": 0
+  },
+  "drops": {
+    "amount": 1,
+    "entries": [
+      {
+        "item": "cobblemon:babiri_berry",
+        "percentage": 5.0
+      }
+    ]
+  },
+  "baseScale": 0.5,
+  "hitbox": {
+    "width": 0.8,
+    "height": 2.55,
+    "fixed": false
+  },
+  "cannotDynamax": false,
+  "shoulderMountable": false,
   "behaviour": {
     "resting": {
       "canSleep": true,
@@ -126,31 +151,6 @@
     "tutor:thunderpunch",
     "tutor:zenheadbutt"
   ],
-  "labels": [
-    "gen5"
-  ],
-  "pokedex": [
-    "cobblemon.species.watchog.desc"
-  ],
   "preEvolution": "patrat",
-  "evolutions": [],
-  "baseScale": 0.5,
-  "hitbox": {
-    "width": 0.8,
-    "height": 2.55,
-    "fixed": false
-  },
-  "baseFriendship": 70,
-  "evYield": {
-    "hp": 0,
-    "attack": 2,
-    "defence": 0,
-    "special_attack": 0,
-    "special_defence": 0,
-    "speed": 0
-  },
-  "height": 11,
-  "weight": 270,
-  "aspects": [],
-  "cannotDynamax": false
+  "evolutions": []
 }

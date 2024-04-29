@@ -16,28 +16,32 @@
     "special_defence": 50,
     "speed": 63
   },
-  "behaviour": {
-    "moving": {
-      "canLook": false,
-      "walk": {
-        "avoidsLand": true
-      },
-      "swim": {
-        "swimSpeed": 0.1,
-        "canSwimInWater": true,
-        "canBreatheUnderwater": true
-      }
-    }
-  },
   "catchRate": 225,
   "maleRatio": 0.5,
-  "shoulderMountable": false,
-  "baseExperienceYield": 64,
+  "baseFriendship": 50,
   "experienceGroup": "medium_fast",
   "eggCycles": 20,
   "eggGroups": [
     "water_2"
   ],
+  "height": 6,
+  "weight": 150,
+  "pokedex": [
+    "cobblemon.species.goldeen.desc"
+  ],
+  "labels": [
+    "gen1"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 64,
+  "evYield": {
+    "hp": 0,
+    "attack": 1,
+    "defence": 0,
+    "special_attack": 0,
+    "special_defence": 0,
+    "speed": 0
+  },
   "drops": {
     "amount": 4,
     "entries": [
@@ -57,6 +61,27 @@
         "percentage": 2.5
       }
     ]
+  },
+  "baseScale": 1.2,
+  "hitbox": {
+    "width": 0.6,
+    "height": 0.4,
+    "fixed": false
+  },
+  "cannotDynamax": false,
+  "shoulderMountable": false,
+  "behaviour": {
+    "moving": {
+      "canLook": false,
+      "walk": {
+        "avoidsLand": true
+      },
+      "swim": {
+        "swimSpeed": 0.1,
+        "canSwimInWater": true,
+        "canBreatheUnderwater": true
+      }
+    }
   },
   "moves": [
     "1:peck",
@@ -187,44 +212,20 @@
     "tutor:watergun",
     "tutor:waterpulse"
   ],
-  "labels": [
-    "gen1"
-  ],
-  "pokedex": [
-    "cobblemon.species.goldeen.desc"
-  ],
   "evolutions": [
     {
       "id": "goldeen_seaking",
-      "variant": "level_up",
       "result": "seaking",
-      "consumeHeldItem": false,
       "learnableMoves": [],
       "requirements": [
         {
           "variant": "level",
           "minLevel": 33
         }
-      ]
+      ],
+      "trigger": {
+        "variant": "level_up"
+      }
     }
-  ],
-  "baseScale": 1.2,
-  "hitbox": {
-    "width": 0.6,
-    "height": 0.4,
-    "fixed": false
-  },
-  "baseFriendship": 50,
-  "evYield": {
-    "hp": 0,
-    "attack": 1,
-    "defence": 0,
-    "special_attack": 0,
-    "special_defence": 0,
-    "speed": 0
-  },
-  "height": 6,
-  "weight": 150,
-  "aspects": [],
-  "cannotDynamax": false
+  ]
 }

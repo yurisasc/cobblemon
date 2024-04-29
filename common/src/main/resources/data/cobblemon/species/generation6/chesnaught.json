@@ -16,23 +16,32 @@
     "special_defence": 75,
     "speed": 64
   },
-  "behaviour": {
-    "resting": {
-      "canSleep": false,
-      "willSleepOnBed": false,
-      "depth": "normal",
-      "light": "0-4"
-    }
-  },
   "catchRate": 45,
   "maleRatio": 0.875,
-  "shoulderMountable": false,
-  "baseExperienceYield": 239,
+  "baseFriendship": 70,
   "experienceGroup": "medium_slow",
   "eggCycles": 20,
   "eggGroups": [
     "field"
   ],
+  "height": 16,
+  "weight": 900,
+  "pokedex": [
+    "cobblemon.species.chesnaught.desc"
+  ],
+  "labels": [
+    "gen6"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 239,
+  "evYield": {
+    "hp": 0,
+    "attack": 0,
+    "defence": 3,
+    "special_attack": 0,
+    "special_defence": 0,
+    "speed": 0
+  },
   "drops": {
     "amount": 1,
     "entries": [
@@ -41,6 +50,22 @@
         "percentage": 25.0
       }
     ]
+  },
+  "baseScale": 1,
+  "hitbox": {
+    "width": 1,
+    "height": 2.2,
+    "fixed": false
+  },
+  "cannotDynamax": false,
+  "shoulderMountable": false,
+  "behaviour": {
+    "resting": {
+      "canSleep": false,
+      "willSleepOnBed": false,
+      "depth": "normal",
+      "light": "0-4"
+    }
   },
   "moves": [
     "1:bellydrum",
@@ -182,31 +207,6 @@
     "tutor:worryseed",
     "tutor:zenheadbutt"
   ],
-  "labels": [
-    "gen6"
-  ],
-  "pokedex": [
-    "cobblemon.species.chesnaught.desc"
-  ],
   "preEvolution": "quilladin",
-  "evolutions": [],
-  "baseScale": 1,
-  "hitbox": {
-    "width": 1,
-    "height": 2.2,
-    "fixed": false
-  },
-  "baseFriendship": 70,
-  "evYield": {
-    "hp": 0,
-    "attack": 0,
-    "defence": 3,
-    "special_attack": 0,
-    "special_defence": 0,
-    "speed": 0
-  },
-  "height": 16,
-  "weight": 900,
-  "aspects": [],
-  "cannotDynamax": false
+  "evolutions": []
 }

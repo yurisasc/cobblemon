@@ -8,6 +8,40 @@
     "weakarmor",
     "h:sandforce"
   ],
+  "baseStats": {
+    "hp": 70,
+    "attack": 105,
+    "defence": 105,
+    "special_attack": 50,
+    "special_defence": 40,
+    "speed": 20
+  },
+  "catchRate": 120,
+  "maleRatio": 0.5,
+  "baseFriendship": 50,
+  "experienceGroup": "medium_slow",
+  "eggCycles": 15,
+  "eggGroups": [
+    "mineral"
+  ],
+  "height": 9,
+  "weight": 1020,
+  "pokedex": [
+    "cobblemon.species.boldore.desc"
+  ],
+  "labels": [
+    "gen5"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 137,
+  "evYield": {
+    "hp": 0,
+    "attack": 1,
+    "defence": 1,
+    "special_attack": 0,
+    "special_defence": 0,
+    "speed": 0
+  },
   "drops": {
     "amount": 5,
     "entries": [
@@ -29,23 +63,14 @@
       }
     ]
   },
-  "baseStats": {
-    "hp": 70,
-    "attack": 105,
-    "defence": 105,
-    "special_attack": 50,
-    "special_defence": 40,
-    "speed": 20
+  "baseScale": 1,
+  "hitbox": {
+    "width": 0.9,
+    "height": 0.9,
+    "fixed": false
   },
-  "catchRate": 120,
-  "maleRatio": 0.5,
+  "cannotDynamax": false,
   "shoulderMountable": false,
-  "baseExperienceYield": 137,
-  "experienceGroup": "medium_slow",
-  "eggCycles": 15,
-  "eggGroups": [
-    "mineral"
-  ],
   "behaviour": {
     "resting": {
       "canSleep": true,
@@ -126,40 +151,16 @@
     "tutor:stealthrock",
     "tutor:stompingtantrum"
   ],
-  "labels": [
-    "gen5"
-  ],
-  "pokedex": [
-    "cobblemon.species.boldore.desc"
-  ],
   "preEvolution": "roggenrola",
   "evolutions": [
     {
       "id": "boldore_gigalith",
-      "variant": "trade",
       "result": "gigalith",
-      "consumeHeldItem": false,
       "learnableMoves": [],
-      "requirements": []
+      "requirements": [],
+      "trigger": {
+        "variant": "trade"
+      }
     }
-  ],
-  "baseScale": 1,
-  "hitbox": {
-    "width": 0.9,
-    "height": 0.9,
-    "fixed": false
-  },
-  "baseFriendship": 50,
-  "evYield": {
-    "hp": 0,
-    "attack": 1,
-    "defence": 1,
-    "special_attack": 0,
-    "special_defence": 0,
-    "speed": 0
-  },
-  "height": 9,
-  "weight": 1020,
-  "aspects": [],
-  "cannotDynamax": false
+  ]
 }

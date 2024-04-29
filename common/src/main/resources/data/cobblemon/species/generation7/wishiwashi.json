@@ -6,6 +6,43 @@
   "abilities": [
     "schooling"
   ],
+  "baseStats": {
+    "hp": 45,
+    "attack": 20,
+    "defence": 20,
+    "special_attack": 25,
+    "special_defence": 25,
+    "speed": 40
+  },
+  "catchRate": 60,
+  "maleRatio": 0.5,
+  "baseFriendship": 50,
+  "experienceGroup": "fast",
+  "eggCycles": 15,
+  "eggGroups": [
+    "water_2"
+  ],
+  "height": 2,
+  "weight": 3,
+  "pokedex": [
+    "cobblemon.species.wishiwashi.desc"
+  ],
+  "labels": [
+    "gen7"
+  ],
+  "features": [
+    "schooling"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 61,
+  "evYield": {
+    "hp": 1,
+    "attack": 0,
+    "defence": 0,
+    "special_attack": 0,
+    "special_defence": 0,
+    "speed": 0
+  },
   "drops": {
     "amount": 2,
     "entries": [
@@ -18,96 +55,14 @@
       }
     ]
   },
-  "baseStats": {
-    "hp": 45,
-    "attack": 20,
-    "defence": 20,
-    "special_attack": 25,
-    "special_defence": 25,
-    "speed": 40
+  "baseScale": 0.4,
+  "hitbox": {
+    "width": 0.6,
+    "height": 0.6,
+    "fixed": false
   },
-  "features": [
-    "schooling"
-  ],
-  "catchRate": 60,
-  "maleRatio": 0.5,
+  "cannotDynamax": false,
   "shoulderMountable": false,
-  "forms": [
-    {
-      "name": "School",
-      "primaryType": "water",
-      "abilities": [
-        "schooling"
-      ],
-      "baseStats": {
-        "hp": 45,
-        "attack": 140,
-        "defence": 130,
-        "special_attack": 140,
-        "special_defence": 135,
-        "speed": 30
-      },
-      "catchRate": 60,
-      "maleRatio": 0.5,
-      "baseExperienceYield": 61,
-      "baseFriendship": 50,
-      "evYield": {
-        "hp": 1,
-        "attack": 0,
-        "defence": 0,
-        "special_attack": 0,
-        "special_defence": 0,
-        "speed": 0
-      },
-      "experienceGroup": "fast",
-      "eggCycles": 15,
-      "eggGroups": [
-        "water_2"
-      ],
-      "behaviour": {
-        "moving": {
-          "walk": {
-            "avoidsLand": true
-          },
-          "swim": {
-            "canSwimInWater": true,
-            "canBreatheUnderwater": true
-          }
-        }
-      },
-      "labels": [
-        "gen7"
-      ],
-      "aspects": [
-        "schooling"
-      ],
-      "height": 82,
-      "weight": 786,
-      "baseScale": 2,
-      "hitbox": {
-        "width": 3.0,
-        "height": 3.0,
-        "fixed": false
-      },
-      "cannotDynamax": false,
-      "battleOnly": true
-    }
-  ],
-  "baseExperienceYield": 61,
-  "baseFriendship": 50,
-  "evYield": {
-    "hp": 1,
-    "attack": 0,
-    "defence": 0,
-    "special_attack": 0,
-    "special_defence": 0,
-    "speed": 0
-  },
-  "experienceGroup": "fast",
-  "eggCycles": 15,
-  "eggGroups": [
-    "water_2"
-  ],
   "behaviour": {
     "moving": {
       "canLook": false,
@@ -190,21 +145,66 @@
     "tutor:snore",
     "tutor:waterpulse"
   ],
-  "labels": [
-    "gen7"
-  ],
-  "pokedex": [
-    "cobblemon.species.wishiwashi.desc"
-  ],
-  "height": 2,
-  "weight": 3,
   "evolutions": [],
-  "baseScale": 0.4,
-  "hitbox": {
-    "width": 0.6,
-    "height": 0.6,
-    "fixed": false
-  },
-  "aspects": [],
-  "cannotDynamax": false
+  "temporaryForms": [
+    {
+      "name": "School",
+      "primaryType": "water",
+      "abilities": [
+        "schooling"
+      ],
+      "baseStats": {
+        "hp": 45,
+        "attack": 140,
+        "defence": 130,
+        "special_attack": 140,
+        "special_defence": 135,
+        "speed": 30
+      },
+      "catchRate": 60,
+      "maleRatio": 0.5,
+      "baseFriendship": 50,
+      "experienceGroup": "fast",
+      "eggCycles": 15,
+      "eggGroups": [
+        "water_2"
+      ],
+      "height": 82,
+      "weight": 786,
+      "labels": [
+        "gen7"
+      ],
+      "aspects": [
+        "schooling"
+      ],
+      "baseExperienceYield": 61,
+      "evYield": {
+        "hp": 1,
+        "attack": 0,
+        "defence": 0,
+        "special_attack": 0,
+        "special_defence": 0,
+        "speed": 0
+      },
+      "baseScale": 2,
+      "hitbox": {
+        "width": 3.0,
+        "height": 3.0,
+        "fixed": false
+      },
+      "cannotDynamax": false,
+      "battleOnly": true,
+      "behaviour": {
+        "moving": {
+          "walk": {
+            "avoidsLand": true
+          },
+          "swim": {
+            "canSwimInWater": true,
+            "canBreatheUnderwater": true
+          }
+        }
+      }
+    }
+  ]
 }

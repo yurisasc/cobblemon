@@ -7,6 +7,40 @@
     "motordrive",
     "h:sapsipper"
   ],
+  "baseStats": {
+    "hp": 75,
+    "attack": 100,
+    "defence": 63,
+    "special_attack": 80,
+    "special_defence": 63,
+    "speed": 116
+  },
+  "catchRate": 75,
+  "maleRatio": 0.5,
+  "baseFriendship": 70,
+  "experienceGroup": "medium_fast",
+  "eggCycles": 20,
+  "eggGroups": [
+    "field"
+  ],
+  "height": 16,
+  "weight": 795,
+  "pokedex": [
+    "cobblemon.species.zebstrika.desc"
+  ],
+  "labels": [
+    "gen5"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 174,
+  "evYield": {
+    "hp": 0,
+    "attack": 0,
+    "defence": 0,
+    "special_attack": 0,
+    "special_defence": 0,
+    "speed": 2
+  },
   "drops": {
     "amount": 3,
     "entries": [
@@ -20,23 +54,14 @@
       }
     ]
   },
-  "baseStats": {
-    "hp": 75,
-    "attack": 100,
-    "defence": 63,
-    "special_attack": 80,
-    "special_defence": 63,
-    "speed": 116
+  "baseScale": 1,
+  "hitbox": {
+    "width": 1,
+    "height": 1,
+    "fixed": false
   },
-  "catchRate": 75,
-  "maleRatio": 0.5,
+  "cannotDynamax": false,
   "shoulderMountable": false,
-  "baseExperienceYield": 174,
-  "experienceGroup": "medium_fast",
-  "eggCycles": 20,
-  "eggGroups": [
-    "field"
-  ],
   "moves": [
     "1:charge",
     "1:iondeluge",
@@ -117,31 +142,6 @@
     "tutor:snatch",
     "tutor:snore"
   ],
-  "labels": [
-    "gen5"
-  ],
-  "pokedex": [
-    "cobblemon.species.zebstrika.desc"
-  ],
   "preEvolution": "blitzle",
-  "evolutions": [],
-  "baseScale": 1,
-  "hitbox": {
-    "width": 1,
-    "height": 1,
-    "fixed": false
-  },
-  "baseFriendship": 70,
-  "evYield": {
-    "hp": 0,
-    "attack": 0,
-    "defence": 0,
-    "special_attack": 0,
-    "special_defence": 0,
-    "speed": 2
-  },
-  "height": 16,
-  "weight": 795,
-  "aspects": [],
-  "cannotDynamax": false
+  "evolutions": []
 }

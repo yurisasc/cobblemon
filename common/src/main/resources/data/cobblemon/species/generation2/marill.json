@@ -18,14 +18,48 @@
   },
   "catchRate": 190,
   "maleRatio": 0.5,
-  "shoulderMountable": false,
-  "baseExperienceYield": 88,
+  "baseFriendship": 50,
   "experienceGroup": "fast",
   "eggCycles": 10,
   "eggGroups": [
     "water_1",
     "fairy"
   ],
+  "height": 4,
+  "weight": 85,
+  "pokedex": [
+    "cobblemon.species.marill.desc"
+  ],
+  "labels": [
+    "gen2"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 88,
+  "evYield": {
+    "hp": 2,
+    "attack": 0,
+    "defence": 0,
+    "special_attack": 0,
+    "special_defence": 0,
+    "speed": 0
+  },
+  "drops": {
+    "amount": 1,
+    "entries": [
+      {
+        "item": "cobblemon:kebia_berry",
+        "percentage": 5.0
+      }
+    ]
+  },
+  "baseScale": 1,
+  "hitbox": {
+    "width": 1,
+    "height": 1,
+    "fixed": false
+  },
+  "cannotDynamax": false,
+  "shoulderMountable": false,
   "moves": [
     "1:defensecurl",
     "1:helpinghand",
@@ -203,54 +237,21 @@
     "tutor:waterpulse",
     "tutor:whirlpool"
   ],
-  "labels": [
-    "gen2"
-  ],
-  "pokedex": [
-    "cobblemon.species.marill.desc"
-  ],
   "preEvolution": "azurill",
   "evolutions": [
     {
       "id": "marill_azumarill",
-      "variant": "level_up",
       "result": "azumarill",
-      "consumeHeldItem": false,
       "learnableMoves": [],
       "requirements": [
         {
           "variant": "level",
           "minLevel": 18
         }
-      ]
-    }
-  ],
-  "baseScale": 1,
-  "hitbox": {
-    "width": 1,
-    "height": 1,
-    "fixed": false
-  },
-  "baseFriendship": 50,
-  "evYield": {
-    "hp": 2,
-    "attack": 0,
-    "defence": 0,
-    "special_attack": 0,
-    "special_defence": 0,
-    "speed": 0
-  },
-  "height": 4,
-  "weight": 85,
-  "aspects": [],
-  "cannotDynamax": false,
-  "drops": {
-    "amount": 1,
-    "entries": [
-      {
-        "item": "cobblemon:kebia_berry",
-        "percentage": 5.0
+      ],
+      "trigger": {
+        "variant": "level_up"
       }
-    ]
-  }
+    }
+  ]
 }

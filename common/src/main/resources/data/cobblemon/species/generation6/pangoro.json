@@ -18,14 +18,56 @@
   },
   "catchRate": 65,
   "maleRatio": 0.5,
-  "shoulderMountable": false,
-  "baseExperienceYield": 173,
+  "baseFriendship": 50,
   "experienceGroup": "medium_fast",
   "eggCycles": 25,
   "eggGroups": [
     "field",
     "human_like"
   ],
+  "height": 21,
+  "weight": 1360,
+  "pokedex": [
+    "cobblemon.species.pangoro.desc"
+  ],
+  "labels": [
+    "gen6"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 173,
+  "evYield": {
+    "hp": 0,
+    "attack": 2,
+    "defence": 0,
+    "special_attack": 0,
+    "special_defence": 0,
+    "speed": 0
+  },
+  "drops": {
+    "amount": 4,
+    "entries": [
+      {
+        "item": "minecraft:bamboo",
+        "quantityRange": "0-2"
+      },
+      {
+        "item": "cobblemon:mental_herb",
+        "percentage": 5.0
+      },
+      {
+        "item": "cobblemon:roseli_berry",
+        "percentage": 5.0
+      }
+    ]
+  },
+  "baseScale": 1,
+  "hitbox": {
+    "width": 1,
+    "height": 1,
+    "fixed": false
+  },
+  "cannotDynamax": false,
+  "shoulderMountable": false,
   "moves": [
     "1:armthrust",
     "1:bulletpunch",
@@ -161,48 +203,6 @@
     "tutor:uproar",
     "tutor:zenheadbutt"
   ],
-  "labels": [
-    "gen6"
-  ],
-  "pokedex": [
-    "cobblemon.species.pangoro.desc"
-  ],
   "preEvolution": "pancham",
-  "evolutions": [],
-  "baseScale": 1,
-  "hitbox": {
-    "width": 1,
-    "height": 1,
-    "fixed": false
-  },
-  "baseFriendship": 50,
-  "evYield": {
-    "hp": 0,
-    "attack": 2,
-    "defence": 0,
-    "special_attack": 0,
-    "special_defence": 0,
-    "speed": 0
-  },
-  "height": 21,
-  "weight": 1360,
-  "aspects": [],
-  "cannotDynamax": false,
-  "drops": {
-    "amount": 4,
-    "entries": [
-      {
-        "item": "minecraft:bamboo",
-        "quantityRange": "0-2"
-      },
-      {
-        "item": "cobblemon:mental_herb",
-        "percentage": 5.0
-      },
-      {
-        "item": "cobblemon:roseli_berry",
-        "percentage": 5.0
-      }
-    ]
-  }
+  "evolutions": []
 }

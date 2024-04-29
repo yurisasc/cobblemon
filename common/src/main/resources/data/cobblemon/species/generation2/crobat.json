@@ -8,6 +8,40 @@
     "innerfocus",
     "h:infiltrator"
   ],
+  "baseStats": {
+    "hp": 85,
+    "attack": 90,
+    "defence": 80,
+    "special_attack": 70,
+    "special_defence": 80,
+    "speed": 130
+  },
+  "catchRate": 90,
+  "maleRatio": 0.5,
+  "baseFriendship": 50,
+  "experienceGroup": "medium_fast",
+  "eggCycles": 15,
+  "eggGroups": [
+    "flying"
+  ],
+  "height": 18,
+  "weight": 750,
+  "pokedex": [
+    "cobblemon.species.crobat.desc"
+  ],
+  "labels": [
+    "gen2"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 268,
+  "evYield": {
+    "hp": 0,
+    "attack": 0,
+    "defence": 0,
+    "special_attack": 0,
+    "special_defence": 0,
+    "speed": 3
+  },
   "drops": {
     "amount": 3,
     "entries": [
@@ -25,23 +59,14 @@
       }
     ]
   },
-  "baseStats": {
-    "hp": 85,
-    "attack": 90,
-    "defence": 80,
-    "special_attack": 70,
-    "special_defence": 80,
-    "speed": 130
+  "baseScale": 1.0,
+  "hitbox": {
+    "width": 1,
+    "height": 2.2,
+    "fixed": false
   },
-  "catchRate": 90,
-  "maleRatio": 0.5,
+  "cannotDynamax": false,
   "shoulderMountable": false,
-  "baseExperienceYield": 268,
-  "experienceGroup": "medium_fast",
-  "eggCycles": 15,
-  "eggGroups": [
-    "flying"
-  ],
   "behaviour": {
     "moving": {
       "walk": {
@@ -186,31 +211,6 @@
     "tutor:wingattack",
     "tutor:zenheadbutt"
   ],
-  "labels": [
-    "gen2"
-  ],
-  "pokedex": [
-    "cobblemon.species.crobat.desc"
-  ],
   "preEvolution": "golbat",
-  "evolutions": [],
-  "baseScale": 1.0,
-  "hitbox": {
-    "width": 1,
-    "height": 2.2,
-    "fixed": false
-  },
-  "baseFriendship": 50,
-  "evYield": {
-    "hp": 0,
-    "attack": 0,
-    "defence": 0,
-    "special_attack": 0,
-    "special_defence": 0,
-    "speed": 3
-  },
-  "height": 18,
-  "weight": 750,
-  "aspects": [],
-  "cannotDynamax": false
+  "evolutions": []
 }

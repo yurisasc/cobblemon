@@ -18,27 +18,30 @@
   },
   "catchRate": 190,
   "maleRatio": 0.5,
-  "shoulderMountable": false,
-  "baseExperienceYield": 64,
+  "baseFriendship": 50,
   "experienceGroup": "medium_fast",
   "eggCycles": 20,
   "eggGroups": [
     "water_1",
     "field"
   ],
-  "behaviour": {
-    "moving": {
-      "swim": {
-        "canSwimInWater": true,
-        "canBreatheUnderwater": true
-      }
-    },
-    "resting": {
-      "canSleep": true,
-      "willSleepOnBed": false,
-      "depth": "normal",
-      "light": "0-4"
-    }
+  "height": 8,
+  "weight": 196,
+  "pokedex": [
+    "cobblemon.species.psyduck.desc"
+  ],
+  "labels": [
+    "gen1"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 64,
+  "evYield": {
+    "hp": 0,
+    "attack": 0,
+    "defence": 0,
+    "special_attack": 1,
+    "special_defence": 0,
+    "speed": 0
   },
   "drops": {
     "amount": 3,
@@ -55,6 +58,28 @@
         "percentage": 2.5
       }
     ]
+  },
+  "baseScale": 0.8,
+  "hitbox": {
+    "width": 0.8,
+    "height": 1.0,
+    "fixed": false
+  },
+  "cannotDynamax": false,
+  "shoulderMountable": false,
+  "behaviour": {
+    "moving": {
+      "swim": {
+        "canSwimInWater": true,
+        "canBreatheUnderwater": true
+      }
+    },
+    "resting": {
+      "canSleep": true,
+      "willSleepOnBed": false,
+      "depth": "normal",
+      "light": "0-4"
+    }
   },
   "moves": [
     "1:scratch",
@@ -257,44 +282,20 @@
     "tutor:worryseed",
     "tutor:zenheadbutt"
   ],
-  "labels": [
-    "gen1"
-  ],
-  "pokedex": [
-    "cobblemon.species.psyduck.desc"
-  ],
   "evolutions": [
     {
       "id": "psyduck_golduck",
-      "variant": "level_up",
       "result": "golduck",
-      "consumeHeldItem": false,
       "learnableMoves": [],
       "requirements": [
         {
           "variant": "level",
           "minLevel": 33
         }
-      ]
+      ],
+      "trigger": {
+        "variant": "level_up"
+      }
     }
-  ],
-  "baseScale": 0.8,
-  "hitbox": {
-    "width": 0.8,
-    "height": 1.0,
-    "fixed": false
-  },
-  "baseFriendship": 50,
-  "evYield": {
-    "hp": 0,
-    "attack": 0,
-    "defence": 0,
-    "special_attack": 1,
-    "special_defence": 0,
-    "speed": 0
-  },
-  "height": 8,
-  "weight": 196,
-  "aspects": [],
-  "cannotDynamax": false
+  ]
 }

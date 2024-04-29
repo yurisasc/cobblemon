@@ -16,73 +16,49 @@
     "special_defence": 70,
     "speed": 85
   },
-  "behaviour": {
-    "resting": {
-      "canSleep": true,
-      "depth": "normal",
-      "light": "0-4"
-    },
-    "moving": {
-      "walk": {
-        "walkSpeed": 0.14
-      }
-    }
-  },
   "catchRate": 45,
   "maleRatio": 0.5,
-  "shoulderMountable": false,
-  "forms": [
-    {
-      "name": "Mega",
-      "primaryType": "bug",
-      "secondaryType": "flying",
-      "abilities": [
-        "aerilate"
-      ],
-      "baseStats": {
-        "hp": 65,
-        "attack": 155,
-        "defence": 120,
-        "special_attack": 65,
-        "special_defence": 90,
-        "speed": 105
-      },
-      "catchRate": 45,
-      "maleRatio": 0.5,
-      "baseExperienceYield": 175,
-      "baseFriendship": 50,
-      "evYield": {
-        "hp": 0,
-        "attack": 2,
-        "defence": 0,
-        "special_attack": 0,
-        "special_defence": 0,
-        "speed": 0
-      },
-      "experienceGroup": "slow",
-      "eggCycles": 25,
-      "eggGroups": [
-        "bug"
-      ],
-      "labels": [
-        "gen6",
-        "mega"
-      ],
-      "aspects": [
-        "mega"
-      ],
-      "height": 17,
-      "weight": 590,
-      "cannotDynamax": false,
-      "battleOnly": true
-    }
-  ],
-  "baseExperienceYield": 175,
+  "baseFriendship": 50,
   "experienceGroup": "slow",
   "eggCycles": 25,
   "eggGroups": [
     "bug"
   ],
+  "height": 15,
+  "weight": 550,
+  "pokedex": [
+    "cobblemon.species.pinsir.desc"
+  ],
+  "labels": [
+    "gen1"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 175,
+  "evYield": {
+    "hp": 0,
+    "attack": 2,
+    "defence": 0,
+    "special_attack": 0,
+    "special_defence": 0,
+    "speed": 0
+  },
+  "drops": {
+    "amount": 1,
+    "entries": [
+      {
+        "item": "cobblemon:pinap_berry",
+        "percentage": 5.0
+      }
+    ]
+  },
+  "baseScale": 0.75,
+  "hitbox": {
+    "width": 1,
+    "height": 1.45,
+    "fixed": false
+  },
+  "cannotDynamax": false,
+  "shoulderMountable": false,
   "behaviour": {
     "resting": {
       "canSleep": true,
@@ -241,39 +217,51 @@
     "tutor:visegrip",
     "tutor:xscissor"
   ],
-  "labels": [
-    "gen1"
-  ],
-  "pokedex": [
-    "cobblemon.species.pinsir.desc"
-  ],
   "evolutions": [],
-  "baseScale": 0.75,
-  "hitbox": {
-    "width": 1,
-    "height": 1.45,
-    "fixed": false
-  },
-  "baseFriendship": 50,
-  "evYield": {
-    "hp": 0,
-    "attack": 2,
-    "defence": 0,
-    "special_attack": 0,
-    "special_defence": 0,
-    "speed": 0
-  },
-  "height": 15,
-  "weight": 550,
-  "aspects": [],
-  "cannotDynamax": false,
-  "drops": {
-    "amount": 1,
-    "entries": [
-      {
-        "item": "cobblemon:pinap_berry",
-        "percentage": 5.0
-      }
-    ]
-  }
+  "temporaryForms": [
+    {
+      "name": "Mega",
+      "primaryType": "bug",
+      "secondaryType": "flying",
+      "abilities": [
+        "aerilate"
+      ],
+      "baseStats": {
+        "hp": 65,
+        "attack": 155,
+        "defence": 120,
+        "special_attack": 65,
+        "special_defence": 90,
+        "speed": 105
+      },
+      "catchRate": 45,
+      "maleRatio": 0.5,
+      "baseFriendship": 50,
+      "experienceGroup": "slow",
+      "eggCycles": 25,
+      "eggGroups": [
+        "bug"
+      ],
+      "height": 17,
+      "weight": 590,
+      "labels": [
+        "gen6",
+        "mega"
+      ],
+      "aspects": [
+        "mega"
+      ],
+      "baseExperienceYield": 175,
+      "evYield": {
+        "hp": 0,
+        "attack": 2,
+        "defence": 0,
+        "special_attack": 0,
+        "special_defence": 0,
+        "speed": 0
+      },
+      "cannotDynamax": false,
+      "battleOnly": true
+    }
+  ]
 }

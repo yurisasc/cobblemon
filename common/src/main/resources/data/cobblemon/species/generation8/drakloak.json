@@ -17,6 +17,54 @@
     "special_defence": 50,
     "speed": 102
   },
+  "catchRate": 45,
+  "maleRatio": 0.5,
+  "baseFriendship": 50,
+  "experienceGroup": "slow",
+  "eggCycles": 40,
+  "eggGroups": [
+    "amorphous",
+    "dragon"
+  ],
+  "height": 14,
+  "weight": 110,
+  "pokedex": [
+    "cobblemon.species.drakloak.desc"
+  ],
+  "labels": [
+    "gen8"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 144,
+  "evYield": {
+    "hp": 0,
+    "attack": 0,
+    "defence": 0,
+    "special_attack": 0,
+    "special_defence": 0,
+    "speed": 2
+  },
+  "drops": {
+    "amount": 2,
+    "entries": [
+      {
+        "item": "minecraft:phantom_membrane",
+        "percentage": 5.0
+      },
+      {
+        "item": "cobblemon:haban_berry",
+        "percentage": 5.0
+      }
+    ]
+  },
+  "baseScale": 0.75,
+  "hitbox": {
+    "width": 0.9,
+    "height": 1.55,
+    "fixed": false
+  },
+  "cannotDynamax": false,
+  "shoulderMountable": false,
   "behaviour": {
     "moving": {
       "swim": {
@@ -36,16 +84,6 @@
       "light": "0-4"
     }
   },
-  "catchRate": 45,
-  "maleRatio": 0.5,
-  "shoulderMountable": false,
-  "baseExperienceYield": 144,
-  "experienceGroup": "slow",
-  "eggCycles": 40,
-  "eggGroups": [
-    "amorphous",
-    "dragon"
-  ],
   "moves": [
     "1:astonish",
     "1:bite",
@@ -117,19 +155,11 @@
     "tm:willowisp",
     "tutor:dracometeor"
   ],
-  "labels": [
-    "gen8"
-  ],
-  "pokedex": [
-    "cobblemon.species.drakloak.desc"
-  ],
   "preEvolution": "dreepy",
   "evolutions": [
     {
       "id": "drakloak_dragapult",
-      "variant": "level_up",
       "result": "dragapult",
-      "consumeHeldItem": false,
       "learnableMoves": [
         "dragondarts"
       ],
@@ -138,39 +168,10 @@
           "variant": "level",
           "minLevel": 60
         }
-      ]
-    }
-  ],
-  "baseScale": 0.75,
-  "hitbox": {
-    "width": 0.9,
-    "height": 1.55,
-    "fixed": false
-  },
-  "baseFriendship": 50,
-  "evYield": {
-    "hp": 0,
-    "attack": 0,
-    "defence": 0,
-    "special_attack": 0,
-    "special_defence": 0,
-    "speed": 2
-  },
-  "height": 14,
-  "weight": 110,
-  "aspects": [],
-  "cannotDynamax": false,
-  "drops": {
-    "amount": 2,
-    "entries": [
-      {
-        "item": "minecraft:phantom_membrane",
-        "percentage": 5.0
-      },
-      {
-        "item": "cobblemon:haban_berry",
-        "percentage": 5.0
+      ],
+      "trigger": {
+        "variant": "level_up"
       }
-    ]
-  }
+    }
+  ]
 }

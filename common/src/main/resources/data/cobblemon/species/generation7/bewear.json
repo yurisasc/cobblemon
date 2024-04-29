@@ -9,6 +9,40 @@
     "klutz",
     "h:unnerve"
   ],
+  "baseStats": {
+    "hp": 120,
+    "attack": 125,
+    "defence": 80,
+    "special_attack": 55,
+    "special_defence": 60,
+    "speed": 60
+  },
+  "catchRate": 70,
+  "maleRatio": 0.5,
+  "baseFriendship": 50,
+  "experienceGroup": "medium_fast",
+  "eggCycles": 15,
+  "eggGroups": [
+    "field"
+  ],
+  "height": 21,
+  "weight": 1350,
+  "pokedex": [
+    "cobblemon.species.bewear.desc"
+  ],
+  "labels": [
+    "gen7"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 175,
+  "evYield": {
+    "hp": 0,
+    "attack": 2,
+    "defence": 0,
+    "special_attack": 0,
+    "special_defence": 0,
+    "speed": 0
+  },
   "drops": {
     "amount": 1,
     "entries": [
@@ -18,14 +52,14 @@
       }
     ]
   },
-  "baseStats": {
-    "hp": 120,
-    "attack": 125,
-    "defence": 80,
-    "special_attack": 55,
-    "special_defence": 60,
-    "speed": 60
+  "baseScale": 1,
+  "hitbox": {
+    "width": 1.2,
+    "height": 2.8,
+    "fixed": false
   },
+  "cannotDynamax": false,
+  "shoulderMountable": false,
   "behaviour": {
     "resting": {
       "canSleep": true,
@@ -34,15 +68,6 @@
       "light": "0-4"
     }
   },
-  "catchRate": 70,
-  "maleRatio": 0.5,
-  "shoulderMountable": false,
-  "baseExperienceYield": 175,
-  "experienceGroup": "medium_fast",
-  "eggCycles": 15,
-  "eggGroups": [
-    "field"
-  ],
   "moves": [
     "1:babydolleyes",
     "1:bind",
@@ -132,31 +157,6 @@
     "tutor:thunderpunch",
     "tutor:zenheadbutt"
   ],
-  "labels": [
-    "gen7"
-  ],
-  "pokedex": [
-    "cobblemon.species.bewear.desc"
-  ],
   "preEvolution": "stufful",
-  "evolutions": [],
-  "baseScale": 1,
-  "hitbox": {
-    "width": 1.2,
-    "height": 2.8,
-    "fixed": false
-  },
-  "baseFriendship": 50,
-  "evYield": {
-    "hp": 0,
-    "attack": 2,
-    "defence": 0,
-    "special_attack": 0,
-    "special_defence": 0,
-    "speed": 0
-  },
-  "height": 21,
-  "weight": 1350,
-  "aspects": [],
-  "cannotDynamax": false
+  "evolutions": []
 }

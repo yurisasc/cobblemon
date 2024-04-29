@@ -17,13 +17,50 @@
   },
   "catchRate": 235,
   "maleRatio": 0.5,
-  "shoulderMountable": false,
-  "baseExperienceYield": 36,
+  "baseFriendship": 70,
   "experienceGroup": "medium_slow",
   "eggCycles": 20,
   "eggGroups": [
     "grass"
   ],
+  "height": 3,
+  "weight": 18,
+  "pokedex": [
+    "cobblemon.species.sunkern.desc"
+  ],
+  "labels": [
+    "gen2"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 36,
+  "evYield": {
+    "hp": 0,
+    "attack": 0,
+    "defence": 0,
+    "special_attack": 1,
+    "special_defence": 0,
+    "speed": 0
+  },
+  "drops": {
+    "amount": 2,
+    "entries": [
+      {
+        "item": "minecraft:wheat_seeds"
+      },
+      {
+        "item": "cobblemon:coba_berry",
+        "percentage": 2.5
+      }
+    ]
+  },
+  "baseScale": 1,
+  "hitbox": {
+    "width": 1,
+    "height": 1,
+    "fixed": false
+  },
+  "cannotDynamax": false,
+  "shoulderMountable": false,
   "moves": [
     "1:growth",
     "1:tackle",
@@ -137,52 +174,16 @@
     "tutor:uproar",
     "tutor:worryseed"
   ],
-  "labels": [
-    "gen2"
-  ],
-  "pokedex": [
-    "cobblemon.species.sunkern.desc"
-  ],
   "evolutions": [
     {
       "id": "sunkern_sunflora",
-      "variant": "item_interact",
       "result": "sunflora",
-      "consumeHeldItem": false,
       "learnableMoves": [],
       "requirements": [],
-      "requiredContext": "cobblemon:sun_stone"
-    }
-  ],
-  "baseScale": 1,
-  "hitbox": {
-    "width": 1,
-    "height": 1,
-    "fixed": false
-  },
-  "baseFriendship": 70,
-  "evYield": {
-    "hp": 0,
-    "attack": 0,
-    "defence": 0,
-    "special_attack": 1,
-    "special_defence": 0,
-    "speed": 0
-  },
-  "height": 3,
-  "weight": 18,
-  "aspects": [],
-  "cannotDynamax": false,
-  "drops": {
-    "amount": 2,
-    "entries": [
-      {
-        "item": "minecraft:wheat_seeds"
-      },
-      {
-        "item": "cobblemon:coba_berry",
-        "percentage": 2.5
+      "trigger": {
+        "variant": "item_interact",
+        "requiredContext": "cobblemon:sun_stone"
       }
-    ]
-  }
+    }
+  ]
 }

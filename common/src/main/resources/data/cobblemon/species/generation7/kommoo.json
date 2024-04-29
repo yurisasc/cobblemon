@@ -19,151 +19,60 @@
   },
   "catchRate": 45,
   "maleRatio": 0.5,
-  "shoulderMountable": false,
-  "forms": [
-    {
-      "name": "Totem",
-      "primaryType": "dragon",
-      "secondaryType": "fighting",
-      "abilities": [
-        "overcoat"
-      ],
-      "baseStats": {
-        "hp": 75,
-        "attack": 110,
-        "defence": 125,
-        "special_attack": 100,
-        "special_defence": 105,
-        "speed": 85
-      },
-      "catchRate": 45,
-      "maleRatio": 0.5,
-      "baseExperienceYield": 300,
-      "baseFriendship": 50,
-      "evYield": {
-        "hp": 0,
-        "attack": 0,
-        "defence": 3,
-        "special_attack": 0,
-        "special_defence": 0,
-        "speed": 0
-      },
-      "experienceGroup": "slow",
-      "eggCycles": 40,
-      "eggGroups": [
-        "dragon"
-      ],
-      "moves": [
-        "1:autotomize",
-        "1:bellydrum",
-        "1:bide",
-        "1:clangingscales",
-        "1:leer",
-        "1:protect",
-        "1:skyuppercut",
-        "1:tackle",
-        "17:dragontail",
-        "21:scaryface",
-        "25:headbutt",
-        "29:workup",
-        "33:screech",
-        "38:irondefense",
-        "43:dragonclaw",
-        "51:nobleroar",
-        "59:dragondance",
-        "67:outrage",
-        "75:closecombat",
-        "tm:aerialace",
-        "tm:attract",
-        "tm:brickbreak",
-        "tm:brutalswing",
-        "tm:bulkup",
-        "tm:bulldoze",
-        "tm:confide",
-        "tm:doubleteam",
-        "tm:dragonclaw",
-        "tm:dragontail",
-        "tm:earthquake",
-        "tm:echoedvoice",
-        "tm:facade",
-        "tm:falseswipe",
-        "tm:flamethrower",
-        "tm:flashcannon",
-        "tm:fling",
-        "tm:focusblast",
-        "tm:frustration",
-        "tm:gigaimpact",
-        "tm:hiddenpower",
-        "tm:hyperbeam",
-        "tm:payback",
-        "tm:poisonjab",
-        "tm:protect",
-        "tm:rest",
-        "tm:return",
-        "tm:roar",
-        "tm:rockpolish",
-        "tm:rockslide",
-        "tm:rocktomb",
-        "tm:round",
-        "tm:safeguard",
-        "tm:sandstorm",
-        "tm:shadowclaw",
-        "tm:sleeptalk",
-        "tm:substitute",
-        "tm:swagger",
-        "tm:swordsdance",
-        "tm:taunt",
-        "tm:toxic",
-        "tm:workup",
-        "tm:xscissor",
-        "tutor:aquatail",
-        "tutor:dracometeor",
-        "tutor:dragonclaw",
-        "tutor:dragonpulse",
-        "tutor:drainpunch",
-        "tutor:dualchop",
-        "tutor:endeavor",
-        "tutor:firepunch",
-        "tutor:focuspunch",
-        "tutor:hypervoice",
-        "tutor:icepunch",
-        "tutor:irondefense",
-        "tutor:ironhead",
-        "tutor:irontail",
-        "tutor:laserfocus",
-        "tutor:lowkick",
-        "tutor:outrage",
-        "tutor:screech",
-        "tutor:shockwave",
-        "tutor:snore",
-        "tutor:stealthrock",
-        "tutor:stompingtantrum",
-        "tutor:superpower",
-        "tutor:thunderpunch",
-        "tutor:uproar",
-        "tutor:waterpulse",
-        "tutor:workup"
-      ],
-      "labels": [
-        "gen7",
-        "pseudo_legendary",
-        "totem"
-      ],
-      "aspects": [
-        "totem"
-      ],
-      "height": 24,
-      "weight": 2075,
-      "cannotDynamax": false,
-      "battleOnly": false
-    }
-  ],
-  "baseExperienceYield": 300,
+  "baseFriendship": 50,
   "experienceGroup": "slow",
   "eggCycles": 40,
   "eggGroups": [
     "dragon"
   ],
+  "height": 16,
+  "weight": 782,
+  "pokedex": [
+    "cobblemon.species.kommoo.desc"
+  ],
+  "labels": [
+    "gen7",
+    "pseudo_legendary"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 300,
+  "evYield": {
+    "hp": 0,
+    "attack": 0,
+    "defence": 3,
+    "special_attack": 0,
+    "special_defence": 0,
+    "speed": 0
+  },
+  "drops": {
+    "amount": 6,
+    "entries": [
+      {
+        "item": "minecraft:scute",
+        "quantityRange": "0-3"
+      },
+      {
+        "item": "cobblemon:razor_claw",
+        "percentage": 10.0
+      },
+      {
+        "item": "cobblemon:dragon_scale",
+        "percentage": 10.0
+      },
+      {
+        "item": "cobblemon:roseli_berry",
+        "percentage": 2.5
+      }
+    ]
+  },
+  "baseScale": 1,
+  "hitbox": {
+    "width": 2.2,
+    "height": 3.35,
+    "fixed": false
+  },
+  "cannotDynamax": false,
+  "shoulderMountable": false,
   "moves": [
     "1:autotomize",
     "1:bellydrum",
@@ -302,53 +211,143 @@
     "tutor:uproar",
     "tutor:waterpulse"
   ],
-  "labels": [
-    "gen7",
-    "pseudo_legendary"
-  ],
-  "pokedex": [
-    "cobblemon.species.kommoo.desc"
-  ],
   "preEvolution": "hakamoo",
   "evolutions": [],
-  "baseScale": 1,
-  "hitbox": {
-    "width": 2.2,
-    "height": 3.35,
-    "fixed": false
-  },
-  "baseFriendship": 50,
-  "evYield": {
-    "hp": 0,
-    "attack": 0,
-    "defence": 3,
-    "special_attack": 0,
-    "special_defence": 0,
-    "speed": 0
-  },
-  "height": 16,
-  "weight": 782,
-  "aspects": [],
-  "cannotDynamax": false,
-  "drops": {
-    "amount": 6,
-    "entries": [
-      {
-        "item": "minecraft:scute",
-        "quantityRange": "0-3"
+  "permanentForms": [
+    {
+      "name": "Totem",
+      "primaryType": "dragon",
+      "secondaryType": "fighting",
+      "abilities": [
+        "overcoat"
+      ],
+      "baseStats": {
+        "hp": 75,
+        "attack": 110,
+        "defence": 125,
+        "special_attack": 100,
+        "special_defence": 105,
+        "speed": 85
       },
-      {
-        "item": "cobblemon:razor_claw",
-        "percentage": 10.0
+      "catchRate": 45,
+      "maleRatio": 0.5,
+      "baseFriendship": 50,
+      "experienceGroup": "slow",
+      "eggCycles": 40,
+      "eggGroups": [
+        "dragon"
+      ],
+      "height": 24,
+      "weight": 2075,
+      "labels": [
+        "gen7",
+        "pseudo_legendary",
+        "totem"
+      ],
+      "aspects": [
+        "totem"
+      ],
+      "baseExperienceYield": 300,
+      "evYield": {
+        "hp": 0,
+        "attack": 0,
+        "defence": 3,
+        "special_attack": 0,
+        "special_defence": 0,
+        "speed": 0
       },
-      {
-        "item": "cobblemon:dragon_scale",
-        "percentage": 10.0
-      },
-      {
-        "item": "cobblemon:roseli_berry",
-        "percentage": 2.5
-      }
-    ]
-  }
+      "cannotDynamax": false,
+      "moves": [
+        "1:autotomize",
+        "1:bellydrum",
+        "1:bide",
+        "1:clangingscales",
+        "1:leer",
+        "1:protect",
+        "1:skyuppercut",
+        "1:tackle",
+        "17:dragontail",
+        "21:scaryface",
+        "25:headbutt",
+        "29:workup",
+        "33:screech",
+        "38:irondefense",
+        "43:dragonclaw",
+        "51:nobleroar",
+        "59:dragondance",
+        "67:outrage",
+        "75:closecombat",
+        "tm:aerialace",
+        "tm:attract",
+        "tm:brickbreak",
+        "tm:brutalswing",
+        "tm:bulkup",
+        "tm:bulldoze",
+        "tm:confide",
+        "tm:doubleteam",
+        "tm:dragonclaw",
+        "tm:dragontail",
+        "tm:earthquake",
+        "tm:echoedvoice",
+        "tm:facade",
+        "tm:falseswipe",
+        "tm:flamethrower",
+        "tm:flashcannon",
+        "tm:fling",
+        "tm:focusblast",
+        "tm:frustration",
+        "tm:gigaimpact",
+        "tm:hiddenpower",
+        "tm:hyperbeam",
+        "tm:payback",
+        "tm:poisonjab",
+        "tm:protect",
+        "tm:rest",
+        "tm:return",
+        "tm:roar",
+        "tm:rockpolish",
+        "tm:rockslide",
+        "tm:rocktomb",
+        "tm:round",
+        "tm:safeguard",
+        "tm:sandstorm",
+        "tm:shadowclaw",
+        "tm:sleeptalk",
+        "tm:substitute",
+        "tm:swagger",
+        "tm:swordsdance",
+        "tm:taunt",
+        "tm:toxic",
+        "tm:workup",
+        "tm:xscissor",
+        "tutor:aquatail",
+        "tutor:dracometeor",
+        "tutor:dragonclaw",
+        "tutor:dragonpulse",
+        "tutor:drainpunch",
+        "tutor:dualchop",
+        "tutor:endeavor",
+        "tutor:firepunch",
+        "tutor:focuspunch",
+        "tutor:hypervoice",
+        "tutor:icepunch",
+        "tutor:irondefense",
+        "tutor:ironhead",
+        "tutor:irontail",
+        "tutor:laserfocus",
+        "tutor:lowkick",
+        "tutor:outrage",
+        "tutor:screech",
+        "tutor:shockwave",
+        "tutor:snore",
+        "tutor:stealthrock",
+        "tutor:stompingtantrum",
+        "tutor:superpower",
+        "tutor:thunderpunch",
+        "tutor:uproar",
+        "tutor:waterpulse",
+        "tutor:workup"
+      ]
+    }
+  ]
 }

@@ -19,30 +19,29 @@
   },
   "catchRate": 190,
   "maleRatio": 0.5,
-  "shoulderMountable": false,
-  "baseExperienceYield": 67,
+  "baseFriendship": 50,
   "experienceGroup": "slow",
   "eggCycles": 20,
   "eggGroups": [
     "water_3"
   ],
-  "behaviour": {
-    "moving": {
-      "walk": {
-        "avoidsLand": true
-      },
-      "swim": {
-        "swimSpeed": 0.2,
-        "canSwimInWater": true,
-        "canBreatheUnderwater": true
-      }
-    },
-    "resting": {
-      "canSleep": true,
-      "willSleepOnBed": false,
-      "depth": "normal",
-      "light": "0-4"
-    }
+  "height": 9,
+  "weight": 455,
+  "pokedex": [
+    "cobblemon.species.tentacool.desc"
+  ],
+  "labels": [
+    "gen1"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 67,
+  "evYield": {
+    "hp": 0,
+    "attack": 0,
+    "defence": 0,
+    "special_attack": 0,
+    "special_defence": 1,
+    "speed": 0
   },
   "drops": {
     "amount": 7,
@@ -61,6 +60,32 @@
         "percentage": 2.5
       }
     ]
+  },
+  "baseScale": 0.8,
+  "hitbox": {
+    "width": 0.8,
+    "height": 2.1,
+    "fixed": false
+  },
+  "cannotDynamax": false,
+  "shoulderMountable": false,
+  "behaviour": {
+    "moving": {
+      "walk": {
+        "avoidsLand": true
+      },
+      "swim": {
+        "swimSpeed": 0.2,
+        "canSwimInWater": true,
+        "canBreatheUnderwater": true
+      }
+    },
+    "resting": {
+      "canSleep": true,
+      "willSleepOnBed": false,
+      "depth": "normal",
+      "light": "0-4"
+    }
   },
   "moves": [
     "1:poisonsting",
@@ -218,44 +243,20 @@
     "tutor:whirlpool",
     "tutor:wrap"
   ],
-  "labels": [
-    "gen1"
-  ],
-  "pokedex": [
-    "cobblemon.species.tentacool.desc"
-  ],
   "evolutions": [
     {
       "id": "tentacool_tentacruel",
-      "variant": "level_up",
       "result": "tentacruel",
-      "consumeHeldItem": false,
       "learnableMoves": [],
       "requirements": [
         {
           "variant": "level",
           "minLevel": 30
         }
-      ]
+      ],
+      "trigger": {
+        "variant": "level_up"
+      }
     }
-  ],
-  "baseScale": 0.8,
-  "hitbox": {
-    "width": 0.8,
-    "height": 2.1,
-    "fixed": false
-  },
-  "baseFriendship": 50,
-  "evYield": {
-    "hp": 0,
-    "attack": 0,
-    "defence": 0,
-    "special_attack": 0,
-    "special_defence": 1,
-    "speed": 0
-  },
-  "height": 9,
-  "weight": 455,
-  "aspects": [],
-  "cannotDynamax": false
+  ]
 }

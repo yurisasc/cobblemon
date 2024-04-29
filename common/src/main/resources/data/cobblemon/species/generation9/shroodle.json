@@ -9,15 +9,6 @@
     "pickpocket",
     "h:prankster"
   ],
-  "drops": {
-    "amount": 1,
-    "entries": [
-      {
-        "item": "cobblemon:nanab_berry",
-        "percentage": 2.5
-      }
-    ]
-  },
   "baseStats": {
     "hp": 40,
     "attack": 65,
@@ -28,8 +19,22 @@
   },
   "catchRate": 190,
   "maleRatio": 0.5,
-  "baseExperienceYield": 58,
   "baseFriendship": 50,
+  "experienceGroup": "medium_slow",
+  "eggCycles": 20,
+  "eggGroups": [
+    "field"
+  ],
+  "height": 2,
+  "weight": 7,
+  "pokedex": [
+    "cobblemon.species.shroodle.desc"
+  ],
+  "labels": [
+    "gen9"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 58,
   "evYield": {
     "hp": 0,
     "attack": 0,
@@ -38,11 +43,22 @@
     "special_defence": 0,
     "speed": 1
   },
-  "experienceGroup": "medium_slow",
-  "eggCycles": 20,
-  "eggGroups": [
-    "field"
-  ],
+  "drops": {
+    "amount": 1,
+    "entries": [
+      {
+        "item": "cobblemon:nanab_berry",
+        "percentage": 2.5
+      }
+    ]
+  },
+  "baseScale": 0.6,
+  "hitbox": {
+    "width": 0.5,
+    "height": 0.5,
+    "fixed": false
+  },
+  "cannotDynamax": false,
   "behaviour": {
     "resting": {
       "canSleep": true,
@@ -106,18 +122,10 @@
     "tm:uturn",
     "tm:venoshock"
   ],
-  "labels": [
-    "gen9"
-  ],
-  "aspects": [],
-  "height": 2,
-  "weight": 7,
   "evolutions": [
     {
       "id": "shroodle_grafaiai",
-      "variant": "level_up",
       "result": "grafaiai",
-      "consumeHeldItem": false,
       "learnableMoves": [
         "doodle"
       ],
@@ -126,17 +134,10 @@
           "variant": "level",
           "minLevel": 28
         }
-      ]
+      ],
+      "trigger": {
+        "variant": "level_up"
+      }
     }
-  ],
-  "baseScale": 0.6,
-  "hitbox": {
-    "width": 0.5,
-    "height": 0.5,
-    "fixed": false
-  },
-  "cannotDynamax": false,
-  "pokedex": [
-    "cobblemon.species.shroodle.desc"
   ]
 }

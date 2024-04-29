@@ -15,13 +15,47 @@
   },
   "catchRate": 120,
   "maleRatio": 0.5,
-  "shoulderMountable": false,
-  "baseExperienceYield": 154,
+  "baseFriendship": 70,
   "experienceGroup": "slow",
   "eggCycles": 15,
   "eggGroups": [
     "field"
   ],
+  "height": 14,
+  "weight": 465,
+  "pokedex": [
+    "cobblemon.species.vigoroth.desc"
+  ],
+  "labels": [
+    "gen3"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 154,
+  "evYield": {
+    "hp": 0,
+    "attack": 0,
+    "defence": 0,
+    "special_attack": 0,
+    "special_defence": 0,
+    "speed": 2
+  },
+  "drops": {
+    "amount": 1,
+    "entries": [
+      {
+        "item": "cobblemon:chesto_berry",
+        "percentage": 5.0
+      }
+    ]
+  },
+  "baseScale": 1,
+  "hitbox": {
+    "width": 1,
+    "height": 1,
+    "fixed": false
+  },
+  "cannotDynamax": false,
+  "shoulderMountable": false,
   "moves": [
     "1:encore",
     "1:focusenergy",
@@ -159,19 +193,11 @@
     "tutor:uproar",
     "tutor:waterpulse"
   ],
-  "labels": [
-    "gen3"
-  ],
-  "pokedex": [
-    "cobblemon.species.vigoroth.desc"
-  ],
   "preEvolution": "slakoth",
   "evolutions": [
     {
       "id": "vigoroth_slaking",
-      "variant": "level_up",
       "result": "slaking",
-      "consumeHeldItem": false,
       "learnableMoves": [
         "swagger"
       ],
@@ -180,35 +206,10 @@
           "variant": "level",
           "minLevel": 36
         }
-      ]
-    }
-  ],
-  "baseScale": 1,
-  "hitbox": {
-    "width": 1,
-    "height": 1,
-    "fixed": false
-  },
-  "baseFriendship": 70,
-  "evYield": {
-    "hp": 0,
-    "attack": 0,
-    "defence": 0,
-    "special_attack": 0,
-    "special_defence": 0,
-    "speed": 2
-  },
-  "height": 14,
-  "weight": 465,
-  "aspects": [],
-  "cannotDynamax": false,
-  "drops": {
-    "amount": 1,
-    "entries": [
-      {
-        "item": "cobblemon:chesto_berry",
-        "percentage": 5.0
+      ],
+      "trigger": {
+        "variant": "level_up"
       }
-    ]
-  }
+    }
+  ]
 }

@@ -17,8 +17,22 @@
   },
   "catchRate": 255,
   "maleRatio": 0.5,
-  "baseExperienceYield": 49,
   "baseFriendship": 50,
+  "experienceGroup": "medium_fast",
+  "eggCycles": 20,
+  "eggGroups": [
+    "water_3"
+  ],
+  "height": 12,
+  "weight": 18,
+  "pokedex": [
+    "cobblemon.species.wiglett.desc"
+  ],
+  "labels": [
+    "gen9"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 49,
   "evYield": {
     "hp": 0,
     "attack": 0,
@@ -27,11 +41,7 @@
     "special_defence": 0,
     "speed": 1
   },
-  "experienceGroup": "medium_fast",
-  "eggCycles": 20,
-  "eggGroups": [
-    "water_3"
-  ],
+  "cannotDynamax": false,
   "moves": [
     "1:sandattack",
     "1:watergun",
@@ -75,29 +85,20 @@
     "tm:terablast",
     "tm:waterpulse"
   ],
-  "labels": [
-    "gen9"
-  ],
-  "aspects": [],
-  "height": 12,
-  "weight": 18,
   "evolutions": [
     {
       "id": "wiglett_wugtrio",
-      "variant": "level_up",
       "result": "wugtrio",
-      "consumeHeldItem": false,
       "learnableMoves": [],
       "requirements": [
         {
           "variant": "level",
           "minLevel": 26
         }
-      ]
+      ],
+      "trigger": {
+        "variant": "level_up"
+      }
     }
-  ],
-  "cannotDynamax": false,
-  "pokedex": [
-    "cobblemon.species.wiglett.desc"
   ]
 }

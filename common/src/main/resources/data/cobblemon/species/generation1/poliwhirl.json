@@ -8,6 +8,40 @@
     "damp",
     "h:swiftswim"
   ],
+  "baseStats": {
+    "hp": 65,
+    "attack": 65,
+    "defence": 65,
+    "special_attack": 50,
+    "special_defence": 50,
+    "speed": 90
+  },
+  "catchRate": 120,
+  "maleRatio": 0.5,
+  "baseFriendship": 50,
+  "experienceGroup": "medium_slow",
+  "eggCycles": 20,
+  "eggGroups": [
+    "water_1"
+  ],
+  "height": 10,
+  "weight": 200,
+  "pokedex": [
+    "cobblemon.species.poliwhirl.desc"
+  ],
+  "labels": [
+    "gen1"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 135,
+  "evYield": {
+    "hp": 0,
+    "attack": 0,
+    "defence": 0,
+    "special_attack": 0,
+    "special_defence": 0,
+    "speed": 2
+  },
   "drops": {
     "amount": 2,
     "entries": [
@@ -21,14 +55,14 @@
       }
     ]
   },
-  "baseStats": {
-    "hp": 65,
-    "attack": 65,
-    "defence": 65,
-    "special_attack": 50,
-    "special_defence": 50,
-    "speed": 90
+  "baseScale": 0.9,
+  "hitbox": {
+    "width": 1,
+    "height": 1.1,
+    "fixed": false
   },
+  "cannotDynamax": false,
+  "shoulderMountable": false,
   "behaviour": {
     "moving": {
       "swim": {
@@ -43,15 +77,6 @@
       "light": "0-4"
     }
   },
-  "catchRate": 120,
-  "maleRatio": 0.5,
-  "shoulderMountable": false,
-  "baseExperienceYield": 135,
-  "experienceGroup": "medium_slow",
-  "eggCycles": 20,
-  "eggGroups": [
-    "water_1"
-  ],
   "moves": [
     "1:hypnosis",
     "1:mudshot",
@@ -201,56 +226,33 @@
     "tutor:waterpulse",
     "tutor:whirlpool"
   ],
-  "labels": [
-    "gen1"
-  ],
-  "pokedex": [
-    "cobblemon.species.poliwhirl.desc"
-  ],
   "preEvolution": "poliwag",
   "evolutions": [
     {
       "id": "poliwhirl_poliwrath",
-      "variant": "item_interact",
       "result": "poliwrath",
-      "consumeHeldItem": false,
       "learnableMoves": [
         "submission"
       ],
       "requirements": [],
-      "requiredContext": "cobblemon:water_stone"
+      "trigger": {
+        "variant": "item_interact",
+        "requiredContext": "cobblemon:water_stone"
+      }
     },
     {
       "id": "poliwhirl_politoed",
-      "variant": "trade",
       "result": "politoed",
-      "consumeHeldItem": true,
       "learnableMoves": [],
       "requirements": [
         {
           "variant": "held_item",
           "itemCondition": "cobblemon:kings_rock"
         }
-      ]
+      ],
+      "trigger": {
+        "variant": "trade"
+      }
     }
-  ],
-  "baseScale": 0.9,
-  "hitbox": {
-    "width": 1,
-    "height": 1.1,
-    "fixed": false
-  },
-  "baseFriendship": 50,
-  "evYield": {
-    "hp": 0,
-    "attack": 0,
-    "defence": 0,
-    "special_attack": 0,
-    "special_defence": 0,
-    "speed": 2
-  },
-  "height": 10,
-  "weight": 200,
-  "aspects": [],
-  "cannotDynamax": false
+  ]
 }

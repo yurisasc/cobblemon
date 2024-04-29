@@ -7,15 +7,6 @@
     "swarm",
     "h:technician"
   ],
-  "drops": {
-    "amount": 1,
-    "entries": [
-      {
-        "item": "cobblemon:coba_berry",
-        "percentage": 5.0
-      }
-    ]
-  },
   "baseStats": {
     "hp": 77,
     "attack": 85,
@@ -26,13 +17,47 @@
   },
   "catchRate": 45,
   "maleRatio": 0.5,
-  "shoulderMountable": false,
-  "baseExperienceYield": 134,
+  "baseFriendship": 70,
   "experienceGroup": "medium_slow",
   "eggCycles": 15,
   "eggGroups": [
     "bug"
   ],
+  "height": 10,
+  "weight": 255,
+  "pokedex": [
+    "cobblemon.species.kricketune.desc"
+  ],
+  "labels": [
+    "gen4"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 134,
+  "evYield": {
+    "hp": 0,
+    "attack": 2,
+    "defence": 0,
+    "special_attack": 0,
+    "special_defence": 0,
+    "speed": 0
+  },
+  "drops": {
+    "amount": 1,
+    "entries": [
+      {
+        "item": "cobblemon:coba_berry",
+        "percentage": 5.0
+      }
+    ]
+  },
+  "baseScale": 0.7,
+  "hitbox": {
+    "width": 0.9,
+    "height": 1.7,
+    "fixed": false
+  },
+  "cannotDynamax": false,
+  "shoulderMountable": false,
   "behaviour": {
     "moving": {
       "fly": {
@@ -138,31 +163,6 @@
     "tutor:throatchop",
     "tutor:uproar"
   ],
-  "labels": [
-    "gen4"
-  ],
-  "pokedex": [
-    "cobblemon.species.kricketune.desc"
-  ],
   "preEvolution": "kricketot",
-  "evolutions": [],
-  "baseScale": 0.7,
-  "hitbox": {
-    "width": 0.9,
-    "height": 1.7,
-    "fixed": false
-  },
-  "baseFriendship": 70,
-  "evYield": {
-    "hp": 0,
-    "attack": 2,
-    "defence": 0,
-    "special_attack": 0,
-    "special_defence": 0,
-    "speed": 0
-  },
-  "height": 10,
-  "weight": 255,
-  "aspects": [],
-  "cannotDynamax": false
+  "evolutions": []
 }

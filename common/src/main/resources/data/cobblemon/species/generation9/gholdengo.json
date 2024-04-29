@@ -17,8 +17,22 @@
   },
   "catchRate": 45,
   "maleRatio": -1,
-  "baseExperienceYield": 275,
   "baseFriendship": 50,
+  "experienceGroup": "slow",
+  "eggCycles": 50,
+  "eggGroups": [
+    "undiscovered"
+  ],
+  "height": 12,
+  "weight": 300,
+  "pokedex": [
+    "cobblemon.species.gholdengo.desc"
+  ],
+  "labels": [
+    "gen9"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 275,
   "evYield": {
     "hp": 0,
     "attack": 0,
@@ -27,11 +41,22 @@
     "special_defence": 0,
     "speed": 0
   },
-  "experienceGroup": "slow",
-  "eggCycles": 50,
-  "eggGroups": [
-    "undiscovered"
-  ],
+  "drops": {
+    "amount": 48,
+    "entries": [
+      {
+        "item": "cobblemon:relic_coin",
+        "quantityRange": "24-48"
+      }
+    ]
+  },
+  "baseScale": 0.8,
+  "hitbox": {
+    "width": 0.85,
+    "height": 2.15,
+    "fixed": false
+  },
+  "cannotDynamax": false,
   "behaviour": {
     "resting": {
       "canSleep": true,
@@ -98,31 +123,6 @@
     "tm:thunderwave",
     "tm:trick"
   ],
-  "labels": [
-    "gen9"
-  ],
-  "aspects": [],
-  "height": 12,
-  "weight": 300,
   "preEvolution": "gimmighoul",
-  "evolutions": [],
-  "cannotDynamax": false,
-  "pokedex": [
-    "cobblemon.species.gholdengo.desc"
-  ],
-  "baseScale": 0.8,
-  "hitbox": {
-    "width": 0.85,
-    "height": 2.15,
-    "fixed": false
-  },
-  "drops": {
-    "amount": 48,
-    "entries": [
-      {
-        "item": "cobblemon:relic_coin",
-        "quantityRange": "24-48"
-      }
-    ]
-  }
+  "evolutions": []
 }

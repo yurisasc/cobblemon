@@ -17,13 +17,55 @@
   },
   "catchRate": 255,
   "maleRatio": 0.5,
-  "shoulderMountable": false,
-  "baseExperienceYield": 48,
+  "baseFriendship": 50,
   "experienceGroup": "medium_slow",
   "eggCycles": 15,
   "eggGroups": [
     "mineral"
   ],
+  "height": 3,
+  "weight": 120,
+  "pokedex": [
+    "cobblemon.species.rolycoly.desc"
+  ],
+  "labels": [
+    "gen8"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 48,
+  "evYield": {
+    "hp": 0,
+    "attack": 0,
+    "defence": 1,
+    "special_attack": 0,
+    "special_defence": 0,
+    "speed": 0
+  },
+  "drops": {
+    "amount": 3,
+    "entries": [
+      {
+        "item": "minecraft:coal",
+        "quantityRange": "0-1"
+      },
+      {
+        "item": "cobblemon:black_augurite",
+        "percentage": 2.5
+      },
+      {
+        "item": "cobblemon:passho_berry",
+        "percentage": 2.5
+      }
+    ]
+  },
+  "baseScale": 1,
+  "hitbox": {
+    "width": 1,
+    "height": 1,
+    "fixed": false
+  },
+  "cannotDynamax": false,
+  "shoulderMountable": false,
   "moves": [
     "1:smokescreen",
     "1:tackle",
@@ -75,18 +117,10 @@
     "tm:willowisp",
     "tutor:meteorbeam"
   ],
-  "labels": [
-    "gen8"
-  ],
-  "pokedex": [
-    "cobblemon.species.rolycoly.desc"
-  ],
   "evolutions": [
     {
       "id": "rolycoly_carkol",
-      "variant": "level_up",
       "result": "carkol",
-      "consumeHeldItem": false,
       "learnableMoves": [
         "flamecharge"
       ],
@@ -95,43 +129,10 @@
           "variant": "level",
           "minLevel": 18
         }
-      ]
-    }
-  ],
-  "baseScale": 1,
-  "hitbox": {
-    "width": 1,
-    "height": 1,
-    "fixed": false
-  },
-  "baseFriendship": 50,
-  "evYield": {
-    "hp": 0,
-    "attack": 0,
-    "defence": 1,
-    "special_attack": 0,
-    "special_defence": 0,
-    "speed": 0
-  },
-  "height": 3,
-  "weight": 120,
-  "aspects": [],
-  "cannotDynamax": false,
-  "drops": {
-    "amount": 3,
-    "entries": [
-      {
-        "item": "minecraft:coal",
-        "quantityRange": "0-1"
-      },
-      {
-        "item": "cobblemon:black_augurite",
-        "percentage": 2.5
-      },
-      {
-        "item": "cobblemon:passho_berry",
-        "percentage": 2.5
+      ],
+      "trigger": {
+        "variant": "level_up"
       }
-    ]
-  }
+    }
+  ]
 }

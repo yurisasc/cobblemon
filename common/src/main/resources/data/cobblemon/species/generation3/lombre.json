@@ -19,29 +19,30 @@
   },
   "catchRate": 120,
   "maleRatio": 0.5,
-  "shoulderMountable": false,
-  "baseExperienceYield": 119,
+  "baseFriendship": 50,
   "experienceGroup": "medium_slow",
   "eggCycles": 15,
   "eggGroups": [
     "water_1",
     "grass"
   ],
-  "behaviour": {
-    "moving": {
-      "swim": {
-        "swimSpeed": 0.3,
-        "canSwimInWater": true,
-        "canBreatheUnderwater": true,
-        "canWalkOnWater": true
-      }
-    },
-    "resting": {
-      "canSleep": true,
-      "willSleepOnBed": false,
-      "depth": "normal",
-      "light": "0-4"
-    }
+  "height": 12,
+  "weight": 325,
+  "pokedex": [
+    "cobblemon.species.lombre.desc"
+  ],
+  "labels": [
+    "gen3"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 119,
+  "evYield": {
+    "hp": 0,
+    "attack": 0,
+    "defence": 0,
+    "special_attack": 0,
+    "special_defence": 2,
+    "speed": 0
   },
   "drops": {
     "amount": 4,
@@ -59,6 +60,30 @@
         "percentage": 5.0
       }
     ]
+  },
+  "baseScale": 0.75,
+  "hitbox": {
+    "width": 0.9,
+    "height": 1.2,
+    "fixed": false
+  },
+  "cannotDynamax": false,
+  "shoulderMountable": false,
+  "behaviour": {
+    "moving": {
+      "swim": {
+        "swimSpeed": 0.3,
+        "canSwimInWater": true,
+        "canBreatheUnderwater": true,
+        "canWalkOnWater": true
+      }
+    },
+    "resting": {
+      "canSleep": true,
+      "willSleepOnBed": false,
+      "depth": "normal",
+      "light": "0-4"
+    }
   },
   "moves": [
     "1:absorb",
@@ -186,41 +211,17 @@
     "tutor:waterpulse",
     "tutor:zenheadbutt"
   ],
-  "labels": [
-    "gen3"
-  ],
-  "pokedex": [
-    "cobblemon.species.lombre.desc"
-  ],
   "preEvolution": "lotad",
   "evolutions": [
     {
       "id": "lombre_ludicolo",
-      "variant": "item_interact",
       "result": "ludicolo",
-      "consumeHeldItem": false,
       "learnableMoves": [],
       "requirements": [],
-      "requiredContext": "cobblemon:water_stone"
+      "trigger": {
+        "variant": "item_interact",
+        "requiredContext": "cobblemon:water_stone"
+      }
     }
-  ],
-  "baseScale": 0.75,
-  "hitbox": {
-    "width": 0.9,
-    "height": 1.2,
-    "fixed": false
-  },
-  "baseFriendship": 50,
-  "evYield": {
-    "hp": 0,
-    "attack": 0,
-    "defence": 0,
-    "special_attack": 0,
-    "special_defence": 2,
-    "speed": 0
-  },
-  "height": 12,
-  "weight": 325,
-  "aspects": [],
-  "cannotDynamax": false
+  ]
 }

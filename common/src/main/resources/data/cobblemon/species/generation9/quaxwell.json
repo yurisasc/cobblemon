@@ -7,15 +7,6 @@
     "torrent",
     "h:moxie"
   ],
-  "drops": {
-    "amount": 1,
-    "entries": [
-      {
-        "item": "cobblemon:mystic_water",
-        "percentage": 10.0
-      }
-    ]
-  },
   "baseStats": {
     "hp": 70,
     "attack": 85,
@@ -26,8 +17,23 @@
   },
   "catchRate": 45,
   "maleRatio": 0.875,
-  "baseExperienceYield": 144,
   "baseFriendship": 50,
+  "experienceGroup": "medium_slow",
+  "eggCycles": 20,
+  "eggGroups": [
+    "flying",
+    "water_1"
+  ],
+  "height": 12,
+  "weight": 215,
+  "pokedex": [
+    "cobblemon.species.quaxwell.desc"
+  ],
+  "labels": [
+    "gen9"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 144,
   "evYield": {
     "hp": 0,
     "attack": 2,
@@ -36,12 +42,22 @@
     "special_defence": 0,
     "speed": 0
   },
-  "experienceGroup": "medium_slow",
-  "eggCycles": 20,
-  "eggGroups": [
-    "flying",
-    "water_1"
-  ],
+  "drops": {
+    "amount": 1,
+    "entries": [
+      {
+        "item": "cobblemon:mystic_water",
+        "percentage": 10.0
+      }
+    ]
+  },
+  "baseScale": 0.6,
+  "hitbox": {
+    "width": 0.8,
+    "height": 2.0,
+    "fixed": false
+  },
+  "cannotDynamax": false,
   "behaviour": {
     "moving": {
       "swim": {
@@ -103,19 +119,11 @@
     "tm:waterpledge",
     "tm:waterpulse"
   ],
-  "labels": [
-    "gen9"
-  ],
-  "aspects": [],
-  "height": 12,
-  "weight": 215,
   "preEvolution": "quaxly",
   "evolutions": [
     {
       "id": "quaxwell_quaquaval",
-      "variant": "level_up",
       "result": "quaquaval",
-      "consumeHeldItem": false,
       "learnableMoves": [
         "aquastep"
       ],
@@ -124,17 +132,10 @@
           "variant": "level",
           "minLevel": 36
         }
-      ]
+      ],
+      "trigger": {
+        "variant": "level_up"
+      }
     }
-  ],
-  "baseScale": 0.6,
-  "hitbox": {
-    "width": 0.8,
-    "height": 2.0,
-    "fixed": false
-  },
-  "cannotDynamax": false,
-  "pokedex": [
-    "cobblemon.species.quaxwell.desc"
   ]
 }

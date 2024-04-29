@@ -16,8 +16,23 @@
   },
   "catchRate": 6,
   "maleRatio": -1,
-  "baseExperienceYield": 285,
   "baseFriendship": 0,
+  "experienceGroup": "slow",
+  "eggCycles": 50,
+  "eggGroups": [
+    "undiscovered"
+  ],
+  "height": 19,
+  "weight": 1522,
+  "pokedex": [
+    "cobblemon.species.chienpao.desc"
+  ],
+  "labels": [
+    "gen9",
+    "legendary"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 285,
   "evYield": {
     "hp": 0,
     "attack": 0,
@@ -26,11 +41,7 @@
     "special_defence": 0,
     "speed": 3
   },
-  "experienceGroup": "slow",
-  "eggCycles": 50,
-  "eggGroups": [
-    "undiscovered"
-  ],
+  "cannotDynamax": false,
   "moves": [
     "1:meanlook",
     "1:powdersnow",
@@ -85,16 +96,5 @@
     "tutor:sacredsword",
     "tutor:suckerpunch"
   ],
-  "labels": [
-    "gen9",
-    "legendary"
-  ],
-  "aspects": [],
-  "height": 19,
-  "weight": 1522,
-  "evolutions": [],
-  "cannotDynamax": false,
-  "pokedex": [
-    "cobblemon.species.chienpao.desc"
-  ]
+  "evolutions": []
 }

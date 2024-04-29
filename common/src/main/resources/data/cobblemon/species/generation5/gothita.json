@@ -7,6 +7,40 @@
     "competitive",
     "h:shadowtag"
   ],
+  "baseStats": {
+    "hp": 45,
+    "attack": 30,
+    "defence": 50,
+    "special_attack": 55,
+    "special_defence": 65,
+    "speed": 45
+  },
+  "catchRate": 200,
+  "maleRatio": 0.25,
+  "baseFriendship": 50,
+  "experienceGroup": "medium_slow",
+  "eggCycles": 20,
+  "eggGroups": [
+    "human_like"
+  ],
+  "height": 4,
+  "weight": 58,
+  "pokedex": [
+    "cobblemon.species.gothita.desc"
+  ],
+  "labels": [
+    "gen5"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 58,
+  "evYield": {
+    "hp": 0,
+    "attack": 0,
+    "defence": 0,
+    "special_attack": 0,
+    "special_defence": 1,
+    "speed": 0
+  },
   "drops": {
     "amount": 3,
     "entries": [
@@ -24,23 +58,14 @@
       }
     ]
   },
-  "baseStats": {
-    "hp": 45,
-    "attack": 30,
-    "defence": 50,
-    "special_attack": 55,
-    "special_defence": 65,
-    "speed": 45
+  "baseScale": 1,
+  "hitbox": {
+    "width": 1,
+    "height": 1,
+    "fixed": false
   },
-  "catchRate": 200,
-  "maleRatio": 0.25,
+  "cannotDynamax": false,
   "shoulderMountable": false,
-  "baseExperienceYield": 58,
-  "experienceGroup": "medium_slow",
-  "eggCycles": 20,
-  "eggGroups": [
-    "human_like"
-  ],
   "moves": [
     "1:confusion",
     "1:pound",
@@ -158,44 +183,20 @@
     "tutor:uproar",
     "tutor:zenheadbutt"
   ],
-  "labels": [
-    "gen5"
-  ],
-  "pokedex": [
-    "cobblemon.species.gothita.desc"
-  ],
   "evolutions": [
     {
       "id": "gothita_gothorita",
-      "variant": "level_up",
       "result": "gothorita",
-      "consumeHeldItem": false,
       "learnableMoves": [],
       "requirements": [
         {
           "variant": "level",
           "minLevel": 32
         }
-      ]
+      ],
+      "trigger": {
+        "variant": "level_up"
+      }
     }
-  ],
-  "baseScale": 1,
-  "hitbox": {
-    "width": 1,
-    "height": 1,
-    "fixed": false
-  },
-  "baseFriendship": 50,
-  "evYield": {
-    "hp": 0,
-    "attack": 0,
-    "defence": 0,
-    "special_attack": 0,
-    "special_defence": 1,
-    "speed": 0
-  },
-  "height": 4,
-  "weight": 58,
-  "aspects": [],
-  "cannotDynamax": false
+  ]
 }

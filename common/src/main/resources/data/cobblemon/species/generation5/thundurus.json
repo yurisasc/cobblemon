@@ -17,9 +17,23 @@
   },
   "catchRate": 3,
   "maleRatio": 1,
-  "shoulderMountable": false,
-  "baseExperienceYield": 290,
   "baseFriendship": 90,
+  "experienceGroup": "slow",
+  "eggCycles": 120,
+  "eggGroups": [
+    "undiscovered"
+  ],
+  "height": 15,
+  "weight": 610,
+  "pokedex": [
+    "cobblemon.species.thundurus.desc"
+  ],
+  "labels": [
+    "gen5",
+    "legendary"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 290,
   "evYield": {
     "hp": 0,
     "attack": 3,
@@ -28,11 +42,8 @@
     "special_defence": 0,
     "speed": 0
   },
-  "experienceGroup": "slow",
-  "eggCycles": 120,
-  "eggGroups": [
-    "undiscovered"
-  ],
+  "cannotDynamax": false,
+  "shoulderMountable": false,
   "moves": [
     "1:astonish",
     "1:nastyplot",
@@ -166,17 +177,8 @@
     "tutor:weatherball",
     "tutor:wildcharge"
   ],
-  "labels": [
-    "gen5",
-    "legendary"
-  ],
-  "pokedex": [
-    "cobblemon.species.thundurus.desc"
-  ],
-  "height": 15,
-  "weight": 610,
   "evolutions": [],
-  "forms": [
+  "temporaryForms": [
     {
       "name": "Therian",
       "primaryType": "electric",
@@ -194,8 +196,22 @@
       },
       "catchRate": 3,
       "maleRatio": 1,
-      "baseExperienceYield": 290,
       "baseFriendship": 90,
+      "experienceGroup": "slow",
+      "eggCycles": 120,
+      "eggGroups": [
+        "undiscovered"
+      ],
+      "height": 30,
+      "weight": 610,
+      "labels": [
+        "gen5",
+        "legendary"
+      ],
+      "aspects": [
+        "therian"
+      ],
+      "baseExperienceYield": 290,
       "evYield": {
         "hp": 0,
         "attack": 0,
@@ -204,24 +220,8 @@
         "special_defence": 0,
         "speed": 0
       },
-      "experienceGroup": "slow",
-      "eggCycles": 120,
-      "eggGroups": [
-        "undiscovered"
-      ],
-      "labels": [
-        "gen5",
-        "legendary"
-      ],
-      "aspects": [
-        "therian"
-      ],
-      "height": 30,
-      "weight": 610,
       "cannotDynamax": false,
       "battleOnly": false
     }
-  ],
-  "aspects": [],
-  "cannotDynamax": false
+  ]
 }

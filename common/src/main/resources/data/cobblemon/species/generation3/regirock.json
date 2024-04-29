@@ -16,13 +16,47 @@
   },
   "catchRate": 3,
   "maleRatio": -1,
-  "shoulderMountable": false,
-  "baseExperienceYield": 290,
+  "baseFriendship": 35,
   "experienceGroup": "slow",
   "eggCycles": 80,
   "eggGroups": [
     "undiscovered"
   ],
+  "height": 17,
+  "weight": 2300,
+  "pokedex": [
+    "cobblemon.species.regirock.desc"
+  ],
+  "labels": [
+    "gen3",
+    "legendary"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 290,
+  "evYield": {
+    "hp": 0,
+    "attack": 0,
+    "defence": 3,
+    "special_attack": 0,
+    "special_defence": 0,
+    "speed": 0
+  },
+  "drops": {
+    "amount": 1,
+    "entries": [
+      {
+        "item": "cobblemon:hard_stone"
+      }
+    ]
+  },
+  "baseScale": 1,
+  "hitbox": {
+    "width": 1,
+    "height": 1,
+    "fixed": false
+  },
+  "cannotDynamax": false,
+  "shoulderMountable": false,
   "moves": [
     "1:chargebeam",
     "1:rockthrow",
@@ -160,39 +194,5 @@
     "tutor:thunderwave",
     "tutor:zapcannon"
   ],
-  "labels": [
-    "gen3",
-    "legendary"
-  ],
-  "pokedex": [
-    "cobblemon.species.regirock.desc"
-  ],
-  "evolutions": [],
-  "baseScale": 1,
-  "hitbox": {
-    "width": 1,
-    "height": 1,
-    "fixed": false
-  },
-  "baseFriendship": 35,
-  "evYield": {
-    "hp": 0,
-    "attack": 0,
-    "defence": 3,
-    "special_attack": 0,
-    "special_defence": 0,
-    "speed": 0
-  },
-  "height": 17,
-  "weight": 2300,
-  "aspects": [],
-  "cannotDynamax": false,
-  "drops": {
-    "amount": 1,
-    "entries": [
-      {
-        "item": "cobblemon:hard_stone"
-      }
-    ]
-  }
+  "evolutions": []
 }

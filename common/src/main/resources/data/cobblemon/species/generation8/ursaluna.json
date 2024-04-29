@@ -9,6 +9,39 @@
     "bulletproof",
     "h:unnerve"
   ],
+  "baseStats": {
+    "hp": 130,
+    "attack": 140,
+    "defence": 105,
+    "special_attack": 45,
+    "special_defence": 80,
+    "speed": 50
+  },
+  "catchRate": 75,
+  "maleRatio": 0.5,
+  "baseFriendship": 0,
+  "experienceGroup": "medium_fast",
+  "eggCycles": 0,
+  "eggGroups": [
+    "field"
+  ],
+  "height": 24,
+  "weight": 2900,
+  "pokedex": [
+    "cobblemon.species.ursaluna.desc"
+  ],
+  "labels": [
+    "gen8"
+  ],
+  "baseExperienceYield": 275,
+  "evYield": {
+    "hp": 0,
+    "attack": 3,
+    "defence": 0,
+    "special_attack": 0,
+    "special_defence": 0,
+    "speed": 0
+  },
   "drops": {
     "amount": 8,
     "entries": [
@@ -30,32 +63,14 @@
       }
     ]
   },
-  "baseStats": {
-    "hp": 130,
-    "attack": 140,
-    "defence": 105,
-    "special_attack": 45,
-    "special_defence": 80,
-    "speed": 50
+  "baseScale": 1.0,
+  "hitbox": {
+    "width": 1.8,
+    "height": 2.0,
+    "fixed": false
   },
-  "catchRate": 75,
-  "maleRatio": 0.5,
+  "cannotDynamax": false,
   "shoulderMountable": false,
-  "baseExperienceYield": 275,
-  "baseFriendship": 0,
-  "evYield": {
-    "hp": 0,
-    "attack": 3,
-    "defence": 0,
-    "special_attack": 0,
-    "special_defence": 0,
-    "speed": 0
-  },
-  "experienceGroup": "medium_fast",
-  "eggCycles": 0,
-  "eggGroups": [
-    "field"
-  ],
   "moves": [
     "1:covet",
     "1:faketears",
@@ -136,24 +151,9 @@
     "tm:trailblaze",
     "tm:uproar"
   ],
-  "labels": [
-    "gen8"
-  ],
-  "pokedex": [
-    "cobblemon.species.ursaluna.desc"
-  ],
-  "baseScale": 1.0,
-  "hitbox": {
-    "width": 1.8,
-    "height": 2.0,
-    "fixed": false
-  },
-  "height": 24,
-  "weight": 2900,
   "preEvolution": "ursaring",
   "evolutions": [],
-  "cannotDynamax": false,
-  "forms": [
+  "permanentForms": [
     {
       "name": "Bloodmoon",
       "primaryType": "ground",
@@ -171,8 +171,21 @@
       },
       "catchRate": 75,
       "maleRatio": 1,
-      "baseExperienceYield": 0,
       "baseFriendship": 0,
+      "experienceGroup": "medium_fast",
+      "eggCycles": 0,
+      "eggGroups": [
+        "field"
+      ],
+      "height": 27,
+      "weight": 3330,
+      "labels": [
+        "gen9"
+      ],
+      "aspects": [
+        "bloodmoon"
+      ],
+      "baseExperienceYield": 0,
       "evYield": {
         "hp": 0,
         "attack": 3,
@@ -181,11 +194,7 @@
         "special_defence": 0,
         "speed": 0
       },
-      "experienceGroup": "medium_fast",
-      "eggCycles": 0,
-      "eggGroups": [
-        "field"
-      ],
+      "cannotDynamax": false,
       "moves": [
         "1:headlongrush",
         "1:leer",
@@ -276,17 +285,7 @@
         "tutor:earthpower",
         "tutor:slash"
       ],
-      "labels": [
-        "gen9"
-      ],
-      "aspects": [
-        "bloodmoon"
-      ],
-      "height": 27,
-      "weight": 3330,
-      "evolutions": [],
-      "cannotDynamax": false,
-      "battleOnly": false
+      "evolutions": []
     }
   ]
 }

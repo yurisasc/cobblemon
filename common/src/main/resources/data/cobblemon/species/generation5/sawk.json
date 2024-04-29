@@ -7,6 +7,40 @@
     "innerfocus",
     "h:moldbreaker"
   ],
+  "baseStats": {
+    "hp": 75,
+    "attack": 125,
+    "defence": 75,
+    "special_attack": 30,
+    "special_defence": 75,
+    "speed": 85
+  },
+  "catchRate": 45,
+  "maleRatio": 1,
+  "baseFriendship": 50,
+  "experienceGroup": "medium_fast",
+  "eggCycles": 20,
+  "eggGroups": [
+    "human_like"
+  ],
+  "height": 14,
+  "weight": 510,
+  "pokedex": [
+    "cobblemon.species.sawk.desc"
+  ],
+  "labels": [
+    "gen5"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 163,
+  "evYield": {
+    "hp": 0,
+    "attack": 2,
+    "defence": 0,
+    "special_attack": 0,
+    "special_defence": 0,
+    "speed": 0
+  },
   "drops": {
     "amount": 3,
     "entries": [
@@ -24,23 +58,14 @@
       }
     ]
   },
-  "baseStats": {
-    "hp": 75,
-    "attack": 125,
-    "defence": 75,
-    "special_attack": 30,
-    "special_defence": 75,
-    "speed": 85
+  "baseScale": 1,
+  "hitbox": {
+    "width": 1,
+    "height": 1,
+    "fixed": false
   },
-  "catchRate": 45,
-  "maleRatio": 1,
+  "cannotDynamax": false,
   "shoulderMountable": false,
-  "baseExperienceYield": 163,
-  "experienceGroup": "medium_fast",
-  "eggCycles": 20,
-  "eggGroups": [
-    "human_like"
-  ],
   "moves": [
     "1:bide",
     "1:leer",
@@ -131,30 +156,5 @@
     "tutor:thunderpunch",
     "tutor:zenheadbutt"
   ],
-  "labels": [
-    "gen5"
-  ],
-  "pokedex": [
-    "cobblemon.species.sawk.desc"
-  ],
-  "evolutions": [],
-  "baseScale": 1,
-  "hitbox": {
-    "width": 1,
-    "height": 1,
-    "fixed": false
-  },
-  "baseFriendship": 50,
-  "evYield": {
-    "hp": 0,
-    "attack": 2,
-    "defence": 0,
-    "special_attack": 0,
-    "special_defence": 0,
-    "speed": 0
-  },
-  "height": 14,
-  "weight": 510,
-  "aspects": [],
-  "cannotDynamax": false
+  "evolutions": []
 }

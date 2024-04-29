@@ -16,16 +16,54 @@
   },
   "catchRate": 120,
   "maleRatio": 0.5,
-  "shoulderMountable": false,
-  "features": [
-    "valencian"
-  ],
-  "baseExperienceYield": 72,
+  "baseFriendship": 50,
   "experienceGroup": "medium_fast",
   "eggCycles": 15,
   "eggGroups": [
     "bug"
   ],
+  "height": 7,
+  "weight": 99,
+  "pokedex": [
+    "cobblemon.species.metapod.desc"
+  ],
+  "labels": [
+    "gen1"
+  ],
+  "features": [
+    "valencian"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 72,
+  "evYield": {
+    "hp": 0,
+    "attack": 0,
+    "defence": 2,
+    "special_attack": 0,
+    "special_defence": 0,
+    "speed": 0
+  },
+  "drops": {
+    "amount": 3,
+    "entries": [
+      {
+        "item": "minecraft:string",
+        "quantityRange": "0-2"
+      },
+      {
+        "item": "cobblemon:wepear_berry",
+        "percentage": 2.5
+      }
+    ]
+  },
+  "baseScale": 0.8,
+  "hitbox": {
+    "width": 0.8,
+    "height": 0.8,
+    "fixed": false
+  },
+  "cannotDynamax": false,
+  "shoulderMountable": false,
   "behaviour": {
     "resting": {
       "canSleep": true,
@@ -42,19 +80,6 @@
       "canLook": false
     }
   },
-  "drops": {
-    "amount": 3,
-    "entries": [
-      {
-        "item": "minecraft:string",
-        "quantityRange": "0-2"
-      },
-      {
-        "item": "cobblemon:wepear_berry",
-        "percentage": 2.5
-      }
-    ]
-  },
   "moves": [
     "1:harden",
     "tm:electroweb",
@@ -65,19 +90,11 @@
     "tutor:irondefense",
     "tutor:stringshot"
   ],
-  "labels": [
-    "gen1"
-  ],
-  "pokedex": [
-    "cobblemon.species.metapod.desc"
-  ],
   "preEvolution": "caterpie",
   "evolutions": [
     {
       "id": "metapod_butterfree",
-      "variant": "level_up",
       "result": "butterfree",
-      "consumeHeldItem": false,
       "learnableMoves": [
         "gust"
       ],
@@ -86,26 +103,10 @@
           "variant": "level",
           "minLevel": 10
         }
-      ]
+      ],
+      "trigger": {
+        "variant": "level_up"
+      }
     }
-  ],
-  "baseScale": 0.8,
-  "hitbox": {
-    "width": 0.8,
-    "height": 0.8,
-    "fixed": false
-  },
-  "baseFriendship": 50,
-  "evYield": {
-    "hp": 0,
-    "attack": 0,
-    "defence": 2,
-    "special_attack": 0,
-    "special_defence": 0,
-    "speed": 0
-  },
-  "height": 7,
-  "weight": 99,
-  "aspects": [],
-  "cannotDynamax": false
+  ]
 }

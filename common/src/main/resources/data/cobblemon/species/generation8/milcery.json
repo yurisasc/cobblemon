@@ -17,14 +17,31 @@
   },
   "catchRate": 200,
   "maleRatio": 0,
-  "shoulderMountable": true,
-  "baseExperienceYield": 54,
+  "baseFriendship": 50,
   "experienceGroup": "medium_fast",
   "eggCycles": 20,
   "eggGroups": [
     "fairy",
     "amorphous"
   ],
+  "height": 2,
+  "weight": 3,
+  "pokedex": [
+    "cobblemon.species.milcery.desc"
+  ],
+  "labels": [
+    "gen8"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 54,
+  "evYield": {
+    "hp": 0,
+    "attack": 0,
+    "defence": 0,
+    "special_attack": 0,
+    "special_defence": 1,
+    "speed": 0
+  },
   "drops": {
     "amount": 1,
     "entries": [
@@ -34,6 +51,14 @@
       }
     ]
   },
+  "baseScale": 0.5,
+  "hitbox": {
+    "width": 0.5,
+    "height": 0.5,
+    "fixed": false
+  },
+  "cannotDynamax": false,
+  "shoulderMountable": true,
   "moves": [
     "1:aromaticmist",
     "1:tackle",
@@ -72,18 +97,10 @@
     "tutor:entrainment",
     "tutor:lastresort"
   ],
-  "labels": [
-    "gen8"
-  ],
-  "pokedex": [
-    "cobblemon.species.milcery.desc"
-  ],
   "evolutions": [
     {
       "id": "milcery_alcremie_strawberry_shiny",
-      "variant": "level_up",
       "result": "alcremie s decoration=strawberry",
-      "consumeHeldItem": true,
       "learnableMoves": [
         "decorate"
       ],
@@ -100,13 +117,14 @@
           "variant": "held_item",
           "itemCondition": "cobblemon:strawberry_sweet"
         }
-      ]
+      ],
+      "trigger": {
+        "variant": "level_up"
+      }
     },
     {
       "id": "milcery_alcremie_strawberry_caramelswirl",
-      "variant": "level_up",
       "result": "alcremie decoration=strawberry cream=caramel_swirl",
-      "consumeHeldItem": false,
       "learnableMoves": [
         "decorate"
       ],
@@ -123,13 +141,14 @@
           "variant": "time_range",
           "range": "day"
         }
-      ]
+      ],
+      "trigger": {
+        "variant": "level_up"
+      }
     },
     {
       "id": "milcery_alcremie_strawberry_lemon",
-      "variant": "level_up",
       "result": "alcremie decoration=strawberry cream=lemon",
-      "consumeHeldItem": false,
       "learnableMoves": [
         "decorate"
       ],
@@ -146,13 +165,14 @@
           "variant": "time_range",
           "range": "night"
         }
-      ]
+      ],
+      "trigger": {
+        "variant": "level_up"
+      }
     },
     {
       "id": "milcery_alcremie_strawberry_matcha",
-      "variant": "level_up",
       "result": "alcremie decoration=strawberry cream=matcha",
-      "consumeHeldItem": false,
       "learnableMoves": [
         "decorate"
       ],
@@ -169,13 +189,14 @@
           "variant": "time_range",
           "range": "night"
         }
-      ]
+      ],
+      "trigger": {
+        "variant": "level_up"
+      }
     },
     {
       "id": "milcery_alcremie_strawberry_mint",
-      "variant": "level_up",
       "result": "alcremie decoration=strawberry cream=mint",
-      "consumeHeldItem": false,
       "learnableMoves": [
         "decorate"
       ],
@@ -192,13 +213,14 @@
           "variant": "time_range",
           "range": "night"
         }
-      ]
+      ],
+      "trigger": {
+        "variant": "level_up"
+      }
     },
     {
       "id": "milcery_alcremie_strawberry_rainbowswirl",
-      "variant": "level_up",
       "result": "alcremie decoration=strawberry cream=rainbow_swirl",
-      "consumeHeldItem": true,
       "learnableMoves": [
         "decorate"
       ],
@@ -215,13 +237,14 @@
           "variant": "time_range",
           "range": "dusk"
         }
-      ]
+      ],
+      "trigger": {
+        "variant": "level_up"
+      }
     },
     {
       "id": "milcery_alcremie_strawberry_ruby",
-      "variant": "level_up",
       "result": "alcremie decoration=strawberry cream=ruby",
-      "consumeHeldItem": false,
       "learnableMoves": [
         "decorate"
       ],
@@ -238,13 +261,14 @@
           "variant": "time_range",
           "range": "day"
         }
-      ]
+      ],
+      "trigger": {
+        "variant": "level_up"
+      }
     },
     {
       "id": "milcery_alcremie_strawberry_rubyswirl",
-      "variant": "level_up",
       "result": "alcremie decoration=strawberry cream=ruby_swirl",
-      "consumeHeldItem": false,
       "learnableMoves": [
         "decorate"
       ],
@@ -261,13 +285,14 @@
           "variant": "time_range",
           "range": "day"
         }
-      ]
+      ],
+      "trigger": {
+        "variant": "level_up"
+      }
     },
     {
       "id": "milcery_alcremie_strawberry_salted",
-      "variant": "level_up",
       "result": "alcremie decoration=strawberry cream=salted",
-      "consumeHeldItem": true,
       "learnableMoves": [
         "decorate"
       ],
@@ -284,13 +309,14 @@
           "variant": "time_range",
           "range": "night"
         }
-      ]
+      ],
+      "trigger": {
+        "variant": "level_up"
+      }
     },
     {
       "id": "milcery_alcremie_strawberry_vanilla",
-      "variant": "level_up",
       "result": "alcremie decoration=strawberry cream=vanilla",
-      "consumeHeldItem": true,
       "learnableMoves": [
         "decorate"
       ],
@@ -307,13 +333,14 @@
           "variant": "time_range",
           "range": "day"
         }
-      ]
+      ],
+      "trigger": {
+        "variant": "level_up"
+      }
     },
     {
       "id": "milcery_alcremie_love_shiny",
-      "variant": "level_up",
       "result": "alcremie s decoration=love",
-      "consumeHeldItem": true,
       "learnableMoves": [
         "decorate"
       ],
@@ -330,13 +357,14 @@
           "variant": "held_item",
           "itemCondition": "cobblemon:love_sweet"
         }
-      ]
+      ],
+      "trigger": {
+        "variant": "level_up"
+      }
     },
     {
       "id": "milcery_alcremie_love_caramelswirl",
-      "variant": "level_up",
       "result": "alcremie decoration=love cream=caramel_swirl",
-      "consumeHeldItem": false,
       "learnableMoves": [
         "decorate"
       ],
@@ -353,13 +381,14 @@
           "variant": "time_range",
           "range": "day"
         }
-      ]
+      ],
+      "trigger": {
+        "variant": "level_up"
+      }
     },
     {
       "id": "milcery_alcremie_love_lemon",
-      "variant": "level_up",
       "result": "alcremie decoration=love cream=lemon",
-      "consumeHeldItem": false,
       "learnableMoves": [
         "decorate"
       ],
@@ -376,13 +405,14 @@
           "variant": "time_range",
           "range": "night"
         }
-      ]
+      ],
+      "trigger": {
+        "variant": "level_up"
+      }
     },
     {
       "id": "milcery_alcremie_love_matcha",
-      "variant": "level_up",
       "result": "alcremie decoration=love cream=matcha",
-      "consumeHeldItem": false,
       "learnableMoves": [
         "decorate"
       ],
@@ -399,13 +429,14 @@
           "variant": "time_range",
           "range": "night"
         }
-      ]
+      ],
+      "trigger": {
+        "variant": "level_up"
+      }
     },
     {
       "id": "milcery_alcremie_love_mint",
-      "variant": "level_up",
       "result": "alcremie decoration=love cream=mint",
-      "consumeHeldItem": false,
       "learnableMoves": [
         "decorate"
       ],
@@ -422,13 +453,14 @@
           "variant": "time_range",
           "range": "night"
         }
-      ]
+      ],
+      "trigger": {
+        "variant": "level_up"
+      }
     },
     {
       "id": "milcery_alcremie_love_rainbowswirl",
-      "variant": "level_up",
       "result": "alcremie decoration=love cream=rainbow_swirl",
-      "consumeHeldItem": true,
       "learnableMoves": [
         "decorate"
       ],
@@ -445,13 +477,14 @@
           "variant": "time_range",
           "range": "dusk"
         }
-      ]
+      ],
+      "trigger": {
+        "variant": "level_up"
+      }
     },
     {
       "id": "milcery_alcremie_love_ruby",
-      "variant": "level_up",
       "result": "alcremie decoration=love cream=ruby",
-      "consumeHeldItem": false,
       "learnableMoves": [
         "decorate"
       ],
@@ -468,13 +501,14 @@
           "variant": "time_range",
           "range": "day"
         }
-      ]
+      ],
+      "trigger": {
+        "variant": "level_up"
+      }
     },
     {
       "id": "milcery_alcremie_love_rubyswirl",
-      "variant": "level_up",
       "result": "alcremie decoration=love cream=ruby_swirl",
-      "consumeHeldItem": false,
       "learnableMoves": [
         "decorate"
       ],
@@ -491,13 +525,14 @@
           "variant": "time_range",
           "range": "day"
         }
-      ]
+      ],
+      "trigger": {
+        "variant": "level_up"
+      }
     },
     {
       "id": "milcery_alcremie_love_salted",
-      "variant": "level_up",
       "result": "alcremie decoration=love cream=salted",
-      "consumeHeldItem": true,
       "learnableMoves": [
         "decorate"
       ],
@@ -514,13 +549,14 @@
           "variant": "time_range",
           "range": "night"
         }
-      ]
+      ],
+      "trigger": {
+        "variant": "level_up"
+      }
     },
     {
       "id": "milcery_alcremie_love_vanilla",
-      "variant": "level_up",
       "result": "alcremie decoration=love cream=vanilla",
-      "consumeHeldItem": true,
       "learnableMoves": [
         "decorate"
       ],
@@ -537,13 +573,14 @@
           "variant": "time_range",
           "range": "day"
         }
-      ]
+      ],
+      "trigger": {
+        "variant": "level_up"
+      }
     },
     {
       "id": "milcery_alcremie_berry_shiny",
-      "variant": "level_up",
       "result": "alcremie s decoration=berry",
-      "consumeHeldItem": true,
       "learnableMoves": [
         "decorate"
       ],
@@ -560,13 +597,14 @@
           "variant": "held_item",
           "itemCondition": "cobblemon:berry_sweet"
         }
-      ]
+      ],
+      "trigger": {
+        "variant": "level_up"
+      }
     },
     {
       "id": "milcery_alcremie_berry_caramelswirl",
-      "variant": "level_up",
       "result": "alcremie decoration=berry cream=caramel_swirl",
-      "consumeHeldItem": false,
       "learnableMoves": [
         "decorate"
       ],
@@ -583,13 +621,14 @@
           "variant": "time_range",
           "range": "day"
         }
-      ]
+      ],
+      "trigger": {
+        "variant": "level_up"
+      }
     },
     {
       "id": "milcery_alcremie_berry_lemon",
-      "variant": "level_up",
       "result": "alcremie decoration=berry cream=lemon",
-      "consumeHeldItem": false,
       "learnableMoves": [
         "decorate"
       ],
@@ -606,13 +645,14 @@
           "variant": "time_range",
           "range": "night"
         }
-      ]
+      ],
+      "trigger": {
+        "variant": "level_up"
+      }
     },
     {
       "id": "milcery_alcremie_berry_matcha",
-      "variant": "level_up",
       "result": "alcremie decoration=berry cream=matcha",
-      "consumeHeldItem": false,
       "learnableMoves": [
         "decorate"
       ],
@@ -629,13 +669,14 @@
           "variant": "time_range",
           "range": "night"
         }
-      ]
+      ],
+      "trigger": {
+        "variant": "level_up"
+      }
     },
     {
       "id": "milcery_alcremie_berry_mint",
-      "variant": "level_up",
       "result": "alcremie decoration=berry cream=mint",
-      "consumeHeldItem": false,
       "learnableMoves": [
         "decorate"
       ],
@@ -652,13 +693,14 @@
           "variant": "time_range",
           "range": "night"
         }
-      ]
+      ],
+      "trigger": {
+        "variant": "level_up"
+      }
     },
     {
       "id": "milcery_alcremie_berry_rainbowswirl",
-      "variant": "level_up",
       "result": "alcremie decoration=berry cream=rainbow_swirl",
-      "consumeHeldItem": true,
       "learnableMoves": [
         "decorate"
       ],
@@ -675,13 +717,14 @@
           "variant": "time_range",
           "range": "dusk"
         }
-      ]
+      ],
+      "trigger": {
+        "variant": "level_up"
+      }
     },
     {
       "id": "milcery_alcremie_berry_ruby",
-      "variant": "level_up",
       "result": "alcremie decoration=berry cream=ruby",
-      "consumeHeldItem": false,
       "learnableMoves": [
         "decorate"
       ],
@@ -698,13 +741,14 @@
           "variant": "time_range",
           "range": "day"
         }
-      ]
+      ],
+      "trigger": {
+        "variant": "level_up"
+      }
     },
     {
       "id": "milcery_alcremie_berry_rubyswirl",
-      "variant": "level_up",
       "result": "alcremie decoration=berry cream=ruby_swirl",
-      "consumeHeldItem": false,
       "learnableMoves": [
         "decorate"
       ],
@@ -721,13 +765,14 @@
           "variant": "time_range",
           "range": "day"
         }
-      ]
+      ],
+      "trigger": {
+        "variant": "level_up"
+      }
     },
     {
       "id": "milcery_alcremie_berry_salted",
-      "variant": "level_up",
       "result": "alcremie decoration=berry cream=salted",
-      "consumeHeldItem": true,
       "learnableMoves": [
         "decorate"
       ],
@@ -744,13 +789,14 @@
           "variant": "time_range",
           "range": "night"
         }
-      ]
+      ],
+      "trigger": {
+        "variant": "level_up"
+      }
     },
     {
       "id": "milcery_alcremie_berry_vanilla",
-      "variant": "level_up",
       "result": "alcremie decoration=berry cream=vanilla",
-      "consumeHeldItem": true,
       "learnableMoves": [
         "decorate"
       ],
@@ -767,13 +813,14 @@
           "variant": "time_range",
           "range": "day"
         }
-      ]
+      ],
+      "trigger": {
+        "variant": "level_up"
+      }
     },
     {
       "id": "milcery_alcremie_clover_shiny",
-      "variant": "level_up",
       "result": "alcremie s decoration=clover",
-      "consumeHeldItem": true,
       "learnableMoves": [
         "decorate"
       ],
@@ -790,13 +837,14 @@
           "variant": "held_item",
           "itemCondition": "cobblemon:clover_sweet"
         }
-      ]
+      ],
+      "trigger": {
+        "variant": "level_up"
+      }
     },
     {
       "id": "milcery_alcremie_clover_caramelswirl",
-      "variant": "level_up",
       "result": "alcremie decoration=clover cream=caramel_swirl",
-      "consumeHeldItem": false,
       "learnableMoves": [
         "decorate"
       ],
@@ -813,13 +861,14 @@
           "variant": "time_range",
           "range": "day"
         }
-      ]
+      ],
+      "trigger": {
+        "variant": "level_up"
+      }
     },
     {
       "id": "milcery_alcremie_clover_lemon",
-      "variant": "level_up",
       "result": "alcremie decoration=clover cream=lemon",
-      "consumeHeldItem": false,
       "learnableMoves": [
         "decorate"
       ],
@@ -836,13 +885,14 @@
           "variant": "time_range",
           "range": "night"
         }
-      ]
+      ],
+      "trigger": {
+        "variant": "level_up"
+      }
     },
     {
       "id": "milcery_alcremie_clover_matcha",
-      "variant": "level_up",
       "result": "alcremie decoration=clover cream=matcha",
-      "consumeHeldItem": false,
       "learnableMoves": [
         "decorate"
       ],
@@ -859,13 +909,14 @@
           "variant": "time_range",
           "range": "night"
         }
-      ]
+      ],
+      "trigger": {
+        "variant": "level_up"
+      }
     },
     {
       "id": "milcery_alcremie_clover_mint",
-      "variant": "level_up",
       "result": "alcremie decoration=clover cream=mint",
-      "consumeHeldItem": false,
       "learnableMoves": [
         "decorate"
       ],
@@ -882,13 +933,14 @@
           "variant": "time_range",
           "range": "night"
         }
-      ]
+      ],
+      "trigger": {
+        "variant": "level_up"
+      }
     },
     {
       "id": "milcery_alcremie_clover_rainbowswirl",
-      "variant": "level_up",
       "result": "alcremie decoration=clover cream=rainbow_swirl",
-      "consumeHeldItem": true,
       "learnableMoves": [
         "decorate"
       ],
@@ -905,13 +957,14 @@
           "variant": "time_range",
           "range": "dusk"
         }
-      ]
+      ],
+      "trigger": {
+        "variant": "level_up"
+      }
     },
     {
       "id": "milcery_alcremie_clover_ruby",
-      "variant": "level_up",
       "result": "alcremie decoration=clover cream=ruby",
-      "consumeHeldItem": false,
       "learnableMoves": [
         "decorate"
       ],
@@ -928,13 +981,14 @@
           "variant": "time_range",
           "range": "day"
         }
-      ]
+      ],
+      "trigger": {
+        "variant": "level_up"
+      }
     },
     {
       "id": "milcery_alcremie_clover_rubyswirl",
-      "variant": "level_up",
       "result": "alcremie decoration=clover cream=ruby_swirl",
-      "consumeHeldItem": false,
       "learnableMoves": [
         "decorate"
       ],
@@ -951,13 +1005,14 @@
           "variant": "time_range",
           "range": "day"
         }
-      ]
+      ],
+      "trigger": {
+        "variant": "level_up"
+      }
     },
     {
       "id": "milcery_alcremie_clover_salted",
-      "variant": "level_up",
       "result": "alcremie decoration=clover cream=salted",
-      "consumeHeldItem": true,
       "learnableMoves": [
         "decorate"
       ],
@@ -974,13 +1029,14 @@
           "variant": "time_range",
           "range": "night"
         }
-      ]
+      ],
+      "trigger": {
+        "variant": "level_up"
+      }
     },
     {
       "id": "milcery_alcremie_clover_vanilla",
-      "variant": "level_up",
       "result": "alcremie decoration=clover cream=vanilla",
-      "consumeHeldItem": true,
       "learnableMoves": [
         "decorate"
       ],
@@ -997,13 +1053,14 @@
           "variant": "time_range",
           "range": "day"
         }
-      ]
+      ],
+      "trigger": {
+        "variant": "level_up"
+      }
     },
     {
       "id": "milcery_alcremie_flower_shiny",
-      "variant": "level_up",
       "result": "alcremie s decoration=flower",
-      "consumeHeldItem": true,
       "learnableMoves": [
         "decorate"
       ],
@@ -1020,13 +1077,14 @@
           "variant": "held_item",
           "itemCondition": "cobblemon:flower_sweet"
         }
-      ]
+      ],
+      "trigger": {
+        "variant": "level_up"
+      }
     },
     {
       "id": "milcery_alcremie_flower_caramelswirl",
-      "variant": "level_up",
       "result": "alcremie decoration=flower cream=caramel_swirl",
-      "consumeHeldItem": false,
       "learnableMoves": [
         "decorate"
       ],
@@ -1043,13 +1101,14 @@
           "variant": "time_range",
           "range": "day"
         }
-      ]
+      ],
+      "trigger": {
+        "variant": "level_up"
+      }
     },
     {
       "id": "milcery_alcremie_flower_lemon",
-      "variant": "level_up",
       "result": "alcremie decoration=flower cream=lemon",
-      "consumeHeldItem": false,
       "learnableMoves": [
         "decorate"
       ],
@@ -1066,13 +1125,14 @@
           "variant": "time_range",
           "range": "night"
         }
-      ]
+      ],
+      "trigger": {
+        "variant": "level_up"
+      }
     },
     {
       "id": "milcery_alcremie_flower_matcha",
-      "variant": "level_up",
       "result": "alcremie decoration=flower cream=matcha",
-      "consumeHeldItem": false,
       "learnableMoves": [
         "decorate"
       ],
@@ -1089,13 +1149,14 @@
           "variant": "time_range",
           "range": "night"
         }
-      ]
+      ],
+      "trigger": {
+        "variant": "level_up"
+      }
     },
     {
       "id": "milcery_alcremie_flower_mint",
-      "variant": "level_up",
       "result": "alcremie decoration=flower cream=mint",
-      "consumeHeldItem": false,
       "learnableMoves": [
         "decorate"
       ],
@@ -1112,13 +1173,14 @@
           "variant": "time_range",
           "range": "night"
         }
-      ]
+      ],
+      "trigger": {
+        "variant": "level_up"
+      }
     },
     {
       "id": "milcery_alcremie_flower_rainbowswirl",
-      "variant": "level_up",
       "result": "alcremie decoration=flower cream=rainbow_swirl",
-      "consumeHeldItem": true,
       "learnableMoves": [
         "decorate"
       ],
@@ -1135,13 +1197,14 @@
           "variant": "time_range",
           "range": "dusk"
         }
-      ]
+      ],
+      "trigger": {
+        "variant": "level_up"
+      }
     },
     {
       "id": "milcery_alcremie_flower_ruby",
-      "variant": "level_up",
       "result": "alcremie decoration=flower cream=ruby",
-      "consumeHeldItem": false,
       "learnableMoves": [
         "decorate"
       ],
@@ -1158,13 +1221,14 @@
           "variant": "time_range",
           "range": "day"
         }
-      ]
+      ],
+      "trigger": {
+        "variant": "level_up"
+      }
     },
     {
       "id": "milcery_alcremie_flower_rubyswirl",
-      "variant": "level_up",
       "result": "alcremie decoration=flower cream=ruby_swirl",
-      "consumeHeldItem": false,
       "learnableMoves": [
         "decorate"
       ],
@@ -1181,13 +1245,14 @@
           "variant": "time_range",
           "range": "day"
         }
-      ]
+      ],
+      "trigger": {
+        "variant": "level_up"
+      }
     },
     {
       "id": "milcery_alcremie_flower_salted",
-      "variant": "level_up",
       "result": "alcremie decoration=flower cream=salted",
-      "consumeHeldItem": true,
       "learnableMoves": [
         "decorate"
       ],
@@ -1204,13 +1269,14 @@
           "variant": "time_range",
           "range": "night"
         }
-      ]
+      ],
+      "trigger": {
+        "variant": "level_up"
+      }
     },
     {
       "id": "milcery_alcremie_flower_vanilla",
-      "variant": "level_up",
       "result": "alcremie decoration=flower cream=vanilla",
-      "consumeHeldItem": true,
       "learnableMoves": [
         "decorate"
       ],
@@ -1227,13 +1293,14 @@
           "variant": "time_range",
           "range": "day"
         }
-      ]
+      ],
+      "trigger": {
+        "variant": "level_up"
+      }
     },
     {
       "id": "milcery_alcremie_star_shiny",
-      "variant": "level_up",
       "result": "alcremie s decoration=star",
-      "consumeHeldItem": true,
       "learnableMoves": [
         "decorate"
       ],
@@ -1250,13 +1317,14 @@
           "variant": "held_item",
           "itemCondition": "cobblemon:star_sweet"
         }
-      ]
+      ],
+      "trigger": {
+        "variant": "level_up"
+      }
     },
     {
       "id": "milcery_alcremie_star_caramelswirl",
-      "variant": "level_up",
       "result": "alcremie decoration=star cream=caramel_swirl",
-      "consumeHeldItem": false,
       "learnableMoves": [
         "decorate"
       ],
@@ -1273,13 +1341,14 @@
           "variant": "time_range",
           "range": "day"
         }
-      ]
+      ],
+      "trigger": {
+        "variant": "level_up"
+      }
     },
     {
       "id": "milcery_alcremie_star_lemon",
-      "variant": "level_up",
       "result": "alcremie decoration=star cream=lemon",
-      "consumeHeldItem": false,
       "learnableMoves": [
         "decorate"
       ],
@@ -1296,13 +1365,14 @@
           "variant": "time_range",
           "range": "night"
         }
-      ]
+      ],
+      "trigger": {
+        "variant": "level_up"
+      }
     },
     {
       "id": "milcery_alcremie_star_matcha",
-      "variant": "level_up",
       "result": "alcremie decoration=star cream=matcha",
-      "consumeHeldItem": false,
       "learnableMoves": [
         "decorate"
       ],
@@ -1319,13 +1389,14 @@
           "variant": "time_range",
           "range": "night"
         }
-      ]
+      ],
+      "trigger": {
+        "variant": "level_up"
+      }
     },
     {
       "id": "milcery_alcremie_star_mint",
-      "variant": "level_up",
       "result": "alcremie decoration=star cream=mint",
-      "consumeHeldItem": false,
       "learnableMoves": [
         "decorate"
       ],
@@ -1342,13 +1413,14 @@
           "variant": "time_range",
           "range": "night"
         }
-      ]
+      ],
+      "trigger": {
+        "variant": "level_up"
+      }
     },
     {
       "id": "milcery_alcremie_star_rainbowswirl",
-      "variant": "level_up",
       "result": "alcremie decoration=star cream=rainbow_swirl",
-      "consumeHeldItem": true,
       "learnableMoves": [
         "decorate"
       ],
@@ -1365,13 +1437,14 @@
           "variant": "time_range",
           "range": "dusk"
         }
-      ]
+      ],
+      "trigger": {
+        "variant": "level_up"
+      }
     },
     {
       "id": "milcery_alcremie_star_ruby",
-      "variant": "level_up",
       "result": "alcremie decoration=star cream=ruby",
-      "consumeHeldItem": false,
       "learnableMoves": [
         "decorate"
       ],
@@ -1388,13 +1461,14 @@
           "variant": "time_range",
           "range": "day"
         }
-      ]
+      ],
+      "trigger": {
+        "variant": "level_up"
+      }
     },
     {
       "id": "milcery_alcremie_star_rubyswirl",
-      "variant": "level_up",
       "result": "alcremie decoration=star cream=ruby_swirl",
-      "consumeHeldItem": false,
       "learnableMoves": [
         "decorate"
       ],
@@ -1411,13 +1485,14 @@
           "variant": "time_range",
           "range": "day"
         }
-      ]
+      ],
+      "trigger": {
+        "variant": "level_up"
+      }
     },
     {
       "id": "milcery_alcremie_star_salted",
-      "variant": "level_up",
       "result": "alcremie decoration=star cream=salted",
-      "consumeHeldItem": true,
       "learnableMoves": [
         "decorate"
       ],
@@ -1434,13 +1509,14 @@
           "variant": "time_range",
           "range": "night"
         }
-      ]
+      ],
+      "trigger": {
+        "variant": "level_up"
+      }
     },
     {
       "id": "milcery_alcremie_star_vanilla",
-      "variant": "level_up",
       "result": "alcremie decoration=star cream=vanilla",
-      "consumeHeldItem": true,
       "learnableMoves": [
         "decorate"
       ],
@@ -1457,13 +1533,14 @@
           "variant": "time_range",
           "range": "day"
         }
-      ]
+      ],
+      "trigger": {
+        "variant": "level_up"
+      }
     },
     {
       "id": "milcery_alcremie_ribbon_shiny",
-      "variant": "level_up",
       "result": "alcremie s decoration=ribbon",
-      "consumeHeldItem": true,
       "learnableMoves": [
         "decorate"
       ],
@@ -1480,13 +1557,14 @@
           "variant": "held_item",
           "itemCondition": "cobblemon:ribbon_sweet"
         }
-      ]
+      ],
+      "trigger": {
+        "variant": "level_up"
+      }
     },
     {
       "id": "milcery_alcremie_ribbon_caramelswirl",
-      "variant": "level_up",
       "result": "alcremie decoration=ribbon cream=caramel_swirl",
-      "consumeHeldItem": false,
       "learnableMoves": [
         "decorate"
       ],
@@ -1503,13 +1581,14 @@
           "variant": "time_range",
           "range": "day"
         }
-      ]
+      ],
+      "trigger": {
+        "variant": "level_up"
+      }
     },
     {
       "id": "milcery_alcremie_ribbon_lemon",
-      "variant": "level_up",
       "result": "alcremie decoration=ribbon cream=lemon",
-      "consumeHeldItem": false,
       "learnableMoves": [
         "decorate"
       ],
@@ -1526,13 +1605,14 @@
           "variant": "time_range",
           "range": "night"
         }
-      ]
+      ],
+      "trigger": {
+        "variant": "level_up"
+      }
     },
     {
       "id": "milcery_alcremie_ribbon_matcha",
-      "variant": "level_up",
       "result": "alcremie decoration=ribbon cream=matcha",
-      "consumeHeldItem": false,
       "learnableMoves": [
         "decorate"
       ],
@@ -1549,13 +1629,14 @@
           "variant": "time_range",
           "range": "night"
         }
-      ]
+      ],
+      "trigger": {
+        "variant": "level_up"
+      }
     },
     {
       "id": "milcery_alcremie_ribbon_mint",
-      "variant": "level_up",
       "result": "alcremie decoration=ribbon cream=mint",
-      "consumeHeldItem": false,
       "learnableMoves": [
         "decorate"
       ],
@@ -1572,13 +1653,14 @@
           "variant": "time_range",
           "range": "night"
         }
-      ]
+      ],
+      "trigger": {
+        "variant": "level_up"
+      }
     },
     {
       "id": "milcery_alcremie_ribbon_rainbowswirl",
-      "variant": "level_up",
       "result": "alcremie decoration=ribbon cream=rainbow_swirl",
-      "consumeHeldItem": true,
       "learnableMoves": [
         "decorate"
       ],
@@ -1595,13 +1677,14 @@
           "variant": "time_range",
           "range": "dusk"
         }
-      ]
+      ],
+      "trigger": {
+        "variant": "level_up"
+      }
     },
     {
       "id": "milcery_alcremie_ribbon_ruby",
-      "variant": "level_up",
       "result": "alcremie decoration=ribbon cream=ruby",
-      "consumeHeldItem": false,
       "learnableMoves": [
         "decorate"
       ],
@@ -1618,13 +1701,14 @@
           "variant": "time_range",
           "range": "day"
         }
-      ]
+      ],
+      "trigger": {
+        "variant": "level_up"
+      }
     },
     {
       "id": "milcery_alcremie_ribbon_rubyswirl",
-      "variant": "level_up",
       "result": "alcremie decoration=ribbon cream=ruby_swirl",
-      "consumeHeldItem": false,
       "learnableMoves": [
         "decorate"
       ],
@@ -1641,13 +1725,14 @@
           "variant": "time_range",
           "range": "day"
         }
-      ]
+      ],
+      "trigger": {
+        "variant": "level_up"
+      }
     },
     {
       "id": "milcery_alcremie_ribbon_salted",
-      "variant": "level_up",
       "result": "alcremie decoration=ribbon cream=salted",
-      "consumeHeldItem": true,
       "learnableMoves": [
         "decorate"
       ],
@@ -1664,13 +1749,14 @@
           "variant": "time_range",
           "range": "night"
         }
-      ]
+      ],
+      "trigger": {
+        "variant": "level_up"
+      }
     },
     {
       "id": "milcery_alcremie_ribbon_vanilla",
-      "variant": "level_up",
       "result": "alcremie decoration=ribbon cream=vanilla",
-      "consumeHeldItem": true,
       "learnableMoves": [
         "decorate"
       ],
@@ -1687,26 +1773,10 @@
           "variant": "time_range",
           "range": "day"
         }
-      ]
+      ],
+      "trigger": {
+        "variant": "level_up"
+      }
     }
-  ],
-  "baseScale": 0.5,
-  "hitbox": {
-    "width": 0.5,
-    "height": 0.5,
-    "fixed": false
-  },
-  "baseFriendship": 50,
-  "evYield": {
-    "hp": 0,
-    "attack": 0,
-    "defence": 0,
-    "special_attack": 0,
-    "special_defence": 1,
-    "speed": 0
-  },
-  "height": 2,
-  "weight": 3,
-  "aspects": [],
-  "cannotDynamax": false
+  ]
 }

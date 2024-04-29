@@ -16,154 +16,36 @@
     "special_defence": 55,
     "speed": 100
   },
-  "features": [
-    "hisuian"
-  ],
   "catchRate": 190,
   "maleRatio": -1,
-  "shoulderMountable": false,
-  "forms": [
-    {
-      "name": "Hisui",
-      "primaryType": "electric",
-      "secondaryType": "grass",
-      "abilities": [
-        "soundproof",
-        "static",
-        "h:aftermath"
-      ],
-      "baseStats": {
-        "hp": 40,
-        "attack": 30,
-        "defence": 50,
-        "special_attack": 55,
-        "special_defence": 55,
-        "speed": 100
-      },
-      "catchRate": 190,
-      "maleRatio": -1,
-      "baseExperienceYield": 66,
-      "baseFriendship": 70,
-      "evYield": {
-        "hp": 0,
-        "attack": 0,
-        "defence": 0,
-        "special_attack": 0,
-        "special_defence": 0,
-        "speed": 1
-      },
-      "experienceGroup": "medium_fast",
-      "eggCycles": 20,
-      "eggGroups": [
-        "mineral"
-      ],
-      "moves": [
-        "1:charge",
-        "1:tackle",
-        "4:thundershock",
-        "6:stunspore",
-        "9:bulletseed",
-        "11:rollout",
-        "13:screech",
-        "16:chargebeam",
-        "20:swift",
-        "22:electroball",
-        "26:selfdestruct",
-        "29:energyball",
-        "34:discharge",
-        "34:seedbomb",
-        "41:explosion",
-        "46:gyroball",
-        "50:grassyterrain",
-        "egg:leechseed",
-        "egg:recycle",
-        "egg:worryseed",
-        "tm:agility",
-        "tm:bulletseed",
-        "tm:charge",
-        "tm:chargebeam",
-        "tm:doubleedge",
-        "tm:electricterrain",
-        "tm:electroball",
-        "tm:electroweb",
-        "tm:endure",
-        "tm:energyball",
-        "tm:facade",
-        "tm:foulplay",
-        "tm:gigadrain",
-        "tm:grassknot",
-        "tm:grassyglide",
-        "tm:grassyterrain",
-        "tm:gyroball",
-        "tm:leafstorm",
-        "tm:protect",
-        "tm:raindance",
-        "tm:reflect",
-        "tm:rest",
-        "tm:seedbomb",
-        "tm:sleeptalk",
-        "tm:solarbeam",
-        "tm:substitute",
-        "tm:swift",
-        "tm:takedown",
-        "tm:taunt",
-        "tm:terablast",
-        "tm:thief",
-        "tm:thunder",
-        "tm:thunderbolt",
-        "tm:thunderwave",
-        "tm:voltswitch",
-        "tm:wildcharge"
-      ],
-      "labels": [
-        "gen8",
-        "hisui_regional"
-      ],
-      "aspects": [
-        "hisuian"
-      ],
-      "height": 5,
-      "weight": 130,
-      "evolutions": [
-        {
-          "id": "voltorb_electrode",
-          "variant": "item_interact",
-          "result": "electrode hisuian",
-          "consumeHeldItem": false,
-          "learnableMoves": [
-            "chloroblast"
-          ],
-          "requirements": [],
-          "requiredContext": "cobblemon:leaf_stone"
-        }
-      ],
-      "cannotDynamax": false,
-      "battleOnly": false,
-      "drops": {
-        "amount": 3,
-        "entries": [
-          {
-            "item": "minecraft:gunpowder",
-            "quantityRange": "0-1"
-          },
-          {
-            "item": "cobblemon:red_apricorn",
-            "quantityRange": "0-1"
-          },
-          {
-            "item": "cobblemon:cheri_berry",
-            "percentage": 2.5
-          }
-        ]
-      }
-    }
-  ],
-  "baseExperienceYield": 66,
+  "baseFriendship": 70,
   "experienceGroup": "medium_fast",
   "eggCycles": 20,
   "eggGroups": [
     "mineral"
   ],
+  "height": 5,
+  "weight": 104,
+  "pokedex": [
+    "cobblemon.species.voltorb.desc"
+  ],
+  "labels": [
+    "gen1",
+    "kanto_regional"
+  ],
+  "features": [
+    "hisuian"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 66,
+  "evYield": {
+    "hp": 0,
+    "attack": 0,
+    "defence": 0,
+    "special_attack": 0,
+    "special_defence": 0,
+    "speed": 1
+  },
   "drops": {
     "amount": 1,
     "entries": [
@@ -173,6 +55,14 @@
       }
     ]
   },
+  "baseScale": 0.9,
+  "hitbox": {
+    "width": 0.7,
+    "height": 0.7,
+    "fixed": false
+  },
+  "cannotDynamax": false,
+  "shoulderMountable": false,
   "moves": [
     "1:charge",
     "1:tackle",
@@ -287,45 +177,156 @@
     "tutor:toxic",
     "tutor:zapcannon"
   ],
-  "labels": [
-    "gen1",
-    "kanto_regional"
-  ],
-  "pokedex": [
-    "cobblemon.species.voltorb.desc"
-  ],
   "evolutions": [
     {
       "id": "voltorb_electrode",
-      "variant": "level_up",
       "result": "electrode",
-      "consumeHeldItem": false,
       "learnableMoves": [],
       "requirements": [
         {
           "variant": "level",
           "minLevel": 30
         }
-      ]
+      ],
+      "trigger": {
+        "variant": "level_up"
+      }
     }
   ],
-  "baseScale": 0.9,
-  "hitbox": {
-    "width": 0.7,
-    "height": 0.7,
-    "fixed": false
-  },
-  "baseFriendship": 70,
-  "evYield": {
-    "hp": 0,
-    "attack": 0,
-    "defence": 0,
-    "special_attack": 0,
-    "special_defence": 0,
-    "speed": 1
-  },
-  "height": 5,
-  "weight": 104,
-  "aspects": [],
-  "cannotDynamax": false
+  "permanentForms": [
+    {
+      "name": "Hisui",
+      "primaryType": "electric",
+      "secondaryType": "grass",
+      "abilities": [
+        "soundproof",
+        "static",
+        "h:aftermath"
+      ],
+      "baseStats": {
+        "hp": 40,
+        "attack": 30,
+        "defence": 50,
+        "special_attack": 55,
+        "special_defence": 55,
+        "speed": 100
+      },
+      "catchRate": 190,
+      "maleRatio": -1,
+      "baseFriendship": 70,
+      "experienceGroup": "medium_fast",
+      "eggCycles": 20,
+      "eggGroups": [
+        "mineral"
+      ],
+      "height": 5,
+      "weight": 130,
+      "labels": [
+        "gen8",
+        "hisui_regional"
+      ],
+      "aspects": [
+        "hisuian"
+      ],
+      "baseExperienceYield": 66,
+      "evYield": {
+        "hp": 0,
+        "attack": 0,
+        "defence": 0,
+        "special_attack": 0,
+        "special_defence": 0,
+        "speed": 1
+      },
+      "drops": {
+        "amount": 3,
+        "entries": [
+          {
+            "item": "minecraft:gunpowder",
+            "quantityRange": "0-1"
+          },
+          {
+            "item": "cobblemon:red_apricorn",
+            "quantityRange": "0-1"
+          },
+          {
+            "item": "cobblemon:cheri_berry",
+            "percentage": 2.5
+          }
+        ]
+      },
+      "cannotDynamax": false,
+      "moves": [
+        "1:charge",
+        "1:tackle",
+        "4:thundershock",
+        "6:stunspore",
+        "9:bulletseed",
+        "11:rollout",
+        "13:screech",
+        "16:chargebeam",
+        "20:swift",
+        "22:electroball",
+        "26:selfdestruct",
+        "29:energyball",
+        "34:discharge",
+        "34:seedbomb",
+        "41:explosion",
+        "46:gyroball",
+        "50:grassyterrain",
+        "egg:leechseed",
+        "egg:recycle",
+        "egg:worryseed",
+        "tm:agility",
+        "tm:bulletseed",
+        "tm:charge",
+        "tm:chargebeam",
+        "tm:doubleedge",
+        "tm:electricterrain",
+        "tm:electroball",
+        "tm:electroweb",
+        "tm:endure",
+        "tm:energyball",
+        "tm:facade",
+        "tm:foulplay",
+        "tm:gigadrain",
+        "tm:grassknot",
+        "tm:grassyglide",
+        "tm:grassyterrain",
+        "tm:gyroball",
+        "tm:leafstorm",
+        "tm:protect",
+        "tm:raindance",
+        "tm:reflect",
+        "tm:rest",
+        "tm:seedbomb",
+        "tm:sleeptalk",
+        "tm:solarbeam",
+        "tm:substitute",
+        "tm:swift",
+        "tm:takedown",
+        "tm:taunt",
+        "tm:terablast",
+        "tm:thief",
+        "tm:thunder",
+        "tm:thunderbolt",
+        "tm:thunderwave",
+        "tm:voltswitch",
+        "tm:wildcharge"
+      ],
+      "evolutions": [
+        {
+          "id": "voltorb_electrode",
+          "result": "electrode hisuian",
+          "learnableMoves": [
+            "chloroblast"
+          ],
+          "requirements": [],
+          "trigger": {
+            "variant": "item_interact",
+            "requiredContext": "cobblemon:leaf_stone"
+          }
+        }
+      ]
+    }
+  ]
 }

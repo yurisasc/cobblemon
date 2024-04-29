@@ -16,13 +16,40 @@
   },
   "catchRate": 3,
   "maleRatio": -1,
-  "shoulderMountable": false,
-  "baseExperienceYield": 300,
+  "baseFriendship": 100,
   "experienceGroup": "slow",
   "eggCycles": 120,
   "eggGroups": [
     "undiscovered"
   ],
+  "height": 4,
+  "weight": 40,
+  "pokedex": [
+    "cobblemon.species.victini.desc"
+  ],
+  "labels": [
+    "gen5",
+    "mythical",
+    "legendary"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 300,
+  "evYield": {
+    "hp": 3,
+    "attack": 0,
+    "defence": 0,
+    "special_attack": 0,
+    "special_defence": 0,
+    "speed": 0
+  },
+  "baseScale": 1,
+  "hitbox": {
+    "width": 1,
+    "height": 1,
+    "fixed": false
+  },
+  "cannotDynamax": false,
+  "shoulderMountable": false,
   "moves": [
     "1:confusion",
     "1:flamecharge",
@@ -158,32 +185,5 @@
     "tutor:workup",
     "tutor:zenheadbutt"
   ],
-  "labels": [
-    "gen5",
-    "mythical",
-    "legendary"
-  ],
-  "pokedex": [
-    "cobblemon.species.victini.desc"
-  ],
-  "evolutions": [],
-  "baseScale": 1,
-  "hitbox": {
-    "width": 1,
-    "height": 1,
-    "fixed": false
-  },
-  "baseFriendship": 100,
-  "evYield": {
-    "hp": 3,
-    "attack": 0,
-    "defence": 0,
-    "special_attack": 0,
-    "special_defence": 0,
-    "speed": 0
-  },
-  "height": 4,
-  "weight": 40,
-  "aspects": [],
-  "cannotDynamax": false
+  "evolutions": []
 }

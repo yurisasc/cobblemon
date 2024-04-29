@@ -17,14 +17,60 @@
   },
   "catchRate": 190,
   "maleRatio": 0.5,
-  "shoulderMountable": false,
-  "baseExperienceYield": 60,
+  "baseFriendship": 50,
   "experienceGroup": "medium_fast",
   "eggCycles": 20,
   "eggGroups": [
     "fairy",
     "mineral"
   ],
+  "height": 7,
+  "weight": 168,
+  "pokedex": [
+    "cobblemon.species.snorunt.desc"
+  ],
+  "labels": [
+    "gen3"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 60,
+  "evYield": {
+    "hp": 1,
+    "attack": 0,
+    "defence": 0,
+    "special_attack": 0,
+    "special_defence": 0,
+    "speed": 0
+  },
+  "drops": {
+    "amount": 4,
+    "entries": [
+      {
+        "item": "minecraft:snowball",
+        "quantityRange": "0-1"
+      },
+      {
+        "item": "cobblemon:dawn_stone",
+        "percentage": 2.5
+      },
+      {
+        "item": "cobblemon:never_melt_ice",
+        "percentage": 2.5
+      },
+      {
+        "item": "cobblemon:babiri_berry",
+        "percentage": 2.5
+      }
+    ]
+  },
+  "baseScale": 1,
+  "hitbox": {
+    "width": 1,
+    "height": 1,
+    "fixed": false
+  },
+  "cannotDynamax": false,
+  "shoulderMountable": false,
   "moves": [
     "1:astonish",
     "1:headbutt",
@@ -120,18 +166,10 @@
     "tutor:waterpulse",
     "tutor:weatherball"
   ],
-  "labels": [
-    "gen3"
-  ],
-  "pokedex": [
-    "cobblemon.species.snorunt.desc"
-  ],
   "evolutions": [
     {
       "id": "snorunt_glalie",
-      "variant": "level_up",
       "result": "glalie",
-      "consumeHeldItem": false,
       "learnableMoves": [
         "freezedry"
       ],
@@ -140,13 +178,14 @@
           "variant": "level",
           "minLevel": 42
         }
-      ]
+      ],
+      "trigger": {
+        "variant": "level_up"
+      }
     },
     {
       "id": "snorunt_froslass",
-      "variant": "item_interact",
       "result": "froslass",
-      "consumeHeldItem": false,
       "learnableMoves": [],
       "requirements": [
         {
@@ -154,47 +193,10 @@
           "target": "gender=female"
         }
       ],
-      "requiredContext": "cobblemon:dawn_stone"
-    }
-  ],
-  "baseScale": 1,
-  "hitbox": {
-    "width": 1,
-    "height": 1,
-    "fixed": false
-  },
-  "baseFriendship": 50,
-  "evYield": {
-    "hp": 1,
-    "attack": 0,
-    "defence": 0,
-    "special_attack": 0,
-    "special_defence": 0,
-    "speed": 0
-  },
-  "height": 7,
-  "weight": 168,
-  "aspects": [],
-  "cannotDynamax": false,
-  "drops": {
-    "amount": 4,
-    "entries": [
-      {
-        "item": "minecraft:snowball",
-        "quantityRange": "0-1"
-      },
-      {
-        "item": "cobblemon:dawn_stone",
-        "percentage": 2.5
-      },
-      {
-        "item": "cobblemon:never_melt_ice",
-        "percentage": 2.5
-      },
-      {
-        "item": "cobblemon:babiri_berry",
-        "percentage": 2.5
+      "trigger": {
+        "variant": "item_interact",
+        "requiredContext": "cobblemon:dawn_stone"
       }
-    ]
-  }
+    }
+  ]
 }

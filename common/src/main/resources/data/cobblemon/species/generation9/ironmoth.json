@@ -16,8 +16,23 @@
   },
   "catchRate": 30,
   "maleRatio": -1,
-  "baseExperienceYield": 285,
   "baseFriendship": 0,
+  "experienceGroup": "slow",
+  "eggCycles": 50,
+  "eggGroups": [
+    "undiscovered"
+  ],
+  "height": 12,
+  "weight": 360,
+  "pokedex": [
+    "cobblemon.species.ironmoth.desc"
+  ],
+  "labels": [
+    "gen9",
+    "paradox"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 285,
   "evYield": {
     "hp": 0,
     "attack": 0,
@@ -26,11 +41,7 @@
     "special_defence": 0,
     "speed": 0
   },
-  "experienceGroup": "slow",
-  "eggCycles": 50,
-  "eggGroups": [
-    "undiscovered"
-  ],
+  "cannotDynamax": false,
   "moves": [
     "1:acidspray",
     "1:electricterrain",
@@ -95,16 +106,5 @@
     "tutor:screech",
     "tutor:sludgewave"
   ],
-  "labels": [
-    "gen9",
-    "paradox"
-  ],
-  "aspects": [],
-  "height": 12,
-  "weight": 360,
-  "evolutions": [],
-  "cannotDynamax": false,
-  "pokedex": [
-    "cobblemon.species.ironmoth.desc"
-  ]
+  "evolutions": []
 }

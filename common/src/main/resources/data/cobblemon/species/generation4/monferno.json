@@ -8,6 +8,41 @@
     "blaze",
     "h:ironfist"
   ],
+  "baseStats": {
+    "hp": 64,
+    "attack": 78,
+    "defence": 52,
+    "special_attack": 78,
+    "special_defence": 52,
+    "speed": 81
+  },
+  "catchRate": 45,
+  "maleRatio": 0.875,
+  "baseFriendship": 70,
+  "experienceGroup": "medium_slow",
+  "eggCycles": 20,
+  "eggGroups": [
+    "field",
+    "human_like"
+  ],
+  "height": 9,
+  "weight": 220,
+  "pokedex": [
+    "cobblemon.species.monferno.desc"
+  ],
+  "labels": [
+    "gen4"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 142,
+  "evYield": {
+    "hp": 0,
+    "attack": 0,
+    "defence": 0,
+    "special_attack": 1,
+    "special_defence": 0,
+    "speed": 1
+  },
   "drops": {
     "amount": 1,
     "entries": [
@@ -17,14 +52,14 @@
       }
     ]
   },
-  "baseStats": {
-    "hp": 64,
-    "attack": 78,
-    "defence": 52,
-    "special_attack": 78,
-    "special_defence": 52,
-    "speed": 81
+  "baseScale": 0.7,
+  "hitbox": {
+    "width": 0.9,
+    "height": 1.6,
+    "fixed": false
   },
+  "cannotDynamax": false,
+  "shoulderMountable": false,
   "behaviour": {
     "resting": {
       "canSleep": true,
@@ -33,16 +68,6 @@
       "light": "0-4"
     }
   },
-  "catchRate": 45,
-  "maleRatio": 0.875,
-  "shoulderMountable": false,
-  "baseExperienceYield": 142,
-  "experienceGroup": "medium_slow",
-  "eggCycles": 20,
-  "eggGroups": [
-    "field",
-    "human_like"
-  ],
   "moves": [
     "1:ember",
     "1:leer",
@@ -170,19 +195,11 @@
     "tutor:thunderpunch",
     "tutor:vacuumwave"
   ],
-  "labels": [
-    "gen4"
-  ],
-  "pokedex": [
-    "cobblemon.species.monferno.desc"
-  ],
   "preEvolution": "chimchar",
   "evolutions": [
     {
       "id": "monferno_infernape",
-      "variant": "level_up",
       "result": "infernape",
-      "consumeHeldItem": false,
       "learnableMoves": [
         "closecombat"
       ],
@@ -191,26 +208,10 @@
           "variant": "level",
           "minLevel": 36
         }
-      ]
+      ],
+      "trigger": {
+        "variant": "level_up"
+      }
     }
-  ],
-  "baseScale": 0.7,
-  "hitbox": {
-    "width": 0.9,
-    "height": 1.6,
-    "fixed": false
-  },
-  "baseFriendship": 70,
-  "evYield": {
-    "hp": 0,
-    "attack": 0,
-    "defence": 0,
-    "special_attack": 1,
-    "special_defence": 0,
-    "speed": 1
-  },
-  "height": 9,
-  "weight": 220,
-  "aspects": [],
-  "cannotDynamax": false
+  ]
 }

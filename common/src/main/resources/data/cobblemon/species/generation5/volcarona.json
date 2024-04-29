@@ -8,6 +8,40 @@
     "flamebody",
     "h:swarm"
   ],
+  "baseStats": {
+    "hp": 85,
+    "attack": 60,
+    "defence": 65,
+    "special_attack": 135,
+    "special_defence": 105,
+    "speed": 100
+  },
+  "catchRate": 15,
+  "maleRatio": 0.5,
+  "baseFriendship": 50,
+  "experienceGroup": "slow",
+  "eggCycles": 40,
+  "eggGroups": [
+    "bug"
+  ],
+  "height": 16,
+  "weight": 460,
+  "pokedex": [
+    "cobblemon.species.volcarona.desc"
+  ],
+  "labels": [
+    "gen5"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 275,
+  "evYield": {
+    "hp": 0,
+    "attack": 0,
+    "defence": 0,
+    "special_attack": 3,
+    "special_defence": 0,
+    "speed": 0
+  },
   "drops": {
     "amount": 3,
     "entries": [
@@ -25,23 +59,14 @@
       }
     ]
   },
-  "baseStats": {
-    "hp": 85,
-    "attack": 60,
-    "defence": 65,
-    "special_attack": 135,
-    "special_defence": 105,
-    "speed": 100
+  "baseScale": 0.9,
+  "hitbox": {
+    "width": 1.3,
+    "height": 2.4,
+    "fixed": false
   },
-  "catchRate": 15,
-  "maleRatio": 0.5,
+  "cannotDynamax": false,
   "shoulderMountable": false,
-  "baseExperienceYield": 275,
-  "experienceGroup": "slow",
-  "eggCycles": 40,
-  "eggGroups": [
-    "bug"
-  ],
   "behaviour": {
     "moving": {
       "fly": {
@@ -161,31 +186,6 @@
     "tutor:tailwind",
     "tutor:zenheadbutt"
   ],
-  "labels": [
-    "gen5"
-  ],
-  "pokedex": [
-    "cobblemon.species.volcarona.desc"
-  ],
   "preEvolution": "larvesta",
-  "evolutions": [],
-  "baseScale": 0.9,
-  "hitbox": {
-    "width": 1.3,
-    "height": 2.4,
-    "fixed": false
-  },
-  "baseFriendship": 50,
-  "evYield": {
-    "hp": 0,
-    "attack": 0,
-    "defence": 0,
-    "special_attack": 3,
-    "special_defence": 0,
-    "speed": 0
-  },
-  "height": 16,
-  "weight": 460,
-  "aspects": [],
-  "cannotDynamax": false
+  "evolutions": []
 }

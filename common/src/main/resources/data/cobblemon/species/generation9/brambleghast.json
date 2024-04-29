@@ -17,8 +17,22 @@
   },
   "catchRate": 45,
   "maleRatio": 0.5,
-  "baseExperienceYield": 168,
   "baseFriendship": 50,
+  "experienceGroup": "medium_fast",
+  "eggCycles": 20,
+  "eggGroups": [
+    "grass"
+  ],
+  "height": 12,
+  "weight": 60,
+  "pokedex": [
+    "cobblemon.species.brambleghast.desc"
+  ],
+  "labels": [
+    "gen9"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 168,
   "evYield": {
     "hp": 0,
     "attack": 2,
@@ -27,11 +41,20 @@
     "special_defence": 0,
     "speed": 0
   },
-  "experienceGroup": "medium_fast",
-  "eggCycles": 20,
-  "eggGroups": [
-    "grass"
-  ],
+  "drops": {
+    "amount": 3,
+    "entries": [
+      {
+        "item": "minecraft:stick",
+        "quantityRange": "0-2"
+      },
+      {
+        "item": "cobblemon:kasib_berry",
+        "percentage": 5.0
+      }
+    ]
+  },
+  "cannotDynamax": false,
   "moves": [
     "1:astonish",
     "1:defensecurl",
@@ -76,29 +99,6 @@
     "tm:thief",
     "tm:trailblaze"
   ],
-  "labels": [
-    "gen9"
-  ],
-  "aspects": [],
-  "height": 12,
-  "weight": 60,
   "preEvolution": "bramblin",
-  "evolutions": [],
-  "cannotDynamax": false,
-  "pokedex": [
-    "cobblemon.species.brambleghast.desc"
-  ],
-  "drops": {
-    "amount": 3,
-    "entries": [
-      {
-        "item": "minecraft:stick",
-        "quantityRange": "0-2"
-      },
-      {
-        "item": "cobblemon:kasib_berry",
-        "percentage": 5.0
-      }
-    ]
-  }
+  "evolutions": []
 }

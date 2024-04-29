@@ -17,8 +17,22 @@
   },
   "catchRate": 45,
   "maleRatio": 0.5,
-  "baseExperienceYield": 165,
   "baseFriendship": 50,
+  "experienceGroup": "fast",
+  "eggCycles": 20,
+  "eggGroups": [
+    "bug"
+  ],
+  "height": 3,
+  "weight": 35,
+  "pokedex": [
+    "cobblemon.species.rabsca.desc"
+  ],
+  "labels": [
+    "gen9"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 165,
   "evYield": {
     "hp": 0,
     "attack": 0,
@@ -27,11 +41,15 @@
     "special_defence": 0,
     "speed": 0
   },
-  "experienceGroup": "fast",
-  "eggCycles": 20,
-  "eggGroups": [
-    "bug"
-  ],
+  "drops": {
+    "amount": 1,
+    "entries": [
+      {
+        "item": "minecraft:ender_pearl"
+      }
+    ]
+  },
+  "cannotDynamax": false,
   "moves": [
     "1:confusion",
     "1:defensecurl",
@@ -100,24 +118,6 @@
     "tm:xscissor",
     "tm:zenheadbutt"
   ],
-  "labels": [
-    "gen9"
-  ],
-  "aspects": [],
-  "height": 3,
-  "weight": 35,
   "preEvolution": "rellor",
-  "evolutions": [],
-  "cannotDynamax": false,
-  "pokedex": [
-    "cobblemon.species.rabsca.desc"
-  ],
-  "drops": {
-    "amount": 1,
-    "entries": [
-      {
-        "item": "minecraft:ender_pearl"
-      }
-    ]
-  }
+  "evolutions": []
 }

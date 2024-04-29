@@ -9,6 +9,40 @@
     "compoundeyes",
     "h:friendguard"
   ],
+  "baseStats": {
+    "hp": 80,
+    "attack": 52,
+    "defence": 50,
+    "special_attack": 90,
+    "special_defence": 50,
+    "speed": 89
+  },
+  "catchRate": 45,
+  "maleRatio": 0.5,
+  "baseFriendship": 70,
+  "experienceGroup": "medium_fast",
+  "eggCycles": 15,
+  "eggGroups": [
+    "bug"
+  ],
+  "height": 12,
+  "weight": 170,
+  "pokedex": [
+    "cobblemon.species.vivillon.desc"
+  ],
+  "labels": [
+    "gen6"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 185,
+  "evYield": {
+    "hp": 1,
+    "attack": 0,
+    "defence": 0,
+    "special_attack": 1,
+    "special_defence": 0,
+    "speed": 1
+  },
   "drops": {
     "amount": 2,
     "entries": [
@@ -22,24 +56,14 @@
       }
     ]
   },
-  "baseStats": {
-    "hp": 80,
-    "attack": 52,
-    "defence": 50,
-    "special_attack": 90,
-    "special_defence": 50,
-    "speed": 89
+  "baseScale": 0.7,
+  "hitbox": {
+    "width": 0.4,
+    "height": 1.2,
+    "fixed": false
   },
-  "catchRate": 45,
-  "maleRatio": 0.5,
+  "cannotDynamax": false,
   "shoulderMountable": false,
-  "forms": [],
-  "baseExperienceYield": 185,
-  "experienceGroup": "medium_fast",
-  "eggCycles": 15,
-  "eggGroups": [
-    "bug"
-  ],
   "behaviour": {
     "resting": {
       "canSleep": true,
@@ -137,31 +161,6 @@
     "tutor:snore",
     "tutor:tailwind"
   ],
-  "labels": [
-    "gen6"
-  ],
-  "pokedex": [
-    "cobblemon.species.vivillon.desc"
-  ],
   "preEvolution": "spewpa",
-  "evolutions": [],
-  "baseScale": 0.7,
-  "hitbox": {
-    "width": 0.4,
-    "height": 1.2,
-    "fixed": false
-  },
-  "baseFriendship": 70,
-  "evYield": {
-    "hp": 1,
-    "attack": 0,
-    "defence": 0,
-    "special_attack": 1,
-    "special_defence": 0,
-    "speed": 1
-  },
-  "height": 12,
-  "weight": 170,
-  "aspects": [],
-  "cannotDynamax": false
+  "evolutions": []
 }

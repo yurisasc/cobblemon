@@ -18,8 +18,114 @@
   },
   "catchRate": 30,
   "maleRatio": 1,
+  "baseFriendship": 140,
+  "experienceGroup": "fast",
+  "eggCycles": 40,
+  "eggGroups": [
+    "fairy"
+  ],
+  "height": 9,
+  "weight": 280,
+  "pokedex": [
+    "cobblemon.species.indeedee.desc"
+  ],
+  "labels": [
+    "gen8"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 166,
+  "evYield": {
+    "hp": 0,
+    "attack": 0,
+    "defence": 0,
+    "special_attack": 2,
+    "special_defence": 0,
+    "speed": 0
+  },
+  "drops": {
+    "amount": 1,
+    "entries": [
+      {
+        "item": "cobblemon:bluk_berry",
+        "percentage": 5.0
+      }
+    ]
+  },
+  "baseScale": 1,
+  "hitbox": {
+    "width": 1,
+    "height": 1,
+    "fixed": false
+  },
+  "cannotDynamax": false,
   "shoulderMountable": false,
-  "forms": [
+  "moves": [
+    "1:playnice",
+    "1:storedpower",
+    "5:encore",
+    "10:disarmingvoice",
+    "15:psybeam",
+    "20:helpinghand",
+    "25:afteryou",
+    "30:aromatherapy",
+    "30:healingwish",
+    "35:psychic",
+    "40:calmmind",
+    "45:powersplit",
+    "50:psychicterrain",
+    "55:lastresort",
+    "egg:extrasensory",
+    "egg:fakeout",
+    "egg:psychup",
+    "tm:allyswitch",
+    "tm:attract",
+    "tm:bodyslam",
+    "tm:calmmind",
+    "tm:dazzlinggleam",
+    "tm:disarmingvoice",
+    "tm:drainingkiss",
+    "tm:drainpunch",
+    "tm:encore",
+    "tm:endure",
+    "tm:energyball",
+    "tm:facade",
+    "tm:futuresight",
+    "tm:helpinghand",
+    "tm:hypervoice",
+    "tm:imprison",
+    "tm:magicalleaf",
+    "tm:magicroom",
+    "tm:metronome",
+    "tm:mysticalfire",
+    "tm:payday",
+    "tm:playrough",
+    "tm:powerswap",
+    "tm:protect",
+    "tm:psybeam",
+    "tm:psychic",
+    "tm:psychicterrain",
+    "tm:psyshock",
+    "tm:rest",
+    "tm:round",
+    "tm:shadowball",
+    "tm:skillswap",
+    "tm:sleeptalk",
+    "tm:snore",
+    "tm:storedpower",
+    "tm:substitute",
+    "tm:swift",
+    "tm:takedown",
+    "tm:terablast",
+    "tm:triattack",
+    "tm:trick",
+    "tm:trickroom",
+    "tm:wonderroom",
+    "tm:zenheadbutt",
+    "tutor:expandingforce",
+    "tutor:terrainpulse"
+  ],
+  "evolutions": [],
+  "permanentForms": [
     {
       "name": "F",
       "primaryType": "psychic",
@@ -39,8 +145,21 @@
       },
       "catchRate": 30,
       "maleRatio": 0,
-      "baseExperienceYield": 166,
       "baseFriendship": 140,
+      "experienceGroup": "fast",
+      "eggCycles": 40,
+      "eggGroups": [
+        "fairy"
+      ],
+      "height": 9,
+      "weight": 280,
+      "labels": [
+        "gen8"
+      ],
+      "aspects": [
+        "f"
+      ],
+      "baseExperienceYield": 166,
       "evYield": {
         "hp": 0,
         "attack": 0,
@@ -49,11 +168,7 @@
         "special_defence": 2,
         "speed": 0
       },
-      "experienceGroup": "fast",
-      "eggCycles": 40,
-      "eggGroups": [
-        "fairy"
-      ],
+      "cannotDynamax": false,
       "moves": [
         "1:playnice",
         "1:storedpower",
@@ -122,123 +237,7 @@
         "tutor:shadowball",
         "tutor:terrainpulse",
         "tutor:trickroom"
-      ],
-      "labels": [
-        "gen8"
-      ],
-      "aspects": [
-        "f"
-      ],
-      "height": 9,
-      "weight": 280,
-      "cannotDynamax": false,
-      "battleOnly": false
+      ]
     }
-  ],
-  "baseExperienceYield": 166,
-  "experienceGroup": "fast",
-  "eggCycles": 40,
-  "eggGroups": [
-    "fairy"
-  ],
-  "moves": [
-    "1:playnice",
-    "1:storedpower",
-    "5:encore",
-    "10:disarmingvoice",
-    "15:psybeam",
-    "20:helpinghand",
-    "25:afteryou",
-    "30:aromatherapy",
-    "30:healingwish",
-    "35:psychic",
-    "40:calmmind",
-    "45:powersplit",
-    "50:psychicterrain",
-    "55:lastresort",
-    "egg:extrasensory",
-    "egg:fakeout",
-    "egg:psychup",
-    "tm:allyswitch",
-    "tm:attract",
-    "tm:bodyslam",
-    "tm:calmmind",
-    "tm:dazzlinggleam",
-    "tm:disarmingvoice",
-    "tm:drainingkiss",
-    "tm:drainpunch",
-    "tm:encore",
-    "tm:endure",
-    "tm:energyball",
-    "tm:facade",
-    "tm:futuresight",
-    "tm:helpinghand",
-    "tm:hypervoice",
-    "tm:imprison",
-    "tm:magicalleaf",
-    "tm:magicroom",
-    "tm:metronome",
-    "tm:mysticalfire",
-    "tm:payday",
-    "tm:playrough",
-    "tm:powerswap",
-    "tm:protect",
-    "tm:psybeam",
-    "tm:psychic",
-    "tm:psychicterrain",
-    "tm:psyshock",
-    "tm:rest",
-    "tm:round",
-    "tm:shadowball",
-    "tm:skillswap",
-    "tm:sleeptalk",
-    "tm:snore",
-    "tm:storedpower",
-    "tm:substitute",
-    "tm:swift",
-    "tm:takedown",
-    "tm:terablast",
-    "tm:triattack",
-    "tm:trick",
-    "tm:trickroom",
-    "tm:wonderroom",
-    "tm:zenheadbutt",
-    "tutor:expandingforce",
-    "tutor:terrainpulse"
-  ],
-  "labels": [
-    "gen8"
-  ],
-  "pokedex": [
-    "cobblemon.species.indeedee.desc"
-  ],
-  "evolutions": [],
-  "baseScale": 1,
-  "hitbox": {
-    "width": 1,
-    "height": 1,
-    "fixed": false
-  },
-  "baseFriendship": 140,
-  "evYield": {
-    "hp": 0,
-    "attack": 0,
-    "defence": 0,
-    "special_attack": 2,
-    "special_defence": 0,
-    "speed": 0
-  },
-  "height": 9,
-  "weight": 280,
-  "aspects": [],
-  "cannotDynamax": false,
-  "drops": {
-    "amount": 1,
-    "entries": [
-      {
-        "item": "cobblemon:bluk_berry",
-        "percentage": 5.0
-      }
-    ]
-  }
+  ]
 }

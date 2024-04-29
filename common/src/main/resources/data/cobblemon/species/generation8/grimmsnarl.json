@@ -17,6 +17,50 @@
     "special_defence": 75,
     "speed": 60
   },
+  "catchRate": 45,
+  "maleRatio": 1,
+  "baseFriendship": 50,
+  "experienceGroup": "medium_fast",
+  "eggCycles": 20,
+  "eggGroups": [
+    "fairy",
+    "human_like"
+  ],
+  "height": 15,
+  "weight": 610,
+  "pokedex": [
+    "cobblemon.species.grimmsnarl.desc"
+  ],
+  "labels": [
+    "gen8"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 255,
+  "evYield": {
+    "hp": 0,
+    "attack": 3,
+    "defence": 0,
+    "special_attack": 0,
+    "special_defence": 0,
+    "speed": 0
+  },
+  "drops": {
+    "amount": 1,
+    "entries": [
+      {
+        "item": "cobblemon:roseli_berry",
+        "percentage": 10.0
+      }
+    ]
+  },
+  "baseScale": 0.9,
+  "hitbox": {
+    "width": 1.5,
+    "height": 2.58,
+    "fixed": false
+  },
+  "cannotDynamax": false,
+  "shoulderMountable": false,
   "behaviour": {
     "resting": {
       "canSleep": true,
@@ -24,65 +68,6 @@
       "light": "0-4"
     }
   },
-  "catchRate": 45,
-  "maleRatio": 1,
-  "shoulderMountable": false,
-  "forms": [
-    {
-      "name": "Gmax",
-      "primaryType": "dark",
-      "secondaryType": "fairy",
-      "abilities": [
-        "prankster",
-        "frisk",
-        "h:pickpocket"
-      ],
-      "baseStats": {
-        "hp": 95,
-        "attack": 120,
-        "defence": 65,
-        "special_attack": 95,
-        "special_defence": 75,
-        "speed": 60
-      },
-      "catchRate": 45,
-      "maleRatio": 1,
-      "baseExperienceYield": 255,
-      "baseFriendship": 50,
-      "evYield": {
-        "hp": 0,
-        "attack": 3,
-        "defence": 0,
-        "special_attack": 0,
-        "special_defence": 0,
-        "speed": 0
-      },
-      "experienceGroup": "medium_fast",
-      "eggCycles": 20,
-      "eggGroups": [
-        "fairy",
-        "human_like"
-      ],
-      "labels": [
-        "gen8",
-        "gmax"
-      ],
-      "aspects": [
-        "gmax"
-      ],
-      "height": 320,
-      "weight": 0,
-      "cannotDynamax": false,
-      "battleOnly": false
-    }
-  ],
-  "baseExperienceYield": 255,
-  "experienceGroup": "medium_fast",
-  "eggCycles": 20,
-  "eggGroups": [
-    "fairy",
-    "human_like"
-  ],
   "moves": [
     "1:bite",
     "1:bulkup",
@@ -172,40 +157,55 @@
     "tutor:spiritbreak",
     "tutor:thunderwave"
   ],
-  "labels": [
-    "gen8"
-  ],
-  "pokedex": [
-    "cobblemon.species.grimmsnarl.desc"
-  ],
   "preEvolution": "morgrem",
   "evolutions": [],
-  "baseScale": 0.9,
-  "hitbox": {
-    "width": 1.5,
-    "height": 2.58,
-    "fixed": false
-  },
-  "baseFriendship": 50,
-  "evYield": {
-    "hp": 0,
-    "attack": 3,
-    "defence": 0,
-    "special_attack": 0,
-    "special_defence": 0,
-    "speed": 0
-  },
-  "height": 15,
-  "weight": 610,
-  "aspects": [],
-  "cannotDynamax": false,
-  "drops": {
-    "amount": 1,
-    "entries": [
-      {
-        "item": "cobblemon:roseli_berry",
-        "percentage": 10.0
-      }
-    ]
-  }
+  "temporaryForms": [
+    {
+      "name": "Gmax",
+      "primaryType": "dark",
+      "secondaryType": "fairy",
+      "abilities": [
+        "prankster",
+        "frisk",
+        "h:pickpocket"
+      ],
+      "baseStats": {
+        "hp": 95,
+        "attack": 120,
+        "defence": 65,
+        "special_attack": 95,
+        "special_defence": 75,
+        "speed": 60
+      },
+      "catchRate": 45,
+      "maleRatio": 1,
+      "baseFriendship": 50,
+      "experienceGroup": "medium_fast",
+      "eggCycles": 20,
+      "eggGroups": [
+        "fairy",
+        "human_like"
+      ],
+      "height": 320,
+      "weight": 0,
+      "labels": [
+        "gen8",
+        "gmax"
+      ],
+      "aspects": [
+        "gmax"
+      ],
+      "baseExperienceYield": 255,
+      "evYield": {
+        "hp": 0,
+        "attack": 3,
+        "defence": 0,
+        "special_attack": 0,
+        "special_defence": 0,
+        "speed": 0
+      },
+      "cannotDynamax": false,
+      "battleOnly": false
+    }
+  ]
 }

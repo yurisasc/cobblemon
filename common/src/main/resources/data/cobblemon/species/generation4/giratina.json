@@ -17,9 +17,23 @@
   },
   "catchRate": 3,
   "maleRatio": -1,
-  "shoulderMountable": false,
-  "baseExperienceYield": 340,
   "baseFriendship": 0,
+  "experienceGroup": "slow",
+  "eggCycles": 120,
+  "eggGroups": [
+    "undiscovered"
+  ],
+  "height": 45,
+  "weight": 7500,
+  "pokedex": [
+    "cobblemon.species.giratina.desc"
+  ],
+  "labels": [
+    "gen4",
+    "legendary"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 340,
   "evYield": {
     "hp": 3,
     "attack": 0,
@@ -28,11 +42,8 @@
     "special_defence": 0,
     "speed": 0
   },
-  "experienceGroup": "slow",
-  "eggCycles": 120,
-  "eggGroups": [
-    "undiscovered"
-  ],
+  "cannotDynamax": false,
+  "shoulderMountable": false,
   "moves": [
     "1:defog",
     "1:dragonbreath",
@@ -175,17 +186,8 @@
     "tutor:telekinesis",
     "tutor:twister"
   ],
-  "labels": [
-    "gen4",
-    "legendary"
-  ],
-  "pokedex": [
-    "cobblemon.species.giratina.desc"
-  ],
-  "height": 45,
-  "weight": 7500,
   "evolutions": [],
-  "forms": [
+  "temporaryForms": [
     {
       "name": "Origin",
       "primaryType": "ghost",
@@ -203,8 +205,22 @@
       },
       "catchRate": 3,
       "maleRatio": -1,
-      "baseExperienceYield": 340,
       "baseFriendship": 0,
+      "experienceGroup": "slow",
+      "eggCycles": 120,
+      "eggGroups": [
+        "undiscovered"
+      ],
+      "height": 69,
+      "weight": 6500,
+      "labels": [
+        "gen4",
+        "legendary"
+      ],
+      "aspects": [
+        "origin"
+      ],
+      "baseExperienceYield": 340,
       "evYield": {
         "hp": 3,
         "attack": 0,
@@ -213,24 +229,8 @@
         "special_defence": 0,
         "speed": 0
       },
-      "experienceGroup": "slow",
-      "eggCycles": 120,
-      "eggGroups": [
-        "undiscovered"
-      ],
-      "labels": [
-        "gen4",
-        "legendary"
-      ],
-      "aspects": [
-        "origin"
-      ],
-      "height": 69,
-      "weight": 6500,
       "cannotDynamax": false,
       "battleOnly": false
     }
-  ],
-  "aspects": [],
-  "cannotDynamax": false
+  ]
 }

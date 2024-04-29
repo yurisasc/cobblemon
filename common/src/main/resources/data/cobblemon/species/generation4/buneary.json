@@ -8,6 +8,41 @@
     "klutz",
     "h:limber"
   ],
+  "baseStats": {
+    "hp": 55,
+    "attack": 66,
+    "defence": 44,
+    "special_attack": 44,
+    "special_defence": 56,
+    "speed": 85
+  },
+  "catchRate": 190,
+  "maleRatio": 0.5,
+  "baseFriendship": 0,
+  "experienceGroup": "medium_fast",
+  "eggCycles": 20,
+  "eggGroups": [
+    "field",
+    "human_like"
+  ],
+  "height": 4,
+  "weight": 55,
+  "pokedex": [
+    "cobblemon.species.buneary.desc"
+  ],
+  "labels": [
+    "gen4"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 70,
+  "evYield": {
+    "hp": 0,
+    "attack": 0,
+    "defence": 0,
+    "special_attack": 0,
+    "special_defence": 0,
+    "speed": 1
+  },
   "drops": {
     "amount": 5,
     "entries": [
@@ -32,24 +67,14 @@
       }
     ]
   },
-  "baseStats": {
-    "hp": 55,
-    "attack": 66,
-    "defence": 44,
-    "special_attack": 44,
-    "special_defence": 56,
-    "speed": 85
+  "baseScale": 0.5,
+  "hitbox": {
+    "width": 0.8,
+    "height": 1.5,
+    "fixed": false
   },
-  "catchRate": 190,
-  "maleRatio": 0.5,
+  "cannotDynamax": false,
   "shoulderMountable": false,
-  "baseExperienceYield": 70,
-  "experienceGroup": "medium_fast",
-  "eggCycles": 20,
-  "eggGroups": [
-    "field",
-    "human_like"
-  ],
   "moves": [
     "1:defensecurl",
     "1:foresight",
@@ -195,44 +220,20 @@
     "tutor:uproar",
     "tutor:waterpulse"
   ],
-  "labels": [
-    "gen4"
-  ],
-  "pokedex": [
-    "cobblemon.species.buneary.desc"
-  ],
   "evolutions": [
     {
       "id": "buneary_lopunny",
-      "variant": "level_up",
       "result": "lopunny",
-      "consumeHeldItem": false,
       "learnableMoves": [],
       "requirements": [
         {
           "variant": "friendship",
           "amount": 160
         }
-      ]
+      ],
+      "trigger": {
+        "variant": "level_up"
+      }
     }
-  ],
-  "baseScale": 0.5,
-  "hitbox": {
-    "width": 0.8,
-    "height": 1.5,
-    "fixed": false
-  },
-  "baseFriendship": 0,
-  "evYield": {
-    "hp": 0,
-    "attack": 0,
-    "defence": 0,
-    "special_attack": 0,
-    "special_defence": 0,
-    "speed": 1
-  },
-  "height": 4,
-  "weight": 55,
-  "aspects": [],
-  "cannotDynamax": false
+  ]
 }

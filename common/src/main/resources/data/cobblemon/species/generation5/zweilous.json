@@ -7,6 +7,40 @@
   "abilities": [
     "hustle"
   ],
+  "baseStats": {
+    "hp": 72,
+    "attack": 85,
+    "defence": 70,
+    "special_attack": 65,
+    "special_defence": 70,
+    "speed": 58
+  },
+  "catchRate": 45,
+  "maleRatio": 0.5,
+  "baseFriendship": 35,
+  "experienceGroup": "slow",
+  "eggCycles": 40,
+  "eggGroups": [
+    "dragon"
+  ],
+  "height": 14,
+  "weight": 500,
+  "pokedex": [
+    "cobblemon.species.zweilous.desc"
+  ],
+  "labels": [
+    "gen5"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 147,
+  "evYield": {
+    "hp": 0,
+    "attack": 2,
+    "defence": 0,
+    "special_attack": 0,
+    "special_defence": 0,
+    "speed": 0
+  },
   "drops": {
     "amount": 3,
     "entries": [
@@ -20,23 +54,14 @@
       }
     ]
   },
-  "baseStats": {
-    "hp": 72,
-    "attack": 85,
-    "defence": 70,
-    "special_attack": 65,
-    "special_defence": 70,
-    "speed": 58
+  "baseScale": 0.75,
+  "hitbox": {
+    "width": 1.5,
+    "height": 1.8,
+    "fixed": false
   },
-  "catchRate": 45,
-  "maleRatio": 0.5,
+  "cannotDynamax": false,
   "shoulderMountable": false,
-  "baseExperienceYield": 147,
-  "experienceGroup": "slow",
-  "eggCycles": 40,
-  "eggGroups": [
-    "dragon"
-  ],
   "moves": [
     "1:bite",
     "1:doublehit",
@@ -130,45 +155,21 @@
     "tutor:uproar",
     "tutor:zenheadbutt"
   ],
-  "labels": [
-    "gen5"
-  ],
-  "pokedex": [
-    "cobblemon.species.zweilous.desc"
-  ],
   "preEvolution": "deino",
   "evolutions": [
     {
       "id": "zweilous_hydreigon",
-      "variant": "level_up",
       "result": "hydreigon",
-      "consumeHeldItem": false,
       "learnableMoves": [],
       "requirements": [
         {
           "variant": "level",
           "minLevel": 64
         }
-      ]
+      ],
+      "trigger": {
+        "variant": "level_up"
+      }
     }
-  ],
-  "baseScale": 0.75,
-  "hitbox": {
-    "width": 1.5,
-    "height": 1.8,
-    "fixed": false
-  },
-  "baseFriendship": 35,
-  "evYield": {
-    "hp": 0,
-    "attack": 2,
-    "defence": 0,
-    "special_attack": 0,
-    "special_defence": 0,
-    "speed": 0
-  },
-  "height": 14,
-  "weight": 500,
-  "aspects": [],
-  "cannotDynamax": false
+  ]
 }

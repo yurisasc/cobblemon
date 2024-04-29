@@ -9,15 +9,6 @@
     "innerfocus",
     "h:justified"
   ],
-  "drops": {
-    "amount": 1,
-    "entries": [
-      {
-        "item": "cobblemon:chople_berry",
-        "percentage": 5.0
-      }
-    ]
-  },
   "baseStats": {
     "hp": 70,
     "attack": 110,
@@ -28,61 +19,48 @@
   },
   "catchRate": 45,
   "maleRatio": 0.875,
-  "shoulderMountable": false,
-  "forms": [
-    {
-      "name": "Mega",
-      "primaryType": "fighting",
-      "secondaryType": "steel",
-      "abilities": [
-        "adaptability"
-      ],
-      "baseStats": {
-        "hp": 70,
-        "attack": 145,
-        "defence": 88,
-        "special_attack": 140,
-        "special_defence": 70,
-        "speed": 112
-      },
-      "catchRate": 45,
-      "maleRatio": 0.875,
-      "baseExperienceYield": 184,
-      "baseFriendship": 50,
-      "evYield": {
-        "hp": 0,
-        "attack": 1,
-        "defence": 0,
-        "special_attack": 1,
-        "special_defence": 0,
-        "speed": 0
-      },
-      "experienceGroup": "medium_slow",
-      "eggCycles": 25,
-      "eggGroups": [
-        "field",
-        "human_like"
-      ],
-      "labels": [
-        "gen6",
-        "mega"
-      ],
-      "aspects": [
-        "mega"
-      ],
-      "height": 13,
-      "weight": 575,
-      "cannotDynamax": false,
-      "battleOnly": true
-    }
-  ],
-  "baseExperienceYield": 184,
+  "baseFriendship": 50,
   "experienceGroup": "medium_slow",
   "eggCycles": 25,
   "eggGroups": [
     "field",
     "human_like"
   ],
+  "height": 12,
+  "weight": 540,
+  "pokedex": [
+    "cobblemon.species.lucario.desc"
+  ],
+  "labels": [
+    "gen4"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 184,
+  "evYield": {
+    "hp": 0,
+    "attack": 1,
+    "defence": 0,
+    "special_attack": 1,
+    "special_defence": 0,
+    "speed": 0
+  },
+  "drops": {
+    "amount": 1,
+    "entries": [
+      {
+        "item": "cobblemon:chople_berry",
+        "percentage": 5.0
+      }
+    ]
+  },
+  "baseScale": 0.8,
+  "hitbox": {
+    "width": 0.8,
+    "height": 2.45,
+    "fixed": false
+  },
+  "cannotDynamax": false,
+  "shoulderMountable": false,
   "moves": [
     "1:aurasphere",
     "1:closecombat",
@@ -280,31 +258,53 @@
     "tutor:waterpulse",
     "tutor:zenheadbutt"
   ],
-  "labels": [
-    "gen4"
-  ],
-  "pokedex": [
-    "cobblemon.species.lucario.desc"
-  ],
   "preEvolution": "riolu",
   "evolutions": [],
-  "baseScale": 0.8,
-  "hitbox": {
-    "width": 0.8,
-    "height": 2.45,
-    "fixed": false
-  },
-  "baseFriendship": 50,
-  "evYield": {
-    "hp": 0,
-    "attack": 1,
-    "defence": 0,
-    "special_attack": 1,
-    "special_defence": 0,
-    "speed": 0
-  },
-  "height": 12,
-  "weight": 540,
-  "aspects": [],
-  "cannotDynamax": false
+  "temporaryForms": [
+    {
+      "name": "Mega",
+      "primaryType": "fighting",
+      "secondaryType": "steel",
+      "abilities": [
+        "adaptability"
+      ],
+      "baseStats": {
+        "hp": 70,
+        "attack": 145,
+        "defence": 88,
+        "special_attack": 140,
+        "special_defence": 70,
+        "speed": 112
+      },
+      "catchRate": 45,
+      "maleRatio": 0.875,
+      "baseFriendship": 50,
+      "experienceGroup": "medium_slow",
+      "eggCycles": 25,
+      "eggGroups": [
+        "field",
+        "human_like"
+      ],
+      "height": 13,
+      "weight": 575,
+      "labels": [
+        "gen6",
+        "mega"
+      ],
+      "aspects": [
+        "mega"
+      ],
+      "baseExperienceYield": 184,
+      "evYield": {
+        "hp": 0,
+        "attack": 1,
+        "defence": 0,
+        "special_attack": 1,
+        "special_defence": 0,
+        "speed": 0
+      },
+      "cannotDynamax": false,
+      "battleOnly": true
+    }
+  ]
 }

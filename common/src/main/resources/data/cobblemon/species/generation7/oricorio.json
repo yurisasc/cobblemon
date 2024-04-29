@@ -6,6 +6,40 @@
   "abilities": [
     "dancer"
   ],
+  "baseStats": {
+    "hp": 75,
+    "attack": 70,
+    "defence": 70,
+    "special_attack": 98,
+    "special_defence": 70,
+    "speed": 93
+  },
+  "catchRate": 45,
+  "maleRatio": 0.25,
+  "baseFriendship": 70,
+  "experienceGroup": "medium_fast",
+  "eggCycles": 20,
+  "eggGroups": [
+    "flying"
+  ],
+  "height": 6,
+  "weight": 34,
+  "pokedex": [
+    "cobblemon.species.oricorio.desc"
+  ],
+  "labels": [
+    "gen7"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 167,
+  "evYield": {
+    "hp": 0,
+    "attack": 0,
+    "defence": 0,
+    "special_attack": 2,
+    "special_defence": 0,
+    "speed": 0
+  },
   "drops": {
     "amount": 5,
     "entries": [
@@ -26,32 +60,8 @@
       }
     ]
   },
-  "baseStats": {
-    "hp": 75,
-    "attack": 70,
-    "defence": 70,
-    "special_attack": 98,
-    "special_defence": 70,
-    "speed": 93
-  },
-  "catchRate": 45,
-  "maleRatio": 0.25,
+  "cannotDynamax": false,
   "shoulderMountable": false,
-  "baseExperienceYield": 167,
-  "baseFriendship": 70,
-  "evYield": {
-    "hp": 0,
-    "attack": 0,
-    "defence": 0,
-    "special_attack": 2,
-    "special_defence": 0,
-    "speed": 0
-  },
-  "experienceGroup": "medium_fast",
-  "eggCycles": 20,
-  "eggGroups": [
-    "flying"
-  ],
   "moves": [
     "1:pound",
     "4:growl",
@@ -136,16 +146,8 @@
     "tutor:snore",
     "tutor:tailwind"
   ],
-  "labels": [
-    "gen7"
-  ],
-  "pokedex": [
-    "cobblemon.species.oricorio.desc"
-  ],
-  "height": 6,
-  "weight": 34,
   "evolutions": [],
-  "forms": [
+  "temporaryForms": [
     {
       "name": "Pom-Pom",
       "primaryType": "electric",
@@ -163,8 +165,21 @@
       },
       "catchRate": 45,
       "maleRatio": 0.25,
-      "baseExperienceYield": 167,
       "baseFriendship": 70,
+      "experienceGroup": "medium_fast",
+      "eggCycles": 20,
+      "eggGroups": [
+        "flying"
+      ],
+      "height": 6,
+      "weight": 34,
+      "labels": [
+        "gen7"
+      ],
+      "aspects": [
+        "pom-pom"
+      ],
+      "baseExperienceYield": 167,
       "evYield": {
         "hp": 0,
         "attack": 0,
@@ -173,19 +188,6 @@
         "special_defence": 0,
         "speed": 0
       },
-      "experienceGroup": "medium_fast",
-      "eggCycles": 20,
-      "eggGroups": [
-        "flying"
-      ],
-      "labels": [
-        "gen7"
-      ],
-      "aspects": [
-        "pom-pom"
-      ],
-      "height": 6,
-      "weight": 34,
       "cannotDynamax": false,
       "battleOnly": false
     },
@@ -206,8 +208,21 @@
       },
       "catchRate": 45,
       "maleRatio": 0.25,
-      "baseExperienceYield": 167,
       "baseFriendship": 70,
+      "experienceGroup": "medium_fast",
+      "eggCycles": 20,
+      "eggGroups": [
+        "flying"
+      ],
+      "height": 6,
+      "weight": 34,
+      "labels": [
+        "gen7"
+      ],
+      "aspects": [
+        "pa'u"
+      ],
+      "baseExperienceYield": 167,
       "evYield": {
         "hp": 0,
         "attack": 0,
@@ -216,19 +231,6 @@
         "special_defence": 0,
         "speed": 0
       },
-      "experienceGroup": "medium_fast",
-      "eggCycles": 20,
-      "eggGroups": [
-        "flying"
-      ],
-      "labels": [
-        "gen7"
-      ],
-      "aspects": [
-        "pa'u"
-      ],
-      "height": 6,
-      "weight": 34,
       "cannotDynamax": false,
       "battleOnly": false
     },
@@ -249,8 +251,21 @@
       },
       "catchRate": 45,
       "maleRatio": 0.25,
-      "baseExperienceYield": 167,
       "baseFriendship": 70,
+      "experienceGroup": "medium_fast",
+      "eggCycles": 20,
+      "eggGroups": [
+        "flying"
+      ],
+      "height": 6,
+      "weight": 34,
+      "labels": [
+        "gen7"
+      ],
+      "aspects": [
+        "sensu"
+      ],
+      "baseExperienceYield": 167,
       "evYield": {
         "hp": 0,
         "attack": 0,
@@ -259,23 +274,8 @@
         "special_defence": 0,
         "speed": 0
       },
-      "experienceGroup": "medium_fast",
-      "eggCycles": 20,
-      "eggGroups": [
-        "flying"
-      ],
-      "labels": [
-        "gen7"
-      ],
-      "aspects": [
-        "sensu"
-      ],
-      "height": 6,
-      "weight": 34,
       "cannotDynamax": false,
       "battleOnly": false
     }
-  ],
-  "aspects": [],
-  "cannotDynamax": false
+  ]
 }

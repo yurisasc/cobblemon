@@ -18,8 +18,22 @@
   },
   "catchRate": 25,
   "maleRatio": 0.5,
-  "baseExperienceYield": 275,
   "baseFriendship": 50,
+  "experienceGroup": "medium_fast",
+  "eggCycles": 20,
+  "eggGroups": [
+    "human_like"
+  ],
+  "height": 20,
+  "weight": 1200,
+  "pokedex": [
+    "cobblemon.species.kingambit.desc"
+  ],
+  "labels": [
+    "gen9"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 275,
   "evYield": {
     "hp": 0,
     "attack": 3,
@@ -28,11 +42,20 @@
     "special_defence": 0,
     "speed": 0
   },
-  "experienceGroup": "medium_fast",
-  "eggCycles": 20,
-  "eggGroups": [
-    "human_like"
-  ],
+  "drops": {
+    "amount": 2,
+    "entries": [
+      {
+        "item": "cobblemon:rocky_helmet",
+        "percentage": 5.0
+      },
+      {
+        "item": "cobblemon:cheri_berry",
+        "percentage": 5.0
+      }
+    ]
+  },
+  "cannotDynamax": false,
   "moves": [
     "1:furycutter",
     "1:leer",
@@ -95,29 +118,6 @@
     "tm:xscissor",
     "tm:zenheadbutt"
   ],
-  "labels": [
-    "gen9"
-  ],
-  "aspects": [],
-  "height": 20,
-  "weight": 1200,
   "preEvolution": "bisharp",
-  "evolutions": [],
-  "cannotDynamax": false,
-  "pokedex": [
-    "cobblemon.species.kingambit.desc"
-  ],
-  "drops": {
-    "amount": 2,
-    "entries": [
-      {
-        "item": "cobblemon:rocky_helmet",
-        "percentage": 5.0
-      },
-      {
-        "item": "cobblemon:cheri_berry",
-        "percentage": 5.0
-      }
-    ]
-  }
+  "evolutions": []
 }

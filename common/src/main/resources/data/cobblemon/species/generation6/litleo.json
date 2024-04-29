@@ -18,13 +18,55 @@
   },
   "catchRate": 220,
   "maleRatio": 0.125,
-  "shoulderMountable": false,
-  "baseExperienceYield": 74,
+  "baseFriendship": 70,
   "experienceGroup": "medium_slow",
   "eggCycles": 20,
   "eggGroups": [
     "field"
   ],
+  "height": 6,
+  "weight": 135,
+  "pokedex": [
+    "cobblemon.species.litleo.desc"
+  ],
+  "labels": [
+    "gen6"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 74,
+  "evYield": {
+    "hp": 0,
+    "attack": 0,
+    "defence": 0,
+    "special_attack": 1,
+    "special_defence": 0,
+    "speed": 0
+  },
+  "drops": {
+    "amount": 3,
+    "entries": [
+      {
+        "item": "minecraft:rotten_flesh",
+        "quantityRange": "0-1"
+      },
+      {
+        "item": "minecraft:blaze_powder",
+        "percentage": 2.5
+      },
+      {
+        "item": "cobblemon:rawst_berry",
+        "percentage": 2.5
+      }
+    ]
+  },
+  "baseScale": 1,
+  "hitbox": {
+    "width": 1,
+    "height": 1,
+    "fixed": false
+  },
+  "cannotDynamax": false,
+  "shoulderMountable": false,
   "moves": [
     "1:leer",
     "1:tackle",
@@ -111,61 +153,20 @@
     "tutor:snatch",
     "tutor:snore"
   ],
-  "labels": [
-    "gen6"
-  ],
-  "pokedex": [
-    "cobblemon.species.litleo.desc"
-  ],
   "evolutions": [
     {
       "id": "litleo_pyroar",
-      "variant": "level_up",
       "result": "pyroar",
-      "consumeHeldItem": false,
       "learnableMoves": [],
       "requirements": [
         {
           "variant": "level",
           "minLevel": 35
         }
-      ]
-    }
-  ],
-  "baseScale": 1,
-  "hitbox": {
-    "width": 1,
-    "height": 1,
-    "fixed": false
-  },
-  "baseFriendship": 70,
-  "evYield": {
-    "hp": 0,
-    "attack": 0,
-    "defence": 0,
-    "special_attack": 1,
-    "special_defence": 0,
-    "speed": 0
-  },
-  "height": 6,
-  "weight": 135,
-  "aspects": [],
-  "cannotDynamax": false,
-  "drops": {
-    "amount": 3,
-    "entries": [
-      {
-        "item": "minecraft:rotten_flesh",
-        "quantityRange": "0-1"
-      },
-      {
-        "item": "minecraft:blaze_powder",
-        "percentage": 2.5
-      },
-      {
-        "item": "cobblemon:rawst_berry",
-        "percentage": 2.5
+      ],
+      "trigger": {
+        "variant": "level_up"
       }
-    ]
-  }
+    }
+  ]
 }

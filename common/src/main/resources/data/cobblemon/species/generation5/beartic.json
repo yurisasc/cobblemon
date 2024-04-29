@@ -8,6 +8,40 @@
     "slushrush",
     "h:swiftswim"
   ],
+  "baseStats": {
+    "hp": 95,
+    "attack": 130,
+    "defence": 80,
+    "special_attack": 70,
+    "special_defence": 80,
+    "speed": 50
+  },
+  "catchRate": 60,
+  "maleRatio": 0.5,
+  "baseFriendship": 50,
+  "experienceGroup": "medium_fast",
+  "eggCycles": 20,
+  "eggGroups": [
+    "field"
+  ],
+  "height": 26,
+  "weight": 2600,
+  "pokedex": [
+    "cobblemon.species.beartic.desc"
+  ],
+  "labels": [
+    "gen5"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 177,
+  "evYield": {
+    "hp": 0,
+    "attack": 2,
+    "defence": 0,
+    "special_attack": 0,
+    "special_defence": 0,
+    "speed": 0
+  },
   "drops": {
     "amount": 5,
     "entries": [
@@ -25,14 +59,14 @@
       }
     ]
   },
-  "baseStats": {
-    "hp": 95,
-    "attack": 130,
-    "defence": 80,
-    "special_attack": 70,
-    "special_defence": 80,
-    "speed": 50
+  "baseScale": 1.3,
+  "hitbox": {
+    "width": 1.2,
+    "height": 2.15,
+    "fixed": false
   },
+  "cannotDynamax": false,
+  "shoulderMountable": false,
   "behaviour": {
     "moving": {
       "swim": {
@@ -48,15 +82,6 @@
       "light": "0-4"
     }
   },
-  "catchRate": 60,
-  "maleRatio": 0.5,
-  "shoulderMountable": false,
-  "baseExperienceYield": 177,
-  "experienceGroup": "medium_fast",
-  "eggCycles": 20,
-  "eggGroups": [
-    "field"
-  ],
   "moves": [
     "1:aquajet",
     "1:bide",
@@ -179,31 +204,6 @@
     "tutor:throatchop",
     "tutor:waterpulse"
   ],
-  "labels": [
-    "gen5"
-  ],
-  "pokedex": [
-    "cobblemon.species.beartic.desc"
-  ],
   "preEvolution": "cubchoo",
-  "evolutions": [],
-  "baseScale": 1.3,
-  "hitbox": {
-    "width": 1.2,
-    "height": 2.15,
-    "fixed": false
-  },
-  "baseFriendship": 50,
-  "evYield": {
-    "hp": 0,
-    "attack": 2,
-    "defence": 0,
-    "special_attack": 0,
-    "special_defence": 0,
-    "speed": 0
-  },
-  "height": 26,
-  "weight": 2600,
-  "aspects": [],
-  "cannotDynamax": false
+  "evolutions": []
 }

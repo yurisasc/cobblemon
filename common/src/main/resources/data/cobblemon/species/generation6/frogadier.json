@@ -15,6 +15,53 @@
     "special_defence": 56,
     "speed": 97
   },
+  "catchRate": 45,
+  "maleRatio": 0.875,
+  "baseFriendship": 70,
+  "experienceGroup": "medium_slow",
+  "eggCycles": 20,
+  "eggGroups": [
+    "water_1"
+  ],
+  "height": 6,
+  "weight": 109,
+  "pokedex": [
+    "cobblemon.species.frogadier.desc"
+  ],
+  "labels": [
+    "gen6"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 142,
+  "evYield": {
+    "hp": 0,
+    "attack": 0,
+    "defence": 0,
+    "special_attack": 0,
+    "special_defence": 0,
+    "speed": 2
+  },
+  "drops": {
+    "amount": 3,
+    "entries": [
+      {
+        "item": "minecraft:pearlescent_froglight",
+        "quantityRange": "0-2"
+      },
+      {
+        "item": "cobblemon:mystic_water",
+        "percentage": 10.0
+      }
+    ]
+  },
+  "baseScale": 0.6,
+  "hitbox": {
+    "width": 0.9,
+    "height": 2,
+    "fixed": false
+  },
+  "cannotDynamax": false,
+  "shoulderMountable": false,
   "behaviour": {
     "resting": {
       "canSleep": true,
@@ -28,28 +75,6 @@
         "canBreatheUnderwater": true
       }
     }
-  },
-  "catchRate": 45,
-  "maleRatio": 0.875,
-  "shoulderMountable": false,
-  "baseExperienceYield": 142,
-  "experienceGroup": "medium_slow",
-  "eggCycles": 20,
-  "eggGroups": [
-    "water_1"
-  ],
-  "drops": {
-    "amount": 3,
-    "entries": [
-      {
-        "item": "minecraft:pearlescent_froglight",
-        "quantityRange": "0-2"
-      },
-      {
-        "item": "cobblemon:mystic_water",
-        "percentage": 10.0
-      }
-    ]
   },
   "moves": [
     "1:bubble",
@@ -141,19 +166,11 @@
     "tutor:waterpledge",
     "tutor:waterpulse"
   ],
-  "labels": [
-    "gen6"
-  ],
-  "pokedex": [
-    "cobblemon.species.frogadier.desc"
-  ],
   "preEvolution": "froakie",
   "evolutions": [
     {
       "id": "frogadier_greninja",
-      "variant": "level_up",
       "result": "greninja",
-      "consumeHeldItem": false,
       "learnableMoves": [
         "watershuriken"
       ],
@@ -162,26 +179,10 @@
           "variant": "level",
           "minLevel": 36
         }
-      ]
+      ],
+      "trigger": {
+        "variant": "level_up"
+      }
     }
-  ],
-  "baseScale": 0.6,
-  "hitbox": {
-    "width": 0.9,
-    "height": 2,
-    "fixed": false
-  },
-  "baseFriendship": 70,
-  "evYield": {
-    "hp": 0,
-    "attack": 0,
-    "defence": 0,
-    "special_attack": 0,
-    "special_defence": 0,
-    "speed": 2
-  },
-  "height": 6,
-  "weight": 109,
-  "aspects": [],
-  "cannotDynamax": false
+  ]
 }

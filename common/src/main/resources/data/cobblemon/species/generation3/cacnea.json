@@ -7,6 +7,41 @@
     "sandveil",
     "h:waterabsorb"
   ],
+  "baseStats": {
+    "hp": 50,
+    "attack": 85,
+    "defence": 40,
+    "special_attack": 85,
+    "special_defence": 40,
+    "speed": 35
+  },
+  "catchRate": 190,
+  "maleRatio": 0.7,
+  "baseFriendship": 35,
+  "experienceGroup": "medium_slow",
+  "eggCycles": 20,
+  "eggGroups": [
+    "grass",
+    "human_like"
+  ],
+  "height": 4,
+  "weight": 513,
+  "pokedex": [
+    "cobblemon.species.cacnea.desc"
+  ],
+  "labels": [
+    "gen3"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 67,
+  "evYield": {
+    "hp": 0,
+    "attack": 0,
+    "defence": 0,
+    "special_attack": 1,
+    "special_defence": 0,
+    "speed": 0
+  },
   "drops": {
     "amount": 4,
     "entries": [
@@ -28,24 +63,14 @@
       }
     ]
   },
-  "baseStats": {
-    "hp": 50,
-    "attack": 85,
-    "defence": 40,
-    "special_attack": 85,
-    "special_defence": 40,
-    "speed": 35
+  "baseScale": 0.7,
+  "hitbox": {
+    "width": 0.9,
+    "height": 0.9,
+    "fixed": false
   },
-  "catchRate": 190,
-  "maleRatio": 0.7,
+  "cannotDynamax": false,
   "shoulderMountable": false,
-  "baseExperienceYield": 67,
-  "experienceGroup": "medium_slow",
-  "eggCycles": 20,
-  "eggGroups": [
-    "grass",
-    "human_like"
-  ],
   "behaviour": {
     "resting": {
       "canSleep": true,
@@ -198,18 +223,10 @@
     "tutor:thunderpunch",
     "tutor:worryseed"
   ],
-  "labels": [
-    "gen3"
-  ],
-  "pokedex": [
-    "cobblemon.species.cacnea.desc"
-  ],
   "evolutions": [
     {
       "id": "cacnea_cacturne",
-      "variant": "level_up",
       "result": "cacturne",
-      "consumeHeldItem": false,
       "learnableMoves": [
         "spikyshield"
       ],
@@ -218,26 +235,10 @@
           "variant": "level",
           "minLevel": 32
         }
-      ]
+      ],
+      "trigger": {
+        "variant": "level_up"
+      }
     }
-  ],
-  "baseScale": 0.7,
-  "hitbox": {
-    "width": 0.9,
-    "height": 0.9,
-    "fixed": false
-  },
-  "baseFriendship": 35,
-  "evYield": {
-    "hp": 0,
-    "attack": 0,
-    "defence": 0,
-    "special_attack": 1,
-    "special_defence": 0,
-    "speed": 0
-  },
-  "height": 4,
-  "weight": 513,
-  "aspects": [],
-  "cannotDynamax": false
+  ]
 }

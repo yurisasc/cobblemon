@@ -16,9 +16,23 @@
   },
   "catchRate": 60,
   "maleRatio": 0.5,
-  "shoulderMountable": false,
-  "baseExperienceYield": 165,
   "baseFriendship": 50,
+  "experienceGroup": "slow",
+  "eggCycles": 25,
+  "eggGroups": [
+    "water_1",
+    "field"
+  ],
+  "height": 14,
+  "weight": 890,
+  "pokedex": [
+    "cobblemon.species.eiscue.desc"
+  ],
+  "labels": [
+    "gen8"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 165,
   "evYield": {
     "hp": 0,
     "attack": 0,
@@ -27,12 +41,6 @@
     "special_defence": 0,
     "speed": 0
   },
-  "experienceGroup": "slow",
-  "eggCycles": 25,
-  "eggGroups": [
-    "water_1",
-    "field"
-  ],
   "drops": {
     "amount": 5,
     "entries": [
@@ -56,6 +64,8 @@
       }
     ]
   },
+  "cannotDynamax": false,
+  "shoulderMountable": false,
   "behaviour": {
     "resting": {
       "canSleep": true,
@@ -129,21 +139,48 @@
     "tm:whirlpool",
     "tm:zenheadbutt"
   ],
-  "labels": [
-    "gen8"
-  ],
-  "aspects": [],
-  "height": 14,
-  "weight": 890,
   "evolutions": [],
-  "cannotDynamax": false,
-  "forms": [
+  "temporaryForms": [
     {
       "name": "Noice",
       "primaryType": "ice",
       "abilities": [
         "iceface"
       ],
+      "baseStats": {
+        "hp": 75,
+        "attack": 80,
+        "defence": 70,
+        "special_attack": 65,
+        "special_defence": 50,
+        "speed": 130
+      },
+      "catchRate": 60,
+      "maleRatio": 0.5,
+      "baseFriendship": 50,
+      "experienceGroup": "slow",
+      "eggCycles": 25,
+      "eggGroups": [
+        "water_1",
+        "field"
+      ],
+      "height": 14,
+      "weight": 890,
+      "labels": [
+        "gen8"
+      ],
+      "aspects": [
+        "noice"
+      ],
+      "baseExperienceYield": 165,
+      "evYield": {
+        "hp": 0,
+        "attack": 0,
+        "defence": 2,
+        "special_attack": 0,
+        "special_defence": 0,
+        "speed": 0
+      },
       "drops": {
         "amount": 4,
         "entries": [
@@ -164,45 +201,8 @@
           }
         ]
       },
-      "baseStats": {
-        "hp": 75,
-        "attack": 80,
-        "defence": 70,
-        "special_attack": 65,
-        "special_defence": 50,
-        "speed": 130
-      },
-      "catchRate": 60,
-      "maleRatio": 0.5,
-      "baseExperienceYield": 165,
-      "baseFriendship": 50,
-      "evYield": {
-        "hp": 0,
-        "attack": 0,
-        "defence": 2,
-        "special_attack": 0,
-        "special_defence": 0,
-        "speed": 0
-      },
-      "experienceGroup": "slow",
-      "eggCycles": 25,
-      "eggGroups": [
-        "water_1",
-        "field"
-      ],
-      "labels": [
-        "gen8"
-      ],
-      "aspects": [
-        "noice"
-      ],
-      "height": 14,
-      "weight": 890,
       "cannotDynamax": false,
       "battleOnly": true
     }
-  ],
-  "pokedex": [
-    "cobblemon.species.eiscue.desc"
   ]
 }

@@ -9,15 +9,6 @@
     "ironfist",
     "h:angerpoint"
   ],
-  "drops": {
-    "amount": 1,
-    "entries": [
-      {
-        "item": "cobblemon:aspear_berry",
-        "percentage": 5.0
-      }
-    ]
-  },
   "baseStats": {
     "hp": 97,
     "attack": 132,
@@ -28,13 +19,47 @@
   },
   "catchRate": 60,
   "maleRatio": 0.5,
-  "shoulderMountable": false,
-  "baseExperienceYield": 167,
+  "baseFriendship": 70,
   "experienceGroup": "medium_fast",
   "eggCycles": 20,
   "eggGroups": [
     "water_3"
   ],
+  "height": 17,
+  "weight": 1800,
+  "pokedex": [
+    "cobblemon.species.crabominable.desc"
+  ],
+  "labels": [
+    "gen7"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 167,
+  "evYield": {
+    "hp": 0,
+    "attack": 2,
+    "defence": 0,
+    "special_attack": 0,
+    "special_defence": 0,
+    "speed": 0
+  },
+  "drops": {
+    "amount": 1,
+    "entries": [
+      {
+        "item": "cobblemon:aspear_berry",
+        "percentage": 5.0
+      }
+    ]
+  },
+  "baseScale": 0.8,
+  "hitbox": {
+    "width": 1.8,
+    "height": 2.7,
+    "fixed": false
+  },
+  "cannotDynamax": false,
+  "shoulderMountable": false,
   "moves": [
     "1:bubble",
     "1:icepunch",
@@ -137,31 +162,6 @@
     "tutor:thunderpunch",
     "tutor:zenheadbutt"
   ],
-  "labels": [
-    "gen7"
-  ],
-  "pokedex": [
-    "cobblemon.species.crabominable.desc"
-  ],
   "preEvolution": "crabrawler",
-  "evolutions": [],
-  "baseScale": 0.8,
-  "hitbox": {
-    "width": 1.8,
-    "height": 2.7,
-    "fixed": false
-  },
-  "baseFriendship": 70,
-  "evYield": {
-    "hp": 0,
-    "attack": 2,
-    "defence": 0,
-    "special_attack": 0,
-    "special_defence": 0,
-    "speed": 0
-  },
-  "height": 17,
-  "weight": 1800,
-  "aspects": [],
-  "cannotDynamax": false
+  "evolutions": []
 }

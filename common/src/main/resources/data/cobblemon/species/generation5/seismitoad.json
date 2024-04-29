@@ -8,6 +8,40 @@
     "poisontouch",
     "h:waterabsorb"
   ],
+  "baseStats": {
+    "hp": 105,
+    "attack": 95,
+    "defence": 75,
+    "special_attack": 85,
+    "special_defence": 75,
+    "speed": 74
+  },
+  "catchRate": 45,
+  "maleRatio": 0.5,
+  "baseFriendship": 50,
+  "experienceGroup": "medium_slow",
+  "eggCycles": 20,
+  "eggGroups": [
+    "water_1"
+  ],
+  "height": 15,
+  "weight": 620,
+  "pokedex": [
+    "cobblemon.species.seismitoad.desc"
+  ],
+  "labels": [
+    "gen5"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 255,
+  "evYield": {
+    "hp": 3,
+    "attack": 0,
+    "defence": 0,
+    "special_attack": 0,
+    "special_defence": 0,
+    "speed": 0
+  },
   "drops": {
     "amount": 4,
     "entries": [
@@ -21,23 +55,14 @@
       }
     ]
   },
-  "baseStats": {
-    "hp": 105,
-    "attack": 95,
-    "defence": 75,
-    "special_attack": 85,
-    "special_defence": 75,
-    "speed": 74
+  "baseScale": 1,
+  "hitbox": {
+    "width": 1,
+    "height": 1,
+    "fixed": false
   },
-  "catchRate": 45,
-  "maleRatio": 0.5,
+  "cannotDynamax": false,
   "shoulderMountable": false,
-  "baseExperienceYield": 255,
-  "experienceGroup": "medium_slow",
-  "eggCycles": 20,
-  "eggGroups": [
-    "water_1"
-  ],
   "moves": [
     "1:acid",
     "1:bubble",
@@ -138,31 +163,6 @@
     "tutor:uproar",
     "tutor:waterpulse"
   ],
-  "labels": [
-    "gen5"
-  ],
-  "pokedex": [
-    "cobblemon.species.seismitoad.desc"
-  ],
   "preEvolution": "palpitoad",
-  "evolutions": [],
-  "baseScale": 1,
-  "hitbox": {
-    "width": 1,
-    "height": 1,
-    "fixed": false
-  },
-  "baseFriendship": 50,
-  "evYield": {
-    "hp": 3,
-    "attack": 0,
-    "defence": 0,
-    "special_attack": 0,
-    "special_defence": 0,
-    "speed": 0
-  },
-  "height": 15,
-  "weight": 620,
-  "aspects": [],
-  "cannotDynamax": false
+  "evolutions": []
 }

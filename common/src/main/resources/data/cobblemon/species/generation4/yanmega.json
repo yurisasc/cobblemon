@@ -19,13 +19,47 @@
   },
   "catchRate": 30,
   "maleRatio": 0.5,
-  "shoulderMountable": false,
-  "baseExperienceYield": 180,
+  "baseFriendship": 70,
   "experienceGroup": "medium_fast",
   "eggCycles": 20,
   "eggGroups": [
     "bug"
   ],
+  "height": 19,
+  "weight": 515,
+  "pokedex": [
+    "cobblemon.species.yanmega.desc"
+  ],
+  "labels": [
+    "gen4"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 180,
+  "evYield": {
+    "hp": 0,
+    "attack": 2,
+    "defence": 0,
+    "special_attack": 0,
+    "special_defence": 0,
+    "speed": 0
+  },
+  "drops": {
+    "amount": 1,
+    "entries": [
+      {
+        "item": "cobblemon:charti_berry",
+        "percentage": 5.0
+      }
+    ]
+  },
+  "baseScale": 1,
+  "hitbox": {
+    "width": 1.4,
+    "height": 0.6,
+    "fixed": false
+  },
+  "cannotDynamax": false,
+  "shoulderMountable": false,
   "behaviour": {
     "moving": {
       "fly": {
@@ -139,40 +173,6 @@
     "tutor:tailwind",
     "tutor:uproar"
   ],
-  "labels": [
-    "gen4"
-  ],
-  "pokedex": [
-    "cobblemon.species.yanmega.desc"
-  ],
   "preEvolution": "yanma",
-  "evolutions": [],
-  "baseScale": 1,
-  "hitbox": {
-    "width": 1.4,
-    "height": 0.6,
-    "fixed": false
-  },
-  "baseFriendship": 70,
-  "evYield": {
-    "hp": 0,
-    "attack": 2,
-    "defence": 0,
-    "special_attack": 0,
-    "special_defence": 0,
-    "speed": 0
-  },
-  "height": 19,
-  "weight": 515,
-  "aspects": [],
-  "cannotDynamax": false,
-  "drops": {
-    "amount": 1,
-    "entries": [
-      {
-        "item": "cobblemon:charti_berry",
-        "percentage": 5.0
-      }
-    ]
-  }
+  "evolutions": []
 }

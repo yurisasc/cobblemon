@@ -17,21 +17,30 @@
   },
   "catchRate": 45,
   "maleRatio": 0.875,
-  "shoulderMountable": false,
-  "baseExperienceYield": 62,
+  "baseFriendship": 50,
   "experienceGroup": "medium_slow",
   "eggCycles": 20,
   "eggGroups": [
     "monster",
     "water_1"
   ],
-  "behaviour": {
-    "moving": {
-      "swim": {
-        "canSwimInWater": true,
-        "canBreatheUnderwater": true
-      }
-    }
+  "height": 4,
+  "weight": 76,
+  "pokedex": [
+    "cobblemon.species.mudkip.desc"
+  ],
+  "labels": [
+    "gen3"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 62,
+  "evYield": {
+    "hp": 0,
+    "attack": 1,
+    "defence": 0,
+    "special_attack": 0,
+    "special_defence": 0,
+    "speed": 0
   },
   "drops": {
     "amount": 2,
@@ -45,6 +54,22 @@
         "percentage": 5.0
       }
     ]
+  },
+  "baseScale": 0.7,
+  "hitbox": {
+    "width": 0.9,
+    "height": 0.8,
+    "fixed": false
+  },
+  "cannotDynamax": false,
+  "shoulderMountable": false,
+  "behaviour": {
+    "moving": {
+      "swim": {
+        "canSwimInWater": true,
+        "canBreatheUnderwater": true
+      }
+    }
   },
   "moves": [
     "1:growl",
@@ -173,18 +198,10 @@
     "tutor:waterpledge",
     "tutor:waterpulse"
   ],
-  "labels": [
-    "gen3"
-  ],
-  "pokedex": [
-    "cobblemon.species.mudkip.desc"
-  ],
   "evolutions": [
     {
       "id": "mudkip_marshtomp",
-      "variant": "level_up",
       "result": "marshtomp",
-      "consumeHeldItem": false,
       "learnableMoves": [
         "mudshot"
       ],
@@ -193,26 +210,10 @@
           "variant": "level",
           "minLevel": 16
         }
-      ]
+      ],
+      "trigger": {
+        "variant": "level_up"
+      }
     }
-  ],
-  "baseScale": 0.7,
-  "hitbox": {
-    "width": 0.9,
-    "height": 0.8,
-    "fixed": false
-  },
-  "baseFriendship": 50,
-  "evYield": {
-    "hp": 0,
-    "attack": 1,
-    "defence": 0,
-    "special_attack": 0,
-    "special_defence": 0,
-    "speed": 0
-  },
-  "height": 4,
-  "weight": 76,
-  "aspects": [],
-  "cannotDynamax": false
+  ]
 }

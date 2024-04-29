@@ -15,13 +15,39 @@
   },
   "catchRate": 3,
   "maleRatio": 0,
-  "shoulderMountable": false,
-  "baseExperienceYield": 300,
+  "baseFriendship": 100,
   "experienceGroup": "slow",
   "eggCycles": 120,
   "eggGroups": [
     "undiscovered"
   ],
+  "height": 15,
+  "weight": 856,
+  "pokedex": [
+    "cobblemon.species.cresselia.desc"
+  ],
+  "labels": [
+    "gen4",
+    "legendary"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 300,
+  "evYield": {
+    "hp": 0,
+    "attack": 0,
+    "defence": 0,
+    "special_attack": 0,
+    "special_defence": 3,
+    "speed": 0
+  },
+  "baseScale": 1,
+  "hitbox": {
+    "width": 1,
+    "height": 1,
+    "fixed": false
+  },
+  "cannotDynamax": false,
+  "shoulderMountable": false,
   "moves": [
     "1:confusion",
     "1:doubleteam",
@@ -152,31 +178,5 @@
     "tutor:trick",
     "tutor:zenheadbutt"
   ],
-  "labels": [
-    "gen4",
-    "legendary"
-  ],
-  "pokedex": [
-    "cobblemon.species.cresselia.desc"
-  ],
-  "evolutions": [],
-  "baseScale": 1,
-  "hitbox": {
-    "width": 1,
-    "height": 1,
-    "fixed": false
-  },
-  "baseFriendship": 100,
-  "evYield": {
-    "hp": 0,
-    "attack": 0,
-    "defence": 0,
-    "special_attack": 0,
-    "special_defence": 3,
-    "speed": 0
-  },
-  "height": 15,
-  "weight": 856,
-  "aspects": [],
-  "cannotDynamax": false
+  "evolutions": []
 }

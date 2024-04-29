@@ -15,23 +15,32 @@
     "special_defence": 35,
     "speed": 15
   },
-  "behaviour": {
-    "resting": {
-      "canSleep": true,
-      "willSleepOnBed": true,
-      "depth": "normal",
-      "light": "0-4"
-    }
-  },
   "catchRate": 190,
   "maleRatio": 0.5,
-  "shoulderMountable": false,
-  "baseExperienceYield": 58,
+  "baseFriendship": 70,
   "experienceGroup": "medium_fast",
   "eggCycles": 20,
   "eggGroups": [
     "bug"
   ],
+  "height": 6,
+  "weight": 72,
+  "pokedex": [
+    "cobblemon.species.pineco.desc"
+  ],
+  "labels": [
+    "gen2"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 58,
+  "evYield": {
+    "hp": 0,
+    "attack": 0,
+    "defence": 1,
+    "special_attack": 0,
+    "special_defence": 0,
+    "speed": 0
+  },
   "drops": {
     "amount": 3,
     "entries": [
@@ -48,6 +57,22 @@
         "percentage": 2.5
       }
     ]
+  },
+  "baseScale": 0.75,
+  "hitbox": {
+    "width": 0.9,
+    "height": 0.95,
+    "fixed": false
+  },
+  "cannotDynamax": false,
+  "shoulderMountable": false,
+  "behaviour": {
+    "resting": {
+      "canSleep": true,
+      "willSleepOnBed": true,
+      "depth": "normal",
+      "light": "0-4"
+    }
   },
   "moves": [
     "1:protect",
@@ -188,18 +213,10 @@
     "tutor:toxic",
     "tutor:toxicspikes"
   ],
-  "labels": [
-    "gen2"
-  ],
-  "pokedex": [
-    "cobblemon.species.pineco.desc"
-  ],
   "evolutions": [
     {
       "id": "pineco_forretress",
-      "variant": "level_up",
       "result": "forretress",
-      "consumeHeldItem": false,
       "learnableMoves": [
         "heavyslam"
       ],
@@ -208,13 +225,14 @@
           "variant": "level",
           "minLevel": 31
         }
-      ]
+      ],
+      "trigger": {
+        "variant": "level_up"
+      }
     },
     {
       "id": "pineco_forretress_shulker",
-      "variant": "level_up",
       "result": "forretress shulker",
-      "consumeHeldItem": true,
       "learnableMoves": [
         "heavyslam"
       ],
@@ -227,26 +245,10 @@
           "variant": "held_item",
           "itemCondition": "minecraft:shulker_shell"
         }
-      ]
+      ],
+      "trigger": {
+        "variant": "level_up"
+      }
     }
-  ],
-  "baseScale": 0.75,
-  "hitbox": {
-    "width": 0.9,
-    "height": 0.95,
-    "fixed": false
-  },
-  "baseFriendship": 70,
-  "evYield": {
-    "hp": 0,
-    "attack": 0,
-    "defence": 1,
-    "special_attack": 0,
-    "special_defence": 0,
-    "speed": 0
-  },
-  "height": 6,
-  "weight": 72,
-  "aspects": [],
-  "cannotDynamax": false
+  ]
 }

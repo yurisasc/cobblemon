@@ -15,28 +15,33 @@
     "special_defence": 65,
     "speed": 80
   },
-  "behaviour": {
-    "moving": {
-      "walk": {
-        "walkSpeed": 0.3
-      }
-    },
-    "resting": {
-      "canSleep": true,
-      "depth": "normal",
-      "light": "0-4"
-    }
-  },
   "catchRate": 45,
   "maleRatio": 0.875,
-  "shoulderMountable": false,
-  "baseExperienceYield": 142,
+  "baseFriendship": 50,
   "experienceGroup": "medium_slow",
   "eggCycles": 20,
   "eggGroups": [
     "monster",
     "dragon"
   ],
+  "height": 11,
+  "weight": 190,
+  "pokedex": [
+    "cobblemon.species.charmeleon.desc"
+  ],
+  "labels": [
+    "gen1"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 142,
+  "evYield": {
+    "hp": 0,
+    "attack": 0,
+    "defence": 0,
+    "special_attack": 1,
+    "special_defence": 0,
+    "speed": 1
+  },
   "drops": {
     "amount": 3,
     "entries": [
@@ -49,6 +54,26 @@
         "percentage": 10.0
       }
     ]
+  },
+  "baseScale": 0.7,
+  "hitbox": {
+    "width": 0.7,
+    "height": 1.5,
+    "fixed": false
+  },
+  "cannotDynamax": false,
+  "shoulderMountable": false,
+  "behaviour": {
+    "moving": {
+      "walk": {
+        "walkSpeed": 0.3
+      }
+    },
+    "resting": {
+      "canSleep": true,
+      "depth": "normal",
+      "light": "0-4"
+    }
   },
   "moves": [
     "1:ember",
@@ -204,19 +229,11 @@
     "tutor:toxic",
     "tutor:willowisp"
   ],
-  "labels": [
-    "gen1"
-  ],
-  "pokedex": [
-    "cobblemon.species.charmeleon.desc"
-  ],
   "preEvolution": "charmander",
   "evolutions": [
     {
       "id": "charmeleon_charizard",
-      "variant": "level_up",
       "result": "charizard",
-      "consumeHeldItem": false,
       "learnableMoves": [
         "airslash"
       ],
@@ -225,26 +242,10 @@
           "variant": "level",
           "minLevel": 36
         }
-      ]
+      ],
+      "trigger": {
+        "variant": "level_up"
+      }
     }
-  ],
-  "baseScale": 0.7,
-  "hitbox": {
-    "width": 0.7,
-    "height": 1.5,
-    "fixed": false
-  },
-  "baseFriendship": 50,
-  "evYield": {
-    "hp": 0,
-    "attack": 0,
-    "defence": 0,
-    "special_attack": 1,
-    "special_defence": 0,
-    "speed": 1
-  },
-  "height": 11,
-  "weight": 190,
-  "aspects": [],
-  "cannotDynamax": false
+  ]
 }

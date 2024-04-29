@@ -17,13 +17,59 @@
   },
   "catchRate": 190,
   "maleRatio": 0.5,
-  "shoulderMountable": false,
-  "baseExperienceYield": 56,
+  "baseFriendship": 50,
   "experienceGroup": "medium_fast",
   "eggCycles": 15,
   "eggGroups": [
     "field"
   ],
+  "height": 5,
+  "weight": 92,
+  "pokedex": [
+    "cobblemon.species.rockruff.desc"
+  ],
+  "labels": [
+    "gen7"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 56,
+  "evYield": {
+    "hp": 0,
+    "attack": 1,
+    "defence": 0,
+    "special_attack": 0,
+    "special_defence": 0,
+    "speed": 0
+  },
+  "drops": {
+    "amount": 4,
+    "entries": [
+      {
+        "item": "minecraft:bone",
+        "quantityRange": "0-1"
+      },
+      {
+        "item": "minecraft:rotten_flesh",
+        "quantityRange": "0-1"
+      },
+      {
+        "item": "cobblemon:hard_stone",
+        "percentage": 2.5
+      },
+      {
+        "item": "cobblemon:babiri_berry",
+        "percentage": 2.5
+      }
+    ]
+  },
+  "baseScale": 1,
+  "hitbox": {
+    "width": 1,
+    "height": 1,
+    "fixed": false
+  },
+  "cannotDynamax": false,
+  "shoulderMountable": false,
   "moves": [
     "1:leer",
     "1:tackle",
@@ -112,18 +158,10 @@
     "tutor:stompingtantrum",
     "tutor:zenheadbutt"
   ],
-  "labels": [
-    "gen7"
-  ],
-  "pokedex": [
-    "cobblemon.species.rockruff.desc"
-  ],
   "evolutions": [
     {
       "id": "rockruff_lycanroc",
-      "variant": "level_up",
       "result": "lycanroc",
-      "consumeHeldItem": false,
       "learnableMoves": [
         "suckerpunch"
       ],
@@ -136,13 +174,14 @@
           "variant": "time_range",
           "range": "day"
         }
-      ]
+      ],
+      "trigger": {
+        "variant": "level_up"
+      }
     },
     {
       "id": "rockruff_lycanroc",
-      "variant": "level_up",
       "result": "lycanroc midnight",
-      "consumeHeldItem": false,
       "learnableMoves": [
         "counter"
       ],
@@ -155,13 +194,14 @@
           "variant": "time_range",
           "range": "night"
         }
-      ]
+      ],
+      "trigger": {
+        "variant": "level_up"
+      }
     },
     {
       "id": "rockruff_lycanroc",
-      "variant": "level_up",
       "result": "lycanroc dusk",
-      "consumeHeldItem": false,
       "learnableMoves": [
         "crushclaw"
       ],
@@ -174,47 +214,10 @@
           "variant": "time_range",
           "range": "dusk"
         }
-      ]
-    }
-  ],
-  "baseScale": 1,
-  "hitbox": {
-    "width": 1,
-    "height": 1,
-    "fixed": false
-  },
-  "baseFriendship": 50,
-  "evYield": {
-    "hp": 0,
-    "attack": 1,
-    "defence": 0,
-    "special_attack": 0,
-    "special_defence": 0,
-    "speed": 0
-  },
-  "height": 5,
-  "weight": 92,
-  "aspects": [],
-  "cannotDynamax": false,
-  "drops": {
-    "amount": 4,
-    "entries": [
-      {
-        "item": "minecraft:bone",
-        "quantityRange": "0-1"
-      },
-      {
-        "item": "minecraft:rotten_flesh",
-        "quantityRange": "0-1"
-      },
-      {
-        "item": "cobblemon:hard_stone",
-        "percentage": 2.5
-      },
-      {
-        "item": "cobblemon:babiri_berry",
-        "percentage": 2.5
+      ],
+      "trigger": {
+        "variant": "level_up"
       }
-    ]
-  }
+    }
+  ]
 }

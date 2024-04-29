@@ -9,15 +9,6 @@
     "compoundeyes",
     "h:frisk"
   ],
-  "drops": {
-    "amount": 1,
-    "entries": [
-      {
-        "item": "cobblemon:charti_berry",
-        "percentage": 2.5
-      }
-    ]
-  },
   "baseStats": {
     "hp": 65,
     "attack": 65,
@@ -28,13 +19,47 @@
   },
   "catchRate": 75,
   "maleRatio": 0.5,
-  "shoulderMountable": false,
-  "baseExperienceYield": 78,
+  "baseFriendship": 70,
   "experienceGroup": "medium_fast",
   "eggCycles": 20,
   "eggGroups": [
     "bug"
   ],
+  "height": 12,
+  "weight": 380,
+  "pokedex": [
+    "cobblemon.species.yanma.desc"
+  ],
+  "labels": [
+    "gen2"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 78,
+  "evYield": {
+    "hp": 0,
+    "attack": 0,
+    "defence": 0,
+    "special_attack": 0,
+    "special_defence": 0,
+    "speed": 1
+  },
+  "drops": {
+    "amount": 1,
+    "entries": [
+      {
+        "item": "cobblemon:charti_berry",
+        "percentage": 2.5
+      }
+    ]
+  },
+  "baseScale": 0.8,
+  "hitbox": {
+    "width": 0.99,
+    "height": 0.75,
+    "fixed": false
+  },
+  "cannotDynamax": false,
+  "shoulderMountable": false,
   "behaviour": {
     "moving": {
       "fly": {
@@ -172,44 +197,20 @@
     "tutor:whirlwind",
     "tutor:wingattack"
   ],
-  "labels": [
-    "gen2"
-  ],
-  "pokedex": [
-    "cobblemon.species.yanma.desc"
-  ],
   "evolutions": [
     {
       "id": "yanma_yanmega",
-      "variant": "level_up",
       "result": "yanmega",
-      "consumeHeldItem": false,
       "learnableMoves": [],
       "requirements": [
         {
           "variant": "has_move",
           "move": "ancientpower"
         }
-      ]
+      ],
+      "trigger": {
+        "variant": "level_up"
+      }
     }
-  ],
-  "baseScale": 0.8,
-  "hitbox": {
-    "width": 0.99,
-    "height": 0.75,
-    "fixed": false
-  },
-  "baseFriendship": 70,
-  "evYield": {
-    "hp": 0,
-    "attack": 0,
-    "defence": 0,
-    "special_attack": 0,
-    "special_defence": 0,
-    "speed": 1
-  },
-  "height": 12,
-  "weight": 380,
-  "aspects": [],
-  "cannotDynamax": false
+  ]
 }

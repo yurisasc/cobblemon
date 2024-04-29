@@ -19,59 +19,30 @@
   },
   "catchRate": 45,
   "maleRatio": 0.5,
-  "shoulderMountable": true,
-  "forms": [
-    {
-      "name": "Mega",
-      "primaryType": "dark",
-      "secondaryType": "ghost",
-      "abilities": [
-        "magicbounce"
-      ],
-      "baseStats": {
-        "hp": 50,
-        "attack": 85,
-        "defence": 125,
-        "special_attack": 85,
-        "special_defence": 115,
-        "speed": 20
-      },
-      "catchRate": 45,
-      "maleRatio": 0.5,
-      "baseExperienceYield": 133,
-      "baseFriendship": 35,
-      "evYield": {
-        "hp": 0,
-        "attack": 1,
-        "defence": 1,
-        "special_attack": 0,
-        "special_defence": 0,
-        "speed": 0
-      },
-      "experienceGroup": "medium_slow",
-      "eggCycles": 25,
-      "eggGroups": [
-        "human_like"
-      ],
-      "labels": [
-        "gen6",
-        "mega"
-      ],
-      "aspects": [
-        "mega"
-      ],
-      "height": 5,
-      "weight": 1610,
-      "cannotDynamax": false,
-      "battleOnly": true
-    }
-  ],
-  "baseExperienceYield": 133,
+  "baseFriendship": 35,
   "experienceGroup": "medium_slow",
   "eggCycles": 25,
   "eggGroups": [
     "human_like"
   ],
+  "height": 5,
+  "weight": 110,
+  "pokedex": [
+    "cobblemon.species.sableye.desc"
+  ],
+  "labels": [
+    "gen3"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 133,
+  "evYield": {
+    "hp": 0,
+    "attack": 1,
+    "defence": 1,
+    "special_attack": 0,
+    "special_defence": 0,
+    "speed": 0
+  },
   "drops": {
     "amount": 5,
     "entries": [
@@ -93,6 +64,14 @@
       }
     ]
   },
+  "baseScale": 0.65,
+  "hitbox": {
+    "width": 0.7,
+    "height": 1.2,
+    "fixed": false
+  },
+  "cannotDynamax": false,
+  "shoulderMountable": true,
   "moves": [
     "1:leer",
     "1:scratch",
@@ -294,30 +273,51 @@
     "tutor:wonderroom",
     "tutor:zenheadbutt"
   ],
-  "labels": [
-    "gen3"
-  ],
-  "pokedex": [
-    "cobblemon.species.sableye.desc"
-  ],
   "evolutions": [],
-  "baseScale": 0.65,
-  "hitbox": {
-    "width": 0.7,
-    "height": 1.2,
-    "fixed": false
-  },
-  "baseFriendship": 35,
-  "evYield": {
-    "hp": 0,
-    "attack": 1,
-    "defence": 1,
-    "special_attack": 0,
-    "special_defence": 0,
-    "speed": 0
-  },
-  "height": 5,
-  "weight": 110,
-  "aspects": [],
-  "cannotDynamax": false
+  "temporaryForms": [
+    {
+      "name": "Mega",
+      "primaryType": "dark",
+      "secondaryType": "ghost",
+      "abilities": [
+        "magicbounce"
+      ],
+      "baseStats": {
+        "hp": 50,
+        "attack": 85,
+        "defence": 125,
+        "special_attack": 85,
+        "special_defence": 115,
+        "speed": 20
+      },
+      "catchRate": 45,
+      "maleRatio": 0.5,
+      "baseFriendship": 35,
+      "experienceGroup": "medium_slow",
+      "eggCycles": 25,
+      "eggGroups": [
+        "human_like"
+      ],
+      "height": 5,
+      "weight": 1610,
+      "labels": [
+        "gen6",
+        "mega"
+      ],
+      "aspects": [
+        "mega"
+      ],
+      "baseExperienceYield": 133,
+      "evYield": {
+        "hp": 0,
+        "attack": 1,
+        "defence": 1,
+        "special_attack": 0,
+        "special_defence": 0,
+        "speed": 0
+      },
+      "cannotDynamax": false,
+      "battleOnly": true
+    }
+  ]
 }

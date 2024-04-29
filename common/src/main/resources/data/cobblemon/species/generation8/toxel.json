@@ -18,13 +18,48 @@
   },
   "catchRate": 75,
   "maleRatio": 0.5,
-  "shoulderMountable": false,
-  "baseExperienceYield": 48,
+  "baseFriendship": 50,
   "experienceGroup": "medium_slow",
   "eggCycles": 25,
   "eggGroups": [
     "undiscovered"
   ],
+  "height": 4,
+  "weight": 110,
+  "pokedex": [
+    "cobblemon.species.toxel.desc"
+  ],
+  "labels": [
+    "gen8",
+    "baby"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 48,
+  "evYield": {
+    "hp": 0,
+    "attack": 0,
+    "defence": 0,
+    "special_attack": 1,
+    "special_defence": 0,
+    "speed": 0
+  },
+  "drops": {
+    "amount": 1,
+    "entries": [
+      {
+        "item": "cobblemon:shuca_berry",
+        "percentage": 2.5
+      }
+    ]
+  },
+  "baseScale": 1,
+  "hitbox": {
+    "width": 1,
+    "height": 1,
+    "fixed": false
+  },
+  "cannotDynamax": false,
+  "shoulderMountable": false,
   "moves": [
     "1:acid",
     "1:belch",
@@ -54,19 +89,10 @@
     "tutor:growl",
     "tutor:nuzzle"
   ],
-  "labels": [
-    "gen8",
-    "baby"
-  ],
-  "pokedex": [
-    "cobblemon.species.toxel.desc"
-  ],
   "evolutions": [
     {
       "id": "toxel_toxtricity",
-      "variant": "level_up",
       "result": "toxtricity",
-      "consumeHeldItem": false,
       "learnableMoves": [
         "spark"
       ],
@@ -75,13 +101,14 @@
           "variant": "level",
           "minLevel": 30
         }
-      ]
+      ],
+      "trigger": {
+        "variant": "level_up"
+      }
     },
     {
       "id": "toxel_toxtricity",
-      "variant": "level_up",
       "result": "toxtricity lowkey",
-      "consumeHeldItem": false,
       "learnableMoves": [
         "spark"
       ],
@@ -90,35 +117,10 @@
           "variant": "level",
           "minLevel": 30
         }
-      ]
-    }
-  ],
-  "baseScale": 1,
-  "hitbox": {
-    "width": 1,
-    "height": 1,
-    "fixed": false
-  },
-  "baseFriendship": 50,
-  "evYield": {
-    "hp": 0,
-    "attack": 0,
-    "defence": 0,
-    "special_attack": 1,
-    "special_defence": 0,
-    "speed": 0
-  },
-  "height": 4,
-  "weight": 110,
-  "aspects": [],
-  "cannotDynamax": false,
-  "drops": {
-    "amount": 1,
-    "entries": [
-      {
-        "item": "cobblemon:shuca_berry",
-        "percentage": 2.5
+      ],
+      "trigger": {
+        "variant": "level_up"
       }
-    ]
-  }
+    }
+  ]
 }

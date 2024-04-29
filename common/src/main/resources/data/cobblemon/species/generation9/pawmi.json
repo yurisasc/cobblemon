@@ -17,8 +17,22 @@
   },
   "catchRate": 190,
   "maleRatio": 0.5,
-  "baseExperienceYield": 48,
   "baseFriendship": 50,
+  "experienceGroup": "medium_fast",
+  "eggCycles": 15,
+  "eggGroups": [
+    "field"
+  ],
+  "height": 3,
+  "weight": 25,
+  "pokedex": [
+    "cobblemon.species.pawmi.desc"
+  ],
+  "labels": [
+    "gen9"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 48,
   "evYield": {
     "hp": 0,
     "attack": 0,
@@ -27,11 +41,16 @@
     "special_defence": 0,
     "speed": 1
   },
-  "experienceGroup": "medium_fast",
-  "eggCycles": 15,
-  "eggGroups": [
-    "field"
-  ],
+  "drops": {
+    "amount": 1,
+    "entries": [
+      {
+        "item": "cobblemon:cheri_berry",
+        "percentage": 2.5
+      }
+    ]
+  },
+  "cannotDynamax": false,
   "moves": [
     "1:growl",
     "1:scratch",
@@ -85,18 +104,10 @@
     "tm:voltswitch",
     "tm:wildcharge"
   ],
-  "labels": [
-    "gen9"
-  ],
-  "aspects": [],
-  "height": 3,
-  "weight": 25,
   "evolutions": [
     {
       "id": "pawmi_pawmo",
-      "variant": "level_up",
       "result": "pawmo",
-      "consumeHeldItem": false,
       "learnableMoves": [
         "armthrust"
       ],
@@ -105,20 +116,10 @@
           "variant": "level",
           "minLevel": 18
         }
-      ]
-    }
-  ],
-  "cannotDynamax": false,
-  "pokedex": [
-    "cobblemon.species.pawmi.desc"
-  ],
-  "drops": {
-    "amount": 1,
-    "entries": [
-      {
-        "item": "cobblemon:cheri_berry",
-        "percentage": 2.5
+      ],
+      "trigger": {
+        "variant": "level_up"
       }
-    ]
-  }
+    }
+  ]
 }

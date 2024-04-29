@@ -8,6 +8,40 @@
     "blaze",
     "h:reckless"
   ],
+  "baseStats": {
+    "hp": 110,
+    "attack": 123,
+    "defence": 65,
+    "special_attack": 100,
+    "special_defence": 65,
+    "speed": 65
+  },
+  "catchRate": 45,
+  "maleRatio": 0.875,
+  "baseFriendship": 70,
+  "experienceGroup": "medium_slow",
+  "eggCycles": 20,
+  "eggGroups": [
+    "field"
+  ],
+  "height": 16,
+  "weight": 1500,
+  "pokedex": [
+    "cobblemon.species.emboar.desc"
+  ],
+  "labels": [
+    "gen5"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 238,
+  "evYield": {
+    "hp": 0,
+    "attack": 3,
+    "defence": 0,
+    "special_attack": 0,
+    "special_defence": 0,
+    "speed": 0
+  },
   "drops": {
     "amount": 5,
     "entries": [
@@ -21,14 +55,14 @@
       }
     ]
   },
-  "baseStats": {
-    "hp": 110,
-    "attack": 123,
-    "defence": 65,
-    "special_attack": 100,
-    "special_defence": 65,
-    "speed": 65
+  "baseScale": 1.25,
+  "hitbox": {
+    "width": 1.35,
+    "height": 2,
+    "fixed": false
   },
+  "cannotDynamax": false,
+  "shoulderMountable": false,
   "behaviour": {
     "resting": {
       "canSleep": true,
@@ -37,15 +71,6 @@
       "light": "0-4"
     }
   },
-  "catchRate": 45,
-  "maleRatio": 0.875,
-  "shoulderMountable": false,
-  "baseExperienceYield": 238,
-  "experienceGroup": "medium_slow",
-  "eggCycles": 20,
-  "eggGroups": [
-    "field"
-  ],
   "moves": [
     "1:armthrust",
     "1:ember",
@@ -173,31 +198,6 @@
     "tutor:wildcharge",
     "tutor:zenheadbutt"
   ],
-  "labels": [
-    "gen5"
-  ],
-  "pokedex": [
-    "cobblemon.species.emboar.desc"
-  ],
   "preEvolution": "pignite",
-  "evolutions": [],
-  "baseScale": 1.25,
-  "hitbox": {
-    "width": 1.35,
-    "height": 2,
-    "fixed": false
-  },
-  "baseFriendship": 70,
-  "evYield": {
-    "hp": 0,
-    "attack": 3,
-    "defence": 0,
-    "special_attack": 0,
-    "special_defence": 0,
-    "speed": 0
-  },
-  "height": 16,
-  "weight": 1500,
-  "aspects": [],
-  "cannotDynamax": false
+  "evolutions": []
 }

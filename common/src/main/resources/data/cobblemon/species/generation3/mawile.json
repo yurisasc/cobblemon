@@ -19,61 +19,31 @@
   },
   "catchRate": 45,
   "maleRatio": 0.5,
-  "shoulderMountable": false,
-  "forms": [
-    {
-      "name": "Mega",
-      "primaryType": "steel",
-      "secondaryType": "fairy",
-      "abilities": [
-        "hugepower"
-      ],
-      "baseStats": {
-        "hp": 50,
-        "attack": 105,
-        "defence": 125,
-        "special_attack": 55,
-        "special_defence": 95,
-        "speed": 50
-      },
-      "catchRate": 45,
-      "maleRatio": 0.5,
-      "baseExperienceYield": 133,
-      "baseFriendship": 50,
-      "evYield": {
-        "hp": 0,
-        "attack": 1,
-        "defence": 1,
-        "special_attack": 0,
-        "special_defence": 0,
-        "speed": 0
-      },
-      "experienceGroup": "fast",
-      "eggCycles": 20,
-      "eggGroups": [
-        "field",
-        "fairy"
-      ],
-      "labels": [
-        "gen6",
-        "mega"
-      ],
-      "aspects": [
-        "mega"
-      ],
-      "height": 10,
-      "weight": 235,
-      "cannotDynamax": false,
-      "battleOnly": true
-    }
-  ],
-  "baseExperienceYield": 133,
+  "baseFriendship": 50,
   "experienceGroup": "fast",
   "eggCycles": 20,
   "eggGroups": [
     "field",
     "fairy"
   ],
+  "height": 6,
+  "weight": 115,
+  "pokedex": [
+    "cobblemon.species.mawile.desc"
+  ],
+  "labels": [
+    "gen3"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 133,
+  "evYield": {
+    "hp": 0,
+    "attack": 1,
+    "defence": 1,
+    "special_attack": 0,
+    "special_defence": 0,
+    "speed": 0
+  },
   "drops": {
     "amount": 2,
     "entries": [
@@ -87,6 +57,14 @@
       }
     ]
   },
+  "baseScale": 0.75,
+  "hitbox": {
+    "width": 0.5,
+    "height": 0.9,
+    "fixed": false
+  },
+  "cannotDynamax": false,
+  "shoulderMountable": false,
   "behaviour": {
     "resting": {
       "canSleep": false,
@@ -254,30 +232,52 @@
     "tutor:thunderpunch",
     "tutor:visegrip"
   ],
-  "labels": [
-    "gen3"
-  ],
-  "pokedex": [
-    "cobblemon.species.mawile.desc"
-  ],
   "evolutions": [],
-  "baseScale": 0.75,
-  "hitbox": {
-    "width": 0.5,
-    "height": 0.9,
-    "fixed": false
-  },
-  "baseFriendship": 50,
-  "evYield": {
-    "hp": 0,
-    "attack": 1,
-    "defence": 1,
-    "special_attack": 0,
-    "special_defence": 0,
-    "speed": 0
-  },
-  "height": 6,
-  "weight": 115,
-  "aspects": [],
-  "cannotDynamax": false
+  "temporaryForms": [
+    {
+      "name": "Mega",
+      "primaryType": "steel",
+      "secondaryType": "fairy",
+      "abilities": [
+        "hugepower"
+      ],
+      "baseStats": {
+        "hp": 50,
+        "attack": 105,
+        "defence": 125,
+        "special_attack": 55,
+        "special_defence": 95,
+        "speed": 50
+      },
+      "catchRate": 45,
+      "maleRatio": 0.5,
+      "baseFriendship": 50,
+      "experienceGroup": "fast",
+      "eggCycles": 20,
+      "eggGroups": [
+        "field",
+        "fairy"
+      ],
+      "height": 10,
+      "weight": 235,
+      "labels": [
+        "gen6",
+        "mega"
+      ],
+      "aspects": [
+        "mega"
+      ],
+      "baseExperienceYield": 133,
+      "evYield": {
+        "hp": 0,
+        "attack": 1,
+        "defence": 1,
+        "special_attack": 0,
+        "special_defence": 0,
+        "speed": 0
+      },
+      "cannotDynamax": false,
+      "battleOnly": true
+    }
+  ]
 }

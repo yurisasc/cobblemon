@@ -18,13 +18,31 @@
   },
   "catchRate": 130,
   "maleRatio": 0,
-  "shoulderMountable": false,
-  "baseExperienceYield": 110,
+  "baseFriendship": 140,
   "experienceGroup": "fast",
   "eggCycles": 40,
   "eggGroups": [
     "undiscovered"
   ],
+  "height": 6,
+  "weight": 244,
+  "pokedex": [
+    "cobblemon.species.happiny.desc"
+  ],
+  "labels": [
+    "gen4",
+    "baby"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 110,
+  "evYield": {
+    "hp": 1,
+    "attack": 0,
+    "defence": 0,
+    "special_attack": 0,
+    "special_defence": 0,
+    "speed": 0
+  },
   "drops": {
     "amount": 1,
     "entries": [
@@ -34,6 +52,14 @@
       }
     ]
   },
+  "baseScale": 0.7,
+  "hitbox": {
+    "width": 0.6,
+    "height": 0.9,
+    "fixed": false
+  },
+  "cannotDynamax": false,
+  "shoulderMountable": false,
   "behaviour": {
     "moving": {
       "walk": {
@@ -148,19 +174,10 @@
     "tutor:waterpulse",
     "tutor:zenheadbutt"
   ],
-  "labels": [
-    "gen4",
-    "baby"
-  ],
-  "pokedex": [
-    "cobblemon.species.happiny.desc"
-  ],
   "evolutions": [
     {
       "id": "happiny_chansey",
-      "variant": "level_up",
       "result": "chansey",
-      "consumeHeldItem": true,
       "learnableMoves": [],
       "requirements": [
         {
@@ -171,26 +188,10 @@
           "variant": "time_range",
           "range": "day"
         }
-      ]
+      ],
+      "trigger": {
+        "variant": "level_up"
+      }
     }
-  ],
-  "baseScale": 0.7,
-  "hitbox": {
-    "width": 0.6,
-    "height": 0.9,
-    "fixed": false
-  },
-  "baseFriendship": 140,
-  "evYield": {
-    "hp": 1,
-    "attack": 0,
-    "defence": 0,
-    "special_attack": 0,
-    "special_defence": 0,
-    "speed": 0
-  },
-  "height": 6,
-  "weight": 244,
-  "aspects": [],
-  "cannotDynamax": false
+  ]
 }

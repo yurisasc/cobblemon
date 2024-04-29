@@ -9,6 +9,40 @@
     "cursedbody",
     "h:damp"
   ],
+  "baseStats": {
+    "hp": 100,
+    "attack": 60,
+    "defence": 70,
+    "special_attack": 85,
+    "special_defence": 105,
+    "speed": 60
+  },
+  "catchRate": 60,
+  "maleRatio": 0.5,
+  "baseFriendship": 50,
+  "experienceGroup": "medium_fast",
+  "eggCycles": 20,
+  "eggGroups": [
+    "amorphous"
+  ],
+  "height": 22,
+  "weight": 1350,
+  "pokedex": [
+    "cobblemon.species.jellicent.desc"
+  ],
+  "labels": [
+    "gen5"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 168,
+  "evYield": {
+    "hp": 0,
+    "attack": 0,
+    "defence": 0,
+    "special_attack": 0,
+    "special_defence": 2,
+    "speed": 0
+  },
   "drops": {
     "amount": 3,
     "entries": [
@@ -22,14 +56,14 @@
       }
     ]
   },
-  "baseStats": {
-    "hp": 100,
-    "attack": 60,
-    "defence": 70,
-    "special_attack": 85,
-    "special_defence": 105,
-    "speed": 60
+  "baseScale": 1,
+  "hitbox": {
+    "width": 2,
+    "height": 2.5,
+    "fixed": false
   },
+  "cannotDynamax": false,
+  "shoulderMountable": false,
   "behaviour": {
     "moving": {
       "walk": {
@@ -48,15 +82,6 @@
       "light": "0-4"
     }
   },
-  "catchRate": 60,
-  "maleRatio": 0.5,
-  "shoulderMountable": false,
-  "baseExperienceYield": 168,
-  "experienceGroup": "medium_fast",
-  "eggCycles": 20,
-  "eggGroups": [
-    "amorphous"
-  ],
   "moves": [
     "1:absorb",
     "1:acidarmor",
@@ -145,31 +170,6 @@
     "tutor:trick",
     "tutor:waterpulse"
   ],
-  "labels": [
-    "gen5"
-  ],
-  "pokedex": [
-    "cobblemon.species.jellicent.desc"
-  ],
   "preEvolution": "frillish",
-  "evolutions": [],
-  "baseScale": 1,
-  "hitbox": {
-    "width": 2,
-    "height": 2.5,
-    "fixed": false
-  },
-  "baseFriendship": 50,
-  "evYield": {
-    "hp": 0,
-    "attack": 0,
-    "defence": 0,
-    "special_attack": 0,
-    "special_defence": 2,
-    "speed": 0
-  },
-  "height": 22,
-  "weight": 1350,
-  "aspects": [],
-  "cannotDynamax": false
+  "evolutions": []
 }

@@ -7,6 +7,41 @@
   "abilities": [
     "levitate"
   ],
+  "baseStats": {
+    "hp": 92,
+    "attack": 105,
+    "defence": 90,
+    "special_attack": 125,
+    "special_defence": 90,
+    "speed": 98
+  },
+  "catchRate": 45,
+  "maleRatio": 0.5,
+  "baseFriendship": 35,
+  "experienceGroup": "slow",
+  "eggCycles": 40,
+  "eggGroups": [
+    "dragon"
+  ],
+  "height": 18,
+  "weight": 1600,
+  "pokedex": [
+    "cobblemon.species.hydreigon.desc"
+  ],
+  "labels": [
+    "gen5",
+    "pseudo_legendary"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 300,
+  "evYield": {
+    "hp": 0,
+    "attack": 0,
+    "defence": 0,
+    "special_attack": 3,
+    "special_defence": 0,
+    "speed": 0
+  },
   "drops": {
     "amount": 4,
     "entries": [
@@ -20,14 +55,14 @@
       }
     ]
   },
-  "baseStats": {
-    "hp": 92,
-    "attack": 105,
-    "defence": 90,
-    "special_attack": 125,
-    "special_defence": 90,
-    "speed": 98
+  "baseScale": 1,
+  "hitbox": {
+    "width": 1.5,
+    "height": 2.66,
+    "fixed": false
   },
+  "cannotDynamax": false,
+  "shoulderMountable": false,
   "behaviour": {
     "resting": {
       "canSleep": true,
@@ -40,15 +75,6 @@
       }
     }
   },
-  "catchRate": 45,
-  "maleRatio": 0.5,
-  "shoulderMountable": false,
-  "baseExperienceYield": 300,
-  "experienceGroup": "slow",
-  "eggCycles": 40,
-  "eggGroups": [
-    "dragon"
-  ],
   "moves": [
     "1:bite",
     "1:doublehit",
@@ -194,32 +220,6 @@
     "tutor:uproar",
     "tutor:zenheadbutt"
   ],
-  "labels": [
-    "gen5",
-    "pseudo_legendary"
-  ],
-  "pokedex": [
-    "cobblemon.species.hydreigon.desc"
-  ],
   "preEvolution": "zweilous",
-  "evolutions": [],
-  "baseScale": 1,
-  "hitbox": {
-    "width": 1.5,
-    "height": 2.66,
-    "fixed": false
-  },
-  "baseFriendship": 35,
-  "evYield": {
-    "hp": 0,
-    "attack": 0,
-    "defence": 0,
-    "special_attack": 3,
-    "special_defence": 0,
-    "speed": 0
-  },
-  "height": 18,
-  "weight": 1600,
-  "aspects": [],
-  "cannotDynamax": false
+  "evolutions": []
 }

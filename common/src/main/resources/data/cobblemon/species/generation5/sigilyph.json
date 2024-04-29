@@ -9,6 +9,40 @@
     "magicguard",
     "h:tintedlens"
   ],
+  "baseStats": {
+    "hp": 72,
+    "attack": 58,
+    "defence": 80,
+    "special_attack": 103,
+    "special_defence": 80,
+    "speed": 97
+  },
+  "catchRate": 45,
+  "maleRatio": 0.5,
+  "baseFriendship": 50,
+  "experienceGroup": "medium_fast",
+  "eggCycles": 20,
+  "eggGroups": [
+    "flying"
+  ],
+  "height": 14,
+  "weight": 140,
+  "pokedex": [
+    "cobblemon.species.sigilyph.desc"
+  ],
+  "labels": [
+    "gen5"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 172,
+  "evYield": {
+    "hp": 0,
+    "attack": 0,
+    "defence": 0,
+    "special_attack": 2,
+    "special_defence": 0,
+    "speed": 0
+  },
   "drops": {
     "amount": 3,
     "entries": [
@@ -26,14 +60,14 @@
       }
     ]
   },
-  "baseStats": {
-    "hp": 72,
-    "attack": 58,
-    "defence": 80,
-    "special_attack": 103,
-    "special_defence": 80,
-    "speed": 97
+  "baseScale": 1,
+  "hitbox": {
+    "width": 1,
+    "height": 1,
+    "fixed": false
   },
+  "cannotDynamax": false,
+  "shoulderMountable": false,
   "behaviour": {
     "moving": {
       "fly": {
@@ -47,15 +81,6 @@
       "light": "0-4"
     }
   },
-  "catchRate": 45,
-  "maleRatio": 0.5,
-  "shoulderMountable": false,
-  "baseExperienceYield": 172,
-  "experienceGroup": "medium_fast",
-  "eggCycles": 20,
-  "eggGroups": [
-    "flying"
-  ],
   "moves": [
     "1:confusion",
     "1:gust",
@@ -168,30 +193,5 @@
     "tutor:trick",
     "tutor:zenheadbutt"
   ],
-  "labels": [
-    "gen5"
-  ],
-  "pokedex": [
-    "cobblemon.species.sigilyph.desc"
-  ],
-  "evolutions": [],
-  "baseScale": 1,
-  "hitbox": {
-    "width": 1,
-    "height": 1,
-    "fixed": false
-  },
-  "baseFriendship": 50,
-  "evYield": {
-    "hp": 0,
-    "attack": 0,
-    "defence": 0,
-    "special_attack": 2,
-    "special_defence": 0,
-    "speed": 0
-  },
-  "height": 14,
-  "weight": 140,
-  "aspects": [],
-  "cannotDynamax": false
+  "evolutions": []
 }

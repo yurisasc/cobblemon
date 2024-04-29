@@ -9,6 +9,40 @@
     "sturdy",
     "h:analytic"
   ],
+  "baseStats": {
+    "hp": 70,
+    "attack": 70,
+    "defence": 115,
+    "special_attack": 130,
+    "special_defence": 90,
+    "speed": 60
+  },
+  "catchRate": 30,
+  "maleRatio": -1,
+  "baseFriendship": 50,
+  "experienceGroup": "medium_fast",
+  "eggCycles": 20,
+  "eggGroups": [
+    "mineral"
+  ],
+  "height": 12,
+  "weight": 1800,
+  "pokedex": [
+    "cobblemon.species.magnezone.desc"
+  ],
+  "labels": [
+    "gen4"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 268,
+  "evYield": {
+    "hp": 0,
+    "attack": 0,
+    "defence": 0,
+    "special_attack": 3,
+    "special_defence": 0,
+    "speed": 0
+  },
   "drops": {
     "amount": 6,
     "entries": [
@@ -30,23 +64,14 @@
       }
     ]
   },
-  "baseStats": {
-    "hp": 70,
-    "attack": 70,
-    "defence": 115,
-    "special_attack": 130,
-    "special_defence": 90,
-    "speed": 60
+  "baseScale": 1.4,
+  "hitbox": {
+    "width": 1.5,
+    "height": 1,
+    "fixed": false
   },
-  "catchRate": 30,
-  "maleRatio": -1,
+  "cannotDynamax": false,
   "shoulderMountable": false,
-  "baseExperienceYield": 268,
-  "experienceGroup": "medium_fast",
-  "eggCycles": 20,
-  "eggGroups": [
-    "mineral"
-  ],
   "behaviour": {
     "moving": {
       "fly": {
@@ -196,31 +221,6 @@
     "tutor:steelroller",
     "tutor:swift"
   ],
-  "labels": [
-    "gen4"
-  ],
-  "pokedex": [
-    "cobblemon.species.magnezone.desc"
-  ],
   "preEvolution": "magneton",
-  "evolutions": [],
-  "baseScale": 1.4,
-  "hitbox": {
-    "width": 1.5,
-    "height": 1,
-    "fixed": false
-  },
-  "baseFriendship": 50,
-  "evYield": {
-    "hp": 0,
-    "attack": 0,
-    "defence": 0,
-    "special_attack": 3,
-    "special_defence": 0,
-    "speed": 0
-  },
-  "height": 12,
-  "weight": 1800,
-  "aspects": [],
-  "cannotDynamax": false
+  "evolutions": []
 }

@@ -8,6 +8,41 @@
     "moxie",
     "h:intimidate"
   ],
+  "baseStats": {
+    "hp": 65,
+    "attack": 90,
+    "defence": 115,
+    "special_attack": 45,
+    "special_defence": 115,
+    "speed": 58
+  },
+  "catchRate": 90,
+  "maleRatio": 0.5,
+  "baseFriendship": 50,
+  "experienceGroup": "medium_fast",
+  "eggCycles": 15,
+  "eggGroups": [
+    "field",
+    "dragon"
+  ],
+  "height": 11,
+  "weight": 300,
+  "pokedex": [
+    "cobblemon.species.scrafty.desc"
+  ],
+  "labels": [
+    "gen5"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 171,
+  "evYield": {
+    "hp": 0,
+    "attack": 0,
+    "defence": 1,
+    "special_attack": 0,
+    "special_defence": 1,
+    "speed": 0
+  },
   "drops": {
     "amount": 2,
     "entries": [
@@ -21,24 +56,14 @@
       }
     ]
   },
-  "baseStats": {
-    "hp": 65,
-    "attack": 90,
-    "defence": 115,
-    "special_attack": 45,
-    "special_defence": 115,
-    "speed": 58
+  "baseScale": 1,
+  "hitbox": {
+    "width": 1,
+    "height": 1,
+    "fixed": false
   },
-  "catchRate": 90,
-  "maleRatio": 0.5,
+  "cannotDynamax": false,
   "shoulderMountable": false,
-  "baseExperienceYield": 171,
-  "experienceGroup": "medium_fast",
-  "eggCycles": 15,
-  "eggGroups": [
-    "field",
-    "dragon"
-  ],
   "moves": [
     "1:feintattack",
     "1:headbutt",
@@ -180,31 +205,6 @@
     "tutor:thunderpunch",
     "tutor:zenheadbutt"
   ],
-  "labels": [
-    "gen5"
-  ],
-  "pokedex": [
-    "cobblemon.species.scrafty.desc"
-  ],
   "preEvolution": "scraggy",
-  "evolutions": [],
-  "baseScale": 1,
-  "hitbox": {
-    "width": 1,
-    "height": 1,
-    "fixed": false
-  },
-  "baseFriendship": 50,
-  "evYield": {
-    "hp": 0,
-    "attack": 0,
-    "defence": 1,
-    "special_attack": 0,
-    "special_defence": 1,
-    "speed": 0
-  },
-  "height": 11,
-  "weight": 300,
-  "aspects": [],
-  "cannotDynamax": false
+  "evolutions": []
 }

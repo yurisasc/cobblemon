@@ -8,6 +8,40 @@
     "slushrush",
     "h:sheerforce"
   ],
+  "baseStats": {
+    "hp": 170,
+    "attack": 113,
+    "defence": 65,
+    "special_attack": 45,
+    "special_defence": 55,
+    "speed": 73
+  },
+  "catchRate": 50,
+  "maleRatio": 0.5,
+  "baseFriendship": 50,
+  "experienceGroup": "medium_slow",
+  "eggCycles": 25,
+  "eggGroups": [
+    "field"
+  ],
+  "height": 45,
+  "weight": 7000,
+  "pokedex": [
+    "cobblemon.species.cetitan.desc"
+  ],
+  "labels": [
+    "gen9"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 182,
+  "evYield": {
+    "hp": 2,
+    "attack": 0,
+    "defence": 0,
+    "special_attack": 0,
+    "special_defence": 0,
+    "speed": 0
+  },
   "drops": {
     "amount": 3,
     "entries": [
@@ -21,31 +55,13 @@
       }
     ]
   },
-  "baseStats": {
-    "hp": 170,
-    "attack": 113,
-    "defence": 65,
-    "special_attack": 45,
-    "special_defence": 55,
-    "speed": 73
+  "baseScale": 0.9,
+  "hitbox": {
+    "width": 2.8,
+    "height": 2.8,
+    "fixed": false
   },
-  "catchRate": 50,
-  "maleRatio": 0.5,
-  "baseExperienceYield": 182,
-  "baseFriendship": 50,
-  "evYield": {
-    "hp": 2,
-    "attack": 0,
-    "defence": 0,
-    "special_attack": 0,
-    "special_defence": 0,
-    "speed": 0
-  },
-  "experienceGroup": "medium_slow",
-  "eggCycles": 25,
-  "eggGroups": [
-    "field"
-  ],
+  "cannotDynamax": false,
   "behaviour": {
     "moving": {
       "walk": {
@@ -109,22 +125,6 @@
     "tm:terablast",
     "tm:waterpulse"
   ],
-  "labels": [
-    "gen9"
-  ],
-  "aspects": [],
-  "height": 45,
-  "weight": 7000,
   "preEvolution": "cetoddle",
-  "evolutions": [],
-  "baseScale": 0.9,
-  "hitbox": {
-    "width": 2.8,
-    "height": 2.8,
-    "fixed": false
-  },
-  "cannotDynamax": false,
-  "pokedex": [
-    "cobblemon.species.cetitan.desc"
-  ]
+  "evolutions": []
 }

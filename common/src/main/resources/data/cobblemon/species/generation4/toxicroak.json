@@ -8,6 +8,40 @@
     "dryskin",
     "h:poisontouch"
   ],
+  "baseStats": {
+    "hp": 83,
+    "attack": 106,
+    "defence": 65,
+    "special_attack": 86,
+    "special_defence": 65,
+    "speed": 85
+  },
+  "catchRate": 75,
+  "maleRatio": 0.5,
+  "baseFriendship": 50,
+  "experienceGroup": "medium_fast",
+  "eggCycles": 20,
+  "eggGroups": [
+    "human_like"
+  ],
+  "height": 13,
+  "weight": 444,
+  "pokedex": [
+    "cobblemon.species.toxicroak.desc"
+  ],
+  "labels": [
+    "gen4"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 172,
+  "evYield": {
+    "hp": 0,
+    "attack": 2,
+    "defence": 0,
+    "special_attack": 0,
+    "special_defence": 0,
+    "speed": 0
+  },
   "drops": {
     "amount": 2,
     "entries": [
@@ -21,23 +55,14 @@
       }
     ]
   },
-  "baseStats": {
-    "hp": 83,
-    "attack": 106,
-    "defence": 65,
-    "special_attack": 86,
-    "special_defence": 65,
-    "speed": 85
+  "baseScale": 1,
+  "hitbox": {
+    "width": 1,
+    "height": 1,
+    "fixed": false
   },
-  "catchRate": 75,
-  "maleRatio": 0.5,
+  "cannotDynamax": false,
   "shoulderMountable": false,
-  "baseExperienceYield": 172,
-  "experienceGroup": "medium_fast",
-  "eggCycles": 20,
-  "eggGroups": [
-    "human_like"
-  ],
   "moves": [
     "1:astonish",
     "1:mudslap",
@@ -194,31 +219,6 @@
     "tutor:thunderpunch",
     "tutor:vacuumwave"
   ],
-  "labels": [
-    "gen4"
-  ],
-  "pokedex": [
-    "cobblemon.species.toxicroak.desc"
-  ],
   "preEvolution": "croagunk",
-  "evolutions": [],
-  "baseScale": 1,
-  "hitbox": {
-    "width": 1,
-    "height": 1,
-    "fixed": false
-  },
-  "baseFriendship": 50,
-  "evYield": {
-    "hp": 0,
-    "attack": 2,
-    "defence": 0,
-    "special_attack": 0,
-    "special_defence": 0,
-    "speed": 0
-  },
-  "height": 13,
-  "weight": 444,
-  "aspects": [],
-  "cannotDynamax": false
+  "evolutions": []
 }

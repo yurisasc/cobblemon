@@ -15,13 +15,55 @@
   },
   "catchRate": 255,
   "maleRatio": 0.5,
-  "shoulderMountable": false,
-  "baseExperienceYield": 60,
+  "baseFriendship": 50,
   "experienceGroup": "medium_fast",
   "eggCycles": 15,
   "eggGroups": [
     "bug"
   ],
+  "height": 4,
+  "weight": 44,
+  "pokedex": [
+    "cobblemon.species.grubbin.desc"
+  ],
+  "labels": [
+    "gen7"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 60,
+  "evYield": {
+    "hp": 0,
+    "attack": 1,
+    "defence": 0,
+    "special_attack": 0,
+    "special_defence": 0,
+    "speed": 0
+  },
+  "drops": {
+    "amount": 3,
+    "entries": [
+      {
+        "item": "minecraft:string",
+        "quantityRange": "0-1"
+      },
+      {
+        "item": "cobblemon:wepear_berry",
+        "percentage": 2.5
+      },
+      {
+        "item": "cobblemon:cell_battery",
+        "percentage": 2.5
+      }
+    ]
+  },
+  "baseScale": 1,
+  "hitbox": {
+    "width": 1,
+    "height": 1,
+    "fixed": false
+  },
+  "cannotDynamax": false,
+  "shoulderMountable": false,
   "moves": [
     "1:mudslap",
     "1:visegrip",
@@ -89,18 +131,10 @@
     "tutor:skittersmack",
     "tutor:snore"
   ],
-  "labels": [
-    "gen7"
-  ],
-  "pokedex": [
-    "cobblemon.species.grubbin.desc"
-  ],
   "evolutions": [
     {
       "id": "grubbin_charjabug",
-      "variant": "level_up",
       "result": "charjabug",
-      "consumeHeldItem": false,
       "learnableMoves": [
         "charge"
       ],
@@ -109,43 +143,10 @@
           "variant": "level",
           "minLevel": 20
         }
-      ]
-    }
-  ],
-  "baseScale": 1,
-  "hitbox": {
-    "width": 1,
-    "height": 1,
-    "fixed": false
-  },
-  "baseFriendship": 50,
-  "evYield": {
-    "hp": 0,
-    "attack": 1,
-    "defence": 0,
-    "special_attack": 0,
-    "special_defence": 0,
-    "speed": 0
-  },
-  "height": 4,
-  "weight": 44,
-  "aspects": [],
-  "cannotDynamax": false,
-  "drops": {
-    "amount": 3,
-    "entries": [
-      {
-        "item": "minecraft:string",
-        "quantityRange": "0-1"
-      },
-      {
-        "item": "cobblemon:wepear_berry",
-        "percentage": 2.5
-      },
-      {
-        "item": "cobblemon:cell_battery",
-        "percentage": 2.5
+      ],
+      "trigger": {
+        "variant": "level_up"
       }
-    ]
-  }
+    }
+  ]
 }

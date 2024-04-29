@@ -17,9 +17,22 @@
   },
   "catchRate": 75,
   "maleRatio": 1,
-  "shoulderMountable": false,
-  "baseExperienceYield": 163,
   "baseFriendship": 50,
+  "experienceGroup": "medium_fast",
+  "eggCycles": 20,
+  "eggGroups": [
+    "field"
+  ],
+  "height": 6,
+  "weight": 85,
+  "pokedex": [
+    "cobblemon.species.meowstic.desc"
+  ],
+  "labels": [
+    "gen6"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 163,
   "evYield": {
     "hp": 0,
     "attack": 0,
@@ -28,11 +41,17 @@
     "special_defence": 0,
     "speed": 2
   },
-  "experienceGroup": "medium_fast",
-  "eggCycles": 20,
-  "eggGroups": [
-    "field"
-  ],
+  "drops": {
+    "amount": 1,
+    "entries": [
+      {
+        "item": "cobblemon:colbur_berry",
+        "percentage": 5.0
+      }
+    ]
+  },
+  "cannotDynamax": false,
+  "shoulderMountable": false,
   "moves": [
     "1:disarmingvoice",
     "1:fakeout",
@@ -155,17 +174,9 @@
     "tutor:wonderroom",
     "tutor:zenheadbutt"
   ],
-  "labels": [
-    "gen6"
-  ],
-  "pokedex": [
-    "cobblemon.species.meowstic.desc"
-  ],
-  "height": 6,
-  "weight": 85,
   "preEvolution": "espurr",
   "evolutions": [],
-  "forms": [
+  "permanentForms": [
     {
       "name": "F",
       "primaryType": "psychic",
@@ -184,8 +195,21 @@
       },
       "catchRate": 75,
       "maleRatio": 0,
-      "baseExperienceYield": 163,
       "baseFriendship": 50,
+      "experienceGroup": "medium_fast",
+      "eggCycles": 20,
+      "eggGroups": [
+        "field"
+      ],
+      "height": 6,
+      "weight": 85,
+      "labels": [
+        "gen6"
+      ],
+      "aspects": [
+        "f"
+      ],
+      "baseExperienceYield": 163,
       "evYield": {
         "hp": 0,
         "attack": 0,
@@ -194,11 +218,7 @@
         "special_defence": 0,
         "speed": 2
       },
-      "experienceGroup": "medium_fast",
-      "eggCycles": 20,
-      "eggGroups": [
-        "field"
-      ],
+      "cannotDynamax": false,
       "moves": [
         "1:disarmingvoice",
         "1:fakeout",
@@ -314,28 +334,7 @@
         "tutor:wonderroom",
         "tutor:zenheadbutt"
       ],
-      "labels": [
-        "gen6"
-      ],
-      "aspects": [
-        "f"
-      ],
-      "height": 6,
-      "weight": 85,
-      "preEvolution": "espurr",
-      "cannotDynamax": false,
-      "battleOnly": false
+      "preEvolution": "espurr"
     }
-  ],
-  "aspects": [],
-  "cannotDynamax": false,
-  "drops": {
-    "amount": 1,
-    "entries": [
-      {
-        "item": "cobblemon:colbur_berry",
-        "percentage": 5.0
-      }
-    ]
-  }
+  ]
 }

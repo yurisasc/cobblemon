@@ -9,6 +9,40 @@
     "klutz",
     "h:noguard"
   ],
+  "baseStats": {
+    "hp": 89,
+    "attack": 124,
+    "defence": 80,
+    "special_attack": 55,
+    "special_defence": 80,
+    "speed": 55
+  },
+  "catchRate": 90,
+  "maleRatio": -1,
+  "baseFriendship": 50,
+  "experienceGroup": "medium_fast",
+  "eggCycles": 25,
+  "eggGroups": [
+    "mineral"
+  ],
+  "height": 28,
+  "weight": 3300,
+  "pokedex": [
+    "cobblemon.species.golurk.desc"
+  ],
+  "labels": [
+    "gen5"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 169,
+  "evYield": {
+    "hp": 0,
+    "attack": 2,
+    "defence": 0,
+    "special_attack": 0,
+    "special_defence": 0,
+    "speed": 0
+  },
   "drops": {
     "amount": 4,
     "entries": [
@@ -26,14 +60,14 @@
       }
     ]
   },
-  "baseStats": {
-    "hp": 89,
-    "attack": 124,
-    "defence": 80,
-    "special_attack": 55,
-    "special_defence": 80,
-    "speed": 55
+  "baseScale": 1.65,
+  "hitbox": {
+    "width": 1.4,
+    "height": 3.5,
+    "fixed": false
   },
+  "cannotDynamax": false,
+  "shoulderMountable": false,
   "behaviour": {
     "moving": {
       "walk": {
@@ -47,15 +81,6 @@
       "light": "0-4"
     }
   },
-  "catchRate": 90,
-  "maleRatio": -1,
-  "shoulderMountable": false,
-  "baseExperienceYield": 169,
-  "experienceGroup": "medium_fast",
-  "eggCycles": 25,
-  "eggGroups": [
-    "mineral"
-  ],
   "moves": [
     "1:astonish",
     "1:defensecurl",
@@ -199,31 +224,6 @@
     "tutor:thunderpunch",
     "tutor:zenheadbutt"
   ],
-  "labels": [
-    "gen5"
-  ],
-  "pokedex": [
-    "cobblemon.species.golurk.desc"
-  ],
   "preEvolution": "golett",
-  "evolutions": [],
-  "baseScale": 1.65,
-  "hitbox": {
-    "width": 1.4,
-    "height": 3.5,
-    "fixed": false
-  },
-  "baseFriendship": 50,
-  "evYield": {
-    "hp": 0,
-    "attack": 2,
-    "defence": 0,
-    "special_attack": 0,
-    "special_defence": 0,
-    "speed": 0
-  },
-  "height": 28,
-  "weight": 3300,
-  "aspects": [],
-  "cannotDynamax": false
+  "evolutions": []
 }

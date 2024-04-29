@@ -17,14 +17,56 @@
   },
   "catchRate": 70,
   "maleRatio": 0.5,
-  "shoulderMountable": false,
-  "baseExperienceYield": 170,
+  "baseFriendship": 50,
   "experienceGroup": "medium_fast",
   "eggCycles": 20,
   "eggGroups": [
     "monster",
     "dragon"
   ],
+  "height": 20,
+  "weight": 2120,
+  "pokedex": [
+    "cobblemon.species.turtonator.desc"
+  ],
+  "labels": [
+    "gen7"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 170,
+  "evYield": {
+    "hp": 0,
+    "attack": 0,
+    "defence": 2,
+    "special_attack": 0,
+    "special_defence": 0,
+    "speed": 0
+  },
+  "drops": {
+    "amount": 4,
+    "entries": [
+      {
+        "item": "minecraft:scute",
+        "quantityRange": "0-2"
+      },
+      {
+        "item": "minecraft:charcoal",
+        "percentage": 5.0
+      },
+      {
+        "item": "cobblemon:haban_berry",
+        "percentage": 5.0
+      }
+    ]
+  },
+  "baseScale": 1,
+  "hitbox": {
+    "width": 2,
+    "height": 2.4,
+    "fixed": false
+  },
+  "cannotDynamax": false,
+  "shoulderMountable": false,
   "moves": [
     "1:smog",
     "1:tackle",
@@ -132,47 +174,5 @@
     "tutor:uproar",
     "tutor:wideguard"
   ],
-  "labels": [
-    "gen7"
-  ],
-  "pokedex": [
-    "cobblemon.species.turtonator.desc"
-  ],
-  "evolutions": [],
-  "baseScale": 1,
-  "hitbox": {
-    "width": 2,
-    "height": 2.4,
-    "fixed": false
-  },
-  "baseFriendship": 50,
-  "evYield": {
-    "hp": 0,
-    "attack": 0,
-    "defence": 2,
-    "special_attack": 0,
-    "special_defence": 0,
-    "speed": 0
-  },
-  "height": 20,
-  "weight": 2120,
-  "aspects": [],
-  "cannotDynamax": false,
-  "drops": {
-    "amount": 4,
-    "entries": [
-      {
-        "item": "minecraft:scute",
-        "quantityRange": "0-2"
-      },
-      {
-        "item": "minecraft:charcoal",
-        "percentage": 5.0
-      },
-      {
-        "item": "cobblemon:haban_berry",
-        "percentage": 5.0
-      }
-    ]
-  }
+  "evolutions": []
 }

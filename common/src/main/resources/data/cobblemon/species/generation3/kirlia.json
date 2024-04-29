@@ -9,6 +9,41 @@
     "trace",
     "h:telepathy"
   ],
+  "baseStats": {
+    "hp": 38,
+    "attack": 35,
+    "defence": 35,
+    "special_attack": 65,
+    "special_defence": 55,
+    "speed": 50
+  },
+  "catchRate": 120,
+  "maleRatio": 0.5,
+  "baseFriendship": 35,
+  "experienceGroup": "slow",
+  "eggCycles": 20,
+  "eggGroups": [
+    "human_like",
+    "amorphous"
+  ],
+  "height": 8,
+  "weight": 202,
+  "pokedex": [
+    "cobblemon.species.kirlia.desc"
+  ],
+  "labels": [
+    "gen3"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 97,
+  "evYield": {
+    "hp": 0,
+    "attack": 0,
+    "defence": 0,
+    "special_attack": 2,
+    "special_defence": 0,
+    "speed": 0
+  },
   "drops": {
     "amount": 5,
     "entries": [
@@ -30,24 +65,14 @@
       }
     ]
   },
-  "baseStats": {
-    "hp": 38,
-    "attack": 35,
-    "defence": 35,
-    "special_attack": 65,
-    "special_defence": 55,
-    "speed": 50
+  "baseScale": 0.8,
+  "hitbox": {
+    "width": 0.5,
+    "height": 1.4,
+    "fixed": false
   },
-  "catchRate": 120,
-  "maleRatio": 0.5,
+  "cannotDynamax": false,
   "shoulderMountable": false,
-  "baseExperienceYield": 97,
-  "experienceGroup": "slow",
-  "eggCycles": 20,
-  "eggGroups": [
-    "human_like",
-    "amorphous"
-  ],
   "behaviour": {
     "resting": {
       "canSleep": true,
@@ -202,19 +227,11 @@
     "tutor:wonderroom",
     "tutor:zenheadbutt"
   ],
-  "labels": [
-    "gen3"
-  ],
-  "pokedex": [
-    "cobblemon.species.kirlia.desc"
-  ],
   "preEvolution": "ralts",
   "evolutions": [
     {
       "id": "kirlia_gardevoir",
-      "variant": "level_up",
       "result": "gardevoir",
-      "consumeHeldItem": false,
       "learnableMoves": [
         "dazzlinggleam"
       ],
@@ -223,13 +240,14 @@
           "variant": "level",
           "minLevel": 30
         }
-      ]
+      ],
+      "trigger": {
+        "variant": "level_up"
+      }
     },
     {
       "id": "kirlia_gallade",
-      "variant": "item_interact",
       "result": "gallade",
-      "consumeHeldItem": false,
       "learnableMoves": [],
       "requirements": [
         {
@@ -237,26 +255,10 @@
           "target": "gender=male"
         }
       ],
-      "requiredContext": "cobblemon:dawn_stone"
+      "trigger": {
+        "variant": "item_interact",
+        "requiredContext": "cobblemon:dawn_stone"
+      }
     }
-  ],
-  "baseScale": 0.8,
-  "hitbox": {
-    "width": 0.5,
-    "height": 1.4,
-    "fixed": false
-  },
-  "baseFriendship": 35,
-  "evYield": {
-    "hp": 0,
-    "attack": 0,
-    "defence": 0,
-    "special_attack": 2,
-    "special_defence": 0,
-    "speed": 0
-  },
-  "height": 8,
-  "weight": 202,
-  "aspects": [],
-  "cannotDynamax": false
+  ]
 }

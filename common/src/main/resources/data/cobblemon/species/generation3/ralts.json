@@ -9,6 +9,41 @@
     "trace",
     "h:telepathy"
   ],
+  "baseStats": {
+    "hp": 28,
+    "attack": 25,
+    "defence": 25,
+    "special_attack": 45,
+    "special_defence": 35,
+    "speed": 40
+  },
+  "catchRate": 235,
+  "maleRatio": 0.5,
+  "baseFriendship": 35,
+  "experienceGroup": "slow",
+  "eggCycles": 20,
+  "eggGroups": [
+    "human_like",
+    "amorphous"
+  ],
+  "height": 4,
+  "weight": 66,
+  "pokedex": [
+    "cobblemon.species.ralts.desc"
+  ],
+  "labels": [
+    "gen3"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 40,
+  "evYield": {
+    "hp": 0,
+    "attack": 0,
+    "defence": 0,
+    "special_attack": 1,
+    "special_defence": 0,
+    "speed": 0
+  },
   "drops": {
     "amount": 4,
     "entries": [
@@ -30,24 +65,14 @@
       }
     ]
   },
-  "baseStats": {
-    "hp": 28,
-    "attack": 25,
-    "defence": 25,
-    "special_attack": 45,
-    "special_defence": 35,
-    "speed": 40
+  "baseScale": 0.8,
+  "hitbox": {
+    "width": 0.5,
+    "height": 0.9,
+    "fixed": false
   },
-  "catchRate": 235,
-  "maleRatio": 0.5,
+  "cannotDynamax": false,
   "shoulderMountable": true,
-  "baseExperienceYield": 40,
-  "experienceGroup": "slow",
-  "eggCycles": 20,
-  "eggGroups": [
-    "human_like",
-    "amorphous"
-  ],
   "behaviour": {
     "resting": {
       "canSleep": true,
@@ -222,44 +247,20 @@
     "tutor:wonderroom",
     "tutor:zenheadbutt"
   ],
-  "labels": [
-    "gen3"
-  ],
-  "pokedex": [
-    "cobblemon.species.ralts.desc"
-  ],
   "evolutions": [
     {
       "id": "ralts_kirlia",
-      "variant": "level_up",
       "result": "kirlia",
-      "consumeHeldItem": false,
       "learnableMoves": [],
       "requirements": [
         {
           "variant": "level",
           "minLevel": 20
         }
-      ]
+      ],
+      "trigger": {
+        "variant": "level_up"
+      }
     }
-  ],
-  "baseScale": 0.8,
-  "hitbox": {
-    "width": 0.5,
-    "height": 0.9,
-    "fixed": false
-  },
-  "baseFriendship": 35,
-  "evYield": {
-    "hp": 0,
-    "attack": 0,
-    "defence": 0,
-    "special_attack": 1,
-    "special_defence": 0,
-    "speed": 0
-  },
-  "height": 4,
-  "weight": 66,
-  "aspects": [],
-  "cannotDynamax": false
+  ]
 }

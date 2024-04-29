@@ -8,6 +8,41 @@
     "moxie",
     "h:intimidate"
   ],
+  "baseStats": {
+    "hp": 50,
+    "attack": 75,
+    "defence": 70,
+    "special_attack": 35,
+    "special_defence": 70,
+    "speed": 48
+  },
+  "catchRate": 180,
+  "maleRatio": 0.5,
+  "baseFriendship": 35,
+  "experienceGroup": "medium_fast",
+  "eggCycles": 15,
+  "eggGroups": [
+    "field",
+    "dragon"
+  ],
+  "height": 6,
+  "weight": 118,
+  "pokedex": [
+    "cobblemon.species.scraggy.desc"
+  ],
+  "labels": [
+    "gen5"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 70,
+  "evYield": {
+    "hp": 0,
+    "attack": 1,
+    "defence": 0,
+    "special_attack": 0,
+    "special_defence": 0,
+    "speed": 0
+  },
   "drops": {
     "amount": 2,
     "entries": [
@@ -21,24 +56,14 @@
       }
     ]
   },
-  "baseStats": {
-    "hp": 50,
-    "attack": 75,
-    "defence": 70,
-    "special_attack": 35,
-    "special_defence": 70,
-    "speed": 48
+  "baseScale": 1,
+  "hitbox": {
+    "width": 1,
+    "height": 1,
+    "fixed": false
   },
-  "catchRate": 180,
-  "maleRatio": 0.5,
+  "cannotDynamax": false,
   "shoulderMountable": false,
-  "baseExperienceYield": 70,
-  "experienceGroup": "medium_fast",
-  "eggCycles": 15,
-  "eggGroups": [
-    "field",
-    "dragon"
-  ],
   "moves": [
     "1:leer",
     "1:lowkick",
@@ -186,44 +211,20 @@
     "tutor:thunderpunch",
     "tutor:zenheadbutt"
   ],
-  "labels": [
-    "gen5"
-  ],
-  "pokedex": [
-    "cobblemon.species.scraggy.desc"
-  ],
   "evolutions": [
     {
       "id": "scraggy_scrafty",
-      "variant": "level_up",
       "result": "scrafty",
-      "consumeHeldItem": false,
       "learnableMoves": [],
       "requirements": [
         {
           "variant": "level",
           "minLevel": 39
         }
-      ]
+      ],
+      "trigger": {
+        "variant": "level_up"
+      }
     }
-  ],
-  "baseScale": 1,
-  "hitbox": {
-    "width": 1,
-    "height": 1,
-    "fixed": false
-  },
-  "baseFriendship": 35,
-  "evYield": {
-    "hp": 0,
-    "attack": 1,
-    "defence": 0,
-    "special_attack": 0,
-    "special_defence": 0,
-    "speed": 0
-  },
-  "height": 6,
-  "weight": 118,
-  "aspects": [],
-  "cannotDynamax": false
+  ]
 }

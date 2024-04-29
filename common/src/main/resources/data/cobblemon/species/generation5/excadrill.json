@@ -8,6 +8,40 @@
     "sandforce",
     "h:moldbreaker"
   ],
+  "baseStats": {
+    "hp": 110,
+    "attack": 135,
+    "defence": 60,
+    "special_attack": 50,
+    "special_defence": 65,
+    "speed": 88
+  },
+  "catchRate": 60,
+  "maleRatio": 0.5,
+  "baseFriendship": 50,
+  "experienceGroup": "medium_fast",
+  "eggCycles": 20,
+  "eggGroups": [
+    "field"
+  ],
+  "height": 7,
+  "weight": 404,
+  "pokedex": [
+    "cobblemon.species.excadrill.desc"
+  ],
+  "labels": [
+    "gen5"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 178,
+  "evYield": {
+    "hp": 0,
+    "attack": 2,
+    "defence": 0,
+    "special_attack": 0,
+    "special_defence": 0,
+    "speed": 0
+  },
   "drops": {
     "amount": 2,
     "entries": [
@@ -21,23 +55,14 @@
       }
     ]
   },
-  "baseStats": {
-    "hp": 110,
-    "attack": 135,
-    "defence": 60,
-    "special_attack": 50,
-    "special_defence": 65,
-    "speed": 88
+  "baseScale": 1,
+  "hitbox": {
+    "width": 1,
+    "height": 1,
+    "fixed": false
   },
-  "catchRate": 60,
-  "maleRatio": 0.5,
+  "cannotDynamax": false,
   "shoulderMountable": false,
-  "baseExperienceYield": 178,
-  "experienceGroup": "medium_fast",
-  "eggCycles": 20,
-  "eggGroups": [
-    "field"
-  ],
   "moves": [
     "1:honeclaws",
     "1:horndrill",
@@ -133,31 +158,6 @@
     "tutor:steelbeam",
     "tutor:stompingtantrum"
   ],
-  "labels": [
-    "gen5"
-  ],
-  "pokedex": [
-    "cobblemon.species.excadrill.desc"
-  ],
   "preEvolution": "drilbur",
-  "evolutions": [],
-  "baseScale": 1,
-  "hitbox": {
-    "width": 1,
-    "height": 1,
-    "fixed": false
-  },
-  "baseFriendship": 50,
-  "evYield": {
-    "hp": 0,
-    "attack": 2,
-    "defence": 0,
-    "special_attack": 0,
-    "special_defence": 0,
-    "speed": 0
-  },
-  "height": 7,
-  "weight": 404,
-  "aspects": [],
-  "cannotDynamax": false
+  "evolutions": []
 }

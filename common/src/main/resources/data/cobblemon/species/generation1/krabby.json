@@ -18,21 +18,29 @@
   },
   "catchRate": 225,
   "maleRatio": 0.5,
-  "shoulderMountable": false,
-  "baseExperienceYield": 65,
+  "baseFriendship": 50,
   "experienceGroup": "medium_fast",
   "eggCycles": 20,
   "eggGroups": [
     "water_3"
   ],
-  "behaviour": {
-    "moving": {
-      "swim": {
-        "swimSpeed": 0.1,
-        "canSwimInWater": false,
-        "canBreatheUnderwater": true
-      }
-    }
+  "height": 4,
+  "weight": 65,
+  "pokedex": [
+    "cobblemon.species.krabby.desc"
+  ],
+  "labels": [
+    "gen1"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 65,
+  "evYield": {
+    "hp": 0,
+    "attack": 1,
+    "defence": 0,
+    "special_attack": 0,
+    "special_defence": 0,
+    "speed": 0
   },
   "drops": {
     "amount": 2,
@@ -46,6 +54,23 @@
         "percentage": 2.5
       }
     ]
+  },
+  "baseScale": 0.7,
+  "hitbox": {
+    "width": 1,
+    "height": 0.7,
+    "fixed": false
+  },
+  "cannotDynamax": false,
+  "shoulderMountable": false,
+  "behaviour": {
+    "moving": {
+      "swim": {
+        "swimSpeed": 0.1,
+        "canSwimInWater": false,
+        "canBreatheUnderwater": true
+      }
+    }
   },
   "moves": [
     "1:bubble",
@@ -198,44 +223,20 @@
     "tutor:whirlpool",
     "tutor:xscissor"
   ],
-  "labels": [
-    "gen1"
-  ],
-  "pokedex": [
-    "cobblemon.species.krabby.desc"
-  ],
   "evolutions": [
     {
       "id": "krabby_kingler",
-      "variant": "level_up",
       "result": "kingler",
-      "consumeHeldItem": false,
       "learnableMoves": [],
       "requirements": [
         {
           "variant": "level",
           "minLevel": 28
         }
-      ]
+      ],
+      "trigger": {
+        "variant": "level_up"
+      }
     }
-  ],
-  "baseScale": 0.7,
-  "hitbox": {
-    "width": 1,
-    "height": 0.7,
-    "fixed": false
-  },
-  "baseFriendship": 50,
-  "evYield": {
-    "hp": 0,
-    "attack": 1,
-    "defence": 0,
-    "special_attack": 0,
-    "special_defence": 0,
-    "speed": 0
-  },
-  "height": 4,
-  "weight": 65,
-  "aspects": [],
-  "cannotDynamax": false
+  ]
 }

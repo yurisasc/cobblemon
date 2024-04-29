@@ -14,6 +14,32 @@
     "special_defence": 95,
     "speed": 65
   },
+  "catchRate": 45,
+  "maleRatio": 0.5,
+  "baseFriendship": 70,
+  "experienceGroup": "slow",
+  "eggCycles": 20,
+  "eggGroups": [
+    "field"
+  ],
+  "height": 4,
+  "weight": 199,
+  "pokedex": [
+    "cobblemon.species.komala.desc"
+  ],
+  "labels": [
+    "gen7"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 168,
+  "evYield": {
+    "hp": 0,
+    "attack": 2,
+    "defence": 0,
+    "special_attack": 0,
+    "special_defence": 0,
+    "speed": 0
+  },
   "drops": {
     "amount": 2,
     "entries": [
@@ -26,15 +52,14 @@
       }
     ]
   },
-  "catchRate": 45,
-  "maleRatio": 0.5,
+  "baseScale": 0.6,
+  "hitbox": {
+    "width": 0.7,
+    "height": 1,
+    "fixed": false
+  },
+  "cannotDynamax": false,
   "shoulderMountable": false,
-  "baseExperienceYield": 168,
-  "experienceGroup": "slow",
-  "eggCycles": 20,
-  "eggGroups": [
-    "field"
-  ],
   "behaviour": {
     "moving": {
       "walk": {
@@ -130,30 +155,5 @@
     "tutor:superpower",
     "tutor:zenheadbutt"
   ],
-  "labels": [
-    "gen7"
-  ],
-  "pokedex": [
-    "cobblemon.species.komala.desc"
-  ],
-  "evolutions": [],
-  "baseScale": 0.6,
-  "hitbox": {
-    "width": 0.7,
-    "height": 1,
-    "fixed": false
-  },
-  "baseFriendship": 70,
-  "evYield": {
-    "hp": 0,
-    "attack": 2,
-    "defence": 0,
-    "special_attack": 0,
-    "special_defence": 0,
-    "speed": 0
-  },
-  "height": 4,
-  "weight": 199,
-  "aspects": [],
-  "cannotDynamax": false
+  "evolutions": []
 }

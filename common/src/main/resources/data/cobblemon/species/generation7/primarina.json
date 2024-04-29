@@ -18,14 +18,48 @@
   },
   "catchRate": 45,
   "maleRatio": 0.875,
-  "shoulderMountable": false,
-  "baseExperienceYield": 265,
+  "baseFriendship": 50,
   "experienceGroup": "medium_slow",
   "eggCycles": 15,
   "eggGroups": [
     "water_1",
     "field"
   ],
+  "height": 18,
+  "weight": 440,
+  "pokedex": [
+    "cobblemon.species.primarina.desc"
+  ],
+  "labels": [
+    "gen7"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 265,
+  "evYield": {
+    "hp": 0,
+    "attack": 0,
+    "defence": 0,
+    "special_attack": 3,
+    "special_defence": 0,
+    "speed": 0
+  },
+  "drops": {
+    "amount": 1,
+    "entries": [
+      {
+        "item": "cobblemon:mystic_water",
+        "percentage": 25.0
+      }
+    ]
+  },
+  "baseScale": 1,
+  "hitbox": {
+    "width": 1.7,
+    "height": 1.8,
+    "fixed": false
+  },
+  "cannotDynamax": false,
+  "shoulderMountable": false,
   "behaviour": {
     "moving": {
       "walk": {
@@ -42,15 +76,6 @@
       "depth": "normal",
       "light": "0-4"
     }
-  },
-  "drops": {
-    "amount": 1,
-    "entries": [
-      {
-        "item": "cobblemon:mystic_water",
-        "percentage": 25.0
-      }
-    ]
   },
   "moves": [
     "1:disarmingvoice",
@@ -161,31 +186,6 @@
     "tutor:waterpulse",
     "tutor:wonderroom"
   ],
-  "labels": [
-    "gen7"
-  ],
-  "pokedex": [
-    "cobblemon.species.primarina.desc"
-  ],
   "preEvolution": "brionne",
-  "evolutions": [],
-  "baseScale": 1,
-  "hitbox": {
-    "width": 1.7,
-    "height": 1.8,
-    "fixed": false
-  },
-  "baseFriendship": 50,
-  "evYield": {
-    "hp": 0,
-    "attack": 0,
-    "defence": 0,
-    "special_attack": 3,
-    "special_defence": 0,
-    "speed": 0
-  },
-  "height": 18,
-  "weight": 440,
-  "aspects": [],
-  "cannotDynamax": false
+  "evolutions": []
 }

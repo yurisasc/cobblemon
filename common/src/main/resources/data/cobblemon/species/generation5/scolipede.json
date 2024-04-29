@@ -9,6 +9,40 @@
     "swarm",
     "h:speedboost"
   ],
+  "baseStats": {
+    "hp": 60,
+    "attack": 100,
+    "defence": 89,
+    "special_attack": 55,
+    "special_defence": 69,
+    "speed": 112
+  },
+  "catchRate": 45,
+  "maleRatio": 0.5,
+  "baseFriendship": 50,
+  "experienceGroup": "medium_slow",
+  "eggCycles": 20,
+  "eggGroups": [
+    "bug"
+  ],
+  "height": 25,
+  "weight": 2005,
+  "pokedex": [
+    "cobblemon.species.scolipede.desc"
+  ],
+  "labels": [
+    "gen5"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 243,
+  "evYield": {
+    "hp": 0,
+    "attack": 0,
+    "defence": 0,
+    "special_attack": 0,
+    "special_defence": 0,
+    "speed": 3
+  },
   "drops": {
     "amount": 2,
     "entries": [
@@ -22,14 +56,14 @@
       }
     ]
   },
-  "baseStats": {
-    "hp": 60,
-    "attack": 100,
-    "defence": 89,
-    "special_attack": 55,
-    "special_defence": 69,
-    "speed": 112
+  "baseScale": 1.0,
+  "hitbox": {
+    "width": 2.5,
+    "height": 3.0,
+    "fixed": false
   },
+  "cannotDynamax": false,
+  "shoulderMountable": false,
   "behaviour": {
     "moving": {
       "walk": {
@@ -43,15 +77,6 @@
       "light": "11-15"
     }
   },
-  "catchRate": 45,
-  "maleRatio": 0.5,
-  "shoulderMountable": false,
-  "baseExperienceYield": 243,
-  "experienceGroup": "medium_slow",
-  "eggCycles": 20,
-  "eggGroups": [
-    "bug"
-  ],
   "moves": [
     "1:batonpass",
     "1:defensecurl",
@@ -144,31 +169,6 @@
     "tutor:throatchop",
     "tutor:toxicspikes"
   ],
-  "labels": [
-    "gen5"
-  ],
-  "pokedex": [
-    "cobblemon.species.scolipede.desc"
-  ],
   "preEvolution": "whirlipede",
-  "evolutions": [],
-  "baseScale": 1.0,
-  "hitbox": {
-    "width": 2.5,
-    "height": 3.0,
-    "fixed": false
-  },
-  "baseFriendship": 50,
-  "evYield": {
-    "hp": 0,
-    "attack": 0,
-    "defence": 0,
-    "special_attack": 0,
-    "special_defence": 0,
-    "speed": 3
-  },
-  "height": 25,
-  "weight": 2005,
-  "aspects": [],
-  "cannotDynamax": false
+  "evolutions": []
 }

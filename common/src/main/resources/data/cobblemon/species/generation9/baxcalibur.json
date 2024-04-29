@@ -17,8 +17,24 @@
   },
   "catchRate": 10,
   "maleRatio": 0.5,
-  "baseExperienceYield": 300,
   "baseFriendship": 50,
+  "experienceGroup": "slow",
+  "eggCycles": 40,
+  "eggGroups": [
+    "dragon",
+    "mineral"
+  ],
+  "height": 21,
+  "weight": 2100,
+  "pokedex": [
+    "cobblemon.species.baxcalibur.desc"
+  ],
+  "labels": [
+    "gen9",
+    "pseudo_legendary"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 300,
   "evYield": {
     "hp": 0,
     "attack": 3,
@@ -27,12 +43,16 @@
     "special_defence": 0,
     "speed": 0
   },
-  "experienceGroup": "slow",
-  "eggCycles": 40,
-  "eggGroups": [
-    "dragon",
-    "mineral"
-  ],
+  "drops": {
+    "amount": 1,
+    "entries": [
+      {
+        "item": "cobblemon:haban_berry",
+        "percentage": 10.0
+      }
+    ]
+  },
+  "cannotDynamax": false,
   "moves": [
     "1:breakingswipe",
     "1:dragontail",
@@ -91,26 +111,6 @@
     "tm:thunderfang",
     "tm:zenheadbutt"
   ],
-  "labels": [
-    "gen9",
-    "pseudo_legendary"
-  ],
-  "aspects": [],
-  "height": 21,
-  "weight": 2100,
   "preEvolution": "arctibax",
-  "evolutions": [],
-  "cannotDynamax": false,
-  "pokedex": [
-    "cobblemon.species.baxcalibur.desc"
-  ],
-  "drops": {
-    "amount": 1,
-    "entries": [
-      {
-        "item": "cobblemon:haban_berry",
-        "percentage": 10.0
-      }
-    ]
-  }
+  "evolutions": []
 }

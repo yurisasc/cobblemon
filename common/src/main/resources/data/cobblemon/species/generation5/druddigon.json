@@ -7,6 +7,41 @@
     "sheerforce",
     "h:moldbreaker"
   ],
+  "baseStats": {
+    "hp": 77,
+    "attack": 120,
+    "defence": 90,
+    "special_attack": 60,
+    "special_defence": 90,
+    "speed": 48
+  },
+  "catchRate": 45,
+  "maleRatio": 0.5,
+  "baseFriendship": 50,
+  "experienceGroup": "medium_fast",
+  "eggCycles": 30,
+  "eggGroups": [
+    "monster",
+    "dragon"
+  ],
+  "height": 16,
+  "weight": 1390,
+  "pokedex": [
+    "cobblemon.species.druddigon.desc"
+  ],
+  "labels": [
+    "gen5"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 170,
+  "evYield": {
+    "hp": 0,
+    "attack": 2,
+    "defence": 0,
+    "special_attack": 0,
+    "special_defence": 0,
+    "speed": 0
+  },
   "drops": {
     "amount": 2,
     "entries": [
@@ -20,24 +55,14 @@
       }
     ]
   },
-  "baseStats": {
-    "hp": 77,
-    "attack": 120,
-    "defence": 90,
-    "special_attack": 60,
-    "special_defence": 90,
-    "speed": 48
+  "baseScale": 1,
+  "hitbox": {
+    "width": 1,
+    "height": 1,
+    "fixed": false
   },
-  "catchRate": 45,
-  "maleRatio": 0.5,
+  "cannotDynamax": false,
   "shoulderMountable": false,
-  "baseExperienceYield": 170,
-  "experienceGroup": "medium_fast",
-  "eggCycles": 30,
-  "eggGroups": [
-    "monster",
-    "dragon"
-  ],
   "moves": [
     "1:leer",
     "1:scratch",
@@ -165,30 +190,5 @@
     "tutor:superpower",
     "tutor:thunderpunch"
   ],
-  "labels": [
-    "gen5"
-  ],
-  "pokedex": [
-    "cobblemon.species.druddigon.desc"
-  ],
-  "evolutions": [],
-  "baseScale": 1,
-  "hitbox": {
-    "width": 1,
-    "height": 1,
-    "fixed": false
-  },
-  "baseFriendship": 50,
-  "evYield": {
-    "hp": 0,
-    "attack": 2,
-    "defence": 0,
-    "special_attack": 0,
-    "special_defence": 0,
-    "speed": 0
-  },
-  "height": 16,
-  "weight": 1390,
-  "aspects": [],
-  "cannotDynamax": false
+  "evolutions": []
 }

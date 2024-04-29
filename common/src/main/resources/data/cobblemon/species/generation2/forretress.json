@@ -16,26 +16,35 @@
     "special_defence": 60,
     "speed": 40
   },
-  "features": [
-    "shulker"
-  ],
-  "behaviour": {
-    "resting": {
-      "canSleep": true,
-      "willSleepOnBed": true,
-      "depth": "normal",
-      "light": "0-4"
-    }
-  },
   "catchRate": 75,
   "maleRatio": 0.5,
-  "shoulderMountable": false,
-  "baseExperienceYield": 163,
+  "baseFriendship": 70,
   "experienceGroup": "medium_fast",
   "eggCycles": 20,
   "eggGroups": [
     "bug"
   ],
+  "height": 12,
+  "weight": 1258,
+  "pokedex": [
+    "cobblemon.species.forretress.desc"
+  ],
+  "labels": [
+    "gen2"
+  ],
+  "features": [
+    "shulker"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 163,
+  "evYield": {
+    "hp": 0,
+    "attack": 0,
+    "defence": 2,
+    "special_attack": 0,
+    "special_defence": 0,
+    "speed": 0
+  },
   "drops": {
     "amount": 4,
     "entries": [
@@ -52,6 +61,22 @@
         "percentage": 5.0
       }
     ]
+  },
+  "baseScale": 0.7,
+  "hitbox": {
+    "width": 1.25,
+    "height": 1.7,
+    "fixed": false
+  },
+  "cannotDynamax": false,
+  "shoulderMountable": false,
+  "behaviour": {
+    "resting": {
+      "canSleep": true,
+      "willSleepOnBed": true,
+      "depth": "normal",
+      "light": "0-4"
+    }
   },
   "moves": [
     "1:autotomize",
@@ -203,31 +228,6 @@
     "tutor:telekinesis",
     "tutor:toxic"
   ],
-  "labels": [
-    "gen2"
-  ],
-  "pokedex": [
-    "cobblemon.species.forretress.desc"
-  ],
   "preEvolution": "pineco",
-  "evolutions": [],
-  "baseScale": 0.7,
-  "hitbox": {
-    "width": 1.25,
-    "height": 1.7,
-    "fixed": false
-  },
-  "baseFriendship": 70,
-  "evYield": {
-    "hp": 0,
-    "attack": 0,
-    "defence": 2,
-    "special_attack": 0,
-    "special_defence": 0,
-    "speed": 0
-  },
-  "height": 12,
-  "weight": 1258,
-  "aspects": [],
-  "cannotDynamax": false
+  "evolutions": []
 }

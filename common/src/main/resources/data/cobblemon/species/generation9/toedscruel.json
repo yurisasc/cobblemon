@@ -16,8 +16,22 @@
   },
   "catchRate": 90,
   "maleRatio": 0.5,
-  "baseExperienceYield": 180,
   "baseFriendship": 50,
+  "experienceGroup": "medium_slow",
+  "eggCycles": 20,
+  "eggGroups": [
+    "field"
+  ],
+  "height": 19,
+  "weight": 580,
+  "pokedex": [
+    "cobblemon.species.toedscruel.desc"
+  ],
+  "labels": [
+    "gen9"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 180,
   "evYield": {
     "hp": 0,
     "attack": 0,
@@ -26,11 +40,20 @@
     "special_defence": 2,
     "speed": 0
   },
-  "experienceGroup": "medium_slow",
-  "eggCycles": 20,
-  "eggGroups": [
-    "field"
-  ],
+  "drops": {
+    "amount": 3,
+    "entries": [
+      {
+        "item": "minecraft:brown_mushroom",
+        "quantityRange": "0-2"
+      },
+      {
+        "item": "cobblemon:yache_berry",
+        "percentage": 5.0
+      }
+    ]
+  },
+  "cannotDynamax": false,
   "moves": [
     "1:mudslap",
     "1:reflecttype",
@@ -89,29 +112,6 @@
     "tm:trickroom",
     "tm:venoshock"
   ],
-  "labels": [
-    "gen9"
-  ],
-  "aspects": [],
-  "height": 19,
-  "weight": 580,
   "preEvolution": "toedscool",
-  "evolutions": [],
-  "cannotDynamax": false,
-  "pokedex": [
-    "cobblemon.species.toedscruel.desc"
-  ],
-  "drops": {
-    "amount": 3,
-    "entries": [
-      {
-        "item": "minecraft:brown_mushroom",
-        "quantityRange": "0-2"
-      },
-      {
-        "item": "cobblemon:yache_berry",
-        "percentage": 5.0
-      }
-    ]
-  }
+  "evolutions": []
 }

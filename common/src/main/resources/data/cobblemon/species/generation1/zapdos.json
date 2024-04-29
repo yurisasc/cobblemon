@@ -8,6 +8,45 @@
     "pressure",
     "h:static"
   ],
+  "baseStats": {
+    "hp": 90,
+    "attack": 90,
+    "defence": 85,
+    "special_attack": 125,
+    "special_defence": 90,
+    "speed": 100
+  },
+  "catchRate": 3,
+  "maleRatio": -1,
+  "baseFriendship": 35,
+  "experienceGroup": "slow",
+  "eggCycles": 80,
+  "eggGroups": [
+    "undiscovered"
+  ],
+  "height": 16,
+  "weight": 526,
+  "pokedex": [
+    "cobblemon.species.zapdos.desc"
+  ],
+  "labels": [
+    "gen1",
+    "legendary",
+    "kanto_regional"
+  ],
+  "features": [
+    "galarian"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 290,
+  "evYield": {
+    "hp": 0,
+    "attack": 0,
+    "defence": 0,
+    "special_attack": 3,
+    "special_defence": 0,
+    "speed": 0
+  },
   "drops": {
     "amount": 6,
     "entries": [
@@ -23,165 +62,14 @@
       }
     ]
   },
-  "baseStats": {
-    "hp": 90,
-    "attack": 90,
-    "defence": 85,
-    "special_attack": 125,
-    "special_defence": 90,
-    "speed": 100
+  "baseScale": 1.5,
+  "hitbox": {
+    "width": 1.2,
+    "height": 1.6,
+    "fixed": false
   },
-  "features": [
-    "galarian"
-  ],
-  "catchRate": 3,
-  "maleRatio": -1,
+  "cannotDynamax": false,
   "shoulderMountable": false,
-  "forms": [
-    {
-      "name": "Galar",
-      "primaryType": "fighting",
-      "secondaryType": "flying",
-      "abilities": [
-        "defiant"
-      ],
-      "baseStats": {
-        "hp": 90,
-        "attack": 125,
-        "defence": 90,
-        "special_attack": 85,
-        "special_defence": 90,
-        "speed": 100
-      },
-      "catchRate": 3,
-      "maleRatio": -1,
-      "baseExperienceYield": 290,
-      "baseFriendship": 35,
-      "evYield": {
-        "hp": 0,
-        "attack": 3,
-        "defence": 0,
-        "special_attack": 0,
-        "special_defence": 0,
-        "speed": 0
-      },
-      "experienceGroup": "slow",
-      "eggCycles": 80,
-      "eggGroups": [
-        "undiscovered"
-      ],
-      "moves": [
-        "1:focusenergy",
-        "1:peck",
-        "5:rocksmash",
-        "10:lightscreen",
-        "15:pluck",
-        "20:agility",
-        "25:ancientpower",
-        "30:brickbreak",
-        "35:drillpeck",
-        "40:quickguard",
-        "45:thunderouskick",
-        "50:bulkup",
-        "55:counter",
-        "60:detect",
-        "65:closecombat",
-        "70:reversal",
-        "tm:acrobatics",
-        "tm:aerialace",
-        "tm:agility",
-        "tm:assurance",
-        "tm:blazekick",
-        "tm:bounce",
-        "tm:bravebird",
-        "tm:brickbreak",
-        "tm:bulkup",
-        "tm:closecombat",
-        "tm:coaching",
-        "tm:doubleedge",
-        "tm:dualwingbeat",
-        "tm:endeavor",
-        "tm:endure",
-        "tm:facade",
-        "tm:fly",
-        "tm:focusenergy",
-        "tm:gigaimpact",
-        "tm:helpinghand",
-        "tm:hurricane",
-        "tm:hyperbeam",
-        "tm:knockoff",
-        "tm:lightscreen",
-        "tm:lowkick",
-        "tm:lowsweep",
-        "tm:megakick",
-        "tm:payback",
-        "tm:protect",
-        "tm:raindance",
-        "tm:rest",
-        "tm:retaliate",
-        "tm:revenge",
-        "tm:reversal",
-        "tm:round",
-        "tm:sandstorm",
-        "tm:scaryface",
-        "tm:screech",
-        "tm:sleeptalk",
-        "tm:snore",
-        "tm:steelwing",
-        "tm:stompingtantrum",
-        "tm:substitute",
-        "tm:sunnyday",
-        "tm:superpower",
-        "tm:swift",
-        "tm:tailwind",
-        "tm:takedown",
-        "tm:taunt",
-        "tm:terablast",
-        "tm:throatchop",
-        "tm:trailblaze",
-        "tm:uturn",
-        "tutor:coaching",
-        "tutor:drillpeck",
-        "tutor:dualwingbeat",
-        "tutor:focusenergy",
-        "tutor:reversal",
-        "tutor:thunderouskick"
-      ],
-      "labels": [
-        "gen8",
-        "legendary",
-        "galar_regional"
-      ],
-      "aspects": [
-        "galarian"
-      ],
-      "height": 16,
-      "weight": 582,
-      "cannotDynamax": false,
-      "battleOnly": false,
-      "drops": {
-        "amount": 6,
-        "entries": [
-          {
-            "item": "minecraft:feather",
-            "quantityRange": "2-4"
-          },
-          {
-            "item": "minecraft:chicken"
-          },
-          {
-            "item": "cobblemon:razor_claw"
-          }
-        ]
-      }
-    }
-  ],
-  "baseExperienceYield": 290,
-  "experienceGroup": "slow",
-  "eggCycles": 80,
-  "eggGroups": [
-    "undiscovered"
-  ],
   "behaviour": {
     "moving": {
       "fly": {
@@ -336,32 +224,143 @@
     "tutor:whirlwind",
     "tutor:zapcannon"
   ],
-  "labels": [
-    "gen1",
-    "legendary",
-    "kanto_regional"
-  ],
-  "pokedex": [
-    "cobblemon.species.zapdos.desc"
-  ],
   "evolutions": [],
-  "baseScale": 1.5,
-  "hitbox": {
-    "width": 1.2,
-    "height": 1.6,
-    "fixed": false
-  },
-  "baseFriendship": 35,
-  "evYield": {
-    "hp": 0,
-    "attack": 0,
-    "defence": 0,
-    "special_attack": 3,
-    "special_defence": 0,
-    "speed": 0
-  },
-  "height": 16,
-  "weight": 526,
-  "aspects": [],
-  "cannotDynamax": false
+  "permanentForms": [
+    {
+      "name": "Galar",
+      "primaryType": "fighting",
+      "secondaryType": "flying",
+      "abilities": [
+        "defiant"
+      ],
+      "baseStats": {
+        "hp": 90,
+        "attack": 125,
+        "defence": 90,
+        "special_attack": 85,
+        "special_defence": 90,
+        "speed": 100
+      },
+      "catchRate": 3,
+      "maleRatio": -1,
+      "baseFriendship": 35,
+      "experienceGroup": "slow",
+      "eggCycles": 80,
+      "eggGroups": [
+        "undiscovered"
+      ],
+      "height": 16,
+      "weight": 582,
+      "labels": [
+        "gen8",
+        "legendary",
+        "galar_regional"
+      ],
+      "aspects": [
+        "galarian"
+      ],
+      "baseExperienceYield": 290,
+      "evYield": {
+        "hp": 0,
+        "attack": 3,
+        "defence": 0,
+        "special_attack": 0,
+        "special_defence": 0,
+        "speed": 0
+      },
+      "drops": {
+        "amount": 6,
+        "entries": [
+          {
+            "item": "minecraft:feather",
+            "quantityRange": "2-4"
+          },
+          {
+            "item": "minecraft:chicken"
+          },
+          {
+            "item": "cobblemon:razor_claw"
+          }
+        ]
+      },
+      "cannotDynamax": false,
+      "moves": [
+        "1:focusenergy",
+        "1:peck",
+        "5:rocksmash",
+        "10:lightscreen",
+        "15:pluck",
+        "20:agility",
+        "25:ancientpower",
+        "30:brickbreak",
+        "35:drillpeck",
+        "40:quickguard",
+        "45:thunderouskick",
+        "50:bulkup",
+        "55:counter",
+        "60:detect",
+        "65:closecombat",
+        "70:reversal",
+        "tm:acrobatics",
+        "tm:aerialace",
+        "tm:agility",
+        "tm:assurance",
+        "tm:blazekick",
+        "tm:bounce",
+        "tm:bravebird",
+        "tm:brickbreak",
+        "tm:bulkup",
+        "tm:closecombat",
+        "tm:coaching",
+        "tm:doubleedge",
+        "tm:dualwingbeat",
+        "tm:endeavor",
+        "tm:endure",
+        "tm:facade",
+        "tm:fly",
+        "tm:focusenergy",
+        "tm:gigaimpact",
+        "tm:helpinghand",
+        "tm:hurricane",
+        "tm:hyperbeam",
+        "tm:knockoff",
+        "tm:lightscreen",
+        "tm:lowkick",
+        "tm:lowsweep",
+        "tm:megakick",
+        "tm:payback",
+        "tm:protect",
+        "tm:raindance",
+        "tm:rest",
+        "tm:retaliate",
+        "tm:revenge",
+        "tm:reversal",
+        "tm:round",
+        "tm:sandstorm",
+        "tm:scaryface",
+        "tm:screech",
+        "tm:sleeptalk",
+        "tm:snore",
+        "tm:steelwing",
+        "tm:stompingtantrum",
+        "tm:substitute",
+        "tm:sunnyday",
+        "tm:superpower",
+        "tm:swift",
+        "tm:tailwind",
+        "tm:takedown",
+        "tm:taunt",
+        "tm:terablast",
+        "tm:throatchop",
+        "tm:trailblaze",
+        "tm:uturn",
+        "tutor:coaching",
+        "tutor:drillpeck",
+        "tutor:dualwingbeat",
+        "tutor:focusenergy",
+        "tutor:reversal",
+        "tutor:thunderouskick"
+      ]
+    }
+  ]
 }

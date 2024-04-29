@@ -18,28 +18,31 @@
   },
   "catchRate": 45,
   "maleRatio": 0.5,
-  "shoulderMountable": false,
-  "baseExperienceYield": 300,
+  "baseFriendship": 35,
   "experienceGroup": "slow",
   "eggCycles": 40,
   "eggGroups": [
     "water_1",
     "dragon"
   ],
-  "behaviour": {
-    "moving": {
-      "swim": {
-        "canWalkOnWater": true,
-        "canSwimInWater": true,
-        "canBreatheUnderwater": true
-      },
-      "fly": {
-        "canFly": true
-      },
-      "walk": {
-        "walkSpeed": 0.2
-      }
-    }
+  "height": 22,
+  "weight": 2100,
+  "pokedex": [
+    "cobblemon.species.dragonite.desc"
+  ],
+  "labels": [
+    "gen1",
+    "pseudo_legendary"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 300,
+  "evYield": {
+    "hp": 0,
+    "attack": 3,
+    "defence": 0,
+    "special_attack": 0,
+    "special_defence": 0,
+    "speed": 0
   },
   "drops": {
     "amount": 6,
@@ -61,6 +64,29 @@
         "percentage": 10.0
       }
     ]
+  },
+  "baseScale": 0.9,
+  "hitbox": {
+    "width": 1.5,
+    "height": 3.2,
+    "fixed": false
+  },
+  "cannotDynamax": false,
+  "shoulderMountable": false,
+  "behaviour": {
+    "moving": {
+      "swim": {
+        "canWalkOnWater": true,
+        "canSwimInWater": true,
+        "canBreatheUnderwater": true
+      },
+      "fly": {
+        "canFly": true
+      },
+      "walk": {
+        "walkSpeed": 0.2
+      }
+    }
   },
   "moves": [
     "1:extremespeed",
@@ -288,32 +314,6 @@
     "tutor:wrap",
     "tutor:zapcannon"
   ],
-  "labels": [
-    "gen1",
-    "pseudo_legendary"
-  ],
-  "pokedex": [
-    "cobblemon.species.dragonite.desc"
-  ],
   "preEvolution": "dragonair",
-  "evolutions": [],
-  "baseScale": 0.9,
-  "hitbox": {
-    "width": 1.5,
-    "height": 3.2,
-    "fixed": false
-  },
-  "baseFriendship": 35,
-  "evYield": {
-    "hp": 0,
-    "attack": 3,
-    "defence": 0,
-    "special_attack": 0,
-    "special_defence": 0,
-    "speed": 0
-  },
-  "height": 22,
-  "weight": 2100,
-  "aspects": [],
-  "cannotDynamax": false
+  "evolutions": []
 }

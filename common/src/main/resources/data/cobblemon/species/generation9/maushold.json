@@ -8,6 +8,43 @@
     "cheekpouch",
     "h:technician"
   ],
+  "baseStats": {
+    "hp": 74,
+    "attack": 75,
+    "defence": 70,
+    "special_attack": 65,
+    "special_defence": 75,
+    "speed": 111
+  },
+  "catchRate": 75,
+  "maleRatio": -1,
+  "baseFriendship": 50,
+  "experienceGroup": "fast",
+  "eggCycles": 10,
+  "eggGroups": [
+    "field",
+    "fairy"
+  ],
+  "height": 3,
+  "weight": 23,
+  "pokedex": [
+    "cobblemon.species.maushold.desc"
+  ],
+  "labels": [
+    "gen9"
+  ],
+  "aspects": [
+    "maushold-family-three"
+  ],
+  "baseExperienceYield": 165,
+  "evYield": {
+    "hp": 0,
+    "attack": 0,
+    "defence": 0,
+    "special_attack": 0,
+    "special_defence": 0,
+    "speed": 2
+  },
   "drops": {
     "amount": 3,
     "entries": [
@@ -21,14 +58,13 @@
       }
     ]
   },
-  "baseStats": {
-    "hp": 74,
-    "attack": 75,
-    "defence": 70,
-    "special_attack": 65,
-    "special_defence": 75,
-    "speed": 111
+  "baseScale": 0.5,
+  "hitbox": {
+    "width": 1.25,
+    "height": 0.75,
+    "fixed": false
   },
+  "cannotDynamax": false,
   "behaviour": {
     "resting": {
       "canSleep": false,
@@ -37,24 +73,6 @@
       "light": "0-4"
     }
   },
-  "catchRate": 75,
-  "maleRatio": -1,
-  "baseExperienceYield": 165,
-  "baseFriendship": 50,
-  "evYield": {
-    "hp": 0,
-    "attack": 0,
-    "defence": 0,
-    "special_attack": 0,
-    "special_defence": 0,
-    "speed": 2
-  },
-  "experienceGroup": "fast",
-  "eggCycles": 10,
-  "eggGroups": [
-    "field",
-    "fairy"
-  ],
   "moves": [
     "1:babydolleyes",
     "1:followme",
@@ -111,24 +129,9 @@
     "tm:uturn",
     "tm:waterpulse"
   ],
-  "baseScale": 0.5,
-  "hitbox": {
-    "width": 1.25,
-    "height": 0.75,
-    "fixed": false
-  },
-  "labels": [
-    "gen9"
-  ],
-  "aspects": [
-    "maushold-family-three"
-  ],
-  "height": 3,
-  "weight": 23,
   "preEvolution": "tandemaus",
   "evolutions": [],
-  "cannotDynamax": false,
-  "forms": [
+  "permanentForms": [
     {
       "name": "Four",
       "primaryType": "normal",
@@ -148,6 +151,20 @@
       "catchRate": 75,
       "maleRatio": -1,
       "baseFriendship": 50,
+      "experienceGroup": "fast",
+      "eggCycles": 10,
+      "eggGroups": [
+        "field",
+        "fairy"
+      ],
+      "height": 3,
+      "weight": 28,
+      "labels": [
+        "gen9"
+      ],
+      "aspects": [
+        "maushold-family-four"
+      ],
       "evYield": {
         "hp": 0,
         "attack": 0,
@@ -156,12 +173,7 @@
         "special_defence": 0,
         "speed": 2
       },
-      "experienceGroup": "fast",
-      "eggCycles": 10,
-      "eggGroups": [
-        "field",
-        "fairy"
-      ],
+      "cannotDynamax": false,
       "moves": [
         "1:babydolleyes",
         "1:followme",
@@ -218,20 +230,7 @@
         "tm:uturn",
         "tm:waterpulse"
       ],
-      "labels": [
-        "gen9"
-      ],
-      "aspects": [
-        "maushold-family-four"
-      ],
-      "height": 3,
-      "weight": 28,
-      "preEvolution": "tandemaus",
-      "cannotDynamax": false,
-      "battleOnly": false
+      "preEvolution": "tandemaus"
     }
-  ],
-  "pokedex": [
-    "cobblemon.species.maushold.desc"
   ]
 }

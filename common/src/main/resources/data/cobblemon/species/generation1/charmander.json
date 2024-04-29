@@ -15,29 +15,33 @@
     "special_defence": 50,
     "speed": 65
   },
-  "behaviour": {
-    "moving": {
-      "walk": {
-        "walkSpeed": 0.3
-      }
-    },
-    "resting": {
-      "canSleep": true,
-      "willSleepOnBed": true,
-      "depth": "normal",
-      "light": "0-4"
-    }
-  },
   "catchRate": 45,
   "maleRatio": 0.875,
-  "shoulderMountable": false,
-  "baseExperienceYield": 62,
+  "baseFriendship": 50,
   "experienceGroup": "medium_slow",
   "eggCycles": 20,
   "eggGroups": [
     "monster",
     "dragon"
   ],
+  "height": 6,
+  "weight": 85,
+  "pokedex": [
+    "cobblemon.species.charmander.desc"
+  ],
+  "labels": [
+    "gen1"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 62,
+  "evYield": {
+    "hp": 0,
+    "attack": 0,
+    "defence": 0,
+    "special_attack": 0,
+    "special_defence": 0,
+    "speed": 1
+  },
   "drops": {
     "amount": 2,
     "entries": [
@@ -50,6 +54,27 @@
         "percentage": 5.0
       }
     ]
+  },
+  "baseScale": 0.7,
+  "hitbox": {
+    "width": 0.7,
+    "height": 1.1,
+    "fixed": false
+  },
+  "cannotDynamax": false,
+  "shoulderMountable": false,
+  "behaviour": {
+    "moving": {
+      "walk": {
+        "walkSpeed": 0.3
+      }
+    },
+    "resting": {
+      "canSleep": true,
+      "willSleepOnBed": true,
+      "depth": "normal",
+      "light": "0-4"
+    }
   },
   "moves": [
     "1:growl",
@@ -236,44 +261,20 @@
     "tutor:toxic",
     "tutor:willowisp"
   ],
-  "labels": [
-    "gen1"
-  ],
-  "pokedex": [
-    "cobblemon.species.charmander.desc"
-  ],
   "evolutions": [
     {
       "id": "charmander_charmeleon",
-      "variant": "level_up",
       "result": "charmeleon",
-      "consumeHeldItem": false,
       "learnableMoves": [],
       "requirements": [
         {
           "variant": "level",
           "minLevel": 16
         }
-      ]
+      ],
+      "trigger": {
+        "variant": "level_up"
+      }
     }
-  ],
-  "baseScale": 0.7,
-  "hitbox": {
-    "width": 0.7,
-    "height": 1.1,
-    "fixed": false
-  },
-  "baseFriendship": 50,
-  "evYield": {
-    "hp": 0,
-    "attack": 0,
-    "defence": 0,
-    "special_attack": 0,
-    "special_defence": 0,
-    "speed": 1
-  },
-  "height": 6,
-  "weight": 85,
-  "aspects": [],
-  "cannotDynamax": false
+  ]
 }

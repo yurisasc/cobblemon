@@ -17,13 +17,51 @@
   },
   "catchRate": 225,
   "maleRatio": 0.5,
-  "shoulderMountable": false,
-  "baseExperienceYield": 59,
+  "baseFriendship": 35,
   "experienceGroup": "fast",
   "eggCycles": 25,
   "eggGroups": [
     "amorphous"
   ],
+  "height": 6,
+  "weight": 23,
+  "pokedex": [
+    "cobblemon.species.shuppet.desc"
+  ],
+  "labels": [
+    "gen3"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 59,
+  "evYield": {
+    "hp": 0,
+    "attack": 1,
+    "defence": 0,
+    "special_attack": 0,
+    "special_defence": 0,
+    "speed": 0
+  },
+  "drops": {
+    "amount": 2,
+    "entries": [
+      {
+        "item": "minecraft:phantom_membrane",
+        "percentage": 2.5
+      },
+      {
+        "item": "cobblemon:spell_tag",
+        "percentage": 2.5
+      }
+    ]
+  },
+  "baseScale": 1,
+  "hitbox": {
+    "width": 1,
+    "height": 1,
+    "fixed": false
+  },
+  "cannotDynamax": false,
+  "shoulderMountable": false,
   "moves": [
     "1:astonish",
     "1:knockoff",
@@ -158,18 +196,10 @@
     "tutor:trick",
     "tutor:willowisp"
   ],
-  "labels": [
-    "gen3"
-  ],
-  "pokedex": [
-    "cobblemon.species.shuppet.desc"
-  ],
   "evolutions": [
     {
       "id": "shuppet_banette",
-      "variant": "level_up",
       "result": "banette",
-      "consumeHeldItem": false,
       "learnableMoves": [
         "knockoff"
       ],
@@ -178,39 +208,10 @@
           "variant": "level",
           "minLevel": 37
         }
-      ]
-    }
-  ],
-  "baseScale": 1,
-  "hitbox": {
-    "width": 1,
-    "height": 1,
-    "fixed": false
-  },
-  "baseFriendship": 35,
-  "evYield": {
-    "hp": 0,
-    "attack": 1,
-    "defence": 0,
-    "special_attack": 0,
-    "special_defence": 0,
-    "speed": 0
-  },
-  "height": 6,
-  "weight": 23,
-  "aspects": [],
-  "cannotDynamax": false,
-  "drops": {
-    "amount": 2,
-    "entries": [
-      {
-        "item": "minecraft:phantom_membrane",
-        "percentage": 2.5
-      },
-      {
-        "item": "cobblemon:spell_tag",
-        "percentage": 2.5
+      ],
+      "trigger": {
+        "variant": "level_up"
       }
-    ]
-  }
+    }
+  ]
 }

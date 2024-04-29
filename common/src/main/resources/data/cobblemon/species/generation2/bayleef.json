@@ -17,14 +17,48 @@
   },
   "catchRate": 45,
   "maleRatio": 0.875,
-  "shoulderMountable": false,
-  "baseExperienceYield": 142,
+  "baseFriendship": 70,
   "experienceGroup": "medium_slow",
   "eggCycles": 20,
   "eggGroups": [
     "monster",
     "grass"
   ],
+  "height": 12,
+  "weight": 158,
+  "pokedex": [
+    "cobblemon.species.bayleef.desc"
+  ],
+  "labels": [
+    "gen2"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 142,
+  "evYield": {
+    "hp": 0,
+    "attack": 0,
+    "defence": 1,
+    "special_attack": 0,
+    "special_defence": 1,
+    "speed": 0
+  },
+  "drops": {
+    "amount": 1,
+    "entries": [
+      {
+        "item": "cobblemon:miracle_seed",
+        "percentage": 10.0
+      }
+    ]
+  },
+  "baseScale": 0.9,
+  "hitbox": {
+    "width": 0.9,
+    "height": 1.7,
+    "fixed": false
+  },
+  "cannotDynamax": false,
+  "shoulderMountable": false,
   "behaviour": {
     "resting": {
       "canSleep": true,
@@ -37,15 +71,6 @@
         "walkSpeed": 0.2
       }
     }
-  },
-  "drops": {
-    "amount": 1,
-    "entries": [
-      {
-        "item": "cobblemon:miracle_seed",
-        "percentage": 10.0
-      }
-    ]
   },
   "moves": [
     "1:growl",
@@ -167,45 +192,21 @@
     "tutor:toxic",
     "tutor:worryseed"
   ],
-  "labels": [
-    "gen2"
-  ],
-  "pokedex": [
-    "cobblemon.species.bayleef.desc"
-  ],
   "preEvolution": "chikorita",
   "evolutions": [
     {
       "id": "bayleef_meganium",
-      "variant": "level_up",
       "result": "meganium",
-      "consumeHeldItem": false,
       "learnableMoves": [],
       "requirements": [
         {
           "variant": "level",
           "minLevel": 32
         }
-      ]
+      ],
+      "trigger": {
+        "variant": "level_up"
+      }
     }
-  ],
-  "baseScale": 0.9,
-  "hitbox": {
-    "width": 0.9,
-    "height": 1.7,
-    "fixed": false
-  },
-  "baseFriendship": 70,
-  "evYield": {
-    "hp": 0,
-    "attack": 0,
-    "defence": 1,
-    "special_attack": 0,
-    "special_defence": 1,
-    "speed": 0
-  },
-  "height": 12,
-  "weight": 158,
-  "aspects": [],
-  "cannotDynamax": false
+  ]
 }

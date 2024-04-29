@@ -7,15 +7,6 @@
   "abilities": [
     "emergencyexit"
   ],
-  "drops": {
-    "amount": 1,
-    "entries": [
-      {
-        "item": "cobblemon:bluk_berry",
-        "percentage": 5.0
-      }
-    ]
-  },
   "baseStats": {
     "hp": 75,
     "attack": 125,
@@ -26,14 +17,48 @@
   },
   "catchRate": 45,
   "maleRatio": 0.5,
-  "shoulderMountable": false,
-  "baseExperienceYield": 186,
+  "baseFriendship": 50,
   "experienceGroup": "medium_fast",
   "eggCycles": 20,
   "eggGroups": [
     "bug",
     "water_3"
   ],
+  "height": 20,
+  "weight": 1080,
+  "pokedex": [
+    "cobblemon.species.golisopod.desc"
+  ],
+  "labels": [
+    "gen7"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 186,
+  "evYield": {
+    "hp": 0,
+    "attack": 0,
+    "defence": 2,
+    "special_attack": 0,
+    "special_defence": 0,
+    "speed": 0
+  },
+  "drops": {
+    "amount": 1,
+    "entries": [
+      {
+        "item": "cobblemon:bluk_berry",
+        "percentage": 5.0
+      }
+    ]
+  },
+  "baseScale": 0.9,
+  "hitbox": {
+    "width": 1.5,
+    "height": 2.9,
+    "fixed": false
+  },
+  "cannotDynamax": false,
+  "shoulderMountable": false,
   "behaviour": {
     "resting": {
       "canSleep": true,
@@ -146,31 +171,6 @@
     "tutor:throatchop",
     "tutor:waterpulse"
   ],
-  "labels": [
-    "gen7"
-  ],
-  "pokedex": [
-    "cobblemon.species.golisopod.desc"
-  ],
   "preEvolution": "wimpod",
-  "evolutions": [],
-  "baseScale": 0.9,
-  "hitbox": {
-    "width": 1.5,
-    "height": 2.9,
-    "fixed": false
-  },
-  "baseFriendship": 50,
-  "evYield": {
-    "hp": 0,
-    "attack": 0,
-    "defence": 2,
-    "special_attack": 0,
-    "special_defence": 0,
-    "speed": 0
-  },
-  "height": 20,
-  "weight": 1080,
-  "aspects": [],
-  "cannotDynamax": false
+  "evolutions": []
 }

@@ -8,6 +8,40 @@
     "overcoat",
     "h:filter"
   ],
+  "baseStats": {
+    "hp": 80,
+    "attack": 119,
+    "defence": 90,
+    "special_attack": 54,
+    "special_defence": 67,
+    "speed": 90
+  },
+  "catchRate": 75,
+  "maleRatio": 0.5,
+  "baseFriendship": 50,
+  "experienceGroup": "medium_fast",
+  "eggCycles": 20,
+  "eggGroups": [
+    "mineral"
+  ],
+  "height": 18,
+  "weight": 1200,
+  "pokedex": [
+    "cobblemon.species.revavroom.desc"
+  ],
+  "labels": [
+    "gen9"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 175,
+  "evYield": {
+    "hp": 0,
+    "attack": 2,
+    "defence": 0,
+    "special_attack": 0,
+    "special_defence": 0,
+    "speed": 0
+  },
   "drops": {
     "amount": 4,
     "entries": [
@@ -25,14 +59,7 @@
       }
     ]
   },
-  "baseStats": {
-    "hp": 80,
-    "attack": 119,
-    "defence": 90,
-    "special_attack": 54,
-    "special_defence": 67,
-    "speed": 90
-  },
+  "cannotDynamax": false,
   "behaviour": {
     "resting": {
       "canSleep": true,
@@ -41,23 +68,6 @@
       "light": "0-4"
     }
   },
-  "catchRate": 75,
-  "maleRatio": 0.5,
-  "baseExperienceYield": 175,
-  "baseFriendship": 50,
-  "evYield": {
-    "hp": 0,
-    "attack": 2,
-    "defence": 0,
-    "special_attack": 0,
-    "special_defence": 0,
-    "speed": 0
-  },
-  "experienceGroup": "medium_fast",
-  "eggCycles": 20,
-  "eggGroups": [
-    "mineral"
-  ],
   "moves": [
     "1:lick",
     "1:magnetrise",
@@ -108,16 +118,6 @@
     "tm:venoshock",
     "tm:zenheadbutt"
   ],
-  "labels": [
-    "gen9"
-  ],
-  "aspects": [],
-  "height": 18,
-  "weight": 1200,
   "preEvolution": "varoom",
-  "evolutions": [],
-  "cannotDynamax": false,
-  "pokedex": [
-    "cobblemon.species.revavroom.desc"
-  ]
+  "evolutions": []
 }

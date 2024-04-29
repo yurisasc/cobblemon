@@ -15,6 +15,54 @@
     "special_defence": 80,
     "speed": 100
   },
+  "catchRate": 45,
+  "maleRatio": 0.5,
+  "baseFriendship": 50,
+  "experienceGroup": "medium_slow",
+  "eggCycles": 20,
+  "eggGroups": [
+    "bug",
+    "dragon"
+  ],
+  "height": 20,
+  "weight": 820,
+  "pokedex": [
+    "cobblemon.species.flygon.desc"
+  ],
+  "labels": [
+    "gen3"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 260,
+  "evYield": {
+    "hp": 0,
+    "attack": 1,
+    "defence": 0,
+    "special_attack": 0,
+    "special_defence": 0,
+    "speed": 2
+  },
+  "drops": {
+    "amount": 2,
+    "entries": [
+      {
+        "item": "cobblemon:soft_sand",
+        "percentage": 10.0
+      },
+      {
+        "item": "cobblemon:yache_berry",
+        "percentage": 10.0
+      }
+    ]
+  },
+  "baseScale": 0.75,
+  "hitbox": {
+    "width": 1.85,
+    "height": 3.2,
+    "fixed": false
+  },
+  "cannotDynamax": false,
+  "shoulderMountable": false,
   "behaviour": {
     "resting": {
       "canSleep": false,
@@ -28,16 +76,6 @@
       }
     }
   },
-  "catchRate": 45,
-  "maleRatio": 0.5,
-  "shoulderMountable": false,
-  "baseExperienceYield": 260,
-  "experienceGroup": "medium_slow",
-  "eggCycles": 20,
-  "eggGroups": [
-    "bug",
-    "dragon"
-  ],
   "moves": [
     "1:astonish",
     "1:bide",
@@ -205,44 +243,6 @@
     "tutor:uproar",
     "tutor:uturn"
   ],
-  "labels": [
-    "gen3"
-  ],
-  "pokedex": [
-    "cobblemon.species.flygon.desc"
-  ],
   "preEvolution": "vibrava",
-  "evolutions": [],
-  "baseScale": 0.75,
-  "hitbox": {
-    "width": 1.85,
-    "height": 3.2,
-    "fixed": false
-  },
-  "baseFriendship": 50,
-  "evYield": {
-    "hp": 0,
-    "attack": 1,
-    "defence": 0,
-    "special_attack": 0,
-    "special_defence": 0,
-    "speed": 2
-  },
-  "height": 20,
-  "weight": 820,
-  "aspects": [],
-  "cannotDynamax": false,
-  "drops": {
-    "amount": 2,
-    "entries": [
-      {
-        "item": "cobblemon:soft_sand",
-        "percentage": 10.0
-      },
-      {
-        "item": "cobblemon:yache_berry",
-        "percentage": 10.0
-      }
-    ]
-  }
+  "evolutions": []
 }

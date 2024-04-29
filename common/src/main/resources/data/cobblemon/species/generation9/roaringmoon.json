@@ -16,8 +16,23 @@
   },
   "catchRate": 10,
   "maleRatio": -1,
-  "baseExperienceYield": 295,
   "baseFriendship": 0,
+  "experienceGroup": "slow",
+  "eggCycles": 50,
+  "eggGroups": [
+    "undiscovered"
+  ],
+  "height": 20,
+  "weight": 3800,
+  "pokedex": [
+    "cobblemon.species.roaringmoon.desc"
+  ],
+  "labels": [
+    "gen9",
+    "paradox"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 295,
   "evYield": {
     "hp": 0,
     "attack": 3,
@@ -26,11 +41,7 @@
     "special_defence": 0,
     "speed": 0
   },
-  "experienceGroup": "slow",
-  "eggCycles": 50,
-  "eggGroups": [
-    "undiscovered"
-  ],
+  "cannotDynamax": false,
   "moves": [
     "1:bite",
     "1:breakingswipe",
@@ -108,16 +119,5 @@
     "tutor:nightslash",
     "tutor:zenheadbutt"
   ],
-  "labels": [
-    "gen9",
-    "paradox"
-  ],
-  "aspects": [],
-  "height": 20,
-  "weight": 3800,
-  "evolutions": [],
-  "cannotDynamax": false,
-  "pokedex": [
-    "cobblemon.species.roaringmoon.desc"
-  ]
+  "evolutions": []
 }

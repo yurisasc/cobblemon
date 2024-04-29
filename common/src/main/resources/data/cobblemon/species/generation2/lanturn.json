@@ -9,6 +9,40 @@
     "illuminate",
     "h:waterabsorb"
   ],
+  "baseStats": {
+    "hp": 125,
+    "attack": 58,
+    "defence": 58,
+    "special_attack": 76,
+    "special_defence": 76,
+    "speed": 67
+  },
+  "catchRate": 75,
+  "maleRatio": 0.5,
+  "baseFriendship": 50,
+  "experienceGroup": "slow",
+  "eggCycles": 20,
+  "eggGroups": [
+    "water_2"
+  ],
+  "height": 12,
+  "weight": 225,
+  "pokedex": [
+    "cobblemon.species.lanturn.desc"
+  ],
+  "labels": [
+    "gen2"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 161,
+  "evYield": {
+    "hp": 2,
+    "attack": 0,
+    "defence": 0,
+    "special_attack": 0,
+    "special_defence": 0,
+    "speed": 0
+  },
   "drops": {
     "amount": 4,
     "entries": [
@@ -26,23 +60,14 @@
       }
     ]
   },
-  "baseStats": {
-    "hp": 125,
-    "attack": 58,
-    "defence": 58,
-    "special_attack": 76,
-    "special_defence": 76,
-    "speed": 67
+  "baseScale": 1,
+  "hitbox": {
+    "width": 1,
+    "height": 1,
+    "fixed": false
   },
-  "catchRate": 75,
-  "maleRatio": 0.5,
+  "cannotDynamax": false,
   "shoulderMountable": false,
-  "baseExperienceYield": 161,
-  "experienceGroup": "slow",
-  "eggCycles": 20,
-  "eggGroups": [
-    "water_2"
-  ],
   "behaviour": {
     "moving": {
       "walk": {
@@ -188,31 +213,6 @@
     "tutor:whirlpool",
     "tutor:zapcannon"
   ],
-  "labels": [
-    "gen2"
-  ],
-  "pokedex": [
-    "cobblemon.species.lanturn.desc"
-  ],
   "preEvolution": "chinchou",
-  "evolutions": [],
-  "baseScale": 1,
-  "hitbox": {
-    "width": 1,
-    "height": 1,
-    "fixed": false
-  },
-  "baseFriendship": 50,
-  "evYield": {
-    "hp": 2,
-    "attack": 0,
-    "defence": 0,
-    "special_attack": 0,
-    "special_defence": 0,
-    "speed": 0
-  },
-  "height": 12,
-  "weight": 225,
-  "aspects": [],
-  "cannotDynamax": false
+  "evolutions": []
 }

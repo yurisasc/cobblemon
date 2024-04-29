@@ -17,8 +17,19 @@
   },
   "catchRate": 3,
   "maleRatio": 1,
-  "baseExperienceYield": 0,
   "baseFriendship": 0,
+  "experienceGroup": "slow",
+  "eggCycles": 50,
+  "eggGroups": [
+    "undiscovered"
+  ],
+  "height": 10,
+  "weight": 122,
+  "labels": [
+    "gen9"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 0,
   "evYield": {
     "hp": 0,
     "attack": 0,
@@ -27,11 +38,7 @@
     "special_defence": 0,
     "speed": 0
   },
-  "experienceGroup": "slow",
-  "eggCycles": 50,
-  "eggGroups": [
-    "undiscovered"
-  ],
+  "cannotDynamax": false,
   "moves": [
     "1:confusion",
     "1:fakeout",
@@ -97,12 +104,5 @@
     "tutor:psychic",
     "tutor:sludgewave"
   ],
-  "labels": [
-    "gen9"
-  ],
-  "aspects": [],
-  "height": 10,
-  "weight": 122,
-  "evolutions": [],
-  "cannotDynamax": false
+  "evolutions": []
 }

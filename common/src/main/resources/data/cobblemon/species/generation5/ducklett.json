@@ -8,6 +8,41 @@
     "bigpecks",
     "h:hydration"
   ],
+  "baseStats": {
+    "hp": 62,
+    "attack": 44,
+    "defence": 50,
+    "special_attack": 44,
+    "special_defence": 50,
+    "speed": 55
+  },
+  "catchRate": 190,
+  "maleRatio": 0.5,
+  "baseFriendship": 70,
+  "experienceGroup": "medium_fast",
+  "eggCycles": 20,
+  "eggGroups": [
+    "water_1",
+    "flying"
+  ],
+  "height": 5,
+  "weight": 55,
+  "pokedex": [
+    "cobblemon.species.ducklett.desc"
+  ],
+  "labels": [
+    "gen5"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 61,
+  "evYield": {
+    "hp": 1,
+    "attack": 0,
+    "defence": 0,
+    "special_attack": 0,
+    "special_defence": 0,
+    "speed": 0
+  },
   "drops": {
     "amount": 3,
     "entries": [
@@ -24,24 +59,14 @@
       }
     ]
   },
-  "baseStats": {
-    "hp": 62,
-    "attack": 44,
-    "defence": 50,
-    "special_attack": 44,
-    "special_defence": 50,
-    "speed": 55
+  "baseScale": 1,
+  "hitbox": {
+    "width": 1,
+    "height": 1,
+    "fixed": false
   },
-  "catchRate": 190,
-  "maleRatio": 0.5,
+  "cannotDynamax": false,
   "shoulderMountable": false,
-  "baseExperienceYield": 61,
-  "experienceGroup": "medium_fast",
-  "eggCycles": 20,
-  "eggGroups": [
-    "water_1",
-    "flying"
-  ],
   "moves": [
     "1:watergun",
     "3:watersport",
@@ -127,44 +152,20 @@
     "tutor:uproar",
     "tutor:waterpulse"
   ],
-  "labels": [
-    "gen5"
-  ],
-  "pokedex": [
-    "cobblemon.species.ducklett.desc"
-  ],
   "evolutions": [
     {
       "id": "ducklett_swanna",
-      "variant": "level_up",
       "result": "swanna",
-      "consumeHeldItem": false,
       "learnableMoves": [],
       "requirements": [
         {
           "variant": "level",
           "minLevel": 35
         }
-      ]
+      ],
+      "trigger": {
+        "variant": "level_up"
+      }
     }
-  ],
-  "baseScale": 1,
-  "hitbox": {
-    "width": 1,
-    "height": 1,
-    "fixed": false
-  },
-  "baseFriendship": 70,
-  "evYield": {
-    "hp": 1,
-    "attack": 0,
-    "defence": 0,
-    "special_attack": 0,
-    "special_defence": 0,
-    "speed": 0
-  },
-  "height": 5,
-  "weight": 55,
-  "aspects": [],
-  "cannotDynamax": false
+  ]
 }

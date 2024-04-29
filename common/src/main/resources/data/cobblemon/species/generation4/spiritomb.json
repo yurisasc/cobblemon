@@ -8,6 +8,40 @@
     "pressure",
     "h:infiltrator"
   ],
+  "baseStats": {
+    "hp": 50,
+    "attack": 92,
+    "defence": 108,
+    "special_attack": 92,
+    "special_defence": 108,
+    "speed": 35
+  },
+  "catchRate": 100,
+  "maleRatio": 0.5,
+  "baseFriendship": 50,
+  "experienceGroup": "medium_fast",
+  "eggCycles": 30,
+  "eggGroups": [
+    "amorphous"
+  ],
+  "height": 10,
+  "weight": 1080,
+  "pokedex": [
+    "cobblemon.species.spiritomb.desc"
+  ],
+  "labels": [
+    "gen4"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 170,
+  "evYield": {
+    "hp": 0,
+    "attack": 0,
+    "defence": 1,
+    "special_attack": 0,
+    "special_defence": 1,
+    "speed": 0
+  },
   "drops": {
     "amount": 2,
     "entries": [
@@ -21,23 +55,14 @@
       }
     ]
   },
-  "baseStats": {
-    "hp": 50,
-    "attack": 92,
-    "defence": 108,
-    "special_attack": 92,
-    "special_defence": 108,
-    "speed": 35
+  "baseScale": 1,
+  "hitbox": {
+    "width": 0.8,
+    "height": 0.8,
+    "fixed": false
   },
-  "catchRate": 100,
-  "maleRatio": 0.5,
+  "cannotDynamax": false,
   "shoulderMountable": false,
-  "baseExperienceYield": 170,
-  "experienceGroup": "medium_fast",
-  "eggCycles": 30,
-  "eggGroups": [
-    "amorphous"
-  ],
   "moves": [
     "1:confuseray",
     "1:curse",
@@ -173,30 +198,5 @@
     "tutor:waterpulse",
     "tutor:wonderroom"
   ],
-  "labels": [
-    "gen4"
-  ],
-  "pokedex": [
-    "cobblemon.species.spiritomb.desc"
-  ],
-  "evolutions": [],
-  "baseScale": 1,
-  "hitbox": {
-    "width": 0.8,
-    "height": 0.8,
-    "fixed": false
-  },
-  "baseFriendship": 50,
-  "evYield": {
-    "hp": 0,
-    "attack": 0,
-    "defence": 1,
-    "special_attack": 0,
-    "special_defence": 1,
-    "speed": 0
-  },
-  "height": 10,
-  "weight": 1080,
-  "aspects": [],
-  "cannotDynamax": false
+  "evolutions": []
 }

@@ -18,8 +18,23 @@
   },
   "catchRate": 180,
   "maleRatio": 0.5,
-  "baseExperienceYield": 56,
   "baseFriendship": 50,
+  "experienceGroup": "medium_slow",
+  "eggCycles": 20,
+  "eggGroups": [
+    "water_1",
+    "flying"
+  ],
+  "height": 4,
+  "weight": 36,
+  "pokedex": [
+    "cobblemon.species.wattrel.desc"
+  ],
+  "labels": [
+    "gen9"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 56,
   "evYield": {
     "hp": 0,
     "attack": 0,
@@ -28,12 +43,23 @@
     "special_defence": 0,
     "speed": 1
   },
-  "experienceGroup": "medium_slow",
-  "eggCycles": 20,
-  "eggGroups": [
-    "water_1",
-    "flying"
-  ],
+  "drops": {
+    "amount": 3,
+    "entries": [
+      {
+        "item": "minecraft:feather",
+        "quantityRange": "0-1"
+      },
+      {
+        "item": "minecraft:chicken"
+      },
+      {
+        "item": "cobblemon:razz_berry",
+        "percentage": 2.5
+      }
+    ]
+  },
+  "cannotDynamax": false,
   "moves": [
     "1:growl",
     "1:peck",
@@ -82,18 +108,10 @@
     "tm:voltswitch",
     "tm:wildcharge"
   ],
-  "labels": [
-    "gen9"
-  ],
-  "aspects": [],
-  "height": 4,
-  "weight": 36,
   "evolutions": [
     {
       "id": "wattrel_kilowattrel",
-      "variant": "level_up",
       "result": "kilowattrel",
-      "consumeHeldItem": false,
       "learnableMoves": [
         "electroball"
       ],
@@ -102,27 +120,10 @@
           "variant": "level",
           "minLevel": 25
         }
-      ]
-    }
-  ],
-  "cannotDynamax": false,
-  "pokedex": [
-    "cobblemon.species.wattrel.desc"
-  ],
-  "drops": {
-    "amount": 3,
-    "entries": [
-      {
-        "item": "minecraft:feather",
-        "quantityRange": "0-1"
-      },
-      {
-        "item": "minecraft:chicken"
-      },
-      {
-        "item": "cobblemon:razz_berry",
-        "percentage": 2.5
+      ],
+      "trigger": {
+        "variant": "level_up"
       }
-    ]
-  }
+    }
+  ]
 }

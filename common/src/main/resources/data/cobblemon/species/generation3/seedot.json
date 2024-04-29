@@ -8,6 +8,41 @@
     "earlybird",
     "h:pickpocket"
   ],
+  "baseStats": {
+    "hp": 40,
+    "attack": 40,
+    "defence": 50,
+    "special_attack": 30,
+    "special_defence": 30,
+    "speed": 30
+  },
+  "catchRate": 255,
+  "maleRatio": 0.5,
+  "baseFriendship": 50,
+  "experienceGroup": "medium_slow",
+  "eggCycles": 15,
+  "eggGroups": [
+    "field",
+    "grass"
+  ],
+  "height": 5,
+  "weight": 40,
+  "pokedex": [
+    "cobblemon.species.seedot.desc"
+  ],
+  "labels": [
+    "gen3"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 44,
+  "evYield": {
+    "hp": 0,
+    "attack": 0,
+    "defence": 1,
+    "special_attack": 0,
+    "special_defence": 0,
+    "speed": 0
+  },
   "drops": {
     "amount": 2,
     "entries": [
@@ -21,24 +56,14 @@
       }
     ]
   },
-  "baseStats": {
-    "hp": 40,
-    "attack": 40,
-    "defence": 50,
-    "special_attack": 30,
-    "special_defence": 30,
-    "speed": 30
+  "baseScale": 1,
+  "hitbox": {
+    "width": 1,
+    "height": 1,
+    "fixed": false
   },
-  "catchRate": 255,
-  "maleRatio": 0.5,
+  "cannotDynamax": false,
   "shoulderMountable": false,
-  "baseExperienceYield": 44,
-  "experienceGroup": "medium_slow",
-  "eggCycles": 15,
-  "eggGroups": [
-    "field",
-    "grass"
-  ],
   "moves": [
     "1:bide",
     "1:harden",
@@ -154,18 +179,10 @@
     "tutor:synthesis",
     "tutor:worryseed"
   ],
-  "labels": [
-    "gen3"
-  ],
-  "pokedex": [
-    "cobblemon.species.seedot.desc"
-  ],
   "evolutions": [
     {
       "id": "seedot_nuzleaf",
-      "variant": "level_up",
       "result": "nuzleaf",
-      "consumeHeldItem": false,
       "learnableMoves": [
         "razorleaf"
       ],
@@ -174,26 +191,10 @@
           "variant": "level",
           "minLevel": 14
         }
-      ]
+      ],
+      "trigger": {
+        "variant": "level_up"
+      }
     }
-  ],
-  "baseScale": 1,
-  "hitbox": {
-    "width": 1,
-    "height": 1,
-    "fixed": false
-  },
-  "baseFriendship": 50,
-  "evYield": {
-    "hp": 0,
-    "attack": 0,
-    "defence": 1,
-    "special_attack": 0,
-    "special_defence": 0,
-    "speed": 0
-  },
-  "height": 5,
-  "weight": 40,
-  "aspects": [],
-  "cannotDynamax": false
+  ]
 }

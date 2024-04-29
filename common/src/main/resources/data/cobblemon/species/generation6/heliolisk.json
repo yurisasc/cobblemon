@@ -18,14 +18,39 @@
   },
   "catchRate": 75,
   "maleRatio": 0.5,
-  "shoulderMountable": false,
-  "baseExperienceYield": 168,
+  "baseFriendship": 50,
   "experienceGroup": "medium_fast",
   "eggCycles": 20,
   "eggGroups": [
     "monster",
     "dragon"
   ],
+  "height": 10,
+  "weight": 210,
+  "pokedex": [
+    "cobblemon.species.heliolisk.desc"
+  ],
+  "labels": [
+    "gen6"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 168,
+  "evYield": {
+    "hp": 0,
+    "attack": 0,
+    "defence": 0,
+    "special_attack": 1,
+    "special_defence": 0,
+    "speed": 1
+  },
+  "baseScale": 1,
+  "hitbox": {
+    "width": 1,
+    "height": 1,
+    "fixed": false
+  },
+  "cannotDynamax": false,
+  "shoulderMountable": false,
   "moves": [
     "1:bulldoze",
     "1:charge",
@@ -120,31 +145,6 @@
     "tutor:snore",
     "tutor:thunderpunch"
   ],
-  "labels": [
-    "gen6"
-  ],
-  "pokedex": [
-    "cobblemon.species.heliolisk.desc"
-  ],
   "preEvolution": "helioptile",
-  "evolutions": [],
-  "baseScale": 1,
-  "hitbox": {
-    "width": 1,
-    "height": 1,
-    "fixed": false
-  },
-  "baseFriendship": 50,
-  "evYield": {
-    "hp": 0,
-    "attack": 0,
-    "defence": 0,
-    "special_attack": 1,
-    "special_defence": 0,
-    "speed": 1
-  },
-  "height": 10,
-  "weight": 210,
-  "aspects": [],
-  "cannotDynamax": false
+  "evolutions": []
 }

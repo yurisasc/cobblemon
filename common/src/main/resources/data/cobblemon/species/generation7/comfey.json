@@ -8,6 +8,40 @@
     "triage",
     "h:naturalcure"
   ],
+  "baseStats": {
+    "hp": 51,
+    "attack": 52,
+    "defence": 90,
+    "special_attack": 82,
+    "special_defence": 110,
+    "speed": 100
+  },
+  "catchRate": 60,
+  "maleRatio": 0.25,
+  "baseFriendship": 50,
+  "experienceGroup": "fast",
+  "eggCycles": 20,
+  "eggGroups": [
+    "grass"
+  ],
+  "height": 1,
+  "weight": 3,
+  "pokedex": [
+    "cobblemon.species.comfey.desc"
+  ],
+  "labels": [
+    "gen7"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 170,
+  "evYield": {
+    "hp": 0,
+    "attack": 0,
+    "defence": 0,
+    "special_attack": 0,
+    "special_defence": 2,
+    "speed": 0
+  },
   "drops": {
     "amount": 2,
     "entries": [
@@ -21,14 +55,14 @@
       }
     ]
   },
-  "baseStats": {
-    "hp": 51,
-    "attack": 52,
-    "defence": 90,
-    "special_attack": 82,
-    "special_defence": 110,
-    "speed": 100
+  "baseScale": 0.37,
+  "hitbox": {
+    "width": 1.5,
+    "height": 2.2,
+    "fixed": false
   },
+  "cannotDynamax": false,
+  "shoulderMountable": true,
   "behaviour": {
     "moving": {
       "fly": {
@@ -42,15 +76,6 @@
       "light": "0-4"
     }
   },
-  "catchRate": 60,
-  "maleRatio": 0.25,
-  "shoulderMountable": true,
-  "baseExperienceYield": 170,
-  "experienceGroup": "fast",
-  "eggCycles": 20,
-  "eggGroups": [
-    "grass"
-  ],
   "moves": [
     "1:growth",
     "1:wrap",
@@ -162,30 +187,5 @@
     "tutor:trick",
     "tutor:worryseed"
   ],
-  "labels": [
-    "gen7"
-  ],
-  "pokedex": [
-    "cobblemon.species.comfey.desc"
-  ],
-  "evolutions": [],
-  "baseScale": 0.37,
-  "hitbox": {
-    "width": 1.5,
-    "height": 2.2,
-    "fixed": false
-  },
-  "baseFriendship": 50,
-  "evYield": {
-    "hp": 0,
-    "attack": 0,
-    "defence": 0,
-    "special_attack": 0,
-    "special_defence": 2,
-    "speed": 0
-  },
-  "height": 1,
-  "weight": 3,
-  "aspects": [],
-  "cannotDynamax": false
+  "evolutions": []
 }

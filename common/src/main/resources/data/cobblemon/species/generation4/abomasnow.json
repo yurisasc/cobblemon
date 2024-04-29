@@ -7,6 +7,41 @@
     "snowwarning",
     "h:soundproof"
   ],
+  "baseStats": {
+    "hp": 90,
+    "attack": 92,
+    "defence": 75,
+    "special_attack": 92,
+    "special_defence": 85,
+    "speed": 60
+  },
+  "catchRate": 60,
+  "maleRatio": 0.5,
+  "baseFriendship": 50,
+  "experienceGroup": "slow",
+  "eggCycles": 20,
+  "eggGroups": [
+    "monster",
+    "grass"
+  ],
+  "height": 22,
+  "weight": 1355,
+  "pokedex": [
+    "cobblemon.species.abomasnow.desc"
+  ],
+  "labels": [
+    "gen4"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 173,
+  "evYield": {
+    "hp": 0,
+    "attack": 1,
+    "defence": 0,
+    "special_attack": 1,
+    "special_defence": 0,
+    "speed": 0
+  },
   "drops": {
     "amount": 4,
     "entries": [
@@ -24,71 +59,14 @@
       }
     ]
   },
-  "baseStats": {
-    "hp": 90,
-    "attack": 92,
-    "defence": 75,
-    "special_attack": 92,
-    "special_defence": 85,
-    "speed": 60
+  "baseScale": 1,
+  "hitbox": {
+    "width": 1,
+    "height": 1,
+    "fixed": false
   },
-  "catchRate": 60,
-  "maleRatio": 0.5,
+  "cannotDynamax": false,
   "shoulderMountable": false,
-  "forms": [
-    {
-      "name": "Mega",
-      "primaryType": "grass",
-      "secondaryType": "ice",
-      "abilities": [
-        "snowwarning"
-      ],
-      "baseStats": {
-        "hp": 90,
-        "attack": 132,
-        "defence": 105,
-        "special_attack": 132,
-        "special_defence": 105,
-        "speed": 30
-      },
-      "catchRate": 60,
-      "maleRatio": 0.5,
-      "baseExperienceYield": 173,
-      "baseFriendship": 50,
-      "evYield": {
-        "hp": 0,
-        "attack": 1,
-        "defence": 0,
-        "special_attack": 1,
-        "special_defence": 0,
-        "speed": 0
-      },
-      "experienceGroup": "slow",
-      "eggCycles": 20,
-      "eggGroups": [
-        "monster",
-        "grass"
-      ],
-      "labels": [
-        "gen6",
-        "mega"
-      ],
-      "aspects": [
-        "mega"
-      ],
-      "height": 27,
-      "weight": 1850,
-      "cannotDynamax": false,
-      "battleOnly": true
-    }
-  ],
-  "baseExperienceYield": 173,
-  "experienceGroup": "slow",
-  "eggCycles": 20,
-  "eggGroups": [
-    "monster",
-    "grass"
-  ],
   "moves": [
     "1:auroraveil",
     "1:icepunch",
@@ -211,31 +189,53 @@
     "tutor:waterpulse",
     "tutor:worryseed"
   ],
-  "labels": [
-    "gen4"
-  ],
-  "pokedex": [
-    "cobblemon.species.abomasnow.desc"
-  ],
   "preEvolution": "snover",
   "evolutions": [],
-  "baseScale": 1,
-  "hitbox": {
-    "width": 1,
-    "height": 1,
-    "fixed": false
-  },
-  "baseFriendship": 50,
-  "evYield": {
-    "hp": 0,
-    "attack": 1,
-    "defence": 0,
-    "special_attack": 1,
-    "special_defence": 0,
-    "speed": 0
-  },
-  "height": 22,
-  "weight": 1355,
-  "aspects": [],
-  "cannotDynamax": false
+  "temporaryForms": [
+    {
+      "name": "Mega",
+      "primaryType": "grass",
+      "secondaryType": "ice",
+      "abilities": [
+        "snowwarning"
+      ],
+      "baseStats": {
+        "hp": 90,
+        "attack": 132,
+        "defence": 105,
+        "special_attack": 132,
+        "special_defence": 105,
+        "speed": 30
+      },
+      "catchRate": 60,
+      "maleRatio": 0.5,
+      "baseFriendship": 50,
+      "experienceGroup": "slow",
+      "eggCycles": 20,
+      "eggGroups": [
+        "monster",
+        "grass"
+      ],
+      "height": 27,
+      "weight": 1850,
+      "labels": [
+        "gen6",
+        "mega"
+      ],
+      "aspects": [
+        "mega"
+      ],
+      "baseExperienceYield": 173,
+      "evYield": {
+        "hp": 0,
+        "attack": 1,
+        "defence": 0,
+        "special_attack": 1,
+        "special_defence": 0,
+        "speed": 0
+      },
+      "cannotDynamax": false,
+      "battleOnly": true
+    }
+  ]
 }

@@ -16,8 +16,22 @@
   },
   "catchRate": 25,
   "maleRatio": 0.5,
-  "baseExperienceYield": 240,
   "baseFriendship": 50,
+  "experienceGroup": "slow",
+  "eggCycles": 35,
+  "eggGroups": [
+    "field"
+  ],
+  "height": 25,
+  "weight": 3100,
+  "pokedex": [
+    "cobblemon.species.orthworm.desc"
+  ],
+  "labels": [
+    "gen9"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 240,
   "evYield": {
     "hp": 0,
     "attack": 0,
@@ -26,11 +40,20 @@
     "special_defence": 0,
     "speed": 0
   },
-  "experienceGroup": "slow",
-  "eggCycles": 35,
-  "eggGroups": [
-    "field"
-  ],
+  "drops": {
+    "amount": 3,
+    "entries": [
+      {
+        "item": "minecraft:iron_nugget",
+        "quantityRange": "0-2"
+      },
+      {
+        "item": "cobblemon:shuca_berry",
+        "percentage": 5.0
+      }
+    ]
+  },
+  "cannotDynamax": false,
   "moves": [
     "1:harden",
     "1:tackle",
@@ -85,28 +108,5 @@
     "tutor:sandstorm",
     "tutor:wrap"
   ],
-  "labels": [
-    "gen9"
-  ],
-  "aspects": [],
-  "height": 25,
-  "weight": 3100,
-  "evolutions": [],
-  "cannotDynamax": false,
-  "pokedex": [
-    "cobblemon.species.orthworm.desc"
-  ],
-  "drops": {
-    "amount": 3,
-    "entries": [
-      {
-        "item": "minecraft:iron_nugget",
-        "quantityRange": "0-2"
-      },
-      {
-        "item": "cobblemon:shuca_berry",
-        "percentage": 5.0
-      }
-    ]
-  }
+  "evolutions": []
 }

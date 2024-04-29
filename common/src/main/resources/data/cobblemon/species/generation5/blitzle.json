@@ -7,6 +7,40 @@
     "motordrive",
     "h:sapsipper"
   ],
+  "baseStats": {
+    "hp": 45,
+    "attack": 60,
+    "defence": 32,
+    "special_attack": 50,
+    "special_defence": 32,
+    "speed": 76
+  },
+  "catchRate": 190,
+  "maleRatio": 0.5,
+  "baseFriendship": 70,
+  "experienceGroup": "medium_fast",
+  "eggCycles": 20,
+  "eggGroups": [
+    "field"
+  ],
+  "height": 8,
+  "weight": 298,
+  "pokedex": [
+    "cobblemon.species.blitzle.desc"
+  ],
+  "labels": [
+    "gen5"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 59,
+  "evYield": {
+    "hp": 0,
+    "attack": 0,
+    "defence": 0,
+    "special_attack": 0,
+    "special_defence": 0,
+    "speed": 1
+  },
   "drops": {
     "amount": 2,
     "entries": [
@@ -20,23 +54,14 @@
       }
     ]
   },
-  "baseStats": {
-    "hp": 45,
-    "attack": 60,
-    "defence": 32,
-    "special_attack": 50,
-    "special_defence": 32,
-    "speed": 76
+  "baseScale": 1,
+  "hitbox": {
+    "width": 1,
+    "height": 1,
+    "fixed": false
   },
-  "catchRate": 190,
-  "maleRatio": 0.5,
+  "cannotDynamax": false,
   "shoulderMountable": false,
-  "baseExperienceYield": 59,
-  "experienceGroup": "medium_fast",
-  "eggCycles": 20,
-  "eggGroups": [
-    "field"
-  ],
   "moves": [
     "1:quickattack",
     "4:tailwhip",
@@ -117,44 +142,20 @@
     "tutor:snatch",
     "tutor:snore"
   ],
-  "labels": [
-    "gen5"
-  ],
-  "pokedex": [
-    "cobblemon.species.blitzle.desc"
-  ],
   "evolutions": [
     {
       "id": "blitzle_zebstrika",
-      "variant": "level_up",
       "result": "zebstrika",
-      "consumeHeldItem": false,
       "learnableMoves": [],
       "requirements": [
         {
           "variant": "level",
           "minLevel": 27
         }
-      ]
+      ],
+      "trigger": {
+        "variant": "level_up"
+      }
     }
-  ],
-  "baseScale": 1,
-  "hitbox": {
-    "width": 1,
-    "height": 1,
-    "fixed": false
-  },
-  "baseFriendship": 70,
-  "evYield": {
-    "hp": 0,
-    "attack": 0,
-    "defence": 0,
-    "special_attack": 0,
-    "special_defence": 0,
-    "speed": 1
-  },
-  "height": 8,
-  "weight": 298,
-  "aspects": [],
-  "cannotDynamax": false
+  ]
 }

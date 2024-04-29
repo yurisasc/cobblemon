@@ -18,13 +18,30 @@
   },
   "catchRate": 30,
   "maleRatio": 0,
-  "shoulderMountable": false,
-  "baseExperienceYield": 635,
+  "baseFriendship": 140,
   "experienceGroup": "fast",
   "eggCycles": 40,
   "eggGroups": [
     "fairy"
   ],
+  "height": 15,
+  "weight": 468,
+  "pokedex": [
+    "cobblemon.species.blissey.desc"
+  ],
+  "labels": [
+    "gen2"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 635,
+  "evYield": {
+    "hp": 3,
+    "attack": 0,
+    "defence": 0,
+    "special_attack": 0,
+    "special_defence": 0,
+    "speed": 0
+  },
   "drops": {
     "amount": 1,
     "entries": [
@@ -42,6 +59,14 @@
       }
     ]
   },
+  "baseScale": 1,
+  "hitbox": {
+    "width": 1.3,
+    "height": 1.7,
+    "fixed": false
+  },
+  "cannotDynamax": false,
+  "shoulderMountable": false,
   "behaviour": {
     "resting": {
       "canSleep": true,
@@ -257,31 +282,6 @@
     "tutor:zapcannon",
     "tutor:zenheadbutt"
   ],
-  "labels": [
-    "gen2"
-  ],
-  "pokedex": [
-    "cobblemon.species.blissey.desc"
-  ],
   "preEvolution": "chansey",
-  "evolutions": [],
-  "baseScale": 1,
-  "hitbox": {
-    "width": 1.3,
-    "height": 1.7,
-    "fixed": false
-  },
-  "baseFriendship": 140,
-  "evYield": {
-    "hp": 3,
-    "attack": 0,
-    "defence": 0,
-    "special_attack": 0,
-    "special_defence": 0,
-    "speed": 0
-  },
-  "height": 15,
-  "weight": 468,
-  "aspects": [],
-  "cannotDynamax": false
+  "evolutions": []
 }

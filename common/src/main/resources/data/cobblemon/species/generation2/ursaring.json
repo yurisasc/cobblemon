@@ -8,6 +8,40 @@
     "quickfeet",
     "h:unnerve"
   ],
+  "baseStats": {
+    "hp": 90,
+    "attack": 130,
+    "defence": 75,
+    "special_attack": 75,
+    "special_defence": 75,
+    "speed": 55
+  },
+  "catchRate": 60,
+  "maleRatio": 0.5,
+  "baseFriendship": 70,
+  "experienceGroup": "medium_fast",
+  "eggCycles": 20,
+  "eggGroups": [
+    "field"
+  ],
+  "height": 18,
+  "weight": 1258,
+  "pokedex": [
+    "cobblemon.species.ursaring.desc"
+  ],
+  "labels": [
+    "gen2"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 175,
+  "evYield": {
+    "hp": 0,
+    "attack": 2,
+    "defence": 0,
+    "special_attack": 0,
+    "special_defence": 0,
+    "speed": 0
+  },
   "drops": {
     "amount": 7,
     "entries": [
@@ -29,23 +63,14 @@
       }
     ]
   },
-  "baseStats": {
-    "hp": 90,
-    "attack": 130,
-    "defence": 75,
-    "special_attack": 75,
-    "special_defence": 75,
-    "speed": 55
+  "baseScale": 1.1,
+  "hitbox": {
+    "width": 1,
+    "height": 2.14,
+    "fixed": false
   },
-  "catchRate": 60,
-  "maleRatio": 0.5,
+  "cannotDynamax": false,
   "shoulderMountable": false,
-  "baseExperienceYield": 175,
-  "experienceGroup": "medium_fast",
-  "eggCycles": 20,
-  "eggGroups": [
-    "field"
-  ],
   "moves": [
     "1:covet",
     "1:faketears",
@@ -205,19 +230,11 @@
     "tutor:uproar",
     "tutor:zapcannon"
   ],
-  "labels": [
-    "gen2"
-  ],
-  "pokedex": [
-    "cobblemon.species.ursaring.desc"
-  ],
   "preEvolution": "teddiursa",
   "evolutions": [
     {
       "id": "ursaring_ursaluna",
-      "variant": "item_interact",
       "result": "ursaluna",
-      "consumeHeldItem": false,
       "learnableMoves": [],
       "requirements": [
         {
@@ -229,26 +246,10 @@
           "range": "night"
         }
       ],
-      "requiredContext": "cobblemon:peat_block"
+      "trigger": {
+        "variant": "item_interact",
+        "requiredContext": "cobblemon:peat_block"
+      }
     }
-  ],
-  "baseScale": 1.1,
-  "hitbox": {
-    "width": 1,
-    "height": 2.14,
-    "fixed": false
-  },
-  "baseFriendship": 70,
-  "evYield": {
-    "hp": 0,
-    "attack": 2,
-    "defence": 0,
-    "special_attack": 0,
-    "special_defence": 0,
-    "speed": 0
-  },
-  "height": 18,
-  "weight": 1258,
-  "aspects": [],
-  "cannotDynamax": false
+  ]
 }

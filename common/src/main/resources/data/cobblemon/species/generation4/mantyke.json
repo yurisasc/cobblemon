@@ -18,13 +18,52 @@
   },
   "catchRate": 25,
   "maleRatio": 0.5,
-  "shoulderMountable": false,
-  "baseExperienceYield": 69,
+  "baseFriendship": 50,
   "experienceGroup": "slow",
   "eggCycles": 25,
   "eggGroups": [
     "undiscovered"
   ],
+  "height": 10,
+  "weight": 650,
+  "pokedex": [
+    "cobblemon.species.mantyke.desc"
+  ],
+  "labels": [
+    "gen4",
+    "baby"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 69,
+  "evYield": {
+    "hp": 0,
+    "attack": 0,
+    "defence": 0,
+    "special_attack": 0,
+    "special_defence": 1,
+    "speed": 0
+  },
+  "drops": {
+    "amount": 2,
+    "entries": [
+      {
+        "item": "minecraft:cod",
+        "quantityRange": "0-1"
+      },
+      {
+        "item": "cobblemon:wacan_berry",
+        "percentage": 2.5
+      }
+    ]
+  },
+  "baseScale": 1,
+  "hitbox": {
+    "width": 1,
+    "height": 1,
+    "fixed": false
+  },
+  "cannotDynamax": false,
+  "shoulderMountable": false,
   "moves": [
     "1:bubble",
     "1:tackle",
@@ -132,19 +171,10 @@
     "tutor:tailwind",
     "tutor:waterpulse"
   ],
-  "labels": [
-    "gen4",
-    "baby"
-  ],
-  "pokedex": [
-    "cobblemon.species.mantyke.desc"
-  ],
   "evolutions": [
     {
       "id": "mantyke_mantine",
-      "variant": "level_up",
       "result": "mantine",
-      "consumeHeldItem": false,
       "learnableMoves": [],
       "requirements": [
         {
@@ -152,39 +182,10 @@
           "target": "remoraid",
           "contains": true
         }
-      ]
-    }
-  ],
-  "baseScale": 1,
-  "hitbox": {
-    "width": 1,
-    "height": 1,
-    "fixed": false
-  },
-  "baseFriendship": 50,
-  "evYield": {
-    "hp": 0,
-    "attack": 0,
-    "defence": 0,
-    "special_attack": 0,
-    "special_defence": 1,
-    "speed": 0
-  },
-  "height": 10,
-  "weight": 650,
-  "aspects": [],
-  "cannotDynamax": false,
-  "drops": {
-    "amount": 2,
-    "entries": [
-      {
-        "item": "minecraft:cod",
-        "quantityRange": "0-1"
-      },
-      {
-        "item": "cobblemon:wacan_berry",
-        "percentage": 2.5
+      ],
+      "trigger": {
+        "variant": "level_up"
       }
-    ]
-  }
+    }
+  ]
 }

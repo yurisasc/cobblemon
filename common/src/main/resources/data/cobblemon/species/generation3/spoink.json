@@ -17,13 +17,55 @@
   },
   "catchRate": 255,
   "maleRatio": 0.5,
-  "shoulderMountable": false,
-  "baseExperienceYield": 66,
+  "baseFriendship": 70,
   "experienceGroup": "fast",
   "eggCycles": 20,
   "eggGroups": [
     "field"
   ],
+  "height": 7,
+  "weight": 306,
+  "pokedex": [
+    "cobblemon.species.spoink.desc"
+  ],
+  "labels": [
+    "gen3"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 66,
+  "evYield": {
+    "hp": 0,
+    "attack": 0,
+    "defence": 0,
+    "special_attack": 0,
+    "special_defence": 1,
+    "speed": 0
+  },
+  "drops": {
+    "amount": 4,
+    "entries": [
+      {
+        "item": "minecraft:porkchop",
+        "quantityRange": "1-2"
+      },
+      {
+        "item": "minecraft:ender_pearl",
+        "quantityRange": "0-1"
+      },
+      {
+        "item": "cobblemon:tanga_berry",
+        "percentage": 2.5
+      }
+    ]
+  },
+  "baseScale": 1,
+  "hitbox": {
+    "width": 1,
+    "height": 1,
+    "fixed": false
+  },
+  "cannotDynamax": false,
+  "shoulderMountable": false,
   "moves": [
     "1:splash",
     "7:confusion",
@@ -157,18 +199,10 @@
     "tutor:uproar",
     "tutor:zenheadbutt"
   ],
-  "labels": [
-    "gen3"
-  ],
-  "pokedex": [
-    "cobblemon.species.spoink.desc"
-  ],
   "evolutions": [
     {
       "id": "spoink_grumpig",
-      "variant": "level_up",
       "result": "grumpig",
-      "consumeHeldItem": false,
       "learnableMoves": [
         "teeterdance"
       ],
@@ -177,43 +211,10 @@
           "variant": "level",
           "minLevel": 32
         }
-      ]
-    }
-  ],
-  "baseScale": 1,
-  "hitbox": {
-    "width": 1,
-    "height": 1,
-    "fixed": false
-  },
-  "baseFriendship": 70,
-  "evYield": {
-    "hp": 0,
-    "attack": 0,
-    "defence": 0,
-    "special_attack": 0,
-    "special_defence": 1,
-    "speed": 0
-  },
-  "height": 7,
-  "weight": 306,
-  "aspects": [],
-  "cannotDynamax": false,
-  "drops": {
-    "amount": 4,
-    "entries": [
-      {
-        "item": "minecraft:porkchop",
-        "quantityRange": "1-2"
-      },
-      {
-        "item": "minecraft:ender_pearl",
-        "quantityRange": "0-1"
-      },
-      {
-        "item": "cobblemon:tanga_berry",
-        "percentage": 2.5
+      ],
+      "trigger": {
+        "variant": "level_up"
       }
-    ]
-  }
+    }
+  ]
 }

@@ -17,8 +17,22 @@
   },
   "catchRate": 45,
   "maleRatio": 0.5,
-  "baseExperienceYield": 182,
   "baseFriendship": 50,
+  "experienceGroup": "medium_fast",
+  "eggCycles": 20,
+  "eggGroups": [
+    "field"
+  ],
+  "height": 36,
+  "weight": 392,
+  "pokedex": [
+    "cobblemon.species.dudunsparce.desc"
+  ],
+  "labels": [
+    "gen9"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 182,
   "evYield": {
     "hp": 2,
     "attack": 0,
@@ -27,11 +41,20 @@
     "special_defence": 0,
     "speed": 0
   },
-  "experienceGroup": "medium_fast",
-  "eggCycles": 20,
-  "eggGroups": [
-    "field"
-  ],
+  "drops": {
+    "amount": 2,
+    "entries": [
+      {
+        "item": "cobblemon:rocky_helmet",
+        "percentage": 5.0
+      },
+      {
+        "item": "cobblemon:cheri_berry",
+        "percentage": 5.0
+      }
+    ]
+  },
+  "cannotDynamax": false,
   "moves": [
     "1:defensecurl",
     "1:flail",
@@ -110,16 +133,9 @@
     "tm:wildcharge",
     "tm:zenheadbutt"
   ],
-  "labels": [
-    "gen9"
-  ],
-  "aspects": [],
-  "height": 36,
-  "weight": 392,
   "preEvolution": "dunsparce",
   "evolutions": [],
-  "cannotDynamax": false,
-  "forms": [
+  "permanentForms": [
     {
       "name": "Three-Segment",
       "primaryType": "normal",
@@ -139,6 +155,19 @@
       "catchRate": 45,
       "maleRatio": 0.5,
       "baseFriendship": 50,
+      "experienceGroup": "medium_fast",
+      "eggCycles": 20,
+      "eggGroups": [
+        "field"
+      ],
+      "height": 45,
+      "weight": 474,
+      "labels": [
+        "gen9"
+      ],
+      "aspects": [
+        "three-segment"
+      ],
       "evYield": {
         "hp": 2,
         "attack": 0,
@@ -147,39 +176,9 @@
         "special_defence": 0,
         "speed": 0
       },
-      "experienceGroup": "medium_fast",
-      "eggCycles": 20,
-      "eggGroups": [
-        "field"
-      ],
-      "moves": [],
-      "labels": [
-        "gen9"
-      ],
-      "aspects": [
-        "three-segment"
-      ],
-      "height": 45,
-      "weight": 474,
-      "preEvolution": "dunsparce",
       "cannotDynamax": false,
-      "battleOnly": false
+      "moves": [],
+      "preEvolution": "dunsparce"
     }
-  ],
-  "pokedex": [
-    "cobblemon.species.dudunsparce.desc"
-  ],
-  "drops": {
-    "amount": 2,
-    "entries": [
-      {
-        "item": "cobblemon:rocky_helmet",
-        "percentage": 5.0
-      },
-      {
-        "item": "cobblemon:cheri_berry",
-        "percentage": 5.0
-      }
-    ]
-  }
+  ]
 }

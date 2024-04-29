@@ -16,23 +16,32 @@
     "special_defence": 55,
     "speed": 56
   },
-  "behaviour": {
-    "resting": {
-      "canSleep": true,
-      "willSleepOnBed": false,
-      "depth": "normal",
-      "light": "0-4"
-    }
-  },
   "catchRate": 120,
   "maleRatio": 0,
-  "shoulderMountable": false,
-  "baseExperienceYield": 128,
+  "baseFriendship": 50,
   "experienceGroup": "medium_slow",
   "eggCycles": 20,
   "eggGroups": [
     "undiscovered"
   ],
+  "height": 8,
+  "weight": 200,
+  "pokedex": [
+    "cobblemon.species.nidorina.desc"
+  ],
+  "labels": [
+    "gen1"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 128,
+  "evYield": {
+    "hp": 2,
+    "attack": 0,
+    "defence": 0,
+    "special_attack": 0,
+    "special_defence": 0,
+    "speed": 0
+  },
   "drops": {
     "amount": 2,
     "entries": [
@@ -45,6 +54,22 @@
         "percentage": 5.0
       }
     ]
+  },
+  "baseScale": 0.9,
+  "hitbox": {
+    "width": 1,
+    "height": 0.8,
+    "fixed": false
+  },
+  "cannotDynamax": false,
+  "shoulderMountable": false,
+  "behaviour": {
+    "resting": {
+      "canSleep": true,
+      "willSleepOnBed": false,
+      "depth": "normal",
+      "light": "0-4"
+    }
   },
   "moves": [
     "1:growl",
@@ -171,43 +196,19 @@
     "tutor:watergun",
     "tutor:waterpulse"
   ],
-  "labels": [
-    "gen1"
-  ],
-  "pokedex": [
-    "cobblemon.species.nidorina.desc"
-  ],
   "preEvolution": "nidoranf",
   "evolutions": [
     {
       "id": "nidorina_nidoqueen",
-      "variant": "item_interact",
       "result": "nidoqueen",
-      "consumeHeldItem": false,
       "learnableMoves": [
         "superpower"
       ],
       "requirements": [],
-      "requiredContext": "cobblemon:moon_stone"
+      "trigger": {
+        "variant": "item_interact",
+        "requiredContext": "cobblemon:moon_stone"
+      }
     }
-  ],
-  "baseScale": 0.9,
-  "hitbox": {
-    "width": 1,
-    "height": 0.8,
-    "fixed": false
-  },
-  "baseFriendship": 50,
-  "evYield": {
-    "hp": 2,
-    "attack": 0,
-    "defence": 0,
-    "special_attack": 0,
-    "special_defence": 0,
-    "speed": 0
-  },
-  "height": 8,
-  "weight": 200,
-  "aspects": [],
-  "cannotDynamax": false
+  ]
 }

@@ -8,6 +8,42 @@
     "adaptability",
     "h:moldbreaker"
   ],
+  "baseStats": {
+    "hp": 70,
+    "attack": 92,
+    "defence": 65,
+    "special_attack": 80,
+    "special_defence": 55,
+    "speed": 98
+  },
+  "catchRate": 25,
+  "maleRatio": 0.5,
+  "baseFriendship": 50,
+  "experienceGroup": "medium_fast",
+  "eggCycles": 40,
+  "eggGroups": [
+    "water_2"
+  ],
+  "height": 10,
+  "weight": 180,
+  "pokedex": [
+    "cobblemon.species.basculin.desc"
+  ],
+  "labels": [
+    "gen5"
+  ],
+  "aspects": [
+    "redstriped"
+  ],
+  "baseExperienceYield": 161,
+  "evYield": {
+    "hp": 0,
+    "attack": 0,
+    "defence": 0,
+    "special_attack": 0,
+    "special_defence": 0,
+    "speed": 2
+  },
   "drops": {
     "amount": 3,
     "entries": [
@@ -24,23 +60,14 @@
       }
     ]
   },
-  "baseStats": {
-    "hp": 70,
-    "attack": 92,
-    "defence": 65,
-    "special_attack": 80,
-    "special_defence": 55,
-    "speed": 98
+  "baseScale": 1,
+  "hitbox": {
+    "width": 1.18,
+    "height": 0.95,
+    "fixed": false
   },
-  "catchRate": 25,
-  "maleRatio": 0.5,
+  "cannotDynamax": false,
   "shoulderMountable": false,
-  "baseExperienceYield": 161,
-  "experienceGroup": "medium_fast",
-  "eggCycles": 40,
-  "eggGroups": [
-    "water_2"
-  ],
   "behaviour": {
     "moving": {
       "canLook": false,
@@ -158,31 +185,8 @@
     "tutor:uproar",
     "tutor:zenheadbutt"
   ],
-  "labels": [
-    "gen5"
-  ],
-  "pokedex": [
-    "cobblemon.species.basculin.desc"
-  ],
   "evolutions": [],
-  "baseScale": 1,
-  "hitbox": {
-    "width": 1.18,
-    "height": 0.95,
-    "fixed": false
-  },
-  "baseFriendship": 50,
-  "evYield": {
-    "hp": 0,
-    "attack": 0,
-    "defence": 0,
-    "special_attack": 0,
-    "special_defence": 0,
-    "speed": 2
-  },
-  "height": 10,
-  "weight": 180,
-  "forms": [
+  "permanentForms": [
     {
       "name": "Blue-Striped",
       "primaryType": "water",
@@ -201,8 +205,21 @@
       },
       "catchRate": 25,
       "maleRatio": 0.5,
-      "baseExperienceYield": 161,
       "baseFriendship": 50,
+      "experienceGroup": "medium_fast",
+      "eggCycles": 40,
+      "eggGroups": [
+        "water_2"
+      ],
+      "height": 10,
+      "weight": 180,
+      "labels": [
+        "gen5"
+      ],
+      "aspects": [
+        "bluestriped"
+      ],
+      "baseExperienceYield": 161,
       "evYield": {
         "hp": 0,
         "attack": 0,
@@ -211,21 +228,7 @@
         "special_defence": 0,
         "speed": 2
       },
-      "experienceGroup": "medium_fast",
-      "eggCycles": 40,
-      "eggGroups": [
-        "water_2"
-      ],
-      "labels": [
-        "gen5"
-      ],
-      "aspects": [
-        "bluestriped"
-      ],
-      "height": 10,
-      "weight": 180,
-      "cannotDynamax": false,
-      "battleOnly": false
+      "cannotDynamax": false
     },
     {
       "name": "White-Striped",
@@ -245,8 +248,21 @@
       },
       "catchRate": 25,
       "maleRatio": 0.5,
-      "baseExperienceYield": 161,
       "baseFriendship": 50,
+      "experienceGroup": "medium_fast",
+      "eggCycles": 40,
+      "eggGroups": [
+        "water_2"
+      ],
+      "height": 10,
+      "weight": 180,
+      "labels": [
+        "gen8"
+      ],
+      "aspects": [
+        "whitestriped"
+      ],
+      "baseExperienceYield": 161,
       "evYield": {
         "hp": 0,
         "attack": 0,
@@ -255,11 +271,7 @@
         "special_defence": 0,
         "speed": 2
       },
-      "experienceGroup": "medium_fast",
-      "eggCycles": 40,
-      "eggGroups": [
-        "water_2"
-      ],
+      "cannotDynamax": false,
       "moves": [
         "1:tailwhip",
         "1:watergun",
@@ -314,35 +326,22 @@
         "tm:whirlpool",
         "tm:zenheadbutt"
       ],
-      "labels": [
-        "gen8"
-      ],
-      "aspects": [
-        "whitestriped"
-      ],
-      "height": 10,
-      "weight": 180,
       "evolutions": [
         {
           "id": "basculin_basculegion",
-          "variant": "level_up",
           "result": "basculegion",
-          "consumeHeldItem": false,
           "learnableMoves": [],
           "requirements": [
             {
               "variant": "recoil",
               "amount": 294
             }
-          ]
+          ],
+          "trigger": {
+            "variant": "level_up"
+          }
         }
-      ],
-      "cannotDynamax": false,
-      "battleOnly": false
+      ]
     }
-  ],
-  "aspects": [
-    "redstriped"
-  ],
-  "cannotDynamax": false
+  ]
 }

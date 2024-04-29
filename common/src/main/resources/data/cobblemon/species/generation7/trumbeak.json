@@ -18,13 +18,54 @@
   },
   "catchRate": 120,
   "maleRatio": 0.5,
-  "shoulderMountable": false,
-  "baseExperienceYield": 124,
+  "baseFriendship": 70,
   "experienceGroup": "medium_fast",
   "eggCycles": 15,
   "eggGroups": [
     "flying"
   ],
+  "height": 6,
+  "weight": 148,
+  "pokedex": [
+    "cobblemon.species.trumbeak.desc"
+  ],
+  "labels": [
+    "gen7"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 124,
+  "evYield": {
+    "hp": 0,
+    "attack": 2,
+    "defence": 0,
+    "special_attack": 0,
+    "special_defence": 0,
+    "speed": 0
+  },
+  "drops": {
+    "amount": 4,
+    "entries": [
+      {
+        "item": "minecraft:feather",
+        "quantityRange": "0-2"
+      },
+      {
+        "item": "minecraft:chicken"
+      },
+      {
+        "item": "cobblemon:sharp_beak",
+        "percentage": 2.5
+      }
+    ]
+  },
+  "baseScale": 1,
+  "hitbox": {
+    "width": 1,
+    "height": 1,
+    "fixed": false
+  },
+  "cannotDynamax": false,
+  "shoulderMountable": false,
   "moves": [
     "1:echoedvoice",
     "1:growl",
@@ -97,19 +138,11 @@
     "tutor:tailwind",
     "tutor:uproar"
   ],
-  "labels": [
-    "gen7"
-  ],
-  "pokedex": [
-    "cobblemon.species.trumbeak.desc"
-  ],
   "preEvolution": "pikipek",
   "evolutions": [
     {
       "id": "trumbeak_toucannon",
-      "variant": "level_up",
       "result": "toucannon",
-      "consumeHeldItem": false,
       "learnableMoves": [
         "beakblast"
       ],
@@ -118,42 +151,10 @@
           "variant": "level",
           "minLevel": 28
         }
-      ]
-    }
-  ],
-  "baseScale": 1,
-  "hitbox": {
-    "width": 1,
-    "height": 1,
-    "fixed": false
-  },
-  "baseFriendship": 70,
-  "evYield": {
-    "hp": 0,
-    "attack": 2,
-    "defence": 0,
-    "special_attack": 0,
-    "special_defence": 0,
-    "speed": 0
-  },
-  "height": 6,
-  "weight": 148,
-  "aspects": [],
-  "cannotDynamax": false,
-  "drops": {
-    "amount": 4,
-    "entries": [
-      {
-        "item": "minecraft:feather",
-        "quantityRange": "0-2"
-      },
-      {
-        "item": "minecraft:chicken"
-      },
-      {
-        "item": "cobblemon:sharp_beak",
-        "percentage": 2.5
+      ],
+      "trigger": {
+        "variant": "level_up"
       }
-    ]
-  }
+    }
+  ]
 }

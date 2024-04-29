@@ -15,6 +15,54 @@
     "special_defence": 49,
     "speed": 40
   },
+  "catchRate": 190,
+  "maleRatio": 0.5,
+  "baseFriendship": 50,
+  "experienceGroup": "medium_fast",
+  "eggCycles": 25,
+  "eggGroups": [
+    "field",
+    "mineral"
+  ],
+  "height": 12,
+  "weight": 1000,
+  "pokedex": [
+    "cobblemon.species.cufant.desc"
+  ],
+  "labels": [
+    "gen8"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 66,
+  "evYield": {
+    "hp": 0,
+    "attack": 1,
+    "defence": 0,
+    "special_attack": 0,
+    "special_defence": 0,
+    "speed": 0
+  },
+  "drops": {
+    "amount": 2,
+    "entries": [
+      {
+        "item": "minecraft:raw_copper",
+        "quantityRange": "0-1"
+      },
+      {
+        "item": "cobblemon:nanab_berry",
+        "percentage": 2.5
+      }
+    ]
+  },
+  "baseScale": 1,
+  "hitbox": {
+    "width": 1.15,
+    "height": 1.4,
+    "fixed": false
+  },
+  "cannotDynamax": false,
+  "shoulderMountable": false,
   "behaviour": {
     "resting": {
       "canSleep": true,
@@ -27,16 +75,6 @@
       }
     }
   },
-  "catchRate": 190,
-  "maleRatio": 0.5,
-  "shoulderMountable": false,
-  "baseExperienceYield": 66,
-  "experienceGroup": "medium_fast",
-  "eggCycles": 25,
-  "eggGroups": [
-    "field",
-    "mineral"
-  ],
   "moves": [
     "1:growl",
     "1:tackle",
@@ -106,18 +144,10 @@
     "tutor:steelbeam",
     "tutor:steelroller"
   ],
-  "labels": [
-    "gen8"
-  ],
-  "pokedex": [
-    "cobblemon.species.cufant.desc"
-  ],
   "evolutions": [
     {
       "id": "cufant_copperajah",
-      "variant": "level_up",
       "result": "copperajah",
-      "consumeHeldItem": false,
       "learnableMoves": [
         "heavyslam"
       ],
@@ -126,39 +156,10 @@
           "variant": "level",
           "minLevel": 34
         }
-      ]
-    }
-  ],
-  "baseScale": 1,
-  "hitbox": {
-    "width": 1.15,
-    "height": 1.4,
-    "fixed": false
-  },
-  "baseFriendship": 50,
-  "evYield": {
-    "hp": 0,
-    "attack": 1,
-    "defence": 0,
-    "special_attack": 0,
-    "special_defence": 0,
-    "speed": 0
-  },
-  "height": 12,
-  "weight": 1000,
-  "aspects": [],
-  "cannotDynamax": false,
-  "drops": {
-    "amount": 2,
-    "entries": [
-      {
-        "item": "minecraft:raw_copper",
-        "quantityRange": "0-1"
-      },
-      {
-        "item": "cobblemon:nanab_berry",
-        "percentage": 2.5
+      ],
+      "trigger": {
+        "variant": "level_up"
       }
-    ]
-  }
+    }
+  ]
 }

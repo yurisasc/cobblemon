@@ -17,9 +17,23 @@
   },
   "catchRate": 3,
   "maleRatio": 0,
-  "shoulderMountable": false,
-  "baseExperienceYield": 116,
   "baseFriendship": 0,
+  "experienceGroup": "slow",
+  "eggCycles": 0,
+  "eggGroups": [
+    "undiscovered"
+  ],
+  "height": 16,
+  "weight": 480,
+  "pokedex": [
+    "cobblemon.species.enamorus.desc"
+  ],
+  "labels": [
+    "gen8",
+    "legendary"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 116,
   "evYield": {
     "hp": 0,
     "attack": 0,
@@ -28,11 +42,8 @@
     "special_defence": 0,
     "speed": 0
   },
-  "experienceGroup": "slow",
-  "eggCycles": 0,
-  "eggGroups": [
-    "undiscovered"
-  ],
+  "cannotDynamax": false,
+  "shoulderMountable": false,
   "moves": [
     "1:astonish",
     "1:fairywind",
@@ -92,17 +103,8 @@
     "tm:weatherball",
     "tm:zenheadbutt"
   ],
-  "labels": [
-    "gen8",
-    "legendary"
-  ],
-  "pokedex": [
-    "cobblemon.species.enamorus.desc"
-  ],
-  "height": 16,
-  "weight": 480,
   "evolutions": [],
-  "forms": [
+  "temporaryForms": [
     {
       "name": "Therian",
       "primaryType": "fairy",
@@ -120,8 +122,22 @@
       },
       "catchRate": 3,
       "maleRatio": 0,
-      "baseExperienceYield": 116,
       "baseFriendship": 0,
+      "experienceGroup": "slow",
+      "eggCycles": 0,
+      "eggGroups": [
+        "undiscovered"
+      ],
+      "height": 16,
+      "weight": 480,
+      "labels": [
+        "gen8",
+        "legendary"
+      ],
+      "aspects": [
+        "therian"
+      ],
+      "baseExperienceYield": 116,
       "evYield": {
         "hp": 0,
         "attack": 3,
@@ -130,11 +146,8 @@
         "special_defence": 0,
         "speed": 0
       },
-      "experienceGroup": "slow",
-      "eggCycles": 0,
-      "eggGroups": [
-        "undiscovered"
-      ],
+      "cannotDynamax": false,
+      "battleOnly": false,
       "moves": [
         "1:astonish",
         "1:fairywind",
@@ -193,20 +206,7 @@
         "tm:uproar",
         "tm:weatherball",
         "tm:zenheadbutt"
-      ],
-      "labels": [
-        "gen8",
-        "legendary"
-      ],
-      "aspects": [
-        "therian"
-      ],
-      "height": 16,
-      "weight": 480,
-      "cannotDynamax": false,
-      "battleOnly": false
+      ]
     }
-  ],
-  "aspects": [],
-  "cannotDynamax": false
+  ]
 }

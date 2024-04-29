@@ -18,13 +18,30 @@
   },
   "catchRate": 45,
   "maleRatio": -1,
-  "shoulderMountable": false,
-  "baseExperienceYield": 180,
+  "baseFriendship": 50,
   "experienceGroup": "medium_fast",
   "eggCycles": 20,
   "eggGroups": [
     "mineral"
   ],
+  "height": 6,
+  "weight": 325,
+  "pokedex": [
+    "cobblemon.species.porygon2.desc"
+  ],
+  "labels": [
+    "gen2"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 180,
+  "evYield": {
+    "hp": 0,
+    "attack": 0,
+    "defence": 0,
+    "special_attack": 2,
+    "special_defence": 0,
+    "speed": 0
+  },
   "drops": {
     "amount": 1,
     "entries": [
@@ -34,6 +51,14 @@
       }
     ]
   },
+  "baseScale": 0.8,
+  "hitbox": {
+    "width": 0.9,
+    "height": 0.9,
+    "fixed": false
+  },
+  "cannotDynamax": false,
+  "shoulderMountable": false,
   "behaviour": {
     "moving": {
       "fly": {
@@ -186,45 +211,21 @@
     "tutor:zapcannon",
     "tutor:zenheadbutt"
   ],
-  "labels": [
-    "gen2"
-  ],
-  "pokedex": [
-    "cobblemon.species.porygon2.desc"
-  ],
   "preEvolution": "porygon",
   "evolutions": [
     {
       "id": "porygon2_porygonz",
-      "variant": "trade",
       "result": "porygonz",
-      "consumeHeldItem": true,
       "learnableMoves": [],
       "requirements": [
         {
           "variant": "held_item",
           "itemCondition": "cobblemon:dubious_disc"
         }
-      ]
+      ],
+      "trigger": {
+        "variant": "trade"
+      }
     }
-  ],
-  "baseScale": 0.8,
-  "hitbox": {
-    "width": 0.9,
-    "height": 0.9,
-    "fixed": false
-  },
-  "baseFriendship": 50,
-  "evYield": {
-    "hp": 0,
-    "attack": 0,
-    "defence": 0,
-    "special_attack": 2,
-    "special_defence": 0,
-    "speed": 0
-  },
-  "height": 6,
-  "weight": 325,
-  "aspects": [],
-  "cannotDynamax": false
+  ]
 }

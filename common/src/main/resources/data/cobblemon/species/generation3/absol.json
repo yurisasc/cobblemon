@@ -17,58 +17,51 @@
   },
   "catchRate": 30,
   "maleRatio": 0.5,
-  "shoulderMountable": false,
-  "forms": [
-    {
-      "name": "Mega",
-      "primaryType": "dark",
-      "abilities": [
-        "magicbounce"
-      ],
-      "baseStats": {
-        "hp": 65,
-        "attack": 150,
-        "defence": 60,
-        "special_attack": 115,
-        "special_defence": 60,
-        "speed": 115
-      },
-      "catchRate": 30,
-      "maleRatio": 0.5,
-      "baseExperienceYield": 163,
-      "baseFriendship": 35,
-      "evYield": {
-        "hp": 0,
-        "attack": 2,
-        "defence": 0,
-        "special_attack": 0,
-        "special_defence": 0,
-        "speed": 0
-      },
-      "experienceGroup": "medium_slow",
-      "eggCycles": 25,
-      "eggGroups": [
-        "field"
-      ],
-      "labels": [
-        "gen6",
-        "mega"
-      ],
-      "aspects": [
-        "mega"
-      ],
-      "height": 12,
-      "weight": 490,
-      "cannotDynamax": false,
-      "battleOnly": true
-    }
-  ],
-  "baseExperienceYield": 163,
+  "baseFriendship": 35,
   "experienceGroup": "medium_slow",
   "eggCycles": 25,
   "eggGroups": [
     "field"
   ],
+  "height": 12,
+  "weight": 470,
+  "pokedex": [
+    "cobblemon.species.absol.desc"
+  ],
+  "labels": [
+    "gen3"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 163,
+  "evYield": {
+    "hp": 0,
+    "attack": 2,
+    "defence": 0,
+    "special_attack": 0,
+    "special_defence": 0,
+    "speed": 0
+  },
+  "drops": {
+    "amount": 2,
+    "entries": [
+      {
+        "item": "cobblemon:razor_claw",
+        "percentage": 5.0
+      },
+      {
+        "item": "cobblemon:roseli_berry",
+        "percentage": 5.0
+      }
+    ]
+  },
+  "baseScale": 1,
+  "hitbox": {
+    "width": 1,
+    "height": 1,
+    "fixed": false
+  },
+  "cannotDynamax": false,
+  "shoulderMountable": false,
   "moves": [
     "1:feint",
     "1:leer",
@@ -239,43 +232,50 @@
     "tutor:wish",
     "tutor:zenheadbutt"
   ],
-  "labels": [
-    "gen3"
-  ],
-  "pokedex": [
-    "cobblemon.species.absol.desc"
-  ],
   "evolutions": [],
-  "baseScale": 1,
-  "hitbox": {
-    "width": 1,
-    "height": 1,
-    "fixed": false
-  },
-  "baseFriendship": 35,
-  "evYield": {
-    "hp": 0,
-    "attack": 2,
-    "defence": 0,
-    "special_attack": 0,
-    "special_defence": 0,
-    "speed": 0
-  },
-  "height": 12,
-  "weight": 470,
-  "aspects": [],
-  "cannotDynamax": false,
-  "drops": {
-    "amount": 2,
-    "entries": [
-      {
-        "item": "cobblemon:razor_claw",
-        "percentage": 5.0
+  "temporaryForms": [
+    {
+      "name": "Mega",
+      "primaryType": "dark",
+      "abilities": [
+        "magicbounce"
+      ],
+      "baseStats": {
+        "hp": 65,
+        "attack": 150,
+        "defence": 60,
+        "special_attack": 115,
+        "special_defence": 60,
+        "speed": 115
       },
-      {
-        "item": "cobblemon:roseli_berry",
-        "percentage": 5.0
-      }
-    ]
-  }
+      "catchRate": 30,
+      "maleRatio": 0.5,
+      "baseFriendship": 35,
+      "experienceGroup": "medium_slow",
+      "eggCycles": 25,
+      "eggGroups": [
+        "field"
+      ],
+      "height": 12,
+      "weight": 490,
+      "labels": [
+        "gen6",
+        "mega"
+      ],
+      "aspects": [
+        "mega"
+      ],
+      "baseExperienceYield": 163,
+      "evYield": {
+        "hp": 0,
+        "attack": 2,
+        "defence": 0,
+        "special_attack": 0,
+        "special_defence": 0,
+        "speed": 0
+      },
+      "cannotDynamax": false,
+      "battleOnly": true
+    }
+  ]
 }

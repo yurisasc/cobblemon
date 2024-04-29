@@ -17,13 +17,51 @@
   },
   "catchRate": 190,
   "maleRatio": 0.5,
-  "shoulderMountable": false,
-  "baseExperienceYield": 50,
+  "baseFriendship": 50,
   "experienceGroup": "medium_fast",
   "eggCycles": 20,
   "eggGroups": [
     "grass"
   ],
+  "height": 3,
+  "weight": 15,
+  "pokedex": [
+    "cobblemon.species.fomantis.desc"
+  ],
+  "labels": [
+    "gen7"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 50,
+  "evYield": {
+    "hp": 0,
+    "attack": 1,
+    "defence": 0,
+    "special_attack": 0,
+    "special_defence": 0,
+    "speed": 0
+  },
+  "drops": {
+    "amount": 2,
+    "entries": [
+      {
+        "item": "cobblemon:miracle_seed",
+        "percentage": 2.5
+      },
+      {
+        "item": "cobblemon:tanga_berry",
+        "percentage": 2.5
+      }
+    ]
+  },
+  "baseScale": 0.6,
+  "hitbox": {
+    "width": 0.55,
+    "height": 1,
+    "fixed": false
+  },
+  "cannotDynamax": false,
+  "shoulderMountable": false,
   "moves": [
     "1:furycutter",
     "1:leafage",
@@ -99,18 +137,10 @@
     "tutor:synthesis",
     "tutor:worryseed"
   ],
-  "labels": [
-    "gen7"
-  ],
-  "pokedex": [
-    "cobblemon.species.fomantis.desc"
-  ],
   "evolutions": [
     {
       "id": "fomantis_lurantis",
-      "variant": "level_up",
       "result": "lurantis",
-      "consumeHeldItem": false,
       "learnableMoves": [
         "petalblizzard"
       ],
@@ -123,39 +153,10 @@
           "variant": "time_range",
           "range": "day"
         }
-      ]
-    }
-  ],
-  "baseScale": 0.6,
-  "hitbox": {
-    "width": 0.55,
-    "height": 1,
-    "fixed": false
-  },
-  "baseFriendship": 50,
-  "evYield": {
-    "hp": 0,
-    "attack": 1,
-    "defence": 0,
-    "special_attack": 0,
-    "special_defence": 0,
-    "speed": 0
-  },
-  "height": 3,
-  "weight": 15,
-  "aspects": [],
-  "cannotDynamax": false,
-  "drops": {
-    "amount": 2,
-    "entries": [
-      {
-        "item": "cobblemon:miracle_seed",
-        "percentage": 2.5
-      },
-      {
-        "item": "cobblemon:tanga_berry",
-        "percentage": 2.5
+      ],
+      "trigger": {
+        "variant": "level_up"
       }
-    ]
-  }
+    }
+  ]
 }

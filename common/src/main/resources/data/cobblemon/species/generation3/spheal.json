@@ -18,14 +18,52 @@
   },
   "catchRate": 255,
   "maleRatio": 0.5,
-  "shoulderMountable": false,
-  "baseExperienceYield": 58,
+  "baseFriendship": 50,
   "experienceGroup": "medium_slow",
   "eggCycles": 20,
   "eggGroups": [
     "water_1",
     "field"
   ],
+  "height": 8,
+  "weight": 395,
+  "pokedex": [
+    "cobblemon.species.spheal.desc"
+  ],
+  "labels": [
+    "gen3"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 58,
+  "evYield": {
+    "hp": 1,
+    "attack": 0,
+    "defence": 0,
+    "special_attack": 0,
+    "special_defence": 0,
+    "speed": 0
+  },
+  "drops": {
+    "amount": 2,
+    "entries": [
+      {
+        "item": "minecraft:cod",
+        "quantityRange": "0-1"
+      },
+      {
+        "item": "cobblemon:chesto_berry",
+        "percentage": 2.5
+      }
+    ]
+  },
+  "baseScale": 1,
+  "hitbox": {
+    "width": 1,
+    "height": 1,
+    "fixed": false
+  },
+  "cannotDynamax": false,
+  "shoulderMountable": false,
   "moves": [
     "1:defensecurl",
     "1:rollout",
@@ -125,18 +163,10 @@
     "tutor:watergun",
     "tutor:waterpulse"
   ],
-  "labels": [
-    "gen3"
-  ],
-  "pokedex": [
-    "cobblemon.species.spheal.desc"
-  ],
   "evolutions": [
     {
       "id": "spheal_sealeo",
-      "variant": "level_up",
       "result": "sealeo",
-      "consumeHeldItem": false,
       "learnableMoves": [
         "swagger"
       ],
@@ -145,39 +175,10 @@
           "variant": "level",
           "minLevel": 32
         }
-      ]
-    }
-  ],
-  "baseScale": 1,
-  "hitbox": {
-    "width": 1,
-    "height": 1,
-    "fixed": false
-  },
-  "baseFriendship": 50,
-  "evYield": {
-    "hp": 1,
-    "attack": 0,
-    "defence": 0,
-    "special_attack": 0,
-    "special_defence": 0,
-    "speed": 0
-  },
-  "height": 8,
-  "weight": 395,
-  "aspects": [],
-  "cannotDynamax": false,
-  "drops": {
-    "amount": 2,
-    "entries": [
-      {
-        "item": "minecraft:cod",
-        "quantityRange": "0-1"
-      },
-      {
-        "item": "cobblemon:chesto_berry",
-        "percentage": 2.5
+      ],
+      "trigger": {
+        "variant": "level_up"
       }
-    ]
-  }
+    }
+  ]
 }

@@ -15,65 +15,23 @@
   },
   "catchRate": 45,
   "maleRatio": -1,
-  "shoulderMountable": false,
-  "baseExperienceYield": 140,
+  "baseFriendship": 0,
   "experienceGroup": "slow",
   "eggCycles": 120,
   "eggGroups": [
     "undiscovered"
   ],
-  "moves": [
-    "1:cosmicpower",
-    "1:teleport",
-    "tm:cosmicpower"
+  "height": 1,
+  "weight": 9999,
+  "pokedex": [
+    "cobblemon.species.cosmoem.desc"
   ],
   "labels": [
     "gen7",
     "legendary"
   ],
-  "pokedex": [
-    "cobblemon.species.cosmoem.desc"
-  ],
-  "preEvolution": "cosmog",
-  "evolutions": [
-    {
-      "id": "cosmoem_solgaleo",
-      "variant": "level_up",
-      "result": "solgaleo",
-      "consumeHeldItem": false,
-      "learnableMoves": [
-        "sunsteelstrike"
-      ],
-      "requirements": [
-        {
-          "variant": "level",
-          "minLevel": 53
-        }
-      ]
-    },
-    {
-      "id": "cosmoem_lunala",
-      "variant": "level_up",
-      "result": "lunala",
-      "consumeHeldItem": false,
-      "learnableMoves": [
-        "moongeistbeam"
-      ],
-      "requirements": [
-        {
-          "variant": "level",
-          "minLevel": 53
-        }
-      ]
-    }
-  ],
-  "baseScale": 1,
-  "hitbox": {
-    "width": 1,
-    "height": 1,
-    "fixed": false
-  },
-  "baseFriendship": 0,
+  "aspects": [],
+  "baseExperienceYield": 140,
   "evYield": {
     "hp": 0,
     "attack": 0,
@@ -82,8 +40,52 @@
     "special_defence": 1,
     "speed": 0
   },
-  "height": 1,
-  "weight": 9999,
-  "aspects": [],
-  "cannotDynamax": false
+  "baseScale": 1,
+  "hitbox": {
+    "width": 1,
+    "height": 1,
+    "fixed": false
+  },
+  "cannotDynamax": false,
+  "shoulderMountable": false,
+  "moves": [
+    "1:cosmicpower",
+    "1:teleport",
+    "tm:cosmicpower"
+  ],
+  "preEvolution": "cosmog",
+  "evolutions": [
+    {
+      "id": "cosmoem_solgaleo",
+      "result": "solgaleo",
+      "learnableMoves": [
+        "sunsteelstrike"
+      ],
+      "requirements": [
+        {
+          "variant": "level",
+          "minLevel": 53
+        }
+      ],
+      "trigger": {
+        "variant": "level_up"
+      }
+    },
+    {
+      "id": "cosmoem_lunala",
+      "result": "lunala",
+      "learnableMoves": [
+        "moongeistbeam"
+      ],
+      "requirements": [
+        {
+          "variant": "level",
+          "minLevel": 53
+        }
+      ],
+      "trigger": {
+        "variant": "level_up"
+      }
+    }
+  ]
 }

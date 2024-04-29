@@ -8,6 +8,40 @@
     "unburden",
     "h:stakeout"
   ],
+  "baseStats": {
+    "hp": 40,
+    "attack": 28,
+    "defence": 28,
+    "special_attack": 47,
+    "special_defence": 52,
+    "speed": 50
+  },
+  "catchRate": 255,
+  "maleRatio": 0.5,
+  "baseFriendship": 50,
+  "experienceGroup": "fast",
+  "eggCycles": 15,
+  "eggGroups": [
+    "field"
+  ],
+  "height": 6,
+  "weight": 89,
+  "pokedex": [
+    "cobblemon.species.nickit.desc"
+  ],
+  "labels": [
+    "gen8"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 49,
+  "evYield": {
+    "hp": 0,
+    "attack": 0,
+    "defence": 0,
+    "special_attack": 0,
+    "special_defence": 1,
+    "speed": 0
+  },
   "drops": {
     "amount": 5,
     "entries": [
@@ -25,23 +59,14 @@
       }
     ]
   },
-  "baseStats": {
-    "hp": 40,
-    "attack": 28,
-    "defence": 28,
-    "special_attack": 47,
-    "special_defence": 52,
-    "speed": 50
+  "baseScale": 0.7,
+  "hitbox": {
+    "width": 0.9,
+    "height": 1.1,
+    "fixed": false
   },
-  "catchRate": 255,
-  "maleRatio": 0.5,
+  "cannotDynamax": false,
   "shoulderMountable": false,
-  "baseExperienceYield": 49,
-  "experienceGroup": "fast",
-  "eggCycles": 15,
-  "eggGroups": [
-    "field"
-  ],
   "behaviour": {
     "resting": {
       "canSleep": true,
@@ -93,18 +118,10 @@
     "tm:thief",
     "tutor:lashout"
   ],
-  "labels": [
-    "gen8"
-  ],
-  "pokedex": [
-    "cobblemon.species.nickit.desc"
-  ],
   "evolutions": [
     {
       "id": "nickit_thievul",
-      "variant": "level_up",
       "result": "thievul",
-      "consumeHeldItem": false,
       "learnableMoves": [
         "thief"
       ],
@@ -113,26 +130,10 @@
           "variant": "level",
           "minLevel": 18
         }
-      ]
+      ],
+      "trigger": {
+        "variant": "level_up"
+      }
     }
-  ],
-  "baseScale": 0.7,
-  "hitbox": {
-    "width": 0.9,
-    "height": 1.1,
-    "fixed": false
-  },
-  "baseFriendship": 50,
-  "evYield": {
-    "hp": 0,
-    "attack": 0,
-    "defence": 0,
-    "special_attack": 0,
-    "special_defence": 1,
-    "speed": 0
-  },
-  "height": 6,
-  "weight": 89,
-  "aspects": [],
-  "cannotDynamax": false
+  ]
 }

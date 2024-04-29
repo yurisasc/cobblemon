@@ -18,13 +18,38 @@
   },
   "catchRate": 45,
   "maleRatio": -1,
-  "shoulderMountable": false,
-  "baseExperienceYield": 79,
+  "baseFriendship": 50,
   "experienceGroup": "medium_fast",
   "eggCycles": 20,
   "eggGroups": [
     "mineral"
   ],
+  "height": 8,
+  "weight": 365,
+  "pokedex": [
+    "cobblemon.species.porygon.desc"
+  ],
+  "labels": [
+    "gen1"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 79,
+  "evYield": {
+    "hp": 0,
+    "attack": 0,
+    "defence": 0,
+    "special_attack": 1,
+    "special_defence": 0,
+    "speed": 0
+  },
+  "baseScale": 0.8,
+  "hitbox": {
+    "width": 0.9,
+    "height": 0.9,
+    "fixed": false
+  },
+  "cannotDynamax": false,
+  "shoulderMountable": false,
   "behaviour": {
     "moving": {
       "fly": {
@@ -185,44 +210,20 @@
     "tutor:zapcannon",
     "tutor:zenheadbutt"
   ],
-  "labels": [
-    "gen1"
-  ],
-  "pokedex": [
-    "cobblemon.species.porygon.desc"
-  ],
   "evolutions": [
     {
       "id": "porygon_porygon2",
-      "variant": "trade",
       "result": "porygon2",
-      "consumeHeldItem": true,
       "learnableMoves": [],
       "requirements": [
         {
           "variant": "held_item",
           "itemCondition": "cobblemon:upgrade"
         }
-      ]
+      ],
+      "trigger": {
+        "variant": "trade"
+      }
     }
-  ],
-  "baseScale": 0.8,
-  "hitbox": {
-    "width": 0.9,
-    "height": 0.9,
-    "fixed": false
-  },
-  "baseFriendship": 50,
-  "evYield": {
-    "hp": 0,
-    "attack": 0,
-    "defence": 0,
-    "special_attack": 1,
-    "special_defence": 0,
-    "speed": 0
-  },
-  "height": 8,
-  "weight": 365,
-  "aspects": [],
-  "cannotDynamax": false
+  ]
 }

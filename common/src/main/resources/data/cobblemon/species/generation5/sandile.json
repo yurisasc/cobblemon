@@ -9,6 +9,40 @@
     "moxie",
     "h:angerpoint"
   ],
+  "baseStats": {
+    "hp": 50,
+    "attack": 72,
+    "defence": 35,
+    "special_attack": 35,
+    "special_defence": 35,
+    "speed": 65
+  },
+  "catchRate": 180,
+  "maleRatio": 0.5,
+  "baseFriendship": 50,
+  "experienceGroup": "medium_slow",
+  "eggCycles": 20,
+  "eggGroups": [
+    "field"
+  ],
+  "height": 7,
+  "weight": 152,
+  "pokedex": [
+    "cobblemon.species.sandile.desc"
+  ],
+  "labels": [
+    "gen5"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 58,
+  "evYield": {
+    "hp": 0,
+    "attack": 1,
+    "defence": 0,
+    "special_attack": 0,
+    "special_defence": 0,
+    "speed": 0
+  },
   "drops": {
     "amount": 2,
     "entries": [
@@ -22,14 +56,14 @@
       }
     ]
   },
-  "baseStats": {
-    "hp": 50,
-    "attack": 72,
-    "defence": 35,
-    "special_attack": 35,
-    "special_defence": 35,
-    "speed": 65
+  "baseScale": 0.8,
+  "hitbox": {
+    "width": 0.9,
+    "height": 0.6,
+    "fixed": false
   },
+  "cannotDynamax": false,
+  "shoulderMountable": false,
   "behaviour": {
     "resting": {
       "canSleep": true,
@@ -42,15 +76,6 @@
       }
     }
   },
-  "catchRate": 180,
-  "maleRatio": 0.5,
-  "shoulderMountable": false,
-  "baseExperienceYield": 58,
-  "experienceGroup": "medium_slow",
-  "eggCycles": 20,
-  "eggGroups": [
-    "field"
-  ],
   "moves": [
     "1:leer",
     "1:powertrip",
@@ -167,44 +192,20 @@
     "tutor:stealthrock",
     "tutor:uproar"
   ],
-  "labels": [
-    "gen5"
-  ],
-  "pokedex": [
-    "cobblemon.species.sandile.desc"
-  ],
   "evolutions": [
     {
       "id": "sandile_krokorok",
-      "variant": "level_up",
       "result": "krokorok",
-      "consumeHeldItem": false,
       "learnableMoves": [],
       "requirements": [
         {
           "variant": "level",
           "minLevel": 29
         }
-      ]
+      ],
+      "trigger": {
+        "variant": "level_up"
+      }
     }
-  ],
-  "baseScale": 0.8,
-  "hitbox": {
-    "width": 0.9,
-    "height": 0.6,
-    "fixed": false
-  },
-  "baseFriendship": 50,
-  "evYield": {
-    "hp": 0,
-    "attack": 1,
-    "defence": 0,
-    "special_attack": 0,
-    "special_defence": 0,
-    "speed": 0
-  },
-  "height": 7,
-  "weight": 152,
-  "aspects": [],
-  "cannotDynamax": false
+  ]
 }

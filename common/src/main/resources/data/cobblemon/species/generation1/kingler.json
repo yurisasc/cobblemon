@@ -18,68 +18,29 @@
   },
   "catchRate": 60,
   "maleRatio": 0.5,
-  "shoulderMountable": false,
-  "forms": [
-    {
-      "name": "Gmax",
-      "primaryType": "water",
-      "abilities": [
-        "hypercutter",
-        "shellarmor",
-        "h:sheerforce"
-      ],
-      "baseStats": {
-        "hp": 55,
-        "attack": 130,
-        "defence": 115,
-        "special_attack": 50,
-        "special_defence": 50,
-        "speed": 75
-      },
-      "catchRate": 60,
-      "maleRatio": 0.5,
-      "baseExperienceYield": 166,
-      "baseFriendship": 50,
-      "evYield": {
-        "hp": 0,
-        "attack": 2,
-        "defence": 0,
-        "special_attack": 0,
-        "special_defence": 0,
-        "speed": 0
-      },
-      "experienceGroup": "medium_fast",
-      "eggCycles": 20,
-      "eggGroups": [
-        "water_3"
-      ],
-      "labels": [
-        "gen8",
-        "gmax"
-      ],
-      "aspects": [
-        "gmax"
-      ],
-      "height": 190,
-      "weight": 0,
-      "cannotDynamax": false,
-      "battleOnly": false
-    }
-  ],
-  "baseExperienceYield": 166,
+  "baseFriendship": 50,
   "experienceGroup": "medium_fast",
   "eggCycles": 20,
   "eggGroups": [
     "water_3"
   ],
-  "behaviour": {
-    "moving": {
-      "swim": {
-        "swimSpeed": 0.1,
-        "canSwimInWater": false,
-        "canBreatheUnderwater": true
-      }
-    }
+  "height": 13,
+  "weight": 600,
+  "pokedex": [
+    "cobblemon.species.kingler.desc"
+  ],
+  "labels": [
+    "gen1"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 166,
+  "evYield": {
+    "hp": 0,
+    "attack": 2,
+    "defence": 0,
+    "special_attack": 0,
+    "special_defence": 0,
+    "speed": 0
   },
   "drops": {
     "amount": 2,
@@ -93,6 +54,23 @@
         "percentage": 5.0
       }
     ]
+  },
+  "baseScale": 1,
+  "hitbox": {
+    "width": 1,
+    "height": 1,
+    "fixed": false
+  },
+  "cannotDynamax": false,
+  "shoulderMountable": false,
+  "behaviour": {
+    "moving": {
+      "swim": {
+        "swimSpeed": 0.1,
+        "canSwimInWater": false,
+        "canBreatheUnderwater": true
+      }
+    }
   },
   "moves": [
     "1:bubble",
@@ -237,31 +215,53 @@
     "tutor:whirlpool",
     "tutor:xscissor"
   ],
-  "labels": [
-    "gen1"
-  ],
-  "pokedex": [
-    "cobblemon.species.kingler.desc"
-  ],
   "preEvolution": "krabby",
   "evolutions": [],
-  "baseScale": 1,
-  "hitbox": {
-    "width": 1,
-    "height": 1,
-    "fixed": false
-  },
-  "baseFriendship": 50,
-  "evYield": {
-    "hp": 0,
-    "attack": 2,
-    "defence": 0,
-    "special_attack": 0,
-    "special_defence": 0,
-    "speed": 0
-  },
-  "height": 13,
-  "weight": 600,
-  "aspects": [],
-  "cannotDynamax": false
+  "temporaryForms": [
+    {
+      "name": "Gmax",
+      "primaryType": "water",
+      "abilities": [
+        "hypercutter",
+        "shellarmor",
+        "h:sheerforce"
+      ],
+      "baseStats": {
+        "hp": 55,
+        "attack": 130,
+        "defence": 115,
+        "special_attack": 50,
+        "special_defence": 50,
+        "speed": 75
+      },
+      "catchRate": 60,
+      "maleRatio": 0.5,
+      "baseFriendship": 50,
+      "experienceGroup": "medium_fast",
+      "eggCycles": 20,
+      "eggGroups": [
+        "water_3"
+      ],
+      "height": 190,
+      "weight": 0,
+      "labels": [
+        "gen8",
+        "gmax"
+      ],
+      "aspects": [
+        "gmax"
+      ],
+      "baseExperienceYield": 166,
+      "evYield": {
+        "hp": 0,
+        "attack": 2,
+        "defence": 0,
+        "special_attack": 0,
+        "special_defence": 0,
+        "speed": 0
+      },
+      "cannotDynamax": false,
+      "battleOnly": false
+    }
+  ]
 }

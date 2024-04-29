@@ -16,8 +16,23 @@
   },
   "catchRate": 30,
   "maleRatio": -1,
-  "baseExperienceYield": 285,
   "baseFriendship": 0,
+  "experienceGroup": "slow",
+  "eggCycles": 50,
+  "eggGroups": [
+    "undiscovered"
+  ],
+  "height": 9,
+  "weight": 2400,
+  "pokedex": [
+    "cobblemon.species.irontreads.desc"
+  ],
+  "labels": [
+    "gen9",
+    "paradox"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 285,
   "evYield": {
     "hp": 0,
     "attack": 0,
@@ -26,11 +41,7 @@
     "special_defence": 0,
     "speed": 0
   },
-  "experienceGroup": "slow",
-  "eggCycles": 50,
-  "eggGroups": [
-    "undiscovered"
-  ],
+  "cannotDynamax": false,
   "moves": [
     "1:defensecurl",
     "1:electricterrain",
@@ -92,16 +103,5 @@
     "tutor:rapidspin",
     "tutor:stompingtantrum"
   ],
-  "labels": [
-    "gen9",
-    "paradox"
-  ],
-  "aspects": [],
-  "height": 9,
-  "weight": 2400,
-  "evolutions": [],
-  "cannotDynamax": false,
-  "pokedex": [
-    "cobblemon.species.irontreads.desc"
-  ]
+  "evolutions": []
 }

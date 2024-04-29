@@ -17,8 +17,22 @@
   },
   "catchRate": 30,
   "maleRatio": 0.5,
-  "baseExperienceYield": 158,
   "baseFriendship": 0,
+  "experienceGroup": "medium_fast",
+  "eggCycles": 20,
+  "eggGroups": [
+    "bug"
+  ],
+  "height": 10,
+  "weight": 175,
+  "pokedex": [
+    "cobblemon.species.lokix.desc"
+  ],
+  "labels": [
+    "gen9"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 158,
   "evYield": {
     "hp": 0,
     "attack": 2,
@@ -27,11 +41,16 @@
     "special_defence": 0,
     "speed": 0
   },
-  "experienceGroup": "medium_fast",
-  "eggCycles": 20,
-  "eggGroups": [
-    "bug"
-  ],
+  "drops": {
+    "amount": 1,
+    "entries": [
+      {
+        "item": "cobblemon:coba_berry",
+        "percentage": 5.0
+      }
+    ]
+  },
+  "cannotDynamax": false,
   "moves": [
     "1:detect",
     "1:leer",
@@ -83,25 +102,6 @@
     "tm:uturn",
     "tm:xscissor"
   ],
-  "labels": [
-    "gen9"
-  ],
-  "aspects": [],
-  "height": 10,
-  "weight": 175,
   "preEvolution": "nymble",
-  "evolutions": [],
-  "cannotDynamax": false,
-  "pokedex": [
-    "cobblemon.species.lokix.desc"
-  ],
-  "drops": {
-    "amount": 1,
-    "entries": [
-      {
-        "item": "cobblemon:coba_berry",
-        "percentage": 5.0
-      }
-    ]
-  }
+  "evolutions": []
 }

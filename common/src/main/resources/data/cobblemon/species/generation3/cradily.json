@@ -18,13 +18,47 @@
   },
   "catchRate": 45,
   "maleRatio": 0.875,
-  "shoulderMountable": false,
-  "baseExperienceYield": 173,
+  "baseFriendship": 50,
   "experienceGroup": "erratic",
   "eggCycles": 30,
   "eggGroups": [
     "water_3"
   ],
+  "height": 15,
+  "weight": 604,
+  "pokedex": [
+    "cobblemon.species.cradily.desc"
+  ],
+  "labels": [
+    "gen3"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 173,
+  "evYield": {
+    "hp": 0,
+    "attack": 0,
+    "defence": 0,
+    "special_attack": 0,
+    "special_defence": 2,
+    "speed": 0
+  },
+  "drops": {
+    "amount": 1,
+    "entries": [
+      {
+        "item": "cobblemon:big_root",
+        "percentage": 10.0
+      }
+    ]
+  },
+  "baseScale": 1,
+  "hitbox": {
+    "width": 0.9,
+    "height": 2,
+    "fixed": false
+  },
+  "cannotDynamax": false,
+  "shoulderMountable": false,
   "behaviour": {
     "moving": {
       "swim": {
@@ -141,40 +175,6 @@
     "tutor:synthesis",
     "tutor:worryseed"
   ],
-  "labels": [
-    "gen3"
-  ],
-  "pokedex": [
-    "cobblemon.species.cradily.desc"
-  ],
   "preEvolution": "lileep",
-  "evolutions": [],
-  "baseScale": 1,
-  "hitbox": {
-    "width": 0.9,
-    "height": 2,
-    "fixed": false
-  },
-  "baseFriendship": 50,
-  "evYield": {
-    "hp": 0,
-    "attack": 0,
-    "defence": 0,
-    "special_attack": 0,
-    "special_defence": 2,
-    "speed": 0
-  },
-  "height": 15,
-  "weight": 604,
-  "aspects": [],
-  "cannotDynamax": false,
-  "drops": {
-    "amount": 1,
-    "entries": [
-      {
-        "item": "cobblemon:big_root",
-        "percentage": 10.0
-      }
-    ]
-  }
+  "evolutions": []
 }

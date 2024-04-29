@@ -8,6 +8,40 @@
     "overcoat",
     "h:weakarmor"
   ],
+  "baseStats": {
+    "hp": 70,
+    "attack": 55,
+    "defence": 75,
+    "special_attack": 45,
+    "special_defence": 65,
+    "speed": 60
+  },
+  "catchRate": 190,
+  "maleRatio": 0,
+  "baseFriendship": 35,
+  "experienceGroup": "slow",
+  "eggCycles": 20,
+  "eggGroups": [
+    "flying"
+  ],
+  "height": 5,
+  "weight": 90,
+  "pokedex": [
+    "cobblemon.species.vullaby.desc"
+  ],
+  "labels": [
+    "gen5"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 74,
+  "evYield": {
+    "hp": 0,
+    "attack": 0,
+    "defence": 1,
+    "special_attack": 0,
+    "special_defence": 0,
+    "speed": 0
+  },
   "drops": {
     "amount": 4,
     "entries": [
@@ -28,23 +62,14 @@
       }
     ]
   },
-  "baseStats": {
-    "hp": 70,
-    "attack": 55,
-    "defence": 75,
-    "special_attack": 45,
-    "special_defence": 65,
-    "speed": 60
+  "baseScale": 1,
+  "hitbox": {
+    "width": 1,
+    "height": 1,
+    "fixed": false
   },
-  "catchRate": 190,
-  "maleRatio": 0,
+  "cannotDynamax": false,
   "shoulderMountable": false,
-  "baseExperienceYield": 74,
-  "experienceGroup": "slow",
-  "eggCycles": 20,
-  "eggGroups": [
-    "flying"
-  ],
   "moves": [
     "1:gust",
     "1:leer",
@@ -149,18 +174,10 @@
     "tutor:snore",
     "tutor:tailwind"
   ],
-  "labels": [
-    "gen5"
-  ],
-  "pokedex": [
-    "cobblemon.species.vullaby.desc"
-  ],
   "evolutions": [
     {
       "id": "vullaby_mandibuzz",
-      "variant": "level_up",
       "result": "mandibuzz",
-      "consumeHeldItem": false,
       "learnableMoves": [
         "bonerush"
       ],
@@ -169,26 +186,10 @@
           "variant": "level",
           "minLevel": 54
         }
-      ]
+      ],
+      "trigger": {
+        "variant": "level_up"
+      }
     }
-  ],
-  "baseScale": 1,
-  "hitbox": {
-    "width": 1,
-    "height": 1,
-    "fixed": false
-  },
-  "baseFriendship": 35,
-  "evYield": {
-    "hp": 0,
-    "attack": 0,
-    "defence": 1,
-    "special_attack": 0,
-    "special_defence": 0,
-    "speed": 0
-  },
-  "height": 5,
-  "weight": 90,
-  "aspects": [],
-  "cannotDynamax": false
+  ]
 }

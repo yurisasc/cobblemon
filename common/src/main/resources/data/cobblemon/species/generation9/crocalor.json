@@ -7,15 +7,6 @@
     "blaze",
     "h:unaware"
   ],
-  "drops": {
-    "amount": 1,
-    "entries": [
-      {
-        "item": "cobblemon:charcoal_stick",
-        "percentage": 10.0
-      }
-    ]
-  },
   "baseStats": {
     "hp": 81,
     "attack": 55,
@@ -26,8 +17,22 @@
   },
   "catchRate": 45,
   "maleRatio": 0.875,
-  "baseExperienceYield": 144,
   "baseFriendship": 50,
+  "experienceGroup": "medium_slow",
+  "eggCycles": 20,
+  "eggGroups": [
+    "field"
+  ],
+  "height": 10,
+  "weight": 307,
+  "pokedex": [
+    "cobblemon.species.crocalor.desc"
+  ],
+  "labels": [
+    "gen9"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 144,
   "evYield": {
     "hp": 0,
     "attack": 0,
@@ -36,11 +41,22 @@
     "special_defence": 0,
     "speed": 0
   },
-  "experienceGroup": "medium_slow",
-  "eggCycles": 20,
-  "eggGroups": [
-    "field"
-  ],
+  "drops": {
+    "amount": 1,
+    "entries": [
+      {
+        "item": "cobblemon:charcoal_stick",
+        "percentage": 10.0
+      }
+    ]
+  },
+  "baseScale": 0.7,
+  "hitbox": {
+    "width": 1.0,
+    "height": 1.4,
+    "fixed": false
+  },
+  "cannotDynamax": false,
   "behaviour": {
     "resting": {
       "canSleep": true,
@@ -97,19 +113,11 @@
     "tm:willowisp",
     "tm:zenheadbutt"
   ],
-  "labels": [
-    "gen9"
-  ],
-  "aspects": [],
-  "height": 10,
-  "weight": 307,
   "preEvolution": "fuecoco",
   "evolutions": [
     {
       "id": "crocalor_skeledirge",
-      "variant": "level_up",
       "result": "skeledirge",
-      "consumeHeldItem": false,
       "learnableMoves": [
         "torchsong"
       ],
@@ -118,17 +126,10 @@
           "variant": "level",
           "minLevel": 36
         }
-      ]
+      ],
+      "trigger": {
+        "variant": "level_up"
+      }
     }
-  ],
-  "baseScale": 0.7,
-  "hitbox": {
-    "width": 1.0,
-    "height": 1.4,
-    "fixed": false
-  },
-  "cannotDynamax": false,
-  "pokedex": [
-    "cobblemon.species.crocalor.desc"
   ]
 }

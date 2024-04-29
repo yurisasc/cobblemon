@@ -16,23 +16,24 @@
     "special_defence": 65,
     "speed": 35
   },
-  "behaviour": {
-    "moving": {
-      "walk": {
-        "walkSpeed": 0.15
-      }
-    },
-    "resting": {
-      "canSleep": true,
-      "willSleepOnBed": false,
-      "depth": "normal",
-      "light": "0-4"
-    }
-  },
   "catchRate": 120,
   "maleRatio": 0.5,
-  "baseExperienceYield": 124,
   "baseFriendship": 50,
+  "experienceGroup": "medium_slow",
+  "eggCycles": 20,
+  "eggGroups": [
+    "mineral"
+  ],
+  "height": 5,
+  "weight": 1050,
+  "pokedex": [
+    "cobblemon.species.naclstack.desc"
+  ],
+  "labels": [
+    "gen9"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 124,
   "evYield": {
     "hp": 0,
     "attack": 0,
@@ -41,11 +42,6 @@
     "special_defence": 0,
     "speed": 0
   },
-  "experienceGroup": "medium_slow",
-  "eggCycles": 20,
-  "eggGroups": [
-    "mineral"
-  ],
   "drops": {
     "amount": 3,
     "entries": [
@@ -58,6 +54,26 @@
         "percentage": 5.0
       }
     ]
+  },
+  "baseScale": 1,
+  "hitbox": {
+    "width": 1,
+    "height": 0.8,
+    "fixed": false
+  },
+  "cannotDynamax": false,
+  "behaviour": {
+    "moving": {
+      "walk": {
+        "walkSpeed": 0.15
+      }
+    },
+    "resting": {
+      "canSleep": true,
+      "willSleepOnBed": false,
+      "depth": "normal",
+      "light": "0-4"
+    }
   },
   "moves": [
     "1:harden",
@@ -107,19 +123,11 @@
     "tm:terablast",
     "tm:zenheadbutt"
   ],
-  "labels": [
-    "gen9"
-  ],
-  "aspects": [],
-  "height": 5,
-  "weight": 1050,
   "preEvolution": "nacli",
   "evolutions": [
     {
       "id": "naclstack_garganacl",
-      "variant": "level_up",
       "result": "garganacl",
-      "consumeHeldItem": false,
       "learnableMoves": [
         "hammerarm"
       ],
@@ -128,17 +136,10 @@
           "variant": "level",
           "minLevel": 38
         }
-      ]
+      ],
+      "trigger": {
+        "variant": "level_up"
+      }
     }
-  ],
-  "baseScale": 1,
-  "hitbox": {
-    "width": 1,
-    "height": 0.8,
-    "fixed": false
-  },
-  "cannotDynamax": false,
-  "pokedex": [
-    "cobblemon.species.naclstack.desc"
   ]
 }

@@ -9,6 +9,40 @@
     "skilllink",
     "h:overcoat"
   ],
+  "baseStats": {
+    "hp": 50,
+    "attack": 95,
+    "defence": 180,
+    "special_attack": 85,
+    "special_defence": 45,
+    "speed": 70
+  },
+  "catchRate": 60,
+  "maleRatio": 0.5,
+  "baseFriendship": 50,
+  "experienceGroup": "slow",
+  "eggCycles": 20,
+  "eggGroups": [
+    "water_3"
+  ],
+  "height": 15,
+  "weight": 1325,
+  "pokedex": [
+    "cobblemon.species.cloyster.desc"
+  ],
+  "labels": [
+    "gen1"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 184,
+  "evYield": {
+    "hp": 0,
+    "attack": 0,
+    "defence": 2,
+    "special_attack": 0,
+    "special_defence": 0,
+    "speed": 0
+  },
   "drops": {
     "amount": 2,
     "entries": [
@@ -22,23 +56,14 @@
       }
     ]
   },
-  "baseStats": {
-    "hp": 50,
-    "attack": 95,
-    "defence": 180,
-    "special_attack": 85,
-    "special_defence": 45,
-    "speed": 70
+  "baseScale": 1,
+  "hitbox": {
+    "width": 1,
+    "height": 1.1,
+    "fixed": false
   },
-  "catchRate": 60,
-  "maleRatio": 0.5,
+  "cannotDynamax": false,
   "shoulderMountable": false,
-  "baseExperienceYield": 184,
-  "experienceGroup": "slow",
-  "eggCycles": 20,
-  "eggGroups": [
-    "water_3"
-  ],
   "behaviour": {
     "moving": {
       "swim": {
@@ -188,31 +213,6 @@
     "tutor:whirlpool",
     "tutor:withdraw"
   ],
-  "labels": [
-    "gen1"
-  ],
-  "pokedex": [
-    "cobblemon.species.cloyster.desc"
-  ],
   "preEvolution": "shellder",
-  "evolutions": [],
-  "baseScale": 1,
-  "hitbox": {
-    "width": 1,
-    "height": 1.1,
-    "fixed": false
-  },
-  "baseFriendship": 50,
-  "evYield": {
-    "hp": 0,
-    "attack": 0,
-    "defence": 2,
-    "special_attack": 0,
-    "special_defence": 0,
-    "speed": 0
-  },
-  "height": 15,
-  "weight": 1325,
-  "aspects": [],
-  "cannotDynamax": false
+  "evolutions": []
 }

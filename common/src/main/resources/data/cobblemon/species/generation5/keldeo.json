@@ -16,9 +16,24 @@
   },
   "catchRate": 3,
   "maleRatio": -1,
-  "shoulderMountable": false,
-  "baseExperienceYield": 290,
   "baseFriendship": 35,
+  "experienceGroup": "slow",
+  "eggCycles": 80,
+  "eggGroups": [
+    "undiscovered"
+  ],
+  "height": 14,
+  "weight": 485,
+  "pokedex": [
+    "cobblemon.species.keldeo.desc"
+  ],
+  "labels": [
+    "gen5",
+    "mythical",
+    "legendary"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 290,
   "evYield": {
     "hp": 0,
     "attack": 0,
@@ -27,11 +42,8 @@
     "special_defence": 0,
     "speed": 0
   },
-  "experienceGroup": "slow",
-  "eggCycles": 80,
-  "eggGroups": [
-    "undiscovered"
-  ],
+  "cannotDynamax": false,
+  "shoulderMountable": false,
   "moves": [
     "1:aquajet",
     "1:helpinghand",
@@ -142,18 +154,8 @@
     "tutor:swordsdance",
     "tutor:waterpulse"
   ],
-  "labels": [
-    "gen5",
-    "mythical",
-    "legendary"
-  ],
-  "pokedex": [
-    "cobblemon.species.keldeo.desc"
-  ],
-  "height": 14,
-  "weight": 485,
   "evolutions": [],
-  "forms": [
+  "temporaryForms": [
     {
       "name": "Resolute",
       "primaryType": "water",
@@ -171,21 +173,14 @@
       },
       "catchRate": 3,
       "maleRatio": -1,
-      "baseExperienceYield": 290,
       "baseFriendship": 35,
-      "evYield": {
-        "hp": 0,
-        "attack": 0,
-        "defence": 0,
-        "special_attack": 3,
-        "special_defence": 0,
-        "speed": 0
-      },
       "experienceGroup": "slow",
       "eggCycles": 80,
       "eggGroups": [
         "undiscovered"
       ],
+      "height": 14,
+      "weight": 485,
       "labels": [
         "gen5",
         "mythical",
@@ -194,12 +189,17 @@
       "aspects": [
         "resolute"
       ],
-      "height": 14,
-      "weight": 485,
+      "baseExperienceYield": 290,
+      "evYield": {
+        "hp": 0,
+        "attack": 0,
+        "defence": 0,
+        "special_attack": 3,
+        "special_defence": 0,
+        "speed": 0
+      },
       "cannotDynamax": false,
       "battleOnly": false
     }
-  ],
-  "aspects": [],
-  "cannotDynamax": false
+  ]
 }

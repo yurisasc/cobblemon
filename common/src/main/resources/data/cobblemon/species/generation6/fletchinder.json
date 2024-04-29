@@ -8,6 +8,40 @@
     "flamebody",
     "h:galewings"
   ],
+  "baseStats": {
+    "hp": 62,
+    "attack": 73,
+    "defence": 55,
+    "special_attack": 56,
+    "special_defence": 52,
+    "speed": 84
+  },
+  "catchRate": 120,
+  "maleRatio": 0.5,
+  "baseFriendship": 50,
+  "experienceGroup": "medium_slow",
+  "eggCycles": 15,
+  "eggGroups": [
+    "flying"
+  ],
+  "height": 7,
+  "weight": 160,
+  "pokedex": [
+    "cobblemon.species.fletchinder.desc"
+  ],
+  "labels": [
+    "gen6"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 134,
+  "evYield": {
+    "hp": 0,
+    "attack": 0,
+    "defence": 0,
+    "special_attack": 0,
+    "special_defence": 0,
+    "speed": 2
+  },
   "drops": {
     "amount": 5,
     "entries": [
@@ -28,23 +62,14 @@
       }
     ]
   },
-  "baseStats": {
-    "hp": 62,
-    "attack": 73,
-    "defence": 55,
-    "special_attack": 56,
-    "special_defence": 52,
-    "speed": 84
+  "baseScale": 0.8,
+  "hitbox": {
+    "width": 0.5,
+    "height": 0.9,
+    "fixed": false
   },
-  "catchRate": 120,
-  "maleRatio": 0.5,
+  "cannotDynamax": false,
   "shoulderMountable": false,
-  "baseExperienceYield": 134,
-  "experienceGroup": "medium_slow",
-  "eggCycles": 15,
-  "eggGroups": [
-    "flying"
-  ],
   "behaviour": {
     "moving": {
       "fly": {
@@ -129,45 +154,21 @@
     "tutor:snore",
     "tutor:tailwind"
   ],
-  "labels": [
-    "gen6"
-  ],
-  "pokedex": [
-    "cobblemon.species.fletchinder.desc"
-  ],
   "preEvolution": "fletchling",
   "evolutions": [
     {
       "id": "fletchinder_talonflame",
-      "variant": "level_up",
       "result": "talonflame",
-      "consumeHeldItem": false,
       "learnableMoves": [],
       "requirements": [
         {
           "variant": "level",
           "minLevel": 35
         }
-      ]
+      ],
+      "trigger": {
+        "variant": "level_up"
+      }
     }
-  ],
-  "baseScale": 0.8,
-  "hitbox": {
-    "width": 0.5,
-    "height": 0.9,
-    "fixed": false
-  },
-  "baseFriendship": 50,
-  "evYield": {
-    "hp": 0,
-    "attack": 0,
-    "defence": 0,
-    "special_attack": 0,
-    "special_defence": 0,
-    "speed": 2
-  },
-  "height": 7,
-  "weight": 160,
-  "aspects": [],
-  "cannotDynamax": false
+  ]
 }

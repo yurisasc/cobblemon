@@ -16,8 +16,22 @@
   },
   "catchRate": 255,
   "maleRatio": 0.5,
-  "baseExperienceYield": 42,
   "baseFriendship": 50,
+  "experienceGroup": "erratic",
+  "eggCycles": 15,
+  "eggGroups": [
+    "bug"
+  ],
+  "height": 3,
+  "weight": 40,
+  "pokedex": [
+    "cobblemon.species.tarountula.desc"
+  ],
+  "labels": [
+    "gen9"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 42,
   "evYield": {
     "hp": 0,
     "attack": 0,
@@ -26,11 +40,20 @@
     "special_defence": 0,
     "speed": 0
   },
-  "experienceGroup": "erratic",
-  "eggCycles": 15,
-  "eggGroups": [
-    "bug"
-  ],
+  "drops": {
+    "amount": 2,
+    "entries": [
+      {
+        "item": "minecraft:string",
+        "quantityRange": "0-1"
+      },
+      {
+        "item": "minecraft:spider_eye",
+        "quantityRange": "0-1"
+      }
+    ]
+  },
+  "cannotDynamax": false,
   "moves": [
     "1:stringshot",
     "1:tackle",
@@ -77,18 +100,10 @@
     "tm:trailblaze",
     "tm:xscissor"
   ],
-  "labels": [
-    "gen9"
-  ],
-  "aspects": [],
-  "height": 3,
-  "weight": 40,
   "evolutions": [
     {
       "id": "tarountula_spidops",
-      "variant": "level_up",
       "result": "spidops",
-      "consumeHeldItem": false,
       "learnableMoves": [
         "silktrap"
       ],
@@ -97,24 +112,10 @@
           "variant": "level",
           "minLevel": 15
         }
-      ]
-    }
-  ],
-  "cannotDynamax": false,
-  "pokedex": [
-    "cobblemon.species.tarountula.desc"
-  ],
-  "drops": {
-    "amount": 2,
-    "entries": [
-      {
-        "item": "minecraft:string",
-        "quantityRange": "0-1"
-      },
-      {
-        "item": "minecraft:spider_eye",
-        "quantityRange": "0-1"
+      ],
+      "trigger": {
+        "variant": "level_up"
       }
-    ]
-  }
+    }
+  ]
 }

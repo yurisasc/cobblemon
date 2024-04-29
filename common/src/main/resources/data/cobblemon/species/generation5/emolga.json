@@ -8,15 +8,6 @@
     "static",
     "h:motordrive"
   ],
-  "drops": {
-    "amount": 1,
-    "entries": [
-      {
-        "item": "cobblemon:yache_berry",
-        "percentage": 5.0
-      }
-    ]
-  },
   "baseStats": {
     "hp": 55,
     "attack": 75,
@@ -27,13 +18,47 @@
   },
   "catchRate": 200,
   "maleRatio": 0.5,
-  "shoulderMountable": false,
-  "baseExperienceYield": 150,
+  "baseFriendship": 50,
   "experienceGroup": "medium_fast",
   "eggCycles": 20,
   "eggGroups": [
     "field"
   ],
+  "height": 4,
+  "weight": 50,
+  "pokedex": [
+    "cobblemon.species.emolga.desc"
+  ],
+  "labels": [
+    "gen5"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 150,
+  "evYield": {
+    "hp": 0,
+    "attack": 0,
+    "defence": 0,
+    "special_attack": 0,
+    "special_defence": 0,
+    "speed": 2
+  },
+  "drops": {
+    "amount": 1,
+    "entries": [
+      {
+        "item": "cobblemon:yache_berry",
+        "percentage": 5.0
+      }
+    ]
+  },
+  "baseScale": 0.5,
+  "hitbox": {
+    "width": 0.9,
+    "height": 1,
+    "fixed": false
+  },
+  "cannotDynamax": false,
+  "shoulderMountable": false,
   "behaviour": {
     "moving": {
       "fly": {
@@ -136,30 +161,5 @@
     "tutor:snore",
     "tutor:tailwind"
   ],
-  "labels": [
-    "gen5"
-  ],
-  "pokedex": [
-    "cobblemon.species.emolga.desc"
-  ],
-  "evolutions": [],
-  "baseScale": 0.5,
-  "hitbox": {
-    "width": 0.9,
-    "height": 1,
-    "fixed": false
-  },
-  "baseFriendship": 50,
-  "evYield": {
-    "hp": 0,
-    "attack": 0,
-    "defence": 0,
-    "special_attack": 0,
-    "special_defence": 0,
-    "speed": 2
-  },
-  "height": 4,
-  "weight": 50,
-  "aspects": [],
-  "cannotDynamax": false
+  "evolutions": []
 }

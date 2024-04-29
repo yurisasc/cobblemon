@@ -7,6 +7,41 @@
     "regenerator",
     "h:reckless"
   ],
+  "baseStats": {
+    "hp": 45,
+    "attack": 85,
+    "defence": 50,
+    "special_attack": 55,
+    "special_defence": 50,
+    "speed": 65
+  },
+  "catchRate": 180,
+  "maleRatio": 0.5,
+  "baseFriendship": 50,
+  "experienceGroup": "medium_slow",
+  "eggCycles": 25,
+  "eggGroups": [
+    "field",
+    "human_like"
+  ],
+  "height": 9,
+  "weight": 200,
+  "pokedex": [
+    "cobblemon.species.mienfoo.desc"
+  ],
+  "labels": [
+    "gen5"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 70,
+  "evYield": {
+    "hp": 0,
+    "attack": 1,
+    "defence": 0,
+    "special_attack": 0,
+    "special_defence": 0,
+    "speed": 0
+  },
   "drops": {
     "amount": 2,
     "entries": [
@@ -20,24 +55,14 @@
       }
     ]
   },
-  "baseStats": {
-    "hp": 45,
-    "attack": 85,
-    "defence": 50,
-    "special_attack": 55,
-    "special_defence": 50,
-    "speed": 65
+  "baseScale": 1,
+  "hitbox": {
+    "width": 1,
+    "height": 1,
+    "fixed": false
   },
-  "catchRate": 180,
-  "maleRatio": 0.5,
+  "cannotDynamax": false,
   "shoulderMountable": false,
-  "baseExperienceYield": 70,
-  "experienceGroup": "medium_slow",
-  "eggCycles": 25,
-  "eggGroups": [
-    "field",
-    "human_like"
-  ],
   "moves": [
     "1:detect",
     "1:pound",
@@ -146,44 +171,20 @@
     "tutor:sleeptalk",
     "tutor:snore"
   ],
-  "labels": [
-    "gen5"
-  ],
-  "pokedex": [
-    "cobblemon.species.mienfoo.desc"
-  ],
   "evolutions": [
     {
       "id": "mienfoo_mienshao",
-      "variant": "level_up",
       "result": "mienshao",
-      "consumeHeldItem": false,
       "learnableMoves": [],
       "requirements": [
         {
           "variant": "level",
           "minLevel": 50
         }
-      ]
+      ],
+      "trigger": {
+        "variant": "level_up"
+      }
     }
-  ],
-  "baseScale": 1,
-  "hitbox": {
-    "width": 1,
-    "height": 1,
-    "fixed": false
-  },
-  "baseFriendship": 50,
-  "evYield": {
-    "hp": 0,
-    "attack": 1,
-    "defence": 0,
-    "special_attack": 0,
-    "special_defence": 0,
-    "speed": 0
-  },
-  "height": 9,
-  "weight": 200,
-  "aspects": [],
-  "cannotDynamax": false
+  ]
 }

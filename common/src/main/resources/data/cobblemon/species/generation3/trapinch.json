@@ -18,16 +18,54 @@
   },
   "catchRate": 255,
   "maleRatio": 0.5,
-  "shoulderMountable": false,
-  "baseExperienceYield": 58,
+  "baseFriendship": 50,
   "experienceGroup": "medium_slow",
   "eggCycles": 20,
   "eggGroups": [
     "bug",
     "dragon"
   ],
+  "height": 7,
+  "weight": 150,
+  "pokedex": [
+    "cobblemon.species.trapinch.desc"
+  ],
+  "labels": [
+    "gen3"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 58,
+  "evYield": {
+    "hp": 0,
+    "attack": 1,
+    "defence": 0,
+    "special_attack": 0,
+    "special_defence": 0,
+    "speed": 0
+  },
+  "drops": {
+    "amount": 2,
+    "entries": [
+      {
+        "item": "cobblemon:soft_sand",
+        "percentage": 2.5
+      },
+      {
+        "item": "cobblemon:yache_berry",
+        "percentage": 2.5
+      }
+    ]
+  },
+  "baseScale": 0.75,
+  "hitbox": {
+    "width": 0.8,
+    "height": 0.9,
+    "fixed": false
+  },
+  "cannotDynamax": false,
+  "shoulderMountable": false,
   "behaviour": {
-    "moving" : {
+    "moving": {
       "walk": {
         "walkSpeed": 0.3
       }
@@ -131,18 +169,10 @@
     "tutor:superpower",
     "tutor:swagger"
   ],
-  "labels": [
-    "gen3"
-  ],
-  "pokedex": [
-    "cobblemon.species.trapinch.desc"
-  ],
   "evolutions": [
     {
       "id": "trapinch_vibrava",
-      "variant": "level_up",
       "result": "vibrava",
-      "consumeHeldItem": false,
       "learnableMoves": [
         "dragonbreath"
       ],
@@ -151,39 +181,10 @@
           "variant": "level",
           "minLevel": 35
         }
-      ]
-    }
-  ],
-  "baseScale": 0.75,
-  "hitbox": {
-    "width": 0.8,
-    "height": 0.9,
-    "fixed": false
-  },
-  "baseFriendship": 50,
-  "evYield": {
-    "hp": 0,
-    "attack": 1,
-    "defence": 0,
-    "special_attack": 0,
-    "special_defence": 0,
-    "speed": 0
-  },
-  "height": 7,
-  "weight": 150,
-  "aspects": [],
-  "cannotDynamax": false,
-  "drops": {
-    "amount": 2,
-    "entries": [
-      {
-        "item": "cobblemon:soft_sand",
-        "percentage": 2.5
-      },
-      {
-        "item": "cobblemon:yache_berry",
-        "percentage": 2.5
+      ],
+      "trigger": {
+        "variant": "level_up"
       }
-    ]
-  }
+    }
+  ]
 }

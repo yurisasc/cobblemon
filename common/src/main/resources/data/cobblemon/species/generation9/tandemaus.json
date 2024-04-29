@@ -8,6 +8,41 @@
     "pickup",
     "h:owntempo"
   ],
+  "baseStats": {
+    "hp": 50,
+    "attack": 50,
+    "defence": 45,
+    "special_attack": 40,
+    "special_defence": 45,
+    "speed": 75
+  },
+  "catchRate": 150,
+  "maleRatio": -1,
+  "baseFriendship": 50,
+  "experienceGroup": "fast",
+  "eggCycles": 10,
+  "eggGroups": [
+    "field",
+    "fairy"
+  ],
+  "height": 3,
+  "weight": 18,
+  "pokedex": [
+    "cobblemon.species.tandemaus.desc"
+  ],
+  "labels": [
+    "gen9"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 61,
+  "evYield": {
+    "hp": 0,
+    "attack": 0,
+    "defence": 0,
+    "special_attack": 0,
+    "special_defence": 0,
+    "speed": 1
+  },
   "drops": {
     "amount": 2,
     "entries": [
@@ -21,32 +56,13 @@
       }
     ]
   },
-  "baseStats": {
-    "hp": 50,
-    "attack": 50,
-    "defence": 45,
-    "special_attack": 40,
-    "special_defence": 45,
-    "speed": 75
+  "baseScale": 0.5,
+  "hitbox": {
+    "width": 1.25,
+    "height": 0.75,
+    "fixed": false
   },
-  "catchRate": 150,
-  "maleRatio": -1,
-  "baseExperienceYield": 61,
-  "baseFriendship": 50,
-  "evYield": {
-    "hp": 0,
-    "attack": 0,
-    "defence": 0,
-    "special_attack": 0,
-    "special_defence": 0,
-    "speed": 1
-  },
-  "experienceGroup": "fast",
-  "eggCycles": 10,
-  "eggGroups": [
-    "field",
-    "fairy"
-  ],
+  "cannotDynamax": false,
   "moves": [
     "1:babydolleyes",
     "1:pound",
@@ -104,35 +120,20 @@
     "tm:uturn",
     "tm:waterpulse"
   ],
-  "baseScale": 0.5,
-  "hitbox": {
-    "width": 1.25,
-    "height": 0.75,
-    "fixed": false
-  },
-  "labels": [
-    "gen9"
-  ],
-  "aspects": [],
-  "height": 3,
-  "weight": 18,
   "evolutions": [
     {
       "id": "tandemaus_maushold",
-      "variant": "level_up",
       "result": "maushold",
-      "consumeHeldItem": false,
       "learnableMoves": [],
       "requirements": [
         {
           "variant": "level",
           "minLevel": 25
         }
-      ]
+      ],
+      "trigger": {
+        "variant": "level_up"
+      }
     }
-  ],
-  "cannotDynamax": false,
-  "pokedex": [
-    "cobblemon.species.tandemaus.desc"
   ]
 }

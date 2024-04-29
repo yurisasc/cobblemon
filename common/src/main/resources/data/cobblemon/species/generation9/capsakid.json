@@ -17,8 +17,22 @@
   },
   "catchRate": 190,
   "maleRatio": 0.5,
-  "baseExperienceYield": 61,
   "baseFriendship": 50,
+  "experienceGroup": "medium_fast",
+  "eggCycles": 20,
+  "eggGroups": [
+    "grass"
+  ],
+  "height": 3,
+  "weight": 30,
+  "pokedex": [
+    "cobblemon.species.capsakid.desc"
+  ],
+  "labels": [
+    "gen9"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 61,
   "evYield": {
     "hp": 0,
     "attack": 1,
@@ -27,11 +41,20 @@
     "special_defence": 0,
     "speed": 0
   },
-  "experienceGroup": "medium_fast",
-  "eggCycles": 20,
-  "eggGroups": [
-    "grass"
-  ],
+  "drops": {
+    "amount": 2,
+    "entries": [
+      {
+        "item": "cobblemon:roasted_leek",
+        "quantityRange": "0-1"
+      },
+      {
+        "item": "cobblemon:rawst_berry",
+        "percentage": 2.5
+      }
+    ]
+  },
+  "cannotDynamax": false,
   "moves": [
     "1:leafage",
     "1:leer",
@@ -76,41 +99,19 @@
     "tm:trailblaze",
     "tm:zenheadbutt"
   ],
-  "labels": [
-    "gen9"
-  ],
-  "aspects": [],
-  "height": 3,
-  "weight": 30,
   "evolutions": [
     {
       "id": "capsakid_scovillain",
-      "variant": "item_interact",
       "result": "scovillain",
-      "consumeHeldItem": false,
       "learnableMoves": [
         "flamethrower",
         "spicyextract"
       ],
       "requirements": [],
-      "requiredContext": "cobblemon:fire_stone"
-    }
-  ],
-  "cannotDynamax": false,
-  "pokedex": [
-    "cobblemon.species.capsakid.desc"
-  ],
-  "drops": {
-    "amount": 2,
-    "entries": [
-      {
-        "item": "cobblemon:roasted_leek",
-        "quantityRange": "0-1"
-      },
-      {
-        "item": "cobblemon:rawst_berry",
-        "percentage": 2.5
+      "trigger": {
+        "variant": "item_interact",
+        "requiredContext": "cobblemon:fire_stone"
       }
-    ]
-  }
+    }
+  ]
 }

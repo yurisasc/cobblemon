@@ -15,6 +15,53 @@
     "special_defence": 90,
     "speed": 40
   },
+  "catchRate": 25,
+  "maleRatio": -1,
+  "baseFriendship": 50,
+  "experienceGroup": "medium_fast",
+  "eggCycles": 25,
+  "eggGroups": [
+    "mineral"
+  ],
+  "height": 39,
+  "weight": 2100,
+  "pokedex": [
+    "cobblemon.species.dhelmise.desc"
+  ],
+  "labels": [
+    "gen7"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 181,
+  "evYield": {
+    "hp": 0,
+    "attack": 2,
+    "defence": 0,
+    "special_attack": 0,
+    "special_defence": 0,
+    "speed": 0
+  },
+  "drops": {
+    "amount": 4,
+    "entries": [
+      {
+        "item": "minecraft:kelp",
+        "quantityRange": "0-2"
+      },
+      {
+        "item": "minecraft:raw_iron",
+        "quantityRange": "0-2"
+      }
+    ]
+  },
+  "baseScale": 1.1,
+  "hitbox": {
+    "width": 2.5,
+    "height": 4,
+    "fixed": false
+  },
+  "cannotDynamax": false,
+  "shoulderMountable": false,
   "behaviour": {
     "resting": {
       "canSleep": true,
@@ -33,28 +80,6 @@
         "canBreatheUnderwater": true
       }
     }
-  },
-  "catchRate": 25,
-  "maleRatio": -1,
-  "shoulderMountable": false,
-  "baseExperienceYield": 181,
-  "experienceGroup": "medium_fast",
-  "eggCycles": 25,
-  "eggGroups": [
-    "mineral"
-  ],
-  "drops": {
-    "amount": 4,
-    "entries": [
-      {
-        "item": "minecraft:kelp",
-        "quantityRange": "0-2"
-      },
-      {
-        "item": "minecraft:raw_iron",
-        "quantityRange": "0-2"
-      }
-    ]
   },
   "moves": [
     "1:absorb",
@@ -148,30 +173,5 @@
     "tutor:synthesis",
     "tutor:telekinesis"
   ],
-  "labels": [
-    "gen7"
-  ],
-  "pokedex": [
-    "cobblemon.species.dhelmise.desc"
-  ],
-  "evolutions": [],
-  "baseScale": 1.1,
-  "hitbox": {
-    "width": 2.5,
-    "height": 4,
-    "fixed": false
-  },
-  "baseFriendship": 50,
-  "evYield": {
-    "hp": 0,
-    "attack": 2,
-    "defence": 0,
-    "special_attack": 0,
-    "special_defence": 0,
-    "speed": 0
-  },
-  "height": 39,
-  "weight": 2100,
-  "aspects": [],
-  "cannotDynamax": false
+  "evolutions": []
 }

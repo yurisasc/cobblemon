@@ -19,13 +19,30 @@
   },
   "catchRate": 190,
   "maleRatio": 0.5,
-  "shoulderMountable": false,
-  "baseExperienceYield": 62,
+  "baseFriendship": 70,
   "experienceGroup": "medium_fast",
   "eggCycles": 20,
   "eggGroups": [
     "flying"
   ],
+  "height": 14,
+  "weight": 392,
+  "pokedex": [
+    "cobblemon.species.doduo.desc"
+  ],
+  "labels": [
+    "gen1"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 62,
+  "evYield": {
+    "hp": 0,
+    "attack": 1,
+    "defence": 0,
+    "special_attack": 0,
+    "special_defence": 0,
+    "speed": 0
+  },
   "drops": {
     "amount": 4,
     "entries": [
@@ -46,6 +63,14 @@
       }
     ]
   },
+  "baseScale": 1.3,
+  "hitbox": {
+    "width": 0.6,
+    "height": 1.4,
+    "fixed": false
+  },
+  "cannotDynamax": false,
+  "shoulderMountable": false,
   "behaviour": {
     "moving": {
       "walk": {
@@ -190,44 +215,20 @@
     "tutor:uproar",
     "tutor:whirlwind"
   ],
-  "labels": [
-    "gen1"
-  ],
-  "pokedex": [
-    "cobblemon.species.doduo.desc"
-  ],
   "evolutions": [
     {
       "id": "doduo_dodrio",
-      "variant": "level_up",
       "result": "dodrio",
-      "consumeHeldItem": false,
       "learnableMoves": [],
       "requirements": [
         {
           "variant": "level",
           "minLevel": 31
         }
-      ]
+      ],
+      "trigger": {
+        "variant": "level_up"
+      }
     }
-  ],
-  "baseScale": 1.3,
-  "hitbox": {
-    "width": 0.6,
-    "height": 1.4,
-    "fixed": false
-  },
-  "baseFriendship": 70,
-  "evYield": {
-    "hp": 0,
-    "attack": 1,
-    "defence": 0,
-    "special_attack": 0,
-    "special_defence": 0,
-    "speed": 0
-  },
-  "height": 14,
-  "weight": 392,
-  "aspects": [],
-  "cannotDynamax": false
+  ]
 }

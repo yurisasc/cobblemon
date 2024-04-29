@@ -16,13 +16,40 @@
   },
   "catchRate": 45,
   "maleRatio": -1,
-  "shoulderMountable": false,
-  "baseExperienceYield": 300,
+  "baseFriendship": 100,
   "experienceGroup": "medium_slow",
   "eggCycles": 120,
   "eggGroups": [
     "undiscovered"
   ],
+  "height": 4,
+  "weight": 40,
+  "pokedex": [
+    "cobblemon.species.mew.desc"
+  ],
+  "labels": [
+    "gen1",
+    "mythical",
+    "legendary"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 300,
+  "evYield": {
+    "hp": 3,
+    "attack": 0,
+    "defence": 0,
+    "special_attack": 0,
+    "special_defence": 0,
+    "speed": 0
+  },
+  "baseScale": 0.5,
+  "hitbox": {
+    "width": 0.6,
+    "height": 1,
+    "fixed": false
+  },
+  "cannotDynamax": false,
+  "shoulderMountable": false,
   "behaviour": {
     "moving": {
       "fly": {
@@ -572,32 +599,5 @@
     "tutor:zapcannon",
     "tutor:zenheadbutt"
   ],
-  "labels": [
-    "gen1",
-    "mythical",
-    "legendary"
-  ],
-  "pokedex": [
-    "cobblemon.species.mew.desc"
-  ],
-  "evolutions": [],
-  "baseScale": 0.5,
-  "hitbox": {
-    "width": 0.6,
-    "height": 1,
-    "fixed": false
-  },
-  "baseFriendship": 100,
-  "evYield": {
-    "hp": 3,
-    "attack": 0,
-    "defence": 0,
-    "special_attack": 0,
-    "special_defence": 0,
-    "speed": 0
-  },
-  "height": 4,
-  "weight": 40,
-  "aspects": [],
-  "cannotDynamax": false
+  "evolutions": []
 }

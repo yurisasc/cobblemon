@@ -17,121 +17,51 @@
   },
   "catchRate": 75,
   "maleRatio": 0.5,
-  "shoulderMountable": false,
-  "forms": [
-    {
-      "name": "Totem",
-      "primaryType": "grass",
-      "abilities": [
-        "leafguard"
-      ],
-      "baseStats": {
-        "hp": 70,
-        "attack": 105,
-        "defence": 90,
-        "special_attack": 80,
-        "special_defence": 90,
-        "speed": 45
-      },
-      "catchRate": 75,
-      "maleRatio": 0.5,
-      "baseExperienceYield": 168,
-      "baseFriendship": 50,
-      "evYield": {
-        "hp": 0,
-        "attack": 2,
-        "defence": 0,
-        "special_attack": 0,
-        "special_defence": 0,
-        "speed": 0
-      },
-      "experienceGroup": "medium_fast",
-      "eggCycles": 20,
-      "eggGroups": [
-        "grass"
-      ],
-      "moves": [
-        "1:furycutter",
-        "1:growth",
-        "1:leafage",
-        "1:nightslash",
-        "1:petalblizzard",
-        "1:razorleaf",
-        "1:xscissor",
-        "19:ingrain",
-        "23:leafblade",
-        "28:synthesis",
-        "32:slash",
-        "40:sweetscent",
-        "47:solarblade",
-        "55:sunnyday",
-        "tm:aerialace",
-        "tm:attract",
-        "tm:brickbreak",
-        "tm:confide",
-        "tm:doubleteam",
-        "tm:energyball",
-        "tm:facade",
-        "tm:falseswipe",
-        "tm:fling",
-        "tm:frustration",
-        "tm:gigaimpact",
-        "tm:grassknot",
-        "tm:hiddenpower",
-        "tm:hyperbeam",
-        "tm:leechlife",
-        "tm:lowsweep",
-        "tm:naturepower",
-        "tm:payback",
-        "tm:poisonjab",
-        "tm:protect",
-        "tm:rest",
-        "tm:return",
-        "tm:round",
-        "tm:safeguard",
-        "tm:sleeptalk",
-        "tm:solarbeam",
-        "tm:substitute",
-        "tm:sunnyday",
-        "tm:swagger",
-        "tm:swordsdance",
-        "tm:toxic",
-        "tm:xscissor",
-        "tutor:bugbite",
-        "tutor:defog",
-        "tutor:dualchop",
-        "tutor:gigadrain",
-        "tutor:growth",
-        "tutor:ingrain",
-        "tutor:knockoff",
-        "tutor:laserfocus",
-        "tutor:leafblade",
-        "tutor:seedbomb",
-        "tutor:signalbeam",
-        "tutor:snore",
-        "tutor:superpower",
-        "tutor:synthesis",
-        "tutor:worryseed"
-      ],
-      "labels": [
-        "gen7",
-        "totem"
-      ],
-      "aspects": [
-        "totem"
-      ],
-      "height": 15,
-      "weight": 580,
-      "cannotDynamax": false,
-      "battleOnly": false
-    }
-  ],
-  "baseExperienceYield": 168,
+  "baseFriendship": 50,
   "experienceGroup": "medium_fast",
   "eggCycles": 20,
   "eggGroups": [
     "grass"
   ],
+  "height": 9,
+  "weight": 185,
+  "pokedex": [
+    "cobblemon.species.lurantis.desc"
+  ],
+  "labels": [
+    "gen7"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 168,
+  "evYield": {
+    "hp": 0,
+    "attack": 2,
+    "defence": 0,
+    "special_attack": 0,
+    "special_defence": 0,
+    "speed": 0
+  },
+  "drops": {
+    "amount": 2,
+    "entries": [
+      {
+        "item": "cobblemon:miracle_seed",
+        "percentage": 5.0
+      },
+      {
+        "item": "cobblemon:tanga_berry",
+        "percentage": 5.0
+      }
+    ]
+  },
+  "baseScale": 1,
+  "hitbox": {
+    "width": 0.8,
+    "height": 1.5,
+    "fixed": false
+  },
+  "cannotDynamax": false,
+  "shoulderMountable": false,
   "moves": [
     "1:dualchop",
     "1:furycutter",
@@ -220,44 +150,113 @@
     "tutor:synthesis",
     "tutor:worryseed"
   ],
-  "labels": [
-    "gen7"
-  ],
-  "pokedex": [
-    "cobblemon.species.lurantis.desc"
-  ],
   "preEvolution": "fomantis",
   "evolutions": [],
-  "baseScale": 1,
-  "hitbox": {
-    "width": 0.8,
-    "height": 1.5,
-    "fixed": false
-  },
-  "baseFriendship": 50,
-  "evYield": {
-    "hp": 0,
-    "attack": 2,
-    "defence": 0,
-    "special_attack": 0,
-    "special_defence": 0,
-    "speed": 0
-  },
-  "height": 9,
-  "weight": 185,
-  "aspects": [],
-  "cannotDynamax": false,
-  "drops": {
-    "amount": 2,
-    "entries": [
-      {
-        "item": "cobblemon:miracle_seed",
-        "percentage": 5.0
+  "permanentForms": [
+    {
+      "name": "Totem",
+      "primaryType": "grass",
+      "abilities": [
+        "leafguard"
+      ],
+      "baseStats": {
+        "hp": 70,
+        "attack": 105,
+        "defence": 90,
+        "special_attack": 80,
+        "special_defence": 90,
+        "speed": 45
       },
-      {
-        "item": "cobblemon:tanga_berry",
-        "percentage": 5.0
-      }
-    ]
-  }
+      "catchRate": 75,
+      "maleRatio": 0.5,
+      "baseFriendship": 50,
+      "experienceGroup": "medium_fast",
+      "eggCycles": 20,
+      "eggGroups": [
+        "grass"
+      ],
+      "height": 15,
+      "weight": 580,
+      "labels": [
+        "gen7",
+        "totem"
+      ],
+      "aspects": [
+        "totem"
+      ],
+      "baseExperienceYield": 168,
+      "evYield": {
+        "hp": 0,
+        "attack": 2,
+        "defence": 0,
+        "special_attack": 0,
+        "special_defence": 0,
+        "speed": 0
+      },
+      "cannotDynamax": false,
+      "moves": [
+        "1:furycutter",
+        "1:growth",
+        "1:leafage",
+        "1:nightslash",
+        "1:petalblizzard",
+        "1:razorleaf",
+        "1:xscissor",
+        "19:ingrain",
+        "23:leafblade",
+        "28:synthesis",
+        "32:slash",
+        "40:sweetscent",
+        "47:solarblade",
+        "55:sunnyday",
+        "tm:aerialace",
+        "tm:attract",
+        "tm:brickbreak",
+        "tm:confide",
+        "tm:doubleteam",
+        "tm:energyball",
+        "tm:facade",
+        "tm:falseswipe",
+        "tm:fling",
+        "tm:frustration",
+        "tm:gigaimpact",
+        "tm:grassknot",
+        "tm:hiddenpower",
+        "tm:hyperbeam",
+        "tm:leechlife",
+        "tm:lowsweep",
+        "tm:naturepower",
+        "tm:payback",
+        "tm:poisonjab",
+        "tm:protect",
+        "tm:rest",
+        "tm:return",
+        "tm:round",
+        "tm:safeguard",
+        "tm:sleeptalk",
+        "tm:solarbeam",
+        "tm:substitute",
+        "tm:sunnyday",
+        "tm:swagger",
+        "tm:swordsdance",
+        "tm:toxic",
+        "tm:xscissor",
+        "tutor:bugbite",
+        "tutor:defog",
+        "tutor:dualchop",
+        "tutor:gigadrain",
+        "tutor:growth",
+        "tutor:ingrain",
+        "tutor:knockoff",
+        "tutor:laserfocus",
+        "tutor:leafblade",
+        "tutor:seedbomb",
+        "tutor:signalbeam",
+        "tutor:snore",
+        "tutor:superpower",
+        "tutor:synthesis",
+        "tutor:worryseed"
+      ]
+    }
+  ]
 }

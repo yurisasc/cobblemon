@@ -17,13 +17,55 @@
   },
   "catchRate": 190,
   "maleRatio": 0.5,
-  "shoulderMountable": false,
-  "baseExperienceYield": 37,
+  "baseFriendship": 50,
   "experienceGroup": "medium_fast",
   "eggCycles": 20,
   "eggGroups": [
     "bug"
   ],
+  "height": 3,
+  "weight": 38,
+  "pokedex": [
+    "cobblemon.species.snom.desc"
+  ],
+  "labels": [
+    "gen8"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 37,
+  "evYield": {
+    "hp": 0,
+    "attack": 0,
+    "defence": 0,
+    "special_attack": 1,
+    "special_defence": 0,
+    "speed": 0
+  },
+  "drops": {
+    "amount": 3,
+    "entries": [
+      {
+        "item": "minecraft:snowball",
+        "quantityRange": "0-1"
+      },
+      {
+        "item": "cobblemon:silver_powder",
+        "percentage": 2.5
+      },
+      {
+        "item": "cobblemon:charti_berry",
+        "percentage": 2.5
+      }
+    ]
+  },
+  "baseScale": 1,
+  "hitbox": {
+    "width": 1,
+    "height": 1,
+    "fixed": false
+  },
+  "cannotDynamax": false,
+  "shoulderMountable": false,
   "moves": [
     "1:powdersnow",
     "1:strugglebug",
@@ -50,18 +92,10 @@
     "tm:terablast",
     "tutor:skittersmack"
   ],
-  "labels": [
-    "gen8"
-  ],
-  "pokedex": [
-    "cobblemon.species.snom.desc"
-  ],
   "evolutions": [
     {
       "id": "snom_frosmoth",
-      "variant": "level_up",
       "result": "frosmoth",
-      "consumeHeldItem": false,
       "learnableMoves": [
         "icywind"
       ],
@@ -74,43 +108,10 @@
           "variant": "time_range",
           "range": "night"
         }
-      ]
-    }
-  ],
-  "baseScale": 1,
-  "hitbox": {
-    "width": 1,
-    "height": 1,
-    "fixed": false
-  },
-  "baseFriendship": 50,
-  "evYield": {
-    "hp": 0,
-    "attack": 0,
-    "defence": 0,
-    "special_attack": 1,
-    "special_defence": 0,
-    "speed": 0
-  },
-  "height": 3,
-  "weight": 38,
-  "aspects": [],
-  "cannotDynamax": false,
-  "drops": {
-    "amount": 3,
-    "entries": [
-      {
-        "item": "minecraft:snowball",
-        "quantityRange": "0-1"
-      },
-      {
-        "item": "cobblemon:silver_powder",
-        "percentage": 2.5
-      },
-      {
-        "item": "cobblemon:charti_berry",
-        "percentage": 2.5
+      ],
+      "trigger": {
+        "variant": "level_up"
       }
-    ]
-  }
+    }
+  ]
 }

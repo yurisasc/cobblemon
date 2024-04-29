@@ -16,8 +16,22 @@
   },
   "catchRate": 190,
   "maleRatio": 0.5,
-  "baseExperienceYield": 54,
   "baseFriendship": 50,
+  "experienceGroup": "fast",
+  "eggCycles": 20,
+  "eggGroups": [
+    "bug"
+  ],
+  "height": 2,
+  "weight": 10,
+  "pokedex": [
+    "cobblemon.species.rellor.desc"
+  ],
+  "labels": [
+    "gen9"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 54,
   "evYield": {
     "hp": 0,
     "attack": 0,
@@ -26,11 +40,15 @@
     "special_defence": 0,
     "speed": 0
   },
-  "experienceGroup": "fast",
-  "eggCycles": 20,
-  "eggGroups": [
-    "bug"
-  ],
+  "drops": {
+    "amount": 1,
+    "entries": [
+      {
+        "item": "minecraft:mud"
+      }
+    ]
+  },
+  "cannotDynamax": false,
   "moves": [
     "1:defensecurl",
     "1:tackle",
@@ -69,18 +87,10 @@
     "tm:thief",
     "tm:xscissor"
   ],
-  "labels": [
-    "gen9"
-  ],
-  "aspects": [],
-  "height": 2,
-  "weight": 10,
   "evolutions": [
     {
       "id": "rellor_rabsca",
-      "variant": "level_up",
       "result": "rabsca",
-      "consumeHeldItem": false,
       "learnableMoves": [
         "revivalblessing"
       ],
@@ -89,19 +99,10 @@
           "variant": "blocks_traveled",
           "amount": 1000
         }
-      ]
-    }
-  ],
-  "cannotDynamax": false,
-  "pokedex": [
-    "cobblemon.species.rellor.desc"
-  ],
-  "drops": {
-    "amount": 1,
-    "entries": [
-      {
-        "item": "minecraft:mud"
+      ],
+      "trigger": {
+        "variant": "level_up"
       }
-    ]
-  }
+    }
+  ]
 }

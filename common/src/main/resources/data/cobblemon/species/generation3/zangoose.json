@@ -16,13 +16,55 @@
   },
   "catchRate": 90,
   "maleRatio": 0.5,
-  "shoulderMountable": false,
-  "baseExperienceYield": 160,
+  "baseFriendship": 70,
   "experienceGroup": "erratic",
   "eggCycles": 20,
   "eggGroups": [
     "field"
   ],
+  "height": 13,
+  "weight": 403,
+  "pokedex": [
+    "cobblemon.species.zangoose.desc"
+  ],
+  "labels": [
+    "gen3"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 160,
+  "evYield": {
+    "hp": 0,
+    "attack": 2,
+    "defence": 0,
+    "special_attack": 0,
+    "special_defence": 0,
+    "speed": 0
+  },
+  "drops": {
+    "amount": 3,
+    "entries": [
+      {
+        "item": "cobblemon:razor_claw",
+        "percentage": 5.0
+      },
+      {
+        "item": "cobblemon:quick_claw",
+        "percentage": 5.0
+      },
+      {
+        "item": "cobblemon:pecha_berry",
+        "percentage": 5.0
+      }
+    ]
+  },
+  "baseScale": 1,
+  "hitbox": {
+    "width": 1,
+    "height": 1,
+    "fixed": false
+  },
+  "cannotDynamax": false,
+  "shoulderMountable": false,
   "moves": [
     "1:bellydrum",
     "1:counter",
@@ -204,47 +246,5 @@
     "tutor:thunderwave",
     "tutor:waterpulse"
   ],
-  "labels": [
-    "gen3"
-  ],
-  "pokedex": [
-    "cobblemon.species.zangoose.desc"
-  ],
-  "evolutions": [],
-  "baseScale": 1,
-  "hitbox": {
-    "width": 1,
-    "height": 1,
-    "fixed": false
-  },
-  "baseFriendship": 70,
-  "evYield": {
-    "hp": 0,
-    "attack": 2,
-    "defence": 0,
-    "special_attack": 0,
-    "special_defence": 0,
-    "speed": 0
-  },
-  "height": 13,
-  "weight": 403,
-  "aspects": [],
-  "cannotDynamax": false,
-  "drops": {
-    "amount": 3,
-    "entries": [
-      {
-        "item": "cobblemon:razor_claw",
-        "percentage": 5.0
-      },
-      {
-        "item": "cobblemon:quick_claw",
-        "percentage": 5.0
-      },
-      {
-        "item": "cobblemon:pecha_berry",
-        "percentage": 5.0
-      }
-    ]
-  }
+  "evolutions": []
 }

@@ -8,6 +8,41 @@
     "bigpecks",
     "h:hydration"
   ],
+  "baseStats": {
+    "hp": 75,
+    "attack": 87,
+    "defence": 63,
+    "special_attack": 87,
+    "special_defence": 63,
+    "speed": 98
+  },
+  "catchRate": 45,
+  "maleRatio": 0.5,
+  "baseFriendship": 70,
+  "experienceGroup": "medium_fast",
+  "eggCycles": 20,
+  "eggGroups": [
+    "water_1",
+    "flying"
+  ],
+  "height": 13,
+  "weight": 242,
+  "pokedex": [
+    "cobblemon.species.swanna.desc"
+  ],
+  "labels": [
+    "gen5"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 166,
+  "evYield": {
+    "hp": 0,
+    "attack": 0,
+    "defence": 0,
+    "special_attack": 0,
+    "special_defence": 0,
+    "speed": 2
+  },
   "drops": {
     "amount": 5,
     "entries": [
@@ -28,24 +63,14 @@
       }
     ]
   },
-  "baseStats": {
-    "hp": 75,
-    "attack": 87,
-    "defence": 63,
-    "special_attack": 87,
-    "special_defence": 63,
-    "speed": 98
+  "baseScale": 1,
+  "hitbox": {
+    "width": 1,
+    "height": 1,
+    "fixed": false
   },
-  "catchRate": 45,
-  "maleRatio": 0.5,
+  "cannotDynamax": false,
   "shoulderMountable": false,
-  "baseExperienceYield": 166,
-  "experienceGroup": "medium_fast",
-  "eggCycles": 20,
-  "eggGroups": [
-    "water_1",
-    "flying"
-  ],
   "moves": [
     "1:defog",
     "1:watergun",
@@ -127,31 +152,6 @@
     "tutor:uproar",
     "tutor:waterpulse"
   ],
-  "labels": [
-    "gen5"
-  ],
-  "pokedex": [
-    "cobblemon.species.swanna.desc"
-  ],
   "preEvolution": "ducklett",
-  "evolutions": [],
-  "baseScale": 1,
-  "hitbox": {
-    "width": 1,
-    "height": 1,
-    "fixed": false
-  },
-  "baseFriendship": 70,
-  "evYield": {
-    "hp": 0,
-    "attack": 0,
-    "defence": 0,
-    "special_attack": 0,
-    "special_defence": 0,
-    "speed": 2
-  },
-  "height": 13,
-  "weight": 242,
-  "aspects": [],
-  "cannotDynamax": false
+  "evolutions": []
 }

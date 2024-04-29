@@ -8,6 +8,41 @@
     "sandveil",
     "h:roughskin"
   ],
+  "baseStats": {
+    "hp": 58,
+    "attack": 70,
+    "defence": 45,
+    "special_attack": 40,
+    "special_defence": 45,
+    "speed": 42
+  },
+  "catchRate": 45,
+  "maleRatio": 0.5,
+  "baseFriendship": 50,
+  "experienceGroup": "slow",
+  "eggCycles": 40,
+  "eggGroups": [
+    "monster",
+    "dragon"
+  ],
+  "height": 7,
+  "weight": 205,
+  "pokedex": [
+    "cobblemon.species.gible.desc"
+  ],
+  "labels": [
+    "gen4"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 60,
+  "evYield": {
+    "hp": 0,
+    "attack": 1,
+    "defence": 0,
+    "special_attack": 0,
+    "special_defence": 0,
+    "speed": 0
+  },
   "drops": {
     "amount": 2,
     "entries": [
@@ -21,24 +56,14 @@
       }
     ]
   },
-  "baseStats": {
-    "hp": 58,
-    "attack": 70,
-    "defence": 45,
-    "special_attack": 40,
-    "special_defence": 45,
-    "speed": 42
+  "baseScale": 0.75,
+  "hitbox": {
+    "width": 0.93,
+    "height": 0.93,
+    "fixed": false
   },
-  "catchRate": 45,
-  "maleRatio": 0.5,
+  "cannotDynamax": false,
   "shoulderMountable": false,
-  "baseExperienceYield": 60,
-  "experienceGroup": "slow",
-  "eggCycles": 40,
-  "eggGroups": [
-    "monster",
-    "dragon"
-  ],
   "moves": [
     "1:sandtomb",
     "1:tackle",
@@ -158,44 +183,20 @@
     "tutor:swift",
     "tutor:twister"
   ],
-  "labels": [
-    "gen4"
-  ],
-  "pokedex": [
-    "cobblemon.species.gible.desc"
-  ],
   "evolutions": [
     {
       "id": "gible_gabite",
-      "variant": "level_up",
       "result": "gabite",
-      "consumeHeldItem": false,
       "learnableMoves": [],
       "requirements": [
         {
           "variant": "level",
           "minLevel": 24
         }
-      ]
+      ],
+      "trigger": {
+        "variant": "level_up"
+      }
     }
-  ],
-  "baseScale": 0.75,
-  "hitbox": {
-    "width": 0.93,
-    "height": 0.93,
-    "fixed": false
-  },
-  "baseFriendship": 50,
-  "evYield": {
-    "hp": 0,
-    "attack": 1,
-    "defence": 0,
-    "special_attack": 0,
-    "special_defence": 0,
-    "speed": 0
-  },
-  "height": 7,
-  "weight": 205,
-  "aspects": [],
-  "cannotDynamax": false
+  ]
 }

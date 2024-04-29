@@ -8,6 +8,40 @@
     "pressure",
     "h:pickpocket"
   ],
+  "baseStats": {
+    "hp": 70,
+    "attack": 120,
+    "defence": 65,
+    "special_attack": 45,
+    "special_defence": 85,
+    "speed": 125
+  },
+  "catchRate": 45,
+  "maleRatio": 0.5,
+  "baseFriendship": 35,
+  "experienceGroup": "medium_slow",
+  "eggCycles": 20,
+  "eggGroups": [
+    "field"
+  ],
+  "height": 11,
+  "weight": 340,
+  "pokedex": [
+    "cobblemon.species.weavile.desc"
+  ],
+  "labels": [
+    "gen4"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 179,
+  "evYield": {
+    "hp": 0,
+    "attack": 1,
+    "defence": 0,
+    "special_attack": 0,
+    "special_defence": 0,
+    "speed": 1
+  },
   "drops": {
     "amount": 3,
     "entries": [
@@ -25,23 +59,14 @@
       }
     ]
   },
-  "baseStats": {
-    "hp": 70,
-    "attack": 120,
-    "defence": 65,
-    "special_attack": 45,
-    "special_defence": 85,
-    "speed": 125
+  "baseScale": 0.9,
+  "hitbox": {
+    "width": 0.55,
+    "height": 1.35,
+    "fixed": false
   },
-  "catchRate": 45,
-  "maleRatio": 0.5,
+  "cannotDynamax": false,
   "shoulderMountable": false,
-  "baseExperienceYield": 179,
-  "experienceGroup": "medium_slow",
-  "eggCycles": 20,
-  "eggGroups": [
-    "field"
-  ],
   "moves": [
     "1:agility",
     "1:assurance",
@@ -208,31 +233,6 @@
     "tutor:tripleaxel",
     "tutor:xscissor"
   ],
-  "labels": [
-    "gen4"
-  ],
-  "pokedex": [
-    "cobblemon.species.weavile.desc"
-  ],
   "preEvolution": "sneasel",
-  "evolutions": [],
-  "baseScale": 0.9,
-  "hitbox": {
-    "width": 0.55,
-    "height": 1.35,
-    "fixed": false
-  },
-  "baseFriendship": 35,
-  "evYield": {
-    "hp": 0,
-    "attack": 1,
-    "defence": 0,
-    "special_attack": 0,
-    "special_defence": 0,
-    "speed": 1
-  },
-  "height": 11,
-  "weight": 340,
-  "aspects": [],
-  "cannotDynamax": false
+  "evolutions": []
 }

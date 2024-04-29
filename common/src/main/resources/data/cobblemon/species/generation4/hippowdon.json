@@ -7,6 +7,40 @@
     "sandstream",
     "h:sandforce"
   ],
+  "baseStats": {
+    "hp": 108,
+    "attack": 112,
+    "defence": 118,
+    "special_attack": 68,
+    "special_defence": 72,
+    "speed": 47
+  },
+  "catchRate": 60,
+  "maleRatio": 0.5,
+  "baseFriendship": 50,
+  "experienceGroup": "slow",
+  "eggCycles": 30,
+  "eggGroups": [
+    "field"
+  ],
+  "height": 20,
+  "weight": 3000,
+  "pokedex": [
+    "cobblemon.species.hippowdon.desc"
+  ],
+  "labels": [
+    "gen4"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 184,
+  "evYield": {
+    "hp": 0,
+    "attack": 0,
+    "defence": 2,
+    "special_attack": 0,
+    "special_defence": 0,
+    "speed": 0
+  },
   "drops": {
     "amount": 2,
     "entries": [
@@ -20,23 +54,14 @@
       }
     ]
   },
-  "baseStats": {
-    "hp": 108,
-    "attack": 112,
-    "defence": 118,
-    "special_attack": 68,
-    "special_defence": 72,
-    "speed": 47
+  "baseScale": 1,
+  "hitbox": {
+    "width": 2.2,
+    "height": 1.9,
+    "fixed": false
   },
-  "catchRate": 60,
-  "maleRatio": 0.5,
+  "cannotDynamax": false,
   "shoulderMountable": false,
-  "baseExperienceYield": 184,
-  "experienceGroup": "slow",
-  "eggCycles": 30,
-  "eggGroups": [
-    "field"
-  ],
   "behaviour": {
     "moving": {
       "stepHeight": 1.0,
@@ -145,31 +170,6 @@
     "tutor:superpower",
     "tutor:waterpulse"
   ],
-  "labels": [
-    "gen4"
-  ],
-  "pokedex": [
-    "cobblemon.species.hippowdon.desc"
-  ],
   "preEvolution": "hippopotas",
-  "evolutions": [],
-  "baseScale": 1,
-  "hitbox": {
-    "width": 2.2,
-    "height": 1.9,
-    "fixed": false
-  },
-  "baseFriendship": 50,
-  "evYield": {
-    "hp": 0,
-    "attack": 0,
-    "defence": 2,
-    "special_attack": 0,
-    "special_defence": 0,
-    "speed": 0
-  },
-  "height": 20,
-  "weight": 3000,
-  "aspects": [],
-  "cannotDynamax": false
+  "evolutions": []
 }

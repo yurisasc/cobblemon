@@ -17,13 +17,30 @@
   },
   "catchRate": 180,
   "maleRatio": 0.5,
-  "shoulderMountable": false,
-  "baseExperienceYield": 65,
+  "baseFriendship": 50,
   "experienceGroup": "medium_fast",
   "eggCycles": 20,
   "eggGroups": [
     "mineral"
   ],
+  "height": 8,
+  "weight": 20,
+  "pokedex": [
+    "cobblemon.species.honedge.desc"
+  ],
+  "labels": [
+    "gen6"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 65,
+  "evYield": {
+    "hp": 0,
+    "attack": 0,
+    "defence": 1,
+    "special_attack": 0,
+    "special_defence": 0,
+    "speed": 0
+  },
   "drops": {
     "amount": 3,
     "entries": [
@@ -41,6 +58,14 @@
       }
     ]
   },
+  "baseScale": 0.7,
+  "hitbox": {
+    "width": 0.85,
+    "height": 1.6,
+    "fixed": false
+  },
+  "cannotDynamax": false,
+  "shoulderMountable": false,
   "moves": [
     "1:furycutter",
     "1:tackle",
@@ -110,44 +135,20 @@
     "tutor:spite",
     "tutor:steelbeam"
   ],
-  "labels": [
-    "gen6"
-  ],
-  "pokedex": [
-    "cobblemon.species.honedge.desc"
-  ],
   "evolutions": [
     {
       "id": "honedge_doublade",
-      "variant": "level_up",
       "result": "doublade",
-      "consumeHeldItem": false,
       "learnableMoves": [],
       "requirements": [
         {
           "variant": "level",
           "minLevel": 35
         }
-      ]
+      ],
+      "trigger": {
+        "variant": "level_up"
+      }
     }
-  ],
-  "baseScale": 0.7,
-  "hitbox": {
-    "width": 0.85,
-    "height": 1.6,
-    "fixed": false
-  },
-  "baseFriendship": 50,
-  "evYield": {
-    "hp": 0,
-    "attack": 0,
-    "defence": 1,
-    "special_attack": 0,
-    "special_defence": 0,
-    "speed": 0
-  },
-  "height": 8,
-  "weight": 20,
-  "aspects": [],
-  "cannotDynamax": false
+  ]
 }

@@ -18,8 +18,23 @@
   },
   "catchRate": 90,
   "maleRatio": 0.5,
-  "baseExperienceYield": 172,
   "baseFriendship": 50,
+  "experienceGroup": "medium_slow",
+  "eggCycles": 20,
+  "eggGroups": [
+    "water_1",
+    "flying"
+  ],
+  "height": 14,
+  "weight": 386,
+  "pokedex": [
+    "cobblemon.species.kilowattrel.desc"
+  ],
+  "labels": [
+    "gen9"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 172,
   "evYield": {
     "hp": 0,
     "attack": 0,
@@ -28,12 +43,27 @@
     "special_defence": 0,
     "speed": 2
   },
-  "experienceGroup": "medium_slow",
-  "eggCycles": 20,
-  "eggGroups": [
-    "water_1",
-    "flying"
-  ],
+  "drops": {
+    "amount": 5,
+    "entries": [
+      {
+        "item": "minecraft:feather",
+        "quantityRange": "0-2"
+      },
+      {
+        "item": "minecraft:chicken"
+      },
+      {
+        "item": "cobblemon:sharp_beak",
+        "percentage": 2.5
+      },
+      {
+        "item": "cobblemon:razz_berry",
+        "percentage": 5.0
+      }
+    ]
+  },
+  "cannotDynamax": false,
   "moves": [
     "1:growl",
     "1:peck",
@@ -81,36 +111,6 @@
     "tm:voltswitch",
     "tm:wildcharge"
   ],
-  "labels": [
-    "gen9"
-  ],
-  "aspects": [],
-  "height": 14,
-  "weight": 386,
   "preEvolution": "wattrel",
-  "evolutions": [],
-  "cannotDynamax": false,
-  "pokedex": [
-    "cobblemon.species.kilowattrel.desc"
-  ],
-  "drops": {
-    "amount": 5,
-    "entries": [
-      {
-        "item": "minecraft:feather",
-        "quantityRange": "0-2"
-      },
-      {
-        "item": "minecraft:chicken"
-      },
-      {
-        "item": "cobblemon:sharp_beak",
-        "percentage": 2.5
-      },
-      {
-        "item": "cobblemon:razz_berry",
-        "percentage": 5.0
-      }
-    ]
-  }
+  "evolutions": []
 }

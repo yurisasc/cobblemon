@@ -16,60 +16,40 @@
   },
   "catchRate": 3,
   "maleRatio": -1,
-  "shoulderMountable": false,
-  "forms": [
-    {
-      "name": "Unbound",
-      "primaryType": "psychic",
-      "secondaryType": "dark",
-      "abilities": [
-        "magician"
-      ],
-      "baseStats": {
-        "hp": 80,
-        "attack": 160,
-        "defence": 60,
-        "special_attack": 170,
-        "special_defence": 130,
-        "speed": 80
-      },
-      "catchRate": 3,
-      "maleRatio": -1,
-      "baseExperienceYield": 270,
-      "baseFriendship": 100,
-      "evYield": {
-        "hp": 0,
-        "attack": 0,
-        "defence": 0,
-        "special_attack": 3,
-        "special_defence": 0,
-        "speed": 0
-      },
-      "experienceGroup": "slow",
-      "eggCycles": 120,
-      "eggGroups": [
-        "undiscovered"
-      ],
-      "labels": [
-        "gen6",
-        "mythical",
-        "legendary"
-      ],
-      "aspects": [
-        "unbound"
-      ],
-      "height": 65,
-      "weight": 4900,
-      "cannotDynamax": false,
-      "battleOnly": false
-    }
-  ],
-  "baseExperienceYield": 270,
+  "baseFriendship": 100,
   "experienceGroup": "slow",
   "eggCycles": 120,
   "eggGroups": [
     "undiscovered"
   ],
+  "height": 5,
+  "weight": 90,
+  "pokedex": [
+    "cobblemon.species.hoopa.desc"
+  ],
+  "labels": [
+    "gen6",
+    "mythical",
+    "legendary"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 270,
+  "evYield": {
+    "hp": 0,
+    "attack": 0,
+    "defence": 0,
+    "special_attack": 3,
+    "special_defence": 0,
+    "speed": 0
+  },
+  "baseScale": 1,
+  "hitbox": {
+    "width": 1,
+    "height": 1,
+    "fixed": false
+  },
+  "cannotDynamax": false,
+  "shoulderMountable": false,
   "moves": [
     "1:allyswitch",
     "1:confusion",
@@ -202,32 +182,52 @@
     "tutor:wonderroom",
     "tutor:zenheadbutt"
   ],
-  "labels": [
-    "gen6",
-    "mythical",
-    "legendary"
-  ],
-  "pokedex": [
-    "cobblemon.species.hoopa.desc"
-  ],
   "evolutions": [],
-  "baseScale": 1,
-  "hitbox": {
-    "width": 1,
-    "height": 1,
-    "fixed": false
-  },
-  "baseFriendship": 100,
-  "evYield": {
-    "hp": 0,
-    "attack": 0,
-    "defence": 0,
-    "special_attack": 3,
-    "special_defence": 0,
-    "speed": 0
-  },
-  "height": 5,
-  "weight": 90,
-  "aspects": [],
-  "cannotDynamax": false
+  "temporaryForms": [
+    {
+      "name": "Unbound",
+      "primaryType": "psychic",
+      "secondaryType": "dark",
+      "abilities": [
+        "magician"
+      ],
+      "baseStats": {
+        "hp": 80,
+        "attack": 160,
+        "defence": 60,
+        "special_attack": 170,
+        "special_defence": 130,
+        "speed": 80
+      },
+      "catchRate": 3,
+      "maleRatio": -1,
+      "baseFriendship": 100,
+      "experienceGroup": "slow",
+      "eggCycles": 120,
+      "eggGroups": [
+        "undiscovered"
+      ],
+      "height": 65,
+      "weight": 4900,
+      "labels": [
+        "gen6",
+        "mythical",
+        "legendary"
+      ],
+      "aspects": [
+        "unbound"
+      ],
+      "baseExperienceYield": 270,
+      "evYield": {
+        "hp": 0,
+        "attack": 0,
+        "defence": 0,
+        "special_attack": 3,
+        "special_defence": 0,
+        "speed": 0
+      },
+      "cannotDynamax": false,
+      "battleOnly": false
+    }
+  ]
 }

@@ -19,25 +19,29 @@
   },
   "catchRate": 120,
   "maleRatio": 0.5,
-  "shoulderMountable": false,
-  "baseExperienceYield": 122,
+  "baseFriendship": 70,
   "experienceGroup": "medium_slow",
   "eggCycles": 15,
   "eggGroups": [
     "flying"
   ],
-  "behaviour": {
-    "moving": {
-      "fly": {
-        "canFly": true
-      }
-    },
-    "resting": {
-      "canSleep": true,
-      "willSleepOnBed": false,
-      "depth": "normal",
-      "light": "0-4"
-    }
+  "height": 11,
+  "weight": 300,
+  "pokedex": [
+    "cobblemon.species.pidgeotto.desc"
+  ],
+  "labels": [
+    "gen1"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 122,
+  "evYield": {
+    "hp": 0,
+    "attack": 0,
+    "defence": 0,
+    "special_attack": 0,
+    "special_defence": 0,
+    "speed": 2
   },
   "drops": {
     "amount": 5,
@@ -58,6 +62,27 @@
         "percentage": 5.0
       }
     ]
+  },
+  "baseScale": 1.1,
+  "hitbox": {
+    "width": 0.6,
+    "height": 1,
+    "fixed": false
+  },
+  "cannotDynamax": false,
+  "shoulderMountable": false,
+  "behaviour": {
+    "moving": {
+      "fly": {
+        "canFly": true
+      }
+    },
+    "resting": {
+      "canSleep": true,
+      "willSleepOnBed": false,
+      "depth": "normal",
+      "light": "0-4"
+    }
   },
   "moves": [
     "1:gust",
@@ -155,45 +180,21 @@
     "tutor:whirlwind",
     "tutor:wingattack"
   ],
-  "labels": [
-    "gen1"
-  ],
-  "pokedex": [
-    "cobblemon.species.pidgeotto.desc"
-  ],
   "preEvolution": "pidgey",
   "evolutions": [
     {
       "id": "pidgeotto_pidgeot",
-      "variant": "level_up",
       "result": "pidgeot",
-      "consumeHeldItem": false,
       "learnableMoves": [],
       "requirements": [
         {
           "variant": "level",
           "minLevel": 36
         }
-      ]
+      ],
+      "trigger": {
+        "variant": "level_up"
+      }
     }
-  ],
-  "baseScale": 1.1,
-  "hitbox": {
-    "width": 0.6,
-    "height": 1,
-    "fixed": false
-  },
-  "baseFriendship": 70,
-  "evYield": {
-    "hp": 0,
-    "attack": 0,
-    "defence": 0,
-    "special_attack": 0,
-    "special_defence": 0,
-    "speed": 2
-  },
-  "height": 11,
-  "weight": 300,
-  "aspects": [],
-  "cannotDynamax": false
+  ]
 }

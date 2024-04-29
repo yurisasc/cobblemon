@@ -7,6 +7,41 @@
     "serenegrace",
     "h:superluck"
   ],
+  "baseStats": {
+    "hp": 35,
+    "attack": 20,
+    "defence": 65,
+    "special_attack": 40,
+    "special_defence": 65,
+    "speed": 20
+  },
+  "catchRate": 190,
+  "maleRatio": 0.875,
+  "baseFriendship": 50,
+  "experienceGroup": "fast",
+  "eggCycles": 10,
+  "eggGroups": [
+    "undiscovered"
+  ],
+  "height": 3,
+  "weight": 15,
+  "pokedex": [
+    "cobblemon.species.togepi.desc"
+  ],
+  "labels": [
+    "gen2",
+    "baby"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 49,
+  "evYield": {
+    "hp": 0,
+    "attack": 0,
+    "defence": 0,
+    "special_attack": 0,
+    "special_defence": 1,
+    "speed": 0
+  },
   "drops": {
     "amount": 3,
     "entries": [
@@ -24,23 +59,14 @@
       }
     ]
   },
-  "baseStats": {
-    "hp": 35,
-    "attack": 20,
-    "defence": 65,
-    "special_attack": 40,
-    "special_defence": 65,
-    "speed": 20
+  "baseScale": 1,
+  "hitbox": {
+    "width": 1,
+    "height": 1,
+    "fixed": false
   },
-  "catchRate": 190,
-  "maleRatio": 0.875,
+  "cannotDynamax": false,
   "shoulderMountable": false,
-  "baseExperienceYield": 49,
-  "experienceGroup": "fast",
-  "eggCycles": 10,
-  "eggGroups": [
-    "undiscovered"
-  ],
   "moves": [
     "1:growl",
     "1:pound",
@@ -210,19 +236,10 @@
     "tutor:zapcannon",
     "tutor:zenheadbutt"
   ],
-  "labels": [
-    "gen2",
-    "baby"
-  ],
-  "pokedex": [
-    "cobblemon.species.togepi.desc"
-  ],
   "evolutions": [
     {
       "id": "togepi_togetic",
-      "variant": "level_up",
       "result": "togetic",
-      "consumeHeldItem": false,
       "learnableMoves": [
         "fairywind"
       ],
@@ -231,26 +248,10 @@
           "variant": "friendship",
           "amount": 160
         }
-      ]
+      ],
+      "trigger": {
+        "variant": "level_up"
+      }
     }
-  ],
-  "baseScale": 1,
-  "hitbox": {
-    "width": 1,
-    "height": 1,
-    "fixed": false
-  },
-  "baseFriendship": 50,
-  "evYield": {
-    "hp": 0,
-    "attack": 0,
-    "defence": 0,
-    "special_attack": 0,
-    "special_defence": 1,
-    "speed": 0
-  },
-  "height": 3,
-  "weight": 15,
-  "aspects": [],
-  "cannotDynamax": false
+  ]
 }

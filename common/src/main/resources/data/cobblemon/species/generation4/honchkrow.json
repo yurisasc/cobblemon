@@ -17,26 +17,32 @@
     "special_defence": 52,
     "speed": 71
   },
-  "behaviour": {
-    "moving": {
-      "fly": {
-        "canFly": true
-      }
-    },
-    "resting": {
-      "canSleep": true,
-      "times": "day"
-    }
-  },
   "catchRate": 30,
   "maleRatio": 0.5,
-  "shoulderMountable": false,
-  "baseExperienceYield": 177,
+  "baseFriendship": 35,
   "experienceGroup": "medium_slow",
   "eggCycles": 20,
   "eggGroups": [
     "flying"
   ],
+  "height": 9,
+  "weight": 273,
+  "pokedex": [
+    "cobblemon.species.honchkrow.desc"
+  ],
+  "labels": [
+    "gen4"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 177,
+  "evYield": {
+    "hp": 0,
+    "attack": 2,
+    "defence": 0,
+    "special_attack": 0,
+    "special_defence": 0,
+    "speed": 0
+  },
   "drops": {
     "amount": 5,
     "entries": [
@@ -52,6 +58,25 @@
         "percentage": 5.0
       }
     ]
+  },
+  "baseScale": 1.3,
+  "hitbox": {
+    "width": 1,
+    "height": 1.2,
+    "fixed": false
+  },
+  "cannotDynamax": false,
+  "shoulderMountable": false,
+  "behaviour": {
+    "moving": {
+      "fly": {
+        "canFly": true
+      }
+    },
+    "resting": {
+      "canSleep": true,
+      "times": "day"
+    }
   },
   "moves": [
     "1:astonish",
@@ -166,31 +191,6 @@
     "tutor:twister",
     "tutor:uproar"
   ],
-  "labels": [
-    "gen4"
-  ],
-  "pokedex": [
-    "cobblemon.species.honchkrow.desc"
-  ],
   "preEvolution": "murkrow",
-  "evolutions": [],
-  "baseScale": 1.3,
-  "hitbox": {
-    "width": 1,
-    "height": 1.2,
-    "fixed": false
-  },
-  "baseFriendship": 35,
-  "evYield": {
-    "hp": 0,
-    "attack": 2,
-    "defence": 0,
-    "special_attack": 0,
-    "special_defence": 0,
-    "speed": 0
-  },
-  "height": 9,
-  "weight": 273,
-  "aspects": [],
-  "cannotDynamax": false
+  "evolutions": []
 }

@@ -6,6 +6,40 @@
   "abilities": [
     "levitate"
   ],
+  "baseStats": {
+    "hp": 75,
+    "attack": 50,
+    "defence": 80,
+    "special_attack": 95,
+    "special_defence": 90,
+    "speed": 65
+  },
+  "catchRate": 45,
+  "maleRatio": 0.5,
+  "baseFriendship": 70,
+  "experienceGroup": "fast",
+  "eggCycles": 25,
+  "eggGroups": [
+    "amorphous"
+  ],
+  "height": 6,
+  "weight": 10,
+  "pokedex": [
+    "cobblemon.species.chimecho.desc"
+  ],
+  "labels": [
+    "gen3"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 159,
+  "evYield": {
+    "hp": 0,
+    "attack": 0,
+    "defence": 0,
+    "special_attack": 1,
+    "special_defence": 1,
+    "speed": 0
+  },
   "drops": {
     "amount": 3,
     "entries": [
@@ -23,23 +57,14 @@
       }
     ]
   },
-  "baseStats": {
-    "hp": 75,
-    "attack": 50,
-    "defence": 80,
-    "special_attack": 95,
-    "special_defence": 90,
-    "speed": 65
+  "baseScale": 0.8,
+  "hitbox": {
+    "width": 0.4,
+    "height": 1.2,
+    "fixed": false
   },
-  "catchRate": 45,
-  "maleRatio": 0.5,
+  "cannotDynamax": false,
   "shoulderMountable": false,
-  "baseExperienceYield": 159,
-  "experienceGroup": "fast",
-  "eggCycles": 25,
-  "eggGroups": [
-    "amorphous"
-  ],
   "behaviour": {
     "moving": {
       "fly": {
@@ -191,31 +216,6 @@
     "tutor:wrap",
     "tutor:zenheadbutt"
   ],
-  "labels": [
-    "gen3"
-  ],
-  "pokedex": [
-    "cobblemon.species.chimecho.desc"
-  ],
   "preEvolution": "chingling",
-  "evolutions": [],
-  "baseScale": 0.8,
-  "hitbox": {
-    "width": 0.4,
-    "height": 1.2,
-    "fixed": false
-  },
-  "baseFriendship": 70,
-  "evYield": {
-    "hp": 0,
-    "attack": 0,
-    "defence": 0,
-    "special_attack": 1,
-    "special_defence": 1,
-    "speed": 0
-  },
-  "height": 6,
-  "weight": 10,
-  "aspects": [],
-  "cannotDynamax": false
+  "evolutions": []
 }

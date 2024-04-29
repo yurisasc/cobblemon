@@ -19,14 +19,31 @@
   },
   "catchRate": 45,
   "maleRatio": 0.5,
-  "shoulderMountable": false,
-  "baseExperienceYield": 270,
+  "baseFriendship": 50,
   "experienceGroup": "medium_fast",
   "eggCycles": 20,
   "eggGroups": [
     "water_1",
     "dragon"
   ],
+  "height": 18,
+  "weight": 1520,
+  "pokedex": [
+    "cobblemon.species.kingdra.desc"
+  ],
+  "labels": [
+    "gen2"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 270,
+  "evYield": {
+    "hp": 0,
+    "attack": 1,
+    "defence": 0,
+    "special_attack": 1,
+    "special_defence": 1,
+    "speed": 0
+  },
   "drops": {
     "amount": 4,
     "entries": [
@@ -40,6 +57,14 @@
       }
     ]
   },
+  "baseScale": 1.2,
+  "hitbox": {
+    "width": 0.9,
+    "height": 2.3,
+    "fixed": false
+  },
+  "cannotDynamax": false,
+  "shoulderMountable": false,
   "behaviour": {
     "moving": {
       "walk": {
@@ -177,31 +202,6 @@
     "tutor:waterpulse",
     "tutor:whirlpool"
   ],
-  "labels": [
-    "gen2"
-  ],
-  "pokedex": [
-    "cobblemon.species.kingdra.desc"
-  ],
   "preEvolution": "seadra",
-  "evolutions": [],
-  "baseScale": 1.2,
-  "hitbox": {
-    "width": 0.9,
-    "height": 2.3,
-    "fixed": false
-  },
-  "baseFriendship": 50,
-  "evYield": {
-    "hp": 0,
-    "attack": 1,
-    "defence": 0,
-    "special_attack": 1,
-    "special_defence": 1,
-    "speed": 0
-  },
-  "height": 18,
-  "weight": 1520,
-  "aspects": [],
-  "cannotDynamax": false
+  "evolutions": []
 }

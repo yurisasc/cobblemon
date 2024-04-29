@@ -7,15 +7,6 @@
     "torrent",
     "h:sheerforce"
   ],
-  "drops": {
-    "amount": 1,
-    "entries": [
-      {
-        "item": "cobblemon:mystic_water",
-        "percentage": 5.0
-      }
-    ]
-  },
   "baseStats": {
     "hp": 50,
     "attack": 65,
@@ -26,14 +17,48 @@
   },
   "catchRate": 45,
   "maleRatio": 0.875,
-  "shoulderMountable": true,
-  "baseExperienceYield": 63,
+  "baseFriendship": 70,
   "experienceGroup": "medium_slow",
   "eggCycles": 20,
   "eggGroups": [
     "monster",
     "water_1"
   ],
+  "height": 6,
+  "weight": 95,
+  "pokedex": [
+    "cobblemon.species.totodile.desc"
+  ],
+  "labels": [
+    "gen2"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 63,
+  "evYield": {
+    "hp": 0,
+    "attack": 1,
+    "defence": 0,
+    "special_attack": 0,
+    "special_defence": 0,
+    "speed": 0
+  },
+  "drops": {
+    "amount": 1,
+    "entries": [
+      {
+        "item": "cobblemon:mystic_water",
+        "percentage": 5.0
+      }
+    ]
+  },
+  "baseScale": 0.5,
+  "hitbox": {
+    "width": 0.85,
+    "height": 1.4,
+    "fixed": false
+  },
+  "cannotDynamax": false,
+  "shoulderMountable": true,
   "behaviour": {
     "resting": {
       "canSleep": true,
@@ -216,44 +241,20 @@
     "tutor:waterpulse",
     "tutor:whirlpool"
   ],
-  "labels": [
-    "gen2"
-  ],
-  "pokedex": [
-    "cobblemon.species.totodile.desc"
-  ],
   "evolutions": [
     {
       "id": "totodile_croconaw",
-      "variant": "level_up",
       "result": "croconaw",
-      "consumeHeldItem": false,
       "learnableMoves": [],
       "requirements": [
         {
           "variant": "level",
           "minLevel": 18
         }
-      ]
+      ],
+      "trigger": {
+        "variant": "level_up"
+      }
     }
-  ],
-  "baseScale": 0.5,
-  "hitbox": {
-    "width": 0.85,
-    "height": 1.4,
-    "fixed": false
-  },
-  "baseFriendship": 70,
-  "evYield": {
-    "hp": 0,
-    "attack": 1,
-    "defence": 0,
-    "special_attack": 0,
-    "special_defence": 0,
-    "speed": 0
-  },
-  "height": 6,
-  "weight": 95,
-  "aspects": [],
-  "cannotDynamax": false
+  ]
 }

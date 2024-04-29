@@ -9,6 +9,40 @@
     "anticipation",
     "h:hydration"
   ],
+  "baseStats": {
+    "hp": 110,
+    "attack": 78,
+    "defence": 73,
+    "special_attack": 76,
+    "special_defence": 71,
+    "speed": 60
+  },
+  "catchRate": 75,
+  "maleRatio": 0.5,
+  "baseFriendship": 50,
+  "experienceGroup": "medium_fast",
+  "eggCycles": 20,
+  "eggGroups": [
+    "water_2"
+  ],
+  "height": 9,
+  "weight": 236,
+  "pokedex": [
+    "cobblemon.species.whiscash.desc"
+  ],
+  "labels": [
+    "gen3"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 164,
+  "evYield": {
+    "hp": 2,
+    "attack": 0,
+    "defence": 0,
+    "special_attack": 0,
+    "special_defence": 0,
+    "speed": 0
+  },
   "drops": {
     "amount": 3,
     "entries": [
@@ -22,23 +56,14 @@
       }
     ]
   },
-  "baseStats": {
-    "hp": 110,
-    "attack": 78,
-    "defence": 73,
-    "special_attack": 76,
-    "special_defence": 71,
-    "speed": 60
+  "baseScale": 1,
+  "hitbox": {
+    "width": 2.3,
+    "height": 1,
+    "fixed": false
   },
-  "catchRate": 75,
-  "maleRatio": 0.5,
+  "cannotDynamax": false,
   "shoulderMountable": false,
-  "baseExperienceYield": 164,
-  "experienceGroup": "medium_fast",
-  "eggCycles": 20,
-  "eggGroups": [
-    "water_2"
-  ],
   "behaviour": {
     "moving": {
       "walk": {
@@ -160,31 +185,6 @@
     "tutor:waterpulse",
     "tutor:zenheadbutt"
   ],
-  "labels": [
-    "gen3"
-  ],
-  "pokedex": [
-    "cobblemon.species.whiscash.desc"
-  ],
   "preEvolution": "barboach",
-  "evolutions": [],
-  "baseScale": 1,
-  "hitbox": {
-    "width": 2.3,
-    "height": 1,
-    "fixed": false
-  },
-  "baseFriendship": 50,
-  "evYield": {
-    "hp": 2,
-    "attack": 0,
-    "defence": 0,
-    "special_attack": 0,
-    "special_defence": 0,
-    "speed": 0
-  },
-  "height": 9,
-  "weight": 236,
-  "aspects": [],
-  "cannotDynamax": false
+  "evolutions": []
 }

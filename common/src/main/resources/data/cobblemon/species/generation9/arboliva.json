@@ -17,8 +17,22 @@
   },
   "catchRate": 45,
   "maleRatio": 0.5,
-  "baseExperienceYield": 255,
   "baseFriendship": 50,
+  "experienceGroup": "medium_slow",
+  "eggCycles": 20,
+  "eggGroups": [
+    "grass"
+  ],
+  "height": 14,
+  "weight": 482,
+  "pokedex": [
+    "cobblemon.species.arboliva.desc"
+  ],
+  "labels": [
+    "gen9"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 255,
   "evYield": {
     "hp": 0,
     "attack": 0,
@@ -27,11 +41,20 @@
     "special_defence": 0,
     "speed": 0
   },
-  "experienceGroup": "medium_slow",
-  "eggCycles": 20,
-  "eggGroups": [
-    "grass"
-  ],
+  "drops": {
+    "amount": 2,
+    "entries": [
+      {
+        "item": "cobblemon:big_root",
+        "percentage": 10.0
+      },
+      {
+        "item": "cobblemon:kebia_berry",
+        "percentage": 10.0
+      }
+    ]
+  },
+  "cannotDynamax": false,
   "moves": [
     "1:mirrorcoat",
     "1:safeguard",
@@ -83,29 +106,6 @@
     "tm:terablast",
     "tm:trailblaze"
   ],
-  "labels": [
-    "gen9"
-  ],
-  "aspects": [],
-  "height": 14,
-  "weight": 482,
   "preEvolution": "dolliv",
-  "evolutions": [],
-  "cannotDynamax": false,
-  "pokedex": [
-    "cobblemon.species.arboliva.desc"
-  ],
-  "drops": {
-    "amount": 2,
-    "entries": [
-      {
-        "item": "cobblemon:big_root",
-        "percentage": 10.0
-      },
-      {
-        "item": "cobblemon:kebia_berry",
-        "percentage": 10.0
-      }
-    ]
-  }
+  "evolutions": []
 }

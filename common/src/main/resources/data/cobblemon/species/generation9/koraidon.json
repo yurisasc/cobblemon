@@ -16,8 +16,23 @@
   },
   "catchRate": 3,
   "maleRatio": -1,
-  "baseExperienceYield": 335,
   "baseFriendship": 0,
+  "experienceGroup": "slow",
+  "eggCycles": 50,
+  "eggGroups": [
+    "undiscovered"
+  ],
+  "height": 25,
+  "weight": 3030,
+  "pokedex": [
+    "cobblemon.species.koraidon.desc"
+  ],
+  "labels": [
+    "gen9",
+    "legendary"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 335,
   "evYield": {
     "hp": 0,
     "attack": 3,
@@ -26,11 +41,7 @@
     "special_defence": 0,
     "speed": 0
   },
-  "experienceGroup": "slow",
-  "eggCycles": 50,
-  "eggGroups": [
-    "undiscovered"
-  ],
+  "cannotDynamax": false,
   "moves": [
     "1:breakingswipe",
     "1:sunnyday",
@@ -111,16 +122,5 @@
     "tutor:gigaimpact",
     "tutor:terablast"
   ],
-  "labels": [
-    "gen9",
-    "legendary"
-  ],
-  "aspects": [],
-  "height": 25,
-  "weight": 3030,
-  "evolutions": [],
-  "cannotDynamax": false,
-  "pokedex": [
-    "cobblemon.species.koraidon.desc"
-  ]
+  "evolutions": []
 }

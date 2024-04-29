@@ -8,6 +8,40 @@
     "stamina",
     "h:innerfocus"
   ],
+  "baseStats": {
+    "hp": 70,
+    "attack": 100,
+    "defence": 70,
+    "special_attack": 45,
+    "special_defence": 55,
+    "speed": 45
+  },
+  "catchRate": 190,
+  "maleRatio": 0.5,
+  "baseFriendship": 50,
+  "experienceGroup": "medium_fast",
+  "eggCycles": 20,
+  "eggGroups": [
+    "field"
+  ],
+  "height": 10,
+  "weight": 1100,
+  "pokedex": [
+    "cobblemon.species.mudbray.desc"
+  ],
+  "labels": [
+    "gen7"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 77,
+  "evYield": {
+    "hp": 0,
+    "attack": 1,
+    "defence": 0,
+    "special_attack": 0,
+    "special_defence": 0,
+    "speed": 0
+  },
   "drops": {
     "amount": 4,
     "entries": [
@@ -29,14 +63,14 @@
       }
     ]
   },
-  "baseStats": {
-    "hp": 70,
-    "attack": 100,
-    "defence": 70,
-    "special_attack": 45,
-    "special_defence": 55,
-    "speed": 45
+  "baseScale": 1,
+  "hitbox": {
+    "width": 1,
+    "height": 1,
+    "fixed": false
   },
+  "cannotDynamax": false,
+  "shoulderMountable": false,
   "behaviour": {
     "resting": {
       "canSleep": true,
@@ -50,15 +84,6 @@
       }
     }
   },
-  "catchRate": 190,
-  "maleRatio": 0.5,
-  "shoulderMountable": false,
-  "baseExperienceYield": 77,
-  "experienceGroup": "medium_fast",
-  "eggCycles": 20,
-  "eggGroups": [
-    "field"
-  ],
   "moves": [
     "1:mudslap",
     "1:rocksmash",
@@ -141,44 +166,20 @@
     "tutor:stompingtantrum",
     "tutor:superpower"
   ],
-  "labels": [
-    "gen7"
-  ],
-  "pokedex": [
-    "cobblemon.species.mudbray.desc"
-  ],
   "evolutions": [
     {
       "id": "mudbray_mudsdale",
-      "variant": "level_up",
       "result": "mudsdale",
-      "consumeHeldItem": false,
       "learnableMoves": [],
       "requirements": [
         {
           "variant": "level",
           "minLevel": 30
         }
-      ]
+      ],
+      "trigger": {
+        "variant": "level_up"
+      }
     }
-  ],
-  "baseScale": 1,
-  "hitbox": {
-    "width": 1,
-    "height": 1,
-    "fixed": false
-  },
-  "baseFriendship": 50,
-  "evYield": {
-    "hp": 0,
-    "attack": 1,
-    "defence": 0,
-    "special_attack": 0,
-    "special_defence": 0,
-    "speed": 0
-  },
-  "height": 10,
-  "weight": 1100,
-  "aspects": [],
-  "cannotDynamax": false
+  ]
 }

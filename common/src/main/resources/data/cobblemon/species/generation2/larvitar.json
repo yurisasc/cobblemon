@@ -16,6 +16,53 @@
     "special_defence": 50,
     "speed": 41
   },
+  "catchRate": 45,
+  "maleRatio": 0.5,
+  "baseFriendship": 35,
+  "experienceGroup": "slow",
+  "eggCycles": 40,
+  "eggGroups": [
+    "monster"
+  ],
+  "height": 6,
+  "weight": 720,
+  "pokedex": [
+    "cobblemon.species.larvitar.desc"
+  ],
+  "labels": [
+    "gen2"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 60,
+  "evYield": {
+    "hp": 0,
+    "attack": 1,
+    "defence": 0,
+    "special_attack": 0,
+    "special_defence": 0,
+    "speed": 0
+  },
+  "drops": {
+    "amount": 2,
+    "entries": [
+      {
+        "item": "cobblemon:hard_stone",
+        "percentage": 2.5
+      },
+      {
+        "item": "cobblemon:chople_berry",
+        "percentage": 2.5
+      }
+    ]
+  },
+  "baseScale": 0.6,
+  "hitbox": {
+    "width": 0.7,
+    "height": 0.95,
+    "fixed": false
+  },
+  "cannotDynamax": false,
+  "shoulderMountable": false,
   "behaviour": {
     "resting": {
       "canSleep": true,
@@ -23,15 +70,6 @@
       "light": "0-4"
     }
   },
-  "catchRate": 45,
-  "maleRatio": 0.5,
-  "shoulderMountable": false,
-  "baseExperienceYield": 60,
-  "experienceGroup": "slow",
-  "eggCycles": 40,
-  "eggGroups": [
-    "monster"
-  ],
   "moves": [
     "1:leer",
     "1:tackle",
@@ -180,18 +218,10 @@
     "tutor:toxic",
     "tutor:uproar"
   ],
-  "labels": [
-    "gen2"
-  ],
-  "pokedex": [
-    "cobblemon.species.larvitar.desc"
-  ],
   "evolutions": [
     {
       "id": "larvitar_pupitar",
-      "variant": "level_up",
       "result": "pupitar",
-      "consumeHeldItem": false,
       "learnableMoves": [
         "irondefense"
       ],
@@ -200,39 +230,10 @@
           "variant": "level",
           "minLevel": 30
         }
-      ]
-    }
-  ],
-  "baseScale": 0.6,
-  "hitbox": {
-    "width": 0.7,
-    "height": 0.95,
-    "fixed": false
-  },
-  "baseFriendship": 35,
-  "evYield": {
-    "hp": 0,
-    "attack": 1,
-    "defence": 0,
-    "special_attack": 0,
-    "special_defence": 0,
-    "speed": 0
-  },
-  "height": 6,
-  "weight": 720,
-  "aspects": [],
-  "cannotDynamax": false,
-  "drops": {
-    "amount": 2,
-    "entries": [
-      {
-        "item": "cobblemon:hard_stone",
-        "percentage": 2.5
-      },
-      {
-        "item": "cobblemon:chople_berry",
-        "percentage": 2.5
+      ],
+      "trigger": {
+        "variant": "level_up"
       }
-    ]
-  }
+    }
+  ]
 }

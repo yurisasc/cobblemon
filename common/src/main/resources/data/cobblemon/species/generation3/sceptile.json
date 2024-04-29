@@ -17,61 +17,31 @@
   },
   "catchRate": 45,
   "maleRatio": 0.875,
-  "shoulderMountable": false,
-  "forms": [
-    {
-      "name": "Mega",
-      "primaryType": "grass",
-      "secondaryType": "dragon",
-      "abilities": [
-        "lightningrod"
-      ],
-      "baseStats": {
-        "hp": 70,
-        "attack": 110,
-        "defence": 75,
-        "special_attack": 145,
-        "special_defence": 85,
-        "speed": 145
-      },
-      "catchRate": 45,
-      "maleRatio": 0.875,
-      "baseExperienceYield": 265,
-      "baseFriendship": 50,
-      "evYield": {
-        "hp": 0,
-        "attack": 0,
-        "defence": 0,
-        "special_attack": 0,
-        "special_defence": 0,
-        "speed": 3
-      },
-      "experienceGroup": "medium_slow",
-      "eggCycles": 20,
-      "eggGroups": [
-        "monster",
-        "dragon"
-      ],
-      "labels": [
-        "gen6",
-        "mega"
-      ],
-      "aspects": [
-        "mega"
-      ],
-      "height": 19,
-      "weight": 552,
-      "cannotDynamax": false,
-      "battleOnly": true
-    }
-  ],
-  "baseExperienceYield": 265,
+  "baseFriendship": 50,
   "experienceGroup": "medium_slow",
   "eggCycles": 20,
   "eggGroups": [
     "monster",
     "dragon"
   ],
+  "height": 17,
+  "weight": 522,
+  "pokedex": [
+    "cobblemon.species.sceptile.desc"
+  ],
+  "labels": [
+    "gen3"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 265,
+  "evYield": {
+    "hp": 0,
+    "attack": 0,
+    "defence": 0,
+    "special_attack": 0,
+    "special_defence": 0,
+    "speed": 3
+  },
   "drops": {
     "amount": 4,
     "entries": [
@@ -85,6 +55,14 @@
       }
     ]
   },
+  "baseScale": 1,
+  "hitbox": {
+    "width": 1,
+    "height": 2.2,
+    "fixed": false
+  },
+  "cannotDynamax": false,
+  "shoulderMountable": false,
   "behaviour": {
     "resting": {
       "canSleep": true,
@@ -254,31 +232,53 @@
     "tutor:thunderpunch",
     "tutor:worryseed"
   ],
-  "labels": [
-    "gen3"
-  ],
-  "pokedex": [
-    "cobblemon.species.sceptile.desc"
-  ],
   "preEvolution": "grovyle",
   "evolutions": [],
-  "baseScale": 1,
-  "hitbox": {
-    "width": 1,
-    "height": 2.2,
-    "fixed": false
-  },
-  "baseFriendship": 50,
-  "evYield": {
-    "hp": 0,
-    "attack": 0,
-    "defence": 0,
-    "special_attack": 0,
-    "special_defence": 0,
-    "speed": 3
-  },
-  "height": 17,
-  "weight": 522,
-  "aspects": [],
-  "cannotDynamax": false
+  "temporaryForms": [
+    {
+      "name": "Mega",
+      "primaryType": "grass",
+      "secondaryType": "dragon",
+      "abilities": [
+        "lightningrod"
+      ],
+      "baseStats": {
+        "hp": 70,
+        "attack": 110,
+        "defence": 75,
+        "special_attack": 145,
+        "special_defence": 85,
+        "speed": 145
+      },
+      "catchRate": 45,
+      "maleRatio": 0.875,
+      "baseFriendship": 50,
+      "experienceGroup": "medium_slow",
+      "eggCycles": 20,
+      "eggGroups": [
+        "monster",
+        "dragon"
+      ],
+      "height": 19,
+      "weight": 552,
+      "labels": [
+        "gen6",
+        "mega"
+      ],
+      "aspects": [
+        "mega"
+      ],
+      "baseExperienceYield": 265,
+      "evYield": {
+        "hp": 0,
+        "attack": 0,
+        "defence": 0,
+        "special_attack": 0,
+        "special_defence": 0,
+        "speed": 3
+      },
+      "cannotDynamax": false,
+      "battleOnly": true
+    }
+  ]
 }

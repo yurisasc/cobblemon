@@ -7,15 +7,6 @@
     "synchronize",
     "h:telepathy"
   ],
-  "drops": {
-    "amount": 1,
-    "entries": [
-      {
-        "item": "cobblemon:chesto_berry",
-        "percentage": 2.5
-      }
-    ]
-  },
   "baseStats": {
     "hp": 76,
     "attack": 25,
@@ -26,13 +17,47 @@
   },
   "catchRate": 190,
   "maleRatio": 0.5,
-  "shoulderMountable": false,
-  "baseExperienceYield": 58,
+  "baseFriendship": 50,
   "experienceGroup": "fast",
   "eggCycles": 10,
   "eggGroups": [
     "field"
   ],
+  "height": 6,
+  "weight": 233,
+  "pokedex": [
+    "cobblemon.species.munna.desc"
+  ],
+  "labels": [
+    "gen5"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 58,
+  "evYield": {
+    "hp": 1,
+    "attack": 0,
+    "defence": 0,
+    "special_attack": 0,
+    "special_defence": 0,
+    "speed": 0
+  },
+  "drops": {
+    "amount": 1,
+    "entries": [
+      {
+        "item": "cobblemon:chesto_berry",
+        "percentage": 2.5
+      }
+    ]
+  },
+  "baseScale": 1,
+  "hitbox": {
+    "width": 1,
+    "height": 1,
+    "fixed": false
+  },
+  "cannotDynamax": false,
+  "shoulderMountable": false,
   "moves": [
     "1:defensecurl",
     "1:psywave",
@@ -137,40 +162,16 @@
     "tutor:worryseed",
     "tutor:zenheadbutt"
   ],
-  "labels": [
-    "gen5"
-  ],
-  "pokedex": [
-    "cobblemon.species.munna.desc"
-  ],
   "evolutions": [
     {
       "id": "munna_musharna",
-      "variant": "item_interact",
       "result": "musharna",
-      "consumeHeldItem": false,
       "learnableMoves": [],
       "requirements": [],
-      "requiredContext": "cobblemon:moon_stone"
+      "trigger": {
+        "variant": "item_interact",
+        "requiredContext": "cobblemon:moon_stone"
+      }
     }
-  ],
-  "baseScale": 1,
-  "hitbox": {
-    "width": 1,
-    "height": 1,
-    "fixed": false
-  },
-  "baseFriendship": 50,
-  "evYield": {
-    "hp": 1,
-    "attack": 0,
-    "defence": 0,
-    "special_attack": 0,
-    "special_defence": 0,
-    "speed": 0
-  },
-  "height": 6,
-  "weight": 233,
-  "aspects": [],
-  "cannotDynamax": false
+  ]
 }

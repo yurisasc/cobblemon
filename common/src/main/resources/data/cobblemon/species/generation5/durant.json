@@ -9,6 +9,40 @@
     "hustle",
     "h:truant"
   ],
+  "baseStats": {
+    "hp": 58,
+    "attack": 109,
+    "defence": 112,
+    "special_attack": 48,
+    "special_defence": 48,
+    "speed": 109
+  },
+  "catchRate": 90,
+  "maleRatio": 0.5,
+  "baseFriendship": 50,
+  "experienceGroup": "medium_fast",
+  "eggCycles": 20,
+  "eggGroups": [
+    "bug"
+  ],
+  "height": 3,
+  "weight": 330,
+  "pokedex": [
+    "cobblemon.species.durant.desc"
+  ],
+  "labels": [
+    "gen5"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 169,
+  "evYield": {
+    "hp": 0,
+    "attack": 0,
+    "defence": 2,
+    "special_attack": 0,
+    "special_defence": 0,
+    "speed": 0
+  },
   "drops": {
     "amount": 2,
     "entries": [
@@ -22,23 +56,14 @@
       }
     ]
   },
-  "baseStats": {
-    "hp": 58,
-    "attack": 109,
-    "defence": 112,
-    "special_attack": 48,
-    "special_defence": 48,
-    "speed": 109
+  "baseScale": 1,
+  "hitbox": {
+    "width": 1,
+    "height": 1,
+    "fixed": false
   },
-  "catchRate": 90,
-  "maleRatio": 0.5,
+  "cannotDynamax": false,
   "shoulderMountable": false,
-  "baseExperienceYield": 169,
-  "experienceGroup": "medium_fast",
-  "eggCycles": 20,
-  "eggGroups": [
-    "bug"
-  ],
   "moves": [
     "1:furycutter",
     "1:sandattack",
@@ -127,30 +152,5 @@
     "tutor:superpower",
     "tutor:thunderfang"
   ],
-  "labels": [
-    "gen5"
-  ],
-  "pokedex": [
-    "cobblemon.species.durant.desc"
-  ],
-  "evolutions": [],
-  "baseScale": 1,
-  "hitbox": {
-    "width": 1,
-    "height": 1,
-    "fixed": false
-  },
-  "baseFriendship": 50,
-  "evYield": {
-    "hp": 0,
-    "attack": 0,
-    "defence": 2,
-    "special_attack": 0,
-    "special_defence": 0,
-    "speed": 0
-  },
-  "height": 3,
-  "weight": 330,
-  "aspects": [],
-  "cannotDynamax": false
+  "evolutions": []
 }

@@ -17,13 +17,30 @@
   },
   "catchRate": 45,
   "maleRatio": 0.5,
-  "shoulderMountable": true,
-  "baseExperienceYield": 167,
+  "baseFriendship": 50,
   "experienceGroup": "medium_fast",
   "eggCycles": 20,
   "eggGroups": [
     "amorphous"
   ],
+  "height": 2,
+  "weight": 7,
+  "pokedex": [
+    "cobblemon.species.mimikyu.desc"
+  ],
+  "labels": [
+    "gen7"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 167,
+  "evYield": {
+    "hp": 0,
+    "attack": 0,
+    "defence": 0,
+    "special_attack": 0,
+    "special_defence": 2,
+    "speed": 0
+  },
   "drops": {
     "amount": 2,
     "entries": [
@@ -37,6 +54,14 @@
       }
     ]
   },
+  "baseScale": 0.7,
+  "hitbox": {
+    "width": 0.7,
+    "height": 1,
+    "fixed": false
+  },
+  "cannotDynamax": false,
+  "shoulderMountable": true,
   "moves": [
     "1:astonish",
     "1:copycat",
@@ -151,31 +176,8 @@
     "tutor:thunderbolt",
     "tutor:trick"
   ],
-  "labels": [
-    "gen7"
-  ],
-  "pokedex": [
-    "cobblemon.species.mimikyu.desc"
-  ],
   "evolutions": [],
-  "baseScale": 0.7,
-  "hitbox": {
-    "width": 0.7,
-    "height": 1,
-    "fixed": false
-  },
-  "baseFriendship": 50,
-  "evYield": {
-    "hp": 0,
-    "attack": 0,
-    "defence": 0,
-    "special_attack": 0,
-    "special_defence": 2,
-    "speed": 0
-  },
-  "height": 2,
-  "weight": 7,
-  "forms": [
+  "temporaryForms": [
     {
       "name": "Busted",
       "primaryType": "ghost",
@@ -193,8 +195,21 @@
       },
       "catchRate": 45,
       "maleRatio": 0.5,
-      "baseExperienceYield": 167,
       "baseFriendship": 50,
+      "experienceGroup": "medium_fast",
+      "eggCycles": 20,
+      "eggGroups": [
+        "amorphous"
+      ],
+      "height": 2,
+      "weight": 7,
+      "labels": [
+        "gen7"
+      ],
+      "aspects": [
+        "busted"
+      ],
+      "baseExperienceYield": 167,
       "evYield": {
         "hp": 0,
         "attack": 0,
@@ -203,22 +218,11 @@
         "special_defence": 2,
         "speed": 0
       },
-      "experienceGroup": "medium_fast",
-      "eggCycles": 20,
-      "eggGroups": [
-        "amorphous"
-      ],
-      "labels": [
-        "gen7"
-      ],
-      "aspects": [
-        "busted"
-      ],
-      "height": 2,
-      "weight": 7,
       "cannotDynamax": false,
       "battleOnly": true
-    },
+    }
+  ],
+  "permanentForms": [
     {
       "name": "Totem",
       "primaryType": "ghost",
@@ -236,8 +240,22 @@
       },
       "catchRate": 45,
       "maleRatio": 0.5,
-      "baseExperienceYield": 167,
       "baseFriendship": 50,
+      "experienceGroup": "medium_fast",
+      "eggCycles": 20,
+      "eggGroups": [
+        "amorphous"
+      ],
+      "height": 4,
+      "weight": 28,
+      "labels": [
+        "gen7",
+        "totem"
+      ],
+      "aspects": [
+        "totem"
+      ],
+      "baseExperienceYield": 167,
       "evYield": {
         "hp": 0,
         "attack": 0,
@@ -246,11 +264,7 @@
         "special_defence": 2,
         "speed": 0
       },
-      "experienceGroup": "medium_fast",
-      "eggCycles": 20,
-      "eggGroups": [
-        "amorphous"
-      ],
+      "cannotDynamax": false,
       "moves": [
         "1:astonish",
         "1:copycat",
@@ -325,18 +339,7 @@
         "tutor:spite",
         "tutor:telekinesis",
         "tutor:trick"
-      ],
-      "labels": [
-        "gen7",
-        "totem"
-      ],
-      "aspects": [
-        "totem"
-      ],
-      "height": 4,
-      "weight": 28,
-      "cannotDynamax": false,
-      "battleOnly": false
+      ]
     },
     {
       "name": "Busted-Totem",
@@ -355,8 +358,22 @@
       },
       "catchRate": 45,
       "maleRatio": 0.5,
-      "baseExperienceYield": 167,
       "baseFriendship": 50,
+      "experienceGroup": "medium_fast",
+      "eggCycles": 20,
+      "eggGroups": [
+        "amorphous"
+      ],
+      "height": 4,
+      "weight": 28,
+      "labels": [
+        "gen7",
+        "totem"
+      ],
+      "aspects": [
+        "busted-totem"
+      ],
+      "baseExperienceYield": 167,
       "evYield": {
         "hp": 0,
         "attack": 0,
@@ -365,24 +382,7 @@
         "special_defence": 2,
         "speed": 0
       },
-      "experienceGroup": "medium_fast",
-      "eggCycles": 20,
-      "eggGroups": [
-        "amorphous"
-      ],
-      "labels": [
-        "gen7",
-        "totem"
-      ],
-      "aspects": [
-        "busted-totem"
-      ],
-      "height": 4,
-      "weight": 28,
-      "cannotDynamax": false,
-      "battleOnly": true
+      "cannotDynamax": false
     }
-  ],
-  "aspects": [],
-  "cannotDynamax": false
+  ]
 }

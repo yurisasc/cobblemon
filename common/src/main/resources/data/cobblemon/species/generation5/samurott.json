@@ -7,6 +7,44 @@
     "torrent",
     "h:shellarmor"
   ],
+  "baseStats": {
+    "hp": 95,
+    "attack": 100,
+    "defence": 85,
+    "special_attack": 108,
+    "special_defence": 70,
+    "speed": 70
+  },
+  "catchRate": 45,
+  "maleRatio": 0.875,
+  "baseFriendship": 70,
+  "experienceGroup": "medium_slow",
+  "eggCycles": 20,
+  "eggGroups": [
+    "field"
+  ],
+  "height": 15,
+  "weight": 946,
+  "pokedex": [
+    "cobblemon.species.samurott.desc"
+  ],
+  "labels": [
+    "gen5",
+    "unova_regional"
+  ],
+  "features": [
+    "hisuian"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 238,
+  "evYield": {
+    "hp": 0,
+    "attack": 0,
+    "defence": 0,
+    "special_attack": 3,
+    "special_defence": 0,
+    "speed": 0
+  },
   "drops": {
     "amount": 2,
     "entries": [
@@ -20,171 +58,14 @@
       }
     ]
   },
-  "baseStats": {
-    "hp": 95,
-    "attack": 100,
-    "defence": 85,
-    "special_attack": 108,
-    "special_defence": 70,
-    "speed": 70
+  "baseScale": 0.8,
+  "hitbox": {
+    "width": 1.6,
+    "height": 2.2,
+    "fixed": false
   },
-  "features": [
-    "hisuian"
-  ],
-  "catchRate": 45,
-  "maleRatio": 0.875,
+  "cannotDynamax": false,
   "shoulderMountable": false,
-  "forms": [
-    {
-      "name": "Hisui",
-      "primaryType": "water",
-      "secondaryType": "dark",
-      "abilities": [
-        "torrent",
-        "h:sharpness"
-      ],
-      "baseStats": {
-        "hp": 90,
-        "attack": 108,
-        "defence": 80,
-        "special_attack": 100,
-        "special_defence": 65,
-        "speed": 85
-      },
-      "behaviour": {
-        "resting": {
-          "canSleep": true,
-          "willSleepOnBed": false,
-          "depth": "normal",
-          "light": "0-4"
-        },
-        "moving": {
-          "swim": {
-            "canSwimInWater": true,
-            "canBreatheUnderwater": true
-          }
-        }
-      },
-      "catchRate": 45,
-      "maleRatio": 0.875,
-      "baseExperienceYield": 238,
-      "baseFriendship": 70,
-      "evYield": {
-        "hp": 0,
-        "attack": 0,
-        "defence": 0,
-        "special_attack": 3,
-        "special_defence": 0,
-        "speed": 0
-      },
-      "experienceGroup": "medium_slow",
-      "eggCycles": 20,
-      "eggGroups": [
-        "field"
-      ],
-      "moves": [
-        "1:megahorn",
-        "1:slash",
-        "1:suckerpunch",
-        "1:tackle",
-        "1:tailwhip",
-        "1:watergun",
-        "13:focusenergy",
-        "18:razorshell",
-        "21:furycutter",
-        "25:waterpulse",
-        "29:aerialace",
-        "34:aquajet",
-        "39:encore",
-        "46:aquatail",
-        "51:retaliate",
-        "58:swordsdance",
-        "63:hydropump",
-        "tm:aerialace",
-        "tm:airslash",
-        "tm:avalanche",
-        "tm:blizzard",
-        "tm:bodyslam",
-        "tm:brickbreak",
-        "tm:bulldoze",
-        "tm:chillingwater",
-        "tm:darkpulse",
-        "tm:dig",
-        "tm:drillrun",
-        "tm:encore",
-        "tm:endure",
-        "tm:facade",
-        "tm:falseswipe",
-        "tm:fling",
-        "tm:gigaimpact",
-        "tm:grassknot",
-        "tm:helpinghand",
-        "tm:hydrocannon",
-        "tm:hydropump",
-        "tm:hyperbeam",
-        "tm:icebeam",
-        "tm:icywind",
-        "tm:liquidation",
-        "tm:protect",
-        "tm:raindance",
-        "tm:rest",
-        "tm:scaryface",
-        "tm:sleeptalk",
-        "tm:smartstrike",
-        "tm:snarl",
-        "tm:snowscape",
-        "tm:substitute",
-        "tm:surf",
-        "tm:swift",
-        "tm:swordsdance",
-        "tm:takedown",
-        "tm:taunt",
-        "tm:terablast",
-        "tm:thief",
-        "tm:waterfall",
-        "tm:waterpledge",
-        "tm:waterpulse",
-        "tm:xscissor"
-      ],
-      "labels": [
-        "gen8",
-        "hisui_regional"
-      ],
-      "aspects": [
-        "hisuian"
-      ],
-      "height": 15,
-      "weight": 582,
-      "preEvolution": "dewott region_bias=hisui",
-      "baseScale": 0.75,
-      "hitbox": {
-        "width": 1.6,
-        "height": 2.2,
-        "fixed": false
-      },
-      "cannotDynamax": false,
-      "battleOnly": false,
-      "drops": {
-        "amount": 2,
-        "entries": [
-          {
-            "item": "cobblemon:mystic_water",
-            "percentage": 25.0
-          },
-          {
-            "item": "cobblemon:shell_bell",
-            "percentage": 25.0
-          }
-        ]
-      }
-    }
-  ],
-  "baseExperienceYield": 238,
-  "experienceGroup": "medium_slow",
-  "eggCycles": 20,
-  "eggGroups": [
-    "field"
-  ],
   "behaviour": {
     "resting": {
       "canSleep": true,
@@ -302,32 +183,150 @@
     "tutor:waterpledge",
     "tutor:waterpulse"
   ],
-  "labels": [
-    "gen5",
-    "unova_regional"
-  ],
-  "pokedex": [
-    "cobblemon.species.samurott.desc"
-  ],
   "preEvolution": "dewott",
   "evolutions": [],
-  "baseScale": 0.8,
-  "hitbox": {
-    "width": 1.6,
-    "height": 2.2,
-    "fixed": false
-  },
-  "baseFriendship": 70,
-  "evYield": {
-    "hp": 0,
-    "attack": 0,
-    "defence": 0,
-    "special_attack": 3,
-    "special_defence": 0,
-    "speed": 0
-  },
-  "height": 15,
-  "weight": 946,
-  "aspects": [],
-  "cannotDynamax": false
+  "permanentForms": [
+    {
+      "name": "Hisui",
+      "primaryType": "water",
+      "secondaryType": "dark",
+      "abilities": [
+        "torrent",
+        "h:sharpness"
+      ],
+      "baseStats": {
+        "hp": 90,
+        "attack": 108,
+        "defence": 80,
+        "special_attack": 100,
+        "special_defence": 65,
+        "speed": 85
+      },
+      "catchRate": 45,
+      "maleRatio": 0.875,
+      "baseFriendship": 70,
+      "experienceGroup": "medium_slow",
+      "eggCycles": 20,
+      "eggGroups": [
+        "field"
+      ],
+      "height": 15,
+      "weight": 582,
+      "labels": [
+        "gen8",
+        "hisui_regional"
+      ],
+      "aspects": [
+        "hisuian"
+      ],
+      "baseExperienceYield": 238,
+      "evYield": {
+        "hp": 0,
+        "attack": 0,
+        "defence": 0,
+        "special_attack": 3,
+        "special_defence": 0,
+        "speed": 0
+      },
+      "drops": {
+        "amount": 2,
+        "entries": [
+          {
+            "item": "cobblemon:mystic_water",
+            "percentage": 25.0
+          },
+          {
+            "item": "cobblemon:shell_bell",
+            "percentage": 25.0
+          }
+        ]
+      },
+      "baseScale": 0.75,
+      "hitbox": {
+        "width": 1.6,
+        "height": 2.2,
+        "fixed": false
+      },
+      "cannotDynamax": false,
+      "behaviour": {
+        "resting": {
+          "canSleep": true,
+          "willSleepOnBed": false,
+          "depth": "normal",
+          "light": "0-4"
+        },
+        "moving": {
+          "swim": {
+            "canSwimInWater": true,
+            "canBreatheUnderwater": true
+          }
+        }
+      },
+      "moves": [
+        "1:megahorn",
+        "1:slash",
+        "1:suckerpunch",
+        "1:tackle",
+        "1:tailwhip",
+        "1:watergun",
+        "13:focusenergy",
+        "18:razorshell",
+        "21:furycutter",
+        "25:waterpulse",
+        "29:aerialace",
+        "34:aquajet",
+        "39:encore",
+        "46:aquatail",
+        "51:retaliate",
+        "58:swordsdance",
+        "63:hydropump",
+        "tm:aerialace",
+        "tm:airslash",
+        "tm:avalanche",
+        "tm:blizzard",
+        "tm:bodyslam",
+        "tm:brickbreak",
+        "tm:bulldoze",
+        "tm:chillingwater",
+        "tm:darkpulse",
+        "tm:dig",
+        "tm:drillrun",
+        "tm:encore",
+        "tm:endure",
+        "tm:facade",
+        "tm:falseswipe",
+        "tm:fling",
+        "tm:gigaimpact",
+        "tm:grassknot",
+        "tm:helpinghand",
+        "tm:hydrocannon",
+        "tm:hydropump",
+        "tm:hyperbeam",
+        "tm:icebeam",
+        "tm:icywind",
+        "tm:liquidation",
+        "tm:protect",
+        "tm:raindance",
+        "tm:rest",
+        "tm:scaryface",
+        "tm:sleeptalk",
+        "tm:smartstrike",
+        "tm:snarl",
+        "tm:snowscape",
+        "tm:substitute",
+        "tm:surf",
+        "tm:swift",
+        "tm:swordsdance",
+        "tm:takedown",
+        "tm:taunt",
+        "tm:terablast",
+        "tm:thief",
+        "tm:waterfall",
+        "tm:waterpledge",
+        "tm:waterpulse",
+        "tm:xscissor"
+      ],
+      "preEvolution": "dewott region_bias=hisui"
+    }
+  ]
 }

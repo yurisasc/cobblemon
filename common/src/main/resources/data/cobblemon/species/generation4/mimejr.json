@@ -9,6 +9,41 @@
     "filter",
     "h:technician"
   ],
+  "baseStats": {
+    "hp": 20,
+    "attack": 25,
+    "defence": 45,
+    "special_attack": 70,
+    "special_defence": 90,
+    "speed": 60
+  },
+  "catchRate": 145,
+  "maleRatio": 0.5,
+  "baseFriendship": 50,
+  "experienceGroup": "medium_fast",
+  "eggCycles": 25,
+  "eggGroups": [
+    "undiscovered"
+  ],
+  "height": 6,
+  "weight": 130,
+  "pokedex": [
+    "cobblemon.species.mimejr.desc"
+  ],
+  "labels": [
+    "gen4",
+    "baby"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 62,
+  "evYield": {
+    "hp": 0,
+    "attack": 0,
+    "defence": 0,
+    "special_attack": 0,
+    "special_defence": 1,
+    "speed": 0
+  },
   "drops": {
     "amount": 2,
     "entries": [
@@ -22,23 +57,14 @@
       }
     ]
   },
-  "baseStats": {
-    "hp": 20,
-    "attack": 25,
-    "defence": 45,
-    "special_attack": 70,
-    "special_defence": 90,
-    "speed": 60
+  "baseScale": 0.6,
+  "hitbox": {
+    "width": 0.6,
+    "height": 1.1,
+    "fixed": false
   },
-  "catchRate": 145,
-  "maleRatio": 0.5,
+  "cannotDynamax": false,
   "shoulderMountable": false,
-  "baseExperienceYield": 62,
-  "experienceGroup": "medium_fast",
-  "eggCycles": 25,
-  "eggGroups": [
-    "undiscovered"
-  ],
   "moves": [
     "1:barrier",
     "1:confusion",
@@ -185,58 +211,34 @@
     "tutor:uproar",
     "tutor:wonderroom"
   ],
-  "labels": [
-    "gen4",
-    "baby"
-  ],
-  "pokedex": [
-    "cobblemon.species.mimejr.desc"
-  ],
   "evolutions": [
     {
       "id": "mimejr_mrmime",
-      "variant": "level_up",
       "result": "mrmime",
-      "consumeHeldItem": false,
       "learnableMoves": [],
       "requirements": [
         {
           "variant": "has_move",
           "move": "mimic"
         }
-      ]
+      ],
+      "trigger": {
+        "variant": "level_up"
+      }
     },
     {
       "id": "mimejr_mrmime",
-      "variant": "level_up",
       "result": "mrmime galarian",
-      "consumeHeldItem": false,
       "learnableMoves": [],
       "requirements": [
         {
           "variant": "has_move",
           "move": "mimic"
         }
-      ]
+      ],
+      "trigger": {
+        "variant": "level_up"
+      }
     }
-  ],
-  "baseScale": 0.6,
-  "hitbox": {
-    "width": 0.6,
-    "height": 1.1,
-    "fixed": false
-  },
-  "baseFriendship": 50,
-  "evYield": {
-    "hp": 0,
-    "attack": 0,
-    "defence": 0,
-    "special_attack": 0,
-    "special_defence": 1,
-    "speed": 0
-  },
-  "height": 6,
-  "weight": 130,
-  "aspects": [],
-  "cannotDynamax": false
+  ]
 }

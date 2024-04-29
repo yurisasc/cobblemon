@@ -19,13 +19,55 @@
   },
   "catchRate": 90,
   "maleRatio": 0.5,
-  "shoulderMountable": false,
-  "baseExperienceYield": 151,
+  "baseFriendship": 35,
   "experienceGroup": "slow",
   "eggCycles": 35,
   "eggGroups": [
     "monster"
   ],
+  "height": 9,
+  "weight": 1200,
+  "pokedex": [
+    "cobblemon.species.lairon.desc"
+  ],
+  "labels": [
+    "gen3"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 151,
+  "evYield": {
+    "hp": 0,
+    "attack": 0,
+    "defence": 2,
+    "special_attack": 0,
+    "special_defence": 0,
+    "speed": 0
+  },
+  "drops": {
+    "amount": 4,
+    "entries": [
+      {
+        "item": "minecraft:raw_iron",
+        "quantityRange": "0-2"
+      },
+      {
+        "item": "cobblemon:hard_stone",
+        "percentage": 5.0
+      },
+      {
+        "item": "cobblemon:chople_berry",
+        "percentage": 5.0
+      }
+    ]
+  },
+  "baseScale": 1,
+  "hitbox": {
+    "width": 1.1,
+    "height": 0.7,
+    "fixed": false
+  },
+  "cannotDynamax": false,
+  "shoulderMountable": false,
   "moves": [
     "1:harden",
     "1:metalclaw",
@@ -129,62 +171,21 @@
     "tutor:uproar",
     "tutor:waterpulse"
   ],
-  "labels": [
-    "gen3"
-  ],
-  "pokedex": [
-    "cobblemon.species.lairon.desc"
-  ],
   "preEvolution": "aron",
   "evolutions": [
     {
       "id": "lairon_aggron",
-      "variant": "level_up",
       "result": "aggron",
-      "consumeHeldItem": false,
       "learnableMoves": [],
       "requirements": [
         {
           "variant": "level",
           "minLevel": 42
         }
-      ]
-    }
-  ],
-  "baseScale": 1,
-  "hitbox": {
-    "width": 1.1,
-    "height": 0.7,
-    "fixed": false
-  },
-  "baseFriendship": 35,
-  "evYield": {
-    "hp": 0,
-    "attack": 0,
-    "defence": 2,
-    "special_attack": 0,
-    "special_defence": 0,
-    "speed": 0
-  },
-  "height": 9,
-  "weight": 1200,
-  "aspects": [],
-  "cannotDynamax": false,
-  "drops": {
-    "amount": 4,
-    "entries": [
-      {
-        "item": "minecraft:raw_iron",
-        "quantityRange": "0-2"
-      },
-      {
-        "item": "cobblemon:hard_stone",
-        "percentage": 5.0
-      },
-      {
-        "item": "cobblemon:chople_berry",
-        "percentage": 5.0
+      ],
+      "trigger": {
+        "variant": "level_up"
       }
-    ]
-  }
+    }
+  ]
 }

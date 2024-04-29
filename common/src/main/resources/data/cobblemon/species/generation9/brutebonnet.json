@@ -16,8 +16,23 @@
   },
   "catchRate": 50,
   "maleRatio": -1,
-  "baseExperienceYield": 285,
   "baseFriendship": 0,
+  "experienceGroup": "slow",
+  "eggCycles": 50,
+  "eggGroups": [
+    "undiscovered"
+  ],
+  "height": 12,
+  "weight": 210,
+  "pokedex": [
+    "cobblemon.species.brutebonnet.desc"
+  ],
+  "labels": [
+    "gen9",
+    "paradox"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 285,
   "evYield": {
     "hp": 0,
     "attack": 3,
@@ -26,11 +41,7 @@
     "special_defence": 0,
     "speed": 0
   },
-  "experienceGroup": "slow",
-  "eggCycles": 50,
-  "eggGroups": [
-    "undiscovered"
-  ],
+  "cannotDynamax": false,
   "moves": [
     "1:absorb",
     "1:astonish",
@@ -89,16 +100,5 @@
     "tutor:payback",
     "tutor:thrash"
   ],
-  "labels": [
-    "gen9",
-    "paradox"
-  ],
-  "aspects": [],
-  "height": 12,
-  "weight": 210,
-  "evolutions": [],
-  "cannotDynamax": false,
-  "pokedex": [
-    "cobblemon.species.brutebonnet.desc"
-  ]
+  "evolutions": []
 }

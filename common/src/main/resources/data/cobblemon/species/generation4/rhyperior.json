@@ -9,6 +9,41 @@
     "solidrock",
     "h:reckless"
   ],
+  "baseStats": {
+    "hp": 115,
+    "attack": 140,
+    "defence": 130,
+    "special_attack": 55,
+    "special_defence": 55,
+    "speed": 40
+  },
+  "catchRate": 30,
+  "maleRatio": 0.5,
+  "baseFriendship": 50,
+  "experienceGroup": "slow",
+  "eggCycles": 20,
+  "eggGroups": [
+    "monster",
+    "field"
+  ],
+  "height": 24,
+  "weight": 2828,
+  "pokedex": [
+    "cobblemon.species.rhyperior.desc"
+  ],
+  "labels": [
+    "gen4"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 268,
+  "evYield": {
+    "hp": 0,
+    "attack": 3,
+    "defence": 0,
+    "special_attack": 0,
+    "special_defence": 0,
+    "speed": 0
+  },
   "drops": {
     "amount": 2,
     "entries": [
@@ -22,24 +57,14 @@
       }
     ]
   },
-  "baseStats": {
-    "hp": 115,
-    "attack": 140,
-    "defence": 130,
-    "special_attack": 55,
-    "special_defence": 55,
-    "speed": 40
+  "baseScale": 1.5,
+  "hitbox": {
+    "width": 1.3,
+    "height": 1.8,
+    "fixed": false
   },
-  "catchRate": 30,
-  "maleRatio": 0.5,
+  "cannotDynamax": false,
   "shoulderMountable": false,
-  "baseExperienceYield": 268,
-  "experienceGroup": "slow",
-  "eggCycles": 20,
-  "eggGroups": [
-    "monster",
-    "field"
-  ],
   "moves": [
     "1:bulldoze",
     "1:furyattack",
@@ -232,31 +257,6 @@
     "tutor:thunderpunch",
     "tutor:uproar"
   ],
-  "labels": [
-    "gen4"
-  ],
-  "pokedex": [
-    "cobblemon.species.rhyperior.desc"
-  ],
   "preEvolution": "rhydon",
-  "evolutions": [],
-  "baseScale": 1.5,
-  "hitbox": {
-    "width": 1.3,
-    "height": 1.8,
-    "fixed": false
-  },
-  "baseFriendship": 50,
-  "evYield": {
-    "hp": 0,
-    "attack": 3,
-    "defence": 0,
-    "special_attack": 0,
-    "special_defence": 0,
-    "speed": 0
-  },
-  "height": 24,
-  "weight": 2828,
-  "aspects": [],
-  "cannotDynamax": false
+  "evolutions": []
 }

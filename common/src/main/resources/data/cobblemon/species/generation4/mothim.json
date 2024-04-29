@@ -7,6 +7,40 @@
     "swarm",
     "h:tintedlens"
   ],
+  "baseStats": {
+    "hp": 70,
+    "attack": 94,
+    "defence": 50,
+    "special_attack": 94,
+    "special_defence": 50,
+    "speed": 66
+  },
+  "catchRate": 45,
+  "maleRatio": 1,
+  "baseFriendship": 70,
+  "experienceGroup": "medium_fast",
+  "eggCycles": 15,
+  "eggGroups": [
+    "bug"
+  ],
+  "height": 9,
+  "weight": 233,
+  "pokedex": [
+    "cobblemon.species.mothim.desc"
+  ],
+  "labels": [
+    "gen4"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 148,
+  "evYield": {
+    "hp": 0,
+    "attack": 1,
+    "defence": 0,
+    "special_attack": 1,
+    "special_defence": 0,
+    "speed": 0
+  },
   "drops": {
     "amount": 2,
     "entries": [
@@ -20,23 +54,14 @@
       }
     ]
   },
-  "baseStats": {
-    "hp": 70,
-    "attack": 94,
-    "defence": 50,
-    "special_attack": 94,
-    "special_defence": 50,
-    "speed": 66
+  "baseScale": 1,
+  "hitbox": {
+    "width": 1,
+    "height": 1,
+    "fixed": false
   },
-  "catchRate": 45,
-  "maleRatio": 1,
+  "cannotDynamax": false,
   "shoulderMountable": false,
-  "baseExperienceYield": 148,
-  "experienceGroup": "medium_fast",
-  "eggCycles": 15,
-  "eggGroups": [
-    "bug"
-  ],
   "moves": [
     "1:bugbite",
     "1:protect",
@@ -116,31 +141,6 @@
     "tutor:tailwind",
     "tutor:twister"
   ],
-  "labels": [
-    "gen4"
-  ],
-  "pokedex": [
-    "cobblemon.species.mothim.desc"
-  ],
   "preEvolution": "burmy",
-  "evolutions": [],
-  "baseScale": 1,
-  "hitbox": {
-    "width": 1,
-    "height": 1,
-    "fixed": false
-  },
-  "baseFriendship": 70,
-  "evYield": {
-    "hp": 0,
-    "attack": 1,
-    "defence": 0,
-    "special_attack": 1,
-    "special_defence": 0,
-    "speed": 0
-  },
-  "height": 9,
-  "weight": 233,
-  "aspects": [],
-  "cannotDynamax": false
+  "evolutions": []
 }

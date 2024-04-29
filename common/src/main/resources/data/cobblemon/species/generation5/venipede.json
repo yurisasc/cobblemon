@@ -9,6 +9,40 @@
     "swarm",
     "h:speedboost"
   ],
+  "baseStats": {
+    "hp": 30,
+    "attack": 45,
+    "defence": 59,
+    "special_attack": 30,
+    "special_defence": 39,
+    "speed": 57
+  },
+  "catchRate": 255,
+  "maleRatio": 0.5,
+  "baseFriendship": 50,
+  "experienceGroup": "medium_slow",
+  "eggCycles": 15,
+  "eggGroups": [
+    "bug"
+  ],
+  "height": 4,
+  "weight": 53,
+  "pokedex": [
+    "cobblemon.species.venipede.desc"
+  ],
+  "labels": [
+    "gen5"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 52,
+  "evYield": {
+    "hp": 0,
+    "attack": 0,
+    "defence": 1,
+    "special_attack": 0,
+    "special_defence": 0,
+    "speed": 0
+  },
   "drops": {
     "amount": 2,
     "entries": [
@@ -22,14 +56,14 @@
       }
     ]
   },
-  "baseStats": {
-    "hp": 30,
-    "attack": 45,
-    "defence": 59,
-    "special_attack": 30,
-    "special_defence": 39,
-    "speed": 57
+  "baseScale": 0.6,
+  "hitbox": {
+    "width": 1,
+    "height": 0.9,
+    "fixed": false
   },
+  "cannotDynamax": false,
+  "shoulderMountable": false,
   "behaviour": {
     "resting": {
       "canSleep": true,
@@ -38,15 +72,6 @@
       "light": "11-15"
     }
   },
-  "catchRate": 255,
-  "maleRatio": 0.5,
-  "shoulderMountable": false,
-  "baseExperienceYield": 52,
-  "experienceGroup": "medium_slow",
-  "eggCycles": 15,
-  "eggGroups": [
-    "bug"
-  ],
   "moves": [
     "1:defensecurl",
     "1:poisonsting",
@@ -116,18 +141,10 @@
     "tutor:snore",
     "tutor:steelroller"
   ],
-  "labels": [
-    "gen5"
-  ],
-  "pokedex": [
-    "cobblemon.species.venipede.desc"
-  ],
   "evolutions": [
     {
       "id": "venipede_whirlipede",
-      "variant": "level_up",
       "result": "whirlipede",
-      "consumeHeldItem": false,
       "learnableMoves": [
         "irondefense"
       ],
@@ -136,26 +153,10 @@
           "variant": "level",
           "minLevel": 22
         }
-      ]
+      ],
+      "trigger": {
+        "variant": "level_up"
+      }
     }
-  ],
-  "baseScale": 0.6,
-  "hitbox": {
-    "width": 1,
-    "height": 0.9,
-    "fixed": false
-  },
-  "baseFriendship": 50,
-  "evYield": {
-    "hp": 0,
-    "attack": 0,
-    "defence": 1,
-    "special_attack": 0,
-    "special_defence": 0,
-    "speed": 0
-  },
-  "height": 4,
-  "weight": 53,
-  "aspects": [],
-  "cannotDynamax": false
+  ]
 }

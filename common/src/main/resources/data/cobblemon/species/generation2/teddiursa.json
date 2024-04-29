@@ -8,6 +8,40 @@
     "quickfeet",
     "h:honeygather"
   ],
+  "baseStats": {
+    "hp": 60,
+    "attack": 80,
+    "defence": 50,
+    "special_attack": 50,
+    "special_defence": 50,
+    "speed": 40
+  },
+  "catchRate": 120,
+  "maleRatio": 0.5,
+  "baseFriendship": 70,
+  "experienceGroup": "medium_fast",
+  "eggCycles": 20,
+  "eggGroups": [
+    "field"
+  ],
+  "height": 6,
+  "weight": 88,
+  "pokedex": [
+    "cobblemon.species.teddiursa.desc"
+  ],
+  "labels": [
+    "gen2"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 66,
+  "evYield": {
+    "hp": 0,
+    "attack": 1,
+    "defence": 0,
+    "special_attack": 0,
+    "special_defence": 0,
+    "speed": 0
+  },
   "drops": {
     "amount": 6,
     "entries": [
@@ -29,23 +63,14 @@
       }
     ]
   },
-  "baseStats": {
-    "hp": 60,
-    "attack": 80,
-    "defence": 50,
-    "special_attack": 50,
-    "special_defence": 50,
-    "speed": 40
+  "baseScale": 0.55,
+  "hitbox": {
+    "width": 0.7,
+    "height": 1,
+    "fixed": false
   },
-  "catchRate": 120,
-  "maleRatio": 0.5,
+  "cannotDynamax": false,
   "shoulderMountable": false,
-  "baseExperienceYield": 66,
-  "experienceGroup": "medium_fast",
-  "eggCycles": 20,
-  "eggGroups": [
-    "field"
-  ],
   "behaviour": {
     "resting": {
       "canSleep": true,
@@ -220,44 +245,20 @@
     "tutor:toxic",
     "tutor:zapcannon"
   ],
-  "labels": [
-    "gen2"
-  ],
-  "pokedex": [
-    "cobblemon.species.teddiursa.desc"
-  ],
   "evolutions": [
     {
       "id": "teddiursa_ursaring",
-      "variant": "level_up",
       "result": "ursaring",
-      "consumeHeldItem": false,
       "learnableMoves": [],
       "requirements": [
         {
           "variant": "level",
           "minLevel": 30
         }
-      ]
+      ],
+      "trigger": {
+        "variant": "level_up"
+      }
     }
-  ],
-  "baseScale": 0.55,
-  "hitbox": {
-    "width": 0.7,
-    "height": 1,
-    "fixed": false
-  },
-  "baseFriendship": 70,
-  "evYield": {
-    "hp": 0,
-    "attack": 1,
-    "defence": 0,
-    "special_attack": 0,
-    "special_defence": 0,
-    "speed": 0
-  },
-  "height": 6,
-  "weight": 88,
-  "aspects": [],
-  "cannotDynamax": false
+  ]
 }

@@ -18,63 +18,48 @@
   },
   "catchRate": 45,
   "maleRatio": 0.5,
-  "shoulderMountable": false,
-  "forms": [
-    {
-      "name": "Gmax",
-      "primaryType": "steel",
-      "secondaryType": "dragon",
-      "abilities": [
-        "lightmetal",
-        "heavymetal",
-        "h:stalwart"
-      ],
-      "baseStats": {
-        "hp": 70,
-        "attack": 95,
-        "defence": 115,
-        "special_attack": 120,
-        "special_defence": 50,
-        "speed": 85
-      },
-      "catchRate": 45,
-      "maleRatio": 0.5,
-      "baseExperienceYield": 187,
-      "baseFriendship": 50,
-      "evYield": {
-        "hp": 0,
-        "attack": 0,
-        "defence": 0,
-        "special_attack": 2,
-        "special_defence": 0,
-        "speed": 0
-      },
-      "experienceGroup": "medium_fast",
-      "eggCycles": 30,
-      "eggGroups": [
-        "mineral",
-        "dragon"
-      ],
-      "labels": [
-        "gen8",
-        "gmax"
-      ],
-      "aspects": [
-        "gmax"
-      ],
-      "height": 430,
-      "weight": 0,
-      "cannotDynamax": false,
-      "battleOnly": false
-    }
-  ],
-  "baseExperienceYield": 187,
+  "baseFriendship": 50,
   "experienceGroup": "medium_fast",
   "eggCycles": 30,
   "eggGroups": [
     "mineral",
     "dragon"
   ],
+  "height": 18,
+  "weight": 400,
+  "pokedex": [
+    "cobblemon.species.duraludon.desc"
+  ],
+  "labels": [
+    "gen8"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 187,
+  "evYield": {
+    "hp": 0,
+    "attack": 0,
+    "defence": 0,
+    "special_attack": 2,
+    "special_defence": 0,
+    "speed": 0
+  },
+  "drops": {
+    "amount": 1,
+    "entries": [
+      {
+        "item": "minecraft:iron_ingot",
+        "quantityRange": "0-1"
+      }
+    ]
+  },
+  "baseScale": 1,
+  "hitbox": {
+    "width": 1,
+    "height": 1,
+    "fixed": false
+  },
+  "cannotDynamax": false,
+  "shoulderMountable": false,
   "moves": [
     "1:leer",
     "1:metalclaw",
@@ -147,39 +132,54 @@
     "tutor:steelbeam",
     "tutor:steelroller"
   ],
-  "labels": [
-    "gen8"
-  ],
-  "pokedex": [
-    "cobblemon.species.duraludon.desc"
-  ],
   "evolutions": [],
-  "baseScale": 1,
-  "hitbox": {
-    "width": 1,
-    "height": 1,
-    "fixed": false
-  },
-  "baseFriendship": 50,
-  "evYield": {
-    "hp": 0,
-    "attack": 0,
-    "defence": 0,
-    "special_attack": 2,
-    "special_defence": 0,
-    "speed": 0
-  },
-  "height": 18,
-  "weight": 400,
-  "aspects": [],
-  "cannotDynamax": false,
-  "drops": {
-    "amount": 1,
-    "entries": [
-      {
-        "item": "minecraft:iron_ingot",
-        "quantityRange": "0-1"
-      }
-    ]
-  }
+  "temporaryForms": [
+    {
+      "name": "Gmax",
+      "primaryType": "steel",
+      "secondaryType": "dragon",
+      "abilities": [
+        "lightmetal",
+        "heavymetal",
+        "h:stalwart"
+      ],
+      "baseStats": {
+        "hp": 70,
+        "attack": 95,
+        "defence": 115,
+        "special_attack": 120,
+        "special_defence": 50,
+        "speed": 85
+      },
+      "catchRate": 45,
+      "maleRatio": 0.5,
+      "baseFriendship": 50,
+      "experienceGroup": "medium_fast",
+      "eggCycles": 30,
+      "eggGroups": [
+        "mineral",
+        "dragon"
+      ],
+      "height": 430,
+      "weight": 0,
+      "labels": [
+        "gen8",
+        "gmax"
+      ],
+      "aspects": [
+        "gmax"
+      ],
+      "baseExperienceYield": 187,
+      "evYield": {
+        "hp": 0,
+        "attack": 0,
+        "defence": 0,
+        "special_attack": 2,
+        "special_defence": 0,
+        "speed": 0
+      },
+      "cannotDynamax": false,
+      "battleOnly": false
+    }
+  ]
 }

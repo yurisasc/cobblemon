@@ -7,15 +7,6 @@
     "moldbreaker",
     "h:sheerforce"
   ],
-  "drops": {
-    "amount": 2,
-    "entries": [
-      {
-        "item": "minecraft:bones",
-        "quantityRange": "0-2"
-      }
-    ]
-  },
   "baseStats": {
     "hp": 97,
     "attack": 165,
@@ -26,13 +17,47 @@
   },
   "catchRate": 45,
   "maleRatio": 0.875,
-  "shoulderMountable": false,
-  "baseExperienceYield": 173,
+  "baseFriendship": 70,
   "experienceGroup": "erratic",
   "eggCycles": 30,
   "eggGroups": [
     "monster"
   ],
+  "height": 16,
+  "weight": 1025,
+  "pokedex": [
+    "cobblemon.species.rampardos.desc"
+  ],
+  "labels": [
+    "gen4"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 173,
+  "evYield": {
+    "hp": 0,
+    "attack": 2,
+    "defence": 0,
+    "special_attack": 0,
+    "special_defence": 0,
+    "speed": 0
+  },
+  "drops": {
+    "amount": 2,
+    "entries": [
+      {
+        "item": "minecraft:bones",
+        "quantityRange": "0-2"
+      }
+    ]
+  },
+  "baseScale": 0.9,
+  "hitbox": {
+    "width": 1.6,
+    "height": 2.5,
+    "fixed": false
+  },
+  "cannotDynamax": false,
+  "shoulderMountable": false,
   "behaviour": {
     "resting": {
       "canSleep": true,
@@ -40,7 +65,7 @@
       "depth": "normal",
       "light": "0-4"
     },
-    "moving" : {
+    "moving": {
       "walk": {
         "walkSpeed": 0.19
       }
@@ -177,31 +202,6 @@
     "tutor:uproar",
     "tutor:zenheadbutt"
   ],
-  "labels": [
-    "gen4"
-  ],
-  "pokedex": [
-    "cobblemon.species.rampardos.desc"
-  ],
   "preEvolution": "cranidos",
-  "evolutions": [],
-  "baseScale": 0.9,
-  "hitbox": {
-    "width": 1.6,
-    "height": 2.5,
-    "fixed": false
-  },
-  "baseFriendship": 70,
-  "evYield": {
-    "hp": 0,
-    "attack": 2,
-    "defence": 0,
-    "special_attack": 0,
-    "special_defence": 0,
-    "speed": 0
-  },
-  "height": 16,
-  "weight": 1025,
-  "aspects": [],
-  "cannotDynamax": false
+  "evolutions": []
 }

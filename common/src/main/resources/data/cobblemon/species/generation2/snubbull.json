@@ -8,6 +8,41 @@
     "runaway",
     "h:rattled"
   ],
+  "baseStats": {
+    "hp": 60,
+    "attack": 80,
+    "defence": 50,
+    "special_attack": 40,
+    "special_defence": 40,
+    "speed": 30
+  },
+  "catchRate": 190,
+  "maleRatio": 0.25,
+  "baseFriendship": 70,
+  "experienceGroup": "fast",
+  "eggCycles": 20,
+  "eggGroups": [
+    "field",
+    "fairy"
+  ],
+  "height": 6,
+  "weight": 78,
+  "pokedex": [
+    "cobblemon.species.snubbull.desc"
+  ],
+  "labels": [
+    "gen2"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 60,
+  "evYield": {
+    "hp": 0,
+    "attack": 1,
+    "defence": 0,
+    "special_attack": 0,
+    "special_defence": 0,
+    "speed": 0
+  },
   "drops": {
     "amount": 2,
     "entries": [
@@ -21,24 +56,14 @@
       }
     ]
   },
-  "baseStats": {
-    "hp": 60,
-    "attack": 80,
-    "defence": 50,
-    "special_attack": 40,
-    "special_defence": 40,
-    "speed": 30
+  "baseScale": 0.8,
+  "hitbox": {
+    "width": 0.8,
+    "height": 1.1,
+    "fixed": false
   },
-  "catchRate": 190,
-  "maleRatio": 0.25,
+  "cannotDynamax": false,
   "shoulderMountable": false,
-  "baseExperienceYield": 60,
-  "experienceGroup": "fast",
-  "eggCycles": 20,
-  "eggGroups": [
-    "field",
-    "fairy"
-  ],
   "behaviour": {
     "moving": {
       "walk": {
@@ -241,44 +266,20 @@
     "tutor:waterpulse",
     "tutor:zapcannon"
   ],
-  "labels": [
-    "gen2"
-  ],
-  "pokedex": [
-    "cobblemon.species.snubbull.desc"
-  ],
   "evolutions": [
     {
       "id": "snubbull_granbull",
-      "variant": "level_up",
       "result": "granbull",
-      "consumeHeldItem": false,
       "learnableMoves": [],
       "requirements": [
         {
           "variant": "level",
           "minLevel": 23
         }
-      ]
+      ],
+      "trigger": {
+        "variant": "level_up"
+      }
     }
-  ],
-  "baseScale": 0.8,
-  "hitbox": {
-    "width": 0.8,
-    "height": 1.1,
-    "fixed": false
-  },
-  "baseFriendship": 70,
-  "evYield": {
-    "hp": 0,
-    "attack": 1,
-    "defence": 0,
-    "special_attack": 0,
-    "special_defence": 0,
-    "speed": 0
-  },
-  "height": 6,
-  "weight": 78,
-  "aspects": [],
-  "cannotDynamax": false
+  ]
 }

@@ -19,30 +19,29 @@
   },
   "catchRate": 60,
   "maleRatio": 0.5,
-  "shoulderMountable": false,
-  "baseExperienceYield": 180,
+  "baseFriendship": 50,
   "experienceGroup": "slow",
   "eggCycles": 20,
   "eggGroups": [
     "water_3"
   ],
-  "behaviour": {
-    "moving": {
-      "walk": {
-        "avoidsLand": true
-      },
-      "swim": {
-        "swimSpeed": 0.2,
-        "canSwimInWater": true,
-        "canBreatheUnderwater": true
-      }
-    },
-    "resting": {
-      "canSleep": true,
-      "willSleepOnBed": false,
-      "depth": "normal",
-      "light": "0-4"
-    }
+  "height": 16,
+  "weight": 550,
+  "pokedex": [
+    "cobblemon.species.tentacruel.desc"
+  ],
+  "labels": [
+    "gen1"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 180,
+  "evYield": {
+    "hp": 0,
+    "attack": 0,
+    "defence": 0,
+    "special_attack": 0,
+    "special_defence": 2,
+    "speed": 0
   },
   "drops": {
     "amount": 9,
@@ -61,6 +60,32 @@
         "percentage": 5.0
       }
     ]
+  },
+  "baseScale": 0.9,
+  "hitbox": {
+    "width": 1.2,
+    "height": 2.45,
+    "fixed": false
+  },
+  "cannotDynamax": false,
+  "shoulderMountable": false,
+  "behaviour": {
+    "moving": {
+      "walk": {
+        "avoidsLand": true
+      },
+      "swim": {
+        "swimSpeed": 0.2,
+        "canSwimInWater": true,
+        "canBreatheUnderwater": true
+      }
+    },
+    "resting": {
+      "canSleep": true,
+      "willSleepOnBed": false,
+      "depth": "normal",
+      "light": "0-4"
+    }
   },
   "moves": [
     "1:acid",
@@ -211,31 +236,6 @@
     "tutor:whirlpool",
     "tutor:wrap"
   ],
-  "labels": [
-    "gen1"
-  ],
-  "pokedex": [
-    "cobblemon.species.tentacruel.desc"
-  ],
   "preEvolution": "tentacool",
-  "evolutions": [],
-  "baseScale": 0.9,
-  "hitbox": {
-    "width": 1.2,
-    "height": 2.45,
-    "fixed": false
-  },
-  "baseFriendship": 50,
-  "evYield": {
-    "hp": 0,
-    "attack": 0,
-    "defence": 0,
-    "special_attack": 0,
-    "special_defence": 2,
-    "speed": 0
-  },
-  "height": 16,
-  "weight": 550,
-  "aspects": [],
-  "cannotDynamax": false
+  "evolutions": []
 }

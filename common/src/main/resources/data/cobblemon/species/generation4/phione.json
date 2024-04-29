@@ -15,14 +15,49 @@
   },
   "catchRate": 30,
   "maleRatio": -1,
-  "shoulderMountable": false,
-  "baseExperienceYield": 216,
+  "baseFriendship": 70,
   "experienceGroup": "slow",
   "eggCycles": 40,
   "eggGroups": [
     "water_1",
     "fairy"
   ],
+  "height": 4,
+  "weight": 31,
+  "pokedex": [
+    "cobblemon.species.phione.desc"
+  ],
+  "labels": [
+    "gen4",
+    "mythical",
+    "legendary"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 216,
+  "evYield": {
+    "hp": 1,
+    "attack": 0,
+    "defence": 0,
+    "special_attack": 0,
+    "special_defence": 0,
+    "speed": 0
+  },
+  "drops": {
+    "amount": 1,
+    "entries": [
+      {
+        "item": "cobblemon:mystic_water"
+      }
+    ]
+  },
+  "baseScale": 1,
+  "hitbox": {
+    "width": 1,
+    "height": 1,
+    "fixed": false
+  },
+  "cannotDynamax": false,
+  "shoulderMountable": false,
   "moves": [
     "1:bubble",
     "1:watergun",
@@ -108,40 +143,5 @@
     "tutor:uproar",
     "tutor:waterpulse"
   ],
-  "labels": [
-    "gen4",
-    "mythical",
-    "legendary"
-  ],
-  "pokedex": [
-    "cobblemon.species.phione.desc"
-  ],
-  "evolutions": [],
-  "baseScale": 1,
-  "hitbox": {
-    "width": 1,
-    "height": 1,
-    "fixed": false
-  },
-  "baseFriendship": 70,
-  "evYield": {
-    "hp": 1,
-    "attack": 0,
-    "defence": 0,
-    "special_attack": 0,
-    "special_defence": 0,
-    "speed": 0
-  },
-  "height": 4,
-  "weight": 31,
-  "aspects": [],
-  "cannotDynamax": false,
-  "drops": {
-    "amount": 1,
-    "entries": [
-      {
-        "item": "cobblemon:mystic_water"
-      }
-    ]
-  }
+  "evolutions": []
 }

@@ -8,6 +8,41 @@
     "quickfeet",
     "h:rattled"
   ],
+  "baseStats": {
+    "hp": 90,
+    "attack": 120,
+    "defence": 75,
+    "special_attack": 60,
+    "special_defence": 60,
+    "speed": 45
+  },
+  "catchRate": 75,
+  "maleRatio": 0.25,
+  "baseFriendship": 70,
+  "experienceGroup": "fast",
+  "eggCycles": 20,
+  "eggGroups": [
+    "field",
+    "fairy"
+  ],
+  "height": 14,
+  "weight": 487,
+  "pokedex": [
+    "cobblemon.species.granbull.desc"
+  ],
+  "labels": [
+    "gen2"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 158,
+  "evYield": {
+    "hp": 0,
+    "attack": 2,
+    "defence": 0,
+    "special_attack": 0,
+    "special_defence": 0,
+    "speed": 0
+  },
   "drops": {
     "amount": 3,
     "entries": [
@@ -21,24 +56,14 @@
       }
     ]
   },
-  "baseStats": {
-    "hp": 90,
-    "attack": 120,
-    "defence": 75,
-    "special_attack": 60,
-    "special_defence": 60,
-    "speed": 45
+  "baseScale": 0.9,
+  "hitbox": {
+    "width": 1,
+    "height": 2,
+    "fixed": false
   },
-  "catchRate": 75,
-  "maleRatio": 0.25,
+  "cannotDynamax": false,
   "shoulderMountable": false,
-  "baseExperienceYield": 158,
-  "experienceGroup": "fast",
-  "eggCycles": 20,
-  "eggGroups": [
-    "field",
-    "fairy"
-  ],
   "behaviour": {
     "moving": {
       "walk": {
@@ -233,31 +258,6 @@
     "tutor:waterpulse",
     "tutor:zapcannon"
   ],
-  "labels": [
-    "gen2"
-  ],
-  "pokedex": [
-    "cobblemon.species.granbull.desc"
-  ],
   "preEvolution": "snubbull",
-  "evolutions": [],
-  "baseScale": 0.9,
-  "hitbox": {
-    "width": 1,
-    "height": 2,
-    "fixed": false
-  },
-  "baseFriendship": 70,
-  "evYield": {
-    "hp": 0,
-    "attack": 2,
-    "defence": 0,
-    "special_attack": 0,
-    "special_defence": 0,
-    "speed": 0
-  },
-  "height": 14,
-  "weight": 487,
-  "aspects": [],
-  "cannotDynamax": false
+  "evolutions": []
 }

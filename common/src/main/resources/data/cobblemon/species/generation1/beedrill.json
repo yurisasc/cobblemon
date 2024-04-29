@@ -18,59 +18,51 @@
   },
   "catchRate": 45,
   "maleRatio": 0.5,
-  "shoulderMountable": false,
-  "forms": [
-    {
-      "name": "Mega",
-      "primaryType": "bug",
-      "secondaryType": "poison",
-      "abilities": [
-        "adaptability"
-      ],
-      "baseStats": {
-        "hp": 65,
-        "attack": 150,
-        "defence": 40,
-        "special_attack": 15,
-        "special_defence": 80,
-        "speed": 145
-      },
-      "catchRate": 45,
-      "maleRatio": 0.5,
-      "baseExperienceYield": 178,
-      "baseFriendship": 70,
-      "evYield": {
-        "hp": 0,
-        "attack": 2,
-        "defence": 0,
-        "special_attack": 0,
-        "special_defence": 1,
-        "speed": 0
-      },
-      "experienceGroup": "medium_fast",
-      "eggCycles": 15,
-      "eggGroups": [
-        "bug"
-      ],
-      "labels": [
-        "gen6",
-        "mega"
-      ],
-      "aspects": [
-        "mega"
-      ],
-      "height": 14,
-      "weight": 405,
-      "cannotDynamax": false,
-      "battleOnly": true
-    }
-  ],
-  "baseExperienceYield": 178,
+  "baseFriendship": 70,
   "experienceGroup": "medium_fast",
   "eggCycles": 15,
   "eggGroups": [
     "bug"
   ],
+  "height": 10,
+  "weight": 295,
+  "pokedex": [
+    "cobblemon.species.beedrill.desc"
+  ],
+  "labels": [
+    "gen1"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 178,
+  "evYield": {
+    "hp": 0,
+    "attack": 2,
+    "defence": 0,
+    "special_attack": 0,
+    "special_defence": 1,
+    "speed": 0
+  },
+  "drops": {
+    "amount": 2,
+    "entries": [
+      {
+        "item": "cobblemon:poison_barb",
+        "percentage": 5.0
+      },
+      {
+        "item": "cobblemon:pinap_berry",
+        "percentage": 5.0
+      }
+    ]
+  },
+  "baseScale": 0.9,
+  "hitbox": {
+    "width": 0.6,
+    "height": 1.6,
+    "fixed": false
+  },
+  "cannotDynamax": false,
+  "shoulderMountable": false,
   "behaviour": {
     "resting": {
       "canSleep": true,
@@ -88,19 +80,6 @@
         "canFly": true
       }
     }
-  },
-  "drops": {
-    "amount": 2,
-    "entries": [
-      {
-        "item": "cobblemon:poison_barb",
-        "percentage": 5.0
-      },
-      {
-        "item": "cobblemon:pinap_berry",
-        "percentage": 5.0
-      }
-    ]
   },
   "moves": [
     "1:furyattack",
@@ -221,31 +200,52 @@
     "tutor:uturn",
     "tutor:xscissor"
   ],
-  "labels": [
-    "gen1"
-  ],
-  "pokedex": [
-    "cobblemon.species.beedrill.desc"
-  ],
   "preEvolution": "kakuna",
   "evolutions": [],
-  "baseScale": 0.9,
-  "hitbox": {
-    "width": 0.6,
-    "height": 1.6,
-    "fixed": false
-  },
-  "baseFriendship": 70,
-  "evYield": {
-    "hp": 0,
-    "attack": 2,
-    "defence": 0,
-    "special_attack": 0,
-    "special_defence": 1,
-    "speed": 0
-  },
-  "height": 10,
-  "weight": 295,
-  "aspects": [],
-  "cannotDynamax": false
+  "temporaryForms": [
+    {
+      "name": "Mega",
+      "primaryType": "bug",
+      "secondaryType": "poison",
+      "abilities": [
+        "adaptability"
+      ],
+      "baseStats": {
+        "hp": 65,
+        "attack": 150,
+        "defence": 40,
+        "special_attack": 15,
+        "special_defence": 80,
+        "speed": 145
+      },
+      "catchRate": 45,
+      "maleRatio": 0.5,
+      "baseFriendship": 70,
+      "experienceGroup": "medium_fast",
+      "eggCycles": 15,
+      "eggGroups": [
+        "bug"
+      ],
+      "height": 14,
+      "weight": 405,
+      "labels": [
+        "gen6",
+        "mega"
+      ],
+      "aspects": [
+        "mega"
+      ],
+      "baseExperienceYield": 178,
+      "evYield": {
+        "hp": 0,
+        "attack": 2,
+        "defence": 0,
+        "special_attack": 0,
+        "special_defence": 1,
+        "speed": 0
+      },
+      "cannotDynamax": false,
+      "battleOnly": true
+    }
+  ]
 }

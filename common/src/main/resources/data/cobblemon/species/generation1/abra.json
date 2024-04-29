@@ -16,31 +16,32 @@
     "special_defence": 55,
     "speed": 90
   },
-  "behaviour": {
-    "moving": {
-      "walk": {
-        "canWalk": false
-      },
-      "fly": {
-        "canFly": true
-      }
-    },
-    "resting": {
-      "canSleep": true,
-      "willSleepOnBed": false,
-      "depth": "normal",
-      "light": "0-4"
-    }
-  },
   "catchRate": 200,
   "maleRatio": 0.75,
-  "shoulderMountable": false,
-  "baseExperienceYield": 62,
+  "baseFriendship": 50,
   "experienceGroup": "medium_slow",
   "eggCycles": 20,
   "eggGroups": [
     "human_like"
   ],
+  "height": 9,
+  "weight": 195,
+  "pokedex": [
+    "cobblemon.species.abra.desc"
+  ],
+  "labels": [
+    "gen1"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 62,
+  "evYield": {
+    "hp": 0,
+    "attack": 0,
+    "defence": 0,
+    "special_attack": 1,
+    "special_defence": 0,
+    "speed": 0
+  },
   "drops": {
     "amount": 3,
     "entries": [
@@ -57,6 +58,30 @@
         "percentage": 2.5
       }
     ]
+  },
+  "baseScale": 0.85,
+  "hitbox": {
+    "width": 1,
+    "height": 1.2,
+    "fixed": false
+  },
+  "cannotDynamax": false,
+  "shoulderMountable": false,
+  "behaviour": {
+    "moving": {
+      "walk": {
+        "canWalk": false
+      },
+      "fly": {
+        "canFly": true
+      }
+    },
+    "resting": {
+      "canSleep": true,
+      "willSleepOnBed": false,
+      "depth": "normal",
+      "light": "0-4"
+    }
   },
   "moves": [
     "1:teleport",
@@ -219,18 +244,10 @@
     "tutor:zapcannon",
     "tutor:zenheadbutt"
   ],
-  "labels": [
-    "gen1"
-  ],
-  "pokedex": [
-    "cobblemon.species.abra.desc"
-  ],
   "evolutions": [
     {
       "id": "abra_kadabra",
-      "variant": "level_up",
       "result": "kadabra",
-      "consumeHeldItem": false,
       "learnableMoves": [
         "confusion"
       ],
@@ -239,26 +256,10 @@
           "variant": "level",
           "minLevel": 16
         }
-      ]
+      ],
+      "trigger": {
+        "variant": "level_up"
+      }
     }
-  ],
-  "baseScale": 0.85,
-  "hitbox": {
-    "width": 1,
-    "height": 1.2,
-    "fixed": false
-  },
-  "baseFriendship": 50,
-  "evYield": {
-    "hp": 0,
-    "attack": 0,
-    "defence": 0,
-    "special_attack": 1,
-    "special_defence": 0,
-    "speed": 0
-  },
-  "height": 9,
-  "weight": 195,
-  "aspects": [],
-  "cannotDynamax": false
+  ]
 }

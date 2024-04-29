@@ -1,4 +1,5 @@
 {
+  "standingEyeHeight": 1,
   "implemented": true,
   "name": "Arbok",
   "nationalPokedexNumber": 24,
@@ -16,28 +17,36 @@
     "special_defence": 79,
     "speed": 80
   },
-  "behaviour": {
-    "resting": {
-      "canSleep": true,
-      "willSleepOnBed": false,
-      "depth": "normal",
-      "light": "0-4"
-    }
-  },
-  "standingEyeHeight": 1,
-  "features": [
-    "snake-pattern"
-  ],
   "catchRate": 90,
   "maleRatio": 0.5,
-  "shoulderMountable": false,
-  "baseExperienceYield": 157,
+  "baseFriendship": 70,
   "experienceGroup": "medium_fast",
   "eggCycles": 20,
   "eggGroups": [
     "field",
     "dragon"
   ],
+  "height": 35,
+  "weight": 650,
+  "pokedex": [
+    "cobblemon.species.arbok.desc"
+  ],
+  "labels": [
+    "gen1"
+  ],
+  "features": [
+    "snake-pattern"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 157,
+  "evYield": {
+    "hp": 0,
+    "attack": 2,
+    "defence": 0,
+    "special_attack": 0,
+    "special_defence": 0,
+    "speed": 0
+  },
   "drops": {
     "amount": 1,
     "entries": [
@@ -46,6 +55,22 @@
         "percentage": 5.0
       }
     ]
+  },
+  "baseScale": 1,
+  "hitbox": {
+    "width": 1,
+    "height": 1.8,
+    "fixed": false
+  },
+  "cannotDynamax": false,
+  "shoulderMountable": false,
+  "behaviour": {
+    "resting": {
+      "canSleep": true,
+      "willSleepOnBed": false,
+      "depth": "normal",
+      "light": "0-4"
+    }
   },
   "moves": [
     "1:bite",
@@ -200,31 +225,6 @@
     "tutor:toxic",
     "tutor:wrap"
   ],
-  "labels": [
-    "gen1"
-  ],
-  "pokedex": [
-    "cobblemon.species.arbok.desc"
-  ],
   "preEvolution": "ekans",
-  "evolutions": [],
-  "baseScale": 1,
-  "hitbox": {
-    "width": 1,
-    "height": 1.8,
-    "fixed": false
-  },
-  "baseFriendship": 70,
-  "evYield": {
-    "hp": 0,
-    "attack": 2,
-    "defence": 0,
-    "special_attack": 0,
-    "special_defence": 0,
-    "speed": 0
-  },
-  "height": 35,
-  "weight": 650,
-  "aspects": [],
-  "cannotDynamax": false
+  "evolutions": []
 }

@@ -7,6 +7,40 @@
     "unburden",
     "h:prankster"
   ],
+  "baseStats": {
+    "hp": 64,
+    "attack": 88,
+    "defence": 50,
+    "special_attack": 88,
+    "special_defence": 50,
+    "speed": 106
+  },
+  "catchRate": 90,
+  "maleRatio": 0.5,
+  "baseFriendship": 50,
+  "experienceGroup": "medium_fast",
+  "eggCycles": 20,
+  "eggGroups": [
+    "field"
+  ],
+  "height": 11,
+  "weight": 375,
+  "pokedex": [
+    "cobblemon.species.liepard.desc"
+  ],
+  "labels": [
+    "gen5"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 156,
+  "evYield": {
+    "hp": 0,
+    "attack": 0,
+    "defence": 0,
+    "special_attack": 0,
+    "special_defence": 0,
+    "speed": 2
+  },
   "drops": {
     "amount": 3,
     "entries": [
@@ -20,23 +54,14 @@
       }
     ]
   },
-  "baseStats": {
-    "hp": 64,
-    "attack": 88,
-    "defence": 50,
-    "special_attack": 88,
-    "special_defence": 50,
-    "speed": 106
+  "baseScale": 1,
+  "hitbox": {
+    "width": 1,
+    "height": 1,
+    "fixed": false
   },
-  "catchRate": 90,
-  "maleRatio": 0.5,
+  "cannotDynamax": false,
   "shoulderMountable": false,
-  "baseExperienceYield": 156,
-  "experienceGroup": "medium_fast",
-  "eggCycles": 20,
-  "eggGroups": [
-    "field"
-  ],
   "moves": [
     "1:assist",
     "1:fakeout",
@@ -136,31 +161,6 @@
     "tutor:throatchop",
     "tutor:trick"
   ],
-  "labels": [
-    "gen5"
-  ],
-  "pokedex": [
-    "cobblemon.species.liepard.desc"
-  ],
   "preEvolution": "purrloin",
-  "evolutions": [],
-  "baseScale": 1,
-  "hitbox": {
-    "width": 1,
-    "height": 1,
-    "fixed": false
-  },
-  "baseFriendship": 50,
-  "evYield": {
-    "hp": 0,
-    "attack": 0,
-    "defence": 0,
-    "special_attack": 0,
-    "special_defence": 0,
-    "speed": 2
-  },
-  "height": 11,
-  "weight": 375,
-  "aspects": [],
-  "cannotDynamax": false
+  "evolutions": []
 }

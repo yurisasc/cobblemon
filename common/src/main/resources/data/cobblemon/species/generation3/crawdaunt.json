@@ -18,14 +18,39 @@
   },
   "catchRate": 155,
   "maleRatio": 0.5,
-  "shoulderMountable": false,
-  "baseExperienceYield": 164,
+  "baseFriendship": 50,
   "experienceGroup": "fluctuating",
   "eggCycles": 15,
   "eggGroups": [
     "water_1",
     "water_3"
   ],
+  "height": 11,
+  "weight": 328,
+  "pokedex": [
+    "cobblemon.species.crawdaunt.desc"
+  ],
+  "labels": [
+    "gen3"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 164,
+  "evYield": {
+    "hp": 0,
+    "attack": 2,
+    "defence": 0,
+    "special_attack": 0,
+    "special_defence": 0,
+    "speed": 0
+  },
+  "baseScale": 1,
+  "hitbox": {
+    "width": 1,
+    "height": 1,
+    "fixed": false
+  },
+  "cannotDynamax": false,
+  "shoulderMountable": false,
   "moves": [
     "1:bubble",
     "1:harden",
@@ -154,31 +179,6 @@
     "tutor:taunt",
     "tutor:waterpulse"
   ],
-  "labels": [
-    "gen3"
-  ],
-  "pokedex": [
-    "cobblemon.species.crawdaunt.desc"
-  ],
   "preEvolution": "corphish",
-  "evolutions": [],
-  "baseScale": 1,
-  "hitbox": {
-    "width": 1,
-    "height": 1,
-    "fixed": false
-  },
-  "baseFriendship": 50,
-  "evYield": {
-    "hp": 0,
-    "attack": 2,
-    "defence": 0,
-    "special_attack": 0,
-    "special_defence": 0,
-    "speed": 0
-  },
-  "height": 11,
-  "weight": 328,
-  "aspects": [],
-  "cannotDynamax": false
+  "evolutions": []
 }

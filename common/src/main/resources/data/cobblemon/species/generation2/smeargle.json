@@ -17,13 +17,38 @@
   },
   "catchRate": 45,
   "maleRatio": 0.5,
-  "shoulderMountable": false,
-  "baseExperienceYield": 88,
+  "baseFriendship": 70,
   "experienceGroup": "fast",
   "eggCycles": 20,
   "eggGroups": [
     "field"
   ],
+  "height": 12,
+  "weight": 580,
+  "pokedex": [
+    "cobblemon.species.smeargle.desc"
+  ],
+  "labels": [
+    "gen2"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 88,
+  "evYield": {
+    "hp": 0,
+    "attack": 0,
+    "defence": 0,
+    "special_attack": 0,
+    "special_defence": 0,
+    "speed": 1
+  },
+  "baseScale": 1,
+  "hitbox": {
+    "width": 1,
+    "height": 1,
+    "fixed": false
+  },
+  "cannotDynamax": false,
+  "shoulderMountable": false,
   "moves": [
     "1:sketch",
     "tutor:captivate",
@@ -37,30 +62,5 @@
     "tutor:sleeptalk",
     "tutor:spore"
   ],
-  "labels": [
-    "gen2"
-  ],
-  "pokedex": [
-    "cobblemon.species.smeargle.desc"
-  ],
-  "evolutions": [],
-  "baseScale": 1,
-  "hitbox": {
-    "width": 1,
-    "height": 1,
-    "fixed": false
-  },
-  "baseFriendship": 70,
-  "evYield": {
-    "hp": 0,
-    "attack": 0,
-    "defence": 0,
-    "special_attack": 0,
-    "special_defence": 0,
-    "speed": 1
-  },
-  "height": 12,
-  "weight": 580,
-  "aspects": [],
-  "cannotDynamax": false
+  "evolutions": []
 }

@@ -7,6 +7,41 @@
     "wellbakedbody",
     "h:aromaveil"
   ],
+  "baseStats": {
+    "hp": 57,
+    "attack": 80,
+    "defence": 115,
+    "special_attack": 50,
+    "special_defence": 80,
+    "speed": 95
+  },
+  "catchRate": 90,
+  "maleRatio": 0.5,
+  "baseFriendship": 50,
+  "experienceGroup": "medium_slow",
+  "eggCycles": 20,
+  "eggGroups": [
+    "field",
+    "mineral"
+  ],
+  "height": 5,
+  "weight": 149,
+  "pokedex": [
+    "cobblemon.species.dachsbun.desc"
+  ],
+  "labels": [
+    "gen9"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 167,
+  "evYield": {
+    "hp": 0,
+    "attack": 0,
+    "defence": 0,
+    "special_attack": 0,
+    "special_defence": 0,
+    "speed": 2
+  },
   "drops": {
     "amount": 3,
     "entries": [
@@ -20,32 +55,26 @@
       }
     ]
   },
-  "baseStats": {
-    "hp": 57,
-    "attack": 80,
-    "defence": 115,
-    "special_attack": 50,
-    "special_defence": 80,
-    "speed": 95
+  "baseScale": 0.6,
+  "hitbox": {
+    "width": 1.3,
+    "height": 1.1,
+    "fixed": false
   },
-  "catchRate": 90,
-  "maleRatio": 0.5,
-  "baseExperienceYield": 167,
-  "baseFriendship": 50,
-  "evYield": {
-    "hp": 0,
-    "attack": 0,
-    "defence": 0,
-    "special_attack": 0,
-    "special_defence": 0,
-    "speed": 2
+  "cannotDynamax": false,
+  "behaviour": {
+    "moving": {
+      "walk": {
+        "walkSpeed": 0.3
+      }
+    },
+    "resting": {
+      "canSleep": true,
+      "willSleepOnBed": true,
+      "depth": "normal",
+      "light": "0-4"
+    }
   },
-  "experienceGroup": "medium_slow",
-  "eggCycles": 20,
-  "eggGroups": [
-    "field",
-    "mineral"
-  ],
   "moves": [
     "1:growl",
     "1:tackle",
@@ -97,35 +126,6 @@
     "tm:thunderfang",
     "tm:trailblaze"
   ],
-  "behaviour": {
-    "moving": {
-      "walk": {
-        "walkSpeed": 0.3
-      }
-    },
-    "resting": {
-      "canSleep": true,
-      "willSleepOnBed": true,
-      "depth": "normal",
-      "light": "0-4"
-    }
-  },
-  "baseScale": 0.6,
-  "hitbox": {
-    "width": 1.3,
-    "height": 1.1,
-    "fixed": false
-  },
-  "labels": [
-    "gen9"
-  ],
-  "aspects": [],
-  "height": 5,
-  "weight": 149,
   "preEvolution": "fidough",
-  "evolutions": [],
-  "cannotDynamax": false,
-  "pokedex": [
-    "cobblemon.species.dachsbun.desc"
-  ]
+  "evolutions": []
 }

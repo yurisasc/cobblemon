@@ -18,13 +18,30 @@
   },
   "catchRate": 45,
   "maleRatio": 0.5,
-  "shoulderMountable": false,
-  "baseExperienceYield": 221,
+  "baseFriendship": 70,
   "experienceGroup": "medium_slow",
   "eggCycles": 20,
   "eggGroups": [
     "grass"
   ],
+  "height": 17,
+  "weight": 155,
+  "pokedex": [
+    "cobblemon.species.victreebel.desc"
+  ],
+  "labels": [
+    "gen1"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 221,
+  "evYield": {
+    "hp": 0,
+    "attack": 3,
+    "defence": 0,
+    "special_attack": 0,
+    "special_defence": 0,
+    "speed": 0
+  },
   "drops": {
     "amount": 2,
     "entries": [
@@ -38,6 +55,14 @@
       }
     ]
   },
+  "baseScale": 1.5,
+  "hitbox": {
+    "width": 0.7,
+    "height": 1.1,
+    "fixed": false
+  },
+  "cannotDynamax": false,
+  "shoulderMountable": false,
   "moves": [
     "1:gastroacid",
     "1:leaftornado",
@@ -160,31 +185,6 @@
     "tutor:worryseed",
     "tutor:wrap"
   ],
-  "labels": [
-    "gen1"
-  ],
-  "pokedex": [
-    "cobblemon.species.victreebel.desc"
-  ],
   "preEvolution": "weepinbell",
-  "evolutions": [],
-  "baseScale": 1.5,
-  "hitbox": {
-    "width": 0.7,
-    "height": 1.1,
-    "fixed": false
-  },
-  "baseFriendship": 70,
-  "evYield": {
-    "hp": 0,
-    "attack": 3,
-    "defence": 0,
-    "special_attack": 0,
-    "special_defence": 0,
-    "speed": 0
-  },
-  "height": 17,
-  "weight": 155,
-  "aspects": [],
-  "cannotDynamax": false
+  "evolutions": []
 }

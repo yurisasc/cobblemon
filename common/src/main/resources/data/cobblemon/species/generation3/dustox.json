@@ -17,13 +17,51 @@
   },
   "catchRate": 45,
   "maleRatio": 0.5,
-  "shoulderMountable": false,
-  "baseExperienceYield": 173,
+  "baseFriendship": 70,
   "experienceGroup": "medium_fast",
   "eggCycles": 15,
   "eggGroups": [
     "bug"
   ],
+  "height": 12,
+  "weight": 316,
+  "pokedex": [
+    "cobblemon.species.dustox.desc"
+  ],
+  "labels": [
+    "gen3"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 173,
+  "evYield": {
+    "hp": 0,
+    "attack": 0,
+    "defence": 0,
+    "special_attack": 0,
+    "special_defence": 3,
+    "speed": 0
+  },
+  "drops": {
+    "amount": 2,
+    "entries": [
+      {
+        "item": "cobblemon:silver_powder",
+        "percentage": 5.0
+      },
+      {
+        "item": "cobblemon:pecha_berry",
+        "percentage": 5.0
+      }
+    ]
+  },
+  "baseScale": 1,
+  "hitbox": {
+    "width": 1,
+    "height": 1,
+    "fixed": false
+  },
+  "cannotDynamax": false,
+  "shoulderMountable": false,
   "moves": [
     "1:gust",
     "12:confusion",
@@ -98,44 +136,6 @@
     "tutor:tailwind",
     "tutor:twister"
   ],
-  "labels": [
-    "gen3"
-  ],
-  "pokedex": [
-    "cobblemon.species.dustox.desc"
-  ],
   "preEvolution": "cascoon",
-  "evolutions": [],
-  "baseScale": 1,
-  "hitbox": {
-    "width": 1,
-    "height": 1,
-    "fixed": false
-  },
-  "baseFriendship": 70,
-  "evYield": {
-    "hp": 0,
-    "attack": 0,
-    "defence": 0,
-    "special_attack": 0,
-    "special_defence": 3,
-    "speed": 0
-  },
-  "height": 12,
-  "weight": 316,
-  "aspects": [],
-  "cannotDynamax": false,
-  "drops": {
-    "amount": 2,
-    "entries": [
-      {
-        "item": "cobblemon:silver_powder",
-        "percentage": 5.0
-      },
-      {
-        "item": "cobblemon:pecha_berry",
-        "percentage": 5.0
-      }
-    ]
-  }
+  "evolutions": []
 }

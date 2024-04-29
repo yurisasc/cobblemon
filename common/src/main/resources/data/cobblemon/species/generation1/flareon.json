@@ -7,6 +7,40 @@
     "flashfire",
     "h:guts"
   ],
+  "baseStats": {
+    "hp": 65,
+    "attack": 130,
+    "defence": 60,
+    "special_attack": 95,
+    "special_defence": 110,
+    "speed": 65
+  },
+  "catchRate": 45,
+  "maleRatio": 0.875,
+  "baseFriendship": 50,
+  "experienceGroup": "medium_fast",
+  "eggCycles": 35,
+  "eggGroups": [
+    "field"
+  ],
+  "height": 9,
+  "weight": 250,
+  "pokedex": [
+    "cobblemon.species.flareon.desc"
+  ],
+  "labels": [
+    "gen1"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 184,
+  "evYield": {
+    "hp": 0,
+    "attack": 2,
+    "defence": 0,
+    "special_attack": 0,
+    "special_defence": 0,
+    "speed": 0
+  },
   "drops": {
     "amount": 2,
     "entries": [
@@ -20,23 +54,14 @@
       }
     ]
   },
-  "baseStats": {
-    "hp": 65,
-    "attack": 130,
-    "defence": 60,
-    "special_attack": 95,
-    "special_defence": 110,
-    "speed": 65
+  "baseScale": 0.8,
+  "hitbox": {
+    "width": 0.9,
+    "height": 1.1,
+    "fixed": false
   },
-  "catchRate": 45,
-  "maleRatio": 0.875,
+  "cannotDynamax": false,
   "shoulderMountable": false,
-  "baseExperienceYield": 184,
-  "experienceGroup": "medium_fast",
-  "eggCycles": 35,
-  "eggGroups": [
-    "field"
-  ],
   "moves": [
     "1:batonpass",
     "1:charm",
@@ -197,31 +222,6 @@
     "tutor:yawn",
     "tutor:zapcannon"
   ],
-  "labels": [
-    "gen1"
-  ],
-  "pokedex": [
-    "cobblemon.species.flareon.desc"
-  ],
   "preEvolution": "eevee",
-  "evolutions": [],
-  "baseScale": 0.8,
-  "hitbox": {
-    "width": 0.9,
-    "height": 1.1,
-    "fixed": false
-  },
-  "baseFriendship": 50,
-  "evYield": {
-    "hp": 0,
-    "attack": 2,
-    "defence": 0,
-    "special_attack": 0,
-    "special_defence": 0,
-    "speed": 0
-  },
-  "height": 9,
-  "weight": 250,
-  "aspects": [],
-  "cannotDynamax": false
+  "evolutions": []
 }

@@ -6,6 +6,44 @@
   "abilities": [
     "illusion"
   ],
+  "baseStats": {
+    "hp": 40,
+    "attack": 65,
+    "defence": 40,
+    "special_attack": 80,
+    "special_defence": 40,
+    "speed": 65
+  },
+  "catchRate": 75,
+  "maleRatio": 0.875,
+  "baseFriendship": 50,
+  "experienceGroup": "medium_slow",
+  "eggCycles": 25,
+  "eggGroups": [
+    "field"
+  ],
+  "height": 7,
+  "weight": 125,
+  "pokedex": [
+    "cobblemon.species.zorua.desc"
+  ],
+  "labels": [
+    "gen5",
+    "unova_regional"
+  ],
+  "features": [
+    "hisuian"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 66,
+  "evYield": {
+    "hp": 0,
+    "attack": 0,
+    "defence": 0,
+    "special_attack": 1,
+    "special_defence": 0,
+    "speed": 0
+  },
   "drops": {
     "amount": 4,
     "entries": [
@@ -19,158 +57,14 @@
       }
     ]
   },
-  "baseStats": {
-    "hp": 40,
-    "attack": 65,
-    "defence": 40,
-    "special_attack": 80,
-    "special_defence": 40,
-    "speed": 65
+  "baseScale": 0.75,
+  "hitbox": {
+    "width": 0.6,
+    "height": 1,
+    "fixed": false
   },
-  "features": [
-    "hisuian"
-  ],
-  "catchRate": 75,
-  "maleRatio": 0.875,
+  "cannotDynamax": false,
   "shoulderMountable": false,
-  "forms": [
-    {
-      "name": "Hisui",
-      "primaryType": "normal",
-      "secondaryType": "ghost",
-      "abilities": [
-        "illusion"
-      ],
-      "baseStats": {
-        "hp": 35,
-        "attack": 60,
-        "defence": 40,
-        "special_attack": 85,
-        "special_defence": 40,
-        "speed": 70
-      },
-      "catchRate": 75,
-      "maleRatio": 0.875,
-      "baseExperienceYield": 66,
-      "baseFriendship": 50,
-      "evYield": {
-        "hp": 0,
-        "attack": 0,
-        "defence": 0,
-        "special_attack": 1,
-        "special_defence": 0,
-        "speed": 0
-      },
-      "experienceGroup": "medium_slow",
-      "eggCycles": 25,
-      "eggGroups": [
-        "field"
-      ],
-      "moves": [
-        "1:leer",
-        "1:scratch",
-        "4:torment",
-        "8:honeclaws",
-        "12:shadowsneak",
-        "16:curse",
-        "20:taunt",
-        "24:knockoff",
-        "28:spite",
-        "32:agility",
-        "36:shadowball",
-        "40:bittermalice",
-        "44:nastyplot",
-        "48:foulplay",
-        "egg:comeuppance",
-        "egg:detect",
-        "egg:extrasensory",
-        "egg:memento",
-        "tm:agility",
-        "tm:calmmind",
-        "tm:confuseray",
-        "tm:darkpulse",
-        "tm:dig",
-        "tm:endure",
-        "tm:facade",
-        "tm:faketears",
-        "tm:fling",
-        "tm:foulplay",
-        "tm:gigaimpact",
-        "tm:hex",
-        "tm:hyperbeam",
-        "tm:icywind",
-        "tm:imprison",
-        "tm:nastyplot",
-        "tm:nightshade",
-        "tm:phantomforce",
-        "tm:protect",
-        "tm:raindance",
-        "tm:rest",
-        "tm:shadowball",
-        "tm:shadowclaw",
-        "tm:sleeptalk",
-        "tm:sludgebomb",
-        "tm:snarl",
-        "tm:snowscape",
-        "tm:substitute",
-        "tm:swift",
-        "tm:takedown",
-        "tm:taunt",
-        "tm:terablast",
-        "tm:thief",
-        "tm:trick",
-        "tm:uturn",
-        "tm:willowisp"
-      ],
-      "labels": [
-        "gen8",
-        "hisui_regional"
-      ],
-      "aspects": [
-        "hisuian"
-      ],
-      "height": 7,
-      "weight": 125,
-      "evolutions": [
-        {
-          "id": "zorua_zoroark",
-          "variant": "level_up",
-          "result": "zoroark hisuian",
-          "consumeHeldItem": false,
-          "learnableMoves": [
-            "shadowclaw"
-          ],
-          "requirements": [
-            {
-              "variant": "level",
-              "minLevel": 30
-            }
-          ]
-        }
-      ],
-      "cannotDynamax": false,
-      "battleOnly": false,
-      "drops": {
-        "amount": 4,
-        "entries": [
-          {
-            "item": "minecraft:sweet_berries",
-            "quantityRange": "1-3"
-          },
-          {
-            "item": "cobblemon:colbur_berry",
-            "percentage": 2.5
-          }
-        ]
-      }
-    }
-  ],
-  "baseExperienceYield": 66,
-  "experienceGroup": "medium_slow",
-  "eggCycles": 25,
-  "eggGroups": [
-    "field"
-  ],
   "moves": [
     "1:leer",
     "1:scratch",
@@ -277,19 +171,10 @@
     "tutor:trick",
     "tutor:uproar"
   ],
-  "labels": [
-    "gen5",
-    "unova_regional"
-  ],
-  "pokedex": [
-    "cobblemon.species.zorua.desc"
-  ],
   "evolutions": [
     {
       "id": "zorua_zoroark",
-      "variant": "level_up",
       "result": "zoroark",
-      "consumeHeldItem": false,
       "learnableMoves": [
         "nightslash"
       ],
@@ -298,26 +183,142 @@
           "variant": "level",
           "minLevel": 30
         }
-      ]
+      ],
+      "trigger": {
+        "variant": "level_up"
+      }
     }
   ],
-  "baseScale": 0.75,
-  "hitbox": {
-    "width": 0.6,
-    "height": 1,
-    "fixed": false
-  },
-  "baseFriendship": 50,
-  "evYield": {
-    "hp": 0,
-    "attack": 0,
-    "defence": 0,
-    "special_attack": 1,
-    "special_defence": 0,
-    "speed": 0
-  },
-  "height": 7,
-  "weight": 125,
-  "aspects": [],
-  "cannotDynamax": false
+  "permanentForms": [
+    {
+      "name": "Hisui",
+      "primaryType": "normal",
+      "secondaryType": "ghost",
+      "abilities": [
+        "illusion"
+      ],
+      "baseStats": {
+        "hp": 35,
+        "attack": 60,
+        "defence": 40,
+        "special_attack": 85,
+        "special_defence": 40,
+        "speed": 70
+      },
+      "catchRate": 75,
+      "maleRatio": 0.875,
+      "baseFriendship": 50,
+      "experienceGroup": "medium_slow",
+      "eggCycles": 25,
+      "eggGroups": [
+        "field"
+      ],
+      "height": 7,
+      "weight": 125,
+      "labels": [
+        "gen8",
+        "hisui_regional"
+      ],
+      "aspects": [
+        "hisuian"
+      ],
+      "baseExperienceYield": 66,
+      "evYield": {
+        "hp": 0,
+        "attack": 0,
+        "defence": 0,
+        "special_attack": 1,
+        "special_defence": 0,
+        "speed": 0
+      },
+      "drops": {
+        "amount": 4,
+        "entries": [
+          {
+            "item": "minecraft:sweet_berries",
+            "quantityRange": "1-3"
+          },
+          {
+            "item": "cobblemon:colbur_berry",
+            "percentage": 2.5
+          }
+        ]
+      },
+      "cannotDynamax": false,
+      "moves": [
+        "1:leer",
+        "1:scratch",
+        "4:torment",
+        "8:honeclaws",
+        "12:shadowsneak",
+        "16:curse",
+        "20:taunt",
+        "24:knockoff",
+        "28:spite",
+        "32:agility",
+        "36:shadowball",
+        "40:bittermalice",
+        "44:nastyplot",
+        "48:foulplay",
+        "egg:comeuppance",
+        "egg:detect",
+        "egg:extrasensory",
+        "egg:memento",
+        "tm:agility",
+        "tm:calmmind",
+        "tm:confuseray",
+        "tm:darkpulse",
+        "tm:dig",
+        "tm:endure",
+        "tm:facade",
+        "tm:faketears",
+        "tm:fling",
+        "tm:foulplay",
+        "tm:gigaimpact",
+        "tm:hex",
+        "tm:hyperbeam",
+        "tm:icywind",
+        "tm:imprison",
+        "tm:nastyplot",
+        "tm:nightshade",
+        "tm:phantomforce",
+        "tm:protect",
+        "tm:raindance",
+        "tm:rest",
+        "tm:shadowball",
+        "tm:shadowclaw",
+        "tm:sleeptalk",
+        "tm:sludgebomb",
+        "tm:snarl",
+        "tm:snowscape",
+        "tm:substitute",
+        "tm:swift",
+        "tm:takedown",
+        "tm:taunt",
+        "tm:terablast",
+        "tm:thief",
+        "tm:trick",
+        "tm:uturn",
+        "tm:willowisp"
+      ],
+      "evolutions": [
+        {
+          "id": "zorua_zoroark",
+          "result": "zoroark hisuian",
+          "learnableMoves": [
+            "shadowclaw"
+          ],
+          "requirements": [
+            {
+              "variant": "level",
+              "minLevel": 30
+            }
+          ],
+          "trigger": {
+            "variant": "level_up"
+          }
+        }
+      ]
+    }
+  ]
 }

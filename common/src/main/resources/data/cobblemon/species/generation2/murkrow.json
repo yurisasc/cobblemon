@@ -17,29 +17,32 @@
     "special_defence": 42,
     "speed": 91
   },
-  "behaviour": {
-    "moving": {
-      "fly": {
-        "canFly": true
-      },
-      "walk": {
-        "walkSpeed": 0.28
-      }
-    },
-    "resting": {
-      "canSleep": true,
-      "times": "day"
-    }
-  },
   "catchRate": 30,
   "maleRatio": 0.5,
-  "shoulderMountable": false,
-  "baseExperienceYield": 81,
+  "baseFriendship": 35,
   "experienceGroup": "medium_slow",
   "eggCycles": 20,
   "eggGroups": [
     "flying"
   ],
+  "height": 5,
+  "weight": 21,
+  "pokedex": [
+    "cobblemon.species.murkrow.desc"
+  ],
+  "labels": [
+    "gen2"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 81,
+  "evYield": {
+    "hp": 0,
+    "attack": 0,
+    "defence": 0,
+    "special_attack": 0,
+    "special_defence": 0,
+    "speed": 1
+  },
   "drops": {
     "amount": 3,
     "entries": [
@@ -55,6 +58,28 @@
         "percentage": 2.5
       }
     ]
+  },
+  "baseScale": 0.8,
+  "hitbox": {
+    "width": 0.65,
+    "height": 1,
+    "fixed": false
+  },
+  "cannotDynamax": false,
+  "shoulderMountable": false,
+  "behaviour": {
+    "moving": {
+      "fly": {
+        "canFly": true
+      },
+      "walk": {
+        "walkSpeed": 0.28
+      }
+    },
+    "resting": {
+      "canSleep": true,
+      "times": "day"
+    }
   },
   "moves": [
     "1:astonish",
@@ -215,40 +240,16 @@
     "tutor:whirlwind",
     "tutor:wingattack"
   ],
-  "labels": [
-    "gen2"
-  ],
-  "pokedex": [
-    "cobblemon.species.murkrow.desc"
-  ],
   "evolutions": [
     {
       "id": "murkrow_honchkrow",
-      "variant": "item_interact",
       "result": "honchkrow",
-      "consumeHeldItem": false,
       "learnableMoves": [],
       "requirements": [],
-      "requiredContext": "cobblemon:dusk_stone"
+      "trigger": {
+        "variant": "item_interact",
+        "requiredContext": "cobblemon:dusk_stone"
+      }
     }
-  ],
-  "baseScale": 0.8,
-  "hitbox": {
-    "width": 0.65,
-    "height": 1,
-    "fixed": false
-  },
-  "baseFriendship": 35,
-  "evYield": {
-    "hp": 0,
-    "attack": 0,
-    "defence": 0,
-    "special_attack": 0,
-    "special_defence": 0,
-    "speed": 1
-  },
-  "height": 5,
-  "weight": 21,
-  "aspects": [],
-  "cannotDynamax": false
+  ]
 }

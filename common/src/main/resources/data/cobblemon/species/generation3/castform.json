@@ -15,172 +15,48 @@
   },
   "catchRate": 45,
   "maleRatio": 0.5,
-  "shoulderMountable": false,
-  "forms": [
-    {
-      "name": "Sunny",
-      "primaryType": "fire",
-      "abilities": [
-        "forecast"
-      ],
-      "baseStats": {
-        "hp": 70,
-        "attack": 70,
-        "defence": 70,
-        "special_attack": 70,
-        "special_defence": 70,
-        "speed": 70
-      },
-      "catchRate": 45,
-      "maleRatio": 0.5,
-      "baseExperienceYield": 147,
-      "baseFriendship": 70,
-      "evYield": {
-        "hp": 1,
-        "attack": 0,
-        "defence": 0,
-        "special_attack": 0,
-        "special_defence": 0,
-        "speed": 0
-      },
-      "experienceGroup": "medium_fast",
-      "eggCycles": 25,
-      "eggGroups": [
-        "fairy",
-        "amorphous"
-      ],
-      "labels": [
-        "gen3"
-      ],
-      "aspects": [
-        "sunny"
-      ],
-      "height": 3,
-      "weight": 8,
-      "cannotDynamax": false,
-      "battleOnly": true,
-      "drops": {
-        "amount": 1,
-        "entries": [
-          {
-            "item": "cobblemon:heat_rock",
-            "percentage": 5.0
-          }
-        ]
-      }
-    },
-    {
-      "name": "Rainy",
-      "primaryType": "water",
-      "abilities": [
-        "forecast"
-      ],
-      "baseStats": {
-        "hp": 70,
-        "attack": 70,
-        "defence": 70,
-        "special_attack": 70,
-        "special_defence": 70,
-        "speed": 70
-      },
-      "catchRate": 45,
-      "maleRatio": 0.5,
-      "baseExperienceYield": 147,
-      "baseFriendship": 70,
-      "evYield": {
-        "hp": 1,
-        "attack": 0,
-        "defence": 0,
-        "special_attack": 0,
-        "special_defence": 0,
-        "speed": 0
-      },
-      "experienceGroup": "medium_fast",
-      "eggCycles": 25,
-      "eggGroups": [
-        "fairy",
-        "amorphous"
-      ],
-      "labels": [
-        "gen3"
-      ],
-      "aspects": [
-        "rainy"
-      ],
-      "height": 3,
-      "weight": 8,
-      "cannotDynamax": false,
-      "battleOnly": true,
-      "drops": {
-        "amount": 1,
-        "entries": [
-          {
-            "item": "cobblemon:damp_rock",
-            "percentage": 5.0
-          }
-        ]
-      }
-    },
-    {
-      "name": "Snowy",
-      "primaryType": "ice",
-      "abilities": [
-        "forecast"
-      ],
-      "baseStats": {
-        "hp": 70,
-        "attack": 70,
-        "defence": 70,
-        "special_attack": 70,
-        "special_defence": 70,
-        "speed": 70
-      },
-      "catchRate": 45,
-      "maleRatio": 0.5,
-      "baseExperienceYield": 147,
-      "baseFriendship": 70,
-      "evYield": {
-        "hp": 1,
-        "attack": 0,
-        "defence": 0,
-        "special_attack": 0,
-        "special_defence": 0,
-        "speed": 0
-      },
-      "experienceGroup": "medium_fast",
-      "eggCycles": 25,
-      "eggGroups": [
-        "fairy",
-        "amorphous"
-      ],
-      "labels": [
-        "gen3"
-      ],
-      "aspects": [
-        "snowy"
-      ],
-      "height": 3,
-      "weight": 8,
-      "cannotDynamax": false,
-      "battleOnly": true,
-      "drops": {
-        "amount": 1,
-        "entries": [
-          {
-            "item": "cobblemon:icy_rock",
-            "percentage": 5.0
-          }
-        ]
-      }
-    }
-  ],
-  "baseExperienceYield": 147,
+  "baseFriendship": 70,
   "experienceGroup": "medium_fast",
   "eggCycles": 25,
   "eggGroups": [
     "fairy",
     "amorphous"
   ],
+  "height": 3,
+  "weight": 8,
+  "pokedex": [
+    "cobblemon.species.castform.desc"
+  ],
+  "labels": [
+    "gen3"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 147,
+  "evYield": {
+    "hp": 1,
+    "attack": 0,
+    "defence": 0,
+    "special_attack": 0,
+    "special_defence": 0,
+    "speed": 0
+  },
+  "drops": {
+    "amount": 1,
+    "entries": [
+      {
+        "item": "cobblemon:mystic_water",
+        "percentage": 5.0
+      }
+    ]
+  },
+  "baseScale": 1,
+  "hitbox": {
+    "width": 1,
+    "height": 1,
+    "fixed": false
+  },
+  "cannotDynamax": false,
+  "shoulderMountable": false,
   "moves": [
     "1:tackle",
     "10:ember",
@@ -269,39 +145,163 @@
     "tutor:thunderwave",
     "tutor:waterpulse"
   ],
-  "labels": [
-    "gen3"
-  ],
-  "pokedex": [
-    "cobblemon.species.castform.desc"
-  ],
   "evolutions": [],
-  "baseScale": 1,
-  "hitbox": {
-    "width": 1,
-    "height": 1,
-    "fixed": false
-  },
-  "baseFriendship": 70,
-  "evYield": {
-    "hp": 1,
-    "attack": 0,
-    "defence": 0,
-    "special_attack": 0,
-    "special_defence": 0,
-    "speed": 0
-  },
-  "height": 3,
-  "weight": 8,
-  "aspects": [],
-  "cannotDynamax": false,
-  "drops": {
-    "amount": 1,
-    "entries": [
-      {
-        "item": "cobblemon:mystic_water",
-        "percentage": 5.0
-      }
-    ]
-  }
+  "temporaryForms": [
+    {
+      "name": "Sunny",
+      "primaryType": "fire",
+      "abilities": [
+        "forecast"
+      ],
+      "baseStats": {
+        "hp": 70,
+        "attack": 70,
+        "defence": 70,
+        "special_attack": 70,
+        "special_defence": 70,
+        "speed": 70
+      },
+      "catchRate": 45,
+      "maleRatio": 0.5,
+      "baseFriendship": 70,
+      "experienceGroup": "medium_fast",
+      "eggCycles": 25,
+      "eggGroups": [
+        "fairy",
+        "amorphous"
+      ],
+      "height": 3,
+      "weight": 8,
+      "labels": [
+        "gen3"
+      ],
+      "aspects": [
+        "sunny"
+      ],
+      "baseExperienceYield": 147,
+      "evYield": {
+        "hp": 1,
+        "attack": 0,
+        "defence": 0,
+        "special_attack": 0,
+        "special_defence": 0,
+        "speed": 0
+      },
+      "drops": {
+        "amount": 1,
+        "entries": [
+          {
+            "item": "cobblemon:heat_rock",
+            "percentage": 5.0
+          }
+        ]
+      },
+      "cannotDynamax": false,
+      "battleOnly": true
+    },
+    {
+      "name": "Rainy",
+      "primaryType": "water",
+      "abilities": [
+        "forecast"
+      ],
+      "baseStats": {
+        "hp": 70,
+        "attack": 70,
+        "defence": 70,
+        "special_attack": 70,
+        "special_defence": 70,
+        "speed": 70
+      },
+      "catchRate": 45,
+      "maleRatio": 0.5,
+      "baseFriendship": 70,
+      "experienceGroup": "medium_fast",
+      "eggCycles": 25,
+      "eggGroups": [
+        "fairy",
+        "amorphous"
+      ],
+      "height": 3,
+      "weight": 8,
+      "labels": [
+        "gen3"
+      ],
+      "aspects": [
+        "rainy"
+      ],
+      "baseExperienceYield": 147,
+      "evYield": {
+        "hp": 1,
+        "attack": 0,
+        "defence": 0,
+        "special_attack": 0,
+        "special_defence": 0,
+        "speed": 0
+      },
+      "drops": {
+        "amount": 1,
+        "entries": [
+          {
+            "item": "cobblemon:damp_rock",
+            "percentage": 5.0
+          }
+        ]
+      },
+      "cannotDynamax": false,
+      "battleOnly": true
+    },
+    {
+      "name": "Snowy",
+      "primaryType": "ice",
+      "abilities": [
+        "forecast"
+      ],
+      "baseStats": {
+        "hp": 70,
+        "attack": 70,
+        "defence": 70,
+        "special_attack": 70,
+        "special_defence": 70,
+        "speed": 70
+      },
+      "catchRate": 45,
+      "maleRatio": 0.5,
+      "baseFriendship": 70,
+      "experienceGroup": "medium_fast",
+      "eggCycles": 25,
+      "eggGroups": [
+        "fairy",
+        "amorphous"
+      ],
+      "height": 3,
+      "weight": 8,
+      "labels": [
+        "gen3"
+      ],
+      "aspects": [
+        "snowy"
+      ],
+      "baseExperienceYield": 147,
+      "evYield": {
+        "hp": 1,
+        "attack": 0,
+        "defence": 0,
+        "special_attack": 0,
+        "special_defence": 0,
+        "speed": 0
+      },
+      "drops": {
+        "amount": 1,
+        "entries": [
+          {
+            "item": "cobblemon:icy_rock",
+            "percentage": 5.0
+          }
+        ]
+      },
+      "cannotDynamax": false,
+      "battleOnly": true
+    }
+  ]
 }

@@ -18,14 +18,56 @@
   },
   "catchRate": 120,
   "maleRatio": 0.875,
-  "shoulderMountable": false,
-  "baseExperienceYield": 64,
+  "baseFriendship": 50,
   "experienceGroup": "medium_fast",
   "eggCycles": 20,
   "eggGroups": [
     "monster",
     "dragon"
   ],
+  "height": 6,
+  "weight": 48,
+  "pokedex": [
+    "cobblemon.species.salandit.desc"
+  ],
+  "labels": [
+    "gen7"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 64,
+  "evYield": {
+    "hp": 0,
+    "attack": 0,
+    "defence": 0,
+    "special_attack": 0,
+    "special_defence": 0,
+    "speed": 1
+  },
+  "drops": {
+    "amount": 3,
+    "entries": [
+      {
+        "item": "minecraft:rotten_flesh",
+        "quantityRange": "0-1"
+      },
+      {
+        "item": "cobblemon:shuca_berry",
+        "percentage": 2.5
+      },
+      {
+        "item": "cobblemon:smoke_ball",
+        "percentage": 2.5
+      }
+    ]
+  },
+  "baseScale": 0.6,
+  "hitbox": {
+    "width": 1.1,
+    "height": 0.85,
+    "fixed": false
+  },
+  "cannotDynamax": false,
+  "shoulderMountable": false,
   "moves": [
     "1:poisongas",
     "1:scratch",
@@ -125,18 +167,10 @@
     "tutor:snatch",
     "tutor:snore"
   ],
-  "labels": [
-    "gen7"
-  ],
-  "pokedex": [
-    "cobblemon.species.salandit.desc"
-  ],
   "evolutions": [
     {
       "id": "salandit_salazzle",
-      "variant": "level_up",
       "result": "salazzle",
-      "consumeHeldItem": false,
       "learnableMoves": [
         "firelash"
       ],
@@ -149,43 +183,10 @@
           "variant": "properties",
           "target": "gender=female"
         }
-      ]
-    }
-  ],
-  "baseScale": 0.6,
-  "hitbox": {
-    "width": 1.1,
-    "height": 0.85,
-    "fixed": false
-  },
-  "baseFriendship": 50,
-  "evYield": {
-    "hp": 0,
-    "attack": 0,
-    "defence": 0,
-    "special_attack": 0,
-    "special_defence": 0,
-    "speed": 1
-  },
-  "height": 6,
-  "weight": 48,
-  "aspects": [],
-  "cannotDynamax": false,
-  "drops": {
-    "amount": 3,
-    "entries": [
-      {
-        "item": "minecraft:rotten_flesh",
-        "quantityRange": "0-1"
-      },
-      {
-        "item": "cobblemon:shuca_berry",
-        "percentage": 2.5
-      },
-      {
-        "item": "cobblemon:smoke_ball",
-        "percentage": 2.5
+      ],
+      "trigger": {
+        "variant": "level_up"
       }
-    ]
-  }
+    }
+  ]
 }

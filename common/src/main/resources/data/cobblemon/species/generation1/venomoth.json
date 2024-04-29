@@ -19,28 +19,29 @@
   },
   "catchRate": 75,
   "maleRatio": 0.5,
-  "shoulderMountable": false,
-  "baseExperienceYield": 158,
+  "baseFriendship": 70,
   "experienceGroup": "medium_fast",
   "eggCycles": 20,
   "eggGroups": [
     "bug"
   ],
-  "behaviour": {
-    "moving": {
-      "swim": {
-        "canWalkOnWater": true
-      },
-      "fly": {
-        "canFly": true
-      }
-    },
-    "resting": {
-      "canSleep": true,
-      "willSleepOnBed": false,
-      "depth": "normal",
-      "light": "0-4"
-    }
+  "height": 15,
+  "weight": 125,
+  "pokedex": [
+    "cobblemon.species.venomoth.desc"
+  ],
+  "labels": [
+    "gen1"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 158,
+  "evYield": {
+    "hp": 0,
+    "attack": 0,
+    "defence": 0,
+    "special_attack": 1,
+    "special_defence": 0,
+    "speed": 1
   },
   "drops": {
     "amount": 4,
@@ -58,6 +59,30 @@
         "percentage": 5.0
       }
     ]
+  },
+  "baseScale": 0.9,
+  "hitbox": {
+    "width": 0.8,
+    "height": 1.55,
+    "fixed": false
+  },
+  "cannotDynamax": false,
+  "shoulderMountable": false,
+  "behaviour": {
+    "moving": {
+      "swim": {
+        "canWalkOnWater": true
+      },
+      "fly": {
+        "canFly": true
+      }
+    },
+    "resting": {
+      "canSleep": true,
+      "willSleepOnBed": false,
+      "depth": "normal",
+      "light": "0-4"
+    }
   },
   "moves": [
     "1:disable",
@@ -207,31 +232,6 @@
     "tutor:whirlwind",
     "tutor:zenheadbutt"
   ],
-  "labels": [
-    "gen1"
-  ],
-  "pokedex": [
-    "cobblemon.species.venomoth.desc"
-  ],
   "preEvolution": "venonat",
-  "evolutions": [],
-  "baseScale": 0.9,
-  "hitbox": {
-    "width": 0.8,
-    "height": 1.55,
-    "fixed": false
-  },
-  "baseFriendship": 70,
-  "evYield": {
-    "hp": 0,
-    "attack": 0,
-    "defence": 0,
-    "special_attack": 1,
-    "special_defence": 0,
-    "speed": 1
-  },
-  "height": 15,
-  "weight": 125,
-  "aspects": [],
-  "cannotDynamax": false
+  "evolutions": []
 }

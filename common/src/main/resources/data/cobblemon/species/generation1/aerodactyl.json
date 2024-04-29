@@ -19,59 +19,51 @@
   },
   "catchRate": 45,
   "maleRatio": 0.875,
-  "shoulderMountable": false,
-  "forms": [
-    {
-      "name": "Mega",
-      "primaryType": "rock",
-      "secondaryType": "flying",
-      "abilities": [
-        "toughclaws"
-      ],
-      "baseStats": {
-        "hp": 80,
-        "attack": 135,
-        "defence": 85,
-        "special_attack": 70,
-        "special_defence": 95,
-        "speed": 150
-      },
-      "catchRate": 45,
-      "maleRatio": 0.875,
-      "baseExperienceYield": 180,
-      "baseFriendship": 50,
-      "evYield": {
-        "hp": 0,
-        "attack": 0,
-        "defence": 0,
-        "special_attack": 0,
-        "special_defence": 0,
-        "speed": 2
-      },
-      "experienceGroup": "slow",
-      "eggCycles": 35,
-      "eggGroups": [
-        "flying"
-      ],
-      "labels": [
-        "gen6",
-        "mega"
-      ],
-      "aspects": [
-        "mega"
-      ],
-      "height": 21,
-      "weight": 790,
-      "cannotDynamax": false,
-      "battleOnly": true
-    }
-  ],
-  "baseExperienceYield": 180,
+  "baseFriendship": 50,
   "experienceGroup": "slow",
   "eggCycles": 35,
   "eggGroups": [
     "flying"
   ],
+  "height": 18,
+  "weight": 590,
+  "pokedex": [
+    "cobblemon.species.aerodactyl.desc"
+  ],
+  "labels": [
+    "gen1"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 180,
+  "evYield": {
+    "hp": 0,
+    "attack": 0,
+    "defence": 0,
+    "special_attack": 0,
+    "special_defence": 0,
+    "speed": 2
+  },
+  "drops": {
+    "amount": 4,
+    "entries": [
+      {
+        "item": "minecraft:bone",
+        "quantityRange": "0-3"
+      },
+      {
+        "item": "cobblemon:rocky_helmet",
+        "percentage": 10.0
+      }
+    ]
+  },
+  "baseScale": 1.8,
+  "hitbox": {
+    "width": 1,
+    "height": 1,
+    "fixed": false
+  },
+  "cannotDynamax": false,
+  "shoulderMountable": false,
   "behaviour": {
     "moving": {
       "fly": {
@@ -87,19 +79,6 @@
       "depth": "normal",
       "light": "0-4"
     }
-  },
-  "drops": {
-    "amount": 4,
-    "entries": [
-      {
-        "item": "minecraft:bone",
-        "quantityRange": "0-3"
-      },
-      {
-        "item": "cobblemon:rocky_helmet",
-        "percentage": 10.0
-      }
-    ]
   },
   "moves": [
     "1:ancientpower",
@@ -273,30 +252,51 @@
     "tutor:wideguard",
     "tutor:wingattack"
   ],
-  "labels": [
-    "gen1"
-  ],
-  "pokedex": [
-    "cobblemon.species.aerodactyl.desc"
-  ],
   "evolutions": [],
-  "baseScale": 1.8,
-  "hitbox": {
-    "width": 1,
-    "height": 1,
-    "fixed": false
-  },
-  "baseFriendship": 50,
-  "evYield": {
-    "hp": 0,
-    "attack": 0,
-    "defence": 0,
-    "special_attack": 0,
-    "special_defence": 0,
-    "speed": 2
-  },
-  "height": 18,
-  "weight": 590,
-  "aspects": [],
-  "cannotDynamax": false
+  "temporaryForms": [
+    {
+      "name": "Mega",
+      "primaryType": "rock",
+      "secondaryType": "flying",
+      "abilities": [
+        "toughclaws"
+      ],
+      "baseStats": {
+        "hp": 80,
+        "attack": 135,
+        "defence": 85,
+        "special_attack": 70,
+        "special_defence": 95,
+        "speed": 150
+      },
+      "catchRate": 45,
+      "maleRatio": 0.875,
+      "baseFriendship": 50,
+      "experienceGroup": "slow",
+      "eggCycles": 35,
+      "eggGroups": [
+        "flying"
+      ],
+      "height": 21,
+      "weight": 790,
+      "labels": [
+        "gen6",
+        "mega"
+      ],
+      "aspects": [
+        "mega"
+      ],
+      "baseExperienceYield": 180,
+      "evYield": {
+        "hp": 0,
+        "attack": 0,
+        "defence": 0,
+        "special_attack": 0,
+        "special_defence": 0,
+        "speed": 2
+      },
+      "cannotDynamax": false,
+      "battleOnly": true
+    }
+  ]
 }

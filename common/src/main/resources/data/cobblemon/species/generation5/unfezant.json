@@ -9,6 +9,40 @@
     "superluck",
     "h:rivalry"
   ],
+  "baseStats": {
+    "hp": 80,
+    "attack": 115,
+    "defence": 80,
+    "special_attack": 65,
+    "special_defence": 55,
+    "speed": 93
+  },
+  "catchRate": 45,
+  "maleRatio": 0.5,
+  "baseFriendship": 50,
+  "experienceGroup": "medium_slow",
+  "eggCycles": 15,
+  "eggGroups": [
+    "flying"
+  ],
+  "height": 12,
+  "weight": 290,
+  "pokedex": [
+    "cobblemon.species.unfezant.desc"
+  ],
+  "labels": [
+    "gen5"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 244,
+  "evYield": {
+    "hp": 0,
+    "attack": 3,
+    "defence": 0,
+    "special_attack": 0,
+    "special_defence": 0,
+    "speed": 0
+  },
   "drops": {
     "amount": 6,
     "entries": [
@@ -29,23 +63,14 @@
       }
     ]
   },
-  "baseStats": {
-    "hp": 80,
-    "attack": 115,
-    "defence": 80,
-    "special_attack": 65,
-    "special_defence": 55,
-    "speed": 93
+  "baseScale": 0.75,
+  "hitbox": {
+    "width": 0.8,
+    "height": 2.15,
+    "fixed": false
   },
-  "catchRate": 45,
-  "maleRatio": 0.5,
+  "cannotDynamax": false,
   "shoulderMountable": false,
-  "baseExperienceYield": 244,
-  "experienceGroup": "medium_slow",
-  "eggCycles": 15,
-  "eggGroups": [
-    "flying"
-  ],
   "behaviour": {
     "moving": {
       "fly": {
@@ -118,31 +143,6 @@
     "tutor:tailwind",
     "tutor:uproar"
   ],
-  "labels": [
-    "gen5"
-  ],
-  "pokedex": [
-    "cobblemon.species.unfezant.desc"
-  ],
   "preEvolution": "tranquill",
-  "evolutions": [],
-  "baseScale": 0.75,
-  "hitbox": {
-    "width": 0.8,
-    "height": 2.15,
-    "fixed": false
-  },
-  "baseFriendship": 50,
-  "evYield": {
-    "hp": 0,
-    "attack": 3,
-    "defence": 0,
-    "special_attack": 0,
-    "special_defence": 0,
-    "speed": 0
-  },
-  "height": 12,
-  "weight": 290,
-  "aspects": [],
-  "cannotDynamax": false
+  "evolutions": []
 }

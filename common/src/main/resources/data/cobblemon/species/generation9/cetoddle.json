@@ -8,6 +8,40 @@
     "snowcloak",
     "h:sheerforce"
   ],
+  "baseStats": {
+    "hp": 108,
+    "attack": 68,
+    "defence": 45,
+    "special_attack": 30,
+    "special_defence": 40,
+    "speed": 43
+  },
+  "catchRate": 150,
+  "maleRatio": 0.5,
+  "baseFriendship": 50,
+  "experienceGroup": "medium_slow",
+  "eggCycles": 25,
+  "eggGroups": [
+    "field"
+  ],
+  "height": 12,
+  "weight": 450,
+  "pokedex": [
+    "cobblemon.species.cetoddle.desc"
+  ],
+  "labels": [
+    "gen9"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 67,
+  "evYield": {
+    "hp": 1,
+    "attack": 0,
+    "defence": 0,
+    "special_attack": 0,
+    "special_defence": 0,
+    "speed": 0
+  },
   "drops": {
     "amount": 2,
     "entries": [
@@ -21,31 +55,13 @@
       }
     ]
   },
-  "baseStats": {
-    "hp": 108,
-    "attack": 68,
-    "defence": 45,
-    "special_attack": 30,
-    "special_defence": 40,
-    "speed": 43
+  "baseScale": 1.0,
+  "hitbox": {
+    "width": 1.0,
+    "height": 1.0,
+    "fixed": false
   },
-  "catchRate": 150,
-  "maleRatio": 0.5,
-  "baseExperienceYield": 67,
-  "baseFriendship": 50,
-  "evYield": {
-    "hp": 1,
-    "attack": 0,
-    "defence": 0,
-    "special_attack": 0,
-    "special_defence": 0,
-    "speed": 0
-  },
-  "experienceGroup": "medium_slow",
-  "eggCycles": 25,
-  "eggGroups": [
-    "field"
-  ],
+  "cannotDynamax": false,
   "behaviour": {
     "moving": {
       "walk": {
@@ -112,31 +128,16 @@
     "tm:terablast",
     "tm:waterpulse"
   ],
-  "labels": [
-    "gen9"
-  ],
-  "aspects": [],
-  "height": 12,
-  "weight": 450,
   "evolutions": [
     {
       "id": "cetoddle_cetitan",
-      "variant": "item_interact",
       "result": "cetitan",
-      "consumeHeldItem": false,
       "learnableMoves": [],
       "requirements": [],
-      "requiredContext": "cobblemon:ice_stone"
+      "trigger": {
+        "variant": "item_interact",
+        "requiredContext": "cobblemon:ice_stone"
+      }
     }
-  ],
-  "baseScale": 1.0,
-  "hitbox": {
-    "width": 1.0,
-    "height": 1.0,
-    "fixed": false
-  },
-  "cannotDynamax": false,
-  "pokedex": [
-    "cobblemon.species.cetoddle.desc"
   ]
 }

@@ -8,6 +8,40 @@
     "runaway",
     "h:stakeout"
   ],
+  "baseStats": {
+    "hp": 60,
+    "attack": 78,
+    "defence": 60,
+    "special_attack": 40,
+    "special_defence": 51,
+    "speed": 51
+  },
+  "catchRate": 150,
+  "maleRatio": 0.5,
+  "baseFriendship": 50,
+  "experienceGroup": "medium_slow",
+  "eggCycles": 20,
+  "eggGroups": [
+    "field"
+  ],
+  "height": 5,
+  "weight": 160,
+  "pokedex": [
+    "cobblemon.species.maschiff.desc"
+  ],
+  "labels": [
+    "gen9"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 68,
+  "evYield": {
+    "hp": 0,
+    "attack": 1,
+    "defence": 0,
+    "special_attack": 0,
+    "special_defence": 0,
+    "speed": 0
+  },
   "drops": {
     "amount": 3,
     "entries": [
@@ -25,31 +59,13 @@
       }
     ]
   },
-  "baseStats": {
-    "hp": 60,
-    "attack": 78,
-    "defence": 60,
-    "special_attack": 40,
-    "special_defence": 51,
-    "speed": 51
+  "baseScale": 0.6,
+  "hitbox": {
+    "width": 1,
+    "height": 0.8,
+    "fixed": false
   },
-  "catchRate": 150,
-  "maleRatio": 0.5,
-  "baseExperienceYield": 68,
-  "baseFriendship": 50,
-  "evYield": {
-    "hp": 0,
-    "attack": 1,
-    "defence": 0,
-    "special_attack": 0,
-    "special_defence": 0,
-    "speed": 0
-  },
-  "experienceGroup": "medium_slow",
-  "eggCycles": 20,
-  "eggGroups": [
-    "field"
-  ],
+  "cannotDynamax": false,
   "moves": [
     "1:leer",
     "1:scaryface",
@@ -99,18 +115,10 @@
     "tm:thunderfang",
     "tm:trailblaze"
   ],
-  "labels": [
-    "gen9"
-  ],
-  "aspects": [],
-  "height": 5,
-  "weight": 160,
   "evolutions": [
     {
       "id": "maschiff_mabosstiff",
-      "variant": "level_up",
       "result": "mabosstiff",
-      "consumeHeldItem": false,
       "learnableMoves": [
         "comeuppance"
       ],
@@ -119,17 +127,10 @@
           "variant": "level",
           "minLevel": 30
         }
-      ]
+      ],
+      "trigger": {
+        "variant": "level_up"
+      }
     }
-  ],
-  "baseScale": 0.6,
-  "hitbox": {
-    "width": 1,
-    "height": 0.8,
-    "fixed": false
-  },
-  "cannotDynamax": false,
-  "pokedex": [
-    "cobblemon.species.maschiff.desc"
   ]
 }

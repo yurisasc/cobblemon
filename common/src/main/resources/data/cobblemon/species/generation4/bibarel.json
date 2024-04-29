@@ -9,6 +9,41 @@
     "unaware",
     "h:moody"
   ],
+  "baseStats": {
+    "hp": 79,
+    "attack": 85,
+    "defence": 60,
+    "special_attack": 55,
+    "special_defence": 60,
+    "speed": 71
+  },
+  "catchRate": 127,
+  "maleRatio": 0.5,
+  "baseFriendship": 70,
+  "experienceGroup": "medium_fast",
+  "eggCycles": 15,
+  "eggGroups": [
+    "water_1",
+    "field"
+  ],
+  "height": 10,
+  "weight": 315,
+  "pokedex": [
+    "cobblemon.species.bibarel.desc"
+  ],
+  "labels": [
+    "gen4"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 144,
+  "evYield": {
+    "hp": 0,
+    "attack": 2,
+    "defence": 0,
+    "special_attack": 0,
+    "special_defence": 0,
+    "speed": 0
+  },
   "drops": {
     "amount": 3,
     "entries": [
@@ -22,24 +57,14 @@
       }
     ]
   },
-  "baseStats": {
-    "hp": 79,
-    "attack": 85,
-    "defence": 60,
-    "special_attack": 55,
-    "special_defence": 60,
-    "speed": 71
+  "baseScale": 0.7,
+  "hitbox": {
+    "width": 1.3,
+    "height": 1.1,
+    "fixed": false
   },
-  "catchRate": 127,
-  "maleRatio": 0.5,
+  "cannotDynamax": false,
   "shoulderMountable": false,
-  "baseExperienceYield": 144,
-  "experienceGroup": "medium_fast",
-  "eggCycles": 15,
-  "eggGroups": [
-    "water_1",
-    "field"
-  ],
   "behaviour": {
     "moving": {
       "swim": {
@@ -155,31 +180,6 @@
     "tutor:swift",
     "tutor:waterpulse"
   ],
-  "labels": [
-    "gen4"
-  ],
-  "pokedex": [
-    "cobblemon.species.bibarel.desc"
-  ],
   "preEvolution": "bidoof",
-  "evolutions": [],
-  "baseScale": 0.7,
-  "hitbox": {
-    "width": 1.3,
-    "height": 1.1,
-    "fixed": false
-  },
-  "baseFriendship": 70,
-  "evYield": {
-    "hp": 0,
-    "attack": 2,
-    "defence": 0,
-    "special_attack": 0,
-    "special_defence": 0,
-    "speed": 0
-  },
-  "height": 10,
-  "weight": 315,
-  "aspects": [],
-  "cannotDynamax": false
+  "evolutions": []
 }

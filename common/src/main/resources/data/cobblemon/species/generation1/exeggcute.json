@@ -18,61 +18,33 @@
   },
   "catchRate": 90,
   "maleRatio": 0.5,
-  "shoulderMountable": false,
-  "forms": [
-    {
-      "name": "Alola Bias",
-      "maleRatio": 0.5,
-      "labels": [
-        "alola_regional"
-      ],
-      "aspects": [
-        "region-bias-alola"
-      ],
-      "evolutions": [
-        {
-          "id": "alola_exeggcute_alola_exeggutor",
-          "variant": "item_interact",
-          "result": "exeggutor alolan",
-          "consumeHeldItem": false,
-          "learnableMoves": [
-            "dragonhammer"
-          ],
-          "requirements": [],
-          "requiredContext": "cobblemon:leaf_stone"
-        },
-        {
-          "id": "alola_exeggcute_exeggutor",
-          "variant": "item_interact",
-          "result": "exeggutor",
-          "consumeHeldItem": false,
-          "learnableMoves": [
-            "stomp"
-          ],
-          "requirements": [
-            {
-              "variant": "biome",
-              "biomeCondition": "#cobblemon:is_jungle"
-            }
-          ],
-          "requiredContext": "cobblemon:leaf_stone"
-        }
-      ]
-    }
-  ],
-  "baseExperienceYield": 65,
+  "baseFriendship": 50,
   "experienceGroup": "slow",
   "eggCycles": 20,
   "eggGroups": [
     "grass"
   ],
-  "behaviour": {
-    "resting": {
-      "canSleep": true,
-      "willSleepOnBed": true,
-      "depth": "normal",
-      "light": "0-4"
-    }
+  "height": 4,
+  "weight": 25,
+  "pokedex": [
+    "cobblemon.species.exeggcute.desc"
+  ],
+  "labels": [
+    "gen1"
+  ],
+  "features": [
+    "alolan",
+    "region_bias"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 65,
+  "evYield": {
+    "hp": 0,
+    "attack": 0,
+    "defence": 1,
+    "special_attack": 0,
+    "special_defence": 0,
+    "speed": 0
   },
   "drops": {
     "amount": 5,
@@ -90,6 +62,22 @@
         "percentage": 2.5
       }
     ]
+  },
+  "baseScale": 1.0,
+  "hitbox": {
+    "width": 1.1,
+    "height": 0.5,
+    "fixed": false
+  },
+  "cannotDynamax": false,
+  "shoulderMountable": false,
+  "behaviour": {
+    "resting": {
+      "canSleep": true,
+      "willSleepOnBed": true,
+      "depth": "normal",
+      "light": "0-4"
+    }
   },
   "moves": [
     "1:absorb",
@@ -252,33 +240,22 @@
     "tutor:wish",
     "tutor:worryseed"
   ],
-  "labels": [
-    "gen1"
-  ],
-  "pokedex": [
-    "cobblemon.species.exeggcute.desc"
-  ],
-  "features": [
-    "alolan",
-    "region_bias"
-  ],
   "evolutions": [
     {
       "id": "exeggcute_exeggutor",
-      "variant": "item_interact",
       "result": "exeggutor",
-      "consumeHeldItem": false,
       "learnableMoves": [
         "stomp"
       ],
       "requirements": [],
-      "requiredContext": "cobblemon:leaf_stone"
+      "trigger": {
+        "variant": "item_interact",
+        "requiredContext": "cobblemon:leaf_stone"
+      }
     },
     {
       "id": "exeggcute_alola_exeggutor",
-      "variant": "item_interact",
       "result": "exeggutor alolan",
-      "consumeHeldItem": false,
       "learnableMoves": [
         "dragonhammer"
       ],
@@ -296,26 +273,53 @@
           "biomeAnticondition": "#minecraft:is_freezing"
         }
       ],
-      "requiredContext": "cobblemon:leaf_stone"
+      "trigger": {
+        "variant": "item_interact",
+        "requiredContext": "cobblemon:leaf_stone"
+      }
     }
   ],
-  "baseScale": 1.0,
-  "hitbox": {
-    "width": 1.1,
-    "height": 0.5,
-    "fixed": false
-  },
-  "baseFriendship": 50,
-  "evYield": {
-    "hp": 0,
-    "attack": 0,
-    "defence": 1,
-    "special_attack": 0,
-    "special_defence": 0,
-    "speed": 0
-  },
-  "height": 4,
-  "weight": 25,
-  "aspects": [],
-  "cannotDynamax": false
+  "permanentForms": [
+    {
+      "name": "Alola Bias",
+      "maleRatio": 0.5,
+      "labels": [
+        "alola_regional"
+      ],
+      "aspects": [
+        "region-bias-alola"
+      ],
+      "evolutions": [
+        {
+          "id": "alola_exeggcute_alola_exeggutor",
+          "result": "exeggutor alolan",
+          "learnableMoves": [
+            "dragonhammer"
+          ],
+          "requirements": [],
+          "trigger": {
+            "variant": "item_interact",
+            "requiredContext": "cobblemon:leaf_stone"
+          }
+        },
+        {
+          "id": "alola_exeggcute_exeggutor",
+          "result": "exeggutor",
+          "learnableMoves": [
+            "stomp"
+          ],
+          "requirements": [
+            {
+              "variant": "biome",
+              "biomeCondition": "#cobblemon:is_jungle"
+            }
+          ],
+          "trigger": {
+            "variant": "item_interact",
+            "requiredContext": "cobblemon:leaf_stone"
+          }
+        }
+      ]
+    }
+  ]
 }

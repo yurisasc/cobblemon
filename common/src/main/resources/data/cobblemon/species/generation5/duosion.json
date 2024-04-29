@@ -7,6 +7,40 @@
     "magicguard",
     "h:regenerator"
   ],
+  "baseStats": {
+    "hp": 65,
+    "attack": 40,
+    "defence": 50,
+    "special_attack": 125,
+    "special_defence": 60,
+    "speed": 30
+  },
+  "catchRate": 100,
+  "maleRatio": 0.5,
+  "baseFriendship": 50,
+  "experienceGroup": "medium_slow",
+  "eggCycles": 20,
+  "eggGroups": [
+    "amorphous"
+  ],
+  "height": 6,
+  "weight": 80,
+  "pokedex": [
+    "cobblemon.species.duosion.desc"
+  ],
+  "labels": [
+    "gen5"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 130,
+  "evYield": {
+    "hp": 0,
+    "attack": 0,
+    "defence": 0,
+    "special_attack": 2,
+    "special_defence": 0,
+    "speed": 0
+  },
   "drops": {
     "amount": 3,
     "entries": [
@@ -20,23 +54,14 @@
       }
     ]
   },
-  "baseStats": {
-    "hp": 65,
-    "attack": 40,
-    "defence": 50,
-    "special_attack": 125,
-    "special_defence": 60,
-    "speed": 30
+  "baseScale": 1,
+  "hitbox": {
+    "width": 1,
+    "height": 1,
+    "fixed": false
   },
-  "catchRate": 100,
-  "maleRatio": 0.5,
+  "cannotDynamax": false,
   "shoulderMountable": false,
-  "baseExperienceYield": 130,
-  "experienceGroup": "medium_slow",
-  "eggCycles": 20,
-  "eggGroups": [
-    "amorphous"
-  ],
   "moves": [
     "1:confusion",
     "1:endeavor",
@@ -147,19 +172,11 @@
     "tutor:wonderroom",
     "tutor:zenheadbutt"
   ],
-  "labels": [
-    "gen5"
-  ],
-  "pokedex": [
-    "cobblemon.species.duosion.desc"
-  ],
   "preEvolution": "solosis",
   "evolutions": [
     {
       "id": "duosion_reuniclus",
-      "variant": "level_up",
       "result": "reuniclus",
-      "consumeHeldItem": false,
       "learnableMoves": [
         "hammerarm"
       ],
@@ -168,26 +185,10 @@
           "variant": "level",
           "minLevel": 41
         }
-      ]
+      ],
+      "trigger": {
+        "variant": "level_up"
+      }
     }
-  ],
-  "baseScale": 1,
-  "hitbox": {
-    "width": 1,
-    "height": 1,
-    "fixed": false
-  },
-  "baseFriendship": 50,
-  "evYield": {
-    "hp": 0,
-    "attack": 0,
-    "defence": 0,
-    "special_attack": 2,
-    "special_defence": 0,
-    "speed": 0
-  },
-  "height": 6,
-  "weight": 80,
-  "aspects": [],
-  "cannotDynamax": false
+  ]
 }

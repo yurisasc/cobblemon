@@ -16,16 +16,32 @@
     "special_defence": 70,
     "speed": 105
   },
-  "behaviour": {},
   "catchRate": 100,
   "maleRatio": 0.75,
-  "shoulderMountable": false,
-  "baseExperienceYield": 140,
+  "baseFriendship": 50,
   "experienceGroup": "medium_slow",
   "eggCycles": 20,
   "eggGroups": [
     "human_like"
   ],
+  "height": 13,
+  "weight": 565,
+  "pokedex": [
+    "cobblemon.species.kadabra.desc"
+  ],
+  "labels": [
+    "gen1"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 140,
+  "evYield": {
+    "hp": 0,
+    "attack": 0,
+    "defence": 0,
+    "special_attack": 2,
+    "special_defence": 0,
+    "speed": 0
+  },
   "drops": {
     "amount": 4,
     "entries": [
@@ -43,6 +59,15 @@
       }
     ]
   },
+  "baseScale": 0.85,
+  "hitbox": {
+    "width": 1,
+    "height": 1.4,
+    "fixed": false
+  },
+  "cannotDynamax": false,
+  "shoulderMountable": false,
+  "behaviour": {},
   "moves": [
     "1:confusion",
     "1:disable",
@@ -214,40 +239,16 @@
     "tutor:zapcannon",
     "tutor:zenheadbutt"
   ],
-  "labels": [
-    "gen1"
-  ],
-  "pokedex": [
-    "cobblemon.species.kadabra.desc"
-  ],
   "preEvolution": "abra",
   "evolutions": [
     {
       "id": "kadabra_alakazam",
-      "variant": "trade",
       "result": "alakazam",
-      "consumeHeldItem": false,
       "learnableMoves": [],
-      "requirements": []
+      "requirements": [],
+      "trigger": {
+        "variant": "trade"
+      }
     }
-  ],
-  "baseScale": 0.85,
-  "hitbox": {
-    "width": 1,
-    "height": 1.4,
-    "fixed": false
-  },
-  "baseFriendship": 50,
-  "evYield": {
-    "hp": 0,
-    "attack": 0,
-    "defence": 0,
-    "special_attack": 2,
-    "special_defence": 0,
-    "speed": 0
-  },
-  "height": 13,
-  "weight": 565,
-  "aspects": [],
-  "cannotDynamax": false
+  ]
 }

@@ -7,6 +7,41 @@
     "snowwarning",
     "h:soundproof"
   ],
+  "baseStats": {
+    "hp": 60,
+    "attack": 62,
+    "defence": 50,
+    "special_attack": 62,
+    "special_defence": 60,
+    "speed": 40
+  },
+  "catchRate": 120,
+  "maleRatio": 0.5,
+  "baseFriendship": 50,
+  "experienceGroup": "slow",
+  "eggCycles": 20,
+  "eggGroups": [
+    "monster",
+    "grass"
+  ],
+  "height": 10,
+  "weight": 505,
+  "pokedex": [
+    "cobblemon.species.snover.desc"
+  ],
+  "labels": [
+    "gen4"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 67,
+  "evYield": {
+    "hp": 0,
+    "attack": 1,
+    "defence": 0,
+    "special_attack": 0,
+    "special_defence": 0,
+    "speed": 0
+  },
   "drops": {
     "amount": 3,
     "entries": [
@@ -24,24 +59,14 @@
       }
     ]
   },
-  "baseStats": {
-    "hp": 60,
-    "attack": 62,
-    "defence": 50,
-    "special_attack": 62,
-    "special_defence": 60,
-    "speed": 40
+  "baseScale": 1,
+  "hitbox": {
+    "width": 1,
+    "height": 1,
+    "fixed": false
   },
-  "catchRate": 120,
-  "maleRatio": 0.5,
+  "cannotDynamax": false,
   "shoulderMountable": false,
-  "baseExperienceYield": 67,
-  "experienceGroup": "slow",
-  "eggCycles": 20,
-  "eggGroups": [
-    "monster",
-    "grass"
-  ],
   "moves": [
     "1:leer",
     "1:powdersnow",
@@ -151,18 +176,10 @@
     "tutor:waterpulse",
     "tutor:worryseed"
   ],
-  "labels": [
-    "gen4"
-  ],
-  "pokedex": [
-    "cobblemon.species.snover.desc"
-  ],
   "evolutions": [
     {
       "id": "snover_abomasnow",
-      "variant": "level_up",
       "result": "abomasnow",
-      "consumeHeldItem": false,
       "learnableMoves": [
         "icepunch"
       ],
@@ -171,26 +188,10 @@
           "variant": "level",
           "minLevel": 40
         }
-      ]
+      ],
+      "trigger": {
+        "variant": "level_up"
+      }
     }
-  ],
-  "baseScale": 1,
-  "hitbox": {
-    "width": 1,
-    "height": 1,
-    "fixed": false
-  },
-  "baseFriendship": 50,
-  "evYield": {
-    "hp": 0,
-    "attack": 1,
-    "defence": 0,
-    "special_attack": 0,
-    "special_defence": 0,
-    "speed": 0
-  },
-  "height": 10,
-  "weight": 505,
-  "aspects": [],
-  "cannotDynamax": false
+  ]
 }

@@ -8,6 +8,40 @@
     "sandrush",
     "h:scrappy"
   ],
+  "baseStats": {
+    "hp": 65,
+    "attack": 80,
+    "defence": 65,
+    "special_attack": 35,
+    "special_defence": 65,
+    "speed": 60
+  },
+  "catchRate": 120,
+  "maleRatio": 0.5,
+  "baseFriendship": 50,
+  "experienceGroup": "medium_slow",
+  "eggCycles": 15,
+  "eggGroups": [
+    "field"
+  ],
+  "height": 9,
+  "weight": 147,
+  "pokedex": [
+    "cobblemon.species.herdier.desc"
+  ],
+  "labels": [
+    "gen5"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 130,
+  "evYield": {
+    "hp": 0,
+    "attack": 2,
+    "defence": 0,
+    "special_attack": 0,
+    "special_defence": 0,
+    "speed": 0
+  },
   "drops": {
     "amount": 5,
     "entries": [
@@ -25,23 +59,14 @@
       }
     ]
   },
-  "baseStats": {
-    "hp": 65,
-    "attack": 80,
-    "defence": 65,
-    "special_attack": 35,
-    "special_defence": 65,
-    "speed": 60
+  "baseScale": 0.65,
+  "hitbox": {
+    "width": 1,
+    "height": 1.45,
+    "fixed": false
   },
-  "catchRate": 120,
-  "maleRatio": 0.5,
+  "cannotDynamax": false,
   "shoulderMountable": false,
-  "baseExperienceYield": 130,
-  "experienceGroup": "medium_slow",
-  "eggCycles": 15,
-  "eggGroups": [
-    "field"
-  ],
   "moves": [
     "1:bite",
     "1:leer",
@@ -114,45 +139,21 @@
     "tutor:snore",
     "tutor:uproar"
   ],
-  "labels": [
-    "gen5"
-  ],
-  "pokedex": [
-    "cobblemon.species.herdier.desc"
-  ],
   "preEvolution": "lillipup",
   "evolutions": [
     {
       "id": "herdier_stoutland",
-      "variant": "level_up",
       "result": "stoutland",
-      "consumeHeldItem": false,
       "learnableMoves": [],
       "requirements": [
         {
           "variant": "level",
           "minLevel": 32
         }
-      ]
+      ],
+      "trigger": {
+        "variant": "level_up"
+      }
     }
-  ],
-  "baseScale": 0.65,
-  "hitbox": {
-    "width": 1,
-    "height": 1.45,
-    "fixed": false
-  },
-  "baseFriendship": 50,
-  "evYield": {
-    "hp": 0,
-    "attack": 2,
-    "defence": 0,
-    "special_attack": 0,
-    "special_defence": 0,
-    "speed": 0
-  },
-  "height": 9,
-  "weight": 147,
-  "aspects": [],
-  "cannotDynamax": false
+  ]
 }

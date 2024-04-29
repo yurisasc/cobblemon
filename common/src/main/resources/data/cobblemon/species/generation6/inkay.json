@@ -18,14 +18,52 @@
   },
   "catchRate": 190,
   "maleRatio": 0.5,
-  "shoulderMountable": false,
-  "baseExperienceYield": 58,
+  "baseFriendship": 50,
   "experienceGroup": "medium_fast",
   "eggCycles": 20,
   "eggGroups": [
     "water_1",
     "water_2"
   ],
+  "height": 4,
+  "weight": 35,
+  "pokedex": [
+    "cobblemon.species.inkay.desc"
+  ],
+  "labels": [
+    "gen6"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 58,
+  "evYield": {
+    "hp": 0,
+    "attack": 1,
+    "defence": 0,
+    "special_attack": 0,
+    "special_defence": 0,
+    "speed": 0
+  },
+  "drops": {
+    "amount": 2,
+    "entries": [
+      {
+        "item": "minecraft:ink_sac",
+        "quantityRange": "0-1"
+      },
+      {
+        "item": "cobblemon:tanga_berry",
+        "percentage": 2.5
+      }
+    ]
+  },
+  "baseScale": 1,
+  "hitbox": {
+    "width": 1,
+    "height": 1,
+    "fixed": false
+  },
+  "cannotDynamax": false,
+  "shoulderMountable": false,
   "moves": [
     "1:constrict",
     "1:peck",
@@ -133,18 +171,10 @@
     "tutor:telekinesis",
     "tutor:topsyturvy"
   ],
-  "labels": [
-    "gen6"
-  ],
-  "pokedex": [
-    "cobblemon.species.inkay.desc"
-  ],
   "evolutions": [
     {
       "id": "inkay_malamar_dinnerbone",
-      "variant": "level_up",
       "result": "malamar",
-      "consumeHeldItem": false,
       "learnableMoves": [],
       "requirements": [
         {
@@ -155,13 +185,14 @@
           "variant": "properties",
           "target": "nickname=Dinnerbone"
         }
-      ]
+      ],
+      "trigger": {
+        "variant": "level_up"
+      }
     },
     {
       "id": "inkay_malamar_grumm",
-      "variant": "level_up",
       "result": "malamar",
-      "consumeHeldItem": false,
       "learnableMoves": [],
       "requirements": [
         {
@@ -172,39 +203,10 @@
           "variant": "properties",
           "target": "nickname=Grumm"
         }
-      ]
-    }
-  ],
-  "baseScale": 1,
-  "hitbox": {
-    "width": 1,
-    "height": 1,
-    "fixed": false
-  },
-  "baseFriendship": 50,
-  "evYield": {
-    "hp": 0,
-    "attack": 1,
-    "defence": 0,
-    "special_attack": 0,
-    "special_defence": 0,
-    "speed": 0
-  },
-  "height": 4,
-  "weight": 35,
-  "aspects": [],
-  "cannotDynamax": false,
-  "drops": {
-    "amount": 2,
-    "entries": [
-      {
-        "item": "minecraft:ink_sac",
-        "quantityRange": "0-1"
-      },
-      {
-        "item": "cobblemon:tanga_berry",
-        "percentage": 2.5
+      ],
+      "trigger": {
+        "variant": "level_up"
       }
-    ]
-  }
+    }
+  ]
 }

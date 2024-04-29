@@ -15,14 +15,39 @@
   },
   "catchRate": 225,
   "maleRatio": 0.5,
-  "shoulderMountable": false,
-  "baseExperienceYield": 66,
+  "baseFriendship": 50,
   "experienceGroup": "slow",
   "eggCycles": 15,
   "eggGroups": [
     "water_1",
     "water_3"
   ],
+  "height": 5,
+  "weight": 83,
+  "pokedex": [
+    "cobblemon.species.clauncher.desc"
+  ],
+  "labels": [
+    "gen6"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 66,
+  "evYield": {
+    "hp": 0,
+    "attack": 0,
+    "defence": 0,
+    "special_attack": 1,
+    "special_defence": 0,
+    "speed": 0
+  },
+  "baseScale": 1,
+  "hitbox": {
+    "width": 1,
+    "height": 1,
+    "fixed": false
+  },
+  "cannotDynamax": false,
+  "shoulderMountable": false,
   "moves": [
     "1:splash",
     "1:watergun",
@@ -111,44 +136,20 @@
     "tutor:terrainpulse",
     "tutor:waterpulse"
   ],
-  "labels": [
-    "gen6"
-  ],
-  "pokedex": [
-    "cobblemon.species.clauncher.desc"
-  ],
   "evolutions": [
     {
       "id": "clauncher_clawitzer",
-      "variant": "level_up",
       "result": "clawitzer",
-      "consumeHeldItem": false,
       "learnableMoves": [],
       "requirements": [
         {
           "variant": "level",
           "minLevel": 37
         }
-      ]
+      ],
+      "trigger": {
+        "variant": "level_up"
+      }
     }
-  ],
-  "baseScale": 1,
-  "hitbox": {
-    "width": 1,
-    "height": 1,
-    "fixed": false
-  },
-  "baseFriendship": 50,
-  "evYield": {
-    "hp": 0,
-    "attack": 0,
-    "defence": 0,
-    "special_attack": 1,
-    "special_defence": 0,
-    "speed": 0
-  },
-  "height": 5,
-  "weight": 83,
-  "aspects": [],
-  "cannotDynamax": false
+  ]
 }

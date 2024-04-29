@@ -15,50 +15,23 @@
   },
   "catchRate": 45,
   "maleRatio": -1,
-  "shoulderMountable": false,
-  "baseExperienceYield": 40,
+  "baseFriendship": 0,
   "experienceGroup": "slow",
   "eggCycles": 120,
   "eggGroups": [
     "undiscovered"
   ],
-  "moves": [
-    "1:splash",
-    "1:teleport",
-    "tutor:splash",
-    "tutor:teleport"
+  "height": 2,
+  "weight": 1,
+  "pokedex": [
+    "cobblemon.species.cosmog.desc"
   ],
   "labels": [
     "gen7",
     "legendary"
   ],
-  "pokedex": [
-    "cobblemon.species.cosmog.desc"
-  ],
-  "evolutions": [
-    {
-      "id": "cosmog_cosmoem",
-      "variant": "level_up",
-      "result": "cosmoem",
-      "consumeHeldItem": false,
-      "learnableMoves": [
-        "cosmicpower"
-      ],
-      "requirements": [
-        {
-          "variant": "level",
-          "minLevel": 43
-        }
-      ]
-    }
-  ],
-  "baseScale": 1,
-  "hitbox": {
-    "width": 1,
-    "height": 1,
-    "fixed": false
-  },
-  "baseFriendship": 0,
+  "aspects": [],
+  "baseExperienceYield": 40,
   "evYield": {
     "hp": 1,
     "attack": 0,
@@ -67,8 +40,36 @@
     "special_defence": 0,
     "speed": 0
   },
-  "height": 2,
-  "weight": 1,
-  "aspects": [],
-  "cannotDynamax": false
+  "baseScale": 1,
+  "hitbox": {
+    "width": 1,
+    "height": 1,
+    "fixed": false
+  },
+  "cannotDynamax": false,
+  "shoulderMountable": false,
+  "moves": [
+    "1:splash",
+    "1:teleport",
+    "tutor:splash",
+    "tutor:teleport"
+  ],
+  "evolutions": [
+    {
+      "id": "cosmog_cosmoem",
+      "result": "cosmoem",
+      "learnableMoves": [
+        "cosmicpower"
+      ],
+      "requirements": [
+        {
+          "variant": "level",
+          "minLevel": 43
+        }
+      ],
+      "trigger": {
+        "variant": "level_up"
+      }
+    }
+  ]
 }

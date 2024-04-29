@@ -18,14 +18,52 @@
   },
   "catchRate": 80,
   "maleRatio": 0.5,
-  "shoulderMountable": false,
-  "baseExperienceYield": 169,
+  "baseFriendship": 50,
   "experienceGroup": "medium_fast",
   "eggCycles": 20,
   "eggGroups": [
     "water_1",
     "water_2"
   ],
+  "height": 15,
+  "weight": 470,
+  "pokedex": [
+    "cobblemon.species.malamar.desc"
+  ],
+  "labels": [
+    "gen6"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 169,
+  "evYield": {
+    "hp": 0,
+    "attack": 2,
+    "defence": 0,
+    "special_attack": 0,
+    "special_defence": 0,
+    "speed": 0
+  },
+  "drops": {
+    "amount": 3,
+    "entries": [
+      {
+        "item": "minecraft:ink_sac",
+        "quantityRange": "0-2"
+      },
+      {
+        "item": "cobblemon:tanga_berry",
+        "percentage": 5.0
+      }
+    ]
+  },
+  "baseScale": 1,
+  "hitbox": {
+    "width": 1,
+    "height": 1,
+    "fixed": false
+  },
+  "cannotDynamax": false,
+  "shoulderMountable": false,
   "moves": [
     "1:constrict",
     "1:hypnosis",
@@ -136,44 +174,6 @@
     "tutor:telekinesis",
     "tutor:throatchop"
   ],
-  "labels": [
-    "gen6"
-  ],
-  "pokedex": [
-    "cobblemon.species.malamar.desc"
-  ],
   "preEvolution": "inkay",
-  "evolutions": [],
-  "baseScale": 1,
-  "hitbox": {
-    "width": 1,
-    "height": 1,
-    "fixed": false
-  },
-  "baseFriendship": 50,
-  "evYield": {
-    "hp": 0,
-    "attack": 2,
-    "defence": 0,
-    "special_attack": 0,
-    "special_defence": 0,
-    "speed": 0
-  },
-  "height": 15,
-  "weight": 470,
-  "aspects": [],
-  "cannotDynamax": false,
-  "drops": {
-    "amount": 3,
-    "entries": [
-      {
-        "item": "minecraft:ink_sac",
-        "quantityRange": "0-2"
-      },
-      {
-        "item": "cobblemon:tanga_berry",
-        "percentage": 5.0
-      }
-    ]
-  }
+  "evolutions": []
 }

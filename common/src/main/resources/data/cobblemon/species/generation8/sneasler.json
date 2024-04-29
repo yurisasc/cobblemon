@@ -19,9 +19,22 @@
   },
   "catchRate": 135,
   "maleRatio": 0.5,
-  "shoulderMountable": false,
-  "baseExperienceYield": 102,
   "baseFriendship": 0,
+  "experienceGroup": "medium_slow",
+  "eggCycles": 0,
+  "eggGroups": [
+    "field"
+  ],
+  "height": 13,
+  "weight": 430,
+  "pokedex": [
+    "cobblemon.species.sneasler.desc"
+  ],
+  "labels": [
+    "gen8"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 102,
   "evYield": {
     "hp": 0,
     "attack": 1,
@@ -30,11 +43,31 @@
     "special_defence": 0,
     "speed": 1
   },
-  "experienceGroup": "medium_slow",
-  "eggCycles": 0,
-  "eggGroups": [
-    "field"
-  ],
+  "drops": {
+    "amount": 3,
+    "entries": [
+      {
+        "item": "cobblemon:razor_claw",
+        "percentage": 5.0
+      },
+      {
+        "item": "cobblemon:poison_barb",
+        "percentage": 5.0
+      },
+      {
+        "item": "cobblemon:payapa_berry",
+        "percentage": 5.0
+      }
+    ]
+  },
+  "baseScale": 0.7,
+  "hitbox": {
+    "width": 0.95,
+    "height": 2.5,
+    "fixed": false
+  },
+  "cannotDynamax": false,
+  "shoulderMountable": false,
   "moves": [
     "1:fling",
     "1:leer",
@@ -108,39 +141,6 @@
     "tm:venoshock",
     "tm:xscissor"
   ],
-  "labels": [
-    "gen8"
-  ],
-  "pokedex": [
-    "cobblemon.species.sneasler.desc"
-  ],
-  "baseScale": 0.7,
-  "hitbox": {
-    "width": 0.95,
-    "height": 2.5,
-    "fixed": false
-  },
-  "height": 13,
-  "weight": 430,
   "preEvolution": "sneasel hisuian",
-  "evolutions": [],
-  "aspects": [],
-  "cannotDynamax": false,
-  "drops": {
-    "amount": 3,
-    "entries": [
-      {
-        "item": "cobblemon:razor_claw",
-        "percentage": 5.0
-      },
-      {
-        "item": "cobblemon:poison_barb",
-        "percentage": 5.0
-      },
-      {
-        "item": "cobblemon:payapa_berry",
-        "percentage": 5.0
-      }
-    ]
-  }
+  "evolutions": []
 }

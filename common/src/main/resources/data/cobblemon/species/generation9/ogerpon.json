@@ -15,8 +15,19 @@
   },
   "catchRate": 5,
   "maleRatio": 0,
-  "baseExperienceYield": 0,
   "baseFriendship": 0,
+  "experienceGroup": "slow",
+  "eggCycles": 50,
+  "eggGroups": [
+    "undiscovered"
+  ],
+  "height": 12,
+  "weight": 398,
+  "labels": [
+    "gen9"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 0,
   "evYield": {
     "hp": 0,
     "attack": 3,
@@ -25,11 +36,7 @@
     "special_defence": 0,
     "speed": 0
   },
-  "experienceGroup": "slow",
-  "eggCycles": 50,
-  "eggGroups": [
-    "undiscovered"
-  ],
+  "cannotDynamax": false,
   "moves": [
     "1:counter",
     "1:doublekick",
@@ -101,15 +108,8 @@
     "tutor:slam",
     "tutor:vinewhip"
   ],
-  "labels": [
-    "gen9"
-  ],
-  "aspects": [],
-  "height": 12,
-  "weight": 398,
   "evolutions": [],
-  "cannotDynamax": false,
-  "forms": [
+  "temporaryForms": [
     {
       "name": "Wellspring",
       "primaryType": "grass",
@@ -127,8 +127,21 @@
       },
       "catchRate": 5,
       "maleRatio": 0,
-      "baseExperienceYield": 0,
       "baseFriendship": 0,
+      "experienceGroup": "slow",
+      "eggCycles": 50,
+      "eggGroups": [
+        "undiscovered"
+      ],
+      "height": 12,
+      "weight": 398,
+      "labels": [
+        "gen9"
+      ],
+      "aspects": [
+        "wellspring"
+      ],
+      "baseExperienceYield": 0,
       "evYield": {
         "hp": 0,
         "attack": 3,
@@ -137,19 +150,6 @@
         "special_defence": 0,
         "speed": 0
       },
-      "experienceGroup": "slow",
-      "eggCycles": 50,
-      "eggGroups": [
-        "undiscovered"
-      ],
-      "labels": [
-        "gen9"
-      ],
-      "aspects": [
-        "wellspring"
-      ],
-      "height": 12,
-      "weight": 398,
       "cannotDynamax": false,
       "battleOnly": false
     },
@@ -170,8 +170,21 @@
       },
       "catchRate": 5,
       "maleRatio": 0,
-      "baseExperienceYield": 0,
       "baseFriendship": 0,
+      "experienceGroup": "slow",
+      "eggCycles": 50,
+      "eggGroups": [
+        "undiscovered"
+      ],
+      "height": 12,
+      "weight": 398,
+      "labels": [
+        "gen9"
+      ],
+      "aspects": [
+        "hearthflame"
+      ],
+      "baseExperienceYield": 0,
       "evYield": {
         "hp": 0,
         "attack": 3,
@@ -180,19 +193,6 @@
         "special_defence": 0,
         "speed": 0
       },
-      "experienceGroup": "slow",
-      "eggCycles": 50,
-      "eggGroups": [
-        "undiscovered"
-      ],
-      "labels": [
-        "gen9"
-      ],
-      "aspects": [
-        "hearthflame"
-      ],
-      "height": 12,
-      "weight": 398,
       "cannotDynamax": false,
       "battleOnly": false
     },
@@ -213,8 +213,21 @@
       },
       "catchRate": 5,
       "maleRatio": 0,
-      "baseExperienceYield": 0,
       "baseFriendship": 0,
+      "experienceGroup": "slow",
+      "eggCycles": 50,
+      "eggGroups": [
+        "undiscovered"
+      ],
+      "height": 12,
+      "weight": 398,
+      "labels": [
+        "gen9"
+      ],
+      "aspects": [
+        "cornerstone"
+      ],
+      "baseExperienceYield": 0,
       "evYield": {
         "hp": 0,
         "attack": 3,
@@ -223,22 +236,11 @@
         "special_defence": 0,
         "speed": 0
       },
-      "experienceGroup": "slow",
-      "eggCycles": 50,
-      "eggGroups": [
-        "undiscovered"
-      ],
-      "labels": [
-        "gen9"
-      ],
-      "aspects": [
-        "cornerstone"
-      ],
-      "height": 12,
-      "weight": 398,
       "cannotDynamax": false,
       "battleOnly": false
-    },
+    }
+  ],
+  "permanentForms": [
     {
       "name": "Teal-Tera",
       "primaryType": "grass",
@@ -255,8 +257,21 @@
       },
       "catchRate": 0,
       "maleRatio": 0,
-      "baseExperienceYield": 0,
       "baseFriendship": 0,
+      "experienceGroup": "slow",
+      "eggCycles": 0,
+      "eggGroups": [
+        "undiscovered"
+      ],
+      "height": 12,
+      "weight": 398,
+      "labels": [
+        "gen9"
+      ],
+      "aspects": [
+        "teal-tera"
+      ],
+      "baseExperienceYield": 0,
       "evYield": {
         "hp": 0,
         "attack": 0,
@@ -265,21 +280,7 @@
         "special_defence": 0,
         "speed": 0
       },
-      "experienceGroup": "slow",
-      "eggCycles": 0,
-      "eggGroups": [
-        "undiscovered"
-      ],
-      "labels": [
-        "gen9"
-      ],
-      "aspects": [
-        "teal-tera"
-      ],
-      "height": 12,
-      "weight": 398,
-      "cannotDynamax": false,
-      "battleOnly": true
+      "cannotDynamax": false
     },
     {
       "name": "Wellspring-Tera",
@@ -298,8 +299,21 @@
       },
       "catchRate": 0,
       "maleRatio": 0,
-      "baseExperienceYield": 0,
       "baseFriendship": 0,
+      "experienceGroup": "slow",
+      "eggCycles": 0,
+      "eggGroups": [
+        "undiscovered"
+      ],
+      "height": 12,
+      "weight": 398,
+      "labels": [
+        "gen9"
+      ],
+      "aspects": [
+        "wellspring-tera"
+      ],
+      "baseExperienceYield": 0,
       "evYield": {
         "hp": 0,
         "attack": 0,
@@ -308,21 +322,7 @@
         "special_defence": 0,
         "speed": 0
       },
-      "experienceGroup": "slow",
-      "eggCycles": 0,
-      "eggGroups": [
-        "undiscovered"
-      ],
-      "labels": [
-        "gen9"
-      ],
-      "aspects": [
-        "wellspring-tera"
-      ],
-      "height": 12,
-      "weight": 398,
-      "cannotDynamax": false,
-      "battleOnly": true
+      "cannotDynamax": false
     },
     {
       "name": "Hearthflame-Tera",
@@ -341,8 +341,21 @@
       },
       "catchRate": 0,
       "maleRatio": 0,
-      "baseExperienceYield": 0,
       "baseFriendship": 0,
+      "experienceGroup": "slow",
+      "eggCycles": 0,
+      "eggGroups": [
+        "undiscovered"
+      ],
+      "height": 12,
+      "weight": 398,
+      "labels": [
+        "gen9"
+      ],
+      "aspects": [
+        "hearthflame-tera"
+      ],
+      "baseExperienceYield": 0,
       "evYield": {
         "hp": 0,
         "attack": 0,
@@ -351,21 +364,7 @@
         "special_defence": 0,
         "speed": 0
       },
-      "experienceGroup": "slow",
-      "eggCycles": 0,
-      "eggGroups": [
-        "undiscovered"
-      ],
-      "labels": [
-        "gen9"
-      ],
-      "aspects": [
-        "hearthflame-tera"
-      ],
-      "height": 12,
-      "weight": 398,
-      "cannotDynamax": false,
-      "battleOnly": true
+      "cannotDynamax": false
     },
     {
       "name": "Cornerstone-Tera",
@@ -384,8 +383,21 @@
       },
       "catchRate": 0,
       "maleRatio": 0,
-      "baseExperienceYield": 0,
       "baseFriendship": 0,
+      "experienceGroup": "slow",
+      "eggCycles": 0,
+      "eggGroups": [
+        "undiscovered"
+      ],
+      "height": 12,
+      "weight": 398,
+      "labels": [
+        "gen9"
+      ],
+      "aspects": [
+        "cornerstone-tera"
+      ],
+      "baseExperienceYield": 0,
       "evYield": {
         "hp": 0,
         "attack": 0,
@@ -394,21 +406,7 @@
         "special_defence": 0,
         "speed": 0
       },
-      "experienceGroup": "slow",
-      "eggCycles": 0,
-      "eggGroups": [
-        "undiscovered"
-      ],
-      "labels": [
-        "gen9"
-      ],
-      "aspects": [
-        "cornerstone-tera"
-      ],
-      "height": 12,
-      "weight": 398,
-      "cannotDynamax": false,
-      "battleOnly": true
+      "cannotDynamax": false
     }
   ]
 }

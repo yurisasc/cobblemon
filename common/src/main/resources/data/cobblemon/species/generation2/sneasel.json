@@ -17,181 +17,36 @@
     "special_defence": 75,
     "speed": 115
   },
-  "features": [
-    "hisuian"
-  ],
   "catchRate": 60,
   "maleRatio": 0.5,
-  "shoulderMountable": false,
-  "forms": [
-    {
-      "name": "Hisui",
-      "primaryType": "fighting",
-      "secondaryType": "poison",
-      "abilities": [
-        "innerfocus",
-        "keeneye",
-        "h:pickpocket"
-      ],
-      "baseStats": {
-        "hp": 55,
-        "attack": 95,
-        "defence": 55,
-        "special_attack": 35,
-        "special_defence": 75,
-        "speed": 115
-      },
-      "catchRate": 60,
-      "maleRatio": 0.5,
-      "baseExperienceYield": 86,
-      "baseFriendship": 35,
-      "evYield": {
-        "hp": 0,
-        "attack": 0,
-        "defence": 0,
-        "special_attack": 0,
-        "special_defence": 0,
-        "speed": 1
-      },
-      "experienceGroup": "medium_slow",
-      "eggCycles": 20,
-      "eggGroups": [
-        "field"
-      ],
-      "drops": {
-        "amount": 3,
-        "entries": [
-          {
-            "item": "cobblemon:razor_claw",
-            "percentage": 2.5
-          },
-          {
-            "item": "cobblemon:poison_barb",
-            "percentage": 2.5
-          },
-          {
-            "item": "cobblemon:payapa_berry",
-            "percentage": 2.5
-          }
-        ]
-      },
-      "moves": [
-        "1:leer",
-        "1:rocksmash",
-        "1:scratch",
-        "6:taunt",
-        "12:quickattack",
-        "18:metalclaw",
-        "24:poisonjab",
-        "30:brickbreak",
-        "36:honeclaws",
-        "42:slash",
-        "48:agility",
-        "54:screech",
-        "60:closecombat",
-        "egg:counter",
-        "egg:doublehit",
-        "egg:fakeout",
-        "egg:feint",
-        "egg:nightslash",
-        "egg:quickguard",
-        "egg:switcheroo",
-        "tm:acidspray",
-        "tm:aerialace",
-        "tm:agility",
-        "tm:brickbreak",
-        "tm:bulkup",
-        "tm:calmmind",
-        "tm:closecombat",
-        "tm:coaching",
-        "tm:dig",
-        "tm:endure",
-        "tm:facade",
-        "tm:falseswipe",
-        "tm:fling",
-        "tm:focusblast",
-        "tm:focuspunch",
-        "tm:gigaimpact",
-        "tm:grassknot",
-        "tm:gunkshot",
-        "tm:lashout",
-        "tm:lowkick",
-        "tm:lowsweep",
-        "tm:metalclaw",
-        "tm:nastyplot",
-        "tm:poisonjab",
-        "tm:poisontail",
-        "tm:protect",
-        "tm:raindance",
-        "tm:rest",
-        "tm:reversal",
-        "tm:shadowball",
-        "tm:shadowclaw",
-        "tm:sleeptalk",
-        "tm:sludgebomb",
-        "tm:sludgewave",
-        "tm:spite",
-        "tm:substitute",
-        "tm:sunnyday",
-        "tm:swift",
-        "tm:swordsdance",
-        "tm:takedown",
-        "tm:taunt",
-        "tm:terablast",
-        "tm:thief",
-        "tm:throatchop",
-        "tm:toxic",
-        "tm:toxicspikes",
-        "tm:trailblaze",
-        "tm:vacuumwave",
-        "tm:venoshock",
-        "tm:xscissor"
-      ],
-      "labels": [
-        "gen8",
-        "hisui_regional"
-      ],
-      "aspects": [
-        "hisuian"
-      ],
-      "height": 9,
-      "weight": 270,
-      "evolutions": [
-        {
-          "id": "sneasel_sneasler",
-          "variant": "level_up",
-          "result": "sneasler",
-          "consumeHeldItem": true,
-          "permanent": true,
-          "learnableMoves": [],
-          "requirements": [
-            {
-              "variant": "held_item",
-              "itemCondition": "cobblemon:razor_claw"
-            },
-            {
-              "variant": "time_range",
-              "range": "day"
-            }
-          ]
-        }
-      ],
-      "baseScale": 0.8,
-      "hitbox": {
-        "width": 0.6,
-        "height": 1.25,
-        "fixed": false
-      },
-      "cannotDynamax": false,
-      "battleOnly": false
-    }
-  ],
-  "baseExperienceYield": 86,
+  "baseFriendship": 35,
   "experienceGroup": "medium_slow",
   "eggCycles": 20,
   "eggGroups": [
     "field"
   ],
+  "height": 9,
+  "weight": 280,
+  "pokedex": [
+    "cobblemon.species.sneasel.desc"
+  ],
+  "labels": [
+    "gen2",
+    "johto_regional"
+  ],
+  "features": [
+    "hisuian"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 86,
+  "evYield": {
+    "hp": 0,
+    "attack": 0,
+    "defence": 0,
+    "special_attack": 0,
+    "special_defence": 0,
+    "speed": 1
+  },
   "drops": {
     "amount": 3,
     "entries": [
@@ -209,6 +64,14 @@
       }
     ]
   },
+  "baseScale": 0.8,
+  "hitbox": {
+    "width": 0.6,
+    "height": 1.25,
+    "fixed": false
+  },
+  "cannotDynamax": false,
+  "shoulderMountable": false,
   "moves": [
     "1:leer",
     "1:scratch",
@@ -397,19 +260,10 @@
     "tutor:toxic",
     "tutor:tripleaxel"
   ],
-  "labels": [
-    "gen2",
-    "johto_regional"
-  ],
-  "pokedex": [
-    "cobblemon.species.sneasel.desc"
-  ],
   "evolutions": [
     {
       "id": "sneasel_weavile",
-      "variant": "level_up",
       "result": "weavile",
-      "consumeHeldItem": true,
       "permanent": true,
       "learnableMoves": [],
       "requirements": [
@@ -421,26 +275,173 @@
           "variant": "time_range",
           "range": "night"
         }
-      ]
+      ],
+      "trigger": {
+        "variant": "level_up"
+      }
     }
   ],
-  "baseScale": 0.8,
-  "hitbox": {
-    "width": 0.6,
-    "height": 1.25,
-    "fixed": false
-  },
-  "baseFriendship": 35,
-  "evYield": {
-    "hp": 0,
-    "attack": 0,
-    "defence": 0,
-    "special_attack": 0,
-    "special_defence": 0,
-    "speed": 1
-  },
-  "height": 9,
-  "weight": 280,
-  "aspects": [],
-  "cannotDynamax": false
+  "permanentForms": [
+    {
+      "name": "Hisui",
+      "primaryType": "fighting",
+      "secondaryType": "poison",
+      "abilities": [
+        "innerfocus",
+        "keeneye",
+        "h:pickpocket"
+      ],
+      "baseStats": {
+        "hp": 55,
+        "attack": 95,
+        "defence": 55,
+        "special_attack": 35,
+        "special_defence": 75,
+        "speed": 115
+      },
+      "catchRate": 60,
+      "maleRatio": 0.5,
+      "baseFriendship": 35,
+      "experienceGroup": "medium_slow",
+      "eggCycles": 20,
+      "eggGroups": [
+        "field"
+      ],
+      "height": 9,
+      "weight": 270,
+      "labels": [
+        "gen8",
+        "hisui_regional"
+      ],
+      "aspects": [
+        "hisuian"
+      ],
+      "baseExperienceYield": 86,
+      "evYield": {
+        "hp": 0,
+        "attack": 0,
+        "defence": 0,
+        "special_attack": 0,
+        "special_defence": 0,
+        "speed": 1
+      },
+      "drops": {
+        "amount": 3,
+        "entries": [
+          {
+            "item": "cobblemon:razor_claw",
+            "percentage": 2.5
+          },
+          {
+            "item": "cobblemon:poison_barb",
+            "percentage": 2.5
+          },
+          {
+            "item": "cobblemon:payapa_berry",
+            "percentage": 2.5
+          }
+        ]
+      },
+      "baseScale": 0.8,
+      "hitbox": {
+        "width": 0.6,
+        "height": 1.25,
+        "fixed": false
+      },
+      "cannotDynamax": false,
+      "moves": [
+        "1:leer",
+        "1:rocksmash",
+        "1:scratch",
+        "6:taunt",
+        "12:quickattack",
+        "18:metalclaw",
+        "24:poisonjab",
+        "30:brickbreak",
+        "36:honeclaws",
+        "42:slash",
+        "48:agility",
+        "54:screech",
+        "60:closecombat",
+        "egg:counter",
+        "egg:doublehit",
+        "egg:fakeout",
+        "egg:feint",
+        "egg:nightslash",
+        "egg:quickguard",
+        "egg:switcheroo",
+        "tm:acidspray",
+        "tm:aerialace",
+        "tm:agility",
+        "tm:brickbreak",
+        "tm:bulkup",
+        "tm:calmmind",
+        "tm:closecombat",
+        "tm:coaching",
+        "tm:dig",
+        "tm:endure",
+        "tm:facade",
+        "tm:falseswipe",
+        "tm:fling",
+        "tm:focusblast",
+        "tm:focuspunch",
+        "tm:gigaimpact",
+        "tm:grassknot",
+        "tm:gunkshot",
+        "tm:lashout",
+        "tm:lowkick",
+        "tm:lowsweep",
+        "tm:metalclaw",
+        "tm:nastyplot",
+        "tm:poisonjab",
+        "tm:poisontail",
+        "tm:protect",
+        "tm:raindance",
+        "tm:rest",
+        "tm:reversal",
+        "tm:shadowball",
+        "tm:shadowclaw",
+        "tm:sleeptalk",
+        "tm:sludgebomb",
+        "tm:sludgewave",
+        "tm:spite",
+        "tm:substitute",
+        "tm:sunnyday",
+        "tm:swift",
+        "tm:swordsdance",
+        "tm:takedown",
+        "tm:taunt",
+        "tm:terablast",
+        "tm:thief",
+        "tm:throatchop",
+        "tm:toxic",
+        "tm:toxicspikes",
+        "tm:trailblaze",
+        "tm:vacuumwave",
+        "tm:venoshock",
+        "tm:xscissor"
+      ],
+      "evolutions": [
+        {
+          "id": "sneasel_sneasler",
+          "result": "sneasler",
+          "permanent": true,
+          "learnableMoves": [],
+          "requirements": [
+            {
+              "variant": "held_item",
+              "itemCondition": "cobblemon:razor_claw"
+            },
+            {
+              "variant": "time_range",
+              "range": "day"
+            }
+          ],
+          "trigger": {
+            "variant": "level_up"
+          }
+        }
+      ]
+    }
+  ]
 }

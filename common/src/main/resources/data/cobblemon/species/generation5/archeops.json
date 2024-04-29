@@ -7,15 +7,6 @@
   "abilities": [
     "defeatist"
   ],
-  "drops": {
-    "amount": 3,
-    "entries": [
-      {
-        "item": "minecraft:feather",
-        "quantityRange": "0-3"
-      }
-    ]
-  },
   "baseStats": {
     "hp": 75,
     "attack": 140,
@@ -26,14 +17,48 @@
   },
   "catchRate": 45,
   "maleRatio": 0.875,
-  "shoulderMountable": false,
-  "baseExperienceYield": 177,
+  "baseFriendship": 50,
   "experienceGroup": "medium_fast",
   "eggCycles": 30,
   "eggGroups": [
     "flying",
     "water_3"
   ],
+  "height": 14,
+  "weight": 320,
+  "pokedex": [
+    "cobblemon.species.archeops.desc"
+  ],
+  "labels": [
+    "gen5"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 177,
+  "evYield": {
+    "hp": 0,
+    "attack": 2,
+    "defence": 0,
+    "special_attack": 0,
+    "special_defence": 0,
+    "speed": 0
+  },
+  "drops": {
+    "amount": 3,
+    "entries": [
+      {
+        "item": "minecraft:feather",
+        "quantityRange": "0-3"
+      }
+    ]
+  },
+  "baseScale": 0.7,
+  "hitbox": {
+    "width": 1.2,
+    "height": 2,
+    "fixed": false
+  },
+  "cannotDynamax": false,
+  "shoulderMountable": false,
   "behaviour": {
     "moving": {
       "fly": {
@@ -151,31 +176,6 @@
     "tutor:uproar",
     "tutor:zenheadbutt"
   ],
-  "labels": [
-    "gen5"
-  ],
-  "pokedex": [
-    "cobblemon.species.archeops.desc"
-  ],
   "preEvolution": "archen",
-  "evolutions": [],
-  "baseScale": 0.7,
-  "hitbox": {
-    "width": 1.2,
-    "height": 2,
-    "fixed": false
-  },
-  "baseFriendship": 50,
-  "evYield": {
-    "hp": 0,
-    "attack": 2,
-    "defence": 0,
-    "special_attack": 0,
-    "special_defence": 0,
-    "speed": 0
-  },
-  "height": 14,
-  "weight": 320,
-  "aspects": [],
-  "cannotDynamax": false
+  "evolutions": []
 }

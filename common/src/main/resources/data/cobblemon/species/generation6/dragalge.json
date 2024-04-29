@@ -9,6 +9,41 @@
     "poisontouch",
     "h:adaptability"
   ],
+  "baseStats": {
+    "hp": 65,
+    "attack": 75,
+    "defence": 90,
+    "special_attack": 97,
+    "special_defence": 123,
+    "speed": 44
+  },
+  "catchRate": 55,
+  "maleRatio": 0.5,
+  "baseFriendship": 50,
+  "experienceGroup": "medium_fast",
+  "eggCycles": 20,
+  "eggGroups": [
+    "water_1",
+    "dragon"
+  ],
+  "height": 18,
+  "weight": 815,
+  "pokedex": [
+    "cobblemon.species.dragalge.desc"
+  ],
+  "labels": [
+    "gen6"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 173,
+  "evYield": {
+    "hp": 0,
+    "attack": 0,
+    "defence": 0,
+    "special_attack": 0,
+    "special_defence": 2,
+    "speed": 0
+  },
   "drops": {
     "amount": 3,
     "entries": [
@@ -22,24 +57,14 @@
       }
     ]
   },
-  "baseStats": {
-    "hp": 65,
-    "attack": 75,
-    "defence": 90,
-    "special_attack": 97,
-    "special_defence": 123,
-    "speed": 44
+  "baseScale": 1,
+  "hitbox": {
+    "width": 1,
+    "height": 2.2,
+    "fixed": false
   },
-  "catchRate": 55,
-  "maleRatio": 0.5,
+  "cannotDynamax": false,
   "shoulderMountable": false,
-  "baseExperienceYield": 173,
-  "experienceGroup": "medium_fast",
-  "eggCycles": 20,
-  "eggGroups": [
-    "water_1",
-    "dragon"
-  ],
   "behaviour": {
     "moving": {
       "walk": {
@@ -147,31 +172,6 @@
     "tutor:snore",
     "tutor:waterpulse"
   ],
-  "labels": [
-    "gen6"
-  ],
-  "pokedex": [
-    "cobblemon.species.dragalge.desc"
-  ],
   "preEvolution": "skrelp",
-  "evolutions": [],
-  "baseScale": 1,
-  "hitbox": {
-    "width": 1,
-    "height": 2.2,
-    "fixed": false
-  },
-  "baseFriendship": 50,
-  "evYield": {
-    "hp": 0,
-    "attack": 0,
-    "defence": 0,
-    "special_attack": 0,
-    "special_defence": 2,
-    "speed": 0
-  },
-  "height": 18,
-  "weight": 815,
-  "aspects": [],
-  "cannotDynamax": false
+  "evolutions": []
 }

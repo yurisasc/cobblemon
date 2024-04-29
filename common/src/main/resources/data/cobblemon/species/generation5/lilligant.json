@@ -8,6 +8,44 @@
     "owntempo",
     "h:leafguard"
   ],
+  "baseStats": {
+    "hp": 70,
+    "attack": 60,
+    "defence": 75,
+    "special_attack": 110,
+    "special_defence": 75,
+    "speed": 90
+  },
+  "catchRate": 75,
+  "maleRatio": 0,
+  "baseFriendship": 50,
+  "experienceGroup": "medium_fast",
+  "eggCycles": 20,
+  "eggGroups": [
+    "grass"
+  ],
+  "height": 11,
+  "weight": 163,
+  "pokedex": [
+    "cobblemon.species.lilligant.desc"
+  ],
+  "labels": [
+    "gen5",
+    "unova_regional"
+  ],
+  "features": [
+    "hisuian"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 168,
+  "evYield": {
+    "hp": 0,
+    "attack": 0,
+    "defence": 0,
+    "special_attack": 2,
+    "special_defence": 0,
+    "speed": 0
+  },
   "drops": {
     "amount": 3,
     "entries": [
@@ -25,156 +63,14 @@
       }
     ]
   },
-  "baseStats": {
-    "hp": 70,
-    "attack": 60,
-    "defence": 75,
-    "special_attack": 110,
-    "special_defence": 75,
-    "speed": 90
+  "baseScale": 0.6,
+  "hitbox": {
+    "width": 1.1,
+    "height": 2.3,
+    "fixed": false
   },
-  "features": [
-    "hisuian"
-  ],
-  "catchRate": 75,
-  "maleRatio": 0,
+  "cannotDynamax": false,
   "shoulderMountable": false,
-  "forms": [
-    {
-      "name": "Hisui",
-      "primaryType": "grass",
-      "secondaryType": "fighting",
-      "abilities": [
-        "chlorophyll",
-        "hustle",
-        "h:leafguard"
-      ],
-      "baseStats": {
-        "hp": 70,
-        "attack": 105,
-        "defence": 75,
-        "special_attack": 50,
-        "special_defence": 75,
-        "speed": 105
-      },
-      "catchRate": 75,
-      "maleRatio": 0,
-      "baseExperienceYield": 168,
-      "baseFriendship": 50,
-      "evYield": {
-        "hp": 0,
-        "attack": 0,
-        "defence": 0,
-        "special_attack": 2,
-        "special_defence": 0,
-        "speed": 0
-      },
-      "experienceGroup": "medium_fast",
-      "eggCycles": 20,
-      "eggGroups": [
-        "grass"
-      ],
-      "moves": [
-        "1:absorb",
-        "1:afteryou",
-        "1:defog",
-        "1:energyball",
-        "1:entrainment",
-        "1:gigadrain",
-        "1:growth",
-        "1:helpinghand",
-        "1:leafblade",
-        "1:leafstorm",
-        "1:leechseed",
-        "1:magicalleaf",
-        "1:megadrain",
-        "1:megakick",
-        "1:petalblizzard",
-        "1:sleeppowder",
-        "1:solarblade",
-        "1:stunspore",
-        "1:sunnyday",
-        "1:synthesis",
-        "1:teeterdance",
-        "5:axekick",
-        "tm:acrobatics",
-        "tm:aerialace",
-        "tm:airslash",
-        "tm:brickbreak",
-        "tm:bulletseed",
-        "tm:charm",
-        "tm:closecombat",
-        "tm:encore",
-        "tm:endure",
-        "tm:energyball",
-        "tm:facade",
-        "tm:gigadrain",
-        "tm:gigaimpact",
-        "tm:grassknot",
-        "tm:grassyterrain",
-        "tm:helpinghand",
-        "tm:hurricane",
-        "tm:hyperbeam",
-        "tm:icespinner",
-        "tm:leafstorm",
-        "tm:lowkick",
-        "tm:lowsweep",
-        "tm:magicalleaf",
-        "tm:metronome",
-        "tm:poisonjab",
-        "tm:pollenpuff",
-        "tm:protect",
-        "tm:raindance",
-        "tm:rest",
-        "tm:seedbomb",
-        "tm:sleeptalk",
-        "tm:solarbeam",
-        "tm:substitute",
-        "tm:sunnyday",
-        "tm:swordsdance",
-        "tm:takedown",
-        "tm:terablast",
-        "tm:trailblaze"
-      ],
-      "labels": [
-        "gen8",
-        "hisui_regional"
-      ],
-      "aspects": [
-        "hisuian"
-      ],
-      "baseScale": 0.8,
-      "hitbox": {
-        "width": 0.5,
-        "height": 2.1,
-        "fixed": false
-      },
-      "height": 12,
-      "weight": 192,
-      "preEvolution": "petilil region_bias=hisui",
-      "cannotDynamax": false,
-      "battleOnly": false,
-      "drops": {
-        "amount": 2,
-        "entries": [
-          {
-            "item": "cobblemon:revival_herb",
-            "percentage": 5.0
-          },
-          {
-            "item": "cobblemon:coba_berry",
-            "percentage": 5.0
-          }
-        ]
-      }
-    }
-  ],
-  "baseExperienceYield": 168,
-  "experienceGroup": "medium_fast",
-  "eggCycles": 20,
-  "eggGroups": [
-    "grass"
-  ],
   "moves": [
     "1:absorb",
     "1:afteryou",
@@ -255,32 +151,135 @@
     "tutor:synthesis",
     "tutor:worryseed"
   ],
-  "labels": [
-    "gen5",
-    "unova_regional"
-  ],
-  "pokedex": [
-    "cobblemon.species.lilligant.desc"
-  ],
   "preEvolution": "petilil",
   "evolutions": [],
-  "baseScale": 0.6,
-  "hitbox": {
-    "width": 1.1,
-    "height": 2.3,
-    "fixed": false
-  },
-  "baseFriendship": 50,
-  "evYield": {
-    "hp": 0,
-    "attack": 0,
-    "defence": 0,
-    "special_attack": 2,
-    "special_defence": 0,
-    "speed": 0
-  },
-  "height": 11,
-  "weight": 163,
-  "aspects": [],
-  "cannotDynamax": false
+  "permanentForms": [
+    {
+      "name": "Hisui",
+      "primaryType": "grass",
+      "secondaryType": "fighting",
+      "abilities": [
+        "chlorophyll",
+        "hustle",
+        "h:leafguard"
+      ],
+      "baseStats": {
+        "hp": 70,
+        "attack": 105,
+        "defence": 75,
+        "special_attack": 50,
+        "special_defence": 75,
+        "speed": 105
+      },
+      "catchRate": 75,
+      "maleRatio": 0,
+      "baseFriendship": 50,
+      "experienceGroup": "medium_fast",
+      "eggCycles": 20,
+      "eggGroups": [
+        "grass"
+      ],
+      "height": 12,
+      "weight": 192,
+      "labels": [
+        "gen8",
+        "hisui_regional"
+      ],
+      "aspects": [
+        "hisuian"
+      ],
+      "baseExperienceYield": 168,
+      "evYield": {
+        "hp": 0,
+        "attack": 0,
+        "defence": 0,
+        "special_attack": 2,
+        "special_defence": 0,
+        "speed": 0
+      },
+      "drops": {
+        "amount": 2,
+        "entries": [
+          {
+            "item": "cobblemon:revival_herb",
+            "percentage": 5.0
+          },
+          {
+            "item": "cobblemon:coba_berry",
+            "percentage": 5.0
+          }
+        ]
+      },
+      "baseScale": 0.8,
+      "hitbox": {
+        "width": 0.5,
+        "height": 2.1,
+        "fixed": false
+      },
+      "cannotDynamax": false,
+      "moves": [
+        "1:absorb",
+        "1:afteryou",
+        "1:defog",
+        "1:energyball",
+        "1:entrainment",
+        "1:gigadrain",
+        "1:growth",
+        "1:helpinghand",
+        "1:leafblade",
+        "1:leafstorm",
+        "1:leechseed",
+        "1:magicalleaf",
+        "1:megadrain",
+        "1:megakick",
+        "1:petalblizzard",
+        "1:sleeppowder",
+        "1:solarblade",
+        "1:stunspore",
+        "1:sunnyday",
+        "1:synthesis",
+        "1:teeterdance",
+        "5:axekick",
+        "tm:acrobatics",
+        "tm:aerialace",
+        "tm:airslash",
+        "tm:brickbreak",
+        "tm:bulletseed",
+        "tm:charm",
+        "tm:closecombat",
+        "tm:encore",
+        "tm:endure",
+        "tm:energyball",
+        "tm:facade",
+        "tm:gigadrain",
+        "tm:gigaimpact",
+        "tm:grassknot",
+        "tm:grassyterrain",
+        "tm:helpinghand",
+        "tm:hurricane",
+        "tm:hyperbeam",
+        "tm:icespinner",
+        "tm:leafstorm",
+        "tm:lowkick",
+        "tm:lowsweep",
+        "tm:magicalleaf",
+        "tm:metronome",
+        "tm:poisonjab",
+        "tm:pollenpuff",
+        "tm:protect",
+        "tm:raindance",
+        "tm:rest",
+        "tm:seedbomb",
+        "tm:sleeptalk",
+        "tm:solarbeam",
+        "tm:substitute",
+        "tm:sunnyday",
+        "tm:swordsdance",
+        "tm:takedown",
+        "tm:terablast",
+        "tm:trailblaze"
+      ],
+      "preEvolution": "petilil region_bias=hisui"
+    }
+  ]
 }

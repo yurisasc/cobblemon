@@ -18,8 +18,20 @@
   },
   "catchRate": 45,
   "maleRatio": 0.5,
-  "baseExperienceYield": 0,
   "baseFriendship": 0,
+  "experienceGroup": "slow",
+  "eggCycles": 20,
+  "eggGroups": [
+    "grass",
+    "dragon"
+  ],
+  "height": 4,
+  "weight": 44,
+  "labels": [
+    "gen9"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 0,
   "evYield": {
     "hp": 0,
     "attack": 0,
@@ -28,12 +40,7 @@
     "special_defence": 0,
     "speed": 0
   },
-  "experienceGroup": "slow",
-  "eggCycles": 20,
-  "eggGroups": [
-    "grass",
-    "dragon"
-  ],
+  "cannotDynamax": false,
   "moves": [
     "1:astonish",
     "1:infestation",
@@ -82,13 +89,6 @@
     "tm:takedown",
     "tm:terablast"
   ],
-  "labels": [
-    "gen9"
-  ],
-  "aspects": [],
-  "height": 4,
-  "weight": 44,
   "preEvolution": "applin",
-  "evolutions": [],
-  "cannotDynamax": false
+  "evolutions": []
 }

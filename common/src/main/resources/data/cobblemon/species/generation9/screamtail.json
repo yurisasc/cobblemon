@@ -16,8 +16,23 @@
   },
   "catchRate": 50,
   "maleRatio": -1,
-  "baseExperienceYield": 285,
   "baseFriendship": 0,
+  "experienceGroup": "slow",
+  "eggCycles": 50,
+  "eggGroups": [
+    "undiscovered"
+  ],
+  "height": 12,
+  "weight": 80,
+  "pokedex": [
+    "cobblemon.species.screamtail.desc"
+  ],
+  "labels": [
+    "gen9",
+    "paradox"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 285,
   "evYield": {
     "hp": 3,
     "attack": 0,
@@ -26,11 +41,7 @@
     "special_defence": 0,
     "speed": 0
   },
-  "experienceGroup": "slow",
-  "eggCycles": 50,
-  "eggGroups": [
-    "undiscovered"
-  ],
+  "cannotDynamax": false,
   "moves": [
     "1:disable",
     "1:pound",
@@ -117,16 +128,5 @@
     "tutor:playrough",
     "tutor:rest"
   ],
-  "labels": [
-    "gen9",
-    "paradox"
-  ],
-  "aspects": [],
-  "height": 12,
-  "weight": 80,
-  "evolutions": [],
-  "cannotDynamax": false,
-  "pokedex": [
-    "cobblemon.species.screamtail.desc"
-  ]
+  "evolutions": []
 }

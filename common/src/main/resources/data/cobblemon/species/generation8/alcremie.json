@@ -17,68 +17,30 @@
   },
   "catchRate": 100,
   "maleRatio": 0,
-  "shoulderMountable": true,
-  "forms": [
-    {
-      "name": "Gmax",
-      "primaryType": "fairy",
-      "abilities": [
-        "sweetveil",
-        "h:aromaveil"
-      ],
-      "baseStats": {
-        "hp": 65,
-        "attack": 60,
-        "defence": 75,
-        "special_attack": 110,
-        "special_defence": 121,
-        "speed": 64
-      },
-      "catchRate": 100,
-      "maleRatio": 0,
-      "baseExperienceYield": 173,
-      "baseFriendship": 50,
-      "evYield": {
-        "hp": 0,
-        "attack": 0,
-        "defence": 0,
-        "special_attack": 0,
-        "special_defence": 2,
-        "speed": 0
-      },
-      "experienceGroup": "medium_fast",
-      "eggCycles": 20,
-      "eggGroups": [
-        "fairy",
-        "amorphous"
-      ],
-      "labels": [
-        "gen8",
-        "gmax"
-      ],
-      "aspects": [
-        "gmax"
-      ],
-      "height": 300,
-      "weight": 0,
-      "cannotDynamax": false,
-      "battleOnly": false
-    }
-  ],
-  "baseExperienceYield": 173,
+  "baseFriendship": 50,
   "experienceGroup": "medium_fast",
   "eggCycles": 20,
   "eggGroups": [
     "fairy",
     "amorphous"
   ],
-  "behaviour": {
-    "resting": {
-      "canSleep": true,
-      "willSleepOnBed": false,
-      "depth": "normal",
-      "light": "0-4"
-    }
+  "height": 3,
+  "weight": 5,
+  "pokedex": [
+    "cobblemon.species.alcremie.desc"
+  ],
+  "labels": [
+    "gen8"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 173,
+  "evYield": {
+    "hp": 0,
+    "attack": 0,
+    "defence": 0,
+    "special_attack": 0,
+    "special_defence": 2,
+    "speed": 0
   },
   "drops": {
     "amount": 3,
@@ -92,6 +54,22 @@
         "percentage": 5.0
       }
     ]
+  },
+  "baseScale": 0.5,
+  "hitbox": {
+    "width": 1.2,
+    "height": 1.7,
+    "fixed": false
+  },
+  "cannotDynamax": false,
+  "shoulderMountable": true,
+  "behaviour": {
+    "resting": {
+      "canSleep": true,
+      "willSleepOnBed": false,
+      "depth": "normal",
+      "light": "0-4"
+    }
   },
   "moves": [
     "1:aromaticmist",
@@ -153,31 +131,53 @@
     "tm:wonderroom",
     "tutor:mistyexplosion"
   ],
-  "labels": [
-    "gen8"
-  ],
-  "pokedex": [
-    "cobblemon.species.alcremie.desc"
-  ],
   "preEvolution": "milcery",
   "evolutions": [],
-  "baseScale": 0.5,
-  "hitbox": {
-    "width": 1.2,
-    "height": 1.7,
-    "fixed": false
-  },
-  "baseFriendship": 50,
-  "evYield": {
-    "hp": 0,
-    "attack": 0,
-    "defence": 0,
-    "special_attack": 0,
-    "special_defence": 2,
-    "speed": 0
-  },
-  "height": 3,
-  "weight": 5,
-  "aspects": [],
-  "cannotDynamax": false
+  "temporaryForms": [
+    {
+      "name": "Gmax",
+      "primaryType": "fairy",
+      "abilities": [
+        "sweetveil",
+        "h:aromaveil"
+      ],
+      "baseStats": {
+        "hp": 65,
+        "attack": 60,
+        "defence": 75,
+        "special_attack": 110,
+        "special_defence": 121,
+        "speed": 64
+      },
+      "catchRate": 100,
+      "maleRatio": 0,
+      "baseFriendship": 50,
+      "experienceGroup": "medium_fast",
+      "eggCycles": 20,
+      "eggGroups": [
+        "fairy",
+        "amorphous"
+      ],
+      "height": 300,
+      "weight": 0,
+      "labels": [
+        "gen8",
+        "gmax"
+      ],
+      "aspects": [
+        "gmax"
+      ],
+      "baseExperienceYield": 173,
+      "evYield": {
+        "hp": 0,
+        "attack": 0,
+        "defence": 0,
+        "special_attack": 0,
+        "special_defence": 2,
+        "speed": 0
+      },
+      "cannotDynamax": false,
+      "battleOnly": false
+    }
+  ]
 }

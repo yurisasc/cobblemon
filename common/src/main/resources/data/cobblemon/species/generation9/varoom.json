@@ -8,6 +8,40 @@
     "overcoat",
     "h:slowstart"
   ],
+  "baseStats": {
+    "hp": 45,
+    "attack": 70,
+    "defence": 63,
+    "special_attack": 30,
+    "special_defence": 45,
+    "speed": 47
+  },
+  "catchRate": 190,
+  "maleRatio": 0.5,
+  "baseFriendship": 50,
+  "experienceGroup": "medium_fast",
+  "eggCycles": 20,
+  "eggGroups": [
+    "mineral"
+  ],
+  "height": 10,
+  "weight": 350,
+  "pokedex": [
+    "cobblemon.species.varoom.desc"
+  ],
+  "labels": [
+    "gen9"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 60,
+  "evYield": {
+    "hp": 0,
+    "attack": 1,
+    "defence": 0,
+    "special_attack": 0,
+    "special_defence": 0,
+    "speed": 0
+  },
   "drops": {
     "amount": 3,
     "entries": [
@@ -25,14 +59,13 @@
       }
     ]
   },
-  "baseStats": {
-    "hp": 45,
-    "attack": 70,
-    "defence": 63,
-    "special_attack": 30,
-    "special_defence": 45,
-    "speed": 47
+  "baseScale": 0.9,
+  "hitbox": {
+    "width": 0.75,
+    "height": 1.0,
+    "fixed": false
   },
+  "cannotDynamax": false,
   "behaviour": {
     "resting": {
       "canSleep": true,
@@ -41,23 +74,6 @@
       "light": "0-4"
     }
   },
-  "catchRate": 190,
-  "maleRatio": 0.5,
-  "baseExperienceYield": 60,
-  "baseFriendship": 50,
-  "evYield": {
-    "hp": 0,
-    "attack": 1,
-    "defence": 0,
-    "special_attack": 0,
-    "special_defence": 0,
-    "speed": 0
-  },
-  "experienceGroup": "medium_fast",
-  "eggCycles": 20,
-  "eggGroups": [
-    "mineral"
-  ],
   "moves": [
     "1:lick",
     "1:poisongas",
@@ -106,18 +122,10 @@
     "tm:venoshock",
     "tm:zenheadbutt"
   ],
-  "labels": [
-    "gen9"
-  ],
-  "aspects": [],
-  "height": 10,
-  "weight": 350,
   "evolutions": [
     {
       "id": "varoom_revavroom",
-      "variant": "level_up",
       "result": "revavroom",
-      "consumeHeldItem": false,
       "learnableMoves": [
         "shiftgear"
       ],
@@ -126,17 +134,10 @@
           "variant": "level",
           "minLevel": 40
         }
-      ]
+      ],
+      "trigger": {
+        "variant": "level_up"
+      }
     }
-  ],
-  "baseScale": 0.9,
-  "hitbox": {
-    "width": 0.75,
-    "height": 1.0,
-    "fixed": false
-  },
-  "cannotDynamax": false,
-  "pokedex": [
-    "cobblemon.species.varoom.desc"
   ]
 }

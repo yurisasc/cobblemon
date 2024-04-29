@@ -6,6 +6,41 @@
   "abilities": [
     "mummy"
   ],
+  "baseStats": {
+    "hp": 58,
+    "attack": 50,
+    "defence": 145,
+    "special_attack": 95,
+    "special_defence": 105,
+    "speed": 30
+  },
+  "catchRate": 90,
+  "maleRatio": 0.5,
+  "baseFriendship": 50,
+  "experienceGroup": "medium_fast",
+  "eggCycles": 25,
+  "eggGroups": [
+    "mineral",
+    "amorphous"
+  ],
+  "height": 17,
+  "weight": 765,
+  "pokedex": [
+    "cobblemon.species.cofagrigus.desc"
+  ],
+  "labels": [
+    "gen5"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 169,
+  "evYield": {
+    "hp": 0,
+    "attack": 0,
+    "defence": 2,
+    "special_attack": 0,
+    "special_defence": 0,
+    "speed": 0
+  },
   "drops": {
     "amount": 1,
     "entries": [
@@ -15,14 +50,14 @@
       }
     ]
   },
-  "baseStats": {
-    "hp": 58,
-    "attack": 50,
-    "defence": 145,
-    "special_attack": 95,
-    "special_defence": 105,
-    "speed": 30
+  "baseScale": 0.8,
+  "hitbox": {
+    "width": 1.5,
+    "height": 3.3,
+    "fixed": false
   },
+  "cannotDynamax": false,
+  "shoulderMountable": false,
   "behaviour": {
     "resting": {
       "canSleep": true,
@@ -36,16 +71,6 @@
       }
     }
   },
-  "catchRate": 90,
-  "maleRatio": 0.5,
-  "shoulderMountable": false,
-  "baseExperienceYield": 169,
-  "experienceGroup": "medium_fast",
-  "eggCycles": 25,
-  "eggGroups": [
-    "mineral",
-    "amorphous"
-  ],
   "moves": [
     "1:astonish",
     "1:haze",
@@ -144,31 +169,6 @@
     "tutor:wonderroom",
     "tutor:zenheadbutt"
   ],
-  "labels": [
-    "gen5"
-  ],
-  "pokedex": [
-    "cobblemon.species.cofagrigus.desc"
-  ],
   "preEvolution": "yamask",
-  "evolutions": [],
-  "baseScale": 0.8,
-  "hitbox": {
-    "width": 1.5,
-    "height": 3.3,
-    "fixed": false
-  },
-  "baseFriendship": 50,
-  "evYield": {
-    "hp": 0,
-    "attack": 0,
-    "defence": 2,
-    "special_attack": 0,
-    "special_defence": 0,
-    "speed": 0
-  },
-  "height": 17,
-  "weight": 765,
-  "aspects": [],
-  "cannotDynamax": false
+  "evolutions": []
 }

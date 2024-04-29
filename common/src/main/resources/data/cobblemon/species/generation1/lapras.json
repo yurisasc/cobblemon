@@ -19,81 +19,30 @@
   },
   "catchRate": 45,
   "maleRatio": 0.5,
-  "shoulderMountable": false,
-  "forms": [
-    {
-      "name": "Gmax",
-      "primaryType": "water",
-      "secondaryType": "ice",
-      "abilities": [
-        "waterabsorb",
-        "shellarmor",
-        "h:hydration"
-      ],
-      "baseStats": {
-        "hp": 130,
-        "attack": 85,
-        "defence": 80,
-        "special_attack": 85,
-        "special_defence": 95,
-        "speed": 60
-      },
-      "catchRate": 45,
-      "maleRatio": 0.5,
-      "baseExperienceYield": 187,
-      "baseFriendship": 50,
-      "evYield": {
-        "hp": 2,
-        "attack": 0,
-        "defence": 0,
-        "special_attack": 0,
-        "special_defence": 0,
-        "speed": 0
-      },
-      "experienceGroup": "slow",
-      "eggCycles": 40,
-      "eggGroups": [
-        "monster",
-        "water_1"
-      ],
-      "labels": [
-        "gen8",
-        "gmax"
-      ],
-      "aspects": [
-        "gmax"
-      ],
-      "height": 240,
-      "weight": 0,
-      "cannotDynamax": false,
-      "battleOnly": false
-    }
-  ],
-  "baseExperienceYield": 187,
+  "baseFriendship": 50,
   "experienceGroup": "slow",
   "eggCycles": 40,
   "eggGroups": [
     "monster",
     "water_1"
   ],
-  "behaviour": {
-    "moving": {
-      "swim": {
-        "canSwimInWater": true,
-        "canBreatheUnderwater": true,
-        "canWalkOnWater": true,
-        "swimSpeed": 0.3
-      },
-      "walk": {
-        "walkSpeed": 0.15
-      }
-    },
-    "resting": {
-      "canSleep": true,
-      "willSleepOnBed": false,
-      "depth": "normal",
-      "light": "0-4"
-    }
+  "height": 25,
+  "weight": 2200,
+  "pokedex": [
+    "cobblemon.species.lapras.desc"
+  ],
+  "labels": [
+    "gen1"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 187,
+  "evYield": {
+    "hp": 2,
+    "attack": 0,
+    "defence": 0,
+    "special_attack": 0,
+    "special_defence": 0,
+    "speed": 0
   },
   "drops": {
     "amount": 4,
@@ -115,6 +64,33 @@
         "percentage": 5.0
       }
     ]
+  },
+  "baseScale": 1.1,
+  "hitbox": {
+    "width": 2.4,
+    "height": 2.8,
+    "fixed": false
+  },
+  "cannotDynamax": false,
+  "shoulderMountable": false,
+  "behaviour": {
+    "moving": {
+      "swim": {
+        "canSwimInWater": true,
+        "canBreatheUnderwater": true,
+        "canWalkOnWater": true,
+        "swimSpeed": 0.3
+      },
+      "walk": {
+        "walkSpeed": 0.15
+      }
+    },
+    "resting": {
+      "canSleep": true,
+      "willSleepOnBed": false,
+      "depth": "normal",
+      "light": "0-4"
+    }
   },
   "moves": [
     "1:growl",
@@ -302,30 +278,54 @@
     "tutor:zapcannon",
     "tutor:zenheadbutt"
   ],
-  "labels": [
-    "gen1"
-  ],
-  "pokedex": [
-    "cobblemon.species.lapras.desc"
-  ],
   "evolutions": [],
-  "baseScale": 1.1,
-  "hitbox": {
-    "width": 2.4,
-    "height": 2.8,
-    "fixed": false
-  },
-  "baseFriendship": 50,
-  "evYield": {
-    "hp": 2,
-    "attack": 0,
-    "defence": 0,
-    "special_attack": 0,
-    "special_defence": 0,
-    "speed": 0
-  },
-  "height": 25,
-  "weight": 2200,
-  "aspects": [],
-  "cannotDynamax": false
+  "temporaryForms": [
+    {
+      "name": "Gmax",
+      "primaryType": "water",
+      "secondaryType": "ice",
+      "abilities": [
+        "waterabsorb",
+        "shellarmor",
+        "h:hydration"
+      ],
+      "baseStats": {
+        "hp": 130,
+        "attack": 85,
+        "defence": 80,
+        "special_attack": 85,
+        "special_defence": 95,
+        "speed": 60
+      },
+      "catchRate": 45,
+      "maleRatio": 0.5,
+      "baseFriendship": 50,
+      "experienceGroup": "slow",
+      "eggCycles": 40,
+      "eggGroups": [
+        "monster",
+        "water_1"
+      ],
+      "height": 240,
+      "weight": 0,
+      "labels": [
+        "gen8",
+        "gmax"
+      ],
+      "aspects": [
+        "gmax"
+      ],
+      "baseExperienceYield": 187,
+      "evYield": {
+        "hp": 2,
+        "attack": 0,
+        "defence": 0,
+        "special_attack": 0,
+        "special_defence": 0,
+        "speed": 0
+      },
+      "cannotDynamax": false,
+      "battleOnly": false
+    }
+  ]
 }

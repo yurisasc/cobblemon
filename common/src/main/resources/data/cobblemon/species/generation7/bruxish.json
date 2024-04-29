@@ -8,6 +8,40 @@
     "strongjaw",
     "h:wonderskin"
   ],
+  "baseStats": {
+    "hp": 68,
+    "attack": 105,
+    "defence": 70,
+    "special_attack": 70,
+    "special_defence": 70,
+    "speed": 92
+  },
+  "catchRate": 80,
+  "maleRatio": 0.5,
+  "baseFriendship": 70,
+  "experienceGroup": "medium_fast",
+  "eggCycles": 15,
+  "eggGroups": [
+    "water_2"
+  ],
+  "height": 9,
+  "weight": 190,
+  "pokedex": [
+    "cobblemon.species.bruxish.desc"
+  ],
+  "labels": [
+    "gen7"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 166,
+  "evYield": {
+    "hp": 0,
+    "attack": 2,
+    "defence": 0,
+    "special_attack": 0,
+    "special_defence": 0,
+    "speed": 0
+  },
   "drops": {
     "amount": 3,
     "entries": [
@@ -24,23 +58,14 @@
       }
     ]
   },
-  "baseStats": {
-    "hp": 68,
-    "attack": 105,
-    "defence": 70,
-    "special_attack": 70,
-    "special_defence": 70,
-    "speed": 92
+  "baseScale": 1,
+  "hitbox": {
+    "width": 1,
+    "height": 1,
+    "fixed": false
   },
-  "catchRate": 80,
-  "maleRatio": 0.5,
+  "cannotDynamax": false,
   "shoulderMountable": false,
-  "baseExperienceYield": 166,
-  "experienceGroup": "medium_fast",
-  "eggCycles": 15,
-  "eggGroups": [
-    "water_2"
-  ],
   "moves": [
     "1:watergun",
     "4:astonish",
@@ -137,30 +162,5 @@
     "tutor:waterpulse",
     "tutor:wonderroom"
   ],
-  "labels": [
-    "gen7"
-  ],
-  "pokedex": [
-    "cobblemon.species.bruxish.desc"
-  ],
-  "evolutions": [],
-  "baseScale": 1,
-  "hitbox": {
-    "width": 1,
-    "height": 1,
-    "fixed": false
-  },
-  "baseFriendship": 70,
-  "evYield": {
-    "hp": 0,
-    "attack": 2,
-    "defence": 0,
-    "special_attack": 0,
-    "special_defence": 0,
-    "speed": 0
-  },
-  "height": 9,
-  "weight": 190,
-  "aspects": [],
-  "cannotDynamax": false
+  "evolutions": []
 }

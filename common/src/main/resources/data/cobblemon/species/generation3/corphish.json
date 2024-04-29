@@ -17,14 +17,39 @@
   },
   "catchRate": 205,
   "maleRatio": 0.5,
-  "shoulderMountable": false,
-  "baseExperienceYield": 62,
+  "baseFriendship": 50,
   "experienceGroup": "fluctuating",
   "eggCycles": 15,
   "eggGroups": [
     "water_1",
     "water_3"
   ],
+  "height": 6,
+  "weight": 115,
+  "pokedex": [
+    "cobblemon.species.corphish.desc"
+  ],
+  "labels": [
+    "gen3"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 62,
+  "evYield": {
+    "hp": 0,
+    "attack": 1,
+    "defence": 0,
+    "special_attack": 0,
+    "special_defence": 0,
+    "speed": 0
+  },
+  "baseScale": 1,
+  "hitbox": {
+    "width": 1,
+    "height": 1,
+    "fixed": false
+  },
+  "cannotDynamax": false,
+  "shoulderMountable": false,
   "moves": [
     "1:bubble",
     "1:harden",
@@ -145,18 +170,10 @@
     "tutor:waterpulse",
     "tutor:watersport"
   ],
-  "labels": [
-    "gen3"
-  ],
-  "pokedex": [
-    "cobblemon.species.corphish.desc"
-  ],
   "evolutions": [
     {
       "id": "corphish_crawdaunt",
-      "variant": "level_up",
       "result": "crawdaunt",
-      "consumeHeldItem": false,
       "learnableMoves": [
         "swift"
       ],
@@ -165,26 +182,10 @@
           "variant": "level",
           "minLevel": 30
         }
-      ]
+      ],
+      "trigger": {
+        "variant": "level_up"
+      }
     }
-  ],
-  "baseScale": 1,
-  "hitbox": {
-    "width": 1,
-    "height": 1,
-    "fixed": false
-  },
-  "baseFriendship": 50,
-  "evYield": {
-    "hp": 0,
-    "attack": 1,
-    "defence": 0,
-    "special_attack": 0,
-    "special_defence": 0,
-    "speed": 0
-  },
-  "height": 6,
-  "weight": 115,
-  "aspects": [],
-  "cannotDynamax": false
+  ]
 }

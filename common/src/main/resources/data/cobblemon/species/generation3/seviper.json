@@ -16,14 +16,56 @@
   },
   "catchRate": 90,
   "maleRatio": 0.5,
-  "shoulderMountable": false,
-  "baseExperienceYield": 160,
+  "baseFriendship": 70,
   "experienceGroup": "fluctuating",
   "eggCycles": 20,
   "eggGroups": [
     "field",
     "dragon"
   ],
+  "height": 27,
+  "weight": 525,
+  "pokedex": [
+    "cobblemon.species.seviper.desc"
+  ],
+  "labels": [
+    "gen3"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 160,
+  "evYield": {
+    "hp": 0,
+    "attack": 1,
+    "defence": 0,
+    "special_attack": 1,
+    "special_defence": 0,
+    "speed": 0
+  },
+  "drops": {
+    "amount": 3,
+    "entries": [
+      {
+        "item": "cobblemon:razor_fang",
+        "percentage": 5.0
+      },
+      {
+        "item": "cobblemon:poison_barb",
+        "percentage": 5.0
+      },
+      {
+        "item": "cobblemon:persim_berry",
+        "percentage": 5.0
+      }
+    ]
+  },
+  "baseScale": 1,
+  "hitbox": {
+    "width": 1,
+    "height": 1,
+    "fixed": false
+  },
+  "cannotDynamax": false,
+  "shoulderMountable": false,
   "moves": [
     "1:swagger",
     "1:wrap",
@@ -163,47 +205,5 @@
     "tutor:throatchop",
     "tutor:wrap"
   ],
-  "labels": [
-    "gen3"
-  ],
-  "pokedex": [
-    "cobblemon.species.seviper.desc"
-  ],
-  "evolutions": [],
-  "baseScale": 1,
-  "hitbox": {
-    "width": 1,
-    "height": 1,
-    "fixed": false
-  },
-  "baseFriendship": 70,
-  "evYield": {
-    "hp": 0,
-    "attack": 1,
-    "defence": 0,
-    "special_attack": 1,
-    "special_defence": 0,
-    "speed": 0
-  },
-  "height": 27,
-  "weight": 525,
-  "aspects": [],
-  "cannotDynamax": false,
-  "drops": {
-    "amount": 3,
-    "entries": [
-      {
-        "item": "cobblemon:razor_fang",
-        "percentage": 5.0
-      },
-      {
-        "item": "cobblemon:poison_barb",
-        "percentage": 5.0
-      },
-      {
-        "item": "cobblemon:persim_berry",
-        "percentage": 5.0
-      }
-    ]
-  }
+  "evolutions": []
 }

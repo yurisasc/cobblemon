@@ -7,15 +7,6 @@
     "shellarmor",
     "h:overcoat"
   ],
-  "drops": {
-    "amount": 1,
-    "entries": [
-      {
-        "item": "minecraft:iron_helmet",
-        "percentage": 2.5
-      }
-    ]
-  },
   "baseStats": {
     "hp": 50,
     "attack": 40,
@@ -26,13 +17,47 @@
   },
   "catchRate": 200,
   "maleRatio": 0.5,
-  "shoulderMountable": false,
-  "baseExperienceYield": 61,
+  "baseFriendship": 50,
   "experienceGroup": "medium_fast",
   "eggCycles": 15,
   "eggGroups": [
     "bug"
   ],
+  "height": 4,
+  "weight": 77,
+  "pokedex": [
+    "cobblemon.species.shelmet.desc"
+  ],
+  "labels": [
+    "gen5"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 61,
+  "evYield": {
+    "hp": 0,
+    "attack": 0,
+    "defence": 1,
+    "special_attack": 0,
+    "special_defence": 0,
+    "speed": 0
+  },
+  "drops": {
+    "amount": 1,
+    "entries": [
+      {
+        "item": "minecraft:iron_helmet",
+        "percentage": 2.5
+      }
+    ]
+  },
+  "baseScale": 1,
+  "hitbox": {
+    "width": 1,
+    "height": 1,
+    "fixed": false
+  },
+  "cannotDynamax": false,
+  "shoulderMountable": false,
   "moves": [
     "1:absorb",
     "1:leechlife",
@@ -111,40 +136,16 @@
     "tutor:strugglebug",
     "tutor:yawn"
   ],
-  "labels": [
-    "gen5"
-  ],
-  "pokedex": [
-    "cobblemon.species.shelmet.desc"
-  ],
   "evolutions": [
     {
       "id": "shelmet_accelgor",
-      "variant": "trade",
       "result": "accelgor",
-      "consumeHeldItem": false,
       "learnableMoves": [],
       "requirements": [],
-      "requiredContext": "karrablast"
+      "trigger": {
+        "variant": "trade",
+        "requiredContext": "karrablast"
+      }
     }
-  ],
-  "baseScale": 1,
-  "hitbox": {
-    "width": 1,
-    "height": 1,
-    "fixed": false
-  },
-  "baseFriendship": 50,
-  "evYield": {
-    "hp": 0,
-    "attack": 0,
-    "defence": 1,
-    "special_attack": 0,
-    "special_defence": 0,
-    "speed": 0
-  },
-  "height": 4,
-  "weight": 77,
-  "aspects": [],
-  "cannotDynamax": false
+  ]
 }

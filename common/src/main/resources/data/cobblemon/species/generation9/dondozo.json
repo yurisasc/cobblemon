@@ -17,8 +17,22 @@
   },
   "catchRate": 25,
   "maleRatio": 0.5,
-  "baseExperienceYield": 265,
   "baseFriendship": 50,
+  "experienceGroup": "slow",
+  "eggCycles": 40,
+  "eggGroups": [
+    "water_2"
+  ],
+  "height": 120,
+  "weight": 2200,
+  "pokedex": [
+    "cobblemon.species.dondozo.desc"
+  ],
+  "labels": [
+    "gen9"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 265,
   "evYield": {
     "hp": 3,
     "attack": 0,
@@ -27,11 +41,19 @@
     "special_defence": 0,
     "speed": 0
   },
-  "experienceGroup": "slow",
-  "eggCycles": 40,
-  "eggGroups": [
-    "water_2"
-  ],
+  "drops": {
+    "amount": 2,
+    "entries": [
+      {
+        "item": "minecraft:salmon"
+      },
+      {
+        "item": "minecraft:bone_meal",
+        "percentage": 5.0
+      }
+    ]
+  },
+  "cannotDynamax": false,
   "moves": [
     "1:supersonic",
     "1:tackle",
@@ -85,27 +107,5 @@
     "tm:waterpulse",
     "tm:zenheadbutt"
   ],
-  "labels": [
-    "gen9"
-  ],
-  "aspects": [],
-  "height": 120,
-  "weight": 2200,
-  "evolutions": [],
-  "cannotDynamax": false,
-  "pokedex": [
-    "cobblemon.species.dondozo.desc"
-  ],
-  "drops": {
-    "amount": 2,
-    "entries": [
-      {
-        "item": "minecraft:salmon"
-      },
-      {
-        "item": "minecraft:bone_meal",
-        "percentage": 5.0
-      }
-    ]
-  }
+  "evolutions": []
 }

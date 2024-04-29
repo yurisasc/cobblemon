@@ -17,19 +17,24 @@
     "special_defence": 75,
     "speed": 65
   },
-  "behaviour": {
-    "resting": {
-      "canSleep": true,
-      "willSleepOnBed": false,
-      "depth": "normal",
-      "light": "0-4"
-    }
-  },
   "catchRate": 135,
   "maleRatio": 0.5,
-  "shoulderMountable": false,
-  "baseExperienceYield": 263,
   "baseFriendship": 0,
+  "experienceGroup": "slow",
+  "eggCycles": 0,
+  "eggGroups": [
+    "field"
+  ],
+  "height": 18,
+  "weight": 951,
+  "pokedex": [
+    "cobblemon.species.wyrdeer.desc"
+  ],
+  "labels": [
+    "gen8"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 263,
   "evYield": {
     "hp": 0,
     "attack": 1,
@@ -38,11 +43,6 @@
     "special_defence": 0,
     "speed": 0
   },
-  "experienceGroup": "slow",
-  "eggCycles": 0,
-  "eggGroups": [
-    "field"
-  ],
   "drops": {
     "amount": 3,
     "entries": [
@@ -55,6 +55,22 @@
         "percentage": 5.0
       }
     ]
+  },
+  "baseScale": 1.4,
+  "hitbox": {
+    "width": 1.2,
+    "height": 1.8,
+    "fixed": false
+  },
+  "cannotDynamax": false,
+  "shoulderMountable": false,
+  "behaviour": {
+    "resting": {
+      "canSleep": true,
+      "willSleepOnBed": false,
+      "depth": "normal",
+      "light": "0-4"
+    }
   },
   "moves": [
     "1:tackle",
@@ -129,22 +145,6 @@
     "tm:wildcharge",
     "tm:zenheadbutt"
   ],
-  "labels": [
-    "gen8"
-  ],
-  "pokedex": [
-    "cobblemon.species.wyrdeer.desc"
-  ],
-  "height": 18,
-  "weight": 951,
   "preEvolution": "stantler",
-  "evolutions": [],
-  "baseScale": 1.4,
-  "hitbox": {
-    "width": 1.2,
-    "height": 1.8,
-    "fixed": false
-  },
-  "aspects": [],
-  "cannotDynamax": false
+  "evolutions": []
 }

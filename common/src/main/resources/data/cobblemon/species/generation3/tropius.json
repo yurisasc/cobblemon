@@ -19,14 +19,48 @@
   },
   "catchRate": 200,
   "maleRatio": 0.5,
-  "shoulderMountable": false,
-  "baseExperienceYield": 161,
+  "baseFriendship": 70,
   "experienceGroup": "slow",
   "eggCycles": 25,
   "eggGroups": [
     "monster",
     "grass"
   ],
+  "height": 20,
+  "weight": 1000,
+  "pokedex": [
+    "cobblemon.species.tropius.desc"
+  ],
+  "labels": [
+    "gen3"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 161,
+  "evYield": {
+    "hp": 2,
+    "attack": 0,
+    "defence": 0,
+    "special_attack": 0,
+    "special_defence": 0,
+    "speed": 0
+  },
+  "drops": {
+    "amount": 2,
+    "entries": [
+      {
+        "item": "cobblemon:nanab_berry",
+        "quantityRange": "0-2"
+      }
+    ]
+  },
+  "baseScale": 1,
+  "hitbox": {
+    "width": 2.2,
+    "height": 5,
+    "fixed": false
+  },
+  "cannotDynamax": false,
+  "shoulderMountable": false,
   "moves": [
     "1:growth",
     "1:gust",
@@ -163,39 +197,5 @@
     "tutor:twister",
     "tutor:worryseed"
   ],
-  "labels": [
-    "gen3"
-  ],
-  "pokedex": [
-    "cobblemon.species.tropius.desc"
-  ],
-  "evolutions": [],
-  "baseScale": 1,
-  "hitbox": {
-    "width": 2.2,
-    "height": 5,
-    "fixed": false
-  },
-  "baseFriendship": 70,
-  "evYield": {
-    "hp": 2,
-    "attack": 0,
-    "defence": 0,
-    "special_attack": 0,
-    "special_defence": 0,
-    "speed": 0
-  },
-  "height": 20,
-  "weight": 1000,
-  "aspects": [],
-  "cannotDynamax": false,
-  "drops": {
-    "amount": 2,
-    "entries": [
-      {
-        "item": "cobblemon:nanab_berry",
-        "quantityRange": "0-2"
-      }
-    ]
-  }
+  "evolutions": []
 }

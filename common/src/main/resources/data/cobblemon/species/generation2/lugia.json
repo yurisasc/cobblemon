@@ -17,13 +17,48 @@
   },
   "catchRate": 3,
   "maleRatio": -1,
-  "shoulderMountable": false,
-  "baseExperienceYield": 340,
+  "baseFriendship": 0,
   "experienceGroup": "slow",
   "eggCycles": 120,
   "eggGroups": [
     "undiscovered"
   ],
+  "height": 52,
+  "weight": 2160,
+  "pokedex": [
+    "cobblemon.species.lugia.desc"
+  ],
+  "labels": [
+    "gen2",
+    "legendary"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 340,
+  "evYield": {
+    "hp": 0,
+    "attack": 0,
+    "defence": 0,
+    "special_attack": 0,
+    "special_defence": 3,
+    "speed": 0
+  },
+  "drops": {
+    "amount": 4,
+    "entries": [
+      {
+        "item": "minecraft:feather",
+        "quantityRange": "2-4"
+      }
+    ]
+  },
+  "baseScale": 1,
+  "hitbox": {
+    "width": 1,
+    "height": 1,
+    "fixed": false
+  },
+  "cannotDynamax": false,
+  "shoulderMountable": false,
   "moves": [
     "1:ancientpower",
     "1:dragonrush",
@@ -225,40 +260,5 @@
     "tutor:zapcannon",
     "tutor:zenheadbutt"
   ],
-  "labels": [
-    "gen2",
-    "legendary"
-  ],
-  "pokedex": [
-    "cobblemon.species.lugia.desc"
-  ],
-  "evolutions": [],
-  "baseScale": 1,
-  "hitbox": {
-    "width": 1,
-    "height": 1,
-    "fixed": false
-  },
-  "baseFriendship": 0,
-  "evYield": {
-    "hp": 0,
-    "attack": 0,
-    "defence": 0,
-    "special_attack": 0,
-    "special_defence": 3,
-    "speed": 0
-  },
-  "height": 52,
-  "weight": 2160,
-  "aspects": [],
-  "cannotDynamax": false,
-  "drops": {
-    "amount": 4,
-    "entries": [
-      {
-        "item": "minecraft:feather",
-        "quantityRange": "2-4"
-      }
-    ]
-  }
+  "evolutions": []
 }

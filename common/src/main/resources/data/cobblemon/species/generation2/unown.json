@@ -15,32 +15,22 @@
   },
   "catchRate": 225,
   "maleRatio": -1,
-  "shoulderMountable": false,
-  "baseExperienceYield": 118,
+  "baseFriendship": 70,
   "experienceGroup": "medium_fast",
   "eggCycles": 40,
   "eggGroups": [
     "undiscovered"
   ],
-  "moves": [
-    "1:hiddenpower",
-    "tm:hiddenpower",
-    "tutor:hiddenpower"
+  "height": 5,
+  "weight": 50,
+  "pokedex": [
+    "cobblemon.species.unown.desc"
   ],
   "labels": [
     "gen2"
   ],
-  "pokedex": [
-    "cobblemon.species.unown.desc"
-  ],
-  "evolutions": [],
-  "baseScale": 1,
-  "hitbox": {
-    "width": 1,
-    "height": 1,
-    "fixed": false
-  },
-  "baseFriendship": 70,
+  "aspects": [],
+  "baseExperienceYield": 118,
   "evYield": {
     "hp": 0,
     "attack": 1,
@@ -49,10 +39,6 @@
     "special_defence": 0,
     "speed": 0
   },
-  "height": 5,
-  "weight": 50,
-  "aspects": [],
-  "cannotDynamax": false,
   "drops": {
     "amount": 1,
     "entries": [
@@ -61,5 +47,19 @@
         "quantityRange": "0-1"
       }
     ]
-  }
+  },
+  "baseScale": 1,
+  "hitbox": {
+    "width": 1,
+    "height": 1,
+    "fixed": false
+  },
+  "cannotDynamax": false,
+  "shoulderMountable": false,
+  "moves": [
+    "1:hiddenpower",
+    "tm:hiddenpower",
+    "tutor:hiddenpower"
+  ],
+  "evolutions": []
 }

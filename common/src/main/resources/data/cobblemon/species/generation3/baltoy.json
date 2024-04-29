@@ -17,13 +17,30 @@
   },
   "catchRate": 255,
   "maleRatio": -1,
-  "shoulderMountable": false,
-  "baseExperienceYield": 60,
+  "baseFriendship": 50,
   "experienceGroup": "medium_fast",
   "eggCycles": 20,
   "eggGroups": [
     "mineral"
   ],
+  "height": 5,
+  "weight": 215,
+  "pokedex": [
+    "cobblemon.species.baltoy.desc"
+  ],
+  "labels": [
+    "gen3"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 60,
+  "evYield": {
+    "hp": 0,
+    "attack": 0,
+    "defence": 0,
+    "special_attack": 0,
+    "special_defence": 1,
+    "speed": 0
+  },
   "drops": {
     "amount": 3,
     "entries": [
@@ -41,6 +58,14 @@
       }
     ]
   },
+  "baseScale": 1,
+  "hitbox": {
+    "width": 1,
+    "height": 1,
+    "fixed": false
+  },
+  "cannotDynamax": false,
+  "shoulderMountable": false,
   "moves": [
     "1:harden",
     "1:mudslap",
@@ -159,18 +184,10 @@
     "tutor:wonderroom",
     "tutor:zenheadbutt"
   ],
-  "labels": [
-    "gen3"
-  ],
-  "pokedex": [
-    "cobblemon.species.baltoy.desc"
-  ],
   "evolutions": [
     {
       "id": "baltoy_claydol",
-      "variant": "level_up",
       "result": "claydol",
-      "consumeHeldItem": false,
       "learnableMoves": [
         "hyperbeam"
       ],
@@ -179,26 +196,10 @@
           "variant": "level",
           "minLevel": 36
         }
-      ]
+      ],
+      "trigger": {
+        "variant": "level_up"
+      }
     }
-  ],
-  "baseScale": 1,
-  "hitbox": {
-    "width": 1,
-    "height": 1,
-    "fixed": false
-  },
-  "baseFriendship": 50,
-  "evYield": {
-    "hp": 0,
-    "attack": 0,
-    "defence": 0,
-    "special_attack": 0,
-    "special_defence": 1,
-    "speed": 0
-  },
-  "height": 5,
-  "weight": 215,
-  "aspects": [],
-  "cannotDynamax": false
+  ]
 }

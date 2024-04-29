@@ -16,65 +16,22 @@
   },
   "catchRate": 255,
   "maleRatio": 0.5,
-  "shoulderMountable": false,
-  "baseExperienceYield": 56,
+  "baseFriendship": 70,
   "experienceGroup": "medium_fast",
   "eggCycles": 15,
   "eggGroups": [
     "bug"
   ],
-  "moves": [
-    "1:stringshot",
-    "1:tackle",
-    "5:poisonsting",
-    "15:bugbite",
-    "tutor:bugbite",
-    "tutor:electroweb",
-    "tutor:poisonsting",
-    "tutor:snore",
-    "tutor:stringshot"
+  "height": 3,
+  "weight": 36,
+  "pokedex": [
+    "cobblemon.species.wurmple.desc"
   ],
   "labels": [
     "gen3"
   ],
-  "pokedex": [
-    "cobblemon.species.wurmple.desc"
-  ],
-  "evolutions": [
-    {
-      "id": "wurmple_silcoon",
-      "variant": "level_up",
-      "result": "silcoon",
-      "consumeHeldItem": false,
-      "learnableMoves": [],
-      "requirements": [
-        {
-          "variant": "level",
-          "minLevel": 7
-        }
-      ]
-    },
-    {
-      "id": "wurmple_cascoon",
-      "variant": "level_up",
-      "result": "cascoon",
-      "consumeHeldItem": false,
-      "learnableMoves": [],
-      "requirements": [
-        {
-          "variant": "level",
-          "minLevel": 7
-        }
-      ]
-    }
-  ],
-  "baseScale": 1,
-  "hitbox": {
-    "width": 1,
-    "height": 1,
-    "fixed": false
-  },
-  "baseFriendship": 70,
+  "aspects": [],
+  "baseExperienceYield": 56,
   "evYield": {
     "hp": 1,
     "attack": 0,
@@ -83,10 +40,6 @@
     "special_defence": 0,
     "speed": 0
   },
-  "height": 3,
-  "weight": 36,
-  "aspects": [],
-  "cannotDynamax": false,
   "drops": {
     "amount": 2,
     "entries": [
@@ -99,5 +52,54 @@
         "percentage": 2.5
       }
     ]
-  }
+  },
+  "baseScale": 1,
+  "hitbox": {
+    "width": 1,
+    "height": 1,
+    "fixed": false
+  },
+  "cannotDynamax": false,
+  "shoulderMountable": false,
+  "moves": [
+    "1:stringshot",
+    "1:tackle",
+    "5:poisonsting",
+    "15:bugbite",
+    "tutor:bugbite",
+    "tutor:electroweb",
+    "tutor:poisonsting",
+    "tutor:snore",
+    "tutor:stringshot"
+  ],
+  "evolutions": [
+    {
+      "id": "wurmple_silcoon",
+      "result": "silcoon",
+      "learnableMoves": [],
+      "requirements": [
+        {
+          "variant": "level",
+          "minLevel": 7
+        }
+      ],
+      "trigger": {
+        "variant": "level_up"
+      }
+    },
+    {
+      "id": "wurmple_cascoon",
+      "result": "cascoon",
+      "learnableMoves": [],
+      "requirements": [
+        {
+          "variant": "level",
+          "minLevel": 7
+        }
+      ],
+      "trigger": {
+        "variant": "level_up"
+      }
+    }
+  ]
 }

@@ -5,6 +5,42 @@
   "abilities": [
     "baddreams"
   ],
+  "baseStats": {
+    "hp": 70,
+    "attack": 90,
+    "defence": 90,
+    "special_attack": 135,
+    "special_defence": 90,
+    "speed": 125
+  },
+  "catchRate": 3,
+  "maleRatio": -1,
+  "baseFriendship": 0,
+  "experienceGroup": "slow",
+  "eggCycles": 120,
+  "eggGroups": [
+    "undiscovered"
+  ],
+  "height": 15,
+  "weight": 505,
+  "pokedex": [
+    "cobblemon.species.darkrai.desc"
+  ],
+  "labels": [
+    "gen4",
+    "mythical",
+    "legendary"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 270,
+  "evYield": {
+    "hp": 0,
+    "attack": 0,
+    "defence": 0,
+    "special_attack": 2,
+    "special_defence": 0,
+    "speed": 1
+  },
   "drops": {
     "amount": 5,
     "entries": [
@@ -17,23 +53,14 @@
       }
     ]
   },
-  "baseStats": {
-    "hp": 70,
-    "attack": 90,
-    "defence": 90,
-    "special_attack": 135,
-    "special_defence": 90,
-    "speed": 125
+  "baseScale": 1,
+  "hitbox": {
+    "width": 1,
+    "height": 1,
+    "fixed": false
   },
-  "catchRate": 3,
-  "maleRatio": -1,
+  "cannotDynamax": false,
   "shoulderMountable": false,
-  "baseExperienceYield": 270,
-  "experienceGroup": "slow",
-  "eggCycles": 120,
-  "eggGroups": [
-    "undiscovered"
-  ],
   "moves": [
     "1:disable",
     "1:nightshade",
@@ -164,32 +191,5 @@
     "tutor:trick",
     "tutor:wonderroom"
   ],
-  "labels": [
-    "gen4",
-    "mythical",
-    "legendary"
-  ],
-  "pokedex": [
-    "cobblemon.species.darkrai.desc"
-  ],
-  "evolutions": [],
-  "baseScale": 1,
-  "hitbox": {
-    "width": 1,
-    "height": 1,
-    "fixed": false
-  },
-  "baseFriendship": 0,
-  "evYield": {
-    "hp": 0,
-    "attack": 0,
-    "defence": 0,
-    "special_attack": 2,
-    "special_defence": 0,
-    "speed": 1
-  },
-  "height": 15,
-  "weight": 505,
-  "aspects": [],
-  "cannotDynamax": false
+  "evolutions": []
 }

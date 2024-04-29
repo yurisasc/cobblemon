@@ -8,6 +8,41 @@
     "unaware",
     "h:moody"
   ],
+  "baseStats": {
+    "hp": 59,
+    "attack": 45,
+    "defence": 40,
+    "special_attack": 35,
+    "special_defence": 40,
+    "speed": 31
+  },
+  "catchRate": 255,
+  "maleRatio": 0.5,
+  "baseFriendship": 70,
+  "experienceGroup": "medium_fast",
+  "eggCycles": 15,
+  "eggGroups": [
+    "water_1",
+    "field"
+  ],
+  "height": 5,
+  "weight": 200,
+  "pokedex": [
+    "cobblemon.species.bidoof.desc"
+  ],
+  "labels": [
+    "gen4"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 50,
+  "evYield": {
+    "hp": 1,
+    "attack": 0,
+    "defence": 0,
+    "special_attack": 0,
+    "special_defence": 0,
+    "speed": 0
+  },
   "drops": {
     "amount": 2,
     "entries": [
@@ -21,24 +56,14 @@
       }
     ]
   },
-  "baseStats": {
-    "hp": 59,
-    "attack": 45,
-    "defence": 40,
-    "special_attack": 35,
-    "special_defence": 40,
-    "speed": 31
+  "baseScale": 0.6,
+  "hitbox": {
+    "width": 1,
+    "height": 0.9,
+    "fixed": false
   },
-  "catchRate": 255,
-  "maleRatio": 0.5,
+  "cannotDynamax": false,
   "shoulderMountable": false,
-  "baseExperienceYield": 50,
-  "experienceGroup": "medium_fast",
-  "eggCycles": 15,
-  "eggGroups": [
-    "water_1",
-    "field"
-  ],
   "behaviour": {
     "moving": {
       "walk": {
@@ -157,44 +182,20 @@
     "tutor:swift",
     "tutor:tackle"
   ],
-  "labels": [
-    "gen4"
-  ],
-  "pokedex": [
-    "cobblemon.species.bidoof.desc"
-  ],
   "evolutions": [
     {
       "id": "bidoof_bibarel",
-      "variant": "level_up",
       "result": "bibarel",
-      "consumeHeldItem": false,
       "learnableMoves": [],
       "requirements": [
         {
           "variant": "level",
           "minLevel": 15
         }
-      ]
+      ],
+      "trigger": {
+        "variant": "level_up"
+      }
     }
-  ],
-  "baseScale": 0.6,
-  "hitbox": {
-    "width": 1,
-    "height": 0.9,
-    "fixed": false
-  },
-  "baseFriendship": 70,
-  "evYield": {
-    "hp": 1,
-    "attack": 0,
-    "defence": 0,
-    "special_attack": 0,
-    "special_defence": 0,
-    "speed": 0
-  },
-  "height": 5,
-  "weight": 200,
-  "aspects": [],
-  "cannotDynamax": false
+  ]
 }

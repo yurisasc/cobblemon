@@ -17,14 +17,48 @@
   },
   "catchRate": 45,
   "maleRatio": 0.875,
-  "shoulderMountable": false,
-  "baseExperienceYield": 236,
+  "baseFriendship": 70,
   "experienceGroup": "medium_slow",
   "eggCycles": 20,
   "eggGroups": [
     "monster",
     "grass"
   ],
+  "height": 18,
+  "weight": 1005,
+  "pokedex": [
+    "cobblemon.species.meganium.desc"
+  ],
+  "labels": [
+    "gen2"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 236,
+  "evYield": {
+    "hp": 0,
+    "attack": 0,
+    "defence": 1,
+    "special_attack": 0,
+    "special_defence": 2,
+    "speed": 0
+  },
+  "drops": {
+    "amount": 1,
+    "entries": [
+      {
+        "item": "cobblemon:miracle_seed",
+        "percentage": 25.0
+      }
+    ]
+  },
+  "baseScale": 0.75,
+  "hitbox": {
+    "width": 1.6,
+    "height": 3.4,
+    "fixed": false
+  },
+  "cannotDynamax": false,
+  "shoulderMountable": false,
   "behaviour": {
     "resting": {
       "canSleep": true,
@@ -37,15 +71,6 @@
         "walkSpeed": 0.15
       }
     }
-  },
-  "drops": {
-    "amount": 1,
-    "entries": [
-      {
-        "item": "cobblemon:miracle_seed",
-        "percentage": 25.0
-      }
-    ]
   },
   "moves": [
     "1:growl",
@@ -188,31 +213,6 @@
     "tutor:toxic",
     "tutor:worryseed"
   ],
-  "labels": [
-    "gen2"
-  ],
-  "pokedex": [
-    "cobblemon.species.meganium.desc"
-  ],
   "preEvolution": "bayleef",
-  "evolutions": [],
-  "baseScale": 0.75,
-  "hitbox": {
-    "width": 1.6,
-    "height": 3.4,
-    "fixed": false
-  },
-  "baseFriendship": 70,
-  "evYield": {
-    "hp": 0,
-    "attack": 0,
-    "defence": 1,
-    "special_attack": 0,
-    "special_defence": 2,
-    "speed": 0
-  },
-  "height": 18,
-  "weight": 1005,
-  "aspects": [],
-  "cannotDynamax": false
+  "evolutions": []
 }

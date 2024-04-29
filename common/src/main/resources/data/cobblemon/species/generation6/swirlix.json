@@ -16,13 +16,55 @@
   },
   "catchRate": 200,
   "maleRatio": 0.5,
-  "shoulderMountable": false,
-  "baseExperienceYield": 68,
+  "baseFriendship": 50,
   "experienceGroup": "medium_fast",
   "eggCycles": 20,
   "eggGroups": [
     "fairy"
   ],
+  "height": 4,
+  "weight": 35,
+  "pokedex": [
+    "cobblemon.species.swirlix.desc"
+  ],
+  "labels": [
+    "gen6"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 68,
+  "evYield": {
+    "hp": 0,
+    "attack": 0,
+    "defence": 1,
+    "special_attack": 0,
+    "special_defence": 0,
+    "speed": 0
+  },
+  "drops": {
+    "amount": 3,
+    "entries": [
+      {
+        "item": "minecraft:sugar",
+        "quantityRange": "0-1"
+      },
+      {
+        "item": "minecraft:cake",
+        "percentage": 2.5
+      },
+      {
+        "item": "cobblemon:babiri_berry",
+        "percentage": 2.5
+      }
+    ]
+  },
+  "baseScale": 1,
+  "hitbox": {
+    "width": 1,
+    "height": 1,
+    "fixed": false
+  },
+  "cannotDynamax": false,
+  "shoulderMountable": false,
   "moves": [
     "1:sweetscent",
     "1:tackle",
@@ -94,61 +136,20 @@
     "tutor:mistyexplosion",
     "tutor:snore"
   ],
-  "labels": [
-    "gen6"
-  ],
-  "pokedex": [
-    "cobblemon.species.swirlix.desc"
-  ],
   "evolutions": [
     {
       "id": "swirlix_slurpuff",
-      "variant": "trade",
       "result": "slurpuff",
-      "consumeHeldItem": true,
       "learnableMoves": [],
       "requirements": [
         {
           "variant": "held_item",
           "itemCondition": "cobblemon:whipped_dream"
         }
-      ]
-    }
-  ],
-  "baseScale": 1,
-  "hitbox": {
-    "width": 1,
-    "height": 1,
-    "fixed": false
-  },
-  "baseFriendship": 50,
-  "evYield": {
-    "hp": 0,
-    "attack": 0,
-    "defence": 1,
-    "special_attack": 0,
-    "special_defence": 0,
-    "speed": 0
-  },
-  "height": 4,
-  "weight": 35,
-  "aspects": [],
-  "cannotDynamax": false,
-  "drops": {
-    "amount": 3,
-    "entries": [
-      {
-        "item": "minecraft:sugar",
-        "quantityRange": "0-1"
-      },
-      {
-        "item": "minecraft:cake",
-        "percentage": 2.5
-      },
-      {
-        "item": "cobblemon:babiri_berry",
-        "percentage": 2.5
+      ],
+      "trigger": {
+        "variant": "trade"
       }
-    ]
-  }
+    }
+  ]
 }

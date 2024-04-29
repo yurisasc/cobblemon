@@ -18,61 +18,55 @@
   },
   "catchRate": 45,
   "maleRatio": 0.5,
-  "shoulderMountable": false,
-  "forms": [
-    {
-      "name": "Gmax",
-      "primaryType": "rock",
-      "secondaryType": "fire",
-      "abilities": [
-        "steamengine",
-        "flamebody",
-        "h:flashfire"
-      ],
-      "baseStats": {
-        "hp": 110,
-        "attack": 80,
-        "defence": 120,
-        "special_attack": 80,
-        "special_defence": 90,
-        "speed": 30
-      },
-      "catchRate": 45,
-      "maleRatio": 0.5,
-      "baseExperienceYield": 255,
-      "baseFriendship": 50,
-      "evYield": {
-        "hp": 0,
-        "attack": 0,
-        "defence": 3,
-        "special_attack": 0,
-        "special_defence": 0,
-        "speed": 0
-      },
-      "experienceGroup": "medium_slow",
-      "eggCycles": 15,
-      "eggGroups": [
-        "mineral"
-      ],
-      "labels": [
-        "gen8",
-        "gmax"
-      ],
-      "aspects": [
-        "gmax"
-      ],
-      "height": 420,
-      "weight": 0,
-      "cannotDynamax": false,
-      "battleOnly": false
-    }
-  ],
-  "baseExperienceYield": 255,
+  "baseFriendship": 50,
   "experienceGroup": "medium_slow",
   "eggCycles": 15,
   "eggGroups": [
     "mineral"
   ],
+  "height": 28,
+  "weight": 3105,
+  "pokedex": [
+    "cobblemon.species.coalossal.desc"
+  ],
+  "labels": [
+    "gen8"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 255,
+  "evYield": {
+    "hp": 0,
+    "attack": 0,
+    "defence": 3,
+    "special_attack": 0,
+    "special_defence": 0,
+    "speed": 0
+  },
+  "drops": {
+    "amount": 5,
+    "entries": [
+      {
+        "item": "minecraft:coal",
+        "quantityRange": "0-3"
+      },
+      {
+        "item": "cobblemon:black_augurite",
+        "percentage": 10.0
+      },
+      {
+        "item": "cobblemon:passho_berry",
+        "percentage": 10.0
+      }
+    ]
+  },
+  "baseScale": 1,
+  "hitbox": {
+    "width": 1,
+    "height": 1,
+    "fixed": false
+  },
+  "cannotDynamax": false,
+  "shoulderMountable": false,
   "moves": [
     "1:flamecharge",
     "1:rapidspin",
@@ -146,48 +140,54 @@
     "tutor:meteorbeam",
     "tutor:scorchingsands"
   ],
-  "labels": [
-    "gen8"
-  ],
-  "pokedex": [
-    "cobblemon.species.coalossal.desc"
-  ],
   "preEvolution": "carkol",
   "evolutions": [],
-  "baseScale": 1,
-  "hitbox": {
-    "width": 1,
-    "height": 1,
-    "fixed": false
-  },
-  "baseFriendship": 50,
-  "evYield": {
-    "hp": 0,
-    "attack": 0,
-    "defence": 3,
-    "special_attack": 0,
-    "special_defence": 0,
-    "speed": 0
-  },
-  "height": 28,
-  "weight": 3105,
-  "aspects": [],
-  "cannotDynamax": false,
-  "drops": {
-    "amount": 5,
-    "entries": [
-      {
-        "item": "minecraft:coal",
-        "quantityRange": "0-3"
+  "temporaryForms": [
+    {
+      "name": "Gmax",
+      "primaryType": "rock",
+      "secondaryType": "fire",
+      "abilities": [
+        "steamengine",
+        "flamebody",
+        "h:flashfire"
+      ],
+      "baseStats": {
+        "hp": 110,
+        "attack": 80,
+        "defence": 120,
+        "special_attack": 80,
+        "special_defence": 90,
+        "speed": 30
       },
-      {
-        "item": "cobblemon:black_augurite",
-        "percentage": 10.0
+      "catchRate": 45,
+      "maleRatio": 0.5,
+      "baseFriendship": 50,
+      "experienceGroup": "medium_slow",
+      "eggCycles": 15,
+      "eggGroups": [
+        "mineral"
+      ],
+      "height": 420,
+      "weight": 0,
+      "labels": [
+        "gen8",
+        "gmax"
+      ],
+      "aspects": [
+        "gmax"
+      ],
+      "baseExperienceYield": 255,
+      "evYield": {
+        "hp": 0,
+        "attack": 0,
+        "defence": 3,
+        "special_attack": 0,
+        "special_defence": 0,
+        "speed": 0
       },
-      {
-        "item": "cobblemon:passho_berry",
-        "percentage": 10.0
-      }
-    ]
-  }
+      "cannotDynamax": false,
+      "battleOnly": false
+    }
+  ]
 }

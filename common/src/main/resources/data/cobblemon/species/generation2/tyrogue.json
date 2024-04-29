@@ -18,13 +18,31 @@
   },
   "catchRate": 75,
   "maleRatio": 1,
-  "shoulderMountable": true,
-  "baseExperienceYield": 42,
+  "baseFriendship": 50,
   "experienceGroup": "medium_fast",
   "eggCycles": 25,
   "eggGroups": [
     "undiscovered"
   ],
+  "height": 7,
+  "weight": 210,
+  "pokedex": [
+    "cobblemon.species.tyrogue.desc"
+  ],
+  "labels": [
+    "gen2",
+    "baby"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 42,
+  "evYield": {
+    "hp": 0,
+    "attack": 1,
+    "defence": 0,
+    "special_attack": 0,
+    "special_defence": 0,
+    "speed": 0
+  },
   "drops": {
     "amount": 2,
     "entries": [
@@ -38,6 +56,14 @@
       }
     ]
   },
+  "baseScale": 0.5,
+  "hitbox": {
+    "width": 0.6,
+    "height": 1.45,
+    "fixed": false
+  },
+  "cannotDynamax": false,
+  "shoulderMountable": true,
   "behaviour": {
     "resting": {
       "canSleep": true,
@@ -151,19 +177,10 @@
     "tutor:uproar",
     "tutor:vacuumwave"
   ],
-  "labels": [
-    "gen2",
-    "baby"
-  ],
-  "pokedex": [
-    "cobblemon.species.tyrogue.desc"
-  ],
   "evolutions": [
     {
       "id": "tyrogue_hitmonlee",
-      "variant": "level_up",
       "result": "hitmonlee",
-      "consumeHeldItem": false,
       "learnableMoves": [],
       "requirements": [
         {
@@ -174,13 +191,14 @@
           "variant": "attack_defence_ratio",
           "ratio": "ATTACK_HIGHER"
         }
-      ]
+      ],
+      "trigger": {
+        "variant": "level_up"
+      }
     },
     {
       "id": "tyrogue_hitmonchan",
-      "variant": "level_up",
       "result": "hitmonchan",
-      "consumeHeldItem": false,
       "learnableMoves": [],
       "requirements": [
         {
@@ -191,13 +209,14 @@
           "variant": "attack_defence_ratio",
           "ratio": "DEFENCE_HIGHER"
         }
-      ]
+      ],
+      "trigger": {
+        "variant": "level_up"
+      }
     },
     {
       "id": "tyrogue_hitmontop",
-      "variant": "level_up",
       "result": "hitmontop",
-      "consumeHeldItem": false,
       "learnableMoves": [
         "triplekick"
       ],
@@ -210,26 +229,10 @@
           "variant": "attack_defence_ratio",
           "ratio": "EQUAL"
         }
-      ]
+      ],
+      "trigger": {
+        "variant": "level_up"
+      }
     }
-  ],
-  "baseScale": 0.5,
-  "hitbox": {
-    "width": 0.6,
-    "height": 1.45,
-    "fixed": false
-  },
-  "baseFriendship": 50,
-  "evYield": {
-    "hp": 0,
-    "attack": 1,
-    "defence": 0,
-    "special_attack": 0,
-    "special_defence": 0,
-    "speed": 0
-  },
-  "height": 7,
-  "weight": 210,
-  "aspects": [],
-  "cannotDynamax": false
+  ]
 }

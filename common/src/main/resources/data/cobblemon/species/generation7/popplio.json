@@ -17,14 +17,48 @@
   },
   "catchRate": 45,
   "maleRatio": 0.875,
-  "shoulderMountable": true,
-  "baseExperienceYield": 64,
+  "baseFriendship": 50,
   "experienceGroup": "medium_slow",
   "eggCycles": 15,
   "eggGroups": [
     "water_1",
     "field"
   ],
+  "height": 4,
+  "weight": 75,
+  "pokedex": [
+    "cobblemon.species.popplio.desc"
+  ],
+  "labels": [
+    "gen7"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 64,
+  "evYield": {
+    "hp": 0,
+    "attack": 0,
+    "defence": 0,
+    "special_attack": 1,
+    "special_defence": 0,
+    "speed": 0
+  },
+  "drops": {
+    "amount": 1,
+    "entries": [
+      {
+        "item": "cobblemon:mystic_water",
+        "percentage": 5.0
+      }
+    ]
+  },
+  "baseScale": 0.75,
+  "hitbox": {
+    "width": 0.9,
+    "height": 0.75,
+    "fixed": false
+  },
+  "cannotDynamax": false,
+  "shoulderMountable": true,
   "behaviour": {
     "moving": {
       "walk": {
@@ -41,15 +75,6 @@
       "depth": "normal",
       "light": "0-4"
     }
-  },
-  "drops": {
-    "amount": 1,
-    "entries": [
-      {
-        "item": "cobblemon:mystic_water",
-        "percentage": 5.0
-      }
-    ]
   },
   "moves": [
     "1:growl",
@@ -140,44 +165,20 @@
     "tutor:waterpulse",
     "tutor:wonderroom"
   ],
-  "labels": [
-    "gen7"
-  ],
-  "pokedex": [
-    "cobblemon.species.popplio.desc"
-  ],
   "evolutions": [
     {
       "id": "popplio_brionne",
-      "variant": "level_up",
       "result": "brionne",
-      "consumeHeldItem": false,
       "learnableMoves": [],
       "requirements": [
         {
           "variant": "level",
           "minLevel": 17
         }
-      ]
+      ],
+      "trigger": {
+        "variant": "level_up"
+      }
     }
-  ],
-  "baseScale": 0.75,
-  "hitbox": {
-    "width": 0.9,
-    "height": 0.75,
-    "fixed": false
-  },
-  "baseFriendship": 50,
-  "evYield": {
-    "hp": 0,
-    "attack": 0,
-    "defence": 0,
-    "special_attack": 1,
-    "special_defence": 0,
-    "speed": 0
-  },
-  "height": 4,
-  "weight": 75,
-  "aspects": [],
-  "cannotDynamax": false
+  ]
 }

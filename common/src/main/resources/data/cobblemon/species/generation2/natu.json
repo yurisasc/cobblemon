@@ -17,21 +17,32 @@
     "special_defence": 45,
     "speed": 70
   },
-  "behaviour": {
-    "resting": {
-      "canSleep": true,
-      "willSleepOnBed": true
-    }
-  },
   "catchRate": 190,
   "maleRatio": 0.5,
-  "shoulderMountable": false,
-  "baseExperienceYield": 64,
+  "baseFriendship": 50,
   "experienceGroup": "medium_fast",
   "eggCycles": 20,
   "eggGroups": [
     "flying"
   ],
+  "height": 2,
+  "weight": 20,
+  "pokedex": [
+    "cobblemon.species.natu.desc"
+  ],
+  "labels": [
+    "gen2"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 64,
+  "evYield": {
+    "hp": 0,
+    "attack": 0,
+    "defence": 0,
+    "special_attack": 1,
+    "special_defence": 0,
+    "speed": 0
+  },
   "drops": {
     "amount": 4,
     "entries": [
@@ -51,6 +62,20 @@
         "percentage": 2.5
       }
     ]
+  },
+  "baseScale": 0.85,
+  "hitbox": {
+    "width": 0.6,
+    "height": 0.6,
+    "fixed": false
+  },
+  "cannotDynamax": false,
+  "shoulderMountable": false,
+  "behaviour": {
+    "resting": {
+      "canSleep": true,
+      "willSleepOnBed": true
+    }
   },
   "moves": [
     "1:leer",
@@ -205,18 +230,10 @@
     "tutor:twister",
     "tutor:zenheadbutt"
   ],
-  "labels": [
-    "gen2"
-  ],
-  "pokedex": [
-    "cobblemon.species.natu.desc"
-  ],
   "evolutions": [
     {
       "id": "natu_xatu",
-      "variant": "level_up",
       "result": "xatu",
-      "consumeHeldItem": false,
       "learnableMoves": [
         "airslash"
       ],
@@ -225,26 +242,10 @@
           "variant": "level",
           "minLevel": 25
         }
-      ]
+      ],
+      "trigger": {
+        "variant": "level_up"
+      }
     }
-  ],
-  "baseScale": 0.85,
-  "hitbox": {
-    "width": 0.6,
-    "height": 0.6,
-    "fixed": false
-  },
-  "baseFriendship": 50,
-  "evYield": {
-    "hp": 0,
-    "attack": 0,
-    "defence": 0,
-    "special_attack": 1,
-    "special_defence": 0,
-    "speed": 0
-  },
-  "height": 2,
-  "weight": 20,
-  "aspects": [],
-  "cannotDynamax": false
+  ]
 }

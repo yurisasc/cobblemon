@@ -19,21 +19,30 @@
   },
   "catchRate": 75,
   "maleRatio": 0.5,
-  "shoulderMountable": false,
-  "baseExperienceYield": 166,
+  "baseFriendship": 70,
   "experienceGroup": "medium_fast",
   "eggCycles": 20,
   "eggGroups": [
     "water_1",
     "field"
   ],
-  "behaviour": {
-    "moving": {
-      "swim": {
-        "canSwimInWater": true,
-        "canBreatheUnderwater": true
-      }
-    }
+  "height": 17,
+  "weight": 1200,
+  "pokedex": [
+    "cobblemon.species.dewgong.desc"
+  ],
+  "labels": [
+    "gen1"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 166,
+  "evYield": {
+    "hp": 0,
+    "attack": 0,
+    "defence": 0,
+    "special_attack": 0,
+    "special_defence": 2,
+    "speed": 0
   },
   "drops": {
     "amount": 4,
@@ -51,6 +60,22 @@
         "percentage": 5.0
       }
     ]
+  },
+  "baseScale": 2,
+  "hitbox": {
+    "width": 0.9,
+    "height": 0.5,
+    "fixed": false
+  },
+  "cannotDynamax": false,
+  "shoulderMountable": false,
+  "behaviour": {
+    "moving": {
+      "swim": {
+        "canSwimInWater": true,
+        "canBreatheUnderwater": true
+      }
+    }
   },
   "moves": [
     "1:growl",
@@ -187,31 +212,6 @@
     "tutor:waterpulse",
     "tutor:whirlpool"
   ],
-  "labels": [
-    "gen1"
-  ],
-  "pokedex": [
-    "cobblemon.species.dewgong.desc"
-  ],
   "preEvolution": "seel",
-  "evolutions": [],
-  "baseScale": 2,
-  "hitbox": {
-    "width": 0.9,
-    "height": 0.5,
-    "fixed": false
-  },
-  "baseFriendship": 70,
-  "evYield": {
-    "hp": 0,
-    "attack": 0,
-    "defence": 0,
-    "special_attack": 0,
-    "special_defence": 2,
-    "speed": 0
-  },
-  "height": 17,
-  "weight": 1200,
-  "aspects": [],
-  "cannotDynamax": false
+  "evolutions": []
 }

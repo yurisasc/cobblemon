@@ -17,9 +17,22 @@
   },
   "catchRate": 45,
   "maleRatio": 0.5,
-  "shoulderMountable": false,
-  "baseExperienceYield": 250,
   "baseFriendship": 50,
+  "experienceGroup": "medium_fast",
+  "eggCycles": 20,
+  "eggGroups": [
+    "mineral"
+  ],
+  "height": 17,
+  "weight": 530,
+  "pokedex": [
+    "cobblemon.species.aegislash.desc"
+  ],
+  "labels": [
+    "gen6"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 250,
   "evYield": {
     "hp": 0,
     "attack": 0,
@@ -28,11 +41,6 @@
     "special_defence": 1,
     "speed": 0
   },
-  "experienceGroup": "medium_fast",
-  "eggCycles": 20,
-  "eggGroups": [
-    "mineral"
-  ],
   "drops": {
     "amount": 5,
     "entries": [
@@ -50,6 +58,14 @@
       }
     ]
   },
+  "baseScale": 0.9,
+  "hitbox": {
+    "width": 1.1,
+    "height": 1.9,
+    "fixed": false
+  },
+  "cannotDynamax": false,
+  "shoulderMountable": false,
   "moves": [
     "1:aerialace",
     "1:autotomize",
@@ -126,17 +142,9 @@
     "tutor:steelbeam",
     "tutor:wideguard"
   ],
-  "labels": [
-    "gen6"
-  ],
-  "pokedex": [
-    "cobblemon.species.aegislash.desc"
-  ],
-  "height": 17,
-  "weight": 530,
   "preEvolution": "doublade",
   "evolutions": [],
-  "forms": [
+  "temporaryForms": [
     {
       "name": "Blade",
       "primaryType": "steel",
@@ -154,8 +162,21 @@
       },
       "catchRate": 45,
       "maleRatio": 0.5,
-      "baseExperienceYield": 250,
       "baseFriendship": 50,
+      "experienceGroup": "medium_fast",
+      "eggCycles": 20,
+      "eggGroups": [
+        "mineral"
+      ],
+      "height": 17,
+      "weight": 530,
+      "labels": [
+        "gen6"
+      ],
+      "aspects": [
+        "blade"
+      ],
+      "baseExperienceYield": 250,
       "evYield": {
         "hp": 0,
         "attack": 2,
@@ -164,29 +185,8 @@
         "special_defence": 0,
         "speed": 0
       },
-      "experienceGroup": "medium_fast",
-      "eggCycles": 20,
-      "eggGroups": [
-        "mineral"
-      ],
-      "labels": [
-        "gen6"
-      ],
-      "aspects": [
-        "blade"
-      ],
-      "height": 17,
-      "weight": 530,
       "cannotDynamax": false,
       "battleOnly": true
     }
-  ],
-  "baseScale": 0.9,
-  "hitbox": {
-    "width": 1.1,
-    "height": 1.9,
-    "fixed": false
-  },
-  "aspects": [],
-  "cannotDynamax": false
+  ]
 }

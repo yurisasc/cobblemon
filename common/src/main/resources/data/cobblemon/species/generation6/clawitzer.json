@@ -15,14 +15,39 @@
   },
   "catchRate": 55,
   "maleRatio": 0.5,
-  "shoulderMountable": false,
-  "baseExperienceYield": 100,
+  "baseFriendship": 50,
   "experienceGroup": "slow",
   "eggCycles": 15,
   "eggGroups": [
     "water_1",
     "water_3"
   ],
+  "height": 13,
+  "weight": 353,
+  "pokedex": [
+    "cobblemon.species.clawitzer.desc"
+  ],
+  "labels": [
+    "gen6"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 100,
+  "evYield": {
+    "hp": 0,
+    "attack": 0,
+    "defence": 0,
+    "special_attack": 2,
+    "special_defence": 0,
+    "speed": 0
+  },
+  "baseScale": 1,
+  "hitbox": {
+    "width": 1,
+    "height": 1,
+    "fixed": false
+  },
+  "cannotDynamax": false,
+  "shoulderMountable": false,
   "moves": [
     "1:darkpulse",
     "1:dragonpulse",
@@ -115,31 +140,6 @@
     "tutor:terrainpulse",
     "tutor:waterpulse"
   ],
-  "labels": [
-    "gen6"
-  ],
-  "pokedex": [
-    "cobblemon.species.clawitzer.desc"
-  ],
   "preEvolution": "clauncher",
-  "evolutions": [],
-  "baseScale": 1,
-  "hitbox": {
-    "width": 1,
-    "height": 1,
-    "fixed": false
-  },
-  "baseFriendship": 50,
-  "evYield": {
-    "hp": 0,
-    "attack": 0,
-    "defence": 0,
-    "special_attack": 2,
-    "special_defence": 0,
-    "speed": 0
-  },
-  "height": 13,
-  "weight": 353,
-  "aspects": [],
-  "cannotDynamax": false
+  "evolutions": []
 }

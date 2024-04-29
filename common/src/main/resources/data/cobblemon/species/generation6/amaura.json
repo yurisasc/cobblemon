@@ -16,6 +16,49 @@
     "special_defence": 63,
     "speed": 46
   },
+  "catchRate": 45,
+  "maleRatio": 0.875,
+  "baseFriendship": 50,
+  "experienceGroup": "medium_fast",
+  "eggCycles": 30,
+  "eggGroups": [
+    "monster"
+  ],
+  "height": 13,
+  "weight": 252,
+  "pokedex": [
+    "cobblemon.species.amaura.desc"
+  ],
+  "labels": [
+    "gen6"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 72,
+  "evYield": {
+    "hp": 1,
+    "attack": 0,
+    "defence": 0,
+    "special_attack": 0,
+    "special_defence": 0,
+    "speed": 0
+  },
+  "drops": {
+    "amount": 1,
+    "entries": [
+      {
+        "item": "cobblemon:never_melt_ice",
+        "percentage": 5.0
+      }
+    ]
+  },
+  "baseScale": 1.2,
+  "hitbox": {
+    "width": 1,
+    "height": 2.15,
+    "fixed": false
+  },
+  "cannotDynamax": false,
+  "shoulderMountable": false,
   "behaviour": {
     "resting": {
       "canSleep": true,
@@ -28,15 +71,6 @@
       }
     }
   },
-  "catchRate": 45,
-  "maleRatio": 0.875,
-  "shoulderMountable": false,
-  "baseExperienceYield": 72,
-  "experienceGroup": "medium_fast",
-  "eggCycles": 30,
-  "eggGroups": [
-    "monster"
-  ],
   "moves": [
     "1:growl",
     "1:powdersnow",
@@ -145,18 +179,10 @@
     "tutor:waterpulse",
     "tutor:zenheadbutt"
   ],
-  "labels": [
-    "gen6"
-  ],
-  "pokedex": [
-    "cobblemon.species.amaura.desc"
-  ],
   "evolutions": [
     {
       "id": "amaura_aurorus",
-      "variant": "level_up",
       "result": "aurorus",
-      "consumeHeldItem": false,
       "learnableMoves": [],
       "requirements": [
         {
@@ -167,35 +193,10 @@
           "variant": "time_range",
           "range": "night"
         }
-      ]
-    }
-  ],
-  "baseScale": 1.2,
-  "hitbox": {
-    "width": 1,
-    "height": 2.15,
-    "fixed": false
-  },
-  "baseFriendship": 50,
-  "evYield": {
-    "hp": 1,
-    "attack": 0,
-    "defence": 0,
-    "special_attack": 0,
-    "special_defence": 0,
-    "speed": 0
-  },
-  "height": 13,
-  "weight": 252,
-  "aspects": [],
-  "cannotDynamax": false,
-  "drops": {
-    "amount": 1,
-    "entries": [
-      {
-        "item": "cobblemon:never_melt_ice",
-        "percentage": 5.0
+      ],
+      "trigger": {
+        "variant": "level_up"
       }
-    ]
-  }
+    }
+  ]
 }

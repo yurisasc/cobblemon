@@ -16,8 +16,22 @@
   },
   "catchRate": 190,
   "maleRatio": 0.5,
-  "baseExperienceYield": 42,
   "baseFriendship": 20,
+  "experienceGroup": "medium_fast",
+  "eggCycles": 20,
+  "eggGroups": [
+    "bug"
+  ],
+  "height": 2,
+  "weight": 10,
+  "pokedex": [
+    "cobblemon.species.nymble.desc"
+  ],
+  "labels": [
+    "gen9"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 42,
   "evYield": {
     "hp": 0,
     "attack": 1,
@@ -26,11 +40,16 @@
     "special_defence": 0,
     "speed": 0
   },
-  "experienceGroup": "medium_fast",
-  "eggCycles": 20,
-  "eggGroups": [
-    "bug"
-  ],
+  "drops": {
+    "amount": 1,
+    "entries": [
+      {
+        "item": "cobblemon:coba_berry",
+        "percentage": 2.5
+      }
+    ]
+  },
+  "cannotDynamax": false,
   "moves": [
     "1:leer",
     "1:tackle",
@@ -67,18 +86,10 @@
     "tm:uturn",
     "tm:xscissor"
   ],
-  "labels": [
-    "gen9"
-  ],
-  "aspects": [],
-  "height": 2,
-  "weight": 10,
   "evolutions": [
     {
       "id": "nymble_lokix",
-      "variant": "level_up",
       "result": "lokix",
-      "consumeHeldItem": false,
       "learnableMoves": [
         "lunge"
       ],
@@ -87,20 +98,10 @@
           "variant": "level",
           "minLevel": 24
         }
-      ]
-    }
-  ],
-  "cannotDynamax": false,
-  "pokedex": [
-    "cobblemon.species.nymble.desc"
-  ],
-  "drops": {
-    "amount": 1,
-    "entries": [
-      {
-        "item": "cobblemon:coba_berry",
-        "percentage": 2.5
+      ],
+      "trigger": {
+        "variant": "level_up"
       }
-    ]
-  }
+    }
+  ]
 }

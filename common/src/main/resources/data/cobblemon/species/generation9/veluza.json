@@ -17,8 +17,22 @@
   },
   "catchRate": 100,
   "maleRatio": 0.5,
-  "baseExperienceYield": 167,
   "baseFriendship": 50,
+  "experienceGroup": "fast",
+  "eggCycles": 20,
+  "eggGroups": [
+    "water_2"
+  ],
+  "height": 25,
+  "weight": 900,
+  "pokedex": [
+    "cobblemon.species.veluza.desc"
+  ],
+  "labels": [
+    "gen9"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 167,
   "evYield": {
     "hp": 0,
     "attack": 2,
@@ -27,11 +41,20 @@
     "special_defence": 0,
     "speed": 0
   },
-  "experienceGroup": "fast",
-  "eggCycles": 20,
-  "eggGroups": [
-    "water_2"
-  ],
+  "drops": {
+    "amount": 4,
+    "entries": [
+      {
+        "item": "minecraft:cod",
+        "quantityRange": "1-3"
+      },
+      {
+        "item": "minecraft:bone_meal",
+        "percentage": 5.0
+      }
+    ]
+  },
+  "cannotDynamax": false,
   "moves": [
     "1:aquajet",
     "1:tackle",
@@ -79,28 +102,5 @@
     "tm:waterpulse",
     "tm:zenheadbutt"
   ],
-  "labels": [
-    "gen9"
-  ],
-  "aspects": [],
-  "height": 25,
-  "weight": 900,
-  "evolutions": [],
-  "cannotDynamax": false,
-  "pokedex": [
-    "cobblemon.species.veluza.desc"
-  ],
-  "drops": {
-    "amount": 4,
-    "entries": [
-      {
-        "item": "minecraft:cod",
-        "quantityRange": "1-3"
-      },
-      {
-        "item": "minecraft:bone_meal",
-        "percentage": 5.0
-      }
-    ]
-  }
+  "evolutions": []
 }

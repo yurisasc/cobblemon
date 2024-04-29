@@ -16,13 +16,38 @@
   },
   "catchRate": 30,
   "maleRatio": -1,
-  "shoulderMountable": false,
-  "baseExperienceYield": 175,
+  "baseFriendship": 70,
   "experienceGroup": "medium_slow",
   "eggCycles": 25,
   "eggGroups": [
     "mineral"
   ],
+  "height": 3,
+  "weight": 3,
+  "pokedex": [
+    "cobblemon.species.minior.desc"
+  ],
+  "labels": [
+    "gen7"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 175,
+  "evYield": {
+    "hp": 0,
+    "attack": 1,
+    "defence": 0,
+    "special_attack": 1,
+    "special_defence": 0,
+    "speed": 0
+  },
+  "baseScale": 1,
+  "hitbox": {
+    "width": 1,
+    "height": 1,
+    "fixed": false
+  },
+  "cannotDynamax": false,
+  "shoulderMountable": false,
   "moves": [
     "1:tackle",
     "3:defensecurl",
@@ -102,31 +127,8 @@
     "tutor:telekinesis",
     "tutor:zenheadbutt"
   ],
-  "labels": [
-    "gen7"
-  ],
-  "pokedex": [
-    "cobblemon.species.minior.desc"
-  ],
   "evolutions": [],
-  "baseScale": 1,
-  "hitbox": {
-    "width": 1,
-    "height": 1,
-    "fixed": false
-  },
-  "baseFriendship": 70,
-  "evYield": {
-    "hp": 0,
-    "attack": 1,
-    "defence": 0,
-    "special_attack": 1,
-    "special_defence": 0,
-    "speed": 0
-  },
-  "height": 3,
-  "weight": 3,
-  "forms": [
+  "temporaryForms": [
     {
       "name": "Meteor",
       "primaryType": "rock",
@@ -144,8 +146,21 @@
       },
       "catchRate": 30,
       "maleRatio": -1,
-      "baseExperienceYield": 175,
       "baseFriendship": 70,
+      "experienceGroup": "medium_slow",
+      "eggCycles": 25,
+      "eggGroups": [
+        "mineral"
+      ],
+      "height": 3,
+      "weight": 400,
+      "labels": [
+        "gen7"
+      ],
+      "aspects": [
+        "meteor"
+      ],
+      "baseExperienceYield": 175,
       "evYield": {
         "hp": 0,
         "attack": 0,
@@ -154,21 +169,6 @@
         "special_defence": 1,
         "speed": 0
       },
-      "experienceGroup": "medium_slow",
-      "eggCycles": 25,
-      "eggGroups": [
-        "mineral"
-      ],
-      "labels": [
-        "gen7"
-      ],
-      "aspects": [
-        "meteor"
-      ],
-      "height": 3,
-      "weight": 400,
-      "cannotDynamax": false,
-      "battleOnly": true,
       "drops": {
         "amount": 1,
         "entries": [
@@ -177,9 +177,9 @@
             "percentage": 5.0
           }
         ]
-      }
+      },
+      "cannotDynamax": false,
+      "battleOnly": true
     }
-  ],
-  "aspects": [],
-  "cannotDynamax": false
+  ]
 }

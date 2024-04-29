@@ -16,23 +16,32 @@
     "special_defence": 70,
     "speed": 95
   },
-  "behaviour": {
-    "resting": {
-      "canSleep": true,
-      "willSleepOnBed": false,
-      "depth": "normal",
-      "light": "0-4"
-    }
-  },
   "catchRate": 75,
   "maleRatio": 0.5,
-  "shoulderMountable": false,
-  "baseExperienceYield": 159,
+  "baseFriendship": 70,
   "experienceGroup": "medium_fast",
   "eggCycles": 20,
   "eggGroups": [
     "field"
   ],
+  "height": 10,
+  "weight": 320,
+  "pokedex": [
+    "cobblemon.species.primeape.desc"
+  ],
+  "labels": [
+    "gen1"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 159,
+  "evYield": {
+    "hp": 0,
+    "attack": 2,
+    "defence": 0,
+    "special_attack": 0,
+    "special_defence": 0,
+    "speed": 0
+  },
   "drops": {
     "amount": 2,
     "entries": [
@@ -45,6 +54,22 @@
         "percentage": 5.0
       }
     ]
+  },
+  "baseScale": 1.1,
+  "hitbox": {
+    "width": 0.7,
+    "height": 1.1,
+    "fixed": false
+  },
+  "cannotDynamax": false,
+  "shoulderMountable": false,
+  "behaviour": {
+    "resting": {
+      "canSleep": true,
+      "willSleepOnBed": false,
+      "depth": "normal",
+      "light": "0-4"
+    }
   },
   "moves": [
     "1:fling",
@@ -231,19 +256,11 @@
     "tutor:uturn",
     "tutor:vacuumwave"
   ],
-  "labels": [
-    "gen1"
-  ],
-  "pokedex": [
-    "cobblemon.species.primeape.desc"
-  ],
   "preEvolution": "mankey",
   "evolutions": [
     {
       "id": "primeape_annihilape",
-      "variant": "level_up",
       "result": "annihilape",
-      "consumeHeldItem": false,
       "learnableMoves": [],
       "requirements": [
         {
@@ -251,26 +268,10 @@
           "move": "ragefist",
           "amount": 20
         }
-      ]
+      ],
+      "trigger": {
+        "variant": "level_up"
+      }
     }
-  ],
-  "baseScale": 1.1,
-  "hitbox": {
-    "width": 0.7,
-    "height": 1.1,
-    "fixed": false
-  },
-  "baseFriendship": 70,
-  "evYield": {
-    "hp": 0,
-    "attack": 2,
-    "defence": 0,
-    "special_attack": 0,
-    "special_defence": 0,
-    "speed": 0
-  },
-  "height": 10,
-  "weight": 320,
-  "aspects": [],
-  "cannotDynamax": false
+  ]
 }

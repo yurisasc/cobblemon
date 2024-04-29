@@ -8,6 +8,41 @@
     "swiftswim",
     "h:raindish"
   ],
+  "baseStats": {
+    "hp": 40,
+    "attack": 30,
+    "defence": 32,
+    "special_attack": 50,
+    "special_defence": 52,
+    "speed": 65
+  },
+  "catchRate": 200,
+  "maleRatio": 0.5,
+  "baseFriendship": 70,
+  "experienceGroup": "medium_fast",
+  "eggCycles": 15,
+  "eggGroups": [
+    "water_1",
+    "bug"
+  ],
+  "height": 5,
+  "weight": 17,
+  "pokedex": [
+    "cobblemon.species.surskit.desc"
+  ],
+  "labels": [
+    "gen3"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 54,
+  "evYield": {
+    "hp": 0,
+    "attack": 0,
+    "defence": 0,
+    "special_attack": 0,
+    "special_defence": 0,
+    "speed": 1
+  },
   "drops": {
     "amount": 2,
     "entries": [
@@ -21,24 +56,14 @@
       }
     ]
   },
-  "baseStats": {
-    "hp": 40,
-    "attack": 30,
-    "defence": 32,
-    "special_attack": 50,
-    "special_defence": 52,
-    "speed": 65
+  "baseScale": 0.7,
+  "hitbox": {
+    "width": 0.8,
+    "height": 1.6,
+    "fixed": false
   },
-  "catchRate": 200,
-  "maleRatio": 0.5,
+  "cannotDynamax": false,
   "shoulderMountable": false,
-  "baseExperienceYield": 54,
-  "experienceGroup": "medium_fast",
-  "eggCycles": 15,
-  "eggGroups": [
-    "water_1",
-    "bug"
-  ],
   "behaviour": {
     "moving": {
       "swim": {
@@ -153,44 +178,20 @@
     "tutor:swift",
     "tutor:waterpulse"
   ],
-  "labels": [
-    "gen3"
-  ],
-  "pokedex": [
-    "cobblemon.species.surskit.desc"
-  ],
   "evolutions": [
     {
       "id": "surskit_masquerain",
-      "variant": "level_up",
       "result": "masquerain",
-      "consumeHeldItem": false,
       "learnableMoves": [],
       "requirements": [
         {
           "variant": "level",
           "minLevel": 22
         }
-      ]
+      ],
+      "trigger": {
+        "variant": "level_up"
+      }
     }
-  ],
-  "baseScale": 0.7,
-  "hitbox": {
-    "width": 0.8,
-    "height": 1.6,
-    "fixed": false
-  },
-  "baseFriendship": 70,
-  "evYield": {
-    "hp": 0,
-    "attack": 0,
-    "defence": 0,
-    "special_attack": 0,
-    "special_defence": 0,
-    "speed": 1
-  },
-  "height": 5,
-  "weight": 17,
-  "aspects": [],
-  "cannotDynamax": false
+  ]
 }

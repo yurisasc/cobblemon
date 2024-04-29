@@ -16,9 +16,24 @@
   },
   "catchRate": 3,
   "maleRatio": -1,
-  "shoulderMountable": false,
-  "baseExperienceYield": 270,
   "baseFriendship": 100,
+  "experienceGroup": "slow",
+  "eggCycles": 120,
+  "eggGroups": [
+    "undiscovered"
+  ],
+  "height": 6,
+  "weight": 65,
+  "pokedex": [
+    "cobblemon.species.meloetta.desc"
+  ],
+  "labels": [
+    "gen5",
+    "mythical",
+    "legendary"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 270,
   "evYield": {
     "hp": 0,
     "attack": 0,
@@ -27,11 +42,8 @@
     "special_defence": 1,
     "speed": 1
   },
-  "experienceGroup": "slow",
-  "eggCycles": 120,
-  "eggGroups": [
-    "undiscovered"
-  ],
+  "cannotDynamax": false,
+  "shoulderMountable": false,
   "moves": [
     "1:confusion",
     "1:quickattack",
@@ -172,18 +184,8 @@
     "tutor:wonderroom",
     "tutor:zenheadbutt"
   ],
-  "labels": [
-    "gen5",
-    "mythical",
-    "legendary"
-  ],
-  "pokedex": [
-    "cobblemon.species.meloetta.desc"
-  ],
-  "height": 6,
-  "weight": 65,
   "evolutions": [],
-  "forms": [
+  "temporaryForms": [
     {
       "name": "Pirouette",
       "primaryType": "normal",
@@ -201,21 +203,14 @@
       },
       "catchRate": 3,
       "maleRatio": -1,
-      "baseExperienceYield": 270,
       "baseFriendship": 100,
-      "evYield": {
-        "hp": 0,
-        "attack": 1,
-        "defence": 1,
-        "special_attack": 0,
-        "special_defence": 0,
-        "speed": 1
-      },
       "experienceGroup": "slow",
       "eggCycles": 120,
       "eggGroups": [
         "undiscovered"
       ],
+      "height": 6,
+      "weight": 65,
       "labels": [
         "gen5",
         "mythical",
@@ -224,12 +219,17 @@
       "aspects": [
         "pirouette"
       ],
-      "height": 6,
-      "weight": 65,
+      "baseExperienceYield": 270,
+      "evYield": {
+        "hp": 0,
+        "attack": 1,
+        "defence": 1,
+        "special_attack": 0,
+        "special_defence": 0,
+        "speed": 1
+      },
       "cannotDynamax": false,
       "battleOnly": true
     }
-  ],
-  "aspects": [],
-  "cannotDynamax": false
+  ]
 }

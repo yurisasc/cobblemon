@@ -16,9 +16,23 @@
   },
   "catchRate": 3,
   "maleRatio": -1,
-  "shoulderMountable": false,
-  "baseExperienceYield": 300,
   "baseFriendship": 0,
+  "experienceGroup": "slow",
+  "eggCycles": 120,
+  "eggGroups": [
+    "undiscovered"
+  ],
+  "height": 50,
+  "weight": 3050,
+  "pokedex": [
+    "cobblemon.species.zygarde.desc"
+  ],
+  "labels": [
+    "gen6",
+    "legendary"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 300,
   "evYield": {
     "hp": 3,
     "attack": 0,
@@ -27,11 +41,8 @@
     "special_defence": 0,
     "speed": 0
   },
-  "experienceGroup": "slow",
-  "eggCycles": 120,
-  "eggGroups": [
-    "undiscovered"
-  ],
+  "cannotDynamax": false,
+  "shoulderMountable": false,
   "moves": [
     "1:bind",
     "1:bite",
@@ -138,17 +149,8 @@
     "tutor:thousandwaves",
     "tutor:zenheadbutt"
   ],
-  "labels": [
-    "gen6",
-    "legendary"
-  ],
-  "pokedex": [
-    "cobblemon.species.zygarde.desc"
-  ],
-  "height": 50,
-  "weight": 3050,
   "evolutions": [],
-  "forms": [
+  "temporaryForms": [
     {
       "name": "10%",
       "primaryType": "dragon",
@@ -166,8 +168,22 @@
       },
       "catchRate": 3,
       "maleRatio": -1,
-      "baseExperienceYield": 300,
       "baseFriendship": 0,
+      "experienceGroup": "slow",
+      "eggCycles": 120,
+      "eggGroups": [
+        "undiscovered"
+      ],
+      "height": 12,
+      "weight": 335,
+      "labels": [
+        "gen7",
+        "legendary"
+      ],
+      "aspects": [
+        "10%"
+      ],
+      "baseExperienceYield": 300,
       "evYield": {
         "hp": 3,
         "attack": 0,
@@ -176,11 +192,8 @@
         "special_defence": 0,
         "speed": 0
       },
-      "experienceGroup": "slow",
-      "eggCycles": 120,
-      "eggGroups": [
-        "undiscovered"
-      ],
+      "cannotDynamax": false,
+      "battleOnly": false,
       "moves": [
         "tutor:bind",
         "tutor:dig",
@@ -195,18 +208,7 @@
         "tutor:safeguard",
         "tutor:sandstorm",
         "tutor:thousandarrows"
-      ],
-      "labels": [
-        "gen7",
-        "legendary"
-      ],
-      "aspects": [
-        "10%"
-      ],
-      "height": 12,
-      "weight": 335,
-      "cannotDynamax": false,
-      "battleOnly": false
+      ]
     },
     {
       "name": "Complete",
@@ -225,8 +227,22 @@
       },
       "catchRate": 3,
       "maleRatio": -1,
-      "baseExperienceYield": 300,
       "baseFriendship": 0,
+      "experienceGroup": "slow",
+      "eggCycles": 120,
+      "eggGroups": [
+        "undiscovered"
+      ],
+      "height": 45,
+      "weight": 6100,
+      "labels": [
+        "gen7",
+        "legendary"
+      ],
+      "aspects": [
+        "complete"
+      ],
+      "baseExperienceYield": 300,
       "evYield": {
         "hp": 3,
         "attack": 0,
@@ -235,24 +251,8 @@
         "special_defence": 0,
         "speed": 0
       },
-      "experienceGroup": "slow",
-      "eggCycles": 120,
-      "eggGroups": [
-        "undiscovered"
-      ],
-      "labels": [
-        "gen7",
-        "legendary"
-      ],
-      "aspects": [
-        "complete"
-      ],
-      "height": 45,
-      "weight": 6100,
       "cannotDynamax": false,
       "battleOnly": true
     }
-  ],
-  "aspects": [],
-  "cannotDynamax": false
+  ]
 }

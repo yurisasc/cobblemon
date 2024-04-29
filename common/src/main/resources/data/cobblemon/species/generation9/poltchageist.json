@@ -17,8 +17,20 @@
   },
   "catchRate": 120,
   "maleRatio": -1,
-  "baseExperienceYield": 0,
   "baseFriendship": 0,
+  "experienceGroup": "slow",
+  "eggCycles": 50,
+  "eggGroups": [
+    "mineral",
+    "amorphous"
+  ],
+  "height": 1,
+  "weight": 11,
+  "labels": [
+    "gen9"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 0,
   "evYield": {
     "hp": 0,
     "attack": 0,
@@ -27,12 +39,16 @@
     "special_defence": 0,
     "speed": 0
   },
-  "experienceGroup": "slow",
-  "eggCycles": 50,
-  "eggGroups": [
-    "mineral",
-    "amorphous"
-  ],
+  "drops": {
+    "amount": 1,
+    "entries": [
+      {
+        "item": "cobblemon:rawst_berry",
+        "percentage": 2.5
+      }
+    ]
+  },
+  "cannotDynamax": false,
   "moves": [
     "1:astonish",
     "1:stunspore",
@@ -75,27 +91,21 @@
     "tm:trickroom",
     "tm:uproar"
   ],
-  "labels": [
-    "gen9"
-  ],
-  "aspects": [],
-  "height": 1,
-  "weight": 11,
   "evolutions": [
     {
       "id": "poltchageist_sinistcha",
-      "variant": "item_interact",
       "result": "sinistcha",
-      "consumeHeldItem": false,
       "learnableMoves": [
         "matchagotcha"
       ],
       "requirements": [],
-      "requiredContext": "cobblemon:unremarkable_teacup"
+      "trigger": {
+        "variant": "item_interact",
+        "requiredContext": "cobblemon:unremarkable_teacup"
+      }
     }
   ],
-  "cannotDynamax": false,
-  "forms": [
+  "permanentForms": [
     {
       "name": "Artisan",
       "primaryType": "grass",
@@ -114,8 +124,21 @@
       },
       "catchRate": 120,
       "maleRatio": -1,
-      "baseExperienceYield": 0,
       "baseFriendship": 0,
+      "experienceGroup": "slow",
+      "eggCycles": 50,
+      "eggGroups": [
+        "undiscovered"
+      ],
+      "height": 1,
+      "weight": 11,
+      "labels": [
+        "gen9"
+      ],
+      "aspects": [
+        "artisan"
+      ],
+      "baseExperienceYield": 0,
       "evYield": {
         "hp": 0,
         "attack": 0,
@@ -124,11 +147,7 @@
         "special_defence": 0,
         "speed": 0
       },
-      "experienceGroup": "slow",
-      "eggCycles": 50,
-      "eggGroups": [
-        "undiscovered"
-      ],
+      "cannotDynamax": false,
       "moves": [
         "1:astonish",
         "1:stunspore",
@@ -171,38 +190,20 @@
         "tm:trickroom",
         "tm:uproar"
       ],
-      "labels": [
-        "gen9"
-      ],
-      "aspects": [
-        "artisan"
-      ],
-      "height": 1,
-      "weight": 11,
       "evolutions": [
         {
           "id": "poltchageist_sinistcha",
-          "variant": "item_interact",
           "result": "sinistcha masterpiece",
-          "consumeHeldItem": false,
           "learnableMoves": [
             "matchagotcha"
           ],
           "requirements": [],
-          "requiredContext": "cobblemon:masterpiece_teacup"
+          "trigger": {
+            "variant": "item_interact",
+            "requiredContext": "cobblemon:masterpiece_teacup"
+          }
         }
-      ],
-      "cannotDynamax": false,
-      "battleOnly": false
+      ]
     }
-  ],
-  "drops": {
-    "amount": 1,
-    "entries": [
-      {
-        "item": "cobblemon:rawst_berry",
-        "percentage": 2.5
-      }
-    ]
-  }
+  ]
 }

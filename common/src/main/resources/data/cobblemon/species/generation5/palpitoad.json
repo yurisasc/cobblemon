@@ -8,6 +8,40 @@
     "hydration",
     "h:waterabsorb"
   ],
+  "baseStats": {
+    "hp": 75,
+    "attack": 65,
+    "defence": 55,
+    "special_attack": 65,
+    "special_defence": 55,
+    "speed": 69
+  },
+  "catchRate": 120,
+  "maleRatio": 0.5,
+  "baseFriendship": 50,
+  "experienceGroup": "medium_slow",
+  "eggCycles": 20,
+  "eggGroups": [
+    "water_1"
+  ],
+  "height": 8,
+  "weight": 170,
+  "pokedex": [
+    "cobblemon.species.palpitoad.desc"
+  ],
+  "labels": [
+    "gen5"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 134,
+  "evYield": {
+    "hp": 2,
+    "attack": 0,
+    "defence": 0,
+    "special_attack": 0,
+    "special_defence": 0,
+    "speed": 0
+  },
   "drops": {
     "amount": 3,
     "entries": [
@@ -21,23 +55,14 @@
       }
     ]
   },
-  "baseStats": {
-    "hp": 75,
-    "attack": 65,
-    "defence": 55,
-    "special_attack": 65,
-    "special_defence": 55,
-    "speed": 69
+  "baseScale": 1,
+  "hitbox": {
+    "width": 1,
+    "height": 1,
+    "fixed": false
   },
-  "catchRate": 120,
-  "maleRatio": 0.5,
+  "cannotDynamax": false,
   "shoulderMountable": false,
-  "baseExperienceYield": 134,
-  "experienceGroup": "medium_slow",
-  "eggCycles": 20,
-  "eggGroups": [
-    "water_1"
-  ],
   "moves": [
     "1:acid",
     "1:bubble",
@@ -108,19 +133,11 @@
     "tutor:uproar",
     "tutor:waterpulse"
   ],
-  "labels": [
-    "gen5"
-  ],
-  "pokedex": [
-    "cobblemon.species.palpitoad.desc"
-  ],
   "preEvolution": "tympole",
   "evolutions": [
     {
       "id": "palpitoad_seismitoad",
-      "variant": "level_up",
       "result": "seismitoad",
-      "consumeHeldItem": false,
       "learnableMoves": [
         "drainpunch"
       ],
@@ -129,26 +146,10 @@
           "variant": "level",
           "minLevel": 36
         }
-      ]
+      ],
+      "trigger": {
+        "variant": "level_up"
+      }
     }
-  ],
-  "baseScale": 1,
-  "hitbox": {
-    "width": 1,
-    "height": 1,
-    "fixed": false
-  },
-  "baseFriendship": 50,
-  "evYield": {
-    "hp": 2,
-    "attack": 0,
-    "defence": 0,
-    "special_attack": 0,
-    "special_defence": 0,
-    "speed": 0
-  },
-  "height": 8,
-  "weight": 170,
-  "aspects": [],
-  "cannotDynamax": false
+  ]
 }

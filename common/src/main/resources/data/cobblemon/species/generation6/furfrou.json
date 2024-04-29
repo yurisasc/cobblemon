@@ -15,13 +15,55 @@
   },
   "catchRate": 160,
   "maleRatio": 0.5,
-  "shoulderMountable": false,
-  "baseExperienceYield": 165,
+  "baseFriendship": 70,
   "experienceGroup": "medium_fast",
   "eggCycles": 20,
   "eggGroups": [
     "field"
   ],
+  "height": 12,
+  "weight": 280,
+  "pokedex": [
+    "cobblemon.species.furfrou.desc"
+  ],
+  "labels": [
+    "gen6"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 165,
+  "evYield": {
+    "hp": 0,
+    "attack": 0,
+    "defence": 0,
+    "special_attack": 0,
+    "special_defence": 0,
+    "speed": 1
+  },
+  "drops": {
+    "amount": 5,
+    "entries": [
+      {
+        "item": "minecraft:bone",
+        "quantityRange": "0-2"
+      },
+      {
+        "item": "minecraft:white_wool",
+        "quantityRange": "1-2"
+      },
+      {
+        "item": "cobblemon:silk_scarf",
+        "percentage": 5.0
+      }
+    ]
+  },
+  "baseScale": 1,
+  "hitbox": {
+    "width": 1,
+    "height": 1,
+    "fixed": false
+  },
+  "cannotDynamax": false,
+  "shoulderMountable": false,
   "moves": [
     "1:growl",
     "1:tackle",
@@ -84,47 +126,5 @@
     "tutor:uproar",
     "tutor:zenheadbutt"
   ],
-  "labels": [
-    "gen6"
-  ],
-  "pokedex": [
-    "cobblemon.species.furfrou.desc"
-  ],
-  "evolutions": [],
-  "baseScale": 1,
-  "hitbox": {
-    "width": 1,
-    "height": 1,
-    "fixed": false
-  },
-  "baseFriendship": 70,
-  "evYield": {
-    "hp": 0,
-    "attack": 0,
-    "defence": 0,
-    "special_attack": 0,
-    "special_defence": 0,
-    "speed": 1
-  },
-  "height": 12,
-  "weight": 280,
-  "aspects": [],
-  "cannotDynamax": false,
-  "drops": {
-    "amount": 5,
-    "entries": [
-      {
-        "item": "minecraft:bone",
-        "quantityRange": "0-2"
-      },
-      {
-        "item": "minecraft:white_wool",
-        "quantityRange": "1-2"
-      },
-      {
-        "item": "cobblemon:silk_scarf",
-        "percentage": 5.0
-      }
-    ]
-  }
+  "evolutions": []
 }

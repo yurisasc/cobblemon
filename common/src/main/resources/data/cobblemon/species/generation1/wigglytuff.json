@@ -9,6 +9,40 @@
     "competitive",
     "h:frisk"
   ],
+  "baseStats": {
+    "hp": 140,
+    "attack": 70,
+    "defence": 45,
+    "special_attack": 85,
+    "special_defence": 50,
+    "speed": 45
+  },
+  "catchRate": 50,
+  "maleRatio": 0.25,
+  "baseFriendship": 50,
+  "experienceGroup": "fast",
+  "eggCycles": 10,
+  "eggGroups": [
+    "fairy"
+  ],
+  "height": 10,
+  "weight": 120,
+  "pokedex": [
+    "cobblemon.species.wigglytuff.desc"
+  ],
+  "labels": [
+    "gen1"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 218,
+  "evYield": {
+    "hp": 3,
+    "attack": 0,
+    "defence": 0,
+    "special_attack": 0,
+    "special_defence": 0,
+    "speed": 0
+  },
   "drops": {
     "amount": 3,
     "entries": [
@@ -26,14 +60,14 @@
       }
     ]
   },
-  "baseStats": {
-    "hp": 140,
-    "attack": 70,
-    "defence": 45,
-    "special_attack": 85,
-    "special_defence": 50,
-    "speed": 45
+  "baseScale": 1,
+  "hitbox": {
+    "width": 0.7,
+    "height": 1.2,
+    "fixed": false
   },
+  "cannotDynamax": false,
+  "shoulderMountable": false,
   "behaviour": {
     "resting": {
       "canSleep": true,
@@ -42,15 +76,6 @@
       "light": "0-4"
     }
   },
-  "catchRate": 50,
-  "maleRatio": 0.25,
-  "shoulderMountable": false,
-  "baseExperienceYield": 218,
-  "experienceGroup": "fast",
-  "eggCycles": 10,
-  "eggGroups": [
-    "fairy"
-  ],
   "moves": [
     "1:bodyslam",
     "1:charm",
@@ -288,31 +313,6 @@
     "tutor:waterpulse",
     "tutor:zapcannon"
   ],
-  "labels": [
-    "gen1"
-  ],
-  "pokedex": [
-    "cobblemon.species.wigglytuff.desc"
-  ],
   "preEvolution": "jigglypuff",
-  "evolutions": [],
-  "baseScale": 1,
-  "hitbox": {
-    "width": 0.7,
-    "height": 1.2,
-    "fixed": false
-  },
-  "baseFriendship": 50,
-  "evYield": {
-    "hp": 3,
-    "attack": 0,
-    "defence": 0,
-    "special_attack": 0,
-    "special_defence": 0,
-    "speed": 0
-  },
-  "height": 10,
-  "weight": 120,
-  "aspects": [],
-  "cannotDynamax": false
+  "evolutions": []
 }

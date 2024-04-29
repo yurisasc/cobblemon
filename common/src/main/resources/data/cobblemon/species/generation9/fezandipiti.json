@@ -17,8 +17,19 @@
   },
   "catchRate": 3,
   "maleRatio": 1,
-  "baseExperienceYield": 0,
   "baseFriendship": 0,
+  "experienceGroup": "slow",
+  "eggCycles": 50,
+  "eggGroups": [
+    "undiscovered"
+  ],
+  "height": 14,
+  "weight": 301,
+  "labels": [
+    "gen9"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 0,
   "evYield": {
     "hp": 0,
     "attack": 0,
@@ -27,11 +38,15 @@
     "special_defence": 3,
     "speed": 0
   },
-  "experienceGroup": "slow",
-  "eggCycles": 50,
-  "eggGroups": [
-    "undiscovered"
-  ],
+  "drops": {
+    "amount": 1,
+    "entries": [
+      {
+        "item": "cobblemon:fairy_feather"
+      }
+    ]
+  },
+  "cannotDynamax": false,
   "moves": [
     "1:disarmingvoice",
     "1:doublekick",
@@ -100,20 +115,5 @@
     "tutor:roost",
     "tutor:swagger"
   ],
-  "labels": [
-    "gen9"
-  ],
-  "aspects": [],
-  "height": 14,
-  "weight": 301,
-  "evolutions": [],
-  "cannotDynamax": false,
-  "drops": {
-    "amount": 1,
-    "entries": [
-      {
-        "item": "cobblemon:fairy_feather"
-      }
-    ]
-  }
+  "evolutions": []
 }

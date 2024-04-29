@@ -5,15 +5,6 @@
   "abilities": [
     "levitate"
   ],
-  "drops": {
-    "amount": 2,
-    "entries": [
-      {
-        "item": "minecraft:slime_ball",
-        "quantityRange": "0-2"
-      }
-    ]
-  },
   "baseStats": {
     "hp": 65,
     "attack": 85,
@@ -24,13 +15,47 @@
   },
   "catchRate": 60,
   "maleRatio": 0.5,
-  "shoulderMountable": false,
-  "baseExperienceYield": 142,
+  "baseFriendship": 70,
   "experienceGroup": "slow",
   "eggCycles": 20,
   "eggGroups": [
     "amorphous"
   ],
+  "height": 12,
+  "weight": 220,
+  "pokedex": [
+    "cobblemon.species.eelektrik.desc"
+  ],
+  "labels": [
+    "gen5"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 142,
+  "evYield": {
+    "hp": 0,
+    "attack": 2,
+    "defence": 0,
+    "special_attack": 0,
+    "special_defence": 0,
+    "speed": 0
+  },
+  "drops": {
+    "amount": 2,
+    "entries": [
+      {
+        "item": "minecraft:slime_ball",
+        "quantityRange": "0-2"
+      }
+    ]
+  },
+  "baseScale": 1,
+  "hitbox": {
+    "width": 1,
+    "height": 1,
+    "fixed": false
+  },
+  "cannotDynamax": false,
+  "shoulderMountable": false,
   "moves": [
     "1:chargebeam",
     "1:crunch",
@@ -107,41 +132,17 @@
     "tutor:superfang",
     "tutor:throatchop"
   ],
-  "labels": [
-    "gen5"
-  ],
-  "pokedex": [
-    "cobblemon.species.eelektrik.desc"
-  ],
   "preEvolution": "tynamo",
   "evolutions": [
     {
       "id": "eelektrik_eelektross",
-      "variant": "item_interact",
       "result": "eelektross",
-      "consumeHeldItem": false,
       "learnableMoves": [],
       "requirements": [],
-      "requiredContext": "cobblemon:thunder_stone"
+      "trigger": {
+        "variant": "item_interact",
+        "requiredContext": "cobblemon:thunder_stone"
+      }
     }
-  ],
-  "baseScale": 1,
-  "hitbox": {
-    "width": 1,
-    "height": 1,
-    "fixed": false
-  },
-  "baseFriendship": 70,
-  "evYield": {
-    "hp": 0,
-    "attack": 2,
-    "defence": 0,
-    "special_attack": 0,
-    "special_defence": 0,
-    "speed": 0
-  },
-  "height": 12,
-  "weight": 220,
-  "aspects": [],
-  "cannotDynamax": false
+  ]
 }

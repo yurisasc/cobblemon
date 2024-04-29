@@ -9,6 +9,40 @@
     "tangledfeet",
     "h:bigpecks"
   ],
+  "baseStats": {
+    "hp": 76,
+    "attack": 65,
+    "defence": 45,
+    "special_attack": 92,
+    "special_defence": 42,
+    "speed": 91
+  },
+  "catchRate": 30,
+  "maleRatio": 0.5,
+  "baseFriendship": 35,
+  "experienceGroup": "medium_slow",
+  "eggCycles": 20,
+  "eggGroups": [
+    "flying"
+  ],
+  "height": 5,
+  "weight": 19,
+  "pokedex": [
+    "cobblemon.species.chatot.desc"
+  ],
+  "labels": [
+    "gen4"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 144,
+  "evYield": {
+    "hp": 0,
+    "attack": 1,
+    "defence": 0,
+    "special_attack": 0,
+    "special_defence": 0,
+    "speed": 0
+  },
   "drops": {
     "amount": 4,
     "entries": [
@@ -25,23 +59,14 @@
       }
     ]
   },
-  "baseStats": {
-    "hp": 76,
-    "attack": 65,
-    "defence": 45,
-    "special_attack": 92,
-    "special_defence": 42,
-    "speed": 91
+  "baseScale": 0.9,
+  "hitbox": {
+    "width": 0.5,
+    "height": 0.8,
+    "fixed": false
   },
-  "catchRate": 30,
-  "maleRatio": 0.5,
+  "cannotDynamax": false,
   "shoulderMountable": true,
-  "baseExperienceYield": 144,
-  "experienceGroup": "medium_slow",
-  "eggCycles": 20,
-  "eggGroups": [
-    "flying"
-  ],
   "behaviour": {
     "moving": {
       "fly": {
@@ -138,30 +163,5 @@
     "tutor:twister",
     "tutor:uproar"
   ],
-  "labels": [
-    "gen4"
-  ],
-  "pokedex": [
-    "cobblemon.species.chatot.desc"
-  ],
-  "evolutions": [],
-  "baseScale": 0.9,
-  "hitbox": {
-    "width": 0.5,
-    "height": 0.8,
-    "fixed": false
-  },
-  "baseFriendship": 35,
-  "evYield": {
-    "hp": 0,
-    "attack": 1,
-    "defence": 0,
-    "special_attack": 0,
-    "special_defence": 0,
-    "speed": 0
-  },
-  "height": 5,
-  "weight": 19,
-  "aspects": [],
-  "cannotDynamax": false
+  "evolutions": []
 }

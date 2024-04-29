@@ -9,14 +9,6 @@
     "gluttony",
     "h:contrary"
   ],
-  "drops": {
-    "amount": 1,
-    "entries": [
-      {
-        "item": "cobblemon:berry_juice"
-      }
-    ]
-  },
   "baseStats": {
     "hp": 20,
     "attack": 10,
@@ -27,13 +19,46 @@
   },
   "catchRate": 190,
   "maleRatio": 0.5,
-  "shoulderMountable": false,
-  "baseExperienceYield": 177,
+  "baseFriendship": 50,
   "experienceGroup": "medium_slow",
   "eggCycles": 20,
   "eggGroups": [
     "bug"
   ],
+  "height": 6,
+  "weight": 205,
+  "pokedex": [
+    "cobblemon.species.shuckle.desc"
+  ],
+  "labels": [
+    "gen2"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 177,
+  "evYield": {
+    "hp": 0,
+    "attack": 0,
+    "defence": 1,
+    "special_attack": 0,
+    "special_defence": 1,
+    "speed": 0
+  },
+  "drops": {
+    "amount": 1,
+    "entries": [
+      {
+        "item": "cobblemon:berry_juice"
+      }
+    ]
+  },
+  "baseScale": 0.5,
+  "hitbox": {
+    "width": 1,
+    "height": 1,
+    "fixed": false
+  },
+  "cannotDynamax": false,
+  "shoulderMountable": false,
   "behaviour": {
     "moving": {
       "walk": {
@@ -181,30 +206,5 @@
     "tutor:withdraw",
     "tutor:wrap"
   ],
-  "labels": [
-    "gen2"
-  ],
-  "pokedex": [
-    "cobblemon.species.shuckle.desc"
-  ],
-  "evolutions": [],
-  "baseScale": 0.5,
-  "hitbox": {
-    "width": 1,
-    "height": 1,
-    "fixed": false
-  },
-  "baseFriendship": 50,
-  "evYield": {
-    "hp": 0,
-    "attack": 0,
-    "defence": 1,
-    "special_attack": 0,
-    "special_defence": 1,
-    "speed": 0
-  },
-  "height": 6,
-  "weight": 205,
-  "aspects": [],
-  "cannotDynamax": false
+  "evolutions": []
 }

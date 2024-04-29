@@ -16,6 +16,54 @@
     "special_defence": 100,
     "speed": 61
   },
+  "catchRate": 45,
+  "maleRatio": 0.5,
+  "baseFriendship": 35,
+  "experienceGroup": "slow",
+  "eggCycles": 40,
+  "eggGroups": [
+    "monster"
+  ],
+  "height": 20,
+  "weight": 2020,
+  "pokedex": [
+    "cobblemon.species.tyranitar.desc"
+  ],
+  "labels": [
+    "gen2",
+    "pseudo_legendary"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 300,
+  "evYield": {
+    "hp": 0,
+    "attack": 3,
+    "defence": 0,
+    "special_attack": 0,
+    "special_defence": 0,
+    "speed": 0
+  },
+  "drops": {
+    "amount": 2,
+    "entries": [
+      {
+        "item": "cobblemon:hard_stone",
+        "percentage": 10.0
+      },
+      {
+        "item": "cobblemon:chople_berry",
+        "percentage": 10.0
+      }
+    ]
+  },
+  "baseScale": 0.75,
+  "hitbox": {
+    "width": 2.2,
+    "height": 4.15,
+    "fixed": false
+  },
+  "cannotDynamax": false,
+  "shoulderMountable": false,
   "behaviour": {
     "resting": {
       "canSleep": true,
@@ -23,62 +71,6 @@
       "light": "0-4"
     }
   },
-  "catchRate": 45,
-  "maleRatio": 0.5,
-  "shoulderMountable": false,
-  "forms": [
-    {
-      "name": "Mega",
-      "primaryType": "rock",
-      "secondaryType": "dark",
-      "abilities": [
-        "sandstream"
-      ],
-      "baseStats": {
-        "hp": 100,
-        "attack": 164,
-        "defence": 150,
-        "special_attack": 95,
-        "special_defence": 120,
-        "speed": 71
-      },
-      "catchRate": 45,
-      "maleRatio": 0.5,
-      "baseExperienceYield": 300,
-      "baseFriendship": 35,
-      "evYield": {
-        "hp": 0,
-        "attack": 3,
-        "defence": 0,
-        "special_attack": 0,
-        "special_defence": 0,
-        "speed": 0
-      },
-      "experienceGroup": "slow",
-      "eggCycles": 40,
-      "eggGroups": [
-        "monster"
-      ],
-      "labels": [
-        "gen6",
-        "mega",
-        "pseudo_legendary"
-      ],
-      "aspects": [
-        "mega"
-      ],
-      "height": 25,
-      "weight": 2550,
-      "cannotDynamax": false,
-      "battleOnly": true
-    }
-  ],
-  "baseExperienceYield": 300,
-  "experienceGroup": "slow",
-  "eggCycles": 40,
-  "eggGroups": [
-    "monster"
-  ],
   "moves": [
     "1:darkpulse",
     "1:firefang",
@@ -295,45 +287,53 @@
     "tutor:uproar",
     "tutor:waterpulse"
   ],
-  "labels": [
-    "gen2",
-    "pseudo_legendary"
-  ],
-  "pokedex": [
-    "cobblemon.species.tyranitar.desc"
-  ],
   "preEvolution": "pupitar",
   "evolutions": [],
-  "baseScale": 0.75,
-  "hitbox": {
-    "width": 2.2,
-    "height": 4.15,
-    "fixed": false
-  },
-  "baseFriendship": 35,
-  "evYield": {
-    "hp": 0,
-    "attack": 3,
-    "defence": 0,
-    "special_attack": 0,
-    "special_defence": 0,
-    "speed": 0
-  },
-  "height": 20,
-  "weight": 2020,
-  "aspects": [],
-  "cannotDynamax": false,
-  "drops": {
-    "amount": 2,
-    "entries": [
-      {
-        "item": "cobblemon:hard_stone",
-        "percentage": 10.0
+  "temporaryForms": [
+    {
+      "name": "Mega",
+      "primaryType": "rock",
+      "secondaryType": "dark",
+      "abilities": [
+        "sandstream"
+      ],
+      "baseStats": {
+        "hp": 100,
+        "attack": 164,
+        "defence": 150,
+        "special_attack": 95,
+        "special_defence": 120,
+        "speed": 71
       },
-      {
-        "item": "cobblemon:chople_berry",
-        "percentage": 10.0
-      }
-    ]
-  }
+      "catchRate": 45,
+      "maleRatio": 0.5,
+      "baseFriendship": 35,
+      "experienceGroup": "slow",
+      "eggCycles": 40,
+      "eggGroups": [
+        "monster"
+      ],
+      "height": 25,
+      "weight": 2550,
+      "labels": [
+        "gen6",
+        "mega",
+        "pseudo_legendary"
+      ],
+      "aspects": [
+        "mega"
+      ],
+      "baseExperienceYield": 300,
+      "evYield": {
+        "hp": 0,
+        "attack": 3,
+        "defence": 0,
+        "special_attack": 0,
+        "special_defence": 0,
+        "speed": 0
+      },
+      "cannotDynamax": false,
+      "battleOnly": true
+    }
+  ]
 }

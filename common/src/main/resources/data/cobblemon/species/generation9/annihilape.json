@@ -9,6 +9,40 @@
     "innerfocus",
     "h:defiant"
   ],
+  "baseStats": {
+    "hp": 110,
+    "attack": 115,
+    "defence": 80,
+    "special_attack": 50,
+    "special_defence": 90,
+    "speed": 90
+  },
+  "catchRate": 45,
+  "maleRatio": 0.5,
+  "baseFriendship": 50,
+  "experienceGroup": "medium_fast",
+  "eggCycles": 20,
+  "eggGroups": [
+    "field"
+  ],
+  "height": 12,
+  "weight": 560,
+  "pokedex": [
+    "cobblemon.species.annihilape.desc"
+  ],
+  "labels": [
+    "gen9"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 268,
+  "evYield": {
+    "hp": 0,
+    "attack": 3,
+    "defence": 0,
+    "special_attack": 0,
+    "special_defence": 0,
+    "speed": 0
+  },
   "drops": {
     "amount": 2,
     "entries": [
@@ -22,31 +56,13 @@
       }
     ]
   },
-  "baseStats": {
-    "hp": 110,
-    "attack": 115,
-    "defence": 80,
-    "special_attack": 50,
-    "special_defence": 90,
-    "speed": 90
+  "baseScale": 1.0,
+  "hitbox": {
+    "width": 0.8,
+    "height": 1.2,
+    "fixed": false
   },
-  "catchRate": 45,
-  "maleRatio": 0.5,
-  "baseExperienceYield": 268,
-  "baseFriendship": 50,
-  "evYield": {
-    "hp": 0,
-    "attack": 3,
-    "defence": 0,
-    "special_attack": 0,
-    "special_defence": 0,
-    "speed": 0
-  },
-  "experienceGroup": "medium_fast",
-  "eggCycles": 20,
-  "eggGroups": [
-    "field"
-  ],
+  "cannotDynamax": false,
   "behaviour": {
     "resting": {
       "canSleep": true,
@@ -134,22 +150,6 @@
     "tm:thunderpunch",
     "tm:uturn"
   ],
-  "labels": [
-    "gen9"
-  ],
-  "aspects": [],
-  "height": 12,
-  "weight": 560,
   "preEvolution": "primeape",
-  "evolutions": [],
-  "baseScale": 1.0,
-  "hitbox": {
-    "width": 0.8,
-    "height": 1.2,
-    "fixed": false
-  },
-  "cannotDynamax": false,
-  "pokedex": [
-    "cobblemon.species.annihilape.desc"
-  ]
+  "evolutions": []
 }

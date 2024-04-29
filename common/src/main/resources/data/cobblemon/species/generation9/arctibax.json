@@ -17,8 +17,23 @@
   },
   "catchRate": 25,
   "maleRatio": 0.5,
-  "baseExperienceYield": 148,
   "baseFriendship": 50,
+  "experienceGroup": "slow",
+  "eggCycles": 40,
+  "eggGroups": [
+    "dragon",
+    "mineral"
+  ],
+  "height": 8,
+  "weight": 300,
+  "pokedex": [
+    "cobblemon.species.arctibax.desc"
+  ],
+  "labels": [
+    "gen9"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 148,
   "evYield": {
     "hp": 0,
     "attack": 2,
@@ -27,12 +42,16 @@
     "special_defence": 0,
     "speed": 0
   },
-  "experienceGroup": "slow",
-  "eggCycles": 40,
-  "eggGroups": [
-    "dragon",
-    "mineral"
-  ],
+  "drops": {
+    "amount": 1,
+    "entries": [
+      {
+        "item": "cobblemon:haban_berry",
+        "percentage": 5.0
+      }
+    ]
+  },
+  "cannotDynamax": false,
   "moves": [
     "1:dragontail",
     "1:leer",
@@ -76,19 +95,11 @@
     "tm:takedown",
     "tm:terablast"
   ],
-  "labels": [
-    "gen9"
-  ],
-  "aspects": [],
-  "height": 8,
-  "weight": 300,
   "preEvolution": "frigibax",
   "evolutions": [
     {
       "id": "arctibax_baxcalibur",
-      "variant": "level_up",
       "result": "baxcalibur",
-      "consumeHeldItem": false,
       "learnableMoves": [
         "glaiverush"
       ],
@@ -97,20 +108,10 @@
           "variant": "level",
           "minLevel": 54
         }
-      ]
-    }
-  ],
-  "cannotDynamax": false,
-  "pokedex": [
-    "cobblemon.species.arctibax.desc"
-  ],
-  "drops": {
-    "amount": 1,
-    "entries": [
-      {
-        "item": "cobblemon:haban_berry",
-        "percentage": 5.0
+      ],
+      "trigger": {
+        "variant": "level_up"
       }
-    ]
-  }
+    }
+  ]
 }

@@ -7,6 +7,40 @@
     "anticipation",
     "h:overcoat"
   ],
+  "baseStats": {
+    "hp": 60,
+    "attack": 59,
+    "defence": 85,
+    "special_attack": 79,
+    "special_defence": 105,
+    "speed": 36
+  },
+  "catchRate": 45,
+  "maleRatio": 0,
+  "baseFriendship": 70,
+  "experienceGroup": "medium_fast",
+  "eggCycles": 15,
+  "eggGroups": [
+    "bug"
+  ],
+  "height": 5,
+  "weight": 65,
+  "pokedex": [
+    "cobblemon.species.wormadam.desc"
+  ],
+  "labels": [
+    "gen4"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 148,
+  "evYield": {
+    "hp": 0,
+    "attack": 0,
+    "defence": 0,
+    "special_attack": 0,
+    "special_defence": 2,
+    "speed": 0
+  },
   "drops": {
     "amount": 3,
     "entries": [
@@ -20,32 +54,8 @@
       }
     ]
   },
-  "baseStats": {
-    "hp": 60,
-    "attack": 59,
-    "defence": 85,
-    "special_attack": 79,
-    "special_defence": 105,
-    "speed": 36
-  },
-  "catchRate": 45,
-  "maleRatio": 0,
+  "cannotDynamax": false,
   "shoulderMountable": false,
-  "baseExperienceYield": 148,
-  "baseFriendship": 70,
-  "evYield": {
-    "hp": 0,
-    "attack": 0,
-    "defence": 0,
-    "special_attack": 0,
-    "special_defence": 2,
-    "speed": 0
-  },
-  "experienceGroup": "medium_fast",
-  "eggCycles": 15,
-  "eggGroups": [
-    "bug"
-  ],
   "moves": [
     "1:bugbite",
     "1:protect",
@@ -120,17 +130,9 @@
     "tutor:uproar",
     "tutor:worryseed"
   ],
-  "labels": [
-    "gen4"
-  ],
-  "pokedex": [
-    "cobblemon.species.wormadam.desc"
-  ],
-  "height": 5,
-  "weight": 65,
   "preEvolution": "burmy",
   "evolutions": [],
-  "forms": [
+  "permanentForms": [
     {
       "name": "Sandy",
       "primaryType": "bug",
@@ -149,8 +151,21 @@
       },
       "catchRate": 45,
       "maleRatio": 0,
-      "baseExperienceYield": 148,
       "baseFriendship": 70,
+      "experienceGroup": "medium_fast",
+      "eggCycles": 15,
+      "eggGroups": [
+        "bug"
+      ],
+      "height": 5,
+      "weight": 65,
+      "labels": [
+        "gen4"
+      ],
+      "aspects": [
+        "sandy"
+      ],
+      "baseExperienceYield": 148,
       "evYield": {
         "hp": 0,
         "attack": 0,
@@ -159,11 +174,7 @@
         "special_defence": 0,
         "speed": 0
       },
-      "experienceGroup": "medium_fast",
-      "eggCycles": 15,
-      "eggGroups": [
-        "bug"
-      ],
+      "cannotDynamax": false,
       "moves": [
         "1:bugbite",
         "1:protect",
@@ -238,17 +249,7 @@
         "tutor:telekinesis",
         "tutor:uproar"
       ],
-      "labels": [
-        "gen4"
-      ],
-      "aspects": [
-        "sandy"
-      ],
-      "height": 5,
-      "weight": 65,
-      "preEvolution": "burmy",
-      "cannotDynamax": false,
-      "battleOnly": false
+      "preEvolution": "burmy"
     },
     {
       "name": "Trash",
@@ -268,8 +269,21 @@
       },
       "catchRate": 45,
       "maleRatio": 0,
-      "baseExperienceYield": 148,
       "baseFriendship": 70,
+      "experienceGroup": "medium_fast",
+      "eggCycles": 15,
+      "eggGroups": [
+        "bug"
+      ],
+      "height": 5,
+      "weight": 65,
+      "labels": [
+        "gen4"
+      ],
+      "aspects": [
+        "trash"
+      ],
+      "baseExperienceYield": 148,
       "evYield": {
         "hp": 0,
         "attack": 0,
@@ -278,11 +292,7 @@
         "special_defence": 1,
         "speed": 0
       },
-      "experienceGroup": "medium_fast",
-      "eggCycles": 15,
-      "eggGroups": [
-        "bug"
-      ],
+      "cannotDynamax": false,
       "moves": [
         "1:bugbite",
         "1:metalburst",
@@ -357,19 +367,7 @@
         "tutor:telekinesis",
         "tutor:uproar"
       ],
-      "labels": [
-        "gen4"
-      ],
-      "aspects": [
-        "trash"
-      ],
-      "height": 5,
-      "weight": 65,
-      "preEvolution": "burmy",
-      "cannotDynamax": false,
-      "battleOnly": false
+      "preEvolution": "burmy"
     }
-  ],
-  "aspects": [],
-  "cannotDynamax": false
+  ]
 }

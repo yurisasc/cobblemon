@@ -8,15 +8,6 @@
     "ironfist",
     "h:angerpoint"
   ],
-  "drops": {
-    "amount": 1,
-    "entries": [
-      {
-        "item": "cobblemon:aspear_berry",
-        "percentage": 2.5
-      }
-    ]
-  },
   "baseStats": {
     "hp": 47,
     "attack": 82,
@@ -27,13 +18,47 @@
   },
   "catchRate": 225,
   "maleRatio": 0.5,
-  "shoulderMountable": false,
-  "baseExperienceYield": 68,
+  "baseFriendship": 70,
   "experienceGroup": "medium_fast",
   "eggCycles": 20,
   "eggGroups": [
     "water_3"
   ],
+  "height": 6,
+  "weight": 70,
+  "pokedex": [
+    "cobblemon.species.crabrawler.desc"
+  ],
+  "labels": [
+    "gen7"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 68,
+  "evYield": {
+    "hp": 0,
+    "attack": 1,
+    "defence": 0,
+    "special_attack": 0,
+    "special_defence": 0,
+    "speed": 0
+  },
+  "drops": {
+    "amount": 1,
+    "entries": [
+      {
+        "item": "cobblemon:aspear_berry",
+        "percentage": 2.5
+      }
+    ]
+  },
+  "baseScale": 0.6,
+  "hitbox": {
+    "width": 1.1,
+    "height": 1.2,
+    "fixed": false
+  },
+  "cannotDynamax": false,
+  "shoulderMountable": false,
   "moves": [
     "1:bubble",
     "1:visegrip",
@@ -127,42 +152,18 @@
     "tutor:thunderpunch",
     "tutor:zenheadbutt"
   ],
-  "labels": [
-    "gen7"
-  ],
-  "pokedex": [
-    "cobblemon.species.crabrawler.desc"
-  ],
   "evolutions": [
     {
       "id": "crabrawler_crabominable",
-      "variant": "item_interact",
       "result": "crabominable",
-      "consumeHeldItem": false,
       "learnableMoves": [
         "icepunch"
       ],
       "requirements": [],
-      "requiredContext": "cobblemon:ice_stone"
+      "trigger": {
+        "variant": "item_interact",
+        "requiredContext": "cobblemon:ice_stone"
+      }
     }
-  ],
-  "baseScale": 0.6,
-  "hitbox": {
-    "width": 1.1,
-    "height": 1.2,
-    "fixed": false
-  },
-  "baseFriendship": 70,
-  "evYield": {
-    "hp": 0,
-    "attack": 1,
-    "defence": 0,
-    "special_attack": 0,
-    "special_defence": 0,
-    "speed": 0
-  },
-  "height": 6,
-  "weight": 70,
-  "aspects": [],
-  "cannotDynamax": false
+  ]
 }

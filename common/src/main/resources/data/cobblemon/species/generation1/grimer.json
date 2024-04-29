@@ -16,245 +16,35 @@
     "special_defence": 50,
     "speed": 25
   },
-  "features": [
-    "alolan"
-  ],
   "catchRate": 190,
   "maleRatio": 0.5,
-  "shoulderMountable": false,
-  "forms": [
-    {
-      "name": "Alola",
-      "primaryType": "poison",
-      "secondaryType": "dark",
-      "abilities": [
-        "poisontouch",
-        "gluttony",
-        "h:powerofalchemy"
-      ],
-      "baseStats": {
-        "hp": 80,
-        "attack": 80,
-        "defence": 50,
-        "special_attack": 40,
-        "special_defence": 50,
-        "speed": 25
-      },
-      "catchRate": 190,
-      "maleRatio": 0.5,
-      "baseExperienceYield": 65,
-      "baseFriendship": 70,
-      "evYield": {
-        "hp": 1,
-        "attack": 0,
-        "defence": 0,
-        "special_attack": 0,
-        "special_defence": 0,
-        "speed": 0
-      },
-      "experienceGroup": "medium_fast",
-      "eggCycles": 20,
-      "eggGroups": [
-        "amorphous"
-      ],
-      "moves": [
-        "1:poisongas",
-        "1:pound",
-        "4:harden",
-        "7:bite",
-        "12:disable",
-        "15:acidspray",
-        "18:poisonfang",
-        "21:minimize",
-        "26:fling",
-        "26:toxic",
-        "29:knockoff",
-        "32:crunch",
-        "37:screech",
-        "40:gunkshot",
-        "43:acidarmor",
-        "46:belch",
-        "48:memento",
-        "egg:assurance",
-        "egg:clearsmog",
-        "egg:curse",
-        "egg:imprison",
-        "egg:meanlook",
-        "egg:poweruppunch",
-        "egg:pursuit",
-        "egg:recycle",
-        "egg:scaryface",
-        "egg:shadowsneak",
-        "egg:spite",
-        "egg:spitup",
-        "egg:stockpile",
-        "egg:swallow",
-        "tm:acidspray",
-        "tm:attract",
-        "tm:bodyslam",
-        "tm:brickbreak",
-        "tm:brutalswing",
-        "tm:confide",
-        "tm:crunch",
-        "tm:curse",
-        "tm:darkpulse",
-        "tm:dig",
-        "tm:doubleteam",
-        "tm:drainpunch",
-        "tm:embargo",
-        "tm:endure",
-        "tm:explosion",
-        "tm:facade",
-        "tm:fireblast",
-        "tm:firepunch",
-        "tm:flamethrower",
-        "tm:fling",
-        "tm:frustration",
-        "tm:gigadrain",
-        "tm:gigaimpact",
-        "tm:gunkshot",
-        "tm:helpinghand",
-        "tm:hex",
-        "tm:hiddenpower",
-        "tm:hyperbeam",
-        "tm:icepunch",
-        "tm:imprison",
-        "tm:infestation",
-        "tm:knockoff",
-        "tm:metronome",
-        "tm:mudshot",
-        "tm:mudslap",
-        "tm:painsplit",
-        "tm:payback",
-        "tm:poisonjab",
-        "tm:protect",
-        "tm:quash",
-        "tm:raindance",
-        "tm:rest",
-        "tm:return",
-        "tm:rockpolish",
-        "tm:rockslide",
-        "tm:rocktomb",
-        "tm:round",
-        "tm:sandstorm",
-        "tm:scaryface",
-        "tm:shadowball",
-        "tm:sleeptalk",
-        "tm:sludgebomb",
-        "tm:sludgewave",
-        "tm:snarl",
-        "tm:spite",
-        "tm:stoneedge",
-        "tm:substitute",
-        "tm:sunnyday",
-        "tm:swagger",
-        "tm:swift",
-        "tm:takedown",
-        "tm:taunt",
-        "tm:terablast",
-        "tm:thief",
-        "tm:thunder",
-        "tm:thunderbolt",
-        "tm:thunderpunch",
-        "tm:torment",
-        "tm:toxic",
-        "tm:venoshock",
-        "tm:zenheadbutt",
-        "tutor:acidarmor",
-        "tutor:bite",
-        "tutor:crunch",
-        "tutor:dig",
-        "tutor:disable",
-        "tutor:facade",
-        "tutor:fireblast",
-        "tutor:firepunch",
-        "tutor:flamethrower",
-        "tutor:gastroacid",
-        "tutor:gigadrain",
-        "tutor:gunkshot",
-        "tutor:harden",
-        "tutor:headbutt",
-        "tutor:helpinghand",
-        "tutor:icepunch",
-        "tutor:knockoff",
-        "tutor:megadrain",
-        "tutor:minimize",
-        "tutor:painsplit",
-        "tutor:poisongas",
-        "tutor:poisonjab",
-        "tutor:pound",
-        "tutor:protect",
-        "tutor:rest",
-        "tutor:rockslide",
-        "tutor:screech",
-        "tutor:selfdestruct",
-        "tutor:shadowball",
-        "tutor:shockwave",
-        "tutor:sludgebomb",
-        "tutor:snore",
-        "tutor:spite",
-        "tutor:substitute",
-        "tutor:taunt",
-        "tutor:thunderpunch",
-        "tutor:toxic"
-      ],
-      "labels": [
-        "gen7",
-        "alola_regional"
-      ],
-      "aspects": [
-        "alolan"
-      ],
-      "height": 7,
-      "weight": 420,
-      "evolutions": [
-        {
-          "id": "grimer_muk",
-          "variant": "level_up",
-          "result": "muk alolan",
-          "consumeHeldItem": false,
-          "learnableMoves": [],
-          "requirements": [
-            {
-              "variant": "level",
-              "minLevel": 38
-            }
-          ]
-        }
-      ],
-      "cannotDynamax": false,
-      "battleOnly": false,
-      "drops": {
-        "amount": 3,
-        "entries": [
-          {
-            "item": "minecraft:slime_ball",
-            "quantityRange": "0-1"
-          },
-          {
-            "item": "cobblemon:black_sludge",
-            "percentage": 2.5
-          },
-          {
-            "item": "cobblemon:toxic_orb",
-            "percentage": 2.5
-          }
-        ]
-      }
-    }
-  ],
-  "baseExperienceYield": 65,
+  "baseFriendship": 70,
   "experienceGroup": "medium_fast",
   "eggCycles": 20,
   "eggGroups": [
     "amorphous"
   ],
-  "behaviour": {
-    "moving": {
-      "swim": {
-        "canWalkOnWater": true
-      }
-    }
+  "height": 9,
+  "weight": 300,
+  "pokedex": [
+    "cobblemon.species.grimer.desc"
+  ],
+  "labels": [
+    "gen1",
+    "kanto_regional"
+  ],
+  "features": [
+    "alolan"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 65,
+  "evYield": {
+    "hp": 1,
+    "attack": 0,
+    "defence": 0,
+    "special_attack": 0,
+    "special_defence": 0,
+    "speed": 0
   },
   "drops": {
     "amount": 3,
@@ -272,6 +62,21 @@
         "percentage": 2.5
       }
     ]
+  },
+  "baseScale": 1,
+  "hitbox": {
+    "width": 1,
+    "height": 1.2,
+    "fixed": false
+  },
+  "cannotDynamax": false,
+  "shoulderMountable": false,
+  "behaviour": {
+    "moving": {
+      "swim": {
+        "canWalkOnWater": true
+      }
+    }
   },
   "moves": [
     "1:poisongas",
@@ -432,45 +237,241 @@
     "tutor:toxic",
     "tutor:zapcannon"
   ],
-  "labels": [
-    "gen1",
-    "kanto_regional"
-  ],
-  "pokedex": [
-    "cobblemon.species.grimer.desc"
-  ],
-  "baseScale": 1,
-  "hitbox": {
-    "width": 1,
-    "height": 1.2,
-    "fixed": false
-  },
-  "baseFriendship": 70,
-  "evYield": {
-    "hp": 1,
-    "attack": 0,
-    "defence": 0,
-    "special_attack": 0,
-    "special_defence": 0,
-    "speed": 0
-  },
-  "height": 9,
-  "weight": 300,
   "evolutions": [
     {
       "id": "grimer_muk",
-      "variant": "level_up",
       "result": "muk",
-      "consumeHeldItem": false,
       "learnableMoves": [],
       "requirements": [
         {
           "variant": "level",
           "minLevel": 38
         }
-      ]
+      ],
+      "trigger": {
+        "variant": "level_up"
+      }
     }
   ],
-  "aspects": [],
-  "cannotDynamax": false
+  "permanentForms": [
+    {
+      "name": "Alola",
+      "primaryType": "poison",
+      "secondaryType": "dark",
+      "abilities": [
+        "poisontouch",
+        "gluttony",
+        "h:powerofalchemy"
+      ],
+      "baseStats": {
+        "hp": 80,
+        "attack": 80,
+        "defence": 50,
+        "special_attack": 40,
+        "special_defence": 50,
+        "speed": 25
+      },
+      "catchRate": 190,
+      "maleRatio": 0.5,
+      "baseFriendship": 70,
+      "experienceGroup": "medium_fast",
+      "eggCycles": 20,
+      "eggGroups": [
+        "amorphous"
+      ],
+      "height": 7,
+      "weight": 420,
+      "labels": [
+        "gen7",
+        "alola_regional"
+      ],
+      "aspects": [
+        "alolan"
+      ],
+      "baseExperienceYield": 65,
+      "evYield": {
+        "hp": 1,
+        "attack": 0,
+        "defence": 0,
+        "special_attack": 0,
+        "special_defence": 0,
+        "speed": 0
+      },
+      "drops": {
+        "amount": 3,
+        "entries": [
+          {
+            "item": "minecraft:slime_ball",
+            "quantityRange": "0-1"
+          },
+          {
+            "item": "cobblemon:black_sludge",
+            "percentage": 2.5
+          },
+          {
+            "item": "cobblemon:toxic_orb",
+            "percentage": 2.5
+          }
+        ]
+      },
+      "cannotDynamax": false,
+      "moves": [
+        "1:poisongas",
+        "1:pound",
+        "4:harden",
+        "7:bite",
+        "12:disable",
+        "15:acidspray",
+        "18:poisonfang",
+        "21:minimize",
+        "26:fling",
+        "26:toxic",
+        "29:knockoff",
+        "32:crunch",
+        "37:screech",
+        "40:gunkshot",
+        "43:acidarmor",
+        "46:belch",
+        "48:memento",
+        "egg:assurance",
+        "egg:clearsmog",
+        "egg:curse",
+        "egg:imprison",
+        "egg:meanlook",
+        "egg:poweruppunch",
+        "egg:pursuit",
+        "egg:recycle",
+        "egg:scaryface",
+        "egg:shadowsneak",
+        "egg:spite",
+        "egg:spitup",
+        "egg:stockpile",
+        "egg:swallow",
+        "tm:acidspray",
+        "tm:attract",
+        "tm:bodyslam",
+        "tm:brickbreak",
+        "tm:brutalswing",
+        "tm:confide",
+        "tm:crunch",
+        "tm:curse",
+        "tm:darkpulse",
+        "tm:dig",
+        "tm:doubleteam",
+        "tm:drainpunch",
+        "tm:embargo",
+        "tm:endure",
+        "tm:explosion",
+        "tm:facade",
+        "tm:fireblast",
+        "tm:firepunch",
+        "tm:flamethrower",
+        "tm:fling",
+        "tm:frustration",
+        "tm:gigadrain",
+        "tm:gigaimpact",
+        "tm:gunkshot",
+        "tm:helpinghand",
+        "tm:hex",
+        "tm:hiddenpower",
+        "tm:hyperbeam",
+        "tm:icepunch",
+        "tm:imprison",
+        "tm:infestation",
+        "tm:knockoff",
+        "tm:metronome",
+        "tm:mudshot",
+        "tm:mudslap",
+        "tm:painsplit",
+        "tm:payback",
+        "tm:poisonjab",
+        "tm:protect",
+        "tm:quash",
+        "tm:raindance",
+        "tm:rest",
+        "tm:return",
+        "tm:rockpolish",
+        "tm:rockslide",
+        "tm:rocktomb",
+        "tm:round",
+        "tm:sandstorm",
+        "tm:scaryface",
+        "tm:shadowball",
+        "tm:sleeptalk",
+        "tm:sludgebomb",
+        "tm:sludgewave",
+        "tm:snarl",
+        "tm:spite",
+        "tm:stoneedge",
+        "tm:substitute",
+        "tm:sunnyday",
+        "tm:swagger",
+        "tm:swift",
+        "tm:takedown",
+        "tm:taunt",
+        "tm:terablast",
+        "tm:thief",
+        "tm:thunder",
+        "tm:thunderbolt",
+        "tm:thunderpunch",
+        "tm:torment",
+        "tm:toxic",
+        "tm:venoshock",
+        "tm:zenheadbutt",
+        "tutor:acidarmor",
+        "tutor:bite",
+        "tutor:crunch",
+        "tutor:dig",
+        "tutor:disable",
+        "tutor:facade",
+        "tutor:fireblast",
+        "tutor:firepunch",
+        "tutor:flamethrower",
+        "tutor:gastroacid",
+        "tutor:gigadrain",
+        "tutor:gunkshot",
+        "tutor:harden",
+        "tutor:headbutt",
+        "tutor:helpinghand",
+        "tutor:icepunch",
+        "tutor:knockoff",
+        "tutor:megadrain",
+        "tutor:minimize",
+        "tutor:painsplit",
+        "tutor:poisongas",
+        "tutor:poisonjab",
+        "tutor:pound",
+        "tutor:protect",
+        "tutor:rest",
+        "tutor:rockslide",
+        "tutor:screech",
+        "tutor:selfdestruct",
+        "tutor:shadowball",
+        "tutor:shockwave",
+        "tutor:sludgebomb",
+        "tutor:snore",
+        "tutor:spite",
+        "tutor:substitute",
+        "tutor:taunt",
+        "tutor:thunderpunch",
+        "tutor:toxic"
+      ],
+      "evolutions": [
+        {
+          "id": "grimer_muk",
+          "result": "muk alolan",
+          "learnableMoves": [],
+          "requirements": [
+            {
+              "variant": "level",
+              "minLevel": 38
+            }
+          ],
+          "trigger": {
+            "variant": "level_up"
+          }
+        }
+      ]
+    }
+  ]
 }

@@ -19,25 +19,29 @@
   },
   "catchRate": 45,
   "maleRatio": 0.5,
-  "shoulderMountable": false,
-  "baseExperienceYield": 77,
+  "baseFriendship": 50,
   "experienceGroup": "medium_fast",
   "eggCycles": 25,
   "eggGroups": [
     "mineral"
   ],
-  "behaviour": {
-    "resting": {
-      "canSleep": true,
-      "willSleepOnBed": false,
-      "depth": "normal",
-      "light": "0-4"
-    },
-    "moving": {
-      "walk": {
-        "walkSpeed": 0.3
-      }
-    }
+  "height": 88,
+  "weight": 2100,
+  "pokedex": [
+    "cobblemon.species.onix.desc"
+  ],
+  "labels": [
+    "gen1"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 77,
+  "evYield": {
+    "hp": 0,
+    "attack": 0,
+    "defence": 1,
+    "special_attack": 0,
+    "special_defence": 0,
+    "speed": 0
   },
   "drops": {
     "amount": 5,
@@ -55,6 +59,27 @@
         "percentage": 2.5
       }
     ]
+  },
+  "baseScale": 2,
+  "hitbox": {
+    "width": 1.3,
+    "height": 2.5,
+    "fixed": false
+  },
+  "cannotDynamax": false,
+  "shoulderMountable": false,
+  "behaviour": {
+    "resting": {
+      "canSleep": true,
+      "willSleepOnBed": false,
+      "depth": "normal",
+      "light": "0-4"
+    },
+    "moving": {
+      "walk": {
+        "walkSpeed": 0.3
+      }
+    }
   },
   "moves": [
     "1:bind",
@@ -214,44 +239,20 @@
     "tutor:toxic",
     "tutor:twister"
   ],
-  "labels": [
-    "gen1"
-  ],
-  "pokedex": [
-    "cobblemon.species.onix.desc"
-  ],
   "evolutions": [
     {
       "id": "onix_steelix",
-      "variant": "trade",
       "result": "steelix",
-      "consumeHeldItem": true,
       "learnableMoves": [],
       "requirements": [
         {
           "variant": "held_item",
           "itemCondition": "cobblemon:metal_coat"
         }
-      ]
+      ],
+      "trigger": {
+        "variant": "trade"
+      }
     }
-  ],
-  "baseScale": 2,
-  "hitbox": {
-    "width": 1.3,
-    "height": 2.5,
-    "fixed": false
-  },
-  "baseFriendship": 50,
-  "evYield": {
-    "hp": 0,
-    "attack": 0,
-    "defence": 1,
-    "special_attack": 0,
-    "special_defence": 0,
-    "speed": 0
-  },
-  "height": 88,
-  "weight": 2100,
-  "aspects": [],
-  "cannotDynamax": false
+  ]
 }

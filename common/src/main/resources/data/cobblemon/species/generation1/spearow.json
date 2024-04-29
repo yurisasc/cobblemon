@@ -18,25 +18,29 @@
   },
   "catchRate": 255,
   "maleRatio": 0.5,
-  "shoulderMountable": false,
-  "baseExperienceYield": 52,
+  "baseFriendship": 70,
   "experienceGroup": "medium_fast",
   "eggCycles": 15,
   "eggGroups": [
     "flying"
   ],
-  "behaviour": {
-    "moving": {
-      "fly": {
-        "canFly": true
-      }
-    },
-    "resting": {
-      "canSleep": false,
-      "willSleepOnBed": false,
-      "depth": "normal",
-      "light": "0-4"
-    }
+  "height": 3,
+  "weight": 20,
+  "pokedex": [
+    "cobblemon.species.spearow.desc"
+  ],
+  "labels": [
+    "gen1"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 52,
+  "evYield": {
+    "hp": 0,
+    "attack": 0,
+    "defence": 0,
+    "special_attack": 0,
+    "special_defence": 0,
+    "speed": 1
   },
   "drops": {
     "amount": 4,
@@ -57,6 +61,27 @@
         "percentage": 2.5
       }
     ]
+  },
+  "baseScale": 0.8,
+  "hitbox": {
+    "width": 0.6,
+    "height": 0.8,
+    "fixed": false
+  },
+  "cannotDynamax": false,
+  "shoulderMountable": false,
+  "behaviour": {
+    "moving": {
+      "fly": {
+        "canFly": true
+      }
+    },
+    "resting": {
+      "canSleep": false,
+      "willSleepOnBed": false,
+      "depth": "normal",
+      "light": "0-4"
+    }
   },
   "moves": [
     "1:growl",
@@ -172,44 +197,20 @@
     "tutor:uturn",
     "tutor:whirlwind"
   ],
-  "labels": [
-    "gen1"
-  ],
-  "pokedex": [
-    "cobblemon.species.spearow.desc"
-  ],
   "evolutions": [
     {
       "id": "spearow_fearow",
-      "variant": "level_up",
       "result": "fearow",
-      "consumeHeldItem": false,
       "learnableMoves": [],
       "requirements": [
         {
           "variant": "level",
           "minLevel": 20
         }
-      ]
+      ],
+      "trigger": {
+        "variant": "level_up"
+      }
     }
-  ],
-  "baseScale": 0.8,
-  "hitbox": {
-    "width": 0.6,
-    "height": 0.8,
-    "fixed": false
-  },
-  "baseFriendship": 70,
-  "evYield": {
-    "hp": 0,
-    "attack": 0,
-    "defence": 0,
-    "special_attack": 0,
-    "special_defence": 0,
-    "speed": 1
-  },
-  "height": 3,
-  "weight": 20,
-  "aspects": [],
-  "cannotDynamax": false
+  ]
 }

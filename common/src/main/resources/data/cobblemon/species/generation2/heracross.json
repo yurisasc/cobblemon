@@ -19,59 +19,47 @@
   },
   "catchRate": 45,
   "maleRatio": 0.5,
-  "shoulderMountable": false,
-  "forms": [
-    {
-      "name": "Mega",
-      "primaryType": "bug",
-      "secondaryType": "fighting",
-      "abilities": [
-        "skilllink"
-      ],
-      "baseStats": {
-        "hp": 80,
-        "attack": 185,
-        "defence": 115,
-        "special_attack": 40,
-        "special_defence": 105,
-        "speed": 75
-      },
-      "catchRate": 45,
-      "maleRatio": 0.5,
-      "baseExperienceYield": 175,
-      "baseFriendship": 50,
-      "evYield": {
-        "hp": 0,
-        "attack": 2,
-        "defence": 0,
-        "special_attack": 0,
-        "special_defence": 0,
-        "speed": 0
-      },
-      "experienceGroup": "slow",
-      "eggCycles": 25,
-      "eggGroups": [
-        "bug"
-      ],
-      "labels": [
-        "gen6",
-        "mega"
-      ],
-      "aspects": [
-        "mega"
-      ],
-      "height": 17,
-      "weight": 625,
-      "cannotDynamax": false,
-      "battleOnly": true
-    }
-  ],
-  "baseExperienceYield": 175,
+  "baseFriendship": 50,
   "experienceGroup": "slow",
   "eggCycles": 25,
   "eggGroups": [
     "bug"
   ],
+  "height": 15,
+  "weight": 540,
+  "pokedex": [
+    "cobblemon.species.heracross.desc"
+  ],
+  "labels": [
+    "gen2"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 175,
+  "evYield": {
+    "hp": 0,
+    "attack": 2,
+    "defence": 0,
+    "special_attack": 0,
+    "special_defence": 0,
+    "speed": 0
+  },
+  "drops": {
+    "amount": 1,
+    "entries": [
+      {
+        "item": "cobblemon:coba_berry",
+        "percentage": 5.0
+      }
+    ]
+  },
+  "baseScale": 1,
+  "hitbox": {
+    "width": 1.05,
+    "height": 1.55,
+    "fixed": false
+  },
+  "cannotDynamax": false,
+  "shoulderMountable": false,
   "behaviour": {
     "moving": {
       "fly": {
@@ -248,39 +236,51 @@
     "tutor:toxic",
     "tutor:vacuumwave"
   ],
-  "labels": [
-    "gen2"
-  ],
-  "pokedex": [
-    "cobblemon.species.heracross.desc"
-  ],
   "evolutions": [],
-  "baseScale": 1,
-  "hitbox": {
-    "width": 1.05,
-    "height": 1.55,
-    "fixed": false
-  },
-  "baseFriendship": 50,
-  "evYield": {
-    "hp": 0,
-    "attack": 2,
-    "defence": 0,
-    "special_attack": 0,
-    "special_defence": 0,
-    "speed": 0
-  },
-  "height": 15,
-  "weight": 540,
-  "aspects": [],
-  "cannotDynamax": false,
-  "drops": {
-    "amount": 1,
-    "entries": [
-      {
-        "item": "cobblemon:coba_berry",
-        "percentage": 5.0
-      }
-    ]
-  }
+  "temporaryForms": [
+    {
+      "name": "Mega",
+      "primaryType": "bug",
+      "secondaryType": "fighting",
+      "abilities": [
+        "skilllink"
+      ],
+      "baseStats": {
+        "hp": 80,
+        "attack": 185,
+        "defence": 115,
+        "special_attack": 40,
+        "special_defence": 105,
+        "speed": 75
+      },
+      "catchRate": 45,
+      "maleRatio": 0.5,
+      "baseFriendship": 50,
+      "experienceGroup": "slow",
+      "eggCycles": 25,
+      "eggGroups": [
+        "bug"
+      ],
+      "height": 17,
+      "weight": 625,
+      "labels": [
+        "gen6",
+        "mega"
+      ],
+      "aspects": [
+        "mega"
+      ],
+      "baseExperienceYield": 175,
+      "evYield": {
+        "hp": 0,
+        "attack": 2,
+        "defence": 0,
+        "special_attack": 0,
+        "special_defence": 0,
+        "speed": 0
+      },
+      "cannotDynamax": false,
+      "battleOnly": true
+    }
+  ]
 }

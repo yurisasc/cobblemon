@@ -8,6 +8,41 @@
     "ironbarbs",
     "h:anticipation"
   ],
+  "baseStats": {
+    "hp": 74,
+    "attack": 94,
+    "defence": 131,
+    "special_attack": 54,
+    "special_defence": 116,
+    "speed": 20
+  },
+  "catchRate": 90,
+  "maleRatio": 0.5,
+  "baseFriendship": 50,
+  "experienceGroup": "medium_fast",
+  "eggCycles": 20,
+  "eggGroups": [
+    "grass",
+    "mineral"
+  ],
+  "height": 10,
+  "weight": 1100,
+  "pokedex": [
+    "cobblemon.species.ferrothorn.desc"
+  ],
+  "labels": [
+    "gen5"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 171,
+  "evYield": {
+    "hp": 0,
+    "attack": 0,
+    "defence": 2,
+    "special_attack": 0,
+    "special_defence": 0,
+    "speed": 0
+  },
   "drops": {
     "amount": 4,
     "entries": [
@@ -25,31 +60,21 @@
       }
     ]
   },
-  "baseStats": {
-    "hp": 74,
-    "attack": 94,
-    "defence": 131,
-    "special_attack": 54,
-    "special_defence": 116,
-    "speed": 20
+  "baseScale": 1,
+  "hitbox": {
+    "width": 2,
+    "height": 1.7,
+    "fixed": false
   },
-  "catchRate": 90,
-  "maleRatio": 0.5,
+  "cannotDynamax": false,
   "shoulderMountable": false,
-  "baseExperienceYield": 171,
-  "experienceGroup": "medium_fast",
-  "eggCycles": 20,
-  "eggGroups": [
-    "grass",
-    "mineral"
-  ],
   "behaviour": {
     "resting": {
       "canSleep": true,
       "depth": "normal",
       "light": "0-4"
     },
-    "moving" : {
+    "moving": {
       "walk": {
         "walkSpeed": 0.16
       }
@@ -147,31 +172,6 @@
     "tutor:steelroller",
     "tutor:worryseed"
   ],
-  "labels": [
-    "gen5"
-  ],
-  "pokedex": [
-    "cobblemon.species.ferrothorn.desc"
-  ],
   "preEvolution": "ferroseed",
-  "evolutions": [],
-  "baseScale": 1,
-  "hitbox": {
-    "width": 2,
-    "height": 1.7,
-    "fixed": false
-  },
-  "baseFriendship": 50,
-  "evYield": {
-    "hp": 0,
-    "attack": 0,
-    "defence": 2,
-    "special_attack": 0,
-    "special_defence": 0,
-    "speed": 0
-  },
-  "height": 10,
-  "weight": 1100,
-  "aspects": [],
-  "cannotDynamax": false
+  "evolutions": []
 }

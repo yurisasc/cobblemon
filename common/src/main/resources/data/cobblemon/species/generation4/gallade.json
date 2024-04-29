@@ -19,60 +19,60 @@
   },
   "catchRate": 45,
   "maleRatio": 1,
-  "shoulderMountable": false,
-  "forms": [
-    {
-      "name": "Mega",
-      "primaryType": "psychic",
-      "secondaryType": "fighting",
-      "abilities": [
-        "innerfocus"
-      ],
-      "baseStats": {
-        "hp": 68,
-        "attack": 165,
-        "defence": 95,
-        "special_attack": 65,
-        "special_defence": 115,
-        "speed": 110
-      },
-      "catchRate": 45,
-      "maleRatio": 1,
-      "baseExperienceYield": 259,
-      "baseFriendship": 35,
-      "evYield": {
-        "hp": 0,
-        "attack": 3,
-        "defence": 0,
-        "special_attack": 0,
-        "special_defence": 0,
-        "speed": 0
-      },
-      "experienceGroup": "slow",
-      "eggCycles": 20,
-      "eggGroups": [
-        "amorphous"
-      ],
-      "labels": [
-        "gen6",
-        "mega"
-      ],
-      "aspects": [
-        "mega"
-      ],
-      "height": 16,
-      "weight": 564,
-      "cannotDynamax": false,
-      "battleOnly": true
-    }
-  ],
-  "baseExperienceYield": 259,
+  "baseFriendship": 35,
   "experienceGroup": "slow",
   "eggCycles": 20,
   "eggGroups": [
     "human_like",
     "amorphous"
   ],
+  "height": 16,
+  "weight": 520,
+  "pokedex": [
+    "cobblemon.species.gallade.desc"
+  ],
+  "labels": [
+    "gen4"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 259,
+  "evYield": {
+    "hp": 0,
+    "attack": 3,
+    "defence": 0,
+    "special_attack": 0,
+    "special_defence": 0,
+    "speed": 0
+  },
+  "drops": {
+    "amount": 6,
+    "entries": [
+      {
+        "item": "minecraft:ender_pearl",
+        "quantityRange": "0-3"
+      },
+      {
+        "item": "cobblemon:dawn_stone",
+        "percentage": 10.0
+      },
+      {
+        "item": "cobblemon:twisted_spoon",
+        "percentage": 10.0
+      },
+      {
+        "item": "cobblemon:kasib_berry",
+        "percentage": 10.0
+      }
+    ]
+  },
+  "baseScale": 1,
+  "hitbox": {
+    "width": 0.6,
+    "height": 2.25,
+    "fixed": false
+  },
+  "cannotDynamax": false,
+  "shoulderMountable": false,
   "behaviour": {
     "resting": {
       "canSleep": true,
@@ -308,52 +308,52 @@
     "tutor:wonderroom",
     "tutor:zenheadbutt"
   ],
-  "labels": [
-    "gen4"
-  ],
-  "pokedex": [
-    "cobblemon.species.gallade.desc"
-  ],
   "preEvolution": "kirlia",
   "evolutions": [],
-  "baseScale": 1,
-  "hitbox": {
-    "width": 0.6,
-    "height": 2.25,
-    "fixed": false
-  },
-  "baseFriendship": 35,
-  "evYield": {
-    "hp": 0,
-    "attack": 3,
-    "defence": 0,
-    "special_attack": 0,
-    "special_defence": 0,
-    "speed": 0
-  },
-  "height": 16,
-  "weight": 520,
-  "aspects": [],
-  "cannotDynamax": false,
-  "drops": {
-    "amount": 6,
-    "entries": [
-      {
-        "item": "minecraft:ender_pearl",
-        "quantityRange": "0-3"
+  "temporaryForms": [
+    {
+      "name": "Mega",
+      "primaryType": "psychic",
+      "secondaryType": "fighting",
+      "abilities": [
+        "innerfocus"
+      ],
+      "baseStats": {
+        "hp": 68,
+        "attack": 165,
+        "defence": 95,
+        "special_attack": 65,
+        "special_defence": 115,
+        "speed": 110
       },
-      {
-        "item": "cobblemon:dawn_stone",
-        "percentage": 10.0
+      "catchRate": 45,
+      "maleRatio": 1,
+      "baseFriendship": 35,
+      "experienceGroup": "slow",
+      "eggCycles": 20,
+      "eggGroups": [
+        "amorphous"
+      ],
+      "height": 16,
+      "weight": 564,
+      "labels": [
+        "gen6",
+        "mega"
+      ],
+      "aspects": [
+        "mega"
+      ],
+      "baseExperienceYield": 259,
+      "evYield": {
+        "hp": 0,
+        "attack": 3,
+        "defence": 0,
+        "special_attack": 0,
+        "special_defence": 0,
+        "speed": 0
       },
-      {
-        "item": "cobblemon:twisted_spoon",
-        "percentage": 10.0
-      },
-      {
-        "item": "cobblemon:kasib_berry",
-        "percentage": 10.0
-      }
-    ]
-  }
+      "cannotDynamax": false,
+      "battleOnly": true
+    }
+  ]
 }

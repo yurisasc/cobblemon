@@ -8,6 +8,40 @@
     "blaze",
     "h:thickfat"
   ],
+  "baseStats": {
+    "hp": 90,
+    "attack": 93,
+    "defence": 55,
+    "special_attack": 70,
+    "special_defence": 55,
+    "speed": 55
+  },
+  "catchRate": 45,
+  "maleRatio": 0.875,
+  "baseFriendship": 70,
+  "experienceGroup": "medium_slow",
+  "eggCycles": 20,
+  "eggGroups": [
+    "field"
+  ],
+  "height": 10,
+  "weight": 555,
+  "pokedex": [
+    "cobblemon.species.pignite.desc"
+  ],
+  "labels": [
+    "gen5"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 146,
+  "evYield": {
+    "hp": 0,
+    "attack": 2,
+    "defence": 0,
+    "special_attack": 0,
+    "special_defence": 0,
+    "speed": 0
+  },
   "drops": {
     "amount": 4,
     "entries": [
@@ -21,14 +55,14 @@
       }
     ]
   },
-  "baseStats": {
-    "hp": 90,
-    "attack": 93,
-    "defence": 55,
-    "special_attack": 70,
-    "special_defence": 55,
-    "speed": 55
+  "baseScale": 1,
+  "hitbox": {
+    "width": 1,
+    "height": 1.5,
+    "fixed": false
   },
+  "cannotDynamax": false,
+  "shoulderMountable": false,
   "behaviour": {
     "resting": {
       "canSleep": true,
@@ -37,15 +71,6 @@
       "light": "0-4"
     }
   },
-  "catchRate": 45,
-  "maleRatio": 0.875,
-  "shoulderMountable": false,
-  "baseExperienceYield": 146,
-  "experienceGroup": "medium_slow",
-  "eggCycles": 20,
-  "eggGroups": [
-    "field"
-  ],
   "moves": [
     "1:armthrust",
     "1:ember",
@@ -154,45 +179,21 @@
     "tutor:thunderpunch",
     "tutor:zenheadbutt"
   ],
-  "labels": [
-    "gen5"
-  ],
-  "pokedex": [
-    "cobblemon.species.pignite.desc"
-  ],
   "preEvolution": "tepig",
   "evolutions": [
     {
       "id": "pignite_emboar",
-      "variant": "level_up",
       "result": "emboar",
-      "consumeHeldItem": false,
       "learnableMoves": [],
       "requirements": [
         {
           "variant": "level",
           "minLevel": 36
         }
-      ]
+      ],
+      "trigger": {
+        "variant": "level_up"
+      }
     }
-  ],
-  "baseScale": 1,
-  "hitbox": {
-    "width": 1,
-    "height": 1.5,
-    "fixed": false
-  },
-  "baseFriendship": 70,
-  "evYield": {
-    "hp": 0,
-    "attack": 2,
-    "defence": 0,
-    "special_attack": 0,
-    "special_defence": 0,
-    "speed": 0
-  },
-  "height": 10,
-  "weight": 555,
-  "aspects": [],
-  "cannotDynamax": false
+  ]
 }

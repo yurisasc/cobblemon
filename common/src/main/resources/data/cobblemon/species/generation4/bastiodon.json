@@ -8,15 +8,6 @@
     "sturdy",
     "h:soundproof"
   ],
-  "drops": {
-    "amount": 2,
-    "entries": [
-      {
-        "item": "minecraft:bones",
-        "quantityRange": "0-2"
-      }
-    ]
-  },
   "baseStats": {
     "hp": 60,
     "attack": 52,
@@ -27,15 +18,49 @@
   },
   "catchRate": 45,
   "maleRatio": 0.875,
-  "shoulderMountable": false,
-  "baseExperienceYield": 173,
+  "baseFriendship": 70,
   "experienceGroup": "erratic",
   "eggCycles": 30,
   "eggGroups": [
     "monster"
   ],
+  "height": 13,
+  "weight": 1495,
+  "pokedex": [
+    "cobblemon.species.bastiodon.desc"
+  ],
+  "labels": [
+    "gen4"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 173,
+  "evYield": {
+    "hp": 0,
+    "attack": 0,
+    "defence": 2,
+    "special_attack": 0,
+    "special_defence": 0,
+    "speed": 0
+  },
+  "drops": {
+    "amount": 2,
+    "entries": [
+      {
+        "item": "minecraft:bones",
+        "quantityRange": "0-2"
+      }
+    ]
+  },
+  "baseScale": 1,
+  "hitbox": {
+    "width": 1.75,
+    "height": 1.95,
+    "fixed": false
+  },
+  "cannotDynamax": false,
+  "shoulderMountable": false,
   "behaviour": {
-    "moving" : {
+    "moving": {
       "walk": {
         "walkSpeed": 0.12
       }
@@ -149,31 +174,6 @@
     "tutor:stealthrock",
     "tutor:stompingtantrum"
   ],
-  "labels": [
-    "gen4"
-  ],
-  "pokedex": [
-    "cobblemon.species.bastiodon.desc"
-  ],
   "preEvolution": "shieldon",
-  "evolutions": [],
-  "baseScale": 1,
-  "hitbox": {
-    "width": 1.75,
-    "height": 1.95,
-    "fixed": false
-  },
-  "baseFriendship": 70,
-  "evYield": {
-    "hp": 0,
-    "attack": 0,
-    "defence": 2,
-    "special_attack": 0,
-    "special_defence": 0,
-    "speed": 0
-  },
-  "height": 13,
-  "weight": 1495,
-  "aspects": [],
-  "cannotDynamax": false
+  "evolutions": []
 }

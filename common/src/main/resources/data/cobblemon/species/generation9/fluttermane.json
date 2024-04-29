@@ -16,8 +16,23 @@
   },
   "catchRate": 30,
   "maleRatio": -1,
-  "baseExperienceYield": 285,
   "baseFriendship": 0,
+  "experienceGroup": "slow",
+  "eggCycles": 50,
+  "eggGroups": [
+    "undiscovered"
+  ],
+  "height": 14,
+  "weight": 40,
+  "pokedex": [
+    "cobblemon.species.fluttermane.desc"
+  ],
+  "labels": [
+    "gen9",
+    "paradox"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 285,
   "evYield": {
     "hp": 0,
     "attack": 0,
@@ -26,11 +41,19 @@
     "special_defence": 1,
     "speed": 1
   },
-  "experienceGroup": "slow",
-  "eggCycles": 50,
-  "eggGroups": [
-    "undiscovered"
-  ],
+  "drops": {
+    "amount": 4,
+    "entries": [
+      {
+        "item": "minecraft:phantom_membrane",
+        "quantityRange": "0-3"
+      },
+      {
+        "item": "cobblemon:fairy_feather"
+      }
+    ]
+  },
+  "cannotDynamax": false,
   "moves": [
     "1:astonish",
     "1:confuseray",
@@ -93,28 +116,5 @@
     "tutor:shadowball",
     "tutor:wish"
   ],
-  "labels": [
-    "gen9",
-    "paradox"
-  ],
-  "aspects": [],
-  "height": 14,
-  "weight": 40,
-  "evolutions": [],
-  "cannotDynamax": false,
-  "pokedex": [
-    "cobblemon.species.fluttermane.desc"
-  ],
-  "drops": {
-    "amount": 4,
-    "entries": [
-      {
-        "item": "minecraft:phantom_membrane",
-        "quantityRange": "0-3"
-      },
-      {
-        "item": "cobblemon:fairy_feather"
-      }
-    ]
-  }
+  "evolutions": []
 }

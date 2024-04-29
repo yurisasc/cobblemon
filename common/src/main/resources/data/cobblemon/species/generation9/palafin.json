@@ -15,8 +15,23 @@
   },
   "catchRate": 45,
   "maleRatio": 0.5,
-  "baseExperienceYield": 160,
   "baseFriendship": 50,
+  "experienceGroup": "slow",
+  "eggCycles": 40,
+  "eggGroups": [
+    "field",
+    "water_2"
+  ],
+  "height": 13,
+  "weight": 602,
+  "pokedex": [
+    "cobblemon.species.palafin.desc"
+  ],
+  "labels": [
+    "gen9"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 160,
   "evYield": {
     "hp": 2,
     "attack": 0,
@@ -25,12 +40,16 @@
     "special_defence": 0,
     "speed": 0
   },
-  "experienceGroup": "slow",
-  "eggCycles": 40,
-  "eggGroups": [
-    "field",
-    "water_2"
-  ],
+  "drops": {
+    "amount": 2,
+    "entries": [
+      {
+        "item": "minecraft:cod",
+        "quantityRange": "0-2"
+      }
+    ]
+  },
+  "cannotDynamax": false,
   "moves": [
     "1:jetpunch",
     "1:supersonic",
@@ -93,16 +112,9 @@
     "tm:waterpulse",
     "tm:zenheadbutt"
   ],
-  "labels": [
-    "gen9"
-  ],
-  "aspects": [],
-  "height": 13,
-  "weight": 602,
   "preEvolution": "finizen",
   "evolutions": [],
-  "cannotDynamax": false,
-  "forms": [
+  "temporaryForms": [
     {
       "name": "Hero",
       "primaryType": "water",
@@ -120,6 +132,20 @@
       "catchRate": 45,
       "maleRatio": 0.5,
       "baseFriendship": 50,
+      "experienceGroup": "slow",
+      "eggCycles": 40,
+      "eggGroups": [
+        "field",
+        "water_2"
+      ],
+      "height": 18,
+      "weight": 974,
+      "labels": [
+        "gen9"
+      ],
+      "aspects": [
+        "hero"
+      ],
       "evYield": {
         "hp": 2,
         "attack": 0,
@@ -128,35 +154,9 @@
         "special_defence": 0,
         "speed": 0
       },
-      "experienceGroup": "slow",
-      "eggCycles": 40,
-      "eggGroups": [
-        "field",
-        "water_2"
-      ],
-      "moves": [],
-      "labels": [
-        "gen9"
-      ],
-      "aspects": [
-        "hero"
-      ],
-      "height": 18,
-      "weight": 974,
       "cannotDynamax": false,
-      "battleOnly": true
+      "battleOnly": true,
+      "moves": []
     }
-  ],
-  "pokedex": [
-    "cobblemon.species.palafin.desc"
-  ],
-  "drops": {
-    "amount": 2,
-    "entries": [
-      {
-        "item": "minecraft:cod",
-        "quantityRange": "0-2"
-      }
-    ]
-  }
+  ]
 }

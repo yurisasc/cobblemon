@@ -18,59 +18,59 @@
   },
   "catchRate": 45,
   "maleRatio": 0.5,
-  "shoulderMountable": false,
-  "forms": [
-    {
-      "name": "Mega",
-      "primaryType": "dark",
-      "secondaryType": "fire",
-      "abilities": [
-        "solarpower"
-      ],
-      "baseStats": {
-        "hp": 75,
-        "attack": 90,
-        "defence": 90,
-        "special_attack": 140,
-        "special_defence": 90,
-        "speed": 115
-      },
-      "catchRate": 45,
-      "maleRatio": 0.5,
-      "baseExperienceYield": 175,
-      "baseFriendship": 35,
-      "evYield": {
-        "hp": 0,
-        "attack": 0,
-        "defence": 0,
-        "special_attack": 2,
-        "special_defence": 0,
-        "speed": 0
-      },
-      "experienceGroup": "slow",
-      "eggCycles": 20,
-      "eggGroups": [
-        "field"
-      ],
-      "labels": [
-        "gen6",
-        "mega"
-      ],
-      "aspects": [
-        "mega"
-      ],
-      "height": 19,
-      "weight": 495,
-      "cannotDynamax": false,
-      "battleOnly": true
-    }
-  ],
-  "baseExperienceYield": 175,
+  "baseFriendship": 35,
   "experienceGroup": "slow",
   "eggCycles": 20,
   "eggGroups": [
     "field"
   ],
+  "height": 14,
+  "weight": 350,
+  "pokedex": [
+    "cobblemon.species.houndoom.desc"
+  ],
+  "labels": [
+    "gen2"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 175,
+  "evYield": {
+    "hp": 0,
+    "attack": 0,
+    "defence": 0,
+    "special_attack": 2,
+    "special_defence": 0,
+    "speed": 0
+  },
+  "drops": {
+    "amount": 6,
+    "entries": [
+      {
+        "item": "minecraft:bone",
+        "quantityRange": "0-2"
+      },
+      {
+        "item": "minecraft:rotten_flesh",
+        "quantityRange": "0-2"
+      },
+      {
+        "item": "minecraft:blaze_powder",
+        "percentage": 5.0
+      },
+      {
+        "item": "cobblemon:rawst_berry",
+        "percentage": 5.0
+      }
+    ]
+  },
+  "baseScale": 1,
+  "hitbox": {
+    "width": 1,
+    "height": 1,
+    "fixed": false
+  },
+  "cannotDynamax": false,
+  "shoulderMountable": false,
   "moves": [
     "1:ember",
     "1:howl",
@@ -220,52 +220,52 @@
     "tutor:toxic",
     "tutor:uproar"
   ],
-  "labels": [
-    "gen2"
-  ],
-  "pokedex": [
-    "cobblemon.species.houndoom.desc"
-  ],
   "preEvolution": "houndour",
   "evolutions": [],
-  "baseScale": 1,
-  "hitbox": {
-    "width": 1,
-    "height": 1,
-    "fixed": false
-  },
-  "baseFriendship": 35,
-  "evYield": {
-    "hp": 0,
-    "attack": 0,
-    "defence": 0,
-    "special_attack": 2,
-    "special_defence": 0,
-    "speed": 0
-  },
-  "height": 14,
-  "weight": 350,
-  "aspects": [],
-  "cannotDynamax": false,
-  "drops": {
-    "amount": 6,
-    "entries": [
-      {
-        "item": "minecraft:bone",
-        "quantityRange": "0-2"
+  "temporaryForms": [
+    {
+      "name": "Mega",
+      "primaryType": "dark",
+      "secondaryType": "fire",
+      "abilities": [
+        "solarpower"
+      ],
+      "baseStats": {
+        "hp": 75,
+        "attack": 90,
+        "defence": 90,
+        "special_attack": 140,
+        "special_defence": 90,
+        "speed": 115
       },
-      {
-        "item": "minecraft:rotten_flesh",
-        "quantityRange": "0-2"
+      "catchRate": 45,
+      "maleRatio": 0.5,
+      "baseFriendship": 35,
+      "experienceGroup": "slow",
+      "eggCycles": 20,
+      "eggGroups": [
+        "field"
+      ],
+      "height": 19,
+      "weight": 495,
+      "labels": [
+        "gen6",
+        "mega"
+      ],
+      "aspects": [
+        "mega"
+      ],
+      "baseExperienceYield": 175,
+      "evYield": {
+        "hp": 0,
+        "attack": 0,
+        "defence": 0,
+        "special_attack": 2,
+        "special_defence": 0,
+        "speed": 0
       },
-      {
-        "item": "minecraft:blaze_powder",
-        "percentage": 5.0
-      },
-      {
-        "item": "cobblemon:rawst_berry",
-        "percentage": 5.0
-      }
-    ]
-  }
+      "cannotDynamax": false,
+      "battleOnly": true
+    }
+  ]
 }

@@ -17,8 +17,22 @@
   },
   "catchRate": 190,
   "maleRatio": 0.5,
-  "baseExperienceYield": 54,
   "baseFriendship": 50,
+  "experienceGroup": "medium_fast",
+  "eggCycles": 20,
+  "eggGroups": [
+    "water_1"
+  ],
+  "height": 3,
+  "weight": 4,
+  "pokedex": [
+    "cobblemon.species.tadbulb.desc"
+  ],
+  "labels": [
+    "gen9"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 54,
   "evYield": {
     "hp": 1,
     "attack": 0,
@@ -27,11 +41,20 @@
     "special_defence": 0,
     "speed": 0
   },
-  "experienceGroup": "medium_fast",
-  "eggCycles": 20,
-  "eggGroups": [
-    "water_1"
-  ],
+  "drops": {
+    "amount": 2,
+    "entries": [
+      {
+        "item": "minecraft:ochre_froglight",
+        "percentage": 2.5
+      },
+      {
+        "item": "cobblemon:wepear_berry",
+        "percentage": 2.5
+      }
+    ]
+  },
+  "cannotDynamax": false,
   "moves": [
     "1:mudslap",
     "1:tackle",
@@ -76,38 +99,16 @@
     "tm:waterpulse",
     "tm:wildcharge"
   ],
-  "labels": [
-    "gen9"
-  ],
-  "aspects": [],
-  "height": 3,
-  "weight": 4,
   "evolutions": [
     {
       "id": "tadbulb_bellibolt",
-      "variant": "item_interact",
       "result": "bellibolt",
-      "consumeHeldItem": false,
       "learnableMoves": [],
       "requirements": [],
-      "requiredContext": "cobblemon:thunder_stone"
-    }
-  ],
-  "cannotDynamax": false,
-  "pokedex": [
-    "cobblemon.species.tadbulb.desc"
-  ],
-  "drops": {
-    "amount": 2,
-    "entries": [
-      {
-        "item": "minecraft:ochre_froglight",
-        "percentage": 2.5
-      },
-      {
-        "item": "cobblemon:wepear_berry",
-        "percentage": 2.5
+      "trigger": {
+        "variant": "item_interact",
+        "requiredContext": "cobblemon:thunder_stone"
       }
-    ]
-  }
+    }
+  ]
 }

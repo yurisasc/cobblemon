@@ -8,6 +8,41 @@
     "poisonheal",
     "h:quickfeet"
   ],
+  "baseStats": {
+    "hp": 60,
+    "attack": 40,
+    "defence": 60,
+    "special_attack": 40,
+    "special_defence": 60,
+    "speed": 35
+  },
+  "catchRate": 255,
+  "maleRatio": 0.5,
+  "baseFriendship": 70,
+  "experienceGroup": "fluctuating",
+  "eggCycles": 15,
+  "eggGroups": [
+    "fairy",
+    "grass"
+  ],
+  "height": 4,
+  "weight": 45,
+  "pokedex": [
+    "cobblemon.species.shroomish.desc"
+  ],
+  "labels": [
+    "gen3"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 59,
+  "evYield": {
+    "hp": 1,
+    "attack": 0,
+    "defence": 0,
+    "special_attack": 0,
+    "special_defence": 0,
+    "speed": 0
+  },
   "drops": {
     "amount": 2,
     "entries": [
@@ -21,24 +56,14 @@
       }
     ]
   },
-  "baseStats": {
-    "hp": 60,
-    "attack": 40,
-    "defence": 60,
-    "special_attack": 40,
-    "special_defence": 60,
-    "speed": 35
+  "baseScale": 0.8,
+  "hitbox": {
+    "width": 0.7,
+    "height": 0.6,
+    "fixed": false
   },
-  "catchRate": 255,
-  "maleRatio": 0.5,
+  "cannotDynamax": false,
   "shoulderMountable": false,
-  "baseExperienceYield": 59,
-  "experienceGroup": "fluctuating",
-  "eggCycles": 15,
-  "eggGroups": [
-    "fairy",
-    "grass"
-  ],
   "behaviour": {
     "resting": {
       "canSleep": true,
@@ -143,18 +168,10 @@
     "tutor:synthesis",
     "tutor:worryseed"
   ],
-  "labels": [
-    "gen3"
-  ],
-  "pokedex": [
-    "cobblemon.species.shroomish.desc"
-  ],
   "evolutions": [
     {
       "id": "shroomish_breloom",
-      "variant": "level_up",
       "result": "breloom",
-      "consumeHeldItem": false,
       "learnableMoves": [
         "machpunch"
       ],
@@ -163,26 +180,10 @@
           "variant": "level",
           "minLevel": 23
         }
-      ]
+      ],
+      "trigger": {
+        "variant": "level_up"
+      }
     }
-  ],
-  "baseScale": 0.8,
-  "hitbox": {
-    "width": 0.7,
-    "height": 0.6,
-    "fixed": false
-  },
-  "baseFriendship": 70,
-  "evYield": {
-    "hp": 1,
-    "attack": 0,
-    "defence": 0,
-    "special_attack": 0,
-    "special_defence": 0,
-    "speed": 0
-  },
-  "height": 4,
-  "weight": 45,
-  "aspects": [],
-  "cannotDynamax": false
+  ]
 }

@@ -15,13 +15,40 @@
   },
   "catchRate": 3,
   "maleRatio": -1,
-  "shoulderMountable": false,
-  "baseExperienceYield": 300,
+  "baseFriendship": 0,
   "experienceGroup": "slow",
   "eggCycles": 120,
   "eggGroups": [
     "undiscovered"
   ],
+  "height": 15,
+  "weight": 445,
+  "pokedex": [
+    "cobblemon.species.zeraora.desc"
+  ],
+  "labels": [
+    "gen7",
+    "mythical",
+    "legendary"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 300,
+  "evYield": {
+    "hp": 0,
+    "attack": 0,
+    "defence": 0,
+    "special_attack": 0,
+    "special_defence": 0,
+    "speed": 3
+  },
+  "baseScale": 1,
+  "hitbox": {
+    "width": 1,
+    "height": 1,
+    "fixed": false
+  },
+  "cannotDynamax": false,
+  "shoulderMountable": false,
   "moves": [
     "1:fakeout",
     "1:poweruppunch",
@@ -128,32 +155,5 @@
     "tutor:thunder",
     "tutor:thunderpunch"
   ],
-  "labels": [
-    "gen7",
-    "mythical",
-    "legendary"
-  ],
-  "pokedex": [
-    "cobblemon.species.zeraora.desc"
-  ],
-  "evolutions": [],
-  "baseScale": 1,
-  "hitbox": {
-    "width": 1,
-    "height": 1,
-    "fixed": false
-  },
-  "baseFriendship": 0,
-  "evYield": {
-    "hp": 0,
-    "attack": 0,
-    "defence": 0,
-    "special_attack": 0,
-    "special_defence": 0,
-    "speed": 3
-  },
-  "height": 15,
-  "weight": 445,
-  "aspects": [],
-  "cannotDynamax": false
+  "evolutions": []
 }

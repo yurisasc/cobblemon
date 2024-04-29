@@ -16,26 +16,35 @@
     "special_defence": 70,
     "speed": 100
   },
-  "behaviour": {
-    "resting": {
-      "canSleep": true,
-      "willSleepOnBed": false,
-      "depth": "normal",
-      "light": "0-4"
-    }
-  },
   "catchRate": 45,
   "maleRatio": 0,
-  "shoulderMountable": false,
-  "baseExperienceYield": 172,
+  "baseFriendship": 50,
   "experienceGroup": "slow",
   "eggCycles": 20,
-  "features": [
-    "milkable"
-  ],
   "eggGroups": [
     "field"
   ],
+  "height": 12,
+  "weight": 755,
+  "pokedex": [
+    "cobblemon.species.miltank.desc"
+  ],
+  "labels": [
+    "gen2"
+  ],
+  "features": [
+    "milkable"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 172,
+  "evYield": {
+    "hp": 0,
+    "attack": 0,
+    "defence": 2,
+    "special_attack": 0,
+    "special_defence": 0,
+    "speed": 0
+  },
   "drops": {
     "amount": 6,
     "entries": [
@@ -52,6 +61,22 @@
         "percentage": 5.0
       }
     ]
+  },
+  "baseScale": 0.75,
+  "hitbox": {
+    "width": 1.1,
+    "height": 2,
+    "fixed": false
+  },
+  "cannotDynamax": false,
+  "shoulderMountable": false,
+  "behaviour": {
+    "resting": {
+      "canSleep": true,
+      "willSleepOnBed": false,
+      "depth": "normal",
+      "light": "0-4"
+    }
   },
   "moves": [
     "1:growl",
@@ -226,30 +251,5 @@
     "tutor:zapcannon",
     "tutor:zenheadbutt"
   ],
-  "labels": [
-    "gen2"
-  ],
-  "pokedex": [
-    "cobblemon.species.miltank.desc"
-  ],
-  "evolutions": [],
-  "baseScale": 0.75,
-  "hitbox": {
-    "width": 1.1,
-    "height": 2,
-    "fixed": false
-  },
-  "baseFriendship": 50,
-  "evYield": {
-    "hp": 0,
-    "attack": 0,
-    "defence": 2,
-    "special_attack": 0,
-    "special_defence": 0,
-    "speed": 0
-  },
-  "height": 12,
-  "weight": 755,
-  "aspects": [],
-  "cannotDynamax": false
+  "evolutions": []
 }

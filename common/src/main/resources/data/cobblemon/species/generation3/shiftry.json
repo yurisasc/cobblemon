@@ -9,6 +9,41 @@
     "earlybird",
     "h:pickpocket"
   ],
+  "baseStats": {
+    "hp": 90,
+    "attack": 100,
+    "defence": 60,
+    "special_attack": 90,
+    "special_defence": 60,
+    "speed": 80
+  },
+  "catchRate": 45,
+  "maleRatio": 0.5,
+  "baseFriendship": 50,
+  "experienceGroup": "medium_slow",
+  "eggCycles": 15,
+  "eggGroups": [
+    "field",
+    "grass"
+  ],
+  "height": 13,
+  "weight": 596,
+  "pokedex": [
+    "cobblemon.species.shiftry.desc"
+  ],
+  "labels": [
+    "gen3"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 240,
+  "evYield": {
+    "hp": 0,
+    "attack": 3,
+    "defence": 0,
+    "special_attack": 0,
+    "special_defence": 0,
+    "speed": 0
+  },
   "drops": {
     "amount": 4,
     "entries": [
@@ -22,24 +57,14 @@
       }
     ]
   },
-  "baseStats": {
-    "hp": 90,
-    "attack": 100,
-    "defence": 60,
-    "special_attack": 90,
-    "special_defence": 60,
-    "speed": 80
+  "baseScale": 1,
+  "hitbox": {
+    "width": 1,
+    "height": 1,
+    "fixed": false
   },
-  "catchRate": 45,
-  "maleRatio": 0.5,
+  "cannotDynamax": false,
   "shoulderMountable": false,
-  "baseExperienceYield": 240,
-  "experienceGroup": "medium_slow",
-  "eggCycles": 15,
-  "eggGroups": [
-    "field",
-    "grass"
-  ],
   "moves": [
     "1:absorb",
     "1:aircutter",
@@ -218,31 +243,6 @@
     "tutor:twister",
     "tutor:worryseed"
   ],
-  "labels": [
-    "gen3"
-  ],
-  "pokedex": [
-    "cobblemon.species.shiftry.desc"
-  ],
   "preEvolution": "nuzleaf",
-  "evolutions": [],
-  "baseScale": 1,
-  "hitbox": {
-    "width": 1,
-    "height": 1,
-    "fixed": false
-  },
-  "baseFriendship": 50,
-  "evYield": {
-    "hp": 0,
-    "attack": 3,
-    "defence": 0,
-    "special_attack": 0,
-    "special_defence": 0,
-    "speed": 0
-  },
-  "height": 13,
-  "weight": 596,
-  "aspects": [],
-  "cannotDynamax": false
+  "evolutions": []
 }

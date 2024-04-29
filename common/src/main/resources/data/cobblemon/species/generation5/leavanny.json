@@ -8,6 +8,40 @@
     "chlorophyll",
     "h:overcoat"
   ],
+  "baseStats": {
+    "hp": 75,
+    "attack": 103,
+    "defence": 80,
+    "special_attack": 70,
+    "special_defence": 80,
+    "speed": 92
+  },
+  "catchRate": 45,
+  "maleRatio": 0.5,
+  "baseFriendship": 70,
+  "experienceGroup": "medium_slow",
+  "eggCycles": 15,
+  "eggGroups": [
+    "bug"
+  ],
+  "height": 12,
+  "weight": 205,
+  "pokedex": [
+    "cobblemon.species.leavanny.desc"
+  ],
+  "labels": [
+    "gen5"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 225,
+  "evYield": {
+    "hp": 0,
+    "attack": 3,
+    "defence": 0,
+    "special_attack": 0,
+    "special_defence": 0,
+    "speed": 0
+  },
   "drops": {
     "amount": 6,
     "entries": [
@@ -29,23 +63,14 @@
       }
     ]
   },
-  "baseStats": {
-    "hp": 75,
-    "attack": 103,
-    "defence": 80,
-    "special_attack": 70,
-    "special_defence": 80,
-    "speed": 92
+  "baseScale": 1,
+  "hitbox": {
+    "width": 1,
+    "height": 1,
+    "fixed": false
   },
-  "catchRate": 45,
-  "maleRatio": 0.5,
+  "cannotDynamax": false,
   "shoulderMountable": false,
-  "baseExperienceYield": 225,
-  "experienceGroup": "medium_slow",
-  "eggCycles": 15,
-  "eggGroups": [
-    "bug"
-  ],
   "moves": [
     "1:bugbite",
     "1:falseswipe",
@@ -147,31 +172,6 @@
     "tutor:throatchop",
     "tutor:worryseed"
   ],
-  "labels": [
-    "gen5"
-  ],
-  "pokedex": [
-    "cobblemon.species.leavanny.desc"
-  ],
   "preEvolution": "swadloon",
-  "evolutions": [],
-  "baseScale": 1,
-  "hitbox": {
-    "width": 1,
-    "height": 1,
-    "fixed": false
-  },
-  "baseFriendship": 70,
-  "evYield": {
-    "hp": 0,
-    "attack": 3,
-    "defence": 0,
-    "special_attack": 0,
-    "special_defence": 0,
-    "speed": 0
-  },
-  "height": 12,
-  "weight": 205,
-  "aspects": [],
-  "cannotDynamax": false
+  "evolutions": []
 }

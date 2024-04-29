@@ -8,15 +8,6 @@
     "aftermath",
     "h:keeneye"
   ],
-  "drops": {
-    "amount": 1,
-    "entries": [
-      {
-        "item": "cobblemon:pecha_berry",
-        "percentage": 2.5
-      }
-    ]
-  },
   "baseStats": {
     "hp": 63,
     "attack": 63,
@@ -27,13 +18,47 @@
   },
   "catchRate": 225,
   "maleRatio": 0.5,
-  "shoulderMountable": false,
-  "baseExperienceYield": 66,
+  "baseFriendship": 50,
   "experienceGroup": "medium_fast",
   "eggCycles": 20,
   "eggGroups": [
     "field"
   ],
+  "height": 4,
+  "weight": 192,
+  "pokedex": [
+    "cobblemon.species.stunky.desc"
+  ],
+  "labels": [
+    "gen4"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 66,
+  "evYield": {
+    "hp": 0,
+    "attack": 0,
+    "defence": 0,
+    "special_attack": 0,
+    "special_defence": 0,
+    "speed": 1
+  },
+  "drops": {
+    "amount": 1,
+    "entries": [
+      {
+        "item": "cobblemon:pecha_berry",
+        "percentage": 2.5
+      }
+    ]
+  },
+  "baseScale": 1,
+  "hitbox": {
+    "width": 1,
+    "height": 1,
+    "fixed": false
+  },
+  "cannotDynamax": false,
+  "shoulderMountable": false,
   "moves": [
     "1:focusenergy",
     "1:poisongas",
@@ -182,18 +207,10 @@
     "tutor:swift",
     "tutor:throatchop"
   ],
-  "labels": [
-    "gen4"
-  ],
-  "pokedex": [
-    "cobblemon.species.stunky.desc"
-  ],
   "evolutions": [
     {
       "id": "stunky_skuntank",
-      "variant": "level_up",
       "result": "skuntank",
-      "consumeHeldItem": false,
       "learnableMoves": [
         "flamethrower"
       ],
@@ -202,26 +219,10 @@
           "variant": "level",
           "minLevel": 34
         }
-      ]
+      ],
+      "trigger": {
+        "variant": "level_up"
+      }
     }
-  ],
-  "baseScale": 1,
-  "hitbox": {
-    "width": 1,
-    "height": 1,
-    "fixed": false
-  },
-  "baseFriendship": 50,
-  "evYield": {
-    "hp": 0,
-    "attack": 0,
-    "defence": 0,
-    "special_attack": 0,
-    "special_defence": 0,
-    "speed": 1
-  },
-  "height": 4,
-  "weight": 192,
-  "aspects": [],
-  "cannotDynamax": false
+  ]
 }

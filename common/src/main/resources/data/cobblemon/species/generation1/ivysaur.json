@@ -16,23 +16,33 @@
     "special_defence": 80,
     "speed": 60
   },
-  "behaviour": {
-    "resting": {
-      "canSleep": true,
-      "depth": "normal",
-      "light": "0-4"
-    }
-  },
   "catchRate": 45,
   "maleRatio": 0.875,
-  "shoulderMountable": false,
-  "baseExperienceYield": 142,
+  "baseFriendship": 50,
   "experienceGroup": "medium_slow",
   "eggCycles": 20,
   "eggGroups": [
     "monster",
     "grass"
   ],
+  "height": 10,
+  "weight": 130,
+  "pokedex": [
+    "cobblemon.species.ivysaur.desc"
+  ],
+  "labels": [
+    "gen1"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 142,
+  "evYield": {
+    "hp": 0,
+    "attack": 0,
+    "defence": 0,
+    "special_attack": 1,
+    "special_defence": 1,
+    "speed": 0
+  },
   "drops": {
     "amount": 3,
     "entries": [
@@ -45,6 +55,21 @@
         "percentage": 10.0
       }
     ]
+  },
+  "baseScale": 1,
+  "hitbox": {
+    "width": 0.7,
+    "height": 1,
+    "fixed": false
+  },
+  "cannotDynamax": false,
+  "shoulderMountable": false,
+  "behaviour": {
+    "resting": {
+      "canSleep": true,
+      "depth": "normal",
+      "light": "0-4"
+    }
   },
   "moves": [
     "1:growl",
@@ -175,19 +200,11 @@
     "tutor:vinewhip",
     "tutor:worryseed"
   ],
-  "labels": [
-    "gen1"
-  ],
-  "pokedex": [
-    "cobblemon.species.ivysaur.desc"
-  ],
   "preEvolution": "bulbasaur",
   "evolutions": [
     {
       "id": "ivysaur_venusaur",
-      "variant": "level_up",
       "result": "venusaur",
-      "consumeHeldItem": false,
       "learnableMoves": [
         "petalblizzard"
       ],
@@ -196,26 +213,10 @@
           "variant": "level",
           "minLevel": 32
         }
-      ]
+      ],
+      "trigger": {
+        "variant": "level_up"
+      }
     }
-  ],
-  "baseScale": 1,
-  "hitbox": {
-    "width": 0.7,
-    "height": 1,
-    "fixed": false
-  },
-  "baseFriendship": 50,
-  "evYield": {
-    "hp": 0,
-    "attack": 0,
-    "defence": 0,
-    "special_attack": 1,
-    "special_defence": 1,
-    "speed": 0
-  },
-  "height": 10,
-  "weight": 130,
-  "aspects": [],
-  "cannotDynamax": false
+  ]
 }

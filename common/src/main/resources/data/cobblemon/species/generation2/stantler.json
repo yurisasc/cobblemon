@@ -16,23 +16,32 @@
     "special_defence": 65,
     "speed": 85
   },
-  "behaviour": {
-    "resting": {
-      "canSleep": true,
-      "willSleepOnBed": false,
-      "depth": "normal",
-      "light": "0-4"
-    }
-  },
   "catchRate": 45,
   "maleRatio": 0.5,
-  "shoulderMountable": false,
-  "baseExperienceYield": 163,
+  "baseFriendship": 70,
   "experienceGroup": "slow",
   "eggCycles": 20,
   "eggGroups": [
     "field"
   ],
+  "height": 14,
+  "weight": 712,
+  "pokedex": [
+    "cobblemon.species.stantler.desc"
+  ],
+  "labels": [
+    "gen2"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 163,
+  "evYield": {
+    "hp": 0,
+    "attack": 1,
+    "defence": 0,
+    "special_attack": 0,
+    "special_defence": 0,
+    "speed": 0
+  },
   "drops": {
     "amount": 2,
     "entries": [
@@ -45,6 +54,22 @@
         "percentage": 2.5
       }
     ]
+  },
+  "baseScale": 1.2,
+  "hitbox": {
+    "width": 0.8,
+    "height": 1.65,
+    "fixed": false
+  },
+  "cannotDynamax": false,
+  "shoulderMountable": false,
+  "behaviour": {
+    "resting": {
+      "canSleep": true,
+      "willSleepOnBed": false,
+      "depth": "normal",
+      "light": "0-4"
+    }
   },
   "moves": [
     "1:mefirst",
@@ -208,18 +233,10 @@
     "tutor:uproar",
     "tutor:zenheadbutt"
   ],
-  "labels": [
-    "gen2"
-  ],
-  "pokedex": [
-    "cobblemon.species.stantler.desc"
-  ],
   "evolutions": [
     {
       "id": "stantler_wyrdeer",
-      "variant": "level_up",
       "result": "wyrdeer",
-      "consumeHeldItem": false,
       "learnableMoves": [],
       "requirements": [
         {
@@ -227,26 +244,10 @@
           "move": "psyshieldbash",
           "amount": 20
         }
-      ]
+      ],
+      "trigger": {
+        "variant": "level_up"
+      }
     }
-  ],
-  "baseScale": 1.2,
-  "hitbox": {
-    "width": 0.8,
-    "height": 1.65,
-    "fixed": false
-  },
-  "baseFriendship": 70,
-  "evYield": {
-    "hp": 0,
-    "attack": 1,
-    "defence": 0,
-    "special_attack": 0,
-    "special_defence": 0,
-    "speed": 0
-  },
-  "height": 14,
-  "weight": 712,
-  "aspects": [],
-  "cannotDynamax": false
+  ]
 }

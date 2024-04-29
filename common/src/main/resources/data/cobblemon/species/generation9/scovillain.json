@@ -18,8 +18,22 @@
   },
   "catchRate": 75,
   "maleRatio": 0.5,
-  "baseExperienceYield": 170,
   "baseFriendship": 50,
+  "experienceGroup": "medium_fast",
+  "eggCycles": 20,
+  "eggGroups": [
+    "grass"
+  ],
+  "height": 9,
+  "weight": 150,
+  "pokedex": [
+    "cobblemon.species.scovillain.desc"
+  ],
+  "labels": [
+    "gen9"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 170,
   "evYield": {
     "hp": 0,
     "attack": 2,
@@ -28,11 +42,20 @@
     "special_defence": 0,
     "speed": 0
   },
-  "experienceGroup": "medium_fast",
-  "eggCycles": 20,
-  "eggGroups": [
-    "grass"
-  ],
+  "drops": {
+    "amount": 3,
+    "entries": [
+      {
+        "item": "cobblemon:roasted_leek",
+        "quantityRange": "0-2"
+      },
+      {
+        "item": "cobblemon:rawst_berry",
+        "percentage": 5.0
+      }
+    ]
+  },
+  "cannotDynamax": false,
   "moves": [
     "1:firefang",
     "1:leafage",
@@ -85,29 +108,6 @@
     "tm:willowisp",
     "tm:zenheadbutt"
   ],
-  "labels": [
-    "gen9"
-  ],
-  "aspects": [],
-  "height": 9,
-  "weight": 150,
   "preEvolution": "capsakid",
-  "evolutions": [],
-  "cannotDynamax": false,
-  "pokedex": [
-    "cobblemon.species.scovillain.desc"
-  ],
-  "drops": {
-    "amount": 3,
-    "entries": [
-      {
-        "item": "cobblemon:roasted_leek",
-        "quantityRange": "0-2"
-      },
-      {
-        "item": "cobblemon:rawst_berry",
-        "percentage": 5.0
-      }
-    ]
-  }
+  "evolutions": []
 }

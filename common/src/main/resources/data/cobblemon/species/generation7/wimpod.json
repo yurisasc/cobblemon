@@ -7,15 +7,6 @@
   "abilities": [
     "wimpout"
   ],
-  "drops": {
-    "amount": 1,
-    "entries": [
-      {
-        "item": "cobblemon:bluk_berry",
-        "percentage": 2.5
-      }
-    ]
-  },
   "baseStats": {
     "hp": 25,
     "attack": 35,
@@ -26,14 +17,48 @@
   },
   "catchRate": 90,
   "maleRatio": 0.5,
-  "shoulderMountable": false,
-  "baseExperienceYield": 46,
+  "baseFriendship": 50,
   "experienceGroup": "medium_fast",
   "eggCycles": 20,
   "eggGroups": [
     "bug",
     "water_3"
   ],
+  "height": 5,
+  "weight": 120,
+  "pokedex": [
+    "cobblemon.species.wimpod.desc"
+  ],
+  "labels": [
+    "gen7"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 46,
+  "evYield": {
+    "hp": 0,
+    "attack": 0,
+    "defence": 0,
+    "special_attack": 0,
+    "special_defence": 0,
+    "speed": 1
+  },
+  "drops": {
+    "amount": 1,
+    "entries": [
+      {
+        "item": "cobblemon:bluk_berry",
+        "percentage": 2.5
+      }
+    ]
+  },
+  "baseScale": 0.65,
+  "hitbox": {
+    "width": 0.8,
+    "height": 0.4,
+    "fixed": false
+  },
+  "cannotDynamax": false,
+  "shoulderMountable": false,
   "behaviour": {
     "resting": {
       "canSleep": true,
@@ -90,18 +115,10 @@
     "tutor:skittersmack",
     "tutor:snore"
   ],
-  "labels": [
-    "gen7"
-  ],
-  "pokedex": [
-    "cobblemon.species.wimpod.desc"
-  ],
   "evolutions": [
     {
       "id": "wimpod_golisopod",
-      "variant": "level_up",
       "result": "golisopod",
-      "consumeHeldItem": false,
       "learnableMoves": [
         "firstimpression"
       ],
@@ -110,26 +127,10 @@
           "variant": "level",
           "minLevel": 30
         }
-      ]
+      ],
+      "trigger": {
+        "variant": "level_up"
+      }
     }
-  ],
-  "baseScale": 0.65,
-  "hitbox": {
-    "width": 0.8,
-    "height": 0.4,
-    "fixed": false
-  },
-  "baseFriendship": 50,
-  "evYield": {
-    "hp": 0,
-    "attack": 0,
-    "defence": 0,
-    "special_attack": 0,
-    "special_defence": 0,
-    "speed": 1
-  },
-  "height": 5,
-  "weight": 120,
-  "aspects": [],
-  "cannotDynamax": false
+  ]
 }

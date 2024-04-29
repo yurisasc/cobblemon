@@ -19,13 +19,30 @@
   },
   "catchRate": 45,
   "maleRatio": 0.5,
-  "shoulderMountable": false,
-  "baseExperienceYield": 165,
+  "baseFriendship": 70,
   "experienceGroup": "medium_fast",
   "eggCycles": 20,
   "eggGroups": [
     "flying"
   ],
+  "height": 18,
+  "weight": 852,
+  "pokedex": [
+    "cobblemon.species.dodrio.desc"
+  ],
+  "labels": [
+    "gen1"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 165,
+  "evYield": {
+    "hp": 0,
+    "attack": 2,
+    "defence": 0,
+    "special_attack": 0,
+    "special_defence": 0,
+    "speed": 0
+  },
   "drops": {
     "amount": 5,
     "entries": [
@@ -46,6 +63,14 @@
       }
     ]
   },
+  "baseScale": 1.6,
+  "hitbox": {
+    "width": 0.6,
+    "height": 1.6,
+    "fixed": false
+  },
+  "cannotDynamax": false,
+  "shoulderMountable": false,
   "behaviour": {
     "moving": {
       "walk": {
@@ -190,31 +215,6 @@
     "tutor:uproar",
     "tutor:whirlwind"
   ],
-  "labels": [
-    "gen1"
-  ],
-  "pokedex": [
-    "cobblemon.species.dodrio.desc"
-  ],
   "preEvolution": "doduo",
-  "evolutions": [],
-  "baseScale": 1.6,
-  "hitbox": {
-    "width": 0.6,
-    "height": 1.6,
-    "fixed": false
-  },
-  "baseFriendship": 70,
-  "evYield": {
-    "hp": 0,
-    "attack": 2,
-    "defence": 0,
-    "special_attack": 0,
-    "special_defence": 0,
-    "speed": 0
-  },
-  "height": 18,
-  "weight": 852,
-  "aspects": [],
-  "cannotDynamax": false
+  "evolutions": []
 }

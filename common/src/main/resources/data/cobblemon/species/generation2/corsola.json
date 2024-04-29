@@ -16,165 +16,54 @@
     "special_defence": 95,
     "speed": 35
   },
-  "features": [
-    "galarian"
-  ],
   "catchRate": 60,
   "maleRatio": 0.25,
-  "shoulderMountable": false,
-  "forms": [
-    {
-      "name": "Galar",
-      "primaryType": "ghost",
-      "abilities": [
-        "weakarmor",
-        "h:cursedbody"
-      ],
-      "baseStats": {
-        "hp": 60,
-        "attack": 55,
-        "defence": 100,
-        "special_attack": 65,
-        "special_defence": 100,
-        "speed": 30
-      },
-      "catchRate": 60,
-      "maleRatio": 0.25,
-      "baseExperienceYield": 144,
-      "baseFriendship": 50,
-      "evYield": {
-        "hp": 0,
-        "attack": 0,
-        "defence": 0,
-        "special_attack": 0,
-        "special_defence": 1,
-        "speed": 0
-      },
-      "experienceGroup": "fast",
-      "eggCycles": 20,
-      "eggGroups": [
-        "water_1",
-        "water_3"
-      ],
-      "moves": [
-        "1:harden",
-        "1:tackle",
-        "5:astonish",
-        "10:disable",
-        "15:spite",
-        "20:ancientpower",
-        "25:hex",
-        "30:curse",
-        "35:strengthsap",
-        "40:powergem",
-        "45:nightshade",
-        "50:grudge",
-        "55:mirrorcoat",
-        "egg:confuseray",
-        "egg:destinybond",
-        "egg:haze",
-        "egg:headsmash",
-        "egg:naturepower",
-        "egg:waterpulse",
-        "tm:amnesia",
-        "tm:attract",
-        "tm:blizzard",
-        "tm:bodyslam",
-        "tm:brine",
-        "tm:bulldoze",
-        "tm:calmmind",
-        "tm:dig",
-        "tm:earthpower",
-        "tm:earthquake",
-        "tm:endure",
-        "tm:facade",
-        "tm:gigadrain",
-        "tm:hail",
-        "tm:hex",
-        "tm:hydropump",
-        "tm:icebeam",
-        "tm:iciclespear",
-        "tm:icywind",
-        "tm:irondefense",
-        "tm:lightscreen",
-        "tm:liquidation",
-        "tm:powergem",
-        "tm:protect",
-        "tm:psychic",
-        "tm:raindance",
-        "tm:reflect",
-        "tm:rest",
-        "tm:rockblast",
-        "tm:rockslide",
-        "tm:rocktomb",
-        "tm:round",
-        "tm:safeguard",
-        "tm:sandstorm",
-        "tm:scald",
-        "tm:screech",
-        "tm:selfdestruct",
-        "tm:shadowball",
-        "tm:sleeptalk",
-        "tm:snore",
-        "tm:stealthrock",
-        "tm:stompingtantrum",
-        "tm:stoneedge",
-        "tm:substitute",
-        "tm:sunnyday",
-        "tm:surf",
-        "tm:throatchop",
-        "tm:whirlpool",
-        "tm:willowisp",
-        "tutor:astonish",
-        "tutor:disable",
-        "tutor:meteorbeam",
-        "tutor:spite",
-        "tutor:tackle"
-      ],
-      "labels": [
-        "gen8",
-        "galar_regional"
-      ],
-      "aspects": [
-        "galarian"
-      ],
-      "height": 6,
-      "weight": 5,
-      "evolutions": [
-        {
-          "id": "corsola_cursola",
-          "variant": "level_up",
-          "result": "cursola",
-          "consumeHeldItem": false,
-          "learnableMoves": [],
-          "requirements": [
-            {
-              "variant": "level",
-              "minLevel": 38
-            }
-          ]
-        }
-      ],
-      "cannotDynamax": false,
-      "battleOnly": false,
-      "drops": {
-        "amount": 1,
-        "entries": [
-          {
-            "item": "cobblemon:kasib_berry",
-            "percentage": 2.5
-          }
-        ]
-      }
-    }
-  ],
-  "baseExperienceYield": 144,
+  "baseFriendship": 50,
   "experienceGroup": "fast",
   "eggCycles": 20,
   "eggGroups": [
     "water_1",
     "water_3"
   ],
+  "height": 6,
+  "weight": 50,
+  "pokedex": [
+    "cobblemon.species.corsola.desc"
+  ],
+  "labels": [
+    "gen2",
+    "johto_regional"
+  ],
+  "features": [
+    "galarian"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 144,
+  "evYield": {
+    "hp": 0,
+    "attack": 0,
+    "defence": 1,
+    "special_attack": 0,
+    "special_defence": 1,
+    "speed": 0
+  },
+  "drops": {
+    "amount": 1,
+    "entries": [
+      {
+        "item": "cobblemon:rindo_berry",
+        "percentage": 5.0
+      }
+    ]
+  },
+  "baseScale": 1,
+  "hitbox": {
+    "width": 1,
+    "height": 1,
+    "fixed": false
+  },
+  "cannotDynamax": false,
+  "shoulderMountable": false,
   "moves": [
     "1:harden",
     "1:tackle",
@@ -335,40 +224,151 @@
     "tutor:waterpulse",
     "tutor:whirlpool"
   ],
-  "labels": [
-    "gen2",
-    "johto_regional"
-  ],
-  "pokedex": [
-    "cobblemon.species.corsola.desc"
-  ],
   "evolutions": [],
-  "baseScale": 1,
-  "hitbox": {
-    "width": 1,
-    "height": 1,
-    "fixed": false
-  },
-  "baseFriendship": 50,
-  "evYield": {
-    "hp": 0,
-    "attack": 0,
-    "defence": 1,
-    "special_attack": 0,
-    "special_defence": 1,
-    "speed": 0
-  },
-  "height": 6,
-  "weight": 50,
-  "aspects": [],
-  "cannotDynamax": false,
-  "drops": {
-    "amount": 1,
-    "entries": [
-      {
-        "item": "cobblemon:rindo_berry",
-        "percentage": 5.0
-      }
-    ]
-  }
+  "permanentForms": [
+    {
+      "name": "Galar",
+      "primaryType": "ghost",
+      "abilities": [
+        "weakarmor",
+        "h:cursedbody"
+      ],
+      "baseStats": {
+        "hp": 60,
+        "attack": 55,
+        "defence": 100,
+        "special_attack": 65,
+        "special_defence": 100,
+        "speed": 30
+      },
+      "catchRate": 60,
+      "maleRatio": 0.25,
+      "baseFriendship": 50,
+      "experienceGroup": "fast",
+      "eggCycles": 20,
+      "eggGroups": [
+        "water_1",
+        "water_3"
+      ],
+      "height": 6,
+      "weight": 5,
+      "labels": [
+        "gen8",
+        "galar_regional"
+      ],
+      "aspects": [
+        "galarian"
+      ],
+      "baseExperienceYield": 144,
+      "evYield": {
+        "hp": 0,
+        "attack": 0,
+        "defence": 0,
+        "special_attack": 0,
+        "special_defence": 1,
+        "speed": 0
+      },
+      "drops": {
+        "amount": 1,
+        "entries": [
+          {
+            "item": "cobblemon:kasib_berry",
+            "percentage": 2.5
+          }
+        ]
+      },
+      "cannotDynamax": false,
+      "moves": [
+        "1:harden",
+        "1:tackle",
+        "5:astonish",
+        "10:disable",
+        "15:spite",
+        "20:ancientpower",
+        "25:hex",
+        "30:curse",
+        "35:strengthsap",
+        "40:powergem",
+        "45:nightshade",
+        "50:grudge",
+        "55:mirrorcoat",
+        "egg:confuseray",
+        "egg:destinybond",
+        "egg:haze",
+        "egg:headsmash",
+        "egg:naturepower",
+        "egg:waterpulse",
+        "tm:amnesia",
+        "tm:attract",
+        "tm:blizzard",
+        "tm:bodyslam",
+        "tm:brine",
+        "tm:bulldoze",
+        "tm:calmmind",
+        "tm:dig",
+        "tm:earthpower",
+        "tm:earthquake",
+        "tm:endure",
+        "tm:facade",
+        "tm:gigadrain",
+        "tm:hail",
+        "tm:hex",
+        "tm:hydropump",
+        "tm:icebeam",
+        "tm:iciclespear",
+        "tm:icywind",
+        "tm:irondefense",
+        "tm:lightscreen",
+        "tm:liquidation",
+        "tm:powergem",
+        "tm:protect",
+        "tm:psychic",
+        "tm:raindance",
+        "tm:reflect",
+        "tm:rest",
+        "tm:rockblast",
+        "tm:rockslide",
+        "tm:rocktomb",
+        "tm:round",
+        "tm:safeguard",
+        "tm:sandstorm",
+        "tm:scald",
+        "tm:screech",
+        "tm:selfdestruct",
+        "tm:shadowball",
+        "tm:sleeptalk",
+        "tm:snore",
+        "tm:stealthrock",
+        "tm:stompingtantrum",
+        "tm:stoneedge",
+        "tm:substitute",
+        "tm:sunnyday",
+        "tm:surf",
+        "tm:throatchop",
+        "tm:whirlpool",
+        "tm:willowisp",
+        "tutor:astonish",
+        "tutor:disable",
+        "tutor:meteorbeam",
+        "tutor:spite",
+        "tutor:tackle"
+      ],
+      "evolutions": [
+        {
+          "id": "corsola_cursola",
+          "result": "cursola",
+          "learnableMoves": [],
+          "requirements": [
+            {
+              "variant": "level",
+              "minLevel": 38
+            }
+          ],
+          "trigger": {
+            "variant": "level_up"
+          }
+        }
+      ]
+    }
+  ]
 }

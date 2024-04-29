@@ -9,6 +9,40 @@
     "insomnia",
     "h:sniper"
   ],
+  "baseStats": {
+    "hp": 40,
+    "attack": 60,
+    "defence": 40,
+    "special_attack": 40,
+    "special_defence": 40,
+    "speed": 30
+  },
+  "catchRate": 255,
+  "maleRatio": 0.5,
+  "baseFriendship": 70,
+  "experienceGroup": "fast",
+  "eggCycles": 15,
+  "eggGroups": [
+    "bug"
+  ],
+  "height": 5,
+  "weight": 85,
+  "pokedex": [
+    "cobblemon.species.spinarak.desc"
+  ],
+  "labels": [
+    "gen2"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 50,
+  "evYield": {
+    "hp": 0,
+    "attack": 1,
+    "defence": 0,
+    "special_attack": 0,
+    "special_defence": 0,
+    "speed": 0
+  },
   "drops": {
     "amount": 4,
     "entries": [
@@ -30,23 +64,14 @@
       }
     ]
   },
-  "baseStats": {
-    "hp": 40,
-    "attack": 60,
-    "defence": 40,
-    "special_attack": 40,
-    "special_defence": 40,
-    "speed": 30
+  "baseScale": 0.6,
+  "hitbox": {
+    "width": 1,
+    "height": 1,
+    "fixed": false
   },
-  "catchRate": 255,
-  "maleRatio": 0.5,
+  "cannotDynamax": false,
   "shoulderMountable": false,
-  "baseExperienceYield": 50,
-  "experienceGroup": "fast",
-  "eggCycles": 15,
-  "eggGroups": [
-    "bug"
-  ],
   "moves": [
     "1:constrict",
     "1:poisonsting",
@@ -181,44 +206,20 @@
     "tutor:thief",
     "tutor:toxic"
   ],
-  "labels": [
-    "gen2"
-  ],
-  "pokedex": [
-    "cobblemon.species.spinarak.desc"
-  ],
   "evolutions": [
     {
       "id": "spinarak_ariados",
-      "variant": "level_up",
       "result": "ariados",
-      "consumeHeldItem": false,
       "learnableMoves": [],
       "requirements": [
         {
           "variant": "level",
           "minLevel": 22
         }
-      ]
+      ],
+      "trigger": {
+        "variant": "level_up"
+      }
     }
-  ],
-  "baseScale": 0.6,
-  "hitbox": {
-    "width": 1,
-    "height": 1,
-    "fixed": false
-  },
-  "baseFriendship": 70,
-  "evYield": {
-    "hp": 0,
-    "attack": 1,
-    "defence": 0,
-    "special_attack": 0,
-    "special_defence": 0,
-    "speed": 0
-  },
-  "height": 5,
-  "weight": 85,
-  "aspects": [],
-  "cannotDynamax": false
+  ]
 }

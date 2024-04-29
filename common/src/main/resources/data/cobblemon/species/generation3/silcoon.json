@@ -13,63 +13,24 @@
     "special_defence": 25,
     "speed": 15
   },
-  "behaviour": {
-    "moving": {
-      "walk": {
-        "canWalk": false
-      },
-      "swim": {
-        "canSwimInWater": false,
-        "canSwimInLava": false
-      },
-      "canLook": false
-    }
-  },
   "catchRate": 120,
   "maleRatio": 0.5,
-  "shoulderMountable": false,
-  "baseExperienceYield": 72,
+  "baseFriendship": 70,
   "experienceGroup": "medium_fast",
   "eggCycles": 15,
   "eggGroups": [
     "bug"
   ],
-  "moves": [
-    "1:harden",
-    "tutor:bugbite",
-    "tutor:electroweb",
-    "tutor:irondefense",
-    "tutor:stringshot"
+  "height": 6,
+  "weight": 100,
+  "pokedex": [
+    "cobblemon.species.silcoon.desc"
   ],
   "labels": [
     "gen3"
   ],
-  "pokedex": [
-    "cobblemon.species.silcoon.desc"
-  ],
-  "preEvolution": "wurmple",
-  "evolutions": [
-    {
-      "id": "silcoon_beautifly",
-      "variant": "level_up",
-      "result": "beautifly",
-      "consumeHeldItem": false,
-      "learnableMoves": [],
-      "requirements": [
-        {
-          "variant": "level",
-          "minLevel": 10
-        }
-      ]
-    }
-  ],
-  "baseScale": 1,
-  "hitbox": {
-    "width": 1,
-    "height": 1,
-    "fixed": false
-  },
-  "baseFriendship": 70,
+  "aspects": [],
+  "baseExperienceYield": 72,
   "evYield": {
     "hp": 0,
     "attack": 0,
@@ -78,10 +39,6 @@
     "special_defence": 0,
     "speed": 0
   },
-  "height": 6,
-  "weight": 100,
-  "aspects": [],
-  "cannotDynamax": false,
   "drops": {
     "amount": 3,
     "entries": [
@@ -94,5 +51,49 @@
         "percentage": 2.5
       }
     ]
-  }
+  },
+  "baseScale": 1,
+  "hitbox": {
+    "width": 1,
+    "height": 1,
+    "fixed": false
+  },
+  "cannotDynamax": false,
+  "shoulderMountable": false,
+  "behaviour": {
+    "moving": {
+      "walk": {
+        "canWalk": false
+      },
+      "swim": {
+        "canSwimInWater": false,
+        "canSwimInLava": false
+      },
+      "canLook": false
+    }
+  },
+  "moves": [
+    "1:harden",
+    "tutor:bugbite",
+    "tutor:electroweb",
+    "tutor:irondefense",
+    "tutor:stringshot"
+  ],
+  "preEvolution": "wurmple",
+  "evolutions": [
+    {
+      "id": "silcoon_beautifly",
+      "result": "beautifly",
+      "learnableMoves": [],
+      "requirements": [
+        {
+          "variant": "level",
+          "minLevel": 10
+        }
+      ],
+      "trigger": {
+        "variant": "level_up"
+      }
+    }
+  ]
 }

@@ -7,8 +7,215 @@
     "torrent",
     "h:shellarmor"
   ],
-  "features": ["region_bias"],
-  "forms": [
+  "baseStats": {
+    "hp": 55,
+    "attack": 55,
+    "defence": 45,
+    "special_attack": 63,
+    "special_defence": 45,
+    "speed": 45
+  },
+  "catchRate": 45,
+  "maleRatio": 0.875,
+  "baseFriendship": 70,
+  "experienceGroup": "medium_slow",
+  "eggCycles": 20,
+  "eggGroups": [
+    "field"
+  ],
+  "height": 5,
+  "weight": 59,
+  "pokedex": [
+    "cobblemon.species.oshawott.desc"
+  ],
+  "labels": [
+    "gen5"
+  ],
+  "features": [
+    "region_bias"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 62,
+  "evYield": {
+    "hp": 0,
+    "attack": 0,
+    "defence": 0,
+    "special_attack": 1,
+    "special_defence": 0,
+    "speed": 0
+  },
+  "drops": {
+    "amount": 2,
+    "entries": [
+      {
+        "item": "cobblemon:mystic_water",
+        "percentage": 5.0
+      },
+      {
+        "item": "cobblemon:shell_bell",
+        "percentage": 5.0
+      }
+    ]
+  },
+  "baseScale": 0.5,
+  "hitbox": {
+    "width": 0.9,
+    "height": 1.25,
+    "fixed": false
+  },
+  "cannotDynamax": false,
+  "shoulderMountable": false,
+  "behaviour": {
+    "moving": {
+      "swim": {
+        "canSwimInWater": true,
+        "canBreatheUnderwater": true,
+        "canWalkOnWater": true
+      }
+    },
+    "resting": {
+      "canSleep": true,
+      "willSleepOnBed": true,
+      "depth": "normal",
+      "light": "0-4"
+    }
+  },
+  "moves": [
+    "1:tackle",
+    "5:tailwhip",
+    "7:watergun",
+    "11:soak",
+    "11:watersport",
+    "13:focusenergy",
+    "17:razorshell",
+    "19:furycutter",
+    "23:waterpulse",
+    "25:aerialace",
+    "25:revenge",
+    "29:aquajet",
+    "31:encore",
+    "35:aquatail",
+    "37:retaliate",
+    "41:swordsdance",
+    "43:hydropump",
+    "egg:airslash",
+    "egg:aquacutter",
+    "egg:assurance",
+    "egg:brine",
+    "egg:copycat",
+    "egg:detect",
+    "egg:knockoff",
+    "egg:nightslash",
+    "egg:sacredsword",
+    "egg:screech",
+    "egg:trumpcard",
+    "tm:aerialace",
+    "tm:airslash",
+    "tm:attract",
+    "tm:avalanche",
+    "tm:blizzard",
+    "tm:chillingwater",
+    "tm:confide",
+    "tm:cut",
+    "tm:dig",
+    "tm:dive",
+    "tm:doubleteam",
+    "tm:encore",
+    "tm:endure",
+    "tm:facade",
+    "tm:falseswipe",
+    "tm:fling",
+    "tm:flipturn",
+    "tm:frustration",
+    "tm:grassknot",
+    "tm:hail",
+    "tm:helpinghand",
+    "tm:hiddenpower",
+    "tm:hydropump",
+    "tm:icebeam",
+    "tm:icywind",
+    "tm:knockoff",
+    "tm:liquidation",
+    "tm:protect",
+    "tm:raindance",
+    "tm:rest",
+    "tm:retaliate",
+    "tm:return",
+    "tm:rocksmash",
+    "tm:round",
+    "tm:scald",
+    "tm:secretpower",
+    "tm:sleeptalk",
+    "tm:snowscape",
+    "tm:substitute",
+    "tm:surf",
+    "tm:swagger",
+    "tm:swift",
+    "tm:swordsdance",
+    "tm:takedown",
+    "tm:taunt",
+    "tm:terablast",
+    "tm:thief",
+    "tm:toxic",
+    "tm:waterfall",
+    "tm:waterpledge",
+    "tm:waterpulse",
+    "tm:whirlpool",
+    "tm:workup",
+    "tm:xscissor",
+    "tutor:aquatail",
+    "tutor:covet",
+    "tutor:helpinghand",
+    "tutor:icywind",
+    "tutor:irontail",
+    "tutor:sleeptalk",
+    "tutor:snore",
+    "tutor:waterpledge",
+    "tutor:waterpulse"
+  ],
+  "evolutions": [
+    {
+      "id": "oshawott_dewott",
+      "result": "dewott",
+      "learnableMoves": [],
+      "requirements": [
+        {
+          "variant": "level",
+          "minLevel": 17
+        }
+      ],
+      "trigger": {
+        "variant": "level_up"
+      }
+    },
+    {
+      "id": "oshawott_hisui_dewott",
+      "result": "dewott region_bias=hisui",
+      "learnableMoves": [],
+      "requirements": [
+        {
+          "variant": "level",
+          "minLevel": 17
+        },
+        {
+          "variant": "biome",
+          "biomeCondition": "#cobblemon:is_coast"
+        },
+        {
+          "variant": "biome",
+          "biomeCondition": "#cobblemon:is_snowy_beach"
+        },
+        {
+          "variant": "biome",
+          "biomeAnticondition": "#cobblemon:is_beach"
+        }
+      ],
+      "trigger": {
+        "variant": "level_up"
+      }
+    }
+  ],
+  "permanentForms": [
     {
       "name": "Hisui Bias",
       "primaryType": "water",
@@ -16,6 +223,40 @@
         "torrent",
         "h:shellarmor"
       ],
+      "baseStats": {
+        "hp": 55,
+        "attack": 55,
+        "defence": 45,
+        "special_attack": 63,
+        "special_defence": 45,
+        "speed": 45
+      },
+      "catchRate": 45,
+      "maleRatio": 0.875,
+      "baseFriendship": 70,
+      "experienceGroup": "medium_slow",
+      "eggCycles": 20,
+      "eggGroups": [
+        "field"
+      ],
+      "height": 5,
+      "weight": 59,
+      "labels": [
+        "gen5",
+        "hisui_regional"
+      ],
+      "aspects": [
+        "region-bias-hisui"
+      ],
+      "baseExperienceYield": 62,
+      "evYield": {
+        "hp": 0,
+        "attack": 0,
+        "defence": 0,
+        "special_attack": 1,
+        "special_defence": 0,
+        "speed": 0
+      },
       "drops": {
         "amount": 2,
         "entries": [
@@ -29,23 +270,14 @@
           }
         ]
       },
-      "baseStats": {
-        "hp": 55,
-        "attack": 55,
-        "defence": 45,
-        "special_attack": 63,
-        "special_defence": 45,
-        "speed": 45
+      "baseScale": 0.5,
+      "hitbox": {
+        "width": 0.9,
+        "height": 1.25,
+        "fixed": false
       },
-      "catchRate": 45,
-      "maleRatio": 0.875,
+      "cannotDynamax": false,
       "shoulderMountable": false,
-      "baseExperienceYield": 62,
-      "experienceGroup": "medium_slow",
-      "eggCycles": 20,
-      "eggGroups": [
-        "field"
-      ],
       "behaviour": {
         "moving": {
           "swim": {
@@ -154,29 +386,24 @@
         "tutor:waterpledge",
         "tutor:waterpulse"
       ],
-      "labels": [
-        "gen5",
-        "hisui_regional"
-      ],
       "evolutions": [
         {
           "id": "hisui_oshawott_hisui_dewott",
-          "variant": "level_up",
           "result": "dewott region_bias=hisui",
-          "consumeHeldItem": false,
           "learnableMoves": [],
           "requirements": [
             {
               "variant": "level",
               "minLevel": 17
             }
-          ]
+          ],
+          "trigger": {
+            "variant": "level_up"
+          }
         },
         {
           "id": "hisui_oshawott_dewott",
-          "variant": "level_up",
           "result": "dewott",
-          "consumeHeldItem": false,
           "learnableMoves": [],
           "requirements": [
             {
@@ -191,231 +418,12 @@
               "variant": "biome",
               "biomeAnticondition": "#cobblemon:is_freezing"
             }
-          ]
-        }
-      ],
-      "baseScale": 0.5,
-      "hitbox": {
-        "width": 0.9,
-        "height": 1.25,
-        "fixed": false
-      },
-      "baseFriendship": 70,
-      "evYield": {
-        "hp": 0,
-        "attack": 0,
-        "defence": 0,
-        "special_attack": 1,
-        "special_defence": 0,
-        "speed": 0
-      },
-      "height": 5,
-      "weight": 59,
-      "aspects": ["region-bias-hisui"],
-      "cannotDynamax": false
-    }
-  ],
-  "drops": {
-    "amount": 2,
-    "entries": [
-      {
-        "item": "cobblemon:mystic_water",
-        "percentage": 5.0
-      },
-      {
-        "item": "cobblemon:shell_bell",
-        "percentage": 5.0
-      }
-    ]
-  },
-  "baseStats": {
-    "hp": 55,
-    "attack": 55,
-    "defence": 45,
-    "special_attack": 63,
-    "special_defence": 45,
-    "speed": 45
-  },
-  "behaviour": {
-    "moving": {
-      "swim": {
-        "canSwimInWater": true,
-        "canBreatheUnderwater": true,
-        "canWalkOnWater": true
-      }
-    },
-    "resting": {
-      "canSleep": true,
-      "willSleepOnBed": true,
-      "depth": "normal",
-      "light": "0-4"
-    }
-  },
-  "catchRate": 45,
-  "maleRatio": 0.875,
-  "shoulderMountable": false,
-  "baseExperienceYield": 62,
-  "experienceGroup": "medium_slow",
-  "eggCycles": 20,
-  "eggGroups": [
-    "field"
-  ],
-  "moves": [
-    "1:tackle",
-    "5:tailwhip",
-    "7:watergun",
-    "11:soak",
-    "11:watersport",
-    "13:focusenergy",
-    "17:razorshell",
-    "19:furycutter",
-    "23:waterpulse",
-    "25:aerialace",
-    "25:revenge",
-    "29:aquajet",
-    "31:encore",
-    "35:aquatail",
-    "37:retaliate",
-    "41:swordsdance",
-    "43:hydropump",
-    "egg:airslash",
-    "egg:aquacutter",
-    "egg:assurance",
-    "egg:brine",
-    "egg:copycat",
-    "egg:detect",
-    "egg:knockoff",
-    "egg:nightslash",
-    "egg:sacredsword",
-    "egg:screech",
-    "egg:trumpcard",
-    "tm:aerialace",
-    "tm:airslash",
-    "tm:attract",
-    "tm:avalanche",
-    "tm:blizzard",
-    "tm:chillingwater",
-    "tm:confide",
-    "tm:cut",
-    "tm:dig",
-    "tm:dive",
-    "tm:doubleteam",
-    "tm:encore",
-    "tm:endure",
-    "tm:facade",
-    "tm:falseswipe",
-    "tm:fling",
-    "tm:flipturn",
-    "tm:frustration",
-    "tm:grassknot",
-    "tm:hail",
-    "tm:helpinghand",
-    "tm:hiddenpower",
-    "tm:hydropump",
-    "tm:icebeam",
-    "tm:icywind",
-    "tm:knockoff",
-    "tm:liquidation",
-    "tm:protect",
-    "tm:raindance",
-    "tm:rest",
-    "tm:retaliate",
-    "tm:return",
-    "tm:rocksmash",
-    "tm:round",
-    "tm:scald",
-    "tm:secretpower",
-    "tm:sleeptalk",
-    "tm:snowscape",
-    "tm:substitute",
-    "tm:surf",
-    "tm:swagger",
-    "tm:swift",
-    "tm:swordsdance",
-    "tm:takedown",
-    "tm:taunt",
-    "tm:terablast",
-    "tm:thief",
-    "tm:toxic",
-    "tm:waterfall",
-    "tm:waterpledge",
-    "tm:waterpulse",
-    "tm:whirlpool",
-    "tm:workup",
-    "tm:xscissor",
-    "tutor:aquatail",
-    "tutor:covet",
-    "tutor:helpinghand",
-    "tutor:icywind",
-    "tutor:irontail",
-    "tutor:sleeptalk",
-    "tutor:snore",
-    "tutor:waterpledge",
-    "tutor:waterpulse"
-  ],
-  "labels": [
-    "gen5"
-  ],
-  "pokedex": [
-    "cobblemon.species.oshawott.desc"
-  ],
-  "evolutions": [
-    {
-      "id": "oshawott_dewott",
-      "variant": "level_up",
-      "result": "dewott",
-      "consumeHeldItem": false,
-      "learnableMoves": [],
-      "requirements": [
-        {
-          "variant": "level",
-          "minLevel": 17
-        }
-      ]
-    },
-    {
-      "id": "oshawott_hisui_dewott",
-      "variant": "level_up",
-      "result": "dewott region_bias=hisui",
-      "consumeHeldItem": false,
-      "learnableMoves": [],
-      "requirements": [
-        {
-          "variant": "level",
-          "minLevel": 17
-        },
-        {
-          "variant": "biome",
-          "biomeCondition": "#cobblemon:is_coast"
-        },
-        {
-          "variant": "biome",
-          "biomeCondition": "#cobblemon:is_snowy_beach"
-        },
-        {
-          "variant": "biome",
-          "biomeAnticondition": "#cobblemon:is_beach"
+          ],
+          "trigger": {
+            "variant": "level_up"
+          }
         }
       ]
     }
-  ],
-  "baseScale": 0.5,
-  "hitbox": {
-    "width": 0.9,
-    "height": 1.25,
-    "fixed": false
-  },
-  "baseFriendship": 70,
-  "evYield": {
-    "hp": 0,
-    "attack": 0,
-    "defence": 0,
-    "special_attack": 1,
-    "special_defence": 0,
-    "speed": 0
-  },
-  "height": 5,
-  "weight": 59,
-  "aspects": [],
-  "cannotDynamax": false
+  ]
 }

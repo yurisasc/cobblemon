@@ -18,14 +18,48 @@
   },
   "catchRate": 45,
   "maleRatio": 0.875,
-  "shoulderMountable": false,
-  "baseExperienceYield": 72,
+  "baseFriendship": 50,
   "experienceGroup": "medium_fast",
   "eggCycles": 30,
   "eggGroups": [
     "monster",
     "dragon"
   ],
+  "height": 8,
+  "weight": 260,
+  "pokedex": [
+    "cobblemon.species.tyrunt.desc"
+  ],
+  "labels": [
+    "gen6"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 72,
+  "evYield": {
+    "hp": 0,
+    "attack": 1,
+    "defence": 0,
+    "special_attack": 0,
+    "special_defence": 0,
+    "speed": 0
+  },
+  "drops": {
+    "amount": 1,
+    "entries": [
+      {
+        "item": "cobblemon:razor_fang",
+        "percentage": 5.0
+      }
+    ]
+  },
+  "baseScale": 1,
+  "hitbox": {
+    "width": 1.1,
+    "height": 1.45,
+    "fixed": false
+  },
+  "cannotDynamax": false,
+  "shoulderMountable": false,
   "behaviour": {
     "resting": {
       "canSleep": true,
@@ -144,18 +178,10 @@
     "tutor:tailwhip",
     "tutor:zenheadbutt"
   ],
-  "labels": [
-    "gen6"
-  ],
-  "pokedex": [
-    "cobblemon.species.tyrunt.desc"
-  ],
   "evolutions": [
     {
       "id": "tyrunt_tyrantrum",
-      "variant": "level_up",
       "result": "tyrantrum",
-      "consumeHeldItem": false,
       "learnableMoves": [],
       "requirements": [
         {
@@ -166,35 +192,10 @@
           "variant": "time_range",
           "range": "day"
         }
-      ]
-    }
-  ],
-  "baseScale": 1,
-  "hitbox": {
-    "width": 1.1,
-    "height": 1.45,
-    "fixed": false
-  },
-  "baseFriendship": 50,
-  "evYield": {
-    "hp": 0,
-    "attack": 1,
-    "defence": 0,
-    "special_attack": 0,
-    "special_defence": 0,
-    "speed": 0
-  },
-  "height": 8,
-  "weight": 260,
-  "aspects": [],
-  "cannotDynamax": false,
-  "drops": {
-    "amount": 1,
-    "entries": [
-      {
-        "item": "cobblemon:razor_fang",
-        "percentage": 5.0
+      ],
+      "trigger": {
+        "variant": "level_up"
       }
-    ]
-  }
+    }
+  ]
 }

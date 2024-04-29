@@ -9,6 +9,40 @@
     "snowcloak",
     "h:thickfat"
   ],
+  "baseStats": {
+    "hp": 110,
+    "attack": 130,
+    "defence": 80,
+    "special_attack": 70,
+    "special_defence": 60,
+    "speed": 80
+  },
+  "catchRate": 50,
+  "maleRatio": 0.5,
+  "baseFriendship": 50,
+  "experienceGroup": "slow",
+  "eggCycles": 20,
+  "eggGroups": [
+    "field"
+  ],
+  "height": 25,
+  "weight": 2910,
+  "pokedex": [
+    "cobblemon.species.mamoswine.desc"
+  ],
+  "labels": [
+    "gen4"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 265,
+  "evYield": {
+    "hp": 0,
+    "attack": 3,
+    "defence": 0,
+    "special_attack": 0,
+    "special_defence": 0,
+    "speed": 0
+  },
   "drops": {
     "amount": 8,
     "entries": [
@@ -30,14 +64,14 @@
       }
     ]
   },
-  "baseStats": {
-    "hp": 110,
-    "attack": 130,
-    "defence": 80,
-    "special_attack": 70,
-    "special_defence": 60,
-    "speed": 80
+  "baseScale": 1,
+  "hitbox": {
+    "width": 2.7,
+    "height": 3.5,
+    "fixed": false
   },
+  "cannotDynamax": false,
+  "shoulderMountable": false,
   "behaviour": {
     "resting": {
       "canSleep": true,
@@ -46,15 +80,6 @@
       "light": "0-4"
     }
   },
-  "catchRate": 50,
-  "maleRatio": 0.5,
-  "shoulderMountable": false,
-  "baseExperienceYield": 265,
-  "experienceGroup": "slow",
-  "eggCycles": 20,
-  "eggGroups": [
-    "field"
-  ],
   "moves": [
     "1:ancientpower",
     "1:flail",
@@ -192,31 +217,6 @@
     "tutor:superpower",
     "tutor:takedown"
   ],
-  "labels": [
-    "gen4"
-  ],
-  "pokedex": [
-    "cobblemon.species.mamoswine.desc"
-  ],
   "preEvolution": "piloswine",
-  "evolutions": [],
-  "baseScale": 1,
-  "hitbox": {
-    "width": 2.7,
-    "height": 3.5,
-    "fixed": false
-  },
-  "baseFriendship": 50,
-  "evYield": {
-    "hp": 0,
-    "attack": 3,
-    "defence": 0,
-    "special_attack": 0,
-    "special_defence": 0,
-    "speed": 0
-  },
-  "height": 25,
-  "weight": 2910,
-  "aspects": [],
-  "cannotDynamax": false
+  "evolutions": []
 }

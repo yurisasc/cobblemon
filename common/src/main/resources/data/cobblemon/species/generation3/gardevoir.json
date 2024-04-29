@@ -9,6 +9,41 @@
     "trace",
     "h:telepathy"
   ],
+  "baseStats": {
+    "hp": 68,
+    "attack": 65,
+    "defence": 65,
+    "special_attack": 125,
+    "special_defence": 115,
+    "speed": 80
+  },
+  "catchRate": 45,
+  "maleRatio": 0.5,
+  "baseFriendship": 35,
+  "experienceGroup": "slow",
+  "eggCycles": 20,
+  "eggGroups": [
+    "human_like",
+    "amorphous"
+  ],
+  "height": 16,
+  "weight": 484,
+  "pokedex": [
+    "cobblemon.species.gardevoir.desc"
+  ],
+  "labels": [
+    "gen3"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 259,
+  "evYield": {
+    "hp": 0,
+    "attack": 0,
+    "defence": 0,
+    "special_attack": 3,
+    "special_defence": 0,
+    "speed": 0
+  },
   "drops": {
     "amount": 6,
     "entries": [
@@ -30,63 +65,14 @@
       }
     ]
   },
-  "baseStats": {
-    "hp": 68,
-    "attack": 65,
-    "defence": 65,
-    "special_attack": 125,
-    "special_defence": 115,
-    "speed": 80
+  "baseScale": 0.9,
+  "hitbox": {
+    "width": 0.6,
+    "height": 2.2,
+    "fixed": false
   },
-  "catchRate": 45,
-  "maleRatio": 0.5,
+  "cannotDynamax": false,
   "shoulderMountable": false,
-  "forms": [
-    {
-      "name": "Mega",
-      "primaryType": "psychic",
-      "secondaryType": "fairy",
-      "abilities": [
-        "pixilate"
-      ],
-      "baseStats": {
-        "hp": 68,
-        "attack": 85,
-        "defence": 65,
-        "special_attack": 165,
-        "special_defence": 135,
-        "speed": 100
-      },
-      "catchRate": 45,
-      "maleRatio": 0.5,
-      "baseExperienceYield": 259,
-      "baseFriendship": 35,
-      "evYield": {
-        "hp": 0,
-        "attack": 0,
-        "defence": 0,
-        "special_attack": 3,
-        "special_defence": 0,
-        "speed": 0
-      },
-      "experienceGroup": "slow",
-      "eggCycles": 20,
-      "eggGroups": [
-        "amorphous"
-      ],
-      "labels": [
-        "gen6",
-        "mega"
-      ],
-      "aspects": [
-        "mega"
-      ],
-      "height": 16,
-      "weight": 484,
-      "cannotDynamax": false,
-      "battleOnly": true
-    }
-  ],
   "behaviour": {
     "resting": {
       "canSleep": true,
@@ -100,13 +86,6 @@
       }
     }
   },
-  "baseExperienceYield": 259,
-  "experienceGroup": "slow",
-  "eggCycles": 20,
-  "eggGroups": [
-    "human_like",
-    "amorphous"
-  ],
   "moves": [
     "1:charm",
     "1:confusion",
@@ -276,31 +255,52 @@
     "tutor:wonderroom",
     "tutor:zenheadbutt"
   ],
-  "labels": [
-    "gen3"
-  ],
-  "pokedex": [
-    "cobblemon.species.gardevoir.desc"
-  ],
   "preEvolution": "kirlia",
   "evolutions": [],
-  "baseScale": 0.9,
-  "hitbox": {
-    "width": 0.6,
-    "height": 2.2,
-    "fixed": false
-  },
-  "baseFriendship": 35,
-  "evYield": {
-    "hp": 0,
-    "attack": 0,
-    "defence": 0,
-    "special_attack": 3,
-    "special_defence": 0,
-    "speed": 0
-  },
-  "height": 16,
-  "weight": 484,
-  "aspects": [],
-  "cannotDynamax": false
+  "temporaryForms": [
+    {
+      "name": "Mega",
+      "primaryType": "psychic",
+      "secondaryType": "fairy",
+      "abilities": [
+        "pixilate"
+      ],
+      "baseStats": {
+        "hp": 68,
+        "attack": 85,
+        "defence": 65,
+        "special_attack": 165,
+        "special_defence": 135,
+        "speed": 100
+      },
+      "catchRate": 45,
+      "maleRatio": 0.5,
+      "baseFriendship": 35,
+      "experienceGroup": "slow",
+      "eggCycles": 20,
+      "eggGroups": [
+        "amorphous"
+      ],
+      "height": 16,
+      "weight": 484,
+      "labels": [
+        "gen6",
+        "mega"
+      ],
+      "aspects": [
+        "mega"
+      ],
+      "baseExperienceYield": 259,
+      "evYield": {
+        "hp": 0,
+        "attack": 0,
+        "defence": 0,
+        "special_attack": 3,
+        "special_defence": 0,
+        "speed": 0
+      },
+      "cannotDynamax": false,
+      "battleOnly": true
+    }
+  ]
 }

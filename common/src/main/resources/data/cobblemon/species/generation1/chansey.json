@@ -18,13 +18,30 @@
   },
   "catchRate": 30,
   "maleRatio": 0,
-  "shoulderMountable": false,
-  "baseExperienceYield": 395,
+  "baseFriendship": 140,
   "experienceGroup": "fast",
   "eggCycles": 40,
   "eggGroups": [
     "fairy"
   ],
+  "height": 11,
+  "weight": 346,
+  "pokedex": [
+    "cobblemon.species.chansey.desc"
+  ],
+  "labels": [
+    "gen1"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 395,
+  "evYield": {
+    "hp": 2,
+    "attack": 0,
+    "defence": 0,
+    "special_attack": 0,
+    "special_defence": 0,
+    "speed": 0
+  },
   "drops": {
     "amount": 1,
     "entries": [
@@ -42,6 +59,14 @@
       }
     ]
   },
+  "baseScale": 1,
+  "hitbox": {
+    "width": 1.2,
+    "height": 1.4,
+    "fixed": false
+  },
+  "cannotDynamax": false,
+  "shoulderMountable": false,
   "behaviour": {
     "moving": {
       "walk": {
@@ -298,45 +323,21 @@
     "tutor:zapcannon",
     "tutor:zenheadbutt"
   ],
-  "labels": [
-    "gen1"
-  ],
-  "pokedex": [
-    "cobblemon.species.chansey.desc"
-  ],
   "preEvolution": "happiny",
   "evolutions": [
     {
       "id": "chansey_blissey",
-      "variant": "level_up",
       "result": "blissey",
-      "consumeHeldItem": false,
       "learnableMoves": [],
       "requirements": [
         {
           "variant": "friendship",
           "amount": 160
         }
-      ]
+      ],
+      "trigger": {
+        "variant": "level_up"
+      }
     }
-  ],
-  "baseScale": 1,
-  "hitbox": {
-    "width": 1.2,
-    "height": 1.4,
-    "fixed": false
-  },
-  "baseFriendship": 140,
-  "evYield": {
-    "hp": 2,
-    "attack": 0,
-    "defence": 0,
-    "special_attack": 0,
-    "special_defence": 0,
-    "speed": 0
-  },
-  "height": 11,
-  "weight": 346,
-  "aspects": [],
-  "cannotDynamax": false
+  ]
 }

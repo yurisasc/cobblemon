@@ -9,6 +9,40 @@
     "superluck",
     "h:rivalry"
   ],
+  "baseStats": {
+    "hp": 62,
+    "attack": 77,
+    "defence": 62,
+    "special_attack": 50,
+    "special_defence": 42,
+    "speed": 65
+  },
+  "catchRate": 120,
+  "maleRatio": 0.5,
+  "baseFriendship": 50,
+  "experienceGroup": "medium_slow",
+  "eggCycles": 15,
+  "eggGroups": [
+    "flying"
+  ],
+  "height": 6,
+  "weight": 150,
+  "pokedex": [
+    "cobblemon.species.tranquill.desc"
+  ],
+  "labels": [
+    "gen5"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 125,
+  "evYield": {
+    "hp": 0,
+    "attack": 2,
+    "defence": 0,
+    "special_attack": 0,
+    "special_defence": 0,
+    "speed": 0
+  },
   "drops": {
     "amount": 5,
     "entries": [
@@ -29,23 +63,14 @@
       }
     ]
   },
-  "baseStats": {
-    "hp": 62,
-    "attack": 77,
-    "defence": 62,
-    "special_attack": 50,
-    "special_defence": 42,
-    "speed": 65
+  "baseScale": 0.8,
+  "hitbox": {
+    "width": 0.6,
+    "height": 1.3,
+    "fixed": false
   },
-  "catchRate": 120,
-  "maleRatio": 0.5,
+  "cannotDynamax": false,
   "shoulderMountable": false,
-  "baseExperienceYield": 125,
-  "experienceGroup": "medium_slow",
-  "eggCycles": 15,
-  "eggGroups": [
-    "flying"
-  ],
   "behaviour": {
     "moving": {
       "fly": {
@@ -113,45 +138,21 @@
     "tutor:tailwind",
     "tutor:uproar"
   ],
-  "labels": [
-    "gen5"
-  ],
-  "pokedex": [
-    "cobblemon.species.tranquill.desc"
-  ],
   "preEvolution": "pidove",
   "evolutions": [
     {
       "id": "tranquill_unfezant",
-      "variant": "level_up",
       "result": "unfezant",
-      "consumeHeldItem": false,
       "learnableMoves": [],
       "requirements": [
         {
           "variant": "level",
           "minLevel": 32
         }
-      ]
+      ],
+      "trigger": {
+        "variant": "level_up"
+      }
     }
-  ],
-  "baseScale": 0.8,
-  "hitbox": {
-    "width": 0.6,
-    "height": 1.3,
-    "fixed": false
-  },
-  "baseFriendship": 50,
-  "evYield": {
-    "hp": 0,
-    "attack": 2,
-    "defence": 0,
-    "special_attack": 0,
-    "special_defence": 0,
-    "speed": 0
-  },
-  "height": 6,
-  "weight": 150,
-  "aspects": [],
-  "cannotDynamax": false
+  ]
 }

@@ -7,6 +7,40 @@
     "snowcloak",
     "h:weakarmor"
   ],
+  "baseStats": {
+    "hp": 51,
+    "attack": 65,
+    "defence": 65,
+    "special_attack": 80,
+    "special_defence": 75,
+    "speed": 59
+  },
+  "catchRate": 120,
+  "maleRatio": 0.5,
+  "baseFriendship": 50,
+  "experienceGroup": "slow",
+  "eggCycles": 20,
+  "eggGroups": [
+    "mineral"
+  ],
+  "height": 11,
+  "weight": 410,
+  "pokedex": [
+    "cobblemon.species.vanillish.desc"
+  ],
+  "labels": [
+    "gen5"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 138,
+  "evYield": {
+    "hp": 0,
+    "attack": 0,
+    "defence": 0,
+    "special_attack": 2,
+    "special_defence": 0,
+    "speed": 0
+  },
   "drops": {
     "amount": 4,
     "entries": [
@@ -24,23 +58,14 @@
       }
     ]
   },
-  "baseStats": {
-    "hp": 51,
-    "attack": 65,
-    "defence": 65,
-    "special_attack": 80,
-    "special_defence": 75,
-    "speed": 59
+  "baseScale": 1,
+  "hitbox": {
+    "width": 1,
+    "height": 1,
+    "fixed": false
   },
-  "catchRate": 120,
-  "maleRatio": 0.5,
+  "cannotDynamax": false,
   "shoulderMountable": false,
-  "baseExperienceYield": 138,
-  "experienceGroup": "slow",
-  "eggCycles": 20,
-  "eggGroups": [
-    "mineral"
-  ],
   "moves": [
     "1:astonish",
     "1:harden",
@@ -106,45 +131,21 @@
     "tutor:uproar",
     "tutor:waterpulse"
   ],
-  "labels": [
-    "gen5"
-  ],
-  "pokedex": [
-    "cobblemon.species.vanillish.desc"
-  ],
   "preEvolution": "vanillite",
   "evolutions": [
     {
       "id": "vanillish_vanilluxe",
-      "variant": "level_up",
       "result": "vanilluxe",
-      "consumeHeldItem": false,
       "learnableMoves": [],
       "requirements": [
         {
           "variant": "level",
           "minLevel": 47
         }
-      ]
+      ],
+      "trigger": {
+        "variant": "level_up"
+      }
     }
-  ],
-  "baseScale": 1,
-  "hitbox": {
-    "width": 1,
-    "height": 1,
-    "fixed": false
-  },
-  "baseFriendship": 50,
-  "evYield": {
-    "hp": 0,
-    "attack": 0,
-    "defence": 0,
-    "special_attack": 2,
-    "special_defence": 0,
-    "speed": 0
-  },
-  "height": 11,
-  "weight": 410,
-  "aspects": [],
-  "cannotDynamax": false
+  ]
 }

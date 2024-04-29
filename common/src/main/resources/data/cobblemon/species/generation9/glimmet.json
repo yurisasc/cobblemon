@@ -8,6 +8,40 @@
     "toxicdebris",
     "h:corrosion"
   ],
+  "baseStats": {
+    "hp": 48,
+    "attack": 35,
+    "defence": 42,
+    "special_attack": 105,
+    "special_defence": 60,
+    "speed": 60
+  },
+  "catchRate": 70,
+  "maleRatio": 0.5,
+  "baseFriendship": 50,
+  "experienceGroup": "medium_slow",
+  "eggCycles": 30,
+  "eggGroups": [
+    "mineral"
+  ],
+  "height": 7,
+  "weight": 80,
+  "pokedex": [
+    "cobblemon.species.glimmet.desc"
+  ],
+  "labels": [
+    "gen9"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 70,
+  "evYield": {
+    "hp": 0,
+    "attack": 0,
+    "defence": 0,
+    "special_attack": 1,
+    "special_defence": 0,
+    "speed": 0
+  },
   "drops": {
     "amount": 3,
     "entries": [
@@ -25,14 +59,13 @@
       }
     ]
   },
-  "baseStats": {
-    "hp": 48,
-    "attack": 35,
-    "defence": 42,
-    "special_attack": 105,
-    "special_defence": 60,
-    "speed": 60
+  "baseScale": 0.45,
+  "hitbox": {
+    "width": 1,
+    "height": 2,
+    "fixed": false
   },
+  "cannotDynamax": false,
   "behaviour": {
     "moving": {
       "fly": {
@@ -46,23 +79,6 @@
       "light": "0-4"
     }
   },
-  "catchRate": 70,
-  "maleRatio": 0.5,
-  "baseExperienceYield": 70,
-  "baseFriendship": 50,
-  "evYield": {
-    "hp": 0,
-    "attack": 0,
-    "defence": 0,
-    "special_attack": 1,
-    "special_defence": 0,
-    "speed": 0
-  },
-  "experienceGroup": "medium_slow",
-  "eggCycles": 30,
-  "eggGroups": [
-    "mineral"
-  ],
   "moves": [
     "1:harden",
     "1:rockthrow",
@@ -110,18 +126,10 @@
     "tm:toxicspikes",
     "tm:venoshock"
   ],
-  "labels": [
-    "gen9"
-  ],
-  "aspects": [],
-  "height": 7,
-  "weight": 80,
   "evolutions": [
     {
       "id": "glimmet_glimmora",
-      "variant": "level_up",
       "result": "glimmora",
-      "consumeHeldItem": false,
       "learnableMoves": [
         "mortalspin"
       ],
@@ -130,17 +138,10 @@
           "variant": "level",
           "minLevel": 35
         }
-      ]
+      ],
+      "trigger": {
+        "variant": "level_up"
+      }
     }
-  ],
-  "baseScale": 0.45,
-  "hitbox": {
-    "width": 1,
-    "height": 2,
-    "fixed": false
-  },
-  "cannotDynamax": false,
-  "pokedex": [
-    "cobblemon.species.glimmet.desc"
   ]
 }

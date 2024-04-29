@@ -17,105 +17,31 @@
   },
   "catchRate": 45,
   "maleRatio": 0.875,
-  "shoulderMountable": false,
-  "forms": [
-    {
-      "name": "Mega",
-      "primaryType": "water",
-      "abilities": [
-        "megalauncher"
-      ],
-      "baseStats": {
-        "hp": 79,
-        "attack": 103,
-        "defence": 120,
-        "special_attack": 135,
-        "special_defence": 115,
-        "speed": 78
-      },
-      "catchRate": 45,
-      "maleRatio": 0.875,
-      "baseExperienceYield": 265,
-      "baseFriendship": 50,
-      "evYield": {
-        "hp": 0,
-        "attack": 0,
-        "defence": 0,
-        "special_attack": 0,
-        "special_defence": 3,
-        "speed": 0
-      },
-      "experienceGroup": "medium_slow",
-      "eggCycles": 20,
-      "eggGroups": [
-        "monster",
-        "water_1"
-      ],
-      "labels": [
-        "gen6",
-        "mega"
-      ],
-      "aspects": [
-        "mega"
-      ],
-      "height": 16,
-      "weight": 1011,
-      "cannotDynamax": false,
-      "battleOnly": true
-    },
-    {
-      "name": "Gmax",
-      "primaryType": "water",
-      "abilities": [
-        "torrent",
-        "h:raindish"
-      ],
-      "baseStats": {
-        "hp": 79,
-        "attack": 83,
-        "defence": 100,
-        "special_attack": 85,
-        "special_defence": 105,
-        "speed": 78
-      },
-      "catchRate": 45,
-      "maleRatio": 0.875,
-      "baseExperienceYield": 265,
-      "baseFriendship": 50,
-      "evYield": {
-        "hp": 0,
-        "attack": 0,
-        "defence": 0,
-        "special_attack": 0,
-        "special_defence": 3,
-        "speed": 0
-      },
-      "experienceGroup": "medium_slow",
-      "eggCycles": 20,
-      "eggGroups": [
-        "monster",
-        "water_1"
-      ],
-      "labels": [
-        "gen8",
-        "gmax"
-      ],
-      "aspects": [
-        "gmax"
-      ],
-      "height": 16,
-      "weight": 0,
-      "cannotDynamax": false,
-      "battleOnly": false
-    }
-  ],
-  "baseExperienceYield": 265,
+  "baseFriendship": 50,
   "experienceGroup": "medium_slow",
   "eggCycles": 20,
   "eggGroups": [
     "monster",
     "water_1"
   ],
+  "height": 16,
+  "weight": 855,
+  "pokedex": [
+    "cobblemon.species.blastoise.desc"
+  ],
+  "labels": [
+    "gen1"
+  ],
+  "aspects": [],
+  "baseExperienceYield": 265,
+  "evYield": {
+    "hp": 0,
+    "attack": 0,
+    "defence": 0,
+    "special_attack": 0,
+    "special_defence": 3,
+    "speed": 0
+  },
   "drops": {
     "amount": 4,
     "entries": [
@@ -129,6 +55,14 @@
       }
     ]
   },
+  "baseScale": 0.9,
+  "hitbox": {
+    "width": 1.8,
+    "height": 3.0,
+    "fixed": false
+  },
+  "cannotDynamax": false,
+  "shoulderMountable": false,
   "behaviour": {
     "resting": {
       "canSleep": true,
@@ -327,31 +261,97 @@
     "tutor:withdraw",
     "tutor:zenheadbutt"
   ],
-  "labels": [
-    "gen1"
-  ],
-  "pokedex": [
-    "cobblemon.species.blastoise.desc"
-  ],
   "preEvolution": "wartortle",
   "evolutions": [],
-  "baseScale": 0.9,
-  "hitbox": {
-    "width": 1.8,
-    "height": 3.0,
-    "fixed": false
-  },
-  "baseFriendship": 50,
-  "evYield": {
-    "hp": 0,
-    "attack": 0,
-    "defence": 0,
-    "special_attack": 0,
-    "special_defence": 3,
-    "speed": 0
-  },
-  "height": 16,
-  "weight": 855,
-  "aspects": [],
-  "cannotDynamax": false
+  "temporaryForms": [
+    {
+      "name": "Mega",
+      "primaryType": "water",
+      "abilities": [
+        "megalauncher"
+      ],
+      "baseStats": {
+        "hp": 79,
+        "attack": 103,
+        "defence": 120,
+        "special_attack": 135,
+        "special_defence": 115,
+        "speed": 78
+      },
+      "catchRate": 45,
+      "maleRatio": 0.875,
+      "baseFriendship": 50,
+      "experienceGroup": "medium_slow",
+      "eggCycles": 20,
+      "eggGroups": [
+        "monster",
+        "water_1"
+      ],
+      "height": 16,
+      "weight": 1011,
+      "labels": [
+        "gen6",
+        "mega"
+      ],
+      "aspects": [
+        "mega"
+      ],
+      "baseExperienceYield": 265,
+      "evYield": {
+        "hp": 0,
+        "attack": 0,
+        "defence": 0,
+        "special_attack": 0,
+        "special_defence": 3,
+        "speed": 0
+      },
+      "cannotDynamax": false,
+      "battleOnly": true
+    },
+    {
+      "name": "Gmax",
+      "primaryType": "water",
+      "abilities": [
+        "torrent",
+        "h:raindish"
+      ],
+      "baseStats": {
+        "hp": 79,
+        "attack": 83,
+        "defence": 100,
+        "special_attack": 85,
+        "special_defence": 105,
+        "speed": 78
+      },
+      "catchRate": 45,
+      "maleRatio": 0.875,
+      "baseFriendship": 50,
+      "experienceGroup": "medium_slow",
+      "eggCycles": 20,
+      "eggGroups": [
+        "monster",
+        "water_1"
+      ],
+      "height": 16,
+      "weight": 0,
+      "labels": [
+        "gen8",
+        "gmax"
+      ],
+      "aspects": [
+        "gmax"
+      ],
+      "baseExperienceYield": 265,
+      "evYield": {
+        "hp": 0,
+        "attack": 0,
+        "defence": 0,
+        "special_attack": 0,
+        "special_defence": 3,
+        "speed": 0
+      },
+      "cannotDynamax": false,
+      "battleOnly": false
+    }
+  ]
 }
