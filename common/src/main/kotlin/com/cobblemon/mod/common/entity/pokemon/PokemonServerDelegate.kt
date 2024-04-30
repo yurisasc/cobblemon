@@ -173,6 +173,8 @@ class PokemonServerDelegate : PokemonSideDelegate {
         entity.dataTracker.set(PokemonEntity.ASPECTS, trackedAspects)
         entity.dataTracker.set(PokemonEntity.LABEL_LEVEL, entity.pokemon.level)
         entity.dataTracker.set(PokemonEntity.MOVING, entity.velocity.multiply(1.0, if (entity.isOnGround) 0.0 else 1.0, 1.0).length() > 0.005F)
+
+        updatePoseType()
     }
 
     fun updatePoseType() {

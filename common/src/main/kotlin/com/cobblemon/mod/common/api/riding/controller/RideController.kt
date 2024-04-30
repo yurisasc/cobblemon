@@ -8,11 +8,11 @@
 
 package com.cobblemon.mod.common.api.riding.controller
 
-import com.cobblemon.mod.common.api.riding.context.RidingContext
+import com.cobblemon.mod.common.api.net.Decodable
+import com.cobblemon.mod.common.api.net.Encodable
 import com.cobblemon.mod.common.api.riding.controller.posing.PoseProvider
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
-import com.google.gson.JsonElement
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.network.PacketByteBuf
@@ -29,7 +29,7 @@ import net.minecraft.util.math.Vec3d
  *
  * @since x.x.x
  */
-interface RideController {
+interface RideController : Encodable, Decodable {
 
     /** A reference key used to denote the individual controller */
     val key: Identifier
@@ -76,16 +76,7 @@ interface RideController {
      */
     fun velocity(driver: PlayerEntity, input: Vec3d) : Vec3d
 
-    fun encode(buffer: PacketByteBuf) {
+    override fun encode(buffer: PacketByteBuf) {
         buffer.writeIdentifier(this.key)
     }
-
-    interface Deserializer {
-
-        fun deserialize(json: JsonElement): RideController
-
-        fun decode(buffer: PacketByteBuf): RideController
-
-    }
-
 }

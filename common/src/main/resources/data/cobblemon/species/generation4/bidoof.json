@@ -222,18 +222,8 @@
       }
     ],
     "conditions": [
-      {
-        "key": "cobblemon:has_badge",
-        "value": "cobblemon:gen1_gym4",
-        "or": {
-          "key": "cobblemon:has_permission",
-          "value": "cobblemon.riding.override"
-        },
-        "and": {
-          "key": "cobblemon:has_move",
-          "value": "cobblemon:surf"
-        }
-      }
+      "c.player.has_badge('cobblemon:gen1_gym4') || c.player.has_permission('cobblemon.riding.override')",
+      "c.pokemon.has_move('cobblemon:surf')"
     ]
   }
 }

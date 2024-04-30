@@ -32,7 +32,6 @@ import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.net.IntSize
 import com.cobblemon.mod.common.pokemon.ai.FormPokemonBehaviour
 import com.cobblemon.mod.common.pokemon.lighthing.LightingData
-import com.cobblemon.mod.common.pokemon.riding.CobblemonRidingProperties
 import com.cobblemon.mod.common.util.readSizedInt
 import com.cobblemon.mod.common.util.writeSizedInt
 import com.google.gson.annotations.SerializedName
@@ -278,7 +277,7 @@ class FormData(
             pb.writeInt(data.lightLevel)
             pb.writeEnumConstant(data.liquidGlowMode)
         }
-        buffer.writeNullable(this._riding) { _, properties -> (properties as CobblemonRidingProperties).encode(buffer) }
+        buffer.writeNullable(this._riding) { _, properties -> properties.encode(buffer) }
     }
 
     override fun decode(buffer: PacketByteBuf) {
@@ -302,7 +301,7 @@ class FormData(
         this._moves = buffer.readNullable { pb -> Learnset().apply { decode(pb) }}
         this._pokedex = buffer.readNullable { pb -> pb.readList { it.readString() } }
         this._lightingData = buffer.readNullable { pb -> LightingData(pb.readInt(), pb.readEnumConstant(LightingData.LiquidGlowMode::class.java)) }
-        this._riding = buffer.readNullable { pb -> CobblemonRidingProperties.decode(pb) }
+        this._riding = buffer.readNullable { pb -> RidingProperties.decode(pb) }
     }
 
     /**

@@ -24,8 +24,8 @@ import net.minecraft.util.math.Vec3d
  * @since 1.5.0
  */
 data class SeatProperties(
-    val driver: Boolean,
-    val offset: Vec3d
+    val driver: Boolean = false,
+    val offset: Vec3d = Vec3d.ZERO
 ) : Encodable {
 
     fun create(mount: PokemonEntity): Seat {

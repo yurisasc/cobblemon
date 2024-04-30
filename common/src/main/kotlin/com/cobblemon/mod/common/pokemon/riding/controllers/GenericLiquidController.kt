@@ -26,11 +26,15 @@ import net.minecraft.util.shape.VoxelShapes
 import kotlin.math.max
 import kotlin.math.min
 
-data class GenericLiquidController(val speed: Float, val acceleration: Float) : RideController {
-
+class GenericLiquidController : RideController {
     companion object {
         val KEY: Identifier = cobblemonResource("swim/generic")
     }
+
+    var speed = 1F
+        private set
+    var acceleration = 1F
+        private set
 
     override val key: Identifier = KEY
     override val poseProvider: PoseProvider = PoseProvider(PoseType.FLOAT)
@@ -74,17 +78,8 @@ data class GenericLiquidController(val speed: Float, val acceleration: Float) : 
         buffer.writeFloat(this.acceleration)
     }
 
-}
-
-object GenericLiquidControllerAdapter : RideController.Deserializer {
-
-    override fun deserialize(json: JsonElement): RideController {
-        val obj = json.asJsonObject
-        return GenericLiquidController(obj.get("speed").asFloat, obj.get("acceleration").asFloat)
+    override fun decode(buffer: PacketByteBuf) {
+        this.speed = buffer.readFloat()
+        this.acceleration = buffer.readFloat()
     }
-
-    override fun decode(buffer: PacketByteBuf): RideController {
-        return GenericLiquidController(buffer.readFloat(), buffer.readFloat())
-    }
-
 }

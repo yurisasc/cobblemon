@@ -1183,7 +1183,7 @@ open class PokemonEntity(
     fun getBattleTheme() = Registries.SOUND_EVENT.get(this.form.battleTheme) ?: CobblemonSounds.PVW_BATTLE
 
     override fun canStartRiding(entity: Entity): Boolean {
-        if(this.pokemon.riding.supported() && super.canStartRiding(entity)) {
+        if (this.pokemon.riding.canRide && super.canStartRiding(entity)) {
             val seats = this.riding.seats
             return seats.any { it.acceptsRider(entity) }
         }

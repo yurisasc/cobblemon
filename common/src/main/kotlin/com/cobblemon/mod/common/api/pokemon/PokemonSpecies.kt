@@ -8,6 +8,7 @@
 
 package com.cobblemon.mod.common.api.pokemon
 
+import com.bedrockk.molang.Expression
 import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.api.abilities.AbilityPool
 import com.cobblemon.mod.common.api.abilities.AbilityTemplate
@@ -31,7 +32,7 @@ import com.cobblemon.mod.common.api.pokemon.moves.Learnset
 import com.cobblemon.mod.common.api.pokemon.stats.Stat
 import com.cobblemon.mod.common.api.pokemon.stats.Stats
 import com.cobblemon.mod.common.api.reactive.SimpleObservable
-import com.cobblemon.mod.common.api.riding.RidingProperties
+import com.cobblemon.mod.common.api.riding.controller.RideController
 import com.cobblemon.mod.common.api.spawning.TimeRange
 import com.cobblemon.mod.common.api.types.ElementalType
 import com.cobblemon.mod.common.api.types.adapters.ElementalTypeAdapter
@@ -46,7 +47,7 @@ import com.cobblemon.mod.common.pokemon.evolution.adapters.NbtItemPredicateAdapt
 import com.cobblemon.mod.common.pokemon.evolution.predicate.NbtItemPredicate
 import com.cobblemon.mod.common.pokemon.helditem.CobblemonHeldItemManager
 import com.cobblemon.mod.common.util.adapters.*
-import com.cobblemon.mod.common.util.adapters.riding.RidingPropertiesAdapter
+import com.cobblemon.mod.common.util.adapters.riding.RideControllerAdapter
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.google.common.collect.HashBasedTable
 import com.google.gson.Gson
@@ -100,7 +101,8 @@ object PokemonSpecies : JsonDataRegistry<Species> {
         .registerTypeAdapter(EggGroup::class.java, EggGroupAdapter)
         .registerTypeAdapter(StatusEffect::class.java, RegistryElementAdapter<StatusEffect> { Registries.STATUS_EFFECT })
         .registerTypeAdapter(NbtItemPredicate::class.java, NbtItemPredicateAdapter)
-        .registerTypeAdapter(RidingProperties::class.java, RidingPropertiesAdapter)
+        .registerTypeAdapter(RideController::class.java, RideControllerAdapter)
+        .registerTypeAdapter(Expression::class.java, ExpressionAdapter)
         .disableHtmlEscaping()
         .enableComplexMapKeySerialization()
         .create()

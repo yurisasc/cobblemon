@@ -25,8 +25,8 @@ object InteractPokemonHandler : ServerNetworkPacketHandler<InteractPokemonPacket
                 }
                 pokemonEntity.tryMountingShoulder(player)
             } else if (packet.ride) {
-                if (pokemonEntity.pokemon.riding.supported()) {
-                    val seat = pokemonEntity.riding.seats?.first { it.acceptsRider(player) }
+                if (pokemonEntity.pokemon.riding.canRide) {
+                    val seat = pokemonEntity.riding.seats.firstOrNull { it.acceptsRider(player) }
                     seat?.mount(player)
                 }
             } else {

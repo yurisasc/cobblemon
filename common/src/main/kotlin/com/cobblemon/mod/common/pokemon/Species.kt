@@ -32,7 +32,6 @@ import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.net.IntSize
 import com.cobblemon.mod.common.pokemon.ai.PokemonBehaviour
 import com.cobblemon.mod.common.pokemon.lighthing.LightingData
-import com.cobblemon.mod.common.pokemon.riding.CobblemonRidingProperties
 import com.cobblemon.mod.common.util.readSizedInt
 import com.cobblemon.mod.common.util.writeSizedInt
 import net.minecraft.entity.EntityDimensions
@@ -107,7 +106,7 @@ class Species : ClientDataSynchronizer<Species>, ShowdownIdentifiable {
     var forms = mutableListOf<FormData>()
         private set
 
-    var riding: RidingProperties = CobblemonRidingProperties.unsupported()
+    var riding: RidingProperties = RidingProperties()
         private set
 
     val standardForm by lazy { FormData(_evolutions = this.evolutions).initialize(this) }
@@ -210,7 +209,7 @@ class Species : ClientDataSynchronizer<Species>, ShowdownIdentifiable {
             pb.writeEnumConstant(data.liquidGlowMode)
         }
 
-        (this.riding as CobblemonRidingProperties).encode(buffer)
+        this.riding.encode(buffer)
     }
 
     override fun decode(buffer: PacketByteBuf) {
@@ -237,7 +236,7 @@ class Species : ClientDataSynchronizer<Species>, ShowdownIdentifiable {
         this.features.clear()
         this.features += buffer.readList { pb -> pb.readString() }
         this.lightingData = buffer.readNullable { pb -> LightingData(pb.readInt(), pb.readEnumConstant(LightingData.LiquidGlowMode::class.java)) }
-        this.riding = CobblemonRidingProperties.decode(buffer)
+        this.riding = RidingProperties.decode(buffer)
         this.initialize()
     }
 

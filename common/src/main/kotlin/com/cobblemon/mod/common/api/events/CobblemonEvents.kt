@@ -35,7 +35,6 @@ import com.cobblemon.mod.common.api.events.pokemon.evolution.EvolutionTestedEven
 import com.cobblemon.mod.common.api.events.pokemon.interaction.ExperienceCandyUseEvent
 import com.cobblemon.mod.common.api.events.pokemon.interaction.HeldItemUpdatedEvent
 import com.cobblemon.mod.common.api.events.pokemon.interaction.PokemonInteractionGUICreationEvent
-import com.cobblemon.mod.common.api.events.riding.RegisterRidingControllerAdapterEvent
 import com.cobblemon.mod.common.api.events.starter.StarterChosenEvent
 import com.cobblemon.mod.common.api.events.storage.ReleasePokemonEvent
 import com.cobblemon.mod.common.api.events.world.BigRootPropagatedEvent
@@ -171,6 +170,4 @@ object CobblemonEvents {
     // Riding
     //
     // -------------------------------------------------------------------------------------
-    @JvmField
-    val REGISTER_RIDING_CONTROLLER_ADAPTER = EventObservable<RegisterRidingControllerAdapterEvent>()
 }

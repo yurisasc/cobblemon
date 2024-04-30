@@ -11,12 +11,10 @@ package com.cobblemon.mod.common.pokemon.riding.controllers
 import com.cobblemon.mod.common.api.riding.controller.RideController
 import com.cobblemon.mod.common.api.riding.controller.posing.PoseOption
 import com.cobblemon.mod.common.api.riding.controller.posing.PoseProvider
-import com.cobblemon.mod.common.api.riding.controller.properties.RideControllerPropertyKey
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.util.blockPositionsAsListRounded
 import com.cobblemon.mod.common.util.cobblemonResource
-import com.google.gson.JsonElement
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.network.PacketByteBuf
@@ -25,15 +23,14 @@ import net.minecraft.util.math.Vec2f
 import net.minecraft.util.math.Vec3d
 import net.minecraft.util.shape.VoxelShapes
 
-data class SwimDashController(val dashSpeed: Float) : RideController {
-
+class SwimDashController : RideController {
     companion object {
         val KEY: Identifier = cobblemonResource("swim/dash")
         const val DASH_TICKS: Int = 60
-
-        val DASH_SPEED: RideControllerPropertyKey<Float> = RideControllerPropertyKey(this.KEY)
     }
 
+    var dashSpeed = 1F
+        private set
     override val key: Identifier = KEY
     override val poseProvider: PoseProvider = PoseProvider(PoseType.FLOAT)
         .with(PoseOption(PoseType.SWIM) { it.isSwimming && it.dataTracker.get(PokemonEntity.MOVING) })
@@ -83,17 +80,8 @@ data class SwimDashController(val dashSpeed: Float) : RideController {
         super.encode(buffer)
         buffer.writeFloat(this.dashSpeed)
     }
-}
 
-object SwimDashControllerDeserializer : RideController.Deserializer {
-
-    override fun deserialize(json: JsonElement): RideController {
-        val obj = json.asJsonObject
-        return SwimDashController(obj.get("dashSpeed").asFloat)
+    override fun decode(buffer: PacketByteBuf) {
+        this.dashSpeed = buffer.readFloat()
     }
-
-    override fun decode(buffer: PacketByteBuf): RideController {
-        return SwimDashController(buffer.readFloat())
-    }
-
 }
