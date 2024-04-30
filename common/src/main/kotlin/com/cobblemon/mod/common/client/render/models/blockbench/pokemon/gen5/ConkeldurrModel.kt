@@ -8,7 +8,6 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen5
 
-import com.cobblemon.mod.common.client.render.models.blockbench.createTransformation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
@@ -24,9 +23,6 @@ class ConkeldurrModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, B
 
     override val leftLeg = getPart("leg_left")
     override val rightLeg = getPart("leg_right")
-
-    val leftConkcrete = getPart("pillar_connected_left")
-    val rightConkcrete = getPart("pillar_connected_right")
 
     override var portraitScale = 1.9F
     override var portraitTranslation = Vec3d(-1.0, 0.91, 0.0)
@@ -46,10 +42,6 @@ class ConkeldurrModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, B
         sleep = registerPose(
             poseName = "sleep",
             poseType = PoseType.SLEEP,
-            transformedParts = arrayOf(
-                    rightConkcrete.createTransformation().withVisibility(visibility = false),
-                    leftConkcrete.createTransformation().withVisibility(visibility = false)
-                ),
             idleAnimations = arrayOf(
                 bedrock("conkeldurr", "sleep")
             )
