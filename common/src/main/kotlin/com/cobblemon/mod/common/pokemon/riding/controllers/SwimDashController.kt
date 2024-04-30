@@ -8,40 +8,51 @@
 
 package com.cobblemon.mod.common.pokemon.riding.controllers
 
-import com.cobblemon.mod.common.api.riding.context.RidingContext
-import com.cobblemon.mod.common.api.riding.context.RidingContextBuilder
 import com.cobblemon.mod.common.api.riding.controller.RideController
 import com.cobblemon.mod.common.api.riding.controller.posing.PoseOption
 import com.cobblemon.mod.common.api.riding.controller.posing.PoseProvider
-import com.cobblemon.mod.common.api.riding.controller.properties.RideControllerProperties
 import com.cobblemon.mod.common.api.riding.controller.properties.RideControllerPropertyKey
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
+import com.cobblemon.mod.common.util.blockPositionsAsListRounded
 import com.cobblemon.mod.common.util.cobblemonResource
+import com.google.gson.JsonElement
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.network.PacketByteBuf
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.Vec2f
 import net.minecraft.util.math.Vec3d
+import net.minecraft.util.shape.VoxelShapes
 
-data class SwimDashController(val properties: SwimDashProperties) : RideController {
+data class SwimDashController(val dashSpeed: Float) : RideController {
+
+    companion object {
+        val KEY: Identifier = cobblemonResource("swim/dash")
+        const val DASH_TICKS: Int = 60
+
+        val DASH_SPEED: RideControllerPropertyKey<Float> = RideControllerPropertyKey(this.KEY)
+    }
 
     override val key: Identifier = KEY
     override val poseProvider: PoseProvider = PoseProvider(PoseType.FLOAT)
         .with(PoseOption(PoseType.SWIM) { it.isSwimming && it.dataTracker.get(PokemonEntity.MOVING) })
-    override val condition: (PokemonEntity) -> Boolean = { false }
+    override val condition: (PokemonEntity) -> Boolean = { entity ->
+        //This could be kinda weird... what if the top of the mon is in a fluid but the bottom isnt?
+        VoxelShapes.cuboid(entity.boundingBox).blockPositionsAsListRounded().any {
+            if (entity.isTouchingWater || entity.isSubmergedInWater) {
+                return@any true
+            }
+            val blockState = entity.world.getBlockState(it)
+            return@any !blockState.fluidState.isEmpty
+        }
+    }
 
     /** Indicates that we are currently enacting a dash, and that further movement inputs should be ignored */
     private var dashing = false
     private var ticks = 0
 
-    companion object {
-        val KEY: Identifier = cobblemonResource("swim/dash")
-        const val DASH_TICKS: Int = 60
-    }
-
-    override fun speed(entity: PokemonEntity, driver: PlayerEntity, context: RidingContext): Float {
+    override fun speed(entity: PokemonEntity, driver: PlayerEntity): Float {
         if(this.dashing) {
             if(this.ticks++ >= DASH_TICKS) {
                 this.dashing = false
@@ -51,7 +62,7 @@ data class SwimDashController(val properties: SwimDashProperties) : RideControll
         }
 
         this.dashing = true
-        return context.propertyOrDefault(SwimDashProperties.DASH_SPEED, 0.1F)
+        return this.dashSpeed
     }
 
     override fun rotation(driver: LivingEntity): Vec2f {
@@ -67,23 +78,22 @@ data class SwimDashController(val properties: SwimDashProperties) : RideControll
 
         return Vec3d(f.toDouble(), 0.0, g.toDouble())
     }
-}
-
-data class SwimDashProperties(
-    val dashSpeed: Float,
-) : RideControllerProperties {
-
-    override val identifier: Identifier = SwimDashController.KEY
-
-    companion object {
-        val DASH_SPEED: RideControllerPropertyKey<Float> = RideControllerPropertyKey(SwimDashController.KEY)
-    }
-
-    override fun apply(context: RidingContextBuilder) {
-        context.property(DASH_SPEED, this.dashSpeed)
-    }
 
     override fun encode(buffer: PacketByteBuf) {
+        super.encode(buffer)
         buffer.writeFloat(this.dashSpeed)
     }
+}
+
+object SwimDashControllerDeserializer : RideController.Deserializer {
+
+    override fun deserialize(json: JsonElement): RideController {
+        val obj = json.asJsonObject
+        return SwimDashController(obj.get("dashSpeed").asFloat)
+    }
+
+    override fun decode(buffer: PacketByteBuf): RideController {
+        return SwimDashController(buffer.readFloat())
+    }
+
 }

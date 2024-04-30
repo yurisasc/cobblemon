@@ -9,15 +9,15 @@
 package com.cobblemon.mod.common.util.adapters.riding
 
 import com.cobblemon.mod.common.api.riding.RidingProperties
-import com.cobblemon.mod.common.api.riding.capability.RidingCapability
-import com.cobblemon.mod.common.api.riding.controller.properties.RideControllerPropertyDeserializer
+import com.cobblemon.mod.common.api.riding.controller.RideControllerDeserializer
 import com.cobblemon.mod.common.api.riding.seats.properties.SeatProperties
 import com.cobblemon.mod.common.pokemon.riding.CobblemonRidingProperties
 import com.cobblemon.mod.common.pokemon.riding.RidingModule
-import com.cobblemon.mod.common.util.cobblemonResource
+import com.cobblemon.mod.common.util.asIdentifier
 import com.google.gson.JsonDeserializationContext
 import com.google.gson.JsonDeserializer
 import com.google.gson.JsonElement
+import com.google.gson.JsonObject
 import java.lang.reflect.Type
 
 object RidingPropertiesAdapter : JsonDeserializer<RidingProperties> {
@@ -29,21 +29,18 @@ object RidingPropertiesAdapter : JsonDeserializer<RidingProperties> {
     override fun deserialize(element: JsonElement, type: Type, context: JsonDeserializationContext): RidingProperties {
         val root = element.asJsonObject
         val seats = root.getAsJsonArray("seats")
-        val capabilities = root.getAsJsonObject("capabilities")
-            .asMap()
+        val controllers = root.getAsJsonArray("controllers")
             .map {
-                val key = cobblemonResource(it.key)
-                val data: JsonElement = it.value
+                val controller = it as JsonObject
+                val key = controller.get("key").asIdentifier
 
-                val properties = RideControllerPropertyDeserializer.deserialize(key, data)
-                RidingCapability.create(key, properties)
+                RideControllerDeserializer.deserialize(key, controller)
             }
-
 
         return CobblemonRidingProperties(
             seats.map { context.deserialize(it, SeatProperties::class.java) },
             emptyList(),
-            capabilities
+            controllers
         )
     }
 

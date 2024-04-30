@@ -8,14 +8,9 @@
 
 package com.cobblemon.mod.common.pokemon.riding.controllers
 
-import com.cobblemon.mod.common.api.riding.context.RidingContext
-import com.cobblemon.mod.common.api.riding.context.RidingContextBuilder
-import com.cobblemon.mod.common.api.riding.controller.properties.Deserializer
 import com.cobblemon.mod.common.api.riding.controller.posing.PoseOption
 import com.cobblemon.mod.common.api.riding.controller.posing.PoseProvider
 import com.cobblemon.mod.common.api.riding.controller.RideController
-import com.cobblemon.mod.common.api.riding.controller.properties.RideControllerProperties
-import com.cobblemon.mod.common.api.riding.controller.properties.RideControllerPropertyKeys
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.util.blockPositionsAsListRounded
@@ -28,13 +23,16 @@ import net.minecraft.util.Identifier
 import net.minecraft.util.math.Vec2f
 import net.minecraft.util.math.Vec3d
 import net.minecraft.util.shape.VoxelShapes
-import java.util.function.Predicate
 import kotlin.math.max
 import kotlin.math.min
 
-object GenericLandController : RideController {
+data class GenericLandController(val speed: Float, val acceleration: Float) : RideController {
 
-    override val key: Identifier = cobblemonResource("land_generic")
+    companion object {
+        val KEY: Identifier = cobblemonResource("land/generic")
+    }
+
+    override val key: Identifier = KEY
     override val poseProvider: PoseProvider = PoseProvider(PoseType.STAND)
         .with(PoseOption(PoseType.WALK) { it.dataTracker.get(PokemonEntity.MOVING) })
     override val condition: (PokemonEntity) -> Boolean = { entity ->
@@ -55,16 +53,12 @@ object GenericLandController : RideController {
         }
     }
 
-    override fun speed(entity: PokemonEntity, driver: PlayerEntity, context: RidingContext): Float {
-        val max: Float = context.propertyOrDefault(RideControllerPropertyKeys.SPEED, 0.0F)
-        val acceleration = this.acceleration(max, context)
-
-        return min(max(context.speed + acceleration, 0.0F), 1.0F)
+    override fun speed(entity: PokemonEntity, driver: PlayerEntity): Float {
+        return min(max(this.speed + this.acceleration(), 0.0F), 1.0F)
     }
 
-    private fun acceleration(speed: Float, context: RidingContext): Float {
-        val acceleration = context.propertyOrDefault(RideControllerPropertyKeys.ACCELERATION, 0.0F)
-        return (1 / ((300 * speed) + (18.5F - (acceleration * 5.3F)))) * (0.9F * ((acceleration + 1) / 2))
+    private fun acceleration(): Float {
+        return (1 / ((300 * this.speed) + (18.5F - (this.acceleration * 5.3F)))) * (0.9F * ((this.acceleration + 1) / 2))
     }
 
     override fun rotation(driver: LivingEntity): Vec2f {
@@ -81,35 +75,23 @@ object GenericLandController : RideController {
         return Vec3d(f.toDouble(), 0.0, g.toDouble())
     }
 
-}
-
-data class GenericLandControllerProperties(
-    val speed: Float,
-    val acceleration: Float
-) : RideControllerProperties {
-
-    override val identifier: Identifier = GenericLandController.key
-
     override fun encode(buffer: PacketByteBuf) {
+        super.encode(buffer)
         buffer.writeFloat(this.speed)
         buffer.writeFloat(this.acceleration)
     }
 
-    override fun apply(context: RidingContextBuilder) {
-        context.property(RideControllerPropertyKeys.SPEED, this.speed)
-        context.property(RideControllerPropertyKeys.ACCELERATION, this.acceleration)
-    }
 }
 
-object GenericLandControllerAdapter : Deserializer<GenericLandControllerProperties> {
+object GenericLandControllerDeserializer : RideController.Deserializer {
 
-    override fun deserialize(json: JsonElement): GenericLandControllerProperties {
+    override fun deserialize(json: JsonElement): RideController {
         val obj = json.asJsonObject
-        return GenericLandControllerProperties(obj.get("speed").asFloat, obj.get("acceleration").asFloat)
+        return GenericLandController(obj.get("speed").asFloat, obj.get("acceleration").asFloat)
     }
 
-    override fun decode(buffer: PacketByteBuf): GenericLandControllerProperties {
-        return GenericLandControllerProperties(buffer.readFloat(), buffer.readFloat())
+    override fun decode(buffer: PacketByteBuf): RideController {
+        return GenericLandController(buffer.readFloat(), buffer.readFloat())
     }
 
 }
