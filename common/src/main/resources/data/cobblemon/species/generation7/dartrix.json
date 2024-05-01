@@ -182,7 +182,7 @@
             },
             {
               "variant": "biome",
-              "biomeCondition": "#cobblemon:regional_bias_evolutions/rowlet_dartrix_alolan"
+              "biomeCondition": "#cobblemon:evolution/rowlet_dartrix_alolan"
             },
             {
               "variant": "biome",
@@ -378,7 +378,7 @@
         },
         {
           "variant": "biome",
-          "biomeCondition": "#cobblemon:regional_bias_evolutions/rowlet_dartrix_hisui_bias"
+          "biomeCondition": "#cobblemon:evolution/rowlet_dartrix_hisui_bias"
         }
       ]
     }
