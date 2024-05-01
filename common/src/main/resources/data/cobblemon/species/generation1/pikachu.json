@@ -1771,17 +1771,6 @@
       ],
       "evolutions": [
         {
-          "id": "alola_pikachu_alola_raichu",
-          "variant": "item_interact",
-          "result": "raichu alolan",
-          "consumeHeldItem": false,
-          "learnableMoves": [
-            "psychic"
-          ],
-          "requirements": [],
-          "requiredContext": "cobblemon:thunder_stone"
-        },
-        {
           "id": "alola_pikachu_raichu",
           "variant": "item_interact",
           "result": "raichu alolan=false",
@@ -1799,6 +1788,17 @@
               "biomeAnticondition": "#cobblemon:is_spooky"
             }
           ],
+          "requiredContext": "cobblemon:thunder_stone"
+        },
+        {
+          "id": "alola_pikachu_alola_raichu",
+          "variant": "item_interact",
+          "result": "raichu alolan",
+          "consumeHeldItem": false,
+          "learnableMoves": [
+            "psychic"
+          ],
+          "requirements": [],
           "requiredContext": "cobblemon:thunder_stone"
         }
       ]
@@ -2011,17 +2011,6 @@
   "preEvolution": "pichu",
   "evolutions": [
     {
-      "id": "pikachu_raichu",
-      "variant": "item_interact",
-      "result": "raichu alolan=false",
-      "consumeHeldItem": false,
-      "learnableMoves": [
-        "thunderpunch"
-      ],
-      "requirements": [],
-      "requiredContext": "cobblemon:thunder_stone"
-    },
-    {
       "id": "pikachu_alola_raichu",
       "variant": "item_interact",
       "result": "raichu alolan",
@@ -2032,13 +2021,24 @@
       "requirements": [
         {
           "variant": "biome",
-          "biomeCondition": "#cobblemon:regional_bias_evolutions/alolan"
+          "biomeCondition": "#cobblemon:evolution/alolan"
         },
         {
           "variant": "biome",
           "biomeAnticondition": "#minecraft:is_freezing"
         }
       ],
+      "requiredContext": "cobblemon:thunder_stone"
+    },
+    {
+      "id": "pikachu_raichu",
+      "variant": "item_interact",
+      "result": "raichu alolan=false",
+      "consumeHeldItem": false,
+      "learnableMoves": [
+        "thunderpunch"
+      ],
+      "requirements": [],
       "requiredContext": "cobblemon:thunder_stone"
     }
   ],
