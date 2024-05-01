@@ -24,10 +24,6 @@
       "required": false
     },
     {
-      "id": "wythers:coastal_mangroves",
-      "required": false
-    },
-    {
       "id": "wythers:cold_island",
       "required": false
     },
@@ -53,22 +49,6 @@
     },
     {
       "id": "wythers:icy_shore",
-      "required": false
-    },
-    {
-      "id": "wythers:mediterranean_island",
-      "required": false
-    },
-    {
-      "id": "wythers:temperate_island",
-      "required": false
-    },
-    {
-      "id": "wythers:tropical_island",
-      "required": false
-    },
-    {
-      "id": "wythers:warm_stony_shore",
       "required": false
     }
   ]
