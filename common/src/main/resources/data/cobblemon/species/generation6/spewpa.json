@@ -132,11 +132,7 @@
         },
         {
           "variant": "biome",
-          "biomeCondition": "#cobblemon:is_spooky"
-        },
-        {
-          "variant": "biome",
-          "biomeCondition": "#cobblemon:is_magical"
+          "biomeCondition": "#cobblemon:evolution/vivillon_elegant"
         }
       ]
     },
@@ -175,6 +171,10 @@
         {
           "variant": "biome",
           "biomeCondition": "#cobblemon:is_forest"
+        },
+        {
+          "variant": "biome",
+          "biomeAnticondition": "minecraft:cherry_grove"
         }
       ]
     },
@@ -311,11 +311,7 @@
         },
         {
           "variant": "biome",
-          "biomeCondition": "#cobblemon:is_mountain"
-        },
-        {
-          "variant": "biome",
-          "biomeCondition": "#cobblemon:is_peak"
+          "biomeCondition": "#cobblemon:evolution/vivillon_monsoon"
         }
       ]
     },
@@ -334,7 +330,7 @@
         },
         {
           "variant": "biome",
-          "biomeCondition": "#cobblemon:vivillon_evolutions/ocean"
+          "biomeCondition": "#cobblemon:evolution/vivillon_ocean"
         }
       ]
     },
@@ -372,7 +368,7 @@
         },
         {
           "variant": "biome",
-          "biomeCondition": "#cobblemon:vivillon_evolutions/river"
+          "biomeCondition": "#cobblemon:evolution/vivillon_river"
         }
       ]
     },
@@ -429,7 +425,7 @@
         },
         {
           "variant": "biome",
-          "biomeCondition": "#cobblemon:vivillon_evolutions/sun"
+          "biomeCondition": "#cobblemon:evolution/vivillon_sun"
         }
       ]
     },
@@ -448,7 +444,7 @@
         },
         {
           "variant": "biome",
-          "biomeCondition": "#cobblemon:vivillon_evolutions/tundra"
+          "biomeCondition": "#cobblemon:evolution/vivillon_tundra"
         }
       ]
     },
