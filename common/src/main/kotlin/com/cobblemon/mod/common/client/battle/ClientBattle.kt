@@ -10,8 +10,7 @@ package com.cobblemon.mod.common.client.battle
 
 import com.cobblemon.mod.common.CobblemonNetwork
 import com.cobblemon.mod.common.api.battles.model.actor.ActorType
-import com.cobblemon.mod.common.api.pokedex.Pokedex
-import com.cobblemon.mod.common.api.pokedex.PokedexProgress
+import com.cobblemon.mod.common.api.pokedex.PokedexEntryProgress
 import com.cobblemon.mod.common.api.pokemon.PokemonSpecies
 import com.cobblemon.mod.common.battles.BattleFormat
 import com.cobblemon.mod.common.client.CobblemonClient
@@ -37,14 +36,14 @@ class ClientBattle(
                     val wildForm = wildSpecies.forms.firstOrNull { it.formOnlyShowdownId() == props.form } ?: wildSpecies.standardForm
                     val formStr = wildForm.formOnlyShowdownId()
                     val dexEntry = CobblemonClient.clientPokedexData.speciesEntries[wildSpecies.resourceIdentifier]
-                    knowledge = dexEntry?.formEntries?.get(formStr)?.knowledge ?: PokedexProgress.NONE
-                } ?: PokedexProgress.NONE
+                    knowledge = dexEntry?.formEntries?.get(formStr)?.knowledge ?: PokedexEntryProgress.NONE
+                } ?: PokedexEntryProgress.NONE
             }
             else {
-                knowledge = PokedexProgress.NONE
+                knowledge = PokedexEntryProgress.NONE
             }
         }
-    var knowledge = PokedexProgress.NONE
+    var knowledge = PokedexEntryProgress.NONE
 
     val sides: Array<ClientBattleSide>
         get() = arrayOf(side1, side2)

@@ -8,7 +8,7 @@
 
 package com.cobblemon.mod.common.api.pokedex.adapter
 
-import com.cobblemon.mod.common.api.pokedex.Pokedex
+import com.cobblemon.mod.common.api.pokedex.PokedexRecord
 import com.google.gson.InstanceCreator
 import java.lang.reflect.Type
 import java.util.UUID
@@ -20,10 +20,10 @@ import java.util.UUID
  */
 //GSON sets gennedFactories to null if we dont use this
 //UUID gets set later during deserialization
-object PokedexInstanceCreator : InstanceCreator<Pokedex> {
+object PokedexInstanceCreator : InstanceCreator<PokedexRecord> {
     private val uuid = UUID.randomUUID()
-    override fun createInstance(p0: Type?): Pokedex {
-        val result = Pokedex(uuid)
+    override fun createInstance(p0: Type?): PokedexRecord {
+        val result = PokedexRecord(uuid)
         result.gennedFactories = mutableSetOf()
         return result
     }

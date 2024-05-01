@@ -30,7 +30,7 @@ class PokedexSyncPacket(dexes: Collection<DexData>) : DataRegistrySyncPacket<Dex
     }
 
     override fun decodeEntry(buffer: PacketByteBuf): DexData? {
-        val dexData = DexData()
+        val dexData = DexData(cobblemonResource("dex"))
         return try {
             dexData.decode(buffer)
             dexData
@@ -45,7 +45,7 @@ class PokedexSyncPacket(dexes: Collection<DexData>) : DataRegistrySyncPacket<Dex
     }
 
     companion object {
-        val ID = cobblemonResource("species_sync")
-        fun decode(buffer: PacketByteBuf): SpeciesRegistrySyncPacket = SpeciesRegistrySyncPacket(emptyList()).apply { decodeBuffer(buffer) }
+        val ID = cobblemonResource("pokedex_sync")
+        fun decode(buffer: PacketByteBuf): PokedexSyncPacket = PokedexSyncPacket(emptyList()).apply { decodeBuffer(buffer) }
     }
 }

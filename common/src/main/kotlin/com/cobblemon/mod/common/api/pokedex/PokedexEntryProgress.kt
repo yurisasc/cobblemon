@@ -20,7 +20,7 @@ import net.minecraft.util.StringIdentifiable
  * @author JPAK, Apion
  * @since February 21, 2024
  */
-enum class PokedexProgress : StringIdentifiable {
+enum class PokedexEntryProgress : StringIdentifiable {
     NONE,
     ENCOUNTERED,
     CAUGHT;
@@ -28,9 +28,9 @@ enum class PokedexProgress : StringIdentifiable {
         return this.name
     }
     companion object {
-        val CODEC: Codec<PokedexProgress> = RecordCodecBuilder.create { instance ->
+        val CODEC: Codec<PokedexEntryProgress> = RecordCodecBuilder.create { instance ->
             instance.map ({
-                PokedexProgress.valueOf(it)
+                PokedexEntryProgress.valueOf(it)
             }, PrimitiveCodec.STRING.fieldOf("name").forGetter { it.name })
         }
     }

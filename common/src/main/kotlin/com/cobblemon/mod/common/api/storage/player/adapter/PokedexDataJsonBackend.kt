@@ -8,7 +8,7 @@
 
 package com.cobblemon.mod.common.api.storage.player.adapter
 
-import com.cobblemon.mod.common.api.pokedex.Pokedex
+import com.cobblemon.mod.common.api.pokedex.PokedexRecord
 import com.cobblemon.mod.common.api.pokedex.adapter.GlobalTrackedDataAdapter
 import com.cobblemon.mod.common.api.pokedex.adapter.PokedexInstanceCreator
 import com.cobblemon.mod.common.api.pokedex.trackeddata.GlobalTrackedData
@@ -25,20 +25,20 @@ import java.util.UUID
  * @author Apion
  * @since February 22, 2024
  */
-class PokedexDataJsonBackend: JsonBackedPlayerDataStoreBackend<Pokedex>("pokedex", PlayerInstancedDataStoreType.POKEDEX) {
+class PokedexDataJsonBackend: JsonBackedPlayerDataStoreBackend<PokedexRecord>("pokedex", PlayerInstancedDataStoreType.POKEDEX) {
     override val gson = GsonBuilder()
         .setPrettyPrinting()
         .disableHtmlEscaping()
         .registerTypeAdapter(Identifier::class.java, IdentifierAdapter)
         .registerTypeAdapter(GlobalTrackedData::class.java, GlobalTrackedDataAdapter)
-        .registerTypeAdapter(Pokedex::class.java, PokedexInstanceCreator)
+        .registerTypeAdapter(PokedexRecord::class.java, PokedexInstanceCreator)
         .create()
-    override val classToken = TypeToken.get(Pokedex::class.java)
+    override val classToken = TypeToken.get(PokedexRecord::class.java)
     override val defaultData = defaultDataFunc
 
     companion object {
         val defaultDataFunc = { uuid: UUID ->
-            Pokedex(uuid)
+            PokedexRecord(uuid)
         }
     }
 

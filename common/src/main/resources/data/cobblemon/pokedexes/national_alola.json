@@ -1,4 +1,5 @@
 {
+  "identifier": "cobblemon:national_alola",
   "pokemon": [
     {
       "name": "cobblemon:rowlet",
@@ -296,12 +297,6 @@
     },
     {
       "name": "cobblemon:pyukumuku",
-      "forms": [
-        "normal"
-      ]
-    },
-    {
-      "name": "cobblemon:type:null",
       "forms": [
         "normal"
       ]

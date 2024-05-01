@@ -22,7 +22,6 @@ import com.cobblemon.mod.common.battles.actor.PlayerBattleActor
 import com.cobblemon.mod.common.battles.actor.PokemonBattleActor
 import com.cobblemon.mod.common.config.pokedex.PokedexConfig
 import com.cobblemon.mod.common.pokemon.FormData
-import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.pokemon.Species
 import com.cobblemon.mod.common.util.getPlayer
 import com.mojang.serialization.Codec
@@ -39,7 +38,7 @@ import kotlin.jvm.optionals.getOrDefault
  * @since February 24, 2024
  * @author Apion
  */
-class Pokedex(
+class PokedexRecord(
     override val uuid: UUID,
     val speciesEntries: MutableMap<Identifier, SpeciesPokedexEntry> = mutableMapOf(),
     val globalTrackedData: MutableSet<GlobalTrackedData> = mutableSetOf()
@@ -146,19 +145,19 @@ class Pokedex(
     fun grantedWithCommand(species: Species?, form: FormData?) {
         if (species != null && form != null) {
             val speciesEntry = getSpeciesEntry(species.resourceIdentifier)
-            speciesEntry.getFormEntry(form.formOnlyShowdownId()).knowledge = PokedexProgress.CAUGHT
+            speciesEntry.getFormEntry(form.formOnlyShowdownId()).knowledge = PokedexEntryProgress.CAUGHT
         }
         if (species == null) {
             PokemonSpecies.species.forEach { loopSpecies ->
                 val speciesEntry = getSpeciesEntry(loopSpecies.resourceIdentifier)
                 if (loopSpecies.forms.size == 0) {
                     val formEntry = speciesEntry.getFormEntry(loopSpecies.standardForm.formOnlyShowdownId())
-                    formEntry.knowledge = PokedexProgress.CAUGHT
+                    formEntry.knowledge = PokedexEntryProgress.CAUGHT
                 }
                 else {
                     loopSpecies.forms.forEach {
                         val formEntry = speciesEntry.getFormEntry(it.formOnlyShowdownId())
-                        formEntry.knowledge = PokedexProgress.CAUGHT
+                        formEntry.knowledge = PokedexEntryProgress.CAUGHT
                     }
                 }
 
@@ -228,7 +227,7 @@ class Pokedex(
     }
 
     companion object {
-        val CODEC: Codec<Pokedex> = RecordCodecBuilder.create { instance ->
+        val CODEC: Codec<PokedexRecord> = RecordCodecBuilder.create { instance ->
             instance.group(
                 PrimitiveCodec.STRING.fieldOf("uuid").forGetter { it.uuid.toString() },
                 Codec.unboundedMap(Identifier.CODEC, SpeciesPokedexEntry.CODEC).fieldOf("speciesEntries").forGetter { it.speciesEntries },
@@ -240,7 +239,7 @@ class Pokedex(
                 }
             ).apply(instance) { uuidStr, speciesEntries, trackedData ->
                 val uuid = UUID.fromString(uuidStr)
-                Pokedex(uuid, speciesEntries.toMutableMap(), trackedData.getOrDefault(mutableListOf()).toMutableSet())
+                PokedexRecord(uuid, speciesEntries.toMutableMap(), trackedData.getOrDefault(mutableListOf()).toMutableSet())
             }
         }
     }

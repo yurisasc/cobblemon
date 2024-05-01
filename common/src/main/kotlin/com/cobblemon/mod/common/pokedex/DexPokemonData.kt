@@ -1,27 +1,37 @@
+/*
+ * Copyright (C) 2023 Cobblemon Contributors
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/.
+ */
+
 package com.cobblemon.mod.common.pokedex
 
 import com.cobblemon.mod.common.api.net.Decodable
 import com.cobblemon.mod.common.api.net.Encodable
 import com.cobblemon.mod.common.util.cobblemonResource
 import net.minecraft.network.PacketByteBuf
+import net.minecraft.util.Identifier
 
-class DexPokemonData: Decodable, Encodable {
-    var identifier = cobblemonResource("dex.pokemon")
-    var formsOrderedList : MutableList<String> = mutableListOf()
+class DexPokemonData(
+    var name : Identifier = cobblemonResource("dex.pokemon"),
+    var forms : MutableList<String> = mutableListOf()
+): Decodable, Encodable {
 
     override fun encode(buffer: PacketByteBuf) {
-        buffer.writeIdentifier(identifier)
-        buffer.writeInt(formsOrderedList.size)
-        formsOrderedList.forEach {
+        buffer.writeIdentifier(name)
+        buffer.writeInt(forms.size)
+        forms.forEach {
             buffer.writeString(it)
         }
     }
 
     override fun decode(buffer: PacketByteBuf) {
-        identifier = buffer.readIdentifier()
+        name = buffer.readIdentifier()
         val formsOrderListSize = buffer.readInt()
         for(i in 0 until formsOrderListSize){
-            formsOrderedList.add(buffer.readString())
+            forms.add(buffer.readString())
         }
     }
 }

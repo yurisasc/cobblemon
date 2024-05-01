@@ -10,7 +10,7 @@ package com.cobblemon.mod.common.client.gui.battle
 
 import com.cobblemon.mod.common.api.gui.blitk
 import com.cobblemon.mod.common.api.gui.drawPortraitPokemon
-import com.cobblemon.mod.common.api.pokedex.PokedexProgress
+import com.cobblemon.mod.common.api.pokedex.PokedexEntryProgress
 import com.cobblemon.mod.common.api.scheduling.Schedulable
 import com.cobblemon.mod.common.api.scheduling.SchedulingTracker
 import com.cobblemon.mod.common.api.text.bold
@@ -52,7 +52,6 @@ import net.minecraft.text.MutableText
 import net.minecraft.util.math.MathHelper.ceil
 import net.minecraft.util.math.RotationAxis
 import org.joml.Vector3f
-import org.lwjgl.opengl.GREMEDYStringMarker
 
 class BattleOverlay : InGameHud(MinecraftClient.getInstance(), MinecraftClient.getInstance().itemRenderer), Schedulable {
     companion object {
@@ -110,7 +109,7 @@ class BattleOverlay : InGameHud(MinecraftClient.getInstance(), MinecraftClient.g
         val side1 = if (battle.side1.actors.any { it.uuid == playerUUID }) battle.side1 else battle.side2
         val side2 = if (side1 == battle.side1) battle.side2 else battle.side1
 
-        side1.activeClientBattlePokemon.forEachIndexed { index, activeClientBattlePokemon -> drawTile(context, tickDelta, activeClientBattlePokemon, true, index, PokedexProgress.NONE) }
+        side1.activeClientBattlePokemon.forEachIndexed { index, activeClientBattlePokemon -> drawTile(context, tickDelta, activeClientBattlePokemon, true, index, PokedexEntryProgress.NONE) }
         side2.activeClientBattlePokemon.forEachIndexed { index, activeClientBattlePokemon -> drawTile(context, tickDelta, activeClientBattlePokemon, false, index, battle.knowledge) }
 
         if (MinecraftClient.getInstance().currentScreen !is BattleGUI && battle.mustChoose) {
@@ -138,7 +137,7 @@ class BattleOverlay : InGameHud(MinecraftClient.getInstance(), MinecraftClient.g
     }
 
 
-    fun drawTile(context: DrawContext, tickDelta: Float, activeBattlePokemon: ActiveClientBattlePokemon, left: Boolean, rank: Int, dexState: PokedexProgress) {
+    fun drawTile(context: DrawContext, tickDelta: Float, activeBattlePokemon: ActiveClientBattlePokemon, left: Boolean, rank: Int, dexState: PokedexEntryProgress) {
         val mc = MinecraftClient.getInstance()
 
         val battlePokemon = activeBattlePokemon.battlePokemon ?: return
@@ -208,7 +207,7 @@ class BattleOverlay : InGameHud(MinecraftClient.getInstance(), MinecraftClient.g
         maxHealth: Int,
         health: Float,
         isFlatHealth: Boolean,
-        dexState: PokedexProgress
+        dexState: PokedexEntryProgress
     ) {
         val portraitStartX = x + if (!reversed) PORTRAIT_OFFSET_X else { TILE_WIDTH - PORTRAIT_DIAMETER - PORTRAIT_OFFSET_X }
         val matrices = context.matrices
@@ -283,7 +282,7 @@ class BattleOverlay : InGameHud(MinecraftClient.getInstance(), MinecraftClient.g
                 green = g,
                 blue = b
             )
-            if (dexState == PokedexProgress.ENCOUNTERED) {
+            if (dexState == PokedexEntryProgress.ENCOUNTERED) {
                 blitk(
                     matrixStack = matrices,
                     texture = seenIndicator,
@@ -297,7 +296,7 @@ class BattleOverlay : InGameHud(MinecraftClient.getInstance(), MinecraftClient.g
                     blue = 125F / 255F
                 )
             }
-            else if (dexState == PokedexProgress.CAUGHT) {
+            else if (dexState == PokedexEntryProgress.CAUGHT) {
                 blitk(
                     matrixStack = matrices,
                     texture = seenIndicator,

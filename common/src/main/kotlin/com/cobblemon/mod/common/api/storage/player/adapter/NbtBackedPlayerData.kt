@@ -9,23 +9,14 @@
 package com.cobblemon.mod.common.api.storage.player.adapter
 
 import com.cobblemon.mod.common.Cobblemon
-import com.cobblemon.mod.common.api.pokedex.Pokedex
 import com.cobblemon.mod.common.api.storage.player.InstancedPlayerData
 import com.cobblemon.mod.common.api.storage.player.PlayerInstancedDataStoreType
 import com.mojang.serialization.Codec
 import net.minecraft.nbt.NbtIo
 import net.minecraft.nbt.NbtOps
-import net.minecraft.nbt.visitor.StringNbtWriter
-import java.io.BufferedReader
 import java.io.DataOutputStream
-import java.io.FileInputStream
 import java.io.FileOutputStream
-import java.io.FileReader
-import java.io.FileWriter
-import java.io.PrintWriter
 import java.util.UUID
-import kotlin.reflect.KMutableProperty
-import kotlin.reflect.full.memberProperties
 
 abstract class NbtBackedPlayerData<T : InstancedPlayerData>(
     subfolder: String,

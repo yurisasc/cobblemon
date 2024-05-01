@@ -9,8 +9,6 @@
 package com.cobblemon.mod.common.api.pokedex
 
 import com.cobblemon.mod.common.Cobblemon
-import com.cobblemon.mod.common.Cobblemon.LOGGER
-import com.cobblemon.mod.common.api.pokedex.adapter.GlobalTrackedDataAdapter
 import com.cobblemon.mod.common.api.pokedex.trackeddata.GlobalTrackedData
 import com.cobblemon.mod.common.api.pokemon.PokemonSpecies
 import com.cobblemon.mod.common.api.storage.player.PlayerInstancedDataStoreType
@@ -46,7 +44,7 @@ class ClientPokedex(
     }
 
     fun getSortedEntries() : List<Pair<Species, SpeciesPokedexEntry?>> {
-        val dexList = PokemonSpecies.getNamespaces().toMutableList()
+        val dexList = PokedexJSONRegistry.getNamespaces().toMutableList()
 
         //Moves Cobblemon MODID to the front, so it sorts by default mons first
         dexList.remove(Cobblemon.MODID)
@@ -55,8 +53,10 @@ class ClientPokedex(
         val entriesList = mutableListOf<Pair<Species, SpeciesPokedexEntry?>>()
         dexList.forEach {namespace ->
             val sortedEntriesMap = TreeMap<Int, Pair<Species, SpeciesPokedexEntry?>>()
-            PokemonSpecies.getSpeciesInNamespace(namespace).filter{ it.value.implemented }.forEach {
-                var species = it.value
+            PokedexJSONRegistry.getSpeciesInNamespace(namespace)
+                .filter{ it.implemented }
+                .forEach {
+                var species = it
                 if(speciesEntries.containsKey(species.resourceIdentifier)){
                     sortedEntriesMap[species.nationalPokedexNumber] = Pair(species, speciesEntries[species.resourceIdentifier])
                 } else {
@@ -100,7 +100,7 @@ class ClientPokedex(
         }
 
         fun decodeFormEntry(buf: PacketByteBuf): FormPokedexEntry {
-            val knowledge = buf.readEnumConstant(PokedexProgress::class.java)
+            val knowledge = buf.readEnumConstant(PokedexEntryProgress::class.java)
             val result = FormPokedexEntry()
             result.knowledge = knowledge
             return FormPokedexEntry()

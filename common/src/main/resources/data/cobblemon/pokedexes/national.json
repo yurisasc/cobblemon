@@ -1,15 +1,16 @@
 {
+  "identifier": "cobblemon:national",
   "contained_dexes": [
-    "national_kanto",
-    "national_johto",
-    "national_hoenn",
-    "national_sinnoh",
-    "national_unova",
-    "national_kalos",
-    "national_alola",
-    "national_galar",
-    "national_hisui",
-    "national_paldea",
-    "national_unknown"
+    "cobblemon:national_kanto",
+    "cobblemon:national_johto",
+    "cobblemon:national_hoenn",
+    "cobblemon:national_sinnoh",
+    "cobblemon:national_unova",
+    "cobblemon:national_kalos",
+    "cobblemon:national_alola",
+    "cobblemon:national_galar",
+    "cobblemon:national_hisui",
+    "cobblemon:national_paldea",
+    "cobblemon:national_unknown"
   ]
 }

@@ -13,7 +13,6 @@ import com.cobblemon.mod.common.api.events.pokemon.TradeCompletedEvent
 import com.cobblemon.mod.common.api.events.pokemon.evolution.EvolutionCompleteEvent
 import com.cobblemon.mod.common.api.events.starter.StarterChosenEvent
 import com.cobblemon.mod.common.api.pokedex.trackeddata.SpeciesTrackedData
-import com.cobblemon.mod.common.pokemon.Species
 import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.PrimitiveCodec
 import com.mojang.serialization.codecs.RecordCodecBuilder
@@ -40,7 +39,7 @@ class SpeciesPokedexEntry(
         if (!formEntries.containsKey(formStr)) {
             formEntries[formStr] = FormPokedexEntry()
         }
-        formEntries[formStr]?.knowledge = PokedexProgress.CAUGHT
+        formEntries[formStr]?.knowledge = PokedexEntryProgress.CAUGHT
     }
 
     fun pokemonEvolved(event: EvolutionCompleteEvent) {
@@ -48,7 +47,7 @@ class SpeciesPokedexEntry(
         if (!formEntries.containsKey(formStr)) {
             formEntries[formStr] = FormPokedexEntry()
         }
-        formEntries[formStr]?.knowledge = PokedexProgress.CAUGHT
+        formEntries[formStr]?.knowledge = PokedexEntryProgress.CAUGHT
     }
 
     fun pokemonTraded(event: TradeCompletedEvent, ownerUuid: UUID) {
@@ -57,7 +56,7 @@ class SpeciesPokedexEntry(
         if (!formEntries.containsKey(formStr)) {
             formEntries[formStr] = FormPokedexEntry()
         }
-        formEntries[formStr]?.knowledge = PokedexProgress.CAUGHT
+        formEntries[formStr]?.knowledge = PokedexEntryProgress.CAUGHT
     }
 
     fun pokemonSeen(speciesId: Identifier, formStr: String) {
@@ -65,8 +64,8 @@ class SpeciesPokedexEntry(
             formEntries[formStr] = FormPokedexEntry()
         }
         val knowledge = formEntries[formStr]?.knowledge
-        if (knowledge != PokedexProgress.CAUGHT) {
-            formEntries[formStr]?.knowledge = PokedexProgress.ENCOUNTERED
+        if (knowledge != PokedexEntryProgress.CAUGHT) {
+            formEntries[formStr]?.knowledge = PokedexEntryProgress.ENCOUNTERED
         }
 
     }
@@ -76,7 +75,7 @@ class SpeciesPokedexEntry(
         if (!formEntries.containsKey(formStr)) {
             formEntries[formStr] = FormPokedexEntry()
         }
-        formEntries[formStr]?.knowledge = PokedexProgress.CAUGHT
+        formEntries[formStr]?.knowledge = PokedexEntryProgress.CAUGHT
     }
 
     fun getFormEntry(formId: String): FormPokedexEntry {
