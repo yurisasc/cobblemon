@@ -178,17 +178,6 @@
       ],
       "evolutions": [
         {
-          "id": "hisui_petilil_hisui_lilligant",
-          "variant": "item_interact",
-          "result": "lilligant hisuian",
-          "consumeHeldItem": false,
-          "learnableMoves": [
-            "victorydance"
-          ],
-          "requirements": [],
-          "requiredContext": "cobblemon:sun_stone"
-        },
-        {
           "id": "hisui_petilil_lilligant",
           "variant": "item_interact",
           "result": "lilligant",
@@ -199,19 +188,7 @@
           "requirements": [
             {
               "variant": "biome",
-              "biomeCondition": "#cobblemon:is_floral"
-            },
-            {
-              "variant": "biome",
-              "biomeCondition": "#cobblemon:is_forest"
-            },
-            {
-              "variant": "biome",
-              "biomeCondition": "#cobblemon:is_tropical_island"
-            },
-            {
-              "variant": "biome",
-              "biomeAnticondition": "#cobblemon:is_hills"
+              "biomeCondition": "#cobblemon:evolution/lilligant_unovan"
             },
             {
               "variant": "biome",
@@ -226,6 +203,17 @@
               "biomeAnticondition": "#cobblemon:is_spooky"
             }
           ],
+          "requiredContext": "cobblemon:sun_stone"
+        },
+        {
+          "id": "hisui_petilil_hisui_lilligant",
+          "variant": "item_interact",
+          "result": "lilligant hisuian",
+          "consumeHeldItem": false,
+          "learnableMoves": [
+            "victorydance"
+          ],
+          "requirements": [],
           "requiredContext": "cobblemon:sun_stone"
         }
       ],
@@ -349,17 +337,6 @@
   ],
   "evolutions": [
     {
-      "id": "petilil_lilligant",
-      "variant": "item_interact",
-      "result": "lilligant",
-      "consumeHeldItem": false,
-      "learnableMoves": [
-        "petaldance"
-      ],
-      "requirements": [],
-      "requiredContext": "cobblemon:sun_stone"
-    },
-    {
       "id": "petilil_hisui_lilligant",
       "variant": "item_interact",
       "result": "lilligant hisuian",
@@ -385,6 +362,17 @@
           "biomeAnitcondition": "#cobblemon:is_spooky"
         }
       ],
+      "requiredContext": "cobblemon:sun_stone"
+    },
+    {
+      "id": "petilil_lilligant",
+      "variant": "item_interact",
+      "result": "lilligant",
+      "consumeHeldItem": false,
+      "learnableMoves": [
+        "petaldance"
+      ],
+      "requirements": [],
       "requiredContext": "cobblemon:sun_stone"
     }
   ],
