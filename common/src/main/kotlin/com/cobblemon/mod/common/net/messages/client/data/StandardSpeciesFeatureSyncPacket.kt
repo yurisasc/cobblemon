@@ -21,7 +21,7 @@ import net.minecraft.util.Identifier
  * @author Hiroku
  * @since November 13th, 2023
  */
-class StandardSpeciesFeatureSyncPacket(providers: Map<String, SpeciesFeatureProvider<*>>) : SpeciesFeatureSyncPacket(providers) {
+class StandardSpeciesFeatureSyncPacket(providers: Map<String, SpeciesFeatureProvider<*>>) : SpeciesFeatureSyncPacket<StandardSpeciesFeatureSyncPacket>(providers) {
     override val id: Identifier = ID
     override fun synchronizeDecoded(entries: Collection<Map.Entry<String, SynchronizedSpeciesFeatureProvider<*>>>) = SpeciesFeatures.loadOnClient(entries)
     companion object {

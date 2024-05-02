@@ -3706,6 +3706,9 @@
   "pokemon.rattata.cry": {
     "sounds": [ { "name": "cobblemon:pokemon/rattata/rattata_cry", "volume": 0.8 } ]
   },
+  "pokemon.rattata_alolan.cry": {
+    "sounds": [ { "name": "cobblemon:pokemon/rattata/rattata_alolan_cry", "volume": 0.8 } ]
+  },
   "pokemon.raticate.cry": {
     "sounds": [ { "name": "cobblemon:pokemon/raticate/raticate_cry", "volume": 0.8 } ]
   },
@@ -5352,6 +5355,9 @@
   },
   "pokemon.petilil.cry": {
     "sounds": [ { "name": "cobblemon:pokemon/petilil/petilil_cry", "volume": 0.8 } ]
+  },
+  "pokemon.petilil_hisui_bias.cry": {
+    "sounds": [ { "name": "cobblemon:pokemon/petilil/petilil_hisui_bias_cry", "volume": 0.8 } ]
   },
   "pokemon.lilligant.cry": {
     "sounds": [ { "name": "cobblemon:pokemon/lilligant/lilligant_cry", "volume": 0.8 } ]
