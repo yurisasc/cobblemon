@@ -37,6 +37,7 @@
 - Added forfeit option to PVP battles.
 - Added visual changes for entities affected by Illusion, Imposter, or Transform in battle.
 - Added shoulder mounting for Squirtle, Ralts, Roggenrola, Charcadet, Sizzlipede, Litwick, Cutiefly, Flabebe, Flittle, and Scatterbug
+- Added species files for Hydrapple, Iron Boulder, Iron Crown, Pecharunt, Raging Bolt and Terapagos
 
 ### Pokémon Added
 #### Gen 2
@@ -273,6 +274,7 @@
 - Moon Stone ore generates more frequently in Taigas and has been added to Magical and Spooky biomes.
 - Density, Season, and Nether biome tags have been moved and renamed within the biome tags directory.
 - Added particles to Lucario when in battle.
+- Movesets updated for Blueberry DLC.
 
 ### Fixes
 - Resized Drifloon
@@ -301,6 +303,7 @@
 - Fixed illusion ability causing the wrong Pokémon to be targeted in battle. 
 - Battles starting with fainted party members no longer cause a softlock on defeat.
 - Fixed some issues with eyes in the faint animations for Hitmonlee and Phantump
+- Fixed missing evolution moves, eg Stone Axe for Kleavor.
 
 ### Developer
 - Significantly changed the way properties in PokemonEntity work. This could break some plugins (not in a big way, but changes will be needed).

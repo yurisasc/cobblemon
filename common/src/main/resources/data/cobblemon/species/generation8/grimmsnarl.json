@@ -166,11 +166,7 @@
     "tm:uproar",
     "tm:wonderroom",
     "tutor:burningjealousy",
-    "tutor:lashout",
-    "tutor:lightscreen",
-    "tutor:reflect",
-    "tutor:spiritbreak",
-    "tutor:thunderwave"
+    "tutor:lashout"
   ],
   "labels": [
     "gen8"
