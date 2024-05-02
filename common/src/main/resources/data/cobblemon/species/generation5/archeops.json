@@ -39,6 +39,9 @@
       "fly": {
         "canFly": true
       }
+    },
+    "walk": {
+      "walkSpeed": 0.27
     }
   },
   "moves": [
@@ -156,7 +159,7 @@
   ],
   "preEvolution": "archen",
   "evolutions": [],
-  "baseScale": 1,
+  "baseScale": 0.7,
   "hitbox": {
     "width": 1.2,
     "height": 2,

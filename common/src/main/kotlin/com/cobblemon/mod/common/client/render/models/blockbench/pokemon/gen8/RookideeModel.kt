@@ -59,7 +59,7 @@ class RookideeModel (root: ModelPart) : PokemonPoseableModel(), BipedFrame, BiWi
 
         hover = registerPose(
             poseName = "hover",
-            poseType = PoseType.HOVER,
+            poseTypes = PoseType.STATIONARY_POSES - PoseType.STAND - PoseType.UI_POSES - PoseType.SHOULDER_POSES,
             transformTicks = 10,
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
@@ -69,7 +69,7 @@ class RookideeModel (root: ModelPart) : PokemonPoseableModel(), BipedFrame, BiWi
 
         fly = registerPose(
             poseName = "fly",
-            poseType = PoseType.FLY,
+            poseTypes = PoseType.MOVING_POSES - PoseType.WALK,
             transformTicks = 10,
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(

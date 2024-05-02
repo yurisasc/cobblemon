@@ -23,7 +23,7 @@
 				{
 					"name": "torso",
 					"parent": "body",
-					"pivot": [0, 0, 0],
+					"pivot": [0, 13, 1],
 					"cubes": [
 						{"origin": [-5, 8, -4], "size": [10, 11, 10], "uv": [0, 0]},
 						{"origin": [-3, 15, -2.5], "size": [6, 4, 6], "pivot": [0, 19, -2.5], "rotation": [30, 0, 0], "uv": [30, 0]}

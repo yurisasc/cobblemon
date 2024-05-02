@@ -483,5 +483,21 @@
 	{
 		"content": 256,
 		"item": "minecraft:dragon_egg"
+	},
+	{
+		"content": 8,
+		"item": "minecraft:dried_kelp_block"
+	},
+	{
+		"content": 8,
+		"item": "minecraft:melon"
+	},
+	{
+		"content": 2,
+		"item": "minecraft:vine"
+	},
+	{
+		"content": 4,
+		"item": "minecraft:sea_pickle"
 	}
 ]

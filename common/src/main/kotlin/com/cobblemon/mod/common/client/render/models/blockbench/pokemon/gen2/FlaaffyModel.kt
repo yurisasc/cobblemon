@@ -20,7 +20,7 @@ import net.minecraft.util.math.Vec3d
 
 class FlaaffyModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("flaaffy")
-    override val head = getPart("head")
+    override val head = getPart("head_back")
 
     override var portraitScale = 2.4F
     override var portraitTranslation = Vec3d(-0.4, -0.1, 0.0)
@@ -49,7 +49,7 @@ class FlaaffyModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             condition = { !it.isBattling },
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
-                singleBoneLook(),
+                singleBoneLook(maxPitch = 0F),
                 bedrock("flaaffy", "ground_idle")
             )
         )
@@ -60,7 +60,7 @@ class FlaaffyModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             transformTicks = 10,
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
-                singleBoneLook(),
+                singleBoneLook(maxPitch = 0F),
                 bedrock("flaaffy", "ground_walk")
             )
         )
@@ -72,15 +72,15 @@ class FlaaffyModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             quirks = arrayOf(blink),
             condition = { it.isBattling },
             idleAnimations = arrayOf(
-                singleBoneLook(),
+                singleBoneLook(maxPitch = 0F),
                 bedrock("flaaffy", "battle_idle")
             )
         )
     }
-    override fun getFaintAnimation(
-        pokemonEntity: PokemonEntity,
-        state: PoseableEntityState<PokemonEntity>
-    ) = if (state.isPosedIn(standing, walking, sleep)) bedrockStateful("flaaffy", "faint") else
-        if (state.isPosedIn(battleidle)) bedrockStateful("flaaffy", "battle_faint")
-        else null
+    //override fun getFaintAnimation(
+    //    pokemonEntity: PokemonEntity,
+    //    state: PoseableEntityState<PokemonEntity>
+    //) = if (state.isPosedIn(standing, walking, sleep)) bedrockStateful("flaaffy", "faint") else
+    //    if (state.isPosedIn(battleidle)) bedrockStateful("flaaffy", "battle_faint")
+    //    else null
 }

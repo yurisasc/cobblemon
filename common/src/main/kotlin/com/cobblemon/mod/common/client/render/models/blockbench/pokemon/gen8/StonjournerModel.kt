@@ -8,14 +8,17 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen8
 
+import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.BimanualSwingAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.BipedWalkAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BimanualFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cobblemon.mod.common.entity.PoseType
+import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
@@ -32,6 +35,8 @@ class StonjournerModel (root: ModelPart) : PokemonPoseableModel() {
     lateinit var walk: PokemonPose
     lateinit var sleep: PokemonPose
 
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("stonjourner", "cry") }
+
     override fun registerPoses() {
         val blink = quirk { bedrockStateful("stonjourner", "blink") }
         sleep = registerPose(
@@ -46,7 +51,6 @@ class StonjournerModel (root: ModelPart) : PokemonPoseableModel() {
             poseName = "standing",
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
             quirks = arrayOf(blink),
-            condition = { !it.isBattling },
             idleAnimations = arrayOf(
                 bedrock("stonjourner", "ground_idle")
             )
@@ -62,8 +66,8 @@ class StonjournerModel (root: ModelPart) : PokemonPoseableModel() {
         )
     }
 
-//    override fun getFaintAnimation(
-//        pokemonEntity: PokemonEntity,
-//        state: PoseableEntityState<PokemonEntity>
-//    ) = if (state.isPosedIn(standing, walk)) bedrockStateful("stonjourner", "faint") else null
+    override fun getFaintAnimation(
+            pokemonEntity: PokemonEntity,
+            state: PoseableEntityState<PokemonEntity>
+    ) = bedrockStateful("stonjourner", "faint")
 }

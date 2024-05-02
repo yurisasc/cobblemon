@@ -3,7 +3,7 @@
 	"minecraft:geometry": [
 		{
 			"description": {
-				"identifier": "geometry.unknown",
+				"identifier": "geometry.anorith",
 				"texture_width": 64,
 				"texture_height": 32,
 				"visible_bounds_width": 3,
@@ -100,7 +100,7 @@
 				{
 					"name": "eyes",
 					"parent": "head",
-					"pivot": [-1.9, 1.75, -5.25]
+					"pivot": [0.1, 1.75, -5.25]
 				},
 				{
 					"name": "eye_stem_right",
@@ -287,7 +287,7 @@
 				{
 					"name": "right_tail_fin",
 					"parent": "tail",
-					"pivot": [-1, 1.5, 8.5],
+					"pivot": [-1, 1.5, 7.5],
 					"cubes": [
 						{"origin": [-6, 1.5, 7.5], "size": [5, 0, 2], "uv": [6, 25]}
 					]
@@ -295,7 +295,7 @@
 				{
 					"name": "left_tail_fin",
 					"parent": "tail",
-					"pivot": [1, 1.5, 8.5],
+					"pivot": [1, 1.5, 7.5],
 					"cubes": [
 						{"origin": [1, 1.5, 7.5], "size": [5, 0, 2], "uv": [22, 6]}
 					]

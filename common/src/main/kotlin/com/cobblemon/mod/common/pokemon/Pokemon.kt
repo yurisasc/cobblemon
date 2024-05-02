@@ -49,10 +49,12 @@ import com.cobblemon.mod.common.api.storage.StoreCoordinates
 import com.cobblemon.mod.common.api.storage.party.PlayerPartyStore
 import com.cobblemon.mod.common.api.storage.pc.PCStore
 import com.cobblemon.mod.common.api.types.ElementalType
+import com.cobblemon.mod.common.api.types.ElementalTypes
 import com.cobblemon.mod.common.api.types.tera.TeraType
 import com.cobblemon.mod.common.api.types.tera.TeraTypes
 import com.cobblemon.mod.common.config.CobblemonConfig
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
+import com.cobblemon.mod.common.entity.pokemon.effects.IllusionEffect
 import com.cobblemon.mod.common.net.messages.client.PokemonUpdatePacket
 import com.cobblemon.mod.common.net.messages.client.pokemon.update.*
 import com.cobblemon.mod.common.net.serverhandling.storage.SendOutPokemonHandler.SEND_OUT_DURATION
@@ -72,6 +74,7 @@ import com.google.gson.JsonObject
 import com.google.gson.JsonPrimitive
 import com.mojang.serialization.Dynamic
 import com.mojang.serialization.JsonOps
+import net.minecraft.block.*
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
@@ -80,6 +83,7 @@ import net.minecraft.nbt.NbtElement.COMPOUND_TYPE
 import net.minecraft.nbt.NbtList
 import net.minecraft.nbt.NbtOps
 import net.minecraft.nbt.NbtString
+import net.minecraft.registry.tag.FluidTags
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.text.MutableText
@@ -88,9 +92,11 @@ import net.minecraft.text.TextContent
 import net.minecraft.util.Hand
 import net.minecraft.util.Identifier
 import net.minecraft.util.InvalidIdentifierException
+import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.MathHelper.ceil
 import net.minecraft.util.math.MathHelper.clamp
 import net.minecraft.util.math.Vec3d
+import net.minecraft.world.World
 import java.util.*
 import java.util.concurrent.CompletableFuture
 import kotlin.math.absoluteValue
@@ -459,10 +465,11 @@ open class Pokemon : ShowdownIdentifiable {
         return this.form.showdownId()
     }
 
-    fun sendOut(level: ServerWorld, position: Vec3d, mutation: (PokemonEntity) -> Unit = {}): PokemonEntity? {
+    fun sendOut(level: ServerWorld, position: Vec3d, illusion: IllusionEffect?, mutation: (PokemonEntity) -> Unit = {}): PokemonEntity? {
         CobblemonEvents.POKEMON_SENT_PRE.postThen(PokemonSentPreEvent(this, level, position)) {
             SeasonFeatureHandler.updateSeason(this, level, position.toBlockPos())
             val entity = PokemonEntity(level, this)
+            illusion?.start(entity)
             entity.setPositionSafely(position)
             mutation(entity)
             level.spawnEntity(entity)
@@ -478,16 +485,17 @@ open class Pokemon : ShowdownIdentifiable {
         position: Vec3d,
         battleId: UUID? = null,
         doCry: Boolean = true,
+        illusion: IllusionEffect? = null,
         mutation: (PokemonEntity) -> Unit = {},
     ): CompletableFuture<PokemonEntity> {
         // Handle special case of shouldered Cobblemon
         if (this.state is ShoulderedState) {
-            return sendOutFromShoulder(source as ServerPlayerEntity, level, position, battleId, doCry, mutation)
+            return sendOutFromShoulder(source as ServerPlayerEntity, level, position, battleId, doCry, illusion, mutation)
         }
 
         // Proceed as normal for non-shouldered Cobblemon
         val future = CompletableFuture<PokemonEntity>()
-        sendOut(level, position) {
+        sendOut(level, position, illusion) {
             getOwnerPlayer()?.let{
                 it.swingHand(Hand.MAIN_HAND, true)
                 level.playSoundServer(it.pos, CobblemonSounds.POKE_BALL_THROW, volume = 0.6F)
@@ -520,6 +528,7 @@ open class Pokemon : ShowdownIdentifiable {
         targetPosition: Vec3d,
         battleId: UUID? = null,
         doCry: Boolean = true,
+        illusion: IllusionEffect? = null,
         mutation: (PokemonEntity) -> Unit = {}
     ): CompletableFuture<PokemonEntity> {
         val future = CompletableFuture<PokemonEntity>()
@@ -529,12 +538,12 @@ open class Pokemon : ShowdownIdentifiable {
         val arbitraryXOffset = player.width * 0.3 + this.form.hitbox.width * 0.3
         val shoulderHorizontalOffset = if (isLeftShoulder) arbitraryXOffset else -arbitraryXOffset
         val rotation = player.yaw
-        Cobblemon.LOGGER.info("rotation: $rotation")
         val approxShoulderMonHight = player.height.toDouble() - this.form.hitbox.height * 0.4
         val rotatedOffset = Vec3d(shoulderHorizontalOffset, approxShoulderMonHight, 0.0).rotateY(-rotation * (Math.PI.toFloat() / 180f))
         val currentPosition = player.pos.add(rotatedOffset)
 
-        sendOut(level, currentPosition) {
+        recall()
+        sendOut(level, currentPosition, illusion) {
             // Play some sound indicating hopping off
             level.playSoundServer(currentPosition, CobblemonSounds.PC_DROP, volume = 0.6F)
 
@@ -612,6 +621,52 @@ open class Pokemon : ShowdownIdentifiable {
         if (this.status != null) {
             this._status.emit(this.status!!.status)
         }
+    }
+
+    fun isFireImmune(): Boolean {
+        return ElementalTypes.FIRE in types || !form.behaviour.moving.swim.hurtByLava
+    }
+
+    fun isPositionSafe(world: World, pos: Vec3d): Boolean {
+        return isPositionSafe(world, pos.toBlockPos())
+    }
+
+    fun isPositionSafe(world: World, pos1: BlockPos): Boolean {
+        // To make sure a location is safe, both the block the Pokemon is standing ON,
+        // and the block it's standing IN need to be safe. pos2 represents the other position in that set.
+        val pos2: BlockPos = if (world.getBlockState(pos1).isSolid) {
+            pos1.up()
+        } else {
+            pos1.down()
+        }
+
+        val positions = arrayOf(pos1, pos2)
+        var isSafe = true
+
+        for (pos in positions) {
+            if (isSafe) {
+                val block = world.getBlockState(pos).block
+
+                if (block is SweetBerryBushBlock ||
+                    block is CactusBlock ||
+                    block is WitherRoseBlock
+                ) {
+                    isSafe = false
+                }
+
+                if (!this.isFireImmune()) {
+                    if (block is FireBlock ||
+                        block is MagmaBlock ||
+                        block is CampfireBlock ||
+                        world.getBlockState(pos).fluidState.isIn(FluidTags.LAVA)
+                    ) {
+                        isSafe = false
+                    }
+                }
+            }
+        }
+
+        return isSafe
     }
 
     /**

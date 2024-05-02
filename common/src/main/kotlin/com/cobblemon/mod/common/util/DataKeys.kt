@@ -68,6 +68,14 @@ object DataKeys {
     const val POKEMON_ORIGINAL_TRAINER = "PokemonOriginalTrainer"
     const val POKEMON_ORIGINAL_TRAINER_TYPE = "PokemonOriginalTrainerType"
 
+    // Entity effects
+    const val ENTITY_EFFECTS = "EntityEffects"
+    const val ENTITY_EFFECT_MOCK = "EntityEffectMock"
+    const val ENTITY_EFFECT_ID = "EntityEffectID"
+
+    const val POKEMON_ENTITY_MOCK = "PokemonEntityMock"
+    const val POKEMON_ENTITY_SCALE = "PokemonEntityScale"
+
     // Evolution stuff
     const val POKEMON_EVOLUTIONS = "Evolutions"
     const val POKEMON_PENDING_EVOLUTIONS = "Pending"

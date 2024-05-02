@@ -28,42 +28,39 @@ class NidoranmModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quad
     override val hindLeftLeg = getPart("leg_back_left")
     override val hindRightLeg = getPart("leg_back_right")
 
+    override var portraitScale = 1.97F
+    override var portraitTranslation = Vec3d(-0.18, -1.28, 0.0)
 
-    override var portraitScale = 1.8F
-    override var portraitTranslation = Vec3d(-0.1, -1.0, 0.0)
-
-    override var profileScale = 0.95F
-    override var profileTranslation = Vec3d(0.0, 0.3, 0.0)
+    override var profileScale = 1.05F
+    override var profileTranslation = Vec3d(0.03, 0.11, 0.0)
 
     lateinit var sleep: PokemonPose
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
 
     override fun registerPoses() {
+        val blink = quirk { bedrockStateful("nidoranm", "blink") }
         standing = registerPose(
-            poseName = "standing",
-            poseTypes = STATIONARY_POSES + UI_POSES,
-            transformTicks = 10,
-            idleAnimations = arrayOf(
-                singleBoneLook()
-                //bedrock("nidoranm", "ground_idle")
-            )
-        )
-
-        sleep = registerPose(
-                poseType = PoseType.SLEEP,
-                idleAnimations = arrayOf(bedrock("nidoranm", "sleep"))
+                poseName = "standing",
+                poseTypes = STATIONARY_POSES + UI_POSES,
+                transformTicks = 10,
+                quirks = arrayOf(blink),
+                idleAnimations = arrayOf(
+                        singleBoneLook(),
+                        bedrock("nidoranm", "idle")
+                )
         )
 
         walk = registerPose(
-            poseName = "walk",
-            poseTypes = MOVING_POSES,
-            transformTicks = 10,
-            idleAnimations = arrayOf(
-                singleBoneLook(),
-                QuadrupedWalkAnimation(this)
-                //bedrock("nidoranm", "ground_walk")
-            )
+                poseName = "walk",
+                poseTypes = MOVING_POSES,
+                transformTicks = 10,
+                quirks = arrayOf(blink),
+                idleAnimations = arrayOf(
+                        singleBoneLook(),
+                        bedrock("nidoranm", "idle"),
+                        QuadrupedWalkAnimation(this)
+                )
         )
     }
 

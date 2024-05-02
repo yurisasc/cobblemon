@@ -421,9 +421,7 @@
   "block.cobblemon.relic_coin_pouch": "Relic Coin Pouch",
   "block.cobblemon.relic_coin_sack": "Relic Coin Sack",
 
-  "trim_pattern.cobblemon.automaton": "Automaton",
-
-  "item.cobblemon.automaton_armor_trim_smithing_template": "Automaton Armor Trim",
+  "trim_pattern.cobblemon.automaton": "Automaton Armour Trim",
 
   "cobblemon.fossil.armor": "Armor",
   "cobblemon.fossil.bird": "Bird",
@@ -665,6 +663,8 @@
   "cobblemon.battle.ui.switch": "Switch",
   "cobblemon.battle.ui.capture": "Catch",
   "cobblemon.battle.ui.run": "Run",
+  "cobblemon.battle.ui.forfeit": "Forfeit",
+  "cobblemon.battle.ui.forfeit_confirmation": "Forfeiting makes you lose the battle. Are you sure?",
   "cobblemon.battle.ui.hide_label": "Press %1$s to move around.",
   "cobblemon.battle.ui.actions_label": "You need to choose an action. Press %1$s.",
 
@@ -915,7 +915,7 @@
   "advancements.cobblemon.catch_all_vivillon": "Aspiring Vivillionaire",
   "advancements.cobblemon.catch_all_vivillon.description": "Obtain all patterns of Vivillon...",
   "advancements.cobblemon.catch_all_vivillon_but_actually": "True Vivillionaire",
-  "advancements.cobblemon.catch_all_vivillon_but_actually.description": "Obtain the rest.",
+  "advancements.cobblemon.catch_all_vivillon_but_actually.description": "Obtain the rest",
   "advancements.cobblemon.evolve_veevees": "Valued Veevees",
   "advancements.cobblemon.evolve_veevees.description": "Evolve Eevee into 8 different forms",
   "advancements.cobblemon.evolve_shedinja": "Ghost in the Shell",
@@ -931,7 +931,7 @@
   "advancements.cobblemon.own_zangoose_seviper": "Begrudging Partners",
   "advancements.cobblemon.own_zangoose_seviper.description": "Have a Zangoose and Seviper in your party at the same time",
   "advancements.cobblemon.obtain_fossil": "Consult the Fossil",
-  "advancements.cobblemon.obtain_fossil.description": "Discover a fossil buried in ancient ruins",
+  "advancements.cobblemon.obtain_fossil.description": "Discover a fossil buried deep in the time-worn ground",
   "advancements.cobblemon.evolve_gholdengo_netherite": "Cover thee in Debris",
   "advancements.cobblemon.evolve_gholdengo_netherite.description": "Evolve a Gimmighoul into a fully netherite-coated Gholdengo",
   "advancements.cobblemon.resurrect_pokemon": "Life Finds a Way",
@@ -952,6 +952,8 @@
   "cobblemon.battle.owned_pokemon": "%1$s's %2$s",
   "cobblemon.battle.fainted": "%1$s fainted!",
   "cobblemon.battle.win": "%1$s won!",
+  "cobblemon.battle.lose": "%1$s is out of usable Pokémon!",
+  "cobblemon.battle.forfeit": "%1$s forfeited the battle!",
   "cobblemon.battle.flee": "The battle was fled.",
   "cobblemon.battle.switch_option": "Switch Pokémon: ",
   "cobblemon.battle.your_team": "Your Team:",
@@ -1063,7 +1065,6 @@
   "cobblemon.battle.start.typeadd": "%2$s type was added to %1$s!",
   "cobblemon.battle.start.reflecttype": "%1$s's type became the same as %2$s's type!",
   "cobblemon.battle.start.tarshot": "%1$s became weaker to fire!",
-
 
   "cobblemon.battle.fieldstart.electricterrain": "An electric current ran across the battlefield!",
   "cobblemon.battle.fieldstart.grassyterrain": "Grass grew to cover the battlefield!",
@@ -1299,6 +1300,7 @@
   "cobblemon.battle.end.powertrick": "%1$s switched its Attack and Defense!",
   "cobblemon.battle.end.healblock": "%1$s's Heal Block wore off!",
   "cobblemon.battle.end.skydrop": "%1$s was freed from the Sky Drop!",
+  "cobblemon.battle.end.illusion": "%1$s's illusion wore off!",
 
   "cobblemon.battle.block.uproar": "But the uproar kept %1$s awake!",
 
@@ -1475,6 +1477,7 @@
   "cobblemon.starterselection.category.kalos": "Kalos",
   "cobblemon.starterselection.category.alola": "Alola",
   "cobblemon.starterselection.category.galar": "Galar",
+  "cobblemon.starterselection.category.hisui_bias": "Hisui",
   "cobblemon.starterselection.category.paldea": "Paldea",
 
   "cobblemon.stat.hp.name": "HP",
@@ -2407,6 +2410,8 @@
   "cobblemon.move.hydrocannon.desc": "The target is hit with a watery blast. The user can’t move on the next turn.",
   "cobblemon.move.hydropump": "Hydro Pump",
   "cobblemon.move.hydropump.desc": "The target is blasted by a huge volume of water launched under great pressure.",
+  "cobblemon.move.hydrostream": "Hydro Stream",
+  "cobblemon.move.hydrostream.desc": "The user blasts the target with boiling-hot water. This move's power is not lowered in harsh sunlight but rather boosted by 50 percent.",
   "cobblemon.move.hydrovortex": "Hydro Vortex",
   "cobblemon.move.hydrovortex.desc": "The user creates a huge whirling current using its Z-Power to swallow the target with full force. The power varies, depending on the original move.",
   "cobblemon.move.hyperbeam": "Hyper Beam",
@@ -5518,6 +5523,8 @@
   "cobblemon.species.ironcrown.desc": "There was supposedly an incident in which it launched shining blades to cut everything around it to pieces. Little else is known about it.",
   "cobblemon.species.terapagos.name": "Terapagos",
   "cobblemon.species.terapagos.desc": "It's thought that this Pokémon lived in ancient Paldea until it got caught in seismic shifts and went extinct.",
+  "cobblemon.species.pecharunt.name": "Pecharunt",
+  "cobblemon.species.pecharunt.desc": "Its peach-shaped shell serves as storage for a potent poison. It makes poisonous mochi and serves them to people and Pokémon.",
 
   "cobblemon.ability.adaptability": "Adaptability",
   "cobblemon.ability.adaptability.desc": "Powers up moves of the same type as the Pokémon.",
@@ -5869,6 +5876,8 @@
   "cobblemon.ability.poisonheal.desc": "Restores HP if the Pokémon is poisoned instead of losing HP.",
   "cobblemon.ability.poisonpoint": "Poison Point",
   "cobblemon.ability.poisonpoint.desc": "Contact with the Pokémon may poison the attacker.",
+  "cobblemon.ability.poisonpuppeteer": "Poison Puppeteer",
+  "cobblemon.ability.poisonpuppeteer.desc": "Pokémon poisoned by Pecharunt's moves will also become confused.",
   "cobblemon.ability.poisontouch": "Poison Touch",
   "cobblemon.ability.poisontouch.desc": "May poison a target when the Pokémon makes contact.",
   "cobblemon.ability.powerconstruct": "Power Construct",

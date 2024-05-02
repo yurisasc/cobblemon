@@ -20,6 +20,10 @@ import com.cobblemon.mod.common.client.render.models.blockbench.pose.Pose
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.util.adapters.ExpressionLikeAdapter
 import com.cobblemon.mod.common.util.adapters.Vec3dAdapter
+import com.cobblemon.mod.common.util.isDusk
+import com.cobblemon.mod.common.util.isStandingOnRedSand
+import com.cobblemon.mod.common.util.isStandingOnSand
+import com.cobblemon.mod.common.util.isStandingOnSandOrRedSand
 import com.google.gson.ExclusionStrategy
 import com.google.gson.FieldAttributes
 import com.google.gson.GsonBuilder
@@ -162,6 +166,30 @@ class JsonPokemonPoseableModel(override val rootPart: Bone) : PokemonPoseableMod
             val mustBeTouchingWater = json.get("isTouchingWater")?.asBoolean
             if (mustBeTouchingWater != null) {
                 conditionsList.add { mustBeTouchingWater == it.isTouchingWater }
+            }
+            val mustBeTouchingWaterOrRain = json.get("isTouchingWaterOrRain")?.asBoolean
+            if (mustBeTouchingWaterOrRain != null) {
+                conditionsList.add { mustBeTouchingWaterOrRain == it.isTouchingWaterOrRain }
+            }
+            val mustBeSubmergedInWater = json.get("isSubmergedInWater")?.asBoolean
+            if (mustBeSubmergedInWater != null) {
+                conditionsList.add { mustBeSubmergedInWater == it.isSubmergedInWater }
+            }
+            val mustBeStandingOnRedSand = json.get("isStandingOnRedSand")?.asBoolean
+            if (mustBeStandingOnRedSand != null) {
+                conditionsList.add { mustBeStandingOnRedSand == it.isStandingOnRedSand() }
+            }
+            val mustBeStandingOnSand = json.get("isStandingOnSand")?.asBoolean
+            if (mustBeStandingOnSand != null) {
+                conditionsList.add { mustBeStandingOnSand == it.isStandingOnSand() }
+            }
+            val mustBeStandingOnSandOrRedSand = json.get("isStandingOnSandOrRedSand")?.asBoolean
+            if (mustBeStandingOnSandOrRedSand != null) {
+                conditionsList.add { mustBeStandingOnSandOrRedSand == it.isStandingOnSandOrRedSand() }
+            }
+            val mustBeDusk = json.get("isDusk")?.asBoolean
+            if (mustBeDusk != null) {
+                conditionsList.add { mustBeDusk == it.isDusk() }
             }
 
             val poseCondition: ((PokemonEntity) -> Boolean)? = if (conditionsList.isEmpty()) null else conditionsList.reduce { acc, function -> { acc(it) && function(it) } }

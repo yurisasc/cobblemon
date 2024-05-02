@@ -17,6 +17,24 @@
     "special_defence": 65,
     "speed": 85
   },
+  "behaviour": {
+    "moving": {
+      "walk": {
+        "avoidsLand": true
+      },
+      "swim": {
+        "swimSpeed": 0.3,
+        "canSwimInWater": true,
+        "canBreatheUnderwater": true
+      }
+    },
+    "resting": {
+      "canSleep": true,
+      "willSleepOnBed": false,
+      "depth": "normal",
+      "light": "0-4"
+    }
+  },
   "catchRate": 135,
   "maleRatio": 0.5,
   "shoulderMountable": false,
@@ -102,7 +120,8 @@
     "tm:toxic",
     "tm:toxicspikes",
     "tm:venoshock",
-    "tm:waterfall"
+    "tm:waterfall",
+    "tm:waterpulse"
   ],
   "labels": [
     "gen8"

@@ -34,11 +34,13 @@ class TorkoalModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quad
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
+    lateinit var battleidle: PokemonPose
 
     override fun registerPoses() {
         standing = registerPose(
             poseName = "standing",
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
+            condition = { !it.isBattling },
             transformTicks = 10,
             idleAnimations = arrayOf(
                 singleBoneLook(),
@@ -54,6 +56,17 @@ class TorkoalModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quad
                 singleBoneLook(),
                 bedrock("torkoal", "ground_idle"),
                 QuadrupedWalkAnimation(this, periodMultiplier = 0.7F, amplitudeMultiplier = 0.7F)
+            )
+        )
+
+        battleidle = registerPose(
+            poseName = "battleidle",
+            poseTypes = PoseType.STATIONARY_POSES,
+            condition = { it.isBattling },
+            transformTicks = 10,
+            idleAnimations = arrayOf(
+                singleBoneLook(),
+                bedrock("torkoal", "battle_idle")
             )
         )
     }

@@ -8,13 +8,11 @@
 
 package com.cobblemon.mod.common.api.battles.model
 
-import com.bedrockk.molang.runtime.MoLangEnvironment
 import com.bedrockk.molang.runtime.struct.QueryStruct
 import com.bedrockk.molang.runtime.value.DoubleValue
 import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.Cobblemon.LOGGER
 import com.cobblemon.mod.common.CobblemonNetwork
-import com.cobblemon.mod.common.Environment
 import com.cobblemon.mod.common.api.battles.interpreter.BattleMessage
 import com.cobblemon.mod.common.api.battles.model.actor.ActorType
 import com.cobblemon.mod.common.api.battles.model.actor.BattleActor
@@ -22,8 +20,6 @@ import com.cobblemon.mod.common.api.battles.model.actor.EntityBackedBattleActor
 import com.cobblemon.mod.common.api.battles.model.actor.FleeableBattleActor
 import com.cobblemon.mod.common.api.events.CobblemonEvents
 import com.cobblemon.mod.common.api.events.battles.BattleFledEvent
-import com.cobblemon.mod.common.api.molang.MoLangFunctions.addFunction
-import com.cobblemon.mod.common.api.molang.MoLangFunctions.getQueryStruct
 import com.cobblemon.mod.common.api.net.NetworkPacket
 import com.cobblemon.mod.common.api.tags.CobblemonItemTags
 import com.cobblemon.mod.common.api.text.red
@@ -41,10 +37,10 @@ import com.cobblemon.mod.common.battles.dispatch.WaitDispatch
 import com.cobblemon.mod.common.battles.interpreter.ContextManager
 import com.cobblemon.mod.common.battles.pokemon.BattlePokemon
 import com.cobblemon.mod.common.battles.runner.ShowdownService
+import com.cobblemon.mod.common.battles.ForfeitActionResponse
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.net.messages.client.battle.BattleEndPacket
 import com.cobblemon.mod.common.net.messages.client.battle.BattleMessagePacket
-import com.cobblemon.mod.common.net.messages.client.battle.BattleMusicPacket
 import com.cobblemon.mod.common.pokemon.evolution.progress.DefeatEvolutionProgress
 import com.cobblemon.mod.common.pokemon.evolution.progress.LastBattleCriticalHitsEvolutionProgress
 import com.cobblemon.mod.common.pokemon.evolution.requirements.DefeatRequirement
@@ -107,6 +103,11 @@ open class PokemonBattle(
     var turn: Int = 1
         private set
 
+    private var ticks: Int = 0
+        set(value) { field = value.coerceAtMost(Int.MAX_VALUE) } // go outside
+
+    /** The current duration of the battle in seconds. */
+    val time: Int get() = ticks % 20
 
     var dispatchResult = GO
     val dispatches = ConcurrentLinkedDeque<BattleDispatch>()
@@ -166,7 +167,7 @@ open class PokemonBattle(
     fun getActor(player: ServerPlayerEntity) = actors.firstOrNull { it.isForPlayer(player) }
 
     /**
-     * Gets a BattleActor and an [ActiveBattlePokemon] from a pnx key, e.g. p2a
+     * Gets a [BattleActor] and an [ActiveBattlePokemon] from a pnx key, e.g. p2a
      *
      * Returns null if either the pn or x is invalid.
      */
@@ -179,6 +180,11 @@ open class PokemonBattle(
         return actor to pokemon
     }
 
+    /**
+     * Gets a [BattlePokemon] from a pnx key and uuid.
+     *
+     * Returns null if the pnx key is invalid or the uuid does not exist.
+     */
     fun getBattlePokemon(pnx: String, pokemonID: String): BattlePokemon {
         val actor = actors.find { it.showdownId == pnx.substring(0, 2) }
             ?: throw IllegalStateException("Invalid pnx: $pnx - unknown actor")
@@ -390,8 +396,9 @@ open class PokemonBattle(
             return
         }
 
-        if (started && isPvW && !ended && dispatches.isEmpty()) {
-            checkFlee()
+        if (started) {
+            ticks++
+            if (isPvW && !ended && dispatches.isEmpty()) checkFlee()
         }
     }
 
@@ -433,11 +440,22 @@ open class PokemonBattle(
     }
 
     fun checkForInputDispatch() {
-        val readyToInput = actors.any { !it.mustChoose && it.responses.isNotEmpty() } && actors.none { it.mustChoose }
+        if (checkForfeit()) return  // ignore actors that are still choosing, their choices don't matter anymore
+        val readyToInput = (actors.any { !it.mustChoose && it.responses.isNotEmpty() } && actors.none { it.mustChoose })
         if (readyToInput && captureActions.isEmpty()) {
             actors.filter { it.responses.isNotEmpty() }.forEach { it.writeShowdownResponse() }
             actors.forEach { it.responses.clear() ; it.request = null }
         }
+    }
+
+    /** Forces Showdown to end the battle when a [BattleActor] chooses to forfeit. */
+    private fun checkForfeit(): Boolean {
+        val forfeit = actors.find { it.responses.any { it is ForfeitActionResponse } }
+        return forfeit?.let {
+            this.dispatchWaiting { this.broadcastChatMessage(battleLang("forfeit", it.getName()).red()) }
+            writeShowdownAction(">forcelose ${it.showdownId}")
+            true
+        } ?: false
     }
 
     /**

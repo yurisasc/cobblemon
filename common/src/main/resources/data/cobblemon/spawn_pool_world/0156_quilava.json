@@ -28,8 +28,8 @@
             }
         },
         {
-            "id": "quilava-hisuian-2",
-            "pokemon": "quilava hisuian",
+            "id": "quilava-hisui-2",
+            "pokemon": "quilava region_bias=hisui",
             "presets": [
                 "natural"
             ],
@@ -48,8 +48,8 @@
             }
         },
         {
-            "id": "quilava-hisuian-3",
-            "pokemon": "quilava hisuian",
+            "id": "quilava-hisui-3",
+            "pokemon": "quilava region_bias=hisui",
             "presets": [
                 "natural"
             ],

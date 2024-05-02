@@ -10,8 +10,12 @@
     "h:flareboost"
   ],
   "drops": {
-    "amount": 2,
+    "amount": 3,
     "entries": [
+      {
+        "item": "minecraft:phantom_membrane",
+        "percentage": 2.5
+      },
       {
         "item": "cobblemon:kasib_berry",
         "percentage": 2.5
@@ -234,7 +238,7 @@
       ]
     }
   ],
-  "baseScale": 1,
+  "baseScale": 0.75,
   "hitbox": {
     "width": 0.7,
     "height": 2,

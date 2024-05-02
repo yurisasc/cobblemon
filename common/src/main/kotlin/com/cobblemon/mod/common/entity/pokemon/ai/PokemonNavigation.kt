@@ -323,8 +323,6 @@ class PokemonNavigation(val world: World, val pokemonEntity: PokemonEntity) : Mo
         return entity.blockY
     }
 
-    override fun adjustTargetY(pos: Vec3d) = pos.y
-
     override fun stop() {
         super.stop()
         this.currentNodeDistance = -1F

@@ -16,6 +16,7 @@ import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonP
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cobblemon.mod.common.entity.PoseType
 import net.minecraft.client.model.ModelPart
+import net.minecraft.client.render.entity.model.ParrotEntityModel.Pose
 import net.minecraft.util.math.Vec3d
 
 class CorvisquireModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedFrame, BiWingedFrame {
@@ -63,7 +64,7 @@ class CorvisquireModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, 
 
         hover = registerPose(
             poseName = "hover",
-            poseType = PoseType.HOVER,
+            poseTypes = PoseType.STATIONARY_POSES - PoseType.STAND - PoseType.UI_POSES - PoseType.SHOULDER_POSES,
             transformTicks = 10,
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
@@ -74,7 +75,7 @@ class CorvisquireModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, 
 
         fly = registerPose(
             poseName = "fly",
-            poseType = PoseType.FLY,
+            poseTypes = PoseType.MOVING_POSES - PoseType.WALK,
             transformTicks = 10,
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(

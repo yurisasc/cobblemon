@@ -30,6 +30,11 @@
 		},
 		"animation.eldegoss.cry": {
 			"animation_length": 1.5,
+			"sound_effects": {
+				"0.04": {
+					"effect": "pokemon.eldegoss.cry"
+				}
+			},
 			"bones": {
 				"mouth_closed": {
 					"position": {

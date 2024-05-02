@@ -8,14 +8,17 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen6
 
+import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cobblemon.mod.common.entity.PoseType
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class FloetteModel (root: ModelPart) : PokemonPoseableModel() {
+class FloetteModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("floette")
+    override val head = getPart("head")
+
     override var portraitScale = 1.8F
     override var portraitTranslation = Vec3d(-0.11, -0.11, 0.0)
 
@@ -29,9 +32,10 @@ class FloetteModel (root: ModelPart) : PokemonPoseableModel() {
 
         standing = registerPose(
             poseName = "standing",
-            poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
+            poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES + PoseType.SLEEP,
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
+                singleBoneLook(maxYaw = 10F),
                 bedrock("floette", "ground_idle")
             )
         )
@@ -41,6 +45,7 @@ class FloetteModel (root: ModelPart) : PokemonPoseableModel() {
             poseTypes = PoseType.MOVING_POSES,
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
+                singleBoneLook(maxYaw = 10F),
                 bedrock("floette", "ground_idle"),
             )
         )

@@ -45,12 +45,14 @@ class WingullModel (root: ModelPart) : PokemonPoseableModel(), BipedFrame, BiWin
     override fun registerPoses() {
         val blink = quirk { bedrockStateful("wingull", "blink") }
         sleep = registerPose(
+            poseName = "non_water_sleep",
             poseType = PoseType.SLEEP,
             condition = { !it.isTouchingWater },
             idleAnimations = arrayOf(bedrock("wingull", "sleep"))
         )
 
         water_surface_sleep = registerPose(
+            poseName = "water_surface_sleep",
             poseType = PoseType.SLEEP,
             condition = { it.isTouchingWater },
             idleAnimations = arrayOf(bedrock("wingull", "surfacewater_sleep")),

@@ -35,15 +35,28 @@ class BastiodonModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Qu
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
+    lateinit var battleIdle: PokemonPose
+    lateinit var sleep: PokemonPose
 
     override val cryAnimation = CryProvider { _, _ -> bedrockStateful("bastiodon", "cry") }
 
     override fun registerPoses() {
         val blink = quirk { bedrockStateful("bastiodon", "blink") }
+        val sleepQuirk = quirk (30F to 60f) { bedrockStateful("bastiodon", "sleep_snore_quirk") }
+
+        sleep = registerPose(
+            poseName = "sleep",
+            poseType = PoseType.SLEEP,
+            quirks = arrayOf(sleepQuirk),
+            idleAnimations = arrayOf(
+                bedrock("bastiodon", "sleep")
+            )
+        )
 
         standing = registerPose(
             poseName = "standing",
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
+            condition = { !it.isBattling },
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
@@ -57,9 +70,18 @@ class BastiodonModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Qu
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
-                bedrock("bastiodon", "ground_idle"),
-                QuadrupedWalkAnimation(this, periodMultiplier = 0.6F, amplitudeMultiplier = 0.75F)
-                //bedrock("bastiodon", "ground_walk")
+                bedrock("bastiodon", "ground_walk")
+            )
+        )
+
+        battleIdle = registerPose(
+            poseName = "battleidle",
+            poseTypes = PoseType.STATIONARY_POSES,
+            condition = { it.isBattling },
+            quirks = arrayOf(blink),
+            idleAnimations = arrayOf(
+                singleBoneLook(),
+                bedrock("bastiodon", "battle_idle")
             )
         )
     }

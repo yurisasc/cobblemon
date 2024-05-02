@@ -18,7 +18,26 @@
                 "biomes": [
                     "#cobblemon:is_overworld"
                 ],
-                "minY": 62
+                "minY": 48
+            }
+        },
+        {
+            "id": "gimmighoul-roaming-2",
+            "pokemon": "gimmighoul roaming",
+            "presets": [
+                "underground_ruins"
+            ],
+            "type": "pokemon",
+            "context": "grounded",
+            "bucket": "uncommon",
+            "level": "5-30",
+            "weight": 100.0,
+            "condition": {
+                "biomes": [
+                    "#cobblemon:is_overworld"
+                ],
+                "minY": -37,
+                "maxY": 10
             }
         }
     ]

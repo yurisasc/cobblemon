@@ -1230,7 +1230,6 @@
 			}
 		},
 		"animation.zoroark_hisuian.cry": {
-			"loop": true,
 			"animation_length": 1.0417,
 			"bones": {
 				"head": {
@@ -1309,7 +1308,7 @@
 			},
 			"sound_effects": {
 				"0.0": {
-					"effect": "zoroarkcry"
+					"effect": "pokemon.zoroark_hisuian.cry"
 				}
 			}
 		},

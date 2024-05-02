@@ -3,6 +3,11 @@
 	"animations": {
 		"animation.basculin.cry": {
 			"animation_length": 1.5,
+			"sound_effects": {
+				"0.04": {
+					"effect": "pokemon.basculin.cry"
+				}
+			},
 			"bones": {
 				"jaw": {
 					"rotation": {

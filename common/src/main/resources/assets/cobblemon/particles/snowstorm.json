@@ -64,6 +64,9 @@
     "cobblemon:afterspark",
     "cobblemon:capturesparks",
     "cobblemon:capturestar",
-    "cobblemon:pop_particle"
+    "cobblemon:pop_particle",
+    "cobblemon:white",
+    "cobblemon:invisible",
+    "cobblemon:white_aura"
   ]
 }

@@ -1,6 +1,6 @@
 {
   "implemented": true,
-  "name": "Flabébé",
+  "name": "Flabébé",
   "nationalPokedexNumber": 669,
   "primaryType": "fairy",
   "abilities": [
@@ -15,9 +15,22 @@
     "special_defence": 79,
     "speed": 42
   },
+  "behaviour": {
+    "moving": {
+      "fly": {
+        "canFly": true
+      }
+    },
+    "resting": {
+      "canSleep": true,
+      "willSleepOnBed": false,
+      "depth": "normal",
+      "light": "0-4"
+    }
+  },
   "catchRate": 225,
   "maleRatio": 0,
-  "shoulderMountable": false,
+  "shoulderMountable": true,
   "baseExperienceYield": 61,
   "experienceGroup": "medium_fast",
   "eggCycles": 20,

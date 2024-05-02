@@ -13,6 +13,7 @@ import com.cobblemon.mod.common.client.render.models.blockbench.animation.BipedW
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BimanualFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cobblemon.mod.common.entity.PoseType
@@ -32,10 +33,12 @@ class AggronModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Biman
     override var portraitTranslation = Vec3d(-0.78, 2.25, 0.0)
 
     override var profileScale = 0.46F
-    override var profileTranslation = Vec3d(-0.06, 0.98, 0.0)
+    override var profileTranslation = Vec3d(-0.06, 0.98, -6.0)
 
     lateinit var standing: PokemonPose
     lateinit var walking: PokemonPose
+
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("aggron", "cry") }
 
     override fun registerPoses() {
 

@@ -33,6 +33,19 @@
   "eggGroups": [
     "monster"
   ],
+  "behaviour": {
+    "resting": {
+      "canSleep": true,
+      "willSleepOnBed": false,
+      "depth": "normal",
+      "light": "0-4"
+    },
+    "moving" : {
+      "walk": {
+        "walkSpeed": 0.19
+      }
+    }
+  },
   "moves": [
     "1:endeavor",
     "1:focusenergy",
@@ -172,7 +185,7 @@
   ],
   "preEvolution": "cranidos",
   "evolutions": [],
-  "baseScale": 1,
+  "baseScale": 0.9,
   "hitbox": {
     "width": 1.6,
     "height": 2.5,

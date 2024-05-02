@@ -18,6 +18,12 @@
 				},
 				"tail3": {
 					"rotation": [20, 0, 0]
+				},
+				"scale_left3": {
+					"rotation": [0, 0, -2]
+				},
+				"scale_right3": {
+					"rotation": [0, 0, 2]
 				}
 			}
 		},
