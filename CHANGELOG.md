@@ -255,7 +255,7 @@
 - You can now punch grown apricorns to harvest them.
 - Renamed the "Vivillionaire" advancement to "Aspiring Vivillionaire"
 - Removed the Inferno, Forsaken, Poké Ball, and Void patterns from the Aspiring Vivillionaire advancement.
-- Updated the biome tags for Spewpa's evolutions into the various Vivillon patterns. Vanilla biomes still work the same, but modded biomes should be more functional now.
+- Updated the biome tags for Spewpa's evolutions into the various Vivillon patterns. You should mostly be getting one evolution option at a time now.
 - Updated movesets to add Gen 9 DLC moves.
 - Apricorn Sprouts can now be planted directly on Apricorn leaves to create a new Apricorn of the same color.
 - Added tooltips to interaction GUIs to make it clearer what they do.
