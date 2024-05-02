@@ -144,29 +144,6 @@
               "isRaining": true
             }
           ]
-        },
-        {
-          "id": "hisui_sliggoo_goodra",
-          "variant": "level_up",
-          "result": "goodra",
-          "consumeHeldItem": false,
-          "learnableMoves": [
-            "aquatail"
-          ],
-          "requirements": [
-            {
-              "variant": "level",
-              "minLevel": 50
-            },
-            {
-              "variant": "weather",
-              "isRaining": true
-            },
-            {
-              "variant": "biome",
-              "biomeCondition": "#minecraft:is_swamp"
-            }
-          ]
         }
       ],
       "cannotDynamax": false,
@@ -288,33 +265,6 @@
         {
           "variant": "weather",
           "isRaining": true
-        }
-      ]
-    },
-    {
-      "id": "sliggoo_hisui_goodra",
-      "variant": "level_up",
-      "result": "goodra hisuian",
-      "consumeHeldItem": false,
-      "learnableMoves": [
-        "irontail"
-      ],
-      "requirements": [
-        {
-          "variant": "level",
-          "minLevel": 50
-        },
-        {
-          "variant": "weather",
-          "isRaining": true
-        },
-        {
-          "variant": "biome",
-          "biomeCondition": "#minecraft:is_dripstone"
-        },
-        {
-          "variant": "biome",
-          "biomeCondition": "#minecraft:is_lush"
         }
       ]
     }
