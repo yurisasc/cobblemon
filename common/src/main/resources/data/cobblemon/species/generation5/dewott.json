@@ -378,7 +378,7 @@
         },
         {
           "variant": "biome",
-          "biomeCondition": "#cobblemon:regional_bias_evolutions/oshawott_dewott_hisui_bias"
+          "biomeCondition": "#cobblemon:evolution/oshawott_dewott_hisui_bias"
         }
       ]
     }
