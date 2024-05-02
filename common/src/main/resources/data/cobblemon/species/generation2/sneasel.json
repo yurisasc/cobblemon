@@ -163,7 +163,9 @@
           "result": "sneasler",
           "consumeHeldItem": true,
           "permanent": true,
-          "learnableMoves": [],
+          "learnableMoves": [
+            "direclaw"
+          ],
           "requirements": [
             {
               "variant": "held_item",
