@@ -87,16 +87,13 @@ object PokedexJSONRegistry : JsonDataRegistry<DexData> {
      */
     fun getNamespaces() : Collection<String> = dexes.map {it.identifier.namespace}.toSet()
 
-    fun getSpeciesInNamespace(namespace: String = Cobblemon.MODID): Collection<Species> {
+    fun getDexPokemonDataInNamespace(namespace: String = Cobblemon.MODID): Collection<DexPokemonData> {
         val dex = getDexesInNamespace(namespace)
-        val speciesList: MutableList<Species> = mutableListOf()
+        val speciesList: MutableList<DexPokemonData> = mutableListOf()
         dex.forEach {
             if(it.pokemon != null) {
-                it.pokemon.forEach {
-                    val species = PokemonSpecies.getByIdentifier(it.name)
-                    if (species != null) {
-                        speciesList.add(species)
-                    }
+                it.pokemon.forEach { dexPokemonData ->
+                    speciesList.add(dexPokemonData)
                 }
             }
         }

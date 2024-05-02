@@ -10,6 +10,9 @@ package com.cobblemon.mod.common.pokedex
 
 import com.cobblemon.mod.common.api.net.Decodable
 import com.cobblemon.mod.common.api.net.Encodable
+import com.cobblemon.mod.common.api.pokedex.adapter.DexPokemonDataAdapter
+import com.cobblemon.mod.common.api.pokemon.PokemonSpecies
+import com.cobblemon.mod.common.pokemon.Species
 import com.cobblemon.mod.common.util.cobblemonResource
 import net.minecraft.network.PacketByteBuf
 import net.minecraft.util.Identifier
@@ -18,6 +21,17 @@ class DexPokemonData(
     var name : Identifier = cobblemonResource("dex.pokemon"),
     var forms : MutableList<String> = mutableListOf()
 ): Decodable, Encodable {
+
+    val species : Species?
+        get() = PokemonSpecies.getByIdentifier(name)
+
+    fun combine(diffDexPokemonData: DexPokemonData): DexPokemonData {
+        val newForms: MutableList<String> = mutableListOf()
+        newForms.addAll(forms)
+        newForms.addAll(diffDexPokemonData.forms)
+
+        return DexPokemonData(name, newForms)
+    }
 
     override fun encode(buffer: PacketByteBuf) {
         buffer.writeIdentifier(name)

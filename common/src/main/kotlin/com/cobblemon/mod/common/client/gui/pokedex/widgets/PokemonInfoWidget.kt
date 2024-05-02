@@ -28,6 +28,7 @@ import com.cobblemon.mod.common.client.gui.summary.widgets.type.SingleTypeWidget
 import com.cobblemon.mod.common.client.gui.summary.widgets.type.TypeWidget
 import com.cobblemon.mod.common.client.render.drawScaledText
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonFloatingState
+import com.cobblemon.mod.common.pokedex.DexPokemonData
 import com.cobblemon.mod.common.pokemon.FormData
 import com.cobblemon.mod.common.pokemon.RenderablePokemon
 import com.cobblemon.mod.common.pokemon.Species
@@ -48,8 +49,8 @@ class PokemonInfoWidget(val pX: Int, val pY: Int) : SoundlessWidget(
     POKEMON_PORTRAIT_HEIGHT,
     lang("ui.pokedex.pokemon_info"),
 ) {
-    var pokemonEntry : Pair<Species, SpeciesPokedexEntry?>? = null
-    var selectedForm : FormData? = null
+    var pokemonEntry : Pair<DexPokemonData, SpeciesPokedexEntry?>? = null
+    var selectedForm : String? = null
     var shiny = false
     var renderablePokemon : RenderablePokemon? = null
 
@@ -67,7 +68,7 @@ class PokemonInfoWidget(val pX: Int, val pY: Int) : SoundlessWidget(
         if (pokemonEntry == null || renderablePokemon == null) return
 
         val hasKnowledge = pokemonEntry!!.second != null
-        val species = pokemonEntry!!.first
+        val species = pokemonEntry!!.first.species
 
         val matrices = context.matrices
 
@@ -117,7 +118,7 @@ class PokemonInfoWidget(val pX: Int, val pY: Int) : SoundlessWidget(
         if (hasKnowledge) {
             drawScaledText(
                 context = context,
-                text = "${species.weight}${Text.translatable("cobblemon.ui.pokedex.weightunit").string}".text(),
+                text = "${species?.weight}${Text.translatable("cobblemon.ui.pokedex.weightunit").string}".text(),
                 x = pX + MARGIN,
                 y = pY + WEIGHT_Y_POSITION,
                 shadow = true
@@ -136,7 +137,7 @@ class PokemonInfoWidget(val pX: Int, val pY: Int) : SoundlessWidget(
         if (hasKnowledge) {
             drawScaledText(
                 context = context,
-                text = "${species.height}${Text.translatable("cobblemon.ui.pokedex.heightunit").string}".text(),
+                text = "${species?.height}${Text.translatable("cobblemon.ui.pokedex.heightunit").string}".text(),
                 x = pX + MARGIN,
                 y = pY + HEIGHT_Y_POSITION,
                 shadow = true
@@ -152,13 +153,17 @@ class PokemonInfoWidget(val pX: Int, val pY: Int) : SoundlessWidget(
         }
     }
 
-    fun setPokemon(pokemon : Pair<Species, SpeciesPokedexEntry?>){
+    fun setPokemon(pokemon : Pair<DexPokemonData, SpeciesPokedexEntry?>){
         pokemonEntry = pokemon
-        selectedForm = pokemon.first.standardForm
+        if(pokemon.first.forms.size > 0){
+            selectedForm = pokemon.first.forms.first()
+        } else {
+            selectedForm = "normal"
+        }
         changedAspects()
     }
 
-    fun setForm(form: FormData){
+    fun setForm(form: String){
         if (selectedForm != form){
             selectedForm = form
             changedAspects()
@@ -168,12 +173,13 @@ class PokemonInfoWidget(val pX: Int, val pY: Int) : SoundlessWidget(
     fun changedAspects(){
         if(pokemonEntry == null) return
 
-        val aspects = selectedForm!!.aspects.toMutableSet()
+        val aspects = mutableSetOf<String>()
+        aspects.add(selectedForm!!)
         if(shiny){
             aspects.add(SHINY_ASPECT.aspect)
         }
 
-        renderablePokemon = RenderablePokemon(pokemonEntry!!.first, aspects)
+        renderablePokemon = pokemonEntry!!.first.species?.let { RenderablePokemon(it, aspects) }
         //Cobblemon.LOGGER.info(aspects)
     }
 }

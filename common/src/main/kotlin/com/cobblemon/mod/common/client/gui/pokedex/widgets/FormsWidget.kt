@@ -19,7 +19,7 @@ import net.minecraft.client.gui.DrawContext
 import net.minecraft.text.Text
 import kotlin.math.max
 
-class FormsWidget (val pX: Int, val pY: Int, val setFormData : (FormData) -> (Unit)): ScrollingWidget<FormsWidget.FormSlot>(
+class FormsWidget (val pX: Int, val pY: Int, val setFormData : (String) -> (Unit)): ScrollingWidget<FormsWidget.FormSlot>(
         left = pX,
         top = pY,
         width = PokedexGUIConstants.POKEMON_FORMS_WIDTH,
@@ -31,7 +31,7 @@ class FormsWidget (val pX: Int, val pY: Int, val setFormData : (FormData) -> (Un
         return super.addEntry(entry)
     }
 
-    fun setForms(forms: Collection<FormData>){
+    fun setForms(forms: Collection<String>){
         clearEntries()
         forms.forEach {
             addEntry(
@@ -46,7 +46,7 @@ class FormsWidget (val pX: Int, val pY: Int, val setFormData : (FormData) -> (Un
 
     override fun getMaxScroll() = max(this.height.toDouble(), (this.maxPosition - (this.bottom - this.top - 4)).toDouble()).toInt()
 
-    class FormSlot(val form : FormData, val setFormData: (FormData) -> Unit) : Slot<FormSlot>() {
+    class FormSlot(val form : String, val setFormData: (String) -> Unit) : Slot<FormSlot>() {
 
         companion object {
             private val scrollSlotResource = cobblemonResource("textures/gui/pokedex/scroll_slot_base.png")// Render Scroll Slot Background
@@ -77,7 +77,7 @@ class FormsWidget (val pX: Int, val pY: Int, val setFormData : (FormData) -> (Un
 
             drawScaledText(
                 context = context,
-                text = form.name.text(),
+                text = form.text(),
                 x = x + entryWidth/2,
                 y = y + entryHeight/2 - 5,
                 scale = textScale,
@@ -86,7 +86,7 @@ class FormsWidget (val pX: Int, val pY: Int, val setFormData : (FormData) -> (Un
         }
 
         override fun getNarration(): Text {
-            return Text.of(form.name)
+            return Text.of(form)
         }
 
         override fun mouseClicked(mouseX: Double, mouseY: Double, button: Int): Boolean {

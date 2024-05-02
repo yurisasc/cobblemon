@@ -28,6 +28,7 @@ import com.cobblemon.mod.common.client.gui.pokedex.widgets.PokemonInfoWidget
 import com.cobblemon.mod.common.client.gui.pokedex.widgets.EntriesScrollingWidget
 import com.cobblemon.mod.common.client.gui.pokedex.widgets.FormsWidget
 import com.cobblemon.mod.common.client.render.drawScaledTextJustifiedRight
+import com.cobblemon.mod.common.pokedex.DexPokemonData
 import com.cobblemon.mod.common.pokemon.FormData
 import com.cobblemon.mod.common.pokemon.Species
 import com.cobblemon.mod.common.util.cobblemonResource
@@ -65,8 +66,8 @@ class PokedexGUI private constructor(val pokedex: ClientPokedex) : Screen(Text.t
         }
     }
 
-    private var filteredPokedex : List<Pair<Species, SpeciesPokedexEntry?>> = mutableListOf()
-    private var selectedPokemon : Pair<Species, SpeciesPokedexEntry?>? = null
+    private var filteredPokedex : List<Pair<DexPokemonData, SpeciesPokedexEntry?>> = mutableListOf()
+    private var selectedPokemon : Pair<DexPokemonData, SpeciesPokedexEntry?>? = null
     private var pokemonName = Text.translatable("")
 
     private lateinit var scrollScreen : EntriesScrollingWidget<EntriesScrollingWidget.PokemonScrollSlot>
@@ -171,19 +172,19 @@ class PokedexGUI private constructor(val pokedex: ClientPokedex) : Screen(Text.t
         super.render(context, mouseX, mouseY, delta)
     }
 
-    fun filterPokedex() : List<Pair<Species, SpeciesPokedexEntry?>> {
+    fun filterPokedex() : List<Pair<DexPokemonData, SpeciesPokedexEntry?>> {
         return pokedex.getSortedEntries()
     }
 
-    fun setSelectedPokemon(entry : Pair<Species, SpeciesPokedexEntry?>){
+    fun setSelectedPokemon(entry : Pair<DexPokemonData, SpeciesPokedexEntry?>){
         selectedPokemon = entry
         pokemonInfoWidget.setPokemon(entry)
 
         var textToShowInDescription = mutableListOf<String>()
 
-        if(entry.second != null){
-            pokemonName = selectedPokemon!!.first.translatedName
-            textToShowInDescription.addAll(selectedPokemon!!.first.pokedex)
+        if(entry.second != null && entry.first.species != null){
+            pokemonName = selectedPokemon!!.first.species!!.translatedName
+            textToShowInDescription.addAll(selectedPokemon!!.first.species!!.pokedex)
         } else {
             pokemonName = Text.translatable(unknownText.string)
             textToShowInDescription.add(unknownText.string)
@@ -194,7 +195,7 @@ class PokedexGUI private constructor(val pokedex: ClientPokedex) : Screen(Text.t
         formsWidget.setForms(selectedPokemon!!.first.forms)
     }
 
-    fun setSelectedForm(form: FormData){
+    fun setSelectedForm(form: String){
         pokemonInfoWidget.setForm(form)
     }
 

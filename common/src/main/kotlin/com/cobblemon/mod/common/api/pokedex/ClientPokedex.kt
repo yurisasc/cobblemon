@@ -15,6 +15,7 @@ import com.cobblemon.mod.common.api.storage.player.PlayerInstancedDataStoreType
 import com.cobblemon.mod.common.api.storage.player.client.ClientInstancedPlayerData
 import com.cobblemon.mod.common.client.CobblemonClient
 import com.cobblemon.mod.common.net.messages.client.SetClientPlayerDataPacket
+import com.cobblemon.mod.common.pokedex.DexPokemonData
 import com.cobblemon.mod.common.pokemon.Species
 import net.minecraft.network.PacketByteBuf
 import net.minecraft.util.Identifier
@@ -43,24 +44,28 @@ class ClientPokedex(
         }
     }
 
-    fun getSortedEntries() : List<Pair<Species, SpeciesPokedexEntry?>> {
+    fun getSortedEntries() : List<Pair<DexPokemonData, SpeciesPokedexEntry?>> {
         val dexList = PokedexJSONRegistry.getNamespaces().toMutableList()
 
         //Moves Cobblemon MODID to the front, so it sorts by default mons first
         dexList.remove(Cobblemon.MODID)
         dexList.add(0, Cobblemon.MODID)
 
-        val entriesList = mutableListOf<Pair<Species, SpeciesPokedexEntry?>>()
+        val entriesList = mutableListOf<Pair<DexPokemonData, SpeciesPokedexEntry?>>()
         dexList.forEach {namespace ->
-            val sortedEntriesMap = TreeMap<Int, Pair<Species, SpeciesPokedexEntry?>>()
-            PokedexJSONRegistry.getSpeciesInNamespace(namespace)
-                .filter{ it.implemented }
-                .forEach {
-                var species = it
-                if(speciesEntries.containsKey(species.resourceIdentifier)){
-                    sortedEntriesMap[species.nationalPokedexNumber] = Pair(species, speciesEntries[species.resourceIdentifier])
-                } else {
-                    sortedEntriesMap[species.nationalPokedexNumber] = Pair(species, null)
+            val sortedEntriesMap = TreeMap<Int, Pair<DexPokemonData, SpeciesPokedexEntry?>>()
+            PokedexJSONRegistry.getDexPokemonDataInNamespace(namespace).forEach {
+                val species = PokemonSpecies.getByIdentifier(it.name)
+                if(species != null && species.implemented){
+                    if(sortedEntriesMap.containsKey(species.nationalPokedexNumber)){
+                        //This will add every duplicate pokemon together
+                        val entry = sortedEntriesMap[species.nationalPokedexNumber]!!
+                        sortedEntriesMap[species.nationalPokedexNumber] = Pair(it.combine(entry.first), entry.second)
+                    } else if(speciesEntries.containsKey(it.name)){
+                        sortedEntriesMap[species.nationalPokedexNumber] = Pair(it, speciesEntries[it.name])
+                    } else {
+                        sortedEntriesMap[species.nationalPokedexNumber] = Pair(it, null)
+                    }
                 }
             }
 
