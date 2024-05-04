@@ -332,8 +332,10 @@
     "controllers": [
       {
         "key": "cobblemon:land/generic",
-        "speed": 0.1,
-        "acceleration": 0.2
+        "speed_old": 0.1,
+        "speed": "Math.clamp(q.entity.velocity.horizontal_length + q.entity.acceleration, 0, 10)",
+        "acceleration_old": 0.2,
+        "acceleration": "0.1"
       },
       {
         "key": "cobblemon:swim/dash",

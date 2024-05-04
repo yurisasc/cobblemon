@@ -27,26 +27,26 @@ public class JetMixin {
 
     private float jetStrength;
 
-    @Redirect(method = "tickMovement", at = @At(target = "Lnet/minecraft/entity/JumpingMount;getJumpCooldown()I", value = "INVOKE"))
-    public int cobblemon$tryHandlingJet(JumpingMount mount) {
-        if(mount instanceof PokemonEntity pokemon) {
-//            if(pokemon.getDataTracker().get(PokemonEntity.MOVING)) {
-//                ++this.field_3938;
-//                if (this.field_3938 < 11) {
-//                    this.jetStrength = (float) this.field_3938 * 0.1F;
-//                } else {
-                    this.mountJumpStrength = 0.8F + 2.0F / (float) (this.field_3938 - 9) * 0.1F;
-//                }
-//            } else {
-//                this.field_3938 = 0;
-//                this.jetStrength = 0;
-//            }
-
-//            return -1;
-        }
-
-        return 0;
-    }
+//    @Redirect(method = "tickMovement", at = @At(target = "Lnet/minecraft/entity/JumpingMount;getJumpCooldown()I", value = "INVOKE"))
+//    public int cobblemon$tryHandlingJet(JumpingMount mount) {
+//        if(mount instanceof PokemonEntity pokemon) {
+////            if(pokemon.getDataTracker().get(PokemonEntity.MOVING)) {
+////                ++this.field_3938;
+////                if (this.field_3938 < 11) {
+////                    this.jetStrength = (float) this.field_3938 * 0.1F;
+////                } else {
+//                    this.mountJumpStrength = 0.8F + 2.0F / (float) (this.field_3938 - 9) * 0.1F;
+////                }
+////            } else {
+////                this.field_3938 = 0;
+////                this.jetStrength = 0;
+////            }
+//
+////            return -1;
+//        }
+//
+//        return 0;
+//    }
 
     @Inject(
             method = "tickMovement",

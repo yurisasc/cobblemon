@@ -8,14 +8,21 @@
 
 package com.cobblemon.mod.common.pokemon.riding.controllers
 
+import com.bedrockk.molang.runtime.MoLangRuntime
+import com.bedrockk.molang.runtime.struct.QueryStruct
+import com.bedrockk.molang.runtime.value.DoubleValue
+import com.cobblemon.mod.common.api.molang.MoLangFunctions.addFunctions
+import com.cobblemon.mod.common.api.molang.MoLangFunctions.getQueryStruct
+import com.cobblemon.mod.common.api.riding.controller.RideController
 import com.cobblemon.mod.common.api.riding.controller.posing.PoseOption
 import com.cobblemon.mod.common.api.riding.controller.posing.PoseProvider
-import com.cobblemon.mod.common.api.riding.controller.RideController
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
+import com.cobblemon.mod.common.util.asExpression
 import com.cobblemon.mod.common.util.blockPositionsAsListRounded
 import com.cobblemon.mod.common.util.cobblemonResource
-import com.google.gson.JsonElement
+import com.cobblemon.mod.common.util.getString
+import com.cobblemon.mod.common.util.resolveFloat
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.network.PacketByteBuf
@@ -23,18 +30,24 @@ import net.minecraft.util.Identifier
 import net.minecraft.util.math.Vec2f
 import net.minecraft.util.math.Vec3d
 import net.minecraft.util.shape.VoxelShapes
-import kotlin.math.max
-import kotlin.math.min
 
 class GenericLandController : RideController {
     companion object {
         val KEY: Identifier = cobblemonResource("land/generic")
     }
 
-    var speed = 1F
+    var speed = "Math.clamp(q.entity.velocity.horizontal_length + q.entity.acceleration, 0, 10)".asExpression()
         private set
-    var acceleration = 1F
+    var acceleration = "(1 / ((300 * q.entity.speed) + (18.5 - (1 * 5.3)))) * (0.9 * ((1 + 1) / 2)) + 100".asExpression()
         private set
+
+    // this needs to be moved to the entity runtime once that's a thing
+    @Transient
+    val runtime = MoLangRuntime()
+    @Transient
+    val entityStruct = QueryStruct(hashMapOf())
+    @Transient
+    private var initializedEntityId = -1
 
     override val key: Identifier = KEY
     override val poseProvider: PoseProvider = PoseProvider(PoseType.STAND)
@@ -57,12 +70,36 @@ class GenericLandController : RideController {
         }
     }
 
+    // temporary until the struct stuff is properly and explicitly added to PokemonEntity
+    private fun attachEntity(entity: PokemonEntity) {
+        if (initializedEntityId == entity.id) {
+            return
+        }
+        initializedEntityId = entity.id
+
+        entityStruct.addFunction("speed") { DoubleValue(0) }
+        runtime.environment.getQueryStruct().addFunctions(
+            mapOf(
+                "entity" to java.util.function.Function { entityStruct }
+            )
+        )
+    }
+
     override fun speed(entity: PokemonEntity, driver: PlayerEntity): Float {
-        return min(max(this.speed + this.acceleration(), 0.0F), 1.0F)
+        attachEntity(entity)
+        val acceleration = runtime.resolveFloat(this.acceleration)
+        println("Acceleration: $acceleration")
+        entityStruct.addFunction("acceleration") { DoubleValue(acceleration.toDouble()) }
+        val speed = runtime.resolveFloat(speed)
+        println("Horizontal length: ${entity.velocity.horizontalLength()}")
+        println("Speed: $speed")
+        entityStruct.addFunction("speed") { DoubleValue(speed.toDouble()) }
+        return speed
+//        return min(max(this.speed + this.acceleration(), 0.0F), 1.0F)
     }
 
     private fun acceleration(): Float {
-        return (1 / ((300 * this.speed) + (18.5F - (this.acceleration * 5.3F)))) * (0.9F * ((this.acceleration + 1) / 2))
+        return 1F; //(1 / ((300 * this.speed) + (18.5F - (this.acceleration * 5.3F)))) * (0.9F * ((this.acceleration + 1) / 2))
     }
 
     override fun rotation(driver: LivingEntity): Vec2f {
@@ -71,22 +108,35 @@ class GenericLandController : RideController {
 
     override fun velocity(driver: PlayerEntity, input: Vec3d): Vec3d {
         val f = driver.sidewaysSpeed * 0.2f
-        var g = driver.forwardSpeed * 0.5f
+        var g = driver.forwardSpeed
         if (g <= 0.0f) {
             g *= 0.25f
         }
 
-        return Vec3d(f.toDouble(), 0.0, g.toDouble())
+        val velocity = Vec3d(f.toDouble(), 0.0, g.toDouble())
+        entityStruct.addFunction("velocity") {
+            QueryStruct(hashMapOf()).addFunctions(
+                mapOf(
+                    "x" to java.util.function.Function { DoubleValue(velocity.x) },
+                    "y" to java.util.function.Function { DoubleValue(velocity.y) },
+                    "z" to java.util.function.Function { DoubleValue(velocity.z) },
+                    "horizontal_length" to java.util.function.Function {
+                        println("Horizontal Length: ${velocity.horizontalLength()});")
+                        return@Function DoubleValue(velocity.horizontalLength()) }
+                )
+            )
+        }
+        return velocity
     }
 
     override fun encode(buffer: PacketByteBuf) {
         super.encode(buffer)
-        buffer.writeFloat(this.speed)
-        buffer.writeFloat(this.acceleration)
+        buffer.writeString(this.speed.getString())
+        buffer.writeString(this.acceleration.getString())
     }
 
     override fun decode(buffer: PacketByteBuf) {
-        this.speed = buffer.readFloat()
-        this.acceleration = buffer.readFloat()
+        this.speed = buffer.readString().asExpression()
+        this.acceleration = buffer.readString().asExpression()
     }
 }

@@ -25,12 +25,11 @@ import com.cobblemon.mod.common.api.pokemon.feature.FlagSpeciesFeature
 import com.cobblemon.mod.common.api.pokemon.status.Statuses
 import com.cobblemon.mod.common.api.reactive.ObservableSubscription
 import com.cobblemon.mod.common.api.reactive.SimpleObservable
+import com.cobblemon.mod.common.api.riding.Rideable
+import com.cobblemon.mod.common.api.riding.RidingManager
 import com.cobblemon.mod.common.api.scheduling.Schedulable
 import com.cobblemon.mod.common.api.scheduling.SchedulingTracker
 import com.cobblemon.mod.common.api.storage.InvalidSpeciesException
-import com.cobblemon.mod.common.api.riding.Rideable
-import com.cobblemon.mod.common.api.riding.RidingManager
-
 import com.cobblemon.mod.common.api.types.ElementalTypes
 import com.cobblemon.mod.common.battles.BagItems
 import com.cobblemon.mod.common.battles.BattleBuilder
@@ -62,9 +61,7 @@ import com.cobblemon.mod.common.pokemon.evolution.variants.ItemInteractionEvolut
 import com.cobblemon.mod.common.pokemon.misc.GimmighoulStashHandler
 import com.cobblemon.mod.common.util.*
 import com.cobblemon.mod.common.world.gamerules.CobblemonGameRules
-import java.util.EnumSet
-import java.util.Optional
-import java.util.UUID
+import java.util.*
 import java.util.concurrent.CompletableFuture
 import net.minecraft.entity.*
 import net.minecraft.entity.ai.control.MoveControl
@@ -113,7 +110,6 @@ import net.minecraft.util.math.Vec3d
 import net.minecraft.world.EntityView
 import net.minecraft.world.World
 import net.minecraft.world.event.GameEvent
-import java.util.*
 
 @Suppress("unused")
 open class PokemonEntity(
@@ -334,6 +330,8 @@ open class PokemonEntity(
             this.tethering = null
             this.pokemon.recall()
         }
+
+        jumping = false
 
         schedulingTracker.update(1/20F)
     }
@@ -1200,6 +1198,15 @@ open class PokemonEntity(
         this.headYaw = this.yaw
         this.bodyYaw = this.yaw
         this.prevYaw = this.yaw
+
+        if (this.isOnGround) {
+            if (this.jumpStrength > 0.0f) {
+//                this.jump(this.jumpStrength, movementInput)
+                this.jump()
+            }
+
+            this.jumpStrength = 0.0f
+        }
     }
 
     private fun getControlledRotation(controller: LivingEntity): Vec2f {
@@ -1244,9 +1251,24 @@ open class PokemonEntity(
         return this.riding.speed(this, controller)
     }
 
+    protected var jumpStrength: Float = 0f // move this
     override fun setJumpStrength(strength: Int) {
         // See if this controls the hot bar element
+        var strength = strength
         println("Strength set on ${side()}")
+        if (strength < 0) {
+            strength = 0
+        } else {
+            this.jumping = true
+            // update anger? hunwah
+        }
+
+        if (strength >= 90) {
+            this.jumpStrength = 1.0f
+        } else {
+            this.jumpStrength = 0.4f + 0.4f * strength.toFloat() / 90.0f
+        }
+
     }
 
     override fun canJump(): Boolean {
@@ -1254,6 +1276,7 @@ open class PokemonEntity(
     }
 
     override fun startJumping(height: Int) {
+        this.jumping = true
         println("Starting jumping ${side()}")
     }
 

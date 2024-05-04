@@ -23,6 +23,8 @@ data class RidingManager(val entity: PokemonEntity) {
     // TODO - breaks if final
     var seats: List<Seat> = this.entity.pokemon.riding.seats.map { it.create(this.entity) }
 
+    var lastSpeed = 0F
+
     /**
      * Responsible for handling riding conditions and transitions amongst controllers. This will tick
      * whenever the entity receives a tickControlled interaction.
@@ -33,13 +35,13 @@ data class RidingManager(val entity: PokemonEntity) {
         val poser = controller.poseProvider
         entity.dataTracker.set(PokemonEntity.POSE_TYPE, poser.select(entity))
 
-        val speed = controller.speed(entity, driver)
-        driver.sendMessage(Text.literal("Speed: ").styled { it.withColor(Formatting.GREEN) }.append(Text.literal("$speed b/t")), true)
+        driver.sendMessage(Text.literal("Speed: ").styled { it.withColor(Formatting.GREEN) }.append(Text.literal("$lastSpeed b/t")), true)
     }
 
     fun speed(entity: PokemonEntity, driver: PlayerEntity): Float {
         val controller = entity.pokemon.riding.controllers.firstOrNull { it.condition.invoke(entity) }
-        return controller?.speed(entity, driver) ?: 0.05F
+        this.lastSpeed = controller?.speed(entity, driver) ?: 0.05F
+        return this.lastSpeed
     }
 
     fun controlledRotation(entity: PokemonEntity, driver: PlayerEntity): Vec2f {
