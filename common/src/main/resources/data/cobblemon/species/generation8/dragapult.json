@@ -124,11 +124,7 @@
     "tm:triattack",
     "tm:uturn",
     "tm:willowisp",
-    "tutor:dracometeor",
-    "tutor:dragondarts",
-    "tutor:phantomforce",
-    "tutor:terablast",
-    "tutor:uturn"
+    "tutor:dracometeor"
   ],
   "labels": [
     "gen8",

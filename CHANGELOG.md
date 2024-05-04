@@ -32,11 +32,12 @@
 - Added cries to Meowth, Alolan Meowth, Galaraian Meowth,
 - Completed the advancement for placing a Tumblestone near Lava or Magma to make it grow.
 - Added new held items: Ability Shield, Absorb Bulb, Air Balloon, Binding Band, Blunder Policy, Cell Battery, Covert Cloak, Damp Rock, Eject Button, Eviolite, Expert Belt, Float Stone, Focus Sash, Heat Rock, Icy Rock, Iron Ball, Light Ball, Loaded Dice, Red Card, Shell Bell, Sticky Barb, Smooth Rock, Soothe Bell and Weakness Policy.
-- Added Hisui starters to the starter selection menu.
+- Added Hisui starters to the starter selection menu. They come in ancient Pokeballs
 - Added bubble quirk to Krabby that only play during clear sunset's.
 - Added forfeit option to PVP battles.
 - Added visual changes for entities affected by Illusion, Imposter, or Transform in battle.
 - Added shoulder mounting for Squirtle, Ralts, Roggenrola, Charcadet, Sizzlipede, Litwick, Cutiefly, Flabebe, Flittle, and Scatterbug
+- Added species files for Hydrapple, Iron Boulder, Iron Crown, Pecharunt, Raging Bolt and Terapagos
 
 ### Pokémon Added
 #### Gen 2
@@ -255,6 +256,7 @@
 - You can now punch grown apricorns to harvest them.
 - Renamed the "Vivillionaire" advancement to "Aspiring Vivillionaire"
 - Removed the Inferno, Forsaken, Poké Ball, and Void patterns from the Aspiring Vivillionaire advancement.
+- Updated the biome tags for Spewpa's evolutions into the various Vivillon patterns. You should mostly be getting one evolution option at a time now.
 - Updated movesets to add Gen 9 DLC moves.
 - Apricorn Sprouts can now be planted directly on Apricorn leaves to create a new Apricorn of the same color.
 - Added tooltips to interaction GUIs to make it clearer what they do.
@@ -273,14 +275,16 @@
 - Moon Stone ore generates more frequently in Taigas and has been added to Magical and Spooky biomes.
 - Density, Season, and Nether biome tags have been moved and renamed within the biome tags directory.
 - Added particles to Lucario when in battle.
+- Movesets updated for Blueberry DLC.
 
 ### Fixes
 - Resized Drifloon
 - Re-added the recipe for the Iron Vitamin.
 - Cleaned up empty evolutions declaration in species files (no, I'm not listing all 169 by name).
 - Fixed Exeggcute and Pikachu not being able to evolve.
+- Fixed evolution priority for Exeggcute and Pikachu regional evolutions. Using a thunder stone on Kantonian Pikachu on the beach will give Alolan Raichu. A second thunder stone would then give Kantonian Raichu.
 - Fixed battle lang for Poison Touch Ability
-- Fixed Cubone not being able to evolve into Alolan Marowak.
+- Finally found Sudowoodo and Bonsly. They were missing spawn data. 
 - Fixed Squawkabilly forms not being recognized.
 - Fixed the bounce animation for Poké Balls being delayed by like, a full second.
 - Note blocks now play the correct sound on the Apricorn Plank based blocks.
@@ -301,6 +305,7 @@
 - Fixed illusion ability causing the wrong Pokémon to be targeted in battle. 
 - Battles starting with fainted party members no longer cause a softlock on defeat.
 - Fixed some issues with eyes in the faint animations for Hitmonlee and Phantump
+- Fixed missing evolution moves, eg Stone Axe for Kleavor.
 
 ### Developer
 - Significantly changed the way properties in PokemonEntity work. This could break some plugins (not in a big way, but changes will be needed).
