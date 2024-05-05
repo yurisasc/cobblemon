@@ -23,6 +23,7 @@ import com.cobblemon.mod.common.util.blockPositionsAsListRounded
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.getString
 import com.cobblemon.mod.common.util.resolveFloat
+import kotlin.math.abs
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.network.PacketByteBuf
@@ -37,8 +38,6 @@ class GenericLandController : RideController {
     }
 
     var speed = "Math.clamp(q.entity.velocity.horizontal_length + q.entity.acceleration, 0, 10)".asExpression()
-        private set
-    var acceleration = "(1 / ((300 * q.entity.speed) + (18.5 - (1 * 5.3)))) * (0.9 * ((1 + 1) / 2)) + 100".asExpression()
         private set
 
     // this needs to be moved to the entity runtime once that's a thing
@@ -77,29 +76,29 @@ class GenericLandController : RideController {
         }
         initializedEntityId = entity.id
 
-        entityStruct.addFunction("speed") { DoubleValue(0) }
         runtime.environment.getQueryStruct().addFunctions(
             mapOf(
                 "entity" to java.util.function.Function { entityStruct }
             )
         )
+
+        entityStruct.addFunction("velocity") {
+            QueryStruct(hashMapOf()).addFunctions(
+                mapOf(
+                    "x" to java.util.function.Function { DoubleValue(entity.velocity.x) },
+                    "y" to java.util.function.Function { DoubleValue(entity.velocity.y) },
+                    "z" to java.util.function.Function { DoubleValue(entity.velocity.z) },
+                    "horizontal_magnitude" to java.util.function.Function { DoubleValue(entity.velocity.horizontalLength()) },
+                    "magnitude" to java.util.function.Function { DoubleValue(entity.velocity.length()) },
+                    "vertical_magnitude" to java.util.function.Function { DoubleValue(abs(entity.velocity.y)) }
+                )
+            )
+        }
     }
 
     override fun speed(entity: PokemonEntity, driver: PlayerEntity): Float {
         attachEntity(entity)
-        val acceleration = runtime.resolveFloat(this.acceleration)
-        println("Acceleration: $acceleration")
-        entityStruct.addFunction("acceleration") { DoubleValue(acceleration.toDouble()) }
-        val speed = runtime.resolveFloat(speed)
-        println("Horizontal length: ${entity.velocity.horizontalLength()}")
-        println("Speed: $speed")
-        entityStruct.addFunction("speed") { DoubleValue(speed.toDouble()) }
-        return speed
-//        return min(max(this.speed + this.acceleration(), 0.0F), 1.0F)
-    }
-
-    private fun acceleration(): Float {
-        return 1F; //(1 / ((300 * this.speed) + (18.5F - (this.acceleration * 5.3F)))) * (0.9F * ((this.acceleration + 1) / 2))
+        return runtime.resolveFloat(speed)
     }
 
     override fun rotation(driver: LivingEntity): Vec2f {
@@ -114,29 +113,16 @@ class GenericLandController : RideController {
         }
 
         val velocity = Vec3d(f.toDouble(), 0.0, g.toDouble())
-        entityStruct.addFunction("velocity") {
-            QueryStruct(hashMapOf()).addFunctions(
-                mapOf(
-                    "x" to java.util.function.Function { DoubleValue(velocity.x) },
-                    "y" to java.util.function.Function { DoubleValue(velocity.y) },
-                    "z" to java.util.function.Function { DoubleValue(velocity.z) },
-                    "horizontal_length" to java.util.function.Function {
-                        println("Horizontal Length: ${velocity.horizontalLength()});")
-                        return@Function DoubleValue(velocity.horizontalLength()) }
-                )
-            )
-        }
+
         return velocity
     }
 
     override fun encode(buffer: PacketByteBuf) {
         super.encode(buffer)
         buffer.writeString(this.speed.getString())
-        buffer.writeString(this.acceleration.getString())
     }
 
     override fun decode(buffer: PacketByteBuf) {
         this.speed = buffer.readString().asExpression()
-        this.acceleration = buffer.readString().asExpression()
     }
 }
