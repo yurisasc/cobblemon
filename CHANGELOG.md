@@ -325,7 +325,8 @@
 - ``Pokemon#rollAbility`` has been added, this rerolls a legal ability for the Pokémon.
 - `docs/cobblemon-tags` tags and spawn-presets can now be auto-generated from the current tags in the cobblemon mod with the `generateSpawnPresetList.py` and `generateTagList.py` scripts.
 - `public_spawns_to_json.py` script has been added to give the powerful spawn.json generator a simplistic UI.
-- Updated Showdown with Gen 9 DLC. 
+- Updated Showdown with Gen 9 DLC.
+- Changed mixins to be Java 17 for compatibility level instead of 16.
 
 ### Datapack & Resourcepack Creators
 - The maximum amount of fossils that can fit in the Fossil Analyzer can be adjusted in the config.
