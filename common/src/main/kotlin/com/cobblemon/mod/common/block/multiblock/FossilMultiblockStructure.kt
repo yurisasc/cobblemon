@@ -331,11 +331,10 @@ class FossilMultiblockStructure (
             }
         }
         if(tankBaseEntity is RestorationTankBlockEntity) {
-            tankBaseEntity.inv.items.forEach {
+            tankBaseEntity.inv.clearToList().forEach {
                 val stack = ItemStack(it.item, 1)
                 ItemScatterer.spawn(world, pos.x.toDouble(), pos.y.toDouble(), pos.z.toDouble(), stack)
             }
-            tankBaseEntity.inv.clear()
         }
 
 
@@ -533,12 +532,13 @@ class FossilMultiblockStructure (
 
     //Returns false if material wasnt inserted
     fun insertOrganicMaterial(stack: ItemStack, world: World): Boolean {
-        val natureValue = NaturalMaterials.getContent(stack)
+        var natureValue = NaturalMaterials.getContent(stack)
         if (timeRemaining > 0 || this.organicMaterialInside >= MATERIAL_TO_START || natureValue == null) {
             return false
         }
+        natureValue *= stack.count
 
-        if (natureValue < 0 && organicMaterialInside == 0) return false
+        if (natureValue <= 0 && organicMaterialInside == 0) return false
         val oldFillStage = organicMaterialInside * 8 / MATERIAL_TO_START
 
         // to prevent over/under filling the tank causing a crash
