@@ -643,7 +643,7 @@
   "cobblemon.pc.inbattle": "Вы не можете использовать ПК во время битвы!",
 
   "cobblemon.held_item": "Предмет",
-  "cobblemon.held_item.give": "%Вы дали 1$s %2$s.",
+  "cobblemon.held_item.give": "Вы дали %1$s %2$s.",
   "cobblemon.held_item.replace": "Вы забрали %1$s у %2$s и дали %3$s.",
   "cobblemon.held_item.take": "Вы забрали %1$s у %2$s.",
   "cobblemon.held_item.already_holding": "%1$s уже держит %2$s!",
