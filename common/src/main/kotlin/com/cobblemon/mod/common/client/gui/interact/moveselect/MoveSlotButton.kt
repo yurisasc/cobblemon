@@ -45,9 +45,7 @@ class MoveSlotButton(
         const val HEIGHT = 22
     }
 
-    override fun render(context: DrawContext, pMouseX: Int, pMouseY: Int, pPartialTicks: Float) {
-        hovered = pMouseX >= x && pMouseY >= y && pMouseX < x + width && pMouseY < y + height && enabled
-
+    override fun renderButton(context: DrawContext, pMouseX: Int, pMouseY: Int, pPartialTicks: Float) {
         val moveTemplate = Moves.getByNameOrDummy(move.name)
         val rgb = moveTemplate.elementalType.hue.toRGB()
 
@@ -61,7 +59,7 @@ class MoveSlotButton(
             y = y,
             width = WIDTH,
             height = HEIGHT,
-            vOffset = if (isHovered) HEIGHT else 0,
+            vOffset = if (isHovered || isFocused) HEIGHT else 0,
             textureHeight = HEIGHT * 2,
             red = rgb.first,
             green = rgb.second,

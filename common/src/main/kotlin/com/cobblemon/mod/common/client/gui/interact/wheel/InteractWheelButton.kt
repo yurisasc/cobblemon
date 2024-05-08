@@ -11,6 +11,8 @@ package com.cobblemon.mod.common.client.gui.interact.wheel
 import com.cobblemon.mod.common.api.gui.blitk
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.gui.DrawContext
+import net.minecraft.client.gui.navigation.GuiNavigation
+import net.minecraft.client.gui.navigation.GuiNavigationPath
 import net.minecraft.client.gui.tooltip.Tooltip
 import net.minecraft.client.gui.widget.ButtonWidget
 import net.minecraft.client.sound.SoundManager
@@ -30,7 +32,6 @@ class InteractWheelButton(
     private val colour: () -> Vector3f?,
     onPress: PressAction
 ) : ButtonWidget(x, y, BUTTON_SIZE, BUTTON_SIZE, Text.literal("Interact"), onPress, DEFAULT_NARRATION_SUPPLIER) {
-
     companion object {
         const val BUTTON_SIZE = 69
         const val TEXTURE_HEIGHT = BUTTON_SIZE * 2
@@ -39,21 +40,20 @@ class InteractWheelButton(
         const val ICON_OFFSET = 26.5
     }
 
-    override fun render(context: DrawContext, mouseX: Int, mouseY: Int, delta: Float) {
-        val matrices = context.matrices
+    override fun renderButton(context: DrawContext, mouseX: Int, mouseY: Int, delta: Float) {
         blitk(
-            matrixStack = matrices,
+            matrixStack = context.matrices,
             texture = buttonResource,
             x = x,
             y = y,
             width = BUTTON_SIZE,
             height = BUTTON_SIZE,
-            vOffset = if (isHovered(mouseX.toFloat(), mouseY.toFloat()) && isEnabled) BUTTON_SIZE else 0,
+            vOffset = if ((isHovered || isFocused) && isEnabled) BUTTON_SIZE else 0,
             textureHeight = TEXTURE_HEIGHT,
             alpha = if (isEnabled) 1f else 0.4f
         )
 
-        if(isHovered(mouseX.toFloat(), mouseY.toFloat())){
+        if (isHovered || isFocused) {
             tooltipText?.let {
                 context.drawTooltip(MinecraftClient.getInstance().textRenderer, Text.translatable(it), mouseX, mouseY)
             }
@@ -62,8 +62,9 @@ class InteractWheelButton(
         if (iconResource != null) {
             val (iconX, iconY) = getIconPosition()
             val colour = this.colour() ?: Vector3f(1F, 1F, 1F)
+
             blitk(
-                matrixStack = matrices,
+                matrixStack = context.matrices,
                 texture = iconResource,
                 x = iconX,
                 y = iconY,
@@ -87,16 +88,11 @@ class InteractWheelButton(
 
     override fun playDownSound(soundManager: SoundManager?) {}
 
-    private fun isHovered(mouseX: Float, mouseY: Float): Boolean {
-        val xMin = x.toFloat()
-        val xMax = xMin + BUTTON_SIZE
-        val yMin = y.toFloat()
-        val yMax = yMin + BUTTON_SIZE
-        return mouseX in xMin..xMax && mouseY in yMin..yMax
-    }
-
     override fun getTooltip(): Tooltip? {
         tooltipText?.let { return Tooltip.of(Text.translatable(it)) } ?: return super.getTooltip()
     }
 
+    override fun getNavigationPath(navigation: GuiNavigation?): GuiNavigationPath? {
+        return super.getNavigationPath(navigation).takeIf { isEnabled } // only a valid navigation path if enabled
+    }
 }

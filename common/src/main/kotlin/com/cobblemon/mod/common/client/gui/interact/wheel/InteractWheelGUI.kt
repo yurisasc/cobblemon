@@ -42,11 +42,13 @@ class InteractWheelGUI(
 
     override fun init() {
         calculateMaxPage()
+
         addButton(Orientation.TOP_LEFT, options[Orientation.TOP_LEFT].toList().getOrNull(0))
         addButton(Orientation.TOP_RIGHT, options[Orientation.TOP_RIGHT].toList().getOrNull(0))
         addButton(Orientation.BOTTOM_LEFT, options[Orientation.BOTTOM_LEFT].toList().getOrNull(0))
         addButton(Orientation.BOTTOM_RIGHT, options[Orientation.BOTTOM_RIGHT].toList().getOrNull(0))
-        if(maxPage > 1){
+
+        if (maxPage > 1) {
             addDrawableChild(ArrowButton(
                 // x = left 3rd, y = center
                 pX = (width / 3) - 12,
