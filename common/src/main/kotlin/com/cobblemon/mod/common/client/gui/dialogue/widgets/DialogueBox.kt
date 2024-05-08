@@ -18,6 +18,7 @@ import com.cobblemon.mod.common.util.cobblemonResource
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.gui.DrawContext
 import net.minecraft.client.gui.widget.AlwaysSelectedEntryListWidget
+import net.minecraft.client.input.KeyCodes
 import net.minecraft.text.MutableText
 import net.minecraft.text.OrderedText
 import net.minecraft.util.Language
@@ -124,6 +125,21 @@ class DialogueBox(
         )
     }
 
+    private fun onPress() {
+        if (dialogue.dialogueInput.allowSkip && dialogue.dialogueInput.inputType in listOf(DialogueInputDTO.InputType.NONE, DialogueInputDTO.InputType.AUTO_CONTINUE)) {
+            dialogueScreen.sendToServer(InputToDialoguePacket(dialogue.dialogueInput.inputId, "skip!"))
+        }
+    }
+
+    override fun keyPressed(keyCode: Int, scanCode: Int, modifiers: Int): Boolean {
+        if (KeyCodes.isToggle(keyCode)) {
+            onPress()
+            return true
+        }
+
+        return super.keyPressed(keyCode, scanCode, modifiers)
+    }
+
     override fun mouseClicked(mouseX: Double, mouseY: Double, button: Int): Boolean {
         val toggleOffsetY = 92
 
@@ -134,10 +150,8 @@ class DialogueBox(
             mouseY > (appropriateY) &&
             mouseY < (appropriateY + height)
         ) {
-            if (dialogue.dialogueInput.allowSkip && dialogue.dialogueInput.inputType in listOf(DialogueInputDTO.InputType.NONE, DialogueInputDTO.InputType.AUTO_CONTINUE)) {
-                dialogueScreen.sendToServer(InputToDialoguePacket(dialogue.dialogueInput.inputId, "skip!"))
-                return true
-            }
+            onPress()
+            return true
         }
 
         updateScrollingState(mouseX, mouseY)

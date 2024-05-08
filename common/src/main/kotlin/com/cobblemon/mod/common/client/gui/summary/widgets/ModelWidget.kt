@@ -34,11 +34,10 @@ class ModelWidget(
     var state = PokemonFloatingState()
     val rotVec = Vector3f(13F, rotationY, 0F)
 
-    override fun renderButton(context: DrawContext, pMouseX: Int, pMouseY: Int, partialTicks: Float) {
+    override fun renderWidget(context: DrawContext, pMouseX: Int, pMouseY: Int, partialTicks: Float) {
         if (!render) {
             return
         }
-        hovered = pMouseX >= x && pMouseY >= y && pMouseX < x + width && pMouseY < y + height
         renderPKM(context, partialTicks)
     }
 
@@ -69,8 +68,5 @@ class ModelWidget(
         context.disableScissor()
 
         matrices.pop()
-    }
-
-    override fun onClick(pMouseX: Double, pMouseY: Double) {
     }
 }

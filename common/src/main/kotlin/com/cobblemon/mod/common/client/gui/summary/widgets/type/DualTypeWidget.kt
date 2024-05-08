@@ -10,7 +10,6 @@ package com.cobblemon.mod.common.client.gui.summary.widgets.type
 
 import com.cobblemon.mod.common.api.types.ElementalType
 import net.minecraft.client.gui.DrawContext
-import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.text.Text
 class DualTypeWidget(
     pX: Int, pY: Int,
@@ -19,7 +18,7 @@ class DualTypeWidget(
     private val mainType: ElementalType, private val secondaryType: ElementalType
 ) : TypeWidget(pX, pY, pWidth, pHeight, pMessage) {
 
-    override fun renderButton(context: DrawContext, pMouseX: Int, pMouseY: Int, pPartialTicks: Float) {
+    override fun renderWidget(context: DrawContext, mouseX: Int, mouseY: Int, delta: Float) {
         renderType(mainType, secondaryType, context.matrices)
     }
 }

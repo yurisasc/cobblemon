@@ -30,36 +30,25 @@ class ForfeitConfirmationSelection(
     height = 100,
     battleLang("ui.forfeit_confirmation")
 ) {
-
-    val forfeitButton: BattleOptionTile
-    val backButton = BattleBackButton(x - 3F, MinecraftClient.getInstance().window.scaledHeight - 22F )
-
     init {
+        BattleBackButton(x - 3F, MinecraftClient.getInstance().window.scaledHeight - 22F) {
+            battleGUI.changeActionSelection(null)
+            playDownSound(MinecraftClient.getInstance().soundManager)
+        }.also { addWidget(it) }
+
         val x = (MinecraftClient.getInstance().window.scaledWidth / 2) - (BattleOptionTile.OPTION_WIDTH / 2)
         val y = (MinecraftClient.getInstance().window.scaledHeight / 2) - (BattleOptionTile.OPTION_HEIGHT / 2)
 
-        forfeitButton = BattleOptionTile(battleGUI, x, y, BattleGUI.runResource, battleLang("ui.forfeit")) {
+        BattleOptionTile(battleGUI, x, y, BattleGUI.runResource, battleLang("ui.forfeit")) {
             battleGUI.selectAction(request, ForfeitActionResponse())
             playDownSound(MinecraftClient.getInstance().soundManager)
-        }
+        }.also { addWidget(it) }
     }
 
-    override fun renderButton(context: DrawContext, mouseX: Int, mouseY: Int, delta: Float) {
+    override fun renderWidget(context: DrawContext, mouseX: Int, mouseY: Int, delta: Float) {
         if (opacity <= 0.05F) {
             return
         }
-        forfeitButton.render(context, mouseX, mouseY, delta)
-        backButton.render(context.matrices, mouseX, mouseY, delta)
+        // TODO: use super call to prevent rendering widgets
     }
-
-    override fun mouseClicked(mouseX: Double, mouseY: Double, button: Int): Boolean {
-        if (backButton.isHovered(mouseX, mouseY)) {
-            battleGUI.changeActionSelection(null)
-            playDownSound(MinecraftClient.getInstance().soundManager)
-            return true
-        }
-
-        return forfeitButton.mouseClicked(mouseX, mouseY, button)
-    }
-
 }

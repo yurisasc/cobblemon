@@ -91,10 +91,6 @@ class BattleMessagePane(
         return left + 154
     }
 
-    override fun getScrollAmount(): Double {
-        return super.getScrollAmount()
-    }
-
     private fun scaleIt(i: Number): Int {
         return (client.window.scaleFactor * i.toFloat()).toInt()
     }

@@ -13,6 +13,8 @@ import com.cobblemon.mod.common.client.gui.summary.widgets.SoundlessWidget
 import com.cobblemon.mod.common.pokemon.RenderablePokemon
 import com.cobblemon.mod.common.util.math.fromEulerXYZDegrees
 import net.minecraft.client.gui.DrawContext
+import net.minecraft.client.input.KeyCodes
+import net.minecraft.client.util.InputUtil
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.text.Text
 import org.joml.Quaternionf
@@ -30,7 +32,7 @@ class StarterRoundabout(
     pX: Int, pY: Int,
     pWidth: Int, pHeight: Int,
     var pokemon: RenderablePokemon,
-    private val clickAction: (mouseX: Double, mouseY: Double) -> Unit = { _, _ -> },
+    private val clickAction: () -> Unit = {},
     private val rotationVector: Vector3f
 ): SoundlessWidget(pX, pY, pWidth, pHeight, Text.literal("StarterRoundabout")) {
 
@@ -39,12 +41,8 @@ class StarterRoundabout(
         const val MODEL_HEIGHT = 30
     }
 
-    override fun renderButton(context: DrawContext, mouseX: Int, mouseY: Int, delta: Float) {
-        if (!this.visible) {
-            return
-        }
+    override fun renderWidget(context: DrawContext, mouseX: Int, mouseY: Int, delta: Float) {
         val matrices = context.matrices
-        this.hovered = mouseX >= this.x && mouseX < this.x + this.width && mouseY >= (this.y - MODEL_HEIGHT) && mouseY < this.y
         matrices.push()
         /*
          * This correction term is due to where scaling comes from in a render. We are giving the drawProfilePokemon
@@ -80,17 +78,20 @@ class StarterRoundabout(
     }
 
     override fun mouseClicked(pMouseX: Double, pMouseY: Double, pButton: Int): Boolean {
-        if (this.clicked(pMouseX, pMouseY) && this.isValidClickButton(pButton)) {
-            this.onClick(pMouseX, pMouseY)
+        if (this.hovered && pButton == 0) {
+            this.clickAction()
+            return true
         }
+
         return super.mouseClicked(pMouseX, pMouseY, pButton)
     }
 
-    override fun clicked(mouseX: Double, mouseY: Double): Boolean {
-        return this.active && this.visible && this.hovered
-    }
+    override fun keyPressed(keyCode: Int, scanCode: Int, modifiers: Int): Boolean {
+        if (KeyCodes.isToggle(keyCode)) {
+            this.clickAction()
+            return true
+        }
 
-    override fun onClick(mouseX: Double, mouseY: Double) {
-        this.clickAction(mouseX, mouseY)
+        return super.keyPressed(keyCode, scanCode, modifiers)
     }
 }

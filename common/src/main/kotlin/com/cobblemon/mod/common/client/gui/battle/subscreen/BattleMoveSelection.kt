@@ -29,6 +29,9 @@ import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.math.toRGB
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.gui.DrawContext
+import net.minecraft.client.gui.screen.narration.NarrationMessageBuilder
+import net.minecraft.client.gui.widget.ClickableWidget
+import net.minecraft.client.gui.widget.PressableWidget
 import net.minecraft.client.sound.PositionedSoundInstance
 import net.minecraft.client.sound.SoundManager
 import net.minecraft.text.Text
@@ -41,7 +44,7 @@ class BattleMoveSelection(
     battleGUI = battleGUI,
     request = request,
     x = 20,
-    y = MinecraftClient.getInstance().window.scaledHeight - 84,
+    y = battleGUI.height - 84,
     width = 100,
     height = 100,
     battleLang("ui.select_move")
@@ -63,25 +66,57 @@ class BattleMoveSelection(
         val y = if (index > 1) this.y + MOVE_HEIGHT + MOVE_VERTICAL_SPACING else this.y.toFloat()
         // if already dynamaxed, base tiles are the gimmick tiles
         if (moveSet.hasActiveGimmick())
-            DynamaxButton.DynamaxTile(this, inBattleMove, x, y)
+            DynamaxButton.DynamaxTile(this, inBattleMove, x.toInt(), y.toInt())
         else
-            MoveTile(this, inBattleMove, x, y)
+            MoveTile(this, inBattleMove, x.toInt(), y.toInt())
     }
     var moveTiles = baseTiles
+    init {
+        moveTiles.forEach { addWidget(it) }
+    }
 
-    val backButton = BattleBackButton(x - 3F, MinecraftClient.getInstance().window.scaledHeight - 22F)
+    val backButton = BattleBackButton(x - 3F, MinecraftClient.getInstance().window.scaledHeight - 22F) {
+        playDownSound(MinecraftClient.getInstance().soundManager)
+        battleGUI.changeActionSelection(null)
+    }.also { addWidget(it) }
+
     val gimmickButtons = moveSet.getGimmicks().mapIndexed { index, gimmick ->
         val initOff = BattleBackButton.WIDTH * 0.65F
         val xOff = initOff + BattleGimmickButton.SPACING * index
-        BattleGimmickButton.create(gimmick, this, backButton.x + xOff, backButton.y)
+        BattleGimmickButton.create(gimmick, this, (backButton.x + xOff).toInt(), backButton.y.toInt()) {
+            changeTiles(if (it) this@create.tiles else baseTiles)
+        }
+    }.forEach { addWidget(it) }
+
+    private fun changeTiles(tiles: List<MoveTile>) {
+        // used to retain focus state
+        val wasFocusedOnTile = moveTiles.any { this.focused == it }
+
+        // remove all previous tiles
+        for (tile in moveTiles) {
+            removeWidget(tile)
+        }
+
+        // set the new tiles
+        moveTiles = tiles
+
+        // add the new tiles
+        for (tile in moveTiles) {
+            addWidget(tile)
+        }
+
+        // retain focus state
+        if (wasFocusedOnTile) {
+            this.focused = moveTiles.firstOrNull()
+        }
     }
 
     open class MoveTile(
         val moveSelection: BattleMoveSelection,
         val move: InBattleMove,
-        val x: Float,
-        val y: Float,
-    ) {
+        x: Int,
+        y: Int,
+    ) : PressableWidget(x, y, MOVE_WIDTH, MOVE_HEIGHT, Text.literal(move.move)) {
         var moveTemplate = Moves.getByNameOrDummy(move.id)
         var rgb = moveTemplate.elementalType.hue.toRGB()
 
@@ -97,8 +132,7 @@ class BattleMoveSelection(
             }
         }
 
-        fun render(context: DrawContext, mouseX: Int, mouseY: Int, delta: Float) {
-
+        override fun renderButton(context: DrawContext, mouseX: Int, mouseY: Int, delta: Float) {
             val selectConditionOpacity = moveSelection.opacity * if (!selectable) 0.5F else 1F
 
             blitk(
@@ -108,7 +142,7 @@ class BattleMoveSelection(
                 y = y,
                 width = MOVE_WIDTH,
                 height = MOVE_HEIGHT,
-                vOffset = if (selectable && isHovered(mouseX.toDouble(), mouseY.toDouble())) MOVE_HEIGHT else 0,
+                vOffset = if (selectable && isHovered || isFocused) MOVE_HEIGHT else 0,
                 textureHeight = MOVE_HEIGHT * 2,
                 red = rgb.first,
                 green = rgb.second,
@@ -173,39 +207,18 @@ class BattleMoveSelection(
             )
         }
 
-        fun isHovered(mouseX: Double, mouseY: Double) = mouseX >= x && mouseX <= x + MOVE_WIDTH && mouseY >= y && mouseY <= y + MOVE_HEIGHT
+        override fun appendClickableNarrations(builder: NarrationMessageBuilder?) {
+        }
 
-        fun onClick() {
+        override fun onPress() {
             if (!selectable) return
             moveSelection.playDownSound(MinecraftClient.getInstance().soundManager)
             moveSelection.battleGUI.selectAction(moveSelection.request, response)
         }
     }
 
-    override fun renderButton(context: DrawContext, mouseX: Int, mouseY: Int, delta: Float) {
-        moveTiles.forEach {
-            it.render(context, mouseX, mouseY, delta)
-        }
-        backButton.render(context.matrices, mouseX, mouseY, delta)
-        gimmickButtons.forEach {
-            it.render(context.matrices, mouseX, mouseY, delta)
-        }
-    }
+    override fun renderWidget(context: DrawContext, mouseX: Int, mouseY: Int, delta: Float) {
 
-    override fun mouseClicked(mouseX: Double, mouseY: Double, button: Int): Boolean {
-        val move = moveTiles.find { it.isHovered(mouseX, mouseY) }
-        val gimmick = gimmickButtons.find { it.isHovered(mouseX, mouseY) }
-        if (move != null) {
-            move.onClick()
-            return true
-        } else if (backButton.isHovered(mouseX, mouseY)) {
-            playDownSound(MinecraftClient.getInstance().soundManager)
-            battleGUI.changeActionSelection(null)
-        } else if (gimmick != null) {
-            gimmickButtons.filter { it != gimmick }.forEach { it.toggled = false }
-            moveTiles = if (gimmick.toggle()) gimmick.tiles else baseTiles
-        }
-        return false
     }
 
     override fun playDownSound(soundManager: SoundManager) {

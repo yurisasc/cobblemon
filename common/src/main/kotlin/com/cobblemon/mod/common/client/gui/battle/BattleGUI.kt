@@ -26,6 +26,8 @@ import com.cobblemon.mod.common.util.battleLang
 import com.cobblemon.mod.common.util.cobblemonResource
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.gui.DrawContext
+import net.minecraft.client.gui.Element
+import net.minecraft.client.gui.Selectable
 import net.minecraft.client.gui.screen.Screen
 import net.minecraft.client.util.math.MatrixStack
 class BattleGUI : Screen(battleLang("gui.title")) {
@@ -44,7 +46,10 @@ class BattleGUI : Screen(battleLang("gui.title")) {
     private lateinit var messagePane: BattleMessagePane
     var opacity = 0F
     val actor = CobblemonClient.battle?.side1?.actors?.find { it.uuid == MinecraftClient.getInstance().player?.uuid }
-    val specBackButton = BattleBackButton(12f, MinecraftClient.getInstance().window.scaledHeight - 32f)
+    val specBackButton = BattleBackButton(12f, MinecraftClient.getInstance().window.scaledHeight - 32f) {
+        RemoveSpectatorPacket(CobblemonClient.battle!!.battleId).sendToServer()
+        CobblemonClient.endBattle()
+    }.also { if (CobblemonClient.battle?.spectating == true) addDrawableChild(it) }
 
     var queuedActions = mutableListOf<() -> Unit>()
 
@@ -57,9 +62,18 @@ class BattleGUI : Screen(battleLang("gui.title")) {
     fun changeActionSelection(newSelection: BattleActionSelection?) {
         val current = children().find { it is BattleActionSelection }
         queuedActions.add {
+            val wasFocused = current?.let {
+                val focused = this.focused == it
+                // prevents sticky focus that makes the elements focus paths not being removed
+                if (focused)
+                    this.focused = null
+                focused
+            } == true
             current?.let(this::remove)
             if (newSelection != null) {
                 addDrawableChild(newSelection)
+                if (wasFocused) // retain if we were using KB navigation
+                    this.focused = newSelection
             }
         }
     }
@@ -108,10 +122,6 @@ class BattleGUI : Screen(battleLang("gui.title")) {
             } else if (getCurrentActionSelection() != null) {
                 changeActionSelection(null)
             }
-        }
-
-        if (battle.spectating) {
-            specBackButton.render(context.matrices, mouseX, mouseY, delta)
         }
 
         val currentSelection = getCurrentActionSelection()
@@ -174,9 +184,13 @@ class BattleGUI : Screen(battleLang("gui.title")) {
     override fun mouseClicked(mouseX: Double, mouseY: Double, button: Int): Boolean {
         val battle = CobblemonClient.battle
         if (battle?.spectating == true && specBackButton.isHovered(mouseX, mouseY)) {
-            RemoveSpectatorPacket(battle.battleId).sendToServer()
-            CobblemonClient.endBattle()
+
         }
         return super.mouseClicked(mouseX, mouseY, button)
+    }
+
+    // make it public
+    public override fun <T> addSelectableChild(child: T): T where T : Element, T : Selectable {
+        return super.addSelectableChild(child)
     }
 }

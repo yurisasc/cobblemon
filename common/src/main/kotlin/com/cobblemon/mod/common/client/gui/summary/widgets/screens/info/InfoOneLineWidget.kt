@@ -32,8 +32,7 @@ class InfoOneLineWidget(
     }
 
 
-    override fun renderButton(context: DrawContext, pMouseX: Int, pMouseY: Int, pPartialTicks: Float) {
-
+    override fun renderWidget(context: DrawContext, pMouseX: Int, pMouseY: Int, pPartialTicks: Float) {
         // Label
         val label = InfoBlockWidget(
             pX = x + LABEL_HORIZONTAL_OFFSET,

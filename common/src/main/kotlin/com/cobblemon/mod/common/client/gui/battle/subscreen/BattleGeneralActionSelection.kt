@@ -37,7 +37,6 @@ class BattleGeneralActionSelection(
     (BattleOptionTile.OPTION_HEIGHT + 3 * BattleGUI.OPTION_VERTICAL_SPACING).toInt(),
     battleLang("choose_action")
 ) {
-    val tiles = mutableListOf<BattleOptionTile>()
     init {
         var rank = 0
 
@@ -79,34 +78,24 @@ class BattleGeneralActionSelection(
         val startY = MinecraftClient.getInstance().window.scaledHeight - BattleGUI.OPTION_VERTICAL_OFFSET
         val x = if (rank % 2 == 0) BattleGUI.OPTION_ROOT_X else BattleGUI.OPTION_ROOT_X + BattleGUI.OPTION_HORIZONTAL_SPACING + BattleOptionTile.OPTION_WIDTH
         val y = if (rank > 1) startY + BattleOptionTile.OPTION_HEIGHT + BattleGUI.OPTION_HORIZONTAL_SPACING else startY
-        tiles.add(
-            BattleOptionTile(
-                battleGUI = battleGUI,
-                x = x,
-                y = y,
-                resource = texture,
-                text = text,
-                onClick = onClick
-            )
-        )
-    }
 
-    override fun renderButton(context: DrawContext, mouseX: Int, mouseY: Int, delta: Float) {
-        for (tile in tiles) {
-            tile.render(context, mouseX, mouseY, delta)
+        BattleOptionTile(
+            battleGUI = battleGUI,
+            x = x,
+            y = y,
+            resource = texture,
+            text = text,
+            onClick = onClick
+        ).also {
+            addWidget(it)
         }
     }
 
-    override fun mouseClicked(mouseX: Double, mouseY: Double, button: Int): Boolean {
-        return tiles.any { it.mouseClicked(mouseX, mouseY, button) }
-    }
+    override fun renderWidget(context: DrawContext, mouseX: Int, mouseY: Int, delta: Float) {
 
-    override fun appendDefaultNarrations(builder: NarrationMessageBuilder) {
     }
 
     override fun playDownSound(soundManager: SoundManager) {
         soundManager.play(PositionedSoundInstance.master(CobblemonSounds.GUI_CLICK, 1.0F))
     }
-
-    override fun getType() = Selectable.SelectionType.NONE
 }

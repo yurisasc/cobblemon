@@ -38,7 +38,7 @@ class InfoWidget(
         private const val ROW_HEIGHT = 15
     }
 
-    override fun renderButton(context: DrawContext, pMouseX: Int, pMouseY: Int, pPartialTicks: Float) {
+    override fun renderWidget(context: DrawContext, pMouseX: Int, pMouseY: Int, pPartialTicks: Float) {
         val matrices = context.matrices
         // Base texture
         blitk(

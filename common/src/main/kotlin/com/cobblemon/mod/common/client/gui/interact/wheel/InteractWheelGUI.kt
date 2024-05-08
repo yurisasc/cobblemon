@@ -20,8 +20,10 @@ import net.minecraft.client.gui.screen.Screen
 import net.minecraft.text.Text
 import kotlin.math.max
 
-class InteractWheelGUI(private val options: Multimap<Orientation, InteractWheelOption>, title: Text) :
-    Screen(title) {
+class InteractWheelGUI(
+    private val options: Multimap<Orientation, InteractWheelOption>,
+    title: Text
+) : Screen(title) {
     companion object {
         const val SIZE = 138
         const val OPTION_SIZE = 69
