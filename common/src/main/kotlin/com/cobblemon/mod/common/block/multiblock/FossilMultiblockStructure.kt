@@ -332,8 +332,7 @@ class FossilMultiblockStructure (
         }
         if(tankBaseEntity is RestorationTankBlockEntity) {
             tankBaseEntity.inv.clearToList().forEach {
-                val stack = ItemStack(it.item, 1)
-                ItemScatterer.spawn(world, pos.x.toDouble(), pos.y.toDouble(), pos.z.toDouble(), stack)
+                ItemScatterer.spawn(world, pos.x.toDouble(), pos.y.toDouble(), pos.z.toDouble(), it)
             }
         }
 

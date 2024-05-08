@@ -40,10 +40,22 @@ class RestorationTankBlockEntity(
 
     override fun readNbt(nbt: NbtCompound) {
         super.readNbt(nbt)
-        inv.readNbtList( nbt.get("inventory") as NbtList)
+        if (nbt.contains("Items")) {
+            // Old format
+            val items = DefaultedList.ofSize(inv.size(), ItemStack.EMPTY)
+            Inventories.readNbt(nbt, items)
+            RestorationTankInventory(this, *items.toTypedArray())
+        } else if (nbt.contains("inventory")) {
+            // New format
+            inv.readNbtList(nbt.get("inventory") as NbtList)
+        }
     }
 
-    class RestorationTankInventory(val tankEntity: RestorationTankBlockEntity) : SimpleInventory(8), SidedInventory {
+    class RestorationTankInventory(val tankEntity: RestorationTankBlockEntity, vararg items: ItemStack) : SimpleInventory(*items), SidedInventory {
+
+        constructor(tankEntity: RestorationTankBlockEntity) : this(tankEntity, *Array(8) { ItemStack.EMPTY })
+
+
 
         override fun markDirty() {
             super.markDirty()
@@ -80,8 +92,8 @@ class RestorationTankBlockEntity(
             }
 
             tankEntity.world?.let {
-                tankEntity.world!!.updateListeners(tankEntity.pos, tankEntity.cachedState, tankEntity.cachedState, Block.NOTIFY_ALL)
-                tankEntity.world!!.updateComparators(tankEntity.pos, tankEntity.world!!.getBlockState(tankEntity.pos).block)
+//                tankEntity.world!!.updateListeners(tankEntity.pos, tankEntity.cachedState, tankEntity.cachedState, Block.NOTIFY_ALL)
+//                tankEntity.world!!.updateComparators(tankEntity.pos, tankEntity.world!!.getBlockState(tankEntity.pos).block)
                 tankEntity.markDirty()
                 tankEntity.multiblockStructure?.markDirty(it)
             }
