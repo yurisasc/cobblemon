@@ -47,7 +47,7 @@ class RestorationTankBlockEntity(
 
         override fun markDirty() {
             super.markDirty()
-            for(i in 0..size()) {
+            for(i in 0 until size()) { // iterate over inventory, consume items, generate and place return items
                 val itemStack : ItemStack = this.getStack(i)
                 if(!itemStack.isEmpty) {
                     val struct = tankEntity.multiblockStructure as? FossilMultiblockStructure
@@ -58,7 +58,21 @@ class RestorationTankBlockEntity(
                             removeStack(i)
                             if (returnIdentifier != null) {
                                 val returnItem = Registries.ITEM.get(returnIdentifier)
-                                setStack(i, ItemStack(returnItem, itemStack.count))
+                                val returnStack =  ItemStack(returnItem, itemStack.count)
+                                var done = false
+                                if (returnStack.maxCount > 1) { // Only search for a merge if merging could be possible
+                                    for(j in 0 until size()) {
+                                        // Look for a inventory slot to merge with
+                                        val existingStack : ItemStack = getStack(j)
+                                        if (Registries.ITEM.getId(existingStack.item) == returnIdentifier && existingStack.count + returnStack.count < existingStack.maxCount) {
+                                            setStack(j, ItemStack(returnItem, existingStack.count + returnStack.count))
+                                            done = true
+                                        }
+                                    }
+                                }
+                                if (!done) {
+                                    setStack(i, ItemStack(returnItem, itemStack.count))
+                                }
                             }
                         }
                     }
@@ -87,11 +101,31 @@ class RestorationTankBlockEntity(
                     val structure = tankEntity.multiblockStructure as FossilMultiblockStructure
                     val canUtilize = stack?.let { NaturalMaterials.isNaturalMaterial(it) } == true
                             && structure.organicMaterialInside < FossilMultiblockStructure.MATERIAL_TO_START
-                            && structure.createdPokemon == null && super.canInsert(stack)
+                            && structure.createdPokemon == null
                     val returnItem = NaturalMaterials.getReturnItem(stack!!) ?: return canUtilize
-                    if(canUtilize) {
-                        // See if there's room
-                        return super.canInsert(ItemStack( Registries.ITEM.get(returnItem)))
+                    val returnStack = ItemStack(Registries.ITEM.get(returnItem), stack.count)
+                    if(canUtilize && super.canInsert(returnStack)) {
+                        // See if there's room for the return
+                        if(returnStack == ItemStack.EMPTY) {
+                            return true
+                        }
+                        var emptyCount = 0
+                        for(i in 0 until size()) {
+                            val existingStack : ItemStack = getStack(i)
+                            if(existingStack == ItemStack.EMPTY) {
+                                emptyCount += 1
+                                if(emptyCount > 1) {
+                                    // 2 empty slots, safe to insert
+                                    return true
+                                }
+                            } else if(returnStack.maxCount > 1) {
+                                if(Registries.ITEM.getId(existingStack.item) == returnItem && existingStack.count + returnStack.count < existingStack.maxCount) {
+                                    // Return item can merge with an item already in the inventory
+                                    return true
+                                }
+                            }
+                        }
+                        return false
                     }
                 }
             }
