@@ -86,7 +86,7 @@ class GildedChestBlockEntity(pos: BlockPos, state: BlockState, val type: Type = 
     }
 
     override fun getAvailableSlots(side: Direction): IntArray {
-        return if (type == Type.FAKE) IntArray(0) else IntArray(NUM_SLOTS)
+        return if (type == Type.FAKE) IntArray(0) else IntArray(NUM_SLOTS) { it }
     }
 
     override fun canInsert(slot: Int, stack: ItemStack?, dir: Direction?): Boolean {
