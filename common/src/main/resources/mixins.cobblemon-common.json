@@ -37,6 +37,7 @@
     "accessor.BoatEntityAccessor",
     "accessor.StatusEffectInstanceAccessor",
     "entity.TameableEntityMixin",
+    "invoker.AdornRegisterInvoker",
     "invoker.BlocksInvoker",
     "invoker.BooleanRuleInvoker",
     "invoker.DoorBlockInvoker",
