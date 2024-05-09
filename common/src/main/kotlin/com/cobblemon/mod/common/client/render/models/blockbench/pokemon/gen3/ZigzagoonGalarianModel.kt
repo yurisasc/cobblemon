@@ -9,6 +9,7 @@
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen3
 
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.QuadrupedWalkAnimation
+import com.cobblemon.mod.common.client.render.models.blockbench.createTransformation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.QuadrupedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
@@ -34,6 +35,12 @@ class ZigzagoonGalarianModel (root: ModelPart) : PokemonPoseableModel(), HeadedF
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
+    lateinit var shoulderLeft: PokemonPose
+    lateinit var shoulderRight: PokemonPose
+
+    val shoulderOffsetX = 0
+    val shoulderOffsetY = 0
+    val shoulderOffsetZ = -0.5
 
     override fun registerPoses() {
         val blink = quirk { bedrockStateful("zigzagoon_galarian", "blink") }
@@ -56,6 +63,30 @@ class ZigzagoonGalarianModel (root: ModelPart) : PokemonPoseableModel(), HeadedF
                 singleBoneLook(),
                 bedrock("zigzagoon_galarian", "ground_idle")
             )
+        )
+
+        shoulderLeft = registerPose(
+                poseType = PoseType.SHOULDER_LEFT,
+                quirks = arrayOf(blink),
+                idleAnimations = arrayOf(
+                        singleBoneLook(),
+                        bedrock("zigzagoon", "shoulder_left")
+                ),
+                transformedParts = arrayOf(
+                        rootPart.createTransformation().addPosition(shoulderOffsetX, shoulderOffsetY, shoulderOffsetZ)
+                )
+        )
+
+        shoulderRight = registerPose(
+                poseType = PoseType.SHOULDER_RIGHT,
+                quirks = arrayOf(blink),
+                idleAnimations = arrayOf(
+                        singleBoneLook(),
+                        bedrock("zigzagoon", "shoulder_right")
+                ),
+                transformedParts = arrayOf(
+                        rootPart.createTransformation().addPosition(-shoulderOffsetX, shoulderOffsetY, shoulderOffsetZ)
+                )
         )
     }
 
