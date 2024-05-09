@@ -64,12 +64,18 @@ class PCGUI(
     }
 
     private lateinit var storageWidget: StorageWidget
+
     private var modelWidget: ModelWidget? = null
-    internal var previewPokemon: Pokemon? = null
+
+    var previewPokemon: Pokemon? = null
+        set(value) {
+            field = value
+            modelWidget?.pokemon = value?.asRenderablePokemon()
+        }
 
     var ticksElapsed = 0
     var selectPointerOffsetY = 0
-    var selectPointerOffsetIncrement = false
+    private var selectPointerOffsetIncrement = false
 
     override fun init() {
         val x = (width - BASE_WIDTH) / 2
@@ -105,9 +111,19 @@ class PCGUI(
             party = party
         )
 
-        this.setPreviewPokemon(null)
+        this.previewPokemon = null
         this.addDrawableChild(storageWidget)
-        super.init()
+
+        modelWidget = ModelWidget(
+            pX = (width - BASE_WIDTH) / 2 + 6,
+            pY = (height - BASE_HEIGHT) / 2 + 27,
+            pWidth = PORTRAIT_SIZE,
+            pHeight = PORTRAIT_SIZE,
+            pokemon = null,
+            baseScale = 2F,
+            rotationY = 325F,
+            offsetY = -10.0
+        ).also { addDrawableChild(it) }
     }
 
     override fun render(context: DrawContext, mouseX: Int, mouseY: Int, delta: Float) {
@@ -126,9 +142,6 @@ class PCGUI(
             width = PORTRAIT_SIZE,
             height = PORTRAIT_SIZE
         )
-
-        // Render Model Portrait
-        modelWidget?.render(context, mouseX, mouseY, delta)
 
         // Render Base Resource
         blitk(
@@ -425,26 +438,6 @@ class PCGUI(
         }
     }
 
-    override fun mouseScrolled(mouseX: Double, mouseY: Double, amount: Double): Boolean {
-        if (storageWidget.pastureWidget != null) storageWidget.pastureWidget!!.pastureScrollList.mouseScrolled(
-            mouseX,
-            mouseY,
-            amount
-        )
-        return children().any { it.mouseScrolled(mouseX, mouseY, amount) }
-    }
-
-    override fun mouseDragged(mouseX: Double, mouseY: Double, button: Int, deltaX: Double, deltaY: Double): Boolean {
-        if (storageWidget.pastureWidget != null) storageWidget.pastureWidget!!.pastureScrollList.mouseDragged(
-            mouseX,
-            mouseY,
-            button,
-            deltaX,
-            deltaY
-        )
-        return super.mouseDragged(mouseX, mouseY, button, deltaX, deltaY)
-    }
-
     override fun keyPressed(keyCode: Int, scanCode: Int, modifiers: Int): Boolean {
         when (keyCode) {
             InputUtil.GLFW_KEY_ESCAPE -> {
@@ -452,16 +445,17 @@ class PCGUI(
                 UnlinkPlayerFromPCPacket().sendToServer()
             }
 
-            InputUtil.GLFW_KEY_RIGHT -> {
+            InputUtil.GLFW_KEY_PAGE_DOWN -> {
                 playSound(CobblemonSounds.PC_CLICK)
                 this.storageWidget.box += 1
             }
 
-            InputUtil.GLFW_KEY_LEFT -> {
+            InputUtil.GLFW_KEY_PAGE_UP -> {
                 playSound(CobblemonSounds.PC_CLICK)
                 this.storageWidget.box -= 1
             }
         }
+
         return super.keyPressed(keyCode, scanCode, modifiers)
     }
 
@@ -483,27 +477,5 @@ class PCGUI(
 
     fun playSound(soundEvent: SoundEvent) {
         MinecraftClient.getInstance().soundManager.play(PositionedSoundInstance.master(soundEvent, 1.0F))
-    }
-
-    fun setPreviewPokemon(pokemon: Pokemon?) {
-        if (pokemon != null) {
-            previewPokemon = pokemon
-
-            val x = (width - BASE_WIDTH) / 2
-            val y = (height - BASE_HEIGHT) / 2
-            modelWidget = ModelWidget(
-                pX = x + 6,
-                pY = y + 27,
-                pWidth = PORTRAIT_SIZE,
-                pHeight = PORTRAIT_SIZE,
-                pokemon = pokemon.asRenderablePokemon(),
-                baseScale = 2F,
-                rotationY = 325F,
-                offsetY = -10.0
-            )
-        } else {
-            previewPokemon = null
-            modelWidget = null
-        }
     }
 }

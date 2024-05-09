@@ -26,7 +26,7 @@ class ModelWidget(
     val baseScale: Float = 2.7F,
     var rotationY: Float = 35F,
     var offsetY: Double = 0.0
-): SoundlessWidget(pX, pY, pWidth, pHeight, Text.literal("Trade - ModelWidget")) {
+) : SoundlessWidget(pX, pY, pWidth, pHeight, Text.literal("Trade - ModelWidget")) {
     var state = PokemonFloatingState()
     private var rotVec = Vector3f(13F, rotationY, 0F)
 

@@ -18,13 +18,10 @@ import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.util.battleLang
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.gui.DrawContext
-import net.minecraft.client.gui.Selectable
 import net.minecraft.client.gui.screen.narration.NarrationMessageBuilder
 import net.minecraft.client.gui.widget.PressableWidget
 import net.minecraft.client.sound.PositionedSoundInstance
 import net.minecraft.client.sound.SoundManager
-import net.minecraft.client.util.math.MatrixStack
-import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.util.math.MathHelper.ceil
 class BattleSwitchPokemonSelection(
     battleGUI: BattleGUI,
@@ -77,7 +74,7 @@ class BattleSwitchPokemonSelection(
             ).also { addWidget(it) }
         }
 
-        BattleBackButton(x - 3F, MinecraftClient.getInstance().window.scaledHeight - 22F ) {
+        BattleBackButton(x - 3, MinecraftClient.getInstance().window.scaledHeight - 22) {
             battleGUI.changeActionSelection(null)
             playDownSound(MinecraftClient.getInstance().soundManager)
         }.also { addWidget(it) }

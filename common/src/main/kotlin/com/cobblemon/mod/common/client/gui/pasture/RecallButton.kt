@@ -39,7 +39,7 @@ class RecallButton(
             y = y,
             width = WIDTH,
             height = HEIGHT,
-            vOffset = if (isHovered(mouseX.toDouble(), mouseY.toDouble())) HEIGHT else 0,
+            vOffset = if (isHovered || isFocused) HEIGHT else 0,
             textureHeight = HEIGHT * 2
         )
 
@@ -58,5 +58,4 @@ class RecallButton(
     override fun playDownSound(pHandler: SoundManager) {
     }
 
-    fun isHovered(mouseX: Double, mouseY: Double) = mouseX.toFloat() in (x.toFloat()..(x.toFloat() + WIDTH)) && mouseY.toFloat() in (y.toFloat()..(y.toFloat() + HEIGHT))
 }

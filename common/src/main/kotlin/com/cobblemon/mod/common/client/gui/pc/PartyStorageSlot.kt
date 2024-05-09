@@ -14,7 +14,7 @@ import com.cobblemon.mod.common.pokemon.Pokemon
 
 class PartyStorageSlot(
     x: Int, y: Int,
-    private val parent: StorageWidget,
+    parent: StorageWidget,
     private val party: ClientParty,
     val position: PartyPosition,
     onPress: PressAction

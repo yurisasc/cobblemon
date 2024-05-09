@@ -30,7 +30,6 @@ import com.cobblemon.mod.common.util.math.toRGB
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.gui.DrawContext
 import net.minecraft.client.gui.screen.narration.NarrationMessageBuilder
-import net.minecraft.client.gui.widget.ClickableWidget
 import net.minecraft.client.gui.widget.PressableWidget
 import net.minecraft.client.sound.PositionedSoundInstance
 import net.minecraft.client.sound.SoundManager
@@ -75,7 +74,7 @@ class BattleMoveSelection(
         moveTiles.forEach { addWidget(it) }
     }
 
-    val backButton = BattleBackButton(x - 3F, MinecraftClient.getInstance().window.scaledHeight - 22F) {
+    val backButton = BattleBackButton(x - 3, MinecraftClient.getInstance().window.scaledHeight - 22) {
         playDownSound(MinecraftClient.getInstance().soundManager)
         battleGUI.changeActionSelection(null)
     }.also { addWidget(it) }

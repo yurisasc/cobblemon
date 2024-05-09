@@ -29,7 +29,7 @@ import net.minecraft.client.gui.DrawContext
 import net.minecraft.client.gui.Element
 import net.minecraft.client.gui.Selectable
 import net.minecraft.client.gui.screen.Screen
-import net.minecraft.client.util.math.MatrixStack
+
 class BattleGUI : Screen(battleLang("gui.title")) {
     companion object {
         const val OPTION_VERTICAL_SPACING = 3
@@ -46,10 +46,13 @@ class BattleGUI : Screen(battleLang("gui.title")) {
     private lateinit var messagePane: BattleMessagePane
     var opacity = 0F
     val actor = CobblemonClient.battle?.side1?.actors?.find { it.uuid == MinecraftClient.getInstance().player?.uuid }
-    val specBackButton = BattleBackButton(12f, MinecraftClient.getInstance().window.scaledHeight - 32f) {
+    val specBackButton = BattleBackButton(12, MinecraftClient.getInstance().window.scaledHeight - 32) {
         RemoveSpectatorPacket(CobblemonClient.battle!!.battleId).sendToServer()
         CobblemonClient.endBattle()
-    }.also { if (CobblemonClient.battle?.spectating == true) addDrawableChild(it) }
+    }.also {
+        if (CobblemonClient.battle?.spectating == true)
+            addDrawableChild(it)
+    }
 
     var queuedActions = mutableListOf<() -> Unit>()
 
@@ -181,15 +184,7 @@ class BattleGUI : Screen(battleLang("gui.title")) {
         return super.charTyped(chr, modifiers)
     }
 
-    override fun mouseClicked(mouseX: Double, mouseY: Double, button: Int): Boolean {
-        val battle = CobblemonClient.battle
-        if (battle?.spectating == true && specBackButton.isHovered(mouseX, mouseY)) {
-
-        }
-        return super.mouseClicked(mouseX, mouseY, button)
-    }
-
-    // make it public
+    // increase visibility to public
     public override fun <T> addSelectableChild(child: T): T where T : Element, T : Selectable {
         return super.addSelectableChild(child)
     }

@@ -27,14 +27,14 @@ class PastureSlotIconButton(
         private val baseResource = cobblemonResource("textures/gui/pasture/pasture_slot_icon_move.png")
     }
 
-    override fun render(context: DrawContext, mouseX: Int, mouseY: Int, delta: Float) {
+    override fun renderButton(context: DrawContext, mouseX: Int, mouseY: Int, delta: Float) {
         blitk(
             matrixStack = context.matrices,
             x = xPos / SCALE,
             y = yPos / SCALE,
             width = SIZE,
             height = SIZE,
-            vOffset = if (isHovered(mouseX.toDouble(), mouseY.toDouble())) SIZE else 0,
+            vOffset = if (isHovered || isFocused) SIZE else 0,
             textureHeight = SIZE * 2,
             texture = baseResource,
             scale = SCALE
@@ -49,5 +49,4 @@ class PastureSlotIconButton(
     override fun playDownSound(pHandler: SoundManager) {
     }
 
-    fun isHovered(mouseX: Double, mouseY: Double) = mouseX.toFloat() in (xPos.toFloat()..(xPos.toFloat() + (SIZE * SCALE))) && mouseY.toFloat() in (yPos.toFloat()..(yPos.toFloat() + (SIZE * SCALE)))
 }

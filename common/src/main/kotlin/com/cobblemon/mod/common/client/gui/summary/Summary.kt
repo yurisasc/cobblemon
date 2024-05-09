@@ -64,7 +64,11 @@ import net.minecraft.text.Text
  *
  * @param selection The index the [party] will have as the base [selectedPokemon].
  */
-class Summary private constructor(party: Collection<Pokemon?>, private val editable: Boolean, private val selection: Int): Screen(Text.translatable("cobblemon.ui.summary.title")), Schedulable {
+class Summary private constructor(
+    party: Collection<Pokemon?>,
+    private val editable: Boolean,
+    private val selection: Int
+): Screen(Text.translatable("cobblemon.ui.summary.title")), Schedulable {
 
     companion object {
         const val BASE_WIDTH = 331

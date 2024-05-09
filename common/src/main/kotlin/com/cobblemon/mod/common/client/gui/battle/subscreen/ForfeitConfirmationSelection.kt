@@ -11,12 +11,10 @@ package com.cobblemon.mod.common.client.gui.battle.subscreen
 import com.cobblemon.mod.common.battles.ForfeitActionResponse
 import com.cobblemon.mod.common.client.battle.SingleActionRequest
 import com.cobblemon.mod.common.client.gui.battle.BattleGUI
-import com.cobblemon.mod.common.client.gui.battle.BattleOverlay
 import com.cobblemon.mod.common.client.gui.battle.widgets.BattleOptionTile
 import com.cobblemon.mod.common.util.battleLang
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.gui.DrawContext
-import net.minecraft.client.util.math.MatrixStack
 
 class ForfeitConfirmationSelection(
     battleGUI: BattleGUI,
@@ -31,7 +29,7 @@ class ForfeitConfirmationSelection(
     battleLang("ui.forfeit_confirmation")
 ) {
     init {
-        BattleBackButton(x - 3F, MinecraftClient.getInstance().window.scaledHeight - 22F) {
+        BattleBackButton(x - 3, MinecraftClient.getInstance().window.scaledHeight - 22) {
             battleGUI.changeActionSelection(null)
             playDownSound(MinecraftClient.getInstance().soundManager)
         }.also { addWidget(it) }

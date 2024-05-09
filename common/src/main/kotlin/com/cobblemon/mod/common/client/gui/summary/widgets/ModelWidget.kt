@@ -12,8 +12,12 @@ import com.cobblemon.mod.common.client.gui.drawProfilePokemon
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonFloatingState
 import com.cobblemon.mod.common.pokemon.RenderablePokemon
 import com.cobblemon.mod.common.util.math.fromEulerXYZDegrees
-import net.minecraft.client.MinecraftClient
 import net.minecraft.client.gui.DrawContext
+import net.minecraft.client.gui.navigation.GuiNavigation
+import net.minecraft.client.gui.navigation.GuiNavigationPath
+import net.minecraft.client.gui.screen.narration.NarrationMessageBuilder
+import net.minecraft.client.gui.widget.ClickableWidget
+import net.minecraft.client.sound.SoundManager
 import net.minecraft.text.Text
 import org.joml.Quaternionf
 import org.joml.Vector3f
@@ -21,11 +25,11 @@ import org.joml.Vector3f
 class ModelWidget(
     pX: Int, pY: Int,
     pWidth: Int, pHeight: Int,
-    var pokemon: RenderablePokemon,
+    var pokemon: RenderablePokemon?,
     val baseScale: Float = 2.7F,
     var rotationY: Float = 35F,
     var offsetY: Double = 0.0
-): SoundlessWidget(pX, pY, pWidth, pHeight, Text.literal("Summary - ModelWidget")) {
+) : ClickableWidget(pX, pY, pWidth, pHeight, Text.literal("Summary - ModelWidget")) {
 
     companion object {
         var render = true
@@ -34,14 +38,15 @@ class ModelWidget(
     var state = PokemonFloatingState()
     val rotVec = Vector3f(13F, rotationY, 0F)
 
-    override fun renderWidget(context: DrawContext, pMouseX: Int, pMouseY: Int, partialTicks: Float) {
+    override fun renderButton(context: DrawContext, mouseX: Int, mouseY: Int, delta: Float) {
         if (!render) {
             return
         }
-        renderPKM(context, partialTicks)
+
+        pokemon?.let { renderPKM(it, context, delta) }
     }
 
-    private fun renderPKM(context: DrawContext, partialTicks: Float) {
+    private fun renderPKM(pokemon: RenderablePokemon, context: DrawContext, partialTicks: Float) {
         val matrices = context.matrices
         matrices.push()
 
@@ -49,7 +54,7 @@ class ModelWidget(
             x,
             y,
             x + width,
-            y +  height
+            y + height
         )
 
         matrices.translate(x + width * 0.5, y.toDouble() + offsetY, 0.0)
@@ -68,5 +73,15 @@ class ModelWidget(
         context.disableScissor()
 
         matrices.pop()
+    }
+
+    override fun getNavigationPath(navigation: GuiNavigation?): GuiNavigationPath? {
+        return null // not focusable
+    }
+
+    override fun playDownSound(soundManager: SoundManager) {
+    }
+
+    override fun appendClickableNarrations(builder: NarrationMessageBuilder) {
     }
 }
