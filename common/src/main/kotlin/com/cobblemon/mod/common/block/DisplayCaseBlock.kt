@@ -10,6 +10,7 @@ package com.cobblemon.mod.common.block
 
 import com.cobblemon.mod.common.block.entity.DisplayCaseBlockEntity
 import com.cobblemon.mod.common.item.PokeBallItem
+import com.mojang.serialization.MapCodec
 import net.minecraft.block.*
 import net.minecraft.block.HorizontalFacingBlock.*
 import net.minecraft.entity.ai.pathing.NavigationType
@@ -34,10 +35,6 @@ class DisplayCaseBlock(settings: Settings) : BlockWithEntity(settings) {
         this.defaultState = this.stateManager.defaultState
             .with(FACING, Direction.NORTH)
             .with(ITEM_DIRECTION, Direction.NORTH)
-    }
-
-    companion object {
-        val ITEM_DIRECTION = DirectionProperty.of("item_facing")
     }
 
     override fun getPlacementState(ctx: ItemPlacementContext): BlockState? {
@@ -95,12 +92,12 @@ class DisplayCaseBlock(settings: Settings) : BlockWithEntity(settings) {
         return result
     }
 
-    override fun onBreak(world: World, pos: BlockPos, state: BlockState, player: PlayerEntity) {
+    override fun onBreak(world: World, pos: BlockPos, state: BlockState, player: PlayerEntity): BlockState {
         val entity = world.getBlockEntity(pos) as DisplayCaseBlockEntity
         if (!entity.getStack().isEmpty && !player.isCreative) {
             ItemScatterer.spawn(world, pos, entity.inv)
         }
-        super.onBreak(world, pos, state, player)
+        return super.onBreak(world, pos, state, player)
     }
 
     override fun getRenderType(state: BlockState?) = BlockRenderType.MODEL
@@ -115,7 +112,15 @@ class DisplayCaseBlock(settings: Settings) : BlockWithEntity(settings) {
     }
 
     override fun hasComparatorOutput(state: BlockState?) = true
+    override fun getCodec(): MapCodec<out BlockWithEntity> {
+        return CODEC
+    }
 
     override fun canPathfindThrough(state: BlockState, world: BlockView, pos: BlockPos, type: NavigationType) = false
+
+    companion object {
+        val CODEC = createCodec(::DisplayCaseBlock)
+        val ITEM_DIRECTION = DirectionProperty.of("item_facing")
+    }
 
 }

@@ -73,6 +73,8 @@ class GildedChestBlockEntity(pos: BlockPos, state: BlockState, val type: Type = 
     override fun createScreenHandler(syncId: Int, playerInventory: PlayerInventory?) =
         GenericContainerScreenHandler.createGeneric9x3(syncId, playerInventory, this)
 
+    override fun method_11282() = inventoryContents
+
     override fun onOpen(player: PlayerEntity) {
         if (!this.removed && !player.isSpectator && type != Type.FAKE) {
             stateManager.openContainer(player, this.getWorld(), this.getPos(), this.cachedState)
@@ -100,8 +102,6 @@ class GildedChestBlockEntity(pos: BlockPos, state: BlockState, val type: Type = 
     }
 
     override fun canPlayerUse(player: PlayerEntity) = !player.isSpectator
-
-    override fun getInvStackList(): DefaultedList<ItemStack> = inventoryContents
 
     override fun setInvStackList(list: DefaultedList<ItemStack>) {
         inventoryContents = list
@@ -150,7 +150,7 @@ class GildedChestBlockEntity(pos: BlockPos, state: BlockState, val type: Type = 
     }
     override fun writeNbt(nbt: NbtCompound?) {
         super.writeNbt(nbt)
-        if (!serializeLootTable(nbt)) {
+        if (!writeLootTable(nbt)) {
             Inventories.writeNbt(nbt, inventoryContents)
         }
     }
@@ -160,7 +160,7 @@ class GildedChestBlockEntity(pos: BlockPos, state: BlockState, val type: Type = 
         inventoryContents= DefaultedList.ofSize(
             size(), ItemStack.EMPTY
         )
-        if (!deserializeLootTable(nbt)) {
+        if (!readLootTable(nbt)) {
             Inventories.readNbt(nbt, inventoryContents)
         }
     }

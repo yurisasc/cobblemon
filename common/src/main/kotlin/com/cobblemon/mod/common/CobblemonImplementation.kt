@@ -146,7 +146,7 @@ interface CobblemonImplementation {
      * @param criteria
      * @return
      */
-    fun <T : Criterion<*>> registerCriteria(criteria: T): T
+    fun <T : Criterion<*>> registerCriteria(id: String, criteria: T): T
 
     /**
      * TODO

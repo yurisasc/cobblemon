@@ -9,7 +9,6 @@
 package com.cobblemon.mod.common.client.gui.interact.moveselect
 
 import com.cobblemon.mod.common.api.gui.blitk
-import com.cobblemon.mod.common.api.moves.Move
 import com.cobblemon.mod.common.api.moves.MoveTemplate
 import com.cobblemon.mod.common.api.moves.Moves
 import com.cobblemon.mod.common.api.text.bold
@@ -24,6 +23,7 @@ import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.math.toRGB
 import net.minecraft.client.gui.DrawContext
 import net.minecraft.client.gui.widget.ButtonWidget
+import net.minecraft.client.gui.widget.ButtonWidget.NarrationSupplier
 import net.minecraft.client.sound.SoundManager
 import net.minecraft.text.Text
 import net.minecraft.util.math.MathHelper
@@ -45,7 +45,7 @@ class MoveSlotButton(
         const val HEIGHT = 22
     }
 
-    override fun render(context: DrawContext, pMouseX: Int, pMouseY: Int, pPartialTicks: Float) {
+    override fun renderWidget(context: DrawContext, pMouseX: Int, pMouseY: Int, pPartialTicks: Float) {
         hovered = pMouseX >= x && pMouseY >= y && pMouseX < x + width && pMouseY < y + height && enabled
 
         val moveTemplate = Moves.getByNameOrDummy(move.name)

@@ -30,8 +30,8 @@ import net.minecraft.util.Language
  */
 class DialogueBox(
     val dialogueScreen: DialogueScreen,
-    val x: Int = 0,
-    val y: Int = 0,
+    x: Int = 0,
+    y: Int = 0,
     val frameWidth: Int,
     height: Int,
     messages: List<MutableText>
@@ -40,7 +40,6 @@ class DialogueBox(
     frameWidth - 14,
     height, // height
     1, // top
-    1 + height, // bottom
     LINE_HEIGHT
 ) {
     val dialogue = dialogueScreen.dialogueDTO
@@ -53,10 +52,10 @@ class DialogueBox(
         get() = y
 
     init {
+        this.x = x
+        this.y = y
         correctSize()
-        setRenderHorizontalShadows(false)
         setRenderBackground(false)
-        setRenderSelection(false)
 
         val textRenderer = MinecraftClient.getInstance().textRenderer
 
@@ -67,8 +66,8 @@ class DialogueBox(
 
     private fun correctSize() {
         val textBoxHeight = height
-        updateSize(width, textBoxHeight, appropriateY + 6, appropriateY + 6 + textBoxHeight)
-        setLeftPos(appropriateX + 8)
+        setDimensionsAndPosition(width, textBoxHeight, appropriateY + 6, appropriateY + 6 + textBoxHeight)
+        setX(appropriateX + 8)
     }
 
     companion object {
@@ -86,23 +85,19 @@ class DialogueBox(
     }
 
     override fun getScrollbarPositionX(): Int {
-        return left + 144
-    }
-
-    override fun getScrollAmount(): Double {
-        return super.getScrollAmount()
+        return this.x + 144
     }
 
     private fun scaleIt(i: Number): Int {
         return (client.window.scaleFactor * i.toFloat()).toInt()
     }
 
-    override fun render(context: DrawContext, mouseX: Int, mouseY: Int, partialTicks: Float) {
+    override fun renderWidget(context: DrawContext, mouseX: Int, mouseY: Int, partialTicks: Float) {
         correctSize()
         blitk(
             matrixStack = context.matrices,
             texture = boxResource,
-            x = left - 8,
+            x = this.x - 8,
             y = appropriateY - 1,
             height = height + 12, // used to be FRAME_HEIGHT as below
             width = frameWidth,
@@ -117,9 +112,9 @@ class DialogueBox(
     override fun enableScissor(context: DrawContext) {
         val textBoxHeight = height
         context.enableScissor(
-            left,
+            this.x,
             appropriateY + 7,
-            left + width - 10,
+            this.x + width - 10,
             appropriateY + 7 + textBoxHeight
         )
     }
@@ -129,8 +124,8 @@ class DialogueBox(
 
         // TODO change this coordinate check to just be "anywhere the scroll bar isn't"
         if (!dialogueScreen.waitingForServerUpdate &&
-            mouseX > (left) &&
-            mouseX < (left + 160) &&
+            mouseX > (this.x) &&
+            mouseX < (this.x + 160) &&
             mouseY > (appropriateY) &&
             mouseY < (appropriateY + height)
         ) {
@@ -151,7 +146,7 @@ class DialogueBox(
 
     override fun mouseDragged(mouseX: Double, mouseY: Double, button: Int, deltaX: Double, deltaY: Double): Boolean {
         if (scrolling) {
-            if (mouseY < top) {
+            if (mouseY < this.y) {
                 scrollAmount = 0.0
             } else if (mouseY > bottom) {
                 scrollAmount = maxScroll.toDouble()
@@ -165,7 +160,7 @@ class DialogueBox(
     private fun updateScrollingState(mouseX: Double, mouseY: Double) {
         scrolling = mouseX >= this.scrollbarPositionX.toDouble()
                 && mouseX < (this.scrollbarPositionX + 3).toDouble()
-                && mouseY >= top
+                && mouseY >= this.y
                 && mouseY < bottom
     }
 

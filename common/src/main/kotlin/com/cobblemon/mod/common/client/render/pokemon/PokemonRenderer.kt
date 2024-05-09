@@ -27,6 +27,7 @@ import com.cobblemon.mod.common.entity.pokeball.EmptyPokeBallEntity
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity.Companion.SPAWN_DIRECTION
 import com.cobblemon.mod.common.pokeball.PokeBall
+import com.cobblemon.mod.common.util.effectiveName
 import com.cobblemon.mod.common.util.isLookingAt
 import com.cobblemon.mod.common.util.lang
 import com.cobblemon.mod.common.util.math.DoubleRange
@@ -123,7 +124,7 @@ class PokemonRenderer(
         modelNow.blue = 1F
         modelNow.resetLayerContext()
         if (this.shouldRenderLabel(entity)) {
-            this.renderLabelIfPresent(entity, entity.displayName, poseMatrix, buffer, packedLight)
+            this.renderLabelIfPresent(entity, entity.effectiveName(), poseMatrix, buffer, packedLight)
         }
 //        MinecraftClient.getInstance().bufferBuilders.entityVertexConsumers.draw()
     }
@@ -319,7 +320,7 @@ class PokemonRenderer(
             val scale = min(1.5, max(0.65, d.remap(DoubleRange(-16.0, 96.0), DoubleRange(0.0, 1.0))))
             val sizeScale = MathHelper.lerp(scale.remap(DoubleRange(0.65, 1.5), DoubleRange(0.0,1.0)), 0.5, 1.0)
             val offsetScale = MathHelper.lerp(scale.remap(DoubleRange(0.65, 1.5), DoubleRange(0.0,1.0)), 0.0,1.0)
-            val entityHeight = entity.boundingBox.yLength + 0.5f
+            val entityHeight = entity.boundingBox.lengthY + 0.5f
             matrices.push()
             matrices.translate(0.0, entityHeight, 0.0)
             matrices.multiply(dispatcher.rotation)

@@ -9,7 +9,6 @@
 package com.cobblemon.mod.common.battles
 
 import com.cobblemon.mod.common.Cobblemon
-import com.cobblemon.mod.common.CobblemonSounds
 import com.cobblemon.mod.common.api.battles.model.PokemonBattle
 import com.cobblemon.mod.common.api.battles.model.actor.BattleActor
 import com.cobblemon.mod.common.api.storage.party.PartyStore
@@ -18,15 +17,15 @@ import com.cobblemon.mod.common.battles.actor.PokemonBattleActor
 import com.cobblemon.mod.common.battles.pokemon.BattlePokemon
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.util.battleLang
+import com.cobblemon.mod.common.util.effectiveName
 import com.cobblemon.mod.common.util.getBattleTheme
 import com.cobblemon.mod.common.util.getPlayer
 import com.cobblemon.mod.common.util.party
-import java.util.Optional
-import java.util.UUID
 import net.minecraft.entity.Entity
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.text.MutableText
 import net.minecraft.text.Text
+import java.util.UUID
 
 object BattleBuilder {
     @JvmOverloads
@@ -168,8 +167,8 @@ interface BattleStartError {
     fun getMessageFor(entity: Entity): MutableText
 
     companion object {
-        fun alreadyInBattle(player: ServerPlayerEntity) = AlreadyInBattleError(player.uuid, player.displayName)
-        fun alreadyInBattle(pokemonEntity: PokemonEntity) = AlreadyInBattleError(pokemonEntity.uuid, pokemonEntity.displayName)
+        fun alreadyInBattle(player: ServerPlayerEntity) = AlreadyInBattleError(player.uuid, player.effectiveName())
+        fun alreadyInBattle(pokemonEntity: PokemonEntity) = AlreadyInBattleError(pokemonEntity.uuid, pokemonEntity.effectiveName())
         fun alreadyInBattle(actor: BattleActor) = AlreadyInBattleError(actor.uuid, actor.getName())
 
         fun targetIsBusy(targetName: MutableText) = BusyError(targetName)
@@ -209,7 +208,7 @@ class InsufficientPokemonError(
         } else {
             battleLang(
                 "error.insufficient_pokemon",
-                player.displayName,
+                player.effectiveName(),
                 requiredCount,
                 hadCount
             )

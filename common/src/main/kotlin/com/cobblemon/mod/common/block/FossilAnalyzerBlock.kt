@@ -14,9 +14,11 @@ import com.cobblemon.mod.common.block.entity.FossilAnalyzerBlockEntity
 import com.cobblemon.mod.common.block.entity.FossilMultiblockEntity
 import com.cobblemon.mod.common.block.multiblock.FossilMultiblockStructure
 import com.cobblemon.mod.common.block.multiblock.FossilMultiblockBuilder
+import com.mojang.serialization.MapCodec
 import net.minecraft.block.Block
 import net.minecraft.inventory.SidedInventory
 import net.minecraft.block.BlockState
+import net.minecraft.block.BlockWithEntity
 import net.minecraft.block.HorizontalFacingBlock
 import net.minecraft.block.InventoryProvider
 import net.minecraft.block.entity.BlockEntity
@@ -41,11 +43,15 @@ class FossilAnalyzerBlock(properties: Settings) : MultiblockBlock(properties), I
         return FossilAnalyzerBlockEntity(pos, state, FossilMultiblockBuilder(pos))
     }
 
+    override fun getCodec(): MapCodec<out BlockWithEntity> {
+        return CODEC
+    }
+
     override fun <T : BlockEntity?> getTicker(
         world: World?,
         state: BlockState?,
         type: BlockEntityType<T>?
-    ): BlockEntityTicker<T>? = checkType(type, CobblemonBlockEntities.FOSSIL_ANALYZER, FossilMultiblockStructure.TICKER::tick)
+    ): BlockEntityTicker<T>? = validateTicker(type, CobblemonBlockEntities.FOSSIL_ANALYZER, FossilMultiblockStructure.TICKER::tick)
 
     override fun getPlacementState(blockPlaceContext: ItemPlacementContext): BlockState? {
         return defaultState.with(HorizontalFacingBlock.FACING, blockPlaceContext.horizontalPlayerFacing)
@@ -68,5 +74,7 @@ class FossilAnalyzerBlock(properties: Settings) : MultiblockBlock(properties), I
 
     companion object {
         val ON = BooleanProperty.of("on")
+
+        val CODEC = createCodec(::FossilAnalyzerBlock)
     }
 }

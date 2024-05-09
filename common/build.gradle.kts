@@ -39,10 +39,8 @@ dependencies {
 
     modImplementation(libs.fabricLoader)
     //Flywheel has no common dep so just pick one and don't use any platform specific code in common
-//    modCompileOnly(libs.flywheelFabric)
+    //modCompileOnly(libs.flywheelFabric)
     modApi(libs.molang)
-    compileOnlyApi(libs.jeiApi)
-    modCompileOnly(libs.adornFabric)
     modCompileOnly(libs.lambDynamicLights) { isTransitive = false }
 
     // For Showdown

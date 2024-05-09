@@ -60,7 +60,7 @@ class PokemonPastureBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(
         val entityId: Int
     ) {
         fun getPokemon() = Cobblemon.storage.getPC(pcId)[pokemonId]
-        val box = Box(minRoamPos, maxRoamPos)
+        val box = Box(minRoamPos.toVec3d(), maxRoamPos.toVec3d())
         open fun canRoamTo(pos: BlockPos) = box.contains(pos.toCenterPos())
 
         fun toDTO(player: ServerPlayerEntity): OpenPasturePacket.PasturePokemonDataDTO? {
@@ -129,7 +129,7 @@ class PokemonPastureBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(
         val world = world ?: return false
         val entity = PokemonEntity(world, pokemon = pokemon)
         entity.calculateDimensions()
-        val width = entity.boundingBox.xLength
+        val width = entity.boundingBox.lengthX
 
         val idealPlace = pos.add(directionToBehind.vector.multiply(ceil(width).toInt() + 1))
         var box = entity.getDimensions(EntityPose.STANDING).getBoxAt(idealPlace.toCenterPos().subtract(0.0, 0.5, 0.0))

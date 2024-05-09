@@ -47,10 +47,10 @@ abstract class ParentWidget(
         super.mouseMoved(pMouseX, pMouseY)
     }
 
-    override fun mouseScrolled(pMouseX: Double, pMouseY: Double, pDelta: Double): Boolean {
+    override fun mouseScrolled(mouseX: Double, mouseY: Double, horizontalAmount: Double, verticalAmount: Double): Boolean {
         return children.any {
-            it.mouseScrolled(pMouseX, pMouseY, pDelta)
-        } || super.mouseScrolled(pMouseX, pMouseY, pDelta)
+            it.mouseScrolled(mouseX, mouseY, horizontalAmount, verticalAmount)
+        } || super.mouseScrolled(mouseX, mouseY, horizontalAmount, verticalAmount)
     }
 
     override fun mouseClicked(pMouseX: Double, pMouseY: Double, pButton: Int): Boolean {

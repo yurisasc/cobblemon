@@ -265,10 +265,10 @@ class PokemonClientDelegate : PoseableEntityState<PokemonEntity>(), PokemonSideD
                 return@Function StringValue(currentEntity.pokemon.form.name)
             },
             "width" to java.util.function.Function {
-                return@Function DoubleValue(currentEntity.boundingBox.xLength)
+                return@Function DoubleValue(currentEntity.boundingBox.lengthX)
             },
             "height" to java.util.function.Function {
-                return@Function DoubleValue(currentEntity.boundingBox.yLength)
+                return@Function DoubleValue(currentEntity.boundingBox.lengthY)
             },
             "weight" to java.util.function.Function {
                 return@Function DoubleValue(currentEntity.pokemon.species.weight.toDouble())
