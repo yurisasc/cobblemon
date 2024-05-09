@@ -37,7 +37,11 @@ class GenericLandController : RideController {
         val KEY: Identifier = cobblemonResource("land/generic")
     }
 
-    var speed = "Math.clamp(q.entity.velocity.horizontal_length + q.entity.acceleration, 0, 10)".asExpression()
+    var canJump = "true".asExpression()
+        private set
+    var jumpVector = listOf("0".asExpression(), "0.3*q.jump_strength".asExpression(), "0".asExpression())
+        private set
+    var speed = "1.0".asExpression()
         private set
 
     // this needs to be moved to the entity runtime once that's a thing
@@ -93,6 +97,8 @@ class GenericLandController : RideController {
                     "vertical_magnitude" to java.util.function.Function { DoubleValue(abs(entity.velocity.y)) }
                 )
             )
+        }.addFunction("yaw") {
+            DoubleValue(entity.yaw.toDouble())
         }
     }
 
@@ -117,12 +123,30 @@ class GenericLandController : RideController {
         return velocity
     }
 
+    override fun canJump(entity: PokemonEntity, driver: PlayerEntity) = true
+
+    override fun jumpForce(entity: PokemonEntity, driver: PlayerEntity, jumpStrength: Int): Vec3d {
+
+
+        TODO("Not yet implemented")
+    }
+
     override fun encode(buffer: PacketByteBuf) {
         super.encode(buffer)
         buffer.writeString(this.speed.getString())
+        buffer.writeString(this.canJump.getString())
+        buffer.writeString(this.jumpVector[0].getString())
+        buffer.writeString(this.jumpVector[1].getString())
+        buffer.writeString(this.jumpVector[2].getString())
     }
 
     override fun decode(buffer: PacketByteBuf) {
         this.speed = buffer.readString().asExpression()
+        this.canJump = buffer.readString().asExpression()
+        this.jumpVector = listOf(
+            buffer.readString().asExpression(),
+            buffer.readString().asExpression(),
+            buffer.readString().asExpression()
+        )
     }
 }

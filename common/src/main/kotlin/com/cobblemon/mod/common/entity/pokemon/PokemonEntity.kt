@@ -105,6 +105,7 @@ import net.minecraft.util.Hand
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Box
+import net.minecraft.util.math.MathHelper
 import net.minecraft.util.math.Vec2f
 import net.minecraft.util.math.Vec3d
 import net.minecraft.world.EntityView
@@ -1207,6 +1208,18 @@ open class PokemonEntity(
 
             this.jumpStrength = 0.0f
         }
+    }
+
+    override fun jump() {
+        val vec3d = this.velocity
+        this.setVelocity(vec3d.x, this.jumpVelocity.toDouble(), vec3d.z)
+        if (this.isSprinting) {
+            val f = this.yaw * 0.017453292f
+            this.velocity =
+                velocity.add((-MathHelper.sin(f) * 0.2f).toDouble(), 0.0, (MathHelper.cos(f) * 0.2f).toDouble())
+        }
+
+        this.velocityDirty = true
     }
 
     private fun getControlledRotation(controller: LivingEntity): Vec2f {

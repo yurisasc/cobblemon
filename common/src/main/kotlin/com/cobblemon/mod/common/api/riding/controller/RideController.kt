@@ -76,6 +76,9 @@ interface RideController : Encodable, Decodable {
      */
     fun velocity(driver: PlayerEntity, input: Vec3d) : Vec3d
 
+    fun canJump(entity: PokemonEntity, driver: PlayerEntity) : Boolean
+    fun jumpForce(entity: PokemonEntity, driver: PlayerEntity, jumpStrength: Int) : Vec3d
+
     override fun encode(buffer: PacketByteBuf) {
         buffer.writeIdentifier(this.key)
     }
