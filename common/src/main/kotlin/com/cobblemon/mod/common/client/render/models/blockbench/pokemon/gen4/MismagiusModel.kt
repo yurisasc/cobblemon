@@ -35,7 +35,7 @@ class MismagiusModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
-                singleBoneLook(),
+                singleBoneLook(yawMultiplier = 0.5F),
                 bedrock("mismagius", "ground_idle")
             )
         )
@@ -45,7 +45,7 @@ class MismagiusModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             poseTypes = PoseType.MOVING_POSES,
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
-                singleBoneLook(),
+                singleBoneLook(yawMultiplier = 0.5F),
                 bedrock("mismagius", "ground_idle")
                 //bedrock("mismagius", "ground_walk")
             )
