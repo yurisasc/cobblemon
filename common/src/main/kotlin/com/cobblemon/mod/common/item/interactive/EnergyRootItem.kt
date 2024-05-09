@@ -9,6 +9,7 @@
 package com.cobblemon.mod.common.item.interactive
 
 import com.bedrockk.molang.runtime.MoLangRuntime
+import com.cobblemon.mod.common.CobblemonItems
 import com.cobblemon.mod.common.CobblemonMechanics
 import com.cobblemon.mod.common.CobblemonSounds
 import com.cobblemon.mod.common.api.battles.model.PokemonBattle
@@ -21,7 +22,9 @@ import com.cobblemon.mod.common.item.battle.BagItem
 import com.cobblemon.mod.common.pokemon.Pokemon
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.AliasedBlockItem
+import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
+import net.minecraft.item.Items
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.sound.SoundCategory
 import net.minecraft.util.Hand
@@ -34,6 +37,7 @@ class EnergyRootItem(block: EnergyRootBlock, settings: Settings) : AliasedBlockI
 
     override val bagItem = object : BagItem {
         override val itemName = "item.cobblemon.energy_root"
+        override val returnItem = Items.AIR
         override fun canUse(battle: PokemonBattle, target: BattlePokemon) = target.health > 0 && target.health < target.maxHealth
         override fun getShowdownInput(actor: BattleActor, battlePokemon: BattlePokemon, data: String?): String {
             battlePokemon.effectedPokemon.decrementFriendship(CobblemonMechanics.remedies.getFriendshipDrop(runtime))

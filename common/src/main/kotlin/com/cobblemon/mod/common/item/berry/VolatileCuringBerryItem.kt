@@ -18,6 +18,7 @@ import com.cobblemon.mod.common.item.BerryItem
 import com.cobblemon.mod.common.item.battle.BagItem
 import com.cobblemon.mod.common.pokemon.Pokemon
 import net.minecraft.item.ItemStack
+import net.minecraft.item.Items
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.sound.SoundCategory
 import net.minecraft.util.TypedActionResult
@@ -31,6 +32,7 @@ import net.minecraft.util.TypedActionResult
 class VolatileCuringBerryItem(block: BerryBlock, val volatileStatus: String): BerryItem(block), PokemonSelectingItem {
     override val bagItem = object : BagItem {
         override val itemName: String get() = "item.cobblemon.${berry()!!.identifier.path}"
+        override val returnItem = Items.AIR
         override fun canUse(battle: PokemonBattle, target: BattlePokemon) = true // When we track volatiles, can check for confusion
         override fun getShowdownInput(actor: BattleActor, battlePokemon: BattlePokemon, data: String?) = "cure_volatile $volatileStatus"
     }

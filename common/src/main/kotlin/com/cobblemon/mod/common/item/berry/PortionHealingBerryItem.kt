@@ -21,7 +21,9 @@ import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.util.genericRuntime
 import com.cobblemon.mod.common.util.resolveFloat
 import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
+import net.minecraft.item.Items
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.sound.SoundCategory
 import net.minecraft.util.Hand
@@ -37,6 +39,7 @@ import net.minecraft.world.World
 class PortionHealingBerryItem(block: BerryBlock, val canCauseConfusion: Boolean, val portion: () -> Expression): BerryItem(block), PokemonSelectingItem {
     override val bagItem = object : BagItem {
         override val itemName: String get() = "item.cobblemon.${this@PortionHealingBerryItem.berry()!!.identifier.path}"
+        override val returnItem = Items.AIR
         override fun getShowdownInput(actor: BattleActor, battlePokemon: BattlePokemon, data: String?): String {
             val confuse = if (canCauseConfusion) berry()!!.dislikedBy(battlePokemon.nature) else false
             return "potion_by_portion ${genericRuntime.resolveFloat(portion(), battlePokemon)} $confuse"

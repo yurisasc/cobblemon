@@ -101,6 +101,7 @@ interface PokemonSelectingItem {
             battlePokemon.actor.forceChoose(BagItemActionResponse(bagItem, battlePokemon))
             if (!player.isCreative) {
                 stack.decrement(1)
+                battlePokemon.actor.itemsUsed.add(bagItem)
             }
             CobblemonCriteria.POKEMON_INTERACT.trigger(player, PokemonInteractContext(battlePokemon.entity!!.pokemon.species.resourceIdentifier, Registries.ITEM.getId(stack.item)))
         }

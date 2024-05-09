@@ -46,10 +46,14 @@ import com.cobblemon.mod.common.pokemon.evolution.progress.LastBattleCriticalHit
 import com.cobblemon.mod.common.pokemon.evolution.requirements.DefeatRequirement
 import com.cobblemon.mod.common.util.battleLang
 import com.cobblemon.mod.common.util.getPlayer
+import com.cobblemon.mod.common.util.giveOrDropItemStack
+import net.minecraft.item.ItemStack
+import net.minecraft.registry.Registries
 import java.io.File
 import java.util.UUID
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.text.Text
+import net.minecraft.util.Identifier
 import java.util.concurrent.ConcurrentLinkedDeque
 
 /**
@@ -65,7 +69,7 @@ open class PokemonBattle(
     val side2: BattleSide
 ) {
     /** Whether logging will be silenced for this battle. */
-    var mute = true
+    var mute = false
 
     init {
         side1.battle = this
@@ -251,6 +255,14 @@ open class PokemonBattle(
                             pokemon.evs.add(stat, amount)
                         }
                     }
+                }
+            }
+            if(actor.itemsUsed.isNotEmpty() && actor.getPlayerUUIDs().count() > 0) {
+                val player = actor.getPlayerUUIDs().first().getPlayer()
+                actor.itemsUsed.forEach {
+                    val namespace = it.itemName.substringBeforeLast('.').substringAfterLast('.')
+                    val path = it.itemName.substringAfterLast('.')
+                    player?.giveOrDropItemStack(ItemStack(Registries.ITEM.get(Identifier(namespace, path))))
                 }
             }
         }

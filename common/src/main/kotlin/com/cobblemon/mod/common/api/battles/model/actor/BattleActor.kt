@@ -17,6 +17,7 @@ import com.cobblemon.mod.common.battles.ShowdownActionResponse
 import com.cobblemon.mod.common.battles.pokemon.BattlePokemon
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.exception.IllegalActionChoiceException
+import com.cobblemon.mod.common.item.battle.BagItem
 import com.cobblemon.mod.common.net.messages.client.battle.BattleApplyPassResponsePacket
 import com.cobblemon.mod.common.net.messages.client.battle.BattleMakeChoicePacket
 import com.cobblemon.mod.common.net.messages.client.battle.BattleMessagePacket
@@ -44,6 +45,7 @@ abstract class BattleActor(
     val expectingPassActions = mutableListOf<ShowdownActionResponse>()
     var mustChoose = false
 
+    var itemsUsed = mutableListOf<BagItem>()
     /** For when battles start, it's the number of Pokémon that are still in the process of being sent out (animation wise) */
     var stillSendingOutCount = 0
 
@@ -65,7 +67,7 @@ abstract class BattleActor(
     open fun isForPlayer(serverPlayerEntity: ServerPlayerEntity) = serverPlayerEntity.uuid in getPlayerUUIDs()
     open fun isForPokemon(pokemonEntity: PokemonEntity) = activePokemon.any { it.battlePokemon?.effectedPokemon?.entity == pokemonEntity }
 
-    fun turn() {
+  fun turn() {
         val request = request ?: return
         responses.clear()
         if(activePokemon.any { it.isAlive() }) {
