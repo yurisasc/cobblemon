@@ -3,7 +3,7 @@
 
 ### Additions
 - Added 17 ruin structures, where you can find Pokémon-themed Armor Trims and Pottery Sherds, Tumblestones, and more.
-- Added 22 fossil structures, where you can brush Suspicious Sand/Gravel for Fossils. You can add [custom fossils using datapacks](https://wiki.cobblemon.com/index.php/Fossils_File).
+- Added 23 fossil structures, where you can brush Suspicious Sand/Gravel for Fossils. You can add [custom fossils using datapacks](https://wiki.cobblemon.com/index.php/Fossils_File).
 - Added the Data Monitor, Fossil Compartment, and Restoration Tank blocks. Placed in the correct formation, you can use these to create a [Restoration Machine](https://wiki.cobblemon.com/index.php/Fossil_Machine) where you can bring fossils back to life. Use organic material to fill the tank!
 - Added 3 variants of Tumblestones, which can be planted near Lava or Magma to grow harvestable Tumblestone Clusters.
 - Added Tumblestone Blocks, a storage block crafted from 9 Tumblestones.
