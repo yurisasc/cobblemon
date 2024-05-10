@@ -37,8 +37,11 @@ public class LootManagerMixin {
             if (jsonElement.isJsonObject()) {
                 if (CraftingHelper.processConditions(jsonElement.getAsJsonObject(), LOAD_CONDITIONS, ICondition.IContext.EMPTY)) {
                     consumer.accept(identifier, jsonElement);
+                    return;
                 }
             }
+            //Still need to do stuff if not obj
+            consumer.accept(identifier, jsonElement);
 
         });
     }
