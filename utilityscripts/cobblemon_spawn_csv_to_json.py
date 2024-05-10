@@ -19,7 +19,7 @@ def init_filters():
     global pokemon_numbers, included_groups, known_contexts, bucket_mapping, included_generations
     # Define what kind of pokémon should be included, if nothing is specified (empty array), all will be included.
     # filter by number ranges (dex range)
-    pokemon_numbers = range(79, 81)
+    pokemon_numbers = range(875, 876)
     # filter by group
     included_groups = ['basic', 'boss', 'fossil']
     # filter by context
@@ -67,6 +67,7 @@ biome_mapping = {
     'floral meadow': 'the_bumblezone:floral_meadow',
     'forest': '#cobblemon:is_forest',
     'freezing': '#cobblemon:is_freezing',
+    'freshwater':'#cobblemon:is_freshwater',
     'frozen ocean': '#cobblemon:is_frozen_ocean',
     'glacial': '#cobblemon:is_glacial',
     'grassland': '#cobblemon:is_grassland',
@@ -104,6 +105,7 @@ biome_mapping = {
     'plains': '#cobblemon:is_plains',
     'plateau': '#cobblemon:is_plateau',
     'pollinated fields': 'the_bumblezone:pollinated_fields',
+    'river': '#cobblemon:is_river',
     'sandy': '#cobblemon:is_sandy',
     'savanna': '#cobblemon:is_savanna',
     'shrubland': '#cobblemon:is_shrubland',
@@ -323,9 +325,7 @@ def validateAndFilterData(csv_df, only_update_existing_files=False, ignore_filte
             'included_groups': 'Group',
             'known_contexts': 'Context',
             'bucket_mapping': 'Bucket',
-            'included_generations': 'Gen',
-            'custom_dirs': 'Folder',
-            'custom_files': 'File Name'
+            'included_generations': 'Gen'
         }
 
         # Iterate over the dictionary and apply the filters
