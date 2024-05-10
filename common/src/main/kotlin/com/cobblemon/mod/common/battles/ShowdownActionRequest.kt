@@ -134,7 +134,7 @@ data class MoveActionResponse(var moveName: String, var targetPnx: String? = nul
 
         val pnx = targetPnx ?: return false // If the targets list is non-null then they need to have specified a target
         val (_, targetPokemon) = activeBattlePokemon.actor.battle.getActorAndActiveSlotFromPNX(pnx)
-        if (targetPokemon !in availableTargets || targetPokemon.battlePokemon == null || targetPokemon.battlePokemon!!.health <= 0) {
+        if (targetPokemon !in availableTargets) {
             return false // It's not a possible target.
         }
 
