@@ -32,6 +32,8 @@ versions:
   # common
   graal: 22.3.0
   molang: 1.1.11
+  #make sure to keep this the same as the one bundled in graal (can see it using ./gradlew commmon:dependencies
+  icu4j: 71.1
 
   # test
   junit: 5.9.0
@@ -98,6 +100,11 @@ dependencies:
     group: org.graalvm.js
     name: js
     version: { ref: graal }
+  #This is a graal dep but has to be explicitly marked as included as present on the server
+  icu4j:
+    group: com.ibm.icu
+    name: icu4j
+    version: { ref: icu4j }
   molang:
     group: local.com.bedrockk
     name: molang

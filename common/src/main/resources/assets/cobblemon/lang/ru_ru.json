@@ -643,7 +643,7 @@
   "cobblemon.pc.inbattle": "Вы не можете использовать ПК во время битвы!",
 
   "cobblemon.held_item": "Предмет",
-  "cobblemon.held_item.give": "%Вы дали 1$s %2$s.",
+  "cobblemon.held_item.give": "Вы дали %1$s %2$s.",
   "cobblemon.held_item.replace": "Вы забрали %1$s у %2$s и дали %3$s.",
   "cobblemon.held_item.take": "Вы забрали %1$s у %2$s.",
   "cobblemon.held_item.already_holding": "%1$s уже держит %2$s!",
@@ -4792,7 +4792,7 @@
   "cobblemon.species.diggersby.desc": "The fur on its belly retains heat exceptionally well. People used to make heavy winter clothing from fur shed by this Pokémon.",
   "cobblemon.species.fletchling.name": "Флетчлинг",
   "cobblemon.species.fletchling.desc": "When this Pokémon gets excited, its body temperature increases sharply. If you touch a Fletchling with bare hands, you might get burned.",
-  "cobblemon.species.fletchinder.name": "Флетчлинг",
+  "cobblemon.species.fletchinder.name": "Флетчлиндер",
   "cobblemon.species.fletchinder.desc": "Fletchinder are exceedingly territorial and aggressive. These Pokémon fight among themselves over feeding grounds.",
   "cobblemon.species.talonflame.name": "Талонфлейм",
   "cobblemon.species.talonflame.desc": "Talonflame dives toward prey at speeds of up to 310 mph and assaults them with powerful kicks, giving the prey no chance to escape.",

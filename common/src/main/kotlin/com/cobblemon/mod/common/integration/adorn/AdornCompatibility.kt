@@ -10,6 +10,7 @@ package com.cobblemon.mod.common.integration.adorn
 
 import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.ResourcePackActivationBehaviour
+import com.cobblemon.mod.common.mixin.invoker.AdornRegisterInvoker
 import com.cobblemon.mod.common.util.cobblemonResource
 import juuxel.adorn.block.variant.BlockKind
 import juuxel.adorn.block.variant.BlockVariant
@@ -20,29 +21,7 @@ import org.jetbrains.annotations.ApiStatus
 
 @ApiStatus.Internal
 object AdornCompatibility : BlockVariantSet {
-
     override val woodVariants: List<BlockVariant> = listOf(
         BlockVariant.Wood("${Cobblemon.MODID}/apricorn")
     )
-
-    private val registerMethod by lazy {
-        BlockVariantSets::class.java.getDeclaredMethod("register", BlockKind::class.java, BlockVariant::class.java).apply { isAccessible = true }
-    }
-
-    @ApiStatus.Internal
-    fun register() {
-        var count = 0
-        Cobblemon.implementation.registerBuiltinResourcePack(cobblemonResource("adorncompatibility"), Text.literal("Adorn Compatibility"), ResourcePackActivationBehaviour.ALWAYS_ENABLED)
-        BlockKind.values().forEach { kind ->
-            this.woodVariants.forEach { variant ->
-                // We use this hack because we can't just call BlockVariantSets#register
-                // This would attempt to register blocks and items multiple times
-                // Unfortunately Adorn does all these registrations on mod initialization on all implementations making it impossible to "correctly" add our things
-                this.registerMethod.invoke(BlockVariantSets, kind, variant)
-                count++
-            }
-        }
-        Cobblemon.LOGGER.info("Registered {} blocks to Adorn", count)
-    }
-
 }

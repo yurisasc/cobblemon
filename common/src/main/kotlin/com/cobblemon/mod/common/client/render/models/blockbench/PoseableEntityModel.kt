@@ -154,6 +154,7 @@ abstract class PoseableEntityModel<T : Entity>(
             val maxPitch = params.getDoubleOrNull(3) ?: 70F
             val minPitch = params.getDoubleOrNull(4) ?: -45F
             val maxYaw = params.getDoubleOrNull(5) ?: 45F
+            val minYaw = params.getDoubleOrNull(6) ?: -45F
             ObjectValue(
                 SingleBoneLookAnimation<T>(
                     frame = this,
@@ -162,7 +163,8 @@ abstract class PoseableEntityModel<T : Entity>(
                     yawMultiplier = yawMultiplier.toFloat(),
                     maxPitch = maxPitch.toFloat(),
                     minPitch = minPitch.toFloat(),
-                    maxYaw = maxYaw.toFloat()
+                    maxYaw = maxYaw.toFloat(),
+                    minYaw = minYaw.toFloat()
                 )
             )
         }
