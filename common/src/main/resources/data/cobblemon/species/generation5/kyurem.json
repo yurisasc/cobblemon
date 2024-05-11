@@ -325,7 +325,7 @@
         "tutor:slash",
         "tutor:sleeptalk",
         "tutor:snore",
-        "tutor:zenheadbutt",
+        "tutor:zenheadbutt"
       ],
       "labels": [
         "gen5",
@@ -459,7 +459,7 @@
     "tutor:slash",
     "tutor:sleeptalk",
     "tutor:snore",
-    "tutor:zenheadbutt",
+    "tutor:zenheadbutt"
   ],
   "labels": [
     "gen5",
