@@ -18,14 +18,14 @@ import com.mojang.serialization.codecs.RecordCodecBuilder
  * @author Apion
  * @since February 24, 2024
  */
-class FormPokedexEntry(var knowledge: PokedexEntryProgress = PokedexEntryProgress.NONE) {
+class FormPokedexRecords(var knowledge: PokedexEntryProgress = PokedexEntryProgress.NONE) {
     var formStats = mutableSetOf<FormTrackedData>()
 
     companion object {
-        val CODEC: Codec<FormPokedexEntry> = RecordCodecBuilder.create { instance ->
+        val CODEC: Codec<FormPokedexRecords> = RecordCodecBuilder.create { instance ->
             instance.group(
                 PokedexEntryProgress.CODEC.fieldOf("knowledge").forGetter { it.knowledge }
-            ).apply(instance, ::FormPokedexEntry)
+            ).apply(instance, ::FormPokedexRecords)
         }
     }
 }

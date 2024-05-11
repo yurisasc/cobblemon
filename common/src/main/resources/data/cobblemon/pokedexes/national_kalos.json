@@ -1,6 +1,6 @@
 {
   "identifier": "cobblemon:national_kalos",
-  "pokemon": [
+  "pokemon_list": [
     {
       "name": "cobblemon:chespin",
       "forms": [

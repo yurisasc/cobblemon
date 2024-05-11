@@ -12,7 +12,9 @@ import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.api.gui.blitk
 import com.cobblemon.mod.common.api.gui.drawPortraitPokemon
 import com.cobblemon.mod.common.api.gui.drawText
+import com.cobblemon.mod.common.api.pokedex.ClientPokedex
 import com.cobblemon.mod.common.api.pokedex.SpeciesPokedexEntry
+import com.cobblemon.mod.common.api.pokedex.trackeddata.SpeciesTrackedData
 import com.cobblemon.mod.common.api.pokemon.PokemonSpecies
 import com.cobblemon.mod.common.api.text.text
 import com.cobblemon.mod.common.client.gui.ScrollingWidget
@@ -29,7 +31,7 @@ import net.minecraft.client.gui.DrawContext
 import net.minecraft.text.MutableText
 import net.minecraft.text.Text
 
-class EntriesScrollingWidget<PokemonScrollSlot : ScrollingWidget.Slot<EntriesScrollingWidget.PokemonScrollSlot>>(val pX: Int, val pY: Int, val setPokedexEntry: (Pair<DexPokemonData, SpeciesPokedexEntry?>) -> (Unit)
+class EntriesScrollingWidget<PokemonScrollSlot : ScrollingWidget.Slot<EntriesScrollingWidget.PokemonScrollSlot>>(val pX: Int, val pY: Int, val setPokedexEntry: (DexPokemonData) -> (Unit)
 ): ScrollingWidget<EntriesScrollingWidget.PokemonScrollSlot>(
     width = SCROLL_WIDTH,
     height = SCROLL_HEIGHT,
@@ -37,9 +39,10 @@ class EntriesScrollingWidget<PokemonScrollSlot : ScrollingWidget.Slot<EntriesScr
     top = pY,
     slotHeight = SCROLL_SLOT_HEIGHT
 ){
-    fun createEntries(filteredPokedex: List<Pair<DexPokemonData, SpeciesPokedexEntry?>>){
+    fun createEntries(filteredPokedex: Collection<DexPokemonData>, clientPokedex: ClientPokedex){
         filteredPokedex.forEach {
-            val newEntry = PokemonScrollSlot (it){ selectPokemon(it) }
+            val data = clientPokedex.speciesEntries[it.name]
+            val newEntry = PokemonScrollSlot (it, data){ selectPokemon(it) }
             addEntry( newEntry )
         }
     }
@@ -48,36 +51,31 @@ class EntriesScrollingWidget<PokemonScrollSlot : ScrollingWidget.Slot<EntriesScr
         return super.addEntry(entry)
     }
 
-    fun selectPokemon(entry: Pair<DexPokemonData, SpeciesPokedexEntry?>){
-        setPokedexEntry.invoke(entry)
+    fun selectPokemon(dexPokemonData: DexPokemonData){
+        setPokedexEntry.invoke(dexPokemonData)
     }
 
-    class PokemonScrollSlot(speciesEntryPair : Pair<DexPokemonData, SpeciesPokedexEntry?>, val setPokedexEntry : (Pair<DexPokemonData, SpeciesPokedexEntry?>) -> (Unit)
+    class PokemonScrollSlot(val dexPokemonData: DexPokemonData, val speciesPokedexEntry: SpeciesPokedexEntry?, val setPokedexEntry : (DexPokemonData) -> (Unit)
     ): Slot<PokemonScrollSlot>() {
 
         var pokemonName: MutableText = lang("default")
         var pokemonNumber: MutableText = "0".text()
         var pokemonSpecies: Species? = null
-        var dexPokemonData: DexPokemonData? = null
-        var speciesPokedexEntry: SpeciesPokedexEntry? = null
 
         companion object {
             private val scrollSlotResource = cobblemonResource("textures/gui/pokedex/scroll_slot_base.png")// Render Scroll Slot Background
         }
 
         init {
-            dexPokemonData = speciesEntryPair.first
-            pokemonSpecies = PokemonSpecies.getByIdentifier(speciesEntryPair.first.name)
+            pokemonSpecies = PokemonSpecies.getByIdentifier(dexPokemonData.name)
             //Shouldn't be null due to above line
-            pokemonName = if(speciesEntryPair.second != null){
+            pokemonName = if(speciesPokedexEntry != null){
                 pokemonSpecies!!.translatedName
             } else {
                 lang("ui.pokedex.unknown")
             }
 
             pokemonNumber = "${pokemonSpecies!!.nationalPokedexNumber}".text()
-
-            speciesPokedexEntry = speciesEntryPair.second
         }
 
         override fun render(
@@ -159,9 +157,7 @@ class EntriesScrollingWidget<PokemonScrollSlot : ScrollingWidget.Slot<EntriesScr
         }
 
         override fun mouseClicked(d: Double, e: Double, i: Int): Boolean {
-            if(dexPokemonData == null) return false
-
-            setPokedexEntry.invoke(Pair(dexPokemonData!!, speciesPokedexEntry))
+            setPokedexEntry.invoke(dexPokemonData)
 
             return true
         }

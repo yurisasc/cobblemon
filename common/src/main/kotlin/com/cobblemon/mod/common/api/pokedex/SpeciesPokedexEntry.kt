@@ -28,16 +28,13 @@ import kotlin.jvm.optionals.getOrDefault
  * @since February 24, 2024
  */
 class SpeciesPokedexEntry(
-    var formEntries: MutableMap<String, FormPokedexEntry> = mutableMapOf(),
+    var formEntries: MutableMap<String, FormPokedexRecords> = mutableMapOf(),
     val speciesStats: MutableSet<SpeciesTrackedData> = mutableSetOf()
 ) {
-
-
-
     fun pokemonCaught(event: PokemonCapturedEvent) {
         val formStr = event.pokemon.form.formOnlyShowdownId()
         if (!formEntries.containsKey(formStr)) {
-            formEntries[formStr] = FormPokedexEntry()
+            formEntries[formStr] = FormPokedexRecords()
         }
         formEntries[formStr]?.knowledge = PokedexEntryProgress.CAUGHT
     }
@@ -45,7 +42,7 @@ class SpeciesPokedexEntry(
     fun pokemonEvolved(event: EvolutionCompleteEvent) {
         val formStr = event.pokemon.form.formOnlyShowdownId()
         if (!formEntries.containsKey(formStr)) {
-            formEntries[formStr] = FormPokedexEntry()
+            formEntries[formStr] = FormPokedexRecords()
         }
         formEntries[formStr]?.knowledge = PokedexEntryProgress.CAUGHT
     }
@@ -54,14 +51,14 @@ class SpeciesPokedexEntry(
         val recievedPokemon = if (event.tradeParticipant1.uuid == ownerUuid) event.tradeParticipant2Pokemon else event.tradeParticipant1Pokemon
         val formStr = recievedPokemon.form.formOnlyShowdownId()
         if (!formEntries.containsKey(formStr)) {
-            formEntries[formStr] = FormPokedexEntry()
+            formEntries[formStr] = FormPokedexRecords()
         }
         formEntries[formStr]?.knowledge = PokedexEntryProgress.CAUGHT
     }
 
     fun pokemonSeen(speciesId: Identifier, formStr: String) {
         if (!formEntries.containsKey(formStr)) {
-            formEntries[formStr] = FormPokedexEntry()
+            formEntries[formStr] = FormPokedexRecords()
         }
         val knowledge = formEntries[formStr]?.knowledge
         if (knowledge != PokedexEntryProgress.CAUGHT) {
@@ -73,14 +70,14 @@ class SpeciesPokedexEntry(
     fun starterChosen(event: StarterChosenEvent) {
         val formStr = event.pokemon.form.formOnlyShowdownId()
         if (!formEntries.containsKey(formStr)) {
-            formEntries[formStr] = FormPokedexEntry()
+            formEntries[formStr] = FormPokedexRecords()
         }
         formEntries[formStr]?.knowledge = PokedexEntryProgress.CAUGHT
     }
 
-    fun getFormEntry(formId: String): FormPokedexEntry {
+    fun getFormEntry(formId: String): FormPokedexRecords {
         if (!formEntries.containsKey(formId)) {
-            val newFormEntry = FormPokedexEntry()
+            val newFormEntry = FormPokedexRecords()
             formEntries[formId] = newFormEntry
         }
         return formEntries[formId]!!
@@ -89,7 +86,7 @@ class SpeciesPokedexEntry(
     companion object {
         val CODEC: Codec<SpeciesPokedexEntry> = RecordCodecBuilder.create { instance ->
             instance.group(
-                Codec.unboundedMap(PrimitiveCodec.STRING, FormPokedexEntry.CODEC).fieldOf("formEntries").forGetter { it.formEntries },
+                Codec.unboundedMap(PrimitiveCodec.STRING, FormPokedexRecords.CODEC).fieldOf("formEntries").forGetter { it.formEntries },
                 Codec.list(SpeciesTrackedData.CODEC).optionalFieldOf("speciesStats").forGetter {
                     if (it.speciesStats.isEmpty()) {
                         return@forGetter Optional.empty()

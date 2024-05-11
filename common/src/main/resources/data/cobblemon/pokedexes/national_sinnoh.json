@@ -1,6 +1,6 @@
 {
   "identifier": "cobblemon:national_sinnoh",
-  "pokemon": [
+  "pokemon_list": [
     {
       "name": "cobblemon:turtwig",
       "forms": [

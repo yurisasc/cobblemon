@@ -10,7 +10,7 @@ package com.cobblemon.mod.common.pokedex
 
 import com.cobblemon.mod.common.api.net.Decodable
 import com.cobblemon.mod.common.api.net.Encodable
-import com.cobblemon.mod.common.api.pokedex.adapter.DexPokemonDataAdapter
+import com.cobblemon.mod.common.api.pokedex.PokedexEntryCategory
 import com.cobblemon.mod.common.api.pokemon.PokemonSpecies
 import com.cobblemon.mod.common.pokemon.Species
 import com.cobblemon.mod.common.util.cobblemonResource
@@ -19,7 +19,8 @@ import net.minecraft.util.Identifier
 
 class DexPokemonData(
     var name : Identifier = cobblemonResource("dex.pokemon"),
-    var forms : MutableList<String> = mutableListOf()
+    var forms : MutableList<String> = mutableListOf(),
+    var category: PokedexEntryCategory = PokedexEntryCategory.STANDARD
 ): Decodable, Encodable {
 
     val species : Species?
@@ -30,7 +31,7 @@ class DexPokemonData(
         newForms.addAll(forms)
         newForms.addAll(diffDexPokemonData.forms)
 
-        return DexPokemonData(name, newForms)
+        return DexPokemonData(name, newForms, this.category)
     }
 
     override fun encode(buffer: PacketByteBuf) {
@@ -39,6 +40,7 @@ class DexPokemonData(
         forms.forEach {
             buffer.writeString(it)
         }
+        buffer.writeString(category.name)
     }
 
     override fun decode(buffer: PacketByteBuf) {
@@ -47,5 +49,7 @@ class DexPokemonData(
         for(i in 0 until formsOrderListSize){
             forms.add(buffer.readString())
         }
+        val categoryOrNull = PokedexEntryCategory.from(buffer.readString())
+        category = categoryOrNull ?: PokedexEntryCategory.STANDARD
     }
 }

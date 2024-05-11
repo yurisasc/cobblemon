@@ -1,6 +1,6 @@
 {
   "identifier": "cobblemon:national_unova",
-  "pokemon": [
+  "pokemon_list": [
     {
       "name": "cobblemon:victini",
       "forms": [

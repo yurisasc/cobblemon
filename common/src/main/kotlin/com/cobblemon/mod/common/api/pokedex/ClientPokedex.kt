@@ -10,16 +10,13 @@ package com.cobblemon.mod.common.api.pokedex
 
 import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.api.pokedex.trackeddata.GlobalTrackedData
-import com.cobblemon.mod.common.api.pokemon.PokemonSpecies
 import com.cobblemon.mod.common.api.storage.player.PlayerInstancedDataStoreType
 import com.cobblemon.mod.common.api.storage.player.client.ClientInstancedPlayerData
 import com.cobblemon.mod.common.client.CobblemonClient
 import com.cobblemon.mod.common.net.messages.client.SetClientPlayerDataPacket
 import com.cobblemon.mod.common.pokedex.DexPokemonData
-import com.cobblemon.mod.common.pokemon.Species
 import net.minecraft.network.PacketByteBuf
 import net.minecraft.util.Identifier
-import java.util.TreeMap
 
 /**
  * Clientside representation of the Pokedex
@@ -44,40 +41,6 @@ class ClientPokedex(
         }
     }
 
-    fun getSortedEntries() : List<Pair<DexPokemonData, SpeciesPokedexEntry?>> {
-        val dexList = PokedexJSONRegistry.getNamespaces().toMutableList()
-
-        //Moves Cobblemon MODID to the front, so it sorts by default mons first
-        dexList.remove(Cobblemon.MODID)
-        dexList.add(0, Cobblemon.MODID)
-
-        val entriesList = mutableListOf<Pair<DexPokemonData, SpeciesPokedexEntry?>>()
-        dexList.forEach {namespace ->
-            val sortedEntriesMap = TreeMap<Int, Pair<DexPokemonData, SpeciesPokedexEntry?>>()
-            PokedexJSONRegistry.getDexPokemonDataInNamespace(namespace).forEach {
-                val species = PokemonSpecies.getByIdentifier(it.name)
-                if(species != null && species.implemented){
-                    if(sortedEntriesMap.containsKey(species.nationalPokedexNumber)){
-                        //This will add every duplicate pokemon together
-                        val entry = sortedEntriesMap[species.nationalPokedexNumber]!!
-                        sortedEntriesMap[species.nationalPokedexNumber] = Pair(it.combine(entry.first), entry.second)
-                    } else if(speciesEntries.containsKey(it.name)){
-                        sortedEntriesMap[species.nationalPokedexNumber] = Pair(it, speciesEntries[it.name])
-                    } else {
-                        sortedEntriesMap[species.nationalPokedexNumber] = Pair(it, null)
-                    }
-                }
-            }
-
-
-            entriesList.addAll(sortedEntriesMap.values)
-        }
-
-        return entriesList
-    }
-
-
-
     companion object {
         fun encodeSpeciesEntry(buf: PacketByteBuf, speciesEntry: SpeciesPokedexEntry) {
             buf.writeInt(speciesEntry.formEntries.size)
@@ -87,12 +50,12 @@ class ClientPokedex(
             }
         }
 
-        fun encodeFormEntry(buf: PacketByteBuf, formEntry: FormPokedexEntry) {
+        fun encodeFormEntry(buf: PacketByteBuf, formEntry: FormPokedexRecords) {
             buf.writeEnumConstant(formEntry.knowledge)
         }
 
         fun decodeSpeciesEntry(buf: PacketByteBuf): SpeciesPokedexEntry {
-            val formEntries = mutableMapOf<String, FormPokedexEntry>()
+            val formEntries = mutableMapOf<String, FormPokedexRecords>()
             val numForms = buf.readInt()
             for (i in 1..numForms) {
                 val formStr = buf.readString()
@@ -104,11 +67,11 @@ class ClientPokedex(
             return result
         }
 
-        fun decodeFormEntry(buf: PacketByteBuf): FormPokedexEntry {
+        fun decodeFormEntry(buf: PacketByteBuf): FormPokedexRecords {
             val knowledge = buf.readEnumConstant(PokedexEntryProgress::class.java)
-            val result = FormPokedexEntry()
+            val result = FormPokedexRecords()
             result.knowledge = knowledge
-            return FormPokedexEntry()
+            return FormPokedexRecords()
         }
 
         fun decode(buf: PacketByteBuf): SetClientPlayerDataPacket {

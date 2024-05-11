@@ -1,6 +1,6 @@
 {
   "identifier": "cobblemon:national_unknown",
-  "pokemon": [
+  "pokemon_list": [
     {
       "name": "cobblemon:meltan",
       "forms": [

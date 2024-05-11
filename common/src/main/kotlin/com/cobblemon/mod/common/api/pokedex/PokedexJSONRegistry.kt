@@ -10,16 +10,12 @@ package com.cobblemon.mod.common.api.pokedex
 
 import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.api.data.JsonDataRegistry
-import com.cobblemon.mod.common.api.pokedex.adapter.DexPokemonDataAdapter
-import com.cobblemon.mod.common.api.pokemon.PokemonSpecies
+import com.cobblemon.mod.common.api.pokedex.adapter.DexDataAdapter
 import com.cobblemon.mod.common.api.pokemon.PokemonSpecies.getByIdentifier
 import com.cobblemon.mod.common.api.reactive.SimpleObservable
 import com.cobblemon.mod.common.net.messages.client.data.PokedexSyncPacket
-import com.cobblemon.mod.common.net.messages.client.data.SpeciesRegistrySyncPacket
 import com.cobblemon.mod.common.pokedex.DexData
 import com.cobblemon.mod.common.pokedex.DexPokemonData
-import com.cobblemon.mod.common.pokemon.Species
-import com.cobblemon.mod.common.util.adapters.IdentifierAdapter
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
@@ -27,6 +23,7 @@ import com.google.gson.reflect.TypeToken
 import net.minecraft.resource.ResourceType
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.util.Identifier
+import java.util.*
 
 object PokedexJSONRegistry : JsonDataRegistry<DexData> {
     override val id = cobblemonResource("pokedexes")
@@ -35,8 +32,7 @@ object PokedexJSONRegistry : JsonDataRegistry<DexData> {
     override val gson: Gson = GsonBuilder()
         .disableHtmlEscaping()
         .setPrettyPrinting()
-        .registerTypeAdapter(Identifier::class.java, IdentifierAdapter)
-        .registerTypeAdapter(DexPokemonData::class.java, DexPokemonDataAdapter)
+        .registerTypeAdapter(DexData::class.java, DexDataAdapter)
         .create()
 
     override val typeToken: TypeToken<DexData> = TypeToken.get(DexData::class.java)
@@ -44,7 +40,7 @@ object PokedexJSONRegistry : JsonDataRegistry<DexData> {
 
     override val observable = SimpleObservable<PokedexJSONRegistry>()
 
-    private val dexByIdentifier = hashMapOf<Identifier, DexData>()
+    val dexByIdentifier = mutableMapOf<Identifier, DexData>()
     val dexes: MutableCollection<DexData>
         get() = this.dexByIdentifier.values.toMutableList()
 
@@ -91,8 +87,8 @@ object PokedexJSONRegistry : JsonDataRegistry<DexData> {
         val dex = getDexesInNamespace(namespace)
         val speciesList: MutableList<DexPokemonData> = mutableListOf()
         dex.forEach {
-            if(it.pokemon != null) {
-                it.pokemon.forEach { dexPokemonData ->
+            if(it.pokemon_list != null) {
+                it.pokemon_list.forEach { dexPokemonData ->
                     speciesList.add(dexPokemonData)
                 }
             }
@@ -101,15 +97,47 @@ object PokedexJSONRegistry : JsonDataRegistry<DexData> {
         return speciesList
     }
 
+    fun getSortedDexData(): Collection<DexPokemonData> {
+        val entries : MutableSet<DexPokemonData> = mutableSetOf()
+
+        val categoryEntries: MutableMap<PokedexEntryCategory, MutableSet<DexPokemonData>> = mutableMapOf()
+        for (category in PokedexEntryCategory.values()) {
+            categoryEntries[category] = mutableSetOf()
+        }
+
+        //Step 1: Get all dexes without a parent, so we can iterate over them
+        val dexesWithoutParents : MutableList<Identifier> = mutableListOf()
+        dexesWithoutParents.addAll(dexByIdentifier.keys)
+
+        for(identifier in dexByIdentifier.keys) {
+            if(dexByIdentifier[identifier] == null) continue
+            for (childDex in dexByIdentifier[identifier]!!.contained_dexes) {
+                dexesWithoutParents.remove(childDex)
+            }
+        }
+
+        //Step 2: Each parent dex adds all of their pokemon and recursively adds the child dexes as well
+        for(dexIdentifier in dexesWithoutParents) {
+            dexByIdentifier[dexIdentifier]?.parseEntries(entries, categoryEntries)
+        }
+
+        for(categoryEntry in categoryEntries.values){
+            entries.addAll(categoryEntry)
+        }
+
+        return entries
+    }
+
     override fun reload(data: Map<Identifier, DexData>) {
         this.dexes.clear()
-        //This is from the resources folder, applying logic from the delta config
         data.forEach { (identifier, dexData) ->
-            try {
-                dexData.identifier = identifier
-                this.dexByIdentifier[identifier] = dexData
-            } catch(e: Exception) {
-                Cobblemon.LOGGER.error("Failed to load {} Pokedex", identifier, e)
+            if(dexData.enabled){
+                try {
+                    dexData.identifier = identifier
+                    this.dexByIdentifier[identifier] = dexData
+                } catch(e: Exception) {
+                    Cobblemon.LOGGER.error("Failed to load {} Pokedex", identifier, e)
+                }
             }
         }
 

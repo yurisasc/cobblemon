@@ -1,6 +1,6 @@
 {
   "identifier": "cobblemon:national_hoenn",
-  "pokemon": [
+  "pokemon_list": [
     {
       "name": "cobblemon:treecko",
       "forms": [

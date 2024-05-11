@@ -1,5 +1,6 @@
 {
   "identifier": "cobblemon:national",
+  "override_categories": true,
   "contained_dexes": [
     "cobblemon:national_kanto",
     "cobblemon:national_johto",

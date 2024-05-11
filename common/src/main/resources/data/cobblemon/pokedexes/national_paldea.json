@@ -1,6 +1,6 @@
 {
   "identifier": "cobblemon:national_paldea",
-  "pokemon": [
+  "pokemon_list": [
     {
       "name": "cobblemon:sprigatito",
       "forms": [

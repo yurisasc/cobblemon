@@ -1,6 +1,6 @@
 {
   "identifier": "cobblemon:national_johto",
-  "pokemon": [
+  "pokemon_list": [
     {
       "name": "cobblemon:chikorita",
       "forms": [

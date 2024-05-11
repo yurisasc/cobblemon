@@ -10,6 +10,7 @@ package com.cobblemon.mod.common.client.gui.pokedex
 import com.cobblemon.mod.common.Cobblemon.LOGGER
 import com.cobblemon.mod.common.api.gui.blitk
 import com.cobblemon.mod.common.api.pokedex.ClientPokedex
+import com.cobblemon.mod.common.api.pokedex.PokedexJSONRegistry
 import com.cobblemon.mod.common.api.pokedex.SpeciesPokedexEntry
 import com.cobblemon.mod.common.client.gui.pokedex.PokedexGUIConstants.BASE_HEIGHT
 import com.cobblemon.mod.common.client.gui.pokedex.PokedexGUIConstants.BASE_WIDTH
@@ -66,8 +67,8 @@ class PokedexGUI private constructor(val pokedex: ClientPokedex) : Screen(Text.t
         }
     }
 
-    private var filteredPokedex : List<Pair<DexPokemonData, SpeciesPokedexEntry?>> = mutableListOf()
-    private var selectedPokemon : Pair<DexPokemonData, SpeciesPokedexEntry?>? = null
+    private var filteredPokedex : Collection<DexPokemonData> = mutableListOf()
+    private var selectedPokemon : DexPokemonData? = null
     private var pokemonName = Text.translatable("")
 
     private lateinit var scrollScreen : EntriesScrollingWidget<EntriesScrollingWidget.PokemonScrollSlot>
@@ -87,7 +88,7 @@ class PokedexGUI private constructor(val pokedex: ClientPokedex) : Screen(Text.t
         //Scroll Screen
         if (::scrollScreen.isInitialized) remove(scrollScreen)
         scrollScreen = EntriesScrollingWidget(x + SPACER, y + HEADER_HEIGHT) { setSelectedPokemon(it) }
-        scrollScreen.createEntries(filteredPokedex)
+        scrollScreen.createEntries(filteredPokedex, pokedex)
         addDrawableChild(scrollScreen)
 
         //Info Widget
@@ -172,19 +173,20 @@ class PokedexGUI private constructor(val pokedex: ClientPokedex) : Screen(Text.t
         super.render(context, mouseX, mouseY, delta)
     }
 
-    fun filterPokedex() : List<Pair<DexPokemonData, SpeciesPokedexEntry?>> {
-        return pokedex.getSortedEntries()
+    fun filterPokedex() : Collection<DexPokemonData> {
+        return PokedexJSONRegistry.getSortedDexData()
     }
 
-    fun setSelectedPokemon(entry : Pair<DexPokemonData, SpeciesPokedexEntry?>){
-        selectedPokemon = entry
-        pokemonInfoWidget.setPokemon(entry)
+    fun setSelectedPokemon(dexPokemonData : DexPokemonData){
+        selectedPokemon = dexPokemonData
+        val speciesEntry = pokedex.speciesEntries[selectedPokemon!!.name]
+        pokemonInfoWidget.setPokemon(selectedPokemon!!, speciesEntry)
 
-        var textToShowInDescription = mutableListOf<String>()
+        val textToShowInDescription = mutableListOf<String>()
 
-        if(entry.second != null && entry.first.species != null){
-            pokemonName = selectedPokemon!!.first.species!!.translatedName
-            textToShowInDescription.addAll(selectedPokemon!!.first.species!!.pokedex)
+        if(speciesEntry != null && selectedPokemon!!.species != null){
+            pokemonName = selectedPokemon!!.species!!.translatedName
+            textToShowInDescription.addAll(selectedPokemon!!.species!!.pokedex)
         } else {
             pokemonName = Text.translatable(unknownText.string)
             textToShowInDescription.add(unknownText.string)
@@ -192,7 +194,7 @@ class PokedexGUI private constructor(val pokedex: ClientPokedex) : Screen(Text.t
 
         descriptionWidget.setText(textToShowInDescription)
 
-        formsWidget.setForms(selectedPokemon!!.first.forms)
+        formsWidget.setForms(selectedPokemon!!.forms)
     }
 
     fun setSelectedForm(form: String){

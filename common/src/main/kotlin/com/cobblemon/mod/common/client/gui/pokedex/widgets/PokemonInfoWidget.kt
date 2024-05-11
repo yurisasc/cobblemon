@@ -49,7 +49,8 @@ class PokemonInfoWidget(val pX: Int, val pY: Int) : SoundlessWidget(
     POKEMON_PORTRAIT_HEIGHT,
     lang("ui.pokedex.pokemon_info"),
 ) {
-    var pokemonEntry : Pair<DexPokemonData, SpeciesPokedexEntry?>? = null
+    var dexPokemonData : DexPokemonData? = null
+    var speciesPokedexEntry : SpeciesPokedexEntry? = null
     var selectedForm : String? = null
     var shiny = false
     var renderablePokemon : RenderablePokemon? = null
@@ -65,10 +66,10 @@ class PokemonInfoWidget(val pX: Int, val pY: Int) : SoundlessWidget(
     }
 
     override fun renderButton(context: DrawContext, mouseX: Int, mouseY: Int, delta: Float) {
-        if (pokemonEntry == null || renderablePokemon == null) return
+        if (dexPokemonData == null || renderablePokemon == null) return
 
-        val hasKnowledge = pokemonEntry!!.second != null
-        val species = pokemonEntry!!.first.species
+        val hasKnowledge = speciesPokedexEntry != null
+        val species = dexPokemonData!!.species
 
         val matrices = context.matrices
 
@@ -153,10 +154,10 @@ class PokemonInfoWidget(val pX: Int, val pY: Int) : SoundlessWidget(
         }
     }
 
-    fun setPokemon(pokemon : Pair<DexPokemonData, SpeciesPokedexEntry?>){
-        pokemonEntry = pokemon
-        if(pokemon.first.forms.size > 0){
-            selectedForm = pokemon.first.forms.first()
+    fun setPokemon(dexPokemonData : DexPokemonData, speciesPokedexEntry: SpeciesPokedexEntry?){
+        this.dexPokemonData = dexPokemonData
+        if(dexPokemonData.forms.size > 0){
+            selectedForm = dexPokemonData.forms.first()
         } else {
             selectedForm = "normal"
         }
@@ -171,7 +172,7 @@ class PokemonInfoWidget(val pX: Int, val pY: Int) : SoundlessWidget(
     }
 
     fun changedAspects(){
-        if(pokemonEntry == null) return
+        if(dexPokemonData == null) return
 
         val aspects = mutableSetOf<String>()
         aspects.add(selectedForm!!)
@@ -179,7 +180,6 @@ class PokemonInfoWidget(val pX: Int, val pY: Int) : SoundlessWidget(
             aspects.add(SHINY_ASPECT.aspect)
         }
 
-        renderablePokemon = pokemonEntry!!.first.species?.let { RenderablePokemon(it, aspects) }
-        //Cobblemon.LOGGER.info(aspects)
+        renderablePokemon = dexPokemonData!!.species?.let { RenderablePokemon(it, aspects) }
     }
 }

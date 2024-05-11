@@ -8,7 +8,9 @@
 
 package com.cobblemon.mod.common.api.pokedex.adapter
 
+import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.api.berry.GrowthFactor
+import com.cobblemon.mod.common.api.pokedex.PokedexEntryCategory
 import com.cobblemon.mod.common.pokedex.DexPokemonData
 import com.google.gson.*
 import net.minecraft.util.Identifier
@@ -17,7 +19,17 @@ import java.lang.reflect.Type
 object DexPokemonDataAdapter: JsonDeserializer<DexPokemonData>, JsonSerializer<DexPokemonData> {
     override fun deserialize(jElement: JsonElement, type: Type, context: JsonDeserializationContext): DexPokemonData {
         val json = jElement.asJsonObject
-        return DexPokemonData(Identifier(json.get("name").asString), json.getAsJsonArray("forms").map { it.asString }.toMutableList())
+        val categoryJson = json.get("category")
+        var category = PokedexEntryCategory.STANDARD
+        if(categoryJson != null){
+            category = PokedexEntryCategory.from(categoryJson.asString) ?: category
+        }
+
+        return DexPokemonData(
+            name = Identifier(json.get("name").asString),
+            forms = json.getAsJsonArray("forms").map { it.asString }.toMutableList(),
+            category = category
+        )
     }
 
     override fun serialize(data: DexPokemonData, type: Type, context: JsonSerializationContext): JsonElement {
