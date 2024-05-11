@@ -35,7 +35,7 @@ class BoostInstruction(val instructionSet: InstructionSet, val message: BattleMe
         val severity = Stats.getSeverity(stages)
         val rootKey = if (isBoost) "boost" else "unboost"
 
-        battle.dispatchWaiting(1.5F) {
+        battle.dispatchWaiting {
             val lang = when {
                 message.hasOptionalArgument("zeffect") -> battleLang("$rootKey.$severity.zeffect", pokemon.getName(), stat)
                 else -> battleLang("$rootKey.$severity", pokemon.getName(), stat)
