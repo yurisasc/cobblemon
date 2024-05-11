@@ -1,5 +1,6 @@
 # Changelog
-## [1.5.0 - The Ruins and Revival Update (May Xrd, 2024)](#1-5-0)
+## [1.5.0 - The Ruins and Revival Update (May Xth, 2024)](#1-5-0)
+#### "You're telling me that Mojang has added archaeology to the game? Hmm... that gives me an idea."
 
 ### Additions
 - Added 17 ruin structures, where you can find Pokémon-themed Armor Trims and Pottery Sherds, Tumblestones, and more.
@@ -492,6 +493,7 @@ These are our compromise for having both regular and Hisuian forms of these Pok�
 Thank you so much to all of our community translators that bring the mod to the rest of the world!
 
 ## [1.4.0 - The Friends and Farms Update (October 13th, 2023)](#1-4-0)
+#### "No, we don't provide the friends."
 ### Additions
 - Added pasture blocks, used to let your PC Pokémon roam around an area.
 - Added nicknaming from the summary menu of a Pokémon (click their name).
@@ -1032,6 +1034,7 @@ Thank you so much to all of our community translators that bring the mod to the 
 - All the translators that contributed are amazing.
 
 ## [1.3.0 - The Foundation Update (March 17th, 2023)](#1-3-0)
+#### "Now we can start doing the really cool stuff."
 
 ### Dependencies
 - Upgraded Fabric API dependence to 0.75.1+1.19.2
@@ -1181,6 +1184,7 @@ Thank you so much to all of our community translators that bring the mod to the 
 - Thank you to all of the fantastic volunteer translators for taking the time to help with this!
 
 ## [1.2.0 - The Customization Update (January 1st, 2023)](#1-2-0)
+#### "There are going to be so many fakemon..."
 ### Additions
 - Added models for Natu and Xatu, Murkrow and Honchkrow, Wailmer and Wailord.
 - Added new PC interface and it is beautiful.
