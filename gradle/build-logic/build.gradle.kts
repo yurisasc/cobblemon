@@ -11,10 +11,12 @@ repositories {
 
 dependencies {
     implementation(libs.kotlin)
+    implementation(libs.indra.common)
+
     implementation(libs.licenser)
     implementation(libs.shadow)
     implementation(libs.loom)
-    implementation(libs.architecturyPlugin)
+    implementation(libs.architectury)
 
     implementation(libs.blossom)
     implementation(libs.ideaExt)

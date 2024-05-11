@@ -1,4 +1,4 @@
-package extensions
+package utilities
 
 import org.gradle.api.Project
 

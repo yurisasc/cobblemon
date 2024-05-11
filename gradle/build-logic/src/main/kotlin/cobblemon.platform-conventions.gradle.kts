@@ -1,7 +1,12 @@
+import utilities.VersionType
+import utilities.writeVersion
+
 plugins {
     id("cobblemon.base-conventions")
     id("com.github.johnrengelman.shadow")
 }
+
+writeVersion(type = VersionType.FULL)
 
 val bundle: Configuration by configurations.creating {
     isCanBeConsumed = false
@@ -37,6 +42,18 @@ tasks {
         inputFile.set(shadowJar.flatMap { it.archiveFile })
         archiveBaseName.set("Cobblemon-${project.name}")
         archiveVersion.set("${rootProject.version}")
+    }
+
+    val copyJar by registering(CopyFile::class) {
+        val productionJar = tasks.remapJar.flatMap { it.archiveFile }
+        fileToCopy = productionJar
+        destination = productionJar.flatMap {
+            rootProject.layout.buildDirectory.file("libs/${it.asFile.name}")
+        }
+    }
+
+    assemble {
+        dependsOn(copyJar)
     }
 
 }

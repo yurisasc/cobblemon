@@ -9,16 +9,29 @@
  */
 
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-
-val accessWidenerFile = "src/main/resources/cobblemon-common.accesswidener"
+import utilities.ACCESS_WIDENER
 
 plugins {
-    java
-    `java-library`
+    id("java")
+    id("java-library")
+    id("net.kyori.indra")
+    id("net.kyori.indra.git")
+
     id("org.cadixdev.licenser")
     id("dev.architectury.loom")
     id("architectury-plugin")
     kotlin("jvm")
+}
+
+group = rootProject.group
+version = rootProject.version
+description = rootProject.description
+
+indra {
+    javaVersions {
+        minimumToolchain(17)
+        target(17)
+    }
 }
 
 repositories {
@@ -30,11 +43,6 @@ repositories {
 
 license {
     header(rootProject.file("HEADER"))
-}
-
-java {
-    sourceCompatibility = JavaVersion.VERSION_17
-    targetCompatibility = JavaVersion.VERSION_17
 }
 
 architectury {
@@ -57,8 +65,7 @@ dependencies {
 
 tasks {
     withType<JavaCompile> {
-        options.encoding = "UTF-8"
-        options.release.set(17)
+        options.compilerArgs.add("-Xlint:-processing,-classfile,-serial")
     }
 
     withType<KotlinCompile> {
