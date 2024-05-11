@@ -305,6 +305,7 @@ These are our compromise for having both regular and Hisuian forms of these Pok√
 - Fixed some issues with eyes in the faint animations of Hitmonlee and Phantump
 - Fixed missing evolution moves, for example Stone Axe for Kleavor.
 - Cleaned up empty evolutions declaration in species data (And no, I'm not listing all 169. No I don't care what you pay me, I'm not doing it).
+- Fixed non-consumable held items being consumed or swapped in battle permanently.
 
 ### Developer
 - Significantly changed the way the properties in PokemonEntity work. This could break some plugins (not in a big way, but changes will be needed for some things).
