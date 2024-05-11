@@ -36,7 +36,7 @@ class KlefkiModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
         val blink = quirk { bedrockStateful("klefki", "blink") }
         standing = registerPose(
                 poseName = "standing",
-                poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
+                poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES + PoseType.SLEEP,
                 quirks = arrayOf(blink),
                 condition = { !it.isBattling },
                 idleAnimations = arrayOf(
@@ -47,7 +47,7 @@ class KlefkiModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
 
         battleidle = registerPose(
                 poseName = "battle_idle",
-                poseTypes = PoseType.STATIONARY_POSES,
+                poseTypes = PoseType.STATIONARY_POSES + PoseType.SLEEP,
                 transformTicks = 10,
                 quirks = arrayOf(blink),
                 condition = { it.isBattling },
