@@ -110,7 +110,7 @@ class BattleOverlay : InGameHud(MinecraftClient.getInstance(), MinecraftClient.g
         // Command highlight for Double and Triple Battles
         val currentScreen = MinecraftClient.getInstance().currentScreen
         val isBattleGUIActive = currentScreen is BattleGUI && currentScreen.getCurrentActionSelection() != null
-        val selectedPNX = if(battle.battleFormat.battleType.slotsPerActor > 1 && isBattleGUIActive) battle.getFirstUnansweredRequest()?.activePokemon?.getPNX() else null
+        val selectedPNX = if((battle.battleFormat.battleType.slotsPerActor > 1 || battle.battleFormat.battleType.actorsPerSide > 1) && isBattleGUIActive) battle.getFirstUnansweredRequest()?.activePokemon?.getPNX() else null
 
         side1.activeClientBattlePokemon.forEachIndexed { index, activeClientBattlePokemon -> drawTile(context, tickDelta, activeClientBattlePokemon, true, index, activeClientBattlePokemon.getPNX() == selectedPNX) }
         side2.activeClientBattlePokemon.forEachIndexed { index, activeClientBattlePokemon -> drawTile(context, tickDelta, activeClientBattlePokemon, false, side2.activeClientBattlePokemon.count() - index - 1) }
