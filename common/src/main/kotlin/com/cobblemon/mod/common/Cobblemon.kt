@@ -179,7 +179,6 @@ object Cobblemon {
         if(CobblemonBuildDetails.SNAPSHOT) {
             this.LOGGER.info("  - Git Commit: ${smallCommitHash()} (https://gitlab.com/cable-mc/cobblemon/-/commit/${CobblemonBuildDetails.GIT_COMMIT})")
             this.LOGGER.info("  - Branch: ${CobblemonBuildDetails.BRANCH}")
-            this.LOGGER.info("  - Timestamp: ${CobblemonBuildDetails.TIMESTAMP}")
         }
 
         implementation.registerPermissionValidator()

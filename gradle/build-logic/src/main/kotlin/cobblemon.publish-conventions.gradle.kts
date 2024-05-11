@@ -1,9 +1,9 @@
-import extensions.VersionType
-import extensions.writeVersion
+import utilities.VersionType
+import utilities.writeVersion
 
 plugins {
-    java
-    `java-library`
+    id("java")
+    id("java-library")
     id("maven-publish")
     id("dev.architectury.loom")
 }
