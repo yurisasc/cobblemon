@@ -5,7 +5,7 @@
 ### Additions
 - Added 17 ruin structures, where you can find Pokémon-themed Armor Trims and Pottery Sherds, Tumblestones, and more.
 - Added 23 fossil structures, where you can brush Suspicious Sand/Gravel for [Fossils](https://wiki.cobblemon.com/index.php/Fossil). You can add [custom fossils using datapacks](https://wiki.cobblemon.com/index.php/Fossils_File).
-- Added the Data Monitor, Fossil Compartment, and Restoration Tank blocks. Placed in the correct formation, you can use these to create a [Restoration Machine](https://wiki.cobblemon.com/index.php/Resurrection_Machine) where you can bring fossils back to life. Use organic material to fill the tank!
+- Added the Data Monitor, Fossil Compartment, and Restoration Tank blocks. Placed in the correct formation, you can use these to create a [Restoration Machine](https://wiki.cobblemon.com/index.php/Resurrection_Machine) where you can bring fossils back to life. Use organic material to fill the tank first!
 - Added 3 variants of [Tumblestone](https://wiki.cobblemon.com/index.php/Tumblestone), which can be planted near Lava or Magma to grow harvestable Tumblestone Clusters.
 - Added Tumblestone Blocks, a storage block crafted from 9 Tumblestones.
 - Added Ancient Poké Balls, which are aesthetic variants crafted from Tumblestones.
@@ -23,7 +23,7 @@
 - Added Nether Fire Stone Ore to, surprisingly, the Nether.
 - Added Terracotta Sun Stone Ore to Badlands biomes.
 - Added the EV Boosting Feathers.
-- Added Gilded Chests, available in all Apricorn colors.
+- Added [Gilded Chests](https://wiki.cobblemon.com/index.php/Gilded_Chest), available in all Apricorn colors.
 - Added Relic Coins, Relic Coin Pouches, and Relic Coin Sacks. Gimmighoul might be interested in these.
 - Added Type Gems. These will have additional uses later, so you should start collecting them.
 - Added new held items: Ability Shield, Absorb Bulb, Air Balloon, Binding Band, Blunder Policy, Cell Battery, Covert Cloak, Damp Rock, Eject Button, Eviolite, Expert Belt, Float Stone, Focus Sash, Heat Rock, Icy Rock, Iron Ball, Light Ball, Loaded Dice, Red Card, Shell Bell, Sticky Barb, Smooth Rock, Soothe Bell and Weakness Policy.
