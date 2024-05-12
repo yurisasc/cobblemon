@@ -9,8 +9,8 @@
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1
 
 import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
-import com.cobblemon.mod.common.client.render.models.blockbench.animation.BipedWalkAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cobblemon.mod.common.entity.PoseType
@@ -35,6 +35,9 @@ class ChanseyModel(root: ModelPart) : PokemonPoseableModel(), BipedFrame {
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
     lateinit var sleep: PokemonPose
+    lateinit var battleIdle: PokemonPose
+
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("chansey", "cry") }
 
     override fun registerPoses() {
         val blink = quirk { bedrockStateful("chansey", "blink") }
@@ -43,13 +46,14 @@ class ChanseyModel(root: ModelPart) : PokemonPoseableModel(), BipedFrame {
             poseName = "sleep",
             poseType = PoseType.SLEEP,
             idleAnimations = arrayOf(
-                bedrock("chansey", "ground_sleep")
+                bedrock("chansey", "sleep")
             )
         )
 
         standing = registerPose(
             poseName = "standing",
             poseTypes = STATIONARY_POSES + UI_POSES,
+            condition = { !it.isBattling },
             transformTicks = 10,
             idleAnimations = arrayOf(
                 bedrock("chansey", "ground_idle")
@@ -63,6 +67,16 @@ class ChanseyModel(root: ModelPart) : PokemonPoseableModel(), BipedFrame {
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 bedrock("chansey", "ground_walk")
+            )
+        )
+
+        battleIdle = registerPose(
+            poseName = "battle_idle",
+            poseTypes = PoseType.STATIONARY_POSES,
+            condition = { it.isBattling },
+            transformTicks = 10,
+            idleAnimations = arrayOf(
+                bedrock("chansey", "battle_idle")
             )
         )
     }

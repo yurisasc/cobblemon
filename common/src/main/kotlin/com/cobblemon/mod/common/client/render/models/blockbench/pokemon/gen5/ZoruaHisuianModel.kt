@@ -11,6 +11,7 @@ package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen5
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.QuadrupedWalkAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.QuadrupedFrame
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cobblemon.mod.common.entity.PoseType
@@ -29,11 +30,13 @@ class ZoruaHisuianModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame,
     override var portraitTranslation = Vec3d(-0.22, -0.96, 0.0)
     override var portraitScale = 2.3F
 
-    override var profileTranslation = Vec3d(0.0, 0.62, 0.0)
+    override var profileTranslation = Vec3d(0.0, 0.62, -6.0)
     override var profileScale = 0.82F
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
+
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("zorua_hisuian", "cry") }
 
     override fun registerPoses() {
         val blink = quirk { bedrockStateful("zorua_hisuian", "blink") }

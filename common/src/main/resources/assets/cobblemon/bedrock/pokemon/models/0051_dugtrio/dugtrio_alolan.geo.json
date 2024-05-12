@@ -16,8 +16,13 @@
 					"pivot": [0, 0, 0]
 				},
 				{
-					"name": "ground1",
+					"name": "body",
 					"parent": "dugtrio_alolan",
+					"pivot": [0, 0, 0]
+				},
+				{
+					"name": "ground1",
+					"parent": "body",
 					"pivot": [-3.75, 0, -3.5],
 					"cubes": [
 						{"origin": [-9.25, 0, -9], "size": [11, 3, 11], "pivot": [-3.75, 1.25, -3.5], "rotation": [0, -15, 0], "uv": [0, 50]},
@@ -254,7 +259,7 @@
 				},
 				{
 					"name": "ground2",
-					"parent": "dugtrio_alolan",
+					"parent": "body",
 					"pivot": [3.75, 0, -3.5],
 					"cubes": [
 						{"origin": [-1.75, 0, -9], "size": [11, 3, 11], "inflate": 0.01, "pivot": [3.75, 1.25, -3.5], "rotation": [0, 15, 0], "uv": [33, 47]},
@@ -373,7 +378,7 @@
 				},
 				{
 					"name": "ground3",
-					"parent": "dugtrio_alolan",
+					"parent": "body",
 					"pivot": [0, 0, 4],
 					"cubes": [
 						{"origin": [-5.5, 0, -1.5], "size": [11, 3, 11], "inflate": 0.02, "uv": [28, 31]},

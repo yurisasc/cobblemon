@@ -10,9 +10,11 @@ package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen5
 
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.BimanualSwingAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.BipedWalkAnimation
+import com.cobblemon.mod.common.client.render.models.blockbench.createTransformation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BimanualFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cobblemon.mod.common.entity.PoseType
@@ -30,22 +32,47 @@ class DarumakaModel (root: ModelPart) : PokemonPoseableModel() {
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
+    lateinit var sleep: PokemonPose
+    lateinit var battleidle: PokemonPose
+
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("darumaka", "cry") }
 
     override fun registerPoses() {
         val blink = quirk { bedrockStateful("darumaka", "blink") }
+        val quirk = quirk(secondsBetweenOccurrences = 15F to 100F) { bedrockStateful("darumaka", "quirk") }
+        val quirk2 = quirk(secondsBetweenOccurrences = 20F to 360F) { bedrockStateful( "darumaka","quirk2")}
+
+        sleep = registerPose(
+                poseType = PoseType.SLEEP,
+                idleAnimations = arrayOf(bedrock("darumaka", "sleep"))
+        )
+
         standing = registerPose(
             poseName = "standing",
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
-            quirks = arrayOf(blink),
+            quirks = arrayOf(blink, quirk, quirk2),
+                condition = { !it.isBattling },
             idleAnimations = arrayOf(
                 bedrock("darumaka", "ground_idle")
             )
         )
 
+        battleidle = registerPose(
+                poseName = "battle_idle",
+                poseTypes = PoseType.STATIONARY_POSES,
+                transformTicks = 10,
+                quirks = arrayOf(blink, quirk),
+                condition = { it.isBattling },
+                idleAnimations = arrayOf(
+                        bedrock("darumaka", "battle_idle")
+                )
+
+        )
+
         walk = registerPose(
             poseName = "walk",
             poseTypes = PoseType.MOVING_POSES,
-            quirks = arrayOf(blink),
+            quirks = arrayOf(blink, quirk),
             idleAnimations = arrayOf(
                 bedrock("darumaka", "ground_walk")
             )

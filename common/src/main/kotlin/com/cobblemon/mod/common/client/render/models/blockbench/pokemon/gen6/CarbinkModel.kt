@@ -8,8 +8,11 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen6
 
+import com.cobblemon.mod.common.client.render.models.blockbench.createTransformation
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.pose.ModelPartTransformation
 import com.cobblemon.mod.common.entity.PoseType
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
@@ -25,6 +28,9 @@ class CarbinkModel (root: ModelPart) : PokemonPoseableModel() {
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
+
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("carbink", "cry") }
+
     override fun registerPoses() {
         val blink = quirk { bedrockStateful("carbink", "blink") }
 
@@ -32,6 +38,9 @@ class CarbinkModel (root: ModelPart) : PokemonPoseableModel() {
             poseName = "standing",
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
             quirks = arrayOf(blink),
+                transformedParts = arrayOf(
+                rootPart.createTransformation().addPosition(ModelPartTransformation.Y_AXIS, -0.5)
+                ),
             idleAnimations = arrayOf(
                 bedrock("carbink", "air_idle")
             )
@@ -41,6 +50,9 @@ class CarbinkModel (root: ModelPart) : PokemonPoseableModel() {
             poseName = "walk",
             poseTypes = PoseType.MOVING_POSES,
             quirks = arrayOf(blink),
+                transformedParts = arrayOf(
+                        rootPart.createTransformation().addPosition(ModelPartTransformation.Y_AXIS, -3)
+                ),
             idleAnimations = arrayOf(
                 bedrock("carbink", "air_walk"),
             )

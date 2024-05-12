@@ -54,6 +54,14 @@
           "texture": "cobblemon:textures/pokemon/0671_florges/florges_flower_red.png"
         }
       ]
+    },
+    {
+      "aspects": ["flower-pink"],
+      "layers": [
+        {
+          "texture": "cobblemon:textures/pokemon/0671_florges/florges_flower_pink.png"
+        }
+      ]
     }
   ]
 }

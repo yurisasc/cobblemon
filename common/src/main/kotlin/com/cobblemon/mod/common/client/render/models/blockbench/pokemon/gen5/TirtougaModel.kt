@@ -9,6 +9,7 @@
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen5
 
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cobblemon.mod.common.entity.PoseType
@@ -27,11 +28,39 @@ class TirtougaModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
+    lateinit var sleep: PokemonPose
+    lateinit var waterSleep: PokemonPose
+    lateinit var float: PokemonPose
+    lateinit var swim: PokemonPose
+
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("tirtouga", "cry") }
+
 
     override fun registerPoses() {
+        val blink = quirk {bedrockStateful("tirtouga", "blink")}
+
+        sleep = registerPose(
+            poseName = "sleep",
+            poseType = PoseType.SLEEP,
+            condition = { !it.isTouchingWater },
+            idleAnimations = arrayOf(
+                bedrock("tirtouga", "sleep")
+            )
+        )
+
+        waterSleep = registerPose(
+            poseName = "water_sleep",
+            poseType = PoseType.SLEEP,
+            condition = { it.isTouchingWater },
+            idleAnimations = arrayOf(
+                bedrock("tirtouga", "water_sleep")
+            )
+        )
+
         standing = registerPose(
             poseName = "standing",
-            poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
+            poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES - PoseType.FLOAT,
+            quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("tirtouga", "ground_idle")
@@ -40,10 +69,31 @@ class TirtougaModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
 
         walk = registerPose(
             poseName = "walk",
-            poseTypes = PoseType.MOVING_POSES,
+            poseTypes = PoseType.MOVING_POSES - PoseType.SWIM,
+            quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
-                bedrock("tirtouga", "ground_idle")
+                bedrock("tirtouga", "ground_walk")
+            )
+        )
+
+        float = registerPose(
+            poseName = "float",
+            poseType = PoseType.FLOAT,
+            quirks = arrayOf(blink),
+            idleAnimations = arrayOf(
+                singleBoneLook(),
+                bedrock("tirtouga", "water_idle")
+            )
+        )
+
+        swim = registerPose(
+            poseName = "swim",
+            poseType = PoseType.SWIM,
+            quirks = arrayOf(blink),
+            idleAnimations = arrayOf(
+                singleBoneLook(),
+                bedrock("tirtouga", "water_swim")
             )
         )
     }

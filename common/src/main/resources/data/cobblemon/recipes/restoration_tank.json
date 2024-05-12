@@ -2,7 +2,7 @@
     "type": "minecraft:crafting_shaped",
     "pattern": [
         "III",
-        "GTG",
+        "GRG",
         "GCG"
     ],
     "key": {
@@ -12,8 +12,8 @@
         "G": {
             "item": "minecraft:glass"
         },
-        "T": {
-            "item": "minecraft:ghast_tear"
+        "R": {
+            "item": "cobblemon:revive"
         },
         "C": {
             "item": "minecraft:composter"

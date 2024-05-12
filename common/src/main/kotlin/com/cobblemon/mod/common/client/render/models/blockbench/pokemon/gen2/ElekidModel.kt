@@ -12,6 +12,7 @@ import com.cobblemon.mod.common.client.render.models.blockbench.animation.Bimanu
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.BipedWalkAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BimanualFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cobblemon.mod.common.entity.PoseType
@@ -37,6 +38,8 @@ class ElekidModel(root: ModelPart) : PokemonPoseableModel(), BipedFrame, Bimanua
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
     lateinit var sleep: PokemonPose
+
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("elekid", "cry") }
 
     override fun registerPoses() {
         val blink = quirk { bedrockStateful("elekid", "blink") }

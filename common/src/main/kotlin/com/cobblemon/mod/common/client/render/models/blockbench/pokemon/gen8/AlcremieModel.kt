@@ -44,6 +44,7 @@ class AlcremieModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bim
     override fun registerPoses() {
         val blink = quirk { bedrockStateful("alcremie", "blink")}
         sleep = registerPose(
+            poseName = "sleep",
             poseType = PoseType.SLEEP,
             idleAnimations = arrayOf(bedrock("alcremie", "sleep"))
         )

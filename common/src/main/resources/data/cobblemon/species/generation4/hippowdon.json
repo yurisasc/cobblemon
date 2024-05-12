@@ -37,6 +37,14 @@
   "eggGroups": [
     "field"
   ],
+  "behaviour": {
+    "moving": {
+      "stepHeight": 1.0,
+      "walk": {
+        "walkSpeed": 0.12
+      }
+    }
+  },
   "moves": [
     "1:bite",
     "1:firefang",

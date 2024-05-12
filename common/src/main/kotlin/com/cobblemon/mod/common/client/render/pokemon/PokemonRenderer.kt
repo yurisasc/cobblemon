@@ -41,7 +41,6 @@ import net.minecraft.client.render.entity.model.EntityModel
 import net.minecraft.client.render.item.ItemRenderer
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.entity.Entity
-import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.text.Text
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.MathConstants.PI
@@ -76,7 +75,7 @@ class PokemonRenderer(
         buffer: VertexConsumerProvider,
         packedLight: Int
     ) {
-        shadowRadius = min((entity.boundingBox.maxX - entity.boundingBox.minX), (entity.boundingBox.maxZ) - (entity.boundingBox.minZ)).toFloat() / 1.5F
+        shadowRadius = min((entity.boundingBox.maxX - entity.boundingBox.minX), (entity.boundingBox.maxZ) - (entity.boundingBox.minZ)).toFloat() / 1.5F * (entity.delegate as PokemonClientDelegate).entityScaleModifier
         model = PokemonModelRepository.getPoser(entity.pokemon.species.resourceIdentifier, entity.aspects)
 
         val clientDelegate = entity.delegate as PokemonClientDelegate
@@ -153,7 +152,6 @@ class PokemonRenderer(
         var beamSourcePosition = if (phaseTarget is EmptyPokeBallEntity) {
             (phaseTarget.delegate as PokeBallPoseableState).locatorStates["beam"]?.getOrigin() ?: phaseTarget.pos
         } else {
-            phaseTarget as PlayerEntity
             if (phaseTarget.uuid == MinecraftClient.getInstance().player?.uuid) {
                 val lookVec = phaseTarget.rotationVector.rotateY(PI / 2).multiply(1.0, 0.0, 1.0).normalize()
                 phaseTarget.getCameraPosVec(partialTicks).subtract(0.0, 0.4, 0.0).subtract(lookVec.multiply(0.3))

@@ -12,6 +12,7 @@ import com.cobblemon.mod.common.client.render.models.blockbench.animation.BipedW
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BimanualFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cobblemon.mod.common.entity.PoseType
@@ -31,11 +32,13 @@ class ZoroarkModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bipe
     override var portraitTranslation = Vec3d(-0.89, 2.09, 0.0)
     override var portraitScale = 1.49F
 
-    override var profileTranslation = Vec3d(0.0, 1.08, 0.0)
+    override var profileTranslation = Vec3d(0.0, 1.08, -6.0)
     override var profileScale = 0.44F
 
     lateinit var standing: PokemonPose
     lateinit var walking: PokemonPose
+
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("zoroark", "cry") }
 
     override fun registerPoses() {
 

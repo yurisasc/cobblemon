@@ -782,6 +782,14 @@
 					"rotation": [-65, -2.74279, 1.07723]
 				}
 			}
+		},
+		"animation.chandelure.cry": {
+			"animation_length": 1.2,
+			"sound_effects": {
+				"0.04": {
+					"effect": "pokemon.chandelure.cry"
+				}
+			}
 		}
 	}
 }

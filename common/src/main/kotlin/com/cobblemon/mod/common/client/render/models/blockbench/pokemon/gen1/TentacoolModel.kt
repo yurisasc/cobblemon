@@ -74,7 +74,7 @@ class TentacoolModel(root: ModelPart) : PokemonPoseableModel() {
                 poseName = "sleep",
                 poseType = PoseType.SLEEP,
                 condition = { !it.isTouchingWater },
-                idleAnimations = arrayOf(bedrock("tentacool", "ground_sleep"))
+                idleAnimations = arrayOf(bedrock("tentacool", "sleep"))
         )
 
         watersleep = registerPose(

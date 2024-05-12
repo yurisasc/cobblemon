@@ -1006,7 +1006,7 @@
 			},
 			"sound_effects": {
 				"0.1667": {
-					"effect": "omastar_cry"
+					"effect": "pokemon.omastar.cry"
 				}
 			}
 		},
@@ -1242,6 +1242,18 @@
 			"bones": {
 				"omastar": {
 					"position": [0, 0, "-q.anim_time*90*0.04"]
+				}
+			}
+		},
+		"animation.omastar.new": {
+			"loop": true,
+			"bones": {
+				"body": {
+					"rotation": [0, -116, 0],
+					"position": [-26.6, 10, 15]
+				},
+				"torso": {
+					"scale": 0
 				}
 			}
 		}

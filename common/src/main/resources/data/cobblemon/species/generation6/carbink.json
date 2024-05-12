@@ -135,7 +135,7 @@
     "cobblemon.species.carbink.desc"
   ],
   "evolutions": [],
-  "baseScale": 1,
+  "baseScale": 0.75,
   "hitbox": {
     "width": 1,
     "height": 1.15,

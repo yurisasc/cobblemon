@@ -65,12 +65,6 @@ object CobblemonInfoCommand {
                         .append(this.SPACE)
                         .append(CobblemonBuildDetails.BRANCH)
 
-                    message.append(this.NEW_LINE)
-                        .append(this.INDENT)
-                        .append(Text.literal("Timestamp:").styled { it.withColor(Formatting.GRAY) })
-                        .append(this.SPACE)
-                        .append(CobblemonBuildDetails.TIMESTAMP)
-
                     ctx.source.sendMessage(message)
                     0
                 }

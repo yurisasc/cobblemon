@@ -106,6 +106,15 @@ class StarterConfig {
             )
         ),
         StarterCategory(
+            name = "Hisui Bias",
+            displayName = "cobblemon.starterselection.category.hisui_bias",
+            pokemon = mutableListOf(
+                PokemonProperties.parse("Rowlet region_bias=hisui level=10 pokeball=ancient_poke_ball"),
+                PokemonProperties.parse("Cyndaquil region_bias=hisui level=10 pokeball=ancient_poke_ball"),
+                PokemonProperties.parse("Oshawott region_bias=hisui level=10 pokeball=ancient_poke_ball"),
+            )
+        ),
+        StarterCategory(
             name = "Paldea",
             displayName = "cobblemon.starterselection.category.paldea",
             pokemon = mutableListOf(
@@ -114,15 +123,5 @@ class StarterConfig {
                 PokemonProperties.parse("Quaxly level=10"),
             )
         )
-    //,
-//            StarterCategory(
-//                name = "Johto",
-//                displayName = lang("starterselection.category.johto"),
-//                pokemon = mutableListOf(
-//                    PokemonProperties().also { it.level = 5 ; it.species = "Chikorita" },
-//                    PokemonProperties().also { it.level = 5 ; it.species = "Cyndaquil" },
-//                    PokemonProperties().also { it.level = 5 ; it.species = "Totodile" }
-//                )
-//            )
     )
 }

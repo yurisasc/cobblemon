@@ -70,6 +70,7 @@ class QuaxwellModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             poseName = "floating",
             transformTicks = 10,
             poseTypes = PoseType.SWIMMING_POSES,
+                condition = { it.isTouchingWater },
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),

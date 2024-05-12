@@ -27,7 +27,7 @@ class KrokorokModel (root: ModelPart) : PokemonPoseableModel() {
     lateinit var sleep: PokemonPose
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
-    lateinit var battle_idle: PokemonPose
+    lateinit var battleidle: PokemonPose
 
     override fun registerPoses() {
 //        animations["physical"] = "q.bedrock_primary('krokorok', 'physical', 'look', q.curve('symmetrical_wide'))".asExpressionLike()
@@ -68,7 +68,7 @@ class KrokorokModel (root: ModelPart) : PokemonPoseableModel() {
             )
         )
 
-        battle_idle = registerPose(
+        battleidle = registerPose(
             poseName = "battle_idle",
             poseTypes = PoseType.STATIONARY_POSES,
             quirks = arrayOf(blink, look),

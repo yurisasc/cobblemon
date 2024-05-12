@@ -8,9 +8,12 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen5
 
+import com.cobblemon.mod.common.client.render.models.blockbench.createTransformation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.pose.ModelPartTransformation
 import com.cobblemon.mod.common.entity.PoseType
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
@@ -29,6 +32,13 @@ class LitwickModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     lateinit var walk: PokemonPose
     lateinit var sleep: PokemonPose
     lateinit var battle_idle: PokemonPose
+    lateinit var shoulderLeft: PokemonPose
+    lateinit var shoulderRight: PokemonPose
+
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("litwick", "cry") }
+
+    val shoulderOffset = 5.5
+    val wax = getPart("wax_trail")
 
     override fun registerPoses() {
         val blink = quirk { bedrockStateful("litwick", "blink") }
@@ -68,6 +78,28 @@ class LitwickModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             idleAnimations = arrayOf(
                 bedrock("litwick", "battle_idle")
             )
+        )
+
+        shoulderLeft = registerPose(
+                poseType = PoseType.SHOULDER_LEFT,
+                quirks = arrayOf(blink),
+                idleAnimations = arrayOf(
+                        bedrock("litwick", "ground_idle")
+                ),
+                transformedParts = arrayOf(
+                        wax.createTransformation().withVisibility(visibility = false)
+                )
+        )
+
+        shoulderRight = registerPose(
+                poseType = PoseType.SHOULDER_RIGHT,
+                quirks = arrayOf(blink),
+                idleAnimations = arrayOf(
+                        bedrock("litwick", "ground_idle")
+                ),
+                transformedParts = arrayOf(
+                        wax.createTransformation().withVisibility(visibility = false)
+                )
         )
     }
 

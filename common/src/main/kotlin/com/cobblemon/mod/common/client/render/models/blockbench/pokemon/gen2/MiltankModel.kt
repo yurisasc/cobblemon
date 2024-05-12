@@ -42,7 +42,7 @@ class MiltankModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bipe
     override fun registerPoses() {
         sleep = registerPose(
             poseType = PoseType.SLEEP,
-            idleAnimations = arrayOf(bedrock("miltank", "ground_sleep"))
+            idleAnimations = arrayOf(bedrock("miltank", "sleep"))
         )
 
         val blink = quirk { bedrockStateful("miltank", "blink") }

@@ -17,7 +17,10 @@
             "weight": 0.2,
             "condition": {
                 "minSkyLight": 8,
-                "maxSkyLight": 15
+                "maxSkyLight": 15,
+                "biomes": [
+                    "#cobblemon:is_freshwater"
+                ]
             }
         },
         {
@@ -33,7 +36,10 @@
             "level": "26-50",
             "weight": 0.2,
             "condition": {
-                "canSeeSky": true
+                "canSeeSky": true,
+                "biomes": [
+                    "#cobblemon:is_freshwater"
+                ]
             }
         },
         {
@@ -45,12 +51,15 @@
             ],
             "type": "pokemon",
             "context": "surface",
-            "bucket": "common",
+            "bucket": "uncommon",
             "level": "26-50",
             "weight": 0.2,
             "condition": {
                 "minSkyLight": 8,
-                "maxSkyLight": 15
+                "maxSkyLight": 15,
+                "biomes": [
+                    "#cobblemon:is_freshwater"
+                ]
             }
         }
     ]

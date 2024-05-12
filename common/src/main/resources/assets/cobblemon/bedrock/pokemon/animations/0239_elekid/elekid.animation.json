@@ -683,6 +683,11 @@
 						"1.3333": [0, 0, 0]
 					}
 				}
+			},
+			"sound_effects": {
+				"0.0417": {
+					"effect": "pokemon.elekid.cry"
+				}
 			}
 		},
 		"animation.elekid.blink": {

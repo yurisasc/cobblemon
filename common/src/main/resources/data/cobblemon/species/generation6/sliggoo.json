@@ -76,15 +76,18 @@
         "tm:bodyslam",
         "tm:charm",
         "tm:chillingwater",
+        "tm:curse",
         "tm:dracometeor",
         "tm:dragonpulse",
         "tm:endure",
         "tm:facade",
         "tm:flashcannon",
+        "tm:gyroball",
         "tm:heavyslam",
         "tm:icebeam",
         "tm:icespinner",
         "tm:ironhead",
+        "tm:muddywater",
         "tm:mudshot",
         "tm:outrage",
         "tm:protect",
@@ -93,8 +96,10 @@
         "tm:rockslide",
         "tm:rocktomb",
         "tm:sandstorm",
+        "tm:skittersmack",
         "tm:sleeptalk",
         "tm:sludgebomb",
+        "tm:sludgewave",
         "tm:steelbeam",
         "tm:substitute",
         "tm:sunnyday",
@@ -113,10 +118,16 @@
       ],
       "height": 7,
       "weight": 685,
-      "preEvolution": "goomy hisuian",
+      "preEvolution": "goomy region_bias=hisui",
+      "baseScale": 0.65,
+      "hitbox": {
+        "width": 1.45,
+        "height": 1.75,
+        "fixed": false
+      },
       "evolutions": [
         {
-          "id": "sliggoo_goodra",
+          "id": "hisui_sliggoo_hisui_goodra",
           "variant": "level_up",
           "result": "goodra hisuian",
           "consumeHeldItem": false,
@@ -127,6 +138,10 @@
             {
               "variant": "level",
               "minLevel": 50
+            },
+            {
+              "variant": "weather",
+              "isRaining": true
             }
           ]
         }
@@ -181,6 +196,7 @@
     "tm:charm",
     "tm:chillingwater",
     "tm:confide",
+    "tm:curse",
     "tm:doubleteam",
     "tm:dracometeor",
     "tm:dragonpulse",
@@ -201,6 +217,7 @@
     "tm:rockslide",
     "tm:round",
     "tm:secretpower",
+    "tm:skittersmack",
     "tm:sleeptalk",
     "tm:sludgebomb",
     "tm:sludgewave",
@@ -244,11 +261,15 @@
         {
           "variant": "level",
           "minLevel": 50
+        },
+        {
+          "variant": "weather",
+          "isRaining": true
         }
       ]
     }
   ],
-  "baseScale": 1,
+  "baseScale": 0.65,
   "hitbox": {
     "width": 1.1,
     "height": 1.65,

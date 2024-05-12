@@ -12,13 +12,18 @@
 			},
 			"bones": [
 				{
-					"name": "jellicent_female",
+					"name": "jellicent",
+					"pivot": [0, 0, 0]
+				},
+				{
+					"name": "body",
+					"parent": "jellicent",
 					"pivot": [0, 0, 0]
 				},
 				{
 					"name": "head",
-					"parent": "jellicent_female",
-					"pivot": [0, 0, 0],
+					"parent": "body",
+					"pivot": [0, 21, 0],
 					"cubes": [
 						{"origin": [-12, 21, -12], "size": [24, 19, 24], "uv": [0, 0]},
 						{"origin": [-6.25, 37.5, -12.01], "size": [2, 1, 0], "uv": [18, 20]},
@@ -101,13 +106,13 @@
 					]
 				},
 				{
-					"name": "body",
-					"parent": "head",
-					"pivot": [0, 23.25, 0]
+					"name": "neck",
+					"parent": "body",
+					"pivot": [0, 25, 0]
 				},
 				{
 					"name": "right_arm",
-					"parent": "body",
+					"parent": "neck",
 					"pivot": [-2.25, 21, 0],
 					"cubes": [
 						{"origin": [-8.25, 21, -1], "size": [6, 0, 2], "uv": [54, 52]},
@@ -132,7 +137,7 @@
 				},
 				{
 					"name": "left_arm",
-					"parent": "body",
+					"parent": "neck",
 					"pivot": [2.25, 21, 0],
 					"cubes": [
 						{"origin": [2.25, 21, -1], "size": [6, 0, 2], "uv": [0, 22]},
@@ -157,7 +162,7 @@
 				},
 				{
 					"name": "frill_back",
-					"parent": "body",
+					"parent": "neck",
 					"pivot": [-1, 25.25, 1.63]
 				},
 				{
@@ -187,7 +192,7 @@
 				},
 				{
 					"name": "frill_left",
-					"parent": "body",
+					"parent": "neck",
 					"pivot": [1.25, 25.25, -2.35],
 					"rotation": [0, -60, 0]
 				},
@@ -218,7 +223,7 @@
 				},
 				{
 					"name": "frill_right",
-					"parent": "body",
+					"parent": "neck",
 					"pivot": [-1.25, 25.25, -2.35],
 					"rotation": [0, -120, 0]
 				},

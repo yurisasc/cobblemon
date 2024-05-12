@@ -10,12 +10,12 @@ package com.cobblemon.mod.common.client.render.block
 
 import com.cobblemon.mod.common.CobblemonBlocks
 import com.cobblemon.mod.common.CobblemonItems
+import com.cobblemon.mod.common.block.DisplayCaseBlock
 import com.cobblemon.mod.common.block.entity.DisplayCaseBlockEntity
 import com.cobblemon.mod.common.client.render.models.blockbench.repository.PokemonModelRepository
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.item.PokeBallItem
 import com.cobblemon.mod.common.item.PokemonItem
-import net.minecraft.block.HorizontalFacingBlock
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.render.OverlayTexture
 import net.minecraft.client.render.VertexConsumer
@@ -52,9 +52,9 @@ class DisplayCaseRenderer(ctx: BlockEntityRendererFactory.Context) : BlockEntity
         val world = entity.world ?: return
         val posType = getPositioningType(stack, world)
         val blockState = if (entity.world != null) entity.cachedState
-            else (CobblemonBlocks.DISPLAY_CASE.defaultState.with(HorizontalFacingBlock.FACING, Direction.NORTH))
-        val yRot = if (posType == PositioningType.ITEM_MODEL) blockState.get(HorizontalFacingBlock.FACING).opposite.asRotation()
-            else blockState.get(HorizontalFacingBlock.FACING).asRotation()
+            else (CobblemonBlocks.DISPLAY_CASE.defaultState.with(DisplayCaseBlock.ITEM_DIRECTION, Direction.NORTH))
+        val yRot = if (posType == PositioningType.ITEM_MODEL) blockState.get(DisplayCaseBlock.ITEM_DIRECTION).opposite.asRotation()
+            else blockState.get(DisplayCaseBlock.ITEM_DIRECTION).asRotation()
 
         if (stack.item is PokemonItem) {
             renderPokemon(

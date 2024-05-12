@@ -36,7 +36,7 @@ class LuvdiscModel (root: ModelPart) : PokemonPoseableModel() {
         val blink = quirk { bedrockStateful("luvdisc", "blink")}
         sleep = registerPose(
             poseType = PoseType.SLEEP,
-            idleAnimations = arrayOf(bedrock("luvdisc", "ground_sleep"))
+            idleAnimations = arrayOf(bedrock("luvdisc", "sleep"))
         )
         standing = registerPose(
             poseName = "standing",

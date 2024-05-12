@@ -39,6 +39,13 @@
     "flying",
     "field"
   ],
+  "behaviour": {
+    "moving": {
+      "fly": {
+        "canFly": true
+      }
+    }
+  },
   "moves": [
     "1:attract",
     "1:gust",
@@ -179,7 +186,7 @@
       ]
     }
   ],
-  "baseScale": 1,
+  "baseScale": 0.7,
   "hitbox": {
     "width": 0.75,
     "height": 0.88,

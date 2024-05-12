@@ -31,7 +31,7 @@
             ],
             "type": "pokemon",
             "context": "surface",
-            "bucket": "common",
+            "bucket": "uncommon",
             "level": "29-48",
             "weight": 0.06,
             "condition": {

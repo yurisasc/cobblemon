@@ -48,7 +48,7 @@ import net.minecraft.world.World
 import java.util.*
 import kotlin.math.ceil
 
-class PokemonPastureBlockEntity(pos: BlockPos, val state: BlockState) : BlockEntity(CobblemonBlockEntities.PASTURE, pos, state) {
+class PokemonPastureBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(CobblemonBlockEntities.PASTURE, pos, state) {
     open class Tethering(
         val minRoamPos: BlockPos,
         val maxRoamPos: BlockPos,
@@ -173,11 +173,11 @@ class PokemonPastureBlockEntity(pos: BlockPos, val state: BlockState) : BlockEnt
     }
 
     private fun togglePastureOn(on: Boolean) {
-        val pastureBlock = state.block as PastureBlock
+        val pastureBlock = cachedState.block as PastureBlock
 
         if (world != null && !world!!.isClient) {
             val world = world!!
-            val posBottom = pastureBlock.getBasePosition(state, pos)
+            val posBottom = pastureBlock.getBasePosition(cachedState, pos)
             val stateBottom = world.getBlockState(posBottom)
 
             val posTop = pastureBlock.getPositionOfOtherPart(stateBottom, posBottom)

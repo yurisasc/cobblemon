@@ -11,20 +11,16 @@ package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen4
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.QuadrupedWalkAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.QuadrupedFrame
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cobblemon.mod.common.entity.PoseType
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class HippopotasModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, QuadrupedFrame {
+class HippopotasModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("hippopotas")
     override val head = getPart("head")
-
-    override val foreLeftLeg = getPart("leg_front_left")
-    override val foreRightLeg = getPart("leg_front_right")
-    override val hindLeftLeg = getPart("leg_back_left")
-    override val hindRightLeg = getPart("leg_back_right")
 
     override var portraitScale = 1.24F
     override var portraitTranslation = Vec3d(-0.5, 0.02, 0.0)
@@ -34,14 +30,29 @@ class HippopotasModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Q
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
+    lateinit var sleep: PokemonPose
+    lateinit var battleidle: PokemonPose
+
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("hippopotas", "cry") }
 
     override fun registerPoses() {
         val blink = quirk { bedrockStateful("hippopotas", "blink") }
+        val idlequirk = quirk { bedrockStateful("hippopotas", "quirk_idle") }
+
+        sleep = registerPose(
+            poseName = "sleep",
+            poseType = PoseType.SLEEP,
+            idleAnimations = arrayOf(
+                singleBoneLook(),
+                bedrock("hippopotas", "sleep")
+            )
+        )
 
         standing = registerPose(
             poseName = "standing",
-            poseTypes = PoseType.UI_POSES + PoseType.STATIONARY_POSES,
-            quirks = arrayOf(blink),
+            poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
+            condition = { !it.isBattling },
+            quirks = arrayOf(blink, idlequirk),
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("hippopotas", "ground_idle")
@@ -53,9 +64,19 @@ class HippopotasModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Q
             poseTypes = PoseType.MOVING_POSES,
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
-                QuadrupedWalkAnimation(this, periodMultiplier = 1.1F),
                 singleBoneLook(),
-                bedrock("hippopotas", "ground_idle")
+                bedrock("hippopotas", "ground_walk")
+            )
+        )
+
+        battleidle = registerPose(
+            poseName = "battleidle",
+            poseTypes = PoseType.STATIONARY_POSES,
+            condition = { it.isBattling },
+            quirks = arrayOf(blink),
+            idleAnimations = arrayOf(
+                singleBoneLook(),
+                bedrock("hippopotas", "battle_idle")
             )
         )
     }

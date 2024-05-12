@@ -8,6 +8,7 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1
 
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cobblemon.mod.common.entity.PoseType.Companion.MOVING_POSES
@@ -28,6 +29,8 @@ class KabutoModel(root: ModelPart) : PokemonPoseableModel() {
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
 
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("kabuto", "cry") }
+
     override fun registerPoses() {
         val blink = quirk { bedrockStateful("kabuto", "blink") }
 
@@ -47,8 +50,7 @@ class KabutoModel(root: ModelPart) : PokemonPoseableModel() {
             quirks = arrayOf(blink),
             transformTicks = 10,
             idleAnimations = arrayOf(
-                bedrock("kabuto", "ground_idle")
-                //bedrock("kabuto", "ground_walk")
+                bedrock("kabuto", "ground_walk")
             )
         )
     }
