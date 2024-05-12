@@ -11,12 +11,7 @@ package com.cobblemon.mod.common.events
 import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.CobblemonItems
 import com.cobblemon.mod.common.advancement.CobblemonCriteria
-import com.cobblemon.mod.common.advancement.criterion.BattleCountableContext
-import com.cobblemon.mod.common.advancement.criterion.CountablePokemonTypeContext
-import com.cobblemon.mod.common.advancement.criterion.EvolvePokemonContext
-import com.cobblemon.mod.common.advancement.criterion.LevelUpContext
-import com.cobblemon.mod.common.advancement.criterion.TradePokemonContext
-import com.cobblemon.mod.common.advancement.criterion.trigger
+import com.cobblemon.mod.common.advancement.criterion.*
 import com.cobblemon.mod.common.api.battles.model.actor.ActorType
 import com.cobblemon.mod.common.api.events.battles.BattleVictoryEvent
 import com.cobblemon.mod.common.api.events.pokemon.LevelUpEvent
