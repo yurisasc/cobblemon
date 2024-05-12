@@ -28,11 +28,11 @@ class NaganadelModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BiW
     override val leftWing = getPart("wing_left")
     override val rightWing = getPart("wing_right")
 
-    override val portraitScale = 2.0F
-    override val portraitTranslation = Vec3d(0.0, 4.3, 0.0)
+    override var portraitScale = 2.0F
+    override var portraitTranslation = Vec3d(0.0, 4.3, 0.0)
 
-    override val profileScale = 0.4F
-    override val profileTranslation = Vec3d(0.05, 1.3, 0.0)
+    override var profileScale = 0.4F
+    override var profileTranslation = Vec3d(0.05, 1.3, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose

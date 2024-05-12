@@ -13,6 +13,7 @@ import com.cobblemon.mod.common.api.spawning.CobblemonSpawnRules
 import com.cobblemon.mod.common.api.spawning.SpawnerManager
 import com.cobblemon.mod.common.api.spawning.detail.SpawnPool
 import com.cobblemon.mod.common.api.spawning.influence.PlayerLevelRangeInfluence
+import com.cobblemon.mod.common.api.spawning.influence.RestrictedSpawnBlocksInfluence
 import com.cobblemon.mod.common.api.spawning.influence.SpawningInfluence
 import com.cobblemon.mod.common.api.spawning.rules.SpawnRule
 import com.cobblemon.mod.common.util.mutableLazy
@@ -30,14 +31,28 @@ object PlayerSpawnerFactory {
     var spawns: SpawnPool by mutableLazy {
         CobblemonSpawnPools.WORLD_SPAWN_POOL
     }
-    @Suppress("MemberVisibilityCanBePrivate")
-    var influenceBuilders = mutableListOf<(player: ServerPlayerEntity) -> SpawningInfluence?>({ PlayerLevelRangeInfluence(it, variation = 5) })
+
+    /**
+     * The list of influences for a new [PlayerSpawner].
+     * The influences will be added to the spawner in the order they are added to this list.
+     *
+     * [PlayerLevelRangeInfluence] adjusts the level range of Pokémon that can spawn based on the player's level.
+     * [RestrictedSpawnBlocksInfluence] prevents Pokémon from spawning on certain blocks.
+     */
+    var influenceBuilders = mutableListOf<(player: ServerPlayerEntity) -> SpawningInfluence?>({
+        PlayerLevelRangeInfluence(
+            it,
+            variation = 5
+        )
+    }, { RestrictedSpawnBlocksInfluence() })
 
     fun create(spawnerManager: SpawnerManager, player: ServerPlayerEntity): PlayerSpawner {
         val influences = influenceBuilders.mapNotNull { it(player) }
         return PlayerSpawner(player, spawns, spawnerManager).also {
             it.influences.addAll(influences)
-            it.influences.addAll(CobblemonSpawnRules.rules.values.filter(SpawnRule::enabled).flatMap(SpawnRule::components))
+            it.influences.addAll(
+                CobblemonSpawnRules.rules.values.filter(SpawnRule::enabled).flatMap(SpawnRule::components)
+            )
         }
     }
 }

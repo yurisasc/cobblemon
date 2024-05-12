@@ -11,6 +11,7 @@ package com.cobblemon.mod.common.api.pokemon.feature
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.google.gson.JsonObject
 import net.minecraft.nbt.NbtCompound
+import net.minecraft.network.PacketByteBuf
 
 /**
  * A provider of [SpeciesFeature]s. These must be registered via [SpeciesFeatures] either programmatically or

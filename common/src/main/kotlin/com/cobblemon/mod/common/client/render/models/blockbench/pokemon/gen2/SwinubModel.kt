@@ -8,6 +8,7 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen2
 
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cobblemon.mod.common.entity.PoseType
@@ -20,21 +21,23 @@ import net.minecraft.util.math.Vec3d
 class SwinubModel(root: ModelPart) : PokemonPoseableModel() {
     override val rootPart = root.registerChildWithAllChildren("swinub")
 
-    override val portraitScale = 3.0F
-    override val portraitTranslation = Vec3d(-0.2, -3.0, 0.0)
+    override var portraitScale = 2.6800003F
+    override var portraitTranslation = Vec3d(-0.2, -2.5200000000000102, 0.0)
 
-    override val profileScale = 1.5F
-    override val profileTranslation = Vec3d(0.0, -0.55, 0.0)
+    override var profileScale = 1.2300003F
+    override var profileTranslation = Vec3d(0.0, -0.13999999999999968, 0.0)
 
-    lateinit var sleep: PokemonPose
+//    lateinit var sleep: PokemonPose
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
 
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("swinub", "cry") }
+
     override fun registerPoses() {
-        sleep = registerPose(
-            poseType = PoseType.SLEEP,
-            idleAnimations = arrayOf(bedrock("swinub", "sleep"))
-        )
+//        sleep = registerPose(
+//            poseType = PoseType.SLEEP,
+//            idleAnimations = arrayOf(bedrock("swinub", "sleep"))
+//        )
 
         standing = registerPose(
             poseName = "standing",
@@ -48,7 +51,7 @@ class SwinubModel(root: ModelPart) : PokemonPoseableModel() {
             poseName = "walk",
             poseTypes = MOVING_POSES,
             idleAnimations = arrayOf(
-                bedrock("swinub", "ground_walk")
+                bedrock("swinub", "ground_idle")
             )
         )
     }

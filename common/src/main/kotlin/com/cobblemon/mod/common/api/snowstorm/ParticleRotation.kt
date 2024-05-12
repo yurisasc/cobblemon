@@ -65,7 +65,7 @@ class DynamicParticleRotation(
     override val type = ParticleRotationType.DYNAMIC
     override fun <T> encode(ops: DynamicOps<T>) = CODEC.encodeStart(ops, this)
     override fun getInitialRotation(runtime: MoLangRuntime) = runtime.resolveDouble(startRotation)
-    override fun getInitialAngularVelocity(runtime: MoLangRuntime) = runtime.resolveDouble(speed)
+    override fun getInitialAngularVelocity(runtime: MoLangRuntime) = runtime.resolveDouble(speed) / 20
     override fun getAngularAcceleration(runtime: MoLangRuntime, angularVelocity: Double): Double {
         val acceleration = runtime.resolveDouble(acceleration)
         val nextVelocity = angularVelocity + acceleration

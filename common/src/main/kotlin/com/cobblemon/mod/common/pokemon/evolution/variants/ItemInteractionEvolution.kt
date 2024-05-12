@@ -36,7 +36,7 @@ open class ItemInteractionEvolution(
     override var optional: Boolean,
     override var consumeHeldItem: Boolean,
     override val requirements: MutableSet<EvolutionRequirement>,
-    override val learnableMoves: MutableSet<MoveTemplate>
+    override val learnableMoves: MutableSet<MoveTemplate>,
 ) : ContextEvolution<ItemInteractionEvolution.ItemInteractionContext, NbtItemPredicate> {
     constructor(): this(
         id = "id",

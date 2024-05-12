@@ -65,7 +65,7 @@ class BattleInitializePacket() : NetworkPacket<BattleInitializePacket> {
                         showdownId = actor.showdownId,
                         displayName = actor.getName(),
                         activePokemon = actor.activePokemon.map { it.battlePokemon?.let {
-                            pkm -> ActiveBattlePokemonDTO.fromPokemon(pkm, allySide == side)
+                            pkm -> ActiveBattlePokemonDTO.fromPokemon(pkm, allySide == side, illusion = it.illusion)
                         } },
                         type = actor.type
                     )
@@ -157,20 +157,36 @@ class BattleInitializePacket() : NetworkPacket<BattleInitializePacket> {
         val statChanges: MutableMap<Stat, Int>
     ) {
         companion object {
-            fun fromPokemon(battlePokemon: BattlePokemon, isAlly: Boolean): ActiveBattlePokemonDTO {
+            fun fromPokemon(battlePokemon: BattlePokemon, isAlly: Boolean, illusion: BattlePokemon? = null): ActiveBattlePokemonDTO {
                 val pokemon = battlePokemon.effectedPokemon
+                val exposed = if (isAlly) pokemon else illusion?.effectedPokemon ?: pokemon
                 val hpValue = if (isAlly) pokemon.currentHealth.toFloat() else pokemon.currentHealth.toFloat() / pokemon.hp
                 return ActiveBattlePokemonDTO(
-                    uuid = pokemon.uuid,
-                    displayName = pokemon.getDisplayName(),
-                    properties = pokemon.createPokemonProperties(
+                    uuid = exposed.uuid,
+                    displayName = exposed.getDisplayName(),
+                    properties = exposed.createPokemonProperties(
                         PokemonPropertyExtractor.SPECIES,
-                        PokemonPropertyExtractor.LEVEL,
                         PokemonPropertyExtractor.GENDER,
                         PokemonPropertyExtractor.FORM,
                         PokemonPropertyExtractor.SHINY
-                    ),
-                    aspects = pokemon.aspects,
+                    ).apply { level = pokemon.level },
+                    aspects = exposed.aspects,
+                    status = pokemon.status?.status,
+                    hpValue = hpValue,
+                    maxHp = pokemon.hp.toFloat(),
+                    isFlatHp = isAlly,
+                    statChanges = battlePokemon.statChanges
+                )
+            }
+
+            fun fromMock(battlePokemon: BattlePokemon, isAlly: Boolean, mock: PokemonProperties): ActiveBattlePokemonDTO {
+                val pokemon = battlePokemon.effectedPokemon
+                val hpValue = if (isAlly) pokemon.currentHealth.toFloat() else pokemon.currentHealth.toFloat() / pokemon.hp
+                return ActiveBattlePokemonDTO(
+                    uuid = battlePokemon.uuid,
+                    displayName = pokemon.getDisplayName(),
+                    properties = mock.apply { level = pokemon.level },
+                    aspects = mock.aspects,
                     status = pokemon.status?.status,
                     hpValue = hpValue,
                     maxHp = pokemon.hp.toFloat(),

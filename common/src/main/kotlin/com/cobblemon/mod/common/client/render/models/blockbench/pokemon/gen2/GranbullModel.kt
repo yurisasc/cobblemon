@@ -22,11 +22,11 @@ class GranbullModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("granbull")
     override val head = getPart("head")
 
-    override val portraitScale = 1.6F
-    override val portraitTranslation = Vec3d(-0.4, 1.1, 0.0)
+    override var portraitScale = 1.6F
+    override var portraitTranslation = Vec3d(-0.4, 1.1, 0.0)
 
-    override val profileScale = 0.65F
-    override val profileTranslation = Vec3d(0.0, 0.76, 0.0)
+    override var profileScale = 0.65F
+    override var profileTranslation = Vec3d(0.0, 0.76, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walking: PokemonPose
@@ -77,8 +77,8 @@ class GranbullModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             )
         )
     }
-    override fun getFaintAnimation(
-        pokemonEntity: PokemonEntity,
-        state: PoseableEntityState<PokemonEntity>
-    ) = if (state.isPosedIn(standing, walking, battleidle, sleep)) bedrockStateful("granbull", "faint") else null
+    //override fun getFaintAnimation(
+    //    pokemonEntity: PokemonEntity,
+    //    state: PoseableEntityState<PokemonEntity>
+    //) = if (state.isPosedIn(standing, walking, battleidle, sleep)) bedrockStateful("granbull", "faint") else null
 }

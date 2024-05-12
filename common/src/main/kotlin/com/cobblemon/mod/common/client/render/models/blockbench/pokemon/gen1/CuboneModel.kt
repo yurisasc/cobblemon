@@ -11,6 +11,7 @@ package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.BipedWalkAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cobblemon.mod.common.entity.PoseType.Companion.MOVING_POSES
@@ -23,26 +24,31 @@ class CuboneModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedF
     override val rootPart = root.registerChildWithAllChildren("cubone")
     override val head = getPart("head")
 
-    override val leftLeg = getPart("leftleg")
-    override val rightLeg = getPart("rightleg")
+    override val leftLeg = getPart("left_leg")
+    override val rightLeg = getPart("right_leg")
 
-    override val portraitScale = 2.0F
-    override val portraitTranslation = Vec3d(0.1, -0.7, 0.0)
+    override var portraitScale = 2.0F
+    override var portraitTranslation = Vec3d(0.1, -0.7, 0.0)
 
-    override val profileScale = 1.0F
-    override val profileTranslation = Vec3d(0.0, 0.25, 0.0)
+    override var profileScale = 1.0F
+    override var profileTranslation = Vec3d(0.0, 0.25, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
 
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("cubone", "cry") }
+
     override fun registerPoses() {
+        val blink = quirk { bedrockStateful("cubone", "blink") }
+
         standing = registerPose(
             poseName = "standing",
             poseTypes = STATIONARY_POSES + UI_POSES,
             transformTicks = 10,
+            quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
-                bedrock("cubone", "ground_idle")
+                bedrock("cubone", "idle")
             )
         )
 
@@ -50,10 +56,11 @@ class CuboneModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedF
             poseName = "walk",
             poseTypes = MOVING_POSES,
             transformTicks = 10,
+            quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 BipedWalkAnimation(this, periodMultiplier = 1.1F, amplitudeMultiplier = 1.15f),
                 singleBoneLook(),
-                bedrock("cubone", "ground_idle")
+                bedrock("cubone", "idle")
                 //bedrock("cubone", "ground_walk")
             )
         )

@@ -29,14 +29,15 @@ class LucarioModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bipe
     override val leftLeg = getPart("leg_left")
     override val rightLeg = getPart("leg_right")
 
-    override val portraitScale = 2.2F
-    override val portraitTranslation = Vec3d(-0.2, 2.2, 0.0)
+    override var portraitScale = 2.2F
+    override var portraitTranslation = Vec3d(-0.2, 2.2, 0.0)
 
-    override val profileScale = 0.6F
-    override val profileTranslation = Vec3d(0.0, 0.83, 0.0)
+    override var profileScale = 0.6F
+    override var profileTranslation = Vec3d(0.0, 0.83, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
+    lateinit var battleIdle: PokemonPose
 
     override val cryAnimation = CryProvider { _, _ -> bedrockStateful("lucario", "cry") }
 
@@ -45,6 +46,7 @@ class LucarioModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bipe
         standing = registerPose(
             poseName = "standing",
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
+            condition = { !it.isBattling },
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
@@ -61,6 +63,19 @@ class LucarioModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bipe
                 bedrock("lucario", "ground_idle"),
                 BimanualSwingAnimation(this),
                 BipedWalkAnimation(this)
+            )
+        )
+
+        battleIdle = registerPose(
+            poseName = "battle_idle",
+            poseTypes = PoseType.STATIONARY_POSES,
+            condition = { it.isBattling },
+            quirks = arrayOf(blink),
+            idleAnimations = arrayOf(
+                singleBoneLook(),
+                bedrock("lucario", "ground_idle"),
+                bedrock("lucario", "battle_idle_aura_left"),
+                bedrock("lucario", "battle_idle_aura_right")
             )
         )
     }

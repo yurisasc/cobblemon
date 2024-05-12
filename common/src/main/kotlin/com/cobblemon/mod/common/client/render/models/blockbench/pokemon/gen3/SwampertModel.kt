@@ -30,11 +30,11 @@ class SwampertModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bipe
     val armLeft = getPart("arm_left")
     val armRight = getPart("arm_right")
 
-    override val portraitScale = 2.1F
-    override val portraitTranslation = Vec3d(-0.65, -0.1, 0.0)
+    override var portraitScale = 2.1F
+    override var portraitTranslation = Vec3d(-0.65, -0.1, 0.0)
 
-    override val profileScale = 0.85F
-    override val profileTranslation = Vec3d(-0.1, 0.4, 0.0)
+    override var profileScale = 0.85F
+    override var profileTranslation = Vec3d(-0.1, 0.4, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
