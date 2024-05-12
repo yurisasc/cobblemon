@@ -17,6 +17,19 @@
     "special_defence": 75,
     "speed": 78
   },
+  "behaviour": {
+    "moving": {
+      "canLook": false,
+      "walk": {
+        "avoidsLand": true
+      },
+      "swim": {
+        "swimSpeed": 0.1,
+        "canSwimInWater": true,
+        "canBreatheUnderwater": true
+      }
+    }
+  },
   "catchRate": 135,
   "maleRatio": 0.5,
   "shoulderMountable": false,
@@ -129,7 +142,21 @@
         "special_defence": 75,
         "speed": 78
       },
+      "behaviour": {
+        "moving": {
+          "canLook": false,
+          "walk": {
+            "avoidsLand": true
+          },
+          "swim": {
+            "swimSpeed": 0.1,
+            "canSwimInWater": true,
+            "canBreatheUnderwater": true
+          }
+        }
+      },
       "catchRate": 135,
+      "maleRatio": 0,
       "baseExperienceYield": 265,
       "baseFriendship": 0,
       "evYield": {

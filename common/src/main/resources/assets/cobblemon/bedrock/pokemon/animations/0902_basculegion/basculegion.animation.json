@@ -39,6 +39,11 @@
 		},
 		"animation.basculegion.cry": {
 			"animation_length": 1.5,
+			"sound_effects": {
+				"0.04": {
+					"effect": "pokemon.basculegion.cry"
+				}
+			},
 			"bones": {
 				"head": {
 					"rotation": {

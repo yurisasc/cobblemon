@@ -18,7 +18,7 @@ import net.minecraft.util.math.Vec3d
 
 class DracozoltModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("dracozolt")
-    override val head = getPart("head")
+    override val head = getPart("head_ai")
 
     override var portraitScale = 0.85F
     override var portraitTranslation = Vec3d(-0.55, 1.45, 0.0)
@@ -53,6 +53,7 @@ class DracozoltModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             transformTicks = 10,
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
+                singleBoneLook(),
                 bedrock("dracozolt", "ground_idle")
             )
         )
@@ -63,6 +64,7 @@ class DracozoltModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             transformTicks = 10,
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
+                singleBoneLook(),
                 bedrock("dracozolt", "ground_walk")
             )
         )
@@ -74,6 +76,7 @@ class DracozoltModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             transformTicks = 10,
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
+                singleBoneLook(),
                 bedrock("dracozolt", "battle_idle")
             )
         )

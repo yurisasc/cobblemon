@@ -23,7 +23,10 @@
             },
             "condition": {
                 "minSkyLight": 8,
-                "maxSkyLight": 15
+                "maxSkyLight": 15,
+                "biomes": [
+                    "#cobblemon:is_coast"
+                ]
             }
         },
         {
@@ -51,29 +54,6 @@
             "anticondition": {
                 "biomes": [
                     "#cobblemon:is_ocean"
-                ]
-            }
-        },
-        {
-            "id": "drakloak-3",
-            "pokemon": "drakloak",
-            "presets": [
-                "natural"
-            ],
-            "type": "pokemon",
-            "context": "grounded",
-            "bucket": "rare",
-            "level": "50-55",
-            "weight": 0.9,
-            "weightMultiplier": {
-                "multiplier": 5.0,
-                "condition": {
-                    "timeRange": "twilight"
-                }
-            },
-            "condition": {
-                "biomes": [
-                    "#cobblemon:nether/is_warped"
                 ]
             }
         }

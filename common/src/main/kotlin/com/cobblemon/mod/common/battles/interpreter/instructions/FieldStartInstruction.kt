@@ -27,12 +27,12 @@ class FieldStartInstruction(val message: BattleMessage): InterpreterInstruction 
 
     override fun invoke(battle: PokemonBattle) {
         val effect = message.effectAt(0) ?: return
-        val user = message.battlePokemonFromOptional(battle)
-        user?.let { ShowdownInterpreter.broadcastOptionalAbility(battle, effect, user) }
+        val source = message.battlePokemonFromOptional(battle)
+        source?.let { ShowdownInterpreter.broadcastOptionalAbility(battle, message.effect(), source) }
 
         battle.dispatchWaiting(1.5F) {
             // Note persistent is a CAP ability only we can ignore the flag
-            val lang = battleLang("fieldstart.${effect.id}", user?.getName() ?: Text.literal("UNKNOWN"))
+            val lang = battleLang("fieldstart.${effect.id}", source?.getName() ?: Text.literal("UNKNOWN"))
             battle.broadcastChatMessage(lang)
 
             val type = BattleContext.Type.valueOf(effect.rawData.substringAfterLast(" ").uppercase())

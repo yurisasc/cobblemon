@@ -52,7 +52,7 @@ class DecidueyeHisuianModel(root: ModelPart) : PokemonPoseableModel(), HeadedFra
     lateinit var hover: PokemonPose
     lateinit var fly: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("decidueye", "cry") }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("decidueye", "hisuian_cry") }
 
     override fun registerPoses() {
         val blink = quirk { bedrockStateful("decidueye", "blink") }

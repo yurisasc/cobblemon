@@ -20,7 +20,7 @@ import net.minecraft.util.math.Vec3d
 
 class ArctozoltModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("arctozolt")
-    override val head = getPart("head")
+    override val head = getPart("head_ai")
 
     override var portraitTranslation = Vec3d(-0.45, 2.15, 0.0)
     override var portraitScale = 0.85F
@@ -85,6 +85,7 @@ class ArctozoltModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             transformTicks = 10,
             quirks = arrayOf(blink, quirk),
             idleAnimations = arrayOf(
+                singleBoneLook(),
                 bedrock("arctozolt", "ground_idle")
             )
         )
@@ -96,6 +97,7 @@ class ArctozoltModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             transformTicks = 10,
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
+                singleBoneLook(),
                 bedrock("arctozolt", "ground_walk")
             )
         )
@@ -107,6 +109,7 @@ class ArctozoltModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             transformTicks = 10,
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
+                singleBoneLook(),
                 bedrock("arctozolt", "water_idle")
             )
         )
@@ -118,6 +121,7 @@ class ArctozoltModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             transformTicks = 10,
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
+                singleBoneLook(),
                 bedrock("arctozolt", "water_swim")
             )
         )
@@ -129,6 +133,7 @@ class ArctozoltModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             transformTicks = 10,
             quirks = arrayOf(blink, quirk),
             idleAnimations = arrayOf(
+                singleBoneLook(),
                 bedrock("arctozolt", "surfacewater_idle")
             )
         )
@@ -140,6 +145,7 @@ class ArctozoltModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             transformTicks = 10,
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
+                singleBoneLook(),
                 bedrock("arctozolt", "surfacewater_swim")
             )
         )
@@ -151,6 +157,7 @@ class ArctozoltModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             transformTicks = 10,
             quirks = arrayOf(blink, quirk),
             idleAnimations = arrayOf(
+                singleBoneLook(),
                 bedrock("arctozolt", "battle_idle")
             )
         )

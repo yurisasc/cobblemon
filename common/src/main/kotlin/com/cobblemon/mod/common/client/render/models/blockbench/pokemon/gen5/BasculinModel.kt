@@ -11,6 +11,7 @@ package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen5
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.WaveAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.WaveSegment
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.ModelPartTransformation
@@ -37,6 +38,8 @@ class BasculinModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     val tail = getPart("tail_fin")
 
     val wtail = WaveSegment(tail, 7F)
+
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("basculin", "cry") }
 
     override fun registerPoses() {
         val blink = quirk { bedrockStateful("basculin", "blink") }

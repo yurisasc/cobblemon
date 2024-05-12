@@ -14,7 +14,7 @@
             "context": "submerged",
             "bucket": "uncommon",
             "level": "41-53",
-            "weight": 1.0,
+            "weight": 0.01,
             "condition": {
                 "canSeeSky": true,
                 "moonPhase": "1,5"

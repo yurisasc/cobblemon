@@ -66,6 +66,7 @@
     "cobblemon:capturestar",
     "cobblemon:pop_particle",
     "cobblemon:white",
-    "cobblemon:invisible"
+    "cobblemon:invisible",
+    "cobblemon:white_aura"
   ]
 }

@@ -340,9 +340,9 @@ open class PokemonEntity(
 //        val node = navigation.currentPath?.currentNode
 //        val targetPos = node?.blockPos
 //        if (targetPos == null || world.getBlockState(targetPos.up()).isAir) {
-        return if (state.isIn(FluidTags.WATER)) {
+        return if (state.isIn(FluidTags.WATER) && !isSubmergedIn(FluidTags.WATER)) {
             behaviour.moving.swim.canWalkOnWater
-        } else if (state.isIn(FluidTags.LAVA)) {
+        } else if (state.isIn(FluidTags.LAVA) && !isSubmergedIn(FluidTags.LAVA)) {
             behaviour.moving.swim.canWalkOnLava
         } else {
             super.canWalkOnFluid(state)

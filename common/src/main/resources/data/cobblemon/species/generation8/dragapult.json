@@ -47,6 +47,7 @@
     "dragon"
   ],
   "moves": [
+    "1:dragondarts",
     "1:astonish",
     "1:bite",
     "1:dragonbreath",
@@ -124,11 +125,7 @@
     "tm:triattack",
     "tm:uturn",
     "tm:willowisp",
-    "tutor:dracometeor",
-    "tutor:dragondarts",
-    "tutor:phantomforce",
-    "tutor:terablast",
-    "tutor:uturn"
+    "tutor:dracometeor"
   ],
   "labels": [
     "gen8",

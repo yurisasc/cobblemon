@@ -30,8 +30,8 @@ class WeatherInstruction(val message: BattleMessage): InterpreterInstruction {
 
     override fun invoke(battle: PokemonBattle) {
         val weather = message.effectAt(0)?.id ?: return
-        val user = message.battlePokemonFromOptional(battle) ?: return
-        ShowdownInterpreter.broadcastOptionalAbility(battle, message.effect(), user)
+        val source = message.battlePokemonFromOptional(battle)
+        source?.let { ShowdownInterpreter.broadcastOptionalAbility(battle, message.effect(), source) }
 
         battle.dispatchWaiting(1.5F) {
             val lang = when {

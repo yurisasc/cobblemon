@@ -418,6 +418,14 @@
 					"position": [0, -2, 0]
 				}
 			}
+		},
+		"animation.bidoof.cry": {
+			"animation_length": 1.33333,
+			"sound_effects": {
+				"0.0417": {
+					"effect": "pokemon.bidoof.cry"
+				}
+			}
 		}
 	},
 	"geckolib_format_version": 2

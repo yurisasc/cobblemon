@@ -71,7 +71,6 @@ object BattleBuilder {
                 player1Actor.battleTheme = player2.getBattleTheme()
                 player2Actor.battleTheme = player1.getBattleTheme()
             }
-            errors
         } else {
             errors
         }
@@ -105,7 +104,7 @@ object BattleBuilder {
         val wildActor = PokemonBattleActor(pokemonEntity.pokemon.uuid, BattlePokemon(pokemonEntity.pokemon), fleeDistance)
         val errors = ErroredBattleStart()
 
-        if(playerTeam[0].health <= 0){
+        if(playerTeam.isNotEmpty() && playerTeam[0].health <= 0){
             errors.participantErrors[playerActor] += BattleStartError.insufficientPokemon(
                     player = player,
                     requiredCount = battleFormat.battleType.slotsPerActor,
@@ -140,7 +139,6 @@ object BattleBuilder {
                 }
                 playerActor.battleTheme = pokemonEntity.getBattleTheme()
             }
-            errors
         } else {
             errors
         }

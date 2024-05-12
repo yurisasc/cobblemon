@@ -109,9 +109,9 @@ class StarterConfig {
             name = "Hisui Bias",
             displayName = "cobblemon.starterselection.category.hisui_bias",
             pokemon = mutableListOf(
-                PokemonProperties.parse("Rowlet region_bias=hisui level=10"),
-                PokemonProperties.parse("Cyndaquil region_bias=hisui level=10"),
-                PokemonProperties.parse("Oshawott region_bias=hisui level=10"),
+                PokemonProperties.parse("Rowlet region_bias=hisui level=10 pokeball=ancient_poke_ball"),
+                PokemonProperties.parse("Cyndaquil region_bias=hisui level=10 pokeball=ancient_poke_ball"),
+                PokemonProperties.parse("Oshawott region_bias=hisui level=10 pokeball=ancient_poke_ball"),
             )
         ),
         StarterCategory(

@@ -391,14 +391,14 @@
       "cobblemon:block/gilded_chest/gilded_chest_step_4"
     ]
   },
-  "flamethrower": {
-    "sounds": [ "cobblemon:attacks/flamethrower" ]
+  "flamethrower.cast": {
+    "sounds": [ "cobblemon:attacks/flamethrower/flamethrower_cast" ]
+  },
+  "flamethrower.impact": {
+    "sounds": [ "cobblemon:attacks/flamethrower/flamethrower_impact" ]
   },
   "effective": {
     "sounds": [ "cobblemon:effective" ]
-  },
-  "fuse": {
-    "sounds": [ "cobblemon:fuse" ]
   },
   "notveryeffective": {
     "sounds": [ "cobblemon:notveryeffective" ]
@@ -3709,8 +3709,14 @@
   "pokemon.rattata.cry": {
     "sounds": [ { "name": "cobblemon:pokemon/rattata/rattata_cry", "volume": 0.8 } ]
   },
+  "pokemon.rattata_alolan.cry": {
+    "sounds": [ { "name": "cobblemon:pokemon/rattata/rattata_alolan_cry", "volume": 0.8 } ]
+  },
   "pokemon.raticate.cry": {
     "sounds": [ { "name": "cobblemon:pokemon/raticate/raticate_cry", "volume": 0.8 } ]
+  },
+  "pokemon.raticate_alolan.cry": {
+    "sounds": [ { "name": "cobblemon:pokemon/raticate/raticate_alolan_cry", "volume": 0.8 } ]
   },
   "pokemon.spearow.cry": {
     "sounds": [ { "name": "cobblemon:pokemon/spearow/spearow_cry", "volume": 0.8 } ]
@@ -3970,8 +3976,14 @@
   "pokemon.voltorb.cry": {
     "sounds": [ { "name": "cobblemon:pokemon/voltorb/voltorb_cry", "volume": 0.8 } ]
   },
+  "pokemon.voltorb_hisuian.cry": {
+    "sounds": [ { "name": "cobblemon:pokemon/voltorb/voltorb_hisuian_cry", "volume": 0.8 } ]
+  },
   "pokemon.electrode.cry": {
     "sounds": [ { "name": "cobblemon:pokemon/electrode/electrode_cry", "volume": 0.8 } ]
+  },
+  "pokemon.electrode_hisuian.cry": {
+    "sounds": [ { "name": "cobblemon:pokemon/electrode/electrode_hisuian_cry", "volume": 0.8 } ]
   },
   "pokemon.exeggcute.cry": {
     "sounds": [ { "name": "cobblemon:pokemon/exeggcute/exeggcute_cry", "volume": 0.8 } ]
@@ -4138,11 +4150,20 @@
   "pokemon.cyndaquil.cry": {
     "sounds": [ { "name": "cobblemon:pokemon/cyndaquil/cyndaquil_cry", "volume": 0.8 } ]
   },
+  "pokemon.cyndaquil_hisui_bias.cry": {
+    "sounds": [ { "name": "cobblemon:pokemon/cyndaquil/cyndaquil_hisui_bias_cry", "volume": 0.8 } ]
+  },
   "pokemon.quilava.cry": {
     "sounds": [ { "name": "cobblemon:pokemon/quilava/quilava_cry", "volume": 0.8 } ]
   },
+  "pokemon.quilava_hisui_bias.cry": {
+    "sounds": [ { "name": "cobblemon:pokemon/quilava/quilava_hisui_bias_cry", "volume": 0.8 } ]
+  },
   "pokemon.typhlosion.cry": {
     "sounds": [ { "name": "cobblemon:pokemon/typhlosion/typhlosion_cry", "volume": 0.8 } ]
+  },
+  "pokemon.typhlosion_hisuian.cry": {
+    "sounds": [ { "name": "cobblemon:pokemon/typhlosion/typhlosion_hisuian_cry", "volume": 0.8 } ]
   },
   "pokemon.totodile.cry": {
     "sounds": [ { "name": "cobblemon:pokemon/totodile/totodile_cry", "volume": 0.8 } ]
@@ -4305,6 +4326,9 @@
   },
   "pokemon.qwilfish.cry": {
     "sounds": [ { "name": "cobblemon:pokemon/qwilfish/qwilfish_cry", "volume": 0.8 } ]
+  },
+  "pokemon.qwilfish_hisuian.cry": {
+    "sounds": [ { "name": "cobblemon:pokemon/qwilfish/qwilfish_hisuian_cry", "volume": 0.8 } ]
   },
   "pokemon.scizor.cry": {
     "sounds": [ {  "name": "cobblemon:pokemon/scizor/scizor_cry", "volume": 0.8 } ]
@@ -5185,11 +5209,20 @@
   "pokemon.oshawott.cry": {
     "sounds": [ { "name": "cobblemon:pokemon/oshawott/oshawott_cry", "volume": 0.8 } ]
   },
+  "pokemon.oshawott_hisui_bias.cry": {
+    "sounds": [ { "name": "cobblemon:pokemon/oshawott/oshawott_hisui_bias_cry", "volume": 0.8 } ]
+  },
   "pokemon.dewott.cry": {
     "sounds": [ {  "name": "cobblemon:pokemon/dewott/dewott_cry", "volume": 0.8 } ]
   },
+  "pokemon.dewott_hisui_bias.cry": {
+    "sounds": [ {  "name": "cobblemon:pokemon/dewott/dewott_hisui_bias_cry", "volume": 0.8 } ]
+  },
   "pokemon.samurott.cry": {
     "sounds": [ { "name": "cobblemon:pokemon/samurott/samurott_cry", "volume": 0.8 } ]
+  },
+  "pokemon.samurott_hisuian.cry": {
+    "sounds": [ { "name": "cobblemon:pokemon/samurott/samurott_hisuian_cry", "volume": 0.8 } ]
   },
   "pokemon.patrat.cry": {
     "sounds": [ {  "name": "cobblemon:pokemon/patrat/patrat_cry", "volume": 0.8 } ]
@@ -5326,8 +5359,14 @@
   "pokemon.petilil.cry": {
     "sounds": [ { "name": "cobblemon:pokemon/petilil/petilil_cry", "volume": 0.8 } ]
   },
+  "pokemon.petilil_hisui_bias.cry": {
+    "sounds": [ { "name": "cobblemon:pokemon/petilil/petilil_hisui_bias_cry", "volume": 0.8 } ]
+  },
   "pokemon.lilligant.cry": {
     "sounds": [ { "name": "cobblemon:pokemon/lilligant/lilligant_cry", "volume": 0.8 } ]
+  },
+  "pokemon.lilligant_hisuian.cry": {
+    "sounds": [ { "name": "cobblemon:pokemon/lilligant/lilligant_hisuian_cry", "volume": 0.8 } ]
   },
   "pokemon.basculin.cry": {
     "sounds": [ { "name": "cobblemon:pokemon/basculin/basculin_cry", "volume": 0.8 } ]
@@ -5398,8 +5437,14 @@
   "pokemon.zorua.cry": {
     "sounds": [ {  "name": "cobblemon:pokemon/zorua/zorua_cry", "volume": 0.8 } ]
   },
+  "pokemon.zorua_hisuian.cry": {
+    "sounds": [ {  "name": "cobblemon:pokemon/zorua/zorua_hisuian_cry", "volume": 0.8 } ]
+  },
   "pokemon.zoroark.cry": {
     "sounds": [ { "name": "cobblemon:pokemon/zoroark/zoroark_cry", "volume": 0.8 } ]
+  },
+  "pokemon.zoroark_hisuian.cry": {
+    "sounds": [ { "name": "cobblemon:pokemon/zoroark/zoroark_hisuian_cry", "volume": 0.8 } ]
   },
   "pokemon.minccino.cry": {
     "sounds": [ { "name": "cobblemon:pokemon/minccino/minccino_cry", "volume": 0.8 } ]
@@ -5806,6 +5851,15 @@
   "pokemon.goodra.cry": {
     "sounds": [ {  "name": "cobblemon:pokemon/goodra/goodra_cry", "volume": 0.8 } ]
   },
+  "pokemon.goomy_hisui_bias.cry": {
+    "sounds": [ {  "name": "cobblemon:pokemon/goomy/goomy_hisui_bias_cry", "volume": 0.8 } ]
+  },
+  "pokemon.sliggoo_hisuian.cry": {
+    "sounds": [ { "name": "cobblemon:pokemon/sliggoo/sliggoo_hisuian_cry", "volume": 0.8 } ]
+  },
+  "pokemon.goodra_hisuian.cry": {
+    "sounds": [ {  "name": "cobblemon:pokemon/goodra/goodra_hisuian_cry", "volume": 0.8 } ]
+  },
   "pokemon.klefki.cry": {
     "sounds": [ {  "name": "cobblemon:pokemon/klefki/klefki_cry", "volume": 0.8 } ]
   },
@@ -5854,11 +5908,20 @@
   "pokemon.rowlet.cry": {
     "sounds": [ {  "name": "cobblemon:pokemon/rowlet/rowlet_cry", "volume": 0.8 } ]
   },
+  "pokemon.rowlet_hisui_bias.cry": {
+    "sounds": [ {  "name": "cobblemon:pokemon/rowlet/rowlet_hisui_bias_cry", "volume": 0.8 } ]
+  },
   "pokemon.dartrix.cry": {
     "sounds": [ { "name": "cobblemon:pokemon/dartrix/dartrix_cry", "volume": 0.8 } ]
   },
+  "pokemon.dartrix_hisui_bias.cry": {
+    "sounds": [ { "name": "cobblemon:pokemon/dartrix/dartrix_hisui_bias_cry", "volume": 0.8 } ]
+  },
   "pokemon.decidueye.cry": {
     "sounds": [ { "name": "cobblemon:pokemon/decidueye/decidueye_cry", "volume": 0.8 } ]
+  },
+  "pokemon.decidueye_hisuian.cry": {
+    "sounds": [ { "name": "cobblemon:pokemon/decidueye/decidueye_hisuian_cry", "volume": 0.8 } ]
   },
   "pokemon.litten.cry": {
     "sounds": [ {  "name": "cobblemon:pokemon/litten/litten_cry", "volume": 0.8 } ]
@@ -6433,8 +6496,11 @@
   "pokemon.lechonk.cry": {
     "sounds": [ { "name": "cobblemon:pokemon/lechonk/lechonk_cry", "volume": 0.8 } ]
   },
-  "pokemon.oinkologne.cry": {
-    "sounds": [ { "name": "cobblemon:pokemon/oinkologne/oinkologne_cry", "volume": 0.8 } ]
+  "pokemon.oinkologne_male.cry": {
+    "sounds": [ { "name": "cobblemon:pokemon/oinkologne/oinkologne_male_cry", "volume": 0.8 } ]
+  },
+  "pokemon.oinkologne_female.cry": {
+    "sounds": [ { "name": "cobblemon:pokemon/oinkologne/oinkologne_female_cry", "volume": 0.8 } ]
   },
   "pokemon.dudunsparce.cry": {
     "sounds": [ { "name": "cobblemon:pokemon/dudunsparce/dudunsparce_cry", "volume": 0.8 } ]
@@ -6523,10 +6589,10 @@
   "pokemon.tandemaus.cry": {
     "sounds": [ { "name": "cobblemon:pokemon/tandemaus/tandemaus_cry", "volume": 0.8 } ]
   },
-  "pokemon.maushold.cry": {
+  "pokemon.maushold_three.cry": {
     "sounds": [ { "name": "cobblemon:pokemon/maushold/maushold_three_cry", "volume": 0.8 } ]
   },
-  "pokemon.mausholdfour.cry": {
+  "pokemon.maushold_four.cry": {
     "sounds": [ { "name": "cobblemon:pokemon/maushold/maushold_four_cry", "volume": 0.8 } ]
   },
   "pokemon.cetoddle.cry": {

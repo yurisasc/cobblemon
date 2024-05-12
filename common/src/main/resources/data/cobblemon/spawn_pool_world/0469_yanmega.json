@@ -12,12 +12,15 @@
             ],
             "type": "pokemon",
             "context": "surface",
-            "bucket": "common",
+            "bucket": "uncommon",
             "level": "33-52",
-            "weight": 0.06,
+            "weight": 0.6,
             "condition": {
                 "minSkyLight": 8,
                 "maxSkyLight": 15,
+                "biomes": [
+                    "#cobblemon:is_freshwater"
+                ],
                 "timeRange": "day",
                 "isRaining": false
             }
@@ -30,9 +33,9 @@
             ],
             "type": "pokemon",
             "context": "surface",
-            "bucket": "common",
+            "bucket": "uncommon",
             "level": "33-52",
-            "weight": 0.02,
+            "weight": 0.2,
             "condition": {
                 "minSkyLight": 0,
                 "maxSkyLight": 7,
@@ -49,9 +52,9 @@
             ],
             "type": "pokemon",
             "context": "surface",
-            "bucket": "common",
+            "bucket": "uncommon",
             "level": "33-52",
-            "weight": 0.02,
+            "weight": 0.2,
             "condition": {
                 "biomes": [
                     "#the_bumblezone:the_bumblezone"
