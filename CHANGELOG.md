@@ -1,4 +1,10 @@
 # Changelog
+
+## [1.5.1](#1-5-1)
+
+### Fixes
+-Fixed a bug in which adding organic material to the fossil tank via right click was adding the full count of the stack currently in hand
+
 ## [1.5.0 - The Ruins and Revival Update (May Xth, 2024)](#1-5-0)
 #### "You're telling me that Mojang has added archaeology to the game? Hmm... that gives me an idea."
 
