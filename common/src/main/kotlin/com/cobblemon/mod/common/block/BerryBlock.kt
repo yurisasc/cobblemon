@@ -143,8 +143,10 @@ class BerryBlock(private val berryIdentifier: Identifier, settings: Settings) : 
         state: BlockState,
         variant: MulchVariant
     ): Boolean {
-        val plantedBlock = world.getBlockState(pos.down()).block
-        return getMulch(state) == MulchVariant.NONE && state.get(AGE) < FLOWER_AGE && plantedBlock is FarmlandBlock
+        val plantedBlock = world.getBlockState(pos.down())
+        return getMulch(state) == MulchVariant.NONE &&
+                state.get(AGE) < FLOWER_AGE &&
+                (plantedBlock.block is FarmlandBlock || plantedBlock.isOf(Blocks.FARMLAND))
     }
 
     override fun applyMulch(
