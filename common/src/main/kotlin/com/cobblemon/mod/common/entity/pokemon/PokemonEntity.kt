@@ -68,6 +68,7 @@ import com.cobblemon.mod.common.pokemon.activestate.ActivePokemonState
 import com.cobblemon.mod.common.pokemon.activestate.InactivePokemonState
 import com.cobblemon.mod.common.pokemon.activestate.ShoulderedState
 import com.cobblemon.mod.common.pokemon.ai.FormPokemonBehaviour
+import com.cobblemon.mod.common.pokemon.ai.PokemonBrain
 import com.cobblemon.mod.common.pokemon.evolution.variants.ItemInteractionEvolution
 import com.cobblemon.mod.common.pokemon.misc.GimmighoulStashHandler
 import com.cobblemon.mod.common.util.*
@@ -162,39 +163,6 @@ open class PokemonEntity(
         fun createAttributes(): DefaultAttributeContainer.Builder = LivingEntity.createLivingAttributes()
             .add(EntityAttributes.GENERIC_FOLLOW_RANGE)
             .add(EntityAttributes.GENERIC_ATTACK_KNOCKBACK)
-
-
-        val SENSORS: Collection<SensorType<out Sensor<in PokemonEntity>>> = listOf(
-            SensorType.NEAREST_LIVING_ENTITIES,
-            SensorType.HURT_BY,
-            SensorType.NEAREST_PLAYERS,
-            CobblemonSensors.POKEMON_DROWSY
-//            CobblemonSensors.BATTLING_POKEMON,
-//            CobblemonSensors.NPC_BATTLING
-        )
-
-        val MEMORY_MODULES: List<MemoryModuleType<*>> = ImmutableList.of(
-            MemoryModuleType.LOOK_TARGET,
-            MemoryModuleType.WALK_TARGET,
-            MemoryModuleType.ATTACK_TARGET,
-            MemoryModuleType.CANT_REACH_WALK_TARGET_SINCE,
-            MemoryModuleType.PATH,
-            MemoryModuleType.IS_PANICKING,
-            MemoryModuleType.VISIBLE_MOBS,
-            CobblemonMemories.POKEMON_FLYING,
-//            CobblemonMemories.NPC_BATTLING,
-//            CobblemonMemories.BATTLING_POKEMON,
-            MemoryModuleType.HURT_BY,
-            MemoryModuleType.HURT_BY_ENTITY,
-            MemoryModuleType.NEAREST_VISIBLE_PLAYER,
-            MemoryModuleType.ANGRY_AT,
-            MemoryModuleType.ATTACK_COOLING_DOWN,
-            CobblemonMemories.POKEMON_DROWSY,
-            CobblemonMemories.POKEMON_BATTLE,
-            MemoryModuleType.HOME,
-            CobblemonMemories.REST_PATH_COOLDOWN,
-            CobblemonMemories.TARGETED_BATTLE_POKEMON
-        )
     }
     val removalObservable = SimpleObservable<RemovalReason?>()
     /** A list of observable subscriptions related to this entity that need to be cleaned up when the entity is removed. */
@@ -214,7 +182,6 @@ open class PokemonEntity(
             stepHeight = behaviour.moving.stepHeight
             // We need to update this value every time the Pokémon changes, other eye height related things will be dynamic.
             this.updateEyeHeight()
-            setupTasks()
         }
 
     var despawner: Despawner<PokemonEntity> = Cobblemon.bestSpawner.defaultPokemonDespawner
@@ -283,7 +250,6 @@ open class PokemonEntity(
         delegate.initialize(this)
         delegate.changePokemon(pokemon)
         calculateDimensions()
-        setupTasks()
     }
 
     override fun initDataTracker() {
@@ -591,8 +557,14 @@ open class PokemonEntity(
     override fun getNavigation() = navigation as PokemonNavigation
     override fun createNavigation(world: World) = PokemonNavigation(world, this)
 
-    override fun createBrainProfile() = createPokemonBrain(MEMORY_MODULES, SENSORS)
+    override fun deserializeBrain(dynamic: Dynamic<*>): Brain<*> {
+        return PokemonBrain.makeBrain(pokemon, createBrainProfile().deserialize(dynamic))
+    }
+
+    // cast is safe, mojang do the same thing.
     override fun getBrain() = super.getBrain() as Brain<PokemonEntity>
+
+    override fun createBrainProfile(): Brain.Profile<out PokemonEntity> = Brain.createProfile(PokemonBrain.MEMORY_MODULES, PokemonBrain.SENSORS)
 
     override fun initGoals() {
         super.initGoals()
@@ -602,73 +574,6 @@ open class PokemonEntity(
     override fun onFinishPathfinding() {
         super.onFinishPathfinding()
         (moveControl as PokemonMoveControl).stop()
-    }
-
-    override fun deserializeBrain(dynamic: Dynamic<*>): Brain<PokemonEntity> {
-        val brain = createBrainProfile().deserialize(dynamic)
-        if (pokemon == null) {
-            return brain
-        }
-        setupTasks()
-        return brain
-    }
-
-    fun getCoreTasks(): List<com.mojang.datafixers.util.Pair<Int, Task<in PokemonEntity>>> {
-        val tasks: MutableList<com.mojang.datafixers.util.Pair<Int, Task<in PokemonEntity>>> = mutableListOf()
-        if (!pokemon.form.behaviour.moving.swim.canBreatheUnderwater) {
-            tasks.add(0 toDF StayAfloatTask(0.8F))
-        }
-        tasks.add(0 toDF GetAngryAtAttackerTask.create())
-        tasks.add(0 toDF ForgetAngryAtTargetTask.create())
-        tasks.add(0 toDF HandleBattleActivityGoal.create())
-        tasks.add(0 toDF FollowWalkTargetTask())
-        return tasks
-    }
-
-    fun getIdleTasks(): List<com.mojang.datafixers.util.Pair<Int, Task<in PokemonEntity>>> {
-        val tasks: MutableList<com.mojang.datafixers.util.Pair<Int, Task<in PokemonEntity>>> = mutableListOf()
-        if (pokemon.form.behaviour.moving.canLook) {
-            if (pokemon.form.behaviour.moving.looksAtEntities) {
-                tasks.add(0 toDF LookAtMobTask.create(15F))
-            }
-            tasks.add(0 toDF LookAroundTask(45, 90))
-        }
-        tasks.add(0 toDF ChooseLandWanderTargetTask.create(pokemon.form.behaviour.moving.wanderChance, horizontalRange = 10, verticalRange = 5, walkSpeed = 0.33F, completionRange = 1))
-        tasks.add(0 toDF GoToSleepTask.create())
-        tasks.add(0 toDF FindRestingPlaceTask.create(16, 8))
-        tasks.add(0 toDF EatGrassTask())
-        tasks.add(0 toDF AttackAngryAtTask.create())
-        tasks.add(0 toDF MoveToAttackTargetTask.create())
-        tasks.add(0 toDF MoveToOwnerTask.create(completionRange = 4, maxDistance = 14F, teleportDistance = 24F))
-        return tasks
-    }
-
-    fun getBattlingTasks(): List<com.mojang.datafixers.util.Pair<Int, Task<in PokemonEntity>>> {
-        val tasks: MutableList<com.mojang.datafixers.util.Pair<Int, Task<in PokemonEntity>>> = mutableListOf()
-
-        tasks.add(0 toDF LookAtTargetedBattlePokemonTask.create())
-        tasks.add(0 toDF LookAroundTask(Int.MAX_VALUE - 1, Int.MAX_VALUE - 1))
-
-        return tasks
-    }
-
-    fun getSleepingTasks(): List<com.mojang.datafixers.util.Pair<Int, Task<in PokemonEntity>>> {
-        val tasks: MutableList<com.mojang.datafixers.util.Pair<Int, Task<in PokemonEntity>>> = mutableListOf()
-        tasks.add(1 toDF WakeUpTask.create())
-        return tasks
-    }
-
-    fun setupTasks() {
-        val brain = this.getBrain()
-
-        brain.setTaskList(Activity.CORE, ImmutableList.copyOf(getCoreTasks()))
-        brain.setTaskList(Activity.IDLE, ImmutableList.copyOf(getIdleTasks()))
-        brain.setTaskList(CobblemonActivities.BATTLING_ACTIVITY, ImmutableList.copyOf(getBattlingTasks()))
-        brain.setTaskList(CobblemonActivities.POKEMON_SLEEPING_ACTIVITY, ImmutableList.copyOf(getSleepingTasks()))
-
-        brain.setCoreActivities(setOf(Activity.CORE))
-        brain.setDefaultActivity(Activity.IDLE)
-        brain.resetPossibleActivities()
     }
 
 //
