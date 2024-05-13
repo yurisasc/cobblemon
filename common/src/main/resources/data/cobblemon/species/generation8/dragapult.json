@@ -47,6 +47,7 @@
     "dragon"
   ],
   "moves": [
+    "1:dragondarts",
     "1:astonish",
     "1:bite",
     "1:dragonbreath",
