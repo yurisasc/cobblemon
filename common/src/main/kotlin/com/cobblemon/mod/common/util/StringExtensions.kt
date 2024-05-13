@@ -13,8 +13,7 @@ import com.cobblemon.mod.common.api.pokemon.PokemonProperties
 
 const val QUOTE = '"'
 
-fun String.splitMap(delimiter: String, assigner: String) : MutableList<Pair<String, String?>>
-{
+fun String.splitMap(delimiter: String, assigner: String) : MutableList<Pair<String, String?>> {
     val result = mutableListOf<Pair<String, String?>>()
     val split = this.split(delimiter)
 
@@ -40,7 +39,7 @@ fun String.splitMap(delimiter: String, assigner: String) : MutableList<Pair<Stri
                 val value = argument.substring(equalsIndex + 1)
 
                 if (value.startsWith(QUOTE)) {
-                    if(value.endsWith(QUOTE)) {
+                    if (value.endsWith(QUOTE)) {
                         result.add(key to value.substring(1, value.length - 1))
                     } else {
                         joiner = "$key$assigner${value.substring(1)}"

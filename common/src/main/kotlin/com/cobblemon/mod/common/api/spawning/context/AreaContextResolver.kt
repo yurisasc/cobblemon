@@ -56,9 +56,10 @@ interface AreaContextResolver {
                             if (context != null) {
                                 contexts.add(context)
                                 // The position BlockPos has been used in a context, editing the same one
-                                // will cause entities to spawn at the wrong location (buried in walls, usually)
-                                // I made it so that our context calculators specifically take a copy of the
-                                // BlockPos but it'd still be exposed in custom contexts so fixing it here too.
+                                // will cause entities to spawn at the wrong location (buried in walls, usually).
+                                // I made it so that built-in context calculators explicitly take a copy of the
+                                // BlockPos but it'd still be exposed in custom contexts so fixing it here too so
+                                // custom context calculators don't have to remember to do it. - Hiroku
                                 pos = BlockPos.Mutable(1, 2, 3)
                                 input.position = pos
                             }

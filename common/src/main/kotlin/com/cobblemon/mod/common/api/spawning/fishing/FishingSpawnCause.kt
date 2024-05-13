@@ -11,6 +11,7 @@ package com.cobblemon.mod.common.api.spawning.fishing
 import com.cobblemon.mod.common.api.spawning.SpawnBucket
 import com.cobblemon.mod.common.api.spawning.SpawnCause
 import com.cobblemon.mod.common.api.spawning.spawner.Spawner
+import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.item.interactive.PokerodItem
 import net.minecraft.entity.Entity
 import net.minecraft.item.ItemStack
@@ -28,5 +29,16 @@ class FishingSpawnCause(
     entity: Entity?,
     val rodStack: ItemStack
 ) : SpawnCause(spawner, bucket, entity) {
+    companion object {
+        const val FISHED_ASPECT = "fished"
+    }
+
     val rodItem = rodStack.item as? PokerodItem
+
+    override fun affectSpawn(entity: Entity) {
+        super.affectSpawn(entity)
+        if (entity is PokemonEntity) {
+            entity.pokemon.forcedAspects += FISHED_ASPECT
+        }
+    }
 }
