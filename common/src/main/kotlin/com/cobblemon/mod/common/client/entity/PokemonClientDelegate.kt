@@ -27,6 +27,7 @@ import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntitySt
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.PrimaryAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.StatefulAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.repository.PokemonModelRepository
 import com.cobblemon.mod.common.client.render.pokemon.PokemonRenderer.Companion.ease
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.pokemon.Pokemon
@@ -88,6 +89,8 @@ class PokemonClientDelegate : PoseableEntityState<PokemonEntity>(), PokemonSideD
                 val identifier = Identifier(currentEntity.dataTracker.get(PokemonEntity.SPECIES))
                 currentPose = null
                 currentEntity.pokemon.species = PokemonSpecies.getByIdentifier(identifier)!! // TODO exception handling
+                // force a model update - handles edge case where the PoseableEntityState's tracked PoseableEntityModel isn't updated until the LivingEntityRenderer render is run
+                currentModel = PokemonModelRepository.getPoser(identifier, currentEntity.aspects)
             } else if (data == PokemonEntity.DYING_EFFECTS_STARTED) {
                 val isDying = currentEntity.dataTracker.get(PokemonEntity.DYING_EFFECTS_STARTED)
                 if (isDying) {
@@ -277,6 +280,9 @@ class PokemonClientDelegate : PoseableEntityState<PokemonEntity>(), PokemonSideD
             },
             "weight" to java.util.function.Function {
                 return@Function DoubleValue(currentEntity.pokemon.species.weight.toDouble())
+            },
+            "friendship" to java.util.function.Function {
+                return@Function DoubleValue(currentEntity.pokemon.friendship.toDouble())
             }
         ))
     }

@@ -79,6 +79,8 @@ abstract class PoseableEntityState<T : Entity> : Schedulable {
             reusableAnimTime.value = animationSeconds.toDouble()
             reusableAnimTime
         }
+    "pose_type" to java.util.function.Function { return@Function StringValue((getEntity() as Poseable).getCurrentPoseType().name) },
+    .addFunction("has_entity") { DoubleValue(getEntity() != null) }
         .addFunction("pose") { StringValue(currentPose ?: "") }
         .addFunction("sound") { params ->
             val entity = getEntity() ?: return@addFunction Unit

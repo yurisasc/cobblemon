@@ -41,7 +41,7 @@ class LaprasModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quadru
     lateinit var underwaterIdle: PokemonPose
     lateinit var underwaterMove: PokemonPose
 
-    //override val cryAnimation = CryProvider { _, _ -> bedrockStateful("lapras", "cry") }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("lapras", "cry") }
 
     override fun registerPoses() {
         val blink = quirk { bedrockStateful("lapras", "blink") }
@@ -86,7 +86,7 @@ class LaprasModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quadru
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
-                bedrock("lapras", "surfacewater_idle")
+                bedrock("lapras", "surfacewater_swim")
             )
         )
 
@@ -106,7 +106,7 @@ class LaprasModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quadru
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
-                bedrock("lapras", "surfacewater_idle")
+                bedrock("lapras", "surfacewater_swim")
             )
         )
     }

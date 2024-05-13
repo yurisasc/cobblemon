@@ -25,13 +25,14 @@ import com.cobblemon.mod.common.api.interaction.PokemonEntityInteraction
 import com.cobblemon.mod.common.api.molang.MoLangFunctions.addStandardFunctions
 import com.cobblemon.mod.common.api.net.serializers.PoseTypeDataSerializer
 import com.cobblemon.mod.common.api.net.serializers.StringSetDataSerializer
-import com.cobblemon.mod.common.api.pokemon.PokemonProperties
 import com.cobblemon.mod.common.api.pokemon.feature.FlagSpeciesFeature
 import com.cobblemon.mod.common.api.pokemon.status.Statuses
 import com.cobblemon.mod.common.api.reactive.ObservableSubscription
 import com.cobblemon.mod.common.api.reactive.SimpleObservable
 import com.cobblemon.mod.common.api.scheduling.Schedulable
 import com.cobblemon.mod.common.api.scheduling.SchedulingTracker
+import com.cobblemon.mod.common.api.spawning.BestSpawner
+import com.cobblemon.mod.common.api.spawning.SpawnCause
 import com.cobblemon.mod.common.api.scheduling.afterOnServer
 import com.cobblemon.mod.common.api.storage.InvalidSpeciesException
 import com.cobblemon.mod.common.api.types.ElementalTypes
@@ -66,10 +67,7 @@ import com.cobblemon.mod.common.pokemon.evolution.variants.ItemInteractionEvolut
 import com.cobblemon.mod.common.pokemon.misc.GimmighoulStashHandler
 import com.cobblemon.mod.common.util.*
 import com.cobblemon.mod.common.world.gamerules.CobblemonGameRules
-import net.minecraft.block.Blocks
-import java.util.EnumSet
-import java.util.Optional
-import java.util.UUID
+import java.util.*
 import java.util.concurrent.CompletableFuture
 import net.minecraft.entity.*
 import net.minecraft.entity.ai.control.MoveControl
@@ -117,7 +115,6 @@ import net.minecraft.util.math.Vec3d
 import net.minecraft.world.EntityView
 import net.minecraft.world.World
 import net.minecraft.world.event.GameEvent
-import java.util.*
 
 @Suppress("unused")
 open class PokemonEntity(
@@ -143,6 +140,7 @@ open class PokemonEntity(
         @JvmStatic val UNBATTLEABLE = DataTracker.registerData(PokemonEntity::class.java, TrackedDataHandlerRegistry.BOOLEAN)
         @JvmStatic val COUNTS_TOWARDS_SPAWN_CAP = DataTracker.registerData(PokemonEntity::class.java, TrackedDataHandlerRegistry.BOOLEAN)
         @JvmStatic val SPAWN_DIRECTION = DataTracker.registerData(PokemonEntity::class.java, TrackedDataHandlerRegistry.FLOAT)
+        @JvmStatic val FRIENDSHIP = DataTracker.registerData(PokemonEntity::class.java, TrackedDataHandlerRegistry.INTEGER)
 
         const val BATTLE_LOCK = "battle"
 
@@ -188,6 +186,8 @@ open class PokemonEntity(
         set(value) = dataTracker.set(BATTLE_ID, Optional.ofNullable(value))
     val isBattling: Boolean
         get() = dataTracker.get(BATTLE_ID).isPresent
+    val friendship: Int
+        get() = dataTracker.get(FRIENDSHIP)
 
     var drops: DropTable? = null
 
@@ -212,6 +212,9 @@ open class PokemonEntity(
     var phasingTargetId: Int
         get() = dataTracker.get(PHASING_TARGET_ID)
         set(value) { dataTracker.set(PHASING_TARGET_ID, value) }
+
+    /** The [SpawnCause] that created it, if this was the result of the [BestSpawner]. Note: This will be wiped by chunk-unload. */
+    var spawnCause: SpawnCause? = null
 
     // properties like the above are synced and can be subscribed to for changes on either side
 
@@ -270,7 +273,9 @@ open class PokemonEntity(
         dataTracker.startTracking(LABEL_LEVEL, 1)
         dataTracker.startTracking(HIDE_LABEL, false)
         dataTracker.startTracking(UNBATTLEABLE, false)
+        dataTracker.startTracking(COUNTS_TOWARDS_SPAWN_CAP, true)
         dataTracker.startTracking(SPAWN_DIRECTION, world.random.nextFloat() * 360F)
+        dataTracker.startTracking(FRIENDSHIP, 0)
     }
 
     override fun onTrackedDataSet(data: TrackedData<*>) {
@@ -305,9 +310,9 @@ open class PokemonEntity(
 //        val node = navigation.currentPath?.currentNode
 //        val targetPos = node?.blockPos
 //        if (targetPos == null || world.getBlockState(targetPos.up()).isAir) {
-        return if (state.isIn(FluidTags.WATER)) {
+        return if (state.isIn(FluidTags.WATER) && !isSubmergedIn(FluidTags.WATER)) {
             behaviour.moving.swim.canWalkOnWater
-        } else if (state.isIn(FluidTags.LAVA)) {
+        } else if (state.isIn(FluidTags.LAVA) && !isSubmergedIn(FluidTags.LAVA)) {
             behaviour.moving.swim.canWalkOnLava
         } else {
             super.canWalkOnFluid(state)

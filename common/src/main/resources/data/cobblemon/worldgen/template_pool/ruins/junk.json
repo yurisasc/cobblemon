@@ -84,7 +84,43 @@
             }
         },
         {
-            "weight": 3,
+            "weight": 1,
+            "element": {
+                "location": "cobblemon:ruins/decorations/cauldron_junk",
+                "element_type": "minecraft:single_pool_element",
+                "processors": "cobblemon:ruins/decorations/junk",
+                "projection": "rigid"
+            }
+        },
+        {
+            "weight": 1,
+            "element": {
+                "location": "cobblemon:ruins/decorations/crafting_junk",
+                "element_type": "minecraft:single_pool_element",
+                "processors": "cobblemon:ruins/decorations/junk",
+                "projection": "rigid"
+            }
+        },
+        {
+            "weight": 1,
+            "element": {
+                "location": "cobblemon:ruins/decorations/bell_junk",
+                "element_type": "minecraft:single_pool_element",
+                "processors": "cobblemon:ruins/decorations/junk",
+                "projection": "rigid"
+            }
+        },
+        {
+            "weight": 1,
+            "element": {
+                "location": "cobblemon:ruins/decorations/campfire_junk",
+                "element_type": "minecraft:single_pool_element",
+                "processors": "cobblemon:ruins/decorations/junk",
+                "projection": "rigid"
+            }
+        },
+        {
+            "weight": 5,
             "element": {
                 "element_type": "minecraft:empty_pool_element"
             }

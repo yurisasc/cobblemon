@@ -117,7 +117,7 @@ class PokemonDTO : Encodable, Decodable {
         this.featuresBuffer = PacketByteBuf(Unpooled.buffer())
         val visibleFeatures = pokemon.features
             .filterIsInstance<SynchronizedSpeciesFeature>()
-            .filter { (SpeciesFeatures.getFeature(it.name)!! as SynchronizedSpeciesFeatureProvider<*>).visible }
+            .filter { (SpeciesFeatures.getFeature(it.name) as? SynchronizedSpeciesFeatureProvider<*>)?.visible == true }
         featuresBuffer.writeCollection(visibleFeatures) { _, value ->
             featuresBuffer.writeString(value.name)
             value.encode(featuresBuffer)
@@ -252,7 +252,7 @@ class PokemonDTO : Encodable, Decodable {
             }
             it.caughtBall = PokeBalls.getPokeBall(caughtBall)!!
             it.benchedMoves.addAll(benchedMoves)
-            it.aspects = aspects
+            it.forcedAspects = aspects
             it.evolutionProxy.loadFromBuffer(evolutionBuffer)
             evolutionBuffer.release()
             it.nature = Natures.getNature(nature)!!

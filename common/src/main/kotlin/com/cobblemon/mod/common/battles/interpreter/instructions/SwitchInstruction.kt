@@ -40,6 +40,7 @@ class SwitchInstruction(val instructionSet: InstructionSet, val battleActor: Bat
         val (actor, activePokemon) = battle.getActorAndActiveSlotFromPNX(pnx)
         val entity = if (actor is EntityBackedBattleActor<*>) actor.entity else null
 
+        val imposter = instructionSet.getNextInstruction<TransformInstruction>(this)?.expectedTarget != null
         val illusion = publicMessage.battlePokemonFromOptional(battle, "is")
         val pokemon = publicMessage.battlePokemon(0, battle) ?: return
 
@@ -87,7 +88,7 @@ class SwitchInstruction(val instructionSet: InstructionSet, val battleActor: Bat
                 setOf(
                     BattleDispatch {
                         if (entity != null) {
-                            createEntitySwitch(battle, actor, entity, pnx, activePokemon, pokemon, illusion)
+                            createEntitySwitch(battle, actor, entity, pnx, activePokemon, pokemon, illusion, imposter)
                         } else {
                             createNonEntitySwitch(battle, actor, pnx, activePokemon, pokemon, illusion)
                         }
@@ -98,10 +99,21 @@ class SwitchInstruction(val instructionSet: InstructionSet, val battleActor: Bat
     }
 
     companion object{
-        fun createEntitySwitch(battle: PokemonBattle, actor: BattleActor, entity: LivingEntity, pnx: String, activePokemon: ActiveBattlePokemon, newPokemon: BattlePokemon, illusion: BattlePokemon? = null): DispatchResult {
+        fun createEntitySwitch(
+            battle: PokemonBattle,
+            actor: BattleActor,
+            entity: LivingEntity,
+            pnx: String,
+            activePokemon: ActiveBattlePokemon,
+            newPokemon: BattlePokemon,
+            illusion: BattlePokemon? = null,
+            imposter: Boolean = false
+        ): DispatchResult {
             val pokemonEntity = activePokemon.battlePokemon?.entity
             // If we can't find the entity for some reason then we're going to skip the recall animation
             val sendOutFuture = CompletableFuture<Unit>()
+            // skip if handled by respective EntityEffect
+            val doCry = illusion == null && !imposter
             (pokemonEntity?.recallWithAnimation() ?: CompletableFuture.completedFuture(Unit)).thenApply {
                 // Queue actual swap and send-in after the animation has ended
                 actor.pokemonList.swap(actor.activePokemon.indexOf(activePokemon), actor.pokemonList.indexOf(newPokemon))
@@ -110,7 +122,7 @@ class SwitchInstruction(val instructionSet: InstructionSet, val battleActor: Bat
                 battle.sendSidedUpdate(actor, BattleSwitchPokemonPacket(pnx, newPokemon, true, illusion), BattleSwitchPokemonPacket(pnx, newPokemon, false, illusion))
                 if (newPokemon.entity != null) {
                     illusion?.let { IllusionEffect(it.effectedPokemon).start(newPokemon.entity!!) }
-                    newPokemon.entity?.cry()
+                    if (doCry) newPokemon.entity?.cry()
                     sendOutFuture.complete(Unit)
                 } else {
                     val lastPosition = activePokemon.position
@@ -122,6 +134,7 @@ class SwitchInstruction(val instructionSet: InstructionSet, val battleActor: Bat
                         battleId = battle.battleId,
                         level = world,
                         position = pos,
+                        doCry = doCry,
                         illusion = illusion?.let { IllusionEffect(it.effectedPokemon) }
                     ).thenAccept { sendOutFuture.complete(Unit) }
                 }

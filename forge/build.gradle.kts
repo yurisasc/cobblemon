@@ -42,12 +42,12 @@ dependencies {
     //shadowCommon group: 'commons-io', name: 'commons-io', version: '2.6'
 //    modImplementation(libs.flywheelForge)
 //    include(libs.flywheelForge)
-    modCompileOnly(libs.adornForge)
+    modCompileOnly(libs.adorn.forge)
 
     implementation(project(":common", configuration = "namedElements")) {
         isTransitive = false
     }
-    implementation(libs.kotlinForForge)
+    implementation(libs.kotlin.forge)
     "developmentForge"(project(":common", configuration = "namedElements")) {
         isTransitive = false
     }

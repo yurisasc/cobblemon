@@ -50,8 +50,13 @@ import com.cobblemon.mod.common.api.scheduling.ServerRealTimeTaskTracker
 import com.cobblemon.mod.common.api.scheduling.ServerTaskTracker
 import com.cobblemon.mod.common.api.spawning.BestSpawner
 import com.cobblemon.mod.common.api.spawning.CobblemonSpawningProspector
+import com.cobblemon.mod.common.api.spawning.WorldSlice
 import com.cobblemon.mod.common.api.spawning.context.AreaContextResolver
+import com.cobblemon.mod.common.api.spawning.context.AreaSpawningContext
+import com.cobblemon.mod.common.api.spawning.context.calculators.AreaSpawningContextCalculator
+import com.cobblemon.mod.common.api.spawning.context.calculators.AreaSpawningInput
 import com.cobblemon.mod.common.api.spawning.prospecting.SpawningProspector
+import com.cobblemon.mod.common.api.spawning.spawner.Spawner
 import com.cobblemon.mod.common.api.starter.StarterHandler
 import com.cobblemon.mod.common.api.storage.PokemonStoreManager
 import com.cobblemon.mod.common.api.storage.adapter.conversions.ReforgedConversion
@@ -99,20 +104,16 @@ import com.cobblemon.mod.common.pokemon.aspects.SHINY_ASPECT
 import com.cobblemon.mod.common.pokemon.evolution.variants.BlockClickEvolution
 import com.cobblemon.mod.common.pokemon.feature.TagSeasonResolver
 import com.cobblemon.mod.common.pokemon.helditem.CobblemonHeldItemManager
+import com.cobblemon.mod.common.pokemon.properties.AspectPropertyType
 import com.cobblemon.mod.common.pokemon.properties.HiddenAbilityPropertyType
+import com.cobblemon.mod.common.pokemon.properties.UnaspectPropertyType
 import com.cobblemon.mod.common.pokemon.properties.UncatchableProperty
 import com.cobblemon.mod.common.pokemon.properties.tags.PokemonFlagProperty
 import com.cobblemon.mod.common.pokemon.stat.CobblemonStatProvider
 import com.cobblemon.mod.common.sherds.CobblemonSherds
 import com.cobblemon.mod.common.starter.CobblemonStarterHandler
 import com.cobblemon.mod.common.trade.TradeManager
-import com.cobblemon.mod.common.util.DataKeys
-import com.cobblemon.mod.common.util.cobblemonResource
-import com.cobblemon.mod.common.util.ifDedicatedServer
-import com.cobblemon.mod.common.util.isLaterVersion
-import com.cobblemon.mod.common.util.party
-import com.cobblemon.mod.common.util.removeAmountIf
-import com.cobblemon.mod.common.util.server
+import com.cobblemon.mod.common.util.*
 import com.cobblemon.mod.common.world.feature.CobblemonPlacedFeatures
 import com.cobblemon.mod.common.world.feature.ore.CobblemonOrePlacedFeatures
 import com.cobblemon.mod.common.world.gamerules.CobblemonGameRules
@@ -127,6 +128,7 @@ import net.minecraft.item.Items
 import net.minecraft.item.NameTagItem
 import net.minecraft.registry.RegistryKey
 import net.minecraft.util.WorldSavePath
+import net.minecraft.util.math.BlockPos
 import net.minecraft.world.World
 import org.apache.logging.log4j.LogManager
 import org.apache.logging.log4j.Logger
@@ -142,8 +144,8 @@ import kotlin.reflect.jvm.javaField
 import kotlin.math.roundToInt
 
 object Cobblemon {
-    const val MODID = "cobblemon"
-    const val VERSION = "1.4.0"
+    const val MODID = CobblemonBuildDetails.MOD_ID
+    const val VERSION = CobblemonBuildDetails.VERSION
     const val CONFIG_PATH = "config/$MODID/main.json"
     val LOGGER: Logger = LogManager.getLogger()
 
@@ -180,7 +182,6 @@ object Cobblemon {
         if(CobblemonBuildDetails.SNAPSHOT) {
             this.LOGGER.info("  - Git Commit: ${smallCommitHash()} (https://gitlab.com/cable-mc/cobblemon/-/commit/${CobblemonBuildDetails.GIT_COMMIT})")
             this.LOGGER.info("  - Branch: ${CobblemonBuildDetails.BRANCH}")
-            this.LOGGER.info("  - Timestamp: ${CobblemonBuildDetails.TIMESTAMP}")
         }
 
         implementation.registerPermissionValidator()
@@ -295,6 +296,8 @@ object Cobblemon {
         CustomPokemonProperty.register(UncatchableProperty)
         CustomPokemonProperty.register(PokemonFlagProperty)
         CustomPokemonProperty.register(HiddenAbilityPropertyType)
+        CustomPokemonProperty.register(AspectPropertyType)
+        CustomPokemonProperty.register(UnaspectPropertyType)
 
         ifDedicatedServer {
             isDedicatedServer = true

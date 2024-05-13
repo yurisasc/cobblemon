@@ -11,6 +11,7 @@ package com.cobblemon.mod.common.api.pokeball.catching.modifiers
 import com.cobblemon.mod.common.api.pokeball.PokeBalls
 import com.cobblemon.mod.common.api.pokeball.catching.CatchRateModifier
 import com.cobblemon.mod.common.api.pokemon.status.Status
+import com.cobblemon.mod.common.api.spawning.fishing.FishingSpawnCause
 import com.cobblemon.mod.common.api.tags.CobblemonBiomeTags
 import com.cobblemon.mod.common.api.types.ElementalType
 import com.cobblemon.mod.common.battles.BattleRegistry
@@ -117,6 +118,18 @@ object CatchRateModifiers {
     val PARK = WorldStateModifier { _, entity ->
         if (entity.world.getBiome(entity.blockPos).isIn(CobblemonBiomeTags.IS_TEMPERATE))
             2.5F
+        else
+            1F
+    }
+
+    /**
+     * Used by [PokeBalls.LURE_BALL].
+     * Checks if the entity has an aspect for being spawned from fishing.
+     * If yes boosts the catch rate by *4
+     */
+    val LURE = WorldStateModifier { _, entity ->
+        if (FishingSpawnCause.FISHED_ASPECT in entity.aspects)
+            4f
         else
             1F
     }

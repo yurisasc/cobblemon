@@ -93,9 +93,27 @@ class PokemonServerDelegate : PokemonSideDelegate {
             speed = 0.1F
             entity.despawner.beginTracking(this)
         }
+        updateTrackedValues()
     }
 
     fun getBattle() = entity.battleId?.let(BattleRegistry::getBattle)
+
+    fun updateTrackedValues() {
+        val trackedSpecies = mock?.species ?: entity.pokemon.species.resourceIdentifier.toString()
+        val trackedNickname =  mock?.nickname ?: entity.pokemon.nickname ?: Text.empty()
+        val trackedAspects = mock?.aspects ?: entity.pokemon.aspects
+
+        entity.dataTracker.set(PokemonEntity.SPECIES, trackedSpecies)
+        if (entity.dataTracker.get(PokemonEntity.NICKNAME) != trackedNickname) {
+            entity.dataTracker.set(PokemonEntity.NICKNAME, trackedNickname)
+        }
+        entity.dataTracker.set(PokemonEntity.ASPECTS, trackedAspects)
+        entity.dataTracker.set(PokemonEntity.LABEL_LEVEL, entity.pokemon.level)
+        entity.dataTracker.set(PokemonEntity.MOVING, entity.velocity.multiply(1.0, if (entity.isOnGround) 0.0 else 1.0, 1.0).length() > 0.005F)
+        entity.dataTracker.set(PokemonEntity.FRIENDSHIP, entity.pokemon.friendship)
+
+        updatePoseType()
+    }
 
     override fun onTrackedDataSet(data: TrackedData<*>) {
         super.onTrackedDataSet(data)
@@ -167,24 +185,12 @@ class PokemonServerDelegate : PokemonSideDelegate {
             entity.remove(Entity.RemovalReason.DISCARDED)
         }
 
-        val trackedSpecies = mock?.species ?: entity.pokemon.species.resourceIdentifier.toString()
-        val trackedNickname =  mock?.nickname ?: entity.pokemon.nickname ?: Text.empty()
-        val trackedAspects = mock?.aspects ?: entity.pokemon.aspects
-
-        entity.dataTracker.set(PokemonEntity.SPECIES, trackedSpecies)
-        if (entity.dataTracker.get(PokemonEntity.NICKNAME) != trackedNickname) {
-            entity.dataTracker.set(PokemonEntity.NICKNAME, trackedNickname)
-        }
-        entity.dataTracker.set(PokemonEntity.ASPECTS, trackedAspects)
-        entity.dataTracker.set(PokemonEntity.LABEL_LEVEL, entity.pokemon.level)
-        entity.dataTracker.set(PokemonEntity.MOVING, !entity.navigation.isIdle)
-
-        updatePoseType()
+        updateTrackedValues()
     }
 
     fun updatePoseType() {
         val isSleeping = entity.pokemon.status?.status == Statuses.SLEEP && entity.behaviour.resting.canSleep
-        val isMoving = entity.velocity.multiply(1.0, if (entity.isOnGround) 0.0 else 1.0, 1.0).length() > 0.005F
+        val isMoving = entity.dataTracker.get(PokemonEntity.MOVING)
         val isPassenger = entity.hasVehicle()
         val isUnderwater = entity.getIsSubmerged()
         val isFlying = entity.getBehaviourFlag(PokemonBehaviourFlag.FLYING)

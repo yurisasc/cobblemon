@@ -53,6 +53,11 @@
 		},
 		"animation.woobat.cry": {
 			"animation_length": 1.25,
+			"sound_effects": {
+				"0.04": {
+					"effect": "pokemon.woobat.cry"
+				}
+			},
 			"bones": {
 				"mouth_open": {
 					"position": {

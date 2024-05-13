@@ -10,12 +10,11 @@ package com.cobblemon.mod.common.battles.interpreter.instructions
 
 import com.cobblemon.mod.common.api.battles.interpreter.BattleMessage
 import com.cobblemon.mod.common.api.battles.model.PokemonBattle
-import com.cobblemon.mod.common.api.pokemon.PokemonProperties
+import com.cobblemon.mod.common.battles.ShowdownInterpreter
 import com.cobblemon.mod.common.battles.dispatch.GO
 import com.cobblemon.mod.common.battles.dispatch.InterpreterInstruction
 import com.cobblemon.mod.common.battles.dispatch.UntilDispatch
 import com.cobblemon.mod.common.entity.pokemon.effects.TransformEffect
-import com.cobblemon.mod.common.net.messages.client.battle.BattleInitializePacket
 import com.cobblemon.mod.common.net.messages.client.battle.BattleTransformPokemonPacket
 import com.cobblemon.mod.common.util.battleLang
 
@@ -26,7 +25,9 @@ import com.cobblemon.mod.common.util.battleLang
  * @author jeffw773
  * @since November 28th, 2023
  */
-class TransformInstruction(val message: BattleMessage): InterpreterInstruction {
+class TransformInstruction(val battle: PokemonBattle, val message: BattleMessage): InterpreterInstruction {
+
+    val expectedTarget = message.battlePokemon(0, battle)
 
     override fun invoke(battle: PokemonBattle) {
 
@@ -35,9 +36,12 @@ class TransformInstruction(val message: BattleMessage): InterpreterInstruction {
         val pokemon = message.battlePokemon(0, battle) ?: return
         val targetPokemon = message.battlePokemon(1, battle) ?: return
 
+        val effect = message.effect()
+        ShowdownInterpreter.broadcastOptionalAbility(battle, effect, pokemon)
+
         battle.dispatch {
             val entity = pokemon.entity ?: return@dispatch GO
-            val future = TransformEffect(targetPokemon.effectedPokemon).start(entity)
+            val future = TransformEffect(targetPokemon.effectedPokemon, battle.started).start(entity)
             UntilDispatch { future?.isDone != false }
         }
 

@@ -129,6 +129,14 @@ object CobblemonSounds : PlatformRegistry<Registry<SoundEvent>, RegistryKey<Regi
     val COIN_POUCH_STEP = this.create("coin_pouch.step")
     @JvmField
     val COIN_POUCH_PLACE = this.create("coin_pouch.place")
+
+    @JvmField
+    val FISHING_NOTIFICATION = this.create("fishing.notification")
+    @JvmField
+    val FISHING_SPLASH_BIG = this.create("fishing.splash_big")
+    @JvmField
+    val FISHING_SPLASH_SMALL = this.create("fishing.splash_small")
+
     @JvmField
     val TUMBLESTONE_BREAK = this.create("tumblestone.break")
     @JvmField

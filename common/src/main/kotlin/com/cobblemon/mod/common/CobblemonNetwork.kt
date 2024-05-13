@@ -74,6 +74,7 @@ import com.cobblemon.mod.common.net.messages.client.data.SpeciesFeatureAssignmen
 import com.cobblemon.mod.common.net.messages.client.data.SpeciesRegistrySyncPacket
 import com.cobblemon.mod.common.net.messages.client.data.StandardSpeciesFeatureSyncPacket
 import com.cobblemon.mod.common.net.messages.client.data.UnlockReloadPacket
+import com.cobblemon.mod.common.net.messages.client.data.*
 import com.cobblemon.mod.common.net.messages.client.dialogue.DialogueClosedPacket
 import com.cobblemon.mod.common.net.messages.client.dialogue.DialogueOpenedPacket
 import com.cobblemon.mod.common.net.messages.client.effect.RunPosableMoLangPacket
@@ -320,6 +321,7 @@ object CobblemonNetwork : NetworkManager {
         this.createClientBound(SpeciesFeatureAssignmentSyncPacket.ID, SpeciesFeatureAssignmentSyncPacket::decode, DataRegistrySyncPacketHandler())
         this.createClientBound(NaturalMaterialRegistrySyncPacket.ID, NaturalMaterialRegistrySyncPacket::decode, DataRegistrySyncPacketHandler())
         this.createClientBound(FossilRegistrySyncPacket.ID, FossilRegistrySyncPacket::decode, DataRegistrySyncPacketHandler())
+        this.createClientBound(PokeRodRegistrySyncPacket.ID, PokeRodRegistrySyncPacket::decode, DataRegistrySyncPacketHandler())
 
         // Effects
         this.createClientBound(SpawnSnowstormParticlePacket.ID, SpawnSnowstormParticlePacket::decode, SpawnSnowstormParticleHandler)

@@ -36,6 +36,11 @@
 		},
 		"animation.drakloak.cry": {
 			"animation_length": 1.5,
+			"sound_effects": {
+				"0.04": {
+					"effect": "pokemon.drakloak.cry"
+				}
+			},
 			"bones": {
 				"neck": {
 					"rotation": {

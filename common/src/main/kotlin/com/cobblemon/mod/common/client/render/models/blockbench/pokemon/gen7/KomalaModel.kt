@@ -8,6 +8,7 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen7
 
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cobblemon.mod.common.entity.PoseType
@@ -24,7 +25,7 @@ class KomalaModel (root: ModelPart) : PokemonPoseableModel() {
 
     lateinit var standing: PokemonPose
 
-//    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("komala", "cry") }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("komala", "cry") }
 
     override fun registerPoses() {
         val doze = quirk(secondsBetweenOccurrences = 60F to 120F) { bedrockStateful("komala", "quirk_doze_off")}

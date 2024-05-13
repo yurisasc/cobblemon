@@ -32,7 +32,13 @@ object ClientMoLangFunctions {
                 MinecraftClient.getInstance().soundManager.play(PositionedSoundInstance.master(soundEvent, pitch))
             }
         },
-        "say" to java.util.function.Function { params -> MinecraftClient.getInstance().player?.sendMessage(params.getString(0).text()) ?: Unit }
+        "is_time" to java.util.function.Function { params ->
+            val time = (MinecraftClient.getInstance().world?.timeOfDay ?: 0) % 24000
+            val min = params.getInt(0)
+            val max = params.getInt(1)
+            time in min..max
+        },
+        "say" to java.util.function.Function { params -> MinecraftClient.getInstance().player?.sendMessage(params.getString(0).text()) ?: Unit },
     )
 
     fun MoLangRuntime.setupClient(): MoLangRuntime {

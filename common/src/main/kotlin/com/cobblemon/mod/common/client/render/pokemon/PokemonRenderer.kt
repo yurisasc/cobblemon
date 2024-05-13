@@ -45,7 +45,6 @@ import net.minecraft.client.render.entity.MobEntityRenderer
 import net.minecraft.client.render.item.ItemRenderer
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.entity.Entity
-import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.text.Text
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.MathConstants.PI
@@ -157,7 +156,6 @@ class PokemonRenderer(
         var beamSourcePosition = if (phaseTarget is Poseable) {
             (phaseTarget.delegate as PoseableEntityState<*>).locatorStates["beam"]?.getOrigin() ?: phaseTarget.pos
         } else {
-            phaseTarget as PlayerEntity
             if (phaseTarget.uuid == MinecraftClient.getInstance().player?.uuid) {
                 val lookVec = phaseTarget.rotationVector.rotateY(PI / 2).multiply(1.0, 0.0, 1.0).normalize()
                 phaseTarget.getCameraPosVec(partialTicks).subtract(0.0, 0.4, 0.0).subtract(lookVec.multiply(0.3))

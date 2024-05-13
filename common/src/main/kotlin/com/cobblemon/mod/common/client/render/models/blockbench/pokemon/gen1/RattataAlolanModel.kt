@@ -58,7 +58,6 @@ class RattataAlolanModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame,
             poseTypes = setOf(PoseType.NONE, PoseType.PROFILE, PoseType.STAND, PoseType.FLOAT, PoseType.PORTRAIT, PoseType.SHOULDER_LEFT, PoseType.SHOULDER_RIGHT),
             transformTicks = 10,
             quirks = arrayOf(blink),
-            condition = { !it.dataTracker.get(PokemonEntity.MOVING) },
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("rattata_alolan", "ground_idle")
@@ -69,7 +68,6 @@ class RattataAlolanModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame,
             poseType = PoseType.WALK,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            condition = { it.dataTracker.get(PokemonEntity.MOVING) },
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("rattata_alolan", "ground_walk")
