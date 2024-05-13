@@ -416,7 +416,6 @@ object Cobblemon {
             ).ifSuccessful { it.mute = true }
         }
 
-        CobblemonSherds.registerSherds()
     }
 
     fun getLevel(dimension: RegistryKey<World>): World? {
