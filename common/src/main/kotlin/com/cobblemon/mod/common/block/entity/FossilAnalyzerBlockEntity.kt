@@ -29,11 +29,10 @@ class FossilAnalyzerBlockEntity(
 
     class FossilAnalyzerInventory(val analyzerEntity: FossilAnalyzerBlockEntity) : SidedInventory {
         override fun clear() {
-            TODO("Not yet implemented")
         }
 
         override fun size(): Int {
-            TODO("Not yet implemented")
+            return 1
         }
 
         override fun isEmpty(): Boolean {
@@ -44,6 +43,7 @@ class FossilAnalyzerBlockEntity(
             return ItemStack.EMPTY
         }
 
+        //Unimplemented since no extract
         override fun removeStack(slot: Int, amount: Int): ItemStack {
             return ItemStack.EMPTY
         }
