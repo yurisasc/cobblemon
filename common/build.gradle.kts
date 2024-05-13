@@ -43,6 +43,7 @@ dependencies {
     modCompileOnly(libs.bundles.fabric.integrations.compileOnly) {
         isTransitive = false
     }
+    modImplementation(libs.sbl.fabric)
     // Flywheel has no common dep so just pick one and don't use any platform specific code in common
     // modCompileOnly(libs.flywheelFabric)
 

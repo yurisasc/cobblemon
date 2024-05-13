@@ -8,29 +8,36 @@
 
 package com.cobblemon.mod.common.entity.ai
 
-import net.minecraft.entity.LivingEntity
+import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
+import com.cobblemon.mod.common.util.toDF
+import com.mojang.datafixers.util.Pair
+import net.minecraft.entity.ai.brain.MemoryModuleState
 import net.minecraft.entity.ai.brain.MemoryModuleType
-import net.minecraft.entity.ai.brain.task.SingleTickTask
-import net.minecraft.entity.ai.brain.task.TaskRunnable
-import net.minecraft.entity.ai.brain.task.TaskTriggerer
+import net.tslat.smartbrainlib.api.core.behaviour.ExtendedBehaviour
+import net.tslat.smartbrainlib.util.BrainUtils
 
-object GetAngryAtAttackerTask {
-    fun create(): SingleTickTask<LivingEntity> {
-        return TaskTriggerer.task {
-            it.group(
-                it.queryMemoryValue(MemoryModuleType.HURT_BY_ENTITY),
-                it.queryMemoryOptional(MemoryModuleType.ANGRY_AT)
-            ).apply(it) { hurtByEntity, angryAt ->
-                TaskRunnable { _, entity, _ ->
-                    val hurtByEntity = it.getValue(hurtByEntity)
-                    val angryAt = it.getOptionalValue(angryAt).orElse(null)
-                    if (angryAt != null && angryAt == hurtByEntity.uuid) {
-                        return@TaskRunnable false
-                    }
-                    entity.brain.remember(MemoryModuleType.ANGRY_AT, hurtByEntity.uuid)
-                    return@TaskRunnable true
-                }
+//todo: make sure it's the same behaviour
+class GetAngryAtAttackerTask : ExtendedBehaviour<PokemonEntity>() {
+    init {
+        whenStarting { entity ->
+            val hurtByEntity = requireNotNull(
+                BrainUtils.getMemory(entity, MemoryModuleType.HURT_BY_ENTITY)
+            )
+
+            val angryAt = BrainUtils.getMemory(entity, MemoryModuleType.ANGRY_AT)
+            if (angryAt != null && angryAt == hurtByEntity.uuid) {
+                return@whenStarting
             }
+
+            entity.brain.remember(MemoryModuleType.ANGRY_AT, hurtByEntity.uuid)
         }
+    }
+
+    override fun getMemoryRequirements(): List<Pair<MemoryModuleType<*>, MemoryModuleState>> {
+        //todo: not sure what state these should be
+        return listOf(
+            MemoryModuleType.HURT_BY_ENTITY toDF MemoryModuleState.REGISTERED,
+            MemoryModuleType.ANGRY_AT toDF MemoryModuleState.REGISTERED,
+        )
     }
 }

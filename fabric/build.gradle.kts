@@ -60,6 +60,7 @@ dependencies {
         isTransitive = false
     }
     modRuntimeOnly(libs.jei.fabric)
+    modImplementation(libs.sbl.fabric)
 //    modImplementation(libs.flywheelFabric)
 //    include(libs.flywheelFabric)
 

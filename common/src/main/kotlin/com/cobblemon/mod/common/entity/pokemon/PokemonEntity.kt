@@ -10,7 +10,6 @@ package com.cobblemon.mod.common.entity.pokemon
 
 import com.cobblemon.mod.common.*
 import com.cobblemon.mod.common.CobblemonNetwork.sendPacket
-import com.cobblemon.mod.common.GenericsCheatClass.createPokemonBrain
 import com.cobblemon.mod.common.api.battles.model.PokemonBattle
 import com.cobblemon.mod.common.api.drop.DropTable
 import com.cobblemon.mod.common.api.entity.Despawner
@@ -36,24 +35,14 @@ import com.cobblemon.mod.common.block.entity.PokemonPastureBlockEntity
 import com.cobblemon.mod.common.client.entity.PokemonClientDelegate
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.Poseable
-import com.cobblemon.mod.common.entity.ai.AttackAngryAtTask
-import com.cobblemon.mod.common.entity.ai.ChooseLandWanderTargetTask
-import com.cobblemon.mod.common.entity.ai.FollowWalkTargetTask
-import com.cobblemon.mod.common.entity.ai.GetAngryAtAttackerTask
-import com.cobblemon.mod.common.entity.ai.MoveToAttackTargetTask
-import com.cobblemon.mod.common.entity.ai.StayAfloatTask
+import com.cobblemon.mod.common.entity.ai.*
 import com.cobblemon.mod.common.entity.generic.GenericBedrockEntity
 import com.cobblemon.mod.common.entity.pokeball.EmptyPokeBallEntity
 import com.cobblemon.mod.common.entity.pokemon.ai.PokemonMoveControl
 import com.cobblemon.mod.common.entity.pokemon.ai.PokemonNavigation
 import com.cobblemon.mod.common.entity.pokemon.ai.goals.*
-import com.cobblemon.mod.common.entity.pokemon.ai.tasks.EatGrassTask
-import com.cobblemon.mod.common.entity.pokemon.ai.tasks.FindRestingPlaceTask
-import com.cobblemon.mod.common.entity.pokemon.ai.tasks.GoToSleepTask
-import com.cobblemon.mod.common.entity.pokemon.ai.tasks.HandleBattleActivityGoal
-import com.cobblemon.mod.common.entity.pokemon.ai.tasks.LookAtTargetedBattlePokemonTask
-import com.cobblemon.mod.common.entity.pokemon.ai.tasks.MoveToOwnerTask
-import com.cobblemon.mod.common.entity.pokemon.ai.tasks.WakeUpTask
+import com.cobblemon.mod.common.entity.pokemon.ai.sensors.DrowsySensor
+import com.cobblemon.mod.common.entity.pokemon.ai.tasks.*
 import com.cobblemon.mod.common.entity.pokemon.effects.EffectTracker
 import com.cobblemon.mod.common.entity.pokemon.effects.IllusionEffect
 import com.cobblemon.mod.common.net.messages.client.animation.PlayPoseableAnimationPacket
@@ -74,18 +63,18 @@ import com.cobblemon.mod.common.util.*
 import com.cobblemon.mod.common.world.gamerules.CobblemonGameRules
 import com.google.common.collect.ImmutableList
 import com.mojang.serialization.Dynamic
-import java.util.*
-import java.util.concurrent.CompletableFuture
-import kotlin.math.ceil
 import net.minecraft.entity.*
 import net.minecraft.entity.ai.brain.Activity
 import net.minecraft.entity.ai.brain.Brain
 import net.minecraft.entity.ai.brain.MemoryModuleType
+import net.minecraft.entity.ai.brain.sensor.NearestLivingEntitiesSensor
+import net.minecraft.entity.ai.brain.sensor.NearestPlayersSensor
 import net.minecraft.entity.ai.brain.sensor.Sensor
 import net.minecraft.entity.ai.brain.sensor.SensorType
 import net.minecraft.entity.ai.brain.task.ForgetAngryAtTargetTask
 import net.minecraft.entity.ai.brain.task.LookAroundTask
 import net.minecraft.entity.ai.brain.task.LookAtMobTask
+import net.minecraft.entity.ai.brain.task.MultiTickTask
 import net.minecraft.entity.ai.brain.task.Task
 import net.minecraft.entity.ai.control.MoveControl
 import net.minecraft.entity.ai.pathing.PathNodeType
@@ -131,13 +120,24 @@ import net.minecraft.world.EntityView
 import net.minecraft.world.LightType
 import net.minecraft.world.World
 import net.minecraft.world.event.GameEvent
+import net.tslat.smartbrainlib.api.SmartBrainOwner
+import net.tslat.smartbrainlib.api.core.BrainActivityGroup
+import net.tslat.smartbrainlib.api.core.SmartBrainProvider
+import net.tslat.smartbrainlib.api.core.sensor.ExtendedSensor
+import net.tslat.smartbrainlib.api.core.sensor.vanilla.HurtBySensor
+import net.tslat.smartbrainlib.api.core.sensor.vanilla.NearbyLivingEntitySensor
+import net.tslat.smartbrainlib.api.core.sensor.vanilla.NearbyPlayersSensor
+import java.util.*
+import java.util.concurrent.CompletableFuture
+import kotlin.math.ceil
+
 
 @Suppress("unused")
 open class PokemonEntity(
     world: World,
     pokemon: Pokemon = Pokemon(),
     type: EntityType<out PokemonEntity> = CobblemonEntities.POKEMON,
-) : TameableShoulderEntity(type, world), Poseable, Shearable, Schedulable {
+) : TameableShoulderEntity(type, world), Poseable, Shearable, Schedulable, SmartBrainOwner<PokemonEntity> {
     companion object {
         @JvmStatic val SPECIES = DataTracker.registerData(PokemonEntity::class.java, TrackedDataHandlerRegistry.STRING)
         @JvmStatic val NICKNAME = DataTracker.registerData(PokemonEntity::class.java, TrackedDataHandlerRegistry.TEXT_COMPONENT)
@@ -391,7 +391,7 @@ open class PokemonEntity(
 
     override fun mobTick() {
         super.mobTick()
-        getBrain().tick(world as ServerWorld, this)
+        tickBrain(this)
     }
 
     fun setMoveControl(moveControl: MoveControl) {
@@ -591,8 +591,18 @@ open class PokemonEntity(
     override fun getNavigation() = navigation as PokemonNavigation
     override fun createNavigation(world: World) = PokemonNavigation(world, this)
 
-    override fun createBrainProfile() = createPokemonBrain(MEMORY_MODULES, SENSORS)
-    override fun getBrain() = super.getBrain() as Brain<PokemonEntity>
+    @Suppress("KotlinConstantConditions")
+    // Brain.Profile is final and Kotlin error's, but this cast is safe.
+    override fun createBrainProfile() = SmartBrainProvider(this) as Brain.Profile<*>
+
+    override fun getSensors(): List<ExtendedSensor<PokemonEntity>> {
+        return listOf(
+            NearbyLivingEntitySensor(),
+            HurtBySensor(),
+            NearbyPlayersSensor(),
+            DrowsySensor()
+        )
+    }
 
     override fun initGoals() {
         super.initGoals()
@@ -604,25 +614,19 @@ open class PokemonEntity(
         (moveControl as PokemonMoveControl).stop()
     }
 
-    override fun deserializeBrain(dynamic: Dynamic<*>): Brain<PokemonEntity> {
-        val brain = createBrainProfile().deserialize(dynamic)
-        if (pokemon == null) {
-            return brain
-        }
-        setupTasks()
-        return brain
-    }
-
-    fun getCoreTasks(): List<com.mojang.datafixers.util.Pair<Int, Task<in PokemonEntity>>> {
-        val tasks: MutableList<com.mojang.datafixers.util.Pair<Int, Task<in PokemonEntity>>> = mutableListOf()
+    override fun getCoreTasks(): BrainActivityGroup<PokemonEntity> {
+        val tasks: MutableList<MultiTickTask<in PokemonEntity>> = mutableListOf()
         if (!pokemon.form.behaviour.moving.swim.canBreatheUnderwater) {
-            tasks.add(0 toDF StayAfloatTask(0.8F))
+            tasks.add(StayAfloatTask(0.8F))
         }
-        tasks.add(0 toDF GetAngryAtAttackerTask.create())
-        tasks.add(0 toDF ForgetAngryAtTargetTask.create())
-        tasks.add(0 toDF HandleBattleActivityGoal.create())
-        tasks.add(0 toDF FollowWalkTargetTask())
-        return tasks
+        tasks.add(GetAngryAtAttackerTask())
+        tasks.add(ForgetAngryAtTargetTask.create())
+        tasks.add(HandleBattleActivityGoal.create())
+        tasks.add(FollowWalkTargetTask())
+
+        return BrainActivityGroup.coreTasks(
+            tasks
+        )
     }
 
     fun getIdleTasks(): List<com.mojang.datafixers.util.Pair<Int, Task<in PokemonEntity>>> {

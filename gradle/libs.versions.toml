@@ -20,6 +20,7 @@ molang = "1.1.11"
 graal = "22.3.0"
 icu4j = "71.1"
 jei-api = "15.2.0.25"
+sbl = "1.14"
 
 # Fabric
 fabric-loader = "0.15.10"
@@ -65,6 +66,8 @@ jei-api = { group = "local.mezz.jei", name = "common-api", version.ref = "jei-ap
 molang = { group = "local.com.bedrockk", name = "molang", version.ref = "molang" }
 graal = { group = "org.graalvm.js", name = "js", version.ref = "graal" }
 icu4j = { group = "com.ibm.icu", name = "icu4j", version.ref = "icu4j" }
+sbl-common = { group = "net.tslat.smartbrainlib", name = "SmartBrainLib-common-1.20.1", version.ref = "sbl" }
+sbl-fabric = { group = "net.tslat.smartbrainlib", name = "SmartBrainLib-fabric-1.20.1", version.ref = "sbl" }
 
 # Fabric
 fabric-loader = { group = "net.fabricmc", name = "fabric-loader", version.ref = "fabric-loader" }

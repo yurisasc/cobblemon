@@ -39,6 +39,8 @@ repositories {
     //JEI
     maven("https://maven.blamejared.com/")
     maven("https://maven.tterrag.com/")
+    // SBL
+    maven("https://dl.cloudsmith.io/public/tslat/sbl/maven/")
 }
 
 license {

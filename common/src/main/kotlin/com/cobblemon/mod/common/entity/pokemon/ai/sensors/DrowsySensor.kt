@@ -9,9 +9,12 @@
 package com.cobblemon.mod.common.entity.pokemon.ai.sensors
 
 import com.cobblemon.mod.common.CobblemonMemories
+import com.cobblemon.mod.common.CobblemonSensors
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
-import net.minecraft.entity.ai.brain.sensor.Sensor
+import net.minecraft.entity.ai.brain.MemoryModuleType
+import net.minecraft.entity.ai.brain.sensor.SensorType
 import net.minecraft.server.world.ServerWorld
+import net.tslat.smartbrainlib.api.core.sensor.ExtendedSensor
 
 /**
  * Senses when the Pokémon is in a situation that would make it ready to sleep.
@@ -19,8 +22,17 @@ import net.minecraft.server.world.ServerWorld
  * @author Hiroku
  * @since March 23rd, 2024
  */
-class DrowsySensor : Sensor<PokemonEntity>(100) {
-    override fun getOutputMemoryModules() = setOf(CobblemonMemories.POKEMON_DROWSY)
+class DrowsySensor : ExtendedSensor<PokemonEntity>() {
+    override fun memoriesUsed(): List<MemoryModuleType<*>> {
+        return listOf(
+            CobblemonMemories.POKEMON_DROWSY
+        )
+    }
+
+    override fun type(): SensorType<out ExtendedSensor<*>> {
+        return CobblemonSensors.POKEMON_DROWSY
+    }
+
     override fun sense(world: ServerWorld, entity: PokemonEntity) {
         val rest = entity.behaviour.resting
         val isDrowsy = entity.brain.getOptionalRegisteredMemory(CobblemonMemories.POKEMON_DROWSY).orElse(false)
