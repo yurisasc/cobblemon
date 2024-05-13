@@ -3,9 +3,13 @@
 ## [1.5.1](#1-5-1)
 
 ### Fixes
--Fixed a bug in which adding organic material to the fossil tank via right click was adding the full count of the stack currently in hand
+- Fixed a bug in which adding organic material to the fossil tank via right click was adding the full count of the stack currently in hand
+- Fixed a niche issue where some properties of entities were not initialized correctly, causing Pokémon that appeared to be level 1 until you battle them.
 
-## [1.5.0 - The Ruins and Revival Update (May Xth, 2024)](#1-5-0)
+### Data Pack & Resource Pack Creators
+- Added support for MoLang conditions for quirks and poses.
+
+## [1.5.0 - The Ruins and Revival Update (May 12th, 2024)](#1-5-0)
 #### "You're telling me that Mojang has added archaeology to the game? Hmm... that gives me an idea."
 
 ### Additions

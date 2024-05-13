@@ -59,7 +59,6 @@ import com.cobblemon.mod.common.pokemon.evolution.variants.ItemInteractionEvolut
 import com.cobblemon.mod.common.pokemon.misc.GimmighoulStashHandler
 import com.cobblemon.mod.common.util.*
 import com.cobblemon.mod.common.world.gamerules.CobblemonGameRules
-import net.minecraft.block.Blocks
 import java.util.EnumSet
 import java.util.Optional
 import java.util.UUID
@@ -136,6 +135,7 @@ open class PokemonEntity(
         @JvmStatic val UNBATTLEABLE = DataTracker.registerData(PokemonEntity::class.java, TrackedDataHandlerRegistry.BOOLEAN)
         @JvmStatic val COUNTS_TOWARDS_SPAWN_CAP = DataTracker.registerData(PokemonEntity::class.java, TrackedDataHandlerRegistry.BOOLEAN)
         @JvmStatic val SPAWN_DIRECTION = DataTracker.registerData(PokemonEntity::class.java, TrackedDataHandlerRegistry.FLOAT)
+        @JvmStatic val FRIENDSHIP = DataTracker.registerData(PokemonEntity::class.java, TrackedDataHandlerRegistry.INTEGER)
 
         const val BATTLE_LOCK = "battle"
 
@@ -181,6 +181,8 @@ open class PokemonEntity(
         set(value) = dataTracker.set(BATTLE_ID, Optional.ofNullable(value))
     val isBattling: Boolean
         get() = dataTracker.get(BATTLE_ID).isPresent
+    val friendship: Int
+        get() = dataTracker.get(FRIENDSHIP)
 
     var drops: DropTable? = null
 
@@ -246,7 +248,9 @@ open class PokemonEntity(
         dataTracker.startTracking(LABEL_LEVEL, 1)
         dataTracker.startTracking(HIDE_LABEL, false)
         dataTracker.startTracking(UNBATTLEABLE, false)
+        dataTracker.startTracking(COUNTS_TOWARDS_SPAWN_CAP, true)
         dataTracker.startTracking(SPAWN_DIRECTION, world.random.nextFloat() * 360F)
+        dataTracker.startTracking(FRIENDSHIP, 0)
     }
 
     override fun onTrackedDataSet(data: TrackedData<*>) {
