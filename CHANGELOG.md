@@ -5,6 +5,7 @@
 ### Fixes
 - Fixed a bug in which adding organic material to the fossil tank via right click was adding the full count of the stack currently in hand
 - Fixed a niche issue where some properties of entities were not initialized correctly, causing Pokémon that appeared to be level 1 until you battle them.
+- Fixed Fossilized Drake being missing from the Fossils item tag.
 
 ### Data Pack & Resource Pack Creators
 - Added support for MoLang conditions for quirks and poses.
