@@ -126,12 +126,12 @@ class GildedChestBlock(settings: Settings, val type: Type = Type.RED) : BlockWit
 
     override fun onBreak(world: World, pos: BlockPos, state: BlockState, player: PlayerEntity) {
         if (!world.isClient) {
-            val bEntity = world.getBlockEntity(pos) as? GildedChestBlockEntity
-            bEntity?.markRemoved()
             if (isFake() && (player is ServerPlayerEntity)) {
                 spawnPokemon(world, pos, state, player)
             }
             world.setBlockState(pos, if (state.fluidState.isOf(Fluids.WATER)) Blocks.WATER.defaultState else Blocks.AIR.defaultState)
+            val bEntity = world.getBlockEntity(pos) as? GildedChestBlockEntity
+            bEntity?.markRemoved()
         } else super.onBreak(world, pos, state, player)
     }
 
@@ -199,9 +199,11 @@ class GildedChestBlock(settings: Settings, val type: Type = Type.RED) : BlockWit
         newState: BlockState,
         moved: Boolean
     ) {
-        if (!state.isOf(newState.block)) {
-            val chest = world.getBlockEntity(pos) as GildedChestBlockEntity
-            ItemScatterer.spawn(world, pos, chest.inventoryContents)
+        if (!state.isOf(newState.block) && !world.isClient) {
+            val chest = world.getBlockEntity(pos) as? GildedChestBlockEntity
+            chest?.let {
+                ItemScatterer.spawn(world, pos, chest.inventoryContents)
+            }
         }
     }
 
