@@ -212,6 +212,11 @@
       "cobblemon:fishing/fishing_splash_big_3"
     ]
   },
+  "fishing.bobber_land": {
+    "sounds": [
+      "cobblemon:fishing/fishing_bobber_land"
+    ]
+  },
   "tumblestone.break": {
     "sounds": [
       "cobblemon:block/tumblestone/tumblestone_break_1",

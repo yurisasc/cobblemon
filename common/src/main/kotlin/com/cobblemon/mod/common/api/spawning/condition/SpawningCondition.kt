@@ -60,7 +60,8 @@ abstract class SpawningCondition<T : SpawningContext> {
     var isThundering: Boolean? = null
     var timeRange: TimeRange? = null
     var structures: MutableList<Either<Identifier, TagKey<Structure>>>? = null
-    var lureLevel: Int? = null
+    var minLureLevel: Int? = null
+    var maxLureLevel: Int? = null
     var bait: String? = null
     var rodType: String? = null
 
@@ -115,10 +116,12 @@ abstract class SpawningCondition<T : SpawningContext> {
             }
         ) {
             return false
-        } else if (lureLevel != null && ctx is FishingSpawningContext) { // check for the lureLevel of the rod
+        } else if (minLureLevel != null && ctx is FishingSpawningContext) { // check for the lureLevel of the rod
             val pokerodStack = (ctx as FishingSpawningContext).rodStack
 
-            if (EnchantmentHelper.getLure(pokerodStack) < lureLevel!!)
+            if (EnchantmentHelper.getLure(pokerodStack) < minLureLevel!!)
+                return false
+            if (maxLureLevel != null && EnchantmentHelper.getLure(pokerodStack) > maxLureLevel!!)
                 return false
         } else if (bait != null && ctx is FishingSpawningContext) { // check for the bait on the bobber
             val pokerodItem = (ctx as FishingSpawningContext).rodItem

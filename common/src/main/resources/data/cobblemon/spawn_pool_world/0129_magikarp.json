@@ -97,7 +97,7 @@
             "level": "1-20",
             "weight": 0.1,
             "condition": {
-                "lureLevel": 2
+                "minLureLevel": 2
             }
         },
         {
@@ -109,7 +109,7 @@
             "level": "1-20",
             "weight": 0.1,
             "condition": {
-                "lureLevel": 2
+                "minLureLevel": 2
             }
         },
         {
@@ -121,7 +121,7 @@
             "level": "1-20",
             "weight": 0.1,
             "condition": {
-                "lureLevel": 2
+                "minLureLevel": 2
             }
         },
         {
@@ -133,7 +133,7 @@
             "level": "1-20",
             "weight": 0.1,
             "condition": {
-                "lureLevel": 3
+                "minLureLevel": 3
             }
         },
         {
@@ -145,7 +145,7 @@
             "level": "1-20",
             "weight": 0.1,
             "condition": {
-                "lureLevel": 3
+                "minLureLevel": 3
             }
         },
         {
@@ -157,7 +157,7 @@
             "level": "1-20",
             "weight": 0.1,
             "condition": {
-                "lureLevel": 3
+                "minLureLevel": 3
             }
         },
         {
@@ -169,7 +169,7 @@
             "level": "1-20",
             "weight": 0.1,
             "condition": {
-                "lureLevel": 3
+                "minLureLevel": 3
             }
         },
         {
@@ -181,7 +181,7 @@
             "level": "1-20",
             "weight": 0.1,
             "condition": {
-                "lureLevel": 2
+                "minLureLevel": 2
             }
         },
         {
@@ -193,7 +193,7 @@
             "level": "1-20",
             "weight": 0.1,
             "condition": {
-                "lureLevel": 2
+                "minLureLevel": 2
             }
         },
         {
@@ -205,7 +205,7 @@
             "level": "1-20",
             "weight": 0.1,
             "condition": {
-                "lureLevel": 2
+                "minLureLevel": 2
             }
         },
         {
@@ -217,7 +217,7 @@
             "level": "1-20",
             "weight": 0.1,
             "condition": {
-                "lureLevel": 1
+                "minLureLevel": 1
             }
         },
         {
@@ -229,7 +229,7 @@
             "level": "1-20",
             "weight": 0.1,
             "condition": {
-                "lureLevel": 1
+                "minLureLevel": 1
             }
         },
         {
@@ -241,7 +241,7 @@
             "level": "1-20",
             "weight": 0.1,
             "condition": {
-                "lureLevel": 1
+                "minLureLevel": 1
             }
         },
         {
@@ -253,7 +253,7 @@
             "level": "1-20",
             "weight": 0.1,
             "condition": {
-                "lureLevel": 1
+                "minLureLevel": 1
             }
         },
         {
@@ -265,7 +265,7 @@
             "level": "1-20",
             "weight": 0.1,
             "condition": {
-                "lureLevel": 1
+                "minLureLevel": 1
             }
         },
         {
@@ -277,7 +277,7 @@
             "level": "1-20",
             "weight": 0.1,
             "condition": {
-                "lureLevel": 2
+                "minLureLevel": 2
             }
         },
         {
@@ -289,7 +289,7 @@
             "level": "1-20",
             "weight": 0.1,
             "condition": {
-                "lureLevel": 2
+                "minLureLevel": 2
             }
         },
         {
@@ -301,7 +301,7 @@
             "level": "1-20",
             "weight": 0.1,
             "condition": {
-                "lureLevel": 2
+                "minLureLevel": 2
             }
         },
         {
@@ -313,7 +313,7 @@
             "level": "1-20",
             "weight": 0.1,
             "condition": {
-                "lureLevel": 3
+                "minLureLevel": 3
             }
         },
         {
@@ -325,7 +325,7 @@
             "level": "1-20",
             "weight": 0.1,
             "condition": {
-                "lureLevel": 3
+                "minLureLevel": 3
             }
         },
         {
@@ -337,7 +337,7 @@
             "level": "1-20",
             "weight": 0.1,
             "condition": {
-                "lureLevel": 1
+                "minLureLevel": 1
             }
         },
         {
@@ -349,7 +349,7 @@
             "level": "1-20",
             "weight": 0.1,
             "condition": {
-                "lureLevel": 2
+                "minLureLevel": 2
             }
         },
         {
@@ -361,7 +361,7 @@
             "level": "1-20",
             "weight": 0.1,
             "condition": {
-                "lureLevel": 2
+                "minLureLevel": 2
             }
         },
         {
@@ -373,7 +373,7 @@
             "level": "1-20",
             "weight": 0.1,
             "condition": {
-                "lureLevel": 2
+                "minLureLevel": 2
             }
         },
         {
@@ -385,7 +385,7 @@
             "level": "1-20",
             "weight": 0.1,
             "condition": {
-                "lureLevel": 2
+                "minLureLevel": 2
             }
         },
         {
@@ -397,7 +397,7 @@
             "level": "1-20",
             "weight": 0.1,
             "condition": {
-                "lureLevel": 2
+                "minLureLevel": 2
             }
         },
         {
@@ -409,7 +409,7 @@
             "level": "1-20",
             "weight": 0.1,
             "condition": {
-                "lureLevel": 2
+                "minLureLevel": 2
             }
         },
         {
@@ -421,7 +421,7 @@
             "level": "1-20",
             "weight": 0.1,
             "condition": {
-                "lureLevel": 1
+                "minLureLevel": 1
             }
         },
         {
@@ -433,7 +433,7 @@
             "level": "1-20",
             "weight": 0.1,
             "condition": {
-                "lureLevel": 1
+                "minLureLevel": 1
             }
         },
         {
@@ -445,7 +445,7 @@
             "level": "1-20",
             "weight": 0.1,
             "condition": {
-                "lureLevel": 3
+                "minLureLevel": 3
             }
         },
         {
@@ -457,7 +457,7 @@
             "level": "1-20",
             "weight": 0.1,
             "condition": {
-                "lureLevel": 3
+                "minLureLevel": 3
             }
         }
     ]

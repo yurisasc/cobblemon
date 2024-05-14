@@ -387,6 +387,9 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
                 this.fishTravelCountdown = MathHelper.nextInt(random, 20, 80)
             }
         } else {
+            // When bobber lands on the water for the first time
+            world.playSound(null, this.blockPos, CobblemonSounds.FISHING_BOBBER_SPLASH, SoundCategory.BLOCKS, 1.0F, 1.0F)
+
             // set the time it takes to wait for a hooked item or pokemon
             this.waitCountdown = MathHelper.nextInt(random, 100, 600)
             this.waitCountdown -= this.lureLevel * 20 * 5
