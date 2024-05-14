@@ -15,6 +15,7 @@
 
 ### Data Pack & Resource Pack Creators
 - Added support for MoLang conditions for quirks and poses.
+- Changed the AttackDefenceRatio requirement to StatCompare and StatEqual.
 
 ## [1.5.0 - The Ruins and Revival Update (May 12th, 2024)](#1-5-0)
 #### "You're telling me that Mojang has added archaeology to the game? Hmm... that gives me an idea."
