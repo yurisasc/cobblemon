@@ -13,6 +13,7 @@ import com.cobblemon.mod.common.client.render.models.blockbench.animation.WingFl
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BiWingedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.ModelPartTransformation
@@ -24,6 +25,7 @@ import com.cobblemon.mod.common.entity.PoseType.Companion.UI_POSES
 import com.cobblemon.mod.common.util.math.geometry.toRadians
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
+
 class ScytherModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedFrame, BiWingedFrame {
     override val rootPart = root.registerChildWithAllChildren("scyther")
     override val head = getPart("head")
@@ -32,16 +34,18 @@ class ScytherModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Biped
     override val leftWing = getPart("left_wing")
     override val rightWing = getPart("right_wing")
 
-    override val portraitScale = 2.2F
-    override val portraitTranslation = Vec3d(-0.4, 1.4, 0.0)
+    override var portraitScale = 2.2F
+    override var portraitTranslation = Vec3d(-0.4, 1.4, 0.0)
 
-    override val profileScale = 0.64F
-    override val profileTranslation = Vec3d(0.0, 0.7, 0.0)
+    override var profileScale = 0.64F
+    override var profileTranslation = Vec3d(0.0, 0.7, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
     lateinit var hover: PokemonPose
     lateinit var fly: PokemonPose
+
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("scyther", "cry") }
 
     override fun registerPoses() {
         val blink = quirk { bedrockStateful("scyther", "blink")}

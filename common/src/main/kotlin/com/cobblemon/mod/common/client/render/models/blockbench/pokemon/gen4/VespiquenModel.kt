@@ -19,11 +19,11 @@ import net.minecraft.util.math.Vec3d
 class VespiquenModel (root: ModelPart) : PokemonPoseableModel() {
     override val rootPart = root.registerChildWithAllChildren("vespiquen")
 
-    override val portraitScale = 1.9F
-    override val portraitTranslation = Vec3d(-0.14, 0.8, 0.0)
+    override var portraitScale = 1.9F
+    override var portraitTranslation = Vec3d(-0.14, 0.8, 0.0)
 
-    override val profileScale = 0.75F
-    override val profileTranslation = Vec3d(0.0, 0.6, 0.0)
+    override var profileScale = 0.75F
+    override var profileTranslation = Vec3d(0.0, 0.6, 0.0)
 
     lateinit var hover: PokemonPose
     lateinit var fly: PokemonPose

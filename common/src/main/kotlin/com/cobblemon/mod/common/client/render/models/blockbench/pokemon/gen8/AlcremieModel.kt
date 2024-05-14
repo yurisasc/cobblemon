@@ -27,11 +27,11 @@ class AlcremieModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bim
     override val rightArm = getPart("arm_right")
     override val leftArm = getPart("arm_left")
 
-    override val portraitScale = 2.5F
-    override val portraitTranslation = Vec3d(-0.15, -0.8, 0.0)
+    override var portraitScale = 2.14F
+    override var portraitTranslation = Vec3d(-0.25, -0.31, 0.0)
 
-    override val profileScale = 0.6F
-    override val profileTranslation = Vec3d(0.0, 0.8, 0.0)
+    override var profileScale = 0.54F
+    override var profileTranslation = Vec3d(0.0, 0.88, 0.0)
 
     lateinit var sleep: PokemonPose
     lateinit var standing: PokemonPose
@@ -44,6 +44,7 @@ class AlcremieModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bim
     override fun registerPoses() {
         val blink = quirk { bedrockStateful("alcremie", "blink")}
         sleep = registerPose(
+            poseName = "sleep",
             poseType = PoseType.SLEEP,
             idleAnimations = arrayOf(bedrock("alcremie", "sleep"))
         )

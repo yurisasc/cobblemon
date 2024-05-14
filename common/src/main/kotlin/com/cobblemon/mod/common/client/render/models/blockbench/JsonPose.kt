@@ -20,7 +20,10 @@ import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFram
 import com.cobblemon.mod.common.client.render.models.blockbench.quirk.SimpleQuirk
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.util.asExpressionLike
+import com.cobblemon.mod.common.util.normalizeToArray
+import com.cobblemon.mod.common.util.resolveBoolean
 import com.cobblemon.mod.common.util.resolveObject
+import com.cobblemon.mod.common.util.singularToPluralList
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
 import com.google.gson.JsonPrimitive
@@ -33,6 +36,8 @@ class JsonPose<T : Entity>(model: PoseableEntityModel<T>, json: JsonObject) {
     val runtime = MoLangRuntime().setup().setupClient().also {
         it.environment.getQueryStruct().addFunctions(model.functions.functions)
     }
+
+    val condition: ExpressionLike = json.singularToPluralList("condition").get("condition")?.normalizeToArray()?.map { it.asString }?.asExpressionLike() ?: "true".asExpressionLike()
 
     val poseName = json.get("poseName")?.asString ?: "pose"
     val poseTypes = (json.get("poseTypes")?.asJsonArray?.map { name ->
@@ -81,8 +86,9 @@ class JsonPose<T : Entity>(model: PoseableEntityModel<T>, json: JsonObject) {
         }
 
         json as JsonObject
+        json.singularToPluralList("animation")
         val animations: (state: PoseableEntityState<T>) -> List<StatefulAnimation<T, *>> = { _ ->
-            (json.get("animations")?.asJsonArray ?: JsonArray()).map { animJson ->
+            (json.get("animations")?.normalizeToArray()?.asJsonArray ?: JsonArray()).map { animJson ->
                 try {
                     val expr = animJson.asString.asExpressionLike()
                     runtime.resolveObject(expr).obj as StatefulAnimation<T, *>
@@ -97,10 +103,11 @@ class JsonPose<T : Entity>(model: PoseableEntityModel<T>, json: JsonObject) {
         val loopTimes = json.get("loopTimes")?.asInt ?: 1
         val minSeconds = json.get("minSecondsBetweenOccurrences")?.asFloat ?: 8F
         val maxSeconds = json.get("maxSecondsBetweenOccurrences")?.asFloat ?: 30F
+        val condition = json.get("condition")?.asString?.asExpressionLike() ?: "true".asExpressionLike()
 
         model.quirkMultiple(
             secondsBetweenOccurrences = minSeconds to maxSeconds,
-            condition = { true },
+            condition = { it.runtime.resolveBoolean(condition) },
             loopTimes = 1..loopTimes,
             animations = animations
         )

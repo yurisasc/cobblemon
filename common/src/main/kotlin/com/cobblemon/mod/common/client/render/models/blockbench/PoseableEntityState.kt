@@ -56,6 +56,8 @@ import net.minecraft.util.math.Vec3d
  * handling all the state for an entity's model, and needs to be conscious of the fact that the
  * model may change without this state changing.
  *
+ * This also handles setting up the molang runtime that animations have access to
+ *
  * @author Hiroku
  * @since December 5th, 2021
  */
@@ -76,7 +78,7 @@ abstract class PoseableEntityState<T : Entity> : Schedulable {
             "anim_time" to java.util.function.Function { return@Function reusableAnimTime.also { it.value = animationSeconds.toDouble() } },
             "pose_type" to java.util.function.Function { return@Function StringValue((getEntity() as Poseable).getCurrentPoseType().name) },
             "pose" to java.util.function.Function { _ -> return@Function StringValue(currentPose ?: "") },
-            "say" to java.util.function.Function { params -> MinecraftClient.getInstance().player?.sendMessage(params.getString(0).text()) ?: Unit },
+            "has_entity" to java.util.function.Function { _ -> return@Function DoubleValue(getEntity() != null) },
             "sound" to java.util.function.Function { params ->
                 val entity = getEntity() ?: return@Function Unit
                 if (params.get<MoValue>(0) !is StringValue) {
@@ -164,6 +166,11 @@ abstract class PoseableEntityState<T : Entity> : Schedulable {
         val previousAge = age
         updateAge(age + 1)
         runEffects(entity, previousAge, age)
+        val primaryAnimation = primaryAnimation ?: return
+        if (primaryAnimation.started + primaryAnimation.duration <= animationSeconds) {
+            this.primaryAnimation = null
+            primaryAnimation.afterAction.accept(Unit)
+        }
     }
 
     abstract fun updatePartialTicks(partialTicks: Float)
@@ -268,7 +275,7 @@ abstract class PoseableEntityState<T : Entity> : Schedulable {
             val pose = currentPose?.let(model::getPose)
             allStatefulAnimations.forEach { it.applyEffects(entity, this, previousSeconds, currentSeconds) }
             primaryAnimation?.animation?.applyEffects(entity, this, previousSeconds, currentSeconds)
-            pose?.idleAnimations?.filter { shouldIdleRun(it, 0.5F) }
+            pose?.idleAnimations?.filter { shouldIdleRun(it, 0.5F) }?.forEach { it.applyEffects(entity, this, previousSeconds, currentSeconds) }
         }
     }
 

@@ -22,11 +22,11 @@ class FuecocoModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("fuecoco")
     override val head = getPart("head")
 
-    override val portraitScale = 1.6F
-    override val portraitTranslation = Vec3d(-0.2, -0.2, 0.0)
+    override var portraitScale = 1.6F
+    override var portraitTranslation = Vec3d(-0.2, -0.2, 0.0)
 
-    override val profileScale = 0.65F
-    override val profileTranslation = Vec3d(0.0, 0.75, 0.0)
+    override var profileScale = 0.65F
+    override var profileTranslation = Vec3d(0.0, 0.75, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walking: PokemonPose

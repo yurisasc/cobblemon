@@ -20,11 +20,11 @@ class DragalgeModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("dragalge")
     override val head = getPart("head")
 
-    override val portraitScale = 2.4F
-    override val portraitTranslation = Vec3d(-0.55, 1.5, 0.0)
+    override var portraitScale = 2.4F
+    override var portraitTranslation = Vec3d(-0.55, 1.5, 0.0)
 
-    override val profileScale = 0.7F
-    override val profileTranslation = Vec3d(0.0, 1.0, 0.0)
+    override var profileScale = 0.7F
+    override var profileTranslation = Vec3d(0.0, 1.0, -6.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose

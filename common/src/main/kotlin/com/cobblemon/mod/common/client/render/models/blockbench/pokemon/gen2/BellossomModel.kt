@@ -22,11 +22,11 @@ class BellossomModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("bellossom")
     override val head = getPart("head")
 
-    override val portraitScale = 1.8F
-    override val portraitTranslation = Vec3d(0.0, -0.2, 0.0)
+    override var portraitScale = 1.8F
+    override var portraitTranslation = Vec3d(0.0, -0.2, 0.0)
 
-    override val profileScale = 1.0F
-    override val profileTranslation = Vec3d(0.0, 0.21, 0.0)
+    override var profileScale = 1.0F
+    override var profileTranslation = Vec3d(0.0, 0.21, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose

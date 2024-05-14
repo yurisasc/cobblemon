@@ -18,11 +18,11 @@ import net.minecraft.util.math.Vec3d
 class BeldumModel (root: ModelPart) : PokemonPoseableModel() {
     override val rootPart = root.registerChildWithAllChildren("beldum")
 
-    override val portraitScale = 2.3F
-    override val portraitTranslation = Vec3d(-0.3, -1.2, 0.0)
+    override var portraitScale = 2.3F
+    override var portraitTranslation = Vec3d(-0.3, -1.2, 0.0)
 
-    override val profileScale = 0.9F
-    override val profileTranslation = Vec3d(0.0, 0.5, 0.0)
+    override var profileScale = 0.9F
+    override var profileTranslation = Vec3d(0.0, 0.5, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
