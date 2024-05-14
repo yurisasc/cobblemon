@@ -46,6 +46,7 @@ import com.cobblemon.mod.common.util.asExpressionLike
 import com.cobblemon.mod.common.util.getDoubleOrNull
 import com.cobblemon.mod.common.util.getStringOrNull
 import com.cobblemon.mod.common.util.plus
+import com.cobblemon.mod.common.util.resolveBoolean
 import net.minecraft.client.model.ModelPart
 import net.minecraft.client.render.OverlayTexture
 import net.minecraft.client.render.RenderLayer
@@ -154,6 +155,7 @@ abstract class PoseableEntityModel<T : Entity>(
             val maxPitch = params.getDoubleOrNull(3) ?: 70F
             val minPitch = params.getDoubleOrNull(4) ?: -45F
             val maxYaw = params.getDoubleOrNull(5) ?: 45F
+            val minYaw = params.getDoubleOrNull(6) ?: -45F
             ObjectValue(
                 SingleBoneLookAnimation<T>(
                     frame = this,
@@ -162,7 +164,8 @@ abstract class PoseableEntityModel<T : Entity>(
                     yawMultiplier = yawMultiplier.toFloat(),
                     maxPitch = maxPitch.toFloat(),
                     minPitch = minPitch.toFloat(),
-                    maxYaw = maxYaw.toFloat()
+                    maxYaw = maxYaw.toFloat(),
+                    minYaw = minYaw.toFloat()
                 )
             )
         }
@@ -873,6 +876,18 @@ abstract class PoseableEntityModel<T : Entity>(
         secondsBetweenOccurrences = secondsBetweenOccurrences,
         loopTimes = loopTimes,
         condition = condition,
+        animations = { listOf(animation(it)) }
+    )
+
+    fun quirkMoLangCondition(
+        secondsBetweenOccurrences: Pair<Float, Float> = 8F to 30F,
+        loopTimes: IntRange = 1..1,
+        conditionExpression: ExpressionLike = "true".asExpressionLike(),
+        animation: (state: PoseableEntityState<T>) -> StatefulAnimation<T, *>
+    ) = SimpleQuirk<T>(
+        secondsBetweenOccurrences = secondsBetweenOccurrences,
+        loopTimes = loopTimes,
+        condition = { it.runtime.resolveBoolean(conditionExpression) },
         animations = { listOf(animation(it)) }
     )
 

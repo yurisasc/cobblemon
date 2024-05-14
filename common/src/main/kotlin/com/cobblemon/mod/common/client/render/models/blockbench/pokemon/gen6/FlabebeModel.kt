@@ -12,7 +12,6 @@ import com.cobblemon.mod.common.client.render.models.blockbench.createTransforma
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pose.ModelPartTransformation
 import com.cobblemon.mod.common.entity.PoseType
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
@@ -38,7 +37,7 @@ class FlabebeModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
 
         standing = registerPose(
             poseName = "standing",
-            poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
+            poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES + PoseType.SLEEP,
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),

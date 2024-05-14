@@ -188,7 +188,7 @@ class FossilMultiblockStructure (
 
         // Check if the player is holding a natural material and if so, feed it to the machine.
         if (NaturalMaterials.isNaturalMaterial(stack)) {
-            if (!this.isRunning() && this.createdPokemon == null && this.organicMaterialInside < MATERIAL_TO_START && insertOrganicMaterial(stack, world)) {
+            if (!this.isRunning() && this.createdPokemon == null && this.organicMaterialInside < MATERIAL_TO_START && insertOrganicMaterial(ItemStack(stack.item, 1), world)) {
                 this.lastInteraction = world.time
                 if (!player.isCreative) {
                     val returnItem = NaturalMaterials.getReturnItem(stack)
@@ -331,11 +331,9 @@ class FossilMultiblockStructure (
             }
         }
         if(tankBaseEntity is RestorationTankBlockEntity) {
-            tankBaseEntity.inv.items.forEach {
-                val stack = ItemStack(it.item, 1)
-                ItemScatterer.spawn(world, pos.x.toDouble(), pos.y.toDouble(), pos.z.toDouble(), stack)
+            tankBaseEntity.inv.clearToList().forEach {
+                ItemScatterer.spawn(world, pos.x.toDouble(), pos.y.toDouble(), pos.z.toDouble(), it)
             }
-            tankBaseEntity.inv.clear()
         }
 
 
@@ -533,12 +531,13 @@ class FossilMultiblockStructure (
 
     //Returns false if material wasnt inserted
     fun insertOrganicMaterial(stack: ItemStack, world: World): Boolean {
-        val natureValue = NaturalMaterials.getContent(stack)
+        var natureValue = NaturalMaterials.getContent(stack)
         if (timeRemaining > 0 || this.organicMaterialInside >= MATERIAL_TO_START || natureValue == null) {
             return false
         }
+        natureValue *= stack.count
 
-        if (natureValue < 0 && organicMaterialInside == 0) return false
+        if (natureValue <= 0 && organicMaterialInside == 0) return false
         val oldFillStage = organicMaterialInside * 8 / MATERIAL_TO_START
 
         // to prevent over/under filling the tank causing a crash

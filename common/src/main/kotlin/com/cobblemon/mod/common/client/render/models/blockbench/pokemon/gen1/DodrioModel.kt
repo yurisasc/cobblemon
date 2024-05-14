@@ -50,6 +50,11 @@ class DodrioModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
         val blink1 = quirk { bedrockStateful("dodrio", "blink1") }
         val blink2 = quirk { bedrockStateful("dodrio", "blink2") }
         val blink3 = quirk { bedrockStateful("dodrio", "blink3") }
+        val bite1 = quirk(secondsBetweenOccurrences = 5F to 20F) { bedrockStateful("dodrio", "bite_quirk1") }
+        val bite2 = quirk(secondsBetweenOccurrences = 5F to 20F) { bedrockStateful("dodrio", "bite_quirk2") }
+        val bite3 = quirk(secondsBetweenOccurrences = 5F to 20F) { bedrockStateful("dodrio", "bite_quirk3") }
+
+
         sleep = registerPose(
             poseType = PoseType.SLEEP,
             idleAnimations = arrayOf(bedrock("dodrio", "sleep"))
@@ -83,7 +88,7 @@ class DodrioModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             poseName = "battle_idle",
             poseTypes = PoseType.STATIONARY_POSES,
             transformTicks = 10,
-            quirks = arrayOf(blink1, blink2, blink3),
+            quirks = arrayOf(blink1, blink2, blink3, bite1, bite2, bite3),
             condition = { it.isBattling },
             idleAnimations = arrayOf(
                 bedrock("dodrio", "battle_idle")

@@ -28,27 +28,31 @@ import java.util.concurrent.CompletableFuture
  */
 class TransformEffect(
     override var mock: PokemonProperties = PokemonProperties(),
-    override var scale: Float = 1.0F
+    override var scale: Float = 1.0F,
+    val doCry: Boolean = true
 ) : BattleEffect(), MocKEffect {
 
-    constructor(mimic: Pokemon) : this(
+    constructor(mimic: Pokemon, doCry: Boolean = true) : this(
         mock = mimic.createPokemonProperties(PokemonPropertyExtractor.TRANSFORM),
-        scale = mimic.form.baseScale * mimic.scaleModifier
+        scale = mimic.form.baseScale * mimic.scaleModifier,
+        doCry = doCry
     )
 
     override fun apply(entity: PokemonEntity, future: CompletableFuture<PokemonEntity>) {
         mock.aspects += SHINY_ASPECT.provide(entity.pokemon)    // apply shiny property to new appearance
         entity.effects.mockEffect = this
         afterOnServer(seconds = 1.0F) {
-            entity.cry()
+            if (doCry) entity.cry()
             future.complete(entity)
         }
     }
 
     override fun revert(entity: PokemonEntity, future: CompletableFuture<PokemonEntity>) {
         entity.effects.mockEffect = null
-        entity.cry()
-        future.complete(entity)
+        afterOnServer(seconds = 1.0F) {
+            entity.cry()
+            future.complete(entity)
+        }
     }
 
     override fun saveToNbt(): NbtCompound {
@@ -65,6 +69,6 @@ class TransformEffect(
     }
 
     companion object {
-        val ID = "TRANSFORM "
+        val ID = "TRANSFORM"
     }
 }

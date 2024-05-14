@@ -37,7 +37,7 @@ class GrovyleModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bipe
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
 
-    //override val cryAnimation = CryProvider { _, _ -> bedrockStateful("grovyle", "cry") }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("grovyle", "cry") }
 
     override fun registerPoses() {
         //sleep = registerPose(

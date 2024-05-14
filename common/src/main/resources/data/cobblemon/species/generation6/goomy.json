@@ -152,7 +152,7 @@
             },
             {
               "variant": "biome",
-              "biomeCondition": "#minecraft:is_swamp"
+              "biomeCondition": "#cobblemon:is_swamp"
             }
           ]
         }
@@ -305,11 +305,7 @@
         },
         {
           "variant": "biome",
-          "biomeCondition": "#minecraft:is_dripstone"
-        },
-        {
-          "variant": "biome",
-          "biomeCondition": "#minecraft:is_lush"
+          "biomeCondition": "#cobblemon:evolution/sliggoo_hisuian"
         }
       ]
     }

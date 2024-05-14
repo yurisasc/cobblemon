@@ -426,19 +426,7 @@
         },
         {
           "variant": "biome",
-          "biomeCondition": "#cobblemon:is_taiga"
-        },
-        {
-          "variant": "biome",
-          "biomeCondition": "#cobblemon:nether/is_crimson"
-        },
-        {
-          "variant": "biome",
-          "biomeCondition": "#cobblemon:nether/is_forest"
-        },
-        {
-          "variant": "biome",
-          "biomeCondition": "#cobblemon:nether/is_overgrowth"
+          "biomeCondition": "#cobblemon:evolution/cyndaquil_quilava_hisui_bias"
         }
       ]
     }

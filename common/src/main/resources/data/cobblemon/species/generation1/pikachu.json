@@ -1767,25 +1767,13 @@
         "alola_regional"
       ],
       "aspects": [
-        "alolan",
         "region-bias-alola"
       ],
       "evolutions": [
         {
-          "id": "alola_pikachu_alola_raichu",
-          "variant": "item_interact",
-          "result": "raichu alolan",
-          "consumeHeldItem": false,
-          "learnableMoves": [
-            "psychic"
-          ],
-          "requirements": [],
-          "requiredContext": "cobblemon:thunder_stone"
-        },
-        {
           "id": "alola_pikachu_raichu",
           "variant": "item_interact",
-          "result": "raichu",
+          "result": "raichu alolan=false",
           "consumeHeldItem": false,
           "learnableMoves": [
             "thunderpunch"
@@ -1800,6 +1788,17 @@
               "biomeAnticondition": "#cobblemon:is_spooky"
             }
           ],
+          "requiredContext": "cobblemon:thunder_stone"
+        },
+        {
+          "id": "alola_pikachu_alola_raichu",
+          "variant": "item_interact",
+          "result": "raichu alolan",
+          "consumeHeldItem": false,
+          "learnableMoves": [
+            "psychic"
+          ],
+          "requirements": [],
           "requiredContext": "cobblemon:thunder_stone"
         }
       ]
@@ -1912,7 +1911,6 @@
     "tutor:bodyslam",
     "tutor:brickbreak",
     "tutor:calmmind",
-    "tutor:celebrate",
     "tutor:charm",
     "tutor:counter",
     "tutor:covet",
@@ -1935,7 +1933,6 @@
     "tutor:fakeout",
     "tutor:feint",
     "tutor:flash",
-    "tutor:fly",
     "tutor:focuspunch",
     "tutor:frustration",
     "tutor:grassknot",
@@ -1946,7 +1943,6 @@
     "tutor:helpinghand",
     "tutor:hiddenpower",
     "tutor:holdhands",
-    "tutor:irontail",
     "tutor:knockoff",
     "tutor:laserfocus",
     "tutor:lastresort",
@@ -1958,11 +1954,7 @@
     "tutor:mudslap",
     "tutor:nuzzle",
     "tutor:payday",
-    "tutor:playnice",
-    "tutor:playrough",
-    "tutor:present",
     "tutor:protect",
-    "tutor:quickattack",
     "tutor:rage",
     "tutor:raindance",
     "tutor:reflect",
@@ -1982,7 +1974,6 @@
     "tutor:strength",
     "tutor:submission",
     "tutor:substitute",
-    "tutor:surf",
     "tutor:swagger",
     "tutor:sweetkiss",
     "tutor:sweetscent",
@@ -1990,10 +1981,7 @@
     "tutor:tailwhip",
     "tutor:takedown",
     "tutor:teeterdance",
-    "tutor:thunder",
-    "tutor:thunderbolt",
     "tutor:thunderpunch",
-    "tutor:thundershock",
     "tutor:thunderwave",
     "tutor:toxic",
     "tutor:voltswitch",
@@ -2012,17 +2000,6 @@
   "preEvolution": "pichu",
   "evolutions": [
     {
-      "id": "pikachu_raichu",
-      "variant": "item_interact",
-      "result": "raichu",
-      "consumeHeldItem": false,
-      "learnableMoves": [
-        "thunderpunch"
-      ],
-      "requirements": [],
-      "requiredContext": "cobblemon:thunder_stone"
-    },
-    {
       "id": "pikachu_alola_raichu",
       "variant": "item_interact",
       "result": "raichu alolan",
@@ -2033,17 +2010,24 @@
       "requirements": [
         {
           "variant": "biome",
-          "biomeCondition": "#minecraft:is_beach"
-        },
-        {
-          "variant": "biome",
-          "biomeCondition": "#minecraft:is_tropical_island"
+          "biomeCondition": "#cobblemon:evolution/alolan"
         },
         {
           "variant": "biome",
           "biomeAnticondition": "#minecraft:is_freezing"
         }
       ],
+      "requiredContext": "cobblemon:thunder_stone"
+    },
+    {
+      "id": "pikachu_raichu",
+      "variant": "item_interact",
+      "result": "raichu alolan=false",
+      "consumeHeldItem": false,
+      "learnableMoves": [
+        "thunderpunch"
+      ],
+      "requirements": [],
       "requiredContext": "cobblemon:thunder_stone"
     }
   ],

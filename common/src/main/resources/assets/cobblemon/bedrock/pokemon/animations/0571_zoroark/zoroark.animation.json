@@ -212,7 +212,6 @@
 			}
 		},
 		"animation.zoroark.cry": {
-			"loop": true,
 			"animation_length": 1.04167,
 			"bones": {
 				"head": {
@@ -289,7 +288,7 @@
 			},
 			"sound_effects": {
 				"0.0": {
-					"effect": "zoroarkcry"
+					"effect": "pokemon.zoroark.cry"
 				}
 			}
 		},

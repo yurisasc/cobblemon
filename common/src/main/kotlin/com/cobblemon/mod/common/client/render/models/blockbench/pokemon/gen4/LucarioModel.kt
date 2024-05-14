@@ -37,6 +37,7 @@ class LucarioModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bipe
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
+    lateinit var battleIdle: PokemonPose
 
     override val cryAnimation = CryProvider { _, _ -> bedrockStateful("lucario", "cry") }
 
@@ -45,6 +46,7 @@ class LucarioModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bipe
         standing = registerPose(
             poseName = "standing",
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
+            condition = { !it.isBattling },
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
@@ -61,6 +63,19 @@ class LucarioModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bipe
                 bedrock("lucario", "ground_idle"),
                 BimanualSwingAnimation(this),
                 BipedWalkAnimation(this)
+            )
+        )
+
+        battleIdle = registerPose(
+            poseName = "battle_idle",
+            poseTypes = PoseType.STATIONARY_POSES,
+            condition = { it.isBattling },
+            quirks = arrayOf(blink),
+            idleAnimations = arrayOf(
+                singleBoneLook(),
+                bedrock("lucario", "ground_idle"),
+                bedrock("lucario", "battle_idle_aura_left"),
+                bedrock("lucario", "battle_idle_aura_right")
             )
         )
     }
