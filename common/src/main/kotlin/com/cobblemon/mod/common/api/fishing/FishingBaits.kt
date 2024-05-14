@@ -42,7 +42,7 @@ object FishingBaits : JsonDataRegistry<FishingBait>{
     override fun reload(data: Map<Identifier, FishingBait>) {
         itemMap.clear()
         data.forEach { id, bait ->
-            itemMap[id] = bait
+            itemMap[bait.item] = bait
         }
     }
 

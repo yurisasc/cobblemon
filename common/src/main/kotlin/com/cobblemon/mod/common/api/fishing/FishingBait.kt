@@ -33,6 +33,8 @@ data class FishingBait(
         val SHINY_REROLL = cobblemonResource("shiny_reroll")
         val HIDDEN_ABILITY_CHANCE = cobblemonResource("ha_chance")
         val POKEMON_CHANCE = cobblemonResource("pokemon_chance")
+        val FRIENDSHIP = cobblemonResource("friendship")
+        val INERT = cobblemonResource("inert")
     }
 
 }

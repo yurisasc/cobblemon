@@ -8,11 +8,19 @@
 
 package com.cobblemon.mod.common.api.spawning.fishing
 
+import com.cobblemon.mod.common.api.fishing.FishingBait
+import com.cobblemon.mod.common.api.fishing.FishingBaits
+import com.cobblemon.mod.common.api.pokemon.PokemonSpecies
+import com.cobblemon.mod.common.api.pokemon.stats.Stats
 import com.cobblemon.mod.common.api.spawning.SpawnBucket
 import com.cobblemon.mod.common.api.spawning.SpawnCause
+import com.cobblemon.mod.common.api.spawning.context.SpawningContext
+import com.cobblemon.mod.common.api.spawning.detail.PokemonSpawnDetail
+import com.cobblemon.mod.common.api.spawning.detail.SpawnDetail
 import com.cobblemon.mod.common.api.spawning.spawner.Spawner
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.item.interactive.PokerodItem
+import com.cobblemon.mod.common.pokemon.Species
 import net.minecraft.entity.Entity
 import net.minecraft.item.ItemStack
 
@@ -40,5 +48,22 @@ class FishingSpawnCause(
         if (entity is PokemonEntity) {
             entity.pokemon.forcedAspects += FISHED_ASPECT
         }
+    }
+
+    override fun affectWeight(detail: SpawnDetail, ctx: SpawningContext, weight: Float): Float {
+        if (!ItemStack.areItemsEqual(ItemStack.EMPTY, rodItem?.bait) && rodItem?.bait != null ){
+            val bait = FishingBaits.getFromItemStack(rodItem.bait)
+
+            if (detail is PokemonSpawnDetail) {
+               val detailSpecies = detail.pokemon.species?.let { PokemonSpecies.getByName(it) }
+
+                val baitEVEffect = bait!!.effects.firstOrNull() { it.type == FishingBait.Effects.EV && detailSpecies?.evYield?.get(Stats.getStat(it.subcategory?.path.toString()))!! > 0 }
+
+               if(detailSpecies != null && baitEVEffect != null) {
+                   return super.affectWeight(detail, ctx, weight * baitEVEffect.value.toFloat())
+               }
+            }
+        }
+        return super.affectWeight(detail, ctx, weight)
     }
 }

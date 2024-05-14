@@ -102,6 +102,17 @@ class PokerodItem(val pokeRodId: Identifier, settings: Settings?) : FishingRodIt
         super.appendTooltip(stack, world, tooltip, context)
     }
 
+    /*fun removeBaitTooltip(
+        stack: ItemStack,
+        world: World?,
+        tooltip: MutableList<Text>,
+        context: TooltipContext
+    ) {
+        val rod = PokeRods.getPokeRod((stack.item as PokerodItem).pokeRodId) ?: return
+        val ball = PokeBalls.getPokeBall(rod.pokeBallId) ?: return
+        tooltip.removeAt(tooltip.size - 1) // remove the last tooltip todo maybe find a way to store the tooltip index as a local variable so it can be sure that it is the right tooltip deleted
+    }*/
+
     override fun getTranslationKey(): String {
         return "item.cobblemon.poke_rod"
     }
