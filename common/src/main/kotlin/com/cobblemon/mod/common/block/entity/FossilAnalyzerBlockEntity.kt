@@ -29,11 +29,15 @@ class FossilAnalyzerBlockEntity(
 
     class FossilAnalyzerInventory(val analyzerEntity: FossilAnalyzerBlockEntity) : SidedInventory {
         override fun clear() {
-            TODO("Not yet implemented")
+            val fossilMultiblockStructure = analyzerEntity.multiblockStructure as FossilMultiblockStructure
+            fossilMultiblockStructure.fossilInventory.clear()
         }
 
         override fun size(): Int {
-            TODO("Not yet implemented")
+            if (analyzerEntity.multiblockStructure != null) {
+                return 3
+            }
+            return 0
         }
 
         override fun isEmpty(): Boolean {
@@ -41,14 +45,26 @@ class FossilAnalyzerBlockEntity(
         }
 
         override fun getStack(slot: Int): ItemStack {
+            val fossilMultiblockStructure = analyzerEntity.multiblockStructure as FossilMultiblockStructure
+            if (fossilMultiblockStructure.fossilInventory.size > slot) {
+                return fossilMultiblockStructure.fossilInventory[slot]
+            }
             return ItemStack.EMPTY
         }
 
         override fun removeStack(slot: Int, amount: Int): ItemStack {
+            val fossilMultiblockStructure = analyzerEntity.multiblockStructure as FossilMultiblockStructure
+            if (fossilMultiblockStructure.fossilInventory.size > slot) {
+                return fossilMultiblockStructure.fossilInventory.removeAt(slot)
+            }
             return ItemStack.EMPTY
         }
 
         override fun removeStack(slot: Int): ItemStack {
+            val fossilMultiblockStructure = analyzerEntity.multiblockStructure as FossilMultiblockStructure
+            if (fossilMultiblockStructure.fossilInventory.size > slot) {
+                return fossilMultiblockStructure.fossilInventory.removeAt(slot)
+            }
             return ItemStack.EMPTY
         }
 
