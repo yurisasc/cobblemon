@@ -29,8 +29,10 @@ class FossilAnalyzerBlockEntity(
 
     class FossilAnalyzerInventory(val analyzerEntity: FossilAnalyzerBlockEntity) : SidedInventory {
         override fun clear() {
-            val fossilMultiblockStructure = analyzerEntity.multiblockStructure as FossilMultiblockStructure
-            fossilMultiblockStructure.fossilInventory.clear()
+            if(analyzerEntity.multiblockStructure != null && analyzerEntity.multiblockStructure is FossilMultiblockStructure) {
+                val fossilMultiblockStructure = analyzerEntity.multiblockStructure as FossilMultiblockStructure
+                fossilMultiblockStructure.fossilInventory.clear()
+            }
         }
 
         override fun size(): Int {
@@ -45,31 +47,37 @@ class FossilAnalyzerBlockEntity(
         }
 
         override fun getStack(slot: Int): ItemStack {
-            val fossilMultiblockStructure = analyzerEntity.multiblockStructure as FossilMultiblockStructure
-            if (fossilMultiblockStructure.fossilInventory.size > slot) {
-                return fossilMultiblockStructure.fossilInventory[slot]
+            if (analyzerEntity.multiblockStructure != null && analyzerEntity.multiblockStructure is FossilMultiblockStructure) {
+                val fossilMultiblockStructure = analyzerEntity.multiblockStructure as FossilMultiblockStructure
+                if (fossilMultiblockStructure.fossilInventory.size > slot) {
+                    return fossilMultiblockStructure.fossilInventory[slot]
+                }
             }
             return ItemStack.EMPTY
         }
 
         override fun removeStack(slot: Int, amount: Int): ItemStack {
-            val fossilMultiblockStructure = analyzerEntity.multiblockStructure as FossilMultiblockStructure
-            if (fossilMultiblockStructure.fossilInventory.size > slot) {
-                return fossilMultiblockStructure.fossilInventory.removeAt(slot)
+            if (analyzerEntity.multiblockStructure != null && analyzerEntity.multiblockStructure is FossilMultiblockStructure) {
+                val fossilMultiblockStructure = analyzerEntity.multiblockStructure as FossilMultiblockStructure
+                if (fossilMultiblockStructure.fossilInventory.size > slot) {
+                    return fossilMultiblockStructure.fossilInventory[slot]
+                }
             }
             return ItemStack.EMPTY
         }
 
         override fun removeStack(slot: Int): ItemStack {
-            val fossilMultiblockStructure = analyzerEntity.multiblockStructure as FossilMultiblockStructure
-            if (fossilMultiblockStructure.fossilInventory.size > slot) {
-                return fossilMultiblockStructure.fossilInventory.removeAt(slot)
+            if(analyzerEntity.multiblockStructure is FossilMultiblockStructure) {
+                val fossilMultiblockStructure = analyzerEntity.multiblockStructure as FossilMultiblockStructure
+                if (fossilMultiblockStructure.fossilInventory.size > slot) {
+                    return fossilMultiblockStructure.fossilInventory.removeAt(slot)
+                }
             }
             return ItemStack.EMPTY
         }
 
         override fun setStack(slot: Int, stack: ItemStack) {
-            if (analyzerEntity.multiblockStructure != null) {
+            if (analyzerEntity.multiblockStructure != null && analyzerEntity.multiblockStructure is FossilMultiblockStructure) {
                 val struct = analyzerEntity.multiblockStructure as FossilMultiblockStructure
                 analyzerEntity.world?.let {
                     struct.insertFossil(stack, it)
@@ -88,6 +96,9 @@ class FossilAnalyzerBlockEntity(
         }
 
         override fun getAvailableSlots(side: Direction?): IntArray {
+            if(analyzerEntity.multiblockStructure != null && analyzerEntity.multiblockStructure is FossilMultiblockStructure) {
+                return intArrayOf(0,1,2)
+            }
             return IntArray(1)
         }
 
