@@ -49,6 +49,9 @@ abstract class MultiblockBlock(properties: Settings) : BlockWithEntity(propertie
         hand: Hand,
         hit: BlockHitResult
     ): ActionResult {
+        if(hand == Hand.OFF_HAND) {
+            return ActionResult.SUCCESS
+        }
         if (!world.isClient) {
             val entity = world.getBlockEntity(pos) as MultiblockEntity?
             if (entity?.multiblockStructure != null) {
@@ -78,6 +81,7 @@ abstract class MultiblockBlock(properties: Settings) : BlockWithEntity(propertie
         return BlockRenderType.MODEL
     }
 
+    //This is done so a block picked with NBT doesnt absolutely DESTROY multiblocks
     override fun getPickStack(world: BlockView, pos: BlockPos, state: BlockState): ItemStack {
         val blockEntity = world.getBlockEntity(pos) as? MultiblockEntity ?: return ItemStack.EMPTY
         return if (blockEntity.multiblockStructure == null) super.getPickStack(world, pos, state) else ItemStack.EMPTY
