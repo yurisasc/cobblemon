@@ -2,6 +2,9 @@
 
 ## [1.5.1](#1-5-1)
 
+### Additions
+- Added unique send out particles for Cherish, Dream, Beast, and Ancient Origin balls.
+
 ### Fixes
 - Fixed a bug in which adding organic material to the fossil tank via right click was adding the full count of the stack currently in hand
 - Fixed a niche issue where some properties of entities were not initialized correctly, causing Pokémon that appeared to be level 1 until you battle them.
