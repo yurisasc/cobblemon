@@ -214,7 +214,7 @@
   },
   "fishing.bobber_land": {
     "sounds": [
-      "cobblemon:fishing/fishing_bobber_land"
+      { "name": "cobblemon:fishing/fishing_bobber_land", "volume": 0.5 }
     ]
   },
   "tumblestone.break": {

@@ -137,7 +137,7 @@ object CobblemonSounds : PlatformRegistry<Registry<SoundEvent>, RegistryKey<Regi
     @JvmField
     val FISHING_SPLASH_SMALL = this.create("fishing.splash_small")
     @JvmField
-    val FISHING_BOBBER_SPLASH = this.create("fishing.bobber_land")
+    val FISHING_BOBBER_LAND = this.create("fishing.bobber_land")
 
     @JvmField
     val TUMBLESTONE_BREAK = this.create("tumblestone.break")

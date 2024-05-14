@@ -388,7 +388,8 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
             }
         } else {
             // When bobber lands on the water for the first time
-            world.playSound(null, this.blockPos, CobblemonSounds.FISHING_BOBBER_SPLASH, SoundCategory.BLOCKS, 1.0F, 1.0F)
+            // Sound category is SUPPOSED to be Player, but we set it to a neutral entity just like in Minecraft. It's a confirmed issue with vanilla MC-139041
+            world.playSound(null, this.blockPos, CobblemonSounds.FISHING_BOBBER_LAND, SoundCategory.NEUTRAL, 1.0F, 1.0F)
 
             // set the time it takes to wait for a hooked item or pokemon
             this.waitCountdown = MathHelper.nextInt(random, 100, 600)
