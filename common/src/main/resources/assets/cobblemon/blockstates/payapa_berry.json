@@ -44,7 +44,7 @@
         ]
       },
       "apply": {
-        "model": "cobblemon:block/berries/sprout",
+        "model": "cobblemon:block/berries/payapa_sprout",
         "uvlock": false
       }
     },
@@ -60,7 +60,7 @@
         ]
       },
       "apply": {
-        "model": "cobblemon:block/berries/sprout",
+        "model": "cobblemon:block/berries/payapa_sprout",
         "uvlock": false
       }
     },

@@ -325,7 +325,7 @@ class BerryBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(Cobblemon
             if (world.isClient) return@BlockEntityTicker
             if (state.get(BerryBlock.IS_ROOTED)) return@BlockEntityTicker
             if (blockEntity.stageTimer >= 0) {
-                blockEntity.stageTimer--
+                //blockEntity.stageTimer--
             }
             if (blockEntity.stageTimer == 0) {
                 (state.block as BerryBlock).grow(world as ServerWorld, world.random, pos, state)
