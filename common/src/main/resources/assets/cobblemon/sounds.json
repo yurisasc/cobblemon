@@ -215,8 +215,7 @@
   "fishing.bobber_land": {
     "sounds": [
       { "name": "cobblemon:fishing/fishing_bobber_land", "volume": 0.5 }
-    ],
-    "volume": 0.5
+    ]
   },
   "tumblestone.break": {
     "sounds": [
