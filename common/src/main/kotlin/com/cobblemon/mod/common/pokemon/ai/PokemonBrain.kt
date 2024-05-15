@@ -1,3 +1,11 @@
+/*
+ * Copyright (C) 2023 Cobblemon Contributors
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/.
+ */
+
 package com.cobblemon.mod.common.pokemon.ai
 
 import com.cobblemon.mod.common.CobblemonActivities
@@ -6,6 +14,7 @@ import com.cobblemon.mod.common.CobblemonSensors
 import com.cobblemon.mod.common.entity.ai.*
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.entity.pokemon.ai.tasks.*
+import com.cobblemon.mod.common.entity.pokemon.ai.tasks.WakeUpTask
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.util.toDF
 import com.google.common.collect.ImmutableList
@@ -15,20 +24,21 @@ import net.minecraft.entity.ai.brain.Brain
 import net.minecraft.entity.ai.brain.MemoryModuleType
 import net.minecraft.entity.ai.brain.sensor.Sensor
 import net.minecraft.entity.ai.brain.sensor.SensorType
-import net.minecraft.entity.ai.brain.task.ForgetAngryAtTargetTask
-import net.minecraft.entity.ai.brain.task.LookAroundTask
-import net.minecraft.entity.ai.brain.task.LookAtMobTask
-import net.minecraft.entity.ai.brain.task.Task
+import net.minecraft.entity.ai.brain.task.*
+import net.minecraft.util.math.intprovider.UniformIntProvider
 
 // brain sensors / memory definitions split from PokemonEntity
 // to better represent vanillas layout.
 object PokemonBrain {
 
+    private val ADULT_FOLLOW_RANGE = UniformIntProvider.create(5, 16)
+
     val SENSORS: Collection<SensorType<out Sensor<in PokemonEntity>>> = listOf(
         SensorType.NEAREST_LIVING_ENTITIES,
         SensorType.HURT_BY,
         SensorType.NEAREST_PLAYERS,
-        CobblemonSensors.POKEMON_DROWSY
+        CobblemonSensors.POKEMON_DROWSY,
+        CobblemonSensors.POKEMON_ADULT
 //            CobblemonSensors.BATTLING_POKEMON,
 //            CobblemonSensors.NPC_BATTLING
     )
@@ -53,7 +63,8 @@ object PokemonBrain {
         CobblemonMemories.POKEMON_BATTLE,
         MemoryModuleType.HOME,
         CobblemonMemories.REST_PATH_COOLDOWN,
-        CobblemonMemories.TARGETED_BATTLE_POKEMON
+        CobblemonMemories.TARGETED_BATTLE_POKEMON,
+        MemoryModuleType.NEAREST_VISIBLE_ADULT,
     )
 
     fun makeBrain(pokemon: Pokemon, brain: Brain<out PokemonEntity>): Brain<*> {
@@ -109,6 +120,7 @@ object PokemonBrain {
         add(0 toDF AttackAngryAtTask.create())
         add(0 toDF MoveToAttackTargetTask.create())
         add(0 toDF MoveToOwnerTask.create(completionRange = 4, maxDistance = 14F, teleportDistance = 24F))
+        add(0 toDF WalkTowardsParentSpeciesTask.create(ADULT_FOLLOW_RANGE, 0.4f))
     }
 
     private fun battlingTasks() = buildList<Pair<Int, Task<in PokemonEntity>>> {

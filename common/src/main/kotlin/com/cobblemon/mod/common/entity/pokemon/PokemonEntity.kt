@@ -9,8 +9,8 @@
 package com.cobblemon.mod.common.entity.pokemon
 
 import com.cobblemon.mod.common.*
+import com.cobblemon.mod.common.Cobblemon.LOGGER
 import com.cobblemon.mod.common.CobblemonNetwork.sendPacket
-import com.cobblemon.mod.common.GenericsCheatClass.createPokemonBrain
 import com.cobblemon.mod.common.api.battles.model.PokemonBattle
 import com.cobblemon.mod.common.api.drop.DropTable
 import com.cobblemon.mod.common.api.entity.Despawner
@@ -36,24 +36,11 @@ import com.cobblemon.mod.common.block.entity.PokemonPastureBlockEntity
 import com.cobblemon.mod.common.client.entity.PokemonClientDelegate
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.Poseable
-import com.cobblemon.mod.common.entity.ai.AttackAngryAtTask
-import com.cobblemon.mod.common.entity.ai.ChooseLandWanderTargetTask
-import com.cobblemon.mod.common.entity.ai.FollowWalkTargetTask
-import com.cobblemon.mod.common.entity.ai.GetAngryAtAttackerTask
-import com.cobblemon.mod.common.entity.ai.MoveToAttackTargetTask
-import com.cobblemon.mod.common.entity.ai.StayAfloatTask
 import com.cobblemon.mod.common.entity.generic.GenericBedrockEntity
 import com.cobblemon.mod.common.entity.pokeball.EmptyPokeBallEntity
 import com.cobblemon.mod.common.entity.pokemon.ai.PokemonMoveControl
 import com.cobblemon.mod.common.entity.pokemon.ai.PokemonNavigation
 import com.cobblemon.mod.common.entity.pokemon.ai.goals.*
-import com.cobblemon.mod.common.entity.pokemon.ai.tasks.EatGrassTask
-import com.cobblemon.mod.common.entity.pokemon.ai.tasks.FindRestingPlaceTask
-import com.cobblemon.mod.common.entity.pokemon.ai.tasks.GoToSleepTask
-import com.cobblemon.mod.common.entity.pokemon.ai.tasks.HandleBattleActivityGoal
-import com.cobblemon.mod.common.entity.pokemon.ai.tasks.LookAtTargetedBattlePokemonTask
-import com.cobblemon.mod.common.entity.pokemon.ai.tasks.MoveToOwnerTask
-import com.cobblemon.mod.common.entity.pokemon.ai.tasks.WakeUpTask
 import com.cobblemon.mod.common.entity.pokemon.effects.EffectTracker
 import com.cobblemon.mod.common.entity.pokemon.effects.IllusionEffect
 import com.cobblemon.mod.common.net.messages.client.animation.PlayPoseableAnimationPacket
@@ -73,21 +60,10 @@ import com.cobblemon.mod.common.pokemon.evolution.variants.ItemInteractionEvolut
 import com.cobblemon.mod.common.pokemon.misc.GimmighoulStashHandler
 import com.cobblemon.mod.common.util.*
 import com.cobblemon.mod.common.world.gamerules.CobblemonGameRules
-import com.google.common.collect.ImmutableList
+import com.google.common.collect.ImmutableMap
 import com.mojang.serialization.Dynamic
-import java.util.*
-import java.util.concurrent.CompletableFuture
-import kotlin.math.ceil
 import net.minecraft.entity.*
-import net.minecraft.entity.ai.brain.Activity
 import net.minecraft.entity.ai.brain.Brain
-import net.minecraft.entity.ai.brain.MemoryModuleType
-import net.minecraft.entity.ai.brain.sensor.Sensor
-import net.minecraft.entity.ai.brain.sensor.SensorType
-import net.minecraft.entity.ai.brain.task.ForgetAngryAtTargetTask
-import net.minecraft.entity.ai.brain.task.LookAroundTask
-import net.minecraft.entity.ai.brain.task.LookAtMobTask
-import net.minecraft.entity.ai.brain.task.Task
 import net.minecraft.entity.ai.control.MoveControl
 import net.minecraft.entity.ai.pathing.PathNodeType
 import net.minecraft.entity.attribute.DefaultAttributeContainer
@@ -108,7 +84,9 @@ import net.minecraft.item.ItemUsage
 import net.minecraft.item.Items
 import net.minecraft.item.SuspiciousStewItem
 import net.minecraft.nbt.NbtCompound
+import net.minecraft.nbt.NbtElement
 import net.minecraft.nbt.NbtHelper
+import net.minecraft.nbt.NbtOps
 import net.minecraft.nbt.NbtString
 import net.minecraft.network.listener.ClientPlayPacketListener
 import net.minecraft.network.packet.Packet
@@ -132,6 +110,9 @@ import net.minecraft.world.EntityView
 import net.minecraft.world.LightType
 import net.minecraft.world.World
 import net.minecraft.world.event.GameEvent
+import java.util.*
+import java.util.concurrent.CompletableFuture
+import kotlin.math.ceil
 
 @Suppress("unused")
 open class PokemonEntity(
@@ -182,6 +163,19 @@ open class PokemonEntity(
             stepHeight = behaviour.moving.stepHeight
             // We need to update this value every time the Pokémon changes, other eye height related things will be dynamic.
             this.updateEyeHeight()
+
+            //todo: not sure if this is correct
+            val nbtOps = NbtOps.INSTANCE
+            brain = deserializeBrain(
+                Dynamic(
+                    nbtOps, nbtOps.createMap(
+                        ImmutableMap.of<NbtElement, NbtElement>(
+                            nbtOps.createString("memories"),
+                            nbtOps.emptyMap() as NbtElement
+                        )
+                    ) as NbtElement
+                )
+            )
         }
 
     var despawner: Despawner<PokemonEntity> = Cobblemon.bestSpawner.defaultPokemonDespawner
@@ -558,7 +552,15 @@ open class PokemonEntity(
     override fun createNavigation(world: World) = PokemonNavigation(world, this)
 
     override fun deserializeBrain(dynamic: Dynamic<*>): Brain<*> {
-        return PokemonBrain.makeBrain(pokemon, createBrainProfile().deserialize(dynamic))
+        var target = pokemon
+
+        // todo: can happen with new pokemon, ctor isn't finished at this point.
+        if (target == null) {
+            LOGGER.warn("could not make brain for pokemon {}", pos)
+            target = Pokemon()
+        }
+
+        return PokemonBrain.makeBrain(target, createBrainProfile().deserialize(dynamic))
     }
 
     // cast is safe, mojang do the same thing.
