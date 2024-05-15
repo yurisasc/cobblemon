@@ -2,6 +2,9 @@
 
 ## [1.5.1](#1-5-1)
 
+### Additions
+- Added unique send out particles for Cherish, Dream, Beast, and Ancient Origin balls.
+
 ### Changes
 - Sounds for Relic Coin Sacks have been correctly renamed. Relic Coin Pouches received new sounds for breaking and placing.
 
