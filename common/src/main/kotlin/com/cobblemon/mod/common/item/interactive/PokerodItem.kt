@@ -64,7 +64,9 @@ class PokerodItem(val pokeRodId: Identifier, settings: Settings?) : FishingRodIt
             // decrement 1 stack of that item from the other hand
             offHandItem.decrement(1)
 
-            // todo add dynamic tooltip here
+            // todo remove the old bait effect tooltip from the itemStack
+
+            // todo add dynamic tooltip here for the itemStack
             appendTooltip(itemStack, world, tooltipList, TooltipContext.BASIC)
             //(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context)
         }
@@ -73,6 +75,8 @@ class PokerodItem(val pokeRodId: Identifier, settings: Settings?) : FishingRodIt
             if (bait != ItemStack.EMPTY) {
                 user.dropStack(bait) // drop old bait on the ground
                 bait = ItemStack.EMPTY
+
+                // todo remove the old bait effect tooltip from the itemStack
             }
         }
 
