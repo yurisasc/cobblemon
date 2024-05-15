@@ -159,36 +159,36 @@
   "gimmighoul.reveal": {
     "sounds": [ "cobblemon:gimmighoul_reveal" ]
   },
-  "coin_pouch.break": {
+  "relic_coin_sack.break": {
     "sounds": [
-      "cobblemon:block/coin_pouch/coin_pouch_block_break_1",
-      "cobblemon:block/coin_pouch/coin_pouch_block_break_2",
-      "cobblemon:block/coin_pouch/coin_pouch_block_break_3",
-      "cobblemon:block/coin_pouch/coin_pouch_block_break_4"
+      "cobblemon:block/relic_coin_sack/relic_coin_sack_break_1",
+      "cobblemon:block/relic_coin_sack/relic_coin_sack_break_2",
+      "cobblemon:block/relic_coin_sack/relic_coin_sack_break_3",
+      "cobblemon:block/relic_coin_sack/relic_coin_sack_break_4"
     ]
   },
-  "coin_pouch.hit": {
+  "relic_coin_sack.hit": {
     "sounds": [
-      { "name": "cobblemon:block/coin_pouch/coin_pouch_block_hit_1", "volume": 0.6 },
-      { "name": "cobblemon:block/coin_pouch/coin_pouch_block_hit_2", "volume": 0.6 },
-      { "name": "cobblemon:block/coin_pouch/coin_pouch_block_hit_3", "volume": 0.6 },
-      { "name": "cobblemon:block/coin_pouch/coin_pouch_block_hit_4", "volume": 0.6 }
+      { "name": "cobblemon:block/relic_coin_sack/relic_coin_sack_hit_1", "volume": 0.5 },
+      { "name": "cobblemon:block/relic_coin_sack/relic_coin_sack_hit_2", "volume": 0.5 },
+      { "name": "cobblemon:block/relic_coin_sack/relic_coin_sack_hit_3", "volume": 0.5 },
+      { "name": "cobblemon:block/relic_coin_sack/relic_coin_sack_hit_4", "volume": 0.5 }
     ]
   },
-  "coin_pouch.place": {
+  "relic_coin_sack.place": {
     "sounds": [
-      "cobblemon:block/coin_pouch/coin_pouch_block_place_1",
-      "cobblemon:block/coin_pouch/coin_pouch_block_place_2",
-      "cobblemon:block/coin_pouch/coin_pouch_block_place_3",
-      "cobblemon:block/coin_pouch/coin_pouch_block_place_4"
+      "cobblemon:block/relic_coin_sack/relic_coin_sack_place_1",
+      "cobblemon:block/relic_coin_sack/relic_coin_sack_place_2",
+      "cobblemon:block/relic_coin_sack/relic_coin_sack_place_3",
+      "cobblemon:block/relic_coin_sack/relic_coin_sack_place_4"
     ]
   },
-  "coin_pouch.step": {
+  "relic_coin_sack.step": {
     "sounds": [
-      "cobblemon:block/coin_pouch/coin_pouch_block_step_1",
-      "cobblemon:block/coin_pouch/coin_pouch_block_step_2",
-      "cobblemon:block/coin_pouch/coin_pouch_block_step_3",
-      "cobblemon:block/coin_pouch/coin_pouch_block_step_4"
+      "cobblemon:block/relic_coin_sack/relic_coin_sack_step_1",
+      "cobblemon:block/relic_coin_sack/relic_coin_sack_step_2",
+      "cobblemon:block/relic_coin_sack/relic_coin_sack_step_3",
+      "cobblemon:block/relic_coin_sack/relic_coin_sack_step_4"
     ]
   },
   "tumblestone.break": {
@@ -197,6 +197,22 @@
       "cobblemon:block/tumblestone/tumblestone_break_2",
       "cobblemon:block/tumblestone/tumblestone_break_3",
       "cobblemon:block/tumblestone/tumblestone_break_4"
+    ]
+  },
+  "relic_coin_pouch.break": {
+    "sounds": [
+      "cobblemon:block/relic_coin_pouch/relic_coin_pouch_break_1",
+      "cobblemon:block/relic_coin_pouch/relic_coin_pouch_break_2",
+      "cobblemon:block/relic_coin_pouch/relic_coin_pouch_break_3",
+      "cobblemon:block/relic_coin_pouch/relic_coin_pouch_break_4"
+    ]
+  },
+  "relic_coin_pouch.place": {
+    "sounds": [
+      "cobblemon:block/relic_coin_pouch/relic_coin_pouch_place_1",
+      "cobblemon:block/relic_coin_pouch/relic_coin_pouch_place_2",
+      "cobblemon:block/relic_coin_pouch/relic_coin_pouch_place_3",
+      "cobblemon:block/relic_coin_pouch/relic_coin_pouch_place_4"
     ]
   },
   "tumblestone.block_break": {
