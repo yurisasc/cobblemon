@@ -42,7 +42,6 @@ class PokemonAdultSensor : Sensor<PokemonEntity>(100) {
 
     private fun targetIsValidForChild(child: PokemonEntity, entity: LivingEntity): Boolean {
         val potentialParent = entity as? PokemonEntity ?: return false
-        //todo(broccoli): better way to compare species?
         val childSpecies = child.pokemon.species.resourceIdentifier
 
         var preEvolution = potentialParent.pokemon.preEvolution
