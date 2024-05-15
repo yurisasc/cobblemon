@@ -99,6 +99,7 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
     var lineColor: String = "000000" // default line color is black
     var usedRod: Identifier? = null
     var bobberBait: ItemStack = ItemStack.EMPTY
+    var isCast = false
 
     constructor(thrower: PlayerEntity, pokeRodId: Identifier, bait: ItemStack, world: World, luckOfTheSea: Int, lure: Int) : this(CobblemonEntities.POKE_BOBBER, world) {
         owner = thrower
@@ -391,8 +392,15 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
                 this.fishTravelCountdown = MathHelper.nextInt(random, 20, 80)
             }
         } else {
-            // When bobber lands on the water for the first time
-            world.playSound(null, this.blockPos, CobblemonSounds.FISHING_BOBBER_LAND, SoundCategory.NEUTRAL, 1.0F, 1.0F)
+            if (isCast != true) {
+                // When bobber lands on the water for the first time
+                world.playSound(null, this.blockPos, CobblemonSounds.FISHING_BOBBER_LAND, SoundCategory.NEUTRAL, 1.0F, 1.0F)
+
+                // create tiny splash particle
+                particleEntityHandler(this, Identifier("cobblemon","bobSplash"))
+
+                isCast = true
+            }
 
             // set the time it takes to wait for a hooked item or pokemon
             this.waitCountdown = MathHelper.nextInt(random, 100, 600)
@@ -412,6 +420,7 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
         val bl2 = Registries.ITEM[this.usedRod] == itemStack2.item //(itemStack2.item is PokerodItem) // todo make this work again so the line breaks when you swap items
         if (player.isRemoved || !player.isAlive || !bl && !bl2 || this.squaredDistanceTo(player) > 1024.0) {
             discard()
+            isCast = false
             return true
         }
         return false
@@ -533,8 +542,10 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
 
     override fun use(usedItem: ItemStack): Int {
         val playerEntity = this.playerOwner
+        isCast = false
 
         return if (!world.isClient && playerEntity != null && !removeIfInvalid(playerEntity)) {
+            isCast = false
             var i = 0
             if (this.hookedEntity != null) {
                 pullHookedEntity(this.hookedEntity)
@@ -594,6 +605,7 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
             discard()
             i
         } else {
+            isCast = false
             0
         }
     }
@@ -842,7 +854,7 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
         if (!checkBaitSuccessRate(randomNatureEffect.chance)) return
 
         pokemon.nature = when(randomNatureEffect.subcategory) {
-            cobblemonResource("att") -> attNaturesIds.random()
+            cobblemonResource("atk") -> attNaturesIds.random()
             cobblemonResource("spa") -> spaNaturesIds.random()
             cobblemonResource("def") -> defNaturesIds.random()
             cobblemonResource("spd") -> spdNaturesIds.random()
@@ -858,7 +870,7 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
 
         // various IV effects
         val hpIVEffect = bait.effects.firstOrNull { it.type == FishingBait.Effects.IV && it.subcategory == cobblemonResource("hp")}
-        val attIVEffect = bait.effects.firstOrNull { it.type == FishingBait.Effects.IV && it.subcategory == cobblemonResource("att")}
+        val atkIVEffect = bait.effects.firstOrNull { it.type == FishingBait.Effects.IV && it.subcategory == cobblemonResource("atk")}
         val defIVEffect = bait.effects.firstOrNull { it.type == FishingBait.Effects.IV && it.subcategory == cobblemonResource("def")}
         val spaIVEffect = bait.effects.firstOrNull { it.type == FishingBait.Effects.IV && it.subcategory == cobblemonResource("spa")}
         val spdIVEffect = bait.effects.firstOrNull { it.type == FishingBait.Effects.IV && it.subcategory == cobblemonResource("spd")}
@@ -870,35 +882,35 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
             else
                 pokemon.ivs.set(com.cobblemon.mod.common.api.pokemon.stats.Stats.HP, (pokemon.ivs[com.cobblemon.mod.common.api.pokemon.stats.Stats.HP] ?: 0) + (hpIVEffect.value).toInt())
         }
-        if (attIVEffect != null && checkBaitSuccessRate(attIVEffect.chance)) {
-            if ((pokemon.ivs[com.cobblemon.mod.common.api.pokemon.stats.Stats.HP] ?: 0) + attIVEffect.value > 31) // if HP IV is already less than 3 away from 31
-                pokemon.ivs.set(com.cobblemon.mod.common.api.pokemon.stats.Stats.HP, 31)
+        if (atkIVEffect != null && checkBaitSuccessRate(atkIVEffect.chance)) {
+            if ((pokemon.ivs[com.cobblemon.mod.common.api.pokemon.stats.Stats.ATTACK] ?: 0) + atkIVEffect.value > 31) // if ATTACK IV is already less than 3 away from 31
+                pokemon.ivs.set(com.cobblemon.mod.common.api.pokemon.stats.Stats.ATTACK, 31)
             else
-                pokemon.ivs.set(com.cobblemon.mod.common.api.pokemon.stats.Stats.HP, (pokemon.ivs[com.cobblemon.mod.common.api.pokemon.stats.Stats.HP] ?: 0) + (attIVEffect.value).toInt())
+                pokemon.ivs.set(com.cobblemon.mod.common.api.pokemon.stats.Stats.ATTACK, (pokemon.ivs[com.cobblemon.mod.common.api.pokemon.stats.Stats.ATTACK] ?: 0) + (atkIVEffect.value).toInt())
         }
         if (defIVEffect != null && checkBaitSuccessRate(defIVEffect.chance)) {
-            if ((pokemon.ivs[com.cobblemon.mod.common.api.pokemon.stats.Stats.HP] ?: 0) + defIVEffect.value > 31) // if HP IV is already less than 3 away from 31
-                pokemon.ivs.set(com.cobblemon.mod.common.api.pokemon.stats.Stats.HP, 31)
+            if ((pokemon.ivs[com.cobblemon.mod.common.api.pokemon.stats.Stats.DEFENCE] ?: 0) + defIVEffect.value > 31) // if DEFENCE IV is already less than 3 away from 31
+                pokemon.ivs.set(com.cobblemon.mod.common.api.pokemon.stats.Stats.DEFENCE, 31)
             else
-                pokemon.ivs.set(com.cobblemon.mod.common.api.pokemon.stats.Stats.HP, (pokemon.ivs[com.cobblemon.mod.common.api.pokemon.stats.Stats.HP] ?: 0) + (defIVEffect.value).toInt())
+                pokemon.ivs.set(com.cobblemon.mod.common.api.pokemon.stats.Stats.DEFENCE, (pokemon.ivs[com.cobblemon.mod.common.api.pokemon.stats.Stats.DEFENCE] ?: 0) + (defIVEffect.value).toInt())
         }
         if (spaIVEffect != null && checkBaitSuccessRate(spaIVEffect.chance)) {
-            if ((pokemon.ivs[com.cobblemon.mod.common.api.pokemon.stats.Stats.HP] ?: 0) + spaIVEffect.value > 31) // if HP IV is already less than 3 away from 31
-                pokemon.ivs.set(com.cobblemon.mod.common.api.pokemon.stats.Stats.HP, 31)
+            if ((pokemon.ivs[com.cobblemon.mod.common.api.pokemon.stats.Stats.SPECIAL_ATTACK] ?: 0) + spaIVEffect.value > 31) // if SPECIAL_ATTACK IV is already less than 3 away from 31
+                pokemon.ivs.set(com.cobblemon.mod.common.api.pokemon.stats.Stats.SPECIAL_ATTACK, 31)
             else
-                pokemon.ivs.set(com.cobblemon.mod.common.api.pokemon.stats.Stats.HP, (pokemon.ivs[com.cobblemon.mod.common.api.pokemon.stats.Stats.HP] ?: 0) + (spaIVEffect.value).toInt())
+                pokemon.ivs.set(com.cobblemon.mod.common.api.pokemon.stats.Stats.SPECIAL_ATTACK, (pokemon.ivs[com.cobblemon.mod.common.api.pokemon.stats.Stats.SPECIAL_ATTACK] ?: 0) + (spaIVEffect.value).toInt())
         }
         if (spdIVEffect != null && checkBaitSuccessRate(spdIVEffect.chance)) {
-            if ((pokemon.ivs[com.cobblemon.mod.common.api.pokemon.stats.Stats.HP] ?: 0) + spdIVEffect.value > 31) // if HP IV is already less than 3 away from 31
-                pokemon.ivs.set(com.cobblemon.mod.common.api.pokemon.stats.Stats.HP, 31)
+            if ((pokemon.ivs[com.cobblemon.mod.common.api.pokemon.stats.Stats.SPECIAL_DEFENCE] ?: 0) + spdIVEffect.value > 31) // if SPECIAL_DEFENCE IV is already less than 3 away from 31
+                pokemon.ivs.set(com.cobblemon.mod.common.api.pokemon.stats.Stats.SPECIAL_DEFENCE, 31)
             else
-                pokemon.ivs.set(com.cobblemon.mod.common.api.pokemon.stats.Stats.HP, (pokemon.ivs[com.cobblemon.mod.common.api.pokemon.stats.Stats.HP] ?: 0) + (spdIVEffect.value).toInt())
+                pokemon.ivs.set(com.cobblemon.mod.common.api.pokemon.stats.Stats.SPECIAL_DEFENCE, (pokemon.ivs[com.cobblemon.mod.common.api.pokemon.stats.Stats.SPECIAL_DEFENCE] ?: 0) + (spdIVEffect.value).toInt())
         }
         if (speIVEffect != null && checkBaitSuccessRate(speIVEffect.chance)) {
-            if ((pokemon.ivs[com.cobblemon.mod.common.api.pokemon.stats.Stats.HP] ?: 0) + speIVEffect.value > 31) // if HP IV is already less than 3 away from 31
-                pokemon.ivs.set(com.cobblemon.mod.common.api.pokemon.stats.Stats.HP, 31)
+            if ((pokemon.ivs[com.cobblemon.mod.common.api.pokemon.stats.Stats.SPEED] ?: 0) + speIVEffect.value > 31) // if SPEED IV is already less than 3 away from 31
+                pokemon.ivs.set(com.cobblemon.mod.common.api.pokemon.stats.Stats.SPEED, 31)
             else
-                pokemon.ivs.set(com.cobblemon.mod.common.api.pokemon.stats.Stats.HP, (pokemon.ivs[com.cobblemon.mod.common.api.pokemon.stats.Stats.HP] ?: 0) + (speIVEffect.value).toInt())
+                pokemon.ivs.set(com.cobblemon.mod.common.api.pokemon.stats.Stats.SPEED, (pokemon.ivs[com.cobblemon.mod.common.api.pokemon.stats.Stats.SPEED] ?: 0) + (speIVEffect.value).toInt())
         }
     }
 

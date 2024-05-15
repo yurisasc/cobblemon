@@ -525,6 +525,19 @@
   "block.cobblemon.black_tumblestone_cluster": "Black Tumblestone Cluster",
   "block.cobblemon.black_tumblestone_block": "Block of Black Tumblestone",
 
+  "cobblemon.fishing_bait_effects.nature.tooltip": "%1$s chance to attract %2$s natures",
+  "cobblemon.fishing_bait_effects.iv.tooltip": "%1$s chance to increase %2$s IVs by %3$s",
+  "cobblemon.fishing_bait_effects.ev.tooltip": "%1$s chance to attract %2$s EV yield",
+  "cobblemon.fishing_bait_effects.bite_time.tooltip": "%1$s chance to decrease bite-time by %2$s%",
+  "cobblemon.fishing_bait_effects.gender_chance.tooltip": "%1$s chance to attract %2$s Gender",
+  "cobblemon.fishing_bait_effects.level_raise.tooltip": "%1$s chance to increase level by %2$s",
+  "cobblemon.fishing_bait_effects.tera.tooltip": "%1$s chance to attract %2$s Tera type",
+  "cobblemon.fishing_bait_effects.shiny_reroll.tooltip": "%1$s increase in shiny chance",
+  "cobblemon.fishing_bait_effects.ha_chance.tooltip": "%1$s chance to attract Hidden Abilities",
+  "cobblemon.fishing_bait_effects.pokemon_chance.tooltip": "%1$s chance to attract a pokemon",
+  "cobblemon.fishing_bait_effects.friendship.tooltip": "%1$s chance to increase friendship by %2$s",
+
+
   "cobblemon.overflow_no_pc": "Your party was full and you don't have a PC!",
   "cobblemon.overflow_no_space": "Your party was full and so was %1$s!",
   "cobblemon.overflow_to_pc": "Your party was full! %1$s has been added to %2$s.",

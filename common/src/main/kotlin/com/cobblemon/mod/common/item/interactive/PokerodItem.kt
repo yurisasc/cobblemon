@@ -9,12 +9,19 @@
 package com.cobblemon.mod.common.item.interactive
 
 import com.cobblemon.mod.common.advancement.CobblemonCriteria
+import com.cobblemon.mod.common.api.fishing.FishingBait
 import com.cobblemon.mod.common.api.fishing.FishingBaits
 import com.cobblemon.mod.common.api.fishing.PokeRods
 import com.cobblemon.mod.common.api.pokeball.PokeBalls
+import com.cobblemon.mod.common.api.pokemon.PokemonSpecies
+import com.cobblemon.mod.common.api.pokemon.stats.Stat
 import com.cobblemon.mod.common.api.text.gray
+import com.cobblemon.mod.common.api.types.ElementalTypes
 import com.cobblemon.mod.common.entity.fishing.PokeRodFishingBobberEntity
 import com.cobblemon.mod.common.item.BerryItem
+import com.cobblemon.mod.common.pokemon.Gender
+import com.cobblemon.mod.common.util.lang
+import it.unimi.dsi.fastutil.objects.ObjectLists
 import net.minecraft.client.item.TooltipContext
 import net.minecraft.enchantment.EnchantmentHelper
 import net.minecraft.entity.player.PlayerEntity
@@ -34,6 +41,7 @@ import net.minecraft.world.event.GameEvent
 
 class PokerodItem(val pokeRodId: Identifier, settings: Settings?) : FishingRodItem(settings) {
     var bait: ItemStack = ItemStack.EMPTY
+    var baitEffects: List<FishingBait.Effect>? = FishingBaits.getFromItemStack(bait)?.effects
 
     override fun use(world: World, user: PlayerEntity, hand: Hand): TypedActionResult<ItemStack> {
         // if item in mainhand is berry item then don't do anything
@@ -42,6 +50,7 @@ class PokerodItem(val pokeRodId: Identifier, settings: Settings?) : FishingRodIt
 
         val itemStack = user.getStackInHand(hand)
         val offHandItem = user.getStackInHand(Hand.OFF_HAND)
+        var tooltipList: MutableList<Text> = mutableListOf()
         if (!world.isClient && user.fishHook == null && FishingBaits.isFishingBait(offHandItem) && !ItemStack.areItemsEqual(offHandItem, bait) && !user.isSneaking) {
             // swap baits if one is already on the hook
             if (bait != ItemStack.EMPTY) {
@@ -54,6 +63,10 @@ class PokerodItem(val pokeRodId: Identifier, settings: Settings?) : FishingRodIt
 
             // decrement 1 stack of that item from the other hand
             offHandItem.decrement(1)
+
+            // todo add dynamic tooltip here
+            appendTooltip(itemStack, world, tooltipList, TooltipContext.BASIC)
+            //(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context)
         }
         if (!world.isClient && user.fishHook == null && user.isSneaking) {
             // remove bait if one is already on the hook
@@ -90,6 +103,9 @@ class PokerodItem(val pokeRodId: Identifier, settings: Settings?) : FishingRodIt
         return 1
     }
 
+    // todo lang stuff for dynamic tooltips
+    //lang("overflow_no_space", pc.name)
+
     override fun appendTooltip(
         stack: ItemStack,
         world: World?,
@@ -99,6 +115,56 @@ class PokerodItem(val pokeRodId: Identifier, settings: Settings?) : FishingRodIt
         val rod = PokeRods.getPokeRod((stack.item as PokerodItem).pokeRodId) ?: return
         val ball = PokeBalls.getPokeBall(rod.pokeBallId) ?: return
         tooltip.add(ball.item.name.copy().gray())
+        // todo for every effect of the bait add a tooltip to the rod
+        baitEffects?.forEach {
+            val effectType = it.type.namespace.toString()
+            val effectSubcategory: String? = it.subcategory?.namespace.toString()
+            val effectChance = it.chance * 100 // chance of effect out of 100
+            val effectValue = it.value.toInt()
+            var subcategoryString: String? = null
+
+            // todo convert subcategory depending on Effect Type to be used as variable
+            if (effectSubcategory != null) {
+                if (effectType == "nature" || effectType == "ev" || effectType == "iv") {
+                    subcategoryString = com.cobblemon.mod.common.api.pokemon.stats.Stats.getStat(effectSubcategory).name
+                }
+                else if (effectType == "gender") {
+                    subcategoryString = Gender.valueOf(effectSubcategory).name
+                }
+                else if (effectType == "tera") {
+                    subcategoryString = ElementalTypes.get(effectSubcategory)?.name
+                }
+            }
+
+            // for effects with only chance
+            if (effectType == "shiny_reroll" ||
+                effectType == "ha_chance" ||
+                effectType == "pokemon_chance") {
+                tooltip.add(lang("fishing_bait_effects." + effectType + ".tooltip", it.chance))
+            }
+
+            //for effects with only chance and value
+            if (effectType == "bite_time" ||
+                effectType == "level_raise" ||
+                effectType == "friendship") {
+                tooltip.add(lang("fishing_bait_effects." + effectType + ".tooltip", it.chance, it.value))
+            }
+
+            // for effects with subcategories and 2 params
+            if (effectType == "nature" ||
+                effectType == "ev" ||
+                effectType == "gender" ||
+                effectType == "tera") {
+                tooltip.add(lang("fishing_bait_effects." + effectType + ".tooltip", it.chance, subcategoryString!!))
+            }
+
+
+            // for effects with subcategories and 3 params
+            if (effectType == "iv") {
+                tooltip.add(lang("fishing_bait_effects." + effectType + ".tooltip", it.chance, subcategoryString!!, it.value))
+            }
+        }
+
         super.appendTooltip(stack, world, tooltip, context)
     }
 
