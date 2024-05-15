@@ -40,12 +40,8 @@
 				"uv": {
 					"texture_width": 90,
 					"texture_height": 9,
-					"flipbook": {
-						"base_UV": ["math.random_integer(0,10)*9", 0],
-						"size_UV": [9, 9],
-						"step_UV": [9, 0],
-						"max_frame": 10
-					}
+					"uv": ["math.floor(v.particle_random_3*10)*9", 0],
+					"uv_size": [9, 9]
 				}
 			},
 			"minecraft:particle_appearance_tinting": {
