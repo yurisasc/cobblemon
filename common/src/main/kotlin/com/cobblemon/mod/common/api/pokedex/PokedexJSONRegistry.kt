@@ -97,8 +97,8 @@ object PokedexJSONRegistry : JsonDataRegistry<DexData> {
         return speciesList
     }
 
-    fun getSortedDexData(): Collection<DexPokemonData> {
-        val entries : MutableSet<DexPokemonData> = mutableSetOf()
+    fun getSortedDexData(filters: Collection<EntryFilter>): Collection<DexPokemonData> {
+        var entries : MutableSet<DexPokemonData> = mutableSetOf()
 
         val categoryEntries: MutableMap<PokedexEntryCategory, MutableSet<DexPokemonData>> = mutableMapOf()
         for (category in PokedexEntryCategory.values()) {
@@ -124,6 +124,13 @@ object PokedexJSONRegistry : JsonDataRegistry<DexData> {
         for(categoryEntry in categoryEntries.values){
             entries.addAll(categoryEntry)
         }
+
+        entries = entries.filter { pokemon ->
+            filters.forEach {filter ->
+                if(!filter.filter(pokemon)) return@filter false
+            }
+            return@filter true
+        }.toMutableSet()
 
         return entries
     }

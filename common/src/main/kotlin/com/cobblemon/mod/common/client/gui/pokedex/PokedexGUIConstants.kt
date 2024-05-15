@@ -29,6 +29,8 @@ object PokedexGUIConstants {
     const val SCROLL_SLOT_COUNT = 9
     const val SCROLL_SLOT_HEIGHT = SCROLL_HEIGHT / SCROLL_SLOT_COUNT
     const val SCROLL_BAR_WIDTH = 5
+    const val SEARCH_HEIGHT = SCROLL_SLOT_HEIGHT
+    const val SEARCH_WIDTH = BASE_WIDTH
 
     //PokemonInfoWidget
     const val TEXT_HEIGHT = 10

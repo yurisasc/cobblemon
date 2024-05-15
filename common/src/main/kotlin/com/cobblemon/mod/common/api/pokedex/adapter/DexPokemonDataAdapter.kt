@@ -27,8 +27,10 @@ object DexPokemonDataAdapter: JsonDeserializer<DexPokemonData>, JsonSerializer<D
 
         return DexPokemonData(
             name = Identifier(json.get("name").asString),
-            forms = json.getAsJsonArray("forms").map { it.asString }.toMutableList(),
-            category = category
+            forms = json.getAsJsonArray("forms")?.map { it.asString }?.toMutableList() ?: mutableListOf(),
+            category = category,
+            tags = json.getAsJsonArray("tags")?.map { it.asString }?.toMutableList() ?: mutableListOf(),
+            invisibleUntilFound = json.getAsJsonPrimitive("invisible")?.asBoolean == true
         )
     }
 

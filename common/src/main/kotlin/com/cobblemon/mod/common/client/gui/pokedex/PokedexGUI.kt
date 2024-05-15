@@ -10,8 +10,12 @@ package com.cobblemon.mod.common.client.gui.pokedex
 import com.cobblemon.mod.common.Cobblemon.LOGGER
 import com.cobblemon.mod.common.api.gui.blitk
 import com.cobblemon.mod.common.api.pokedex.ClientPokedex
+import com.cobblemon.mod.common.api.pokedex.EntryFilter
 import com.cobblemon.mod.common.api.pokedex.PokedexJSONRegistry
 import com.cobblemon.mod.common.api.pokedex.SpeciesPokedexEntry
+import com.cobblemon.mod.common.api.pokedex.filters.InvisibleFilter
+import com.cobblemon.mod.common.api.pokedex.filters.SearchFilter
+import com.cobblemon.mod.common.api.text.text
 import com.cobblemon.mod.common.client.gui.pokedex.PokedexGUIConstants.BASE_HEIGHT
 import com.cobblemon.mod.common.client.gui.pokedex.PokedexGUIConstants.BASE_WIDTH
 import com.cobblemon.mod.common.client.gui.pokedex.PokedexGUIConstants.HEADER_HEIGHT
@@ -23,11 +27,10 @@ import com.cobblemon.mod.common.client.gui.pokedex.PokedexGUIConstants.POKEMON_P
 import com.cobblemon.mod.common.client.gui.pokedex.PokedexGUIConstants.POKEMON_PORTRAIT_WIDTH
 import com.cobblemon.mod.common.client.gui.pokedex.PokedexGUIConstants.SCROLL_HEIGHT
 import com.cobblemon.mod.common.client.gui.pokedex.PokedexGUIConstants.SCROLL_WIDTH
+import com.cobblemon.mod.common.client.gui.pokedex.PokedexGUIConstants.SEARCH_HEIGHT
+import com.cobblemon.mod.common.client.gui.pokedex.PokedexGUIConstants.SEARCH_WIDTH
 import com.cobblemon.mod.common.client.gui.pokedex.PokedexGUIConstants.SPACER
-import com.cobblemon.mod.common.client.gui.pokedex.widgets.DescriptionWidget
-import com.cobblemon.mod.common.client.gui.pokedex.widgets.PokemonInfoWidget
-import com.cobblemon.mod.common.client.gui.pokedex.widgets.EntriesScrollingWidget
-import com.cobblemon.mod.common.client.gui.pokedex.widgets.FormsWidget
+import com.cobblemon.mod.common.client.gui.pokedex.widgets.*
 import com.cobblemon.mod.common.client.render.drawScaledTextJustifiedRight
 import com.cobblemon.mod.common.pokedex.DexPokemonData
 import com.cobblemon.mod.common.pokemon.FormData
@@ -75,6 +78,7 @@ class PokedexGUI private constructor(val pokedex: ClientPokedex) : Screen(Text.t
     private lateinit var pokemonInfoWidget : PokemonInfoWidget
     private lateinit var descriptionWidget: DescriptionWidget
     private lateinit var formsWidget : FormsWidget
+    private lateinit var searchWidget: SearchWidget
 
     public override fun init() {
         super.init()
@@ -82,14 +86,6 @@ class PokedexGUI private constructor(val pokedex: ClientPokedex) : Screen(Text.t
 
         val x = (width - BASE_WIDTH) / 2
         val y = (height - BASE_HEIGHT) / 2
-
-        filteredPokedex = filterPokedex()
-
-        //Scroll Screen
-        if (::scrollScreen.isInitialized) remove(scrollScreen)
-        scrollScreen = EntriesScrollingWidget(x + SPACER, y + HEADER_HEIGHT) { setSelectedPokemon(it) }
-        scrollScreen.createEntries(filteredPokedex, pokedex)
-        addDrawableChild(scrollScreen)
 
         //Info Widget
         if (::pokemonInfoWidget.isInitialized) remove(pokemonInfoWidget)
@@ -105,9 +101,11 @@ class PokedexGUI private constructor(val pokedex: ClientPokedex) : Screen(Text.t
         formsWidget = FormsWidget(x + SPACER*3 + SCROLL_WIDTH + POKEMON_DESCRIPTION_WIDTH, y + HEADER_HEIGHT + SPACER + POKEMON_PORTRAIT_HEIGHT, ::setSelectedForm)
         addDrawableChild(formsWidget)
 
-        if(filteredPokedex.isNotEmpty()){
-            setSelectedPokemon(filteredPokedex.first())
-        }
+        if(::searchWidget.isInitialized) remove(searchWidget)
+        searchWidget = SearchWidget(x, y - SPACER*2, SEARCH_WIDTH, SEARCH_HEIGHT, update = ::updateFilters)
+        addDrawableChild(searchWidget)
+
+        updateFilters()
     }
 
     override fun render(context: DrawContext, mouseX: Int, mouseY: Int, delta: Float) {
@@ -173,8 +171,34 @@ class PokedexGUI private constructor(val pokedex: ClientPokedex) : Screen(Text.t
         super.render(context, mouseX, mouseY, delta)
     }
 
+    fun updateFilters() {
+        val x = (width - BASE_WIDTH) / 2
+        val y = (height - BASE_HEIGHT) / 2
+
+        filteredPokedex = filterPokedex()
+
+        //Scroll Screen
+        if (::scrollScreen.isInitialized) remove(scrollScreen)
+        scrollScreen = EntriesScrollingWidget(x + SPACER, y + HEADER_HEIGHT) { setSelectedPokemon(it) }
+        scrollScreen.createEntries(filteredPokedex, pokedex)
+        addDrawableChild(scrollScreen)
+
+        if(filteredPokedex.isNotEmpty()){
+            setSelectedPokemon(filteredPokedex.first())
+        }
+    }
+
     fun filterPokedex() : Collection<DexPokemonData> {
-        return PokedexJSONRegistry.getSortedDexData()
+        return PokedexJSONRegistry.getSortedDexData(getFilters())
+    }
+
+    fun getFilters() : Collection<EntryFilter> {
+        val filters: MutableList<EntryFilter> = mutableListOf()
+
+        filters.add(InvisibleFilter(pokedex))
+        filters.add(SearchFilter(pokedex, searchWidget.text))
+
+        return filters
     }
 
     fun setSelectedPokemon(dexPokemonData : DexPokemonData){

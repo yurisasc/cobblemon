@@ -41,6 +41,10 @@ class ClientPokedex(
         }
     }
 
+    fun undiscovered(identifier: Identifier) = speciesEntries[identifier] == null
+
+    fun discovered(identifier: Identifier) = !undiscovered(identifier)
+
     companion object {
         fun encodeSpeciesEntry(buf: PacketByteBuf, speciesEntry: SpeciesPokedexEntry) {
             buf.writeInt(speciesEntry.formEntries.size)

@@ -20,7 +20,9 @@ import net.minecraft.util.Identifier
 class DexPokemonData(
     var name : Identifier = cobblemonResource("dex.pokemon"),
     var forms : MutableList<String> = mutableListOf(),
-    var category: PokedexEntryCategory = PokedexEntryCategory.STANDARD
+    var category: PokedexEntryCategory = PokedexEntryCategory.STANDARD,
+    var tags: MutableList<String> = mutableListOf(),
+    var invisibleUntilFound : Boolean = false
 ): Decodable, Encodable {
 
     val species : Species?

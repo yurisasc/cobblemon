@@ -1,11 +1,12 @@
 {
-  "identifier": "cobblemon:national_kdanto",
+  "identifier": "cobblemon:national_kanto",
   "pokemon_list": [
     {
       "name": "cobblemon:bulbasaur",
       "forms": [
         "normal"
-      ]
+      ],
+      "invisible": true
     },
     {
       "name": "cobblemon:ivysaur",
