@@ -25,6 +25,7 @@ import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.item.interactive.PokerodItem
 import com.cobblemon.mod.common.loot.CobblemonLootTables
 import com.cobblemon.mod.common.net.messages.client.effect.SpawnSnowstormEntityParticlePacket
+import com.cobblemon.mod.common.net.messages.client.effect.SpawnSnowstormParticlePacket
 import com.cobblemon.mod.common.pokemon.Gender
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.pokemon.abilities.HiddenAbility
@@ -330,6 +331,9 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
                 // play bobber hook notification sound
                 world.playSound(null, this.blockPos, CobblemonSounds.FISHING_NOTIFICATION, SoundCategory.BLOCKS, 1.0F, 1.0F)
 
+                // display particles of ball bobber when there is a bite
+                //particleEntityHandler(this, Identifier("cobblemon","lureball/battle/sendflash"))
+
                 val m = this.y + 0.5
                 serverWorld.spawnParticles(ParticleTypes.BUBBLE, this.x, m, this.z, (1.0f + this.width * 20.0f).toInt(), this.width.toDouble(), 0.0, this.width.toDouble(), 0.2)
                 serverWorld.spawnParticles(ParticleTypes.FISHING, this.x, m, this.z, (1.0f + this.width * 20.0f).toInt(), this.width.toDouble(), 0.0, this.width.toDouble(), 0.2)
@@ -388,7 +392,6 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
             }
         } else {
             // When bobber lands on the water for the first time
-            // Sound category is SUPPOSED to be Player, but we set it to a neutral entity just like in Minecraft. It's a confirmed issue with vanilla MC-139041
             world.playSound(null, this.blockPos, CobblemonSounds.FISHING_BOBBER_LAND, SoundCategory.NEUTRAL, 1.0F, 1.0F)
 
             // set the time it takes to wait for a hooked item or pokemon
@@ -1014,6 +1017,12 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
         return if (checkBaitSuccessRate(effect.chance)) {
             ((effect.chance) * 100).toInt()
         } else this.pokemonSpawnChance
+    }
+
+    // Particle Stuff
+    private fun particleEntityHandler(entity: Entity, particle: Identifier) {
+        val spawnSnowstormParticlePacket = SpawnSnowstormParticlePacket(particle, entity.pos)
+        spawnSnowstormParticlePacket.sendToPlayersAround(entity.x, entity.y, entity.z, 64.0, entity.world.registryKey)
     }
 
     companion object {

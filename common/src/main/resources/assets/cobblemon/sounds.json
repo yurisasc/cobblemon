@@ -193,9 +193,9 @@
   },
   "fishing.notification": {
     "sounds": [
-      "cobblemon:fishing/fishing_splash_notification_1",
-      "cobblemon:fishing/fishing_splash_notification_2",
-      "cobblemon:fishing/fishing_splash_notification_3"
+      "cobblemon:fishing/fishing_notification_1",
+      "cobblemon:fishing/fishing_notification_2",
+      "cobblemon:fishing/fishing_notification_3"
     ]
   },
   "fishing.splash_small": {
@@ -215,7 +215,8 @@
   "fishing.bobber_land": {
     "sounds": [
       { "name": "cobblemon:fishing/fishing_bobber_land", "volume": 0.5 }
-    ]
+    ],
+    "volume": 0.5
   },
   "tumblestone.break": {
     "sounds": [
