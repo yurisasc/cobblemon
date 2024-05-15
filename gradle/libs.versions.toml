@@ -23,13 +23,13 @@ jei-api = "15.2.0.25"
 
 # Fabric
 fabric-loader = "0.15.10"
-fabric-api = "0.92.1+1.20.1"
-fabric-kotlin = "1.10.20+kotlin.1.9.24"
-fabric-permissions-api = "0.3.1"
+fabric-api = "0.89.0+1.20.1"
+fabric-kotlin = "1.9.3+kotlin.1.8.20"
+fabric-permissions-api = "0.2-SNAPSHOT"
 lambDynamicLights = "2.3.2+1.20.1"
 
 # Forge
-forge = "1.20.1-47.2.0"
+forge = "1.20.1-47.1.0"
 kotlin-for-forge = "4.10.0"
 flywheel = "0.6.10-7"
 
