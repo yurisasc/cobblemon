@@ -318,7 +318,6 @@ class PCGUI(
                 centered = true,
                 shadow = true,
                 scale = SCALE,
-                colour = 0x32CBFF,
                 pMouseX = mouseX,
                 pMouseY = mouseY
             )
