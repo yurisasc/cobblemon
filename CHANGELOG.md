@@ -2,6 +2,12 @@
 
 ## [1.5.1](#1-5-1)
 
+### Additions
+- Added unique send out particles for Cherish, Dream, Beast, and Ancient Origin balls.
+
+### Changes
+- Sounds for Relic Coin Sacks have been correctly renamed. Relic Coin Pouches received new sounds for breaking and placing.
+
 ### Fixes
 - Fixed a bug in which adding organic material to the fossil tank via right click was adding the full count of the stack currently in hand
 - Fixed a niche issue where some properties of entities were not initialized correctly, causing Pokémon that appeared to be level 1 until you battle them.
@@ -9,12 +15,14 @@
 - Fixed Gilded Chest block entity not being cleared on block break
 - Fixed sherd brokenness on Forge/Supplementaries incompat
 - Fixed Fossil Compartment crash with Jade / WAILA forks
+- Fixed PCStore#resize not allowing PC boxes size reduction.
 
 ### Developer
 - Changed SpawnAction#complete to return a nullable generic R (the spawn action result) instead of a boolean. More information this way.
 
 ### Data Pack & Resource Pack Creators
 - Added support for MoLang conditions for quirks and poses.
+- Changed the AttackDefenceRatio requirement to StatCompare and StatEqual.
 
 ## [1.5.0 - The Ruins and Revival Update (May 12th, 2024)](#1-5-0)
 #### "You're telling me that Mojang has added archaeology to the game? Hmm... that gives me an idea."
