@@ -25,7 +25,9 @@
   ],
   "moves": [
     "1:bubble",
+    "1:heartswap",
     "1:tailglow",
+    "1:watergun",
     "1:watersport",
     "9:charm",
     "16:supersonic",

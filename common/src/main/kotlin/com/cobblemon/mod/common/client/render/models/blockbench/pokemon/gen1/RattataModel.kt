@@ -57,7 +57,6 @@ class RattataModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quadr
             poseTypes = setOf(PoseType.NONE, PoseType.PROFILE, PoseType.STAND, PoseType.FLOAT, PoseType.PORTRAIT, PoseType.SHOULDER_LEFT, PoseType.SHOULDER_RIGHT),
             transformTicks = 10,
             quirks = arrayOf(blink),
-            condition = { !it.dataTracker.get(PokemonEntity.MOVING) },
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("rattata", "ground_idle")
@@ -68,7 +67,6 @@ class RattataModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quadr
             poseType = PoseType.WALK,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            condition = { it.dataTracker.get(PokemonEntity.MOVING) },
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("rattata", "ground_walk")

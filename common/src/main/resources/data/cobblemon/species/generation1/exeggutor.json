@@ -34,9 +34,6 @@
   "shoulderMountable": false,
   "forms": [
     {
-      "name": "base"
-    },
-    {
       "name": "Alola",
       "primaryType": "grass",
       "secondaryType": "dragon",
