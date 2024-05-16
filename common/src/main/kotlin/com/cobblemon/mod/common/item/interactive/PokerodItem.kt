@@ -41,7 +41,7 @@ import net.minecraft.world.event.GameEvent
 
 class PokerodItem(val pokeRodId: Identifier, settings: Settings?) : FishingRodItem(settings) {
     var bait: ItemStack = ItemStack.EMPTY
-    var baitEffects: List<FishingBait.Effect>? = FishingBaits.getFromItemStack(bait)?.effects
+    var baitEffects: List<FishingBait.Effect>? = mutableListOf()
 
     override fun use(world: World, user: PlayerEntity, hand: Hand): TypedActionResult<ItemStack> {
         // if item in mainhand is berry item then don't do anything
@@ -49,6 +49,7 @@ class PokerodItem(val pokeRodId: Identifier, settings: Settings?) : FishingRodIt
             return TypedActionResult(ActionResult.FAIL, user.getStackInHand(hand))
 
         val itemStack = user.getStackInHand(hand)
+
         val offHandItem = user.getStackInHand(Hand.OFF_HAND)
         var tooltipList: MutableList<Text> = mutableListOf()
         if (!world.isClient && user.fishHook == null && FishingBaits.isFishingBait(offHandItem) && !ItemStack.areItemsEqual(offHandItem, bait) && !user.isSneaking) {
@@ -56,18 +57,21 @@ class PokerodItem(val pokeRodId: Identifier, settings: Settings?) : FishingRodIt
             if (bait != ItemStack.EMPTY) {
                 user.dropStack(bait) // drop old bait
                 bait = itemStack // apply new bait
+                baitEffects = FishingBaits.getFromItemStack(bait)?.effects
             }
 
             // apply it to the rod as bait
             bait = offHandItem.item.defaultStack
+            baitEffects = FishingBaits.getFromItemStack(bait)?.effects
 
             // decrement 1 stack of that item from the other hand
             offHandItem.decrement(1)
 
             // todo remove the old bait effect tooltip from the itemStack
+            removeBaitTooltip(itemStack,world)
 
             // todo add dynamic tooltip here for the itemStack
-            appendTooltip(itemStack, world, tooltipList, TooltipContext.BASIC)
+            setBaitTooltips(itemStack,world)
             //(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context)
         }
         if (!world.isClient && user.fishHook == null && user.isSneaking) {
@@ -75,8 +79,10 @@ class PokerodItem(val pokeRodId: Identifier, settings: Settings?) : FishingRodIt
             if (bait != ItemStack.EMPTY) {
                 user.dropStack(bait) // drop old bait on the ground
                 bait = ItemStack.EMPTY
+                baitEffects = FishingBaits.getFromItemStack(bait)?.effects ?: mutableListOf()
 
                 // todo remove the old bait effect tooltip from the itemStack
+                removeBaitTooltip(itemStack,world)
             }
         }
 
@@ -110,27 +116,28 @@ class PokerodItem(val pokeRodId: Identifier, settings: Settings?) : FishingRodIt
     // todo lang stuff for dynamic tooltips
     //lang("overflow_no_space", pc.name)
 
-    override fun appendTooltip(
-        stack: ItemStack,
-        world: World?,
-        tooltip: MutableList<Text>,
-        context: TooltipContext
+    fun setBaitTooltips(
+            stack: ItemStack,
+            world: World?
     ) {
         val rod = PokeRods.getPokeRod((stack.item as PokerodItem).pokeRodId) ?: return
         val ball = PokeBalls.getPokeBall(rod.pokeBallId) ?: return
-        tooltip.add(ball.item.name.copy().gray())
-        // todo for every effect of the bait add a tooltip to the rod
+        var tooltipList: MutableList<Text> = mutableListOf()
+        //var rodTooltipData = stack.tooltipData.get()
+
+        tooltipList.add(ball.item.name.copy().gray())
+        // for every effect of the bait add a tooltip to the rod
         baitEffects?.forEach {
-            val effectType = it.type.namespace.toString()
-            val effectSubcategory: String? = it.subcategory?.namespace.toString()
+            val effectType = it.type.path.toString()
+            val effectSubcategory: String? = it.subcategory?.path.toString()
             val effectChance = it.chance * 100 // chance of effect out of 100
             val effectValue = it.value.toInt()
             var subcategoryString: String? = null
 
-            // todo convert subcategory depending on Effect Type to be used as variable
+            // convert subcategory depending on Effect Type to be used as a String variable in the lang file
             if (effectSubcategory != null) {
                 if (effectType == "nature" || effectType == "ev" || effectType == "iv") {
-                    subcategoryString = com.cobblemon.mod.common.api.pokemon.stats.Stats.getStat(effectSubcategory).name
+                    subcategoryString = com.cobblemon.mod.common.api.pokemon.stats.Stats.getStat(effectSubcategory).name.replace("_"," ")
                 }
                 else if (effectType == "gender") {
                     subcategoryString = Gender.valueOf(effectSubcategory).name
@@ -140,39 +147,31 @@ class PokerodItem(val pokeRodId: Identifier, settings: Settings?) : FishingRodIt
                 }
             }
 
-            // for effects with only chance
-            if (effectType == "shiny_reroll" ||
-                effectType == "ha_chance" ||
-                effectType == "pokemon_chance") {
-                tooltip.add(lang("fishing_bait_effects." + effectType + ".tooltip", it.chance))
-            }
-
-            //for effects with only chance and value
-            if (effectType == "bite_time" ||
-                effectType == "level_raise" ||
-                effectType == "friendship") {
-                tooltip.add(lang("fishing_bait_effects." + effectType + ".tooltip", it.chance, it.value))
-            }
-
-            // for effects with subcategories and 2 params
-            if (effectType == "nature" ||
-                effectType == "ev" ||
-                effectType == "gender" ||
-                effectType == "tera") {
-                tooltip.add(lang("fishing_bait_effects." + effectType + ".tooltip", it.chance, subcategoryString!!))
-            }
+            tooltipList.add(lang("fishing_bait_effects." + effectType + ".tooltip", effectChance, subcategoryString ?: "", effectValue))
 
 
-            // for effects with subcategories and 3 params
-            if (effectType == "iv") {
-                tooltip.add(lang("fishing_bait_effects." + effectType + ".tooltip", it.chance, subcategoryString!!, it.value))
-            }
         }
+        val test = tooltipList
 
-        super.appendTooltip(stack, world, tooltip, context)
+        //rodTooltipData = tooltipList // todo find some way to set the itemStack's tooltip to be this new tooltipList
     }
 
-    /*fun removeBaitTooltip(
+    fun removeBaitTooltip(
+            stack: ItemStack,
+            world: World?
+    ) {
+        val rod = PokeRods.getPokeRod((stack.item as PokerodItem).pokeRodId) ?: return
+        val ball = PokeBalls.getPokeBall(rod.pokeBallId) ?: return
+        var tooltipList: MutableList<Text> = mutableListOf()
+        //var rodTooltipData = stack.tooltipData.get()
+
+        tooltipList.add(ball.item.name.copy().gray())
+        val test = tooltipList
+
+        //rodTooltipData = tooltipList // todo find some way to set the itemStack's tooltip to be this new tooltipList
+    }
+
+    override fun appendTooltip(
         stack: ItemStack,
         world: World?,
         tooltip: MutableList<Text>,
@@ -180,8 +179,10 @@ class PokerodItem(val pokeRodId: Identifier, settings: Settings?) : FishingRodIt
     ) {
         val rod = PokeRods.getPokeRod((stack.item as PokerodItem).pokeRodId) ?: return
         val ball = PokeBalls.getPokeBall(rod.pokeBallId) ?: return
-        tooltip.removeAt(tooltip.size - 1) // remove the last tooltip todo maybe find a way to store the tooltip index as a local variable so it can be sure that it is the right tooltip deleted
-    }*/
+        tooltip.add(ball.item.name.copy().gray())
+
+        super.appendTooltip(stack, world, tooltip, context)
+    }
 
     override fun getTranslationKey(): String {
         return "item.cobblemon.poke_rod"

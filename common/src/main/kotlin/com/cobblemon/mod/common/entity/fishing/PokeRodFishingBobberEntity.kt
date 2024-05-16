@@ -318,14 +318,18 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
                 //val blockState = serverWorld.getBlockState(BlockPos.ofFloored(offsetX, (MathHelper.floor(this.y).toFloat() + 1.0f).toDouble().also { offsetY = it } - 1.0, this.z + (h * this.fishTravelCountdown.toFloat() * 0.1f).toDouble().also { j = it }))
                 if (blockState.isOf(Blocks.WATER)) {
                     if (random.nextFloat() < 0.15f) {
+                        // random bubble particles that spawn around
                         //serverWorld.spawnParticles(ParticleTypes.BUBBLE, this.x, this.y, this.z, 3, g.toDouble(), 0.1, h.toDouble(), 0.0)
                         serverWorld.spawnParticles(ParticleTypes.BUBBLE, offsetX, offsetY - 0.1, j, 1, g.toDouble(), 0.1, h.toDouble(), 0.0)
                     }
                     val k = g * 0.04f
                     val l = h * 0.04f
 
+                    // todo the fish trail that leads to the bobber I think
                     serverWorld.spawnParticles(ParticleTypes.FISHING, offsetX, offsetY, j, 0, l.toDouble(), 0.01, -k.toDouble(), 1.0)
                     serverWorld.spawnParticles(ParticleTypes.FISHING, offsetX, offsetY, j, 0, -l.toDouble(), 0.01, k.toDouble(), 1.0)
+                    // create tiny splash particles for fishing trail
+                    //particleEntityHandler(this, Identifier("cobblemon","bob_splash"))
                 }
             } else {
                 //playSound(SoundEvents.ENTITY_FISHING_BOBBER_SPLASH, 0.25f, 1.0f + (random.nextFloat() - random.nextFloat()) * 0.4f)
