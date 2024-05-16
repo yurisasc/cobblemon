@@ -933,6 +933,123 @@
             },
             "limit": 1,
             "processor_type": "minecraft:capped"
+        },
+        {
+            "delegate": {
+                "processor_type": "minecraft:rule",
+                "rules": [
+                    {
+                        "block_entity_modifier": {
+                            "type": "minecraft:append_loot",
+                            "loot_table": "cobblemon:ruins/vanilla_loot/vanilla_loot"
+                        },
+                        "input_predicate": {
+                            "block_state": {
+                                "Name": "minecraft:trapped_chest",
+                                "Properties": {
+                                    "facing": "north",
+                                    "type": "single",
+                                    "waterlogged": "false"
+                                }
+                            },
+                            "predicate_type": "minecraft:random_blockstate_match",
+                            "probability": 1.0
+                        },
+                        "location_predicate": {
+                            "predicate_type": "minecraft:always_true"
+                        },
+                        "output_state": {
+                            "Name": "minecraft:trapped_chest",
+                            "Properties": {
+                                "facing": "north"
+                            }
+                        }
+                    },
+                    {
+                        "block_entity_modifier": {
+                            "type": "minecraft:append_loot",
+                            "loot_table": "cobblemon:ruins/vanilla_loot/vanilla_loot"
+                        },
+                        "input_predicate": {
+                            "block_state": {
+                                "Name": "minecraft:trapped_chest",
+                                "Properties": {
+                                    "facing": "south",
+                                    "type": "single",
+                                    "waterlogged": "false"
+                                }
+                            },
+                            "predicate_type": "minecraft:random_blockstate_match",
+                            "probability": 1.0
+                        },
+                        "location_predicate": {
+                            "predicate_type": "minecraft:always_true"
+                        },
+                        "output_state": {
+                            "Name": "minecraft:trapped_chest",
+                            "Properties": {
+                                "facing": "south"
+                            }
+                        }
+                    },
+                    {
+                        "block_entity_modifier": {
+                            "type": "minecraft:append_loot",
+                            "loot_table": "cobblemon:ruins/vanilla_loot/vanilla_loot"
+                        },
+                        "input_predicate": {
+                            "block_state": {
+                                "Name": "minecraft:trapped_chest",
+                                "Properties": {
+                                    "facing": "east",
+                                    "type": "single",
+                                    "waterlogged": "false"
+                                }
+                            },
+                            "predicate_type": "minecraft:random_blockstate_match",
+                            "probability": 1.0
+                        },
+                        "location_predicate": {
+                            "predicate_type": "minecraft:always_true"
+                        },
+                        "output_state": {
+                            "Name": "minecraft:trapped_chest",
+                            "Properties": {
+                                "facing": "east"
+                            }
+                        }
+                    },
+                    {
+                        "block_entity_modifier": {
+                            "type": "minecraft:append_loot",
+                            "loot_table": "cobblemon:ruins/vanilla_loot/vanilla_loot"
+                        },
+                        "input_predicate": {
+                            "block_state": {
+                                "Name": "minecraft:trapped_chest",
+                                "Properties": {
+                                    "facing": "west",
+                                    "type": "single",
+                                    "waterlogged": "false"
+                                }
+                            },
+                            "predicate_type": "minecraft:random_blockstate_match",
+                            "probability": 1.0
+                        },
+                        "location_predicate": {
+                            "predicate_type": "minecraft:always_true"
+                        },
+                        "output_state": {
+                            "Name": "minecraft:trapped_chest",
+                            "Properties": {
+                                "facing": "west"
+                            }
+                        }
+                    }
+                ]
+            },
+            "limit": 1,
+            "processor_type": "minecraft:capped"
         }
     ]
 }
