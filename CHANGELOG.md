@@ -16,6 +16,7 @@
 - Fixed sherd brokenness on Forge/Supplementaries incompat
 - Fixed Fossil Compartment crash with Jade / WAILA forks
 - Fixed PCStore#resize not allowing PC boxes size reduction.
+- Fixed pasture block PC lookups when the player is offline.
 
 ### Developer
 - Changed SpawnAction#complete to return a nullable generic R (the spawn action result) instead of a boolean. More information this way.
