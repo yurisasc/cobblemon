@@ -543,7 +543,7 @@
                             "loot_table": "cobblemon:ruins/uncommon/unstable_cave_ruins"
                         },
                         "input_predicate": {
-                            "block": "minecraft:suspicious_gravel",
+                            "block": "minecraft:suspicious_sand",
                             "predicate_type": "minecraft:random_block_match",
                             "probability": 0.5
                         },
@@ -551,7 +551,7 @@
                             "predicate_type": "minecraft:always_true"
                         },
                         "output_state": {
-                            "Name": "minecraft:suspicious_gravel"
+                            "Name": "minecraft:suspicious_sand"
                         }
                     }
                 ]
@@ -591,7 +591,7 @@
                             "loot_table": "cobblemon:ruins/rare/black_tumblestone"
                         },
                         "input_predicate": {
-                            "block": "minecraft:suspicious_gravel",
+                            "block": "minecraft:suspicious_sand",
                             "predicate_type": "minecraft:random_block_match",
                             "probability": 1.0
                         },
@@ -599,7 +599,7 @@
                             "predicate_type": "minecraft:always_true"
                         },
                         "output_state": {
-                            "Name": "minecraft:suspicious_gravel"
+                            "Name": "minecraft:suspicious_sand"
                         }
                     }
                 ]
