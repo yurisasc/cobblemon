@@ -38,10 +38,55 @@ import net.minecraft.util.Identifier
 import net.minecraft.util.TypedActionResult
 import net.minecraft.world.World
 import net.minecraft.world.event.GameEvent
+import net.minecraft.nbt.NbtCompound
+import net.minecraft.nbt.NbtList
+import net.minecraft.nbt.NbtString
+
 
 class PokerodItem(val pokeRodId: Identifier, settings: Settings?) : FishingRodItem(settings) {
-    var bait: ItemStack = ItemStack.EMPTY
-    var baitEffects: List<FishingBait.Effect>? = mutableListOf()
+
+    companion object {
+        private const val NBT_KEY_BAIT = "Bait"
+        private const val NBT_KEY_BAIT_EFFECTS = "BaitEffects"
+
+        fun getBait(stack: ItemStack): ItemStack {
+            val nbt = stack.orCreateNbt
+            return if (nbt.contains(NBT_KEY_BAIT)) {
+                ItemStack.fromNbt(nbt.getCompound(NBT_KEY_BAIT))
+            } else {
+                ItemStack.EMPTY
+            }
+        }
+
+        fun setBait(stack: ItemStack, bait: ItemStack) {
+            val nbt = stack.orCreateNbt
+            nbt.put(NBT_KEY_BAIT, bait.writeNbt(NbtCompound()))
+        }
+
+        fun getBaitEffects(stack: ItemStack): List<FishingBait.Effect> {
+            val nbt = stack.orCreateNbt
+            val effects = mutableListOf<FishingBait.Effect>()
+            if (nbt.contains(NBT_KEY_BAIT_EFFECTS)) {
+                val nbtList = nbt.getList(NBT_KEY_BAIT_EFFECTS, 10) // 10 is the type for NbtCompound
+                for (i in 0 until nbtList.size) {
+                    effects.add(FishingBait.Effect.fromNbt(nbtList.getCompound(i)))
+                }
+            }
+            return effects
+        }
+
+        fun setBaitEffects(stack: ItemStack, effects: List<FishingBait.Effect>) {
+            val nbt = stack.orCreateNbt
+            val nbtList = NbtList()
+            for (effect in effects) {
+                nbtList.add(effect.toNbt())
+            }
+            nbt.put(NBT_KEY_BAIT_EFFECTS, nbtList)
+        }
+    }
+
+    //var bait: ItemStack = ItemStack.EMPTY
+    //var baitEffects: List<FishingBait.Effect>? = mutableListOf()
 
     override fun use(world: World, user: PlayerEntity, hand: Hand): TypedActionResult<ItemStack> {
         // if item in mainhand is berry item then don't do anything
@@ -49,40 +94,41 @@ class PokerodItem(val pokeRodId: Identifier, settings: Settings?) : FishingRodIt
             return TypedActionResult(ActionResult.FAIL, user.getStackInHand(hand))
 
         val itemStack = user.getStackInHand(hand)
-
         val offHandItem = user.getStackInHand(Hand.OFF_HAND)
-        var tooltipList: MutableList<Text> = mutableListOf()
-        if (!world.isClient && user.fishHook == null && FishingBaits.isFishingBait(offHandItem) && !ItemStack.areItemsEqual(offHandItem, bait) && !user.isSneaking) {
-            // swap baits if one is already on the hook
-            if (bait != ItemStack.EMPTY) {
-                user.dropStack(bait) // drop old bait
-                bait = itemStack // apply new bait
-                baitEffects = FishingBaits.getFromItemStack(bait)?.effects
+
+        // if the item in the offhand is a bait item and the mainhand item is a pokerod then apply the bait
+        if (!world.isClient && user.fishHook == null && FishingBaits.isFishingBait(offHandItem) && !ItemStack.areItemsEqual(offHandItem, getBait(itemStack)) && !user.isSneaking) {
+            // if there already is bait on the bobber then drop it on the ground
+            if (!getBait(itemStack).isEmpty) {
+                user.dropStack(getBait(itemStack))
             }
 
-            // apply it to the rod as bait
-            bait = offHandItem.item.defaultStack
-            baitEffects = FishingBaits.getFromItemStack(bait)?.effects
+            // set the bait and bait effects on the bobber
+            setBait(itemStack, offHandItem.copyWithCount(1))
+            setBaitEffects(itemStack, FishingBaits.getFromItemStack(getBait(itemStack))?.effects ?: emptyList())
 
-            // decrement 1 stack of that item from the other hand
+            // remove 1 bait from the offhand
             offHandItem.decrement(1)
 
-            // todo remove the old bait effect tooltip from the itemStack
-            removeBaitTooltip(itemStack,world)
+            // remove old bait tooltip from rod
+            removeBaitTooltip(itemStack, world)
 
-            // todo add dynamic tooltip here for the itemStack
-            setBaitTooltips(itemStack,world)
-            //(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context)
+            // set new bait tooltip to rod
+            setBaitTooltips(itemStack, world)
         }
-        if (!world.isClient && user.fishHook == null && user.isSneaking) {
-            // remove bait if one is already on the hook
-            if (bait != ItemStack.EMPTY) {
-                user.dropStack(bait) // drop old bait on the ground
-                bait = ItemStack.EMPTY
-                baitEffects = FishingBaits.getFromItemStack(bait)?.effects ?: mutableListOf()
 
-                // todo remove the old bait effect tooltip from the itemStack
-                removeBaitTooltip(itemStack,world)
+        // if the user is sneaking when casting then remove the bait from the bobber
+        if (!world.isClient && user.fishHook == null && user.isSneaking) {
+            // If there is a bait on the bobber
+            if (!getBait(itemStack).isEmpty) {
+                // drop the stack of bait
+                user.dropStack(getBait(itemStack))
+                //set the bait and bait effects on the rod to be empty
+                setBait(itemStack, ItemStack.EMPTY)
+                setBaitEffects(itemStack, emptyList())
+
+                // remove old bait tooltip from rod
+                removeBaitTooltip(itemStack, world)
             }
         }
 
@@ -99,9 +145,9 @@ class PokerodItem(val pokeRodId: Identifier, settings: Settings?) : FishingRodIt
             if (!world.isClient) {
                 i = EnchantmentHelper.getLure(itemStack)
                 val j = EnchantmentHelper.getLuckOfTheSea(itemStack)
-                val bobberEntity = PokeRodFishingBobberEntity(user, pokeRodId, bait/*Registries.ITEM.getId(bait?.item)*/, world, j, i)
+                val bobberEntity = PokeRodFishingBobberEntity(user, pokeRodId, getBait(itemStack)/*Registries.ITEM.getId(bait?.item)*/, world, j, i)
                 world.spawnEntity(bobberEntity)
-                CobblemonCriteria.CAST_POKE_ROD.trigger(user as ServerPlayerEntity, !bait.isEmpty)
+                CobblemonCriteria.CAST_POKE_ROD.trigger(user as ServerPlayerEntity, !getBait(itemStack).isEmpty)
             }
             user.incrementStat(Stats.USED.getOrCreateStat(this))
             user.emitGameEvent(GameEvent.ITEM_INTERACT_START)
@@ -127,7 +173,7 @@ class PokerodItem(val pokeRodId: Identifier, settings: Settings?) : FishingRodIt
 
         tooltipList.add(ball.item.name.copy().gray())
         // for every effect of the bait add a tooltip to the rod
-        baitEffects?.forEach {
+        getBaitEffects(stack).forEach {
             val effectType = it.type.path.toString()
             val effectSubcategory: String? = it.subcategory?.path.toString()
             val effectChance = it.chance * 100 // chance of effect out of 100

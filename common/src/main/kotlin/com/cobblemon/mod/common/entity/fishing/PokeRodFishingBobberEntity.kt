@@ -676,8 +676,9 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
                     modifyPokemonWithBait(spawnedPokemon, bobberBait) // check to see if the spawned pokemon gets modified due to the bait used
 
                     // remove the bait from the bobber
-                    val playerPokerod = if (this.playerOwner?.getStackInHand(Hand.MAIN_HAND)?.item is PokerodItem) this.playerOwner!!.getStackInHand(Hand.MAIN_HAND).item else this.playerOwner!!.getStackInHand(Hand.OFF_HAND).item
-                    (playerPokerod as PokerodItem).bait = ItemStack.EMPTY
+                    val playerPokerodItemStack = if (this.playerOwner?.getStackInHand(Hand.MAIN_HAND)?.item is PokerodItem) this.playerOwner!!.getStackInHand(Hand.MAIN_HAND) else this.playerOwner!!.getStackInHand(Hand.OFF_HAND)
+                    val playerPokerod = playerPokerodItemStack.item
+                    PokerodItem.setBait(playerPokerodItemStack, ItemStack.EMPTY)
                 }
 
 

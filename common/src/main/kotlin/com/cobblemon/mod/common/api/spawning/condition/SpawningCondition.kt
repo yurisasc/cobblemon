@@ -14,6 +14,7 @@ import com.cobblemon.mod.common.api.spawning.TimeRange
 import com.cobblemon.mod.common.api.spawning.context.FishingSpawningContext
 import com.cobblemon.mod.common.api.spawning.context.SpawningContext
 import com.cobblemon.mod.common.api.spawning.detail.SpawnDetail
+import com.cobblemon.mod.common.item.interactive.PokerodItem
 import com.cobblemon.mod.common.util.Merger
 import com.cobblemon.mod.common.util.math.orMax
 import com.cobblemon.mod.common.util.math.orMin
@@ -124,9 +125,9 @@ abstract class SpawningCondition<T : SpawningContext> {
             if (maxLureLevel != null && EnchantmentHelper.getLure(pokerodStack) > maxLureLevel!!)
                 return false
         } else if (bait != null && ctx is FishingSpawningContext) { // check for the bait on the bobber
-            val pokerodItem = (ctx as FishingSpawningContext).rodItem
+            val pokerodBait = (ctx as FishingSpawningContext).rodBait
 
-            if (Registries.ITEM.getId(pokerodItem?.bait?.item).path != bait)
+            if (Registries.ITEM.getId(PokerodItem.getBait(pokerodBait)?.item).path != bait)
                 return false
         } else if (rodType != null && ctx is FishingSpawningContext) { // check for the type of pokerod being used
             val pokerodItem = (ctx as FishingSpawningContext).rodItem

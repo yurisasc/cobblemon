@@ -22,6 +22,7 @@ import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.item.interactive.PokerodItem
 import com.cobblemon.mod.common.pokemon.Species
 import net.minecraft.entity.Entity
+import net.minecraft.item.FishingRodItem
 import net.minecraft.item.ItemStack
 
 /**
@@ -42,6 +43,7 @@ class FishingSpawnCause(
     }
 
     val rodItem = rodStack.item as? PokerodItem
+    val bait = PokerodItem.getBait(rodStack)
 
     override fun affectSpawn(entity: Entity) {
         super.affectSpawn(entity)
@@ -51,8 +53,8 @@ class FishingSpawnCause(
     }
 
     override fun affectWeight(detail: SpawnDetail, ctx: SpawningContext, weight: Float): Float {
-        if (!ItemStack.areItemsEqual(ItemStack.EMPTY, rodItem?.bait) && rodItem?.bait != null ){
-            val bait = FishingBaits.getFromItemStack(rodItem.bait)
+        if (!ItemStack.areItemsEqual(ItemStack.EMPTY, bait) && bait != null ){
+            val bait = FishingBaits.getFromItemStack(bait)
 
             if (detail is PokemonSpawnDetail) {
                val detailSpecies = detail.pokemon.species?.let { PokemonSpecies.getByName(it) }
