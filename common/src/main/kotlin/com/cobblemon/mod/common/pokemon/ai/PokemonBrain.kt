@@ -8,9 +8,11 @@
 
 package com.cobblemon.mod.common.pokemon.ai
 
+import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.CobblemonActivities
 import com.cobblemon.mod.common.CobblemonMemories
 import com.cobblemon.mod.common.CobblemonSensors
+import com.cobblemon.mod.common.api.types.ElementalTypes
 import com.cobblemon.mod.common.entity.ai.*
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.entity.pokemon.ai.tasks.*
@@ -121,6 +123,10 @@ object PokemonBrain {
         add(0 toDF MoveToAttackTargetTask.create())
         add(0 toDF MoveToOwnerTask.create(completionRange = 4, maxDistance = 14F, teleportDistance = 24F))
         add(0 toDF WalkTowardsParentSpeciesTask.create(ADULT_FOLLOW_RANGE, 0.4f))
+
+        if (pokemon.primaryType == ElementalTypes.GRASS) {
+            add(1 toDF FertilizerTask())
+        }
     }
 
     private fun battlingTasks() = buildList<Pair<Int, Task<in PokemonEntity>>> {
