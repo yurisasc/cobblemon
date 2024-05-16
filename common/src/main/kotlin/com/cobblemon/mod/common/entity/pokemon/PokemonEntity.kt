@@ -330,6 +330,15 @@ open class PokemonEntity(
             this.tethering = null
             this.pokemon.recall()
         }
+        //This is so that pokemon in the pasture block are ALWAYS in sync with the pokemon box
+        //Before, pokemon entities in pastures would hold an old ref to a pokemon obj and changes to that would not appear to the underlying file
+        if (this.tethering != null) {
+            val actualPokemon = Cobblemon.storage.getPC(this.ownerUuid!!)[this.pokemon.uuid]!!
+            //We want to use == over .equals here as we actually want to check the reference
+            if (actualPokemon != pokemon) {
+                pokemon = actualPokemon
+            }
+        }
 
         schedulingTracker.update(1/20F)
     }
@@ -861,6 +870,7 @@ open class PokemonEntity(
         if (player !is ServerPlayerEntity || this.isBusy || this.pokemon.getOwnerPlayer() != player) {
             return false
         }
+        println(this.pokemon)
         // We want the count of 1 in order to match the ItemStack#areEqual
         val giving = stack.copy().apply { count = 1 }
         val possibleReturn = this.pokemon.heldItemNoCopy()
