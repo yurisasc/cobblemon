@@ -1130,6 +1130,7 @@
   "cobblemon.battle.cant.shelltrap": "%1$s's shell trap didn't work!",
   "cobblemon.battle.cant.taunt": "%1$s can't use %2$s after the taunt!",
   "cobblemon.battle.cant.throatchop": "The effects of Throat Chop prevent %1$s from using certain moves!",
+  "cobblemon.battle.cant.nopp": "%1$s can't use %2$s because it is out of PP!",
 
   "cobblemon.battle.activate.confusion": "%1$s is confused!",
   "cobblemon.battle.activate.happyhour": "Everyone is caught up in the happy atmosphere!",
