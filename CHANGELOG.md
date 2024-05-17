@@ -18,6 +18,7 @@
 - Fixed PCStore#resize not allowing PC boxes size reduction.
 - Fixed pasture block PC lookups when the player is offline.
 - Fixed recoil evo condition
+- Fixed issue where poser debug tools didnt work on JSON posers
 
 ### Developer
 - Changed SpawnAction#complete to return a nullable generic R (the spawn action result) instead of a boolean. More information this way.
