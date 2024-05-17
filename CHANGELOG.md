@@ -12,7 +12,11 @@
 - Fixed a bug in which adding organic material to the fossil tank via right click was adding the full count of the stack currently in hand
 - Fixed a niche issue where some properties of entities were not initialized correctly, causing Pokémon that appeared to be level 1 until you battle them.
 - Fixed Fossilized Drake being missing from the Fossils item tag.
+- Fixed Gilded Chest block entity not being cleared on block break
+- Fixed sherd brokenness on Forge/Supplementaries incompat
+- Fixed Fossil Compartment crash with Jade / WAILA forks
 - Fixed PCStore#resize not allowing PC boxes size reduction.
+- Fixed pasture block PC lookups when the player is offline.
 
 ### Developer
 - Changed SpawnAction#complete to return a nullable generic R (the spawn action result) instead of a boolean. More information this way.
