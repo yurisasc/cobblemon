@@ -258,7 +258,7 @@ class SnowstormParticle(
         storm.runtime.execute(storm.effect.particle.updateExpressions)
         angularVelocity += storm.effect.particle.rotation.getAngularAcceleration(storm.runtime, angularVelocity) / 20
 
-        if (age > maxAge || storm.runtime.resolveBoolean(storm.effect.particle.killExpression)) {
+        if (age >= maxAge || storm.runtime.resolveBoolean(storm.effect.particle.killExpression)) {
             runExpirationEvents()
             markDead()
             return
