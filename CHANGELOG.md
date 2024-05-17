@@ -13,6 +13,7 @@
 - Fixed a niche issue where some properties of entities were not initialized correctly, causing Pokémon that appeared to be level 1 until you battle them.
 - Fixed Fossilized Drake being missing from the Fossils item tag.
 - Fixed PCStore#resize not allowing PC boxes size reduction.
+- Fixed Pokémon losing their Hidden Ability through evolution if the middle stage did not have a Hidden Ability.
 
 ### Developer
 - Changed SpawnAction#complete to return a nullable generic R (the spawn action result) instead of a boolean. More information this way.
