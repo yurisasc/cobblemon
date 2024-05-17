@@ -124,7 +124,7 @@ open class PlayerPartyStore(
                 }
 
                 // Passive evolutions
-                pokemon.evolutions.filterIsInstance<PassiveEvolution>().forEach { it.attemptEvolution(pokemon) }
+                pokemon.lockedEvolutions.filterIsInstance<PassiveEvolution>().forEach { it.attemptEvolution(pokemon) }
                 val removeList = mutableListOf<Evolution>()
                 pokemon.evolutionProxy.server().forEach {
                     if (!it.test(pokemon) && it is LevelUpEvolution && !it.permanent)
