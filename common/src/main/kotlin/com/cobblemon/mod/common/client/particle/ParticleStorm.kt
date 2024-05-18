@@ -12,6 +12,7 @@ import com.bedrockk.molang.runtime.MoLangRuntime
 import com.bedrockk.molang.runtime.value.DoubleValue
 import com.cobblemon.mod.common.api.molang.MoLangFunctions.addFunction
 import com.cobblemon.mod.common.api.molang.MoLangFunctions.getQueryStruct
+import com.cobblemon.mod.common.api.pokemon.PokemonSpecies.species
 import com.cobblemon.mod.common.api.snowstorm.BedrockParticleEffect
 import com.cobblemon.mod.common.api.snowstorm.ParticleEmitterAction
 import com.cobblemon.mod.common.client.render.MatrixWrapper
@@ -51,7 +52,11 @@ class ParticleStorm(
                 .addFunction("entity_height") { DoubleValue(entity.boundingBox.yLength) }
                 .addFunction("entity_size") { DoubleValue(entity.boundingBox.run { if (xLength > yLength) xLength else yLength }) }
                 .addFunction("entity_radius") { DoubleValue(entity.boundingBox.run { if (xLength > yLength) xLength else yLength } / 2) }
-                .addFunction("entity_scale") { DoubleValue((entity as? PokemonEntity)?.pokemon?.scaleModifier ?: 1.0) }
+                .addFunction("entity_scale") {
+                    val pokemon = (entity as? PokemonEntity)?.pokemon
+                    val scale = pokemon?.form?.baseScale ?: pokemon?.species?.baseScale ?: 1.0
+                    DoubleValue(scale)
+                }
             // TODO replace with a generified call to if (entity is MoLangEntity) entity.applyVariables(env) or w/e
             runtime.environment.setSimpleVariable("entity_width", DoubleValue(entity.boundingBox.xLength))
             runtime.environment.setSimpleVariable("entity_height", DoubleValue(entity.boundingBox.yLength))
