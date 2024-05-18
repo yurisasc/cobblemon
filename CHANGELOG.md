@@ -18,7 +18,9 @@
 - Fixed PCStore#resize not allowing PC boxes size reduction.
 - Fixed pasture block PC lookups when the player is offline.
 - Fixed particle effects often not having access to some specific entity functions from MoLang.
-- Fixed particles sometimes lasting a single tick too long.
+- Fixed particles sometimes lasting a single tick too long, causing (very quick) visual glitches.
+- Fixed particle rotations being inverted. 
+- Fixed particle events not spawning at the instigating particle's location.
 
 ### Developer
 - Changed SpawnAction#complete to return a nullable generic R (the spawn action result) instead of a boolean. More information this way.
