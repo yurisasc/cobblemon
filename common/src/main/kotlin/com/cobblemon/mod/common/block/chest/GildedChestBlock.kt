@@ -27,6 +27,7 @@ import net.minecraft.item.ItemPlacementContext
 import net.minecraft.item.ItemStack
 import net.minecraft.screen.ScreenHandler
 import net.minecraft.server.network.ServerPlayerEntity
+import net.minecraft.server.world.ServerWorld
 import net.minecraft.sound.SoundCategory
 import net.minecraft.state.StateManager
 import net.minecraft.state.property.BooleanProperty
@@ -37,6 +38,7 @@ import net.minecraft.util.*
 import net.minecraft.util.hit.BlockHitResult
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
+import net.minecraft.util.math.random.Random
 import net.minecraft.util.shape.VoxelShape
 import net.minecraft.util.shape.VoxelShapes
 import net.minecraft.world.BlockView
@@ -263,6 +265,16 @@ class GildedChestBlock(settings: Settings, val type: Type = Type.RED) : BlockWit
         if (itemStack.hasCustomName() && blockEntity is GildedChestBlockEntity) {
             blockEntity.customName = itemStack.name
         }
+    }
+
+    override fun scheduledTick(
+        state: BlockState?,
+        world: ServerWorld?,
+        pos: BlockPos?,
+        random: Random?
+    ) {
+        val blockEntity = world?.getBlockEntity(pos) as? GildedChestBlockEntity ?: return
+        blockEntity.onScheduledTick()
     }
 
 }

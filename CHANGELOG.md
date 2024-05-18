@@ -4,9 +4,11 @@
 
 ### Additions
 - Added unique send out particles for Cherish, Dream, Beast, and Ancient Origin balls.
+- Made Wooloo and Dubwool dye-able like sheep
 
 ### Changes
 - Sounds for Relic Coin Sacks have been correctly renamed. Relic Coin Pouches received new sounds for breaking and placing.
+- Readjusted Petilil portraits
 
 ### Fixes
 - Fixed a bug in which adding organic material to the fossil tank via right click was adding the full count of the stack currently in hand
@@ -17,6 +19,14 @@
 - Fixed Fossil Compartment crash with Jade / WAILA forks
 - Fixed PCStore#resize not allowing PC boxes size reduction.
 - Fixed pasture block PC lookups when the player is offline.
+- Fixed Hisuian Decidueye not being Grass/Fighting
+- Fixed both Decidueye forms learning both Triple Arrows and Spirit Shackle
+- Fixed Pineco being unable to evolve into Shulker Forretress
+- Fixed Kabutops T-posing when underwater. It still does not have proper swimming animations yet though. 
+- Fixed Pidgey's missing walk animation.
+- Fixed recoil evo condition.
+- Fixed issue where poser debug tools didnt work on JSON posers
+- Fixed issue where gilded chests dont close when going far away
 - Fixed particle effects often not having access to some specific entity functions from MoLang.
 - Fixed particles sometimes lasting a single tick too long, causing (very quick) visual glitches.
 - Fixed particle rotations being inverted. 
