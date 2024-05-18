@@ -28,6 +28,7 @@
 - Fixed issue where poser debug tools didnt work on JSON posers
 - Fixed issue where gilded chests dont close when going far away
 - Fixed issue where the restoration tank's renderer was reading old data
+- Fixed issue where the lights on the restoration tank would not animate if it was facing east
 
 
 ### Developer
