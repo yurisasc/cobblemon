@@ -54,8 +54,8 @@ class DamageInstruction(
         if (recoiling) {
             battlePokemon.effectedPokemon.let { pokemon ->
                 if (RecoilEvolutionProgress.supports(pokemon)) {
-                    val newPercentage = privateMessage.argumentAt(1)?.split("/")?.getOrNull(0)?.toIntOrNull() ?: 0
-                    val newHealth = (pokemon.hp * (newPercentage / 100.0)).roundToInt()
+                    val healthStr = privateMessage.argumentAt(1) ?: throw UnsupportedOperationException("Cant get recoil string")
+                    val newHealth = "([0-9]+).*".toRegex().find(healthStr)?.groups?.get(1)?.value?.toIntOrNull() ?: throw UnsupportedOperationException("Cant get recoil string")
                     val difference = pokemon.currentHealth - newHealth
                     if (difference > 0) {
                         val progress = pokemon.evolutionProxy.current().progressFirstOrCreate({ it is RecoilEvolutionProgress }) { RecoilEvolutionProgress() }
