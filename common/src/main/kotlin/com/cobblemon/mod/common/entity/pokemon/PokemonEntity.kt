@@ -331,7 +331,7 @@ open class PokemonEntity(
         if (this.tethering != null) {
             val actualPokemon = Cobblemon.storage.getPC(this.ownerUuid!!)[this.pokemon.uuid]!!
             //We want to use == over .equals here as we actually want to check the reference
-            if (actualPokemon != pokemon) {
+            if (actualPokemon !== pokemon) {
                 pokemon = actualPokemon
             }
         }
