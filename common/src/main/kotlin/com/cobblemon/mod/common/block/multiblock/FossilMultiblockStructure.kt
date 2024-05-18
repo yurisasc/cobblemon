@@ -29,6 +29,7 @@ import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.item.PokeBallItem
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.util.*
+import com.cobblemon.mod.common.CobblemonBlocks
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
 import net.minecraft.block.HorizontalFacingBlock
@@ -128,7 +129,7 @@ class FossilMultiblockStructure (
 
                 // Turn the monitor off
                 val monitorState = world.getBlockState(monitorPos)
-                if(!monitorState.equals(MonitorBlock.MonitorScreen.OFF)) {
+                if(monitorState.block == CobblemonBlocks.MONITOR && !monitorState.equals(MonitorBlock.MonitorScreen.OFF)) {
                     world.setBlockState(monitorPos, monitorState.with(MonitorBlock.SCREEN, MonitorBlock.MonitorScreen.OFF))
                 }
 
@@ -475,20 +476,26 @@ class FossilMultiblockStructure (
         val upperTankPos = tankBasePos.up()
         val analyzerState = world.getBlockState(analyzerPos)
         val tankState = world.getBlockState(tankBasePos.up())
-        world.setBlockState(analyzerPos, analyzerState.with(FossilAnalyzerBlock.ON, timeRemaining >= 0))
-        world.setBlockState(upperTankPos, tankState.with(RestorationTankBlock.ON, timeRemaining >= 0))
+        if (analyzerState.block == CobblemonBlocks.FOSSIL_ANALYZER) {
+            world.setBlockState(analyzerPos, analyzerState.with(FossilAnalyzerBlock.ON, timeRemaining >= 0))
+        }
+        if (tankState.block == CobblemonBlocks.RESTORATION_TANK) {
+            world.setBlockState(upperTankPos, tankState.with(RestorationTankBlock.ON, timeRemaining >= 0))
+        }
     }
 
     fun updateProgress(world: World) {
-        val screenID = if(protectionTime > 0F ) {
-            MonitorBlock.MonitorScreen.GREEN_PROGRESS_9
-        } else if (timeRemaining <= 0) {
-            MonitorBlock.MonitorScreen.OFF
-        } else {
-            getProgressScreen((TIME_TO_TAKE - timeRemaining) / TIME_PER_STAGE)
-        }
         val monitorState = world.getBlockState(monitorPos)
-        world.setBlockState(monitorPos, monitorState.with(MonitorBlock.SCREEN, screenID))
+        if (monitorState.block == CobblemonBlocks.MONITOR) {
+            val screenID = if(protectionTime > 0F ) {
+                MonitorBlock.MonitorScreen.GREEN_PROGRESS_9
+            } else if (timeRemaining <= 0) {
+                MonitorBlock.MonitorScreen.OFF
+            } else {
+                getProgressScreen((TIME_TO_TAKE - timeRemaining) / TIME_PER_STAGE)
+            }
+            world.setBlockState(monitorPos, monitorState.with(MonitorBlock.SCREEN, screenID))
+        }
     }
 
     fun getProgressScreen(progress:Int) : MonitorBlock.MonitorScreen {
