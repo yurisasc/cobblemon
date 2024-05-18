@@ -8,13 +8,14 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1
 
-import com.cobblemon.mod.common.client.render.models.blockbench.animation.BipedWalkAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cobblemon.mod.common.entity.PoseType
+import com.cobblemon.mod.common.entity.PoseType.Companion.MOVING_POSES
+import com.cobblemon.mod.common.entity.PoseType.Companion.STATIONARY_POSES
 import com.cobblemon.mod.common.entity.PoseType.Companion.UI_POSES
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
@@ -56,7 +57,7 @@ class KabutopsModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bipe
 
         standing = registerPose(
             poseName = "standing",
-            poseTypes = UI_POSES + PoseType.STAND,
+            poseTypes = UI_POSES + STATIONARY_POSES,
             condition = { !it.isBattling },
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
@@ -67,7 +68,7 @@ class KabutopsModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bipe
 
         walk = registerPose(
             poseName = "walk",
-            poseType = PoseType.WALK,
+            poseTypes = MOVING_POSES,
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),

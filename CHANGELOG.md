@@ -7,6 +7,7 @@
 
 ### Changes
 - Sounds for Relic Coin Sacks have been correctly renamed. Relic Coin Pouches received new sounds for breaking and placing.
+- Readjusted Petilil portraits
 
 ### Fixes
 - Fixed a bug in which adding organic material to the fossil tank via right click was adding the full count of the stack currently in hand
@@ -17,9 +18,15 @@
 - Fixed Fossil Compartment crash with Jade / WAILA forks
 - Fixed PCStore#resize not allowing PC boxes size reduction.
 - Fixed pasture block PC lookups when the player is offline.
-- Fixed recoil evo condition
+- Fixed Hisuian Decidueye not being Grass/Fighting
+- Fixed both Decidueye forms learning both Triple Arrows and Spirit Shackle
+- Fixed Pineco being unable to evolve into Shulker Forretress
+- Fixed Kabutops T-posing when underwater. It still does not have proper swimming animations yet though. 
+- Fixed Pidgey's missing walk animation.
+- Fixed recoil evo condition.
 - Fixed issue where poser debug tools didnt work on JSON posers
-- Fixed issue where chest dont close when going far away
+- Fixed issue where gilded chests dont close when going far away
+
 
 ### Developer
 - Changed SpawnAction#complete to return a nullable generic R (the spawn action result) instead of a boolean. More information this way.
