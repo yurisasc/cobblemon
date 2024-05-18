@@ -333,10 +333,13 @@ open class PokemonEntity(
         //This is so that pokemon in the pasture block are ALWAYS in sync with the pokemon box
         //Before, pokemon entities in pastures would hold an old ref to a pokemon obj and changes to that would not appear to the underlying file
         if (this.tethering != null) {
-            val actualPokemon = Cobblemon.storage.getPC(this.ownerUuid!!)[this.pokemon.uuid]!!
-            //We want to use == over .equals here as we actually want to check the reference
-            if (actualPokemon !== pokemon) {
-                pokemon = actualPokemon
+            //Only for online players
+            if (world.getPlayerByUuid(ownerUuid) != null){
+                val actualPokemon = Cobblemon.storage.getPC(this.ownerUuid!!)[this.pokemon.uuid]!!
+                //We want to use == over .equals here as we actually want to check the reference
+                if (actualPokemon !== pokemon) {
+                    pokemon = actualPokemon
+                }
             }
         }
 
