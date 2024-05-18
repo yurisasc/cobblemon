@@ -20,6 +20,7 @@ import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.entity.player.PlayerInventory
 import net.minecraft.inventory.DoubleInventory
 import net.minecraft.inventory.Inventories
+import net.minecraft.inventory.Inventory
 import net.minecraft.inventory.SidedInventory
 import net.minecraft.item.ItemStack
 import net.minecraft.nbt.NbtCompound
@@ -58,9 +59,7 @@ class GildedChestBlockEntity(pos: BlockPos, state: BlockState, val type: Type = 
         override fun isPlayerViewing(player: PlayerEntity): Boolean {
             if (player.currentScreenHandler is GenericContainerScreenHandler) {
                 val inventory = (player.currentScreenHandler as GenericContainerScreenHandler).inventory
-                return inventory === this@GildedChestBlockEntity || inventory is DoubleInventory && inventory.isPart(
-                    this@GildedChestBlockEntity
-                )
+                return inventory === this@GildedChestBlockEntity
             }
             return false
         }
@@ -98,8 +97,6 @@ class GildedChestBlockEntity(pos: BlockPos, state: BlockState, val type: Type = 
         if (type == Type.FAKE) return false
         return dir == Direction.DOWN
     }
-
-    override fun canPlayerUse(player: PlayerEntity) = !player.isSpectator
 
     override fun getInvStackList(): DefaultedList<ItemStack> = inventoryContents
 
@@ -162,6 +159,12 @@ class GildedChestBlockEntity(pos: BlockPos, state: BlockState, val type: Type = 
         )
         if (!deserializeLootTable(nbt)) {
             Inventories.readNbt(nbt, inventoryContents)
+        }
+    }
+
+    fun onScheduledTick() {
+        if (!this.removed) {
+            stateManager.updateViewerCount(this.getWorld(), this.getPos(), this.cachedState)
         }
     }
 }
