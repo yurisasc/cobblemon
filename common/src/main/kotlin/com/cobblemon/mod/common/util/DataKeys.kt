@@ -134,6 +134,7 @@ object DataKeys {
     // Features
     const val CAN_BE_MILKED = "milkable"
     const val HAS_BEEN_SHEARED = "sheared"
+    const val CAN_BE_COLORED = "color"
 
     // Variants
     const val IS_MOOSHTANK = "mooshtank"
