@@ -19,6 +19,7 @@
 - Fixed pasture block PC lookups when the player is offline.
 - Fixed recoil evo condition
 - Fixed issue where poser debug tools didnt work on JSON posers
+- Fixed issue where chest dont close when going far away
 
 ### Developer
 - Changed SpawnAction#complete to return a nullable generic R (the spawn action result) instead of a boolean. More information this way.
