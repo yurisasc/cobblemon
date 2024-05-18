@@ -248,6 +248,10 @@ open class PokemonEntity(
         .addFunction("is_underwater") { DoubleValue(getIsSubmerged()) }
         .addFunction("is_flying") { DoubleValue(getBehaviourFlag(PokemonBehaviourFlag.FLYING)) }
         .addFunction("is_passenger") { DoubleValue(hasVehicle()) }
+        .addFunction("entity_width") { DoubleValue(boundingBox.xLength) }
+        .addFunction("entity_height") { DoubleValue(boundingBox.yLength) }
+        .addFunction("entity_size") { DoubleValue(boundingBox.run { if (xLength > yLength) xLength else yLength }) }
+        .addFunction("entity_radius") { DoubleValue(boundingBox.run { if (xLength > yLength) xLength else yLength } / 2) }
 
     init {
         delegate.initialize(this)
