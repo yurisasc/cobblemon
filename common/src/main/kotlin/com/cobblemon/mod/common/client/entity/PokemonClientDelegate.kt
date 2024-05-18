@@ -274,6 +274,9 @@ class PokemonClientDelegate : PoseableEntityState<PokemonEntity>(), PokemonSideD
             },
             "weight" to java.util.function.Function {
                 return@Function DoubleValue(currentEntity.pokemon.species.weight.toDouble())
+            },
+            "friendship" to java.util.function.Function {
+                return@Function DoubleValue(currentEntity.pokemon.friendship.toDouble())
             }
         ))
     }
