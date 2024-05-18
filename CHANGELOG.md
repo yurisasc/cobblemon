@@ -11,7 +11,7 @@
 - Readjusted Petilil portraits
 
 ### Fixes
-- Fixed a bug in which adding organic material to the fossil tank via right click was adding the full count of the stack currently in hand
+- Fixed a bug in which adding organic material to the restoration tank via right click was adding the full count of the stack currently in hand
 - Fixed a niche issue where some properties of entities were not initialized correctly, causing Pokémon that appeared to be level 1 until you battle them.
 - Fixed Fossilized Drake being missing from the Fossils item tag.
 - Fixed Gilded Chest block entity not being cleared on block break
@@ -27,6 +27,7 @@
 - Fixed recoil evo condition.
 - Fixed issue where poser debug tools didnt work on JSON posers
 - Fixed issue where gilded chests dont close when going far away
+- Fixed issue where the restoration tank's renderer was reading old data
 
 
 ### Developer
