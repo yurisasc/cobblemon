@@ -98,8 +98,6 @@ class GildedChestBlockEntity(pos: BlockPos, state: BlockState, val type: Type = 
         return dir == Direction.DOWN
     }
 
-    override fun canPlayerUse(player: PlayerEntity) = !player.isSpectator && Inventory.canPlayerUse(this, player)
-
     override fun getInvStackList(): DefaultedList<ItemStack> = inventoryContents
 
     override fun setInvStackList(list: DefaultedList<ItemStack>) {
