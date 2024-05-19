@@ -38,6 +38,7 @@ import net.minecraft.util.shape.VoxelShapes
 import net.minecraft.world.BlockView
 import net.minecraft.world.World
 import net.minecraft.world.WorldAccess
+import net.minecraft.world.WorldEvents
 import net.minecraft.world.WorldView
 
 
@@ -72,10 +73,12 @@ class RestorationTankBlock(properties: Settings) : MultiblockBlock(properties), 
 
     override fun onBreak(world: World, pos: BlockPos, state: BlockState, player: PlayerEntity?) {
         super.onBreak(world, pos, state, player)
-        val otherPart = world.getBlockState(getPositionOfOtherPart(state, pos))
-        if (otherPart.block is RestorationTankBlock) {
-            world.setBlockState(getPositionOfOtherPart(state, pos), Blocks.AIR.defaultState, 35)
-            world.syncWorldEvent(player, 2001, getPositionOfOtherPart(state, pos), getRawIdFromState(otherPart))
+        if (!world.isClient) {
+            val otherPart = world.getBlockState(getPositionOfOtherPart(state, pos))
+            if (otherPart.block is RestorationTankBlock) {
+                world.setBlockState(getPositionOfOtherPart(state, pos), Blocks.AIR.defaultState, Block.NOTIFY_ALL)
+                world.syncWorldEvent(player, WorldEvents.BLOCK_BROKEN, getPositionOfOtherPart(state, pos), getRawIdFromState(otherPart))
+            }
         }
     }
 
@@ -87,9 +90,9 @@ class RestorationTankBlock(properties: Settings) : MultiblockBlock(properties), 
         itemStack: ItemStack?
     ) {
         //Place the full block before we call to super to validate the multiblock
-        world.setBlockState(pos.up(), state.with(PART, TankPart.TOP) as BlockState, 3)
+        world.setBlockState(pos.up(), state.with(PART, TankPart.TOP) as BlockState, Block.NOTIFY_ALL)
         world.updateNeighbors(pos, Blocks.AIR)
-        state.updateNeighbors(world, pos, 3)
+        state.updateNeighbors(world, pos, Block.NOTIFY_ALL)
         super.onPlaced(world, pos, state, placer, itemStack)
     }
 
@@ -100,7 +103,7 @@ class RestorationTankBlock(properties: Settings) : MultiblockBlock(properties), 
             val tankBottomPos = pos.down()
             val tankBottomState = world.getBlockState(tankBottomPos)
             if(tankBottomState.block.equals(CobblemonBlocks.RESTORATION_TANK.asBlock()) && tankBottomState.get(PART) == TankPart.BOTTOM) {
-                return super.onUse(tankBottomState, world, tankBottomPos, player, hand, hit)
+                return onUse(tankBottomState, world, tankBottomPos, player, hand, hit)
             }
         }
         return super.onUse(state, world, pos, player, hand, hit)

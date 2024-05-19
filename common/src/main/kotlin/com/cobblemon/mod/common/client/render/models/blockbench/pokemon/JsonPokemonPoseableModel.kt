@@ -9,6 +9,7 @@
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon
 
 import com.cobblemon.mod.common.api.molang.ExpressionLike
+import com.cobblemon.mod.common.client.entity.PokemonClientDelegate
 import com.cobblemon.mod.common.client.render.models.blockbench.JsonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.JsonPoseableEntityModel
 import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
@@ -24,6 +25,7 @@ import com.cobblemon.mod.common.util.isDusk
 import com.cobblemon.mod.common.util.isStandingOnRedSand
 import com.cobblemon.mod.common.util.isStandingOnSand
 import com.cobblemon.mod.common.util.isStandingOnSandOrRedSand
+import com.cobblemon.mod.common.util.resolveBoolean
 import com.google.gson.ExclusionStrategy
 import com.google.gson.FieldAttributes
 import com.google.gson.GsonBuilder
@@ -84,30 +86,12 @@ class JsonPokemonPoseableModel(override val rootPart: Bone) : PokemonPoseableMod
 
     override val head: Bone by lazy { headJoint?.let { getPart(it) } ?: rootPart }
 
-
-    @SerializedName("portraitScale")
-    private val _portraitScale: Float? = null
-    @SerializedName("portraitTranslation")
-    private val _portraitTranslation: Vec3d? = null
-
-    @SerializedName("profileScale")
-    private val _profileScale: Float? = null
-    @SerializedName("profileTranslation")
-    private val _profileTranslation: Vec3d? = null
-
     //Some weirdness going on here, vars have to be initialized, gson doesn't like multiple fields with the same name
-    @Transient
+    //Idk, works fine with Blastoise
     override var portraitScale = 1F
-        get() = _portraitScale ?: 1F
-    @Transient
     override var portraitTranslation = Vec3d.ZERO
-        get() = _portraitTranslation ?: Vec3d(0.0, 0.0, 0.0)
-    @Transient
     override var profileScale = 1F
-        get() = _profileScale ?: 1F
-    @Transient
     override var profileTranslation = Vec3d.ZERO
-        get() = _profileTranslation ?: Vec3d(0.0, 0.0, 0.0)
 
 
     val faint: Supplier<StatefulAnimation<PokemonEntity, ModelFrame>>? = null
@@ -191,6 +175,8 @@ class JsonPokemonPoseableModel(override val rootPart: Bone) : PokemonPoseableMod
             if (mustBeDusk != null) {
                 conditionsList.add { mustBeDusk == it.isDusk() }
             }
+
+            conditionsList.add { (it.delegate as PokemonClientDelegate).runtime.resolveBoolean(pose.condition) }
 
             val poseCondition: ((PokemonEntity) -> Boolean)? = if (conditionsList.isEmpty()) null else conditionsList.reduce { acc, function -> { acc(it) && function(it) } }
 
