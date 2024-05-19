@@ -104,7 +104,6 @@ class FossilMultiblockStructure (
                 return ActionResult.SUCCESS
             }
             if (this.createdPokemon != null) {
-
                 if (this.fossilOwnerUUID != null && player.uuid != this.fossilOwnerUUID) {
                     var ownerName : String = "UNKNOWN_USER" // TODO: lang agnostic fallback
                     server()?.userCache?.getByUuid(this.fossilOwnerUUID)?.orElse(null)?.name?.let {
@@ -113,7 +112,6 @@ class FossilMultiblockStructure (
                     player.sendMessage(lang("fossilmachine.protected", ownerName), true)
                     return ActionResult.FAIL
                 }
-
 
 
                 val ballType = (stack.item as PokeBallItem).pokeBall
@@ -149,11 +147,10 @@ class FossilMultiblockStructure (
                 if (fossilInventory.isEmpty()) {
                     return ActionResult.CONSUME
                 }
-                player.setStackInHand(interactionHand, fossilInventory.last())
-
-                // remove last fossil in the fossil machine stack when grabbed out of the machine
-                this.fossilInventory.removeAt(fossilInventory.size - 1)
-                if(!world.isClient) {
+                if(player is ServerPlayerEntity) {
+                    player.setStackInHand(interactionHand, fossilInventory.last())
+                    // remove last fossil in the fossil machine stack when grabbed out of the machine
+                    this.fossilInventory.removeAt(fossilInventory.size - 1)
                     world.playSound(null, analyzerPos, CobblemonSounds.FOSSIL_MACHINE_RETRIEVE_FOSSIL, SoundCategory.BLOCKS)
                     this.updateFossilType(world)
                     this.syncToClient(world)
@@ -169,15 +166,13 @@ class FossilMultiblockStructure (
                 if (fossilInventory.size > Cobblemon.config.maxInsertedFossilItems) {
                     return ActionResult.FAIL
                 }
-
-                val copyFossilStack = stack.copyWithCount(1)
-                if (!player.isCreative) {
-                    stack?.decrement(1)
-                }
-
-                fossilOwnerUUID = player.uuid
-                fossilInventory.add(copyFossilStack)
-                if(!world.isClient) {
+                if(player is ServerPlayerEntity) {
+                    val copyFossilStack = stack.copyWithCount(1)
+                    if (!player.isCreative) {
+                        stack?.decrement(1)
+                    }
+                    fossilOwnerUUID = player.uuid
+                    fossilInventory.add(copyFossilStack)
                     this.updateFossilType(world)
                     world.playSound(null, analyzerPos, CobblemonSounds.FOSSIL_MACHINE_INSERT_FOSSIL, SoundCategory.BLOCKS)
                     this.syncToClient(world)
@@ -189,7 +184,11 @@ class FossilMultiblockStructure (
 
         // Check if the player is holding a natural material and if so, feed it to the machine.
         if (NaturalMaterials.isNaturalMaterial(stack)) {
-            if (!this.isRunning() && this.createdPokemon == null && this.organicMaterialInside < MATERIAL_TO_START && insertOrganicMaterial(ItemStack(stack.item, 1), world)) {
+            if (player is ServerPlayerEntity
+                    && !this.isRunning()
+                    && this.createdPokemon == null
+                    && this.organicMaterialInside < MATERIAL_TO_START
+                    && insertOrganicMaterial(ItemStack(stack.item, 1), world)) {
                 this.lastInteraction = world.time
                 if (!player.isCreative) {
                     val returnItem = NaturalMaterials.getReturnItem(stack)
