@@ -19,9 +19,10 @@ import com.cobblemon.mod.common.api.moves.animations.UsersProvider
 import com.cobblemon.mod.common.api.pokemon.status.Statuses
 import com.cobblemon.mod.common.api.text.red
 import com.cobblemon.mod.common.battles.ShowdownInterpreter
+import com.cobblemon.mod.common.battles.ShowdownInterpreter.lastCauser
+import com.cobblemon.mod.common.battles.dispatch.ActionEffectInstruction
 import com.cobblemon.mod.common.battles.dispatch.GO
 import com.cobblemon.mod.common.battles.dispatch.InstructionSet
-import com.cobblemon.mod.common.battles.dispatch.InterpreterInstruction
 import com.cobblemon.mod.common.battles.dispatch.UntilDispatch
 import com.cobblemon.mod.common.battles.dispatch.WaitDispatch
 import com.cobblemon.mod.common.battles.pokemon.BattlePokemon
@@ -31,10 +32,11 @@ import com.cobblemon.mod.common.net.messages.client.effect.RunPosableMoLangPacke
 import com.cobblemon.mod.common.pokemon.evolution.progress.DamageTakenEvolutionProgress
 import com.cobblemon.mod.common.pokemon.evolution.progress.RecoilEvolutionProgress
 import com.cobblemon.mod.common.util.battleLang
+import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.lang
 import java.util.concurrent.CompletableFuture
-import kotlin.math.roundToInt
 import net.minecraft.text.Text
+import net.minecraft.util.Identifier
 
 /**
  * Format: |-damage|POKEMON|HP STATUS
@@ -48,51 +50,58 @@ class DamageInstruction(
     val actor: BattleActor,
     val publicMessage: BattleMessage,
     val privateMessage: BattleMessage
-) : InterpreterInstruction {
-    var future = CompletableFuture.completedFuture(Unit)
-    var holds = mutableSetOf<String>()
+) : ActionEffectInstruction {
     val expectedTarget = publicMessage.battlePokemon(0, actor.battle)
+    override var future: CompletableFuture<*> = CompletableFuture.completedFuture(Unit)
+    override var holds = mutableSetOf<String>()
+    override val id = cobblemonResource("damage")
 
-    override fun invoke(battle: PokemonBattle) {
+    override fun preActionEffect(battle: PokemonBattle) {
         val battlePokemon = publicMessage.battlePokemon(0, actor.battle) ?: return
         val recoiling = privateMessage.optionalArgument("from")?.equals("recoil", true) == true
         val lastCauser  = instructionSet.getMostRecentCauser(comparedTo = this)
         if (recoiling) {
-            battlePokemon.effectedPokemon.let { pokemon ->
-                if (RecoilEvolutionProgress.supports(pokemon)) {
-                    val healthStr = privateMessage.argumentAt(1) ?: throw UnsupportedOperationException("Cant get recoil string")
-                    val newHealth = "([0-9]+).*".toRegex().find(healthStr)?.groups?.get(1)?.value?.toIntOrNull() ?: throw UnsupportedOperationException("Cant get recoil string")
-                    val difference = pokemon.currentHealth - newHealth
-                    if (difference > 0) {
-                        val progress = pokemon.evolutionProxy.current().progressFirstOrCreate({ it is RecoilEvolutionProgress }) { RecoilEvolutionProgress() }
-                        progress.updateProgress(RecoilEvolutionProgress.Progress(progress.currentProgress().recoil + difference))
-                    }
+            doRecoilEvoChecks(battlePokemon)
+            if (lastCauser is MoveInstruction) {
+                battle.dispatch {
+                    //Is the recoil hold currently used anywhere?
+                    UntilDispatch { "recoil" !in lastCauser.holds }
                 }
             }
         }
         val newHealth = privateMessage.argumentAt(1)?.split(" ")?.get(0) ?: return
         val effect = privateMessage.effect()
         val source = privateMessage.battlePokemonFromOptional(battle)
-        var causedFaint = newHealth == "0"
+        source?.let { ShowdownInterpreter.broadcastOptionalAbility(battle, effect, it) }
+    }
 
-        battle.dispatch {
-            if (lastCauser is MoveInstruction && recoiling) {
-                UntilDispatch { "recoil" !in lastCauser.holds }
-            } else {
-                GO
+    private fun doRecoilEvoChecks(battlePokemon: BattlePokemon) {
+        battlePokemon.effectedPokemon.let { pokemon ->
+            if (RecoilEvolutionProgress.supports(pokemon)) {
+                val healthStr = privateMessage.argumentAt(1) ?: throw UnsupportedOperationException(
+                    "Cant get recoil string"
+                )
+                val newHealth =
+                    "([0-9]+).*".toRegex().find(healthStr)?.groups?.get(1)?.value?.toIntOrNull()
+                        ?: throw UnsupportedOperationException("Cant get recoil string")
+                val difference = pokemon.currentHealth - newHealth
+                if (difference > 0) {
+                    val progress = pokemon.evolutionProxy.current()
+                        .progressFirstOrCreate({ it is RecoilEvolutionProgress }) { RecoilEvolutionProgress() }
+                    progress.updateProgress(RecoilEvolutionProgress.Progress(progress.currentProgress().recoil + difference))
+                }
             }
         }
+    }
 
-        source?.let { ShowdownInterpreter.broadcastOptionalAbility(battle, effect, it) }
-
+    override fun runActionEffect(battle: PokemonBattle, runtime: MoLangRuntime) {
+        val effect = privateMessage.effect()
+        val battlePokemon = publicMessage.battlePokemon(0, actor.battle) ?: return
         battle.dispatch {
             val status = effect?.id?.let { Statuses.getStatus(it) }
             val actionEffect = status?.getActionEffect() ?: return@dispatch GO
             val providers = mutableListOf<Any>(battle)
             battlePokemon.effectedPokemon.entity?.let { UsersProvider(it) }?.let(providers::add)
-            val runtime = MoLangRuntime().also {
-                battle.addQueryFunctions(it.environment.getQueryStruct()).addStandardFunctions()
-            }
 
             val context = ActionEffectContext(
                 actionEffect = actionEffect,
@@ -104,10 +113,19 @@ class DamageInstruction(
             future.thenApply { holds.clear() }
             return@dispatch UntilDispatch { "effects" !in context.holds }
         }
+    }
 
+    override fun postActionEffect(battle: PokemonBattle) {
+        val newHealth = privateMessage.argumentAt(1)?.split(" ")?.get(0) ?: return
+        val battlePokemon = publicMessage.battlePokemon(0, actor.battle) ?: return
+        var causedFaint = newHealth == "0"
+        val effect = privateMessage.effect()
+        val source = privateMessage.battlePokemonFromOptional(battle)
+        val lastCauser  = instructionSet.getMostRecentCauser(comparedTo = this)
         battle.dispatch {
             val pokemonName = battlePokemon.getName()
             val pokemonEntity = battlePokemon.entity
+            //Play recoil animation if the pokemon recoiling isnt dead
             if (!causedFaint && pokemonEntity != null) {
                 val pkt = PlayPoseableAnimationPacket(pokemonEntity.id, setOf("recoil"), emptySet())
                 pkt.sendToPlayersAround(
@@ -118,7 +136,7 @@ class DamageInstruction(
                     distance = 50.0
                 )
             }
-
+            //Play hit particle
             if (pokemonEntity != null) {
                 RunPosableMoLangPacket(pokemonEntity.id, setOf("q.particle('cobblemon:hit', 'target')")).sendToPlayersAround(
                     x = pokemonEntity.x,
@@ -187,4 +205,5 @@ class DamageInstruction(
             }
         }
     }
+
 }

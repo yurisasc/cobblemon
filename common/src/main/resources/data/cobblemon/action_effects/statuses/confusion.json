@@ -6,13 +6,14 @@
     },
     {
       "type": "entity_particles",
-      "effect": "cobblemon:paralysis_hit",
-      "locator": "root",
-      "delay": 1.5
+      "effect": "cobblemon:confused_actor",
+      "delay": 1.0,
+      "locator": "root"
     },
     {
       "type": "remove_holds",
       "holds": ["effects"]
-    }
-  ]
+    },
+  ],
+  "condition": "q.instruction_id == 'cobblemon:activate'"
 }

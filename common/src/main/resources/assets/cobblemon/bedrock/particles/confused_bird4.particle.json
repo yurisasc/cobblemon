@@ -13,7 +13,7 @@
 				"type": "linear",
 				"input": "v.particle_age",
 				"horizontal_range": "v.particle_lifetime",
-				"nodes": [0, 0.1, 0.1, 0]
+				"nodes": [0, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0]
 			}
 		},
 		"components": {
@@ -28,10 +28,10 @@
 				"max_lifetime": 1.5
 			},
 			"minecraft:particle_motion_parametric": {
-				"relative_position": ["math.clamp(q.entity_radius/1.5,0.1,999)*math.sin(-60+v.particle_age/1.5*360)", "0.1+q.entity_height+0.1*math.sin(v.particle_age)", "math.clamp(q.entity_radius/1.5,0.1,999)*-math.cos(-60+v.particle_age/1.5*360)"]
+				"relative_position": ["math.clamp(q.entity_radius/1.5,0.4,999)*math.sin(-60+v.particle_age/1.5*360)", "0.2+q.entity_height+0.1*math.sin(v.particle_age)-(math.sin(v.particle_age*580)/25)", "math.clamp(q.entity_radius/1.5,0.4,999)*-math.cos(-60+v.particle_age/1.5*360)"]
 			},
 			"minecraft:particle_appearance_billboard": {
-				"size": ["math.clamp(q.entity_size,0.8,3)*v.size", "math.clamp(q.entity_size,0.8,3)*v.size"],
+				"size": ["(math.clamp(q.entity_size,1,3)*v.size)*1.25", "math.clamp(q.entity_size,1,3)*v.size"],
 				"facing_camera_mode": "rotate_xyz",
 				"uv": {
 					"texture_width": 192,
