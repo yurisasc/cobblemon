@@ -31,6 +31,7 @@ import com.cobblemon.mod.common.net.messages.client.battle.BattleHealthChangePac
 import com.cobblemon.mod.common.net.messages.client.effect.RunPosableMoLangPacket
 import com.cobblemon.mod.common.pokemon.evolution.progress.DamageTakenEvolutionProgress
 import com.cobblemon.mod.common.pokemon.evolution.progress.RecoilEvolutionProgress
+import com.cobblemon.mod.common.pokemon.status.statuses.persistent.PoisonStatus
 import com.cobblemon.mod.common.util.battleLang
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.lang
@@ -97,8 +98,13 @@ class DamageInstruction(
     override fun runActionEffect(battle: PokemonBattle, runtime: MoLangRuntime) {
         val effect = privateMessage.effect()
         val battlePokemon = publicMessage.battlePokemon(0, actor.battle) ?: return
+        var status = effect?.id?.let { Statuses.getStatus(it) }
         battle.dispatch {
-            val status = effect?.id?.let { Statuses.getStatus(it) }
+            val pokemon = privateMessage.battlePokemon(0, battle) ?: return@dispatch GO
+            //Showdown doesnt tell us on damage if its poison or toxic so we gotta consult the entity
+            if (status is PoisonStatus) {
+                status = pokemon.effectedPokemon.status?.status ?: status
+            }
             val actionEffect = status?.getActionEffect() ?: return@dispatch GO
             val providers = mutableListOf<Any>(battle)
             battlePokemon.effectedPokemon.entity?.let { UsersProvider(it) }?.let(providers::add)
