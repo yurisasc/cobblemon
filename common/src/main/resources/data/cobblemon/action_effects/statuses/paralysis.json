@@ -7,6 +7,7 @@
     {
       "type": "entity_particles",
       "effect": "cobblemon:paralysis_hit",
+      "delay": 1.5,
       "locator": "root"
     },
     {

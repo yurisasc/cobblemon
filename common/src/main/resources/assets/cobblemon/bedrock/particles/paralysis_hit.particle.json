@@ -25,9 +25,7 @@
 				"active_time": 0.5
 			},
 			"minecraft:emitter_lifetime_events": {
-				"timeline": {
-					"0.05": "event"
-				}
+				"creation_event": "paraSparks"
 			},
 			"minecraft:emitter_shape_sphere": {
 				"offset": [0, "(q.entity_height-(q.entity_height*1.15))+(variable.particle_random_3*0.9)", 0],
@@ -44,7 +42,7 @@
 			"minecraft:particle_initial_speed": "math.random(0.55,0.85)*0.8",
 			"minecraft:particle_motion_dynamic": {},
 			"minecraft:particle_appearance_billboard": {
-				"size": ["0.15-(variable.particle_random_3*0.075)", "0.15-(variable.particle_random_3*0.075)"],
+				"size": ["0.225-(variable.particle_random_3*0.075)", "0.225-(variable.particle_random_3*0.075)"],
 				"facing_camera_mode": "rotate_xyz",
 				"uv": {
 					"texture_width": 80,
@@ -62,8 +60,8 @@
 				"color": {
 					"interpolant": "v.particle_age / v.particle_lifetime",
 					"gradient": {
-						"0.31": "#ffffffff",
-						"0.74": "#FFFF8B8B",
+						"0.33": "#ffffffff",
+						"0.74": "#FFFF9E9E",
 						"0.83": "#ffffffff"
 					}
 				}
