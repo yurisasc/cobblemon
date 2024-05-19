@@ -20,8 +20,6 @@ import com.cobblemon.mod.common.api.events.pokemon.ShoulderMountEvent
 import com.cobblemon.mod.common.api.interaction.PokemonEntityInteraction
 import com.cobblemon.mod.common.api.net.serializers.PoseTypeDataSerializer
 import com.cobblemon.mod.common.api.net.serializers.StringSetDataSerializer
-import com.cobblemon.mod.common.api.pokemon.PokemonProperties
-import com.cobblemon.mod.common.api.pokemon.feature.ChoiceSpeciesFeatureProvider
 import com.cobblemon.mod.common.api.pokemon.feature.FlagSpeciesFeature
 import com.cobblemon.mod.common.api.pokemon.feature.StringSpeciesFeature
 import com.cobblemon.mod.common.api.pokemon.status.Statuses
@@ -58,16 +56,11 @@ import com.cobblemon.mod.common.pokemon.activestate.InactivePokemonState
 import com.cobblemon.mod.common.pokemon.activestate.ShoulderedState
 import com.cobblemon.mod.common.pokemon.ai.FormPokemonBehaviour
 import com.cobblemon.mod.common.pokemon.evolution.variants.ItemInteractionEvolution
-import com.cobblemon.mod.common.pokemon.misc.GimmighoulStashHandler
 import com.cobblemon.mod.common.pokemon.feature.MooshtankFeature
+import com.cobblemon.mod.common.pokemon.misc.GimmighoulStashHandler
 import com.cobblemon.mod.common.util.*
 import com.cobblemon.mod.common.world.gamerules.CobblemonGameRules
-import java.util.EnumSet
-import java.util.Optional
-import java.util.UUID
-import java.util.concurrent.CompletableFuture
-import java.util.EnumSet
-import java.util.Optional
+import java.util.*
 import java.util.concurrent.CompletableFuture
 import net.minecraft.entity.*
 import net.minecraft.entity.ai.control.MoveControl
@@ -90,7 +83,6 @@ import net.minecraft.item.DyeItem
 import net.minecraft.item.ItemStack
 import net.minecraft.item.ItemUsage
 import net.minecraft.item.Items
-import net.minecraft.item.SuspiciousStewItem
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.nbt.NbtHelper
 import net.minecraft.nbt.NbtString
@@ -107,18 +99,14 @@ import net.minecraft.sound.SoundEvents
 import net.minecraft.text.Text
 import net.minecraft.text.TextContent
 import net.minecraft.util.ActionResult
-import net.minecraft.util.Colors
-import net.minecraft.util.DyeColor
 import net.minecraft.util.Hand
 import net.minecraft.util.Identifier
-import net.minecraft.util.Util
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Box
 import net.minecraft.util.math.Vec3d
 import net.minecraft.world.EntityView
 import net.minecraft.world.World
 import net.minecraft.world.event.GameEvent
-import java.util.*
 
 @Suppress("unused")
 open class PokemonEntity(
@@ -632,23 +620,17 @@ open class PokemonEntity(
                 player.setStackInHand(hand, milkBucket)
                 return ActionResult.success(world.isClient)
             }
-        } else {
-            val result = pokemon.getFeature<MooshtankFeature>(DataKeys.MOOSHTANK)?.interact(this, player, hand)
-            if (result != null) {
-                return result
-            }
-        } else if(!player.isSneaking && (itemStack.isOf(CobblemonItems.RELIC_COIN)
-                || itemStack.isOf(CobblemonItems.RELIC_COIN_POUCH)
-                || itemStack.isOf(CobblemonItems.RELIC_COIN_SACK)
-                || itemStack.isOf(Items.NETHERITE_SCRAP)
-                || itemStack.isOf(Items.NETHERITE_INGOT)
-                || itemStack.isOf(Items.NETHERITE_BLOCK))) {
+        } else if (!player.isSneaking && (itemStack.isOf(CobblemonItems.RELIC_COIN)
+                    || itemStack.isOf(CobblemonItems.RELIC_COIN_POUCH)
+                    || itemStack.isOf(CobblemonItems.RELIC_COIN_SACK)
+                    || itemStack.isOf(Items.NETHERITE_SCRAP)
+                    || itemStack.isOf(Items.NETHERITE_INGOT)
+                    || itemStack.isOf(Items.NETHERITE_BLOCK))) {
 
             if(GimmighoulStashHandler.interactMob(player, hand, pokemon)) {
                 return ActionResult.SUCCESS
             }
-        }
-        else if (itemStack.item is DyeItem && colorFeature != null) {
+        } else if (itemStack.item is DyeItem && colorFeature != null) {
             val item = itemStack.item as DyeItem
             if (item.color.name.lowercase() != colorFeature.value.lowercase()) {
                 itemStack.decrement(1)
@@ -656,15 +638,18 @@ open class PokemonEntity(
                 this.pokemon.markFeatureDirty(colorFeature)
                 this.pokemon.updateAspects()
             }
-        }
-        else if (itemStack.item.equals(Items.WATER_BUCKET) && colorFeature != null) {
+        } else if (itemStack.item.equals(Items.WATER_BUCKET) && colorFeature != null) {
             itemStack.decrement(1)
             player.giveOrDropItemStack(Items.BUCKET.defaultStack)
             colorFeature.value = ""
             this.pokemon.markFeatureDirty(colorFeature)
             this.pokemon.updateAspects()
+        } else {
+            val result = pokemon.getFeature<MooshtankFeature>(DataKeys.MOOSHTANK)?.interact(this, player, hand)
+            if (result != null) {
+                return result
+            }
         }
-
 
         if (hand == Hand.MAIN_HAND && player is ServerPlayerEntity && pokemon.getOwnerPlayer() == player) {
             if (player.isSneaking) {
