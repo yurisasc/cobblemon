@@ -11,6 +11,7 @@ package com.cobblemon.mod.common.pokemon
 import com.bedrockk.molang.runtime.struct.QueryStruct
 import com.bedrockk.molang.runtime.struct.VariableStruct
 import com.bedrockk.molang.runtime.value.DoubleValue
+import com.bedrockk.molang.runtime.value.StringValue
 import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.CobblemonNetwork.sendPacketToPlayers
 import com.cobblemon.mod.common.CobblemonSounds
@@ -22,15 +23,32 @@ import com.cobblemon.mod.common.api.entity.PokemonSender
 import com.cobblemon.mod.common.api.events.CobblemonEvents
 import com.cobblemon.mod.common.api.events.CobblemonEvents.FRIENDSHIP_UPDATED
 import com.cobblemon.mod.common.api.events.CobblemonEvents.POKEMON_FAINTED
-import com.cobblemon.mod.common.api.events.pokemon.*
-import com.cobblemon.mod.common.api.moves.*
+import com.cobblemon.mod.common.api.events.pokemon.ExperienceGainedPostEvent
+import com.cobblemon.mod.common.api.events.pokemon.ExperienceGainedPreEvent
+import com.cobblemon.mod.common.api.events.pokemon.FriendshipUpdatedEvent
+import com.cobblemon.mod.common.api.events.pokemon.HeldItemEvent
+import com.cobblemon.mod.common.api.events.pokemon.LevelUpEvent
+import com.cobblemon.mod.common.api.events.pokemon.PokemonFaintedEvent
+import com.cobblemon.mod.common.api.events.pokemon.PokemonRecalledEvent
+import com.cobblemon.mod.common.api.events.pokemon.PokemonSentPostEvent
+import com.cobblemon.mod.common.api.events.pokemon.PokemonSentPreEvent
+import com.cobblemon.mod.common.api.moves.BenchedMove
+import com.cobblemon.mod.common.api.moves.BenchedMoves
+import com.cobblemon.mod.common.api.moves.Move
+import com.cobblemon.mod.common.api.moves.MoveSet
+import com.cobblemon.mod.common.api.moves.MoveTemplate
+import com.cobblemon.mod.common.api.moves.Moves
 import com.cobblemon.mod.common.api.pokeball.PokeBalls
 import com.cobblemon.mod.common.api.pokemon.Natures
 import com.cobblemon.mod.common.api.pokemon.PokemonProperties
 import com.cobblemon.mod.common.api.pokemon.PokemonPropertyExtractor
 import com.cobblemon.mod.common.api.pokemon.PokemonSpecies
 import com.cobblemon.mod.common.api.pokemon.aspect.AspectProvider
-import com.cobblemon.mod.common.api.pokemon.evolution.*
+import com.cobblemon.mod.common.api.pokemon.evolution.Evolution
+import com.cobblemon.mod.common.api.pokemon.evolution.EvolutionController
+import com.cobblemon.mod.common.api.pokemon.evolution.EvolutionDisplay
+import com.cobblemon.mod.common.api.pokemon.evolution.EvolutionProxy
+import com.cobblemon.mod.common.api.pokemon.evolution.PreEvolution
 import com.cobblemon.mod.common.api.pokemon.experience.ExperienceGroup
 import com.cobblemon.mod.common.api.pokemon.experience.ExperienceSource
 import com.cobblemon.mod.common.api.pokemon.feature.SpeciesFeature
@@ -63,7 +81,11 @@ import com.cobblemon.mod.common.net.messages.client.PokemonUpdatePacket
 import com.cobblemon.mod.common.net.messages.client.pokemon.update.*
 import com.cobblemon.mod.common.net.serverhandling.storage.SendOutPokemonHandler.SEND_OUT_DURATION
 import com.cobblemon.mod.common.pokeball.PokeBall
-import com.cobblemon.mod.common.pokemon.activestate.*
+import com.cobblemon.mod.common.pokemon.activestate.ActivePokemonState
+import com.cobblemon.mod.common.pokemon.activestate.InactivePokemonState
+import com.cobblemon.mod.common.pokemon.activestate.PokemonState
+import com.cobblemon.mod.common.pokemon.activestate.SentOutState
+import com.cobblemon.mod.common.pokemon.activestate.ShoulderedState
 import com.cobblemon.mod.common.pokemon.evolution.CobblemonEvolutionProxy
 import com.cobblemon.mod.common.pokemon.evolution.progress.DamageTakenEvolutionProgress
 import com.cobblemon.mod.common.pokemon.evolution.progress.RecoilEvolutionProgress
@@ -72,13 +94,32 @@ import com.cobblemon.mod.common.pokemon.misc.GimmighoulStashHandler
 import com.cobblemon.mod.common.pokemon.properties.UncatchableProperty
 import com.cobblemon.mod.common.pokemon.status.PersistentStatus
 import com.cobblemon.mod.common.pokemon.status.PersistentStatusContainer
-import com.cobblemon.mod.common.util.*
+import com.cobblemon.mod.common.util.DataKeys
+import com.cobblemon.mod.common.util.asIdentifierDefaultingNamespace
+import com.cobblemon.mod.common.util.cobblemonResource
+import com.cobblemon.mod.common.util.lang
+import com.cobblemon.mod.common.util.playSoundServer
+import com.cobblemon.mod.common.util.server
+import com.cobblemon.mod.common.util.setPositionSafely
+import com.cobblemon.mod.common.util.toBlockPos
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
 import com.google.gson.JsonPrimitive
 import com.mojang.serialization.Dynamic
 import com.mojang.serialization.JsonOps
-import net.minecraft.block.*
+import java.util.UUID
+import java.util.concurrent.CompletableFuture
+import kotlin.math.absoluteValue
+import kotlin.math.max
+import kotlin.math.min
+import kotlin.math.roundToInt
+import kotlin.random.Random
+import net.minecraft.block.CactusBlock
+import net.minecraft.block.CampfireBlock
+import net.minecraft.block.FireBlock
+import net.minecraft.block.MagmaBlock
+import net.minecraft.block.SweetBerryBushBlock
+import net.minecraft.block.WitherRoseBlock
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
@@ -101,13 +142,6 @@ import net.minecraft.util.math.MathHelper.ceil
 import net.minecraft.util.math.MathHelper.clamp
 import net.minecraft.util.math.Vec3d
 import net.minecraft.world.World
-import java.util.*
-import java.util.concurrent.CompletableFuture
-import kotlin.math.absoluteValue
-import kotlin.math.max
-import kotlin.math.min
-import kotlin.math.roundToInt
-import kotlin.random.Random
 
 enum class OriginalTrainerType
 {
@@ -1600,6 +1634,9 @@ open class Pokemon : ShowdownIdentifiable {
 
     val struct = QueryStruct(hashMapOf())
         .addFunction("species") { species.struct }
+        .addFunction("is_shiny") { DoubleValue(shiny) }
+        .addFunction("form") { StringValue(form.name) }
+        .addFunction("is_wild") { DoubleValue(isWild()) }
         .addFunction("level") { DoubleValue(level.toDouble()) }
         .addFunction("max_hp") { DoubleValue(hp.toDouble()) }
         .addFunction("current_hp") { DoubleValue(currentHealth.toDouble()) }
@@ -1620,6 +1657,15 @@ open class Pokemon : ShowdownIdentifiable {
             val value = params.params[0].asDouble() == 1.0
             shiny = value
             DoubleValue(if (shiny) 1.0 else 0.0)
+        }
+        .addFunction("matches") {
+            val props = PokemonProperties.parse(it.getString(0))
+            DoubleValue(props.matches(this))
+        }
+        .addFunction("apply") {
+            val props = PokemonProperties.parse(it.getString(0))
+            props.apply(this)
+            DoubleValue(true)
         }
 //        .addFunction("ev") { evs.struct }
 //        .addFunction("iv") { ivs.struct }

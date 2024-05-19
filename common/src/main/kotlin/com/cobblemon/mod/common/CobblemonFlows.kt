@@ -18,7 +18,6 @@ import com.cobblemon.mod.common.api.scripting.CobblemonScripts
 import com.cobblemon.mod.common.util.asExpressionLike
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.endsWith
-import com.cobblemon.mod.common.util.withQueryValue
 import java.util.concurrent.ExecutionException
 import net.minecraft.resource.ResourceManager
 import net.minecraft.resource.ResourceType
@@ -69,8 +68,7 @@ object CobblemonFlows : DataRegistry {
         observable.emit(this)
     }
 
-    fun run(eventIdentifier: Identifier, eventStruct: MoValue) {
-        runtime.withQueryValue("event", eventStruct)
-        flows[eventIdentifier]?.forEach { it.resolve(runtime) }
+    fun run(eventIdentifier: Identifier, context: Map<String, MoValue>) {
+        flows[eventIdentifier]?.forEach { it.resolve(runtime, context) }
     }
 }

@@ -8,8 +8,7 @@
 
 package com.cobblemon.mod.common.api.events.pokemon
 
-import com.bedrockk.molang.runtime.struct.QueryStruct
-import com.cobblemon.mod.common.api.molang.MoLangFunctions.addStandardFunctions
+import com.bedrockk.molang.runtime.value.MoValue
 import com.cobblemon.mod.common.api.molang.MoLangFunctions.asMoLangValue
 import com.cobblemon.mod.common.entity.pokeball.EmptyPokeBallEntity
 import com.cobblemon.mod.common.pokemon.Pokemon
@@ -22,9 +21,10 @@ data class PokemonCapturedEvent (
     val player: ServerPlayerEntity,
     val pokeBallEntity: EmptyPokeBallEntity
 ) {
-    val struct = QueryStruct(hashMapOf())
-        .addFunction("pokemon") { pokemon.struct }
-        .addFunction("player") { player.asMoLangValue() }
-        .addFunction("poke_ball") { pokeBallEntity.struct }
-        .addFunction("item") { player.world.itemRegistry.getEntry(pokeBallEntity.pokeBall.item).asMoLangValue(RegistryKeys.ITEM) }
+    val context = mapOf<String, MoValue>(
+        "pokemon" to pokemon.struct,
+        "player" to player.asMoLangValue(),
+        "poke_ball" to pokeBallEntity.struct,
+        "item" to player.world.itemRegistry.getEntry(pokeBallEntity.pokeBall.item).asMoLangValue(RegistryKeys.ITEM)
+    )
 }

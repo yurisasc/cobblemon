@@ -25,6 +25,7 @@ import com.cobblemon.mod.common.api.interaction.PokemonEntityInteraction
 import com.cobblemon.mod.common.api.molang.MoLangFunctions.addStandardFunctions
 import com.cobblemon.mod.common.api.net.serializers.PoseTypeDataSerializer
 import com.cobblemon.mod.common.api.net.serializers.StringSetDataSerializer
+import com.cobblemon.mod.common.api.pokemon.PokemonProperties
 import com.cobblemon.mod.common.api.pokemon.feature.FlagSpeciesFeature
 import com.cobblemon.mod.common.api.pokemon.status.Statuses
 import com.cobblemon.mod.common.api.reactive.ObservableSubscription
@@ -239,15 +240,25 @@ open class PokemonEntity(
         .addFunction("is_wild") { DoubleValue(pokemon.isWild()) }
         .addFunction("is_shiny") { DoubleValue(pokemon.shiny) }
         .addFunction("form") { StringValue(pokemon.form.name) }
+        .addFunction("weight") { DoubleValue(pokemon.species.weight.toDouble()) }
         .addFunction("width") { DoubleValue(boundingBox.xLength) }
         .addFunction("height") { DoubleValue(boundingBox.yLength) }
         .addFunction("horizontal_velocity") { DoubleValue(velocity.horizontalLength()) }
         .addFunction("vertical_velocity") { DoubleValue(velocity.y) }
-        .addFunction("weight") { DoubleValue(pokemon.species.weight.toDouble()) }
         .addFunction("is_moving") { DoubleValue((moveControl as? PokemonMoveControl)?.isMoving == true) }
         .addFunction("is_underwater") { DoubleValue(getIsSubmerged()) }
         .addFunction("is_flying") { DoubleValue(getBehaviourFlag(PokemonBehaviourFlag.FLYING)) }
         .addFunction("is_passenger") { DoubleValue(hasVehicle()) }
+        .addFunction("pokemon") { pokemon.struct }
+        .addFunction("matches") {
+            val props = PokemonProperties.parse(it.getString(0))
+            DoubleValue(props.matches(this))
+        }
+        .addFunction("apply") {
+            val props = PokemonProperties.parse(it.getString(0))
+            props.apply(this)
+            DoubleValue(true)
+        }
 
     init {
         delegate.initialize(this)
