@@ -31,6 +31,7 @@ import com.cobblemon.mod.common.util.getBooleanOrNull
 import com.cobblemon.mod.common.util.getDoubleOrNull
 import com.cobblemon.mod.common.util.isInt
 import com.cobblemon.mod.common.util.itemRegistry
+import com.cobblemon.mod.common.util.server
 import com.cobblemon.mod.common.util.worldRegistry
 import com.mojang.datafixers.util.Either
 import net.minecraft.block.Block
@@ -63,6 +64,11 @@ import net.minecraft.world.dimension.DimensionType
  */
 object MoLangFunctions {
     val generalFunctions = hashMapOf<String, java.util.function.Function<MoParams, Any>>(
+        "run_command" to java.util.function.Function { params ->
+            val command = params.getString(0)
+            val server = server() ?: return@Function DoubleValue(0)
+            server.commandManager.executeWithPrefix(server.commandSource, command)
+        },
         "is_int" to java.util.function.Function { params -> DoubleValue(params.get<MoValue>(0).asString().isInt()) },
         "is_number" to java.util.function.Function { params -> DoubleValue(params.get<MoValue>(0).asString().toDoubleOrNull() != null) },
         "to_number" to java.util.function.Function { params -> DoubleValue(params.get<MoValue>(0).asString().toDoubleOrNull() ?: 0.0) },
@@ -134,6 +140,11 @@ object MoLangFunctions {
                 val environment = MoLangEnvironment()
                 environment.structs["query"] = player.asMoLangValue()
                 environment
+            }
+            map.put("run_command") { params ->
+                val command = params.getString(0)
+                val server = server() ?: return@put DoubleValue(0)
+                server.commandManager.executeWithPrefix(player.commandSource, command)
             }
             map
         }
