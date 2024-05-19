@@ -866,7 +866,6 @@ open class PokemonEntity(
         if (player !is ServerPlayerEntity || this.isBusy || this.pokemon.getOwnerPlayer() != player) {
             return false
         }
-        println(this.pokemon)
         // We want the count of 1 in order to match the ItemStack#areEqual
         val giving = stack.copy().apply { count = 1 }
         val possibleReturn = this.pokemon.heldItemNoCopy()
