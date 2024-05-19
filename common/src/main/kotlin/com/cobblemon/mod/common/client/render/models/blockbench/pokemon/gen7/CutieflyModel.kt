@@ -24,15 +24,19 @@ import net.minecraft.util.math.Vec3d
 class CutieflyModel(root: ModelPart) : PokemonPoseableModel(){
     override val rootPart = root.registerChildWithAllChildren("cutiefly")
 
-    override val portraitScale = 2.4F
-    override val portraitTranslation = Vec3d(-0.3, 1.5, 0.0)
+    override var portraitScale = 2.4F
+    override var portraitTranslation = Vec3d(-0.3, 1.5, 0.0)
 
-    override val profileScale = 0.7F
-    override val profileTranslation = Vec3d(0.0, 1.2, 0.0)
+    override var profileScale = 0.7F
+    override var profileTranslation = Vec3d(0.0, 1.2, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
     lateinit var sleep: PokemonPose
+    lateinit var shoulderLeft: PokemonPose
+    lateinit var shoulderRight: PokemonPose
+
+    val shoulderOffset = 12.5
 
     override fun registerPoses() {
 
@@ -57,6 +61,26 @@ class CutieflyModel(root: ModelPart) : PokemonPoseableModel(){
                 bedrock("cutiefly", "ground_walk"),
             ),
             transformedParts = arrayOf(rootPart.createTransformation().addPosition(ModelPartTransformation.Y_AXIS, -12F))
+        )
+
+        shoulderLeft = registerPose(
+                poseType = PoseType.SHOULDER_LEFT,
+                idleAnimations = arrayOf(
+                        bedrock("cutiefly", "ground_idle")
+                ),
+                transformedParts = arrayOf(
+                        rootPart.createTransformation().addPosition(shoulderOffset, -4, 0)
+                )
+        )
+
+        shoulderRight = registerPose(
+                poseType = PoseType.SHOULDER_RIGHT,
+                idleAnimations = arrayOf(
+                        bedrock("cutiefly", "ground_idle")
+                ),
+                transformedParts = arrayOf(
+                        rootPart.createTransformation().addPosition(-shoulderOffset, -4, 0)
+                )
         )
     }
         override fun getFaintAnimation(

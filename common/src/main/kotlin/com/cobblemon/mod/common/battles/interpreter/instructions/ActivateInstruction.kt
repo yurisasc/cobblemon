@@ -20,21 +20,24 @@ import com.cobblemon.mod.common.util.battleLang
 import net.minecraft.text.Text
 
 /**
- * Format:
- * |-activate|POKEMON|EFFECT
+ * Format: |-activate|POKEMON|EFFECT
  *
- * A miscellaneous effect has activated.This is triggered whenever an effect could not be better described by one of the other minor messages.
+ * A miscellaneous EFFECT has activated for POKEMON. This is triggered whenever an effect could not be better described
+ * by one of the other minor messages.
+ *
+ * @author Hunter
+ * @since September 25th, 2022
  */
 class ActivateInstruction(val instructionSet: InstructionSet, val message: BattleMessage) : InterpreterInstruction, CauserInstruction {
     override fun invoke(battle: PokemonBattle) {
-        val pokemon = message.getBattlePokemon(0, battle) ?: return
-        val pokemonName = pokemon.getName()
-        val sourceName = message.getSourceBattlePokemon(battle)?.getName() ?: Text.literal("UNKNOWN")
+        val pokemon = message.battlePokemon(0, battle) ?: return
         val effect = message.effectAt(1) ?: return
         val extraEffect = message.effectAt(2)?.typelessData ?: Text.literal("UNKNOWN")
-        ShowdownInterpreter.broadcastOptionalAbility(battle, effect, pokemonName)
+        ShowdownInterpreter.broadcastOptionalAbility(battle, effect, pokemon)
 
         battle.dispatch{
+            val pokemonName = pokemon.getName()
+            val sourceName = message.battlePokemonFromOptional(battle)?.getName() ?: Text.literal("UNKNOWN")
             ShowdownInterpreter.lastCauser[battle.battleId] = message
             battle.minorBattleActions[pokemon.uuid] = message
 

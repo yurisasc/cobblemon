@@ -338,7 +338,7 @@ object CobblemonFabric : CobblemonImplementation {
 
     private fun attemptModCompat() {
         if (this.isModInstalled("adorn")) {
-            AdornCompatibility.register()
+            registerBuiltinResourcePack(cobblemonResource("adorncompatibility"), Text.literal("Adorn Compatibility"), ResourcePackActivationBehaviour.ALWAYS_ENABLED)
         }
     }
 

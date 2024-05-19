@@ -19,7 +19,6 @@ import com.bedrockk.molang.runtime.struct.ArrayStruct
 import com.bedrockk.molang.runtime.struct.QueryStruct
 import com.bedrockk.molang.runtime.struct.VariableStruct
 import com.bedrockk.molang.runtime.value.MoValue
-import java.lang.IllegalArgumentException
 import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.api.molang.ExpressionLike
 import com.cobblemon.mod.common.api.molang.ListExpression
@@ -36,93 +35,95 @@ import net.minecraft.util.math.Vec3d
 
 val genericRuntime = MoLangRuntime().setup()
 
-fun MoLangRuntime.resolve(expression: Expression): MoValue = try {
-    expression.evaluate(MoScope(), environment)
+fun MoLangRuntime.resolve(expression: Expression, context: Map<String, MoValue> = emptyMap()): MoValue = try {
+//    environment.structs["context"] = ContextStruct(context)
+    execute(listOf(expression), context)
+//    expression.evaluate(MoScope(), environment)
 } catch (e: Exception) {
     throw IllegalArgumentException("Unable to evaluate expression: ${expression.getString()}", e)
 }
-fun MoLangRuntime.resolveDouble(expression: Expression): Double = resolve(expression).asDouble()
-fun MoLangRuntime.resolveFloat(expression: Expression): Float = resolve(expression).asDouble().toFloat()
-fun MoLangRuntime.resolveInt(expression: Expression): Int = resolveDouble(expression).toInt()
-fun MoLangRuntime.resolveString(expression: Expression): String = resolve(expression).asString()
-fun MoLangRuntime.resolveObject(expression: Expression): ObjectValue<*> = resolve(expression) as ObjectValue<*>
-fun MoLangRuntime.resolveBoolean(expression: Expression): Boolean = resolve(expression).asDouble() != 0.0
+fun MoLangRuntime.resolveDouble(expression: Expression, context: Map<String, MoValue> = emptyMap()): Double = resolve(expression, context).asDouble()
+fun MoLangRuntime.resolveFloat(expression: Expression, context: Map<String, MoValue> = emptyMap()): Float = resolve(expression, context).asDouble().toFloat()
+fun MoLangRuntime.resolveInt(expression: Expression, context: Map<String, MoValue> = emptyMap()): Int = resolveDouble(expression, context).toInt()
+fun MoLangRuntime.resolveString(expression: Expression, context: Map<String, MoValue> = emptyMap()): String = resolve(expression, context).asString()
+fun MoLangRuntime.resolveObject(expression: Expression, context: Map<String, MoValue> = emptyMap()): ObjectValue<*> = resolve(expression, context) as ObjectValue<*>
+fun MoLangRuntime.resolveBoolean(expression: Expression, context: Map<String, MoValue> = emptyMap()): Boolean = resolve(expression, context).asDouble() != 0.0
 
-fun MoLangRuntime.resolve(expression: ExpressionLike): MoValue = expression.resolve(this)
-fun MoLangRuntime.resolveDouble(expression: ExpressionLike): Double = resolve(expression).asDouble()
-fun MoLangRuntime.resolveFloat(expression: ExpressionLike): Float = resolve(expression).asDouble().toFloat()
-fun MoLangRuntime.resolveInt(expression: ExpressionLike): Int = resolveDouble(expression).toInt()
-fun MoLangRuntime.resolveString(expression: ExpressionLike): String = resolve(expression).asString()
-fun MoLangRuntime.resolveObject(expression: ExpressionLike): ObjectValue<*> = resolve(expression) as ObjectValue<*>
-fun MoLangRuntime.resolveBoolean(expression: ExpressionLike): Boolean = resolve(expression).asDouble() != 0.0
+fun MoLangRuntime.resolve(expression: ExpressionLike, context: Map<String, MoValue> = emptyMap()): MoValue = expression.resolve(this, context)
+fun MoLangRuntime.resolveDouble(expression: ExpressionLike, context: Map<String, MoValue> = emptyMap()): Double = resolve(expression, context).asDouble()
+fun MoLangRuntime.resolveFloat(expression: ExpressionLike, context: Map<String, MoValue> = emptyMap()): Float = resolve(expression, context).asDouble().toFloat()
+fun MoLangRuntime.resolveInt(expression: ExpressionLike, context: Map<String, MoValue> = emptyMap()): Int = resolveDouble(expression, context).toInt()
+fun MoLangRuntime.resolveString(expression: ExpressionLike, context: Map<String, MoValue> = emptyMap()): String = resolve(expression, context).asString()
+fun MoLangRuntime.resolveObject(expression: ExpressionLike, context: Map<String, MoValue> = emptyMap()): ObjectValue<*> = resolve(expression, context) as ObjectValue<*>
+fun MoLangRuntime.resolveBoolean(expression: ExpressionLike, context: Map<String, MoValue> = emptyMap()): Boolean = resolve(expression, context).asDouble() != 0.0
 
 
-fun MoLangRuntime.resolveVec3d(triple: Triple<Expression, Expression, Expression>) = Vec3d(
-    resolveDouble(triple.first),
-    resolveDouble(triple.second),
-    resolveDouble(triple.third)
+fun MoLangRuntime.resolveVec3d(triple: Triple<Expression, Expression, Expression>, context: Map<String, MoValue> = emptyMap()) = Vec3d(
+    resolveDouble(triple.first, context),
+    resolveDouble(triple.second, context),
+    resolveDouble(triple.third, context)
 )
 
-fun MoLangRuntime.resolveBoolean(expression: Expression, pokemon: Pokemon): Boolean {
+fun MoLangRuntime.resolveBoolean(expression: Expression, pokemon: Pokemon, context: Map<String, MoValue> = emptyMap()): Boolean {
     environment.writePokemon(pokemon)
-    return resolveBoolean(expression)
+    return resolveBoolean(expression, context)
 }
 
-fun MoLangRuntime.resolveDouble(expression: Expression, pokemon: Pokemon): Double {
+fun MoLangRuntime.resolveDouble(expression: Expression, pokemon: Pokemon, context: Map<String, MoValue> = emptyMap()): Double {
     environment.writePokemon(pokemon)
-    return resolveDouble(expression)
+    return resolveDouble(expression, context)
 }
 
-fun MoLangRuntime.resolveInt(expression: Expression, pokemon: Pokemon): Int {
+fun MoLangRuntime.resolveInt(expression: Expression, pokemon: Pokemon, context: Map<String, MoValue> = emptyMap()): Int {
     environment.writePokemon(pokemon)
-    return resolveInt(expression)
+    return resolveInt(expression, context)
 }
 
-fun MoLangRuntime.resolveInt(expression: ExpressionLike, pokemon: Pokemon): Int {
+fun MoLangRuntime.resolveInt(expression: ExpressionLike, pokemon: Pokemon, context: Map<String, MoValue> = emptyMap()): Int {
     environment.writePokemon(pokemon)
-    return resolveInt(expression)
+    return resolveInt(expression, context)
 }
 
-fun MoLangRuntime.resolveFloat(expression: Expression, pokemon: Pokemon): Float {
+fun MoLangRuntime.resolveFloat(expression: Expression, pokemon: Pokemon, context: Map<String, MoValue> = emptyMap()): Float {
     environment.writePokemon(pokemon)
-    return resolveFloat(expression)
-}
-
-
-fun MoLangRuntime.resolveBoolean(expression: Expression, pokemon: BattlePokemon): Boolean {
-    environment.writePokemon(pokemon)
-    return resolveBoolean(expression)
-}
-
-fun MoLangRuntime.resolveDouble(expression: Expression, pokemon: BattlePokemon): Double {
-    environment.writePokemon(pokemon)
-    return resolveDouble(expression)
-}
-
-fun MoLangRuntime.resolveInt(expression: Expression, pokemon: BattlePokemon): Int {
-    environment.writePokemon(pokemon)
-    return resolveInt(expression)
-}
-
-fun MoLangRuntime.resolveInt(expression: ExpressionLike, pokemon: BattlePokemon): Int {
-    environment.writePokemon(pokemon)
-    return resolveInt(expression)
-}
-
-fun MoLangRuntime.resolveFloat(expression: Expression, pokemon: BattlePokemon): Float {
-    environment.writePokemon(pokemon)
-    return resolveFloat(expression)
-}
-
-fun MoLangRuntime.resolveFloat(expression: ExpressionLike, pokemon: Pokemon): Float {
-    environment.writePokemon(pokemon)
-    return resolveFloat(expression)
+    return resolveFloat(expression, context)
 }
 
 
-fun MoLangRuntime.resolveFloat(expression: ExpressionLike, pokemon: BattlePokemon): Float {
+fun MoLangRuntime.resolveBoolean(expression: Expression, pokemon: BattlePokemon, context: Map<String, MoValue> = emptyMap()): Boolean {
     environment.writePokemon(pokemon)
-    return resolveFloat(expression)
+    return resolveBoolean(expression, context)
+}
+
+fun MoLangRuntime.resolveDouble(expression: Expression, pokemon: BattlePokemon, context: Map<String, MoValue> = emptyMap()): Double {
+    environment.writePokemon(pokemon)
+    return resolveDouble(expression, context)
+}
+
+fun MoLangRuntime.resolveInt(expression: Expression, pokemon: BattlePokemon, context: Map<String, MoValue> = emptyMap()): Int {
+    environment.writePokemon(pokemon)
+    return resolveInt(expression, context)
+}
+
+fun MoLangRuntime.resolveInt(expression: ExpressionLike, pokemon: BattlePokemon, context: Map<String, MoValue> = emptyMap()): Int {
+    environment.writePokemon(pokemon)
+    return resolveInt(expression, context)
+}
+
+fun MoLangRuntime.resolveFloat(expression: Expression, pokemon: BattlePokemon, context: Map<String, MoValue> = emptyMap()): Float {
+    environment.writePokemon(pokemon)
+    return resolveFloat(expression, context)
+}
+
+fun MoLangRuntime.resolveFloat(expression: ExpressionLike, pokemon: Pokemon, context: Map<String, MoValue> = emptyMap()): Float {
+    environment.writePokemon(pokemon)
+    return resolveFloat(expression, context)
+}
+
+
+fun MoLangRuntime.resolveFloat(expression: ExpressionLike, pokemon: BattlePokemon, context: Map<String, MoValue> = emptyMap()): Float {
+    environment.writePokemon(pokemon)
+    return resolveFloat(expression, context)
 }
 
 
@@ -169,11 +170,11 @@ fun MoLangEnvironment.writePokemon(pokemon: BattlePokemon) {
 }
 
 fun List<String>.asExpressionLike() = joinToString(separator = "\n").asExpressionLike()
-fun List<Expression>.resolve(runtime: MoLangRuntime) = runtime.execute(this)
-fun List<Expression>.resolveDouble(runtime: MoLangRuntime) = resolve(runtime).asDouble()
-fun List<Expression>.resolveInt(runtime: MoLangRuntime) = resolveDouble(runtime).toInt()
-fun List<Expression>.resolveBoolean(runtime: MoLangRuntime) = resolveDouble(runtime) == 1.0
-fun List<Expression>.resolveObject(runtime: MoLangRuntime) = resolve(runtime) as ObjectValue<*>
+fun List<Expression>.resolve(runtime: MoLangRuntime, context: Map<String, MoValue> = emptyMap()) = runtime.execute(this, context)
+fun List<Expression>.resolveDouble(runtime: MoLangRuntime, context: Map<String, MoValue> = emptyMap()) = resolve(runtime, context).asDouble()
+fun List<Expression>.resolveInt(runtime: MoLangRuntime, context: Map<String, MoValue> = emptyMap()) = resolveDouble(runtime, context).toInt()
+fun List<Expression>.resolveBoolean(runtime: MoLangRuntime, context: Map<String, MoValue> = emptyMap()) = resolveDouble(runtime, context) == 1.0
+fun List<Expression>.resolveObject(runtime: MoLangRuntime, context: Map<String, MoValue> = emptyMap()) = resolve(runtime, context) as ObjectValue<*>
 
 fun MoParams.getStringOrNull(index: Int) = if (params.size > index) getString(index) else null
 fun MoParams.getDoubleOrNull(index: Int) = if (params.size > index) getDouble(index) else null

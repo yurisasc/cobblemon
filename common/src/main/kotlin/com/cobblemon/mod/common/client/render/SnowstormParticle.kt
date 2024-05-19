@@ -89,6 +89,14 @@ class SnowstormParticle(
     var viewDirection = Vec3d.ZERO
     var originPos = Vec3d(storm.getX(), storm.getY(), storm.getZ())
 
+    fun getX() = x
+    fun getY() = y
+    fun getZ() = z
+
+    fun getVelocityX() = velocityX
+    fun getVelocityY() = velocityY
+    fun getVelocityZ() = velocityZ
+
     fun getSpriteFromAtlas(): Sprite {
         val atlas = MinecraftClient.getInstance().particleManager.particleAtlasTexture
 
@@ -118,6 +126,7 @@ class SnowstormParticle(
         storm.particles.add(this)
         gravityStrength = 0F
         particleTextureSheet = if (invisible) NO_RENDER else PARTICLE_SHEET_TRANSLUCENT
+        storm.effect.particle.creationEvents.forEach { it.trigger(storm, this) }
 //            when (storm.effect.particle.material) {
 //            ParticleMaterial.ALPHA -> ParticleMaterials.ALPHA
 //            ParticleMaterial.OPAQUE -> ParticleMaterials.OPAQUE
@@ -180,8 +189,8 @@ class SnowstormParticle(
             viewDirection = viewDirection
         )
 
-        val xSize = storm.runtime.resolveDouble(storm.effect.particle.sizeX).toFloat()
-        val ySize = storm.runtime.resolveDouble(storm.effect.particle.sizeY).toFloat()
+        val xSize = storm.runtime.resolveDouble(storm.effect.particle.sizeX).toFloat() / 1.5.toFloat()
+        val ySize = storm.runtime.resolveDouble(storm.effect.particle.sizeY).toFloat() / 1.5.toFloat()
 
         val particleVertices = arrayOf(
             Vector3f(-xSize, -ySize, 0.0f),
@@ -234,6 +243,10 @@ class SnowstormParticle(
             .next()
     }
 
+    fun runExpirationEvents() {
+        storm.effect.particle.expirationEvents.forEach { it.trigger(storm, this)}
+    }
+
     override fun tick() {
         if (storm.effect.space.localPosition) {
             originPos = storm.matrixWrapper.getOrigin()
@@ -241,17 +254,19 @@ class SnowstormParticle(
 
         applyRandoms()
         setParticleAgeInRuntime()
+        storm.effect.curves.forEach { it.apply(storm.runtime) }
         storm.runtime.execute(storm.effect.particle.updateExpressions)
         angularVelocity += storm.effect.particle.rotation.getAngularAcceleration(storm.runtime, angularVelocity) / 20
 
         if (age > maxAge || storm.runtime.resolveBoolean(storm.effect.particle.killExpression)) {
+            runExpirationEvents()
             markDead()
             return
         } else {
             val acceleration = storm.effect.particle.motion.getAcceleration(
                 storm.runtime,
                 Vec3d(velocityX, velocityY, velocityZ).multiply(20.0) // Uses blocks per second, not blocks per tick
-            ).multiply(1 / 20.0).multiply(1 / 20.0)
+            ).multiply(1 / 20.0).multiply(1 / 20.0) // blocks per second per second -> blocks per tick per tick
 
             velocityX += acceleration.x
             velocityY += acceleration.y
@@ -285,6 +300,8 @@ class SnowstormParticle(
         age++
 
         this.move(velocityX, velocityY, velocityZ)
+
+        storm.effect.particle.timeline.check(storm, this, (age - 1) / 20.0, age / 20.0)
     }
 
     override fun move(dx: Double, dy: Double, dz: Double) {
@@ -342,7 +359,7 @@ class SnowstormParticle(
 //                velocityZ = 0.0
 //            }
         } else {
-            collidesWithWorld =  false
+            collidesWithWorld = false
             if (dx != 0.0 || dy != 0.0 || dz != 0.0) {
                 localX += dx
                 localY += dy
@@ -371,6 +388,7 @@ class SnowstormParticle(
             colliding = false
             return movement
         } else if (expiresOnContact) {
+            runExpirationEvents()
             markDead()
             return movement
         }

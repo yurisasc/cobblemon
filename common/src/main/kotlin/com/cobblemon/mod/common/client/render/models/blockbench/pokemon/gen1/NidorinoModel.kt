@@ -27,11 +27,11 @@ class NidorinoModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quad
     override val hindLeftLeg = getPart("leg_back_left")
     override val hindRightLeg = getPart("leg_back_right")
 
-    override val portraitScale = 2.6F
-    override val portraitTranslation = Vec3d(-0.71, -2.0, 0.0)
+    override var portraitScale = 2.6F
+    override var portraitTranslation = Vec3d(-0.71, -2.0, 0.0)
 
-    override val profileScale = 1.0F
-    override val profileTranslation = Vec3d(-0.1, 0.21, 0.0)
+    override var profileScale = 1.0F
+    override var profileTranslation = Vec3d(-0.1, 0.21, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose

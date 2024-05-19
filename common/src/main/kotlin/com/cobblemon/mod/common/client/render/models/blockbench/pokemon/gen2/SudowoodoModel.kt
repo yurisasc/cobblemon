@@ -30,11 +30,11 @@ class SudowoodoModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
     override val leftLeg = getPart("leg_left")
     override val rightLeg = getPart("leg_right")
 
-    override val portraitScale = 1.9F
-    override val portraitTranslation = Vec3d(-0.7, 1.6, 0.0)
+    override var portraitScale = 1.9F
+    override var portraitTranslation = Vec3d(-0.7, 1.6, 0.0)
 
-    override val profileScale = 0.5F
-    override val profileTranslation = Vec3d(-0.1, 0.95, 0.0)
+    override var profileScale = 0.5F
+    override var profileTranslation = Vec3d(-0.1, 0.95, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
@@ -46,7 +46,7 @@ class SudowoodoModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
             poseTypes = STATIONARY_POSES + UI_POSES,
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
-                singleBoneLook(),
+                singleBoneLook(yawMultiplier = 0F),
                 bedrock("sudowoodo", "ground_idle")
             )
         )
@@ -56,7 +56,7 @@ class SudowoodoModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
             poseTypes = MOVING_POSES,
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
-                singleBoneLook(),
+                singleBoneLook(yawMultiplier = 0F),
                 bedrock("sudowoodo", "ground_idle"),
                 BipedWalkAnimation(this, periodMultiplier = 0.6F, amplitudeMultiplier = 0.9F),
                 BimanualSwingAnimation(this, swingPeriodMultiplier = 0.6F, amplitudeMultiplier = 0.9F)

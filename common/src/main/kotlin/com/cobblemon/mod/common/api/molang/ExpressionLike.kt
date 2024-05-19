@@ -21,7 +21,7 @@ import com.bedrockk.molang.runtime.value.MoValue
 interface ExpressionLike {
     override fun toString(): String
     /** Produces a [MoValue] for a [MoLangRuntime] to supply an environment. */
-    fun resolve(runtime: MoLangRuntime): MoValue
+    fun resolve(runtime: MoLangRuntime, context: Map<String, MoValue> = emptyMap()): MoValue
     fun getString(): String = toString()
 
     fun resolveDouble(runtime: MoLangRuntime) = resolve(runtime).asDouble()

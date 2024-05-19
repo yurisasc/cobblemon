@@ -1,16 +1,16 @@
 {
     "type": "minecraft:crafting_shaped",
     "pattern": [
-        "III",
-        "QGQ",
-        "RAR"
+        "DAD",
+        "IGI",
+        "DRD"
     ],
     "key": {
         "I": {
             "item": "minecraft:iron_ingot"
         },
-        "Q": {
-            "item": "minecraft:quartz"
+        "D": {
+            "item": "minecraft:cobbled_deepslate"
         },
         "G": {
             "item": "minecraft:glass"

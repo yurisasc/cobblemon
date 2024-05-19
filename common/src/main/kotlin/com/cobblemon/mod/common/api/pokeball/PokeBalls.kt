@@ -168,7 +168,7 @@ object PokeBalls : JsonDataRegistry<PokeBall> {
         createDefault("fast_ball", BaseStatModifier(Stats.SPEED, { it >= 100 }, 4F))
         createDefault("level_ball", CatchRateModifiers.LEVEL)
         // ToDo we will need fishing context here once fishing is implemented for a multiplier
-        createDefault("lure_ball", CatchRateModifiers.typeBoosting(2F, ElementalTypes.WATER))
+        createDefault("lure_ball", CatchRateModifiers.LURE)
         createDefault("heavy_ball", CatchRateModifiers.WEIGHT_BASED)
         createDefault("love_ball", CatchRateModifiers.LOVE)
         createDefault("friend_ball", effects = listOf(CaptureEffects.friendshipSetter(150)))
@@ -205,8 +205,8 @@ object PokeBalls : JsonDataRegistry<PokeBall> {
         createDefault("ancient_wing_ball", throwPower = 2.5f, ancient = true)
         createDefault("ancient_jet_ball", throwPower = 2.5f, ancient = true)
         createDefault("ancient_origin_ball", GuaranteedModifier(), ancient = true)
-        // Luxury ball effect
-        CobblemonEvents.FRIENDSHIP_UPDATED.subscribe(priority = Priority.LOWEST) { event ->
+        // Luxury ball effect, low priority as it must be triggered before soothe bell as of gen 4
+        CobblemonEvents.FRIENDSHIP_UPDATED.subscribe(priority = Priority.LOW) { event ->
             var increment = (event.newFriendship - event.pokemon.friendship).toFloat()
             if (increment <= 1F) {
                 event.pokemon.caughtBall.effects.filterIsInstance<FriendshipEarningBoostEffect>()

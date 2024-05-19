@@ -23,16 +23,22 @@ import com.cobblemon.mod.common.net.messages.client.battle.BattleFaintPacket
 import com.cobblemon.mod.common.util.battleLang
 import java.util.concurrent.CompletableFuture
 
+/**
+ * Format: |faint|POKEMON
+ *
+ * POKEMON has fainted.
+ * @author Deltric
+ * @since January 22nd, 2022
+ */
 class FaintInstruction(battle: PokemonBattle, val message: BattleMessage) : InterpreterInstruction {
     var waitTime = 2.5F
-    val faintingPokemon = message.getBattlePokemon(0, battle)!!
+    val faintingPokemon = message.battlePokemon(0, battle)!!
 
     override fun invoke(battle: PokemonBattle) {
-        val faintMessage = battleLang("fainted", faintingPokemon.getName()).red()
 
         battle.dispatchFuture {
             val (pnx, _) = message.pnxAndUuid(0) ?: return@dispatchFuture CompletableFuture.completedFuture(Unit)
-            val pokemon = message.getBattlePokemon(0, battle) ?: return@dispatchFuture CompletableFuture.completedFuture(Unit)
+            val pokemon = message.battlePokemon(0, battle) ?: return@dispatchFuture CompletableFuture.completedFuture(Unit)
             battle.sendUpdate(BattleFaintPacket(pnx))
             val actor = pokemon.actor
             pokemon.effectedPokemon.currentHealth = 0
@@ -40,19 +46,22 @@ class FaintInstruction(battle: PokemonBattle, val message: BattleMessage) : Inte
                 (actor.entity as? PokemonSender)?.let { sender -> pokemon.entity?.recallWithAnimation()}
             } else {
                 null
-            } ?: delayedFuture(seconds = 2.5F)
+            } ?: delayedFuture(seconds = waitTime)
+            val context = ShowdownInterpreter.getContextFromFaint(faintingPokemon, battle)
 
             preamble.thenAccept {
-                pokemon.sendUpdate()
-                battle.broadcastChatMessage(faintMessage)
-                val context = ShowdownInterpreter.getContextFromFaint(pokemon, battle)
+                faintingPokemon.effectedPokemon.currentHealth = 0
+                faintingPokemon.sendUpdate()
                 CobblemonEvents.BATTLE_FAINTED.post(BattleFaintedEvent(battle, pokemon, context))
-
                 battle.getActorAndActiveSlotFromPNX(pnx).second.battlePokemon = null
-                pokemon.contextManager.add(context)
-                pokemon.contextManager.clear(BattleContext.Type.STATUS, BattleContext.Type.VOLATILE, BattleContext.Type.BOOST, BattleContext.Type.UNBOOST)
-                battle.majorBattleActions[pokemon.uuid] = message
+                faintingPokemon.contextManager.add(context)
+                faintingPokemon.contextManager.clear(BattleContext.Type.STATUS, BattleContext.Type.VOLATILE, BattleContext.Type.BOOST, BattleContext.Type.UNBOOST)
+                battle.majorBattleActions[faintingPokemon.uuid] = message
             }
+        }
+        battle.dispatchWaiting(0.5F) {
+            val faintMessage = battleLang("fainted", faintingPokemon.getName()).red()
+            battle.broadcastChatMessage(faintMessage)
         }
     }
 }

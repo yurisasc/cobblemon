@@ -23,11 +23,11 @@ class RaichuModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("raichu")
     override val head = getPart("head")
 
-    override val portraitScale = 2.3F
-    override val portraitTranslation = Vec3d(-0.2, -0.1, 0.0)
+    override var portraitScale = 2.3F
+    override var portraitTranslation = Vec3d(-0.2, -0.1, 0.0)
 
-    override val profileScale = 0.65F
-    override val profileTranslation = Vec3d(0.0, 0.75, 0.0)
+    override var profileScale = 0.65F
+    override var profileTranslation = Vec3d(0.0, 0.75, 0.0)
 
     lateinit var sleep: PokemonPose
     lateinit var standing: PokemonPose
@@ -52,7 +52,7 @@ class RaichuModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
 
         sleep = registerPose(
                 poseType = PoseType.SLEEP,
-                idleAnimations = arrayOf(bedrock("raichu", "ground_sleep"))
+                idleAnimations = arrayOf(bedrock("raichu", "sleep"))
         )
 
         walk = registerPose(

@@ -9,6 +9,7 @@
 package com.cobblemon.mod.common.item.group
 
 import com.cobblemon.mod.common.CobblemonItems
+import com.cobblemon.mod.common.api.fishing.PokeRods
 import com.cobblemon.mod.common.util.cobblemonResource
 import net.minecraft.item.ItemConvertible
 import net.minecraft.item.ItemGroup
@@ -142,10 +143,10 @@ object CobblemonItemGroups {
         entries.add(CobblemonItems.PLUME_FOSSIL)
         entries.add(CobblemonItems.JAW_FOSSIL)
         entries.add(CobblemonItems.SAIL_FOSSIL)
-        entries.add(CobblemonItems.BIRD_FOSSIL)
-        entries.add(CobblemonItems.FISH_FOSSIL)
-        entries.add(CobblemonItems.DRAKE_FOSSIL)
-        entries.add(CobblemonItems.DINO_FOSSIL)
+        entries.add(CobblemonItems.FOSSILIZED_BIRD)
+        entries.add(CobblemonItems.FOSSILIZED_FISH)
+        entries.add(CobblemonItems.FOSSILIZED_DRAKE)
+        entries.add(CobblemonItems.FOSSILIZED_DINO)
 
         entries.add(CobblemonItems.TUMBLESTONE)
         entries.add(CobblemonItems.BLACK_TUMBLESTONE)
@@ -180,6 +181,18 @@ object CobblemonItemGroups {
 
         entries.add(CobblemonItems.AUTOMATON_ARMOR_TRIM_SMITHING_TEMPLATE)
 
+        entries.add(CobblemonItems.RELIC_COIN)
+        entries.add(CobblemonItems.RELIC_COIN_POUCH)
+        entries.add(CobblemonItems.RELIC_COIN_SACK)
+        entries.add(CobblemonItems.GILDED_CHEST)
+        entries.add(CobblemonItems.YELLOW_GILDED_CHEST)
+        entries.add(CobblemonItems.GREEN_GILDED_CHEST)
+        entries.add(CobblemonItems.BLUE_GILDED_CHEST)
+        entries.add(CobblemonItems.PINK_GILDED_CHEST)
+        entries.add(CobblemonItems.BLACK_GILDED_CHEST)
+        entries.add(CobblemonItems.WHITE_GILDED_CHEST)
+        entries.add(CobblemonItems.GIMMIGHOUL_CHEST)
+
         entries.add(CobblemonItems.NORMAL_GEM)
         entries.add(CobblemonItems.FIRE_GEM)
         entries.add(CobblemonItems.WATER_GEM)
@@ -198,6 +211,8 @@ object CobblemonItemGroups {
         entries.add(CobblemonItems.DARK_GEM)
         entries.add(CobblemonItems.STEEL_GEM)
         entries.add(CobblemonItems.FAIRY_GEM)
+
+        entries.add(CobblemonItems.POKEROD_SMITHING_TEMPLATE)
     }
 
     private fun blockEntries(displayContext: DisplayContext, entries: Entries) {
@@ -207,6 +222,19 @@ object CobblemonItemGroups {
         entries.add(CobblemonItems.PC)
         entries.add(CobblemonItems.HEALING_MACHINE)
         entries.add(CobblemonItems.PASTURE)
+
+        entries.add(CobblemonItems.GILDED_CHEST)
+        entries.add(CobblemonItems.YELLOW_GILDED_CHEST)
+        entries.add(CobblemonItems.GREEN_GILDED_CHEST)
+        entries.add(CobblemonItems.BLUE_GILDED_CHEST)
+        entries.add(CobblemonItems.PINK_GILDED_CHEST)
+        entries.add(CobblemonItems.BLACK_GILDED_CHEST)
+        entries.add(CobblemonItems.WHITE_GILDED_CHEST)
+        entries.add(CobblemonItems.GIMMIGHOUL_CHEST)
+        entries.add(CobblemonItems.RELIC_COIN_POUCH)
+        entries.add(CobblemonItems.RELIC_COIN_SACK)
+
+        entries.add(CobblemonItems.DISPLAY_CASE)
         entries.add(CobblemonItems.APRICORN_LOG)
         entries.add(CobblemonItems.APRICORN_WOOD)
         entries.add(CobblemonItems.STRIPPED_APRICORN_LOG)
@@ -246,6 +274,7 @@ object CobblemonItemGroups {
         entries.add(CobblemonItems.DEEPSLATE_SHINY_STONE_ORE)
         entries.add(CobblemonItems.SUN_STONE_ORE)
         entries.add(CobblemonItems.DEEPSLATE_SUN_STONE_ORE)
+        entries.add(CobblemonItems.TERRACOTTA_SUN_STONE_ORE)
         entries.add(CobblemonItems.THUNDER_STONE_ORE)
         entries.add(CobblemonItems.DEEPSLATE_THUNDER_STONE_ORE)
         entries.add(CobblemonItems.WATER_STONE_ORE)
@@ -339,6 +368,9 @@ object CobblemonItemGroups {
         entries.add(CobblemonItems.JOLLY_MINT)
         entries.add(CobblemonItems.NAIVE_MINT)
         entries.add(CobblemonItems.SERIOUS_MINT)
+
+        entries.add(CobblemonItems.ABILITY_CAPSULE)
+        entries.add(CobblemonItems.ABILITY_PATCH)
     }
 
     private fun evolutionItemEntries(displayContext: DisplayContext, entries: Entries) {
@@ -378,6 +410,8 @@ object CobblemonItemGroups {
         entries.add(CobblemonItems.SWEET_APPLE)
         entries.add(CobblemonItems.CRACKED_POT)
         entries.add(CobblemonItems.CHIPPED_POT)
+        entries.add(CobblemonItems.MASTERPIECE_TEACUP)
+        entries.add(CobblemonItems.UNREMARKABLE_TEACUP)
         entries.add(CobblemonItems.STRAWBERRY_SWEET)
         entries.add(CobblemonItems.LOVE_SWEET)
         entries.add(CobblemonItems.BERRY_SWEET)
@@ -390,32 +424,51 @@ object CobblemonItemGroups {
     }
 
     private fun heldItemEntries(displayContext: DisplayContext, entries: Entries) {
+        entries.add(CobblemonItems.ABILITY_SHIELD)
+        entries.add(CobblemonItems.ABSORB_BULB)
+        entries.add(CobblemonItems.AIR_BALLOON)
         entries.add(CobblemonItems.ASSAULT_VEST)
         entries.add(CobblemonItems.BIG_ROOT)
+        entries.add(CobblemonItems.BINDING_BAND)
         entries.add(CobblemonItems.BLACK_BELT)
         entries.add(CobblemonItems.BLACK_GLASSES)
         entries.add(CobblemonItems.BLACK_SLUDGE)
+        entries.add(CobblemonItems.BLUNDER_POLICY)
         entries.add(CobblemonItems.BRIGHT_POWDER)
+        entries.add(CobblemonItems.CELL_BATTERY)
         entries.add(CobblemonItems.CHARCOAL)
         entries.add(CobblemonItems.CHOICE_BAND)
         entries.add(CobblemonItems.CHOICE_SCARF)
         entries.add(CobblemonItems.CHOICE_SPECS)
         entries.add(CobblemonItems.CLEANSE_TAG)
+        entries.add(CobblemonItems.COVERT_CLOAK)
+        entries.add(CobblemonItems.DAMP_ROCK)
         entries.add(CobblemonItems.DEEP_SEA_SCALE)
         entries.add(CobblemonItems.DEEP_SEA_TOOTH)
         entries.add(CobblemonItems.DESTINY_KNOT)
         entries.add(CobblemonItems.DRAGON_FANG)
+        entries.add(CobblemonItems.EJECT_BUTTON)
+//        entries.add(CobblemonItems.EJECT_PACK)
         entries.add(CobblemonItems.EVERSTONE)
+        entries.add(CobblemonItems.EVIOLITE)
+        entries.add(CobblemonItems.EXPERT_BELT)
         entries.add(CobblemonItems.EXP_SHARE)
         entries.add(CobblemonItems.FAIRY_FEATHER)
         entries.add(CobblemonItems.FLAME_ORB)
+        entries.add(CobblemonItems.FLOAT_STONE)
         entries.add(CobblemonItems.FOCUS_BAND)
+        entries.add(CobblemonItems.FOCUS_SASH)
         entries.add(CobblemonItems.HARD_STONE)
+        entries.add(CobblemonItems.HEAT_ROCK)
         entries.add(CobblemonItems.HEAVY_DUTY_BOOTS)
+        entries.add(CobblemonItems.ICY_ROCK)
+        entries.add(CobblemonItems.IRON_BALL)
         entries.add(CobblemonItems.KINGS_ROCK)
         entries.add(CobblemonItems.LEFTOVERS)
         entries.add(CobblemonItems.LIFE_ORB)
+        entries.add(CobblemonItems.LIGHT_BALL)
         entries.add(CobblemonItems.LIGHT_CLAY)
+        entries.add(CobblemonItems.LOADED_DICE)
         entries.add(CobblemonItems.LUCKY_EGG)
         entries.add(CobblemonItems.MAGNET)
         entries.add(CobblemonItems.MENTAL_HERB)
@@ -438,18 +491,29 @@ object CobblemonItemGroups {
         entries.add(CobblemonItems.QUICK_POWDER)
         entries.add(CobblemonItems.RAZOR_CLAW)
         entries.add(CobblemonItems.RAZOR_FANG)
+        entries.add(CobblemonItems.RED_CARD)
+        entries.add(CobblemonItems.RING_TARGET)
         entries.add(CobblemonItems.ROCKY_HELMET)
         entries.add(CobblemonItems.SAFETY_GOGGLES)
         entries.add(CobblemonItems.SHARP_BEAK)
+        entries.add(CobblemonItems.SHELL_BELL)
         entries.add(CobblemonItems.SILK_SCARF)
         entries.add(CobblemonItems.SILVER_POWDER)
         entries.add(CobblemonItems.SMOKE_BALL)
+        entries.add(CobblemonItems.SMOOTH_ROCK)
         entries.add(CobblemonItems.SOFT_SAND)
+        entries.add(CobblemonItems.SOOTHE_BELL)
         entries.add(CobblemonItems.SPELL_TAG)
+        entries.add(CobblemonItems.STICKY_BARB)
         entries.add(CobblemonItems.TOXIC_ORB)
         entries.add(CobblemonItems.TWISTED_SPOON)
+        entries.add(CobblemonItems.WEAKNESS_POLICY)
         entries.add(CobblemonItems.WHITE_HERB)
         entries.add(CobblemonItems.WISE_GLASSES)
+
+        entries.add(CobblemonItems.MEDICINAL_LEEK)
+        entries.add(Items.BONE)
+        entries.add(Items.SNOWBALL)
 
         entries.add(CobblemonItems.NORMAL_GEM)
         entries.add(CobblemonItems.FIRE_GEM)
@@ -473,13 +537,15 @@ object CobblemonItemGroups {
 
     private fun pokeballentries(displayContext: DisplayContext, entries: Entries) {
         CobblemonItems.pokeBalls.forEach(entries::add)
+        CobblemonItems.pokeRods.forEach(entries::add)
     }
 
     private fun foodInjections(injector: Injector) {
-        injector.putLast(CobblemonItems.ROASTED_LEEK)
-        injector.putAfter(CobblemonItems.LEEK_AND_POTATO_STEW, CobblemonItems.ROASTED_LEEK)
-        injector.putAfter(CobblemonItems.BRAISED_VIVICHOKE, CobblemonItems.LEEK_AND_POTATO_STEW)
-        injector.putAfter(CobblemonItems.VIVICHOKE_DIP, CobblemonItems.BRAISED_VIVICHOKE)
+        injector.putAfter(CobblemonItems.MEDICINAL_LEEK, Items.POISONOUS_POTATO)
+        injector.putAfter(CobblemonItems.ROASTED_LEEK, CobblemonItems.MEDICINAL_LEEK)
+        injector.putAfter(CobblemonItems.BRAISED_VIVICHOKE, CobblemonItems.ROASTED_LEEK)
+        injector.putAfter(CobblemonItems.LEEK_AND_POTATO_STEW, Items.RABBIT_STEW)
+        injector.putAfter(CobblemonItems.VIVICHOKE_DIP, CobblemonItems.LEEK_AND_POTATO_STEW)
     }
 
     private fun toolsAndUtilitiesInjections(injector: Injector) {
@@ -496,6 +562,7 @@ object CobblemonItemGroups {
         injector.putAfter(CobblemonItems.SUSPICIOUS_SHERD, CobblemonItems.NOSTALGIC_SHERD)
 
         injector.putAfter(CobblemonItems.AUTOMATON_ARMOR_TRIM_SMITHING_TEMPLATE, Items.SPIRE_ARMOR_TRIM_SMITHING_TEMPLATE)
+        injector.putAfter(CobblemonItems.POKEROD_SMITHING_TEMPLATE, Items.NETHERITE_UPGRADE_SMITHING_TEMPLATE)
     }
 
     /**

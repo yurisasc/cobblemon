@@ -25,11 +25,11 @@ class PelipperModel (root: ModelPart) : PokemonPoseableModel(), BipedFrame, BiWi
     override val leftLeg = getPart("foot_left")
     override val rightLeg = getPart("foot_right")
 
-    override val portraitScale = 1.5F
-    override val portraitTranslation = Vec3d(-0.2, 0.0, 0.0)
+    override var portraitScale = 1.5F
+    override var portraitTranslation = Vec3d(-0.2, 0.0, 0.0)
 
-    override val profileScale = 0.9F
-    override val profileTranslation = Vec3d(0.0, 0.3, 0.0)
+    override var profileScale = 0.9F
+    override var profileTranslation = Vec3d(0.0, 0.3, 0.0)
 
     lateinit var sleep: PokemonPose
     lateinit var stand: PokemonPose
@@ -45,12 +45,14 @@ class PelipperModel (root: ModelPart) : PokemonPoseableModel(), BipedFrame, BiWi
     override fun registerPoses() {
         val blink = quirk { bedrockStateful("pelipper", "blink") }
         sleep = registerPose(
+            poseName = "non_water_sleep",
             poseType = PoseType.SLEEP,
             condition = { !it.isTouchingWater },
             idleAnimations = arrayOf(bedrock("pelipper", "sleep"))
         )
 
         water_surface_sleep = registerPose(
+            poseName = "water_surface_sleep",
             poseType = PoseType.SLEEP,
             condition = { it.isTouchingWater },
             idleAnimations = arrayOf(bedrock("pelipper", "surfacewater_sleep")),

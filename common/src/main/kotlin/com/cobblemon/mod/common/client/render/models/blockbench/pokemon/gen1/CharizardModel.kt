@@ -13,6 +13,7 @@ import com.cobblemon.mod.common.client.render.models.blockbench.frame.BiWingedFr
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BimanualFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.ModelPartTransformation.Companion.Y_AXIS
@@ -34,17 +35,19 @@ class CharizardModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
     override val leftWing = getPart("wing_left")
     override val rightWing = getPart("wing_right")
 
-    override val portraitScale = 1.9F
-    override val portraitTranslation = Vec3d(-0.5, 1.4, 0.0)
+    override var portraitScale = 1.9F
+    override var portraitTranslation = Vec3d(-0.5, 1.4, 0.0)
 
-    override val profileScale = 0.55F
-    override val profileTranslation = Vec3d(0.05, 0.93, 0.0)
+    override var profileScale = 0.55F
+    override var profileTranslation = Vec3d(0.05, 0.93, 0.0)
 
     lateinit var sleep: PokemonPose
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
     lateinit var flyIdle: PokemonPose
     lateinit var fly: PokemonPose
+
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("charizard", "cry") }
 
     override fun registerPoses() {
         animations["physical"] = "q.bedrock_primary('charizard', 'physical', q.exclude_labels('look'), q.curve('symmetrical_wide'))".asExpressionLike()

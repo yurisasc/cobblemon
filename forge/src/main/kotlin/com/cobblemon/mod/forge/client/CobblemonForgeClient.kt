@@ -15,6 +15,7 @@ import com.cobblemon.mod.common.client.render.atlas.CobblemonAtlases
 import com.cobblemon.mod.common.client.CobblemonClient
 import com.cobblemon.mod.common.client.CobblemonClient.reloadCodedAssets
 import com.cobblemon.mod.common.client.keybind.CobblemonKeyBinds
+import com.cobblemon.mod.common.client.render.item.CobblemonModelPredicateRegistry
 import com.cobblemon.mod.common.compat.LambDynamicLightsCompat
 import com.cobblemon.mod.common.client.render.shader.CobblemonShaders
 import com.cobblemon.mod.common.item.group.CobblemonItemGroups
@@ -85,6 +86,7 @@ object CobblemonForgeClient : CobblemonClientImplementation {
         event.enqueueWork {
             CobblemonClient.initialize(this)
             this.attemptModCompat()
+            CobblemonModelPredicateRegistry.registerPredicates()
         }
         ForgeClientPlatformEventHandler.register()
     }
