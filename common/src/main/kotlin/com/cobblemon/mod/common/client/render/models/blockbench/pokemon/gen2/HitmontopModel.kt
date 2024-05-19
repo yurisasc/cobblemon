@@ -9,19 +9,10 @@
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen2
 
 import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
-import com.cobblemon.mod.common.client.render.models.blockbench.animation.BimanualSwingAnimation
-import com.cobblemon.mod.common.client.render.models.blockbench.animation.BipedWalkAnimation
-import com.cobblemon.mod.common.client.render.models.blockbench.asTransformed
-import com.cobblemon.mod.common.client.render.models.blockbench.frame.BimanualFrame
-import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pose.TransformedModelPart
 import com.cobblemon.mod.common.entity.PoseType
-import com.cobblemon.mod.common.entity.PoseType.Companion.MOVING_POSES
-import com.cobblemon.mod.common.entity.PoseType.Companion.STATIONARY_POSES
-import com.cobblemon.mod.common.entity.PoseType.Companion.UI_POSES
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
@@ -30,21 +21,21 @@ class HitmontopModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("hitmontop")
     override val head = getPart("head")
 
-    override val portraitScale = 2.6F
-    override val portraitTranslation = Vec3d(-0.26, -0.5, 0.0)
+    override var portraitScale = 2.6F
+    override var portraitTranslation = Vec3d(-0.26, -0.5, 0.0)
 
-    override val profileScale = 0.91F
-    override val profileTranslation = Vec3d(0.0, 0.4, 0.0)
+    override var profileScale = 0.91F
+    override var profileTranslation = Vec3d(0.0, 0.4, 0.0)
 
     lateinit var sleep: PokemonPose
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
     lateinit var battleidle: PokemonPose
 
-//    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("hitmontop", "cry").setPreventsIdle(false) }
+//    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("hitmontop", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("hitmontop", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("hitmontop", "blink") }
         sleep = registerPose(
             poseType = PoseType.SLEEP,
             idleAnimations = arrayOf(bedrock("hitmontop", "sleep"))

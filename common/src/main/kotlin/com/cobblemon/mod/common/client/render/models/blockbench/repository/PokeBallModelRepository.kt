@@ -9,6 +9,7 @@
 package com.cobblemon.mod.common.client.render.models.blockbench.repository
 
 import com.cobblemon.mod.common.api.pokeball.PokeBalls
+import com.cobblemon.mod.common.client.render.models.blockbench.pokeball.AncientPokeBallModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pokeball.PokeBallModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.Bone
 import com.cobblemon.mod.common.entity.pokeball.EmptyPokeBallEntity
@@ -62,5 +63,20 @@ object PokeBallModelRepository : VaryingModelRepository<EmptyPokeBallEntity, Pok
         inbuilt("timer_ball", ::PokeBallModel)
         inbuilt("ultra_ball", ::PokeBallModel)
         inbuilt("verdant_ball", ::PokeBallModel)
+        inbuilt("ancient_poke_ball", ::AncientPokeBallModel)
+        inbuilt("ancient_citrine_ball", ::AncientPokeBallModel)
+        inbuilt("ancient_verdant_ball", ::AncientPokeBallModel)
+        inbuilt("ancient_azure_ball", ::AncientPokeBallModel)
+        inbuilt("ancient_roseate_ball", ::AncientPokeBallModel)
+        inbuilt("ancient_slate_ball", ::AncientPokeBallModel)
+        inbuilt("ancient_ivory_ball", ::AncientPokeBallModel)
+        inbuilt("ancient_great_ball", ::AncientPokeBallModel)
+        inbuilt("ancient_ultra_ball", ::AncientPokeBallModel)
+        inbuilt("ancient_feather_ball", ::AncientPokeBallModel)
+        inbuilt("ancient_wing_ball", ::AncientPokeBallModel)
+        inbuilt("ancient_jet_ball", ::AncientPokeBallModel)
+        inbuilt("ancient_heavy_ball", ::AncientPokeBallModel)
+        inbuilt("ancient_leaden_ball", ::AncientPokeBallModel)
+        inbuilt("ancient_gigaton_ball", ::AncientPokeBallModel)
     }
 }

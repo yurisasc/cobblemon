@@ -9,16 +9,15 @@
     "h:sandforce"
   ],
   "drops": {
-    "amount": 2,
+    "amount": 3,
     "entries": [
       {
         "item": "minecraft:clay_ball",
-        "quantityRange": "1-2",
-        "percentage": 66
+        "quantityRange": "0-2"
       },
       {
         "item": "cobblemon:rindo_berry",
-        "percentage": 5
+        "percentage": 5.0
       }
     ]
   },
@@ -69,6 +68,7 @@
     "tm:captivate",
     "tm:chillingwater",
     "tm:confide",
+    "tm:curse",
     "tm:dig",
     "tm:dive",
     "tm:doubleteam",
@@ -92,6 +92,7 @@
     "tm:mudshot",
     "tm:mudslap",
     "tm:naturalgift",
+    "tm:painsplit",
     "tm:protect",
     "tm:raindance",
     "tm:rest",
@@ -105,6 +106,7 @@
     "tm:sandtomb",
     "tm:scald",
     "tm:secretpower",
+    "tm:skittersmack",
     "tm:sleeptalk",
     "tm:sludgebomb",
     "tm:sludgewave",

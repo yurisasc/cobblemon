@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Hakamo-o",
   "nationalPokedexNumber": 783,
   "primaryType": "dragon",
@@ -45,13 +46,19 @@
     "56:closecombat",
     "tm:aerialace",
     "tm:attract",
+    "tm:bodyslam",
+    "tm:breakingswipe",
     "tm:brickbreak",
     "tm:brutalswing",
     "tm:bulkup",
     "tm:bulldoze",
     "tm:closecombat",
+    "tm:coaching",
     "tm:confide",
+    "tm:doubleedge",
     "tm:doubleteam",
+    "tm:dracometeor",
+    "tm:dragoncheer",
     "tm:dragonclaw",
     "tm:dragondance",
     "tm:dragonpulse",
@@ -64,6 +71,7 @@
     "tm:falseswipe",
     "tm:fling",
     "tm:focusblast",
+    "tm:focuspunch",
     "tm:frustration",
     "tm:hiddenpower",
     "tm:irondefense",
@@ -72,6 +80,7 @@
     "tm:lowkick",
     "tm:megakick",
     "tm:megapunch",
+    "tm:metalclaw",
     "tm:outrage",
     "tm:payback",
     "tm:protect",
@@ -84,17 +93,24 @@
     "tm:round",
     "tm:safeguard",
     "tm:sandstorm",
+    "tm:scaleshot",
     "tm:scaryface",
     "tm:screech",
     "tm:shadowclaw",
     "tm:sleeptalk",
     "tm:snore",
     "tm:substitute",
+    "tm:sunnyday",
     "tm:swagger",
     "tm:swordsdance",
+    "tm:takedown",
     "tm:taunt",
+    "tm:terablast",
+    "tm:throatchop",
     "tm:toxic",
+    "tm:upperhand",
     "tm:uproar",
+    "tm:vacuumwave",
     "tm:workup",
     "tm:xscissor",
     "tutor:aquatail",
@@ -136,10 +152,10 @@
       ]
     }
   ],
-  "baseScale": 1,
+  "baseScale": 0.75,
   "hitbox": {
-    "width": 1,
-    "height": 1,
+    "width": 1.1,
+    "height": 1.85,
     "fixed": false
   },
   "baseFriendship": 50,
@@ -154,5 +170,26 @@
   "height": 12,
   "weight": 470,
   "aspects": [],
-  "cannotDynamax": false
+  "cannotDynamax": false,
+  "drops": {
+    "amount": 5,
+    "entries": [
+      {
+        "item": "minecraft:scute",
+        "quantityRange": "0-2"
+      },
+      {
+        "item": "cobblemon:razor_claw",
+        "percentage": 5.0
+      },
+      {
+        "item": "cobblemon:dragon_scale",
+        "percentage": 5.0
+      },
+      {
+        "item": "cobblemon:roseli_berry",
+        "percentage": 2.5
+      }
+    ]
+  }
 }

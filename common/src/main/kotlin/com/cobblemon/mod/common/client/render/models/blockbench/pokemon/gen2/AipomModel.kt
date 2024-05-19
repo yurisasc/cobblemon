@@ -8,8 +8,6 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen2
 
-import com.cobblemon.mod.common.client.render.models.blockbench.animation.BimanualSwingAnimation
-import com.cobblemon.mod.common.client.render.models.blockbench.animation.BipedWalkAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BimanualFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
@@ -29,21 +27,21 @@ class AipomModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedF
     override val leftLeg = getPart("left_upper_leg")
     override val rightLeg = getPart("right_upper_leg")
 
-    override val portraitScale = 2.1F
-    override val portraitTranslation = Vec3d(-0.25, 0.1, 0.0)
+    override var portraitScale = 2.1F
+    override var portraitTranslation = Vec3d(-0.25, 0.1, 0.0)
 
-    override val profileScale = 0.65F
-    override val profileTranslation = Vec3d(0.0, 0.76, 0.0)
+    override var profileScale = 0.65F
+    override var profileTranslation = Vec3d(0.0, 0.76, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walking: PokemonPose
     lateinit var sleep: PokemonPose
     lateinit var battleidle: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("aipom", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("aipom", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("aipom", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("aipom", "blink") }
         sleep = registerPose(
             poseType = PoseType.SLEEP,
             idleAnimations = arrayOf(bedrock("aipom", "sleep"))

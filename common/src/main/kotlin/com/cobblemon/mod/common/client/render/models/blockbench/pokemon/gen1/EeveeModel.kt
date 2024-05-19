@@ -10,15 +10,15 @@ package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1
 
 import com.cobblemon.mod.common.client.render.models.blockbench.EarJoint
 import com.cobblemon.mod.common.client.render.models.blockbench.RangeOfMotion
-import com.cobblemon.mod.common.client.render.models.blockbench.asTransformed
+import com.cobblemon.mod.common.client.render.models.blockbench.createTransformation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.EaredFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.QuadrupedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pose.TransformedModelPart.Companion.X_AXIS
-import com.cobblemon.mod.common.client.render.models.blockbench.pose.TransformedModelPart.Companion.Z_AXIS
+import com.cobblemon.mod.common.client.render.models.blockbench.pose.ModelPartTransformation.Companion.X_AXIS
+import com.cobblemon.mod.common.client.render.models.blockbench.pose.ModelPartTransformation.Companion.Z_AXIS
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.PoseType.Companion.MOVING_POSES
 import com.cobblemon.mod.common.entity.PoseType.Companion.STATIONARY_POSES
@@ -38,23 +38,23 @@ class EeveeModel(root: ModelPart) : PokemonPoseableModel(), EaredFrame, HeadedFr
     override val leftEarJoint = EarJoint(getPart("ear_left"), Z_AXIS, RangeOfMotion(50F.toRadians(), 0F))
     override val rightEarJoint = EarJoint(getPart("ear_right"), Z_AXIS, RangeOfMotion((-50F).toRadians(), 0F))
 
-    override val portraitScale = 2.2F
-    override val portraitTranslation = Vec3d(-0.4, -0.54, 0.0)
+    override var portraitScale = 2.2F
+    override var portraitTranslation = Vec3d(-0.4, -0.54, 0.0)
 
-    override val profileScale = 0.8F
-    override val profileTranslation = Vec3d(0.0, 0.55, 0.0)
+    override var profileScale = 0.8F
+    override var profileTranslation = Vec3d(0.0, 0.55, 0.0)
 
     lateinit var stand: PokemonPose
     lateinit var walk: PokemonPose
     lateinit var shoulderLeft: PokemonPose
     lateinit var shoulderRight: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("eevee", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("eevee", "cry") }
 
     val shoulderOffset = 4
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("eevee", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("eevee", "blink") }
         stand = registerPose(
             poseName = "standing",
             poseTypes = STATIONARY_POSES + UI_POSES,
@@ -86,7 +86,7 @@ class EeveeModel(root: ModelPart) : PokemonPoseableModel(), EaredFrame, HeadedFr
                 bedrock("eevee", "ground_idle")
             ),
             transformedParts = arrayOf(
-                rootPart.asTransformed().addPosition(X_AXIS, shoulderOffset)
+                rootPart.createTransformation().addPosition(X_AXIS, shoulderOffset)
             )
         )
 
@@ -98,7 +98,7 @@ class EeveeModel(root: ModelPart) : PokemonPoseableModel(), EaredFrame, HeadedFr
                 bedrock("eevee", "ground_idle")
             ),
             transformedParts = arrayOf(
-                rootPart.asTransformed().addPosition(X_AXIS, -shoulderOffset)
+                rootPart.createTransformation().addPosition(X_AXIS, -shoulderOffset)
             )
         )
 

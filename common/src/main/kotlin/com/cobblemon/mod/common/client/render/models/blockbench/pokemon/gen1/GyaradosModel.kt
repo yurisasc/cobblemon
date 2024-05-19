@@ -10,11 +10,11 @@ package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1
 
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.WaveAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.WaveSegment
-import com.cobblemon.mod.common.client.render.models.blockbench.asTransformed
+import com.cobblemon.mod.common.client.render.models.blockbench.createTransformation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pose.TransformedModelPart.Companion.X_AXIS
-import com.cobblemon.mod.common.client.render.models.blockbench.pose.TransformedModelPart.Companion.Y_AXIS
+import com.cobblemon.mod.common.client.render.models.blockbench.pose.ModelPartTransformation.Companion.X_AXIS
+import com.cobblemon.mod.common.client.render.models.blockbench.pose.ModelPartTransformation.Companion.Y_AXIS
 import com.cobblemon.mod.common.client.render.models.blockbench.wavefunction.sineFunction
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.PoseType.Companion.FLYING_POSES
@@ -55,17 +55,18 @@ class GyaradosModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     val wseg11 = WaveSegment(seg11, 5F)
     val wseg12 = WaveSegment(seg12, 4F)
 
-    override val portraitScale = 1.8F
-    override val portraitTranslation = Vec3d(-1.55, 0.35, 0.0)
-    override val profileScale = 0.7F
-    override val profileTranslation = Vec3d(-0.1, 0.65, 0.0)
+    override var portraitScale = 1.8F
+    override var portraitTranslation = Vec3d(-1.55, 0.35, 0.0)
+    override var profileScale = 0.7F
+    override var profileTranslation = Vec3d(-0.1, 0.65, 0.0)
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("gyarados", "blink").setPreventsIdle(false)}
+        val blink = quirk { bedrockStateful("gyarados", "blink")}
         registerPose(
             poseName = "land",
             poseTypes = STANDING_POSES + UI_POSES,
             quirks = arrayOf(blink),
+            transformTicks = 20,
             condition = { !it.isTouchingWater },
             idleAnimations = arrayOf(
                 singleBoneLook(),
@@ -100,6 +101,7 @@ class GyaradosModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             poseTypes = setOf(PoseType.STAND, PoseType.WALK),
             quirks = arrayOf(blink),
             condition = { it.isTouchingWater },
+            transformTicks = 20,
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("gyarados", "surface_idle"),
@@ -127,7 +129,7 @@ class GyaradosModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
                 )
             ),
             transformedParts = arrayOf(
-                rootPart.asTransformed().addPosition(Y_AXIS, -6F)
+                rootPart.createTransformation().addPosition(Y_AXIS, -6F)
             )
         )
 
@@ -136,6 +138,7 @@ class GyaradosModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             poseTypes = SWIMMING_POSES + FLYING_POSES,
 //            transformedParts = arrayOf(head.withRotation(X_AXIS, -70F.toRadians())),
             quirks = arrayOf(blink),
+            transformTicks = 20,
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 WaveAnimation(
@@ -145,7 +148,7 @@ class GyaradosModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
                         amplitude = 0.4F
                     ),
                     oscillationsScalar = 24F,
-                    head = rootPart as ModelPart,
+                    head = rootPart,
                     rotationAxis = X_AXIS,
                     motionAxis = Y_AXIS,
                     headLength = 4F,

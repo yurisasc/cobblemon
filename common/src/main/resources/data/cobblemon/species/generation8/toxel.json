@@ -38,8 +38,10 @@
     "tm:attract",
     "tm:charm",
     "tm:encore",
+    "tm:endeavor",
     "tm:endure",
     "tm:facade",
+    "tm:metalsound",
     "tm:protect",
     "tm:rest",
     "tm:round",
@@ -78,7 +80,7 @@
     {
       "id": "toxel_toxtricity",
       "variant": "level_up",
-      "result": "toxtricity form=lowkey",
+      "result": "toxtricity lowkey",
       "consumeHeldItem": false,
       "learnableMoves": [
         "spark"

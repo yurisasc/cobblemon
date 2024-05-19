@@ -12,16 +12,19 @@ import com.bedrockk.molang.runtime.struct.VariableStruct
 import com.bedrockk.molang.runtime.value.DoubleValue
 import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.ModAPI
+import com.cobblemon.mod.common.api.snowstorm.ParticleMaterial
 import com.cobblemon.mod.common.api.snowstorm.UVDetails
 import com.cobblemon.mod.common.client.particle.ParticleStorm
 import com.cobblemon.mod.common.util.resolveBoolean
 import com.cobblemon.mod.common.util.resolveDouble
+import com.mojang.blaze3d.platform.GlStateManager
+import com.mojang.blaze3d.systems.RenderSystem
 import kotlin.math.abs
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.particle.Particle
 import net.minecraft.client.particle.ParticleTextureSheet
 import net.minecraft.client.particle.ParticleTextureSheet.NO_RENDER
-import net.minecraft.client.particle.ParticleTextureSheet.PARTICLE_SHEET_LIT
+import net.minecraft.client.particle.ParticleTextureSheet.PARTICLE_SHEET_TRANSLUCENT
 import net.minecraft.client.render.BufferBuilder
 import net.minecraft.client.render.Camera
 import net.minecraft.client.render.VertexConsumer
@@ -32,6 +35,9 @@ import net.minecraft.util.math.Direction
 import net.minecraft.util.math.MathHelper
 import net.minecraft.util.math.Vec3d
 import net.minecraft.util.shape.VoxelShapes
+import org.joml.AxisAngle4d
+import org.joml.Quaterniond
+import org.joml.Vector3d
 import org.joml.Vector3f
 
 class SnowstormParticle(
@@ -62,9 +68,34 @@ class SnowstormParticle(
     val random3 = variableStruct.map["particle_random_3"]
     val random4 = variableStruct.map["particle_random_4"]
 
+    var localX = x - storm.getX()
+    var localY = y - storm.getY()
+    var localZ = z - storm.getZ()
+    var rotatedLocal = Vector3d(localX, localY, localZ)
+
+    var prevLocalX = localX
+    var prevLocalY = localY
+    var prevLocalZ = localZ
+    var prevRotatedLocal = Vector3d(localX, localY, localZ)
+
+    val currentRotation = AxisAngle4d(0.0, 0.0, 1.0, 0.0)
+
+    var oldAxisRotation = AxisAngle4d(0.0, 0.0, 1.0, 0.0)
+    var axisRotation = AxisAngle4d(0.0, 0.0, 1.0, 0.0)
+
+
     val uvDetails = UVDetails()
 
     var viewDirection = Vec3d.ZERO
+    var originPos = Vec3d(storm.getX(), storm.getY(), storm.getZ())
+
+    fun getX() = x
+    fun getY() = y
+    fun getZ() = z
+
+    fun getVelocityX() = velocityX
+    fun getVelocityY() = velocityY
+    fun getVelocityZ() = velocityZ
 
     fun getSpriteFromAtlas(): Sprite {
         val atlas = MinecraftClient.getInstance().particleManager.particleAtlasTexture
@@ -94,11 +125,14 @@ class SnowstormParticle(
         maxAge = (storm.runtime.resolveDouble(storm.effect.particle.maxAge) * 20).toInt()
         storm.particles.add(this)
         gravityStrength = 0F
-        particleTextureSheet = if (invisible) {
-            NO_RENDER
-        } else {
-            PARTICLE_SHEET_LIT
-        }
+        particleTextureSheet = if (invisible) NO_RENDER else PARTICLE_SHEET_TRANSLUCENT
+        storm.effect.particle.creationEvents.forEach { it.trigger(storm, this) }
+//            when (storm.effect.particle.material) {
+//            ParticleMaterial.ALPHA -> ParticleMaterials.ALPHA
+//            ParticleMaterial.OPAQUE -> ParticleMaterials.OPAQUE
+//            ParticleMaterial.BLEND -> ParticleMaterials.BLEND
+//            ParticleMaterial.ADD -> ParticleMaterials.ADD
+//        }
     }
 
     override fun buildGeometry(vertexConsumer: VertexConsumer, camera: Camera, tickDelta: Float) {
@@ -112,32 +146,51 @@ class SnowstormParticle(
         setParticleAgeInRuntime()
         storm.effect.curves.forEach { it.apply(storm.runtime) }
         storm.runtime.execute(storm.effect.particle.renderExpressions)
+
 //        // TODO need to implement the other materials but not sure exactly what they are GL wise
-//        when (storm.effect.particle.material) {
-//            ParticleMaterial.ALPHA -> RenderSystem.blendFunc(GlStateManager.SrcFactor.SRC_ALPHA, GlStateManager.DstFactor.ONE_MINUS_SRC_ALPHA)
-//            ParticleMaterial.OPAQUE -> RenderSystem.blendFunc(GlStateManager.SrcFactor.SRC_COLOR, GlStateManager.DstFactor.ZERO)
-//            ParticleMaterial.BLEND -> RenderSystem.blendFunc(GlStateManager.SrcFactor.SRC_ALPHA, GlStateManager.DstFactor.ONE_MINUS_SRC_ALPHA)
-//        }
+        when (storm.effect.particle.material) {
+            // Alpha is the usual effect of "Cutout", this needs a shader but fabric fucking sucks so... Ignoring it.
+            ParticleMaterial.ALPHA -> RenderSystem.blendFunc(GlStateManager.SrcFactor.SRC_ALPHA, GlStateManager.DstFactor.ONE_MINUS_SRC_ALPHA)
+            ParticleMaterial.OPAQUE -> RenderSystem.blendFunc(GlStateManager.SrcFactor.SRC_COLOR, GlStateManager.DstFactor.ZERO)
+            ParticleMaterial.BLEND -> RenderSystem.blendFunc(GlStateManager.SrcFactor.SRC_ALPHA, GlStateManager.DstFactor.ONE_MINUS_SRC_ALPHA)
+            ParticleMaterial.ADD -> RenderSystem.blendFunc(GlStateManager.SrcFactor.SRC_ALPHA, GlStateManager.DstFactor.ONE)
+        }
 
         vertexConsumer as BufferBuilder
 
         val vec3d = camera.pos
-        val f = (MathHelper.lerp(tickDelta.toDouble(), prevPosX, x) - vec3d.getX()).toFloat()
-        val g = (MathHelper.lerp(tickDelta.toDouble(), prevPosY, y) - vec3d.getY()).toFloat()
-        val h = (MathHelper.lerp(tickDelta.toDouble(), prevPosZ, z) - vec3d.getZ()).toFloat()
+
+        val interpLocalX = MathHelper.lerp(tickDelta.toDouble(), prevLocalX, localX)
+        val interpLocalY = MathHelper.lerp(tickDelta.toDouble(), prevLocalY, localY)
+        val interpLocalZ = MathHelper.lerp(tickDelta.toDouble(), prevLocalZ, localZ)
+
+        val pos = if (storm.effect.space.localRotation) {
+            val interpRotation = MathHelper.lerp(tickDelta.toDouble(), 0.0, currentRotation.angle)
+            val vec = Vector3d(interpLocalX, interpLocalY, interpLocalZ)
+            oldAxisRotation.transform(vec)
+            currentRotation.get(AxisAngle4d()).also { it.angle = interpRotation }.transform(vec)
+        } else {
+            Vector3d(interpLocalX, interpLocalY, interpLocalZ)
+        }
+
+        val f = (pos.x + originPos.x - vec3d.getX()).toFloat()
+        val g = (pos.y + originPos.y - vec3d.getY()).toFloat()
+        val h = (pos.z + originPos.z - vec3d.getZ()).toFloat()
         val quaternion = storm.effect.particle.cameraMode.getRotation(
             matrixWrapper = storm.matrixWrapper,
             prevAngle = prevAngle,
             angle = angle,
             deltaTicks = tickDelta,
+            particlePosition = Vec3d(x, y, z),
+            cameraPosition = camera.pos,
             cameraAngle = camera.rotation,
             cameraYaw = camera.yaw,
             cameraPitch = camera.pitch,
             viewDirection = viewDirection
         )
 
-        val xSize = storm.runtime.resolveDouble(storm.effect.particle.sizeX).toFloat() / 2
-        val ySize = storm.runtime.resolveDouble(storm.effect.particle.sizeY).toFloat() / 2
+        val xSize = storm.runtime.resolveDouble(storm.effect.particle.sizeX).toFloat() / 1.5.toFloat()
+        val ySize = storm.runtime.resolveDouble(storm.effect.particle.sizeY).toFloat() / 1.5.toFloat()
 
         val particleVertices = arrayOf(
             Vector3f(-xSize, -ySize, 0.0f),
@@ -188,24 +241,32 @@ class SnowstormParticle(
             .color(colour.x, colour.y, colour.z, colour.w)
             .light(p)
             .next()
-//        tessellator.draw()
+    }
+
+    fun runExpirationEvents() {
+        storm.effect.particle.expirationEvents.forEach { it.trigger(storm, this)}
     }
 
     override fun tick() {
-        applyRandoms()
+        if (storm.effect.space.localPosition) {
+            originPos = storm.matrixWrapper.getOrigin()
+        }
 
+        applyRandoms()
         setParticleAgeInRuntime()
+        storm.effect.curves.forEach { it.apply(storm.runtime) }
         storm.runtime.execute(storm.effect.particle.updateExpressions)
         angularVelocity += storm.effect.particle.rotation.getAngularAcceleration(storm.runtime, angularVelocity) / 20
 
         if (age > maxAge || storm.runtime.resolveBoolean(storm.effect.particle.killExpression)) {
+            runExpirationEvents()
             markDead()
             return
         } else {
             val acceleration = storm.effect.particle.motion.getAcceleration(
                 storm.runtime,
                 Vec3d(velocityX, velocityY, velocityZ).multiply(20.0) // Uses blocks per second, not blocks per tick
-            ).multiply(1 / 20.0).multiply(1 / 20.0)
+            ).multiply(1 / 20.0).multiply(1 / 20.0) // blocks per second per second -> blocks per tick per tick
 
             velocityX += acceleration.x
             velocityY += acceleration.y
@@ -225,13 +286,22 @@ class SnowstormParticle(
         prevPosY = y
         prevPosZ = z
 
+        prevLocalX = localX
+        prevLocalY = localY
+        prevLocalZ = localZ
+
+        oldAxisRotation = axisRotation
+        prevRotatedLocal = oldAxisRotation.transform(Vector3d(prevLocalX, prevLocalY, prevLocalZ))
+
+        storm.matrixWrapper.matrix.getRotation(axisRotation)
+        rotatedLocal = axisRotation.transform(Vector3d(prevLocalX, prevLocalY, prevLocalZ))
+        Quaterniond().rotateTo(prevRotatedLocal, rotatedLocal).get(currentRotation)
+
         age++
 
-        if (storm.effect.space.localPosition) {
-            this.move(velocityX + (storm.getX() - storm.getPrevX()), velocityY + (storm.getY() - storm.getPrevY()), velocityZ + (storm.getZ() - storm.getPrevZ()))
-        } else {
-            this.move(velocityX, velocityY, velocityZ)
-        }
+        this.move(velocityX, velocityY, velocityZ)
+
+        storm.effect.particle.timeline.check(storm, this, (age - 1) / 20.0, age / 20.0)
     }
 
     override fun move(dx: Double, dy: Double, dz: Double) {
@@ -239,6 +309,7 @@ class SnowstormParticle(
         val radius = storm.runtime.resolveDouble(collision.radius)
         boundingBox = Box.of(Vec3d(x, y, z), radius, radius, radius)
         if (dx == 0.0 && dy == 0.0 && dz == 0.0) {
+            updatePosition()
             return
         }
 
@@ -246,9 +317,7 @@ class SnowstormParticle(
         var dy = dy
         var dz = dz
 
-        // field_21507 stoppedByCollision
-
-        if (storm.runtime.resolveBoolean(collision.enabled) && radius > 0.0) {
+        if (storm.runtime.resolveBoolean(collision.enabled) && radius > 0.0 && !storm.effect.space.isLocalSpace) {
             collidesWithWorld = true
 
             val newMovement = checkCollision(Vec3d(dx, dy, dz))
@@ -274,9 +343,9 @@ class SnowstormParticle(
 
             if (dx != 0.0 || dy != 0.0 || dz != 0.0) {
                 boundingBox = boundingBox.offset(dx, dy, dz)
-                x += dx
-                y += dy
-                z += dz
+                localX += dx
+                localY += dy
+                localZ += dz
             }
 
 //            if (abs(dy) >= 9.999999747378752E-6 && abs(dy) < 9.999999747378752E-6) {
@@ -290,13 +359,21 @@ class SnowstormParticle(
 //                velocityZ = 0.0
 //            }
         } else {
-            collidesWithWorld =  false
+            collidesWithWorld = false
             if (dx != 0.0 || dy != 0.0 || dz != 0.0) {
-                x += dx
-                y += dy
-                z += dz
+                localX += dx
+                localY += dy
+                localZ += dz
             }
         }
+        updatePosition()
+    }
+
+    fun updatePosition() {
+        val localVector = if (storm.effect.space.localRotation) storm.transformDirection(Vec3d(localX, localY, localZ)) else Vec3d(localX, localY, localZ)
+        x = localVector.x + originPos.x
+        y = localVector.y + originPos.y
+        z = localVector.z + originPos.z
     }
 
     private fun checkCollision(movement: Vec3d): Vec3d {
@@ -309,9 +386,9 @@ class SnowstormParticle(
         val collisions = world.getBlockCollisions(null, box.stretch(movement))
         if (collisions.none()) {
             colliding = false
-//            println("No collisions")
             return movement
         } else if (expiresOnContact) {
+            runExpirationEvents()
             markDead()
             return movement
         }
@@ -416,8 +493,6 @@ class SnowstormParticle(
                 }
             }
         }
-
-
 
         var newMovement = Vec3d(xMovement, yMovement, zMovement)
 

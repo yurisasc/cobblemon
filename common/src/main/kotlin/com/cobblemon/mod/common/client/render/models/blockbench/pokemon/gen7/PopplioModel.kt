@@ -9,12 +9,12 @@
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen7
 
 import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
-import com.cobblemon.mod.common.client.render.models.blockbench.asTransformed
+import com.cobblemon.mod.common.client.render.models.blockbench.createTransformation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pose.TransformedModelPart
+import com.cobblemon.mod.common.client.render.models.blockbench.pose.ModelPartTransformation
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.PoseType.Companion.UI_POSES
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
@@ -25,11 +25,11 @@ class PopplioModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("popplio")
     override val head = getPart("head")
 
-    override val portraitScale = 2.6F
-    override val portraitTranslation = Vec3d(-0.25, -1.5, 0.0)
+    override var portraitScale = 2.6F
+    override var portraitTranslation = Vec3d(-0.25, -1.5, 0.0)
 
-    override val profileScale = 1.0F
-    override val profileTranslation = Vec3d(0.0, 0.2, 0.0)
+    override var profileScale = 1.0F
+    override var profileTranslation = Vec3d(0.0, 0.2, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
@@ -42,10 +42,10 @@ class PopplioModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
 
     val shoulderOffset = 1
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("popplio", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("popplio", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("popplio", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("popplio", "blink") }
         sleep = registerPose(
             poseType = PoseType.SLEEP,
             idleAnimations = arrayOf(bedrock("popplio", "sleep"))
@@ -113,7 +113,7 @@ class PopplioModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
                 bedrock("popplio", "shoulder_left")
             ),
             transformedParts = arrayOf(
-                rootPart.asTransformed().addPosition(TransformedModelPart.X_AXIS, shoulderOffset)
+                rootPart.createTransformation().addPosition(ModelPartTransformation.X_AXIS, shoulderOffset)
             )
         )
 
@@ -125,7 +125,7 @@ class PopplioModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
                 bedrock("popplio", "shoulder_right")
             ),
             transformedParts = arrayOf(
-                rootPart.asTransformed().addPosition(TransformedModelPart.X_AXIS, -shoulderOffset)
+                rootPart.createTransformation().addPosition(ModelPartTransformation.X_AXIS, -shoulderOffset)
             )
         )
     }

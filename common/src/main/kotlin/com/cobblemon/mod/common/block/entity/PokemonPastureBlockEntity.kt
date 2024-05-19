@@ -14,7 +14,7 @@ import com.cobblemon.mod.common.CobblemonBlocks
 import com.cobblemon.mod.common.CobblemonNetwork.sendPacket
 import com.cobblemon.mod.common.advancement.CobblemonCriteria
 import com.cobblemon.mod.common.api.pasture.PastureLinkManager
-import com.cobblemon.mod.common.api.scheduling.afterOnMain
+import com.cobblemon.mod.common.api.scheduling.afterOnServer
 import com.cobblemon.mod.common.api.text.red
 import com.cobblemon.mod.common.block.PastureBlock
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
@@ -48,7 +48,7 @@ import net.minecraft.world.World
 import java.util.*
 import kotlin.math.ceil
 
-class PokemonPastureBlockEntity(pos: BlockPos, val state: BlockState) : BlockEntity(CobblemonBlockEntities.PASTURE, pos, state) {
+class PokemonPastureBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(CobblemonBlockEntities.PASTURE, pos, state) {
     open class Tethering(
         val minRoamPos: BlockPos,
         val maxRoamPos: BlockPos,
@@ -140,9 +140,9 @@ class PokemonPastureBlockEntity(pos: BlockPos, val state: BlockState) : BlockEnt
             if (fixedPosition != null) {
                 entity.setPosition(fixedPosition.toCenterPos().subtract(0.0, 0.5, 0.0))
                 val pc = Cobblemon.storage.getPC(player.uuid)
-                entity.beamModeEmitter.set(1)
-                afterOnMain(seconds = SendOutPokemonHandler.SEND_OUT_DURATION) {
-                    entity.beamModeEmitter.set(0)
+                entity.beamMode = 2
+                afterOnServer(seconds = SendOutPokemonHandler.SEND_OUT_DURATION) {
+                    entity.beamMode = 0
                 }
                 if (world.spawnEntity(entity)) {
                     val tethering = Tethering(
@@ -173,11 +173,11 @@ class PokemonPastureBlockEntity(pos: BlockPos, val state: BlockState) : BlockEnt
     }
 
     private fun togglePastureOn(on: Boolean) {
-        val pastureBlock = state.block as PastureBlock
+        val pastureBlock = cachedState.block as PastureBlock
 
         if (world != null && !world!!.isClient) {
             val world = world!!
-            val posBottom = pastureBlock.getBasePosition(state, pos)
+            val posBottom = pastureBlock.getBasePosition(cachedState, pos)
             val stateBottom = world.getBlockState(posBottom)
 
             val posTop = pastureBlock.getPositionOfOtherPart(stateBottom, posBottom)

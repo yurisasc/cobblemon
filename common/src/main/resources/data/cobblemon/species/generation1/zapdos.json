@@ -31,6 +31,9 @@
     "special_defence": 90,
     "speed": 100
   },
+  "features": [
+    "galarian"
+  ],
   "catchRate": 3,
   "maleRatio": -1,
   "shoulderMountable": false,
@@ -94,6 +97,10 @@
         "tm:brickbreak",
         "tm:bulkup",
         "tm:closecombat",
+        "tm:coaching",
+        "tm:doubleedge",
+        "tm:dualwingbeat",
+        "tm:endeavor",
         "tm:endure",
         "tm:facade",
         "tm:fly",
@@ -102,6 +109,7 @@
         "tm:helpinghand",
         "tm:hurricane",
         "tm:hyperbeam",
+        "tm:knockoff",
         "tm:lightscreen",
         "tm:lowkick",
         "tm:lowsweep",
@@ -149,9 +157,23 @@
       ],
       "height": 16,
       "weight": 582,
-      "evolutions": [],
       "cannotDynamax": false,
-      "battleOnly": false
+      "battleOnly": false,
+      "drops": {
+        "amount": 6,
+        "entries": [
+          {
+            "item": "minecraft:feather",
+            "quantityRange": "2-4"
+          },
+          {
+            "item": "minecraft:chicken"
+          },
+          {
+            "item": "cobblemon:razor_claw"
+          }
+        ]
+      }
     }
   ],
   "baseExperienceYield": 290,
@@ -190,10 +212,12 @@
     "tm:aircutter",
     "tm:batonpass",
     "tm:bravebird",
+    "tm:charge",
     "tm:chargebeam",
     "tm:confide",
     "tm:defog",
     "tm:doubleteam",
+    "tm:dualwingbeat",
     "tm:eerieimpulse",
     "tm:electricterrain",
     "tm:electroball",
@@ -210,6 +234,7 @@
     "tm:hurricane",
     "tm:hyperbeam",
     "tm:lightscreen",
+    "tm:metalsound",
     "tm:naturalgift",
     "tm:pluck",
     "tm:protect",
@@ -229,6 +254,7 @@
     "tm:steelwing",
     "tm:substitute",
     "tm:sunnyday",
+    "tm:supercellslam",
     "tm:swagger",
     "tm:swift",
     "tm:tailwind",
@@ -251,7 +277,6 @@
     "tutor:charge",
     "tutor:curse",
     "tutor:defog",
-    "tutor:detect",
     "tutor:discharge",
     "tutor:doubleedge",
     "tutor:doubleteam",
@@ -300,15 +325,13 @@
     "tutor:swift",
     "tutor:tailwind",
     "tutor:takedown",
-    "tutor:thunder",
     "tutor:thunderbolt",
     "tutor:thundershock",
     "tutor:thunderwave",
     "tutor:toxic",
     "tutor:twister",
     "tutor:uturn",
-    "tutor:whirlwind",
-    "tutor:zapcannon"
+    "tutor:whirlwind"
   ],
   "labels": [
     "gen1",

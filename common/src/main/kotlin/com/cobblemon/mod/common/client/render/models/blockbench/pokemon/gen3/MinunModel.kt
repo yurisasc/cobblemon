@@ -26,17 +26,17 @@ class MinunModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedFr
     override val leftLeg = getPart("leftfoot")
     override val rightLeg = getPart("rightfoot")
 
-    override val portraitScale = 2.6F
-    override val portraitTranslation = Vec3d(-0.15, -1.35, 0.0)
+    override var portraitScale = 2.6F
+    override var portraitTranslation = Vec3d(-0.15, -1.35, 0.0)
 
-    override val profileScale = 0.85F
-    override val profileTranslation = Vec3d(0.0, 0.5, 0.0)
+    override var profileScale = 0.85F
+    override var profileTranslation = Vec3d(0.0, 0.5, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("minun", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("minun", "blink") }
         standing = registerPose(
             poseName = "standing",
             poseTypes = STATIONARY_POSES + UI_POSES,

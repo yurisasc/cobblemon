@@ -134,7 +134,7 @@
   "pokedex": [
     "cobblemon.species.mrrime.desc"
   ],
-  "preEvolution": "mrmime form=galar",
+  "preEvolution": "mrmime galarian",
   "evolutions": [],
   "baseScale": 1,
   "hitbox": {
@@ -154,5 +154,14 @@
   "height": 15,
   "weight": 582,
   "aspects": [],
-  "cannotDynamax": false
+  "cannotDynamax": false,
+  "drops": {
+    "amount": 1,
+    "entries": [
+      {
+        "item": "cobblemon:aspear_berry",
+        "percentage": 10.0
+      }
+    ]
+  }
 }

@@ -25,19 +25,19 @@ class CaterpieModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("caterpie")
     override val head = getPart("head")
 
-    override val portraitScale = 2.1F
-    override val portraitTranslation = Vec3d(-0.55, -1.55, 0.0)
-    override val profileScale = 0.8F
-    override val profileTranslation = Vec3d(0.0, 0.55, 0.0)
+    override var portraitScale = 2.1F
+    override var portraitTranslation = Vec3d(-0.55, -1.55, 0.0)
+    override var profileScale = 0.8F
+    override var profileTranslation = Vec3d(0.0, 0.55, 0.0)
 
     lateinit var sleep: PokemonPose
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("caterpie", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("caterpie", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("caterpie", "blink").setPreventsIdle(false)}
+        val blink = quirk { bedrockStateful("caterpie", "blink")}
         sleep = registerPose(
             poseType = PoseType.SLEEP,
             transformTicks = 10,

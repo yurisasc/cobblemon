@@ -4,7 +4,9 @@
   "nationalPokedexNumber": 1010,
   "primaryType": "grass",
   "secondaryType": "psychic",
-  "abilities": ["quarkdrive"],
+  "abilities": [
+    "quarkdrive"
+  ],
   "baseStats": {
     "hp": 90,
     "attack": 130,
@@ -35,7 +37,9 @@
   },
   "experienceGroup": "slow",
   "eggCycles": 50,
-  "eggGroups": ["undiscovered"],
+  "eggGroups": [
+    "undiscovered"
+  ],
   "moves": [
     "1:electricterrain",
     "1:helpinghand",
@@ -62,6 +66,8 @@
     "tm:brickbreak",
     "tm:calmmind",
     "tm:closecombat",
+    "tm:coaching",
+    "tm:doubleedge",
     "tm:electricterrain",
     "tm:endure",
     "tm:energyball",
@@ -72,12 +78,14 @@
     "tm:gigaimpact",
     "tm:grassknot",
     "tm:grassyterrain",
+    "tm:gravity",
     "tm:helpinghand",
     "tm:hyperbeam",
     "tm:imprison",
     "tm:irondefense",
     "tm:leafstorm",
     "tm:magicalleaf",
+    "tm:metalsound",
     "tm:protect",
     "tm:psychicterrain",
     "tm:rest",
@@ -86,21 +94,22 @@
     "tm:sleeptalk",
     "tm:smartstrike",
     "tm:solarbeam",
+    "tm:solarblade",
     "tm:substitute",
     "tm:swift",
     "tm:swordsdance",
     "tm:takedown",
     "tm:taunt",
     "tm:terablast",
+    "tm:throatchop",
     "tm:trailblaze",
     "tm:wildcharge",
-    "tm:xscissor",
-    "tutor:leafblade",
-    "tutor:megahorn",
-    "tutor:psyblade",
-    "tutor:swordsdance"
+    "tm:xscissor"
   ],
-  "labels": ["gen9", "paradox"],
+  "labels": [
+    "gen9",
+    "paradox"
+  ],
   "aspects": [],
   "height": 15,
   "weight": 1250,

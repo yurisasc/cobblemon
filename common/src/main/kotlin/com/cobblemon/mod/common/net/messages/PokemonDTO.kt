@@ -16,16 +16,17 @@ import com.cobblemon.mod.common.api.net.Encodable
 import com.cobblemon.mod.common.api.pokeball.PokeBalls
 import com.cobblemon.mod.common.api.pokemon.Natures
 import com.cobblemon.mod.common.api.pokemon.PokemonSpecies
+import com.cobblemon.mod.common.api.pokemon.feature.SpeciesFeatures
+import com.cobblemon.mod.common.api.pokemon.feature.SynchronizedSpeciesFeature
+import com.cobblemon.mod.common.api.pokemon.feature.SynchronizedSpeciesFeatureProvider
 import com.cobblemon.mod.common.api.pokemon.status.Statuses
-import com.cobblemon.mod.common.api.types.ElementalTypes
+import com.cobblemon.mod.common.api.types.tera.TeraTypes
 import com.cobblemon.mod.common.net.IntSize
-import com.cobblemon.mod.common.pokemon.EVs
-import com.cobblemon.mod.common.pokemon.Gender
-import com.cobblemon.mod.common.pokemon.IVs
-import com.cobblemon.mod.common.pokemon.Pokemon
+import com.cobblemon.mod.common.pokemon.*
 import com.cobblemon.mod.common.pokemon.activestate.PokemonState
 import com.cobblemon.mod.common.pokemon.status.PersistentStatus
 import com.cobblemon.mod.common.pokemon.status.PersistentStatusContainer
+import com.cobblemon.mod.common.util.asIdentifierDefaultingNamespace
 import com.cobblemon.mod.common.util.readSizedInt
 import com.cobblemon.mod.common.util.writeSizedInt
 import io.netty.buffer.Unpooled
@@ -74,6 +75,11 @@ class PokemonDTO : Encodable, Decodable {
     var dmaxLevel = 0
     var gmaxFactor = false
     var tradeable = true
+//    var features: List<SynchronizedSpeciesFeature> = emptyList()
+    lateinit var featuresBuffer: PacketByteBuf
+    var originalTrainerType: OriginalTrainerType = OriginalTrainerType.NONE
+    var originalTrainer: String? = null
+    var originalTrainerName: String? = null
 
     constructor()
     constructor(pokemon: Pokemon, toClient: Boolean) {
@@ -104,10 +110,22 @@ class PokemonDTO : Encodable, Decodable {
         this.mintNature = pokemon.mintedNature?.name
         this.heldItem = pokemon.heldItemNoCopy()
         this.tetheringId = pokemon.tetheringId
-        this.teraType = pokemon.teraType.name
+        this.teraType = pokemon.teraType.id.toString()
         this.dmaxLevel = pokemon.dmaxLevel
         this.gmaxFactor = pokemon.gmaxFactor
         this.tradeable = pokemon.tradeable
+        this.featuresBuffer = PacketByteBuf(Unpooled.buffer())
+        val visibleFeatures = pokemon.features
+            .filterIsInstance<SynchronizedSpeciesFeature>()
+            .filter { (SpeciesFeatures.getFeature(it.name) as? SynchronizedSpeciesFeatureProvider<*>)?.visible == true }
+        featuresBuffer.writeCollection(visibleFeatures) { _, value ->
+            featuresBuffer.writeString(value.name)
+            value.encode(featuresBuffer)
+        }
+
+        this.originalTrainerType = pokemon.originalTrainerType
+        this.originalTrainer = pokemon.originalTrainer
+        this.originalTrainerName = pokemon.originalTrainerName
     }
 
     override fun encode(buffer: PacketByteBuf) {
@@ -145,6 +163,13 @@ class PokemonDTO : Encodable, Decodable {
         buffer.writeInt(dmaxLevel)
         buffer.writeBoolean(gmaxFactor)
         buffer.writeBoolean(tradeable)
+        val featureByteCount = featuresBuffer.readableBytes()
+        buffer.writeSizedInt(IntSize.U_SHORT, featureByteCount)
+        buffer.writeBytes(featuresBuffer)
+        featuresBuffer.release()
+        buffer.writeString(originalTrainerType.name)
+        buffer.writeNullable(originalTrainer) { _, v -> buffer.writeString(v) }
+        buffer.writeNullable(originalTrainerName) { _, v -> buffer.writeString(v) }
     }
 
     override fun decode(buffer: PacketByteBuf) {
@@ -183,6 +208,12 @@ class PokemonDTO : Encodable, Decodable {
         dmaxLevel = buffer.readInt()
         gmaxFactor = buffer.readBoolean()
         tradeable = buffer.readBoolean()
+
+        val featureBytesToRead = buffer.readSizedInt(IntSize.U_SHORT)
+        featuresBuffer = PacketByteBuf(buffer.readBytes(featureBytesToRead))
+        originalTrainerType = OriginalTrainerType.valueOf(buffer.readString())
+        originalTrainer = buffer.readNullable { buffer.readString() }
+        originalTrainerName = buffer.readNullable { buffer.readString() }
     }
 
     fun create(): Pokemon {
@@ -195,7 +226,6 @@ class PokemonDTO : Encodable, Decodable {
             it.experience = experience
             it.level = level
             it.setFriendship(friendship)
-            it.currentHealth = currentHealth
             it.gender = gender
             ivs.forEach { stat ->
                 it.setIV(stat.key, stat.value)
@@ -203,6 +233,7 @@ class PokemonDTO : Encodable, Decodable {
             evs.forEach { stat ->
                 it.setEV(stat.key, stat.value)
             }
+            it.currentHealth = currentHealth
             it.moveSet.clear()
             for (move in moveSet) {
                 it.moveSet.add(move)
@@ -228,10 +259,41 @@ class PokemonDTO : Encodable, Decodable {
             it.mintedNature = mintNature?.let { id -> Natures.getNature(id)!! }
             it.swapHeldItem(heldItem, false)
             it.tetheringId = tetheringId
-            it.teraType = ElementalTypes.getOrException(teraType)
+            it.teraType = TeraTypes.get(this.teraType.asIdentifierDefaultingNamespace())!!
             it.dmaxLevel = dmaxLevel
             it.gmaxFactor = gmaxFactor
             it.tradeable = tradeable
+            repeat(times = featuresBuffer.readSizedInt(IntSize.U_BYTE)) { _ ->
+                val species = PokemonSpecies.getByIdentifier(this.species)!!
+                val speciesFeatureName = featuresBuffer.readString()
+                val featureProviders = SpeciesFeatures
+                    .getFeaturesFor(species)
+                    .filterIsInstance<SynchronizedSpeciesFeatureProvider<*>>()
+                val feature = featureProviders.firstNotNullOfOrNull { it(featuresBuffer, speciesFeatureName) }
+                    ?: throw IllegalArgumentException("Couldn't find a feature provider to deserialize this feature. Something's wrong.")
+                it.features.removeIf { it.name == feature.name }
+                it.features.add(feature)
+            }
+            when (originalTrainerType)
+            {
+                OriginalTrainerType.NONE -> {
+                    it.removeOriginalTrainer()
+                }
+                OriginalTrainerType.PLAYER -> {
+                    originalTrainer?.let { ot ->
+                        UUID.fromString(ot)?.let { uuid ->
+                            it.setOriginalTrainer(uuid)
+                        }
+                    }
+                }
+                OriginalTrainerType.NPC ->
+                {
+                    originalTrainer?.let { ot ->
+                        it.setOriginalTrainer(ot)
+                    }
+                }
+            }
+            it.originalTrainerName = originalTrainerName
         }
     }
 }

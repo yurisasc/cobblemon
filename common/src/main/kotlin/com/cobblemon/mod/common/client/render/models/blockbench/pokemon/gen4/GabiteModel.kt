@@ -11,6 +11,7 @@ package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen4
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BimanualFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cobblemon.mod.common.entity.PoseType
@@ -25,19 +26,21 @@ class GabiteModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedF
     override val rightLeg = getPart("leg_right")
     override val leftLeg = getPart("leg_left")
 
-    override val portraitScale = 3.0F
-    override val portraitTranslation = Vec3d(-0.7, 0.6, 0.0)
+    override var portraitScale = 3.0F
+    override var portraitTranslation = Vec3d(-0.7, 0.6, 0.0)
 
-    override val profileScale = 0.8F
-    override val profileTranslation = Vec3d(0.0, 0.55, 0.0)
+    override var profileScale = 0.8F
+    override var profileTranslation = Vec3d(0.0, 0.55, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
     lateinit var battleidle: PokemonPose
 
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("gabite", "cry") }
+
     override fun registerPoses() {
 
-        val blink = quirk("blink") { bedrockStateful("gabite", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("gabite", "blink") }
 
         standing = registerPose(
             poseName = "standing",

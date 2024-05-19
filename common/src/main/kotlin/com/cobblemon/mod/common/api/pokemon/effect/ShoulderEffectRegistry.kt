@@ -8,10 +8,9 @@
 
 package com.cobblemon.mod.common.api.pokemon.effect
 
-import com.cobblemon.mod.common.api.scheduling.after
+import com.cobblemon.mod.common.api.scheduling.ServerTaskTracker
 import com.cobblemon.mod.common.platform.events.PlatformEvents
 import com.cobblemon.mod.common.pokemon.activestate.ShoulderedState
-import com.cobblemon.mod.common.pokemon.effects.LightSourceEffect
 import com.cobblemon.mod.common.pokemon.effects.PotionBaseEffect
 import com.cobblemon.mod.common.util.party
 import net.minecraft.server.network.ServerPlayerEntity
@@ -29,7 +28,6 @@ object ShoulderEffectRegistry {
     private val effects = mutableMapOf<String, Class<out ShoulderEffect>>()
 
     // Effects - START
-    val LIGHT_SOURCE = register("light_source", LightSourceEffect::class.java)
     val POTION_EFFECT = register("potion_effect", PotionBaseEffect::class.java)
     // Effects - END
 
@@ -51,7 +49,7 @@ object ShoulderEffectRegistry {
     fun onEffectEnd(player: ServerPlayerEntity) {
         // Do this next tick so the client syncs correctly.
         // While it is a ticks worth of downtime it's still 1/20th of a second, doubt they'll notice.
-        after(1, serverThread = true) { this.refreshEffects(player) }
+        ServerTaskTracker.momentarily { this.refreshEffects(player) }
     }
 
     private fun refreshEffects(player: ServerPlayerEntity) {

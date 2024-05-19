@@ -18,11 +18,11 @@ import net.minecraft.util.math.Vec3d
 class MetagrossModel (root: ModelPart) : PokemonPoseableModel() {
     override val rootPart = root.registerChildWithAllChildren("metagross")
 
-    override val portraitScale = 1.1F
-    override val portraitTranslation = Vec3d(-0.45, 0.5, 0.0)
+    override var portraitScale = 1.1F
+    override var portraitTranslation = Vec3d(-0.45, 0.5, 0.0)
 
-    override val profileScale = 0.4F
-    override val profileTranslation = Vec3d(0.0, 1.0, 0.0)
+    override var profileScale = 0.4F
+    override var profileTranslation = Vec3d(0.0, 1.0, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
@@ -31,10 +31,10 @@ class MetagrossModel (root: ModelPart) : PokemonPoseableModel() {
     lateinit var sleep: PokemonPose
     lateinit var battleidle: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("metagross", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("metagross", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("metagross", "blink").setPreventsIdle(false)}
+        val blink = quirk { bedrockStateful("metagross", "blink")}
 
         sleep = registerPose(
             poseType = PoseType.SLEEP,

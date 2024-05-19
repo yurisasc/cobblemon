@@ -22,18 +22,18 @@ import net.minecraft.util.math.Vec3d
 class VileplumeModel(root: ModelPart) : PokemonPoseableModel() {
     override val rootPart = root.registerChildWithAllChildren("vileplume")
 
-    override val portraitScale = 1.8F
-    override val portraitTranslation = Vec3d(-0.35, -0.8, 0.0)
+    override var portraitScale = 1.8F
+    override var portraitTranslation = Vec3d(-0.35, -0.8, 0.0)
 
-    override val profileScale = 0.8F
-    override val profileTranslation = Vec3d(0.0, 0.53, 0.0)
+    override var profileScale = 0.8F
+    override var profileTranslation = Vec3d(0.0, 0.53, 0.0)
 
     lateinit var sleep: PokemonPose
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("vileplume", "blink").setPreventsIdle(false)}
+        val blink = quirk { bedrockStateful("vileplume", "blink")}
         standing = registerPose(
             poseName = "standing",
             poseTypes = STATIONARY_POSES + UI_POSES,

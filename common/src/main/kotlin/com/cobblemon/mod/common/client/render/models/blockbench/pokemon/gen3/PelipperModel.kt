@@ -8,18 +8,13 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen3
 
-import com.cobblemon.mod.common.client.render.models.blockbench.animation.BipedWalkAnimation
-import com.cobblemon.mod.common.client.render.models.blockbench.animation.WingFlapIdleAnimation
-import com.cobblemon.mod.common.client.render.models.blockbench.asTransformed
+import com.cobblemon.mod.common.client.render.models.blockbench.createTransformation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BiWingedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pose.TransformedModelPart
-import com.cobblemon.mod.common.client.render.models.blockbench.wavefunction.parabolaFunction
-import com.cobblemon.mod.common.client.render.models.blockbench.wavefunction.sineFunction
+import com.cobblemon.mod.common.client.render.models.blockbench.pose.ModelPartTransformation
 import com.cobblemon.mod.common.entity.PoseType
-import com.cobblemon.mod.common.util.math.geometry.toRadians
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
@@ -30,11 +25,11 @@ class PelipperModel (root: ModelPart) : PokemonPoseableModel(), BipedFrame, BiWi
     override val leftLeg = getPart("foot_left")
     override val rightLeg = getPart("foot_right")
 
-    override val portraitScale = 1.5F
-    override val portraitTranslation = Vec3d(-0.2, 0.0, 0.0)
+    override var portraitScale = 1.5F
+    override var portraitTranslation = Vec3d(-0.2, 0.0, 0.0)
 
-    override val profileScale = 0.9F
-    override val profileTranslation = Vec3d(0.0, 0.3, 0.0)
+    override var profileScale = 0.9F
+    override var profileTranslation = Vec3d(0.0, 0.3, 0.0)
 
     lateinit var sleep: PokemonPose
     lateinit var stand: PokemonPose
@@ -48,19 +43,21 @@ class PelipperModel (root: ModelPart) : PokemonPoseableModel(), BipedFrame, BiWi
     val wateroffset = -6
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("pelipper", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("pelipper", "blink") }
         sleep = registerPose(
+            poseName = "non_water_sleep",
             poseType = PoseType.SLEEP,
             condition = { !it.isTouchingWater },
             idleAnimations = arrayOf(bedrock("pelipper", "sleep"))
         )
 
         water_surface_sleep = registerPose(
+            poseName = "water_surface_sleep",
             poseType = PoseType.SLEEP,
             condition = { it.isTouchingWater },
             idleAnimations = arrayOf(bedrock("pelipper", "surfacewater_sleep")),
             transformedParts = arrayOf(
-                rootPart.asTransformed().addPosition(TransformedModelPart.Y_AXIS, wateroffset)
+                rootPart.createTransformation().addPosition(ModelPartTransformation.Y_AXIS, wateroffset)
             )
         )
 
@@ -117,7 +114,7 @@ class PelipperModel (root: ModelPart) : PokemonPoseableModel(), BipedFrame, BiWi
                 bedrock("pelipper", "surfacewater_idle"),
             ),
             transformedParts = arrayOf(
-                rootPart.asTransformed().addPosition(TransformedModelPart.Y_AXIS, wateroffset)
+                rootPart.createTransformation().addPosition(ModelPartTransformation.Y_AXIS, wateroffset)
             )
         )
 
@@ -130,7 +127,7 @@ class PelipperModel (root: ModelPart) : PokemonPoseableModel(), BipedFrame, BiWi
                 bedrock("pelipper", "surfacewater_swim"),
             ),
             transformedParts = arrayOf(
-                rootPart.asTransformed().addPosition(TransformedModelPart.Y_AXIS, wateroffset)
+                rootPart.createTransformation().addPosition(ModelPartTransformation.Y_AXIS, wateroffset)
             )
         )
     }

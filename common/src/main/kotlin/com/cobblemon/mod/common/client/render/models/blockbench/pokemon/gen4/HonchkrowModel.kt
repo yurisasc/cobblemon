@@ -15,7 +15,7 @@ import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pose.TransformedModelPart
+import com.cobblemon.mod.common.client.render.models.blockbench.pose.ModelPartTransformation
 import com.cobblemon.mod.common.client.render.models.blockbench.wavefunction.sineFunction
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.util.math.geometry.toRadians
@@ -30,11 +30,11 @@ class HonchkrowModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
     override val leftWing = getPart("wing_left")
     override val rightWing = getPart("wing_right")
 
-    override val portraitScale = 3.4F
-    override val portraitTranslation = Vec3d(-0.35, -1.2, 0.0)
+    override var portraitScale = 3.4F
+    override var portraitTranslation = Vec3d(-0.35, -1.2, 0.0)
 
-    override val profileScale = 1.2F
-    override val profileTranslation = Vec3d(0.0, -0.05, 0.0)
+    override var profileScale = 1.2F
+    override var profileTranslation = Vec3d(0.0, -0.05, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
@@ -43,7 +43,7 @@ class HonchkrowModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
     lateinit var fly: PokemonPose
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("honchkrow", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("honchkrow", "blink") }
 
         sleep = registerPose(
             poseType = PoseType.SLEEP,
@@ -82,7 +82,7 @@ class HonchkrowModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
                 WingFlapIdleAnimation(this,
                     flapFunction = sineFunction(verticalShift = -10F.toRadians(), period = 0.9F, amplitude = 0.6F),
                     timeVariable = { state, _, _ -> state?.animationSeconds ?: 0F },
-                    axis = TransformedModelPart.Z_AXIS
+                    axis = ModelPartTransformation.Z_AXIS
                 )
             )
         )
@@ -98,7 +98,7 @@ class HonchkrowModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
                 WingFlapIdleAnimation(this,
                     flapFunction = sineFunction(verticalShift = -14F.toRadians(), period = 0.9F, amplitude = 0.9F),
                     timeVariable = { state, _, _ -> state?.animationSeconds ?: 0F },
-                    axis = TransformedModelPart.Z_AXIS
+                    axis = ModelPartTransformation.Z_AXIS
                 )
             )
         )

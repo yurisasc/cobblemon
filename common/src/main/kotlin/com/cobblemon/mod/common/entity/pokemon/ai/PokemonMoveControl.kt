@@ -16,6 +16,7 @@ import com.cobblemon.mod.common.util.getWaterAndLavaIn
 import com.cobblemon.mod.common.util.math.geometry.toDegrees
 import com.cobblemon.mod.common.util.math.geometry.toRadians
 import kotlin.math.abs
+import kotlin.math.max
 import kotlin.math.min
 import kotlin.math.sqrt
 import net.minecraft.entity.ai.control.MoveControl
@@ -40,7 +41,7 @@ class PokemonMoveControl(val pokemonEntity: PokemonEntity) : MoveControl(pokemon
         }
 
         val behaviour = pokemonEntity.behaviour
-        val mediumSpeed = if (pokemonEntity.getPoseType() in setOf(PoseType.FLY, PoseType.HOVER)) {
+        val mediumSpeed = if (pokemonEntity.getCurrentPoseType() in setOf(PoseType.FLY, PoseType.HOVER)) {
             behaviour.moving.fly.flySpeedHorizontal
         } else if (pokemonEntity.isSubmergedIn(FluidTags.WATER) || pokemonEntity.isSubmergedIn(FluidTags.LAVA)) {
             behaviour.moving.swim.swimSpeed
@@ -75,9 +76,25 @@ class PokemonMoveControl(val pokemonEntity: PokemonEntity) : MoveControl(pokemon
             entity.setSidewaysSpeed(sidewaysMovement)
             state = State.WAIT
         } else if (state == State.MOVE_TO) {
-            val xDist = targetX - entity.x
-            val zDist = targetZ - entity.z
-            val yDist = targetY - entity.y
+            // Don't instantly move to WAIT for fluid movements as they overshoot their mark.
+            if (!pokemonEntity.isFlying() && !pokemonEntity.isSwimming) {
+                state = State.WAIT
+            }
+            var xDist = targetX - entity.x
+            var zDist = targetZ - entity.z
+            var yDist = targetY - entity.y
+
+            if (xDist * xDist + yDist * yDist + zDist * zDist < VERY_CLOSE) {
+                // If we're close enough, pull up stumps here.
+                entity.setForwardSpeed(0F)
+                entity.setUpwardSpeed(0F)
+                // If we're super close and we're fluid movers, forcefully stop moving so you don't overshoot
+                if ((pokemonEntity.isFlying() || pokemonEntity.isSwimming)) {
+                    state = State.WAIT
+                    entity.velocity = Vec3d.ZERO
+                }
+                return
+            }
 
             val horizontalDistanceFromTarget = xDist * xDist + zDist * zDist
             val closeHorizontally = horizontalDistanceFromTarget < VERY_CLOSE
@@ -99,12 +116,13 @@ class PokemonMoveControl(val pokemonEntity: PokemonEntity) : MoveControl(pokemon
                 verticalHandled = true
                 entity.upwardSpeed = 0F
                 entity.movementSpeed = 0F
+                // Refinement is to prevent the entity from spinning around trying to get to a super precise location.
                 val refine: (Double) -> Double = { if (abs(it) < 0.05) 0.0 else it }
 
                 val fullDistance = Vec3d(
-                    refine(xDist),
-                    if (inFluid || pokemonEntity.getBehaviourFlag(PokemonBehaviourFlag.FLYING)) refine(yDist + 0.05) else 0.0,
-                    refine(zDist)
+                    xDist,
+                    refine(yDist + 0.05), // + 0.05 for dealing with swimming out of water, they otherwise get stuck on the lip
+                    zDist
                 )
 
                 val direction = fullDistance.normalize()
@@ -112,8 +130,13 @@ class PokemonMoveControl(val pokemonEntity: PokemonEntity) : MoveControl(pokemon
                 val scale = min(adjustedSpeed.toDouble(), fullDistance.length())
 
                 entity.velocity = direction.multiply(scale)
+
+                xDist = fullDistance.x
+                zDist = fullDistance.z
+                yDist = fullDistance.y
             } else {
-                val forwardSpeed = min(adjustedSpeed, sqrt(horizontalDistanceFromTarget).toFloat())
+                // division is to slow the speed down a bit so they don't overshoot when they get there.
+                val forwardSpeed = min(adjustedSpeed, max(horizontalDistanceFromTarget.toFloat() / 2, 0.15F))
                 entity.movementSpeed = forwardSpeed
             }
 
@@ -151,7 +174,7 @@ class PokemonMoveControl(val pokemonEntity: PokemonEntity) : MoveControl(pokemon
             entity.upwardSpeed = 0F
         }
 
-        if (state == State.WAIT) {
+        if (state == State.WAIT && !entity.navigation.isFollowingPath) {
             if (entity.isOnGround && behaviour.moving.walk.canWalk && pokemonEntity.getBehaviourFlag(PokemonBehaviourFlag.FLYING)) {
                 pokemonEntity.setBehaviourFlag(PokemonBehaviourFlag.FLYING, false)
             }

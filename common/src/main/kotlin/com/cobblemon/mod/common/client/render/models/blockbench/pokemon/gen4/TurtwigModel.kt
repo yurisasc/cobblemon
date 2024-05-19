@@ -9,13 +9,13 @@
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen4
 
 import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
-import com.cobblemon.mod.common.client.render.models.blockbench.asTransformed
+import com.cobblemon.mod.common.client.render.models.blockbench.createTransformation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.QuadrupedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pose.TransformedModelPart
+import com.cobblemon.mod.common.client.render.models.blockbench.pose.ModelPartTransformation.Companion.X_AXIS
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import net.minecraft.client.model.ModelPart
@@ -29,11 +29,11 @@ class TurtwigModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quad
     override val foreLeftLeg= getPart("leg_front_left")
     override val foreRightLeg = getPart("leg_front_right")
 
-    override val portraitScale = 2.1F
-    override val portraitTranslation = Vec3d(-0.25, -1.0, 0.0)
+    override var portraitScale = 2.1F
+    override var portraitTranslation = Vec3d(-0.25, -1.0, 0.0)
 
-    override val profileScale = 0.85F
-    override val profileTranslation = Vec3d(0.0, 0.5, 0.0)
+    override var profileScale = 0.85F
+    override var profileTranslation = Vec3d(0.0, 0.5, 0.0)
 
     lateinit var sleep: PokemonPose
     lateinit var standing: PokemonPose
@@ -43,10 +43,10 @@ class TurtwigModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quad
 
     val shoulderOffset = 3
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("turtwig", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("turtwig", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("turtwig", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("turtwig", "blink") }
         sleep = registerPose(
             poseType = PoseType.SLEEP,
             idleAnimations = arrayOf(bedrock("turtwig", "sleep"))
@@ -82,7 +82,7 @@ class TurtwigModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quad
                 bedrock("turtwig", "shoulder_left")
             ),
             transformedParts = arrayOf(
-                rootPart.asTransformed().addPosition(TransformedModelPart.X_AXIS, shoulderOffset)
+                rootPart.createTransformation().addPosition(X_AXIS, shoulderOffset)
             )
         )
 
@@ -94,7 +94,7 @@ class TurtwigModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quad
                 bedrock("turtwig", "shoulder_right")
             ),
             transformedParts = arrayOf(
-                rootPart.asTransformed().addPosition(TransformedModelPart.X_AXIS, -shoulderOffset)
+                rootPart.createTransformation().addPosition(X_AXIS, -shoulderOffset)
             )
         )
     }

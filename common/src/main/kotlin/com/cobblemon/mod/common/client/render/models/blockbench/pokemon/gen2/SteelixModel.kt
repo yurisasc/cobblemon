@@ -8,7 +8,6 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen2
 
-import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
@@ -17,7 +16,6 @@ import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.PoseType.Companion.MOVING_POSES
 import com.cobblemon.mod.common.entity.PoseType.Companion.STATIONARY_POSES
 import com.cobblemon.mod.common.entity.PoseType.Companion.UI_POSES
-import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
@@ -25,22 +23,22 @@ class SteelixModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("steelix")
     override val head = getPart("head")
 
-    override val portraitScale = 0.7F
-    override val portraitTranslation = Vec3d(-0.7, 1.8, 0.0)
+    override var portraitScale = 0.7F
+    override var portraitTranslation = Vec3d(-0.7, 1.8, 0.0)
 
-    override val profileScale = 0.4F
-    override val profileTranslation = Vec3d(-0.1, 1.1, 0.0)
+    override var profileScale = 0.4F
+    override var profileTranslation = Vec3d(-0.1, 1.1, -6.0)
 
     lateinit var standing: PokemonPose
     lateinit var walking: PokemonPose
     lateinit var sleep: PokemonPose
     lateinit var battleidle: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("steelix", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("steelix", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("steelix", "blink").setPreventsIdle(false) }
-        val jitter = quirk("jitter") { bedrockStateful("steelix", "quirk_jawjitter").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("steelix", "blink") }
+        val jitter = quirk { bedrockStateful("steelix", "quirk_jawjitter") }
         sleep = registerPose(
             poseType = PoseType.SLEEP,
             idleAnimations = arrayOf(bedrock("steelix", "sleep"))

@@ -123,7 +123,7 @@
         {
           "id": "ponyta_rapidash",
           "variant": "level_up",
-          "result": "rapidash form=galar",
+          "result": "rapidash galarian",
           "consumeHeldItem": false,
           "learnableMoves": [
             "psychocut"
@@ -137,7 +137,20 @@
         }
       ],
       "cannotDynamax": false,
-      "battleOnly": false
+      "battleOnly": false,
+      "drops": {
+        "amount": 2,
+        "entries": [
+          {
+            "item": "minecraft:leather",
+            "quantityRange": "0-1"
+          },
+          {
+            "item": "cobblemon:razz_berry",
+            "percentage": 2.5
+          }
+        ]
+      }
     }
   ],
   "baseExperienceYield": 82,

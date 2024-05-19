@@ -15,7 +15,6 @@ import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
-import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.PoseType.Companion.MOVING_POSES
 import com.cobblemon.mod.common.entity.PoseType.Companion.STATIONARY_POSES
 import com.cobblemon.mod.common.entity.PoseType.Companion.UI_POSES
@@ -31,18 +30,18 @@ class AlakazamModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bipe
     override val leftLeg = getPart("left_upper_leg")
     override val rightLeg = getPart("right_upper_leg")
 
-    override val portraitScale = 1.75F
-    override val portraitTranslation = Vec3d(-0.25, 0.85, 0.0)
+    override var portraitScale = 1.75F
+    override var portraitTranslation = Vec3d(-0.25, 0.85, 0.0)
 
-    override val profileScale = 0.73F
-    override val profileTranslation = Vec3d(0.0, 0.65, 0.0)
+    override var profileScale = 0.73F
+    override var profileTranslation = Vec3d(0.0, 0.65, 0.0)
 
     lateinit var sleep: PokemonPose
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("alakazam", "blink").setPreventsIdle(false)}
+        val blink = quirk { bedrockStateful("alakazam", "blink")}
         standing = registerPose(
             poseName = "standing",
             poseTypes = STATIONARY_POSES + UI_POSES,

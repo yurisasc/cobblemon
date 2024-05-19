@@ -8,18 +8,13 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen3
 
-import com.cobblemon.mod.common.client.render.models.blockbench.animation.WingFlapIdleAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BiWingedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pose.TransformedModelPart
-import com.cobblemon.mod.common.client.render.models.blockbench.wavefunction.parabolaFunction
-import com.cobblemon.mod.common.client.render.models.blockbench.wavefunction.sineFunction
 import com.cobblemon.mod.common.entity.PoseType
-import com.cobblemon.mod.common.util.math.geometry.toRadians
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
@@ -31,11 +26,11 @@ class TaillowModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bipe
     override val rightLeg = getPart("leg_right")
     override val head = getPart("head")
 
-    override val portraitScale = 3.5F
-    override val portraitTranslation = Vec3d(-0.2, -2.5, 0.0)
+    override var portraitScale = 3.5F
+    override var portraitTranslation = Vec3d(-0.2, -2.5, 0.0)
 
-    override val profileScale = 1.2F
-    override val profileTranslation = Vec3d(0.0, -0.01, 0.0)
+    override var profileScale = 1.2F
+    override var profileTranslation = Vec3d(0.0, -0.01, 0.0)
 
     lateinit var sleep: PokemonPose
     lateinit var stand: PokemonPose
@@ -43,10 +38,10 @@ class TaillowModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bipe
     lateinit var hover: PokemonPose
     lateinit var fly: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("taillow", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("taillow", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("taillow", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("taillow", "blink") }
         sleep = registerPose(
             poseType = PoseType.SLEEP,
             idleAnimations = arrayOf(bedrock("taillow", "sleep"))

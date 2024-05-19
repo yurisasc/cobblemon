@@ -9,10 +9,6 @@
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen2
 
 import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
-import com.cobblemon.mod.common.client.render.models.blockbench.animation.BimanualSwingAnimation
-import com.cobblemon.mod.common.client.render.models.blockbench.animation.BipedWalkAnimation
-import com.cobblemon.mod.common.client.render.models.blockbench.frame.BimanualFrame
-import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
@@ -26,23 +22,23 @@ class AmpharosModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("ampharos")
     override val head = getPart("head")
 
-    override val portraitScale = 1.9F
-    override val portraitTranslation = Vec3d(-0.15, 2.2, 0.0)
+    override var portraitScale = 1.9F
+    override var portraitTranslation = Vec3d(-0.15, 2.2, 0.0)
 
-    override val profileScale = 0.55F
-    override val profileTranslation = Vec3d(0.0, 0.9, 0.0)
+    override var profileScale = 0.55F
+    override var profileTranslation = Vec3d(0.0, 0.9, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walking: PokemonPose
     lateinit var sleep: PokemonPose
     lateinit var battleidle: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("ampharos", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("ampharos", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("ampharos", "blink").setPreventsIdle(false) }
-        val glow = quirk("glow") { bedrockStateful("ampharos", "quirk_glow").setPreventsIdle(false) }
-        val quirk = quirk("quirk", secondsBetweenOccurrences = 60F to 120F) { bedrockStateful("ampharos", "quirk_toes").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("ampharos", "blink") }
+        val glow = quirk { bedrockStateful("ampharos", "quirk_glow") }
+        val quirk = quirk(secondsBetweenOccurrences = 60F to 120F) { bedrockStateful("ampharos", "quirk_toes") }
         sleep = registerPose(
             poseType = PoseType.SLEEP,
             idleAnimations = arrayOf(bedrock("ampharos", "sleep"))

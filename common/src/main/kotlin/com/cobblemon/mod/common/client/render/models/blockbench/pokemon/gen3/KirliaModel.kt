@@ -20,31 +20,39 @@ import com.cobblemon.mod.common.entity.PoseType
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class KirliaModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedFrame, BimanualFrame {
+class KirliaModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("kirlia")
     override val head = getPart("head")
 
-    override val leftArm = getPart("arm_left")
-    override val rightArm = getPart("arm_right")
-    override val leftLeg = getPart("leg_left")
-    override val rightLeg = getPart("leg_right")
+    override var portraitScale = 2.6F
+    override var portraitTranslation = Vec3d(0.0, 0.0, 0.0)
 
-    override val portraitScale = 2.6F
-    override val portraitTranslation = Vec3d(0.0, 0.0, 0.0)
-
-    override val profileScale = 0.8F
-    override val profileTranslation = Vec3d(0.0, 0.6, 0.0)
+    override var profileScale = 0.8F
+    override var profileTranslation = Vec3d(0.0, 0.6, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
+    lateinit var sleep: PokemonPose
+    lateinit var battleidle: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("kirlia", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("kirlia", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("kirlia", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("kirlia", "blink") }
+
+        sleep = registerPose(
+            poseName = "sleep",
+            poseType = PoseType.SLEEP,
+            idleAnimations = arrayOf(
+                singleBoneLook(),
+                bedrock("kirlia", "sleep")
+            )
+        )
+
         standing = registerPose(
             poseName = "standing",
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
+            condition = { !it.isBattling },
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
@@ -58,10 +66,18 @@ class KirliaModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Biped
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
-                bedrock("kirlia", "ground_idle"),
-                BipedWalkAnimation(this, periodMultiplier = 0.6F, amplitudeMultiplier = 0.9F),
-                BimanualSwingAnimation(this, swingPeriodMultiplier = 0.6F, amplitudeMultiplier = 0.9F)
-                //bedrock("kirlia", "ground_walk")
+                bedrock("kirlia", "ground_walk")
+            )
+        )
+
+        battleidle = registerPose(
+            poseName = "battleidle",
+            poseTypes = PoseType.STATIONARY_POSES,
+            condition = { it.isBattling },
+            quirks = arrayOf(blink),
+            idleAnimations = arrayOf(
+                singleBoneLook(),
+                bedrock("kirlia", "battle_idle")
             )
         )
     }

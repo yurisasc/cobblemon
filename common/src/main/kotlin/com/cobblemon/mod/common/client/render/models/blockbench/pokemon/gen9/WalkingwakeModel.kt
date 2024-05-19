@@ -9,15 +9,14 @@
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen9
 
 import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
-import com.cobblemon.mod.common.client.render.models.blockbench.asTransformed
+import com.cobblemon.mod.common.client.render.models.blockbench.createTransformation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pose.TransformedModelPart
+import com.cobblemon.mod.common.client.render.models.blockbench.pose.ModelPartTransformation
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
-import com.cobblemon.mod.common.util.DataKeys
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
@@ -28,11 +27,11 @@ class WalkingwakeModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, 
     override val leftLeg = getPart("leg_left")
     override val rightLeg = getPart("leg_right")
 
-    override val portraitScale = 2.2F
-    override val portraitTranslation = Vec3d(-2.5, 2.4, 0.0)
+    override var portraitScale = 2.2F
+    override var portraitTranslation = Vec3d(-2.5, 2.4, 0.0)
 
-    override val profileScale = 0.35F
-    override val profileTranslation = Vec3d(0.0, 1.2, 0.0)
+    override var profileScale = 0.35F
+    override var profileTranslation = Vec3d(0.0, 1.2, -6.0)
 
     val hair = getPart("hair")
 
@@ -53,7 +52,7 @@ class WalkingwakeModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, 
             idleAnimations = arrayOf(bedrock("walkingwake", "sleep"))
         )
 
-        val blink = quirk("blink") { bedrockStateful("walkingwake", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("walkingwake", "blink") }
         standing = registerPose(
             poseName = "standing",
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
@@ -83,7 +82,7 @@ class WalkingwakeModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, 
                 bedrock("walkingwake", "ground_idle")
             ),
             transformedParts = arrayOf(
-                rootPart.asTransformed().addPosition(TransformedModelPart.Y_AXIS, wateroffset)
+                rootPart.createTransformation().addPosition(ModelPartTransformation.Y_AXIS, wateroffset)
             )
         )
 
@@ -116,7 +115,7 @@ class WalkingwakeModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, 
                 bedrock("walkingwake", "ground_walk"),
             ),
             transformedParts = arrayOf(
-                rootPart.asTransformed().addPosition(TransformedModelPart.Y_AXIS, wateroffset)
+                rootPart.createTransformation().addPosition(ModelPartTransformation.Y_AXIS, wateroffset)
             )
         )
 /*        shearedstanding = registerPose(

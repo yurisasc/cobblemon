@@ -9,21 +9,13 @@
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen2
 
 import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
-import com.cobblemon.mod.common.client.render.models.blockbench.animation.BimanualSwingAnimation
-import com.cobblemon.mod.common.client.render.models.blockbench.animation.BipedWalkAnimation
-import com.cobblemon.mod.common.client.render.models.blockbench.asTransformed
-import com.cobblemon.mod.common.client.render.models.blockbench.frame.BimanualFrame
-import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
+import com.cobblemon.mod.common.client.render.models.blockbench.createTransformation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
-import com.cobblemon.mod.common.client.render.models.blockbench.frame.QuadrupedFrame
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pose.TransformedModelPart
+import com.cobblemon.mod.common.client.render.models.blockbench.pose.ModelPartTransformation
+import com.cobblemon.mod.common.client.render.models.blockbench.pose.ModelPartTransformation.Companion.X_AXIS
 import com.cobblemon.mod.common.entity.PoseType
-import com.cobblemon.mod.common.entity.PoseType.Companion.MOVING_POSES
-import com.cobblemon.mod.common.entity.PoseType.Companion.STATIONARY_POSES
-import com.cobblemon.mod.common.entity.PoseType.Companion.UI_POSES
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
@@ -32,11 +24,11 @@ class TyrogueModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("tyrogue")
     override val head = getPart("head")
 
-    override val portraitScale = 2.56F
-    override val portraitTranslation = Vec3d(-0.24, 0.1, 0.0)
+    override var portraitScale = 2.56F
+    override var portraitTranslation = Vec3d(-0.24, 0.1, 0.0)
 
-    override val profileScale = 0.73F
-    override val profileTranslation = Vec3d(-0.03, 0.7, 0.0)
+    override var profileScale = 0.73F
+    override var profileTranslation = Vec3d(-0.03, 0.7, 0.0)
 
     lateinit var sleep: PokemonPose
     lateinit var standing: PokemonPose
@@ -47,10 +39,10 @@ class TyrogueModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
 
     val shoulderOffset = 3
 
-//    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("tyrogue", "cry").setPreventsIdle(false) }
+//    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("tyrogue", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("tyrogue", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("tyrogue", "blink") }
         sleep = registerPose(
             poseType = PoseType.SLEEP,
             idleAnimations = arrayOf(bedrock("tyrogue", "sleep"))
@@ -100,7 +92,7 @@ class TyrogueModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
                 bedrock("tyrogue", "shoulder_left")
             ),
             transformedParts = arrayOf(
-                rootPart.asTransformed().addPosition(TransformedModelPart.X_AXIS, shoulderOffset)
+                rootPart.createTransformation().addPosition(X_AXIS, shoulderOffset)
             )
         )
 
@@ -113,7 +105,7 @@ class TyrogueModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
                 bedrock("tyrogue", "shoulder_right")
             ),
             transformedParts = arrayOf(
-                rootPart.asTransformed().addPosition(TransformedModelPart.X_AXIS, -shoulderOffset)
+                rootPart.createTransformation().addPosition(X_AXIS, -shoulderOffset)
             )
         )
     }

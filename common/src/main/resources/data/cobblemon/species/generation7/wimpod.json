@@ -40,6 +40,12 @@
       "willSleepOnBed": false,
       "depth": "normal",
       "light": "0-4"
+    },
+    "moving": {
+      "swim": {
+        "canSwimInWater": false,
+        "canBreatheUnderwater": true
+      }
     }
   },
   "moves": [

@@ -9,10 +9,7 @@
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen4
 
 import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
-import com.cobblemon.mod.common.client.render.models.blockbench.animation.BimanualSwingAnimation
-import com.cobblemon.mod.common.client.render.models.blockbench.animation.BipedWalkAnimation
-import com.cobblemon.mod.common.client.render.models.blockbench.frame.BimanualFrame
-import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
+import com.cobblemon.mod.common.client.render.models.blockbench.animation.PrimaryAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
@@ -26,22 +23,22 @@ class GalladeModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("gallade")
     override val head = getPart("head")
 
-    override val portraitScale = 2.6F
-    override val portraitTranslation = Vec3d(-0.15, 2.1, 0.0)
+    override var portraitScale = 2.6F
+    override var portraitTranslation = Vec3d(-0.15, 2.1, 0.0)
 
-    override val profileScale = 0.65F
-    override val profileTranslation = Vec3d(0.0, 0.76, 0.0)
+    override var profileScale = 0.65F
+    override var profileTranslation = Vec3d(0.0, 0.76, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walking: PokemonPose
     lateinit var sleep: PokemonPose
     lateinit var battleidle: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("gallade", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { entity, _ -> if (entity.isBattling) bedrockStateful("gallade", "battle_cry") else bedrockStateful("gallade", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("gallade", "blink").setPreventsIdle(false) }
-        val quirk = quirk("quirk", secondsBetweenOccurrences = 10F to 60F) { bedrockStateful("gallade", "battle_quirk").setPreventsIdle(true) }
+        val blink = quirk { bedrockStateful("gallade", "blink") }
+        val quirk = quirk(secondsBetweenOccurrences = 10F to 60F) { PrimaryAnimation(bedrockStateful("gallade", "battle_quirk")) }
         sleep = registerPose(
             poseType = PoseType.SLEEP,
             idleAnimations = arrayOf(bedrock("gallade", "sleep"))

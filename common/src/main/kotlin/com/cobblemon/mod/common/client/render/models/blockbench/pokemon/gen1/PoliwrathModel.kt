@@ -18,11 +18,11 @@ import net.minecraft.util.math.Vec3d
 class PoliwrathModel(root: ModelPart) : PokemonPoseableModel() {
     override val rootPart = root.registerChildWithAllChildren("poliwrath")
 
-    override val portraitScale = 1.3F
-    override val portraitTranslation = Vec3d(-0.1, 0.36, 0.0)
+    override var portraitScale = 1.3F
+    override var portraitTranslation = Vec3d(-0.1, 0.36, 0.0)
 
-    override val profileScale = 0.85F
-    override val profileTranslation = Vec3d(0.0, 0.42, 0.0)
+    override var profileScale = 0.85F
+    override var profileTranslation = Vec3d(0.0, 0.42, 0.0)
 
     lateinit var sleep: PokemonPose
     lateinit var standing: PokemonPose
@@ -30,7 +30,7 @@ class PoliwrathModel(root: ModelPart) : PokemonPoseableModel() {
     lateinit var swim: PokemonPose
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("poliwrath", "blink").setPreventsIdle(false)}
+        val blink = quirk { bedrockStateful("poliwrath", "blink")}
         standing = registerPose(
             poseName = "standing",
             poseTypes = PoseType.STANDING_POSES + UI_POSES,

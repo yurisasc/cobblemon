@@ -8,7 +8,6 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen7
 
-import com.cobblemon.mod.common.client.render.models.blockbench.animation.QuadrupedWalkAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.QuadrupedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
@@ -27,20 +26,20 @@ class MudsdaleModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Qua
     override val hindLeftLeg = getPart("leg_back_left")
     override val hindRightLeg = getPart("leg_back_right")
 
-    override val portraitScale = 1.5F
-    override val portraitTranslation = Vec3d(-1.0, 1.76, 0.0)
+    override var portraitScale = 1.5F
+    override var portraitTranslation = Vec3d(-1.0, 1.76, 0.0)
 
-    override val profileScale = 0.5F
-    override val profileTranslation = Vec3d(0.0, 1.0, 0.0)
+    override var profileScale = 0.5F
+    override var profileTranslation = Vec3d(0.0, 1.0, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
     lateinit var sleep: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("mudsdale", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("mudsdale", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("mudsdale", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("mudsdale", "blink") }
 
         sleep = registerPose(
             poseType = PoseType.SLEEP,

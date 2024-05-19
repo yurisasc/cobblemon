@@ -3,27 +3,27 @@ Remember when updating from crowdin to only replace our mod lang files up to but
 Those don't get translated on crowdin because it's 500 million words, and we have official translations for some that we don't want to replace.
 They're always the bottom bulk of our mod lang files.
 
-zh_cn 4662
-zh_tw
+zh_cn 5452
+zh_tw 5452
 cs_cz 1671
-nl_nl 1006
-eo_eo 500
-fr_fr 4662
-fr_ca 4662
-de_de 3442
+nl_nl 1564
+-- eo_eo 500 decommissioned from crowdin since it wasn't getting maintained
+fr_fr 6291
+fr_ca 6291
+de_de 4474
 el_cy 1836
-hu_hu 1363
-it_it 2215
-ja_jp 3078
-ko_kr 1538
-en_pt 4662
-pl_pl 3235
-pt_pt 4662
-pt_br 4662
-ru_ru 4662
-es_es 3235
-es_mx 4662
-sv_se 175
-th_th 4662
+hu_hu 1520
+it_it 5391
+ja_jp 6291
+ko_kr 1878
+en_pt 6291
+pl_pl 5105
+pt_pt 6291
+pt_br 5452
+ru_ru 6291
+es_es 5445
+es_mx 6291
+-- sv_se 175 decommissioned from crowdin since it wasn't getting maintained
+th_th 5452
 tr_tr 1369
-uk_ua 1460
+uk_ua 1465

@@ -13,7 +13,7 @@
             "item": "cobblemon:pink_apricorn"
         },
         "c": {
-            "item": "minecraft:copper_ingot"
+            "tag": "cobblemon:tier_1_poke_ball_materials"
         },
         "r": {
             "item": "cobblemon:pink_apricorn"

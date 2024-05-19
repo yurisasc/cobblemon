@@ -27,19 +27,19 @@ class MaschiffModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Qua
     override val hindLeftLeg = getPart("leg_back_left1")
     override val hindRightLeg = getPart("leg_back_right1")
 
-    override val portraitScale = 1.8F
-    override val portraitTranslation = Vec3d(-0.7, -0.8, 0.0)
+    override var portraitScale = 1.8F
+    override var portraitTranslation = Vec3d(-0.7, -0.8, 0.0)
 
-    override val profileScale = 0.7F
-    override val profileTranslation = Vec3d(0.0, 0.65, 0.0)
+    override var profileScale = 0.7F
+    override var profileTranslation = Vec3d(0.0, 0.65, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("maschiff", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("maschiff", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("maschiff", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("maschiff", "blink") }
 
         standing = registerPose(
             poseName = "standing",

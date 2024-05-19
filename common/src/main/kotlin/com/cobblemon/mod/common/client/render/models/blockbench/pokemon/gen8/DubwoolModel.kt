@@ -9,7 +9,7 @@
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen8
 
 import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
-import com.cobblemon.mod.common.client.render.models.blockbench.asTransformed
+import com.cobblemon.mod.common.client.render.models.blockbench.createTransformation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.QuadrupedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
@@ -28,13 +28,13 @@ class DubwoolModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quadr
     override val foreRightLeg = getPart("leg_front_right")
     override val hindLeftLeg = getPart("leg_back_left")
     override val hindRightLeg = getPart("leg_back_right")
-    val wool = getPart("wool")
-    val neckWool = getPart("neck_wool")
+    val wool = getPart("wool_shearable")
+    val neckWool = getPart("neck_wool_shearable")
 
-    override val portraitScale = 3.1F
-    override val portraitTranslation = Vec3d(-1.2, -0.7, 0.0)
-    override val profileScale = 0.9F
-    override val profileTranslation = Vec3d(0.0, 0.4, 0.0)
+    override var portraitScale = 3.1F
+    override var portraitTranslation = Vec3d(-1.2, -0.7, 0.0)
+    override var profileScale = 0.9F
+    override var profileTranslation = Vec3d(0.0, 0.4, 0.0)
 
     lateinit var sleep: PokemonPose
     lateinit var standing: PokemonPose
@@ -43,17 +43,17 @@ class DubwoolModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quadr
     lateinit var shearedstanding: PokemonPose
     lateinit var shearedwalk: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("dubwool", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("dubwool", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("dubwool", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("dubwool", "blink") }
         sleep = registerPose(
                 poseType = PoseType.SLEEP,
                 transformTicks = 10,
-                condition = { DataKeys.HAS_BEEN_SHEARED !in it.aspects.get() },
+                condition = { DataKeys.HAS_BEEN_SHEARED !in it.aspects },
                 transformedParts = arrayOf(
-                        wool.asTransformed().withVisibility(visibility = true),
-                        neckWool.asTransformed().withVisibility(visibility = true)
+                        wool.createTransformation().withVisibility(visibility = true),
+                        neckWool.createTransformation().withVisibility(visibility = true)
                 ),
                 idleAnimations = arrayOf(bedrock("dubwool", "sleep"))
         )
@@ -63,10 +63,10 @@ class DubwoolModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quadr
                 poseTypes = setOf(PoseType.NONE, PoseType.STAND, PoseType.PORTRAIT, PoseType.PROFILE),
                 transformTicks = 10,
                 quirks = arrayOf(blink),
-                condition = { DataKeys.HAS_BEEN_SHEARED !in it.aspects.get() },
+                condition = { DataKeys.HAS_BEEN_SHEARED !in it.aspects },
                 transformedParts = arrayOf(
-                        wool.asTransformed().withVisibility(visibility = true),
-                        neckWool.asTransformed().withVisibility(visibility = true)
+                        wool.createTransformation().withVisibility(visibility = true),
+                        neckWool.createTransformation().withVisibility(visibility = true)
                 ),
                 idleAnimations = arrayOf(
                         singleBoneLook(),
@@ -79,10 +79,10 @@ class DubwoolModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quadr
                 poseTypes = setOf(PoseType.SWIM, PoseType.WALK),
                 transformTicks = 10,
                 quirks = arrayOf(blink),
-                condition = { DataKeys.HAS_BEEN_SHEARED !in it.aspects.get() },
+                condition = { DataKeys.HAS_BEEN_SHEARED !in it.aspects },
                 transformedParts = arrayOf(
-                        wool.asTransformed().withVisibility(visibility = true),
-                        neckWool.asTransformed().withVisibility(visibility = true)
+                        wool.createTransformation().withVisibility(visibility = true),
+                        neckWool.createTransformation().withVisibility(visibility = true)
                 ),
                 idleAnimations = arrayOf(
                         singleBoneLook(),
@@ -94,10 +94,10 @@ class DubwoolModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quadr
                 poseName = "shearedsleep",
                 poseType = PoseType.SLEEP,
                 transformTicks = 10,
-                condition = { DataKeys.HAS_BEEN_SHEARED in it.aspects.get() },
+                condition = { DataKeys.HAS_BEEN_SHEARED in it.aspects },
                 transformedParts = arrayOf(
-                        wool.asTransformed().withVisibility(visibility = false),
-                        neckWool.asTransformed().withVisibility(visibility = false)
+                        wool.createTransformation().withVisibility(visibility = false),
+                        neckWool.createTransformation().withVisibility(visibility = false)
                 ),
                 idleAnimations = arrayOf(
                         bedrock("dubwool", "sleep")
@@ -109,10 +109,10 @@ class DubwoolModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quadr
                 poseTypes = setOf(PoseType.NONE, PoseType.STAND, PoseType.PORTRAIT, PoseType.PROFILE),
                 transformTicks = 10,
                 quirks = arrayOf(blink),
-                condition = { DataKeys.HAS_BEEN_SHEARED in it.aspects.get() },
+                condition = { DataKeys.HAS_BEEN_SHEARED in it.aspects },
                 transformedParts = arrayOf(
-                        wool.asTransformed().withVisibility(visibility = false),
-                        neckWool.asTransformed().withVisibility(visibility = false)
+                        wool.createTransformation().withVisibility(visibility = false),
+                        neckWool.createTransformation().withVisibility(visibility = false)
                 ),
                 idleAnimations = arrayOf(
                         singleBoneLook(),
@@ -124,10 +124,10 @@ class DubwoolModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quadr
                 poseTypes = setOf(PoseType.SWIM, PoseType.WALK),
                 transformTicks = 10,
                 quirks = arrayOf(blink),
-                condition = { DataKeys.HAS_BEEN_SHEARED in it.aspects.get() },
+                condition = { DataKeys.HAS_BEEN_SHEARED in it.aspects },
                 transformedParts = arrayOf(
-                        wool.asTransformed().withVisibility(visibility = false),
-                        neckWool.asTransformed().withVisibility(visibility = false)
+                        wool.createTransformation().withVisibility(visibility = false),
+                        neckWool.createTransformation().withVisibility(visibility = false)
                 ),
                 idleAnimations = arrayOf(
                         singleBoneLook(),

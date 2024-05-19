@@ -12,25 +12,25 @@ import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFram
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
-import net.minecraft.client.model.ModelPart
 import com.cobblemon.mod.common.entity.PoseType
+import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
 class TatsugiriModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("tatsugiri")
     override val head = getPart("head")
 
-    override val portraitScale = 5.0F
-    override val portraitTranslation = Vec3d(0.0, -4.5, 0.0)
+    override var portraitScale = 5.0F
+    override var portraitTranslation = Vec3d(0.0, -4.5, 0.0)
 
-    override val profileScale = 1.4F
-    override val profileTranslation = Vec3d(0.0, -0.3, 0.0)
+    override var profileScale = 1.4F
+    override var profileTranslation = Vec3d(0.0, -0.3, 0.0)
 
     lateinit var swimming: PokemonPose
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("tatsugiri", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("tatsugiri", "cry") }
 
     override fun registerPoses() {
         standing = registerPose(

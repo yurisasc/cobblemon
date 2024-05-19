@@ -8,8 +8,12 @@
     "h:frisk"
   ],
   "drops": {
-    "amount": 2,
+    "amount": 3,
     "entries": [
+      {
+        "item": "minecraft:phantom_membrane",
+        "percentage": 2.5
+      },
       {
         "item": "cobblemon:reaper_cloth",
         "percentage": 2.5
@@ -84,6 +88,8 @@
     "tm:captivate",
     "tm:chargebeam",
     "tm:confide",
+    "tm:confuseray",
+    "tm:curse",
     "tm:darkpulse",
     "tm:doubleteam",
     "tm:dreameater",
@@ -94,6 +100,8 @@
     "tm:fling",
     "tm:frustration",
     "tm:futuresight",
+    "tm:gravity",
+    "tm:haze",
     "tm:helpinghand",
     "tm:hex",
     "tm:hiddenpower",
@@ -101,8 +109,13 @@
     "tm:icywind",
     "tm:imprison",
     "tm:infestation",
+    "tm:leechlife",
     "tm:naturalgift",
+    "tm:nightshade",
+    "tm:painsplit",
     "tm:payback",
+    "tm:phantomforce",
+    "tm:poltergeist",
     "tm:protect",
     "tm:psychic",
     "tm:psychup",
@@ -114,14 +127,17 @@
     "tm:secretpower",
     "tm:shadowball",
     "tm:skillswap",
+    "tm:skittersmack",
     "tm:sleeptalk",
     "tm:snatch",
     "tm:snore",
+    "tm:spite",
     "tm:substitute",
     "tm:sunnyday",
     "tm:swagger",
     "tm:taunt",
     "tm:telekinesis",
+    "tm:terablast",
     "tm:thief",
     "tm:torment",
     "tm:toxic",

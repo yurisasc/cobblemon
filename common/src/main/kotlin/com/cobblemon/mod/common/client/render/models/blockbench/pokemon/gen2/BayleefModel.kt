@@ -8,11 +8,7 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen2
 
-import com.cobblemon.mod.common.client.render.models.blockbench.animation.QuadrupedWalkAnimation
-import com.cobblemon.mod.common.client.render.models.blockbench.frame.BimanualFrame
-import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
-import com.cobblemon.mod.common.client.render.models.blockbench.frame.QuadrupedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
@@ -24,21 +20,21 @@ class BayleefModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("bayleef")
     override val head = getPart("head")
 
-    override val portraitScale = 1.8F
-    override val portraitTranslation = Vec3d(-0.5, 0.7, 0.0)
+    override var portraitScale = 1.8F
+    override var portraitTranslation = Vec3d(-0.5, 0.7, 0.0)
 
-    override val profileScale = 0.71F
-    override val profileTranslation = Vec3d(0.0, 0.65, 0.0)
+    override var profileScale = 0.71F
+    override var profileTranslation = Vec3d(0.0, 0.65, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walking: PokemonPose
     lateinit var sleep: PokemonPose
     lateinit var battleidle: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("bayleef", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("bayleef", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("bayleef", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("bayleef", "blink") }
         sleep = registerPose(
             poseType = PoseType.SLEEP,
             idleAnimations = arrayOf(bedrock("bayleef", "sleep"))

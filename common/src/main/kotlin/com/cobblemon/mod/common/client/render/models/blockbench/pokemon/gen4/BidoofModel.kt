@@ -8,19 +8,20 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen4
 
-import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
-import com.cobblemon.mod.common.client.render.models.blockbench.asTransformed
 //import com.cobblemon.mod.common.client.render.models.blockbench.animation.QuadrupedWalkAnimation
+import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
+import com.cobblemon.mod.common.client.render.models.blockbench.createTransformation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.QuadrupedFrame
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pose.TransformedModelPart
+import com.cobblemon.mod.common.client.render.models.blockbench.pose.ModelPartTransformation
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.PoseType.Companion.MOVING_POSES
-import com.cobblemon.mod.common.entity.PoseType.STAND
 import com.cobblemon.mod.common.entity.PoseType.Companion.SWIMMING_POSES
 import com.cobblemon.mod.common.entity.PoseType.Companion.UI_POSES
+import com.cobblemon.mod.common.entity.PoseType.STAND
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
@@ -34,11 +35,11 @@ class BidoofModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quadru
     override val foreLeftLeg= getPart("leg_front_left")
     override val foreRightLeg = getPart("leg_front_right")
 
-    override val portraitScale = 2.1F
-    override val portraitTranslation = Vec3d(-0.58, -1.4, 0.0)
+    override var portraitScale = 2.1F
+    override var portraitTranslation = Vec3d(-0.58, -1.4, 0.0)
 
-    override val profileScale = 0.85F
-    override val profileTranslation = Vec3d(0.0, 0.43, 0.0)
+    override var profileScale = 0.85F
+    override var profileTranslation = Vec3d(0.0, 0.43, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walking: PokemonPose
@@ -47,8 +48,10 @@ class BidoofModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quadru
 
     val wateroffset = -2
 
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("bidoof", "cry") }
+
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("bidoof", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("bidoof", "blink") }
 
         standing = registerPose(
             poseName = "standing",
@@ -82,7 +85,7 @@ class BidoofModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quadru
                 bedrock("bidoof", "water_float")
             ),
             transformedParts = arrayOf(
-                rootPart.asTransformed().addPosition(TransformedModelPart.Y_AXIS, wateroffset)
+                rootPart.createTransformation().addPosition(ModelPartTransformation.Y_AXIS, wateroffset)
             )
         )
 

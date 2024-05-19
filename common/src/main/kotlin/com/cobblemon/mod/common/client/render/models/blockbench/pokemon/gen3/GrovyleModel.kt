@@ -9,6 +9,7 @@
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen3
 
 import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
+import com.cobblemon.mod.common.client.render.models.blockbench.animation.BipedWalkAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
@@ -23,28 +24,28 @@ class GrovyleModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bipe
     override val rootPart = root.registerChildWithAllChildren("grovyle")
     override val head = getPart("head")
 
-    override val leftLeg = getPart("leg_left")
-    override val rightLeg = getPart("leg_right")
+    override val leftLeg = getPart("left_upper_leg")
+    override val rightLeg = getPart("right_upper_leg")
 
-    override val portraitScale = 2.8F
-    override val portraitTranslation = Vec3d(-0.6, 0.5, 0.0)
+    override var portraitScale = 2.31F
+    override var portraitTranslation = Vec3d(-0.24, 1.29, 0.0)
 
-    override val profileScale = 0.8F
-    override val profileTranslation = Vec3d(0.0, 0.6, 0.0)
+    override var profileScale = 0.66F
+    override var profileTranslation = Vec3d(0.01, 0.87, 0.0)
 
-    lateinit var sleep: PokemonPose
+    //lateinit var sleep: PokemonPose
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("grovyle", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("grovyle", "cry") }
 
     override fun registerPoses() {
-        sleep = registerPose(
-            poseType = PoseType.SLEEP,
-            idleAnimations = arrayOf(bedrock("grovyle", "sleep"))
-        )
+        //sleep = registerPose(
+        //    poseType = PoseType.SLEEP,
+        //    idleAnimations = arrayOf(bedrock("grovyle", "sleep"))
+        //)
 
-        val blink = quirk("blink") { bedrockStateful("grovyle", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("grovyle", "blink") }
         standing = registerPose(
             poseName = "standing",
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
@@ -61,12 +62,13 @@ class GrovyleModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bipe
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
-                bedrock("grovyle", "ground_walk"),
+                bedrock("grovyle", "ground_idle"),
+                    BipedWalkAnimation(this, periodMultiplier = 0.6F, amplitudeMultiplier = 0.9F)
             )
         )
     }
-    override fun getFaintAnimation(
-        pokemonEntity: PokemonEntity,
-        state: PoseableEntityState<PokemonEntity>
-    ) = if (state.isNotPosedIn(sleep)) bedrockStateful("grovyle", "faint") else null
+    //override fun getFaintAnimation(
+    //    pokemonEntity: PokemonEntity,
+    //    state: PoseableEntityState<PokemonEntity>
+    //) = if (state.isNotPosedIn(sleep)) bedrockStateful("grovyle", "faint") else null
 }

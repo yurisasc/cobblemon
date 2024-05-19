@@ -59,11 +59,15 @@
         "h:thickfat"
       ],
       "drops": {
-        "amount": 1,
+        "amount": 2,
         "entries": [
           {
             "item": "minecraft:rotten_flesh",
-            "percentage": 50
+            "quantityRange": "0-1"
+          },
+          {
+            "item": "cobblemon:pecha_berry",
+            "percentage": 2.5
           }
         ]
       },
@@ -195,7 +199,7 @@
         {
           "id": "rattata_raticate",
           "variant": "level_up",
-          "result": "raticate form=alola",
+          "result": "raticate alolan",
           "consumeHeldItem": false,
           "learnableMoves": [],
           "requirements": [

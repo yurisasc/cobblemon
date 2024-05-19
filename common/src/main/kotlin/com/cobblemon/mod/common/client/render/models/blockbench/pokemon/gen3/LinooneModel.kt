@@ -9,7 +9,6 @@
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen3
 
 import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
-import com.cobblemon.mod.common.client.render.models.blockbench.asTransformed
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
@@ -22,11 +21,11 @@ class LinooneModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("linoone")
     override val head = getPart("head")
 
-    override val portraitScale = 2.5F
-    override val portraitTranslation = Vec3d(-0.5, -2.1, 0.0)
+    override var portraitScale = 2.5F
+    override var portraitTranslation = Vec3d(-0.5, -2.1, 0.0)
 
-    override val profileScale = 0.9F
-    override val profileTranslation = Vec3d(0.0, 0.38, 0.0)
+    override var profileScale = 0.9F
+    override var profileTranslation = Vec3d(0.0, 0.38, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walking: PokemonPose
@@ -34,7 +33,7 @@ class LinooneModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     lateinit var battleidle: PokemonPose
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("linoone", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("linoone", "blink") }
         sleep = registerPose(
             poseType = PoseType.SLEEP,
             idleAnimations = arrayOf(bedrock("linoone", "sleep"))

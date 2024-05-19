@@ -18,21 +18,21 @@ import net.minecraft.util.math.Vec3d
 class ScolipedeModel (root: ModelPart) : PokemonPoseableModel() {
     override val rootPart = root.registerChildWithAllChildren("scolipede")
 
-    override val portraitScale = 1.3F
-    override val portraitTranslation = Vec3d(-0.9, 2.5, 0.0)
+    override var portraitScale = 1.3F
+    override var portraitTranslation = Vec3d(-0.9, 2.5, 0.0)
 
-    override val profileScale = 0.4F
-    override val profileTranslation = Vec3d(0.0, 1.1, 0.0)
+    override var profileScale = 0.4F
+    override var profileTranslation = Vec3d(0.0, 1.1, 0.0)
 
     lateinit var sleep: PokemonPose
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
     lateinit var battleidle: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("scolipede", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("scolipede", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("scolipede", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("scolipede", "blink") }
 
         standing = registerPose(
             poseName = "standing",

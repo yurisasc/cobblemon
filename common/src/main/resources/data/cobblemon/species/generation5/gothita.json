@@ -8,8 +8,12 @@
     "h:shadowtag"
   ],
   "drops": {
-    "amount": 2,
+    "amount": 3,
     "entries": [
+      {
+        "item": "minecraft:ender_pearl",
+        "quantityRange": "0-1"
+      },
       {
         "item": "cobblemon:twisted_spoon",
         "percentage": 2.5
@@ -78,6 +82,7 @@
     "tm:embargo",
     "tm:endure",
     "tm:energyball",
+    "tm:expandingforce",
     "tm:facade",
     "tm:faketears",
     "tm:flash",
@@ -86,6 +91,7 @@
     "tm:frustration",
     "tm:futuresight",
     "tm:grassknot",
+    "tm:gravity",
     "tm:guardswap",
     "tm:helpinghand",
     "tm:hiddenpower",
@@ -97,6 +103,7 @@
     "tm:protect",
     "tm:psybeam",
     "tm:psychic",
+    "tm:psychicnoise",
     "tm:psychicterrain",
     "tm:psychup",
     "tm:psyshock",

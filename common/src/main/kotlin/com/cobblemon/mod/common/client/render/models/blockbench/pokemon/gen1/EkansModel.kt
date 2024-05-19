@@ -15,8 +15,8 @@ import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFram
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pose.TransformedModelPart.Companion.X_AXIS
-import com.cobblemon.mod.common.client.render.models.blockbench.pose.TransformedModelPart.Companion.Y_AXIS
+import com.cobblemon.mod.common.client.render.models.blockbench.pose.ModelPartTransformation.Companion.X_AXIS
+import com.cobblemon.mod.common.client.render.models.blockbench.pose.ModelPartTransformation.Companion.Y_AXIS
 import com.cobblemon.mod.common.client.render.models.blockbench.wavefunction.sineFunction
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.PoseType.Companion.MOVING_POSES
@@ -45,22 +45,22 @@ class EkansModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     val tail5Segment = WaveSegment(modelPart = tail5, length = 10F)
     val tail6Segment = WaveSegment(modelPart = tail6, length = 10F)
 
-    override val portraitScale = 1.7F
-    override val portraitTranslation = Vec3d(-0.3, -0.45, 0.0)
+    override var portraitScale = 1.7F
+    override var portraitTranslation = Vec3d(-0.3, -0.45, 0.0)
 
-    override val profileScale = 0.7F
-    override val profileTranslation = Vec3d(-0.05, 0.6, 0.0)
+    override var profileScale = 0.7F
+    override var profileTranslation = Vec3d(-0.05, 0.6, 0.0)
 
     lateinit var sleep: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("ekans", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("ekans", "cry") }
 
     override fun registerPoses() {
         sleep = registerPose(
             poseType = PoseType.SLEEP,
             idleAnimations = arrayOf(bedrock("ekans", "sleep"))
         )
-        val blink = quirk("blink") { bedrockStateful("ekans", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("ekans", "blink") }
         registerPose(
             poseName = "normal",
             poseTypes = STATIONARY_POSES + MOVING_POSES,

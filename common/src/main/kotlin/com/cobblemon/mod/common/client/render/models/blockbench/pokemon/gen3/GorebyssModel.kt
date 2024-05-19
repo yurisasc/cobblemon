@@ -14,17 +14,16 @@ import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonP
 import com.cobblemon.mod.common.entity.PoseType
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
-import java.util.*
 
 class GorebyssModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("gorebyss")
     override val head = getPart("head")
 
-    override val portraitScale = 2.5F
-    override val portraitTranslation = Vec3d(-1.2, -2.1, 0.0)
+    override var portraitScale = 2.5F
+    override var portraitTranslation = Vec3d(-1.2, -2.1, 0.0)
 
-    override val profileScale = 0.8F
-    override val profileTranslation = Vec3d(0.0, 0.2, 0.0)
+    override var profileScale = 0.8F
+    override var profileTranslation = Vec3d(0.0, 0.2, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var floating: PokemonPose

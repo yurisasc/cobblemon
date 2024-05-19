@@ -8,29 +8,27 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen7
 
-import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cobblemon.mod.common.entity.PoseType
-import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
 class KomalaModel (root: ModelPart) : PokemonPoseableModel() {
     override val rootPart = root.registerChildWithAllChildren("komala")
 
-    override val portraitScale = 1.8F
-    override val portraitTranslation = Vec3d(0.0, -0.4, 0.0)
-    override val profileScale = 0.8F
-    override val profileTranslation = Vec3d(0.0, 0.5, 0.0)
+    override var portraitScale = 1.8F
+    override var portraitTranslation = Vec3d(0.0, -0.4, 0.0)
+    override var profileScale = 0.8F
+    override var profileTranslation = Vec3d(0.0, 0.5, 0.0)
 
     lateinit var standing: PokemonPose
 
-//    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("komala", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("komala", "cry") }
 
     override fun registerPoses() {
-        val doze = quirk("doze", secondsBetweenOccurrences = 60F to 120F) { bedrockStateful("komala", "quirk_doze_off").setPreventsIdle(false)}
+        val doze = quirk(secondsBetweenOccurrences = 60F to 120F) { bedrockStateful("komala", "quirk_doze_off")}
 
         standing = registerPose(
             poseName = "standing",

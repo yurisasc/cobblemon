@@ -28,11 +28,11 @@ class LudicoloModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
     override val leftLeg = getPart("leg_left")
     override val rightLeg = getPart("leg_right")
 
-    override val portraitScale = 2.4F
-    override val portraitTranslation = Vec3d(-0.4, -0.3, 0.0)
+    override var portraitScale = 2.4F
+    override var portraitTranslation = Vec3d(-0.4, -0.3, 0.0)
 
-    override val profileScale = 0.75F
-    override val profileTranslation = Vec3d(0.0, 0.6, 0.0)
+    override var profileScale = 0.75F
+    override var profileTranslation = Vec3d(0.0, 0.6, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
@@ -41,7 +41,7 @@ class LudicoloModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
     lateinit var sleep: PokemonPose
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("ludicolo", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("ludicolo", "blink") }
         standing = registerPose(
             poseName = "standing",
             poseTypes = PoseType.UI_POSES + PoseType.STAND,

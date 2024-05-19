@@ -73,6 +73,15 @@ class ContextManager {
         }
     }
 
+    /** Copies all the [BattleContext]s belonging to the [bucketTypes] buckets of the [with] manager's respective buckets. */
+    fun copy(with: ContextManager, vararg bucketTypes: BattleContext.Type) {
+        bucketTypes.forEach { bucketType ->
+            val newContexts = with.buckets[bucketType]?.toMutableList()
+            this.clear(bucketType)
+            newContexts?.let { this.add(*it.toTypedArray()) }
+        }
+    }
+
     /** Gets all [BattleContext]s belonging to the [bucketType] bucket. */
     fun get(bucketType: BattleContext.Type) : Collection<BattleContext>? {
         return buckets[bucketType]

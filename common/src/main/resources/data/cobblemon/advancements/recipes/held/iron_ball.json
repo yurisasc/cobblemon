@@ -1,7 +1,7 @@
 {
   "parent": "cobblemon:recipes/root",
   "criteria": {
-    "has_block": {
+    "has_iron": {
       "conditions": {
         "items": [
           {
@@ -22,7 +22,7 @@
   },
   "requirements": [
     [
-      "has_block",
+      "has_iron",
       "has_the_recipe"
     ]
   ],

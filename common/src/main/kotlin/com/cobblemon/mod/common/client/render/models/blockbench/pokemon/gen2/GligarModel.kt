@@ -10,6 +10,7 @@ package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen2
 
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.BipedWalkAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cobblemon.mod.common.entity.PoseType.Companion.FLYING_POSES
@@ -22,22 +23,24 @@ import net.minecraft.util.math.Vec3d
 class GligarModel(root: ModelPart) : PokemonPoseableModel(), BipedFrame {
     override val rootPart = root.registerChildWithAllChildren("gligar")
 
-    override val portraitScale = 2.4F
-    override val portraitTranslation = Vec3d(-0.1, -0.8, 0.0)
+    override var portraitScale = 2.4F
+    override var portraitTranslation = Vec3d(-0.1, -0.8, 0.0)
 
     override val leftLeg = getPart("left_upper_leg")
     override val rightLeg = getPart("right_upper_leg")
 
-    override val profileScale = 0.8F
-    override val profileTranslation = Vec3d(0.0, 0.6, 0.0)
+    override var profileScale = 0.8F
+    override var profileTranslation = Vec3d(0.0, 0.6, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var battling: PokemonPose
     lateinit var walk: PokemonPose
 
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("gligar", "cry") }
+
     override fun registerPoses() {
 
-        val blink = quirk("blink") { bedrockStateful("gligar", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("gligar", "blink") }
 
         standing = registerPose(
             poseName = "standing",

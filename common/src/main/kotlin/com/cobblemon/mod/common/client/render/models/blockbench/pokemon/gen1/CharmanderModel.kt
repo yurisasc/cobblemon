@@ -31,17 +31,17 @@ class CharmanderModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bi
     override val rightLeg = getPart("leg_right")
     override val leftLeg = getPart("leg_left")
 
-    override val portraitScale = 2.2F
-    override val portraitTranslation = Vec3d(-0.1, -0.1, 0.0)
+    override var portraitScale = 2.2F
+    override var portraitTranslation = Vec3d(-0.1, -0.1, 0.0)
 
-    override val profileScale = 0.71F
-    override val profileTranslation = Vec3d(0.0, 0.72, 0.0)
+    override var profileScale = 0.71F
+    override var profileTranslation = Vec3d(0.0, 0.72, 0.0)
 
     lateinit var sleep: PokemonPose
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("charmander", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("charmander", "cry") }
 
     override fun registerPoses() {
         sleep = registerPose(
@@ -49,7 +49,7 @@ class CharmanderModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bi
             idleAnimations = arrayOf(bedrock("charmander", "sleep"))
         )
 
-        val blink = quirk("blink") { bedrockStateful("charmander", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("charmander", "blink") }
 
         standing = registerPose(
             poseName = "standing",

@@ -8,15 +8,11 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen2
 
-import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
-import com.cobblemon.mod.common.client.render.models.blockbench.frame.BimanualFrame
-import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cobblemon.mod.common.entity.PoseType
-import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
@@ -24,21 +20,21 @@ class ChikoritaModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("chikorita")
     override val head = getPart("head")
 
-    override val portraitScale = 1.7F
-    override val portraitTranslation = Vec3d(-0.1, -0.32, 0.0)
+    override var portraitScale = 1.7F
+    override var portraitTranslation = Vec3d(-0.1, -0.32, 0.0)
 
-    override val profileScale = 0.71F
-    override val profileTranslation = Vec3d(0.0, 0.67, 0.0)
+    override var profileScale = 0.71F
+    override var profileTranslation = Vec3d(0.0, 0.67, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walking: PokemonPose
     lateinit var sleep: PokemonPose
     lateinit var battleidle: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("chikorita", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("chikorita", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("chikorita", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("chikorita", "blink") }
         sleep = registerPose(
             poseType = PoseType.SLEEP,
             idleAnimations = arrayOf(bedrock("chikorita", "sleep"))

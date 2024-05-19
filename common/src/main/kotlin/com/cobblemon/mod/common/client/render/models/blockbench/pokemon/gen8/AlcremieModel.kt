@@ -9,12 +9,12 @@
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen8
 
 import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
-import com.cobblemon.mod.common.client.render.models.blockbench.asTransformed
+import com.cobblemon.mod.common.client.render.models.blockbench.createTransformation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BimanualFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pose.TransformedModelPart
+import com.cobblemon.mod.common.client.render.models.blockbench.pose.ModelPartTransformation
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.PoseType.Companion.UI_POSES
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
@@ -27,11 +27,11 @@ class AlcremieModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bim
     override val rightArm = getPart("arm_right")
     override val leftArm = getPart("arm_left")
 
-    override val portraitScale = 2.5F
-    override val portraitTranslation = Vec3d(-0.15, -0.8, 0.0)
+    override var portraitScale = 2.14F
+    override var portraitTranslation = Vec3d(-0.25, -0.31, 0.0)
 
-    override val profileScale = 0.6F
-    override val profileTranslation = Vec3d(0.0, 0.8, 0.0)
+    override var profileScale = 0.54F
+    override var profileTranslation = Vec3d(0.0, 0.88, 0.0)
 
     lateinit var sleep: PokemonPose
     lateinit var standing: PokemonPose
@@ -42,8 +42,9 @@ class AlcremieModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bim
     val shoulderOffset = 5.5
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("alcremie", "blink").setPreventsIdle(false)}
+        val blink = quirk { bedrockStateful("alcremie", "blink")}
         sleep = registerPose(
+            poseName = "sleep",
             poseType = PoseType.SLEEP,
             idleAnimations = arrayOf(bedrock("alcremie", "sleep"))
         )
@@ -78,7 +79,7 @@ class AlcremieModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bim
                 bedrock("alcremie", "shoulder_left")
             ),
             transformedParts = arrayOf(
-                rootPart.asTransformed().addPosition(TransformedModelPart.X_AXIS, shoulderOffset)
+                rootPart.createTransformation().addPosition(ModelPartTransformation.X_AXIS, shoulderOffset)
             )
         )
 
@@ -90,7 +91,7 @@ class AlcremieModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bim
                 bedrock("alcremie", "shoulder_right")
             ),
             transformedParts = arrayOf(
-                rootPart.asTransformed().addPosition(TransformedModelPart.X_AXIS, -shoulderOffset)
+                rootPart.createTransformation().addPosition(ModelPartTransformation.X_AXIS, -shoulderOffset)
             )
         )
     }

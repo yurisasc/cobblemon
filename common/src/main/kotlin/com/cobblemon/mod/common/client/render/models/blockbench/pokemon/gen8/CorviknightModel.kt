@@ -8,20 +8,14 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen8
 
-import com.cobblemon.mod.common.client.render.models.blockbench.animation.BipedWalkAnimation
-import com.cobblemon.mod.common.client.render.models.blockbench.animation.WingFlapIdleAnimation
-import com.cobblemon.mod.common.client.render.models.blockbench.asTransformed
+import com.cobblemon.mod.common.client.render.models.blockbench.createTransformation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BiWingedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pose.TransformedModelPart
-import com.cobblemon.mod.common.client.render.models.blockbench.wavefunction.parabolaFunction
-import com.cobblemon.mod.common.client.render.models.blockbench.wavefunction.sineFunction
 import com.cobblemon.mod.common.entity.PoseType
-import com.cobblemon.mod.common.util.math.geometry.toRadians
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
@@ -38,11 +32,11 @@ class CorviknightModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, 
     val closedWingLeft = getPart("wing_closed_left")
     val closedWingRight = getPart("wing_closed_right")
 
-    override val portraitScale = 1.0F
-    override val portraitTranslation = Vec3d(-0.45, 3.0, 0.0)
+    override var portraitScale = 1.0F
+    override var portraitTranslation = Vec3d(-0.45, 3.0, 0.0)
 
-    override val profileScale = 0.36F
-    override val profileTranslation = Vec3d(0.0, 1.2, 0.0)
+    override var profileScale = 0.36F
+    override var profileTranslation = Vec3d(0.0, 1.2, 0.0)
 
 
     lateinit var stand: PokemonPose
@@ -51,10 +45,10 @@ class CorviknightModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, 
     lateinit var fly: PokemonPose
     lateinit var sleep: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("corviknight", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("corviknight", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("corviknight", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("corviknight", "blink") }
         sleep = registerPose(
             poseType = PoseType.SLEEP,
             idleAnimations = arrayOf(bedrock("corviknight", "sleep"))
@@ -65,10 +59,10 @@ class CorviknightModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, 
             poseTypes = PoseType.UI_POSES + PoseType.STATIONARY_POSES - PoseType.HOVER,
             transformTicks = 10,
             transformedParts = arrayOf(
-                openWingLeft.asTransformed().withVisibility(visibility = false),
-                openWingRight.asTransformed().withVisibility(visibility = false),
-                closedWingLeft.asTransformed().withVisibility(visibility = true),
-                closedWingRight.asTransformed().withVisibility(visibility = true)
+                openWingLeft.createTransformation().withVisibility(visibility = false),
+                openWingRight.createTransformation().withVisibility(visibility = false),
+                closedWingLeft.createTransformation().withVisibility(visibility = true),
+                closedWingRight.createTransformation().withVisibility(visibility = true)
             ),
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
@@ -82,10 +76,10 @@ class CorviknightModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, 
             poseType = PoseType.HOVER,
             transformTicks = 10,
             transformedParts = arrayOf(
-                openWingLeft.asTransformed().withVisibility(visibility = true),
-                openWingRight.asTransformed().withVisibility(visibility = true),
-                closedWingLeft.asTransformed().withVisibility(visibility = false),
-                closedWingRight.asTransformed().withVisibility(visibility = false)
+                openWingLeft.createTransformation().withVisibility(visibility = true),
+                openWingRight.createTransformation().withVisibility(visibility = true),
+                closedWingLeft.createTransformation().withVisibility(visibility = false),
+                closedWingRight.createTransformation().withVisibility(visibility = false)
             ),
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
@@ -99,10 +93,10 @@ class CorviknightModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, 
             poseType = PoseType.FLY,
             transformTicks = 10,
             transformedParts = arrayOf(
-                openWingLeft.asTransformed().withVisibility(visibility = true),
-                openWingRight.asTransformed().withVisibility(visibility = true),
-                closedWingLeft.asTransformed().withVisibility(visibility = false),
-                closedWingRight.asTransformed().withVisibility(visibility = false)
+                openWingLeft.createTransformation().withVisibility(visibility = true),
+                openWingRight.createTransformation().withVisibility(visibility = true),
+                closedWingLeft.createTransformation().withVisibility(visibility = false),
+                closedWingRight.createTransformation().withVisibility(visibility = false)
             ),
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
@@ -116,10 +110,10 @@ class CorviknightModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, 
             poseTypes = PoseType.MOVING_POSES - PoseType.FLY,
             transformTicks = 10,
             transformedParts = arrayOf(
-                openWingLeft.asTransformed().withVisibility(visibility = false),
-                openWingRight.asTransformed().withVisibility(visibility = false),
-                closedWingLeft.asTransformed().withVisibility(visibility = true),
-                closedWingRight.asTransformed().withVisibility(visibility = true)
+                openWingLeft.createTransformation().withVisibility(visibility = false),
+                openWingRight.createTransformation().withVisibility(visibility = false),
+                closedWingLeft.createTransformation().withVisibility(visibility = true),
+                closedWingRight.createTransformation().withVisibility(visibility = true)
             ),
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(

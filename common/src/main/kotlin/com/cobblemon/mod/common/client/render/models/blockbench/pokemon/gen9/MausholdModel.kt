@@ -11,6 +11,7 @@ package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen9
 import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.SingleBoneLookAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cobblemon.mod.common.entity.PoseType
@@ -22,21 +23,23 @@ class MausholdModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("maushold")
     override val head = getPart("head")
 
-    override val portraitScale = 1.0F
-    override val portraitTranslation = Vec3d(0.1, 0.0, 0.0)
+    override var portraitScale = 1.0F
+    override var portraitTranslation = Vec3d(0.1, 0.0, 0.0)
 
-    override val profileScale = 0.8F
-    override val profileTranslation = Vec3d(0.0, 0.4, 0.0)
+    override var profileScale = 0.8F
+    override var profileTranslation = Vec3d(0.0, 0.4, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
     lateinit var sleep: PokemonPose
 
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("maushold_three", "cry") }
+
     override fun registerPoses() {
 
-        val blink1 = quirk("blink1") { bedrockStateful("maushold_four", "blink1").setPreventsIdle(false)}
-        val blink2 = quirk("blink2") { bedrockStateful("maushold_four", "blink2").setPreventsIdle(false)}
-        val blink3 = quirk("blink3") { bedrockStateful("maushold_four", "blink3").setPreventsIdle(false)}
+        val blink1 = quirk { bedrockStateful("maushold_three", "blink1")}
+        val blink2 = quirk { bedrockStateful("maushold_three", "blink2")}
+        val blink3 = quirk { bedrockStateful("maushold_four", "blink3")}
 
         val head2 = object : HeadedFrame {
             override val rootPart = this@MausholdModel.rootPart
@@ -57,7 +60,7 @@ class MausholdModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
                 singleBoneLook(),
                 SingleBoneLookAnimation(head2, false, false, disableX = false, disableY = false),
                 SingleBoneLookAnimation(head3, false, false, disableX = false, disableY = false),
-                bedrock("maushold_four", "ground_idle")
+                bedrock("maushold_three", "ground_idle")
             )
         )
 
@@ -70,21 +73,21 @@ class MausholdModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
                 singleBoneLook(),
                 SingleBoneLookAnimation(head2, false, false, disableX = false, disableY = false),
                 SingleBoneLookAnimation(head3, false, false, disableX = false, disableY = false),
-                bedrock("maushold_four", "ground_walk")
+                bedrock("maushold_three", "ground_walk")
             )
         )
 
-        sleep = registerPose(
-            poseName = "sleep",
-            poseType = PoseType.SLEEP,
-            transformTicks = 10,
-            idleAnimations = arrayOf(
-                bedrock("maushold_four", "sleep")
-            )
-        )
+        //sleep = registerPose(
+        //    poseName = "sleep",
+        //    poseType = PoseType.SLEEP,
+        //    transformTicks = 10,
+        //    idleAnimations = arrayOf(
+        //        bedrock("maushold_three", "sleep")
+        //    )
+        //)
     }
     override fun getFaintAnimation(
         pokemonEntity: PokemonEntity,
         state: PoseableEntityState<PokemonEntity>
-    ) = if (state.isNotPosedIn(sleep)) bedrockStateful("maushold_four", "faint") else null
+    ) = if (state.isNotPosedIn(sleep)) bedrockStateful("maushold_three", "faint") else null
 }

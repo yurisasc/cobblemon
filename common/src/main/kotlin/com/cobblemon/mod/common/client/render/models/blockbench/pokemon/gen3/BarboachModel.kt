@@ -8,7 +8,7 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen3
 
-import com.cobblemon.mod.common.client.render.models.blockbench.asTransformed
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cobblemon.mod.common.entity.PoseType
@@ -18,11 +18,11 @@ import net.minecraft.util.math.Vec3d
 class BarboachModel (root: ModelPart) : PokemonPoseableModel() {
     override val rootPart = root.registerChildWithAllChildren("barboach")
 
-    override val portraitScale = 2.0F
-    override val portraitTranslation = Vec3d(-0.55, -1.2, 0.0)
+    override var portraitScale = 2.0F
+    override var portraitTranslation = Vec3d(-0.55, -1.2, 0.0)
 
-    override val profileScale = 0.8F
-    override val profileTranslation = Vec3d(0.0, 0.4, 0.0)
+    override var profileScale = 0.8F
+    override var profileTranslation = Vec3d(0.0, 0.4, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
@@ -31,8 +31,10 @@ class BarboachModel (root: ModelPart) : PokemonPoseableModel() {
     lateinit var watersleep: PokemonPose
     lateinit var battleidle: PokemonPose
 
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("barboach", "cry") }
+
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("barboach", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("barboach", "blink") }
 
         watersleep = registerPose(
             poseType = PoseType.SLEEP,

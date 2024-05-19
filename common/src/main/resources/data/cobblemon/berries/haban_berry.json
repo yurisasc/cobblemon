@@ -147,8 +147,8 @@
   },
   "weight": 2.0,
   "tintIndexes": [],
-  "flowerModel": "cobblemon:haban_flower.geo",
-  "flowerTexture": "cobblemon:textures/berries/haban.png",
+  "flowerModel": "cobblemon:flower.geo",
+  "flowerTexture": "cobblemon:flower",
   "fruitModel": "cobblemon:haban_berry.geo",
-  "fruitTexture": "cobblemon:textures/berries/haban.png"
+  "fruitTexture": "cobblemon:haban"
 }

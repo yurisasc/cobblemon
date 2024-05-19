@@ -27,24 +27,24 @@ class MightyenaModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("mightyena")
     override val head = getPart("head")
 
-    override val portraitScale = 2.2F
-    override val portraitTranslation = Vec3d(-0.8, 0.6, 0.0)
+    override var portraitScale = 2.2F
+    override var portraitTranslation = Vec3d(-0.8, 0.6, 0.0)
 
-    override val profileScale = 0.6F
-    override val profileTranslation = Vec3d(0.0, 0.8, 0.0)
+    override var profileScale = 0.6F
+    override var profileTranslation = Vec3d(0.0, 0.8, 0.0)
 
     lateinit var sleep: PokemonPose
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
     lateinit var battleidle: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("mightyena", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("mightyena", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("mightyena", "blink").setPreventsIdle(false) }
-        val laugh_out_battle = quirk("laugh_out_battle", secondsBetweenOccurrences = 120F to 240F) { bedrockStateful("mightyena", "quirk").setPreventsIdle(false) }
-        val laugh_in_battle = quirk("laugh_in_battle", secondsBetweenOccurrences = 30F to 60F) { bedrockStateful("mightyena", "quirk").setPreventsIdle(false) }
-        val sleep_quirk = quirk("sleep_quirk", secondsBetweenOccurrences = 30F to 60F) { bedrockStateful("mightyena", "sleep_quirk").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("mightyena", "blink") }
+        val laugh_out_battle = quirk(secondsBetweenOccurrences = 120F to 240F) { bedrockStateful("mightyena", "quirk") }
+        val laugh_in_battle = quirk(secondsBetweenOccurrences = 30F to 60F) { bedrockStateful("mightyena", "quirk") }
+        val sleep_quirk = quirk(secondsBetweenOccurrences = 30F to 60F) { bedrockStateful("mightyena", "sleep_quirk") }
 
         sleep = registerPose(
             poseType = PoseType.SLEEP,
@@ -87,8 +87,8 @@ class MightyenaModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             )
         )
     }
-    override fun getFaintAnimation(
-        pokemonEntity: PokemonEntity,
-        state: PoseableEntityState<PokemonEntity>
-    ) = bedrockStateful("mightyena", "faint")
+    //override fun getFaintAnimation(
+    //    pokemonEntity: PokemonEntity,
+    //    state: PoseableEntityState<PokemonEntity>
+    //) = bedrockStateful("mightyena", "faint")
 }

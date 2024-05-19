@@ -9,30 +9,46 @@
 package com.cobblemon.mod.common.util
 
 import com.cobblemon.mod.common.Cobblemon
+import com.cobblemon.mod.common.CobblemonSounds
 import com.cobblemon.mod.common.api.battles.model.PokemonBattle
 import com.cobblemon.mod.common.api.battles.model.actor.BattleActor
+import com.cobblemon.mod.common.api.dialogue.ActiveDialogue
+import com.cobblemon.mod.common.api.dialogue.Dialogue
+import com.cobblemon.mod.common.api.dialogue.DialogueManager
 import com.cobblemon.mod.common.api.reactive.Observable.Companion.filter
 import com.cobblemon.mod.common.api.reactive.Observable.Companion.takeFirst
 import com.cobblemon.mod.common.battles.BattleRegistry
 import com.cobblemon.mod.common.platform.events.PlatformEvents
-import java.util.UUID
+import com.cobblemon.mod.common.pokemon.Pokemon
 import net.minecraft.block.BlockState
 import net.minecraft.entity.Entity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.entity.player.PlayerInventory
 import net.minecraft.item.ItemStack
+import net.minecraft.registry.Registries
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.sound.SoundCategory
 import net.minecraft.sound.SoundEvents
 import net.minecraft.util.Identifier
-import net.minecraft.util.math.BlockPos
-import net.minecraft.util.math.Box
-import net.minecraft.util.math.Direction
-import net.minecraft.util.math.Vec3d
+import net.minecraft.util.hit.BlockHitResult
+import net.minecraft.util.math.*
+import net.minecraft.world.RaycastContext
+import java.util.*
+import kotlin.math.min
 
 // Stuff like getting their party
 fun ServerPlayerEntity.party() = Cobblemon.storage.getParty(this)
 fun ServerPlayerEntity.pc() = Cobblemon.storage.getPC(this.uuid)
+val ServerPlayerEntity.activeDialogue: ActiveDialogue?
+    get() = DialogueManager.activeDialogues[uuid]
+val ServerPlayerEntity.isInDialogue: Boolean
+    get() = DialogueManager.activeDialogues.containsKey(uuid)
+fun ServerPlayerEntity.closeDialogue() {
+    DialogueManager.stopDialogue(this)
+}
+fun ServerPlayerEntity.openDialogue(dialogue: Dialogue) {
+    DialogueManager.startDialogue(this, dialogue)
+}
 fun ServerPlayerEntity.extraData(key: String) = Cobblemon.playerData.get(this).extraData[key]
 fun ServerPlayerEntity.hasKeyItem(key: Identifier) = Cobblemon.playerData.get(this).keyItems.contains(key)
 fun UUID.getPlayer() = server()?.playerManager?.getPlayer(this)
@@ -236,6 +252,91 @@ fun findDirectionForIntercept(p0: Vec3d, p1: Vec3d, blockPos: BlockPos): Directi
     return minDirection
 }
 
+fun ServerPlayerEntity.raycast(maxDistance: Float, fluidHandling: RaycastContext.FluidHandling?): BlockHitResult {
+    val f = pitch
+    val g = yaw
+    val vec3d = eyePos
+    val h = MathHelper.cos(-g * 0.017453292f - 3.1415927f)
+    val i = MathHelper.sin(-g * 0.017453292f - 3.1415927f)
+    val j = -MathHelper.cos(-f * 0.017453292f)
+    val k = MathHelper.sin(-f * 0.017453292f)
+    val l = i * j
+    val n = h * j
+    val vec3d2 = vec3d.add(l.toDouble() * maxDistance, k.toDouble() * maxDistance, n.toDouble() * maxDistance)
+    return world.raycast(RaycastContext(vec3d, vec3d2, RaycastContext.ShapeType.OUTLINE, fluidHandling, this))
+}
+
+fun ServerPlayerEntity.raycastSafeSendout(pokemon: Pokemon, maxDistance: Double, dropHeight: Double, fluidHandling: RaycastContext.FluidHandling?): Vec3d? {
+    // Crazy math stuff, don't worry about it
+    val f = pitch
+    val g = yaw
+    val vec3d = eyePos
+    val h = MathHelper.cos(-g * 0.017453292f - 3.1415927f)
+    val i = MathHelper.sin(-g * 0.017453292f - 3.1415927f)
+    val j = -MathHelper.cos(-f * 0.017453292f)
+    val k = MathHelper.sin(-f * 0.017453292f)
+    val l = i * j
+    val n = h * j
+    val vec3d2 = vec3d.add(l.toDouble() * maxDistance, k.toDouble() * maxDistance, n.toDouble() * maxDistance)
+    val result = world.raycast(RaycastContext(vec3d, vec3d2, RaycastContext.ShapeType.OUTLINE, fluidHandling, this))
+
+
+    if (world.getBlockState(result.blockPos).isAir) {
+        // If the trace returns air, the player isn't aiming at any blocks within range
+        var traceDown: TraceResult?
+        val minDrop = min(2.5, maxDistance)
+        val stepDistance = 0.05
+        var step = minDrop
+        var stepDrop = minDrop
+        var stepPos: Vec3d
+        var traceHeight: Double
+        var smallestHeight = dropHeight
+        var fallLoc: TraceResult? = null
+
+        // Try to find a valid block below the player's aim instead
+        while (step <= maxDistance) {
+            stepPos = vec3d.add(l.toDouble() * step, k.toDouble() * step, n.toDouble() * step)
+            if (minDrop != maxDistance) {
+                stepDrop = ((step - minDrop) / (maxDistance - minDrop)) * dropHeight
+            }
+            traceDown = stepPos.traceDownwards(this.world, maxDistance = stepDrop.toFloat())
+            if (traceDown != null && pokemon.isPositionSafe(world, traceDown.blockPos)) {
+                traceHeight = (stepPos.y - traceDown.location.y)
+                if (traceHeight < smallestHeight) {
+                    smallestHeight = traceHeight
+                    fallLoc = traceDown
+                }
+            }
+
+            step += stepDistance
+        }
+
+        // If a valid block was found below the player's aim, return the location directly above it
+        return fallLoc?.blockPos?.up()?.toCenterPos()
+    } else if (result.side != Direction.UP) {
+        // If the player targets the side or bottom of a block, try to find a valid spot in front of / below that block
+        val offset: Double = if (result.side == Direction.DOWN) {
+            0.125 + pokemon.form.hitbox.height*pokemon.form.baseScale*0.5
+        } else {
+            0.125 + pokemon.form.hitbox.width*pokemon.form.baseScale*0.5
+        }
+
+        val posOffset = result.pos.offset(result.side, offset)
+
+        val traceDown = posOffset.traceDownwards(this.world, maxDistance = dropHeight.toFloat())
+
+        return if (traceDown == null || !pokemon.isPositionSafe(world, traceDown.blockPos)) {
+            null
+        } else {
+            return Vec3d(traceDown.location.x, traceDown.blockPos.up().toVec3d().y, traceDown.location.z)
+        }
+    } else if (!this.world.getBlockState(result.blockPos.up()).isSolid && pokemon.isPositionSafe(world, result.blockPos)) {
+        // If the player is targeting the top of a block, and the block above it isn't solid, it will spawn on that block
+        return Vec3d(result.pos.x, result.blockPos.up().toVec3d().y, result.pos.z)
+    }
+    return null
+}
+
 fun PlayerInventory.usableItems() = offHand + main
 
 /**
@@ -264,3 +365,5 @@ fun PlayerEntity.giveOrDropItemStack(stack: ItemStack, playSound: Boolean = true
     }
 }
 
+/** Retrieves the battle theme associated with this player, or the default PVP theme if null. */
+fun ServerPlayerEntity.getBattleTheme() = Cobblemon.playerData.get(this).battleTheme?.let { Registries.SOUND_EVENT.get(it) } ?: CobblemonSounds.PVP_BATTLE

@@ -27,19 +27,19 @@ class StoutlandModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Qu
     override val hindLeftLeg = getPart("leg_back_left1")
     override val hindRightLeg = getPart("leg_back_right1")
 
-    override val portraitScale = 1.8F
-    override val portraitTranslation = Vec3d(-0.9, 0.78, 0.0)
+    override var portraitScale = 1.8F
+    override var portraitTranslation = Vec3d(-0.9, 0.78, 0.0)
 
-    override val profileScale = 0.66F
-    override val profileTranslation = Vec3d(0.0, 0.7, 0.0)
+    override var profileScale = 0.66F
+    override var profileTranslation = Vec3d(0.0, 0.7, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("stoutland", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("stoutland", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("stoutland", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("stoutland", "blink") }
         standing = registerPose(
             poseName = "standing",
             poseTypes = PoseType.UI_POSES + PoseType.STATIONARY_POSES,

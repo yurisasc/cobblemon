@@ -21,17 +21,17 @@ class JynxModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("jynx")
     override val head = getPart("head")
 
-    override val portraitScale = 2.2F
-    override val portraitTranslation = Vec3d(-0.2, -0.3, 0.0)
+    override var portraitScale = 2.2F
+    override var portraitTranslation = Vec3d(-0.2, -0.3, 0.0)
 
-    override val profileScale = 0.9F
-    override val profileTranslation = Vec3d(0.0, 0.35, 0.0)
+    override var profileScale = 0.9F
+    override var profileTranslation = Vec3d(0.0, 0.35, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
 
     override fun registerPoses() {
-//        val blink = quirk("blink") { bedrockStateful("jynx", "blink").setPreventsIdle(false)}
+//        val blink = quirk { bedrockStateful("jynx", "blink")}
         standing = registerPose(
             poseName = "standing",
             poseTypes = STATIONARY_POSES + UI_POSES,

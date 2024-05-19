@@ -15,7 +15,7 @@ import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFram
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pose.TransformedModelPart
+import com.cobblemon.mod.common.client.render.models.blockbench.pose.ModelPartTransformation
 import com.cobblemon.mod.common.client.render.models.blockbench.wavefunction.parabolaFunction
 import com.cobblemon.mod.common.client.render.models.blockbench.wavefunction.sineFunction
 import com.cobblemon.mod.common.entity.PoseType
@@ -35,18 +35,18 @@ class ChatotModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedF
     override val head = getPart("head")
     private val tail = getPart("tail")
 
-    override val portraitScale = 3.5F
-    override val portraitTranslation = Vec3d(-0.1, -2.1, 0.0)
+    override var portraitScale = 3.5F
+    override var portraitTranslation = Vec3d(-0.1, -2.1, 0.0)
 
-    override val profileScale = 1.2F
-    override val profileTranslation = Vec3d(0.0, -0.01, 0.0)
+    override var profileScale = 1.2F
+    override var profileTranslation = Vec3d(0.0, -0.01, 0.0)
 
     lateinit var sleep: PokemonPose
     lateinit var stand: PokemonPose
     lateinit var walk: PokemonPose
     lateinit var fly: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("chatot", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("chatot", "cry") }
 
     override fun registerPoses() {
 
@@ -56,7 +56,7 @@ class ChatotModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedF
 //                idleAnimations = arrayOf(bedrock("chatot", "sleep"))
 //        )
 
-        val blink = quirk("blink") { bedrockStateful("chatot", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("chatot", "blink") }
 
         stand = registerPose(
             poseName = "standing",
@@ -80,7 +80,7 @@ class ChatotModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedF
                 WingFlapIdleAnimation(this,
                     flapFunction = sineFunction(verticalShift = -10F.toRadians(), period = 0.9F, amplitude = 0.6F),
                     timeVariable = { state, _, _ -> state?.animationSeconds ?: 0F },
-                    axis = TransformedModelPart.Z_AXIS
+                    axis = ModelPartTransformation.Z_AXIS
                 )
             )
         )
@@ -99,7 +99,7 @@ class ChatotModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedF
                         period = 0.4F
                     ),
                     timeVariable = { state, _, _ -> state?.animationSeconds },
-                    axis = TransformedModelPart.Y_AXIS
+                    axis = ModelPartTransformation.Y_AXIS
                 ),
                 head.translation(
                     function = sineFunction(
@@ -107,7 +107,7 @@ class ChatotModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedF
                         period = 1F,
                         verticalShift = (-10F).toRadians()
                     ),
-                    axis = TransformedModelPart.X_AXIS,
+                    axis = ModelPartTransformation.X_AXIS,
                     timeVariable = { state, _, _ -> state?.animationSeconds }
                 ),
                 leftLeg.rotation(
@@ -116,7 +116,7 @@ class ChatotModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedF
                         phaseShift = 0F,
                         verticalShift = (30F).toRadians()
                     ),
-                    axis = TransformedModelPart.X_AXIS,
+                    axis = ModelPartTransformation.X_AXIS,
                     timeVariable = { _, _, ageInTicks -> ageInTicks / 20 },
                 ),
                 rightLeg.rotation(
@@ -125,7 +125,7 @@ class ChatotModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedF
                         phaseShift = 0F,
                         verticalShift = (30F).toRadians()
                     ),
-                    axis = TransformedModelPart.X_AXIS,
+                    axis = ModelPartTransformation.X_AXIS,
                     timeVariable = { _, _, ageInTicks -> ageInTicks / 20 },
                 ),
                 tail.rotation(
@@ -133,7 +133,7 @@ class ChatotModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedF
                         amplitude = (-5F).toRadians(),
                         period = 1F
                     ),
-                    axis = TransformedModelPart.X_AXIS,
+                    axis = ModelPartTransformation.X_AXIS,
                     timeVariable = { _, _, ageInTicks -> ageInTicks / 20 },
                 ),
                 wingFlap(
@@ -144,7 +144,7 @@ class ChatotModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedF
                         verticalShift = (-20F).toRadians()
                     ),
                     timeVariable = { state, _, _ -> state?.animationSeconds },
-                    axis = TransformedModelPart.Z_AXIS
+                    axis = ModelPartTransformation.Z_AXIS
                 ),
                 rightWing.translation(
                     function = parabolaFunction(
@@ -152,7 +152,7 @@ class ChatotModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedF
                         phaseShift = 30F,
                         verticalShift = (25F).toRadians()
                     ),
-                    axis = TransformedModelPart.Y_AXIS,
+                    axis = ModelPartTransformation.Y_AXIS,
                     timeVariable = { _, _, ageInTicks -> ageInTicks / 20 },
                 ),
                 leftWing.translation(
@@ -161,7 +161,7 @@ class ChatotModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedF
                         phaseShift = 30F,
                         verticalShift = (25F).toRadians()
                     ),
-                    axis = TransformedModelPart.Y_AXIS,
+                    axis = ModelPartTransformation.Y_AXIS,
                     timeVariable = { _, _, ageInTicks -> ageInTicks / 20 },
                 ),
             )

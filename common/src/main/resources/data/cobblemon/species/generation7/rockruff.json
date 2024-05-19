@@ -55,9 +55,11 @@
     "tm:confide",
     "tm:crunch",
     "tm:dig",
+    "tm:doubleedge",
     "tm:doubleteam",
     "tm:earthpower",
     "tm:echoedvoice",
+    "tm:endeavor",
     "tm:endure",
     "tm:facade",
     "tm:firefang",
@@ -139,7 +141,7 @@
     {
       "id": "rockruff_lycanroc",
       "variant": "level_up",
-      "result": "lycanroc form=midnight",
+      "result": "lycanroc midnight",
       "consumeHeldItem": false,
       "learnableMoves": [
         "counter"
@@ -158,7 +160,7 @@
     {
       "id": "rockruff_lycanroc",
       "variant": "level_up",
-      "result": "lycanroc form=dusk",
+      "result": "lycanroc dusk",
       "consumeHeldItem": false,
       "learnableMoves": [
         "crushclaw"

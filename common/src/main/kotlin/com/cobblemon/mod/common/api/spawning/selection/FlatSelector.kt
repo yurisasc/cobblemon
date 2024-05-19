@@ -26,8 +26,13 @@ import kotlin.random.Random
  * [FlatContextWeightedSelector] because here a spawning context type only appearing once
  * will not make it any less likely to be selected.
  *
+ * A spawn detail's weight when selecting between all possible spawn details will be the
+ * highest of its contextual weights. In other words, if a spawn is possible at both A and
+ * B contexts but is weighed more highly at A due to a weight multiplier, it will use the
+ * weight of the spawn at A when choosing which spawn will run.
+ *
  * When choosing which context a specific spawn detail will spawn at once that spawn detail
- * has been chosen, it does a flat random across the possible contexts.
+ * has been chosen, it does a context-weighted random selection across those contexts.
  *
  * At a glance:
  * - Spawn detail selection is flat across context quantity
@@ -37,10 +42,22 @@ import kotlin.random.Random
  * @since July 10th, 2022
  */
 open class FlatSelector : SpawningSelector {
-    open fun getWeight(contextType: RegisteredSpawningContext<*>) = contextType.getWeight()
+    protected class SelectingSpawnInformation {
+        val spawningContexts = mutableMapOf<SpawningContext, Float>()
+        var highestWeight = 0F
+
+        fun add(spawningContext: SpawningContext, contextWeight: Float) {
+            spawningContexts[spawningContext] = contextWeight
+            if (contextWeight > highestWeight) {
+                highestWeight = contextWeight
+            }
+        }
+
+        fun chooseContext() = spawningContexts.entries.weightedSelection { it.value }!!.key
+    }
 
     protected class ContextSelectionData(
-        val spawnsToContexts: MutableMap<SpawnDetail, MutableList<SpawningContext>>,
+        val spawnsToContexts: MutableMap<SpawnDetail, SelectingSpawnInformation>,
         var percentSum: Float
     ) {
         val size: Int
@@ -51,7 +68,7 @@ open class FlatSelector : SpawningSelector {
         spawner: Spawner,
         contexts: List<SpawningContext>
     ): ContextSelectionData {
-        val spawnsToContexts: MutableMap<SpawnDetail, MutableList<SpawningContext>> = mutableMapOf()
+        val spawnsToContexts: MutableMap<SpawnDetail, SelectingSpawnInformation> = mutableMapOf()
         var percentSum = 0F
 
         contexts.forEach { ctx ->
@@ -65,9 +82,9 @@ open class FlatSelector : SpawningSelector {
 
                 val selectingSpawnInformation = spawnsToContexts.getOrPut(
                     it,
-                    ::mutableListOf
+                    ::SelectingSpawnInformation
                 )
-                selectingSpawnInformation.add(ctx)
+                selectingSpawnInformation.add(ctx, ctx.getWeight(it))
             }
         }
 
@@ -86,7 +103,6 @@ open class FlatSelector : SpawningSelector {
 
         val spawnsToContexts = selectionData.spawnsToContexts
         var percentSum = selectionData.percentSum
-
 
         // First pass is doing percentage checks.
         if (percentSum > 0) {
@@ -111,15 +127,14 @@ open class FlatSelector : SpawningSelector {
                 if (spawnDetail.percentage > 0) {
                     percentSum += spawnDetail.percentage
                     if (percentSum >= selectedPercentage) {
-                        return info.random() to spawnDetail
+                        return info.chooseContext() to spawnDetail
                     }
                 }
             }
         }
 
-        val selectedSpawn = spawnsToContexts.entries.toList().weightedSelection { it.key.weight }!!
-
-        return selectedSpawn.value.random() to selectedSpawn.key
+        val selectedSpawn = spawnsToContexts.entries.toList().weightedSelection { it.value.highestWeight }!!
+        return selectedSpawn.value.chooseContext() to selectedSpawn.key
     }
 
     override fun getTotalWeights(
@@ -129,13 +144,13 @@ open class FlatSelector : SpawningSelector {
         val selectionData = getSelectionData(spawner, contexts)
 
         if (selectionData.size == 0) {
-            return mapOf()
+            return emptyMap()
         }
 
         val totalWeights = mutableMapOf<SpawnDetail, Float>()
 
-        for (spawnDetail in selectionData.spawnsToContexts.keys) {
-            totalWeights[spawnDetail] = spawnDetail.weight
+        for ((spawnDetail, info) in selectionData.spawnsToContexts.entries) {
+            totalWeights[spawnDetail] = info.highestWeight
         }
 
         return totalWeights

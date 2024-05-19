@@ -12,7 +12,7 @@ import com.cobblemon.mod.common.client.render.models.blockbench.frame.BiWingedFr
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pose.TransformedModelPart.Companion.Y_AXIS
+import com.cobblemon.mod.common.client.render.models.blockbench.pose.ModelPartTransformation.Companion.Y_AXIS
 import com.cobblemon.mod.common.client.render.models.blockbench.wavefunction.sineFunction
 import com.cobblemon.mod.common.entity.PoseType.Companion.MOVING_POSES
 import com.cobblemon.mod.common.entity.PoseType.Companion.STATIONARY_POSES
@@ -28,11 +28,11 @@ class NaganadelModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BiW
     override val leftWing = getPart("wing_left")
     override val rightWing = getPart("wing_right")
 
-    override val portraitScale = 2.0F
-    override val portraitTranslation = Vec3d(0.0, 4.3, 0.0)
+    override var portraitScale = 2.0F
+    override var portraitTranslation = Vec3d(0.0, 4.3, 0.0)
 
-    override val profileScale = 0.4F
-    override val profileTranslation = Vec3d(0.05, 1.3, 0.0)
+    override var profileScale = 0.4F
+    override var profileTranslation = Vec3d(0.05, 1.3, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose

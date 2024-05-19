@@ -8,7 +8,7 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen8
 
-import com.cobblemon.mod.common.client.render.models.blockbench.asTransformed
+import com.cobblemon.mod.common.client.render.models.blockbench.createTransformation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BimanualFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
@@ -32,30 +32,30 @@ class ThwackeyModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
     val stick_left = getPart("stick_left")
     val stick_right = getPart("stick_right")
 
-    override val portraitScale = 2.2F
-    override val portraitTranslation = Vec3d(-0.35, 0.3, 0.0)
+    override var portraitScale = 2.2F
+    override var portraitTranslation = Vec3d(-0.35, 0.3, 0.0)
 
-    override val profileScale = 0.65F
-    override val profileTranslation = Vec3d(0.0, 0.76, 0.0)
+    override var profileScale = 0.65F
+    override var profileTranslation = Vec3d(0.0, 0.76, 0.0)
 
     lateinit var battleidle: PokemonPose
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("thwackey", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("thwackey", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("thwackey", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("thwackey", "blink") }
         standing = registerPose(
             poseName = "standing",
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
             quirks = arrayOf(blink),
             condition = { !it.isBattling },
             transformedParts = arrayOf(
-                stick_head_left.asTransformed().withVisibility(visibility = false),
-                stick_head_right.asTransformed().withVisibility(visibility = false),
-                stick_left.asTransformed().withVisibility(visibility = true),
-                stick_right.asTransformed().withVisibility(visibility = true)
+                stick_head_left.createTransformation().withVisibility(visibility = false),
+                stick_head_right.createTransformation().withVisibility(visibility = false),
+                stick_left.createTransformation().withVisibility(visibility = true),
+                stick_right.createTransformation().withVisibility(visibility = true)
             ),
             idleAnimations = arrayOf(
                 singleBoneLook(),
@@ -68,10 +68,10 @@ class ThwackeyModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
             poseTypes = PoseType.MOVING_POSES,
             quirks = arrayOf(blink),
             transformedParts = arrayOf(
-                stick_head_left.asTransformed().withVisibility(visibility = false),
-                stick_head_right.asTransformed().withVisibility(visibility = false),
-                stick_left.asTransformed().withVisibility(visibility = true),
-                stick_right.asTransformed().withVisibility(visibility = true)
+                stick_head_left.createTransformation().withVisibility(visibility = false),
+                stick_head_right.createTransformation().withVisibility(visibility = false),
+                stick_left.createTransformation().withVisibility(visibility = true),
+                stick_right.createTransformation().withVisibility(visibility = true)
             ),
             idleAnimations = arrayOf(
                 singleBoneLook(),
@@ -86,10 +86,10 @@ class ThwackeyModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
             quirks = arrayOf(blink),
             condition = { it.isBattling },
             transformedParts = arrayOf(
-                stick_head_left.asTransformed().withVisibility(visibility = false),
-                stick_head_right.asTransformed().withVisibility(visibility = false),
-                stick_left.asTransformed().withVisibility(visibility = true),
-                stick_right.asTransformed().withVisibility(visibility = true)
+                stick_head_left.createTransformation().withVisibility(visibility = false),
+                stick_head_right.createTransformation().withVisibility(visibility = false),
+                stick_left.createTransformation().withVisibility(visibility = true),
+                stick_right.createTransformation().withVisibility(visibility = true)
             ),
             idleAnimations = arrayOf(
                 singleBoneLook(),

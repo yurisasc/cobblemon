@@ -8,7 +8,7 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen6
 
-import com.cobblemon.mod.common.client.render.models.blockbench.asTransformed
+import com.cobblemon.mod.common.client.render.models.blockbench.createTransformation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BimanualFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
@@ -31,28 +31,28 @@ class BraixenModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Biped
     val stick = getPart("hand_stick")
     val sticktail = getPart("stick_tail")
 
-    override val portraitScale = 2.2F
-    override val portraitTranslation = Vec3d(-0.3, 1.8, 0.0)
+    override var portraitScale = 2.2F
+    override var portraitTranslation = Vec3d(-0.3, 1.8, 0.0)
 
-    override val profileScale = 0.55F
-    override val profileTranslation = Vec3d(0.0, 1.0, 0.0)
+    override var profileScale = 0.55F
+    override var profileTranslation = Vec3d(0.0, 1.0, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
     lateinit var battleidle: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("braixen", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("braixen", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("braixen", "blink").setPreventsIdle(false)}
+        val blink = quirk { bedrockStateful("braixen", "blink")}
         standing = registerPose(
             poseName = "standing",
             poseTypes = PoseType.STATIONARY_POSES + UI_POSES,
             transformTicks = 10,
             condition = { !it.isBattling },
             transformedParts = arrayOf(
-                stick.asTransformed().withVisibility(visibility = false),
-                sticktail.asTransformed().withVisibility(visibility = true)
+                stick.createTransformation().withVisibility(visibility = false),
+                sticktail.createTransformation().withVisibility(visibility = true)
             ),
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
@@ -66,8 +66,8 @@ class BraixenModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Biped
             poseTypes = PoseType.MOVING_POSES,
             transformTicks = 10,
             transformedParts = arrayOf(
-                stick.asTransformed().withVisibility(visibility = false),
-                sticktail.asTransformed().withVisibility(visibility = true)
+                stick.createTransformation().withVisibility(visibility = false),
+                sticktail.createTransformation().withVisibility(visibility = true)
             ),
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
@@ -81,8 +81,8 @@ class BraixenModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Biped
             poseTypes = PoseType.STATIONARY_POSES,
             transformTicks = 10,
             transformedParts = arrayOf(
-                stick.asTransformed().withVisibility(visibility = true),
-                sticktail.asTransformed().withVisibility(visibility = false)
+                stick.createTransformation().withVisibility(visibility = true),
+                sticktail.createTransformation().withVisibility(visibility = false)
             ),
             quirks = arrayOf(blink),
             condition = { it.isBattling },

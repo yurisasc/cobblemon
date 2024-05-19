@@ -18,24 +18,25 @@ import net.minecraft.util.math.Vec3d
 class WhirlipedeModel (root: ModelPart) : PokemonPoseableModel() {
     override val rootPart = root.registerChildWithAllChildren("whirlipede")
 
-    override val portraitScale = 1.1F
-    override val portraitTranslation = Vec3d(-0.05, 0.2, 0.0)
+    override var portraitScale = 1.1F
+    override var portraitTranslation = Vec3d(-0.05, 0.2, 0.0)
 
-    override val profileScale = 0.7F
-    override val profileTranslation = Vec3d(0.0, 0.7, 0.0)
+    override var profileScale = 0.7F
+    override var profileTranslation = Vec3d(0.0, 0.7, 0.0)
 
     lateinit var sleep: PokemonPose
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
     lateinit var battleidle: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("whirlipede", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("whirlipede", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("whirlipede", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("whirlipede", "blink") }
 
         standing = registerPose(
             poseName = "standing",
+            transformTicks = 20,
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
             quirks = arrayOf(blink),
             condition = { !it.isBattling },

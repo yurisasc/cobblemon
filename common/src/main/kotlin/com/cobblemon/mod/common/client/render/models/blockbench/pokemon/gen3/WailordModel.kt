@@ -9,7 +9,7 @@
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen3
 
 import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
-import com.cobblemon.mod.common.client.render.models.blockbench.asTransformed
+import com.cobblemon.mod.common.client.render.models.blockbench.createTransformation
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cobblemon.mod.common.entity.PoseType
@@ -19,11 +19,11 @@ import net.minecraft.util.math.Vec3d
 
 class WailordModel(root: ModelPart) : PokemonPoseableModel() {
     override val rootPart = root.registerChildWithAllChildren("wailord")
-    override val portraitScale = 0.45F
-    override val portraitTranslation = Vec3d(-0.38, 0.8, 0.0)
+    override var portraitScale = 0.45F
+    override var portraitTranslation = Vec3d(-0.38, 0.8, 0.0)
 
-    override val profileScale = 0.25F
-    override val profileTranslation = Vec3d(0.0, 1.2, 0.0)
+    override var profileScale = 0.25F
+    override var profileTranslation = Vec3d(0.0, 1.2, -10.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
@@ -34,7 +34,7 @@ class WailordModel(root: ModelPart) : PokemonPoseableModel() {
 
     val offsetY = 0.0
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("wailord", "blink").setPreventsIdle(false)}
+        val blink = quirk { bedrockStateful("wailord", "blink")}
 
         sleep = registerPose(
             poseType = PoseType.SLEEP,
@@ -50,7 +50,7 @@ class WailordModel(root: ModelPart) : PokemonPoseableModel() {
                 bedrock("wailord", "ground_idle")
             ),
             transformedParts = arrayOf(
-                rootPart.asTransformed().addPosition(0.0, offsetY, 0.0)
+                rootPart.createTransformation().addPosition(0.0, offsetY, 0.0)
             )
         )
 
@@ -63,7 +63,7 @@ class WailordModel(root: ModelPart) : PokemonPoseableModel() {
                 bedrock("wailord", "ground_walk")
             ),
             transformedParts = arrayOf(
-                rootPart.asTransformed().addPosition(0.0, offsetY, 0.0)
+                rootPart.createTransformation().addPosition(0.0, offsetY, 0.0)
             )
         )
 
@@ -95,7 +95,7 @@ class WailordModel(root: ModelPart) : PokemonPoseableModel() {
                 bedrock("wailord", "battle_idle")
             ),
             transformedParts = arrayOf(
-                rootPart.asTransformed().addPosition(0.0, offsetY, 0.0)
+                rootPart.createTransformation().addPosition(0.0, offsetY, 0.0)
             )
         )
     }

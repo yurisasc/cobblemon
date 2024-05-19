@@ -21,7 +21,7 @@
     "moving": {
       "canLook": false,
       "wanderChance": 20,
-      "walking": {
+      "walk": {
         "walkSpeed": 0.45
       }
     },

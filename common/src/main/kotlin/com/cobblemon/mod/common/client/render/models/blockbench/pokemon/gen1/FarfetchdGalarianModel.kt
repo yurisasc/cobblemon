@@ -26,19 +26,19 @@ class FarfetchdGalarianModel(root: ModelPart) : PokemonPoseableModel(), HeadedFr
     override val leftLeg = getPart("leg_left")
     override val rightLeg = getPart("leg_right")
 
-    override val portraitScale = 2.6F
-    override val portraitTranslation = Vec3d(-0.2, -1.0, 0.0)
+    override var portraitScale = 2.6F
+    override var portraitTranslation = Vec3d(-0.2, -1.0, 0.0)
 
-    override val profileScale = 1.1F
-    override val profileTranslation = Vec3d(-0.1, 0.1, 0.0)
+    override var profileScale = 1.1F
+    override var profileTranslation = Vec3d(-0.1, 0.1, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("farfetchd_galar", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("farfetchd_galar", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("farfetchd_galar", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("farfetchd_galar", "blink") }
         standing = registerPose(
             poseName = "standing",
             poseTypes = PoseType.STATIONARY_POSES + UI_POSES,

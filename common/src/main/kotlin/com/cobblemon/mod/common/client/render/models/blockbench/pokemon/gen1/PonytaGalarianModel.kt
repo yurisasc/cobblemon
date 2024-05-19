@@ -9,7 +9,6 @@
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1
 
 import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
-import com.cobblemon.mod.common.client.render.models.blockbench.animation.QuadrupedWalkAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.QuadrupedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
@@ -29,21 +28,21 @@ class PonytaGalarianModel (root: ModelPart) : PokemonPoseableModel(), HeadedFram
     override val hindLeftLeg = getPart("leg_back_left")
     override val hindRightLeg = getPart("leg_back_right")
 
-    override val portraitScale = 2.2F
-    override val portraitTranslation = Vec3d(-0.4, 0.2, 0.0)
+    override var portraitScale = 2.2F
+    override var portraitTranslation = Vec3d(-0.4, 0.2, 0.0)
 
-    override val profileScale = 0.9F
-    override val profileTranslation = Vec3d(0.0, 0.43, 0.0)
+    override var profileScale = 0.9F
+    override var profileTranslation = Vec3d(0.0, 0.43, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
     lateinit var sleep: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("ponyta_galar", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("ponyta_galar", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("ponyta_galar", "blink").setPreventsIdle(false) }
-        val quirk = quirk("quirk", secondsBetweenOccurrences = 60F to 360F) { bedrockStateful("ponyta_galar", "quirk").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("ponyta_galar", "blink") }
+        val quirk = quirk(secondsBetweenOccurrences = 60F to 360F) { bedrockStateful("ponyta_galar", "quirk") }
 
         sleep = registerPose(
             poseType = PoseType.SLEEP,

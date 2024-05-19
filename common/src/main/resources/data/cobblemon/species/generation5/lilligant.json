@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Lilligant",
   "nationalPokedexNumber": 549,
   "primaryType": "grass",
@@ -32,6 +33,9 @@
     "special_defence": 75,
     "speed": 90
   },
+  "features": [
+    "hisuian"
+  ],
   "catchRate": 75,
   "maleRatio": 0,
   "shoulderMountable": false,
@@ -100,6 +104,7 @@
         "tm:bulletseed",
         "tm:charm",
         "tm:closecombat",
+        "tm:coaching",
         "tm:encore",
         "tm:endure",
         "tm:energyball",
@@ -107,6 +112,7 @@
         "tm:gigadrain",
         "tm:gigaimpact",
         "tm:grassknot",
+        "tm:grassyglide",
         "tm:grassyterrain",
         "tm:helpinghand",
         "tm:hurricane",
@@ -117,20 +123,27 @@
         "tm:lowsweep",
         "tm:magicalleaf",
         "tm:metronome",
+        "tm:petalblizzard",
         "tm:poisonjab",
         "tm:pollenpuff",
         "tm:protect",
+        "tm:psychup",
         "tm:raindance",
         "tm:rest",
         "tm:seedbomb",
         "tm:sleeptalk",
         "tm:solarbeam",
+        "tm:solarblade",
         "tm:substitute",
         "tm:sunnyday",
         "tm:swordsdance",
         "tm:takedown",
         "tm:terablast",
-        "tm:trailblaze"
+        "tm:trailblaze",
+        "tm:tripleaxel",
+        "tm:upperhand",
+        "tm:vacuumwave",
+        "tm:weatherball"
       ],
       "labels": [
         "gen8",
@@ -139,12 +152,30 @@
       "aspects": [
         "hisuian"
       ],
+      "baseScale": 0.8,
+      "hitbox": {
+        "width": 0.5,
+        "height": 2.1,
+        "fixed": false
+      },
       "height": 12,
       "weight": 192,
-      "preEvolution": "petilil",
-      "evolutions": [],
+      "preEvolution": "petilil region_bias=hisui",
       "cannotDynamax": false,
-      "battleOnly": false
+      "battleOnly": false,
+      "drops": {
+        "amount": 2,
+        "entries": [
+          {
+            "item": "cobblemon:revival_herb",
+            "percentage": 5.0
+          },
+          {
+            "item": "cobblemon:coba_berry",
+            "percentage": 5.0
+          }
+        ]
+      }
     }
   ],
   "baseExperienceYield": 168,
@@ -175,6 +206,7 @@
     "1:teeterdance",
     "5:magicalleaf",
     "46:petaldance",
+    "tm:alluringvoice",
     "tm:attract",
     "tm:bulletseed",
     "tm:charm",
@@ -191,6 +223,7 @@
     "tm:gigadrain",
     "tm:gigaimpact",
     "tm:grassknot",
+    "tm:grassyglide",
     "tm:grassyterrain",
     "tm:helpinghand",
     "tm:hiddenpower",
@@ -200,8 +233,10 @@
     "tm:lightscreen",
     "tm:magicalleaf",
     "tm:naturepower",
+    "tm:petalblizzard",
     "tm:pollenpuff",
     "tm:protect",
+    "tm:psychup",
     "tm:rest",
     "tm:return",
     "tm:round",
@@ -219,6 +254,7 @@
     "tm:terablast",
     "tm:toxic",
     "tm:trailblaze",
+    "tm:weatherball",
     "tutor:afteryou",
     "tutor:covet",
     "tutor:gigadrain",
@@ -242,10 +278,10 @@
   ],
   "preEvolution": "petilil",
   "evolutions": [],
-  "baseScale": 1,
+  "baseScale": 0.6,
   "hitbox": {
-    "width": 1,
-    "height": 1,
+    "width": 1.1,
+    "height": 2.3,
     "fixed": false
   },
   "baseFriendship": 50,

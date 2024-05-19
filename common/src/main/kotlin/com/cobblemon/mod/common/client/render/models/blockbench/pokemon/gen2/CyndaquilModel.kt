@@ -8,15 +8,11 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen2
 
-import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
-import com.cobblemon.mod.common.client.render.models.blockbench.frame.BimanualFrame
-import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cobblemon.mod.common.entity.PoseType
-import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
@@ -24,21 +20,21 @@ class CyndaquilModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("cyndaquil")
     override val head = getPart("head")
 
-    override val portraitScale = 1.4F
-    override val portraitTranslation = Vec3d(-0.26, 0.0, 0.0)
+    override var portraitScale = 1.4F
+    override var portraitTranslation = Vec3d(-0.26, 0.0, 0.0)
 
-    override val profileScale = 0.65F
-    override val profileTranslation = Vec3d(0.0, 0.8, 0.0)
+    override var profileScale = 0.65F
+    override var profileTranslation = Vec3d(0.0, 0.8, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walking: PokemonPose
     lateinit var sleep: PokemonPose
     lateinit var battleidle: PokemonPose
 
-    override val cryAnimation = CryProvider { entity, _ -> if (entity.isBattling) bedrockStateful("cyndaquil", "battle_cry").setPreventsIdle(false) else bedrockStateful("cyndaquil", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { entity, _ -> if (entity.isBattling) bedrockStateful("cyndaquil", "battle_cry") else bedrockStateful("cyndaquil", "cry") }
 
     override fun registerPoses() {
-//        val sneeze = quirk("sneeze") { bedrockStateful("cyndaquil", "sneeze_quirk").setPreventsIdle(false) }
+//        val sneeze = quirk { bedrockStateful("cyndaquil", "sneeze_quirk") }
 
         sleep = registerPose(
             poseType = PoseType.SLEEP,
@@ -75,7 +71,7 @@ class CyndaquilModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
 //            quirks = arrayOf(sneeze),
             condition = { it.isBattling },
             idleAnimations = arrayOf(
-                singleBoneLook(),
+                singleBoneLook(minPitch = 0F),
                 bedrock("cyndaquil", "battle_idle")
             )
         )

@@ -8,8 +8,6 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen9
 
-import com.cobblemon.mod.common.client.render.models.blockbench.frame.BimanualFrame
-import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
@@ -22,21 +20,21 @@ class CrocalorModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame{
     override val rootPart = root.registerChildWithAllChildren("crocalor")
     override val head = getPart("head")
 
-    override val portraitScale = 1.5F
-    override val portraitTranslation = Vec3d(-0.5, 0.2, 0.0)
+    override var portraitScale = 1.5F
+    override var portraitTranslation = Vec3d(-0.5, 0.2, 0.0)
 
-    override val profileScale = 0.7F
-    override val profileTranslation = Vec3d(0.0, 0.65, 0.0)
+    override var profileScale = 0.7F
+    override var profileTranslation = Vec3d(0.0, 0.65, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walking: PokemonPose
     lateinit var sleep: PokemonPose
     lateinit var battleidle: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("crocalor", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("crocalor", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("crocalor", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("crocalor", "blink") }
         sleep = registerPose(
             poseType = PoseType.SLEEP,
             idleAnimations = arrayOf(bedrock("crocalor", "sleep"))

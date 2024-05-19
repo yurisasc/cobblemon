@@ -11,19 +11,19 @@ package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen7
 import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
-import net.minecraft.client.model.ModelPart
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
+import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
 class DhelmiseModel(root: ModelPart) : PokemonPoseableModel() {
     override val rootPart = root.registerChildWithAllChildren("dhelmise")
 
-    override val portraitScale = 1.1F
-    override val portraitTranslation = Vec3d(-0.5, 2.7, 0.0)
+    override var portraitScale = 1.1F
+    override var portraitTranslation = Vec3d(-0.5, 2.7, 0.0)
 
-    override val profileScale = 0.35F
-    override val profileTranslation = Vec3d(0.0, 1.35, 0.0)
+    override var profileScale = 0.35F
+    override var profileTranslation = Vec3d(0.0, 1.35, 0.0)
 
     lateinit var sleep: PokemonPose
     lateinit var standing: PokemonPose

@@ -99,10 +99,25 @@ object CobblemonCriteria {
         )
     )
 
+    val RESURRECT_POKEMON = this.create(
+        SimpleCriterionTrigger(
+            cobblemonResource("resurrect_pokemon"),
+            PickStarterCriterionCondition::class.java
+        )
+    )
+
     val TRADE_POKEMON = this.create(
         SimpleCriterionTrigger(
             cobblemonResource("trade_pokemon"),
             TradePokemonCriterionCondition::class.java
+        )
+    )
+
+    // Advancement criteria for [grow_tumblestone.json]
+    val PLANT_TUMBLESTONE = this.create(
+        SimpleCriterionTrigger(
+            cobblemonResource("plant_tumblestone"),
+            PlantTumblestoneCriterionCondition::class.java
         )
     )
 

@@ -45,6 +45,11 @@
   ],
   "behaviour": {
     "moving": {
+      "swim": {
+        "canSwimInWater": true,
+        "canBreatheUnderwater": true,
+        "canWalkOnWater": true
+      },
       "walk": {
         "walkSpeed": 0.25
       }
@@ -82,11 +87,15 @@
     "tm:bulkup",
     "tm:chillingwater",
     "tm:closecombat",
+    "tm:coaching",
     "tm:disarmingvoice",
     "tm:encore",
+    "tm:endeavor",
     "tm:endure",
     "tm:facade",
+    "tm:featherdance",
     "tm:fling",
+    "tm:flipturn",
     "tm:gigaimpact",
     "tm:helpinghand",
     "tm:hurricane",
@@ -95,11 +104,13 @@
     "tm:hyperbeam",
     "tm:icespinner",
     "tm:icywind",
+    "tm:knockoff",
     "tm:liquidation",
     "tm:lowkick",
     "tm:lowsweep",
     "tm:mistyterrain",
     "tm:protect",
+    "tm:psychup",
     "tm:raindance",
     "tm:rest",
     "tm:reversal",
@@ -111,9 +122,12 @@
     "tm:takedown",
     "tm:taunt",
     "tm:terablast",
+    "tm:tripleaxel",
+    "tm:upperhand",
     "tm:uturn",
     "tm:waterpledge",
-    "tm:waterpulse"
+    "tm:waterpulse",
+    "tm:whirlpool"
   ],
   "labels": [
     "gen9"

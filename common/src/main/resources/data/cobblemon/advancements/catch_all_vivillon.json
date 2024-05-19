@@ -2,7 +2,7 @@
 	"display": {
 		"icon": {
 			"item": "cobblemon:pokemon_model",
-			"nbt": "{\"species\":\"cobblemon:vivillon\",\"aspects\":[\"vivillon-wings-poke-ball\"]}"
+			"nbt": "{\"species\":\"cobblemon:vivillon\",\"aspects\":[\"vivillon-wings-meadow\"]}"
 		},
 		"title": {
 			"translate": "advancements.cobblemon.catch_all_vivillon"
@@ -14,13 +14,6 @@
 	},
 	"parent": "cobblemon:first_catch",
 	"criteria": {
-		"poke_ball": {
-			"trigger": "cobblemon:aspects_collected",
-			"conditions": {
-				"pokemon": "cobblemon:vivillon",
-				"aspects": ["vivillon-wings-poke-ball"]
-			}
-		},
 		"archipelago": {
 			"trigger": "cobblemon:aspects_collected",
 			"conditions": {
@@ -153,31 +146,9 @@
 				"pokemon": "cobblemon:vivillon",
 				"aspects": ["vivillon-wings-tundra"]
 			}
-		},
-		"inferno": {
-			"trigger": "cobblemon:aspects_collected",
-			"conditions": {
-				"pokemon": "cobblemon:vivillon",
-				"aspects": ["vivillon-wings-inferno"]
-			}
-		},
-		"void": {
-			"trigger": "cobblemon:aspects_collected",
-			"conditions": {
-				"pokemon": "cobblemon:vivillon",
-				"aspects": ["vivillon-wings-void"]
-			}
-		},
-		"forsaken": {
-			"trigger": "cobblemon:aspects_collected",
-			"conditions": {
-				"pokemon": "cobblemon:vivillon",
-				"aspects": ["vivillon-wings-forsaken"]
-			}
 		}
 	},
 	"requirements": [
-		["poke_ball"],
 		["archipelago"],
 		["continental"],
 		["elegant"],
@@ -196,10 +167,7 @@
 		["sandstorm"],
 		["savanna"],
 		["sun"],
-		["tundra"],
-		["inferno"],
-		["void"],
-		["forsaken"]
+		["tundra"]
 	],
   "rewards": {
     "experience": 100

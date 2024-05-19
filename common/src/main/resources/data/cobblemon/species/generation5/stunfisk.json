@@ -29,6 +29,9 @@
     "special_defence": 99,
     "speed": 32
   },
+  "features": [
+    "galarian"
+  ],
   "catchRate": 75,
   "maleRatio": 0.5,
   "shoulderMountable": false,
@@ -140,7 +143,6 @@
       ],
       "height": 7,
       "weight": 205,
-      "evolutions": [],
       "cannotDynamax": false,
       "battleOnly": false
     }

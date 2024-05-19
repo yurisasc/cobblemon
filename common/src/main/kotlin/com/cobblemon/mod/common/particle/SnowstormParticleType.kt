@@ -20,7 +20,7 @@ import net.minecraft.client.world.ClientWorld
 import net.minecraft.particle.ParticleType
 import net.minecraft.util.math.Vec3d
 
-class SnowstormParticleType : ParticleType<SnowstormParticleEffect>(false, SnowstormParticleEffect.PARAMETERS_FACTORY) {
+class SnowstormParticleType : ParticleType<SnowstormParticleEffect>(true, SnowstormParticleEffect.PARAMETERS_FACTORY) {
     companion object {
         val CODEC: Codec<SnowstormParticleEffect> = RecordCodecBuilder.create { instance ->
             instance.group(

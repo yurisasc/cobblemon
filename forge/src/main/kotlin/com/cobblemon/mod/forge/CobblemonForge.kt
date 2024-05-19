@@ -14,6 +14,8 @@ import com.cobblemon.mod.common.integration.adorn.AdornCompatibility
 import com.cobblemon.mod.common.item.group.CobblemonItemGroups
 import com.cobblemon.mod.common.loot.LootInjector
 import com.cobblemon.mod.common.particle.CobblemonParticles
+import com.cobblemon.mod.common.sherds.CobblemonSherds
+import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.didSleep
 import com.cobblemon.mod.common.util.endsWith
 import com.cobblemon.mod.common.world.CobblemonStructures
@@ -76,6 +78,8 @@ import java.io.File
 import java.util.*
 import java.util.concurrent.ExecutionException
 import kotlin.reflect.KClass
+import net.minecraft.entity.ai.brain.Activity
+import net.minecraftforge.registries.ForgeRegistries
 
 @Mod(Cobblemon.MODID)
 class CobblemonForge : CobblemonImplementation {
@@ -114,7 +118,6 @@ class CobblemonForge : CobblemonImplementation {
         }
         ForgePlatformEventHandler.register()
         DistExecutor.safeRunWhenOn(Dist.CLIENT) { DistExecutor.SafeRunnable(CobblemonForgeClient::init) }
-        this.attemptModCompat()
     }
 
     fun addCobblemonStructures(event: ServerAboutToStartEvent) {
@@ -150,9 +153,18 @@ class CobblemonForge : CobblemonImplementation {
         event.register(RegistryKeys.PLACEMENT_MODIFIER_TYPE) {
             CobblemonPlacementModifierTypes.touch()
         }
+        event.register(RegistryKeys.DECORATED_POT_PATTERN) {
+            CobblemonSherds.registerSherds()
+        }
 
         event.register(RegistryKeys.STRUCTURE_PROCESSOR) {
             CobblemonProcessorTypes.touch()
+        }
+
+        event.register(RegistryKeys.ACTIVITY) {
+            CobblemonActivities.activities.forEach {
+                ForgeRegistries.ACTIVITIES.register(cobblemonResource(it.id), it)
+            }
         }
     }
 
@@ -331,9 +343,14 @@ class CobblemonForge : CobblemonImplementation {
         this.queuedBuiltinResourcePacks += Triple(id, title, activationBehaviour)
     }
 
+    //This event gets fired before init, so we need to put resource packs in EARLY
     fun onAddPackFindersEvent(event: AddPackFindersEvent) {
         if (event.packType != ResourceType.CLIENT_RESOURCES) {
             return
+        }
+        if (this.isModInstalled("adorn")) {
+            //AdornCompatibility.register()
+            registerBuiltinResourcePack(cobblemonResource("adorncompatibility"), Text.literal("Adorn Compatibility"), ResourcePackActivationBehaviour.ALWAYS_ENABLED)
         }
         val modFile = ModList.get().getModFileById(Cobblemon.MODID).file
         this.queuedBuiltinResourcePacks.forEach { (id, title, activationBehaviour) ->
@@ -371,9 +388,6 @@ class CobblemonForge : CobblemonImplementation {
     }
 
     private fun attemptModCompat() {
-        if (this.isModInstalled("adorn")) {
-            AdornCompatibility.register()
-        }
         // CarryOn has a tag key for this but for some reason Forge version just doesn't work instead we do this :)
         // See https://github.com/Tschipp/CarryOn/wiki/IMC-support-for-Modders
         if (this.isModInstalled("carryon")) {

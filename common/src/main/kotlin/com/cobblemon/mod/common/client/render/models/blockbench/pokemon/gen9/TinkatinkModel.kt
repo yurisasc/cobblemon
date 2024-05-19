@@ -9,14 +9,14 @@
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen9
 
 import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
-import com.cobblemon.mod.common.client.render.models.blockbench.asTransformed
+import com.cobblemon.mod.common.client.render.models.blockbench.createTransformation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BimanualFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pose.TransformedModelPart
+import com.cobblemon.mod.common.client.render.models.blockbench.pose.ModelPartTransformation
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import net.minecraft.client.model.ModelPart
@@ -30,11 +30,11 @@ class TinkatinkModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bi
     override val rightLeg = getPart("leg_right")
     override val leftLeg = getPart("leg_left")
 
-    override val portraitScale = 2.0F
-    override val portraitTranslation = Vec3d(0.0, -1.01, 0.0)
+    override var portraitScale = 2.0F
+    override var portraitTranslation = Vec3d(0.0, -1.01, 0.0)
 
-    override val profileScale = 1.0F
-    override val profileTranslation = Vec3d(0.0, 0.25, 0.0)
+    override var profileScale = 1.0F
+    override var profileTranslation = Vec3d(0.0, 0.25, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walking: PokemonPose
@@ -45,10 +45,10 @@ class TinkatinkModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bi
 
     val shoulderOffset = 1
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("tinkatink", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("tinkatink", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("tinkatink", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("tinkatink", "blink") }
 
         sleep = registerPose(
             poseType = PoseType.SLEEP,
@@ -99,7 +99,7 @@ class TinkatinkModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bi
                 bedrock("tinkatink", "shoulder_left")
             ),
             transformedParts = arrayOf(
-                rootPart.asTransformed().addPosition(TransformedModelPart.X_AXIS, shoulderOffset)
+                rootPart.createTransformation().addPosition(ModelPartTransformation.X_AXIS, shoulderOffset)
             )
         )
 
@@ -112,7 +112,7 @@ class TinkatinkModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bi
                 bedrock("tinkatink", "shoulder_right")
             ),
             transformedParts = arrayOf(
-                rootPart.asTransformed().addPosition(TransformedModelPart.X_AXIS, -shoulderOffset)
+                rootPart.createTransformation().addPosition(ModelPartTransformation.X_AXIS, -shoulderOffset)
             )
         )
     }

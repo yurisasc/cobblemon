@@ -9,6 +9,7 @@
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1
 
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cobblemon.mod.common.entity.PoseType.Companion.MOVING_POSES
@@ -21,17 +22,19 @@ class MukModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("muk")
     override val head = getPart("head")
 
-    override val portraitScale = 1.4F
-    override val portraitTranslation = Vec3d(-0.3, -0.1, 0.0)
+    override var portraitScale = 1.4F
+    override var portraitTranslation = Vec3d(-0.3, -0.1, 0.0)
 
-    override val profileScale = 0.8F
-    override val profileTranslation = Vec3d(-0.04, 0.44, 0.0)
+    override var profileScale = 0.8F
+    override var profileTranslation = Vec3d(-0.04, 0.44, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
 
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("muk", "cry") }
+
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("muk", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("muk", "blink") }
         standing = registerPose(
             poseName = "standing",
             poseTypes = STATIONARY_POSES + UI_POSES,

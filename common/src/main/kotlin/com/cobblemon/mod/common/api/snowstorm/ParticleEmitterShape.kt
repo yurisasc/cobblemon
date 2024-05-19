@@ -145,7 +145,7 @@ class PointParticleEmitterShape(
     override val type = ParticleEmitterShapeType.POINT
     override fun getNewParticlePosition(runtime: MoLangRuntime, entity: Entity?) = runtime.resolveVec3d(offset)
     override fun getCenter(runtime: MoLangRuntime, entity: Entity?): Vec3d {
-        return getNewParticlePosition(runtime, entity) // Questionable
+        return Vec3d.ZERO
     }
 
     override fun <T> encode(ops: DynamicOps<T>) = CODEC.encodeStart(ops, this)

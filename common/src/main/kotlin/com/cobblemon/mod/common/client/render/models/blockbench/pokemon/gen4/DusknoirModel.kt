@@ -8,12 +8,12 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen4
 
-import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
+import com.cobblemon.mod.common.client.render.models.blockbench.createTransformation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.pose.ModelPartTransformation
 import com.cobblemon.mod.common.entity.PoseType
-import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
@@ -21,11 +21,11 @@ class DusknoirModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("dusknoir")
     override val head = getPart("eye")
 
-    override val portraitScale = 1.65F
-    override val portraitTranslation = Vec3d(-0.9, 2.65, 0.0)
+    override var portraitScale = 1.65F
+    override var portraitTranslation = Vec3d(-0.9, 2.65, 0.0)
 
-    override val profileScale = 0.5F
-    override val profileTranslation = Vec3d(-0.2, 1.25, 0.0)
+    override var profileScale = 0.5F
+    override var profileTranslation = Vec3d(-0.2, 1.25, 0.0)
 
 //    lateinit var hover: PokemonPose
 //    lateinit var fly: PokemonPose
@@ -34,8 +34,10 @@ class DusknoirModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     lateinit var walk: PokemonPose
     lateinit var battleidle: PokemonPose
 
+    var spoopytail = getPart("tail")
+
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("dusknoir", "blink").setPreventsIdle(false) }
+        //val blink = quirk { bedrockStateful("dusknoir", "blink") }
 
         sleep = registerPose(
             poseType = PoseType.SLEEP,
@@ -89,7 +91,6 @@ class DusknoirModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             idleAnimations = arrayOf(
                 bedrock("dusknoir", "battle_idle")
             )
-
         )
     }
 //

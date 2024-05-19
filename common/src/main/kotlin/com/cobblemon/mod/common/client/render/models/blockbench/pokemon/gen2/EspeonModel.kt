@@ -22,19 +22,19 @@ class EspeonModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("espeon")
     override val head = getPart("head")
 
-    override val portraitScale = 2.2F
-    override val portraitTranslation = Vec3d(-0.6, -.055, 0.0)
+    override var portraitScale = 2.15F
+    override var portraitTranslation = Vec3d(-0.55, -0.43, 0.0)
 
-    override val profileScale = 0.9F
-    override val profileTranslation = Vec3d(0.0, 0.35, 0.0)
+    override var profileScale = 0.81F
+    override var profileTranslation = Vec3d(0.07, 0.59, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("espeon", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("espeon", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("espeon", "blink").setPreventsIdle(false)}
+        val blink = quirk { bedrockStateful("espeon", "blink")}
         standing = registerPose(
             poseName = "standing",
             poseTypes = STATIONARY_POSES + UI_POSES,

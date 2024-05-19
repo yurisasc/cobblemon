@@ -8,10 +8,14 @@
     "h:reckless"
   ],
   "drops": {
-    "amount": 1,
+    "amount": 2,
     "entries": [
       {
         "item": "cobblemon:payapa_berry",
+        "percentage": 2.5
+      },
+      {
+        "item": "cobblemon:expert_belt",
         "percentage": 2.5
       }
     ]
@@ -75,6 +79,7 @@
     "tm:bulkup",
     "tm:calmmind",
     "tm:closecombat",
+    "tm:coaching",
     "tm:confide",
     "tm:dig",
     "tm:doubleteam",
@@ -84,10 +89,12 @@
     "tm:fling",
     "tm:focusblast",
     "tm:focusenergy",
+    "tm:focuspunch",
     "tm:frustration",
     "tm:grassknot",
     "tm:helpinghand",
     "tm:hiddenpower",
+    "tm:knockoff",
     "tm:lowkick",
     "tm:lowsweep",
     "tm:megakick",
@@ -118,8 +125,12 @@
     "tm:swagger",
     "tm:swift",
     "tm:swordsdance",
+    "tm:takedown",
     "tm:taunt",
+    "tm:terablast",
     "tm:toxic",
+    "tm:trailblaze",
+    "tm:upperhand",
     "tm:uturn",
     "tm:workup",
     "tutor:allyswitch",

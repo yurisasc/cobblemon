@@ -14,15 +14,14 @@ import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntitySt
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.StatefulAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.StatelessAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.ModelFrame
+import com.cobblemon.mod.common.client.render.models.blockbench.pose.ModelPartTransformation
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.Pose
-import com.cobblemon.mod.common.client.render.models.blockbench.pose.TransformedModelPart
 import com.cobblemon.mod.common.client.render.models.blockbench.repository.PokemonModelRepository
 import com.cobblemon.mod.common.client.render.models.blockbench.repository.RenderContext
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import net.minecraft.client.render.OverlayTexture
 import net.minecraft.entity.Entity
-import net.minecraft.entity.LivingEntity
 import net.minecraft.util.math.Vec3d
 
 /**
@@ -39,7 +38,7 @@ abstract class PokemonPoseableModel : PoseableEntityModel<PokemonEntity>() {
     fun <F : ModelFrame> registerShoulderPoses(
         transformTicks: Int = 30,
         idleAnimations: Array<StatelessAnimation<PokemonEntity, out F>>,
-        transformedParts: Array<TransformedModelPart> = emptyArray()
+        transformedParts: Array<ModelPartTransformation> = emptyArray()
     ) {
         registerPose(
             poseType = PoseType.SHOULDER_LEFT,
@@ -57,14 +56,14 @@ abstract class PokemonPoseableModel : PoseableEntityModel<PokemonEntity>() {
     }
 
     @Transient
-    open val portraitScale: Float = 1F
+    open var portraitScale: Float = 1F
     @Transient
-    open val portraitTranslation: Vec3d = Vec3d.ZERO
+    open var portraitTranslation: Vec3d = Vec3d.ZERO
 
     @Transient
-    open val profileScale: Float = 1F
+    open var profileScale: Float = 1F
     @Transient
-    open val profileTranslation: Vec3d = Vec3d.ZERO
+    open var profileTranslation: Vec3d = Vec3d.ZERO
 
     open fun getFaintAnimation(
         pokemonEntity: PokemonEntity,
@@ -88,15 +87,12 @@ abstract class PokemonPoseableModel : PoseableEntityModel<PokemonEntity>() {
     }
 
     open val cryAnimation: CryProvider = CryProvider { _, _ -> null }
-//
-//    open fun getCryAnimation(
-//        pokemonEntity: PokemonEntity,
-//        state: PoseableEntityState<PokemonEntity>
-//    ): StatefulAnimation<PokemonEntity, ModelFrame>? = null
 
     override fun setupEntityTypeContext(entity: PokemonEntity?) {
         entity?.let {
             context.put(RenderContext.SCALE, it.pokemon.form.baseScale)
+            context.put(RenderContext.SPECIES, it.pokemon.species.resourceIdentifier)
+            context.put(RenderContext.ASPECTS, it.pokemon.aspects)
             PokemonModelRepository.getTexture(it.pokemon.species.resourceIdentifier, it.pokemon.aspects, 0f).let { texture -> context.put(RenderContext.TEXTURE, texture) }
         }
     }

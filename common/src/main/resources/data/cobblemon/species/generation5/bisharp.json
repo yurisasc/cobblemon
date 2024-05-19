@@ -85,9 +85,11 @@
     "tm:hyperbeam",
     "tm:irondefense",
     "tm:ironhead",
+    "tm:lashout",
     "tm:lowkick",
     "tm:lowsweep",
     "tm:metalclaw",
+    "tm:metalsound",
     "tm:payback",
     "tm:poisonjab",
     "tm:poweruppunch",
@@ -111,6 +113,7 @@
     "tm:sleeptalk",
     "tm:snarl",
     "tm:snore",
+    "tm:spite",
     "tm:stealthrock",
     "tm:steelbeam",
     "tm:stoneedge",
@@ -158,7 +161,9 @@
       "variant": "level_up",
       "result": "kingambit",
       "consumeHeldItem": false,
-      "learnableMoves": [],
+      "learnableMoves": [
+        "kowtowcleave"
+      ],
       "requirements": [
         {
           "variant": "defeat",

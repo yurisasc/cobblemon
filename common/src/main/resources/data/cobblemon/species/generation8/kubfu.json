@@ -47,11 +47,13 @@
     "tm:bulkup",
     "tm:closecombat",
     "tm:dig",
+    "tm:doubleedge",
     "tm:endure",
     "tm:facade",
     "tm:firepunch",
     "tm:fling",
     "tm:focusenergy",
+    "tm:focuspunch",
     "tm:helpinghand",
     "tm:icepunch",
     "tm:ironhead",
@@ -106,7 +108,7 @@
     {
       "id": "kubfu_urshifu",
       "variant": "block_click",
-      "result": "urshifu form=rapidstrike",
+      "result": "urshifu rapidstrike",
       "consumeHeldItem": false,
       "learnableMoves": [
         "surgingstrikes"

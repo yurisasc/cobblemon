@@ -21,18 +21,18 @@ import net.minecraft.util.math.Vec3d
 class MetapodModel(root: ModelPart) : PokemonPoseableModel() {
     override val rootPart = root.registerChildWithAllChildren("metapod")
 
-    override val portraitScale = 2.0F
-    override val portraitTranslation = Vec3d(-0.15, -1.25, 0.0)
-    override val profileScale = 1.1F
-    override val profileTranslation = Vec3d(0.0, 0.1, 0.0)
+    override var portraitScale = 2.0F
+    override var portraitTranslation = Vec3d(-0.15, -1.25, 0.0)
+    override var profileScale = 1.1F
+    override var profileTranslation = Vec3d(0.0, 0.1, 0.0)
 
     lateinit var sleep: PokemonPose
     lateinit var standing: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("metapod", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("metapod", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("metapod", "blink").setPreventsIdle(false)}
+        val blink = quirk { bedrockStateful("metapod", "blink")}
         sleep = registerPose(
             poseType = PoseType.SLEEP,
             idleAnimations = arrayOf(bedrock("metapod", "sleep"))

@@ -23,11 +23,11 @@ class PrimarinaModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("primarina")
     override val head = getPart("head")
 
-    override val portraitScale = 2.0F
-    override val portraitTranslation = Vec3d(-0.7, 0.6, 0.0)
+    override var portraitScale = 2.0F
+    override var portraitTranslation = Vec3d(-0.7, 0.6, 0.0)
 
-    override val profileScale = 0.55F
-    override val profileTranslation = Vec3d(0.0, 0.8, 0.0)
+    override var profileScale = 0.55F
+    override var profileTranslation = Vec3d(0.0, 0.8, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
@@ -36,10 +36,10 @@ class PrimarinaModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     lateinit var sleep: PokemonPose
     lateinit var battleidle: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("primarina", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("primarina", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("primarina", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("primarina", "blink") }
 
         sleep = registerPose(
             poseType = PoseType.SLEEP,

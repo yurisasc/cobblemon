@@ -1,8 +1,8 @@
 {
 	"display": {
 		"icon": {
-			"item": "cobblemon:pokemon_model",
-			"nbt": "{\"species\":\"cobblemon:charizard\",\"aspects\":[\"shiny\"]}"
+			"item": "cobblemon:link_cable",
+			"nbt": "{CustomModelData:6}"
 		},
 		"title": {
 			"translate": "advancements.cobblemon.first_shiny_catch"

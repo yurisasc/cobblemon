@@ -8,11 +8,6 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen3
 
-import com.cobblemon.mod.common.client.render.models.blockbench.animation.BimanualSwingAnimation
-import com.cobblemon.mod.common.client.render.models.blockbench.animation.BipedWalkAnimation
-import com.cobblemon.mod.common.client.render.models.blockbench.frame.BimanualFrame
-import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
-import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
@@ -23,11 +18,11 @@ import net.minecraft.util.math.Vec3d
 class BeldumModel (root: ModelPart) : PokemonPoseableModel() {
     override val rootPart = root.registerChildWithAllChildren("beldum")
 
-    override val portraitScale = 2.3F
-    override val portraitTranslation = Vec3d(-0.3, -1.2, 0.0)
+    override var portraitScale = 2.3F
+    override var portraitTranslation = Vec3d(-0.3, -1.2, 0.0)
 
-    override val profileScale = 0.9F
-    override val profileTranslation = Vec3d(0.0, 0.5, 0.0)
+    override var profileScale = 0.9F
+    override var profileTranslation = Vec3d(0.0, 0.5, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
@@ -36,11 +31,11 @@ class BeldumModel (root: ModelPart) : PokemonPoseableModel() {
     lateinit var sleep: PokemonPose
     lateinit var battleidle: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("beldum", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("beldum", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("beldum", "blink").setPreventsIdle(false)}
-        val quirk = quirk("quirk") { bedrockStateful("beldum", "quirk_spin").setPreventsIdle(false)}
+        val blink = quirk { bedrockStateful("beldum", "blink")}
+        val quirk = quirk { bedrockStateful("beldum", "quirk_spin")}
 
         sleep = registerPose(
             poseType = PoseType.SLEEP,

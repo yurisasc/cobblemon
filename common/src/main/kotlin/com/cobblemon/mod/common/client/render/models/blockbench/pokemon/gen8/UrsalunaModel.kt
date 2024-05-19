@@ -27,17 +27,17 @@ class UrsalunaModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Qua
     override val hindLeftLeg = getPart("thigh_left")
     override val hindRightLeg = getPart("thigh_right")
 
-    override val portraitScale = 1.2F
-    override val portraitTranslation = Vec3d(-1.1, 0.4, 0.0)
+    override var portraitScale = 1.2F
+    override var portraitTranslation = Vec3d(-1.1, 0.4, 0.0)
 
-    override val profileScale = 0.45F
-    override val profileTranslation = Vec3d(0.0, 0.9, 0.0)
+    override var profileScale = 0.45F
+    override var profileTranslation = Vec3d(0.0, 0.9, 0.0)
 
     //    lateinit var sleep: PokemonPose
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("ursaluna", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("ursaluna", "cry") }
 
     override fun registerPoses() {
 //        sleep = registerPose(
@@ -45,7 +45,7 @@ class UrsalunaModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Qua
 //            idleAnimations = arrayOf(bedrock("ursaluna", "sleep"))
 //        )
 
-        val blink = quirk("blink") { bedrockStateful("ursaluna", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("ursaluna", "blink") }
 
         standing = registerPose(
             poseName = "standing",

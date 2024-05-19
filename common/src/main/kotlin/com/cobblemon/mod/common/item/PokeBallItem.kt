@@ -9,22 +9,17 @@
 package com.cobblemon.mod.common.item
 
 import com.cobblemon.mod.common.api.pokeball.PokeBalls
-import com.cobblemon.mod.common.api.text.gray
 import com.cobblemon.mod.common.entity.pokeball.EmptyPokeBallEntity
 import com.cobblemon.mod.common.pokeball.PokeBall
-import com.cobblemon.mod.common.util.asTranslated
 import com.cobblemon.mod.common.util.isServerSide
 import com.cobblemon.mod.common.util.math.geometry.toRadians
-import kotlin.math.cos
-import net.minecraft.client.item.TooltipContext
 import net.minecraft.entity.player.PlayerEntity
-import net.minecraft.item.ArrowItem
 import net.minecraft.item.ItemStack
 import net.minecraft.server.network.ServerPlayerEntity
-import net.minecraft.text.Text
 import net.minecraft.util.Hand
 import net.minecraft.util.TypedActionResult
 import net.minecraft.world.World
+import kotlin.math.cos
 
 class PokeBallItem(
     val pokeBall : PokeBall
@@ -43,8 +38,12 @@ class PokeBallItem(
 
     private fun throwPokeBall(world: World, player: ServerPlayerEntity) {
         val pokeBallEntity = EmptyPokeBallEntity(pokeBall, player.world, player).apply {
-//            setPos(player.x, player.y + player.standingEyeHeight - 0.2, player.z)
-            setVelocity(player, player.pitch - 5, player.yaw, 0.0f, 1.25f, 1.0f)
+            val overhandFactor: Float = if (player.pitch < 0) {
+                5f * cos(player.pitch.toRadians())
+            } else {
+                5f
+            }
+            setVelocity(player, player.pitch - overhandFactor, player.yaw, 0.0f, pokeBall.throwPower, 1.0f)
             setPosition(pos.add(velocity.normalize().multiply(1.0)))
             owner = player
         }

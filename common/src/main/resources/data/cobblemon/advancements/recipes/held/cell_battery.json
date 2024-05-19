@@ -1,12 +1,12 @@
 {
   "parent": "cobblemon:recipes/root",
   "criteria": {
-    "has_redstone": {
+    "has_copper": {
       "conditions": {
         "items": [
           {
             "items": [
-              "minecraft:redstone"
+              "minecraft:copper_ingot"
             ]
           }
         ]
@@ -22,7 +22,7 @@
   },
   "requirements": [
     [
-      "has_redstone",
+      "has_copper",
       "has_the_recipe"
     ]
   ],

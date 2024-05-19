@@ -27,19 +27,19 @@ class TepigModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quadru
     override val hindLeftLeg = getPart("leg_back_left")
     override val hindRightLeg = getPart("leg_back_right")
 
-    override val portraitScale = 2.2F
-    override val portraitTranslation = Vec3d(-0.4, -1.2, 0.0)
-    override val profileScale = 0.9F
-    override val profileTranslation = Vec3d(0.0, 0.4, 0.0)
+    override var portraitScale = 2.2F
+    override var portraitTranslation = Vec3d(-0.4, -1.2, 0.0)
+    override var profileScale = 0.9F
+    override var profileTranslation = Vec3d(0.0, 0.4, 0.0)
 
     lateinit var sleep: PokemonPose
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("tepig", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("tepig", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("tepig", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("tepig", "blink") }
         sleep = registerPose(
             poseType = PoseType.SLEEP,
             transformTicks = 10,

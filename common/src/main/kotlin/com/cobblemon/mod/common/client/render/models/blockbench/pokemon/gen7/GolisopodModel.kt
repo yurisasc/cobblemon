@@ -23,11 +23,11 @@ class GolisopodModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override val head = getPart("head")
 
 
-    override val portraitScale = 1.0F
-    override val portraitTranslation = Vec3d(-0.76, 1.4, 0.0)
+    override var portraitScale = 1.0F
+    override var portraitTranslation = Vec3d(-0.76, 1.4, 0.0)
 
-    override val profileScale = 0.45F
-    override val profileTranslation = Vec3d(0.0, 1.0, 0.0)
+    override var profileScale = 0.45F
+    override var profileTranslation = Vec3d(0.0, 1.0, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
@@ -36,10 +36,10 @@ class GolisopodModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     lateinit var sleep: PokemonPose
     lateinit var battleidle: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("golisopod", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("golisopod", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("golisopod", "blink").setPreventsIdle(false)}
+        val blink = quirk { bedrockStateful("golisopod", "blink")}
 
         sleep = registerPose(
             poseName = "sleeping",

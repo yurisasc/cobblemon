@@ -9,9 +9,6 @@
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen3
 
 import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
-import com.cobblemon.mod.common.client.render.models.blockbench.frame.BiWingedFrame
-import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
-import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
@@ -23,11 +20,11 @@ import net.minecraft.util.math.Vec3d
 class ShedinjaModel (root: ModelPart) : PokemonPoseableModel() {
     override val rootPart = root.registerChildWithAllChildren("shedinja")
 
-    override val portraitScale = 1.8F
-    override val portraitTranslation = Vec3d(-0.2, 0.2, 0.0)
+    override var portraitScale = 1.8F
+    override var portraitTranslation = Vec3d(-0.2, 0.2, 0.0)
 
-    override val profileScale = 0.9F
-    override val profileTranslation = Vec3d(0.0, 0.4, 0.0)
+    override var profileScale = 0.9F
+    override var profileTranslation = Vec3d(0.0, 0.4, 0.0)
 
     lateinit var sleep: PokemonPose
     lateinit var stand: PokemonPose
@@ -36,10 +33,10 @@ class ShedinjaModel (root: ModelPart) : PokemonPoseableModel() {
     lateinit var fly: PokemonPose
     lateinit var battleidle: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("shedinja", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("shedinja", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("shedinja", "blink_WIP").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("shedinja", "blink_WIP") }
 
         sleep = registerPose(
             poseType = PoseType.SLEEP,

@@ -99,7 +99,7 @@ open class PCStore(
         this.lockedSize = lockNewSize
         if (boxes.size > newSize) {
             // reduce
-            val slicedBoxes = boxes.slice(boxes.size until newSize)
+            val slicedBoxes = boxes.slice(newSize until boxes.size)
             boxes.removeAll(slicedBoxes)
             slicedBoxes.flatMap { it.asIterable() }.forEach(overflowHandler)
         } else {

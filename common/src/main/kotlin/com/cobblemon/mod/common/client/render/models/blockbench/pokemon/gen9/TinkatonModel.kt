@@ -28,21 +28,21 @@ class TinkatonModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
     override val rightLeg = getPart("leg_right")
     override val leftLeg = getPart("leg_left")
 
-    override val portraitScale = 1.8F
-    override val portraitTranslation = Vec3d(-0.1, -0.35, 0.0)
+    override var portraitScale = 1.8F
+    override var portraitTranslation = Vec3d(-0.1, -0.35, 0.0)
 
-    override val profileScale = 1.0F
-    override val profileTranslation = Vec3d(0.0, 0.3, 0.0)
+    override var profileScale = 1.0F
+    override var profileTranslation = Vec3d(0.0, 0.3, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walking: PokemonPose
     lateinit var sleep: PokemonPose
     lateinit var battleidle: PokemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("tinkaton", "cry").setPreventsIdle(false) }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("tinkaton", "cry") }
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("tinkaton", "blink").setPreventsIdle(false) }
+        val blink = quirk { bedrockStateful("tinkaton", "blink") }
         sleep = registerPose(
             poseType = PoseType.SLEEP,
             idleAnimations = arrayOf(bedrock("tinkaton", "sleep"))
