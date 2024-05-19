@@ -8,16 +8,21 @@
 
 package com.cobblemon.mod.common.entity.pokemon
 
+import com.bedrockk.molang.runtime.struct.QueryStruct
+import com.bedrockk.molang.runtime.value.DoubleValue
+import com.bedrockk.molang.runtime.value.StringValue
 import com.cobblemon.mod.common.*
 import com.cobblemon.mod.common.CobblemonNetwork.sendPacket
 import com.cobblemon.mod.common.api.drop.DropTable
 import com.cobblemon.mod.common.api.entity.Despawner
+import com.cobblemon.mod.common.api.entity.PokemonSender
 import com.cobblemon.mod.common.api.events.CobblemonEvents
 import com.cobblemon.mod.common.api.events.entity.PokemonEntityLoadEvent
 import com.cobblemon.mod.common.api.events.entity.PokemonEntitySaveEvent
 import com.cobblemon.mod.common.api.events.entity.PokemonEntitySaveToWorldEvent
 import com.cobblemon.mod.common.api.events.pokemon.ShoulderMountEvent
 import com.cobblemon.mod.common.api.interaction.PokemonEntityInteraction
+import com.cobblemon.mod.common.api.molang.MoLangFunctions.addStandardFunctions
 import com.cobblemon.mod.common.api.net.serializers.PoseTypeDataSerializer
 import com.cobblemon.mod.common.api.net.serializers.StringSetDataSerializer
 import com.cobblemon.mod.common.api.pokemon.feature.FlagSpeciesFeature
@@ -28,6 +33,7 @@ import com.cobblemon.mod.common.api.scheduling.Schedulable
 import com.cobblemon.mod.common.api.scheduling.SchedulingTracker
 import com.cobblemon.mod.common.api.spawning.BestSpawner
 import com.cobblemon.mod.common.api.spawning.SpawnCause
+import com.cobblemon.mod.common.api.scheduling.afterOnServer
 import com.cobblemon.mod.common.api.storage.InvalidSpeciesException
 import com.cobblemon.mod.common.api.types.ElementalTypes
 import com.cobblemon.mod.common.battles.BagItems
@@ -38,6 +44,7 @@ import com.cobblemon.mod.common.client.entity.PokemonClientDelegate
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.Poseable
 import com.cobblemon.mod.common.entity.generic.GenericBedrockEntity
+import com.cobblemon.mod.common.entity.npc.NPCEntity
 import com.cobblemon.mod.common.entity.pokeball.EmptyPokeBallEntity
 import com.cobblemon.mod.common.entity.pokemon.ai.PokemonMoveControl
 import com.cobblemon.mod.common.entity.pokemon.ai.PokemonNavigation
@@ -226,10 +233,27 @@ open class PokemonEntity(
     /** The form exposed to the client and used for calculating hitbox and height. */
     val exposedForm: FormData get() = this.effects.mockEffect?.exposedForm ?: this.pokemon.form
 
+    override val struct: QueryStruct = QueryStruct(hashMapOf())
+        .addStandardFunctions()
+        .addFunction("in_battle") { DoubleValue(isBattling) }
+        .addFunction("is_wild") { DoubleValue(pokemon.isWild()) }
+        .addFunction("is_shiny") { DoubleValue(pokemon.shiny) }
+        .addFunction("form") { StringValue(pokemon.form.name) }
+        .addFunction("width") { DoubleValue(boundingBox.xLength) }
+        .addFunction("height") { DoubleValue(boundingBox.yLength) }
+        .addFunction("horizontal_velocity") { DoubleValue(velocity.horizontalLength()) }
+        .addFunction("vertical_velocity") { DoubleValue(velocity.y) }
+        .addFunction("weight") { DoubleValue(pokemon.species.weight.toDouble()) }
+        .addFunction("is_moving") { DoubleValue((moveControl as? PokemonMoveControl)?.isMoving == true) }
+        .addFunction("is_underwater") { DoubleValue(getIsSubmerged()) }
+        .addFunction("is_flying") { DoubleValue(getBehaviourFlag(PokemonBehaviourFlag.FLYING)) }
+        .addFunction("is_passenger") { DoubleValue(hasVehicle()) }
+
     init {
         delegate.initialize(this)
         delegate.changePokemon(pokemon)
         calculateDimensions()
+        addPosableFunctions(struct)
     }
 
     override fun initDataTracker() {
@@ -393,16 +417,30 @@ open class PokemonEntity(
         val owner = owner
         val future = CompletableFuture<Pokemon>()
         if (dataTracker.get(PHASING_TARGET_ID) == -1 && owner != null) {
-            owner.getWorld().playSoundServer(pos, CobblemonSounds.POKE_BALL_RECALL, volume = 0.6F)
-            dataTracker.set(PHASING_TARGET_ID, owner.id)
-            dataTracker.set(BEAM_MODE, 3)
-            val state = pokemon.state
-            after(seconds = SEND_OUT_DURATION) {
-                // only recall if the Pokémon hasn't been recalled yet for this state
-                if (state == pokemon.state) {
-                    pokemon.recall()
+            val preamble = if (owner is PokemonSender) {
+                owner.recalling(this)
+            } else {
+                CompletableFuture.completedFuture(Unit)
+            }
+
+            preamble.thenAccept {
+                owner.world.playSoundServer(pos, CobblemonSounds.POKE_BALL_RECALL, volume = 0.6F)
+                dataTracker.set(PHASING_TARGET_ID,owner.id)
+                dataTracker.set(BEAM_MODE,3)
+                val state = pokemon.state
+                afterOnServer(seconds = SEND_OUT_DURATION) {
+                    // only recall if the Pokémon hasn't been recalled yet for this state
+                    if (state == pokemon.state) {
+                        pokemon.recall()
+                    }
+                    if (owner is NPCEntity) {
+                        owner.after(seconds = 1F) {
+                            future.complete(pokemon)
+                        }
+                    } else {
+                        future.complete(pokemon)
+                    }
                 }
-                future.complete(pokemon)
             }
         } else {
             pokemon.recall()
@@ -856,6 +894,10 @@ open class PokemonEntity(
             }
         }
         return false
+    }
+
+    override fun getOwner(): LivingEntity? {
+        return pokemon.getOwnerEntity()
     }
 
     fun offerHeldItem(player: PlayerEntity, stack: ItemStack): Boolean {

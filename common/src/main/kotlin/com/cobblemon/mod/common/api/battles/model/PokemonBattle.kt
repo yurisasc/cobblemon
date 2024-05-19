@@ -8,6 +8,7 @@
 
 package com.cobblemon.mod.common.api.battles.model
 
+import com.bedrockk.molang.runtime.MoLangRuntime
 import com.bedrockk.molang.runtime.struct.QueryStruct
 import com.bedrockk.molang.runtime.value.DoubleValue
 import com.cobblemon.mod.common.Cobblemon
@@ -20,6 +21,8 @@ import com.cobblemon.mod.common.api.battles.model.actor.EntityBackedBattleActor
 import com.cobblemon.mod.common.api.battles.model.actor.FleeableBattleActor
 import com.cobblemon.mod.common.api.events.CobblemonEvents
 import com.cobblemon.mod.common.api.events.battles.BattleFledEvent
+import com.cobblemon.mod.common.api.molang.MoLangFunctions.asMoLangValue
+import com.cobblemon.mod.common.api.molang.MoLangFunctions.getQueryStruct
 import com.cobblemon.mod.common.api.net.NetworkPacket
 import com.cobblemon.mod.common.api.tags.CobblemonItemTags
 import com.cobblemon.mod.common.api.text.red
@@ -46,8 +49,10 @@ import com.cobblemon.mod.common.pokemon.evolution.progress.LastBattleCriticalHit
 import com.cobblemon.mod.common.pokemon.evolution.requirements.DefeatRequirement
 import com.cobblemon.mod.common.util.battleLang
 import com.cobblemon.mod.common.util.getPlayer
+import com.cobblemon.mod.common.util.withQueryValue
 import java.io.File
 import java.util.UUID
+import java.util.concurrent.CompletableFuture
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.text.Text
 import java.util.concurrent.ConcurrentLinkedDeque
@@ -66,6 +71,10 @@ open class PokemonBattle(
 ) {
     /** Whether logging will be silenced for this battle. */
     var mute = true
+    val struct = this.asMoLangValue()
+    val runtime = MoLangRuntime().also { it.environment.structs["query"] = struct }
+
+    val onEndHandlers: MutableList<(PokemonBattle) -> Unit> = mutableListOf()
 
     init {
         side1.battle = this
@@ -97,6 +106,8 @@ open class PokemonBattle(
     val battleLog = mutableListOf<String>()
     val chatLog = mutableListOf<Text>()
     var started = false
+    var winners = listOf<BattleActor>()
+    var losers = listOf<BattleActor>()
     var ended = false
     // TEMP battle showcase stuff
     var announcingRules = false
@@ -266,6 +277,7 @@ open class PokemonBattle(
         }
         sendUpdate(BattleEndPacket())
         BattleRegistry.closeBattle(this)
+        onEndHandlers.forEach { it(this) }
     }
 
     fun finishCaptureAction(captureAction: BattleCaptureAction) {
@@ -351,6 +363,14 @@ open class PokemonBattle(
             dispatcher()
             WaitDispatch(delaySeconds)
         }
+    }
+
+    fun dispatchFuture(future: () -> CompletableFuture<*>) {
+        val dispatch = BattleDispatch {
+            val generatedFuture = future()
+            return@BattleDispatch DispatchResult { generatedFuture.isDone }
+        }
+        dispatches.add(dispatch)
     }
 
     fun dispatchInsert(dispatcher: () -> Iterable<BattleDispatch>) {

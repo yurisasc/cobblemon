@@ -13,6 +13,7 @@ import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntitySt
 import com.cobblemon.mod.common.entity.Poseable
 import com.cobblemon.mod.common.net.messages.client.animation.PlayPoseableAnimationPacket
 import com.cobblemon.mod.common.util.asExpression
+import com.cobblemon.mod.common.util.asExpressionLike
 import com.cobblemon.mod.common.util.resolve
 import net.minecraft.client.MinecraftClient
 
@@ -24,7 +25,7 @@ object PlayPoseableAnimationHandler : ClientNetworkPacketHandler<PlayPoseableAni
             val delegate = entity.delegate
             if (delegate is PoseableEntityState<*>) {
                 for (expr in packet.expressions) {
-                    delegate.runtime.resolve(expr.asExpression())
+                    delegate.runtime.resolve(expr.asExpressionLike())
                 }
                 delegate.addFirstAnimation(packet.animation)
             }

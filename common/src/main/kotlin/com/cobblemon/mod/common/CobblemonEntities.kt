@@ -12,6 +12,7 @@ import com.cobblemon.mod.common.api.pokeball.PokeBalls
 import com.cobblemon.mod.common.entity.boat.CobblemonBoatEntity
 import com.cobblemon.mod.common.entity.boat.CobblemonChestBoatEntity
 import com.cobblemon.mod.common.entity.fishing.PokeRodFishingBobberEntity
+import com.cobblemon.mod.common.entity.npc.NPCEntity
 import com.cobblemon.mod.common.entity.generic.GenericBedrockEntity
 import com.cobblemon.mod.common.entity.pokeball.EmptyPokeBallEntity
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
@@ -85,8 +86,16 @@ object CobblemonEntities : PlatformRegistry<Registry<EntityType<*>>, RegistryKey
             .build(GENERIC_BEDROCK_ENTITY_KEY.toString())
     )
 
+    @JvmField
+    val NPC_KEY = cobblemonResource("npc")
+    @JvmField
+    val NPC: EntityType<NPCEntity> = create(
+        NPC_KEY.path,
+        EntityType.Builder.create({ _, world -> NPCEntity(world) }, SpawnGroup.CREATURE).build("$NPC_KEY")
+    )
+
     fun registerAttributes(consumer: (EntityType<out LivingEntity>, DefaultAttributeContainer.Builder) -> Unit) {
         consumer(POKEMON, PokemonEntity.createAttributes())
+        consumer(NPC, NPCEntity.createAttributes())
     }
-
 }

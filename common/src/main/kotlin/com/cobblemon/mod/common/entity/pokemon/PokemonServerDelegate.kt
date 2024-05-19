@@ -9,6 +9,7 @@
 package com.cobblemon.mod.common.entity.pokemon
 
 import com.cobblemon.mod.common.CobblemonSounds
+import com.cobblemon.mod.common.api.entity.PokemonSender
 import com.cobblemon.mod.common.api.entity.PokemonSideDelegate
 import com.cobblemon.mod.common.api.pokemon.PokemonProperties
 import com.cobblemon.mod.common.api.pokemon.stats.Stats
@@ -132,12 +133,16 @@ class PokemonServerDelegate : PokemonSideDelegate {
         }
 
         if (entity.ownerUuid != null && entity.pokemon.storeCoordinates.get() == null) {
-            entity.discard()
+            return entity.discard()
+        } else if (entity.pokemon.isNPCOwned() && entity.owner?.isAlive != true) {
+            return entity.discard()
+        } else if (entity.pokemon.isNPCOwned() && entity.ownerUuid == null) {
+            entity.ownerUuid = entity.pokemon.getOwnerUUID()
         }
 
         val tethering = entity.tethering
         if (tethering != null && entity.pokemon.tetheringId != tethering.tetheringId) {
-            entity.discard()
+            return entity.discard()
         }
 
 //        if (!entity.behaviour.moving.walk.canWalk && entity.behaviour.moving.fly.canFly && !entity.getBehaviourFlag(PokemonBehaviourFlag.FLYING)) {
@@ -213,22 +218,27 @@ class PokemonServerDelegate : PokemonSideDelegate {
 
     override fun updatePostDeath() {
         // clear active effects before proceeding
+        val owner = entity.owner
+        if (!entity.dataTracker.get(PokemonEntity.DYING_EFFECTS_STARTED)) {
+            entity.dataTracker.set(PokemonEntity.DYING_EFFECTS_STARTED, true)
+            if (owner is PokemonSender && entity.beamMode == -1) {
+                entity.recallWithAnimation()
+            }
+        }
         if (entity.deathTime == 0) {
             entity.effects.wipe()
             entity.deathTime = 1
             return
-        }
-        else if (entity.effects.progress?.isDone == false) {
+        } else if (entity.effects.progress?.isDone == false) {
             return
         }
 
-        entity.dataTracker.set(PokemonEntity.DYING_EFFECTS_STARTED, true)
         ++entity.deathTime
 
         if (entity.deathTime == 30) {
-            val owner = entity.owner
-            if (owner != null) {
+            if (owner != null && owner !is PokemonSender) {
                 entity.world.playSoundServer(owner.pos, CobblemonSounds.POKE_BALL_RECALL, volume = 0.6F)
+//                entity.recallWithAnimation()
                 entity.dataTracker.set(PokemonEntity.PHASING_TARGET_ID, owner.id)
                 entity.dataTracker.set(PokemonEntity.BEAM_MODE, 3)
             }

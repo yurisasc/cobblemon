@@ -40,11 +40,7 @@ class EmptyPokeBallClientDelegate : PokeBallPoseableState(), EntitySideDelegate<
         this.currentEntity = entity
         age = entity.age
         initSubscriptions()
-        this.runtime.environment.getQueryStruct().addFunctions(mapOf(
-            "pokeball_type" to java.util.function.Function {
-                return@Function DoubleValue(currentEntity.pokeBall.name.toString())
-            }
-        ))
+        this.runtime.environment.getQueryStruct().addFunctions(getEntity().struct.functions)
     }
 
     override fun tick(entity: EmptyPokeBallEntity) {

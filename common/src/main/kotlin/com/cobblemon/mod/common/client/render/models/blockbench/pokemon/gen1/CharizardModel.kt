@@ -50,8 +50,8 @@ class CharizardModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
     override val cryAnimation = CryProvider { _, _ -> bedrockStateful("charizard", "cry") }
 
     override fun registerPoses() {
-        animations["physical"] = "q.bedrock_primary('charizard', 'physical', 'look', q.curve('symmetrical_wide'))".asExpressionLike()
-        animations["special"] = "q.bedrock_primary('charizard', 'special', 'look', q.curve('symmetrical_wide'))".asExpressionLike()
+        animations["physical"] = "q.bedrock_primary('charizard', 'physical', q.exclude_labels('look'), q.curve('symmetrical_wide'))".asExpressionLike()
+        animations["special"] = "q.bedrock_primary('charizard', 'special', q.exclude_labels('look'), q.curve('symmetrical_wide'))".asExpressionLike()
         animations["status"] = "q.bedrock_primary('charizard', 'status', q.curve('symmetrical_wide'))".asExpressionLike()
         animations["recoil"] = "q.bedrock_stateful('charizard', 'recoil')".asExpressionLike()
         animations["cry"] = "q.bedrock_stateful('charizard', 'cry')".asExpressionLike()

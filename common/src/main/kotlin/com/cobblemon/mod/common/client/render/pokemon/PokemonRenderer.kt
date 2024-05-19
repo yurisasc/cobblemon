@@ -11,18 +11,22 @@ package com.cobblemon.mod.common.client.render.pokemon
 import com.cobblemon.mod.common.api.text.add
 import com.cobblemon.mod.common.client.CobblemonClient
 import com.cobblemon.mod.common.client.battle.ClientBallDisplay
+import com.cobblemon.mod.common.client.entity.NPCClientDelegate
 import com.cobblemon.mod.common.client.entity.PokemonClientDelegate
 import com.cobblemon.mod.common.client.entity.PokemonClientDelegate.Companion.BEAM_EXTEND_TIME
 import com.cobblemon.mod.common.client.entity.PokemonClientDelegate.Companion.BEAM_SHRINK_TIME
 import com.cobblemon.mod.common.client.keybind.boundKey
 import com.cobblemon.mod.common.client.keybind.keybinds.PartySendBinding
 import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityModel
+import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.repository.PokeBallModelRepository
 import com.cobblemon.mod.common.client.render.models.blockbench.repository.PokemonModelRepository
 import com.cobblemon.mod.common.client.render.pokeball.PokeBallPoseableState
 import com.cobblemon.mod.common.client.render.renderBeaconBeam
 import com.cobblemon.mod.common.client.settings.ServerSettings
+import com.cobblemon.mod.common.entity.Poseable
+import com.cobblemon.mod.common.entity.npc.NPCEntity
 import com.cobblemon.mod.common.entity.pokeball.EmptyPokeBallEntity
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity.Companion.SPAWN_DIRECTION
@@ -32,12 +36,12 @@ import com.cobblemon.mod.common.util.lang
 import com.cobblemon.mod.common.util.math.DoubleRange
 import com.cobblemon.mod.common.util.math.geometry.toRadians
 import com.cobblemon.mod.common.util.math.remap
+import kotlin.math.*
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.font.TextRenderer
 import net.minecraft.client.render.*
 import net.minecraft.client.render.entity.EntityRendererFactory
 import net.minecraft.client.render.entity.MobEntityRenderer
-import net.minecraft.client.render.entity.model.EntityModel
 import net.minecraft.client.render.item.ItemRenderer
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.entity.Entity
@@ -55,7 +59,7 @@ import kotlin.math.*
 
 class PokemonRenderer(
     context: EntityRendererFactory.Context
-) : MobEntityRenderer<PokemonEntity, EntityModel<PokemonEntity>>(context, null, 0.5f) {
+) : MobEntityRenderer<PokemonEntity, PokemonPoseableModel>(context, null, 0.5f) {
     companion object {
         val recallBeamColour = Vector4f(1F, 0.1F, 0.1F, 1F)
         fun ease(x: Double): Double {
@@ -149,8 +153,8 @@ class PokemonRenderer(
 
         val phaseTarget = clientDelegate.phaseTarget ?: return
         poseMatrix.push()
-        var beamSourcePosition = if (phaseTarget is EmptyPokeBallEntity) {
-            (phaseTarget.delegate as PokeBallPoseableState).locatorStates["beam"]?.getOrigin() ?: phaseTarget.pos
+        var beamSourcePosition = if (phaseTarget is Poseable) {
+            (phaseTarget.delegate as PoseableEntityState<*>).locatorStates["beam"]?.getOrigin() ?: phaseTarget.pos
         } else {
             if (phaseTarget.uuid == MinecraftClient.getInstance().player?.uuid) {
                 val lookVec = phaseTarget.rotationVector.rotateY(PI / 2).multiply(1.0, 0.0, 1.0).normalize()
@@ -230,12 +234,14 @@ class PokemonRenderer(
             if (beamTarget.uuid == MinecraftClient.getInstance().player?.uuid) {
                 val lookVec = beamTarget.rotationVector.rotateY(PI / 2).multiply(1.0, 0.0, 1.0).normalize()
                 beamTarget.getCameraPosVec(partialTicks).subtract(0.0, 0.4, 0.0).subtract(lookVec.multiply(0.3))
+            } else if (beamTarget is NPCEntity) {
+                (beamTarget.delegate as NPCClientDelegate).locatorStates["beam"]?.getOrigin() ?: beamTarget.pos
             } else {
                 val lookVec = beamTarget.rotationVector.rotateY(PI / 2 - (beamTarget.bodyYaw - beamTarget.pitch).toRadians()).multiply(1.0, 0.0, 1.0).normalize()
                 beamTarget.getCameraPosVec(partialTicks).subtract(0.0, 0.7, 0.0).subtract(lookVec.multiply(0.4))
             }
         }
-        if(clientDelegate.sendOutPosition != null) {
+        if (clientDelegate.sendOutPosition != null) {
             beamSourcePosition = clientDelegate.sendOutPosition!!
         }
 

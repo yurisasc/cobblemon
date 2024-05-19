@@ -27,6 +27,7 @@ import com.cobblemon.mod.common.api.events.CobblemonEvents.TRADE_COMPLETED
 import com.cobblemon.mod.common.api.net.serializers.IdentifierDataSerializer
 import com.cobblemon.mod.common.api.net.serializers.PoseTypeDataSerializer
 import com.cobblemon.mod.common.api.net.serializers.StringSetDataSerializer
+import com.cobblemon.mod.common.api.net.serializers.UUIDSetDataSerializer
 import com.cobblemon.mod.common.api.net.serializers.Vec3DataSerializer
 import com.cobblemon.mod.common.api.permission.PermissionValidator
 import com.cobblemon.mod.common.api.pokeball.catching.calculators.CaptureCalculator
@@ -256,6 +257,8 @@ object Cobblemon {
         TrackedDataHandlerRegistry.register(StringSetDataSerializer)
         TrackedDataHandlerRegistry.register(PoseTypeDataSerializer)
         TrackedDataHandlerRegistry.register(IdentifierDataSerializer)
+        TrackedDataHandlerRegistry.register(IdentifierDataSerializer)
+        TrackedDataHandlerRegistry.register(UUIDSetDataSerializer)
 
         // Lowest priority because this applies after luxury ball bonus as of gen 4
         CobblemonEvents.FRIENDSHIP_UPDATED.subscribe(Priority.LOWEST) { event ->
