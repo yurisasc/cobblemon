@@ -8,16 +8,25 @@
 
 package com.cobblemon.mod.common.battles.interpreter.instructions
 
+import com.bedrockk.molang.runtime.MoLangRuntime
+import com.bedrockk.molang.runtime.value.MoValue
 import com.cobblemon.mod.common.api.battles.interpreter.BattleMessage
 import com.cobblemon.mod.common.api.battles.model.PokemonBattle
+import com.cobblemon.mod.common.api.molang.MoLangFunctions.addStandardFunctions
+import com.cobblemon.mod.common.api.molang.MoLangFunctions.getQueryStruct
+import com.cobblemon.mod.common.api.moves.animations.ActionEffectContext
+import com.cobblemon.mod.common.api.moves.animations.UsersProvider
+import com.cobblemon.mod.common.api.pokemon.status.Statuses
 import com.cobblemon.mod.common.battles.ShowdownInterpreter
 import com.cobblemon.mod.common.battles.dispatch.CauserInstruction
 import com.cobblemon.mod.common.battles.dispatch.GO
 import com.cobblemon.mod.common.battles.dispatch.InstructionSet
 import com.cobblemon.mod.common.battles.dispatch.InterpreterInstruction
+import com.cobblemon.mod.common.battles.dispatch.UntilDispatch
 import com.cobblemon.mod.common.battles.dispatch.WaitDispatch
 import com.cobblemon.mod.common.util.battleLang
 import net.minecraft.text.Text
+import java.util.concurrent.CompletableFuture
 
 /**
  * Format: |-activate|POKEMON|EFFECT
@@ -29,6 +38,9 @@ import net.minecraft.text.Text
  * @since September 25th, 2022
  */
 class ActivateInstruction(val instructionSet: InstructionSet, val message: BattleMessage) : InterpreterInstruction, CauserInstruction {
+    var future = CompletableFuture.completedFuture(Unit)
+    var holds = mutableSetOf<String>()
+
     override fun invoke(battle: PokemonBattle) {
         val pokemon = message.battlePokemon(0, battle) ?: return
         val effect = message.effectAt(1) ?: return
@@ -59,6 +71,25 @@ class ActivateInstruction(val instructionSet: InstructionSet, val message: Battl
                 else -> battleLang("activate.${effect.id}", pokemonName, sourceName, extraEffect)
             }
             battle.broadcastChatMessage(lang)
+            battle.dispatchToFront {
+                val status = Statuses.getStatus(effect.id)
+                val actionEffect = status?.getActionEffect() ?: return@dispatchToFront GO
+                val providers = mutableListOf<Any>(battle)
+                pokemon.effectedPokemon.entity?.let { UsersProvider(it) }?.let(providers::add)
+                val runtime = MoLangRuntime().also {
+                    battle.addQueryFunctions(it.environment.getQueryStruct()).addStandardFunctions()
+                }
+
+                val context = ActionEffectContext(
+                    actionEffect = actionEffect,
+                    runtime = runtime,
+                    providers = providers
+                )
+                this.future = actionEffect.run(context)
+                holds = context.holds // Reference so future things can check on this action effect's holds
+                future.thenApply { holds.clear() }
+                return@dispatchToFront UntilDispatch { "effects" !in context.holds }
+            }
             WaitDispatch(1F)
         }
     }

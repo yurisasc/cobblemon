@@ -8,9 +8,14 @@
 
 package com.cobblemon.mod.common.battles.interpreter.instructions
 
+import com.bedrockk.molang.runtime.MoLangRuntime
 import com.cobblemon.mod.common.api.battles.interpreter.BattleMessage
 import com.cobblemon.mod.common.api.battles.model.PokemonBattle
 import com.cobblemon.mod.common.api.battles.model.actor.BattleActor
+import com.cobblemon.mod.common.api.molang.MoLangFunctions.addStandardFunctions
+import com.cobblemon.mod.common.api.molang.MoLangFunctions.getQueryStruct
+import com.cobblemon.mod.common.api.moves.animations.ActionEffectContext
+import com.cobblemon.mod.common.api.moves.animations.UsersProvider
 import com.cobblemon.mod.common.api.pokemon.status.Statuses
 import com.cobblemon.mod.common.api.text.red
 import com.cobblemon.mod.common.battles.ShowdownInterpreter
@@ -45,6 +50,7 @@ class DamageInstruction(
     val privateMessage: BattleMessage
 ) : InterpreterInstruction {
     var future = CompletableFuture.completedFuture(Unit)
+    var holds = mutableSetOf<String>()
     val expectedTarget = publicMessage.battlePokemon(0, actor.battle)
 
     override fun invoke(battle: PokemonBattle) {
@@ -78,6 +84,26 @@ class DamageInstruction(
         }
 
         source?.let { ShowdownInterpreter.broadcastOptionalAbility(battle, effect, it) }
+
+        battle.dispatch {
+            val status = effect?.id?.let { Statuses.getStatus(it) }
+            val actionEffect = status?.getActionEffect() ?: return@dispatch GO
+            val providers = mutableListOf<Any>(battle)
+            battlePokemon.effectedPokemon.entity?.let { UsersProvider(it) }?.let(providers::add)
+            val runtime = MoLangRuntime().also {
+                battle.addQueryFunctions(it.environment.getQueryStruct()).addStandardFunctions()
+            }
+
+            val context = ActionEffectContext(
+                actionEffect = actionEffect,
+                runtime = runtime,
+                providers = providers
+            )
+            this.future = actionEffect.run(context)
+            holds = context.holds // Reference so future things can check on this action effect's holds
+            future.thenApply { holds.clear() }
+            return@dispatch UntilDispatch { "effects" !in context.holds }
+        }
 
         battle.dispatch {
             val pokemonName = battlePokemon.getName()
