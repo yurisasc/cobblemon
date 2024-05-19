@@ -145,7 +145,9 @@ class DynamicParticleMotion(
             runtime.resolveDouble(acceleration.first),
             runtime.resolveDouble(acceleration.second),
             runtime.resolveDouble(acceleration.third)
-        ).subtract(velocity.multiply(runtime.resolveDouble(drag))).multiply(1 / 20.0).multiply(1 / 20.0) // blocks per second per second -> blocks per tick per tick
+        )
+            .subtract(velocity.multiply(20 * runtime.resolveDouble(drag)))
+            .multiply(1 / 20.0).multiply(1 / 20.0) // blocks per second per second -> blocks per tick per tick
 
         return Vec3d(
             velocity.x + acceleration.x,
