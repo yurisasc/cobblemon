@@ -117,7 +117,7 @@ class DamageInstruction(
             this.future = actionEffect.run(context)
             holds = context.holds // Reference so future things can check on this action effect's holds
             future.thenApply { holds.clear() }
-            return@dispatch UntilDispatch { "effects" !in context.holds }
+            return@dispatch GO
         }
     }
 
@@ -207,7 +207,7 @@ class DamageInstruction(
             } else if (causedFaint) {
                 GO
             } else {
-                WaitDispatch(1F)
+                UntilDispatch {"effects" !in holds}
             }
         }
     }
