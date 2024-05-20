@@ -52,7 +52,7 @@ open class BedrockStatefulAnimation<T : Entity>(
             startedSeconds = state.animationSeconds
         }
 
-        return animation.run(model, state, state.animationSeconds - startedSeconds, intensity).also {
+        return animation.run(model, state, state.animationSeconds - startedSeconds, limbSwing, limbSwingAmount, ageInTicks, intensity).also {
             if (!it && entity != null) {
                 afterAction(entity, state)
             }

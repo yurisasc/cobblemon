@@ -40,6 +40,7 @@ import com.cobblemon.mod.common.client.render.models.blockbench.wavefunction.sin
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.Poseable
 import com.cobblemon.mod.common.entity.generic.GenericBedrockEntity
+import com.cobblemon.mod.common.entity.npc.NPCEntity
 import com.cobblemon.mod.common.entity.pokeball.EmptyPokeBallEntity
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.util.asExpressionLike
@@ -61,6 +62,7 @@ import net.minecraft.entity.Entity
 import net.minecraft.entity.LivingEntity
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.RotationAxis
+import net.minecraft.util.math.Vec3d
 
 /**
  * A model that can be posed and animated using [StatelessAnimation]s and [StatefulAnimation]s. This
@@ -86,6 +88,12 @@ abstract class PoseableEntityModel<T : Entity>(
     var blue = 1F
     var alpha = 1F
 
+    open var portraitScale: Float = 1F
+    open var portraitTranslation: Vec3d = Vec3d.ZERO
+
+    open var profileScale: Float = 1F
+    open var profileTranslation: Vec3d = Vec3d.ZERO
+
     @Transient
     var currentLayers: Iterable<ModelLayer> = listOf()
 
@@ -109,6 +117,10 @@ abstract class PoseableEntityModel<T : Entity>(
 
     @Transient
     val functions = QueryStruct(hashMapOf())
+        .addFunction("exclude_labels") { params ->
+            val labels = params.params.map { it.asString() }
+            return@addFunction ObjectValue(ExcludedLabels(labels))
+        }
         .addFunction("bedrock_primary") { params ->
             val group = params.getString(0)
             val animation = params.getString(1)
@@ -126,7 +138,12 @@ abstract class PoseableEntityModel<T : Entity>(
             for (index in 2 until params.params.size) {
                 val param = params.get<MoValue>(index)
                 if (param is ObjectValue<*>) {
-                    curve = param.obj as WaveFunction
+                    val obj = param.obj
+                    if (obj is ExcludedLabels) {
+                        excludedLabels.addAll(obj.labels)
+                    } else {
+                        curve = param.obj as WaveFunction
+                    }
                     continue
                 }
 
@@ -801,6 +818,10 @@ abstract class PoseableEntityModel<T : Entity>(
             matrixStack.push()
             // Not 100% convinced we need the -1 on Y but if we needed it for the Poke Ball then probably?
             matrixStack.scale(1F, -1F, 1F)
+        } else if (entity is NPCEntity) {
+            matrixStack.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(180 - entity.bodyYaw))
+            matrixStack.push()
+            matrixStack.scale(-1F, -1F, 1F)
         }
 
         matrixStack.push()
@@ -866,6 +887,42 @@ abstract class PoseableEntityModel<T : Entity>(
     ) = BedrockStatefulAnimation<T>(
         BedrockAnimationRepository.getAnimation(animationGroup, "$animationPrefix.$animation"),
     )
+
+    fun bedrockStatefulOrNull(
+        animationGroup: String,
+        animation: String,
+        animationPrefix: String = "animation.$animationGroup"
+    ) = BedrockAnimationRepository.getAnimationOrNull(animationGroup, "$animationPrefix.$animation")?.let { BedrockStatefulAnimation<T>(it) }
+
+    fun bedrockOrNull(
+        animationGroup: String,
+        animation: String,
+        animationPrefix: String = "animation.$animationGroup"
+    ) = BedrockAnimationRepository.getAnimationOrNull(animationGroup, "$animationPrefix.$animation")?.let {
+        BedrockStatelessAnimation<T>(this, it)
+    }
+
+    fun blankAnimation() = object : StatelessAnimation<T, ModelFrame>(this) {
+        override val targetFrame = ModelFrame::class.java
+        override fun setAngles(entity: T?, model: PoseableEntityModel<T>, state: PoseableEntityState<T>?, limbSwing: Float, limbSwingAmount: Float, ageInTicks: Float, headYaw: Float, headPitch: Float, intensity: Float) {}
+    }
+
+    fun blankAnimationStateful(isTransform: Boolean = false, preventsIdle: Boolean = false) = object : StatefulAnimation<T, ModelFrame> {
+        override val isTransform = isTransform
+        override val duration = 0F
+
+        override fun run(
+            entity: T?,
+            model: PoseableEntityModel<T>,
+            state: PoseableEntityState<T>,
+            limbSwing: Float,
+            limbSwingAmount: Float,
+            ageInTicks: Float,
+            headYaw: Float,
+            headPitch: Float,
+            intensity: Float
+        ) = false
+    }
 
     fun quirk(
         secondsBetweenOccurrences: Pair<Float, Float> = 8F to 30F,

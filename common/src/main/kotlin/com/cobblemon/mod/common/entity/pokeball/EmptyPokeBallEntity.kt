@@ -8,6 +8,8 @@
 
 package com.cobblemon.mod.common.entity.pokeball
 
+import com.bedrockk.molang.runtime.struct.QueryStruct
+import com.bedrockk.molang.runtime.value.StringValue
 import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.CobblemonEntities.EMPTY_POKEBALL
 import com.cobblemon.mod.common.CobblemonNetwork
@@ -108,6 +110,10 @@ class EmptyPokeBallEntity : ThrownItemEntity, Poseable, WaterDragModifier, Sched
         EmptyPokeBallServerDelegate()
     }
 
+    override val struct = QueryStruct(hashMapOf())
+        .addFunction("capture_state") { StringValue(captureState.name) }
+        .addFunction("ball_type") { StringValue(pokeBall.name.toString()) }
+
     override fun initDataTracker() {
         super.initDataTracker()
         dataTracker.startTracking(CAPTURE_STATE, CaptureState.NOT.ordinal.toByte())
@@ -139,6 +145,7 @@ class EmptyPokeBallEntity : ThrownItemEntity, Poseable, WaterDragModifier, Sched
 
     init {
         delegate.initialize(this)
+        addPosableFunctions(struct)
     }
 
     constructor(world: World) : this(pokeBall = PokeBalls.POKE_BALL, world = world)

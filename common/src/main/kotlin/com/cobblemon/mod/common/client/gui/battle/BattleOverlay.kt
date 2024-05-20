@@ -9,7 +9,7 @@
 package com.cobblemon.mod.common.client.gui.battle
 
 import com.cobblemon.mod.common.api.gui.blitk
-import com.cobblemon.mod.common.api.gui.drawPortraitPokemon
+import com.cobblemon.mod.common.api.gui.drawPoseablePortrait
 import com.cobblemon.mod.common.api.scheduling.Schedulable
 import com.cobblemon.mod.common.api.scheduling.SchedulingTracker
 import com.cobblemon.mod.common.api.text.bold
@@ -25,6 +25,7 @@ import com.cobblemon.mod.common.client.render.drawScaledText
 import com.cobblemon.mod.common.client.render.getDepletableRedGreen
 import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
 import com.cobblemon.mod.common.client.render.models.blockbench.repository.PokeBallModelRepository
+import com.cobblemon.mod.common.client.render.models.blockbench.repository.PokemonModelRepository
 import com.cobblemon.mod.common.client.render.models.blockbench.wavefunction.sineFunction
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.pokeball.EmptyPokeBallEntity
@@ -238,11 +239,13 @@ class BattleOverlay : InGameHud(MinecraftClient.getInstance(), MinecraftClient.g
             )
         } else {
             matrixStack.push()
-            drawPortraitPokemon(
-                species = species,
+            drawPoseablePortrait(
+                identifier = species.resourceIdentifier,
                 aspects = aspects,
                 matrixStack = matrixStack,
                 scale = 18F * (ballState?.scale ?: 1F),
+                contextScale = species.getForm(aspects).baseScale,
+                repository = PokemonModelRepository,
                 reversed = reversed,
                 state = state,
                 partialTicks = partialTicks

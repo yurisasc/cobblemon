@@ -29,5 +29,4 @@ object StringSetDataSerializer : TrackedDataHandler<Set<String>> {
     }
 
     override fun copy(set: Set<String>) = set.toSet()
-
 }

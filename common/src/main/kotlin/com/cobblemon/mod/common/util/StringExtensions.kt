@@ -93,3 +93,5 @@ fun String.isLaterVersion(otherVersion: String): Boolean {
 
 fun String.toProperties() = PokemonProperties.parse(this)
 fun String.toPokemon() = toProperties().create()
+fun String.endWith(suffix: String) = if (endsWith(suffix)) this else "$this$suffix"
+fun String.startWith(prefix: String) = if (startsWith(prefix)) this else "$prefix$this"
