@@ -8,7 +8,6 @@
 
 package com.cobblemon.mod.common.pokemon.ai
 
-import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.CobblemonActivities
 import com.cobblemon.mod.common.CobblemonMemories
 import com.cobblemon.mod.common.CobblemonSensors
@@ -40,7 +39,8 @@ object PokemonBrain {
         SensorType.HURT_BY,
         SensorType.NEAREST_PLAYERS,
         CobblemonSensors.POKEMON_DROWSY,
-        CobblemonSensors.POKEMON_ADULT
+        CobblemonSensors.POKEMON_ADULT,
+        SensorType.IS_IN_WATER
 //            CobblemonSensors.BATTLING_POKEMON,
 //            CobblemonSensors.NPC_BATTLING
     )
@@ -67,6 +67,7 @@ object PokemonBrain {
         CobblemonMemories.REST_PATH_COOLDOWN,
         CobblemonMemories.TARGETED_BATTLE_POKEMON,
         MemoryModuleType.NEAREST_VISIBLE_ADULT,
+        MemoryModuleType.IS_IN_WATER
     )
 
     fun makeBrain(pokemon: Pokemon, brain: Brain<out PokemonEntity>): Brain<*> {
@@ -126,6 +127,16 @@ object PokemonBrain {
 
         if (pokemon.primaryType == ElementalTypes.GRASS) {
             add(1 toDF FertilizerTask())
+        }
+        if (pokemon.primaryType == ElementalTypes.FIRE) {
+            add(1 toDF IgniteTask())
+        }
+        if (pokemon.form.behaviour.moving.swim.canBreatheUnderwater) {
+            add(0 toDF ChooseWaterWanderTargetTask.create(pokemon.form.behaviour.moving.wanderChance, horizontalRange = 10, verticalRange = 5, swimSpeed = 0.33F, completionRange = 1))
+            add(1 toDF JumpOutOfWaterTask())
+        }
+        if (pokemon.form.behaviour.moving.fly.canFly) {
+            add(0 toDF ChooseFlightWanderTargetTask.create(pokemon.form.behaviour.moving.wanderChance, horizontalRange = 10, verticalRange = 5, flySpeed = 0.33F, completionRange = 1))
         }
     }
 

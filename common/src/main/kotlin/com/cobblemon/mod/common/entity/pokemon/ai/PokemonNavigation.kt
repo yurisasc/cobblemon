@@ -59,12 +59,32 @@ class PokemonNavigation(val world: World, val pokemonEntity: PokemonEntity) : Mo
         return PathNodeNavigator(nodeMaker, range)
     }
 
+    override fun isValidPosition(pos: BlockPos?): Boolean {
+        return if(pokemonEntity.behaviour.moving.swim.canSwimInWater) {
+            !super.isValidPosition(pos)
+        } else {
+            super.isValidPosition(pos)
+        }
+    }
+
+    override fun canPathDirectlyThrough(origin: Vec3d?, target: Vec3d?): Boolean {
+        return if(pokemonEntity.behaviour.moving.swim.canSwimInWater) {
+            doesNotCollide(this.entity, origin!!, target!!, false)
+        } else {
+            super.canPathDirectlyThrough(origin, target)
+        }
+    }
+
     override fun isAtValidPosition(): Boolean {
         val (_, isTouchingLava) = entity.world.getWaterAndLavaIn(entity.boundingBox)
         val isAtValidPosition = (!entity.isInLava && !entity.isSubmergedIn(FluidTags.LAVA)) ||
                 (isTouchingLava && moving.swim.canSwimInLava) ||
                 this.entity.hasVehicle()
-        return isAtValidPosition
+        if(pokemonEntity.behaviour.moving.swim.canSwimInWater) {
+            return isInLiquid || super.isAtValidPosition()
+        } else {
+            return isAtValidPosition
+        }
     }
 
     override fun canSwim(): Boolean {
