@@ -19,6 +19,7 @@ import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.ai.pathing.NavigationType
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.inventory.SidedInventory
+import net.minecraft.inventory.SimpleInventory
 import net.minecraft.item.ItemPlacementContext
 import net.minecraft.item.ItemStack
 import net.minecraft.server.world.ServerWorld
@@ -209,9 +210,8 @@ class RestorationTankBlock(properties: Settings) : MultiblockBlock(properties), 
     ): SidedInventory {
         val tankEntity =
             (if (state.get(PART) == TankPart.TOP) world.getBlockEntity(pos.down())
-            else world.getBlockEntity(pos)) as RestorationTankBlockEntity
-
-        return tankEntity.inv
+            else world.getBlockEntity(pos))
+        return if(tankEntity != null && tankEntity is RestorationTankBlockEntity) tankEntity.inv else DummyInventory()
     }
 
     enum class TankPart(private val label: String) : StringIdentifiable {
@@ -229,5 +229,18 @@ class RestorationTankBlock(properties: Settings) : MultiblockBlock(properties), 
         val PART = EnumProperty.of("part", TankPart::class.java)
         val TRIGGERED = Properties.TRIGGERED
         val ON = BooleanProperty.of("on")
+        class DummyInventory : SimpleInventory(0), SidedInventory {
+            override fun getAvailableSlots(side: Direction): IntArray {
+                return IntArray(0)
+            }
+
+            override fun canInsert(slot: Int, stack: ItemStack, dir: Direction?): Boolean {
+                return false
+            }
+
+            override fun canExtract(slot: Int, stack: ItemStack, dir: Direction): Boolean {
+                return false
+            }
+        }
     }
 }

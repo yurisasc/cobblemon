@@ -30,6 +30,7 @@
 - Fixed issue where the restoration tank's renderer was reading old data
 - Fixed issue where the lights on the restoration tank would not animate if it was facing east
 - Fixed client crash with the fossil machine when updating block state on a chunk that is unloaded in the client
+- Fixed Restoration Tank crash with Create upon the Tank's block destruction 
 
 
 ### Developer
