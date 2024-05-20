@@ -31,6 +31,16 @@ class SpeciesPokedexEntry(
     var formEntries: MutableMap<String, FormPokedexRecords> = mutableMapOf(),
     val speciesStats: MutableSet<SpeciesTrackedData> = mutableSetOf()
 ) {
+    fun highestDiscoveryLevel(): PokedexEntryProgress {
+        var knowledge = PokedexEntryProgress.NONE
+        for(formPokedexRecords in formEntries.values){
+            if(knowledge < formPokedexRecords.knowledge){
+                knowledge = formPokedexRecords.knowledge
+            }
+        }
+        return knowledge
+    }
+
     fun pokemonCaught(event: PokemonCapturedEvent) {
         val formStr = event.pokemon.form.formOnlyShowdownId()
         if (!formEntries.containsKey(formStr)) {

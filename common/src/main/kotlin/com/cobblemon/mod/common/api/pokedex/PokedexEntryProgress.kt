@@ -20,7 +20,7 @@ import net.minecraft.util.StringIdentifiable
  * @author JPAK, Apion
  * @since February 21, 2024
  */
-enum class PokedexEntryProgress : StringIdentifiable {
+enum class PokedexEntryProgress : StringIdentifiable, Comparable<PokedexEntryProgress> {
     NONE,
     ENCOUNTERED,
     CAUGHT;

@@ -41,9 +41,15 @@ class ClientPokedex(
         }
     }
 
-    fun undiscovered(identifier: Identifier) = speciesEntries[identifier] == null
+    fun getKnowledgeCount(pokedexEntryProgress: PokedexEntryProgress, dexData: Collection<DexPokemonData>): Int {
+        return dexData.count{ discoveryLevel(it.name) == pokedexEntryProgress }
+    }
 
-    fun discovered(identifier: Identifier) = !undiscovered(identifier)
+    fun discoveryLevel(species: Identifier): PokedexEntryProgress {
+        val entry = speciesEntries[species] ?: return PokedexEntryProgress.NONE
+
+        return entry.highestDiscoveryLevel()
+    }
 
     companion object {
         fun encodeSpeciesEntry(buf: PacketByteBuf, speciesEntry: SpeciesPokedexEntry) {
@@ -75,7 +81,7 @@ class ClientPokedex(
             val knowledge = buf.readEnumConstant(PokedexEntryProgress::class.java)
             val result = FormPokedexRecords()
             result.knowledge = knowledge
-            return FormPokedexRecords()
+            return FormPokedexRecords(knowledge)
         }
 
         fun decode(buf: PacketByteBuf): SetClientPlayerDataPacket {

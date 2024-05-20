@@ -9,10 +9,7 @@
 package com.cobblemon.mod.common.client.gui.pokedex
 import com.cobblemon.mod.common.Cobblemon.LOGGER
 import com.cobblemon.mod.common.api.gui.blitk
-import com.cobblemon.mod.common.api.pokedex.ClientPokedex
-import com.cobblemon.mod.common.api.pokedex.EntryFilter
-import com.cobblemon.mod.common.api.pokedex.PokedexJSONRegistry
-import com.cobblemon.mod.common.api.pokedex.SpeciesPokedexEntry
+import com.cobblemon.mod.common.api.pokedex.*
 import com.cobblemon.mod.common.api.pokedex.filters.InvisibleFilter
 import com.cobblemon.mod.common.api.pokedex.filters.SearchFilter
 import com.cobblemon.mod.common.api.text.text
