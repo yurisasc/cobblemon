@@ -24,8 +24,10 @@ import net.minecraft.item.ItemStack
 import net.minecraft.registry.Registries
 import net.minecraft.registry.tag.TagKey
 import net.minecraft.util.Identifier
+import net.minecraft.util.math.random.ChunkRandom
 import net.minecraft.world.biome.Biome
 import net.minecraft.world.gen.structure.Structure
+import kotlin.random.Random
 
 /**
  * The root of spawning conditions that can be applied to a spawning context. What type
@@ -65,6 +67,7 @@ abstract class SpawningCondition<T : SpawningContext> {
     var maxLureLevel: Int? = null
     var bait: String? = null
     var rodType: String? = null
+    var isSlimeChunk: Boolean? = null
 
     @Transient
     var appendages = mutableListOf<AppendageCondition>()
@@ -134,6 +137,22 @@ abstract class SpawningCondition<T : SpawningContext> {
 
             if (pokerodItem?.pokeRodId?.path != rodType)
                 return false
+        } else if (isSlimeChunk != null && isSlimeChunk != false) {
+            val isSlimeChunk = ChunkRandom.getSlimeRandom(ctx.position.x shr 4, ctx.position.z shr 4, ctx.world.seed, 987234911L).nextInt(10) == 0
+
+            if (!isSlimeChunk) {
+                return false
+            }
+
+            /*val chunkX = ctx.position.x shr 4
+            val chunkZ = ctx.position.z shr 4
+
+            val seed = (ctx.world.seed +
+                    (chunkX * chunkX * 4987142L) + (chunkX * 5947611L) +
+                    (chunkZ * chunkZ * 4392871L) + (chunkZ * 389711L)) xor 987234911L
+
+            val random = Random(seed)
+            return random.nextInt(10) == 0*/
         }
 
         /*else if (ctx is FishingSpawningContext && (ctx as FishingSpawningContext).rodItem != null) { // check if the bait attracts certain EV yields
