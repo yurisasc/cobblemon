@@ -1,0 +1,52 @@
+{
+	"format_version": "1.10.0",
+	"particle_effect": {
+		"description": {
+			"identifier": "cobblemon:poison_hit",
+			"basic_render_parameters": {
+				"material": "particles_blend",
+				"texture": "textures/particles/poison-bubble"
+			}
+		},
+		"components": {
+			"minecraft:emitter_rate_steady": {
+				"spawn_rate": 28,
+				"max_particles": 14
+			},
+			"minecraft:emitter_lifetime_once": {
+				"active_time": 0.7
+			},
+			"minecraft:emitter_shape_disc": {
+				"offset": [0, "(q.entity_height-(q.entity_height*1.35))+(variable.particle_random_3*0.9)", 0],
+				"radius": "math.clamp(q.entity_radius*1,0.8,999)",
+				"surface_only": true,
+				"direction": ["(math.random(-2,2))*math.random(4,5)", "math.random(10,15)", "(math.random(-2,2))*math.random(4,5)"]
+			},
+			"minecraft:particle_lifetime_expression": {
+				"max_lifetime": 0.7
+			},
+			"minecraft:particle_initial_speed": "math.random(1.5,5.0)",
+			"minecraft:particle_motion_dynamic": {
+				"linear_acceleration": [0, 4, 0],
+				"linear_drag_coefficient": 4
+			},
+			"minecraft:particle_appearance_billboard": {
+				"size": ["0.15+0.25*v.particle_random_2", "0.2+0.2*v.particle_random_2"],
+				"facing_camera_mode": "rotate_xyz",
+				"uv": {
+					"texture_width": 80,
+					"texture_height": 8,
+					"flipbook": {
+						"base_UV": [0, 0],
+						"size_UV": [8, 8],
+						"step_UV": [8, 0],
+						"frames_per_second": 18,
+						"max_frame": 10,
+						"stretch_to_lifetime": true
+					}
+				}
+			},
+			"minecraft:particle_appearance_lighting": {}
+		}
+	}
+}

@@ -6,14 +6,14 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-package com.cobblemon.mod.common.pokemon.status.statuses
+package com.cobblemon.mod.common.pokemon.status.statuses.persistent
 
 import com.cobblemon.mod.common.pokemon.status.PersistentStatus
 import com.cobblemon.mod.common.util.cobblemonResource
-class ParalysisStatus : PersistentStatus(
-    name = cobblemonResource("paralysis"),
-    showdownName = "par",
-    applyMessage = "cobblemon.status.paralysis.apply",
-    removeMessage = "cobblemon.status.paralysis.cure",
+class SleepStatus : PersistentStatus(
+    name = cobblemonResource("sleep"),
+    showdownName = "slp",
+    applyMessage = "cobblemon.status.sleep.apply",
+    removeMessage = "cobblemon.status.sleep.cure",
     defaultDuration = IntRange(180, 300)
 )

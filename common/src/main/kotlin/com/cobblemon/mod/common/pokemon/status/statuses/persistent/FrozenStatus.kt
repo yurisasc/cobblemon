@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-package com.cobblemon.mod.common.pokemon.status.statuses
+package com.cobblemon.mod.common.pokemon.status.statuses.persistent
 
 import com.cobblemon.mod.common.pokemon.status.PersistentStatus
 import com.cobblemon.mod.common.util.cobblemonResource
