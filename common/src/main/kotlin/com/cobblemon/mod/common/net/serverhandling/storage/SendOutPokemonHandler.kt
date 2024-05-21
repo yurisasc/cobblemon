@@ -14,8 +14,14 @@ import com.cobblemon.mod.common.net.messages.server.SendOutPokemonPacket
 import com.cobblemon.mod.common.pokemon.activestate.ActivePokemonState
 import com.cobblemon.mod.common.pokemon.activestate.ShoulderedState
 import com.cobblemon.mod.common.util.raycastSafeSendout
+import net.minecraft.client.render.entity.model.RaftEntityModel
+import net.minecraft.entity.Entity
+import net.minecraft.entity.EntityType
+import net.minecraft.entity.vehicle.BoatEntity
+import net.minecraft.item.BoatItem
 import net.minecraft.server.MinecraftServer
 import net.minecraft.server.network.ServerPlayerEntity
+import net.minecraft.util.math.BlockPos
 import net.minecraft.world.RaycastContext
 
 object SendOutPokemonHandler : ServerNetworkPacketHandler<SendOutPokemonPacket> {
@@ -34,6 +40,20 @@ object SendOutPokemonHandler : ServerNetworkPacketHandler<SendOutPokemonPacket> 
             val position = player.raycastSafeSendout(pokemon, 12.0, 5.0, RaycastContext.FluidHandling.ANY)
 
             if (position != null) {
+                // todo if send out position is over water then add a raft entity to stand on
+                if (player.world.isWater(BlockPos(position.x.toInt(), position.y.toInt() - 1, position.z.toInt()))) {
+                    val boatType = BoatEntity.Type.getType("bamboo")
+                    // Create a new boat entity with the generic EntityType.BOAT
+                    val raftEntity = BoatEntity(player.world, position.x, position.y, position.z)
+
+                    raftEntity.variant = BoatEntity.Type.BAMBOO
+
+                    raftEntity.setPosition(position.x, position.y, position.z) // Set the position of the boat
+
+                    // Spawn the boat entity in the world
+                    player.world.spawnEntity(raftEntity)
+                }
+
                 pokemon.sendOutWithAnimation(player, player.serverWorld, position)
             }
         } else {
