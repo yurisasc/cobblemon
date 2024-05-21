@@ -8,6 +8,7 @@
 
 package com.cobblemon.mod.common.api.pokemon.evolution
 
+import com.cobblemon.mod.common.CobblemonSounds
 import com.cobblemon.mod.common.api.events.CobblemonEvents
 import com.cobblemon.mod.common.api.events.pokemon.evolution.EvolutionCompleteEvent
 import com.cobblemon.mod.common.api.events.pokemon.evolution.EvolutionTestedEvent
@@ -16,15 +17,16 @@ import com.cobblemon.mod.common.api.moves.MoveTemplate
 import com.cobblemon.mod.common.api.pokemon.PokemonProperties
 import com.cobblemon.mod.common.api.pokemon.evolution.requirement.EvolutionRequirement
 import com.cobblemon.mod.common.api.scheduling.afterOnServer
-import com.cobblemon.mod.common.net.messages.client.animation.PlayPoseableAnimationPacket
+import com.cobblemon.mod.common.entity.generic.GenericBedrockEntity
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.pokemon.activestate.ShoulderedState
 import com.cobblemon.mod.common.pokemon.evolution.variants.ItemInteractionEvolution
 import com.cobblemon.mod.common.pokemon.evolution.variants.LevelUpEvolution
 import com.cobblemon.mod.common.pokemon.evolution.variants.TradeEvolution
+import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.lang
-import net.minecraft.entity.Entity
 import net.minecraft.item.ItemStack
+import net.minecraft.sound.SoundCategory
 
 /**
  * Represents an evolution of a [Pokemon], this is the server side counterpart of [EvolutionDisplay].
@@ -102,7 +104,7 @@ interface Evolution : EvolutionLike {
      */
     fun forceEvolve(pokemon: Pokemon) {
         // This is a switch to enable/disable the evolution effect while we get particles improved
-        val useEvolutionEffect = true
+        val useEvolutionEffect = false
 
         if (pokemon.state is ShoulderedState) {
             pokemon.tryRecallWithAnimation()
@@ -112,29 +114,32 @@ interface Evolution : EvolutionLike {
         if (pokemonEntity == null || !useEvolutionEffect) {
             evolutionMethod(pokemon)
         } else {
-            pokemonEntity.busyLocks.add("evolving")
-            pokemonEntity.navigation.stop()
-            afterOnServer(seconds = 1F){
-                evolutionAnimation(pokemonEntity)
+            pokemonEntity.evolutionEntity = pokemon.getOwnerPlayer()?.let { GenericBedrockEntity(world = it.world) }
+            val evolutionEntity = pokemon.entity!!.evolutionEntity
+            evolutionEntity?.apply {
+                category = cobblemonResource("evolution")
+                colliderHeight = pokemonEntity.height
+                colliderWidth = pokemonEntity.width
+                scale = pokemonEntity.scaleFactor
+                syncAge = true // Otherwise particle animation will be starting from zero even if you come along partway through
+                setPosition(pokemonEntity.x, pokemonEntity.y, pokemonEntity.z)
             }
-            afterOnServer(seconds = 11.2F) {
-                evolutionMethod(pokemon)
-            }
-            afterOnServer ( seconds = 12F ) {
-                cryAnimation(pokemonEntity)
-                pokemonEntity.busyLocks.remove("evolving")
+            pokemon.getOwnerPlayer()?.world?.spawnEntity(evolutionEntity)
+            afterOnServer(seconds = 9F) {
+                if (!pokemonEntity.isRemoved) {
+                    evolutionMethod(pokemon)
+                    afterOnServer(seconds = 1.5F) { pokemonEntity.cry() }
+                    afterOnServer(seconds = 3F) {
+                        if (evolutionEntity != null) {
+                            evolutionEntity.kill()
+                            if (!pokemonEntity.isRemoved) {
+                                pokemonEntity.evolutionEntity = null
+                            }
+                        }
+                    }
+                }
             }
         }
-    }
-
-    private fun evolutionAnimation(pokemon: Entity) {
-        val playPoseableAnimationPacket = PlayPoseableAnimationPacket(pokemon.id, setOf("q.bedrock_stateful('evolution', 'evolution')"), emptySet())
-        playPoseableAnimationPacket.sendToPlayersAround(pokemon.x, pokemon.y, pokemon.z, 128.0, pokemon.world.registryKey)
-    }
-
-    private fun cryAnimation(pokemon: Entity) {
-        val playPoseableAnimationPacket = PlayPoseableAnimationPacket(pokemon.id, setOf("cry"), emptySet())
-        playPoseableAnimationPacket.sendToPlayersAround(pokemon.x, pokemon.y, pokemon.z, 128.0, pokemon.world.registryKey)
     }
 
     fun evolutionMethod(pokemon: Pokemon) {
@@ -148,7 +153,8 @@ interface Evolution : EvolutionLike {
             pokemon.getOwnerPlayer()?.sendMessage(lang("experience.learned_move", pokemon.getDisplayName(), move.displayName))
         }
         // we want to instantly tick for example you might only evolve your Bulbasaur at level 34 so Venusaur should be immediately available
-        pokemon.evolutions.filterIsInstance<PassiveEvolution>().forEach { evolution -> evolution.attemptEvolution(pokemon) }
+        pokemon.lockedEvolutions.filterIsInstance<PassiveEvolution>().forEach { evolution -> evolution.attemptEvolution(pokemon) }
+        pokemon.getOwnerPlayer()?.playSound(CobblemonSounds.EVOLVING, SoundCategory.NEUTRAL, 1F, 1F)
         CobblemonEvents.EVOLUTION_COMPLETE.post(EvolutionCompleteEvent(pokemon, this))
     }
 

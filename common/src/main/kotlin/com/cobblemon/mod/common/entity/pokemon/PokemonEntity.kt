@@ -865,7 +865,7 @@ open class PokemonEntity(
         // Check evolution item interaction
         if (pokemon.getOwnerPlayer() == player) {
             val context = ItemInteractionEvolution.ItemInteractionContext(stack, player.world)
-            pokemon.evolutions
+            pokemon.lockedEvolutions
                 .filterIsInstance<ItemInteractionEvolution>()
                 .forEach { evolution ->
                     if (evolution.attemptEvolution(pokemon, context)) {

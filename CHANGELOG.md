@@ -9,6 +9,7 @@
 ### Changes
 - Sounds for Relic Coin Sacks have been correctly renamed. Relic Coin Pouches received new sounds for breaking and placing.
 - Readjusted Petilil portraits
+- Changed "dimensions" spawn condition to check with dimension IDs instead of effects, so custom dimension IDs can be used.
 
 ### Fixes
 - Fixed a bug in which adding organic material to the fossil tank via right click was adding the full count of the stack currently in hand
@@ -19,6 +20,8 @@
 - Fixed Fossil Compartment crash with Jade / WAILA forks
 - Fixed PCStore#resize not allowing PC boxes size reduction.
 - Fixed pasture block PC lookups when the player is offline.
+- Fixed an untranslated battle message that occurs when using a move that just ran out of PP (e.g. Fire Blast that just got spited mid-turn). 
+- Fixed held items being eaten even when the held item evolutions are already unlocked.
 - Fixed Hisuian Decidueye not being Grass/Fighting
 - Fixed both Decidueye forms learning both Triple Arrows and Spirit Shackle
 - Fixed Pineco being unable to evolve into Shulker Forretress

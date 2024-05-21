@@ -234,7 +234,7 @@ object Cobblemon {
             val player = event.player
             val block = player.world.getBlockState(event.pos).block
             player.party().forEach { pokemon ->
-                pokemon.evolutions
+                pokemon.lockedEvolutions
                     .filterIsInstance<BlockClickEvolution>()
                     .forEach { evolution ->
                         evolution.attemptEvolution(pokemon, BlockClickEvolution.BlockInteractionContext(block, player.world))
