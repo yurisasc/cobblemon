@@ -27,6 +27,8 @@
 - Fixed Pineco being unable to evolve into Shulker Forretress
 - Fixed Kabutops T-posing when underwater. It still does not have proper swimming animations yet though. 
 - Fixed Pidgey's missing walk animation.
+- Fixed Cyndaquil's hidden flames clipping if it was swimming.
+- Fixed Chimecho and Chingling being unable to spawn near bells.
 - Fixed recoil evo condition.
 - Fixed issue where poser debug tools didnt work on JSON posers
 - Fixed issue where gilded chests dont close when going far away
