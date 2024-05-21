@@ -68,6 +68,17 @@
     "cobblemon:white",
     "cobblemon:invisible",
     "cobblemon:white_aura",
-    "cobblemon:pink_obscure"
+    "cobblemon:pink_obscure",
+    "cobblemon:statdown_orb",
+    "cobblemon:statup_orb",
+    "cobblemon:statdown_line",
+    "cobblemon:statup_line",
+    "cobblemon:chirp",
+    "cobblemon:swordsdance_swords",
+    "cobblemon:large-ring",
+    "cobblemon:protect-shine",
+    "cobblemon:small-sparkle",
+    "cobblemon:powder",
+    "cobblemon:smokeorb"
   ]
 }

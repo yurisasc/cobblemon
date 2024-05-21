@@ -13,7 +13,7 @@
     {
       "type": "remove_holds",
       "holds": ["effects"]
-    },
+    }
   ],
   "condition": "q.instruction_id == 'cobblemon:activate'"
 }
