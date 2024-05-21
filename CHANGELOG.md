@@ -9,6 +9,7 @@
 ### Changes
 - Sounds for Relic Coin Sacks have been correctly renamed. Relic Coin Pouches received new sounds for breaking and placing.
 - Readjusted Petilil portraits
+- Changed "dimensions" spawn condition to check with dimension IDs instead of effects, so custom dimension IDs can be used.
 
 ### Fixes
 - Fixed a bug in which adding organic material to the fossil tank via right click was adding the full count of the stack currently in hand
