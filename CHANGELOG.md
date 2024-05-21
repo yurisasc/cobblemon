@@ -29,6 +29,7 @@
 - Fixed Pidgey's missing walk animation.
 - Fixed Cyndaquil's hidden flames clipping if it was swimming.
 - Fixed Chimecho and Chingling being unable to spawn near bells.
+- Fixed Tyrantrum and Wailord Party Overlay models peeking through the chat box.
 - Fixed recoil evo condition.
 - Fixed issue where poser debug tools didnt work on JSON posers
 - Fixed issue where gilded chests dont close when going far away
