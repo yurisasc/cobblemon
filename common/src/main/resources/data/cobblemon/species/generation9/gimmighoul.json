@@ -2,6 +2,18 @@
   "implemented": true,
   "name": "Gimmighoul",
   "nationalPokedexNumber": 999,
+  "stashes": {
+    "gimmighoul_coins": {
+      "cobblemon:relic_coin": 1,
+      "cobblemon:relic_coin_pouch": 9,
+      "cobblemon:relic_coin_sack": 81
+    },
+    "gimmighoul_netherite": {
+      "minecraft:netherite_scrap": 1,
+      "minecraft:netherite_ingot": 4,
+      "minecraft:netherite_block": 36
+    }
+  },
   "primaryType": "ghost",
   "abilities": [
     "rattled"

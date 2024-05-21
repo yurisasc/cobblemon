@@ -45,6 +45,7 @@ class Species : ClientDataSynchronizer<Species>, ShowdownIdentifiable {
         get() = Text.translatable("${this.resourceIdentifier.namespace}.species.${this.unformattedShowdownId()}.name")
     var nationalPokedexNumber = 1
 
+    var stashes = hashMapOf<String, HashMap<Identifier, Int>>();
     var baseStats = hashMapOf<Stat, Int>()
         private set
     /** The ratio of the species being male. If -1, the Pokémon is genderless. */
