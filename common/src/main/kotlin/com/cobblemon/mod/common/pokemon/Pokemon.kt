@@ -80,6 +80,7 @@ import com.mojang.serialization.JsonOps
 import net.minecraft.block.*
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.entity.vehicle.BoatEntity
 import net.minecraft.item.ItemStack
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.nbt.NbtElement.COMPOUND_TYPE
@@ -152,6 +153,9 @@ open class Pokemon : ShowdownIdentifiable {
             this.attemptAbilityUpdate()
             _form.emit(value)
         }
+
+    // Floating Platform for surface water battles
+    var battleSurface: BoatEntity? = null
 
     // Need to happen before currentHealth init due to the calc
     val ivs = IVs.createRandomIVs()
@@ -518,6 +522,26 @@ open class Pokemon : ShowdownIdentifiable {
         illusion: IllusionEffect? = null,
         mutation: (PokemonEntity) -> Unit = {},
     ): CompletableFuture<PokemonEntity> {
+
+        // send out raft if over water
+        if (position != null) {
+            // todo if send out position is over water then add a raft entity to stand on
+            if (level.isWater(BlockPos(position.x.toInt(), position.y.toInt() - 1, position.z.toInt())) && this.species.types.all { it != ElementalTypes.WATER && it != ElementalTypes.FLYING }) {
+                val boatType = BoatEntity.Type.getType("bamboo")
+                // Create a new boat entity with the generic EntityType.BOAT
+                val raftEntity = BoatEntity(level, position.x, position.y, position.z)
+
+                raftEntity.variant = BoatEntity.Type.BAMBOO
+
+                raftEntity.setPosition(position.x, position.y, position.z) // Set the position of the boat
+
+                // Spawn the boat entity in the world
+                level.spawnEntity(raftEntity)
+
+                this.battleSurface = raftEntity
+            }
+        }
+
         // Handle special case of shouldered Cobblemon
         if (this.state is ShoulderedState) {
             return sendOutFromShoulder(source as ServerPlayerEntity, level, position, battleId, doCry, illusion, mutation)
@@ -613,6 +637,7 @@ open class Pokemon : ShowdownIdentifiable {
         val state = this.state as? ActivePokemonState
         this.state = InactivePokemonState()
         state?.recall()
+        this.battleSurface?.discard() // destroy the battle surface if it exists
     }
 
     fun tryRecallWithAnimation() {

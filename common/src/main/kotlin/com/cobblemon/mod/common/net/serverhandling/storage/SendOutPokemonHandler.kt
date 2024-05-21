@@ -40,20 +40,6 @@ object SendOutPokemonHandler : ServerNetworkPacketHandler<SendOutPokemonPacket> 
             val position = player.raycastSafeSendout(pokemon, 12.0, 5.0, RaycastContext.FluidHandling.ANY)
 
             if (position != null) {
-                // todo if send out position is over water then add a raft entity to stand on
-                if (player.world.isWater(BlockPos(position.x.toInt(), position.y.toInt() - 1, position.z.toInt()))) {
-                    val boatType = BoatEntity.Type.getType("bamboo")
-                    // Create a new boat entity with the generic EntityType.BOAT
-                    val raftEntity = BoatEntity(player.world, position.x, position.y, position.z)
-
-                    raftEntity.variant = BoatEntity.Type.BAMBOO
-
-                    raftEntity.setPosition(position.x, position.y, position.z) // Set the position of the boat
-
-                    // Spawn the boat entity in the world
-                    player.world.spawnEntity(raftEntity)
-                }
-
                 pokemon.sendOutWithAnimation(player, player.serverWorld, position)
             }
         } else {
