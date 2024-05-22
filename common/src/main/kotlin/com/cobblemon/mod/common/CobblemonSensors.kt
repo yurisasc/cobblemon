@@ -10,6 +10,7 @@ package com.cobblemon.mod.common
 
 import com.cobblemon.mod.common.entity.pokemon.ai.sensors.DrowsySensor
 import com.cobblemon.mod.common.entity.pokemon.ai.sensors.PokemonAdultSensor
+import com.cobblemon.mod.common.pokemon.ai.PokemonDisturbancesSensor
 import java.util.function.Supplier
 import net.minecraft.entity.Entity
 import net.minecraft.entity.ai.brain.sensor.Sensor
@@ -22,6 +23,8 @@ object CobblemonSensors {
     val POKEMON_DROWSY = register("pokemon_drowsy", ::DrowsySensor)
 
     val POKEMON_ADULT = register("pokemon_adult_sensor", ::PokemonAdultSensor)
+
+    val POKEMON_DISTURBANCE = register("pokemon_disturbance_sensor", ::PokemonDisturbancesSensor)
 
     fun <E : Entity, U : Sensor<E>> register(id: String, supplier: Supplier<U>): SensorType<U> {
         val sensor = SensorType(supplier)

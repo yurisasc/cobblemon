@@ -144,6 +144,7 @@ open class PokemonEntity(
         fun createAttributes(): DefaultAttributeContainer.Builder = LivingEntity.createLivingAttributes()
             .add(EntityAttributes.GENERIC_FOLLOW_RANGE)
             .add(EntityAttributes.GENERIC_ATTACK_KNOCKBACK)
+            .add(EntityAttributes.GENERIC_ATTACK_DAMAGE)
     }
     val removalObservable = SimpleObservable<RemovalReason?>()
     /** A list of observable subscriptions related to this entity that need to be cleaned up when the entity is removed. */

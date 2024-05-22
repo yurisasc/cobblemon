@@ -38,9 +38,11 @@ object PokemonBrain {
         SensorType.NEAREST_LIVING_ENTITIES,
         SensorType.HURT_BY,
         SensorType.NEAREST_PLAYERS,
+        CobblemonSensors.POKEMON_DISTURBANCE,
         CobblemonSensors.POKEMON_DROWSY,
         CobblemonSensors.POKEMON_ADULT,
-        SensorType.IS_IN_WATER
+        SensorType.IS_IN_WATER,
+
 //            CobblemonSensors.BATTLING_POKEMON,
 //            CobblemonSensors.NPC_BATTLING
     )
@@ -67,7 +69,8 @@ object PokemonBrain {
         CobblemonMemories.REST_PATH_COOLDOWN,
         CobblemonMemories.TARGETED_BATTLE_POKEMON,
         MemoryModuleType.NEAREST_VISIBLE_ADULT,
-        MemoryModuleType.IS_IN_WATER
+        MemoryModuleType.IS_IN_WATER,
+        MemoryModuleType.DISTURBANCE_LOCATION
     )
 
     fun makeBrain(pokemon: Pokemon, brain: Brain<out PokemonEntity>): Brain<*> {
@@ -124,6 +127,7 @@ object PokemonBrain {
         add(0 toDF MoveToAttackTargetTask.create())
         add(0 toDF MoveToOwnerTask.create(completionRange = 4, maxDistance = 14F, teleportDistance = 24F))
         add(0 toDF WalkTowardsParentSpeciesTask.create(ADULT_FOLLOW_RANGE, 0.4f))
+        //add(0 toDF HuntPlayerTask())
 
         if (pokemon.primaryType == ElementalTypes.GRASS) {
             add(1 toDF FertilizerTask())

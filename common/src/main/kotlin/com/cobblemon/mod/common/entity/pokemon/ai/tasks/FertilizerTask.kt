@@ -25,10 +25,10 @@ import java.util.*
 
 //todo(broccoli): add a cooldown
 class FertilizerTask : MultiTickTask<PokemonEntity>(
-    ImmutableMap.of(
-        MemoryModuleType.LOOK_TARGET, MemoryModuleState.VALUE_ABSENT,
-        MemoryModuleType.WALK_TARGET, MemoryModuleState.VALUE_ABSENT
-    )
+        ImmutableMap.of(
+                MemoryModuleType.LOOK_TARGET, MemoryModuleState.VALUE_ABSENT,
+                MemoryModuleType.WALK_TARGET, MemoryModuleState.VALUE_ABSENT
+        )
 ) {
 
     companion object {
@@ -89,12 +89,12 @@ class FertilizerTask : MultiTickTask<PokemonEntity>(
         pos.ifPresent { pos: BlockPos? ->
             val blockPosLookTarget = BlockPosLookTarget(pos)
             entity.brain.remember(
-                MemoryModuleType.LOOK_TARGET,
-                blockPosLookTarget
+                    MemoryModuleType.LOOK_TARGET,
+                    blockPosLookTarget
             )
             entity.brain.remember(
-                MemoryModuleType.WALK_TARGET,
-                WalkTarget(blockPosLookTarget, 0.5f, 1)
+                    MemoryModuleType.WALK_TARGET,
+                    WalkTarget(blockPosLookTarget, 0.5f, 1)
             )
         }
     }
