@@ -610,7 +610,7 @@ class FossilMultiblockStructure (
             result.putString(DataKeys.INSERTED_FOSSIL, this.resultingFossil!!.asString())
         }
 
-        result.putBoolean(DataKeys.CREATED_POKEMON, hasCreatePokemon)
+        result.putBoolean(DataKeys.HAS_CREATED_POKEMON, hasCreatePokemon)
 
         return result
     }
@@ -661,7 +661,7 @@ class FossilMultiblockStructure (
             if (nbt.contains(DataKeys.CREATED_POKEMON)) {
                 // migration of instances that saved the created pokeon in the nbt
                 result.hasCreatePokemon = true
-            } else if (nbt.contains(DataKeys.CREATED_POKEMON)){
+            } else if (nbt.contains(DataKeys.HAS_CREATED_POKEMON)){
                 result.hasCreatePokemon = nbt.getBoolean(DataKeys.HAS_CREATED_POKEMON)
             }
             result.fillLevel = result.organicMaterialInside * 8 / MATERIAL_TO_START
