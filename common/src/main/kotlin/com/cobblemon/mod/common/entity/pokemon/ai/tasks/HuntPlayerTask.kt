@@ -8,7 +8,6 @@ import net.minecraft.entity.ai.brain.MemoryModuleState
 import net.minecraft.entity.ai.brain.MemoryModuleType
 import net.minecraft.entity.ai.brain.WalkTarget
 import net.minecraft.entity.ai.brain.task.MultiTickTask
-import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.util.math.BlockPos
 import java.util.Optional
@@ -24,8 +23,9 @@ class HuntPlayerTask : MultiTickTask<LivingEntity>(
 
     companion object {
         private const val MAX_SEARCH_DURATION = 1000
-        private const val SEARCH_RADIUS = 10
+        private const val SEARCH_RADIUS = 20
         private const val ATTACK_RANGE = 2.0
+        private const val WALK_SPEED = 0.5f // Adjust this value to change the speed
     }
 
     private var targetEntity: Optional<LivingEntity> = Optional.empty()
@@ -39,12 +39,25 @@ class HuntPlayerTask : MultiTickTask<LivingEntity>(
     }
 
     override fun shouldKeepRunning(world: ServerWorld, entity: LivingEntity, time: Long): Boolean {
-        return targetEntity.isPresent || (searching && searchTime < MAX_SEARCH_DURATION)
+        val canSeePlayer = targetEntity.isPresent && entity.canSee(targetEntity.get())
+        // if entity cannot see player then searching is true
+        if (!canSeePlayer)
+            searching = true
+
+        val isStillSearching = searching && searchTime < MAX_SEARCH_DURATION
+
+        //return canSeePlayer && isStillSearching   // commented this out for testing
+        if (canSeePlayer || isStillSearching)
+            return true
+        else
+            return false
     }
 
     private fun findPlayer(world: ServerWorld, entity: LivingEntity): Optional<LivingEntity> {
         return world.players
-                .filter { it.isAlive && entity.squaredDistanceTo(it) <= SEARCH_RADIUS * SEARCH_RADIUS }
+                // filter all players that are alive that the entity can see and are within a certain radius of the entity
+                .filter { it.isAlive && entity.canSee(it) && entity.squaredDistanceTo(it) <= SEARCH_RADIUS * SEARCH_RADIUS }
+                // find the player with the minimum distance to the entity
                 .minByOrNull { entity.squaredDistanceTo(it) }
                 ?.let { Optional.of(it) } ?: Optional.empty()
     }
@@ -55,20 +68,13 @@ class HuntPlayerTask : MultiTickTask<LivingEntity>(
         searchTime = 0
 
         super.run(world, entity, time)
-
-        val disturbanceLocation = entity.brain.getOptionalMemory(MemoryModuleType.DISTURBANCE_LOCATION)
-        if (disturbanceLocation != null) {
-            disturbanceLocation.ifPresent {
-                onEntityHeard(entity, it)
-            }
-        }
     }
 
     private fun addLookWalkTargets(entity: LivingEntity) {
         targetEntity.ifPresent { target ->
             val lookTarget = EntityLookTarget(target, true)
             entity.brain.remember(MemoryModuleType.LOOK_TARGET, lookTarget)
-            entity.brain.remember(MemoryModuleType.WALK_TARGET, WalkTarget(lookTarget, 1.0f, 1))
+            entity.brain.remember(MemoryModuleType.WALK_TARGET, WalkTarget(lookTarget, WALK_SPEED, 1))
         }
     }
 
@@ -78,27 +84,44 @@ class HuntPlayerTask : MultiTickTask<LivingEntity>(
     }
 
     override fun keepRunning(world: ServerWorld, entity: LivingEntity, time: Long) {
+        // if in the searching state
         if (searching) {
+            // increase the searchTime counter
             searchTime++
+
+            // if searchTime is above max search time then end run
             if (searchTime >= MAX_SEARCH_DURATION) {
                 finishRunning(world, entity, time)
                 return
             }
         }
 
-        if (targetEntity.isPresent) {
+        // if the target is present and entity can see the target player
+        if (targetEntity.isPresent && entity.canSee(targetEntity.get())) {
+            // get target
             val target = targetEntity.get()
-            if (target.isAlive && entity.canSee(target)) {
+
+            // if target is alive
+            if (target.isAlive) {
+                // if entity is in range of target
                 if (entity.squaredDistanceTo(target) <= ATTACK_RANGE * ATTACK_RANGE) {
+                    // try to attack the target
                     entity.tryAttack(target as Entity)
                 } else {
+                    // add target to LookWalkTarget memory
                     addLookWalkTargets(entity)
                 }
+
+                // reset last known location of target
                 lastKnownLocation = Optional.of(target.blockPos)
-                searchTime = 0  // Reset search time when target is visible
+
+                // Reset search time when target is visible
+                searchTime = 0
             } else {
+                // begin search for new target
                 startSearching(entity)
             }
+            // if player is not present or unable to be seen by the entity then perform a search
         } else if (searching) {
             performSearch(entity)
         } else {
@@ -107,10 +130,11 @@ class HuntPlayerTask : MultiTickTask<LivingEntity>(
     }
 
     private fun startSearching(entity: LivingEntity) {
+        // if there is a last known location of the player
         if (lastKnownLocation.isPresent) {
             searching = true
             searchTime = 0
-            entity.brain.remember(MemoryModuleType.WALK_TARGET, WalkTarget(lastKnownLocation.get(), 1.0f, 1))
+            entity.brain.remember(MemoryModuleType.WALK_TARGET, WalkTarget(lastKnownLocation.get(), WALK_SPEED, 1))
         }
     }
 
@@ -128,20 +152,25 @@ class HuntPlayerTask : MultiTickTask<LivingEntity>(
                     0,
                     entity.random.nextInt(SEARCH_RADIUS * 2) - SEARCH_RADIUS
             )
-            entity.brain.remember(MemoryModuleType.WALK_TARGET, WalkTarget(randomPos, 1.0f, 1))
+            entity.brain.remember(MemoryModuleType.WALK_TARGET, WalkTarget(randomPos, WALK_SPEED, 1))
         }
         if (searchTime >= MAX_SEARCH_DURATION) {
             searching = false
             targetEntity = findPlayer(entity.world as ServerWorld, entity)
         }
+
+        // while searching listen for any disturbances to be used even
+        val disturbanceLocation = entity.brain.getOptionalMemory(MemoryModuleType.DISTURBANCE_LOCATION)
+        disturbanceLocation?.ifPresent {
+            onEntityHeard(entity, it)
+        }
     }
 
     fun onEntityHeard(entity: LivingEntity, pos: BlockPos) {
-        if (!targetEntity.isPresent) {
-            searching = true
-            //searchTime = 0
+        if (searching && !targetEntity.isPresent) {
+            searchTime = 0
             lastKnownLocation = Optional.of(pos)
-            entity.brain.remember(MemoryModuleType.WALK_TARGET, WalkTarget(pos, 1.0f, 1))
+            entity.brain.remember(MemoryModuleType.WALK_TARGET, WalkTarget(pos, WALK_SPEED, 1))
         }
     }
 }

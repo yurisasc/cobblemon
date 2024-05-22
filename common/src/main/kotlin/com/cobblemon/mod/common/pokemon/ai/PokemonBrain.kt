@@ -127,7 +127,7 @@ object PokemonBrain {
         add(0 toDF MoveToAttackTargetTask.create())
         add(0 toDF MoveToOwnerTask.create(completionRange = 4, maxDistance = 14F, teleportDistance = 24F))
         add(0 toDF WalkTowardsParentSpeciesTask.create(ADULT_FOLLOW_RANGE, 0.4f))
-        //add(0 toDF HuntPlayerTask())
+        add(0 toDF HuntPlayerTask())
 
         if (pokemon.primaryType == ElementalTypes.GRASS) {
             add(1 toDF FertilizerTask())
