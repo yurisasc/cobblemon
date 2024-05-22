@@ -34,6 +34,7 @@
 
 ### Developer
 - Changed SpawnAction#complete to return a nullable generic R (the spawn action result) instead of a boolean. More information this way.
+- Added an event when a fossil is revived, with or without a player.
 
 ### Data Pack & Resource Pack Creators
 - Added support for MoLang conditions for quirks and poses.
