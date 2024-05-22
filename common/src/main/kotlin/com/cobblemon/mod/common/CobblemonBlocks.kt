@@ -234,7 +234,7 @@ object CobblemonBlocks : PlatformRegistry<Registry<Block>, RegistryKey<Registry<
         "relic_coin_pouch",
         CoinPouchBlock(
             AbstractBlock.Settings.create()
-                .sounds(CobblemonSounds.COIN_POUCH_SOUNDS)
+                .sounds(CobblemonSounds.RELIC_COIN_POUCH_SOUNDS)
                 .pistonBehavior(PistonBehavior.DESTROY)
                 .strength(0.4f)
                 .nonOpaque(), true
@@ -245,7 +245,7 @@ object CobblemonBlocks : PlatformRegistry<Registry<Block>, RegistryKey<Registry<
         "relic_coin_sack",
         CoinPouchBlock(
             AbstractBlock.Settings.create()
-                .sounds(CobblemonSounds.COIN_POUCH_SOUNDS)
+                .sounds(CobblemonSounds.RELIC_COIN_SACK_SOUNDS)
                 .pistonBehavior(PistonBehavior.DESTROY)
                 .strength(0.4f), false
         ))

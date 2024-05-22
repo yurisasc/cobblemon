@@ -426,6 +426,8 @@ open class Pokemon : ShowdownIdentifiable {
 
     // We want non-optional evolutions to trigger first to avoid unnecessary packets and any cost associate with an optional one that would just be lost
     val evolutions: Iterable<Evolution> get() = this.form.evolutions.sortedBy { evolution -> evolution.optional }
+    val lockedEvolutions: Iterable<Evolution>
+        get() = evolutions.filter { it !in evolutionProxy.current() }
 
     val preEvolution: PreEvolution? get() = this.form.preEvolution
 
