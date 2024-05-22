@@ -11,6 +11,8 @@ package com.cobblemon.mod.common.block.multiblock
 import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.CobblemonSounds
 import com.cobblemon.mod.common.advancement.CobblemonCriteria
+import com.cobblemon.mod.common.api.events.CobblemonEvents
+import com.cobblemon.mod.common.api.events.pokemon.FossilRevivedEvent
 import com.cobblemon.mod.common.api.fossil.Fossil
 import com.cobblemon.mod.common.api.fossil.Fossils
 import com.cobblemon.mod.common.api.fossil.NaturalMaterials
@@ -113,8 +115,6 @@ class FossilMultiblockStructure (
                     return ActionResult.FAIL
                 }
 
-
-
                 val ballType = (stack.item as PokeBallItem).pokeBall
                 if (!player.isCreative) {
                     stack?.decrement(1)
@@ -125,6 +125,7 @@ class FossilMultiblockStructure (
                 this.fossilState.growthState = "Taken"
                 player.playSound(CobblemonSounds.FOSSIL_MACHINE_RETRIEVE_POKEMON, SoundCategory.BLOCKS, 1.0F, 1.0F)
                 CobblemonCriteria.RESURRECT_POKEMON.trigger(player, createdPokemon!!)
+                CobblemonEvents.FOSSIL_REVIVED.post(FossilRevivedEvent(createdPokemon!!, player))
 
                 // Turn the monitor off
                 val monitorState = world.getBlockState(monitorPos)
@@ -220,6 +221,7 @@ class FossilMultiblockStructure (
                 entity.setPosition(fixedPosition.toCenterPos().subtract(0.0, 0.5, 0.0))
                 // TODO: Find a correct way to set the new entity's Yaw rotation. (Face away from the machine)
                 if (world.spawnEntity(entity)) {
+                    CobblemonEvents.FOSSIL_REVIVED.post(FossilRevivedEvent(pokemon, null))
                     return true
                 } else {
                     Cobblemon.LOGGER.warn("Couldn't spawn resurrected Pokémon for some reason")
