@@ -480,15 +480,19 @@ class FossilMultiblockStructure (
     }
 
     fun updateProgress(world: World) {
-        val screenID = if(protectionTime > 0F ) {
+        val screenID = if (protectionTime > 0F) {
             MonitorBlock.MonitorScreen.GREEN_PROGRESS_9
         } else if (timeRemaining <= 0) {
             MonitorBlock.MonitorScreen.OFF
         } else {
             getProgressScreen((TIME_TO_TAKE - timeRemaining) / TIME_PER_STAGE)
         }
+
         val monitorState = world.getBlockState(monitorPos)
-        world.setBlockState(monitorPos, monitorState.with(MonitorBlock.SCREEN, screenID))
+
+        if (monitorState.contains(MonitorBlock.SCREEN)) {
+            world.setBlockState(monitorPos, monitorState.with(MonitorBlock.SCREEN, screenID))
+        }
     }
 
     fun getProgressScreen(progress:Int) : MonitorBlock.MonitorScreen {
