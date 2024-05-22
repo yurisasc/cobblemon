@@ -45,9 +45,8 @@ import net.minecraft.world.biome.Biome
  * @property identifier The [Identifier] of this berry.
  * @property baseYield The [IntRange] possible for the berry tree before [bonusYield] is calculated.
  * @property preferredBiomeTags The [TagKey]s of the berries preffered biomes. Determines spawning and yield
- * @property growthTime The [IntRange] possible in minutes for how long the berry tree takes to grow.
- * @property refreshRate The [IntRange] possible in minutes for how long the berry tree takes to regrow its berries once it has been harvested.
- * @depreciated @property lifeCycles The [IntRange] possible for the berry to live for between harvests.
+ * @property growthTime The [IntRange] possible in minutes for how long the berry tree takes to grow frome age 0 to age 3
+ * @property refreshRate The [IntRange] possible in minutes for how long the berry tree takes to grow from age 3 to age 5
  * @property favoriteMulches The types of mulches that benefit this berries yield
  * @property growthFactors An array of [GrowthFactor]s that will affect this berry. The client is not aware of these.
  * @property mutations A map of the partner berry as the key and the value as the resulting mutation with this berry.
@@ -70,7 +69,6 @@ class Berry(
     val preferredBiomeTags: List<TagKey<Biome>>,
     val growthTime: IntRange,
     val refreshRate: IntRange,
-    //val lifeCycles: IntRange,
     val favoriteMulches: EnumSet<MulchVariant>,
     val growthFactors: Collection<GrowthFactor>,
     val spawnConditions: List<BerrySpawnCondition>,

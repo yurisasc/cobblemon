@@ -43,8 +43,8 @@ class BerryBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(Cobblemon
     lateinit var berryIdentifier: Identifier
     private val ticksPerMinute = 1200
     var renderState: RenderState? = null
-    //The time left for the tree to grow to stage 5
-    var growthTimer: Int = 72000
+    //The time left for the tree until its either age 3 or age 5 (check block state, if we are at age 0<x<3 unti 3 otherwise until 5)
+    var growthTimer: Int = 0
         set(value) {
             if (value < 0) {
                 throw IllegalArgumentException("You cannot set the growth time to less than zero")
@@ -55,7 +55,7 @@ class BerryBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(Cobblemon
             field = value
         }
     //The time left for the tree to grow to the next stage
-    var stageTimer: Int = growthTimer / BerryBlock.MATURE_AGE
+    var stageTimer: Int = 0
         set(value) {
             if (field != value) {
                 this.markDirty()
@@ -107,6 +107,8 @@ class BerryBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(Cobblemon
         }
     }
 
+    //This function basically runs twice when the berry tree is growing, once when it starts, once when it hits age 3
+    //Why dont we just go 0-5? Design thinks its annoying to balance the numbers using 0-5 and 3-5
     fun resetGrowTimers(pos: BlockPos, state: BlockState) {
         val curAge = state.get(BerryBlock.AGE)
         if (curAge == 5) {
@@ -120,11 +122,13 @@ class BerryBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(Cobblemon
         val growthRange = lowerGrowthLimit..upperGrowthLimit
 
         this.growthTimer = this.applyMulchModifier(pos, growthRange.random() * ticksPerMinute)
-        this.goToNextStageTimer(BerryBlock.FRUIT_AGE - curAge)
+        val stagesLeft = if (curAge < 3) BerryBlock.MATURE_AGE - curAge else BerryBlock.FRUIT_AGE - curAge
+        this.goToNextStageTimer(stagesLeft)
     }
 
     fun goToNextStageTimer(stagesLeft: Int) {
         val avgStageTime = growthTimer / stagesLeft
+        //A number between 80% and 100% the average stage time
         stageTimer = this.world?.random?.nextBetween((avgStageTime * 8) / 10, avgStageTime) ?:
                 (((Math.random() *  0.2) + 0.8) * avgStageTime).toInt()
         growthTimer -= stageTimer
