@@ -640,6 +640,7 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
         //   means two attempts to spawn in the same location can have differing results (which is expected for
         //   randomness).
             player.sendMessage("Not even a nibble".red())
+            return
         }
 
         var spawnedPokemon: PokemonEntity? = null
