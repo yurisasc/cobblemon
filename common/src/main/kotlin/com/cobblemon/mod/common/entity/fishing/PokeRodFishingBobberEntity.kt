@@ -66,6 +66,8 @@ import net.minecraft.util.math.MathHelper
 import net.minecraft.util.math.Vec3d
 import net.minecraft.util.math.random.Random
 import net.minecraft.world.World
+import kotlin.math.cos
+import kotlin.math.sin
 
 class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity>, world: World) : FishingBobberEntity(type, world) {
 
@@ -594,11 +596,11 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
     // calculate the trajectory for the reeled in pokemon
     fun lobPokemonTowardsTarget(player: PlayerEntity, entity: Entity) {
         val rad = Math.toRadians(player.yaw.toDouble())
-        val targetDirection = Vec3d(-Math.sin(rad), 0.0, Math.cos(rad))
+        val targetDirection = Vec3d(-sin(rad), 0.0, cos(rad))
         val targetPos = player.pos.add(targetDirection.multiply(5.0))
 
         val delta = targetPos.subtract(entity.pos)
-        val horizontalDistance = Math.sqrt(delta.x * delta.x + delta.z * delta.z)
+        val horizontalDistance = sqrt(delta.x * delta.x + delta.z * delta.z)
 
         // Introduce a damping factor that reduces the velocity as the distance increases
         val dampingFactor = 1 - (horizontalDistance / 80).coerceIn(0.0, 0.8) // increase end of coerceIn to dampen more
@@ -613,10 +615,9 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
         // Calculate the final velocities
         val velocityX = delta.x / horizontalDistance * adjustedHorizontalVelocity
         val velocityZ = delta.z / horizontalDistance * adjustedHorizontalVelocity
-        val velocityY = adjustedVerticalVelocity
 
-        val tossVelocity = Vec3d(velocityX, velocityY, velocityZ)
-        entity.setVelocity(tossVelocity)
+        val tossVelocity = Vec3d(velocityX, adjustedVerticalVelocity, velocityZ)
+        entity.velocity = tossVelocity
     }
 
     fun spawnPokemonFromFishing(player: PlayerEntity, chosenBucket: SpawnBucket, bobberBait: ItemStack) {
