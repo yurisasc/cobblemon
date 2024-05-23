@@ -20,6 +20,7 @@ import com.cobblemon.mod.common.util.didSleep
 import com.cobblemon.mod.common.util.endsWith
 import com.cobblemon.mod.common.world.CobblemonStructures
 import com.cobblemon.mod.common.world.feature.CobblemonFeatures
+import com.cobblemon.mod.common.world.foliage.CobblemonFoliagePlacers
 import com.cobblemon.mod.common.world.placementmodifier.CobblemonPlacementModifierTypes
 import com.cobblemon.mod.common.world.predicate.CobblemonBlockPredicates
 import com.cobblemon.mod.common.world.structureprocessors.CobblemonProcessorTypes
@@ -166,6 +167,7 @@ class CobblemonForge : CobblemonImplementation {
                 ForgeRegistries.ACTIVITIES.register(cobblemonResource(it.id), it)
             }
         }
+
     }
 
     fun onDataPackSync(event: OnDatapackSyncEvent) {
@@ -276,6 +278,16 @@ class CobblemonForge : CobblemonImplementation {
         MOD_BUS.addListener<RegisterEvent> { event ->
             event.register(CobblemonFeatures.registryKey) { helper ->
                 CobblemonFeatures.register { identifier, feature -> helper.register(identifier, feature) }
+            }
+        }
+    }
+
+    override fun registerFoliagePlacers() {
+        MOD_BUS.addListener<RegisterEvent> { event ->
+            event.register(RegistryKeys.FOLIAGE_PLACER_TYPE) {
+                CobblemonFoliagePlacers.register {id, entry ->
+                    it.register(id, entry)
+                }
             }
         }
     }

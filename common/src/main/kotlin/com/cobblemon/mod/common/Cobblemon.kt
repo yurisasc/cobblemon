@@ -188,6 +188,7 @@ object Cobblemon {
         implementation.registerEntityAttributes()
         implementation.registerBlockEntityTypes()
         implementation.registerWorldGenFeatures()
+        implementation.registerFoliagePlacers()
         implementation.registerParticles()
 
         DropEntry.register("command", CommandDropEntry::class.java)

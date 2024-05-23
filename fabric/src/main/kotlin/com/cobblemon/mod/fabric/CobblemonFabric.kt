@@ -21,6 +21,7 @@ import com.cobblemon.mod.common.util.didSleep
 import com.cobblemon.mod.common.util.endsWith
 import com.cobblemon.mod.common.world.CobblemonStructures
 import com.cobblemon.mod.common.world.feature.CobblemonFeatures
+import com.cobblemon.mod.common.world.foliage.CobblemonFoliagePlacers
 import com.cobblemon.mod.common.world.placementmodifier.CobblemonPlacementModifierTypes
 import com.cobblemon.mod.common.world.predicate.CobblemonBlockPredicates
 import com.cobblemon.mod.common.world.structureprocessors.CobblemonProcessorTypes
@@ -237,6 +238,10 @@ object CobblemonFabric : CobblemonImplementation {
 
     override fun registerWorldGenFeatures() {
         CobblemonFeatures.register { identifier, feature -> Registry.register(CobblemonFeatures.registry, identifier, feature) }
+    }
+
+    override fun registerFoliagePlacers() {
+        CobblemonFoliagePlacers.register { identifier, foliagePlacerType -> Registry.register(CobblemonFoliagePlacers.registry, identifier, foliagePlacerType) }
     }
 
     override fun registerParticles() {

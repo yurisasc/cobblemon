@@ -106,6 +106,8 @@ interface CobblemonImplementation {
      */
     fun registerWorldGenFeatures()
 
+    fun registerFoliagePlacers()
+
     fun registerParticles()
 
     /**
