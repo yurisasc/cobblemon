@@ -644,43 +644,45 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
         }
 
         var spawnedPokemon: PokemonEntity? = null
-        val resultingSpawn = result?.get()
+        val resultingSpawn = result.get()
 
-        if (resultingSpawn is EntitySpawnResult) {
-            for (entity in resultingSpawn.entities) {
-                //pokemon.uuid = it.uuid
-                hookedEntityID = entity.id
-                spawnedPokemon = (entity as PokemonEntity)
+        if (resultingSpawn !is EntitySpawnResult) {
+            return
+        }
 
-                // todo Check if there was a berry used on the bobber and if so then see how it may affect the pokemon
-                if (bobberBait != ItemStack.EMPTY) {
-                    // look up how mints affect the pokemon
+        for (entity in resultingSpawn.entities) {
+            //pokemon.uuid = it.uuid
+            hookedEntityID = entity.id
+            spawnedPokemon = (entity as PokemonEntity)
 
-                    modifyPokemonWithBait(spawnedPokemon, bobberBait) // check to see if the spawned pokemon gets modified due to the bait used
+            // todo Check if there was a berry used on the bobber and if so then see how it may affect the pokemon
+            if (bobberBait != ItemStack.EMPTY) {
+                // look up how mints affect the pokemon
 
-                    // remove the bait from the bobber
-                    val playerPokerod = if (this.playerOwner?.getStackInHand(Hand.MAIN_HAND)?.item is PokerodItem) this.playerOwner!!.getStackInHand(Hand.MAIN_HAND).item else this.playerOwner!!.getStackInHand(Hand.OFF_HAND).item
-                    (playerPokerod as PokerodItem).bait = ItemStack.EMPTY
-                }
+                modifyPokemonWithBait(spawnedPokemon, bobberBait) // check to see if the spawned pokemon gets modified due to the bait used
+
+                // remove the bait from the bobber
+                val playerPokerod = if (this.playerOwner?.getStackInHand(Hand.MAIN_HAND)?.item is PokerodItem) this.playerOwner!!.getStackInHand(Hand.MAIN_HAND).item else this.playerOwner!!.getStackInHand(Hand.OFF_HAND).item
+                (playerPokerod as PokerodItem).bait = ItemStack.EMPTY
+            }
 
 
-                if (spawnedPokemon.pokemon.species.weight.toDouble() < 900.0) { // if weight value of Pokemon is less than 200 lbs (in hectograms) which we store weight as) then reel it in to the player
-                    // play sound for small splash when this weight class is fished up
-                    world.playSound(null, this.blockPos, CobblemonSounds.FISHING_SPLASH_SMALL, SoundCategory.BLOCKS, 1.0F, 1.0F)
+            if (spawnedPokemon.pokemon.species.weight.toDouble() < 900.0) { // if weight value of Pokemon is less than 200 lbs (in hectograms) which we store weight as) then reel it in to the player
+                // play sound for small splash when this weight class is fished up
+                world.playSound(null, this.blockPos, CobblemonSounds.FISHING_SPLASH_SMALL, SoundCategory.BLOCKS, 1.0F, 1.0F)
 
-                    // direction and position
-                    val rad = Math.toRadians(player.yaw.toDouble() + 180)
-                    val behindDirection = Vec3d(-Math.sin(rad), 0.0, Math.cos(rad))
-                    val targetPos = player.pos.add(behindDirection.multiply(2.0))
-                    val diff = targetPos.subtract(entity.pos)
-                    val distance = diff.horizontalLength()
+                // direction and position
+                val rad = Math.toRadians(player.yaw.toDouble() + 180)
+                val behindDirection = Vec3d(-Math.sin(rad), 0.0, Math.cos(rad))
+                val targetPos = player.pos.add(behindDirection.multiply(2.0))
+                val diff = targetPos.subtract(entity.pos)
+                val distance = diff.horizontalLength()
 
-                    // Example of applying the new velocity
-                    lobPokemonTowardsTarget(player, entity)
-                }
-                else { // it is a big lad and you cannot reel it in
-                    world.playSound(null, this.blockPos, CobblemonSounds.FISHING_SPLASH_BIG, SoundCategory.BLOCKS, 1.0F, 1.0F)
-                }
+                // Example of applying the new velocity
+                lobPokemonTowardsTarget(player, entity)
+            }
+            else { // it is a big lad and you cannot reel it in
+                world.playSound(null, this.blockPos, CobblemonSounds.FISHING_SPLASH_BIG, SoundCategory.BLOCKS, 1.0F, 1.0F)
             }
         }
 
