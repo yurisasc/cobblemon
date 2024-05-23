@@ -29,6 +29,7 @@ import com.cobblemon.mod.common.pokemon.Gender
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.pokemon.abilities.HiddenAbility
 import com.cobblemon.mod.common.util.cobblemonResource
+import com.cobblemon.mod.common.util.lang
 import com.cobblemon.mod.common.util.toBlockPos
 import kotlin.math.sqrt
 import net.minecraft.advancement.criterion.Criteria
@@ -641,7 +642,7 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
         //  it could also just be a miss which
         //   means two attempts to spawn in the same location can have differing results (which is expected for
         //   randomness).
-            player.sendMessage("Not even a nibble".red())
+            player.sendMessage(lang("fishing.nocatch").red())
             return
         }
 
