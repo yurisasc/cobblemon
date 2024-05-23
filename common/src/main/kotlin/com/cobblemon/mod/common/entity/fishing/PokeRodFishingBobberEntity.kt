@@ -627,10 +627,11 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
 
         //val spawnCause = SpawnCause(spawner = spawner, bucket = spawner.chooseBucket(), entity = spawner.getCauseEntity())
         val spawnCause = FishingSpawnCause(
-            spawner = spawner,
-            bucket = chosenBucket,
-            entity = player,
-            rodStack = player.mainHandStack // Crab, you should probably parse in the rod item connected to the bobber so we can check enchants in spawn conditions
+            spawner,
+            chosenBucket,
+            player,
+            player.mainHandStack, // Crab, you should probably parse in the rod item connected to the bobber so we can check enchants in spawn conditions
+            bobberBait
         )
 
         val result = spawner.run(spawnCause, world as ServerWorld, pos.toBlockPos())

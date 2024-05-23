@@ -26,7 +26,8 @@ class FishingSpawnCause(
     spawner: Spawner,
     bucket: SpawnBucket,
     entity: Entity?,
-    val rodStack: ItemStack
+    val rodStack: ItemStack,
+    bobberBait: ItemStack
 ) : SpawnCause(spawner, bucket, entity) {
     val rodItem = rodStack.item as? PokerodItem
 }
