@@ -11,6 +11,10 @@ package com.cobblemon.mod.common.block.multiblock
 import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.CobblemonSounds
 import com.cobblemon.mod.common.advancement.CobblemonCriteria
+import com.cobblemon.mod.common.api.events.CobblemonEvents
+import com.cobblemon.mod.common.api.events.pokemon.FossilRevivedEvent
+import com.cobblemon.mod.common.api.events.CobblemonEvents
+import com.cobblemon.mod.common.api.events.pokemon.FossilRevivedEvent
 import com.cobblemon.mod.common.api.fossil.Fossil
 import com.cobblemon.mod.common.api.fossil.Fossils
 import com.cobblemon.mod.common.api.fossil.NaturalMaterials
@@ -29,7 +33,6 @@ import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.item.PokeBallItem
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.util.*
-import com.cobblemon.mod.common.CobblemonBlocks
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
 import net.minecraft.block.HorizontalFacingBlock
@@ -126,7 +129,7 @@ class FossilMultiblockStructure (
                     player.party().add(pokemon)
                     this.fossilState.growthState = "Taken"
                     player.playSound(CobblemonSounds.FOSSIL_MACHINE_RETRIEVE_POKEMON, SoundCategory.BLOCKS, 1.0F, 1.0F)
-                    CobblemonCriteria.RESURRECT_POKEMON.trigger(player, pokemon)
+                    CobblemonEvents.FOSSIL_REVIVED.post(FossilRevivedEvent(pokemon, player))
                 }
 
                 // Turn the monitor off
@@ -224,6 +227,7 @@ class FossilMultiblockStructure (
                 entity.setPosition(fixedPosition.toCenterPos().subtract(0.0, 0.5, 0.0))
                 // TODO: Find a correct way to set the new entity's Yaw rotation. (Face away from the machine)
                 if (world.spawnEntity(entity)) {
+                    CobblemonEvents.FOSSIL_REVIVED.post(FossilRevivedEvent(pokemon, null))
                     return true
                 } else {
                     Cobblemon.LOGGER.warn("Couldn't spawn resurrected Pokémon for some reason")
