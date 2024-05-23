@@ -121,7 +121,7 @@ class BerryBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(Cobblemon
         val upperGrowthLimit = (if (curAge == 0) berry.growthTime.last else berry.refreshRate.last) * multiplier / 10
         val growthRange = lowerGrowthLimit..upperGrowthLimit
 
-        this.growthTimer = this.applyMulchModifier(pos, growthRange.random() * ticksPerMinute)
+        this.growthTimer = this.applyMulchModifier(pos, growthRange.random() * ticksPerMinute, true)
         val stagesLeft = if (curAge < 3) BerryBlock.MATURE_AGE - curAge else BerryBlock.FRUIT_AGE - curAge
         this.goToNextStageTimer(stagesLeft)
     }
@@ -141,7 +141,7 @@ class BerryBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(Cobblemon
      * @param timer Timer to be modified
      * @return The modified timer
      */
-    private fun applyMulchModifier(pos: BlockPos, timer: Int): Int {
+    private fun applyMulchModifier(pos: BlockPos, timer: Int, decrementMulch: Boolean = false): Int {
         val state = world?.getBlockState(pos) ?: return timer
 
         val curAge = state.get(BerryBlock.AGE)
@@ -152,8 +152,12 @@ class BerryBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(Cobblemon
         if (getMulch(state) != MulchVariant.GROWTH) {
             return timer
         }
-
-        return (timer * 0.66).toInt()
+        if (decrementMulch)  {
+            world?.let {
+                decrementMulchDuration(it, pos, state)
+            }
+        }
+        return (timer * MulchVariant.GROWTH_TIME_MULTIPLIER).toInt()
     }
 
     /**
