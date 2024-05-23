@@ -10,9 +10,6 @@ package com.cobblemon.mod.common.block.multiblock
 
 import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.CobblemonSounds
-import com.cobblemon.mod.common.advancement.CobblemonCriteria
-import com.cobblemon.mod.common.api.events.CobblemonEvents
-import com.cobblemon.mod.common.api.events.pokemon.FossilRevivedEvent
 import com.cobblemon.mod.common.api.events.CobblemonEvents
 import com.cobblemon.mod.common.api.events.pokemon.FossilRevivedEvent
 import com.cobblemon.mod.common.api.fossil.Fossil
