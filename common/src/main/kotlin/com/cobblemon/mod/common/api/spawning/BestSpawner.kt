@@ -125,5 +125,6 @@ object BestSpawner {
     fun onServerStarted() {
         spawnerManagers.forEach(SpawnerManager::onServerStarted)
         fishingSpawner = FishingSpawner()
+        fishingSpawner.onServerStarted()
     }
 }

@@ -35,4 +35,8 @@ open class FishingSpawner(
         )
         return ctx
     }
+
+    fun onServerStarted() {
+        // TODO: Register influences here
+    }
 }
