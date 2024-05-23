@@ -561,7 +561,7 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
                 }
                 else { // logic for spawning Pokemon using rarity
 
-                    System.out.println("Player reeled in a Pokemon from the bucket: " + chosenBucket.name)
+                    println("Player reeled in a Pokemon from the bucket: " + chosenBucket.name)
 
                     val bobberOwner = playerOwner as ServerPlayerEntity
 
@@ -580,7 +580,7 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
                     //SpawnSnowstormParticlePacket(particle, this.pos)
                     SpawnSnowstormEntityParticlePacket(particle,this.id)
 
-                    playerEntity.getWorld().spawnEntity(ExperienceOrbEntity(playerEntity.getWorld(), playerEntity.getX(), playerEntity.getY() + 0.5, playerEntity.getZ() + 0.5, random.nextInt(6) + 1))
+                    playerEntity.world.spawnEntity(ExperienceOrbEntity(playerEntity.world, playerEntity.x, playerEntity.y + 0.5, playerEntity.z + 0.5, random.nextInt(6) + 1))
                 }
             }
             if (this.isOnGround) {
@@ -668,16 +668,16 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
             }
 
 
-            if (spawnedPokemon.pokemon.species.weight.toDouble() < 900.0) { // if weight value of Pokemon is less than 200 lbs (in hectograms) which we store weight as) then reel it in to the player
+            if (spawnedPokemon.pokemon.species.weight < 900) { // if weight value of Pokemon is less than 200 lbs (in hectograms) which we store weight as) then reel it in to the player
                 // play sound for small splash when this weight class is fished up
                 world.playSound(null, this.blockPos, CobblemonSounds.FISHING_SPLASH_SMALL, SoundCategory.BLOCKS, 1.0F, 1.0F)
 
                 // direction and position
-                val rad = Math.toRadians(player.yaw.toDouble() + 180)
-                val behindDirection = Vec3d(-Math.sin(rad), 0.0, Math.cos(rad))
-                val targetPos = player.pos.add(behindDirection.multiply(2.0))
-                val diff = targetPos.subtract(entity.pos)
-                val distance = diff.horizontalLength()
+//                val rad = Math.toRadians(player.yaw.toDouble() + 180)
+//                val behindDirection = Vec3d(-sin(rad), 0.0, Math.cos(rad))
+//                val targetPos = player.pos.add(behindDirection.multiply(2.0))
+//                val diff = targetPos.subtract(entity.pos)
+//                val distance = diff.horizontalLength()
 
                 // Example of applying the new velocity
                 lobPokemonTowardsTarget(player, entity)
@@ -827,7 +827,7 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
         val defNaturesIds = listOf(Natures.BOLD, Natures.IMPISH, Natures.LAX, Natures.RELAXED)
         val spdNaturesIds = listOf(Natures.CALM, Natures.GENTLE, Natures.CAREFUL, Natures.SASSY)
         val speNaturesIds = listOf(Natures.TIMID, Natures.HASTY, Natures.JOLLY, Natures.NAIVE)
-        val neutralNaturesIds = listOf(Natures.HARDY, Natures.DOCILE, Natures.BASHFUL, Natures.QUIRKY, Natures.SERIOUS)
+//        val neutralNaturesIds = listOf(Natures.HARDY, Natures.DOCILE, Natures.BASHFUL, Natures.QUIRKY, Natures.SERIOUS)
 
         val bait = FishingBaits.getFromItemStack(stack) ?: return
         val natures = bait.effects.filter { it.type == FishingBait.Effects.NATURE }
