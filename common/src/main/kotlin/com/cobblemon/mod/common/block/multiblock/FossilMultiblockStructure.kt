@@ -73,7 +73,7 @@ class FossilMultiblockStructure (
     var organicMaterialInside = 0
         private set
 
-    var hasCreatePokemon: Boolean = false
+    var hasCreatedPokemon: Boolean = false
         private set
     var timeRemaining = -1
         private set
@@ -103,7 +103,7 @@ class FossilMultiblockStructure (
             if (player !is ServerPlayerEntity) {
                 return ActionResult.SUCCESS
             }
-            if (this.hasCreatePokemon) {
+            if (this.hasCreatedPokemon) {
                 if (this.fossilOwnerUUID != null && player.uuid != this.fossilOwnerUUID) {
                     var ownerName : String = "UNKNOWN_USER" // TODO: lang agnostic fallback
                     server()?.userCache?.getByUuid(this.fossilOwnerUUID)?.orElse(null)?.name?.let {
@@ -131,11 +131,11 @@ class FossilMultiblockStructure (
 
                 // Turn the monitor off
                 val monitorState = world.getBlockState(monitorPos)
-                if(monitorState.block == CobblemonBlocks.MONITOR && !monitorState.equals(MonitorBlock.MonitorScreen.OFF)) {
+                if(monitorState.contains(MonitorBlock.SCREEN) && !monitorState.equals(MonitorBlock.MonitorScreen.OFF)) {
                     world.setBlockState(monitorPos, monitorState.with(MonitorBlock.SCREEN, MonitorBlock.MonitorScreen.OFF))
                 }
 
-                this.hasCreatePokemon = false
+                this.hasCreatedPokemon = false
                 this.fossilOwnerUUID = null
                 this.protectionTime = -1
                 this.updateFossilType(world)
@@ -147,7 +147,7 @@ class FossilMultiblockStructure (
 
         // Reclaim the last fossil from the machine if their hand is empty
         if (player.getStackInHand(interactionHand).isEmpty) {
-            if(!this.isRunning() && !this.hasCreatePokemon) {
+            if(!this.isRunning() && !this.hasCreatedPokemon) {
                 if (fossilInventory.isEmpty()) {
                     return ActionResult.CONSUME
                 }
@@ -166,7 +166,7 @@ class FossilMultiblockStructure (
 
         // Check if the player is holding a fossil and if so insert it into the machine.
         if (Fossils.isFossilIngredient(stack)) {
-            if(!this.isRunning() && !this.hasCreatePokemon) {
+            if(!this.isRunning() && !this.hasCreatedPokemon) {
                 if (fossilInventory.size > Cobblemon.config.maxInsertedFossilItems) {
                     return ActionResult.FAIL
                 }
@@ -190,7 +190,7 @@ class FossilMultiblockStructure (
         if (NaturalMaterials.isNaturalMaterial(stack)) {
             if (player is ServerPlayerEntity
                     && !this.isRunning()
-                    && !this.hasCreatePokemon
+                    && !this.hasCreatedPokemon
                     && this.organicMaterialInside < MATERIAL_TO_START
                     && insertOrganicMaterial(ItemStack(stack.item, 1), world)) {
                 this.lastInteraction = world.time
@@ -275,7 +275,7 @@ class FossilMultiblockStructure (
             return 0
         }
         if(monitorPos == pos) {
-            if(hasCreatePokemon) {
+            if(hasCreatedPokemon) {
                 return 15
             }
             if(!isRunning()) {
@@ -291,13 +291,13 @@ class FossilMultiblockStructure (
     override fun onTriggerEvent(state: BlockState?, world: ServerWorld?, pos: BlockPos?, random: Random?) {
         // instantiate the pokemon as a new entity and spawn it at the location of the machine
         if(this.protectionTime <= 0) {
-            val wildPokemon: Pokemon = if (hasCreatePokemon) resultingFossil?.result?.create() ?: return else return
+            val wildPokemon: Pokemon = if (hasCreatedPokemon) resultingFossil?.result?.create() ?: return else return
             val direction = state?.get(HorizontalFacingBlock.FACING)?.opposite
             if(pos != null && direction != null && world != null) {
                 val success = this.spawn(world, pos, direction, wildPokemon)
                 if(success) {
                     this.fossilState.growthState = "Taken"
-                    this.hasCreatePokemon = false
+                    this.hasCreatedPokemon = false
                     this.fossilOwnerUUID = null
                     this.protectionTime = -1
                     world.playSound(null, tankBasePos, CobblemonSounds.FOSSIL_MACHINE_RETRIEVE_POKEMON, SoundCategory.BLOCKS)
@@ -316,7 +316,7 @@ class FossilMultiblockStructure (
         val tankTopEntity = world.getBlockEntity(tankBasePos.up()) as? MultiblockEntity
         val tankBaseBlockState = world.getBlockState(tankBaseEntity?.pos)
         val direction = tankBaseBlockState.get(HorizontalFacingBlock.FACING).opposite
-        val wildPokemon: Pokemon? = if(hasCreatePokemon) resultingFossil?.result?.create() else null
+        val wildPokemon: Pokemon? = if(hasCreatedPokemon) resultingFossil?.result?.create() else null
 
         monitorEntity?.multiblockStructure = null
         analyzerEntity?.multiblockStructure = null
@@ -376,7 +376,7 @@ class FossilMultiblockStructure (
             world.playSound(null, tankBasePos, CobblemonSounds.FOSSIL_MACHINE_UNPROTECTED, SoundCategory.BLOCKS)
         }
 
-        if (this.hasCreatePokemon) {
+        if (this.hasCreatedPokemon) {
             return
         }
 
@@ -405,7 +405,7 @@ class FossilMultiblockStructure (
         if (this.timeRemaining == 0) {
             world.playSound(null, tankBasePos, CobblemonSounds.FOSSIL_MACHINE_FINISHED, SoundCategory.BLOCKS)
             fossilInventory.clear()
-            this.hasCreatePokemon = true
+            this.hasCreatedPokemon = true
             if(this.fossilOwnerUUID != null) {
                 protectionTime = PROTECTION_TIME
             }
@@ -476,18 +476,18 @@ class FossilMultiblockStructure (
         val upperTankPos = tankBasePos.up()
         val analyzerState = world.getBlockState(analyzerPos)
         val tankState = world.getBlockState(tankBasePos.up())
-        if (analyzerState.block == CobblemonBlocks.FOSSIL_ANALYZER) {
+        if (analyzerState.contains(FossilAnalyzerBlock.ON)) {
             world.setBlockState(analyzerPos, analyzerState.with(FossilAnalyzerBlock.ON, timeRemaining >= 0))
         }
-        if (tankState.block == CobblemonBlocks.RESTORATION_TANK) {
+        if (tankState.contains(RestorationTankBlock.ON)) {
             world.setBlockState(upperTankPos, tankState.with(RestorationTankBlock.ON, timeRemaining >= 0))
         }
     }
 
     fun updateProgress(world: World) {
         val monitorState = world.getBlockState(monitorPos)
-        if (monitorState.block == CobblemonBlocks.MONITOR) {
-            val screenID = if(protectionTime > 0F ) {
+        if (monitorState.contains(MonitorBlock.SCREEN)) {
+            val screenID = if (protectionTime > 0F) {
                 MonitorBlock.MonitorScreen.GREEN_PROGRESS_9
             } else if (timeRemaining <= 0) {
                 MonitorBlock.MonitorScreen.OFF
@@ -610,7 +610,7 @@ class FossilMultiblockStructure (
             result.putString(DataKeys.INSERTED_FOSSIL, this.resultingFossil!!.asString())
         }
 
-        result.putBoolean(DataKeys.HAS_CREATED_POKEMON, hasCreatePokemon)
+        result.putBoolean(DataKeys.HAS_CREATED_POKEMON, hasCreatedPokemon)
 
         return result
     }
@@ -660,9 +660,9 @@ class FossilMultiblockStructure (
 
             if (nbt.contains(DataKeys.CREATED_POKEMON)) {
                 // migration of instances that saved the created pokeon in the nbt
-                result.hasCreatePokemon = true
+                result.hasCreatedPokemon = true
             } else if (nbt.contains(DataKeys.HAS_CREATED_POKEMON)){
-                result.hasCreatePokemon = nbt.getBoolean(DataKeys.HAS_CREATED_POKEMON)
+                result.hasCreatedPokemon = nbt.getBoolean(DataKeys.HAS_CREATED_POKEMON)
             }
             result.fillLevel = result.organicMaterialInside * 8 / MATERIAL_TO_START
             return result

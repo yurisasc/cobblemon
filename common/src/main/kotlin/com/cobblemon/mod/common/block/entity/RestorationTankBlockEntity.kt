@@ -111,7 +111,7 @@ class RestorationTankBlockEntity(
                     val structure = tankEntity.multiblockStructure as FossilMultiblockStructure
                     val canUtilize = stack?.let { NaturalMaterials.isNaturalMaterial(it) } == true
                             && structure.organicMaterialInside < FossilMultiblockStructure.MATERIAL_TO_START
-                            && !structure.hasCreatePokemon
+                            && !structure.hasCreatedPokemon
                     val returnItem = NaturalMaterials.getReturnItem(stack!!) ?: return canUtilize
                     val returnStack = ItemStack(Registries.ITEM.get(returnItem), stack.count)
                     if(canUtilize && super.canInsert(returnStack)) {
