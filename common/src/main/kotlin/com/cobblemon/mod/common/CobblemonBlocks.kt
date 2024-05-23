@@ -11,22 +11,14 @@ package com.cobblemon.mod.common
 import com.cobblemon.mod.common.api.apricorn.Apricorn
 import com.cobblemon.mod.common.block.*
 import com.cobblemon.mod.common.block.MintBlock.MintType
-import com.cobblemon.mod.common.block.FossilAnalyzerBlock
-import com.cobblemon.mod.common.block.MonitorBlock
-import com.cobblemon.mod.common.block.RestorationTankBlock
-import com.cobblemon.mod.common.mixin.invoker.DoorBlockInvoker
-import com.cobblemon.mod.common.mixin.invoker.PressurePlateBlockInvoker
-import com.cobblemon.mod.common.mixin.invoker.StairsBlockInvoker
-import com.cobblemon.mod.common.mixin.invoker.TrapdoorBlockInvoker
-import com.cobblemon.mod.common.mixin.invoker.*
-import com.cobblemon.mod.common.platform.PlatformRegistry
-import com.cobblemon.mod.common.util.cobblemonResource
-import com.cobblemon.mod.common.block.BerryBlock
 import com.cobblemon.mod.common.block.chest.GildedChestBlock
 import com.cobblemon.mod.common.block.sign.CobblemonHangingSignBlock
 import com.cobblemon.mod.common.block.sign.CobblemonSignBlock
 import com.cobblemon.mod.common.block.sign.CobblemonWallHangingSignBlock
 import com.cobblemon.mod.common.block.sign.CobblemonWallSignBlock
+import com.cobblemon.mod.common.mixin.invoker.*
+import com.cobblemon.mod.common.platform.PlatformRegistry
+import com.cobblemon.mod.common.util.cobblemonResource
 import net.minecraft.block.*
 import net.minecraft.block.enums.Instrument
 import net.minecraft.block.piston.PistonBehavior
@@ -385,6 +377,19 @@ object CobblemonBlocks : PlatformRegistry<Registry<Block>, RegistryKey<Registry<
                 .strength(2F)
                 .nonOpaque()
                 .luminance { if ((it.get(PCBlock.ON) as Boolean) && (it.get(PCBlock.PART) == PCBlock.PCPart.TOP)) 10 else 0 }
+        )
+    )
+
+    @JvmField
+    val STADIUM = create(
+        "stadium_terminal",
+        StadiumBlock(
+            AbstractBlock.Settings.create()
+                .mapColor(MapColor.IRON_GRAY)
+                .sounds(BlockSoundGroup.METAL)
+                .pistonBehavior(PistonBehavior.BLOCK)
+                .strength(2F)
+                .nonOpaque()
         )
     )
 

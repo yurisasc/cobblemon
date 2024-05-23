@@ -218,6 +218,7 @@ object CobblemonItemGroups {
         entries.add(CobblemonItems.MONITOR)
         entries.add(CobblemonItems.PC)
         entries.add(CobblemonItems.HEALING_MACHINE)
+        entries.add(CobblemonItems.STADIUM)
         entries.add(CobblemonItems.PASTURE)
 
         entries.add(CobblemonItems.GILDED_CHEST)

@@ -8,16 +8,8 @@
 
 package com.cobblemon.mod.common
 
-import com.cobblemon.mod.common.block.entity.BerryBlockEntity
-import com.cobblemon.mod.common.block.entity.HealingMachineBlockEntity
-import com.cobblemon.mod.common.block.entity.PCBlockEntity
-import com.cobblemon.mod.common.block.entity.PokemonPastureBlockEntity
-import com.cobblemon.mod.common.block.entity.FossilAnalyzerBlockEntity
-import com.cobblemon.mod.common.block.entity.FossilMultiblockEntity
-import com.cobblemon.mod.common.block.entity.RestorationTankBlockEntity
-import com.cobblemon.mod.common.block.multiblock.FossilMultiblockBuilder
 import com.cobblemon.mod.common.block.entity.*
-import com.cobblemon.mod.common.block.entity.DisplayCaseBlockEntity
+import com.cobblemon.mod.common.block.multiblock.FossilMultiblockBuilder
 import com.cobblemon.mod.common.platform.PlatformRegistry
 import net.minecraft.block.entity.BlockEntityType
 import net.minecraft.registry.Registries
@@ -35,6 +27,9 @@ object CobblemonBlockEntities : PlatformRegistry<Registry<BlockEntityType<*>>, R
 
     @JvmField
     val PC: BlockEntityType<PCBlockEntity> = this.create("pc", BlockEntityType.Builder.create(::PCBlockEntity, CobblemonBlocks.PC).build(null))
+
+    @JvmField
+    val STADIUM: BlockEntityType<StadiumBlockEntity> = this.create("stadium_terminal", BlockEntityType.Builder.create(::StadiumBlockEntity, CobblemonBlocks.STADIUM).build(null))
 
     @JvmField
     val BERRY = this.create("berry", BlockEntityType.Builder.create(::BerryBlockEntity, *CobblemonBlocks.berries().values.toTypedArray()).build(null))
