@@ -39,6 +39,7 @@ object PokemonBrain {
         SensorType.HURT_BY,
         SensorType.NEAREST_PLAYERS,
         CobblemonSensors.POKEMON_DISTURBANCE,
+        CobblemonSensors.POKEMON_DEFEND_OWNER,
         CobblemonSensors.POKEMON_DROWSY,
         CobblemonSensors.POKEMON_ADULT,
         SensorType.IS_IN_WATER,
@@ -56,6 +57,8 @@ object PokemonBrain {
         MemoryModuleType.IS_PANICKING,
         MemoryModuleType.VISIBLE_MOBS,
         CobblemonMemories.POKEMON_FLYING,
+        CobblemonMemories.NEAREST_VISIBLE_ATTACKER,
+
 //            CobblemonMemories.NPC_BATTLING,
 //            CobblemonMemories.BATTLING_POKEMON,
         MemoryModuleType.HURT_BY,
@@ -128,6 +131,7 @@ object PokemonBrain {
         add(0 toDF MoveToOwnerTask.create(completionRange = 4, maxDistance = 14F, teleportDistance = 24F))
         add(0 toDF WalkTowardsParentSpeciesTask.create(ADULT_FOLLOW_RANGE, 0.4f))
         add(0 toDF HuntPlayerTask())
+        add(1 toDF DefendOwnerTask()) // try to defend owners here as a test
 
         if (pokemon.primaryType == ElementalTypes.GRASS) {
             add(1 toDF FertilizerTask())
@@ -142,6 +146,10 @@ object PokemonBrain {
         if (pokemon.form.behaviour.moving.fly.canFly) {
             add(0 toDF ChooseFlightWanderTargetTask.create(pokemon.form.behaviour.moving.wanderChance, horizontalRange = 10, verticalRange = 5, flySpeed = 0.33F, completionRange = 1))
         }
+        /*if (pokemon.isPlayerOwned()) {
+            add(1 toDF DefendOwnerTask())
+        }*/
+
     }
 
     private fun battlingTasks() = buildList<Pair<Int, Task<in PokemonEntity>>> {
