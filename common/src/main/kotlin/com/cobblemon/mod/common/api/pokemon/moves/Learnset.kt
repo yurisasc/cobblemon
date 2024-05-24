@@ -101,7 +101,7 @@ open class Learnset : ClientDataSynchronizer<Learnset> {
         repeat(times = buffer.readSizedInt(IntSize.U_BYTE)) {
             val level = buffer.readSizedInt(IntSize.U_SHORT)
             val moves = mutableListOf<MoveTemplate>()
-            repeat(times = buffer.readSizedInt(IntSize.U_BYTE)) {
+            repeat(times = buffer.readSizedInt(IntSize.U_SHORT)) {
                 Moves.getByNumericalId(buffer.readInt())?.let(moves::add)
             }
             levelUpMoves[level] = moves
@@ -112,7 +112,7 @@ open class Learnset : ClientDataSynchronizer<Learnset> {
         buffer.writeSizedInt(IntSize.U_BYTE, levelUpMoves.size)
         for ((level, moves) in levelUpMoves) {
             buffer.writeSizedInt(IntSize.U_SHORT, level)
-            buffer.writeSizedInt(IntSize.U_BYTE, moves.size)
+            buffer.writeSizedInt(IntSize.U_SHORT, moves.size)
             for (move in moves) {
                 buffer.writeInt(move.num)
             }

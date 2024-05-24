@@ -41,7 +41,9 @@
 - Fixed client crash with the fossil machine when updating block state on a chunk that is unloaded in the client.
 - Fixed Restoration Tank crash with Create upon the Tank's block destruction.
 - Fixed Restoration Tank over consuming items when interacting with Create blocks.
-
+- Fixed addons that add very many moves to a learn-set syncing causing issues on servers.
+- Fixed Hyper Cutter and Big Peck incorrectly stating that it prevented accuracy from being lowered in battle
+- Added English lang keys for Rough Skin and Iron Barbs's battle messages
 
 ### Developer
 - Changed SpawnAction#complete to return a nullable generic R (the spawn action result) instead of a boolean. More information this way.
