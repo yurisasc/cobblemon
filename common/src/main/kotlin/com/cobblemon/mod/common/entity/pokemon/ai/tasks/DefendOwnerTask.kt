@@ -7,6 +7,7 @@ import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.ai.TargetPredicate
 import net.minecraft.entity.ai.brain.MemoryModuleState
 import net.minecraft.entity.ai.brain.MemoryModuleType
+import net.minecraft.entity.ai.brain.WalkTarget
 import net.minecraft.entity.ai.brain.task.MultiTickTask
 import net.minecraft.entity.attribute.EntityAttributes
 import net.minecraft.server.world.ServerWorld
@@ -42,8 +43,15 @@ class DefendOwnerTask : MultiTickTask<PokemonEntity>(
             entity.target = it
             val followRange = entity.getAttributeInstance(EntityAttributes.GENERIC_FOLLOW_RANGE)?.value
 
-            if (entity.distanceTo(it) <= followRange!!) {
-                entity.tryAttack(it)
+            if (followRange != null && entity.distanceTo(it) <= followRange) {
+                if (entity.distanceTo(it) > 2.0) {
+                    entity.brain.remember(
+                            MemoryModuleType.WALK_TARGET,
+                            WalkTarget(it, 1.0f, 1)
+                    )
+                } else {
+                    entity.tryAttack(it)
+                }
             }
         }
     }
@@ -51,5 +59,6 @@ class DefendOwnerTask : MultiTickTask<PokemonEntity>(
     override fun finishRunning(world: ServerWorld, entity: PokemonEntity, time: Long) {
         target = null
         entity.target = null
+        entity.brain.forget(MemoryModuleType.WALK_TARGET)
     }
 }

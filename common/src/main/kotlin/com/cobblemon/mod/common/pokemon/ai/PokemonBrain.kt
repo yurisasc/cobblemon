@@ -110,6 +110,7 @@ object PokemonBrain {
         add(0 toDF ForgetAngryAtTargetTask.create())
         add(0 toDF HandleBattleActivityGoal.create())
         add(0 toDF FollowWalkTargetTask())
+        add(0 toDF DefendOwnerTask()) // try to defend owners here as a test
     }
 
 
@@ -130,8 +131,8 @@ object PokemonBrain {
         add(0 toDF MoveToAttackTargetTask.create())
         add(0 toDF MoveToOwnerTask.create(completionRange = 4, maxDistance = 14F, teleportDistance = 24F))
         add(0 toDF WalkTowardsParentSpeciesTask.create(ADULT_FOLLOW_RANGE, 0.4f))
-        add(0 toDF HuntPlayerTask())
-        add(1 toDF DefendOwnerTask()) // try to defend owners here as a test
+        //add(0 toDF HuntPlayerTask())
+
 
         if (pokemon.primaryType == ElementalTypes.GRASS) {
             add(1 toDF FertilizerTask())
