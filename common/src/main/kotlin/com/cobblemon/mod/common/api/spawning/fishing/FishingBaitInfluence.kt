@@ -68,10 +68,10 @@ class FishingBaitInfluence : SpawningInfluence {
         if (effect.subcategory == null) return
 
         if (action.props.ivs == null) action.props.ivs = IVs.createRandomIVs()
-        val targettedStat = Stats.getStat(effect.subcategory.path)
+        val targetedStat = Stats.getStat(effect.subcategory.path)
 
-        action.props.ivs!![targettedStat] =
-            min((action.props.ivs!![targettedStat] ?: 0) + effect.value.toInt(), IVs.MAX_VALUE)
+        action.props.ivs!![targetedStat] =
+            min((action.props.ivs!![targetedStat] ?: 0) + effect.value.toInt(), IVs.MAX_VALUE)
     }
 
     private fun alterGenderAttempt(action: PokemonSpawnAction, effect: FishingBait.Effect) {
