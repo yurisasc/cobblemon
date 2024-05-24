@@ -57,6 +57,8 @@ class FishingBaitInfluence : SpawningInfluence {
     private fun alterNatureAttempt(action: PokemonSpawnAction, effect: FishingBait.Effect) {
         if (action.props.nature != null) return
 
+        // TIMNOTE: This replaces the static lists. It's less performant because it's being reviewed every time,
+        // but also it's not something that goes off too often.
         val possibleNatures = Natures.all().filter { it.increasedStat?.identifier == effect.subcategory }
         if (possibleNatures.isEmpty()) return
         val takenNature = possibleNatures.random()
