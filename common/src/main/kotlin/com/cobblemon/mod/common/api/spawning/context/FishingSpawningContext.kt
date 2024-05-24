@@ -41,4 +41,6 @@ class FishingSpawningContext(
     val nearbyBlockTypes: List<Block> by lazy { nearbyBlocks.mapNotNull { it.block }.distinct() }
     val rodStack = cause.rodStack
     val rodItem = cause.rodItem
+    val baitStack = cause.baitStack
+    val baitItem = cause.baitItem
 }

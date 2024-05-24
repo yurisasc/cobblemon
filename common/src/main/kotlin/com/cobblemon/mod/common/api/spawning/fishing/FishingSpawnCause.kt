@@ -13,6 +13,7 @@ import com.cobblemon.mod.common.api.spawning.SpawnCause
 import com.cobblemon.mod.common.api.spawning.spawner.Spawner
 import com.cobblemon.mod.common.item.interactive.PokerodItem
 import net.minecraft.entity.Entity
+import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
 
 /**
@@ -27,7 +28,8 @@ class FishingSpawnCause(
     bucket: SpawnBucket,
     entity: Entity?,
     val rodStack: ItemStack,
-    bobberBait: ItemStack
+    val baitStack: ItemStack
 ) : SpawnCause(spawner, bucket, entity) {
     val rodItem = rodStack.item as? PokerodItem
+    val baitItem = baitStack.item as Item
 }

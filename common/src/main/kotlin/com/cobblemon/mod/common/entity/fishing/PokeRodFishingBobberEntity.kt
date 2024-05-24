@@ -662,7 +662,7 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
             if (bobberBait != ItemStack.EMPTY) {
                 // look up how mints affect the pokemon
 
-                modifyPokemonWithBait(spawnedPokemon, bobberBait) // check to see if the spawned pokemon gets modified due to the bait used
+//                modifyPokemonWithBait(spawnedPokemon, bobberBait) // check to see if the spawned pokemon gets modified due to the bait used
 
                 // remove the bait from the bobber
                 val playerPokerod = if (this.playerOwner?.getStackInHand(Hand.MAIN_HAND)?.item is PokerodItem) this.playerOwner!!.getStackInHand(Hand.MAIN_HAND).item else this.playerOwner!!.getStackInHand(Hand.OFF_HAND).item
