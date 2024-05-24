@@ -29,7 +29,7 @@ class FishingBaitRegistrySyncPacket(fishingBaits: List<FishingBait>) : DataRegis
 
     override fun decodeEntry(buffer: PacketByteBuf): FishingBait {
         // server handles the effects so client doesnt need to know them
-        return FishingBait(buffer.readIdentifier(), emptyList())
+        return FishingBait(buffer.readIdentifier(), emptyMap())
     }
 
     override fun synchronizeDecoded(entries: Collection<FishingBait>) {
