@@ -14,6 +14,7 @@ class FishingBaitInfluence : SpawningInfluence {
         val bait = FishingBaits.getFromItemStack(action.ctx.baitStack) ?: return
 
         bait.effects.forEach { baitEffect ->
+            if (Math.random() <= baitEffect.chance) return
             when (baitEffect.type) {
                 FishingBait.Effects.SHINY_REROLL -> shinyReroll(action, baitEffect)
             }
@@ -21,8 +22,6 @@ class FishingBaitInfluence : SpawningInfluence {
     }
 
     private fun shinyReroll(action: PokemonSpawnAction, effect: FishingBait.Effect) {
-        if (Math.random() <= effect.chance) return
-
         val shinyOdds = Cobblemon.config.shinyRate.toInt()
         val randomNumber = kotlin.random.Random.nextInt(0, shinyOdds + 1)
 
