@@ -1,18 +1,18 @@
 {
   "baseYield": {
     "min": 1,
-    "max": 3
+    "max": 2
   },
   "preferredBiomeTags": [
     "cobblemon:is_arid"
   ],
   "growthTime": {
-    "min": 75,
-    "max": 85
+    "min": 50,
+    "max": 60
   },
   "refreshRate": {
-    "min": 15,
-    "max": 25
+    "min": 25,
+    "max": 29
   },
   "favoriteMulches": [
     "sandy"
@@ -137,7 +137,7 @@
   "sproutShape": "blossom-sprout",
   "matureShape": "blossom-mature",
   "flavors": {
-    "SPICY": 30,
+    "SPICY": 40,
     "DRY": 10
   },
   "weight": 1.0,
@@ -145,5 +145,6 @@
   "flowerModel": "cobblemon:flower.geo",
   "flowerTexture": "cobblemon:flower",
   "fruitModel": "cobblemon:spelon_berry.geo",
-  "fruitTexture": "cobblemon:spelon"
+  "fruitTexture": "cobblemon:spelon",
+  "boneMealChance": 0.32
 }

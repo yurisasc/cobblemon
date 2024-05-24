@@ -8,12 +8,12 @@
     "cobblemon:is_taiga"
   ],
   "growthTime": {
-    "min": 115,
-    "max": 125
+    "min": 50,
+    "max": 60
   },
   "refreshRate": {
-    "min": 20,
-    "max": 30
+    "min": 25,
+    "max": 29
   },
   "favoriteMulches": [
     "coarse"
@@ -131,14 +131,40 @@
       "z": -7.5
     }
   },
-  "mutations": {},
+  "mutations": {
+    "cobblemon:occa_berry": "cobblemon:enigma_berry",
+    "cobblemon:passho_berry": "cobblemon:enigma_berry",
+    "cobblemon:wacan_berry": "cobblemon:enigma_berry",
+    "cobblemon:rindo_berry": "cobblemon:enigma_berry",
+    "cobblemon:yache_berry": "cobblemon:enigma_berry",
+    "cobblemon:chople_berry": "cobblemon:enigma_berry",
+    "cobblemon:kebia_berry": "cobblemon:enigma_berry",
+    "cobblemon:shuca_berry": "cobblemon:enigma_berry",
+    "cobblemon:coba_berry": "cobblemon:enigma_berry",
+    "cobblemon:payapa_berry": "cobblemon:enigma_berry",
+    "cobblemon:tanga_berry": "cobblemon:enigma_berry",
+    "cobblemon:charti_berry": "cobblemon:enigma_berry",
+    "cobblemon:kasib_berry": "cobblemon:enigma_berry",
+    "cobblemon:haban_berry": "cobblemon:enigma_berry",
+    "cobblemon:colbur_berry": "cobblemon:enigma_berry",
+    "cobblemon:babiri_berry": "cobblemon:enigma_berry",
+    "cobblemon:chilan_berry": "cobblemon:enigma_berry",
+    "cobblemon:roseli_berry": "cobblemon:enigma_berry"
+  },
   "sproutShape": "tall-sprout",
   "matureShape": "tall-mature",
-  "flavors": {},
+  "flavors": {
+    "SPICY": 20,
+    "DRY": 20,
+    "SWEET": 20,
+    "BITTER": 20,
+    "SOUR": 20
+  },
   "weight": 1.0,
   "tintIndexes": [],
   "flowerModel": "cobblemon:flower.geo",
   "flowerTexture": "cobblemon:flower",
   "fruitModel": "cobblemon:hopo_berry.geo",
-  "fruitTexture": "cobblemon:hopo"
+  "fruitTexture": "cobblemon:hopo",
+  "boneMealChance": 0.32
 }

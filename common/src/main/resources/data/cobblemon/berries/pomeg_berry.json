@@ -7,12 +7,12 @@
     "cobblemon:is_forest"
   ],
   "growthTime": {
-    "min": 95,
-    "max": 105
+    "min": 50,
+    "max": 60
   },
   "refreshRate": {
-    "min": 20,
-    "max": 30
+    "min": 25,
+    "max": 29
   },
   "favoriteMulches": [
     "peat"
@@ -116,14 +116,17 @@
   "sproutShape": "frill-sprout",
   "matureShape": "frill-mature",
   "flavors": {
-    "SPICY": 10,
-    "SWEET": 10,
-    "BITTER": 10
+    "SPICY": 15,
+    "DRY": 15,
+    "SWEET": 15,
+    "BITTER": 15,
+    "SOUR": 15
   },
   "weight": 1.0,
   "tintIndexes": [],
   "flowerModel": "cobblemon:flower.geo",
   "flowerTexture": "cobblemon:flower",
   "fruitModel": "cobblemon:pomeg_berry.geo",
-  "fruitTexture": "cobblemon:pomeg"
+  "fruitTexture": "cobblemon:pomeg",
+  "boneMealChance": 0.32
 }

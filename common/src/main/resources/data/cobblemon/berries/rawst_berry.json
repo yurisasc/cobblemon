@@ -1,18 +1,18 @@
 {
   "baseYield": {
-    "min": 3,
-    "max": 5
+    "min": 2,
+    "max": 3
   },
   "preferredBiomeTags": [
     "cobblemon:is_arid"
   ],
   "growthTime": {
-    "min": 55,
-    "max": 65
+    "min": 36,
+    "max": 44
   },
   "refreshRate": {
-    "min": 25,
-    "max": 35
+    "min": 18,
+    "max": 22
   },
   "favoriteMulches": [
     "sandy"
@@ -162,5 +162,6 @@
   "flowerModel": "cobblemon:flower.geo",
   "flowerTexture": "cobblemon:flower",
   "fruitModel": "cobblemon:rawst_berry.geo",
-  "fruitTexture": "cobblemon:rawst"
+  "fruitTexture": "cobblemon:rawst",
+  "boneMealChance": 0.56
 }

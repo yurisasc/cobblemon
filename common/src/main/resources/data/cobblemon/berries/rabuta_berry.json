@@ -1,18 +1,18 @@
 {
   "baseYield": {
-    "min": 2,
-    "max": 4
+    "min": 1,
+    "max": 3
   },
   "preferredBiomeTags": [
     "cobblemon:is_arid"
   ],
   "growthTime": {
-    "min": 55,
-    "max": 65
+    "min": 45,
+    "max": 55
   },
   "refreshRate": {
-    "min": 15,
-    "max": 25
+    "min": 23,
+    "max": 27
   },
   "favoriteMulches": [
     "sandy"
@@ -113,7 +113,7 @@
   "sproutShape": "lilypad-sprout",
   "matureShape": "lilypad-mature",
   "flavors": {
-    "BITTER": 20,
+    "BITTER": 30,
     "SOUR": 10
   },
   "weight": 1.0,
@@ -121,5 +121,6 @@
   "flowerModel": "cobblemon:flower.geo",
   "flowerTexture": "cobblemon:flower",
   "fruitModel": "cobblemon:rabuta_berry.geo",
-  "fruitTexture": "cobblemon:rabuta"
+  "fruitTexture": "cobblemon:rabuta",
+  "boneMealChance": 0.4
 }

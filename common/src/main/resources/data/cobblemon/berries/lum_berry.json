@@ -8,12 +8,12 @@
     "cobblemon:is_swamp"
   ],
   "growthTime": {
-    "min": 75,
-    "max": 85
+    "min": 41,
+    "max": 49
   },
   "refreshRate": {
-    "min": 17,
-    "max": 27
+    "min": 20,
+    "max": 24
   },
   "favoriteMulches": [
     "humid"
@@ -105,5 +105,6 @@
   "flowerModel": "cobblemon:flower.geo",
   "flowerTexture": "cobblemon:flower",
   "fruitModel": "cobblemon:lum_berry.geo",
-  "fruitTexture": "cobblemon:lum"
+  "fruitTexture": "cobblemon:lum",
+  "boneMealChance": 0.4
 }

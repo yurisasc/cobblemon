@@ -1,19 +1,19 @@
 {
   "baseYield": {
-    "min": 3,
-    "max": 5
+    "min": 2,
+    "max": 3
   },
   "preferredBiomeTags": [
     "cobblemon:is_mountain",
     "cobblemon:is_taiga"
   ],
   "growthTime": {
-    "min": 55,
-    "max": 65
+    "min": 36,
+    "max": 44
   },
   "refreshRate": {
-    "min": 25,
-    "max": 35
+    "min": 18,
+    "max": 22
   },
   "favoriteMulches": [
     "coarse"
@@ -175,5 +175,6 @@
   "flowerModel": "cobblemon:flower.geo",
   "flowerTexture": "cobblemon:flower",
   "fruitModel": "cobblemon:aspear_berry.geo",
-  "fruitTexture": "cobblemon:aspear"
+  "fruitTexture": "cobblemon:aspear",
+  "boneMealChance": 0.56
 }

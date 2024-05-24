@@ -1,19 +1,19 @@
 {
   "baseYield": {
-    "min": 3,
-    "max": 5
+    "min": 2,
+    "max": 3
   },
   "preferredBiomeTags": [
     "cobblemon:is_jungle",
     "cobblemon:is_swamp"
   ],
   "growthTime": {
-    "min": 55,
-    "max": 65
+    "min": 36,
+    "max": 44
   },
   "refreshRate": {
-    "min": 25,
-    "max": 35
+    "min": 18,
+    "max": 22
   },
   "favoriteMulches": [
     "humid"
@@ -168,7 +168,7 @@
   "sproutShape": "tall-sprout",
   "matureShape": "tall-mature",
   "flavors": {
-    "SWEET": 10,
+    "SWEET": 20,
     "BITTER": 10
   },
   "weight": 15.0,
@@ -176,5 +176,6 @@
   "flowerModel": "cobblemon:flower.geo",
   "flowerTexture": "cobblemon:flower",
   "fruitModel": "cobblemon:nanab_berry.geo",
-  "fruitTexture": "cobblemon:nanab"
+  "fruitTexture": "cobblemon:nanab",
+  "boneMealChance": 0.56
 }

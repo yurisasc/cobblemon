@@ -7,12 +7,12 @@
     "cobblemon:is_arid"
   ],
   "growthTime": {
-    "min": 75,
-    "max": 85
+    "min": 54,
+    "max": 66
   },
   "refreshRate": {
-    "min": 18,
-    "max": 28
+    "min": 27,
+    "max": 33
   },
   "favoriteMulches": [
     "sandy"
@@ -143,5 +143,6 @@
   "flowerModel": "cobblemon:flower.geo",
   "flowerTexture": "cobblemon:flower",
   "fruitModel": "cobblemon:petaya_berry.geo",
-  "fruitTexture": "cobblemon:petaya"
+  "fruitTexture": "cobblemon:petaya",
+  "boneMealChance": 0.24
 }

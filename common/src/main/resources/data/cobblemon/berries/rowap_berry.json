@@ -8,12 +8,12 @@
     "cobblemon:is_taiga"
   ],
   "growthTime": {
-    "min": 75,
-    "max": 85
+    "min": 54,
+    "max": 66
   },
   "refreshRate": {
-    "min": 15,
-    "max": 25
+    "min": 27,
+    "max": 33
   },
   "favoriteMulches": [
     "coarse"
@@ -95,5 +95,6 @@
   "flowerModel": "cobblemon:flower.geo",
   "flowerTexture": "cobblemon:flower",
   "fruitModel": "cobblemon:rowap_berry.geo",
-  "fruitTexture": "cobblemon:rowap"
+  "fruitTexture": "cobblemon:rowap",
+  "boneMealChance": 0.24
 }

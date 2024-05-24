@@ -7,12 +7,12 @@
     "cobblemon:is_plains"
   ],
   "growthTime": {
-    "min": 75,
-    "max": 85
+    "min": 54,
+    "max": 66
   },
   "refreshRate": {
-    "min": 15,
-    "max": 25
+    "min": 27,
+    "max": 33
   },
   "favoriteMulches": [
     "loamy"
@@ -142,5 +142,6 @@
   "flowerModel": "cobblemon:flower.geo",
   "flowerTexture": "cobblemon:flower",
   "fruitModel": "cobblemon:jaboca_berry.geo",
-  "fruitTexture": "cobblemon:jaboca"
+  "fruitTexture": "cobblemon:jaboca",
+  "boneMealChance": 0.24
 }

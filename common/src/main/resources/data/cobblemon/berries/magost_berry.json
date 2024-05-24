@@ -1,19 +1,19 @@
 {
   "baseYield": {
-    "min": 2,
-    "max": 4
+    "min": 1,
+    "max": 3
   },
   "preferredBiomeTags": [
     "cobblemon:is_jungle",
     "cobblemon:is_swamp"
   ],
   "growthTime": {
-    "min": 55,
-    "max": 65
+    "min": 45,
+    "max": 55
   },
   "refreshRate": {
-    "min": 15,
-    "max": 25
+    "min": 23,
+    "max": 27
   },
   "favoriteMulches": [
     "humid"
@@ -126,7 +126,7 @@
   "sproutShape": "frill-sprout",
   "matureShape": "frill-mature",
   "flavors": {
-    "SWEET": 20,
+    "SWEET": 30,
     "BITTER": 10
   },
   "weight": 1.0,
@@ -134,5 +134,6 @@
   "flowerModel": "cobblemon:flower.geo",
   "flowerTexture": "cobblemon:flower",
   "fruitModel": "cobblemon:magost_berry.geo",
-  "fruitTexture": "cobblemon:magost"
+  "fruitTexture": "cobblemon:magost",
+  "boneMealChance": 0.4
 }

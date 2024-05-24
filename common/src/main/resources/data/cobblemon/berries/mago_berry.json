@@ -1,18 +1,18 @@
 {
   "baseYield": {
     "min": 2,
-    "max": 4
+    "max": 3
   },
   "preferredBiomeTags": [
     "cobblemon:is_forest"
   ],
   "growthTime": {
-    "min": 55,
-    "max": 65
+    "min": 41,
+    "max": 49
   },
   "refreshRate": {
-    "min": 25,
-    "max": 35
+    "min": 20,
+    "max": 24
   },
   "favoriteMulches": [
     "peat"
@@ -156,5 +156,6 @@
   "flowerModel": "cobblemon:flower.geo",
   "flowerTexture": "cobblemon:flower",
   "fruitModel": "cobblemon:mago_berry.geo",
-  "fruitTexture": "cobblemon:mago"
+  "fruitTexture": "cobblemon:mago",
+  "boneMealChance": 0.48
 }

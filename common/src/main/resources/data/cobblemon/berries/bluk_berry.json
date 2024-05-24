@@ -1,19 +1,19 @@
 {
   "baseYield": {
-    "min": 3,
-    "max": 5
+    "min": 2,
+    "max": 3
   },
   "preferredBiomeTags": [
     "cobblemon:is_mountain",
     "cobblemon:is_taiga"
   ],
   "growthTime": {
-    "min": 55,
-    "max": 65
+    "min": 36,
+    "max": 44
   },
   "refreshRate": {
-    "min": 25,
-    "max": 35
+    "min": 18,
+    "max": 22
   },
   "favoriteMulches": [
     "coarse"
@@ -168,7 +168,7 @@
   "sproutShape": "tall-sprout",
   "matureShape": "tall-mature",
   "flavors": {
-    "DRY": 10,
+    "DRY": 20,
     "SWEET": 10
   },
   "weight": 15.0,
@@ -176,5 +176,6 @@
   "flowerModel": "cobblemon:flower.geo",
   "flowerTexture": "cobblemon:flower",
   "fruitModel": "cobblemon:bluk_berry.geo",
-  "fruitTexture": "cobblemon:bluk"
+  "fruitTexture": "cobblemon:bluk",
+  "boneMealChance": 0.56
 }

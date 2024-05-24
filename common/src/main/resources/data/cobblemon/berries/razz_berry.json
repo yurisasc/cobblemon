@@ -1,18 +1,18 @@
 {
   "baseYield": {
-    "min": 3,
-    "max": 5
+    "min": 2,
+    "max": 3
   },
   "preferredBiomeTags": [
     "cobblemon:is_forest"
   ],
   "growthTime": {
-    "min": 55,
-    "max": 65
+    "min": 36,
+    "max": 44
   },
   "refreshRate": {
-    "min": 25,
-    "max": 35
+    "min": 18,
+    "max": 22
   },
   "favoriteMulches": [
     "peat"
@@ -167,7 +167,7 @@
   "sproutShape": "tall-sprout",
   "matureShape": "tall-mature",
   "flavors": {
-    "SPICY": 10,
+    "SPICY": 20,
     "DRY": 10
   },
   "weight": 15.0,
@@ -175,5 +175,6 @@
   "flowerModel": "cobblemon:flower.geo",
   "flowerTexture": "cobblemon:flower",
   "fruitModel": "cobblemon:razz_berry.geo",
-  "fruitTexture": "cobblemon:razz"
+  "fruitTexture": "cobblemon:razz",
+  "boneMealChance": 0.56
 }

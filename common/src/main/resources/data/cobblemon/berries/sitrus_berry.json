@@ -1,18 +1,18 @@
 {
   "baseYield": {
     "min": 1,
-    "max": 2
+    "max": 3
   },
   "preferredBiomeTags": [
     "cobblemon:is_mountain",
     "cobblemon:is_taiga"
   ],
   "growthTime": {
-    "min": 75,
-    "max": 85
+    "min": 45,
+    "max": 55
   },
   "refreshRate": {
-    "min": 17,
+    "min": 23,
     "max": 27
   },
   "favoriteMulches": [
@@ -156,24 +156,7 @@
     }
   },
   "mutations": {
-    "cobblemon:occa_berry": "cobblemon:enigma_berry",
-    "cobblemon:passho_berry": "cobblemon:enigma_berry",
-    "cobblemon:wacan_berry": "cobblemon:enigma_berry",
-    "cobblemon:rindo_berry": "cobblemon:enigma_berry",
-    "cobblemon:yache_berry": "cobblemon:enigma_berry",
-    "cobblemon:chople_berry": "cobblemon:enigma_berry",
-    "cobblemon:kebia_berry": "cobblemon:enigma_berry",
-    "cobblemon:shuca_berry": "cobblemon:enigma_berry",
-    "cobblemon:coba_berry": "cobblemon:enigma_berry",
-    "cobblemon:payapa_berry": "cobblemon:enigma_berry",
-    "cobblemon:tanga_berry": "cobblemon:enigma_berry",
-    "cobblemon:charti_berry": "cobblemon:enigma_berry",
-    "cobblemon:kasib_berry": "cobblemon:enigma_berry",
-    "cobblemon:haban_berry": "cobblemon:enigma_berry",
-    "cobblemon:colbur_berry": "cobblemon:enigma_berry",
-    "cobblemon:babiri_berry": "cobblemon:enigma_berry",
-    "cobblemon:chilan_berry": "cobblemon:enigma_berry",
-    "cobblemon:roseli_berry": "cobblemon:enigma_berry"
+    "cobblemon:haban_berry": "cobblemon:pomeg_berry"
   },
   "sproutShape": "tall-sprout",
   "matureShape": "tall-mature",
@@ -189,5 +172,6 @@
   "flowerModel": "cobblemon:flower.geo",
   "flowerTexture": "cobblemon:flower",
   "fruitModel": "cobblemon:sitrus_berry.geo",
-  "fruitTexture": "cobblemon:sitrus"
+  "fruitTexture": "cobblemon:sitrus",
+  "boneMealChance": 0.32
 }

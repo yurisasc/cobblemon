@@ -88,7 +88,8 @@ class Berry(
     val fruitModelIdentifier: Identifier,
     val fruitTexture: Identifier,
     val stageOnePositioning: GrowthPoint,
-    val weight: Float
+    val weight: Float,
+    val boneMealChance: Float
 ) {
 
     @Transient
@@ -163,7 +164,7 @@ class Berry(
         val treeEntity = world.getBlockEntity(pos) as BerryBlockEntity
         if (BerryBlock.getMulch(state) == MulchVariant.RICH) {
             //I hope the upper bound isnt exclusive, especially when there's a method called nextBetweenExclusive
-            yield += world.random.nextBetween(1, 2)
+            yield += world.random.nextBetween(1, 3)
             treeEntity.decrementMulchDuration(world, pos, state)
         }
         val event = BerryYieldCalculationEvent(this, world, state, pos, placer, yield, bonus.second)
@@ -286,6 +287,7 @@ class Berry(
         buffer.writeDouble(stageOnePositioning.rotation.x)
         buffer.writeDouble(stageOnePositioning.rotation.y)
         buffer.writeDouble(stageOnePositioning.rotation.z)
+        buffer.writeFloat(boneMealChance)
     }
 
     /**
@@ -347,7 +349,8 @@ class Berry(
             val fruitModelIdentifier = buffer.readIdentifier()
             val fruitTexture = buffer.readIdentifier()
             val stageOneYPos = GrowthPoint(Vec3d(buffer.readDouble(), buffer.readDouble(), buffer.readDouble()), Vec3d(buffer.readDouble(), buffer.readDouble(), buffer.readDouble()))
-            return Berry(identifier, baseYield, emptyList(), growthTime, refreshRate, favMulchs, emptySet(), emptyList(), growthPoints, randomizedGrowthPoints, mutations, sproutShapeBoxes, matureShapeBoxes, flavors, tintIndexes, flowerModelIdentifier, flowerTexture, fruitModelIdentifier, fruitTexture, stageOneYPos, 0F)
+            val boneMealChance = buffer.readFloat()
+            return Berry(identifier, baseYield, emptyList(), growthTime, refreshRate, favMulchs, emptySet(), emptyList(), growthPoints, randomizedGrowthPoints, mutations, sproutShapeBoxes, matureShapeBoxes, flavors, tintIndexes, flowerModelIdentifier, flowerTexture, fruitModelIdentifier, fruitTexture, stageOneYPos, 0F, boneMealChance)
         }
 
     }

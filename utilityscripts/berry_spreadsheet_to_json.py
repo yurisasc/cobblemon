@@ -21,14 +21,14 @@ def stuff():
         }
         biomeTags = row[2].value.split(", ")
         berry_dict["preferredBiomeTags"] = [f"cobblemon:is_{x[1:].lower()}" for x in biomeTags]
-        baseGrowthTimes = int(row[6].value)
-        growthVar = int(row[7].value) // 2
+        baseGrowthTimes = int(row[7].value)
+        growthVar = int(row[8].value) // 2
         berry_dict["growthTime"] = {
             "min": baseGrowthTimes - growthVar,
             "max": baseGrowthTimes + growthVar
         }
-        refreshRate = int(row[8].value)
-        refreshRateVar = int(row[9].value) // 2
+        refreshRate = int(row[9].value)
+        refreshRateVar = int(row[10].value) // 2
         berry_dict["refreshRate"] = {
             "min": refreshRate - refreshRateVar,
             "max": refreshRate + refreshRateVar
@@ -37,7 +37,7 @@ def stuff():
         berry_dict["favoriteMulches"] = fav_mulches
         berry_dict["growthFactors"] = []
         berry_dict["randomizedGrowthPoints"] = True
-        spawn_type = row[10].value
+        spawn_type = row[11].value
         if spawn_type == "PREFERRED_BIOME":
             berry_dict["spawnConditions"] = [
                 {
@@ -59,13 +59,13 @@ def stuff():
         berry_dict["growthPoints"] = get_growth_points(row[0].row)
         berry_dict["stageOnePositioning"] = get_stage_one_y_pos(row[0].row)
         berry_dict["mutations"] = get_mutations(berry_prefix)
-        berry_dict["sproutShape"] = f"{row[18].value.lower()}-sprout"
-        berry_dict["matureShape"] = f"{row[19].value.lower()}-mature"
-        spicyVal = int(row[13].value)
-        dryVal = int(row[14].value)
-        sweetVal = int(row[15].value)
-        bitterVal = int(row[16].value)
-        sourVal = int(row[17].value)
+        berry_dict["sproutShape"] = f"{row[19].value.lower()}-sprout"
+        berry_dict["matureShape"] = f"{row[20].value.lower()}-mature"
+        spicyVal = int(row[14].value)
+        dryVal = int(row[15].value)
+        sweetVal = int(row[16].value)
+        bitterVal = int(row[17].value)
+        sourVal = int(row[18].value)
         flavorDict = {}
         if spicyVal > 0:
             flavorDict["SPICY"] = spicyVal
@@ -78,15 +78,16 @@ def stuff():
         if sourVal > 0:
             flavorDict["SOUR"] = sourVal
         berry_dict["flavors"] = flavorDict
-        if row[11].value != "N/A":
-            berry_dict["weight"] =  float(row[11].value)
+        if row[12].value != "N/A":
+            berry_dict["weight"] = float(row[12].value)
         else:
-            berry_dict["weight"] =  1.0
+            berry_dict["weight"] = 1.0
         berry_dict["tintIndexes"] = []
         berry_dict["flowerModel"] = f"cobblemon:flower.geo"
         berry_dict["flowerTexture"] = f"cobblemon:flower"
         berry_dict["fruitModel"] = f"cobblemon:{berry_prefix}_berry.geo"
         berry_dict["fruitTexture"] = f"cobblemon:{berry_prefix}"
+        berry_dict["boneMealChance"] = int(row[21].value) / 100.0
         with open(f"berries/{berry_file_name}", "w+") as file:
             file.write(json.dumps(berry_dict, indent=2))
 

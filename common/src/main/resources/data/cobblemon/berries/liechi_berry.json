@@ -8,12 +8,12 @@
     "cobblemon:is_swamp"
   ],
   "growthTime": {
-    "min": 75,
-    "max": 85
+    "min": 54,
+    "max": 66
   },
   "refreshRate": {
-    "min": 18,
-    "max": 28
+    "min": 27,
+    "max": 33
   },
   "favoriteMulches": [
     "humid"
@@ -96,5 +96,6 @@
   "flowerModel": "cobblemon:flower.geo",
   "flowerTexture": "cobblemon:flower",
   "fruitModel": "cobblemon:liechi_berry.geo",
-  "fruitTexture": "cobblemon:liechi"
+  "fruitTexture": "cobblemon:liechi",
+  "boneMealChance": 0.24
 }

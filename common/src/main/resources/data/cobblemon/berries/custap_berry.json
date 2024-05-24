@@ -7,12 +7,12 @@
     "cobblemon:is_forest"
   ],
   "growthTime": {
-    "min": 75,
-    "max": 85
+    "min": 54,
+    "max": 66
   },
   "refreshRate": {
-    "min": 15,
-    "max": 25
+    "min": 27,
+    "max": 33
   },
   "favoriteMulches": [
     "peat"
@@ -94,5 +94,6 @@
   "flowerModel": "cobblemon:flower.geo",
   "flowerTexture": "cobblemon:flower",
   "fruitModel": "cobblemon:custap_berry.geo",
-  "fruitTexture": "cobblemon:custap"
+  "fruitTexture": "cobblemon:custap",
+  "boneMealChance": 0.24
 }

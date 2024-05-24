@@ -8,12 +8,12 @@
     "cobblemon:is_swamp"
   ],
   "growthTime": {
-    "min": 95,
-    "max": 105
+    "min": 50,
+    "max": 60
   },
   "refreshRate": {
-    "min": 20,
-    "max": 30
+    "min": 25,
+    "max": 29
   },
   "favoriteMulches": [
     "humid"
@@ -162,14 +162,16 @@
   "sproutShape": "pyramid-sprout",
   "matureShape": "pyramid-mature",
   "flavors": {
-    "SPICY": 10,
-    "SWEET": 10,
-    "SOUR": 10
+    "SPICY": 15,
+    "DRY": 10,
+    "SWEET": 25,
+    "BITTER": 10
   },
   "weight": 1.0,
   "tintIndexes": [],
   "flowerModel": "cobblemon:flower.geo",
   "flowerTexture": "cobblemon:flower",
   "fruitModel": "cobblemon:qualot_berry.geo",
-  "fruitTexture": "cobblemon:qualot"
+  "fruitTexture": "cobblemon:qualot",
+  "boneMealChance": 0.32
 }

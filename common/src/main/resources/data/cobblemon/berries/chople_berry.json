@@ -1,6 +1,6 @@
 {
   "baseYield": {
-    "min": 2,
+    "min": 1,
     "max": 3
   },
   "preferredBiomeTags": [
@@ -9,12 +9,12 @@
     "cobblemon:is_taiga"
   ],
   "growthTime": {
-    "min": 50,
-    "max": 60
+    "min": 45,
+    "max": 55
   },
   "refreshRate": {
-    "min": 16,
-    "max": 26
+    "min": 23,
+    "max": 27
   },
   "favoriteMulches": [
     "coarse"
@@ -139,7 +139,7 @@
     }
   },
   "mutations": {
-    "cobblemon:sitrus_berry": "cobblemon:enigma_berry",
+    "cobblemon:hopo_berry": "cobblemon:enigma_berry",
     "cobblemon:spelon_berry": "cobblemon:lansat_berry"
   },
   "sproutShape": "tall-sprout",
@@ -153,5 +153,6 @@
   "flowerModel": "cobblemon:flower.geo",
   "flowerTexture": "cobblemon:flower",
   "fruitModel": "cobblemon:chople_berry.geo",
-  "fruitTexture": "cobblemon:chople"
+  "fruitTexture": "cobblemon:chople",
+  "boneMealChance": 0.4
 }

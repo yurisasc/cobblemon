@@ -19,6 +19,7 @@ import com.cobblemon.mod.common.api.mulch.MulchVariant
 import com.cobblemon.mod.common.api.mulch.Mulchable
 import com.cobblemon.mod.common.api.tags.CobblemonBlockTags
 import com.cobblemon.mod.common.block.entity.BerryBlockEntity
+import dev.lambdaurora.lambdynlights.util.SodiumDynamicLightHandler.pos
 import net.minecraft.block.Block
 import net.minecraft.block.BlockRenderType
 import net.minecraft.block.BlockState
@@ -93,6 +94,13 @@ class BerryBlock(private val berryIdentifier: Identifier, settings: Settings) : 
     }
 
     override fun grow(world: ServerWorld, random: Random, pos: BlockPos, state: BlockState) {
+        growHelper(world, random, pos, state, true)
+    }
+
+    //grow, but cooler
+    fun growHelper(world: ServerWorld, random: Random, pos: BlockPos, state: BlockState, boneMealed: Boolean = false) {
+        val berry = berry() ?: return
+        if (boneMealed && random.nextFloat() > berry.boneMealChance) return
         val curAge = state.get(AGE)
         val newAge = curAge + 1
         if (newAge > FRUIT_AGE) return

@@ -1,24 +1,24 @@
 {
   "baseYield": {
-    "min": 3,
-    "max": 5
+    "min": 2,
+    "max": 3
   },
   "preferredBiomeTags": [
     "cobblemon:is_arid"
   ],
   "growthTime": {
-    "min": 55,
-    "max": 65
+    "min": 36,
+    "max": 44
   },
   "refreshRate": {
-    "min": 25,
-    "max": 35
+    "min": 18,
+    "max": 22
   },
   "favoriteMulches": [
     "sandy"
   ],
   "growthFactors": [],
-  "randomizedGrowthPoints": false,
+  "randomizedGrowthPoints": true,
   "spawnConditions": [
     {
       "variant": "cobblemon:preferred_biome",
@@ -168,12 +168,13 @@
   "matureShape": "sword-mature",
   "flavors": {
     "SPICY": 10,
-    "SOUR": 10
+    "SOUR": 20
   },
   "weight": 15.0,
   "tintIndexes": [],
   "flowerModel": "cobblemon:flower.geo",
   "flowerTexture": "cobblemon:flower",
   "fruitModel": "cobblemon:pinap_berry.geo",
-  "fruitTexture": "cobblemon:pinap"
+  "fruitTexture": "cobblemon:pinap",
+  "boneMealChance": 0.56
 }

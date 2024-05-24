@@ -1,18 +1,18 @@
 {
   "baseYield": {
-    "min": 2,
-    "max": 3
+    "min": 1,
+    "max": 2
   },
   "preferredBiomeTags": [
     "cobblemon:is_plains"
   ],
   "growthTime": {
-    "min": 75,
-    "max": 85
+    "min": 41,
+    "max": 49
   },
   "refreshRate": {
-    "min": 17,
-    "max": 27
+    "min": 20,
+    "max": 24
   },
   "favoriteMulches": [
     "loamy"
@@ -99,5 +99,6 @@
   "flowerModel": "cobblemon:flower.geo",
   "flowerTexture": "cobblemon:flower",
   "fruitModel": "cobblemon:leppa_berry.geo",
-  "fruitTexture": "cobblemon:leppa"
+  "fruitTexture": "cobblemon:leppa",
+  "boneMealChance": 0.4
 }

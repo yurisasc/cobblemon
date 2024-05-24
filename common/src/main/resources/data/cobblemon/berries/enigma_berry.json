@@ -1,18 +1,18 @@
 {
   "baseYield": {
     "min": 1,
-    "max": 2
+    "max": 1
   },
   "preferredBiomeTags": [
     "cobblemon:is_forest"
   ],
   "growthTime": {
-    "min": 75,
-    "max": 85
+    "min": 54,
+    "max": 66
   },
   "refreshRate": {
-    "min": 15,
-    "max": 25
+    "min": 27,
+    "max": 33
   },
   "favoriteMulches": [
     "peat"
@@ -107,7 +107,6 @@
     }
   },
   "mutations": {
-    "cobblemon:haban_berry": "cobblemon:pomeg_berry",
     "cobblemon:kasib_berry": "cobblemon:kee_berry",
     "cobblemon:wacan_berry": "cobblemon:maranga_berry"
   },
@@ -122,5 +121,6 @@
   "flowerModel": "cobblemon:flower.geo",
   "flowerTexture": "cobblemon:flower",
   "fruitModel": "cobblemon:enigma_berry.geo",
-  "fruitTexture": "cobblemon:enigma"
+  "fruitTexture": "cobblemon:enigma",
+  "boneMealChance": 0.24
 }
