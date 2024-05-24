@@ -1,16 +1,33 @@
 package com.cobblemon.mod.common.api.spawning.fishing
 
+import com.cobblemon.mod.common.Cobblemon
+import com.cobblemon.mod.common.api.fishing.FishingBait
+import com.cobblemon.mod.common.api.fishing.FishingBaits
 import com.cobblemon.mod.common.api.spawning.context.FishingSpawningContext
 import com.cobblemon.mod.common.api.spawning.detail.PokemonSpawnAction
 import com.cobblemon.mod.common.api.spawning.detail.SpawnAction
 import com.cobblemon.mod.common.api.spawning.influence.SpawningInfluence
-import net.minecraft.item.ItemStack
 
-abstract class FishingBaitInfluence : SpawningInfluence {
+class FishingBaitInfluence : SpawningInfluence {
     override fun affectAction(action: SpawnAction<*>) {
         if (action !is PokemonSpawnAction || action.ctx !is FishingSpawningContext) return
-        affectFishingAction(action, action.ctx.baitStack, action.ctx.rodStack)
+        val bait = FishingBaits.getFromItemStack(action.ctx.baitStack) ?: return
+
+        bait.effects.forEach { baitEffect ->
+            when (baitEffect.type) {
+                FishingBait.Effects.SHINY_REROLL -> shinyReroll(action, baitEffect)
+            }
+        }
     }
 
-    abstract fun affectFishingAction(action: PokemonSpawnAction, baitStack: ItemStack, rodStack: ItemStack)
+    private fun shinyReroll(action: PokemonSpawnAction, effect: FishingBait.Effect) {
+        if (Math.random() <= effect.chance) return
+
+        val shinyOdds = Cobblemon.config.shinyRate.toInt()
+        val randomNumber = kotlin.random.Random.nextInt(0, shinyOdds + 1)
+
+        if (randomNumber <= (effect.value).toInt()) {
+            action.props.shiny = true
+        }
+    }
 }

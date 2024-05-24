@@ -38,6 +38,6 @@ open class FishingSpawner(
 
     fun onServerStarted() {
         // TODO: Register influences here
-        influences.add(ShinyBaitInfluence())
+        influences.add(FishingBaitInfluence())
     }
 }
