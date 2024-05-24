@@ -39,7 +39,7 @@ class FishingBaitInfluence : SpawningInfluence {
                 FishingBait.Effects.GENDER_CHANCE -> alterGenderAttempt(action, effect)
                 FishingBait.Effects.LEVEL_RAISE -> alterLevelAttempt(action, effect)
                 FishingBait.Effects.TERA -> alterTeraAttempt(action, effect)
-                FishingBait.Effects.HIDDEN_ABILITY_CHANCE -> alterHAAttempt(action, effect)
+                FishingBait.Effects.HIDDEN_ABILITY_CHANCE -> alterHAAttempt(action)
             }
         }
     }
@@ -57,11 +57,11 @@ class FishingBaitInfluence : SpawningInfluence {
 
     private fun alterNatureAttempt(action: PokemonSpawnAction, effect: FishingBait.Effect) {
         if (action.props.nature != null) return
-        if (effect.subcategory == null) return
+        if (effect.nature == null) return
 
         // TIMNOTE: This replaces the static lists. It's less performant because it's being reviewed every time,
         // but also it's not something that goes off too often.
-        val possibleNatures = Natures.all().filter { it.increasedStat?.identifier == effect.subcategory }
+        val possibleNatures = Natures.all().filter { it.increasedStat?.identifier == effect.nature }
         if (possibleNatures.isEmpty()) return
         val takenNature = possibleNatures.random()
 
@@ -69,20 +69,20 @@ class FishingBaitInfluence : SpawningInfluence {
     }
 
     private fun alterIVAttempt(action: PokemonSpawnAction, effect: FishingBait.Effect) {
-        if (effect.subcategory == null) return
+        if (effect.iv == null) return
 
         if (action.props.ivs == null) action.props.ivs = IVs.createRandomIVs()
-        val targetedStat = Stats.getStat(effect.subcategory.path)
+        val targetedStat = Stats.getStat(effect.iv.path)
 
         action.props.ivs!![targetedStat] =
             min((action.props.ivs!![targetedStat] ?: 0) + effect.value.toInt(), IVs.MAX_VALUE)
     }
 
     private fun alterGenderAttempt(action: PokemonSpawnAction, effect: FishingBait.Effect) {
-        val gender = effect.subcategory ?: return
+        if (effect.gender == null) return
         if (action.props.gender != null) return
 
-        when (gender) {
+        when (effect.gender) {
             cobblemonResource("male") -> if (action.props.gender != Gender.MALE) action.props.gender = Gender.MALE
             cobblemonResource("female") -> if (action.props.gender != Gender.FEMALE) action.props.gender = Gender.FEMALE
         }
@@ -94,14 +94,13 @@ class FishingBaitInfluence : SpawningInfluence {
     }
 
     private fun alterTeraAttempt(action: PokemonSpawnAction, effect: FishingBait.Effect) {
+        if (effect.tera == null) return
         if (action.props.teraType != null) return
 
-        if (effect.subcategory == null) return
-
-        action.props.teraType = effect.subcategory.path
+        action.props.teraType = effect.tera.path
     }
 
-    private fun alterHAAttempt(action: PokemonSpawnAction, effect: FishingBait.Effect) {
+    private fun alterHAAttempt(action: PokemonSpawnAction) {
         if (action.props.ability != null) return
 
         val species = action.props.species?.let { PokemonSpecies.getByName(it) } ?: return

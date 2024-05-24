@@ -16,7 +16,10 @@ data class FishingBait(
     val effects: Map<Identifier, Effect>,
 ) {
     data class Effect(
-        val subcategory: Identifier?,
+        val nature: Identifier?,
+        val iv: Identifier?,
+        val gender: Identifier?,
+        val tera: Identifier?,
         val chance: Double = 0.0,
         val value: Double = 0.0
     )
