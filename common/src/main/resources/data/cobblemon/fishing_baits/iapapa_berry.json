@@ -4,7 +4,7 @@
     "cobblemon:nature": {
       "chance": 0.5,
       "value": 0,
-      "subcategory": "cobblemon:def"
+      "nature": "cobblemon:def"
     }
   }
 }

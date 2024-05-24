@@ -3,7 +3,7 @@
   "effects": {
     "cobblemon:gender_chance": {
       "chance": 0.25,
-      "subcategory": "cobblemon:female"
+      "gender": "cobblemon:female"
     }
   }
 }

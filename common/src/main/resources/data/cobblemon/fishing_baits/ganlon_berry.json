@@ -4,7 +4,9 @@
     "cobblemon:iv": {
       "chance": 1,
       "value": 3,
-      "subcategory": "cobblemon:def"
+      "ivs": [
+        "cobblemon:def"
+      ]
     }
   }
 }
