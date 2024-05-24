@@ -10,14 +10,13 @@ package com.cobblemon.mod.common.client.gui.npc.widgets
 
 import com.cobblemon.mod.common.api.gui.blitk
 import com.cobblemon.mod.common.api.gui.drawProfile
-import com.cobblemon.mod.common.client.render.models.blockbench.npc.NPCFloatingState
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.FloatingState
 import com.cobblemon.mod.common.client.render.models.blockbench.repository.NPCModelRepository
 import com.cobblemon.mod.common.util.cobblemonResource
 import net.minecraft.client.gui.DrawContext
 import net.minecraft.client.gui.Drawable
 import net.minecraft.client.gui.Element
 import net.minecraft.util.Identifier
-import net.minecraft.util.math.RotationAxis
 
 class NPCRenderWidget(
     val x: Int,
@@ -25,7 +24,7 @@ class NPCRenderWidget(
     var identifier: Identifier,
     val aspects: MutableSet<String>
 ) : Drawable, Element {
-    val state = NPCFloatingState()
+    val state = FloatingState()
     companion object {
         val profileBackgroundResource = cobblemonResource("textures/gui/npc/profile_background.png")
         const val WIDTH = 66

@@ -14,8 +14,7 @@ import com.cobblemon.mod.common.client.render.models.blockbench.frame.BiWingedFr
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.QuadrupedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.ModelPartTransformation
 import com.cobblemon.mod.common.client.render.models.blockbench.wavefunction.triangleFunction
 import com.cobblemon.mod.common.entity.PoseType
@@ -23,7 +22,7 @@ import com.cobblemon.mod.common.util.math.geometry.toRadians
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class VibravaModel  (root: ModelPart) : PokemonPoseableModel(), QuadrupedFrame, HeadedFrame {
+class VibravaModel  (root: ModelPart) : PosableModel(), QuadrupedFrame, HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("vibrava")
     override val head = getPart("head")
 
@@ -38,10 +37,10 @@ class VibravaModel  (root: ModelPart) : PokemonPoseableModel(), QuadrupedFrame, 
     override var profileScale = 0.54F
     override var profileTranslation = Vec3d(-0.01, 0.71, 0.0)
 
-    lateinit var standing: PokemonPose
-    lateinit var walk: PokemonPose
+    lateinit var standing: CobblemonPose
+    lateinit var walk: CobblemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("vibrava", "cry") }
+    override val cryAnimation = CryProvider { bedrockStateful("vibrava", "cry") }
 
     val wing_front_left = getPart("wing_front_left")
     val wing_front_right = getPart("wing_front_right")

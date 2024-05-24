@@ -8,16 +8,14 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen2
 
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class LanturnModel (root: ModelPart) : PokemonPoseableModel() {
+class LanturnModel (root: ModelPart) : PosableModel() {
     override val rootPart = root.registerChildWithAllChildren("lanturn")
 
     override var portraitScale = 1.7F
@@ -26,16 +24,16 @@ class LanturnModel (root: ModelPart) : PokemonPoseableModel() {
     override var profileScale = 0.6F
     override var profileTranslation = Vec3d(0.0, 0.7, 0.0)
 
-    lateinit var standing: PokemonPose
-    lateinit var walk: PokemonPose
-    lateinit var floating: PokemonPose
-    lateinit var swimming: PokemonPose
-    lateinit var sleep: PokemonPose
-    lateinit var watersleep: PokemonPose
-    lateinit var battleidle: PokemonPose
-    lateinit var waterbattleidle: PokemonPose
+    lateinit var standing: CobblemonPose
+    lateinit var walk: CobblemonPose
+    lateinit var floating: CobblemonPose
+    lateinit var swimming: CobblemonPose
+    lateinit var sleep: CobblemonPose
+    lateinit var watersleep: CobblemonPose
+    lateinit var battleidle: CobblemonPose
+    lateinit var waterbattleidle: CobblemonPose
 
-//    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("lanturn", "cry") }
+//    override val cryAnimation = CryProvider { bedrockStateful("lanturn", "cry") }
 
     override fun registerPoses() {
         val blink = quirk { bedrockStateful("lanturn", "blink")}

@@ -10,7 +10,7 @@ package com.cobblemon.mod.common.client.render.models.blockbench.repository
 
 import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.blockentity.BlockEntityModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.JsonPokemonPoseableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.JsonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.Bone
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.fromJson
@@ -50,8 +50,8 @@ object BlockEntityModelRepository : VaryingModelRepository() {
             model.idleAnimations = animations.mapNotNull {
                 val animString = it.asString
                 val anim = animString.substringBefore("(")
-                if (JsonPokemonPoseableModel.ANIMATION_FACTORIES.contains(anim)) {
-                    return@mapNotNull JsonPokemonPoseableModel.ANIMATION_FACTORIES[anim]!!.stateless(model, animString)
+                if (JsonPosableModel.ANIMATION_FACTORIES.contains(anim)) {
+                    return@mapNotNull JsonPosableModel.ANIMATION_FACTORIES[anim]!!.stateless(model, animString)
                 } else {
                     null
                 }

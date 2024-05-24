@@ -8,11 +8,10 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen4
 
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.createTransformation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.util.isStandingOnRedSand
 import com.cobblemon.mod.common.util.isStandingOnSand
@@ -20,7 +19,7 @@ import com.cobblemon.mod.common.util.isStandingOnSandOrRedSand
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class HippowdonModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
+class HippowdonModel (root: ModelPart) : PosableModel(), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("hippowdon")
     override val head = getPart("head")
 
@@ -33,18 +32,18 @@ class HippowdonModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override var profileScale = 0.4F
     override var profileTranslation = Vec3d(-0.1, 1.0, 0.0)
 
-    lateinit var standing: PokemonPose
-    lateinit var walk: PokemonPose
-    lateinit var battleidle: PokemonPose
-    lateinit var standingsand: PokemonPose
-    lateinit var walksand: PokemonPose
-    lateinit var battleidlesand: PokemonPose
-    lateinit var battleidleredsand: PokemonPose
-    lateinit var sleep: PokemonPose
-    lateinit var sleepsand: PokemonPose
-    lateinit var sleepredsand: PokemonPose
-    lateinit var standingredsand: PokemonPose
-    lateinit var walkredsand: PokemonPose
+    lateinit var standing: CobblemonPose
+    lateinit var walk: CobblemonPose
+    lateinit var battleidle: CobblemonPose
+    lateinit var standingsand: CobblemonPose
+    lateinit var walksand: CobblemonPose
+    lateinit var battleidlesand: CobblemonPose
+    lateinit var battleidleredsand: CobblemonPose
+    lateinit var sleep: CobblemonPose
+    lateinit var sleepsand: CobblemonPose
+    lateinit var sleepredsand: CobblemonPose
+    lateinit var standingredsand: CobblemonPose
+    lateinit var walkredsand: CobblemonPose
 
     override val cryAnimation = CryProvider { _, pose ->
         when {

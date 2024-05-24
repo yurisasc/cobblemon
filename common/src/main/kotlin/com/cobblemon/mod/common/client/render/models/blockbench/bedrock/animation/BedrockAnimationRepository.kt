@@ -10,7 +10,7 @@ package com.cobblemon.mod.common.client.render.models.blockbench.bedrock.animati
 
 import com.cobblemon.mod.common.Cobblemon.LOGGER
 import com.cobblemon.mod.common.client.render.models.blockbench.BedrockAnimationReferenceFactory
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.JsonPokemonPoseableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.JsonPosableModel
 import com.cobblemon.mod.common.util.fromJson
 import com.google.gson.FieldNamingPolicy
 import com.google.gson.GsonBuilder
@@ -34,7 +34,7 @@ object BedrockAnimationRepository {
     private val animationGroups = mutableMapOf<String, BedrockAnimationGroup>()
 
     fun loadAnimations(resourceManager: ResourceManager, directories: List<String>) {
-        JsonPokemonPoseableModel.registerFactory("bedrock", BedrockAnimationReferenceFactory)
+        JsonPosableModel.registerFactory("bedrock", BedrockAnimationReferenceFactory)
 
         LOGGER.info("Loading animations...")
         var animationCount = 0

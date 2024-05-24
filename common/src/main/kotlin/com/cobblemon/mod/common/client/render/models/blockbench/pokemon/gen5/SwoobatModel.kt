@@ -13,8 +13,7 @@ import com.cobblemon.mod.common.client.render.models.blockbench.createTransforma
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BiWingedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.ModelPartTransformation
 import com.cobblemon.mod.common.client.render.models.blockbench.wavefunction.sineFunction
 import com.cobblemon.mod.common.entity.PoseType
@@ -22,7 +21,7 @@ import com.cobblemon.mod.common.util.math.geometry.toRadians
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class SwoobatModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BiWingedFrame {
+class SwoobatModel (root: ModelPart) : PosableModel(), HeadedFrame, BiWingedFrame {
     override val rootPart = root.registerChildWithAllChildren("swoobat")
     override val head = getPart("head")
     override val leftWing = getPart("left_wing")
@@ -34,11 +33,11 @@ class SwoobatModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BiWi
     override var profileScale = 0.63F
     override var profileTranslation = Vec3d(-0.05, 0.75, 0.0)
 
-    lateinit var standing: PokemonPose
-    lateinit var walk: PokemonPose
-    lateinit var hovering: PokemonPose
+    lateinit var standing: CobblemonPose
+    lateinit var walk: CobblemonPose
+    lateinit var hovering: CobblemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("swoobat", "cry") }
+    override val cryAnimation = CryProvider { bedrockStateful("swoobat", "cry") }
 
     override fun registerPoses() {
 

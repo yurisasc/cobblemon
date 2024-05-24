@@ -8,10 +8,9 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1
 
-import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.pose.CobblemonPose
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.PoseType.Companion.MOVING_POSES
 import com.cobblemon.mod.common.entity.PoseType.Companion.STATIONARY_POSES
@@ -20,7 +19,7 @@ import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class DugtrioAlolanModel(root: ModelPart) : PokemonPoseableModel() {
+class DugtrioAlolanModel(root: ModelPart) : PosableModel() {
     override val rootPart = root.registerChildWithAllChildren("dugtrio_alolan")
 
     override var portraitScale = 1.3F
@@ -29,12 +28,12 @@ class DugtrioAlolanModel(root: ModelPart) : PokemonPoseableModel() {
     override var profileScale = 0.9F
     override var profileTranslation = Vec3d(0.0, 0.29, 0.0)
 
-    lateinit var standing: PokemonPose
-    lateinit var walking: PokemonPose
-    lateinit var battleidle: PokemonPose
-    lateinit var sleep: PokemonPose
+    lateinit var standing: CobblemonPose
+    lateinit var walking: CobblemonPose
+    lateinit var battleidle: CobblemonPose
+    lateinit var sleep: CobblemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("dugtrio_alolan", "cry") }
+    override val cryAnimation = CryProvider { bedrockStateful("dugtrio_alolan", "cry") }
 
     override fun registerPoses() {
         val blink = quirk { bedrockStateful("dugtrio_alolan", "blink")}

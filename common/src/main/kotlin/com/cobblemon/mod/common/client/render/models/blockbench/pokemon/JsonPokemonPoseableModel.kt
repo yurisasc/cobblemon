@@ -42,14 +42,14 @@ import java.util.function.Supplier
 import net.minecraft.util.math.Vec3d
 
 /**
- * The goal of this is to allow a PokemonPoseableModel to be constructed from a JSON instead of being
+ * The goal of this is to allow a PosableModel to be constructed from a JSON instead of being
  * created via a class. By being loadable from JSON, the full flow of a new Pokémon can be accomplished
  * from a resource + data pack.
  *
  * @author Hiroku
  * @since August 7th, 2022
  */
-class JsonPokemonPoseableModel(rootPart: Bone) : JsonPosableModel(rootPart), HeadedFrame {
+class JsonPosableModel(rootPart: Bone) : JsonPosableModel(rootPart), HeadedFrame {
     companion object {
         val gson = GsonBuilder()
             .setPrettyPrinting()
@@ -58,11 +58,11 @@ class JsonPokemonPoseableModel(rootPart: Bone) : JsonPosableModel(rootPart), Hea
             .setExclusionStrategies(JsonModelExclusion)
             .registerTypeAdapter(
                 StatefulAnimation::class.java,
-                StatefulAnimationAdapter { JsonPokemonPoseableModelAdapter.model!! }
+                StatefulAnimationAdapter { JsonPosableModelAdapter.model!! }
             )
             .registerTypeAdapter(ExpressionLike::class.java, ExpressionLikeAdapter)
             .registerTypeAdapter(Pose::class.java, PoseAdapter)
-            .registerTypeAdapter(JsonPokemonPoseableModel::class.java, JsonPokemonPoseableModelAdapter)
+            .registerTypeAdapter(JsonPosableModel::class.java, JsonPosableModelAdapter)
             .create()
 
         fun registerFactory(id: String, factory: AnimationReferenceFactory) {
@@ -79,16 +79,13 @@ class JsonPokemonPoseableModel(rootPart: Bone) : JsonPosableModel(rootPart), Hea
 
     override val head: Bone by lazy { headJoint?.let { getPart(it) } ?: rootPart }
 
-    val faint: Supplier<StatefulAnimation<PokemonEntity, ModelFrame>>? = null
-    val cry: Supplier<StatefulAnimation<PokemonEntity, ModelFrame>>? = null
-
-    override fun getFaintAnimation(pokemonEntity: PokemonEntity, state: PoseableEntityState<PokemonEntity>) = faint?.get()
-    override val cryAnimation = CryProvider { _, _ -> cry?.get() }
+    val faint: Supplier<StatefulAnimation>? = null
+    val cry: Supplier<StatefulAnimation>? = null
 
     object JsonModelExclusion: ExclusionStrategy {
         override fun shouldSkipField(f: FieldAttributes): Boolean {
             return f.declaringClass.simpleName !in listOf(
-                "JsonPokemonPoseableModel",
+                "JsonPosableModel",
                 "PoseableEntityModel",
                 "Pose"
             )
@@ -105,15 +102,15 @@ class JsonPokemonPoseableModel(rootPart: Bone) : JsonPosableModel(rootPart), Hea
             json as JsonPrimitive
             val animString = json.asString
             val format = animString.substringBefore("(")
-            return Supplier { ANIMATION_FACTORIES[format]!!.stateful(JsonPokemonPoseableModelAdapter.model!!, animString) }
+            return Supplier { ANIMATION_FACTORIES[format]!!.stateful(JsonPosableModelAdapter.model!!, animString) }
         }
     }
 
-    object JsonPokemonPoseableModelAdapter : InstanceCreator<JsonPokemonPoseableModel> {
+    object JsonPosableModelAdapter : InstanceCreator<JsonPosableModel> {
         var modelPart: Bone? = null
-        var model: JsonPokemonPoseableModel? = null
-        override fun createInstance(type: Type): JsonPokemonPoseableModel {
-            return JsonPokemonPoseableModel(modelPart!!).also {
+        var model: JsonPosableModel? = null
+        override fun createInstance(type: Type): JsonPosableModel {
+            return JsonPosableModel(modelPart!!).also {
                 model = it
                 it.loadAllNamedChildren(modelPart!!)
             }
@@ -122,7 +119,7 @@ class JsonPokemonPoseableModel(rootPart: Bone) : JsonPosableModel(rootPart), Hea
 
     object PoseAdapter : JsonDeserializer<Pose> {
         override fun deserialize(json: JsonElement, type: Type, ctx: JsonDeserializationContext): Pose {
-            val model = JsonPokemonPoseableModelAdapter.model!!
+            val model = JsonPosableModelAdapter.model!!
             val obj = json as JsonObject
             val pose = JsonPose(model, obj)
 
@@ -137,30 +134,30 @@ class JsonPokemonPoseableModel(rootPart: Bone) : JsonPosableModel(rootPart), Hea
             }
             val mustBeTouchingWaterOrRain = json.get("isTouchingWaterOrRain")?.asBoolean
             if (mustBeTouchingWaterOrRain != null) {
-                conditionsList.add { mustBeTouchingWaterOrRain == it.isTouchingWaterOrRain }
+                conditionsList.add { mustBeTouchingWaterOrRain == it.entity?.isTouchingWaterOrRain }
             }
             val mustBeSubmergedInWater = json.get("isSubmergedInWater")?.asBoolean
             if (mustBeSubmergedInWater != null) {
-                conditionsList.add { mustBeSubmergedInWater == it.isSubmergedInWater }
+                conditionsList.add { mustBeSubmergedInWater == it.entity?.isSubmergedInWater }
             }
             val mustBeStandingOnRedSand = json.get("isStandingOnRedSand")?.asBoolean
             if (mustBeStandingOnRedSand != null) {
-                conditionsList.add { mustBeStandingOnRedSand == it.isStandingOnRedSand() }
+                conditionsList.add { mustBeStandingOnRedSand == it.entity?.isStandingOnRedSand() }
             }
             val mustBeStandingOnSand = json.get("isStandingOnSand")?.asBoolean
             if (mustBeStandingOnSand != null) {
-                conditionsList.add { mustBeStandingOnSand == it.isStandingOnSand() }
+                conditionsList.add { mustBeStandingOnSand == it.entity?.isStandingOnSand() }
             }
             val mustBeStandingOnSandOrRedSand = json.get("isStandingOnSandOrRedSand")?.asBoolean
             if (mustBeStandingOnSandOrRedSand != null) {
-                conditionsList.add { mustBeStandingOnSandOrRedSand == it.isStandingOnSandOrRedSand() }
+                conditionsList.add { mustBeStandingOnSandOrRedSand == it.entity?.isStandingOnSandOrRedSand() }
             }
             val mustBeDusk = json.get("isDusk")?.asBoolean
             if (mustBeDusk != null) {
-                conditionsList.add { mustBeDusk == it.isDusk() }
+                conditionsList.add { mustBeDusk == it.entity?.isDusk() }
             }
 
-            conditionsList.add { (it.delegate as PokemonClientDelegate).runtime.resolveBoolean(pose.condition) }
+            conditionsList.add { (it.runtime.resolveBoolean(pose.condition) }
 
             val poseCondition: ((RenderContext) -> Boolean)? = if (conditionsList.isEmpty()) null else conditionsList.reduce { acc, function -> { acc(it) && function(it) } }
             return Pose(

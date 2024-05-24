@@ -10,14 +10,13 @@ package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen6
 
 import com.cobblemon.mod.common.client.render.models.blockbench.createTransformation
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.ModelPartTransformation
 import com.cobblemon.mod.common.entity.PoseType
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class CarbinkModel (root: ModelPart) : PokemonPoseableModel() {
+class CarbinkModel (root: ModelPart) : PosableModel() {
     override val rootPart = root.registerChildWithAllChildren("carbink")
 
     override var portraitScale = 1.8F
@@ -26,10 +25,10 @@ class CarbinkModel (root: ModelPart) : PokemonPoseableModel() {
     override var profileScale = 0.85F
     override var profileTranslation = Vec3d(0.0, 0.7, 0.0)
 
-    lateinit var standing: PokemonPose
-    lateinit var walk: PokemonPose
+    lateinit var standing: CobblemonPose
+    lateinit var walk: CobblemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("carbink", "cry") }
+    override val cryAnimation = CryProvider { bedrockStateful("carbink", "cry") }
 
     override fun registerPoses() {
         val blink = quirk { bedrockStateful("carbink", "blink") }

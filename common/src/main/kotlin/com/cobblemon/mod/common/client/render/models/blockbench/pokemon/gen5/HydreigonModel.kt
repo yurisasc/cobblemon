@@ -10,8 +10,7 @@ package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen5
 
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BiWingedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.ModelPartTransformation
 import com.cobblemon.mod.common.client.render.models.blockbench.wavefunction.cosineFunction
 import com.cobblemon.mod.common.client.render.models.blockbench.wavefunction.sineFunction
@@ -20,7 +19,7 @@ import com.cobblemon.mod.common.util.math.geometry.toRadians
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class HydreigonModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
+class HydreigonModel (root: ModelPart) : PosableModel(), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("hydreigon")
     override val head = getPart("neck")
 
@@ -30,10 +29,10 @@ class HydreigonModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override var profileScale = 0.58F
     override var profileTranslation = Vec3d(-0.06, 1.2, 0.0)
 
-    lateinit var standing: PokemonPose
-    lateinit var walk: PokemonPose
+    lateinit var standing: CobblemonPose
+    lateinit var walk: CobblemonPose
 
-//    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("hydreigon", "cry") }
+//    override val cryAnimation = CryProvider { bedrockStateful("hydreigon", "cry") }
 
     override fun registerPoses() {
         val blink = quirk { bedrockStateful("hydreigon", "blink") }

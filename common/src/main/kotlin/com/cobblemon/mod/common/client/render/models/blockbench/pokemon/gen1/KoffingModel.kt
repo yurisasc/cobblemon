@@ -8,16 +8,15 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1
 
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cobblemon.mod.common.entity.PoseType.Companion.MOVING_POSES
 import com.cobblemon.mod.common.entity.PoseType.Companion.STATIONARY_POSES
 import com.cobblemon.mod.common.entity.PoseType.Companion.UI_POSES
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class KoffingModel(root: ModelPart) : PokemonPoseableModel() {
+class KoffingModel(root: ModelPart) : PosableModel() {
     override val rootPart = root.registerChildWithAllChildren("koffing")
 
     override var portraitScale = 1.9F
@@ -26,10 +25,10 @@ class KoffingModel(root: ModelPart) : PokemonPoseableModel() {
     override var profileScale = 0.8F
     override var profileTranslation = Vec3d(0.0, 0.6, 0.0)
 
-    lateinit var standing: PokemonPose
-    lateinit var walk: PokemonPose
+    lateinit var standing: CobblemonPose
+    lateinit var walk: CobblemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("koffing", "cry") }
+    override val cryAnimation = CryProvider { bedrockStateful("koffing", "cry") }
 
     override fun registerPoses() {
         val blink = quirk { bedrockStateful("koffing", "blink")}

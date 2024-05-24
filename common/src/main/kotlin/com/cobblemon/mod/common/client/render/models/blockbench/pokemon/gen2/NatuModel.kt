@@ -8,16 +8,15 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen2
 
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.BipedWalkAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cobblemon.mod.common.entity.PoseType
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class NatuModel(root: ModelPart) : PokemonPoseableModel(), BipedFrame, HeadedFrame {
+class NatuModel(root: ModelPart) : PosableModel(), BipedFrame, HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("natu")
     override val head = getPart("torso")
 
@@ -30,9 +29,9 @@ class NatuModel(root: ModelPart) : PokemonPoseableModel(), BipedFrame, HeadedFra
     override var profileScale = 1.09F
     override var profileTranslation = Vec3d(0.0, 0.03, 0.0)
 
-    lateinit var standing: PokemonPose
-    lateinit var walk: PokemonPose
-    lateinit var sleep: PokemonPose
+    lateinit var standing: CobblemonPose
+    lateinit var walk: CobblemonPose
+    lateinit var sleep: CobblemonPose
     override fun registerPoses() {
         val blink = quirk { bedrockStateful("natu", "blink") }
         sleep = registerPose(

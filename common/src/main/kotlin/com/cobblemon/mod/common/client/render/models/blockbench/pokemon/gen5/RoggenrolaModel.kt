@@ -12,15 +12,14 @@ import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntitySt
 import com.cobblemon.mod.common.client.render.models.blockbench.createTransformation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.ModelPartTransformation
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class RoggenrolaModel (root: ModelPart) : PokemonPoseableModel(), BipedFrame {
+class RoggenrolaModel (root: ModelPart) : PosableModel(), BipedFrame {
     override val rootPart = root.registerChildWithAllChildren("roggenrola")
     override val leftLeg = getPart("feet_left")
     override val rightLeg = getPart("feet_right")
@@ -31,14 +30,14 @@ class RoggenrolaModel (root: ModelPart) : PokemonPoseableModel(), BipedFrame {
     override var profileScale = 0.8F
     override var profileTranslation = Vec3d(0.0, 0.5, 0.0)
 
-    lateinit var standing: PokemonPose
-    lateinit var walking: PokemonPose
-    lateinit var sleep: PokemonPose
-    lateinit var battleidle: PokemonPose
-    lateinit var shoulderLeft: PokemonPose
-    lateinit var shoulderRight: PokemonPose
+    lateinit var standing: CobblemonPose
+    lateinit var walking: CobblemonPose
+    lateinit var sleep: CobblemonPose
+    lateinit var battleidle: CobblemonPose
+    lateinit var shoulderLeft: CobblemonPose
+    lateinit var shoulderRight: CobblemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("roggenrola", "cry") }
+    override val cryAnimation = CryProvider { bedrockStateful("roggenrola", "cry") }
 
     val shoulderOffset = 1
 

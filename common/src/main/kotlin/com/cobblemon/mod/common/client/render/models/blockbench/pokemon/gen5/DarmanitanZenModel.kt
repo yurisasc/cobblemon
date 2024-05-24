@@ -13,13 +13,12 @@ import com.cobblemon.mod.common.client.render.models.blockbench.animation.BipedW
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BimanualFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
 import com.cobblemon.mod.common.entity.PoseType
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class DarmanitanZenModel (root: ModelPart) : PokemonPoseableModel() {
+class DarmanitanZenModel (root: ModelPart) : PosableModel() {
     override val rootPart = root.registerChildWithAllChildren("darmanitan")
 
     override var portraitScale = 1.05F
@@ -28,10 +27,10 @@ class DarmanitanZenModel (root: ModelPart) : PokemonPoseableModel() {
     override var profileScale = 0.63F
     override var profileTranslation = Vec3d(0.0, 0.69, 0.0)
 
-    lateinit var standing: PokemonPose
-    lateinit var walk: PokemonPose
-    lateinit var sleep: PokemonPose
-    lateinit var battleIdle: PokemonPose
+    lateinit var standing: CobblemonPose
+    lateinit var walk: CobblemonPose
+    lateinit var sleep: CobblemonPose
+    lateinit var battleIdle: CobblemonPose
 
     override fun registerPoses() {
 

@@ -12,13 +12,12 @@ import com.cobblemon.mod.common.client.render.models.blockbench.animation.Quadru
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.QuadrupedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
 import com.cobblemon.mod.common.entity.PoseType
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class EldegossModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
+class EldegossModel (root: ModelPart) : PosableModel(), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("eldegoss")
     override val head = getPart("head")
 
@@ -28,10 +27,10 @@ class EldegossModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override var profileScale = 0.62F
     override var profileTranslation = Vec3d(0.07, 0.85, 0.0)
 
-    lateinit var standing: PokemonPose
-    lateinit var walk: PokemonPose
+    lateinit var standing: CobblemonPose
+    lateinit var walk: CobblemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("eldegoss", "cry") }
+    override val cryAnimation = CryProvider { bedrockStateful("eldegoss", "cry") }
 
     override fun registerPoses() {
         val blink = quirk { bedrockStateful("eldegoss", "blink") }

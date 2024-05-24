@@ -14,13 +14,12 @@ import com.cobblemon.mod.common.client.render.models.blockbench.frame.BimanualFr
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
 import com.cobblemon.mod.common.entity.PoseType
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class AggronModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BimanualFrame, BipedFrame {
+class AggronModel (root: ModelPart) : PosableModel(), HeadedFrame, BimanualFrame, BipedFrame {
     override val rootPart = root.registerChildWithAllChildren("aggron")
     override val head = getPart("neck")
 
@@ -35,10 +34,10 @@ class AggronModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Biman
     override var profileScale = 0.46F
     override var profileTranslation = Vec3d(-0.06, 0.98, -6.0)
 
-    lateinit var standing: PokemonPose
-    lateinit var walking: PokemonPose
+    lateinit var standing: CobblemonPose
+    lateinit var walking: CobblemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("aggron", "cry") }
+    override val cryAnimation = CryProvider { bedrockStateful("aggron", "cry") }
 
     override fun registerPoses() {
 

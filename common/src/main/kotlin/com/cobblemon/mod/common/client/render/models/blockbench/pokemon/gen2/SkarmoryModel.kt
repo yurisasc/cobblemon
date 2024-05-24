@@ -8,18 +8,16 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen2
 
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.BipedWalkAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BiWingedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pose.Bone
 import com.cobblemon.mod.common.entity.PoseType
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class SkarmoryModel (root: ModelPart) : PokemonPoseableModel(), BipedFrame, BiWingedFrame, HeadedFrame {
+class SkarmoryModel (root: ModelPart) : PosableModel(), BipedFrame, BiWingedFrame, HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("skarmory")
     override val head = getPart("lower_neck")
 
@@ -35,12 +33,12 @@ class SkarmoryModel (root: ModelPart) : PokemonPoseableModel(), BipedFrame, BiWi
     override var profileScale = 0.69F
     override var profileTranslation = Vec3d(0.0, 0.7, 0.0)
 
-    lateinit var standing: PokemonPose
-    lateinit var walk: PokemonPose
-    lateinit var sleeping: PokemonPose
-    lateinit var hovering: PokemonPose
-    lateinit var flying: PokemonPose
-    lateinit var battleidle: PokemonPose
+    lateinit var standing: CobblemonPose
+    lateinit var walk: CobblemonPose
+    lateinit var sleeping: CobblemonPose
+    lateinit var hovering: CobblemonPose
+    lateinit var flying: CobblemonPose
+    lateinit var battleidle: CobblemonPose
 
     override fun registerPoses() {
         val blink = quirk { bedrockStateful("skarmory", "blink") }

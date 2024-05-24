@@ -12,15 +12,14 @@ import com.cobblemon.mod.common.client.render.models.blockbench.animation.WaveAn
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.WaveSegment
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.ModelPartTransformation
 import com.cobblemon.mod.common.client.render.models.blockbench.wavefunction.sineFunction
 import com.cobblemon.mod.common.entity.PoseType
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class QwilfishHisuianModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
+class QwilfishHisuianModel (root: ModelPart) : PosableModel(), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("qwilfish_hisuian")
     override val head = getPart("body")
 
@@ -34,10 +33,10 @@ class QwilfishHisuianModel (root: ModelPart) : PokemonPoseableModel(), HeadedFra
     override var profileScale = 0.84F
     override var profileTranslation = Vec3d(0.02, 0.54, 0.0)
 
-    lateinit var standing: PokemonPose
-    lateinit var walk: PokemonPose
+    lateinit var standing: CobblemonPose
+    lateinit var walk: CobblemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("qwilfish_hisuian", "cry") }
+    override val cryAnimation = CryProvider { bedrockStateful("qwilfish_hisuian", "cry") }
 
     override fun registerPoses() {
         val blink = quirk { bedrockStateful("qwilfish_hisuian", "blink") }

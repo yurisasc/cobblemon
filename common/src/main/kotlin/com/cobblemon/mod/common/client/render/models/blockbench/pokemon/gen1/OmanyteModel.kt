@@ -8,18 +8,13 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1
 
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cobblemon.mod.common.entity.PoseType
-import com.cobblemon.mod.common.entity.PoseType.Companion.ALL_POSES
-import com.cobblemon.mod.common.entity.PoseType.Companion.MOVING_POSES
-import com.cobblemon.mod.common.entity.PoseType.Companion.STANDING_POSES
-import com.cobblemon.mod.common.entity.PoseType.Companion.UI_POSES
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class OmanyteModel(root: ModelPart) : PokemonPoseableModel() {
+class OmanyteModel(root: ModelPart) : PosableModel() {
     override val rootPart = root.registerChildWithAllChildren("omanyte")
 
     override var portraitScale = 3.15F
@@ -28,14 +23,14 @@ class OmanyteModel(root: ModelPart) : PokemonPoseableModel() {
     override var profileScale = 1.13F
     override var profileTranslation = Vec3d(0.0, -0.02, 0.0)
 
-    lateinit var standing: PokemonPose
-    lateinit var walk: PokemonPose
-    lateinit var float: PokemonPose
-    lateinit var swim: PokemonPose
-    lateinit var sleep: PokemonPose
-    lateinit var battleidle: PokemonPose
+    lateinit var standing: CobblemonPose
+    lateinit var walk: CobblemonPose
+    lateinit var float: CobblemonPose
+    lateinit var swim: CobblemonPose
+    lateinit var sleep: CobblemonPose
+    lateinit var battleidle: CobblemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("omanyte", "cry") }
+    override val cryAnimation = CryProvider { bedrockStateful("omanyte", "cry") }
 
     override fun registerPoses() {
         val blink = quirk { bedrockStateful("omanyte", "blink") }

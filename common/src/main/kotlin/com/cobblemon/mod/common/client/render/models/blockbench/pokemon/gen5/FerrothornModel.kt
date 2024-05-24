@@ -8,14 +8,13 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen5
 
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.Bone
 import com.cobblemon.mod.common.entity.PoseType
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class FerrothornModel(root: ModelPart) : PokemonPoseableModel() {
+class FerrothornModel(root: ModelPart) : PosableModel() {
     override val rootPart = root.registerChildWithAllChildren("ferrothorn")
 
     override var portraitScale = 1.07F
@@ -24,10 +23,10 @@ class FerrothornModel(root: ModelPart) : PokemonPoseableModel() {
     override var profileScale = 0.39F
     override var profileTranslation = Vec3d(-0.08, 0.9, -6.0)
 
-    lateinit var standing: PokemonPose
-    lateinit var walk: PokemonPose
-    lateinit var battleIdle: PokemonPose
-    lateinit var sleep: PokemonPose
+    lateinit var standing: CobblemonPose
+    lateinit var walk: CobblemonPose
+    lateinit var battleIdle: CobblemonPose
+    lateinit var sleep: CobblemonPose
     override fun registerPoses() {
         val blink = quirk { bedrockStateful("ferrothorn", "blink") }
 

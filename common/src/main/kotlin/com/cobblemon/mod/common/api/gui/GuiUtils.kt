@@ -11,8 +11,6 @@ package com.cobblemon.mod.common.api.gui
 import com.cobblemon.mod.common.api.text.font
 import com.cobblemon.mod.common.client.gui.battle.BattleOverlay.Companion.PORTRAIT_DIAMETER
 import com.cobblemon.mod.common.client.render.models.blockbench.PosableState
-import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityModel
-import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
 import com.cobblemon.mod.common.client.render.models.blockbench.repository.RenderContext
 import com.cobblemon.mod.common.client.render.models.blockbench.repository.VaryingModelRepository
 import com.cobblemon.mod.common.entity.PoseType
@@ -256,12 +254,12 @@ fun drawPoseablePortrait(
     DiffuseLighting.enableGuiDepthLighting()
 }
 
-fun <E : Entity, M : PoseableEntityModel<E>> drawProfile(
-    repository: VaryingModelRepository<E, M>,
+fun drawProfile(
+    repository: VaryingModelRepository,
     resourceIdentifier: Identifier,
     aspects: Set<String>,
     matrixStack: MatrixStack,
-    state: PoseableEntityState<E>,
+    state: PosableState,
     partialTicks: Float,
     scale: Float = 20F
 ) {
@@ -274,7 +272,7 @@ fun <E : Entity, M : PoseableEntityModel<E>> drawProfile(
     context.put(RenderContext.SPECIES, resourceIdentifier)
     context.put(RenderContext.ASPECTS, aspects)
 
-    val renderType = model.getLayer(texture)
+    val renderType = RenderLayer.getEntityCutout(texture)//model.getLayer(texture)
 
     RenderSystem.applyModelViewMatrix()
     matrixStack.scale(scale, scale, -scale)

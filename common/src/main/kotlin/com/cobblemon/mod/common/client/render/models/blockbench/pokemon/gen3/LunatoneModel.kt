@@ -8,13 +8,12 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen3
 
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
 import com.cobblemon.mod.common.entity.PoseType
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class LunatoneModel (root: ModelPart) : PokemonPoseableModel() {
+class LunatoneModel (root: ModelPart) : PosableModel() {
     override val rootPart = root.registerChildWithAllChildren("lunatone")
 
     override var portraitScale = 1.05F
@@ -23,8 +22,8 @@ class LunatoneModel (root: ModelPart) : PokemonPoseableModel() {
     override var profileScale = 0.73F
     override var profileTranslation = Vec3d(0.05, 0.68, 0.0)
 
-    lateinit var sleep: PokemonPose
-    lateinit var standing: PokemonPose
+    lateinit var sleep: CobblemonPose
+    lateinit var standing: CobblemonPose
 
     override fun registerPoses() {
         val blink = quirk { bedrockStateful("lunatone", "blink") }

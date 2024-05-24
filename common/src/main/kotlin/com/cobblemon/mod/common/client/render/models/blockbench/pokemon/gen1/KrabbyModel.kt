@@ -8,9 +8,8 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1
 
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.PoseType.Companion.MOVING_POSES
 import com.cobblemon.mod.common.entity.PoseType.Companion.STATIONARY_POSES
@@ -19,7 +18,7 @@ import com.cobblemon.mod.common.util.isDusk
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class KrabbyModel(root: ModelPart) : PokemonPoseableModel() {
+class KrabbyModel(root: ModelPart) : PosableModel() {
     override val rootPart = root.registerChildWithAllChildren("krabby")
 
     override var portraitScale = 2.5F
@@ -28,13 +27,13 @@ class KrabbyModel(root: ModelPart) : PokemonPoseableModel() {
     override var profileScale = 1.0F
     override var profileTranslation = Vec3d(0.0, 0.2, 0.0)
 
-    lateinit var standing: PokemonPose
-    lateinit var walk: PokemonPose
-    lateinit var battleidle: PokemonPose
-    lateinit var standingBubbles: PokemonPose
-    lateinit var standingRain: PokemonPose
+    lateinit var standing: CobblemonPose
+    lateinit var walk: CobblemonPose
+    lateinit var battleidle: CobblemonPose
+    lateinit var standingBubbles: CobblemonPose
+    lateinit var standingRain: CobblemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("krabby", "cry") }
+    override val cryAnimation = CryProvider { bedrockStateful("krabby", "cry") }
 
     override fun registerPoses() {
         val blink = quirk { bedrockStateful("krabby", "blink")}

@@ -13,12 +13,16 @@ import com.cobblemon.mod.common.CobblemonItems
 import com.cobblemon.mod.common.api.tags.CobblemonItemTags
 import com.cobblemon.mod.common.block.DisplayCaseBlock
 import com.cobblemon.mod.common.block.entity.DisplayCaseBlockEntity
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableState
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.FloatingState
 import com.cobblemon.mod.common.client.render.models.blockbench.repository.PokemonModelRepository
+import com.cobblemon.mod.common.client.render.models.blockbench.repository.RenderContext
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.item.PokeBallItem
 import com.cobblemon.mod.common.item.PokemonItem
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.render.OverlayTexture
+import net.minecraft.client.render.RenderLayer
 import net.minecraft.client.render.VertexConsumer
 import net.minecraft.client.render.VertexConsumerProvider
 import net.minecraft.client.render.block.entity.BlockEntityRenderer
@@ -102,7 +106,8 @@ class DisplayCaseRenderer(ctx: BlockEntityRendererFactory.Context) : BlockEntity
         val item = stack.item as? PokemonItem ?: return
         val pokemon = item.asPokemon(stack) ?: return
         val model = PokemonModelRepository.getPoser(pokemon.species.resourceIdentifier, pokemon.aspects)
-        val renderLayer = model.getLayer(PokemonModelRepository.getTexture(pokemon.species.resourceIdentifier, pokemon.aspects, 0F))
+        val texture = PokemonModelRepository.getTexture(pokemon.species.resourceIdentifier, pokemon.aspects, 0F)
+        val renderLayer = RenderLayer.getEntityCutout(texture)//model.getLayer(texture)
         val tint = item.tint(stack)
         val vertexConsumer: VertexConsumer = vertexConsumers.getBuffer(renderLayer)
         val scale = 0.25f
@@ -113,10 +118,25 @@ class DisplayCaseRenderer(ctx: BlockEntityRendererFactory.Context) : BlockEntity
         matrices.scale(scale, scale, scale)
         matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(yRot))
 
-        model.setupAnimStateless(PoseType.PROFILE)
+        val context = RenderContext()
+        val state = FloatingState()
+        state.currentPose = model.getPose(PoseType.PROFILE)?.poseName
+        model.setupAnimStateful(
+            entity = null,
+            state = state,
+            limbSwing = 0F,
+            limbSwingAmount = 0F,
+            ageInTicks = 0F,
+            headYaw = 0F,
+            headPitch = 0F
+        )
+        context.put(RenderContext.SCALE, scale)
+        context.put(RenderContext.SPECIES, pokemon.species.resourceIdentifier)
+        context.put(RenderContext.ASPECTS, pokemon.aspects)
+        context.put(RenderContext.TEXTURE, texture)
 
-        model.withLayerContext(vertexConsumers, null, PokemonModelRepository.getLayers(pokemon.species.resourceIdentifier, pokemon.aspects)) {
-            model.render(matrices, vertexConsumer, light, OverlayTexture.DEFAULT_UV, tint.x, tint.y, tint.z, tint.w)
+        model.withLayerContext(vertexConsumers, state, PokemonModelRepository.getLayers(pokemon.species.resourceIdentifier, pokemon.aspects)) {
+            model.render(context, matrices, vertexConsumer, light, OverlayTexture.DEFAULT_UV, tint.x, tint.y, tint.z, tint.w)
         }
 
         matrices.pop()

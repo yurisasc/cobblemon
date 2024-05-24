@@ -12,7 +12,7 @@ import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.PosableState
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.StatefulAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.fossil.FossilModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.JsonPokemonPoseableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.JsonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.Bone
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.fromJson
@@ -52,14 +52,14 @@ object FossilModelRepository : VaryingModelRepository() {
             model.tankAnimations = animations.mapNotNull {
                 val animString = it.asString
                 val anim = animString.substringBefore("(")
-                if (JsonPokemonPoseableModel.ANIMATION_FACTORIES.contains(anim)) {
-                    return@mapNotNull JsonPokemonPoseableModel.ANIMATION_FACTORIES[anim]!!.stateless(model, animString)
+                if (JsonPosableModel.ANIMATION_FACTORIES.contains(anim)) {
+                    return@mapNotNull JsonPosableModel.ANIMATION_FACTORIES[anim]!!.stateless(model, animString)
                 } else {
                     null
                 }
             }.toTypedArray()
 
-            // borrowed code from JsonPokemonPoseableModel's PoseAdapter Deserializer
+            // borrowed code from JsonPosableModel's PoseAdapter Deserializer
             val tankQuirks = (jsonObject.get("quirks")?.asJsonArray ?: JsonArray()).map { json ->
                 json as JsonObject
                 val quirkAnimations: (state: PosableState) -> List<StatefulAnimation> = { _ ->
@@ -68,8 +68,8 @@ object FossilModelRepository : VaryingModelRepository() {
 
                         val anim = animString.substringBefore("(")
 
-                        val animation = if (JsonPokemonPoseableModel.ANIMATION_FACTORIES.contains(anim)) {
-                            JsonPokemonPoseableModel.ANIMATION_FACTORIES[anim]?.stateful(model, animString)
+                        val animation = if (JsonPosableModel.ANIMATION_FACTORIES.contains(anim)) {
+                            JsonPosableModel.ANIMATION_FACTORIES[anim]?.stateful(model, animString)
                         } else {
                             null
                         }

@@ -8,14 +8,14 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1
 
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.pose.CobblemonPose
 import com.cobblemon.mod.common.entity.PoseType
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class ElectrodeHisuianModel (root: ModelPart) : PokemonPoseableModel() {
+class ElectrodeHisuianModel (root: ModelPart) : PosableModel() {
     override val rootPart = root.registerChildWithAllChildren("electrode_hisuian")
 
     override var portraitScale = 1.5F
@@ -24,10 +24,10 @@ class ElectrodeHisuianModel (root: ModelPart) : PokemonPoseableModel() {
     override var profileScale = 0.8F
     override var profileTranslation = Vec3d(0.0, 0.5, 0.0)
 
-    lateinit var standing: PokemonPose
-    lateinit var walk: PokemonPose
+    lateinit var standing: CobblemonPose
+    lateinit var walk: CobblemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("electrode_hisuian", "cry") }
+    override val cryAnimation = CryProvider { bedrockStateful("electrode_hisuian", "cry") }
 
     override fun registerPoses() {
         val blink = quirk { bedrockStateful("electrode_hisuian", "blink") }

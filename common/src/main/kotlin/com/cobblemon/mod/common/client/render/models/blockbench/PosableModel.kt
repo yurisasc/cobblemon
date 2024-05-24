@@ -67,11 +67,11 @@ abstract class PosableModel: ModelFrame {
     val poses = mutableMapOf<String, Pose>()
     lateinit var locatorAccess: LocatorAccess
 
-    open val portraitScale = 1F
-    open val portraitTranslation = Vec3d(0.0, 0.0, 0.0)
+    open var portraitScale = 1F
+    open var portraitTranslation = Vec3d(0.0, 0.0, 0.0)
 
-    open val profileScale = 1F
-    open val profileTranslation = Vec3d(0.0, 0.0, 0.0)
+    open var profileScale = 1F
+    open var profileTranslation = Vec3d(0.0, 0.0, 0.0)
 
     var red = 1F
     var green = 1F
@@ -804,5 +804,7 @@ abstract class PosableModel: ModelFrame {
         condition = condition,
         animations = { animations(it) }
     )
+
+
 
 }

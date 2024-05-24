@@ -8,11 +8,11 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1
 
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.pose.CobblemonPose
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.PoseType.Companion.MOVING_POSES
 import com.cobblemon.mod.common.entity.PoseType.Companion.STATIONARY_POSES
@@ -21,7 +21,7 @@ import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class ChanseyModel(root: ModelPart) : PokemonPoseableModel(), BipedFrame {
+class ChanseyModel(root: ModelPart) : PosableModel(), BipedFrame {
     override val rootPart = root.registerChildWithAllChildren("chansey")
     override val leftLeg = getPart("left_foot")
     override val rightLeg = getPart("right_foot")
@@ -32,12 +32,12 @@ class ChanseyModel(root: ModelPart) : PokemonPoseableModel(), BipedFrame {
     override var profileScale = 0.8F
     override var profileTranslation = Vec3d(0.0, 0.55, 0.0)
 
-    lateinit var standing: PokemonPose
-    lateinit var walk: PokemonPose
-    lateinit var sleep: PokemonPose
-    lateinit var battleIdle: PokemonPose
+    lateinit var standing: CobblemonPose
+    lateinit var walk: CobblemonPose
+    lateinit var sleep: CobblemonPose
+    lateinit var battleIdle: CobblemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("chansey", "cry") }
+    override val cryAnimation = CryProvider { bedrockStateful("chansey", "cry") }
 
     override fun registerPoses() {
         val blink = quirk { bedrockStateful("chansey", "blink") }

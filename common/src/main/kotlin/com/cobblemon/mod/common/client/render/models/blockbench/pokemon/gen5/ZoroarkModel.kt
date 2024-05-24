@@ -13,13 +13,12 @@ import com.cobblemon.mod.common.client.render.models.blockbench.frame.BimanualFr
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
 import com.cobblemon.mod.common.entity.PoseType
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class ZoroarkModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedFrame, BimanualFrame {
+class ZoroarkModel (root: ModelPart) : PosableModel(), HeadedFrame, BipedFrame, BimanualFrame {
     override val rootPart = root.registerChildWithAllChildren("zoroark")
     override val head = getPart("head")
 
@@ -35,10 +34,10 @@ class ZoroarkModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bipe
     override var profileTranslation = Vec3d(0.0, 1.08, -6.0)
     override var profileScale = 0.44F
 
-    lateinit var standing: PokemonPose
-    lateinit var walking: PokemonPose
+    lateinit var standing: CobblemonPose
+    lateinit var walking: CobblemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("zoroark", "cry") }
+    override val cryAnimation = CryProvider { bedrockStateful("zoroark", "cry") }
 
     override fun registerPoses() {
 

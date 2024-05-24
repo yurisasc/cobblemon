@@ -10,13 +10,12 @@ package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen6
 
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
 import com.cobblemon.mod.common.entity.PoseType
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class PumpkabooModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
+class PumpkabooModel (root: ModelPart) : PosableModel(), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("pumpkaboo")
     override val head = getPart("head")
 
@@ -26,12 +25,12 @@ class PumpkabooModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override var profileScale = 1.0F
     override var profileTranslation = Vec3d(0.0, 0.25, 0.0)
 
-    lateinit var standing: PokemonPose
-    lateinit var walk: PokemonPose
-    lateinit var battleidle: PokemonPose
-    lateinit var sleep: PokemonPose
+    lateinit var standing: CobblemonPose
+    lateinit var walk: CobblemonPose
+    lateinit var battleidle: CobblemonPose
+    lateinit var sleep: CobblemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("pumpkaboo", "cry") }
+    override val cryAnimation = CryProvider { bedrockStateful("pumpkaboo", "cry") }
 
     override fun registerPoses() {
         val blink = quirk { bedrockStateful("pumpkaboo", "blink") }

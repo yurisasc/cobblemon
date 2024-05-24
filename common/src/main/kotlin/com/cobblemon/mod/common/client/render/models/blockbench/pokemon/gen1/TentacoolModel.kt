@@ -8,14 +8,13 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1
 
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.PoseType.Companion.UI_POSES
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class TentacoolModel(root: ModelPart) : PokemonPoseableModel() {
+class TentacoolModel(root: ModelPart) : PosableModel() {
     override val rootPart = root.registerChildWithAllChildren("tentacool")
 
     override var portraitScale = 1.2F
@@ -24,12 +23,12 @@ class TentacoolModel(root: ModelPart) : PokemonPoseableModel() {
     override var profileScale = 0.6F
     override var profileTranslation = Vec3d(0.0, 0.8, 0.0)
 
-    lateinit var standing: PokemonPose
-    lateinit var walk: PokemonPose
-    lateinit var swim: PokemonPose
-    lateinit var float: PokemonPose
-    lateinit var sleep: PokemonPose
-    lateinit var watersleep: PokemonPose
+    lateinit var standing: CobblemonPose
+    lateinit var walk: CobblemonPose
+    lateinit var swim: CobblemonPose
+    lateinit var float: CobblemonPose
+    lateinit var sleep: CobblemonPose
+    lateinit var watersleep: CobblemonPose
 
     override fun registerPoses() {
         val blink = quirk { bedrockStateful("tentacool", "blink")}

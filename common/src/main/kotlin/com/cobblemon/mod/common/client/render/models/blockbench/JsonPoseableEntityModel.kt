@@ -33,7 +33,7 @@ abstract class JsonPosableModel(override val rootPart: Bone) : PosableModel() {
     object JsonModelExclusion: ExclusionStrategy {
         override fun shouldSkipField(f: FieldAttributes): Boolean {
             return f.declaringClass.simpleName !in listOf(
-                "JsonPokemonPoseableModel",
+                "JsonPosableModel",
                 "JsonGenericPoseableModel",
                 "PoseableEntityModel",
                 "Pose"

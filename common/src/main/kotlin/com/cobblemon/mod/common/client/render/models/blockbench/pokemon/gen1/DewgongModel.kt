@@ -8,17 +8,17 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1
 
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.pose.CobblemonPose
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.PoseType.Companion.STANDING_POSES
 import com.cobblemon.mod.common.entity.PoseType.Companion.UI_POSES
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class DewgongModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
+class DewgongModel(root: ModelPart) : PosableModel(), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("dewgong")
     override val head = getPart("head")
 
@@ -28,11 +28,11 @@ class DewgongModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override var profileScale = 1.1F
     override var profileTranslation = Vec3d(0.0, 0.0, 0.0)
 
-    lateinit var standing: PokemonPose
-    lateinit var float: PokemonPose
-    lateinit var swim: PokemonPose
+    lateinit var standing: CobblemonPose
+    lateinit var float: CobblemonPose
+    lateinit var swim: CobblemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("dewgong", "cry") }
+    override val cryAnimation = CryProvider { bedrockStateful("dewgong", "cry") }
 
     override fun registerPoses() {
         standing = registerPose(

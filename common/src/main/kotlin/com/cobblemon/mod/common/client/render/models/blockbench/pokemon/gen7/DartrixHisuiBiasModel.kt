@@ -14,8 +14,7 @@ import com.cobblemon.mod.common.client.render.models.blockbench.createTransforma
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BiWingedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.ModelPartTransformation
 import com.cobblemon.mod.common.client.render.models.blockbench.wavefunction.sineFunction
 import com.cobblemon.mod.common.entity.PoseType
@@ -26,7 +25,7 @@ import com.cobblemon.mod.common.util.math.geometry.toRadians
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class DartrixHisuiBiasModel(root: ModelPart) : PokemonPoseableModel(), BipedFrame, BiWingedFrame {
+class DartrixHisuiBiasModel(root: ModelPart) : PosableModel(), BipedFrame, BiWingedFrame {
     override val rootPart = root.registerChildWithAllChildren("dartrix_hisui_bias")
 
     private val wingsOpen = getPart("wings_open")
@@ -44,12 +43,12 @@ class DartrixHisuiBiasModel(root: ModelPart) : PokemonPoseableModel(), BipedFram
     override var profileTranslation = Vec3d(0.0, 0.8800000000000001, 0.0)
     override var profileScale = 0.55000013F
 
-    lateinit var fly: PokemonPose
-    lateinit var flyidle: PokemonPose
-    lateinit var standing: PokemonPose
-    lateinit var walk: PokemonPose
+    lateinit var fly: CobblemonPose
+    lateinit var flyidle: CobblemonPose
+    lateinit var standing: CobblemonPose
+    lateinit var walk: CobblemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("dartrix_hisui_bias", "cry") }
+    override val cryAnimation = CryProvider { bedrockStateful("dartrix_hisui_bias", "cry") }
 
     override fun registerPoses() {
         standing = registerPose(

@@ -13,13 +13,12 @@ import com.cobblemon.mod.common.client.render.models.blockbench.animation.BipedW
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BimanualFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
 import com.cobblemon.mod.common.entity.PoseType
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class KommoOModel (root: ModelPart) : PokemonPoseableModel(), BipedFrame, BimanualFrame {
+class KommoOModel (root: ModelPart) : PosableModel(), BipedFrame, BimanualFrame {
     override val rootPart = root.registerChildWithAllChildren("kommo_o")
 
     override val leftArm = getPart("arm_right")
@@ -33,10 +32,10 @@ class KommoOModel (root: ModelPart) : PokemonPoseableModel(), BipedFrame, Bimanu
     override var profileScale = 0.39F
     override var profileTranslation = Vec3d(0.0, 1.16, -6.0)
 
-    lateinit var standing: PokemonPose
-    lateinit var walk: PokemonPose
+    lateinit var standing: CobblemonPose
+    lateinit var walk: CobblemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("kommo-o", "cry") }
+    override val cryAnimation = CryProvider { bedrockStateful("kommo-o", "cry") }
     override fun registerPoses() {
         val blink = quirk { bedrockStateful("kommo-o", "blink") }
 

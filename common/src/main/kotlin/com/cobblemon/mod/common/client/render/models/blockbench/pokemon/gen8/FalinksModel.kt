@@ -8,8 +8,7 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen8
 
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.util.isUuid
@@ -17,7 +16,7 @@ import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
 
-class FalinksModel (root: ModelPart) : PokemonPoseableModel(){
+class FalinksModel (root: ModelPart) : PosableModel(){
     override val rootPart = root.registerChildWithAllChildren("falinks")
 
     override var portraitScale = 1.9F
@@ -26,12 +25,12 @@ class FalinksModel (root: ModelPart) : PokemonPoseableModel(){
     override var profileScale = 0.5F
     override var profileTranslation = Vec3d(0.1, 0.9, 0.0)
 
-    lateinit var standing: PokemonPose
-    lateinit var battlestanding: PokemonPose
-    lateinit var battlestanding2: PokemonPose
-    lateinit var walk: PokemonPose
-    lateinit var uipose: PokemonPose
-    lateinit var sleep: PokemonPose
+    lateinit var standing: CobblemonPose
+    lateinit var battlestanding: CobblemonPose
+    lateinit var battlestanding2: CobblemonPose
+    lateinit var walk: CobblemonPose
+    lateinit var uipose: CobblemonPose
+    lateinit var sleep: CobblemonPose
 
     override fun registerPoses() {
         val blink = quirk { bedrockStateful("falinks", "blink") }

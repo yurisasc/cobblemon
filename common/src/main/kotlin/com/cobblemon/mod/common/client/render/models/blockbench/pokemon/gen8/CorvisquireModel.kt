@@ -15,10 +15,7 @@ import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvi
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.Pose
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
-import com.cobblemon.mod.common.client.render.models.blockbench.PosableState
-import com.cobblemon.mod.common.client.render.models.blockbench.repository.RenderContext
 import net.minecraft.client.model.ModelPart
-import net.minecraft.client.render.entity.model.ParrotEntityModel.Pose
 import net.minecraft.util.math.Vec3d
 
 class CorvisquireModel (root: ModelPart) : PosableModel(), HeadedFrame, BipedFrame, BiWingedFrame {

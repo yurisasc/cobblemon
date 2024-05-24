@@ -8,17 +8,14 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen4
 
-import com.cobblemon.mod.common.client.render.models.blockbench.animation.QuadrupedWalkAnimation
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
-import com.cobblemon.mod.common.client.render.models.blockbench.frame.QuadrupedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cobblemon.mod.common.entity.PoseType
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class HippopotasModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
+class HippopotasModel (root: ModelPart) : PosableModel(), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("hippopotas")
     override val head = getPart("head")
 
@@ -28,12 +25,12 @@ class HippopotasModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override var profileScale = 0.6F
     override var profileTranslation = Vec3d(0.0, 0.85, 0.0)
 
-    lateinit var standing: PokemonPose
-    lateinit var walk: PokemonPose
-    lateinit var sleep: PokemonPose
-    lateinit var battleidle: PokemonPose
+    lateinit var standing: CobblemonPose
+    lateinit var walk: CobblemonPose
+    lateinit var sleep: CobblemonPose
+    lateinit var battleidle: CobblemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("hippopotas", "cry") }
+    override val cryAnimation = CryProvider { bedrockStateful("hippopotas", "cry") }
 
     override fun registerPoses() {
         val blink = quirk { bedrockStateful("hippopotas", "blink") }

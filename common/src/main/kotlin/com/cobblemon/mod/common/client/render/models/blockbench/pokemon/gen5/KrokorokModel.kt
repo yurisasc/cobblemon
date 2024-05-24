@@ -8,14 +8,13 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen5
 
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.util.asExpressionLike
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class KrokorokModel (root: ModelPart) : PokemonPoseableModel() {
+class KrokorokModel (root: ModelPart) : PosableModel() {
     override val rootPart = root.registerChildWithAllChildren("krokorok")
 
     override var portraitScale = 1.86F
@@ -24,10 +23,10 @@ class KrokorokModel (root: ModelPart) : PokemonPoseableModel() {
     override var profileScale = 0.55F
     override var profileTranslation = Vec3d(0.05, 0.93, 0.0)
 
-    lateinit var sleep: PokemonPose
-    lateinit var standing: PokemonPose
-    lateinit var walk: PokemonPose
-    lateinit var battleidle: PokemonPose
+    lateinit var sleep: CobblemonPose
+    lateinit var standing: CobblemonPose
+    lateinit var walk: CobblemonPose
+    lateinit var battleidle: CobblemonPose
 
     override fun registerPoses() {
 //        animations["physical"] = "q.bedrock_primary('krokorok', 'physical', 'look', q.curve('symmetrical_wide'))".asExpressionLike()

@@ -16,13 +16,12 @@ import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.QuadrupedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
 import com.cobblemon.mod.common.entity.PoseType
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class LarvestaModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, QuadrupedFrame, BimanualFrame {
+class LarvestaModel (root: ModelPart) : PosableModel(), HeadedFrame, QuadrupedFrame, BimanualFrame {
     override val rootPart = root.registerChildWithAllChildren("larvesta")
     override val head = getPart("neck")
 
@@ -39,10 +38,10 @@ class LarvestaModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Qua
     override var profileScale = 0.67F
     override var profileTranslation = Vec3d(-0.01, 0.72, 0.0)
 
-    lateinit var standing: PokemonPose
-    lateinit var walk: PokemonPose
+    lateinit var standing: CobblemonPose
+    lateinit var walk: CobblemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("larvesta", "cry") }
+    override val cryAnimation = CryProvider { bedrockStateful("larvesta", "cry") }
 
     override fun registerPoses() {
         val blink = quirk { bedrockStateful("larvesta", "blink") }

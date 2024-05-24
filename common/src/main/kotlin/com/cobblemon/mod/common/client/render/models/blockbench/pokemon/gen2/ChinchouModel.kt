@@ -8,18 +8,14 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen2
 
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
-import com.cobblemon.mod.common.client.render.models.blockbench.createTransformation
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pose.ModelPartTransformation
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class ChinchouModel (root: ModelPart) : PokemonPoseableModel() {
+class ChinchouModel (root: ModelPart) : PosableModel() {
     override val rootPart = root.registerChildWithAllChildren("chinchou")
 
     override var portraitScale = 1.75F
@@ -28,16 +24,16 @@ class ChinchouModel (root: ModelPart) : PokemonPoseableModel() {
     override var profileScale = 0.65F
     override var profileTranslation = Vec3d(-0.05, 0.45, 0.0)
 
-    lateinit var standing: PokemonPose
-    lateinit var walk: PokemonPose
-    lateinit var floating: PokemonPose
-    lateinit var swimming: PokemonPose
-    lateinit var sleep: PokemonPose
-    lateinit var watersleep: PokemonPose
-    lateinit var battleidle: PokemonPose
-    lateinit var waterbattleidle: PokemonPose
+    lateinit var standing: CobblemonPose
+    lateinit var walk: CobblemonPose
+    lateinit var floating: CobblemonPose
+    lateinit var swimming: CobblemonPose
+    lateinit var sleep: CobblemonPose
+    lateinit var watersleep: CobblemonPose
+    lateinit var battleidle: CobblemonPose
+    lateinit var waterbattleidle: CobblemonPose
 
-//    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("chinchou", "cry") }
+//    override val cryAnimation = CryProvider { bedrockStateful("chinchou", "cry") }
 
     override fun registerPoses() {
         val blink = quirk { bedrockStateful("chinchou", "blink")}

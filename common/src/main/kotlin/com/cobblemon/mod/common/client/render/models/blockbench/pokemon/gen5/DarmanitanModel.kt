@@ -14,13 +14,12 @@ import com.cobblemon.mod.common.client.render.models.blockbench.frame.BimanualFr
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
 import com.cobblemon.mod.common.entity.PoseType
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class DarmanitanModel (root: ModelPart) : PokemonPoseableModel() {
+class DarmanitanModel (root: ModelPart) : PosableModel() {
     override val rootPart = root.registerChildWithAllChildren("darmanitan")
 
     override var portraitScale = 0.96F
@@ -29,12 +28,12 @@ class DarmanitanModel (root: ModelPart) : PokemonPoseableModel() {
     override var profileScale = 0.57F
     override var profileTranslation = Vec3d(-0.11, 0.73, 0.0)
 
-    lateinit var standing: PokemonPose
-    lateinit var walk: PokemonPose
-    lateinit var sleep: PokemonPose
-    lateinit var battleidle: PokemonPose
+    lateinit var standing: CobblemonPose
+    lateinit var walk: CobblemonPose
+    lateinit var sleep: CobblemonPose
+    lateinit var battleidle: CobblemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("darmanitan", "cry") }
+    override val cryAnimation = CryProvider { bedrockStateful("darmanitan", "cry") }
 
     override fun registerPoses() {
         val blink = quirk { bedrockStateful("darmanitan", "blink") }

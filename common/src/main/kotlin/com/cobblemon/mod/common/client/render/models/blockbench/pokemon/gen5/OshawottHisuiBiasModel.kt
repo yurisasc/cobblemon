@@ -15,14 +15,13 @@ import com.cobblemon.mod.common.client.render.models.blockbench.frame.BimanualFr
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.ModelPartTransformation
 import com.cobblemon.mod.common.entity.PoseType
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class OshawottHisuiBiasModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedFrame, BimanualFrame {
+class OshawottHisuiBiasModel (root: ModelPart) : PosableModel(), HeadedFrame, BipedFrame, BimanualFrame {
     override val rootPart = root.registerChildWithAllChildren("oshawott_hisui_bias")
     override val head = getPart("head")
     override val rightArm = getPart("arm_right")
@@ -37,12 +36,12 @@ class OshawottHisuiBiasModel (root: ModelPart) : PokemonPoseableModel(), HeadedF
     override var profileScale = 0.7F
     override var profileTranslation = Vec3d(0.0, 0.69, 0.0)
 
-    lateinit var battleidle: PokemonPose
-    lateinit var sleep: PokemonPose
-    lateinit var standing: PokemonPose
-    lateinit var walk: PokemonPose
+    lateinit var battleidle: CobblemonPose
+    lateinit var sleep: CobblemonPose
+    lateinit var standing: CobblemonPose
+    lateinit var walk: CobblemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("oshawott_hisui_bias", "cry") }
+    override val cryAnimation = CryProvider { bedrockStateful("oshawott_hisui_bias", "cry") }
 
     override fun registerPoses() {
         val blink = quirk { bedrockStateful("oshawott_hisui_bias", "blink") }

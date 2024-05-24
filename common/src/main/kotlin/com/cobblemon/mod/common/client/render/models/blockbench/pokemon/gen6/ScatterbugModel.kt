@@ -12,15 +12,14 @@ import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntitySt
 import com.cobblemon.mod.common.client.render.models.blockbench.createTransformation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.ModelPartTransformation
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class ScatterbugModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
+class ScatterbugModel (root: ModelPart) : PosableModel(), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("scatterbug")
     override val head = getPart("head")
 
@@ -30,15 +29,15 @@ class ScatterbugModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override var profileScale = 1.2F
     override var profileTranslation = Vec3d(0.0, 0.05, 0.0)
 
-    lateinit var standing: PokemonPose
-    lateinit var walk: PokemonPose
-    lateinit var sleep: PokemonPose
-    lateinit var shoulderLeft: PokemonPose
-    lateinit var shoulderRight: PokemonPose
+    lateinit var standing: CobblemonPose
+    lateinit var walk: CobblemonPose
+    lateinit var sleep: CobblemonPose
+    lateinit var shoulderLeft: CobblemonPose
+    lateinit var shoulderRight: CobblemonPose
 
     val shoulderOffset = 2.4
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("scatterbug", "cry") }
+    override val cryAnimation = CryProvider { bedrockStateful("scatterbug", "cry") }
 
     override fun registerPoses() {
         val blink = quirk { bedrockStateful("scatterbug", "blink") }

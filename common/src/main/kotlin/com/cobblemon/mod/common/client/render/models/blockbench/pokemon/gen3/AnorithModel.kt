@@ -10,14 +10,13 @@ package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen3
 
 import com.cobblemon.mod.common.client.render.models.blockbench.createTransformation
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.ModelPartTransformation
 import com.cobblemon.mod.common.entity.PoseType
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class AnorithModel (root: ModelPart) : PokemonPoseableModel() {
+class AnorithModel (root: ModelPart) : PosableModel() {
     override val rootPart = root.registerChildWithAllChildren("anorith")
 
     override var portraitTranslation = Vec3d(-0.14, -1.56, 0.0)
@@ -26,27 +25,27 @@ class AnorithModel (root: ModelPart) : PokemonPoseableModel() {
     override var profileTranslation = Vec3d(-0.05, -0.19, 0.0)
     override var profileScale = 1.03F
 
-    lateinit var standing: PokemonPose
-    lateinit var walking: PokemonPose
-    lateinit var sleep: PokemonPose
-    lateinit var ui_poses: PokemonPose
-    lateinit var battleidle: PokemonPose
-    lateinit var water_surface_sleep: PokemonPose
-    lateinit var water_sleep: PokemonPose
-    lateinit var water_surface_idle: PokemonPose
-    lateinit var water_idle: PokemonPose
-    lateinit var water_surface_battleidle: PokemonPose
-    lateinit var water_battleidle: PokemonPose
-    lateinit var water_surface_swim: PokemonPose
+    lateinit var standing: CobblemonPose
+    lateinit var walking: CobblemonPose
+    lateinit var sleep: CobblemonPose
+    lateinit var ui_poses: CobblemonPose
+    lateinit var battleidle: CobblemonPose
+    lateinit var water_surface_sleep: CobblemonPose
+    lateinit var water_sleep: CobblemonPose
+    lateinit var water_surface_idle: CobblemonPose
+    lateinit var water_idle: CobblemonPose
+    lateinit var water_surface_battleidle: CobblemonPose
+    lateinit var water_battleidle: CobblemonPose
+    lateinit var water_surface_swim: CobblemonPose
     lateinit var water_swim:PokemonPose
-    lateinit var shoulderLeft: PokemonPose
-    lateinit var shoulderRight: PokemonPose
+    lateinit var shoulderLeft: CobblemonPose
+    lateinit var shoulderRight: CobblemonPose
 
     val shoulderOffset = 5.5
     val wateroffset = -4.5
     val watersurfaceoffset = 1
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("anorith", "cry") }
+    override val cryAnimation = CryProvider { bedrockStateful("anorith", "cry") }
 
     override fun registerPoses() {
         val blink = quirk { bedrockStateful("anorith", "blink") }

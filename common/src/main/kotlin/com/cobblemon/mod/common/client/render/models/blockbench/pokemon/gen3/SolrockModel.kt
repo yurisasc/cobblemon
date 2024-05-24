@@ -9,14 +9,13 @@
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen3
 
 import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class SolrockModel (root: ModelPart) : PokemonPoseableModel() {
+class SolrockModel (root: ModelPart) : PosableModel() {
     override val rootPart = root.registerChildWithAllChildren("solrock")
 
     override var portraitScale = 1.6F
@@ -25,8 +24,8 @@ class SolrockModel (root: ModelPart) : PokemonPoseableModel() {
     override var profileScale = 0.8F
     override var profileTranslation = Vec3d(0.0, 0.74, 0.0)
 
-    lateinit var sleep: PokemonPose
-    lateinit var standing: PokemonPose
+    lateinit var sleep: CobblemonPose
+    lateinit var standing: CobblemonPose
 
     override fun registerPoses() {
         val blink = quirk { bedrockStateful("solrock", "blink") }

@@ -12,14 +12,13 @@ import com.cobblemon.mod.common.client.render.models.blockbench.createTransforma
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.ModelPartTransformation
 import com.cobblemon.mod.common.entity.PoseType
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class QuaquavalModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedFrame {
+class QuaquavalModel (root: ModelPart) : PosableModel(), HeadedFrame, BipedFrame {
     override val rootPart = root.registerChildWithAllChildren("quaquaval")
     override val head = getPart("head")
 
@@ -34,19 +33,19 @@ class QuaquavalModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bi
     override var profileScale = 0.32F
     override var profileTranslation = Vec3d(0.0, 1.24, 0.0)
 
-    lateinit var standing: PokemonPose
-    lateinit var standing2: PokemonPose
-    lateinit var walking: PokemonPose
-    lateinit var sleep: PokemonPose
-    lateinit var battleidle: PokemonPose
-    lateinit var floating: PokemonPose
-    lateinit var swimming: PokemonPose
-    lateinit var surface_floating: PokemonPose
-    lateinit var surface_swimming: PokemonPose
+    lateinit var standing: CobblemonPose
+    lateinit var standing2: CobblemonPose
+    lateinit var walking: CobblemonPose
+    lateinit var sleep: CobblemonPose
+    lateinit var battleidle: CobblemonPose
+    lateinit var floating: CobblemonPose
+    lateinit var swimming: CobblemonPose
+    lateinit var surface_floating: CobblemonPose
+    lateinit var surface_swimming: CobblemonPose
 
     val wateroffset = 19
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("quaquaval", "cry") }
+    override val cryAnimation = CryProvider { bedrockStateful("quaquaval", "cry") }
 
     override fun registerPoses() {
         val blink = quirk { bedrockStateful("quaquaval", "blink") }

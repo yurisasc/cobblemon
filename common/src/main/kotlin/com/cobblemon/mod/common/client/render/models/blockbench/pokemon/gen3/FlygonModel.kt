@@ -14,8 +14,7 @@ import com.cobblemon.mod.common.client.render.models.blockbench.frame.BiWingedFr
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.ModelPartTransformation
 import com.cobblemon.mod.common.client.render.models.blockbench.wavefunction.sineFunction
 import com.cobblemon.mod.common.entity.PoseType
@@ -23,7 +22,7 @@ import com.cobblemon.mod.common.util.math.geometry.toRadians
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class FlygonModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BiWingedFrame {
+class FlygonModel (root: ModelPart) : PosableModel(), HeadedFrame, BiWingedFrame {
     override val rootPart = root.registerChildWithAllChildren("flygon")
     override val head = getPart("head")
 
@@ -36,11 +35,11 @@ class FlygonModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BiWin
     override var profileScale = 0.32F
     override var profileTranslation = Vec3d(0.07, 1.21, -6.0)
 
-    lateinit var standing: PokemonPose
-    lateinit var walk: PokemonPose
-    lateinit var hover: PokemonPose
+    lateinit var standing: CobblemonPose
+    lateinit var walk: CobblemonPose
+    lateinit var hover: CobblemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("flygon", "cry") }
+    override val cryAnimation = CryProvider { bedrockStateful("flygon", "cry") }
 
     override fun registerPoses() {
         val blink = quirk { bedrockStateful("flygon", "blink") }

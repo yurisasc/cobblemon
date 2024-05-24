@@ -8,18 +8,17 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1
 
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.pose.CobblemonPose
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.PoseType.Companion.MOVING_POSES
 import com.cobblemon.mod.common.entity.PoseType.Companion.STATIONARY_POSES
-import com.cobblemon.mod.common.entity.PoseType.Companion.SWIMMING_POSES
 import com.cobblemon.mod.common.entity.PoseType.Companion.UI_POSES
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class DratiniModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
+class DratiniModel(root: ModelPart) : PosableModel(), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("dratini")
     override val head = getPart("head")
 
@@ -29,13 +28,13 @@ class DratiniModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override var profileScale = 0.58F
     override var profileTranslation = Vec3d(0.14, 0.83, 0.0)
 
-    lateinit var standing: PokemonPose
-    lateinit var walking: PokemonPose
-    lateinit var water_idle: PokemonPose
-    lateinit var water_swim: PokemonPose
-    lateinit var sleep: PokemonPose
-    lateinit var water_sleep: PokemonPose
-    lateinit var surface_swim: PokemonPose
+    lateinit var standing: CobblemonPose
+    lateinit var walking: CobblemonPose
+    lateinit var water_idle: CobblemonPose
+    lateinit var water_swim: CobblemonPose
+    lateinit var sleep: CobblemonPose
+    lateinit var water_sleep: CobblemonPose
+    lateinit var surface_swim: CobblemonPose
 
     override fun registerPoses() {
         val blink = quirk { bedrockStateful("dratini", "blink") }

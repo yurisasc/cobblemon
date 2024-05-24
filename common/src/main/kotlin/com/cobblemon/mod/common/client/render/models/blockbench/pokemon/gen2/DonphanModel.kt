@@ -8,15 +8,13 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen2
 
-import com.cobblemon.mod.common.client.render.models.blockbench.animation.QuadrupedWalkAnimation
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.QuadrupedFrame
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cobblemon.mod.common.entity.PoseType
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class DonphanModel (root: ModelPart) : PokemonPoseableModel(), QuadrupedFrame {
+class DonphanModel (root: ModelPart) : PosableModel(), QuadrupedFrame {
     override val rootPart = root.registerChildWithAllChildren("donphan")
 
     override val foreLeftLeg = getPart("leg_front_left")
@@ -30,10 +28,10 @@ class DonphanModel (root: ModelPart) : PokemonPoseableModel(), QuadrupedFrame {
     override var profileScale = 0.6F
     override var profileTranslation = Vec3d(-0.1, 0.73, 0.0)
 
-    lateinit var standing: PokemonPose
-    lateinit var walk: PokemonPose
-    lateinit var sleep: PokemonPose
-    lateinit var battle_idle: PokemonPose
+    lateinit var standing: CobblemonPose
+    lateinit var walk: CobblemonPose
+    lateinit var sleep: CobblemonPose
+    lateinit var battle_idle: CobblemonPose
 
     override fun registerPoses() {
         val blink = quirk { bedrockStateful("donphan", "blink") }

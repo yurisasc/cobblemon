@@ -8,16 +8,15 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen4
 
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class DrifblimModel (root: ModelPart) : PokemonPoseableModel() {
+class DrifblimModel (root: ModelPart) : PosableModel() {
     override val rootPart = root.registerChildWithAllChildren("drifblim")
 
     override var portraitScale = 0.9F
@@ -26,13 +25,13 @@ class DrifblimModel (root: ModelPart) : PokemonPoseableModel() {
     override var profileScale = 0.4F
     override var profileTranslation = Vec3d(0.0, 1.1, 0.0)
 
-    lateinit var standing: PokemonPose
-    lateinit var walk: PokemonPose
-    lateinit var sleep: PokemonPose
-    lateinit var hovering: PokemonPose
-    lateinit var flying: PokemonPose
+    lateinit var standing: CobblemonPose
+    lateinit var walk: CobblemonPose
+    lateinit var sleep: CobblemonPose
+    lateinit var hovering: CobblemonPose
+    lateinit var flying: CobblemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("drifblim", "cry") }
+    override val cryAnimation = CryProvider { bedrockStateful("drifblim", "cry") }
 
     override fun registerPoses() {
         val blink = quirk { bedrockStateful("drifblim", "blink") }

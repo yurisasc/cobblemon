@@ -9,7 +9,7 @@
 package com.cobblemon.mod.common.client.render.models.blockbench.repository
 
 import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.JsonPokemonPoseableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.JsonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1.*
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen2.*
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen3.*
@@ -717,10 +717,10 @@ object PokemonModelRepository : VaryingModelRepository() {
 
     override fun loadJsonPoser(json: String): (Bone) -> PosableModel {
         // Faster to deserialize during asset load rather than rerunning this every time a poser is constructed.
-        val jsonObject = JsonPokemonPoseableModel.gson.fromJson(json, JsonObject::class.java)
+        val jsonObject = JsonPosableModel.gson.fromJson(json, JsonObject::class.java)
         return {
-            JsonPokemonPoseableModel.JsonPokemonPoseableModelAdapter.modelPart = it
-            JsonPokemonPoseableModel.gson.fromJson(jsonObject, JsonPokemonPoseableModel::class.java).also {
+            JsonPosableModel.JsonPosableModelAdapter.modelPart = it
+            JsonPosableModel.gson.fromJson(jsonObject, JsonPosableModel::class.java).also {
                 it.poses.forEach { poseName, pose -> pose.poseName = poseName }
             }
         }

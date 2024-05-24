@@ -8,14 +8,13 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1
 
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cobblemon.mod.common.entity.PoseType
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class VoltorbHisuianModel (root: ModelPart) : PokemonPoseableModel() {
+class VoltorbHisuianModel (root: ModelPart) : PosableModel() {
     override val rootPart = root.registerChildWithAllChildren("voltorb_hisuian")
 
     override var portraitScale = 2.0F
@@ -24,10 +23,10 @@ class VoltorbHisuianModel (root: ModelPart) : PokemonPoseableModel() {
     override var profileScale = 1.1F
     override var profileTranslation = Vec3d(0.0, 0.1, 0.0)
 
-    lateinit var standing: PokemonPose
-    lateinit var walk: PokemonPose
+    lateinit var standing: CobblemonPose
+    lateinit var walk: CobblemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("voltorb_hisuian", "cry") }
+    override val cryAnimation = CryProvider { bedrockStateful("voltorb_hisuian", "cry") }
 
     override fun registerPoses() {
         val blink = quirk { bedrockStateful("voltorb_hisuian", "blink") }

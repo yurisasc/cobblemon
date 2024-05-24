@@ -17,6 +17,8 @@ import com.cobblemon.mod.common.client.render.models.blockbench.quirk.ModelQuirk
 import com.cobblemon.mod.common.client.render.models.blockbench.repository.RenderContext
 import com.cobblemon.mod.common.entity.PoseType
 
+typealias CobblemonPose = Pose
+
 /**
  * A pose for a model.
  */

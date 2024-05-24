@@ -9,13 +9,12 @@
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen6
 
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
 import com.cobblemon.mod.common.entity.PoseType
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class GoomyModel (root: ModelPart) : PokemonPoseableModel() {
+class GoomyModel (root: ModelPart) : PosableModel() {
     override val rootPart = root.registerChildWithAllChildren("goomy")
 
     override var portraitScale = 1.73F
@@ -24,10 +23,10 @@ class GoomyModel (root: ModelPart) : PokemonPoseableModel() {
     override var profileScale = 1F
     override var profileTranslation = Vec3d(-0.03, 0.12, 0.0)
 
-    lateinit var standing: PokemonPose
-    lateinit var walk: PokemonPose
+    lateinit var standing: CobblemonPose
+    lateinit var walk: CobblemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("goomy", "cry") }
+    override val cryAnimation = CryProvider { bedrockStateful("goomy", "cry") }
 
     override fun registerPoses() {
         val blink = quirk { bedrockStateful("goomy", "blink") }

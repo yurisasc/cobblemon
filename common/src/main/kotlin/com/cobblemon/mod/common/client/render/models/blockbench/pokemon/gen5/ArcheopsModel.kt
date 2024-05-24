@@ -16,8 +16,7 @@ import com.cobblemon.mod.common.client.render.models.blockbench.frame.BimanualFr
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.ModelPartTransformation
 import com.cobblemon.mod.common.client.render.models.blockbench.wavefunction.sineFunction
 import com.cobblemon.mod.common.entity.PoseType
@@ -25,7 +24,7 @@ import com.cobblemon.mod.common.util.math.geometry.toRadians
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class ArcheopsModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
+class ArcheopsModel(root: ModelPart) : PosableModel(), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("archeops")
     override val head = getPart("neck")
 
@@ -35,14 +34,14 @@ class ArcheopsModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override var profileTranslation = Vec3d(-0.04, 0.97, -6.0)
     override var profileScale = 0.49F
 
-    lateinit var standing: PokemonPose
-    lateinit var walking: PokemonPose
-    lateinit var hovering: PokemonPose
-    lateinit var flying: PokemonPose
-    lateinit var swim: PokemonPose
-    lateinit var float: PokemonPose
-    lateinit var sleep: PokemonPose
-    lateinit var battleIdle: PokemonPose
+    lateinit var standing: CobblemonPose
+    lateinit var walking: CobblemonPose
+    lateinit var hovering: CobblemonPose
+    lateinit var flying: CobblemonPose
+    lateinit var swim: CobblemonPose
+    lateinit var float: CobblemonPose
+    lateinit var sleep: CobblemonPose
+    lateinit var battleIdle: CobblemonPose
 
     override val cryAnimation = CryProvider { _, pose -> if (pose.isPosedIn(hovering, flying)) bedrockStateful("archeops", "air_cry") else bedrockStateful("archeops", "cry") }
 

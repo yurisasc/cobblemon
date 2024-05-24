@@ -11,13 +11,12 @@ package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen3
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BimanualFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
 import com.cobblemon.mod.common.entity.PoseType
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class CacneaModel (root: ModelPart) : PokemonPoseableModel(), BimanualFrame, BipedFrame {
+class CacneaModel (root: ModelPart) : PosableModel(), BimanualFrame, BipedFrame {
     override val rootPart = root.registerChildWithAllChildren("cacnea")
 
     override val leftLeg = getPart("leg_left")
@@ -31,12 +30,12 @@ class CacneaModel (root: ModelPart) : PokemonPoseableModel(), BimanualFrame, Bip
     override var profileScale = 0.85F
     override var profileTranslation = Vec3d(0.0, 0.5, 0.0)
 
-    lateinit var standing: PokemonPose
-    lateinit var walk: PokemonPose
-    lateinit var sleep: PokemonPose
-    lateinit var battleidle: PokemonPose
+    lateinit var standing: CobblemonPose
+    lateinit var walk: CobblemonPose
+    lateinit var sleep: CobblemonPose
+    lateinit var battleidle: CobblemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("cacnea", "cry") }
+    override val cryAnimation = CryProvider { bedrockStateful("cacnea", "cry") }
 
     override fun registerPoses() {
         val blink = quirk { bedrockStateful("cacnea", "blink") }

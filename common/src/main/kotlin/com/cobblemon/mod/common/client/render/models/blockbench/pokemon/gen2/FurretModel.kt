@@ -8,17 +8,14 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen2
 
-import com.cobblemon.mod.common.client.render.models.blockbench.animation.BipedWalkAnimation
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.QuadrupedWalkAnimation
-import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.QuadrupedFrame
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cobblemon.mod.common.entity.PoseType
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class FurretModel (root: ModelPart) : PokemonPoseableModel(), QuadrupedFrame {
+class FurretModel (root: ModelPart) : PosableModel(), QuadrupedFrame {
     override val rootPart = root.registerChildWithAllChildren("furret")
 
     override val foreLeftLeg = getPart("arm_left")
@@ -32,8 +29,8 @@ class FurretModel (root: ModelPart) : PokemonPoseableModel(), QuadrupedFrame {
     override var profileScale = 0.82F
     override var profileTranslation = Vec3d(0.0, 0.54, 0.0)
 
-    lateinit var standing: PokemonPose
-    lateinit var walk: PokemonPose
+    lateinit var standing: CobblemonPose
+    lateinit var walk: CobblemonPose
 
     override fun registerPoses() {
         val blink = quirk { bedrockStateful("furret", "blink") }

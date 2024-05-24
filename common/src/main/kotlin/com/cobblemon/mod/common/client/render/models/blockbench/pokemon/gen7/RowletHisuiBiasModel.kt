@@ -14,8 +14,7 @@ import com.cobblemon.mod.common.client.render.models.blockbench.createTransforma
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BiWingedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.ModelPartTransformation
 import com.cobblemon.mod.common.client.render.models.blockbench.wavefunction.sineFunction
 import com.cobblemon.mod.common.entity.PoseType
@@ -26,7 +25,7 @@ import com.cobblemon.mod.common.util.math.geometry.toRadians
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class RowletHisuiBiasModel(root: ModelPart) : PokemonPoseableModel(), BipedFrame, BiWingedFrame {
+class RowletHisuiBiasModel(root: ModelPart) : PosableModel(), BipedFrame, BiWingedFrame {
     override val rootPart = root.registerChildWithAllChildren("rowlet_hisui_bias")
 
     private val wingsOpen = getPart("wings_open")
@@ -44,12 +43,12 @@ class RowletHisuiBiasModel(root: ModelPart) : PokemonPoseableModel(), BipedFrame
     override var profileTranslation = Vec3d(-0.04, 0.58, 0.0)
     override var profileScale = 0.76F
 
-    lateinit var fly: PokemonPose
-    lateinit var flyidle: PokemonPose
-    lateinit var standing: PokemonPose
-    lateinit var walk: PokemonPose
+    lateinit var fly: CobblemonPose
+    lateinit var flyidle: CobblemonPose
+    lateinit var standing: CobblemonPose
+    lateinit var walk: CobblemonPose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("rowlet_hisui_bias", "cry") }
+    override val cryAnimation = CryProvider { bedrockStateful("rowlet_hisui_bias", "cry") }
 
     override fun registerPoses() {
         val blink = quirk { bedrockStateful("rowlet_hisui_bias", "blink") }
