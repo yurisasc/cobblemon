@@ -23,6 +23,7 @@ import com.cobblemon.mod.common.pokemon.Gender
 import com.cobblemon.mod.common.pokemon.IVs
 import com.cobblemon.mod.common.util.cobblemonResource
 import kotlin.math.min
+import kotlin.random.Random.Default.nextInt
 
 class FishingBaitInfluence : SpawningInfluence {
     override fun affectAction(action: SpawnAction<*>) {
@@ -47,7 +48,7 @@ class FishingBaitInfluence : SpawningInfluence {
         if (action.props.shiny != null) return
 
         val shinyOdds = Cobblemon.config.shinyRate.toInt()
-        val randomNumber = kotlin.random.Random.nextInt(0, shinyOdds + 1)
+        val randomNumber = nextInt(0, shinyOdds + 1)
 
         if (randomNumber <= (effect.value).toInt()) {
             action.props.shiny = true
