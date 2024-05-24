@@ -472,7 +472,11 @@ open class Pokemon : ShowdownIdentifiable {
             SeasonFeatureHandler.updateSeason(this, level, position.toBlockPos())
             val entity = PokemonEntity(level, this)
             illusion?.start(entity)
-            entity.setPositionSafely(position)
+            val sentOut = entity.setPositionSafely(position)
+            //If sendout failed, fall back
+            if (!sentOut) {
+                entity.setPos(position.x, position.y, position.z)
+            }
             mutation(entity)
             level.spawnEntity(entity)
             state = SentOutState(entity)
