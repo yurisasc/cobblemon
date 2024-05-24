@@ -78,10 +78,9 @@ class FishingBaitInfluence : SpawningInfluence {
         val gender = effect.subcategory ?: return
         if (action.props.gender != null) return
 
-        if (action.props.gender != Gender.MALE && gender == cobblemonResource("male")) {
-            action.props.gender = Gender.MALE
-        } else if (action.props.gender != Gender.FEMALE && gender == cobblemonResource("female")) {
-            action.props.gender = Gender.FEMALE
+        when (gender) {
+            cobblemonResource("male") -> if (action.props.gender != Gender.MALE) action.props.gender = Gender.MALE
+            cobblemonResource("female") -> if (action.props.gender != Gender.FEMALE) action.props.gender = Gender.FEMALE
         }
     }
 
