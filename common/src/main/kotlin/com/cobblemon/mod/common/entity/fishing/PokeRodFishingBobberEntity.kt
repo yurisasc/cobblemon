@@ -395,8 +395,7 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
             this.waitCountdown -= this.lureLevel * 20 * 5
 
             // check for the bait on the hook and see if the waitCountdown is reduced
-            if (checkReduceBiteTime(bobberBait))
-                this.waitCountdown = alterBiteTimeAttempt(this.waitCountdown, this.bobberBait)
+            this.waitCountdown = alterBiteTimeAttempt(this.waitCountdown, this.bobberBait)
 
         }
     }
@@ -693,16 +692,10 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
         return Math.random() <= successChance
     }
 
-    // function to return true of false if the given bait affects time to expect a bite
-    fun checkReduceBiteTime(stack: ItemStack): Boolean {
-        val bait = FishingBaits.getFromItemStack(stack) ?: return false
-        return bait.effects.any { it.type == FishingBait.Effects.BITE_TIME }
-    }
-
     // check if the bite time is reduced based on the bait bonus
     fun alterBiteTimeAttempt(waitCountdown: Int, stack: ItemStack): Int {
         val bait = FishingBaits.getFromItemStack(stack) ?: return waitCountdown
-        val effect = bait.effects.filter { it.type == FishingBait.Effects.BITE_TIME }.random()
+        val effect = bait.effects[FishingBait.Effects.BITE_TIME] ?: return waitCountdown
         if (!checkBaitSuccessRate(effect.chance)) return waitCountdown
         return if (waitCountdown * (effect.value) <= 0)
             1 // return min value
@@ -713,9 +706,7 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
     // check the chance of a pokemon to spawn and if it is affected by bait
     fun getPokemonSpawnChance(stack: ItemStack): Int {
         val bait = FishingBaits.getFromItemStack(stack) ?: return this.pokemonSpawnChance
-        val effectList = bait.effects.filter { it.type == FishingBait.Effects.POKEMON_CHANCE }
-        if (effectList.isEmpty()) return this.pokemonSpawnChance
-        val effect = effectList.random()
+        val effect = bait.effects[FishingBait.Effects.POKEMON_CHANCE] ?: return this.pokemonSpawnChance
         return if (checkBaitSuccessRate(effect.chance)) {
             ((effect.chance) * 100).toInt()
         } else this.pokemonSpawnChance
