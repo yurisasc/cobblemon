@@ -662,8 +662,6 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
             if (bobberBait != ItemStack.EMPTY) {
                 // look up how mints affect the pokemon
 
-//                modifyPokemonWithBait(spawnedPokemon, bobberBait) // check to see if the spawned pokemon gets modified due to the bait used
-
                 // remove the bait from the bobber
                 val playerPokerod = if (this.playerOwner?.getStackInHand(Hand.MAIN_HAND)?.item is PokerodItem) this.playerOwner!!.getStackInHand(Hand.MAIN_HAND).item else this.playerOwner!!.getStackInHand(Hand.OFF_HAND).item
                 (playerPokerod as PokerodItem).bait = ItemStack.EMPTY
@@ -673,13 +671,6 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
             if (spawnedPokemon.pokemon.species.weight < 900) { // if weight value of Pokemon is less than 200 lbs (in hectograms) which we store weight as) then reel it in to the player
                 // play sound for small splash when this weight class is fished up
                 world.playSound(null, this.blockPos, CobblemonSounds.FISHING_SPLASH_SMALL, SoundCategory.BLOCKS, 1.0F, 1.0F)
-
-                // direction and position
-//                val rad = Math.toRadians(player.yaw.toDouble() + 180)
-//                val behindDirection = Vec3d(-sin(rad), 0.0, Math.cos(rad))
-//                val targetPos = player.pos.add(behindDirection.multiply(2.0))
-//                val diff = targetPos.subtract(entity.pos)
-//                val distance = diff.horizontalLength()
 
                 // Example of applying the new velocity
                 lobPokemonTowardsTarget(player, entity)
@@ -698,226 +689,14 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
         }
     }
 
-    fun modifyPokemonWithBait(pokemonEntity: PokemonEntity, bait: ItemStack) {
-        val pokemon = pokemonEntity.pokemon
-
-        // check if it attracts a certain nature
-        if (checkNatureAttact(bait)) {
-            // figure out which nature is attracted by the bait and do a calculation to see if it was successful
-            alterNatureAttempt(pokemon, bait)
-        }
-
-        // check if it raises specific IV by +3
-        if (checkIVRaise(bait)) {
-            // try to alter the IVs of the pokemon based on the bait bonus
-            alterIVAttempt(pokemon, bait)
-        }
-
-        // todo check if it attracts certain EV yields? Maybe this needs to be done before the spown conditions are used? This one might be hard
-
-        // Reduce Bite time.... This can be done way earlier (And is currently in place)
-
-        // check if it alters the gender of the pokemon
-        if (checkBetterGenderOdds(bait)) {
-            // try to alter the pokemon gender based on the bait bonus
-            alterGenderAttempt(pokemon, bait)
-        }
-
-        // check if it raises the average level
-        if (checkLevelBoost(bait)) {
-            // try to alter the pokemon level based on the bait bonus
-            alterLevelAttempt(pokemon, bait)
-        }
-
-        // check if it alters the tera type
-        if (checkTeraType(bait)) {
-            // try to alter the pokemon level based on the bait bonus
-            alterTeraAttempt(pokemon, bait)
-        }
-
-        // check for HA
-        if (checkHiddenAbilityOdds(bait)) {
-            // try to alter the pokemon level based on the bait bonus
-            alterHAAttempt(pokemon, bait)
-        }
-
-        // check for 100% pokemon rate (do this way earlier) (And is currently in place)
-
-        // check for item rate (do this way earlier) (And is currently in place)
-
-        // check for Heart Wooper (this needs to be spawn condition) (And is currently in place)
-
-        // check for Large Whiscash (this needs to be spawn condition) (And is currently in place)
-    }
-
     fun checkBaitSuccessRate(successChance: Double): Boolean {
         return Math.random() <= successChance
-    }
-
-    // function to return true of false if the given bait affects the attraction of certain Natures
-    fun checkNatureAttact(stack: ItemStack): Boolean {
-        val bait = FishingBaits.getFromItemStack(stack) ?: return false
-        return bait.effects.any { it.type == FishingBait.Effects.NATURE }
-    }
-
-    // function to return true of false if the given bait affects the raising of IVs of a pokemon via fishing
-    fun checkIVRaise(stack: ItemStack): Boolean {
-        val bait = FishingBaits.getFromItemStack(stack) ?: return false
-        return bait.effects.any { it.type == FishingBait.Effects.IV }
-    }
-
-    // function to return true of false if the given bait affects the pokemon with certain EV yields
-    fun checkEVAttract(stack: ItemStack): Boolean {
-        val bait = FishingBaits.getFromItemStack(stack) ?: return false
-        return bait.effects.any { it.type == FishingBait.Effects.EV }
-    }
-
-    // function to return true of false if the given bait affects the pokemon gender
-    fun checkBetterGenderOdds(stack: ItemStack): Boolean {
-        val bait = FishingBaits.getFromItemStack(stack) ?: return false
-        return bait.effects.any { it.type == FishingBait.Effects.GENDER_CHANCE }
     }
 
     // function to return true of false if the given bait affects time to expect a bite
     fun checkReduceBiteTime(stack: ItemStack): Boolean {
         val bait = FishingBaits.getFromItemStack(stack) ?: return false
         return bait.effects.any { it.type == FishingBait.Effects.BITE_TIME }
-    }
-
-    // function to return true of false if the given bait affects pokemon's level boost
-    fun checkLevelBoost(stack: ItemStack): Boolean {
-        val bait = FishingBaits.getFromItemStack(stack) ?: return false
-        return bait.effects.any { it.type == FishingBait.Effects.LEVEL_RAISE }
-    }
-
-    // function to return true of false if the given bait affects pokemon's tera type
-    fun checkTeraType(stack: ItemStack): Boolean {
-        val bait = FishingBaits.getFromItemStack(stack) ?: return false
-        return bait.effects.any { it.type == FishingBait.Effects.TERA }
-    }
-
-    // function to return true of false if the given bait affects pokemon's Hidden Ability
-    fun checkHiddenAbilityOdds(stack: ItemStack): Boolean {
-        val bait = FishingBaits.getFromItemStack(stack) ?: return false
-        return bait.effects.any { it.type == FishingBait.Effects.HIDDEN_ABILITY_CHANCE }
-    }
-
-    // function to return true of false if the given bait to make it so a Pokemon is always reeled in
-    fun checkPokemonFishRate(stack: ItemStack): Boolean {
-        val bait = FishingBaits.getFromItemStack(stack) ?: return false
-        return bait.effects.any { it.type == FishingBait.Effects.POKEMON_CHANCE }
-    }
-
-
-    // try to alter the nature of the spawned pokemon
-    fun alterNatureAttempt(pokemon: Pokemon, stack: ItemStack) {
-        // natures for each stat
-        val attNaturesIds = listOf(Natures.LONELY, Natures.ADAMANT, Natures.NAUGHTY, Natures.BRAVE)
-        val spaNaturesIds = listOf(Natures.MODEST, Natures.MILD, Natures.RASH, Natures.QUIET)
-        val defNaturesIds = listOf(Natures.BOLD, Natures.IMPISH, Natures.LAX, Natures.RELAXED)
-        val spdNaturesIds = listOf(Natures.CALM, Natures.GENTLE, Natures.CAREFUL, Natures.SASSY)
-        val speNaturesIds = listOf(Natures.TIMID, Natures.HASTY, Natures.JOLLY, Natures.NAIVE)
-//        val neutralNaturesIds = listOf(Natures.HARDY, Natures.DOCILE, Natures.BASHFUL, Natures.QUIRKY, Natures.SERIOUS)
-
-        val bait = FishingBaits.getFromItemStack(stack) ?: return
-        val natures = bait.effects.filter { it.type == FishingBait.Effects.NATURE }
-        val randomNatureEffect = natures.random()
-
-        if (!checkBaitSuccessRate(randomNatureEffect.chance)) return
-
-        pokemon.nature = when(randomNatureEffect.subcategory) {
-            cobblemonResource("att") -> attNaturesIds.random()
-            cobblemonResource("spa") -> spaNaturesIds.random()
-            cobblemonResource("def") -> defNaturesIds.random()
-            cobblemonResource("spd") -> spdNaturesIds.random()
-            cobblemonResource("spe") -> speNaturesIds.random()
-            else -> return
-        }
-    }
-
-    // alter the IVs based on the bait effect
-    fun alterIVAttempt(pokemon: Pokemon, stack: ItemStack) {
-
-        val bait = FishingBaits.getFromItemStack(stack) ?: return
-        val randomEffect = bait.effects.filter { it.type == FishingBait.Effects.IV }.random()
-        val ivCheck = randomEffect.subcategory ?: return
-
-        if (ivCheck == cobblemonResource("hp") && checkBaitSuccessRate(randomEffect.chance)) {
-            if ((pokemon.ivs[com.cobblemon.mod.common.api.pokemon.stats.Stats.HP] ?: 0) > 28) // if HP IV is already less than 3 away from 31
-                pokemon.ivs.set(com.cobblemon.mod.common.api.pokemon.stats.Stats.HP, 31)
-            else
-                pokemon.ivs.set(com.cobblemon.mod.common.api.pokemon.stats.Stats.HP, (pokemon.ivs[com.cobblemon.mod.common.api.pokemon.stats.Stats.HP] ?: 0) + (randomEffect.value).toInt())
-        }
-        if (ivCheck == cobblemonResource("att") && checkBaitSuccessRate(randomEffect.chance)) {
-            if ((pokemon.ivs[com.cobblemon.mod.common.api.pokemon.stats.Stats.ATTACK] ?: 0) > 28) // if Attack IV is already less than 3 away from 31
-                pokemon.ivs.set(com.cobblemon.mod.common.api.pokemon.stats.Stats.ATTACK, 31)
-            else
-                pokemon.ivs.set(com.cobblemon.mod.common.api.pokemon.stats.Stats.ATTACK, (pokemon.ivs[com.cobblemon.mod.common.api.pokemon.stats.Stats.ATTACK] ?: 0) + (randomEffect.value).toInt())
-        }
-        if (ivCheck == cobblemonResource("spa") && checkBaitSuccessRate(randomEffect.chance)) {
-            if ((pokemon.ivs[com.cobblemon.mod.common.api.pokemon.stats.Stats.SPECIAL_ATTACK] ?: 0) > 28) // if Special Attack IV is already less than 3 away from 31
-                pokemon.ivs.set(com.cobblemon.mod.common.api.pokemon.stats.Stats.SPECIAL_ATTACK, 31)
-            else
-                pokemon.ivs.set(com.cobblemon.mod.common.api.pokemon.stats.Stats.SPECIAL_ATTACK, (pokemon.ivs[com.cobblemon.mod.common.api.pokemon.stats.Stats.SPECIAL_ATTACK] ?: 0) + (randomEffect.value).toInt())
-        }
-        if (ivCheck == cobblemonResource("def") && checkBaitSuccessRate(randomEffect.chance)) {
-            if ((pokemon.ivs[com.cobblemon.mod.common.api.pokemon.stats.Stats.DEFENCE] ?: 0) > 28) // if Defence IV is already less than 3 away from 31
-                pokemon.ivs.set(com.cobblemon.mod.common.api.pokemon.stats.Stats.DEFENCE, 31)
-            else
-                pokemon.ivs.set(com.cobblemon.mod.common.api.pokemon.stats.Stats.DEFENCE, (pokemon.ivs[com.cobblemon.mod.common.api.pokemon.stats.Stats.DEFENCE] ?: 0) + (randomEffect.value).toInt())
-        }
-        if (ivCheck == cobblemonResource("spd") && checkBaitSuccessRate(randomEffect.chance)) {
-            if ((pokemon.ivs[com.cobblemon.mod.common.api.pokemon.stats.Stats.SPECIAL_DEFENCE] ?: 0) > 28) // if Special Defence IV is already less than 3 away from 31
-                pokemon.ivs.set(com.cobblemon.mod.common.api.pokemon.stats.Stats.SPECIAL_DEFENCE, 31)
-            else
-                pokemon.ivs.set(com.cobblemon.mod.common.api.pokemon.stats.Stats.SPECIAL_DEFENCE, (pokemon.ivs[com.cobblemon.mod.common.api.pokemon.stats.Stats.SPECIAL_DEFENCE] ?: 0) + (randomEffect.value).toInt())
-        }
-        if (ivCheck == cobblemonResource("spe") && checkBaitSuccessRate(randomEffect.chance)) {
-            if ((pokemon.ivs[com.cobblemon.mod.common.api.pokemon.stats.Stats.SPEED] ?: 0) > 28) // if Speed IV is already less than 3 away from 31
-                pokemon.ivs.set(com.cobblemon.mod.common.api.pokemon.stats.Stats.SPEED, 31)
-            else
-                pokemon.ivs.set(com.cobblemon.mod.common.api.pokemon.stats.Stats.SPEED, (pokemon.ivs[com.cobblemon.mod.common.api.pokemon.stats.Stats.SPEED] ?: 0) + (randomEffect.value).toInt())
-        }
-    }
-
-    // try to alter the gender based on the bait effect
-    fun alterGenderAttempt(pokemon: Pokemon, stack: ItemStack) {
-
-        val bait = FishingBaits.getFromItemStack(stack) ?: return
-        val effect = bait.effects.first { it.type == FishingBait.Effects.GENDER_CHANCE }
-        val gender = effect.subcategory ?: return
-        if (!checkBaitSuccessRate(effect.chance))
-
-        if (pokemon.gender != Gender.MALE && gender == cobblemonResource("male")) {
-            pokemon.gender = Gender.MALE
-        }
-        else if (pokemon.gender != Gender.FEMALE && gender == cobblemonResource("female")) {
-            pokemon.gender = Gender.FEMALE
-        }
-    }
-
-    // alter the level of the pokemon
-    fun alterLevelAttempt(pokemon: Pokemon, stack: ItemStack) {
-        val bait = FishingBaits.getFromItemStack(stack) ?: return
-        val effect = bait.effects.filter { it.type == FishingBait.Effects.LEVEL_RAISE }.random()
-        if (!checkBaitSuccessRate(effect.chance)) return
-
-        var level = pokemon.level + effect.value.toInt()
-        if (level > Cobblemon.config.maxPokemonLevel) level = Cobblemon.config.maxPokemonLevel
-
-        pokemon.level = level
-    }
-
-    // try to reroll for a shiny based on the bait effect
-    fun alterTeraAttempt(pokemon: Pokemon, stack: ItemStack) {
-//        if (checkBaitSuccessRate(FishingBaits.getBaitSuccessChance(bait) ?: 0.0)) {
-//            pokemon.teraType = FishingBaits.getBaitSubcategory(bait)?.let { ElementalTypes.get(it.lowercase()) }!!
-//        }
-        val bait = FishingBaits.getFromItemStack(stack) ?: return
-        val effect = bait.effects.filter { it.type == FishingBait.Effects.TERA }.random()
-        if (!checkBaitSuccessRate(effect.chance)) return
-
-        pokemon.teraType = effect.subcategory?.let { TeraTypes.get(it.path) } ?: return
     }
 
     // check if the bite time is reduced based on the bait bonus
@@ -929,31 +708,6 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
             1 // return min value
         else
             (waitCountdown * (effect.value)).toInt()
-    }
-
-    // chance to alter HA based on the berry effect
-    fun alterHAAttempt(pokemon: Pokemon, stack: ItemStack) {
-        val bait = FishingBaits.getFromItemStack(stack) ?: return
-        val effect = bait.effects.filter { it.type == FishingBait.Effects.HIDDEN_ABILITY_CHANCE }.random()
-        if (checkBaitSuccessRate(effect.chance)) {
-            giveHiddenAbility(pokemon)
-        }
-    }
-
-    // give a pokemon a random hidden ability
-    private fun giveHiddenAbility(pokemon: Pokemon): Boolean {
-        // This will iterate from highest to lowest priority
-        pokemon.form.abilities.mapping.values.forEach { abilities ->
-            abilities.filterIsInstance<HiddenAbility>()
-                    .randomOrNull ()
-                    ?.let { ability ->
-                        // No need to force, this is legal
-                        pokemon.ability = ability.template.create(false)
-                        return true
-                    }
-        }
-        // There was never a hidden ability :( possible but not by default
-        return false
     }
 
     // check the chance of a pokemon to spawn and if it is affected by bait
