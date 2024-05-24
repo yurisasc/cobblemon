@@ -22,11 +22,11 @@ import net.minecraft.util.math.Vec3d
 class GastlyModel(root: ModelPart) : PosableModel() {
     override val rootPart = root.registerChildWithAllChildren("gastly")
 
-    override val portraitScale = 2.4F
-    override val portraitTranslation = Vec3d(0.0, -2.0, 0.0)
+    override var portraitScale = 2.4F
+    override var portraitTranslation = Vec3d(0.0, -2.0, 0.0)
 
-    override val profileScale = 1.3F
-    override val profileTranslation = Vec3d(0.0, -0.3, 0.0)
+    override var profileScale = 1.3F
+    override var profileTranslation = Vec3d(0.0, -0.3, 0.0)
 
     lateinit var standing: Pose
     lateinit var walk: Pose

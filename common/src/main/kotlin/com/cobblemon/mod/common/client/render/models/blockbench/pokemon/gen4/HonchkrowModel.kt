@@ -32,11 +32,11 @@ class HonchkrowModel(root: ModelPart) : PosableModel(), HeadedFrame, BipedFrame,
     override val leftWing = getPart("wing_left")
     override val rightWing = getPart("wing_right")
 
-    override val portraitScale = 3.4F
-    override val portraitTranslation = Vec3d(-0.35, -1.2, 0.0)
+    override var portraitScale = 3.4F
+    override var portraitTranslation = Vec3d(-0.35, -1.2, 0.0)
 
-    override val profileScale = 1.2F
-    override val profileTranslation = Vec3d(0.0, -0.05, 0.0)
+    override var profileScale = 1.2F
+    override var profileTranslation = Vec3d(0.0, -0.05, 0.0)
 
     lateinit var standing: Pose
     lateinit var walk: Pose

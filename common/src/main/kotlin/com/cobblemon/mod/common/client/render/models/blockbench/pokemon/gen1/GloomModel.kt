@@ -23,11 +23,11 @@ import net.minecraft.util.math.Vec3d
 class GloomModel(root: ModelPart) : PosableModel() {
     override val rootPart = root.registerChildWithAllChildren("gloom")
 
-    override val portraitScale = 1.8F
-    override val portraitTranslation = Vec3d(-0.0, -1.0, 0.0)
+    override var portraitScale = 1.8F
+    override var portraitTranslation = Vec3d(-0.0, -1.0, 0.0)
 
-    override val profileScale = 1.05F
-    override val profileTranslation = Vec3d(0.0, 0.19, 0.0)
+    override var profileScale = 1.05F
+    override var profileTranslation = Vec3d(0.0, 0.19, 0.0)
 
     lateinit var sleep: Pose
     lateinit var standing: Pose

@@ -22,11 +22,11 @@ class SerperiorModel (root: ModelPart) : PosableModel(), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("serperior")
     override val head = getPart("head_ai")
 
-    override val portraitScale = 2.5F
-    override val portraitTranslation = Vec3d(-0.3, 1.25, 0.0)
+    override var portraitScale = 2.5F
+    override var portraitTranslation = Vec3d(-0.3, 1.25, 0.0)
 
-    override val profileScale = 0.6F
-    override val profileTranslation = Vec3d(0.0, 0.8, 0.0)
+    override var profileScale = 0.6F
+    override var profileTranslation = Vec3d(0.0, 0.8, 0.0)
 
     lateinit var standing: Pose
     lateinit var walk: Pose

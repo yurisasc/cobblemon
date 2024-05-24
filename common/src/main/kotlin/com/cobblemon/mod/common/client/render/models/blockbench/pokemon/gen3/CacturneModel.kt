@@ -11,16 +11,14 @@ package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen3
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BimanualFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
-import com.cobblemon.mod.common.client.render.models.blockbench.pose.Pose
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cobblemon.mod.common.entity.PoseType
-import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
-import com.cobblemon.mod.common.client.render.models.blockbench.PosableState
-import com.cobblemon.mod.common.client.render.models.blockbench.repository.RenderContext
-import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class CacturneModel (root: ModelPart) : PosableModel(), HeadedFrame, BimanualFrame, BipedFrame {
+class CacturneModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BimanualFrame, BipedFrame {
     override val rootPart = root.registerChildWithAllChildren("cacturne")
     override val head = getPart("head")
 
@@ -29,16 +27,18 @@ class CacturneModel (root: ModelPart) : PosableModel(), HeadedFrame, BimanualFra
     override val leftArm = getPart("arm_left")
     override val rightArm = getPart("arm_right")
 
-    override val portraitScale = 2.5F
-    override val portraitTranslation = Vec3d(0.0, 0.5, 0.0)
+    override var portraitScale = 2.5F
+    override var portraitTranslation = Vec3d(0.0, 0.5, 0.0)
 
-    override val profileScale = 0.75F
-    override val profileTranslation = Vec3d(0.0, 0.6, 0.0)
+    override var profileScale = 0.75F
+    override var profileTranslation = Vec3d(0.0, 0.6, 0.0)
 
-    lateinit var standing: Pose
-    lateinit var walk: Pose
-    lateinit var sleep: Pose
-    lateinit var battleidle: Pose
+    lateinit var standing: PokemonPose
+    lateinit var walk: PokemonPose
+    lateinit var sleep: PokemonPose
+    lateinit var battleidle: PokemonPose
+
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("cacturne", "cry") }
 
     override fun registerPoses() {
         val blink = quirk { bedrockStateful("cacturne", "blink") }
@@ -51,7 +51,7 @@ class CacturneModel (root: ModelPart) : PosableModel(), HeadedFrame, BimanualFra
             poseName = "standing",
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
             transformTicks = 10,
-            condition = { (it.entity as? PokemonEntity)?.isBattling == false },
+            condition = { !it.isBattling },
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("cacturne", "ground_idle")
@@ -73,7 +73,7 @@ class CacturneModel (root: ModelPart) : PosableModel(), HeadedFrame, BimanualFra
             poseTypes = PoseType.STATIONARY_POSES,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            condition = { (it.entity as? PokemonEntity)?.isBattling == true },
+            condition = { it.isBattling },
             idleAnimations = arrayOf(
                 bedrock("cacturne", "battle_idle")
             )
@@ -82,6 +82,6 @@ class CacturneModel (root: ModelPart) : PosableModel(), HeadedFrame, BimanualFra
 
 //    override fun getFaintAnimation(
 //        pokemonEntity: PokemonEntity,
-//        state: PosableState<PokemonEntity>
+//        state: PoseableEntityState<PokemonEntity>
 //    ) = if (state.isPosedIn(standing, walk)) bedrockStateful("cacturne", "faint") else null
 }

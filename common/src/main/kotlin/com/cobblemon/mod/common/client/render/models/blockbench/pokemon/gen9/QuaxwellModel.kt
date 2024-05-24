@@ -23,11 +23,11 @@ class QuaxwellModel (root: ModelPart) : PosableModel(), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("quaxwell")
     override val head = getPart("head")
 
-    override val portraitScale = 1.8F
-    override val portraitTranslation = Vec3d(-0.2, 1.8, 0.0)
+    override var portraitScale = 1.8F
+    override var portraitTranslation = Vec3d(-0.2, 1.8, 0.0)
 
-    override val profileScale = 0.5F
-    override val profileTranslation = Vec3d(0.0, 1.0, 0.0)
+    override var profileScale = 0.5F
+    override var profileTranslation = Vec3d(0.0, 1.0, 0.0)
 
     lateinit var standing: Pose
     lateinit var walking: Pose
@@ -71,6 +71,7 @@ class QuaxwellModel (root: ModelPart) : PosableModel(), HeadedFrame {
             poseName = "floating",
             transformTicks = 10,
             poseTypes = PoseType.SWIMMING_POSES,
+                condition = { it.isTouchingWater },
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),

@@ -35,11 +35,11 @@ class FearowModel(root: ModelPart) : PosableModel(), HeadedFrame, BipedFrame, Bi
     override val head = getPart("neck")
     private val tail = getPart("tail")
 
-    override val portraitScale = 1.9F
-    override val portraitTranslation = Vec3d(-1.6, 0.4, 0.0)
+    override var portraitScale = 1.9F
+    override var portraitTranslation = Vec3d(-1.6, 0.4, 0.0)
 
-    override val profileScale = 0.7F
-    override val profileTranslation = Vec3d(-0.2, 0.7, 0.0)
+    override var profileScale = 0.7F
+    override var profileTranslation = Vec3d(-0.2, 0.7, 0.0)
 
     lateinit var stand: Pose
     lateinit var walk: Pose

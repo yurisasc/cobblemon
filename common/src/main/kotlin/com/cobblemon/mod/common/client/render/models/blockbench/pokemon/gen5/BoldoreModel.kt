@@ -24,11 +24,11 @@ class BoldoreModel (root: ModelPart) : PosableModel(), BipedFrame {
     override val leftLeg = getPart("leg_left")
     override val rightLeg = getPart("leg_right")
 
-    override val portraitScale = 2.1F
-    override val portraitTranslation = Vec3d(-0.2, -1.1, 0.0)
+    override var portraitScale = 2.1F
+    override var portraitTranslation = Vec3d(-0.2, -1.1, 0.0)
 
-    override val profileScale = 0.8F
-    override val profileTranslation = Vec3d(0.0, 0.45, 0.0)
+    override var profileScale = 0.8F
+    override var profileTranslation = Vec3d(0.0, 0.45, 0.0)
 
     lateinit var standing: Pose
     lateinit var walking: Pose

@@ -13,6 +13,7 @@ import com.cobblemon.mod.common.CobblemonSounds
 import com.cobblemon.mod.common.api.battles.model.PokemonBattle
 import com.cobblemon.mod.common.api.battles.model.actor.BattleActor
 import com.cobblemon.mod.common.api.item.PokemonSelectingItem
+import com.cobblemon.mod.common.api.molang.ExpressionLike
 import com.cobblemon.mod.common.battles.pokemon.BattlePokemon
 import com.cobblemon.mod.common.block.BerryBlock
 import com.cobblemon.mod.common.item.BerryItem
@@ -34,7 +35,7 @@ import net.minecraft.world.World
  * @author Hiroku
  * @since August 4th, 2023
  */
-class PortionHealingBerryItem(block: BerryBlock, val canCauseConfusion: Boolean, val portion: () -> Expression): BerryItem(block), PokemonSelectingItem {
+class PortionHealingBerryItem(block: BerryBlock, val canCauseConfusion: Boolean, val portion: () -> ExpressionLike): BerryItem(block), PokemonSelectingItem {
     override val bagItem = object : BagItem {
         override val itemName: String get() = "item.cobblemon.${this@PortionHealingBerryItem.berry()!!.identifier.path}"
         override fun getShowdownInput(actor: BattleActor, battlePokemon: BattlePokemon, data: String?): String {

@@ -26,11 +26,11 @@ class OnixModel(root: ModelPart) : PosableModel(), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("onix")
     override val head = getPart("head")
 
-    override val portraitScale = 1.1F
-    override val portraitTranslation = Vec3d(-0.2, 1.4, 0.0)
+    override var portraitScale = 1.1F
+    override var portraitTranslation = Vec3d(-0.2, 1.4, 0.0)
 
-    override val profileScale = 0.55F
-    override val profileTranslation = Vec3d(-0.1, 0.9, 0.0)
+    override var profileScale = 0.55F
+    override var profileTranslation = Vec3d(-0.1, 0.9, 0.0)
 
     lateinit var standing: Pose
     lateinit var walk: Pose

@@ -9,6 +9,7 @@
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon
 
 import com.cobblemon.mod.common.api.molang.ExpressionLike
+import com.cobblemon.mod.common.client.entity.PokemonClientDelegate
 import com.cobblemon.mod.common.client.render.models.blockbench.JsonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.JsonPosableModel.StatefulAnimationAdapter
 import com.cobblemon.mod.common.client.render.models.blockbench.JsonPose
@@ -21,6 +22,11 @@ import com.cobblemon.mod.common.client.render.models.blockbench.repository.Rende
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.util.adapters.ExpressionLikeAdapter
 import com.cobblemon.mod.common.util.adapters.Vec3dAdapter
+import com.cobblemon.mod.common.util.isDusk
+import com.cobblemon.mod.common.util.isStandingOnRedSand
+import com.cobblemon.mod.common.util.isStandingOnSand
+import com.cobblemon.mod.common.util.isStandingOnSandOrRedSand
+import com.cobblemon.mod.common.util.resolveBoolean
 import com.google.gson.ExclusionStrategy
 import com.google.gson.FieldAttributes
 import com.google.gson.GsonBuilder
@@ -73,11 +79,11 @@ class JsonPokemonPoseableModel(rootPart: Bone) : JsonPosableModel(rootPart), Hea
 
     override val head: Bone by lazy { headJoint?.let { getPart(it) } ?: rootPart }
 
-    val faint: Supplier<StatefulAnimation>? = null
-    val cry: Supplier<StatefulAnimation>? = null
+    val faint: Supplier<StatefulAnimation<PokemonEntity, ModelFrame>>? = null
+    val cry: Supplier<StatefulAnimation<PokemonEntity, ModelFrame>>? = null
 
-    override fun getFaintAnimation(state: PosableState) = faint?.get()
-    override val cryAnimation = CryProvider { cry?.get() }
+    override fun getFaintAnimation(pokemonEntity: PokemonEntity, state: PoseableEntityState<PokemonEntity>) = faint?.get()
+    override val cryAnimation = CryProvider { _, _ -> cry?.get() }
 
     object JsonModelExclusion: ExclusionStrategy {
         override fun shouldSkipField(f: FieldAttributes): Boolean {
@@ -129,6 +135,32 @@ class JsonPokemonPoseableModel(rootPart: Bone) : JsonPosableModel(rootPart), Hea
             if (mustBeTouchingWater != null) {
                 conditionsList.add { mustBeTouchingWater == it.entity?.isTouchingWater }
             }
+            val mustBeTouchingWaterOrRain = json.get("isTouchingWaterOrRain")?.asBoolean
+            if (mustBeTouchingWaterOrRain != null) {
+                conditionsList.add { mustBeTouchingWaterOrRain == it.isTouchingWaterOrRain }
+            }
+            val mustBeSubmergedInWater = json.get("isSubmergedInWater")?.asBoolean
+            if (mustBeSubmergedInWater != null) {
+                conditionsList.add { mustBeSubmergedInWater == it.isSubmergedInWater }
+            }
+            val mustBeStandingOnRedSand = json.get("isStandingOnRedSand")?.asBoolean
+            if (mustBeStandingOnRedSand != null) {
+                conditionsList.add { mustBeStandingOnRedSand == it.isStandingOnRedSand() }
+            }
+            val mustBeStandingOnSand = json.get("isStandingOnSand")?.asBoolean
+            if (mustBeStandingOnSand != null) {
+                conditionsList.add { mustBeStandingOnSand == it.isStandingOnSand() }
+            }
+            val mustBeStandingOnSandOrRedSand = json.get("isStandingOnSandOrRedSand")?.asBoolean
+            if (mustBeStandingOnSandOrRedSand != null) {
+                conditionsList.add { mustBeStandingOnSandOrRedSand == it.isStandingOnSandOrRedSand() }
+            }
+            val mustBeDusk = json.get("isDusk")?.asBoolean
+            if (mustBeDusk != null) {
+                conditionsList.add { mustBeDusk == it.isDusk() }
+            }
+
+            conditionsList.add { (it.delegate as PokemonClientDelegate).runtime.resolveBoolean(pose.condition) }
 
             val poseCondition: ((RenderContext) -> Boolean)? = if (conditionsList.isEmpty()) null else conditionsList.reduce { acc, function -> { acc(it) && function(it) } }
             return Pose(

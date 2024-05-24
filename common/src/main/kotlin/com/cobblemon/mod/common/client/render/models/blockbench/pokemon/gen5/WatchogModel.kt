@@ -22,11 +22,11 @@ class WatchogModel (root: ModelPart) : PosableModel(), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("watchog")
     override val head = getPart("head")
 
-    override val portraitScale = 1.8F
-    override val portraitTranslation = Vec3d(-0.23, 2.0, 0.0)
+    override var portraitScale = 1.8F
+    override var portraitTranslation = Vec3d(-0.23, 2.0, 0.0)
 
-    override val profileScale = 0.55F
-    override val profileTranslation = Vec3d(0.0, 0.87, 0.0)
+    override var profileScale = 0.55F
+    override var profileTranslation = Vec3d(0.0, 0.87, 0.0)
 
     lateinit var standing: Pose
     lateinit var walk: Pose

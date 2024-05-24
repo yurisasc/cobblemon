@@ -12,6 +12,8 @@ import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.api.spawning.spawner.PlayerSpawner
 import com.cobblemon.mod.common.api.spawning.spawner.PlayerSpawnerFactory
 import com.cobblemon.mod.common.platform.events.PlatformEvents
+import com.cobblemon.mod.common.util.server
+import com.cobblemon.mod.common.world.gamerules.CobblemonGameRules
 import java.util.UUID
 import net.minecraft.server.network.ServerPlayerEntity
 
@@ -34,7 +36,7 @@ object CobblemonWorldSpawnerManager : SpawnerManager() {
 
     fun onPlayerLogin(player: ServerPlayerEntity) {
         // Disables spawning
-        if (!Cobblemon.config.enableSpawning) {
+        if (!Cobblemon.config.enableSpawning || server()?.gameRules?.getBoolean(CobblemonGameRules.DO_POKEMON_SPAWNING) == false) {
             return;
         }
 

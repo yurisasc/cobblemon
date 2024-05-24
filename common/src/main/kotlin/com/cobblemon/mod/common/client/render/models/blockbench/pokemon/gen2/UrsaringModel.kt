@@ -30,11 +30,11 @@ class UrsaringModel (root: ModelPart) : PosableModel(), HeadedFrame, BipedFrame,
     override val leftLeg = getPart("left_leg")
     override val rightLeg = getPart("right_leg")
 
-    override val portraitScale = 2.1F
-    override val portraitTranslation = Vec3d(-0.4, 1.4, 0.0)
+    override var portraitScale = 2.1F
+    override var portraitTranslation = Vec3d(-0.4, 1.4, 0.0)
 
-    override val profileScale = 0.65F
-    override val profileTranslation = Vec3d(0.0, 0.76, 0.0)
+    override var profileScale = 0.65F
+    override var profileTranslation = Vec3d(0.0, 0.76, 0.0)
 
     lateinit var standing: Pose
     lateinit var walk: Pose

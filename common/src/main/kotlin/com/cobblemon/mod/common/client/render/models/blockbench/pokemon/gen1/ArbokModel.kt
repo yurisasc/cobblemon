@@ -28,11 +28,11 @@ class ArbokModel(root: ModelPart) : PosableModel(), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("arbok")
     override val head = getPart("head_ai")
 
-    override val portraitScale = 1.5F
-    override val portraitTranslation = Vec3d(-0.4, 1.0, 0.0)
+    override var portraitScale = 1.5F
+    override var portraitTranslation = Vec3d(-0.4, 1.0, 0.0)
 
-    override val profileScale = 0.67F
-    override val profileTranslation = Vec3d(0.0, 0.7, 0.0)
+    override var profileScale = 0.67F
+    override var profileTranslation = Vec3d(0.0, 0.7, 0.0)
 
     lateinit var sleep: Pose
     lateinit var standing: Pose
@@ -89,7 +89,7 @@ class ArbokModel(root: ModelPart) : PosableModel(), HeadedFrame {
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
-                bedrock("arbok", "ground_idle"),
+                bedrock("arbok", "summary_idle"),
                 wave
             )
         )

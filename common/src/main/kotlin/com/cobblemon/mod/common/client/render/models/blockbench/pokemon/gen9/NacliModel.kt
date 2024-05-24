@@ -23,11 +23,11 @@ import net.minecraft.util.math.Vec3d
 class NacliModel(root: ModelPart) : PosableModel() {
     override val rootPart = root.registerChildWithAllChildren("nacli")
 
-    override val portraitScale = 4.2F
-    override val portraitTranslation = Vec3d(0.0, -4.7, 0.0)
+    override var portraitScale = 4.2F
+    override var portraitTranslation = Vec3d(0.0, -4.7, 0.0)
 
-    override val profileScale = 1.25F
-    override val profileTranslation = Vec3d(0.0, -0.15, 0.0)
+    override var profileScale = 1.25F
+    override var profileTranslation = Vec3d(0.0, -0.15, 0.0)
 
     lateinit var standing: Pose
     lateinit var walk: Pose

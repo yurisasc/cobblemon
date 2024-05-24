@@ -26,11 +26,11 @@ class SteelixModel(root: ModelPart) : PosableModel(), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("steelix")
     override val head = getPart("head")
 
-    override val portraitScale = 0.7F
-    override val portraitTranslation = Vec3d(-0.7, 1.8, 0.0)
+    override var portraitScale = 0.7F
+    override var portraitTranslation = Vec3d(-0.7, 1.8, 0.0)
 
-    override val profileScale = 0.4F
-    override val profileTranslation = Vec3d(-0.1, 1.1, 0.0)
+    override var profileScale = 0.4F
+    override var profileTranslation = Vec3d(-0.1, 1.1, -6.0)
 
     lateinit var standing: Pose
     lateinit var walking: Pose

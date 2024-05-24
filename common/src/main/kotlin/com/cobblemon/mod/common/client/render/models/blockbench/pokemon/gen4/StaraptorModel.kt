@@ -32,10 +32,10 @@ class StaraptorModel (root: ModelPart) : PosableModel(), HeadedFrame, BipedFrame
     override val rightLeg = getPart("leg_right")
     override val head = getPart("head_ai")
 
-    override val portraitScale = 2.2F
-    override val portraitTranslation = Vec3d(-0.6, 0.15, 0.0)
-    override val profileScale = 0.9F
-    override val profileTranslation = Vec3d(0.0, 0.4, 0.0)
+    override var portraitScale = 2.2F
+    override var portraitTranslation = Vec3d(-0.6, 0.15, 0.0)
+    override var profileScale = 0.9F
+    override var profileTranslation = Vec3d(0.0, 0.4, 0.0)
 
 //    lateinit var sleep: Pose
     lateinit var stand: Pose

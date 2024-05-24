@@ -11,16 +11,14 @@ package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen4
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BimanualFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
-import com.cobblemon.mod.common.client.render.models.blockbench.pose.Pose
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cobblemon.mod.common.entity.PoseType
-import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
-import com.cobblemon.mod.common.client.render.models.blockbench.PosableState
-import com.cobblemon.mod.common.client.render.models.blockbench.repository.RenderContext
-import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class GarchompModel(root: ModelPart) : PosableModel(), HeadedFrame, BipedFrame, BimanualFrame {
+class GarchompModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedFrame, BimanualFrame {
     override val rootPart = root.registerChildWithAllChildren("garchomp")
     override val head = getPart("head")
     override val rightArm = getPart("arm_right")
@@ -28,17 +26,19 @@ class GarchompModel(root: ModelPart) : PosableModel(), HeadedFrame, BipedFrame, 
     override val rightLeg = getPart("leg_right1")
     override val leftLeg = getPart("leg_left1")
 
-    override val portraitScale = 2.4F
-    override val portraitTranslation = Vec3d(-1.1, 1.9, 0.0)
+    override var portraitScale = 2.4F
+    override var portraitTranslation = Vec3d(-1.1, 1.9, 0.0)
 
-    override val profileScale = 0.55F
-    override val profileTranslation = Vec3d(0.0, 0.9, 0.0)
+    override var profileScale = 0.55F
+    override var profileTranslation = Vec3d(0.0, 0.9, 0.0)
 
-    lateinit var standing: Pose
-    lateinit var walk: Pose
-    lateinit var flyidle: Pose
-    lateinit var fly: Pose
-    lateinit var battleidle: Pose
+    lateinit var standing: PokemonPose
+    lateinit var walk: PokemonPose
+    lateinit var flyidle: PokemonPose
+    lateinit var fly: PokemonPose
+    lateinit var battleidle: PokemonPose
+
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("garchomp", "cry") }
 
     override fun registerPoses() {
 
@@ -49,7 +49,7 @@ class GarchompModel(root: ModelPart) : PosableModel(), HeadedFrame, BipedFrame, 
             poseTypes = setOf(PoseType.NONE, PoseType.STAND, PoseType.PORTRAIT, PoseType.PROFILE, PoseType.FLOAT, PoseType.SWIM),
             transformTicks = 10,
             quirks = arrayOf(blink),
-            condition = { (it.entity as? PokemonEntity)?.isBattling == false },
+            condition = { !it.isBattling },
             idleAnimations = arrayOf(
                     singleBoneLook(),
                     bedrock("garchomp", "ground_idle")
@@ -95,7 +95,7 @@ class GarchompModel(root: ModelPart) : PosableModel(), HeadedFrame, BipedFrame, 
             poseTypes = PoseType.STATIONARY_POSES,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            condition = { (it.entity as? PokemonEntity)?.isBattling == true },
+            condition = { it.isBattling },
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("garchomp", "battle_idle")

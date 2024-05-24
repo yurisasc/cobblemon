@@ -24,10 +24,10 @@ class KakunaModel(root: ModelPart) : PosableModel(), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("kakuna")
     override val head = getPart("head")
 
-    override val portraitScale = 1.7F
-    override val portraitTranslation = Vec3d(0.1, -0.4, 0.0)
-    override val profileScale = 0.96F
-    override val profileTranslation = Vec3d(0.0, 0.35, 0.0)
+    override var portraitScale = 1.7F
+    override var portraitTranslation = Vec3d(0.1, -0.4, 0.0)
+    override var profileScale = 0.96F
+    override var profileTranslation = Vec3d(0.0, 0.35, 0.0)
 
     lateinit var sleep: Pose
     lateinit var standing: Pose

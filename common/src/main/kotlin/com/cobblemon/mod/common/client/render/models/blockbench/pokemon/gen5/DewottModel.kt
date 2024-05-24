@@ -34,10 +34,10 @@ class DewottModel (root: ModelPart) : PosableModel(), HeadedFrame, BipedFrame, B
     val scalchop_right = getPart("scalchop_hand_right")
     val scalchop_left = getPart("scalchop_hand_left")
 
-    override val portraitScale = 2.0F
-    override val portraitTranslation = Vec3d(-0.15, 0.8, 0.0)
-    override val profileScale = 0.7F
-    override val profileTranslation = Vec3d(0.0, 0.69, 0.0)
+    override var portraitScale = 2.0F
+    override var portraitTranslation = Vec3d(-0.15, 0.8, 0.0)
+    override var profileScale = 0.7F
+    override var profileTranslation = Vec3d(0.0, 0.69, 0.0)
 
     lateinit var battleidle: Pose
     lateinit var sleep: Pose

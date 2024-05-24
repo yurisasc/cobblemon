@@ -8,11 +8,12 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen2
 
-import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.createTransformation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BiWingedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
-import com.cobblemon.mod.common.client.render.models.blockbench.pose.Pose
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.ModelPartTransformation.Companion.Y_AXIS
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.ModelPartTransformation.Companion.Z_AXIS
 import com.cobblemon.mod.common.client.render.models.blockbench.wavefunction.triangleFunction
@@ -22,18 +23,20 @@ import com.cobblemon.mod.common.entity.PoseType.Companion.UI_POSES
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class YanmaModel(root: ModelPart) : PosableModel(), HeadedFrame {
+class YanmaModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("yanma")
     override val head = getPart("head")
 
-    override val portraitScale = 2.1F
-    override val portraitTranslation = Vec3d(-0.6, -0.4, 0.0)
+    override var portraitScale = 2.1F
+    override var portraitTranslation = Vec3d(-0.6, -1.0, 0.0)
 
-    override val profileScale = 0.75F
-    override val profileTranslation = Vec3d(0.0, 0.5, 0.0)
+    override var profileScale = 0.75F
+    override var profileTranslation = Vec3d(0.0, 0.5, 0.0)
 
-    lateinit var standing: Pose
-    lateinit var walk: Pose
+    lateinit var standing: PokemonPose
+    lateinit var walk: PokemonPose
+
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("yanma", "cry") }
 
     override fun registerPoses() {
         val wingFrame1 = object : BiWingedFrame {
@@ -96,6 +99,6 @@ class YanmaModel(root: ModelPart) : PosableModel(), HeadedFrame {
 
 //    override fun getFaintAnimation(
 //        pokemonEntity: PokemonEntity,
-//        state: PosableState<PokemonEntity>
+//        state: PoseableEntityState<PokemonEntity>
 //    ) = if (state.isPosedIn(standing, walk)) bedrockStateful("yanma", "faint") else null
 }

@@ -19,11 +19,11 @@ import net.minecraft.util.math.Vec3d
 class GoldeenModel(root: ModelPart) : PosableModel() {
     override val rootPart = root.registerChildWithAllChildren("goldeen")
 
-    override val portraitScale = 3.2F
-    override val portraitTranslation = Vec3d(-0.05, -3.3, 0.0)
+    override var portraitScale = 3.2F
+    override var portraitTranslation = Vec3d(-0.05, -3.3, 0.0)
 
-    override val profileScale = 1.4F
-    override val profileTranslation = Vec3d(0.0, -0.5, 0.0)
+    override var profileScale = 1.4F
+    override var profileTranslation = Vec3d(0.0, -0.5, 0.0)
 
     lateinit var standing: Pose
     lateinit var walk: Pose

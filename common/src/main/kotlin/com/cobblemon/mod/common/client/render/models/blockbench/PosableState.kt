@@ -15,7 +15,6 @@ import com.bedrockk.molang.runtime.value.DoubleValue
 import com.bedrockk.molang.runtime.value.MoValue
 import com.bedrockk.molang.runtime.value.StringValue
 import com.cobblemon.mod.common.Cobblemon.LOGGER
-import com.cobblemon.mod.common.api.molang.MoLangFunctions.addFunction
 import com.cobblemon.mod.common.api.molang.MoLangFunctions.addFunctions
 import com.cobblemon.mod.common.api.molang.MoLangFunctions.getQueryStruct
 import com.cobblemon.mod.common.api.molang.MoLangFunctions.setup
@@ -237,6 +236,11 @@ abstract class PosableState : Schedulable {
         val previousAge = age
         updateAge(age + 1)
         runEffects(entity, previousAge, age)
+        val primaryAnimation = primaryAnimation ?: return
+        if (primaryAnimation.started + primaryAnimation.duration <= animationSeconds) {
+            this.primaryAnimation = null
+            primaryAnimation.afterAction.accept(Unit)
+        }
     }
 
     abstract fun updatePartialTicks(partialTicks: Float)
@@ -341,7 +345,7 @@ abstract class PosableState : Schedulable {
             val pose = currentPose?.let(model::getPose)
             allStatefulAnimations.forEach { it.applyEffects(entity, this, previousSeconds, currentSeconds) }
             primaryAnimation?.animation?.applyEffects(entity, this, previousSeconds, currentSeconds)
-            pose?.idleAnimations?.filter { shouldIdleRun(it, 0.5F) }
+            pose?.idleAnimations?.filter { shouldIdleRun(it, 0.5F) }?.forEach { it.applyEffects(entity, this, previousSeconds, currentSeconds) }
         }
     }
 

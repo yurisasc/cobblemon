@@ -123,10 +123,8 @@ class RotateYCameraMode : ParticleCameraMode {
         viewDirection: Vec3d
     ): Quaternionf {
         val i = if (angle == 0F) 0F else MathHelper.lerp(deltaTicks, prevAngle, angle)
-
-        val q2 = RotationAxis.POSITIVE_Y.rotationDegrees(/*180 - */cameraYaw)
+        val q2 = RotationAxis.POSITIVE_Y.rotationDegrees(-cameraYaw)
         q2.hamiltonProduct(RotationAxis.POSITIVE_Z.rotationDegrees(i))
-
         return q2
     }
 
@@ -191,9 +189,10 @@ class LookAtY : ParticleCameraMode {
         cameraPitch: Float,
         viewDirection: Vec3d
     ): Quaternionf {
-        val rotation = Quaternionf(0F, 0F, 0F, 1F)
-        rotation.hamiltonProduct(RotationAxis.POSITIVE_Y.rotationDegrees(-cameraYaw))
-        return rotation
+        val i = if (angle == 0F) 0F else MathHelper.lerp(deltaTicks, prevAngle, angle)
+        val q2 = RotationAxis.POSITIVE_Y.rotationDegrees(-cameraYaw)
+        q2.hamiltonProduct(RotationAxis.POSITIVE_Z.rotationDegrees(i))
+        return q2
     }
 
     override fun <T> encode(ops: DynamicOps<T>) = CODEC.encodeStart(ops, this)

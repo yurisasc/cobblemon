@@ -30,11 +30,11 @@ class AlakazamModel(root: ModelPart) : PosableModel(), HeadedFrame, BipedFrame, 
     override val leftLeg = getPart("left_upper_leg")
     override val rightLeg = getPart("right_upper_leg")
 
-    override val portraitScale = 1.75F
-    override val portraitTranslation = Vec3d(-0.25, 0.85, 0.0)
+    override var portraitScale = 1.75F
+    override var portraitTranslation = Vec3d(-0.25, 0.85, 0.0)
 
-    override val profileScale = 0.73F
-    override val profileTranslation = Vec3d(0.0, 0.65, 0.0)
+    override var profileScale = 0.73F
+    override var profileTranslation = Vec3d(0.0, 0.65, 0.0)
 
     lateinit var sleep: Pose
     lateinit var standing: Pose

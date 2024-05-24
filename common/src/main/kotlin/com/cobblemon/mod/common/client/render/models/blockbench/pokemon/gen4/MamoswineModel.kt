@@ -9,18 +9,17 @@
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen4
 
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.QuadrupedFrame
-import com.cobblemon.mod.common.client.render.models.blockbench.pose.Pose
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cobblemon.mod.common.entity.PoseType
-import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
-import com.cobblemon.mod.common.client.render.models.blockbench.PosableState
-import com.cobblemon.mod.common.client.render.models.blockbench.repository.RenderContext
 import com.cobblemon.mod.common.entity.PoseType.Companion.MOVING_POSES
 import com.cobblemon.mod.common.entity.PoseType.Companion.STATIONARY_POSES
 import com.cobblemon.mod.common.entity.PoseType.Companion.UI_POSES
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class MamoswineModel(root: ModelPart) : PosableModel(), QuadrupedFrame {
+class MamoswineModel(root: ModelPart) : PokemonPoseableModel(), QuadrupedFrame {
     override val rootPart = root.registerChildWithAllChildren("mamoswine")
 
     override val hindLeftLeg = getPart("leg_back_left")
@@ -28,15 +27,17 @@ class MamoswineModel(root: ModelPart) : PosableModel(), QuadrupedFrame {
     override val foreLeftLeg= getPart("leg_front_left")
     override val foreRightLeg = getPart("leg_front_right")
 
-    override val portraitScale = 0.7F
-    override val portraitTranslation = Vec3d(-0.7, 1.5, 0.0)
+    override var portraitScale = 0.67F
+    override var portraitTranslation = Vec3d(-0.67, 1.53, 0.0)
 
-    override val profileScale = 0.35F
-    override val profileTranslation = Vec3d(-0.05, 1.1, 0.0)
+    override var profileScale = 0.35F
+    override var profileTranslation = Vec3d(-0.07, 1.1, 0.0)
 
-    lateinit var sleep: Pose
-    lateinit var standing: Pose
-    lateinit var walk: Pose
+    lateinit var sleep: PokemonPose
+    lateinit var standing: PokemonPose
+    lateinit var walk: PokemonPose
+
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("mamoswine", "cry") }
 
     override fun registerPoses() {
         sleep = registerPose(
@@ -66,6 +67,6 @@ class MamoswineModel(root: ModelPart) : PosableModel(), QuadrupedFrame {
 
 //    override fun getFaintAnimation(
 //        pokemonEntity: PokemonEntity,
-//        state: PosableState<PokemonEntity>
+//        state: PoseableEntityState<PokemonEntity>
 //    ) = if (state.isPosedIn(standing, walk)) bedrockStateful("mamoswine", "faint") else null
 }

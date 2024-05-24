@@ -24,10 +24,11 @@ import net.minecraft.world.gen.structure.Structure
  */
 class StructureRequirement : EntityQueryRequirement {
     val structureCondition: RegistryLikeCondition<Structure>? = null
+    val structureAnticondition: RegistryLikeCondition<Structure>? = null
     override fun check(pokemon: Pokemon, queriedEntity: LivingEntity): Boolean {
         val structures = queriedEntity.world.getChunk(queriedEntity.blockPos).structureReferences
         val registry = queriedEntity.world.registryManager.get(RegistryKeys.STRUCTURE)
-        return (structureCondition == null || structures.any { structureCondition.fits(it.key, registry) })
+        return (structureCondition == null || structures.any { structureCondition.fits(it.key, registry) }) && (structureAnticondition == null || !structures.any { structureAnticondition.fits(it.key, registry) })
     }
 
     companion object {

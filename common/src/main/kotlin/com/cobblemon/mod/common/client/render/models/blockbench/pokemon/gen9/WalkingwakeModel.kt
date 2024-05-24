@@ -28,11 +28,11 @@ class WalkingwakeModel (root: ModelPart) : PosableModel(), HeadedFrame, BipedFra
     override val leftLeg = getPart("leg_left")
     override val rightLeg = getPart("leg_right")
 
-    override val portraitScale = 2.2F
-    override val portraitTranslation = Vec3d(-2.5, 2.4, 0.0)
+    override var portraitScale = 2.2F
+    override var portraitTranslation = Vec3d(-2.5, 2.4, 0.0)
 
-    override val profileScale = 0.35F
-    override val profileTranslation = Vec3d(0.0, 1.2, 0.0)
+    override var profileScale = 0.35F
+    override var profileTranslation = Vec3d(0.0, 1.2, -6.0)
 
     val hair = getPart("hair")
 

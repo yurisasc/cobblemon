@@ -21,11 +21,11 @@ class MisdreavusModel (root: ModelPart) : PosableModel(), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("misdreavus")
     override val head = getPart("head")
 
-    override val portraitScale = 1.8F
-    override val portraitTranslation = Vec3d(-0.2, -0.32, 0.0)
+    override var portraitScale = 1.8F
+    override var portraitTranslation = Vec3d(-0.2, -0.32, 0.0)
 
-    override val profileScale = 0.7F
-    override val profileTranslation = Vec3d(0.0, 0.7, 0.0)
+    override var profileScale = 0.7F
+    override var profileTranslation = Vec3d(0.0, 0.7, 0.0)
 
     lateinit var standing: Pose
     lateinit var walk: Pose

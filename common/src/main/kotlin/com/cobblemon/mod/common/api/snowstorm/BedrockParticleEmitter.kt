@@ -29,7 +29,12 @@ class BedrockParticleEmitter(
     var updateExpressions: MutableList<Expression> = mutableListOf(),
     var rate: ParticleEmitterRate = InstantParticleEmitterRate(),
     var shape: ParticleEmitterShape = SphereParticleEmitterShape(),
-    var lifetime: ParticleEmitterLifetime = OnceEmitterLifetime(NumberExpression(1.0))
+    var lifetime: ParticleEmitterLifetime = OnceEmitterLifetime(NumberExpression(1.0)),
+    var eventTimeline: EventTriggerTimeline = EventTriggerTimeline(mutableMapOf()),
+    var creationEvents: MutableList<SimpleEventTrigger> = mutableListOf(),
+    var expirationEvents: MutableList<SimpleEventTrigger> = mutableListOf(),
+    var travelDistanceEvents: EventTriggerTimeline = EventTriggerTimeline(mutableMapOf()),
+    var loopingTravelDistanceEvents: MutableList<LoopingTravelDistanceEventTrigger> = mutableListOf()
 ) {
     companion object {
         val CODEC: Codec<BedrockParticleEmitter> = RecordCodecBuilder.create { instance ->
@@ -38,14 +43,24 @@ class BedrockParticleEmitter(
                 ListCodec(EXPRESSION_CODEC).fieldOf("updateExpressions").forGetter { it.updateExpressions },
                 ParticleEmitterRate.codec.fieldOf("rate").forGetter { it.rate },
                 ParticleEmitterShape.codec.fieldOf("shape").forGetter { it.shape },
-                ParticleEmitterLifetime.codec.fieldOf("lifetime").forGetter { it.lifetime }
-            ).apply(instance) { startExpressions, updateExpressions, rate, shape, lifetime ->
+                ParticleEmitterLifetime.codec.fieldOf("lifetime").forGetter { it.lifetime },
+                EventTriggerTimeline.CODEC.fieldOf("eventTimeline").forGetter { it.eventTimeline },
+                ListCodec(SimpleEventTrigger.CODEC).fieldOf("creationEvents").forGetter { it.creationEvents },
+                ListCodec(SimpleEventTrigger.CODEC).fieldOf("expirationEvents").forGetter { it.expirationEvents },
+                EventTriggerTimeline.CODEC.fieldOf("travelDistanceEvents").forGetter { it.travelDistanceEvents },
+                ListCodec(LoopingTravelDistanceEventTrigger.CODEC).fieldOf("loopingTravelDistanceEvents").forGetter { it.loopingTravelDistanceEvents }
+            ).apply(instance) { startExpressions, updateExpressions, rate, shape, lifetime, eventTimeline, creationEvents, expirationEvents, travelDistanceEvents, loopingTravelDistanceEvents ->
                 BedrockParticleEmitter(
                     startExpressions = startExpressions,
                     updateExpressions = updateExpressions,
                     shape = shape,
                     rate = rate,
-                    lifetime = lifetime
+                    lifetime = lifetime,
+                    eventTimeline = eventTimeline,
+                    creationEvents = creationEvents,
+                    expirationEvents = expirationEvents,
+                    travelDistanceEvents = travelDistanceEvents,
+                    loopingTravelDistanceEvents = loopingTravelDistanceEvents
                 )
             }
         }
@@ -57,6 +72,11 @@ class BedrockParticleEmitter(
         ParticleEmitterRate.writeToBuffer(buffer, rate)
         ParticleEmitterShape.writeToBuffer(buffer, shape)
         ParticleEmitterLifetime.writeToBuffer(buffer, lifetime)
+        eventTimeline.encode(buffer)
+        buffer.writeCollection(creationEvents) { pb, event -> event.encode(pb) }
+        buffer.writeCollection(expirationEvents) { pb, event -> event.encode(pb) }
+        travelDistanceEvents.encode(buffer)
+        buffer.writeCollection(loopingTravelDistanceEvents) { pb, event -> event.encode(pb) }
     }
 
     fun readFromBuffer(buffer: PacketByteBuf) {
@@ -65,5 +85,10 @@ class BedrockParticleEmitter(
         rate = ParticleEmitterRate.readFromBuffer(buffer)
         shape = ParticleEmitterShape.readFromBuffer(buffer)
         lifetime = ParticleEmitterLifetime.readFromBuffer(buffer)
+        eventTimeline.decode(buffer)
+        creationEvents = buffer.readList { SimpleEventTrigger("").also { it.decode(buffer) } }
+        expirationEvents = buffer.readList { SimpleEventTrigger("").also { it.decode(buffer) } }
+        travelDistanceEvents.decode(buffer)
+        loopingTravelDistanceEvents = buffer.readList { LoopingTravelDistanceEventTrigger(0.0, mutableListOf()).also { it.decode(buffer) } }
     }
 }

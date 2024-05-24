@@ -34,11 +34,11 @@ class RillaboomModel (root: ModelPart) : PosableModel(), HeadedFrame, BipedFrame
     val stick_left = getPart("stick_left")
     val stick_right = getPart("stick_right")
 
-    override val portraitScale = 2.3F
-    override val portraitTranslation = Vec3d(-0.85, 1.65, 0.0)
+    override var portraitScale = 2.3F
+    override var portraitTranslation = Vec3d(-0.85, 1.65, 0.0)
 
-    override val profileScale = 0.65F
-    override val profileTranslation = Vec3d(0.0, 0.76, 0.0)
+    override var profileScale = 0.65F
+    override var profileTranslation = Vec3d(0.0, 0.76, 0.0)
 
     lateinit var battleidle: Pose
     lateinit var standing: Pose

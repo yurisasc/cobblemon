@@ -27,11 +27,11 @@ class MimikyuModel(root: ModelPart) : PosableModel(), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("mimikyu")
     override val head = getPart("head")
 
-    override val portraitScale = 2.5F
-    override val portraitTranslation = Vec3d(0.0, -2.3, 0.0)
+    override var portraitScale = 2.5F
+    override var portraitTranslation = Vec3d(0.0, -2.3, 0.0)
 
-    override val profileScale = 0.8F
-    override val profileTranslation = Vec3d(0.0, 0.5, 0.0)
+    override var profileScale = 0.8F
+    override var profileTranslation = Vec3d(0.0, 0.5, 0.0)
 
     lateinit var shoulderLeft: Pose
     lateinit var shoulderRight: Pose

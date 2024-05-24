@@ -13,17 +13,19 @@ import com.cobblemon.mod.common.client.render.models.blockbench.PosableState
 import com.cobblemon.mod.common.entity.Poseable
 import com.cobblemon.mod.common.net.messages.client.animation.PlayPoseableAnimationPacket
 import com.cobblemon.mod.common.util.asExpression
+import com.cobblemon.mod.common.util.asExpressionLike
 import com.cobblemon.mod.common.util.resolve
 import net.minecraft.client.MinecraftClient
 
 object PlayPoseableAnimationHandler : ClientNetworkPacketHandler<PlayPoseableAnimationPacket> {
     override fun handle(packet: PlayPoseableAnimationPacket, client: MinecraftClient) {
-        val entity = client.world?.getEntityById(packet.entityId) ?: return
+        val world = client.world ?: return
+        val entity = world.getEntityById(packet.entityId) ?: return
         if (entity is Poseable) {
             val delegate = entity.delegate
             if (delegate is PosableState) {
                 for (expr in packet.expressions) {
-                    delegate.runtime.resolve(expr.asExpression())
+                    delegate.runtime.resolve(expr.asExpressionLike())
                 }
                 delegate.addFirstAnimation(packet.animation)
             }

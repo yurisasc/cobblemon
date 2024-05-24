@@ -21,11 +21,11 @@ class MachopModel(root: ModelPart) : PosableModel(), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("machop")
     override val head = getPart("head")
 
-    override val portraitScale = 1.8F
-    override val portraitTranslation = Vec3d(-0.03, 0.35, 0.0)
+    override var portraitScale = 1.8F
+    override var portraitTranslation = Vec3d(-0.03, 0.35, 0.0)
 
-    override val profileScale = 0.73F
-    override val profileTranslation = Vec3d(-0.03, 0.64, 0.0)
+    override var profileScale = 0.73F
+    override var profileTranslation = Vec3d(-0.03, 0.64, 0.0)
 
     lateinit var standing: Pose
     lateinit var walk: Pose

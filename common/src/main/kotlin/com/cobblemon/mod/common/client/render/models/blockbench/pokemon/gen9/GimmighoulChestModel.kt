@@ -8,18 +8,18 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen9
 
-import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BimanualFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
-import com.cobblemon.mod.common.client.render.models.blockbench.pose.Pose
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cobblemon.mod.common.entity.PoseType
-import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.util.asExpressionLike
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class GimmighoulChestModel (root: ModelPart) : PosableModel(), HeadedFrame, BipedFrame, BimanualFrame {
+class GimmighoulChestModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedFrame, BimanualFrame {
     override val rootPart = root.registerChildWithAllChildren("gimmighoul_chest")
     override val head = getPart("head")
 
@@ -28,25 +28,28 @@ class GimmighoulChestModel (root: ModelPart) : PosableModel(), HeadedFrame, Bipe
     override val leftLeg = getPart("leg_left")
     override val rightLeg = getPart("leg_right")
 
-    override val portraitScale = 2.0F
-    override val portraitTranslation = Vec3d(0.3, -0.7, 0.0)
+    override var portraitScale = 2.54F
+    override var portraitTranslation = Vec3d(-0.01, -1.6, 0.0)
 
-    override val profileScale = 0.65F
-    override val profileTranslation = Vec3d(0.0, 0.76, 0.0)
+    override var profileScale = 0.65F
+    override var profileTranslation = Vec3d(0.0, 0.76, 0.0)
 
-    lateinit var standing: Pose
-    lateinit var walk: Pose
-    lateinit var closed: Pose
-    lateinit var battle: Pose
+    lateinit var standing: PokemonPose
+    lateinit var walk: PokemonPose
+    lateinit var closed: PokemonPose
+    lateinit var battle: PokemonPose
+
+    override val cryAnimation = CryProvider { _, pose -> if (pose.isPosedIn(battle)) bedrockStateful("gimmighoul_chest", "battle_cry") else bedrockStateful("gimmighoul_chest", "cry") }
 
     override fun registerPoses() {
         val blink = quirk { bedrockStateful("gimmighoul_chest", "blink") }
-        animations["cry"] = "q.bedrock_stateful('gimmighoul_chest', 'cry')".asExpressionLike()
+        val quirk = quirk(secondsBetweenOccurrences = 30F to 120F) { bedrockStateful("gimmighoul_chest", "idle_quirk") }
+
         standing = registerPose(
             poseName = "standing",
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
-            quirks = arrayOf(blink),
-            condition = { (it.entity as? PokemonEntity)?.let { it.ownerUuid != null && !it.isBattling } == true },
+            quirks = arrayOf(blink,quirk),
+            condition = { it.ownerUuid != null && !it.isBattling },
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("gimmighoul_chest", "ground_idle")
@@ -57,7 +60,7 @@ class GimmighoulChestModel (root: ModelPart) : PosableModel(), HeadedFrame, Bipe
             poseName = "closed",
             poseTypes = PoseType.STATIONARY_POSES,
             quirks = arrayOf(blink),
-            condition = { (it.entity as? PokemonEntity)?.let { it.ownerUuid == null && !it.isBattling } == true },
+            condition = { it.ownerUuid == null && !it.isBattling },
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("gimmighoul_chest", "mimic")
@@ -78,8 +81,8 @@ class GimmighoulChestModel (root: ModelPart) : PosableModel(), HeadedFrame, Bipe
         battle = registerPose(
             poseName = "battle",
             poseTypes = PoseType.STATIONARY_POSES,
-            quirks = arrayOf(blink),
-            condition = { (it.entity as? PokemonEntity)?.isBattling == true },
+            quirks = arrayOf(blink, quirk),
+            condition = { it.isBattling },
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("gimmighoul_chest", "battle_idle"),
@@ -87,7 +90,7 @@ class GimmighoulChestModel (root: ModelPart) : PosableModel(), HeadedFrame, Bipe
         )
 
         closed.transitions[battle.poseName] = { _, _ ->
-            bedrockStateful("gimmighoul_chest", "surprise").andThen { _, state -> state.setPose(battle.poseName) }
+            bedrockStateful("gimmighoul_chest", "surprise")
         }
     }
 

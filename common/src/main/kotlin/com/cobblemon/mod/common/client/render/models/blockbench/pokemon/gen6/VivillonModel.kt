@@ -27,11 +27,11 @@ class VivillonModel(root: ModelPart) : PosableModel(), HeadedFrame, BiWingedFram
     override val leftWing = getPart("wing_left")
     override val rightWing = getPart("wing_right")
 
-    override val portraitScale = 2.8F
-    override val portraitTranslation = Vec3d(-0.3, 0.2, 0.0)
+    override var portraitScale = 2.8F
+    override var portraitTranslation = Vec3d(-0.3, 0.2, 0.0)
 
-    override val profileScale = 0.7F
-    override val profileTranslation = Vec3d(0.1, 0.8, 0.0)
+    override var profileScale = 0.7F
+    override var profileTranslation = Vec3d(0.1, 0.8, 0.0)
 
     lateinit var standing: Pose
     lateinit var walk: Pose

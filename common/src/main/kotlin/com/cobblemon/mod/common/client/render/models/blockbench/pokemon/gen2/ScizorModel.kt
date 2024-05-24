@@ -38,11 +38,11 @@ class ScizorModel(root: ModelPart) : PosableModel(), HeadedFrame, BipedFrame, Bi
     override val leftLeg = getPart("left_leg_joint")
     override val rightLeg = getPart("right_leg_joint")
 
-    override val portraitScale = 2.6F
-    override val portraitTranslation = Vec3d(-0.28, 2.9, 0.0)
+    override var portraitScale = 2.6F
+    override var portraitTranslation = Vec3d(-0.28, 2.9, 0.0)
 
-    override val profileScale = 0.55F
-    override val profileTranslation = Vec3d(0.0, 0.9, 0.0)
+    override var profileScale = 0.55F
+    override var profileTranslation = Vec3d(0.0, 0.9, 0.0)
 
     lateinit var standing: Pose
     lateinit var walk: Pose

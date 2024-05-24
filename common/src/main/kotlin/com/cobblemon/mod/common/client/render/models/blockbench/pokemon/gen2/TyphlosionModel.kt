@@ -23,11 +23,11 @@ class TyphlosionModel  (root: ModelPart) : PosableModel(), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("typhlosion")
     override val head = getPart("head")
 
-    override val portraitScale = 1.4F
-    override val portraitTranslation = Vec3d(-0.65, 1.8, 0.0)
+    override var portraitScale = 1.4F
+    override var portraitTranslation = Vec3d(-0.65, 1.8, 0.0)
 
-    override val profileScale = 0.5F
-    override val profileTranslation = Vec3d(0.0, 1.0, 0.0)
+    override var profileScale = 0.5F
+    override var profileTranslation = Vec3d(0.0, 1.0, 0.0)
 
     lateinit var standing: Pose
     lateinit var walking: Pose
@@ -51,7 +51,7 @@ class TyphlosionModel  (root: ModelPart) : PosableModel(), HeadedFrame {
             condition = { (it.entity as? PokemonEntity)?.isBattling == false },
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
-                singleBoneLook(),
+                singleBoneLook(minPitch = 0F),
                 bedrock("typhlosion", "ground_idle")
             )
         )
@@ -62,7 +62,7 @@ class TyphlosionModel  (root: ModelPart) : PosableModel(), HeadedFrame {
             transformTicks = 10,
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
-                singleBoneLook(),
+                singleBoneLook(minPitch = 0F),
                 bedrock("typhlosion", "ground_walk")
             )
         )
@@ -74,7 +74,7 @@ class TyphlosionModel  (root: ModelPart) : PosableModel(), HeadedFrame {
             quirks = arrayOf(blink),
             condition = { (it.entity as? PokemonEntity)?.isBattling == true },
             idleAnimations = arrayOf(
-                singleBoneLook(),
+                singleBoneLook(minPitch = 0F),
                 bedrock("typhlosion", "battle_idle")
             )
         )

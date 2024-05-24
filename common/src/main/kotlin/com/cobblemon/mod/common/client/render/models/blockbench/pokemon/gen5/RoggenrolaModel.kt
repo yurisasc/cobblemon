@@ -8,34 +8,39 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen5
 
-import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
-import com.cobblemon.mod.common.client.render.models.blockbench.PosableState
+import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
+import com.cobblemon.mod.common.client.render.models.blockbench.createTransformation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
-import com.cobblemon.mod.common.client.render.models.blockbench.pose.Pose
-import com.cobblemon.mod.common.client.render.models.blockbench.repository.RenderContext
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.pose.ModelPartTransformation
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class RoggenrolaModel(root: ModelPart) : PosableModel(), BipedFrame {
+class RoggenrolaModel (root: ModelPart) : PokemonPoseableModel(), BipedFrame {
     override val rootPart = root.registerChildWithAllChildren("roggenrola")
     override val leftLeg = getPart("feet_left")
     override val rightLeg = getPart("feet_right")
 
-    override val portraitScale = 2.5F
-    override val portraitTranslation = Vec3d(-0.15, -1.75, 0.0)
+    override var portraitScale = 2.5F
+    override var portraitTranslation = Vec3d(-0.15, -1.75, 0.0)
 
-    override val profileScale = 0.8F
-    override val profileTranslation = Vec3d(0.0, 0.5, 0.0)
+    override var profileScale = 0.8F
+    override var profileTranslation = Vec3d(0.0, 0.5, 0.0)
 
-    lateinit var standing: Pose
-    lateinit var walking: Pose
-    lateinit var sleep: Pose
-    lateinit var battleidle: Pose
+    lateinit var standing: PokemonPose
+    lateinit var walking: PokemonPose
+    lateinit var sleep: PokemonPose
+    lateinit var battleidle: PokemonPose
+    lateinit var shoulderLeft: PokemonPose
+    lateinit var shoulderRight: PokemonPose
 
-    override val cryAnimation = CryProvider { bedrockStateful("roggenrola", "cry") }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("roggenrola", "cry") }
+
+    val shoulderOffset = 1
 
     override fun registerPoses() {
         val twitch = quirk(secondsBetweenOccurrences = 60F to 120F) { bedrockStateful("roggenrola", "quirk_twitch") }
@@ -49,7 +54,7 @@ class RoggenrolaModel(root: ModelPart) : PosableModel(), BipedFrame {
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
             transformTicks = 10,
             quirks = arrayOf(twitch),
-            condition = { (it.entity as? PokemonEntity)?.isBattling == false },
+            condition = { !it.isBattling },
             idleAnimations = arrayOf(
                 bedrock("roggenrola", "ground_idle")
             )
@@ -70,11 +75,34 @@ class RoggenrolaModel(root: ModelPart) : PosableModel(), BipedFrame {
             poseTypes = PoseType.STATIONARY_POSES,
             transformTicks = 10,
             quirks = arrayOf(twitch),
-            condition = { (it.entity as? PokemonEntity)?.isBattling == true },
+            condition = { it.isBattling },
             idleAnimations = arrayOf(
                 bedrock("roggenrola", "battle_idle")
             )
         )
+
+        shoulderLeft = registerPose(
+            poseType = PoseType.SHOULDER_LEFT,
+            idleAnimations = arrayOf(
+                bedrock("roggenrola", "shoulder_left")
+            ),
+            transformedParts = arrayOf(
+                rootPart.createTransformation().addPosition(ModelPartTransformation.X_AXIS, shoulderOffset)
+            )
+        )
+
+        shoulderRight = registerPose(
+            poseType = PoseType.SHOULDER_RIGHT,
+            idleAnimations = arrayOf(
+                bedrock("roggenrola", "shoulder_right")
+            ),
+            transformedParts = arrayOf(
+                rootPart.createTransformation().addPosition(ModelPartTransformation.X_AXIS, -shoulderOffset)
+            )
+        )
     }
-    override fun getFaintAnimation(state: PosableState) = if (state.isPosedIn(standing, walking, battleidle, sleep)) bedrockStateful("roggenrola", "faint") else null
+    override fun getFaintAnimation(
+        pokemonEntity: PokemonEntity,
+        state: PoseableEntityState<PokemonEntity>
+    ) = bedrockStateful("roggenrola", "faint")
 }

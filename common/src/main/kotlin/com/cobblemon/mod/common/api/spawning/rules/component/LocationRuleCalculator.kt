@@ -19,6 +19,7 @@ import com.cobblemon.mod.common.api.molang.ObjectValue
 import com.cobblemon.mod.common.api.spawning.context.SpawningContext
 import com.cobblemon.mod.common.api.spawning.context.calculators.SpawningContextCalculator
 import com.cobblemon.mod.common.util.asExpression
+import com.cobblemon.mod.common.util.asExpressionLike
 import com.cobblemon.mod.common.util.resolveBoolean
 import net.minecraft.registry.RegistryKeys
 import net.minecraft.registry.entry.RegistryEntry
@@ -49,7 +50,7 @@ class LocationRuleCalculator : SpawnRuleComponent {
     @Transient
     private lateinit var reusableDimensionTypeValue: ObjectValue<RegistryEntry<DimensionType>>
 
-    val allow = "true".asExpression()
+    val allow = "true".asExpressionLike()
 
     override fun isAllowedPosition(
         world: ServerWorld,

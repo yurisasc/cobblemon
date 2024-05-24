@@ -25,11 +25,11 @@ class ZubatModel(root: ModelPart) : PosableModel() {
     val wings_folded = getPart("wings_folded")
     val wings_open = getPart("wings_open")
 
-    override val portraitScale = 1.7F
-    override val portraitTranslation = Vec3d(0.0, 0.0, 0.0)
+    override var portraitScale = 1.7F
+    override var portraitTranslation = Vec3d(0.0, 0.0, 0.0)
 
-    override val profileScale = 0.7F
-    override val profileTranslation = Vec3d(0.0, 0.7, 0.0)
+    override var profileScale = 0.7F
+    override var profileTranslation = Vec3d(0.0, 0.7, 0.0)
 
     lateinit var sleep: Pose
     lateinit var standing: Pose

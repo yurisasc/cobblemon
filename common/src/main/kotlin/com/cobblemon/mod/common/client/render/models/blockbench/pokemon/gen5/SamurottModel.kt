@@ -13,15 +13,13 @@ import com.cobblemon.mod.common.client.render.models.blockbench.createTransforma
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.QuadrupedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
-import com.cobblemon.mod.common.client.render.models.blockbench.pose.Pose
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cobblemon.mod.common.entity.PoseType
-import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
-import com.cobblemon.mod.common.client.render.models.blockbench.PosableState
-import com.cobblemon.mod.common.client.render.models.blockbench.repository.RenderContext
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class SamurottModel (root: ModelPart) : PosableModel(), HeadedFrame, QuadrupedFrame {
+class SamurottModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, QuadrupedFrame {
     override val rootPart = root.registerChildWithAllChildren("samurott")
     override val head = getPart("head")
     override val foreLeftLeg= getPart("leg_front_left")
@@ -31,30 +29,32 @@ class SamurottModel (root: ModelPart) : PosableModel(), HeadedFrame, QuadrupedFr
     val seamitar_right = getPart("seamitar_hand_right")
     val seamitar_left = getPart("seamitar_hand_left")
 
-    override val portraitScale = 2.2F
-    override val portraitTranslation = Vec3d(-1.0, 1.8, 0.0)
-    override val profileScale = 0.6F
-    override val profileTranslation = Vec3d(0.0, 0.8, 0.0)
+    override var portraitScale = 1.5F
+    override var portraitTranslation = Vec3d(-0.91, 1.62, 0.0)
+    override var profileScale = 0.6F
+    override var profileTranslation = Vec3d(0.0, 0.8, 0.0)
 
-    lateinit var sleep: Pose
-    lateinit var standing: Pose
-    lateinit var walk: Pose
+    lateinit var sleep: PokemonPose
+    lateinit var standing: PokemonPose
+    lateinit var walk: PokemonPose
+    lateinit var battleidle: PokemonPose
 
-    override val cryAnimation = CryProvider { bedrockStateful("samurott", "cry") }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("samurott", "cry") }
 
     override fun registerPoses() {
         val blink = quirk { bedrockStateful("samurott", "blink") }
-        sleep = registerPose(
-            poseType = PoseType.SLEEP,
-            transformTicks = 10,
-            idleAnimations = arrayOf(bedrock("samurott", "sleep"))
-        )
+        //sleep = registerPose(
+        //    poseType = PoseType.SLEEP,
+        //    transformTicks = 10,
+        //    idleAnimations = arrayOf(bedrock("samurott", "sleep"))
+        //)
 
         standing = registerPose(
             poseName = "standing",
             poseTypes = setOf(PoseType.NONE, PoseType.STAND, PoseType.PORTRAIT, PoseType.PROFILE),
             transformTicks = 10,
             quirks = arrayOf(blink),
+                condition = { !it.isBattling },
             transformedParts = arrayOf(
                 seamitar_right.createTransformation().withVisibility(visibility = false),
                 seamitar_left.createTransformation().withVisibility(visibility = false)
@@ -63,6 +63,22 @@ class SamurottModel (root: ModelPart) : PosableModel(), HeadedFrame, QuadrupedFr
                 singleBoneLook(),
                 bedrock("samurott", "ground_idle")
             )
+        )
+
+        battleidle = registerPose(
+                poseName = "battle_idle",
+                poseTypes = PoseType.STATIONARY_POSES,
+                transformTicks = 10,
+                quirks = arrayOf(blink),
+                condition = { it.isBattling },
+                transformedParts = arrayOf(
+                        seamitar_right.createTransformation().withVisibility(visibility = false),
+                        seamitar_left.createTransformation().withVisibility(visibility = false)
+                ),
+                idleAnimations = arrayOf(
+                        singleBoneLook(),
+                        bedrock("samurott", "battle_pose")
+                )
         )
 
         walk = registerPose(

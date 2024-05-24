@@ -31,11 +31,11 @@ class InfernapeModel(root: ModelPart) : PosableModel(), HeadedFrame, BipedFrame,
     override val leftArm = getPart("arm_left")
     override val rightArm = getPart("arm_right")
 
-    override val portraitScale = 1.8F
-    override val portraitTranslation = Vec3d(-0.65, 1.55, 0.0)
+    override var portraitScale = 1.8F
+    override var portraitTranslation = Vec3d(-0.65, 1.55, 0.0)
 
-    override val profileScale = 0.5F
-    override val profileTranslation = Vec3d(0.0, 1.0, 0.0)
+    override var profileScale = 0.5F
+    override var profileTranslation = Vec3d(0.0, 1.0, 0.0)
 
     lateinit var standing: Pose
     lateinit var walk: Pose

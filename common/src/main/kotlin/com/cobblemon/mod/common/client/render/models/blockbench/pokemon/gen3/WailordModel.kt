@@ -20,11 +20,11 @@ import net.minecraft.util.math.Vec3d
 
 class WailordModel(root: ModelPart) : PosableModel() {
     override val rootPart = root.registerChildWithAllChildren("wailord")
-    override val portraitScale = 0.45F
-    override val portraitTranslation = Vec3d(-0.38, 0.8, 0.0)
+    override var portraitScale = 0.45F
+    override var portraitTranslation = Vec3d(-0.38, 0.8, 0.0)
 
-    override val profileScale = 0.25F
-    override val profileTranslation = Vec3d(0.0, 1.2, 0.0)
+    override var profileScale = 0.25F
+    override var profileTranslation = Vec3d(0.0, 1.2, -10.0)
 
     lateinit var standing: Pose
     lateinit var walk: Pose

@@ -15,14 +15,13 @@ import com.cobblemon.mod.common.CobblemonNetwork.sendPacketToPlayers
 import com.cobblemon.mod.common.CobblemonSounds
 import com.cobblemon.mod.common.api.abilities.Abilities
 import com.cobblemon.mod.common.api.abilities.Ability
+import com.cobblemon.mod.common.api.abilities.AbilityPool
 import com.cobblemon.mod.common.api.data.ShowdownIdentifiable
 import com.cobblemon.mod.common.api.entity.PokemonSender
 import com.cobblemon.mod.common.api.events.CobblemonEvents
 import com.cobblemon.mod.common.api.events.CobblemonEvents.FRIENDSHIP_UPDATED
-import com.cobblemon.mod.common.api.events.CobblemonEvents.HELD_ITEM_UPDATED
 import com.cobblemon.mod.common.api.events.CobblemonEvents.POKEMON_FAINTED
 import com.cobblemon.mod.common.api.events.pokemon.*
-import com.cobblemon.mod.common.api.events.pokemon.interaction.HeldItemUpdatedEvent
 import com.cobblemon.mod.common.api.moves.*
 import com.cobblemon.mod.common.api.pokeball.PokeBalls
 import com.cobblemon.mod.common.api.pokemon.Natures
@@ -53,9 +52,12 @@ import com.cobblemon.mod.common.api.storage.party.PlayerPartyStore
 import com.cobblemon.mod.common.api.storage.pc.PCStore
 import com.cobblemon.mod.common.api.types.ElementalType
 import com.cobblemon.mod.common.api.types.ElementalTypes
+import com.cobblemon.mod.common.api.types.tera.TeraType
+import com.cobblemon.mod.common.api.types.tera.TeraTypes
 import com.cobblemon.mod.common.config.CobblemonConfig
 import com.cobblemon.mod.common.entity.npc.NPCEntity
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
+import com.cobblemon.mod.common.entity.pokemon.effects.IllusionEffect
 import com.cobblemon.mod.common.net.messages.client.PokemonUpdatePacket
 import com.cobblemon.mod.common.net.messages.client.pokemon.update.*
 import com.cobblemon.mod.common.net.serverhandling.storage.SendOutPokemonHandler.SEND_OUT_DURATION
@@ -75,14 +77,17 @@ import com.google.gson.JsonObject
 import com.google.gson.JsonPrimitive
 import com.mojang.serialization.Dynamic
 import com.mojang.serialization.JsonOps
+import net.minecraft.block.*
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.entity.vehicle.BoatEntity
 import net.minecraft.item.ItemStack
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.nbt.NbtElement.COMPOUND_TYPE
 import net.minecraft.nbt.NbtList
 import net.minecraft.nbt.NbtOps
 import net.minecraft.nbt.NbtString
+import net.minecraft.registry.tag.FluidTags
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.text.MutableText
@@ -91,9 +96,11 @@ import net.minecraft.text.TextContent
 import net.minecraft.util.Hand
 import net.minecraft.util.Identifier
 import net.minecraft.util.InvalidIdentifierException
+import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.MathHelper.ceil
 import net.minecraft.util.math.MathHelper.clamp
 import net.minecraft.util.math.Vec3d
+import net.minecraft.world.World
 import java.util.*
 import java.util.concurrent.CompletableFuture
 import kotlin.math.absoluteValue
@@ -125,8 +132,8 @@ open class Pokemon : ShowdownIdentifiable {
             updateAspects()
             updateForm()
             checkGender()
-            checkAbility()
             updateHP(quotient)
+            this.attemptAbilityUpdate()
             _species.emit(value)
         }
 
@@ -141,11 +148,14 @@ open class Pokemon : ShowdownIdentifiable {
             // Evo proxy is already cleared on species update but the form may be changed by itself, this is fine and no unnecessary packets will be sent out
             this.evolutionProxy.current().clear()
             findAndLearnFormChangeMoves()
-            updateHP(quotient)
             checkGender()
-            checkAbility()
+            updateHP(quotient)
+            this.attemptAbilityUpdate()
             _form.emit(value)
         }
+
+    // Floating Platform for surface water battles
+    var battleSurface: BoatEntity? = null
 
     // Need to happen before currentHealth init due to the calc
     val ivs = IVs.createRandomIVs()
@@ -281,7 +291,7 @@ open class Pokemon : ShowdownIdentifiable {
     val types: Iterable<ElementalType>
         get() = form.types
 
-    var teraType = primaryType
+    var teraType: TeraType = TeraTypes.forElementalType(this.primaryType)
         set(value) {
             field = value
             _teraType.emit(value)
@@ -378,8 +388,9 @@ open class Pokemon : ShowdownIdentifiable {
      */
     val benchedMoves = BenchedMoves()
 
-    var ability: Ability = Abilities.DUMMY.create()
-        set(value) {
+    var ability: Ability = Abilities.DUMMY.create(false)
+        // Keep internal for DTO & sync packet
+        internal set(value) {
             if (field != value) {
                 _ability.emit(value)
             }
@@ -406,8 +417,30 @@ open class Pokemon : ShowdownIdentifiable {
     var features = mutableListOf<SpeciesFeature>()
 
     fun asRenderablePokemon() = RenderablePokemon(species, aspects)
-    var aspects = setOf<String>()
+
+    /**
+     * A set of aspects that were not calculated and must always be a part of the Pokémon's aspect list. This is the
+     * appropriate way to force an aspect onto a Pokémon. Updating this set will recalculate [aspects] and sync these
+     * to the client, as well as any form updates that may be necessary. The forced aspects are persisted to both JSON
+     * and NBT.
+     */
+    var forcedAspects = setOf<String>()
         set(value) {
+            field = value
+            updateAspects()
+        }
+
+    /**
+     * This is a list of simple flag-based discriminators that can contribute to making a Pokémon unique. This set
+     * in particular is the master list of aspects for this [Pokemon], and is made up of both [forcedAspects] (a set
+     * which is decisive and not the result of any calculations) and a collection of aspects that were calculated from
+     * [AspectProvider]s.
+     *
+     * You should NOT be setting this directly because this property only exists to essentially cache the results of
+     * [AspectProvider]s. If you want to force an aspect, update [forcedAspects].
+     */
+    var aspects = setOf<String>()
+        private set(value) {
             if (field != value) {
                 field = value
                 if (!isClient) {
@@ -417,6 +450,7 @@ open class Pokemon : ShowdownIdentifiable {
             }
         }
 
+    /** If you're not a Cobblemon dev you should probably leave this right alone. */
     internal var isClient = false
     val storeCoordinates = SettableObservable<StoreCoordinates<*>?>(null)
 
@@ -425,7 +459,7 @@ open class Pokemon : ShowdownIdentifiable {
 
     val preEvolution: PreEvolution? get() = this.form.preEvolution
 
-    // Lazy due to leaking this
+    // Lazy due to leaking 'this'
     /**
      * Provides the sided [EvolutionController]s, these operations can be done safely with a simple side check.
      * This can be done beforehand or using [EvolutionProxy.isClient].
@@ -434,6 +468,10 @@ open class Pokemon : ShowdownIdentifiable {
 
     val customProperties = mutableListOf<CustomPokemonProperty>()
 
+    /**
+     * Arbitrary data compound. Be aware that updating this is not enough for a Pokémon to be recognized as dirty
+     * and in need of saving. Emit to [anyChangeObservable] if you are making a change otherwise you'll see reversions.
+     */
     var persistentData: NbtCompound = NbtCompound()
         private set
 
@@ -461,10 +499,11 @@ open class Pokemon : ShowdownIdentifiable {
         return this.form.showdownId()
     }
 
-    fun sendOut(level: ServerWorld, position: Vec3d, mutation: (PokemonEntity) -> Unit = {}): PokemonEntity? {
+    fun sendOut(level: ServerWorld, position: Vec3d, illusion: IllusionEffect?, mutation: (PokemonEntity) -> Unit = {}): PokemonEntity? {
         CobblemonEvents.POKEMON_SENT_PRE.postThen(PokemonSentPreEvent(this, level, position)) {
             SeasonFeatureHandler.updateSeason(this, level, position.toBlockPos())
             val entity = PokemonEntity(level, this)
+            illusion?.start(entity)
             entity.setPositionSafely(position)
             mutation(entity)
             level.spawnEntity(entity)
@@ -480,11 +519,32 @@ open class Pokemon : ShowdownIdentifiable {
         position: Vec3d,
         battleId: UUID? = null,
         doCry: Boolean = true,
+        illusion: IllusionEffect? = null,
         mutation: (PokemonEntity) -> Unit = {},
     ): CompletableFuture<PokemonEntity> {
+
+        // send out raft if over water
+        if (position != null) {
+            // todo if send out position is over water then add a raft entity to stand on
+            if (level.isWater(BlockPos(position.x.toInt(), position.y.toInt() - 1, position.z.toInt())) && this.species.types.all { it != ElementalTypes.WATER && it != ElementalTypes.FLYING }) {
+                val boatType = BoatEntity.Type.getType("bamboo")
+                // Create a new boat entity with the generic EntityType.BOAT
+                val raftEntity = BoatEntity(level, position.x, position.y, position.z)
+
+                raftEntity.variant = BoatEntity.Type.BAMBOO
+
+                raftEntity.setPosition(position.x, position.y, position.z) // Set the position of the boat
+
+                // Spawn the boat entity in the world
+                level.spawnEntity(raftEntity)
+
+                this.battleSurface = raftEntity
+            }
+        }
+
         // Handle special case of shouldered Cobblemon
         if (this.state is ShoulderedState) {
-            return sendOutFromShoulder(source as ServerPlayerEntity, level, position, battleId, doCry, mutation)
+            return sendOutFromShoulder(source as ServerPlayerEntity, level, position, battleId, doCry, illusion, mutation)
         }
 
         // Proceed as normal for non-shouldered Cobblemon
@@ -496,7 +556,7 @@ open class Pokemon : ShowdownIdentifiable {
         }
 
         preamble.thenApply {
-            sendOut(level, position) {
+            sendOut(level, position, illusion) {
                 val owner = getOwnerEntity()
                 if (owner is LivingEntity) {
                     owner.swingHand(Hand.MAIN_HAND, true)
@@ -535,6 +595,7 @@ open class Pokemon : ShowdownIdentifiable {
         targetPosition: Vec3d,
         battleId: UUID? = null,
         doCry: Boolean = true,
+        illusion: IllusionEffect? = null,
         mutation: (PokemonEntity) -> Unit = {}
     ): CompletableFuture<PokemonEntity> {
         val future = CompletableFuture<PokemonEntity>()
@@ -544,12 +605,12 @@ open class Pokemon : ShowdownIdentifiable {
         val arbitraryXOffset = player.width * 0.3 + this.form.hitbox.width * 0.3
         val shoulderHorizontalOffset = if (isLeftShoulder) arbitraryXOffset else -arbitraryXOffset
         val rotation = player.yaw
-        Cobblemon.LOGGER.info("rotation: $rotation")
         val approxShoulderMonHight = player.height.toDouble() - this.form.hitbox.height * 0.4
         val rotatedOffset = Vec3d(shoulderHorizontalOffset, approxShoulderMonHight, 0.0).rotateY(-rotation * (Math.PI.toFloat() / 180f))
         val currentPosition = player.pos.add(rotatedOffset)
 
-        sendOut(level, currentPosition) {
+        recall()
+        sendOut(level, currentPosition, illusion) {
             // Play some sound indicating hopping off
             level.playSoundServer(currentPosition, CobblemonSounds.PC_DROP, volume = 0.6F)
 
@@ -576,6 +637,7 @@ open class Pokemon : ShowdownIdentifiable {
         val state = this.state as? ActivePokemonState
         this.state = InactivePokemonState()
         state?.recall()
+        this.battleSurface?.discard() // destroy the battle surface if it exists
     }
 
     fun tryRecallWithAnimation() {
@@ -627,6 +689,52 @@ open class Pokemon : ShowdownIdentifiable {
         if (this.status != null) {
             this._status.emit(this.status!!.status)
         }
+    }
+
+    fun isFireImmune(): Boolean {
+        return ElementalTypes.FIRE in types || !form.behaviour.moving.swim.hurtByLava
+    }
+
+    fun isPositionSafe(world: World, pos: Vec3d): Boolean {
+        return isPositionSafe(world, pos.toBlockPos())
+    }
+
+    fun isPositionSafe(world: World, pos1: BlockPos): Boolean {
+        // To make sure a location is safe, both the block the Pokemon is standing ON,
+        // and the block it's standing IN need to be safe. pos2 represents the other position in that set.
+        val pos2: BlockPos = if (world.getBlockState(pos1).isSolid) {
+            pos1.up()
+        } else {
+            pos1.down()
+        }
+
+        val positions = arrayOf(pos1, pos2)
+        var isSafe = true
+
+        for (pos in positions) {
+            if (isSafe) {
+                val block = world.getBlockState(pos).block
+
+                if (block is SweetBerryBushBlock ||
+                    block is CactusBlock ||
+                    block is WitherRoseBlock
+                ) {
+                    isSafe = false
+                }
+
+                if (!this.isFireImmune()) {
+                    if (block is FireBlock ||
+                        block is MagmaBlock ||
+                        block is CampfireBlock ||
+                        world.getBlockState(pos).fluidState.isIn(FluidTags.LAVA)
+                    ) {
+                        isSafe = false
+                    }
+                }
+            }
+        }
+
+        return isSafe
     }
 
     /**
@@ -760,7 +868,7 @@ open class Pokemon : ShowdownIdentifiable {
         if (tetheringId != null) {
             nbt.putUuid(DataKeys.TETHERING_ID, tetheringId)
         }
-        nbt.putString(DataKeys.POKEMON_TERA_TYPE, teraType.name)
+        nbt.putString(DataKeys.POKEMON_TERA_TYPE, teraType.id.toString())
         nbt.putInt(DataKeys.POKEMON_DMAX_LEVEL, dmaxLevel)
         nbt.putBoolean(DataKeys.POKEMON_GMAX_FACTOR, gmaxFactor)
         nbt.putBoolean(DataKeys.POKEMON_TRADEABLE, tradeable)
@@ -769,6 +877,7 @@ open class Pokemon : ShowdownIdentifiable {
             nbt.putString(DataKeys.POKEMON_ORIGINAL_TRAINER, originalTrainer)
         }
         nbt.putString(DataKeys.POKEMON_ORIGINAL_TRAINER_TYPE, originalTrainerType.name)
+        nbt.put(DataKeys.POKEMON_FORCED_ASPECTS, NbtList().also { it.addAll(forcedAspects.map { NbtString.of(it) }) })
         return nbt
     }
 
@@ -793,10 +902,8 @@ open class Pokemon : ShowdownIdentifiable {
         evs.loadFromNBT(nbt.getCompound(DataKeys.POKEMON_EVS))
         moveSet.loadFromNBT(nbt)
         scaleModifier = nbt.getFloat(DataKeys.POKEMON_SCALE_MODIFIER)
-        val abilityNBT = nbt.getCompound(DataKeys.POKEMON_ABILITY) ?: NbtCompound()
-        val abilityName = abilityNBT.getString(DataKeys.POKEMON_ABILITY_NAME).takeIf { it.isNotEmpty() } ?: "runaway"
-        if (abilityName != "dummy") {
-            ability = Abilities.getOrException(abilityName).create(abilityNBT)
+        if (nbt.contains(DataKeys.POKEMON_ABILITY, COMPOUND_TYPE.toInt())) {
+            this.ability.loadFromNBT(nbt.getCompound(DataKeys.POKEMON_ABILITY))
         }
         shiny = nbt.getBoolean(DataKeys.POKEMON_SHINY)
         if (nbt.contains(DataKeys.POKEMON_STATE)) {
@@ -827,16 +934,18 @@ open class Pokemon : ShowdownIdentifiable {
         if (nbt.contains(DataKeys.POKEMON_MINTED_NATURE)) {
             this.mintedNature = nbt.getString(DataKeys.POKEMON_MINTED_NATURE).takeIf { it.isNotBlank() }?.let { Natures.getNature(Identifier(it)) }
         }
+        this.forcedAspects = nbt.getList(DataKeys.POKEMON_FORCED_ASPECTS, NbtString.STRING_TYPE.toInt()).map { it.asString() }.toSet()
         updateAspects()
         updateForm() // If saved with an incorrect form, readjust on load
-        checkAbility()
         nbt.get(DataKeys.POKEMON_EVOLUTIONS)?.let { tag -> this.evolutionProxy.loadFromNBT(tag) }
         if (nbt.contains(DataKeys.HELD_ITEM)) {
             this.heldItem = ItemStack.fromNbt(nbt.getCompound(DataKeys.HELD_ITEM))
         }
         this.persistentData = nbt.getCompound(DataKeys.POKEMON_PERSISTENT_DATA)
         tetheringId = if (nbt.containsUuid(DataKeys.TETHERING_ID)) nbt.getUuid(DataKeys.TETHERING_ID) else null
-        this.teraType = ElementalTypes.get(nbt.getString(DataKeys.POKEMON_TERA_TYPE)) ?: this.primaryType
+        TeraTypes.get(nbt.getString(DataKeys.POKEMON_TERA_TYPE).asIdentifierDefaultingNamespace())?.let {
+            this.teraType = it
+        }
         this.dmaxLevel = nbt.getInt(DataKeys.POKEMON_DMAX_LEVEL)
         this.gmaxFactor = nbt.getBoolean(DataKeys.POKEMON_GMAX_FACTOR)
         this.tradeable = if (nbt.contains(DataKeys.POKEMON_TRADEABLE)) nbt.getBoolean(DataKeys.POKEMON_TRADEABLE) else true
@@ -884,12 +993,13 @@ open class Pokemon : ShowdownIdentifiable {
         if (tetheringId != null) {
             json.addProperty(DataKeys.TETHERING_ID, tetheringId.toString())
         }
-        json.addProperty(DataKeys.POKEMON_TERA_TYPE, teraType.name)
+        json.addProperty(DataKeys.POKEMON_TERA_TYPE, teraType.id.toString())
         json.addProperty(DataKeys.POKEMON_DMAX_LEVEL, dmaxLevel)
         json.addProperty(DataKeys.POKEMON_GMAX_FACTOR, gmaxFactor)
         json.addProperty(DataKeys.POKEMON_TRADEABLE, tradeable)
         json.addProperty(DataKeys.POKEMON_ORIGINAL_TRAINER_TYPE, originalTrainerType.name)
         if (originalTrainer != null) json.addProperty(DataKeys.POKEMON_ORIGINAL_TRAINER, originalTrainer)
+        json.add(DataKeys.POKEMON_FORCED_ASPECTS, JsonArray().also { forcedAspects.forEach { aspect -> it.add(aspect) } })
         return json
     }
 
@@ -922,10 +1032,8 @@ open class Pokemon : ShowdownIdentifiable {
         evs.loadFromJSON(json.getAsJsonObject(DataKeys.POKEMON_EVS))
         moveSet.loadFromJSON(json.get(DataKeys.POKEMON_MOVESET).asJsonObject)
         scaleModifier = json.get(DataKeys.POKEMON_SCALE_MODIFIER).asFloat
-        val abilityJSON = json.get(DataKeys.POKEMON_ABILITY)?.asJsonObject ?: JsonObject()
-        val abilityName = abilityJSON.get(DataKeys.POKEMON_ABILITY_NAME)?.asString
-        if (abilityName != "dummy" && abilityName != null) {
-            ability = Abilities.getOrException(abilityName).create(abilityJSON)
+        if (json.has(DataKeys.POKEMON_ABILITY) && json.get(DataKeys.POKEMON_ABILITY).isJsonObject) {
+            this.ability.loadFromJSON(json.getAsJsonObject(DataKeys.POKEMON_ABILITY))
         }
         shiny = json.get(DataKeys.POKEMON_SHINY).asBoolean
         if (json.has(DataKeys.POKEMON_STATE)) {
@@ -956,9 +1064,9 @@ open class Pokemon : ShowdownIdentifiable {
         if (json.has(DataKeys.POKEMON_MINTED_NATURE)) {
             this.mintedNature = json.get(DataKeys.POKEMON_MINTED_NATURE).asString?.let { Natures.getNature(Identifier(it)) }
         }
+        this.forcedAspects = json.getAsJsonArray(DataKeys.POKEMON_FORCED_ASPECTS)?.map { it.asString }?.toSet() ?: emptySet()
         updateAspects()
         updateForm() // If saved with an incorrect form, readjust on load
-        checkAbility()
         json.get(DataKeys.POKEMON_EVOLUTIONS)?.let { this.evolutionProxy.loadFromJson(it) }
         if (json.has(DataKeys.HELD_ITEM)) {
             ItemStack.CODEC.decode(JsonOps.INSTANCE, json.get(DataKeys.HELD_ITEM)).result().ifPresent {
@@ -973,9 +1081,11 @@ open class Pokemon : ShowdownIdentifiable {
             this.tetheringId = UUID.fromString(json.get(DataKeys.TETHERING_ID).asString)
         }
         if (json.has(DataKeys.POKEMON_TERA_TYPE)) {
-            this.teraType = ElementalTypes.get(json.get(DataKeys.POKEMON_TERA_TYPE).asString) ?: this.primaryType
+            TeraTypes.get(json.get(DataKeys.POKEMON_TERA_TYPE).asString.asIdentifierDefaultingNamespace())?.let {
+                this.teraType = it
+            }
         } else {
-            this.teraType = this.primaryType
+            this.teraType = TeraTypes.forElementalType(this.form.types.toList().random())
         }
         if (json.has(DataKeys.POKEMON_DMAX_LEVEL)) {
             this.dmaxLevel = json.get(DataKeys.POKEMON_DMAX_LEVEL).asInt
@@ -1158,6 +1268,7 @@ open class Pokemon : ShowdownIdentifiable {
         get() = form.moves.getLevelUpMovesUpTo(level) + benchedMoves.map { it.moveTemplate } + form.moves.evolutionMoves
 
     fun updateAspects() {
+        aspects = emptySet()
         /*
          * We don't want to run this for client representations of Pokémon as they won't always have the same
          * aspect providers, and we want the server side to entirely manage them anyway.
@@ -1165,6 +1276,7 @@ open class Pokemon : ShowdownIdentifiable {
         if (!isClient) {
             aspects = AspectProvider.providers.flatMap { it.provide(this) }.toSet()
         }
+        aspects += forcedAspects
     }
 
     fun updateForm() {
@@ -1179,7 +1291,6 @@ open class Pokemon : ShowdownIdentifiable {
         // Force the setter to initialize it
         species = species
         checkGender()
-        checkAbility()
         // This should only be a thing once we have moveset control in properties until then a creation should require a moveset init.
         /*
         if (pokemon.moveSet.none { it != null }) {
@@ -1216,63 +1327,104 @@ open class Pokemon : ShowdownIdentifiable {
         }
     }
 
-    fun checkAbility() {
-        if (isClient) {
+    /**
+     * Rolls an ability for this [Pokemon] using [AbilityPool.select]. This will override any current [Ability.forced].
+     *
+     * This operation does nothing on the client side.
+     *
+     * @return The newly assigned [Ability] or the existing one if called on the client.
+     */
+    @Suppress("MemberVisibilityCanBePrivate")
+    open fun rollAbility(): Ability {
+        if (this.isClient) {
+            return this.ability
+        }
+        val (ability, _) = this.form.abilities.select(this.species, this.aspects)
+        return this.updateAbility(ability.template.create(false))
+    }
+
+    /**
+     * Assigns the given [ability] to this Pokémon.
+     * It will also handle all the coordinate storing for proper synchronization across evolutions or other [species]/[form] updates.
+     * This coordinate storage is skipped for [Ability.forced].
+     *
+     * This operation does nothing on the client side.
+     *
+     * @param ability The ability getting assigned
+     * @return The resulting [Ability].
+     */
+    open fun updateAbility(ability: Ability): Ability {
+        if (this.isClient) {
+            return this.ability
+        }
+        this.ability = if (ability.forced) ability else this.attachAbilityCoordinate(ability)
+        return this.ability
+    }
+
+    /**
+     * Tries to update the [ability] on [species]/[form] change.
+     *
+     * This operation does nothing on the client side or [Ability.forced] is true.
+     *
+     * If the ability is [Abilities.DUMMY] it invokes [rollAbility] instead.
+     */
+    protected open fun attemptAbilityUpdate() {
+        if (this.isClient || this.ability.forced) {
             return
         }
-        val hasForcedAbility = this.ability.forced
-        val hasLegalAbility = this.form.abilities.mapping.values.any { list ->
-            list.any { potential ->
-                potential.template == this.ability.template
+        if (this.ability.template == Abilities.DUMMY) {
+            this.rollAbility()
+            return
+        }
+        val potentials = this.form.abilities.mapping[this.ability.priority]
+        // Step 1 try to get the same exact index and priority
+        var potential = potentials?.getOrNull(this.ability.index)
+        // Step 2 Disclaimer I don't really know the best course of action here
+        // For default assets this just means "pick the only other regular ability" and hidden abilities are always just 1 so...
+        // Sorry 3rd party please don't make really weird stats :(
+        if (potential == null && potentials != null) {
+            for (i in this.ability.index.coerceAtLeast(0) downTo 0) {
+                val indexed = potentials.getOrNull(i)
+                if (indexed != null) {
+                    potential = indexed
+                    break
+                }
             }
         }
-        val isDummy = this.ability.template == Abilities.DUMMY
+        if (potential != null) {
+            // Keep our known index and priority, this was the original valid state after all
+            this.ability = potential.template.create(false).apply {
+                this.index = this@Pokemon.ability.index
+                this.priority = this@Pokemon.ability.priority
+            }
+            return
+        }
+        // End of the road kiddo it didn't have to go down like this...
+        this.rollAbility()
+    }
 
-        // EXPLANATION
-        // This is used to keep the same intended ability between evolution stages
-        // Between species updates if an original indexed data is attached it will be honored next time that it's possible
-        // This is still not a perfect system but it will now only break if players are constantly adding/removing data edits which at that point it's on them
-        if (isDummy || (!hasLegalAbility && !hasForcedAbility)) {
-            var needsSelection = true
-            var needsUpdate = true
-            if (this.ability.index == -1 && !isDummy) {
-                base@ for ((priority, list) in this.form.abilities.mapping) {
-                    for ((index, potential) in list.withIndex()) {
-                        if (potential.template == this.ability.template) {
-                            this.ability.priority = priority
-                            this.ability.index = index
-                            needsUpdate = false
-                            needsSelection = false
-                            break@base
-                        }
-                    }
-                }
-            }
-            else if (this.ability.index >= 0) {
-                needsUpdate = false
-                val potentialAbility = this.form.abilities.mapping[this.ability.priority]?.getOrNull(this.ability.index)
-                if (potentialAbility != null) {
-                    // Don't update index nor priority
-                    val newAbility = potentialAbility.template.create()
-                    newAbility.index = this.ability.index
-                    newAbility.priority = this.ability.priority
-                    this.ability = newAbility
-                    needsSelection = false
-                }
-            }
-            if (needsSelection) {
-                val (ability, priority) = this.form.abilities.select(this.species, this.aspects)
-                ability.index = this.ability.index
-                ability.priority = this.ability.priority
-                this.ability = ability
-                if (needsUpdate) {
-                    // This may sometimes happen when both species and form update as well as if AbilityPool#select throws a graceful exception, we return to prevent a crash.
-                    val mapped = this.form.abilities.mapping[priority] ?: return
-                    this.ability.index = mapped.indexOfFirst { potential -> potential.template == this.ability.template }
-                    this.ability.priority = priority
-                }
-            }
+    /**
+     * Finds the position of the current ability in the Pokémon data and attaches the coordinates.
+     * This is done in an attempt to synchronize correctly between [species]/[form] changes.
+     *
+     * This operation does nothing on the client side, if [Ability.forced] is true or if the ability is [Abilities.DUMMY].
+     *
+     * @param ability The [Ability] being queried.
+     * @return It can return [ability] with the [Ability.priority] & [Ability.index] mapped, the [Ability.forced] set to true if illegal or itself if no operation is performed.
+     */
+    protected open fun attachAbilityCoordinate(ability: Ability): Ability {
+        if (this.isClient || ability.forced || ability.template == Abilities.DUMMY) {
+            return ability
         }
+        val found = this.form.abilities.firstOrNull { potential -> potential.template == ability.template }
+            ?: return ability.apply { this.forced = true }
+        val index = this.form.abilities.mapping[found.priority]
+            ?.indexOf(found)
+            ?.takeIf { it != -1 }
+            ?: return ability.apply { this.forced = true }
+        ability.priority = found.priority
+        ability.index = index
+        return ability
     }
 
     fun initializeMoveset(preferLatest: Boolean = true) {
@@ -1460,7 +1612,7 @@ open class Pokemon : ShowdownIdentifiable {
     }
 
     private val observables = mutableListOf<Observable<*>>()
-    private val anyChangeObservable = SimpleObservable<Pokemon>()
+    val anyChangeObservable = SimpleObservable<Pokemon>()
 
     fun markFeatureDirty(feature: SpeciesFeature) {
         _features.emit(feature)
@@ -1537,7 +1689,7 @@ open class Pokemon : ShowdownIdentifiable {
     private val _ability = registerObservable(SimpleObservable<Ability>()) { AbilityUpdatePacket({ this }, it.template) }
     private val _heldItem = registerObservable(SimpleObservable<ItemStack>()) { HeldItemUpdatePacket({ this }, it) }
     private val _tetheringId = registerObservable(SimpleObservable<UUID?>()) { TetheringUpdatePacket({ this }, it) }
-    private val _teraType = registerObservable(SimpleObservable<ElementalType>()) { TeraTypeUpdatePacket({ this }, it) }
+    private val _teraType = registerObservable(SimpleObservable<TeraType>()) { TeraTypeUpdatePacket({ this }, it) }
     private val _dmaxLevel = registerObservable(SimpleObservable<Int>()) { DmaxLevelUpdatePacket({ this }, it) }
     private val _gmaxFactor = registerObservable(SimpleObservable<Boolean>()) { GmaxFactorUpdatePacket({ this }, it) }
     private val _originalTrainerName = registerObservable(SimpleObservable<String?>()) { OriginalTrainerUpdatePacket({ this }, it) }

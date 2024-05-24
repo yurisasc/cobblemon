@@ -9,6 +9,7 @@
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1
 
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.QuadrupedWalkAnimation
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.QuadrupedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.Pose
@@ -31,15 +32,17 @@ class PersianModel(root: ModelPart) : PosableModel(), HeadedFrame, QuadrupedFram
     override val hindLeftLeg = getPart("leg_back_left1")
     override val hindRightLeg = getPart("leg_back_right1")
 
-    override val portraitScale = 2.0F
-    override val portraitTranslation = Vec3d(-0.8, 0.3, 0.0)
+    override var portraitScale = 2.0F
+    override var portraitTranslation = Vec3d(-0.8, 0.3, 0.0)
 
-    override val profileScale = 0.9F
-    override val profileTranslation = Vec3d(0.0, 0.38, 0.0)
+    override var profileScale = 0.9F
+    override var profileTranslation = Vec3d(0.0, 0.38, 0.0)
 
     lateinit var sleep: Pose
     lateinit var standing: Pose
     lateinit var walk: Pose
+
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("persian", "cry") }
 
     override fun registerPoses() {
         val blink = quirk { bedrockStateful("persian", "blink")}

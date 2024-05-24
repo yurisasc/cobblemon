@@ -11,16 +11,14 @@ package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen4
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BimanualFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
-import com.cobblemon.mod.common.client.render.models.blockbench.pose.Pose
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cobblemon.mod.common.entity.PoseType
-import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
-import com.cobblemon.mod.common.client.render.models.blockbench.PosableState
-import com.cobblemon.mod.common.client.render.models.blockbench.repository.RenderContext
-import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class GabiteModel(root: ModelPart) : PosableModel(), HeadedFrame, BipedFrame, BimanualFrame {
+class GabiteModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedFrame, BimanualFrame {
     override val rootPart = root.registerChildWithAllChildren("gabite")
     override val head = getPart("head")
     override val rightArm = getPart("arm_right")
@@ -28,15 +26,17 @@ class GabiteModel(root: ModelPart) : PosableModel(), HeadedFrame, BipedFrame, Bi
     override val rightLeg = getPart("leg_right")
     override val leftLeg = getPart("leg_left")
 
-    override val portraitScale = 3.0F
-    override val portraitTranslation = Vec3d(-0.7, 0.6, 0.0)
+    override var portraitScale = 3.0F
+    override var portraitTranslation = Vec3d(-0.7, 0.6, 0.0)
 
-    override val profileScale = 0.8F
-    override val profileTranslation = Vec3d(0.0, 0.55, 0.0)
+    override var profileScale = 0.8F
+    override var profileTranslation = Vec3d(0.0, 0.55, 0.0)
 
-    lateinit var standing: Pose
-    lateinit var walk: Pose
-    lateinit var battleidle: Pose
+    lateinit var standing: PokemonPose
+    lateinit var walk: PokemonPose
+    lateinit var battleidle: PokemonPose
+
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("gabite", "cry") }
 
     override fun registerPoses() {
 
@@ -46,7 +46,7 @@ class GabiteModel(root: ModelPart) : PosableModel(), HeadedFrame, BipedFrame, Bi
             poseName = "standing",
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
             transformTicks = 10,
-            condition = { (it.entity as? PokemonEntity)?.isBattling == false },
+            condition = { !it.isBattling },
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
@@ -70,7 +70,7 @@ class GabiteModel(root: ModelPart) : PosableModel(), HeadedFrame, BipedFrame, Bi
             poseTypes = PoseType.STATIONARY_POSES,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            condition = { (it.entity as? PokemonEntity)?.isBattling == true },
+            condition = { it.isBattling },
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("gabite", "battle_idle")

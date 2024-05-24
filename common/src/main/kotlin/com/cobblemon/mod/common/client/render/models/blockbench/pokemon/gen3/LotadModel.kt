@@ -28,11 +28,11 @@ class LotadModel (root: ModelPart) : PosableModel(), QuadrupedFrame {
     override val hindLeftLeg = getPart("leg_left2")
     override val hindRightLeg = getPart("leg_right2")
 
-    override val portraitScale = 2.5F
-    override val portraitTranslation = Vec3d(-0.15, -2.0, 0.0)
+    override var portraitScale = 2.5F
+    override var portraitTranslation = Vec3d(-0.15, -2.0, 0.0)
 
-    override val profileScale = 1.0F
-    override val profileTranslation = Vec3d(0.0, 0.25, 0.0)
+    override var profileScale = 1.0F
+    override var profileTranslation = Vec3d(0.0, 0.25, 0.0)
 
     lateinit var standing: Pose
     lateinit var waterstanding: Pose

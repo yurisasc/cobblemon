@@ -9,6 +9,7 @@
 package com.cobblemon.mod.common.events
 
 import com.cobblemon.mod.common.Cobblemon
+import com.cobblemon.mod.common.CobblemonItems
 import com.cobblemon.mod.common.advancement.CobblemonCriteria
 import com.cobblemon.mod.common.advancement.criterion.*
 import com.cobblemon.mod.common.api.battles.model.actor.ActorType
@@ -17,6 +18,9 @@ import com.cobblemon.mod.common.api.events.pokemon.LevelUpEvent
 import com.cobblemon.mod.common.api.events.pokemon.PokemonCapturedEvent
 import com.cobblemon.mod.common.api.events.pokemon.TradeCompletedEvent
 import com.cobblemon.mod.common.api.events.pokemon.evolution.EvolutionCompleteEvent
+import com.cobblemon.mod.common.block.TumblestoneBlock
+import com.cobblemon.mod.common.item.TumblestoneItem
+import com.cobblemon.mod.common.platform.events.ServerPlayerEvent
 import com.cobblemon.mod.common.util.getPlayer
 import java.util.*
 
@@ -83,9 +87,7 @@ object AdvancementHandler {
                         event.battle.actors.forEach { battleActor ->
                             if (!event.winners.contains(battleActor) && battleActor.type == ActorType.WILD) {
                                 battleActor.pokemonList.forEach { battlePokemon ->
-                                    battlePokemon.entity?.pokemon?.let {
-                                        advancementData.updateTotalDefeatedCount(it)
-                                    }
+                                    advancementData.updateTotalDefeatedCount(battlePokemon.originalPokemon)
                                 }
                             }
                         }
@@ -136,6 +138,22 @@ object AdvancementHandler {
             advancementData.updateAspectsCollected(player2, event.tradeParticipant1Pokemon)
             CobblemonCriteria.COLLECT_ASPECT.trigger(player2, advancementData.aspectsCollected)
             Cobblemon.playerData.saveSingle(playerData)
+        }
+    }
+
+    /**
+     * Triggers the advancement for placing a tumblestone
+     *
+     * Checks if the item in the player's hand is a tumblestone.
+     * Then gets the block as a [TumblestoneBlock] so we can call the canGrow method.
+     * Finally, triggers the advancement.
+     *
+     * @param event the event to trigger the advancement from
+     */
+    fun onTumbleStonePlaced(event: ServerPlayerEvent.RightClickBlock) {
+        if (event.player.getStackInHand(event.hand).item == CobblemonItems.TUMBLESTONE.asItem()) {
+            val block = ((event.player.getStackInHand(event.hand).item as TumblestoneItem).block as TumblestoneBlock)
+            CobblemonCriteria.PLANT_TUMBLESTONE.trigger(event.player, PlantTumblestoneContext(event.pos, block))
         }
     }
 }

@@ -8,19 +8,20 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen4
 
-import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.BimanualSwingAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.BipedWalkAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BimanualFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
-import com.cobblemon.mod.common.client.render.models.blockbench.pose.Pose
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cobblemon.mod.common.entity.PoseType.Companion.MOVING_POSES
 import com.cobblemon.mod.common.entity.PoseType.Companion.STATIONARY_POSES
 import com.cobblemon.mod.common.entity.PoseType.Companion.UI_POSES
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
-class ElectivireModel(root: ModelPart) : PosableModel(), HeadedFrame, BipedFrame, BimanualFrame {
+class ElectivireModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedFrame, BimanualFrame {
     override val rootPart = root.registerChildWithAllChildren("electivire")
     override val head = getPart("head")
     override val leftLeg = getPart("leg_left")
@@ -28,14 +29,16 @@ class ElectivireModel(root: ModelPart) : PosableModel(), HeadedFrame, BipedFrame
     override val leftArm = getPart("arm_left")
     override val rightArm = getPart("arm_right")
 
-    override val portraitScale = 2.2F
-    override val portraitTranslation = Vec3d(-0.65, 1.3, 0.0)
+    override var portraitScale = 2.2F
+    override var portraitTranslation = Vec3d(-0.65, 1.3, 0.0)
 
-    override val profileScale = 0.65F
-    override val profileTranslation = Vec3d(0.0, 0.75, 0.0)
+    override var profileScale = 0.65F
+    override var profileTranslation = Vec3d(0.0, 0.75, 0.0)
 
-    lateinit var standing: Pose
-    lateinit var walk: Pose
+    lateinit var standing: PokemonPose
+    lateinit var walk: PokemonPose
+
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("electivire", "cry") }
 
     override fun registerPoses() {
         val blink = quirk { bedrockStateful("electivire", "blink")}
@@ -64,6 +67,6 @@ class ElectivireModel(root: ModelPart) : PosableModel(), HeadedFrame, BipedFrame
 
 //    override fun getFaintAnimation(
 //        pokemonEntity: PokemonEntity,
-//        state: PosableState<PokemonEntity>
+//        state: PoseableEntityState<PokemonEntity>
 //    ) = if (state.isPosedIn(standing, walk)) bedrockStateful("electivire", "faint") else null
 }

@@ -32,11 +32,11 @@ class NidokingModel(root: ModelPart) : PosableModel(), HeadedFrame, BipedFrame, 
     override val leftArm = getPart("left_shoulder")
     override val rightArm = getPart("right_shoulder")
 
-    override val portraitScale = 1.5F
-    override val portraitTranslation = Vec3d(-0.4, 0.6, 0.0)
+    override var portraitScale = 1.5F
+    override var portraitTranslation = Vec3d(-0.4, 0.6, 0.0)
 
-    override val profileScale = 0.7F
-    override val profileTranslation = Vec3d(0.0, 0.65, 0.0)
+    override var profileScale = 0.7F
+    override var profileTranslation = Vec3d(0.0, 0.65, 0.0)
 
     lateinit var sleep: Pose
     lateinit var standing: Pose

@@ -124,3 +124,43 @@ val World.itemRegistry: Registry<Item>
     get() = registryManager.get(RegistryKeys.ITEM)
 val World.biomeRegistry: Registry<Biome>
     get() = registryManager.get(RegistryKeys.BIOME)
+val World.worldRegistry: Registry<World>
+    get() = registryManager.get(RegistryKeys.WORLD)
+
+
+fun Vec3d.traceDownwards(
+    world: World,
+    maxDistance: Float = 10F,
+    stepDistance: Float = 0.5F,
+): TraceResult? {
+    var step = stepDistance
+    val startPos = Vec3d(x, y, z)
+    val direction = Vec3d(0.0, -1.0, 0.0)
+
+    var lastBlockPos = startPos.toBlockPos()
+
+    while (step <= maxDistance) {
+        val location = startPos.add(direction.multiply(step.toDouble()))
+        step += stepDistance
+
+        val blockPos = location.toBlockPos()
+
+        if (blockPos == lastBlockPos) {
+            continue
+        } else {
+            lastBlockPos = blockPos
+        }
+
+        val block = world.getBlockState(blockPos)
+        if (!block.isAir) {
+            val dir = findDirectionForIntercept(startPos, location, blockPos)
+            return TraceResult(
+                location = location,
+                blockPos = blockPos,
+                direction = dir
+            )
+        }
+    }
+
+    return null
+}

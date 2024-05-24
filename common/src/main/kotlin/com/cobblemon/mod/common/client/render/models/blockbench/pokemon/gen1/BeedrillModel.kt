@@ -30,11 +30,11 @@ class BeedrillModel(root: ModelPart) : PosableModel(), HeadedFrame, BiWingedFram
     override val leftWing = getPart("wing_left")
     override val rightWing = getPart("wing_right")
 
-    override val portraitScale = 1.9F
-    override val portraitTranslation = Vec3d(0.05, 0.9, 0.0)
+    override var portraitScale = 1.9F
+    override var portraitTranslation = Vec3d(0.05, 0.9, 0.0)
 
-    override val profileScale = 0.8F
-    override val profileTranslation = Vec3d(-0.1, 0.9, 0.0)
+    override var profileScale = 0.8F
+    override var profileTranslation = Vec3d(-0.1, 0.9, 0.0)
 
     lateinit var sleep: Pose
     lateinit var standing: Pose

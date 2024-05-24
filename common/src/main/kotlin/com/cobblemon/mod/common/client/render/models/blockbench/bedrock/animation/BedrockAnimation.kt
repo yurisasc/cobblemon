@@ -11,8 +11,9 @@ package com.cobblemon.mod.common.client.render.models.blockbench.bedrock.animati
 import com.bedrockk.molang.Expression
 import com.bedrockk.molang.runtime.MoLangRuntime
 import com.bedrockk.molang.runtime.value.DoubleValue
-import com.cobblemon.mod.common.api.molang.MoLangFunctions.addFunctions
+import com.cobblemon.mod.common.api.molang.ExpressionLike
 import com.cobblemon.mod.common.api.molang.MoLangFunctions.getQueryStruct
+import com.cobblemon.mod.common.api.molang.MoLangFunctions.addFunctions
 import com.cobblemon.mod.common.api.snowstorm.BedrockParticleEffect
 import com.cobblemon.mod.common.client.particle.ParticleStorm
 import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
@@ -124,10 +125,10 @@ class BedrockSoundKeyframe(
 
 class BedrockInstructionKeyframe(
     seconds: Float,
-    val expressions: List<Expression>
+    val expressions: ExpressionLike
 ): BedrockEffectKeyframe(seconds) {
     override fun run(entity: Entity, state: PosableState) {
-        expressions.forEach { expression -> state.runtime.resolve(expression) }
+        expressions.resolve(state.runtime)
     }
 }
 

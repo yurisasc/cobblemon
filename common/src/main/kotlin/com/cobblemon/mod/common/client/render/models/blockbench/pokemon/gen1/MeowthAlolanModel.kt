@@ -13,18 +13,17 @@ import com.cobblemon.mod.common.client.render.models.blockbench.animation.BipedW
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BimanualFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
-import com.cobblemon.mod.common.client.render.models.blockbench.pose.Pose
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cobblemon.mod.common.entity.PoseType
-import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
-import com.cobblemon.mod.common.client.render.models.blockbench.PosableState
-import com.cobblemon.mod.common.client.render.models.blockbench.repository.RenderContext
 import com.cobblemon.mod.common.entity.PoseType.Companion.MOVING_POSES
 import com.cobblemon.mod.common.entity.PoseType.Companion.STATIONARY_POSES
 import com.cobblemon.mod.common.entity.PoseType.Companion.UI_POSES
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class MeowthAlolanModel(root: ModelPart) : PosableModel(), HeadedFrame, BipedFrame, BimanualFrame {
+class MeowthAlolanModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedFrame, BimanualFrame {
     override val rootPart = root.registerChildWithAllChildren("meowth_alolan")
     override val head = getPart("head")
 
@@ -33,15 +32,17 @@ class MeowthAlolanModel(root: ModelPart) : PosableModel(), HeadedFrame, BipedFra
     override val leftArm = getPart("arm_left")
     override val rightArm = getPart("arm_right")
 
-    override val portraitScale = 1.6F
-    override val portraitTranslation = Vec3d(0.05, -0.1, 0.0)
+    override var portraitScale = 1.6F
+    override var portraitTranslation = Vec3d(0.05, -0.1, 0.0)
 
-    override val profileScale = 0.8F
-    override val profileTranslation = Vec3d(0.0, 0.54, 0.0)
+    override var profileScale = 0.8F
+    override var profileTranslation = Vec3d(0.0, 0.54, 0.0)
 
-    lateinit var sleep: Pose
-    lateinit var standing: Pose
-    lateinit var walk: Pose
+    lateinit var sleep: PokemonPose
+    lateinit var standing: PokemonPose
+    lateinit var walk: PokemonPose
+
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("meowth_alolan", "cry") }
 
     override fun registerPoses() {
         val blink = quirk { bedrockStateful("meowth_alolan", "blink") }
@@ -76,6 +77,6 @@ class MeowthAlolanModel(root: ModelPart) : PosableModel(), HeadedFrame, BipedFra
 
 //    override fun getFaintAnimation(
 //        pokemonEntity: PokemonEntity,
-//        state: PosableState<PokemonEntity>
+//        state: PoseableEntityState<PokemonEntity>
 //    ) = if (state.isPosedIn(standing, walk)) bedrockStateful("meowth_alolan", "faint") else null
 }

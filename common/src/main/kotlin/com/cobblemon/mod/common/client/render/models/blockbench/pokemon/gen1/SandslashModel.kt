@@ -24,11 +24,11 @@ class SandslashModel(root: ModelPart) : PosableModel(), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("sandslash")
     override val head = getPart("head")
 
-    override val portraitScale = 2.0F
-    override val portraitTranslation = Vec3d(-0.15, 0.0, 0.0)
+    override var portraitScale = 2.0F
+    override var portraitTranslation = Vec3d(-0.15, 0.0, 0.0)
 
-    override val profileScale = 0.8F
-    override val profileTranslation = Vec3d(0.0, 0.55, 0.0)
+    override var profileScale = 0.8F
+    override var profileTranslation = Vec3d(0.0, 0.55, 0.0)
 
     lateinit var sleep: Pose
     lateinit var standing: Pose

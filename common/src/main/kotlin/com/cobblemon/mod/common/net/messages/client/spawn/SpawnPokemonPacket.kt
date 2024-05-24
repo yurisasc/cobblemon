@@ -39,6 +39,7 @@ class SpawnPokemonPacket(
     private val hideLabel: Boolean,
     private val caughtBall: Identifier,
     private val spawnYaw: Float,
+    private val friendship: Int,
     vanillaSpawnPacket: EntitySpawnS2CPacket
 ) : SpawnExtraDataEntityPacket<SpawnPokemonPacket, PokemonEntity>(vanillaSpawnPacket) {
 
@@ -47,7 +48,7 @@ class SpawnPokemonPacket(
     constructor(entity: PokemonEntity, vanillaSpawnPacket: EntitySpawnS2CPacket) : this(
         entity.ownerUuid,
         entity.pokemon.scaleModifier,
-        entity.pokemon.species,
+        entity.exposedSpecies,
         entity.pokemon.form,
         entity.pokemon.aspects,
         entity.battleId,
@@ -60,6 +61,7 @@ class SpawnPokemonPacket(
         entity.dataTracker.get(PokemonEntity.HIDE_LABEL),
         entity.pokemon.caughtBall.name,
         entity.dataTracker.get(PokemonEntity.SPAWN_DIRECTION),
+        entity.dataTracker.get(PokemonEntity.FRIENDSHIP),
         vanillaSpawnPacket
     )
 
@@ -79,6 +81,7 @@ class SpawnPokemonPacket(
         buffer.writeBoolean(this.hideLabel)
         buffer.writeIdentifier(this.caughtBall)
         buffer.writeFloat(this.spawnYaw)
+        buffer.writeInt(this.friendship)
     }
 
     override fun applyData(entity: PokemonEntity) {
@@ -87,7 +90,7 @@ class SpawnPokemonPacket(
             scaleModifier = this@SpawnPokemonPacket.scaleModifier
             species = this@SpawnPokemonPacket.species
             form = this@SpawnPokemonPacket.form
-            aspects = this@SpawnPokemonPacket.aspects
+            forcedAspects = this@SpawnPokemonPacket.aspects
             nickname = this@SpawnPokemonPacket.nickname
             PokeBalls.getPokeBall(this@SpawnPokemonPacket.caughtBall)?.let { caughtBall = it }
         }
@@ -101,6 +104,7 @@ class SpawnPokemonPacket(
         entity.dataTracker.set(PokemonEntity.UNBATTLEABLE, unbattlable)
         entity.dataTracker.set(PokemonEntity.HIDE_LABEL, hideLabel)
         entity.dataTracker.set(PokemonEntity.SPAWN_DIRECTION, spawnYaw)
+        entity.dataTracker.set(PokemonEntity.FRIENDSHIP, friendship)
     }
 
     override fun checkType(entity: Entity): Boolean = entity is PokemonEntity
@@ -124,9 +128,10 @@ class SpawnPokemonPacket(
             val hideLabel = buffer.readBoolean()
             val caughtBall = buffer.readIdentifier()
             val spawnAngle = buffer.readFloat()
+            val friendship = buffer.readInt()
             val vanillaPacket = decodeVanillaPacket(buffer)
 
-            return SpawnPokemonPacket(ownerId, scaleModifier, species, form, aspects, battleId, phasingTargetId, beamModeEmitter, nickname, labelLevel, poseType, unbattlable, hideLabel, caughtBall, spawnAngle, vanillaPacket)
+            return SpawnPokemonPacket(ownerId, scaleModifier, species, form, aspects, battleId, phasingTargetId, beamModeEmitter, nickname, labelLevel, poseType, unbattlable, hideLabel, caughtBall, spawnAngle, friendship, vanillaPacket)
         }
     }
 

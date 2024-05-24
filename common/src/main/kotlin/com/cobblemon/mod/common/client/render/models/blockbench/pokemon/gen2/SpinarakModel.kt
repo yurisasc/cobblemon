@@ -21,11 +21,11 @@ class SpinarakModel (root: ModelPart) : PosableModel(), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("spinarak")
     override val head = getPart("head")
 
-    override val portraitScale = 2.8F
-    override val portraitTranslation = Vec3d(-0.35, -2.65, 0.0)
+    override var portraitScale = 2.8F
+    override var portraitTranslation = Vec3d(-0.35, -2.65, 0.0)
 
-    override val profileScale = 1.1F
-    override val profileTranslation = Vec3d(-0.1, 0.0, 0.0)
+    override var profileScale = 1.1F
+    override var profileTranslation = Vec3d(-0.1, 0.0, 0.0)
 
     lateinit var standing: Pose
     lateinit var walk: Pose

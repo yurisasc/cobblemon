@@ -49,6 +49,7 @@ object DataKeys {
     const val POKEMON_DMAX_LEVEL = "DmaxLevel"
     const val POKEMON_GMAX_FACTOR = "GmaxFactor"
     const val POKEMON_TRADEABLE = "Tradeable"
+    const val POKEMON_FORCED_ASPECTS = "ForcedAspects"
 
     const val POKEMON_STATE = "State"
     const val POKEMON_STATE_TYPE = "StateType"
@@ -67,6 +68,14 @@ object DataKeys {
 
     const val POKEMON_ORIGINAL_TRAINER = "PokemonOriginalTrainer"
     const val POKEMON_ORIGINAL_TRAINER_TYPE = "PokemonOriginalTrainerType"
+
+    // Entity effects
+    const val ENTITY_EFFECTS = "EntityEffects"
+    const val ENTITY_EFFECT_MOCK = "EntityEffectMock"
+    const val ENTITY_EFFECT_ID = "EntityEffectID"
+
+    const val POKEMON_ENTITY_MOCK = "PokemonEntityMock"
+    const val POKEMON_ENTITY_SCALE = "PokemonEntityScale"
 
     // Evolution stuff
     const val POKEMON_EVOLUTIONS = "Evolutions"
@@ -177,9 +186,11 @@ object DataKeys {
     const val NPC_BATTLE_CONFIGURATION = "NPCBattleConfiguration"
     const val NPC_CAN_CHALLENGE = "CanChallenge"
     const val NPC_SIMULTANEOUS_BATTLES = "SimultaneousBattles"
+    const val NPC_HEAL_AFTERWARDS = "HealAfterwards"
     const val NPC_PARTY = "Party"
     const val NPC_PARTY_TYPE = "PartyType"
     const val NPC_PARTY_POKEMON = "Pokemon"
     const val NPC_ASPECTS = "AppliedAspects"
     const val NPC_DATA = "Data"
+    const val NPC_INTERACTION = "Interaction"
 }

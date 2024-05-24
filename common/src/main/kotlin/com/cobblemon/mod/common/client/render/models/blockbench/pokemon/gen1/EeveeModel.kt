@@ -40,11 +40,11 @@ class EeveeModel(root: ModelPart) : PosableModel(), EaredFrame, HeadedFrame, Qua
     override val leftEarJoint = EarJoint(getPart("ear_left"), Z_AXIS, RangeOfMotion(50F.toRadians(), 0F))
     override val rightEarJoint = EarJoint(getPart("ear_right"), Z_AXIS, RangeOfMotion((-50F).toRadians(), 0F))
 
-    override val portraitScale = 2.2F
-    override val portraitTranslation = Vec3d(-0.4, -0.54, 0.0)
+    override var portraitScale = 2.2F
+    override var portraitTranslation = Vec3d(-0.4, -0.54, 0.0)
 
-    override val profileScale = 0.8F
-    override val profileTranslation = Vec3d(0.0, 0.55, 0.0)
+    override var profileScale = 0.8F
+    override var profileTranslation = Vec3d(0.0, 0.55, 0.0)
 
     lateinit var stand: Pose
     lateinit var walk: Pose

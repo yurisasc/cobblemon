@@ -74,7 +74,7 @@ class RestorationTankRenderer(ctx: BlockEntityRendererFactory.Context) : BlockEn
 
         val fluidModel = if (struct.isRunning()) FLUID_MODELS[8]
         else if (struct.createdPokemon != null) FLUID_MODELS[7]
-        else FLUID_MODELS[fillLevel-1]
+        else FLUID_MODELS[fillLevel.coerceAtMost(FLUID_MODELS.size - 1) - 1]
         fluidModel.getQuads(entity.cachedState, null, entity.world?.random).forEach { quad ->
             transparentBuffer?.quad(matrices.peek(), quad, 0.75f, 0.75f, 0.75f, light, OverlayTexture.DEFAULT_UV)
         }

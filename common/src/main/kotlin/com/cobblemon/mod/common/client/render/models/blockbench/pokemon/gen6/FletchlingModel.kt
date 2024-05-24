@@ -34,11 +34,11 @@ class FletchlingModel (root: ModelPart) : PosableModel(), HeadedFrame, BipedFram
     override val head = getPart("head_ai")
     private val tail = getPart("tail")
 
-    override val portraitScale = 2.8F
-    override val portraitTranslation = Vec3d(-0.25, -1.65, 0.0)
+    override var portraitScale = 2.8F
+    override var portraitTranslation = Vec3d(-0.25, -1.65, 0.0)
 
-    override val profileScale = 1.2F
-    override val profileTranslation = Vec3d(0.0, -0.01, 0.0)
+    override var profileScale = 1.2F
+    override var profileTranslation = Vec3d(0.0, -0.01, 0.0)
 
     //    lateinit var sleep: Pose
     lateinit var stand: Pose

@@ -26,11 +26,11 @@ class TsareenaModel(root: ModelPart) : PosableModel(), HeadedFrame, BipedFrame {
     override val leftLeg = getPart("leg_left")
     override val rightLeg = getPart("leg_right")
 
-    override val portraitScale = 2.6F
-    override val portraitTranslation = Vec3d(-0.35, 2.3, 0.0)
+    override var portraitScale = 2.6F
+    override var portraitTranslation = Vec3d(-0.35, 2.3, 0.0)
 
-    override val profileScale = 0.6F
-    override val profileTranslation = Vec3d(0.0, 0.9, 0.0)
+    override var profileScale = 0.6F
+    override var profileTranslation = Vec3d(0.0, 0.9, 0.0)
 
     lateinit var standing: Pose
     lateinit var walk: Pose

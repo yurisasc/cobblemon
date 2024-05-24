@@ -19,11 +19,11 @@ import net.minecraft.util.math.Vec3d
 class WeepinbellModel(root: ModelPart) : PosableModel() {
     override val rootPart = root.registerChildWithAllChildren("weepinbell")
 
-    override val portraitScale = 1.73F
-    override val portraitTranslation = Vec3d(0.0, -1.0, 0.0)
+    override var portraitScale = 1.73F
+    override var portraitTranslation = Vec3d(0.0, -1.0, 0.0)
 
-    override val profileScale = 1.1F
-    override val profileTranslation = Vec3d(0.0, 0.2, 0.0)
+    override var profileScale = 1.1F
+    override var profileTranslation = Vec3d(0.0, 0.2, 0.0)
 
     lateinit var standing: Pose
     lateinit var walk: Pose

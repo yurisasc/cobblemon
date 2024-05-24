@@ -25,11 +25,11 @@ class ComfeyModel (root: ModelPart) : PosableModel(), HeadedFrame, BimanualFrame
     override val rightArm = getPart("arm_right")
     override val leftArm = getPart("arm_left")
 
-    override val portraitScale = 2.3F
-    override val portraitTranslation = Vec3d(-0.4, 2.0, 0.0)
+    override var portraitScale = 2.3F
+    override var portraitTranslation = Vec3d(-0.4, 2.0, 0.0)
 
-    override val profileScale = 0.5F
-    override val profileTranslation = Vec3d(0.1, 1.0, 0.0)
+    override var profileScale = 0.5F
+    override var profileTranslation = Vec3d(0.1, 1.0, 0.0)
 
     lateinit var sleep: Pose
     lateinit var standing: Pose

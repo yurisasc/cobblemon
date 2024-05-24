@@ -8,6 +8,7 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1
 
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.Pose
 import com.cobblemon.mod.common.entity.PoseType
@@ -22,17 +23,19 @@ class GolduckModel(root: ModelPart) : PosableModel(), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("golduck")
     override val head = getPart("head")
 
-    override val portraitScale = 2.1F
-    override val portraitTranslation = Vec3d(-0.1, 0.55, 0.0)
+    override var portraitScale = 2.1F
+    override var portraitTranslation = Vec3d(-0.1, 0.55, 0.0)
 
-    override val profileScale = 0.8F
-    override val profileTranslation = Vec3d(0.0, 0.54, 0.0)
+    override var profileScale = 0.8F
+    override var profileTranslation = Vec3d(0.0, 0.54, 0.0)
 
     lateinit var sleep: Pose
     lateinit var standing: Pose
     lateinit var walk: Pose
     lateinit var float: Pose
     lateinit var swim: Pose
+
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("golduck", "cry") }
 
     override fun registerPoses() {
         val blink = quirk { bedrockStateful("golduck", "blink")}

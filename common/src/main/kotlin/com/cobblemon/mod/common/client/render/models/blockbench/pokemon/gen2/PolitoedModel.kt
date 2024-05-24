@@ -26,11 +26,11 @@ class PolitoedModel(root: ModelPart) : PosableModel(), HeadedFrame, BipedFrame {
     override val leftLeg = getPart("leftleg")
     override val rightLeg = getPart("rightleg")
 
-    override val portraitScale = 2.4F
-    override val portraitTranslation = Vec3d(-0.04, -0.55, 0.0)
+    override var portraitScale = 2.4F
+    override var portraitTranslation = Vec3d(-0.04, -0.55, 0.0)
 
-    override val profileScale = 1.1F
-    override val profileTranslation = Vec3d(0.0, 0.1, 0.0)
+    override var profileScale = 1.1F
+    override var profileTranslation = Vec3d(0.0, 0.1, 0.0)
 
     lateinit var standing: Pose
     lateinit var walking: Pose

@@ -25,11 +25,11 @@ class YamaskModel (root: ModelPart) : PosableModel(), BimanualFrame {
     override val leftArm = getPart("arm_left")
     override val rightArm = getPart("arm_right")
 
-    override val portraitScale = 2.5F
-    override val portraitTranslation = Vec3d(-0.15, -0.45, 0.0)
+    override var portraitScale = 2.5F
+    override var portraitTranslation = Vec3d(-0.15, -0.45, 0.0)
 
-    override val profileScale = 0.7F
-    override val profileTranslation = Vec3d(0.0, 0.7, 0.0)
+    override var profileScale = 0.7F
+    override var profileTranslation = Vec3d(0.0, 0.7, 0.0)
 
     lateinit var standing: Pose
     lateinit var walk: Pose

@@ -23,11 +23,11 @@ class CyndaquilModel (root: ModelPart) : PosableModel(), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("cyndaquil")
     override val head = getPart("head")
 
-    override val portraitScale = 1.4F
-    override val portraitTranslation = Vec3d(-0.26, 0.0, 0.0)
+    override var portraitScale = 1.4F
+    override var portraitTranslation = Vec3d(-0.26, 0.0, 0.0)
 
-    override val profileScale = 0.65F
-    override val profileTranslation = Vec3d(0.0, 0.8, 0.0)
+    override var profileScale = 0.65F
+    override var profileTranslation = Vec3d(0.0, 0.8, 0.0)
 
     lateinit var standing: Pose
     lateinit var walking: Pose
@@ -74,7 +74,7 @@ class CyndaquilModel (root: ModelPart) : PosableModel(), HeadedFrame {
 //            quirks = arrayOf(sneeze),
             condition = { (it.entity as? PokemonEntity)?.isBattling == true },
             idleAnimations = arrayOf(
-                singleBoneLook(),
+                singleBoneLook(minPitch = 0F),
                 bedrock("cyndaquil", "battle_idle")
             )
         )

@@ -12,6 +12,8 @@ import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.PosableState
 import com.cobblemon.mod.common.client.render.models.blockbench.repository.RenderContext
 import com.cobblemon.mod.common.client.render.models.blockbench.wavefunction.WaveFunction
+import java.util.function.Consumer
+import net.minecraft.entity.Entity
 
 /**
  * An animation that plays to the exclusion of other primary animations. This can control
@@ -38,6 +40,7 @@ class PrimaryAnimation(
 ): StatefulAnimation {
     var started = -1F
     override val duration: Float = animation.duration
+    var afterAction: Consumer<Unit> = Consumer { }
 
     override fun run(
         context: RenderContext,

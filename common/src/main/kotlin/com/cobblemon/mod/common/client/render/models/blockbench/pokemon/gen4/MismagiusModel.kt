@@ -21,11 +21,11 @@ class MismagiusModel (root: ModelPart) : PosableModel(), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("mismagius")
     override val head = getPart("head")
 
-    override val portraitScale = 2.0F
-    override val portraitTranslation = Vec3d(-0.2, 1.5, 0.0)
+    override var portraitScale = 2.0F
+    override var portraitTranslation = Vec3d(-0.2, 1.5, 0.0)
 
-    override val profileScale = 0.6F
-    override val profileTranslation = Vec3d(0.0, 0.9, 0.0)
+    override var profileScale = 0.6F
+    override var profileTranslation = Vec3d(0.0, 0.9, 0.0)
 
     lateinit var standing: Pose
     lateinit var walk: Pose
@@ -37,7 +37,7 @@ class MismagiusModel (root: ModelPart) : PosableModel(), HeadedFrame {
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
-                singleBoneLook(),
+                singleBoneLook(yawMultiplier = 0.5F),
                 bedrock("mismagius", "ground_idle")
             )
         )
@@ -47,7 +47,7 @@ class MismagiusModel (root: ModelPart) : PosableModel(), HeadedFrame {
             poseTypes = PoseType.MOVING_POSES,
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
-                singleBoneLook(),
+                singleBoneLook(yawMultiplier = 0.5F),
                 bedrock("mismagius", "ground_idle")
                 //bedrock("mismagius", "ground_walk")
             )

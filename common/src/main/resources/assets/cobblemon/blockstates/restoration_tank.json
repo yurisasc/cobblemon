@@ -33,10 +33,11 @@
     "facing=south,part=bottom,on=true,triggered=false": {
       "model": "cobblemon:block/restoration_tank_lower"
     },
-    "facing=south,part=bottom,on=true,triggered=true": {
-      "model": "cobblemon:block/restoration_tank_lower"
-    },
     "facing=west,part=bottom,on=false": {
+      "model": "cobblemon:block/restoration_tank_lower",
+      "y": 90
+    },
+    "facing=west,part=bottom,on=true,triggered=false": {
       "model": "cobblemon:block/restoration_tank_lower",
       "y": 90
     },
@@ -74,7 +75,7 @@
       "model": "cobblemon:block/restoration_tank_upper_animated",
       "y": 180
     },
-    "facing=east,part=top,on=true": {
+    "facing=east,part=top,on=true,triggered=true": {
       "model": "cobblemon:block/restoration_tank_upper_animated",
       "y": 270
     }

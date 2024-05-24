@@ -8,12 +8,11 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen4
 
+import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
-import com.cobblemon.mod.common.client.render.models.blockbench.pose.Pose
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cobblemon.mod.common.entity.PoseType
-import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
-import com.cobblemon.mod.common.client.render.models.blockbench.PosableState
-import com.cobblemon.mod.common.client.render.models.blockbench.repository.RenderContext
 import com.cobblemon.mod.common.entity.PoseType.Companion.MOVING_POSES
 import com.cobblemon.mod.common.entity.PoseType.Companion.SHOULDER_POSES
 import com.cobblemon.mod.common.entity.PoseType.Companion.STATIONARY_POSES
@@ -22,22 +21,22 @@ import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class ChinglingModel(root: ModelPart) : PosableModel() {
+class ChinglingModel(root: ModelPart) : PokemonPoseableModel() {
     override val rootPart = root.registerChildWithAllChildren("chingling")
 
-    override val portraitScale = 2.8F
-    override val portraitTranslation = Vec3d(0.0, -2.4, 0.0)
+    override var portraitScale = 2.8F
+    override var portraitTranslation = Vec3d(0.0, -2.4, 0.0)
 
-    override val profileScale = 1.3F
-    override val profileTranslation = Vec3d(0.0, -0.2, 0.0)
+    override var profileScale = 1.3F
+    override var profileTranslation = Vec3d(0.0, -0.2, 0.0)
 
-    lateinit var sleep: Pose
-    lateinit var standing: Pose
-    lateinit var walk: Pose
-    lateinit var hover: Pose
-    lateinit var fly: Pose
+    lateinit var sleep: PokemonPose
+    lateinit var standing: PokemonPose
+    lateinit var walk: PokemonPose
+    lateinit var hover: PokemonPose
+    lateinit var fly: PokemonPose
 
-    override val cryAnimation = CryProvider { bedrockStateful("chingling", "cry") }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("chingling", "cry") }
 
     override fun registerPoses() {
         val blink = quirk { bedrockStateful("chingling", "blink") }
@@ -85,5 +84,8 @@ class ChinglingModel(root: ModelPart) : PosableModel() {
         )
     }
 
-    override fun getFaintAnimation(state: PosableState) = if (state.isPosedIn(standing, walk, hover, fly, sleep )) bedrockStateful("chingling", "faint") else null
+    //override fun getFaintAnimation(
+    //    pokemonEntity: PokemonEntity,
+    //    state: PoseableEntityState<PokemonEntity>
+    //) = if (state.isPosedIn(standing, walk, hover, fly, sleep )) bedrockStateful("chingling", "faint") else null
 }

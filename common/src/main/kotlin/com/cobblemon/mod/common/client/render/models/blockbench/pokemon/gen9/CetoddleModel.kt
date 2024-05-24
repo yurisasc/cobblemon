@@ -25,11 +25,11 @@ import net.minecraft.util.math.Vec3d
 class CetoddleModel (root: ModelPart) : PosableModel() {
     override val rootPart = root.registerChildWithAllChildren("cetoddle")
 
-    override val portraitScale = 1.6F
-    override val portraitTranslation = Vec3d(-0.3, -0.3, 0.0)
+    override var portraitScale = 1.6F
+    override var portraitTranslation = Vec3d(-0.3, -0.3, 0.0)
 
-    override val profileScale = 0.8F
-    override val profileTranslation = Vec3d(0.0, 0.55, 0.0)
+    override var profileScale = 0.8F
+    override var profileTranslation = Vec3d(0.0, 0.55, 0.0)
 
     lateinit var standing: Pose
     lateinit var walking: Pose

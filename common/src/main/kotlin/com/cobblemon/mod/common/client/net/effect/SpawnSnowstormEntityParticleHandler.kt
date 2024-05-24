@@ -40,7 +40,8 @@ object SpawnSnowstormEntityParticleHandler : ClientNetworkPacketHandler<SpawnSno
             runtime = particleRuntime,
             sourceVelocity = { entity.velocity },
             sourceAlive = { !entity.isRemoved },
-            sourceVisible = { !entity.isInvisible }
+            sourceVisible = { !entity.isInvisible },
+            entity = entity
         )
 
         storm.spawn()

@@ -25,11 +25,11 @@ class FlittleModel(root: ModelPart) : PosableModel(), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("flittle")
     override val head = getPart("body")
 
-    override val portraitScale = 2.0F
-    override val portraitTranslation = Vec3d(0.0, 0.0, 0.0)
+    override var portraitScale = 2.0F
+    override var portraitTranslation = Vec3d(0.0, 0.0, 0.0)
 
-    override val profileScale = 0.85F
-    override val profileTranslation = Vec3d(0.0, 0.65, 0.0)
+    override var profileScale = 0.85F
+    override var profileTranslation = Vec3d(0.0, 0.65, 0.0)
 
     lateinit var standing: Pose
     lateinit var walk: Pose
@@ -39,7 +39,7 @@ class FlittleModel(root: ModelPart) : PosableModel(), HeadedFrame {
     lateinit var shoulderRight: Pose
     lateinit var sleep: Pose
 
-    val shoulderOffsetX = 6
+    val shoulderOffsetX = 11
     val shoulderOffsetY = 6
 
     override val cryAnimation = CryProvider { bedrockStateful("flittle", "cry") }

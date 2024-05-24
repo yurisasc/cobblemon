@@ -72,6 +72,8 @@ object CobblemonBlocks : PlatformRegistry<Registry<Block>, RegistryKey<Registry<
     @JvmField
     val SUN_STONE_ORE = evolutionStoneOre("sun_stone_ore")
     @JvmField
+    val TERRACOTTA_SUN_STONE_ORE = evolutionStoneOre("terracotta_sun_stone_ore")
+    @JvmField
     val THUNDER_STONE_ORE = evolutionStoneOre("thunder_stone_ore")
     @JvmField
     val WATER_STONE_ORE = evolutionStoneOre("water_stone_ore")
@@ -158,7 +160,7 @@ object CobblemonBlocks : PlatformRegistry<Registry<Block>, RegistryKey<Registry<
     @JvmField
     val BIG_ROOT = this.create("big_root", BigRootBlock(AbstractBlock.Settings.create().pistonBehavior(PistonBehavior.DESTROY).burnable().mapColor(MapColor.DARK_GREEN).noCollision().ticksRandomly().breakInstantly().sounds(CobblemonSounds.BIG_ROOT_SOUNDS)))
     @JvmField
-    val REVIVAL_HERB = this.create("revival_herb", RevivalHerbBlock(AbstractBlock.Settings.create().pistonBehavior(PistonBehavior.DESTROY).mapColor(MapColor.DARK_GREEN).burnable().noCollision().breakInstantly().sounds(BlockSoundGroup.CROP)))
+    val REVIVAL_HERB = this.create("revival_herb", RevivalHerbBlock(AbstractBlock.Settings.create().pistonBehavior(PistonBehavior.DESTROY).mapColor(MapColor.DARK_GREEN).burnable().noCollision().breakInstantly().sounds(CobblemonSounds.REVIVAL_HERB_SOUNDS)))
 
     @JvmField
     val TUMBLESTONE_CLUSTER = tumblestoneBlock("tumblestone_cluster", GrowableStoneBlock.STAGE_3, 7, 3, null)
@@ -232,7 +234,7 @@ object CobblemonBlocks : PlatformRegistry<Registry<Block>, RegistryKey<Registry<
         "relic_coin_pouch",
         CoinPouchBlock(
             AbstractBlock.Settings.create()
-                .sounds(CobblemonSounds.COIN_POUCH_SOUNDS)
+                .sounds(CobblemonSounds.RELIC_COIN_POUCH_SOUNDS)
                 .pistonBehavior(PistonBehavior.DESTROY)
                 .strength(0.4f)
                 .nonOpaque(), true
@@ -243,7 +245,7 @@ object CobblemonBlocks : PlatformRegistry<Registry<Block>, RegistryKey<Registry<
         "relic_coin_sack",
         CoinPouchBlock(
             AbstractBlock.Settings.create()
-                .sounds(CobblemonSounds.COIN_POUCH_SOUNDS)
+                .sounds(CobblemonSounds.RELIC_COIN_SACK_SOUNDS)
                 .pistonBehavior(PistonBehavior.DESTROY)
                 .strength(0.4f), false
         ))
@@ -387,6 +389,18 @@ object CobblemonBlocks : PlatformRegistry<Registry<Block>, RegistryKey<Registry<
     )
 
     @JvmField
+    val DISPLAY_CASE = create(
+        "display_case",
+        DisplayCaseBlock(
+            AbstractBlock.Settings.create()
+                .sounds(CobblemonSounds.DISPLAY_CASE_SOUNDS)
+                .nonOpaque()
+                .pistonBehavior(PistonBehavior.BLOCK)
+                .mapColor(MapColor.STONE_GRAY)
+                .strength(0.3f)
+        )
+    )
+
     val RED_MINT = create("red_mint", MintBlock(MintType.RED, AbstractBlock.Settings.create().mapColor(MapColor.RED).noCollision().ticksRandomly().breakInstantly().sounds(CobblemonSounds.MINT_SOUNDS)))
     @JvmField
     val BLUE_MINT = create("blue_mint", MintBlock(MintType.BLUE, AbstractBlock.Settings.create().mapColor(MapColor.BLUE).noCollision().ticksRandomly().breakInstantly().sounds(CobblemonSounds.MINT_SOUNDS)))
@@ -414,7 +428,7 @@ object CobblemonBlocks : PlatformRegistry<Registry<Block>, RegistryKey<Registry<
     )
 
     @JvmField
-    val VIVICHOKE_SEEDS = this.create("vivichoke_seeds", VivichokeBlock(AbstractBlock.Settings.create().pistonBehavior(PistonBehavior.DESTROY).burnable().mapColor(MapColor.DARK_GREEN).noCollision().ticksRandomly().breakInstantly().sounds(BlockSoundGroup.CROP)))
+    val VIVICHOKE_SEEDS = this.create("vivichoke_seeds", VivichokeBlock(AbstractBlock.Settings.create().pistonBehavior(PistonBehavior.DESTROY).burnable().mapColor(MapColor.DARK_GREEN).noCollision().ticksRandomly().breakInstantly().sounds(CobblemonSounds.VIVICHOKE_SOUNDS)))
     @JvmField
     val PEP_UP_FLOWER = this.create("pep_up_flower", FlowerBlock(StatusEffects.LEVITATION, 10, AbstractBlock.Settings.create().mapColor(MapColor.DARK_GREEN).noCollision().breakInstantly().sounds(BlockSoundGroup.GRASS).offset(AbstractBlock.OffsetType.XZ).pistonBehavior(PistonBehavior.DESTROY)))
     @JvmField

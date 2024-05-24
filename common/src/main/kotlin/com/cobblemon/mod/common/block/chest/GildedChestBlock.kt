@@ -17,29 +17,24 @@ import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.party
 import com.cobblemon.mod.common.util.toVec3d
-import net.minecraft.block.Block
-import net.minecraft.block.BlockRenderType
-import net.minecraft.block.BlockState
-import net.minecraft.block.BlockWithEntity
-import net.minecraft.block.Blocks
-import net.minecraft.block.HorizontalFacingBlock
-import net.minecraft.block.ShapeContext
+import net.minecraft.block.*
+import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.ai.pathing.NavigationType
 import net.minecraft.entity.mob.PiglinBrain
 import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.fluid.FluidState
+import net.minecraft.fluid.Fluids
 import net.minecraft.item.ItemPlacementContext
+import net.minecraft.item.ItemStack
+import net.minecraft.screen.ScreenHandler
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.sound.SoundCategory
 import net.minecraft.state.StateManager
+import net.minecraft.state.property.BooleanProperty
 import net.minecraft.state.property.Properties
 import net.minecraft.text.MutableText
 import net.minecraft.text.Text
-import net.minecraft.util.ActionResult
-import net.minecraft.util.BlockMirror
-import net.minecraft.util.BlockRotation
-import net.minecraft.util.Hand
-import net.minecraft.util.Identifier
-import net.minecraft.util.ItemScatterer
+import net.minecraft.util.*
 import net.minecraft.util.hit.BlockHitResult
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
@@ -47,17 +42,21 @@ import net.minecraft.util.shape.VoxelShape
 import net.minecraft.util.shape.VoxelShapes
 import net.minecraft.world.BlockView
 import net.minecraft.world.World
+import net.minecraft.world.WorldAccess
 
 @Suppress("OVERRIDE_DEPRECATION")
-class GildedChestBlock(settings: Settings, val type: Type = Type.RED) : BlockWithEntity(settings) {
+class GildedChestBlock(settings: Settings, val type: Type = Type.RED) : BlockWithEntity(settings), Waterloggable {
 
     init {
-        defaultState = defaultState.with(Properties.HORIZONTAL_FACING, Direction.SOUTH)
+        defaultState = defaultState
+            .with(Properties.HORIZONTAL_FACING, Direction.SOUTH)
+            .with(WATERLOGGED, false)
     }
 
     companion object {
         val POKEMON_ARGS = "gimmighoul"
         val LEVEL_RANGE = 5..30
+        val WATERLOGGED = BooleanProperty.of("waterlogged")
 
         val SOUTH_OUTLINE = VoxelShapes.union(
             VoxelShapes.cuboid(0.0, 0.0, 0.25, 1.0, 1.0, 0.9375)
@@ -89,9 +88,28 @@ class GildedChestBlock(settings: Settings, val type: Type = Type.RED) : BlockWit
         }
     }
 
+    override fun getStateForNeighborUpdate(
+        state: BlockState,
+        direction: Direction,
+        neighborState: BlockState,
+        world: WorldAccess,
+        pos: BlockPos,
+        neighborPos: BlockPos
+    ): BlockState {
+        if (state.get(WATERLOGGED)) world.scheduleFluidTick(pos, Fluids.WATER, Fluids.WATER.getTickRate(world))
+        return super.getStateForNeighborUpdate(state,   direction, neighborState, world, pos, neighborPos)
+    }
+
+    override fun getFluidState(state: BlockState): FluidState {
+        return if (state.get(WATERLOGGED)) {
+            Fluids.WATER.getStill(false)
+        } else super.getFluidState(state)
+    }
+
     override fun appendProperties(builder: StateManager.Builder<Block, BlockState>) {
         super.appendProperties(builder)
         builder.add(Properties.HORIZONTAL_FACING)
+        builder.add(WATERLOGGED)
     }
 
     private val facingToYaw: HashMap<Direction, Float> = hashMapOf(
@@ -112,7 +130,7 @@ class GildedChestBlock(settings: Settings, val type: Type = Type.RED) : BlockWit
             if (player is ServerPlayerEntity) {
                 spawnPokemon(world, pos, state, player)
             }
-            world.setBlockState(pos, Blocks.AIR.defaultState)
+            world.setBlockState(pos, if (state.fluidState.isOf(Fluids.WATER)) Blocks.WATER.defaultState else Blocks.AIR.defaultState)
         } else super.onBreak(world, pos, state, player)
     }
 
@@ -191,12 +209,9 @@ class GildedChestBlock(settings: Settings, val type: Type = Type.RED) : BlockWit
     override fun getRenderType(state: BlockState?) = BlockRenderType.ENTITYBLOCK_ANIMATED
 
     override fun getPlacementState(blockPlaceContext: ItemPlacementContext): BlockState? {
-//        val abovePosition = blockPlaceContext.blockPos.up()
-//        val world = blockPlaceContext.world
-//        if (world.getBlockState(abovePosition).canReplace(blockPlaceContext) && !world.isOutOfHeightLimit(abovePosition)) {
-            return defaultState.with(HorizontalFacingBlock.FACING, blockPlaceContext.horizontalPlayerFacing.opposite)
-//        }
-        // return null
+        return defaultState
+            .with(HorizontalFacingBlock.FACING, blockPlaceContext.horizontalPlayerFacing.opposite)
+            .with(WATERLOGGED, blockPlaceContext.world.getFluidState(blockPlaceContext.blockPos).fluid == Fluids.WATER)
     }
 
     @Deprecated("Deprecated in Java")
@@ -206,6 +221,14 @@ class GildedChestBlock(settings: Settings, val type: Type = Type.RED) : BlockWit
                 state.get(Properties.HORIZONTAL_FACING) as Direction
             )
         ) as BlockState
+    }
+
+    override fun hasComparatorOutput(state: BlockState?): Boolean {
+        return true
+    }
+
+    override fun getComparatorOutput(state: BlockState?, world: World, pos: BlockPos?): Int {
+        return ScreenHandler.calculateComparatorOutput(world.getBlockEntity(pos))
     }
 
     override fun mirror(state: BlockState, mirror: BlockMirror): BlockState {
@@ -226,6 +249,19 @@ class GildedChestBlock(settings: Settings, val type: Type = Type.RED) : BlockWit
     @Deprecated("Deprecated in Java")
     override fun canPathfindThrough(state: BlockState?, world: BlockView?, pos: BlockPos?, type: NavigationType?): Boolean {
         return false
+    }
+
+    override fun onPlaced(
+        world: World,
+        pos: BlockPos,
+        state: BlockState,
+        placer: LivingEntity?,
+        itemStack: ItemStack
+    ) {
+        val blockEntity = world.getBlockEntity(pos)
+        if (itemStack.hasCustomName() && blockEntity is GildedChestBlockEntity) {
+            blockEntity.customName = itemStack.name
+        }
     }
 
 }

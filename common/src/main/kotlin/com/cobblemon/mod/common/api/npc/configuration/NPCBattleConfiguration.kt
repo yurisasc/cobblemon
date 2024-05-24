@@ -17,10 +17,12 @@ class NPCBattleConfiguration {
     var canChallenge = false
     var party: NPCPartyProvider? = null
     var simultaneousBattles = false
+    var healAfterwards = true
 
     fun encode(buffer: PacketByteBuf) {
         buffer.writeBoolean(canChallenge)
         buffer.writeBoolean(simultaneousBattles)
+        buffer.writeBoolean(healAfterwards)
         buffer.writeNullable(party) { _, provider ->
             buffer.writeString(provider.type)
             provider.encode(buffer)
@@ -30,6 +32,7 @@ class NPCBattleConfiguration {
     fun decode(buffer: PacketByteBuf) {
         canChallenge = buffer.readBoolean()
         simultaneousBattles = buffer.readBoolean()
+        healAfterwards = buffer.readBoolean()
         party = buffer.readNullable {
             val type = buffer.readString()
             val providerBuilder = NPCPartyProvider.types[type]
@@ -42,6 +45,7 @@ class NPCBattleConfiguration {
     fun saveToNBT(nbt: NbtCompound) {
         nbt.putBoolean(DataKeys.NPC_CAN_CHALLENGE, canChallenge)
         nbt.putBoolean(DataKeys.NPC_SIMULTANEOUS_BATTLES, simultaneousBattles)
+        nbt.putBoolean(DataKeys.NPC_HEAL_AFTERWARDS, healAfterwards)
         val party = party
         if (party != null) {
             val partyNBT = NbtCompound()
@@ -54,6 +58,7 @@ class NPCBattleConfiguration {
     fun loadFromNBT(nbt: NbtCompound) {
         canChallenge = nbt.getBoolean(DataKeys.NPC_CAN_CHALLENGE)
         simultaneousBattles = nbt.getBoolean(DataKeys.NPC_SIMULTANEOUS_BATTLES)
+        healAfterwards = nbt.getBoolean(DataKeys.NPC_HEAL_AFTERWARDS)
         val partyNBT = nbt.getCompound(DataKeys.NPC_PARTY)
         if (!partyNBT.isEmpty) {
             val type = partyNBT.getString(DataKeys.NPC_PARTY_TYPE)

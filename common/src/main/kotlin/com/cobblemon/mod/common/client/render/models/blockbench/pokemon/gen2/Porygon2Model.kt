@@ -28,11 +28,11 @@ class Porygon2Model(root: ModelPart) : PosableModel(), HeadedFrame, BipedFrame {
     override val leftLeg = getPart("leg_left")
     override val rightLeg = getPart("leg_right")
 
-    override val portraitScale = 2.5F
-    override val portraitTranslation = Vec3d(-0.45, 0.5, 0.0)
+    override var portraitScale = 2.5F
+    override var portraitTranslation = Vec3d(-0.45, 0.5, 0.0)
 
-    override val profileScale = 1.1F
-    override val profileTranslation = Vec3d(0.0, 0.55, 0.0)
+    override var profileScale = 1.1F
+    override var profileTranslation = Vec3d(0.0, 0.55, 0.0)
 
     lateinit var sleep: Pose
     lateinit var standing: Pose

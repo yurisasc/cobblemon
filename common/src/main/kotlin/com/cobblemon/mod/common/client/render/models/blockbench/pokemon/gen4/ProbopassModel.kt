@@ -23,11 +23,11 @@ import net.minecraft.util.math.Vec3d
 class ProbopassModel(root: ModelPart) : PosableModel() {
     override val rootPart = root.registerChildWithAllChildren("probopass")
 
-    override val portraitScale = 1F
-    override val portraitTranslation = Vec3d(0.0, 0.425, 0.0)
+    override var portraitScale = 1F
+    override var portraitTranslation = Vec3d(0.0, 0.425, 0.0)
 
-    override val profileScale = 0.75F
-    override val profileTranslation = Vec3d(0.0, 0.7, 0.0)
+    override var profileScale = 0.75F
+    override var profileTranslation = Vec3d(0.0, 0.7, 0.0)
 
     lateinit var sleep: Pose
     lateinit var standing: Pose
@@ -38,7 +38,7 @@ class ProbopassModel(root: ModelPart) : PosableModel() {
 
         sleep = registerPose(
             poseType = PoseType.SLEEP,
-            idleAnimations = arrayOf(bedrock("probopass", "ground_sleep"))
+            idleAnimations = arrayOf(bedrock("probopass", "sleep"))
         )
 
         standing = registerPose(

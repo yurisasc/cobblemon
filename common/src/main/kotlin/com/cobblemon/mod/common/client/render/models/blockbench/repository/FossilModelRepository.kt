@@ -77,8 +77,8 @@ object FossilModelRepository : VaryingModelRepository() {
                     }
                 }
                 val loopTimes = json.get("loopTimes")?.asInt ?: 1
-                val minSeconds = json.get("minSecondsBetweenOccurrences")?.asFloat ?: 8F
-                val maxSeconds = json.get("maxSecondsBetweenOccurrences")?.asFloat ?: 30F
+                val minSeconds = json.get("minSeconds")?.asFloat ?: 8F
+                val maxSeconds = json.get("maxSeconds")?.asFloat ?: 30F
 
                 model.quirkMultiple(
                     secondsBetweenOccurrences = minSeconds to maxSeconds,

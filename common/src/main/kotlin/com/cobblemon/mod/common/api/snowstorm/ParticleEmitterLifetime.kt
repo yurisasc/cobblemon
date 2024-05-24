@@ -136,6 +136,11 @@ class LoopingEmitterLifetime(var activeTime: Expression = 1.0.asExpression(), va
         val interval = activeTimeValue + sleepTime
         val displacement = emitterAge % interval
         runtime.environment.setSimpleVariable("emitter_lifetime", activeTime)
+
+        if (emitterAge > activeTimeValue && sleepTime == 0.0) {
+            return ParticleEmitterAction.STOP
+        }
+
         return if (displacement < activeTimeValue) {
             ParticleEmitterAction.GO
         } else {

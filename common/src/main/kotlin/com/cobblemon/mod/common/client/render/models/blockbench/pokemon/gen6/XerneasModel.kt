@@ -27,11 +27,11 @@ class XerneasModel(root: ModelPart) : PosableModel(), HeadedFrame, QuadrupedFram
     override val hindLeftLeg = getPart("leg_back_left")
     override val hindRightLeg = getPart("leg_back_right")
 
-    override val portraitScale = 2.3F
-    override val portraitTranslation = Vec3d(-1.4, 4.4, 0.0)
+    override var portraitScale = 2.3F
+    override var portraitTranslation = Vec3d(-1.4, 4.4, 0.0)
 
-    override val profileScale = 0.35F
-    override val profileTranslation = Vec3d(0.0, 1.2, 0.0)
+    override var profileScale = 0.35F
+    override var profileTranslation = Vec3d(0.0, 1.2, 0.0)
 
     lateinit var standing: Pose
     lateinit var walk: Pose

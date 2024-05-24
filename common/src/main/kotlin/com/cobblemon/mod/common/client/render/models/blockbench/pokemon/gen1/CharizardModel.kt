@@ -8,24 +8,24 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1
 
-import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.createTransformation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BiWingedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BimanualFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.ModelPartTransformation.Companion.Y_AXIS
-import com.cobblemon.mod.common.client.render.models.blockbench.pose.Pose
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.PoseType.Companion.MOVING_POSES
 import com.cobblemon.mod.common.entity.PoseType.Companion.STATIONARY_POSES
 import com.cobblemon.mod.common.entity.PoseType.Companion.UI_POSES
 import com.cobblemon.mod.common.util.asExpressionLike
-import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class CharizardModel(root: ModelPart) : PosableModel(), HeadedFrame, BipedFrame, BimanualFrame, BiWingedFrame {
+class CharizardModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedFrame, BimanualFrame, BiWingedFrame {
     override val rootPart = root.registerChildWithAllChildren("charizard")
     override val head = getPart("head_ai")
     override val rightArm = getPart("arm_right")
@@ -35,17 +35,19 @@ class CharizardModel(root: ModelPart) : PosableModel(), HeadedFrame, BipedFrame,
     override val leftWing = getPart("wing_left")
     override val rightWing = getPart("wing_right")
 
-    override val portraitScale = 1.9F
-    override val portraitTranslation = Vec3d(-0.5, 1.4, 0.0)
+    override var portraitScale = 1.9F
+    override var portraitTranslation = Vec3d(-0.5, 1.4, 0.0)
 
-    override val profileScale = 0.55F
-    override val profileTranslation = Vec3d(0.05, 0.93, 0.0)
+    override var profileScale = 0.55F
+    override var profileTranslation = Vec3d(0.05, 0.93, 0.0)
 
-    lateinit var sleep: Pose
-    lateinit var standing: Pose
-    lateinit var walk: Pose
-    lateinit var flyIdle: Pose
-    lateinit var fly: Pose
+    lateinit var sleep: PokemonPose
+    lateinit var standing: PokemonPose
+    lateinit var walk: PokemonPose
+    lateinit var flyIdle: PokemonPose
+    lateinit var fly: PokemonPose
+
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("charizard", "cry") }
 
     override fun registerPoses() {
         animations["physical"] = "q.bedrock_primary('charizard', 'physical', q.exclude_labels('look'), q.curve('symmetrical_wide'))".asExpressionLike()
@@ -68,7 +70,7 @@ class CharizardModel(root: ModelPart) : PosableModel(), HeadedFrame, BipedFrame,
             poseName = "standing",
             poseTypes = STATIONARY_POSES - PoseType.HOVER + UI_POSES,
             quirks = arrayOf(blink),
-            condition = { (it.entity as? PokemonEntity)?.isBattling == false },
+            condition = { !it.isBattling },
             animations = mutableMapOf("faint" to faint),
             idleAnimations = arrayOf(
                 singleBoneLook(),
@@ -79,7 +81,7 @@ class CharizardModel(root: ModelPart) : PosableModel(), HeadedFrame, BipedFrame,
         registerPose(
             poseTypes = setOf(PoseType.STAND),
             poseName = "battle_standing",
-            condition = { (it.entity as? PokemonEntity)?.isBattling == true },
+            condition = { it.isBattling },
             animations = mutableMapOf("faint" to faint),
             idleAnimations = arrayOf(
                 singleBoneLook(),

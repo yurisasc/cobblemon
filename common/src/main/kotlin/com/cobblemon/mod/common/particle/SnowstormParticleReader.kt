@@ -10,9 +10,13 @@ package com.cobblemon.mod.common.particle
 
 import com.bedrockk.molang.Expression
 import com.bedrockk.molang.ast.NumberExpression
+import com.cobblemon.mod.common.api.molang.ExpressionLike
 import com.cobblemon.mod.common.api.snowstorm.*
 import com.cobblemon.mod.common.util.asExpression
+import com.cobblemon.mod.common.util.asExpressionLike
 import com.cobblemon.mod.common.util.asIdentifierDefaultingNamespace
+import com.cobblemon.mod.common.util.normalizeToArray
+import com.cobblemon.mod.common.util.singularToPluralList
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
 import com.google.gson.JsonPrimitive
@@ -38,6 +42,7 @@ object SnowstormParticleReader {
         val emitterShapeDiscJson = componentsJson.get("minecraft:emitter_shape_disc")?.asJsonObject
         val emitterShapeBoxJson = componentsJson.get("minecraft:emitter_shape_box")?.asJsonObject
         val emitterShapeEntityBoundingBoxJson = componentsJson.get("minecraft:emitter_shape_entity_aabb")?.asJsonObject
+        val emitterLifetimeEventsJson = componentsJson.get("minecraft:emitter_lifetime_events")?.asJsonObject
         val dynamicMotionJson = componentsJson.get("minecraft:particle_motion_dynamic")?.asJsonObject
         val particleAppearanceJson = componentsJson.get("minecraft:particle_appearance_billboard").asJsonObject
         val sizeJson = particleAppearanceJson.get("size")?.asJsonArray
@@ -50,6 +55,7 @@ object SnowstormParticleReader {
         val colourJson = tintingJson?.get("color")
         val collisionJson = componentsJson.get("minecraft:particle_motion_collision")?.asJsonObject
         val spaceJson = componentsJson.get("minecraft:emitter_local_space")?.asJsonObject
+        val particleLifetimeEventsJson = componentsJson.get("minecraft:particle_lifetime_events")?.asJsonObject
 
         val id = Identifier(descJson.get("identifier").asString)
         val maxAge = particleLifetimeJson?.get("max_lifetime")?.asString?.asExpression() ?: 0.0.asExpression()
@@ -107,6 +113,24 @@ object SnowstormParticleReader {
                 else -> TODO("Unrecognized curve type was used")
             }
         }
+        val events = mutableMapOf<String, ParticleEvent>()
+        val eventJson = effectJson.get("events")?.asJsonObject
+        eventJson?.entrySet()?.forEach { (name, event) ->
+            val eventObj = event.asJsonObject
+            val particleEffect = eventObj.get("particle_effect")?.asJsonObject?.let {
+                val effect = it.get("effect").asString.asIdentifierDefaultingNamespace()
+                val type = it.get("type").asString
+                val preEffectExpression = it.get("pre_effect_expression")?.asString?.asExpressionLike()
+                val typeEnum = EventParticleEffect.EventParticleType.valueOf(type.uppercase())
+                EventParticleEffect(effect, typeEnum, preEffectExpression)
+            }
+            val soundEffect = eventObj.get("sound_effect")?.asJsonObject?.let {
+                val eventName = it.get("event_name").asString.asIdentifierDefaultingNamespace()
+                EventSoundEffect(eventName)
+            }
+            val expression = eventObj.get("expression")?.asString?.asExpressionLike()
+            events[name] = ParticleEvent(particleEffect, soundEffect, expression)
+        }
         val emitterStartExpressions = (emitterInitializationJson["creation_expression"]?.asString ?: "").split(";").filter { it.isNotEmpty() }.map { it.asExpression() }
         val emitterUpdateExpressions = (emitterInitializationJson["per_update_expression"]?.asString ?: "").split(";").filter { it.isNotEmpty() }.map { it.asExpression() }
         val particleUpdateExpressions = (particleInitializationJson["per_update_expression"]?.asString ?: "").split(";").filter { it.isNotEmpty() }.map { it.asExpression() }
@@ -114,11 +138,11 @@ object SnowstormParticleReader {
         var direction: ParticleMotionDirection? = null
         val speed = (componentsJson.get("minecraft:particle_initial_speed")?.asString ?: "0.0").asExpression()
         val rate = if (instantRateJson != null) {
-            InstantParticleEmitterRate(amount = instantRateJson.get("num_particles").asString.asExpression())
+            InstantParticleEmitterRate(amount = (instantRateJson.get("num_particles")?.asString ?: "1.0").asExpression())
         } else if (steadyRateJson != null) {
             SteadyParticleEmitterRate(
-                rate = steadyRateJson.get("spawn_rate").asString.asExpression(),
-                maximum = steadyRateJson.get("max_particles").asString.asExpression()
+                rate = (steadyRateJson.get("spawn_rate")?.asString ?: "1.0").asExpression(),
+                maximum = (steadyRateJson.get("max_particles").asString ?: "1.0").asExpression()
             )
         } else {
             throw IllegalStateException("Missing or unspecified emitter rate")
@@ -128,7 +152,7 @@ object SnowstormParticleReader {
         } else if (emitterLifetimeLoopingJson != null) {
             LoopingEmitterLifetime(
                 activeTime = (emitterLifetimeLoopingJson.get("active_time")?.asString ?: "").asExpression(),
-                sleepTime = (emitterLifetimeLoopingJson.get("sleep_time")?.asString ?: "").asExpression()
+                sleepTime = (emitterLifetimeLoopingJson.get("sleep_time")?.asString ?: "0.0").asExpression()
             )
         } else if (emitterLifetimeExpressionJson != null) {
             ExpressionEmitterLifetime(
@@ -259,9 +283,9 @@ object SnowstormParticleReader {
                 stepV = stepUV[1].asString.asExpression(),
                 textureSizeX = uvModeJson.get("texture_width")?.asInt ?: 128,
                 textureSizeY = uvModeJson.get("texture_height")?.asInt ?: 128,
-                maxFrame = flipbook.get("max_frame")?.asString?.asExpression() ?: NumberExpression(0.0),
+                maxFrame = flipbook.get("max_frame")?.asString?.asExpression() ?: 0.0.asExpression(),
                 loop = flipbook.get("loop")?.asBoolean ?: false,
-                fps = flipbook.get("frames_per_second")?.asString?.asExpression() ?: NumberExpression(0.0),
+                fps = flipbook.get("frames_per_second")?.asString?.asExpression() ?: 0.0.asExpression(),
                 stretchToLifetime = flipbook.get("stretch_to_lifetime")?.asBoolean ?: false
             )
         } else {
@@ -308,10 +332,10 @@ object SnowstormParticleReader {
                 NumberExpression(0.1)
             }
             ParticleCollision(
-                enabled = it.get("enabled")?.asString?.asExpression() ?: NumberExpression(if (collides) 1.0 else 0.0),
+                enabled = it.get("enabled")?.asString?.asExpression() ?: (if (collides) 1.0 else 0.0).asExpression(),
                 radius = radius,
-                friction = it.get("collision_drag")?.asString?.asExpression() ?: NumberExpression(10.0),
-                bounciness = it.get("coefficient_of_restitution")?.asString?.asExpression() ?: NumberExpression(0.0),
+                friction = it.get("collision_drag")?.asString?.asExpression() ?: 10.0.asExpression(),
+                bounciness = it.get("coefficient_of_restitution")?.asString?.asExpression() ?: 0.0.asExpression(),
                 expiresOnContact = it.get("expire_on_contact")?.asBoolean ?: false
             )
         } ?: ParticleCollision()
@@ -324,14 +348,48 @@ object SnowstormParticleReader {
             )
         } ?: ParticleSpace()
 
+        val particleEventSet = particleLifetimeEventsJson?.let {
+            val creationEvents = it.get("creation_event")?.normalizeToArray()?.map { SimpleEventTrigger(it.asString) }?.toMutableList() ?: mutableListOf()
+            val expirationEvents = it.get("expiration_event")?.normalizeToArray()?.map { SimpleEventTrigger(it.asString) }?.toMutableList() ?: mutableListOf()
+            val timeline = it.get("timeline")?.asJsonObject?.entrySet()?.map { (key, value) ->
+                key.toDouble() to value.normalizeToArray().map { it.asString }.toMutableList()
+            }?.toMap()?.toMutableMap() ?: mutableMapOf()
+            BedrockParticle.EventSet(
+                creationEvents = creationEvents,
+                expirationEvents = expirationEvents,
+                timeline = EventTriggerTimeline(timeline)
+            )
+        } ?: BedrockParticle.EventSet(mutableListOf(), mutableListOf(), EventTriggerTimeline(mutableMapOf()))
+
+        val emitterCreationEvents = emitterLifetimeEventsJson?.get("creation_event")?.normalizeToArray()?.map { SimpleEventTrigger(it.asString) }?.toMutableList() ?: mutableListOf()
+        val emitterExpirationEvents = emitterLifetimeEventsJson?.get("expiration_event")?.normalizeToArray()?.map { SimpleEventTrigger(it.asString) }?.toMutableList() ?: mutableListOf()
+        val emitterTravelDistanceEvents = emitterLifetimeEventsJson?.get("travel_distance_events")?.asJsonObject?.entrySet()?.map { (key, value) ->
+            key.toDouble() to value.normalizeToArray().map { it.asString }.toMutableList()
+        }?.toMap()?.toMutableMap() ?: mutableMapOf()
+        val emitterLoopingTravelDistanceEvents = emitterLifetimeEventsJson?.get("looping_travel_distance_events")?.asJsonArray?.map {
+            val obj = it.asJsonObject
+            val distance = obj.get("distance").asDouble
+            val events = obj.get("events").normalizeToArray().map { it.asString }.toMutableList()
+            LoopingTravelDistanceEventTrigger(distance, events)
+        }?.toMutableList() ?: mutableListOf()
+        val emitterEventTimeline = EventTriggerTimeline(emitterLifetimeEventsJson?.get("timeline")?.asJsonObject?.entrySet()?.map { (key, value) ->
+            key.toDouble() to value.normalizeToArray().map { it.asString }.toMutableList()
+        }?.toMap()?.toMutableMap() ?: mutableMapOf())
+
         return BedrockParticleEffect(
             id = id,
+            events = events,
             emitter = BedrockParticleEmitter(
                 startExpressions = emitterStartExpressions.toMutableList(),
                 updateExpressions = emitterUpdateExpressions.toMutableList(),
                 rate = rate,
                 shape = shape,
-                lifetime = lifetime
+                lifetime = lifetime,
+                eventTimeline = emitterEventTimeline,
+                creationEvents = emitterCreationEvents,
+                expirationEvents = emitterExpirationEvents,
+                travelDistanceEvents = EventTriggerTimeline(emitterTravelDistanceEvents),
+                loopingTravelDistanceEvents = emitterLoopingTravelDistanceEvents
             ),
             curves = curves.toMutableList(),
             particle = BedrockParticle(
@@ -350,7 +408,10 @@ object SnowstormParticleReader {
                 cameraMode = cameraMode,
                 collision = collision,
                 environmentLighting = environmentLighting,
-                tinting = tinting
+                tinting = tinting,
+                creationEvents = particleEventSet.creationEvents,
+                expirationEvents = particleEventSet.expirationEvents,
+                timeline = particleEventSet.timeline
             ),
             space = space
         )

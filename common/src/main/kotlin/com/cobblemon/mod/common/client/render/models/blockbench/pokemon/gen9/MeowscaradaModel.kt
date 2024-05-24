@@ -23,11 +23,11 @@ class MeowscaradaModel (root: ModelPart) : PosableModel(), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("meowscarada")
     override val head = getPart("head")
 
-    override val portraitScale = 1.9F
-    override val portraitTranslation = Vec3d(-0.3, 3.0, 0.0)
+    override var portraitScale = 1.9F
+    override var portraitTranslation = Vec3d(-0.3, 3.0, 0.0)
 
-    override val profileScale = 0.46F
-    override val profileTranslation = Vec3d(0.0, 1.1, 0.0)
+    override var profileScale = 0.46F
+    override var profileTranslation = Vec3d(0.0, 1.1, 0.0)
 
     lateinit var standing: Pose
     lateinit var walking: Pose

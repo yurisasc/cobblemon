@@ -33,11 +33,11 @@ class MoltresModel(root: ModelPart) : PosableModel(), HeadedFrame, BipedFrame, B
     override val leftWing = getPart("leftwing")
     override val rightWing = getPart("rightwing")
 
-    override val portraitScale = 2.8F
-    override val portraitTranslation = Vec3d(-0.9, 0.45, 0.0)
+    override var portraitScale = 2.8F
+    override var portraitTranslation = Vec3d(-0.9, 0.45, 0.0)
 
-    override val profileScale = 0.85F
-    override val profileTranslation = Vec3d(0.0, 0.5, 0.0)
+    override var profileScale = 0.85F
+    override var profileTranslation = Vec3d(0.0, 0.5, 0.0)
 
     lateinit var standing: Pose
     lateinit var walk: Pose

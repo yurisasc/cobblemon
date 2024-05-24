@@ -26,10 +26,10 @@ class WeedleModel(root: ModelPart) : PosableModel(), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("weedle")
     override val head = getPart("head")
 
-    override val portraitScale = 2.2F
-    override val portraitTranslation = Vec3d(-0.31, -1.83, 0.0)
-    override val profileScale = 0.8F
-    override val profileTranslation = Vec3d(0.1, 0.6, 0.0)
+    override var portraitScale = 2.2F
+    override var portraitTranslation = Vec3d(-0.31, -1.83, 0.0)
+    override var profileScale = 0.8F
+    override var profileTranslation = Vec3d(0.1, 0.6, 0.0)
 
     lateinit var sleep: Pose
     lateinit var standing: Pose

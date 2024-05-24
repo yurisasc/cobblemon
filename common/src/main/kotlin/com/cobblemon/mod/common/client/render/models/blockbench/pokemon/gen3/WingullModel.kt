@@ -27,11 +27,11 @@ class WingullModel (root: ModelPart) : PosableModel(), BipedFrame, BiWingedFrame
     override val leftLeg = getPart("foot_left")
     override val rightLeg = getPart("foot_right")
 
-    override val portraitScale = 3.0F
-    override val portraitTranslation = Vec3d(-0.2, -2.8, 0.0)
+    override var portraitScale = 3.0F
+    override var portraitTranslation = Vec3d(-0.2, -2.8, 0.0)
 
-    override val profileScale = 0.85F
-    override val profileTranslation = Vec3d(0.0, 0.5, 0.0)
+    override var profileScale = 0.85F
+    override var profileTranslation = Vec3d(0.0, 0.5, 0.0)
 
     lateinit var sleep: Pose
     lateinit var stand: Pose
@@ -47,12 +47,14 @@ class WingullModel (root: ModelPart) : PosableModel(), BipedFrame, BiWingedFrame
     override fun registerPoses() {
         val blink = quirk { bedrockStateful("wingull", "blink") }
         sleep = registerPose(
+            poseName = "non_water_sleep",
             poseType = PoseType.SLEEP,
             condition = { it.entity?.isTouchingWater == false },
             idleAnimations = arrayOf(bedrock("wingull", "sleep"))
         )
 
         water_surface_sleep = registerPose(
+            poseName = "water_surface_sleep",
             poseType = PoseType.SLEEP,
             condition = { it.entity?.isTouchingWater == true },
             idleAnimations = arrayOf(bedrock("wingull", "surfacewater_sleep")),

@@ -10,13 +10,13 @@ package com.cobblemon.mod.common.util
 
 import com.cobblemon.mod.common.Cobblemon
 import java.util.concurrent.CompletableFuture
-import net.minecraft.client.util.ModelIdentifier
+import java.util.function.Consumer
 import kotlin.math.min
 import kotlin.random.Random
+import net.minecraft.client.util.ModelIdentifier
 import net.minecraft.text.Text
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.BlockPos
-import net.minecraft.util.math.Direction
 import net.minecraft.util.shape.VoxelShape
 
 fun cobblemonResource(path: String) = Identifier(Cobblemon.MODID, path)
@@ -86,6 +86,10 @@ fun VoxelShape.blockPositionsAsList(): List<BlockPos> {
     }
 
     return result
+}
+
+operator fun <T> Consumer<T>.plus(action: (T) -> Unit): Consumer<T> {
+    return andThen(action)
 }
 
 fun chainFutures(others: Iterator<() -> CompletableFuture<*>>, finalFuture: CompletableFuture<Unit>) {

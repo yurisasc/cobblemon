@@ -29,7 +29,7 @@ object ChooseWanderTargetTask {
                 TaskRunnable { world, entity, time ->
                     val targetVec = FuzzyTargeting.find(entity, horizontalRange, verticalRange) ?: return@TaskRunnable false
                     walkTarget.remember(WalkTarget(targetVec, walkSpeed, completionRange))
-                    lookTarget.remember(BlockPosLookTarget(targetVec))
+                    lookTarget.remember(BlockPosLookTarget(targetVec.add(0.0, 1.5, 0.0)))
                     return@TaskRunnable true
                 }
             }

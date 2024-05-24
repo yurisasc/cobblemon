@@ -19,11 +19,11 @@ import net.minecraft.util.math.Vec3d
 class ClaydolModel(root: ModelPart) : PosableModel() {
     override val rootPart = root.registerChildWithAllChildren("claydol")
 
-    override val portraitScale = 1.6F
-    override val portraitTranslation = Vec3d(-0.7, 1.0, 0.0)
+    override var portraitScale = 1.6F
+    override var portraitTranslation = Vec3d(-0.7, 1.0, 0.0)
 
-    override val profileScale = 0.65F
-    override val profileTranslation = Vec3d(0.0, 0.8, 0.0)
+    override var profileScale = 0.65F
+    override var profileTranslation = Vec3d(0.0, 0.8, 0.0)
 
     lateinit var sleep: Pose
     lateinit var standing: Pose

@@ -13,11 +13,16 @@ import com.cobblemon.mod.common.api.net.ServerNetworkPacketHandler
 import com.cobblemon.mod.common.net.messages.server.SendOutPokemonPacket
 import com.cobblemon.mod.common.pokemon.activestate.ActivePokemonState
 import com.cobblemon.mod.common.pokemon.activestate.ShoulderedState
-import com.cobblemon.mod.common.util.toVec3d
-import com.cobblemon.mod.common.util.traceBlockCollision
+import com.cobblemon.mod.common.util.raycastSafeSendout
+import net.minecraft.client.render.entity.model.RaftEntityModel
+import net.minecraft.entity.Entity
+import net.minecraft.entity.EntityType
+import net.minecraft.entity.vehicle.BoatEntity
+import net.minecraft.item.BoatItem
 import net.minecraft.server.MinecraftServer
 import net.minecraft.server.network.ServerPlayerEntity
-import net.minecraft.util.math.Vec3d
+import net.minecraft.util.math.BlockPos
+import net.minecraft.world.RaycastContext
 
 object SendOutPokemonHandler : ServerNetworkPacketHandler<SendOutPokemonPacket> {
 
@@ -31,11 +36,10 @@ object SendOutPokemonHandler : ServerNetworkPacketHandler<SendOutPokemonPacket> 
             return
         }
         val state = pokemon.state
-
         if (state is ShoulderedState || state !is ActivePokemonState) {
-            val trace = player.traceBlockCollision(maxDistance = 15F)
-            if (trace != null && !player.world.getBlockState(trace.blockPos.up()).isSolid) {
-                val position = Vec3d(trace.location.x, trace.blockPos.up().toVec3d().y, trace.location.z)
+            val position = player.raycastSafeSendout(pokemon, 12.0, 5.0, RaycastContext.FluidHandling.ANY)
+
+            if (position != null) {
                 pokemon.sendOutWithAnimation(player, player.serverWorld, position)
             }
         } else {

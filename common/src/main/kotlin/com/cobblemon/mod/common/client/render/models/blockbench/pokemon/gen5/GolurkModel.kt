@@ -24,11 +24,11 @@ class GolurkModel (root: ModelPart) : PosableModel(), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("golurk")
     override val head = getPart("head")
 
-    override val portraitScale = 3.0F
-    override val portraitTranslation = Vec3d(-0.3, 5.4, 0.0)
+    override var portraitScale = 3.0F
+    override var portraitTranslation = Vec3d(-0.3, 5.4, 0.0)
 
-    override val profileScale = 0.4F
-    override val profileTranslation = Vec3d(0.0, 1.15, 0.0)
+    override var profileScale = 0.4F
+    override var profileTranslation = Vec3d(0.0, 1.15, 0.0)
 
     lateinit var standing: Pose
     lateinit var walk: Pose

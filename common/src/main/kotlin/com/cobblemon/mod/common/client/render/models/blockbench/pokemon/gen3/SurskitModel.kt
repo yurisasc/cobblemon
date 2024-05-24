@@ -23,11 +23,11 @@ class SurskitModel(root: ModelPart) : PosableModel(), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("surskit")
     override val head = getPart("head")
 
-    override val portraitScale = 2.2F
-    override val portraitTranslation = Vec3d(0.0, -0.9, 0.0)
+    override var portraitScale = 2.2F
+    override var portraitTranslation = Vec3d(0.0, -0.9, 0.0)
 
-    override val profileScale = 0.7F
-    override val profileTranslation = Vec3d(0.0, 0.6, 0.0)
+    override var profileScale = 0.7F
+    override var profileTranslation = Vec3d(0.0, 0.6, 0.0)
 
     lateinit var walk: Pose
     lateinit var standing: Pose

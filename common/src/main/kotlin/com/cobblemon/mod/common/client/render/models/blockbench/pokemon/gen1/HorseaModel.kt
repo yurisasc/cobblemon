@@ -20,11 +20,11 @@ import net.minecraft.util.math.Vec3d
 class HorseaModel(root: ModelPart) : PosableModel() {
     override val rootPart = root.registerChildWithAllChildren("horsea")
 
-    override val portraitScale = 2.5F
-    override val portraitTranslation = Vec3d(0.02, -0.55, 0.0)
+    override var portraitScale = 2.5F
+    override var portraitTranslation = Vec3d(0.02, -0.55, 0.0)
 
-    override val profileScale = 0.85F
-    override val profileTranslation = Vec3d(-0.03, 0.5, 0.0)
+    override var profileScale = 0.85F
+    override var profileTranslation = Vec3d(-0.03, 0.5, 0.0)
 
     lateinit var standing: Pose
     lateinit var walk: Pose

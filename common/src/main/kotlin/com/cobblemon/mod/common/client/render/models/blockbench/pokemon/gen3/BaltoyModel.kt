@@ -22,11 +22,11 @@ class BaltoyModel(root: ModelPart) : PosableModel(), BimanualFrame {
     override val rightArm = getPart("arm_right")
     override val leftArm = getPart("arm_left")
 
-    override val portraitScale = 3.1F
-    override val portraitTranslation = Vec3d(0.0, -1.6, 0.0)
+    override var portraitScale = 3.1F
+    override var portraitTranslation = Vec3d(0.0, -1.6, 0.0)
 
-    override val profileScale = 1.0F
-    override val profileTranslation = Vec3d(0.0, 0.3, 0.0)
+    override var profileScale = 1.0F
+    override var profileTranslation = Vec3d(0.0, 0.3, 0.0)
 
     lateinit var walk: Pose
     lateinit var standing: Pose

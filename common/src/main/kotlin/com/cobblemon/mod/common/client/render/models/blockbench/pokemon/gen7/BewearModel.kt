@@ -33,11 +33,11 @@ class BewearModel(root: ModelPart) : PosableModel(), HeadedFrame, BipedFrame, Bi
     override val leftLeg = getPart("leg_left")
     override val rightLeg = getPart("leg_right")
 
-    override val portraitScale = 1.2F
-    override val portraitTranslation = Vec3d(-0.2,2.2,0.0)
+    override var portraitScale = 1.2F
+    override var portraitTranslation = Vec3d(-0.2,2.2,0.0)
 
-    override val profileScale = 0.45F
-    override val profileTranslation = Vec3d(0.0, 1.1, 0.0)
+    override var profileScale = 0.45F
+    override var profileTranslation = Vec3d(0.0, 1.1, 0.0)
 
     lateinit var standing: Pose
     lateinit var walk: Pose

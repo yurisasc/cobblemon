@@ -22,11 +22,11 @@ class TatsugiriModel (root: ModelPart) : PosableModel(), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("tatsugiri")
     override val head = getPart("head")
 
-    override val portraitScale = 5.0F
-    override val portraitTranslation = Vec3d(0.0, -4.5, 0.0)
+    override var portraitScale = 5.0F
+    override var portraitTranslation = Vec3d(0.0, -4.5, 0.0)
 
-    override val profileScale = 1.4F
-    override val profileTranslation = Vec3d(0.0, -0.3, 0.0)
+    override var profileScale = 1.4F
+    override var profileTranslation = Vec3d(0.0, -0.3, 0.0)
 
     lateinit var swimming: Pose
     lateinit var standing: Pose

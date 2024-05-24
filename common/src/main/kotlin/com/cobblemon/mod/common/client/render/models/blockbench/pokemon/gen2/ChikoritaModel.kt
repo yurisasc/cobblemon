@@ -23,11 +23,11 @@ class ChikoritaModel(root: ModelPart) : PosableModel(), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("chikorita")
     override val head = getPart("head")
 
-    override val portraitScale = 1.7F
-    override val portraitTranslation = Vec3d(-0.1, -0.32, 0.0)
+    override var portraitScale = 1.7F
+    override var portraitTranslation = Vec3d(-0.1, -0.32, 0.0)
 
-    override val profileScale = 0.71F
-    override val profileTranslation = Vec3d(0.0, 0.67, 0.0)
+    override var profileScale = 0.71F
+    override var profileTranslation = Vec3d(0.0, 0.67, 0.0)
 
     lateinit var standing: Pose
     lateinit var walking: Pose

@@ -62,7 +62,7 @@ class PartyOverlay : InGameHud(MinecraftClient.getInstance(), MinecraftClient.ge
         BattleGUI::class.java
     )
 
-    private val starterToast = CobblemonToast(
+    val starterToast = CobblemonToast(
         MathHelper.randomUuid(),
         CobblemonItems.POKE_BALL.defaultStack,
         lang("ui.starter.choose_starter_title", SummaryBinding.boundKey().localizedText).red(),
@@ -107,24 +107,12 @@ class PartyOverlay : InGameHud(MinecraftClient.getInstance(), MinecraftClient.ge
                 !CobblemonClient.checkedStarterScreen
             ) {
                 if (!this.attachedToast) {
+                    // Adding starter toast on start and connect of client to server.
                     minecraft.toastManager.add(this.starterToast)
                     this.attachedToast = true
                 }
-                /*
-                drawScaledText(
-                    context = context,
-                    text = lang("ui.starter.chooseyourstarter", SummaryBinding.boundKey().localizedText),
-                    x = minecraft.window.scaledWidth / 2,
-                    y = 70,
-                    centered = true,
-                    shadow = true
-                )
-                 */
             }
-            return
-        }
-        if (this.starterToast.nextVisibility != Toast.Visibility.HIDE) {
-            this.starterToast.nextVisibility = Toast.Visibility.HIDE
+            return // Don't render the stuff below if no Pokémon in party
         }
 
         val totalHeight = party.slots.size * SLOT_HEIGHT

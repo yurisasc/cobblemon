@@ -23,11 +23,11 @@ class SprigatitoModel (root: ModelPart) : PosableModel(), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("sprigatito")
     override val head = getPart("head")
 
-    override val portraitScale = 2.1F
-    override val portraitTranslation = Vec3d(-0.35, -0.7, 0.0)
+    override var portraitScale = 2.1F
+    override var portraitTranslation = Vec3d(-0.35, -0.7, 0.0)
 
-    override val profileScale = 0.8F
-    override val profileTranslation = Vec3d(0.0, 0.53, 0.0)
+    override var profileScale = 0.8F
+    override var profileTranslation = Vec3d(0.0, 0.53, 0.0)
 
     lateinit var standing: Pose
     lateinit var walking: Pose

@@ -21,11 +21,11 @@ class MasquerainModel(root: ModelPart) : PosableModel(), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("masquerain")
     override val head = getPart("head")
 
-    override val portraitScale = 2.2F
-    override val portraitTranslation = Vec3d(-0.45, -1.0, 0.0)
+    override var portraitScale = 2.2F
+    override var portraitTranslation = Vec3d(-0.45, -1.0, 0.0)
 
-    override val profileScale = 0.6F
-    override val profileTranslation = Vec3d(0.0, 0.7, 0.0)
+    override var profileScale = 0.6F
+    override var profileTranslation = Vec3d(0.0, 0.7, 0.0)
 
     lateinit var walk: Pose
     lateinit var standing: Pose
