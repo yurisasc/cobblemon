@@ -12,6 +12,7 @@
 - Readjusted Petilil portraits
 - Changed "dimensions" spawn condition to check with dimension IDs instead of effects, so custom dimension IDs can be used.
 - Fossil Machine no longer stores a pokemon instance when the machine completes, instead the pokemon is generated when it is retrieved from the machine.
+- Made Mulch cheaper to craft.
 
 ### Fixes
 - Fixed a bug in which adding organic material to the restoration tank via right click was adding the full count of the stack currently in hand.
