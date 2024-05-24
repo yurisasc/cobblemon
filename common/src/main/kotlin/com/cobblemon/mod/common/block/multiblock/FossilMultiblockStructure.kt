@@ -166,11 +166,11 @@ class FossilMultiblockStructure (
 
         // Check if the player is holding a fossil and if so insert it into the machine.
         if (Fossils.isFossilIngredient(stack)) {
-            if(!this.isRunning() && !this.hasCreatedPokemon) {
+            if (!this.isRunning() && !this.hasCreatedPokemon) {
                 if (fossilInventory.size > Cobblemon.config.maxInsertedFossilItems) {
                     return ActionResult.FAIL
                 }
-                if(player is ServerPlayerEntity) {
+                if (player is ServerPlayerEntity) {
                     val copyFossilStack = stack.copyWithCount(1)
                     if (!player.isCreative) {
                         stack?.decrement(1)
