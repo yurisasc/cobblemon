@@ -30,9 +30,9 @@ class FishingBaitInfluence : SpawningInfluence {
         if (action !is PokemonSpawnAction || action.ctx !is FishingSpawningContext) return
         val bait = FishingBaits.getFromItemStack(action.ctx.baitStack) ?: return
 
-        bait.effects.forEach { effect ->
+        bait.effects.entries.forEach { (type, effect) ->
             if (Math.random() > effect.chance) return
-            when (effect.type) {
+            when (type) {
                 FishingBait.Effects.SHINY_REROLL -> shinyReroll(action, effect)
                 FishingBait.Effects.NATURE -> alterNatureAttempt(action, effect)
                 FishingBait.Effects.IV -> alterIVAttempt(action, effect)
@@ -57,6 +57,7 @@ class FishingBaitInfluence : SpawningInfluence {
 
     private fun alterNatureAttempt(action: PokemonSpawnAction, effect: FishingBait.Effect) {
         if (action.props.nature != null) return
+        if (effect.subcategory == null) return
 
         // TIMNOTE: This replaces the static lists. It's less performant because it's being reviewed every time,
         // but also it's not something that goes off too often.

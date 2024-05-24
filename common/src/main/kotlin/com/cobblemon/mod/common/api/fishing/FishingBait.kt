@@ -13,10 +13,9 @@ import net.minecraft.util.Identifier
 
 data class FishingBait(
     val item: Identifier,
-    val effects: List<Effect>,
+    val effects: Map<Identifier, Effect>,
 ) {
     data class Effect(
-        val type: Identifier,
         val subcategory: Identifier?,
         val chance: Double = 0.0,
         val value: Double = 0.0

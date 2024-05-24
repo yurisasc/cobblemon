@@ -1,11 +1,10 @@
 {
-    "item": "cobblemon:wepear_berry",
-    "effects": [
-      {
-        "type": "cobblemon:nature",
-        "chance": 0.25,
-        "value": 0.0,
-        "subcategory": "cobblemon:spd"
-      }
-    ]
+  "item": "cobblemon:wepear_berry",
+  "effects": {
+    "cobblemon:nature": {
+      "chance": 0.25,
+      "value": 0,
+      "subcategory": "cobblemon:spd"
+    }
   }
+}

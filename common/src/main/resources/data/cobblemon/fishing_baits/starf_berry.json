@@ -1,9 +1,8 @@
 {
-    "item": "cobblemon:starf_berry",
-    "effects": [
-      {
-        "type": "cobblemon:shiny_reroll",
-        "chance": 1.0
-      }
-    ]
+  "item": "cobblemon:starf_berry",
+  "effects": {
+    "cobblemon:shiny_reroll": {
+      "chance": 1
+    }
   }
+}

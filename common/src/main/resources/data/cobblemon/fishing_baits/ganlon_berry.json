@@ -1,11 +1,10 @@
 {
-    "item": "cobblemon:ganlon_berry",
-    "effects": [
-      {
-        "type": "cobblemon:iv",
-        "chance": 1.0,
-        "value": 3.0,
-        "subcategory": "cobblemon:def"
-      }
-    ]
+  "item": "cobblemon:ganlon_berry",
+  "effects": {
+    "cobblemon:iv": {
+      "chance": 1,
+      "value": 3,
+      "subcategory": "cobblemon:def"
+    }
   }
+}
