@@ -735,12 +735,6 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
             alterTeraAttempt(pokemon, bait)
         }
 
-        // check for shiny odds
-        if (checkShinyOdds(bait)) {
-            // try to alter the pokemon level based on the bait bonus
-            alterShinyAttempt(pokemon, bait)
-        }
-
         // check for HA
         if (checkHiddenAbilityOdds(bait)) {
             // try to alter the pokemon level based on the bait bonus
@@ -800,12 +794,6 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
     fun checkTeraType(stack: ItemStack): Boolean {
         val bait = FishingBaits.getFromItemStack(stack) ?: return false
         return bait.effects.any { it.type == FishingBait.Effects.TERA }
-    }
-
-    // function to return true of false if the given bait affects pokemon's shiny chance
-    fun checkShinyOdds(stack: ItemStack): Boolean {
-        val bait = FishingBaits.getFromItemStack(stack) ?: return false
-        return bait.effects.any { it.type == FishingBait.Effects.SHINY_REROLL }
     }
 
     // function to return true of false if the given bait affects pokemon's Hidden Ability
@@ -930,23 +918,6 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
         if (!checkBaitSuccessRate(effect.chance)) return
 
         pokemon.teraType = effect.subcategory?.let { TeraTypes.get(it.path) } ?: return
-    }
-
-    // try to reroll for a shiny based on the bait effect
-    fun alterShinyAttempt(pokemon: Pokemon, stack: ItemStack) {
-        val bait = FishingBaits.getFromItemStack(stack) ?: return
-        val effect = bait.effects.filter { it.type == FishingBait.Effects.SHINY_REROLL }.random()
-        if (!checkBaitSuccessRate(effect.chance)) return
-        if (!pokemon.shiny) {
-                //reroll for a shiny using shiny odds
-                val shinyOdds = 8192
-                val randomNumber = kotlin.random.Random.nextInt(0, shinyOdds + 1)
-
-                // Check if the random number indicates a shiny Pokemon
-                if (randomNumber <= (effect.value).toInt()) {
-                    pokemon.shiny = true
-                }
-            }
     }
 
     // check if the bite time is reduced based on the bait bonus
