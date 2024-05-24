@@ -22,6 +22,7 @@ import com.cobblemon.mod.common.api.spawning.influence.SpawningInfluence
 import com.cobblemon.mod.common.pokemon.Gender
 import com.cobblemon.mod.common.pokemon.IVs
 import com.cobblemon.mod.common.util.cobblemonResource
+import net.minecraft.util.Identifier
 import kotlin.math.min
 import kotlin.random.Random.Default.nextInt
 
@@ -69,13 +70,24 @@ class FishingBaitInfluence : SpawningInfluence {
     }
 
     private fun alterIVAttempt(action: PokemonSpawnAction, effect: FishingBait.Effect) {
-        if (effect.iv == null) return
+        val ivs = effect.ivs ?: return
+        val useAll = effect.useAll ?: return
 
-        if (action.props.ivs == null) action.props.ivs = IVs.createRandomIVs()
-        val targetedStat = Stats.getStat(effect.iv.path)
+        if (action.props.ivs == null) {
+            action.props.ivs = IVs.createRandomIVs()
+        }
 
-        action.props.ivs!![targetedStat] =
-            min((action.props.ivs!![targetedStat] ?: 0) + effect.value.toInt(), IVs.MAX_VALUE)
+        if (useAll) {
+            ivs.forEach { iv -> boostIv(iv, action, effect) }
+        } else {
+            boostIv(ivs.random(), action, effect)
+        }
+    }
+
+    private fun boostIv(iv: Identifier, action: PokemonSpawnAction, effect: FishingBait.Effect) {
+        val targetedStat = Stats.getStat(iv.path)
+        val currentIv = action.props.ivs!![targetedStat] ?: 0
+        action.props.ivs!![targetedStat] = min(currentIv + effect.value.toInt(), IVs.MAX_VALUE)
     }
 
     private fun alterGenderAttempt(action: PokemonSpawnAction, effect: FishingBait.Effect) {

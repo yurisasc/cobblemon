@@ -17,7 +17,8 @@ data class FishingBait(
 ) {
     data class Effect(
         val nature: Identifier?,
-        val iv: Identifier?,
+        val ivs: List<Identifier>?,
+        val useAll: Boolean?,
         val gender: Identifier?,
         val tera: Identifier?,
         val chance: Double = 0.0,
