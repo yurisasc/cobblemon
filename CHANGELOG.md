@@ -5,6 +5,7 @@
 ### Additions
 - Added unique send out particles for Cherish, Dream, Beast, and Ancient Origin balls.
 - Made Wooloo and Dubwool dye-able like sheep
+- Semi-implemented Smeargle. It's temporarily using the "color" feature. Spawn it with "/pokespawn smeargle color=(color)" or else you'll get the bald one.
 
 ### Changes
 - Sounds for Relic Coin Sacks have been correctly renamed. Relic Coin Pouches received new sounds for breaking and placing.
@@ -28,6 +29,9 @@
 - Fixed Pineco being unable to evolve into Shulker Forretress
 - Fixed Kabutops T-posing when underwater. It still does not have proper swimming animations yet though. 
 - Fixed Pidgey's missing walk animation.
+- Fixed Cyndaquil's hidden flames clipping if it was swimming.
+- Fixed Chimecho and Chingling being unable to spawn near bells.
+- Fixed Tyrantrum and Wailord Party Overlay models peeking through the chat box.
 - Fixed recoil evo condition.
 - Fixed issue where poser debug tools didnt work on JSON posers
 - Fixed issue where gilded chests dont close when going far away
