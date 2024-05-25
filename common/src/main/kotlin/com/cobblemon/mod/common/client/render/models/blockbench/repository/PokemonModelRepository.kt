@@ -82,7 +82,6 @@ object PokemonModelRepository : VaryingModelRepository<PokemonEntity, PokemonPos
         inbuilt("machop", ::MachopModel)
         inbuilt("machoke", ::MachokeModel)
         inbuilt("machamp", ::MachampModel)
-        inbuilt("aerodactyl", ::AerodactylModel)
         inbuilt("alakazam", ::AlakazamModel)
         inbuilt("arbok", ::ArbokModel)
         inbuilt("arcanine", ::ArcanineModel)
