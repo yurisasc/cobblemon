@@ -21,7 +21,7 @@ class TyrantrumModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
 
     override val head = getPart("head")
 
-    override var portraitTranslation = Vec3d(-0.86, 2.0, 0.0)
+    override var portraitTranslation = Vec3d(-0.86, 2.0, 5.0)
     override var portraitScale = 0.59F
 
     override var profileTranslation = Vec3d(0.02, 1.28, -10.0)
