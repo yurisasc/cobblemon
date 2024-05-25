@@ -6,17 +6,15 @@
     },
     {
       "type": "animation",
-      "animation": ["swordsdance", "status"],
-      "delay": 0.1
+      "animation": ["powder", "status", "cry"],
+      "delay": 1.15
     },
     {
       "type": "entity_particles",
-      "effect": "cobblemon:swordsdance_actor",
-      "locator": "middle"
-    },
-    {
-      "type": "pause",
-      "pause": 2.45
+      "entityCondition": "q.entity.is_user == false && q.missed(q.entity.uuid) == false",
+      "effect": "cobblemon:powder_particles",
+      "locator": "root",
+      "delay": 2
     },
     {
       "type": "remove_holds",
@@ -24,7 +22,7 @@
     },
     {
       "type": "pause",
-      "pause": 1.8
+      "pause": 1.75
     }
   ]
 }

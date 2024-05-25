@@ -22,18 +22,6 @@
             "pause": 1.8
         },
         {
-            "type": "entity_particles",
-            "effect": "cobblemon:stat_up_circles",
-            "locator": "middle",
-            "delay": 0.8
-          },
-          {
-            "type": "entity_particles",
-            "effect": "cobblemon:stat_up_lines",
-            "locator": "middle",
-            "delay": 0.8
-          },
-        {
             "type": "remove_holds",
             "holds": ["effects"]
         },
