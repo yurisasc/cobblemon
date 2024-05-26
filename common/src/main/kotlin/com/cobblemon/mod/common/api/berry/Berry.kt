@@ -162,7 +162,7 @@ class Berry(
         val bonus = this.bonusYield(world, state, pos)
         var yield = base + bonus.first
         val treeEntity = world.getBlockEntity(pos) as BerryBlockEntity
-        if (BerryBlock.getMulch(state) == MulchVariant.RICH) {
+        if (BerryBlock.getMulch(treeEntity) == MulchVariant.RICH) {
             //I hope the upper bound isnt exclusive, especially when there's a method called nextBetweenExclusive
             yield += world.random.nextBetween(1, 3)
             treeEntity.decrementMulchDuration(world, pos, state)
@@ -301,7 +301,8 @@ class Berry(
     private fun bonusYield(world: World, state: BlockState, pos: BlockPos): Pair<Int, Collection<GrowthFactor>> {
         var bonus = 0
         val passed = arrayListOf<GrowthFactor>()
-        val mulchVariant = BerryBlock.getMulch(state)
+        val treeEntity = world.getBlockEntity(pos) as? BerryBlockEntity ?: return 0 to passed
+        val mulchVariant = BerryBlock.getMulch(treeEntity)
         val hasBiomeMulch = mulchVariant in favoriteMulches
         this.growthFactors.forEach { factor ->
             if (factor.isValid(world, state, pos)) {

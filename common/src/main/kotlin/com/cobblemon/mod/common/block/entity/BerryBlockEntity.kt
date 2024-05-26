@@ -175,8 +175,8 @@ class BerryBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(Cobblemon
      * @param pos The position of the block
      */
     fun refreshTimers(pos: BlockPos) {
-        this.growthTimer = this.applyMulchModifier(pos, growthTimer)
-        this.stageTimer = this.applyMulchModifier(pos, stageTimer)
+        this.growthTimer = this.applyMulchModifier(pos, growthTimer, false)
+        this.stageTimer = this.applyMulchModifier(pos, stageTimer, false)
     }
 
     /**
