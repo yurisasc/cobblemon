@@ -37,6 +37,8 @@
 - Fixed Chimecho and Chingling being unable to spawn near bells.
 - Fixed Tyrantrum and Wailord Party Overlay models peeking through the chat box.
 - Fixed hitbox sizes for the Seedot, Nuzleaf, and Shiftry.
+- Fixed Budew and Lechonk sliding if they walked for too long. 
+- Fixed Shedinja T-posing in battle. 
 - Fixed recoil evo condition.
 - Fixed issue where poser debug tools didn't work on JSON posers.
 - Fixed issue where gilded chests don't close when going far away.
