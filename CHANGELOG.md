@@ -12,6 +12,7 @@
 - Readjusted Petilil portraits
 - Changed "dimensions" spawn condition to check with dimension IDs instead of effects, so custom dimension IDs can be used.
 - Fossil Machine no longer stores a pokemon instance when the machine completes, instead the pokemon is generated when it is retrieved from the machine.
+- Made Mulch cheaper to craft.
 
 ### Fixes
 - Fixed a bug in which adding organic material to the restoration tank via right click was adding the full count of the stack currently in hand.
@@ -44,6 +45,9 @@
 - Fixed addons that add very many moves to a learn-set syncing causing issues on servers.
 - Fixed Hyper Cutter and Big Peck incorrectly stating that it prevented accuracy from being lowered in battle
 - Added English lang keys for Rough Skin and Iron Barbs's battle messages
+- Fixed bug where sometimes pokemon sendouts wouldnt create an entity or the entity would spawn at 0 0 0
+- Fixed issue in which a locked Gilded Chest would animate to the open state when the client fails to open it  
+- Fixed a bug where aspects of a form would not be properly reflected on form changes (eg. Normal -> Hisui)
 
 ### Developer
 - Changed SpawnAction#complete to return a nullable generic R (the spawn action result) instead of a boolean. More information this way.
@@ -52,6 +56,14 @@
 ### Data Pack & Resource Pack Creators
 - Added support for MoLang conditions for quirks and poses.
 - Changed the AttackDefenceRatio requirement to StatCompare and StatEqual.
+- Added support for primary quirk animations using the following format:
+```JSON
+{
+  "quirks": [
+    "q.bedrock_primary_quirk('<pokemon>', '<animation>', <minSeconds>, <maxSeconds>, <loopTimes>, '<excludedLabels>', q.curve('<waveFunction>'))"
+  ]
+}
+```
 
 ## [1.5.0 - The Ruins and Revival Update (May 12th, 2024)](#1-5-0)
 #### "You're telling me that Mojang has added archaeology to the game? Hmm... that gives me an idea."
