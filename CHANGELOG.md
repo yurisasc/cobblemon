@@ -49,6 +49,7 @@
 - Fixed Hyper Cutter and Big Peck incorrectly stating that it prevented accuracy from being lowered in battle
 - Added English lang keys for Rough Skin and Iron Barbs's battle messages
 - Fixed bug where sometimes pokemon sendouts wouldnt create an entity or the entity would spawn at 0 0 0
+- Fixed a bug where aspects of a form would not be properly reflected on form changes (eg. Normal -> Hisui)
 - Fixed particle effects often not having access to some specific entity functions from MoLang.
 - Fixed particles sometimes lasting a single tick too long, causing (very quick) visual glitches.
 - Fixed particle rotations being inverted. 
