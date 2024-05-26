@@ -8,9 +8,11 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen4
 
+import com.cobblemon.mod.common.client.render.models.blockbench.createTransformation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.pose.ModelPartTransformation
 import com.cobblemon.mod.common.entity.PoseType
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
@@ -32,8 +34,10 @@ class DusknoirModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     lateinit var walk: PokemonPose
     lateinit var battleidle: PokemonPose
 
+    var spoopytail = getPart("tail")
+
     override fun registerPoses() {
-        val blink = quirk { bedrockStateful("dusknoir", "blink") }
+        //val blink = quirk { bedrockStateful("dusknoir", "blink") }
 
         sleep = registerPose(
             poseType = PoseType.SLEEP,
@@ -87,7 +91,6 @@ class DusknoirModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             idleAnimations = arrayOf(
                 bedrock("dusknoir", "battle_idle")
             )
-
         )
     }
 //

@@ -175,7 +175,7 @@
         {
           "id": "hisui_oshawott_dewott",
           "variant": "level_up",
-          "result": "dewott",
+          "result": "dewott region_bias=unova",
           "consumeHeldItem": false,
           "learnableMoves": [],
           "requirements": [
@@ -386,15 +386,7 @@
         },
         {
           "variant": "biome",
-          "biomeCondition": "#cobblemon:is_coast"
-        },
-        {
-          "variant": "biome",
-          "biomeCondition": "#cobblemon:is_snowy_beach"
-        },
-        {
-          "variant": "biome",
-          "biomeAnticondition": "#cobblemon:is_beach"
+          "biomeCondition": "#cobblemon:evolution/oshawott_dewott_hisui_bias"
         }
       ]
     }

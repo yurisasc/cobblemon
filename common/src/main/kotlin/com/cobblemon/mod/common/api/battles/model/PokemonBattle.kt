@@ -231,7 +231,7 @@ open class PokemonBattle(
                         val facedFainted = opponentPokemon.facedOpponents.contains(faintedPokemon)
                         val pokemon = opponentPokemon.effectedPokemon
                         if (facedFainted) {
-                            pokemon.evolutions.forEach { evolution ->
+                            pokemon.lockedEvolutions.forEach { evolution ->
                                 evolution.requirements.filterIsInstance<DefeatRequirement>().forEach { defeatRequirement ->
                                     if (defeatRequirement.target.matches(faintedPokemon.effectedPokemon)) {
                                         val progress = pokemon.evolutionProxy.current().progressFirstOrCreate({ it is DefeatEvolutionProgress && it.currentProgress().target == defeatRequirement.target }) { DefeatEvolutionProgress() }

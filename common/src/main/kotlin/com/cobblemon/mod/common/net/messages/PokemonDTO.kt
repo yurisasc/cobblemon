@@ -117,7 +117,7 @@ class PokemonDTO : Encodable, Decodable {
         this.featuresBuffer = PacketByteBuf(Unpooled.buffer())
         val visibleFeatures = pokemon.features
             .filterIsInstance<SynchronizedSpeciesFeature>()
-            .filter { (SpeciesFeatures.getFeature(it.name)!! as SynchronizedSpeciesFeatureProvider<*>).visible }
+            .filter { (SpeciesFeatures.getFeature(it.name) as? SynchronizedSpeciesFeatureProvider<*>)?.visible == true }
         featuresBuffer.writeCollection(visibleFeatures) { _, value ->
             featuresBuffer.writeString(value.name)
             value.encode(featuresBuffer)
@@ -269,6 +269,7 @@ class PokemonDTO : Encodable, Decodable {
                 val featureProviders = SpeciesFeatures
                     .getFeaturesFor(species)
                     .filterIsInstance<SynchronizedSpeciesFeatureProvider<*>>()
+                    .filter { it.visible }
                 val feature = featureProviders.firstNotNullOfOrNull { it(featuresBuffer, speciesFeatureName) }
                     ?: throw IllegalArgumentException("Couldn't find a feature provider to deserialize this feature. Something's wrong.")
                 it.features.removeIf { it.name == feature.name }

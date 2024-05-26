@@ -72,9 +72,7 @@
     "tm:substitute",
     "tm:takedown",
     "tm:terablast",
-    "tm:thief",
-    "tutor:astonish",
-    "tutor:tackle"
+    "tm:thief"
   ],
   "labels": [
     "gen9"
@@ -258,6 +256,7 @@
       },
       "catchRate": 45,
       "maleRatio": -1,
+      "baseExperienceYield": 0,
       "baseFriendship": 50,
       "behaviour": {
         "moving": {
@@ -279,6 +278,164 @@
           "light": "0-4"
         }
       },
+      "evolutions": [
+        {
+          "id": "gimmighoul_gholdengo",
+          "variant": "level_up",
+          "result": "gholdengo",
+          "consumeHeldItem": false,
+          "learnableMoves": [],
+          "requirements": [
+            {
+              "variant": "properties",
+              "target": "gimmighoul gimmighoul_coins=999"
+            }
+          ]
+        },
+        {
+          "id": "gimmighoul_gholdengo_netherite_1",
+          "variant": "level_up",
+          "result": "gholdengo netherite_coating=stage1",
+          "consumeHeldItem": false,
+          "learnableMoves": [],
+          "requirements": [
+            {
+              "variant": "properties",
+              "target": "gimmighoul gimmighoul_coins=999"
+            },
+            {
+              "variant": "property_range",
+              "range": "32-63",
+              "feature": "gimmighoul_netherite"
+            }
+          ]
+        },
+        {
+          "id": "gimmighoul_gholdengo_netherite_2",
+          "variant": "level_up",
+          "result": "gholdengo netherite_coating=stage2",
+          "consumeHeldItem": false,
+          "learnableMoves": [],
+          "requirements": [
+            {
+              "variant": "properties",
+              "target": "gimmighoul gimmighoul_coins=999"
+            },
+            {
+              "variant": "property_range",
+              "range": "64-95",
+              "feature": "gimmighoul_netherite"
+            }
+          ]
+        },
+        {
+          "id": "gimmighoul_gholdengo_netherite_3",
+          "variant": "level_up",
+          "result": "gholdengo netherite_coating=stage3",
+          "consumeHeldItem": false,
+          "learnableMoves": [],
+          "requirements": [
+            {
+              "variant": "properties",
+              "target": "gimmighoul gimmighoul_coins=999"
+            },
+            {
+              "variant": "property_range",
+              "range": "96-127",
+              "feature": "gimmighoul_netherite"
+            }
+          ]
+        },
+        {
+          "id": "gimmighoul_gholdengo_netherite_4",
+          "variant": "level_up",
+          "result": "gholdengo netherite_coating=stage4",
+          "consumeHeldItem": false,
+          "learnableMoves": [],
+          "requirements": [
+            {
+              "variant": "properties",
+              "target": "gimmighoul gimmighoul_coins=999"
+            },
+            {
+              "variant": "property_range",
+              "range": "128-159",
+              "feature": "gimmighoul_netherite"
+            }
+          ]
+        },
+        {
+          "id": "gimmighoul_gholdengo_netherite_5",
+          "variant": "level_up",
+          "result": "gholdengo netherite_coating=stage5",
+          "consumeHeldItem": false,
+          "learnableMoves": [],
+          "requirements": [
+            {
+              "variant": "properties",
+              "target": "gimmighoul gimmighoul_coins=999"
+            },
+            {
+              "variant": "property_range",
+              "range": "160-191",
+              "feature": "gimmighoul_netherite"
+            }
+          ]
+        },
+        {
+          "id": "gimmighoul_gholdengo_netherite_6",
+          "variant": "level_up",
+          "result": "gholdengo netherite_coating=stage6",
+          "consumeHeldItem": false,
+          "learnableMoves": [],
+          "requirements": [
+            {
+              "variant": "properties",
+              "target": "gimmighoul gimmighoul_coins=999"
+            },
+            {
+              "variant": "property_range",
+              "range": "192-223",
+              "feature": "gimmighoul_netherite"
+            }
+          ]
+        },
+        {
+          "id": "gimmighoul_gholdengo_netherite_7",
+          "variant": "level_up",
+          "result": "gholdengo netherite_coating=stage7",
+          "consumeHeldItem": false,
+          "learnableMoves": [],
+          "requirements": [
+            {
+              "variant": "properties",
+              "target": "gimmighoul gimmighoul_coins=999"
+            },
+            {
+              "variant": "property_range",
+              "range": "224-255",
+              "feature": "gimmighoul_netherite"
+            }
+          ]
+        },
+        {
+          "id": "gimmighoul_gholdengo_netherite_8",
+          "variant": "level_up",
+          "result": "gholdengo netherite_coating=full",
+          "consumeHeldItem": false,
+          "learnableMoves": [],
+          "requirements": [
+            {
+              "variant": "properties",
+              "target": "gimmighoul gimmighoul_coins=999"
+            },
+            {
+              "variant": "properties",
+              "target": "gimmighoul gimmighoul_netherite=256"
+            }
+          ]
+        }
+      ],
       "evYield": {
         "hp": 0,
         "attack": 0,

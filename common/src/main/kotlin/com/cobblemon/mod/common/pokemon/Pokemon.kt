@@ -426,6 +426,8 @@ open class Pokemon : ShowdownIdentifiable {
 
     // We want non-optional evolutions to trigger first to avoid unnecessary packets and any cost associate with an optional one that would just be lost
     val evolutions: Iterable<Evolution> get() = this.form.evolutions.sortedBy { evolution -> evolution.optional }
+    val lockedEvolutions: Iterable<Evolution>
+        get() = evolutions.filter { it !in evolutionProxy.current() }
 
     val preEvolution: PreEvolution? get() = this.form.preEvolution
 
@@ -470,7 +472,11 @@ open class Pokemon : ShowdownIdentifiable {
             SeasonFeatureHandler.updateSeason(this, level, position.toBlockPos())
             val entity = PokemonEntity(level, this)
             illusion?.start(entity)
-            entity.setPositionSafely(position)
+            val sentOut = entity.setPositionSafely(position)
+            //If sendout failed, fall back
+            if (!sentOut) {
+                entity.setPos(position.x, position.y, position.z)
+            }
             mutation(entity)
             level.spawnEntity(entity)
             state = SentOutState(entity)
@@ -1584,7 +1590,7 @@ open class Pokemon : ShowdownIdentifiable {
         }
     }
 
-    private val _form = SimpleObservable<FormData>()
+    private val _form = registerObservable(SimpleObservable<FormData>()) { FormUpdatePacket({ this }, it) }
     private val _species = registerObservable(SimpleObservable<Species>()) { SpeciesUpdatePacket({ this }, it) }
     private val _nickname = registerObservable(SimpleObservable<MutableText?>()) { NicknameUpdatePacket({ this }, it) }
     private val _experience = registerObservable(SimpleObservable<Int>()) { ExperienceUpdatePacket({ this }, it) }

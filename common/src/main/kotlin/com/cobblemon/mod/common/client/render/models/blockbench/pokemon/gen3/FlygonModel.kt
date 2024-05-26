@@ -13,6 +13,7 @@ import com.cobblemon.mod.common.client.render.models.blockbench.animation.WingFl
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BiWingedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.ModelPartTransformation
@@ -38,6 +39,8 @@ class FlygonModel (root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BiWin
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
     lateinit var hover: PokemonPose
+
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("flygon", "cry") }
 
     override fun registerPoses() {
         val blink = quirk { bedrockStateful("flygon", "blink") }

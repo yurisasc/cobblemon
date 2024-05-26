@@ -30,8 +30,8 @@ import net.minecraft.server.world.ServerWorld
  */
 interface SpawningContextCalculator<I : SpawningContextInput, O : SpawningContext> {
     companion object {
-        val isAirCondition: (BlockState) -> Boolean = { it.isAir || (!it.isSolid && !it.isLiquid) }
-        val isSolidCondition: (BlockState) -> Boolean = { it.isSolid && !it.isIn(BlockTags.LEAVES) }
+        val isAirCondition: (BlockState) -> Boolean = { it.isAir || (!it.isSolid && !it.fluidState.isIn(FluidTags.WATER)) }
+        val isSolidCondition: (BlockState) -> Boolean = { it.isSolid }
         val isWaterCondition: (BlockState) -> Boolean = { it.fluidState.isIn(FluidTags.WATER) && it.fluidState.isStill  }
         val isLavaCondition: (BlockState) -> Boolean = { it.fluidState.isIn(FluidTags.LAVA) && it.fluidState.isStill }
 
