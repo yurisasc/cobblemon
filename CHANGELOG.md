@@ -47,6 +47,7 @@
 - Added English lang keys for Rough Skin and Iron Barbs's battle messages
 - Fixed bug where sometimes pokemon sendouts wouldnt create an entity or the entity would spawn at 0 0 0
 - Fixed issue in which a locked Gilded Chest would animate to the open state when the client fails to open it  
+- Fixed a bug where aspects of a form would not be properly reflected on form changes (eg. Normal -> Hisui)
 
 ### Developer
 - Changed SpawnAction#complete to return a nullable generic R (the spawn action result) instead of a boolean. More information this way.
