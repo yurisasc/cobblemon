@@ -114,13 +114,13 @@ interface Evolution : EvolutionLike {
         } else {
             pokemonEntity.busyLocks.add("evolving")
             pokemonEntity.navigation.stop()
-            afterOnServer(seconds = 1F){
+            pokemonEntity.after(1F) {
                 evolutionAnimation(pokemonEntity)
             }
-            afterOnServer(seconds = 11.2F) {
+            pokemonEntity.after(11.2F) {
                 evolutionMethod(pokemon)
             }
-            afterOnServer ( seconds = 12F ) {
+            pokemonEntity.after( seconds = 12F ) {
                 cryAnimation(pokemonEntity)
                 pokemonEntity.busyLocks.remove("evolving")
             }
