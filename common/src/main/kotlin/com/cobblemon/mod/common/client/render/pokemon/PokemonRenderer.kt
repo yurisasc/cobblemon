@@ -16,6 +16,7 @@ import com.cobblemon.mod.common.client.entity.PokemonClientDelegate.Companion.BE
 import com.cobblemon.mod.common.client.entity.PokemonClientDelegate.Companion.BEAM_SHRINK_TIME
 import com.cobblemon.mod.common.client.keybind.boundKey
 import com.cobblemon.mod.common.client.keybind.keybinds.PartySendBinding
+import com.cobblemon.mod.common.client.render.layer.PokemonEvolutionFlashRenderLayer
 import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.repository.PokeBallModelRepository
@@ -61,6 +62,10 @@ class PokemonRenderer(
         fun ease(x: Double): Double {
             return 1 - (1 - x).pow(3)
         }
+    }
+
+    init {
+        addFeature(PokemonEvolutionFlashRenderLayer(this))
     }
 
     override fun getTexture(entity: PokemonEntity): Identifier {

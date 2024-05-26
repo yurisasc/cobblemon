@@ -23,6 +23,8 @@ import net.minecraft.entity.Entity
  */
 interface StatefulAnimation<T : Entity, F : ModelFrame> {
     val isTransform: Boolean
+    /** Whether or not the animation will resist being cleared when a primary animation is added. */
+    val enduresPrimaryAnimations: Boolean
     val duration: Float
     /** Runs the animation. You can check that the model fits a particular frame. Returns true if the animation should continue. */
     fun run(
