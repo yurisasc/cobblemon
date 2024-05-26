@@ -6,14 +6,14 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-package com.cobblemon.mod.common.pokemon.status.statuses.volatile
+package com.cobblemon.mod.common.pokemon.status.statuses.nonpersistent
 
 import com.cobblemon.mod.common.pokemon.status.VolatileStatus
 import com.cobblemon.mod.common.util.cobblemonResource
 
-class AttractStatus : VolatileStatus(
-    cobblemonResource("attract"),
-    "attract",
-    "cobblemon.battle.attract_start",
-    "cobblemon.battle.attract_snapped"
+class ConfuseStatus : VolatileStatus(
+    cobblemonResource("confusion"),
+    "confusion",
+    "cobblemon.battle.confusion_start",
+    "cobblemon.battle.confusion_snapped"
 )

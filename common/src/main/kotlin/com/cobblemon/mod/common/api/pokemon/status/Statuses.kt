@@ -16,13 +16,16 @@ import com.cobblemon.mod.common.pokemon.status.statuses.persistent.ParalysisStat
 import com.cobblemon.mod.common.pokemon.status.statuses.persistent.PoisonBadlyStatus
 import com.cobblemon.mod.common.pokemon.status.statuses.persistent.PoisonStatus
 import com.cobblemon.mod.common.pokemon.status.statuses.persistent.SleepStatus
-import com.cobblemon.mod.common.pokemon.status.statuses.volatile.ConfuseStatus
-import com.cobblemon.mod.common.pokemon.status.statuses.volatile.AttractStatus
+import com.cobblemon.mod.common.pokemon.status.statuses.nonpersistent.ConfuseStatus
+import com.cobblemon.mod.common.pokemon.status.statuses.nonpersistent.AttractStatus
 import net.minecraft.util.Identifier
 
 /**
  * Main API point for Statuses
  * Get or register Statuses
+ *
+ * NOTE: May seem weird to have so many things called volatile statuses but the package is called nonpersistent.
+ * Its because volatile is a reserved keyword in Java. Cant use it in a package name
  *
  * @author Deltric
  */
