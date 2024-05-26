@@ -103,7 +103,7 @@ class ActivateInstruction(val instructionSet: InstructionSet, val message: Battl
             }
             battle.broadcastChatMessage(lang)
             //We check holds here so the chat msg + particle effect happen more concurrently, instead of sequentially
-            UntilDispatch {"effects" !in holds}
+            UntilDispatch { "effects" !in holds}
         }
     }
 }
