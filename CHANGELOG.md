@@ -18,19 +18,19 @@
 - Made Mulch cheaper to craft.
 
 ### Fixes
-- Fixed a bug in which adding organic material to the fossil tank via right click was adding the full count of the stack currently in hand
+- Fixed a bug in which adding organic material to the restoration tank via right click was adding the full count of the stack currently in hand.
 - Fixed a niche issue where some properties of entities were not initialized correctly, causing Pokémon that appeared to be level 1 until you battle them.
 - Fixed Fossilized Drake being missing from the Fossils item tag.
-- Fixed Gilded Chest block entity not being cleared on block break
-- Fixed sherd brokenness on Forge/Supplementaries incompat
-- Fixed Fossil Compartment crash with Jade / WAILA forks
+- Fixed Gilded Chest block entity not being cleared on block break.
+- Fixed sherd brokenness on Forge/Supplementaries incompat.
+- Fixed Fossil Compartment crash with Jade / WAILA forks.
 - Fixed PCStore#resize not allowing PC boxes size reduction.
 - Fixed pasture block PC lookups when the player is offline.
 - Fixed an untranslated battle message that occurs when using a move that just ran out of PP (e.g. Fire Blast that just got spited mid-turn). 
 - Fixed held items being eaten even when the held item evolutions are already unlocked.
-- Fixed Hisuian Decidueye not being Grass/Fighting
-- Fixed both Decidueye forms learning both Triple Arrows and Spirit Shackle
-- Fixed Pineco being unable to evolve into Shulker Forretress
+- Fixed Hisuian Decidueye not being Grass/Fighting.
+- Fixed both Decidueye forms learning both Triple Arrows and Spirit Shackle.
+- Fixed Pineco being unable to evolve into Shulker Forretress.
 - Fixed Kabutops T-posing when underwater. It still does not have proper swimming animations yet though. 
 - Fixed Pidgey's missing walk animation.
 - Fixed Cyndaquil's hidden flames clipping if it was swimming.
@@ -55,6 +55,7 @@
 - Fixed particles sometimes lasting a single tick too long, causing (very quick) visual glitches.
 - Fixed particle rotations being inverted. 
 - Fixed particle events not spawning at the instigating particle's location.
+- Fixed a bunch of spam during world generation.
 
 ### Developer
 - Changed SpawnAction#complete to return a nullable generic R (the spawn action result) instead of a boolean. More information this way.
