@@ -4,7 +4,7 @@
 		"description": {
 			"identifier": "cobblemon:protect-shine",
 			"basic_render_parameters": {
-				"material": "particles_add",
+				"material": "particles_blend",
 				"texture": "textures/particles/protect-shine"
 			}
 		},
@@ -25,7 +25,11 @@
 			"minecraft:particle_motion_dynamic": {},
 			"minecraft:particle_appearance_billboard": {
 				"size": [1.25, 1.25],
-				"facing_camera_mode": "rotate_xyz",
+				"facing_camera_mode": "lookat_direction",
+				"direction": {
+					"mode": "custom",
+					"custom_direction": [-1, 0, 0]
+				},
 				"uv": {
 					"texture_width": 200,
 					"texture_height": 20,
