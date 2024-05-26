@@ -26,24 +26,24 @@ import net.minecraft.util.math.Box
 import net.minecraft.world.World
 
 class PCBlockEntity(
-    val blockPos: BlockPos,
-    val blockState: BlockState
+    blockPos: BlockPos,
+    blockState: BlockState
 ) : BlockEntity(CobblemonBlockEntities.PC, blockPos, blockState) {
 
     companion object {
         internal val TICKER = BlockEntityTicker<PCBlockEntity> { world, _, _, blockEntity ->
             if (world.isClient) return@BlockEntityTicker
 
-            blockEntity.togglePCOn(blockEntity.getInRangeViewerCount(world, blockEntity.blockPos) > 0)
+            blockEntity.togglePCOn(blockEntity.getInRangeViewerCount(world, blockEntity.pos) > 0)
         }
     }
 
     private fun togglePCOn(on: Boolean) {
-        val pcBlock = blockState.block as PCBlock
+        val pcBlock = cachedState.block as PCBlock
 
         if (world != null && !world!!.isClient) {
             val world = world!!
-            val posBottom = pcBlock.getBasePosition(blockState, blockPos)
+            val posBottom = pcBlock.getBasePosition(cachedState, pos)
             val stateBottom = world.getBlockState(posBottom)
 
             val posTop = pcBlock.getPositionOfOtherPart(stateBottom, posBottom)
@@ -71,7 +71,7 @@ class PCBlockEntity(
         val pcLink = PCLinkManager.getLink(player.uuid)
         return pcLink != null
                 && pcLink is ProximityPCLink
-                && pcLink.pos == blockPos
+                && pcLink.pos == pos
                 && pcLink.world!!.dimension == player.world.dimension
     }
 

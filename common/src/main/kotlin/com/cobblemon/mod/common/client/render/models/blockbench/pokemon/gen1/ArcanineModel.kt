@@ -19,6 +19,7 @@ import com.cobblemon.mod.common.entity.PoseType.Companion.STATIONARY_POSES
 import com.cobblemon.mod.common.entity.PoseType.Companion.UI_POSES
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
+
 class ArcanineModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, QuadrupedFrame {
     override val rootPart = root.registerChildWithAllChildren("arcanine")
     override val head = getPart("head")
@@ -37,7 +38,7 @@ class ArcanineModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quad
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
 
-    //override val cryAnimation = CryProvider { _, _ -> bedrockStateful("arcanine", "cry") }
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("arcanine", "cry") }
 
     override fun registerPoses() {
         val blink = quirk { bedrockStateful("arcanine", "blink") }

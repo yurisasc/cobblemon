@@ -11,9 +11,9 @@
             ],
             "type": "pokemon",
             "context": "surface",
-            "bucket": "common",
+            "bucket": "uncommon",
             "level": "38-50",
-            "weight": 0.02,
+            "weight": 0.2,
             "weightMultiplier": {
                 "multiplier": 1.5,
                 "condition": {
@@ -37,9 +37,9 @@
             ],
             "type": "pokemon",
             "context": "surface",
-            "bucket": "common",
+            "bucket": "uncommon",
             "level": "38-50",
-            "weight": 0.06,
+            "weight": 0.6,
             "weightMultiplier": {
                 "multiplier": 1.5,
                 "condition": {
@@ -63,9 +63,9 @@
             ],
             "type": "pokemon",
             "context": "surface",
-            "bucket": "common",
+            "bucket": "uncommon",
             "level": "38-50",
-            "weight": 0.06,
+            "weight": 0.6,
             "weightMultiplier": {
                 "multiplier": 1.5,
                 "condition": {

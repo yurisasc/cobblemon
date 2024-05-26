@@ -143,7 +143,9 @@
           "variant": "level_up",
           "result": "clodsire",
           "consumeHeldItem": false,
-          "learnableMoves": [],
+          "learnableMoves": [
+            "amnesia"
+          ],
           "requirements": [
             {
               "variant": "level",

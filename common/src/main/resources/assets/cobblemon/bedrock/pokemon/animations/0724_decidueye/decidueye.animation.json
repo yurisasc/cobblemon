@@ -679,6 +679,22 @@
 					"rotation": [63, 0, 0]
 				}
 			}
+		},
+		"animation.decidueye.cry": {
+			"animation_length": 1.33333,
+			"sound_effects": {
+				"0.04": {
+					"effect": "pokemon.decidueye.cry"
+				}
+			}
+		},
+		"animation.decidueye.hisuian_cry": {
+			"animation_length": 1.33333,
+			"sound_effects": {
+				"0.04": {
+					"effect": "pokemon.decidueye_hisuian.cry"
+				}
+			}
 		}
 	}
 }

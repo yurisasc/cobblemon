@@ -276,6 +276,9 @@ class PokemonClientDelegate : PoseableEntityState<PokemonEntity>(), PokemonSideD
             "weight" to java.util.function.Function {
                 return@Function DoubleValue(currentEntity.pokemon.species.weight.toDouble())
             },
+            "friendship" to java.util.function.Function {
+                return@Function DoubleValue(currentEntity.pokemon.friendship.toDouble())
+            },
             "evo_glow_time" to java.util.function.Function {
                 it.get<MoValue?>(0).asDouble().let { glowTime = (it * 20).toInt() }
                 return@Function DoubleValue(this.glowTime.toDouble())

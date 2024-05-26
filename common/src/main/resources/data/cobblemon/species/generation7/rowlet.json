@@ -175,7 +175,7 @@
         {
           "id": "hisui_rowlet_dartrix",
           "variant": "level_up",
-          "result": "dartrix",
+          "result": "dartrix region_bias=alola",
           "consumeHeldItem": false,
           "learnableMoves": [],
           "requirements": [
@@ -185,11 +185,7 @@
             },
             {
               "variant": "biome",
-              "biomeCondition": "#cobblemon:is_forest"
-            },
-            {
-              "variant": "biome",
-              "biomeCondition": "#cobblemon:is_taiga"
+              "biomeCondition": "#cobblemon:evolution/rowlet_dartrix_alolan"
             },
             {
               "variant": "biome",
@@ -388,11 +384,7 @@
         },
         {
           "variant": "biome",
-          "biomeCondition": "#cobblemon:is_snowy_forest"
-        },
-        {
-          "variant": "biome",
-          "biomeCondition": "#cobblemon:is_snowy_taiga"
+          "biomeCondition": "#cobblemon:evolution/rowlet_dartrix_hisui_bias"
         }
       ]
     }

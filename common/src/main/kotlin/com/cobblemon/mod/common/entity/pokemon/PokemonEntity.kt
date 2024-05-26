@@ -21,7 +21,9 @@ import com.cobblemon.mod.common.api.interaction.PokemonEntityInteraction
 import com.cobblemon.mod.common.api.net.serializers.PoseTypeDataSerializer
 import com.cobblemon.mod.common.api.net.serializers.StringSetDataSerializer
 import com.cobblemon.mod.common.api.pokemon.PokemonProperties
+import com.cobblemon.mod.common.api.pokemon.feature.ChoiceSpeciesFeatureProvider
 import com.cobblemon.mod.common.api.pokemon.feature.FlagSpeciesFeature
+import com.cobblemon.mod.common.api.pokemon.feature.StringSpeciesFeature
 import com.cobblemon.mod.common.api.pokemon.status.Statuses
 import com.cobblemon.mod.common.api.reactive.ObservableSubscription
 import com.cobblemon.mod.common.api.reactive.SimpleObservable
@@ -59,7 +61,6 @@ import com.cobblemon.mod.common.pokemon.evolution.variants.ItemInteractionEvolut
 import com.cobblemon.mod.common.pokemon.misc.GimmighoulStashHandler
 import com.cobblemon.mod.common.util.*
 import com.cobblemon.mod.common.world.gamerules.CobblemonGameRules
-import net.minecraft.block.Blocks
 import java.util.EnumSet
 import java.util.Optional
 import java.util.UUID
@@ -82,6 +83,7 @@ import net.minecraft.entity.passive.PassiveEntity
 import net.minecraft.entity.passive.TameableShoulderEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.fluid.FluidState
+import net.minecraft.item.DyeItem
 import net.minecraft.item.ItemStack
 import net.minecraft.item.ItemUsage
 import net.minecraft.item.Items
@@ -102,8 +104,11 @@ import net.minecraft.sound.SoundEvents
 import net.minecraft.text.Text
 import net.minecraft.text.TextContent
 import net.minecraft.util.ActionResult
+import net.minecraft.util.Colors
+import net.minecraft.util.DyeColor
 import net.minecraft.util.Hand
 import net.minecraft.util.Identifier
+import net.minecraft.util.Util
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Box
 import net.minecraft.util.math.Vec3d
@@ -136,6 +141,7 @@ open class PokemonEntity(
         @JvmStatic val UNBATTLEABLE = DataTracker.registerData(PokemonEntity::class.java, TrackedDataHandlerRegistry.BOOLEAN)
         @JvmStatic val COUNTS_TOWARDS_SPAWN_CAP = DataTracker.registerData(PokemonEntity::class.java, TrackedDataHandlerRegistry.BOOLEAN)
         @JvmStatic val SPAWN_DIRECTION = DataTracker.registerData(PokemonEntity::class.java, TrackedDataHandlerRegistry.FLOAT)
+        @JvmStatic val FRIENDSHIP = DataTracker.registerData(PokemonEntity::class.java, TrackedDataHandlerRegistry.INTEGER)
 
         const val BATTLE_LOCK = "battle"
 
@@ -181,6 +187,8 @@ open class PokemonEntity(
         set(value) = dataTracker.set(BATTLE_ID, Optional.ofNullable(value))
     val isBattling: Boolean
         get() = dataTracker.get(BATTLE_ID).isPresent
+    val friendship: Int
+        get() = dataTracker.get(FRIENDSHIP)
 
     var drops: DropTable? = null
 
@@ -246,7 +254,9 @@ open class PokemonEntity(
         dataTracker.startTracking(LABEL_LEVEL, 1)
         dataTracker.startTracking(HIDE_LABEL, false)
         dataTracker.startTracking(UNBATTLEABLE, false)
+        dataTracker.startTracking(COUNTS_TOWARDS_SPAWN_CAP, true)
         dataTracker.startTracking(SPAWN_DIRECTION, world.random.nextFloat() * 360F)
+        dataTracker.startTracking(FRIENDSHIP, 0)
     }
 
     override fun onTrackedDataSet(data: TrackedData<*>) {
@@ -281,9 +291,9 @@ open class PokemonEntity(
 //        val node = navigation.currentPath?.currentNode
 //        val targetPos = node?.blockPos
 //        if (targetPos == null || world.getBlockState(targetPos.up()).isAir) {
-        return if (state.isIn(FluidTags.WATER)) {
+        return if (state.isIn(FluidTags.WATER) && !isSubmergedIn(FluidTags.WATER)) {
             behaviour.moving.swim.canWalkOnWater
-        } else if (state.isIn(FluidTags.LAVA)) {
+        } else if (state.isIn(FluidTags.LAVA) && !isSubmergedIn(FluidTags.LAVA)) {
             behaviour.moving.swim.canWalkOnLava
         } else {
             super.canWalkOnFluid(state)
@@ -325,6 +335,21 @@ open class PokemonEntity(
         if (this.tethering != null && !this.tethering!!.box.contains(this.x, this.y, this.z)) {
             this.tethering = null
             this.pokemon.recall()
+        }
+        //This is so that pokemon in the pasture block are ALWAYS in sync with the pokemon box
+        //Before, pokemon entities in pastures would hold an old ref to a pokemon obj and changes to that would not appear to the underlying file
+        if (this.tethering != null) {
+            //Only for online players
+            if (world.getPlayerByUuid(ownerUuid) != null){
+                this.ownerUuid?.let {
+                    val actualPokemon = Cobblemon.storage.getPC(it)[this.pokemon.uuid]
+                    actualPokemon?.let {
+                        if (it !== pokemon) {
+                            pokemon = it
+                        }
+                    }
+                }
+            }
         }
 
         schedulingTracker.update(1/20F)
@@ -590,6 +615,7 @@ open class PokemonEntity(
 
     override fun interactMob(player: PlayerEntity, hand: Hand) : ActionResult {
         val itemStack = player.getStackInHand(hand)
+        val colorFeature = pokemon.getFeature<StringSpeciesFeature>(DataKeys.CAN_BE_COLORED)
 
         if (itemStack.isOf(Items.SHEARS) && this.isShearable) {
             this.sheared(SoundCategory.PLAYERS)
@@ -655,7 +681,6 @@ open class PokemonEntity(
                     pokemon.lastFlowerFed = ItemStack.EMPTY
                     return ActionResult.success(world.isClient)
                 }
-
                 else {
                     val mushroomStew = ItemUsage.exchangeStack(itemStack, player, Items.MUSHROOM_STEW.defaultStack)
                     player.setStackInHand(hand, mushroomStew)
@@ -695,6 +720,22 @@ open class PokemonEntity(
             if(GimmighoulStashHandler.interactMob(player, hand, pokemon)) {
                 return ActionResult.SUCCESS
             }
+        }
+        else if (itemStack.item is DyeItem && colorFeature != null) {
+            val item = itemStack.item as DyeItem
+            if (item.color.name.lowercase() != colorFeature.value.lowercase()) {
+                itemStack.decrement(1)
+                colorFeature.value = item.color.name.lowercase()
+                this.pokemon.markFeatureDirty(colorFeature)
+                this.pokemon.updateAspects()
+            }
+        }
+        else if (itemStack.item.equals(Items.WATER_BUCKET) && colorFeature != null) {
+            itemStack.decrement(1)
+            player.giveOrDropItemStack(Items.BUCKET.defaultStack)
+            colorFeature.value = ""
+            this.pokemon.markFeatureDirty(colorFeature)
+            this.pokemon.updateAspects()
         }
 
 
@@ -824,7 +865,7 @@ open class PokemonEntity(
         // Check evolution item interaction
         if (pokemon.getOwnerPlayer() == player) {
             val context = ItemInteractionEvolution.ItemInteractionContext(stack, player.world)
-            pokemon.evolutions
+            pokemon.lockedEvolutions
                 .filterIsInstance<ItemInteractionEvolution>()
                 .forEach { evolution ->
                     if (evolution.attemptEvolution(pokemon, context)) {
@@ -1122,8 +1163,26 @@ open class PokemonEntity(
         this.pokemon.markFeatureDirty(feature)
         this.pokemon.updateAspects()
         val i = this.random.nextInt(3) + 1
-        for (j in 0 until i) {
-            val itemEntity = this.dropItem(Items.WHITE_WOOL, 1) ?: return
+        for (j in 0 .. i) {
+            val color = this.pokemon.getFeature<StringSpeciesFeature>(DataKeys.CAN_BE_COLORED)?.value ?: "white"
+            val woolItem = when (color) {
+                "black" -> Items.BLACK_WOOL
+                "blue" -> Items.BLUE_WOOL
+                "brown" -> Items.BROWN_WOOL
+                "cyan" -> Items.CYAN_WOOL
+                "gray" -> Items.GRAY_WOOL
+                "green" -> Items.GREEN_WOOL
+                "light-blue" -> Items.LIGHT_BLUE_WOOL
+                "light-gray" -> Items.LIGHT_GRAY_WOOL
+                "lime" -> Items.LIME_WOOL
+                "magenta" -> Items.MAGENTA_WOOL
+                "orange" -> Items.ORANGE_WOOL
+                "purple" -> Items.PURPLE_WOOL
+                "red" -> Items.RED_WOOL
+                "yellow" -> Items.YELLOW_WOOL
+                else -> Items.WHITE_WOOL
+            }
+            val itemEntity =  this.dropItem(woolItem, 1) ?: return
             itemEntity.velocity = itemEntity.velocity.add(
                 ((this.random.nextFloat() - this.random.nextFloat()) * 0.1f).toDouble(),
                 (this.random.nextFloat() * 0.05f).toDouble(),
@@ -1136,6 +1195,8 @@ open class PokemonEntity(
         val feature = this.pokemon.getFeature<FlagSpeciesFeature>(DataKeys.HAS_BEEN_SHEARED) ?: return false
         return !this.isBusy && !this.pokemon.isFainted() && !feature.enabled
     }
+
+
 
     override fun canUsePortals() = false
 

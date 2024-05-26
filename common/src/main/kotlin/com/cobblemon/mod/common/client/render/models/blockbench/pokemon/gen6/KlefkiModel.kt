@@ -9,6 +9,7 @@
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen6
 
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cobblemon.mod.common.entity.PoseType
@@ -29,11 +30,13 @@ class KlefkiModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     lateinit var walk: PokemonPose
     lateinit var battleidle: PokemonPose
 
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("klefki", "cry") }
+
     override fun registerPoses() {
         val blink = quirk { bedrockStateful("klefki", "blink") }
         standing = registerPose(
                 poseName = "standing",
-                poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
+                poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES + PoseType.SLEEP,
                 quirks = arrayOf(blink),
                 condition = { !it.isBattling },
                 idleAnimations = arrayOf(
@@ -44,7 +47,7 @@ class KlefkiModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
 
         battleidle = registerPose(
                 poseName = "battle_idle",
-                poseTypes = PoseType.STATIONARY_POSES,
+                poseTypes = PoseType.STATIONARY_POSES + PoseType.SLEEP,
                 transformTicks = 10,
                 quirks = arrayOf(blink),
                 condition = { it.isBattling },

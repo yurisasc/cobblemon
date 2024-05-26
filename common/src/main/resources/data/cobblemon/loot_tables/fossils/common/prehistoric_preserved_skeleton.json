@@ -31,11 +31,6 @@
                 },
                 {
                     "type": "minecraft:item",
-                    "name": "minecraft:bone",
-                    "weight": 6
-                },
-                {
-                    "type": "minecraft:item",
                     "name": "cobblemon:big_root",
                     "weight": 6
                 },
