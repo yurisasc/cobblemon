@@ -62,6 +62,7 @@
 ### Developer
 - Changed SpawnAction#complete to return a nullable generic R (the spawn action result) instead of a boolean. More information this way.
 - Added an event when a fossil is revived, with or without a player.
+- Added IVS and EVS property extractors.
 
 ### Data Pack & Resource Pack Creators
 - Added support for MoLang conditions for quirks and poses.
@@ -76,6 +77,11 @@
   ]
 }
 ```
+
+### Localization
+- Updated translations for:
+  - Simplified and Traditional Chinese
+  - Spanish
 
 ## [1.5.0 - The Ruins and Revival Update (May 12th, 2024)](#1-5-0)
 #### "You're telling me that Mojang has added archaeology to the game? Hmm... that gives me an idea."
