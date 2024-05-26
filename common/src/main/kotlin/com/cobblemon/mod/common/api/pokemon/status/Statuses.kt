@@ -17,6 +17,7 @@ import com.cobblemon.mod.common.pokemon.status.statuses.persistent.PoisonBadlySt
 import com.cobblemon.mod.common.pokemon.status.statuses.persistent.PoisonStatus
 import com.cobblemon.mod.common.pokemon.status.statuses.persistent.SleepStatus
 import com.cobblemon.mod.common.pokemon.status.statuses.volatile.ConfuseStatus
+import com.cobblemon.mod.common.pokemon.status.statuses.volatile.AttractStatus
 import net.minecraft.util.Identifier
 
 /**
@@ -36,7 +37,7 @@ object Statuses {
     val SLEEP = registerStatus(SleepStatus())
     val FROZEN = registerStatus(FrozenStatus())
     val BURN = registerStatus(BurnStatus())
-
+    val ATTRACT = registerStatus(AttractStatus())
     val CONFUSE = registerStatus(ConfuseStatus())
 
 

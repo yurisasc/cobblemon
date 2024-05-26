@@ -6,15 +6,19 @@
     },
     {
       "type": "entity_particles",
-      "effect": "cobblemon:stat_down_circles",
-      "delay": 0.05,
-      "locator": "middle"
+      "effect": "cobblemon:sleep_bubbles",
+      "locator": "root",
+      "delay": 0.05
     },
     {
       "type": "entity_particles",
-      "effect": "cobblemon:stat_down_lines",
-      "delay": 0.05,
-      "locator": "middle"
+      "effect": "cobblemon:sleep_zzz",
+      "locator": "root",
+      "delay": 0.05
+    },
+    {
+      "type": "pause",
+      "pause": 1.0
     },
     {
       "type": "remove_holds",

@@ -638,6 +638,15 @@
       { "name": "cobblemon:attacks/impact_generic/impact_generic_fairy_8", "volume": 0.8 }
     ]
   },
+  "status.paralysis.actor": {
+    "sounds": [ { "name": "cobblemon:attacks/status/status_paralysis_actor", "volume": 0.8 } ]
+  },
+  "status.poison.actor": {
+    "sounds": [ { "name": "cobblemon:attacks/status/status_poison_actor", "volume": 0.8 } ]
+  },
+  "status.badlypoison.actor": {
+    "sounds": [ { "name": "cobblemon:attacks/status/status_toxpoison_actor", "volume": 0.8 } ]
+  },
   "pokemon.bulbasaur.ambient": {
     "sounds": [ "cobblemon:pokemon/bulbasaur/bulbasaur_ambient" ]
   },

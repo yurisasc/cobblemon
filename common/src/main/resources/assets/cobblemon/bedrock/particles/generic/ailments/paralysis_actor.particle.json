@@ -2,7 +2,7 @@
 	"format_version": "1.10.0",
 	"particle_effect": {
 		"description": {
-			"identifier": "cobblemon:paralysis_hit",
+			"identifier": "cobblemon:paralysis_actor",
 			"basic_render_parameters": {
 				"material": "particles_blend",
 				"texture": "textures/particles/paralysis-spark"
@@ -13,6 +13,9 @@
 				"particle_effect": {
 					"effect": "cobblemon:paralysis_hitresidual",
 					"type": "emitter"
+				},
+				"sound_effect": {
+					"event_name": "cobblemon:status.paralysis.actor"
 				}
 			}
 		},
@@ -28,7 +31,6 @@
 				"creation_event": "paraSparks"
 			},
 			"minecraft:emitter_shape_sphere": {
-				"offset": [0, 0, 0],
 				"radius": "math.clamp(q.entity_radius*0.9,0.7,1.5)",
 				"surface_only": true,
 				"direction": ["(math.random(-2,2))*math.random(2,4)", "math.random(12,15)", "(math.random(-2,2))*math.random(2,4)"]

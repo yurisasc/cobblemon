@@ -5,8 +5,12 @@
       "holds": ["effects"]
     },
     {
+      "type": "pause",
+      "pause": 1.0
+    },
+    {
       "type": "entity_particles",
-      "effect": "cobblemon:toxpoison_passive",
+      "effect": "cobblemon:toxpoison_actor",
       "locator": "target",
       "delay": 1.5
     },
