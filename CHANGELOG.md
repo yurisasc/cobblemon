@@ -6,6 +6,9 @@
 - Added unique send out particles for Cherish, Dream, Beast, and Ancient Origin balls.
 - Made Wooloo and Dubwool dye-able like sheep
 - Semi-implemented Smeargle. It's temporarily using the "color" feature. Spawn it with "/pokespawn smeargle color=(color)" or else you'll get the bald one.
+- More moves now have animations and particles! These include: Cotton Guard, Growl, Ice Punch, Fire Punch, Thunder Punch, Minimize, Quick Attack, Protect, Swords Dance, Sand Attack, Bubble Beam, Poison Powder, Sleep Powder, Stune Spore, and Rage Powder.
+- Added stat up and down particles.
+- Most status effects now have particles! These include: Paralysis, Poison, Sleep, Confusion, Infatuation.
 
 ### Changes
 - Sounds for Relic Coin Sacks have been correctly renamed. Relic Coin Pouches received new sounds for breaking and placing.
@@ -34,6 +37,8 @@
 - Fixed Chimecho and Chingling being unable to spawn near bells.
 - Fixed Tyrantrum and Wailord Party Overlay models peeking through the chat box.
 - Fixed hitbox sizes for the Seedot, Nuzleaf, and Shiftry.
+- Fixed Budew and Lechonk sliding if they walked for too long. 
+- Fixed Shedinja T-posing in battle. 
 - Fixed recoil evo condition.
 - Fixed issue where poser debug tools didn't work on JSON posers.
 - Fixed issue where gilded chests don't close when going far away.
@@ -48,15 +53,23 @@
 - Fixed bug where sometimes pokemon sendouts wouldn't create an entity or the entity would spawn at 0 0 0
 - Fixed issue in which a locked gilded chest would animate to the open state when the client fails to open it  
 - Fixed a bug where aspects of a form would not be properly reflected on form changes (eg. Normal -> Hisui)
-- Fixed a bug in which throwing a pokeball at a player owned pokemon with the ability Illusion would reveal its true species
+- Fixed particle effects often not having access to some specific entity functions from MoLang.
+- Fixed particles sometimes lasting a single tick too long, causing (very quick) visual glitches.
+- Fixed particle rotations being inverted. 
+- Fixed particle events not spawning at the instigating particle's location.
+- Fixed a bunch of spam during world generation.
+- Fixed a bug in which throwing a pokeball at a player owned pokemon with the ability Illusion would reveal its true species.
 
 ### Developer
 - Changed SpawnAction#complete to return a nullable generic R (the spawn action result) instead of a boolean. More information this way.
 - Added an event when a fossil is revived, with or without a player.
+- Added IVS and EVS property extractors.
 
 ### Data Pack & Resource Pack Creators
 - Added support for MoLang conditions for quirks and poses.
 - Changed the AttackDefenceRatio requirement to StatCompare and StatEqual.
+- Added parametric motion and rotation support to particle effects.
+- Added entity_scale as a molang var for particles (likely only applicable to Pokemon)
 - Added support for primary quirk animations using the following format:
 ```JSON
 {
@@ -65,6 +78,11 @@
   ]
 }
 ```
+
+### Localization
+- Updated translations for:
+  - Simplified and Traditional Chinese
+  - Spanish
 
 ## [1.5.0 - The Ruins and Revival Update (May 12th, 2024)](#1-5-0)
 #### "You're telling me that Mojang has added archaeology to the game? Hmm... that gives me an idea."

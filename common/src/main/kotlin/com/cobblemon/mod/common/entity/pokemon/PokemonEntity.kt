@@ -23,6 +23,7 @@ import com.cobblemon.mod.common.api.net.serializers.StringSetDataSerializer
 import com.cobblemon.mod.common.api.pokemon.PokemonProperties
 import com.cobblemon.mod.common.api.pokemon.feature.ChoiceSpeciesFeatureProvider
 import com.cobblemon.mod.common.api.pokemon.feature.FlagSpeciesFeature
+import com.cobblemon.mod.common.api.pokemon.feature.SpeciesFeatures
 import com.cobblemon.mod.common.api.pokemon.feature.StringSpeciesFeature
 import com.cobblemon.mod.common.api.pokemon.status.Statuses
 import com.cobblemon.mod.common.api.reactive.ObservableSubscription
@@ -615,6 +616,7 @@ open class PokemonEntity(
 
     override fun interactMob(player: PlayerEntity, hand: Hand) : ActionResult {
         val itemStack = player.getStackInHand(hand)
+        val colorFeatureType = SpeciesFeatures.getFeaturesFor(pokemon.species).find { it is ChoiceSpeciesFeatureProvider && DataKeys.CAN_BE_COLORED in it.keys }
         val colorFeature = pokemon.getFeature<StringSpeciesFeature>(DataKeys.CAN_BE_COLORED)
 
         if (itemStack.isOf(Items.SHEARS) && this.isShearable) {
@@ -721,13 +723,33 @@ open class PokemonEntity(
                 return ActionResult.SUCCESS
             }
         }
-        else if (itemStack.item is DyeItem && colorFeature != null) {
+        else if (itemStack.item is DyeItem && colorFeatureType != null) {
+            val currentColor = colorFeature?.value ?: "white"
             val item = itemStack.item as DyeItem
-            if (item.color.name.lowercase() != colorFeature.value.lowercase()) {
-                itemStack.decrement(1)
-                colorFeature.value = item.color.name.lowercase()
-                this.pokemon.markFeatureDirty(colorFeature)
-                this.pokemon.updateAspects()
+            if (!item.color.name.equals(currentColor, ignoreCase = true)) {
+
+                val applied = if (item.color.name.lowercase() == "white" && colorFeature != null) {
+                    this.pokemon.features.remove(colorFeature)
+                    this.pokemon.anyChangeObservable.emit(pokemon)
+                    true
+                } else if (colorFeature != null) {
+                    colorFeature.value = item.color.name.lowercase()
+                    this.pokemon.markFeatureDirty(colorFeature)
+                    true
+                } else if (item.color.name.lowercase() != "white") {
+                    val newColorFeature = StringSpeciesFeature(DataKeys.CAN_BE_COLORED, item.color.name.lowercase())
+                    this.pokemon.features.add(newColorFeature)
+                    true
+                } else {
+                    false
+                }
+
+                if (applied) {
+                    this.pokemon.updateAspects()
+                    if (!player.isCreative) {
+                        itemStack.decrement(1)
+                    }
+                }
             }
         }
         else if (itemStack.item.equals(Items.WATER_BUCKET) && colorFeature != null) {
