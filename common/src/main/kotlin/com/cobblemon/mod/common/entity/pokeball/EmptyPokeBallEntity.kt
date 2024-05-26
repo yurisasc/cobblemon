@@ -20,6 +20,7 @@ import com.cobblemon.mod.common.api.net.serializers.StringSetDataSerializer
 import com.cobblemon.mod.common.api.net.serializers.Vec3DataSerializer
 import com.cobblemon.mod.common.api.pokeball.PokeBalls
 import com.cobblemon.mod.common.api.pokeball.catching.CaptureContext
+import com.cobblemon.mod.common.api.pokemon.PokemonSpecies
 import com.cobblemon.mod.common.api.pokemon.status.Statuses
 import com.cobblemon.mod.common.api.reactive.SimpleObservable
 import com.cobblemon.mod.common.api.scheduling.Schedulable
@@ -57,6 +58,7 @@ import net.minecraft.network.packet.s2c.play.EntitySpawnS2CPacket
 import net.minecraft.particle.ParticleTypes
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.sound.SoundEvents
+import net.minecraft.util.Identifier
 import net.minecraft.util.hit.BlockHitResult
 import net.minecraft.util.hit.EntityHitResult
 import net.minecraft.util.hit.HitResult
@@ -189,7 +191,10 @@ class EmptyPokeBallEntity : ThrownItemEntity, Poseable, WaterDragModifier, Sched
                 val owner = owner
 
                 if (!pokemonEntity.pokemon.isWild()) {
-                    owner?.sendMessage(lang("capture.not_wild", pokemonEntity.pokemon.species.translatedName).red())
+                    val name = PokemonSpecies.getByIdentifier(
+                            Identifier((pokemonEntity.delegate as PokemonServerDelegate).entity.dataTracker.get(PokemonEntity.SPECIES)))?.translatedName
+                            ?: pokemonEntity.pokemon.species.translatedName
+                    owner?.sendMessage(lang("capture.not_wild", name).red())
                     return drop()
                 }
 
