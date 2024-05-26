@@ -191,10 +191,7 @@ class EmptyPokeBallEntity : ThrownItemEntity, Poseable, WaterDragModifier, Sched
                 val owner = owner
 
                 if (!pokemonEntity.pokemon.isWild()) {
-                    val name = PokemonSpecies.getByIdentifier(
-                            Identifier((pokemonEntity.delegate as PokemonServerDelegate).entity.dataTracker.get(PokemonEntity.SPECIES)))?.translatedName
-                            ?: pokemonEntity.pokemon.species.translatedName
-                    owner?.sendMessage(lang("capture.not_wild", name).red())
+                    owner?.sendMessage(lang("capture.not_wild", pokemonEntity.exposedSpecies.translatedName).red())
                     return drop()
                 }
 
@@ -209,7 +206,7 @@ class EmptyPokeBallEntity : ThrownItemEntity, Poseable, WaterDragModifier, Sched
                     val hitBattlePokemon = hitActor?.activePokemon?.find { it.battlePokemon?.effectedPokemon?.entity == pokemonEntity }
 
                     if (throwerActor == null) {
-                        owner.sendMessage(lang("capture.in_battle", pokemonEntity.pokemon.species.translatedName).red())
+                        owner.sendMessage(lang("capture.in_battle", pokemonEntity.exposedSpecies.translatedName).red())
                         return drop()
                     }
 
@@ -235,13 +232,13 @@ class EmptyPokeBallEntity : ThrownItemEntity, Poseable, WaterDragModifier, Sched
                             "capture.attempted_capture",
                             throwerActor.getName(),
                             pokeBall.item().name,
-                            pokemonEntity.pokemon.species.translatedName
+                            pokemonEntity.exposedSpecies.translatedName
                         ).yellow()
                     )
                     battle.sendUpdate(BattleCaptureStartPacket(pokeBall.name, aspects, hitBattlePokemon.getPNX()))
                     throwerActor.forceChoose(ForcePassActionResponse())
                 } else if (pokemonEntity.isBusy) {
-                    owner?.sendMessage(lang("capture.busy", pokemonEntity.pokemon.species.translatedName).red())
+                    owner?.sendMessage(lang("capture.busy", pokemonEntity.exposedSpecies.translatedName).red())
                     return drop()
                 } else if (owner is ServerPlayerEntity && BattleRegistry.getBattleByParticipatingPlayer(owner) != null) {
                     owner.sendMessage(lang("you_in_battle").red())
