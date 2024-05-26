@@ -9,12 +9,14 @@
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen5
 
 import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.pose.CobblemonPose
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.util.asExpressionLike
+import com.cobblemon.mod.common.util.isBattling
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class KrookodileModel (root: ModelPart) : PosableModel() {
+class KrookodileModel (root: ModelPart) : PosableModel(root) {
     override val rootPart = root.registerChildWithAllChildren("krookodile")
 
     override var portraitScale = 1.26F

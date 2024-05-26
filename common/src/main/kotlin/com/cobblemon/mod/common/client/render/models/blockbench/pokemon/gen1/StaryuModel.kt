@@ -15,7 +15,7 @@ import com.cobblemon.mod.common.entity.PoseType.Companion.UI_POSES
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class StaryuModel(root: ModelPart) : PosableModel() {
+class StaryuModel(root: ModelPart) : PosableModel(root) {
     override val rootPart = root.registerChildWithAllChildren("staryu")
 
     override var portraitScale = 2.2F

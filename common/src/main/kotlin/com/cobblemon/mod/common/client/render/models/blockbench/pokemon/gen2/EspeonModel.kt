@@ -18,7 +18,7 @@ import com.cobblemon.mod.common.entity.PoseType.Companion.UI_POSES
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class EspeonModel(root: ModelPart) : PosableModel(), HeadedFrame {
+class EspeonModel(root: ModelPart) : PosableModel(root), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("espeon")
     override val head = getPart("head")
 

@@ -15,7 +15,7 @@ import com.cobblemon.mod.common.entity.PoseType
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class VespiquenModel (root: ModelPart) : PosableModel() {
+class VespiquenModel (root: ModelPart) : PosableModel(root) {
     override val rootPart = root.registerChildWithAllChildren("vespiquen")
 
     override var portraitScale = 1.9F

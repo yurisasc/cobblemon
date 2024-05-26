@@ -8,15 +8,19 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen3
 
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.createTransformation
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
-import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.pose.CobblemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.ModelPartTransformation
 import com.cobblemon.mod.common.entity.PoseType
+import com.cobblemon.mod.common.util.isBattling
+import com.cobblemon.mod.common.util.isSubmergedInWater
+import com.cobblemon.mod.common.util.isTouchingWater
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class AnorithModel (root: ModelPart) : PosableModel() {
+class AnorithModel (root: ModelPart) : PosableModel(root) {
     override val rootPart = root.registerChildWithAllChildren("anorith")
 
     override var portraitTranslation = Vec3d(-0.14, -1.56, 0.0)
@@ -37,7 +41,7 @@ class AnorithModel (root: ModelPart) : PosableModel() {
     lateinit var water_surface_battleidle: CobblemonPose
     lateinit var water_battleidle: CobblemonPose
     lateinit var water_surface_swim: CobblemonPose
-    lateinit var water_swim:PokemonPose
+    lateinit var water_swim: CobblemonPose
     lateinit var shoulderLeft: CobblemonPose
     lateinit var shoulderRight: CobblemonPose
 

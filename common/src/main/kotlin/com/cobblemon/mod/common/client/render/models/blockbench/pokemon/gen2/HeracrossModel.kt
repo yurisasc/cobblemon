@@ -16,6 +16,7 @@ import com.cobblemon.mod.common.client.render.models.blockbench.createTransforma
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BiWingedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BimanualFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
+import com.cobblemon.mod.common.client.render.models.blockbench.pose.CobblemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.ModelPartTransformation
 import com.cobblemon.mod.common.client.render.models.blockbench.wavefunction.sineFunction
 import com.cobblemon.mod.common.entity.PoseType
@@ -23,7 +24,7 @@ import com.cobblemon.mod.common.util.math.geometry.toRadians
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class HeracrossModel (root: ModelPart) : PosableModel(), BipedFrame, BimanualFrame, BiWingedFrame {
+class HeracrossModel (root: ModelPart) : PosableModel(root), BipedFrame, BimanualFrame, BiWingedFrame {
     override val rootPart = root.registerChildWithAllChildren("heracross")
 
     override val leftArm = getPart("arm_right")
@@ -43,7 +44,7 @@ class HeracrossModel (root: ModelPart) : PosableModel(), BipedFrame, BimanualFra
     lateinit var standing: CobblemonPose
     lateinit var walk: CobblemonPose
     lateinit var hovering: CobblemonPose
-    lateinit var flying:PokemonPose
+    lateinit var flying: CobblemonPose
 
 
     override fun registerPoses() {

@@ -9,15 +9,16 @@
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen4
 
 import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
-import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableState
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
+import com.cobblemon.mod.common.client.render.models.blockbench.pose.CobblemonPose
 import com.cobblemon.mod.common.entity.PoseType
-import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
+import com.cobblemon.mod.common.util.isBattling
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class RampardosModel (root: ModelPart) : PosableModel(), HeadedFrame {
+class RampardosModel (root: ModelPart) : PosableModel(root), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("rampardos")
     override val head = getPart("neck2")
 
@@ -82,8 +83,5 @@ class RampardosModel (root: ModelPart) : PosableModel(), HeadedFrame {
         )
     }
 
-    override fun getFaintAnimation(
-        pokemonEntity: PokemonEntity,
-        state: PoseableEntityState<PokemonEntity>
-    ) = bedrockStateful("rampardos", "faint")
+    override fun getFaintAnimation(state: PosableState) = bedrockStateful("rampardos", "faint")
 }

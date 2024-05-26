@@ -15,7 +15,8 @@ import com.cobblemon.mod.common.client.render.models.blockbench.pokeball.PokeBal
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.Bone
 import com.cobblemon.mod.common.entity.pokeball.EmptyPokeBallEntity
 
-object PokeBallModelRepository : VaryingModelRepository() {
+object PokeBallModelRepository : VaryingModelRepository<PosableModel>() {
+    override val poserClass = PosableModel::class.java
     override val title = "Poké Ball"
     override val type = "poke_balls"
     override val variationDirectories: List<String> = listOf("bedrock/$type/variations")
@@ -25,10 +26,6 @@ object PokeBallModelRepository : VaryingModelRepository() {
     override val isForLivingEntityRenderer = false
 
     override val fallback = PokeBalls.POKE_BALL.name
-
-    override fun loadJsonPoser(json: String): (Bone) -> PosableModel {
-        TODO("Not yet implemented")
-    }
 
     override fun registerInBuiltPosers() {
         inbuilt("azure_ball", ::PokeBallModel)

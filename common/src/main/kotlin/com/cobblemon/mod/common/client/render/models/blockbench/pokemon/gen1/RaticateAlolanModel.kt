@@ -24,7 +24,7 @@ import com.cobblemon.mod.common.util.math.geometry.toRadians
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class RaticateAlolanModel(root: ModelPart) : PosableModel(), HeadedFrame, EaredFrame {
+class RaticateAlolanModel(root: ModelPart) : PosableModel(root), HeadedFrame, EaredFrame {
     override val rootPart = root.registerChildWithAllChildren("raticate_alolan")
     override val head = getPart("head")
     override val leftEarJoint: EarJoint = EarJoint(getPart("ear_left"), Z_AXIS, RangeOfMotion(0F.toRadians(), -20F.toRadians()))

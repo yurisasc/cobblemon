@@ -8,20 +8,19 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen9
 
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableState
 import com.cobblemon.mod.common.client.render.models.blockbench.createTransformation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
-import com.cobblemon.mod.common.client.render.models.blockbench.pose.Pose
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.ModelPartTransformation
+import com.cobblemon.mod.common.client.render.models.blockbench.pose.Pose
 import com.cobblemon.mod.common.entity.PoseType
-import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
-import com.cobblemon.mod.common.client.render.models.blockbench.PosableState
-import com.cobblemon.mod.common.client.render.models.blockbench.repository.RenderContext
-import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
+import com.cobblemon.mod.common.util.isTouchingWater
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class WalkingwakeModel (root: ModelPart) : PosableModel(), HeadedFrame, BipedFrame {
+class WalkingwakeModel (root: ModelPart) : PosableModel(root), HeadedFrame, BipedFrame {
     override val rootPart = root.registerChildWithAllChildren("walkingwake")
     override val head = getPart("head")
 
@@ -58,7 +57,7 @@ class WalkingwakeModel (root: ModelPart) : PosableModel(), HeadedFrame, BipedFra
             poseName = "standing",
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
             quirks = arrayOf(blink),
-            condition = { it.entity?.isTouchingWater == false },
+            condition = { !it.isTouchingWater },
             /*          condition = { !it.containsAspect(DataKeys.HAS_BEEN_SHEARED).get() },
                         transformedParts = arrayOf(
                             hair.asTransformed().withVisibility(visibility = true)
@@ -73,7 +72,7 @@ class WalkingwakeModel (root: ModelPart) : PosableModel(), HeadedFrame, BipedFra
             poseName = "waterstanding",
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
             quirks = arrayOf(blink),
-            condition = { it.entity?.isTouchingWater == true },
+            condition = { it.isTouchingWater },
             /*          condition = { !it.containsAspect(DataKeys.HAS_BEEN_SHEARED).get() },
                         transformedParts = arrayOf(
                             hair.asTransformed().withVisibility(visibility = true)
@@ -91,7 +90,7 @@ class WalkingwakeModel (root: ModelPart) : PosableModel(), HeadedFrame, BipedFra
             poseName = "walk",
             poseTypes = PoseType.MOVING_POSES,
             quirks = arrayOf(blink),
-            condition = { it.entity?.isTouchingWater == false },
+            condition = { !it.isTouchingWater },
             /*          condition = { !it.containsAspect(DataKeys.HAS_BEEN_SHEARED).get() },
                         transformedParts = arrayOf(
                             hair.asTransformed().withVisibility(visibility = true)
@@ -106,7 +105,7 @@ class WalkingwakeModel (root: ModelPart) : PosableModel(), HeadedFrame, BipedFra
             poseName = "waterwalk",
             poseTypes = PoseType.MOVING_POSES,
             quirks = arrayOf(blink),
-            condition = { it.entity?.isTouchingWater == true },
+            condition = { it.isTouchingWater },
             /*          condition = { !it.containsAspect(DataKeys.HAS_BEEN_SHEARED).get() },
                         transformedParts = arrayOf(
                             hair.asTransformed().withVisibility(visibility = true)

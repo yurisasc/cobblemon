@@ -20,7 +20,7 @@ import com.cobblemon.mod.common.entity.PoseType
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class TurtwigModel (root: ModelPart) : PosableModel(), HeadedFrame, QuadrupedFrame {
+class TurtwigModel (root: ModelPart) : PosableModel(root), HeadedFrame, QuadrupedFrame {
     override val rootPart = root.registerChildWithAllChildren("turtwig")
     override val head = getPart("head")
     override val hindLeftLeg = getPart("leg_back_left")

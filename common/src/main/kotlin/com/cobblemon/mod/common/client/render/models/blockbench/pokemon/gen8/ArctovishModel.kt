@@ -8,14 +8,16 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen8
 
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
-import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.pose.CobblemonPose
 import com.cobblemon.mod.common.entity.PoseType
+import com.cobblemon.mod.common.util.isTouchingWater
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class ArctovishModel (root: ModelPart) : PosableModel(), HeadedFrame {
+class ArctovishModel (root: ModelPart) : PosableModel(root), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("arctovish")
     override val head = getPart("head")
 
@@ -34,9 +36,9 @@ class ArctovishModel (root: ModelPart) : PosableModel(), HeadedFrame {
     lateinit var battleidle: CobblemonPose
     lateinit var ui_poses: CobblemonPose
 
-    override val cryAnimation = CryProvider { _, pose ->
+    override val cryAnimation = CryProvider {
         when {
-            pose.isPosedIn(float, swim ) -> bedrockStateful("arctovish", "water_cry")
+            it.isPosedIn(float, swim ) -> bedrockStateful("arctovish", "water_cry")
             else -> bedrockStateful("arctovish", "cry")
         }
     }

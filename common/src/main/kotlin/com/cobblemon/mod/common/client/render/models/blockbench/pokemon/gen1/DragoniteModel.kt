@@ -13,10 +13,13 @@ import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFram
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.CobblemonPose
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.PoseType.Companion.UI_POSES
+import com.cobblemon.mod.common.util.isBattling
+import com.cobblemon.mod.common.util.isSubmergedInWater
+import com.cobblemon.mod.common.util.isTouchingWater
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class DragoniteModel(root: ModelPart) : PosableModel(), HeadedFrame {
+class DragoniteModel(root: ModelPart) : PosableModel(root), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("dragonite")
     override val head = getPart("head")
 

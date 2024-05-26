@@ -18,7 +18,7 @@ import com.cobblemon.mod.common.entity.PoseType.Companion.UI_POSES
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class BounsweetModel(root: ModelPart) : PosableModel(), BipedFrame {
+class BounsweetModel(root: ModelPart) : PosableModel(root), BipedFrame {
     override val rootPart = root.registerChildWithAllChildren("bounsweet")
 
     override val leftLeg = getPart("left_foot")

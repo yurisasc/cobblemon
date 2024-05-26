@@ -18,10 +18,11 @@ import com.cobblemon.mod.common.entity.PoseType.Companion.MOVING_POSES
 import com.cobblemon.mod.common.entity.PoseType.Companion.STATIONARY_POSES
 import com.cobblemon.mod.common.entity.PoseType.Companion.UI_POSES
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
+import com.cobblemon.mod.common.util.isBattling
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class HitmonleeModel(root: ModelPart) : PosableModel(), BipedFrame, BimanualFrame {
+class HitmonleeModel(root: ModelPart) : PosableModel(root), BipedFrame, BimanualFrame {
     override val rootPart = root.registerChildWithAllChildren("hitmonlee")
 
     override val leftArm = getPart("arm_left")
@@ -52,7 +53,7 @@ class HitmonleeModel(root: ModelPart) : PosableModel(), BipedFrame, BimanualFram
             poseName = "standing",
             poseTypes = STATIONARY_POSES + UI_POSES,
             transformTicks = 5,
-            condition = { (it.entity as? PokemonEntity)?.isBattling == false },
+            condition = { !it.isBattling },
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 bedrock("hitmonlee", "ground_idle")
@@ -74,7 +75,7 @@ class HitmonleeModel(root: ModelPart) : PosableModel(), BipedFrame, BimanualFram
             poseTypes = PoseType.STATIONARY_POSES,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            condition = { (it.entity as? PokemonEntity)?.isBattling == true },
+            condition = { it.isBattling },
             idleAnimations = arrayOf(
                 bedrock("hitmonlee", "battle_idle")
             )

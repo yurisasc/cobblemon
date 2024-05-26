@@ -18,7 +18,7 @@ import com.cobblemon.mod.common.entity.PoseType.Companion.UI_POSES
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class ProbopassModel(root: ModelPart) : PosableModel() {
+class ProbopassModel(root: ModelPart) : PosableModel(root) {
     override val rootPart = root.registerChildWithAllChildren("probopass")
 
     override var portraitScale = 1F

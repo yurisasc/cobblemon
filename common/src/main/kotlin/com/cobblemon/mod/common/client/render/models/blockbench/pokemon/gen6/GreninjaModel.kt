@@ -8,6 +8,8 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen6
 
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableState
 import com.cobblemon.mod.common.client.render.models.blockbench.createTransformation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BimanualFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
@@ -15,14 +17,12 @@ import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFram
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.Pose
 import com.cobblemon.mod.common.entity.PoseType
-import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
-import com.cobblemon.mod.common.client.render.models.blockbench.PosableState
-import com.cobblemon.mod.common.client.render.models.blockbench.repository.RenderContext
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
+import com.cobblemon.mod.common.util.isBattling
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class GreninjaModel(root: ModelPart) : PosableModel(), HeadedFrame, BipedFrame, BimanualFrame {
+class GreninjaModel(root: ModelPart) : PosableModel(root), HeadedFrame, BipedFrame, BimanualFrame {
     override val rootPart = root.registerChildWithAllChildren("greninja")
     override val head = getPart("head")
     override val rightArm = getPart("arm_right")
@@ -64,7 +64,7 @@ class GreninjaModel(root: ModelPart) : PosableModel(), HeadedFrame, BipedFrame, 
             poseTypes = PoseType.UI_POSES + PoseType.STATIONARY_POSES - PoseType.FLOAT,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            condition = { (it.entity as? PokemonEntity)?.isBattling == false },
+            condition = { !it.isBattling },
             transformedParts = arrayOf(
                 shurikenleft.createTransformation().withVisibility(visibility = false),
                 shurikenright.createTransformation().withVisibility(visibility = false)
@@ -95,7 +95,7 @@ class GreninjaModel(root: ModelPart) : PosableModel(), HeadedFrame, BipedFrame, 
             poseTypes = setOf(PoseType.FLOAT, PoseType.HOVER),
             transformTicks = 10,
             quirks = arrayOf(blink),
-            condition = { (it.entity as? PokemonEntity)?.isBattling == false },
+            condition = { !it.isBattling },
             transformedParts = arrayOf(
                 shurikenleft.createTransformation().withVisibility(visibility = false),
                 shurikenright.createTransformation().withVisibility(visibility = false)
@@ -111,7 +111,7 @@ class GreninjaModel(root: ModelPart) : PosableModel(), HeadedFrame, BipedFrame, 
             poseTypes = setOf(PoseType.SWIM, PoseType.FLY),
             transformTicks = 10,
             quirks = arrayOf(blink),
-            condition = { (it.entity as? PokemonEntity)?.isBattling == false },
+            condition = { !it.isBattling },
             transformedParts = arrayOf(
                 shurikenleft.createTransformation().withVisibility(visibility = false),
                 shurikenright.createTransformation().withVisibility(visibility = false)
@@ -127,7 +127,7 @@ class GreninjaModel(root: ModelPart) : PosableModel(), HeadedFrame, BipedFrame, 
             poseTypes = PoseType.STATIONARY_POSES,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            condition = { (it.entity as? PokemonEntity)?.isBattling == true },
+            condition = { it.isBattling },
             transformedParts = arrayOf(
                 shurikenleft.createTransformation().withVisibility(visibility = false),
                 shurikenright.createTransformation().withVisibility(visibility = false)

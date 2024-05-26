@@ -36,7 +36,7 @@ class PrimaryAnimation(
           }
     },
     val excludedLabels: Set<String> = emptySet(),
-    override val isTransform: Boolean = false
+    override var isTransform: Boolean = false
 ): StatefulAnimation {
     var started = -1F
     override val duration: Float = animation.duration

@@ -19,7 +19,7 @@ import com.cobblemon.mod.common.entity.PoseType.Companion.UI_POSES
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class GravelerModel(root: ModelPart) : PosableModel(), BipedFrame {
+class GravelerModel(root: ModelPart) : PosableModel(root), BipedFrame {
     override val rootPart = root.registerChildWithAllChildren("graveler")
 
     override val leftLeg = getPart("leg_left")

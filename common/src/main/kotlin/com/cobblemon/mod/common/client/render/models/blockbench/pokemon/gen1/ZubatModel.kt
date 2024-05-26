@@ -17,7 +17,7 @@ import com.cobblemon.mod.common.entity.PoseType
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class ZubatModel(root: ModelPart) : PosableModel() {
+class ZubatModel(root: ModelPart) : PosableModel(root) {
     override val rootPart = root.registerChildWithAllChildren("zubat")
 
     val wings_folded = getPart("wings_folded")

@@ -16,7 +16,7 @@ import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.pokeball.EmptyPokeBallEntity
 import net.minecraft.client.model.ModelPart
 
-open class PokeBallModel(root: ModelPart) : PosableModel(), PokeBallFrame {
+open class PokeBallModel(root: ModelPart) : PosableModel(root), PokeBallFrame {
     override val rootPart = root.registerChildWithAllChildren("poke_ball")
     override val base = getPart("bottom")
     override val lid = getPart("lid")
@@ -30,7 +30,7 @@ open class PokeBallModel(root: ModelPart) : PosableModel(), PokeBallFrame {
         midair = registerPose(
             poseName = "flying",
             poseTypes = setOf(PoseType.NONE),
-            condition = { (it.request(RenderContext.ENTITY) as? EmptyPokeBallEntity)?.captureState == EmptyPokeBallEntity.CaptureState.NOT },
+            condition = { (it.getEntity() as? EmptyPokeBallEntity)?.captureState == EmptyPokeBallEntity.CaptureState.NOT },
             transformTicks = 0,
             idleAnimations = arrayOf(bedrock("poke_ball", "throw"))
         )

@@ -13,11 +13,13 @@ import com.cobblemon.mod.common.client.render.models.blockbench.frame.BimanualFr
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
+import com.cobblemon.mod.common.client.render.models.blockbench.pose.CobblemonPose
 import com.cobblemon.mod.common.entity.PoseType
+import com.cobblemon.mod.common.util.isBattling
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class GarchompModel(root: ModelPart) : PosableModel(), HeadedFrame, BipedFrame, BimanualFrame {
+class GarchompModel(root: ModelPart) : PosableModel(root), HeadedFrame, BipedFrame, BimanualFrame {
     override val rootPart = root.registerChildWithAllChildren("garchomp")
     override val head = getPart("head")
     override val rightArm = getPart("arm_right")
@@ -50,8 +52,8 @@ class GarchompModel(root: ModelPart) : PosableModel(), HeadedFrame, BipedFrame, 
             quirks = arrayOf(blink),
             condition = { !it.isBattling },
             idleAnimations = arrayOf(
-                    singleBoneLook(),
-                    bedrock("garchomp", "ground_idle")
+                singleBoneLook(),
+                bedrock("garchomp", "ground_idle")
             )
         )
 
@@ -61,9 +63,9 @@ class GarchompModel(root: ModelPart) : PosableModel(), HeadedFrame, BipedFrame, 
             transformTicks = 5,
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
-                    singleBoneLook(),
-                    bedrock("garchomp", "ground_idle"),
-                    bedrock("garchomp", "ground_run")
+                singleBoneLook(),
+                bedrock("garchomp", "ground_idle"),
+                bedrock("garchomp", "ground_run")
             )
         )
 
@@ -73,8 +75,8 @@ class GarchompModel(root: ModelPart) : PosableModel(), HeadedFrame, BipedFrame, 
             transformTicks = 10,
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
-                    singleBoneLook(),
-                    bedrock("garchomp", "air_idle")
+                singleBoneLook(),
+                bedrock("garchomp", "air_idle")
             )
         )
 
@@ -84,8 +86,8 @@ class GarchompModel(root: ModelPart) : PosableModel(), HeadedFrame, BipedFrame, 
             transformTicks = 10,
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
-                    singleBoneLook(),
-                    bedrock("garchomp", "air_idle")
+                singleBoneLook(),
+                bedrock("garchomp", "air_idle")
             )
         )
 

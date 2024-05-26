@@ -14,10 +14,11 @@ import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvi
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.Pose
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
+import com.cobblemon.mod.common.util.isBattling
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class ShedinjaModel (root: ModelPart) : PosableModel() {
+class ShedinjaModel(root: ModelPart) : PosableModel(root) {
     override val rootPart = root.registerChildWithAllChildren("shedinja")
 
     override var portraitScale = 1.8F
@@ -47,7 +48,6 @@ class ShedinjaModel (root: ModelPart) : PosableModel() {
             poseName = "standing",
             poseTypes = PoseType.UI_POSES + PoseType.STAND,
             transformTicks = 10,
-            condition = { (it.entity as? PokemonEntity)?.isBattling == false },
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 bedrock("shedinja", "ground_idle")

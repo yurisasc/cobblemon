@@ -19,7 +19,7 @@ import com.cobblemon.mod.common.entity.PoseType.Companion.UI_POSES
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class MankeyModel(root: ModelPart) : PosableModel() {
+class MankeyModel(root: ModelPart) : PosableModel(root) {
     override val rootPart = root.registerChildWithAllChildren("mankey")
 
     override var portraitScale = 1.72F

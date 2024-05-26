@@ -10,11 +10,13 @@ package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1
 
 import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
+import com.cobblemon.mod.common.client.render.models.blockbench.pose.CobblemonPose
 import com.cobblemon.mod.common.entity.PoseType
+import com.cobblemon.mod.common.util.isBattling
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class OmanyteModel(root: ModelPart) : PosableModel() {
+class OmanyteModel(root: ModelPart) : PosableModel(root) {
     override val rootPart = root.registerChildWithAllChildren("omanyte")
 
     override var portraitScale = 3.15F

@@ -21,7 +21,7 @@ import com.cobblemon.mod.common.entity.PoseType.Companion.UI_POSES
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class IvysaurModel(root: ModelPart) : PosableModel(), HeadedFrame, QuadrupedFrame {
+class IvysaurModel(root: ModelPart) : PosableModel(root), HeadedFrame, QuadrupedFrame {
     override val rootPart = root.registerChildWithAllChildren("ivysaur")
     override val head = getPart("head")
     override val foreLeftLeg= getPart("leg_front_left")

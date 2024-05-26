@@ -9,11 +9,13 @@
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen5
 
 import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.pose.CobblemonPose
 import com.cobblemon.mod.common.entity.PoseType
+import com.cobblemon.mod.common.util.isBattling
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class FerroseedModel (root: ModelPart) : PosableModel() {
+class FerroseedModel (root: ModelPart) : PosableModel(root) {
     override val rootPart = root.registerChildWithAllChildren("ferroseed")
 
     override var portraitScale = 1.8F

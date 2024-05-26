@@ -15,10 +15,11 @@ import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvi
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.Pose
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
+import com.cobblemon.mod.common.util.isBattling
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class BoldoreModel (root: ModelPart) : PosableModel(), BipedFrame {
+class BoldoreModel (root: ModelPart) : PosableModel(root), BipedFrame {
     override val rootPart = root.registerChildWithAllChildren("boldore")
     override val leftLeg = getPart("leg_left")
     override val rightLeg = getPart("leg_right")
@@ -46,7 +47,7 @@ class BoldoreModel (root: ModelPart) : PosableModel(), BipedFrame {
             poseName = "standing",
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
             transformTicks = 10,
-            condition = { (it.entity as? PokemonEntity)?.isBattling == false },
+            condition = { !it.isBattling },
             idleAnimations = arrayOf(
                 bedrock("boldore", "ground_idle")
             )
@@ -65,7 +66,7 @@ class BoldoreModel (root: ModelPart) : PosableModel(), BipedFrame {
             poseName = "battle_idle",
             poseTypes = PoseType.STATIONARY_POSES,
             transformTicks = 10,
-            condition = { (it.entity as? PokemonEntity)?.isBattling == true },
+            condition = { it.isBattling },
             idleAnimations = arrayOf(
                 bedrock("boldore", "battle_idle")
             )

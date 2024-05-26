@@ -19,7 +19,7 @@ import com.cobblemon.mod.common.entity.PoseType.Companion.UI_POSES
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class ClefableModel(root: ModelPart) : PosableModel() {
+class ClefableModel(root: ModelPart) : PosableModel(root) {
     override val rootPart = root.registerChildWithAllChildren("clefable")
 
     override var portraitScale = 2.0F

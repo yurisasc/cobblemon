@@ -17,7 +17,7 @@ import com.cobblemon.mod.common.entity.PoseType.Companion.UI_POSES
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class WigglytuffModel(root: ModelPart) : PosableModel() {
+class WigglytuffModel(root: ModelPart) : PosableModel(root) {
     override val rootPart = root.registerChildWithAllChildren("wigglytuff")
 
     override var portraitScale = 1.8F

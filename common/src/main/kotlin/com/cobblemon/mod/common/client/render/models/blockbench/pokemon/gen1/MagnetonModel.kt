@@ -15,7 +15,7 @@ import com.cobblemon.mod.common.entity.PoseType
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class MagnetonModel(root: ModelPart) : PosableModel() {
+class MagnetonModel(root: ModelPart) : PosableModel(root) {
     override val rootPart = root.registerChildWithAllChildren("magneton")
 
     override var portraitScale = 1.2F

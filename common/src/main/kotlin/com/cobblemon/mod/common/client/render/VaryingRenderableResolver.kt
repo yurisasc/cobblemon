@@ -29,12 +29,12 @@ import org.joml.Vector4f
  * @author Hiroku
  * @since May 14th, 2022
  */
-class VaryingRenderableResolver(
+class VaryingRenderableResolver<T : PosableModel>(
     val name: Identifier,
     val variations: MutableList<ModelAssetVariation>
 ) {
-    lateinit var repository: VaryingModelRepository
-    val posers = mutableMapOf<Pair<Identifier, Identifier>, PosableModel>()
+    lateinit var repository: VaryingModelRepository<T>
+    val posers = mutableMapOf<Pair<Identifier, Identifier>, T>()
     val models = mutableMapOf<Identifier, Bone>()
 
     fun getResolvedPoser(aspects: Set<String>): Identifier {
@@ -91,7 +91,7 @@ class VaryingRenderableResolver(
             .create()
     }
 
-    fun initialize(repository: VaryingModelRepository) {
+    fun initialize(repository: VaryingModelRepository<T>) {
         this.repository = repository
         posers.clear()
         getAllModels().forEach { identifier ->
@@ -103,7 +103,7 @@ class VaryingRenderableResolver(
         }
     }
 
-    fun getPoser(aspects: Set<String>): PosableModel {
+    fun getPoser(aspects: Set<String>): T {
         val poserName = getResolvedPoser(aspects)
         val poserSupplier = repository.posers[poserName] ?: throw IllegalStateException("No poser found for name: $poserName for $name")
         val modelName = getResolvedModel(aspects)

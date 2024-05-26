@@ -16,7 +16,7 @@ import com.cobblemon.mod.common.entity.PoseType.Companion.UI_POSES
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class PoliwagModel(root: ModelPart) : PosableModel() {
+class PoliwagModel(root: ModelPart) : PosableModel(root) {
     override val rootPart = root.registerChildWithAllChildren("poliwag")
 
     override var portraitScale = 1.8F

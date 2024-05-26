@@ -19,7 +19,7 @@ import com.cobblemon.mod.common.entity.PoseType.Companion.UI_POSES
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class FarfetchdGalarianModel(root: ModelPart) : PosableModel(), HeadedFrame, BipedFrame {
+class FarfetchdGalarianModel(root: ModelPart) : PosableModel(root), HeadedFrame, BipedFrame {
     override val rootPart = root.registerChildWithAllChildren("farfetchd")
     override val head = getPart("neck")
 

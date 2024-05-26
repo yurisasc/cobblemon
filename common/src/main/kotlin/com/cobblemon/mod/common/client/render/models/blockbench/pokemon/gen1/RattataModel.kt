@@ -23,7 +23,7 @@ import com.cobblemon.mod.common.util.math.geometry.toRadians
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class RattataModel(root: ModelPart) : PosableModel(), HeadedFrame, QuadrupedFrame, EaredFrame {
+class RattataModel(root: ModelPart) : PosableModel(root), HeadedFrame, QuadrupedFrame, EaredFrame {
     override val rootPart = root.registerChildWithAllChildren("rattata")
     override val foreLeftLeg= getPart("leg_front_left")
     override val foreRightLeg = getPart("leg_front_right")

@@ -20,7 +20,7 @@ import com.cobblemon.mod.common.entity.PoseType.Companion.UI_POSES
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class LopunnyModel(root: ModelPart) : PosableModel(), HeadedFrame, BipedFrame {
+class LopunnyModel(root: ModelPart) : PosableModel(root), HeadedFrame, BipedFrame {
     override val rootPart = root.registerChildWithAllChildren("lopunny")
     override val head = getPart("head")
 

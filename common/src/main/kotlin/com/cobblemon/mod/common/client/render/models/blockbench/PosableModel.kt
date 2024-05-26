@@ -45,6 +45,7 @@ import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.util.asExpressionLike
 import com.cobblemon.mod.common.util.getDoubleOrNull
 import com.cobblemon.mod.common.util.getStringOrNull
+import com.cobblemon.mod.common.util.plus
 import net.minecraft.client.model.ModelPart
 import net.minecraft.client.render.RenderLayer
 import net.minecraft.client.render.RenderPhase
@@ -58,13 +59,17 @@ import net.minecraft.util.Identifier
 import net.minecraft.util.math.RotationAxis
 import net.minecraft.util.math.Vec3d
 
-abstract class PosableModel: ModelFrame {
-    val context: RenderContext = RenderContext()
+open class PosableModel(@Transient override val rootPart: Bone) : ModelFrame {
+    @Transient
+    lateinit var context: RenderContext
 
     /** Whether the renderer that will process this is going to do the weird -1.5 Y offset bullshit that the living entity renderer does. */
+    @Transient
     open var isForLivingEntityRenderer = true
 
-    val poses = mutableMapOf<String, Pose>()
+    var poses = mutableMapOf<String, Pose>()
+
+    @Transient
     lateinit var locatorAccess: LocatorAccess
 
     open var portraitScale = 1F
@@ -77,6 +82,14 @@ abstract class PosableModel: ModelFrame {
     var green = 1F
     var blue = 1F
     var alpha = 1F
+
+    val animations = mutableMapOf<String, ExpressionLike>()
+    val quirks = mutableListOf<ModelQuirk<*>>()
+    open fun getFaintAnimation(state: PosableState): StatefulAnimation? = null
+    open fun getEatAnimation(state: PosableState): StatefulAnimation? = null
+
+    @Transient
+    open val cryAnimation: CryProvider = CryProvider { null }
 
     @Transient
     var currentLayers: Iterable<ModelLayer> = listOf()
@@ -91,9 +104,12 @@ abstract class PosableModel: ModelFrame {
      * A list of [ModelPartTransformation] that record the original
      * This allows the original rotations to be reset.
      */
+    @Transient
     val defaultPositions = mutableListOf<ModelPartTransformation>()
 
+    @Transient
     val relevantParts = mutableListOf<ModelPart>()
+    @Transient
     val relevantPartsByName = mutableMapOf<String, ModelPart>()
 
     @Transient
@@ -132,7 +148,13 @@ abstract class PosableModel: ModelFrame {
                 excludedLabels.add(label)
             }
 
-            return@addFunction ObjectValue(PrimaryAnimation(animation = anim, excludedLabels = excludedLabels, curve = curve))
+            return@addFunction ObjectValue(
+                PrimaryAnimation(
+                    animation = anim,
+                    excludedLabels = excludedLabels,
+                    curve = curve
+                )
+            )
         }
         .addFunction("bedrock_stateful") { params ->
             val group = params.getString(0)
@@ -230,7 +252,11 @@ abstract class PosableModel: ModelFrame {
 
             ObjectValue(
                 WingFlapIdleAnimation(
-                    rotation = sineFunction(verticalShift = verticalShift.toFloat(), period = period.toFloat(), amplitude = amplitude.toFloat()),
+                    rotation = sineFunction(
+                        verticalShift = verticalShift.toFloat(),
+                        period = period.toFloat(),
+                        amplitude = amplitude.toFloat()
+                    ),
                     axis = axisIndex,
                     leftWing = this.getPart(wingLeft),
                     rightWing = this.getPart(wingRight)
@@ -239,7 +265,9 @@ abstract class PosableModel: ModelFrame {
         }
         .addFunction("bedrock_quirk") { params ->
             val animationGroup = params.getString(0)
-            val animationNames = params.get<MoValue>(1)?.let { if (it is ArrayStruct) it.map.values.map { it.asString() } else listOf(it.asString()) } ?: listOf()
+            val animationNames = params.get<MoValue>(1)
+                ?.let { if (it is ArrayStruct) it.map.values.map { it.asString() } else listOf(it.asString()) }
+                ?: listOf()
             val minSeconds = params.getDoubleOrNull(2) ?: 8F
             val maxSeconds = params.getDoubleOrNull(3) ?: 30F
             val loopTimes = params.getDoubleOrNull(4)?.toInt() ?: 1
@@ -256,10 +284,8 @@ abstract class PosableModel: ModelFrame {
     @Transient
     val runtime = MoLangRuntime().setup().setupClient().also { it.environment.getQueryStruct().addFunctions(functions.functions) }
 
-    val animations = mutableMapOf<String, ExpressionLike>()
-
     /** Registers the different poses this model is capable of ahead of time. Should use [registerPose] religiously. */
-    abstract fun registerPoses()
+    open fun registerPoses() {}
 
     fun getAnimation(state: PosableState, name: String, runtime: MoLangRuntime): StatefulAnimation? {
         val entity = state.getEntity()
@@ -279,11 +305,6 @@ abstract class PosableModel: ModelFrame {
             }
         return animation
     }
-
-    open fun getFaintAnimation(state: PosableState): StatefulAnimation? = null
-    open fun getEatAnimation(state: PosableState): StatefulAnimation? = null
-
-    open val cryAnimation: CryProvider = CryProvider { null }
 
     /**
      * Animation group : animation name [: primary]
@@ -306,7 +327,11 @@ abstract class PosableModel: ModelFrame {
         }
     }
 
-    private fun resolveFromAnimationMap(map: Map<String, ExpressionLike>, name: String, runtime: MoLangRuntime): StatefulAnimation? {
+    private fun resolveFromAnimationMap(
+        map: Map<String, ExpressionLike>,
+        name: String,
+        runtime: MoLangRuntime
+    ): StatefulAnimation? {
         val animationExpression = map[name] ?: return null
         return try {
             animationExpression.resolveObject(runtime).obj as StatefulAnimation
@@ -350,7 +375,7 @@ abstract class PosableModel: ModelFrame {
      */
     fun registerPose(
         poseType: PoseType,
-        condition: ((RenderContext) -> Boolean)? = null,
+        condition: ((PosableState) -> Boolean)? = null,
         transformTicks: Int = 10,
         animations: MutableMap<String, ExpressionLike> = mutableMapOf(),
         onTransitionedInto: (PosableState) -> Unit = {},
@@ -376,7 +401,7 @@ abstract class PosableModel: ModelFrame {
     fun registerPose(
         poseName: String,
         poseTypes: Set<PoseType>,
-        condition: ((RenderContext) -> Boolean)? = null,
+        condition: ((PosableState) -> Boolean)? = null,
         transformTicks: Int = 10,
         animations: MutableMap<String, ExpressionLike> = mutableMapOf(),
         onTransitionedInto: (PosableState) -> Unit = {},
@@ -402,7 +427,7 @@ abstract class PosableModel: ModelFrame {
     fun registerPose(
         poseName: String,
         poseType: PoseType,
-        condition: ((RenderContext) -> Boolean)? = null,
+        condition: ((PosableState) -> Boolean)? = null,
         transformTicks: Int = 10,
         animations: MutableMap<String, ExpressionLike> = mutableMapOf(),
         onTransitionedInto: (PosableState) -> Unit = {},
@@ -595,8 +620,6 @@ abstract class PosableModel: ModelFrame {
     /** Puts the model back to its original location and rotations. */
     fun setDefault() = defaultPositions.forEach { it.set() }
 
-    val quirks = mutableListOf<ModelQuirk<*>>()
-
     fun setupAnimStateful(
         entity: Entity?,
         state: PosableState,
@@ -616,16 +639,26 @@ abstract class PosableModel: ModelFrame {
         var pose = poseName?.let { getPose(it) }
         val entityPoseType = if (entity is Poseable) entity.getCurrentPoseType() else null
 
-        if (entity != null && (poseName == null || pose == null || !pose.isSuitable(context) || entityPoseType !in pose.poseTypes)) {
+        if (entity != null && (poseName == null || pose == null || !pose.isSuitable(state) || entityPoseType !in pose.poseTypes)) {
             val desirablePose = poses.values.firstOrNull {
-                (entityPoseType == null || entityPoseType in it.poseTypes) && it.isSuitable(context)
+                (entityPoseType == null || entityPoseType in it.poseTypes) && it.isSuitable(state)
             }
-                ?: Pose("none", setOf(PoseType.NONE), null, {}, 0, mutableMapOf(), emptyArray(), emptyArray(), emptyArray())
+                ?: Pose(
+                    "none",
+                    setOf(PoseType.NONE),
+                    null,
+                    {},
+                    0,
+                    mutableMapOf(),
+                    emptyArray(),
+                    emptyArray(),
+                    emptyArray()
+                )
 
             // If this condition matches then it just no longer fits this pose
             if (pose != null && poseName != null) {
                 if (state.primaryAnimation == null) {
-                    moveToPose(context, state, desirablePose)
+                    moveToPose(state, desirablePose)
                 }
             } else {
                 pose = desirablePose
@@ -633,7 +666,9 @@ abstract class PosableModel: ModelFrame {
                 state.setPose(poseName)
             }
         } else {
-            poseName = poseName ?: poses.values.first().poseName
+            poseName = poseName ?: poses.values.firstOrNull()?.poseName ?: run {
+                throw IllegalStateException("Pokemon has no poses: ${this::class.simpleName}")
+            }
         }
 
         val currentPose = getPose(poseName)
@@ -651,8 +686,21 @@ abstract class PosableModel: ModelFrame {
         }
 
         if (primaryAnimation != null) {
-            state.primaryOverridePortion = 1 - primaryAnimation.curve((state.animationSeconds - primaryAnimation.started) / primaryAnimation.duration)
-            if (!primaryAnimation.run(context, this, state, limbSwing, limbSwingAmount, ageInTicks, headYaw, headPitch, 1 - state.primaryOverridePortion)) {
+            state.primaryOverridePortion =
+                1 - primaryAnimation.curve((state.animationSeconds - primaryAnimation.started) / primaryAnimation.duration)
+            if (!primaryAnimation.run(
+                    context,
+                    this,
+                    state,
+                    limbSwing,
+                    limbSwingAmount,
+                    ageInTicks,
+                    headYaw,
+                    headPitch,
+                    1 - state.primaryOverridePortion
+                )
+            ) {
+                primaryAnimation.afterAction.accept(Unit)
                 state.primaryAnimation = null
                 state.primaryOverridePortion = 1F
             }
@@ -669,7 +717,7 @@ abstract class PosableModel: ModelFrame {
     //This is used to set additional entity type specific context
     open fun setupEntityTypeContext(entity: Entity?) {}
 
-    fun moveToPose(context: RenderContext, state: PosableState, desirablePose: Pose) {
+    fun moveToPose(state: PosableState, desirablePose: Pose) {
         val previousPose = state.getPose()?.let { getPose(it) } ?: run {
             return state.setPose(desirablePose.poseName)
         }
@@ -688,21 +736,26 @@ abstract class PosableModel: ModelFrame {
                     curve = { 1F }
                 )
                 state.addPrimaryAnimation(primaryAnimation)
-                afterOnClient(seconds = primaryAnimation.duration) {
+                primaryAnimation.afterAction += {
                     state.setPose(desirablePose.poseName)
                     if (state.primaryAnimation == primaryAnimation) {
                         state.primaryAnimation = null
                     }
                 }
             } else if (transition != null) {
-                val animation = transition(previousPose, desirablePose)
-                val primaryAnimation = PrimaryAnimation(animation, curve = { 1F })
-                state.addPrimaryAnimation(primaryAnimation)
-                afterOnClient(seconds = primaryAnimation.duration) {
+                var animation = transition(previousPose, desirablePose)
+                if (animation !is PrimaryAnimation) {
+                    animation = PrimaryAnimation(animation, curve = { 1F })
+                }
+                animation.isTransform = true
+                state.addPrimaryAnimation(animation)
+                animation.afterAction += {
                     state.setPose(desirablePose.poseName)
                 }
             } else {
-                state.setPose(poses.values.first { desirablePoseType in it.poseTypes && (it.condition == null || it.condition.invoke(context)) }.poseName)
+                state.setPose(poses.values.first {
+                    desirablePoseType in it.poseTypes && (it.condition == null || it.condition.invoke(state))
+                }.poseName)
             }
         }
     }
@@ -719,7 +772,8 @@ abstract class PosableModel: ModelFrame {
             matrixStack.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(180 - entity.bodyYaw))
             matrixStack.push()
             matrixStack.scale(-1F, -1F, 1F)
-            val scale = entity.pokemon.form.baseScale * entity.pokemon.scaleModifier * (entity.delegate as PokemonClientDelegate).entityScaleModifier
+            val scale =
+                entity.pokemon.form.baseScale * entity.pokemon.scaleModifier * (entity.delegate as PokemonClientDelegate).entityScaleModifier
             matrixStack.scale(scale, scale, scale)
         } else if (entity is EmptyPokeBallEntity) {
             matrixStack.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(entity.yaw))
@@ -784,7 +838,7 @@ abstract class PosableModel: ModelFrame {
     fun quirk(
         secondsBetweenOccurrences: Pair<Float, Float> = 8F to 30F,
         loopTimes: IntRange = 1..1,
-        condition: (context: RenderContext) -> Boolean = { true },
+        condition: (state: PosableState) -> Boolean = { true },
         animation: (state: PosableState) -> StatefulAnimation
     ) = SimpleQuirk(
         secondsBetweenOccurrences = secondsBetweenOccurrences,
@@ -796,7 +850,7 @@ abstract class PosableModel: ModelFrame {
     fun quirkMultiple(
         secondsBetweenOccurrences: Pair<Float, Float> = 8F to 30F,
         loopTimes: IntRange = 1..1,
-        condition: (state: RenderContext) -> Boolean = { true },
+        condition: (state: PosableState) -> Boolean = { true },
         animations: (state: PosableState) -> List<StatefulAnimation>
     ) = SimpleQuirk(
         secondsBetweenOccurrences = secondsBetweenOccurrences,
@@ -804,7 +858,4 @@ abstract class PosableModel: ModelFrame {
         condition = condition,
         animations = { animations(it) }
     )
-
-
-
 }

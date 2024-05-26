@@ -19,7 +19,7 @@ import com.cobblemon.mod.common.entity.PoseType.Companion.UI_POSES
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class NidoranmModel(root: ModelPart) : PosableModel(), HeadedFrame, QuadrupedFrame {
+class NidoranmModel(root: ModelPart) : PosableModel(root), HeadedFrame, QuadrupedFrame {
     override val rootPart = root.registerChildWithAllChildren("nidoran_m")
     override val head = getPart("head")
     override val foreLeftLeg = getPart("leg_front_left")

@@ -15,7 +15,7 @@ import com.cobblemon.mod.common.entity.PoseType
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class DurantModel (root: ModelPart) : PosableModel(), HeadedFrame {
+class DurantModel (root: ModelPart) : PosableModel(root), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("durant")
     override val head = getPart("head")
 

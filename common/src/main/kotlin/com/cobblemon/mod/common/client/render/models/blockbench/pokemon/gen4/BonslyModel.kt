@@ -17,10 +17,11 @@ import com.cobblemon.mod.common.entity.PoseType.Companion.MOVING_POSES
 import com.cobblemon.mod.common.entity.PoseType.Companion.STATIONARY_POSES
 import com.cobblemon.mod.common.entity.PoseType.Companion.UI_POSES
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
+import com.cobblemon.mod.common.util.isBattling
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class BonslyModel(root: ModelPart) : PosableModel(), HeadedFrame, BipedFrame {
+class BonslyModel(root: ModelPart) : PosableModel(root), HeadedFrame, BipedFrame {
     override val rootPart = root.registerChildWithAllChildren("bonsly")
     override val head = getPart("torso")
 
@@ -45,7 +46,7 @@ class BonslyModel(root: ModelPart) : PosableModel(), HeadedFrame, BipedFrame {
             poseName = "standing",
             poseTypes = STATIONARY_POSES + UI_POSES,
             quirks = arrayOf(blink),
-            condition = { (it.entity as? PokemonEntity)?.isBattling == false },
+            condition = { !it.isBattling },
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("bonsly", "ground_idle")
@@ -65,7 +66,7 @@ class BonslyModel(root: ModelPart) : PosableModel(), HeadedFrame, BipedFrame {
         sleep = registerPose(
             poseName = "sleep",
             poseType = PoseType.SLEEP,
-            condition = { (it.entity as? PokemonEntity)?.isBattling == false },
+            condition = { !it.isBattling },
             idleAnimations = arrayOf(
                 bedrock("bonsly", "sleep_pot")
             )
@@ -74,7 +75,7 @@ class BonslyModel(root: ModelPart) : PosableModel(), HeadedFrame, BipedFrame {
         battlesleep = registerPose(
             poseName = "battlesleep",
             poseType = PoseType.SLEEP,
-            condition = { (it.entity as? PokemonEntity)?.isBattling == true },
+            condition = { it.isBattling },
             idleAnimations = arrayOf(
                 bedrock("bonsly", "sleep")
             )
@@ -85,7 +86,7 @@ class BonslyModel(root: ModelPart) : PosableModel(), HeadedFrame, BipedFrame {
             poseTypes = PoseType.STATIONARY_POSES,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            condition = { (it.entity as? PokemonEntity)?.isBattling == true },
+            condition = { it.isBattling },
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("bonsly", "battle_idle")

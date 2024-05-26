@@ -15,7 +15,7 @@ import com.cobblemon.mod.common.entity.PoseType.Companion.UI_POSES
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class PoliwhirlModel(root: ModelPart) : PosableModel() {
+class PoliwhirlModel(root: ModelPart) : PosableModel(root) {
     override val rootPart = root.registerChildWithAllChildren("poliwhirl")
 
     override var portraitScale = 1.4F

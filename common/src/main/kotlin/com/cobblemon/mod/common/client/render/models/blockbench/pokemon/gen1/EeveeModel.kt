@@ -27,7 +27,7 @@ import com.cobblemon.mod.common.util.math.geometry.toRadians
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class EeveeModel(root: ModelPart) : PosableModel(), EaredFrame, HeadedFrame, QuadrupedFrame {
+class EeveeModel(root: ModelPart) : PosableModel(root), EaredFrame, HeadedFrame, QuadrupedFrame {
     override val rootPart = root.registerChildWithAllChildren("eevee")
     val body = getPart("body")
     override val head = getPart("head")

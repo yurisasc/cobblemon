@@ -46,6 +46,7 @@ class GildedChestBlockRenderer(context: BlockEntityRendererFactory.Context) : Bl
         context.put(RenderContext.ASPECTS, aspects)
         context.put(RenderContext.TEXTURE, texture)
         context.put(RenderContext.SPECIES, poserId)
+        context.put(RenderContext.POSABLE_STATE, state)
         matrices.push()
         matrices.multiply(RotationAxis.POSITIVE_Z.rotationDegrees(180f))
         matrices.translate(-0.5, 0.0, 0.5)

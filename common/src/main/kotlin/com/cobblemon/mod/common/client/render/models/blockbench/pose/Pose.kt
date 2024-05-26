@@ -25,7 +25,7 @@ typealias CobblemonPose = Pose
 class Pose(
     var poseName: String,
     val poseTypes: Set<PoseType>,
-    val condition: ((RenderContext) -> Boolean)?,
+    val condition: ((PosableState) -> Boolean)?,
     val onTransitionedInto: (PosableState) -> Unit = {},
     val transformTicks: Int,
     val animations: MutableMap<String, ExpressionLike> = mutableMapOf(),
@@ -33,7 +33,7 @@ class Pose(
     val transformedParts: Array<ModelPartTransformation>,
     val quirks: Array<ModelQuirk<*>>
 ) {
-    fun isSuitable(context: RenderContext) = condition?.invoke(context) ?: true
+    fun isSuitable(state: PosableState) = condition?.invoke(state) ?: true
 
     val transitions = mutableMapOf<String, (Pose, Pose) -> StatefulAnimation>()
 

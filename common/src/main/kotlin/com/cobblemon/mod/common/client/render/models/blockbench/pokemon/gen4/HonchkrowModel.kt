@@ -22,7 +22,7 @@ import com.cobblemon.mod.common.util.math.geometry.toRadians
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class HonchkrowModel(root: ModelPart) : PosableModel(), HeadedFrame, BipedFrame, BiWingedFrame {
+class HonchkrowModel(root: ModelPart) : PosableModel(root), HeadedFrame, BipedFrame, BiWingedFrame {
     override val rootPart = root.registerChildWithAllChildren("honchkrow")
     override val head = getPart("head")
     override val leftLeg = getPart("leg_left")

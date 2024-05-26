@@ -9,12 +9,14 @@
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen3
 
 import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableState
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
+import com.cobblemon.mod.common.client.render.models.blockbench.pose.CobblemonPose
 import com.cobblemon.mod.common.entity.PoseType
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class WhiscashModel (root: ModelPart) : PosableModel() {
+class WhiscashModel (root: ModelPart) : PosableModel(root) {
     override val rootPart = root.registerChildWithAllChildren("whiscash")
 
     override var portraitScale = 0.8F

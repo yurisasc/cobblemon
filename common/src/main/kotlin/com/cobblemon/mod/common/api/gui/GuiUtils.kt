@@ -195,7 +195,7 @@ fun drawPoseablePortrait(
     contextScale: Float = 1F,
     reversed: Boolean = false,
     state: PosableState,
-    repository: VaryingModelRepository,
+    repository: VaryingModelRepository<*>,
     partialTicks: Float,
     limbSwing: Float = 0F,
     limbSwingAmount: Float = 0F,
@@ -255,7 +255,7 @@ fun drawPoseablePortrait(
 }
 
 fun drawProfile(
-    repository: VaryingModelRepository,
+    repository: VaryingModelRepository<*>,
     resourceIdentifier: Identifier,
     aspects: Set<String>,
     matrixStack: MatrixStack,

@@ -21,7 +21,7 @@ import com.cobblemon.mod.common.entity.PoseType.Companion.UI_POSES
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class PoipoleModel(root: ModelPart) : PosableModel(), HeadedFrame, BimanualFrame, BipedFrame {
+class PoipoleModel(root: ModelPart) : PosableModel(root), HeadedFrame, BimanualFrame, BipedFrame {
     override val rootPart = root.registerChildWithAllChildren("poipole")
     override val head = getPart("head")
 

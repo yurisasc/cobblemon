@@ -8,16 +8,16 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen3
 
-import com.cobblemon.mod.common.client.render.models.blockbench.pose.Pose
-import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.PosableState
-import com.cobblemon.mod.common.client.render.models.blockbench.repository.RenderContext
+import com.cobblemon.mod.common.client.render.models.blockbench.pose.Pose
+import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
+import com.cobblemon.mod.common.util.isBattling
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class DuskullModel (root: ModelPart) : PosableModel() {
+class DuskullModel (root: ModelPart) : PosableModel(root) {
     override val rootPart = root.registerChildWithAllChildren("duskull")
 
     override var portraitScale = 1.6F
@@ -43,7 +43,7 @@ class DuskullModel (root: ModelPart) : PosableModel() {
         standing = registerPose(
             poseName = "standing",
             poseType = PoseType.STAND,
-            condition = { (it.entity as? PokemonEntity)?.isBattling == false },
+            condition = { !it.isBattling },
             idleAnimations = arrayOf(
                 bedrock("duskull", "ground_idle")
             )
@@ -60,7 +60,7 @@ class DuskullModel (root: ModelPart) : PosableModel() {
         hover = registerPose(
             poseName = "hover",
             poseTypes = PoseType.UI_POSES + PoseType.HOVER + PoseType.FLOAT,
-            condition = { (it.entity as? PokemonEntity)?.isBattling == false },
+            condition = { !it.isBattling },
             idleAnimations = arrayOf(
                 bedrock("duskull", "air_idle")
             )
@@ -69,7 +69,7 @@ class DuskullModel (root: ModelPart) : PosableModel() {
         fly = registerPose(
             poseName = "fly",
             poseTypes = setOf(PoseType.FLY, PoseType.SWIM, PoseType.WALK),
-            condition = { (it.entity as? PokemonEntity)?.isBattling == false },
+            condition = { !it.isBattling },
             idleAnimations = arrayOf(
                 bedrock("duskull", "air_fly")
             )
@@ -79,7 +79,7 @@ class DuskullModel (root: ModelPart) : PosableModel() {
             poseName = "battle_idle",
             poseTypes = PoseType.STATIONARY_POSES + PoseType.MOVING_POSES,
             transformTicks = 10,
-            condition = { (it.entity as? PokemonEntity)?.isBattling == true },
+            condition = { it.isBattling },
             idleAnimations = arrayOf(
                 bedrock("duskull", "battle_idle")
             )

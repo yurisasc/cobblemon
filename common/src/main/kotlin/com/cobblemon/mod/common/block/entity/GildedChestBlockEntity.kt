@@ -12,7 +12,6 @@ import com.cobblemon.mod.common.CobblemonBlockEntities
 import com.cobblemon.mod.common.CobblemonSounds
 import com.cobblemon.mod.common.block.chest.GildedChestBlock.Type
 import com.cobblemon.mod.common.block.chest.GildedState
-import com.cobblemon.mod.common.client.render.models.blockbench.repository.RenderContext
 import net.minecraft.block.BlockState
 import net.minecraft.block.entity.BlockEntityType
 import net.minecraft.block.entity.LootableContainerBlockEntity
@@ -133,12 +132,12 @@ class GildedChestBlockEntity(pos: BlockPos, state: BlockState, val type: Type = 
     override fun onSyncedBlockEvent(type: Int, data: Int): Boolean {
         if (type == 1) {
             val isNowOpen = data > 0
-            val wasOpen = poseableState.currentPose == "OPEN"
+            val wasOpen = poseableState.currentPose == "open"
             val model = poseableState.currentModel ?: return true
             if (isNowOpen && !wasOpen) {
-                model.moveToPose(RenderContext(), poseableState, model.getPose("OPEN")!!)
+                model.moveToPose(poseableState, model.getPose("open")!!)
             } else if (!isNowOpen && wasOpen) {
-                model.moveToPose(RenderContext(), poseableState, model.getPose("CLOSED")!!)
+                model.moveToPose(poseableState, model.getPose("closed")!!)
             }
             return true
         }

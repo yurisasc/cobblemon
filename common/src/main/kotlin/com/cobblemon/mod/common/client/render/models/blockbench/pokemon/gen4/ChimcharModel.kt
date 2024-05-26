@@ -19,10 +19,11 @@ import com.cobblemon.mod.common.entity.PoseType.Companion.MOVING_POSES
 import com.cobblemon.mod.common.entity.PoseType.Companion.STATIONARY_POSES
 import com.cobblemon.mod.common.entity.PoseType.Companion.UI_POSES
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
+import com.cobblemon.mod.common.util.isBattling
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class ChimcharModel(root: ModelPart) : PosableModel(), HeadedFrame, BipedFrame {
+class ChimcharModel(root: ModelPart) : PosableModel(root), HeadedFrame, BipedFrame {
     override val rootPart = root.registerChildWithAllChildren("chimchar")
     override val head = getPart("head")
 
@@ -44,25 +45,25 @@ class ChimcharModel(root: ModelPart) : PosableModel(), HeadedFrame, BipedFrame {
     override fun registerPoses() {
         val blink = quirk { bedrockStateful("chimchar", "blink") }
         standing = registerPose(
-                poseName = "standing",
-                poseTypes = STATIONARY_POSES + UI_POSES,
-                quirks = arrayOf(blink),
-                condition = { (it.entity as? PokemonEntity)?.isBattling == false },
-                idleAnimations = arrayOf(
-                        singleBoneLook(),
-                        bedrock("chimchar", "ground_idle")
-                )
+            poseName = "standing",
+            poseTypes = STATIONARY_POSES + UI_POSES,
+            quirks = arrayOf(blink),
+            condition = { !it.isBattling },
+            idleAnimations = arrayOf(
+                singleBoneLook(),
+                bedrock("chimchar", "ground_idle")
+            )
         )
 
         walk = registerPose(
-                poseName = "walk",
-                poseTypes = MOVING_POSES,
-                quirks = arrayOf(blink),
-                condition = { (it.entity as? PokemonEntity)?.isBattling == false },
-                idleAnimations = arrayOf(
-                        singleBoneLook(),
-                        bedrock("chimchar", "ground_walk")
-                )
+            poseName = "walk",
+            poseTypes = MOVING_POSES,
+            quirks = arrayOf(blink),
+            condition = { !it.isBattling },
+            idleAnimations = arrayOf(
+                singleBoneLook(),
+                bedrock("chimchar", "ground_walk")
+            )
         )
 
         battleidle = registerPose(
@@ -70,12 +71,11 @@ class ChimcharModel(root: ModelPart) : PosableModel(), HeadedFrame, BipedFrame {
             poseTypes = PoseType.STATIONARY_POSES,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            condition = { (it.entity as? PokemonEntity)?.isBattling == true },
+            condition = { it.isBattling },
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("chimchar", "battle_idle")
             )
-
         )
     }
 

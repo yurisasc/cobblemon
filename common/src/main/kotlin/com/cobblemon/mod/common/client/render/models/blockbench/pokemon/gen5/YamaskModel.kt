@@ -17,7 +17,7 @@ import com.cobblemon.mod.common.entity.PoseType
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class YamaskModel (root: ModelPart) : PosableModel(), BimanualFrame {
+class YamaskModel (root: ModelPart) : PosableModel(root), BimanualFrame {
     override val rootPart = root.registerChildWithAllChildren("yamask")
 
     override val leftArm = getPart("arm_left")

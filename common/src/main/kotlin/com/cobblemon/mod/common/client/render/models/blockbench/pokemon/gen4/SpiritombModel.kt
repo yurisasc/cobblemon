@@ -14,7 +14,7 @@ import com.cobblemon.mod.common.entity.PoseType
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class SpiritombModel(root: ModelPart) : PosableModel() {
+class SpiritombModel(root: ModelPart) : PosableModel(root) {
     override val rootPart = root.registerChildWithAllChildren("spiritomb")
 
     override var portraitScale = 1.3F

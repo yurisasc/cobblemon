@@ -9,14 +9,14 @@
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen8
 
 import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.pose.CobblemonPose
 import com.cobblemon.mod.common.entity.PoseType
-import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
-import com.cobblemon.mod.common.util.isUuid
+import com.cobblemon.mod.common.util.isBattling
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
 
-class FalinksModel (root: ModelPart) : PosableModel(){
+class FalinksModel (root: ModelPart) : PosableModel(root){
     override val rootPart = root.registerChildWithAllChildren("falinks")
 
     override var portraitScale = 1.9F
@@ -62,7 +62,7 @@ class FalinksModel (root: ModelPart) : PosableModel(){
             poseName = "battlestanding2",
             poseTypes = PoseType.STATIONARY_POSES,
             quirks = arrayOf(blink, blink2, blink3, blink4, blink5, blink6),
-            condition = { it.isBattling && (it.uuid.mostSignificantBits % 2).toInt() == 0 },
+            condition = { it.isBattling && ((it.getEntity()?.uuid?.mostSignificantBits ?: 2) % 2).toInt() == 0 },
             idleAnimations = arrayOf(
                 bedrock("falinks", "battle_idle2")
             )

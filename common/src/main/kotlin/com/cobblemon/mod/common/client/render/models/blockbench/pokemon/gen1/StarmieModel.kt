@@ -13,10 +13,11 @@ import com.cobblemon.mod.common.client.render.models.blockbench.pose.Pose
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.PoseType.Companion.UI_POSES
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
+import com.cobblemon.mod.common.util.isBattling
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class StarmieModel(root: ModelPart) : PosableModel() {
+class StarmieModel(root: ModelPart) : PosableModel(root) {
     override val rootPart = root.registerChildWithAllChildren("starmie")
 
     override var portraitScale = 2.0F
@@ -37,7 +38,7 @@ class StarmieModel(root: ModelPart) : PosableModel() {
         standing = registerPose(
             poseName = "standing",
             poseType = PoseType.STAND,
-            condition = { (it.entity as? PokemonEntity)?.isBattling == false },
+            condition = { !it.isBattling },
             idleAnimations = arrayOf(
                 bedrock("starmie", "ground_idle")
             )
@@ -46,7 +47,7 @@ class StarmieModel(root: ModelPart) : PosableModel() {
         walk = registerPose(
             poseName = "walk",
             poseType = PoseType.WALK,
-            condition = { (it.entity as? PokemonEntity)?.isBattling == false },
+            condition = { !it.isBattling },
             idleAnimations = arrayOf(
                 bedrock("starmie", "ground_walk")
             )
@@ -55,7 +56,7 @@ class StarmieModel(root: ModelPart) : PosableModel() {
         float = registerPose(
             poseName = "float",
             poseTypes = UI_POSES + PoseType.FLOAT,
-            condition = { (it.entity as? PokemonEntity)?.isBattling == false },
+            condition = { !it.isBattling },
             idleAnimations = arrayOf(
                 bedrock("starmie", "water_idle")
             )
@@ -64,7 +65,7 @@ class StarmieModel(root: ModelPart) : PosableModel() {
         swim = registerPose(
             poseName = "swim",
             poseType = PoseType.SWIM,
-            condition = { (it.entity as? PokemonEntity)?.isBattling == false },
+            condition = { !it.isBattling },
             idleAnimations = arrayOf(
                 bedrock("starmie", "water_swim")
             )
@@ -80,7 +81,7 @@ class StarmieModel(root: ModelPart) : PosableModel() {
             poseName = "battle_idle",
             poseTypes = PoseType.STATIONARY_POSES,
             transformTicks = 10,
-            condition = { (it.entity as? PokemonEntity)?.isBattling == true },
+            condition = { it.isBattling },
             idleAnimations = arrayOf(
                 bedrock("starmie", "battle_idle")
             )

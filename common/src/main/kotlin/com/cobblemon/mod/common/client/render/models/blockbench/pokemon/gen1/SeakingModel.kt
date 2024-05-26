@@ -14,7 +14,7 @@ import com.cobblemon.mod.common.entity.PoseType
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class SeakingModel(root: ModelPart) : PosableModel() {
+class SeakingModel(root: ModelPart) : PosableModel(root) {
     override val rootPart = root.registerChildWithAllChildren("seaking")
 
     override var portraitScale = 2.8F

@@ -16,7 +16,7 @@ import com.cobblemon.mod.common.entity.PoseType.Companion.UI_POSES
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class WeepinbellModel(root: ModelPart) : PosableModel() {
+class WeepinbellModel(root: ModelPart) : PosableModel(root) {
     override val rootPart = root.registerChildWithAllChildren("weepinbell")
 
     override var portraitScale = 1.73F

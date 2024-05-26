@@ -111,6 +111,7 @@ class PokemonOnShoulderRenderer<T : PlayerEntity>(renderLayerParent: FeatureRend
             state.updatePartialTicks(ageInTicks + partialTicks)
             context.put(RenderContext.SPECIES, shoulderData.species.resourceIdentifier)
             context.put(RenderContext.ASPECTS, shoulderData.aspects)
+            context.put(RenderContext.POSABLE_STATE, state)
             val vertexConsumer = buffer.getBuffer(RenderLayer.getEntityCutout(PokemonModelRepository.getTexture(shoulderData.species.resourceIdentifier, shoulderData.aspects, state.animationSeconds)))
             val i = LivingEntityRenderer.getOverlay(livingEntity, 0.0f)
 

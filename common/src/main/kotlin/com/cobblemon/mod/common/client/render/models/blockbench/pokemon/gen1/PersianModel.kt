@@ -21,7 +21,7 @@ import com.cobblemon.mod.common.entity.PoseType.Companion.UI_POSES
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class PersianModel(root: ModelPart) : PosableModel(), HeadedFrame, QuadrupedFrame {
+class PersianModel(root: ModelPart) : PosableModel(root), HeadedFrame, QuadrupedFrame {
     override val rootPart = root.registerChildWithAllChildren("persian")
     override val head = getPart("neck")
 

@@ -17,7 +17,7 @@ import com.cobblemon.mod.common.entity.PoseType.Companion.UI_POSES
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class PolitoedModel(root: ModelPart) : PosableModel(), HeadedFrame, BipedFrame {
+class PolitoedModel(root: ModelPart) : PosableModel(root), HeadedFrame, BipedFrame {
     override val rootPart = root.registerChildWithAllChildren("politoed")
     override val head = getPart("head")
 

@@ -9,16 +9,18 @@
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1
 
 import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
-import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableState
 import com.cobblemon.mod.common.client.render.models.blockbench.createTransformation
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
+import com.cobblemon.mod.common.client.render.models.blockbench.pose.CobblemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.ModelPartTransformation
 import com.cobblemon.mod.common.entity.PoseType
-import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
+import com.cobblemon.mod.common.util.isSubmergedInWater
+import com.cobblemon.mod.common.util.isTouchingWater
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class MagikarpModel(root: ModelPart) : PosableModel() {
+class MagikarpModel(root: ModelPart) : PosableModel(root) {
     override val rootPart = root.registerChildWithAllChildren("magikarp")
 
     override var portraitScale = 2.0F
@@ -142,8 +144,5 @@ class MagikarpModel(root: ModelPart) : PosableModel() {
             )
         )
     }
-    override fun getFaintAnimation(
-        pokemonEntity: PokemonEntity,
-        state: PoseableEntityState<PokemonEntity>
-    ) = if (state.isPosedIn(standing, walk, sleep)) bedrockStateful("magikarp", "ground_faint") else if (state.isPosedIn(floating, swimming, water_surface_idle, water_surface_swim, watersleep )) bedrockStateful("magikarp", "water_faint") else null
+    override fun getFaintAnimation(state: PosableState) = if (state.isPosedIn(standing, walk, sleep)) bedrockStateful("magikarp", "ground_faint") else if (state.isPosedIn(floating, swimming, water_surface_idle, water_surface_swim, watersleep )) bedrockStateful("magikarp", "water_faint") else null
 }

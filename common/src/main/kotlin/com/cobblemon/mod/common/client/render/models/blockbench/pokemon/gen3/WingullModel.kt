@@ -8,19 +8,18 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen3
 
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.createTransformation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BiWingedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
-import com.cobblemon.mod.common.client.render.models.blockbench.pose.Pose
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.ModelPartTransformation
+import com.cobblemon.mod.common.client.render.models.blockbench.pose.Pose
 import com.cobblemon.mod.common.entity.PoseType
-import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
-import com.cobblemon.mod.common.client.render.models.blockbench.PosableState
-import com.cobblemon.mod.common.client.render.models.blockbench.repository.RenderContext
+import com.cobblemon.mod.common.util.isTouchingWater
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class WingullModel (root: ModelPart) : PosableModel(), BipedFrame, BiWingedFrame {
+class WingullModel (root: ModelPart) : PosableModel(root), BipedFrame, BiWingedFrame {
     override val rootPart = root.registerChildWithAllChildren("wingull")
     override val leftWing = getPart("wing_left")
     override val rightWing = getPart("wing_right")
@@ -49,14 +48,14 @@ class WingullModel (root: ModelPart) : PosableModel(), BipedFrame, BiWingedFrame
         sleep = registerPose(
             poseName = "non_water_sleep",
             poseType = PoseType.SLEEP,
-            condition = { it.entity?.isTouchingWater == false },
+            condition = { !it.isTouchingWater },
             idleAnimations = arrayOf(bedrock("wingull", "sleep"))
         )
 
         water_surface_sleep = registerPose(
             poseName = "water_surface_sleep",
             poseType = PoseType.SLEEP,
-            condition = { it.entity?.isTouchingWater == true },
+            condition = { it.isTouchingWater },
             idleAnimations = arrayOf(bedrock("wingull", "surfacewater_sleep")),
             transformedParts = arrayOf(
                 rootPart.createTransformation().addPosition(ModelPartTransformation.Y_AXIS, wateroffset)
@@ -68,7 +67,7 @@ class WingullModel (root: ModelPart) : PosableModel(), BipedFrame, BiWingedFrame
             poseTypes = PoseType.SHOULDER_POSES + PoseType.UI_POSES + PoseType.STATIONARY_POSES - PoseType.HOVER,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            condition = { it.entity?.isTouchingWater == false },
+            condition = { !it.isTouchingWater },
             idleAnimations = arrayOf(
                 bedrock("wingull", "ground_idle")
             )
@@ -78,7 +77,7 @@ class WingullModel (root: ModelPart) : PosableModel(), BipedFrame, BiWingedFrame
             poseName = "hover",
             poseType = PoseType.HOVER,
             transformTicks = 10,
-            condition = { it.entity?.isTouchingWater == false },
+            condition = { !it.isTouchingWater },
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 bedrock("pelipper", "air_idle")
@@ -89,7 +88,7 @@ class WingullModel (root: ModelPart) : PosableModel(), BipedFrame, BiWingedFrame
             poseName = "fly",
             poseType = PoseType.FLY,
             transformTicks = 10,
-            condition = { it.entity?.isTouchingWater == false },
+            condition = { !it.isTouchingWater },
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 bedrock("pelipper", "air_fly")
@@ -100,7 +99,7 @@ class WingullModel (root: ModelPart) : PosableModel(), BipedFrame, BiWingedFrame
             poseName = "walking",
             poseTypes = PoseType.MOVING_POSES - PoseType.FLY,
             transformTicks = 10,
-            condition = { it.entity?.isTouchingWater == false },
+            condition = { !it.isTouchingWater },
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 bedrock("wingull", "ground_walk")
@@ -111,7 +110,7 @@ class WingullModel (root: ModelPart) : PosableModel(), BipedFrame, BiWingedFrame
             poseName = "surface_idle",
             poseTypes = PoseType.STATIONARY_POSES,
             quirks = arrayOf(blink),
-            condition = { it.entity?.isTouchingWater == true },
+            condition = { it.isTouchingWater },
             idleAnimations = arrayOf(
                 bedrock("wingull", "surfacewater_idle"),
             ),
@@ -124,7 +123,7 @@ class WingullModel (root: ModelPart) : PosableModel(), BipedFrame, BiWingedFrame
             poseName = "surface_swim",
             poseTypes = PoseType.MOVING_POSES,
             quirks = arrayOf(blink),
-            condition = { it.entity?.isTouchingWater == true },
+            condition = { it.isTouchingWater },
             idleAnimations = arrayOf(
                 bedrock("wingull", "surfacewater_swim"),
             ),

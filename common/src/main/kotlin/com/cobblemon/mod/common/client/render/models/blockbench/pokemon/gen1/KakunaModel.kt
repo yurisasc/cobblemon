@@ -18,7 +18,7 @@ import com.cobblemon.mod.common.entity.PoseType.Companion.ALL_POSES
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class KakunaModel(root: ModelPart) : PosableModel(), HeadedFrame {
+class KakunaModel(root: ModelPart) : PosableModel(root), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("kakuna")
     override val head = getPart("head")
 

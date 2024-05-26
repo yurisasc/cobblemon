@@ -29,6 +29,7 @@ import org.joml.Vector3f
 class PokemonItemRenderer : CobblemonBuiltinItemRenderer {
     val context = RenderContext().also {
         it.put(RenderContext.RENDER_STATE, RenderContext.RenderState.PROFILE)
+        it.put(RenderContext.DO_QUIRKS, false)
     }
 
     override fun render(stack: ItemStack, mode: ModelTransformationMode, matrices: MatrixStack, vertexConsumers: VertexConsumerProvider, light: Int, overlay: Int) {
@@ -37,8 +38,11 @@ class PokemonItemRenderer : CobblemonBuiltinItemRenderer {
         val state = FloatingState()
         matrices.push()
         val model = PokemonModelRepository.getPoser(species.resourceIdentifier, aspects)
+        model.context = context
+        context.put(RenderContext.RENDER_STATE, RenderContext.RenderState.PROFILE)
         context.put(RenderContext.SPECIES, species.resourceIdentifier)
         context.put(RenderContext.ASPECTS, aspects)
+        context.put(RenderContext.POSABLE_STATE, state)
         state.currentModel = model
 
         val renderLayer = RenderLayer.getEntityCutout(PokemonModelRepository.getTexture(species.resourceIdentifier, aspects, 0F))
@@ -48,7 +52,7 @@ class PokemonItemRenderer : CobblemonBuiltinItemRenderer {
         DiffuseLighting.enableGuiDepthLighting()
         matrices.scale(transformations.scale.x, transformations.scale.y, transformations.scale.z)
         matrices.translate(transformations.translation.x, transformations.translation.y, transformations.translation.z)
-        model.poses.entries.firstOrNull { PoseType.PORTRAIT in it.value.poseTypes && it.value.isSuitable(context) }?.let { state.setPose(it.key) }
+        model.poses.entries.firstOrNull { PoseType.PORTRAIT in it.value.poseTypes && it.value.isSuitable(state) }?.let { state.setPose(it.key) }
         model.setupAnimStateful(null, state, 0F, 0F, 0F, 0F, 0F)
 
         matrices.translate(model.profileTranslation.x, model.profileTranslation.y,  model.profileTranslation.z - 4.0)

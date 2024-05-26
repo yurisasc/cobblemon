@@ -19,7 +19,7 @@ import com.cobblemon.mod.common.entity.PoseType.Companion.UI_POSES
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class DittoModel(root: ModelPart) : PosableModel() {
+class DittoModel(root: ModelPart) : PosableModel(root) {
     override val rootPart = root.registerChildWithAllChildren("ditto")
 
     override var portraitScale = 3.2F

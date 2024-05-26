@@ -17,11 +17,13 @@ import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvi
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.ModelPartTransformation
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.Pose
 import com.cobblemon.mod.common.entity.PoseType
-import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
+import com.cobblemon.mod.common.util.isBattling
+import com.cobblemon.mod.common.util.isSubmergedInWater
+import com.cobblemon.mod.common.util.isTouchingWater
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class TotodileModel (root: ModelPart) : PosableModel(), HeadedFrame, BipedFrame {
+class TotodileModel (root: ModelPart) : PosableModel(root), HeadedFrame, BipedFrame {
     override val rootPart = root.registerChildWithAllChildren("totodile")
     override val head = getPart("head")
 
@@ -60,7 +62,7 @@ class TotodileModel (root: ModelPart) : PosableModel(), HeadedFrame, BipedFrame 
             poseName = "sleeping",
             poseType = PoseType.SLEEP,
             quirks = arrayOf(sleepQuirk),
-            condition = { it.entity?.isTouchingWater == false },
+            condition = { !it.isTouchingWater },
             idleAnimations = arrayOf(bedrock("totodile", "sleep"))
         )
 
@@ -68,7 +70,7 @@ class TotodileModel (root: ModelPart) : PosableModel(), HeadedFrame, BipedFrame 
             poseName = "water_sleeping",
             poseType = PoseType.SLEEP,
             quirks = arrayOf(sleepQuirk),
-            condition = { it.entity?.isTouchingWater == true },
+            condition = { it.isTouchingWater },
             idleAnimations = arrayOf(bedrock("totodile", "water_sleep"))
         )
 
@@ -76,7 +78,7 @@ class TotodileModel (root: ModelPart) : PosableModel(), HeadedFrame, BipedFrame 
             poseName = "standing",
             poseTypes = PoseType.UI_POSES + PoseType.STAND,
             transformTicks = 10,
-            condition = { (it.entity as? PokemonEntity)?.isBattling == false && it.entity?.isTouchingWater == false && it.entity?.isSubmergedInWater == false },
+            condition = { !it.isBattling && !it.isTouchingWater && !it.isSubmergedInWater },
             quirks = arrayOf(blink, biteyQuirk),
             idleAnimations = arrayOf(
                 singleBoneLook(),
@@ -88,7 +90,7 @@ class TotodileModel (root: ModelPart) : PosableModel(), HeadedFrame, BipedFrame 
             poseName = "walk",
             transformTicks = 10,
             poseType = PoseType.WALK,
-            condition = { it.entity?.isTouchingWater == false && it.entity?.isSubmergedInWater == false},
+            condition = { !it.isTouchingWater && !it.isSubmergedInWater },
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
@@ -100,7 +102,7 @@ class TotodileModel (root: ModelPart) : PosableModel(), HeadedFrame, BipedFrame 
             poseName = "floating",
             transformTicks = 10,
             poseType = PoseType.FLOAT,
-            condition = { it.entity?.isSubmergedInWater == true },
+            condition = { it.isSubmergedInWater },
             quirks = arrayOf(blink, biteyQuirk),
             idleAnimations = arrayOf(
                 singleBoneLook(),
@@ -111,7 +113,7 @@ class TotodileModel (root: ModelPart) : PosableModel(), HeadedFrame, BipedFrame 
         swimming = registerPose(
             poseName = "swimming",
             transformTicks = 10,
-            condition = { it.entity?.isSubmergedInWater == true },
+            condition = { it.isSubmergedInWater },
             poseType = PoseType.SWIM,
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
@@ -125,7 +127,7 @@ class TotodileModel (root: ModelPart) : PosableModel(), HeadedFrame, BipedFrame 
             poseTypes = PoseType.STATIONARY_POSES,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            condition = { (it.entity as? PokemonEntity)?.isBattling == true && it.entity?.isTouchingWater == false },
+            condition = { it.isBattling && !it.isTouchingWater },
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("totodile", "battle_idle")
@@ -136,7 +138,7 @@ class TotodileModel (root: ModelPart) : PosableModel(), HeadedFrame, BipedFrame 
             poseName = "surface_idle",
             poseTypes = PoseType.STATIONARY_POSES,
             quirks = arrayOf(blink, biteyQuirk),
-            condition = { it.entity?.isSubmergedInWater == false && it.entity?.isTouchingWater == true },
+            condition = { !it.isSubmergedInWater && it.isTouchingWater },
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("totodile", "surfacewater_idle"),
@@ -150,7 +152,7 @@ class TotodileModel (root: ModelPart) : PosableModel(), HeadedFrame, BipedFrame 
             poseName = "surface_swim",
             poseTypes = PoseType.MOVING_POSES,
             quirks = arrayOf(blink),
-            condition = { it.entity?.isSubmergedInWater == false && it.entity?.isTouchingWater == true },
+            condition = { !it.isSubmergedInWater && it.isTouchingWater },
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("totodile", "surfacewater_swim"),

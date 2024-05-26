@@ -17,7 +17,7 @@ import com.cobblemon.mod.common.entity.PoseType.Companion.UI_POSES
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class AerodactylModel(root: ModelPart) : PosableModel(), HeadedFrame {
+class AerodactylModel(root: ModelPart) : PosableModel(root), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("aerodactyl")
     override val head = getPart("head")
 

@@ -8,15 +8,18 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen2
 
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.PrimaryAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
-import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.pose.CobblemonPose
 import com.cobblemon.mod.common.entity.PoseType
+import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
+import com.cobblemon.mod.common.util.isBattling
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class QuilavaHisuiBiasModel (root: ModelPart) : PosableModel(), HeadedFrame {
+class QuilavaHisuiBiasModel (root: ModelPart) : PosableModel(root), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("quilava_hisui_bias")
     override val head = getPart("head")
 
@@ -31,7 +34,7 @@ class QuilavaHisuiBiasModel (root: ModelPart) : PosableModel(), HeadedFrame {
     lateinit var sleep: CobblemonPose
     lateinit var battleidle: CobblemonPose
 
-    override val cryAnimation = CryProvider { entity, _ -> if (entity.isBattling) bedrockStateful("quilava_hisui_bias", "battle_cry") else PrimaryAnimation(bedrockStateful("quilava_hisui_bias", "cry")) }
+    override val cryAnimation = CryProvider { if (it.isBattling) bedrockStateful("quilava_hisui_bias", "battle_cry") else PrimaryAnimation(bedrockStateful("quilava_hisui_bias", "cry")) }
 
     override fun registerPoses() {
         val blink = quirk { bedrockStateful("quilava_hisui_bias", "blink") }

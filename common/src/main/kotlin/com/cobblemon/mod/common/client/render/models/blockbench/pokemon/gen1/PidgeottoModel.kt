@@ -25,7 +25,7 @@ import com.cobblemon.mod.common.util.math.geometry.toRadians
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class PidgeottoModel(root: ModelPart) : PosableModel(), HeadedFrame, BipedFrame, BiWingedFrame {
+class PidgeottoModel(root: ModelPart) : PosableModel(root), HeadedFrame, BipedFrame, BiWingedFrame {
     override val rootPart = root.registerChildWithAllChildren("pidgeotto")
     override val head = getPart("neck")
 

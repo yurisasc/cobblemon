@@ -8,21 +8,22 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen6
 
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableState
 import com.cobblemon.mod.common.client.render.models.blockbench.createTransformation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.QuadrupedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
-import com.cobblemon.mod.common.client.render.models.blockbench.pose.Pose
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.ModelPartTransformation
+import com.cobblemon.mod.common.client.render.models.blockbench.pose.Pose
 import com.cobblemon.mod.common.entity.PoseType
-import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
-import com.cobblemon.mod.common.client.render.models.blockbench.PosableState
-import com.cobblemon.mod.common.client.render.models.blockbench.repository.RenderContext
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
+import com.cobblemon.mod.common.util.isBattling
+import com.cobblemon.mod.common.util.isTouchingWater
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class AvaluggModel (root: ModelPart) : PosableModel(), QuadrupedFrame, HeadedFrame {
+class AvaluggModel (root: ModelPart) : PosableModel(root), QuadrupedFrame, HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("avalugg")
     override val head = getPart("head")
 
@@ -59,7 +60,7 @@ class AvaluggModel (root: ModelPart) : PosableModel(), QuadrupedFrame, HeadedFra
             poseName = "standing",
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES - PoseType.FLOAT,
             transformTicks = 10,
-            condition = { (it.entity as? PokemonEntity)?.let { !it.isBattling && !it.isTouchingWater } == true },
+            condition = { !it.isBattling && !it.isTouchingWater },
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
@@ -71,7 +72,7 @@ class AvaluggModel (root: ModelPart) : PosableModel(), QuadrupedFrame, HeadedFra
             poseName = "walking",
             poseTypes = PoseType.MOVING_POSES - PoseType.SWIM,
             transformTicks = 10,
-            condition = { it.entity?.isTouchingWater == false },
+            condition = { !it.isTouchingWater },
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
@@ -83,7 +84,7 @@ class AvaluggModel (root: ModelPart) : PosableModel(), QuadrupedFrame, HeadedFra
             poseName = "surface_idle",
             poseTypes = PoseType.STATIONARY_POSES,
             quirks = arrayOf(blink),
-            condition = { it.entity?.isTouchingWater == true },
+            condition = { it.isTouchingWater },
             idleAnimations = arrayOf(
                 bedrock("avalugg", "water_idle"),
             ),
@@ -95,7 +96,7 @@ class AvaluggModel (root: ModelPart) : PosableModel(), QuadrupedFrame, HeadedFra
         water_surface_swim = registerPose(
             poseName = "surface_swim",
             poseTypes = PoseType.MOVING_POSES,
-            condition = { it.entity?.isTouchingWater == true },
+            condition = { it.isTouchingWater },
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 bedrock("avalugg", "water_swim"),
@@ -110,7 +111,7 @@ class AvaluggModel (root: ModelPart) : PosableModel(), QuadrupedFrame, HeadedFra
             poseTypes = PoseType.STATIONARY_POSES,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            condition = { (it.entity as? PokemonEntity)?.isBattling == true },
+            condition = { it.isBattling },
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("avalugg", "battle_idle")

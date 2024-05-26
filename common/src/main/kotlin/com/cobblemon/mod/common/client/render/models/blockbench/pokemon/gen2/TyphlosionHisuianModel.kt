@@ -8,15 +8,18 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen2
 
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.createTransformation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
-import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.pose.CobblemonPose
 import com.cobblemon.mod.common.entity.PoseType
+import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
+import com.cobblemon.mod.common.util.isBattling
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class TyphlosionHisuianModel  (root: ModelPart) : PosableModel(), HeadedFrame {
+class TyphlosionHisuianModel  (root: ModelPart) : PosableModel(root), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("typhlosion_hisui")
     override val head = getPart("head")
 
@@ -36,7 +39,7 @@ class TyphlosionHisuianModel  (root: ModelPart) : PosableModel(), HeadedFrame {
     val spoopy_orb2 = getPart("fire_orb_middle1")
     val spoopy_orb3 = getPart("fire_orb_left1")
 
-    override val cryAnimation = CryProvider { entity, _ -> if (entity.isBattling) bedrockStateful("typhlosion_hisuian", "battle_cry") else bedrockStateful("typhlosion_hisuian", "cry") }
+    override val cryAnimation = CryProvider { if (it.isBattling) bedrockStateful("typhlosion_hisuian", "battle_cry") else bedrockStateful("typhlosion_hisuian", "cry") }
 
     override fun registerPoses() {
         val blink = quirk { bedrockStateful("typhlosion_hisuian", "blink") }

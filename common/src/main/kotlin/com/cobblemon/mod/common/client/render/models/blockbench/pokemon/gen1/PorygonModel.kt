@@ -20,7 +20,7 @@ import com.cobblemon.mod.common.entity.PoseType.Companion.UI_POSES
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class PorygonModel(root: ModelPart) : PosableModel(), HeadedFrame, BipedFrame {
+class PorygonModel(root: ModelPart) : PosableModel(root), HeadedFrame, BipedFrame {
     override val rootPart = root.registerChildWithAllChildren("porygon")
     override val head = getPart("head")
     override val leftLeg = getPart("leg_left")

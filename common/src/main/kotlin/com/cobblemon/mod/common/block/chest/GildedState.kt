@@ -15,7 +15,7 @@ class GildedState : PosableState() {
     override fun getEntity() = null
 
     init {
-        setPose("CLOSED")
+        setPose("closed")
     }
 
     override fun updatePartialTicks(partialTicks: Float) {

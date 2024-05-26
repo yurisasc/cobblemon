@@ -16,10 +16,11 @@ import com.cobblemon.mod.common.client.render.models.blockbench.pose.Pose
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.util.DataKeys
+import com.cobblemon.mod.common.util.isBattling
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class MareepModel (root: ModelPart) : PosableModel(), HeadedFrame {
+class MareepModel (root: ModelPart) : PosableModel(root), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("mareep")
     override val head = getPart("head")
 
@@ -47,7 +48,7 @@ class MareepModel (root: ModelPart) : PosableModel(), HeadedFrame {
         sleep = registerPose(
             poseName = "unsheared_sleep",
             poseType = PoseType.SLEEP,
-            condition = { !it.containsAspect(DataKeys.HAS_BEEN_SHEARED) },
+            condition = { DataKeys.HAS_BEEN_SHEARED !in ((it.getEntity() as? PokemonEntity)?.aspects ?: emptySet()) },
             transformedParts = arrayOf(
                 wool.createTransformation().withVisibility(visibility = true)
             ),
@@ -57,7 +58,7 @@ class MareepModel (root: ModelPart) : PosableModel(), HeadedFrame {
         shearedsleep = registerPose(
             poseName = "sheared_sleep",
             poseType = PoseType.SLEEP,
-            condition = { it.containsAspect(DataKeys.HAS_BEEN_SHEARED) },
+            condition = { DataKeys.HAS_BEEN_SHEARED in ((it.getEntity() as? PokemonEntity)?.aspects ?: emptySet()) },
             transformedParts = arrayOf(
                 wool.createTransformation().withVisibility(visibility = false)
             ),
@@ -69,7 +70,7 @@ class MareepModel (root: ModelPart) : PosableModel(), HeadedFrame {
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            condition = { !it.containsAspect(DataKeys.HAS_BEEN_SHEARED) && (it.entity as? PokemonEntity)?.isBattling == false },
+            condition = { DataKeys.HAS_BEEN_SHEARED !in ((it.getEntity() as? PokemonEntity)?.aspects ?: emptySet()) && !it.isBattling },
             transformedParts = arrayOf(
                 wool.createTransformation().withVisibility(visibility = true)
             ),
@@ -84,7 +85,7 @@ class MareepModel (root: ModelPart) : PosableModel(), HeadedFrame {
             poseTypes = PoseType.MOVING_POSES,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            condition = { !it.containsAspect(DataKeys.HAS_BEEN_SHEARED) },
+            condition = { DataKeys.HAS_BEEN_SHEARED !in ((it.getEntity() as? PokemonEntity)?.aspects ?: emptySet()) },
             transformedParts = arrayOf(
                 wool.createTransformation().withVisibility(visibility = true)
             ),
@@ -99,7 +100,7 @@ class MareepModel (root: ModelPart) : PosableModel(), HeadedFrame {
             poseTypes = PoseType.STATIONARY_POSES,
             transformTicks = 0,
             quirks = arrayOf(blink),
-            condition = { it.containsAspect(DataKeys.HAS_BEEN_SHEARED) && (it.entity as? PokemonEntity)?.isBattling == false },
+            condition = { DataKeys.HAS_BEEN_SHEARED in ((it.getEntity() as? PokemonEntity)?.aspects ?: emptySet()) && !it.isBattling },
             transformedParts = arrayOf(
                 wool.createTransformation().withVisibility(visibility = false)
             ),
@@ -113,7 +114,7 @@ class MareepModel (root: ModelPart) : PosableModel(), HeadedFrame {
             poseTypes = PoseType.MOVING_POSES,
             transformTicks = 0,
             quirks = arrayOf(blink),
-            condition = { it.containsAspect(DataKeys.HAS_BEEN_SHEARED) },
+            condition = { DataKeys.HAS_BEEN_SHEARED in ((it.getEntity() as? PokemonEntity)?.aspects ?: emptySet()) },
             transformedParts = arrayOf(
                 wool.createTransformation().withVisibility(visibility = false)
             ),
@@ -128,7 +129,7 @@ class MareepModel (root: ModelPart) : PosableModel(), HeadedFrame {
             poseTypes = PoseType.STATIONARY_POSES,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            condition = { (it.entity as? PokemonEntity)?.isBattling == true },
+            condition = { it.isBattling },
             transformedParts = arrayOf(
                 wool.createTransformation().withVisibility(visibility = true)
             ),
@@ -143,7 +144,7 @@ class MareepModel (root: ModelPart) : PosableModel(), HeadedFrame {
             poseTypes = PoseType.STATIONARY_POSES,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            condition = { it.containsAspect(DataKeys.HAS_BEEN_SHEARED) && (it.entity as? PokemonEntity)?.isBattling == true },
+            condition = { DataKeys.HAS_BEEN_SHEARED in ((it.getEntity() as? PokemonEntity)?.aspects ?: emptySet()) && it.isBattling },
             transformedParts = arrayOf(
                 wool.createTransformation().withVisibility(visibility = false)
             ),

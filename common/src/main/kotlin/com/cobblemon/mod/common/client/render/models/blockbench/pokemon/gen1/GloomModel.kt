@@ -18,7 +18,7 @@ import com.cobblemon.mod.common.entity.PoseType.Companion.UI_POSES
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class GloomModel(root: ModelPart) : PosableModel() {
+class GloomModel(root: ModelPart) : PosableModel(root) {
     override val rootPart = root.registerChildWithAllChildren("gloom")
 
     override var portraitScale = 1.8F

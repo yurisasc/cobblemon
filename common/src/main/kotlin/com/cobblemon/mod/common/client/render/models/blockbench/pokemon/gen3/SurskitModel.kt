@@ -8,18 +8,17 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen3
 
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.createTransformation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
-import com.cobblemon.mod.common.client.render.models.blockbench.pose.Pose
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.ModelPartTransformation
+import com.cobblemon.mod.common.client.render.models.blockbench.pose.Pose
 import com.cobblemon.mod.common.entity.PoseType
-import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
-import com.cobblemon.mod.common.client.render.models.blockbench.PosableState
-import com.cobblemon.mod.common.client.render.models.blockbench.repository.RenderContext
+import com.cobblemon.mod.common.util.isTouchingWater
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class SurskitModel(root: ModelPart) : PosableModel(), HeadedFrame {
+class SurskitModel(root: ModelPart) : PosableModel(root), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("surskit")
     override val head = getPart("head")
 
@@ -41,7 +40,7 @@ class SurskitModel(root: ModelPart) : PosableModel(), HeadedFrame {
         standing = registerPose(
             poseName = "standing",
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
-            condition = { it.entity?.isTouchingWater == false },
+            condition = { !it.isTouchingWater },
             transformTicks = 10,
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
@@ -53,7 +52,7 @@ class SurskitModel(root: ModelPart) : PosableModel(), HeadedFrame {
             poseTypes = PoseType.MOVING_POSES,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            condition = { it.entity?.isTouchingWater == false },
+            condition = { !it.isTouchingWater },
             idleAnimations = arrayOf(
                 bedrock("surskit", "ground_walk")
             )
@@ -62,7 +61,7 @@ class SurskitModel(root: ModelPart) : PosableModel(), HeadedFrame {
         waterstand = registerPose(
             poseName = "water_stand",
             poseTypes = PoseType.STATIONARY_POSES,
-            condition = { it.entity?.isTouchingWater == true },
+            condition = { it.isTouchingWater },
             transformTicks = 10,
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
@@ -76,7 +75,7 @@ class SurskitModel(root: ModelPart) : PosableModel(), HeadedFrame {
         waterwalk = registerPose(
             poseName = "water_walk",
             poseTypes = PoseType.MOVING_POSES,
-            condition = { it.entity?.isTouchingWater == true },
+            condition = { it.isTouchingWater },
             transformTicks = 10,
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(

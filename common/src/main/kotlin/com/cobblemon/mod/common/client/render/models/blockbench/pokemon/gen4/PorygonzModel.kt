@@ -20,7 +20,7 @@ import kotlin.random.Random
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class PorygonzModel(root: ModelPart) : PosableModel(), HeadedFrame {
+class PorygonzModel(root: ModelPart) : PosableModel(root), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("porygon_z")
     override val head = getPart("head")
 

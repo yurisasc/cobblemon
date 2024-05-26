@@ -14,10 +14,12 @@ import com.cobblemon.mod.common.client.render.models.blockbench.pose.Pose
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.PoseType.Companion.UI_POSES
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
+import com.cobblemon.mod.common.util.isBattling
+import com.cobblemon.mod.common.util.isSubmergedInWater
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class SlowbroModel(root: ModelPart) : PosableModel(), HeadedFrame {
+class SlowbroModel(root: ModelPart) : PosableModel(root), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("slowbro")
     override val head = getPart("head")
 
@@ -42,7 +44,7 @@ class SlowbroModel(root: ModelPart) : PosableModel(), HeadedFrame {
             poseName = "standing",
             poseTypes = UI_POSES + PoseType.STAND,
             quirks = arrayOf(blink, blink2, bite),
-            condition = { (it.entity as? PokemonEntity)?.isBattling == false },
+            condition = { !it.isBattling },
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("slowbro", "ground_idle")
@@ -84,7 +86,7 @@ class SlowbroModel(root: ModelPart) : PosableModel(), HeadedFrame {
             poseTypes = PoseType.STATIONARY_POSES,
             transformTicks = 10,
             quirks = arrayOf(blink, blink2, bite),
-            condition = { (it.entity as? PokemonEntity)?.let { it.isBattling && !it.isSubmergedInWater } == true },
+            condition = { it.isBattling && !it.isSubmergedInWater },
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("slowbro", "battle_idle")

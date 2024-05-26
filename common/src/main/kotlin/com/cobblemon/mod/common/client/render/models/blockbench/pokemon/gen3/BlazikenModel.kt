@@ -20,7 +20,7 @@ import com.cobblemon.mod.common.entity.PoseType.Companion.UI_POSES
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class BlazikenModel(root: ModelPart) : PosableModel(), HeadedFrame, BipedFrame {
+class BlazikenModel(root: ModelPart) : PosableModel(root), HeadedFrame, BipedFrame {
     override val rootPart = root.registerChildWithAllChildren("blaziken")
     override val head = getPart("head")
 

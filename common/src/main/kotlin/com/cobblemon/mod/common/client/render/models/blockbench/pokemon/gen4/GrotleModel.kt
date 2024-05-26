@@ -16,10 +16,11 @@ import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvi
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.Pose
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
+import com.cobblemon.mod.common.util.isBattling
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class GrotleModel (root: ModelPart) : PosableModel(), HeadedFrame, QuadrupedFrame {
+class GrotleModel (root: ModelPart) : PosableModel(root), HeadedFrame, QuadrupedFrame {
     override val rootPart = root.registerChildWithAllChildren("grotle")
     override val head = getPart("head")
     override val hindLeftLeg = getPart("leg_back_left")
@@ -53,7 +54,7 @@ class GrotleModel (root: ModelPart) : PosableModel(), HeadedFrame, QuadrupedFram
             poseName = "standing",
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
             transformTicks = 10,
-            condition = { (it.entity as? PokemonEntity)?.isBattling == false },
+            condition = { !it.isBattling },
             quirks = arrayOf(blink, shake),
             idleAnimations = arrayOf(
                 singleBoneLook(),
@@ -77,7 +78,7 @@ class GrotleModel (root: ModelPart) : PosableModel(), HeadedFrame, QuadrupedFram
             poseTypes = PoseType.STATIONARY_POSES,
             transformTicks = 10,
             quirks = arrayOf(blink, shake),
-            condition = { (it.entity as? PokemonEntity)?.isBattling == true },
+            condition = { it.isBattling },
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("grotle", "battle_idle")

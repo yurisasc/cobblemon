@@ -12,14 +12,16 @@ import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.createTransformation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
+import com.cobblemon.mod.common.client.render.models.blockbench.pose.CobblemonPose
 import com.cobblemon.mod.common.entity.PoseType
+import com.cobblemon.mod.common.util.isBattling
 import com.cobblemon.mod.common.util.isStandingOnRedSand
 import com.cobblemon.mod.common.util.isStandingOnSand
 import com.cobblemon.mod.common.util.isStandingOnSandOrRedSand
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class HippowdonModel (root: ModelPart) : PosableModel(), HeadedFrame {
+class HippowdonModel (root: ModelPart) : PosableModel(root), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("hippowdon")
     override val head = getPart("head")
 
@@ -45,11 +47,11 @@ class HippowdonModel (root: ModelPart) : PosableModel(), HeadedFrame {
     lateinit var standingredsand: CobblemonPose
     lateinit var walkredsand: CobblemonPose
 
-    override val cryAnimation = CryProvider { _, pose ->
+    override val cryAnimation = CryProvider {
         when {
-            pose.isPosedIn(standingsand, walksand) -> bedrockStateful("hippowdon", "sand_cry")
-            pose.isPosedIn(battleidle) -> bedrockStateful("hippowdon", "battle_cry")
-            pose.isPosedIn(battleidlesand, battleidleredsand) -> bedrockStateful("hippowdon", "sand_battle_cry")
+            it.isPosedIn(standingsand, walksand) -> bedrockStateful("hippowdon", "sand_cry")
+            it.isPosedIn(battleidle) -> bedrockStateful("hippowdon", "battle_cry")
+            it.isPosedIn(battleidlesand, battleidleredsand) -> bedrockStateful("hippowdon", "sand_battle_cry")
             else -> bedrockStateful("hippowdon", "cry")
         }
     }
@@ -61,7 +63,7 @@ class HippowdonModel (root: ModelPart) : PosableModel(), HeadedFrame {
         sleep = registerPose(
             poseName = "sleep",
             poseType = PoseType.SLEEP,
-            condition = { !it.isStandingOnSand() },
+            condition = { it.getEntity()?.isStandingOnSand() != true },
             transformedParts = arrayOf(
                 sand.createTransformation().withVisibility(visibility = false),
                 redsand.createTransformation().withVisibility(visibility = false)
@@ -75,7 +77,7 @@ class HippowdonModel (root: ModelPart) : PosableModel(), HeadedFrame {
         sleepredsand = registerPose(
             poseName = "sleepsand",
             poseType = PoseType.SLEEP,
-            condition = { it.isStandingOnRedSand() },
+            condition = { it.getEntity()?.isStandingOnRedSand() == true },
             transformedParts = arrayOf(
                 sand.createTransformation().withVisibility(visibility = false),
                 redsand.createTransformation().withVisibility(visibility = false)
@@ -89,7 +91,7 @@ class HippowdonModel (root: ModelPart) : PosableModel(), HeadedFrame {
         standing = registerPose(
             poseName = "standing",
             poseTypes = PoseType.UI_POSES + PoseType.STATIONARY_POSES,
-            condition = { !it.isBattling && !it.isStandingOnSandOrRedSand() },
+            condition = { !it.isBattling && it.getEntity()?.isStandingOnSandOrRedSand() != true },
             quirks = arrayOf(blink, idlequirk),
             transformedParts = arrayOf(
                 sand.createTransformation().withVisibility(visibility = false),
@@ -104,7 +106,7 @@ class HippowdonModel (root: ModelPart) : PosableModel(), HeadedFrame {
         walk = registerPose(
             poseName = "walk",
             poseTypes = PoseType.MOVING_POSES,
-            condition = { !it.isStandingOnSandOrRedSand() },
+            condition = { it.getEntity()?.isStandingOnSandOrRedSand() != true },
             quirks = arrayOf(blink),
             transformedParts = arrayOf(
                 sand.createTransformation().withVisibility(visibility = false),
@@ -120,7 +122,7 @@ class HippowdonModel (root: ModelPart) : PosableModel(), HeadedFrame {
             poseName = "standingsand",
             poseTypes = PoseType.STATIONARY_POSES,
             quirks = arrayOf(blink, idlequirk),
-            condition = { !it.isBattling && it.isStandingOnSand() },
+            condition = { !it.isBattling && it.getEntity()?.isStandingOnSand() == true },
             transformedParts = arrayOf(
                 sand.createTransformation().withVisibility(visibility = false),
                 redsand.createTransformation().withVisibility(visibility = false)
@@ -135,7 +137,7 @@ class HippowdonModel (root: ModelPart) : PosableModel(), HeadedFrame {
             poseName = "standingredsand",
             poseTypes = PoseType.STATIONARY_POSES,
             quirks = arrayOf(blink, idlequirk),
-            condition = { !it.isBattling && it.isStandingOnRedSand() },
+            condition = { !it.isBattling && it.getEntity()?.isStandingOnRedSand() == true },
             transformedParts = arrayOf(
                 sand.createTransformation().withVisibility(visibility = false),
                 redsand.createTransformation().withVisibility(visibility = false)
@@ -149,7 +151,7 @@ class HippowdonModel (root: ModelPart) : PosableModel(), HeadedFrame {
         walksand = registerPose(
             poseName = "walksand",
             poseTypes = PoseType.MOVING_POSES,
-            condition = { it.isStandingOnSand() },
+            condition = { it.getEntity()?.isStandingOnSand() == true },
             quirks = arrayOf(blink),
             transformedParts = arrayOf(
                 sand.createTransformation().withVisibility(visibility = false),
@@ -163,7 +165,7 @@ class HippowdonModel (root: ModelPart) : PosableModel(), HeadedFrame {
         walkredsand = registerPose(
             poseName = "walkredsand",
             poseTypes = PoseType.MOVING_POSES,
-            condition = { it.isStandingOnRedSand() },
+            condition = { it.getEntity()?.isStandingOnRedSand() == true },
             quirks = arrayOf(blink),
             transformedParts = arrayOf(
                 sand.createTransformation().withVisibility(visibility = false),
@@ -177,7 +179,7 @@ class HippowdonModel (root: ModelPart) : PosableModel(), HeadedFrame {
         battleidle = registerPose(
             poseName = "battleidle",
             poseTypes = PoseType.STATIONARY_POSES,
-            condition = { it.isBattling && !it.isStandingOnSandOrRedSand() },
+            condition = { it.isBattling && it.getEntity()?.isStandingOnSandOrRedSand() == true },
             quirks = arrayOf(blink),
             transformedParts = arrayOf(
                 sand.createTransformation().withVisibility(visibility = false),
@@ -192,7 +194,7 @@ class HippowdonModel (root: ModelPart) : PosableModel(), HeadedFrame {
         battleidlesand = registerPose(
             poseName = "battleidlesand",
             poseTypes = PoseType.STATIONARY_POSES,
-            condition = { it.isStandingOnSand() && it.isBattling },
+            condition = { it.getEntity()?.isStandingOnSand() == true && it.isBattling },
             quirks = arrayOf(blink),
             transformedParts = arrayOf(
                 sand.createTransformation().withVisibility(visibility = true),
@@ -207,7 +209,7 @@ class HippowdonModel (root: ModelPart) : PosableModel(), HeadedFrame {
         battleidleredsand = registerPose(
             poseName = "battleidleredsand",
             poseTypes = PoseType.STATIONARY_POSES,
-            condition = { it.isStandingOnRedSand() && it.isBattling },
+            condition = { it.getEntity()?.isStandingOnRedSand() == true && it.isBattling },
             quirks = arrayOf(blink),
             transformedParts = arrayOf(
                 sand.createTransformation().withVisibility(visibility = false),

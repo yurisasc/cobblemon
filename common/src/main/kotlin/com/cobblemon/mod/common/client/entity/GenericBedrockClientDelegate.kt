@@ -25,14 +25,12 @@ class GenericBedrockClientDelegate : EntitySideDelegate<GenericBedrockEntity>, P
         this.currentEntity = entity
         this.age = entity.age
         this.currentModel = GenericBedrockEntityModelRepository.getPoser(entity.category, entity.aspects)
-
-        val model = currentModel!!
-        model.context.put(RenderContext.ENTITY, entity)
         currentModel!!.updateLocators(this)
         updateLocatorPosition(entity.pos)
 
         val currentPoseType = entity.getCurrentPoseType()
-        val pose = this.currentModel!!.poses.values.firstOrNull { currentPoseType in it.poseTypes && (it.condition == null || it.condition.invoke(model.context)) }
+        // Doing this awful thing because otherwise evolution particle won't start until the client looks at it. Which sucks slightly more than this.
+        val pose = this.currentModel!!.poses.values.firstOrNull { currentPoseType in it.poseTypes && (it.condition == null || it.condition.invoke(this)) }
         if (pose != null) {
             doLater { setPose(pose.poseName) }
         }

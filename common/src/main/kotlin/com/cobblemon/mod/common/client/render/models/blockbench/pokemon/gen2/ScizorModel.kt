@@ -25,7 +25,7 @@ import com.cobblemon.mod.common.util.math.geometry.toRadians
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class ScizorModel(root: ModelPart) : PosableModel(), HeadedFrame, BipedFrame, BimanualFrame, BiWingedFrame {
+class ScizorModel(root: ModelPart) : PosableModel(root), HeadedFrame, BipedFrame, BimanualFrame, BiWingedFrame {
     override val rootPart = root.registerChildWithAllChildren("scizor")
     override val head = getPart("head_pivot")
 

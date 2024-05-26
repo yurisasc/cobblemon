@@ -18,7 +18,7 @@ import com.cobblemon.mod.common.entity.PoseType
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class BulbasaurModel(root: ModelPart) : PosableModel(), HeadedFrame, QuadrupedFrame {
+class BulbasaurModel(root: ModelPart) : PosableModel(root), HeadedFrame, QuadrupedFrame {
     override val rootPart = root.registerChildWithAllChildren("bulbasaur")
     override val head = getPart("head")
     override val foreLeftLeg= getPart("leg_front_left")

@@ -33,9 +33,9 @@ abstract class PokeBallPoseableState : PosableState(), Schedulable {
                         after(seconds = 0.2F) {
                             if (model is PokeBallModel && stateEmitter.get() == EmptyPokeBallEntity.CaptureState.HIT) {
                                 doLater latest@{
-                                    model.moveToPose(model.context, this, model.open)
+                                    model.moveToPose(this, model.poses["open"]!!)
                                     after(seconds = 1.75F) {
-                                        model.moveToPose(model.context, this, model.shut)
+                                        model.moveToPose(this, model.poses["shut"]!!)
                                     }
                                 }
                             }

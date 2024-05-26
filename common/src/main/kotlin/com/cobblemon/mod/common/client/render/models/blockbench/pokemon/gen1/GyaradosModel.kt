@@ -21,10 +21,11 @@ import com.cobblemon.mod.common.entity.PoseType.Companion.FLYING_POSES
 import com.cobblemon.mod.common.entity.PoseType.Companion.STANDING_POSES
 import com.cobblemon.mod.common.entity.PoseType.Companion.SWIMMING_POSES
 import com.cobblemon.mod.common.entity.PoseType.Companion.UI_POSES
+import com.cobblemon.mod.common.util.isTouchingWater
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class GyaradosModel(root: ModelPart) : PosableModel(), HeadedFrame {
+class GyaradosModel(root: ModelPart) : PosableModel(root), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("gyarados")
 
     val seg1 = getPart("segment1")
@@ -67,7 +68,7 @@ class GyaradosModel(root: ModelPart) : PosableModel(), HeadedFrame {
             poseTypes = STANDING_POSES + UI_POSES,
             quirks = arrayOf(blink),
             transformTicks = 20,
-            condition = { it.entity?.isTouchingWater == false },
+            condition = { !it.isTouchingWater },
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("gyarados", "ground_idle"),
@@ -99,7 +100,7 @@ class GyaradosModel(root: ModelPart) : PosableModel(), HeadedFrame {
             poseName = "surface",
             poseTypes = setOf(PoseType.STAND, PoseType.WALK),
             quirks = arrayOf(blink),
-            condition = { it.entity?.isTouchingWater == true },
+            condition = { it.isTouchingWater },
             transformTicks = 20,
             idleAnimations = arrayOf(
                 singleBoneLook(),

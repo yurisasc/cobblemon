@@ -8,14 +8,17 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen8
 
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
-import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.pose.CobblemonPose
 import com.cobblemon.mod.common.entity.PoseType
+import com.cobblemon.mod.common.util.isBattling
+import com.cobblemon.mod.common.util.isTouchingWater
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class DracovishModel (root: ModelPart) : PosableModel(), HeadedFrame {
+class DracovishModel (root: ModelPart) : PosableModel(root), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("dracovish")
     override val head = getPart("head_ai")
 
@@ -34,9 +37,9 @@ class DracovishModel (root: ModelPart) : PosableModel(), HeadedFrame {
     lateinit var swim: CobblemonPose
     lateinit var watersleep: CobblemonPose
 
-    override val cryAnimation = CryProvider { _, pose ->
+    override val cryAnimation = CryProvider {
         when {
-            pose.isPosedIn(float, swim, waterbattleidle ) -> bedrockStateful("dracovish", "water_cry")
+            it.isPosedIn(float, swim, waterbattleidle ) -> bedrockStateful("dracovish", "water_cry")
             else -> bedrockStateful("dracovish", "cry")
         }
     }

@@ -21,7 +21,7 @@ import com.cobblemon.mod.common.entity.PoseType.Companion.UI_POSES
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class SteeneeModel(root: ModelPart) : PosableModel(), HeadedFrame, BimanualFrame, BipedFrame {
+class SteeneeModel(root: ModelPart) : PosableModel(root), HeadedFrame, BimanualFrame, BipedFrame {
     override val rootPart = root.registerChildWithAllChildren("steenee")
     override val head = getPart("head")
 

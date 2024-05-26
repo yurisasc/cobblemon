@@ -20,7 +20,7 @@ import com.cobblemon.mod.common.entity.PoseType.Companion.UI_POSES
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class VulpixAlolanModel(root: ModelPart) : PosableModel(), HeadedFrame, QuadrupedFrame {
+class VulpixAlolanModel(root: ModelPart) : PosableModel(root), HeadedFrame, QuadrupedFrame {
     override val rootPart = root.registerChildWithAllChildren("vulpix_alolan")
     override val head = getPart("head")
 

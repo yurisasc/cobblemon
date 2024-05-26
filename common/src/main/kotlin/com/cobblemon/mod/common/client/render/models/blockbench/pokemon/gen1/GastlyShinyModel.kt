@@ -17,7 +17,7 @@ import com.cobblemon.mod.common.entity.PoseType.Companion.UI_POSES
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class GastlyShinyModel(root: ModelPart) : PosableModel() {
+class GastlyShinyModel(root: ModelPart) : PosableModel(root) {
     override val rootPart = root.registerChildWithAllChildren("gastly")
 
     override var portraitScale = 2.4F

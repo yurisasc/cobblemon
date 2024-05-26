@@ -23,7 +23,7 @@ import com.cobblemon.mod.common.util.math.geometry.toRadians
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class ZapdosModel(root: ModelPart) : PosableModel(), HeadedFrame, BiWingedFrame, BipedFrame {
+class ZapdosModel(root: ModelPart) : PosableModel(root), HeadedFrame, BiWingedFrame, BipedFrame {
     override val rootPart = root.registerChildWithAllChildren("zapdos")
     override val head = getPart("head")
     override val leftLeg = getPart("leftleg")

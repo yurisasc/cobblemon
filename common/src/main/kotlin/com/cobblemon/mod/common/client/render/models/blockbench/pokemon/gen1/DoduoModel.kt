@@ -15,10 +15,11 @@ import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.PoseType.Companion.MOVING_POSES
 import com.cobblemon.mod.common.entity.PoseType.Companion.STATIONARY_POSES
 import com.cobblemon.mod.common.entity.PoseType.Companion.UI_POSES
+import com.cobblemon.mod.common.util.isBattling
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class DoduoModel (root: ModelPart) : PosableModel() {
+class DoduoModel (root: ModelPart) : PosableModel(root) {
     override val rootPart = root.registerChildWithAllChildren("doduo")
 
     override var portraitScale = 2.0F

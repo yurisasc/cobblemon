@@ -8,6 +8,8 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.repository
 
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableState
+import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.util.asResource
 import com.google.gson.reflect.TypeToken
 import net.minecraft.entity.Entity
@@ -23,10 +25,6 @@ import net.minecraft.util.Identifier
 class RenderContext {
     // A map to store data values associated with keys
     private val context: MutableMap<Key<*>, Any?> = mutableMapOf()
-
-    fun containsAspect(aspect: String): Boolean {
-        return aspect in (this.request(ASPECTS) ?: emptySet())
-    }
 
     var entity: Entity?
         get() = this.request(ENTITY)
@@ -152,6 +150,11 @@ class RenderContext {
          * Key to access the rendering state, indicating the active rendering mode.
          */
         val RENDER_STATE: Key<RenderState> = key("state".asResource())
+
+        /**
+         * Key to access the posable state of the thing being drawn.
+         */
+        val POSABLE_STATE: Key<PosableState> = key("posable_state".asResource())
 
         /**
          * Creates a new Key instance with the provided identifier and TypeToken.

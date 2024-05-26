@@ -9,17 +9,18 @@
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1
 
 import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableState
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.CobblemonPose
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.PoseType.Companion.MOVING_POSES
 import com.cobblemon.mod.common.entity.PoseType.Companion.STATIONARY_POSES
 import com.cobblemon.mod.common.entity.PoseType.Companion.UI_POSES
-import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
+import com.cobblemon.mod.common.util.isBattling
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class DiglettAlolanModel(root: ModelPart) : PosableModel() {
+class DiglettAlolanModel(root: ModelPart) : PosableModel(root) {
     override val rootPart = root.registerChildWithAllChildren("diglett_alolan")
 
     override var portraitScale = 1.8F
@@ -69,8 +70,5 @@ class DiglettAlolanModel(root: ModelPart) : PosableModel() {
         )
     }
 
-    override fun getFaintAnimation(
-        pokemonEntity: PokemonEntity,
-        state: PoseableEntityState<PokemonEntity>
-    ) = bedrockStateful("diglett_alolan", "faint")
+    override fun getFaintAnimation(state: PosableState) = bedrockStateful("diglett_alolan", "faint")
 }

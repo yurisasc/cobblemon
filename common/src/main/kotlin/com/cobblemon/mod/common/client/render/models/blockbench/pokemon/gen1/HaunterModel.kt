@@ -17,7 +17,7 @@ import com.cobblemon.mod.common.entity.PoseType.Companion.UI_POSES
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class HaunterModel(root: ModelPart) : PosableModel() {
+class HaunterModel(root: ModelPart) : PosableModel(root) {
     override val rootPart = root.registerChildWithAllChildren("haunter")
 
     override var portraitScale = 1.3F

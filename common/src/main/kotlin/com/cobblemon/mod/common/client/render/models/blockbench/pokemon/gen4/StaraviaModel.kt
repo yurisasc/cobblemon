@@ -22,7 +22,7 @@ import com.cobblemon.mod.common.util.math.geometry.toRadians
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class StaraviaModel (root: ModelPart) : PosableModel(), HeadedFrame, BipedFrame, BiWingedFrame {
+class StaraviaModel (root: ModelPart) : PosableModel(root), HeadedFrame, BipedFrame, BiWingedFrame {
     override val rootPart = root.registerChildWithAllChildren("staravia")
     override val leftWing = getPart("wing_left")
     override val rightWing = getPart("wing_right")

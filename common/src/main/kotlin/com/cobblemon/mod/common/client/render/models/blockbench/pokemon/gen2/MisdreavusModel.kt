@@ -15,7 +15,7 @@ import com.cobblemon.mod.common.entity.PoseType
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class MisdreavusModel (root: ModelPart) : PosableModel(), HeadedFrame {
+class MisdreavusModel (root: ModelPart) : PosableModel(root), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("misdreavus")
     override val head = getPart("head")
 

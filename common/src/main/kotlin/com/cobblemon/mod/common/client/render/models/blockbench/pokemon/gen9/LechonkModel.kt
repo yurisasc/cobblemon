@@ -8,17 +8,16 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen9
 
-import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
-import com.cobblemon.mod.common.client.render.models.blockbench.animation.QuadrupedWalkAnimation
-import com.cobblemon.mod.common.client.render.models.blockbench.frame.QuadrupedFrame
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
 import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableState
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
+import com.cobblemon.mod.common.client.render.models.blockbench.pose.CobblemonPose
 import com.cobblemon.mod.common.entity.PoseType
-import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
+import com.cobblemon.mod.common.util.isBattling
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class LechonkModel (root: ModelPart) : PosableModel() {
+class LechonkModel (root: ModelPart) : PosableModel(root) {
     override val rootPart = root.registerChildWithAllChildren("lechonk")
 
     override var portraitScale = 2.0F
@@ -76,8 +75,5 @@ class LechonkModel (root: ModelPart) : PosableModel() {
         )
     }
 
-    override fun getFaintAnimation(
-        pokemonEntity: PokemonEntity,
-        state: PoseableEntityState<PokemonEntity>
-    ) = if (state.isPosedIn(battle_idle)) bedrockStateful("lechonk", "battle_faint") else bedrockStateful("lechonk", "faint")
+    override fun getFaintAnimation(state: PosableState) = if (state.isPosedIn(battle_idle)) bedrockStateful("lechonk", "battle_faint") else bedrockStateful("lechonk", "faint")
 }

@@ -18,7 +18,7 @@ import com.cobblemon.mod.common.entity.PoseType
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class PonytaGalarianModel (root: ModelPart) : PosableModel(), HeadedFrame, QuadrupedFrame {
+class PonytaGalarianModel (root: ModelPart) : PosableModel(root), HeadedFrame, QuadrupedFrame {
     override val rootPart = root.registerChildWithAllChildren("ponyta_galar")
     override val head = getPart("neck")
 

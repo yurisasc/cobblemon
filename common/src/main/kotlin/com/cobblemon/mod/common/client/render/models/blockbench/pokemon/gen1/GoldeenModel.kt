@@ -14,7 +14,7 @@ import com.cobblemon.mod.common.entity.PoseType
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class GoldeenModel(root: ModelPart) : PosableModel() {
+class GoldeenModel(root: ModelPart) : PosableModel(root) {
     override val rootPart = root.registerChildWithAllChildren("goldeen")
 
     override var portraitScale = 3.2F

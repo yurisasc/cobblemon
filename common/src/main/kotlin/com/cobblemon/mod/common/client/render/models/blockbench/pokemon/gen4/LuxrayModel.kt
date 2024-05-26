@@ -17,7 +17,7 @@ import com.cobblemon.mod.common.entity.PoseType
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class LuxrayModel (root: ModelPart) : PosableModel(), HeadedFrame, QuadrupedFrame {
+class LuxrayModel (root: ModelPart) : PosableModel(root), HeadedFrame, QuadrupedFrame {
     override val rootPart = root.registerChildWithAllChildren("luxray")
     override val head = getPart("head")
 

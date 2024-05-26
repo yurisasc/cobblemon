@@ -15,10 +15,11 @@ import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvi
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.Pose
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
+import com.cobblemon.mod.common.util.isBattling
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class QuilavaModel (root: ModelPart) : PosableModel(), HeadedFrame {
+class QuilavaModel (root: ModelPart) : PosableModel(root), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("quilava")
     override val head = getPart("head")
 
@@ -33,7 +34,7 @@ class QuilavaModel (root: ModelPart) : PosableModel(), HeadedFrame {
     lateinit var sleep: Pose
     lateinit var battleidle: Pose
 
-    override val cryAnimation = CryProvider { if ((it.getEntity() as? PokemonEntity)?.isBattling == true) bedrockStateful("quilava", "battle_cry") else PrimaryAnimation(bedrockStateful("quilava", "cry")) }
+    override val cryAnimation = CryProvider { if (it.isBattling) bedrockStateful("quilava", "battle_cry") else PrimaryAnimation(bedrockStateful("quilava", "cry")) }
 
     override fun registerPoses() {
         val blink = quirk { bedrockStateful("quilava", "blink") }
@@ -47,7 +48,7 @@ class QuilavaModel (root: ModelPart) : PosableModel(), HeadedFrame {
             poseName = "standing",
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
             transformTicks = 10,
-            condition = { (it.entity as? PokemonEntity)?.isBattling == false },
+            condition = { !it.isBattling },
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
@@ -73,7 +74,7 @@ class QuilavaModel (root: ModelPart) : PosableModel(), HeadedFrame {
             poseTypes = PoseType.STATIONARY_POSES,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            condition = { (it.entity as? PokemonEntity)?.isBattling == true },
+            condition = { it.isBattling },
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("quilava", "fire_idle"),

@@ -16,7 +16,7 @@ import com.cobblemon.mod.common.entity.PoseType
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class PatratModel (root: ModelPart) : PosableModel(), HeadedFrame {
+class PatratModel (root: ModelPart) : PosableModel(root), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("patrat")
     override val head = getPart("head")
 

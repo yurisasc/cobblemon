@@ -32,6 +32,11 @@ import net.minecraft.util.math.Direction
 import net.minecraft.util.math.RotationAxis
 
 class RestorationTankRenderer(ctx: BlockEntityRendererFactory.Context) : BlockEntityRenderer<RestorationTankBlockEntity> {
+    val context = RenderContext().also {
+        it.put(RenderContext.DO_QUIRKS, true)
+        it.put(RenderContext.RENDER_STATE, RenderContext.RenderState.RESURRECTION_MACHINE)
+    }
+
     override fun render(
         entity: RestorationTankBlockEntity,
         tickDelta: Float,
@@ -67,7 +72,9 @@ class RestorationTankRenderer(ctx: BlockEntityRendererFactory.Context) : BlockEn
             return
         }
 
-        if (struct.isRunning() or (struct.createdPokemon != null)) renderFetus(entity, tickDelta, matrices, vertexConsumers, light, overlay)
+        if (struct.isRunning() or (struct.createdPokemon != null)) {
+            renderFetus(entity, tickDelta, matrices, vertexConsumers, light, overlay)
+        }
 
         matrices.push()
         val transparentBuffer = vertexConsumers.getBuffer(RenderLayer.getTranslucent())
@@ -108,7 +115,8 @@ class RestorationTankRenderer(ctx: BlockEntityRendererFactory.Context) : BlockEn
         state.updatePartialTicks(tickDelta)
 
         val completionPercentage = (1 - timeRemaining / FossilMultiblockStructure.TIME_TO_TAKE.toFloat()).coerceIn(0F, 1F)
-        val fossilFetusModel = FossilModelRepository.getPoser(fossil.identifier, aspects) as FossilModel
+        val fossilFetusModel = FossilModelRepository.getPoser(fossil.identifier, aspects)
+        fossilFetusModel.context = context
 
         val embryo1Scale = EMBRYO_CURVE_1(completionPercentage)
         val embryo2Scale = EMBRYO_CURVE_2(completionPercentage)
@@ -150,10 +158,11 @@ class RestorationTankRenderer(ctx: BlockEntityRendererFactory.Context) : BlockEn
                     matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(90F))
                 }
 
-                val context = RenderContext()
+                val context = model.context
                 context.put(RenderContext.TEXTURE, texture)
                 context.put(RenderContext.SPECIES, fossil.identifier)
                 context.put(RenderContext.RENDER_STATE, RenderContext.RenderState.RESURRECTION_MACHINE)
+                context.put(RenderContext.POSABLE_STATE, state)
 
                 matrices.push()
                 matrices.scale(scale, scale, scale)

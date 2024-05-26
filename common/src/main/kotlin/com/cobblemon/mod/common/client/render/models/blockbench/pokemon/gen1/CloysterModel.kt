@@ -16,7 +16,7 @@ import com.cobblemon.mod.common.entity.PoseType.Companion.UI_POSES
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class CloysterModel(root: ModelPart) : PosableModel() {
+class CloysterModel(root: ModelPart) : PosableModel(root) {
     override val rootPart = root.registerChildWithAllChildren("cloyster")
 
     override var portraitScale = 2.0F

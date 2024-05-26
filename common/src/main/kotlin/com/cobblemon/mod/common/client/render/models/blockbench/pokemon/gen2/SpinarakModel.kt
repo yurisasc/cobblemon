@@ -15,7 +15,7 @@ import com.cobblemon.mod.common.entity.PoseType
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class SpinarakModel (root: ModelPart) : PosableModel(), HeadedFrame {
+class SpinarakModel (root: ModelPart) : PosableModel(root), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("spinarak")
     override val head = getPart("head")
 

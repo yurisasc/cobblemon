@@ -8,17 +8,19 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen5
 
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.QuadrupedWalkAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.createTransformation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.QuadrupedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
-import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.pose.CobblemonPose
 import com.cobblemon.mod.common.entity.PoseType
+import com.cobblemon.mod.common.util.isBattling
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class SamurottHisuianModel (root: ModelPart) : PosableModel(), HeadedFrame, QuadrupedFrame {
+class SamurottHisuianModel (root: ModelPart) : PosableModel(root), HeadedFrame, QuadrupedFrame {
     override val rootPart = root.registerChildWithAllChildren("samurott_hisui")
     override val head = getPart("head")
     override val foreLeftLeg= getPart("leg_front_left")
@@ -55,12 +57,12 @@ class SamurottHisuianModel (root: ModelPart) : PosableModel(), HeadedFrame, Quad
                 condition = { !it.isBattling },
                 quirks = arrayOf(blink),
                 transformedParts = arrayOf(
-                        seamitar_right.createTransformation().withVisibility(visibility = false),
-                        seamitar_left.createTransformation().withVisibility(visibility = false)
+                    seamitar_right.createTransformation().withVisibility(visibility = false),
+                    seamitar_left.createTransformation().withVisibility(visibility = false)
                 ),
                 idleAnimations = arrayOf(
-                        singleBoneLook(),
-                        bedrock("samurott_hisuian", "ground_idle")
+                    singleBoneLook(),
+                    bedrock("samurott_hisuian", "ground_idle")
                 )
         )
 
@@ -71,12 +73,12 @@ class SamurottHisuianModel (root: ModelPart) : PosableModel(), HeadedFrame, Quad
                 quirks = arrayOf(blink),
                 condition = { it.isBattling },
                 transformedParts = arrayOf(
-                        seamitar_right.createTransformation().withVisibility(visibility = false),
-                        seamitar_left.createTransformation().withVisibility(visibility = false)
+                    seamitar_right.createTransformation().withVisibility(visibility = false),
+                    seamitar_left.createTransformation().withVisibility(visibility = false)
                 ),
                 idleAnimations = arrayOf(
-                        singleBoneLook(),
-                        bedrock("samurott_hisuian", "battle_pose")
+                    singleBoneLook(),
+                    bedrock("samurott_hisuian", "battle_pose")
                 )
         )
 
@@ -86,13 +88,13 @@ class SamurottHisuianModel (root: ModelPart) : PosableModel(), HeadedFrame, Quad
                 transformTicks = 10,
                 quirks = arrayOf(blink),
                 transformedParts = arrayOf(
-                        seamitar_right.createTransformation().withVisibility(visibility = false),
-                        seamitar_left.createTransformation().withVisibility(visibility = false)
+                    seamitar_right.createTransformation().withVisibility(visibility = false),
+                    seamitar_left.createTransformation().withVisibility(visibility = false)
                 ),
                 idleAnimations = arrayOf(
-                        singleBoneLook(),
-                        bedrock("samurott_hisuian", "ground_idle"),
-                        QuadrupedWalkAnimation(this, periodMultiplier = 0.8F, amplitudeMultiplier = 0.8F)
+                    singleBoneLook(),
+                    bedrock("samurott_hisuian", "ground_idle"),
+                    QuadrupedWalkAnimation(this, periodMultiplier = 0.8F, amplitudeMultiplier = 0.8F)
                 )
         )
     }

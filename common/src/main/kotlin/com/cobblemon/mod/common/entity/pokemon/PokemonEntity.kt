@@ -252,6 +252,7 @@ open class PokemonEntity(
         .addFunction("entity_height") { DoubleValue(boundingBox.yLength) }
         .addFunction("entity_size") { DoubleValue(boundingBox.run { if (xLength > yLength) xLength else yLength }) }
         .addFunction("entity_radius") { DoubleValue(boundingBox.run { if (xLength > yLength) xLength else yLength } / 2) }
+        .addFunction("has_aspect") { DoubleValue(it.getString(0) in aspects) }
 
     init {
         delegate.initialize(this)
@@ -1063,9 +1064,8 @@ open class PokemonEntity(
     }
 
     fun isFlying() = this.getBehaviourFlag(PokemonBehaviourFlag.FLYING)
-    fun couldStopFlying() = isFlying() && !behaviour.moving.walk.avoidsLand && behaviour.moving.walk.canWalk
     fun isFalling() = this.fallDistance > 0 && this.world.getBlockState(this.blockPos.down()).isAir && !this.isFlying()
-    fun getIsSubmerged() = isInLava || isSubmergedInWater
+    fun couldStopFlying() = isFlying() && !behaviour.moving.walk.avoidsLand && behaviour.moving.walk.canWalk
     override fun getCurrentPoseType(): PoseType = this.dataTracker.get(POSE_TYPE)
 
     /**

@@ -8,14 +8,17 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen2
 
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
-import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.pose.CobblemonPose
 import com.cobblemon.mod.common.entity.PoseType
+import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
+import com.cobblemon.mod.common.util.isBattling
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class CyndaquilHisuiBiasModel (root: ModelPart) : PosableModel(), HeadedFrame {
+class CyndaquilHisuiBiasModel (root: ModelPart) : PosableModel(root), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("cyndaquil_hisui_bias")
     override val head = getPart("head")
 
@@ -30,7 +33,7 @@ class CyndaquilHisuiBiasModel (root: ModelPart) : PosableModel(), HeadedFrame {
     lateinit var sleep: CobblemonPose
     lateinit var battleidle: CobblemonPose
 
-    override val cryAnimation = CryProvider { entity, _ -> if (entity.isBattling) bedrockStateful("cyndaquil_hisui_bias", "battle_cry") else bedrockStateful("cyndaquil_hisui_bias", "cry") }
+    override val cryAnimation = CryProvider { if (it.isBattling) bedrockStateful("cyndaquil_hisui_bias", "battle_cry") else bedrockStateful("cyndaquil_hisui_bias", "cry") }
 
     override fun registerPoses() {
 //        val sneeze = quirk { bedrockStateful("cyndaquil_hisui_bias", "sneeze_quirk") }

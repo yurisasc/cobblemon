@@ -15,7 +15,7 @@ import com.cobblemon.mod.common.entity.PoseType
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class MagnemiteModel(root: ModelPart) : PosableModel() {
+class MagnemiteModel(root: ModelPart) : PosableModel(root) {
     override val rootPart = root.registerChildWithAllChildren("magnemite")
 
     override var portraitScale = 2.2F

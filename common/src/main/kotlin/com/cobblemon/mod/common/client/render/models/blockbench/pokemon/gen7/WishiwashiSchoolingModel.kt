@@ -8,16 +8,15 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen7
 
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.createTransformation
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.Pose
 import com.cobblemon.mod.common.entity.PoseType
-import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
-import com.cobblemon.mod.common.client.render.models.blockbench.PosableState
-import com.cobblemon.mod.common.client.render.models.blockbench.repository.RenderContext
+import com.cobblemon.mod.common.util.isTouchingWater
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class WishiwashiSchoolingModel (root: ModelPart) : PosableModel(){
+class WishiwashiSchoolingModel (root: ModelPart) : PosableModel(root){
     override val rootPart = root.registerChildWithAllChildren("wishiwashi_school")
 
     override var portraitScale = 0.5F
@@ -36,7 +35,7 @@ class WishiwashiSchoolingModel (root: ModelPart) : PosableModel(){
     override fun registerPoses() {
         watersleep = registerPose(
             poseType = PoseType.SLEEP,
-            condition = { it.entity?.isTouchingWater == true },
+            condition = { it.isTouchingWater },
             idleAnimations = arrayOf(bedrock("wishiwashi_school", "water_sleep"))
         )
 

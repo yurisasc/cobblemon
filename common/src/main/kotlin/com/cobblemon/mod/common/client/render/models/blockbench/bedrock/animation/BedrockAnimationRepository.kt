@@ -10,7 +10,7 @@ package com.cobblemon.mod.common.client.render.models.blockbench.bedrock.animati
 
 import com.cobblemon.mod.common.Cobblemon.LOGGER
 import com.cobblemon.mod.common.client.render.models.blockbench.BedrockAnimationReferenceFactory
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.JsonPosableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.JsonPosableModel
 import com.cobblemon.mod.common.util.fromJson
 import com.google.gson.FieldNamingPolicy
 import com.google.gson.GsonBuilder

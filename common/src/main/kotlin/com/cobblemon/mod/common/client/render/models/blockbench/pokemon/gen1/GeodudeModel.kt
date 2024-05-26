@@ -18,7 +18,7 @@ import com.cobblemon.mod.common.entity.PoseType.Companion.UI_POSES
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class GeodudeModel(root: ModelPart) : PosableModel() {
+class GeodudeModel(root: ModelPart) : PosableModel(root) {
     override val rootPart = root.registerChildWithAllChildren("geodude")
 
     override var portraitScale = 1.9F

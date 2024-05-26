@@ -8,16 +8,18 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen5
 
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.createTransformation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
-import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.pose.CobblemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.ModelPartTransformation
 import com.cobblemon.mod.common.entity.PoseType
+import com.cobblemon.mod.common.util.isBattling
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class PetililHisuiBiasModel (root: ModelPart) : PosableModel(), HeadedFrame {
+class PetililHisuiBiasModel (root: ModelPart) : PosableModel(root), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("petilil_hisui_bias")
     override val head = getPart("head")
     val leaf_back = getPart("leaf_back_rotation")
@@ -61,13 +63,13 @@ class PetililHisuiBiasModel (root: ModelPart) : PosableModel(), HeadedFrame {
                 condition = { !it.isBattling },
                 quirks = arrayOf(blink, quirk),
                 idleAnimations = arrayOf(
-                        singleBoneLook(pitchMultiplier = 0.9F, yawMultiplier = 0.9F),
-                        bedrock("petilil", "ground_idle")
+                    singleBoneLook(pitchMultiplier = 0.9F, yawMultiplier = 0.9F),
+                    bedrock("petilil", "ground_idle")
                 ),
                 transformedParts = arrayOf(
-                        leaf_back.createTransformation().addRotationDegrees(ModelPartTransformation.X_AXIS, 6.5),
-                        leaf_left.createTransformation().addRotationDegrees(ModelPartTransformation.X_AXIS, -19.5),
-                        leaf_right.createTransformation().addRotationDegrees(ModelPartTransformation.X_AXIS, -19.5)
+                    leaf_back.createTransformation().addRotationDegrees(ModelPartTransformation.X_AXIS, 6.5),
+                    leaf_left.createTransformation().addRotationDegrees(ModelPartTransformation.X_AXIS, -19.5),
+                    leaf_right.createTransformation().addRotationDegrees(ModelPartTransformation.X_AXIS, -19.5)
                 )
         )
 

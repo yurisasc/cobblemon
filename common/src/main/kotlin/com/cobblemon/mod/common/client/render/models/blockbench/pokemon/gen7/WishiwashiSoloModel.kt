@@ -8,15 +8,14 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen7
 
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.Pose
 import com.cobblemon.mod.common.entity.PoseType
-import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
-import com.cobblemon.mod.common.client.render.models.blockbench.PosableState
-import com.cobblemon.mod.common.client.render.models.blockbench.repository.RenderContext
+import com.cobblemon.mod.common.util.isTouchingWater
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class WishiwashiSoloModel (root: ModelPart) : PosableModel(){
+class WishiwashiSoloModel (root: ModelPart) : PosableModel(root){
     override val rootPart = root.registerChildWithAllChildren("wishiwashi_solo")
 
     override var portraitScale = 3.0F
@@ -35,7 +34,7 @@ class WishiwashiSoloModel (root: ModelPart) : PosableModel(){
         val blink = quirk { bedrockStateful("wishiwashi_solo", "blink") }
         watersleep = registerPose(
             poseType = PoseType.SLEEP,
-            condition = { it.entity?.isTouchingWater == true },
+            condition = { it.isTouchingWater },
             idleAnimations = arrayOf(bedrock("wishiwashi_solo", "water_sleep"))
         )
 

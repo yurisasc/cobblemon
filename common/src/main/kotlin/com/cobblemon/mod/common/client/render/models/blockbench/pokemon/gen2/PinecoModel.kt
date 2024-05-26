@@ -15,7 +15,7 @@ import com.cobblemon.mod.common.entity.PoseType
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class PinecoModel(root: ModelPart) : PosableModel() {
+class PinecoModel(root: ModelPart) : PosableModel(root) {
     override val rootPart = root.registerChildWithAllChildren("pineco")
 
     override var portraitScale = 1.65F

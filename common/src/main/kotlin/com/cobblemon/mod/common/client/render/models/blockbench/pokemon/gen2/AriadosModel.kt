@@ -15,7 +15,7 @@ import com.cobblemon.mod.common.entity.PoseType
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class AriadosModel (root: ModelPart) : PosableModel(), HeadedFrame {
+class AriadosModel (root: ModelPart) : PosableModel(root), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("ariados")
     override val head = getPart("head")
 

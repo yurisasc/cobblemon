@@ -17,7 +17,7 @@ import com.cobblemon.mod.common.util.math.random
 
 class SimpleQuirk(
     private val secondsBetweenOccurrences: Pair<Float, Float>,
-    val condition: (context: RenderContext) -> Boolean = { true },
+    val condition: (context: PosableState) -> Boolean = { true },
     val loopTimes: IntRange = 1..1,
     val animations: (state: PosableState) -> Iterable<StatefulAnimation>
 ) : ModelQuirk<SimpleQuirkData>() {
@@ -27,7 +27,7 @@ class SimpleQuirk(
             return
         }
 
-        if (!condition(context)) {
+        if (!condition(state)) {
             return
         }
 

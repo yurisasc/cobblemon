@@ -8,16 +8,16 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen8
 
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.Pose
 import com.cobblemon.mod.common.entity.PoseType
-import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
-import com.cobblemon.mod.common.client.render.models.blockbench.PosableState
-import com.cobblemon.mod.common.client.render.models.blockbench.repository.RenderContext
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
+import com.cobblemon.mod.common.util.isBattling
+import com.cobblemon.mod.common.util.isTouchingWater
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class ArrokudaModel (root: ModelPart) : PosableModel() {
+class ArrokudaModel (root: ModelPart) : PosableModel(root) {
     override val rootPart = root.registerChildWithAllChildren("arrokuda")
 
     override var portraitScale = 3.0F
@@ -42,14 +42,14 @@ class ArrokudaModel (root: ModelPart) : PosableModel() {
         sleep = registerPose(
             poseName = "sleeping",
             poseType = PoseType.SLEEP,
-            condition = { it.entity?.isTouchingWater == false },
+            condition = { !it.isTouchingWater },
             idleAnimations = arrayOf(bedrock("arrokuda", "sleep"))
         )
 
         watersleep = registerPose(
             poseName = "water_sleeping",
             poseType = PoseType.SLEEP,
-            condition = { it.entity?.isTouchingWater == true },
+            condition = { it.isTouchingWater },
             idleAnimations = arrayOf(bedrock("arrokuda", "water_sleep"))
         )
 
@@ -57,7 +57,7 @@ class ArrokudaModel (root: ModelPart) : PosableModel() {
             poseName = "standing",
             poseTypes = PoseType.UI_POSES + PoseType.STAND,
             transformTicks = 10,
-            condition = { (it.entity as? PokemonEntity)?.isBattling == false },
+            condition = { !it.isBattling },
             quirks = arrayOf(blink, flop),
             idleAnimations = arrayOf(
                 bedrock("arrokuda", "ground_idle")
@@ -97,7 +97,7 @@ class ArrokudaModel (root: ModelPart) : PosableModel() {
             poseTypes = PoseType.STATIONARY_POSES,
             transformTicks = 10,
             quirks = arrayOf(blink, flop),
-            condition = { (it.entity as? PokemonEntity)?.let { it.isBattling && !it.isTouchingWater } == true },
+            condition = { it.isBattling && !it.isTouchingWater },
             idleAnimations = arrayOf(
                 bedrock("arrokuda", "battle_idle")
             )
@@ -108,7 +108,7 @@ class ArrokudaModel (root: ModelPart) : PosableModel() {
             poseTypes = PoseType.STATIONARY_POSES,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            condition = { (it.entity as? PokemonEntity)?.let { it.isBattling && it.isTouchingWater } == true },
+            condition = { it.isBattling && it.isTouchingWater },
             idleAnimations = arrayOf(
                 bedrock("arrokuda", "water_battle_idle")
             )

@@ -8,18 +8,17 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen9
 
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.Pose
 import com.cobblemon.mod.common.entity.PoseType
-import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
-import com.cobblemon.mod.common.client.render.models.blockbench.PosableState
-import com.cobblemon.mod.common.client.render.models.blockbench.repository.RenderContext
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
+import com.cobblemon.mod.common.util.isBattling
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class FloragatoModel (root: ModelPart) : PosableModel(), HeadedFrame {
+class FloragatoModel (root: ModelPart) : PosableModel(root), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("floragato")
     override val head = getPart("head")
 
@@ -34,7 +33,7 @@ class FloragatoModel (root: ModelPart) : PosableModel(), HeadedFrame {
     lateinit var sleep: Pose
     lateinit var battleidle: Pose
 
-    override val cryAnimation = CryProvider { if (it.getEntity()?.let { it is PokemonEntity && it.isBattling } == true) bedrockStateful("floragato", "battle_cry") else bedrockStateful("floragato", "cry") }
+    override val cryAnimation = CryProvider { if (it.isBattling) bedrockStateful("floragato", "battle_cry") else bedrockStateful("floragato", "cry") }
 
     override fun registerPoses() {
         val blink = quirk { bedrockStateful("floragato", "blink") }
@@ -47,7 +46,7 @@ class FloragatoModel (root: ModelPart) : PosableModel(), HeadedFrame {
             poseName = "standing",
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
             transformTicks = 10,
-            condition = { (it.entity as? PokemonEntity)?.isBattling == false },
+            condition = { !it.isBattling },
             quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
@@ -71,7 +70,7 @@ class FloragatoModel (root: ModelPart) : PosableModel(), HeadedFrame {
             poseTypes = PoseType.STATIONARY_POSES,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            condition = { (it.entity as? PokemonEntity)?.isBattling == true },
+            condition = { it.isBattling },
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("floragato", "battle_idle")

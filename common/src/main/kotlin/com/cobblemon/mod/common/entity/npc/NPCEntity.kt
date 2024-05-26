@@ -158,7 +158,7 @@ class NPCEntity(world: World) : PassiveEntity(CobblemonEntities.NPC, world), Npc
         val POSE_TYPE = DataTracker.registerData(NPCEntity::class.java, PoseTypeDataSerializer)
         val BATTLE_IDS = DataTracker.registerData(NPCEntity::class.java, UUIDSetDataSerializer)
 
-        val BATTLING = Activity.register("npc_battling")
+//        val BATTLING = Activity.register("npc_battling")
 
         val SENSORS: Collection<SensorType<out Sensor<in NPCEntity>>> = listOf(
             SensorType.NEAREST_LIVING_ENTITIES,
@@ -224,12 +224,12 @@ class NPCEntity(world: World) : PassiveEntity(CobblemonEntities.NPC, world), Npc
             Pair.of(1, MoveToAttackTargetTask.create()),
             Pair.of(1, MeleeAttackTask.create(2F, 30L))
         ))
-        brain.setTaskList(BATTLING, ImmutableList.of(
-            Pair.of(0, SwitchFromBattleTask.create()),
-            Pair.of(1, LookAroundTask(45, 90)),
-            Pair.of(2, LookAtBattlingPokemonTask.create()),
-
-        ))
+//        brain.setTaskList(BATTLING, ImmutableList.of(
+//            Pair.of(0, SwitchFromBattleTask.create()),
+//            Pair.of(1, LookAroundTask(45, 90)),
+//            Pair.of(2, LookAtBattlingPokemonTask.create()),
+//
+//        ))
         brain.setCoreActivities(setOf(Activity.CORE))
         brain.setDefaultActivity(Activity.IDLE)
         brain.resetPossibleActivities()

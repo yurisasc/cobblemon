@@ -13,10 +13,11 @@ import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvi
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.Pose
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
+import com.cobblemon.mod.common.util.isBattling
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class CrobatModel(root: ModelPart) : PosableModel() {
+class CrobatModel(root: ModelPart) : PosableModel(root) {
     override val rootPart = root.registerChildWithAllChildren("crobat")
 
     override var portraitScale = 1.2F
@@ -45,7 +46,7 @@ class CrobatModel(root: ModelPart) : PosableModel() {
         standing = registerPose(
             poseName = "standing",
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES - PoseType.HOVER,
-            condition = { (it.entity as? PokemonEntity)?.isBattling == false },
+            condition = { !it.isBattling },
             transformTicks = 10,
             idleAnimations = arrayOf(
                 bedrock("crobat", "ground_idle")
@@ -86,7 +87,7 @@ class CrobatModel(root: ModelPart) : PosableModel() {
             poseTypes = PoseType.STATIONARY_POSES,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            condition = { (it.entity as? PokemonEntity)?.isBattling == true },
+            condition = { it.isBattling },
             idleAnimations = arrayOf(
                 bedrock("crobat", "battle_idle")
             )

@@ -15,7 +15,7 @@ import com.cobblemon.mod.common.entity.PoseType
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class CombeeModel (root: ModelPart) : PosableModel() {
+class CombeeModel (root: ModelPart) : PosableModel(root) {
     override val rootPart = root.registerChildWithAllChildren("combee")
 
     override var portraitScale = 1.8F

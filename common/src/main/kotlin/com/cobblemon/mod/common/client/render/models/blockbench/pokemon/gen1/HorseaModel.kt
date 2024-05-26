@@ -15,7 +15,7 @@ import com.cobblemon.mod.common.entity.PoseType.Companion.UI_POSES
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class HorseaModel(root: ModelPart) : PosableModel() {
+class HorseaModel(root: ModelPart) : PosableModel(root) {
     override val rootPart = root.registerChildWithAllChildren("horsea")
 
     override var portraitScale = 2.5F

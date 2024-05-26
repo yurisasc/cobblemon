@@ -185,10 +185,8 @@ class GildedChestBlock(settings: Settings, val type: Type = Type.RED) : BlockWit
             PiglinBrain.onGuardedBlockInteracted(player, true)
         }
         val state = entity.poseableState
-        val context = RenderContext()
-        context.put(RenderContext.RENDER_STATE, RenderContext.RenderState.WORLD)
         state.currentModel?.let {
-            it.moveToPose(context, state, it.getPose("OPEN")!!)
+            it.moveToPose(state, it.getPose("open")!!)
         }
         return ActionResult.SUCCESS
     }

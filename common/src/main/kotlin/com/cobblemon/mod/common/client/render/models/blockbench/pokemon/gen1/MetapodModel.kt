@@ -17,7 +17,7 @@ import com.cobblemon.mod.common.entity.PoseType.Companion.ALL_POSES
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class MetapodModel(root: ModelPart) : PosableModel() {
+class MetapodModel(root: ModelPart) : PosableModel(root) {
     override val rootPart = root.registerChildWithAllChildren("metapod")
 
     override var portraitScale = 2.0F

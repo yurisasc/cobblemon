@@ -19,12 +19,10 @@ import com.cobblemon.mod.common.client.keybind.boundKey
 import com.cobblemon.mod.common.client.keybind.keybinds.PartySendBinding
 import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.PosableState
-import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PosablePokemonModel
 import com.cobblemon.mod.common.client.render.models.blockbench.repository.PokeBallModelRepository
 import com.cobblemon.mod.common.client.render.models.blockbench.repository.PokemonModelRepository
 import com.cobblemon.mod.common.client.render.models.blockbench.repository.RenderContext
-import com.cobblemon.mod.common.client.render.models.blockbench.wavefunction.parabolaFunction
 import com.cobblemon.mod.common.client.render.pokeball.PokeBallPoseableState
 import com.cobblemon.mod.common.client.render.renderBeaconBeam
 import com.cobblemon.mod.common.client.settings.ServerSettings
@@ -58,7 +56,6 @@ import org.joml.Math
 import org.joml.Quaternionf
 import org.joml.Vector3f
 import org.joml.Vector4f
-import kotlin.math.*
 
 class PokemonRenderer(
     context: EntityRendererFactory.Context
@@ -374,7 +371,7 @@ class PokemonRenderer(
         val model = PokeBallModelRepository.getPoser(ball.name, state.aspects)
         val texture = PokeBallModelRepository.getTexture(ball.name, state.aspects, state.animationSeconds)
         if (scale == 1.0f) {
-            model.moveToPose(ballContext, state, model.poses["open"]!!)
+            model.moveToPose(state, model.poses["open"]!!)
         } else {
             matrixStack.translate(0.0, -0.2, 0.0)
             val rot = 360F * distance

@@ -13,13 +13,14 @@ import com.cobblemon.mod.common.client.render.models.blockbench.animation.WaveAn
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.WaveSegment
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
+import com.cobblemon.mod.common.client.render.models.blockbench.pose.CobblemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.ModelPartTransformation
 import com.cobblemon.mod.common.client.render.models.blockbench.wavefunction.sineFunction
 import com.cobblemon.mod.common.entity.PoseType
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class QwilfishModel (root: ModelPart) : PosableModel(), HeadedFrame  {
+class QwilfishModel (root: ModelPart) : PosableModel(root), HeadedFrame  {
     override val rootPart = root.registerChildWithAllChildren("qwilfish")
     override val head = getPart("body")
 
@@ -57,7 +58,6 @@ class QwilfishModel (root: ModelPart) : PosableModel(), HeadedFrame  {
             idleAnimations = arrayOf(
                 bedrock("qwilfish", "ground_idle"),
                 WaveAnimation(
-                    frame = this,
                     waveFunction = sineFunction(
                         period = 8F,
                         amplitude = 0.4F

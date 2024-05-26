@@ -20,7 +20,7 @@ import com.cobblemon.mod.common.entity.PoseType.Companion.UI_POSES
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class ArcanineModel(root: ModelPart) : PosableModel(), HeadedFrame, QuadrupedFrame {
+class ArcanineModel(root: ModelPart) : PosableModel(root), HeadedFrame, QuadrupedFrame {
     override val rootPart = root.registerChildWithAllChildren("arcanine")
     override val head = getPart("head")
 

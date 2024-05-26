@@ -8,19 +8,20 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen5
 
-import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
-import com.cobblemon.mod.common.client.render.models.blockbench.animation.BipedWalkAnimation
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableState
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.PrimaryAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
-import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.pose.CobblemonPose
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
+import com.cobblemon.mod.common.util.isBattling
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class GurdurrModel (root: ModelPart) : PosableModel(), HeadedFrame, BipedFrame {
+class GurdurrModel (root: ModelPart) : PosableModel(root), HeadedFrame, BipedFrame {
     override val rootPart = root.registerChildWithAllChildren("gurdurr")
     override val head = getPart("head")
 
@@ -38,7 +39,7 @@ class GurdurrModel (root: ModelPart) : PosableModel(), HeadedFrame, BipedFrame {
     lateinit var sleep: CobblemonPose
     lateinit var battleidle: CobblemonPose
 
-    override val cryAnimation = CryProvider { entity, _ -> if (entity.isBattling) bedrockStateful("gurdurr", "battle_cry") else bedrockStateful("gurdurr", "cry") }
+    override val cryAnimation = CryProvider { if (it.isBattling) bedrockStateful("gurdurr", "battle_cry") else bedrockStateful("gurdurr", "cry") }
 
     override fun registerPoses() {
         val blink = quirk { bedrockStateful("gurdurr", "blink") }
@@ -85,8 +86,5 @@ class GurdurrModel (root: ModelPart) : PosableModel(), HeadedFrame, BipedFrame {
         )
     }
 
-    override fun getFaintAnimation(
-        pokemonEntity: PokemonEntity,
-        state: PoseableEntityState<PokemonEntity>
-    ) = bedrockStateful("gurdurr", "faint")
+    override fun getFaintAnimation(state: PosableState) = bedrockStateful("gurdurr", "faint")
 }

@@ -13,12 +13,17 @@ import com.cobblemon.mod.common.client.render.models.blockbench.animation.Statel
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.Bone
 import com.cobblemon.mod.common.client.render.models.blockbench.quirk.ModelQuirk
 import com.cobblemon.mod.common.entity.PoseType
+import com.google.gson.annotations.SerializedName
 import net.minecraft.client.model.ModelPart
 
-class FossilModel(root: Bone) : PosableModel() {
+class FossilModel(root: Bone) : PosableModel(root) {
+    @Transient
+    @SerializedName("dummy")
     override var isForLivingEntityRenderer = false
     //TODO: Find a better way to fetch this bone name - Update the BlockEntityModel too when you figure it out
     val boneName: String = root.children.entries.first().key
+    @Transient
+    @SerializedName("Something that isn't root part. Gson thinks they're the same as the root field and so field duplication. Stupid.")
     override val rootPart = (root as ModelPart).registerChildWithAllChildren(boneName)
     // Represents a very rough middle of the model
     // The reason to do this is to
@@ -29,6 +34,7 @@ class FossilModel(root: Bone) : PosableModel() {
     var yTranslation = 0F // Offset inside the tank
     var tankAnimations: Array<StatelessAnimation> = emptyArray()
     var tankQuirks: Array<ModelQuirk<*>> = emptyArray()
+
     override fun registerPoses() {
         registerPose(
             poseType = PoseType.SLEEP,

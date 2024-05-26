@@ -16,7 +16,7 @@ import com.cobblemon.mod.common.entity.PoseType
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class MurkrowModel(root: ModelPart) : PosableModel(), HeadedFrame, BipedFrame {
+class MurkrowModel(root: ModelPart) : PosableModel(root), HeadedFrame, BipedFrame {
     override val rootPart = root.registerChildWithAllChildren("murkrow")
     override val head = getPart("head")
     override val leftLeg = getPart("leg_left")

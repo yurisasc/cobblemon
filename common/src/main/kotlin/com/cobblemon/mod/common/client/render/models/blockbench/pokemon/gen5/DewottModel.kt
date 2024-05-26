@@ -17,10 +17,11 @@ import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvi
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.Pose
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
+import com.cobblemon.mod.common.util.isBattling
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class DewottModel (root: ModelPart) : PosableModel(), HeadedFrame, BipedFrame, BimanualFrame {
+class DewottModel (root: ModelPart) : PosableModel(root), HeadedFrame, BipedFrame, BimanualFrame {
     override val rootPart = root.registerChildWithAllChildren("dewott")
     override val head = getPart("head")
     override val rightArm = getPart("arm_right")
@@ -49,7 +50,7 @@ class DewottModel (root: ModelPart) : PosableModel(), HeadedFrame, BipedFrame, B
         sleep = registerPose(
             poseType = PoseType.SLEEP,
             transformTicks = 10,
-            condition = { (it.entity as? PokemonEntity)?.isBattling == false },
+            condition = { !it.isBattling },
             transformedParts = arrayOf(
                 scalchop_right.createTransformation().withVisibility(visibility = false),
                 scalchop_left.createTransformation().withVisibility(visibility = false),
@@ -65,7 +66,7 @@ class DewottModel (root: ModelPart) : PosableModel(), HeadedFrame, BipedFrame, B
             poseTypes = setOf(PoseType.NONE, PoseType.STAND, PoseType.PORTRAIT, PoseType.PROFILE),
             transformTicks = 10,
             quirks = arrayOf(blink),
-            condition = { (it.entity as? PokemonEntity)?.isBattling == false },
+            condition = { !it.isBattling },
             transformedParts = arrayOf(
                 scalchop_right.createTransformation().withVisibility(visibility = false),
                 scalchop_left.createTransformation().withVisibility(visibility = false),
@@ -83,7 +84,7 @@ class DewottModel (root: ModelPart) : PosableModel(), HeadedFrame, BipedFrame, B
             poseTypes = setOf(PoseType.SWIM, PoseType.WALK),
             transformTicks = 10,
             quirks = arrayOf(blink),
-            condition = { (it.entity as? PokemonEntity)?.isBattling == false },
+            condition = { !it.isBattling },
             transformedParts = arrayOf(
                 scalchop_right.createTransformation().withVisibility(visibility = false),
                 scalchop_left.createTransformation().withVisibility(visibility = false),
@@ -101,7 +102,7 @@ class DewottModel (root: ModelPart) : PosableModel(), HeadedFrame, BipedFrame, B
             poseTypes = PoseType.STATIONARY_POSES,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            condition = { (it.entity as? PokemonEntity)?.isBattling == true },
+            condition = { it.isBattling },
             transformedParts = arrayOf(
                 scalchop_right.createTransformation().withVisibility(visibility = true),
                 scalchop_left.createTransformation().withVisibility(visibility = true),

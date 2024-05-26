@@ -8,22 +8,22 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen9
 
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableState
 import com.cobblemon.mod.common.client.render.models.blockbench.createTransformation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.Pose
 import com.cobblemon.mod.common.entity.PoseType
-import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
-import com.cobblemon.mod.common.client.render.models.blockbench.PosableState
-import com.cobblemon.mod.common.client.render.models.blockbench.repository.RenderContext
 import com.cobblemon.mod.common.entity.PoseType.Companion.MOVING_POSES
 import com.cobblemon.mod.common.entity.PoseType.Companion.STATIONARY_POSES
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
+import com.cobblemon.mod.common.util.isBattling
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class GarganaclModel(root: ModelPart) : PosableModel(), HeadedFrame, BipedFrame {
+class GarganaclModel(root: ModelPart) : PosableModel(root), HeadedFrame, BipedFrame {
     override val rootPart = root.registerChildWithAllChildren("garganacl")
     override val head = getPart("waist")
     override val leftLeg = getPart("leg_left")
@@ -47,7 +47,7 @@ class GarganaclModel(root: ModelPart) : PosableModel(), HeadedFrame, BipedFrame 
     override fun registerPoses() {
         standing = registerPose(
             poseName = "standing",
-            condition = { (it.entity as? PokemonEntity)?.isBattling == false },
+            condition = { !it.isBattling },
             poseTypes = STATIONARY_POSES + PoseType.PROFILE,
             transformedParts = arrayOf(
                 shoulder.createTransformation().withVisibility(visibility = true)
@@ -60,7 +60,7 @@ class GarganaclModel(root: ModelPart) : PosableModel(), HeadedFrame, BipedFrame 
 
         battlestanding = registerPose(
             poseName = "battlestanding",
-            condition = { (it.entity as? PokemonEntity)?.isBattling == true },
+            condition = { it.isBattling },
             poseTypes = STATIONARY_POSES,
             transformedParts = arrayOf(
                 shoulder.createTransformation().withVisibility(visibility = true)
@@ -92,7 +92,7 @@ class GarganaclModel(root: ModelPart) : PosableModel(), HeadedFrame, BipedFrame 
 
         walk = registerPose(
                 poseName = "walk",
-                condition = { (it.entity as? PokemonEntity)?.isBattling == false },
+                condition = { !it.isBattling },
                 poseTypes = MOVING_POSES,
             transformedParts = arrayOf(
                 shoulder.createTransformation().withVisibility(visibility = true)

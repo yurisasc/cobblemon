@@ -31,7 +31,7 @@ object SwitchToBattleTask {
             ).apply(it) { walkTarget, _ ->
                 TaskRunnable { _, entity, _ ->
                     walkTarget.forget()
-                    entity.brain.doExclusively(NPCEntity.BATTLING)
+//                    entity.brain.doExclusively(NPCEntity.BATTLING)
                     true
                 }
             }

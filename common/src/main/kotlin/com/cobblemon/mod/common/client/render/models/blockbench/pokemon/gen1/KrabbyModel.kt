@@ -10,15 +10,18 @@ package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1
 
 import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
+import com.cobblemon.mod.common.client.render.models.blockbench.pose.CobblemonPose
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.PoseType.Companion.MOVING_POSES
 import com.cobblemon.mod.common.entity.PoseType.Companion.STATIONARY_POSES
 import com.cobblemon.mod.common.entity.PoseType.Companion.UI_POSES
+import com.cobblemon.mod.common.util.isBattling
 import com.cobblemon.mod.common.util.isDusk
+import com.cobblemon.mod.common.util.isTouchingWaterOrRain
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class KrabbyModel(root: ModelPart) : PosableModel() {
+class KrabbyModel(root: ModelPart) : PosableModel(root) {
     override val rootPart = root.registerChildWithAllChildren("krabby")
 
     override var portraitScale = 2.5F
@@ -44,7 +47,7 @@ class KrabbyModel(root: ModelPart) : PosableModel() {
         standing = registerPose(
             poseName = "standing",
             poseTypes = STATIONARY_POSES + UI_POSES,
-            condition = { !it.isBattling && !it.isDusk() },
+            condition = { !it.isBattling && it.getEntity()?.isDusk() != true },
             quirks = arrayOf(blink, snipLeft, snipRight ),
             idleAnimations = arrayOf(
                 bedrock("krabby", "ground_idle")
@@ -54,7 +57,7 @@ class KrabbyModel(root: ModelPart) : PosableModel() {
         standingBubbles = registerPose(
             poseName = "standing_bubbles",
             poseTypes = STATIONARY_POSES,
-            condition = { !it.isBattling && it.isDusk() && !it.isTouchingWaterOrRain },
+            condition = { !it.isBattling && it.getEntity()?.isDusk() == true && !it.isTouchingWaterOrRain },
             quirks = arrayOf(blink, snipLeft, snipRight, bubble),
             idleAnimations = arrayOf(
                 bedrock("krabby", "ground_idle")
@@ -64,7 +67,7 @@ class KrabbyModel(root: ModelPart) : PosableModel() {
         standingRain = registerPose(
             poseName = "standing_rain",
             poseTypes = STATIONARY_POSES,
-            condition = { !it.isBattling && it.isDusk() && it.isTouchingWaterOrRain},
+            condition = { !it.isBattling && it.getEntity()?.isDusk() == true && it.isTouchingWaterOrRain},
             quirks = arrayOf(blink, snipLeft, snipRight),
             idleAnimations = arrayOf(
                 bedrock("krabby", "ground_idle")

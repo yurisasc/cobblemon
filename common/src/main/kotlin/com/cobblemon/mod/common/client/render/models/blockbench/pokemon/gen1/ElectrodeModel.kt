@@ -17,7 +17,7 @@ import com.cobblemon.mod.common.entity.PoseType.Companion.UI_POSES
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class ElectrodeModel(root: ModelPart) : PosableModel() {
+class ElectrodeModel(root: ModelPart) : PosableModel(root) {
     override val rootPart = root.registerChildWithAllChildren("electrode")
 
     override var portraitScale = 1.5F

@@ -13,10 +13,11 @@ import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvi
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.Pose
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
+import com.cobblemon.mod.common.util.isBattling
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class HoothootModel (root: ModelPart) : PosableModel() {
+class HoothootModel (root: ModelPart) : PosableModel(root) {
     override val rootPart = root.registerChildWithAllChildren("hoothoot")
 
     override var portraitScale = 2.2F
@@ -44,7 +45,7 @@ class HoothootModel (root: ModelPart) : PosableModel() {
         standing = registerPose(
             poseName = "stand",
             poseTypes = PoseType.STATIONARY_POSES - PoseType.HOVER - PoseType.FLOAT + PoseType.UI_POSES,
-            condition = { (it.entity as? PokemonEntity)?.isBattling == false },
+            condition = { !it.isBattling },
             transformTicks = 10,
             quirks = arrayOf(blink, quirk),
             idleAnimations = arrayOf(
@@ -81,7 +82,7 @@ class HoothootModel (root: ModelPart) : PosableModel() {
             poseTypes = PoseType.STATIONARY_POSES,
             transformTicks = 10,
             quirks = arrayOf(blink, quirk),
-            condition = { (it.entity as? PokemonEntity)?.isBattling == true },
+            condition = { it.isBattling },
             idleAnimations = arrayOf(
                 bedrock("hoothoot", "battle_idle")
             )
