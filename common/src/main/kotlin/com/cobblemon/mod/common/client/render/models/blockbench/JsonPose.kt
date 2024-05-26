@@ -37,7 +37,7 @@ class JsonPose<T : Entity>(model: PoseableEntityModel<T>, json: JsonObject) {
         it.environment.getQueryStruct().addFunctions(model.functions.functions)
     }
 
-    val condition: ExpressionLike = json.singularToPluralList("condition").get("condition")?.normalizeToArray()?.map { it.asString }?.asExpressionLike() ?: "true".asExpressionLike()
+    val condition: ExpressionLike = json.singularToPluralList("condition").get("conditions")?.normalizeToArray()?.map { it.asString }?.asExpressionLike() ?: "true".asExpressionLike()
 
     val poseName = json.get("poseName")?.asString ?: "pose"
     val poseTypes = (json.get("poseTypes")?.asJsonArray?.map { name ->

@@ -62,14 +62,6 @@ class FossilAnalyzerBlockEntity(
         }
 
         override fun removeStack(slot: Int): ItemStack {
-//            if(analyzerEntity.multiblockStructure is FossilMultiblockStructure) {
-//                val fossilMultiblockStructure = analyzerEntity.multiblockStructure as FossilMultiblockStructure
-//                if (fossilMultiblockStructure.fossilInventory.size > slot) {
-//                    val itemStack = fossilMultiblockStructure.fossilInventory.removeAt(slot)
-//                    markDirty()
-//                    return itemStack
-//                }
-//            }
             return ItemStack.EMPTY
         }
 
@@ -111,7 +103,6 @@ class FossilAnalyzerBlockEntity(
         }
 
         override fun canExtract(slot: Int, stack: ItemStack?, dir: Direction?): Boolean {
-//            return analyzerEntity.multiblockStructure != null && analyzerEntity.multiblockStructure is FossilMultiblockStructure && dir == Direction.DOWN
             return false
         }
     }
