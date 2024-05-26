@@ -823,7 +823,6 @@ abstract class PoseableEntityModel<T : Entity>(
             matrixStack.push()
             matrixStack.scale(-1F, -1F, 1F)
             scale = entity.pokemon.form.baseScale * entity.pokemon.scaleModifier * (entity.delegate as PokemonClientDelegate).entityScaleModifier
-
             matrixStack.scale(scale, scale, scale)
         } else if (entity is EmptyPokeBallEntity) {
             matrixStack.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(entity.yaw))
@@ -838,27 +837,14 @@ abstract class PoseableEntityModel<T : Entity>(
             matrixStack.scale(1F, -1F, 1F)
         }
 
-        matrixStack.push()
-        matrixStack.scale(1F, -1F, 1F)
         val states = state.locatorStates
-        states.getOrPut("root") { MatrixWrapper() }.updateMatrix(matrixStack.peek().positionMatrix)
-        matrixStack.pop()
 
         if (isForLivingEntityRenderer) {
             // Standard living entity offset, only God knows why Mojang did this.
             matrixStack.translate(0.0, -1.5, 0.0)
         }
 
-        // If we have the entity, put in an approximation of the target locator. If the model has one defined,
-        // this will be overridden.
-        matrixStack.push()
-        matrixStack.translate(0.0, -entity.boundingBox.yLength / 2.0 / scale + 1.5F, -entity.width * 0.6 / scale)
-        matrixStack.scale(1F, -1F, 1F)
-        states.getOrPut("target") { MatrixWrapper() }.updateMatrix(matrixStack.peek().positionMatrix)
-        states.getOrPut("special_attack") { MatrixWrapper() }.updateMatrix(matrixStack.peek().positionMatrix)
-        matrixStack.pop()
-
-        locatorAccess.update(matrixStack, states)
+        locatorAccess.update(matrixStack, entity, scale, states, isRoot = true)
     }
 
     fun ModelPart.translation(
