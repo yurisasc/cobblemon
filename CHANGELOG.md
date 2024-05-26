@@ -6,6 +6,9 @@
 - Added unique send out particles for Cherish, Dream, Beast, and Ancient Origin balls.
 - Made Wooloo and Dubwool dye-able like sheep
 - Semi-implemented Smeargle. It's temporarily using the "color" feature. Spawn it with "/pokespawn smeargle color=(color)" or else you'll get the bald one.
+- More moves now have animations and particles! These include: Cotton Guard, Growl, Ice Punch, Fire Punch, Thunder Punch, Minimize, Quick Attack, Protect, Swords Dance, Sand Attack, Bubble Beam, Poison Powder, Sleep Powder, Stune Spore, and Rage Powder.
+- Added stat up and down particles.
+- Most status effects now have particles! These include: Paralysis, Poison, Sleep, Confusion, Infatuation.
 
 ### Changes
 - Sounds for Relic Coin Sacks have been correctly renamed. Relic Coin Pouches received new sounds for breaking and placing.
@@ -15,19 +18,19 @@
 - Made Mulch cheaper to craft.
 
 ### Fixes
-- Fixed a bug in which adding organic material to the restoration tank via right click was adding the full count of the stack currently in hand.
+- Fixed a bug in which adding organic material to the fossil tank via right click was adding the full count of the stack currently in hand
 - Fixed a niche issue where some properties of entities were not initialized correctly, causing Pokémon that appeared to be level 1 until you battle them.
 - Fixed Fossilized Drake being missing from the Fossils item tag.
-- Fixed Gilded Chest block entity not being cleared on block break.
-- Fixed sherd brokenness on Forge/Supplementaries incompat.
-- Fixed Fossil Compartment crash with Jade / WAILA forks.
+- Fixed Gilded Chest block entity not being cleared on block break
+- Fixed sherd brokenness on Forge/Supplementaries incompat
+- Fixed Fossil Compartment crash with Jade / WAILA forks
 - Fixed PCStore#resize not allowing PC boxes size reduction.
 - Fixed pasture block PC lookups when the player is offline.
 - Fixed an untranslated battle message that occurs when using a move that just ran out of PP (e.g. Fire Blast that just got spited mid-turn). 
 - Fixed held items being eaten even when the held item evolutions are already unlocked.
-- Fixed Hisuian Decidueye not being Grass/Fighting.
-- Fixed both Decidueye forms learning both Triple Arrows and Spirit Shackle.
-- Fixed Pineco being unable to evolve into Shulker Forretress.
+- Fixed Hisuian Decidueye not being Grass/Fighting
+- Fixed both Decidueye forms learning both Triple Arrows and Spirit Shackle
+- Fixed Pineco being unable to evolve into Shulker Forretress
 - Fixed Kabutops T-posing when underwater. It still does not have proper swimming animations yet though. 
 - Fixed Pidgey's missing walk animation.
 - Fixed Cyndaquil's hidden flames clipping if it was swimming.
@@ -48,6 +51,10 @@
 - Fixed bug where sometimes pokemon sendouts wouldnt create an entity or the entity would spawn at 0 0 0
 - Fixed issue in which a locked Gilded Chest would animate to the open state when the client fails to open it  
 - Fixed a bug where aspects of a form would not be properly reflected on form changes (eg. Normal -> Hisui)
+- Fixed particle effects often not having access to some specific entity functions from MoLang.
+- Fixed particles sometimes lasting a single tick too long, causing (very quick) visual glitches.
+- Fixed particle rotations being inverted. 
+- Fixed particle events not spawning at the instigating particle's location.
 
 ### Developer
 - Changed SpawnAction#complete to return a nullable generic R (the spawn action result) instead of a boolean. More information this way.
@@ -56,6 +63,8 @@
 ### Data Pack & Resource Pack Creators
 - Added support for MoLang conditions for quirks and poses.
 - Changed the AttackDefenceRatio requirement to StatCompare and StatEqual.
+- Added parametric motion and rotation support to particle effects.
+- Added entity_scale as a molang var for particles (likely only applicable to Pokemon)
 - Added support for primary quirk animations using the following format:
 ```JSON
 {

@@ -75,10 +75,10 @@
     "sounds": [ "cobblemon:pokemon/evolution_notification"]
   },
   "evolution.evolve": {
-    "sounds": ["cobblemon:evolve"]
+    "sounds": []
   },
-  "pokemon.evolving": {
-    "sounds": [ "cobblemon:pokemon/evolving"]
+  "evolution.evolving": {
+    "sounds": ["cobblemon:evolution/evolve_full"]
   },
   "gui.click": {
     "sounds": [ "cobblemon:click" ]
@@ -637,6 +637,33 @@
       { "name": "cobblemon:attacks/impact_generic/impact_generic_fairy_7", "volume": 0.8 },
       { "name": "cobblemon:attacks/impact_generic/impact_generic_fairy_8", "volume": 0.8 }
     ]
+  },
+  "status.paralysis.actor": {
+    "sounds": [ { "name": "cobblemon:attacks/status/status_paralysis_actor", "volume": 0.8 } ]
+  },
+  "status.poison.actor": {
+    "sounds": [ { "name": "cobblemon:attacks/status/status_poison_actor", "volume": 0.8 } ]
+  },
+  "status.badlypoison.actor": {
+    "sounds": [ { "name": "cobblemon:attacks/status/status_toxpoison_actor", "volume": 0.8 } ]
+  },
+  "powder.poison.actor": {
+    "sounds": [ { "name": "cobblemon:attacks/powder_attacks/poison_powder_actor", "volume": 0.8 } ]
+  },
+  "powder.sleep.actor": {
+      "sounds": [ { "name": "cobblemon:attacks/powder_attacks/sleep_powder_actor", "volume": 0.8 } ]
+  },
+  "powder.stun.actor": {
+      "sounds": [ { "name": "cobblemon:attacks/powder_attacks/stun_spore_actor", "volume": 0.8 } ]
+  },
+  "powder.generic.actor": {
+      "sounds": [ { "name": "cobblemon:attacks/powder_attacks/generic_powder_actor", "volume": 0.8 } ]
+  },
+  "powder.generic.target": {
+      "sounds": [ { "name": "cobblemon:attacks/powder_attacks/generic_powder_target", "volume": 0.8 } ]
+  },
+  "powder.spore.mushroom": {
+      "sounds": [ { "name": "cobblemon:attacks/powder_attacks/mushroom", "volume": 0.4 } ]
   },
   "pokemon.bulbasaur.ambient": {
     "sounds": [ "cobblemon:pokemon/bulbasaur/bulbasaur_ambient" ]

@@ -1,0 +1,26 @@
+{
+  "timeline": [
+    {
+      "type": "add_holds",
+      "holds": ["effects"]
+    },
+    {
+      "type": "animation",
+      "animation": ["bubblebeam", "water", "special"],
+      "delay": 1.15
+    },
+    {
+      "type": "entity_particles",
+      "effect": "cobblemon:bubblebeam_actor",
+      "locator": "special_attack"
+    },
+    {
+      "type": "remove_holds",
+      "holds": ["effects"]
+    },
+    {
+      "type": "pause",
+      "pause": 1.9
+    }
+  ]
+}
