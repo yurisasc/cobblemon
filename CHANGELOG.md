@@ -6,7 +6,7 @@
 - Added unique send out particles for Cherish, Dream, Beast, and Ancient Origin balls.
 - Made Wooloo and Dubwool dye-able like sheep
 - Semi-implemented Smeargle. It's temporarily using the "color" feature. Spawn it with "/pokespawn smeargle color=(color)" or else you'll get the bald one.
-- More moves now have animations and particles! These include: Cotton Guard, Growl, Ice Punch, Fire Punch, Thunder Punch, Minimize, Quick Attack, Protect, Swords Dance, Sand Attack, Bubble Beam, Poison Powder, Sleep Powder, Stune Spore, and Rage Powder.
+- More moves now have animations and particles! These include: Confusion, Cotton Guard, Growl, Ice Punch, Fire Punch, Thunder Punch, Minimize, Quick Attack, Protect, Swords Dance, Sand Attack, Bubble Beam, Poison Powder, Sleep Powder, Stune Spore, and Rage Powder.
 - Added stat up and down particles.
 - Most status effects now have particles! These include: Paralysis, Poison, Sleep, Confusion, Infatuation.
 
