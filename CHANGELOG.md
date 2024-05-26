@@ -46,6 +46,7 @@
 - Fixed Hyper Cutter and Big Peck incorrectly stating that it prevented accuracy from being lowered in battle
 - Added English lang keys for Rough Skin and Iron Barbs's battle messages
 - Fixed bug where sometimes pokemon sendouts wouldnt create an entity or the entity would spawn at 0 0 0
+- Fixed issue in which a locked Gilded Chest would animate to the open state when the client fails to open it  
 - Fixed a bug where aspects of a form would not be properly reflected on form changes (eg. Normal -> Hisui)
 
 ### Developer
