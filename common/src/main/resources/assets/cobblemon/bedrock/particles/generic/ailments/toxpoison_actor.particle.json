@@ -11,7 +11,7 @@
 		"events": {
 			"toxicHit": {
 				"particle_effect": {
-					"effect": "cobblemon:toxpoison_hitresidual",
+					"effect": "cobblemon:toxpoison_actorresidual",
 					"type": "emitter_bound"
 				},
 				"sound_effect": {

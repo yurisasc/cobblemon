@@ -6,23 +6,23 @@
     },
     {
       "type": "animation",
-      "animation": ["powder", "status"],
+      "animation": ["toxic", "status"],
       "delay": 1.15
+    },
+    {
+      "type": "pause",
+      "pause": 1.0
     },
     {
       "type": "entity_particles",
       "entityCondition": "q.entity.is_user == false && q.missed(q.entity.uuid) == false",
-      "effect": "cobblemon:powder_particles",
+      "effect": "cobblemon:toxpoison_actor",
       "locator": "target",
-      "delay": 2
+      "delay": 1.5
     },
     {
       "type": "remove_holds",
       "holds": ["effects"]
-    },
-    {
-      "type": "pause",
-      "pause": 1.75
     }
   ]
 }

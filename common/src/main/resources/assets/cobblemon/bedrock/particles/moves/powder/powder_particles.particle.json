@@ -13,6 +13,9 @@
 				"particle_effect": {
 					"effect": "cobblemon:powder_cloud",
 					"type": "emitter_bound"
+				},
+				"sound_effect": {
+					"event_name": "cobblemon:powder.generic.actor"
 				}
 			}
 		},

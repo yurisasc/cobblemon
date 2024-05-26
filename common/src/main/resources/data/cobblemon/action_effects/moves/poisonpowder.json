@@ -6,7 +6,7 @@
     },
     {
       "type": "animation",
-      "animation": ["poisonpowder", "status", "cry"],
+      "animation": ["poisonpowder", "status"],
       "delay": 1.15
     },
     {

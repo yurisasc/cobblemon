@@ -6,7 +6,7 @@
     },
     {
       "type": "animation",
-      "animation": ["sleeppowder", "status", "cry"],
+      "animation": ["sleeppowder", "status"],
       "delay": 1.15
     },
     {

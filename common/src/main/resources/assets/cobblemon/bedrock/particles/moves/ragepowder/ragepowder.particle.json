@@ -8,6 +8,13 @@
 				"texture": "textures/particles/powder"
 			}
 		},
+		"events": {
+			"event_sound": {
+				"sound_effect": {
+					"event_name": "cobblemon:powder.generic.actor"
+				}
+			}
+		},
 		"components": {
 			"minecraft:emitter_rate_steady": {
 				"spawn_rate": 500,
@@ -15,6 +22,9 @@
 			},
 			"minecraft:emitter_lifetime_looping": {
 				"active_time": 1
+			},
+			"minecraft:emitter_lifetime_events": {
+				"creation_event": "event_sound"
 			},
 			"minecraft:emitter_shape_point": {
 				"direction": ["math.random(-0.71,0.71)", "math.random(0.45,1.65)", "math.random(-0.71,0.71)"]

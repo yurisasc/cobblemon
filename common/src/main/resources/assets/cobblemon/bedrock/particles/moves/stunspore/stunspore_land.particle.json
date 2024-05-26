@@ -13,6 +13,9 @@
 				"particle_effect": {
 					"effect": "cobblemon:stunspore_landcloud",
 					"type": "emitter_bound"
+				},
+				"sound_effect": {
+					"event_name": "cobblemon:powder.generic.target"
 				}
 			}
 		},

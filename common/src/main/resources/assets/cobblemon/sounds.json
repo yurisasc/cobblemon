@@ -647,6 +647,24 @@
   "status.badlypoison.actor": {
     "sounds": [ { "name": "cobblemon:attacks/status/status_toxpoison_actor", "volume": 0.8 } ]
   },
+  "powder.poison.actor": {
+    "sounds": [ { "name": "cobblemon:attacks/powder_attacks/poison_powder_actor", "volume": 0.8 } ]
+  },
+  "powder.sleep.actor": {
+      "sounds": [ { "name": "cobblemon:attacks/powder_attacks/sleep_powder_actor", "volume": 0.8 } ]
+  },
+  "powder.stun.actor": {
+      "sounds": [ { "name": "cobblemon:attacks/powder_attacks/stun_spore_actor", "volume": 0.8 } ]
+  },
+  "powder.generic.actor": {
+      "sounds": [ { "name": "cobblemon:attacks/powder_attacks/generic_powder_actor", "volume": 0.8 } ]
+  },
+  "powder.generic.target": {
+      "sounds": [ { "name": "cobblemon:attacks/powder_attacks/generic_powder_target", "volume": 0.8 } ]
+  },
+  "powder.spore.mushroom": {
+      "sounds": [ { "name": "cobblemon:attacks/powder_attacks/mushroom", "volume": 0.4 } ]
+  },
   "pokemon.bulbasaur.ambient": {
     "sounds": [ "cobblemon:pokemon/bulbasaur/bulbasaur_ambient" ]
   },

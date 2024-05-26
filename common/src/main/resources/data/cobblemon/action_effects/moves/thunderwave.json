@@ -5,20 +5,16 @@
       "holds": ["effects"]
     },
     {
-      "type": "entity_particles",
-      "effect": "cobblemon:sleep_bubbles",
-      "locator": "middle",
-      "delay": 0.05
+      "type": "animation",
+      "animation": ["thunderwave", "status"],
+      "delay": 0.5
     },
     {
       "type": "entity_particles",
-      "effect": "cobblemon:sleep_zzz",
+      "entityCondition": "q.entity.is_user == false && q.missed(q.entity.uuid) == false",
+      "effect": "cobblemon:paralysis_actor",
       "locator": "middle",
-      "delay": 0.05
-    },
-    {
-      "type": "pause",
-      "pause": 1.0
+      "delay": 1.5
     },
     {
       "type": "remove_holds",

@@ -13,6 +13,9 @@
 				"particle_effect": {
 					"effect": "cobblemon:spore_landcloud",
 					"type": "emitter_bound"
+				},
+				"sound_effect": {
+					"event_name": "cobblemon:powder.generic.target"
 				}
 			},
 			"shrooms": {

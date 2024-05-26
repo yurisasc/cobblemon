@@ -11,7 +11,7 @@
 		"events": {
 			"paraSparks": {
 				"particle_effect": {
-					"effect": "cobblemon:paralysis_hitresidual",
+					"effect": "cobblemon:paralysis_actorresidual",
 					"type": "emitter"
 				},
 				"sound_effect": {
