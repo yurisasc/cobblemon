@@ -89,7 +89,6 @@ class BerryBlock(private val berryIdentifier: Identifier, settings: Settings) : 
         defaultState = this.stateManager.defaultState
             .with(WAS_GENERATED, false)
             .with(AGE, 0)
-            .with(MULCH, MulchVariant.NONE)
             .with(IS_ROOTED, false)
     }
 
@@ -107,8 +106,8 @@ class BerryBlock(private val berryIdentifier: Identifier, settings: Settings) : 
         val newState = state.with(AGE, newAge)
         val treeEntity = world.getBlockEntity(pos) as BerryBlockEntity
         if (curAge == MATURE_AGE) {
-            treeEntity.generateGrowthPoints(world, state, pos, null)
-            determineMutation(world, random, pos, state)
+            treeEntity.generateGrowthPoints(world, newState, pos, null)
+            determineMutation(world, random, pos, newState)
         }
 
         world.setBlockState(pos, newState, Block.NOTIFY_LISTENERS)
@@ -165,18 +164,15 @@ class BerryBlock(private val berryIdentifier: Identifier, settings: Settings) : 
         variant: MulchVariant
     ) {
         val treeEntity = world.getBlockEntity(pos) as BerryBlockEntity
-        setMulch(world, pos, state, variant)
-        treeEntity.mulchDuration = variant.duration
+        treeEntity.setMulch(variant, world, state, pos)
         world.playSound(null, pos, CobblemonSounds.MULCH_PLACE, SoundCategory.BLOCKS, 0.6F, 1F)
-        treeEntity.refreshTimers(pos)
     }
 
     @Deprecated("Deprecated in Java")
     override fun onUse(state: BlockState, world: World, pos: BlockPos, player: PlayerEntity, hand: Hand, hit: BlockHitResult): ActionResult {
         val treeEntity = world.getBlockEntity(pos) as BerryBlockEntity
         if (player.getStackInHand(hand).item is ShovelItem && getMulch(state) != MulchVariant.NONE) {
-            setMulch(world, pos, state, MulchVariant.NONE)
-            treeEntity.markDirty()
+            treeEntity.setMulch(MulchVariant.NONE, world, state, pos)
             world.playSound(null, pos, CobblemonSounds.MULCH_REMOVE, SoundCategory.BLOCKS, 0.6F, 1F)
             this.spawnBreakParticles(world, player, pos, state.with(AGE, 0))
             return ActionResult.SUCCESS
@@ -321,8 +317,12 @@ class BerryBlock(private val berryIdentifier: Identifier, settings: Settings) : 
             return state.get(MULCH)
         }
 
-        fun setMulch(world: World, pos: BlockPos, state: BlockState, mulch: MulchVariant) {
-            world.setBlockState(pos, state.with(MULCH, mulch))
+        fun convertMulchToEntity(world: ServerWorld, state: BlockState, pos: BlockPos) {
+            val entity = world.getBlockEntity(pos) as? BerryBlockEntity ?: return
+            if (state.get(MULCH) != MulchVariant.NONE && state.get(MULCH) != entity.mulchVariant) {
+                entity.mulchVariant = state.get(MULCH)
+                world.setBlockState(pos, state.with(MULCH, MulchVariant.NONE))
+            }
         }
     }
 }
