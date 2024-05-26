@@ -12,7 +12,7 @@ import com.cobblemon.mod.common.pokemon.status.VolatileStatus
 import com.cobblemon.mod.common.util.cobblemonResource
 
 class ConfuseStatus : VolatileStatus(
-    cobblemonResource("confusion"),
+    cobblemonResource("confused"),
     "confusion",
     "cobblemon.battle.confusion_start",
     "cobblemon.battle.confusion_snapped"

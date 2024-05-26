@@ -413,6 +413,12 @@
   "flamethrower.impact": {
     "sounds": [ "cobblemon:attacks/flamethrower/flamethrower_impact" ]
   },
+  "sandattack.actor": {
+    "sounds": [ { "name": "cobblemon:attacks/sandattack/sand_attack_actor", "volume": 0.8 } ]
+  },
+  "sandattack.target": {
+    "sounds": [ { "name": "cobblemon:attacks/sandattack/sand_attack_target", "volume": 0.8 } ]
+  },
   "effective": {
     "sounds": [ "cobblemon:effective" ]
   },
@@ -663,7 +669,12 @@
       "sounds": [ { "name": "cobblemon:attacks/powder_attacks/generic_powder_target", "volume": 0.8 } ]
   },
   "powder.spore.mushroom": {
-      "sounds": [ { "name": "cobblemon:attacks/powder_attacks/mushroom", "volume": 0.4 } ]
+      "sounds": [
+        { "name": "cobblemon:attacks/powder_attacks/spore_mushroom_1", "volume": 0.2 },
+        { "name": "cobblemon:attacks/powder_attacks/spore_mushroom_2", "volume": 0.2 },
+        { "name": "cobblemon:attacks/powder_attacks/spore_mushroom_3", "volume": 0.2 },
+        { "name": "cobblemon:attacks/powder_attacks/spore_mushroom_4", "volume": 0.2 }
+      ]
   },
   "pokemon.bulbasaur.ambient": {
     "sounds": [ "cobblemon:pokemon/bulbasaur/bulbasaur_ambient" ]

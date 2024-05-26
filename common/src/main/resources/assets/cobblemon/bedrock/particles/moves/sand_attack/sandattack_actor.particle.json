@@ -11,7 +11,7 @@
 		"events": {
 			"event_sound": {
 				"sound_effect": {
-					"event_name": "minecraft:block.sand.hit"
+					"event_name": "cobblemon:sandattack.actor"
 				}
 			}
 		},
