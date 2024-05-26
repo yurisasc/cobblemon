@@ -59,7 +59,7 @@
 ```JSON
 {
   "quirks": [
-    "q.bedrock_primary_quirk('<pokemon>', '<animation>', <minSeconds>, <maxSeconds>, <loopTimes>, q.curve('<waveFunction>'))"
+    "q.bedrock_primary_quirk('<pokemon>', '<animation>', <minSeconds>, <maxSeconds>, <loopTimes>, '<excludedLabels>', q.curve('<waveFunction>'))"
   ]
 }
 ```

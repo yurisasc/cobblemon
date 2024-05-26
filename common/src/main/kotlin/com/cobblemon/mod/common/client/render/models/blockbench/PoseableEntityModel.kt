@@ -292,7 +292,7 @@ abstract class PoseableEntityModel<T : Entity>(
                                 secondsBetweenOccurrences = minSeconds.toFloat() to maxSeconds.toFloat(),
                                 condition = { true },
                                 loopTimes = 1..loopTimes,
-                                animation = { PrimaryAnimation(bedrockStateful(animationGroup, animationNames.random()), curve = curve) }
+                                animation = { PrimaryAnimation(bedrockStateful(animationGroup, animationNames.random()), excludedLabels = excludedLabels, curve = curve) }
                         )
                 )
             }
