@@ -8,7 +8,17 @@
 				"texture": "textures/particles/medium-fadeorb"
 			}
 		},
+		"events": {
+			"event_sound": {
+				"sound_effect": {
+					"event_name": "cobblemon:move.confusion.target"
+				}
+			}
+		},
 		"components": {
+			"minecraft:emitter_lifetime_events": {
+				"creation_event": "event_sound"
+			},
 			"minecraft:emitter_rate_instant": {
 				"num_particles": 12
 			},

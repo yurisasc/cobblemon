@@ -8,22 +8,12 @@
 				"texture": "textures/particles/large-smokeorb"
 			}
 		},
-		"events": {
-			"event_sound": {
-				"sound_effect": {
-					"event_name": "cobblemon:move.confusion.target"
-				}
-			}
-		},
 		"components": {
 			"minecraft:emitter_rate_instant": {
 				"num_particles": 1
 			},
 			"minecraft:emitter_lifetime_once": {
 				"active_time": 0.4
-			},
-			"minecraft:emitter_lifetime_events": {
-				"creation_event": "event_sound"
 			},
 			"minecraft:emitter_shape_point": {
 				"offset": [0, 0, -0.4]
