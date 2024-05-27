@@ -25,6 +25,7 @@
 - Powder
 - Rage Powder
 - Spore
+- Thunder Wave
 
 ### Changes
 - Sounds for Relic Coin Sacks have been correctly renamed. Relic Coin Pouches received new sounds for breaking and placing.
