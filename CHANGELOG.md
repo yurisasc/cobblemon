@@ -62,7 +62,7 @@
 - Fixed Restoration Tank crash with Create upon the tank block's destruction.
 - Fixed Restoration Tank over consuming items when interacting with Create blocks.
 - Fixed addons that add very many moves to a learn-set causing disappearing Pokémon (visually) issues on servers.
-- Fixed Hyper Cutter and Big Peck incorrectly stating that it prevented accuracy from being lowered in battle.
+- Fixed Hyper Cutter and Big Pecks incorrectly stating that it prevented accuracy from being lowered in battle.
 - Fixed missing messages for Rough Skin and Iron Barbs in battle.
 - Fixed a bug where sometimes Pokémon sendouts wouldn't create an entity, or the entity would spawn at 0 0 0 which is not a good place for a Pokémon to be. Or any of us, really.
 - Fixed issue in which a locked gilded chest would animate to the open state when the client fails to open it, such as when it is locked.
