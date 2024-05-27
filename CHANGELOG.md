@@ -66,7 +66,8 @@
 - Fixed missing messages for Rough Skin and Iron Barbs in battle.
 - Fixed a bug where sometimes Pokémon sendouts wouldn't create an entity, or the entity would spawn at 0 0 0 which is not a good place for a Pokémon to be. Or any of us, really.
 - Fixed issue in which a locked gilded chest would animate to the open state when the client fails to open it, such as when it is locked.
-- Fixed a bug where aspects of a form would not be properly reflected on form changes (eg. Normal -> Hisui)
+- Fixed a bug where aspects of a form would not be properly reflected on form changes (eg. Normal -> Hisui).
+- Fixed generic battle effect sounds not sounding the way they were intended to.
 - Fixed particle effects often not having access to some specific entity functions from MoLang.
 - Fixed particles sometimes lasting a single tick too long, causing (very quick) visual glitches.
 - Fixed particle rotations being inverted. 
