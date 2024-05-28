@@ -1,6 +1,6 @@
 # Changelog
 
-## [1.5.3](#1-5-2)
+## [1.5.3](#1-5-3)
 ### Fixes
 - Scaled down Amaura's fetus model to avoid clipping through the tank while animating
 
