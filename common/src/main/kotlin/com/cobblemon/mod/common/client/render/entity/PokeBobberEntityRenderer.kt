@@ -41,10 +41,6 @@ import java.awt.Color
 @Environment(value = EnvType.CLIENT)
 class PokeBobberEntityRenderer(context: EntityRendererFactory.Context?) : EntityRenderer<PokeRodFishingBobberEntity>(context) {
 
-    private var lastSpinAngle: Float = 0f
-    private var randomPitch: Float = 0f
-    private var randomYaw: Float = 0f
-
     override fun render(fishingBobberEntity: PokeRodFishingBobberEntity, elapsedPartialTicks: Float, tickDelta: Float, matrixStack: MatrixStack, vertexConsumerProvider: VertexConsumerProvider, light: Int) {
         var playerPosXWorld: Double
         val eyeHeightOffset: Float
@@ -61,9 +57,9 @@ class PokeBobberEntityRenderer(context: EntityRendererFactory.Context?) : Entity
         // Generate controlled random pitch and yaw for each cast, with constraints
         if (fishingBobberEntity.age <= 1) {
             // Random yaw within a constrained range to allow for limited tilting
-            randomYaw = (-180 + Math.random() * 360).toFloat() // Example: -180 to +180 degrees
+            fishingBobberEntity.randomYaw = (-180 + Math.random() * 360).toFloat() // Example: -180 to +180 degrees
             // Random pitch to ensure the top of the Poke Ball leans towards the string
-            randomPitch = (-40 + Math.random() * 80).toFloat() // Example: -40 to +40 degrees
+            fishingBobberEntity.randomPitch = (-40 + Math.random() * 80).toFloat() // Example: -40 to +40 degrees
         }
 
         matrixStack.push() // prepare for bobber rendering transforms
@@ -91,9 +87,8 @@ class PokeBobberEntityRenderer(context: EntityRendererFactory.Context?) : Entity
             // Update and apply the spinning effect, incorporating the slowing factor
             // Stop increasing lastSpinAngle once the bobber reaches the stopRotationAge
             if (fishingBobberEntity.age < stopRotationAge) {
-                lastSpinAngle = (((fishingBobberEntity.age + tickDelta) * 20 / adjustedAgeFactor) % 360).toFloat()
+                fishingBobberEntity.lastSpinAngle = (((fishingBobberEntity.age + tickDelta) * 20 / adjustedAgeFactor) % 360).toFloat()
             }
-            // After reaching stopRotationAge, lastSpinAngle remains constant, effectively stopping the rotation
         }
 
         // When in water, gradually make the Poke Ball upright
@@ -101,16 +96,15 @@ class PokeBobberEntityRenderer(context: EntityRendererFactory.Context?) : Entity
             // Assuming randomPitch is the rotation around X axis that needs to be adjusted
             // Simple linear interpolation towards 0 degrees; adjust 'lerpFactor' as needed for speed
             val lerpFactor = 0.04f // This controls the speed of the adjustment
-            randomPitch = MathHelper.lerp(lerpFactor, randomPitch, 0f) // Adjust towards 0 degrees within range
-            // Consider similar logic for yaw if needed to maintain visual consistency
+            fishingBobberEntity.randomPitch = MathHelper.lerp(lerpFactor, fishingBobberEntity.randomPitch, 0f) // Adjust towards 0 degrees within range
         }
 
         // Apply random pitch and yaw before rendering the Poke Ball
-        matrixStack.multiply(RotationAxis.NEGATIVE_X.rotationDegrees(randomPitch))
-        matrixStack.multiply(RotationAxis.NEGATIVE_Y.rotationDegrees(randomYaw))
+        matrixStack.multiply(RotationAxis.NEGATIVE_X.rotationDegrees(fishingBobberEntity.randomPitch))
+        matrixStack.multiply(RotationAxis.NEGATIVE_Y.rotationDegrees(fishingBobberEntity.randomYaw))
 
         // Apply rotation based on last spin angle
-        matrixStack.multiply(RotationAxis.NEGATIVE_Y.rotationDegrees(lastSpinAngle))
+        matrixStack.multiply(RotationAxis.NEGATIVE_Y.rotationDegrees(fishingBobberEntity.lastSpinAngle))
 
         // Scale down the Poke Ball to 70% of its original size
         matrixStack.scale(0.7f, 0.7f, 0.7f) // Apply the scaling transformation
@@ -121,24 +115,12 @@ class PokeBobberEntityRenderer(context: EntityRendererFactory.Context?) : Entity
         val matrix3f = entry.normalMatrix
 
         // Scale factor
-        // Scale factor
         val scale = 0.75f
 
         // Additional shift to the leeft
         val shiftHook = 0.045f // Adjust this value as needed to shift the geometry
 
         val vertexConsumer = vertexConsumerProvider.getBuffer(PokeBobberEntityRenderer.Companion.LAYER)
-        /*// Original vertices for one side
-        PokeBobberEntityRenderer.Companion.vertex(vertexConsumer, matrix4f, matrix3f, light, 0.0f, 0, 0, 1)
-        PokeBobberEntityRenderer.Companion.vertex(vertexConsumer, matrix4f, matrix3f, light, 1.0f, 0, 1, 1)
-        PokeBobberEntityRenderer.Companion.vertex(vertexConsumer, matrix4f, matrix3f, light, 1.0f, 1, 1, 0)
-        PokeBobberEntityRenderer.Companion.vertex(vertexConsumer, matrix4f, matrix3f, light, 0.0f, 1, 0, 0)
-
-        // Add vertices for the opposite side in reverse order
-        PokeBobberEntityRenderer.Companion.vertex(vertexConsumer, matrix4f, matrix3f, light, 0.0f, 1, 0, 0)
-        PokeBobberEntityRenderer.Companion.vertex(vertexConsumer, matrix4f, matrix3f, light, 1.0f, 1, 1, 0)
-        PokeBobberEntityRenderer.Companion.vertex(vertexConsumer, matrix4f, matrix3f, light, 1.0f, 0, 1, 1)
-        PokeBobberEntityRenderer.Companion.vertex(vertexConsumer, matrix4f, matrix3f, light, 0.0f, 0, 0, 1)*/
 
         // Adjusted and flipped vertices for one side, scaled by 75% and shifted
         vertex(vertexConsumer, matrix4f, matrix3f, light, (1.0f - 0.0f) * scale + 0.125f + shiftHook, (0.0f * scale + 0.125f), 0, 1)
@@ -157,6 +139,7 @@ class PokeBobberEntityRenderer(context: EntityRendererFactory.Context?) : Entity
         val pokeRodId = Identifier.tryParse(pokeRodIdStr)
         val pokeRod = PokeRods.getPokeRod(pokeRodId!!)
         val ballItem = PokeBalls.getPokeBall(pokeRod?.pokeBallId!!)!!.item
+
         // render the pokebobber
         MinecraftClient.getInstance().itemRenderer.renderItem(
             ballItem.defaultStack,

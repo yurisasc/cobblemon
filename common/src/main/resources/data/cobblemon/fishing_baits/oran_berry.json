@@ -4,7 +4,7 @@
     {
       "type": "cobblemon:bite_time",
       "chance": 1.0,
-      "value": 0.3
+      "value": 0.33
     }
   ]
 }

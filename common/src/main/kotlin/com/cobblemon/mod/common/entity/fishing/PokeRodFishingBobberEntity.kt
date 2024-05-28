@@ -9,6 +9,7 @@
 package com.cobblemon.mod.common.entity.fishing
 
 import com.cobblemon.mod.common.Cobblemon
+import com.cobblemon.mod.common.Cobblemon.config
 import com.cobblemon.mod.common.CobblemonEntities
 import com.cobblemon.mod.common.CobblemonSounds
 import com.cobblemon.mod.common.api.fishing.FishingBait
@@ -100,6 +101,9 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
     var usedRod: Identifier? = null
     var bobberBait: ItemStack = ItemStack.EMPTY
     var isCast = false
+    var lastSpinAngle: Float = 0f
+    var randomPitch: Float = 0f
+    var randomYaw: Float = 0f
 
     constructor(thrower: PlayerEntity, pokeRodId: Identifier, bait: ItemStack, world: World, luckOfTheSea: Int, lure: Int) : this(CobblemonEntities.POKE_BOBBER, world) {
         owner = thrower
@@ -970,7 +974,7 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
         if (!checkBaitSuccessRate(effect.chance)) return
         if (!pokemon.shiny) {
                 //reroll for a shiny using shiny odds
-                val shinyOdds = 8192
+                val shinyOdds = config.shinyRate.toInt()
                 val randomNumber = kotlin.random.Random.nextInt(0, shinyOdds + 1)
 
                 // Check if the random number indicates a shiny Pokemon
