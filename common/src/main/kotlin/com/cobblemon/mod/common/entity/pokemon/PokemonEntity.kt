@@ -21,7 +21,10 @@ import com.cobblemon.mod.common.api.interaction.PokemonEntityInteraction
 import com.cobblemon.mod.common.api.net.serializers.PoseTypeDataSerializer
 import com.cobblemon.mod.common.api.net.serializers.StringSetDataSerializer
 import com.cobblemon.mod.common.api.pokemon.PokemonProperties
+import com.cobblemon.mod.common.api.pokemon.feature.ChoiceSpeciesFeatureProvider
 import com.cobblemon.mod.common.api.pokemon.feature.FlagSpeciesFeature
+import com.cobblemon.mod.common.api.pokemon.feature.SpeciesFeatures
+import com.cobblemon.mod.common.api.pokemon.feature.StringSpeciesFeature
 import com.cobblemon.mod.common.api.pokemon.status.Statuses
 import com.cobblemon.mod.common.api.reactive.ObservableSubscription
 import com.cobblemon.mod.common.api.reactive.SimpleObservable
@@ -59,7 +62,6 @@ import com.cobblemon.mod.common.pokemon.evolution.variants.ItemInteractionEvolut
 import com.cobblemon.mod.common.pokemon.misc.GimmighoulStashHandler
 import com.cobblemon.mod.common.util.*
 import com.cobblemon.mod.common.world.gamerules.CobblemonGameRules
-import net.minecraft.block.Blocks
 import java.util.EnumSet
 import java.util.Optional
 import java.util.UUID
@@ -82,6 +84,7 @@ import net.minecraft.entity.passive.PassiveEntity
 import net.minecraft.entity.passive.TameableShoulderEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.fluid.FluidState
+import net.minecraft.item.DyeItem
 import net.minecraft.item.ItemStack
 import net.minecraft.item.ItemUsage
 import net.minecraft.item.Items
@@ -102,8 +105,11 @@ import net.minecraft.sound.SoundEvents
 import net.minecraft.text.Text
 import net.minecraft.text.TextContent
 import net.minecraft.util.ActionResult
+import net.minecraft.util.Colors
+import net.minecraft.util.DyeColor
 import net.minecraft.util.Hand
 import net.minecraft.util.Identifier
+import net.minecraft.util.Util
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Box
 import net.minecraft.util.math.Vec3d
@@ -136,6 +142,7 @@ open class PokemonEntity(
         @JvmStatic val UNBATTLEABLE = DataTracker.registerData(PokemonEntity::class.java, TrackedDataHandlerRegistry.BOOLEAN)
         @JvmStatic val COUNTS_TOWARDS_SPAWN_CAP = DataTracker.registerData(PokemonEntity::class.java, TrackedDataHandlerRegistry.BOOLEAN)
         @JvmStatic val SPAWN_DIRECTION = DataTracker.registerData(PokemonEntity::class.java, TrackedDataHandlerRegistry.FLOAT)
+        @JvmStatic val FRIENDSHIP = DataTracker.registerData(PokemonEntity::class.java, TrackedDataHandlerRegistry.INTEGER)
 
         const val BATTLE_LOCK = "battle"
 
@@ -181,6 +188,8 @@ open class PokemonEntity(
         set(value) = dataTracker.set(BATTLE_ID, Optional.ofNullable(value))
     val isBattling: Boolean
         get() = dataTracker.get(BATTLE_ID).isPresent
+    val friendship: Int
+        get() = dataTracker.get(FRIENDSHIP)
 
     var drops: DropTable? = null
 
@@ -246,7 +255,9 @@ open class PokemonEntity(
         dataTracker.startTracking(LABEL_LEVEL, 1)
         dataTracker.startTracking(HIDE_LABEL, false)
         dataTracker.startTracking(UNBATTLEABLE, false)
+        dataTracker.startTracking(COUNTS_TOWARDS_SPAWN_CAP, true)
         dataTracker.startTracking(SPAWN_DIRECTION, world.random.nextFloat() * 360F)
+        dataTracker.startTracking(FRIENDSHIP, 0)
     }
 
     override fun onTrackedDataSet(data: TrackedData<*>) {
@@ -325,6 +336,21 @@ open class PokemonEntity(
         if (this.tethering != null && !this.tethering!!.box.contains(this.x, this.y, this.z)) {
             this.tethering = null
             this.pokemon.recall()
+        }
+        //This is so that pokemon in the pasture block are ALWAYS in sync with the pokemon box
+        //Before, pokemon entities in pastures would hold an old ref to a pokemon obj and changes to that would not appear to the underlying file
+        if (this.tethering != null) {
+            //Only for online players
+            if (world.getPlayerByUuid(ownerUuid) != null){
+                this.ownerUuid?.let {
+                    val actualPokemon = Cobblemon.storage.getPC(it)[this.pokemon.uuid]
+                    actualPokemon?.let {
+                        if (it !== pokemon) {
+                            pokemon = it
+                        }
+                    }
+                }
+            }
         }
 
         schedulingTracker.update(1/20F)
@@ -590,113 +616,152 @@ open class PokemonEntity(
 
     override fun interactMob(player: PlayerEntity, hand: Hand) : ActionResult {
         val itemStack = player.getStackInHand(hand)
+        val colorFeatureType = SpeciesFeatures.getFeaturesFor(pokemon.species).find { it is ChoiceSpeciesFeatureProvider && DataKeys.CAN_BE_COLORED in it.keys }
+        val colorFeature = pokemon.getFeature<StringSpeciesFeature>(DataKeys.CAN_BE_COLORED)
 
-        if (itemStack.isOf(Items.SHEARS) && this.isShearable) {
-            this.sheared(SoundCategory.PLAYERS)
-            this.emitGameEvent(GameEvent.SHEAR, player)
-            itemStack.damage(1, player) { it.sendToolBreakStatus(hand) }
-            return ActionResult.SUCCESS
-        }
-        else if (itemStack.isOf(Items.BUCKET)) {
-            if (pokemon.getFeature<FlagSpeciesFeature>(DataKeys.CAN_BE_MILKED) != null) {
-                player.playSound(SoundEvents.ENTITY_GOAT_MILK, 1.0f, 1.0f)
-                val milkBucket = ItemUsage.exchangeStack(itemStack, player, Items.MILK_BUCKET.defaultStack)
-                player.setStackInHand(hand, milkBucket)
-                return ActionResult.success(world.isClient)
-            }
-        } else if (itemStack.isOf(Items.BOWL)) {
-            if (pokemon.aspects.any() {it.contains("mooshtank")}) {
-                player.playSound(SoundEvents.ENTITY_MOOSHROOM_MILK, 1.0f, 1.0f)
-                // if the Mooshtank ate a Flower beforehand
-                if (pokemon.lastFlowerFed != ItemStack.EMPTY && pokemon.aspects.any() {it.contains("mooshtank-brown")}) {
-                    var effect: StatusEffect? = null
-                    var duration = 0
+        if (ownerUuid == player.uuid || ownerUuid == null) {
+            if (itemStack.isOf(Items.SHEARS) && this.isShearable) {
+                this.sheared(SoundCategory.PLAYERS)
+                this.emitGameEvent(GameEvent.SHEAR, player)
+                itemStack.damage(1, player) { it.sendToolBreakStatus(hand) }
+                return ActionResult.SUCCESS
+            } else if (itemStack.isOf(Items.BUCKET)) {
+                if (pokemon.getFeature<FlagSpeciesFeature>(DataKeys.CAN_BE_MILKED) != null) {
+                    player.playSound(SoundEvents.ENTITY_GOAT_MILK, 1.0f, 1.0f)
+                    val milkBucket = ItemUsage.exchangeStack(itemStack, player, Items.MILK_BUCKET.defaultStack)
+                    player.setStackInHand(hand, milkBucket)
+                    return ActionResult.success(world.isClient)
+                }
+            } else if (itemStack.isOf(Items.BOWL)) {
+                if (pokemon.aspects.any { it.contains("mooshtank") }) {
+                    player.playSound(SoundEvents.ENTITY_MOOSHROOM_MILK, 1.0f, 1.0f)
+                    // if the Mooshtank ate a Flower beforehand
+                    if (pokemon.lastFlowerFed != ItemStack.EMPTY && pokemon.aspects.any() { it.contains("mooshtank-brown") }) {
+                        var effect: StatusEffect? = null
+                        var duration = 0
 
-                    if (pokemon.lastFlowerFed.isOf(Items.ALLIUM)) {
-                        effect = StatusEffect.byRawId(12) // Fire Resistance
-                        duration = 80 // 4 seconds
-                    } else if (pokemon.lastFlowerFed.isOf(Items.AZURE_BLUET)) {
-                        effect = StatusEffect.byRawId(15) // Blindness
-                        duration = 160 // 8 seconds
-                    } else if (pokemon.lastFlowerFed.isOf(Items.BLUE_ORCHID) || pokemon.lastFlowerFed.isOf(Items.DANDELION)) {
-                        effect = StatusEffect.byRawId(23) // Saturation
-                        duration = 7 // .35 seconds
-                    } else if (pokemon.lastFlowerFed.isOf(Items.CORNFLOWER)) {
-                        effect = StatusEffect.byRawId(8) // Jump Boost
-                        duration = 120 // 6 seconds
-                    } else if (pokemon.lastFlowerFed.isOf(Items.LILY_OF_THE_VALLEY)) {
-                        effect = StatusEffect.byRawId(19) // Poison
-                        duration = 240 // 12 seconds
-                    } else if (pokemon.lastFlowerFed.isOf(Items.OXEYE_DAISY)) {
-                        effect = StatusEffect.byRawId(10) // Regeneration
-                        duration = 160 // 8 seconds
-                    } else if (pokemon.lastFlowerFed.isOf(Items.POPPY) || pokemon.lastFlowerFed.isOf(Items.TORCHFLOWER)) {
-                        effect = StatusEffect.byRawId(16) // Night Vision
-                        duration = 100 // 5 seconds
-                    } else if (pokemon.lastFlowerFed.isOf(Items.PINK_TULIP) || pokemon.lastFlowerFed.isOf(Items.RED_TULIP) || pokemon.lastFlowerFed.isOf(Items.WHITE_TULIP) || pokemon.lastFlowerFed.isOf(Items.ORANGE_TULIP)) {
-                        effect = StatusEffect.byRawId(18) // Weakness
-                        duration = 180 // 9 seconds
-                    } else if (pokemon.lastFlowerFed.isOf(Items.WITHER_ROSE)) {
-                        effect = StatusEffect.byRawId(20) // Wither
-                        duration = 160 // 8 seconds
-                    } else if (pokemon.lastFlowerFed.isOf(CobblemonItems.PEP_UP_FLOWER)) {
-                        effect = StatusEffect.byRawId(25) // Levitation
-                        duration = 160 // 8 seconds
+                        if (pokemon.lastFlowerFed.isOf(Items.ALLIUM)) {
+                            effect = StatusEffect.byRawId(12) // Fire Resistance
+                            duration = 80 // 4 seconds
+                        } else if (pokemon.lastFlowerFed.isOf(Items.AZURE_BLUET)) {
+                            effect = StatusEffect.byRawId(15) // Blindness
+                            duration = 160 // 8 seconds
+                        } else if (pokemon.lastFlowerFed.isOf(Items.BLUE_ORCHID) || pokemon.lastFlowerFed.isOf(Items.DANDELION)) {
+                            effect = StatusEffect.byRawId(23) // Saturation
+                            duration = 7 // .35 seconds
+                        } else if (pokemon.lastFlowerFed.isOf(Items.CORNFLOWER)) {
+                            effect = StatusEffect.byRawId(8) // Jump Boost
+                            duration = 120 // 6 seconds
+                        } else if (pokemon.lastFlowerFed.isOf(Items.LILY_OF_THE_VALLEY)) {
+                            effect = StatusEffect.byRawId(19) // Poison
+                            duration = 240 // 12 seconds
+                        } else if (pokemon.lastFlowerFed.isOf(Items.OXEYE_DAISY)) {
+                            effect = StatusEffect.byRawId(10) // Regeneration
+                            duration = 160 // 8 seconds
+                        } else if (pokemon.lastFlowerFed.isOf(Items.POPPY) || pokemon.lastFlowerFed.isOf(Items.TORCHFLOWER)) {
+                            effect = StatusEffect.byRawId(16) // Night Vision
+                            duration = 100 // 5 seconds
+                        } else if (pokemon.lastFlowerFed.isOf(Items.PINK_TULIP) || pokemon.lastFlowerFed.isOf(Items.RED_TULIP) || pokemon.lastFlowerFed.isOf(
+                                Items.WHITE_TULIP
+                            ) || pokemon.lastFlowerFed.isOf(Items.ORANGE_TULIP)
+                        ) {
+                            effect = StatusEffect.byRawId(18) // Weakness
+                            duration = 180 // 9 seconds
+                        } else if (pokemon.lastFlowerFed.isOf(Items.WITHER_ROSE)) {
+                            effect = StatusEffect.byRawId(20) // Wither
+                            duration = 160 // 8 seconds
+                        } else if (pokemon.lastFlowerFed.isOf(CobblemonItems.PEP_UP_FLOWER)) {
+                            effect = StatusEffect.byRawId(25) // Levitation
+                            duration = 160 // 8 seconds
+                        }
+
+
+                        // modify the suspicious stew with the effect
+                        val susStewStack = Items.SUSPICIOUS_STEW.defaultStack
+                        SuspiciousStewItem.addEffectToStew(susStewStack, effect, duration)
+                        val susStewEffect = ItemUsage.exchangeStack(itemStack, player, susStewStack)
+                        //give player modified Suspicious Stew
+                        player.setStackInHand(hand, susStewEffect)
+                        // reset the flower fed state
+                        pokemon.lastFlowerFed = ItemStack.EMPTY
+                        return ActionResult.success(world.isClient)
+                    } else {
+                        val mushroomStew = ItemUsage.exchangeStack(itemStack, player, Items.MUSHROOM_STEW.defaultStack)
+                        player.setStackInHand(hand, mushroomStew)
+                        return ActionResult.success(world.isClient)
                     }
 
-
-                    // modify the suspicious stew with the effect
-                    val susStewStack = Items.SUSPICIOUS_STEW.defaultStack
-                    SuspiciousStewItem.addEffectToStew(susStewStack, effect, duration)
-                    val susStewEffect = ItemUsage.exchangeStack(itemStack, player, susStewStack)
-                    //give player modified Suspicious Stew
-                    player.setStackInHand(hand, susStewEffect)
-                    // reset the flower fed state
-                    pokemon.lastFlowerFed = ItemStack.EMPTY
-                    return ActionResult.success(world.isClient)
                 }
-
-                else {
-                    val mushroomStew = ItemUsage.exchangeStack(itemStack, player, Items.MUSHROOM_STEW.defaultStack)
-                    player.setStackInHand(hand, mushroomStew)
-                    return ActionResult.success(world.isClient)
-                }
-
             }
-        }
-        // Flowers used on brown MooshTanks
-        else if (itemStack.isOf(Items.ALLIUM) ||
-                 itemStack.isOf(Items.AZURE_BLUET) ||
-                 itemStack.isOf(Items.BLUE_ORCHID) ||
-                 itemStack.isOf(Items.DANDELION) ||
-                 itemStack.isOf(Items.CORNFLOWER) ||
-                 itemStack.isOf(Items.LILY_OF_THE_VALLEY) ||
-                 itemStack.isOf(Items.OXEYE_DAISY) ||
-                 itemStack.isOf(Items.POPPY) ||
-                 itemStack.isOf(Items.TORCHFLOWER) ||
-                 itemStack.isOf(Items.PINK_TULIP) ||
-                 itemStack.isOf(Items.RED_TULIP) ||
-                 itemStack.isOf(Items.WHITE_TULIP) ||
-                 itemStack.isOf(Items.ORANGE_TULIP) ||
-                 itemStack.isOf(Items.WITHER_ROSE) ||
-                 itemStack.isOf(CobblemonItems.PEP_UP_FLOWER)) {
-            if (pokemon.aspects.any() {it.contains("mooshtank")}) {
-                player.playSound(SoundEvents.ENTITY_MOOSHROOM_EAT, 1.0f, 1.0f)
-                pokemon.lastFlowerFed = itemStack
+            // Flowers used on brown MooshTanks
+            else if (itemStack.isOf(Items.ALLIUM) ||
+                itemStack.isOf(Items.AZURE_BLUET) ||
+                itemStack.isOf(Items.BLUE_ORCHID) ||
+                itemStack.isOf(Items.DANDELION) ||
+                itemStack.isOf(Items.CORNFLOWER) ||
+                itemStack.isOf(Items.LILY_OF_THE_VALLEY) ||
+                itemStack.isOf(Items.OXEYE_DAISY) ||
+                itemStack.isOf(Items.POPPY) ||
+                itemStack.isOf(Items.TORCHFLOWER) ||
+                itemStack.isOf(Items.PINK_TULIP) ||
+                itemStack.isOf(Items.RED_TULIP) ||
+                itemStack.isOf(Items.WHITE_TULIP) ||
+                itemStack.isOf(Items.ORANGE_TULIP) ||
+                itemStack.isOf(Items.WITHER_ROSE) ||
+                itemStack.isOf(CobblemonItems.PEP_UP_FLOWER)
+            ) {
+                if (pokemon.aspects.any { it.contains("mooshtank") }) {
+                    player.playSound(SoundEvents.ENTITY_MOOSHROOM_EAT, 1.0f, 1.0f)
+                    pokemon.lastFlowerFed = itemStack
+                    return ActionResult.success(world.isClient)
+                }
+            } else if (!player.isSneaking && player.uuid == ownerUuid && (itemStack.isOf(CobblemonItems.RELIC_COIN)
+                        || itemStack.isOf(CobblemonItems.RELIC_COIN_POUCH)
+                        || itemStack.isOf(CobblemonItems.RELIC_COIN_SACK)
+                        || itemStack.isOf(Items.NETHERITE_SCRAP)
+                        || itemStack.isOf(Items.NETHERITE_INGOT)
+                        || itemStack.isOf(Items.NETHERITE_BLOCK))
+            ) {
+                if (GimmighoulStashHandler.interactMob(player, hand, pokemon)) {
+                    return ActionResult.SUCCESS
+                }
+            } else if (itemStack.item is DyeItem && colorFeatureType != null) {
+                val currentColor = colorFeature?.value ?: ""
+                val item = itemStack.item as DyeItem
+                if (!item.color.name.equals(currentColor, ignoreCase = true)) {
+                    if (player is ServerPlayerEntity) {
+                        if (colorFeature != null) {
+                            colorFeature.value = item.color.name.lowercase()
+                            this.pokemon.markFeatureDirty(colorFeature)
+                        } else {
+                            val newColorFeature =
+                                StringSpeciesFeature(DataKeys.CAN_BE_COLORED, item.color.name.lowercase())
+                            this.pokemon.features.add(newColorFeature)
+                            this.pokemon.anyChangeObservable.emit(pokemon)
+                        }
+
+                        this.pokemon.updateAspects()
+                        if (!player.isCreative) {
+                            itemStack.decrement(1)
+                        }
+                    }
+                    return ActionResult.success(world.isClient)
+                }
+            } else if (itemStack.item.equals(Items.WATER_BUCKET) && colorFeatureType != null) {
+                if (player is ServerPlayerEntity) {
+                    if (colorFeature != null) {
+                        if (!player.isCreative) {
+                            itemStack.decrement(1)
+                            player.giveOrDropItemStack(Items.BUCKET.defaultStack)
+                        }
+                        colorFeature.value = ""
+                        this.pokemon.markFeatureDirty(colorFeature)
+                        this.pokemon.updateAspects()
+                    }
+                }
                 return ActionResult.success(world.isClient)
             }
-        } else if(!player.isSneaking && (itemStack.isOf(CobblemonItems.RELIC_COIN)
-                || itemStack.isOf(CobblemonItems.RELIC_COIN_POUCH)
-                || itemStack.isOf(CobblemonItems.RELIC_COIN_SACK)
-                || itemStack.isOf(Items.NETHERITE_SCRAP)
-                || itemStack.isOf(Items.NETHERITE_INGOT)
-                || itemStack.isOf(Items.NETHERITE_BLOCK))) {
-
-            if(GimmighoulStashHandler.interactMob(player, hand, pokemon)) {
-                return ActionResult.SUCCESS
-            }
         }
-
 
         if (hand == Hand.MAIN_HAND && player is ServerPlayerEntity && pokemon.getOwnerPlayer() == player) {
             if (player.isSneaking) {
@@ -824,7 +889,7 @@ open class PokemonEntity(
         // Check evolution item interaction
         if (pokemon.getOwnerPlayer() == player) {
             val context = ItemInteractionEvolution.ItemInteractionContext(stack, player.world)
-            pokemon.evolutions
+            pokemon.lockedEvolutions
                 .filterIsInstance<ItemInteractionEvolution>()
                 .forEach { evolution ->
                     if (evolution.attemptEvolution(pokemon, context)) {
@@ -1122,8 +1187,26 @@ open class PokemonEntity(
         this.pokemon.markFeatureDirty(feature)
         this.pokemon.updateAspects()
         val i = this.random.nextInt(3) + 1
-        for (j in 0 until i) {
-            val itemEntity = this.dropItem(Items.WHITE_WOOL, 1) ?: return
+        for (j in 0 .. i) {
+            val color = this.pokemon.getFeature<StringSpeciesFeature>(DataKeys.CAN_BE_COLORED)?.value ?: "white"
+            val woolItem = when (color) {
+                "black" -> Items.BLACK_WOOL
+                "blue" -> Items.BLUE_WOOL
+                "brown" -> Items.BROWN_WOOL
+                "cyan" -> Items.CYAN_WOOL
+                "gray" -> Items.GRAY_WOOL
+                "green" -> Items.GREEN_WOOL
+                "light-blue" -> Items.LIGHT_BLUE_WOOL
+                "light-gray" -> Items.LIGHT_GRAY_WOOL
+                "lime" -> Items.LIME_WOOL
+                "magenta" -> Items.MAGENTA_WOOL
+                "orange" -> Items.ORANGE_WOOL
+                "purple" -> Items.PURPLE_WOOL
+                "red" -> Items.RED_WOOL
+                "yellow" -> Items.YELLOW_WOOL
+                else -> Items.WHITE_WOOL
+            }
+            val itemEntity =  this.dropItem(woolItem, 1) ?: return
             itemEntity.velocity = itemEntity.velocity.add(
                 ((this.random.nextFloat() - this.random.nextFloat()) * 0.1f).toDouble(),
                 (this.random.nextFloat() * 0.05f).toDouble(),
@@ -1136,6 +1219,8 @@ open class PokemonEntity(
         val feature = this.pokemon.getFeature<FlagSpeciesFeature>(DataKeys.HAS_BEEN_SHEARED) ?: return false
         return !this.isBusy && !this.pokemon.isFainted() && !feature.enabled
     }
+
+
 
     override fun canUsePortals() = false
 

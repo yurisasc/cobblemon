@@ -78,7 +78,7 @@ abstract class PoseableEntityState<T : Entity> : Schedulable {
             "anim_time" to java.util.function.Function { return@Function reusableAnimTime.also { it.value = animationSeconds.toDouble() } },
             "pose_type" to java.util.function.Function { return@Function StringValue((getEntity() as Poseable).getCurrentPoseType().name) },
             "pose" to java.util.function.Function { _ -> return@Function StringValue(currentPose ?: "") },
-            "say" to java.util.function.Function { params -> MinecraftClient.getInstance().player?.sendMessage(params.getString(0).text()) ?: Unit },
+            "has_entity" to java.util.function.Function { _ -> return@Function DoubleValue(getEntity() != null) },
             "sound" to java.util.function.Function { params ->
                 val entity = getEntity() ?: return@Function Unit
                 if (params.get<MoValue>(0) !is StringValue) {
@@ -135,6 +135,7 @@ abstract class PoseableEntityState<T : Entity> : Schedulable {
 
                     val storm = ParticleStorm(
                         effect = effect,
+                        entity = entity,
                         matrixWrapper = matrixWrapper,
                         world = world,
                         runtime = particleRuntime,

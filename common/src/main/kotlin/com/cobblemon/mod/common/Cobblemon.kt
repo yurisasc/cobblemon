@@ -107,7 +107,6 @@ import com.cobblemon.mod.common.pokemon.properties.HiddenAbilityPropertyType
 import com.cobblemon.mod.common.pokemon.properties.UncatchableProperty
 import com.cobblemon.mod.common.pokemon.properties.tags.PokemonFlagProperty
 import com.cobblemon.mod.common.pokemon.stat.CobblemonStatProvider
-import com.cobblemon.mod.common.sherds.CobblemonSherds
 import com.cobblemon.mod.common.starter.CobblemonStarterHandler
 import com.cobblemon.mod.common.trade.TradeManager
 import com.cobblemon.mod.common.util.*
@@ -179,7 +178,6 @@ object Cobblemon {
         if(CobblemonBuildDetails.SNAPSHOT) {
             this.LOGGER.info("  - Git Commit: ${smallCommitHash()} (https://gitlab.com/cable-mc/cobblemon/-/commit/${CobblemonBuildDetails.GIT_COMMIT})")
             this.LOGGER.info("  - Branch: ${CobblemonBuildDetails.BRANCH}")
-            this.LOGGER.info("  - Timestamp: ${CobblemonBuildDetails.TIMESTAMP}")
         }
 
         implementation.registerPermissionValidator()
@@ -236,7 +234,7 @@ object Cobblemon {
             val player = event.player
             val block = player.world.getBlockState(event.pos).block
             player.party().forEach { pokemon ->
-                pokemon.evolutions
+                pokemon.lockedEvolutions
                     .filterIsInstance<BlockClickEvolution>()
                     .forEach { evolution ->
                         evolution.attemptEvolution(pokemon, BlockClickEvolution.BlockInteractionContext(block, player.world))
@@ -417,7 +415,6 @@ object Cobblemon {
             ).ifSuccessful { it.mute = true }
         }
 
-        CobblemonSherds.registerSherds()
     }
 
     fun getLevel(dimension: RegistryKey<World>): World? {
