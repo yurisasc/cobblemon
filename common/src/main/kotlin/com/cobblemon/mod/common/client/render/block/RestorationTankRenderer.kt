@@ -61,17 +61,17 @@ class RestorationTankRenderer(ctx: BlockEntityRendererFactory.Context) : BlockEn
             matrices.pop()
         }
         val fillLevel = struct.fillLevel
-        if (fillLevel == 0 && struct.createdPokemon == null) {
+        if (fillLevel == 0 && !struct.hasCreatedPokemon) {
             return
         }
 
-        if (struct.isRunning() or (struct.createdPokemon != null)) renderFetus(entity, tickDelta, matrices, vertexConsumers, light, overlay)
+        if (struct.isRunning() or (struct.hasCreatedPokemon)) renderFetus(entity, tickDelta, matrices, vertexConsumers, light, overlay)
 
         matrices.push()
         val transparentBuffer = vertexConsumers.getBuffer(RenderLayer.getTranslucent())
 
         val fluidModel = if (struct.isRunning()) FLUID_MODELS[8]
-        else if (struct.createdPokemon != null) FLUID_MODELS[7]
+        else if (struct.hasCreatedPokemon) FLUID_MODELS[7]
         else FLUID_MODELS[fillLevel.coerceAtMost(FLUID_MODELS.size - 1) - 1]
         fluidModel.getQuads(entity.cachedState, null, entity.world?.random).forEach { quad ->
             transparentBuffer?.quad(matrices.peek(), quad, 0.75f, 0.75f, 0.75f, light, OverlayTexture.DEFAULT_UV)

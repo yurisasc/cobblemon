@@ -1155,6 +1155,7 @@
   "cobblemon.battle.cant.shelltrap": "%1$s's shell trap didn't work!",
   "cobblemon.battle.cant.taunt": "%1$s can't use %2$s after the taunt!",
   "cobblemon.battle.cant.throatchop": "The effects of Throat Chop prevent %1$s from using certain moves!",
+  "cobblemon.battle.cant.nopp": "%1$s can't use %2$s because it is out of PP!",
 
   "cobblemon.battle.activate.confusion": "%1$s is confused!",
   "cobblemon.battle.activate.happyhour": "Everyone is caught up in the happy atmosphere!",
@@ -1298,6 +1299,8 @@
   "cobblemon.battle.damage.flameburst": "The bursting flame hit %1$s!",
   "cobblemon.battle.damage.dryskin": "%1$s was hurt by its Dry Skin!",
   "cobblemon.battle.damage.sandtomb": "%1$s is hurt by Sand Tomb!",
+  "cobblemon.battle.damage.roughskin": "%1$s was hurt!",
+  "cobblemon.battle.damage.ironbarbs": "%1$s was hurt!",
 
   "cobblemon.battle.end.bind": "%1$s is no longer being squeezed!",
   "cobblemon.battle.end.wrap": "%1$s was freed from wrap!",
