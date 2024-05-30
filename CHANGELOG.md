@@ -3,6 +3,7 @@
 ## [1.5.3](#1-5-3)
 ### Fixes
 - Scaled down Amaura's fetus model to avoid clipping through the tank while animating
+- Added Polished Tumblestone and Tumblestone Brick block sets from Tumblestone, Black Tumblestone, and Sky Tumblestone.
 
 ### Additions
 
