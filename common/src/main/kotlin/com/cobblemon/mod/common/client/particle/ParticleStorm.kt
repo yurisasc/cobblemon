@@ -10,7 +10,6 @@ package com.cobblemon.mod.common.client.particle
 
 import com.bedrockk.molang.runtime.MoLangRuntime
 import com.bedrockk.molang.runtime.value.DoubleValue
-import com.cobblemon.mod.common.api.molang.MoLangFunctions.addFunction
 import com.cobblemon.mod.common.api.molang.MoLangFunctions.getQueryStruct
 import com.cobblemon.mod.common.api.pokemon.PokemonSpecies.species
 import com.cobblemon.mod.common.api.snowstorm.BedrockParticleEffect

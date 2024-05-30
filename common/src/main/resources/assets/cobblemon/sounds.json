@@ -195,7 +195,8 @@
     "sounds": [
       "cobblemon:fishing/fishing_notification_1",
       "cobblemon:fishing/fishing_notification_2",
-      "cobblemon:fishing/fishing_notification_3"
+      "cobblemon:fishing/fishing_notification_3",
+      "cobblemon:fishing/fishing_notification_4"
     ]
   },
   "fishing.splash_small": {
@@ -212,9 +213,25 @@
       "cobblemon:fishing/fishing_splash_big_3"
     ]
   },
+  "fishing.rod_cast": {
+    "sounds": [
+      "cobblemon:fishing/fishing_rod_cast_1",
+      "cobblemon:fishing/fishing_rod_cast_2",
+      "cobblemon:fishing/fishing_rod_cast_3"
+    ]
+  },
+  "fishing.rod_reel_in": {
+    "sounds": [
+      "cobblemon:fishing/fishing_rod_reel_in_1",
+      "cobblemon:fishing/fishing_rod_reel_in_2",
+      "cobblemon:fishing/fishing_rod_reel_in_3"
+    ]
+  },
   "fishing.bobber_land": {
     "sounds": [
-      { "name": "cobblemon:fishing/fishing_bobber_land", "volume": 0.5 }
+      { "name": "cobblemon:fishing/fishing_bobber_land_1", "volume": 0.5 },
+      { "name": "cobblemon:fishing/fishing_bobber_land_2", "volume": 0.5 },
+      { "name": "cobblemon:fishing/fishing_bobber_land_3", "volume": 0.5 }
     ]
   },
   "tumblestone.break": {
