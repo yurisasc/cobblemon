@@ -40,21 +40,21 @@ object StashHandler {
     }
 
     fun handleItem(pokemon: Pokemon, item: Item): Boolean {
-        val stashes = pokemon.species.stashes
         val itemIdentifier: Identifier = item.registryEntry.registryKey().value
-        val stashName = stashes.entries.find { it.value.keys.contains(itemIdentifier) }?.key ?: return false
-        val itemValue = stashes[stashName]?.get(itemIdentifier)
-            ?: return false // This really shouldn't happen given how we get stashName
-
-        val maxValue = (SpeciesFeatures.getFeature(stashName) as IntSpeciesFeatureProvider).max
-        val pokeStash = pokemon.getFeature<IntSpeciesFeature>(stashName) ?: return false
-        if (pokeStash.value >= maxValue) return false
-
-        pokeStash.value += itemValue
-        if (pokeStash.value > maxValue) pokeStash.value = maxValue
-
-        if (pokemon.entity != null) pokemon.entity!!.playSound(CobblemonSounds.GIMMIGHOUL_GIVE_ITEM_SMALL, 1f, 1f)
-        pokemon.markFeatureDirty(pokeStash)
-        return true
+        val speciesFeatureProviders = SpeciesFeatures.getFeaturesFor(pokemon.species)
+        val relevantSpeciesFeatureProviders: List<IntSpeciesFeatureProvider> = speciesFeatureProviders.filter {
+            it is IntSpeciesFeatureProvider && it.itemPoints.keys.contains(itemIdentifier)
+        }.map { it as IntSpeciesFeatureProvider }
+        for (relevantSpeciesFeatureProvider in relevantSpeciesFeatureProviders) {
+            val points = relevantSpeciesFeatureProvider.itemPoints[itemIdentifier]!!
+            val feature = pokemon.getFeature<IntSpeciesFeature>(relevantSpeciesFeatureProvider.keys[0])!!
+            feature.value += points
+            pokemon.markFeatureDirty(feature)
+            if (feature.value > relevantSpeciesFeatureProvider.max) feature.value = relevantSpeciesFeatureProvider.max
+        }
+        if (relevantSpeciesFeatureProviders.isNotEmpty()) {
+            if (pokemon.entity != null) pokemon.entity!!.playSound(CobblemonSounds.GIMMIGHOUL_GIVE_ITEM_SMALL, 1f, 1f)
+        }
+        return relevantSpeciesFeatureProviders.isNotEmpty()
     }
 }
