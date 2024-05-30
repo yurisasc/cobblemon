@@ -18,11 +18,13 @@ import com.cobblemon.mod.common.api.pokemon.PokemonSpecies
 import com.cobblemon.mod.common.api.pokemon.stats.Stat
 import com.cobblemon.mod.common.api.text.gray
 import com.cobblemon.mod.common.api.types.ElementalTypes
+import com.cobblemon.mod.common.duck.SoundManagerDuck
 import com.cobblemon.mod.common.entity.fishing.PokeRodFishingBobberEntity
 import com.cobblemon.mod.common.item.BerryItem
 import com.cobblemon.mod.common.pokemon.Gender
 import com.cobblemon.mod.common.util.lang
 import it.unimi.dsi.fastutil.objects.ObjectLists
+import net.minecraft.client.MinecraftClient
 import net.minecraft.client.item.TooltipContext
 import net.minecraft.enchantment.EnchantmentHelper
 import net.minecraft.entity.player.PlayerEntity
@@ -139,6 +141,9 @@ class PokerodItem(val pokeRodId: Identifier, settings: Settings?) : FishingRodIt
                 i = user.fishHook!!.use(itemStack)
                 itemStack.damage(i, user) { p: PlayerEntity -> p.sendToolBreakStatus(hand) }
             }
+            // stop sound of casting when reeling in
+            (MinecraftClient.getInstance().getSoundManager() as SoundManagerDuck).stopSounds(CobblemonSounds.FISHING_ROD_CAST.id, SoundCategory.PLAYERS)
+
             world.playSound(null as PlayerEntity?, user.x, user.y, user.z, CobblemonSounds.FISHING_ROD_REEL_IN, SoundCategory.PLAYERS, 1.0f, 1.0f / (world.getRandom().nextFloat() * 0.4f + 0.8f))
             user.emitGameEvent(GameEvent.ITEM_INTERACT_FINISH)
         } else { // if the bobber is not out yet

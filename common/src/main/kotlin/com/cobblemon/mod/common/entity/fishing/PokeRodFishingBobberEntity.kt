@@ -22,24 +22,20 @@ import com.cobblemon.mod.common.api.spawning.fishing.FishingSpawnCause
 import com.cobblemon.mod.common.api.text.red
 import com.cobblemon.mod.common.api.types.tera.TeraTypes
 import com.cobblemon.mod.common.battles.BattleBuilder
+import com.cobblemon.mod.common.duck.SoundManagerDuck
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.item.interactive.PokerodItem
 import com.cobblemon.mod.common.loot.CobblemonLootTables
-import com.cobblemon.mod.common.net.messages.client.effect.SpawnSnowstormEntityParticlePacket
 import com.cobblemon.mod.common.net.messages.client.effect.SpawnSnowstormParticlePacket
 import com.cobblemon.mod.common.pokemon.Gender
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.pokemon.abilities.HiddenAbility
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.toBlockPos
-import kotlin.math.sqrt
 import net.minecraft.advancement.criterion.Criteria
 import net.minecraft.block.Blocks
-import net.minecraft.entity.Entity
-import net.minecraft.entity.EntityType
-import net.minecraft.entity.ExperienceOrbEntity
-import net.minecraft.entity.ItemEntity
-import net.minecraft.entity.MovementType
+import net.minecraft.client.MinecraftClient
+import net.minecraft.entity.*
 import net.minecraft.entity.data.DataTracker
 import net.minecraft.entity.data.TrackedData
 import net.minecraft.entity.data.TrackedDataHandlerRegistry
@@ -68,6 +64,8 @@ import net.minecraft.util.math.MathHelper
 import net.minecraft.util.math.Vec3d
 import net.minecraft.util.math.random.Random
 import net.minecraft.world.World
+import kotlin.math.sqrt
+
 
 class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity>, world: World) : FishingBobberEntity(type, world) {
 
@@ -104,6 +102,7 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
     var lastSpinAngle: Float = 0f
     var randomPitch: Float = 0f
     var randomYaw: Float = 0f
+    var lastBobberPos: Vec3d? = null
 
     constructor(thrower: PlayerEntity, pokeRodId: Identifier, bait: ItemStack, world: World, luckOfTheSea: Int, lure: Int) : this(CobblemonEntities.POKE_BOBBER, world) {
         owner = thrower
@@ -289,11 +288,12 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
         BOBBING
     }
 
-    // todo custom behavior for fishing logic
+    // todo maybe custom behavior for fishing logic
     private fun tickFishingLogic(pos: BlockPos) {
         val serverWorld = world as ServerWorld
         var i = 1
         val blockPos = pos.up()
+
         if (random.nextFloat() < 0.25f && world.hasRain(blockPos)) {
             ++i
         }
@@ -329,7 +329,7 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
                     val k = g * 0.04f
                     val l = h * 0.04f
 
-                    // todo the fish trail that leads to the bobber I think
+                    // todo the fish trail that leads to the bobber
                     serverWorld.spawnParticles(ParticleTypes.FISHING, offsetX, offsetY, j, 0, l.toDouble(), 0.01, -k.toDouble(), 1.0)
                     serverWorld.spawnParticles(ParticleTypes.FISHING, offsetX, offsetY, j, 0, -l.toDouble(), 0.01, k.toDouble(), 1.0)
                     // create tiny splash particles for fishing trail
@@ -401,6 +401,9 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
             }
         } else {
             if (isCast != true) {
+                // stop audio for the rod casting
+                (MinecraftClient.getInstance().getSoundManager() as SoundManagerDuck).stopSounds(CobblemonSounds.FISHING_ROD_CAST.id, SoundCategory.PLAYERS)
+
                 // When bobber lands on the water for the first time
                 world.playSound(null, this.blockPos, CobblemonSounds.FISHING_BOBBER_LAND, SoundCategory.NEUTRAL, 1.0F, 1.0F)
 
@@ -486,6 +489,14 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
                 f = fluidState.getHeight(world, blockPos)
             }
             val bl = f > 0.0f
+
+            // pause audio if the bobber is not moving anymore
+            if (lastBobberPos == pos) {
+                // stop audio for the rod casting
+                (MinecraftClient.getInstance().getSoundManager() as SoundManagerDuck).stopSounds(CobblemonSounds.FISHING_ROD_CAST.id, SoundCategory.PLAYERS)
+            }
+            lastBobberPos = pos
+
             if (state == State.FLYING) {
                 if (hookedEntity != null) {
                     velocity = Vec3d.ZERO
