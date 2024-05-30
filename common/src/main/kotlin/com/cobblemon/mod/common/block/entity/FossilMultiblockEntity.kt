@@ -38,18 +38,14 @@ open class FossilMultiblockEntity(
             }
         }
         get() {
-            return if (field != null) {
-                field
-            } else if (masterBlockPos != null && masterBlockPos != pos) {
+            if(masterBlockPos != null && masterBlockPos != pos) {
                 val chunkPos = ChunkPos(masterBlockPos)
                 if (world?.chunkManager?.isChunkLoaded(chunkPos.x, chunkPos.z) == true) {
                     val entity: FossilMultiblockEntity? = world?.getBlockEntity(masterBlockPos) as FossilMultiblockEntity?
                     field = entity?.multiblockStructure
                 }
-                field
-            } else {
-                null
             }
+            return field
         }
 
     override fun markRemoved() {
