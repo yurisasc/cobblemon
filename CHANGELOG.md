@@ -11,6 +11,7 @@
 ### Developer
 
 ### Data Pack & Resource Pack Creators
+- Added support for "shedders" similar to Shedinja's evolution logic.
 
 ## [1.5.2 (May 27th, 2024)](#1-5-2)
 ### Fixes
