@@ -58,9 +58,9 @@ class BattleOverlay : InGameHud(MinecraftClient.getInstance(), MinecraftClient.g
         const val MAX_OPACITY = 1.0
         const val MIN_OPACITY = 0.5
         const val OPACITY_CHANGE_PER_SECOND = 0.1
-        const val HORIZONTAL_INSET = 12
-        const val VERTICAL_INSET = 10
-        const val HORIZONTAL_SPACING = 15
+        const val HORIZONTAL_INSET = 0
+        const val VERTICAL_INSET = 0
+        const val HORIZONTAL_SPACING = 5
         const val VERTICAL_SPACING = 40
         const val INFO_OFFSET_X = 7
 
@@ -144,7 +144,9 @@ class BattleOverlay : InGameHud(MinecraftClient.getInstance(), MinecraftClient.g
 
         val battlePokemon = activeBattlePokemon.battlePokemon ?: return
         // First render the underlay
-        var x = HORIZONTAL_INSET + rank * HORIZONTAL_SPACING.toFloat()
+        val battle = CobblemonClient.battle ?: return
+        val slotCount = battle.battleFormat.battleType.slotsPerActor
+        var x = HORIZONTAL_INSET + (slotCount - rank - 1) * HORIZONTAL_SPACING.toFloat()
         val y = VERTICAL_INSET + rank * VERTICAL_SPACING
         if (!left) {
             x = mc.window.scaledWidth - x - TILE_WIDTH
