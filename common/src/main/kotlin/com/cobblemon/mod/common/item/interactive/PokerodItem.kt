@@ -139,10 +139,10 @@ class PokerodItem(val pokeRodId: Identifier, settings: Settings?) : FishingRodIt
                 i = user.fishHook!!.use(itemStack)
                 itemStack.damage(i, user) { p: PlayerEntity -> p.sendToolBreakStatus(hand) }
             }
-            world.playSound(null as PlayerEntity?, user.x, user.y, user.z, CobblemonSounds.FISHING_ROD_REEL_IN, SoundCategory.NEUTRAL, 1.0f, 0.4f / (world.getRandom().nextFloat() * 0.4f + 0.8f))
+            world.playSound(null as PlayerEntity?, user.x, user.y, user.z, CobblemonSounds.FISHING_ROD_REEL_IN, SoundCategory.PLAYERS, 1.0f, 1.0f / (world.getRandom().nextFloat() * 0.4f + 0.8f))
             user.emitGameEvent(GameEvent.ITEM_INTERACT_FINISH)
         } else { // if the bobber is not out yet
-            world.playSound(null as PlayerEntity?, user.x, user.y, user.z, CobblemonSounds.FISHING_ROD_CAST, SoundCategory.NEUTRAL, 0.5f, 0.4f / (world.getRandom().nextFloat() * 0.4f + 0.8f))
+            world.playSound(null as PlayerEntity?, user.x, user.y, user.z, CobblemonSounds.FISHING_ROD_CAST, SoundCategory.PLAYERS, 1.0f, 1.0f / (world.getRandom().nextFloat() * 0.4f + 0.8f))
             if (!world.isClient) {
                 i = EnchantmentHelper.getLure(itemStack)
                 val j = EnchantmentHelper.getLuckOfTheSea(itemStack)
