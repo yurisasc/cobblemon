@@ -1,5 +1,9 @@
 # Changelog
 
+## [1.5.3](#1-5-3)
+### Fixes
+- Scaled down Amaura's fetus model to avoid clipping through the tank while animating
+
 ## [1.5.2 (May 27th, 2024)](#1-5-2)
 ### Fixes
 - Fixed Wooloo and Dubwool dyeing making your game start dying. Only if you do it on a server.
