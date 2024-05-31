@@ -4,8 +4,13 @@
 ### Fixes
 - Scaled down Amaura's fetus model to avoid clipping through the tank while animating
 - Added Polished Tumblestone and Tumblestone Brick block sets from Tumblestone, Black Tumblestone, and Sky Tumblestone.
+- Fixed Cubone's cry not having a sound.
 
 ### Additions
+
+### Added cries to the following Pokémon
+- Timburr, Gurdurr, Conkeldurr
+- Golett, Golurk
 
 ### Changes
 
