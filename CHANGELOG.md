@@ -3,6 +3,8 @@
 ## [1.5.3](#1-5-3)
 ### Fixes
 - Scaled down Amaura's fetus model to avoid clipping through the tank while animating
+- Fixed the Seafloor spawning context not being a usable context.
+- Fixed Pokemon spawning in non-full blocks like slabs.
 
 ### Additions
 
