@@ -12,13 +12,14 @@ import com.bedrockk.molang.runtime.struct.MoStruct
 import com.bedrockk.molang.runtime.struct.QueryStruct
 import com.bedrockk.molang.runtime.value.DoubleValue
 import com.bedrockk.molang.runtime.value.StringValue
-import com.cobblemon.mod.common.api.molang.MoLangFunctions.addFunction
 import com.cobblemon.mod.common.api.moves.animations.ActionEffectTimeline
 import com.cobblemon.mod.common.api.moves.categories.DamageCategories
 import com.cobblemon.mod.common.api.moves.categories.DamageCategory
+import com.cobblemon.mod.common.api.pokemon.stats.Stats
 import com.cobblemon.mod.common.api.types.ElementalType
 import com.cobblemon.mod.common.api.types.ElementalTypes
 import com.cobblemon.mod.common.battles.MoveTarget
+import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.util.lang
 import com.google.gson.annotations.SerializedName
 import net.minecraft.text.MutableText
@@ -112,5 +113,42 @@ open class MoveTemplate(
             raisedPpStages = raisedPpStages,
             template = this
         )
+    }
+
+    fun getEffectiveType(pokemon: Pokemon?) : ElementalType {
+        if(pokemon == null) {
+            return this.elementalType
+        }
+        if (name == "hiddenpower") {
+            val hiddepowerTable = arrayOf(ElementalTypes.FIGHTING,
+                    ElementalTypes.FLYING,
+                    ElementalTypes.POISON,
+                    ElementalTypes.GROUND,
+                    ElementalTypes.ROCK,
+                    ElementalTypes.BUG,
+                    ElementalTypes.GHOST,
+                    ElementalTypes.STEEL,
+                    ElementalTypes.FIRE,
+                    ElementalTypes.WATER,
+                    ElementalTypes.GRASS,
+                    ElementalTypes.ELECTRIC,
+                    ElementalTypes.PSYCHIC,
+                    ElementalTypes.ICE,
+                    ElementalTypes.DRAGON,
+                    ElementalTypes.DARK)
+            val HP: Int = pokemon.ivs[Stats.HP] ?: return ElementalTypes.NORMAL
+            val ATTACK: Int = pokemon.ivs[Stats.ATTACK] ?: return ElementalTypes.NORMAL
+            val DEFENSE: Int = pokemon.ivs[Stats.DEFENCE] ?: return ElementalTypes.NORMAL
+            val SPEED: Int = pokemon.ivs[Stats.SPEED] ?: return ElementalTypes.NORMAL
+            val SPEC_ATK: Int = pokemon.ivs[Stats.SPECIAL_ATTACK] ?: return ElementalTypes.NORMAL
+            val SPEC_DEF: Int = pokemon.ivs[Stats.SPECIAL_DEFENCE] ?: return ElementalTypes.NORMAL
+
+
+            val typeInt = 15 * (HP % 2 + 2 * (ATTACK % 2) + 4 * (DEFENSE % 2) + 8 * (SPEED % 2) + 16 * (SPEC_ATK % 2) + 32 * (SPEC_DEF % 2)) / 63
+
+           return hiddepowerTable[typeInt]
+        }
+
+        return this.elementalType
     }
 }

@@ -83,7 +83,9 @@ class BattleMoveSelection(
         val y: Float,
     ) {
         var moveTemplate = Moves.getByNameOrDummy(move.id)
-        var rgb = moveTemplate.elementalType.hue.toRGB()
+        val pokemon = moveSelection.request.activePokemon.actor.pokemon.firstOrNull { it.uuid == moveSelection.request.activePokemon.battlePokemon?.uuid }
+        val type = moveTemplate.getEffectiveType(pokemon)
+        var rgb = type.hue.toRGB() // moveTemplate.elementalType.hue.toRGB() // getEffectiveType(moveSelection.request.activePokemon.getPNX()  )
 
         open val targetList: List<Targetable>? get() = move.target.targetList(moveSelection.request.activePokemon)
         open val response: MoveActionResponse get() = MoveActionResponse(move.id, targetPnx)
@@ -130,7 +132,7 @@ class BattleMoveSelection(
             TypeIcon(
                 x = x - 9,
                 y = y + 2,
-                type = moveTemplate.elementalType,
+                type = type,
                 opacity = moveSelection.opacity
             ).render(context)
 
