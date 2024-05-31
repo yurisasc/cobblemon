@@ -8,9 +8,12 @@
 - Fixed Pokemon spawning in non-full blocks like slabs.
 
 ### Additions
+- Added extra visuals to early berry growth stages
 
 ### Changes
 - Altered the item model for Medicinal Leeks and Roasted Leeks to be held like sticks and other rod items. 
+- Adjusted some berry balance values like yield and growth times
+- Changes to mulch buffs/durations
 
 ### Developer
 

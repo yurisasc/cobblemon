@@ -735,6 +735,7 @@ object CobblemonBlocks : PlatformRegistry<Registry<Block>, RegistryKey<Registry<
     val WEPEAR_BERRY = this.berryBlock("wepear")
     val WIKI_BERRY = this.berryBlock("wiki")
     val YACHE_BERRY = this.berryBlock("yache")
+    //val BINDING_SOIL = this.create("binding_soil", BindingSoilBlock(AbstractBlock.Settings.create()))
 
     init {
         /**
