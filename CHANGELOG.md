@@ -4,6 +4,8 @@
 ### Fixes
 - Scaled down Amaura's fetus model to avoid clipping through the tank while animating
 - Added Polished Tumblestone and Tumblestone Brick block sets from Tumblestone, Black Tumblestone, and Sky Tumblestone.
+- Fixed the Seafloor spawning context not being a usable context.
+- Fixed Pokemon spawning in non-full blocks like slabs.
 
 ### Additions
 
