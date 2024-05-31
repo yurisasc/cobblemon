@@ -59,7 +59,7 @@ class PidgeyModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
 
         stand = registerPose(
             poseName = "standing",
-            poseTypes = SHOULDER_POSES + UI_POSES + PoseType.STANDING_POSES,
+            poseTypes = SHOULDER_POSES + UI_POSES + PoseType.STATIONARY_POSES - PoseType.HOVER,
             transformTicks = 10,
             transformedParts = arrayOf(
                 wingClosedLeft.createTransformation().withVisibility(visibility = true),

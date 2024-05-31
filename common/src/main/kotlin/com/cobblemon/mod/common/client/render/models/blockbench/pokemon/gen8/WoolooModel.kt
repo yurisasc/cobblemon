@@ -31,7 +31,7 @@ class WoolooModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Qua
     override val foreRightLeg = getPart("leg_front_right")
     override val hindLeftLeg = getPart("leg_back_left")
     override val hindRightLeg = getPart("leg_back_right")
-    val wool = getPart("wool")
+    val wool = getPart("wool_shearable")
 
     override var portraitScale = 3.1F
     override var portraitTranslation = Vec3d(-0.85, -1.8, 0.0)

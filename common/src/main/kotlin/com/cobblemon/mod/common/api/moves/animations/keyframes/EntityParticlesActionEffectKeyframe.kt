@@ -39,7 +39,7 @@ class EntityParticlesActionEffectKeyframe : ConditionalActionEffectKeyframe(), E
             .flatMap { prov -> prov.entities.filter { test(context, it, isUser = prov is UsersProvider) } }
 
         val effectIdentifier = try {
-            effect?.asExpressionLike()?.resolveString(context.runtime)
+            effect?.asExpressionLike()?.resolveString(context.runtime)?.takeIf { it != "0.0" } ?: effect
         } catch (e: Exception) {
             effect
         }?.asIdentifierDefaultingNamespace() ?: return skip()

@@ -26,8 +26,8 @@ class PetililHisuiBiasModel (root: ModelPart) : PokemonPosableModel(root), Heade
     val leaf_left = getPart("leaf_left_rotation")
     val leaf_right = getPart("leaf_right_rotation")
 
-    override var portraitScale = 1.75F
-    override var portraitTranslation = Vec3d(0.01, -0.39, 0.0)
+    override var portraitScale = 1.52F
+    override var portraitTranslation = Vec3d(0.1, -0.25, 0.0)
 
     override var profileScale = 0.8F
     override var profileTranslation = Vec3d(0.0, 0.5, 0.0)

@@ -12,13 +12,11 @@ import com.cobblemon.mod.common.CobblemonBlockEntities
 import com.cobblemon.mod.common.api.fossil.NaturalMaterials
 import com.cobblemon.mod.common.api.multiblock.builder.MultiblockStructureBuilder
 import com.cobblemon.mod.common.block.multiblock.FossilMultiblockStructure
-import net.minecraft.block.Block
 import net.minecraft.block.BlockState
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.inventory.Inventories
 import net.minecraft.inventory.SidedInventory
 import net.minecraft.inventory.SimpleInventory
-import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.nbt.NbtList
@@ -55,7 +53,9 @@ class RestorationTankBlockEntity(
 
         constructor(tankEntity: RestorationTankBlockEntity) : this(tankEntity, *Array(8) { ItemStack.EMPTY })
 
-
+        override fun getMaxCountPerStack(): Int {
+            return 1
+        }
 
         override fun markDirty() {
             super.markDirty()
@@ -64,7 +64,6 @@ class RestorationTankBlockEntity(
                 if(!itemStack.isEmpty) {
                     val struct = tankEntity.multiblockStructure as? FossilMultiblockStructure
                     val returnIdentifier = NaturalMaterials.getReturnItem(itemStack)
-
                     if(tankEntity.world != null) {
                         if(struct?.insertOrganicMaterial(itemStack, tankEntity.world!!) == true) {
                             removeStack(i)
@@ -72,16 +71,15 @@ class RestorationTankBlockEntity(
                                 val returnItem = Registries.ITEM.get(returnIdentifier)
                                 val returnStack =  ItemStack(returnItem, itemStack.count)
                                 var done = false
-                                if (returnStack.maxCount > 1) { // Only search for a merge if merging could be possible
-                                    for(j in 0 until size()) {
+                                    for(j in 1 until size()) {
                                         // Look for a inventory slot to merge with
                                         val existingStack : ItemStack = getStack(j)
-                                        if (Registries.ITEM.getId(existingStack.item) == returnIdentifier && existingStack.count + returnStack.count < existingStack.maxCount) {
+                                        if (existingStack.isEmpty
+                                                || (Registries.ITEM.getId(existingStack.item) == returnIdentifier && existingStack.count + returnStack.count < existingStack.maxCount)) {
                                             setStack(j, ItemStack(returnItem, existingStack.count + returnStack.count))
                                             done = true
                                         }
                                     }
-                                }
                                 if (!done) {
                                     setStack(i, ItemStack(returnItem, itemStack.count))
                                 }
@@ -104,7 +102,7 @@ class RestorationTankBlockEntity(
         }
 
         override fun getAvailableSlots(side: Direction?): IntArray {
-            return intArrayOf(0,1,2,3,4,5,6,7)
+            return if (side == Direction.DOWN) intArrayOf(0,1,2,3,4,5,6,7) else intArrayOf(0)
         }
 
         override fun canInsert(slot: Int, stack: ItemStack?, dir: Direction?): Boolean {
@@ -113,16 +111,16 @@ class RestorationTankBlockEntity(
                     val structure = tankEntity.multiblockStructure as FossilMultiblockStructure
                     val canUtilize = stack?.let { NaturalMaterials.isNaturalMaterial(it) } == true
                             && structure.organicMaterialInside < FossilMultiblockStructure.MATERIAL_TO_START
-                            && structure.createdPokemon == null
+                            && !structure.hasCreatedPokemon
                     val returnItem = NaturalMaterials.getReturnItem(stack!!) ?: return canUtilize
                     val returnStack = ItemStack(Registries.ITEM.get(returnItem), stack.count)
                     if(canUtilize && super.canInsert(returnStack)) {
-                        // See if there's room for the return
-                        if(returnStack == ItemStack.EMPTY) {
+                        if(returnStack == ItemStack.EMPTY && getStack(0) == ItemStack.EMPTY) {
                             return true
                         }
+                        // See if there's room for the return item
                         var emptyCount = 0
-                        for(i in 0 until size()) {
+                        for(i in 1 until size()) {
                             val existingStack : ItemStack = getStack(i)
                             if(existingStack == ItemStack.EMPTY) {
                                 emptyCount += 1
@@ -130,14 +128,8 @@ class RestorationTankBlockEntity(
                                     // 2 empty slots, safe to insert
                                     return true
                                 }
-                            } else if(returnStack.maxCount > 1) {
-                                if(Registries.ITEM.getId(existingStack.item) == returnItem && existingStack.count + returnStack.count < existingStack.maxCount) {
-                                    // Return item can merge with an item already in the inventory
-                                    return true
-                                }
                             }
                         }
-                        return false
                     }
                 }
             }

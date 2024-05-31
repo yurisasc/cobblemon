@@ -714,6 +714,7 @@ object PokemonModelRepository : VaryingModelRepository<PokemonPosableModel>() {
         inbuilt("rowlet_hisui_bias", ::RowletHisuiBiasModel)
         inbuilt("dartrix_hisui_bias", ::DartrixHisuiBiasModel)
         inbuilt("decidueye_hisuian", ::DecidueyeHisuianModel)
+        inbuilt("smeargle", ::SmeargleModel)
     }
 
     override fun conditionParser(json: JsonObject): List<(PosableState) -> Boolean> {

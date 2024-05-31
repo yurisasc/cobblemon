@@ -3,7 +3,7 @@
     "effects": [
       {
         "type": "cobblemon:ha_chance",
-        "chance": 0.025
+        "chance": 0.05
       }
     ]
   }

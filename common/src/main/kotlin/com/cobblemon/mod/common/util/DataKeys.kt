@@ -135,6 +135,7 @@ object DataKeys {
     // Features
     const val CAN_BE_MILKED = "milkable"
     const val HAS_BEEN_SHEARED = "sheared"
+    const val CAN_BE_COLORED = "color"
 
     // Variants
     const val IS_MOOSHTANK = "mooshtank"
@@ -169,6 +170,7 @@ object DataKeys {
     const val PROTECTED_TIME_LEFT = "ProtectedTimeLeft"
     const val FORMED = "Formed"
     const val CREATED_POKEMON = "CreatedPokemon"
+    const val HAS_CREATED_POKEMON = "HasCreatedPokemon"
     const val FOSSIL_OWNER = "FossilOwner"
     const val FOSSIL_STATE = "FossilState"
 

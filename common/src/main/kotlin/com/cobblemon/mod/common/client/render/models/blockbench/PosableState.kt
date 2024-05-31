@@ -127,15 +127,16 @@ abstract class PosableState : Schedulable {
                 val particleRuntime = MoLangRuntime().setup().setupClient()
                 particleRuntime.environment.query.addFunction("entity") { runtime.environment.query }
 
-                val storm = ParticleStorm(
-                    effect = effect,
-                    matrixWrapper = matrixWrapper,
-                    world = world,
-                    runtime = particleRuntime,
-                    sourceVelocity = { entity.velocity },
-                    sourceAlive = { !entity.isRemoved },
-                    sourceVisible = { !entity.isInvisible }
-                )
+                    val storm = ParticleStorm(
+                        effect = effect,
+                        entity = entity,
+                        matrixWrapper = matrixWrapper,
+                        world = world,
+                        runtime = particleRuntime,
+                        sourceVelocity = { entity.velocity },
+                        sourceAlive = { !entity.isRemoved },
+                        sourceVisible = { !entity.isInvisible }
+                    )
 
                 storm.spawn()
             }
