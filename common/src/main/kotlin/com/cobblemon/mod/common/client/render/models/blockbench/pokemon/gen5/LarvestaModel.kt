@@ -8,7 +8,7 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen5
 
-import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.BimanualSwingAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.QuadrupedWalkAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BimanualFrame
@@ -20,7 +20,7 @@ import com.cobblemon.mod.common.entity.PoseType
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class LarvestaModel (root: ModelPart) : PosableModel(root), HeadedFrame, QuadrupedFrame, BimanualFrame {
+class LarvestaModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame, QuadrupedFrame, BimanualFrame {
     override val rootPart = root.registerChildWithAllChildren("larvesta")
     override val head = getPart("neck")
 
@@ -70,6 +70,6 @@ class LarvestaModel (root: ModelPart) : PosableModel(root), HeadedFrame, Quadrup
 
 //    override fun getFaintAnimation(
 //        pokemonEntity: PokemonEntity,
-//        state: PoseableEntityState<PokemonEntity>
+//        state: PosableState<PokemonEntity>
 //    ) = if (state.isPosedIn(standing, walk)) bedrockStateful("larvesta", "faint") else null
 }

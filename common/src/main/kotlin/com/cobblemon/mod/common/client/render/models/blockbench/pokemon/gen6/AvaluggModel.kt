@@ -8,7 +8,7 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen6
 
-import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.PosableState
 import com.cobblemon.mod.common.client.render.models.blockbench.createTransformation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
@@ -23,7 +23,7 @@ import com.cobblemon.mod.common.util.isTouchingWater
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class AvaluggModel (root: ModelPart) : PosableModel(root), QuadrupedFrame, HeadedFrame {
+class AvaluggModel (root: ModelPart) : PokemonPosableModel(root), QuadrupedFrame, HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("avalugg")
     override val head = getPart("head")
 

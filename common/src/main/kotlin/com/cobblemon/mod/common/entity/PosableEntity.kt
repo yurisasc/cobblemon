@@ -9,14 +9,10 @@
 package com.cobblemon.mod.common.entity
 
 import com.bedrockk.molang.runtime.struct.QueryStruct
-import com.bedrockk.molang.runtime.value.DoubleValue
 import com.bedrockk.molang.runtime.value.StringValue
 import com.cobblemon.mod.common.api.entity.EntitySideDelegate
-import com.cobblemon.mod.common.api.pokemon.status.Statuses
-import com.cobblemon.mod.common.entity.pokemon.PokemonBehaviourFlag
-import com.cobblemon.mod.common.entity.pokemon.ai.PokemonMoveControl
 
-interface Poseable {
+interface PosableEntity {
     fun getCurrentPoseType(): PoseType
     val delegate: EntitySideDelegate<*>
     val struct: QueryStruct

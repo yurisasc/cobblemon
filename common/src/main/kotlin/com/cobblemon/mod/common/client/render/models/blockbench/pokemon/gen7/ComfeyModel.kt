@@ -7,7 +7,7 @@
  */
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen7
-import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.createTransformation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BimanualFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
@@ -17,7 +17,7 @@ import com.cobblemon.mod.common.entity.PoseType
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class ComfeyModel (root: ModelPart) : PosableModel(root), HeadedFrame, BimanualFrame {
+class ComfeyModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame, BimanualFrame {
     override val rootPart = root.registerChildWithAllChildren("comfey")
     override val head = getPart("spin")
     override val rightArm = getPart("arm_right")

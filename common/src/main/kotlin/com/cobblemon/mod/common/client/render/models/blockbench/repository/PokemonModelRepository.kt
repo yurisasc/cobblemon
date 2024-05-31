@@ -8,8 +8,8 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.repository
 
-import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.PosableState
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1.*
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen2.*
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen3.*
@@ -23,8 +23,8 @@ import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.isBattling
 import com.google.gson.JsonObject
 
-object PokemonModelRepository : VaryingModelRepository<PosableModel>() {
-    override val poserClass = PosableModel::class.java
+object PokemonModelRepository : VaryingModelRepository<PokemonPosableModel>() {
+    override val poserClass = PokemonPosableModel::class.java
     override val title = "Pokémon"
     override val type = "pokemon"
     override val variationDirectories = listOf("bedrock/$type/resolvers", "bedrock/species")

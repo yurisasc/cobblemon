@@ -8,10 +8,10 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen2
 
-import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.WingFlapIdleAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BiWingedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.CobblemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.ModelPartTransformation
 import com.cobblemon.mod.common.client.render.models.blockbench.wavefunction.sineFunction
@@ -20,7 +20,7 @@ import com.cobblemon.mod.common.util.math.geometry.toRadians
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class XatuModel(root: ModelPart) : PosableModel(root), BiWingedFrame, HeadedFrame {
+class XatuModel(root: ModelPart) : PokemonPosableModel(root), BiWingedFrame, HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("xatu")
     override val head = getPart("head")
 
@@ -65,7 +65,7 @@ class XatuModel(root: ModelPart) : PosableModel(root), BiWingedFrame, HeadedFram
                 bedrock("xatu", "air_idle"),
                 WingFlapIdleAnimation(this,
                     flapFunction = sineFunction(verticalShift = -10F.toRadians(), period = 0.9F, amplitude = 0.6F),
-                    timeVariable = { state, _, _ -> state?.animationSeconds ?: 0F },
+                    timeVariable = { state, _, _ -> state.animationSeconds },
                     axis = ModelPartTransformation.Y_AXIS
                 )
             )
@@ -80,7 +80,7 @@ class XatuModel(root: ModelPart) : PosableModel(root), BiWingedFrame, HeadedFram
                 bedrock("xatu", "air_idle"),
                 WingFlapIdleAnimation(this,
                     flapFunction = sineFunction(verticalShift = -10F.toRadians(), period = 0.9F, amplitude = 0.6F),
-                    timeVariable = { state, _, _ -> state?.animationSeconds ?: 0F },
+                    timeVariable = { state, _, _ -> state.animationSeconds },
                     axis = ModelPartTransformation.Y_AXIS
                 )
             )
@@ -89,6 +89,6 @@ class XatuModel(root: ModelPart) : PosableModel(root), BiWingedFrame, HeadedFram
 
     //override fun getFaintAnimation(
     //    pokemonEntity: PokemonEntity,
-    //    state: PoseableEntityState<PokemonEntity>
+    //    state: PosableState<PokemonEntity>
     //) = if (state.isPosedIn(standing, sleep)) bedrockStateful("xatu", "faint") else null
 }

@@ -8,7 +8,7 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen4
 
-import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.PosableState
 import com.cobblemon.mod.common.client.render.models.blockbench.createTransformation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
@@ -20,7 +20,7 @@ import com.cobblemon.mod.common.util.isBattling
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class KricketotModel (root: ModelPart) : PosableModel(root), BipedFrame, HeadedFrame {
+class KricketotModel (root: ModelPart) : PokemonPosableModel(root), BipedFrame, HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("kricketot")
     override val head = getPart("head")
 

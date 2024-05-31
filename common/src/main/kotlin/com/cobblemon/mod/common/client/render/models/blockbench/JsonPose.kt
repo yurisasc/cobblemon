@@ -11,7 +11,6 @@ package com.cobblemon.mod.common.client.render.models.blockbench
 import com.bedrockk.molang.runtime.MoLangRuntime
 import com.cobblemon.mod.common.api.molang.ExpressionLike
 import com.cobblemon.mod.common.api.molang.MoLangFunctions.addFunctions
-import com.cobblemon.mod.common.api.molang.MoLangFunctions.getQueryStruct
 import com.cobblemon.mod.common.api.molang.MoLangFunctions.setup
 import com.cobblemon.mod.common.client.ClientMoLangFunctions.setupClient
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.SingleBoneLookAnimation
@@ -34,7 +33,7 @@ class JsonPose(model: PosableModel, json: JsonObject) {
     class JsonPoseTransition(val to: String, val animation: ExpressionLike)
 
     val runtime = MoLangRuntime().setup().setupClient().also {
-        it.environment.getQueryStruct().addFunctions(model.functions.functions)
+        it.environment.query.addFunctions(model.functions.functions)
     }
 
     val condition: ExpressionLike = json.singularToPluralList("condition").get("condition")?.normalizeToArray()?.map { it.asString }?.asExpressionLike() ?: "true".asExpressionLike()
@@ -51,14 +50,25 @@ class JsonPose(model: PosableModel, json: JsonObject) {
         val part = model.getPart(partName).createTransformation()
         val rotation = it.get("rotation")?.asJsonArray?.let { Vec3d(it[0].asDouble, it[1].asDouble, it[2].asDouble) } ?: Vec3d.ZERO
         val position = it.get("position")?.asJsonArray?.let { Vec3d(it[0].asDouble, it[1].asDouble, it[2].asDouble) } ?: Vec3d.ZERO
-        val isVisible = it.get("isVisible")?.asBoolean ?: true
-        return@map part.withPosition(position.x, position.y, position.z).withRotationDegrees(rotation.x, rotation.y, rotation.z).withVisibility(isVisible)
+        val isVisible = it.get("isVisible")?.asString?.asExpressionLike()
+        return@map part.withPosition(position.x, position.y, position.z).withRotationDegrees(rotation.x, rotation.y, rotation.z).also { if (isVisible != null) it.withVisibility(isVisible) }
     }?.toTypedArray() ?: arrayOf()
 
     val idleAnimations = (json.get("animations")?.asJsonArray ?: JsonArray()).asJsonArray.mapNotNull {
-        val animString = it.asString
-        if (animString == "look") {
-            return@mapNotNull if (model is HeadedFrame) {
+
+        val condition = if (it is JsonObject) {
+            it.get("condition")?.asString?.asExpressionLike() ?: "true".asExpressionLike()
+        } else {
+            "true".asExpressionLike()
+        }
+        val animString = if (it is JsonObject) {
+            it.get("animation")?.asString ?: return@mapNotNull null
+        } else {
+            it.asString
+        }
+
+        val animation = if (animString == "look") {
+            if (model is HeadedFrame) {
                 model.singleBoneLook()
             } else {
                 SingleBoneLookAnimation(bone = model.relevantPartsByName["head_ai"] ?: model.relevantPartsByName["head"])
@@ -66,18 +76,24 @@ class JsonPose(model: PosableModel, json: JsonObject) {
         } else {
             try {
                 val expression = animString.asExpressionLike()
-                return@mapNotNull runtime.resolveObject(expression).obj as StatelessAnimation
+                runtime.resolveObject(expression).obj as StatelessAnimation
             } catch (exception: Exception) {
                 val animString = it.asString
                 val anim = animString.substringBefore("(")
                 if (JsonPosableModel.ANIMATION_FACTORIES.contains(anim)) {
-                    return@mapNotNull JsonPosableModel.ANIMATION_FACTORIES[anim]!!.stateless(model, animString)
+                    JsonPosableModel.ANIMATION_FACTORIES[anim]!!.stateless(model, animString)
                 } else {
-                    return@mapNotNull null
+                    null
                 }
             }
         }
-        return@mapNotNull null
+
+        if (animation == null) {
+            null
+        } else {
+            animation.condition = { it.runtime.resolveBoolean(condition) }
+            animation
+        }
     }.toTypedArray()
 
     val quirks = (json.get("quirks")?.asJsonArray ?: JsonArray()).map { json ->

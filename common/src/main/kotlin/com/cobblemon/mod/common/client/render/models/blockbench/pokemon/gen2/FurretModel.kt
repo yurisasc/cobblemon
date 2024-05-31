@@ -8,15 +8,15 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen2
 
-import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.QuadrupedWalkAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.QuadrupedFrame
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.CobblemonPose
 import com.cobblemon.mod.common.entity.PoseType
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class FurretModel (root: ModelPart) : PosableModel(root), QuadrupedFrame {
+class FurretModel (root: ModelPart) : PokemonPosableModel(root), QuadrupedFrame {
     override val rootPart = root.registerChildWithAllChildren("furret")
 
     override val foreLeftLeg = getPart("arm_left")
@@ -58,6 +58,6 @@ class FurretModel (root: ModelPart) : PosableModel(root), QuadrupedFrame {
 
 //    override fun getFaintAnimation(
 //        pokemonEntity: PokemonEntity,
-//        state: PoseableEntityState<PokemonEntity>
+//        state: PosableState<PokemonEntity>
 //    ) = if (state.isPosedIn(standing, walk)) bedrockStateful("furret", "faint") else null
 }

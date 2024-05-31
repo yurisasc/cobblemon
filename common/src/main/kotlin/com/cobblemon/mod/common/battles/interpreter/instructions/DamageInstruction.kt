@@ -19,8 +19,7 @@ import com.cobblemon.mod.common.battles.dispatch.InstructionSet
 import com.cobblemon.mod.common.battles.dispatch.InterpreterInstruction
 import com.cobblemon.mod.common.battles.dispatch.UntilDispatch
 import com.cobblemon.mod.common.battles.dispatch.WaitDispatch
-import com.cobblemon.mod.common.battles.pokemon.BattlePokemon
-import com.cobblemon.mod.common.net.messages.client.animation.PlayPoseableAnimationPacket
+import com.cobblemon.mod.common.net.messages.client.animation.PlayPosableAnimationPacket
 import com.cobblemon.mod.common.net.messages.client.battle.BattleHealthChangePacket
 import com.cobblemon.mod.common.net.messages.client.effect.RunPosableMoLangPacket
 import com.cobblemon.mod.common.pokemon.evolution.progress.DamageTakenEvolutionProgress
@@ -83,7 +82,7 @@ class DamageInstruction(
             val pokemonName = battlePokemon.getName()
             val pokemonEntity = battlePokemon.entity
             if (!causedFaint && pokemonEntity != null) {
-                val pkt = PlayPoseableAnimationPacket(pokemonEntity.id, setOf("recoil"), emptySet())
+                val pkt = PlayPosableAnimationPacket(pokemonEntity.id, setOf("recoil"), emptySet())
                 pkt.sendToPlayersAround(
                     x = pokemonEntity.x,
                     y = pokemonEntity.y,

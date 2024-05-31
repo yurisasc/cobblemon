@@ -13,7 +13,6 @@ import com.cobblemon.mod.common.client.render.models.blockbench.PosableState
 import com.cobblemon.mod.common.client.render.models.blockbench.repository.PokemonModelRepository
 import com.cobblemon.mod.common.client.render.models.blockbench.repository.RenderContext
 import com.cobblemon.mod.common.entity.PoseType
-import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.pokemon.RenderablePokemon
 import com.mojang.blaze3d.systems.RenderSystem
 import net.minecraft.client.MinecraftClient
@@ -56,20 +55,25 @@ fun drawProfilePokemon(
     val texture = PokemonModelRepository.getTexture(species, aspects, state.animationSeconds)
 
     val context = RenderContext()
+    model.context = context
     PokemonModelRepository.getTextureNoSubstitute(species, aspects, 0f).let { context.put(RenderContext.TEXTURE, it) }
     context.put(RenderContext.SCALE, PokemonSpecies.getByIdentifier(species)!!.getForm(aspects).baseScale)
     context.put(RenderContext.SPECIES, species)
     context.put(RenderContext.ASPECTS, aspects)
+    context.put(RenderContext.RENDER_STATE, RenderContext.RenderState.PROFILE)
+    context.put(RenderContext.POSABLE_STATE, state)
+
+    state.currentModel = model
+    state.currentAspects = aspects
 
     val renderType = RenderLayer.getEntityCutout(texture)
 
     RenderSystem.applyModelViewMatrix()
     matrixStack.scale(scale, scale, -scale)
 
-    model.getPose(PoseType.PROFILE)?.let { state.setPose(it.poseName) }
-    state.timeEnteredPose = 0F
+    state.setPoseToFirstSuitable(PoseType.PROFILE)
     state.updatePartialTicks(partialTicks)
-    model.setupAnimStateful(null, state, 0F, 0F, 0F, 0F, 0F)
+    model.applyAnimations(null, state, 0F, 0F, 0F, 0F, 0F)
     matrixStack.translate(model.profileTranslation.x, model.profileTranslation.y,  model.profileTranslation.z - 4.0)
     matrixStack.scale(model.profileScale, model.profileScale, 1 / model.profileScale)
 

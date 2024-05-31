@@ -22,7 +22,6 @@ import com.cobblemon.mod.common.api.battles.model.actor.FleeableBattleActor
 import com.cobblemon.mod.common.api.events.CobblemonEvents
 import com.cobblemon.mod.common.api.events.battles.BattleFledEvent
 import com.cobblemon.mod.common.api.molang.MoLangFunctions.asMoLangValue
-import com.cobblemon.mod.common.api.molang.MoLangFunctions.getQueryStruct
 import com.cobblemon.mod.common.api.net.NetworkPacket
 import com.cobblemon.mod.common.api.tags.CobblemonItemTags
 import com.cobblemon.mod.common.api.text.red
@@ -72,7 +71,7 @@ open class PokemonBattle(
     /** Whether logging will be silenced for this battle. */
     var mute = true
     val struct = this.asMoLangValue()
-    val runtime = MoLangRuntime().also { it.environment.structs["query"] = struct }
+    val runtime = MoLangRuntime().also { it.environment.query = struct }
 
     val onEndHandlers: MutableList<(PokemonBattle) -> Unit> = mutableListOf()
 

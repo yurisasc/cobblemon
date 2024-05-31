@@ -8,7 +8,7 @@
 
 package com.cobblemon.mod.common.client.render.item
 
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.FloatingState
+import com.cobblemon.mod.common.client.render.models.blockbench.FloatingState
 import com.cobblemon.mod.common.client.render.models.blockbench.repository.PokemonModelRepository
 import com.cobblemon.mod.common.client.render.models.blockbench.repository.RenderContext
 import com.cobblemon.mod.common.entity.PoseType
@@ -44,6 +44,7 @@ class PokemonItemRenderer : CobblemonBuiltinItemRenderer {
         context.put(RenderContext.ASPECTS, aspects)
         context.put(RenderContext.POSABLE_STATE, state)
         state.currentModel = model
+        state.currentAspects = aspects
 
         val renderLayer = RenderLayer.getEntityCutout(PokemonModelRepository.getTexture(species.resourceIdentifier, aspects, 0F))
 
@@ -52,8 +53,8 @@ class PokemonItemRenderer : CobblemonBuiltinItemRenderer {
         DiffuseLighting.enableGuiDepthLighting()
         matrices.scale(transformations.scale.x, transformations.scale.y, transformations.scale.z)
         matrices.translate(transformations.translation.x, transformations.translation.y, transformations.translation.z)
-        model.poses.entries.firstOrNull { PoseType.PORTRAIT in it.value.poseTypes && it.value.isSuitable(state) }?.let { state.setPose(it.key) }
-        model.setupAnimStateful(null, state, 0F, 0F, 0F, 0F, 0F)
+        state.setPoseToFirstSuitable(PoseType.PORTRAIT)
+        model.applyAnimations(null, state, 0F, 0F, 0F, 0F, 0F)
 
         matrices.translate(model.profileTranslation.x, model.profileTranslation.y,  model.profileTranslation.z - 4.0)
         matrices.scale(model.profileScale, model.profileScale, 0.15F)

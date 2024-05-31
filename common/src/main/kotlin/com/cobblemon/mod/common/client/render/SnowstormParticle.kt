@@ -61,12 +61,10 @@ class SnowstormParticle(
 
     var texture = storm.effect.particle.texture
 
-    var variableStruct = (storm.runtime.environment.structs["variable"] as VariableStruct);
-
-    val random1 = variableStruct.map["particle_random_1"]
-    val random2 = variableStruct.map["particle_random_2"]
-    val random3 = variableStruct.map["particle_random_3"]
-    val random4 = variableStruct.map["particle_random_4"]
+    val random1 = storm.runtime.environment.variable.map["particle_random_1"]
+    val random2 = storm.runtime.environment.variable.map["particle_random_2"]
+    val random3 = storm.runtime.environment.variable.map["particle_random_3"]
+    val random4 = storm.runtime.environment.variable.map["particle_random_4"]
 
     var localX = x - storm.getX()
     var localY = y - storm.getY()
@@ -110,10 +108,10 @@ class SnowstormParticle(
     }
 
     private fun applyRandoms() {
-        variableStruct.setDirectly("particle_random_1", random1)
-        variableStruct.setDirectly("particle_random_2", random2)
-        variableStruct.setDirectly("particle_random_3", random3)
-        variableStruct.setDirectly("particle_random_4", random4)
+        storm.runtime.environment.variable.setDirectly("particle_random_1", random1)
+        storm.runtime.environment.variable.setDirectly("particle_random_2", random2)
+        storm.runtime.environment.variable.setDirectly("particle_random_3", random3)
+        storm.runtime.environment.variable.setDirectly("particle_random_4", random4)
     }
 
     init {
@@ -518,8 +516,8 @@ class SnowstormParticle(
 
 
     private fun setParticleAgeInRuntime() {
-        variableStruct.setDirectly("particle_age", DoubleValue(age / 20.0))
-        variableStruct.setDirectly("particle_lifetime", DoubleValue(maxAge / 20.0))
+        storm.runtime.environment.variable.setDirectly("particle_age", DoubleValue(age / 20.0))
+        storm.runtime.environment.variable.setDirectly("particle_lifetime", DoubleValue(maxAge / 20.0))
     }
 
     override fun getType() = particleTextureSheet

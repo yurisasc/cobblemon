@@ -18,7 +18,7 @@ import com.cobblemon.mod.common.entity.pokeball.EmptyPokeBallEntity
 import kotlin.random.Random
 
 @Suppress("NAME_SHADOWING")
-abstract class PokeBallPoseableState : PosableState(), Schedulable {
+abstract class PokeBallPosableState : PosableState(), Schedulable {
     abstract val stateEmitter: SettableObservable<EmptyPokeBallEntity.CaptureState>
     abstract val shakeEmitter: Observable<Unit>
     private val group: String

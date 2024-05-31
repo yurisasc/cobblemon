@@ -10,10 +10,9 @@ package com.cobblemon.mod.common.client.render.models.blockbench
 
 import com.bedrockk.molang.runtime.MoLangRuntime
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.StatefulAnimation
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.AnimationReferenceFactory
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.Bone
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.Pose
-import com.cobblemon.mod.common.entity.Poseable
+import com.cobblemon.mod.common.entity.PosableEntity
 import com.cobblemon.mod.common.util.asExpressionLike
 import com.cobblemon.mod.common.util.isDusk
 import com.cobblemon.mod.common.util.isStandingOnRedSand
@@ -139,8 +138,8 @@ class JsonPosableModel {
                 val condition = json.get("condition").asString
                 conditionsList.add {
                     val entity = it.getEntity()
-                    if (entity is Poseable) {
-                        runtime.environment.structs["query"] = entity.struct
+                    if (entity is PosableEntity) {
+                        runtime.environment.query = entity.struct
                         condition.asExpressionLike().resolveBoolean(runtime)
                     } else {
                         false

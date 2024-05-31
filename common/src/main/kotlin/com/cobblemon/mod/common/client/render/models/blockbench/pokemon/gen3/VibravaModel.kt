@@ -8,7 +8,7 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen3
 
-import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.createTransformation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BiWingedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
@@ -21,7 +21,7 @@ import com.cobblemon.mod.common.entity.PoseType
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class VibravaModel  (root: ModelPart) : PosableModel(root), QuadrupedFrame, HeadedFrame {
+class VibravaModel  (root: ModelPart) : PokemonPosableModel(root), QuadrupedFrame, HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("vibrava")
     override val head = getPart("head")
 
@@ -84,12 +84,12 @@ class VibravaModel  (root: ModelPart) : PosableModel(root), QuadrupedFrame, Head
                         bedrock("vibrava", "ground_idle"),
                         wingFrame1.wingFlap(
                                 flapFunction = triangleFunction( period = 0.08F, amplitude = 0.6F),
-                                timeVariable = { state, _, ageInTicks -> state?.animationSeconds ?: ageInTicks },
+                                timeVariable = { state, _, _ -> state.animationSeconds },
                                 axis = ModelPartTransformation.Z_AXIS
                         ),
                         wingFrame2.wingFlap(
                                 flapFunction = triangleFunction( period = 0.1F, amplitude = 0.4F),
-                                timeVariable = { state, _, ageInTicks -> 0.01F + (state?.animationSeconds ?: (ageInTicks / 20)) },
+                                timeVariable = { state, _, _ -> 0.01F + state.animationSeconds },
                                 axis = ModelPartTransformation.Z_AXIS
                         )
                 ),

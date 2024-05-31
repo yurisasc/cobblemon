@@ -9,7 +9,7 @@
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen4
 
 //import com.cobblemon.mod.common.client.render.models.blockbench.animation.QuadrupedWalkAnimation
-import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.PosableState
 import com.cobblemon.mod.common.client.render.models.blockbench.createTransformation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
@@ -25,7 +25,7 @@ import com.cobblemon.mod.common.entity.PoseType.STAND
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class BidoofModel(root: ModelPart) : PosableModel(root), HeadedFrame, QuadrupedFrame {
+class BidoofModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, QuadrupedFrame {
     override val rootPart = root.registerChildWithAllChildren("bidoof")
     override val head = getPart("head")
 

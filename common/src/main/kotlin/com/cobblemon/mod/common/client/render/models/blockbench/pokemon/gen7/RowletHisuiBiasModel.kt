@@ -8,7 +8,7 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen7
 
-import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.BipedWalkAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.WingFlapIdleAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.createTransformation
@@ -26,7 +26,7 @@ import com.cobblemon.mod.common.util.math.geometry.toRadians
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class RowletHisuiBiasModel(root: ModelPart) : PosableModel(root), BipedFrame, BiWingedFrame {
+class RowletHisuiBiasModel(root: ModelPart) : PokemonPosableModel(root), BipedFrame, BiWingedFrame {
     override val rootPart = root.registerChildWithAllChildren("rowlet_hisui_bias")
 
     private val wingsOpen = getPart("wings_open")
@@ -79,7 +79,7 @@ class RowletHisuiBiasModel(root: ModelPart) : PosableModel(root), BipedFrame, Bi
                         bedrock("rowlet_hisui_bias", "flying_idle"),
                         WingFlapIdleAnimation(this,
                                 flapFunction = sineFunction(verticalShift = -8F.toRadians(), period = 1.0F, amplitude = 0.4F),
-                                timeVariable = { state, _, _ -> state?.animationSeconds ?: 0F },
+                                timeVariable = { state, _, _ -> state.animationSeconds },
                                 axis = ModelPartTransformation.Z_AXIS
                         )
                 )
@@ -98,7 +98,7 @@ class RowletHisuiBiasModel(root: ModelPart) : PosableModel(root), BipedFrame, Bi
                         bedrock("rowlet_hisui_bias", "flying_idle"),
                         WingFlapIdleAnimation(this,
                                 flapFunction = sineFunction(verticalShift = -14F.toRadians(), period = 0.9F, amplitude = 0.9F),
-                                timeVariable = { state, _, _ -> state?.animationSeconds ?: 0F },
+                                timeVariable = { state, _, _ -> state.animationSeconds },
                                 axis = ModelPartTransformation.Z_AXIS
                         )
                 )
@@ -122,6 +122,6 @@ class RowletHisuiBiasModel(root: ModelPart) : PosableModel(root), BipedFrame, Bi
 
 //    override fun getFaintAnimation(
 //        pokemonEntity: PokemonEntity,
-//        state: PoseableEntityState<PokemonEntity>
+//        state: PosableState<PokemonEntity>
 //    ) = if (state.isPosedIn(standing, walk)) bedrockStateful("rowlet_hisui_bias", "faint") else null
 }

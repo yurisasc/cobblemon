@@ -6,10 +6,8 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-package com.cobblemon.mod.common.client.render.models.blockbench.pokemon
+package com.cobblemon.mod.common.client.render.models.blockbench
 
-import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
-import com.cobblemon.mod.common.client.render.models.blockbench.PosableState
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.StatefulAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.StatelessAnimation
 
@@ -19,6 +17,5 @@ import com.cobblemon.mod.common.client.render.models.blockbench.animation.Statel
  */
 interface AnimationReferenceFactory {
     fun stateless(model: PosableModel, animString: String): StatelessAnimation
-
     fun stateful(model: PosableModel, animString: String): StatefulAnimation
 }

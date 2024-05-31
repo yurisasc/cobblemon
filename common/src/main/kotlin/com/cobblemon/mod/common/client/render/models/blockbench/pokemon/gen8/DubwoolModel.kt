@@ -8,7 +8,7 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen8
 
-import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.PosableState
 import com.cobblemon.mod.common.client.render.models.blockbench.createTransformation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
@@ -17,10 +17,12 @@ import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvi
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.Pose
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.util.DataKeys
+import com.cobblemon.mod.common.util.asExpressionLike
+import com.cobblemon.mod.common.util.resolveBoolean
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class DubwoolModel(root: ModelPart) : PosableModel(root), HeadedFrame, QuadrupedFrame {
+class DubwoolModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, QuadrupedFrame {
     override val rootPart = root.registerChildWithAllChildren("dubwool")
     override val head = getPart("head")
     override val foreLeftLeg= getPart("leg_front_left")
@@ -38,103 +40,53 @@ class DubwoolModel(root: ModelPart) : PosableModel(root), HeadedFrame, Quadruped
     lateinit var sleep: Pose
     lateinit var standing: Pose
     lateinit var walk: Pose
-    lateinit var shearedsleep: Pose
-    lateinit var shearedstanding: Pose
-    lateinit var shearedwalk: Pose
 
     override val cryAnimation = CryProvider { bedrockStateful("dubwool", "cry") }
 
     override fun registerPoses() {
+        val isNotSheared = "q.has_aspect('${DataKeys.HAS_BEEN_SHEARED}') == false".asExpressionLike()
         val blink = quirk { bedrockStateful("dubwool", "blink") }
         sleep = registerPose(
-                poseType = PoseType.SLEEP,
-                transformTicks = 10,
-                condition = { !it.containsAspect(DataKeys.HAS_BEEN_SHEARED) },
-                transformedParts = arrayOf(
-                        wool.createTransformation().withVisibility(visibility = true),
-                        neckWool.createTransformation().withVisibility(visibility = true)
-                ),
-                idleAnimations = arrayOf(bedrock("dubwool", "sleep"))
+            poseType = PoseType.SLEEP,
+            transformTicks = 10,
+            transformedParts = arrayOf(
+                wool.createTransformation().withVisibility(visibility = isNotSheared),
+                neckWool.createTransformation().withVisibility(visibility = isNotSheared)
+            ),
+            idleAnimations = arrayOf(bedrock("dubwool", "sleep"))
         )
 
         standing = registerPose(
-                poseName = "standing",
-                poseTypes = setOf(PoseType.NONE, PoseType.STAND, PoseType.PORTRAIT, PoseType.PROFILE),
-                transformTicks = 10,
-                quirks = arrayOf(blink),
-                condition = { !it.containsAspect(DataKeys.HAS_BEEN_SHEARED) },
-                transformedParts = arrayOf(
-                        wool.createTransformation().withVisibility(visibility = true),
-                        neckWool.createTransformation().withVisibility(visibility = true)
-                ),
-                idleAnimations = arrayOf(
-                        singleBoneLook(),
-                        bedrock("dubwool", "ground_idle")
-                )
+            poseName = "standing",
+            poseTypes = setOf(PoseType.NONE, PoseType.STAND, PoseType.PORTRAIT, PoseType.PROFILE),
+            transformTicks = 10,
+            quirks = arrayOf(blink),
+            transformedParts = arrayOf(
+                wool.createTransformation().withVisibility(visibility = isNotSheared),
+                neckWool.createTransformation().withVisibility(visibility = isNotSheared)
+            ),
+            idleAnimations = arrayOf(
+                singleBoneLook(),
+                bedrock("dubwool", "ground_idle")
+            )
         )
 
         walk = registerPose(
-                poseName = "walking",
-                poseTypes = setOf(PoseType.SWIM, PoseType.WALK),
-                transformTicks = 10,
-                quirks = arrayOf(blink),
-                condition = { !it.containsAspect(DataKeys.HAS_BEEN_SHEARED) },
-                transformedParts = arrayOf(
-                        wool.createTransformation().withVisibility(visibility = true),
-                        neckWool.createTransformation().withVisibility(visibility = true)
-                ),
-                idleAnimations = arrayOf(
-                        singleBoneLook(),
-                        bedrock("dubwool", "ground_walk")
-                )
-        )
-
-        shearedsleep = registerPose(
-                poseName = "shearedsleep",
-                poseType = PoseType.SLEEP,
-                transformTicks = 10,
-                condition = { it.containsAspect(DataKeys.HAS_BEEN_SHEARED) },
-                transformedParts = arrayOf(
-                        wool.createTransformation().withVisibility(visibility = false),
-                        neckWool.createTransformation().withVisibility(visibility = false)
-                ),
-                idleAnimations = arrayOf(
-                        bedrock("dubwool", "sleep")
-                )
-        )
-
-        shearedstanding = registerPose(
-                poseName = "shearedstanding",
-                poseTypes = setOf(PoseType.NONE, PoseType.STAND, PoseType.PORTRAIT, PoseType.PROFILE),
-                transformTicks = 10,
-                quirks = arrayOf(blink),
-                condition = { it.containsAspect(DataKeys.HAS_BEEN_SHEARED) },
-                transformedParts = arrayOf(
-                        wool.createTransformation().withVisibility(visibility = false),
-                        neckWool.createTransformation().withVisibility(visibility = false)
-                ),
-                idleAnimations = arrayOf(
-                        singleBoneLook(),
-                        bedrock("dubwool", "ground_idle")
-                )
-        )
-        shearedwalk = registerPose(
-                poseName = "shearedwalking",
-                poseTypes = setOf(PoseType.SWIM, PoseType.WALK),
-                transformTicks = 10,
-                quirks = arrayOf(blink),
-                condition = { it.containsAspect(DataKeys.HAS_BEEN_SHEARED) },
-                transformedParts = arrayOf(
-                        wool.createTransformation().withVisibility(visibility = false),
-                        neckWool.createTransformation().withVisibility(visibility = false)
-                ),
-                idleAnimations = arrayOf(
-                        singleBoneLook(),
-                        bedrock("dubwool", "ground_walk")
-                )
+            poseName = "walking",
+            poseTypes = setOf(PoseType.SWIM, PoseType.WALK),
+            transformTicks = 10,
+            quirks = arrayOf(blink),
+            transformedParts = arrayOf(
+                wool.createTransformation().withVisibility(visibility = isNotSheared),
+                neckWool.createTransformation().withVisibility(visibility = isNotSheared)
+            ),
+            idleAnimations = arrayOf(
+                singleBoneLook(),
+                bedrock("dubwool", "ground_walk")
+            )
         )
     }
 
-    override fun getFaintAnimation(state: PosableState) = if (state.isPosedIn(standing, walk, shearedwalk, shearedstanding, sleep)) bedrockStateful("dubwool", "faint") else null
-    override fun getEatAnimation(state: PosableState) = if (state.isNotPosedIn(sleep, shearedsleep)) bedrockStateful("dubwool", "eat") else null
+    override fun getFaintAnimation(state: PosableState) = if (state.isPosedIn(standing, walk, sleep)) bedrockStateful("dubwool", "faint") else null
+    override fun getEatAnimation(state: PosableState) = if (state.isNotPosedIn(sleep)) bedrockStateful("dubwool", "eat") else null
 }

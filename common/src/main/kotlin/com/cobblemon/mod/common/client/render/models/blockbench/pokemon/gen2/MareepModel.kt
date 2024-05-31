@@ -8,19 +8,19 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen2
 
-import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.createTransformation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.Pose
 import com.cobblemon.mod.common.entity.PoseType
-import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.util.DataKeys
+import com.cobblemon.mod.common.util.asExpressionLike
 import com.cobblemon.mod.common.util.isBattling
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class MareepModel (root: ModelPart) : PosableModel(root), HeadedFrame {
+class MareepModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("mareep")
     override val head = getPart("head")
 
@@ -34,46 +34,27 @@ class MareepModel (root: ModelPart) : PosableModel(root), HeadedFrame {
 
     lateinit var standing: Pose
     lateinit var walk: Pose
-    lateinit var shearedstanding: Pose
-    lateinit var shearedwalk: Pose
     lateinit var sleep: Pose
     lateinit var battleidle: Pose
-    lateinit var shearedsleep: Pose
-    lateinit var shearedbattleidle: Pose
 
     override val cryAnimation = CryProvider { bedrockStateful("mareep", "cry") }
 
     override fun registerPoses() {
         val blink = quirk { bedrockStateful("mareep", "blink") }
+        val isNotSheared = "q.has_aspect('${DataKeys.HAS_BEEN_SHEARED}') == false".asExpressionLike()
+        val isSheared = "q.has_aspect('${DataKeys.HAS_BEEN_SHEARED}')".asExpressionLike()
         sleep = registerPose(
-            poseName = "unsheared_sleep",
             poseType = PoseType.SLEEP,
-            condition = { DataKeys.HAS_BEEN_SHEARED !in ((it.getEntity() as? PokemonEntity)?.aspects ?: emptySet()) },
-            transformedParts = arrayOf(
-                wool.createTransformation().withVisibility(visibility = true)
-            ),
-            idleAnimations = arrayOf(bedrock("mareep", "sleep"))
-        )
-
-        shearedsleep = registerPose(
-            poseName = "sheared_sleep",
-            poseType = PoseType.SLEEP,
-            condition = { DataKeys.HAS_BEEN_SHEARED in ((it.getEntity() as? PokemonEntity)?.aspects ?: emptySet()) },
-            transformedParts = arrayOf(
-                wool.createTransformation().withVisibility(visibility = false)
-            ),
+            transformedParts = arrayOf(wool.createTransformation().withVisibility(visibility = isNotSheared)),
             idleAnimations = arrayOf(bedrock("mareep", "sleep"))
         )
 
         standing = registerPose(
             poseName = "standing",
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
-            transformTicks = 10,
             quirks = arrayOf(blink),
-            condition = { DataKeys.HAS_BEEN_SHEARED !in ((it.getEntity() as? PokemonEntity)?.aspects ?: emptySet()) && !it.isBattling },
-            transformedParts = arrayOf(
-                wool.createTransformation().withVisibility(visibility = true)
-            ),
+            condition = { !it.isBattling },
+            transformedParts = arrayOf(wool.createTransformation().withVisibility(visibility = isNotSheared)),
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("mareep", "ground_idle")
@@ -83,71 +64,21 @@ class MareepModel (root: ModelPart) : PosableModel(root), HeadedFrame {
         walk = registerPose(
             poseName = "walk",
             poseTypes = PoseType.MOVING_POSES,
-            transformTicks = 10,
             quirks = arrayOf(blink),
-            condition = { DataKeys.HAS_BEEN_SHEARED !in ((it.getEntity() as? PokemonEntity)?.aspects ?: emptySet()) },
-            transformedParts = arrayOf(
-                wool.createTransformation().withVisibility(visibility = true)
-            ),
+            transformedParts = arrayOf(wool.createTransformation().withVisibility(visibility = isNotSheared)),
             idleAnimations = arrayOf(
                 singleBoneLook(),
-                bedrock("mareep", "ground_walk")
-            )
-        )
-
-        shearedstanding = registerPose(
-            poseName = "shearedstanding",
-            poseTypes = PoseType.STATIONARY_POSES,
-            transformTicks = 0,
-            quirks = arrayOf(blink),
-            condition = { DataKeys.HAS_BEEN_SHEARED in ((it.getEntity() as? PokemonEntity)?.aspects ?: emptySet()) && !it.isBattling },
-            transformedParts = arrayOf(
-                wool.createTransformation().withVisibility(visibility = false)
-            ),
-            idleAnimations = arrayOf(
-                singleBoneLook(),
-                bedrock("mareep", "ground_idle")
-            )
-        )
-        shearedwalk = registerPose(
-            poseName = "shearedwalking",
-            poseTypes = PoseType.MOVING_POSES,
-            transformTicks = 0,
-            quirks = arrayOf(blink),
-            condition = { DataKeys.HAS_BEEN_SHEARED in ((it.getEntity() as? PokemonEntity)?.aspects ?: emptySet()) },
-            transformedParts = arrayOf(
-                wool.createTransformation().withVisibility(visibility = false)
-            ),
-            idleAnimations = arrayOf(
-                singleBoneLook(),
-                bedrock("mareep", "ground_walk")
+                bedrock("mareep", "ground_walk").withCondition(isNotSheared),
+                bedrock("mareep", "ground_walk_sheared").withCondition(isSheared)
             )
         )
 
         battleidle = registerPose(
             poseName = "battle_idle",
             poseTypes = PoseType.STATIONARY_POSES,
-            transformTicks = 10,
             quirks = arrayOf(blink),
             condition = { it.isBattling },
-            transformedParts = arrayOf(
-                wool.createTransformation().withVisibility(visibility = true)
-            ),
-            idleAnimations = arrayOf(
-                singleBoneLook(),
-                bedrock("mareep", "battle_idle")
-            )
-        )
-
-        shearedbattleidle = registerPose(
-            poseName = "battle_idle_sheared",
-            poseTypes = PoseType.STATIONARY_POSES,
-            transformTicks = 10,
-            quirks = arrayOf(blink),
-            condition = { DataKeys.HAS_BEEN_SHEARED in ((it.getEntity() as? PokemonEntity)?.aspects ?: emptySet()) && it.isBattling },
-            transformedParts = arrayOf(
-                wool.createTransformation().withVisibility(visibility = false)
-            ),
+            transformedParts = arrayOf(wool.createTransformation().withVisibility(visibility = isNotSheared)),
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("mareep", "battle_idle")

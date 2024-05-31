@@ -8,11 +8,11 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen9
 
-import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.createTransformation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.CobblemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.ModelPartTransformation
 import com.cobblemon.mod.common.entity.PoseType
@@ -23,7 +23,7 @@ import com.cobblemon.mod.common.util.isTouchingWaterOrRain
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class QuaquavalModel (root: ModelPart) : PosableModel(root), HeadedFrame, BipedFrame {
+class QuaquavalModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame, BipedFrame {
     override val rootPart = root.registerChildWithAllChildren("quaquaval")
     override val head = getPart("head")
 
@@ -179,6 +179,6 @@ class QuaquavalModel (root: ModelPart) : PosableModel(root), HeadedFrame, BipedF
     }
 //    override fun getFaintAnimation(
 //        pokemonEntity: PokemonEntity,
-//        state: PoseableEntityState<PokemonEntity>
+//        state: PosableState<PokemonEntity>
 //    ) = if (state.isPosedIn(standing, walking, battleidle, sleep)) bedrockStateful("quaquaval", "faint") else null
 }

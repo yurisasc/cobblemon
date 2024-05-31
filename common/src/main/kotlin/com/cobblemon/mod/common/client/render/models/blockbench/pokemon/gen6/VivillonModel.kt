@@ -8,7 +8,7 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen6
 
-import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.createTransformation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BiWingedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
@@ -19,7 +19,7 @@ import com.cobblemon.mod.common.entity.PoseType
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class VivillonModel(root: ModelPart) : PosableModel(root), HeadedFrame, BiWingedFrame {
+class VivillonModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, BiWingedFrame {
     override val rootPart = root.registerChildWithAllChildren("vivillon")
     override val head = getPart("head")
     override val leftWing = getPart("wing_left")

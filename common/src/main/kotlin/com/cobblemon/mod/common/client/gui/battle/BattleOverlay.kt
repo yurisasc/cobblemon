@@ -9,7 +9,7 @@
 package com.cobblemon.mod.common.client.gui.battle
 
 import com.cobblemon.mod.common.api.gui.blitk
-import com.cobblemon.mod.common.api.gui.drawPoseablePortrait
+import com.cobblemon.mod.common.api.gui.drawPosablePortrait
 import com.cobblemon.mod.common.api.scheduling.Schedulable
 import com.cobblemon.mod.common.api.scheduling.SchedulingTracker
 import com.cobblemon.mod.common.api.text.bold
@@ -239,7 +239,7 @@ class BattleOverlay : InGameHud(MinecraftClient.getInstance(), MinecraftClient.g
             )
         } else {
             matrixStack.push()
-            drawPoseablePortrait(
+            drawPosablePortrait(
                 identifier = species.resourceIdentifier,
                 aspects = aspects,
                 matrixStack = matrixStack,
@@ -403,10 +403,10 @@ class BattleOverlay : InGameHud(MinecraftClient.getInstance(), MinecraftClient.g
         val quaternion1 = RotationAxis.POSITIVE_Y.rotationDegrees(-32F * if (reversed) -1F else 1F)
         val quaternion2 = RotationAxis.POSITIVE_X.rotationDegrees(5F)
 
-        model.getPose(PoseType.PORTRAIT)?.let { state.setPose(it.poseName) }
-        state.timeEnteredPose = 0F
+        state.currentModel = model
+        state.setPoseToFirstSuitable(PoseType.PORTRAIT)
         state.updatePartialTicks(partialTicks)
-        model.setupAnimStateful(null, state, 0F, 0F, 0F, 0F, 0F)
+        model.applyAnimations(null, state, 0F, 0F, 0F, 0F, 0F)
 
         matrixStack.scale(scale, scale, -scale)
         matrixStack.translate(0.0, 5.5, -4.0)

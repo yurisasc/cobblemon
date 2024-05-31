@@ -8,7 +8,7 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen7
 
-import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BiWingedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.ModelPartTransformation.Companion.Y_AXIS
@@ -21,7 +21,7 @@ import com.cobblemon.mod.common.util.math.geometry.toRadians
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class NaganadelModel(root: ModelPart) : PosableModel(root), HeadedFrame, BiWingedFrame {
+class NaganadelModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, BiWingedFrame {
     override val rootPart = root.registerChildWithAllChildren("naganadel")
     override val head = getPart("head")
 

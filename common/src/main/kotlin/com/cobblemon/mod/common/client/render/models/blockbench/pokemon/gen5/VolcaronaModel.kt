@@ -8,7 +8,7 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen5
 
-import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.createTransformation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BiWingedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
@@ -20,7 +20,7 @@ import com.cobblemon.mod.common.entity.PoseType
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class VolcaronaModel (root: ModelPart) : PosableModel(root), HeadedFrame {
+class VolcaronaModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("volcarona")
     override val head = getPart("head")
 
@@ -63,12 +63,12 @@ class VolcaronaModel (root: ModelPart) : PosableModel(root), HeadedFrame {
                 bedrock("volcarona", "ground_idle"),
                 wingFrame.wingFlap(
                     flapFunction = sineFunction( period = 1F, amplitude = 0.25F),
-                    timeVariable = { state, _, ageInTicks -> state?.animationSeconds ?: ageInTicks },
+                    timeVariable = { state, _, _ -> state.animationSeconds },
                     axis = ModelPartTransformation.Y_AXIS
                 ),
                 fluffFrame.wingFlap(
                     flapFunction = sineFunction( period = 1F, amplitude = 0.3F),
-                    timeVariable = { state, _, ageInTicks -> state?.animationSeconds ?: ageInTicks },
+                    timeVariable = { state, _, _ -> state.animationSeconds },
                     axis = ModelPartTransformation.Y_AXIS
                 )
             ),
@@ -89,12 +89,12 @@ class VolcaronaModel (root: ModelPart) : PosableModel(root), HeadedFrame {
                 bedrock("volcarona", "ground_idle"),
                 wingFrame.wingFlap(
                     flapFunction = sineFunction( period = 0.8F, amplitude = 0.25F),
-                    timeVariable = { state, _, ageInTicks -> state?.animationSeconds ?: ageInTicks },
+                    timeVariable = { state, _, _ -> state.animationSeconds },
                     axis = ModelPartTransformation.Y_AXIS
                 ),
                 fluffFrame.wingFlap(
                     flapFunction = sineFunction( period = 0.8F, amplitude = 0.3F),
-                    timeVariable = { state, _, ageInTicks -> state?.animationSeconds ?: ageInTicks },
+                    timeVariable = { state, _, _ -> state.animationSeconds },
                     axis = ModelPartTransformation.Y_AXIS
                 )
                 //bedrock("volcarona", "ground_walk")
@@ -111,6 +111,6 @@ class VolcaronaModel (root: ModelPart) : PosableModel(root), HeadedFrame {
 
 //    override fun getFaintAnimation(
 //        pokemonEntity: PokemonEntity,
-//        state: PoseableEntityState<PokemonEntity>
+//        state: PosableState<PokemonEntity>
 //    ) = if (state.isPosedIn(standing, walk)) bedrockStateful("volcarona", "faint") else null
 }

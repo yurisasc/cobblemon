@@ -8,7 +8,7 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen3
 
-import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.ModelPartTransformation.Companion.X_AXIS
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.ModelPartTransformation.Companion.Z_AXIS
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.Pose
@@ -17,7 +17,7 @@ import com.cobblemon.mod.common.entity.PoseType
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class WailmerModel(root: ModelPart) : PosableModel(root) {
+class WailmerModel(root: ModelPart) : PokemonPosableModel(root) {
     override val rootPart = root.registerChildWithAllChildren("wailmer")
 
     val finLeft = getPart("fin_left")
@@ -39,9 +39,9 @@ class WailmerModel(root: ModelPart) : PosableModel(root) {
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
             transformTicks = 0,
             idleAnimations = arrayOf(
-                finLeft.rotation(sineFunction(amplitude = 1F / 4, period = 4F), axis = Z_AXIS, timeVariable = { state, _, _ -> state?.animationSeconds }),
-                finRight.rotation(sineFunction(amplitude = -1F / 4, period = 4F), axis = Z_AXIS, timeVariable = { state, _, _ -> state?.animationSeconds }),
-                jaw.rotation(sineFunction(amplitude = 0.05F, period = 8F, verticalShift = 0.04F), axis = X_AXIS, timeVariable = { state, _, _, -> state?.animationSeconds })
+                finLeft.rotation(sineFunction(amplitude = 1F / 4, period = 4F), axis = Z_AXIS, timeVariable = { state, _, _ -> state.animationSeconds }),
+                finRight.rotation(sineFunction(amplitude = -1F / 4, period = 4F), axis = Z_AXIS, timeVariable = { state, _, _ -> state.animationSeconds }),
+                jaw.rotation(sineFunction(amplitude = 0.05F, period = 8F, verticalShift = 0.04F), axis = X_AXIS, timeVariable = { state, _, _ -> state.animationSeconds })
 //                bedrock("wailmer", "ground_idle")
             )
         )
@@ -51,9 +51,9 @@ class WailmerModel(root: ModelPart) : PosableModel(root) {
             poseTypes = PoseType.MOVING_POSES,
             transformTicks = 0,
             idleAnimations = arrayOf(
-                finLeft.rotation(sineFunction(amplitude = 1F / 3, period = 3F), axis = Z_AXIS, timeVariable = { state, _, _ -> state?.animationSeconds }),
-                finRight.rotation(sineFunction(amplitude = -1F / 3, period = 3F), axis = Z_AXIS, timeVariable = { state, _, _ -> state?.animationSeconds }),
-                jaw.rotation(sineFunction(amplitude = 0.05F, period = 8F, verticalShift = 0.04F), axis = X_AXIS, timeVariable = { state, _, _, -> state?.animationSeconds }),
+                finLeft.rotation(sineFunction(amplitude = 1F / 3, period = 3F), axis = Z_AXIS, timeVariable = { state, _, _ -> state.animationSeconds }),
+                finRight.rotation(sineFunction(amplitude = -1F / 3, period = 3F), axis = Z_AXIS, timeVariable = { state, _, _ -> state.animationSeconds }),
+                jaw.rotation(sineFunction(amplitude = 0.05F, period = 8F, verticalShift = 0.04F), axis = X_AXIS, timeVariable = { state, _, _ -> state.animationSeconds }),
 //                bedrock("wailmer", "ground_walk")
             )
         )

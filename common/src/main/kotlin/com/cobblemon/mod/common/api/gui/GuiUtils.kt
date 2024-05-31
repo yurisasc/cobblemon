@@ -34,7 +34,6 @@ import net.minecraft.text.Text
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.RotationAxis
 import org.joml.Matrix4f
-import org.joml.Quaternionf
 import org.joml.Vector3f
 
 @JvmOverloads
@@ -187,7 +186,7 @@ fun drawString(
 }
 
 @JvmOverloads
-fun drawPoseablePortrait(
+fun drawPosablePortrait(
     identifier: Identifier,
     aspects: Set<String>,
     matrixStack: MatrixStack,
@@ -204,13 +203,17 @@ fun drawPoseablePortrait(
     headPitch: Float = 0F
 ) {
     val model = repository.getPoser(identifier, aspects)
+    state.currentAspects = aspects
+    state.currentModel = model
     val texture = repository.getTexture(identifier, aspects, state.animationSeconds)
 
     val context = RenderContext()
+    model.context = context
     repository.getTextureNoSubstitute(identifier, aspects, 0f).let { context.put(RenderContext.TEXTURE, it) }
     context.put(RenderContext.SCALE, contextScale)
     context.put(RenderContext.SPECIES, identifier)
     context.put(RenderContext.ASPECTS, aspects)
+    context.put(RenderContext.POSABLE_STATE, state)
 
     val renderType = RenderLayer.getEntityCutout(texture)
 
@@ -219,10 +222,9 @@ fun drawPoseablePortrait(
     val quaternion2 = RotationAxis.POSITIVE_X.rotationDegrees(5F)
 
     val originalPose = state.currentPose
-    model.getPose(PoseType.PORTRAIT)?.let { state.setPose(it.poseName) }
-    state.timeEnteredPose = 0F
+    state.setPoseToFirstSuitable(PoseType.PORTRAIT)
     state.updatePartialTicks(partialTicks)
-    model.setupAnimStateful(null, state, limbSwing, limbSwingAmount, ageInTicks, headYaw, headPitch)
+    model.applyAnimations(null, state, limbSwing, limbSwingAmount, ageInTicks, headYaw, headPitch)
     originalPose?.let { state.setPose(it) }
 
     matrixStack.push()
@@ -267,19 +269,23 @@ fun drawProfile(
     val texture = repository.getTexture(resourceIdentifier, aspects, state.animationSeconds)
 
     val context = RenderContext()
+    model.context = context
     repository.getTextureNoSubstitute(resourceIdentifier, aspects, 0f).let { context.put(RenderContext.TEXTURE, it) }
     context.put(RenderContext.SCALE, 1F)
     context.put(RenderContext.SPECIES, resourceIdentifier)
     context.put(RenderContext.ASPECTS, aspects)
+    context.put(RenderContext.POSABLE_STATE, state)
+    state.currentAspects = aspects
+    state.currentModel = model
 
     val renderType = RenderLayer.getEntityCutout(texture)//model.getLayer(texture)
 
     RenderSystem.applyModelViewMatrix()
     matrixStack.scale(scale, scale, -scale)
-    model.getPose(PoseType.PROFILE)?.let { state.setPose(it.poseName) }
-    state.timeEnteredPose = 0F
+
+    state.setPoseToFirstSuitable(PoseType.PORTRAIT)
     state.updatePartialTicks(partialTicks)
-    model.setupAnimStateful(null, state, 0F, 0F, 0F, 0F, 0F)
+    model.applyAnimations(null, state, 0F, 0F, 0F, 0F, 0F)
     matrixStack.translate(model.profileTranslation.x, model.profileTranslation.y,  model.profileTranslation.z - 4.0)
     matrixStack.scale(model.profileScale, model.profileScale, 1 / model.profileScale)
 //    matrixStack.multiply(rotation)

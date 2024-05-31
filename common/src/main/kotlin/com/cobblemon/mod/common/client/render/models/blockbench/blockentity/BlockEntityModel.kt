@@ -10,7 +10,6 @@ package com.cobblemon.mod.common.client.render.models.blockbench.blockentity
 
 import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.Bone
-import com.cobblemon.mod.common.entity.PoseType
 import com.google.gson.annotations.SerializedName
 import net.minecraft.client.model.ModelPart
 

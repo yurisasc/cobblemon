@@ -15,10 +15,8 @@ import com.bedrockk.molang.runtime.value.MoValue
 import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.api.molang.ExpressionLike
 import com.cobblemon.mod.common.api.molang.MoLangFunctions.addFunctions
-import com.cobblemon.mod.common.api.molang.MoLangFunctions.getQueryStruct
 import com.cobblemon.mod.common.api.molang.MoLangFunctions.setup
 import com.cobblemon.mod.common.api.molang.ObjectValue
-import com.cobblemon.mod.common.api.scheduling.afterOnClient
 import com.cobblemon.mod.common.client.ClientMoLangFunctions.setupClient
 import com.cobblemon.mod.common.client.entity.PokemonClientDelegate
 import com.cobblemon.mod.common.client.render.ModelLayer
@@ -36,8 +34,8 @@ import com.cobblemon.mod.common.client.render.models.blockbench.quirk.SimpleQuir
 import com.cobblemon.mod.common.client.render.models.blockbench.repository.RenderContext
 import com.cobblemon.mod.common.client.render.models.blockbench.wavefunction.WaveFunction
 import com.cobblemon.mod.common.client.render.models.blockbench.wavefunction.sineFunction
+import com.cobblemon.mod.common.entity.PosableEntity
 import com.cobblemon.mod.common.entity.PoseType
-import com.cobblemon.mod.common.entity.Poseable
 import com.cobblemon.mod.common.entity.generic.GenericBedrockEntity
 import com.cobblemon.mod.common.entity.npc.NPCEntity
 import com.cobblemon.mod.common.entity.pokeball.EmptyPokeBallEntity
@@ -59,6 +57,14 @@ import net.minecraft.util.Identifier
 import net.minecraft.util.math.RotationAxis
 import net.minecraft.util.math.Vec3d
 
+/**
+ * A model that can be posed and animated using [StatelessAnimation]s and [StatefulAnimation]s. This
+ * requires poses to be registered and should implement any [ModelFrame] interfaces that apply to this
+ * model. Implementing the render functions is possible but not necessary.
+ *
+ * @author Hiroku
+ * @since December 5th, 2021
+ */
 open class PosableModel(@Transient override val rootPart: Bone) : ModelFrame {
     @Transient
     lateinit var context: RenderContext
@@ -282,13 +288,12 @@ open class PosableModel(@Transient override val rootPart: Bone) : ModelFrame {
         }
 
     @Transient
-    val runtime = MoLangRuntime().setup().setupClient().also { it.environment.getQueryStruct().addFunctions(functions.functions) }
+    val runtime = MoLangRuntime().setup().setupClient().also { it.environment.query.addFunctions(functions.functions) }
 
     /** Registers the different poses this model is capable of ahead of time. Should use [registerPose] religiously. */
     open fun registerPoses() {}
 
     fun getAnimation(state: PosableState, name: String, runtime: MoLangRuntime): StatefulAnimation? {
-        val entity = state.getEntity()
         val poseAnimations = state.currentPose?.let(this::getPose)?.animations ?: mapOf()
         val animation = resolveFromAnimationMap(poseAnimations, name, runtime)
             ?: resolveFromAnimationMap(animations, name, runtime)
@@ -613,14 +618,42 @@ open class PosableModel(@Transient override val rootPart: Bone) : ModelFrame {
 
 
     /** Applies the given pose type to the model, if there is a matching pose. */
-    fun applyPose(pose: String, intensity: Float) = getPose(pose)?.transformedParts?.forEach { it.apply(intensity) }
+    fun applyPose(state: PosableState, pose: String, intensity: Float) = getPose(pose)?.transformedParts?.forEach { it.apply(state, intensity) }
     fun getPose(pose: PoseType) = poses.values.firstOrNull { pose in it.poseTypes }
     fun getPose(name: String) = poses[name]
 
     /** Puts the model back to its original location and rotations. */
     fun setDefault() = defaultPositions.forEach { it.set() }
 
-    fun setupAnimStateful(
+    fun getFirstSuitablePose(state: PosableState, poseType: PoseType?): Pose {
+        return poses.values.firstOrNull { (poseType == null || poseType in it.poseTypes) && it.isSuitable(state) } ?: poses.values.first()
+    }
+
+    fun validatePose(entity: PosableEntity?, state: PosableState): String {
+        var poseName = state.getPose()
+        var pose = poseName?.let { getPose(it) }
+        val entityPoseType = if (entity is PosableEntity) entity.getCurrentPoseType() else null
+
+        if (entity != null && (poseName == null || pose == null || !pose.isSuitable(state) || entityPoseType !in pose.poseTypes)) {
+            val desirablePose = getFirstSuitablePose(state, entityPoseType)
+            // If this condition matches then it just no longer fits this pose
+            if (pose != null && poseName != null) {
+                if (state.primaryAnimation == null) {
+                    moveToPose(state, desirablePose)
+                }
+            } else {
+                poseName = desirablePose.poseName
+                state.setPose(poseName)
+            }
+        } else {
+            poseName = poseName ?: poses.values.firstOrNull()?.poseName ?: run {
+                throw IllegalStateException("Pokemon has no poses: ${this::class.simpleName}")
+            }
+        }
+        return poseName
+    }
+
+    fun applyAnimations(
         entity: Entity?,
         state: PosableState,
         limbSwing: Float,
@@ -634,45 +667,10 @@ open class PosableModel(@Transient override val rootPart: Bone) : ModelFrame {
         state.currentModel = this
         setDefault()
         state.preRender()
-        updateLocators(state)
-        var poseName = state.getPose()
-        var pose = poseName?.let { getPose(it) }
-        val entityPoseType = if (entity is Poseable) entity.getCurrentPoseType() else null
-
-        if (entity != null && (poseName == null || pose == null || !pose.isSuitable(state) || entityPoseType !in pose.poseTypes)) {
-            val desirablePose = poses.values.firstOrNull {
-                (entityPoseType == null || entityPoseType in it.poseTypes) && it.isSuitable(state)
-            }
-                ?: Pose(
-                    "none",
-                    setOf(PoseType.NONE),
-                    null,
-                    {},
-                    0,
-                    mutableMapOf(),
-                    emptyArray(),
-                    emptyArray(),
-                    emptyArray()
-                )
-
-            // If this condition matches then it just no longer fits this pose
-            if (pose != null && poseName != null) {
-                if (state.primaryAnimation == null) {
-                    moveToPose(state, desirablePose)
-                }
-            } else {
-                pose = desirablePose
-                poseName = desirablePose.poseName
-                state.setPose(poseName)
-            }
-        } else {
-            poseName = poseName ?: poses.values.firstOrNull()?.poseName ?: run {
-                throw IllegalStateException("Pokemon has no poses: ${this::class.simpleName}")
-            }
-        }
-
+        updateLocators(entity, state)
+        val poseName = validatePose(entity as? PosableEntity, state)
         val currentPose = getPose(poseName)
-        applyPose(poseName, 1F)
+        applyPose(state, poseName, 1F)
 
         val primaryAnimation = state.primaryAnimation
 
@@ -686,8 +684,7 @@ open class PosableModel(@Transient override val rootPart: Bone) : ModelFrame {
         }
 
         if (primaryAnimation != null) {
-            state.primaryOverridePortion =
-                1 - primaryAnimation.curve((state.animationSeconds - primaryAnimation.started) / primaryAnimation.duration)
+            state.primaryOverridePortion = 1 - primaryAnimation.curve((state.animationSeconds - primaryAnimation.started) / primaryAnimation.duration)
             if (!primaryAnimation.run(
                     context,
                     this,
@@ -711,7 +708,7 @@ open class PosableModel(@Transient override val rootPart: Bone) : ModelFrame {
         state.statefulAnimations.removeAll(removedStatefuls)
         state.currentPose?.let { getPose(it) }
             ?.idleStateful(context, this, state, limbSwing, limbSwingAmount, ageInTicks, headYaw, headPitch)
-        updateLocators(state)
+        updateLocators(entity, state)
     }
 
     //This is used to set additional entity type specific context
@@ -764,16 +761,15 @@ open class PosableModel(@Transient override val rootPart: Bone) : ModelFrame {
      * Figures out where all of this model's locators are in real space, so that they can be
      * found and used from other client-side systems.
      */
-    fun updateLocators(state: PosableState) {
-        val entity = context.request(RenderContext.ENTITY) ?: return
+    fun updateLocators(entity: Entity?, state: PosableState) {
+        entity ?: return
         val matrixStack = MatrixStack()
         // We could improve this to be generalized for other entities
         if (entity is PokemonEntity) {
             matrixStack.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(180 - entity.bodyYaw))
             matrixStack.push()
             matrixStack.scale(-1F, -1F, 1F)
-            val scale =
-                entity.pokemon.form.baseScale * entity.pokemon.scaleModifier * (entity.delegate as PokemonClientDelegate).entityScaleModifier
+            val scale = entity.pokemon.form.baseScale * entity.pokemon.scaleModifier * (entity.delegate as PokemonClientDelegate).entityScaleModifier
             matrixStack.scale(scale, scale, scale)
         } else if (entity is EmptyPokeBallEntity) {
             matrixStack.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(entity.yaw))

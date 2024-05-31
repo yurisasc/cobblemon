@@ -6,10 +6,9 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-package com.cobblemon.mod.common.client.render.models.blockbench.pokemon
+package com.cobblemon.mod.common.client.render.models.blockbench
 
 import com.cobblemon.mod.common.api.scheduling.ClientTaskTracker
-import com.cobblemon.mod.common.client.render.models.blockbench.PosableState
 
 /**
  * A [PosableState] that exists even without an entity or age-based state. This is

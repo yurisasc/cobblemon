@@ -14,7 +14,6 @@ import com.bedrockk.molang.runtime.value.StringValue
 import com.cobblemon.mod.common.CobblemonSounds
 import com.cobblemon.mod.common.api.entity.PokemonSideDelegate
 import com.cobblemon.mod.common.api.molang.MoLangFunctions.addFunctions
-import com.cobblemon.mod.common.api.molang.MoLangFunctions.getQueryStruct
 import com.cobblemon.mod.common.api.pokemon.PokemonSpecies
 import com.cobblemon.mod.common.api.scheduling.SchedulingTracker
 import com.cobblemon.mod.common.api.scheduling.afterOnClient
@@ -88,8 +87,10 @@ class PokemonClientDelegate : PosableState(), PokemonSideDelegate {
                 val identifier = Identifier(currentEntity.dataTracker.get(PokemonEntity.SPECIES))
                 currentPose = null
                 currentEntity.pokemon.species = PokemonSpecies.getByIdentifier(identifier)!! // TODO exception handling
-                // force a model update - handles edge case where the PoseableEntityState's tracked PoseableEntityModel isn't updated until the LivingEntityRenderer render is run
+                // force a model update - handles edge case where the PosableState's tracked PosableModel isn't updated until the LivingEntityRenderer render is run
                 currentModel = PokemonModelRepository.getPoser(identifier, currentEntity.aspects)
+            } else if (data == PokemonEntity.ASPECTS) {
+                currentAspects = currentEntity.dataTracker.get(PokemonEntity.ASPECTS)
             } else if (data == PokemonEntity.DYING_EFFECTS_STARTED) {
                 val isDying = currentEntity.dataTracker.get(PokemonEntity.DYING_EFFECTS_STARTED)
                 if (isDying) {
@@ -254,14 +255,14 @@ class PokemonClientDelegate : PosableState(), PokemonSideDelegate {
         super.addToStruct(struct)
         struct.addFunctions(functions.functions)
         struct.addFunctions(ClientMoLangFunctions.clientFunctions)
-        runtime.environment.structs["query"] = struct
+        runtime.environment.query = struct
     }
 
     override fun initialize(entity: PokemonEntity) {
         this.currentEntity = entity
         this.age = entity.age
 
-        this.runtime.environment.getQueryStruct().addFunctions(mapOf(
+        this.runtime.environment.query.addFunctions(mapOf(
             "in_battle" to java.util.function.Function {
                 return@Function DoubleValue(currentEntity.isBattling)
             },
@@ -287,7 +288,6 @@ class PokemonClientDelegate : PosableState(), PokemonSideDelegate {
     }
 
     override fun tick(entity: PokemonEntity) {
-        updateLocatorPosition(entity.pos)
         incrementAge(entity)
     }
 

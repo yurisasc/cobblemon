@@ -20,11 +20,9 @@ class FossilModel(root: Bone) : PosableModel(root) {
     @Transient
     @SerializedName("dummy")
     override var isForLivingEntityRenderer = false
-    //TODO: Find a better way to fetch this bone name - Update the BlockEntityModel too when you figure it out
-    val boneName: String = root.children.entries.first().key
     @Transient
     @SerializedName("Something that isn't root part. Gson thinks they're the same as the root field and so field duplication. Stupid.")
-    override val rootPart = (root as ModelPart).registerChildWithAllChildren(boneName)
+    override val rootPart = (root as ModelPart).registerChildWithAllChildren(root.children.entries.first().key)
     // Represents a very rough middle of the model
     // The reason to do this is to
     // 1. The embryo is aligned with the center of the model

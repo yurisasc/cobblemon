@@ -8,7 +8,7 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen3
 
-import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.WingFlapIdleAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BiWingedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
@@ -21,7 +21,7 @@ import com.cobblemon.mod.common.util.math.geometry.toRadians
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class FlygonModel (root: ModelPart) : PosableModel(root), HeadedFrame, BiWingedFrame {
+class FlygonModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame, BiWingedFrame {
     override val rootPart = root.registerChildWithAllChildren("flygon")
     override val head = getPart("head")
 
@@ -62,7 +62,7 @@ class FlygonModel (root: ModelPart) : PosableModel(root), HeadedFrame, BiWingedF
                 bedrock("flygon", "air_fly"),
                 WingFlapIdleAnimation(this,
                     flapFunction = sineFunction(verticalShift = -10F.toRadians(), period = 0.7F, amplitude = 0.4F),
-                    timeVariable = { state, _, _ -> state?.animationSeconds ?: 0F },
+                    timeVariable = { state, _, _ -> state.animationSeconds },
                     axis = ModelPartTransformation.Y_AXIS
                 )
             )
@@ -77,7 +77,7 @@ class FlygonModel (root: ModelPart) : PosableModel(root), HeadedFrame, BiWingedF
                 bedrock("flygon", "air_idle"),
                 WingFlapIdleAnimation(this,
                     flapFunction = sineFunction(verticalShift = -10F.toRadians(), period = 0.9F, amplitude = 0.4F),
-                    timeVariable = { state, _, _ -> state?.animationSeconds ?: 0F },
+                    timeVariable = { state, _, _ -> state.animationSeconds },
                     axis = ModelPartTransformation.Y_AXIS
                 )
             )

@@ -9,6 +9,7 @@
 package com.cobblemon.mod.common.client.render.models.blockbench
 
 import com.bedrockk.molang.runtime.MoLangRuntime
+import com.bedrockk.molang.runtime.struct.ArrayStruct
 import com.bedrockk.molang.runtime.struct.QueryStruct
 import com.bedrockk.molang.runtime.struct.VariableStruct
 import com.bedrockk.molang.runtime.value.DoubleValue
@@ -16,7 +17,6 @@ import com.bedrockk.molang.runtime.value.MoValue
 import com.bedrockk.molang.runtime.value.StringValue
 import com.cobblemon.mod.common.Cobblemon.LOGGER
 import com.cobblemon.mod.common.api.molang.MoLangFunctions.addFunctions
-import com.cobblemon.mod.common.api.molang.MoLangFunctions.getQueryStruct
 import com.cobblemon.mod.common.api.molang.MoLangFunctions.setup
 import com.cobblemon.mod.common.api.molang.ObjectValue
 import com.cobblemon.mod.common.api.scheduling.Schedulable
@@ -33,7 +33,8 @@ import com.cobblemon.mod.common.client.render.models.blockbench.bedrock.animatio
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.Pose
 import com.cobblemon.mod.common.client.render.models.blockbench.quirk.ModelQuirk
 import com.cobblemon.mod.common.client.render.models.blockbench.quirk.QuirkData
-import com.cobblemon.mod.common.entity.Poseable
+import com.cobblemon.mod.common.entity.PosableEntity
+import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.util.asIdentifierDefaultingNamespace
 import java.util.concurrent.ConcurrentLinkedQueue
 import net.minecraft.client.MinecraftClient
@@ -49,12 +50,13 @@ abstract class PosableState : Schedulable {
         set(value) {
             field = value
             if (value != null) {
-                val entity = getEntity() as? Poseable ?: return
+                val entity = getEntity() as? PosableEntity ?: return
                 entity.struct.addFunctions(value.functions.functions)
-                runtime.environment.getQueryStruct().addFunctions(value.functions.functions)
+                runtime.environment.query.addFunctions(value.functions.functions)
             }
         }
     var currentPose: String? = null
+    var currentAspects: Set<String> = emptySet()
     var primaryAnimation: PrimaryAnimation? = null
     val statefulAnimations: MutableList<StatefulAnimation> = mutableListOf()
     val quirks = mutableMapOf<ModelQuirk<*>, QuirkData>()
@@ -67,6 +69,8 @@ abstract class PosableState : Schedulable {
             reusableAnimTime.value = animationSeconds.toDouble()
             reusableAnimTime
         }
+        .addFunction("current_aspects") { ArrayStruct(currentAspects.mapIndexed { index, s -> "$index" to StringValue(s)}.toMap())}
+        .addFunction("has_aspect") { params -> DoubleValue(params.get<MoValue>(0).asString() in currentAspects) }
         .addFunction("has_entity") { DoubleValue(getEntity() != null) }
         .addFunction("pose") { StringValue(currentPose ?: "") }
         .addFunction("sound") { params ->
@@ -121,7 +125,7 @@ abstract class PosableState : Schedulable {
                 val matrixWrapper = locatorStates[locator] ?: locatorStates["root"]!!
 
                 val particleRuntime = MoLangRuntime().setup().setupClient()
-                particleRuntime.environment.getQueryStruct().addFunction("entity") { runtime.environment.getQueryStruct() }
+                particleRuntime.environment.query.addFunction("entity") { runtime.environment.query }
 
                 val storm = ParticleStorm(
                     effect = effect,
@@ -138,7 +142,7 @@ abstract class PosableState : Schedulable {
         }
 
     val runtime: MoLangRuntime = MoLangRuntime().setup().setupClient().also {
-        it.environment.getQueryStruct().addFunctions(functions.functions)
+        it.environment.query.addFunctions(functions.functions)
     }
 
     val allStatefulAnimations: List<StatefulAnimation> get() = statefulAnimations + quirks.flatMap { it.value.animations }
@@ -157,6 +161,11 @@ abstract class PosableState : Schedulable {
     open fun incrementAge(entity: Entity) {
         val previousAge = age
         updateAge(age + 1)
+        currentModel?.let {
+            updateLocatorPosition(entity.pos)
+            it.updateLocators(entity, this)
+            it.validatePose(entity as? PosableEntity, this)
+        }
         runEffects(entity, previousAge, age)
         val primaryAnimation = primaryAnimation ?: return
         if (primaryAnimation.started + primaryAnimation.duration <= animationSeconds) {
@@ -171,8 +180,6 @@ abstract class PosableState : Schedulable {
     }
 
     val animationSeconds: Float get() = (age + getPartialTicks()) / 20F
-
-    var timeEnteredPose = 0F
 
     val locatorStates = mutableMapOf<String, MatrixWrapper>()
 
@@ -207,6 +214,15 @@ abstract class PosableState : Schedulable {
 
     fun doLater(action: () -> Unit) {
         renderQueue.offer(action)
+    }
+
+    fun setPoseToFirstSuitable(poseType: PoseType? = null) {
+        val model = currentModel ?: return
+        val pose = model.getFirstSuitablePose(this, poseType)
+        if (pose.poseName == this.currentPose) {
+            return
+        }
+        setPose(pose.poseName)
     }
 
     fun getPose(): String? {
@@ -267,7 +283,7 @@ abstract class PosableState : Schedulable {
             val pose = currentPose?.let(model::getPose)
             allStatefulAnimations.forEach { it.applyEffects(entity, this, previousSeconds, currentSeconds) }
             primaryAnimation?.animation?.applyEffects(entity, this, previousSeconds, currentSeconds)
-            pose?.idleAnimations?.filter { shouldIdleRun(it, 0.5F) }?.forEach { it.applyEffects(entity, this, previousSeconds, currentSeconds) }
+            pose?.idleAnimations?.filter { shouldIdleRun(it, 0.5F) && it.condition(this) }?.forEach { it.applyEffects(entity, this, previousSeconds, currentSeconds) }
         }
     }
 

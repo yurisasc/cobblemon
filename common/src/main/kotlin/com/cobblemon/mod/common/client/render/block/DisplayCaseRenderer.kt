@@ -13,12 +13,10 @@ import com.cobblemon.mod.common.CobblemonItems
 import com.cobblemon.mod.common.api.tags.CobblemonItemTags
 import com.cobblemon.mod.common.block.DisplayCaseBlock
 import com.cobblemon.mod.common.block.entity.DisplayCaseBlockEntity
-import com.cobblemon.mod.common.client.render.models.blockbench.PosableState
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.FloatingState
+import com.cobblemon.mod.common.client.render.models.blockbench.FloatingState
 import com.cobblemon.mod.common.client.render.models.blockbench.repository.PokemonModelRepository
 import com.cobblemon.mod.common.client.render.models.blockbench.repository.RenderContext
 import com.cobblemon.mod.common.entity.PoseType
-import com.cobblemon.mod.common.item.PokeBallItem
 import com.cobblemon.mod.common.item.PokemonItem
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.render.OverlayTexture
@@ -40,6 +38,9 @@ import net.minecraft.util.math.RotationAxis
 import net.minecraft.world.World
 
 class DisplayCaseRenderer(ctx: BlockEntityRendererFactory.Context) : BlockEntityRenderer<DisplayCaseBlockEntity> {
+    val context = RenderContext().also {
+        it.put(RenderContext.RENDER_STATE, RenderContext.RenderState.WORLD)
+    }
     val coinPouchStack: ItemStack by lazy { ItemStack(CobblemonItems.RELIC_COIN_POUCH).also { it.setSubNbt("CustomModelData", NbtInt.of(1)) } }
     override fun render(
         entity: DisplayCaseBlockEntity,
@@ -104,9 +105,9 @@ class DisplayCaseRenderer(ctx: BlockEntityRendererFactory.Context) : BlockEntity
         yRot: Float
     ) {
         val item = stack.item as? PokemonItem ?: return
-        val pokemon = item.asPokemon(stack) ?: return
-        val model = PokemonModelRepository.getPoser(pokemon.species.resourceIdentifier, pokemon.aspects)
-        val texture = PokemonModelRepository.getTexture(pokemon.species.resourceIdentifier, pokemon.aspects, 0F)
+        val (species, aspects) = item.getSpeciesAndAspects(stack) ?: return
+        val model = PokemonModelRepository.getPoser(species.resourceIdentifier, aspects)
+        val texture = PokemonModelRepository.getTexture(species.resourceIdentifier, aspects, 0F)
         val renderLayer = RenderLayer.getEntityCutout(texture)//model.getLayer(texture)
         val tint = item.tint(stack)
         val vertexConsumer: VertexConsumer = vertexConsumers.getBuffer(renderLayer)
@@ -118,10 +119,18 @@ class DisplayCaseRenderer(ctx: BlockEntityRendererFactory.Context) : BlockEntity
         matrices.scale(scale, scale, scale)
         matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(yRot))
 
-        val context = RenderContext()
         val state = FloatingState()
-        state.currentPose = model.getPose(PoseType.PROFILE)?.poseName
-        model.setupAnimStateful(
+        state.currentAspects = aspects
+        model.context = context
+        context.put(RenderContext.SCALE, scale)
+        context.put(RenderContext.SPECIES, species.resourceIdentifier)
+        context.put(RenderContext.ASPECTS, aspects)
+        context.put(RenderContext.TEXTURE, texture)
+        context.put(RenderContext.POSABLE_STATE, state)
+        state.currentPose = model.getFirstSuitablePose(state, PoseType.PROFILE).poseName
+
+
+        model.applyAnimations(
             entity = null,
             state = state,
             limbSwing = 0F,
@@ -130,12 +139,8 @@ class DisplayCaseRenderer(ctx: BlockEntityRendererFactory.Context) : BlockEntity
             headYaw = 0F,
             headPitch = 0F
         )
-        context.put(RenderContext.SCALE, scale)
-        context.put(RenderContext.SPECIES, pokemon.species.resourceIdentifier)
-        context.put(RenderContext.ASPECTS, pokemon.aspects)
-        context.put(RenderContext.TEXTURE, texture)
 
-        model.withLayerContext(vertexConsumers, state, PokemonModelRepository.getLayers(pokemon.species.resourceIdentifier, pokemon.aspects)) {
+        model.withLayerContext(vertexConsumers, state, PokemonModelRepository.getLayers(species.resourceIdentifier, aspects)) {
             model.render(context, matrices, vertexConsumer, light, OverlayTexture.DEFAULT_UV, tint.x, tint.y, tint.z, tint.w)
         }
 

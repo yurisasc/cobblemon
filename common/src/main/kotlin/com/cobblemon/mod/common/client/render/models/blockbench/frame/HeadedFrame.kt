@@ -10,7 +10,6 @@ package com.cobblemon.mod.common.client.render.models.blockbench.frame
 
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.SingleBoneLookAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.Bone
-import net.minecraft.entity.Entity
 
 interface HeadedFrame : ModelFrame {
     val head: Bone

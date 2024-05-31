@@ -8,7 +8,7 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1
 
-import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.createTransformation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BiWingedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
@@ -25,7 +25,7 @@ import com.cobblemon.mod.common.util.math.geometry.toRadians
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class PidgeottoModel(root: ModelPart) : PosableModel(root), HeadedFrame, BipedFrame, BiWingedFrame {
+class PidgeottoModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, BipedFrame, BiWingedFrame {
     override val rootPart = root.registerChildWithAllChildren("pidgeotto")
     override val head = getPart("neck")
 
@@ -103,7 +103,7 @@ class PidgeottoModel(root: ModelPart) : PosableModel(root), HeadedFrame, BipedFr
                         peak = -4F,
                         period = 0.4F
                     ),
-                    timeVariable = { state, _, _ -> state?.animationSeconds },
+                    timeVariable = { state, _, _ -> state.animationSeconds },
                     axis = ModelPartTransformation.Y_AXIS
                 ),
                 head.translation(
@@ -113,7 +113,7 @@ class PidgeottoModel(root: ModelPart) : PosableModel(root), HeadedFrame, BipedFr
                         verticalShift = (-10F).toRadians()
                     ),
                     axis = ModelPartTransformation.X_AXIS,
-                    timeVariable = { state, _, _ -> state?.animationSeconds }
+                    timeVariable = { state, _, _ -> state.animationSeconds }
                 ),
                 leftLeg.rotation(
                     function = parabolaFunction(
@@ -148,7 +148,7 @@ class PidgeottoModel(root: ModelPart) : PosableModel(root), HeadedFrame, BipedFr
                         phaseShift = 0.00F,
                         verticalShift = (-20F).toRadians()
                     ),
-                    timeVariable = { state, _, _ -> state?.animationSeconds },
+                    timeVariable = { state, _, _ -> state.animationSeconds },
                     axis = ModelPartTransformation.Z_AXIS
                 ),
                 rightWing.translation(

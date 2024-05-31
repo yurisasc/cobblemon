@@ -8,7 +8,7 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen6
 
-import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.BimanualSwingAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BimanualFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
@@ -18,7 +18,7 @@ import com.cobblemon.mod.common.entity.PoseType
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class SliggooHisuianModel (root: ModelPart) : PosableModel(root), BimanualFrame, HeadedFrame {
+class SliggooHisuianModel (root: ModelPart) : PokemonPosableModel(root), BimanualFrame, HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("sliggoo_hisuian")
     override val head = getPart("head")
 

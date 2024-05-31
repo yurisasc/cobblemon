@@ -8,26 +8,21 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1
 
-import com.cobblemon.mod.common.client.render.models.blockbench.EarJoint
-import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
-import com.cobblemon.mod.common.client.render.models.blockbench.RangeOfMotion
 import com.cobblemon.mod.common.client.render.models.blockbench.createTransformation
-import com.cobblemon.mod.common.client.render.models.blockbench.frame.EaredFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.QuadrupedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.ModelPartTransformation.Companion.X_AXIS
-import com.cobblemon.mod.common.client.render.models.blockbench.pose.ModelPartTransformation.Companion.Z_AXIS
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.Pose
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.PoseType.Companion.MOVING_POSES
 import com.cobblemon.mod.common.entity.PoseType.Companion.STATIONARY_POSES
 import com.cobblemon.mod.common.entity.PoseType.Companion.UI_POSES
-import com.cobblemon.mod.common.util.math.geometry.toRadians
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class EeveeModel(root: ModelPart) : PosableModel(root), EaredFrame, HeadedFrame, QuadrupedFrame {
+class EeveeModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, QuadrupedFrame {
     override val rootPart = root.registerChildWithAllChildren("eevee")
     val body = getPart("body")
     override val head = getPart("head")
@@ -35,8 +30,6 @@ class EeveeModel(root: ModelPart) : PosableModel(root), EaredFrame, HeadedFrame,
     override val hindLeftLeg = getPart("leg_back_left")
     override val foreRightLeg = getPart("leg_front_right")
     override val foreLeftLeg= getPart("leg_front_left")
-    override val leftEarJoint = EarJoint(getPart("ear_left"), Z_AXIS, RangeOfMotion(50F.toRadians(), 0F))
-    override val rightEarJoint = EarJoint(getPart("ear_right"), Z_AXIS, RangeOfMotion((-50F).toRadians(), 0F))
 
     override var portraitScale = 2.2F
     override var portraitTranslation = Vec3d(-0.4, -0.54, 0.0)
@@ -76,7 +69,6 @@ class EeveeModel(root: ModelPart) : PosableModel(root), EaredFrame, HeadedFrame,
                 bedrock("eevee", "ground_walk")
             )
         )
-
 
         shoulderLeft = registerPose(
             poseType = PoseType.SHOULDER_LEFT,

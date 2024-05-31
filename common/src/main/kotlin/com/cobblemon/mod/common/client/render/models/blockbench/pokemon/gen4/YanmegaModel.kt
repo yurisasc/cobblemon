@@ -8,7 +8,7 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen4
 
-import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.createTransformation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BiWingedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
@@ -23,7 +23,7 @@ import com.cobblemon.mod.common.entity.PoseType.Companion.UI_POSES
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class YanmegaModel(root: ModelPart) : PosableModel(root), HeadedFrame {
+class YanmegaModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("yanmega")
     override val head = getPart("head")
 
@@ -70,12 +70,12 @@ class YanmegaModel(root: ModelPart) : PosableModel(root), HeadedFrame {
                 bedrock("yanmega", "air_idle"),
                 wingFrame1.wingFlap(
                     flapFunction = triangleFunction(period = 0.1F, amplitude = 0.5F),
-                    timeVariable = { state, _, ageInTicks -> state?.animationSeconds ?: ageInTicks },
+                    timeVariable = { state, _, _ -> state.animationSeconds },
                     axis = ModelPartTransformation.Z_AXIS
                 ),
                 wingFrame2.wingFlap(
                     flapFunction = triangleFunction(period = 0.1F, amplitude = 0.5F),
-                    timeVariable = { state, _, ageInTicks -> 0.01F + (state?.animationSeconds ?: (ageInTicks / 20)) },
+                    timeVariable = { state, _, _ -> 0.01F + state.animationSeconds },
                     axis = ModelPartTransformation.Z_AXIS
                 )
                 //bedrock("yanmega", "ground_walk")
@@ -93,12 +93,12 @@ class YanmegaModel(root: ModelPart) : PosableModel(root), HeadedFrame {
                 bedrock("yanmega", "air_idle"),
                 wingFrame1.wingFlap(
                     flapFunction = triangleFunction(period = 0.1F, amplitude = 0.5F),
-                    timeVariable = { state, _, ageInTicks -> state?.animationSeconds ?: ageInTicks },
+                    timeVariable = { state, _, _ -> state.animationSeconds },
                     axis = ModelPartTransformation.Z_AXIS
                 ),
                 wingFrame2.wingFlap(
                     flapFunction = triangleFunction(period = 0.1F, amplitude = 0.5F),
-                    timeVariable = { state, _, ageInTicks -> 0.01F + (state?.animationSeconds ?: (ageInTicks / 20)) },
+                    timeVariable = { state, _, _ -> 0.01F + state.animationSeconds },
                     axis = ModelPartTransformation.Z_AXIS
                 )
             ),
@@ -115,12 +115,12 @@ class YanmegaModel(root: ModelPart) : PosableModel(root), HeadedFrame {
                 bedrock("yanmega", "air_idle"),
                 wingFrame1.wingFlap(
                     flapFunction = triangleFunction(period = 0.1F, amplitude = 0.5F),
-                    timeVariable = { state, _, ageInTicks -> state?.animationSeconds ?: ageInTicks },
+                    timeVariable = { state, _, _ -> state.animationSeconds },
                     axis = ModelPartTransformation.Z_AXIS
                 ),
                 wingFrame2.wingFlap(
                     flapFunction = triangleFunction(period = 0.1F, amplitude = 0.5F),
-                    timeVariable = { state, _, ageInTicks -> 0.01F + (state?.animationSeconds ?: (ageInTicks / 20)) },
+                    timeVariable = { state, _, _ -> 0.01F + state.animationSeconds },
                     axis = ModelPartTransformation.Z_AXIS
                 )
                 //bedrock("yanmega", "ground_walk")
@@ -133,6 +133,6 @@ class YanmegaModel(root: ModelPart) : PosableModel(root), HeadedFrame {
 
 //    override fun getFaintAnimation(
 //        pokemonEntity: PokemonEntity,
-//        state: PoseableEntityState<PokemonEntity>
+//        state: PosableState<PokemonEntity>
 //    ) = if (state.isPosedIn(standing, walk)) bedrockStateful("yanmega", "faint") else null
 }

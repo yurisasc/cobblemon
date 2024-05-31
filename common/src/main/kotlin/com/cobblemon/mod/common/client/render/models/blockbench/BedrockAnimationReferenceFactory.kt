@@ -11,7 +11,6 @@ package com.cobblemon.mod.common.client.render.models.blockbench
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.StatefulAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.StatelessAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.bedrock.animation.BedrockAnimationRepository
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.AnimationReferenceFactory
 
 /**
  * An [AnimationReferenceFactory] that loads Bedrock-format animations from [BedrockAnimationRepository].

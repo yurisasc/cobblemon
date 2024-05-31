@@ -8,7 +8,7 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen7
 
-import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.BipedWalkAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.WingFlapIdleAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.createTransformation
@@ -26,7 +26,7 @@ import com.cobblemon.mod.common.util.math.geometry.toRadians
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class DartrixHisuiBiasModel(root: ModelPart) : PosableModel(root), BipedFrame, BiWingedFrame {
+class DartrixHisuiBiasModel(root: ModelPart) : PokemonPosableModel(root), BipedFrame, BiWingedFrame {
     override val rootPart = root.registerChildWithAllChildren("dartrix_hisui_bias")
 
     private val wingsOpen = getPart("wings_open")
@@ -76,7 +76,7 @@ class DartrixHisuiBiasModel(root: ModelPart) : PosableModel(root), BipedFrame, B
                         bedrock("dartrix_hisui_bias", "ground_idle"),
                         WingFlapIdleAnimation(this,
                                 flapFunction = sineFunction(verticalShift = -10F.toRadians(), period = 0.9F, amplitude = 0.6F),
-                                timeVariable = { state, _, _ -> state?.animationSeconds ?: 0F },
+                                timeVariable = { state, _, _ -> state.animationSeconds },
                                 axis = ModelPartTransformation.Z_AXIS
                         )
                 )
@@ -94,7 +94,7 @@ class DartrixHisuiBiasModel(root: ModelPart) : PosableModel(root), BipedFrame, B
                         bedrock("dartrix_hisui_bias", "ground_idle"),
                         WingFlapIdleAnimation(this,
                                 flapFunction = sineFunction(verticalShift = -14F.toRadians(), period = 0.9F, amplitude = 0.9F),
-                                timeVariable = { state, _, _ -> state?.animationSeconds ?: 0F },
+                                timeVariable = { state, _, _ -> state.animationSeconds },
                                 axis = ModelPartTransformation.Z_AXIS
                         )
                 )
@@ -117,6 +117,6 @@ class DartrixHisuiBiasModel(root: ModelPart) : PosableModel(root), BipedFrame, B
 
 //    override fun getFaintAnimation(
 //        pokemonEntity: PokemonEntity,
-//        state: PoseableEntityState<PokemonEntity>
+//        state: PosableState<PokemonEntity>
 //    ) = if (state.isPosedIn(standing, walk)) bedrockStateful("dartrix_hisui_bias", "faint") else null
 }

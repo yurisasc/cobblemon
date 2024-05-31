@@ -11,7 +11,6 @@ package com.cobblemon.mod.common.client.render.models.blockbench.pokeball
 import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.PokeBallFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.Pose
-import com.cobblemon.mod.common.client.render.models.blockbench.repository.RenderContext
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.pokeball.EmptyPokeBallEntity
 import net.minecraft.client.model.ModelPart

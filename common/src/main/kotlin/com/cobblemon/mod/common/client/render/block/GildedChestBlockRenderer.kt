@@ -30,7 +30,7 @@ class GildedChestBlockRenderer(context: BlockEntityRendererFactory.Context) : Bl
         overlay: Int
     ) {
         val aspects = emptySet<String>()
-        val state = entity.poseableState
+        val state = entity.posableState
         state.updatePartialTicks(tickDelta)
 
         val poserId = entity.type.poserId
@@ -40,6 +40,7 @@ class GildedChestBlockRenderer(context: BlockEntityRendererFactory.Context) : Bl
         val vertexConsumer = vertexConsumers.getBuffer(RenderLayer.getEntityCutout(texture))
         model.bufferProvider = vertexConsumers
         state.currentModel = model
+        state.currentAspects = aspects
 
         val context = RenderContext()
         context.put(RenderContext.RENDER_STATE, RenderContext.RenderState.BLOCK)
@@ -53,7 +54,7 @@ class GildedChestBlockRenderer(context: BlockEntityRendererFactory.Context) : Bl
         matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(entity.cachedState.get(Properties.HORIZONTAL_FACING).asRotation()))
         matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(180f))
 
-        model.setupAnimStateful(
+        model.applyAnimations(
             entity = null,
             state = state,
             headYaw = 0F,

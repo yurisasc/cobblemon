@@ -12,7 +12,6 @@ import com.cobblemon.mod.common.CobblemonBlocks
 import com.cobblemon.mod.common.block.entity.RestorationTankBlockEntity
 import com.cobblemon.mod.common.block.multiblock.FossilMultiblockStructure
 import com.cobblemon.mod.common.client.CobblemonBakingOverrides
-import com.cobblemon.mod.common.client.render.models.blockbench.fossil.FossilModel
 import com.cobblemon.mod.common.client.render.models.blockbench.repository.FossilModelRepository
 import com.cobblemon.mod.common.client.render.models.blockbench.repository.RenderContext
 import com.cobblemon.mod.common.client.render.models.blockbench.wavefunction.WaveFunction
@@ -131,15 +130,14 @@ class RestorationTankRenderer(ctx: BlockEntityRendererFactory.Context) : BlockEn
         )
 
         identifiersAndScales.forEach { (identifier, scale) ->
-            val model = FossilModelRepository.getPoser(identifier, aspects) as FossilModel
+            val model = FossilModelRepository.getPoser(identifier, aspects)
             val texture = FossilModelRepository.getTexture(identifier, aspects, state.animationSeconds)
 
             if (scale > 0F) {
                 val vertexConsumer = vertexConsumers.getBuffer(RenderLayer.getEntityCutout(texture))
-                val pose = model.poses.values.first()
                 state.currentModel = model
-                state.setPose(pose.poseName)
-                state.timeEnteredPose = 0F
+                state.currentAspects = aspects
+                state.setPoseToFirstSuitable()
 
                 val scale = if (timeRemaining == 0) {
                     model.maxScale
@@ -158,7 +156,7 @@ class RestorationTankRenderer(ctx: BlockEntityRendererFactory.Context) : BlockEn
                     matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(90F))
                 }
 
-                val context = model.context
+                model.context = context
                 context.put(RenderContext.TEXTURE, texture)
                 context.put(RenderContext.SPECIES, fossil.identifier)
                 context.put(RenderContext.RENDER_STATE, RenderContext.RenderState.RESURRECTION_MACHINE)
@@ -167,7 +165,7 @@ class RestorationTankRenderer(ctx: BlockEntityRendererFactory.Context) : BlockEn
                 matrices.push()
                 matrices.scale(scale, scale, scale)
                 matrices.translate(0.0, model.yGrowthPoint.toDouble(), 0.0)
-                model.setupAnimStateful(
+                model.applyAnimations(
                     entity = null,
                     state = state,
                     headYaw = 0F,

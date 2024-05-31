@@ -35,10 +35,10 @@ import com.cobblemon.mod.common.battles.BattleTypes
 import com.cobblemon.mod.common.battles.ForcePassActionResponse
 import com.cobblemon.mod.common.client.entity.EmptyPokeBallClientDelegate
 import com.cobblemon.mod.common.entity.PoseType
-import com.cobblemon.mod.common.entity.Poseable
+import com.cobblemon.mod.common.entity.PosableEntity
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.entity.pokemon.PokemonServerDelegate
-import com.cobblemon.mod.common.net.messages.client.animation.PlayPoseableAnimationPacket
+import com.cobblemon.mod.common.net.messages.client.animation.PlayPosableAnimationPacket
 import com.cobblemon.mod.common.net.messages.client.battle.BattleCaptureStartPacket
 import com.cobblemon.mod.common.net.messages.client.spawn.SpawnPokeballPacket
 import com.cobblemon.mod.common.pokeball.PokeBall
@@ -68,7 +68,7 @@ import net.minecraft.util.math.Vec3d
 import net.minecraft.world.World
 import java.util.concurrent.CompletableFuture
 
-class EmptyPokeBallEntity : ThrownItemEntity, Poseable, WaterDragModifier, Schedulable {
+class EmptyPokeBallEntity : ThrownItemEntity, PosableEntity, WaterDragModifier, Schedulable {
     enum class CaptureState {
         NOT,
         HIT,
@@ -389,7 +389,7 @@ class EmptyPokeBallEntity : ThrownItemEntity, Poseable, WaterDragModifier, Sched
         world.playSoundServer(pos, CobblemonSounds.POKE_BALL_HIT, volume = 0.4F)
 
         // Hit Pokémon plays recoil animation
-        val pkt = PlayPoseableAnimationPacket(pokemonEntity.id, setOf("recoil"), emptySet())
+        val pkt = PlayPosableAnimationPacket(pokemonEntity.id, setOf("recoil"), emptySet())
         pkt.sendToPlayersAround(
             x = pokemonEntity.x,
             y = pokemonEntity.y,

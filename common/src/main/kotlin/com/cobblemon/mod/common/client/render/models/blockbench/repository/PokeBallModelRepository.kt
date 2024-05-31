@@ -12,8 +12,6 @@ import com.cobblemon.mod.common.api.pokeball.PokeBalls
 import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pokeball.AncientPokeBallModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pokeball.PokeBallModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pose.Bone
-import com.cobblemon.mod.common.entity.pokeball.EmptyPokeBallEntity
 
 object PokeBallModelRepository : VaryingModelRepository<PosableModel>() {
     override val poserClass = PosableModel::class.java

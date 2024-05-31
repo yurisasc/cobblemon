@@ -8,11 +8,8 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench
 
-import com.cobblemon.mod.common.client.render.models.blockbench.animation.StatefulAnimation
-import com.cobblemon.mod.common.client.render.models.blockbench.animation.StatelessAnimation
-import com.cobblemon.mod.common.client.render.models.blockbench.frame.ModelFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.repository.RenderContext
-import com.cobblemon.mod.common.entity.Poseable
+import com.cobblemon.mod.common.entity.PosableEntity
 import net.minecraft.client.render.OverlayTexture
 import net.minecraft.client.render.RenderLayer
 import net.minecraft.client.render.VertexConsumer
@@ -22,14 +19,6 @@ import net.minecraft.entity.Entity
 import net.minecraft.entity.LivingEntity
 import net.minecraft.util.Identifier
 
-/**
- * A model that can be posed and animated using [StatelessAnimation]s and [StatefulAnimation]s. This
- * requires poses to be registered and should implement any [ModelFrame] interfaces that apply to this
- * model. Implementing the render functions is possible but not necessary.
- *
- * @author Hiroku
- * @since December 5th, 2021
- */
 abstract class PosableEntityModel<T : Entity>(
     renderTypeFunc: (Identifier) -> RenderLayer = RenderLayer::getEntityCutout
 ) : EntityModel<T>(renderTypeFunc) {
@@ -75,15 +64,18 @@ abstract class PosableEntityModel<T : Entity>(
         headPitch: Float
     ) {
         setupEntityTypeContext(entity)
-        if (entity is Poseable) {
+        if (entity is PosableEntity) {
             val state = entity.delegate as PosableState
-            posableModel.setupAnimStateful(entity, state, limbSwing, limbSwingAmount, ageInTicks, headYaw, headPitch)
+            posableModel.applyAnimations(entity, state, limbSwing, limbSwingAmount, ageInTicks, headYaw, headPitch)
         }
     }
 
     open fun setupEntityTypeContext(entity: Entity?) {
         entity?.let {
             context.put(RenderContext.ENTITY, entity)
+            if (it is PosableEntity) {
+                context.put(RenderContext.POSABLE_STATE, it.delegate as PosableState)
+            }
         }
     }
 }

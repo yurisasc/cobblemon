@@ -8,14 +8,14 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen7
 
-import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.Pose
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.util.isTouchingWater
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class WishiwashiSoloModel (root: ModelPart) : PosableModel(root){
+class WishiwashiSoloModel (root: ModelPart) : PokemonPosableModel(root){
     override val rootPart = root.registerChildWithAllChildren("wishiwashi_solo")
 
     override var portraitScale = 3.0F

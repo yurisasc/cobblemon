@@ -12,7 +12,6 @@ import com.cobblemon.mod.common.client.render.models.blockbench.PosableState
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.WingFlapIdleAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.wavefunction.WaveFunction
 import net.minecraft.client.model.ModelPart
-import net.minecraft.entity.Entity
 
 interface BiWingedFrame : ModelFrame {
     val leftWing: ModelPart

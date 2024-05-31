@@ -10,8 +10,6 @@ package com.cobblemon.mod.common.client.render.models.blockbench.fossil
 
 import com.cobblemon.mod.common.api.scheduling.SchedulingTracker
 import com.cobblemon.mod.common.client.render.models.blockbench.PosableState
-import net.minecraft.entity.Entity
-import kotlin.math.floor
 
 /**
  * Floating state for a fossil Pokémon in the resurrection machine.

@@ -16,7 +16,6 @@ import com.cobblemon.mod.common.api.dialogue.DialogueManager
 import com.cobblemon.mod.common.api.dialogue.Dialogues
 import com.cobblemon.mod.common.api.entity.NPCSideDelegate
 import com.cobblemon.mod.common.api.molang.MoLangFunctions.addFunctions
-import com.cobblemon.mod.common.api.molang.MoLangFunctions.getQueryStruct
 import com.cobblemon.mod.common.api.molang.ObjectValue
 import com.cobblemon.mod.common.api.text.text
 import com.cobblemon.mod.common.battles.BattleBuilder
@@ -60,7 +59,7 @@ class NPCServerDelegate : NPCSideDelegate {
                 val dialogue = Dialogues.dialogues[params.getString(1).asIdentifierDefaultingNamespace()]!!
                 DialogueManager.startDialogue(
                     ActiveDialogue(player, dialogue).also {
-                        it.runtime.environment.getQueryStruct().addFunction("npc") { struct }
+                        it.runtime.environment.query.addFunction("npc") { struct }
                     }
                 )
             }

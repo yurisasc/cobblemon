@@ -8,7 +8,7 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen3
 
-import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.CobblemonPose
@@ -16,7 +16,7 @@ import com.cobblemon.mod.common.entity.PoseType
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class TreeckoModel (root: ModelPart) : PosableModel(root), HeadedFrame {
+class TreeckoModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("treecko")
     override val head = getPart("head")
 
@@ -61,6 +61,6 @@ class TreeckoModel (root: ModelPart) : PosableModel(root), HeadedFrame {
     }
     //override fun getFaintAnimation(
     //    pokemonEntity: PokemonEntity,
-    //    state: PoseableEntityState<PokemonEntity>
+    //    state: PosableState<PokemonEntity>
     //) = if (state.isNotPosedIn(sleep)) bedrockStateful("treecko", "faint") else null
 }

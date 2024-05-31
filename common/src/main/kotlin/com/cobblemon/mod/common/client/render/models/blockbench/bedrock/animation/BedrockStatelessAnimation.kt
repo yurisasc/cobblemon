@@ -8,6 +8,7 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.bedrock.animation
 
+import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.PosableState
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.StatelessAnimation
@@ -25,6 +26,12 @@ import net.minecraft.entity.Entity
  */
 class BedrockStatelessAnimation(val animation: BedrockAnimation) : StatelessAnimation() {
     val particleKeyFrames = animation.effects.filterIsInstance<BedrockParticleKeyframe>()
+
+    init {
+        if (animation.animationLength != -1.0 && !animation.shouldLoop) {
+            Cobblemon.LOGGER.error("Found animation that is not set to loop and has a set length but is being used in an idle animation. This will cause things like T-posing! ${animation.name}")
+        }
+    }
 
     override fun setAngles(context: RenderContext, model: PosableModel, state: PosableState, limbSwing: Float, limbSwingAmount: Float, ageInTicks: Float, headYaw: Float, headPitch: Float, intensity: Float) {
         animation.run(context, model, state, state.animationSeconds, limbSwing, limbSwingAmount, ageInTicks, intensity)

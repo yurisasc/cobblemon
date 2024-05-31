@@ -44,6 +44,7 @@ object BedrockAnimationRepository {
                 .forEach { (identifier, resource) ->
                     try {
                         val animationGroup = gson.fromJson<BedrockAnimationGroup>(resource.inputStream.reader())
+                        animationGroup.animations.entries.forEach { (name, animation) -> animation.name = name }
                         val animationGroupName = identifier.path.substringAfterLast("/").replace(".animation.json", "")
                         animationGroups[animationGroupName] = animationGroup
                         animationCount += animationGroup.animations.size

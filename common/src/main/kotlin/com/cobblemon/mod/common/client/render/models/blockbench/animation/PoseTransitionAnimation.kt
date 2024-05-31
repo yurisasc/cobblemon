@@ -67,12 +67,12 @@ class PoseTransitionAnimation(
 
         model.setDefault()
 
-        model.applyPose(beforePose.poseName, oldIntensity)
+        model.applyPose(state, beforePose.poseName, oldIntensity)
         beforePose.idleAnimations.forEach {
             it.apply(context, model, state, limbSwing, limbSwingAmount, ageInTicks, headYaw, headPitch, oldIntensity)
         }
 
-        model.applyPose(afterPose.poseName, newIntensity)
+        model.applyPose(state, afterPose.poseName, newIntensity)
         afterPose.idleAnimations.forEach {
             it.apply(context, model, state, limbSwing, limbSwingAmount, ageInTicks, headYaw, headPitch, newIntensity)
         }
