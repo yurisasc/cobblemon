@@ -8,6 +8,7 @@
 ### Additions
 
 ### Changes
+- Altered the item model for Medicinal Leeks and Roasted Leeks to be held like sticks and other rod items. 
 
 ### Developer
 
