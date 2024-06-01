@@ -138,19 +138,25 @@ open class MoveTemplate(
             return this.elementalType
         }
         if (name == "hiddenpower") {
-            val HP: Int = pokemon.ivs[Stats.HP] ?: return ElementalTypes.NORMAL
-            val ATTACK: Int = pokemon.ivs[Stats.ATTACK] ?: return ElementalTypes.NORMAL
-            val DEFENSE: Int = pokemon.ivs[Stats.DEFENCE] ?: return ElementalTypes.NORMAL
-            val SPEED: Int = pokemon.ivs[Stats.SPEED] ?: return ElementalTypes.NORMAL
-            val SPEC_ATK: Int = pokemon.ivs[Stats.SPECIAL_ATTACK] ?: return ElementalTypes.NORMAL
-            val SPEC_DEF: Int = pokemon.ivs[Stats.SPECIAL_DEFENCE] ?: return ElementalTypes.NORMAL
-
-            val tableIndex = 15 * (HP % 2 + 2 * (ATTACK % 2) + 4 * (DEFENSE % 2) + 8 * (SPEED % 2) + 16 * (SPEC_ATK % 2) + 32 * (SPEC_DEF % 2)) / 63
+            val ivs = pokemon.ivs
+            val ivArray = arrayOf(
+                ivs[Stats.HP],
+                ivs[Stats.ATTACK],
+                ivs[Stats.DEFENCE],
+                ivs[Stats.SPEED],
+                ivs[Stats.SPECIAL_ATTACK],
+                ivs[Stats.SPECIAL_DEFENCE]
+            ).map { it ?: return@getEffectiveElementalType ElementalTypes.NORMAL }
+            var tableIndex = 0
+            ivArray.forEachIndexed { index, it ->
+                tableIndex += (it % 2) shl index
+            }
+            tableIndex = tableIndex * 15 / 63
             return hiddenPowerTable[tableIndex.coerceAtMost(hiddenPowerTable.size - 1)]
-
         }
         // TODO: Handle ability suppression: clientactivebattlepokemon needs data about volatiles
-        // TODO: Handle Liquid Voice: need to know what moves have the sound flag
+        // TODO: Handle Liquid Voice: needs to know what moves have the sound flag
+        // TODO: Handle weatherball, naturalgift, judgement, technoblast, terrainpulse, and terrablast
         if (this.elementalType == ElementalTypes.NORMAL) {
             if( this.damageCategory != DamageCategories.STATUS) {
                 return when (pokemon.ability.name) {
@@ -163,7 +169,7 @@ open class MoveTemplate(
             }
         } else if (pokemon.ability.name == "normalize") {
             /*
-            * Exceptions we'll need to deal with at some point:
+            * Exceptions that ignore normalize that we'll need to deal with at some point:
             * hiddenpower
             * weatherball
             * naturalgift
