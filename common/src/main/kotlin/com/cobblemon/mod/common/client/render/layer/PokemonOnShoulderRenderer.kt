@@ -84,13 +84,11 @@ class PokemonOnShoulderRenderer<T : PlayerEntity>(renderLayerParent: FeatureRend
             }
             val scale = shoulderData.form.baseScale * shoulderData.scaleModifier
             val width = shoulderData.form.hitbox.width
-            val heightOffset = -1.5 * scale;
+            val heightOffset = -1.5 * scale
             val widthOffset = width / 2 - 0.7
-            val arm = if (pLeftShoulder) contextModel.leftArm else contextModel.rightArm
             // If they're sneaking, the pokemon needs to rotate a little bit and push forward
             // Shoulders move a bit when sneaking which is why the translation is necessary.
             // Shoulder exact rotation according to testing (miasmus) is 0.4 radians, the -0.15 is eyeballed though.
-            matrixStack.multiply(RotationAxis.POSITIVE_X.rotation(arm.pitch * 0.1F))
             if (livingEntity.isInSneakingPose) {
                 matrixStack.multiply(RotationAxis.POSITIVE_X.rotation(0.4F))
                 matrixStack.translate(0F, 0F, -0.15F)
