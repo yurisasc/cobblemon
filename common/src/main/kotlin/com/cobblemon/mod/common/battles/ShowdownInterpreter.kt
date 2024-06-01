@@ -149,40 +149,29 @@ object ShowdownInterpreter {
         val baseOffset = battleActor.getSide().getOppositeSide().actors.filterIsInstance<EntityBackedBattleActor<*>>().firstOrNull()?.initialPos.let { pos ->
             pos?.subtract(entityPos)
         }
+        if (baseOffset != null) {
+            var vector = Vec3d(baseOffset.x, 0.0, baseOffset.z).normalize()
+            vector = vector.crossProduct(Vec3d(0.0, 1.0, 0.0))
 
-        // TODO: Enforce minimum distance between entities
-        if(battle.format.battleType.pokemonPerSide == 1) { // Singles
-            if (baseOffset != null) {
-                var vector = Vec3d(baseOffset.x, 0.0, baseOffset.z).normalize()
-                if (vector != null) {
-                    vector = vector.crossProduct(Vec3d(0.0, -1.0, 0.0))
+            // TODO: Enforce minimum distance between entities
+            if(battle.format.battleType.pokemonPerSide == 1) { // Singles
+                entityPos = entityPos?.add(baseOffset.multiply(if(battle.isPvW) 0.4 else 0.3))?.add(vector.multiply(-2.0))
+            } else if (battle.format.battleType.pokemonPerSide == 2) { // Doubles
+                if (battle.actors.first() !== battle.actors.last()) {
+                    val offsetB = if(pnx[2] == 'a') vector.multiply(-1.0) else vector
+                    entityPos = entityPos?.add(baseOffset.multiply(0.33))?.add(offsetB.multiply(2.5))
                 }
-                entityPos = entityPos?.add(baseOffset.multiply(if(battle.isPvW) 0.4 else 0.3))?.add(vector.multiply(2.5))
-            }
-        } else if (battle.format.battleType.pokemonPerSide == 2) { // Doubles
-            if(battle.actors.first() !== battle.actors.last() && baseOffset != null) {
-                var vector = Vec3d(baseOffset.x, 0.0, baseOffset.z).normalize()
-                if (vector != null) {
-                    vector = vector.crossProduct(Vec3d(0.0, 1.0, 0.0))
-                }
-                val offsetB = if(pnx[2] == 'a') vector.multiply(-1.0) else vector
-                entityPos = entityPos?.add(baseOffset.multiply(0.33))?.add(offsetB.multiply(2.5))
-            }
-        } else if (battle.format.battleType.pokemonPerSide == 3) { // Triples
-            if (battle.actors.first() !== battle.actors.last() && baseOffset != null) {
-                var vector = Vec3d(baseOffset.x, 0.0, baseOffset.z).normalize()
-                if (vector != null) {
-                    vector = vector.crossProduct(Vec3d(0.0, 1.0, 0.0))
-                }
-                entityPos = when (pnx[2]) {
-                    'a' -> entityPos?.add(baseOffset.multiply(0.15))?.add(vector.multiply(-3.5))
-                    'b' -> entityPos?.add(baseOffset.multiply(0.3))
-                    'c' -> entityPos?.add(baseOffset.multiply(0.15))?.add(vector.multiply(3.5))
-                    else -> entityPos
+            } else if (battle.format.battleType.pokemonPerSide == 3) { // Triples
+                if (battle.actors.first() !== battle.actors.last()) {
+                    entityPos = when (pnx[2]) {
+                        'a' -> entityPos?.add(baseOffset.multiply(0.15))?.add(vector.multiply(-3.5))
+                        'b' -> entityPos?.add(baseOffset.multiply(0.3))
+                        'c' -> entityPos?.add(baseOffset.multiply(0.15))?.add(vector.multiply(3.5))
+                        else -> entityPos
+                    }
                 }
             }
         }
-
         return entityPos
     }
 
