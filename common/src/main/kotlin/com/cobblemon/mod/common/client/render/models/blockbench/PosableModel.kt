@@ -286,6 +286,41 @@ open class PosableModel(@Transient override val rootPart: Bone) : ModelFrame {
                 )
             )
         }
+        .addFunction("bedrock_primary_quirk") { params ->
+            val animationGroup = params.getString(0)
+            val animationNames = params.get<MoValue>(1)?.let { if (it is ArrayStruct) it.map.values.map { it.asString() } else listOf(it.asString()) } ?: listOf()
+            val minSeconds = params.getDoubleOrNull(2) ?: 8F
+            val maxSeconds = params.getDoubleOrNull(3) ?: 30F
+            val loopTimes = params.getDoubleOrNull(4)?.toInt() ?: 1
+            val excludedLabels = mutableSetOf<String>()
+            var curve: WaveFunction = { t ->
+                if (t < 0.1) {
+                    t * 10
+                } else if (t < 0.9) {
+                    1F
+                } else {
+                    1F
+                }
+            }
+            for (index in 5 until params.params.size) {
+                val param = params.get<MoValue>(index)
+                if (param is ObjectValue<*>) {
+                    curve = param.obj as WaveFunction
+                    continue
+                }
+
+                val label = params.getString(index) ?: continue
+                excludedLabels.add(label)
+            }
+            ObjectValue(
+                quirk(
+                    secondsBetweenOccurrences = minSeconds.toFloat() to maxSeconds.toFloat(),
+                    condition = { true },
+                    loopTimes = 1..loopTimes,
+                    animation = { PrimaryAnimation(bedrockStateful(animationGroup, animationNames.random()), excludedLabels = excludedLabels, curve = curve) }
+                )
+            )
+        }
 
     @Transient
     val runtime = MoLangRuntime().setup().setupClient().also { it.environment.query.addFunctions(functions.functions) }
@@ -764,18 +799,20 @@ open class PosableModel(@Transient override val rootPart: Bone) : ModelFrame {
     fun updateLocators(entity: Entity?, state: PosableState) {
         entity ?: return
         val matrixStack = MatrixStack()
+        var scale = 1F
         // We could improve this to be generalized for other entities
         if (entity is PokemonEntity) {
             matrixStack.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(180 - entity.bodyYaw))
             matrixStack.push()
             matrixStack.scale(-1F, -1F, 1F)
-            val scale = entity.pokemon.form.baseScale * entity.pokemon.scaleModifier * (entity.delegate as PokemonClientDelegate).entityScaleModifier
+            scale = entity.pokemon.form.baseScale * entity.pokemon.scaleModifier * (entity.delegate as PokemonClientDelegate).entityScaleModifier
             matrixStack.scale(scale, scale, scale)
         } else if (entity is EmptyPokeBallEntity) {
             matrixStack.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(entity.yaw))
             matrixStack.push()
             matrixStack.scale(1F, -1F, -1F)
-            matrixStack.scale(0.7F, 0.7F, 0.7F)
+            scale = 0.7F
+            matrixStack.scale(scale, scale, scale)
         } else if (entity is GenericBedrockEntity) {
             matrixStack.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(entity.yaw))
             matrixStack.push()
@@ -792,7 +829,7 @@ open class PosableModel(@Transient override val rootPart: Bone) : ModelFrame {
             matrixStack.translate(0.0, -1.5, 0.0)
         }
 
-        locatorAccess.update(matrixStack, state.locatorStates)
+        locatorAccess.update(matrixStack, entity, scale, state.locatorStates, isRoot = true)
     }
 
     fun ModelPart.translation(

@@ -121,7 +121,7 @@ class MoveInstruction(
             }
 
             runtime.environment.query.addFunction("move") { move.struct }
-            runtime.environment.getQueryStruct().addFunction("instruction_id") { StringValue(cobblemonResource("move").toString()) }
+            runtime.environment.query.addFunction("instruction_id") { StringValue(cobblemonResource("move").toString()) }
 
             this.future = actionEffect.run(context)
             holds = context.holds // Reference so future things can check on this action effect's holds
