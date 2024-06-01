@@ -38,7 +38,7 @@ class KangaskhanModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame 
             poseTypes = STATIONARY_POSES + UI_POSES,
             transformTicks = 10,
             quirks = arrayOf(blink, blink2),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("kangaskhan", "ground_idle")
             )
@@ -49,7 +49,7 @@ class KangaskhanModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame 
             poseTypes = MOVING_POSES,
             transformTicks = 10,
             quirks = arrayOf(blink, blink2),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("kangaskhan", "ground_idle")
                 //bedrock("kangaskhan", "ground_walk")

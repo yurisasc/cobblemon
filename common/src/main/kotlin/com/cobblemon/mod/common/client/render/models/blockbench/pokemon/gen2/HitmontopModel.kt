@@ -38,7 +38,7 @@ class HitmontopModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
         val blink = quirk { bedrockStateful("hitmontop", "blink") }
         sleep = registerPose(
             poseType = PoseType.SLEEP,
-            idleAnimations = arrayOf(bedrock("hitmontop", "sleep"))
+            animations = arrayOf(bedrock("hitmontop", "sleep"))
         )
 
         standing = registerPose(
@@ -47,7 +47,7 @@ class HitmontopModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
             transformTicks = 10,
             condition = { !it.isBattling },
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("hitmontop", "ground_idle")
             )
@@ -58,7 +58,7 @@ class HitmontopModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
             poseTypes = PoseType.MOVING_POSES,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("hitmontop", "ground_walk")
             )
@@ -70,7 +70,7 @@ class HitmontopModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
             transformTicks = 10,
             quirks = arrayOf(blink),
             condition = { it.isBattling },
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("hitmontop", "battle_idle")
             )

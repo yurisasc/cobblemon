@@ -53,7 +53,7 @@ class ArctozoltModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame 
                 poseType = PoseType.SLEEP,
                 condition = { !it.isTouchingWater },
                 transformTicks = 10,
-                idleAnimations = arrayOf(
+                animations = arrayOf(
                         bedrock("arctozolt", "sleep")
                 )
         )
@@ -63,7 +63,7 @@ class ArctozoltModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame 
                 poseType = PoseType.SLEEP,
                 condition = { !it.isSubmergedInWater && it.isTouchingWater},
                 transformTicks = 10,
-                idleAnimations = arrayOf(
+                animations = arrayOf(
                         bedrock("arctozolt", "surfacewater_sleep")
                 )
         )
@@ -73,7 +73,7 @@ class ArctozoltModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame 
                 poseType = PoseType.SLEEP,
                 condition = { it.isTouchingWater && it.isSubmergedInWater},
                 transformTicks = 10,
-                idleAnimations = arrayOf(
+                animations = arrayOf(
                         bedrock("arctozolt", "surfacewater_sleep")
                 ),
                 transformedParts = arrayOf(
@@ -87,7 +87,7 @@ class ArctozoltModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame 
             condition = { !it.isBattling && !it.isTouchingWater},
             transformTicks = 10,
             quirks = arrayOf(blink, quirk),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("arctozolt", "ground_idle")
             )
@@ -99,7 +99,7 @@ class ArctozoltModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame 
             condition = { !it.isTouchingWater },
             transformTicks = 10,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("arctozolt", "ground_walk")
             )
@@ -111,7 +111,7 @@ class ArctozoltModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame 
             condition = { it.isSubmergedInWater },
             transformTicks = 10,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("arctozolt", "water_idle")
             )
@@ -123,7 +123,7 @@ class ArctozoltModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame 
             condition = { it.isSubmergedInWater },
             transformTicks = 10,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("arctozolt", "water_swim")
             )
@@ -135,7 +135,7 @@ class ArctozoltModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame 
             condition = { !it.isSubmergedInWater && it.isTouchingWater },
             transformTicks = 10,
             quirks = arrayOf(blink, quirk),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("arctozolt", "surfacewater_idle")
             )
@@ -147,7 +147,7 @@ class ArctozoltModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame 
             condition = { !it.isSubmergedInWater && it.isTouchingWater },
             transformTicks = 10,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("arctozolt", "surfacewater_swim")
             )
@@ -159,7 +159,7 @@ class ArctozoltModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame 
             condition = { it.isBattling },
             transformTicks = 10,
             quirks = arrayOf(blink, quirk),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("arctozolt", "battle_idle")
             )

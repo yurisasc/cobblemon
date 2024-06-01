@@ -57,14 +57,14 @@ class CroconawModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame, 
             poseName = "sleeping",
             poseType = PoseType.SLEEP,
             condition = { !it.isTouchingWater },
-            idleAnimations = arrayOf(bedrock("croconaw", "sleep"))
+            animations = arrayOf(bedrock("croconaw", "sleep"))
         )
 
         watersleep = registerPose(
             poseName = "water_sleeping",
             poseType = PoseType.SLEEP,
             condition = { it.isTouchingWater },
-            idleAnimations = arrayOf(bedrock("croconaw", "water_sleep"))
+            animations = arrayOf(bedrock("croconaw", "water_sleep"))
         )
 
         standing = registerPose(
@@ -72,7 +72,7 @@ class CroconawModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame, 
             poseTypes = PoseType.UI_POSES + PoseType.STAND,
             condition = { !it.isBattling && !it.isTouchingWater && !it.isSubmergedInWater },
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("croconaw", "ground_idle")
             )
@@ -83,7 +83,7 @@ class CroconawModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame, 
             poseType = PoseType.WALK,
             condition = { !it.isTouchingWater && !it.isSubmergedInWater },
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("croconaw", "ground_walk")
             )
@@ -94,7 +94,7 @@ class CroconawModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame, 
             poseType = PoseType.FLOAT,
             condition = { it.isSubmergedInWater },
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("croconaw", "water_idle")
             )
@@ -106,7 +106,7 @@ class CroconawModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame, 
             condition = { it.isSubmergedInWater },
             poseType = PoseType.SWIM,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("croconaw", "water_swim"),
             )
@@ -118,7 +118,7 @@ class CroconawModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame, 
             transformTicks = 10,
             quirks = arrayOf(blink),
             condition = { it.isBattling && !it.isTouchingWater },
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("croconaw", "battle_idle")
             )
@@ -129,7 +129,7 @@ class CroconawModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame, 
             poseTypes = PoseType.STATIONARY_POSES,
             quirks = arrayOf(blink),
             condition = { !it.isSubmergedInWater && it.isTouchingWater },
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("croconaw", "surfacewater_idle"),
             ),
@@ -141,7 +141,7 @@ class CroconawModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame, 
             poseTypes = PoseType.MOVING_POSES,
             quirks = arrayOf(blink),
             condition = { !it.isSubmergedInWater && it.isTouchingWater },
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("croconaw", "surfacewater_swim"),
             ),

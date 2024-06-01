@@ -38,14 +38,14 @@ class VileplumeModel(root: ModelPart) : PokemonPosableModel(root) {
             poseTypes = STATIONARY_POSES + UI_POSES,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("vileplume", "idle")
             )
         )
 
         sleep = registerPose(
                 poseType = PoseType.SLEEP,
-                idleAnimations = arrayOf(bedrock("vileplume", "sleep"))
+                animations = arrayOf(bedrock("vileplume", "sleep"))
         )
 
         walk = registerPose(
@@ -53,7 +53,7 @@ class VileplumeModel(root: ModelPart) : PokemonPosableModel(root) {
             poseTypes = MOVING_POSES,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("vileplume", "ground_walk")
             )
         )

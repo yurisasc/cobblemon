@@ -8,11 +8,11 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen4
 
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.PosableState
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.QuadrupedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.Pose
 import com.cobblemon.mod.common.entity.PoseType
 import net.minecraft.client.model.ModelPart
@@ -42,7 +42,7 @@ class TorterraModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame, 
         val blink = quirk { bedrockStateful("torterra", "blink") }
         sleep = registerPose(
             poseType = PoseType.SLEEP,
-            idleAnimations = arrayOf(bedrock("torterra", "sleep"))
+            animations = arrayOf(bedrock("torterra", "sleep"))
         )
 
         standing = registerPose(
@@ -50,7 +50,7 @@ class TorterraModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame, 
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("torterra", "ground_idle")
             )
@@ -61,7 +61,7 @@ class TorterraModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame, 
             poseTypes = PoseType.MOVING_POSES,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("torterra", "ground_walk")
             )

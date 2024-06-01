@@ -21,9 +21,9 @@ import com.cobblemon.mod.common.client.ClientMoLangFunctions.setupClient
 import com.cobblemon.mod.common.client.entity.PokemonClientDelegate
 import com.cobblemon.mod.common.client.render.ModelLayer
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.*
+import com.cobblemon.mod.common.client.render.models.blockbench.bedrock.animation.BedrockActiveAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.bedrock.animation.BedrockAnimationRepository
-import com.cobblemon.mod.common.client.render.models.blockbench.bedrock.animation.BedrockStatefulAnimation
-import com.cobblemon.mod.common.client.render.models.blockbench.bedrock.animation.BedrockStatelessAnimation
+import com.cobblemon.mod.common.client.render.models.blockbench.bedrock.animation.BedrockPoseAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.ModelFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.Bone
@@ -58,9 +58,15 @@ import net.minecraft.util.math.RotationAxis
 import net.minecraft.util.math.Vec3d
 
 /**
- * A model that can be posed and animated using [StatelessAnimation]s and [StatefulAnimation]s. This
+ * A model that can be posed and animated using [PoseAnimation]s and [ActiveAnimation]s. This
  * requires poses to be registered and should implement any [ModelFrame] interfaces that apply to this
- * model. Implementing the render functions is possible but not necessary.
+ * model. This contains vast quantities of information about quirks, named animation references, locators,
+ * portrait and profile translation and scaling, and default part positions.
+ *
+ * This is a singleton for a specific model. For example, an NPC with an unusually large head would be one
+ * instance of this even if 100 NPCs are spawned with that model.
+ *
+ * Instantiations of a PosableModel can be the result of explicit coded subclasses or from JSON files.
  *
  * @author Hiroku
  * @since December 5th, 2021
@@ -75,6 +81,7 @@ open class PosableModel(@Transient override val rootPart: Bone) : ModelFrame {
 
     var poses = mutableMapOf<String, Pose>()
 
+    /** A way to view the definition of all the different locators that are registered for the model. */
     @Transient
     lateinit var locatorAccess: LocatorAccess
 
@@ -89,11 +96,28 @@ open class PosableModel(@Transient override val rootPart: Bone) : ModelFrame {
     var blue = 1F
     var alpha = 1F
 
+    /** Named animations that can be referenced in generic named ways. This is different from the [PosableState] that stores the active animations. */
     val animations = mutableMapOf<String, ExpressionLike>()
+    /** The definition of quirks that are possible for the model. This is different from the [PosableState] that stores the active quirk animations. */
     val quirks = mutableListOf<ModelQuirk<*>>()
-    open fun getFaintAnimation(state: PosableState): StatefulAnimation? = null
-    open fun getEatAnimation(state: PosableState): StatefulAnimation? = null
+    /**
+     * A list of [ModelPartTransformation] that record the original joint positions, rotations, and scales of the model.
+     * This allows the original state to be reset between renders.
+     */
+    @Transient
+    val defaultPositions = mutableListOf<ModelPartTransformation>()
+    /**
+     * The named model parts that we expect will get modified. These are tracked so that they can be reset to their
+     * original positions at the end of each render (reset using [setDefault]).
+     */
+    @Transient
+    val relevantPartsByName = mutableMapOf<String, ModelPart>()
 
+    /** Legacy faint code. */
+    open fun getFaintAnimation(state: PosableState): ActiveAnimation? = null
+    /** Legacy eating code. */
+    open fun getEatAnimation(state: PosableState): ActiveAnimation? = null
+    /** Legacy cry code. */
     @Transient
     open val cryAnimation: CryProvider = CryProvider { null }
 
@@ -105,18 +129,6 @@ open class PosableModel(@Transient override val rootPart: Bone) : ModelFrame {
 
     @Transient
     var currentState: PosableState? = null
-
-    /**
-     * A list of [ModelPartTransformation] that record the original
-     * This allows the original rotations to be reset.
-     */
-    @Transient
-    val defaultPositions = mutableListOf<ModelPartTransformation>()
-
-    @Transient
-    val relevantParts = mutableListOf<ModelPart>()
-    @Transient
-    val relevantPartsByName = mutableMapOf<String, ModelPart>()
 
     @Transient
     val functions = QueryStruct(hashMapOf())
@@ -328,19 +340,27 @@ open class PosableModel(@Transient override val rootPart: Bone) : ModelFrame {
     /** Registers the different poses this model is capable of ahead of time. Should use [registerPose] religiously. */
     open fun registerPoses() {}
 
-    fun getAnimation(state: PosableState, name: String, runtime: MoLangRuntime): StatefulAnimation? {
-        val poseAnimations = state.currentPose?.let(this::getPose)?.animations ?: mapOf()
+    /**
+     * Generates an active animation by name. This can be legacy-backed cry or faint animations, a prepared builder
+     * for an animation in the [animations] mapping, a product of MoLang in the name parameter, or a highly specific
+     * format used in [extractAnimation].
+     *
+     * First priority is given to any named animations inside of [Pose], and then to the [animations] mapping, before
+     * resorting to legacy, MoLang resolution, and finally the [extractAnimation] hail-Mary.
+     */
+    fun getAnimation(state: PosableState, name: String, runtime: MoLangRuntime): ActiveAnimation? {
+        val poseAnimations = state.currentPose?.let(poses::get)?.namedAnimations ?: mapOf()
         val animation = resolveFromAnimationMap(poseAnimations, name, runtime)
             ?: resolveFromAnimationMap(animations, name, runtime)
-            ?: if (name == "cry") {
-                cryAnimation.invoke(state)
-            } else if (name == "faint") {
-                getFaintAnimation(state)
-            } else {
-                try {
-                    name.asExpressionLike().resolveObject(runtime).obj as StatefulAnimation
-                } catch (exception: Exception) {
-                    extractAnimation(name)
+            ?: when (name) {
+                "cry" -> cryAnimation.invoke(state)
+                "faint" -> getFaintAnimation(state)
+                else -> {
+                    try {
+                        name.asExpressionLike().resolveObject(runtime).obj as ActiveAnimation
+                    } catch (exception: Exception) {
+                        extractAnimation(name)
+                    }
                 }
             }
         return animation
@@ -351,16 +371,16 @@ open class PosableModel(@Transient override val rootPart: Bone) : ModelFrame {
      * e.g. "particle_dummy:animation.particle_dummy.dragon_claw_target:primary"
      * e.g. "particle_dummy:animation.particle.dummy.stat_up
      */
-    fun extractAnimation(string: String): StatefulAnimation? {
+    fun extractAnimation(string: String): ActiveAnimation? {
         val group = string.substringBefore(":")
         val animationName = string.substringAfter(":").substringBefore(":")
         val isPrimary = string.endsWith(":primary")
         if (animationName.isNotBlank() && animationName != string) {
             val animation = BedrockAnimationRepository.tryGetAnimation(group, animationName) ?: return null
             return if (isPrimary) {
-                PrimaryAnimation(BedrockStatefulAnimation(animation))
+                PrimaryAnimation(BedrockActiveAnimation(animation))
             } else {
-                BedrockStatefulAnimation(animation)
+                BedrockActiveAnimation(animation)
             }
         } else {
             return null
@@ -371,10 +391,10 @@ open class PosableModel(@Transient override val rootPart: Bone) : ModelFrame {
         map: Map<String, ExpressionLike>,
         name: String,
         runtime: MoLangRuntime
-    ): StatefulAnimation? {
+    ): ActiveAnimation? {
         val animationExpression = map[name] ?: return null
         return try {
-            animationExpression.resolveObject(runtime).obj as StatefulAnimation
+            animationExpression.resolveObject(runtime).obj as ActiveAnimation
         } catch (e: Exception) {
             Cobblemon.LOGGER.error("Failed to create animation by name $name, most likely something wrong in the MoLang")
             e.printStackTrace()
@@ -410,16 +430,16 @@ open class PosableModel(@Transient override val rootPart: Bone) : ModelFrame {
      *
      * @param poseType The type of pose it is, as a [PoseType]
      * @param condition The condition for this pose to apply
-     * @param idleAnimations The stateless animations to use as idles unless a [StatefulAnimation] prevents it.
+     * @param animations The pose animations to use as idles unless a [ActiveAnimation] prevents it.
      * @param transformedParts All the transformed forms of parts of the body that define this pose.
      */
     fun registerPose(
         poseType: PoseType,
         condition: ((PosableState) -> Boolean)? = null,
         transformTicks: Int = 10,
-        animations: MutableMap<String, ExpressionLike> = mutableMapOf(),
+        namedAnimations: MutableMap<String, ExpressionLike> = mutableMapOf(),
         onTransitionedInto: (PosableState) -> Unit = {},
-        idleAnimations: Array<StatelessAnimation> = emptyArray(),
+        animations: Array<PoseAnimation> = emptyArray(),
         transformedParts: Array<ModelPartTransformation> = emptyArray(),
         quirks: Array<ModelQuirk<*>> = emptyArray()
     ): Pose {
@@ -429,8 +449,8 @@ open class PosableModel(@Transient override val rootPart: Bone) : ModelFrame {
             condition,
             onTransitionedInto,
             transformTicks,
+            namedAnimations,
             animations,
-            idleAnimations,
             transformedParts,
             quirks
         ).also {
@@ -443,9 +463,9 @@ open class PosableModel(@Transient override val rootPart: Bone) : ModelFrame {
         poseTypes: Set<PoseType>,
         condition: ((PosableState) -> Boolean)? = null,
         transformTicks: Int = 10,
-        animations: MutableMap<String, ExpressionLike> = mutableMapOf(),
+        namedAnimations: MutableMap<String, ExpressionLike> = mutableMapOf(),
         onTransitionedInto: (PosableState) -> Unit = {},
-        idleAnimations: Array<StatelessAnimation> = emptyArray(),
+        animations: Array<PoseAnimation> = emptyArray(),
         transformedParts: Array<ModelPartTransformation> = emptyArray(),
         quirks: Array<ModelQuirk<*>> = emptyArray()
     ): Pose {
@@ -455,8 +475,8 @@ open class PosableModel(@Transient override val rootPart: Bone) : ModelFrame {
             condition,
             onTransitionedInto,
             transformTicks,
+            namedAnimations,
             animations,
-            idleAnimations,
             transformedParts,
             quirks
         ).also {
@@ -469,9 +489,9 @@ open class PosableModel(@Transient override val rootPart: Bone) : ModelFrame {
         poseType: PoseType,
         condition: ((PosableState) -> Boolean)? = null,
         transformTicks: Int = 10,
-        animations: MutableMap<String, ExpressionLike> = mutableMapOf(),
+        namedAnimations: MutableMap<String, ExpressionLike> = mutableMapOf(),
         onTransitionedInto: (PosableState) -> Unit = {},
-        idleAnimations: Array<StatelessAnimation> = emptyArray(),
+        animations: Array<PoseAnimation> = emptyArray(),
         transformedParts: Array<ModelPartTransformation> = emptyArray(),
         quirks: Array<ModelQuirk<*>> = emptyArray()
     ): Pose {
@@ -481,8 +501,8 @@ open class PosableModel(@Transient override val rootPart: Bone) : ModelFrame {
             condition,
             onTransitionedInto,
             transformTicks,
+            namedAnimations,
             animations,
-            idleAnimations,
             transformedParts,
             quirks
         ).also {
@@ -493,20 +513,20 @@ open class PosableModel(@Transient override val rootPart: Bone) : ModelFrame {
     /** Registers the same configuration for both left and right shoulder poses. */
     fun registerShoulderPoses(
         transformTicks: Int = 30,
-        idleAnimations: Array<StatelessAnimation>,
+        animations: Array<PoseAnimation>,
         transformedParts: Array<ModelPartTransformation> = emptyArray()
     ) {
         registerPose(
             poseType = PoseType.SHOULDER_LEFT,
             transformTicks = transformTicks,
-            idleAnimations = idleAnimations,
+            animations = animations,
             transformedParts = transformedParts
         )
 
         registerPose(
             poseType = PoseType.SHOULDER_RIGHT,
             transformTicks = transformTicks,
-            idleAnimations = idleAnimations,
+            animations = animations,
             transformedParts = transformedParts
         )
     }
@@ -518,30 +538,12 @@ open class PosableModel(@Transient override val rootPart: Bone) : ModelFrame {
         return child
     }
 
-    fun ModelPart.registerChildWithSpecificChildren(name: String, nameList: Iterable<String>): ModelPart {
-        val child = getChild(name)
-        registerRelevantPart(name to child)
-        loadSpecificNamedChildren(child, nameList)
-        return child
-    }
-
+    /** Builds the [locatorAccess] based on the given root part. */
     fun initializeLocatorAccess() {
         locatorAccess = LocatorAccess.resolve(rootPart) ?: LocatorAccess(rootPart)
     }
 
     fun getPart(name: String) = relevantPartsByName[name]!!
-
-    private fun loadSpecificNamedChildren(modelPart: ModelPart, nameList: Iterable<String>) {
-        for ((name, child) in modelPart.children.entries) {
-            if (name in nameList) {
-                val default = ModelPartTransformation.derive(child)
-                relevantParts.add(child)
-                relevantPartsByName[name] = child
-                defaultPositions.add(default)
-                loadAllNamedChildren(child)
-            }
-        }
-    }
 
     fun loadAllNamedChildren(bone: Bone) {
         if (bone is ModelPart) loadAllNamedChildren(bone)
@@ -550,7 +552,6 @@ open class PosableModel(@Transient override val rootPart: Bone) : ModelFrame {
     fun loadAllNamedChildren(modelPart: ModelPart) {
         for ((name, child) in modelPart.children.entries) {
             val default = ModelPartTransformation.derive(child)
-            relevantParts.add(child)
             relevantPartsByName[name] = child
             defaultPositions.add(default)
             loadAllNamedChildren(child)
@@ -559,7 +560,6 @@ open class PosableModel(@Transient override val rootPart: Bone) : ModelFrame {
 
     fun registerRelevantPart(name: String, part: ModelPart): ModelPart {
         val default = ModelPartTransformation.derive(part)
-        relevantParts.add(part)
         relevantPartsByName[name] = part
         defaultPositions.add(default)
         return part
@@ -567,6 +567,7 @@ open class PosableModel(@Transient override val rootPart: Bone) : ModelFrame {
 
     fun registerRelevantPart(pairing: Pair<String, ModelPart>) = registerRelevantPart(pairing.first, pairing.second)
 
+    /** Renders the model. Assumes rotations have been set. Will simply render the base model and then any extra layers. */
     fun render(
         context: RenderContext,
         stack: MatrixStack,
@@ -613,6 +614,7 @@ open class PosableModel(@Transient override val rootPart: Bone) : ModelFrame {
         }
     }
 
+    /** Generates a [RenderLayer] by the power of god and anime. Only possible thanks to 100 access wideners. */
     fun makeLayer(texture: Identifier, emissive: Boolean, translucent: Boolean): RenderLayer {
         val multiPhaseParameters: RenderLayer.MultiPhaseParameters = RenderLayer.MultiPhaseParameters.builder()
             .program(
@@ -641,6 +643,7 @@ open class PosableModel(@Transient override val rootPart: Bone) : ModelFrame {
         )
     }
 
+    /** Makes a [RenderLayer] in a jank way. Mostly works so that's cool. */
     fun getLayer(texture: Identifier, emissive: Boolean, translucent: Boolean): RenderLayer {
         return if (!emissive && !translucent) {
             RenderLayer.getEntityCutout(texture)
@@ -652,42 +655,61 @@ open class PosableModel(@Transient override val rootPart: Bone) : ModelFrame {
     }
 
 
-    /** Applies the given pose type to the model, if there is a matching pose. */
-    fun applyPose(state: PosableState, pose: String, intensity: Float) = getPose(pose)?.transformedParts?.forEach { it.apply(state, intensity) }
+    /** Applies the given pose's [ModelPartTransformation]s to the model, if there is a matching pose. */
+    fun applyPose(state: PosableState, pose: Pose, intensity: Float) = pose.transformedParts.forEach { it.apply(state, intensity) }
+    /** Gets the first pose of this model that matches the given [PoseType]. */
     fun getPose(pose: PoseType) = poses.values.firstOrNull { pose in it.poseTypes }
     fun getPose(name: String) = poses[name]
 
     /** Puts the model back to its original location and rotations. */
     fun setDefault() = defaultPositions.forEach { it.set() }
 
+    /**
+     * Finds the first of the model's poses that the given state and optional [PoseType] is appropriate for.
+     * If none exists, return the first pose. Only possible with bad configuration, though.
+     */
     fun getFirstSuitablePose(state: PosableState, poseType: PoseType?): Pose {
         return poses.values.firstOrNull { (poseType == null || poseType in it.poseTypes) && it.isSuitable(state) } ?: poses.values.first()
     }
 
-    fun validatePose(entity: PosableEntity?, state: PosableState): String {
-        var poseName = state.getPose()
-        var pose = poseName?.let { getPose(it) }
+    /**
+     * Validates that the current pose is valid for the state and model. If it isn't, it will attempt
+     * to find the most desirable pose and begin transitioning to it.
+     *
+     * @return the current pose that should be applied during rendering.
+     */
+    fun validatePose(entity: PosableEntity?, state: PosableState): Pose {
+        val poseName = state.currentPose
+        val currentPose = poseName?.let(poses::get)
         val entityPoseType = if (entity is PosableEntity) entity.getCurrentPoseType() else null
 
-        if (entity != null && (poseName == null || pose == null || !pose.isSuitable(state) || entityPoseType !in pose.poseTypes)) {
+        // Is there any reason why we should actually change the pose?
+        if (entity != null && (poseName == null || currentPose == null || !currentPose.isSuitable(state) || entityPoseType !in currentPose.poseTypes)) {
             val desirablePose = getFirstSuitablePose(state, entityPoseType)
-            // If this condition matches then it just no longer fits this pose
-            if (pose != null && poseName != null) {
+            // If this if succeeds then it just no longer fits this pose
+            if (currentPose != null) {
+                // Don't apply pose correction until the current primary animation is complete.
                 if (state.primaryAnimation == null) {
-                    moveToPose(state, desirablePose)
+                   moveToPose(state, desirablePose)
+                    return desirablePose
                 }
             } else {
-                poseName = desirablePose.poseName
-                state.setPose(poseName)
+                state.setPose(desirablePose.poseName)
+                return desirablePose
             }
-        } else {
-            poseName = poseName ?: poses.values.firstOrNull()?.poseName ?: run {
-                throw IllegalStateException("Pokemon has no poses: ${this::class.simpleName}")
+        } else if (currentPose == null) {
+            return poses.values.firstOrNull() ?: run {
+                throw IllegalStateException("Model has no poses: ${this::class.simpleName}")
             }
         }
-        return poseName
+
+        return currentPose
     }
 
+    /**
+     * Applies animations to the current model. This is the main entry point for rendering the model. There is a lot
+     * of logic here.
+     */
     fun applyAnimations(
         entity: Entity?,
         state: PosableState,
@@ -700,26 +722,35 @@ open class PosableModel(@Transient override val rootPart: Bone) : ModelFrame {
         context.put(RenderContext.ENTITY, entity)
         setupEntityTypeContext(entity)
         state.currentModel = this
+        // Resets the model's joints back to their default positions.
         setDefault()
+        // Applies any of the state's queued actions.
         state.preRender()
+        // Updates locator positions just so they actually exist in case a particle effect is about to play. Hard to explain this.
         updateLocators(entity, state)
-        val poseName = validatePose(entity as? PosableEntity, state)
-        val currentPose = getPose(poseName)
-        applyPose(state, poseName, 1F)
+        // Performs a check that the current pose is correct and returns back which pose we should be applying. Even if
+        // a change of pose is necessary, if it's going to gradually transition there then we're still going to keep
+        // applying our current pose until that process is done.
+        val pose = validatePose(entity as? PosableEntity, state)
+        // Applies the pose's transformations to the model. This is not the animations.
+        applyPose(state, pose, 1F)
 
         val primaryAnimation = state.primaryAnimation
 
-        if (currentPose != null && primaryAnimation == null) {
+        // Quirks will run if there is no primary animation running and quirks are enabled for this context.
+        if (primaryAnimation == null && context.request(RenderContext.DO_QUIRKS) != false) {
             // Remove any quirk animations that don't exist in our current pose
-            state.quirks.keys.filterNot(currentPose.quirks::contains).forEach(state.quirks::remove)
+            state.quirks.keys.filterNot(pose.quirks::contains).forEach(state.quirks::remove)
             // Tick all the quirks
-            currentPose.quirks.forEach {
-                it.tick(context, this, state, limbSwing, limbSwingAmount, ageInTicks, headYaw, headPitch, 1F)
+            pose.quirks.forEach {
+                it.apply(context, this, state, limbSwing, limbSwingAmount, ageInTicks, headYaw, headPitch, 1F)
             }
         }
 
         if (primaryAnimation != null) {
-            state.primaryOverridePortion = 1 - primaryAnimation.curve((state.animationSeconds - primaryAnimation.started) / primaryAnimation.duration)
+            // The pose intensity is the complement of the primary animation's curve. This is used to blend the primary.
+            state.poseIntensity = 1 - primaryAnimation.curve((state.animationSeconds - primaryAnimation.started) / primaryAnimation.duration)
+            // If the primary animation is done after running we're going to clean things up.
             if (!primaryAnimation.run(
                     context,
                     this,
@@ -729,37 +760,49 @@ open class PosableModel(@Transient override val rootPart: Bone) : ModelFrame {
                     ageInTicks,
                     headYaw,
                     headPitch,
-                    1 - state.primaryOverridePortion
+                    1 - state.poseIntensity
                 )
             ) {
                 primaryAnimation.afterAction.accept(Unit)
                 state.primaryAnimation = null
-                state.primaryOverridePortion = 1F
+                state.poseIntensity = 1F
             }
         }
 
-        val removedStatefuls = state.statefulAnimations.toList()
+        // Run active animations and return back any that are done and can be removed.
+        val removedActiveAnimations = state.activeAnimations.toList()
             .filterNot { it.run(context, this, state, limbSwing, limbSwingAmount, ageInTicks, headYaw, headPitch, 1F) }
-        state.statefulAnimations.removeAll(removedStatefuls)
-        state.currentPose?.let { getPose(it) }
-            ?.idleStateful(context, this, state, limbSwing, limbSwingAmount, ageInTicks, headYaw, headPitch)
+        state.activeAnimations.removeAll(removedActiveAnimations)
+        // Applies the pose's animations.
+        state.currentPose?.let(poses::get)
+            ?.apply(context, this, state, limbSwing, limbSwingAmount, ageInTicks, headYaw, headPitch)
+        // Updates the locator positions now that all the animations are in effect. This is the last thing we do!
         updateLocators(entity, state)
     }
 
     //This is used to set additional entity type specific context
     open fun setupEntityTypeContext(entity: Entity?) {}
 
-    fun moveToPose(state: PosableState, desirablePose: Pose) {
-        val previousPose = state.getPose()?.let { getPose(it) } ?: run {
-            return state.setPose(desirablePose.poseName)
+    /**
+     * Attempts to move the given [state] to the [desirablePose], using transitions if possible. The logic for this
+     * can be a bit confusing. Returns what the current pose is, just in case it has instantly changed.
+     */
+    fun moveToPose(state: PosableState, desirablePose: Pose): String {
+        // If we're currently in a pose that doesn't exist on this model, then shit, don't even try doing anything fancy.
+        val previousPose = state.currentPose?.let(poses::get) ?: run {
+            state.setPose(desirablePose.poseName)
+            return desirablePose.poseName
         }
 
         val desirablePoseType = desirablePose.poseTypes.first()
 
-        if (state.statefulAnimations.none { it.isTransform }) {
+        // If we're already running a transition animation then leave it be.
+        if (state.activeAnimations.none { it.isTransition }) {
+            // Check for a dedicated transition animation.
             val transition = previousPose.transitions[desirablePose.poseName]
-            if (transition == null && previousPose.transformTicks > 0) {
-                val primaryAnimation = PrimaryAnimation(
+            val animation = if (transition == null && previousPose.transformTicks > 0) {
+                // If no dedicated transition exists then use a simple interpolator.
+                PrimaryAnimation(
                     PoseTransitionAnimation(
                         beforePose = previousPose,
                         afterPose = desirablePose,
@@ -767,29 +810,32 @@ open class PosableModel(@Transient override val rootPart: Bone) : ModelFrame {
                     ),
                     curve = { 1F }
                 )
-                state.addPrimaryAnimation(primaryAnimation)
-                primaryAnimation.afterAction += {
-                    state.setPose(desirablePose.poseName)
-                    if (state.primaryAnimation == primaryAnimation) {
-                        state.primaryAnimation = null
-                    }
-                }
             } else if (transition != null) {
-                var animation = transition(previousPose, desirablePose)
-                if (animation !is PrimaryAnimation) {
-                    animation = PrimaryAnimation(animation, curve = { 1F })
+                // If we have a dedicated transition, run with that. If it isn't already a PrimaryAnimation then make it one.
+                var transitionAnimation = transition(previousPose, desirablePose)
+                if (transitionAnimation !is PrimaryAnimation) {
+                    transitionAnimation = PrimaryAnimation(transitionAnimation, curve = { 1F })
                 }
-                animation.isTransform = true
-                state.addPrimaryAnimation(animation)
-                animation.afterAction += {
-                    state.setPose(desirablePose.poseName)
-                }
+                transitionAnimation.isTransition = true
+                transitionAnimation
             } else {
                 state.setPose(poses.values.first {
                     desirablePoseType in it.poseTypes && (it.condition == null || it.condition.invoke(state))
                 }.poseName)
+                return previousPose.poseName
+            }
+
+            // Set the primary animation to the transition. After the animation completes, directly set the pose since
+            // we're done. The afterAction can occur from render or from tick while off-screen, either will do.
+            state.addPrimaryAnimation(animation)
+            animation.afterAction += {
+                state.setPose(desirablePose.poseName)
+                if (state.primaryAnimation == animation) {
+                    state.primaryAnimation = null
+                }
             }
         }
+        return previousPose.poseName
     }
 
     /**
@@ -800,7 +846,7 @@ open class PosableModel(@Transient override val rootPart: Bone) : ModelFrame {
         entity ?: return
         val matrixStack = MatrixStack()
         var scale = 1F
-        // We could improve this to be generalized for other entities
+        // We could improve this to be generalized for other entities. First we'd have to figure out wtf is going on, though.
         if (entity is PokemonEntity) {
             matrixStack.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(180 - entity.bodyYaw))
             matrixStack.push()
@@ -836,7 +882,7 @@ open class PosableModel(@Transient override val rootPart: Bone) : ModelFrame {
         function: WaveFunction,
         axis: Int,
         timeVariable: (state: PosableState, limbSwing: Float, ageInTicks: Float) -> Float?
-    ) = TranslationFunctionStatelessAnimation(
+    ) = TranslationFunctionPoseAnimation(
         part = this,
         function = function,
         axis = axis,
@@ -847,7 +893,7 @@ open class PosableModel(@Transient override val rootPart: Bone) : ModelFrame {
         function: WaveFunction,
         axis: Int,
         timeVariable: (state: PosableState, limbSwing: Float, ageInTicks: Float) -> Float?
-    ) = RotationFunctionStatelessAnimation(
+    ) = RotationFunctionPoseAnimation(
         part = this,
         function = function,
         axis = axis,
@@ -858,7 +904,7 @@ open class PosableModel(@Transient override val rootPart: Bone) : ModelFrame {
         animationGroup: String,
         animation: String,
         animationPrefix: String = "animation.$animationGroup"
-    ) = BedrockStatelessAnimation(
+    ) = BedrockPoseAnimation(
         BedrockAnimationRepository.getAnimation(animationGroup, "$animationPrefix.$animation")
     )
 
@@ -866,13 +912,13 @@ open class PosableModel(@Transient override val rootPart: Bone) : ModelFrame {
         animationGroup: String,
         animation: String,
         animationPrefix: String = "animation.$animationGroup"
-    ) = BedrockStatefulAnimation(BedrockAnimationRepository.getAnimation(animationGroup, "$animationPrefix.$animation"))
+    ) = BedrockActiveAnimation(BedrockAnimationRepository.getAnimation(animationGroup, "$animationPrefix.$animation"))
 
     fun quirk(
         secondsBetweenOccurrences: Pair<Float, Float> = 8F to 30F,
         loopTimes: IntRange = 1..1,
         condition: (state: PosableState) -> Boolean = { true },
-        animation: (state: PosableState) -> StatefulAnimation
+        animation: (state: PosableState) -> ActiveAnimation
     ) = SimpleQuirk(
         secondsBetweenOccurrences = secondsBetweenOccurrences,
         loopTimes = loopTimes,
@@ -884,7 +930,7 @@ open class PosableModel(@Transient override val rootPart: Bone) : ModelFrame {
         secondsBetweenOccurrences: Pair<Float, Float> = 8F to 30F,
         loopTimes: IntRange = 1..1,
         condition: (state: PosableState) -> Boolean = { true },
-        animations: (state: PosableState) -> List<StatefulAnimation>
+        animations: (state: PosableState) -> List<ActiveAnimation>
     ) = SimpleQuirk(
         secondsBetweenOccurrences = secondsBetweenOccurrences,
         loopTimes = loopTimes,

@@ -42,14 +42,14 @@ class ArrokudaModel (root: ModelPart) : PokemonPosableModel(root) {
             poseName = "sleeping",
             poseType = PoseType.SLEEP,
             condition = { !it.isTouchingWater },
-            idleAnimations = arrayOf(bedrock("arrokuda", "sleep"))
+            animations = arrayOf(bedrock("arrokuda", "sleep"))
         )
 
         watersleep = registerPose(
             poseName = "water_sleeping",
             poseType = PoseType.SLEEP,
             condition = { it.isTouchingWater },
-            idleAnimations = arrayOf(bedrock("arrokuda", "water_sleep"))
+            animations = arrayOf(bedrock("arrokuda", "water_sleep"))
         )
 
         standing = registerPose(
@@ -58,7 +58,7 @@ class ArrokudaModel (root: ModelPart) : PokemonPosableModel(root) {
             transformTicks = 10,
             condition = { !it.isBattling },
             quirks = arrayOf(blink, flop),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("arrokuda", "ground_idle")
             )
         )
@@ -68,7 +68,7 @@ class ArrokudaModel (root: ModelPart) : PokemonPosableModel(root) {
             transformTicks = 10,
             poseType = PoseType.WALK,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("arrokuda", "ground_walk")
             )
         )
@@ -77,7 +77,7 @@ class ArrokudaModel (root: ModelPart) : PokemonPosableModel(root) {
             poseName = "floating",
             transformTicks = 10,
             poseType = PoseType.FLOAT,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("arrokuda", "water_idle")
             )
         )
@@ -86,7 +86,7 @@ class ArrokudaModel (root: ModelPart) : PokemonPosableModel(root) {
             poseName = "swimming",
             transformTicks = 10,
             poseType = PoseType.SWIM,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("arrokuda", "water_swim"),
             )
         )
@@ -97,7 +97,7 @@ class ArrokudaModel (root: ModelPart) : PokemonPosableModel(root) {
             transformTicks = 10,
             quirks = arrayOf(blink, flop),
             condition = { it.isBattling && !it.isTouchingWater },
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("arrokuda", "battle_idle")
             )
         )
@@ -108,7 +108,7 @@ class ArrokudaModel (root: ModelPart) : PokemonPosableModel(root) {
             transformTicks = 10,
             quirks = arrayOf(blink),
             condition = { it.isBattling && it.isTouchingWater },
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("arrokuda", "water_battle_idle")
             )
         )

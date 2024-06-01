@@ -8,12 +8,12 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen5
 
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.WingFlapIdleAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.createTransformation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BiWingedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.CobblemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.ModelPartTransformation
 import com.cobblemon.mod.common.client.render.models.blockbench.wavefunction.sineFunction
@@ -45,7 +45,7 @@ class SwoobatModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame, B
         standing = registerPose(
             poseName = "standing",
             poseTypes = PoseType.STATIONARY_POSES - PoseType.HOVER + PoseType.UI_POSES,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("swoobat", "ground_idle"),
             )
@@ -54,7 +54,7 @@ class SwoobatModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame, B
         hovering = registerPose(
             poseName = "hovering",
             poseType = PoseType.HOVER,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("swoobat", "air_idle"),
                 WingFlapIdleAnimation(this,
@@ -71,7 +71,7 @@ class SwoobatModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame, B
         walk = registerPose(
             poseName = "walk",
             poseTypes = PoseType.MOVING_POSES,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("swoobat", "air_fly"),
                 WingFlapIdleAnimation(this,

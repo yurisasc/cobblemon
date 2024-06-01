@@ -48,7 +48,7 @@ class PersianModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Qu
             poseName = "standing",
             poseTypes = STATIONARY_POSES + UI_POSES,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("persian", "ground_idle")
             )
@@ -56,14 +56,14 @@ class PersianModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Qu
 
         sleep = registerPose(
                 poseType = PoseType.SLEEP,
-                idleAnimations = arrayOf(bedrock("persian", "sleep"))
+                animations = arrayOf(bedrock("persian", "sleep"))
         )
 
         walk = registerPose(
             poseName = "walk",
             poseTypes = MOVING_POSES,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 QuadrupedWalkAnimation(this, periodMultiplier = 0.5F, amplitudeMultiplier = 1.1F),
                 singleBoneLook(),
                 bedrock("persian", "ground_idle")

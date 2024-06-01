@@ -8,11 +8,11 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen5
 
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.PosableState
 import com.cobblemon.mod.common.client.render.models.blockbench.createTransformation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.CobblemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.ModelPartTransformation
 import com.cobblemon.mod.common.entity.PoseType
@@ -46,7 +46,7 @@ class RoggenrolaModel (root: ModelPart) : PokemonPosableModel(root), BipedFrame 
         val twitch = quirk(secondsBetweenOccurrences = 60F to 120F) { bedrockStateful("roggenrola", "quirk_twitch") }
         sleep = registerPose(
             poseType = PoseType.SLEEP,
-            idleAnimations = arrayOf(bedrock("roggenrola", "sleep"))
+            animations = arrayOf(bedrock("roggenrola", "sleep"))
         )
 
         standing = registerPose(
@@ -55,7 +55,7 @@ class RoggenrolaModel (root: ModelPart) : PokemonPosableModel(root), BipedFrame 
             transformTicks = 10,
             quirks = arrayOf(twitch),
             condition = { !it.isBattling },
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("roggenrola", "ground_idle")
             )
         )
@@ -65,7 +65,7 @@ class RoggenrolaModel (root: ModelPart) : PokemonPosableModel(root), BipedFrame 
             poseTypes = PoseType.MOVING_POSES,
             transformTicks = 10,
             quirks = arrayOf(twitch),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("roggenrola", "ground_walk")
             )
         )
@@ -76,14 +76,14 @@ class RoggenrolaModel (root: ModelPart) : PokemonPosableModel(root), BipedFrame 
             transformTicks = 10,
             quirks = arrayOf(twitch),
             condition = { it.isBattling },
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("roggenrola", "battle_idle")
             )
         )
 
         shoulderLeft = registerPose(
             poseType = PoseType.SHOULDER_LEFT,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("roggenrola", "shoulder_left")
             ),
             transformedParts = arrayOf(
@@ -93,7 +93,7 @@ class RoggenrolaModel (root: ModelPart) : PokemonPosableModel(root), BipedFrame 
 
         shoulderRight = registerPose(
             poseType = PoseType.SHOULDER_RIGHT,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("roggenrola", "shoulder_right")
             ),
             transformedParts = arrayOf(

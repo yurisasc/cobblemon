@@ -51,7 +51,7 @@ class DrizzileModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame, 
                 tongue.createTransformation().withVisibility(visibility = false),
                 bomb.createTransformation().withVisibility(visibility = false),
             ),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("drizzile", "ground_idle")
             )
@@ -65,7 +65,7 @@ class DrizzileModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame, 
                 tongue.createTransformation().withVisibility(visibility = false),
                 bomb.createTransformation().withVisibility(visibility = false),
             ),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("drizzile", "ground_walk")
             )

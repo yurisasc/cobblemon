@@ -49,7 +49,7 @@ class KrabbyModel(root: ModelPart) : PokemonPosableModel(root) {
             poseTypes = STATIONARY_POSES + UI_POSES,
             condition = { !it.isBattling && it.getEntity()?.isDusk() != true },
             quirks = arrayOf(blink, snipLeft, snipRight ),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("krabby", "ground_idle")
             )
         )
@@ -59,7 +59,7 @@ class KrabbyModel(root: ModelPart) : PokemonPosableModel(root) {
             poseTypes = STATIONARY_POSES,
             condition = { !it.isBattling && it.getEntity()?.isDusk() == true && !it.isTouchingWaterOrRain },
             quirks = arrayOf(blink, snipLeft, snipRight, bubble),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("krabby", "ground_idle")
             )
         )
@@ -69,7 +69,7 @@ class KrabbyModel(root: ModelPart) : PokemonPosableModel(root) {
             poseTypes = STATIONARY_POSES,
             condition = { !it.isBattling && it.getEntity()?.isDusk() == true && it.isTouchingWaterOrRain},
             quirks = arrayOf(blink, snipLeft, snipRight),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("krabby", "ground_idle")
             )
         )
@@ -78,7 +78,7 @@ class KrabbyModel(root: ModelPart) : PokemonPosableModel(root) {
             poseName = "walk",
             poseTypes = MOVING_POSES,
             quirks = arrayOf(blink, snipLeft, snipRight),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("krabby", "ground_walk")
             )
         )
@@ -89,7 +89,7 @@ class KrabbyModel(root: ModelPart) : PokemonPosableModel(root) {
             transformTicks = 10,
             quirks = arrayOf(blink, snipLeft, snipRight),
             condition = { it.isBattling },
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("krabby", "battle_idle")
             )
         )

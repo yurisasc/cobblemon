@@ -35,7 +35,7 @@ class PupitarModel(root: ModelPart) : PokemonPosableModel(root){
                 poseName = "standing",
                 poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
                 quirks = arrayOf(blink),
-                idleAnimations = arrayOf(
+                animations = arrayOf(
                 )
         )
 
@@ -43,7 +43,7 @@ class PupitarModel(root: ModelPart) : PokemonPosableModel(root){
                 poseName = "walk",
                 poseTypes = PoseType.MOVING_POSES,
                 quirks = arrayOf(blink),
-                idleAnimations = arrayOf(
+                animations = arrayOf(
                 )
         )
     }

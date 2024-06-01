@@ -63,7 +63,7 @@ class TotodileModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame, 
             poseType = PoseType.SLEEP,
             quirks = arrayOf(sleepQuirk),
             condition = { !it.isTouchingWater },
-            idleAnimations = arrayOf(bedrock("totodile", "sleep"))
+            animations = arrayOf(bedrock("totodile", "sleep"))
         )
 
         watersleep = registerPose(
@@ -71,7 +71,7 @@ class TotodileModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame, 
             poseType = PoseType.SLEEP,
             quirks = arrayOf(sleepQuirk),
             condition = { it.isTouchingWater },
-            idleAnimations = arrayOf(bedrock("totodile", "water_sleep"))
+            animations = arrayOf(bedrock("totodile", "water_sleep"))
         )
 
         standing = registerPose(
@@ -80,7 +80,7 @@ class TotodileModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame, 
             transformTicks = 10,
             condition = { !it.isBattling && !it.isTouchingWater && !it.isSubmergedInWater },
             quirks = arrayOf(blink, biteyQuirk),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("totodile", "ground_idle")
             )
@@ -92,7 +92,7 @@ class TotodileModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame, 
             poseType = PoseType.WALK,
             condition = { !it.isTouchingWater && !it.isSubmergedInWater },
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("totodile", "ground_walk")
             )
@@ -104,7 +104,7 @@ class TotodileModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame, 
             poseType = PoseType.FLOAT,
             condition = { it.isSubmergedInWater },
             quirks = arrayOf(blink, biteyQuirk),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("totodile", "water_idle")
             )
@@ -116,7 +116,7 @@ class TotodileModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame, 
             condition = { it.isSubmergedInWater },
             poseType = PoseType.SWIM,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("totodile", "water_swim"),
             )
@@ -128,7 +128,7 @@ class TotodileModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame, 
             transformTicks = 10,
             quirks = arrayOf(blink),
             condition = { it.isBattling && !it.isTouchingWater },
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("totodile", "battle_idle")
             )
@@ -139,7 +139,7 @@ class TotodileModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame, 
             poseTypes = PoseType.STATIONARY_POSES,
             quirks = arrayOf(blink, biteyQuirk),
             condition = { !it.isSubmergedInWater && it.isTouchingWater },
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("totodile", "surfacewater_idle"),
             ),
@@ -153,7 +153,7 @@ class TotodileModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame, 
             poseTypes = PoseType.MOVING_POSES,
             quirks = arrayOf(blink),
             condition = { !it.isSubmergedInWater && it.isTouchingWater },
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("totodile", "surfacewater_swim"),
             ),
@@ -165,7 +165,7 @@ class TotodileModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame, 
         shoulderLeft = registerPose(
             poseType = PoseType.SHOULDER_LEFT,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("totodile", "shoulder_right")
             ),
@@ -177,7 +177,7 @@ class TotodileModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame, 
         shoulderRight = registerPose(
             poseType = PoseType.SHOULDER_RIGHT,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("totodile", "shoulder_left")
             ),

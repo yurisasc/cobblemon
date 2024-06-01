@@ -41,7 +41,7 @@ class BarraskewdaModel (root: ModelPart) : PokemonPosableModel(root) {
             transformTicks = 10,
             poseType = PoseType.SLEEP,
             condition = { !it.isTouchingWater },
-            idleAnimations = arrayOf(bedrock("barraskewda", "sleep"))
+            animations = arrayOf(bedrock("barraskewda", "sleep"))
         )
 
         watersleep = registerPose(
@@ -49,7 +49,7 @@ class BarraskewdaModel (root: ModelPart) : PokemonPosableModel(root) {
             transformTicks = 10,
             poseType = PoseType.SLEEP,
             condition = { it.isTouchingWater },
-            idleAnimations = arrayOf(bedrock("barraskewda", "water_sleep"))
+            animations = arrayOf(bedrock("barraskewda", "water_sleep"))
         )
 
         standing = registerPose(
@@ -58,7 +58,7 @@ class BarraskewdaModel (root: ModelPart) : PokemonPosableModel(root) {
             condition = { !it.isBattling },
             transformTicks = 10,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("barraskewda", "ground_idle")
             )
         )
@@ -68,7 +68,7 @@ class BarraskewdaModel (root: ModelPart) : PokemonPosableModel(root) {
             poseType = PoseType.WALK,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("barraskewda", "ground_walk")
             )
         )
@@ -77,7 +77,7 @@ class BarraskewdaModel (root: ModelPart) : PokemonPosableModel(root) {
             poseName = "floating",
             poseType = PoseType.FLOAT,
             transformTicks = 10,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("barraskewda", "water_idle")
             )
         )
@@ -86,7 +86,7 @@ class BarraskewdaModel (root: ModelPart) : PokemonPosableModel(root) {
             poseName = "swimming",
             poseType = PoseType.SWIM,
             transformTicks = 10,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("barraskewda", "water_swim"),
             )
         )
@@ -97,7 +97,7 @@ class BarraskewdaModel (root: ModelPart) : PokemonPosableModel(root) {
             transformTicks = 10,
             quirks = arrayOf(blink),
             condition = { it.isBattling && !it.isTouchingWater },
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("barraskewda", "battle_idle")
             )
         )
@@ -108,7 +108,7 @@ class BarraskewdaModel (root: ModelPart) : PokemonPosableModel(root) {
             transformTicks = 10,
             quirks = arrayOf(blink),
             condition = { it.isBattling && it.isTouchingWater },
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("barraskewda", "water_battle_idle")
             )
         )

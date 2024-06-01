@@ -8,13 +8,12 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen7
 
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.PosableState
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.Pose
 import com.cobblemon.mod.common.entity.PoseType
-import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.util.isBattling
 import com.cobblemon.mod.common.util.isSubmergedInWater
 import net.minecraft.client.model.ModelPart
@@ -46,7 +45,7 @@ class GolisopodModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame 
         sleep = registerPose(
             poseName = "sleeping",
             poseType = PoseType.SLEEP,
-            idleAnimations = arrayOf(bedrock("golisopod", "sleep"))
+            animations = arrayOf(bedrock("golisopod", "sleep"))
         )
 
         standing = registerPose(
@@ -55,7 +54,7 @@ class GolisopodModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame 
             transformTicks = 10,
             condition = { !it.isBattling },
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("golisopod", "ground_idle")
             )
@@ -66,7 +65,7 @@ class GolisopodModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame 
             transformTicks = 10,
             poseType = PoseType.WALK,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("golisopod", "ground_walk")
             )
@@ -77,7 +76,7 @@ class GolisopodModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame 
             transformTicks = 10,
             poseType = PoseType.FLOAT,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("golisopod", "water_idle")
             )
@@ -88,7 +87,7 @@ class GolisopodModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame 
             transformTicks = 10,
             poseType = PoseType.SWIM,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("golisopod", "water_swim"),
             )
@@ -100,7 +99,7 @@ class GolisopodModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame 
             transformTicks = 10,
             quirks = arrayOf(blink),
             condition = { it.isBattling && !it.isSubmergedInWater },
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("golisopod", "battle_idle")
             )

@@ -8,12 +8,12 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen5
 
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.createTransformation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BimanualFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.CobblemonPose
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.util.isBattling
@@ -57,7 +57,7 @@ class DewottHisuiBiasModel (root: ModelPart) : PokemonPosableModel(root), Headed
                         scalchop_body_left.createTransformation().withVisibility(visibility = true)
 
                 ),
-                idleAnimations = arrayOf(bedrock("dewott_hisui_bias", "sleep"))
+                animations = arrayOf(bedrock("dewott_hisui_bias", "sleep"))
         )
 
         standing = registerPose(
@@ -72,7 +72,7 @@ class DewottHisuiBiasModel (root: ModelPart) : PokemonPosableModel(root), Headed
                         scalchop_body_right.createTransformation().withVisibility(visibility = true),
                         scalchop_body_left.createTransformation().withVisibility(visibility = true)
                 ),
-                idleAnimations = arrayOf(
+                animations = arrayOf(
                         singleBoneLook(),
                         bedrock("dewott_hisui_bias", "ground_idle")
                 )
@@ -90,7 +90,7 @@ class DewottHisuiBiasModel (root: ModelPart) : PokemonPosableModel(root), Headed
                         scalchop_body_right.createTransformation().withVisibility(visibility = true),
                         scalchop_body_left.createTransformation().withVisibility(visibility = true)
                 ),
-                idleAnimations = arrayOf(
+                animations = arrayOf(
                         singleBoneLook(),
                         bedrock("dewott_hisui_bias", "ground_walk")
                 )
@@ -108,7 +108,7 @@ class DewottHisuiBiasModel (root: ModelPart) : PokemonPosableModel(root), Headed
                         scalchop_body_right.createTransformation().withVisibility(visibility = false),
                         scalchop_body_left.createTransformation().withVisibility(visibility = false)
                 ),
-                idleAnimations = arrayOf(
+                animations = arrayOf(
                         singleBoneLook(),
                         bedrock("dewott_hisui_bias", "ground_idle")
                 )

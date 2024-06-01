@@ -8,16 +8,15 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen6
 
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.PosableState
 import com.cobblemon.mod.common.client.render.models.blockbench.createTransformation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BimanualFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.Pose
 import com.cobblemon.mod.common.entity.PoseType
-import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.util.isBattling
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
@@ -56,7 +55,7 @@ class GreninjaModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, B
                 shurikenleft.createTransformation().withVisibility(visibility = false),
                 shurikenright.createTransformation().withVisibility(visibility = false)
             ),
-            idleAnimations = arrayOf(bedrock("greninja", "sleep"))
+            animations = arrayOf(bedrock("greninja", "sleep"))
         )
 
         standing = registerPose(
@@ -69,7 +68,7 @@ class GreninjaModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, B
                 shurikenleft.createTransformation().withVisibility(visibility = false),
                 shurikenright.createTransformation().withVisibility(visibility = false)
             ),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("greninja", "ground_idle")
             )
@@ -84,7 +83,7 @@ class GreninjaModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, B
                 shurikenleft.createTransformation().withVisibility(visibility = false),
                 shurikenright.createTransformation().withVisibility(visibility = false)
             ),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("greninja", "ground_walk")
             )
@@ -100,7 +99,7 @@ class GreninjaModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, B
                 shurikenleft.createTransformation().withVisibility(visibility = false),
                 shurikenright.createTransformation().withVisibility(visibility = false)
             ),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("greninja", "water_idle")
             )
@@ -116,7 +115,7 @@ class GreninjaModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, B
                 shurikenleft.createTransformation().withVisibility(visibility = false),
                 shurikenright.createTransformation().withVisibility(visibility = false)
             ),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("greninja", "water_swim")
             )
@@ -132,7 +131,7 @@ class GreninjaModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, B
                 shurikenleft.createTransformation().withVisibility(visibility = false),
                 shurikenright.createTransformation().withVisibility(visibility = false)
             ),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("greninja", "battle_idle")
             )

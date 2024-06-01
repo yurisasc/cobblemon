@@ -8,10 +8,10 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1
 
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.SingleBoneLookAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.CobblemonPose
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.PoseType.Companion.MOVING_POSES
@@ -54,7 +54,7 @@ class ExeggutorModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, 
         val blink3 = quirk { bedrockStateful("exeggutor", "blink3") }
         sleep = registerPose(
             poseType = PoseType.SLEEP,
-            idleAnimations = arrayOf(bedrock("exeggutor", "sleep"))
+            animations = arrayOf(bedrock("exeggutor", "sleep"))
         )
 
         standing = registerPose(
@@ -62,7 +62,7 @@ class ExeggutorModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, 
             poseTypes = STATIONARY_POSES + UI_POSES,
             quirks = arrayOf(blink1, blink2, blink3),
             condition = { !it.isBattling },
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 SingleBoneLookAnimation(head2, false, false, disableX = false, disableY = false),
                 SingleBoneLookAnimation(head3, false, false, disableX = false, disableY = false),
@@ -75,7 +75,7 @@ class ExeggutorModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, 
             poseTypes = MOVING_POSES,
             quirks = arrayOf(blink1, blink2, blink3),
             condition = { !it.isBattling },
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 SingleBoneLookAnimation(head2, false, false, disableX = false, disableY = false),
                 SingleBoneLookAnimation(head3, false, false, disableX = false, disableY = false),
@@ -89,7 +89,7 @@ class ExeggutorModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, 
             transformTicks = 10,
             quirks = arrayOf(blink1, blink2, blink3),
             condition = { it.isBattling },
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("exeggutor", "battle_idle")
             )

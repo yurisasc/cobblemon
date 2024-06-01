@@ -42,14 +42,14 @@ class RattataAlolanModel(root: ModelPart) : PokemonPosableModel(root), HeadedFra
         val blink = quirk { bedrockStateful("rattata_alolan", "blink")}
         sleep = registerPose(
             poseType = PoseType.SLEEP,
-            idleAnimations = arrayOf(bedrock("rattata_alolan", "sleep"))
+            animations = arrayOf(bedrock("rattata_alolan", "sleep"))
         )
 
         standing = registerPose(
             poseName = "standing",
             poseTypes = setOf(PoseType.NONE, PoseType.PROFILE, PoseType.STAND, PoseType.FLOAT, PoseType.PORTRAIT, PoseType.SHOULDER_LEFT, PoseType.SHOULDER_RIGHT),
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("rattata_alolan", "ground_idle")
             )
@@ -58,7 +58,7 @@ class RattataAlolanModel(root: ModelPart) : PokemonPosableModel(root), HeadedFra
         walk = registerPose(
             poseType = PoseType.WALK,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("rattata_alolan", "ground_walk")
             )

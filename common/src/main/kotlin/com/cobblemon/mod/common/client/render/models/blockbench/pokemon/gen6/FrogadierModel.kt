@@ -8,15 +8,14 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen6
 
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.PosableState
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BimanualFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.Pose
 import com.cobblemon.mod.common.entity.PoseType
-import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.util.isBattling
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
@@ -50,7 +49,7 @@ class FrogadierModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, 
                 poseType = PoseType.SLEEP,
                 transformTicks = 10,
                 quirks = arrayOf(blink),
-                idleAnimations = arrayOf(bedrock("frogadier", "sleep"))
+                animations = arrayOf(bedrock("frogadier", "sleep"))
         )
 
         standing = registerPose(
@@ -59,7 +58,7 @@ class FrogadierModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, 
                 transformTicks = 10,
                 quirks = arrayOf(blink),
                 condition = { !it.isBattling },
-                idleAnimations = arrayOf(
+                animations = arrayOf(
                         singleBoneLook(),
                         bedrock("frogadier", "ground_idle")
                 )
@@ -71,7 +70,7 @@ class FrogadierModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, 
                 transformTicks = 10,
                 quirks = arrayOf(blink),
                 condition = { !it.isBattling },
-                idleAnimations = arrayOf(
+                animations = arrayOf(
                         singleBoneLook(),
                         bedrock("frogadier", "ground_walk")
                 )
@@ -83,7 +82,7 @@ class FrogadierModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, 
                 transformTicks = 10,
                 quirks = arrayOf(blink),
                 condition = { !it.isBattling },
-                idleAnimations = arrayOf(
+                animations = arrayOf(
                         singleBoneLook(),
                         bedrock("frogadier", "water_idle")
                 )
@@ -95,7 +94,7 @@ class FrogadierModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, 
                 transformTicks = 10,
                 quirks = arrayOf(blink),
                 condition = { !it.isBattling },
-                idleAnimations = arrayOf(
+                animations = arrayOf(
                         singleBoneLook(),
                         bedrock("frogadier", "water_swim")
                 )
@@ -107,7 +106,7 @@ class FrogadierModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, 
                 transformTicks = 10,
                 quirks = arrayOf(blink),
                 condition = { it.isBattling },
-                idleAnimations = arrayOf(
+                animations = arrayOf(
                         singleBoneLook(),
                         bedrock("frogadier", "battle_idle")
                 )

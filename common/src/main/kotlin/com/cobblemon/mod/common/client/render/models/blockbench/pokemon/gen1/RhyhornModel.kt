@@ -42,7 +42,7 @@ class RhyhornModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Qu
             poseName = "standing",
             poseTypes = STATIONARY_POSES + UI_POSES,
             transformTicks = 10,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook()
                 //bedrock("rhyhorn", "ground_idle")
             )
@@ -52,7 +52,7 @@ class RhyhornModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Qu
             poseName = "walk",
             poseTypes = MOVING_POSES,
             transformTicks = 10,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 QuadrupedWalkAnimation(this)
                 //bedrock("rhyhorn", "ground_walk")

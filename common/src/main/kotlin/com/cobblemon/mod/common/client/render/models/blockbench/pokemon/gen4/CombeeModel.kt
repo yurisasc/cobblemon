@@ -8,8 +8,8 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen4
 
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.PosableState
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.Pose
 import com.cobblemon.mod.common.entity.PoseType
 import net.minecraft.client.model.ModelPart
@@ -35,14 +35,14 @@ class CombeeModel (root: ModelPart) : PokemonPosableModel(root) {
 
         sleep = registerPose(
             poseType = PoseType.SLEEP,
-            idleAnimations = arrayOf(bedrock("combee", "air_sleep"))
+            animations = arrayOf(bedrock("combee", "air_sleep"))
         )
 
         hover = registerPose(
             poseName = "hover",
             poseTypes = PoseType.UI_POSES + PoseType.STATIONARY_POSES,
             quirks = arrayOf(blink1, blink2, blink3),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("combee", "air_idle")
             )
         )
@@ -51,7 +51,7 @@ class CombeeModel (root: ModelPart) : PokemonPosableModel(root) {
             poseName = "fly",
             poseTypes = PoseType.MOVING_POSES,
             quirks = arrayOf(blink1, blink2, blink3),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("combee", "air_fly")
             )
         )

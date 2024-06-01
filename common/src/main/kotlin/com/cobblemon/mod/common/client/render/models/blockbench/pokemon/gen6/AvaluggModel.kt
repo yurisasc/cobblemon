@@ -8,16 +8,15 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen6
 
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.PosableState
 import com.cobblemon.mod.common.client.render.models.blockbench.createTransformation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.QuadrupedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.ModelPartTransformation
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.Pose
 import com.cobblemon.mod.common.entity.PoseType
-import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.util.isBattling
 import com.cobblemon.mod.common.util.isTouchingWater
 import net.minecraft.client.model.ModelPart
@@ -53,7 +52,7 @@ class AvaluggModel (root: ModelPart) : PokemonPosableModel(root), QuadrupedFrame
         val blink = quirk { bedrockStateful("avalugg", "blink") }
         sleep = registerPose(
             poseType = PoseType.SLEEP,
-            idleAnimations = arrayOf(bedrock("avalugg", "sleep"))
+            animations = arrayOf(bedrock("avalugg", "sleep"))
         )
 
         standing = registerPose(
@@ -62,7 +61,7 @@ class AvaluggModel (root: ModelPart) : PokemonPosableModel(root), QuadrupedFrame
             transformTicks = 10,
             condition = { !it.isBattling && !it.isTouchingWater },
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("avalugg", "ground_idle")
             )
@@ -74,7 +73,7 @@ class AvaluggModel (root: ModelPart) : PokemonPosableModel(root), QuadrupedFrame
             transformTicks = 10,
             condition = { !it.isTouchingWater },
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("avalugg", "ground_walk")
             )
@@ -85,7 +84,7 @@ class AvaluggModel (root: ModelPart) : PokemonPosableModel(root), QuadrupedFrame
             poseTypes = PoseType.STATIONARY_POSES,
             quirks = arrayOf(blink),
             condition = { it.isTouchingWater },
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("avalugg", "water_idle"),
             ),
             transformedParts = arrayOf(
@@ -98,7 +97,7 @@ class AvaluggModel (root: ModelPart) : PokemonPosableModel(root), QuadrupedFrame
             poseTypes = PoseType.MOVING_POSES,
             condition = { it.isTouchingWater },
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("avalugg", "water_swim"),
             ),
             transformedParts = arrayOf(
@@ -112,7 +111,7 @@ class AvaluggModel (root: ModelPart) : PokemonPosableModel(root), QuadrupedFrame
             transformTicks = 10,
             quirks = arrayOf(blink),
             condition = { it.isBattling },
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("avalugg", "battle_idle")
             )

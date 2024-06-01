@@ -34,7 +34,7 @@ class KomalaModel (root: ModelPart) : PokemonPosableModel(root) {
             poseName = "standing",
             quirks = arrayOf(doze),
             poseTypes = PoseType.ALL_POSES,
-            idleAnimations = arrayOf(bedrock("komala", "ground_idle"))
+            animations = arrayOf(bedrock("komala", "ground_idle"))
         )
     }
 

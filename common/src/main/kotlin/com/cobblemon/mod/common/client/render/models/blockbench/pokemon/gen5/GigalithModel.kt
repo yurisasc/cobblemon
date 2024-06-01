@@ -8,14 +8,13 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen5
 
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.PosableState
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.QuadrupedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.Pose
 import com.cobblemon.mod.common.entity.PoseType
-import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.util.isBattling
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
@@ -45,7 +44,7 @@ class GigalithModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame, 
     override fun registerPoses() {
         sleep = registerPose(
             poseType = PoseType.SLEEP,
-            idleAnimations = arrayOf(bedrock("gigalith", "sleep"))
+            animations = arrayOf(bedrock("gigalith", "sleep"))
         )
 
         standing = registerPose(
@@ -53,7 +52,7 @@ class GigalithModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame, 
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
             transformTicks = 10,
             condition = { !it.isBattling },
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("gigalith", "ground_idle")
             )
@@ -63,7 +62,7 @@ class GigalithModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame, 
             poseName = "walking",
             poseTypes = PoseType.MOVING_POSES,
             transformTicks = 10,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("gigalith", "ground_walk")
             )
@@ -74,7 +73,7 @@ class GigalithModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame, 
             poseTypes = PoseType.STATIONARY_POSES,
             transformTicks = 10,
             condition = { it.isBattling },
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("gigalith", "battle_idle")
             )

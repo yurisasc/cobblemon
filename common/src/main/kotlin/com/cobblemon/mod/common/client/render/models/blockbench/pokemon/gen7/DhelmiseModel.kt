@@ -8,8 +8,8 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen7
 
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.PosableState
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.Pose
 import com.cobblemon.mod.common.entity.PoseType
 import net.minecraft.client.model.ModelPart
@@ -34,14 +34,14 @@ class DhelmiseModel(root: ModelPart) : PokemonPosableModel(root) {
         sleep = registerPose(
                 poseType = PoseType.SLEEP,
                 transformTicks = 10,
-                idleAnimations = arrayOf(bedrock("dhelmise", "sleep"))
+                animations = arrayOf(bedrock("dhelmise", "sleep"))
         )
 
         standing = registerPose(
                 poseName = "standing",
                 poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
                 transformTicks = 10,
-                idleAnimations = arrayOf(
+                animations = arrayOf(
                         bedrock("dhelmise", "ground_idle")
                 )
         )
@@ -50,7 +50,7 @@ class DhelmiseModel(root: ModelPart) : PokemonPosableModel(root) {
                 poseName = "walk",
                 poseTypes = PoseType.MOVING_POSES,
                 transformTicks = 10,
-                idleAnimations = arrayOf(
+                animations = arrayOf(
                         bedrock("dhelmise", "ground_walk")
                 )
         )
@@ -58,7 +58,7 @@ class DhelmiseModel(root: ModelPart) : PokemonPosableModel(root) {
         float = registerPose(
                 poseName = "float",
                 poseTypes = PoseType.UI_POSES + PoseType.FLOAT,
-                idleAnimations = arrayOf(
+                animations = arrayOf(
                         bedrock("dhelmise", "water_idle")
                 )
         )
@@ -66,7 +66,7 @@ class DhelmiseModel(root: ModelPart) : PokemonPosableModel(root) {
         swim = registerPose(
                 poseName = "swim",
                 poseType = PoseType.SWIM,
-                idleAnimations = arrayOf(
+                animations = arrayOf(
                         bedrock("dhelmise", "water_swim")
                 )
         )

@@ -46,7 +46,7 @@ class LittenModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Qua
             poseName = "standing",
             poseTypes = STATIONARY_POSES + UI_POSES,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("litten", "ground_idle")
             )
@@ -56,7 +56,7 @@ class LittenModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Qua
             poseName = "walk",
             poseTypes = MOVING_POSES,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("litten", "ground_idle"),
                 QuadrupedWalkAnimation(this, amplitudeMultiplier = 0.7F, periodMultiplier = 0.9F)

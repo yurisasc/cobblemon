@@ -47,7 +47,7 @@ class CorvisquireModel (root: ModelPart) : PokemonPosableModel(root), HeadedFram
         val blink = quirk { bedrockStateful("corvisquire", "blink") }
         sleep = registerPose(
             poseType = PoseType.SLEEP,
-            idleAnimations = arrayOf(bedrock("corvisquire", "sleep"))
+            animations = arrayOf(bedrock("corvisquire", "sleep"))
         )
 
         stand = registerPose(
@@ -55,7 +55,7 @@ class CorvisquireModel (root: ModelPart) : PokemonPosableModel(root), HeadedFram
             poseTypes = PoseType.SHOULDER_POSES + PoseType.UI_POSES + PoseType.STAND,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("corvisquire", "ground_idle")
             )
@@ -66,7 +66,7 @@ class CorvisquireModel (root: ModelPart) : PokemonPosableModel(root), HeadedFram
             poseTypes = PoseType.STATIONARY_POSES - PoseType.STAND - PoseType.UI_POSES - PoseType.SHOULDER_POSES,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("corvisquire", "air_idle")
             )
@@ -77,7 +77,7 @@ class CorvisquireModel (root: ModelPart) : PokemonPosableModel(root), HeadedFram
             poseTypes = PoseType.MOVING_POSES - PoseType.WALK,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("corvisquire", "air_fly")
             )
@@ -88,7 +88,7 @@ class CorvisquireModel (root: ModelPart) : PokemonPosableModel(root), HeadedFram
             poseType = PoseType.WALK,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("corvisquire", "ground_walk")
             )

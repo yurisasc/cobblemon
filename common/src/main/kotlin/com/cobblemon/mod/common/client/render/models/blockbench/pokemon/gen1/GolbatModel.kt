@@ -42,7 +42,7 @@ class GolbatModel(root: ModelPart) : PokemonPosableModel(root) {
 
         sleep = registerPose(
             poseType = PoseType.SLEEP,
-            idleAnimations = arrayOf(bedrock("golbat", "sleep"))
+            animations = arrayOf(bedrock("golbat", "sleep"))
         )
 
         standing = registerPose(
@@ -51,7 +51,7 @@ class GolbatModel(root: ModelPart) : PokemonPosableModel(root) {
             transformTicks = 10,
             quirks = arrayOf(blink),
             condition = { !it.isBattling },
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("golbat", "ground_idle")
             )
         )
@@ -61,7 +61,7 @@ class GolbatModel(root: ModelPart) : PokemonPosableModel(root) {
             poseTypes = MOVING_POSES - PoseType.FLY,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("golbat", "ground_walk")
             )
         )
@@ -71,7 +71,7 @@ class GolbatModel(root: ModelPart) : PokemonPosableModel(root) {
             poseType = PoseType.HOVER,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("golbat", "air_idle")
             )
         )
@@ -81,7 +81,7 @@ class GolbatModel(root: ModelPart) : PokemonPosableModel(root) {
             poseType = PoseType.FLY,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("golbat", "air_fly")
             )
         )
@@ -92,7 +92,7 @@ class GolbatModel(root: ModelPart) : PokemonPosableModel(root) {
             transformTicks = 10,
             quirks = arrayOf(blink),
             condition = { it.isBattling },
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("golbat", "battle_idle")
             )
         )

@@ -40,7 +40,7 @@ class EspeonModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
             poseTypes = STATIONARY_POSES + UI_POSES,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("espeon", "ground_idle")
             )
@@ -51,7 +51,7 @@ class EspeonModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
             poseTypes = MOVING_POSES,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("espeon", "ground_run")
             )

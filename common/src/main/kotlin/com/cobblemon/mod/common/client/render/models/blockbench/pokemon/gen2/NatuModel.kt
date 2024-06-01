@@ -37,7 +37,7 @@ class NatuModel(root: ModelPart) : PokemonPosableModel(root), BipedFrame, Headed
         val blink = quirk { bedrockStateful("natu", "blink") }
         sleep = registerPose(
             poseType = PoseType.SLEEP,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("natu", "sleep")
             )
         )
@@ -45,7 +45,7 @@ class NatuModel(root: ModelPart) : PokemonPosableModel(root), BipedFrame, Headed
             poseName = "standing",
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(pitchMultiplier = 0.5F, yawMultiplier = 0F),
                 bedrock("natu", "ground_idle")
             )
@@ -54,7 +54,7 @@ class NatuModel(root: ModelPart) : PokemonPosableModel(root), BipedFrame, Headed
             poseName = "walk",
             poseTypes = PoseType.MOVING_POSES,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(pitchMultiplier = 0.5F, yawMultiplier = 0F),
                 bedrock("natu", "ground_idle"),
                 BipedWalkAnimation(this, periodMultiplier = 0.8F, amplitudeMultiplier = 0.6F)

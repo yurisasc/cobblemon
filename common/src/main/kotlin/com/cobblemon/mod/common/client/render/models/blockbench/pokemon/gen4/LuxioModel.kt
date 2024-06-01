@@ -40,14 +40,14 @@ class LuxioModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Qua
 //        val blink = quirk { bedrockStateful("luxio", "blink") }
         sleep = registerPose(
             poseType = PoseType.SLEEP,
-            idleAnimations = arrayOf(bedrock("luxio", "sleep"))
+            animations = arrayOf(bedrock("luxio", "sleep"))
         )
 
         standing = registerPose(
             poseName = "standing",
             poseTypes = PoseType.UI_POSES + PoseType.STATIONARY_POSES,
 //            quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("luxio", "idle")
             )
@@ -57,7 +57,7 @@ class LuxioModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Qua
             poseName = "walk",
             poseTypes = PoseType.MOVING_POSES,
 //            quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 QuadrupedWalkAnimation(this, periodMultiplier = 1.1F),
                 singleBoneLook(),
                 bedrock("luxio", "idle")

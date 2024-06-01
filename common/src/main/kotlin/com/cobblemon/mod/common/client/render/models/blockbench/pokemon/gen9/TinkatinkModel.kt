@@ -52,7 +52,7 @@ class TinkatinkModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame,
 
         sleep = registerPose(
             poseType = PoseType.SLEEP,
-            idleAnimations = arrayOf(bedrock("tinkatink", "sleep"))
+            animations = arrayOf(bedrock("tinkatink", "sleep"))
         )
 
         standing = registerPose(
@@ -61,7 +61,7 @@ class TinkatinkModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame,
             transformTicks = 10,
             condition = { !it.isBattling },
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("tinkatink", "ground_idle")
             )
@@ -72,7 +72,7 @@ class TinkatinkModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame,
             poseTypes = PoseType.MOVING_POSES,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("tinkatink", "ground_walk")
             )
@@ -84,7 +84,7 @@ class TinkatinkModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame,
             transformTicks = 10,
             quirks = arrayOf(blink),
             condition = { it.isBattling },
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("tinkatink", "battle_idle")
             )
@@ -94,7 +94,7 @@ class TinkatinkModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame,
             poseType = PoseType.SHOULDER_LEFT,
             quirks = arrayOf(blink),
             condition = { !it.isBattling },
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("tinkatink", "shoulder_left")
             ),
@@ -107,7 +107,7 @@ class TinkatinkModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame,
             poseType = PoseType.SHOULDER_RIGHT,
             quirks = arrayOf(blink),
             condition = { !it.isBattling },
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("tinkatink", "shoulder_right")
             ),

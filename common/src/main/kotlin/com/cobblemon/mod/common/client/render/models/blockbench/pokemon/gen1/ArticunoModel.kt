@@ -46,7 +46,7 @@ class ArticunoModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, B
         standing = registerPose(
             poseName = "standing",
             poseTypes = UI_POSES + PoseType.STAND,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("articuno", "ground_idle")
             )
@@ -55,7 +55,7 @@ class ArticunoModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, B
         standing = registerPose(
             poseName = "walk",
             poseType = PoseType.WALK,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("articuno", "ground_idle"),
                 BipedWalkAnimation(this, periodMultiplier = 0.7F, amplitudeMultiplier = 0.85F)
@@ -65,7 +65,7 @@ class ArticunoModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, B
         hover = registerPose(
             poseName = "hover",
             poseTypes = setOf(PoseType.HOVER, PoseType.FLOAT),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("articuno", "air_idle"),
                 WingFlapIdleAnimation(this,
@@ -79,7 +79,7 @@ class ArticunoModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, B
         fly = registerPose(
             poseName = "fly",
             poseTypes = setOf(PoseType.FLY, PoseType.SWIM),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("articuno", "air_fly"),
                 WingFlapIdleAnimation(this,

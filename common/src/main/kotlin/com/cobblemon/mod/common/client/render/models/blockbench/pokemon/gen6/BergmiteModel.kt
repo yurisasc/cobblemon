@@ -8,13 +8,12 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen6
 
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.PosableState
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.QuadrupedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.Pose
 import com.cobblemon.mod.common.entity.PoseType
-import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.util.isBattling
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
@@ -44,7 +43,7 @@ class BergmiteModel (root: ModelPart) : PokemonPosableModel(root), QuadrupedFram
         val blink = quirk { bedrockStateful("bergmite", "blink") }
         sleep = registerPose(
             poseType = PoseType.SLEEP,
-            idleAnimations = arrayOf(bedrock("bergmite", "sleep"))
+            animations = arrayOf(bedrock("bergmite", "sleep"))
         )
 
         standing = registerPose(
@@ -53,7 +52,7 @@ class BergmiteModel (root: ModelPart) : PokemonPosableModel(root), QuadrupedFram
             transformTicks = 10,
             condition = { !it.isBattling },
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("bergmite", "ground_idle")
             )
         )
@@ -63,7 +62,7 @@ class BergmiteModel (root: ModelPart) : PokemonPosableModel(root), QuadrupedFram
             poseTypes = PoseType.MOVING_POSES,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("bergmite", "ground_walk")
             )
         )
@@ -74,7 +73,7 @@ class BergmiteModel (root: ModelPart) : PokemonPosableModel(root), QuadrupedFram
             transformTicks = 10,
             quirks = arrayOf(blink),
             condition = { it.isBattling },
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("bergmite", "battle_idle")
             )
         )

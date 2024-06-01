@@ -8,14 +8,13 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen7
 
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.PosableState
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.Pose
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.PoseType.Companion.UI_POSES
-import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.util.isBattling
 import com.cobblemon.mod.common.util.isTouchingWater
 import net.minecraft.client.model.ModelPart
@@ -45,7 +44,7 @@ class PrimarinaModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
 
         sleep = registerPose(
             poseType = PoseType.SLEEP,
-            idleAnimations = arrayOf(bedrock("primarina", "sleep"))
+            animations = arrayOf(bedrock("primarina", "sleep"))
         )
 
         standing = registerPose(
@@ -53,7 +52,7 @@ class PrimarinaModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
             poseTypes = UI_POSES + PoseType.STAND,
             condition = { !it.isBattling },
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("primarina", "ground_idle")
             )
@@ -63,7 +62,7 @@ class PrimarinaModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
             poseName = "walk",
             poseType = PoseType.WALK,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("primarina", "ground_walk")
             )
@@ -73,7 +72,7 @@ class PrimarinaModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
                 poseName = "float",
                 poseType = PoseType.FLOAT,
                 quirks = arrayOf(blink),
-                idleAnimations = arrayOf(
+                animations = arrayOf(
                     singleBoneLook(),
                     bedrock("primarina", "water_idle")
                 )
@@ -83,7 +82,7 @@ class PrimarinaModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
                 poseName = "swim",
                 poseType = PoseType.SWIM,
                 quirks = arrayOf(blink),
-                idleAnimations = arrayOf(
+                animations = arrayOf(
                     singleBoneLook(),
                     bedrock("primarina", "water_swim")
                 )
@@ -95,7 +94,7 @@ class PrimarinaModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
             transformTicks = 10,
             quirks = arrayOf(blink),
             condition = { it.isBattling && !it.isTouchingWater },
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("primarina", "battle_idle")
             )

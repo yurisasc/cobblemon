@@ -45,7 +45,7 @@ class MewtwoModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Bim
             poseName = "standing",
             poseTypes = UI_POSES + PoseType.STAND,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("mewtwo", "ground_idle")
             )
@@ -55,7 +55,7 @@ class MewtwoModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Bim
             poseName = "walk",
             poseType = PoseType.WALK,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("mewtwo", "ground_idle"),
                 BipedWalkAnimation(this, periodMultiplier = 0.6F, amplitudeMultiplier = 0.9F),
@@ -67,7 +67,7 @@ class MewtwoModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Bim
             poseName = "hover",
             poseTypes = setOf(PoseType.FLOAT, PoseType.HOVER),
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("mewtwo", "air_idle")
             )
@@ -77,7 +77,7 @@ class MewtwoModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Bim
             poseName = "fly",
             poseTypes = setOf(PoseType.FLY, PoseType.SWIM),
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("mewtwo", "air_fly")
             )

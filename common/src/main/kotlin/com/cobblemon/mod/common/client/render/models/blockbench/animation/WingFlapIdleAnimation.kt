@@ -22,7 +22,7 @@ class WingFlapIdleAnimation(
     val rotation: WaveFunction,
     val timeVariable: (state: PosableState, limbSwing: Float, ageInTicks: Float) -> Float? = { state, _, _ -> state.animationSeconds },
     val axis: Int
-) : StatelessAnimation() {
+) : PoseAnimation() {
     constructor(
         frame: BiWingedFrame,
         flapFunction: WaveFunction,

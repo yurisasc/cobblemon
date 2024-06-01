@@ -38,7 +38,7 @@ class TentacoolModel(root: ModelPart) : PokemonPosableModel(root) {
             poseName = "standing",
             poseType = PoseType.STAND,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("tentacool", "ground_idle")
             )
         )
@@ -47,7 +47,7 @@ class TentacoolModel(root: ModelPart) : PokemonPosableModel(root) {
             poseName = "walk",
             poseType = PoseType.WALK,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("tentacool", "ground_idle")
                 //bedrock("tentacool", "ground_walk")
             )
@@ -57,7 +57,7 @@ class TentacoolModel(root: ModelPart) : PokemonPosableModel(root) {
             poseName = "float",
             poseTypes = UI_POSES + PoseType.FLOAT,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("tentacool", "water_idle")
             )
         )
@@ -66,7 +66,7 @@ class TentacoolModel(root: ModelPart) : PokemonPosableModel(root) {
             poseName = "swim",
             poseType = PoseType.SWIM,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("tentacool", "water_swim")
             )
         )
@@ -75,14 +75,14 @@ class TentacoolModel(root: ModelPart) : PokemonPosableModel(root) {
                 poseName = "sleep",
                 poseType = PoseType.SLEEP,
                 condition = { !it.isTouchingWater },
-                idleAnimations = arrayOf(bedrock("tentacool", "sleep"))
+                animations = arrayOf(bedrock("tentacool", "sleep"))
         )
 
         watersleep = registerPose(
                 poseName = "watersleep",
                 poseType = PoseType.SLEEP,
                 condition = { it.isTouchingWater },
-                idleAnimations = arrayOf(bedrock("tentacool", "water_sleep"))
+                animations = arrayOf(bedrock("tentacool", "water_sleep"))
         )
     }
 

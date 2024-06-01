@@ -42,7 +42,7 @@ class PsyduckModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
             poseName = "standing",
             poseTypes = UI_POSES + PoseType.STAND,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("psyduck", "ground_idle")
             )
@@ -50,14 +50,14 @@ class PsyduckModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
 
         sleep = registerPose(
                 poseType = PoseType.SLEEP,
-                idleAnimations = arrayOf(bedrock("psyduck", "sleep"))
+                animations = arrayOf(bedrock("psyduck", "sleep"))
         )
 
         walk = registerPose(
             poseName = "walk",
             poseType = PoseType.WALK,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("psyduck", "ground_walk")
             )
@@ -66,7 +66,7 @@ class PsyduckModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
         float = registerPose(
             poseType = PoseType.FLOAT,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("psyduck", "water_idle")
             )
@@ -75,7 +75,7 @@ class PsyduckModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
         swim = registerPose(
             poseType = PoseType.SWIM,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("psyduck", "water_swim")
             )

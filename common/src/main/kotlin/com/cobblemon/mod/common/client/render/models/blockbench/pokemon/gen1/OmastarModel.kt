@@ -39,7 +39,7 @@ class OmastarModel(root: ModelPart) : PokemonPosableModel(root) {
         sleep = registerPose(
             poseName = "sleep",
             poseType = PoseType.SLEEP,
-            idleAnimations = arrayOf(bedrock("omastar", "sleep"))
+            animations = arrayOf(bedrock("omastar", "sleep"))
         )
 
         standing = registerPose(
@@ -48,7 +48,7 @@ class OmastarModel(root: ModelPart) : PokemonPosableModel(root) {
             quirks = arrayOf(blink),
             transformTicks = 10,
             condition = { !it.isBattling},
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("omastar", "ground_idle")
             )
         )
@@ -58,7 +58,7 @@ class OmastarModel(root: ModelPart) : PokemonPosableModel(root) {
             poseTypes = PoseType.MOVING_POSES - PoseType.SWIM,
             quirks = arrayOf(blink),
             transformTicks = 10,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("omastar", "ground_walk")
             )
         )
@@ -68,7 +68,7 @@ class OmastarModel(root: ModelPart) : PokemonPosableModel(root) {
             poseTypes = setOf(PoseType.FLOAT, PoseType.HOVER),
             quirks = arrayOf(blink),
             transformTicks = 10,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("omastar", "water_idle")
             )
         )
@@ -78,7 +78,7 @@ class OmastarModel(root: ModelPart) : PokemonPosableModel(root) {
             poseTypes = setOf(PoseType.SWIM, PoseType.FLY),
             quirks = arrayOf(blink),
             transformTicks = 10,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("omastar", "water_swim")
             )
         )
@@ -89,7 +89,7 @@ class OmastarModel(root: ModelPart) : PokemonPosableModel(root) {
             quirks = arrayOf(blink),
             transformTicks = 10,
             condition = { it.isBattling},
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("omastar", "battle_idle")
             )
         )

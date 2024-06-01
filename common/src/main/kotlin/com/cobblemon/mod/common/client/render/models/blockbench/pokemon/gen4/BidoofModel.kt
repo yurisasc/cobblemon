@@ -9,12 +9,12 @@
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen4
 
 //import com.cobblemon.mod.common.client.render.models.blockbench.animation.QuadrupedWalkAnimation
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.PosableState
 import com.cobblemon.mod.common.client.render.models.blockbench.createTransformation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.QuadrupedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.CobblemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.ModelPartTransformation
 import com.cobblemon.mod.common.entity.PoseType
@@ -57,7 +57,7 @@ class BidoofModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Qua
             poseTypes = UI_POSES + STAND,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("bidoof", "ground_idle")
             )
@@ -68,7 +68,7 @@ class BidoofModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Qua
             poseTypes = MOVING_POSES,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("bidoof", "ground_walk")
             )
@@ -79,7 +79,7 @@ class BidoofModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Qua
             poseTypes = SWIMMING_POSES,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("bidoof", "water_float")
             ),
@@ -91,7 +91,7 @@ class BidoofModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Qua
         sleeping = registerPose(
             poseType = PoseType.SLEEP,
             transformTicks = 10,
-            idleAnimations = arrayOf(bedrock("bidoof", "sleep"))
+            animations = arrayOf(bedrock("bidoof", "sleep"))
         )
     }
 

@@ -8,9 +8,9 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen5
 
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.CobblemonPose
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.util.isTouchingWater
@@ -44,7 +44,7 @@ class TirtougaModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
             poseName = "sleep",
             poseType = PoseType.SLEEP,
             condition = { !it.isTouchingWater },
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("tirtouga", "sleep")
             )
         )
@@ -53,7 +53,7 @@ class TirtougaModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
             poseName = "water_sleep",
             poseType = PoseType.SLEEP,
             condition = { it.isTouchingWater },
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("tirtouga", "water_sleep")
             )
         )
@@ -62,7 +62,7 @@ class TirtougaModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
             poseName = "standing",
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES - PoseType.FLOAT,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("tirtouga", "ground_idle")
             )
@@ -72,7 +72,7 @@ class TirtougaModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
             poseName = "walk",
             poseTypes = PoseType.MOVING_POSES - PoseType.SWIM,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("tirtouga", "ground_walk")
             )
@@ -82,7 +82,7 @@ class TirtougaModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
             poseName = "float",
             poseType = PoseType.FLOAT,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("tirtouga", "water_idle")
             )
@@ -92,7 +92,7 @@ class TirtougaModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
             poseName = "swim",
             poseType = PoseType.SWIM,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("tirtouga", "water_swim")
             )

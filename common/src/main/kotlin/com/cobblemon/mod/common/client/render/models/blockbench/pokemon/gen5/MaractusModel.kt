@@ -44,7 +44,7 @@ class MaractusModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, B
             poseName = "standing",
             poseTypes = STATIONARY_POSES + UI_POSES,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("maractus", "ground_idle")
             )
@@ -54,7 +54,7 @@ class MaractusModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, B
             poseName = "walk",
             poseTypes = MOVING_POSES,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("maractus", "ground_idle"),
                 BimanualSwingAnimation(this, swingPeriodMultiplier = 0.75F)

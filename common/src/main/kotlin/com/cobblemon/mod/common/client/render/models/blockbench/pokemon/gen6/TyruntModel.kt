@@ -41,7 +41,7 @@ class TyruntModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
         sleep = registerPose(
             poseName = "sleep",
             poseType = PoseType.SLEEP,
-            idleAnimations = arrayOf(bedrock("tyrunt", "sleep"))
+            animations = arrayOf(bedrock("tyrunt", "sleep"))
         )
 
         standing = registerPose(
@@ -49,7 +49,7 @@ class TyruntModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
             condition = { !it.isBattling },
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("tyrunt", "ground_idle")
             )
@@ -59,7 +59,7 @@ class TyruntModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
             poseName = "walk",
             poseTypes = PoseType.MOVING_POSES,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("tyrunt", "ground_walk")
             )
@@ -70,7 +70,7 @@ class TyruntModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
             poseTypes = PoseType.STATIONARY_POSES,
             quirks = arrayOf(blink),
             condition = { it.isBattling },
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("tyrunt", "battle_idle")
             )

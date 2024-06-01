@@ -42,7 +42,7 @@ class SteelixModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
         val jitter = quirk { bedrockStateful("steelix", "quirk_jawjitter") }
         sleep = registerPose(
             poseType = PoseType.SLEEP,
-            idleAnimations = arrayOf(bedrock("steelix", "sleep"))
+            animations = arrayOf(bedrock("steelix", "sleep"))
         )
 
         standing = registerPose(
@@ -51,7 +51,7 @@ class SteelixModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
             transformTicks = 0,
             condition = { !it.isBattling },
             quirks = arrayOf(blink, jitter),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("steelix", "ground_idle")
             )
@@ -62,7 +62,7 @@ class SteelixModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
             poseTypes = MOVING_POSES,
             transformTicks = 0,
             quirks = arrayOf(blink, jitter),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("steelix", "ground_walk")
             )
@@ -74,7 +74,7 @@ class SteelixModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
             transformTicks = 0,
             quirks = arrayOf(blink, jitter),
             condition = { it.isBattling },
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("steelix", "battle_idle")
             )

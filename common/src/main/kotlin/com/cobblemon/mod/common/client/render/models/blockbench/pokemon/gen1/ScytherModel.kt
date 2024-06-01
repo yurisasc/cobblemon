@@ -53,7 +53,7 @@ class ScytherModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Bi
             poseName = "standing",
             poseTypes = STATIONARY_POSES + UI_POSES - PoseType.HOVER,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("scyther", "ground_idle")
             )
@@ -63,7 +63,7 @@ class ScytherModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Bi
             poseName = "walk",
             poseTypes = MOVING_POSES - PoseType.FLY,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 BipedWalkAnimation(this, periodMultiplier = 0.7F, amplitudeMultiplier = 0.85F),
                 bedrock("scyther", "ground_idle")
@@ -75,7 +75,7 @@ class ScytherModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Bi
             poseName = "hover",
             poseType = PoseType.HOVER,
             transformTicks = 10,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("scyther", "air_idle"),
                 WingFlapIdleAnimation(this,
                     flapFunction = sineFunction(verticalShift = -10F.toRadians(), period = 0.9F, amplitude = 0.6F),
@@ -89,7 +89,7 @@ class ScytherModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Bi
             poseName = "fly",
             poseType = PoseType.FLY,
             transformTicks = 10,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("scyther", "air_idle"),
                 WingFlapIdleAnimation(this,
                     flapFunction = sineFunction(verticalShift = -14F.toRadians(), period = 0.9F, amplitude = 0.9F),

@@ -18,9 +18,7 @@ import net.minecraft.block.entity.LootableContainerBlockEntity
 import net.minecraft.block.entity.ViewerCountManager
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.entity.player.PlayerInventory
-import net.minecraft.inventory.DoubleInventory
 import net.minecraft.inventory.Inventories
-import net.minecraft.inventory.Inventory
 import net.minecraft.inventory.SidedInventory
 import net.minecraft.item.ItemStack
 import net.minecraft.nbt.NbtCompound
@@ -132,9 +130,9 @@ class GildedChestBlockEntity(pos: BlockPos, state: BlockState, val type: Type = 
             val wasOpen = posableState.currentPose == "open"
             val model = posableState.currentModel ?: return true
             if (isNowOpen && !wasOpen) {
-                model.moveToPose(posableState, model.getPose("open")!!)
+                model.moveToPose(posableState, model.poses["open"]!!)
             } else if (!isNowOpen && wasOpen) {
-                model.moveToPose(posableState, model.getPose("closed")!!)
+                model.moveToPose(posableState, model.poses["closed"]!!)
             }
             return true
         }

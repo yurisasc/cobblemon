@@ -51,7 +51,7 @@ class LaprasModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Qua
             poseTypes = UI_POSES + PoseType.STAND,
             condition = { !it.isTouchingWater },
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("lapras", "ground_idle")
             )
@@ -62,7 +62,7 @@ class LaprasModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Qua
             poseTypes = setOf(PoseType.WALK),
             condition = { !it.isTouchingWater },
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("lapras", "ground_idle"),
                 QuadrupedWalkAnimation(this, 2.5F, 0.25F )
@@ -74,7 +74,7 @@ class LaprasModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Qua
             poseTypes = setOf(PoseType.STAND),
             condition = { it.isTouchingWater },
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("lapras", "surfacewater_idle")
             )
@@ -85,7 +85,7 @@ class LaprasModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Qua
             poseTypes = setOf(PoseType.WALK),
             condition = { it.isTouchingWater },
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("lapras", "surfacewater_swim")
             )
@@ -95,7 +95,7 @@ class LaprasModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Qua
             poseName = "underwater_idle",
             poseTypes = setOf(PoseType.FLOAT),
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("lapras", "surfacewater_idle")
             )
@@ -105,7 +105,7 @@ class LaprasModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Qua
             poseName = "underwater_move",
             poseTypes = setOf(PoseType.SWIM),
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("lapras", "surfacewater_swim")
             )

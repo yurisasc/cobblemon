@@ -34,14 +34,14 @@ class MetapodModel(root: ModelPart) : PokemonPosableModel(root) {
         val blink = quirk { bedrockStateful("metapod", "blink")}
         sleep = registerPose(
             poseType = PoseType.SLEEP,
-            idleAnimations = arrayOf(bedrock("metapod", "sleep"))
+            animations = arrayOf(bedrock("metapod", "sleep"))
         )
 
         standing = registerPose(
             poseName = "standing",
             quirks = arrayOf(blink),
             poseTypes = ALL_POSES - PoseType.SLEEP,
-            idleAnimations = arrayOf(bedrock("metapod", "ground_idle"))
+            animations = arrayOf(bedrock("metapod", "ground_idle"))
         )
     }
 

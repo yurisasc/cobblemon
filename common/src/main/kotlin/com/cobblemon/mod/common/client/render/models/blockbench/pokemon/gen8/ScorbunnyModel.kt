@@ -54,7 +54,7 @@ class ScorbunnyModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame,
             transformTicks = 10,
             condition = { !it.isBattling },
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("scorbunny", "ground_idle")
             )
@@ -65,7 +65,7 @@ class ScorbunnyModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame,
             poseTypes = PoseType.MOVING_POSES,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("scorbunny", "ground_walk")
             )
@@ -77,7 +77,7 @@ class ScorbunnyModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame,
             transformTicks = 10,
             quirks = arrayOf(blink),
             condition = { it.isBattling },
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("scorbunny", "battle_idle")
             )

@@ -8,8 +8,8 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen5
 
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.CobblemonPose
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.util.isBattling
@@ -39,7 +39,7 @@ class DarumakaModel (root: ModelPart) : PokemonPosableModel(root) {
 
         sleep = registerPose(
                 poseType = PoseType.SLEEP,
-                idleAnimations = arrayOf(bedrock("darumaka", "sleep"))
+                animations = arrayOf(bedrock("darumaka", "sleep"))
         )
 
         standing = registerPose(
@@ -47,7 +47,7 @@ class DarumakaModel (root: ModelPart) : PokemonPosableModel(root) {
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
             quirks = arrayOf(blink, quirk, quirk2),
                 condition = { !it.isBattling },
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("darumaka", "ground_idle")
             )
         )
@@ -58,7 +58,7 @@ class DarumakaModel (root: ModelPart) : PokemonPosableModel(root) {
                 transformTicks = 10,
                 quirks = arrayOf(blink, quirk),
                 condition = { it.isBattling },
-                idleAnimations = arrayOf(
+                animations = arrayOf(
                         bedrock("darumaka", "battle_idle")
                 )
 
@@ -68,7 +68,7 @@ class DarumakaModel (root: ModelPart) : PokemonPosableModel(root) {
             poseName = "walk",
             poseTypes = PoseType.MOVING_POSES,
             quirks = arrayOf(blink, quirk),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("darumaka", "ground_walk")
             )
         )

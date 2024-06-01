@@ -45,7 +45,7 @@ class ChanseyModel(root: ModelPart) : PokemonPosableModel(root), BipedFrame {
         sleep = registerPose(
             poseName = "sleep",
             poseType = PoseType.SLEEP,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("chansey", "sleep")
             )
         )
@@ -55,7 +55,7 @@ class ChanseyModel(root: ModelPart) : PokemonPosableModel(root), BipedFrame {
             poseTypes = STATIONARY_POSES + UI_POSES,
             condition = { !it.isBattling },
             transformTicks = 10,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("chansey", "ground_idle")
             )
         )
@@ -65,7 +65,7 @@ class ChanseyModel(root: ModelPart) : PokemonPosableModel(root), BipedFrame {
             poseTypes = MOVING_POSES,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("chansey", "ground_walk")
             )
         )
@@ -75,7 +75,7 @@ class ChanseyModel(root: ModelPart) : PokemonPosableModel(root), BipedFrame {
             poseTypes = PoseType.STATIONARY_POSES,
             condition = { it.isBattling },
             transformTicks = 10,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("chansey", "battle_idle")
             )
         )

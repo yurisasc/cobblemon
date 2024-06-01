@@ -37,7 +37,7 @@ class CrustleModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
         standing = registerPose(
             poseName = "standing",
             poseTypes = STATIONARY_POSES + UI_POSES,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("crustle", "ground_idle")
             )
@@ -46,7 +46,7 @@ class CrustleModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
         walk = registerPose(
             poseName = "walk",
             poseTypes = MOVING_POSES,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("crustle", "ground_idle")
                 //bedrock("crustle", "ground_walk")

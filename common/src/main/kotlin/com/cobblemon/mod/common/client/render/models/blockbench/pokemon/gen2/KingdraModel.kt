@@ -39,7 +39,7 @@ class KingdraModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
             poseName = "standing",
             poseType = PoseType.STAND,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("kingdra", "ground_idle")
             ),
@@ -52,7 +52,7 @@ class KingdraModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
             poseName = "walk",
             poseType = PoseType.WALK,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("kingdra", "ground_walk")
             ),
@@ -65,7 +65,7 @@ class KingdraModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
             poseName = "float",
             poseTypes = UI_POSES + PoseType.FLOAT,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("kingdra", "water_idle")
             ),
@@ -78,7 +78,7 @@ class KingdraModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
             poseName = "swim",
             poseType = PoseType.SWIM,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("kingdra", "water_swim")
             ),

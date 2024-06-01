@@ -39,7 +39,7 @@ class CyndaquilModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame 
 
         sleep = registerPose(
             poseType = PoseType.SLEEP,
-            idleAnimations = arrayOf(bedrock("cyndaquil", "sleep"))
+            animations = arrayOf(bedrock("cyndaquil", "sleep"))
         )
 
         standing = registerPose(
@@ -48,7 +48,7 @@ class CyndaquilModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame 
             transformTicks = 10,
             condition = { !it.isBattling },
 //            quirks = arrayOf(sneeze),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("cyndaquil", "ground_idle")
             )
@@ -59,7 +59,7 @@ class CyndaquilModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame 
             poseTypes = PoseType.MOVING_POSES,
             transformTicks = 10,
 //            quirks = arrayOf(sneeze),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("cyndaquil", "ground_walk")
             )
@@ -71,7 +71,7 @@ class CyndaquilModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame 
             transformTicks = 10,
 //            quirks = arrayOf(sneeze),
             condition = { it.isBattling },
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(minPitch = 0F),
                 bedrock("cyndaquil", "battle_idle")
             )

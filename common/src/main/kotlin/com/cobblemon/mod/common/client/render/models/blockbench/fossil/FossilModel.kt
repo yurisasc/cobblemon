@@ -9,13 +9,19 @@
 package com.cobblemon.mod.common.client.render.models.blockbench.fossil
 
 import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
-import com.cobblemon.mod.common.client.render.models.blockbench.animation.StatelessAnimation
+import com.cobblemon.mod.common.client.render.models.blockbench.animation.PoseAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.Bone
 import com.cobblemon.mod.common.client.render.models.blockbench.quirk.ModelQuirk
 import com.cobblemon.mod.common.entity.PoseType
 import com.google.gson.annotations.SerializedName
 import net.minecraft.client.model.ModelPart
 
+/**
+ * A model for rendering in the restoration tank. This model is not intended to be used for living entities.
+ *
+ * @author Hiroku
+ * @since October 30th, 2023
+ */
 class FossilModel(root: Bone) : PosableModel(root) {
     @Transient
     @SerializedName("dummy")
@@ -30,13 +36,13 @@ class FossilModel(root: Bone) : PosableModel(root) {
     var yGrowthPoint = 0F
     var maxScale = 1F
     var yTranslation = 0F // Offset inside the tank
-    var tankAnimations: Array<StatelessAnimation> = emptyArray()
+    var tankAnimations: Array<PoseAnimation> = emptyArray()
     var tankQuirks: Array<ModelQuirk<*>> = emptyArray()
 
     override fun registerPoses() {
         registerPose(
             poseType = PoseType.SLEEP,
-            idleAnimations = tankAnimations,
+            animations = tankAnimations,
             quirks = tankQuirks
         )
     }

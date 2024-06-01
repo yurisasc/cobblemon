@@ -9,7 +9,6 @@
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen3
 
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
-import com.cobblemon.mod.common.client.render.models.blockbench.PosableState
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.QuadrupedWalkAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.QuadrupedFrame
@@ -42,7 +41,7 @@ class LinooneGalarianModel (root: ModelPart) : PokemonPosableModel(root), Headed
             poseName = "standing",
             poseTypes = PoseType.UI_POSES + PoseType.STAND,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("linoone_galarian", "ground_idle")
             )
@@ -52,7 +51,7 @@ class LinooneGalarianModel (root: ModelPart) : PokemonPosableModel(root), Headed
             poseName = "walk",
             poseType = PoseType.WALK,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 QuadrupedWalkAnimation(this, periodMultiplier = 1.1F),
                 singleBoneLook(),
                 bedrock("linoone_galarian", "ground_idle")

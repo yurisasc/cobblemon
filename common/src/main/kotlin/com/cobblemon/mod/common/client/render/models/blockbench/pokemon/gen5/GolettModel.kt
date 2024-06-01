@@ -8,12 +8,12 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen5
 
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.PosableState
-import com.cobblemon.mod.common.client.render.models.blockbench.animation.StatefulAnimation
+import com.cobblemon.mod.common.client.render.models.blockbench.animation.ActiveAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BimanualFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.Pose
 import com.cobblemon.mod.common.entity.PoseType
 import net.minecraft.client.model.ModelPart
@@ -44,7 +44,7 @@ class GolettModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Bi
             poseName = "standing",
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("golett", "ground_idle")
             )
@@ -54,7 +54,7 @@ class GolettModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Bi
             poseName = "walk",
             poseTypes = PoseType.MOVING_POSES,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("golett", "ground_walk")
             )
@@ -63,11 +63,11 @@ class GolettModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Bi
         sleep = registerPose(
             poseName = "sleep",
             poseType = PoseType.SLEEP,
-            idleAnimations = arrayOf(bedrock("golett", "sleep"))
+            animations = arrayOf(bedrock("golett", "sleep"))
         )
     }
 
-    override fun getFaintAnimation(state: PosableState): StatefulAnimation? {
+    override fun getFaintAnimation(state: PosableState): ActiveAnimation? {
         return if (state.isNotPosedIn(sleep, standing, walk)) bedrockStateful("golett", "faint") else null
     }
 }

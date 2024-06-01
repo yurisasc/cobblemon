@@ -8,19 +8,15 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen8
 
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.PosableState
 import com.cobblemon.mod.common.client.render.models.blockbench.createTransformation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.QuadrupedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.Pose
 import com.cobblemon.mod.common.entity.PoseType
-import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
-import com.cobblemon.mod.common.util.DataKeys
-import com.cobblemon.mod.common.util.asExpression
 import com.cobblemon.mod.common.util.asExpressionLike
-import com.cobblemon.mod.common.util.resolveBoolean
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
@@ -51,7 +47,7 @@ class WoolooModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Qua
             poseTypes = setOf(PoseType.NONE, PoseType.STAND, PoseType.PORTRAIT, PoseType.PROFILE),
             quirks = arrayOf(blink),
             transformedParts = arrayOf(wool.createTransformation().withVisibility(isNotSheared)),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("wooloo", "ground_idle")
             )
@@ -62,7 +58,7 @@ class WoolooModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Qua
             poseTypes = setOf(PoseType.SWIM, PoseType.WALK),
             quirks = arrayOf(blink),
             transformedParts = arrayOf(wool.createTransformation().withVisibility(visibility = isNotSheared)),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("wooloo", "ground_walk")
             )

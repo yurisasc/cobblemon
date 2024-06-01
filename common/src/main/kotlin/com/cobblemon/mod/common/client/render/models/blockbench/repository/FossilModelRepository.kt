@@ -43,7 +43,7 @@ object FossilModelRepository : VaryingModelRepository<FossilModel>() {
 //                val animString = it.asString
 //                val anim = animString.substringBefore("(")
 //                if (JsonPosableModel.ANIMATION_FACTORIES.contains(anim)) {
-//                    return@mapNotNull JsonPosableModel.ANIMATION_FACTORIES[anim]!!.stateless(model, animString)
+//                    return@mapNotNull JsonPosableModel.ANIMATION_FACTORIES[anim]!!.pose(model, animString)
 //                } else {
 //                    null
 //                }

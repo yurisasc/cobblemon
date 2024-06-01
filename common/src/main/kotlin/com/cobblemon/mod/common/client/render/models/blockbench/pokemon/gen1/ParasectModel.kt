@@ -38,7 +38,7 @@ class ParasectModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
             poseName = "standing",
             poseTypes = STATIONARY_POSES + UI_POSES,
             transformTicks = 10,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("parasect", "ground_idle"),
                 singleBoneLook()
             )
@@ -46,14 +46,14 @@ class ParasectModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
 
         sleep = registerPose(
                 poseType = PoseType.SLEEP,
-                idleAnimations = arrayOf(bedrock("parasect", "sleep"))
+                animations = arrayOf(bedrock("parasect", "sleep"))
         )
 
         walk = registerPose(
             poseName = "walk",
             poseTypes = MOVING_POSES,
             transformTicks = 10,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("parasect", "ground_walk"),
                 singleBoneLook()
             )

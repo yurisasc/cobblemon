@@ -8,12 +8,11 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen6
 
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.PosableState
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.Pose
 import com.cobblemon.mod.common.entity.PoseType
-import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.util.isBattling
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
@@ -38,7 +37,7 @@ class TrevenantModel  (root: ModelPart) : PokemonPosableModel(root) {
         val blink = quirk { bedrockStateful("trevenant", "blink")}
         sleep = registerPose(
             poseType = PoseType.SLEEP,
-            idleAnimations = arrayOf(bedrock("trevenant", "sleep"))
+            animations = arrayOf(bedrock("trevenant", "sleep"))
         )
 
         standing = registerPose(
@@ -47,7 +46,7 @@ class TrevenantModel  (root: ModelPart) : PokemonPosableModel(root) {
             condition = { !it.isBattling },
             transformTicks = 10,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("trevenant", "ground_idle")
             )
         )
@@ -56,7 +55,7 @@ class TrevenantModel  (root: ModelPart) : PokemonPosableModel(root) {
             poseTypes = PoseType.MOVING_POSES,
             transformTicks = 5,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("trevenant", "ground_walk")
             )
         )
@@ -66,7 +65,7 @@ class TrevenantModel  (root: ModelPart) : PokemonPosableModel(root) {
             transformTicks = 10,
             quirks = arrayOf(blink),
             condition = { it.isBattling },
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("trevenant", "battle_idle")
             )
         )

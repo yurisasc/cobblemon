@@ -8,9 +8,9 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen5
 
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.PosableState
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.CobblemonPose
 import com.cobblemon.mod.common.entity.PoseType
 import net.minecraft.client.model.ModelPart
@@ -35,14 +35,14 @@ class KlinkModel(root: ModelPart) : PokemonPosableModel(root) {
         sleep = registerPose(
             poseType = PoseType.SLEEP,
             transformTicks = 10,
-            idleAnimations = arrayOf(bedrock("klink", "sleep"))
+            animations = arrayOf(bedrock("klink", "sleep"))
         )
 
         standing = registerPose(
                 poseName = "standing",
                 poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
                 transformTicks = 10,
-                idleAnimations = arrayOf(
+                animations = arrayOf(
                         bedrock("klink", "ground_idle")
                 )
         )
@@ -51,7 +51,7 @@ class KlinkModel(root: ModelPart) : PokemonPosableModel(root) {
                 poseName = "walk",
                 poseTypes = PoseType.MOVING_POSES,
                 transformTicks = 10,
-                idleAnimations = arrayOf(
+                animations = arrayOf(
                         bedrock("klink", "ground_walk")
                 )
         )

@@ -10,7 +10,7 @@ package com.cobblemon.mod.common.client.render.models.blockbench.bedrock.animati
 
 import com.cobblemon.mod.common.Cobblemon.LOGGER
 import com.cobblemon.mod.common.client.render.models.blockbench.BedrockAnimationReferenceFactory
-import com.cobblemon.mod.common.client.render.models.blockbench.JsonPosableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.JsonPose
 import com.cobblemon.mod.common.util.fromJson
 import com.google.gson.FieldNamingPolicy
 import com.google.gson.GsonBuilder
@@ -18,7 +18,8 @@ import net.minecraft.resource.ResourceManager
 
 
 /**
- * Handles the loading and retrieval of bedrock animations.
+ * Handles the loading and retrieval of bedrock animations. These animations are agnostic of the type of
+ * model that they are loaded onto.
  *
  * @author landonjw
  * @since January 5, 2022
@@ -34,7 +35,7 @@ object BedrockAnimationRepository {
     private val animationGroups = mutableMapOf<String, BedrockAnimationGroup>()
 
     fun loadAnimations(resourceManager: ResourceManager, directories: List<String>) {
-        JsonPosableModel.registerFactory("bedrock", BedrockAnimationReferenceFactory)
+        JsonPose.registerAnimationFactory("bedrock", BedrockAnimationReferenceFactory)
 
         LOGGER.info("Loading animations...")
         var animationCount = 0

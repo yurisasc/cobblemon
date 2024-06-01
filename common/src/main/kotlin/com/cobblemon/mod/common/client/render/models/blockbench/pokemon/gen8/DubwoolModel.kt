@@ -8,17 +8,16 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen8
 
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.PosableState
 import com.cobblemon.mod.common.client.render.models.blockbench.createTransformation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.QuadrupedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.Pose
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.util.DataKeys
 import com.cobblemon.mod.common.util.asExpressionLike
-import com.cobblemon.mod.common.util.resolveBoolean
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
@@ -53,7 +52,7 @@ class DubwoolModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Qu
                 wool.createTransformation().withVisibility(visibility = isNotSheared),
                 neckWool.createTransformation().withVisibility(visibility = isNotSheared)
             ),
-            idleAnimations = arrayOf(bedrock("dubwool", "sleep"))
+            animations = arrayOf(bedrock("dubwool", "sleep"))
         )
 
         standing = registerPose(
@@ -65,7 +64,7 @@ class DubwoolModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Qu
                 wool.createTransformation().withVisibility(visibility = isNotSheared),
                 neckWool.createTransformation().withVisibility(visibility = isNotSheared)
             ),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("dubwool", "ground_idle")
             )
@@ -80,7 +79,7 @@ class DubwoolModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Qu
                 wool.createTransformation().withVisibility(visibility = isNotSheared),
                 neckWool.createTransformation().withVisibility(visibility = isNotSheared)
             ),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("dubwool", "ground_walk")
             )

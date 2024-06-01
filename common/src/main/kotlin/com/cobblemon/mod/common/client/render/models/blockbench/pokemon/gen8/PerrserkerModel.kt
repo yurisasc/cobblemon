@@ -46,7 +46,7 @@ class PerrserkerModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame,
             poseName = "standing",
             poseTypes = STATIONARY_POSES + UI_POSES,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("perrserker", "ground_idle")
             )
@@ -61,7 +61,7 @@ class PerrserkerModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame,
             poseName = "walk",
             poseTypes = MOVING_POSES,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 BipedWalkAnimation(this, periodMultiplier = .7F),
                 BimanualSwingAnimation(this),

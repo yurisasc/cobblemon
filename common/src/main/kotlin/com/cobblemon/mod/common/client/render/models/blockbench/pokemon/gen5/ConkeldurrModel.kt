@@ -8,10 +8,10 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen5
 
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.CobblemonPose
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.util.isBattling
@@ -43,7 +43,7 @@ class ConkeldurrModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame
         sleep = registerPose(
             poseName = "sleep",
             poseType = PoseType.SLEEP,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("conkeldurr", "sleep")
             )
         )
@@ -53,7 +53,7 @@ class ConkeldurrModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
             quirks = arrayOf(blink),
             condition = { !it.isBattling },
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("conkeldurr", "ground_idle")
             )
@@ -63,7 +63,7 @@ class ConkeldurrModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame
             poseName = "walk",
             poseTypes = PoseType.MOVING_POSES,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("conkeldurr", "ground_walk")
             )
@@ -74,7 +74,7 @@ class ConkeldurrModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame
             poseTypes = PoseType.STATIONARY_POSES,
             quirks = arrayOf(blink),
             condition = { it.isBattling },
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("conkeldurr", "battle_idle")
             )

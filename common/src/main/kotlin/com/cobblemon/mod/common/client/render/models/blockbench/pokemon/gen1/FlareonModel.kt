@@ -38,7 +38,7 @@ class FlareonModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
             poseName = "standing",
             poseTypes = STATIONARY_POSES + UI_POSES,
             transformTicks = 10,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("flareon", "ground_idle")
             )
@@ -48,7 +48,7 @@ class FlareonModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
             poseName = "walk",
             poseTypes = MOVING_POSES,
             transformTicks = 10,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("flareon", "ground_run")
             )

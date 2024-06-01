@@ -32,7 +32,7 @@ class WeepinbellModel(root: ModelPart) : PokemonPosableModel(root) {
         standing = registerPose(
             poseName = "standing",
             poseTypes = STATIONARY_POSES + UI_POSES,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("weepinbell", "ground_idle")
             )
         )
@@ -40,7 +40,7 @@ class WeepinbellModel(root: ModelPart) : PokemonPosableModel(root) {
         walk = registerPose(
             poseName = "walk",
             poseTypes = MOVING_POSES,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("weepinbell", "ground_idle")
                 //bedrock("weepinbell", "ground_walk")
             )

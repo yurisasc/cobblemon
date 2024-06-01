@@ -42,7 +42,7 @@ class SentretModel (root: ModelPart) : PokemonPosableModel(root), BipedFrame, Bi
             poseName = "standing",
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("sentret", "ground_idle")
             )
         )
@@ -51,7 +51,7 @@ class SentretModel (root: ModelPart) : PokemonPosableModel(root), BipedFrame, Bi
             poseName = "walk",
             poseTypes = PoseType.MOVING_POSES,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("sentret", "ground_idle"),
                 BipedWalkAnimation(this, periodMultiplier = 0.6F, amplitudeMultiplier = 0.9F),
                 BimanualSwingAnimation(this, swingPeriodMultiplier = 0.6F, amplitudeMultiplier = 0.9F)

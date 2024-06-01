@@ -33,7 +33,7 @@ class SpinarakModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
             poseName = "standing",
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
             transformTicks = 10,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("spinarak", "ground_idle")
             )
@@ -43,7 +43,7 @@ class SpinarakModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
             poseName = "walk",
             poseTypes = PoseType.MOVING_POSES,
             transformTicks = 5,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("spinarak", "ground_walk")
             )

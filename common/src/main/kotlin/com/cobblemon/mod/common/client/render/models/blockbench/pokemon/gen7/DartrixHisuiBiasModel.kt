@@ -8,13 +8,13 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen7
 
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.BipedWalkAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.WingFlapIdleAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.createTransformation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BiWingedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.CobblemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.ModelPartTransformation
 import com.cobblemon.mod.common.client.render.models.blockbench.wavefunction.sineFunction
@@ -59,7 +59,7 @@ class DartrixHisuiBiasModel(root: ModelPart) : PokemonPosableModel(root), BipedF
                         wingsOpen.createTransformation().withVisibility(false),
                         wingsClosed.createTransformation().withVisibility(true)
                 ),
-                idleAnimations = arrayOf(
+                animations = arrayOf(
                         bedrock("dartrix_hisui_bias", "ground_idle")
                 )
         )
@@ -72,7 +72,7 @@ class DartrixHisuiBiasModel(root: ModelPart) : PokemonPosableModel(root), BipedF
                         wingsOpen.createTransformation().withVisibility(true),
                         wingsClosed.createTransformation().withVisibility(false)
                 ),
-                idleAnimations = arrayOf(
+                animations = arrayOf(
                         bedrock("dartrix_hisui_bias", "ground_idle"),
                         WingFlapIdleAnimation(this,
                                 flapFunction = sineFunction(verticalShift = -10F.toRadians(), period = 0.9F, amplitude = 0.6F),
@@ -90,7 +90,7 @@ class DartrixHisuiBiasModel(root: ModelPart) : PokemonPosableModel(root), BipedF
                         wingsOpen.createTransformation().withVisibility(true),
                         wingsClosed.createTransformation().withVisibility(false)
                 ),
-                idleAnimations = arrayOf(
+                animations = arrayOf(
                         bedrock("dartrix_hisui_bias", "ground_idle"),
                         WingFlapIdleAnimation(this,
                                 flapFunction = sineFunction(verticalShift = -14F.toRadians(), period = 0.9F, amplitude = 0.9F),
@@ -107,7 +107,7 @@ class DartrixHisuiBiasModel(root: ModelPart) : PokemonPosableModel(root), BipedF
                         wingsOpen.createTransformation().withVisibility(false),
                         wingsClosed.createTransformation().withVisibility(true)
                 ),
-                idleAnimations = arrayOf(
+                animations = arrayOf(
                         bedrock("dartrix_hisui_bias", "ground_idle"),
                         BipedWalkAnimation(this, periodMultiplier = 0.75F, amplitudeMultiplier = 0.7F)
                         //bedrock("dartrix_hisui_bias", "ground_walk")

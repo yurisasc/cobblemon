@@ -48,7 +48,7 @@ class DachsbunModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Q
             poseTypes = STATIONARY_POSES + UI_POSES,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("dachsbun", "ground_idle")
             )
         )
@@ -57,7 +57,7 @@ class DachsbunModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Q
             poseTypes = MOVING_POSES,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("dachsbun", "ground_walk")
             )
         )
@@ -66,7 +66,7 @@ class DachsbunModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Q
             poseType = PoseType.SLEEP,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("dachsbun", "sleep")
             )
         )

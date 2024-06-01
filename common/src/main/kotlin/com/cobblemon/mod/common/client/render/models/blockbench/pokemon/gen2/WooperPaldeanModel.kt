@@ -49,14 +49,14 @@ class WooperPaldeanModel(root: ModelPart) : PokemonPosableModel(root), HeadedFra
         sleep = registerPose(
             poseName = "sleep",
             poseType = PoseType.SLEEP,
-            idleAnimations = arrayOf(bedrock("wooper_paldean", "sleep"))
+            animations = arrayOf(bedrock("wooper_paldean", "sleep"))
         )
 
         standing = registerPose(
             poseName = "standing",
             poseTypes = STATIONARY_POSES + UI_POSES - PoseType.FLOAT,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("wooper_paldean", "ground_idle")
             )
@@ -66,7 +66,7 @@ class WooperPaldeanModel(root: ModelPart) : PokemonPosableModel(root), HeadedFra
             poseName = "walk",
             poseTypes = MOVING_POSES - PoseType.SWIM,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("wooper_paldean", "ground_walk")
             )
@@ -75,7 +75,7 @@ class WooperPaldeanModel(root: ModelPart) : PokemonPosableModel(root), HeadedFra
         float = registerPose(
             poseType = PoseType.FLOAT,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("wooper_paldean", "water_idle")
             )
@@ -84,7 +84,7 @@ class WooperPaldeanModel(root: ModelPart) : PokemonPosableModel(root), HeadedFra
         swim = registerPose(
             poseType = PoseType.SWIM,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("wooper_paldean", "water_swim")
             )
@@ -93,7 +93,7 @@ class WooperPaldeanModel(root: ModelPart) : PokemonPosableModel(root), HeadedFra
         shoulderLeft = registerPose(
             poseType = PoseType.SHOULDER_LEFT,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("wooper_paldean", "ground_idle")
             ),
@@ -105,7 +105,7 @@ class WooperPaldeanModel(root: ModelPart) : PokemonPosableModel(root), HeadedFra
         shoulderRight = registerPose(
             poseType = PoseType.SHOULDER_RIGHT,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("wooper_paldean", "ground_idle")
             ),

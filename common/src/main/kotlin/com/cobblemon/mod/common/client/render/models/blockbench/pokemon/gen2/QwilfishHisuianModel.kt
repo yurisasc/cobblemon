@@ -46,7 +46,7 @@ class QwilfishHisuianModel (root: ModelPart) : PokemonPosableModel(root), Headed
             poseName = "standing",
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("qwilfish_hisuian", "ground_idle")
             )
         )
@@ -55,7 +55,7 @@ class QwilfishHisuianModel (root: ModelPart) : PokemonPosableModel(root), Headed
             poseName = "walk",
             poseTypes = PoseType.MOVING_POSES,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("qwilfish_hisuian", "ground_idle"),
                 WaveAnimation(
                     waveFunction = sineFunction(

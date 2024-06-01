@@ -34,14 +34,14 @@ class PoliwhirlModel(root: ModelPart) : PokemonPosableModel(root) {
 
         sleep = registerPose(
             poseType = PoseType.SLEEP,
-            idleAnimations = arrayOf(bedrock("poliwhirl", "sleep"))
+            animations = arrayOf(bedrock("poliwhirl", "sleep"))
         )
 
         standing = registerPose(
             poseName = "standing",
             poseTypes = PoseType.STANDING_POSES + UI_POSES,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("poliwhirl", "ground_idle")
             )
         )
@@ -50,7 +50,7 @@ class PoliwhirlModel(root: ModelPart) : PokemonPosableModel(root) {
             poseName = "float",
             poseType = PoseType.FLOAT,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("poliwhirl", "water_idle")
             )
         )
@@ -59,7 +59,7 @@ class PoliwhirlModel(root: ModelPart) : PokemonPosableModel(root) {
             poseName = "swim",
             poseType = PoseType.SWIM,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("poliwhirl", "water_swim")
             )
         )

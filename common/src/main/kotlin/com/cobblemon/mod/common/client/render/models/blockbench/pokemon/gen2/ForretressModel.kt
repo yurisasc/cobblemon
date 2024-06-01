@@ -35,7 +35,7 @@ class ForretressModel(root: ModelPart) : PokemonPosableModel(root) {
                 poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
                 transformTicks = 10,
                 quirks = arrayOf(blink),
-                idleAnimations = arrayOf(
+                animations = arrayOf(
                         bedrock("forretress", "ground_idle")
                 )
         )
@@ -45,7 +45,7 @@ class ForretressModel(root: ModelPart) : PokemonPosableModel(root) {
                 poseTypes = PoseType.MOVING_POSES,
                 transformTicks = 10,
                 quirks = arrayOf(blink),
-                idleAnimations = arrayOf(
+                animations = arrayOf(
                         bedrock("forretress", "ground_walk")
                 )
         )
@@ -53,7 +53,7 @@ class ForretressModel(root: ModelPart) : PokemonPosableModel(root) {
         sleep = registerPose(
                 poseType = PoseType.SLEEP,
                 transformTicks = 10,
-                idleAnimations = arrayOf(bedrock("forretress", "sleep"))
+                animations = arrayOf(bedrock("forretress", "sleep"))
         )
     }
 

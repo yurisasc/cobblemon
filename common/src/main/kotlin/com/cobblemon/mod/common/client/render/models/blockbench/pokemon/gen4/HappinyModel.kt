@@ -8,15 +8,14 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen4
 
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.PosableState
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.CobblemonPose
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.PoseType.Companion.MOVING_POSES
 import com.cobblemon.mod.common.entity.PoseType.Companion.STATIONARY_POSES
 import com.cobblemon.mod.common.entity.PoseType.Companion.UI_POSES
-import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.util.isBattling
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
@@ -45,7 +44,7 @@ class HappinyModel(root: ModelPart) : PokemonPosableModel(root), BipedFrame {
         sleep = registerPose(
             poseName = "sleep",
             poseType = PoseType.SLEEP,
-            idleAnimations = arrayOf(bedrock("happiny", "sleep"))
+            animations = arrayOf(bedrock("happiny", "sleep"))
         )
 
         standing = registerPose(
@@ -54,7 +53,7 @@ class HappinyModel(root: ModelPart) : PokemonPosableModel(root), BipedFrame {
             condition = { !it.isBattling },
             quirks = arrayOf(blink, hairQuirk, happy),
             transformTicks = 10,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("happiny", "ground_idle")
             )
         )
@@ -64,7 +63,7 @@ class HappinyModel(root: ModelPart) : PokemonPosableModel(root), BipedFrame {
             poseTypes = MOVING_POSES,
             quirks = arrayOf(blink),
             transformTicks = 10,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("happiny", "ground_walk")
             )
         )
@@ -75,7 +74,7 @@ class HappinyModel(root: ModelPart) : PokemonPosableModel(root), BipedFrame {
             quirks = arrayOf(blink, hairQuirk, happy),
             transformTicks = 10,
             condition = { it.isBattling },
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("happiny", "battle_idle")
             )
         )

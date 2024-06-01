@@ -44,7 +44,7 @@ class KommoOModel (root: ModelPart) : PokemonPosableModel(root), BipedFrame, Bim
             poseName = "standing",
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("kommo-o", "ground_idle")
             )
         )
@@ -53,7 +53,7 @@ class KommoOModel (root: ModelPart) : PokemonPosableModel(root), BipedFrame, Bim
             poseName = "walk",
             poseTypes = PoseType.MOVING_POSES,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("kommo-o", "ground_idle"),
                 BipedWalkAnimation(this,0.6F, 1F),
                 BimanualSwingAnimation(this, 0.6F, 1F)

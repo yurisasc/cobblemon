@@ -36,7 +36,7 @@ class TatsugiriModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame 
         standing = registerPose(
             poseName = "standing",
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("tatsugiri", "ground_idle")
             )
@@ -45,7 +45,7 @@ class TatsugiriModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame 
         walk = registerPose(
             poseName = "walk",
             poseTypes = PoseType.MOVING_POSES,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("tatsugiri", "ground_idle")
             )
@@ -54,7 +54,7 @@ class TatsugiriModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame 
         swimming = registerPose(
             poseName = "swimming",
             poseTypes = PoseType.SWIMMING_POSES,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("tatsugiri", "water_idle")
             )
         )

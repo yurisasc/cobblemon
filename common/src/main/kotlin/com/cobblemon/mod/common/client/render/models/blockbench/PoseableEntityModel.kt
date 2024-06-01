@@ -13,12 +13,21 @@ import com.cobblemon.mod.common.entity.PosableEntity
 import net.minecraft.client.render.OverlayTexture
 import net.minecraft.client.render.RenderLayer
 import net.minecraft.client.render.VertexConsumer
+import net.minecraft.client.render.entity.LivingEntityRenderer
 import net.minecraft.client.render.entity.model.EntityModel
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.entity.Entity
 import net.minecraft.entity.LivingEntity
 import net.minecraft.util.Identifier
 
+/**
+ * A wrapping around a [PosableModel] that presents as an [EntityModel]. This is used to continue using
+ * the [LivingEntityRenderer] system while still being able to use the [PosableModel] system. Subclasses
+ * just lock in the type of [EntityModel].
+ *
+ * @author Hiroku
+ * @since January 5th, 2024
+ */
 abstract class PosableEntityModel<T : Entity>(
     renderTypeFunc: (Identifier) -> RenderLayer = RenderLayer::getEntityCutout
 ) : EntityModel<T>(renderTypeFunc) {
@@ -54,7 +63,7 @@ abstract class PosableEntityModel<T : Entity>(
         }
     }
 
-    //Called by LivingEntityRenderer's render method before calling model.render (which is this.render in this case)
+    // Called by LivingEntityRenderer's render method before calling model.render (which is this.render in this case)
     override fun setAngles(
         entity: T,
         limbSwing: Float,

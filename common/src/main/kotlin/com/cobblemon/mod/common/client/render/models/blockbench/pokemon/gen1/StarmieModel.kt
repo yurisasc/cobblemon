@@ -38,7 +38,7 @@ class StarmieModel(root: ModelPart) : PokemonPosableModel(root) {
             poseName = "standing",
             poseType = PoseType.STAND,
             condition = { !it.isBattling },
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("starmie", "ground_idle")
             )
         )
@@ -47,7 +47,7 @@ class StarmieModel(root: ModelPart) : PokemonPosableModel(root) {
             poseName = "walk",
             poseType = PoseType.WALK,
             condition = { !it.isBattling },
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("starmie", "ground_walk")
             )
         )
@@ -56,7 +56,7 @@ class StarmieModel(root: ModelPart) : PokemonPosableModel(root) {
             poseName = "float",
             poseTypes = UI_POSES + PoseType.FLOAT,
             condition = { !it.isBattling },
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("starmie", "water_idle")
             )
         )
@@ -65,7 +65,7 @@ class StarmieModel(root: ModelPart) : PokemonPosableModel(root) {
             poseName = "swim",
             poseType = PoseType.SWIM,
             condition = { !it.isBattling },
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("starmie", "water_swim")
             )
         )
@@ -73,7 +73,7 @@ class StarmieModel(root: ModelPart) : PokemonPosableModel(root) {
         sleep = registerPose(
             poseName = "sleep",
             poseType = PoseType.SLEEP,
-            idleAnimations = arrayOf(bedrock("starmie", "sleep"))
+            animations = arrayOf(bedrock("starmie", "sleep"))
         )
 
         battleidle = registerPose(
@@ -81,7 +81,7 @@ class StarmieModel(root: ModelPart) : PokemonPosableModel(root) {
             poseTypes = PoseType.STATIONARY_POSES,
             transformTicks = 10,
             condition = { it.isBattling },
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("starmie", "battle_idle")
             )
 

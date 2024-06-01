@@ -41,7 +41,7 @@ class PachirisuModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, 
             poseName = "standing",
             poseTypes = STATIONARY_POSES + UI_POSES,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("pachirisu", "ground_idle")
             )
@@ -51,7 +51,7 @@ class PachirisuModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, 
             poseName = "walk",
             poseTypes = MOVING_POSES,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 BipedWalkAnimation(this, periodMultiplier = 0.8F, amplitudeMultiplier = 0.7F),
                 bedrock("pachirisu", "ground_idle")

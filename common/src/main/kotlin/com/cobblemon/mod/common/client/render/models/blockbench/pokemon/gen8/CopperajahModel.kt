@@ -45,8 +45,8 @@ class CopperajahModel (root: ModelPart) : PokemonPosableModel(root) {
         sleep = registerPose(
             poseType = PoseType.SLEEP,
             quirks = arrayOf(blink),
-            animations = mutableMapOf("faint" to faint),
-            idleAnimations = arrayOf(bedrock("copperajah", "sleep"))
+            namedAnimations = mutableMapOf("faint" to faint),
+            animations = arrayOf(bedrock("copperajah", "sleep"))
         )
 
         standing = registerPose(
@@ -54,8 +54,8 @@ class CopperajahModel (root: ModelPart) : PokemonPosableModel(root) {
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
             quirks = arrayOf(blink, quirk),
             condition = { !it.isBattling },
-            animations = mutableMapOf("faint" to faint),
-            idleAnimations = arrayOf(
+            namedAnimations = mutableMapOf("faint" to faint),
+            animations = arrayOf(
                 bedrock("copperajah", "ground_idle")
             )
         )
@@ -64,8 +64,8 @@ class CopperajahModel (root: ModelPart) : PokemonPosableModel(root) {
             poseName = "walk",
             poseTypes = PoseType.MOVING_POSES,
             quirks = arrayOf(blink, quirk),
-            animations = mutableMapOf("faint" to faint),
-            idleAnimations = arrayOf(
+            namedAnimations = mutableMapOf("faint" to faint),
+            animations = arrayOf(
                 bedrock("copperajah", "ground_walk")
             )
         )
@@ -75,8 +75,8 @@ class CopperajahModel (root: ModelPart) : PokemonPosableModel(root) {
             poseTypes = PoseType.STATIONARY_POSES,
             quirks = arrayOf(blink, quirk),
             condition = { it.isBattling },
-            animations = mutableMapOf("faint" to faint),
-            idleAnimations = arrayOf(
+            namedAnimations = mutableMapOf("faint" to faint),
+            animations = arrayOf(
                 bedrock("copperajah", "battle_idle")
             )
         )

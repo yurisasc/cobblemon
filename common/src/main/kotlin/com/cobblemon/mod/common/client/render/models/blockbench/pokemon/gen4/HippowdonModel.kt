@@ -8,10 +8,10 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen4
 
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.createTransformation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.CobblemonPose
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.util.isBattling
@@ -68,7 +68,7 @@ class HippowdonModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame 
                 sand.createTransformation().withVisibility(visibility = false),
                 redsand.createTransformation().withVisibility(visibility = false)
             ),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("hippowdon", "sleep")
             )
@@ -82,7 +82,7 @@ class HippowdonModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame 
                 sand.createTransformation().withVisibility(visibility = false),
                 redsand.createTransformation().withVisibility(visibility = false)
             ),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("hippowdon", "sand_sleep")
             )
@@ -97,7 +97,7 @@ class HippowdonModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame 
                 sand.createTransformation().withVisibility(visibility = false),
                 redsand.createTransformation().withVisibility(visibility = false)
             ),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("hippowdon", "ground_idle")
             )
@@ -112,7 +112,7 @@ class HippowdonModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame 
                 sand.createTransformation().withVisibility(visibility = false),
                 redsand.createTransformation().withVisibility(visibility = false)
             ),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("hippowdon", "ground_walk")
             )
@@ -127,7 +127,7 @@ class HippowdonModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame 
                 sand.createTransformation().withVisibility(visibility = false),
                 redsand.createTransformation().withVisibility(visibility = false)
             ),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("hippowdon", "sand_idle")
             )
@@ -142,7 +142,7 @@ class HippowdonModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame 
                 sand.createTransformation().withVisibility(visibility = false),
                 redsand.createTransformation().withVisibility(visibility = false)
             ),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("hippowdon", "sand_idle")
             )
@@ -157,7 +157,7 @@ class HippowdonModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame 
                 sand.createTransformation().withVisibility(visibility = false),
                 redsand.createTransformation().withVisibility(visibility = false)
             ),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("hippowdon", "sand_swim")
             )
         )
@@ -171,7 +171,7 @@ class HippowdonModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame 
                 sand.createTransformation().withVisibility(visibility = false),
                 redsand.createTransformation().withVisibility(visibility = false)
             ),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("hippowdon", "sand_swim")
             )
         )
@@ -185,7 +185,7 @@ class HippowdonModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame 
                 sand.createTransformation().withVisibility(visibility = false),
                 redsand.createTransformation().withVisibility(visibility = false)
             ),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("hippowdon", "battle_idle")
             )
@@ -200,7 +200,7 @@ class HippowdonModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame 
                 sand.createTransformation().withVisibility(visibility = true),
                 redsand.createTransformation().withVisibility(visibility = false)
             ),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("hippowdon", "sand_battle_idle")
             )
@@ -215,7 +215,7 @@ class HippowdonModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame 
                 sand.createTransformation().withVisibility(visibility = false),
                 redsand.createTransformation().withVisibility(visibility = true)
             ),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("hippowdon", "sand_battle_idle")
             )

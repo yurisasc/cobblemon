@@ -58,7 +58,7 @@ class SquawkabillyModel (root: ModelPart) : PokemonPosableModel(root), HeadedFra
             quirks = arrayOf(blink),
             poseTypes = PoseType.UI_POSES + PoseType.STAND,
             transformTicks = 10,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("squawkabilly", "ground_idle")
             )
@@ -69,7 +69,7 @@ class SquawkabillyModel (root: ModelPart) : PokemonPosableModel(root), HeadedFra
             quirks = arrayOf(blink),
             poseType = PoseType.WALK,
             transformTicks = 10,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("squawkabilly", "ground_idle"),
                 rootPart.translation(
@@ -151,7 +151,7 @@ class SquawkabillyModel (root: ModelPart) : PokemonPosableModel(root), HeadedFra
             quirks = arrayOf(blink),
             poseTypes = setOf(PoseType.FLOAT, PoseType.HOVER),
             transformTicks = 10,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 WingFlapIdleAnimation(this,
                     flapFunction = sineFunction(verticalShift = -10F.toRadians(), period = 0.9F, amplitude = 0.9F),
@@ -166,7 +166,7 @@ class SquawkabillyModel (root: ModelPart) : PokemonPosableModel(root), HeadedFra
             quirks = arrayOf(blink),
             poseTypes = setOf(PoseType.FLY, PoseType.SWIM),
             transformTicks = 10,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 WingFlapIdleAnimation(this,
                     flapFunction = sineFunction(verticalShift = -14F.toRadians(), period = 0.9F, amplitude = 0.9F),
@@ -179,7 +179,7 @@ class SquawkabillyModel (root: ModelPart) : PokemonPosableModel(root), HeadedFra
         shoulderLeft = registerPose(
             poseType = PoseType.SHOULDER_LEFT,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("squawkabilly", "ground_idle")
             ),
@@ -191,7 +191,7 @@ class SquawkabillyModel (root: ModelPart) : PokemonPosableModel(root), HeadedFra
         shoulderRight = registerPose(
             poseType = PoseType.SHOULDER_RIGHT,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("squawkabilly", "ground_idle")
             ),

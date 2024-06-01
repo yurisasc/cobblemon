@@ -61,7 +61,7 @@ class MausholdfourModel (root: ModelPart) : PokemonPosableModel(root), HeadedFra
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
             transformTicks = 10,
             quirks = arrayOf(blink1, blink2, blink3, blink4),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 SingleBoneLookAnimation(head2, false, false, disableX = false, disableY = false),
                 SingleBoneLookAnimation(head3, false, false, disableX = false, disableY = false),
@@ -75,7 +75,7 @@ class MausholdfourModel (root: ModelPart) : PokemonPosableModel(root), HeadedFra
             poseTypes = PoseType.MOVING_POSES,
             transformTicks = 10,
             quirks = arrayOf(blink1, blink2, blink3, blink4),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 SingleBoneLookAnimation(head2, false, false, disableX = false, disableY = false),
                 SingleBoneLookAnimation(head3, false, false, disableX = false, disableY = false),

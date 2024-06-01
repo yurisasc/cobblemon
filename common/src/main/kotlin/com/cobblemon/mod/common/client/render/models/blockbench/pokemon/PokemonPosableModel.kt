@@ -10,6 +10,12 @@ package com.cobblemon.mod.common.client.render.models.blockbench.pokemon
 
 import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.Bone
-import net.minecraft.client.model.ModelPart
 
+/**
+ * A Pokemon-specific subclass of [PosableModel]. This is only specified so that if more properties
+ * become necessary that are specific to Pokémon, we don't need to change heaps of imports.
+ *
+ * @author Hiroku
+ * @since May 31st, 2024
+ */
 open class PokemonPosableModel(root: Bone) : PosableModel(root)

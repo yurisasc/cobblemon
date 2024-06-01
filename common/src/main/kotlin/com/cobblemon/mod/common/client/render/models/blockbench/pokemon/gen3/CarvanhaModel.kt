@@ -30,7 +30,7 @@ class CarvanhaModel (root: ModelPart) : PokemonPosableModel(root) {
         standing = registerPose(
             poseName = "standing",
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("carvanha", "water_idle")
             )
         )
@@ -38,7 +38,7 @@ class CarvanhaModel (root: ModelPart) : PokemonPosableModel(root) {
         walk = registerPose(
             poseName = "walk",
             poseTypes = PoseType.MOVING_POSES,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("carvanha", "water_idle")
             )
         )

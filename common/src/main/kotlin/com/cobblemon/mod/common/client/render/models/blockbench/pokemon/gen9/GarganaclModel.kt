@@ -51,7 +51,7 @@ class GarganaclModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, 
             transformedParts = arrayOf(
                 shoulder.createTransformation().withVisibility(visibility = true)
             ),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("garganacl", "ground_idle")
             )
@@ -64,7 +64,7 @@ class GarganaclModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, 
             transformedParts = arrayOf(
                 shoulder.createTransformation().withVisibility(visibility = true)
             ),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("garganacl", "battle_idle")
             )
@@ -75,7 +75,7 @@ class GarganaclModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, 
             transformedParts = arrayOf(
                 shoulder.createTransformation().withVisibility(visibility = true)
             ),
-                idleAnimations = arrayOf(bedrock("garganacl", "sleep"))
+                animations = arrayOf(bedrock("garganacl", "sleep"))
         )
 
         portrait = registerPose(
@@ -84,7 +84,7 @@ class GarganaclModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, 
             transformedParts = arrayOf(
                 shoulder.createTransformation().withVisibility(visibility = false)
             ),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("garganacl", "ground_idle")
             )
         )
@@ -96,7 +96,7 @@ class GarganaclModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, 
             transformedParts = arrayOf(
                 shoulder.createTransformation().withVisibility(visibility = true)
             ),
-                idleAnimations = arrayOf(
+                animations = arrayOf(
                     singleBoneLook(),
                     bedrock("garganacl", "ground_idle"),
                     bedrock("garganacl", "ground_walk")

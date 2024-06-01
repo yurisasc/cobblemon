@@ -34,14 +34,14 @@ class DarmanitanZenModel (root: ModelPart) : PokemonPosableModel(root) {
         sleep = registerPose(
             poseName = "sleeping",
             poseType = PoseType.SLEEP,
-            idleAnimations = arrayOf(bedrock("darmanitan_zen", "sleep"))
+            animations = arrayOf(bedrock("darmanitan_zen", "sleep"))
         )
 
         standing = registerPose(
             poseName = "standing",
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
             condition = { !it.isBattling },
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("darmanitan_zen", "ground_idle")
             )
         )
@@ -49,7 +49,7 @@ class DarmanitanZenModel (root: ModelPart) : PokemonPosableModel(root) {
         walk = registerPose(
             poseName = "walk",
             poseTypes = PoseType.MOVING_POSES,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("darmanitan_zen", "ground_walk")
             )
         )
@@ -58,7 +58,7 @@ class DarmanitanZenModel (root: ModelPart) : PokemonPosableModel(root) {
             poseName = "battle_idle",
             poseTypes = PoseType.STATIONARY_POSES,
             condition = { it.isBattling },
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("darmanitan_zen", "battle_idle")
             )
         )

@@ -51,7 +51,7 @@ class CharcadetModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, 
         val blink = quirk { bedrockStateful("charcadet", "blink") }
         sleep = registerPose(
             poseType = PoseType.SLEEP,
-            idleAnimations = arrayOf(bedrock("charcadet", "sleep"))
+            animations = arrayOf(bedrock("charcadet", "sleep"))
         )
 
         standing = registerPose(
@@ -59,7 +59,7 @@ class CharcadetModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, 
             poseTypes = STATIONARY_POSES + UI_POSES,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("charcadet", "ground_idle")
             )
@@ -70,7 +70,7 @@ class CharcadetModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, 
             poseTypes = MOVING_POSES,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("charcadet", "ground_walk")
             )
@@ -79,7 +79,7 @@ class CharcadetModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, 
         shoulderLeft = registerPose(
                 poseType = PoseType.SHOULDER_LEFT,
                 quirks = arrayOf(blink),
-                idleAnimations = arrayOf(
+                animations = arrayOf(
                         singleBoneLook(),
                         bedrock("charcadet", "shoulder_left")
                 ),
@@ -92,7 +92,7 @@ class CharcadetModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, 
         shoulderRight = registerPose(
                 poseType = PoseType.SHOULDER_RIGHT,
                 quirks = arrayOf(blink),
-                idleAnimations = arrayOf(
+                animations = arrayOf(
                         singleBoneLook(),
                         bedrock("charcadet", "shoulder_right")
                 ),

@@ -54,7 +54,7 @@ class PidgeyModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
                 wingOpenRight.createTransformation().withVisibility(visibility = false)
             ),
             poseType = PoseType.SLEEP,
-            idleAnimations = arrayOf(bedrock("pidgey", "sleep_PLACEHOLDER"))
+            animations = arrayOf(bedrock("pidgey", "sleep_PLACEHOLDER"))
         )
 
         stand = registerPose(
@@ -68,7 +68,7 @@ class PidgeyModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
                 wingOpenRight.createTransformation().withVisibility(visibility = false)
             ),
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("pidgey", "ground_idle")
             )
@@ -85,7 +85,7 @@ class PidgeyModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
             ),
             transformTicks = 10,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("pidgey", "air_idle")
             )
@@ -102,7 +102,7 @@ class PidgeyModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
             ),
             transformTicks = 10,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("pidgey", "air_fly")
             )
@@ -119,7 +119,7 @@ class PidgeyModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
             ),
             transformTicks = 10,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("pidgey", "ground_walk")
             )

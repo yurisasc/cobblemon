@@ -1,4 +1,6 @@
 ### Additions
+- Pokémon are now animated when seen in any GUI that isn't the party GUI.
+- Quirk animations can now occur for Pokémon that are shoulder mounted.
 
 ### Changes
 - Improved the performance of display cases that contain Pokémon photos.
@@ -7,9 +9,13 @@
 - Fixed some Pokémon photos in display cases flashing if the Pokémon has gender differences.
 - Fixed Bidoof and Jigglypuff sleep animations stopping after some time, causing them to be 'asleep' while T-posing menacingly.
 - Fixed entities not changing poses unless you're looking at them.
+
 ### Developer
 - Rebuilt large swaths of the model animation code to simplify it.
 - Renamed a bunch of things from %Poseable% to %Posable% because spelling.
+- Renamed StatelessAnimation to PoseAnimation.
+- Renamed StatefulAnimation to ActiveAnimation.
+- Documented the animation system.
 
 ### Data Pack & Resource Pack Creators
 - Added MoLang compatibility in the isVisible property for transformed parts.

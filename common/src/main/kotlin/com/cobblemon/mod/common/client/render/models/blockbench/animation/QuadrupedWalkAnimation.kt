@@ -19,7 +19,7 @@ import net.minecraft.util.math.MathHelper
 
 /**
  * A quadruped animation that will have zero-rotations on all legs at
- * stateless and otherwise does simple predictable walking like Minecraft
+ * zero and otherwise does simple predictable walking like Minecraft
  * quadrupeds.
  *
  * @author Hiroku
@@ -34,7 +34,7 @@ class QuadrupedWalkAnimation(
     val periodMultiplier: Float = 0.6662F,
     /** The multiplier to apply to the stride of the entity. The larger this is, the further the legs move. */
     val amplitudeMultiplier: Float = 1.4F
-) : StatelessAnimation() {
+) : PoseAnimation() {
     constructor(
         frame: QuadrupedFrame,
         periodMultiplier: Float = 0.6662F,

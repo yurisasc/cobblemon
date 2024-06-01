@@ -38,7 +38,7 @@ class RaticateAlolanModel(root: ModelPart) : PokemonPosableModel(root), HeadedFr
         val blink = quirk { bedrockStateful("raticate_alolan", "blink")}
         sleep = registerPose(
                 poseType = PoseType.SLEEP,
-                idleAnimations = arrayOf(bedrock("raticate_alolan", "sleep"))
+                animations = arrayOf(bedrock("raticate_alolan", "sleep"))
         )
 
         standing = registerPose(
@@ -46,7 +46,7 @@ class RaticateAlolanModel(root: ModelPart) : PokemonPosableModel(root), HeadedFr
             poseTypes = STATIONARY_POSES + UI_POSES,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("raticate_alolan", "ground_idle")
             )
@@ -55,7 +55,7 @@ class RaticateAlolanModel(root: ModelPart) : PokemonPosableModel(root), HeadedFr
             poseType = PoseType.WALK,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("raticate_alolan", "ground_walk")
             )

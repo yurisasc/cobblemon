@@ -39,7 +39,7 @@ class CyndaquilHisuiBiasModel (root: ModelPart) : PokemonPosableModel(root), Hea
 
         sleep = registerPose(
                 poseType = PoseType.SLEEP,
-                idleAnimations = arrayOf(bedrock("cyndaquil_hisui_bias", "sleep"))
+                animations = arrayOf(bedrock("cyndaquil_hisui_bias", "sleep"))
         )
 
         standing = registerPose(
@@ -48,7 +48,7 @@ class CyndaquilHisuiBiasModel (root: ModelPart) : PokemonPosableModel(root), Hea
                 transformTicks = 10,
                 condition = { !it.isBattling },
 //            quirks = arrayOf(sneeze),
-                idleAnimations = arrayOf(
+                animations = arrayOf(
                         singleBoneLook(),
                         bedrock("cyndaquil_hisui_bias", "ground_idle")
                 )
@@ -59,7 +59,7 @@ class CyndaquilHisuiBiasModel (root: ModelPart) : PokemonPosableModel(root), Hea
                 poseTypes = PoseType.MOVING_POSES,
                 transformTicks = 10,
 //            quirks = arrayOf(sneeze),
-                idleAnimations = arrayOf(
+                animations = arrayOf(
                         singleBoneLook(),
                         bedrock("cyndaquil_hisui_bias", "ground_walk")
                 )
@@ -71,7 +71,7 @@ class CyndaquilHisuiBiasModel (root: ModelPart) : PokemonPosableModel(root), Hea
                 transformTicks = 10,
 //            quirks = arrayOf(sneeze),
                 condition = { it.isBattling },
-                idleAnimations = arrayOf(
+                animations = arrayOf(
                         singleBoneLook(minPitch = 0F),
                         bedrock("cyndaquil_hisui_bias", "battle_idle")
                 )

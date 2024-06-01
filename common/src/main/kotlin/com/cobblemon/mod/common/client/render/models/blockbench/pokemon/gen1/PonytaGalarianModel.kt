@@ -45,14 +45,14 @@ class PonytaGalarianModel (root: ModelPart) : PokemonPosableModel(root), HeadedF
 
         sleep = registerPose(
             poseType = PoseType.SLEEP,
-            idleAnimations = arrayOf(bedrock("ponyta_galar", "sleep"))
+            animations = arrayOf(bedrock("ponyta_galar", "sleep"))
         )
 
         standing = registerPose(
             poseName = "standing",
             poseTypes = PoseType.UI_POSES + PoseType.STAND,
             quirks = arrayOf(blink, quirk),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("ponyta_galar", "ground_idle")
             )
@@ -62,7 +62,7 @@ class PonytaGalarianModel (root: ModelPart) : PokemonPosableModel(root), HeadedF
             poseName = "walk",
             poseType = PoseType.WALK,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("ponyta_galar", "ground_walk")
             )

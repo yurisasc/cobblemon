@@ -9,7 +9,6 @@
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen3
 
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
-import com.cobblemon.mod.common.client.render.models.blockbench.PosableState
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.CobblemonPose
@@ -44,7 +43,7 @@ class MightyenaModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
         sleep = registerPose(
             poseType = PoseType.SLEEP,
             quirks = arrayOf(sleep_quirk),
-            idleAnimations = arrayOf(bedrock("mightyena", "sleep"))
+            animations = arrayOf(bedrock("mightyena", "sleep"))
         )
 
         standing = registerPose(
@@ -53,7 +52,7 @@ class MightyenaModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
             transformTicks = 10,
             condition = { !it.isBattling },
             quirks = arrayOf(blink,laugh_out_battle),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("mightyena", "ground_idle")
             )
@@ -64,7 +63,7 @@ class MightyenaModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
             poseTypes = PoseType.MOVING_POSES,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("mightyena", "ground_walk")
             )
@@ -76,7 +75,7 @@ class MightyenaModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
             transformTicks = 10,
             quirks = arrayOf(blink,laugh_in_battle),
             condition = { it.isBattling },
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("mightyena", "battle_idle")
             )

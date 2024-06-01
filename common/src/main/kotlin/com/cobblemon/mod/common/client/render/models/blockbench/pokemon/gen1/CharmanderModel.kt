@@ -8,12 +8,12 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1
 
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.PosableState
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BimanualFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.Pose
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.PoseType.Companion.MOVING_POSES
@@ -45,7 +45,7 @@ class CharmanderModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame,
     override fun registerPoses() {
         sleep = registerPose(
             poseType = PoseType.SLEEP,
-            idleAnimations = arrayOf(bedrock("charmander", "sleep"))
+            animations = arrayOf(bedrock("charmander", "sleep"))
         )
 
         val blink = quirk { bedrockStateful("charmander", "blink") }
@@ -55,7 +55,7 @@ class CharmanderModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame,
             poseTypes = STATIONARY_POSES + UI_POSES,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("charmander", "ground_idle")
             )
@@ -66,7 +66,7 @@ class CharmanderModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame,
             poseTypes = MOVING_POSES,
             transformTicks = 5,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("charmander", "ground_idle"),
                 bedrock("charmander", "ground_walk")

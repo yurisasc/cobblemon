@@ -37,7 +37,7 @@ class PinsirModel(root: ModelPart) : PokemonPosableModel(root) {
         sleep = registerPose(
             poseName = "sleep",
             poseType = PoseType.SLEEP,
-            idleAnimations = arrayOf(bedrock("pinsir", "sleep"))
+            animations = arrayOf(bedrock("pinsir", "sleep"))
         )
 
         standing = registerPose(
@@ -46,7 +46,7 @@ class PinsirModel(root: ModelPart) : PokemonPosableModel(root) {
             transformTicks = 10,
             condition = { !it.isBattling },
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("pinsir", "ground_idle")
             )
         )
@@ -56,7 +56,7 @@ class PinsirModel(root: ModelPart) : PokemonPosableModel(root) {
             poseTypes = MOVING_POSES,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("pinsir", "ground_walk")
             )
         )
@@ -67,7 +67,7 @@ class PinsirModel(root: ModelPart) : PokemonPosableModel(root) {
             condition = { it.isBattling },
             transformTicks = 10,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(bedrock("pinsir", "battle_idle"))
+            animations = arrayOf(bedrock("pinsir", "battle_idle"))
         )
     }
 

@@ -8,9 +8,9 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen4
 
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.PosableState
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.Pose
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.PoseType.Companion.MOVING_POSES
@@ -45,7 +45,7 @@ class PorygonzModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
         sleep = registerPose(
             poseType = PoseType.SLEEP,
             quirks = arrayOf(twitch1, twitch2, twitch3, twitch4, twitch5, twitch6),
-            idleAnimations = arrayOf(bedrock("porygonz", "sleep"))
+            animations = arrayOf(bedrock("porygonz", "sleep"))
         )
 
         standing = registerPose(
@@ -53,7 +53,7 @@ class PorygonzModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
             poseTypes = STATIONARY_POSES + UI_POSES,
             quirks = arrayOf(blink, twitch1, twitch2, twitch3, twitch4, twitch5, twitch6),
             transformTicks = 10,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("porygonz", "ground_idle")
             )
@@ -64,7 +64,7 @@ class PorygonzModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
             poseTypes = MOVING_POSES,
             quirks = arrayOf(blink, twitch1, twitch2, twitch3, twitch4, twitch5, twitch6),
             transformTicks = 10,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("porygonz", "ground_walk")
             )

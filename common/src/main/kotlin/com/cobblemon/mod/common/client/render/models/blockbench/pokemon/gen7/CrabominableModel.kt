@@ -8,8 +8,8 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen7
 
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.Pose
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.PoseType.Companion.UI_POSES
@@ -33,7 +33,7 @@ class CrabominableModel (root: ModelPart) : PokemonPosableModel(root), HeadedFra
         standing = registerPose(
             poseName = "standing",
             poseTypes = PoseType.STATIONARY_POSES + UI_POSES,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("crabominable", "ground_idle")
             )
@@ -42,7 +42,7 @@ class CrabominableModel (root: ModelPart) : PokemonPosableModel(root), HeadedFra
         walk = registerPose(
             poseName = "walk",
             poseTypes = PoseType.MOVING_POSES,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("crabominable", "ground_idle"),
                 bedrock("crabominable", "ground_walk")

@@ -46,7 +46,7 @@ class LitwickModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
         sleep = registerPose(
             poseName = "sleep",
             poseType = PoseType.SLEEP,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("litwick", "sleep")
             )
         )
@@ -56,7 +56,7 @@ class LitwickModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
             condition = { !it.isBattling },
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("litwick", "ground_idle")
             )
         )
@@ -65,7 +65,7 @@ class LitwickModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
             poseName = "walk",
             poseTypes = PoseType.MOVING_POSES,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("litwick", "ground_walk")
             )
         )
@@ -75,7 +75,7 @@ class LitwickModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
             poseTypes = PoseType.STATIONARY_POSES,
             quirks = arrayOf(blink),
             condition = { it.isBattling },
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("litwick", "battle_idle")
             )
         )
@@ -83,7 +83,7 @@ class LitwickModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
         shoulderLeft = registerPose(
                 poseType = PoseType.SHOULDER_LEFT,
                 quirks = arrayOf(blink),
-                idleAnimations = arrayOf(
+                animations = arrayOf(
                         bedrock("litwick", "ground_idle")
                 ),
                 transformedParts = arrayOf(
@@ -94,7 +94,7 @@ class LitwickModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
         shoulderRight = registerPose(
                 poseType = PoseType.SHOULDER_RIGHT,
                 quirks = arrayOf(blink),
-                idleAnimations = arrayOf(
+                animations = arrayOf(
                         bedrock("litwick", "ground_idle")
                 ),
                 transformedParts = arrayOf(

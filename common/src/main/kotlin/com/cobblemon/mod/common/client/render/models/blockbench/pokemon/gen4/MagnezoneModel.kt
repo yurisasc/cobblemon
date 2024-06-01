@@ -40,7 +40,7 @@ class MagnezoneModel(root: ModelPart) : PokemonPosableModel(root) {
             poseTypes = PoseType.ALL_POSES - PoseType.FLY - PoseType.SLEEP - PoseType.SWIM,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("magnezone", "ground_idle")
             )
         )
@@ -50,7 +50,7 @@ class MagnezoneModel(root: ModelPart) : PokemonPosableModel(root) {
             poseTypes = setOf(PoseType.FLY, PoseType.SWIM),
             transformTicks = 10,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("magnezone", "ground_idle")
             )
         )

@@ -8,11 +8,11 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen4
 
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.createTransformation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BiWingedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.CobblemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.ModelPartTransformation
 import com.cobblemon.mod.common.client.render.models.blockbench.wavefunction.triangleFunction
@@ -56,7 +56,7 @@ class YanmegaModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
         standing = registerPose(
             poseName = "standing",
             poseTypes = STATIONARY_POSES + UI_POSES - PoseType.HOVER,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("yanmega", "ground_idle")
             )
@@ -65,7 +65,7 @@ class YanmegaModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
         walk = registerPose(
             poseName = "walk",
             poseTypes = MOVING_POSES - PoseType.FLY,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("yanmega", "air_idle"),
                 wingFrame1.wingFlap(
@@ -88,7 +88,7 @@ class YanmegaModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
         hover = registerPose(
             poseName = "hovering",
             poseType = PoseType.HOVER,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("yanmega", "air_idle"),
                 wingFrame1.wingFlap(
@@ -110,7 +110,7 @@ class YanmegaModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
         flying = registerPose(
             poseName = "flying",
             poseType = PoseType.FLY,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("yanmega", "air_idle"),
                 wingFrame1.wingFlap(

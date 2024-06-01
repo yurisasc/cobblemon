@@ -8,9 +8,9 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen6
 
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.Pose
 import com.cobblemon.mod.common.entity.PoseType
 import net.minecraft.client.model.ModelPart
@@ -40,7 +40,7 @@ class GourgeistModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame 
             poseName = "standing",
             poseTypes = PoseType.UI_POSES + PoseType.STAND,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("gourgeist", "ground_idle")
             )
@@ -50,7 +50,7 @@ class GourgeistModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame 
             poseName = "walk",
             poseType = PoseType.WALK,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("gourgeist", "ground_walk")
             )
         )
@@ -59,7 +59,7 @@ class GourgeistModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame 
             poseName = "hovering",
             poseType = PoseType.HOVER,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("gourgeist", "air_idle")
             )
         )
@@ -68,7 +68,7 @@ class GourgeistModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame 
             poseName = "fly",
             poseType = PoseType.FLY,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("gourgeist", "air_fly")
             )
         )
@@ -77,7 +77,7 @@ class GourgeistModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame 
             poseName = "sleep",
             poseType = PoseType.SLEEP,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("gourgeist", "sleep")
             )
         )

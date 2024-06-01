@@ -38,7 +38,7 @@ class WailmerModel(root: ModelPart) : PokemonPosableModel(root) {
             poseName = "standing",
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
             transformTicks = 0,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 finLeft.rotation(sineFunction(amplitude = 1F / 4, period = 4F), axis = Z_AXIS, timeVariable = { state, _, _ -> state.animationSeconds }),
                 finRight.rotation(sineFunction(amplitude = -1F / 4, period = 4F), axis = Z_AXIS, timeVariable = { state, _, _ -> state.animationSeconds }),
                 jaw.rotation(sineFunction(amplitude = 0.05F, period = 8F, verticalShift = 0.04F), axis = X_AXIS, timeVariable = { state, _, _ -> state.animationSeconds })
@@ -50,7 +50,7 @@ class WailmerModel(root: ModelPart) : PokemonPosableModel(root) {
             poseName = "walk",
             poseTypes = PoseType.MOVING_POSES,
             transformTicks = 0,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 finLeft.rotation(sineFunction(amplitude = 1F / 3, period = 3F), axis = Z_AXIS, timeVariable = { state, _, _ -> state.animationSeconds }),
                 finRight.rotation(sineFunction(amplitude = -1F / 3, period = 3F), axis = Z_AXIS, timeVariable = { state, _, _ -> state.animationSeconds }),
                 jaw.rotation(sineFunction(amplitude = 0.05F, period = 8F, verticalShift = 0.04F), axis = X_AXIS, timeVariable = { state, _, _ -> state.animationSeconds }),

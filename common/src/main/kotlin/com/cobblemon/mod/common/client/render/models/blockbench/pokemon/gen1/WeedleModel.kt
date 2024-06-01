@@ -39,14 +39,14 @@ class WeedleModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
         val blink = quirk { bedrockStateful("weedle", "blink")}
         sleep = registerPose(
             poseType = PoseType.SLEEP,
-            idleAnimations = arrayOf(bedrock("weedle", "sleep"))
+            animations = arrayOf(bedrock("weedle", "sleep"))
         )
 
         standing = registerPose(
             poseName = "standing",
             poseTypes = STATIONARY_POSES + UI_POSES,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("weedle", "ground_idle2")
             )
@@ -56,7 +56,7 @@ class WeedleModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
             poseName = "walk",
             poseTypes = MOVING_POSES,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("weedle", "ground_walk")
             )

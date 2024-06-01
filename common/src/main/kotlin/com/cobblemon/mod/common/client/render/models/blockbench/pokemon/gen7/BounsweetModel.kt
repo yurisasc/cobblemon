@@ -8,9 +8,9 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen7
 
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.BipedWalkAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.Pose
 import com.cobblemon.mod.common.entity.PoseType.Companion.MOVING_POSES
 import com.cobblemon.mod.common.entity.PoseType.Companion.STATIONARY_POSES
@@ -37,7 +37,7 @@ class BounsweetModel(root: ModelPart) : PokemonPosableModel(root), BipedFrame {
         standing = registerPose(
             poseName = "standing",
             poseTypes = STATIONARY_POSES + UI_POSES,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 //bedrock("bounsweet", "ground_idle")
             )
         )
@@ -45,7 +45,7 @@ class BounsweetModel(root: ModelPart) : PokemonPosableModel(root), BipedFrame {
         walk = registerPose(
             poseName = "walk",
             poseTypes = MOVING_POSES,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 BipedWalkAnimation(this, periodMultiplier = 1F, amplitudeMultiplier = 0.5F)
                 //bedrock("bounsweet", "ground_walk")
             )

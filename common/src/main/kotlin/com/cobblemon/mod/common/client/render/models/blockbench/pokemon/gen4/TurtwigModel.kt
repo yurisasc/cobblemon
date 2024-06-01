@@ -48,7 +48,7 @@ class TurtwigModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Q
         val blink = quirk { bedrockStateful("turtwig", "blink") }
         sleep = registerPose(
             poseType = PoseType.SLEEP,
-            idleAnimations = arrayOf(bedrock("turtwig", "sleep"))
+            animations = arrayOf(bedrock("turtwig", "sleep"))
         )
 
         standing = registerPose(
@@ -56,7 +56,7 @@ class TurtwigModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Q
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("turtwig", "ground_idle")
             )
@@ -67,7 +67,7 @@ class TurtwigModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Q
             poseTypes = PoseType.MOVING_POSES,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("turtwig", "ground_walk")
             )
@@ -76,7 +76,7 @@ class TurtwigModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Q
         shoulderLeft = registerPose(
             poseType = PoseType.SHOULDER_LEFT,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("turtwig", "shoulder_left")
             ),
@@ -88,7 +88,7 @@ class TurtwigModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Q
         shoulderRight = registerPose(
             poseType = PoseType.SHOULDER_RIGHT,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("turtwig", "shoulder_right")
             ),

@@ -47,7 +47,7 @@ class MudkipModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Qua
             poseName = "standing",
             poseTypes = UI_POSES + PoseType.STAND,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook()
             )
         )
@@ -56,7 +56,7 @@ class MudkipModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Qua
             poseName = "walk",
             poseType = PoseType.WALK,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 QuadrupedWalkAnimation(this, periodMultiplier = 0.8F, amplitudeMultiplier = 0.8F)
             )
@@ -66,7 +66,7 @@ class MudkipModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Qua
             poseName = "float",
             poseTypes = setOf(PoseType.FLOAT, PoseType.HOVER),
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("mudkip", "water_swim")
             )
@@ -76,7 +76,7 @@ class MudkipModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Qua
             poseName = "swim",
             poseTypes = setOf(PoseType.SWIM, PoseType.FLY),
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("mudkip", "water_swim")
             )

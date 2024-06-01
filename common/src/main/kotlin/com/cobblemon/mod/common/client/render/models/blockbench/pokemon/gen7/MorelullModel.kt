@@ -32,7 +32,7 @@ class MorelullModel(root: ModelPart) : PokemonPosableModel(root) {
                 poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
                 quirks = arrayOf(blink),
                 transformTicks = 10,
-                idleAnimations = arrayOf(
+                animations = arrayOf(
                         bedrock("morelull", "ground_idle")
                 )
         )

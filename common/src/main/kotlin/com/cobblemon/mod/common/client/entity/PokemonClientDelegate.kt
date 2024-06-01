@@ -23,8 +23,8 @@ import com.cobblemon.mod.common.client.particle.BedrockParticleEffectRepository
 import com.cobblemon.mod.common.client.particle.ParticleStorm
 import com.cobblemon.mod.common.client.render.MatrixWrapper
 import com.cobblemon.mod.common.client.render.models.blockbench.PosableState
+import com.cobblemon.mod.common.client.render.models.blockbench.animation.ActiveAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.PrimaryAnimation
-import com.cobblemon.mod.common.client.render.models.blockbench.animation.StatefulAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.repository.PokemonModelRepository
 import com.cobblemon.mod.common.client.render.pokemon.PokemonRenderer.Companion.ease
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
@@ -78,7 +78,7 @@ class PokemonClientDelegate : PosableState(), PokemonSideDelegate {
     val secondsSinceBallThrown: Float
         get() = (System.currentTimeMillis() - ballStartTime) / 1000F
 
-    private var cryAnimation: StatefulAnimation? = null
+    private var cryAnimation: ActiveAnimation? = null
 
     override fun onTrackedDataSet(data: TrackedData<*>) {
         super.onTrackedDataSet(data)
@@ -299,7 +299,7 @@ class PokemonClientDelegate : PosableState(), PokemonSideDelegate {
         if (status == 10.toByte()) {
             val model = (currentModel ?: return)
             val animation = model.getEatAnimation(this) ?: return
-            statefulAnimations.add(animation)
+            activeAnimations.add(animation)
         }
     }
 
@@ -309,7 +309,7 @@ class PokemonClientDelegate : PosableState(), PokemonSideDelegate {
 
     fun cry() {
         val model = currentModel ?: return
-        if (cryAnimation != null && (cryAnimation in statefulAnimations || cryAnimation == primaryAnimation)) {
+        if (cryAnimation != null && (cryAnimation in activeAnimations || cryAnimation == primaryAnimation)) {
             return
         }
 
@@ -317,7 +317,7 @@ class PokemonClientDelegate : PosableState(), PokemonSideDelegate {
         if (animation is PrimaryAnimation) {
             addPrimaryAnimation(animation)
         } else {
-            statefulAnimations.add(animation)
+            activeAnimations.add(animation)
         }
         cryAnimation = animation
     }

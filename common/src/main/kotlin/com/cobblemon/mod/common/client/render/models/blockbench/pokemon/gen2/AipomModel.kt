@@ -45,7 +45,7 @@ class AipomModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Bip
         val blink = quirk { bedrockStateful("aipom", "blink") }
         sleep = registerPose(
             poseType = PoseType.SLEEP,
-            idleAnimations = arrayOf(bedrock("aipom", "sleep"))
+            animations = arrayOf(bedrock("aipom", "sleep"))
         )
 
         standing = registerPose(
@@ -53,7 +53,7 @@ class AipomModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Bip
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
             condition = { !it.isBattling },
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("aipom", "ground_idle")
             )
@@ -63,7 +63,7 @@ class AipomModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Bip
             poseName = "walk",
             poseTypes = PoseType.MOVING_POSES,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("aipom", "ground_walk")
             )
@@ -75,7 +75,7 @@ class AipomModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Bip
             transformTicks = 10,
             quirks = arrayOf(blink),
             condition = { it.isBattling },
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("aipom", "ground_idle")
             )

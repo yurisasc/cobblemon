@@ -8,15 +8,14 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen8
 
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.createTransformation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BimanualFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.Pose
 import com.cobblemon.mod.common.entity.PoseType
-import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.util.isBattling
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
@@ -55,7 +54,7 @@ class GrookeyModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame, B
                 stick.createTransformation().withVisibility(visibility = false),
                 stick_hair.createTransformation().withVisibility(visibility = true)
             ),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("grookey", "ground_idle")
             )
@@ -69,7 +68,7 @@ class GrookeyModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame, B
                 stick.createTransformation().withVisibility(visibility = false),
                 stick_hair.createTransformation().withVisibility(visibility = true)
             ),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("grookey", "ground_walk")
             )
@@ -85,7 +84,7 @@ class GrookeyModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame, B
                 stick.createTransformation().withVisibility(visibility = true),
                 stick_hair.createTransformation().withVisibility(visibility = false)
             ),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("grookey", "battle_idle")
             )

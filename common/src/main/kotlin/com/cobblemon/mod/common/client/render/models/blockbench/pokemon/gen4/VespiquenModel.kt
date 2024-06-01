@@ -36,14 +36,14 @@ class VespiquenModel (root: ModelPart) : PokemonPosableModel(root) {
         sleep = registerPose(
             poseType = PoseType.SLEEP,
             quirks = arrayOf(wingsleep),
-            idleAnimations = arrayOf(bedrock("vespiquen", "sleep"))
+            animations = arrayOf(bedrock("vespiquen", "sleep"))
         )
 
         standing = registerPose(
             poseName = "standing",
             poseType = PoseType.STAND,
             quirks = arrayOf(blink1),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("vespiquen", "ground_idle")
             )
         )
@@ -52,7 +52,7 @@ class VespiquenModel (root: ModelPart) : PokemonPosableModel(root) {
             poseName = "hover",
             poseTypes = PoseType.UI_POSES + PoseType.HOVER + PoseType.FLOAT,
             quirks = arrayOf(blink1),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("vespiquen", "air_idle")
             )
         )
@@ -61,7 +61,7 @@ class VespiquenModel (root: ModelPart) : PokemonPosableModel(root) {
             poseName = "fly",
             poseTypes = setOf(PoseType.FLY, PoseType.SWIM, PoseType.WALK),
             quirks = arrayOf(blink1),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("vespiquen", "air_fly")
             )
         )

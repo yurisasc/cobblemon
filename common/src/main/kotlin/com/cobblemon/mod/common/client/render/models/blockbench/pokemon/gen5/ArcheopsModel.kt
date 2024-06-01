@@ -8,9 +8,9 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen5
 
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.CobblemonPose
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.util.isBattling
@@ -49,7 +49,7 @@ class ArcheopsModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
             poseName = "sleep",
             poseType = PoseType.SLEEP,
             transformTicks = 10,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("archeops", "sleep")
             )
         )
@@ -60,7 +60,7 @@ class ArcheopsModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
             condition = { !it.isBattling && !it.isTouchingWater },
             quirks = arrayOf(blink, quirk1, quirk2),
             transformTicks = 10,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("archeops", "ground_idle")
             )
@@ -72,7 +72,7 @@ class ArcheopsModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
             condition = { !it.isTouchingWater },
             quirks = arrayOf(blink),
             transformTicks = 10,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("archeops", "ground_walk")
             )
@@ -83,7 +83,7 @@ class ArcheopsModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
             poseType = PoseType.HOVER,
             quirks = arrayOf(blink, quirk1, quirk2),
             transformTicks = 10,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("archeops", "air_idle")
             )
@@ -94,7 +94,7 @@ class ArcheopsModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
             poseType = PoseType.FLY,
             quirks = arrayOf(blink),
             transformTicks = 10,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("archeops", "air_fly")
             )
@@ -106,7 +106,7 @@ class ArcheopsModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
             quirks = arrayOf(blink),
             condition = { it.isTouchingWater },
             transformTicks = 10,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("archeops", "surfacewater_swim")
             )
@@ -118,7 +118,7 @@ class ArcheopsModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
             quirks = arrayOf(blink, quirk1),
             condition = { it.isTouchingWater },
             transformTicks = 10,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("archeops", "surfacewater_idle")
             )
@@ -130,7 +130,7 @@ class ArcheopsModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
             quirks = arrayOf(blink, quirk2),
             condition = { it.isBattling },
             transformTicks = 10,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("archeops", "battle_idle")
             )

@@ -48,7 +48,7 @@ class GligarModel(root: ModelPart) : PokemonPosableModel(root), BipedFrame {
             poseTypes = STATIONARY_POSES + UI_POSES + FLYING_POSES,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("gligar", "ground_idle")
             )
         )
@@ -59,7 +59,7 @@ class GligarModel(root: ModelPart) : PokemonPosableModel(root), BipedFrame {
             transformTicks = 10,
             quirks = arrayOf(blink),
             condition = { it.isBattling },
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("gligar", "battle_idle")
             )
         )
@@ -69,7 +69,7 @@ class GligarModel(root: ModelPart) : PokemonPosableModel(root), BipedFrame {
             poseTypes = MOVING_POSES,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("gligar", "ground_idle"),
                 BipedWalkAnimation(this, amplitudeMultiplier = 0.6F, periodMultiplier = 1F)
                 //bedrock("gligar", "ground_walk")

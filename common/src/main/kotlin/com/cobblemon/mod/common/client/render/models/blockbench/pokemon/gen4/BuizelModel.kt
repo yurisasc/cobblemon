@@ -8,10 +8,10 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen4
 
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.createTransformation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.CobblemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.ModelPartTransformation
 import com.cobblemon.mod.common.entity.PoseType
@@ -50,21 +50,21 @@ class BuizelModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
             poseName = "sleep",
             condition = { !it.isTouchingWater},
             poseType = PoseType.SLEEP,
-            idleAnimations = arrayOf(bedrock("buizel", "sleep"))
+            animations = arrayOf(bedrock("buizel", "sleep"))
         )
 
         waterSleep = registerPose(
             poseName = "water_sleep",
             condition = { it.isSubmergedInWater },
             poseType = PoseType.SLEEP,
-            idleAnimations = arrayOf(bedrock("buizel", "water_sleep"))
+            animations = arrayOf(bedrock("buizel", "water_sleep"))
         )
 
         surfaceWaterSleep = registerPose(
             poseName = "surface_water_sleep",
             condition = { it.isTouchingWater && !it.isSubmergedInWater },
             poseType = PoseType.SLEEP,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("buizel", "surfacewater_sleep")
             ),
             transformedParts = arrayOf(
@@ -78,7 +78,7 @@ class BuizelModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
             condition = { !it.isTouchingWater },
             transformTicks = 10,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("buizel", "ground_idle")
             )
@@ -90,7 +90,7 @@ class BuizelModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
             condition = { !it.isTouchingWater },
             transformTicks = 10,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("buizel", "ground_walk")
             )
@@ -101,7 +101,7 @@ class BuizelModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
             poseType = PoseType.FLOAT,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("buizel", "water_idle")
             ),
@@ -115,7 +115,7 @@ class BuizelModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
             poseType = PoseType.SWIM,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("buizel", "water_swim")
             )
@@ -127,7 +127,7 @@ class BuizelModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
             poseTypes = PoseType.STATIONARY_POSES,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("buizel", "surfacewater_idle")
             ),
@@ -142,7 +142,7 @@ class BuizelModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
             poseTypes = PoseType.MOVING_POSES,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("buizel", "surfacewater_swim")
             ),

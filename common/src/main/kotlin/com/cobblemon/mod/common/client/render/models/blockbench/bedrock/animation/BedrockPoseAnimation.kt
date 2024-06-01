@@ -11,7 +11,7 @@ package com.cobblemon.mod.common.client.render.models.blockbench.bedrock.animati
 import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.PosableState
-import com.cobblemon.mod.common.client.render.models.blockbench.animation.StatelessAnimation
+import com.cobblemon.mod.common.client.render.models.blockbench.animation.PoseAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.repository.RenderContext
 import net.minecraft.entity.Entity
 
@@ -24,7 +24,7 @@ import net.minecraft.entity.Entity
  * @author landonjw
  * @since January 5th, 2022
  */
-class BedrockStatelessAnimation(val animation: BedrockAnimation) : StatelessAnimation() {
+class BedrockPoseAnimation(val animation: BedrockAnimation) : PoseAnimation() {
     val particleKeyFrames = animation.effects.filterIsInstance<BedrockParticleKeyframe>()
 
     init {

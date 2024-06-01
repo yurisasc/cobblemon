@@ -34,7 +34,7 @@ class FerroseedModel (root: ModelPart) : PokemonPosableModel(root) {
         sleep = registerPose(
             poseName = "sleep",
             poseType = PoseType.SLEEP,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("ferroseed", "sleep")
             )
         )
@@ -44,7 +44,7 @@ class FerroseedModel (root: ModelPart) : PokemonPosableModel(root) {
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
             condition = { !it.isBattling },
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("ferroseed", "ground_idle")
             )
         )
@@ -53,7 +53,7 @@ class FerroseedModel (root: ModelPart) : PokemonPosableModel(root) {
             poseName = "walk",
             poseTypes = PoseType.MOVING_POSES,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("ferroseed", "ground_walk"),
             )
         )
@@ -63,7 +63,7 @@ class FerroseedModel (root: ModelPart) : PokemonPosableModel(root) {
             poseTypes = PoseType.STATIONARY_POSES,
             condition = { it.isBattling },
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("ferroseed", "battle_idle")
             )
         )

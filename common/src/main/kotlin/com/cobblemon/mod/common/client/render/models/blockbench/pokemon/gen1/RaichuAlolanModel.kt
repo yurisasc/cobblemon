@@ -44,7 +44,7 @@ class RaichuAlolanModel(root: ModelPart) : PokemonPosableModel(root), HeadedFram
             poseTypes = STATIONARY_POSES + UI_POSES,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("raichu_alolan", "ground_idle")
             )
@@ -52,7 +52,7 @@ class RaichuAlolanModel(root: ModelPart) : PokemonPosableModel(root), HeadedFram
 
         sleep = registerPose(
                 poseType = PoseType.SLEEP,
-                idleAnimations = arrayOf(bedrock("raichu_alolan", "sleep"))
+                animations = arrayOf(bedrock("raichu_alolan", "sleep"))
         )
 
         walk = registerPose(
@@ -60,7 +60,7 @@ class RaichuAlolanModel(root: ModelPart) : PokemonPosableModel(root), HeadedFram
             poseTypes = MOVING_POSES,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("raichu_alolan", "ground_walk")
             )

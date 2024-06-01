@@ -32,7 +32,7 @@ class SpiritombModel(root: ModelPart) : PokemonPosableModel(root) {
                 poseName = "standing",
                 poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
                 transformTicks = 10,
-                idleAnimations = arrayOf(
+                animations = arrayOf(
                         bedrock("spiritomb", "ground_idle")
                 )
         )
@@ -41,7 +41,7 @@ class SpiritombModel(root: ModelPart) : PokemonPosableModel(root) {
                 poseName = "walk",
                 poseTypes = PoseType.MOVING_POSES,
                 transformTicks = 10,
-                idleAnimations = arrayOf(
+                animations = arrayOf(
                         bedrock("spiritomb", "ground_idle")
                 )
         )

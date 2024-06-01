@@ -46,7 +46,7 @@ class IronleavesModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame
                 neck_sword_right.createTransformation().withVisibility(visibility = false),
                 sword_head.createTransformation().withVisibility(visibility = false)
             ),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("ironleaves", "ground_idle")
             )
@@ -59,7 +59,7 @@ class IronleavesModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame
                 neck_sword_right.createTransformation().withVisibility(visibility = false),
                 sword_head.createTransformation().withVisibility(visibility = false)
             ),
-            idleAnimations = arrayOf(bedrock("ironleaves", "sleep"))
+            animations = arrayOf(bedrock("ironleaves", "sleep"))
         )
 
         walk = registerPose(
@@ -72,7 +72,7 @@ class IronleavesModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame
                 neck_sword_right.createTransformation().withVisibility(visibility = false),
                 sword_head.createTransformation().withVisibility(visibility = false)
             ),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("ironleaves", "ground_walk")
             )

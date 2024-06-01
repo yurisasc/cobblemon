@@ -42,20 +42,20 @@ class NaclstackModel(root: ModelPart) : PokemonPosableModel(root), QuadrupedFram
         standing = registerPose(
                 poseName = "standing",
                 poseTypes = STATIONARY_POSES + UI_POSES,
-                idleAnimations = arrayOf(
+                animations = arrayOf(
                         bedrock("naclstack", "ground_idle")
                 )
         )
 
         sleep = registerPose(
                 poseType = PoseType.SLEEP,
-                idleAnimations = arrayOf(bedrock("naclstack", "sleep"))
+                animations = arrayOf(bedrock("naclstack", "sleep"))
         )
 
         walk = registerPose(
                 poseName = "walk",
                 poseTypes = MOVING_POSES,
-                idleAnimations = arrayOf(
+                animations = arrayOf(
                         bedrock("naclstack", "ground_idle"),
                         bedrock("naclstack", "ground_walk")
                 )

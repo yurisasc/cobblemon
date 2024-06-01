@@ -44,7 +44,7 @@ class RenderContext {
      * @since 1.4.0
      */
     @Suppress("UNCHECKED_CAST")
-    fun <T : Any> request(key: Key<T>): T? = this.context[key] as T?
+    fun <T : Any> request(key: Key<T>): T? = this.context[key] as? T?
 
     /**
      * Retrieves a value from the context associated with the provided key, assuming the value exists.
@@ -141,7 +141,7 @@ class RenderContext {
         val ASPECTS: Key<Set<String>> = key("species".asResource())
 
         /**
-         * Key to access whether or not quirks are enabled for this context.
+         * Key to access whether or not quirks are enabled for this context. It is implied as true when it's null
          */
         val DO_QUIRKS: Key<Boolean> = key("do_quirks".asResource())
 

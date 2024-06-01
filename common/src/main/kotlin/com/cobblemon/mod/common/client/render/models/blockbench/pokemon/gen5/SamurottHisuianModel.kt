@@ -8,12 +8,12 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen5
 
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.QuadrupedWalkAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.createTransformation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.QuadrupedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.CobblemonPose
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.util.isBattling
@@ -60,7 +60,7 @@ class SamurottHisuianModel (root: ModelPart) : PokemonPosableModel(root), Headed
                     seamitar_right.createTransformation().withVisibility(visibility = false),
                     seamitar_left.createTransformation().withVisibility(visibility = false)
                 ),
-                idleAnimations = arrayOf(
+                animations = arrayOf(
                     singleBoneLook(),
                     bedrock("samurott_hisuian", "ground_idle")
                 )
@@ -76,7 +76,7 @@ class SamurottHisuianModel (root: ModelPart) : PokemonPosableModel(root), Headed
                     seamitar_right.createTransformation().withVisibility(visibility = false),
                     seamitar_left.createTransformation().withVisibility(visibility = false)
                 ),
-                idleAnimations = arrayOf(
+                animations = arrayOf(
                     singleBoneLook(),
                     bedrock("samurott_hisuian", "battle_pose")
                 )
@@ -91,7 +91,7 @@ class SamurottHisuianModel (root: ModelPart) : PokemonPosableModel(root), Headed
                     seamitar_right.createTransformation().withVisibility(visibility = false),
                     seamitar_left.createTransformation().withVisibility(visibility = false)
                 ),
-                idleAnimations = arrayOf(
+                animations = arrayOf(
                     singleBoneLook(),
                     bedrock("samurott_hisuian", "ground_idle"),
                     QuadrupedWalkAnimation(this, periodMultiplier = 0.8F, amplitudeMultiplier = 0.8F)

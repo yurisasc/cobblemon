@@ -40,14 +40,14 @@ class MilceryModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
             poseName = "standing",
             poseTypes = PoseType.UI_POSES + PoseType.STATIONARY_POSES + PoseType.MOVING_POSES,
             transformTicks = 10,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("milcery", "ground_idle")
             )
         )
         shoulderLeft = registerPose(
             poseType = PoseType.SHOULDER_LEFT,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("milcery", "ground_idle")
             ),
@@ -58,7 +58,7 @@ class MilceryModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
 
         shoulderRight = registerPose(
             poseType = PoseType.SHOULDER_RIGHT,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("milcery", "ground_idle")
             ),

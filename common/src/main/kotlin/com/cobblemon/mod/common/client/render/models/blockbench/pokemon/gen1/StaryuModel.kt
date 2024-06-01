@@ -35,7 +35,7 @@ class StaryuModel(root: ModelPart) : PokemonPosableModel(root) {
         standing = registerPose(
             poseName = "standing",
             poseType = PoseType.STAND,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("staryu", "ground_idle")
             )
         )
@@ -43,7 +43,7 @@ class StaryuModel(root: ModelPart) : PokemonPosableModel(root) {
         walk = registerPose(
             poseName = "walk",
             poseType = PoseType.WALK,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("staryu", "ground_walk")
             )
         )
@@ -51,7 +51,7 @@ class StaryuModel(root: ModelPart) : PokemonPosableModel(root) {
         float = registerPose(
             poseName = "float",
             poseTypes = UI_POSES + PoseType.FLOAT,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("staryu", "water_idle")
             )
         )
@@ -59,7 +59,7 @@ class StaryuModel(root: ModelPart) : PokemonPosableModel(root) {
         swim = registerPose(
             poseName = "swim",
             poseType = PoseType.SWIM,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("staryu", "water_swim")
             )
         )
@@ -67,7 +67,7 @@ class StaryuModel(root: ModelPart) : PokemonPosableModel(root) {
         sleep = registerPose(
             poseName = "sleep",
             poseType = PoseType.SLEEP,
-            idleAnimations = arrayOf(bedrock("staryu", "sleep"))
+            animations = arrayOf(bedrock("staryu", "sleep"))
         )
     }
 

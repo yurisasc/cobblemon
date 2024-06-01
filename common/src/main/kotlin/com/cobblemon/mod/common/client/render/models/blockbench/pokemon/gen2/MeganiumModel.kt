@@ -38,7 +38,7 @@ class MeganiumModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
         val blink = quirk { bedrockStateful("meganium", "blink") }
         sleep = registerPose(
             poseType = PoseType.SLEEP,
-            idleAnimations = arrayOf(bedrock("meganium", "sleep"))
+            animations = arrayOf(bedrock("meganium", "sleep"))
         )
 
         standing = registerPose(
@@ -47,7 +47,7 @@ class MeganiumModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
             transformTicks = 10,
             condition = { !it.isBattling },
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("meganium", "ground_idle")
             )
@@ -58,7 +58,7 @@ class MeganiumModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
             poseTypes = PoseType.MOVING_POSES,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("meganium", "ground_walk")
             )
@@ -70,7 +70,7 @@ class MeganiumModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
             transformTicks = 10,
             quirks = arrayOf(blink),
             condition = { it.isBattling },
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("meganium", "battle_idle")
             )

@@ -44,7 +44,7 @@ class NidoranfModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Q
             poseTypes = STATIONARY_POSES + UI_POSES,
             transformTicks = 10,
                 quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("nidoranf", "idle")
             )
@@ -55,7 +55,7 @@ class NidoranfModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Q
             poseTypes = MOVING_POSES,
             transformTicks = 10,
                 quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                     singleBoneLook(),
                     bedrock("nidoranf", "idle"),
                     QuadrupedWalkAnimation(this)

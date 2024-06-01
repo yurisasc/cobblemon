@@ -8,11 +8,10 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen3
 
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.PosableState
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.Pose
 import com.cobblemon.mod.common.entity.PoseType
-import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.util.isBattling
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
@@ -37,14 +36,14 @@ class DuskullModel (root: ModelPart) : PokemonPosableModel(root) {
 
         sleep = registerPose(
             poseType = PoseType.SLEEP,
-            idleAnimations = arrayOf(bedrock("duskull", "sleep"))
+            animations = arrayOf(bedrock("duskull", "sleep"))
         )
 
         standing = registerPose(
             poseName = "standing",
             poseType = PoseType.STAND,
             condition = { !it.isBattling },
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("duskull", "ground_idle")
             )
         )
@@ -52,7 +51,7 @@ class DuskullModel (root: ModelPart) : PokemonPosableModel(root) {
         walk = registerPose(
             poseName = "walking",
             poseType = PoseType.WALK,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("duskull", "ground_walk")
             )
         )
@@ -61,7 +60,7 @@ class DuskullModel (root: ModelPart) : PokemonPosableModel(root) {
             poseName = "hover",
             poseTypes = PoseType.UI_POSES + PoseType.HOVER + PoseType.FLOAT,
             condition = { !it.isBattling },
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("duskull", "air_idle")
             )
         )
@@ -70,7 +69,7 @@ class DuskullModel (root: ModelPart) : PokemonPosableModel(root) {
             poseName = "fly",
             poseTypes = setOf(PoseType.FLY, PoseType.SWIM, PoseType.WALK),
             condition = { !it.isBattling },
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("duskull", "air_fly")
             )
         )
@@ -80,7 +79,7 @@ class DuskullModel (root: ModelPart) : PokemonPosableModel(root) {
             poseTypes = PoseType.STATIONARY_POSES + PoseType.MOVING_POSES,
             transformTicks = 10,
             condition = { it.isBattling },
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("duskull", "battle_idle")
             )
 

@@ -55,7 +55,7 @@ class ExeggutorAlolanModel(root: ModelPart) : PokemonPosableModel(root), HeadedF
         val blink4 = quirk { bedrockStateful("exeggutor_alolan", "blink4") }
         sleep = registerPose(
             poseType = PoseType.SLEEP,
-            idleAnimations = arrayOf(bedrock("exeggutor_alolan", "sleep"))
+            animations = arrayOf(bedrock("exeggutor_alolan", "sleep"))
         )
 
         standing = registerPose(
@@ -63,7 +63,7 @@ class ExeggutorAlolanModel(root: ModelPart) : PokemonPosableModel(root), HeadedF
             poseTypes = STATIONARY_POSES + UI_POSES,
             quirks = arrayOf(blink1, blink2, blink3, blink4),
             condition = { !it.isBattling },
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 SingleBoneLookAnimation(head2, false, false, disableX = false, disableY = false),
                 SingleBoneLookAnimation(head3, false, false, disableX = false, disableY = false),
@@ -75,7 +75,7 @@ class ExeggutorAlolanModel(root: ModelPart) : PokemonPosableModel(root), HeadedF
             poseName = "walk",
             poseTypes = MOVING_POSES,
             quirks = arrayOf(blink1, blink2, blink3, blink4),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 SingleBoneLookAnimation(head2, false, false, disableX = false, disableY = false),
                 SingleBoneLookAnimation(head3, false, false, disableX = false, disableY = false),
@@ -89,7 +89,7 @@ class ExeggutorAlolanModel(root: ModelPart) : PokemonPosableModel(root), HeadedF
             transformTicks = 10,
             quirks = arrayOf(blink1, blink2, blink3, blink4),
             condition = { it.isBattling },
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 SingleBoneLookAnimation(head2, false, false, disableX = false, disableY = false),
                 SingleBoneLookAnimation(head3, false, false, disableX = false, disableY = false),

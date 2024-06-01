@@ -56,7 +56,7 @@ class OshawottModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame, 
                         scalchopbody.createTransformation().withVisibility(visibility = true),
                         rootPart.createTransformation().addPosition(ModelPartTransformation.Y_AXIS, -7)
                 ),
-                idleAnimations = arrayOf(bedrock("oshawott", "sleep"))
+                animations = arrayOf(bedrock("oshawott", "sleep"))
         )
 
         standing = registerPose(
@@ -69,7 +69,7 @@ class OshawottModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame, 
                 scalchop.createTransformation().withVisibility(visibility = false),
                 scalchopbody.createTransformation().withVisibility(visibility = true)
             ),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("oshawott", "ground_idle")
             )
@@ -85,7 +85,7 @@ class OshawottModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame, 
                 scalchop.createTransformation().withVisibility(visibility = false),
                 scalchopbody.createTransformation().withVisibility(visibility = true)
             ),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("oshawott", "ground_idle"),
                 BipedWalkAnimation(this, periodMultiplier = 0.6F, amplitudeMultiplier = 0.9F),
@@ -103,7 +103,7 @@ class OshawottModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame, 
                 scalchop.createTransformation().withVisibility(visibility = true),
                 scalchopbody.createTransformation().withVisibility(visibility = false)
             ),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("oshawott", "ground_idle")
             )

@@ -8,9 +8,9 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen6
 
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.createTransformation
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.CobblemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.ModelPartTransformation
 import com.cobblemon.mod.common.entity.PoseType
@@ -41,7 +41,7 @@ class CarbinkModel (root: ModelPart) : PokemonPosableModel(root) {
                 transformedParts = arrayOf(
                 rootPart.createTransformation().addPosition(ModelPartTransformation.Y_AXIS, -0.5)
                 ),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("carbink", "air_idle")
             )
         )
@@ -53,7 +53,7 @@ class CarbinkModel (root: ModelPart) : PokemonPosableModel(root) {
                 transformedParts = arrayOf(
                         rootPart.createTransformation().addPosition(ModelPartTransformation.Y_AXIS, -3)
                 ),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("carbink", "air_walk"),
             )
         )

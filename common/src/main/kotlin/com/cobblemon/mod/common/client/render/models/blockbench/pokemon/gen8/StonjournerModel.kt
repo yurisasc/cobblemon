@@ -36,7 +36,7 @@ class StonjournerModel (root: ModelPart) : PokemonPosableModel(root) {
         sleep = registerPose(
             poseName = "sleep",
             poseType = PoseType.SLEEP,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("stonjourner", "sleep")
             )
         )
@@ -45,7 +45,7 @@ class StonjournerModel (root: ModelPart) : PokemonPosableModel(root) {
             poseName = "standing",
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("stonjourner", "ground_idle")
             )
         )
@@ -54,7 +54,7 @@ class StonjournerModel (root: ModelPart) : PokemonPosableModel(root) {
             poseName = "walk",
             poseTypes = PoseType.MOVING_POSES,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("stonjourner", "ground_walk")
             )
         )

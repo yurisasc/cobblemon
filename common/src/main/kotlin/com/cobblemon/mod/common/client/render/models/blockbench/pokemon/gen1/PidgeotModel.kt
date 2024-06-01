@@ -71,7 +71,7 @@ class PidgeotModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Bi
             ),
             poseTypes = PoseType.STATIONARY_POSES - PoseType.HOVER - PoseType.FLOAT + UI_POSES,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("pidgeot", "ground_idle_PLACEHOLDER"),
             )
@@ -87,7 +87,7 @@ class PidgeotModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Bi
             ),
             poseTypes = PoseType.MOVING_POSES - PoseType.FLY - PoseType.SWIM,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("pidgeot", "ground_idle_PLACEHOLDER"),
                 BipedWalkAnimation(this)
@@ -104,7 +104,7 @@ class PidgeotModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Bi
             ),
             poseTypes = setOf(PoseType.FLOAT, PoseType.HOVER),
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("pidgeot", "air_idle")
             )
@@ -120,7 +120,7 @@ class PidgeotModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Bi
             ),
             poseTypes = setOf(PoseType.FLY, PoseType.SWIM),
             quirks = arrayOf(blink, flyQuirk1, flyQuirk2),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("pidgeot", "air_fly")
             )

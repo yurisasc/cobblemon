@@ -8,9 +8,9 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen5
 
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BiWingedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.CobblemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.ModelPartTransformation
 import com.cobblemon.mod.common.client.render.models.blockbench.wavefunction.cosineFunction
@@ -61,7 +61,7 @@ class HydreigonModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame 
             quirks = arrayOf(blink),
                 transformTicks = 10,
             poseTypes = PoseType.UI_POSES + PoseType.STATIONARY_POSES,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("hydreigon", "air_idle"),
                     wingFrame1.wingFlap(
@@ -87,7 +87,7 @@ class HydreigonModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame 
             quirks = arrayOf(blink),
                 transformTicks = 10,
             poseTypes = PoseType.MOVING_POSES,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("hydreigon", "air_fly"),
                     wingFrame1.wingFlap(

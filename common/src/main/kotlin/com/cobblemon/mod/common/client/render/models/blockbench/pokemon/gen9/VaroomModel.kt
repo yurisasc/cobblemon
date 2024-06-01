@@ -34,7 +34,7 @@ class VaroomModel (root: ModelPart) : PokemonPosableModel(root) {
         val blink = quirk { bedrockStateful("varoom", "blink") }
         sleep = registerPose(
             poseType = PoseType.SLEEP,
-            idleAnimations = arrayOf(bedrock("varoom", "sleep"))
+            animations = arrayOf(bedrock("varoom", "sleep"))
         )
 
         standing = registerPose(
@@ -42,7 +42,7 @@ class VaroomModel (root: ModelPart) : PokemonPosableModel(root) {
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
             transformTicks = 0,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("varoom", "ground_idle")
             )
         )
@@ -52,7 +52,7 @@ class VaroomModel (root: ModelPart) : PokemonPosableModel(root) {
             poseTypes = PoseType.MOVING_POSES,
             transformTicks = 0,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("varoom", "ground_walk")
             )
         )

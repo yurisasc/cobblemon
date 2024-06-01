@@ -8,10 +8,10 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen4
 
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.BipedWalkAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.CobblemonPose
 import com.cobblemon.mod.common.entity.PoseType.Companion.FLYING_POSES
 import com.cobblemon.mod.common.entity.PoseType.Companion.MOVING_POSES
@@ -46,7 +46,7 @@ class GliscorModel(root: ModelPart) : PokemonPosableModel(root), BipedFrame {
             poseTypes = STATIONARY_POSES + UI_POSES + FLYING_POSES,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("gliscor", "ground_idle")
             )
         )
@@ -56,7 +56,7 @@ class GliscorModel(root: ModelPart) : PokemonPosableModel(root), BipedFrame {
             poseTypes = MOVING_POSES,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("gliscor", "ground_idle"),
                 BipedWalkAnimation(this, amplitudeMultiplier = 0.6F, periodMultiplier = 1F)
                 //bedrock("gliscor", "ground_walk")

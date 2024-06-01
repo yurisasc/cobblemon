@@ -45,7 +45,7 @@ class ElekidModel(root: ModelPart) : PokemonPosableModel(root), BipedFrame, Bima
         sleep = registerPose(
             poseName = "sleep",
             poseType = PoseType.SLEEP,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("elekid", "sleep")
             )
         )
@@ -53,7 +53,7 @@ class ElekidModel(root: ModelPart) : PokemonPosableModel(root), BipedFrame, Bima
             poseName = "standing",
             poseTypes = STATIONARY_POSES + UI_POSES,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("elekid", "ground_idle")
             )
         )
@@ -62,7 +62,7 @@ class ElekidModel(root: ModelPart) : PokemonPosableModel(root), BipedFrame, Bima
             poseName = "walk",
             poseTypes = MOVING_POSES,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("elekid", "ground_walk")
             )
         )

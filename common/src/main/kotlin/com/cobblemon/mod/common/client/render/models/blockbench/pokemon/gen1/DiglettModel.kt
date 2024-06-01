@@ -42,28 +42,28 @@ class DiglettModel(root: ModelPart) : PokemonPosableModel(root) {
         sleep = registerPose(
             poseName = "sleep",
             poseType = PoseType.SLEEP,
-            idleAnimations = arrayOf(bedrock("diglett", "sleep"))
+            animations = arrayOf(bedrock("diglett", "sleep"))
         )
 
         stand = registerPose(
             poseName = "stand",
             poseTypes = STATIONARY_POSES + UI_POSES,
             quirks = arrayOf(blink, quirk),
-            idleAnimations = arrayOf(bedrock("diglett", "ground_idle"))
+            animations = arrayOf(bedrock("diglett", "ground_idle"))
         )
 
         walk = registerPose(
             poseName = "walk",
             poseTypes = MOVING_POSES,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(bedrock("diglett", "ground_walk"))
+            animations = arrayOf(bedrock("diglett", "ground_walk"))
         )
 
         battleidle = registerPose(
             poseName = "battleidle",
             poseTypes = STATIONARY_POSES,
             quirks = arrayOf(blink, quirk),
-            idleAnimations = arrayOf(bedrock("diglett", "battle_idle"))
+            animations = arrayOf(bedrock("diglett", "battle_idle"))
         )
     }
 

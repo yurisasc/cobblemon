@@ -31,6 +31,7 @@ import com.cobblemon.mod.common.battles.BattleCaptureAction
 import com.cobblemon.mod.common.battles.BattleFormat
 import com.cobblemon.mod.common.battles.BattleRegistry
 import com.cobblemon.mod.common.battles.BattleSide
+import com.cobblemon.mod.common.battles.ForfeitActionResponse
 import com.cobblemon.mod.common.battles.actor.PlayerBattleActor
 import com.cobblemon.mod.common.battles.dispatch.BattleDispatch
 import com.cobblemon.mod.common.battles.dispatch.DispatchResult
@@ -39,7 +40,6 @@ import com.cobblemon.mod.common.battles.dispatch.WaitDispatch
 import com.cobblemon.mod.common.battles.interpreter.ContextManager
 import com.cobblemon.mod.common.battles.pokemon.BattlePokemon
 import com.cobblemon.mod.common.battles.runner.ShowdownService
-import com.cobblemon.mod.common.battles.ForfeitActionResponse
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.net.messages.client.battle.BattleEndPacket
 import com.cobblemon.mod.common.net.messages.client.battle.BattleMessagePacket
@@ -48,13 +48,12 @@ import com.cobblemon.mod.common.pokemon.evolution.progress.LastBattleCriticalHit
 import com.cobblemon.mod.common.pokemon.evolution.requirements.DefeatRequirement
 import com.cobblemon.mod.common.util.battleLang
 import com.cobblemon.mod.common.util.getPlayer
-import com.cobblemon.mod.common.util.withQueryValue
 import java.io.File
 import java.util.UUID
 import java.util.concurrent.CompletableFuture
+import java.util.concurrent.ConcurrentLinkedDeque
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.text.Text
-import java.util.concurrent.ConcurrentLinkedDeque
 
 /**
  * Individual battle instance
@@ -513,7 +512,6 @@ open class PokemonBattle(
         queryStruct.addFunction("pvn") { DoubleValue(isPvN) }
         queryStruct.addFunction("pvw") { DoubleValue(isPvW) }
         queryStruct.addFunction("has_rule") { params -> DoubleValue(params.getString(0) in format.ruleSet) }
-
         return queryStruct
     }
 }

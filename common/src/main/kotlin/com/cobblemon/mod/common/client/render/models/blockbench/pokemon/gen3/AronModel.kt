@@ -44,7 +44,7 @@ class AronModel  (root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Qua
             poseName = "standing",
             poseTypes = PoseType.UI_POSES + PoseType.STATIONARY_POSES,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("aron", "ground_idle")
             )
@@ -54,7 +54,7 @@ class AronModel  (root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Qua
             poseName = "walk",
             poseTypes = PoseType.MOVING_POSES,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("aron", "ground_walk2")
             )

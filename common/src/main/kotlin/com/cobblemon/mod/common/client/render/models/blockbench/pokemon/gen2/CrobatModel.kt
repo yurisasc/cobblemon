@@ -39,7 +39,7 @@ class CrobatModel(root: ModelPart) : PokemonPosableModel(root) {
 
         sleep = registerPose(
             poseType = PoseType.SLEEP,
-            idleAnimations = arrayOf(bedrock("crobat", "sleep"))
+            animations = arrayOf(bedrock("crobat", "sleep"))
         )
 
         standing = registerPose(
@@ -47,7 +47,7 @@ class CrobatModel(root: ModelPart) : PokemonPosableModel(root) {
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES - PoseType.HOVER,
             condition = { !it.isBattling },
             transformTicks = 10,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("crobat", "ground_idle")
             )
         )
@@ -56,7 +56,7 @@ class CrobatModel(root: ModelPart) : PokemonPosableModel(root) {
             poseName = "walk",
             poseTypes = PoseType.MOVING_POSES - PoseType.FLY,
             transformTicks = 10,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("crobat", "ground_walk")
             )
         )
@@ -66,7 +66,7 @@ class CrobatModel(root: ModelPart) : PokemonPosableModel(root) {
             poseType = PoseType.HOVER,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("crobat", "air_idle")
             )
         )
@@ -76,7 +76,7 @@ class CrobatModel(root: ModelPart) : PokemonPosableModel(root) {
             poseType = PoseType.FLY,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("crobat", "air_fly")
             )
         )
@@ -87,7 +87,7 @@ class CrobatModel(root: ModelPart) : PokemonPosableModel(root) {
             transformTicks = 10,
             quirks = arrayOf(blink),
             condition = { it.isBattling },
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("crobat", "battle_idle")
             )
         )

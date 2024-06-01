@@ -35,13 +35,13 @@ class LuvdiscModel (root: ModelPart) : PokemonPosableModel(root) {
         val blink = quirk { bedrockStateful("luvdisc", "blink")}
         sleep = registerPose(
             poseType = PoseType.SLEEP,
-            idleAnimations = arrayOf(bedrock("luvdisc", "sleep"))
+            animations = arrayOf(bedrock("luvdisc", "sleep"))
         )
         standing = registerPose(
             poseName = "standing",
             poseType = PoseType.STAND,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("luvdisc", "ground_idle")
             )
         )
@@ -50,7 +50,7 @@ class LuvdiscModel (root: ModelPart) : PokemonPosableModel(root) {
             poseName = "walk",
             poseType = PoseType.WALK,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("luvdisc", "ground_walk")
             )
         )
@@ -59,7 +59,7 @@ class LuvdiscModel (root: ModelPart) : PokemonPosableModel(root) {
             poseName = "float",
             poseTypes = PoseType.UI_POSES + PoseType.FLOAT,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("luvdisc", "water_idle")
             )
         )
@@ -68,7 +68,7 @@ class LuvdiscModel (root: ModelPart) : PokemonPosableModel(root) {
             poseName = "swim",
             poseType = PoseType.SWIM,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("luvdisc", "water_swim")
             )
         )

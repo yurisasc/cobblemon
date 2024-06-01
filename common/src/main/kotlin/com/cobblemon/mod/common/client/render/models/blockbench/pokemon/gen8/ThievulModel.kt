@@ -47,7 +47,7 @@ class ThievulModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Q
         sleep = registerPose(
             poseType = PoseType.SLEEP,
             quirks = arrayOf(sleepquirk),
-            idleAnimations = arrayOf(bedrock("thievul", "sleep"))
+            animations = arrayOf(bedrock("thievul", "sleep"))
         )
 
         standing = registerPose(
@@ -56,7 +56,7 @@ class ThievulModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Q
             transformTicks = 10,
             quirks = arrayOf(blink),
             condition = { !it.isBattling },
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("thievul", "ground_idle")
             )
@@ -67,7 +67,7 @@ class ThievulModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Q
             poseTypes = PoseType.MOVING_POSES,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("thievul", "ground_walk")
             )
@@ -79,7 +79,7 @@ class ThievulModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Q
             transformTicks = 10,
             quirks = arrayOf(blink),
             condition = { it.isBattling },
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("thievul", "battle_idle")
             )

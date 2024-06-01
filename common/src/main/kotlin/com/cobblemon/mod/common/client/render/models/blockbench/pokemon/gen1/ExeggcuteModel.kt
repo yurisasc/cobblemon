@@ -8,8 +8,8 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1
 
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.PosableState
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.Pose
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.PoseType.Companion.MOVING_POSES
@@ -41,14 +41,14 @@ class ExeggcuteModel(root: ModelPart) : PokemonPosableModel(root) {
         uiPortrait = registerPose(
             poseName = "portrait",
             poseType = PoseType.PORTRAIT,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("exeggcute", "portrait")
             )
         )
 
         sleep = registerPose(
             poseType = PoseType.SLEEP,
-            idleAnimations = arrayOf(bedrock("exeggcute", "sleep"))
+            animations = arrayOf(bedrock("exeggcute", "sleep"))
         )
 
         standing = registerPose(
@@ -56,7 +56,7 @@ class ExeggcuteModel(root: ModelPart) : PokemonPosableModel(root) {
             poseTypes = STATIONARY_POSES + PoseType.PROFILE,
             transformTicks = 10,
             quirks = arrayOf(blink1, blink2, blink3, blink4, blink5, blink6),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("exeggcute", "ground_idle")
             )
         )
@@ -65,7 +65,7 @@ class ExeggcuteModel(root: ModelPart) : PokemonPosableModel(root) {
             poseName = "walk",
             poseTypes = MOVING_POSES,
             transformTicks = 10,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("exeggcute", "ground_idle"),
                 bedrock("exeggcute", "ground_walk")
             )

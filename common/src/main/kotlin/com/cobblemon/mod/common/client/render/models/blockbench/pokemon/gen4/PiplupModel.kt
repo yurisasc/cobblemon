@@ -8,14 +8,13 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen4
 
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.Pose
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.PoseType.Companion.UI_POSES
-import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.util.isBattling
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
@@ -46,7 +45,7 @@ class PiplupModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Bip
         val blink = quirk { bedrockStateful("piplup", "blink") }
         sleep = registerPose(
             poseType = PoseType.SLEEP,
-            idleAnimations = arrayOf(bedrock("piplup", "sleep"))
+            animations = arrayOf(bedrock("piplup", "sleep"))
         )
 
         standing = registerPose(
@@ -54,7 +53,7 @@ class PiplupModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Bip
             poseTypes = UI_POSES + PoseType.STAND,
             quirks = arrayOf(blink),
             condition = { !it.isBattling },
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("piplup", "ground_idle")
             )
@@ -64,7 +63,7 @@ class PiplupModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Bip
             poseName = "walk",
             poseType = PoseType.WALK,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("piplup", "ground_walk")
             )
@@ -74,7 +73,7 @@ class PiplupModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Bip
             poseName = "float",
             poseType = PoseType.FLOAT,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("piplup", "water_idle")
             )
@@ -84,7 +83,7 @@ class PiplupModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Bip
             poseName = "swim",
             poseType = PoseType.SWIM,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("piplup", "water_swim")
             )
@@ -96,7 +95,7 @@ class PiplupModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Bip
             transformTicks = 10,
             quirks = arrayOf(blink),
             condition = { it.isBattling },
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("piplup", "battle_idle")
             )

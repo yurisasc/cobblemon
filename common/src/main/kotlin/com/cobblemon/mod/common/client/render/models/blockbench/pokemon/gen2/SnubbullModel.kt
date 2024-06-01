@@ -45,7 +45,7 @@ class SnubbullModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame, 
 
         sleep = registerPose(
             poseType = PoseType.SLEEP,
-            idleAnimations = arrayOf(bedrock("snubbull", "sleep"))
+            animations = arrayOf(bedrock("snubbull", "sleep"))
         )
 
         standing = registerPose(
@@ -53,7 +53,7 @@ class SnubbullModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame, 
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
             transformTicks = 10,
             condition = { !it.isBattling },
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("snubbull", "ground_idle")
             )
@@ -63,7 +63,7 @@ class SnubbullModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame, 
             poseName = "walking",
             poseTypes = PoseType.MOVING_POSES,
             transformTicks = 10,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("snubbull", "ground_walk")
             )
@@ -74,7 +74,7 @@ class SnubbullModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame, 
             poseTypes = PoseType.STATIONARY_POSES,
             transformTicks = 10,
             condition = { it.isBattling },
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("snubbull", "battle_idle")
             )

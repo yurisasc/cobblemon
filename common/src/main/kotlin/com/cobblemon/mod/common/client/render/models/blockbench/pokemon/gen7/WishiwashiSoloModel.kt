@@ -35,14 +35,14 @@ class WishiwashiSoloModel (root: ModelPart) : PokemonPosableModel(root){
         watersleep = registerPose(
             poseType = PoseType.SLEEP,
             condition = { it.isTouchingWater },
-            idleAnimations = arrayOf(bedrock("wishiwashi_solo", "water_sleep"))
+            animations = arrayOf(bedrock("wishiwashi_solo", "water_sleep"))
         )
 
         standing = registerPose(
             poseName = "standing",
             poseTypes = PoseType.STANDING_POSES - PoseType.FLOAT,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("wishiwashi_solo", "ground_idle")
             )
         )
@@ -51,7 +51,7 @@ class WishiwashiSoloModel (root: ModelPart) : PokemonPosableModel(root){
             poseName = "walking",
             poseTypes = PoseType.MOVING_POSES - PoseType.SWIM,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("wishiwashi_solo", "ground_walk")
             )
         )
@@ -60,7 +60,7 @@ class WishiwashiSoloModel (root: ModelPart) : PokemonPosableModel(root){
             poseName = "floating",
             poseTypes = PoseType.UI_POSES + PoseType.FLOAT,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("wishiwashi_solo", "water_idle")
             )
         )
@@ -69,7 +69,7 @@ class WishiwashiSoloModel (root: ModelPart) : PokemonPosableModel(root){
             poseName = "swimming",
             poseType = PoseType.SWIM,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("wishiwashi_solo", "water_swim")
             )
         )

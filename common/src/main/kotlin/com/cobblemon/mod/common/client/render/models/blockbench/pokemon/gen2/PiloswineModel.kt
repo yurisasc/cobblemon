@@ -41,7 +41,7 @@ class PiloswineModel(root: ModelPart) : PokemonPosableModel(root) {
         standing = registerPose(
             poseName = "standing",
             poseTypes = STATIONARY_POSES + UI_POSES,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("piloswine", "ground_idle")
             )
         )
@@ -49,7 +49,7 @@ class PiloswineModel(root: ModelPart) : PokemonPosableModel(root) {
         walk = registerPose(
             poseName = "walk",
             poseTypes = MOVING_POSES,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("piloswine", "ground_idle")
             )
         )

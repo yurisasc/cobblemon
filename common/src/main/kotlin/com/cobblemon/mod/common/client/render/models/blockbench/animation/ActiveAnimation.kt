@@ -10,22 +10,23 @@ package com.cobblemon.mod.common.client.render.models.blockbench.animation
 
 import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.PosableState
-import com.cobblemon.mod.common.client.render.models.blockbench.frame.ModelFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.repository.RenderContext
 import net.minecraft.entity.Entity
 
 /**
- * An animation that requires entity state. It is able to prevent some idle
- * animations, usually on the basis of what [ModelFrame] class the animation
- * uses.
+ * An animation that requires some kind of state specific to an instance of [PosableState].
+ * This differs from [PoseAnimation]s in that that variety uses a single shared
+ * instance of the animation for the model, even when there may be a hundred entities using it.
  *
  * @author Hiroku
  * @since December 5th, 2021
  */
-interface StatefulAnimation {
-    val isTransform: Boolean
+interface ActiveAnimation {
+    /** Whether or not this animation is being used as a transition and therefore should prevent other pose transitions from occurring. */
+    val isTransition: Boolean
+    /** The animation's duration in seconds. */
     val duration: Float
-    /** Runs the animation. You can check that the model fits a particular frame. Returns true if the animation should continue. */
+    /** Runs the animation. Returns true if the animation should continue. */
     fun run(
         context: RenderContext,
         model: PosableModel,
@@ -38,5 +39,6 @@ interface StatefulAnimation {
         intensity: Float
     ): Boolean
 
+    /** Applies animation effects, such as particle effects. These can occur on tick, therefore not necessarily on screen. */
     fun applyEffects(entity: Entity, state: PosableState, previousSeconds: Float, newSeconds: Float) {}
 }

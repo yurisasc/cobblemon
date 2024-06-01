@@ -37,7 +37,7 @@ class MachopModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
             poseTypes = STATIONARY_POSES + UI_POSES,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("machop", "ground_idle")
             )
@@ -48,7 +48,7 @@ class MachopModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
             poseTypes = MOVING_POSES,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("machop", "ground_walk")
             )

@@ -8,11 +8,11 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen4
 
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BimanualFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.CobblemonPose
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.util.isBattling
@@ -51,7 +51,7 @@ class GarchompModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, B
             transformTicks = 10,
             quirks = arrayOf(blink),
             condition = { !it.isBattling },
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("garchomp", "ground_idle")
             )
@@ -62,7 +62,7 @@ class GarchompModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, B
             poseTypes = setOf(PoseType.WALK),
             transformTicks = 5,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("garchomp", "ground_idle"),
                 bedrock("garchomp", "ground_run")
@@ -74,7 +74,7 @@ class GarchompModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, B
             poseTypes = setOf(PoseType.HOVER),
             transformTicks = 10,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("garchomp", "air_idle")
             )
@@ -85,7 +85,7 @@ class GarchompModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, B
             poseTypes = setOf(PoseType.FLY),
             transformTicks = 10,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("garchomp", "air_idle")
             )
@@ -97,7 +97,7 @@ class GarchompModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, B
             transformTicks = 10,
             quirks = arrayOf(blink),
             condition = { it.isBattling },
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("garchomp", "battle_idle")
             )

@@ -8,8 +8,8 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen7
 
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.PosableState
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.Pose
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.PoseType.Companion.MOVING_POSES
@@ -35,13 +35,13 @@ class RibombeeModel(root: ModelPart) : PokemonPosableModel(root){
 
         sleep = registerPose(
             poseType = PoseType.SLEEP,
-            idleAnimations = arrayOf(bedrock("ribombee", "sleep"))
+            animations = arrayOf(bedrock("ribombee", "sleep"))
         )
 
        standing = registerPose(
             poseName = "idle",
             poseTypes = STATIONARY_POSES + UI_POSES,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("ribombee", "ground_idle")
             )
         )
@@ -49,7 +49,7 @@ class RibombeeModel(root: ModelPart) : PokemonPosableModel(root){
         walk = registerPose(
             poseName = "walk",
             poseTypes = MOVING_POSES,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("ribombee", "ground_walk")
             )
         )

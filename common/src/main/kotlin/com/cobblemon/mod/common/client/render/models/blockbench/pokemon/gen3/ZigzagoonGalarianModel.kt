@@ -8,12 +8,11 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen3
 
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
-import com.cobblemon.mod.common.client.render.models.blockbench.PosableState
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.QuadrupedWalkAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.createTransformation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.QuadrupedFrame
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.CobblemonPose
 import com.cobblemon.mod.common.entity.PoseType
 import net.minecraft.client.model.ModelPart
@@ -49,7 +48,7 @@ class ZigzagoonGalarianModel (root: ModelPart) : PokemonPosableModel(root), Head
             poseName = "standing",
             poseTypes = PoseType.UI_POSES + PoseType.STAND,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("zigzagoon_galarian", "ground_idle")
             )
@@ -59,7 +58,7 @@ class ZigzagoonGalarianModel (root: ModelPart) : PokemonPosableModel(root), Head
             poseName = "walk",
             poseType = PoseType.WALK,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 QuadrupedWalkAnimation(this, periodMultiplier = 1.1F),
                 singleBoneLook(),
                 bedrock("zigzagoon_galarian", "ground_idle")
@@ -69,7 +68,7 @@ class ZigzagoonGalarianModel (root: ModelPart) : PokemonPosableModel(root), Head
         shoulderLeft = registerPose(
                 poseType = PoseType.SHOULDER_LEFT,
                 quirks = arrayOf(blink),
-                idleAnimations = arrayOf(
+                animations = arrayOf(
                         singleBoneLook(),
                         bedrock("zigzagoon", "shoulder_left")
                 ),
@@ -81,7 +80,7 @@ class ZigzagoonGalarianModel (root: ModelPart) : PokemonPosableModel(root), Head
         shoulderRight = registerPose(
                 poseType = PoseType.SHOULDER_RIGHT,
                 quirks = arrayOf(blink),
-                idleAnimations = arrayOf(
+                animations = arrayOf(
                         singleBoneLook(),
                         bedrock("zigzagoon", "shoulder_right")
                 ),

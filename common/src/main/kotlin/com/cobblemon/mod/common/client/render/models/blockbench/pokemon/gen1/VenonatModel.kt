@@ -43,14 +43,14 @@ class VenonatModel(root: ModelPart) : PokemonPosableModel(root) {
         sleep = registerPose(
             poseType = PoseType.SLEEP,
             quirks = arrayOf(quirk1, quirk2),
-            idleAnimations = arrayOf(bedrock("venonat", "sleep"))
+            animations = arrayOf(bedrock("venonat", "sleep"))
         )
         standing = registerPose(
             poseName = "standing",
             poseTypes = STATIONARY_POSES + UI_POSES,
             condition = { !it.isBattling },
             quirks = arrayOf(blink, quirk1, quirk2),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("venonat", "ground_idle")
             )
         )
@@ -59,7 +59,7 @@ class VenonatModel(root: ModelPart) : PokemonPosableModel(root) {
             poseName = "walk",
             poseTypes = MOVING_POSES,
             quirks = arrayOf(blink, quirk1, quirk2),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("venonat", "ground_walk")
             )
         )
@@ -70,7 +70,7 @@ class VenonatModel(root: ModelPart) : PokemonPosableModel(root) {
             transformTicks = 10,
             quirks = arrayOf(blink, quirk1, quirk2),
             condition = { it.isBattling },
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("venonat", "battle_idle")
             )
         )

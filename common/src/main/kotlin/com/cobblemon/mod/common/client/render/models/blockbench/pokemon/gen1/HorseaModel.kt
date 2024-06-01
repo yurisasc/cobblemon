@@ -35,7 +35,7 @@ class HorseaModel(root: ModelPart) : PokemonPosableModel(root) {
             poseName = "standing",
             poseType = PoseType.STAND,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("horsea", "ground_idle")
             )
         )
@@ -44,7 +44,7 @@ class HorseaModel(root: ModelPart) : PokemonPosableModel(root) {
             poseName = "walk",
             poseType = PoseType.WALK,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("horsea", "ground_walk")
             )
         )
@@ -53,7 +53,7 @@ class HorseaModel(root: ModelPart) : PokemonPosableModel(root) {
             poseName = "float",
             poseTypes = UI_POSES + PoseType.FLOAT,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("horsea", "water_idle")
             )
         )
@@ -62,7 +62,7 @@ class HorseaModel(root: ModelPart) : PokemonPosableModel(root) {
             poseName = "swim",
             poseType = PoseType.SWIM,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("horsea", "water_swim")
             )
         )

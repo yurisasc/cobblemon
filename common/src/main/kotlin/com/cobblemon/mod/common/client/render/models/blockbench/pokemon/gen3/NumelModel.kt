@@ -43,7 +43,7 @@ class NumelModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Qua
         sleep = registerPose(
             poseName = "sleep",
             poseType = PoseType.SLEEP,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("numel", "sleep")
             )
         )
@@ -53,7 +53,7 @@ class NumelModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Qua
             poseTypes = PoseType.UI_POSES + PoseType.STATIONARY_POSES,
             quirks = arrayOf(blink),
             condition = { !it.isBattling },
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(disableY = true),
                 bedrock("numel", "ground_idle")
             )
@@ -63,7 +63,7 @@ class NumelModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Qua
             poseName = "walk",
             poseTypes = PoseType.MOVING_POSES,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(disableY = true),
                 bedrock("numel", "ground_walk")
             )
@@ -73,7 +73,7 @@ class NumelModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Qua
             poseName = "battle_idle",
             poseTypes = PoseType.STATIONARY_POSES,
             condition = { it.isBattling },
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(disableY = true),
                 bedrock("numel", "battle_idle")
             )

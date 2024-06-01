@@ -8,9 +8,9 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen4
 
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.PosableState
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.CobblemonPose
 import com.cobblemon.mod.common.entity.PoseType
 import net.minecraft.client.model.ModelPart
@@ -38,7 +38,7 @@ class DrifloonModel (root: ModelPart) : PokemonPosableModel(root) {
         sleep = registerPose(
             poseName = "sleep",
             poseType = PoseType.SLEEP,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("drifloon", "sleep")
             )
         )
@@ -48,7 +48,7 @@ class DrifloonModel (root: ModelPart) : PokemonPosableModel(root) {
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES - PoseType.HOVER,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("drifloon", "ground_idle")
             )
         )
@@ -58,7 +58,7 @@ class DrifloonModel (root: ModelPart) : PokemonPosableModel(root) {
             poseTypes = PoseType.MOVING_POSES - PoseType.FLY,
             quirks = arrayOf(blink),
             transformTicks = 10,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("drifloon", "ground_walk")
             )
         )
@@ -68,7 +68,7 @@ class DrifloonModel (root: ModelPart) : PokemonPosableModel(root) {
             poseType = PoseType.HOVER,
             quirks = arrayOf(blink),
             transformTicks = 10,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("drifloon", "air_idle")
             )
         )
@@ -78,7 +78,7 @@ class DrifloonModel (root: ModelPart) : PokemonPosableModel(root) {
             poseType = PoseType.FLY,
             quirks = arrayOf(blink),
             transformTicks = 10,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("drifloon", "air_fly")
             )
         )

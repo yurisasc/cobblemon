@@ -8,12 +8,12 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen4
 
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.QuadrupedWalkAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.createTransformation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.QuadrupedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.CobblemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.ModelPartTransformation
 import com.cobblemon.mod.common.entity.PoseType
@@ -52,7 +52,7 @@ class BibarelModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Qu
             poseName = "standing",
             poseTypes = STATIONARY_POSES + UI_POSES,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("bibarel", "ground_idle")
             )
@@ -62,7 +62,7 @@ class BibarelModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Qu
             poseName = "walk",
             poseTypes = MOVING_POSES,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("bibarel", "ground_idle"),
                 QuadrupedWalkAnimation(this, periodMultiplier = 0.6F, amplitudeMultiplier = 0.75F)
@@ -75,7 +75,7 @@ class BibarelModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Qu
             poseTypes = PoseType.SWIMMING_POSES,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("bibarel", "ground_idle"),
                 QuadrupedWalkAnimation(this, periodMultiplier = 0.6F, amplitudeMultiplier = 0.75F)

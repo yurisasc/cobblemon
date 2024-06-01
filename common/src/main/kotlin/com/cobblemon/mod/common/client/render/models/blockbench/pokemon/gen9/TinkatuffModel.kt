@@ -45,7 +45,7 @@ class TinkatuffModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame,
         val blink = quirk { bedrockStateful("tinkatuff", "blink") }
         sleep = registerPose(
             poseType = PoseType.SLEEP,
-            idleAnimations = arrayOf(bedrock("tinkatuff", "sleep"))
+            animations = arrayOf(bedrock("tinkatuff", "sleep"))
         )
 
         standing = registerPose(
@@ -54,7 +54,7 @@ class TinkatuffModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame,
             transformTicks = 10,
             condition = { !it.isBattling },
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("tinkatuff", "ground_idle")
             )
@@ -65,7 +65,7 @@ class TinkatuffModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame,
             poseTypes = PoseType.MOVING_POSES,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("tinkatuff", "ground_walk")
             )
@@ -77,7 +77,7 @@ class TinkatuffModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame,
             transformTicks = 10,
             quirks = arrayOf(blink),
             condition = { it.isBattling },
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("tinkatuff", "battle_idle")
             )

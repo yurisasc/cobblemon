@@ -38,7 +38,7 @@ class HaunterModel(root: ModelPart) : PokemonPosableModel(root) {
             poseName = "standing",
             poseTypes = STATIONARY_POSES + UI_POSES,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("haunter", "ground_idle")
             ),
             transformedParts = arrayOf(
@@ -50,7 +50,7 @@ class HaunterModel(root: ModelPart) : PokemonPosableModel(root) {
             poseName = "walk",
             poseTypes = MOVING_POSES,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("haunter", "ground_idle")
                 //bedrock("haunter", "ground_walk")
             ),

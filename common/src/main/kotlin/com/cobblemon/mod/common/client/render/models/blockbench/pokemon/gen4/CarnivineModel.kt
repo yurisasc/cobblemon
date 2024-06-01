@@ -8,8 +8,8 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen4
 
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.CobblemonPose
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.PoseType.Companion.MOVING_POSES
@@ -43,7 +43,7 @@ class CarnivineModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame{
             poseTypes = STATIONARY_POSES + UI_POSES - PoseType.HOVER,
             condition = { !it.isBattling },
             quirks = arrayOf(blink, idleQuirk),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("carnivine", "ground_idle")
             )
@@ -54,7 +54,7 @@ class CarnivineModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame{
             poseTypes = MOVING_POSES - PoseType.FLY,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("carnivine", "ground_walk")
             )
@@ -65,7 +65,7 @@ class CarnivineModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame{
             poseType = PoseType.HOVER,
             transformTicks = 10,
             quirks = arrayOf(blink, idleQuirk),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("carnivine", "air_idle")
             )
@@ -76,7 +76,7 @@ class CarnivineModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame{
             poseType = PoseType.FLY,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("carnivine", "air_fly")
             )
@@ -88,7 +88,7 @@ class CarnivineModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame{
             transformTicks = 10,
             condition = { it.isBattling },
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("carnivine", "battle_idle")
             )

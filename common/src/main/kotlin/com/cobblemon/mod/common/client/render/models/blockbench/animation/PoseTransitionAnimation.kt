@@ -28,8 +28,8 @@ class PoseTransitionAnimation(
     val afterPose: Pose,
     val durationTicks: Int = 20,
     val curve: WaveFunction = sineFunction(amplitude = 0.5F, period = 2F, phaseShift = 0.5F, verticalShift = 0.5F)
-) : StatefulAnimation {
-    override val isTransform = true
+) : ActiveAnimation {
+    override val isTransition = true
 
     override val duration: Float = durationTicks / 20F
 
@@ -67,13 +67,13 @@ class PoseTransitionAnimation(
 
         model.setDefault()
 
-        model.applyPose(state, beforePose.poseName, oldIntensity)
-        beforePose.idleAnimations.forEach {
+        model.applyPose(state, beforePose, oldIntensity)
+        beforePose.animations.forEach {
             it.apply(context, model, state, limbSwing, limbSwingAmount, ageInTicks, headYaw, headPitch, oldIntensity)
         }
 
-        model.applyPose(state, afterPose.poseName, newIntensity)
-        afterPose.idleAnimations.forEach {
+        model.applyPose(state, afterPose, newIntensity)
+        afterPose.animations.forEach {
             it.apply(context, model, state, limbSwing, limbSwingAmount, ageInTicks, headYaw, headPitch, newIntensity)
         }
 

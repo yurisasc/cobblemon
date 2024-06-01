@@ -41,7 +41,7 @@ class AmpharosModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
         val quirk = quirk(secondsBetweenOccurrences = 60F to 120F) { bedrockStateful("ampharos", "quirk_toes") }
         sleep = registerPose(
             poseType = PoseType.SLEEP,
-            idleAnimations = arrayOf(bedrock("ampharos", "sleep"))
+            animations = arrayOf(bedrock("ampharos", "sleep"))
         )
 
         standing = registerPose(
@@ -50,7 +50,7 @@ class AmpharosModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
             transformTicks = 10,
             condition = { !it.isBattling },
             quirks = arrayOf(blink, glow, quirk),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("ampharos", "ground_idle")
             )
@@ -61,7 +61,7 @@ class AmpharosModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
             poseTypes = PoseType.MOVING_POSES,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("ampharos", "ground_walk")
             )
@@ -73,7 +73,7 @@ class AmpharosModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
             transformTicks = 10,
             quirks = arrayOf(blink, glow),
             condition = { it.isBattling },
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("ampharos", "battle_idle")
             )

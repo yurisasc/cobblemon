@@ -41,7 +41,7 @@ class MinunModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Bipe
             poseName = "standing",
             poseTypes = STATIONARY_POSES + UI_POSES,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("minun", "ground_idle")
             )
@@ -51,7 +51,7 @@ class MinunModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Bipe
             poseName = "walk",
             poseTypes = MOVING_POSES,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("minun", "ground_idle"),
                 BipedWalkAnimation(this, periodMultiplier = 0.8F, amplitudeMultiplier = 0.7F)

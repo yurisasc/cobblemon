@@ -38,14 +38,14 @@ class SlugmaShinyModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame
         shiny_sleep = registerPose(
             poseName = "shiny_sleeping",
             poseType = PoseType.SLEEP,
-            idleAnimations = arrayOf(bedrock("slugma_shiny", "sleep"))
+            animations = arrayOf(bedrock("slugma_shiny", "sleep"))
         )
 
         shiny_standing = registerPose(
             poseName = "shiny_standing",
             poseTypes = STATIONARY_POSES + UI_POSES,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("slugma_shiny", "ground_idle")
             )
@@ -56,7 +56,7 @@ class SlugmaShinyModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame
             poseTypes = MOVING_POSES,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("slugma_shiny", "ground_walk")
             )
         )

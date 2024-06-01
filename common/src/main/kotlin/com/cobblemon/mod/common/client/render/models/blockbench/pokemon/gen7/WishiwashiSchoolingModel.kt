@@ -8,8 +8,8 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen7
 
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.createTransformation
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.Pose
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.util.isTouchingWater
@@ -36,13 +36,13 @@ class WishiwashiSchoolingModel (root: ModelPart) : PokemonPosableModel(root){
         watersleep = registerPose(
             poseType = PoseType.SLEEP,
             condition = { it.isTouchingWater },
-            idleAnimations = arrayOf(bedrock("wishiwashi_school", "water_sleep"))
+            animations = arrayOf(bedrock("wishiwashi_school", "water_sleep"))
         )
 
         standing = registerPose(
             poseName = "standing",
             poseTypes = PoseType.STANDING_POSES - PoseType.FLOAT + PoseType.UI_POSES,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("wishiwashi_school", "water_idle")
             ),
             transformedParts = arrayOf(
@@ -53,7 +53,7 @@ class WishiwashiSchoolingModel (root: ModelPart) : PokemonPosableModel(root){
         walk = registerPose(
             poseName = "walking",
             poseTypes = PoseType.MOVING_POSES - PoseType.SWIM,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("wishiwashi_school", "water_swim")
             ),
             transformedParts = arrayOf(
@@ -64,7 +64,7 @@ class WishiwashiSchoolingModel (root: ModelPart) : PokemonPosableModel(root){
         floating = registerPose(
             poseName = "floating",
             poseType = PoseType.FLOAT,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("wishiwashi_school", "water_idle")
             )
         )
@@ -72,7 +72,7 @@ class WishiwashiSchoolingModel (root: ModelPart) : PokemonPosableModel(root){
         swimming = registerPose(
             poseName = "swimming",
             poseType = PoseType.SWIM,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("wishiwashi_school", "water_swim")
             )
         )

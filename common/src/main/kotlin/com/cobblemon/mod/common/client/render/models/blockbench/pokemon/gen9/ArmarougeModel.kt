@@ -49,7 +49,7 @@ class ArmarougeModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, 
         val blink = quirk { bedrockStateful("armarouge", "blink") }
         sleep = registerPose(
             poseType = PoseType.SLEEP,
-            idleAnimations = arrayOf(bedrock("armarouge", "sleep"))
+            animations = arrayOf(bedrock("armarouge", "sleep"))
         )
 
         standing = registerPose(
@@ -58,7 +58,7 @@ class ArmarougeModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, 
             transformTicks = 10,
             condition = { !it.isBattling },
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("armarouge", "ground_idle")
             )
@@ -69,7 +69,7 @@ class ArmarougeModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, 
             poseTypes = MOVING_POSES,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("armarouge", "ground_walk")
             )
@@ -81,7 +81,7 @@ class ArmarougeModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, 
             transformTicks = 10,
             quirks = arrayOf(blink),
             condition = { it.isBattling },
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("armarouge", "battle_idle")
             )

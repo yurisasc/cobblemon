@@ -14,13 +14,14 @@ import com.cobblemon.mod.common.api.molang.ExpressionLike
 import com.cobblemon.mod.common.client.render.ModelLayer
 import com.cobblemon.mod.common.client.render.ModelVariationSet
 import com.cobblemon.mod.common.client.render.VaryingRenderableResolver
-import com.cobblemon.mod.common.client.render.models.blockbench.JsonPosableModel
-import com.cobblemon.mod.common.client.render.models.blockbench.JsonPosableModel.Companion.createAdapter
-import com.cobblemon.mod.common.client.render.models.blockbench.JsonPosableModel.Companion.setupGsonForJsonPosableModels
+import com.cobblemon.mod.common.client.render.models.blockbench.JsonModelAdapter
 import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.PosableState
+import com.cobblemon.mod.common.client.render.models.blockbench.PoseAdapter
 import com.cobblemon.mod.common.client.render.models.blockbench.TexturedModel
+import com.cobblemon.mod.common.client.render.models.blockbench.bedrock.animation.BedrockAnimationRepository
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.Bone
+import com.cobblemon.mod.common.client.render.models.blockbench.pose.Pose
 import com.cobblemon.mod.common.client.util.exists
 import com.cobblemon.mod.common.util.adapters.ExpressionAdapter
 import com.cobblemon.mod.common.util.adapters.ExpressionLikeAdapter
@@ -42,6 +43,15 @@ import net.minecraft.util.Identifier
 import net.minecraft.util.Pair
 import net.minecraft.util.math.Vec3d
 
+/**
+ * A repository for [PosableModel]s. Can be parameterized with [PosableModel] itself or a subclass.
+ * This will handle the loading of all factors of [PosableModel]s, including variations, posers, models, and indirectly
+ * the animations by providing directories for the [BedrockAnimationRepository] to read from. This class will also
+ * hang onto poser instances for reuse.
+ *
+ * @author Hiroku
+ * @since February 28th, 2023
+ */
 abstract class VaryingModelRepository<T : PosableModel> {
     abstract val poserClass: Class<T>
     val posers = mutableMapOf<Identifier, (Bone) -> T>()
@@ -65,18 +75,34 @@ abstract class VaryingModelRepository<T : PosableModel> {
             .registerTypeAdapter(Vec3d::class.java, Vec3dAdapter)
             .registerTypeAdapter(Expression::class.java, ExpressionAdapter)
             .registerTypeAdapter(ExpressionLike::class.java, ExpressionLikeAdapter)
-//            .setExclusionStrategies(JsonModelExclusion)
             .also { configureGson(it) }
             .create()
     }
 
-    lateinit var adapter: JsonPosableModel.JsonModelAdapter<T>
+    lateinit var adapter: JsonModelAdapter<T>
 
     open fun conditionParser(json: JsonObject): List<(PosableState) -> Boolean> = emptyList()
 
+    private fun GsonBuilder.setupGsonForJsonPosableModels(
+        adapter: JsonModelAdapter<T>,
+        poseConditionReader: (JsonObject) -> List<(PosableState) -> Boolean> = { emptyList() }
+    ): GsonBuilder {
+        return this
+            .excludeFieldsWithModifiers()
+            .registerTypeAdapter(Pose::class.java, PoseAdapter(poseConditionReader) { adapter.model!! })
+            .registerTypeAdapter(
+                poserClass,
+                adapter
+            )
+    }
+
+    private fun createAdapter(): JsonModelAdapter<T> {
+        return JsonModelAdapter { poserClass.getConstructor(Bone::class.java).newInstance(it) }
+    }
+
     open fun configureGson(gsonBuilder: GsonBuilder) {
-        adapter = createAdapter(poserClass)
-        gsonBuilder.setupGsonForJsonPosableModels(poserClass, adapter) { json -> conditionParser(json) }
+        adapter = createAdapter()
+        gsonBuilder.setupGsonForJsonPosableModels(adapter) { json -> conditionParser(json) }
     }
 
     open fun loadJsonPoser(json: String): (Bone) -> T {

@@ -23,7 +23,7 @@ import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
 class BeedrillModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, BiWingedFrame {
-    override val rootPart = root.registerChildWithSpecificChildren("beedrill", listOf("body","antenna_right","antenna_right2","antenna_left","antenna_left2","wing_right","wing_right2","wing_left","wing_left2","abdomen","arm_right","arm_left","leg_right","leg_left","leg_left2","leg_right2","head_AI","head","arm_right2","arm_left2"))
+    override val rootPart = root.registerChildWithAllChildren("beedrill")
     override val head = getPart("head")
     override val leftWing = getPart("wing_left")
     override val rightWing = getPart("wing_right")
@@ -43,7 +43,7 @@ class BeedrillModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, B
     override fun registerPoses() {
         sleep = registerPose(
             poseType = PoseType.SLEEP,
-            idleAnimations = arrayOf(bedrock("beedrill", "sleep")),
+            animations = arrayOf(bedrock("beedrill", "sleep")),
             transformedParts = arrayOf(
                 rootPart.createTransformation().addPosition(Y_AXIS, -3F)
             )
@@ -52,7 +52,7 @@ class BeedrillModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, B
         standing = registerPose(
             poseName = "standing",
             poseTypes = STATIONARY_POSES + UI_POSES,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("beedrill", "air_idle")
             ),
@@ -62,7 +62,7 @@ class BeedrillModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, B
         walk = registerPose(
             poseName = "walk",
             poseTypes = MOVING_POSES,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("beedrill", "air_fly")
             ),

@@ -49,7 +49,7 @@ class TandemausModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame 
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
             transformTicks = 10,
             quirks = arrayOf(blink1, blink2),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("tandemaus", "ground_idle"),
                 singleBoneLook(),
                 SingleBoneLookAnimation(head2, false, false, disableX = false, disableY = false),
@@ -61,7 +61,7 @@ class TandemausModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame 
             poseTypes = PoseType.MOVING_POSES,
             transformTicks = 10,
             quirks = arrayOf(blink1, blink2),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("tandemaus", "ground_walk"),
                 singleBoneLook(),
                 SingleBoneLookAnimation(head2, false, false, disableX = false, disableY = false),

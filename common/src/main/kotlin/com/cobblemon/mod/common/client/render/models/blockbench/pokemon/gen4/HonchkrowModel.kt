@@ -8,12 +8,12 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen4
 
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.BipedWalkAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.WingFlapIdleAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BiWingedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.ModelPartTransformation
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.Pose
 import com.cobblemon.mod.common.client.render.models.blockbench.wavefunction.sineFunction
@@ -47,7 +47,7 @@ class HonchkrowModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, 
 
         sleep = registerPose(
             poseType = PoseType.SLEEP,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("honchkrow", "sleep")
             )
         )
@@ -55,7 +55,7 @@ class HonchkrowModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, 
         standing = registerPose(
             poseName = "standing",
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
-            quirks = arrayOf(blink), idleAnimations = arrayOf(
+            quirks = arrayOf(blink), animations = arrayOf(
                 singleBoneLook(),
                 bedrock("honchkrow", "ground_idle")
             )
@@ -64,7 +64,7 @@ class HonchkrowModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, 
         walk = registerPose(
             poseName = "walk",
             poseTypes = PoseType.MOVING_POSES,
-            quirks = arrayOf(blink), idleAnimations = arrayOf(
+            quirks = arrayOf(blink), animations = arrayOf(
                 singleBoneLook(),
                 bedrock("honchkrow", "ground_idle"),
                 BipedWalkAnimation(this, amplitudeMultiplier = 0.8F, periodMultiplier = 0.7F)
@@ -76,7 +76,7 @@ class HonchkrowModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, 
             poseType = PoseType.HOVER,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("honchkrow", "air_idle"),
                 WingFlapIdleAnimation(this,
@@ -92,7 +92,7 @@ class HonchkrowModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, 
             poseType = PoseType.FLY,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("honchkrow", "air_fly"),
                 WingFlapIdleAnimation(this,

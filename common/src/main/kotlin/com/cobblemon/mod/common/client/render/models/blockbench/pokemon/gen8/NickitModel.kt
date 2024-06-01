@@ -15,7 +15,6 @@ import com.cobblemon.mod.common.client.render.models.blockbench.frame.QuadrupedF
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.Pose
 import com.cobblemon.mod.common.entity.PoseType
-import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.util.isBattling
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
@@ -51,7 +50,7 @@ class NickitModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Qu
 
         sleep = registerPose(
             poseType = PoseType.SLEEP,
-            idleAnimations = arrayOf(bedrock("nickit", "sleep"))
+            animations = arrayOf(bedrock("nickit", "sleep"))
         )
 
         standing = registerPose(
@@ -60,7 +59,7 @@ class NickitModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Qu
             transformTicks = 10,
             quirks = arrayOf(blink, glanceleft, glanceright, eartwitchleft, eartwitchright),
             condition = { !it.isBattling },
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("nickit", "ground_idle")
             )
@@ -71,7 +70,7 @@ class NickitModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Qu
             poseTypes = PoseType.MOVING_POSES,
             transformTicks = 10,
             quirks = arrayOf(blink, eartwitchleft, eartwitchright),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("nickit", "ground_walk")
             )
@@ -83,7 +82,7 @@ class NickitModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Qu
             transformTicks = 10,
             quirks = arrayOf(blink, glanceleft, glanceright, eartwitchleft, eartwitchright),
             condition = { it.isBattling },
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("nickit", "battle_idle")
             )

@@ -35,13 +35,13 @@ class KakunaModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
     override fun registerPoses() {
         sleep = registerPose(
             poseType = PoseType.SLEEP,
-            idleAnimations = arrayOf(bedrock("kakuna", "sleep"))
+            animations = arrayOf(bedrock("kakuna", "sleep"))
         )
 
         standing = registerPose(
             poseName = "standing",
             poseTypes = ALL_POSES - PoseType.SLEEP,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("kakuna", "ground_idle")
             )

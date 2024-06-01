@@ -8,11 +8,11 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen3
 
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BiWingedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.Pose
 import com.cobblemon.mod.common.entity.PoseType
 import net.minecraft.client.model.ModelPart
@@ -44,7 +44,7 @@ class TaillowModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame, B
         val blink = quirk { bedrockStateful("taillow", "blink") }
         sleep = registerPose(
             poseType = PoseType.SLEEP,
-            idleAnimations = arrayOf(bedrock("taillow", "sleep"))
+            animations = arrayOf(bedrock("taillow", "sleep"))
         )
 
         stand = registerPose(
@@ -52,7 +52,7 @@ class TaillowModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame, B
             poseTypes = PoseType.SHOULDER_POSES + PoseType.UI_POSES + PoseType.STAND,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("taillow", "ground_idle")
             )
@@ -63,7 +63,7 @@ class TaillowModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame, B
             poseType = PoseType.HOVER,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("taillow", "air_idle")
             )
@@ -74,7 +74,7 @@ class TaillowModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame, B
             poseType = PoseType.FLY,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("taillow", "air_fly")
             )
@@ -85,7 +85,7 @@ class TaillowModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame, B
             poseType = PoseType.WALK,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("taillow", "ground_walk")
             )

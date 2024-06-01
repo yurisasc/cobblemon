@@ -78,7 +78,7 @@ class ArbokModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
 
         sleep = registerPose(
             poseType = PoseType.SLEEP,
-            idleAnimations = arrayOf(bedrock("arbok", "sleep"))
+            animations = arrayOf(bedrock("arbok", "sleep"))
         )
 
 
@@ -87,7 +87,7 @@ class ArbokModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
             poseTypes = STATIONARY_POSES,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("arbok", "summary_idle"),
                 wave
@@ -99,7 +99,7 @@ class ArbokModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
             poseTypes = MOVING_POSES,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("arbok", "ground_walk"),
                 wave
@@ -110,7 +110,7 @@ class ArbokModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
             poseName = "summary",
             poseTypes = UI_POSES,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("arbok", "summary_idle")
             )

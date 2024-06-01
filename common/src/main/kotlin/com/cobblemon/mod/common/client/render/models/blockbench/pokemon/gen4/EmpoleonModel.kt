@@ -8,14 +8,13 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen4
 
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.Pose
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.PoseType.Companion.UI_POSES
-import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.util.isBattling
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
@@ -46,7 +45,7 @@ class EmpoleonModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, B
         val blink = quirk { bedrockStateful("empoleon", "blink")}
         sleep = registerPose(
             poseType = PoseType.SLEEP,
-            idleAnimations = arrayOf(bedrock("empoleon", "sleep"))
+            animations = arrayOf(bedrock("empoleon", "sleep"))
         )
 
         standing = registerPose(
@@ -54,7 +53,7 @@ class EmpoleonModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, B
             poseTypes = UI_POSES + PoseType.STAND,
             condition = { !it.isBattling },
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("empoleon", "ground_idle")
             )
@@ -64,7 +63,7 @@ class EmpoleonModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, B
             poseName = "walk",
             poseType = PoseType.WALK,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("empoleon", "ground_walk")
             )
@@ -73,7 +72,7 @@ class EmpoleonModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, B
             poseName = "float",
             poseType = PoseType.FLOAT,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("empoleon", "water_idle")
             )
@@ -83,7 +82,7 @@ class EmpoleonModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, B
             poseName = "swim",
             poseType = PoseType.SWIM,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("empoleon", "water_swim")
             )
@@ -95,7 +94,7 @@ class EmpoleonModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, B
             transformTicks = 10,
             quirks = arrayOf(blink),
             condition = { it.isBattling },
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("empoleon", "battle_idle")
             )

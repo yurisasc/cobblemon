@@ -44,7 +44,7 @@ class CleffaModel(root: ModelPart) : PokemonPosableModel(root) {
             poseTypes = STATIONARY_POSES + UI_POSES,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("cleffa", "ground_idle")
             )
         )
@@ -56,7 +56,7 @@ class CleffaModel(root: ModelPart) : PokemonPosableModel(root) {
             poseType = PoseType.SHOULDER_LEFT,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("cleffa", "ground_idle")
             ),
             transformedParts = arrayOf(
@@ -69,7 +69,7 @@ class CleffaModel(root: ModelPart) : PokemonPosableModel(root) {
             poseType = PoseType.SHOULDER_RIGHT,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("cleffa", "ground_idle")
             ),
             transformedParts = arrayOf(
@@ -82,7 +82,7 @@ class CleffaModel(root: ModelPart) : PokemonPosableModel(root) {
             poseTypes = MOVING_POSES,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("cleffa", "ground_idle"),
                 bedrock("cleffa", "ground_walk")
             )

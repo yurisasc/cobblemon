@@ -41,14 +41,14 @@ class ClefairyModel(root: ModelPart) : PokemonPosableModel(root) {
             poseTypes = STATIONARY_POSES + UI_POSES,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("clefairy", "ground_idle")
             )
         )
 
         sleep = registerPose(
                 poseType = PoseType.SLEEP,
-                idleAnimations = arrayOf(bedrock("clefairy", "sleep"))
+                animations = arrayOf(bedrock("clefairy", "sleep"))
         )
 
         walk = registerPose(
@@ -56,7 +56,7 @@ class ClefairyModel(root: ModelPart) : PokemonPosableModel(root) {
             poseTypes = MOVING_POSES,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("clefairy", "ground_idle"),
                 bedrock("clefairy", "ground_walk")
             )

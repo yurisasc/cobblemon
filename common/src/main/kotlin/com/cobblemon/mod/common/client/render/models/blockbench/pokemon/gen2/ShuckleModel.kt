@@ -37,7 +37,7 @@ class ShuckleModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
             quirks = arrayOf(blink),
             transformTicks = 10,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("shuckle", "ground_idle")
             )
@@ -48,7 +48,7 @@ class ShuckleModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
             poseTypes = PoseType.MOVING_POSES,
             quirks = arrayOf(blink),
             transformTicks = 5,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("shuckle", "ground_walk")
             )
@@ -59,7 +59,7 @@ class ShuckleModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
             poseTypes = PoseType.MOVING_POSES,
             quirks = arrayOf(blink),
             transformTicks = 5,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("shuckle", "sleep")
             )

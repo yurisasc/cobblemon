@@ -37,7 +37,7 @@ class CryogonalModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame 
             poseName = "standing",
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("cryogonal", "ground_idle")
             )
@@ -45,14 +45,14 @@ class CryogonalModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame 
 
         sleep = registerPose(
                 poseType = PoseType.SLEEP,
-                idleAnimations = arrayOf(bedrock("cryogonal", "sleep"))
+                animations = arrayOf(bedrock("cryogonal", "sleep"))
         )
 
         walk = registerPose(
             poseName = "walk",
             poseTypes = PoseType.MOVING_POSES,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("cryogonal", "ground_walk")
             )
         )

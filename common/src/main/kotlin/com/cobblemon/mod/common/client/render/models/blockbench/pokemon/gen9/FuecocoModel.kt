@@ -40,7 +40,7 @@ class FuecocoModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
         val blink = quirk { bedrockStateful("fuecoco", "blink") }
         sleep = registerPose(
             poseType = PoseType.SLEEP,
-            idleAnimations = arrayOf(bedrock("fuecoco", "sleep"))
+            animations = arrayOf(bedrock("fuecoco", "sleep"))
         )
 
         standing = registerPose(
@@ -48,7 +48,7 @@ class FuecocoModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
             poseTypes = STATIONARY_POSES + UI_POSES,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(disableY = true),
                 bedrock("fuecoco", "ground_idle")
             )
@@ -59,7 +59,7 @@ class FuecocoModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
             poseTypes = PoseType.MOVING_POSES,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(disableY = true),
                 bedrock("fuecoco", "ground_walk")
             )
@@ -71,7 +71,7 @@ class FuecocoModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
             transformTicks = 10,
             quirks = arrayOf(blink),
             condition = { it.isBattling },
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(disableY = true),
                 bedrock("fuecoco", "battle_idle")
             )

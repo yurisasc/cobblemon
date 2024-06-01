@@ -49,7 +49,7 @@ class InteleonModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame, 
             transformedParts = arrayOf(
                 cape_unfolded.createTransformation().withVisibility(visibility = false)
             ),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("inteleon", "ground_idle")
             )
@@ -62,7 +62,7 @@ class InteleonModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame, 
             transformedParts = arrayOf(
                 cape_unfolded.createTransformation().withVisibility(visibility = false)
             ),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("inteleon", "ground_walk")
             )

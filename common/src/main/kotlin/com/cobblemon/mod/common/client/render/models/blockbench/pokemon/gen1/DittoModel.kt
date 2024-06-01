@@ -41,7 +41,7 @@ class DittoModel(root: ModelPart) : PokemonPosableModel(root) {
             poseTypes = STATIONARY_POSES + UI_POSES,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
 //                singleBoneLook()
                 bedrock("ditto", "ground_idle")
             )
@@ -52,7 +52,7 @@ class DittoModel(root: ModelPart) : PokemonPosableModel(root) {
             poseTypes = MOVING_POSES,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
 //                singleBoneLook()
                 bedrock("ditto", "ground_walk")
             )
@@ -63,7 +63,7 @@ class DittoModel(root: ModelPart) : PokemonPosableModel(root) {
             poseType = PoseType.SLEEP,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
 //                singleBoneLook()
                 bedrock("ditto", "sleep")
             )

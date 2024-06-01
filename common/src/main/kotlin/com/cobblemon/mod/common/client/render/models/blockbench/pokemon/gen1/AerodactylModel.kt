@@ -8,9 +8,9 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1
 
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.CobblemonPose
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.PoseType.Companion.UI_POSES
@@ -39,14 +39,14 @@ class AerodactylModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame 
         val blink = quirk { bedrockStateful("aerodactyl", "blink")}
         sleep = registerPose(
             poseType = PoseType.SLEEP,
-            idleAnimations = arrayOf(bedrock("aerodactyl", "sleep"))
+            animations = arrayOf(bedrock("aerodactyl", "sleep"))
         )
 
         standing = registerPose(
             poseName = "standing",
             poseType = PoseType.STAND,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("aerodactyl", "ground_idle")
             )
@@ -56,7 +56,7 @@ class AerodactylModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame 
             poseName = "walk",
             poseType = PoseType.WALK,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("aerodactyl", "ground_walk")
             )
@@ -66,7 +66,7 @@ class AerodactylModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame 
             poseName = "hover",
             poseTypes = setOf(PoseType.HOVER, PoseType.FLOAT) + UI_POSES,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("aerodactyl", "air_idle")
             )
@@ -76,7 +76,7 @@ class AerodactylModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame 
             poseName = "fly",
             poseTypes = setOf(PoseType.FLY, PoseType.SWIM),
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("aerodactyl", "air_fly")
             )

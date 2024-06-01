@@ -10,26 +10,26 @@ package com.cobblemon.mod.common.client.render.models.blockbench.bedrock.animati
 
 import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.PosableState
-import com.cobblemon.mod.common.client.render.models.blockbench.animation.StatefulAnimation
+import com.cobblemon.mod.common.client.render.models.blockbench.animation.ActiveAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.repository.RenderContext
 import net.minecraft.entity.Entity
 
 /**
- * A stateful animation that runs a [BedrockAnimation]. It is completed when the underlying
+ * An active animation that runs a [BedrockAnimation]. It is completed when the underlying
  * bedrock animation is complete.
  *
  * @author Hiroku
  * @since July 16th, 2022
  */
-open class BedrockStatefulAnimation(
+open class BedrockActiveAnimation(
     val animation: BedrockAnimation,
-) : StatefulAnimation {
+) : ActiveAnimation {
     var startedSeconds = -1F
     var isTransformAnimation = false
     override val duration = animation.animationLength.toFloat()
     private var afterAction: (RenderContext, PosableState) -> Unit = { _, _ -> }
 
-    override val isTransform: Boolean
+    override val isTransition: Boolean
         get() = isTransformAnimation
 
     fun andThen(action: (context: RenderContext, PosableState) -> Unit) = this.also {

@@ -46,7 +46,7 @@ class PichuModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
             poseName = "standing",
             poseTypes = STATIONARY_POSES + UI_POSES,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("pichu", "ground_idle")
             )
@@ -56,7 +56,7 @@ class PichuModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
             poseName = "walk",
             poseTypes = MOVING_POSES,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("pichu", "ground_walk")
             )
@@ -65,7 +65,7 @@ class PichuModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
         shoulderLeft = registerPose(
             poseType = PoseType.SHOULDER_LEFT,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("pichu", "ground_idle")
             ),
@@ -77,7 +77,7 @@ class PichuModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
         shoulderRight = registerPose(
             poseType = PoseType.SHOULDER_RIGHT,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("pichu", "ground_idle")
             ),

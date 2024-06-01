@@ -57,14 +57,14 @@ class FeraligatrModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame
             poseName = "sleeping",
             poseType = PoseType.SLEEP,
             condition = { !it.isTouchingWater },
-            idleAnimations = arrayOf(bedrock("feraligatr", "sleep"))
+            animations = arrayOf(bedrock("feraligatr", "sleep"))
         )
 
         watersleep = registerPose(
             poseName = "water_sleeping",
             poseType = PoseType.SLEEP,
             condition = { it.isTouchingWater },
-            idleAnimations = arrayOf(bedrock("feraligatr", "water_sleep"))
+            animations = arrayOf(bedrock("feraligatr", "water_sleep"))
         )
 
         standing = registerPose(
@@ -73,7 +73,7 @@ class FeraligatrModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame
             transformTicks = 10,
             condition = { !it.isBattling && !it.isTouchingWater && !it.isSubmergedInWater },
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("feraligatr", "ground_idle")
             )
@@ -85,7 +85,7 @@ class FeraligatrModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame
             poseType = PoseType.WALK,
             condition = { !it.isTouchingWater && !it.isSubmergedInWater },
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("feraligatr", "ground_walk")
             )
@@ -97,7 +97,7 @@ class FeraligatrModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame
             poseType = PoseType.FLOAT,
             condition = { it.isSubmergedInWater },
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("feraligatr", "water_idle")
             )
@@ -109,7 +109,7 @@ class FeraligatrModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame
             condition = { it.isSubmergedInWater },
             poseType = PoseType.SWIM,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("feraligatr", "water_swim"),
             )
@@ -121,7 +121,7 @@ class FeraligatrModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame
             transformTicks = 10,
             quirks = arrayOf(blink),
             condition = { it.isBattling && !it.isTouchingWater },
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("feraligatr", "battle_idle")
             )
@@ -132,7 +132,7 @@ class FeraligatrModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame
             poseTypes = PoseType.STATIONARY_POSES,
             quirks = arrayOf(blink),
             condition = { !it.isSubmergedInWater && it.isTouchingWater },
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("feraligatr", "watersurface_idle"),
             ),
@@ -144,7 +144,7 @@ class FeraligatrModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame
             poseTypes = PoseType.MOVING_POSES,
             quirks = arrayOf(blink),
             condition = { !it.isSubmergedInWater && it.isTouchingWater },
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("feraligatr", "watersurface_swim"),
             ),

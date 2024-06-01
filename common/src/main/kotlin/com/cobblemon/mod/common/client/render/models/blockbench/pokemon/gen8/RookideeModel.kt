@@ -44,7 +44,7 @@ class RookideeModel (root: ModelPart) : PokemonPosableModel(root), BipedFrame, B
         val blink = quirk { bedrockStateful("rookidee", "blink") }
         sleep = registerPose(
             poseType = PoseType.SLEEP,
-            idleAnimations = arrayOf(bedrock("rookidee", "sleep"))
+            animations = arrayOf(bedrock("rookidee", "sleep"))
         )
 
         stand = registerPose(
@@ -52,7 +52,7 @@ class RookideeModel (root: ModelPart) : PokemonPosableModel(root), BipedFrame, B
             poseTypes = PoseType.SHOULDER_POSES + PoseType.UI_POSES + PoseType.STAND,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("rookidee", "ground_idle")
             )
         )
@@ -62,7 +62,7 @@ class RookideeModel (root: ModelPart) : PokemonPosableModel(root), BipedFrame, B
             poseTypes = PoseType.STATIONARY_POSES - PoseType.STAND - PoseType.UI_POSES - PoseType.SHOULDER_POSES,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("rookidee", "air_idle")
             )
         )
@@ -72,7 +72,7 @@ class RookideeModel (root: ModelPart) : PokemonPosableModel(root), BipedFrame, B
             poseTypes = PoseType.MOVING_POSES - PoseType.WALK,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("rookidee", "air_fly")
             )
         )
@@ -82,7 +82,7 @@ class RookideeModel (root: ModelPart) : PokemonPosableModel(root), BipedFrame, B
             poseType = PoseType.WALK,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("rookidee", "ground_walk")
             )
         )

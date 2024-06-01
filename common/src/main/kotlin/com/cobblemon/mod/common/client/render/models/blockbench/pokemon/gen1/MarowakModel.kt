@@ -45,7 +45,7 @@ class MarowakModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Bi
             poseName = "standing",
             poseTypes = STATIONARY_POSES + UI_POSES,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("marowak", "idle")
             )
@@ -55,7 +55,7 @@ class MarowakModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Bi
             poseName = "walk",
             poseTypes = MOVING_POSES,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 BipedWalkAnimation(this, periodMultiplier = 0.9F, amplitudeMultiplier = 1.1f),
                 singleBoneLook(),
                 bedrock("marowak", "idle")

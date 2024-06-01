@@ -8,11 +8,11 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen3
 
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.createTransformation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BiWingedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.CobblemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.ModelPartTransformation
 import com.cobblemon.mod.common.entity.PoseType
@@ -54,7 +54,7 @@ class IllumiseModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame, 
         sleep = registerPose(
             poseName = "sleep",
             poseType = PoseType.SLEEP,
-            idleAnimations = arrayOf(bedrock("illumise", "sleep"))
+            animations = arrayOf(bedrock("illumise", "sleep"))
         )
 
         water_surface_idle = registerPose(
@@ -66,7 +66,7 @@ class IllumiseModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame, 
             transformedParts = arrayOf(
                 rootPart.createTransformation().addPosition(ModelPartTransformation.Y_AXIS, wateroffset)
             ),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("illumise", "air_idle")
             )
@@ -81,7 +81,7 @@ class IllumiseModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame, 
             transformedParts = arrayOf(
                 rootPart.createTransformation().addPosition(ModelPartTransformation.Y_AXIS, wateroffset)
             ),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("illumise", "air_fly")
             )
@@ -93,7 +93,7 @@ class IllumiseModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame, 
             transformTicks = 10,
             condition = { !it.isBattling },
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("illumise", "ground_idle")
             )
@@ -104,7 +104,7 @@ class IllumiseModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame, 
             poseTypes = PoseType.MOVING_POSES - PoseType.FLY,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("illumise", "ground_walk")
             )
@@ -115,7 +115,7 @@ class IllumiseModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame, 
             poseType = PoseType.HOVER,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("illumise", "air_idle")
             )
@@ -126,7 +126,7 @@ class IllumiseModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame, 
             poseType = PoseType.FLY,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("illumise", "air_fly")
             )
@@ -138,7 +138,7 @@ class IllumiseModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame, 
             transformTicks = 10,
             quirks = arrayOf(blink),
             condition = { it.isBattling },
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("illumise", "battle_idle")
             )

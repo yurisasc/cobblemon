@@ -69,7 +69,7 @@ class GyaradosModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
             quirks = arrayOf(blink),
             transformTicks = 20,
             condition = { !it.isTouchingWater },
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("gyarados", "ground_idle"),
                 WaveAnimation(
@@ -102,7 +102,7 @@ class GyaradosModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
             quirks = arrayOf(blink),
             condition = { it.isTouchingWater },
             transformTicks = 20,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("gyarados", "surface_idle"),
                 WaveAnimation(
@@ -138,7 +138,7 @@ class GyaradosModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
 //            transformedParts = arrayOf(head.withRotation(X_AXIS, -70F.toRadians())),
             quirks = arrayOf(blink),
             transformTicks = 20,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 WaveAnimation(
                     waveFunction = sineFunction(

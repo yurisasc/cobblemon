@@ -8,9 +8,9 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen5
 
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.CobblemonPose
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.util.isBattling
@@ -45,7 +45,7 @@ class CarracostaModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame
             poseName = "sleep",
             poseType = PoseType.SLEEP,
             condition = { !it.isTouchingWater },
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("carracosta", "sleep")
             )
         )
@@ -54,7 +54,7 @@ class CarracostaModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame
             poseName = "water_sleep",
             poseType = PoseType.SLEEP,
             condition = { it.isTouchingWater },
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("carracosta", "water_sleep")
             )
         )
@@ -64,7 +64,7 @@ class CarracostaModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES - PoseType.FLOAT,
             quirks = arrayOf(blink),
             condition = { !it.isBattling },
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("carracosta", "ground_idle")
             )
@@ -74,7 +74,7 @@ class CarracostaModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame
             poseName = "walk",
             poseTypes = PoseType.MOVING_POSES - PoseType.SWIM,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("carracosta", "ground_walk")
             )
@@ -84,7 +84,7 @@ class CarracostaModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame
             poseName = "float",
             poseType = PoseType.FLOAT,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("carracosta", "water_idle")
             )
@@ -94,7 +94,7 @@ class CarracostaModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame
             poseName = "swim",
             poseType = PoseType.SWIM,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("carracosta", "water_swim")
             )
@@ -105,7 +105,7 @@ class CarracostaModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame
             poseTypes = PoseType.STATIONARY_POSES,
             quirks = arrayOf(blink),
             condition = { it.isBattling },
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("carracosta", "battle_idle")
             )

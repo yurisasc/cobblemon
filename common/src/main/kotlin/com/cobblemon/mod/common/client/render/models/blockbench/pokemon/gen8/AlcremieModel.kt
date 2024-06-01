@@ -45,7 +45,7 @@ class AlcremieModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame, 
         sleep = registerPose(
             poseName = "sleep",
             poseType = PoseType.SLEEP,
-            idleAnimations = arrayOf(bedrock("alcremie", "sleep"))
+            animations = arrayOf(bedrock("alcremie", "sleep"))
         )
 
         standing = registerPose(
@@ -53,7 +53,7 @@ class AlcremieModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame, 
             poseTypes = UI_POSES + PoseType.STATIONARY_POSES,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("alcremie", "ground_idle")
             )
@@ -64,7 +64,7 @@ class AlcremieModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame, 
             poseTypes = PoseType.MOVING_POSES,
             transformTicks = 5,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("alcremie", "ground_walk")
             )
@@ -73,7 +73,7 @@ class AlcremieModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame, 
         shoulderLeft = registerPose(
             poseType = PoseType.SHOULDER_LEFT,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("alcremie", "shoulder_left")
             ),
@@ -85,7 +85,7 @@ class AlcremieModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame, 
         shoulderRight = registerPose(
             poseType = PoseType.SHOULDER_RIGHT,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("alcremie", "shoulder_right")
             ),

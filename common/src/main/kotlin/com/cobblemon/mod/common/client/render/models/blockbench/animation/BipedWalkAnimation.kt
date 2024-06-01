@@ -19,7 +19,7 @@ import net.minecraft.util.math.MathHelper
 
 /**
  * A biped animation that will have zero-rotations on all legs at
- * stateless and otherwise does simple predictable walking like Minecraft
+ * zero and otherwise does simple predictable walking like Minecraft
  * quadrupeds.
  *
  * @author Deltric
@@ -32,7 +32,7 @@ class BipedWalkAnimation(
     val amplitudeMultiplier: Float = 1.4F,
     val leftLeg: Bone?,
     val rightLeg: Bone?
-) : StatelessAnimation() {
+) : PoseAnimation() {
     constructor(
         frame: BipedFrame,
         periodMultiplier: Float = 0.6662F,

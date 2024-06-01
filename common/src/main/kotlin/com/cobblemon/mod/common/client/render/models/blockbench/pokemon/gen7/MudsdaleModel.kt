@@ -43,7 +43,7 @@ class MudsdaleModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame, 
 
         sleep = registerPose(
             poseType = PoseType.SLEEP,
-            idleAnimations = arrayOf(bedrock("mudsdale", "sleep"))
+            animations = arrayOf(bedrock("mudsdale", "sleep"))
         )
 
         standing = registerPose(
@@ -51,7 +51,7 @@ class MudsdaleModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame, 
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(disableY = true),
                 bedrock("mudsdale", "ground_idle")
             )
@@ -62,7 +62,7 @@ class MudsdaleModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame, 
             poseTypes = PoseType.MOVING_POSES,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(disableY = true),
                 bedrock("mudsdale", "ground_walk")
             )

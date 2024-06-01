@@ -67,7 +67,7 @@ class UnfezantModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame, 
                 closedWingLeft.createTransformation().withVisibility(visibility = true),
                 closedWingRight.createTransformation().withVisibility(visibility = true)
             ),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("unfezant", "ground_idle")
             )
@@ -83,7 +83,7 @@ class UnfezantModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame, 
                 closedWingLeft.createTransformation().withVisibility(visibility = true),
                 closedWingRight.createTransformation().withVisibility(visibility = true)
             ),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("unfezant", "ground_idle"),
                 BipedWalkAnimation(this)
@@ -100,7 +100,7 @@ class UnfezantModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame, 
                 closedWingLeft.createTransformation().withVisibility(visibility = false),
                 closedWingRight.createTransformation().withVisibility(visibility = false)
             ),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("unfezant", "air_idle"),
                 WingFlapIdleAnimation(this,
@@ -121,7 +121,7 @@ class UnfezantModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame, 
                 closedWingLeft.createTransformation().withVisibility(visibility = false),
                 closedWingRight.createTransformation().withVisibility(visibility = false)
             ),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("unfezant", "air_idle"),
                 WingFlapIdleAnimation(this,

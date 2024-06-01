@@ -37,7 +37,7 @@ class CentiskorchModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame
         sleep = registerPose(
             poseName = "sleep",
             poseType = PoseType.SLEEP,
-            idleAnimations = arrayOf(bedrock("centiskorch", "sleep"))
+            animations = arrayOf(bedrock("centiskorch", "sleep"))
         )
 
         standing = registerPose(
@@ -45,7 +45,7 @@ class CentiskorchModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
             condition = { !it.isBattling },
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("centiskorch", "ground_idle")
             )
@@ -55,7 +55,7 @@ class CentiskorchModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame
             poseName = "walk",
             poseTypes = PoseType.MOVING_POSES,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("centiskorch", "ground_walk")
             )
@@ -66,7 +66,7 @@ class CentiskorchModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame
             poseTypes = PoseType.STATIONARY_POSES,
             quirks = arrayOf(blink),
             condition = { it.isBattling },
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("centiskorch", "battle_idle")
             )

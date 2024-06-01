@@ -37,7 +37,7 @@ class ShroodleModel (root: ModelPart) : PokemonPosableModel(root) {
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("shroodle", "ground_idle")
             )
         )
@@ -46,7 +46,7 @@ class ShroodleModel (root: ModelPart) : PokemonPosableModel(root) {
             poseTypes = PoseType.MOVING_POSES,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("shroodle", "ground_walk")
             )
         )
@@ -55,7 +55,7 @@ class ShroodleModel (root: ModelPart) : PokemonPosableModel(root) {
             poseType = PoseType.SLEEP,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("shroodle", "sleep")
             )
         )

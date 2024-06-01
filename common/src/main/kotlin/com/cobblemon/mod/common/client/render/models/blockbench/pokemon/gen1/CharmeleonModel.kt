@@ -8,12 +8,12 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1
 
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.PosableState
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BimanualFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.Pose
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.PoseType.Companion.MOVING_POSES
@@ -45,7 +45,7 @@ class CharmeleonModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame,
         sleep = registerPose(
             poseType = PoseType.SLEEP,
             transformTicks = 10,
-            idleAnimations = arrayOf(bedrock("charmeleon", "sleep"))
+            animations = arrayOf(bedrock("charmeleon", "sleep"))
         )
 
         standing = registerPose(
@@ -53,7 +53,7 @@ class CharmeleonModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame,
             poseTypes = setOf(PoseType.NONE, PoseType.PROFILE, PoseType.STAND, PoseType.FLOAT, PoseType.PORTRAIT),
             transformTicks = 10,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("charmeleon", "ground_idle")
             )
@@ -64,7 +64,7 @@ class CharmeleonModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame,
             poseTypes = MOVING_POSES,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("charmeleon", "ground_idle"),
                 bedrock("charmeleon", "ground_walk")

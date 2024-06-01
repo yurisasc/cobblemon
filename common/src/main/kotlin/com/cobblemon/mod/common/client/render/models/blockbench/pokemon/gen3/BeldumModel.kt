@@ -8,11 +8,10 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen3
 
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.Pose
 import com.cobblemon.mod.common.entity.PoseType
-import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.util.isBattling
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
@@ -41,7 +40,7 @@ class BeldumModel (root: ModelPart) : PokemonPosableModel(root) {
 
         sleep = registerPose(
             poseType = PoseType.SLEEP,
-            idleAnimations = arrayOf(bedrock("beldum", "sleep"))
+            animations = arrayOf(bedrock("beldum", "sleep"))
         )
         standing = registerPose(
             poseName = "stand",
@@ -49,7 +48,7 @@ class BeldumModel (root: ModelPart) : PokemonPosableModel(root) {
             condition = { !it.isBattling },
             transformTicks = 10,
             quirks = arrayOf(blink, quirk),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("beldum", "ground_idle")
             )
         )
@@ -57,7 +56,7 @@ class BeldumModel (root: ModelPart) : PokemonPosableModel(root) {
             poseName = "hover",
             poseTypes = setOf(PoseType.HOVER, PoseType.FLOAT),
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("beldum", "air_idle")
             )
         )
@@ -65,7 +64,7 @@ class BeldumModel (root: ModelPart) : PokemonPosableModel(root) {
             poseName = "fly",
             poseTypes = setOf(PoseType.FLY, PoseType.SWIM),
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("beldum", "air_fly")
             )
         )
@@ -74,7 +73,7 @@ class BeldumModel (root: ModelPart) : PokemonPosableModel(root) {
             poseTypes = PoseType.MOVING_POSES - PoseType.FLY - PoseType.SWIM,
             transformTicks = 5,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("beldum", "ground_walk")
             )
         )
@@ -84,7 +83,7 @@ class BeldumModel (root: ModelPart) : PokemonPosableModel(root) {
             transformTicks = 10,
             quirks = arrayOf(blink, quirk),
             condition = { it.isBattling },
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("beldum", "battle_idle")
             )
         )

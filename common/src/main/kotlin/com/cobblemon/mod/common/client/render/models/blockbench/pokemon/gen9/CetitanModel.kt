@@ -41,7 +41,7 @@ class CetitanModel(root: ModelPart) : PokemonPosableModel(root) {
         val blink = quirk { bedrockStateful("cetitan", "blink") }
         sleep = registerPose(
             poseType = PoseType.SLEEP,
-            idleAnimations = arrayOf(bedrock("cetitan", "sleep"))
+            animations = arrayOf(bedrock("cetitan", "sleep"))
         )
 
         standing = registerPose(
@@ -50,7 +50,7 @@ class CetitanModel(root: ModelPart) : PokemonPosableModel(root) {
             transformTicks = 10,
             condition = { !it.isBattling },
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("cetitan", "ground_idle")
             )
         )
@@ -60,7 +60,7 @@ class CetitanModel(root: ModelPart) : PokemonPosableModel(root) {
             poseTypes = MOVING_POSES,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("cetitan", "ground_walk")
             )
         )
@@ -71,7 +71,7 @@ class CetitanModel(root: ModelPart) : PokemonPosableModel(root) {
             transformTicks = 10,
             quirks = arrayOf(blink),
             condition = { it.isBattling },
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("cetitan", "battle_idle")
             )
         )

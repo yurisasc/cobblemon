@@ -36,21 +36,21 @@ class GloomModel(root: ModelPart) : PokemonPosableModel(root) {
             poseName = "standing",
             poseTypes = STATIONARY_POSES + UI_POSES,
             transformTicks = 10,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("gloom", "ground_idle")
             )
         )
 
         sleep = registerPose(
             poseType = PoseType.SLEEP,
-            idleAnimations = arrayOf(bedrock("gloom", "sleep"))
+            animations = arrayOf(bedrock("gloom", "sleep"))
         )
 
         walk = registerPose(
             poseName = "walk",
             poseTypes = MOVING_POSES,
             transformTicks = 10,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("gloom", "ground_walk")
             )
         )

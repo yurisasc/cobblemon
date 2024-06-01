@@ -40,7 +40,7 @@ class LileepModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
         sleep = registerPose(
             poseName = "sleep",
             poseType = PoseType.SLEEP,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("lileep", "sleep")
             )
         )
@@ -49,7 +49,7 @@ class LileepModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
             poseName = "standing",
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES - PoseType.FLOAT,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("lileep", "ground_idle")
             )
@@ -59,7 +59,7 @@ class LileepModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
             poseName = "walk",
             poseTypes = PoseType.MOVING_POSES - PoseType.SWIM,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("lileep", "ground_walk")
             )
@@ -69,7 +69,7 @@ class LileepModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
             poseName = "water_idle",
             poseType = PoseType.FLOAT,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("lileep", "water_idle")
             )
@@ -79,7 +79,7 @@ class LileepModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
             poseName = "water_swim",
             poseType = PoseType.SWIM,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("lileep", "water_swim")
             )

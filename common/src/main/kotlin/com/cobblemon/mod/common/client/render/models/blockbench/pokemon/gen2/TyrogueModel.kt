@@ -44,7 +44,7 @@ class TyrogueModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
         val blink = quirk { bedrockStateful("tyrogue", "blink") }
         sleep = registerPose(
             poseType = PoseType.SLEEP,
-            idleAnimations = arrayOf(bedrock("tyrogue", "sleep"))
+            animations = arrayOf(bedrock("tyrogue", "sleep"))
         )
 
         standing = registerPose(
@@ -53,7 +53,7 @@ class TyrogueModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
             transformTicks = 10,
             condition = { !it.isBattling },
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("tyrogue", "ground_idle")
             )
@@ -64,7 +64,7 @@ class TyrogueModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
             poseTypes = PoseType.MOVING_POSES,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("tyrogue", "ground_walk")
             )
@@ -76,7 +76,7 @@ class TyrogueModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
             transformTicks = 10,
             quirks = arrayOf(blink),
             condition = { it.isBattling },
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("tyrogue", "battle_idle")
             )
@@ -86,7 +86,7 @@ class TyrogueModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
             poseType = PoseType.SHOULDER_LEFT,
             quirks = arrayOf(blink),
             condition = { !it.isBattling },
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("tyrogue", "shoulder_left")
             ),
@@ -99,7 +99,7 @@ class TyrogueModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
             poseType = PoseType.SHOULDER_RIGHT,
             quirks = arrayOf(blink),
             condition = { !it.isBattling },
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("tyrogue", "shoulder_right")
             ),

@@ -8,10 +8,10 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen3
 
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BimanualFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.CobblemonPose
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.util.isBattling
@@ -43,7 +43,7 @@ class CacneaModel (root: ModelPart) : PokemonPosableModel(root), BimanualFrame, 
         val blink = quirk { bedrockStateful("cacnea", "blink") }
         sleep = registerPose(
             poseType = PoseType.SLEEP,
-            idleAnimations = arrayOf(bedrock("cacnea", "sleep"))
+            animations = arrayOf(bedrock("cacnea", "sleep"))
         )
 
         standing = registerPose(
@@ -52,7 +52,7 @@ class CacneaModel (root: ModelPart) : PokemonPosableModel(root), BimanualFrame, 
             quirks = arrayOf(blink),
             condition = { !it.isBattling },
             transformTicks = 10,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("cacnea", "ground_idle")
             )
         )
@@ -62,7 +62,7 @@ class CacneaModel (root: ModelPart) : PokemonPosableModel(root), BimanualFrame, 
             poseTypes = PoseType.MOVING_POSES,
             quirks = arrayOf(blink),
             transformTicks = 10,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("cacnea", "ground_walk")
             )
         )
@@ -73,7 +73,7 @@ class CacneaModel (root: ModelPart) : PokemonPosableModel(root), BimanualFrame, 
             transformTicks = 10,
             quirks = arrayOf(blink),
             condition = { it.isBattling },
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("cacnea", "battle_idle")
             )
         )

@@ -37,7 +37,7 @@ class KoffingModel(root: ModelPart) : PokemonPosableModel(root) {
             poseName = "standing",
             poseTypes = STATIONARY_POSES + UI_POSES,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("koffing", "air_idle")
             )
         )
@@ -46,7 +46,7 @@ class KoffingModel(root: ModelPart) : PokemonPosableModel(root) {
             poseName = "walk",
             poseTypes = MOVING_POSES,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("koffing", "air_fly")
             )
         )

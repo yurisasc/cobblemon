@@ -13,10 +13,11 @@ import com.cobblemon.mod.common.api.molang.ExpressionLike
 import com.cobblemon.mod.common.api.molang.MoLangFunctions.addFunctions
 import com.cobblemon.mod.common.api.molang.MoLangFunctions.setup
 import com.cobblemon.mod.common.client.ClientMoLangFunctions.setupClient
+import com.cobblemon.mod.common.client.render.models.blockbench.animation.ActiveAnimation
+import com.cobblemon.mod.common.client.render.models.blockbench.animation.PoseAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.SingleBoneLookAnimation
-import com.cobblemon.mod.common.client.render.models.blockbench.animation.StatefulAnimation
-import com.cobblemon.mod.common.client.render.models.blockbench.animation.StatelessAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
+import com.cobblemon.mod.common.client.render.models.blockbench.pose.Pose
 import com.cobblemon.mod.common.client.render.models.blockbench.quirk.SimpleQuirk
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.util.asExpressionLike
@@ -29,7 +30,22 @@ import com.google.gson.JsonObject
 import com.google.gson.JsonPrimitive
 import net.minecraft.util.math.Vec3d
 
+/**
+ * A contained mechanism for extracting the relevant properties from a JSON object and later compose it
+ * into a [Pose] object.
+ *
+ * @author Hiroku
+ * @since May 28th, 2023
+ */
 class JsonPose(model: PosableModel, json: JsonObject) {
+    companion object {
+        fun registerAnimationFactory(id: String, factory: AnimationReferenceFactory) {
+            ANIMATION_FACTORIES[id] = factory
+        }
+
+        val ANIMATION_FACTORIES = mutableMapOf<String, AnimationReferenceFactory>()
+    }
+
     class JsonPoseTransition(val to: String, val animation: ExpressionLike)
 
     val runtime = MoLangRuntime().setup().setupClient().also {
@@ -76,12 +92,12 @@ class JsonPose(model: PosableModel, json: JsonObject) {
         } else {
             try {
                 val expression = animString.asExpressionLike()
-                runtime.resolveObject(expression).obj as StatelessAnimation
+                runtime.resolveObject(expression).obj as PoseAnimation
             } catch (exception: Exception) {
                 val animString = it.asString
                 val anim = animString.substringBefore("(")
-                if (JsonPosableModel.ANIMATION_FACTORIES.contains(anim)) {
-                    JsonPosableModel.ANIMATION_FACTORIES[anim]!!.stateless(model, animString)
+                if (ANIMATION_FACTORIES.contains(anim)) {
+                    ANIMATION_FACTORIES[anim]!!.pose(model, animString)
                 } else {
                     null
                 }
@@ -103,19 +119,16 @@ class JsonPose(model: PosableModel, json: JsonObject) {
 
         json as JsonObject
         json.singularToPluralList("animation")
-        val animations: (state: PosableState) -> List<StatefulAnimation> = { _ ->
+        val animations: (state: PosableState) -> List<ActiveAnimation> = { _ ->
+            // Animations can be as MoLang expression strings or, legacy, shit like bedrock(something, else)
             (json.get("animations")?.normalizeToArray()?.asJsonArray ?: JsonArray()).mapNotNull { animJson ->
                 try {
                     val expr = animJson.asString.asExpressionLike()
-                    runtime.resolveObject(expr).obj as StatefulAnimation
+                    runtime.resolveObject(expr).obj as ActiveAnimation
                 } catch (e: Exception) {
                     val animString = animJson.asString
                     val anim = animString.substringBefore("(")
-                    if (JsonPosableModel.ANIMATION_FACTORIES.contains(anim)) {
-                        return@mapNotNull JsonPosableModel.ANIMATION_FACTORIES[anim]!!.stateful(model, animString)
-                    } else {
-                        return@mapNotNull null
-                    }
+                    return@mapNotNull ANIMATION_FACTORIES[anim]?.active(model, animString)
                 }
             }
         }

@@ -39,7 +39,7 @@ class AbraModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
 
         sleep = registerPose(
             poseType = PoseType.SLEEP,
-            idleAnimations = arrayOf(bedrock("abra", "sleep"))
+            animations = arrayOf(bedrock("abra", "sleep"))
         )
 
         standing = registerPose(
@@ -47,7 +47,7 @@ class AbraModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
             poseTypes = STATIONARY_POSES + UI_POSES,
             transformTicks = 10,
             condition = { !it.isBattling },
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("abra", "ground_idle")
             )
@@ -57,7 +57,7 @@ class AbraModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
             poseName = "walking",
             poseTypes = MOVING_POSES,
             transformTicks = 10,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("abra", "ground_walk")
             )
@@ -68,7 +68,7 @@ class AbraModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
             poseTypes = PoseType.STATIONARY_POSES,
             transformTicks = 10,
             condition = { it.isBattling },
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("abra", "battle_idle")
             )

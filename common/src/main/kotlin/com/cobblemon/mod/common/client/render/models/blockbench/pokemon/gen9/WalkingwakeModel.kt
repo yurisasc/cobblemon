@@ -49,7 +49,7 @@ class WalkingwakeModel (root: ModelPart) : PokemonPosableModel(root), HeadedFram
     override fun registerPoses() {
         sleep = registerPose(
             poseType = PoseType.SLEEP,
-            idleAnimations = arrayOf(bedrock("walkingwake", "sleep"))
+            animations = arrayOf(bedrock("walkingwake", "sleep"))
         )
 
         val blink = quirk { bedrockStateful("walkingwake", "blink") }
@@ -62,7 +62,7 @@ class WalkingwakeModel (root: ModelPart) : PokemonPosableModel(root), HeadedFram
                         transformedParts = arrayOf(
                             hair.asTransformed().withVisibility(visibility = true)
                         ), */
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("walkingwake", "ground_idle")
             )
@@ -77,7 +77,7 @@ class WalkingwakeModel (root: ModelPart) : PokemonPosableModel(root), HeadedFram
                         transformedParts = arrayOf(
                             hair.asTransformed().withVisibility(visibility = true)
                         ), */
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("walkingwake", "ground_idle")
             ),
@@ -95,7 +95,7 @@ class WalkingwakeModel (root: ModelPart) : PokemonPosableModel(root), HeadedFram
                         transformedParts = arrayOf(
                             hair.asTransformed().withVisibility(visibility = true)
                         ), */
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("walkingwake", "ground_walk"),
             )
@@ -110,7 +110,7 @@ class WalkingwakeModel (root: ModelPart) : PokemonPosableModel(root), HeadedFram
                         transformedParts = arrayOf(
                             hair.asTransformed().withVisibility(visibility = true)
                         ), */
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("walkingwake", "ground_walk"),
             ),

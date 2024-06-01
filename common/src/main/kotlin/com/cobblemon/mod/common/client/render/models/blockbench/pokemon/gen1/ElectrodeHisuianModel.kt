@@ -36,7 +36,7 @@ class ElectrodeHisuianModel (root: ModelPart) : PokemonPosableModel(root) {
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
             transformTicks = 0,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("electrode_hisuian", "ground_idle")
             )
         )
@@ -47,7 +47,7 @@ class ElectrodeHisuianModel (root: ModelPart) : PokemonPosableModel(root) {
             transformTicks = 0,
             quirks = arrayOf(blink),
             onTransitionedInto = { it?.reset() },
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("electrode_hisuian", "ground_walk")
             )
         )

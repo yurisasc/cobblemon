@@ -8,15 +8,14 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen5
 
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.createTransformation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BimanualFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.Pose
 import com.cobblemon.mod.common.entity.PoseType
-import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.util.isBattling
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
@@ -58,7 +57,7 @@ class DewottModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Bi
                 scalchop_body_left.createTransformation().withVisibility(visibility = true)
 
             ),
-            idleAnimations = arrayOf(bedrock("dewott", "sleep"))
+            animations = arrayOf(bedrock("dewott", "sleep"))
         )
 
         standing = registerPose(
@@ -73,7 +72,7 @@ class DewottModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Bi
                 scalchop_body_right.createTransformation().withVisibility(visibility = true),
                 scalchop_body_left.createTransformation().withVisibility(visibility = true)
             ),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("dewott", "ground_idle")
             )
@@ -91,7 +90,7 @@ class DewottModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Bi
                 scalchop_body_right.createTransformation().withVisibility(visibility = true),
                 scalchop_body_left.createTransformation().withVisibility(visibility = true)
             ),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("dewott", "ground_walk")
             )
@@ -109,7 +108,7 @@ class DewottModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Bi
                 scalchop_body_right.createTransformation().withVisibility(visibility = false),
                 scalchop_body_left.createTransformation().withVisibility(visibility = false)
             ),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("dewott", "ground_idle")
             )

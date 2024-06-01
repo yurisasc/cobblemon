@@ -60,7 +60,7 @@ class CeruledgeModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, 
                 passivebladeright.createTransformation().withVisibility(visibility = true),
                 passivebladeleft.createTransformation().withVisibility(visibility = true)
             ),
-            idleAnimations = arrayOf(bedrock("ceruledge", "sleep"))
+            animations = arrayOf(bedrock("ceruledge", "sleep"))
         )
 
         standing = registerPose(
@@ -75,7 +75,7 @@ class CeruledgeModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, 
                 passivebladeright.createTransformation().withVisibility(visibility = true),
                 passivebladeleft.createTransformation().withVisibility(visibility = true)
             ),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("ceruledge", "ground_idle")
             )
@@ -92,7 +92,7 @@ class CeruledgeModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, 
                 passivebladeright.createTransformation().withVisibility(visibility = true),
                 passivebladeleft.createTransformation().withVisibility(visibility = true)
             ),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("ceruledge", "ground_walk")
             )
@@ -110,7 +110,7 @@ class CeruledgeModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, 
                 passivebladeright.createTransformation().withVisibility(visibility = false),
                 passivebladeleft.createTransformation().withVisibility(visibility = false)
             ),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("ceruledge", "battle_idle")
             )

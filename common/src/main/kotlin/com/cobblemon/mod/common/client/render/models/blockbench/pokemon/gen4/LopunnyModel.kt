@@ -43,7 +43,7 @@ class LopunnyModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Bi
             poseName = "standing",
             poseTypes = STATIONARY_POSES + UI_POSES,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("lopunny", "ground_idle")
             )
@@ -53,7 +53,7 @@ class LopunnyModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Bi
             poseName = "walk",
             poseTypes = MOVING_POSES,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("lopunny", "ground_idle"),
                 BipedWalkAnimation(this, amplitudeMultiplier = 0.7F, periodMultiplier = 0.7F),

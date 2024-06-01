@@ -39,7 +39,7 @@ class GrafaiaiModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("grafaiai", "ground_idle")
             )
@@ -49,7 +49,7 @@ class GrafaiaiModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
             poseTypes = PoseType.MOVING_POSES,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("grafaiai", "ground_walk")
             )
@@ -59,7 +59,7 @@ class GrafaiaiModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
             poseType = PoseType.SLEEP,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("grafaiai", "sleep")
             )
         )

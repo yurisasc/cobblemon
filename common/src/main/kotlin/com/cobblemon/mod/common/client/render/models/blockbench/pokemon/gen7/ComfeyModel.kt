@@ -7,10 +7,10 @@
  */
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen7
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.createTransformation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BimanualFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.ModelPartTransformation
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.Pose
 import com.cobblemon.mod.common.entity.PoseType
@@ -41,7 +41,7 @@ class ComfeyModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Bi
         val blink = quirk { bedrockStateful("comfey", "blink")}
         sleep = registerPose(
             poseType = PoseType.SLEEP,
-            idleAnimations = arrayOf(bedrock("comfey", "sleep"))
+            animations = arrayOf(bedrock("comfey", "sleep"))
         )
 
         standing = registerPose(
@@ -49,7 +49,7 @@ class ComfeyModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Bi
             poseTypes = PoseType.UI_POSES + PoseType.STATIONARY_POSES,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("comfey", "ground_idle")
             )
@@ -60,7 +60,7 @@ class ComfeyModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Bi
             poseTypes = PoseType.MOVING_POSES,
             transformTicks = 5,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("comfey", "ground_walk")
             )
@@ -69,7 +69,7 @@ class ComfeyModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Bi
         shoulderLeft = registerPose(
             poseType = PoseType.SHOULDER_LEFT,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("comfey", "shoulder_left")
             ),
             transformedParts = arrayOf(
@@ -80,7 +80,7 @@ class ComfeyModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Bi
         shoulderRight = registerPose(
             poseType = PoseType.SHOULDER_RIGHT,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("comfey", "shoulder_right")
             ),
             transformedParts = arrayOf(

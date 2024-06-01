@@ -32,7 +32,7 @@ class SeakingModel(root: ModelPart) : PokemonPosableModel(root) {
         standing = registerPose(
             poseName = "standing",
             poseType = PoseType.STAND,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("seaking", "ground_idle")
             )
         )
@@ -40,7 +40,7 @@ class SeakingModel(root: ModelPart) : PokemonPosableModel(root) {
         walk = registerPose(
             poseName = "walk",
             poseType = PoseType.WALK,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("seaking", "ground_idle")
             )
         )
@@ -48,7 +48,7 @@ class SeakingModel(root: ModelPart) : PokemonPosableModel(root) {
         float = registerPose(
             poseName = "float",
             poseTypes = setOf(PoseType.FLOAT, PoseType.HOVER),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("seaking", "water_idle")
             )
         )
@@ -56,7 +56,7 @@ class SeakingModel(root: ModelPart) : PokemonPosableModel(root) {
         swim = registerPose(
             poseName = "swim",
             poseTypes = setOf(PoseType.SWIM, PoseType.FLY),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("seaking", "water_swim")
             )
         )

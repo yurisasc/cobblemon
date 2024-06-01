@@ -42,7 +42,7 @@ class MiltankModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame, B
     override fun registerPoses() {
         sleep = registerPose(
             poseType = PoseType.SLEEP,
-            idleAnimations = arrayOf(bedrock("miltank", "sleep"))
+            animations = arrayOf(bedrock("miltank", "sleep"))
         )
 
         val blink = quirk { bedrockStateful("miltank", "blink") }
@@ -50,7 +50,7 @@ class MiltankModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame, B
             poseName = "standing",
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("miltank", "ground_idle")
             )
@@ -60,7 +60,7 @@ class MiltankModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame, B
             poseName = "walk",
             poseTypes = PoseType.MOVING_POSES,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("miltank", "ground_walk"),
             )

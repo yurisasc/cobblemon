@@ -51,7 +51,7 @@ class CorviknightModel (root: ModelPart) : PokemonPosableModel(root), HeadedFram
         val blink = quirk { bedrockStateful("corviknight", "blink") }
         sleep = registerPose(
             poseType = PoseType.SLEEP,
-            idleAnimations = arrayOf(bedrock("corviknight", "sleep"))
+            animations = arrayOf(bedrock("corviknight", "sleep"))
         )
 
         stand = registerPose(
@@ -65,7 +65,7 @@ class CorviknightModel (root: ModelPart) : PokemonPosableModel(root), HeadedFram
                 closedWingRight.createTransformation().withVisibility(visibility = true)
             ),
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("corviknight", "ground_idle")
             )
@@ -82,7 +82,7 @@ class CorviknightModel (root: ModelPart) : PokemonPosableModel(root), HeadedFram
                 closedWingRight.createTransformation().withVisibility(visibility = false)
             ),
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("corviknight", "air_idle")
             )
@@ -99,7 +99,7 @@ class CorviknightModel (root: ModelPart) : PokemonPosableModel(root), HeadedFram
                 closedWingRight.createTransformation().withVisibility(visibility = false)
             ),
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("corviknight", "air_fly")
             )
@@ -116,7 +116,7 @@ class CorviknightModel (root: ModelPart) : PokemonPosableModel(root), HeadedFram
                 closedWingRight.createTransformation().withVisibility(visibility = true)
             ),
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("corviknight", "ground_walk")
             )

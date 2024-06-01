@@ -8,12 +8,12 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1
 
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.createTransformation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BiWingedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.ModelPartTransformation
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.Pose
 import com.cobblemon.mod.common.client.render.models.blockbench.wavefunction.parabolaFunction
@@ -67,7 +67,7 @@ class PidgeottoModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, 
                 wingOpenLeft.createTransformation().withVisibility(visibility = false),
                 wingOpenRight.createTransformation().withVisibility(visibility = false)
             ),
-            idleAnimations = arrayOf(bedrock("pidgeotto", "sleep_PLACEHOLDER"))
+            animations = arrayOf(bedrock("pidgeotto", "sleep_PLACEHOLDER"))
         )
 
         stand = registerPose(
@@ -80,7 +80,7 @@ class PidgeottoModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, 
                 wingOpenRight.createTransformation().withVisibility(visibility = false)
             ),
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("pidgeotto", "ground_idle_PLACEHOLDER")
             )
@@ -95,7 +95,7 @@ class PidgeottoModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, 
                 wingOpenRight.createTransformation().withVisibility(visibility = false)
             ),
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("pidgeotto", "ground_idle_PLACEHOLDER"),
                 rootPart.translation(
@@ -181,7 +181,7 @@ class PidgeottoModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, 
                 wingOpenRight.createTransformation().withVisibility(visibility = true)
             ),
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("pidgeotto", "air_idle")
             )
@@ -197,7 +197,7 @@ class PidgeottoModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, 
             ),
             transformTicks = 10,
             quirks = arrayOf(blink, flyQuirk1, flyQuirk2),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("pidgeotto", "air_fly")
             )

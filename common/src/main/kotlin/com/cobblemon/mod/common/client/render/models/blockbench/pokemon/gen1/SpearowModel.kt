@@ -54,7 +54,7 @@ class SpearowModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Bi
             poseTypes = PoseType.SHOULDER_POSES + UI_POSES + PoseType.STAND,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("spearow", "ground_idle")
             )
@@ -65,7 +65,7 @@ class SpearowModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Bi
             poseType = PoseType.HOVER,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 WingFlapIdleAnimation(this,
                     flapFunction = sineFunction(verticalShift = -10F.toRadians(), period = 0.9F, amplitude = 0.6F),
@@ -80,7 +80,7 @@ class SpearowModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Bi
             poseType = PoseType.FLY,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 WingFlapIdleAnimation(this,
                     flapFunction = sineFunction(verticalShift = -14F.toRadians(), period = 0.9F, amplitude = 0.9F),
@@ -95,7 +95,7 @@ class SpearowModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Bi
             poseType = PoseType.WALK,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("spearow", "ground_idle"),
                 rootPart.translation(

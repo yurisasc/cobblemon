@@ -40,14 +40,14 @@ class CaterpieModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
         sleep = registerPose(
             poseType = PoseType.SLEEP,
             transformTicks = 10,
-            idleAnimations = arrayOf(bedrock("caterpie", "sleep"))
+            animations = arrayOf(bedrock("caterpie", "sleep"))
         )
 
         standing = registerPose(
             poseName = "standing",
             poseTypes = STATIONARY_POSES + UI_POSES,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("caterpie", "ground_idle")
             )
@@ -57,7 +57,7 @@ class CaterpieModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
             poseName = "walking",
             poseTypes = MOVING_POSES,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("caterpie", "ground_walk")
             )

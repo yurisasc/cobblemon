@@ -8,7 +8,6 @@
 
 package com.cobblemon.mod.common.client.render
 
-import com.bedrockk.molang.runtime.struct.VariableStruct
 import com.bedrockk.molang.runtime.value.DoubleValue
 import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.ModAPI

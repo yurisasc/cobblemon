@@ -53,7 +53,7 @@ class FearowModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Bip
             poseTypes = UI_POSES + PoseType.STAND,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("fearow", "ground_idle")
             )
@@ -64,7 +64,7 @@ class FearowModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Bip
             poseType = PoseType.HOVER,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 WingFlapIdleAnimation(this,
                     flapFunction = sineFunction(verticalShift = -10F.toRadians(), period = 0.9F, amplitude = 0.6F),
@@ -79,7 +79,7 @@ class FearowModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Bip
             poseType = PoseType.FLY,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 WingFlapIdleAnimation(this,
                     flapFunction = sineFunction(verticalShift = -14F.toRadians(), period = 0.9F, amplitude = 0.9F),
@@ -94,7 +94,7 @@ class FearowModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Bip
             poseType = PoseType.WALK,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("fearow", "ground_idle"),
                 BipedWalkAnimation(this)

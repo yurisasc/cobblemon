@@ -46,7 +46,7 @@ class MoltresModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Bi
         standing = registerPose(
             poseName = "standing",
             poseTypes = UI_POSES + PoseType.STAND,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("moltres", "ground_idle")
             )
@@ -55,7 +55,7 @@ class MoltresModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Bi
         walk = registerPose(
             poseName = "walk",
             poseType = PoseType.WALK,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("moltres", "ground_idle"),
                 BipedWalkAnimation(this, periodMultiplier = 0.7F, amplitudeMultiplier = 0.85F)
@@ -65,7 +65,7 @@ class MoltresModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Bi
         hover = registerPose(
             poseName = "hover",
             poseTypes = setOf(PoseType.FLOAT, PoseType.HOVER),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("moltres", "air_idle"),
                 WingFlapIdleAnimation(this,
@@ -79,7 +79,7 @@ class MoltresModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Bi
         fly = registerPose(
             poseName = "fly",
             poseTypes = setOf(PoseType.FLY, PoseType.SWIM),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("moltres", "air_fly"),
                 WingFlapIdleAnimation(this,

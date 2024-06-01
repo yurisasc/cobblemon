@@ -47,7 +47,7 @@ class AlakazamModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, B
             poseTypes = STATIONARY_POSES + UI_POSES,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook() ,
                 bedrock("alakazam", "ground_idle")
             )
@@ -58,7 +58,7 @@ class AlakazamModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, B
             poseTypes = MOVING_POSES,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("alakazam", "ground_idle"),
                 BipedWalkAnimation(this, periodMultiplier = 0.6F, amplitudeMultiplier = 0.9F),

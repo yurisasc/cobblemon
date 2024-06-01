@@ -39,7 +39,7 @@ class PolitoedModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, B
         standing = registerPose(
             poseName = "standing",
             poseTypes = UI_POSES + PoseType.STAND,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("politoed", "ground_idle")
             )
@@ -48,7 +48,7 @@ class PolitoedModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, B
         walking = registerPose(
             poseName = "walking",
             poseType = PoseType.WALK,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("politoed", "ground_idle")
             )
@@ -57,7 +57,7 @@ class PolitoedModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, B
         float = registerPose(
             poseName = "float",
             poseTypes = setOf(PoseType.FLOAT, PoseType.HOVER),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("politoed", "water_idle")
             )
@@ -66,7 +66,7 @@ class PolitoedModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, B
         swim = registerPose(
             poseName = "swim",
             poseTypes = setOf(PoseType.SWIM, PoseType.FLY),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("politoed", "water_swim")
             )

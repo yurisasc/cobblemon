@@ -25,7 +25,7 @@ import java.lang.reflect.Type
  * Gson adapter for converting bedrock/blockbench json data into a friendlier object model.
  *
  * @author landonjw
- * @since  January 5, 2022
+ * @since January 5, 2022
  */
 object BedrockAnimationAdapter : JsonDeserializer<BedrockAnimation> {
     override fun deserialize(json: JsonElement, typeOfT: Type, context: JsonDeserializationContext): BedrockAnimation {

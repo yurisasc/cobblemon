@@ -8,10 +8,10 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1
 
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.Pose
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.PoseType.Companion.UI_POSES
@@ -47,7 +47,7 @@ class FarfetchdModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, 
 
         sleep = registerPose(
             poseType = PoseType.SLEEP,
-            idleAnimations = arrayOf(bedrock("farfetchd", "sleep"))
+            animations = arrayOf(bedrock("farfetchd", "sleep"))
         )
 
         standing = registerPose(
@@ -55,7 +55,7 @@ class FarfetchdModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, 
             poseTypes = PoseType.STATIONARY_POSES + UI_POSES - PoseType.HOVER,
             transformTicks = 10,
             quirks = arrayOf(blink, leakflipidle, wink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("farfetchd", "ground_idle")
             )
@@ -66,7 +66,7 @@ class FarfetchdModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, 
             poseTypes = PoseType.MOVING_POSES - PoseType.FLY,
             transformTicks = 5,
             quirks = arrayOf(blink, leakflipwalk),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("farfetchd", "ground_walk")
             )
@@ -76,7 +76,7 @@ class FarfetchdModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, 
             poseName = "hover",
             poseType = PoseType.HOVER,
             transformTicks = 10,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("farfetchd", "air_idle")
             )
         )
@@ -85,7 +85,7 @@ class FarfetchdModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, 
             poseName = "fly",
             poseType = PoseType.FLY,
             transformTicks = 10,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("farfetchd", "air_fly")
             )
         )

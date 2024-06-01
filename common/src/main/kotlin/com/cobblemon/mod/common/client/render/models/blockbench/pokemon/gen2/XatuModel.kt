@@ -42,7 +42,7 @@ class XatuModel(root: ModelPart) : PokemonPosableModel(root), BiWingedFrame, Hea
 
         sleep = registerPose(
             poseType = PoseType.SLEEP,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("xatu", "sleep")
             )
         )
@@ -50,7 +50,7 @@ class XatuModel(root: ModelPart) : PokemonPosableModel(root), BiWingedFrame, Hea
             poseName = "standing",
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES - PoseType.HOVER,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(minPitch = -15F, maxPitch = 0F),
                 bedrock("xatu", "ground_idle")
             )
@@ -60,7 +60,7 @@ class XatuModel(root: ModelPart) : PokemonPosableModel(root), BiWingedFrame, Hea
             poseName = "walking",
             poseTypes = PoseType.MOVING_POSES,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(minPitch = -15F, maxPitch = 0F),
                 bedrock("xatu", "air_idle"),
                 WingFlapIdleAnimation(this,
@@ -75,7 +75,7 @@ class XatuModel(root: ModelPart) : PokemonPosableModel(root), BiWingedFrame, Hea
             poseName = "hover",
             poseType = PoseType.HOVER,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(minPitch = -15F, maxPitch = 0F),
                 bedrock("xatu", "air_idle"),
                 WingFlapIdleAnimation(this,

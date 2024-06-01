@@ -42,7 +42,7 @@ class SmeargleModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, B
                 poseName = "standing",
                 poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES + PoseType.SLEEP,
                 quirks = arrayOf(blink),
-                idleAnimations = arrayOf(
+                animations = arrayOf(
                         singleBoneLook(),
                         bedrock("smeargle", "ground_idle")
                 )
@@ -52,7 +52,7 @@ class SmeargleModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, B
                 poseName = "walk",
                 poseTypes = PoseType.MOVING_POSES,
                 quirks = arrayOf(blink),
-                idleAnimations = arrayOf(
+                animations = arrayOf(
                         singleBoneLook(),
                         bedrock("smeargle", "ground_idle"),
                         BipedWalkAnimation(this, periodMultiplier = 0.6F, amplitudeMultiplier = 0.9F)

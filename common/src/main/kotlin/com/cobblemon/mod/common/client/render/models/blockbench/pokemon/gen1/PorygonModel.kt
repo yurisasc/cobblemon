@@ -40,7 +40,7 @@ class PorygonModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Bi
         val blink = quirk { bedrockStateful("porygonz", "blink") }
         sleep = registerPose(
             poseType = PoseType.SLEEP,
-            idleAnimations = arrayOf(bedrock("porygon", "sleep"))
+            animations = arrayOf(bedrock("porygon", "sleep"))
         )
 
         standing = registerPose(
@@ -48,7 +48,7 @@ class PorygonModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Bi
             poseTypes = STATIONARY_POSES + UI_POSES,
             quirks = arrayOf(blink),
             transformTicks = 10,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("porygon", "ground_idle")
             )
@@ -59,7 +59,7 @@ class PorygonModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Bi
             poseTypes = MOVING_POSES,
             quirks = arrayOf(blink),
             transformTicks = 10,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("porygon", "ground_walk")
             )

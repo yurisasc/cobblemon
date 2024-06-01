@@ -18,7 +18,6 @@ import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.PoseType.Companion.MOVING_POSES
 import com.cobblemon.mod.common.entity.PoseType.Companion.STATIONARY_POSES
 import com.cobblemon.mod.common.entity.PoseType.Companion.UI_POSES
-import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.util.isBattling
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
@@ -48,7 +47,7 @@ class MonfernoModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, B
                 poseName = "standing",
                 poseTypes = STATIONARY_POSES + UI_POSES,
                 quirks = arrayOf(blink),
-                idleAnimations = arrayOf(
+                animations = arrayOf(
                         singleBoneLook(),
                         bedrock("monferno", "ground_idle")
                 )
@@ -58,7 +57,7 @@ class MonfernoModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, B
                 poseName = "walk",
                 poseTypes = MOVING_POSES,
                 quirks = arrayOf(blink),
-                idleAnimations = arrayOf(
+                animations = arrayOf(
                         singleBoneLook(),
                         bedrock("monferno", "ground_walk")
                 )
@@ -70,7 +69,7 @@ class MonfernoModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, B
             transformTicks = 10,
             quirks = arrayOf(blink),
             condition = { it.isBattling },
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("monferno", "battle_idle")
             )

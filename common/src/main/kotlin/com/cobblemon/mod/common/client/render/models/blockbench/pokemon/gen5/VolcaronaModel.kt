@@ -58,7 +58,7 @@ class VolcaronaModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame 
             poseName = "standing",
             transformTicks = 20,
             poseTypes = PoseType.UI_POSES + PoseType.STATIONARY_POSES,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(pitchMultiplier = 0.2F, yawMultiplier = 0.3F),
                 bedrock("volcarona", "ground_idle"),
                 wingFrame.wingFlap(
@@ -84,7 +84,7 @@ class VolcaronaModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame 
             poseName = "walk",
             transformTicks = 20,
             poseTypes = PoseType.MOVING_POSES,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(pitchMultiplier = 0.2F, yawMultiplier = 0.3F),
                 bedrock("volcarona", "ground_idle"),
                 wingFrame.wingFlap(

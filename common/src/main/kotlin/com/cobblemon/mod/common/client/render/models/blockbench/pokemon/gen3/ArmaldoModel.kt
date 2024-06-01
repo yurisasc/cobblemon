@@ -8,12 +8,12 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen3
 
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.createTransformation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BimanualFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.CobblemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.ModelPartTransformation
 import com.cobblemon.mod.common.entity.PoseType
@@ -65,7 +65,7 @@ class ArmaldoModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame, B
                 poseName = "ui_poses",
                 poseTypes = PoseType.UI_POSES,
                 quirks = arrayOf(blink, look),
-                idleAnimations = arrayOf(
+                animations = arrayOf(
                         bedrock("armaldo", "ground_idle")
                 )
         )
@@ -74,7 +74,7 @@ class ArmaldoModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame, B
                 poseName = "sleep",
                 poseType = PoseType.SLEEP,
                 condition = { !it.isTouchingWater },
-                idleAnimations = arrayOf(bedrock("armaldo", "sleep")
+                animations = arrayOf(bedrock("armaldo", "sleep")
                 )
         )
 
@@ -82,7 +82,7 @@ class ArmaldoModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame, B
                 poseName = "water_surface_sleep",
                 poseType = PoseType.SLEEP,
                 condition = { !it.isSubmergedInWater && it.isTouchingWater },
-                idleAnimations = arrayOf(bedrock("armaldo", "water_sleep")
+                animations = arrayOf(bedrock("armaldo", "water_sleep")
                 ),
                 transformedParts = arrayOf(
                         rootPart.createTransformation().addPosition(ModelPartTransformation.Y_AXIS, watersurfaceoffset)
@@ -93,7 +93,7 @@ class ArmaldoModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame, B
                 poseName = "water_sleep",
                 poseType = PoseType.SLEEP,
                 condition = { it.isSubmergedInWater && it.isTouchingWater },
-                idleAnimations = arrayOf(bedrock("armaldo", "water_sleep")),
+                animations = arrayOf(bedrock("armaldo", "water_sleep")),
                 transformedParts = arrayOf(
                         rootPart.createTransformation().addPosition(ModelPartTransformation.Y_AXIS, wateroffset)
                 )
@@ -105,7 +105,7 @@ class ArmaldoModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame, B
                 transformTicks = 10,
                 condition = { !it.isBattling && !it.isTouchingWater},
                 quirks = arrayOf(blink, look),
-                idleAnimations = arrayOf(
+                animations = arrayOf(
                         bedrock("armaldo", "ground_idle")
                 )
         )
@@ -116,7 +116,7 @@ class ArmaldoModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame, B
                 condition = { !it.isSubmergedInWater && it.isTouchingWater && !it.isBattling},
                 transformTicks = 10,
                 quirks = arrayOf(blink, look),
-                idleAnimations = arrayOf(
+                animations = arrayOf(
                         bedrock("armaldo", "water_idle")
                 ),
                 transformedParts = arrayOf(
@@ -130,7 +130,7 @@ class ArmaldoModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame, B
                 condition = { it.isSubmergedInWater && it.isTouchingWater && !it.isBattling},
                 transformTicks = 10,
                 quirks = arrayOf(blink, look),
-                idleAnimations = arrayOf(
+                animations = arrayOf(
                         bedrock("armaldo", "water_idle")
                 ),
                 transformedParts = arrayOf(
@@ -144,7 +144,7 @@ class ArmaldoModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame, B
                 transformTicks = 10,
                 quirks = arrayOf(blink, look),
                 condition = { it.isBattling && !it.isTouchingWater},
-                idleAnimations = arrayOf(
+                animations = arrayOf(
                         bedrock("armaldo", "battle_idle")
                 )
         )
@@ -155,7 +155,7 @@ class ArmaldoModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame, B
                 condition = { !it.isSubmergedInWater && it.isTouchingWater && it.isBattling},
                 transformTicks = 10,
                 quirks = arrayOf(blink, look),
-                idleAnimations = arrayOf(
+                animations = arrayOf(
                         bedrock("armaldo", "water_battle_idle")
                 ),
                 transformedParts = arrayOf(
@@ -169,7 +169,7 @@ class ArmaldoModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame, B
                 condition = { it.isSubmergedInWater && it.isTouchingWater && it.isBattling},
                 transformTicks = 10,
                 quirks = arrayOf(blink, look),
-                idleAnimations = arrayOf(
+                animations = arrayOf(
                         bedrock("armaldo", "water_battle_idle")
                 ),
                 transformedParts = arrayOf(
@@ -183,7 +183,7 @@ class ArmaldoModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame, B
                 quirks = arrayOf(blink, look),
                 condition = { !it.isSubmergedInWater && !it.isTouchingWater },
                 transformTicks = 10,
-                idleAnimations = arrayOf(
+                animations = arrayOf(
                         bedrock("armaldo", "ground_walk")
                 )
         )
@@ -194,7 +194,7 @@ class ArmaldoModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame, B
                 quirks = arrayOf(blink, look),
                 condition = { !it.isSubmergedInWater && it.isTouchingWater},
                 transformTicks = 10,
-                idleAnimations = arrayOf(
+                animations = arrayOf(
                         bedrock("armaldo", "water_swim")
                 ),
                 transformedParts = arrayOf(
@@ -208,7 +208,7 @@ class ArmaldoModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame, B
                 quirks = arrayOf(blink, look),
                 condition = { it.isSubmergedInWater && it.isTouchingWater },
                 transformTicks = 10,
-                idleAnimations = arrayOf(
+                animations = arrayOf(
                         bedrock("armaldo", "water_swim")
                 ),
                 transformedParts = arrayOf(

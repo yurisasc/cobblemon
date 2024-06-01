@@ -15,7 +15,6 @@ import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.Pose
 import com.cobblemon.mod.common.entity.PoseType
-import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.util.isBattling
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
@@ -46,7 +45,7 @@ class KricketuneModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame
         val blink = quirk { bedrockStateful("kricketune", "blink") }
         sleep = registerPose(
             poseType = PoseType.SLEEP,
-            idleAnimations = arrayOf(bedrock("kricketune", "sleep"))
+            animations = arrayOf(bedrock("kricketune", "sleep"))
         )
 
         standing = registerPose(
@@ -54,7 +53,7 @@ class KricketuneModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES - PoseType.HOVER,
             condition = { !it.isBattling },
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("kricketune", "ground_idle")
             )
@@ -64,7 +63,7 @@ class KricketuneModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame
             poseName = "walk",
             poseTypes = PoseType.MOVING_POSES - PoseType.FLY,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("kricketune", "ground_walk")
             )
@@ -75,7 +74,7 @@ class KricketuneModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame
             poseType = PoseType.HOVER,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("kricketune", "air_idle")
             )
         )
@@ -85,7 +84,7 @@ class KricketuneModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame
             poseType = PoseType.FLY,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("kricketune", "air_fly")
             )
         )
@@ -96,7 +95,7 @@ class KricketuneModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame
             transformTicks = 10,
             quirks = arrayOf(blink),
             condition = { it.isBattling },
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("kricketune", "battle_idle")
             )

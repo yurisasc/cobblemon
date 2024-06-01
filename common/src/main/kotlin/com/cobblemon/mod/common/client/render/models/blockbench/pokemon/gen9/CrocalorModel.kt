@@ -38,7 +38,7 @@ class CrocalorModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame{
         val blink = quirk { bedrockStateful("crocalor", "blink") }
         sleep = registerPose(
             poseType = PoseType.SLEEP,
-            idleAnimations = arrayOf(bedrock("crocalor", "sleep"))
+            animations = arrayOf(bedrock("crocalor", "sleep"))
         )
 
         standing = registerPose(
@@ -46,7 +46,7 @@ class CrocalorModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame{
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(disableY = true),
                 bedrock("crocalor", "ground_idle")
             )
@@ -57,7 +57,7 @@ class CrocalorModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame{
             poseTypes = PoseType.MOVING_POSES,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(disableY = true),
                 bedrock("crocalor", "ground_walk")
             )
@@ -69,7 +69,7 @@ class CrocalorModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame{
             transformTicks = 10,
             quirks = arrayOf(blink),
             condition = { it.isBattling },
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(disableY = true),
                 bedrock("crocalor", "battle_idle")
             )

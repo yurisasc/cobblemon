@@ -8,13 +8,12 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen5
 
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.PosableState
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.Pose
 import com.cobblemon.mod.common.entity.PoseType
-import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.util.isBattling
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
@@ -40,7 +39,7 @@ class BoldoreModel (root: ModelPart) : PokemonPosableModel(root), BipedFrame {
     override fun registerPoses() {
         sleep = registerPose(
             poseType = PoseType.SLEEP,
-            idleAnimations = arrayOf(bedrock("boldore", "sleep"))
+            animations = arrayOf(bedrock("boldore", "sleep"))
         )
 
         standing = registerPose(
@@ -48,7 +47,7 @@ class BoldoreModel (root: ModelPart) : PokemonPosableModel(root), BipedFrame {
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
             transformTicks = 10,
             condition = { !it.isBattling },
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("boldore", "ground_idle")
             )
         )
@@ -57,7 +56,7 @@ class BoldoreModel (root: ModelPart) : PokemonPosableModel(root), BipedFrame {
             poseName = "walking",
             poseTypes = PoseType.MOVING_POSES,
             transformTicks = 10,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("boldore", "ground_walk")
             )
         )
@@ -67,7 +66,7 @@ class BoldoreModel (root: ModelPart) : PokemonPosableModel(root), BipedFrame {
             poseTypes = PoseType.STATIONARY_POSES,
             transformTicks = 10,
             condition = { it.isBattling },
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("boldore", "battle_idle")
             )
         )

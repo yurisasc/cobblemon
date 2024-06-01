@@ -43,7 +43,7 @@ class VivillonModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, B
         sleep = registerPose(
             poseName = "sleep",
             poseType = PoseType.SLEEP,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("vivillon", "sleep")
             )
         )
@@ -52,7 +52,7 @@ class VivillonModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, B
             poseName = "standing",
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("vivillon", "air_idle")
             ),
@@ -63,7 +63,7 @@ class VivillonModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, B
             poseName = "walk",
             poseTypes = PoseType.MOVING_POSES,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("vivillon", "air_fly")
             ),

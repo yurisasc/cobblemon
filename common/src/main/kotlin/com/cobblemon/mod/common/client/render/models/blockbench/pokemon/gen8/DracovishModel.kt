@@ -53,7 +53,7 @@ class DracovishModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame 
             condition = { !it.isTouchingWater },
             transformTicks = 10,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("dracovish", "sleep")
             )
         )
@@ -64,7 +64,7 @@ class DracovishModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame 
             condition = { it.isTouchingWater },
             transformTicks = 10,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("dracovish", "watersleep")
             )
         )
@@ -75,7 +75,7 @@ class DracovishModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame 
             condition = { !it.isBattling },
             transformTicks = 10,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("dracovish", "ground_idle")
             )
@@ -86,7 +86,7 @@ class DracovishModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame 
             poseTypes = PoseType.MOVING_POSES - PoseType.SWIM,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("dracovish", "ground_walk")
             )
@@ -97,7 +97,7 @@ class DracovishModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame 
             poseType = PoseType.FLOAT,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("dracovish", "water_idle")
             )
@@ -108,7 +108,7 @@ class DracovishModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame 
             poseType = PoseType.SWIM,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("dracovish", "water_swim")
             )
@@ -120,7 +120,7 @@ class DracovishModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame 
             condition = { it.isBattling },
             transformTicks = 10,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("dracovish", "battle_idle")
             )
@@ -132,7 +132,7 @@ class DracovishModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame 
             condition = { it.isBattling && it.isTouchingWater},
             transformTicks = 10,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("dracovish", "water_battle_idle")
             )

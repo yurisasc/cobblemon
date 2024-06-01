@@ -37,7 +37,7 @@ class VoltorbHisuianModel (root: ModelPart) : PokemonPosableModel(root) {
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
             transformTicks = 0,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("voltorb_hisuian", "ground_idle")
             )
         )
@@ -47,7 +47,7 @@ class VoltorbHisuianModel (root: ModelPart) : PokemonPosableModel(root) {
             poseTypes = PoseType.MOVING_POSES,
             onTransitionedInto = { it?.reset() },
             transformTicks = 0,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("voltorb_hisuian", "ground_walk")
             )
         )

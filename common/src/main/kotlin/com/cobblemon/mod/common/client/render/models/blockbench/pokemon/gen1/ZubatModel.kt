@@ -50,7 +50,7 @@ class ZubatModel(root: ModelPart) : PokemonPosableModel(root) {
                 wings_open.createTransformation().withVisibility(visibility = true),
             ),
             quirks = arrayOf(twitch),
-            idleAnimations = arrayOf(bedrock("zubat", "sleep"))
+            animations = arrayOf(bedrock("zubat", "sleep"))
         )
 
         standing = registerPose(
@@ -62,7 +62,7 @@ class ZubatModel(root: ModelPart) : PokemonPosableModel(root) {
             ),
             transformTicks = 10,
             quirks = arrayOf(twitch),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("zubat", "ground_idle")
             )
         )
@@ -76,7 +76,7 @@ class ZubatModel(root: ModelPart) : PokemonPosableModel(root) {
             ),
             transformTicks = 10,
             quirks = arrayOf(twitch),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("zubat", "ground_walk")
             )
         )
@@ -90,7 +90,7 @@ class ZubatModel(root: ModelPart) : PokemonPosableModel(root) {
             ),
             transformTicks = 10,
             quirks = arrayOf(twitch),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("zubat", "air_idle")
             )
         )
@@ -104,14 +104,14 @@ class ZubatModel(root: ModelPart) : PokemonPosableModel(root) {
             ),
             quirks = arrayOf(twitch),
             transformTicks = 10,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("zubat", "air_fly")
             )
         )
 
         shoulderLeft = registerPose(
             poseType = PoseType.SHOULDER_LEFT,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("zubat", "shoulder_left")
             ),
             transformedParts = arrayOf(
@@ -121,7 +121,7 @@ class ZubatModel(root: ModelPart) : PokemonPosableModel(root) {
 
         shoulderRight = registerPose(
             poseType = PoseType.SHOULDER_RIGHT,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("zubat", "shoulder_right")
             ),
             transformedParts = arrayOf(

@@ -58,7 +58,7 @@ class DodrioModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
 
         sleep = registerPose(
             poseType = PoseType.SLEEP,
-            idleAnimations = arrayOf(bedrock("dodrio", "sleep"))
+            animations = arrayOf(bedrock("dodrio", "sleep"))
         )
 
         standing = registerPose(
@@ -67,7 +67,7 @@ class DodrioModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
             transformTicks = 10,
             condition = { !it.isBattling },
             quirks = arrayOf(blink1, blink2, blink3),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(pitchMultiplier = 1F, yawMultiplier = 0.4F),
                 SingleBoneLookAnimation(lefthead, false, false, false, false, 1F, 1.5F, 45F, -45F, 45F, 10F),
                 SingleBoneLookAnimation(righthead, false, false, false, false, 1F, 1.5F, 45F, -45F, 10F, -45F),
@@ -80,7 +80,7 @@ class DodrioModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
             poseTypes = MOVING_POSES,
             transformTicks = 10,
             quirks = arrayOf(blink1, blink2, blink3),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("dodrio", "ground_walk")
             )
         )
@@ -91,7 +91,7 @@ class DodrioModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
             transformTicks = 10,
             quirks = arrayOf(blink1, blink2, blink3, bite1, bite2, bite3),
             condition = { it.isBattling },
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("dodrio", "battle_idle")
             )
         )

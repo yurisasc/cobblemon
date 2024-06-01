@@ -43,7 +43,7 @@ class WyrdeerModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Q
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("wyrdeer", "ground_idle")
             )
@@ -51,7 +51,7 @@ class WyrdeerModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Q
 
         sleep = registerPose(
                 poseType = PoseType.SLEEP,
-                idleAnimations = arrayOf(bedrock("wyrdeer", "sleep"))
+                animations = arrayOf(bedrock("wyrdeer", "sleep"))
         )
 
         walk = registerPose(
@@ -59,7 +59,7 @@ class WyrdeerModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Q
             poseTypes = PoseType.MOVING_POSES,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("wyrdeer", "ground_walk")
             )

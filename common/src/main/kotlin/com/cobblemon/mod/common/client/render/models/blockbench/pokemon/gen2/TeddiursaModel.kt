@@ -38,7 +38,7 @@ class TeddiursaModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame 
         sleep = registerPose(
             poseType = PoseType.SLEEP,
             transformTicks = 10,
-            idleAnimations = arrayOf(bedrock("teddiursa", "sleep"))
+            animations = arrayOf(bedrock("teddiursa", "sleep"))
         )
 
         standing = registerPose(
@@ -46,7 +46,7 @@ class TeddiursaModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame 
             poseTypes = PoseType.STATIONARY_POSES + UI_POSES,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("teddiursa", "ground_idle")
             )
@@ -57,7 +57,7 @@ class TeddiursaModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame 
             poseTypes = PoseType.MOVING_POSES,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("teddiursa", "ground_walk")
             )

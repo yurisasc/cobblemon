@@ -33,7 +33,7 @@ class MagnetonModel(root: ModelPart) : PokemonPosableModel(root) {
         val blink = quirk { bedrockStateful("magneton", "blink") }
         sleep = registerPose(
             poseType = PoseType.SLEEP,
-            idleAnimations = arrayOf(bedrock("magneton", "sleep"))
+            animations = arrayOf(bedrock("magneton", "sleep"))
         )
 
         registerPose(
@@ -41,7 +41,7 @@ class MagnetonModel(root: ModelPart) : PokemonPosableModel(root) {
             poseTypes = PoseType.ALL_POSES - PoseType.FLY - PoseType.SLEEP - PoseType.SWIM,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("magneton", "air_idle")
             )
         )
@@ -51,7 +51,7 @@ class MagnetonModel(root: ModelPart) : PokemonPosableModel(root) {
             poseTypes = setOf(PoseType.FLY, PoseType.SWIM),
             transformTicks = 10,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("magneton", "air_fly")
             )
         )

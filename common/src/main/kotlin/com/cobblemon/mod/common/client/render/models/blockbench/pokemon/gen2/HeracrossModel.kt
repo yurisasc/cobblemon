@@ -58,7 +58,7 @@ class HeracrossModel (root: ModelPart) : PokemonPosableModel(root), BipedFrame, 
                         leftWing.createTransformation().withVisibility(visibility = false),
                         rightWing.createTransformation().withVisibility(visibility = false)
                 ),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("heracross", "ground_idle")
             )
         )
@@ -67,7 +67,7 @@ class HeracrossModel (root: ModelPart) : PokemonPosableModel(root), BipedFrame, 
             poseName = "walk",
             poseTypes = PoseType.MOVING_POSES - PoseType.FLY,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("heracross", "ground_idle"),
                 BipedWalkAnimation(this,0.6F, 1F),
                 BimanualSwingAnimation(this, 0.6F, 1F)
@@ -78,7 +78,7 @@ class HeracrossModel (root: ModelPart) : PokemonPosableModel(root), BipedFrame, 
             poseName = "hovering",
             poseType = PoseType.HOVER,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("heracross", "air_idle"),
                 WingFlapIdleAnimation(this,
                     flapFunction = sineFunction(verticalShift = 35F.toRadians(), period = 0.1F, amplitude = 0.6F),
@@ -92,7 +92,7 @@ class HeracrossModel (root: ModelPart) : PokemonPosableModel(root), BipedFrame, 
                 poseName = "flying",
                 poseType = PoseType.FLY,
                 quirks = arrayOf(blink),
-                idleAnimations = arrayOf(
+                animations = arrayOf(
                         bedrock("heracross", "air_idle"),
                         WingFlapIdleAnimation(this,
                                 flapFunction = sineFunction(verticalShift = 35F.toRadians(), period = 0.1F, amplitude = 0.6F),

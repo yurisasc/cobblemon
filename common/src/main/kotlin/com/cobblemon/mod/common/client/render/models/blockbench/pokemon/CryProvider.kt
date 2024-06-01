@@ -9,9 +9,9 @@
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon
 
 import com.cobblemon.mod.common.client.render.models.blockbench.PosableState
-import com.cobblemon.mod.common.client.render.models.blockbench.animation.StatefulAnimation
+import com.cobblemon.mod.common.client.render.models.blockbench.animation.ActiveAnimation
 
 @FunctionalInterface
 fun interface CryProvider {
-    operator fun invoke(state: PosableState): StatefulAnimation?
+    operator fun invoke(state: PosableState): ActiveAnimation?
 }

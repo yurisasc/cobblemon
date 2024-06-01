@@ -8,11 +8,11 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen3
 
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.createTransformation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BimanualFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.ModelPartTransformation
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.Pose
 import com.cobblemon.mod.common.entity.PoseType
@@ -48,7 +48,7 @@ class SableyeModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Bi
         standing = registerPose(
             poseName = "standing",
             poseTypes = STATIONARY_POSES + UI_POSES,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("sableye", "ground_idle")
             )
@@ -57,7 +57,7 @@ class SableyeModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Bi
         walk = registerPose(
             poseName = "walk",
             poseTypes = MOVING_POSES,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("sableye", "ground_idle"),
                 bedrock("sableye", "ground_walk")
@@ -66,7 +66,7 @@ class SableyeModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Bi
 
         shoulderLeft = registerPose(
             poseType = PoseType.SHOULDER_LEFT,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("sableye", "shoulder_left")
             ),
@@ -77,7 +77,7 @@ class SableyeModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Bi
 
         shoulderRight = registerPose(
             poseType = PoseType.SHOULDER_RIGHT,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("sableye", "shoulder_right")
             ),

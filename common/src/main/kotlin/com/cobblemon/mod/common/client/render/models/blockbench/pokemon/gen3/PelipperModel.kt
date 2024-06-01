@@ -49,14 +49,14 @@ class PelipperModel (root: ModelPart) : PokemonPosableModel(root), BipedFrame, B
             poseName = "non_water_sleep",
             poseType = PoseType.SLEEP,
             condition = { !it.isTouchingWater },
-            idleAnimations = arrayOf(bedrock("pelipper", "sleep"))
+            animations = arrayOf(bedrock("pelipper", "sleep"))
         )
 
         water_surface_sleep = registerPose(
             poseName = "water_surface_sleep",
             poseType = PoseType.SLEEP,
             condition = { it.isTouchingWater },
-            idleAnimations = arrayOf(bedrock("pelipper", "surfacewater_sleep")),
+            animations = arrayOf(bedrock("pelipper", "surfacewater_sleep")),
             transformedParts = arrayOf(
                 rootPart.createTransformation().addPosition(ModelPartTransformation.Y_AXIS, wateroffset)
             )
@@ -68,7 +68,7 @@ class PelipperModel (root: ModelPart) : PokemonPosableModel(root), BipedFrame, B
             transformTicks = 10,
             condition = { !it.isTouchingWater },
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("pelipper", "ground_idle")
             )
         )
@@ -79,7 +79,7 @@ class PelipperModel (root: ModelPart) : PokemonPosableModel(root), BipedFrame, B
             transformTicks = 10,
             condition = { !it.isTouchingWater },
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("pelipper", "air_idle")
             )
         )
@@ -90,7 +90,7 @@ class PelipperModel (root: ModelPart) : PokemonPosableModel(root), BipedFrame, B
             transformTicks = 10,
             condition = { !it.isTouchingWater },
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("pelipper", "air_fly")
             )
         )
@@ -101,7 +101,7 @@ class PelipperModel (root: ModelPart) : PokemonPosableModel(root), BipedFrame, B
             transformTicks = 10,
             condition = { !it.isTouchingWater },
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("pelipper", "ground_walk")
             )
         )
@@ -111,7 +111,7 @@ class PelipperModel (root: ModelPart) : PokemonPosableModel(root), BipedFrame, B
             poseTypes = PoseType.STATIONARY_POSES,
             quirks = arrayOf(blink),
             condition = { it.isTouchingWater },
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("pelipper", "surfacewater_idle"),
             ),
             transformedParts = arrayOf(
@@ -124,7 +124,7 @@ class PelipperModel (root: ModelPart) : PokemonPosableModel(root), BipedFrame, B
             poseTypes = PoseType.MOVING_POSES,
             quirks = arrayOf(blink),
             condition = { it.isTouchingWater },
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("pelipper", "surfacewater_swim"),
             ),
             transformedParts = arrayOf(

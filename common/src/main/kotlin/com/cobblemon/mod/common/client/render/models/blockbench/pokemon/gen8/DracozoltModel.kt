@@ -42,7 +42,7 @@ class DracozoltModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame 
             poseType = PoseType.SLEEP,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("dracozolt", "sleep")
             )
         )
@@ -53,7 +53,7 @@ class DracozoltModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame 
             condition = { !it.isBattling },
             transformTicks = 10,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("dracozolt", "ground_idle")
             )
@@ -64,7 +64,7 @@ class DracozoltModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame 
             poseTypes = PoseType.MOVING_POSES,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("dracozolt", "ground_walk")
             )
@@ -76,7 +76,7 @@ class DracozoltModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame 
             condition = { it.isBattling },
             transformTicks = 10,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("dracozolt", "battle_idle")
             )

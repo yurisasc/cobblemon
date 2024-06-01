@@ -42,7 +42,7 @@ class MimikyuModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
         standing = registerPose(
             poseName = "standing",
             poseTypes = STATIONARY_POSES + UI_POSES,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("mimikyu", "ground_idle")
             )
         )
@@ -50,7 +50,7 @@ class MimikyuModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
         walk = registerPose(
             poseName = "walk",
             poseTypes = MOVING_POSES,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("mimikyu", "ground_idle")
                 //bedrock("mimikyu", "ground_walk")
             )
@@ -60,7 +60,7 @@ class MimikyuModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
 
         shoulderLeft = registerPose(
             poseType = PoseType.SHOULDER_LEFT,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("mimikyu", "shoulder_left")
             ),
             transformedParts = arrayOf(
@@ -70,7 +70,7 @@ class MimikyuModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
 
         shoulderRight = registerPose(
             poseType = PoseType.SHOULDER_RIGHT,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("mimikyu", "shoulder_right")
             ),
             transformedParts = arrayOf(

@@ -37,7 +37,7 @@ class SeadraModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
             poseName = "standing",
             poseType = PoseType.STAND,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("seadra", "ground_idle")
             )
@@ -47,7 +47,7 @@ class SeadraModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
             poseName = "walk",
             poseType = PoseType.WALK,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("seadra", "ground_walk")
             )
@@ -57,7 +57,7 @@ class SeadraModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
             poseName = "float",
             poseTypes = UI_POSES + PoseType.FLOAT,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("seadra", "water_idle")
             )
@@ -67,7 +67,7 @@ class SeadraModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
             poseName = "swim",
             poseType = PoseType.SWIM,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("seadra", "water_swim")
             )

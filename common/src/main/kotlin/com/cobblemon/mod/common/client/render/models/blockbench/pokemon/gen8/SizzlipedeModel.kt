@@ -47,7 +47,7 @@ class SizzlipedeModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame 
         sleep = registerPose(
                 poseType = PoseType.SLEEP,
                 transformTicks = 10,
-                idleAnimations = arrayOf(bedrock("sizzlipede", "sleep"))
+                animations = arrayOf(bedrock("sizzlipede", "sleep"))
         )
 
         standing = registerPose(
@@ -55,7 +55,7 @@ class SizzlipedeModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame 
             poseTypes = STATIONARY_POSES + UI_POSES,
                 condition = { !it.isBattling },
                 quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("sizzlipede", "ground_idle")
             )
@@ -67,7 +67,7 @@ class SizzlipedeModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame 
                 transformTicks = 10,
                 quirks = arrayOf(blink),
                 condition = { it.isBattling },
-                idleAnimations = arrayOf(
+                animations = arrayOf(
                         bedrock("sizzlipede", "battle_idle")
                 )
         )
@@ -76,7 +76,7 @@ class SizzlipedeModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame 
             poseName = "walk",
             poseTypes = MOVING_POSES,
                 quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("sizzlipede", "ground_walk")
             )
@@ -85,7 +85,7 @@ class SizzlipedeModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame 
         shoulderLeft = registerPose(
                 poseType = PoseType.SHOULDER_LEFT,
                 quirks = arrayOf(blink),
-                idleAnimations = arrayOf(
+                animations = arrayOf(
                         singleBoneLook(),
                         bedrock("sizzlipede", "shoulder_left")
                 ),
@@ -99,7 +99,7 @@ class SizzlipedeModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame 
         shoulderRight = registerPose(
                 poseType = PoseType.SHOULDER_RIGHT,
                 quirks = arrayOf(blink),
-                idleAnimations = arrayOf(
+                animations = arrayOf(
                         singleBoneLook(),
                         bedrock("sizzlipede", "shoulder_right")
                 ),

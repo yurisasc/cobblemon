@@ -8,9 +8,9 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen6
 
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.CobblemonPose
 import com.cobblemon.mod.common.entity.PoseType
 import net.minecraft.client.model.ModelPart
@@ -41,7 +41,7 @@ class PumpkabooModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame 
             poseName = "sleep",
             poseType = PoseType.SLEEP,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("pumpkaboo", "sleep")
             )
         )
@@ -50,7 +50,7 @@ class PumpkabooModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame 
             poseName = "standing",
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
             quirks = arrayOf(blink, quirk),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("pumpkaboo", "ground_idle")
             )
@@ -60,7 +60,7 @@ class PumpkabooModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame 
             poseName = "walk",
             poseTypes = PoseType.MOVING_POSES,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("pumpkaboo", "ground_walk")
             )
         )
@@ -69,7 +69,7 @@ class PumpkabooModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame 
             poseName = "battleidle",
             poseTypes = PoseType.STATIONARY_POSES,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("pumpkaboo", "battle_idle")
             )
         )

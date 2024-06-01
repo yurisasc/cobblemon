@@ -36,7 +36,7 @@ class SkeledirgeModel (root: ModelPart) : PokemonPosableModel(root) {
         val blink = quirk { bedrockStateful("skeledirge", "blink") }
         sleep = registerPose(
             poseType = PoseType.SLEEP,
-            idleAnimations = arrayOf(bedrock("skeledirge", "sleep"))
+            animations = arrayOf(bedrock("skeledirge", "sleep"))
         )
 
         standing = registerPose(
@@ -44,7 +44,7 @@ class SkeledirgeModel (root: ModelPart) : PokemonPosableModel(root) {
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("skeledirge", "ground_idle")
             )
         )
@@ -54,7 +54,7 @@ class SkeledirgeModel (root: ModelPart) : PokemonPosableModel(root) {
             poseTypes = PoseType.MOVING_POSES,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("skeledirge", "ground_walk")
             )
         )
@@ -65,7 +65,7 @@ class SkeledirgeModel (root: ModelPart) : PokemonPosableModel(root) {
             transformTicks = 10,
             quirks = arrayOf(blink),
             condition = { it.isBattling },
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("skeledirge", "battle_idle")
             )
         )

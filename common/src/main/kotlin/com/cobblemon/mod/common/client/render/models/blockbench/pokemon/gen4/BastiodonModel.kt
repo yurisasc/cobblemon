@@ -8,10 +8,10 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen4
 
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.QuadrupedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.CobblemonPose
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.util.isBattling
@@ -48,7 +48,7 @@ class BastiodonModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame,
             poseName = "sleep",
             poseType = PoseType.SLEEP,
             quirks = arrayOf(sleepQuirk),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("bastiodon", "sleep")
             )
         )
@@ -58,7 +58,7 @@ class BastiodonModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame,
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
             condition = { !it.isBattling },
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("bastiodon", "ground_idle")
             )
@@ -68,7 +68,7 @@ class BastiodonModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame,
             poseName = "walk",
             poseTypes = PoseType.MOVING_POSES,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("bastiodon", "ground_walk")
             )
@@ -79,7 +79,7 @@ class BastiodonModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame,
             poseTypes = PoseType.STATIONARY_POSES,
             condition = { it.isBattling },
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("bastiodon", "battle_idle")
             )

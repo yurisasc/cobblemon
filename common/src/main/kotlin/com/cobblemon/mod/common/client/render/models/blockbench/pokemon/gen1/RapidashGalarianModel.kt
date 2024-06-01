@@ -46,7 +46,7 @@ class RapidashGalarianModel (root: ModelPart) : PokemonPosableModel(root), Heade
             poseTypes = PoseType.UI_POSES + PoseType.STATIONARY_POSES,
             quirks = arrayOf(blink),
             condition = { !it.isBattling },
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("rapidash_galar", "ground_idle"),
                 bedrock("rapidash_galar", "hair")
@@ -57,7 +57,7 @@ class RapidashGalarianModel (root: ModelPart) : PokemonPosableModel(root), Heade
             poseName = "walk",
             poseTypes = PoseType.MOVING_POSES,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("rapidash_galar", "ground_walk"),
                 bedrock("rapidash_galar", "hair")
@@ -68,7 +68,7 @@ class RapidashGalarianModel (root: ModelPart) : PokemonPosableModel(root), Heade
             poseName = "battle_idle",
             poseTypes = PoseType.STATIONARY_POSES,
             condition = { it.isBattling },
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("rapidash_galar", "battle_idle"),
                 bedrock("rapidash_galar", "hair")

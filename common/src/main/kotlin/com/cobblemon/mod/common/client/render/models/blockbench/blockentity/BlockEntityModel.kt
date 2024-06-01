@@ -20,26 +20,6 @@ class BlockEntityModel(root: Bone) : PosableModel(root) {
     @Transient
     @SerializedName("Don't bloody deserialize this, Gson! I mean it!")
     override val rootPart = (root as ModelPart).children.entries.first().let { root.registerChildWithAllChildren(it.key) }
-//    val boneName: String = root.children.entries.first().key
-//    @Transient
-//    override val rootPart = (root as ModelPart).registerChildWithAllChildren(boneName)
-
     var maxScale = 1F
     var yTranslation = 0F
-
-//    override fun registerPoses() {
-//        val closedPose = registerPose(poseName = "CLOSED", poseType = PoseType.NONE)
-//        val openPose = registerPose(
-//            poseType = PoseType.OPEN,
-//            idleAnimations = arrayOf(bedrock("gilded_chest", "open"))
-//        )
-//
-//        closedPose.transitions[openPose.poseName] = { _, _ ->
-//            bedrockStateful("gilded_chest", "opening")
-//        }
-//
-//        openPose.transitions[closedPose.poseName] = { _, _ ->
-//            bedrockStateful("gilded_chest", "closing")
-//        }
-//    }
 }

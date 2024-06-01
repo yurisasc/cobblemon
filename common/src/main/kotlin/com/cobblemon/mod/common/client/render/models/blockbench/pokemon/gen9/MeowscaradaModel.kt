@@ -44,7 +44,7 @@ class MeowscaradaModel (root: ModelPart) : PokemonPosableModel(root), HeadedFram
         sleep = registerPose(
             poseType = PoseType.SLEEP,
             quirks = arrayOf(blink, sleep1, sleep2, sleep3, sleep4),
-            idleAnimations = arrayOf(bedrock("meowscarada", "sleep"))
+            animations = arrayOf(bedrock("meowscarada", "sleep"))
         )
 
         standing = registerPose(
@@ -53,7 +53,7 @@ class MeowscaradaModel (root: ModelPart) : PokemonPosableModel(root), HeadedFram
             transformTicks = 10,
             condition = { !it.isBattling },
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("meowscarada", "ground_idle")
             )
@@ -64,7 +64,7 @@ class MeowscaradaModel (root: ModelPart) : PokemonPosableModel(root), HeadedFram
             poseTypes = PoseType.MOVING_POSES,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("meowscarada", "ground_walk")
             )
@@ -76,7 +76,7 @@ class MeowscaradaModel (root: ModelPart) : PokemonPosableModel(root), HeadedFram
             transformTicks = 10,
             quirks = arrayOf(blink),
             condition = { it.isBattling },
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("meowscarada", "battle_idle")
             )

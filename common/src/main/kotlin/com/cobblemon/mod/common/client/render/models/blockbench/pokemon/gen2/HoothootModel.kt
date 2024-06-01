@@ -39,7 +39,7 @@ class HoothootModel (root: ModelPart) : PokemonPosableModel(root) {
 
         sleep = registerPose(
             poseType = PoseType.SLEEP,
-            idleAnimations = arrayOf(bedrock("hoothoot", "sleep"))
+            animations = arrayOf(bedrock("hoothoot", "sleep"))
         )
         standing = registerPose(
             poseName = "stand",
@@ -47,7 +47,7 @@ class HoothootModel (root: ModelPart) : PokemonPosableModel(root) {
             condition = { !it.isBattling },
             transformTicks = 10,
             quirks = arrayOf(blink, quirk),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("hoothoot", "ground_idle")
             )
         )
@@ -55,7 +55,7 @@ class HoothootModel (root: ModelPart) : PokemonPosableModel(root) {
             poseName = "hover",
             poseTypes = setOf(PoseType.HOVER, PoseType.FLOAT),
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("hoothoot", "air_idle")
             )
         )
@@ -63,7 +63,7 @@ class HoothootModel (root: ModelPart) : PokemonPosableModel(root) {
             poseName = "fly",
             poseTypes = setOf(PoseType.FLY, PoseType.SWIM),
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("hoothoot", "air_fly")
             )
         )
@@ -72,7 +72,7 @@ class HoothootModel (root: ModelPart) : PokemonPosableModel(root) {
             poseTypes = PoseType.MOVING_POSES - PoseType.FLY - PoseType.SWIM,
             transformTicks = 5,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("hoothoot", "ground_walk")
             )
         )
@@ -82,7 +82,7 @@ class HoothootModel (root: ModelPart) : PokemonPosableModel(root) {
             transformTicks = 10,
             quirks = arrayOf(blink, quirk),
             condition = { it.isBattling },
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("hoothoot", "battle_idle")
             )
         )

@@ -35,7 +35,7 @@ class GlimmetModel (root: ModelPart) : PokemonPosableModel(root) {
         val blink = quirk { bedrockStateful("glimmet", "blink") }
         sleep = registerPose(
             poseType = PoseType.SLEEP,
-            idleAnimations = arrayOf(bedrock("glimmet", "sleep"))
+            animations = arrayOf(bedrock("glimmet", "sleep"))
         )
 
         standing = registerPose(
@@ -43,7 +43,7 @@ class GlimmetModel (root: ModelPart) : PokemonPosableModel(root) {
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("glimmet", "ground_idle")
             )
         )
@@ -53,7 +53,7 @@ class GlimmetModel (root: ModelPart) : PokemonPosableModel(root) {
             poseTypes = PoseType.MOVING_POSES,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("glimmet", "ground_walk")
             )
         )

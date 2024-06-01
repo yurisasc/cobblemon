@@ -41,7 +41,7 @@ class EspathraModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
         sleep = registerPose(
             poseName = "sleep",
             poseType = PoseType.SLEEP,
-            idleAnimations = arrayOf(bedrock("espathra", "sleep"))
+            animations = arrayOf(bedrock("espathra", "sleep"))
         )
 
         standing = registerPose(
@@ -49,7 +49,7 @@ class EspathraModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
             poseTypes = UI_POSES + STATIONARY_POSES,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("espathra", "ground_idle")
             )
         )
@@ -59,7 +59,7 @@ class EspathraModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
             poseTypes = MOVING_POSES,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("espathra", "ground_walk")
             )
         )

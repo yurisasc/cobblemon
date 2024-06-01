@@ -44,7 +44,7 @@ class GolemModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Bipe
             poseName = "standing",
             poseTypes = STATIONARY_POSES + UI_POSES,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("golem", "test")
             )
@@ -54,7 +54,7 @@ class GolemModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Bipe
             poseName = "walk",
             poseTypes = MOVING_POSES,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 BipedWalkAnimation(this, periodMultiplier = 0.7F, amplitudeMultiplier = 0.6f),
                 singleBoneLook(),
                 bedrock("golem", "test")

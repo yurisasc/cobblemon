@@ -41,7 +41,7 @@ class ParasModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
             poseTypes = STATIONARY_POSES + UI_POSES + SHOULDER_POSES,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("paras", "ground_idle"),
                 singleBoneLook()
             )
@@ -49,7 +49,7 @@ class ParasModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
 
         sleep = registerPose(
             poseType = PoseType.SLEEP,
-            idleAnimations = arrayOf(bedrock("paras", "sleep"))
+            animations = arrayOf(bedrock("paras", "sleep"))
         )
 
         walk = registerPose(
@@ -57,7 +57,7 @@ class ParasModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
             poseTypes = MOVING_POSES,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("paras", "ground_walk"),
                 singleBoneLook()
             )

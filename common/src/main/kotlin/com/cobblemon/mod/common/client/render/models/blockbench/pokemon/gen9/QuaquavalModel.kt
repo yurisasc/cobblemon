@@ -56,7 +56,7 @@ class QuaquavalModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame,
         val blink = quirk { bedrockStateful("quaquaval", "blink") }
         sleep = registerPose(
             poseType = PoseType.SLEEP,
-            idleAnimations = arrayOf(bedrock("quaquaval", "sleep"))
+            animations = arrayOf(bedrock("quaquaval", "sleep"))
         )
 
         standing = registerPose(
@@ -68,7 +68,7 @@ class QuaquavalModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame,
                 water_feathers.createTransformation().withVisibility(visibility = false)
             ),
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("quaquaval", "ground_idle")
             )
@@ -83,7 +83,7 @@ class QuaquavalModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame,
                 water_feathers.createTransformation().withVisibility(visibility = false)
             ),
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("quaquaval", "ground_idle2")
             )
@@ -98,7 +98,7 @@ class QuaquavalModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame,
                 water_feathers.createTransformation().withVisibility(visibility = false)
             ),
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("quaquaval", "ground_walk")
             )
@@ -113,7 +113,7 @@ class QuaquavalModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame,
                 water_feathers.createTransformation().withVisibility(visibility = true)
             ),
             condition = { it.isBattling },
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("quaquaval", "battle_idle")
             )
@@ -127,7 +127,7 @@ class QuaquavalModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame,
                 transformedParts = arrayOf(
                         water_feathers.createTransformation().withVisibility(visibility = false)
                 ),
-                idleAnimations = arrayOf(
+                animations = arrayOf(
                         singleBoneLook(),
                         bedrock("quaquaval", "water_idle"),
                 )
@@ -141,7 +141,7 @@ class QuaquavalModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame,
                 transformedParts = arrayOf(
                         water_feathers.createTransformation().withVisibility(visibility = false)
                 ),
-                idleAnimations = arrayOf(
+                animations = arrayOf(
                         singleBoneLook(),
                         bedrock("quaquaval", "water_swim"),
                 )
@@ -156,7 +156,7 @@ class QuaquavalModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame,
                         water_feathers.createTransformation().withVisibility(visibility = false),
                         rootPart.createTransformation().addPosition(ModelPartTransformation.Y_AXIS, wateroffset)
                 ),
-                idleAnimations = arrayOf(
+                animations = arrayOf(
                         singleBoneLook(),
                         bedrock("quaquaval", "water_idle"),
                 )
@@ -171,7 +171,7 @@ class QuaquavalModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame,
                         water_feathers.createTransformation().withVisibility(visibility = false),
                         rootPart.createTransformation().addPosition(ModelPartTransformation.Y_AXIS, wateroffset)
                 ),
-                idleAnimations = arrayOf(
+                animations = arrayOf(
                         singleBoneLook(),
                         bedrock("quaquaval", "water_swim"),
                 )

@@ -49,7 +49,7 @@ class GholdengoModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame 
             poseType = PoseType.SLEEP,
             condition = { !it.isTouchingWater },
             transformTicks = 10,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("gholdengo", "sleep")
             )
         )
@@ -59,7 +59,7 @@ class GholdengoModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame 
             poseType = PoseType.SLEEP,
             condition = { it.isTouchingWater },
             transformTicks = 10,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("gholdengo", "surfacewater_sleep")
             ),
             transformedParts = arrayOf(
@@ -72,7 +72,7 @@ class GholdengoModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame 
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
             condition = { !it.isBattling && !it.isTouchingWater },
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("gholdengo", "ground_idle")
             )
@@ -83,7 +83,7 @@ class GholdengoModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame 
             poseTypes = PoseType.MOVING_POSES,
             condition = { !it.isTouchingWater },
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("gholdengo", "ground_walk")
             )
@@ -94,7 +94,7 @@ class GholdengoModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame 
             poseTypes = PoseType.STATIONARY_POSES,
             condition = { it.isTouchingWater },
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("gholdengo", "surfacewater_idle")
             ),
@@ -108,7 +108,7 @@ class GholdengoModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame 
             poseTypes = PoseType.MOVING_POSES,
             condition = { it.isTouchingWater },
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("gholdengo", "surfacewater_swim")
             ),
@@ -122,7 +122,7 @@ class GholdengoModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame 
             poseTypes = PoseType.STATIONARY_POSES,
             condition = { it.isBattling },
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("gholdengo", "battle_idle")
             )

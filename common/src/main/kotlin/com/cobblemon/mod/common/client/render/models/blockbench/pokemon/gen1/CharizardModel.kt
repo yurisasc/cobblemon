@@ -8,12 +8,12 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1
 
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.createTransformation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BiWingedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BimanualFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.ModelPartTransformation.Companion.Y_AXIS
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.Pose
 import com.cobblemon.mod.common.entity.PoseType
@@ -60,8 +60,8 @@ class CharizardModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, 
         sleep = registerPose(
             poseType = PoseType.SLEEP,
             quirks = arrayOf(blink),
-            animations = mutableMapOf("faint" to faint),
-            idleAnimations = arrayOf(bedrock("charizard", "sleep"))
+            namedAnimations = mutableMapOf("faint" to faint),
+            animations = arrayOf(bedrock("charizard", "sleep"))
         )
 
         standing = registerPose(
@@ -69,8 +69,8 @@ class CharizardModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, 
             poseTypes = STATIONARY_POSES - PoseType.HOVER + UI_POSES,
             quirks = arrayOf(blink),
             condition = { !it.isBattling },
-            animations = mutableMapOf("faint" to faint),
-            idleAnimations = arrayOf(
+            namedAnimations = mutableMapOf("faint" to faint),
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("charizard", "ground_idle")
             )
@@ -80,8 +80,8 @@ class CharizardModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, 
             poseTypes = setOf(PoseType.STAND),
             poseName = "battle_standing",
             condition = { it.isBattling },
-            animations = mutableMapOf("faint" to faint),
-            idleAnimations = arrayOf(
+            namedAnimations = mutableMapOf("faint" to faint),
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("charizard", "battle_idle")
             )
@@ -91,8 +91,8 @@ class CharizardModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, 
             poseName = "walk",
             poseTypes = MOVING_POSES - PoseType.FLY,
             quirks = arrayOf(blink),
-            animations = mutableMapOf("faint" to faint),
-            idleAnimations = arrayOf(
+            namedAnimations = mutableMapOf("faint" to faint),
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("charizard", "ground_idle"),
                 bedrock("charizard", "ground_walk")
@@ -103,7 +103,7 @@ class CharizardModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, 
             poseName = "hover",
             poseType = PoseType.HOVER,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("charizard", "air_idle")
             ),
@@ -114,7 +114,7 @@ class CharizardModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, 
             poseName = "fly",
             poseType = PoseType.FLY,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("charizard", "air_fly")
             ),

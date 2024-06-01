@@ -8,8 +8,8 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1
 
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.CobblemonPose
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.PoseType.Companion.UI_POSES
@@ -45,7 +45,7 @@ class DragoniteModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
         sleep = registerPose(
             poseName = "sleep",
             poseType = PoseType.SLEEP,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("dragonite", "sleep")
             )
         )
@@ -55,7 +55,7 @@ class DragoniteModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
             poseTypes = UI_POSES + PoseType.STAND,
             condition = { !it.isBattling},
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(maxPitch = 15F),
                 bedrock("dragonite", "ground_idle")
             )
@@ -65,7 +65,7 @@ class DragoniteModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
             poseName = "walk",
             poseType = PoseType.WALK,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(maxPitch = 15F),
                 bedrock("dragonite", "ground_walk")
             )
@@ -76,7 +76,7 @@ class DragoniteModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
             poseTypes = PoseType.STATIONARY_POSES,
             condition = { it.isBattling},
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(maxPitch = 10F),
                 bedrock("dragonite", "battle_idle")
             )
@@ -86,7 +86,7 @@ class DragoniteModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
             poseName = "hover",
             poseType = PoseType.HOVER,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(maxPitch = 15F),
                 bedrock("dragonite", "air_idle")
             )
@@ -96,7 +96,7 @@ class DragoniteModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
             poseName = "fly",
             poseType = PoseType.FLY,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(maxPitch = 15F),
                 bedrock("dragonite", "air_fly")
             )
@@ -107,7 +107,7 @@ class DragoniteModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
             poseType = PoseType.FLOAT,
             condition = { it.isSubmergedInWater },
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(maxPitch = 15F),
                 bedrock("dragonite", "water_idle")
             )
@@ -118,7 +118,7 @@ class DragoniteModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
             poseType = PoseType.SWIM,
             condition = { it.isSubmergedInWater },
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(maxPitch = 15F),
                 bedrock("dragonite", "water_swim")
             )
@@ -129,7 +129,7 @@ class DragoniteModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
             poseTypes = PoseType.STANDING_POSES,
             condition = { !it.isSubmergedInWater && it.isTouchingWater },
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(maxPitch = 15F),
                 bedrock("dragonite", "surfacewater_idle")
             )
@@ -140,7 +140,7 @@ class DragoniteModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
             poseTypes = PoseType.MOVING_POSES,
             condition = { !it.isSubmergedInWater && it.isTouchingWater },
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(maxPitch = 15F),
                 bedrock("dragonite", "surfacewater_swim")
             )

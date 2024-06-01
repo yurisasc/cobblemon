@@ -9,7 +9,6 @@
 package com.cobblemon.mod.common.client.render.models.blockbench.npc
 
 import com.cobblemon.mod.common.client.render.models.blockbench.PosableEntityModel
-import com.cobblemon.mod.common.client.render.models.blockbench.PosableState
 import com.cobblemon.mod.common.client.render.models.blockbench.repository.RenderContext
 import com.cobblemon.mod.common.entity.npc.NPCEntity
 import net.minecraft.entity.Entity
@@ -18,7 +17,6 @@ class PosableNPCModel : PosableEntityModel<NPCEntity>() {
     override fun setupEntityTypeContext(entity: Entity?) {
         super.setupEntityTypeContext(entity)
         val entity = entity as? NPCEntity ?: return
-        context.put(RenderContext.POSABLE_STATE, entity.delegate as PosableState)
         context.put(RenderContext.ASPECTS, entity.aspects)
     }
 }

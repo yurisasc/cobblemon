@@ -50,7 +50,7 @@ class MeowthModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Bip
             poseName = "standing",
             poseTypes = STATIONARY_POSES + UI_POSES,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("meowth", "ground_idle")
             )
@@ -58,14 +58,14 @@ class MeowthModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Bip
 
         sleep = registerPose(
             poseType = PoseType.SLEEP,
-            idleAnimations = arrayOf(bedrock("meowth", "sleep"))
+            animations = arrayOf(bedrock("meowth", "sleep"))
         )
 
         walk = registerPose(
             poseName = "walk",
             poseTypes = MOVING_POSES,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 BipedWalkAnimation(this, periodMultiplier = .7F),
                 BimanualSwingAnimation(this),

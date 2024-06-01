@@ -48,7 +48,7 @@ class SkarmoryModel (root: ModelPart) : PokemonPosableModel(root), BipedFrame, B
         sleeping = registerPose(
             poseName = "sleeping",
             poseType = PoseType.SLEEP,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("skarmory", "sleep")
             )
         )
@@ -58,7 +58,7 @@ class SkarmoryModel (root: ModelPart) : PokemonPosableModel(root), BipedFrame, B
             poseTypes = PoseType.STATIONARY_POSES - PoseType.HOVER + PoseType.UI_POSES,
             condition = { !it.isBattling },
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("skarmory", "ground_idle")
             )
@@ -68,7 +68,7 @@ class SkarmoryModel (root: ModelPart) : PokemonPosableModel(root), BipedFrame, B
             poseName = "walk",
             poseTypes = PoseType.MOVING_POSES - PoseType.FLY,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("skarmory", "ground_idle"),
                 BipedWalkAnimation(this,0.6F, 1F)
@@ -79,7 +79,7 @@ class SkarmoryModel (root: ModelPart) : PokemonPosableModel(root), BipedFrame, B
             poseName = "hovering",
             poseType = PoseType.HOVER,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("skarmory", "air_idle")
             )
         )
@@ -88,7 +88,7 @@ class SkarmoryModel (root: ModelPart) : PokemonPosableModel(root), BipedFrame, B
             poseName = "flying",
             poseType = PoseType.FLY,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("skarmory", "air_idle")
             )
         )
@@ -98,7 +98,7 @@ class SkarmoryModel (root: ModelPart) : PokemonPosableModel(root), BipedFrame, B
             poseTypes = PoseType.STATIONARY_POSES,
             condition = { it.isBattling },
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("skarmory", "battle_idle")
             )
         )

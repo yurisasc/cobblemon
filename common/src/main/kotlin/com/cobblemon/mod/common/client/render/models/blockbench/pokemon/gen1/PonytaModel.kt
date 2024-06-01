@@ -48,7 +48,7 @@ class PonytaModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Qua
 
         sleep = registerPose(
             poseType = PoseType.SLEEP,
-            idleAnimations = arrayOf(bedrock("ponyta", "sleep"))
+            animations = arrayOf(bedrock("ponyta", "sleep"))
         )
 
         standing = registerPose(
@@ -56,7 +56,7 @@ class PonytaModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Qua
             poseTypes = STATIONARY_POSES + UI_POSES,
             transformTicks = 10,
             quirks = arrayOf(blink, quirk),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("ponyta", "ground_idle")
             )
@@ -67,7 +67,7 @@ class PonytaModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Qua
             poseTypes = MOVING_POSES,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("ponyta", "ground_walk")
             )

@@ -35,21 +35,21 @@ class PoliwrathModel(root: ModelPart) : PokemonPosableModel(root) {
             poseName = "standing",
             poseTypes = PoseType.STANDING_POSES + UI_POSES,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("poliwrath", "ground_idle")
             )
         )
 
         sleep = registerPose(
                 poseType = PoseType.SLEEP,
-                idleAnimations = arrayOf(bedrock("poliwrath", "sleep"))
+                animations = arrayOf(bedrock("poliwrath", "sleep"))
         )
 
         float = registerPose(
             poseName = "float",
             poseType = PoseType.FLOAT,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("poliwrath", "water_idle")
             )
         )
@@ -58,7 +58,7 @@ class PoliwrathModel(root: ModelPart) : PokemonPosableModel(root) {
             poseName = "swim",
             poseType = PoseType.SWIM,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("poliwrath", "water_swim")
             )
         )

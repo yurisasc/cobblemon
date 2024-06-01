@@ -54,7 +54,7 @@ class VolbeatModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame, B
         sleep = registerPose(
             poseName = "sleep",
             poseType = PoseType.SLEEP,
-            idleAnimations = arrayOf(bedrock("volbeat", "sleep"))
+            animations = arrayOf(bedrock("volbeat", "sleep"))
         )
 
         water_surface_idle = registerPose(
@@ -66,7 +66,7 @@ class VolbeatModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame, B
             transformedParts = arrayOf(
                 rootPart.createTransformation().addPosition(ModelPartTransformation.Y_AXIS, wateroffset)
             ),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("volbeat", "air_idle")
             )
@@ -81,7 +81,7 @@ class VolbeatModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame, B
             transformedParts = arrayOf(
                 rootPart.createTransformation().addPosition(ModelPartTransformation.Y_AXIS, wateroffset)
             ),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("volbeat", "air_fly")
             )
@@ -92,7 +92,7 @@ class VolbeatModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame, B
             poseTypes = setOf(PoseType.HOVER),
             transformTicks = 10,
             quirks = arrayOf(blink, flicker),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("volbeat", "air_idle")
             )
@@ -103,7 +103,7 @@ class VolbeatModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame, B
             poseTypes = setOf(PoseType.FLY),
             transformTicks = 10,
             quirks = arrayOf(blink, flicker),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("volbeat", "air_fly")
             )
@@ -115,7 +115,7 @@ class VolbeatModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame, B
             transformTicks = 10,
             quirks = arrayOf(blink, flicker),
             condition = { !it.isBattling},
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("volbeat", "ground_idle")
             )
@@ -126,7 +126,7 @@ class VolbeatModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame, B
             poseType = PoseType.WALK,
             transformTicks = 10,
             quirks = arrayOf(blink, flicker),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("volbeat", "ground_walk")
             )
@@ -138,7 +138,7 @@ class VolbeatModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame, B
             transformTicks = 10,
             quirks = arrayOf(blink, flicker),
             condition = { it.isBattling },
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("volbeat", "battle_idle")
             )

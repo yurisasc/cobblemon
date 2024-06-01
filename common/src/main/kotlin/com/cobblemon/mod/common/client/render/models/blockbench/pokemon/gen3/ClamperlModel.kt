@@ -8,8 +8,8 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen3
 
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.Pose
 import com.cobblemon.mod.common.entity.PoseType
 import net.minecraft.client.model.ModelPart
@@ -35,7 +35,7 @@ class ClamperlModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
         standing = registerPose(
             poseName = "standing",
             poseTypes = PoseType.UI_POSES - PoseType.PORTRAIT + PoseType.STAND,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("clamperl", "ground_idle")
             )
@@ -44,7 +44,7 @@ class ClamperlModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
         walking = registerPose(
             poseName = "walk",
             poseType = PoseType.WALK,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("clamperl", "ground_idle"),
                 bedrock("clamperl", "ground_walk")
@@ -54,7 +54,7 @@ class ClamperlModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
         floating = registerPose(
             poseName = "floating",
             poseType = PoseType.FLOAT,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("clamperl", "water_idle")
             )
@@ -63,7 +63,7 @@ class ClamperlModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
         swimming = registerPose(
             poseName = "swimming",
             poseType = PoseType.SWIM,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("clamperl", "water_swim"),
                 bedrock("clamperl", "water_idle")
@@ -73,7 +73,7 @@ class ClamperlModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
         portrait = registerPose(
             poseName = "portrait",
             poseType = PoseType.PORTRAIT,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("clamperl", "portrait")
             )

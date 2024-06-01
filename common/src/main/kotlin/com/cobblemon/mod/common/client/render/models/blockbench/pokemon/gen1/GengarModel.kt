@@ -37,7 +37,7 @@ class GengarModel(root: ModelPart) : PokemonPosableModel(root), BipedFrame {
         standing = registerPose(
             poseName = "standing",
             poseTypes = STATIONARY_POSES + UI_POSES,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("gengar", "ground_idle")
             )
         )
@@ -45,7 +45,7 @@ class GengarModel(root: ModelPart) : PokemonPosableModel(root), BipedFrame {
         walk = registerPose(
             poseName = "walk",
             poseTypes = MOVING_POSES,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 BipedWalkAnimation(this, periodMultiplier = 1.0F, amplitudeMultiplier = 0.9f),
                 bedrock("gengar", "ground_idle")
                 //bedrock("gengar", "ground_walk")

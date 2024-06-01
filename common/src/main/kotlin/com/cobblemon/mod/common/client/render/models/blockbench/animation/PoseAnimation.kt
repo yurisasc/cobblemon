@@ -16,22 +16,23 @@ import com.cobblemon.mod.common.util.resolveBoolean
 import net.minecraft.entity.Entity
 
 /**
- * Represents an animation that has no expiry and can run forever. It's essentially a looping animation or one
- * for which there is no duration. As of 1.6 this is very murky, we could probably combine this with Stateful.
+ * Represents an animation that is shared across every instance of a model. This means that
+ * a pose animation cannot store any instance variables that relate to a particular entity
+ * that is playing the animation, as this instance is used for all of them.
  *
  * @author Hiroku
  * @since December 4th, 2021
  */
-abstract class StatelessAnimation {
+abstract class PoseAnimation {
     open var labels: Set<String> = setOf()
     open var condition: (PosableState) -> Boolean = { true }
 
-    open fun withCondition(condition: (PosableState) -> Boolean): StatelessAnimation {
+    open fun withCondition(condition: (PosableState) -> Boolean): PoseAnimation {
         this.condition = condition
         return this
     }
 
-    open fun withCondition(condition: ExpressionLike): StatelessAnimation {
+    open fun withCondition(condition: ExpressionLike): PoseAnimation {
         this.condition = { state -> state.runtime.resolveBoolean(condition) }
         return this
     }

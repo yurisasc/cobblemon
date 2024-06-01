@@ -12,7 +12,6 @@ import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonP
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.Pose
 import com.cobblemon.mod.common.entity.PoseType
-import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.util.isBattling
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
@@ -40,7 +39,7 @@ class MetangModel (root: ModelPart) : PokemonPosableModel(root) {
 
         sleep = registerPose(
             poseType = PoseType.SLEEP,
-            idleAnimations = arrayOf(bedrock("metang", "sleep"))
+            animations = arrayOf(bedrock("metang", "sleep"))
         )
         standing = registerPose(
             poseName = "stand",
@@ -48,7 +47,7 @@ class MetangModel (root: ModelPart) : PokemonPosableModel(root) {
             condition = { !it.isBattling },
             transformTicks = 10,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("metang", "ground_idle")
             )
         )
@@ -56,7 +55,7 @@ class MetangModel (root: ModelPart) : PokemonPosableModel(root) {
             poseName = "hover",
             poseTypes = setOf(PoseType.HOVER, PoseType.FLOAT),
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("metang", "air_idle")
             )
         )
@@ -64,7 +63,7 @@ class MetangModel (root: ModelPart) : PokemonPosableModel(root) {
             poseName = "fly",
             poseTypes = setOf(PoseType.FLY, PoseType.SWIM),
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("metang", "air_fly")
             )
         )
@@ -73,7 +72,7 @@ class MetangModel (root: ModelPart) : PokemonPosableModel(root) {
             poseTypes = PoseType.MOVING_POSES - PoseType.FLY - PoseType.SWIM,
             transformTicks = 5,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("metang", "ground_walk")
             )
         )
@@ -83,7 +82,7 @@ class MetangModel (root: ModelPart) : PokemonPosableModel(root) {
             transformTicks = 10,
             quirks = arrayOf(blink),
             condition = { it.isBattling },
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("metang", "battle_idle")
             )
         )

@@ -37,7 +37,7 @@ class GlimmoraModel (root: ModelPart) : PokemonPosableModel(root) {
         val blink = quirk { bedrockStateful("glimmora", "blink") }
         sleep = registerPose(
             poseType = PoseType.SLEEP,
-            idleAnimations = arrayOf(bedrock("glimmora", "sleep"))
+            animations = arrayOf(bedrock("glimmora", "sleep"))
         )
 
         standing = registerPose(
@@ -46,7 +46,7 @@ class GlimmoraModel (root: ModelPart) : PokemonPosableModel(root) {
             transformTicks = 10,
             condition = { !it.isBattling },
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("glimmora", "ground_idle")
             )
         )
@@ -56,7 +56,7 @@ class GlimmoraModel (root: ModelPart) : PokemonPosableModel(root) {
             poseTypes = PoseType.MOVING_POSES,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("glimmora", "ground_walk")
             )
         )
@@ -67,7 +67,7 @@ class GlimmoraModel (root: ModelPart) : PokemonPosableModel(root) {
             transformTicks = 10,
             quirks = arrayOf(blink),
             condition = { it.isBattling },
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("glimmora", "battle_idle")
             )
 

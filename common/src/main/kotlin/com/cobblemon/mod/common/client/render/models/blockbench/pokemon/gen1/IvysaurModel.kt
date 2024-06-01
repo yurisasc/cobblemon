@@ -45,7 +45,7 @@ class IvysaurModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Qu
         sleep = registerPose(
             poseType = PoseType.SLEEP,
             transformTicks = 10,
-            idleAnimations = arrayOf(bedrock("ivysaur", "sleep"))
+            animations = arrayOf(bedrock("ivysaur", "sleep"))
         )
 
         standing = registerPose(
@@ -53,7 +53,7 @@ class IvysaurModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Qu
             poseTypes = STATIONARY_POSES + UI_POSES,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("ivysaur", "ground_idle")
             )
@@ -64,7 +64,7 @@ class IvysaurModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Qu
             poseTypes = MOVING_POSES,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("ivysaur", "ground_walk")
             )

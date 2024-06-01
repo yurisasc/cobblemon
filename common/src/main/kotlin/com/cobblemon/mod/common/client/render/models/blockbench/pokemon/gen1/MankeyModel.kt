@@ -41,14 +41,14 @@ class MankeyModel(root: ModelPart) : PokemonPosableModel(root) {
             poseTypes = STATIONARY_POSES + UI_POSES,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("mankey", "ground_idle")
             )
         )
 
         sleep = registerPose(
             poseType = PoseType.SLEEP,
-            idleAnimations = arrayOf(bedrock("mankey", "sleep"))
+            animations = arrayOf(bedrock("mankey", "sleep"))
         )
 
         walk = registerPose(
@@ -56,7 +56,7 @@ class MankeyModel(root: ModelPart) : PokemonPosableModel(root) {
             poseTypes = MOVING_POSES,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("mankey", "ground_walk")
             )
         )

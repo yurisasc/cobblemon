@@ -36,14 +36,14 @@ class NacliModel(root: ModelPart) : PokemonPosableModel(root) {
     override fun registerPoses() {
         sleep = registerPose(
                 poseType = PoseType.SLEEP,
-                idleAnimations = arrayOf(bedrock("nacli", "sleep"))
+                animations = arrayOf(bedrock("nacli", "sleep"))
         )
 
         standing = registerPose(
                 poseName = "standing",
                 poseTypes = STATIONARY_POSES + UI_POSES,
                 transformTicks = 10,
-                idleAnimations = arrayOf(
+                animations = arrayOf(
                         bedrock("nacli", "ground_idle")
                 )
         )
@@ -52,7 +52,7 @@ class NacliModel(root: ModelPart) : PokemonPosableModel(root) {
                 poseName = "walk",
                 poseTypes = MOVING_POSES,
                 transformTicks = 10,
-                idleAnimations = arrayOf(
+                animations = arrayOf(
                         bedrock("nacli", "ground_walk")
                 )
         )

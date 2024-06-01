@@ -53,7 +53,7 @@ class LombreModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Bi
             poseTypes = PoseType.UI_POSES + PoseType.STAND,
             quirks = arrayOf(blink),
             condition = { !it.isTouchingWater },
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("lombre", "ground_idle")
             )
@@ -64,7 +64,7 @@ class LombreModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Bi
             poseType = PoseType.STAND,
             quirks = arrayOf(blink),
             condition = { it.isTouchingWater },
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("lombre", "water_idle")
             ),
             transformedParts = arrayOf(
@@ -77,7 +77,7 @@ class LombreModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Bi
             poseType = PoseType.WALK,
             quirks = arrayOf(blink),
             condition = { !it.isTouchingWater },
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("lombre", "ground_walk"),
             )
@@ -88,7 +88,7 @@ class LombreModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Bi
             poseType = PoseType.WALK,
             quirks = arrayOf(blink),
             condition = { it.isTouchingWater },
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("lombre", "water_swim")
             ),
             transformedParts = arrayOf(
@@ -100,7 +100,7 @@ class LombreModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Bi
             poseName = "floating",
             poseType = PoseType.FLOAT,
             transformTicks = 10,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("lombre", "water_idle"),
             )
         )
@@ -109,7 +109,7 @@ class LombreModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Bi
             poseName = "swim",
             poseType = PoseType.SWIM,
             transformTicks = 10,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("lombre", "water_swim"),
             )
         )
@@ -118,7 +118,7 @@ class LombreModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Bi
             poseName = "sleep",
             poseType = PoseType.SLEEP,
             transformTicks = 10,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("lombre", "sleep"),
             )
         )

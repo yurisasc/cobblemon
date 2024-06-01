@@ -8,11 +8,11 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen7
 
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.PosableState
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.Pose
 import com.cobblemon.mod.common.entity.PoseType
 import net.minecraft.client.model.ModelPart
@@ -47,7 +47,7 @@ class WimpodModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Bi
         sleep = registerPose(
             poseName = "sleeping",
             poseType = PoseType.SLEEP,
-            idleAnimations = arrayOf(bedrock("wimpod", "sleep"))
+            animations = arrayOf(bedrock("wimpod", "sleep"))
         )
 
         standing = registerPose(
@@ -55,7 +55,7 @@ class WimpodModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Bi
             poseTypes = PoseType.UI_POSES + PoseType.STAND,
             transformTicks = 10,
             quirks = arrayOf(blink, leftTwitch, rightTwitch),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(disableX = true),
                 bedrock("wimpod", "ground_idle")
             )
@@ -66,7 +66,7 @@ class WimpodModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Bi
             transformTicks = 10,
             poseType = PoseType.WALK,
             quirks = arrayOf(blink, leftTwitch, rightTwitch),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(disableX = true),
                 bedrock("wimpod", "ground_walk")
             )
@@ -77,7 +77,7 @@ class WimpodModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Bi
             transformTicks = 10,
             poseType = PoseType.FLOAT,
             quirks = arrayOf(blink, leftTwitch, rightTwitch),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(disableX = true),
                 bedrock("wimpod", "water_idle")
             )
@@ -88,7 +88,7 @@ class WimpodModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Bi
             transformTicks = 10,
             poseType = PoseType.SWIM,
             quirks = arrayOf(blink, leftTwitch, rightTwitch),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(disableX = true),
                 bedrock("wimpod", "water_swim"),
             )

@@ -47,7 +47,7 @@ class MeowthGalarianModel(root: ModelPart) : PokemonPosableModel(root), HeadedFr
         val blink = quirk { bedrockStateful("meowth_galarian", "blink") }
         sleep = registerPose(
             poseType = PoseType.SLEEP,
-            idleAnimations = arrayOf(bedrock("meowth_galarian", "sleep"))
+            animations = arrayOf(bedrock("meowth_galarian", "sleep"))
         )
 
         standing = registerPose(
@@ -56,7 +56,7 @@ class MeowthGalarianModel(root: ModelPart) : PokemonPosableModel(root), HeadedFr
             transformTicks = 10,
             condition = { !it.isBattling },
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("meowth_galarian", "ground_idle")
             )
@@ -67,7 +67,7 @@ class MeowthGalarianModel(root: ModelPart) : PokemonPosableModel(root), HeadedFr
             poseTypes = MOVING_POSES,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("meowth_galarian", "ground_walk")
             )
@@ -79,7 +79,7 @@ class MeowthGalarianModel(root: ModelPart) : PokemonPosableModel(root), HeadedFr
             transformTicks = 10,
             quirks = arrayOf(blink),
             condition = { it.isBattling },
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("meowth_galarian", "battle_idle")
             )

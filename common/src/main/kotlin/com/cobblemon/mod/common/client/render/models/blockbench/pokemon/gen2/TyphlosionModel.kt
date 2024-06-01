@@ -40,7 +40,7 @@ class TyphlosionModel  (root: ModelPart) : PokemonPosableModel(root), HeadedFram
 
         sleep = registerPose(
             poseType = PoseType.SLEEP,
-            idleAnimations = arrayOf(bedrock("typhlosion", "sleep"))
+            animations = arrayOf(bedrock("typhlosion", "sleep"))
         )
 
         standing = registerPose(
@@ -49,7 +49,7 @@ class TyphlosionModel  (root: ModelPart) : PokemonPosableModel(root), HeadedFram
             transformTicks = 10,
             condition = { !it.isBattling },
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(minPitch = 0F),
                 bedrock("typhlosion", "ground_idle")
             )
@@ -60,7 +60,7 @@ class TyphlosionModel  (root: ModelPart) : PokemonPosableModel(root), HeadedFram
             poseTypes = PoseType.MOVING_POSES,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(minPitch = 0F),
                 bedrock("typhlosion", "ground_walk")
             )
@@ -72,7 +72,7 @@ class TyphlosionModel  (root: ModelPart) : PokemonPosableModel(root), HeadedFram
             transformTicks = 10,
             quirks = arrayOf(blink),
             condition = { it.isBattling },
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(minPitch = 0F),
                 bedrock("typhlosion", "battle_idle")
             )

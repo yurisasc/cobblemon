@@ -31,20 +31,20 @@ open class PokeBallModel(root: ModelPart) : PosableModel(root), PokeBallFrame {
             poseTypes = setOf(PoseType.NONE),
             condition = { (it.getEntity() as? EmptyPokeBallEntity)?.captureState == EmptyPokeBallEntity.CaptureState.NOT },
             transformTicks = 0,
-            idleAnimations = arrayOf(bedrock("poke_ball", "throw"))
+            animations = arrayOf(bedrock("poke_ball", "throw"))
         )
 
         shut = registerPose(
             poseName = "shut",
             poseTypes = setOf(PoseType.NONE),
-            idleAnimations = arrayOf(bedrock("poke_ball", "shut_idle")),
+            animations = arrayOf(bedrock("poke_ball", "shut_idle")),
             transformTicks = 0
         )
 
         open = registerPose(
             poseName = "open",
             poseTypes = setOf(PoseType.NONE),
-            idleAnimations = arrayOf(bedrock("poke_ball", "open_idle")),
+            animations = arrayOf(bedrock("poke_ball", "open_idle")),
             transformTicks = 0
         )
 

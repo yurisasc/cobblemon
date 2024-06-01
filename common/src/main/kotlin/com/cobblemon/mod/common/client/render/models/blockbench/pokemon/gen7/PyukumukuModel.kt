@@ -34,7 +34,7 @@ class PyukumukuModel(root: ModelPart) : PokemonPosableModel(root) {
         standing = registerPose(
             poseName = "standing",
             poseTypes = PoseType.ALL_POSES,// - PoseType.SLEEP,
-            idleAnimations = emptyArray()// arrayOf(bedrock("pyukumuku", "ground_idle"))
+            animations = emptyArray()// arrayOf(bedrock("pyukumuku", "ground_idle"))
         )
     }
 

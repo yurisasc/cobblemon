@@ -41,7 +41,7 @@ class QuaxwellModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
         val blink = quirk { bedrockStateful("quaxwell", "blink") }
         sleep = registerPose(
             poseType = PoseType.SLEEP,
-            idleAnimations = arrayOf(bedrock("quaxwell", "sleep"))
+            animations = arrayOf(bedrock("quaxwell", "sleep"))
         )
 
         standing = registerPose(
@@ -50,7 +50,7 @@ class QuaxwellModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
             transformTicks = 10,
             condition = { !it.isBattling },
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("quaxwell", "ground_idle")
             )
@@ -61,7 +61,7 @@ class QuaxwellModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
             poseTypes = PoseType.MOVING_POSES,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("quaxwell", "ground_walk")
             )
@@ -73,7 +73,7 @@ class QuaxwellModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
             poseTypes = PoseType.SWIMMING_POSES,
                 condition = { it.isTouchingWater },
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("quaxwell", "water_idle")
             )
@@ -85,7 +85,7 @@ class QuaxwellModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
             transformTicks = 10,
             quirks = arrayOf(blink),
             condition = { it.isBattling },
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("quaxwell", "battle_idle")
             )

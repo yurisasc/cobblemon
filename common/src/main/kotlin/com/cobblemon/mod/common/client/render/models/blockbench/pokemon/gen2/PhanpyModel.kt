@@ -44,7 +44,7 @@ class PhanpyModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Qu
         sleep = registerPose(
             poseName = "sleep",
             poseType = PoseType.SLEEP,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("phanpy", "sleep")
             )
         )
@@ -54,7 +54,7 @@ class PhanpyModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Qu
             poseTypes = PoseType.UI_POSES + PoseType.STATIONARY_POSES,
             quirks = arrayOf(blink),
             condition = { !it.isBattling },
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(disableY = true),
                 bedrock("phanpy", "ground_idle")
             )
@@ -64,7 +64,7 @@ class PhanpyModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Qu
             poseName = "walk",
             poseTypes = PoseType.MOVING_POSES,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(disableY = true),
                 bedrock("phanpy", "ground_walk")
             )
@@ -74,7 +74,7 @@ class PhanpyModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Qu
             poseName = "battle_idle",
             poseTypes = PoseType.STATIONARY_POSES,
             condition = { it.isBattling },
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(disableY = true),
                 bedrock("phanpy", "battle_idle")
             )

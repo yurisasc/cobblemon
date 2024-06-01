@@ -52,7 +52,7 @@ class OinkologneFemaleModel (root: ModelPart) : PokemonPosableModel(root), Heade
                 poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
                 transformTicks = 10,
                 quirks = arrayOf(blink),
-                idleAnimations = arrayOf(
+                animations = arrayOf(
                         singleBoneLook(),
                         bedrock("oinkologne_female", "ground_idle")
                 )
@@ -63,7 +63,7 @@ class OinkologneFemaleModel (root: ModelPart) : PokemonPosableModel(root), Heade
                 poseTypes = PoseType.MOVING_POSES,
                 transformTicks = 5,
                 quirks = arrayOf(blink),
-                idleAnimations = arrayOf(
+                animations = arrayOf(
                         singleBoneLook(),
                         bedrock("oinkologne_female", "ground_idle"),
                         QuadrupedWalkAnimation(this, periodMultiplier = 0.75F, amplitudeMultiplier = 1F)

@@ -41,7 +41,7 @@ class SprigatitoModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame
         sleep = registerPose(
             poseType = PoseType.SLEEP,
             quirks = arrayOf(earTwitchRight, earTwitchLeft),
-            idleAnimations = arrayOf(bedrock("sprigatito", "sleep"))
+            animations = arrayOf(bedrock("sprigatito", "sleep"))
         )
 
         standing = registerPose(
@@ -50,7 +50,7 @@ class SprigatitoModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame
             transformTicks = 10,
             condition = { !it.isBattling },
             quirks = arrayOf(blink, earTwitchRight, earTwitchLeft),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("sprigatito", "ground_idle")
             )
@@ -61,7 +61,7 @@ class SprigatitoModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame
             poseTypes = PoseType.MOVING_POSES,
             transformTicks = 10,
             quirks = arrayOf(blink, earTwitchRight, earTwitchLeft),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("sprigatito", "ground_walk")
             )
@@ -73,7 +73,7 @@ class SprigatitoModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame
             transformTicks = 10,
             quirks = arrayOf(blink, earTwitchRight, earTwitchLeft),
             condition = { it.isBattling },
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("sprigatito", "battle_idle")
             )

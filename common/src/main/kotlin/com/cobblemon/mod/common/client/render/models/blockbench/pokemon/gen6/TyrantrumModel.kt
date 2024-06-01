@@ -42,7 +42,7 @@ class TyrantrumModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame 
         sleep = registerPose(
             poseName = "sleep",
             poseType = PoseType.SLEEP,
-            idleAnimations = arrayOf(bedrock("tyrantrum", "sleep"))
+            animations = arrayOf(bedrock("tyrantrum", "sleep"))
         )
 
         standing = registerPose(
@@ -50,7 +50,7 @@ class TyrantrumModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame 
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
             condition = { !it.isBattling },
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("tyrantrum", "ground_idle")
             )
@@ -60,7 +60,7 @@ class TyrantrumModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame 
             poseName = "walk",
             poseTypes = PoseType.MOVING_POSES,
             quirks = arrayOf(blink, walkquirk),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("tyrantrum", "ground_walk")
             )
@@ -71,7 +71,7 @@ class TyrantrumModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame 
             poseTypes = PoseType.STATIONARY_POSES,
             quirks = arrayOf(blink),
             condition = { it.isBattling },
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("tyrantrum", "battle_idle")
             )

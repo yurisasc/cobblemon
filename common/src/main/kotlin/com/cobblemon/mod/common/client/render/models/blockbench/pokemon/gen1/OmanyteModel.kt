@@ -40,7 +40,7 @@ class OmanyteModel(root: ModelPart) : PokemonPosableModel(root) {
         sleep = registerPose(
             poseName = "sleep",
             poseType = PoseType.SLEEP,
-            idleAnimations = arrayOf(bedrock("omanyte", "sleep"))
+            animations = arrayOf(bedrock("omanyte", "sleep"))
         )
 
         standing = registerPose(
@@ -49,7 +49,7 @@ class OmanyteModel(root: ModelPart) : PokemonPosableModel(root) {
             quirks = arrayOf(blink),
             transformTicks = 10,
             condition = { !it.isBattling},
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("omanyte", "ground_idle")
             )
         )
@@ -59,7 +59,7 @@ class OmanyteModel(root: ModelPart) : PokemonPosableModel(root) {
             poseTypes = PoseType.MOVING_POSES - PoseType.SWIM,
             quirks = arrayOf(blink),
             transformTicks = 10,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("omanyte", "ground_walk")
             )
         )
@@ -69,7 +69,7 @@ class OmanyteModel(root: ModelPart) : PokemonPosableModel(root) {
             poseTypes = setOf(PoseType.FLOAT, PoseType.HOVER),
             quirks = arrayOf(blink),
             transformTicks = 10,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("omanyte", "water_idle")
             )
         )
@@ -79,7 +79,7 @@ class OmanyteModel(root: ModelPart) : PokemonPosableModel(root) {
             poseTypes = setOf(PoseType.SWIM, PoseType.FLY),
             quirks = arrayOf(blink),
             transformTicks = 10,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("omanyte", "water_swim")
             )
         )
@@ -90,7 +90,7 @@ class OmanyteModel(root: ModelPart) : PokemonPosableModel(root) {
             quirks = arrayOf(blink),
             transformTicks = 10,
             condition = { it.isBattling},
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("omanyte", "battle_idle")
             )
         )

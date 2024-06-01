@@ -46,7 +46,7 @@ class MareepModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
         sleep = registerPose(
             poseType = PoseType.SLEEP,
             transformedParts = arrayOf(wool.createTransformation().withVisibility(visibility = isNotSheared)),
-            idleAnimations = arrayOf(bedrock("mareep", "sleep"))
+            animations = arrayOf(bedrock("mareep", "sleep"))
         )
 
         standing = registerPose(
@@ -55,7 +55,7 @@ class MareepModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
             quirks = arrayOf(blink),
             condition = { !it.isBattling },
             transformedParts = arrayOf(wool.createTransformation().withVisibility(visibility = isNotSheared)),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("mareep", "ground_idle")
             )
@@ -66,7 +66,7 @@ class MareepModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
             poseTypes = PoseType.MOVING_POSES,
             quirks = arrayOf(blink),
             transformedParts = arrayOf(wool.createTransformation().withVisibility(visibility = isNotSheared)),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("mareep", "ground_walk").withCondition(isNotSheared),
                 bedrock("mareep", "ground_walk_sheared").withCondition(isSheared)
@@ -79,7 +79,7 @@ class MareepModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
             quirks = arrayOf(blink),
             condition = { it.isBattling },
             transformedParts = arrayOf(wool.createTransformation().withVisibility(visibility = isNotSheared)),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("mareep", "battle_idle")
             )

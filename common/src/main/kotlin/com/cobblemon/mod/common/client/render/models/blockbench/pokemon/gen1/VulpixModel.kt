@@ -46,7 +46,7 @@ class VulpixModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Qua
         val blink = quirk { bedrockStateful("vulpix", "blink")}
         sleep = registerPose(
             poseType = PoseType.SLEEP,
-            idleAnimations = arrayOf(bedrock("vulpix", "sleep"))
+            animations = arrayOf(bedrock("vulpix", "sleep"))
         )
 
         standing = registerPose(
@@ -54,7 +54,7 @@ class VulpixModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Qua
             poseTypes = STATIONARY_POSES + UI_POSES,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
 //                bedrock("vulpix", "ground_idle")
             )
@@ -65,7 +65,7 @@ class VulpixModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Qua
             poseTypes = MOVING_POSES,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 QuadrupedWalkAnimation(this, periodMultiplier = 0.5F),
 //                bedrock("vulpix", "ground_walk")

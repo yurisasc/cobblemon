@@ -8,16 +8,15 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen7
 
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.PosableState
 import com.cobblemon.mod.common.client.render.models.blockbench.createTransformation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.ModelPartTransformation
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.Pose
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.PoseType.Companion.UI_POSES
-import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.util.isBattling
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
@@ -49,7 +48,7 @@ class PopplioModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
         val blink = quirk { bedrockStateful("popplio", "blink") }
         sleep = registerPose(
             poseType = PoseType.SLEEP,
-            idleAnimations = arrayOf(bedrock("popplio", "sleep"))
+            animations = arrayOf(bedrock("popplio", "sleep"))
         )
 
         standing = registerPose(
@@ -57,7 +56,7 @@ class PopplioModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
             poseTypes = UI_POSES + PoseType.STAND,
             quirks = arrayOf(blink),
             condition = { !it.isBattling },
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("popplio", "ground_idle")
             )
@@ -68,7 +67,7 @@ class PopplioModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
             poseType = PoseType.WALK,
             quirks = arrayOf(blink),
             condition = { !it.isBattling },
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("popplio", "ground_walk")
             )
@@ -78,7 +77,7 @@ class PopplioModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
             poseName = "float",
             poseType = PoseType.FLOAT,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("popplio", "water_idle")
             )
@@ -88,7 +87,7 @@ class PopplioModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
             poseName = "swim",
             poseType = PoseType.SWIM,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("popplio", "water_swim")
             )
@@ -100,7 +99,7 @@ class PopplioModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
             transformTicks = 10,
             quirks = arrayOf(blink),
             condition = { it.isBattling },
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("popplio", "battle_idle")
             )
@@ -109,7 +108,7 @@ class PopplioModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
         shoulderLeft = registerPose(
             poseType = PoseType.SHOULDER_LEFT,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("popplio", "shoulder_left")
             ),
@@ -121,7 +120,7 @@ class PopplioModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
         shoulderRight = registerPose(
             poseType = PoseType.SHOULDER_RIGHT,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("popplio", "shoulder_right")
             ),

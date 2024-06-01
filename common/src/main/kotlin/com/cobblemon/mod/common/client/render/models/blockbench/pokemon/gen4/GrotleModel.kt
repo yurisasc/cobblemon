@@ -8,14 +8,13 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen4
 
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.PosableState
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.QuadrupedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.Pose
 import com.cobblemon.mod.common.entity.PoseType
-import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.util.isBattling
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
@@ -47,7 +46,7 @@ class GrotleModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Qu
 
         sleep = registerPose(
             poseType = PoseType.SLEEP,
-            idleAnimations = arrayOf(bedrock("grotle", "sleep"))
+            animations = arrayOf(bedrock("grotle", "sleep"))
         )
 
         standing = registerPose(
@@ -56,7 +55,7 @@ class GrotleModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Qu
             transformTicks = 10,
             condition = { !it.isBattling },
             quirks = arrayOf(blink, shake),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("grotle", "ground_idle")
             )
@@ -67,7 +66,7 @@ class GrotleModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Qu
             poseTypes = PoseType.MOVING_POSES,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("grotle", "ground_walk")
             )
@@ -79,7 +78,7 @@ class GrotleModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Qu
             transformTicks = 10,
             quirks = arrayOf(blink, shake),
             condition = { it.isBattling },
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("grotle", "battle_idle")
             )

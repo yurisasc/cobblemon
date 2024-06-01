@@ -30,7 +30,7 @@ class ClaydolModel(root: ModelPart) : PokemonPosableModel(root) {
     override fun registerPoses() {
         sleep = registerPose(
             poseType = PoseType.SLEEP,
-            idleAnimations = arrayOf(bedrock("claydol", "sleep"))
+            animations = arrayOf(bedrock("claydol", "sleep"))
         )
 
         val blink = quirk { bedrockStateful("claydol", "blink") }
@@ -38,7 +38,7 @@ class ClaydolModel(root: ModelPart) : PokemonPosableModel(root) {
             poseName = "hover",
             poseTypes = PoseType.STATIONARY_POSES - PoseType.HOVER + PoseType.UI_POSES,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("claydol", "air_idle")
             )
         )
@@ -47,7 +47,7 @@ class ClaydolModel(root: ModelPart) : PokemonPosableModel(root) {
             poseName = "fly",
             poseTypes = PoseType.MOVING_POSES + PoseType.FLY,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("claydol", "air_fly")
             )
         )

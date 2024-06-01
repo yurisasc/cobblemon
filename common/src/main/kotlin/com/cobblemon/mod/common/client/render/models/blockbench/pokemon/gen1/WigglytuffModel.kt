@@ -34,7 +34,7 @@ class WigglytuffModel(root: ModelPart) : PokemonPosableModel(root) {
         val blink = quirk { bedrockStateful("wigglytuff", "blink")}
         sleep = registerPose(
             poseType = PoseType.SLEEP,
-            idleAnimations = arrayOf(bedrock("wigglytuff", "sleep"))
+            animations = arrayOf(bedrock("wigglytuff", "sleep"))
         )
 
         standing = registerPose(
@@ -42,7 +42,7 @@ class WigglytuffModel(root: ModelPart) : PokemonPosableModel(root) {
             poseTypes = STATIONARY_POSES + UI_POSES,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("wigglytuff", "ground_idle")
             )
         )
@@ -52,7 +52,7 @@ class WigglytuffModel(root: ModelPart) : PokemonPosableModel(root) {
             poseTypes = MOVING_POSES,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("wigglytuff", "ground_walk")
             )
         )

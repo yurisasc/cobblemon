@@ -38,7 +38,7 @@ class SeelModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
         standing = registerPose(
             poseName = "standing",
             poseTypes = UI_POSES + PoseType.STAND,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("seel", "ground_idle")
             )
@@ -47,7 +47,7 @@ class SeelModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
         walk = registerPose(
             poseName = "walk",
             poseType = PoseType.WALK,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("seel", "ground_idle")
                 //bedrock("seel", "ground_walk")
@@ -57,7 +57,7 @@ class SeelModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
         float = registerPose(
             poseName = "float",
             poseType = PoseType.FLOAT,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("seel", "water_idle")
             )
@@ -66,7 +66,7 @@ class SeelModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
         swim = registerPose(
             poseName = "swim",
             poseType = PoseType.SWIM,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("seel", "water_swim")
             )

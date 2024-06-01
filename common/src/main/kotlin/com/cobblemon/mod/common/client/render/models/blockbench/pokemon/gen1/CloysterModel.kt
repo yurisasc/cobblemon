@@ -33,7 +33,7 @@ class CloysterModel(root: ModelPart) : PokemonPosableModel(root) {
             poseName = "standing",
             poseTypes = STATIONARY_POSES + UI_POSES,
             transformTicks = 10,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("cloyster", "ground_idle")
             )
         )
@@ -42,7 +42,7 @@ class CloysterModel(root: ModelPart) : PokemonPosableModel(root) {
             poseName = "walk",
             poseTypes = MOVING_POSES,
             transformTicks = 10,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 //bedrock("cloyster", "ground_walk")
             )
         )

@@ -46,28 +46,28 @@ abstract class PokeBallPosableState : PosableState(), Schedulable {
                 EmptyPokeBallEntity.CaptureState.FALL -> {}
                 EmptyPokeBallEntity.CaptureState.SHAKE -> {
                     doLater {
-                        setStatefulAnimations(currentModel!!.bedrockStateful(group, "bounce"))
+                        setActiveAnimations(currentModel!!.bedrockStateful(group, "bounce"))
                     }
                     shakeEmitter
                         .pipe(Observable.emitWhile { stateEmitter.get() == EmptyPokeBallEntity.CaptureState.SHAKE })
                         .subscribe {
                             val bob = "bob${Random.Default.nextInt(6) + 1}"
-                            doLater { setStatefulAnimations(currentModel!!.bedrockStateful(group, bob)) }
+                            doLater { setActiveAnimations(currentModel!!.bedrockStateful(group, bob)) }
                         }
                 }
                 EmptyPokeBallEntity.CaptureState.CAPTURED -> {
                     doLater {
-                        setStatefulAnimations(currentModel!!.bedrockStateful(group, "capture"))
+                        setActiveAnimations(currentModel!!.bedrockStateful(group, "capture"))
                     }
                 }
                 EmptyPokeBallEntity.CaptureState.CAPTURED_CRITICAL -> {
                     doLater {
-                        setStatefulAnimations(currentModel!!.bedrockStateful(group, "critical"))
+                        setActiveAnimations(currentModel!!.bedrockStateful(group, "critical"))
                     }
                 }
                 EmptyPokeBallEntity.CaptureState.BROKEN_FREE -> {
                     doLater {
-                        setStatefulAnimations(currentModel!!.bedrockStateful(group, "break"))
+                        setActiveAnimations(currentModel!!.bedrockStateful(group, "break"))
                     }
                 }
                 else -> {}

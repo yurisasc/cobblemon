@@ -8,12 +8,12 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen5
 
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.BimanualSwingAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.BipedWalkAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BimanualFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.Pose
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.PoseType.Companion.MOVING_POSES
@@ -48,7 +48,7 @@ class EmolgaModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Bip
             poseName = "standing",
             poseTypes = STATIONARY_POSES + UI_POSES - PoseType.HOVER,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("emolga", "ground_idle")
             )
@@ -58,7 +58,7 @@ class EmolgaModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Bip
             poseName = "walk",
             poseTypes = MOVING_POSES - PoseType.FLY,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("emolga", "ground_idle"),
                 BipedWalkAnimation(this, periodMultiplier = 1F, amplitudeMultiplier = 0.7F),
@@ -71,7 +71,7 @@ class EmolgaModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Bip
             poseName = "hovering",
             poseType = PoseType.HOVER,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("emolga", "air_idle")
             )
@@ -81,7 +81,7 @@ class EmolgaModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Bip
             poseName = "flying",
             poseType = PoseType.FLY,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("emolga", "air_fly")
                 //bedrock("emolga", "ground_walk")

@@ -60,7 +60,7 @@ class DugtrioModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
         sleep = registerPose(
             poseName = "sleep",
             poseType = PoseType.SLEEP,
-            idleAnimations = arrayOf(bedrock("dugtrio", "sleep"))
+            animations = arrayOf(bedrock("dugtrio", "sleep"))
         )
 
         standing = registerPose(
@@ -68,7 +68,7 @@ class DugtrioModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
             poseTypes = STATIONARY_POSES + UI_POSES,
             condition = { !it.isBattling },
             quirks = arrayOf(blink, blink2, blink3, quirk, quirk2, quirk3),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                     singleBoneLook(pitchMultiplier = 0.6F, yawMultiplier = 0.4F, maxPitch = 10F, minPitch = -30F),
                     SingleBoneLookAnimation(lefthead, false, false, false, false, 1F, 1.4F, 0F, -30F, 20F, -45F),
                     SingleBoneLookAnimation(righthead, false, false, false, false, 1F, 1.4F, 0F, -30F, 45F, -25F),
@@ -79,7 +79,7 @@ class DugtrioModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
             poseName = "walk",
             poseTypes = MOVING_POSES,
             quirks = arrayOf(blink, blink2, blink3),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                     singleBoneLook(pitchMultiplier = 0.6F, yawMultiplier = 0.4F, maxPitch = 10F, minPitch = -30F),
                     SingleBoneLookAnimation(lefthead, false, false, false, false, 1F, 1.4F, 0F, -30F, 20F, -45F),
                     SingleBoneLookAnimation(righthead, false, false, false, false, 1F, 1.4F, 0F, -30F, 45F, -25F),
@@ -91,7 +91,7 @@ class DugtrioModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
             poseTypes = STATIONARY_POSES,
             condition = { it.isBattling },
             quirks = arrayOf(blink, blink2, blink3, quirk, quirk2, quirk3),
-            idleAnimations = arrayOf(bedrock("dugtrio", "battle_idle"))
+            animations = arrayOf(bedrock("dugtrio", "battle_idle"))
         )
     }
 

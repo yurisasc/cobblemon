@@ -8,10 +8,10 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen3
 
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.WaveAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.WaveSegment
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.ModelPartTransformation
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.Pose
 import com.cobblemon.mod.common.client.render.models.blockbench.wavefunction.sineFunction
@@ -51,7 +51,7 @@ class HuntailModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
         standing = registerPose(
             poseName = "standing",
             poseTypes = PoseType.STANDING_POSES,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("huntail", "ground_idle"),
                 WaveAnimation(
@@ -81,7 +81,7 @@ class HuntailModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
         floating = registerPose(
             poseName = "floating",
             poseTypes = PoseType.UI_POSES + PoseType.FLOAT,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("huntail", "water_idle")
             )
@@ -90,7 +90,7 @@ class HuntailModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
         swimming = registerPose(
             poseName = "swimming",
             poseType = PoseType.SWIM,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("huntail", "water_swim"),
             )

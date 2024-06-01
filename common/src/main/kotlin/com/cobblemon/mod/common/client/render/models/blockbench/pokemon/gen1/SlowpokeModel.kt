@@ -8,10 +8,10 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1
 
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.QuadrupedWalkAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.QuadrupedFrame
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.Pose
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.PoseType.Companion.UI_POSES
@@ -44,14 +44,14 @@ class SlowpokeModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Q
 
         sleep = registerPose(
             poseType = PoseType.SLEEP,
-            idleAnimations = arrayOf(bedrock("slowpoke", "sleep"))
+            animations = arrayOf(bedrock("slowpoke", "sleep"))
         )
 
         standing = registerPose(
             poseName = "standing",
             poseTypes = UI_POSES + PoseType.STAND,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("slowpoke", "ground_idle")
             )
@@ -61,7 +61,7 @@ class SlowpokeModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Q
             poseName = "walk",
             poseType = PoseType.WALK,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 QuadrupedWalkAnimation(this, periodMultiplier = 3.6F, amplitudeMultiplier = 2.2F),
                 singleBoneLook(),
                 bedrock("slowpoke", "ground_walk")
@@ -72,7 +72,7 @@ class SlowpokeModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Q
             poseName = "float",
             poseType = PoseType.FLOAT,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("slowpoke", "water_idle")
             )
@@ -82,7 +82,7 @@ class SlowpokeModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Q
             poseName = "swim",
             poseType = PoseType.SWIM,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("slowpoke", "water_swim")
             )

@@ -40,7 +40,7 @@ class QuilavaHisuiBiasModel (root: ModelPart) : PokemonPosableModel(root), Heade
 
         sleep = registerPose(
                 poseType = PoseType.SLEEP,
-                idleAnimations = arrayOf(bedrock("quilava_hisui_bias", "sleep"))
+                animations = arrayOf(bedrock("quilava_hisui_bias", "sleep"))
         )
 
         standing = registerPose(
@@ -49,7 +49,7 @@ class QuilavaHisuiBiasModel (root: ModelPart) : PokemonPosableModel(root), Heade
                 transformTicks = 10,
                 condition = { !it.isBattling },
                 quirks = arrayOf(blink),
-                idleAnimations = arrayOf(
+                animations = arrayOf(
                         singleBoneLook(),
                         bedrock("quilava_hisui_bias", "fire_idle"),
                         bedrock("quilava_hisui_bias", "ground_idle")
@@ -61,7 +61,7 @@ class QuilavaHisuiBiasModel (root: ModelPart) : PokemonPosableModel(root), Heade
                 poseTypes = PoseType.MOVING_POSES,
                 transformTicks = 10,
                 quirks = arrayOf(blink),
-                idleAnimations = arrayOf(
+                animations = arrayOf(
                         singleBoneLook(),
                         bedrock("quilava_hisui_bias", "fire_idle"),
                         bedrock("quilava_hisui_bias", "ground_walk")
@@ -74,7 +74,7 @@ class QuilavaHisuiBiasModel (root: ModelPart) : PokemonPosableModel(root), Heade
                 transformTicks = 10,
                 quirks = arrayOf(blink),
                 condition = { it.isBattling },
-                idleAnimations = arrayOf(
+                animations = arrayOf(
                         singleBoneLook(),
                         bedrock("quilava_hisui_bias", "fire_idle"),
                         bedrock("quilava_hisui_bias", "battle_idle")

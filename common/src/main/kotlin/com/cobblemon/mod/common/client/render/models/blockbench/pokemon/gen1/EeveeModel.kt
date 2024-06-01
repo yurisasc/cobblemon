@@ -53,7 +53,7 @@ class EeveeModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Quad
             poseTypes = STATIONARY_POSES + UI_POSES,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("eevee", "ground_idle")
             )
@@ -64,7 +64,7 @@ class EeveeModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Quad
             poseTypes = MOVING_POSES,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("eevee", "ground_walk")
             )
@@ -73,7 +73,7 @@ class EeveeModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Quad
         shoulderLeft = registerPose(
             poseType = PoseType.SHOULDER_LEFT,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("eevee", "ground_idle")
             ),
@@ -85,7 +85,7 @@ class EeveeModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Quad
         shoulderRight = registerPose(
             poseType = PoseType.SHOULDER_RIGHT,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("eevee", "ground_idle")
             ),

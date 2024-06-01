@@ -38,7 +38,7 @@ class VoltorbModel(root: ModelPart) : PokemonPosableModel(root) {
             poseTypes = STATIONARY_POSES + UI_POSES,
             transformTicks = 0,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("voltorb", "ground_idle")
             )
         )
@@ -48,7 +48,7 @@ class VoltorbModel(root: ModelPart) : PokemonPosableModel(root) {
             poseTypes = MOVING_POSES,
             onTransitionedInto = { it?.reset() },
             transformTicks = 0,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("voltorb", "ground_walk")
             )
         )

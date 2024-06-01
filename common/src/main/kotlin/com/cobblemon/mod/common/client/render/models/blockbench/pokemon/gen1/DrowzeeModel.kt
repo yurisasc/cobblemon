@@ -42,7 +42,7 @@ class DrowzeeModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Bi
         val blink = quirk { bedrockStateful("drowzee", "blink")}
         sleep = registerPose(
             poseType = PoseType.SLEEP,
-            idleAnimations = arrayOf(bedrock("drowzee", "sleep"))
+            animations = arrayOf(bedrock("drowzee", "sleep"))
         )
 
         standing = registerPose(
@@ -51,7 +51,7 @@ class DrowzeeModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Bi
             transformTicks = 10,
             condition = { !it.isBattling },
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("drowzee", "ground_idle")
             )
@@ -62,7 +62,7 @@ class DrowzeeModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Bi
             poseTypes = MOVING_POSES,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("drowzee", "ground_walk")
             )
@@ -74,7 +74,7 @@ class DrowzeeModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Bi
             transformTicks = 10,
             quirks = arrayOf(blink),
             condition = { it.isBattling },
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("drowzee", "battle_idle")
             )

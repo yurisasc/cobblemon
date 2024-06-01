@@ -51,7 +51,7 @@ class TyphlosionHisuianModel  (root: ModelPart) : PokemonPosableModel(root), Hea
                         spoopy_orb2.createTransformation().withVisibility(visibility = false),
                         spoopy_orb3.createTransformation().withVisibility(visibility = false)
                 ),
-                idleAnimations = arrayOf(bedrock("typhlosion_hisuian", "sleep"))
+                animations = arrayOf(bedrock("typhlosion_hisuian", "sleep"))
         )
 
         standing = registerPose(
@@ -66,7 +66,7 @@ class TyphlosionHisuianModel  (root: ModelPart) : PokemonPosableModel(root), Hea
                         spoopy_orb2.createTransformation().withVisibility(visibility = false),
                         spoopy_orb3.createTransformation().withVisibility(visibility = false)
                 ),
-                idleAnimations = arrayOf(
+                animations = arrayOf(
                         singleBoneLook(minPitch = 0F),
                         bedrock("typhlosion_hisuian", "ground_idle")
                 )
@@ -83,7 +83,7 @@ class TyphlosionHisuianModel  (root: ModelPart) : PokemonPosableModel(root), Hea
                         spoopy_orb2.createTransformation().withVisibility(visibility = false),
                         spoopy_orb3.createTransformation().withVisibility(visibility = false)
                 ),
-                idleAnimations = arrayOf(
+                animations = arrayOf(
                         singleBoneLook(minPitch = 0F),
                         bedrock("typhlosion_hisuian", "ground_walk")
                 )
@@ -101,7 +101,7 @@ class TyphlosionHisuianModel  (root: ModelPart) : PokemonPosableModel(root), Hea
                         spoopy_orb3.createTransformation().withVisibility(visibility = true)
                 ),
                 condition = { it.isBattling },
-                idleAnimations = arrayOf(
+                animations = arrayOf(
                         singleBoneLook(minPitch = 0F),
                         bedrock("typhlosion_hisuian", "battle_idle")
                 )

@@ -52,7 +52,7 @@ class ArctovishModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame 
             poseType = PoseType.SLEEP,
             condition = { !it.isTouchingWater },
             transformTicks = 10,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("arctovish", "sleep")
             )
         )
@@ -62,7 +62,7 @@ class ArctovishModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame 
                 poseType = PoseType.SLEEP,
                 condition = { it.isTouchingWater },
                 transformTicks = 10,
-                idleAnimations = arrayOf(
+                animations = arrayOf(
                         bedrock("arctovish", "water_sleep")
                 )
         )
@@ -72,7 +72,7 @@ class ArctovishModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame 
             poseTypes = PoseType.STATIONARY_POSES - PoseType.UI_POSES - PoseType.FLOAT,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("arctovish", "ground_idle")
             )
         )
@@ -82,7 +82,7 @@ class ArctovishModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame 
                 poseTypes = PoseType.UI_POSES,
                 transformTicks = 10,
                 quirks = arrayOf(blink),
-                idleAnimations = arrayOf(
+                animations = arrayOf(
                         bedrock("arctovish", "water_idle")
                 )
         )
@@ -92,7 +92,7 @@ class ArctovishModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame 
             poseTypes = PoseType.MOVING_POSES - PoseType.SWIM,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("arctovish", "ground_walk")
             )
         )
@@ -102,7 +102,7 @@ class ArctovishModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame 
             poseType = PoseType.FLOAT,
             transformTicks = 10,
             quirks = arrayOf(blink, waterquirk),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("arctovish", "water_idle")
             )
         )
@@ -112,7 +112,7 @@ class ArctovishModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame 
             poseType = PoseType.SWIM,
             transformTicks = 10,
             quirks = arrayOf(blink, waterquirk),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("arctovish", "water_swim")
             )
         )

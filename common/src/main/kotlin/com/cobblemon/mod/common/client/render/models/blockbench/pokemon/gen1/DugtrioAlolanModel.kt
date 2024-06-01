@@ -48,7 +48,7 @@ class DugtrioAlolanModel(root: ModelPart) : PokemonPosableModel(root) {
         sleep = registerPose(
             poseName = "sleep",
             poseType = PoseType.SLEEP,
-            idleAnimations = arrayOf(bedrock("dugtrio_alolan", "sleep"))
+            animations = arrayOf(bedrock("dugtrio_alolan", "sleep"))
         )
 
         standing = registerPose(
@@ -56,14 +56,14 @@ class DugtrioAlolanModel(root: ModelPart) : PokemonPosableModel(root) {
             poseTypes = STATIONARY_POSES + UI_POSES,
             condition = { !it.isBattling },
             quirks = arrayOf(blink, blink2, blink3, quirk, quirk2, quirk3),
-            idleAnimations = arrayOf(bedrock("dugtrio_alolan", "ground_idle"))
+            animations = arrayOf(bedrock("dugtrio_alolan", "ground_idle"))
         )
 
         walking = registerPose(
             poseName = "walk",
             poseTypes = MOVING_POSES,
             quirks = arrayOf(blink, blink2, blink3),
-            idleAnimations = arrayOf(bedrock("dugtrio_alolan", "ground_idle"))
+            animations = arrayOf(bedrock("dugtrio_alolan", "ground_idle"))
         )
 
         battleidle = registerPose(
@@ -71,7 +71,7 @@ class DugtrioAlolanModel(root: ModelPart) : PokemonPosableModel(root) {
             poseTypes = STATIONARY_POSES,
             condition = { it.isBattling },
             quirks = arrayOf(blink, blink2, blink3, quirk, quirk2, quirk3),
-            idleAnimations = arrayOf(bedrock("dugtrio_alolan", "battle_idle"))
+            animations = arrayOf(bedrock("dugtrio_alolan", "battle_idle"))
         )
     }
 

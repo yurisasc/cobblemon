@@ -8,9 +8,9 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen3
 
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.PosableState
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.CobblemonPose
 import com.cobblemon.mod.common.entity.PoseType
 import net.minecraft.client.model.ModelPart
@@ -35,14 +35,14 @@ class ChimechoModel(root: ModelPart) : PokemonPosableModel(root) {
         val blink = quirk { bedrockStateful("chimecho", "blink") }
         sleep = registerPose(
             poseType = PoseType.SLEEP,
-            idleAnimations = arrayOf(bedrock("chimecho", "sleep"))
+            animations = arrayOf(bedrock("chimecho", "sleep"))
         )
 
         hover = registerPose(
             poseName = "hover",
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("chimecho", "air_idle")
             )
         )
@@ -51,7 +51,7 @@ class ChimechoModel(root: ModelPart) : PokemonPosableModel(root) {
             poseName = "flying",
             poseTypes = PoseType.MOVING_POSES,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("chimecho", "air_fly")
             )
         )

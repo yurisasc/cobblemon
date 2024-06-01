@@ -49,7 +49,7 @@ class VenomothModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, B
         sleep = registerPose(
             poseType = PoseType.SLEEP,
             quirks = arrayOf(quirk1, quirkSleep),
-            idleAnimations = arrayOf(bedrock("venomoth", "sleep"))
+            animations = arrayOf(bedrock("venomoth", "sleep"))
         )
 
         standing = registerPose(
@@ -57,7 +57,7 @@ class VenomothModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, B
             poseTypes = STATIONARY_POSES + UI_POSES - PoseType.HOVER,
             condition = { !it.isBattling },
             quirks = arrayOf(blink, quirk1, quirk2),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("venomoth", "ground_idle")
             )
         )
@@ -66,7 +66,7 @@ class VenomothModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, B
             poseName = "walk",
             poseTypes = MOVING_POSES - PoseType.FLY,
             quirks = arrayOf(blink, quirk1, quirk2),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("venomoth", "ground_walk")
             )
         )
@@ -75,7 +75,7 @@ class VenomothModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, B
             poseName = "hover",
             poseType = PoseType.HOVER,
             quirks = arrayOf(blink, quirk1, quirk2),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("venomoth", "air_idle")
             )
         )
@@ -84,7 +84,7 @@ class VenomothModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, B
             poseName = "fly",
             poseType = PoseType.FLY,
             quirks = arrayOf(blink, quirk1, quirk2),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("venomoth", "air_fly")
             )
         )
@@ -95,7 +95,7 @@ class VenomothModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, B
             transformTicks = 10,
             quirks = arrayOf(blink, quirk1, quirk2),
             condition = { it.isBattling },
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("venomoth", "battle_idle")
             )
         )

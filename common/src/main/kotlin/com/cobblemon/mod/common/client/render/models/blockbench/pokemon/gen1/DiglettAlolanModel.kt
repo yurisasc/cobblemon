@@ -43,7 +43,7 @@ class DiglettAlolanModel(root: ModelPart) : PokemonPosableModel(root) {
         sleep = registerPose(
             poseName = "sleep",
             poseType = PoseType.SLEEP,
-            idleAnimations = arrayOf(bedrock("diglett_alolan", "sleep"))
+            animations = arrayOf(bedrock("diglett_alolan", "sleep"))
         )
 
         stand = registerPose(
@@ -51,14 +51,14 @@ class DiglettAlolanModel(root: ModelPart) : PokemonPosableModel(root) {
             poseTypes = STATIONARY_POSES + UI_POSES,
             condition = { !it.isBattling },
             quirks = arrayOf(blink,quirk),
-            idleAnimations = arrayOf(bedrock("diglett_alolan", "ground_idle"))
+            animations = arrayOf(bedrock("diglett_alolan", "ground_idle"))
         )
 
         walk = registerPose(
             poseName = "walk",
             poseTypes = MOVING_POSES,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(bedrock("diglett_alolan", "ground_idle"))
+            animations = arrayOf(bedrock("diglett_alolan", "ground_idle"))
         )
 
         battleidle = registerPose(
@@ -66,7 +66,7 @@ class DiglettAlolanModel(root: ModelPart) : PokemonPosableModel(root) {
             poseTypes = STATIONARY_POSES,
             condition = { it.isBattling },
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(bedrock("diglett_alolan", "battle_idle"))
+            animations = arrayOf(bedrock("diglett_alolan", "battle_idle"))
         )
     }
 

@@ -48,7 +48,7 @@ class FidoughModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Qu
             poseTypes = STATIONARY_POSES + UI_POSES,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("fidough", "ground_idle")
             )
         )
@@ -57,7 +57,7 @@ class FidoughModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Qu
             poseTypes = MOVING_POSES,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("fidough", "ground_walk")
             )
         )
@@ -66,7 +66,7 @@ class FidoughModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Qu
             poseType = PoseType.SLEEP,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("fidough", "sleep")
             )
         )

@@ -45,7 +45,7 @@ class OnixModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
             poseName = "ui",
             poseTypes = UI_POSES,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("onix", "summary_idle")
             )
         )
@@ -53,7 +53,7 @@ class OnixModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
         sleep = registerPose(
             poseType = PoseType.SLEEP,
             transformTicks = 0,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("onix", "sleep"),
                 bedrock("onix", "slow_boulder_rotation")
             )
@@ -65,7 +65,7 @@ class OnixModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
             transformTicks = 1,
             condition = { !it.isBattling },
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("onix", "ground_idle"),
                 bedrock("onix", "boulder_rotation")
@@ -77,7 +77,7 @@ class OnixModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
             poseTypes = MOVING_POSES,
             transformTicks = 1,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("onix", "ground_walk"),
                 bedrock("onix", "boulder_rotation")
@@ -90,7 +90,7 @@ class OnixModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
             transformTicks = 10,
             quirks = arrayOf(blink),
             condition = { it.isBattling },
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("onix", "battle_idle"),
                 bedrock("onix", "boulder_rotation")

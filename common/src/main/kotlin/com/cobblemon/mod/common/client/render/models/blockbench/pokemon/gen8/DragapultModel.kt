@@ -41,7 +41,7 @@ class DragapultModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame 
             poseName = "ui_poses",
             poseTypes = PoseType.UI_POSES,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("dragapult", "ground_idle")
             )
         )
@@ -53,7 +53,7 @@ class DragapultModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame 
                 transformedParts = arrayOf(
                         rootPart.createTransformation().addPosition(ModelPartTransformation.Y_AXIS, -16)
                 ),
-                idleAnimations = arrayOf(
+                animations = arrayOf(
                         singleBoneLook(),
                         bedrock("dragapult", "ground_idle")
                 )
@@ -66,7 +66,7 @@ class DragapultModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame 
                 transformedParts = arrayOf(
                         rootPart.createTransformation().addPosition(ModelPartTransformation.Y_AXIS, -16)
                 ),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("dragapult", "ground_idle")
             )

@@ -41,7 +41,7 @@ class GolduckModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
             poseName = "standing",
             poseTypes = UI_POSES + PoseType.STAND,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("golduck", "ground_idle")
             )
@@ -49,14 +49,14 @@ class GolduckModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
 
         sleep = registerPose(
                 poseType = PoseType.SLEEP,
-                idleAnimations = arrayOf(bedrock("golduck", "sleep"))
+                animations = arrayOf(bedrock("golduck", "sleep"))
         )
 
         walk = registerPose(
             poseName = "walk",
             poseType = PoseType.WALK,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("golduck", "ground_walk")
             )
@@ -66,7 +66,7 @@ class GolduckModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
             poseName = "float",
             poseType = PoseType.FLOAT,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("golduck", "water_idle")
             )
@@ -76,7 +76,7 @@ class GolduckModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
             poseName = "swim",
             poseType = PoseType.SWIM,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("golduck", "water_swim")
             )

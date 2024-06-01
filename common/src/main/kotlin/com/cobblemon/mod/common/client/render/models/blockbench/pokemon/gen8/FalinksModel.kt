@@ -43,7 +43,7 @@ class FalinksModel (root: ModelPart) : PokemonPosableModel(root){
         sleep = registerPose(
             poseName = "sleep",
             poseType = PoseType.SLEEP,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("falinks", "sleep")
             )
         )
@@ -53,7 +53,7 @@ class FalinksModel (root: ModelPart) : PokemonPosableModel(root){
             poseTypes = PoseType.STATIONARY_POSES,
             quirks = arrayOf(blink, blink2, blink3, blink4, blink5, blink6),
             condition = { !it.isBattling },
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("falinks", "ground_idle")
             )
         )
@@ -63,7 +63,7 @@ class FalinksModel (root: ModelPart) : PokemonPosableModel(root){
             poseTypes = PoseType.STATIONARY_POSES,
             quirks = arrayOf(blink, blink2, blink3, blink4, blink5, blink6),
             condition = { it.isBattling && ((it.getEntity()?.uuid?.mostSignificantBits ?: 2) % 2).toInt() == 0 },
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("falinks", "battle_idle2")
             )
         )
@@ -73,7 +73,7 @@ class FalinksModel (root: ModelPart) : PokemonPosableModel(root){
             poseTypes = PoseType.STATIONARY_POSES,
             quirks = arrayOf(blink, blink2, blink3, blink4, blink5, blink6),
             condition = { it.isBattling },
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("falinks", "battle_idle")
             )
         )
@@ -83,7 +83,7 @@ class FalinksModel (root: ModelPart) : PokemonPosableModel(root){
             poseTypes = PoseType.MOVING_POSES,
             quirks = arrayOf(blink, blink2, blink3, blink4, blink5, blink6),
             condition = { !it.isBattling },
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("falinks", "ground_walk")
             )
         )
@@ -92,7 +92,7 @@ class FalinksModel (root: ModelPart) : PokemonPosableModel(root){
             poseName = "uipose",
             poseTypes = PoseType.UI_POSES,
             quirks = arrayOf(blink, blink2, blink3, blink4, blink5, blink6),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("falinks", "summary_idle")
             )
         )

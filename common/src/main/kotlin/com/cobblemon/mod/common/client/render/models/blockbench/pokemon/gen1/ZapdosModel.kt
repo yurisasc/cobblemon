@@ -46,7 +46,7 @@ class ZapdosModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, BiW
         standing = registerPose(
             poseName = "standing",
             poseTypes = PoseType.STATIONARY_POSES + UI_POSES - PoseType.HOVER,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("zapdos", "ground_idle")
             )
@@ -55,7 +55,7 @@ class ZapdosModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, BiW
         walk = registerPose(
             poseName = "walk",
             poseTypes = PoseType.MOVING_POSES - PoseType.FLY,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 BipedWalkAnimation(this, periodMultiplier = 0.7F, amplitudeMultiplier = 0.85F),
                 bedrock("zapdos", "ground_idle")
@@ -65,7 +65,7 @@ class ZapdosModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, BiW
         hover = registerPose(
             poseName = "hover",
             poseTypes = setOf(PoseType.HOVER, PoseType.FLOAT),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("zapdos", "air_idle"),
                 WingFlapIdleAnimation(this,
@@ -79,7 +79,7 @@ class ZapdosModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, BiW
         fly = registerPose(
             poseName = "fly",
             poseTypes = setOf(PoseType.FLY, PoseType.SWIM),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("zapdos", "air_fly"),
                 WingFlapIdleAnimation(this,

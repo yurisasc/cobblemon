@@ -41,7 +41,7 @@ class LuxrayModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Qu
             poseName = "standing",
             poseTypes = PoseType.UI_POSES + PoseType.STATIONARY_POSES,
 //            quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("luxray", "ground_idle")
             )
@@ -51,7 +51,7 @@ class LuxrayModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Qu
             poseName = "walk",
             poseTypes = PoseType.MOVING_POSES,
 //            quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 QuadrupedWalkAnimation(this, periodMultiplier = 1.1F),
                 bedrock("luxray", "ground_idle"),
                 singleBoneLook()

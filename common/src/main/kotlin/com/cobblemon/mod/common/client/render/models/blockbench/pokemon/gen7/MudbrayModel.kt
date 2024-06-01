@@ -43,7 +43,7 @@ class MudbrayModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Q
 
         sleep = registerPose(
             poseType = PoseType.SLEEP,
-            idleAnimations = arrayOf(bedrock("mudbray", "sleep"))
+            animations = arrayOf(bedrock("mudbray", "sleep"))
         )
 
         standing = registerPose(
@@ -51,7 +51,7 @@ class MudbrayModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Q
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(disableX = true),
                 bedrock("mudbray", "ground_idle")
             )
@@ -62,7 +62,7 @@ class MudbrayModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Q
             poseTypes = PoseType.MOVING_POSES,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(disableX = true),
                 bedrock("mudbray", "ground_walk")
             )

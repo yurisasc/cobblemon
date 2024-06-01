@@ -8,8 +8,8 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen3
 
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.CobblemonPose
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.util.isBattling
@@ -41,7 +41,7 @@ class BarboachModel (root: ModelPart) : PokemonPosableModel(root) {
         watersleep = registerPose(
             poseType = PoseType.SLEEP,
             condition = { it.isTouchingWater },
-            idleAnimations = arrayOf(bedrock("barboach", "water_sleep"))
+            animations = arrayOf(bedrock("barboach", "water_sleep"))
         )
 
         standing = registerPose(
@@ -49,7 +49,7 @@ class BarboachModel (root: ModelPart) : PokemonPosableModel(root) {
             poseTypes = PoseType.STANDING_POSES - PoseType.FLOAT,
             condition = { !it.isBattling },
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("barboach", "ground_idle")
             )
         )
@@ -58,7 +58,7 @@ class BarboachModel (root: ModelPart) : PokemonPosableModel(root) {
             poseName = "walking",
             poseTypes = PoseType.MOVING_POSES - PoseType.SWIM,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("barboach", "ground_idle")
             )
         )
@@ -67,7 +67,7 @@ class BarboachModel (root: ModelPart) : PokemonPosableModel(root) {
             poseName = "floating",
             poseTypes = PoseType.UI_POSES + PoseType.FLOAT,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("barboach", "water_idle")
             )
         )
@@ -76,7 +76,7 @@ class BarboachModel (root: ModelPart) : PokemonPosableModel(root) {
             poseName = "swimming",
             poseType = PoseType.SWIM,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("barboach", "water_swim")
             )
         )
@@ -87,7 +87,7 @@ class BarboachModel (root: ModelPart) : PokemonPosableModel(root) {
             transformTicks = 10,
             quirks = arrayOf(blink),
             condition = { it.isBattling },
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("barboach", "battle_idle")
             )
         )

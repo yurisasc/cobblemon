@@ -9,16 +9,15 @@
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen7
 
 
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.PosableState
 import com.cobblemon.mod.common.client.render.models.blockbench.createTransformation
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.CobblemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.ModelPartTransformation
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.PoseType.Companion.MOVING_POSES
 import com.cobblemon.mod.common.entity.PoseType.Companion.STATIONARY_POSES
 import com.cobblemon.mod.common.entity.PoseType.Companion.UI_POSES
-import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
@@ -43,13 +42,13 @@ class CutieflyModel(root: ModelPart) : PokemonPosableModel(root){
 
         sleep = registerPose(
             poseType = PoseType.SLEEP,
-            idleAnimations = arrayOf(bedrock("cutiefly", "sleep"))
+            animations = arrayOf(bedrock("cutiefly", "sleep"))
         )
 
        standing = registerPose(
             poseName = "standing",
             poseTypes = STATIONARY_POSES + UI_POSES,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("cutiefly", "ground_idle")
             ),
            transformedParts = arrayOf(rootPart.createTransformation().addPosition(ModelPartTransformation.Y_AXIS, -12F))
@@ -58,7 +57,7 @@ class CutieflyModel(root: ModelPart) : PokemonPosableModel(root){
         walk = registerPose(
             poseName = "walk",
             poseTypes = MOVING_POSES,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("cutiefly", "ground_walk"),
             ),
             transformedParts = arrayOf(rootPart.createTransformation().addPosition(ModelPartTransformation.Y_AXIS, -12F))
@@ -66,7 +65,7 @@ class CutieflyModel(root: ModelPart) : PokemonPosableModel(root){
 
         shoulderLeft = registerPose(
                 poseType = PoseType.SHOULDER_LEFT,
-                idleAnimations = arrayOf(
+                animations = arrayOf(
                         bedrock("cutiefly", "ground_idle")
                 ),
                 transformedParts = arrayOf(
@@ -76,7 +75,7 @@ class CutieflyModel(root: ModelPart) : PokemonPosableModel(root){
 
         shoulderRight = registerPose(
                 poseType = PoseType.SHOULDER_RIGHT,
-                idleAnimations = arrayOf(
+                animations = arrayOf(
                         bedrock("cutiefly", "ground_idle")
                 ),
                 transformedParts = arrayOf(

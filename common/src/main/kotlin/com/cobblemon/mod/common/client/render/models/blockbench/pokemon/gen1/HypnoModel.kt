@@ -42,7 +42,7 @@ class HypnoModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Bipe
         val blink = quirk { bedrockStateful("hypno", "blink")}
         sleep = registerPose(
             poseType = PoseType.SLEEP,
-            idleAnimations = arrayOf(bedrock("hypno", "sleep"))
+            animations = arrayOf(bedrock("hypno", "sleep"))
         )
 
         standing = registerPose(
@@ -50,7 +50,7 @@ class HypnoModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Bipe
             poseTypes = STATIONARY_POSES + UI_POSES,
             quirks = arrayOf(blink),
             condition = { !it.isBattling },
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("hypno", "ground_idle")
             )
@@ -60,7 +60,7 @@ class HypnoModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Bipe
             poseName = "walk",
             poseTypes = MOVING_POSES,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("hypno", "ground_walk")
             )
@@ -72,7 +72,7 @@ class HypnoModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Bipe
             transformTicks = 10,
             quirks = arrayOf(blink),
             condition = { it.isBattling },
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("hypno", "battle_idle")
             )

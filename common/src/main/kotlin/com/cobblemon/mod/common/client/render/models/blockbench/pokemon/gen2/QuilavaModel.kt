@@ -40,7 +40,7 @@ class QuilavaModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
 
         sleep = registerPose(
             poseType = PoseType.SLEEP,
-            idleAnimations = arrayOf(bedrock("quilava", "sleep"))
+            animations = arrayOf(bedrock("quilava", "sleep"))
         )
 
         standing = registerPose(
@@ -49,7 +49,7 @@ class QuilavaModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
             transformTicks = 10,
             condition = { !it.isBattling },
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("quilava", "fire_idle"),
                 bedrock("quilava", "ground_idle")
@@ -61,7 +61,7 @@ class QuilavaModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
             poseTypes = PoseType.MOVING_POSES,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("quilava", "fire_idle"),
                 bedrock("quilava", "ground_walk")
@@ -74,7 +74,7 @@ class QuilavaModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
             transformTicks = 10,
             quirks = arrayOf(blink),
             condition = { it.isBattling },
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("quilava", "fire_idle"),
                 bedrock("quilava", "battle_idle")

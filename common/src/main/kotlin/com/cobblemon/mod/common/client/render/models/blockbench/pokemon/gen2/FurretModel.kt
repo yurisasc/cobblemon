@@ -40,7 +40,7 @@ class FurretModel (root: ModelPart) : PokemonPosableModel(root), QuadrupedFrame 
             poseName = "standing",
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("furret", "ground_idle")
             )
         )
@@ -49,7 +49,7 @@ class FurretModel (root: ModelPart) : PokemonPosableModel(root), QuadrupedFrame 
             poseName = "walk",
             poseTypes = PoseType.MOVING_POSES,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 QuadrupedWalkAnimation(this, periodMultiplier = 0.6F, amplitudeMultiplier = 0.9F),
                 bedrock("furret", "pose")
             )

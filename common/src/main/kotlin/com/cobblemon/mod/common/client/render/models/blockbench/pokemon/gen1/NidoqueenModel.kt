@@ -47,7 +47,7 @@ class NidoqueenModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, 
             poseName = "standing",
             poseTypes = STATIONARY_POSES + UI_POSES,
             quirks = arrayOf(blink, spg),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("nidoqueen", "ground_idle")
             )
@@ -55,14 +55,14 @@ class NidoqueenModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, 
 
         sleep = registerPose(
                 poseType = PoseType.SLEEP,
-                idleAnimations = arrayOf(bedrock("nidoqueen", "ground_idle"))
+                animations = arrayOf(bedrock("nidoqueen", "ground_idle"))
         )
 
         walk = registerPose(
             poseName = "walk",
             poseTypes = MOVING_POSES,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("nidoqueen", "ground_idle"),
                 BipedWalkAnimation(this),

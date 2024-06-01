@@ -53,7 +53,7 @@ class ScizorModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Bip
             poseName = "standing",
             poseTypes = UI_POSES + PoseType.STAND,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("scizor", "ground_idle")
             )
@@ -63,7 +63,7 @@ class ScizorModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Bip
             poseName = "walk",
             poseType = PoseType.WALK,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 BipedWalkAnimation(this, periodMultiplier = 0.7F, amplitudeMultiplier = 0.85F),
                 BimanualSwingAnimation (this, amplitudeMultiplier = 0.85F),
@@ -75,7 +75,7 @@ class ScizorModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Bip
             poseName = "hover",
             poseTypes = setOf(PoseType.HOVER, PoseType.FLOAT),
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("scizor", "air_idle"),
                 WingFlapIdleAnimation(this,
@@ -90,7 +90,7 @@ class ScizorModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Bip
             poseName = "fly",
             poseTypes = setOf(PoseType.FLY, PoseType.SWIM),
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("scizor", "air_idle"),
                 WingFlapIdleAnimation(this,

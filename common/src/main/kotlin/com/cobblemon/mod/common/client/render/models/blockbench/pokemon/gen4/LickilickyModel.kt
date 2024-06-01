@@ -17,7 +17,6 @@ import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.PoseType.Companion.MOVING_POSES
 import com.cobblemon.mod.common.entity.PoseType.Companion.STATIONARY_POSES
 import com.cobblemon.mod.common.entity.PoseType.Companion.UI_POSES
-import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.util.isBattling
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
@@ -45,7 +44,7 @@ class LickilickyModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame,
         val blink = quirk { bedrockStateful("lickilicky", "blink") }
         sleep = registerPose(
             poseType = PoseType.SLEEP,
-            idleAnimations = arrayOf(bedrock("lickilicky", "sleep"))
+            animations = arrayOf(bedrock("lickilicky", "sleep"))
         )
 
         standing = registerPose(
@@ -53,7 +52,7 @@ class LickilickyModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame,
             poseTypes = STATIONARY_POSES + UI_POSES,
             quirks = arrayOf(blink),
             condition = { !it.isBattling },
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("lickilicky", "ground_idle")
             )
@@ -64,7 +63,7 @@ class LickilickyModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame,
             poseTypes = MOVING_POSES,
             condition = { !it.isBattling },
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("lickilicky", "ground_walk")
             )
@@ -76,7 +75,7 @@ class LickilickyModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame,
             transformTicks = 10,
             quirks = arrayOf(blink),
             condition = { it.isBattling },
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("lickilicky", "battle_idle")
             )

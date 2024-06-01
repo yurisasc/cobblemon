@@ -38,7 +38,7 @@ class GossifleurModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame
             poseName = "standing",
             poseTypes = PoseType.UI_POSES + PoseType.STATIONARY_POSES,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("gossifleur", "ground_idle")
             )
         )
@@ -47,7 +47,7 @@ class GossifleurModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame
             poseName = "walk",
             poseTypes = PoseType.MOVING_POSES,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("gossifleur", "ground_idle")
             )
         )

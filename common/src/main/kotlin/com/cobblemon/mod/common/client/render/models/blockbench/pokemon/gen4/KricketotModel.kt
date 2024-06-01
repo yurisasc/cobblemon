@@ -15,7 +15,6 @@ import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.Pose
 import com.cobblemon.mod.common.entity.PoseType
-import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.util.isBattling
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
@@ -48,7 +47,7 @@ class KricketotModel (root: ModelPart) : PokemonPosableModel(root), BipedFrame, 
         val blink = quirk { bedrockStateful("kricketot", "blink") }
         sleep = registerPose(
             poseType = PoseType.SLEEP,
-            idleAnimations = arrayOf(bedrock("kricketot", "sleep"))
+            animations = arrayOf(bedrock("kricketot", "sleep"))
         )
 
         standing = registerPose(
@@ -56,7 +55,7 @@ class KricketotModel (root: ModelPart) : PokemonPosableModel(root), BipedFrame, 
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
             condition = { !it.isBattling },
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("kricketot", "ground_idle")
             )
@@ -66,7 +65,7 @@ class KricketotModel (root: ModelPart) : PokemonPosableModel(root), BipedFrame, 
             poseName = "walk",
             poseTypes = PoseType.MOVING_POSES,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("kricketot", "ground_walk")
             )
@@ -78,7 +77,7 @@ class KricketotModel (root: ModelPart) : PokemonPosableModel(root), BipedFrame, 
             transformTicks = 10,
             quirks = arrayOf(blink),
             condition = { it.isBattling },
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("kricketot", "battle_idle")
             )
@@ -87,7 +86,7 @@ class KricketotModel (root: ModelPart) : PokemonPosableModel(root), BipedFrame, 
         shoulderLeft = registerPose(
             poseType = PoseType.SHOULDER_LEFT,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("kricketot", "shoulder_left")
             ),
@@ -99,7 +98,7 @@ class KricketotModel (root: ModelPart) : PokemonPosableModel(root), BipedFrame, 
         shoulderRight = registerPose(
             poseType = PoseType.SHOULDER_RIGHT,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("kricketot", "shoulder_right")
             ),

@@ -49,7 +49,7 @@ class WaveAnimation(
     val motionAxis: Int,
     val basedOnLimbSwing: Boolean = false,
     val segments: Array<WaveSegment>
-): StatelessAnimation() {
+): PoseAnimation() {
     override fun setAngles(context: RenderContext, model: PosableModel, state: PosableState, limbSwing: Float, limbSwingAmount: Float, ageInTicks: Float, headYaw: Float, headPitch: Float, intensity: Float) {
         val t = if (basedOnLimbSwing) {
             limbSwing

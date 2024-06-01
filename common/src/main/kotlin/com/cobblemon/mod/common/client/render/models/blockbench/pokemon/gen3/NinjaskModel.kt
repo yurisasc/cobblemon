@@ -42,7 +42,7 @@ class NinjaskModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
 
         sleep = registerPose(
             poseType = PoseType.SLEEP,
-            idleAnimations = arrayOf(bedrock("ninjask", "sleep"))
+            animations = arrayOf(bedrock("ninjask", "sleep"))
         )
 
         stand = registerPose(
@@ -50,7 +50,7 @@ class NinjaskModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
             poseTypes = PoseType.UI_POSES + PoseType.STATIONARY_POSES - PoseType.HOVER,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("ninjask", "ground_idle")
             )
@@ -61,7 +61,7 @@ class NinjaskModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
             poseType = PoseType.HOVER,
             transformTicks = 10,
             quirks = arrayOf(blink, barrelRoll),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("ninjask", "air_idle")
             )
@@ -72,7 +72,7 @@ class NinjaskModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
             poseType = PoseType.FLY,
             transformTicks = 10,
             quirks = arrayOf(blink, barrelRoll),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("ninjask", "air_fly")
             )
@@ -83,7 +83,7 @@ class NinjaskModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
             poseTypes = PoseType.MOVING_POSES - PoseType.FLY,
             transformTicks = 10,
             quirks = arrayOf(blink, barrelRoll),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("ninjask", "ground_walk")
             )

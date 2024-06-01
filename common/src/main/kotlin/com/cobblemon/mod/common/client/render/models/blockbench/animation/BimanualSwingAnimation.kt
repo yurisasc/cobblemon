@@ -32,7 +32,7 @@ class BimanualSwingAnimation(
     val amplitudeMultiplier: Float = 1F,
     val leftArm: Bone?,
     val rightArm: Bone?
-) : StatelessAnimation() {
+) : PoseAnimation() {
     constructor(
         frame: BimanualFrame,
         swingPeriodMultiplier: Float = 0.6662F,

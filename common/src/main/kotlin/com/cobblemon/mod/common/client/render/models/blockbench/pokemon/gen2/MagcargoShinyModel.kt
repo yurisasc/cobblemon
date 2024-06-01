@@ -37,14 +37,14 @@ class MagcargoShinyModel(root: ModelPart) : PokemonPosableModel(root), HeadedFra
 
         sleep = registerPose(
             poseType = PoseType.SLEEP,
-            idleAnimations = arrayOf(bedrock("magcargo_shiny", "sleep"))
+            animations = arrayOf(bedrock("magcargo_shiny", "sleep"))
         )
 
         standing = registerPose(
             poseName = "standing",
             poseTypes = STATIONARY_POSES + UI_POSES,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("magcargo_shiny", "ground_idle")
             )
@@ -55,7 +55,7 @@ class MagcargoShinyModel(root: ModelPart) : PokemonPosableModel(root), HeadedFra
             poseTypes = MOVING_POSES,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("magcargo_shiny", "ground_walk")
             )
         )

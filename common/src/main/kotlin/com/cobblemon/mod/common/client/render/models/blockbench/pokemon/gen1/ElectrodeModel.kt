@@ -8,8 +8,8 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1
 
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.CobblemonPose
 import com.cobblemon.mod.common.entity.PoseType.Companion.MOVING_POSES
 import com.cobblemon.mod.common.entity.PoseType.Companion.STATIONARY_POSES
@@ -38,7 +38,7 @@ class ElectrodeModel(root: ModelPart) : PokemonPosableModel(root) {
             poseTypes = STATIONARY_POSES + UI_POSES,
             transformTicks = 0,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("electrode", "ground_idle")
             )
         )
@@ -49,7 +49,7 @@ class ElectrodeModel(root: ModelPart) : PokemonPosableModel(root) {
             transformTicks = 0,
             quirks = arrayOf(blink),
             onTransitionedInto = { it?.reset() },
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("electrode", "ground_walk")
             )
         )

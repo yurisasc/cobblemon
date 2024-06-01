@@ -64,7 +64,7 @@ class VibravaModel  (root: ModelPart) : PokemonPosableModel(root), QuadrupedFram
                 poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES - PoseType.HOVER,
                 transformTicks = 30,
                 quirks = arrayOf(blink),
-                idleAnimations = arrayOf(
+                animations = arrayOf(
                         singleBoneLook(pitchMultiplier = 0.6F, yawMultiplier = 0.3F),
                         bedrock("vibrava", "ground_idle")
                 ),
@@ -79,7 +79,7 @@ class VibravaModel  (root: ModelPart) : PokemonPosableModel(root), QuadrupedFram
                 poseTypes = PoseType.MOVING_POSES + PoseType.HOVER,
                 transformTicks = 10,
                 quirks = arrayOf(blink),
-                idleAnimations = arrayOf(
+                animations = arrayOf(
                         singleBoneLook(pitchMultiplier = 0.6F, yawMultiplier = 0.3F),
                         bedrock("vibrava", "ground_idle"),
                         wingFrame1.wingFlap(

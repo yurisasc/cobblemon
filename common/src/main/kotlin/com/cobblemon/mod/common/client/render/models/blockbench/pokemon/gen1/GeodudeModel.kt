@@ -37,14 +37,14 @@ class GeodudeModel(root: ModelPart) : PokemonPosableModel(root) {
         val blink = quirk { bedrockStateful("geodude", "blink")}
         sleep = registerPose(
             poseType = PoseType.SLEEP,
-            idleAnimations = arrayOf(bedrock("geodude", "sleep"))
+            animations = arrayOf(bedrock("geodude", "sleep"))
         )
 
         standing = registerPose(
             poseName = "standing",
             poseTypes = STATIONARY_POSES + UI_POSES,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("geodude", "ground_idle")
             )
         )
@@ -53,7 +53,7 @@ class GeodudeModel(root: ModelPart) : PokemonPosableModel(root) {
             poseName = "walk",
             poseTypes = MOVING_POSES,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("geodude", "ground_walk")
             )
         )

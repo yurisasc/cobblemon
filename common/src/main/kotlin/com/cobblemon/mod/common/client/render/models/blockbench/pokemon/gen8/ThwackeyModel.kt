@@ -58,7 +58,7 @@ class ThwackeyModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame, 
                 stick_left.createTransformation().withVisibility(visibility = true),
                 stick_right.createTransformation().withVisibility(visibility = true)
             ),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("thwackey", "ground_idle")
             )
@@ -74,7 +74,7 @@ class ThwackeyModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame, 
                 stick_left.createTransformation().withVisibility(visibility = true),
                 stick_right.createTransformation().withVisibility(visibility = true)
             ),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("thwackey", "ground_walk")
             )
@@ -92,7 +92,7 @@ class ThwackeyModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame, 
                 stick_left.createTransformation().withVisibility(visibility = true),
                 stick_right.createTransformation().withVisibility(visibility = true)
             ),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("thwackey", "ground_idle")
             )

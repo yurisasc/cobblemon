@@ -45,7 +45,7 @@ class LudicoloModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame, 
             poseName = "standing",
             poseTypes = PoseType.UI_POSES + PoseType.STAND,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("ludicolo", "ground_idle")
             )
@@ -55,7 +55,7 @@ class LudicoloModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame, 
             poseName = "walk",
             poseType = PoseType.WALK,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("ludicolo", "ground_walk"),
             )
@@ -64,7 +64,7 @@ class LudicoloModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame, 
             poseName = "floating",
             poseType = PoseType.FLOAT,
             transformTicks = 10,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("ludicolo", "water_idle"),
             )
         )
@@ -73,7 +73,7 @@ class LudicoloModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame, 
             poseName = "swim",
             poseType = PoseType.SWIM,
             transformTicks = 10,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("ludicolo", "water_swim"),
             )
         )
@@ -82,7 +82,7 @@ class LudicoloModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame, 
             poseName = "sleep",
             poseType = PoseType.SLEEP,
             transformTicks = 10,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("ludicolo", "sleep"),
             )
         )

@@ -30,14 +30,14 @@ class SolrockModel (root: ModelPart) : PokemonPosableModel(root) {
         val blink = quirk { bedrockStateful("solrock", "blink") }
         sleep = registerPose(
             poseType = PoseType.SLEEP,
-            idleAnimations = arrayOf(bedrock("solrock", "sleep"))
+            animations = arrayOf(bedrock("solrock", "sleep"))
         )
 
         standing = registerPose(
             poseName = "standing",
             poseTypes = PoseType.ALL_POSES - PoseType.SLEEP,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("solrock", "ground_idle")
             )
         )

@@ -38,7 +38,7 @@ class BasculegionModel (root: ModelPart) : PokemonPosableModel(root), HeadedFram
             poseName = "standing",
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("basculegion", "water_idle")
             )
@@ -48,7 +48,7 @@ class BasculegionModel (root: ModelPart) : PokemonPosableModel(root), HeadedFram
             poseName = "walk",
             poseTypes = PoseType.MOVING_POSES,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("basculegion", "water_idle")
             )

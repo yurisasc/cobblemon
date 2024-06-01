@@ -45,7 +45,7 @@ class DratiniModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
             poseName = "sleep",
             poseType = PoseType.SLEEP,
             condition = { !it.isTouchingWater },
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("dratini", "sleep")
             )
         )
@@ -54,7 +54,7 @@ class DratiniModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
             poseName = "water_sleep",
             poseType = PoseType.SLEEP,
             condition = { it.isTouchingWater },
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("dratini", "water_sleep")
             )
         )
@@ -64,7 +64,7 @@ class DratiniModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
             poseTypes = STATIONARY_POSES + UI_POSES - PoseType.FLOAT,
             quirks = arrayOf(blink),
             transformTicks = 10,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("dratini", "ground_idle")
             )
@@ -75,7 +75,7 @@ class DratiniModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
             poseTypes = MOVING_POSES - PoseType.SWIM,
             quirks = arrayOf(blink),
             transformTicks = 10,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("dratini", "ground_walk")
             )
         )
@@ -84,7 +84,7 @@ class DratiniModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
             poseName = "water_idle",
             poseType = PoseType.FLOAT,
             transformTicks = 10,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("dratini", "water_idle")
             )
         )
@@ -93,7 +93,7 @@ class DratiniModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
             poseName = "water_swim",
             poseType = PoseType.SWIM,
             transformTicks = 10,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("dratini", "water_swim")
             )
         )
@@ -103,7 +103,7 @@ class DratiniModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
             poseTypes = PoseType.STATIONARY_POSES + PoseType.MOVING_POSES,
             condition = { !it.isSubmergedInWater && it.isTouchingWater},
             transformTicks = 10,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("dratini", "surfacewater_swim")
             )
         )

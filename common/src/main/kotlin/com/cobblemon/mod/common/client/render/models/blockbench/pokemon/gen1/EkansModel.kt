@@ -57,14 +57,14 @@ class EkansModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
     override fun registerPoses() {
         sleep = registerPose(
             poseType = PoseType.SLEEP,
-            idleAnimations = arrayOf(bedrock("ekans", "sleep"))
+            animations = arrayOf(bedrock("ekans", "sleep"))
         )
         val blink = quirk { bedrockStateful("ekans", "blink") }
         registerPose(
             poseName = "normal",
             poseTypes = STATIONARY_POSES + MOVING_POSES,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("ekans", "ground_idle"),
                 WaveAnimation(
@@ -95,7 +95,7 @@ class EkansModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
             poseName = "portrait",
             poseTypes = UI_POSES,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(bedrock("ekans", "summary_idle"))
+            animations = arrayOf(bedrock("ekans", "summary_idle"))
         )
     }
 

@@ -49,14 +49,14 @@ class WooperModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
         sleep = registerPose(
             poseName = "sleep",
             poseType = PoseType.SLEEP,
-            idleAnimations = arrayOf(bedrock("wooper", "sleep"))
+            animations = arrayOf(bedrock("wooper", "sleep"))
         )
 
         standing = registerPose(
             poseName = "standing",
             poseTypes = STATIONARY_POSES + UI_POSES - PoseType.FLOAT,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("wooper", "ground_idle")
             )
@@ -66,7 +66,7 @@ class WooperModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
             poseName = "walk",
             poseTypes = MOVING_POSES - PoseType.SWIM,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("wooper", "ground_walk")
             )
@@ -75,7 +75,7 @@ class WooperModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
         float = registerPose(
             poseType = PoseType.FLOAT,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("wooper", "water_idle")
             )
@@ -84,7 +84,7 @@ class WooperModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
         swim = registerPose(
             poseType = PoseType.SWIM,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("wooper", "water_swim")
             )
@@ -93,7 +93,7 @@ class WooperModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
         shoulderLeft = registerPose(
             poseType = PoseType.SHOULDER_LEFT,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("wooper", "ground_idle")
             ),
@@ -105,7 +105,7 @@ class WooperModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
         shoulderRight = registerPose(
             poseType = PoseType.SHOULDER_RIGHT,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("wooper", "ground_idle")
             ),

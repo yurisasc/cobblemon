@@ -8,13 +8,12 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen3
 
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.PosableState
 import com.cobblemon.mod.common.client.render.models.blockbench.createTransformation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.Pose
 import com.cobblemon.mod.common.entity.PoseType
-import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.util.isBattling
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
@@ -44,7 +43,7 @@ class ZigzagoonModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame 
         val blink = quirk { bedrockStateful("zigzagoon", "blink") }
         sleep = registerPose(
             poseType = PoseType.SLEEP,
-            idleAnimations = arrayOf(bedrock("zigzagoon", "sleep"))
+            animations = arrayOf(bedrock("zigzagoon", "sleep"))
         )
 
         standing = registerPose(
@@ -53,7 +52,7 @@ class ZigzagoonModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame 
             transformTicks = 10,
             condition = { !it.isBattling },
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("zigzagoon", "ground_idle")
             )
@@ -64,7 +63,7 @@ class ZigzagoonModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame 
             poseTypes = PoseType.MOVING_POSES,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("zigzagoon", "ground_walk")
             )
@@ -76,7 +75,7 @@ class ZigzagoonModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame 
             transformTicks = 10,
             quirks = arrayOf(blink),
             condition = { it.isBattling },
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("zigzagoon", "battle_idle")
             )
@@ -85,7 +84,7 @@ class ZigzagoonModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame 
         shoulderLeft = registerPose(
             poseType = PoseType.SHOULDER_LEFT,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("zigzagoon", "shoulder_left")
             ),
@@ -97,7 +96,7 @@ class ZigzagoonModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame 
         shoulderRight = registerPose(
             poseType = PoseType.SHOULDER_RIGHT,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("zigzagoon", "shoulder_right")
             ),

@@ -49,7 +49,7 @@ class KadabraModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Bi
             poseTypes = STATIONARY_POSES + UI_POSES,
             quirks = arrayOf(blink),
             condition = { !it.isBattling },
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("kadabra", "ground_idle")
             )
@@ -59,7 +59,7 @@ class KadabraModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Bi
             poseName = "walk",
             poseTypes = MOVING_POSES,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("kadabra", "ground_idle"),
                 BipedWalkAnimation(this, periodMultiplier = 0.6F, amplitudeMultiplier = 0.9F),
@@ -74,7 +74,7 @@ class KadabraModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Bi
             transformTicks = 10,
             quirks = arrayOf(blink),
             condition = { it.isBattling },
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("kadabra", "battle_idle")
             )

@@ -44,7 +44,7 @@ class NincadaModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Q
         sleep = registerPose(
             poseType = PoseType.SLEEP,
             transformTicks = 10,
-            idleAnimations = arrayOf(bedrock("nincada", "sleep"))
+            animations = arrayOf(bedrock("nincada", "sleep"))
         )
 
         standing = registerPose(
@@ -52,7 +52,7 @@ class NincadaModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Q
             poseTypes = setOf(PoseType.NONE, PoseType.STAND, PoseType.PORTRAIT, PoseType.PROFILE),
             transformTicks = 10,
             quirks = arrayOf(blink, flutter),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("nincada", "ground_idle")
             )
@@ -63,7 +63,7 @@ class NincadaModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Q
             poseTypes = setOf(PoseType.SWIM, PoseType.WALK),
             transformTicks = 10,
             quirks = arrayOf(blink, flutter),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("nincada", "ground_walk")
             )

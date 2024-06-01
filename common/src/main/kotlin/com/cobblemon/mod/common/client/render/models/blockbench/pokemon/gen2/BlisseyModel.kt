@@ -47,7 +47,7 @@ class BlisseyModel(root: ModelPart) : PokemonPosableModel(root), BipedFrame, Bim
         sleep = registerPose(
             poseName = "sleep",
             poseType = PoseType.SLEEP,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("blissey", "sleep")
             )
         )
@@ -57,7 +57,7 @@ class BlisseyModel(root: ModelPart) : PokemonPosableModel(root), BipedFrame, Bim
             poseTypes = STATIONARY_POSES + UI_POSES,
             condition = { !it.isBattling },
             quirks = arrayOf(blink, eggQuirk),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("blissey", "ground_idle")
             )
         )
@@ -66,7 +66,7 @@ class BlisseyModel(root: ModelPart) : PokemonPosableModel(root), BipedFrame, Bim
             poseName = "walk",
             poseTypes = MOVING_POSES,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("blissey", "ground_walk")
             )
         )
@@ -76,7 +76,7 @@ class BlisseyModel(root: ModelPart) : PokemonPosableModel(root), BipedFrame, Bim
             poseTypes = STATIONARY_POSES,
             condition = { it.isBattling },
             quirks = arrayOf(blink, eggQuirk),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("blissey", "battle_idle")
             )
         )

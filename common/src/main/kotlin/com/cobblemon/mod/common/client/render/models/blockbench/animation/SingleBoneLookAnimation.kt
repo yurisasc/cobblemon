@@ -34,7 +34,7 @@ class SingleBoneLookAnimation(
     val minPitch: Float = -45F,
     val maxYaw: Float = 45F,
     val minYaw: Float = -45F,
-) : StatelessAnimation() {
+) : PoseAnimation() {
     constructor(
         frame: HeadedFrame,
         invertX: Boolean,

@@ -30,14 +30,14 @@ class LunatoneModel (root: ModelPart) : PokemonPosableModel(root) {
         val blink = quirk { bedrockStateful("lunatone", "blink") }
         sleep = registerPose(
             poseType = PoseType.SLEEP,
-            idleAnimations = arrayOf(bedrock("lunatone", "sleep"))
+            animations = arrayOf(bedrock("lunatone", "sleep"))
         )
 
         standing = registerPose(
             poseName = "standing",
             poseTypes = PoseType.ALL_POSES - PoseType.SLEEP,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("lunatone", "ground_idle")
             )
         )

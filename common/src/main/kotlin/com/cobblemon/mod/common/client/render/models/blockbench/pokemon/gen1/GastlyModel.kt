@@ -36,7 +36,7 @@ class GastlyModel(root: ModelPart) : PokemonPosableModel(root) {
 
         sleep = registerPose(
             poseType = PoseType.SLEEP,
-            idleAnimations = arrayOf(bedrock("gastly", "sleep"))
+            animations = arrayOf(bedrock("gastly", "sleep"))
         )
 
         standing = registerPose(
@@ -44,7 +44,7 @@ class GastlyModel(root: ModelPart) : PokemonPosableModel(root) {
             poseTypes = STATIONARY_POSES + UI_POSES,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("gastly", "ground_idle")
             )
         )
@@ -54,7 +54,7 @@ class GastlyModel(root: ModelPart) : PokemonPosableModel(root) {
             poseTypes = MOVING_POSES,
             quirks = arrayOf(blink),
             transformTicks = 10,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("gastly", "ground_walk")
             )
         )

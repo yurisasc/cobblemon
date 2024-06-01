@@ -38,7 +38,7 @@ class PatratModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
             poseName = "standing",
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("patrat", "ground_idle")
             )
@@ -48,7 +48,7 @@ class PatratModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
             poseName = "walk",
             poseTypes = PoseType.MOVING_POSES,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("patrat", "ground_walk")
             )
@@ -57,14 +57,14 @@ class PatratModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
         sleep = registerPose(
             poseName = "sleep",
             poseType = PoseType.SLEEP,
-            idleAnimations = arrayOf(bedrock("patrat", "sleep"))
+            animations = arrayOf(bedrock("patrat", "sleep"))
         )
     }
 
 //    override fun getFaintAnimation(
 //        pokemonEntity: PokemonEntity,
 //        state: PosableState<PokemonEntity>
-//    ): StatefulAnimation<PokemonEntity, ModelFrame>? {
+//    ): ActiveAnimation<PokemonEntity, ModelFrame>? {
 //        return if (state.isNotPosedIn(sleep, standing, walk)) bedrockStateful("patrat", "faint") else null
 //    }
 }

@@ -42,7 +42,7 @@ class LampentModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
         sleep = registerPose(
             poseName = "sleep",
             poseType = PoseType.SLEEP,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("lampent", "sleep")
             )
         )
@@ -52,7 +52,7 @@ class LampentModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES - PoseType.HOVER,
             quirks = arrayOf(blink),
             condition = { !it.isBattling },
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("lampent", "ground_idle")
             )
         )
@@ -61,7 +61,7 @@ class LampentModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
             poseName = "walk",
             poseTypes = PoseType.MOVING_POSES - PoseType.FLY,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("lampent", "ground_walk")
             )
         )
@@ -70,7 +70,7 @@ class LampentModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
             poseName = "hover",
             poseType = PoseType.HOVER,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("lampent", "air_idle")
             )
         )
@@ -79,7 +79,7 @@ class LampentModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
             poseName = "flying",
             poseType = PoseType.FLY,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("lampent", "air_fly")
             )
         )
@@ -89,7 +89,7 @@ class LampentModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
             poseTypes = PoseType.STATIONARY_POSES,
             quirks = arrayOf(blink),
             condition = { it.isBattling },
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("lampent", "battle_idle")
             )
         )

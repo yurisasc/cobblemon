@@ -43,7 +43,7 @@ class DoduoModel (root: ModelPart) : PokemonPosableModel(root) {
 
         sleep = registerPose(
             poseType = PoseType.SLEEP,
-            idleAnimations = arrayOf(bedrock("doduo", "sleep"))
+            animations = arrayOf(bedrock("doduo", "sleep"))
         )
 
         standing = registerPose(
@@ -52,7 +52,7 @@ class DoduoModel (root: ModelPart) : PokemonPosableModel(root) {
             transformTicks = 10,
             condition = { !it.isBattling },
             quirks = arrayOf(blink, blink2),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("doduo", "ground_idle")
             )
         )
@@ -62,7 +62,7 @@ class DoduoModel (root: ModelPart) : PokemonPosableModel(root) {
             poseTypes = MOVING_POSES,
             transformTicks = 10,
             quirks = arrayOf(blink, blink2),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("doduo", "ground_walk")
             )
         )
@@ -73,7 +73,7 @@ class DoduoModel (root: ModelPart) : PokemonPosableModel(root) {
             transformTicks = 10,
             quirks = arrayOf(blink, blink2, bite, bite2),
             condition = { it.isBattling },
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("doduo", "battle_idle")
             )
         )

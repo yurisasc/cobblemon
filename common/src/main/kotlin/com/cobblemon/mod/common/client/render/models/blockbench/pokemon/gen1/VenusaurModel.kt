@@ -46,14 +46,14 @@ class VenusaurModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Q
         sleep = registerPose(
             poseType = PoseType.SLEEP,
             transformTicks = 10,
-            idleAnimations = arrayOf(bedrock("venusaur", "sleep"))
+            animations = arrayOf(bedrock("venusaur", "sleep"))
         )
 
         standing = registerPose(
             poseName = "standing",
             poseTypes = STATIONARY_POSES + UI_POSES,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("venusaur", "ground_idle")
             )
@@ -63,7 +63,7 @@ class VenusaurModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Q
             poseName = "walk",
             poseTypes = MOVING_POSES,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("venusaur", "ground_idle"),
                 bedrock("venusaur", "ground_walk")

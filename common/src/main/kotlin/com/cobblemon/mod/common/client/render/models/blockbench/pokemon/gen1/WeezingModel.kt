@@ -38,7 +38,7 @@ class WeezingModel(root: ModelPart) : PokemonPosableModel(root) {
             poseName = "standing",
             poseTypes = STATIONARY_POSES + UI_POSES,
             quirks = arrayOf(blink, blink2),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("weezing", "ground_idle")
             )
         )
@@ -47,7 +47,7 @@ class WeezingModel(root: ModelPart) : PokemonPosableModel(root) {
             poseName = "walk",
             poseTypes = MOVING_POSES,
             quirks = arrayOf(blink, blink2),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("weezing", "ground_idle")
             )
         )

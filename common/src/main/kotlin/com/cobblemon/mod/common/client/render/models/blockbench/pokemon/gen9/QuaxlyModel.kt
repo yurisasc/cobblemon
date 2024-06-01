@@ -58,14 +58,14 @@ class QuaxlyModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Bip
             poseName = "sleeping",
             poseType = PoseType.SLEEP,
             condition = { !it.isTouchingWater },
-            idleAnimations = arrayOf(bedrock("quaxly", "sleep"))
+            animations = arrayOf(bedrock("quaxly", "sleep"))
         )
 
         watersleep = registerPose(
             poseName = "water_sleeping",
             poseType = PoseType.SLEEP,
             condition = { it.isTouchingWater },
-            idleAnimations = arrayOf(bedrock("quaxly", "water_sleep"))
+            animations = arrayOf(bedrock("quaxly", "water_sleep"))
         )
 
         standing = registerPose(
@@ -74,7 +74,7 @@ class QuaxlyModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Bip
             transformTicks = 10,
             condition = { !it.isBattling && !it.isTouchingWater && !it.isSubmergedInWater },
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("quaxly", "ground_idle")
             )
@@ -86,7 +86,7 @@ class QuaxlyModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Bip
             poseType = PoseType.WALK,
             condition = { !it.isTouchingWater && !it.isSubmergedInWater },
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("quaxly", "ground_walk")
             )
@@ -98,7 +98,7 @@ class QuaxlyModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Bip
             poseType = PoseType.FLOAT,
             quirks = arrayOf(blink),
             condition = { it.isSubmergedInWater },
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("quaxly", "water_idle")
             )
@@ -110,7 +110,7 @@ class QuaxlyModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Bip
             condition = { it.isSubmergedInWater },
             poseType = PoseType.SWIM,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("quaxly", "water_swim"),
             )
@@ -122,7 +122,7 @@ class QuaxlyModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Bip
             transformTicks = 10,
             quirks = arrayOf(blink),
             condition = { it.isBattling && !it.isTouchingWater },
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("quaxly", "battle_idle")
             )
@@ -134,7 +134,7 @@ class QuaxlyModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Bip
             transformTicks = 10,
             quirks = arrayOf(blink),
             condition = { it.isBattling && it.isTouchingWater },
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("quaxly", "surfacewater_battle_idle")
             )
@@ -145,7 +145,7 @@ class QuaxlyModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Bip
             poseTypes = PoseType.STATIONARY_POSES,
             quirks = arrayOf(blink),
             condition = { !it.isSubmergedInWater && it.isTouchingWater },
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("quaxly", "surfacewater_idle"),
             ),
@@ -159,7 +159,7 @@ class QuaxlyModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Bip
             poseTypes = PoseType.MOVING_POSES,
             quirks = arrayOf(blink),
             condition = { !it.isSubmergedInWater && it.isTouchingWater},
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("quaxly", "surfacewater_swim"),
             ),

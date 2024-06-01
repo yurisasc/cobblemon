@@ -44,7 +44,7 @@ class AnnihilapeModel (root: ModelPart) : PokemonPosableModel(root), BipedFrame,
         val blink = quirk { bedrockStateful("annihilape", "blink") }
         sleep = registerPose(
             poseType = PoseType.SLEEP,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("annihilape", "sleep"),
                 bedrock("annihilape", "hair_overlay")
             )
@@ -56,7 +56,7 @@ class AnnihilapeModel (root: ModelPart) : PokemonPosableModel(root), BipedFrame,
             transformTicks = 10,
             condition = { !it.isBattling },
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("annihilape", "ground_idle"),
                 bedrock("annihilape", "hair_overlay")
             )
@@ -67,7 +67,7 @@ class AnnihilapeModel (root: ModelPart) : PokemonPosableModel(root), BipedFrame,
             poseTypes = PoseType.MOVING_POSES,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("annihilape", "ground_walk"),
                 bedrock("annihilape", "hair_overlay")
             )
@@ -79,7 +79,7 @@ class AnnihilapeModel (root: ModelPart) : PokemonPosableModel(root), BipedFrame,
             transformTicks = 10,
             quirks = arrayOf(blink),
             condition = { it.isBattling },
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("annihilape", "battle_idle"),
                 bedrock("annihilape", "hair_overlay")
             )

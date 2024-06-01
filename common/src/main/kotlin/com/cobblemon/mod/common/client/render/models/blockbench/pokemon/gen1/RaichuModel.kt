@@ -45,7 +45,7 @@ class RaichuModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
             transformTicks = 10,
             quirks = arrayOf(blink),
             condition = { !it.isBattling },
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("raichu", "ground_idle")
             )
@@ -53,7 +53,7 @@ class RaichuModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
 
         sleep = registerPose(
                 poseType = PoseType.SLEEP,
-                idleAnimations = arrayOf(bedrock("raichu", "sleep"))
+                animations = arrayOf(bedrock("raichu", "sleep"))
         )
 
         walk = registerPose(
@@ -62,7 +62,7 @@ class RaichuModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
             transformTicks = 10,
             quirks = arrayOf(blink),
             condition = { !it.isBattling },
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("raichu", "ground_walk")
             )
         )
@@ -73,7 +73,7 @@ class RaichuModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
             transformTicks = 10,
             quirks = arrayOf(blink),
             condition = { it.isBattling },
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("raichu", "battle_idle")
             )
         )

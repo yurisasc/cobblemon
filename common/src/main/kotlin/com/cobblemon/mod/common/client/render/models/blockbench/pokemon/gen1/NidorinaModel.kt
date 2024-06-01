@@ -47,7 +47,7 @@ class NidorinaModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Q
             poseTypes = STATIONARY_POSES + UI_POSES,
             condition = { !it.isBattling },
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("nidorina", "idle3")
             )
@@ -55,14 +55,14 @@ class NidorinaModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Q
 
         sleep = registerPose(
                 poseType = PoseType.SLEEP,
-                idleAnimations = arrayOf(bedrock("nidorina", "idle2"))
+                animations = arrayOf(bedrock("nidorina", "idle2"))
         )
 
         walk = registerPose(
             poseName = "walk",
             poseTypes = MOVING_POSES,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("nidorina", "idle2"),
                 QuadrupedWalkAnimation(this)
@@ -75,7 +75,7 @@ class NidorinaModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Q
             transformTicks = 10,
             quirks = arrayOf(blink),
             condition = { it.isBattling },
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("nidorina", "idle")
             )

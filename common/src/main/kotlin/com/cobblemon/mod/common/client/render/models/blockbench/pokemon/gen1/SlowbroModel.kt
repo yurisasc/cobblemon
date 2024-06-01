@@ -44,7 +44,7 @@ class SlowbroModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
             poseTypes = UI_POSES + PoseType.STAND,
             quirks = arrayOf(blink, blink2, bite),
             condition = { !it.isBattling },
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("slowbro", "ground_idle")
             )
@@ -54,7 +54,7 @@ class SlowbroModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
             poseName = "walk",
             poseType = PoseType.WALK,
             quirks = arrayOf(blink, blink2, bite),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("slowbro", "ground_walk")
             )
@@ -64,7 +64,7 @@ class SlowbroModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
             poseName = "float",
             poseType = PoseType.FLOAT,
             quirks = arrayOf(blink, blink2, bite),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("slowbro", "water_idle")
             )
@@ -74,7 +74,7 @@ class SlowbroModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
             poseName = "swim",
             poseType = PoseType.SWIM,
             quirks = arrayOf(blink, blink2, bite),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("slowbro", "water_swim")
             )
@@ -86,7 +86,7 @@ class SlowbroModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
             transformTicks = 10,
             quirks = arrayOf(blink, blink2, bite),
             condition = { it.isBattling && !it.isSubmergedInWater },
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("slowbro", "battle_idle")
             )

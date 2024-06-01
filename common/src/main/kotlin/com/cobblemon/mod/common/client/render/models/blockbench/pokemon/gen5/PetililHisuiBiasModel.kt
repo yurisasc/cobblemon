@@ -8,10 +8,10 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen5
 
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.createTransformation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.CobblemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.ModelPartTransformation
 import com.cobblemon.mod.common.entity.PoseType
@@ -47,7 +47,7 @@ class PetililHisuiBiasModel (root: ModelPart) : PokemonPosableModel(root), Heade
                 poseName = "sleep",
                 poseType = PoseType.SLEEP,
                 quirks = arrayOf(blink),
-                idleAnimations = arrayOf(
+                animations = arrayOf(
                         bedrock("petilil", "sleep")
                 ),
                 transformedParts = arrayOf(
@@ -62,7 +62,7 @@ class PetililHisuiBiasModel (root: ModelPart) : PokemonPosableModel(root), Heade
                 poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
                 condition = { !it.isBattling },
                 quirks = arrayOf(blink, quirk),
-                idleAnimations = arrayOf(
+                animations = arrayOf(
                     singleBoneLook(pitchMultiplier = 0.9F, yawMultiplier = 0.9F),
                     bedrock("petilil", "ground_idle")
                 ),
@@ -77,7 +77,7 @@ class PetililHisuiBiasModel (root: ModelPart) : PokemonPosableModel(root), Heade
                 poseName = "walk",
                 poseTypes = PoseType.MOVING_POSES,
                 quirks = arrayOf(blink, quirk),
-                idleAnimations = arrayOf(
+                animations = arrayOf(
                         singleBoneLook(pitchMultiplier = 0.9F, yawMultiplier = 0.9F),
                         bedrock("petilil", "ground_walk")
                 ),
@@ -92,7 +92,7 @@ class PetililHisuiBiasModel (root: ModelPart) : PokemonPosableModel(root), Heade
                 poseName = "battle_idle",
                 poseTypes = PoseType.STATIONARY_POSES,
                 quirks = arrayOf(blink, quirk),
-                idleAnimations = arrayOf(
+                animations = arrayOf(
                         singleBoneLook(pitchMultiplier = 0.9F, yawMultiplier = 0.9F),
                         bedrock("petilil", "battle_idle")
                 ),

@@ -12,7 +12,6 @@ import com.bedrockk.molang.Expression
 import com.bedrockk.molang.runtime.MoLangRuntime
 import com.bedrockk.molang.runtime.value.DoubleValue
 import com.cobblemon.mod.common.api.molang.ExpressionLike
-import com.cobblemon.mod.common.api.molang.MoLangFunctions.addFunctions
 import com.cobblemon.mod.common.api.snowstorm.BedrockParticleEffect
 import com.cobblemon.mod.common.client.particle.ParticleStorm
 import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
@@ -137,6 +136,7 @@ data class BedrockAnimation(
     val effects: List<BedrockEffectKeyframe>,
     val boneTimelines: Map<String, BedrockBoneTimeline>
 ) {
+    /** Useful to have, gets set after loading the animation. */
     var name: String = ""
 
     fun run(context: RenderContext, model: PosableModel, state: PosableState, animationSeconds: Float, limbSwing: Float, limbSwingAmount: Float, ageInTicks: Float, intensity: Float): Boolean {

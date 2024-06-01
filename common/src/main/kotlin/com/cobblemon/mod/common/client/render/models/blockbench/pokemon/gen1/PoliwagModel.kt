@@ -36,21 +36,21 @@ class PoliwagModel(root: ModelPart) : PokemonPosableModel(root) {
             poseName = "standing",
             poseTypes = STANDING_POSES + UI_POSES,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("poliwag", "ground_idle")
             )
         )
 
         sleep = registerPose(
                 poseType = PoseType.SLEEP,
-                idleAnimations = arrayOf(bedrock("poliwag", "sleep"))
+                animations = arrayOf(bedrock("poliwag", "sleep"))
         )
 
         float = registerPose(
             poseName = "float",
             poseType = PoseType.FLOAT,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("poliwag", "water_idle")
             )
         )
@@ -59,7 +59,7 @@ class PoliwagModel(root: ModelPart) : PokemonPosableModel(root) {
             poseName = "swim",
             poseType = PoseType.SWIM,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("poliwag", "water_swim")
             )
         )

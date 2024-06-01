@@ -32,7 +32,7 @@ class GoldeenModel(root: ModelPart) : PokemonPosableModel(root) {
         standing = registerPose(
             poseName = "standing",
             poseType = PoseType.STAND,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("goldeen", "ground_idle")
             )
         )
@@ -40,7 +40,7 @@ class GoldeenModel(root: ModelPart) : PokemonPosableModel(root) {
         walk = registerPose(
             poseName = "walk",
             poseType = PoseType.WALK,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("goldeen", "ground_idle")
             )
         )
@@ -48,7 +48,7 @@ class GoldeenModel(root: ModelPart) : PokemonPosableModel(root) {
         float = registerPose(
             poseName = "float",
             poseType = PoseType.FLOAT,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("goldeen", "water_idle")
             )
         )
@@ -56,7 +56,7 @@ class GoldeenModel(root: ModelPart) : PokemonPosableModel(root) {
         swim = registerPose(
             poseName = "swim",
             poseType = PoseType.SWIM,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("goldeen", "water_swim")
             )
         )

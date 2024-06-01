@@ -8,9 +8,9 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1
 
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.CobblemonPose
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.PoseType.Companion.MOVING_POSES
@@ -45,14 +45,14 @@ class ElectabuzzModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame 
             poseType = PoseType.SLEEP,
             poseName = "sleep",
             condition = { it.isBattling },
-            idleAnimations = arrayOf(bedrock("electabuzz", "sleep"))
+            animations = arrayOf(bedrock("electabuzz", "sleep"))
         )
 
         sleepambient = registerPose(
             poseType = PoseType.SLEEP,
             poseName = "ambientsleep",
             condition = { !it.isBattling },
-            idleAnimations = arrayOf(bedrock("electabuzz", "ambient_sleep"))
+            animations = arrayOf(bedrock("electabuzz", "ambient_sleep"))
         )
 
         standing = registerPose(
@@ -60,7 +60,7 @@ class ElectabuzzModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame 
             poseTypes = STATIONARY_POSES + UI_POSES,
             condition = { !it.isBattling },
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("electabuzz", "ground_idle")
             )
@@ -70,7 +70,7 @@ class ElectabuzzModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame 
             poseName = "walk",
             poseTypes = MOVING_POSES,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("electabuzz", "ground_walk")
             )
@@ -82,7 +82,7 @@ class ElectabuzzModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame 
             transformTicks = 10,
             quirks = arrayOf(blink),
             condition = { it.isBattling },
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("electabuzz", "battle_idle")
             )
         )

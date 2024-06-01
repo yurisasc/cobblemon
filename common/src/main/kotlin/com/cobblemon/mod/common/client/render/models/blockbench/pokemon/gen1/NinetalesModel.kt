@@ -53,7 +53,7 @@ class NinetalesModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, 
         val blink = quirk { bedrockStateful("ninetales", "blink")}
         sleep = registerPose(
             poseType = PoseType.SLEEP,
-            idleAnimations = arrayOf(bedrock("ninetales", "sleep"))
+            animations = arrayOf(bedrock("ninetales", "sleep"))
         )
 
         standing = registerPose(
@@ -61,7 +61,7 @@ class NinetalesModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, 
             poseTypes = STATIONARY_POSES + UI_POSES,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("ninetales", "ground_idle")
             )
@@ -72,7 +72,7 @@ class NinetalesModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, 
             poseTypes = MOVING_POSES,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("ninetales", "ground_idle"),
                 QuadrupedWalkAnimation(this, periodMultiplier = 0.5F, amplitudeMultiplier = 1.1F)

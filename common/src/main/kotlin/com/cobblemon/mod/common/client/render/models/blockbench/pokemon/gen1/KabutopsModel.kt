@@ -50,7 +50,7 @@ class KabutopsModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, B
             poseName = "sleep",
             poseType = PoseType.SLEEP,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("kabutops", "sleep")
             )
@@ -61,7 +61,7 @@ class KabutopsModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, B
             poseTypes = UI_POSES + STATIONARY_POSES,
             condition = { !it.isBattling },
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("kabutops", "ground_idle")
             )
@@ -71,7 +71,7 @@ class KabutopsModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, B
             poseName = "walk",
             poseTypes = MOVING_POSES,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("kabutops", "ground_walk")
             )
@@ -82,7 +82,7 @@ class KabutopsModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, B
             poseTypes = PoseType.STATIONARY_POSES,
             condition = { it.isBattling },
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("kabutops", "battle_idle")
             )

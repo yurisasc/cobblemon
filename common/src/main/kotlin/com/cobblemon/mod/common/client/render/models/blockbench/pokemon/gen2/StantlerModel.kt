@@ -43,7 +43,7 @@ class StantlerModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame, 
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("stantler", "ground_idle")
             )
@@ -54,7 +54,7 @@ class StantlerModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame, 
             poseTypes = PoseType.MOVING_POSES,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("stantler", "ground_walk")
             )
@@ -62,7 +62,7 @@ class StantlerModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame, 
 
         sleep = registerPose(
                 poseType = PoseType.SLEEP,
-                idleAnimations = arrayOf(bedrock("stantler", "sleep"))
+                animations = arrayOf(bedrock("stantler", "sleep"))
         )
     }
 }

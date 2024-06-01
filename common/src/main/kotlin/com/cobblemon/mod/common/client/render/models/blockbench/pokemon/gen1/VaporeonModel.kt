@@ -40,7 +40,7 @@ class VaporeonModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
             poseName = "standing",
             poseTypes = STATIONARY_POSES + UI_POSES,
             transformTicks = 10,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("vaporeon", "ground_idle")
             )
@@ -50,7 +50,7 @@ class VaporeonModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
             poseName = "walk",
             poseTypes = setOf(PoseType.WALK),
             transformTicks = 10,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("vaporeon", "ground_run")
             )
@@ -60,7 +60,7 @@ class VaporeonModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
             poseName = "float",
             poseTypes = setOf(PoseType.FLOAT),
             transformTicks = 10,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("vaporeon", "water_idle")
             )
@@ -70,7 +70,7 @@ class VaporeonModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
             poseName = "swim",
             poseTypes = setOf(PoseType.SWIM),
             transformTicks = 10,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("vaporeon", "water_swim")
             )

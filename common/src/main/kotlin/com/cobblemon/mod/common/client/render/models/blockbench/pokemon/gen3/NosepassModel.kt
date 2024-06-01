@@ -38,13 +38,13 @@ class NosepassModel(root: ModelPart) : PokemonPosableModel(root), BipedFrame {
 
         sleep = registerPose(
             poseType = PoseType.SLEEP,
-            idleAnimations = arrayOf(bedrock("nosepass", "sleep"))
+            animations = arrayOf(bedrock("nosepass", "sleep"))
         )
 
         standing = registerPose(
             poseName = "standing",
             poseTypes = STATIONARY_POSES + UI_POSES,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("nosepass", "ground_idle")
             )
         )
@@ -52,7 +52,7 @@ class NosepassModel(root: ModelPart) : PokemonPosableModel(root), BipedFrame {
         walk = registerPose(
             poseName = "walk",
             poseTypes = PoseType.MOVING_POSES,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("nosepass", "ground_walk"),
             )
         )

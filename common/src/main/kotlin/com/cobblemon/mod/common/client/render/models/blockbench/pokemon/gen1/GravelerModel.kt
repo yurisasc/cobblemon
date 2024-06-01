@@ -42,7 +42,7 @@ class GravelerModel(root: ModelPart) : PokemonPosableModel(root), BipedFrame {
             poseName = "standing",
             poseTypes = STATIONARY_POSES + UI_POSES,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("graveler", "ground_idle")
             )
         )
@@ -51,7 +51,7 @@ class GravelerModel(root: ModelPart) : PokemonPosableModel(root), BipedFrame {
             poseName = "walk",
             poseTypes = MOVING_POSES,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 BipedWalkAnimation(this, periodMultiplier = 1.1F),
                 bedrock("graveler", "ground_idle")
                 //bedrock("graveler", "ground_walk")

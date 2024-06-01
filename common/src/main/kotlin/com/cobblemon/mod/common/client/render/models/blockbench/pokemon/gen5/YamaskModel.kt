@@ -8,10 +8,10 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen5
 
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.PosableState
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BimanualFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.Pose
 import com.cobblemon.mod.common.entity.PoseType
 import net.minecraft.client.model.ModelPart
@@ -38,7 +38,7 @@ class YamaskModel (root: ModelPart) : PokemonPosableModel(root), BimanualFrame {
     override fun registerPoses() {
         sleep = registerPose(
                 poseType = PoseType.SLEEP,
-                idleAnimations = arrayOf(bedrock("yamask", "sleep"))
+                animations = arrayOf(bedrock("yamask", "sleep"))
         )
 
         val blink = quirk { bedrockStateful("yamask", "blink") }
@@ -48,7 +48,7 @@ class YamaskModel (root: ModelPart) : PokemonPosableModel(root), BimanualFrame {
                 poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
                 transformTicks = 10,
                 quirks = arrayOf(blink),
-                idleAnimations = arrayOf(
+                animations = arrayOf(
                     bedrock("yamask", "ground_idle")
                 )
         )
@@ -58,7 +58,7 @@ class YamaskModel (root: ModelPart) : PokemonPosableModel(root), BimanualFrame {
                 poseTypes = PoseType.MOVING_POSES,
                 transformTicks = 5,
                 quirks = arrayOf(blink),
-                idleAnimations = arrayOf(
+                animations = arrayOf(
                     bedrock("yamask", "ground_walk")
                 )
         )

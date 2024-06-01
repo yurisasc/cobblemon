@@ -50,7 +50,7 @@ class NoctowlModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame, B
             poseTypes = PoseType.STATIONARY_POSES - PoseType.HOVER - PoseType.FLOAT + PoseType.UI_POSES,
             transformTicks = 0,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("noctowl", "ground_idle")
             )
@@ -59,7 +59,7 @@ class NoctowlModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame, B
             poseName = "hover",
             poseTypes = setOf(PoseType.HOVER, PoseType.FLOAT),
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("noctowl", "ground_idle")
             )
@@ -68,7 +68,7 @@ class NoctowlModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame, B
             poseName = "fly",
             poseTypes = setOf(PoseType.FLY, PoseType.SWIM),
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("noctowl", "ground_idle")
             )
@@ -78,7 +78,7 @@ class NoctowlModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame, B
             poseTypes = PoseType.MOVING_POSES - PoseType.FLY - PoseType.SWIM,
             transformTicks = 5,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("noctowl", "ground_idle"),
                 rootPart.translation(

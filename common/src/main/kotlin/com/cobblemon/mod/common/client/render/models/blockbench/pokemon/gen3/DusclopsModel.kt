@@ -8,11 +8,10 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen3
 
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.PosableState
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.Pose
 import com.cobblemon.mod.common.entity.PoseType
-import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.util.isBattling
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
@@ -38,7 +37,7 @@ class DusclopsModel (root: ModelPart) : PokemonPosableModel(root) {
 
         sleep = registerPose(
             poseType = PoseType.SLEEP,
-            idleAnimations = arrayOf(bedrock("dusclops", "sleep"))
+            animations = arrayOf(bedrock("dusclops", "sleep"))
         )
 
         standing = registerPose(
@@ -46,7 +45,7 @@ class DusclopsModel (root: ModelPart) : PokemonPosableModel(root) {
             poseType = PoseType.STAND,
             condition = { !it.isBattling },
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("dusclops", "ground_idle")
             )
         )
@@ -55,7 +54,7 @@ class DusclopsModel (root: ModelPart) : PokemonPosableModel(root) {
             poseName = "walking",
             poseType = PoseType.WALK,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("dusclops", "ground_walk")
             )
         )
@@ -65,7 +64,7 @@ class DusclopsModel (root: ModelPart) : PokemonPosableModel(root) {
             poseTypes = PoseType.UI_POSES + PoseType.HOVER + PoseType.FLOAT,
             condition = { !it.isBattling },
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("dusclops", "air_idle")
             )
         )
@@ -75,7 +74,7 @@ class DusclopsModel (root: ModelPart) : PokemonPosableModel(root) {
             poseTypes = setOf(PoseType.FLY, PoseType.SWIM, PoseType.WALK),
             condition = { !it.isBattling },
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("dusclops", "air_fly")
             )
         )
@@ -86,7 +85,7 @@ class DusclopsModel (root: ModelPart) : PokemonPosableModel(root) {
             transformTicks = 10,
             quirks = arrayOf(blink),
             condition = { it.isBattling },
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("dusclops", "battle_idle")
             )
 

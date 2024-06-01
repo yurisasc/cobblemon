@@ -46,7 +46,7 @@ class CuboneModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Bip
             poseTypes = STATIONARY_POSES + UI_POSES,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("cubone", "idle")
             )
@@ -57,7 +57,7 @@ class CuboneModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Bip
             poseTypes = MOVING_POSES,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 BipedWalkAnimation(this, periodMultiplier = 1.1F, amplitudeMultiplier = 1.15f),
                 singleBoneLook(),
                 bedrock("cubone", "idle")

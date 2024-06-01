@@ -34,7 +34,7 @@ class RevavroomModel (root: ModelPart) : PokemonPosableModel(root) {
         val blink = quirk { bedrockStateful("revavroom", "blink") }
         sleep = registerPose(
             poseType = PoseType.SLEEP,
-            idleAnimations = arrayOf(bedrock("revavroom", "sleep"))
+            animations = arrayOf(bedrock("revavroom", "sleep"))
         )
 
         standing = registerPose(
@@ -42,7 +42,7 @@ class RevavroomModel (root: ModelPart) : PokemonPosableModel(root) {
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("revavroom", "ground_idle")
             )
         )
@@ -52,7 +52,7 @@ class RevavroomModel (root: ModelPart) : PokemonPosableModel(root) {
             poseTypes = PoseType.MOVING_POSES,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("revavroom", "ground_walk")
             )
         )

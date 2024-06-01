@@ -56,7 +56,7 @@ class RillaboomModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame,
                 stick_left.createTransformation().withVisibility(visibility = true),
                 stick_right.createTransformation().withVisibility(visibility = true)
             ),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("rillaboom", "ground_idle")
             )
@@ -71,7 +71,7 @@ class RillaboomModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame,
                 stick_left.createTransformation().withVisibility(visibility = true),
                 stick_right.createTransformation().withVisibility(visibility = true)
             ),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("rillaboom", "ground_walk")
             )
@@ -88,7 +88,7 @@ class RillaboomModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame,
                 stick_left.createTransformation().withVisibility(visibility = true),
                 stick_right.createTransformation().withVisibility(visibility = true)
             ),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("rillaboom", "battle_idle")
             )

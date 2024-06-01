@@ -41,14 +41,14 @@ class ClefableModel(root: ModelPart) : PokemonPosableModel(root) {
             poseTypes = STATIONARY_POSES + UI_POSES,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("clefable", "ground_idle")
             )
         )
 
         sleep = registerPose(
                 poseType = PoseType.SLEEP,
-                idleAnimations = arrayOf(bedrock("clefable", "sleep"))
+                animations = arrayOf(bedrock("clefable", "sleep"))
         )
 
         walk = registerPose(
@@ -56,7 +56,7 @@ class ClefableModel(root: ModelPart) : PokemonPosableModel(root) {
             poseTypes = MOVING_POSES,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("clefable", "ground_idle"),
                 bedrock("clefable", "ground_walk")
             )

@@ -40,7 +40,7 @@ class LechonkModel (root: ModelPart) : PokemonPosableModel(root) {
         sleep = registerPose(
             poseName = "sleep",
             poseType = PoseType.SLEEP,
-            idleAnimations = arrayOf(bedrock("lechonk", "sleep"))
+            animations = arrayOf(bedrock("lechonk", "sleep"))
         )
 
         standing = registerPose(
@@ -49,7 +49,7 @@ class LechonkModel (root: ModelPart) : PokemonPosableModel(root) {
             condition = { !it.isBattling },
             transformTicks = 10,
             quirks = arrayOf(blink, snort),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("lechonk", "ground_idle")
             )
         )
@@ -59,7 +59,7 @@ class LechonkModel (root: ModelPart) : PokemonPosableModel(root) {
             poseTypes = PoseType.MOVING_POSES,
             transformTicks = 5,
             quirks = arrayOf(blink, snort),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("lechonk", "ground_walk")
             )
         )
@@ -69,7 +69,7 @@ class LechonkModel (root: ModelPart) : PokemonPosableModel(root) {
             poseTypes = PoseType.STATIONARY_POSES,
             quirks = arrayOf(blink, snort),
             condition = { it.isBattling },
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("lechonk", "battle_idle")
             )
         )

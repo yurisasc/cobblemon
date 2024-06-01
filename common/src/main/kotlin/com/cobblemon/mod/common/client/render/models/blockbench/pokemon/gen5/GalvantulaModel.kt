@@ -34,7 +34,7 @@ class GalvantulaModel(root: ModelPart) : PokemonPosableModel(root) {
                 poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
                 transformTicks = 10,
                 quirks = arrayOf(blink1, blink2),
-                idleAnimations = arrayOf(
+                animations = arrayOf(
                         bedrock("galvantula", "ground_idle")
                 )
         )
@@ -44,7 +44,7 @@ class GalvantulaModel(root: ModelPart) : PokemonPosableModel(root) {
                 poseTypes = PoseType.MOVING_POSES,
                 transformTicks = 10,
                 quirks = arrayOf(blink1, blink2),
-                idleAnimations = arrayOf(
+                animations = arrayOf(
                         bedrock("galvantula", "ground_walk")
                 )
         )

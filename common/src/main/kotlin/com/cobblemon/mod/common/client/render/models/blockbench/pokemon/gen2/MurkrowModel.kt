@@ -37,7 +37,7 @@ class MurkrowModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Bi
         val blink = quirk { bedrockStateful("murkrow", "blink") }
         sleep = registerPose(
             poseType = PoseType.SLEEP,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("murkrow", "sleep")
             )
         )
@@ -45,7 +45,7 @@ class MurkrowModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Bi
             poseName = "standing",
             poseTypes = PoseType.UI_POSES + PoseType.STAND,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("murkrow", "ground_idle")
             )
@@ -54,7 +54,7 @@ class MurkrowModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Bi
             poseName = "walk",
             poseType = PoseType.WALK,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("murkrow", "ground_walk")
             )
@@ -65,7 +65,7 @@ class MurkrowModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Bi
             poseType = PoseType.HOVER,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("murkrow", "air_idle")
             )
@@ -76,7 +76,7 @@ class MurkrowModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Bi
             poseType = PoseType.FLY,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("murkrow", "air_fly")
             )

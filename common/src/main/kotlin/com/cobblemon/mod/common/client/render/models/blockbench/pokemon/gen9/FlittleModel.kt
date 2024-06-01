@@ -46,7 +46,7 @@ class FlittleModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
         val blink = quirk { bedrockStateful("flittle", "blink") }
         sleep = registerPose(
                 poseType = PoseType.SLEEP,
-                idleAnimations = arrayOf(bedrock("flittle", "sleep"))
+                animations = arrayOf(bedrock("flittle", "sleep"))
         )
 
         standing = registerPose(
@@ -54,7 +54,7 @@ class FlittleModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
             quirks = arrayOf(blink),
             poseTypes = UI_POSES + PoseType.STAND,
             transformTicks = 10,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("flittle", "ground_idle")
             )
@@ -65,7 +65,7 @@ class FlittleModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
             quirks = arrayOf(blink),
             poseType = PoseType.WALK,
             transformTicks = 10,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("flittle", "ground_walk")
             )
@@ -76,7 +76,7 @@ class FlittleModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
             quirks = arrayOf(blink),
             poseTypes = setOf(PoseType.FLOAT,PoseType.HOVER),
             transformTicks = 10,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("flittle", "air_idle")
             )
@@ -87,7 +87,7 @@ class FlittleModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
             quirks = arrayOf(blink),
             poseTypes = setOf(PoseType.FLY,PoseType.SWIM),
             transformTicks = 10,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("flittle", "air_fly")
             )
@@ -96,7 +96,7 @@ class FlittleModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
         shoulderLeft = registerPose(
             poseType = PoseType.SHOULDER_LEFT,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("flittle", "ground_idle")
             ),
@@ -108,7 +108,7 @@ class FlittleModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
         shoulderRight = registerPose(
             poseType = PoseType.SHOULDER_RIGHT,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("flittle", "ground_idle")
             ),

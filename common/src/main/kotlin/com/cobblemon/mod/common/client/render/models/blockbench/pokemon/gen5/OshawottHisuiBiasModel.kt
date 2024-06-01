@@ -56,7 +56,7 @@ class OshawottHisuiBiasModel (root: ModelPart) : PokemonPosableModel(root), Head
                         scalchopbody.createTransformation().withVisibility(visibility = true),
                         rootPart.createTransformation().addPosition(ModelPartTransformation.Y_AXIS, -7)
                 ),
-                idleAnimations = arrayOf(bedrock("oshawott_hisui_bias", "sleep"))
+                animations = arrayOf(bedrock("oshawott_hisui_bias", "sleep"))
         )
 
         standing = registerPose(
@@ -69,7 +69,7 @@ class OshawottHisuiBiasModel (root: ModelPart) : PokemonPosableModel(root), Head
                         scalchop.createTransformation().withVisibility(visibility = false),
                         scalchopbody.createTransformation().withVisibility(visibility = true)
                 ),
-                idleAnimations = arrayOf(
+                animations = arrayOf(
                         singleBoneLook(),
                         bedrock("oshawott_hisui_bias", "ground_idle")
                 )
@@ -85,7 +85,7 @@ class OshawottHisuiBiasModel (root: ModelPart) : PokemonPosableModel(root), Head
                         scalchop.createTransformation().withVisibility(visibility = false),
                         scalchopbody.createTransformation().withVisibility(visibility = true)
                 ),
-                idleAnimations = arrayOf(
+                animations = arrayOf(
                         singleBoneLook(),
                         bedrock("oshawott_hisui_bias", "ground_idle"),
                         BipedWalkAnimation(this, periodMultiplier = 0.6F, amplitudeMultiplier = 0.9F),
@@ -103,7 +103,7 @@ class OshawottHisuiBiasModel (root: ModelPart) : PokemonPosableModel(root), Head
                         scalchop.createTransformation().withVisibility(visibility = true),
                         scalchopbody.createTransformation().withVisibility(visibility = false)
                 ),
-                idleAnimations = arrayOf(
+                animations = arrayOf(
                         singleBoneLook(),
                         bedrock("oshawott_hisui_bias", "ground_idle")
                 )

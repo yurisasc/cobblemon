@@ -33,7 +33,7 @@ class MagnemiteModel(root: ModelPart) : PokemonPosableModel(root) {
         val blink = quirk { bedrockStateful("magnemite", "blink") }
         sleep = registerPose(
             poseType = PoseType.SLEEP,
-            idleAnimations = arrayOf(bedrock("magnemite", "sleep"))
+            animations = arrayOf(bedrock("magnemite", "sleep"))
         )
 
         registerPose(
@@ -41,7 +41,7 @@ class MagnemiteModel(root: ModelPart) : PokemonPosableModel(root) {
             poseTypes = PoseType.ALL_POSES - PoseType.FLY - PoseType.SLEEP - PoseType.SWIM,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("magnemite", "air_idle")
             )
         )
@@ -51,7 +51,7 @@ class MagnemiteModel(root: ModelPart) : PokemonPosableModel(root) {
             poseTypes = setOf(PoseType.FLY, PoseType.SWIM),
             transformTicks = 10,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("magnemite", "air_fly")
             )
         )

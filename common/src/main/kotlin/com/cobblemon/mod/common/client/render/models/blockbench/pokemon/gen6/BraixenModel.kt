@@ -8,16 +8,15 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen6
 
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.createTransformation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BimanualFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.Pose
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.PoseType.Companion.UI_POSES
-import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.util.isBattling
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
@@ -57,7 +56,7 @@ class BraixenModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Bi
                 sticktail.createTransformation().withVisibility(visibility = true)
             ),
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                     singleBoneLook(),
                     bedrock("braixen", "ground_idle")
             )
@@ -72,7 +71,7 @@ class BraixenModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Bi
                 sticktail.createTransformation().withVisibility(visibility = true)
             ),
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                     singleBoneLook(),
                     bedrock("braixen", "ground_walk")
             )
@@ -88,7 +87,7 @@ class BraixenModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Bi
             ),
             quirks = arrayOf(blink),
             condition = { it.isBattling },
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("braixen", "battle_idle")
             )

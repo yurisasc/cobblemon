@@ -8,12 +8,11 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen6
 
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.Pose
 import com.cobblemon.mod.common.entity.PoseType
-import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.util.isBattling
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
@@ -42,13 +41,13 @@ class DiggersbyModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame 
         sleep = registerPose(
             poseType = PoseType.SLEEP,
             quirks = arrayOf(sleep1),
-            idleAnimations = arrayOf(bedrock("diggersby", "sleep"))
+            animations = arrayOf(bedrock("diggersby", "sleep"))
         )
 
         portrait = registerPose(
             poseName = "portrait",
             poseType = PoseType.PORTRAIT,
-            idleAnimations = arrayOf(bedrock("diggersby", "portrait"))
+            animations = arrayOf(bedrock("diggersby", "portrait"))
         )
 
         standing = registerPose(
@@ -56,7 +55,7 @@ class DiggersbyModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame 
             poseTypes = PoseType.STATIONARY_POSES + PoseType.PROFILE,
             transformTicks = 10,
             condition = { !it.isBattling },
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("diggersby", "ground_idle")
             )
@@ -66,7 +65,7 @@ class DiggersbyModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame 
             poseName = "walking",
             poseTypes = PoseType.MOVING_POSES,
             transformTicks = 10,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("diggersby", "ground_walk")
             )
@@ -77,7 +76,7 @@ class DiggersbyModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame 
             poseTypes = PoseType.STATIONARY_POSES,
             transformTicks = 10,
             condition = { it.isBattling },
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("diggersby", "battle_idle")
             )

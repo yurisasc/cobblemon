@@ -47,7 +47,7 @@ class MawileModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Bi
             transformTicks = 10,
                 condition = { !it.isBattling },
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("mawile", "ground_idle")
             )
@@ -59,7 +59,7 @@ class MawileModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Bi
                 transformTicks = 10,
                 quirks = arrayOf(blink),
                 condition = { it.isBattling },
-                idleAnimations = arrayOf(
+                animations = arrayOf(
                         singleBoneLook(),
                         bedrock("mawile", "battle_idle")
                 )
@@ -70,7 +70,7 @@ class MawileModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Bi
             poseTypes = PoseType.MOVING_POSES,
             transformTicks = 5,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                     singleBoneLook(),
                     bedrock("mawile", "ground_idle"),
                     BipedWalkAnimation(this, periodMultiplier = 0.6F, amplitudeMultiplier = 0.9F),

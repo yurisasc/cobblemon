@@ -8,13 +8,11 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen3
 
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.PosableState
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.Pose
 import com.cobblemon.mod.common.entity.PoseType
-import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
-import com.cobblemon.mod.common.util.isBattling
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
@@ -41,7 +39,7 @@ class ShedinjaModel(root: ModelPart) : PokemonPosableModel(root) {
 
         sleep = registerPose(
             poseType = PoseType.SLEEP,
-            idleAnimations = arrayOf(bedrock("shedinja", "sleep"))
+            animations = arrayOf(bedrock("shedinja", "sleep"))
         )
 
         stand = registerPose(
@@ -49,7 +47,7 @@ class ShedinjaModel(root: ModelPart) : PokemonPosableModel(root) {
             poseTypes = PoseType.UI_POSES + PoseType.STAND,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("shedinja", "ground_idle")
             )
         )
@@ -59,7 +57,7 @@ class ShedinjaModel(root: ModelPart) : PokemonPosableModel(root) {
             poseType = PoseType.HOVER,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("shedinja", "air_idle")
             )
         )
@@ -69,7 +67,7 @@ class ShedinjaModel(root: ModelPart) : PokemonPosableModel(root) {
             poseType = PoseType.FLY,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("shedinja", "air_fly")
             )
         )
@@ -79,7 +77,7 @@ class ShedinjaModel(root: ModelPart) : PokemonPosableModel(root) {
             poseType = PoseType.WALK,
             transformTicks = 10,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("shedinja", "ground_walk")
             )
         )

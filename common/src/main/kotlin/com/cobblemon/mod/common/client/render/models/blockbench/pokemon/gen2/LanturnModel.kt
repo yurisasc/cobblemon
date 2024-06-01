@@ -45,14 +45,14 @@ class LanturnModel (root: ModelPart) : PokemonPosableModel(root) {
             poseName = "sleeping",
             poseType = PoseType.SLEEP,
             condition = { !it.isTouchingWater },
-            idleAnimations = arrayOf(bedrock("lanturn", "sleep"))
+            animations = arrayOf(bedrock("lanturn", "sleep"))
         )
 
         watersleep = registerPose(
             poseName = "water_sleeping",
             poseType = PoseType.SLEEP,
             condition = { it.isTouchingWater },
-            idleAnimations = arrayOf(bedrock("lanturn", "water_sleep"))
+            animations = arrayOf(bedrock("lanturn", "water_sleep"))
         )
 
         standing = registerPose(
@@ -61,7 +61,7 @@ class LanturnModel (root: ModelPart) : PokemonPosableModel(root) {
             transformTicks = 10,
             condition = { !it.isBattling && !it.isTouchingWater && !it.isSubmergedInWater},
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("lanturn", "ground_idle")
             )
         )
@@ -72,7 +72,7 @@ class LanturnModel (root: ModelPart) : PokemonPosableModel(root) {
             poseType = PoseType.WALK,
             condition = { !it.isTouchingWater && !it.isSubmergedInWater},
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("lanturn", "ground_walk")
             )
         )
@@ -83,7 +83,7 @@ class LanturnModel (root: ModelPart) : PokemonPosableModel(root) {
             poseType = PoseType.FLOAT,
             condition = { it.isTouchingWater },
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("lanturn", "water_idle")
             )
         )
@@ -94,7 +94,7 @@ class LanturnModel (root: ModelPart) : PokemonPosableModel(root) {
             condition = { it.isTouchingWater },
             poseTypes = PoseType.MOVING_POSES,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("lanturn", "water_swim"),
             )
         )
@@ -105,7 +105,7 @@ class LanturnModel (root: ModelPart) : PokemonPosableModel(root) {
             transformTicks = 10,
             quirks = arrayOf(blink),
             condition = { it.isBattling && !it.isTouchingWater },
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("lanturn", "ground_battle_idle")
             )
         )
@@ -116,7 +116,7 @@ class LanturnModel (root: ModelPart) : PokemonPosableModel(root) {
             transformTicks = 10,
             quirks = arrayOf(blink),
             condition = { it.isBattling && it.isTouchingWater },
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("lanturn", "water_battle_idle")
             )
         )

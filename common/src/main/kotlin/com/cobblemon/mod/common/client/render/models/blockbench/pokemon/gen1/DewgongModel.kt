@@ -38,7 +38,7 @@ class DewgongModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
         standing = registerPose(
             poseName = "standing",
             poseTypes = STANDING_POSES + UI_POSES,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("dewgong", "ground_idle")
             )
@@ -47,7 +47,7 @@ class DewgongModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
         float = registerPose(
             poseName = "float",
             poseType = PoseType.FLOAT,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("dewgong", "water_idle")
             )
@@ -56,7 +56,7 @@ class DewgongModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
         swim = registerPose(
             poseName = "swim",
             poseType = PoseType.SWIM,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("dewgong", "water_swim")
             )

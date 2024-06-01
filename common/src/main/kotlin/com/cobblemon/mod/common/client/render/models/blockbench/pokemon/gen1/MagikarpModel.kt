@@ -52,7 +52,7 @@ class MagikarpModel(root: ModelPart) : PokemonPosableModel(root) {
             poseType = PoseType.SLEEP,
             quirks = arrayOf(sleepQuirk),
             condition = { !it.isTouchingWater },
-            idleAnimations = arrayOf(bedrock("magikarp", "sleep"))
+            animations = arrayOf(bedrock("magikarp", "sleep"))
         )
 
         watersleep = registerPose(
@@ -60,7 +60,7 @@ class MagikarpModel(root: ModelPart) : PokemonPosableModel(root) {
             poseType = PoseType.SLEEP,
             quirks = arrayOf(sleepQuirk),
             condition = { it.isTouchingWater },
-            idleAnimations = arrayOf(bedrock("magikarp", "water_sleep"))
+            animations = arrayOf(bedrock("magikarp", "water_sleep"))
         )
 
         standing = registerPose(
@@ -69,7 +69,7 @@ class MagikarpModel(root: ModelPart) : PokemonPosableModel(root) {
             transformTicks = 10,
             condition = {!it.isTouchingWater && !it.isSubmergedInWater},
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("magikarp", "ground_idle")
             )
         )
@@ -80,7 +80,7 @@ class MagikarpModel(root: ModelPart) : PokemonPosableModel(root) {
             poseType = PoseType.WALK,
             condition = { !it.isTouchingWater && !it.isSubmergedInWater},
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("magikarp", "ground_walk")
             )
         )
@@ -91,7 +91,7 @@ class MagikarpModel(root: ModelPart) : PokemonPosableModel(root) {
             poseType = PoseType.FLOAT,
             condition = { it.isSubmergedInWater },
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("magikarp", "water_idle")
             )
         )
@@ -102,7 +102,7 @@ class MagikarpModel(root: ModelPart) : PokemonPosableModel(root) {
             condition = { it.isSubmergedInWater },
             poseType = PoseType.SWIM,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("magikarp", "water_swim"),
             )
         )
@@ -123,7 +123,7 @@ class MagikarpModel(root: ModelPart) : PokemonPosableModel(root) {
             poseTypes = PoseType.STATIONARY_POSES,
             quirks = arrayOf(blink, waterSurfaceQuirk),
             condition = { !it.isSubmergedInWater && it.isTouchingWater },
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("magikarp", "surfacewater_idle"),
             ),
             transformedParts = arrayOf(
@@ -136,7 +136,7 @@ class MagikarpModel(root: ModelPart) : PokemonPosableModel(root) {
             poseTypes = PoseType.MOVING_POSES,
             quirks = arrayOf(blink),
             condition = { !it.isSubmergedInWater && it.isTouchingWater },
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("magikarp", "surfacewater_swim"),
             ),
             transformedParts = arrayOf(

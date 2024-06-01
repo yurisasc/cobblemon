@@ -42,7 +42,7 @@ class TangelaModel(root: ModelPart) : PokemonPosableModel(root), BipedFrame {
             poseName = "standing",
             poseTypes = STATIONARY_POSES + UI_POSES,
             transformTicks = 10,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 //bedrock("tangela", "ground_idle")
             )
         )
@@ -51,7 +51,7 @@ class TangelaModel(root: ModelPart) : PokemonPosableModel(root), BipedFrame {
             poseName = "walk",
             poseTypes = MOVING_POSES,
             transformTicks = 10,
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 BipedWalkAnimation(this, amplitudeMultiplier = 1F, periodMultiplier = 0.4F)
                 //bedrock("tangela", "ground_walk")
             )

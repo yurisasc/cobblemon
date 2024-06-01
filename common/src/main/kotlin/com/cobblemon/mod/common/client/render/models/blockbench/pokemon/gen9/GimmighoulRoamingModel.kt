@@ -44,7 +44,7 @@ class GimmighoulRoamingModel (root: ModelPart) : PokemonPosableModel(root), Head
             poseName = "sleep",
             poseType = PoseType.SLEEP,
             quirks = arrayOf(sleepQuirk),
-            idleAnimations = arrayOf(bedrock("gimmighoul_roaming", "sleep"))
+            animations = arrayOf(bedrock("gimmighoul_roaming", "sleep"))
         )
 
         standing = registerPose(
@@ -52,7 +52,7 @@ class GimmighoulRoamingModel (root: ModelPart) : PokemonPosableModel(root), Head
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
             condition = { !it.isBattling },
             quirks = arrayOf(blink,quirk),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("gimmighoul_roaming", "ground_idle")
             )
@@ -62,7 +62,7 @@ class GimmighoulRoamingModel (root: ModelPart) : PokemonPosableModel(root), Head
             poseName = "walk",
             poseTypes = PoseType.MOVING_POSES,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("gimmighoul_roaming", "ground_walk")
             )
@@ -73,7 +73,7 @@ class GimmighoulRoamingModel (root: ModelPart) : PokemonPosableModel(root), Head
             poseTypes = PoseType.STATIONARY_POSES,
             transformTicks = 10,
             condition = { it.isBattling },
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 singleBoneLook(),
                 bedrock("gimmighoul_roaming", "battle_idle")
             )
