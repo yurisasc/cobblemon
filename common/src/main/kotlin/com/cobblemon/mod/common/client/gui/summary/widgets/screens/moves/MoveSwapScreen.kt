@@ -52,7 +52,7 @@ class MoveSwapScreen(
 
     class MoveSlot(val pane: MoveSwapScreen, val move: MoveTemplate, val ppRaisedStages: Int, pokemon: Pokemon) : Entry<MoveSlot>() {
         override fun getNarration() = move.displayName
-        val elementalType = move.getEffectiveType(pokemon)
+        val elementalType = move.getEffectiveElementalType(pokemon)
         override fun render(
             context: DrawContext,
             index: Int,

@@ -92,6 +92,24 @@ open class MoveTemplate(
 
     companion object {
         fun dummy(name: String) = Dummy(name)
+        val hiddenPowerTable = arrayOf(
+            ElementalTypes.FIGHTING,
+            ElementalTypes.FLYING,
+            ElementalTypes.POISON,
+            ElementalTypes.GROUND,
+            ElementalTypes.ROCK,
+            ElementalTypes.BUG,
+            ElementalTypes.GHOST,
+            ElementalTypes.STEEL,
+            ElementalTypes.FIRE,
+            ElementalTypes.WATER,
+            ElementalTypes.GRASS,
+            ElementalTypes.ELECTRIC,
+            ElementalTypes.PSYCHIC,
+            ElementalTypes.ICE,
+            ElementalTypes.DRAGON,
+            ElementalTypes.DARK
+        )
     }
 
     /**
@@ -115,27 +133,11 @@ open class MoveTemplate(
         )
     }
 
-    fun getEffectiveType(pokemon: Pokemon?) : ElementalType {
+    fun getEffectiveElementalType(pokemon: Pokemon?) : ElementalType {
         if(pokemon == null) {
             return this.elementalType
         }
         if (name == "hiddenpower") {
-            val hiddepowerTable = arrayOf(ElementalTypes.FIGHTING,
-                    ElementalTypes.FLYING,
-                    ElementalTypes.POISON,
-                    ElementalTypes.GROUND,
-                    ElementalTypes.ROCK,
-                    ElementalTypes.BUG,
-                    ElementalTypes.GHOST,
-                    ElementalTypes.STEEL,
-                    ElementalTypes.FIRE,
-                    ElementalTypes.WATER,
-                    ElementalTypes.GRASS,
-                    ElementalTypes.ELECTRIC,
-                    ElementalTypes.PSYCHIC,
-                    ElementalTypes.ICE,
-                    ElementalTypes.DRAGON,
-                    ElementalTypes.DARK)
             val HP: Int = pokemon.ivs[Stats.HP] ?: return ElementalTypes.NORMAL
             val ATTACK: Int = pokemon.ivs[Stats.ATTACK] ?: return ElementalTypes.NORMAL
             val DEFENSE: Int = pokemon.ivs[Stats.DEFENCE] ?: return ElementalTypes.NORMAL
@@ -143,12 +145,37 @@ open class MoveTemplate(
             val SPEC_ATK: Int = pokemon.ivs[Stats.SPECIAL_ATTACK] ?: return ElementalTypes.NORMAL
             val SPEC_DEF: Int = pokemon.ivs[Stats.SPECIAL_DEFENCE] ?: return ElementalTypes.NORMAL
 
+            val tableIndex = 15 * (HP % 2 + 2 * (ATTACK % 2) + 4 * (DEFENSE % 2) + 8 * (SPEED % 2) + 16 * (SPEC_ATK % 2) + 32 * (SPEC_DEF % 2)) / 63
+            return hiddenPowerTable[tableIndex.coerceAtMost(hiddenPowerTable.size - 1)]
 
-            val typeInt = 15 * (HP % 2 + 2 * (ATTACK % 2) + 4 * (DEFENSE % 2) + 8 * (SPEED % 2) + 16 * (SPEC_ATK % 2) + 32 * (SPEC_DEF % 2)) / 63
-
-           return hiddepowerTable[typeInt]
         }
-
+        // TODO: Handle ability suppression: clientactivebattlepokemon needs data about volatiles
+        // TODO: Handle Liquid Voice: need to know what moves have the sound flag
+        if (this.elementalType == ElementalTypes.NORMAL) {
+            if( this.damageCategory != DamageCategories.STATUS) {
+                return when (pokemon.ability.name) {
+                    "pixilate" -> ElementalTypes.FAIRY
+                    "aerilate" -> ElementalTypes.FLYING
+                    "refrigerate" -> ElementalTypes.ICE
+                    "galvanize" -> ElementalTypes.ELECTRIC
+                    else -> this.elementalType
+                }
+            }
+        } else if (pokemon.ability.name == "normalize") {
+            /*
+            * Exceptions we'll need to deal with at some point:
+            * hiddenpower
+            * weatherball
+            * naturalgift
+            * judgement
+            * technoblast
+            * multi-attack
+            * z-moves
+            * terrainpulse
+            * terrablast?
+            * */
+            return ElementalTypes.NORMAL
+        }
         return this.elementalType
     }
 }

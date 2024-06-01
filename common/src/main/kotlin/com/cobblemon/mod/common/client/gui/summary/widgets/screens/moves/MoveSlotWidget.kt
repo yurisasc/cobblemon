@@ -67,7 +67,7 @@ class MoveSlotWidget(
     }.apply {
         addWidget(this)
     }
-    val elementalType:ElementalType = Moves.getByNameOrDummy(move.name).getEffectiveType(pokemon)
+    val elementalType:ElementalType = Moves.getByNameOrDummy(move.name).getEffectiveElementalType(pokemon)
     override fun renderButton(context: DrawContext, pMouseX: Int, pMouseY: Int, pPartialTicks: Float) {
         val matrices = context.matrices
         hovered = pMouseX >= x && pMouseY >= y && pMouseX < x + width && pMouseY < y + height
