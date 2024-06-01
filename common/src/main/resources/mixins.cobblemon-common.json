@@ -39,6 +39,7 @@
     "accessor.StatusEffectInstanceAccessor",
     "entity.EntityMixin",
     "entity.TameableEntityMixin",
+    "invoker.AdornRegisterInvoker",
     "invoker.BlocksInvoker",
     "invoker.BooleanRuleInvoker",
     "invoker.ClientPlayNetworkHandlerInvoker",

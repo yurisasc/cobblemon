@@ -391,8 +391,11 @@
       "cobblemon:block/gilded_chest/gilded_chest_step_4"
     ]
   },
-  "flamethrower": {
-    "sounds": [ "cobblemon:attacks/flamethrower" ]
+  "flamethrower.cast": {
+    "sounds": [ "cobblemon:attacks/flamethrower/flamethrower_cast" ]
+  },
+  "flamethrower.impact": {
+    "sounds": [ "cobblemon:attacks/flamethrower/flamethrower_impact" ]
   },
   "effective": {
     "sounds": [ "cobblemon:effective" ]

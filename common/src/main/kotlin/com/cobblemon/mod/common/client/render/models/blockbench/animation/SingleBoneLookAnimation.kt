@@ -35,7 +35,7 @@ class SingleBoneLookAnimation<T : Entity>(
     val pitchMultiplier: Float = 1F,
     val yawMultiplier: Float = 1F,
     val maxPitch: Float = 70F,
-    val minPitch: Float = 45F,
+    val minPitch: Float = -45F,
     val maxYaw: Float = 45F,
     val minYaw: Float = -45F,
 ) : StatelessAnimation<T, ModelFrame>(frame) {
@@ -56,8 +56,8 @@ class SingleBoneLookAnimation<T : Entity>(
         bone = frame.head,
         pitchMultiplier = pitchMultiplier ?: if (disableX) 0F else if (invertX) -1F else 1F,
         yawMultiplier = yawMultiplier ?: if (disableY) 0F else if (invertY) -1F else 1F,
-        maxPitch = maxPitch ?: 45F,
-        minPitch = minPitch ?: -70F,
+        maxPitch = maxPitch ?: 70F,
+        minPitch = minPitch ?: -45F,
         maxYaw = maxYaw ?: 45F,
         minYaw = minYaw ?: -45F,
     )
