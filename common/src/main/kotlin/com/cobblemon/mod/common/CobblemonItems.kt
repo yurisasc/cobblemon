@@ -23,6 +23,7 @@ import com.cobblemon.mod.common.item.armor.CobblemonArmorTrims
 import com.cobblemon.mod.common.item.battle.DireHitItem
 import com.cobblemon.mod.common.item.battle.GuardSpecItem
 import com.cobblemon.mod.common.item.battle.XStatItem
+import com.cobblemon.mod.common.item.berry.BerryItem
 import com.cobblemon.mod.common.item.berry.FriendshipRaisingBerryItem
 import com.cobblemon.mod.common.item.berry.HealingBerryItem
 import com.cobblemon.mod.common.item.berry.PPRestoringBerryItem
@@ -1046,6 +1047,8 @@ object CobblemonItems : PlatformRegistry<Registry<Item>, RegistryKey<Registry<It
     val STEEL_GEM = noSettingsItem("steel_gem")
     @JvmField
     val FAIRY_GEM = noSettingsItem("fairy_gem")
+    //@JvmField
+    //val BINDING_SOIL = blockItem("binding_soil", CobblemonBlocks.BINDING_SOIL)
 
     private fun blockItem(name: String, block: Block): BlockItem = this.create(name, BlockItem(block, Item.Settings()))
 
