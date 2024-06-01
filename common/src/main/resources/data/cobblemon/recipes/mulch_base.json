@@ -15,6 +15,7 @@
         }
     ],
     "result": {
-        "item": "cobblemon:mulch_base"
+        "item": "cobblemon:mulch_base",
+        "count": 3
     }
 }

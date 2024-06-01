@@ -29,11 +29,17 @@ class FossilAnalyzerBlockEntity(
 
     class FossilAnalyzerInventory(val analyzerEntity: FossilAnalyzerBlockEntity) : SidedInventory {
         override fun clear() {
-            TODO("Not yet implemented")
+            if(analyzerEntity.multiblockStructure != null && analyzerEntity.multiblockStructure is FossilMultiblockStructure) {
+                val fossilMultiblockStructure = analyzerEntity.multiblockStructure as FossilMultiblockStructure
+                fossilMultiblockStructure.fossilInventory.clear()
+            }
         }
 
         override fun size(): Int {
-            TODO("Not yet implemented")
+            if (analyzerEntity.multiblockStructure != null) {
+                return 3
+            }
+            return 0
         }
 
         override fun isEmpty(): Boolean {
@@ -41,11 +47,18 @@ class FossilAnalyzerBlockEntity(
         }
 
         override fun getStack(slot: Int): ItemStack {
+            if (analyzerEntity.multiblockStructure != null && analyzerEntity.multiblockStructure is FossilMultiblockStructure) {
+                val fossilMultiblockStructure = analyzerEntity.multiblockStructure as FossilMultiblockStructure
+                if (fossilMultiblockStructure.fossilInventory.size > slot) {
+                    return fossilMultiblockStructure.fossilInventory[slot]
+                }
+            }
             return ItemStack.EMPTY
         }
 
+        //Unimplemented since no extract
         override fun removeStack(slot: Int, amount: Int): ItemStack {
-            return ItemStack.EMPTY
+            return removeStack(slot)
         }
 
         override fun removeStack(slot: Int): ItemStack {
@@ -53,7 +66,7 @@ class FossilAnalyzerBlockEntity(
         }
 
         override fun setStack(slot: Int, stack: ItemStack) {
-            if (analyzerEntity.multiblockStructure != null) {
+            if (analyzerEntity.multiblockStructure != null && analyzerEntity.multiblockStructure is FossilMultiblockStructure) {
                 val struct = analyzerEntity.multiblockStructure as FossilMultiblockStructure
                 analyzerEntity.world?.let {
                     struct.insertFossil(stack, it)
@@ -72,7 +85,10 @@ class FossilAnalyzerBlockEntity(
         }
 
         override fun getAvailableSlots(side: Direction?): IntArray {
-            return IntArray(1)
+            if(analyzerEntity.multiblockStructure != null && analyzerEntity.multiblockStructure is FossilMultiblockStructure) {
+                return intArrayOf(0,1,2)
+            }
+            return IntArray(0)
         }
 
         override fun canInsert(slot: Int, stack: ItemStack?, dir: Direction?): Boolean {
@@ -89,6 +105,5 @@ class FossilAnalyzerBlockEntity(
         override fun canExtract(slot: Int, stack: ItemStack?, dir: Direction?): Boolean {
             return false
         }
-
     }
 }

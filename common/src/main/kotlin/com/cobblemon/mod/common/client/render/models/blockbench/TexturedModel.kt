@@ -19,6 +19,12 @@ import net.minecraft.client.model.ModelTransform
 import net.minecraft.client.model.TexturedModelData
 import net.minecraft.client.util.math.MatrixStack
 
+/**
+ * Bedrock's GEO format.
+ *
+ * @author Chris Fusco
+ * @since May 10th, 2022
+ */
 class TexturedModel {
     @SerializedName("format_version")
     val formatVersion: String = "0"

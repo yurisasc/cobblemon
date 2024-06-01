@@ -15,7 +15,7 @@ import com.cobblemon.mod.common.util.writeSizedInt
 import net.minecraft.network.PacketByteBuf
 
 /**
- * A Pokémon that can absolutely, under no circumstances, ever be rendered.
+ * A Pokémon that can absolutely, under many circumstances, be rendered (or else!!!).
  *
  * @author Hiroku
  * @since August 1st, 2022

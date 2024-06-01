@@ -14,6 +14,7 @@ import com.cobblemon.mod.common.integration.adorn.AdornCompatibility
 import com.cobblemon.mod.common.item.group.CobblemonItemGroups
 import com.cobblemon.mod.common.loot.LootInjector
 import com.cobblemon.mod.common.particle.CobblemonParticles
+import com.cobblemon.mod.common.sherds.CobblemonSherds
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.didSleep
 import com.cobblemon.mod.common.util.endsWith
@@ -152,6 +153,9 @@ class CobblemonForge : CobblemonImplementation {
         event.register(RegistryKeys.PLACEMENT_MODIFIER_TYPE) {
             CobblemonPlacementModifierTypes.touch()
         }
+        event.register(RegistryKeys.DECORATED_POT_PATTERN) {
+            CobblemonSherds.registerSherds()
+        }
 
         event.register(RegistryKeys.STRUCTURE_PROCESSOR) {
             CobblemonProcessorTypes.touch()
@@ -160,6 +164,18 @@ class CobblemonForge : CobblemonImplementation {
         event.register(RegistryKeys.ACTIVITY) {
             CobblemonActivities.activities.forEach {
                 ForgeRegistries.ACTIVITIES.register(cobblemonResource(it.id), it)
+            }
+        }
+
+        event.register(RegistryKeys.SENSOR_TYPE) {
+            CobblemonSensors.sensors.forEach { (key, sensorType) ->
+                ForgeRegistries.SENSOR_TYPES.register(cobblemonResource(key), sensorType)
+            }
+        }
+
+        event.register(RegistryKeys.MEMORY_MODULE_TYPE) {
+            CobblemonMemories.memories.forEach { (key, memoryModuleType) ->
+                ForgeRegistries.MEMORY_MODULE_TYPES.register(cobblemonResource(key), memoryModuleType)
             }
         }
     }

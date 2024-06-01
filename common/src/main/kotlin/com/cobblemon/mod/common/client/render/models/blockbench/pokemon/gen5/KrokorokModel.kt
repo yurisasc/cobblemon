@@ -8,14 +8,15 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen5
 
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.pose.CobblemonPose
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.util.asExpressionLike
+import com.cobblemon.mod.common.util.isBattling
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class KrokorokModel (root: ModelPart) : PokemonPoseableModel() {
+class KrokorokModel (root: ModelPart) : PokemonPosableModel(root) {
     override val rootPart = root.registerChildWithAllChildren("krokorok")
 
     override var portraitScale = 1.86F
@@ -24,10 +25,10 @@ class KrokorokModel (root: ModelPart) : PokemonPoseableModel() {
     override var profileScale = 0.55F
     override var profileTranslation = Vec3d(0.05, 0.93, 0.0)
 
-    lateinit var sleep: PokemonPose
-    lateinit var standing: PokemonPose
-    lateinit var walk: PokemonPose
-    lateinit var battleidle: PokemonPose
+    lateinit var sleep: CobblemonPose
+    lateinit var standing: CobblemonPose
+    lateinit var walk: CobblemonPose
+    lateinit var battleidle: CobblemonPose
 
     override fun registerPoses() {
 //        animations["physical"] = "q.bedrock_primary('krokorok', 'physical', 'look', q.curve('symmetrical_wide'))".asExpressionLike()
@@ -43,8 +44,8 @@ class KrokorokModel (root: ModelPart) : PokemonPoseableModel() {
 
         sleep = registerPose(
             poseType = PoseType.SLEEP,
-            animations = mutableMapOf("faint" to faint),
-            idleAnimations = arrayOf(bedrock("krokorok", "sleep"))
+            namedAnimations = mutableMapOf("faint" to faint),
+            animations = arrayOf(bedrock("krokorok", "sleep"))
         )
 
         standing = registerPose(
@@ -52,8 +53,8 @@ class KrokorokModel (root: ModelPart) : PokemonPoseableModel() {
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
             quirks = arrayOf(blink, look),
             condition = { !it.isBattling },
-            animations = mutableMapOf("faint" to faint),
-            idleAnimations = arrayOf(
+            namedAnimations = mutableMapOf("faint" to faint),
+            animations = arrayOf(
                 bedrock("krokorok", "ground_idle")
             )
         )
@@ -62,8 +63,8 @@ class KrokorokModel (root: ModelPart) : PokemonPoseableModel() {
             poseName = "walk",
             poseTypes = PoseType.MOVING_POSES,
             quirks = arrayOf(blink),
-            animations = mutableMapOf("faint" to faint),
-            idleAnimations = arrayOf(
+            namedAnimations = mutableMapOf("faint" to faint),
+            animations = arrayOf(
                 bedrock("krokorok", "ground_walk")
             )
         )
@@ -73,8 +74,8 @@ class KrokorokModel (root: ModelPart) : PokemonPoseableModel() {
             poseTypes = PoseType.STATIONARY_POSES,
             quirks = arrayOf(blink, look),
             condition = { it.isBattling },
-            animations = mutableMapOf("faint" to faint),
-            idleAnimations = arrayOf(
+            namedAnimations = mutableMapOf("faint" to faint),
+            animations = arrayOf(
                 bedrock("krokorok", "battle_idle")
             )
         )

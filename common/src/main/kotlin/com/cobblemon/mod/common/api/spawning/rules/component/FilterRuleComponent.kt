@@ -11,6 +11,7 @@ package com.cobblemon.mod.common.api.spawning.rules.component
 import com.bedrockk.molang.Expression
 import com.bedrockk.molang.ast.BooleanExpression
 import com.bedrockk.molang.runtime.MoLangRuntime
+import com.bedrockk.molang.runtime.value.DoubleValue
 import com.cobblemon.mod.common.api.molang.MoLangFunctions.setup
 import com.cobblemon.mod.common.api.spawning.context.SpawningContext
 import com.cobblemon.mod.common.api.spawning.detail.SpawnDetail
@@ -33,7 +34,7 @@ class FilterRuleComponent : SpawnRuleComponent {
 
     val spawnSelector: SpawnDetailSelector = AllSpawnDetailSelector
     val contextSelector: SpawningContextSelector = AllSpawningContextSelector
-    val allow: Expression = BooleanExpression(true)
+    val allow: Expression = BooleanExpression(DoubleValue.ONE)
 
     override fun affectSpawnable(detail: SpawnDetail, ctx: SpawningContext): Boolean {
         return if (spawnSelector.selects(detail) && contextSelector.selects(ctx)) {

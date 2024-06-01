@@ -9,6 +9,7 @@
 package com.cobblemon.mod.common.item.group
 
 import com.cobblemon.mod.common.CobblemonItems
+import com.cobblemon.mod.common.api.fishing.PokeRods
 import com.cobblemon.mod.common.util.cobblemonResource
 import net.minecraft.item.ItemConvertible
 import net.minecraft.item.ItemGroup
@@ -210,6 +211,8 @@ object CobblemonItemGroups {
         entries.add(CobblemonItems.DARK_GEM)
         entries.add(CobblemonItems.STEEL_GEM)
         entries.add(CobblemonItems.FAIRY_GEM)
+
+        entries.add(CobblemonItems.POKEROD_SMITHING_TEMPLATE)
     }
 
     private fun blockEntries(displayContext: DisplayContext, entries: Entries) {
@@ -252,6 +255,37 @@ object CobblemonItemGroups {
         entries.add(CobblemonItems.TUMBLESTONE_BLOCK)
         entries.add(CobblemonItems.BLACK_TUMBLESTONE_BLOCK)
         entries.add(CobblemonItems.SKY_TUMBLESTONE_BLOCK)
+
+        entries.add(CobblemonItems.POLISHED_TUMBLESTONE)
+        entries.add(CobblemonItems.POLISHED_TUMBLESTONE_STAIRS)
+        entries.add(CobblemonItems.POLISHED_TUMBLESTONE_SLAB)
+        entries.add(CobblemonItems.POLISHED_TUMBLESTONE_WALL)
+        entries.add(CobblemonItems.CHISELED_POLISHED_TUMBLESTONE)
+        entries.add(CobblemonItems.TUMBLESTONE_BRICKS)
+        entries.add(CobblemonItems.TUMBLESTONE_BRICK_STAIRS)
+        entries.add(CobblemonItems.TUMBLESTONE_BRICK_SLAB)
+        entries.add(CobblemonItems.TUMBLESTONE_BRICK_WALL)
+        entries.add(CobblemonItems.CHISELED_TUMBLESTONE_BRICKS)
+        entries.add(CobblemonItems.POLISHED_BLACK_TUMBLESTONE)
+        entries.add(CobblemonItems.POLISHED_BLACK_TUMBLESTONE_STAIRS)
+        entries.add(CobblemonItems.POLISHED_BLACK_TUMBLESTONE_SLAB)
+        entries.add(CobblemonItems.POLISHED_BLACK_TUMBLESTONE_WALL)
+        entries.add(CobblemonItems.CHISELED_POLISHED_BLACK_TUMBLESTONE)
+        entries.add(CobblemonItems.BLACK_TUMBLESTONE_BRICKS)
+        entries.add(CobblemonItems.BLACK_TUMBLESTONE_BRICK_STAIRS)
+        entries.add(CobblemonItems.BLACK_TUMBLESTONE_BRICK_SLAB)
+        entries.add(CobblemonItems.BLACK_TUMBLESTONE_BRICK_WALL)
+        entries.add(CobblemonItems.CHISELED_BLACK_TUMBLESTONE_BRICKS)
+        entries.add(CobblemonItems.POLISHED_SKY_TUMBLESTONE)
+        entries.add(CobblemonItems.POLISHED_SKY_TUMBLESTONE_STAIRS)
+        entries.add(CobblemonItems.POLISHED_SKY_TUMBLESTONE_SLAB)
+        entries.add(CobblemonItems.POLISHED_SKY_TUMBLESTONE_WALL)
+        entries.add(CobblemonItems.CHISELED_POLISHED_SKY_TUMBLESTONE)
+        entries.add(CobblemonItems.SKY_TUMBLESTONE_BRICKS)
+        entries.add(CobblemonItems.SKY_TUMBLESTONE_BRICK_STAIRS)
+        entries.add(CobblemonItems.SKY_TUMBLESTONE_BRICK_SLAB)
+        entries.add(CobblemonItems.SKY_TUMBLESTONE_BRICK_WALL)
+        entries.add(CobblemonItems.CHISELED_SKY_TUMBLESTONE_BRICKS)
 
         entries.add(CobblemonItems.DAWN_STONE_ORE)
         entries.add(CobblemonItems.DEEPSLATE_DAWN_STONE_ORE)
@@ -534,6 +568,7 @@ object CobblemonItemGroups {
 
     private fun pokeballentries(displayContext: DisplayContext, entries: Entries) {
         CobblemonItems.pokeBalls.forEach(entries::add)
+        CobblemonItems.pokeRods.forEach(entries::add)
     }
 
     private fun foodInjections(injector: Injector) {
@@ -558,6 +593,7 @@ object CobblemonItemGroups {
         injector.putAfter(CobblemonItems.SUSPICIOUS_SHERD, CobblemonItems.NOSTALGIC_SHERD)
 
         injector.putAfter(CobblemonItems.AUTOMATON_ARMOR_TRIM_SMITHING_TEMPLATE, Items.SPIRE_ARMOR_TRIM_SMITHING_TEMPLATE)
+        injector.putAfter(CobblemonItems.POKEROD_SMITHING_TEMPLATE, Items.NETHERITE_UPGRADE_SMITHING_TEMPLATE)
     }
 
     /**

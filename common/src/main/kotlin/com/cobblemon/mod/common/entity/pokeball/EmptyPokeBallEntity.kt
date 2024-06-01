@@ -8,6 +8,8 @@
 
 package com.cobblemon.mod.common.entity.pokeball
 
+import com.bedrockk.molang.runtime.struct.QueryStruct
+import com.bedrockk.molang.runtime.value.StringValue
 import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.CobblemonEntities.EMPTY_POKEBALL
 import com.cobblemon.mod.common.CobblemonNetwork
@@ -20,6 +22,7 @@ import com.cobblemon.mod.common.api.net.serializers.StringSetDataSerializer
 import com.cobblemon.mod.common.api.net.serializers.Vec3DataSerializer
 import com.cobblemon.mod.common.api.pokeball.PokeBalls
 import com.cobblemon.mod.common.api.pokeball.catching.CaptureContext
+import com.cobblemon.mod.common.api.pokemon.PokemonSpecies
 import com.cobblemon.mod.common.api.pokemon.status.Statuses
 import com.cobblemon.mod.common.api.reactive.SimpleObservable
 import com.cobblemon.mod.common.api.scheduling.Schedulable
@@ -33,10 +36,10 @@ import com.cobblemon.mod.common.battles.BattleTypes
 import com.cobblemon.mod.common.battles.ForcePassActionResponse
 import com.cobblemon.mod.common.client.entity.EmptyPokeBallClientDelegate
 import com.cobblemon.mod.common.entity.PoseType
-import com.cobblemon.mod.common.entity.Poseable
+import com.cobblemon.mod.common.entity.PosableEntity
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.entity.pokemon.PokemonServerDelegate
-import com.cobblemon.mod.common.net.messages.client.animation.PlayPoseableAnimationPacket
+import com.cobblemon.mod.common.net.messages.client.animation.PlayPosableAnimationPacket
 import com.cobblemon.mod.common.net.messages.client.battle.BattleCaptureStartPacket
 import com.cobblemon.mod.common.net.messages.client.spawn.SpawnPokeballPacket
 import com.cobblemon.mod.common.pokeball.PokeBall
@@ -57,6 +60,7 @@ import net.minecraft.network.packet.s2c.play.EntitySpawnS2CPacket
 import net.minecraft.particle.ParticleTypes
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.sound.SoundEvents
+import net.minecraft.util.Identifier
 import net.minecraft.util.hit.BlockHitResult
 import net.minecraft.util.hit.EntityHitResult
 import net.minecraft.util.hit.HitResult
@@ -66,7 +70,7 @@ import net.minecraft.util.math.Vec3d
 import net.minecraft.world.World
 import java.util.concurrent.CompletableFuture
 
-class EmptyPokeBallEntity : ThrownItemEntity, Poseable, WaterDragModifier, Schedulable {
+class EmptyPokeBallEntity : ThrownItemEntity, PosableEntity, WaterDragModifier, Schedulable {
     enum class CaptureState {
         NOT,
         HIT,
@@ -108,6 +112,10 @@ class EmptyPokeBallEntity : ThrownItemEntity, Poseable, WaterDragModifier, Sched
         EmptyPokeBallServerDelegate()
     }
 
+    override val struct = QueryStruct(hashMapOf())
+        .addFunction("capture_state") { StringValue(captureState.name) }
+        .addFunction("ball_type") { StringValue(pokeBall.name.toString()) }
+
     override fun initDataTracker() {
         super.initDataTracker()
         dataTracker.startTracking(CAPTURE_STATE, CaptureState.NOT.ordinal.toByte())
@@ -139,6 +147,7 @@ class EmptyPokeBallEntity : ThrownItemEntity, Poseable, WaterDragModifier, Sched
 
     init {
         delegate.initialize(this)
+        addPosableFunctions(struct)
     }
 
     constructor(world: World) : this(pokeBall = PokeBalls.POKE_BALL, world = world)
@@ -189,7 +198,7 @@ class EmptyPokeBallEntity : ThrownItemEntity, Poseable, WaterDragModifier, Sched
                 val owner = owner
 
                 if (!pokemonEntity.pokemon.isWild()) {
-                    owner?.sendMessage(lang("capture.not_wild", pokemonEntity.pokemon.species.translatedName).red())
+                    owner?.sendMessage(lang("capture.not_wild", pokemonEntity.exposedSpecies.translatedName).red())
                     return drop()
                 }
 
@@ -204,7 +213,7 @@ class EmptyPokeBallEntity : ThrownItemEntity, Poseable, WaterDragModifier, Sched
                     val hitBattlePokemon = hitActor?.activePokemon?.find { it.battlePokemon?.effectedPokemon?.entity == pokemonEntity }
 
                     if (throwerActor == null) {
-                        owner.sendMessage(lang("capture.in_battle", pokemonEntity.pokemon.species.translatedName).red())
+                        owner.sendMessage(lang("capture.in_battle", pokemonEntity.exposedSpecies.translatedName).red())
                         return drop()
                     }
 
@@ -230,13 +239,13 @@ class EmptyPokeBallEntity : ThrownItemEntity, Poseable, WaterDragModifier, Sched
                             "capture.attempted_capture",
                             throwerActor.getName(),
                             pokeBall.item().name,
-                            pokemonEntity.pokemon.species.translatedName
+                            pokemonEntity.exposedSpecies.translatedName
                         ).yellow()
                     )
                     battle.sendUpdate(BattleCaptureStartPacket(pokeBall.name, aspects, hitBattlePokemon.getPNX()))
                     throwerActor.forceChoose(ForcePassActionResponse())
                 } else if (pokemonEntity.isBusy) {
-                    owner?.sendMessage(lang("capture.busy", pokemonEntity.pokemon.species.translatedName).red())
+                    owner?.sendMessage(lang("capture.busy", pokemonEntity.exposedSpecies.translatedName).red())
                     return drop()
                 } else if (owner is ServerPlayerEntity && BattleRegistry.getBattleByParticipatingPlayer(owner) != null) {
                     owner.sendMessage(lang("you_in_battle").red())
@@ -382,7 +391,7 @@ class EmptyPokeBallEntity : ThrownItemEntity, Poseable, WaterDragModifier, Sched
         world.playSoundServer(pos, CobblemonSounds.POKE_BALL_HIT, volume = 0.4F)
 
         // Hit Pokémon plays recoil animation
-        val pkt = PlayPoseableAnimationPacket(pokemonEntity.id, setOf("recoil"), emptySet())
+        val pkt = PlayPosableAnimationPacket(pokemonEntity.id, setOf("recoil"), emptySet())
         pkt.sendToPlayersAround(
             x = pokemonEntity.x,
             y = pokemonEntity.y,
