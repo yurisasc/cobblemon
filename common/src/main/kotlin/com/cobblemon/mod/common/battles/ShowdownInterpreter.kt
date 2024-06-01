@@ -139,8 +139,8 @@ object ShowdownInterpreter {
 
     /**
      *
-     * Figures out the sendout position for an arbitrary battle
-     * Code is very much WIP and will be refactored to heck and back.
+     * Figures out the sendout position for a pokemon in a battle
+     * 
      *
      */
      fun getSendoutPosition(battle: PokemonBattle, pnx:String, battleActor: BattleActor): Vec3d? {
@@ -150,11 +150,16 @@ object ShowdownInterpreter {
             pos?.subtract(entityPos)
         }
 
-        if(battle.format.battleType.pokemonPerSide == 1) {
+        // TODO: Enforce minimum distance between entities
+        if(battle.format.battleType.pokemonPerSide == 1) { // Singles
             if (baseOffset != null) {
-                entityPos = entityPos?.add(baseOffset.multiply(0.33))
+                var vector = Vec3d(baseOffset.x, 0.0, baseOffset.z).normalize()
+                if (vector != null) {
+                    vector = vector.crossProduct(Vec3d(0.0, -1.0, 0.0))
+                }
+                entityPos = entityPos?.add(baseOffset.multiply(if(battle.isPvW) 0.4 else 0.3))?.add(vector.multiply(2.5))
             }
-        } else if(battle.format.battleType.pokemonPerSide == 2) {
+        } else if (battle.format.battleType.pokemonPerSide == 2) { // Doubles
             if(battle.actors.first() !== battle.actors.last() && baseOffset != null) {
                 var vector = Vec3d(baseOffset.x, 0.0, baseOffset.z).normalize()
                 if (vector != null) {
@@ -163,8 +168,8 @@ object ShowdownInterpreter {
                 val offsetB = if(pnx[2] == 'a') vector.multiply(-1.0) else vector
                 entityPos = entityPos?.add(baseOffset.multiply(0.33))?.add(offsetB.multiply(2.5))
             }
-        } else if(battle.format.battleType.pokemonPerSide == 3) {
-            if(battle.actors.first() !== battle.actors.last() && baseOffset != null) {
+        } else if (battle.format.battleType.pokemonPerSide == 3) { // Triples
+            if (battle.actors.first() !== battle.actors.last() && baseOffset != null) {
                 var vector = Vec3d(baseOffset.x, 0.0, baseOffset.z).normalize()
                 if (vector != null) {
                     vector = vector.crossProduct(Vec3d(0.0, 1.0, 0.0))
