@@ -47,7 +47,7 @@ class DragInstruction(val instructionSet: InstructionSet, val battleActor: Battl
             val entity = if (battleActor is EntityBackedBattleActor<*>) battleActor.entity else null
             setOf(
                 BattleDispatch {
-                    if (entity != null) {
+                    if (entity != null && !SwitchInstruction.isVirtual) {
                         SwitchInstruction.createEntitySwitch(battle, battleActor, entity, pnx, activePokemon, pokemon, illusion, imposter)
                     } else {
                         SwitchInstruction.createNonEntitySwitch(battle, battleActor, pnx, activePokemon, pokemon, illusion)

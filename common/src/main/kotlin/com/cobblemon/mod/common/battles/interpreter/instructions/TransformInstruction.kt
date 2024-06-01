@@ -40,22 +40,26 @@ class TransformInstruction(val battle: PokemonBattle, val message: BattleMessage
         ShowdownInterpreter.broadcastOptionalAbility(battle, effect, pokemon)
 
         battle.dispatch {
+            if (SwitchInstruction.isVirtual) return@dispatch GO
             val entity = pokemon.entity ?: return@dispatch GO
             val future = TransformEffect(targetPokemon.effectedPokemon, battle.started).start(entity)
             UntilDispatch { future?.isDone != false }
         }
 
         battle.dispatchWaiting {
-            val mock = pokemon.entity?.effects?.mockEffect?.mock
             val pokemonName = pokemon.getName()
             val targetPokemonName = targetPokemon.getName()
 
-            mock?.let {
-                battle.sendSidedUpdate(
-                    source = actor,
-                    allyPacket = BattleTransformPokemonPacket(pnx, pokemon, it, true),
-                    opponentPacket = BattleTransformPokemonPacket(pnx, pokemon, it, false)
-                )
+            if (!SwitchInstruction.isVirtual) {
+                val mock = pokemon.entity?.effects?.mockEffect?.mock
+
+                mock?.let {
+                    battle.sendSidedUpdate(
+                        source = actor,
+                        allyPacket = BattleTransformPokemonPacket(pnx, pokemon, it, true),
+                        opponentPacket = BattleTransformPokemonPacket(pnx, pokemon, it, false)
+                    )
+                }
             }
 
             val lang = battleLang("transform", pokemonName, targetPokemonName)

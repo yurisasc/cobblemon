@@ -9,6 +9,7 @@
 package com.cobblemon.mod.common.battles.runner.socket
 
 import com.cobblemon.mod.common.Cobblemon
+import com.cobblemon.mod.common.CobblemonImplementation
 import com.cobblemon.mod.common.api.battles.model.PokemonBattle
 import com.cobblemon.mod.common.api.pokemon.PokemonSpecies
 import com.cobblemon.mod.common.battles.BagItems
@@ -16,9 +17,11 @@ import com.cobblemon.mod.common.battles.ShowdownInterpreter
 import com.cobblemon.mod.common.battles.runner.ShowdownService
 import com.cobblemon.mod.common.pokemon.FormData
 import com.cobblemon.mod.common.pokemon.Species
+import com.cobblemon.mod.common.util.server
 import com.google.gson.Gson
 import com.google.gson.JsonArray
 import java.io.BufferedReader
+import java.io.File
 import java.io.InputStreamReader
 import java.io.OutputStreamWriter
 import java.net.InetAddress
@@ -83,7 +86,9 @@ class SocketShowdownService(val host: String = "localhost", val port: Int = 1846
 
     private fun readMessage(): String {
         val payloadSize = read(reader, 8).toInt()
+        println("Reading payload of size: $payloadSize")
         val payload = read(reader, payloadSize)
+        println("Response: $payload")
         return payload
     }
 
@@ -113,7 +118,18 @@ class SocketShowdownService(val host: String = "localhost", val port: Int = 1846
         writer.write(">getCobbledMoves\n")
         writer.flush()
         val response = readMessage()
-        return gson.fromJson(response, JsonArray::class.java)
+        try {
+            return gson.fromJson(response, JsonArray::class.java)
+        }
+        catch (e: Exception) {
+            println("Error, JSON logged to logs/showdown.log")
+            File("./showdown.log").writer().use {
+                server()?.getFile("./logs/showdown.log")?.writer().use { writer ->
+                    writer?.write(response)
+                }
+            }
+        }
+        return JsonArray()
     }
 
     override fun getItemIds(): JsonArray {

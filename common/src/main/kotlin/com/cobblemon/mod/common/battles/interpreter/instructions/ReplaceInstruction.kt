@@ -32,8 +32,10 @@ class ReplaceInstruction(val message: BattleMessage): InterpreterInstruction {
         val pokemon = message.battlePokemon(0, battle) ?: return
 
         battle.dispatchGo {
-            val entity = pokemon.entity
-            entity?.let { it.effects.mockEffect?.end(it) }
+            if (!SwitchInstruction.isVirtual) {
+                val entity = pokemon.entity
+                entity?.let { it.effects.mockEffect?.end(it) }
+            }
 
             battle.sendSidedUpdate(
                 source = actor,

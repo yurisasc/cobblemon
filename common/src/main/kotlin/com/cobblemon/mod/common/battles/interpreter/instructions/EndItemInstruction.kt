@@ -38,7 +38,9 @@ class EndItemInstruction(val message: BattleMessage): InterpreterInstruction {
             battle.minorBattleActions[battlePokemon.uuid] = message
             battlePokemon.contextManager.remove(itemEffect.id, BattleContext.Type.ITEM)
             if (message.hasOptionalArgument("eat")) {
-                battlePokemon.entity?.playSound(CobblemonSounds.BERRY_EAT, 1F, 1F)
+                if (!SwitchInstruction.isVirtual) {
+                    battlePokemon.entity?.playSound(CobblemonSounds.BERRY_EAT, 1F, 1F)
+                }
             }
         }
     }

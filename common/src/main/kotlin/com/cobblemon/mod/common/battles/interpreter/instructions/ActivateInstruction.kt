@@ -64,7 +64,9 @@ class ActivateInstruction(val instructionSet: InstructionSet, val message: Battl
             val actionEffect = status?.getActionEffect() ?: return@dispatch GO
             val providers = mutableListOf<Any>(battle)
             val pokemon = message.battlePokemon(0, battle) ?: return@dispatch GO
-            pokemon.effectedPokemon.entity?.let { UsersProvider(it) }?.let(providers::add)
+            if (!SwitchInstruction.isVirtual) {
+                pokemon.effectedPokemon.entity?.let { UsersProvider(it) }?.let(providers::add)
+            }
             val context = ActionEffectContext(
                 actionEffect = actionEffect,
                 runtime = runtime,

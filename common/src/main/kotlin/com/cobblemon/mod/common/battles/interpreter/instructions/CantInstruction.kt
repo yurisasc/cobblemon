@@ -53,7 +53,9 @@ class CantInstruction(val message: BattleMessage): ActionEffectInstruction {
             val status = Statuses.getStatus(effectID)
             val actionEffect = status?.getActionEffect() ?: return@dispatch GO
             val providers = mutableListOf<Any>(battle)
-            pokemon.effectedPokemon.entity?.let { UsersProvider(it) }?.let(providers::add)
+            if (!SwitchInstruction.isVirtual) {
+                pokemon.effectedPokemon.entity?.let { UsersProvider(it) }?.let(providers::add)
+            }
 
             val context = ActionEffectContext(
                 actionEffect = actionEffect,

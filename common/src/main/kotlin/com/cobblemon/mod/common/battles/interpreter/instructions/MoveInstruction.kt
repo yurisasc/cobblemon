@@ -86,6 +86,7 @@ class MoveInstruction(
             battle.majorBattleActions[userPokemon.uuid] = message
 
             val providers = mutableListOf<Any>(battle)
+            if (SwitchInstruction.isVirtual) return@dispatch GO
             userPokemon.effectedPokemon.entity?.let { UsersProvider(it) }?.let(providers::add)
             targetPokemon?.effectedPokemon?.entity?.let { TargetsProvider(it) }?.let(providers::add)
             val runtime = MoLangRuntime().also {

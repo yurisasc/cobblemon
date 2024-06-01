@@ -48,7 +48,7 @@ class SwitchInstruction(val instructionSet: InstructionSet, val battleActor: Bat
             activePokemon.battlePokemon = pokemon
             activePokemon.illusion = illusion
             val pokemonEntity = pokemon.entity
-            if (pokemonEntity == null && entity != null) {
+            if (pokemonEntity == null && entity != null && !isVirtual) {
                 val targetPos = battleActor.getSide().getOppositeSide().actors.filterIsInstance<EntityBackedBattleActor<*>>().firstOrNull()?.entity?.pos?.let { pos ->
                     val offset = pos.subtract(entity.pos)
                     val idealPos = entity.pos.add(offset.multiply(0.33))
@@ -87,7 +87,7 @@ class SwitchInstruction(val instructionSet: InstructionSet, val battleActor: Bat
 
                 setOf(
                     BattleDispatch {
-                        if (entity != null) {
+                        if (entity != null && !isVirtual) {
                             createEntitySwitch(battle, actor, entity, pnx, activePokemon, pokemon, illusion, imposter)
                         } else {
                             createNonEntitySwitch(battle, actor, pnx, activePokemon, pokemon, illusion)
@@ -99,6 +99,8 @@ class SwitchInstruction(val instructionSet: InstructionSet, val battleActor: Bat
     }
 
     companion object{
+        val isVirtual = true
+
         fun createEntitySwitch(
             battle: PokemonBattle,
             actor: BattleActor,

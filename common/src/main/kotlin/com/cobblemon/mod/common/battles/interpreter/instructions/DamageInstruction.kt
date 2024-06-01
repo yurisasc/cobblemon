@@ -107,7 +107,9 @@ class DamageInstruction(
             }
             val actionEffect = status?.getActionEffect() ?: return@dispatch GO
             val providers = mutableListOf<Any>(battle)
-            battlePokemon.effectedPokemon.entity?.let { UsersProvider(it) }?.let(providers::add)
+            if (!SwitchInstruction.isVirtual) {
+                battlePokemon.effectedPokemon.entity?.let { UsersProvider(it) }?.let(providers::add)
+            }
 
             val context = ActionEffectContext(
                 actionEffect = actionEffect,
@@ -132,7 +134,7 @@ class DamageInstruction(
             val pokemonName = battlePokemon.getName()
             val pokemonEntity = battlePokemon.entity
             //Play recoil animation if the pokemon recoiling isnt dead
-            if (!causedFaint && pokemonEntity != null) {
+            if (!causedFaint && pokemonEntity != null && !SwitchInstruction.isVirtual) {
                 val pkt = PlayPoseableAnimationPacket(pokemonEntity.id, setOf("recoil"), emptySet())
                 pkt.sendToPlayersAround(
                     x = pokemonEntity.x,
@@ -143,7 +145,7 @@ class DamageInstruction(
                 )
             }
             //Play hit particle
-            if (pokemonEntity != null) {
+            if (pokemonEntity != null && !SwitchInstruction.isVirtual) {
                 RunPosableMoLangPacket(pokemonEntity.id, setOf("q.particle('cobblemon:hit', 'target')")).sendToPlayersAround(
                     x = pokemonEntity.x,
                     y = pokemonEntity.y,

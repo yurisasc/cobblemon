@@ -49,7 +49,9 @@ class BoostInstruction(val instructionSet: InstructionSet, val message: BattleMe
             val actionEffect = if (isBoost) BOOST_EFFECT else UNBOOST_EFFECT
             val providers = mutableListOf<Any>(battle)
             val pokemon = message.battlePokemon(0, battle) ?: return@dispatch GO
-            pokemon.effectedPokemon.entity?.let { UsersProvider(it) }?.let(providers::add)
+            if (!SwitchInstruction.isVirtual) {
+                pokemon.effectedPokemon.entity?.let { UsersProvider(it) }?.let(providers::add)
+            }
             val context = ActionEffectContext(
                 actionEffect = actionEffect,
                 runtime = runtime,
