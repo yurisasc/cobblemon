@@ -35,6 +35,8 @@ import com.cobblemon.mod.common.util.toBlockPos
 import net.minecraft.advancement.criterion.Criteria
 import net.minecraft.block.Blocks
 import net.minecraft.client.MinecraftClient
+import net.minecraft.client.sound.PositionedSoundInstance
+import net.minecraft.client.sound.SoundInstance
 import net.minecraft.entity.*
 import net.minecraft.entity.data.DataTracker
 import net.minecraft.entity.data.TrackedData
@@ -103,9 +105,11 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
     var randomPitch: Float = 0f
     var randomYaw: Float = 0f
     var lastBobberPos: Vec3d? = null
+    var castingSound: SoundInstance? = null
 
-    constructor(thrower: PlayerEntity, pokeRodId: Identifier, bait: ItemStack, world: World, luckOfTheSea: Int, lure: Int) : this(CobblemonEntities.POKE_BOBBER, world) {
+    constructor(thrower: PlayerEntity, pokeRodId: Identifier, bait: ItemStack, world: World, luckOfTheSea: Int, lure: Int, castSound: SoundInstance) : this(CobblemonEntities.POKE_BOBBER, world) {
         owner = thrower
+        castingSound = castSound
         luckOfTheSeaLevel = luckOfTheSea
         lureLevel = lure
         this.pokeRodId = pokeRodId
@@ -116,7 +120,6 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
         dataTracker.set(CAUGHT_FISH, false)
 
         this.usedRod = pokeRodId
-
 
         val throwerPitch = thrower.pitch
         val throwerYaw = thrower.yaw
@@ -401,9 +404,6 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
             }
         } else {
             if (isCast != true) {
-                // stop audio for the rod casting
-                (MinecraftClient.getInstance().getSoundManager() as SoundManagerDuck).stopSounds(CobblemonSounds.FISHING_ROD_CAST.id, SoundCategory.PLAYERS)
-
                 // When bobber lands on the water for the first time
                 world.playSound(null, this.blockPos, CobblemonSounds.FISHING_BOBBER_LAND, SoundCategory.NEUTRAL, 1.0F, 1.0F)
 
@@ -424,12 +424,26 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
         }
     }
 
+    fun stopCastingAudio () {
+        // stop audio for the rod casting
+        //(MinecraftClient.getInstance().getSoundManager() as SoundManagerDuck).stopSounds(CobblemonSounds.FISHING_ROD_CAST.id, SoundCategory.PLAYERS)
+
+        if (castingSound != null) {
+            (MinecraftClient.getInstance().getSoundManager()).stop(castingSound)
+
+            // reset casting sound
+            castingSound = null
+        }
+    }
+
     private fun removeIfInvalid(player: PlayerEntity): Boolean {
         val itemStack = player.mainHandStack
         val itemStack2 = player.offHandStack
         val bl = Registries.ITEM[this.usedRod] == itemStack.item //(itemStack.item is PokerodItem) // todo make this work again so the line breaks when you swap items
         val bl2 = Registries.ITEM[this.usedRod] == itemStack2.item //(itemStack2.item is PokerodItem) // todo make this work again so the line breaks when you swap items
         if (player.isRemoved || !player.isAlive || !bl && !bl2 || this.squaredDistanceTo(player) > 1024.0) {
+            if (world.isClient)
+                stopCastingAudio() // remove casting audio when user switches to different item in hotbar
             discard()
             isCast = false
             return true
@@ -492,8 +506,9 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
 
             // pause audio if the bobber is not moving anymore
             if (lastBobberPos == pos) {
-                // stop audio for the rod casting
-                (MinecraftClient.getInstance().getSoundManager() as SoundManagerDuck).stopSounds(CobblemonSounds.FISHING_ROD_CAST.id, SoundCategory.PLAYERS)
+                // stop audio for the rod casting if the position has not changed
+                if (world.isClient)
+                    stopCastingAudio()
             }
             lastBobberPos = pos
 
@@ -522,6 +537,11 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
                     return
                 }
                 if (state == State.BOBBING) {
+                    // stop casting audio once it lands in water
+                    if (castingSound != null && world.isClient) {
+                        stopCastingAudio()
+                    }
+
                     val vec3d = velocity
                     var d = this.y + vec3d.y - blockPos.y.toDouble() - f.toDouble()
                     if (Math.abs(d) < 0.01) {
@@ -560,6 +580,10 @@ class PokeRodFishingBobberEntity(type: EntityType<out PokeRodFishingBobberEntity
     }
 
     override fun use(usedItem: ItemStack): Int {
+        // when reelimg in prematurely stop casting audio if it is playing
+        if (world.isClient)
+            stopCastingAudio()
+
         val playerEntity = this.playerOwner
         isCast = false
 
