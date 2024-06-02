@@ -15,7 +15,8 @@ import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.util.blockPositionsAsListRounded
 import com.cobblemon.mod.common.util.cobblemonResource
-import com.google.gson.JsonElement
+import kotlin.math.max
+import kotlin.math.min
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.network.PacketByteBuf
@@ -23,8 +24,6 @@ import net.minecraft.util.Identifier
 import net.minecraft.util.math.Vec2f
 import net.minecraft.util.math.Vec3d
 import net.minecraft.util.shape.VoxelShapes
-import kotlin.math.max
-import kotlin.math.min
 
 class GenericLiquidController : RideController {
     companion object {
@@ -70,6 +69,14 @@ class GenericLiquidController : RideController {
         }
 
         return Vec3d(f.toDouble(), 0.0, g.toDouble())
+    }
+
+    override fun canJump(entity: PokemonEntity, driver: PlayerEntity): Boolean {
+        TODO("Not yet implemented")
+    }
+
+    override fun jumpForce(entity: PokemonEntity, driver: PlayerEntity, jumpStrength: Int): Vec3d {
+        TODO("Not yet implemented")
     }
 
     override fun encode(buffer: PacketByteBuf) {

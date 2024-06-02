@@ -29,6 +29,7 @@ import com.cobblemon.mod.common.net.messages.client.effect.RunPosableMoLangPacke
 import com.cobblemon.mod.common.util.asIdentifierDefaultingNamespace
 import com.cobblemon.mod.common.util.getBooleanOrNull
 import com.cobblemon.mod.common.util.getDoubleOrNull
+import com.cobblemon.mod.common.util.getIsSubmerged
 import com.cobblemon.mod.common.util.isInt
 import com.cobblemon.mod.common.util.itemRegistry
 import com.cobblemon.mod.common.util.worldRegistry
@@ -159,6 +160,7 @@ object MoLangFunctions {
             map.put("is_invisible") { _ -> DoubleValue(entity.isInvisible) }
             map.put("is_sleeping") { _ -> DoubleValue(entity.isSleeping) }
             map.put("is_riding") { _ -> DoubleValue(entity.hasVehicle()) }
+            map.put("is_underwater") { DoubleValue(entity.getIsSubmerged()) }
             map.put("health") { _ -> DoubleValue(entity.health) }
             map.put("max_health") { _ -> DoubleValue(entity.maxHealth) }
             map.put("name") { _ -> StringValue(entity.entityName) }
@@ -171,9 +173,14 @@ object MoLangFunctions {
             map.put("velocity_y") { _ -> DoubleValue(entity.velocity.y) }
             map.put("velocity_z") { _ -> DoubleValue(entity.velocity.z) }
             map.put("horizontal_velocity") { _ -> DoubleValue(entity.velocity.horizontalLength()) }
+            map.put("velocity_magnitude") { _ -> DoubleValue(entity.velocity.length()) }
             map.put("is_on_ground") { _ -> DoubleValue(entity.isOnGround) }
             map.put("world") { _ -> entity.world.worldRegistry.getEntry(entity.world).asWorldMoLangValue() }
             map.put("biome") { _ -> entity.world.getBiome(entity.blockPos).asBiomeMoLangValue() }
+            map.put("width") { _ -> DoubleValue(entity.boundingBox.xLength) }
+            map.put("height") { _ -> DoubleValue(entity.boundingBox.yLength) }
+            map.put("entity_width") { _ -> DoubleValue(entity.boundingBox.xLength) }
+            map.put("entity_height") { _ -> DoubleValue(entity.boundingBox.yLength) }
             map
         }
     )
@@ -242,6 +249,11 @@ object MoLangFunctions {
         value.addFunctions(entityFunctions.flatMap { it(this).entries.map { it.key to it.value } }.toMap())
         value.addFunctions(npcFunctions.flatMap { it(this).entries.map { it.key to it.value } }.toMap())
         return value
+    }
+
+    fun QueryStruct.addLivingEntityFunctions(entity: LivingEntity): QueryStruct {
+        functions.putAll(entityFunctions.flatMap { it(entity).entries.map { it.key to it.value } }.toMap())
+        return this
     }
 
     fun PokemonBattle.asMoLangValue(): ObjectValue<PokemonBattle> {
