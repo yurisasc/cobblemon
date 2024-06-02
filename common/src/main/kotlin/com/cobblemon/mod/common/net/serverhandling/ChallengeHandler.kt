@@ -59,8 +59,8 @@ object ChallengeHandler : ServerNetworkPacketHandler<BattleChallengePacket> {
                 if (player == targetedEntity) {
                     return
                 }
-                val existingChallenge = BattleRegistry.pvpChallenges[targetedEntity.uuid]
-                if (existingChallenge != null && !existingChallenge.isExpired() && existingChallenge.challengedPlayerUUID == player.uuid) {
+                val existingChallenge = BattleRegistry.pvpChallenges[player.uuid]
+                if (existingChallenge != null && !existingChallenge.isExpired() && existingChallenge.challengedPlayerUUID == targetedEntity.uuid) {
                     // Overwrite the challenge or do nothing.
                     // send a message about there being an existing challenge
                     player.sendMessage(lang("challenge.pending", targetedEntity.name).yellow())
