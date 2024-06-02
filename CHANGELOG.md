@@ -8,9 +8,12 @@
 - Fixed Pokemon spawning in non-full blocks like slabs.
 - Fixed Gilded Chests not dropping the chest itself when broken, only the contents.
 - Fixed Pokémon losing their Hidden Ability through evolution if the middle stage did not have a Hidden Ability.
+- Hidden Power no longer plays the water type action effect. (It now plays the normal type action effect.)
 
 ### Additions
 - Added extra visuals to early berry growth stages
+- Hidden Power now displays its effective typing.
+- Moves impacted by the abilities Pixelate, Refrigerate, Aerilate, Galvanize, and Normalize now display as their altered typing.
 
 ### Changes
 - Altered the item model for Medicinal Leeks and Roasted Leeks to be held like sticks and other rod items. 

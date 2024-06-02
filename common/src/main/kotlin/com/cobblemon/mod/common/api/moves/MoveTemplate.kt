@@ -155,7 +155,7 @@ open class MoveTemplate(
             return hiddenPowerTable[tableIndex.coerceAtMost(hiddenPowerTable.size - 1)]
         }
         // TODO: Handle ability suppression: clientactivebattlepokemon needs data about volatiles
-        // TODO: Handle Liquid Voice: needs to know what moves have the sound flag
+        // TODO: Handle Liquid Voice: need to know what moves have the sound flag
         // TODO: Handle weatherball, naturalgift, judgement, technoblast, terrainpulse, and terrablast
         if (this.elementalType == ElementalTypes.NORMAL) {
             if( this.damageCategory != DamageCategories.STATUS) {
