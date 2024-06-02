@@ -12,6 +12,7 @@ import com.bedrockk.molang.Expression
 import com.bedrockk.molang.MoLang
 import com.bedrockk.molang.ast.BooleanExpression
 import com.bedrockk.molang.ast.NumberExpression
+import com.bedrockk.molang.runtime.value.DoubleValue
 import com.cobblemon.mod.common.util.codec.EXPRESSION_CODEC
 import com.cobblemon.mod.common.util.getString
 import com.mojang.serialization.Codec
@@ -34,7 +35,7 @@ class BedrockParticle(
     var sizeX: Expression = NumberExpression(0.15),
     var sizeY: Expression = NumberExpression(0.15),
     var maxAge: Expression = NumberExpression(1.0),
-    var killExpression: Expression = BooleanExpression(false),
+    var killExpression: Expression = BooleanExpression(DoubleValue.ZERO),
     var updateExpressions: MutableList<Expression> = mutableListOf(),
     var renderExpressions: MutableList<Expression> = mutableListOf(),
     var motion: ParticleMotion = StaticParticleMotion(),

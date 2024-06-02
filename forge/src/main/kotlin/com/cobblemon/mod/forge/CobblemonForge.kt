@@ -166,6 +166,18 @@ class CobblemonForge : CobblemonImplementation {
                 ForgeRegistries.ACTIVITIES.register(cobblemonResource(it.id), it)
             }
         }
+
+        event.register(RegistryKeys.SENSOR_TYPE) {
+            CobblemonSensors.sensors.forEach { (key, sensorType) ->
+                ForgeRegistries.SENSOR_TYPES.register(cobblemonResource(key), sensorType)
+            }
+        }
+
+        event.register(RegistryKeys.MEMORY_MODULE_TYPE) {
+            CobblemonMemories.memories.forEach { (key, memoryModuleType) ->
+                ForgeRegistries.MEMORY_MODULE_TYPES.register(cobblemonResource(key), memoryModuleType)
+            }
+        }
     }
 
     fun onDataPackSync(event: OnDatapackSyncEvent) {

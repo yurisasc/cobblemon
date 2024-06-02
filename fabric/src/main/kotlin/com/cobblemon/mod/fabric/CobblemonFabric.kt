@@ -103,6 +103,9 @@ object CobblemonFabric : CobblemonImplementation {
         CobblemonPlacementModifierTypes.touch()
         CobblemonProcessorTypes.touch()
         CobblemonActivities.activities.forEach { Registry.register(Registries.ACTIVITY, cobblemonResource(it.id), it) }
+        CobblemonSensors.sensors.forEach { (key, sensorType) -> Registry.register(Registries.SENSOR_TYPE, cobblemonResource(key), sensorType) }
+        CobblemonMemories.memories.forEach { (key, memoryModuleType) -> Registry.register(Registries.MEMORY_MODULE_TYPE, cobblemonResource(key), memoryModuleType) }
+
         EntitySleepEvents.STOP_SLEEPING.register { playerEntity, _ ->
             if (playerEntity !is ServerPlayerEntity) {
                 return@register

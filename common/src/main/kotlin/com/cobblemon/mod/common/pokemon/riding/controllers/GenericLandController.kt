@@ -9,10 +9,7 @@
 package com.cobblemon.mod.common.pokemon.riding.controllers
 
 import com.bedrockk.molang.runtime.MoLangRuntime
-import com.bedrockk.molang.runtime.struct.QueryStruct
 import com.bedrockk.molang.runtime.value.DoubleValue
-import com.cobblemon.mod.common.api.molang.MoLangFunctions.addFunctions
-import com.cobblemon.mod.common.api.molang.MoLangFunctions.getQueryStruct
 import com.cobblemon.mod.common.api.riding.controller.RideController
 import com.cobblemon.mod.common.api.riding.controller.posing.PoseOption
 import com.cobblemon.mod.common.api.riding.controller.posing.PoseProvider
@@ -23,7 +20,6 @@ import com.cobblemon.mod.common.util.blockPositionsAsListRounded
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.getString
 import com.cobblemon.mod.common.util.resolveFloat
-import kotlin.math.abs
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.network.PacketByteBuf
@@ -37,20 +33,22 @@ class GenericLandController : RideController {
         val KEY: Identifier = cobblemonResource("land/generic")
     }
 
-    var speed = "Math.clamp(q.entity.velocity.horizontal_length + q.entity.acceleration, 0, 10)".asExpression()
+//    private var previousVelocity = Vec3d.ZERO
+
+    var canJump = "true".asExpression()
+        private set
+    var jumpVector = listOf("0".asExpression(), "0.3".asExpression(), "0".asExpression())
+        private set
+    var speed = "1.0".asExpression()
         private set
 
-    // this needs to be moved to the entity runtime once that's a thing
-    @Transient
-    val runtime = MoLangRuntime()
-    @Transient
-    val entityStruct = QueryStruct(hashMapOf())
+    private var runtime = MoLangRuntime()
+
     @Transient
     private var initializedEntityId = -1
 
     override val key: Identifier = KEY
-    override val poseProvider: PoseProvider = PoseProvider(PoseType.STAND)
-        .with(PoseOption(PoseType.WALK) { it.dataTracker.get(PokemonEntity.MOVING) })
+    override val poseProvider: PoseProvider = PoseProvider(PoseType.STAND).with(PoseOption(PoseType.WALK) { it.dataTracker.get(PokemonEntity.MOVING) })
     override val condition: (PokemonEntity) -> Boolean = { entity ->
         //Are there any blocks under the mon that aren't air or fluid
         //Cant just check one block since some mons may be more than one block big
@@ -76,24 +74,7 @@ class GenericLandController : RideController {
         }
         initializedEntityId = entity.id
 
-        runtime.environment.getQueryStruct().addFunctions(
-            mapOf(
-                "entity" to java.util.function.Function { entityStruct }
-            )
-        )
-
-        entityStruct.addFunction("velocity") {
-            QueryStruct(hashMapOf()).addFunctions(
-                mapOf(
-                    "x" to java.util.function.Function { DoubleValue(entity.velocity.x) },
-                    "y" to java.util.function.Function { DoubleValue(entity.velocity.y) },
-                    "z" to java.util.function.Function { DoubleValue(entity.velocity.z) },
-                    "horizontal_magnitude" to java.util.function.Function { DoubleValue(entity.velocity.horizontalLength()) },
-                    "magnitude" to java.util.function.Function { DoubleValue(entity.velocity.length()) },
-                    "vertical_magnitude" to java.util.function.Function { DoubleValue(abs(entity.velocity.y)) }
-                )
-            )
-        }
+        runtime.environment.query.addFunction("entity") { entity.struct }
     }
 
     override fun speed(entity: PokemonEntity, driver: PlayerEntity): Float {
@@ -117,12 +98,31 @@ class GenericLandController : RideController {
         return velocity
     }
 
+    override fun canJump(entity: PokemonEntity, driver: PlayerEntity) = true
+
+    override fun jumpForce(entity: PokemonEntity, driver: PlayerEntity, jumpStrength: Int): Vec3d {
+        attachEntity(entity)
+        runtime.environment.query.addFunction("jump_strength") { DoubleValue(jumpStrength.toDouble()) }
+        val jumpVector = jumpVector.map { runtime.resolveFloat(it) }
+        return Vec3d(jumpVector[0].toDouble(), jumpVector[1].toDouble(), jumpVector[2].toDouble())
+    }
+
     override fun encode(buffer: PacketByteBuf) {
         super.encode(buffer)
         buffer.writeString(this.speed.getString())
+        buffer.writeString(this.canJump.getString())
+        buffer.writeString(this.jumpVector[0].getString())
+        buffer.writeString(this.jumpVector[1].getString())
+        buffer.writeString(this.jumpVector[2].getString())
     }
 
     override fun decode(buffer: PacketByteBuf) {
         this.speed = buffer.readString().asExpression()
+        this.canJump = buffer.readString().asExpression()
+        this.jumpVector = listOf(
+            buffer.readString().asExpression(),
+            buffer.readString().asExpression(),
+            buffer.readString().asExpression()
+        )
     }
 }

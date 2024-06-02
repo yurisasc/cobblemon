@@ -53,4 +53,14 @@ data class RidingManager(val entity: PokemonEntity) {
         val controller = entity.pokemon.riding.controllers.firstOrNull { it.condition.invoke(entity) }
         return controller?.velocity(driver, input) ?: Vec3d.ZERO
     }
+
+    fun canJump(entity: PokemonEntity, driver: PlayerEntity): Boolean {
+        val controller = entity.pokemon.riding.controllers.firstOrNull { it.condition.invoke(entity) }
+        return controller?.canJump(entity, driver) ?: false
+    }
+
+    fun jumpVelocity(entity: PokemonEntity, driver: PlayerEntity, jumpStrength: Int): Vec3d {
+        val controller = entity.pokemon.riding.controllers.firstOrNull { it.condition.invoke(entity) }
+        return controller?.jumpForce(entity, driver, jumpStrength) ?: Vec3d.ZERO
+    }
 }

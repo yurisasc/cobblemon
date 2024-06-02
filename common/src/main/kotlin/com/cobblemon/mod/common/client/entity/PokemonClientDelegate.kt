@@ -8,23 +8,23 @@
 
 package com.cobblemon.mod.common.client.entity
 
+import com.bedrockk.molang.runtime.struct.QueryStruct
 import com.bedrockk.molang.runtime.value.DoubleValue
 import com.bedrockk.molang.runtime.value.StringValue
 import com.cobblemon.mod.common.CobblemonSounds
 import com.cobblemon.mod.common.api.entity.PokemonSideDelegate
 import com.cobblemon.mod.common.api.molang.MoLangFunctions.addFunctions
-import com.cobblemon.mod.common.api.molang.MoLangFunctions.getQueryStruct
 import com.cobblemon.mod.common.api.pokemon.PokemonSpecies
 import com.cobblemon.mod.common.api.scheduling.SchedulingTracker
 import com.cobblemon.mod.common.api.scheduling.afterOnClient
 import com.cobblemon.mod.common.api.scheduling.lerpOnClient
+import com.cobblemon.mod.common.client.ClientMoLangFunctions
 import com.cobblemon.mod.common.client.particle.BedrockParticleEffectRepository
 import com.cobblemon.mod.common.client.particle.ParticleStorm
 import com.cobblemon.mod.common.client.render.MatrixWrapper
-import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableState
+import com.cobblemon.mod.common.client.render.models.blockbench.animation.ActiveAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.PrimaryAnimation
-import com.cobblemon.mod.common.client.render.models.blockbench.animation.StatefulAnimation
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.repository.PokemonModelRepository
 import com.cobblemon.mod.common.client.render.pokemon.PokemonRenderer.Companion.ease
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
@@ -41,7 +41,7 @@ import net.minecraft.util.Hand
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.Vec3d
 
-class PokemonClientDelegate : PoseableEntityState<PokemonEntity>(), PokemonSideDelegate {
+class PokemonClientDelegate : PosableState(), PokemonSideDelegate {
     companion object {
         const val BEAM_SHRINK_TIME = 0.4F
         const val BEAM_EXTEND_TIME = 0.2F
@@ -50,6 +50,7 @@ class PokemonClientDelegate : PoseableEntityState<PokemonEntity>(), PokemonSideD
 
     override val schedulingTracker: SchedulingTracker
         get() = currentEntity.schedulingTracker
+
     lateinit var currentEntity: PokemonEntity
     var phaseTarget: Entity? = null
     var entityScaleModifier = 1F
@@ -77,7 +78,7 @@ class PokemonClientDelegate : PoseableEntityState<PokemonEntity>(), PokemonSideD
     val secondsSinceBallThrown: Float
         get() = (System.currentTimeMillis() - ballStartTime) / 1000F
 
-    private var cryAnimation: StatefulAnimation<PokemonEntity, *>? = null
+    private var cryAnimation: ActiveAnimation? = null
 
     override fun onTrackedDataSet(data: TrackedData<*>) {
         super.onTrackedDataSet(data)
@@ -86,12 +87,14 @@ class PokemonClientDelegate : PoseableEntityState<PokemonEntity>(), PokemonSideD
                 val identifier = Identifier(currentEntity.dataTracker.get(PokemonEntity.SPECIES))
                 currentPose = null
                 currentEntity.pokemon.species = PokemonSpecies.getByIdentifier(identifier)!! // TODO exception handling
-                // force a model update - handles edge case where the PoseableEntityState's tracked PoseableEntityModel isn't updated until the LivingEntityRenderer render is run
+                // force a model update - handles edge case where the PosableState's tracked PosableModel isn't updated until the LivingEntityRenderer render is run
                 currentModel = PokemonModelRepository.getPoser(identifier, currentEntity.aspects)
+            } else if (data == PokemonEntity.ASPECTS) {
+                currentAspects = currentEntity.dataTracker.get(PokemonEntity.ASPECTS)
             } else if (data == PokemonEntity.DYING_EFFECTS_STARTED) {
                 val isDying = currentEntity.dataTracker.get(PokemonEntity.DYING_EFFECTS_STARTED)
                 if (isDying) {
-                    val model = (currentModel ?: return) as PokemonPoseableModel
+                    val model = currentModel ?: return
                     val animation = try {
                         model.getAnimation(this, "faint", runtime)
                     } catch (e: Exception) {
@@ -117,7 +120,7 @@ class PokemonClientDelegate : PoseableEntityState<PokemonEntity>(), PokemonSideD
                         currentEntity.isInvisible = true
                         ballDone = false
                         var soundPos = currentEntity.pos
-                        currentEntity.pokemon.getOwnerUUID()?.let{
+                        currentEntity.ownerUuid?.let{
                             currentEntity.world.getPlayerByUuid(it)?.let {
                                 val offset = it.pos.subtract(currentEntity.pos.add(0.0, 2.0 - (ballOffset.toDouble()/10f), 0.0)).normalize().multiply(-ease(ballOffset.toDouble()))
                                 with(it.pos.subtract(currentEntity.pos)) {
@@ -131,7 +134,7 @@ class PokemonClientDelegate : PoseableEntityState<PokemonEntity>(), PokemonSideD
                         }
                         val client = MinecraftClient.getInstance()
                         val sound = MovingSoundInstance(SoundEvent.of(CobblemonSounds.POKE_BALL_TRAIL.id), SoundCategory.PLAYERS, { sendOutPosition?.add(sendOutOffset) }, 0.1f, 1f, false, 20, 0)
-                        if(!playedThrowingSound){
+                        if (!playedThrowingSound){
                             client.soundManager.play(sound)
                             playedThrowingSound = true
                         }
@@ -145,33 +148,31 @@ class PokemonClientDelegate : PoseableEntityState<PokemonEntity>(), PokemonSideD
                                 client.world?.playSound(client.player, soundPos.x, soundPos.y, soundPos.z, SoundEvent.of(CobblemonSounds.POKE_BALL_SEND_OUT.id), SoundCategory.PLAYERS, 0.6f, 1f)
                                 playedSendOutSound = true
                             }
-                            // Display ball-specific particles
-                            sendOutPosition?.let{
-                                val newPos = it.add(sendOutOffset)
-                                val ballType = currentEntity.pokemon.caughtBall.name.path.lowercase().replace("_","")
-                                val mode = if(currentEntity.isBattling) "battle" else "casual"
-                                val sendflash = BedrockParticleEffectRepository.getEffect(cobblemonResource("${ballType}/${mode}/sendflash"))
-                                sendflash?.let { effect ->
-                                    val wrapper = MatrixWrapper()
-                                    val matrix = MatrixStack()
-                                    matrix.translate(newPos.x, newPos.y, newPos.z)
-                                    wrapper.updateMatrix(matrix.peek().positionMatrix)
-                                    val world = MinecraftClient.getInstance().world ?: return@let
-                                    ParticleStorm(effect, wrapper, world).spawn()
-                                    val ballsparks = BedrockParticleEffectRepository.getEffect(cobblemonResource("${ballType}/${mode}/ballsparks"))
-                                    val ballsendsparkle = BedrockParticleEffectRepository.getEffect(cobblemonResource("${ballType}/${mode}/ballsendsparkle"))
-                                    // using afterOnClient because it's such a small timeframe that it's unlikely the entity has been removed & we'd like the precision
-                                    afterOnClient(seconds = 0.01667f) {
-                                        ballsparks?.let { effect ->
+                            currentEntity.ownerUuid?.let {
+                                    client.world?.playSound(client.player, soundPos.x, soundPos.y, soundPos.z, SoundEvent.of(CobblemonSounds.POKE_BALL_SEND_OUT.id), SoundCategory.PLAYERS, 0.6f, 1f)
+                                    playedSendOutSound = true
+                                    /// create end rod particles in a 0.1 radius around the soundPos with a count of 50 and a random velocity of 0.1
+                                    sendOutPosition?.let{
+                                        val newPos = it.add(sendOutOffset)
+                                        val ballType = currentEntity.pokemon.caughtBall.name.path.toLowerCase().replace("_","")
+                                        val mode = if(currentEntity.isBattling) "battle" else "casual"
+                                        val sendflash = BedrockParticleEffectRepository.getEffect(cobblemonResource("${ballType}/${mode}/sendflash"))
+                                        sendflash?.let { effect ->
+                                            val wrapper = MatrixWrapper()
+                                            val matrix = MatrixStack()
+                                            matrix.translate(newPos.x, newPos.y, newPos.z)
+                                            wrapper.updateMatrix(matrix.peek().positionMatrix)
+                                            val world = MinecraftClient.getInstance().world ?: return@let
                                             ParticleStorm(effect, wrapper, world).spawn()
-                                        }
-                                        ballsendsparkle?.let { effect ->
-                                            ParticleStorm(effect, wrapper, world).spawn()
-                                        }
-                                        currentEntity.after(seconds = 0.4f) {
-                                            val ballsparkle = BedrockParticleEffectRepository.getEffect(cobblemonResource("${ballType}/ballsparkle"))
-                                            ballsparkle?.let { effect ->
-                                                ParticleStorm(effect, wrapper, world).spawn()
+                                            val ballsparks = BedrockParticleEffectRepository.getEffect(cobblemonResource("${ballType}/${mode}/ballsparks"))
+                                            val ballsendsparkle = BedrockParticleEffectRepository.getEffect(cobblemonResource("${ballType}/${mode}/ballsendsparkle"))
+                                            // using afterOnClient because it's such a small timeframe that it's unlikely the entity has been removed & we'd like the precision
+                                            afterOnClient(seconds = 0.01667f) {
+                                                ballsparks?.let { effect -> ParticleStorm(effect, wrapper, world).spawn() }
+                                                ballsendsparkle?.let { effect -> ParticleStorm(effect, wrapper, world).spawn() }
+                                                currentEntity.after(seconds = 0.4f) {
+                                                    val ballsparkle = BedrockParticleEffectRepository.getEffect(cobblemonResource("${ballType}/ballsparkle"))
+                                                    ballsparkle?.let { effect -> ParticleStorm(effect, wrapper, world).spawn() }
                                             }
                                         }
                                     }
@@ -252,11 +253,18 @@ class PokemonClientDelegate : PoseableEntityState<PokemonEntity>(), PokemonSideD
         pokemon.isClient = true
     }
 
+    override fun addToStruct(struct: QueryStruct) {
+        super.addToStruct(struct)
+        struct.addFunctions(functions.functions)
+        struct.addFunctions(ClientMoLangFunctions.clientFunctions)
+        runtime.environment.query = struct
+    }
+
     override fun initialize(entity: PokemonEntity) {
         this.currentEntity = entity
         this.age = entity.age
 
-        this.runtime.environment.getQueryStruct().addFunctions(mapOf(
+        this.runtime.environment.query.addFunctions(mapOf(
             "in_battle" to java.util.function.Function {
                 return@Function DoubleValue(currentEntity.isBattling)
             },
@@ -282,7 +290,6 @@ class PokemonClientDelegate : PoseableEntityState<PokemonEntity>(), PokemonSideD
     }
 
     override fun tick(entity: PokemonEntity) {
-        updateLocatorPosition(entity.pos)
         incrementAge(entity)
     }
 
@@ -292,9 +299,9 @@ class PokemonClientDelegate : PoseableEntityState<PokemonEntity>(), PokemonSideD
 
     override fun handleStatus(status: Byte) {
         if (status == 10.toByte()) {
-            val model = (currentModel ?: return) as PokemonPoseableModel
-            val animation = model.getEatAnimation(currentEntity, this) ?: return
-            statefulAnimations.add(animation)
+            val model = (currentModel ?: return)
+            val animation = model.getEatAnimation(this) ?: return
+            activeAnimations.add(animation)
         }
     }
 
@@ -304,18 +311,16 @@ class PokemonClientDelegate : PoseableEntityState<PokemonEntity>(), PokemonSideD
 
     fun cry() {
         val model = currentModel ?: return
-        if (model is PokemonPoseableModel) {
-           if (cryAnimation != null && (cryAnimation in statefulAnimations || cryAnimation == primaryAnimation)) {
-               return
-           }
-
-            val animation = model.cryAnimation(currentEntity, this) ?: return
-            if (animation is PrimaryAnimation) {
-                addPrimaryAnimation(animation)
-            } else {
-                statefulAnimations.add(animation)
-            }
-            cryAnimation = animation
+        if (cryAnimation != null && (cryAnimation in activeAnimations || cryAnimation == primaryAnimation)) {
+            return
         }
+
+        val animation = model.cryAnimation(this) ?: return
+        if (animation is PrimaryAnimation) {
+            addPrimaryAnimation(animation)
+        } else {
+            activeAnimations.add(animation)
+        }
+        cryAnimation = animation
     }
 }

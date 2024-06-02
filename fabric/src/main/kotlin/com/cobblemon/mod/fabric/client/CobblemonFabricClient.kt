@@ -13,6 +13,8 @@ import com.cobblemon.mod.common.client.CobblemonClient
 import com.cobblemon.mod.common.client.CobblemonClient.reloadCodedAssets
 import com.cobblemon.mod.common.client.keybind.CobblemonKeyBinds
 import com.cobblemon.mod.common.client.render.atlas.CobblemonAtlases
+import com.cobblemon.mod.common.client.render.item.CobblemonModelPredicateRegistry
+import com.cobblemon.mod.common.client.render.models.blockbench.repository.BerryModelRepository
 import com.cobblemon.mod.common.client.render.pokemon.DelayedPokemonRenders
 import com.cobblemon.mod.common.particle.CobblemonParticles
 import com.cobblemon.mod.common.particle.SnowstormParticleType
@@ -43,6 +45,7 @@ import net.minecraft.block.entity.BlockEntity
 import net.minecraft.block.entity.BlockEntityType
 import net.minecraft.client.color.block.BlockColorProvider
 import net.minecraft.client.color.item.ItemColorProvider
+import net.minecraft.client.item.ModelPredicateProviderRegistry
 import net.minecraft.client.model.TexturedModelData
 import net.minecraft.client.particle.ParticleFactory
 import net.minecraft.client.particle.SpriteProvider
@@ -99,6 +102,8 @@ class CobblemonFabricClient: ClientModInitializer, CobblemonClientImplementation
         ClientPlayConnectionEvents.JOIN.register { _, _, client -> client.player?.let { PlatformEvents.CLIENT_PLAYER_LOGIN.post(ClientPlayerEvent.Login(it)) } }
         ClientPlayConnectionEvents.DISCONNECT.register { _, client -> client.player?.let { PlatformEvents.CLIENT_PLAYER_LOGOUT.post(ClientPlayerEvent.Logout(it)) } }
         ItemTooltipCallback.EVENT.register { stack, context, lines -> PlatformEvents.CLIENT_ITEM_TOOLTIP.post(ItemTooltipEvent(stack, context, lines)) }
+
+        CobblemonModelPredicateRegistry.registerPredicates()
         WorldRenderEvents.AFTER_TRANSLUCENT.register { ctx ->
             ctx.matrixStack().push()
             val cameraPos = ctx.camera().pos

@@ -27,10 +27,13 @@ object DialogueManager {
     val activeDialogues = mutableMapOf<UUID, ActiveDialogue>()
 
     fun startDialogue(playerEntity: ServerPlayerEntity, dialogue: Dialogue) {
-        val activeDialogue = ActiveDialogue(playerEntity, dialogue)
-        activeDialogues[playerEntity.uuid] = activeDialogue
-        val packet = DialogueOpenedPacket(activeDialogue, includeFaces = true)
-        playerEntity.sendPacket(packet)
+        startDialogue(ActiveDialogue(playerEntity, dialogue))
+    }
+
+    fun startDialogue(activeDialogue: ActiveDialogue) {
+        activeDialogues[activeDialogue.playerEntity.uuid] = activeDialogue
+        val packet = DialogueOpenedPacket(activeDialogue, true)
+        activeDialogue.playerEntity.sendPacket(packet)
     }
 
     fun stopDialogue(playerEntity: ServerPlayerEntity) {

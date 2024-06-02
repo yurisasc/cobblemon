@@ -32,8 +32,7 @@ class SwimDashController : RideController {
     var dashSpeed = 1F
         private set
     override val key: Identifier = KEY
-    override val poseProvider: PoseProvider = PoseProvider(PoseType.FLOAT)
-        .with(PoseOption(PoseType.SWIM) { it.isSwimming && it.dataTracker.get(PokemonEntity.MOVING) })
+    override val poseProvider: PoseProvider = PoseProvider(PoseType.FLOAT).with(PoseOption(PoseType.SWIM) { it.isSwimming && it.dataTracker.get(PokemonEntity.MOVING) })
     override val condition: (PokemonEntity) -> Boolean = { entity ->
         //This could be kinda weird... what if the top of the mon is in a fluid but the bottom isnt?
         VoxelShapes.cuboid(entity.boundingBox).blockPositionsAsListRounded().any {
@@ -74,6 +73,14 @@ class SwimDashController : RideController {
         }
 
         return Vec3d(f.toDouble(), 0.0, g.toDouble())
+    }
+
+    override fun canJump(entity: PokemonEntity, driver: PlayerEntity): Boolean {
+        TODO("Not yet implemented")
+    }
+
+    override fun jumpForce(entity: PokemonEntity, driver: PlayerEntity, jumpStrength: Int): Vec3d {
+        TODO("Not yet implemented")
     }
 
     override fun encode(buffer: PacketByteBuf) {
