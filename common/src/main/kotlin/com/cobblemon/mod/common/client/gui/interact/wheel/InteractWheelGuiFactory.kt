@@ -103,7 +103,7 @@ fun createPlayerInteractGui(optionsPacket: PlayerInteractOptionsPacket): Interac
     val multiBattle = InteractWheelOption(
             iconResource = cobblemonResource("textures/gui/interact/icon_battle.png"), // Need Multi battle icon
             colour = { if (CobblemonClient.requests.battleChallenges.any { it.challengerId == optionsPacket.targetId }) Vector3f(0F, 0.6F, 0F) else null },
-            tooltipText = "cobblemon.ui.interact.multibattle",
+            tooltipText = "cobblemon.challenge.multibattle",
             onPress = {
                 // This can be improved in future with more detailed battle challenge data.
                 BattleChallengePacket(optionsPacket.numericTargetId, optionsPacket.selectedPokemonId, "multi").sendToServer()

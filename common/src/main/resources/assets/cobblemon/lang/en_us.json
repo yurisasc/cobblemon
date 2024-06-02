@@ -686,6 +686,7 @@
   "cobblemon.challenge.singlebattle": "Single Battle",
   "cobblemon.challenge.doublebattle": "Double Battle",
   "cobblemon.challenge.triplebattle": "Triple Battle",
+  "cobblemon.challenge.multibattle": "Multi Battle",
   "cobblemon.challenge.multi.team_request.sender": "You requested %1$s to pair up for Multibattles!",
   "cobblemon.challenge.multi.team_request.receiver": "%1$s has requested you to pair up for a Multibattles!",
   "cobblemon.challenge.multi.team_request.accept.sender": "You accepted %1$s's team request!",
