@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-package com.cobblemon.mod.common.item
+package com.cobblemon.mod.common.item.berry
 
 import com.cobblemon.mod.common.block.BerryBlock
 import net.minecraft.item.AliasedBlockItem
