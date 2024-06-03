@@ -16,13 +16,13 @@ import com.cobblemon.mod.common.util.getString
 import net.minecraft.network.PacketByteBuf
 
 class RidingProperties(
-    val seats: List<SeatProperties> = listOf(),
+    val seats: List<Seat> = listOf(),
     val conditions: List<Expression> = listOf(),
     val controllers: List<RideController> = listOf()
 ) {
     companion object {
         fun decode(buffer: PacketByteBuf): RidingProperties {
-            val seats: List<SeatProperties> = buffer.readList { _ -> SeatProperties.decode(buffer) }
+            val seats: List<Seat> = buffer.readList { _ -> Seat.decode(buffer) }
             val conditions = buffer.readList { buffer.readString().asExpression() }
             val controllers: List<RideController> = buffer.readList { _ ->
                 val key = buffer.readIdentifier()

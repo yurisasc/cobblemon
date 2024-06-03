@@ -15,7 +15,7 @@ import net.minecraft.util.math.Vec3d
 /**
  * Seat Properties are responsible for the base information that would then be used to construct a Seat on an entity.
  */
-data class SeatProperties(
+data class Seat(
     val locator: String = "seat1",
     val offset: Vec3d = Vec3d.ZERO
 ) : Encodable {
@@ -27,8 +27,8 @@ data class SeatProperties(
     }
 
     companion object {
-        fun decode(buffer: PacketByteBuf) : SeatProperties {
-            return SeatProperties(
+        fun decode(buffer: PacketByteBuf) : Seat {
+            return Seat(
                 buffer.readString(),
                 Vec3d(buffer.readDouble(), buffer.readDouble(), buffer.readDouble())
             )

@@ -36,7 +36,8 @@ import com.cobblemon.mod.common.api.reactive.ObservableSubscription
 import com.cobblemon.mod.common.api.reactive.SimpleObservable
 import com.cobblemon.mod.common.api.riding.Rideable
 import com.cobblemon.mod.common.api.riding.RidingManager
-import com.cobblemon.mod.common.api.riding.SeatProperties
+import com.cobblemon.mod.common.api.riding.Seat
+import com.cobblemon.mod.common.api.riding.events.SelectDriverEvent
 import com.cobblemon.mod.common.api.scheduling.Schedulable
 import com.cobblemon.mod.common.api.scheduling.SchedulingTracker
 import com.cobblemon.mod.common.api.scheduling.afterOnServer
@@ -75,6 +76,7 @@ import com.cobblemon.mod.common.pokemon.evolution.variants.ItemInteractionEvolut
 import com.cobblemon.mod.common.pokemon.misc.GimmighoulStashHandler
 import com.cobblemon.mod.common.util.*
 import com.cobblemon.mod.common.world.gamerules.CobblemonGameRules
+import com.google.common.collect.Sets
 import java.util.*
 import java.util.concurrent.CompletableFuture
 import kotlin.math.PI
@@ -199,7 +201,7 @@ open class PokemonEntity(
         get() = dataTracker.get(BATTLE_ID).isPresent
     val friendship: Int
         get() = dataTracker.get(FRIENDSHIP)
-    val seats: List<SeatProperties>
+    val seats: List<Seat>
         get() = form.riding.seats
 
     var drops: DropTable? = null
@@ -1395,13 +1397,16 @@ open class PokemonEntity(
     }
 
     override fun getControllingPassenger(): LivingEntity? {
-        val riders = this.passengerList
+        val riders = this.passengerList.filterIsInstance<LivingEntity>()
         val ownerRider = riders.find { it.uuid == ownerUuid }
-        return if (ownerRider != null) {
-            ownerRider as LivingEntity
-        } else {
-            null // TODO Do something for when plugins put someone on a wild poke and want them to be the controlling rider.
-        }
+
+        val event = SelectDriverEvent(
+            SelectDriverEvent.DriverSuggestion(ownerRider!!, 0),
+            Sets.newHashSet(riders)
+        )
+
+        CobblemonEvents.SELECT_DRIVER.emit(event)
+        return event.result()
     }
 
     override fun updatePassengerForDismount(passenger: LivingEntity): Vec3d {
