@@ -6,48 +6,32 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-package com.cobblemon.mod.common.api.riding.seats.properties
+package com.cobblemon.mod.common.api.riding
 
 import com.cobblemon.mod.common.api.net.Encodable
-import com.cobblemon.mod.common.api.riding.seats.Seat
-import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
-import com.cobblemon.mod.common.util.codec.VECTOR3F_CODEC
-import com.cobblemon.mod.common.util.toVec3d
-import com.mojang.serialization.Codec
-import com.mojang.serialization.codecs.RecordCodecBuilder
 import net.minecraft.network.PacketByteBuf
 import net.minecraft.util.math.Vec3d
 
 /**
  * Seat Properties are responsible for the base information that would then be used to construct a Seat on an entity.
- *
- * @since 1.5.0
  */
 data class SeatProperties(
-    val driver: Boolean = false,
+    val locator: String = "seat1",
     val offset: Vec3d = Vec3d.ZERO
 ) : Encodable {
-
-    fun create(mount: PokemonEntity): Seat {
-        return Seat(mount, this)
-    }
-
     override fun encode(buffer: PacketByteBuf) {
-        buffer.writeBoolean(this.driver)
+        buffer.writeString(locator)
         buffer.writeDouble(this.offset.x)
         buffer.writeDouble(this.offset.y)
         buffer.writeDouble(this.offset.z)
     }
 
     companion object {
-
         fun decode(buffer: PacketByteBuf) : SeatProperties {
             return SeatProperties(
-                buffer.readBoolean(),
+                buffer.readString(),
                 Vec3d(buffer.readDouble(), buffer.readDouble(), buffer.readDouble())
             )
         }
-
     }
-
 }

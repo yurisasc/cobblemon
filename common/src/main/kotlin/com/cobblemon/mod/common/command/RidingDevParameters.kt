@@ -8,17 +8,14 @@
 
 package com.cobblemon.mod.common.command
 
-import com.cobblemon.mod.common.api.riding.seats.properties.SeatDTO
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.mojang.brigadier.Command
 import com.mojang.brigadier.CommandDispatcher
 import com.mojang.brigadier.arguments.FloatArgumentType
 import com.mojang.brigadier.context.CommandContext
-import net.minecraft.command.argument.ArgumentTypes
 import net.minecraft.command.argument.Vec3ArgumentType
 import net.minecraft.server.command.CommandManager
 import net.minecraft.server.command.ServerCommandSource
-import net.minecraft.server.network.ServerPlayerEntity
 
 object RidingDevParameters {
 

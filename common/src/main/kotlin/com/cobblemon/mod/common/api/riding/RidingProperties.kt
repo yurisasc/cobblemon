@@ -10,7 +10,6 @@ package com.cobblemon.mod.common.api.riding
 
 import com.bedrockk.molang.Expression
 import com.cobblemon.mod.common.api.riding.controller.RideController
-import com.cobblemon.mod.common.api.riding.seats.properties.SeatProperties
 import com.cobblemon.mod.common.util.adapters.riding.RideControllerAdapter
 import com.cobblemon.mod.common.util.asExpression
 import com.cobblemon.mod.common.util.getString

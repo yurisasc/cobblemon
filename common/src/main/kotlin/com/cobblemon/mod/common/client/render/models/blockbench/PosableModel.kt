@@ -726,8 +726,6 @@ open class PosableModel(@Transient override val rootPart: Bone) : ModelFrame {
         setDefault()
         // Applies any of the state's queued actions.
         state.preRender()
-        // Updates locator positions just so they actually exist in case a particle effect is about to play. Hard to explain this.
-        updateLocators(entity, state)
         // Performs a check that the current pose is correct and returns back which pose we should be applying. Even if
         // a change of pose is necessary, if it's going to gradually transition there then we're still going to keep
         // applying our current pose until that process is done.

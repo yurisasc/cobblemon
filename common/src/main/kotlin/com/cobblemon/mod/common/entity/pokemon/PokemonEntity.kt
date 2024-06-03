@@ -26,7 +26,6 @@ import com.cobblemon.mod.common.api.molang.MoLangFunctions
 import com.cobblemon.mod.common.api.molang.MoLangFunctions.addFunctions
 import com.cobblemon.mod.common.api.molang.MoLangFunctions.addStandardFunctions
 import com.cobblemon.mod.common.api.net.serializers.PoseTypeDataSerializer
-import com.cobblemon.mod.common.api.net.serializers.SeatDataSerializer
 import com.cobblemon.mod.common.api.net.serializers.StringSetDataSerializer
 import com.cobblemon.mod.common.api.pokemon.feature.ChoiceSpeciesFeatureProvider
 import com.cobblemon.mod.common.api.pokemon.feature.FlagSpeciesFeature
@@ -37,6 +36,7 @@ import com.cobblemon.mod.common.api.reactive.ObservableSubscription
 import com.cobblemon.mod.common.api.reactive.SimpleObservable
 import com.cobblemon.mod.common.api.riding.Rideable
 import com.cobblemon.mod.common.api.riding.RidingManager
+import com.cobblemon.mod.common.api.riding.SeatProperties
 import com.cobblemon.mod.common.api.scheduling.Schedulable
 import com.cobblemon.mod.common.api.scheduling.SchedulingTracker
 import com.cobblemon.mod.common.api.scheduling.afterOnServer
@@ -152,7 +152,6 @@ open class PokemonEntity(
         @JvmStatic val COUNTS_TOWARDS_SPAWN_CAP = DataTracker.registerData(PokemonEntity::class.java, TrackedDataHandlerRegistry.BOOLEAN)
         @JvmStatic val SPAWN_DIRECTION = DataTracker.registerData(PokemonEntity::class.java, TrackedDataHandlerRegistry.FLOAT)
         @JvmStatic val FRIENDSHIP = DataTracker.registerData(PokemonEntity::class.java, TrackedDataHandlerRegistry.INTEGER)
-        @JvmStatic val SEAT_UPDATER = DataTracker.registerData(PokemonEntity::class.java, SeatDataSerializer)
 
         const val BATTLE_LOCK = "battle"
 
@@ -200,6 +199,8 @@ open class PokemonEntity(
         get() = dataTracker.get(BATTLE_ID).isPresent
     val friendship: Int
         get() = dataTracker.get(FRIENDSHIP)
+    val seats: List<SeatProperties>
+        get() = form.riding.seats
 
     var drops: DropTable? = null
 
@@ -289,7 +290,6 @@ open class PokemonEntity(
         dataTracker.startTracking(COUNTS_TOWARDS_SPAWN_CAP, true)
         dataTracker.startTracking(SPAWN_DIRECTION, world.random.nextFloat() * 360F)
         dataTracker.startTracking(FRIENDSHIP, 0)
-        dataTracker.startTracking(SEAT_UPDATER, emptyList())
     }
 
     override fun onTrackedDataSet(data: TrackedData<*>) {
@@ -1310,12 +1310,24 @@ open class PokemonEntity(
     fun getBattleTheme() = Registries.SOUND_EVENT.get(this.form.battleTheme) ?: CobblemonSounds.PVW_BATTLE
 
     override fun canStartRiding(entity: Entity): Boolean {
-        if (this.pokemon.riding.canRide && super.canStartRiding(entity)) {
-            val seats = this.riding.seats
-            return seats.any { it.acceptsRider(entity) }
+        if (passengerList.size >= seats.size) {
+            return false
+        } else if (passengerList.isEmpty() && entity != owner) {
+            return false
+        } else {
+            return true // Event or something here
         }
+//
+//        if (this.pokemon.riding.canRide && super.canStartRiding(entity)) {
+//            val seats = this.riding.seats
+//            return seats.any { it.acceptsRider(entity) }
+//        }
+//
+//        return false
+    }
 
-        return false
+    override fun canAddPassenger(passenger: Entity): Boolean {
+        return passengerList.size < seats.size
     }
 
     override fun tickControlled(driver: PlayerEntity, movementInput: Vec3d) {
@@ -1372,31 +1384,29 @@ open class PokemonEntity(
 
     override fun updatePassengerPosition(passenger: Entity, positionUpdater: PositionUpdater) {
         if (this.hasPassenger(passenger)) {
-            val seat = this.riding.seats.firstOrNull { it.occupant() == passenger }
-            if (seat != null) {
-                val offset = seat.properties.offset.rotateY(-this.bodyYaw * (Math.PI.toFloat() / 180))
-                positionUpdater.accept(passenger, this.x + offset.x, this.y + offset.y, this.z + offset.z)
-                if (passenger is LivingEntity) {
-                    passenger.bodyYaw = this.bodyYaw
-                }
+            val index = passengerList.indexOf(passenger).takeIf { it >= 0 && it < seats.size } ?: return
+            val seat = seats[index]
+            val offset = seat.offset.rotateY(-this.bodyYaw * (Math.PI.toFloat() / 180))//.rotateX(-this.pitch * (Math.PI.toFloat() / 180))
+            positionUpdater.accept(passenger, this.x + offset.x, this.y + offset.y, this.z + offset.z)
+            if (passenger is LivingEntity) {
+                passenger.bodyYaw = this.bodyYaw
             }
         }
     }
 
     override fun getControllingPassenger(): LivingEntity? {
-        val seat = this.riding.seats.firstOrNull { it.properties.driver }
-        val occupant = seat?.occupant()
-
-        if (occupant is LivingEntity) {
-            return occupant
+        val riders = this.passengerList
+        val ownerRider = riders.find { it.uuid == ownerUuid }
+        return if (ownerRider != null) {
+            ownerRider as LivingEntity
+        } else {
+            null // TODO Do something for when plugins put someone on a wild poke and want them to be the controlling rider.
         }
-
-        return null
     }
 
     override fun updatePassengerForDismount(passenger: LivingEntity): Vec3d {
-        val seat = this.riding.seats.firstOrNull { it.occupant() == passenger }
-        seat?.dismount()
+//        val seat = this.riding.seats.firstOrNull { it.occupant() == passenger }
+//        seat?.dismount()
         return super.updatePassengerForDismount(passenger)
     }
 
@@ -1408,11 +1418,10 @@ open class PokemonEntity(
         return this.riding.speed(this, controller)
     }
 
-    protected var jumpInputStrength: Int = 0 // move this
+    private var jumpInputStrength: Int = 0 // move this
     override fun setJumpStrength(strength: Int) {
         // See if this controls the hot bar element
         var strength = strength
-        println("Strength set on ${side()}")
         if (strength < 0) {
             strength = 0
         } else {

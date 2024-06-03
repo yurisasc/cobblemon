@@ -217,7 +217,6 @@ abstract class PosableState : Schedulable {
         updateAge(age + 1)
         currentModel?.let {
             updateLocatorPosition(entity.pos)
-            it.updateLocators(entity, this)
             it.validatePose(entity as? PosableEntity, this)
         }
         runEffects(entity, previousAge, age)
