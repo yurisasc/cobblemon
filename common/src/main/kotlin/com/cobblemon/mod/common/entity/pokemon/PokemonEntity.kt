@@ -1398,12 +1398,15 @@ open class PokemonEntity(
 
     override fun getControllingPassenger(): LivingEntity? {
         val riders = this.passengerList.filterIsInstance<LivingEntity>()
-        val ownerRider = riders.find { it.uuid == ownerUuid }
+        if(riders.isEmpty()) {
+            return null
+        }
 
-        val event = SelectDriverEvent(
-            SelectDriverEvent.DriverSuggestion(ownerRider!!, 0),
-            Sets.newHashSet(riders)
-        )
+        val event = SelectDriverEvent(Sets.newHashSet(riders))
+        val owner = riders.find { it.uuid == ownerUuid }
+        if(owner != null) {
+            event.suggest(owner, 0)
+        }
 
         CobblemonEvents.SELECT_DRIVER.emit(event)
         return event.result()

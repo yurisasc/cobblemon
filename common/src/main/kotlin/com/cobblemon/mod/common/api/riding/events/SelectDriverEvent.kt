@@ -2,16 +2,21 @@ package com.cobblemon.mod.common.api.riding.events
 
 import net.minecraft.entity.LivingEntity
 
-data class SelectDriverEvent(val primary: DriverSuggestion, val options: Set<LivingEntity>) {
+data class SelectDriverEvent(val options: Set<LivingEntity>) {
 
-    private var result: DriverSuggestion = primary
+    private var result: DriverSuggestion? = null
 
-    fun result(): LivingEntity {
-        return this.result.entity
+    fun result(): LivingEntity? {
+        return this.result?.entity
     }
 
+    /**
+     * Suggests a particular living entity as a potential driver. Only non-negative
+     * values are permitted by this function. All priority values with lesser priorities
+     * will be outright ignored.
+     */
     fun suggest(target: LivingEntity, priority: Int) {
-        if(priority > this.result.priority) {
+        if(priority >= 0 && priority > (this.result?.priority ?: -1)) {
             this.result = DriverSuggestion(target, priority)
         }
     }
