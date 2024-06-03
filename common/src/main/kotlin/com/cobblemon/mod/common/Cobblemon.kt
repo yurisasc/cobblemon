@@ -10,7 +10,6 @@ package com.cobblemon.mod.common
 
 import com.cobblemon.mod.common.CobblemonBuildDetails.smallCommitHash
 import com.cobblemon.mod.common.advancement.CobblemonCriteria
-import com.cobblemon.mod.common.advancement.criterion.EvolvePokemonContext
 import com.cobblemon.mod.common.api.Priority
 import com.cobblemon.mod.common.api.SeasonResolver
 import com.cobblemon.mod.common.api.data.DataProvider
@@ -26,7 +25,6 @@ import com.cobblemon.mod.common.api.events.CobblemonEvents.POKEMON_CAPTURED
 import com.cobblemon.mod.common.api.events.CobblemonEvents.TRADE_COMPLETED
 import com.cobblemon.mod.common.api.net.serializers.IdentifierDataSerializer
 import com.cobblemon.mod.common.api.net.serializers.PoseTypeDataSerializer
-import com.cobblemon.mod.common.api.net.serializers.SeatDataSerializer
 import com.cobblemon.mod.common.api.net.serializers.StringSetDataSerializer
 import com.cobblemon.mod.common.api.net.serializers.UUIDSetDataSerializer
 import com.cobblemon.mod.common.api.net.serializers.Vec3DataSerializer
@@ -51,13 +49,8 @@ import com.cobblemon.mod.common.api.scheduling.ServerRealTimeTaskTracker
 import com.cobblemon.mod.common.api.scheduling.ServerTaskTracker
 import com.cobblemon.mod.common.api.spawning.BestSpawner
 import com.cobblemon.mod.common.api.spawning.CobblemonSpawningProspector
-import com.cobblemon.mod.common.api.spawning.WorldSlice
 import com.cobblemon.mod.common.api.spawning.context.AreaContextResolver
-import com.cobblemon.mod.common.api.spawning.context.AreaSpawningContext
-import com.cobblemon.mod.common.api.spawning.context.calculators.AreaSpawningContextCalculator
-import com.cobblemon.mod.common.api.spawning.context.calculators.AreaSpawningInput
 import com.cobblemon.mod.common.api.spawning.prospecting.SpawningProspector
-import com.cobblemon.mod.common.api.spawning.spawner.Spawner
 import com.cobblemon.mod.common.api.starter.StarterHandler
 import com.cobblemon.mod.common.api.storage.PokemonStoreManager
 import com.cobblemon.mod.common.api.storage.adapter.conversions.ReforgedConversion
@@ -95,7 +88,6 @@ import com.cobblemon.mod.common.config.starter.StarterConfig
 import com.cobblemon.mod.common.data.CobblemonDataProvider
 import com.cobblemon.mod.common.events.AdvancementHandler
 import com.cobblemon.mod.common.events.ServerTickHandler
-import com.cobblemon.mod.common.item.PokeBallItem
 import com.cobblemon.mod.common.net.messages.client.settings.ServerSettingsPacket
 import com.cobblemon.mod.common.permission.LaxPermissionValidator
 import com.cobblemon.mod.common.platform.events.PlatformEvents
@@ -113,7 +105,12 @@ import com.cobblemon.mod.common.pokemon.properties.tags.PokemonFlagProperty
 import com.cobblemon.mod.common.pokemon.stat.CobblemonStatProvider
 import com.cobblemon.mod.common.starter.CobblemonStarterHandler
 import com.cobblemon.mod.common.trade.TradeManager
-import com.cobblemon.mod.common.util.*
+import com.cobblemon.mod.common.util.DataKeys
+import com.cobblemon.mod.common.util.cobblemonResource
+import com.cobblemon.mod.common.util.ifDedicatedServer
+import com.cobblemon.mod.common.util.isLaterVersion
+import com.cobblemon.mod.common.util.party
+import com.cobblemon.mod.common.util.server
 import com.cobblemon.mod.common.world.feature.CobblemonPlacedFeatures
 import com.cobblemon.mod.common.world.feature.ore.CobblemonOrePlacedFeatures
 import com.cobblemon.mod.common.world.gamerules.CobblemonGameRules
@@ -121,27 +118,26 @@ import com.mongodb.ConnectionString
 import com.mongodb.MongoClientSettings
 import com.mongodb.client.MongoClient
 import com.mongodb.client.MongoClients
-import net.minecraft.client.MinecraftClient
-import net.minecraft.command.argument.serialize.ConstantArgumentSerializer
-import net.minecraft.entity.data.TrackedDataHandlerRegistry
-import net.minecraft.item.Items
-import net.minecraft.item.NameTagItem
-import net.minecraft.registry.RegistryKey
-import net.minecraft.util.WorldSavePath
-import net.minecraft.util.math.BlockPos
-import net.minecraft.world.World
-import org.apache.logging.log4j.LogManager
-import org.apache.logging.log4j.Logger
 import java.io.File
 import java.io.FileReader
 import java.io.FileWriter
 import java.io.PrintWriter
-import java.util.*
+import java.util.UUID
+import kotlin.collections.set
+import kotlin.math.roundToInt
 import kotlin.properties.Delegates
 import kotlin.reflect.full.memberProperties
 import kotlin.reflect.jvm.isAccessible
 import kotlin.reflect.jvm.javaField
-import kotlin.math.roundToInt
+import net.minecraft.client.MinecraftClient
+import net.minecraft.command.argument.serialize.ConstantArgumentSerializer
+import net.minecraft.entity.data.TrackedDataHandlerRegistry
+import net.minecraft.item.NameTagItem
+import net.minecraft.registry.RegistryKey
+import net.minecraft.util.WorldSavePath
+import net.minecraft.world.World
+import org.apache.logging.log4j.LogManager
+import org.apache.logging.log4j.Logger
 
 object Cobblemon {
     const val MODID = CobblemonBuildDetails.MOD_ID
@@ -256,8 +252,6 @@ object Cobblemon {
         TrackedDataHandlerRegistry.register(Vec3DataSerializer)
         TrackedDataHandlerRegistry.register(StringSetDataSerializer)
         TrackedDataHandlerRegistry.register(PoseTypeDataSerializer)
-        TrackedDataHandlerRegistry.register(IdentifierDataSerializer)
-        TrackedDataHandlerRegistry.register(SeatDataSerializer)
         TrackedDataHandlerRegistry.register(IdentifierDataSerializer)
         TrackedDataHandlerRegistry.register(UUIDSetDataSerializer)
 

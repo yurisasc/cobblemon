@@ -8,7 +8,6 @@
 
 package com.cobblemon.mod.common.api.riding
 
-import com.cobblemon.mod.common.api.riding.seats.Seat
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.text.Text
@@ -17,12 +16,6 @@ import net.minecraft.util.math.Vec2f
 import net.minecraft.util.math.Vec3d
 
 data class RidingManager(val entity: PokemonEntity) {
-
-    // TODO - Seats should realistically be final and manipulated by seat index.
-    // TODO - On the client, these seats are decoded, so setting the variable here
-    // TODO - breaks if final
-    var seats: List<Seat> = this.entity.pokemon.riding.seats.map { it.create(this.entity) }
-
     var lastSpeed = 0F
 
     /**

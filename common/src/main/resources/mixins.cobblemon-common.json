@@ -17,6 +17,8 @@
     "accessor.KeyBindingAccessor",
     "invoker.ClientPlayNetworkHandlerInvoker",
     "pokeball.ItemRendererMixin",
+    "renderer.LivingEntityRendererMixin",
+    "renderer.PlayerEntityRendererMixin",
     "riding.JetMixin"
   ],
   "mixins": [
