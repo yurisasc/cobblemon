@@ -361,6 +361,14 @@
 		"tag": "#minecraft:mushrooms"
 	},
 	{
+		"content": 4,
+		"item": "minecraft:brown_mushroom"
+	},
+	{
+		"content": 4,
+		"item": "minecraft:red_mushroom"
+	},
+	{
 		"content": 16,
 		"item": "minecraft:cake"
 	},
