@@ -49,6 +49,8 @@ object CobblemonBlocks : PlatformRegistry<Registry<Block>, RegistryKey<Registry<
 
     val APRICORN_BLOCK_SET_TYPE = BlockSetType("apricorn")
     val APRICORN_WOOD_TYPE = WoodType.register(WoodType("apricorn", APRICORN_BLOCK_SET_TYPE))
+    val SACCHARINE_BLOCK_SET_TYPE = BlockSetType("saccharine")
+    val SACCHARINE_WOOD_TYPE = WoodType.register(WoodType("saccharine", SACCHARINE_BLOCK_SET_TYPE))
 
     // Evolution Ores
     @JvmField
@@ -152,6 +154,45 @@ object CobblemonBlocks : PlatformRegistry<Registry<Block>, RegistryKey<Registry<
     val WHITE_APRICORN_SAPLING = this.create("white_apricorn_sapling", ApricornSaplingBlock(PLANT_PROPERTIES, Apricorn.WHITE))
     @JvmField
     val YELLOW_APRICORN_SAPLING = this.create("yellow_apricorn_sapling", ApricornSaplingBlock(PLANT_PROPERTIES, Apricorn.YELLOW))
+
+    // Saccharines
+    @JvmField
+    val SACCHARINE_LOG = log("saccharine_log", arg2 = MapColor.BLUE)
+    @JvmField
+    val STRIPPED_SACCHARINE_LOG = log("stripped_saccharine_log")
+    @JvmField
+    val SACCHARINE_WOOD = log("saccharine_wood")
+    @JvmField
+    val STRIPPED_SACCHARINE_WOOD = log("stripped_saccharine_wood")
+    @JvmField
+    val SACCHARINE_PLANKS = this.create("saccharine_planks", Block(AbstractBlock.Settings.create().mapColor(MapColor.LIGHT_BLUE).instrument(Instrument.BASS).strength(2.0f, 3.0f).sounds(BlockSoundGroup.WOOD)))
+    @JvmField
+    val SACCHARINE_LEAVES = leaves("saccharine_leaves")
+    @JvmField
+    val SACCHARINE_FENCE = this.create("saccharine_fence", FenceBlock(AbstractBlock.Settings.create().mapColor(SACCHARINE_PLANKS.defaultMapColor).instrument(Instrument.BASS).strength(2.0f, 3.0f).sounds(BlockSoundGroup.WOOD)))
+    @JvmField
+    val SACCHARINE_FENCE_GATE = this.create("saccharine_fence_gate", FenceGateBlock(AbstractBlock.Settings.create().mapColor(SACCHARINE_PLANKS.defaultMapColor).instrument(Instrument.BASS).strength(2.0f, 3.0f).sounds(BlockSoundGroup.WOOD), SACCHARINE_WOOD_TYPE))
+    @JvmField // Note At the time of 1.20.0 we don't need our own BlockSetType for SACCHARINE wood
+    val SACCHARINE_BUTTON = this.create("saccharine_button", BlocksInvoker.createWoodenButtonBlock(BlockSetType.OAK))
+    @JvmField
+    val SACCHARINE_PRESSURE_PLATE = this.create("saccharine_pressure_plate", PressurePlateBlockInvoker.`cobblemon$create`(PressurePlateBlock.ActivationRule.EVERYTHING, AbstractBlock.Settings.create().mapColor(SACCHARINE_PLANKS.defaultMapColor).instrument(Instrument.BASS).noCollision().strength(0.5f).sounds(BlockSoundGroup.WOOD), SACCHARINE_BLOCK_SET_TYPE))
+    @JvmField
+    val SACCHARINE_SIGN = this.create("saccharine_sign", CobblemonSignBlock(AbstractBlock.Settings.copy(Blocks.OAK_SIGN), SACCHARINE_WOOD_TYPE))
+    @JvmField
+    val SACCHARINE_WALL_SIGN = this.create("saccharine_wall_sign", CobblemonWallSignBlock(AbstractBlock.Settings.copy(Blocks.OAK_WALL_SIGN), SACCHARINE_WOOD_TYPE))
+    @JvmField
+    val SACCHARINE_HANGING_SIGN = this.create("saccharine_hanging_sign", CobblemonHangingSignBlock(AbstractBlock.Settings.copy(Blocks.OAK_WALL_HANGING_SIGN), SACCHARINE_WOOD_TYPE))
+    @JvmField
+    val SACCHARINE_WALL_HANGING_SIGN = this.create("saccharine_wall_hanging_sign", CobblemonWallHangingSignBlock(AbstractBlock.Settings.copy(Blocks.OAK_HANGING_SIGN), SACCHARINE_WOOD_TYPE))
+    @JvmField
+    val SACCHARINE_SLAB = this.create("saccharine_slab", SlabBlock(AbstractBlock.Settings.create().mapColor(MapColor.OAK_TAN).instrument(Instrument.BASS).strength(2.0f, 3.0f).sounds(BlockSoundGroup.WOOD)))
+    @JvmField
+    val SACCHARINE_STAIRS = this.create("saccharine_stairs", StairsBlockInvoker.`cobblemon$create`(SACCHARINE_PLANKS.defaultState, AbstractBlock.Settings.copy(SACCHARINE_PLANKS)))
+    @JvmField
+    val SACCHARINE_DOOR = this.create("saccharine_door", DoorBlockInvoker.`cobblemon$create`(AbstractBlock.Settings.create().mapColor(SACCHARINE_PLANKS.defaultMapColor).instrument(Instrument.BASS).strength(3.0F).sounds(BlockSoundGroup.WOOD).nonOpaque(), SACCHARINE_BLOCK_SET_TYPE))
+    @JvmField
+    val SACCHARINE_TRAPDOOR = this.create("saccharine_trapdoor", TrapdoorBlockInvoker.`cobblemon$create`(AbstractBlock.Settings.create().mapColor(MapColor.OAK_TAN).instrument(Instrument.BASS).strength(3.0F).sounds(BlockSoundGroup.WOOD).nonOpaque().allowsSpawning { _, _, _, _ -> false }, SACCHARINE_BLOCK_SET_TYPE))
+
 
     @JvmField
     val MEDICINAL_LEEK = this.create("medicinal_leek", MedicinalLeekBlock(AbstractBlock.Settings.create().pistonBehavior(PistonBehavior.DESTROY).burnable().mapColor(MapColor.DULL_RED).noCollision().ticksRandomly().breakInstantly().sounds(CobblemonSounds.MEDICINAL_LEEK_SOUNDS)))

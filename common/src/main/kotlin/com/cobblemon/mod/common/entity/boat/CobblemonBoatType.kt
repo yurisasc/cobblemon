@@ -21,13 +21,15 @@ import net.minecraft.util.StringIdentifiable
  */
 enum class CobblemonBoatType(val mountedOffset: Double) : StringIdentifiable {
 
-    APRICORN(-0.1);
+    APRICORN(-0.1),
+    SACCHARINE(-.01);
 
     /**
      * The base [Item] form of this [CobblemonBoatType].
      */
     val boatItem: Item get() = when (this) {
         APRICORN -> CobblemonItems.APRICORN_BOAT
+        SACCHARINE -> CobblemonItems.SACCHARINE_BOAT
     }
 
     /**
@@ -35,6 +37,7 @@ enum class CobblemonBoatType(val mountedOffset: Double) : StringIdentifiable {
      */
     val chestBoatItem: Item get() = when (this) {
         APRICORN -> CobblemonItems.APRICORN_CHEST_BOAT
+        SACCHARINE -> CobblemonItems.SACCHARINE_CHEST_BOAT
     }
 
     /**
@@ -42,6 +45,7 @@ enum class CobblemonBoatType(val mountedOffset: Double) : StringIdentifiable {
      */
     val baseBlock: Block get() = when (this) {
         APRICORN -> CobblemonBlocks.APRICORN_PLANKS
+        SACCHARINE -> CobblemonBlocks.SACCHARINE_PLANKS
     }
 
     /**
@@ -49,6 +53,7 @@ enum class CobblemonBoatType(val mountedOffset: Double) : StringIdentifiable {
      */
     val woodType: WoodType get() = when (this) {
         APRICORN -> CobblemonBlocks.APRICORN_WOOD_TYPE
+        SACCHARINE -> CobblemonBlocks.SACCHARINE_WOOD_TYPE
     }
 
     override fun asString(): String = this.name.lowercase()
