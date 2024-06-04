@@ -221,7 +221,14 @@ object CobblemonClient {
             CobblemonBlocks.LARGE_BUDDING_SKY_TUMBLESTONE,
             CobblemonBlocks.SKY_TUMBLESTONE_CLUSTER,
             CobblemonBlocks.GIMMIGHOUL_CHEST,
-            CobblemonBlocks.DISPLAY_CASE
+            CobblemonBlocks.DISPLAY_CASE,
+            CobblemonBlocks.SACCHARINE_DOOR,
+            CobblemonBlocks.SACCHARINE_TRAPDOOR,
+            CobblemonBlocks.SACCHARINE_SIGN,
+            CobblemonBlocks.SACCHARINE_WALL_SIGN,
+            CobblemonBlocks.SACCHARINE_HANGING_SIGN,
+            CobblemonBlocks.SACCHARINE_WALL_HANGING_SIGN,
+            CobblemonBlocks.SACCHARINE_SAPLING,
         )
 
         this.createBoatModelLayers()

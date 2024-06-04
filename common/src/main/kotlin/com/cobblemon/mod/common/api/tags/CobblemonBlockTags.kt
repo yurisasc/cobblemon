@@ -24,6 +24,7 @@ object CobblemonBlockTags {
 
     @JvmField val ALL_HANGING_SIGNS = createTag("all_hanging_signs")
     @JvmField val ALL_SIGNS = createTag("all_signs")
+    @JvmField val ALL_SAPLINGS = createTag("all_saplings")
     @JvmField val APRICORN_LEAVES = createTag("apricorn_leaves")
     @JvmField val APRICORN_LOGS = createTag("apricorn_logs")
     @JvmField val APRICORN_SAPLINGS = createTag("apricorn_saplings")
@@ -44,6 +45,9 @@ object CobblemonBlockTags {
     @JvmField val SEES_SKY = createTag("sees_sky")
     @JvmField val SNOW_BLOCK = createTag("snow_block")
     @JvmField val ROOTS = createTag("roots")
+    @JvmField val SACCHARINE_LEAVES = createTag("saccharine_leaves")
+    @JvmField val SACCHARINE_LOGS = createTag("saccharine_logs")
+    @JvmField val SACCHARINE_SAPLING = createTag("saccharine_sapling")
     @JvmField val STANDING_SIGNS = createTag("standing_signs")
     @JvmField val TUMBLESTONE_HEAT_SOURCE = createTag("tumblestone_heat_source")
     @JvmField val WALL_HANGING_SIGNS = createTag("wall_hanging_signs")

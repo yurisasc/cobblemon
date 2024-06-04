@@ -192,7 +192,8 @@ object CobblemonBlocks : PlatformRegistry<Registry<Block>, RegistryKey<Registry<
     val SACCHARINE_DOOR = this.create("saccharine_door", DoorBlockInvoker.`cobblemon$create`(AbstractBlock.Settings.create().mapColor(SACCHARINE_PLANKS.defaultMapColor).instrument(Instrument.BASS).strength(3.0F).sounds(BlockSoundGroup.WOOD).nonOpaque(), SACCHARINE_BLOCK_SET_TYPE))
     @JvmField
     val SACCHARINE_TRAPDOOR = this.create("saccharine_trapdoor", TrapdoorBlockInvoker.`cobblemon$create`(AbstractBlock.Settings.create().mapColor(MapColor.OAK_TAN).instrument(Instrument.BASS).strength(3.0F).sounds(BlockSoundGroup.WOOD).nonOpaque().allowsSpawning { _, _, _, _ -> false }, SACCHARINE_BLOCK_SET_TYPE))
-
+    @JvmField
+    val SACCHARINE_SAPLING = this.create("saccharine_sapling", SaccharineSaplingBlock(PLANT_PROPERTIES))
 
     @JvmField
     val MEDICINAL_LEEK = this.create("medicinal_leek", MedicinalLeekBlock(AbstractBlock.Settings.create().pistonBehavior(PistonBehavior.DESTROY).burnable().mapColor(MapColor.DULL_RED).noCollision().ticksRandomly().breakInstantly().sounds(CobblemonSounds.MEDICINAL_LEEK_SOUNDS)))

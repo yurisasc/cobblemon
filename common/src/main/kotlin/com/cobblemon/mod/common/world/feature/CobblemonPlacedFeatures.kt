@@ -29,6 +29,7 @@ object CobblemonPlacedFeatures {
 
 
     val APRICORN_TREES = of("apricorn_trees")
+    val SACCHARINE_TREE = of("saccharine_tree")
 
     val MINTS = of("mints")
 
@@ -42,6 +43,7 @@ object CobblemonPlacedFeatures {
     fun register() {
         // We don't need to pass in any tags, the feature implementation handles it, while not a perfect system it works
         Cobblemon.implementation.addFeatureToWorldGen(APRICORN_TREES, GenerationStep.Feature.VEGETAL_DECORATION, null)
+        Cobblemon.implementation.addFeatureToWorldGen(SACCHARINE_TREE, GenerationStep.Feature.VEGETAL_DECORATION, null)
         Cobblemon.implementation.addFeatureToWorldGen(MINTS, GenerationStep.Feature.VEGETAL_DECORATION, null)
         Cobblemon.implementation.addFeatureToWorldGen(MEDICINAL_LEEK, GenerationStep.Feature.VEGETAL_DECORATION, null)
         Cobblemon.implementation.addFeatureToWorldGen(BIG_ROOT, GenerationStep.Feature.VEGETAL_DECORATION, BiomeTags.IS_OVERWORLD)
