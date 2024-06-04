@@ -10,9 +10,12 @@ package com.cobblemon.mod.common.net.messages.client.toast
 
 import com.cobblemon.mod.common.api.net.NetworkPacket
 import com.cobblemon.mod.common.util.cobblemonResource
+import com.cobblemon.mod.common.util.readItemStack
+import com.cobblemon.mod.common.util.readText
+import com.cobblemon.mod.common.util.writeItemStack
+import com.cobblemon.mod.common.util.writeText
 import net.minecraft.item.ItemStack
 import net.minecraft.network.PacketByteBuf
-import net.minecraft.network.RegistryByteBuf
 import net.minecraft.text.Text
 import net.minecraft.util.Identifier
 import java.util.UUID
@@ -30,7 +33,7 @@ class ToastPacket(
 
     override val id: Identifier = ID
 
-    override fun encode(buffer: RegistryByteBuf) {
+    override fun encode(buffer: PacketByteBuf) {
         buffer.writeText(this.title)
         buffer.writeText(this.description)
         buffer.writeItemStack(this.icon)

@@ -13,9 +13,8 @@ import com.cobblemon.mod.common.api.moves.Moves
 import com.cobblemon.mod.common.api.net.NetworkPacket
 import com.cobblemon.mod.common.net.serverhandling.storage.BenchMoveHandler
 import com.cobblemon.mod.common.util.cobblemonResource
-import java.util.UUID
 import net.minecraft.network.PacketByteBuf
-import net.minecraft.network.RegistryByteBuf
+import java.util.UUID
 
 /**
  * Tells the server to exchange a current move with a benched move in the specified Pokémon's
@@ -31,7 +30,7 @@ import net.minecraft.network.RegistryByteBuf
  */
 class BenchMovePacket(val isParty: Boolean, val uuid: UUID, val oldMove: MoveTemplate, val newMove: MoveTemplate) : NetworkPacket<BenchMovePacket> {
     override val id = ID
-    override fun encode(buffer: RegistryByteBuf) {
+    override fun encode(buffer: PacketByteBuf) {
         buffer.writeBoolean(isParty)
         buffer.writeUuid(uuid)
         buffer.writeString(oldMove.name)

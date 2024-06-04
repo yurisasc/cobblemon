@@ -9,6 +9,7 @@
 package com.cobblemon.mod.common.world.placementmodifier
 
 import com.mojang.serialization.Codec
+import com.mojang.serialization.MapCodec
 import com.mojang.serialization.codecs.PrimitiveCodec
 import com.mojang.serialization.codecs.RecordCodecBuilder
 import java.util.Optional
@@ -28,7 +29,7 @@ import net.minecraft.world.gen.placementmodifier.PlacementModifier
  */
 class BeneathHeightmapPlacementModifier(val heightmap: Heightmap.Type, val offset: Int, val reach: Int?) : PlacementModifier() {
     companion object {
-        val MODIFIER_CODEC: Codec<BeneathHeightmapPlacementModifier> = RecordCodecBuilder.create { instance ->
+        val MODIFIER_CODEC: MapCodec<BeneathHeightmapPlacementModifier> = RecordCodecBuilder.create { instance ->
             instance
                 .group(
                     Heightmap.Type.CODEC.fieldOf("heightmap").forGetter { it.heightmap },

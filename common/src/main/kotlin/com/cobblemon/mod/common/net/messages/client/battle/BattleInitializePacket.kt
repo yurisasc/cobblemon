@@ -26,11 +26,10 @@ import com.cobblemon.mod.common.util.readMapK
 import com.cobblemon.mod.common.util.readSizedInt
 import com.cobblemon.mod.common.util.writeMapK
 import com.cobblemon.mod.common.util.writeSizedInt
-import java.util.UUID
 import net.minecraft.network.PacketByteBuf
-import net.minecraft.network.RegistryByteBuf
 import net.minecraft.text.MutableText
 import net.minecraft.text.TextCodecs
+import java.util.UUID
 
 /**
  * Initializes the client's understanding of a battle. This can be for a participant or for a spectator.
@@ -76,7 +75,7 @@ class BattleInitializePacket() : NetworkPacket<BattleInitializePacket> {
         side2 = sides[1]
     }
 
-    override fun encode(buffer: RegistryByteBuf) {
+    override fun encode(buffer: PacketByteBuf) {
         buffer.writeUuid(battleId)
         battleFormat.saveToBuffer(buffer)
         for (side in arrayOf(side1, side2)) {

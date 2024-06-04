@@ -15,14 +15,17 @@ import com.cobblemon.mod.common.pokemon.Gender
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.pokemon.RenderablePokemon
 import com.cobblemon.mod.common.util.cobblemonResource
+import com.cobblemon.mod.common.util.readItemStack
 import com.cobblemon.mod.common.util.readSizedInt
+import com.cobblemon.mod.common.util.readText
+import com.cobblemon.mod.common.util.writeItemStack
 import com.cobblemon.mod.common.util.writeSizedInt
-import java.util.UUID
+import com.cobblemon.mod.common.util.writeText
 import net.minecraft.item.ItemStack
 import net.minecraft.network.PacketByteBuf
-import net.minecraft.network.RegistryByteBuf
 import net.minecraft.text.MutableText
 import net.minecraft.util.Identifier
+import java.util.UUID
 
 /**
  * A packet that initializes a trade with a player. Information about the other party is included.
@@ -94,7 +97,7 @@ class TradeStartedPacket(
     }
 
     override val id = ID
-    override fun encode(buffer: RegistryByteBuf) {
+    override fun encode(buffer: PacketByteBuf) {
         buffer.writeUuid(traderId)
         buffer.writeText(traderName)
         buffer.writeCollection(traderParty) { _, v -> buffer.writeNullable(v) { _, v2 -> v2.encode(buffer) } }

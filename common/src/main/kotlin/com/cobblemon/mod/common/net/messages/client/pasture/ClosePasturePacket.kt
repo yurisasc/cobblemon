@@ -11,7 +11,6 @@ package com.cobblemon.mod.common.net.messages.client.pasture
 import com.cobblemon.mod.common.api.net.NetworkPacket
 import com.cobblemon.mod.common.util.cobblemonResource
 import net.minecraft.network.PacketByteBuf
-import net.minecraft.network.RegistryByteBuf
 
 /**
  * Packet sent to close the pasture GUI if it's open. Used when the block is broken.
@@ -26,5 +25,5 @@ class ClosePasturePacket : NetworkPacket<ClosePasturePacket> {
     }
 
     override val id = ID
-    override fun encode(buffer: RegistryByteBuf) {}
+    override fun encode(buffer: PacketByteBuf) {}
 }

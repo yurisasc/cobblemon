@@ -17,9 +17,8 @@ import com.cobblemon.mod.common.api.storage.pc.PCPosition.Companion.readPCPositi
 import com.cobblemon.mod.common.api.storage.pc.PCPosition.Companion.writePCPosition
 import com.cobblemon.mod.common.net.serverhandling.storage.SwapPCPartyPokemonHandler
 import com.cobblemon.mod.common.util.cobblemonResource
-import java.util.UUID
 import net.minecraft.network.PacketByteBuf
-import net.minecraft.network.RegistryByteBuf
+import java.util.UUID
 
 /**
  * Tells the server to swap Pokémon between the party and the currently linked PC. The positions are sent
@@ -32,7 +31,7 @@ import net.minecraft.network.RegistryByteBuf
  */
 class SwapPCPartyPokemonPacket(val partyPokemonID: UUID, val partyPosition: PartyPosition, val pcPokemonID: UUID, val pcPosition: PCPosition) : NetworkPacket<SwapPCPartyPokemonPacket> {
     override val id = ID
-    override fun encode(buffer: RegistryByteBuf) {
+    override fun encode(buffer: PacketByteBuf) {
         buffer.writeUuid(partyPokemonID)
         buffer.writePartyPosition(partyPosition)
         buffer.writeUuid(pcPokemonID)

@@ -11,10 +11,10 @@ package com.cobblemon.mod.common.net.messages.client.callback
 import com.cobblemon.mod.common.api.callback.MoveSelectDTO
 import com.cobblemon.mod.common.api.net.NetworkPacket
 import com.cobblemon.mod.common.util.cobblemonResource
-import java.util.UUID
 import net.minecraft.network.PacketByteBuf
-import net.minecraft.network.RegistryByteBuf
 import net.minecraft.text.MutableText
+import net.minecraft.text.TextCodecs
+import java.util.UUID
 
 /**
  * Packet send to the client to force them to open a move selection GUI.
@@ -27,15 +27,15 @@ class OpenMoveCallbackPacket(val uuid: UUID, val title: MutableText, val moves: 
         val ID = cobblemonResource("open_move_callback")
         fun decode(buffer: PacketByteBuf) = OpenMoveCallbackPacket(
             uuid = buffer.readUuid(),
-            title = buffer.readText().copy(),
+            title = TextCodecs.PACKET_CODEC.decode(buffer).copy(),
             moves = buffer.readList { _ -> MoveSelectDTO(buffer) }
         )
     }
 
     override val id = ID
-    override fun encode(buffer: RegistryByteBuf) {
+    override fun encode(buffer: PacketByteBuf) {
         buffer.writeUuid(uuid)
-        buffer.writeText(title)
+        TextCodecs.PACKET_CODEC.encode(buffer, title)
         buffer.writeCollection(moves) { _, v -> v.writeToBuffer(buffer) }
     }
 }

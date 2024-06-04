@@ -15,7 +15,6 @@ import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.readSizedInt
 import com.cobblemon.mod.common.util.writeSizedInt
 import net.minecraft.network.PacketByteBuf
-import net.minecraft.network.RegistryByteBuf
 
 /**
  * Packet sent from the client to the server to send out the Pokémon in the specified
@@ -28,7 +27,7 @@ import net.minecraft.network.RegistryByteBuf
  */
 class SendOutPokemonPacket(val slot: Int) : NetworkPacket<SendOutPokemonPacket> {
     override val id = ID
-    override fun encode(buffer: RegistryByteBuf) {
+    override fun encode(buffer: PacketByteBuf) {
         buffer.writeSizedInt(IntSize.U_BYTE, slot)
     }
 

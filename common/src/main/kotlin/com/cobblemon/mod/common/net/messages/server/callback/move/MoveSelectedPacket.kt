@@ -13,9 +13,8 @@ import com.cobblemon.mod.common.net.IntSize
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.readSizedInt
 import com.cobblemon.mod.common.util.writeSizedInt
-import java.util.UUID
 import net.minecraft.network.PacketByteBuf
-import net.minecraft.network.RegistryByteBuf
+import java.util.UUID
 
 /**
  * Packet sent to the server when the player has responded to a move selection callback.
@@ -30,7 +29,7 @@ class MoveSelectedPacket(val uuid: UUID, val index: Int) : NetworkPacket<MoveSel
     }
 
     override val id = ID
-    override fun encode(buffer: RegistryByteBuf) {
+    override fun encode(buffer: PacketByteBuf) {
         buffer.writeUuid(uuid)
         buffer.writeSizedInt(IntSize.U_BYTE, index)
     }

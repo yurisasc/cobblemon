@@ -10,9 +10,8 @@ package com.cobblemon.mod.common.net.messages.server.callback.partymove
 
 import com.cobblemon.mod.common.api.net.NetworkPacket
 import com.cobblemon.mod.common.util.cobblemonResource
-import java.util.UUID
 import net.minecraft.network.PacketByteBuf
-import net.minecraft.network.RegistryByteBuf
+import java.util.UUID
 
 /**
  * Packet sent to the server when the player closed the party move selection GUI.
@@ -27,7 +26,7 @@ class PartyMoveSelectCancelledPacket(val uuid: UUID) : NetworkPacket<PartyMoveSe
     }
 
     override val id = ID
-    override fun encode(buffer: RegistryByteBuf) {
+    override fun encode(buffer: PacketByteBuf) {
         buffer.writeUuid(uuid)
     }
 }

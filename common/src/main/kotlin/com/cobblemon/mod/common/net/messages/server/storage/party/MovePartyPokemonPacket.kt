@@ -14,9 +14,8 @@ import com.cobblemon.mod.common.api.storage.party.PartyPosition.Companion.readPa
 import com.cobblemon.mod.common.api.storage.party.PartyPosition.Companion.writePartyPosition
 import com.cobblemon.mod.common.net.serverhandling.storage.party.MovePartyPokemonHandler
 import com.cobblemon.mod.common.util.cobblemonResource
-import java.util.UUID
 import net.minecraft.network.PacketByteBuf
-import net.minecraft.network.RegistryByteBuf
+import java.util.UUID
 
 /**
  * Tells the server to move a party Pokémon from one position of the player's party to another.
@@ -28,7 +27,7 @@ import net.minecraft.network.RegistryByteBuf
  */
 class MovePartyPokemonPacket(val pokemonID: UUID, val oldPosition: PartyPosition, val newPosition: PartyPosition) : NetworkPacket<MovePartyPokemonPacket> {
     override val id = ID
-    override fun encode(buffer: RegistryByteBuf) {
+    override fun encode(buffer: PacketByteBuf) {
         buffer.writeUuid(pokemonID)
         buffer.writePartyPosition(oldPosition)
         buffer.writePartyPosition(newPosition)

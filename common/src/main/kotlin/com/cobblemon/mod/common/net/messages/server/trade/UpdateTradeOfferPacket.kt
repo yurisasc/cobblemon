@@ -13,9 +13,8 @@ import com.cobblemon.mod.common.api.storage.party.PartyPosition
 import com.cobblemon.mod.common.api.storage.party.PartyPosition.Companion.readPartyPosition
 import com.cobblemon.mod.common.api.storage.party.PartyPosition.Companion.writePartyPosition
 import com.cobblemon.mod.common.util.cobblemonResource
-import java.util.UUID
 import net.minecraft.network.PacketByteBuf
-import net.minecraft.network.RegistryByteBuf
+import java.util.UUID
 
 class UpdateTradeOfferPacket(val newOffer: Pair<UUID, PartyPosition>?): NetworkPacket<UpdateTradeOfferPacket> {
     companion object {
@@ -24,7 +23,7 @@ class UpdateTradeOfferPacket(val newOffer: Pair<UUID, PartyPosition>?): NetworkP
     }
 
     override val id = ID
-    override fun encode(buffer: RegistryByteBuf) {
+    override fun encode(buffer: PacketByteBuf) {
         buffer.writeNullable(newOffer) { buffer, (pokemonId, partyPosition) ->
             buffer.writeUuid(pokemonId)
             buffer.writePartyPosition(partyPosition)

@@ -16,12 +16,14 @@ import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.pokemon.FormData
 import com.cobblemon.mod.common.pokemon.Species
 import com.cobblemon.mod.common.util.cobblemonResource
-import java.util.UUID
+import com.cobblemon.mod.common.util.readText
+import com.cobblemon.mod.common.util.writeText
 import net.minecraft.entity.Entity
 import net.minecraft.network.PacketByteBuf
 import net.minecraft.network.packet.s2c.play.EntitySpawnS2CPacket
 import net.minecraft.text.MutableText
 import net.minecraft.util.Identifier
+import java.util.UUID
 
 class SpawnPokemonPacket(
     private val ownerId: UUID?,

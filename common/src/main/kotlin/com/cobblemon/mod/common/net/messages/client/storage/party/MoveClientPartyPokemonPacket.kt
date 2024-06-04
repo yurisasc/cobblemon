@@ -13,8 +13,8 @@ import com.cobblemon.mod.common.api.storage.party.PartyPosition.Companion.readPa
 import com.cobblemon.mod.common.api.storage.party.PartyPosition.Companion.writePartyPosition
 import com.cobblemon.mod.common.net.messages.client.storage.MoveClientPokemonPacket
 import com.cobblemon.mod.common.util.cobblemonResource
-import java.util.UUID
 import net.minecraft.network.PacketByteBuf
+import java.util.UUID
 
 /**
  * Moves a Pokémon from one party place to another on the client side.

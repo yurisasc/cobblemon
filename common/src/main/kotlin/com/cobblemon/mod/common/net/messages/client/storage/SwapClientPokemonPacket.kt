@@ -12,9 +12,8 @@ import com.cobblemon.mod.common.api.net.NetworkPacket
 import com.cobblemon.mod.common.api.storage.PokemonStore
 import com.cobblemon.mod.common.api.storage.party.PartyStore
 import com.cobblemon.mod.common.util.cobblemonResource
-import java.util.UUID
 import net.minecraft.network.PacketByteBuf
-import net.minecraft.network.RegistryByteBuf
+import java.util.UUID
 
 /**
  * Swaps two Pokémon in the client side representation of a store. Works for party and PCs.
@@ -30,7 +29,7 @@ class SwapClientPokemonPacket internal constructor(val storeIsParty: Boolean, va
 
     constructor(store: PokemonStore<*>, pokemonID1: UUID, pokemonID2: UUID): this(store is PartyStore, store.uuid, pokemonID1, pokemonID2)
 
-    override fun encode(buffer: RegistryByteBuf) {
+    override fun encode(buffer: PacketByteBuf) {
         buffer.writeBoolean(storeIsParty)
         buffer.writeUuid(storeID)
         buffer.writeUuid(pokemonID1)

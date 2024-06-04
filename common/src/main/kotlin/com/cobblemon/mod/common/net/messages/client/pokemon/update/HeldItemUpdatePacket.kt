@@ -10,6 +10,8 @@ package com.cobblemon.mod.common.net.messages.client.pokemon.update
 
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.util.cobblemonResource
+import com.cobblemon.mod.common.util.readItemStack
+import com.cobblemon.mod.common.util.writeItemStack
 import net.minecraft.item.ItemStack
 import net.minecraft.network.PacketByteBuf
 

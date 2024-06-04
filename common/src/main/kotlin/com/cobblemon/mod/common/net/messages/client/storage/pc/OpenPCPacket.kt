@@ -11,9 +11,8 @@ package com.cobblemon.mod.common.net.messages.client.storage.pc
 import com.cobblemon.mod.common.api.net.NetworkPacket
 import com.cobblemon.mod.common.api.storage.pc.link.PCLink
 import com.cobblemon.mod.common.util.cobblemonResource
-import java.util.UUID
 import net.minecraft.network.PacketByteBuf
-import net.minecraft.network.RegistryByteBuf
+import java.util.UUID
 
 /**
  * Notifies a player that they must open the PC GUI for the given PC store ID. This is assuming
@@ -31,7 +30,7 @@ class OpenPCPacket(val storeID: UUID) : NetworkPacket<OpenPCPacket> {
 
     override val id = ID
 
-    override fun encode(buffer: RegistryByteBuf) {
+    override fun encode(buffer: PacketByteBuf) {
         buffer.writeUuid(storeID)
     }
 

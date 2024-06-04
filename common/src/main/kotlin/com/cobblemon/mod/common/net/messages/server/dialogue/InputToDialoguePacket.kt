@@ -10,9 +10,8 @@ package com.cobblemon.mod.common.net.messages.server.dialogue
 
 import com.cobblemon.mod.common.api.net.NetworkPacket
 import com.cobblemon.mod.common.util.cobblemonResource
-import java.util.UUID
 import net.minecraft.network.PacketByteBuf
-import net.minecraft.network.RegistryByteBuf
+import java.util.UUID
 
 /**
  * Sent by the client to the server when they are providing some kind of input to the dialogue to progress it.
@@ -31,7 +30,7 @@ class InputToDialoguePacket(val inputId: UUID, val input: String = ""): NetworkP
     }
 
     override val id = ID
-    override fun encode(buffer: RegistryByteBuf) {
+    override fun encode(buffer: PacketByteBuf) {
         buffer.writeUuid(inputId)
         buffer.writeString(input)
     }

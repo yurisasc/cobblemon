@@ -10,14 +10,10 @@ package com.cobblemon.mod.common.net.messages.client.fossil
 
 import com.cobblemon.mod.common.api.fossil.NaturalMaterial
 import com.cobblemon.mod.common.api.fossil.NaturalMaterials
-import com.cobblemon.mod.common.net.messages.client.data.BerryRegistrySyncPacket
 import com.cobblemon.mod.common.net.messages.client.data.DataRegistrySyncPacket
 import com.cobblemon.mod.common.registry.ItemTagCondition
 import com.cobblemon.mod.common.util.cobblemonResource
-import net.minecraft.item.Item
 import net.minecraft.network.PacketByteBuf
-import net.minecraft.registry.tag.TagKey
-import java.lang.StringBuilder
 
 
 class NaturalMaterialRegistrySyncPacket(naturalMaterials: List<NaturalMaterial>) : DataRegistrySyncPacket<NaturalMaterial, NaturalMaterialRegistrySyncPacket>(naturalMaterials) {

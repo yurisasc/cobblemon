@@ -14,7 +14,6 @@ import com.cobblemon.mod.common.config.starter.StarterCategory
 import com.cobblemon.mod.common.pokemon.RenderablePokemon
 import com.cobblemon.mod.common.util.cobblemonResource
 import net.minecraft.network.PacketByteBuf
-import net.minecraft.network.RegistryByteBuf
 
 class OpenStarterUIPacket internal constructor(val categories: List<RenderableStarterCategory>) : NetworkPacket<OpenStarterUIPacket> {
 
@@ -22,7 +21,7 @@ class OpenStarterUIPacket internal constructor(val categories: List<RenderableSt
 
     constructor(categories: Collection<StarterCategory>) : this(categories.map { it.asRenderableStarterCategory() })
 
-    override fun encode(buffer: RegistryByteBuf) {
+    override fun encode(buffer: PacketByteBuf) {
         buffer.writeInt(categories.size)
         categories.forEach {
             buffer.writeString(it.name)

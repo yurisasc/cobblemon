@@ -35,6 +35,7 @@ import com.cobblemon.mod.common.util.readSizedInt
 import com.cobblemon.mod.common.util.writeSizedInt
 import com.google.gson.annotations.SerializedName
 import net.minecraft.entity.EntityDimensions
+import net.minecraft.network.PacketByteBuf
 import net.minecraft.network.RegistryByteBuf
 import net.minecraft.util.Identifier
 
@@ -243,7 +244,7 @@ class FormData(
 
     override fun hashCode(): Int = this.showdownId().hashCode()
 
-    override fun encode(buffer: RegistryByteBuf) {
+    override fun encode(buffer: PacketByteBuf) {
         buffer.writeString(this.name)
         buffer.writeCollection(this.aspects) { pb, aspect -> pb.writeString(aspect) }
         buffer.writeNullable(this._baseStats) { statsBuffer, map ->
@@ -271,7 +272,7 @@ class FormData(
         }
     }
 
-    override fun decode(buffer: RegistryByteBuf) {
+    override fun decode(buffer: PacketByteBuf) {
         this.name = buffer.readString()
         this.aspects = buffer.readList { buffer.readString() }.toMutableList()
         buffer.readNullable { mapBuffer ->
@@ -287,7 +288,13 @@ class FormData(
         this._weight = buffer.readNullable { pb -> pb.readFloat() }
         this._baseScale = buffer.readNullable { pb -> pb.readFloat() }
         this._hitbox = buffer.readNullable { pb ->
-            EntityDimensions(pb.readFloat(), pb.readFloat(), pb.readBoolean())
+            val isFixed = pb.readBoolean()
+            if (isFixed) {
+                EntityDimensions.fixed(pb.readFloat(), pb.readFloat())
+            }
+            else {
+                EntityDimensions.changing(pb.readFloat(), pb.readFloat())
+            }
         }
         this._moves = buffer.readNullable { pb -> Learnset().apply { decode(pb) }}
         this._pokedex = buffer.readNullable { pb -> pb.readList { it.readString() } }

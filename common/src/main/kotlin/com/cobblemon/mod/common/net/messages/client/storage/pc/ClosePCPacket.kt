@@ -10,9 +10,8 @@ package com.cobblemon.mod.common.net.messages.client.storage.pc
 
 import com.cobblemon.mod.common.api.net.NetworkPacket
 import com.cobblemon.mod.common.util.cobblemonResource
-import java.util.UUID
 import net.minecraft.network.PacketByteBuf
-import net.minecraft.network.RegistryByteBuf
+import java.util.UUID
 
 /**
  * Notifies a player that they must close their PC GUI. If the [storeID] property is non-null, then
@@ -27,7 +26,7 @@ class ClosePCPacket(val storeID: UUID?) : NetworkPacket<ClosePCPacket> {
 
     override val id = ID
 
-    override fun encode(buffer: RegistryByteBuf) {
+    override fun encode(buffer: PacketByteBuf) {
         buffer.writeNullable(this.storeID) { pb, value -> pb.writeUuid(value) }
     }
 

@@ -12,6 +12,7 @@ import com.cobblemon.mod.common.api.properties.CustomPokemonProperty
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.google.gson.JsonObject
 import net.minecraft.nbt.NbtCompound
+import net.minecraft.network.PacketByteBuf
 import net.minecraft.network.RegistryByteBuf
 
 /**
@@ -44,11 +45,11 @@ class StringSpeciesFeature(
         return this
     }
 
-    override fun encode(buffer: RegistryByteBuf) {
+    override fun encode(buffer: PacketByteBuf) {
         buffer.writeString(value)
     }
 
-    override fun decode(buffer: RegistryByteBuf) {
+    override fun decode(buffer: PacketByteBuf) {
         value = buffer.readString()
     }
 

@@ -37,7 +37,7 @@ open class ChoiceSpeciesFeatureProvider(
     override var visible = false
     fun getAspect(feature: StringSpeciesFeature) = aspectFormat.substitute("choice", feature.value)
 
-    override fun encode(buffer: RegistryByteBuf) {
+    override fun encode(buffer: PacketByteBuf) {
         buffer.writeCollection(keys) { _, value -> buffer.writeString(value) }
         buffer.writeNullable(default) { _, value -> buffer.writeString(value) }
         buffer.writeCollection(choices) { _, value -> buffer.writeString(value) }
@@ -46,7 +46,7 @@ open class ChoiceSpeciesFeatureProvider(
         buffer.writeBoolean(needsKey)
     }
 
-    override fun decode(buffer: RegistryByteBuf) {
+    override fun decode(buffer: PacketByteBuf) {
         keys = buffer.readList { buffer.readString() }
         default = buffer.readNullable { buffer.readString() }
         choices = buffer.readList { buffer.readString() }

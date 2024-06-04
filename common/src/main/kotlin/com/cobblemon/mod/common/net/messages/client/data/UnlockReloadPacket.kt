@@ -11,7 +11,6 @@ package com.cobblemon.mod.common.net.messages.client.data
 import com.cobblemon.mod.common.api.net.NetworkPacket
 import com.cobblemon.mod.common.util.cobblemonResource
 import net.minecraft.network.PacketByteBuf
-import net.minecraft.network.RegistryByteBuf
 
 internal class UnlockReloadPacket : NetworkPacket<UnlockReloadPacket> {
     companion object {
@@ -21,5 +20,5 @@ internal class UnlockReloadPacket : NetworkPacket<UnlockReloadPacket> {
     }
 
     override val id = ID
-    override fun encode(buffer: RegistryByteBuf) {}
+    override fun encode(buffer: PacketByteBuf) {}
 }

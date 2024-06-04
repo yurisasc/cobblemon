@@ -11,7 +11,6 @@ package com.cobblemon.mod.common.net.messages.server
 import com.cobblemon.mod.common.api.net.NetworkPacket
 import com.cobblemon.mod.common.util.cobblemonResource
 import net.minecraft.network.PacketByteBuf
-import net.minecraft.network.RegistryByteBuf
 import java.util.UUID
 
 /**
@@ -32,7 +31,7 @@ class RequestPlayerInteractionsPacket(
     }
 
     override val id = ID
-    override fun encode(buffer: RegistryByteBuf) {
+    override fun encode(buffer: PacketByteBuf) {
         buffer.writeUuid(targetId)
         buffer.writeInt(targetNumericId)
         buffer.writeUuid(pokemonId)

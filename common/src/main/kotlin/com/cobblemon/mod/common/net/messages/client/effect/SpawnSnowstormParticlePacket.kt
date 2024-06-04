@@ -12,7 +12,6 @@ import com.cobblemon.mod.common.api.net.NetworkPacket
 import com.cobblemon.mod.common.api.snowstorm.BedrockParticleEffect
 import com.cobblemon.mod.common.util.cobblemonResource
 import net.minecraft.network.PacketByteBuf
-import net.minecraft.network.RegistryByteBuf
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.Vec3d
 
@@ -38,7 +37,7 @@ class SpawnSnowstormParticlePacket(
             )
         }
     }
-    override fun encode(buffer: RegistryByteBuf) {
+    override fun encode(buffer: PacketByteBuf) {
         buffer.writeIdentifier(effectId)
         buffer.writeDouble(position.x)
         buffer.writeDouble(position.y)

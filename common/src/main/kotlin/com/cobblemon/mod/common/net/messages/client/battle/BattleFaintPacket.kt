@@ -11,7 +11,6 @@ package com.cobblemon.mod.common.net.messages.client.battle
 import com.cobblemon.mod.common.api.net.NetworkPacket
 import com.cobblemon.mod.common.util.cobblemonResource
 import net.minecraft.network.PacketByteBuf
-import net.minecraft.network.RegistryByteBuf
 
 /**
  * Reports that a specific Pokémon fainted. This triggers a specific tile animation.
@@ -23,7 +22,7 @@ import net.minecraft.network.RegistryByteBuf
  */
 class BattleFaintPacket(val pnx: String) : NetworkPacket<BattleFaintPacket> {
     override val id = ID
-    override fun encode(buffer: RegistryByteBuf) {
+    override fun encode(buffer: PacketByteBuf) {
         buffer.writeString(pnx)
     }
     companion object {

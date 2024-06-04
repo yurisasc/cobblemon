@@ -15,11 +15,12 @@ import com.cobblemon.mod.common.api.net.NetworkPacket
 import com.cobblemon.mod.common.net.IntSize
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.readSizedInt
+import com.cobblemon.mod.common.util.readText
 import com.cobblemon.mod.common.util.writeSizedInt
-import java.util.UUID
+import com.cobblemon.mod.common.util.writeText
 import net.minecraft.network.PacketByteBuf
-import net.minecraft.network.RegistryByteBuf
 import net.minecraft.text.MutableText
+import java.util.UUID
 
 /**
  * Packet sent to the client to open a party select then move select GUI to get a selection.
@@ -57,7 +58,7 @@ class OpenPartyMoveCallbackPacket(
     }
 
     override val id = ID
-    override fun encode(buffer: RegistryByteBuf) {
+    override fun encode(buffer: PacketByteBuf) {
         buffer.writeUuid(uuid)
         buffer.writeText(partyTitle)
         buffer.writeSizedInt(IntSize.U_BYTE, pokemonList.size)

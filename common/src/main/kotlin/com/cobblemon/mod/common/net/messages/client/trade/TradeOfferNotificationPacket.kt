@@ -10,10 +10,11 @@ package com.cobblemon.mod.common.net.messages.client.trade
 
 import com.cobblemon.mod.common.api.net.NetworkPacket
 import com.cobblemon.mod.common.util.cobblemonResource
-import java.util.UUID
+import com.cobblemon.mod.common.util.readText
+import com.cobblemon.mod.common.util.writeText
 import net.minecraft.network.PacketByteBuf
-import net.minecraft.network.RegistryByteBuf
 import net.minecraft.text.MutableText
+import java.util.UUID
 
 /**
  * Packet sent to the client to notify a player that someone requested to trade with them.
@@ -23,7 +24,7 @@ import net.minecraft.text.MutableText
  */
 class TradeOfferNotificationPacket(val tradeOfferId: UUID, val traderId: UUID, val traderName: MutableText): NetworkPacket<TradeOfferNotificationPacket> {
     override val id = ID
-    override fun encode(buffer: RegistryByteBuf) {
+    override fun encode(buffer: PacketByteBuf) {
         buffer.writeUuid(tradeOfferId)
         buffer.writeUuid(traderId)
         buffer.writeText(traderName)

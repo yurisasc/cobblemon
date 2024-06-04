@@ -11,9 +11,8 @@ package com.cobblemon.mod.common.net.messages.server.pokemon.update
 import com.cobblemon.mod.common.api.net.NetworkPacket
 import com.cobblemon.mod.common.net.serverhandling.pokemon.update.SetNicknameHandler
 import com.cobblemon.mod.common.util.cobblemonResource
-import java.util.UUID
 import net.minecraft.network.PacketByteBuf
-import net.minecraft.network.RegistryByteBuf
+import java.util.UUID
 
 /**
  * Packet sent to the server to indicate a player wants to change the nickname of a Pokémon. If the [nickname]
@@ -26,7 +25,7 @@ import net.minecraft.network.RegistryByteBuf
  */
 class SetNicknamePacket(val pokemonUUID: UUID, val isParty: Boolean, val nickname: String?) : NetworkPacket<SetNicknamePacket> {
     override val id = ID
-    override fun encode(buffer: RegistryByteBuf) {
+    override fun encode(buffer: PacketByteBuf) {
         buffer.writeUuid(pokemonUUID)
         buffer.writeBoolean(isParty)
         buffer.writeNullable(nickname) { _, v -> buffer.writeString(nickname) }

@@ -13,7 +13,6 @@ import com.cobblemon.mod.common.battles.ActiveBattlePokemon
 import com.cobblemon.mod.common.battles.pokemon.BattlePokemon
 import com.cobblemon.mod.common.util.cobblemonResource
 import net.minecraft.network.PacketByteBuf
-import net.minecraft.network.RegistryByteBuf
 
 /**
  * Updates the client about an [ActiveBattlePokemon] that was hidden by an illusion and has just been revealed during a battle.
@@ -31,7 +30,7 @@ class BattleReplacePokemonPacket(val pnx: String, val realPokemon: BattleInitial
     constructor(pnx: String, realPokemon: BattlePokemon, isAlly: Boolean) :
         this(pnx, BattleInitializePacket.ActiveBattlePokemonDTO.fromPokemon(realPokemon, isAlly), isAlly)
 
-    override fun encode(buffer: RegistryByteBuf) {
+    override fun encode(buffer: PacketByteBuf) {
         buffer.writeString(pnx)
         realPokemon.saveToBuffer(buffer)
         buffer.writeBoolean(isAlly)

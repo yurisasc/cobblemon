@@ -22,7 +22,11 @@ import com.cobblemon.mod.common.api.pokemon.feature.SynchronizedSpeciesFeaturePr
 import com.cobblemon.mod.common.api.pokemon.status.Statuses
 import com.cobblemon.mod.common.api.types.tera.TeraTypes
 import com.cobblemon.mod.common.net.IntSize
-import com.cobblemon.mod.common.pokemon.*
+import com.cobblemon.mod.common.pokemon.EVs
+import com.cobblemon.mod.common.pokemon.Gender
+import com.cobblemon.mod.common.pokemon.IVs
+import com.cobblemon.mod.common.pokemon.OriginalTrainerType
+import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.pokemon.activestate.PokemonState
 import com.cobblemon.mod.common.pokemon.status.PersistentStatus
 import com.cobblemon.mod.common.pokemon.status.PersistentStatusContainer
@@ -30,13 +34,13 @@ import com.cobblemon.mod.common.util.asIdentifierDefaultingNamespace
 import com.cobblemon.mod.common.util.readSizedInt
 import com.cobblemon.mod.common.util.writeSizedInt
 import io.netty.buffer.Unpooled
-import java.util.UUID
 import net.minecraft.item.ItemStack
+import net.minecraft.nbt.NbtOps
 import net.minecraft.network.PacketByteBuf
-import net.minecraft.network.RegistryByteBuf
 import net.minecraft.text.MutableText
 import net.minecraft.text.TextCodecs
 import net.minecraft.util.Identifier
+import java.util.UUID
 
 /**
  * A data transfer object for an entire [Pokemon], complete with all of the information a player is allowed
@@ -77,8 +81,8 @@ class PokemonDTO : Encodable, Decodable {
     var dmaxLevel = 0
     var gmaxFactor = false
     var tradeable = true
-//    var features: List<SynchronizedSpeciesFeature> = emptyList()
-    lateinit var featuresBuffer: RegistryByteBuf
+    //    var features: List<SynchronizedSpeciesFeature> = emptyList()
+    lateinit var featuresBuffer: PacketByteBuf
     var originalTrainerType: OriginalTrainerType = OriginalTrainerType.NONE
     var originalTrainer: String? = null
     var originalTrainerName: String? = null
@@ -116,7 +120,7 @@ class PokemonDTO : Encodable, Decodable {
         this.dmaxLevel = pokemon.dmaxLevel
         this.gmaxFactor = pokemon.gmaxFactor
         this.tradeable = pokemon.tradeable
-        this.featuresBuffer = RegistryByteBuf.
+        this.featuresBuffer = PacketByteBuf(Unpooled.buffer())
         val visibleFeatures = pokemon.features
             .filterIsInstance<SynchronizedSpeciesFeature>()
             .filter { (SpeciesFeatures.getFeature(it.name)!! as SynchronizedSpeciesFeatureProvider<*>).visible }
@@ -130,11 +134,11 @@ class PokemonDTO : Encodable, Decodable {
         this.originalTrainerName = pokemon.originalTrainerName
     }
 
-    override fun encode(buffer: RegistryByteBuf) {
+    override fun encode(buffer: PacketByteBuf) {
         buffer.writeBoolean(toClient)
         buffer.writeUuid(uuid)
         buffer.writeIdentifier(species)
-        buffer.writeNullable(nickname) { buf, v -> TextCodecs.PACKET_CODEC.encode(buf, v) }
+        buffer.writeNullable(nickname, TextCodecs.PACKET_CODEC)
         buffer.writeString(form)
         buffer.writeInt(experience)
         buffer.writeSizedInt(IntSize.U_SHORT, level)
@@ -159,7 +163,9 @@ class PokemonDTO : Encodable, Decodable {
         evolutionBuffer.release()
         buffer.writeIdentifier(nature)
         buffer.writeNullable(mintNature) { _, v -> buffer.writeIdentifier(v) }
-        ItemStack.PACKET_CODEC.encode(buffer, heldItem)
+        buffer.writeNbt(ItemStack.CODEC.encode(heldItem, NbtOps.INSTANCE, null).getOrThrow {
+            return@getOrThrow UnsupportedOperationException("WTF Held Item")
+        })
         buffer.writeNullable(tetheringId) { _, v -> buffer.writeUuid(v) }
         buffer.writeString(teraType)
         buffer.writeInt(dmaxLevel)
@@ -174,11 +180,13 @@ class PokemonDTO : Encodable, Decodable {
         buffer.writeNullable(originalTrainerName) { _, v -> buffer.writeString(v) }
     }
 
-    override fun decode(buffer: RegistryByteBuf) {
+    override fun decode(buffer: PacketByteBuf) {
         toClient = buffer.readBoolean()
         uuid = buffer.readUuid()
         species = buffer.readIdentifier()
-        nickname = buffer.readNullable { TextCodecs.PACKET_CODEC.decode(buffer) as MutableText }
+        nickname = buffer.readNullable() {
+            TextCodecs.PACKET_CODEC.decode(buffer).copy()
+        }
         form = buffer.readString()
         experience = buffer.readInt()
         level = buffer.readSizedInt(IntSize.U_SHORT)
@@ -204,7 +212,9 @@ class PokemonDTO : Encodable, Decodable {
         evolutionBuffer = PacketByteBuf(buffer.readBytes(bytesToRead))
         nature = buffer.readIdentifier()
         mintNature = buffer.readNullable { buffer.readIdentifier() }
-        heldItem = ItemStack.PACKET_CODEC.decode(buffer)
+        heldItem = NbtOps.INSTANCE.withDecoder(ItemStack.CODEC).apply(buffer.readNbt()).getOrThrow {
+            return@getOrThrow UnsupportedOperationException("WTF Held Item")
+        }.first
         tetheringId = buffer.readNullable { buffer.readUuid() }
         teraType = buffer.readString()
         dmaxLevel = buffer.readInt()

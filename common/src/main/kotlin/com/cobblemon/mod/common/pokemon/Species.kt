@@ -31,9 +31,11 @@ import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.net.IntSize
 import com.cobblemon.mod.common.pokemon.ai.PokemonBehaviour
 import com.cobblemon.mod.common.pokemon.lighthing.LightingData
+import com.cobblemon.mod.common.util.readEntityDimensions
 import com.cobblemon.mod.common.util.readSizedInt
 import com.cobblemon.mod.common.util.writeSizedInt
 import net.minecraft.entity.EntityDimensions
+import net.minecraft.network.PacketByteBuf
 import net.minecraft.network.RegistryByteBuf
 import net.minecraft.text.MutableText
 import net.minecraft.text.Text
@@ -59,7 +61,7 @@ class Species : ClientDataSynchronizer<Species>, ShowdownIdentifiable {
     var evYield = hashMapOf<Stat, Int>()
         private set
     var experienceGroup = ExperienceGroups.first()
-    var hitbox = EntityDimensions(1F, 1F, false)
+    var hitbox = EntityDimensions.fixed(1F, 1F)
     var primaryType = ElementalTypes.GRASS
         internal set
     var secondaryType: ElementalType? = null
@@ -175,7 +177,7 @@ class Species : ClientDataSynchronizer<Species>, ShowdownIdentifiable {
 
     fun canGmax() = this.forms.find { it.formOnlyShowdownId() == "gmax" } != null
 
-    override fun encode(buffer: RegistryByteBuf) {
+    override fun encode(buffer: PacketByteBuf) {
         buffer.writeBoolean(this.implemented)
         buffer.writeString(this.name)
         buffer.writeInt(this.nationalPokedexNumber)
@@ -206,7 +208,7 @@ class Species : ClientDataSynchronizer<Species>, ShowdownIdentifiable {
         }
     }
 
-    override fun decode(buffer: RegistryByteBuf) {
+    override fun decode(buffer: PacketByteBuf) {
         this.implemented = buffer.readBoolean()
         this.name = buffer.readString()
         this.nationalPokedexNumber = buffer.readInt()
@@ -220,7 +222,7 @@ class Species : ClientDataSynchronizer<Species>, ShowdownIdentifiable {
         this.height = buffer.readFloat()
         this.weight = buffer.readFloat()
         this.baseScale = buffer.readFloat()
-        this.hitbox = EntityDimensions(buffer.readFloat(), buffer.readFloat(), buffer.readBoolean())
+        this.hitbox = buffer.readEntityDimensions()
         this.moves.decode(buffer)
         this.pokedex.clear()
         this.pokedex += buffer.readList { pb -> pb.readString() }

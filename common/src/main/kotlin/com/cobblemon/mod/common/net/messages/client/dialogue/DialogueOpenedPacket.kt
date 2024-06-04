@@ -13,7 +13,6 @@ import com.cobblemon.mod.common.api.net.NetworkPacket
 import com.cobblemon.mod.common.net.messages.client.dialogue.dto.DialogueDTO
 import com.cobblemon.mod.common.util.cobblemonResource
 import net.minecraft.network.PacketByteBuf
-import net.minecraft.network.RegistryByteBuf
 
 class DialogueOpenedPacket(val dialogueDTO: DialogueDTO) : NetworkPacket<DialogueOpenedPacket> {
     companion object {
@@ -24,7 +23,7 @@ class DialogueOpenedPacket(val dialogueDTO: DialogueDTO) : NetworkPacket<Dialogu
     constructor(activeDialogue: ActiveDialogue, includeFaces: Boolean) : this(DialogueDTO(activeDialogue, includeFaces))
 
     override val id = ID
-    override fun encode(buffer: RegistryByteBuf) {
+    override fun encode(buffer: PacketByteBuf) {
         dialogueDTO.encode(buffer)
     }
 }

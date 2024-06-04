@@ -13,8 +13,8 @@ import com.cobblemon.mod.common.api.storage.pc.PCPosition.Companion.readPCPositi
 import com.cobblemon.mod.common.api.storage.pc.PCPosition.Companion.writePCPosition
 import com.cobblemon.mod.common.net.messages.client.storage.MoveClientPokemonPacket
 import com.cobblemon.mod.common.util.cobblemonResource
-import java.util.UUID
 import net.minecraft.network.PacketByteBuf
+import java.util.UUID
 
 /**
  * Moves a Pokémon from one part of a PC to another on the client side.

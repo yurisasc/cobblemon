@@ -17,9 +17,8 @@ import com.cobblemon.mod.common.api.storage.pc.PCPosition.Companion.readPCPositi
 import com.cobblemon.mod.common.api.storage.pc.PCPosition.Companion.writePCPosition
 import com.cobblemon.mod.common.net.serverhandling.storage.pc.MovePCPokemonToPartyHandler
 import com.cobblemon.mod.common.util.cobblemonResource
-import java.util.UUID
 import net.minecraft.network.PacketByteBuf
-import net.minecraft.network.RegistryByteBuf
+import java.util.UUID
 
 /**
  * Tells the server to move a Pokémon from a player's linked PC to their party. If the party position is
@@ -32,7 +31,7 @@ import net.minecraft.network.RegistryByteBuf
  */
 class MovePCPokemonToPartyPacket(val pokemonID: UUID, val pcPosition: PCPosition, val partyPosition: PartyPosition?) : NetworkPacket<MovePCPokemonToPartyPacket> {
     override val id = ID
-    override fun encode(buffer: RegistryByteBuf) {
+    override fun encode(buffer: PacketByteBuf) {
         buffer.writeUuid(pokemonID)
         buffer.writePCPosition(pcPosition)
         buffer.writeNullable(partyPosition) { pb, value -> pb.writePartyPosition(value) }

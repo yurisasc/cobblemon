@@ -56,11 +56,11 @@ open class FlagSpeciesFeature(override val name: String) : SynchronizedSpeciesFe
         return this
     }
 
-    override fun encode(buffer: RegistryByteBuf) {
+    override fun encode(buffer: PacketByteBuf) {
         buffer.writeBoolean(enabled)
     }
 
-    override fun decode(buffer: RegistryByteBuf) {
+    override fun decode(buffer: PacketByteBuf) {
         enabled = buffer.readBoolean()
     }
 
@@ -98,13 +98,13 @@ class FlagSpeciesFeatureProvider : SynchronizedSpeciesFeatureProvider<FlagSpecie
         }
     }
 
-    override fun encode(buffer: RegistryByteBuf) {
+    override fun encode(buffer: PacketByteBuf) {
         buffer.writeCollection(keys) { _, value -> buffer.writeString(value) }
         buffer.writeNullable(default) { _, value -> buffer.writeString(value) }
         buffer.writeBoolean(isAspect)
     }
 
-    override fun decode(buffer: RegistryByteBuf) {
+    override fun decode(buffer: PacketByteBuf) {
         keys = buffer.readList { it.readString() }
         default = buffer.readNullable { it.readString() }
         isAspect = buffer.readBoolean()

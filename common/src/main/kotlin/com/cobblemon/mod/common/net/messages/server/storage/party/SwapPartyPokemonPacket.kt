@@ -14,9 +14,8 @@ import com.cobblemon.mod.common.api.storage.party.PartyPosition.Companion.readPa
 import com.cobblemon.mod.common.api.storage.party.PartyPosition.Companion.writePartyPosition
 import com.cobblemon.mod.common.net.serverhandling.storage.party.SwapPartyPokemonHandler
 import com.cobblemon.mod.common.util.cobblemonResource
-import java.util.UUID
 import net.minecraft.network.PacketByteBuf
-import net.minecraft.network.RegistryByteBuf
+import java.util.UUID
 
 /**
  * Tells the server to swap two Pokémon in the player's party.
@@ -28,7 +27,7 @@ import net.minecraft.network.RegistryByteBuf
  */
 class SwapPartyPokemonPacket(val pokemon1ID: UUID, val position1: PartyPosition, val pokemon2ID: UUID, val position2: PartyPosition) : NetworkPacket<SwapPartyPokemonPacket> {
     override val id = ID
-    override fun encode(buffer: RegistryByteBuf) {
+    override fun encode(buffer: PacketByteBuf) {
         buffer.writeUuid(pokemon1ID)
         buffer.writePartyPosition(position1)
         buffer.writeUuid(pokemon2ID)

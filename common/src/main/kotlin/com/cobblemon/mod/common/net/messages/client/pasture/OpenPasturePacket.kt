@@ -12,14 +12,17 @@ import com.cobblemon.mod.common.api.net.NetworkPacket
 import com.cobblemon.mod.common.api.pasture.PasturePermissions
 import com.cobblemon.mod.common.net.IntSize
 import com.cobblemon.mod.common.util.cobblemonResource
+import com.cobblemon.mod.common.util.readItemStack
 import com.cobblemon.mod.common.util.readSizedInt
+import com.cobblemon.mod.common.util.readText
+import com.cobblemon.mod.common.util.writeItemStack
 import com.cobblemon.mod.common.util.writeSizedInt
-import java.util.UUID
+import com.cobblemon.mod.common.util.writeText
 import net.minecraft.item.ItemStack
 import net.minecraft.network.PacketByteBuf
-import net.minecraft.network.RegistryByteBuf
 import net.minecraft.text.Text
 import net.minecraft.util.Identifier
+import java.util.UUID
 
 /**
  * Opens a pasture GUI using the provided data.
@@ -92,7 +95,7 @@ class OpenPasturePacket(val pcId: UUID, val pastureId: UUID, val limit: Int, val
 
     override val id = ID
 
-    override fun encode(buffer: RegistryByteBuf) {
+    override fun encode(buffer: PacketByteBuf) {
         buffer.writeUuid(pcId)
         buffer.writeUuid(pastureId)
         buffer.writeSizedInt(IntSize.U_BYTE, limit)

@@ -15,6 +15,7 @@ import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.effect.StatusEffect
 import net.minecraft.entity.effect.StatusEffectInstance
 import net.minecraft.nbt.NbtCompound
+import net.minecraft.registry.Registries
 import net.minecraft.server.network.ServerPlayerEntity
 import java.util.*
 
@@ -28,7 +29,7 @@ class PotionBaseEffect(
 ) : ShoulderEffect {
 
     override fun applyEffect(pokemon: Pokemon, player: ServerPlayerEntity, isLeft: Boolean) {
-        val effect = player.getStatusEffect(this.effect)
+        val effect = player.getStatusEffect(Registries.STATUS_EFFECT.getEntry(effect))
         // We handle part of our own type.
         if (effect is ShoulderStatusEffectInstance && effect.amplifier >= this.amplifier) {
             // If the effect is the same strength simply add another source for it.
@@ -44,7 +45,7 @@ class PotionBaseEffect(
     }
 
     override fun removeEffect(pokemon: Pokemon, player: ServerPlayerEntity, isLeft: Boolean) {
-        val effect = player.getStatusEffect(this.effect) as? ShoulderStatusEffectInstance ?: return
+        val effect = player.getStatusEffect(Registries.STATUS_EFFECT.getEntry(effect)) as? ShoulderStatusEffectInstance ?: return
         if (effect.amplifier == this.amplifier && effect.ambient == this.ambient && effect.shouldShowParticles() == this.showParticles && effect.shouldShowIcon() == this.showIcon) {
             effect.shoulderSources.remove(pokemon.uuid)
         }
@@ -66,12 +67,12 @@ class PotionBaseEffect(
         showParticles: Boolean,
         showIcon: Boolean,
         startingPokemon: Pokemon
-    ) : StatusEffectInstance(effect, -1, amplifier, ambient, showParticles, showIcon) {
+    ) : StatusEffectInstance(Registries.STATUS_EFFECT.getEntry(effect), -1, amplifier, ambient, showParticles, showIcon) {
 
         internal val shoulderSources: MutableSet<UUID> = hashSetOf(startingPokemon.uuid)
         private var upgrade: StatusEffectInstance? = null
 
-        override fun writeNbt(nbt: NbtCompound): NbtCompound {
+        fun writeNbt(nbt: NbtCompound): NbtCompound {
             /**
              * No need for this operation.
              * [StatusEffectInstance.fromNbt] tosses it out immediately if the ID is invalid.
@@ -113,9 +114,12 @@ class PotionBaseEffect(
         }
 
         override fun update(entity: LivingEntity, overwriteCallback: Runnable): Boolean {
+            //TODO: FIX THIS
+            /*
             if (this.effectType.canApplyUpdateEffect(entity.age, this.amplifier)) {
                 this.onApplied(entity)
             }
+             */
             this.upgrade?.let {
                 if (--it.duration == 0) {
                     this.upgrade = null
@@ -126,7 +130,7 @@ class PotionBaseEffect(
         }
 
         override fun onApplied(entity: LivingEntity) {
-            this.effectType.applyUpdateEffect(entity, this.upgrade?.amplifier ?: this.amplifier)
+            //this.effectType.applyUpdateEffect(entity, this.upgrade?.amplifier ?: this.amplifier)
         }
 
         @Suppress("CAST_NEVER_SUCCEEDS")

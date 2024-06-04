@@ -135,6 +135,8 @@ import net.minecraft.nbt.NbtElement.COMPOUND_TYPE
 import net.minecraft.nbt.NbtList
 import net.minecraft.nbt.NbtOps
 import net.minecraft.nbt.NbtString
+import net.minecraft.registry.Registries
+import net.minecraft.registry.RegistryWrapper
 import net.minecraft.registry.tag.FluidTags
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.server.world.ServerWorld
@@ -819,7 +821,8 @@ open class Pokemon : ShowdownIdentifiable {
         nbt.putString(DataKeys.POKEMON_LAST_SAVED_VERSION, Cobblemon.VERSION)
         nbt.putUuid(DataKeys.POKEMON_UUID, uuid)
         nbt.putString(DataKeys.POKEMON_SPECIES_IDENTIFIER, species.resourceIdentifier.toString())
-        nickname?.let { nbt.putString(DataKeys.POKEMON_NICKNAME, Text.Serialization.toJsonString(it)) }
+        Cobblemon.LOGGER.error("MAKE SURE TO FIX THIS")
+        //nickname?.let { nbt.putString(DataKeys.POKEMON_NICKNAME, Text.Serialization.toJsonString(it)) }
         nbt.putString(DataKeys.POKEMON_FORM_ID, form.formOnlyShowdownId())
         nbt.putInt(DataKeys.POKEMON_EXPERIENCE, experience)
         nbt.putShort(DataKeys.POKEMON_LEVEL, level.toShort())
@@ -846,7 +849,9 @@ open class Pokemon : ShowdownIdentifiable {
         mintedNature?.let { nbt.putString(DataKeys.POKEMON_MINTED_NATURE, it.name.toString()) }
         features.forEach { it.saveToNBT(nbt) }
         if (!this.heldItem.isEmpty) {
-            nbt.put(DataKeys.HELD_ITEM, this.heldItem.writeNbt(NbtCompound()))
+            nbt.put(DataKeys.HELD_ITEM, ItemStack.CODEC.encode(heldItem, NbtOps.INSTANCE, null).getOrThrow {
+                return@getOrThrow IllegalStateException("WTF held item")
+            })
         }
         nbt.put(DataKeys.POKEMON_PERSISTENT_DATA, persistentData)
         if (tetheringId != null) {
@@ -874,7 +879,7 @@ open class Pokemon : ShowdownIdentifiable {
         } catch (e: InvalidIdentifierException) {
             throw IllegalStateException("Failed to read a species identifier from NBT")
         }
-        nickname = nbt.getString(DataKeys.POKEMON_NICKNAME).takeIf { it.isNotBlank() }?.let { Text.Serialization.fromJson(it) }
+        //nickname = nbt.getString(DataKeys.POKEMON_NICKNAME).takeIf { it.isNotBlank() }?.let { Text.Serialization.fromJson(it) }
         form = species.forms.find { it.formOnlyShowdownId() == nbt.getString(DataKeys.POKEMON_FORM_ID) } ?: species.standardForm
         level = nbt.getShort(DataKeys.POKEMON_LEVEL).toInt()
         experience = nbt.getInt(DataKeys.POKEMON_EXPERIENCE).takeIf { experienceGroup.getLevel(it) == level } ?: experienceGroup.getExperience(level)
@@ -921,7 +926,7 @@ open class Pokemon : ShowdownIdentifiable {
         updateForm() // If saved with an incorrect form, readjust on load
         nbt.get(DataKeys.POKEMON_EVOLUTIONS)?.let { tag -> this.evolutionProxy.loadFromNBT(tag) }
         if (nbt.contains(DataKeys.HELD_ITEM)) {
-            this.heldItem = ItemStack.fromNbt(nbt.getCompound(DataKeys.HELD_ITEM))
+            this.heldItem = NbtOps.INSTANCE.withDecoder(ItemStack.CODEC).apply(nbt.get(DataKeys.HELD_ITEM)).result().get().first
         }
         this.persistentData = nbt.getCompound(DataKeys.POKEMON_PERSISTENT_DATA)
         tetheringId = if (nbt.containsUuid(DataKeys.TETHERING_ID)) nbt.getUuid(DataKeys.TETHERING_ID) else null
@@ -942,7 +947,8 @@ open class Pokemon : ShowdownIdentifiable {
         json.addProperty(DataKeys.POKEMON_LAST_SAVED_VERSION, Cobblemon.VERSION)
         json.addProperty(DataKeys.POKEMON_UUID, uuid.toString())
         json.addProperty(DataKeys.POKEMON_SPECIES_IDENTIFIER, species.resourceIdentifier.toString())
-        nickname?.let { json.add(DataKeys.POKEMON_NICKNAME, Text.Serialization.toJsonTree(it)) }
+        Cobblemon.LOGGER.warn("FIX THIS")
+        //nickname?.let { json.add(DataKeys.POKEMON_NICKNAME, Text.Serialization.toJsonTree(it)) }
         json.addProperty(DataKeys.POKEMON_FORM_ID, form.formOnlyShowdownId())
         json.addProperty(DataKeys.POKEMON_EXPERIENCE, experience)
         json.addProperty(DataKeys.POKEMON_LEVEL, level)
@@ -994,6 +1000,7 @@ open class Pokemon : ShowdownIdentifiable {
         } catch (e: InvalidIdentifierException) {
             throw IllegalStateException("Failed to deserialize a species identifier")
         }
+        /*
         nickname = if (version == "1.4.0") {
             try {
                 json.get(DataKeys.POKEMON_NICKNAME)?.asString?.takeIf { it.isNotBlank() }?.let { Text.Serialization.fromJson(it) }
@@ -1003,6 +1010,8 @@ open class Pokemon : ShowdownIdentifiable {
         } else {
             json.get(DataKeys.POKEMON_NICKNAME)?.let { Text.Serialization.fromJson(it) }
         }
+
+         */
         form = species.forms.find { it.formOnlyShowdownId() == json.get(DataKeys.POKEMON_FORM_ID).asString } ?: species.standardForm
         level = json.get(DataKeys.POKEMON_LEVEL).asInt
         experience = json.get(DataKeys.POKEMON_EXPERIENCE).asInt.takeIf { experienceGroup.getLevel(it) == level } ?: experienceGroup.getExperience(level)
