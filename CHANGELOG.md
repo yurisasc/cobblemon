@@ -9,6 +9,7 @@
 - Fixed Pokemon spawning in non-full blocks like slabs.
 - Fixed Gilded Chests not dropping the chest itself when broken, only the contents.
 - Fixed Pokémon losing their Hidden Ability through evolution if the middle stage did not have a Hidden Ability.
+- Fixed Chimchar and Monferno T posing whenever they sleep.
 
 ### Additions
 - Added extra visuals to early berry growth stages
@@ -21,6 +22,7 @@
 - Altered the item model for Medicinal Leeks and Roasted Leeks to be held like sticks and other rod items. 
 - Adjusted some berry balance values like yield and growth times
 - Changes to mulch buffs/durations
+- Dreepy is now shoulder mountable
 
 ### Developer
 
