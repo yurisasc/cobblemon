@@ -28,6 +28,7 @@ import com.cobblemon.mod.common.block.sign.CobblemonSignBlock
 import com.cobblemon.mod.common.block.sign.CobblemonWallHangingSignBlock
 import com.cobblemon.mod.common.block.sign.CobblemonWallSignBlock
 import net.minecraft.block.*
+import net.minecraft.block.AbstractBlock.Settings
 import net.minecraft.block.enums.Instrument
 import net.minecraft.block.piston.PistonBehavior
 import net.minecraft.entity.effect.StatusEffects
@@ -167,7 +168,7 @@ object CobblemonBlocks : PlatformRegistry<Registry<Block>, RegistryKey<Registry<
     @JvmField
     val SACCHARINE_PLANKS = this.create("saccharine_planks", Block(AbstractBlock.Settings.create().mapColor(MapColor.LIGHT_BLUE).instrument(Instrument.BASS).strength(2.0f, 3.0f).sounds(BlockSoundGroup.WOOD)))
     @JvmField
-    val SACCHARINE_LEAVES = leaves("saccharine_leaves")
+    val SACCHARINE_LEAVES = this.create("saccharine_leaves", SaccharineLeafBlock(Settings.create().mapColor(MapColor.LIGHT_BLUE).strength(0.2F).ticksRandomly().sounds(BlockSoundGroup.GRASS).nonOpaque().allowsSpawning { _, _, _, _ -> false }))
     @JvmField
     val SACCHARINE_FENCE = this.create("saccharine_fence", FenceBlock(AbstractBlock.Settings.create().mapColor(SACCHARINE_PLANKS.defaultMapColor).instrument(Instrument.BASS).strength(2.0f, 3.0f).sounds(BlockSoundGroup.WOOD)))
     @JvmField
@@ -842,4 +843,14 @@ object CobblemonBlocks : PlatformRegistry<Registry<Block>, RegistryKey<Registry<
         val block = BlocksInvoker.createLeavesBlock(BlockSoundGroup.GRASS)
         return this.create(name, block)
     }
+
+    /**
+     * Helper method for creating saccharine leaves
+     * similar to Vanilla
+    private fun saccharineLeaves(name: String): SaccharineLeafBlock {
+        val block = BlocksInvoker.createLeavesBlock(BlockSoundGroup.GRASS)
+
+
+        return this.create(name, block)
+    }*/
 }

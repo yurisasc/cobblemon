@@ -19,11 +19,13 @@ import net.minecraft.entity.ai.pathing.NavigationType
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemPlacementContext
 import net.minecraft.item.ItemStack
+import net.minecraft.item.Items
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.sound.SoundCategory
 import net.minecraft.sound.SoundEvents
 import net.minecraft.state.StateManager
+import net.minecraft.state.property.BooleanProperty
 import net.minecraft.state.property.IntProperty
 import net.minecraft.state.property.Properties
 import net.minecraft.util.ActionResult
@@ -46,25 +48,31 @@ class SaccharineLeafBlock(settings: Settings) : LeavesBlock(settings), Fertiliza
     init {
         this.defaultState = this.stateManager.defaultState
             .with(AGE, MIN_AGE)
+            .with(DISTANCE, DISTANCE_MAX)
+            .with(PERSISTENT, false)
+            .with(Properties.WATERLOGGED, false)
     }
 
     override fun hasRandomTicks(state: BlockState) = state.get(AGE) < MAX_AGE
 
     @Deprecated("Deprecated in Java")
     override fun randomTick(state: BlockState, world: ServerWorld, pos: BlockPos, random: Random) {
-        if (world.random.nextInt(5) == 0) {
+
+        // this code was for them aging as time goes on
+        /* if (world.random.nextInt(5) == 0) {
+
             val currentAge = state.get(AGE)
             if (currentAge < MAX_AGE) {
                 world.setBlockState(pos, state.with(AGE, currentAge + 1), 2)
             }
-        }
+        }*/
     }
 
-    @Deprecated("Deprecated in Java")
+    /*@Deprecated("Deprecated in Java")
     override fun canPlaceAt(state: BlockState, world: WorldView, pos: BlockPos): Boolean {
         val blockState = world.getBlockState(pos.down())
-        return blockState.isIn(CobblemonBlockTags.APRICORN_LEAVES)
-    }
+        return blockState.isIn(CobblemonBlockTags.SACCHARINE_LEAVES)
+    }*/
 
     @Deprecated("Deprecated in Java")
     override fun getOutlineShape(state: BlockState, world: BlockView, pos: BlockPos, context: ShapeContext): VoxelShape {
@@ -100,13 +108,27 @@ class SaccharineLeafBlock(settings: Settings) : LeavesBlock(settings), Fertiliza
     }
 
     override fun appendProperties(builder: StateManager.Builder<Block, BlockState>) {
-        builder.add(AGE)
+        builder.add(AGE, DISTANCE, PERSISTENT, Properties.WATERLOGGED)
     }
 
     override fun canPathfindThrough(state: BlockState, world: BlockView, pos: BlockPos, type: NavigationType) = false
 
     override fun onUse(state: BlockState, world: World, pos: BlockPos, player: PlayerEntity, hand: Hand, hit: BlockHitResult): ActionResult {
-        // todo when players use glass bottle on it when AGE is 1 or 2 then revert AGE and give bottle os Sap
+        // todo if item in players hand is glass bottle and AGE is more than 0
+        if (player.getStackInHand(hand).isOf(Items.GLASS_BOTTLE) && state.get(AGE) > 0)
+        {
+            // decrement stack if not in creative mode
+            if (!player.isCreative)
+                player.getStackInHand(hand).decrement(1)
+
+            // give player honey bottle for now
+            player.giveItemStack(Items.HONEY_BOTTLE.defaultStack)
+
+            // todo reset AGE
+            world.setBlockState(pos, state.with(AGE, 0), 2)
+
+            val currentAge = state.get(AGE)
+        }
 
         if (state.get(AGE) != MAX_AGE) {
             return super.onUse(state, world, pos, player, hand, hit)
@@ -116,19 +138,22 @@ class SaccharineLeafBlock(settings: Settings) : LeavesBlock(settings), Fertiliza
         return ActionResult.SUCCESS
     }
 
-    override fun onBlockBreakStart(state: BlockState, world: World, pos: BlockPos, player: PlayerEntity) {
+    /*override fun onBlockBreakStart(state: BlockState, world: World, pos: BlockPos, player: PlayerEntity) {
         if (state.get(AGE) != MAX_AGE) {
             return super.onBlockBreakStart(state, world, pos, player)
         }
 
         //doHarvest(world, state, pos, player)
-    }
+    }*/
 
     companion object {
 
         val AGE: IntProperty = Properties.AGE_2
+        val DISTANCE: IntProperty = Properties.DISTANCE_1_7
+        val PERSISTENT: BooleanProperty = Properties.PERSISTENT
         const val MAX_AGE = Properties.AGE_2_MAX
         const val MIN_AGE = 0
+        const val DISTANCE_MAX = 7
 
         private val SHAPE: VoxelShape = Block.createCuboidShape(0.0, 0.0, 0.0, 16.0, 16.0, 16.0)
     }
