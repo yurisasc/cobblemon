@@ -2,13 +2,13 @@
   "identifier": "cobblemon:national_unknown",
   "pokemon_list": [
     {
-      "name": "cobblemon:meltan",
+      "identifier": "cobblemon:meltan",
       "forms": [
         "normal"
       ]
     },
     {
-      "name": "cobblemon:melmetal",
+      "identifier": "cobblemon:melmetal",
       "forms": [
         "normal"
       ]

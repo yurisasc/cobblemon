@@ -8,15 +8,13 @@
 
 package com.cobblemon.mod.common.api.pokedex.adapter
 
-import com.cobblemon.mod.common.Cobblemon
-import com.cobblemon.mod.common.api.berry.GrowthFactor
 import com.cobblemon.mod.common.api.pokedex.PokedexEntryCategory
 import com.cobblemon.mod.common.pokedex.DexPokemonData
 import com.google.gson.*
 import net.minecraft.util.Identifier
 import java.lang.reflect.Type
 
-object DexPokemonDataAdapter: JsonDeserializer<DexPokemonData>, JsonSerializer<DexPokemonData> {
+object DexPokemonDataAdapter: JsonDeserializer<DexPokemonData> {
     override fun deserialize(jElement: JsonElement, type: Type, context: JsonDeserializationContext): DexPokemonData {
         val json = jElement.asJsonObject
         val categoryJson = json.get("category")
@@ -26,16 +24,14 @@ object DexPokemonDataAdapter: JsonDeserializer<DexPokemonData>, JsonSerializer<D
         }
 
         return DexPokemonData(
-            name = Identifier(json.get("name").asString),
+            identifier = Identifier(json.get("identifier").asString),
             forms = json.getAsJsonArray("forms")?.map { it.asString }?.toMutableList() ?: mutableListOf(),
             category = category,
             tags = json.getAsJsonArray("tags")?.map { it.asString }?.toMutableList() ?: mutableListOf(),
-            invisibleUntilFound = json.getAsJsonPrimitive("invisible")?.asBoolean == true
+            invisibleUntilFound = json.getAsJsonPrimitive("invisible")?.asBoolean == true,
+            visualNumber = json.getAsJsonPrimitive("visual_number")?.asString,
+            skipAutoNumbering = json.getAsJsonPrimitive("skip_auto_numbering")?.asBoolean == true
         )
-    }
-
-    override fun serialize(data: DexPokemonData, type: Type, context: JsonSerializationContext): JsonElement {
-        return context.serialize(data).asJsonObject
     }
 
 }

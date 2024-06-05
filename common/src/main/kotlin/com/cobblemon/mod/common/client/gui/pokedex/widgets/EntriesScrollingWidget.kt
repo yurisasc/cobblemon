@@ -8,13 +8,11 @@
 
 package com.cobblemon.mod.common.client.gui.pokedex.widgets
 
-import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.api.gui.blitk
 import com.cobblemon.mod.common.api.gui.drawPortraitPokemon
-import com.cobblemon.mod.common.api.gui.drawText
 import com.cobblemon.mod.common.api.pokedex.ClientPokedex
+import com.cobblemon.mod.common.api.pokedex.PokedexJSONRegistry
 import com.cobblemon.mod.common.api.pokedex.SpeciesPokedexEntry
-import com.cobblemon.mod.common.api.pokedex.trackeddata.SpeciesTrackedData
 import com.cobblemon.mod.common.api.pokemon.PokemonSpecies
 import com.cobblemon.mod.common.api.text.text
 import com.cobblemon.mod.common.client.gui.ScrollingWidget
@@ -29,7 +27,6 @@ import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.lang
 import net.minecraft.client.gui.DrawContext
 import net.minecraft.text.MutableText
-import net.minecraft.text.Text
 
 class EntriesScrollingWidget<PokemonScrollSlot : ScrollingWidget.Slot<EntriesScrollingWidget.PokemonScrollSlot>>(val pX: Int, val pY: Int, val setPokedexEntry: (DexPokemonData) -> (Unit)
 ): ScrollingWidget<EntriesScrollingWidget.PokemonScrollSlot>(
@@ -41,7 +38,7 @@ class EntriesScrollingWidget<PokemonScrollSlot : ScrollingWidget.Slot<EntriesScr
 ){
     fun createEntries(filteredPokedex: Collection<DexPokemonData>, clientPokedex: ClientPokedex){
         filteredPokedex.forEach {
-            val data = clientPokedex.speciesEntries[it.name]
+            val data = clientPokedex.speciesEntries[it.identifier]
             val newEntry = PokemonScrollSlot (it, data){ selectPokemon(it) }
             addEntry( newEntry )
         }
@@ -67,7 +64,7 @@ class EntriesScrollingWidget<PokemonScrollSlot : ScrollingWidget.Slot<EntriesScr
         }
 
         init {
-            pokemonSpecies = PokemonSpecies.getByIdentifier(dexPokemonData.name)
+            pokemonSpecies = PokemonSpecies.getByIdentifier(dexPokemonData.identifier)
             //Shouldn't be null due to above line
             pokemonName = if(speciesPokedexEntry != null){
                 pokemonSpecies!!.translatedName
@@ -75,7 +72,7 @@ class EntriesScrollingWidget<PokemonScrollSlot : ScrollingWidget.Slot<EntriesScr
                 lang("ui.pokedex.unknown")
             }
 
-            pokemonNumber = "${pokemonSpecies!!.nationalPokedexNumber}".text()
+            pokemonNumber = PokedexJSONRegistry.getPokemonVisualDexNumber(dexPokemonData).text()
         }
 
         override fun render(

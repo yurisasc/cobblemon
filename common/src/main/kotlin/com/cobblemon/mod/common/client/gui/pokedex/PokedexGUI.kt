@@ -7,12 +7,10 @@
  */
 
 package com.cobblemon.mod.common.client.gui.pokedex
-import com.cobblemon.mod.common.Cobblemon.LOGGER
 import com.cobblemon.mod.common.api.gui.blitk
 import com.cobblemon.mod.common.api.pokedex.*
 import com.cobblemon.mod.common.api.pokedex.filters.InvisibleFilter
 import com.cobblemon.mod.common.api.pokedex.filters.SearchFilter
-import com.cobblemon.mod.common.api.text.text
 import com.cobblemon.mod.common.client.gui.pokedex.PokedexGUIConstants.BASE_HEIGHT
 import com.cobblemon.mod.common.client.gui.pokedex.PokedexGUIConstants.BASE_WIDTH
 import com.cobblemon.mod.common.client.gui.pokedex.PokedexGUIConstants.HEADER_HEIGHT
@@ -30,14 +28,11 @@ import com.cobblemon.mod.common.client.gui.pokedex.PokedexGUIConstants.SPACER
 import com.cobblemon.mod.common.client.gui.pokedex.widgets.*
 import com.cobblemon.mod.common.client.render.drawScaledTextJustifiedRight
 import com.cobblemon.mod.common.pokedex.DexPokemonData
-import com.cobblemon.mod.common.pokemon.FormData
-import com.cobblemon.mod.common.pokemon.Species
 import com.cobblemon.mod.common.util.cobblemonResource
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.gui.DrawContext
 import net.minecraft.client.gui.screen.Screen
 import net.minecraft.text.Text
-import org.spongepowered.asm.mixin.injection.Desc
 
 /**
  * Pokedex GUI
@@ -200,7 +195,7 @@ class PokedexGUI private constructor(val pokedex: ClientPokedex) : Screen(Text.t
 
     fun setSelectedPokemon(dexPokemonData : DexPokemonData){
         selectedPokemon = dexPokemonData
-        val speciesEntry = pokedex.speciesEntries[selectedPokemon!!.name]
+        val speciesEntry = pokedex.speciesEntries[selectedPokemon!!.identifier]
         pokemonInfoWidget.setPokemon(selectedPokemon!!, speciesEntry)
 
         val textToShowInDescription = mutableListOf<String>()

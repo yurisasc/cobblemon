@@ -18,40 +18,77 @@ import net.minecraft.network.PacketByteBuf
 import net.minecraft.util.Identifier
 
 class DexPokemonData(
-    var name : Identifier = cobblemonResource("dex.pokemon"),
+    var identifier : Identifier = cobblemonResource("dex.pokemon"),
     var forms : MutableList<String> = mutableListOf(),
     var category: PokedexEntryCategory = PokedexEntryCategory.STANDARD,
     var tags: MutableList<String> = mutableListOf(),
-    var invisibleUntilFound : Boolean = false
-): Decodable, Encodable {
+    var invisibleUntilFound : Boolean = false,
+    var visualNumber : String? = null,
+    var skipAutoNumbering: Boolean = false
+): Decodable, Encodable, Comparable<DexPokemonData> {
 
     val species : Species?
-        get() = PokemonSpecies.getByIdentifier(name)
+        get() = PokemonSpecies.getByIdentifier(identifier)
 
-    fun combine(diffDexPokemonData: DexPokemonData): DexPokemonData {
+    fun combine(diff: DexPokemonData): DexPokemonData {
         val newForms: MutableList<String> = mutableListOf()
         newForms.addAll(forms)
-        newForms.addAll(diffDexPokemonData.forms)
+        newForms.addAll(diff.forms)
 
-        return DexPokemonData(name, newForms, this.category)
+        val newTags: MutableList<String> = mutableListOf()
+        newTags.addAll(tags)
+        newTags.addAll(diff.tags)
+
+        val newInvisibleUntilFound = invisibleUntilFound || diff.invisibleUntilFound
+        val newSkipAutoNumbering = skipAutoNumbering || diff.invisibleUntilFound
+
+        val newVisualNumber = if (visualNumber != null) visualNumber else if (diff.visualNumber != null) diff.visualNumber else null
+
+        return DexPokemonData(
+            identifier = identifier,
+            forms = newForms,
+            category = category,
+            tags = newTags,
+            invisibleUntilFound = newInvisibleUntilFound,
+            visualNumber = newVisualNumber,
+            skipAutoNumbering = newSkipAutoNumbering
+        )
     }
 
     override fun encode(buffer: PacketByteBuf) {
-        buffer.writeIdentifier(name)
+        buffer.writeIdentifier(identifier)
         buffer.writeInt(forms.size)
         forms.forEach {
             buffer.writeString(it)
         }
-        buffer.writeString(category.name)
+        buffer.writeEnumConstant(category)
+        buffer.writeInt(tags.size)
+        tags.forEach {
+            buffer.writeString(it)
+        }
+        buffer.writeBoolean(invisibleUntilFound)
+        buffer.writeNullable(visualNumber) { _, v -> buffer.writeString(v)}
+        buffer.writeBoolean(skipAutoNumbering)
     }
 
     override fun decode(buffer: PacketByteBuf) {
-        name = buffer.readIdentifier()
+        identifier = buffer.readIdentifier()
         val formsOrderListSize = buffer.readInt()
         for(i in 0 until formsOrderListSize){
             forms.add(buffer.readString())
         }
-        val categoryOrNull = PokedexEntryCategory.from(buffer.readString())
-        category = categoryOrNull ?: PokedexEntryCategory.STANDARD
+        category = buffer.readEnumConstant(PokedexEntryCategory::class.java)
+        val tagListSize = buffer.readInt()
+        for(i in 0 until tagListSize){
+            tags.add(buffer.readString())
+        }
+        invisibleUntilFound = buffer.readBoolean()
+        visualNumber = buffer.readNullable { buffer.readString() }
+        skipAutoNumbering = buffer.readBoolean()
+    }
+
+    //Compares using identifiers.
+    override fun compareTo(other: DexPokemonData): Int {
+        return identifier.compareTo(other.identifier)
     }
 }

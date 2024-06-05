@@ -17,58 +17,58 @@ import net.minecraft.util.Identifier
 class DexData (
     var identifier : Identifier,
     var enabled : Boolean = true,
-    var contained_dexes : MutableList<Identifier> = mutableListOf(),
-    var pokemon_list : MutableList<DexPokemonData> = mutableListOf(),
-    var override_categories : Boolean = false
+    var containedDexes : MutableList<Identifier> = mutableListOf(),
+    var pokemonList : MutableList<DexPokemonData> = mutableListOf(),
+    var overrideCategories : Boolean = false
 ): ClientDataSynchronizer<DexData> {
     override fun shouldSynchronize(other: DexData): Boolean {
-        return other.identifier != identifier || other.contained_dexes != contained_dexes || other.pokemon_list != pokemon_list
+        return other.identifier != identifier || other.containedDexes != containedDexes || other.pokemonList != pokemonList
     }
 
     fun parseEntries(entries: MutableSet<DexPokemonData>, categoryEntries : MutableMap<PokedexEntryCategory, MutableSet<DexPokemonData>>){
         if (!enabled) return
 
-        for(pokemon in pokemon_list){
-            if(override_categories){
+        for(pokemon in pokemonList){
+            if(overrideCategories){
                 entries.add(pokemon)
             } else {
                 categoryEntries[pokemon.category]!!.add(pokemon)
             }
         }
 
-        for(childDexIdentifier in contained_dexes){
+        for(childDexIdentifier in containedDexes){
             PokedexJSONRegistry.dexByIdentifier
-            PokedexJSONRegistry.getByIdentifier(childDexIdentifier)!!.parseEntries(entries, categoryEntries)
+            PokedexJSONRegistry.getByIdentifier(childDexIdentifier)?.parseEntries(entries, categoryEntries)
         }
     }
 
     override fun encode(buffer: PacketByteBuf) {
         buffer.writeIdentifier(identifier)
-        buffer.writeBoolean(override_categories)
+        buffer.writeBoolean(overrideCategories)
         buffer.writeBoolean(enabled)
-        buffer.writeInt(contained_dexes.size)
-        contained_dexes.forEach {
+        buffer.writeInt(containedDexes.size)
+        containedDexes.forEach {
             buffer.writeIdentifier(it)
         }
-        buffer.writeInt(pokemon_list.size)
-        pokemon_list.forEach {
+        buffer.writeInt(pokemonList.size)
+        pokemonList.forEach {
             it.encode(buffer)
         }
     }
 
     override fun decode(buffer: PacketByteBuf) {
         identifier = buffer.readIdentifier()
-        override_categories = buffer.readBoolean()
+        overrideCategories = buffer.readBoolean()
         enabled = buffer.readBoolean()
         val subdexesSize = buffer.readInt()
         for (i in 0 until subdexesSize){
-            contained_dexes.add(buffer.readIdentifier())
+            containedDexes.add(buffer.readIdentifier())
         }
         val pokemonSize = buffer.readInt()
         for (i in 0 until pokemonSize){
             val decodedPokemon = DexPokemonData()
             decodedPokemon.decode(buffer)
-            pokemon_list.add(decodedPokemon)
+            pokemonList.add(decodedPokemon)
         }
     }
 }

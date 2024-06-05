@@ -1,941 +1,335 @@
 {
-  "identifier": "cobblemon:national_unova",
-  "pokemon_list": [
-    {
-      "name": "cobblemon:victini",
-      "forms": [
-        "normal"
-      ]
-    },
-    {
-      "name": "cobblemon:snivy",
-      "forms": [
-        "normal"
-      ]
-    },
-    {
-      "name": "cobblemon:servine",
-      "forms": [
-        "normal"
-      ]
-    },
-    {
-      "name": "cobblemon:serperior",
-      "forms": [
-        "normal"
-      ]
-    },
-    {
-      "name": "cobblemon:tepig",
-      "forms": [
-        "normal"
-      ]
-    },
-    {
-      "name": "cobblemon:pignite",
-      "forms": [
-        "normal"
-      ]
-    },
-    {
-      "name": "cobblemon:emboar",
-      "forms": [
-        "normal"
-      ]
-    },
-    {
-      "name": "cobblemon:oshawott",
-      "forms": [
-        "normal"
-      ]
-    },
-    {
-      "name": "cobblemon:dewott",
-      "forms": [
-        "normal"
-      ]
-    },
-    {
-      "name": "cobblemon:samurott",
-      "forms": [
-        "normal"
-      ]
-    },
-    {
-      "name": "cobblemon:patrat",
-      "forms": [
-        "normal"
-      ]
-    },
-    {
-      "name": "cobblemon:watchog",
-      "forms": [
-        "normal"
-      ]
-    },
-    {
-      "name": "cobblemon:lillipup",
-      "forms": [
-        "normal"
-      ]
-    },
-    {
-      "name": "cobblemon:herdier",
-      "forms": [
-        "normal"
-      ]
-    },
-    {
-      "name": "cobblemon:stoutland",
-      "forms": [
-        "normal"
-      ]
-    },
-    {
-      "name": "cobblemon:purrloin",
-      "forms": [
-        "normal"
-      ]
-    },
-    {
-      "name": "cobblemon:liepard",
-      "forms": [
-        "normal"
-      ]
-    },
-    {
-      "name": "cobblemon:pansage",
-      "forms": [
-        "normal"
-      ]
-    },
-    {
-      "name": "cobblemon:simisage",
-      "forms": [
-        "normal"
-      ]
-    },
-    {
-      "name": "cobblemon:pansear",
-      "forms": [
-        "normal"
-      ]
-    },
-    {
-      "name": "cobblemon:simisear",
-      "forms": [
-        "normal"
-      ]
-    },
-    {
-      "name": "cobblemon:panpour",
-      "forms": [
-        "normal"
-      ]
-    },
-    {
-      "name": "cobblemon:simipour",
-      "forms": [
-        "normal"
-      ]
-    },
-    {
-      "name": "cobblemon:munna",
-      "forms": [
-        "normal"
-      ]
-    },
-    {
-      "name": "cobblemon:musharna",
-      "forms": [
-        "normal"
-      ]
-    },
-    {
-      "name": "cobblemon:pidove",
-      "forms": [
-        "normal"
-      ]
-    },
-    {
-      "name": "cobblemon:tranquill",
-      "forms": [
-        "normal"
-      ]
-    },
-    {
-      "name": "cobblemon:unfezant",
-      "forms": [
-        "normal"
-      ]
-    },
-    {
-      "name": "cobblemon:blitzle",
-      "forms": [
-        "normal"
-      ]
-    },
-    {
-      "name": "cobblemon:zebstrika",
-      "forms": [
-        "normal"
-      ]
-    },
-    {
-      "name": "cobblemon:roggenrola",
-      "forms": [
-        "normal"
-      ]
-    },
-    {
-      "name": "cobblemon:boldore",
-      "forms": [
-        "normal"
-      ]
-    },
-    {
-      "name": "cobblemon:gigalith",
-      "forms": [
-        "normal"
-      ]
-    },
-    {
-      "name": "cobblemon:woobat",
-      "forms": [
-        "normal"
-      ]
-    },
-    {
-      "name": "cobblemon:swoobat",
-      "forms": [
-        "normal"
-      ]
-    },
-    {
-      "name": "cobblemon:drilbur",
-      "forms": [
-        "normal"
-      ]
-    },
-    {
-      "name": "cobblemon:excadrill",
-      "forms": [
-        "normal"
-      ]
-    },
-    {
-      "name": "cobblemon:audino",
-      "forms": [
-        "normal"
-      ]
-    },
-    {
-      "name": "cobblemon:timburr",
-      "forms": [
-        "normal"
-      ]
-    },
-    {
-      "name": "cobblemon:gurdurr",
-      "forms": [
-        "normal"
-      ]
-    },
-    {
-      "name": "cobblemon:conkeldurr",
-      "forms": [
-        "normal"
-      ]
-    },
-    {
-      "name": "cobblemon:tympole",
-      "forms": [
-        "normal"
-      ]
-    },
-    {
-      "name": "cobblemon:palpitoad",
-      "forms": [
-        "normal"
-      ]
-    },
-    {
-      "name": "cobblemon:seismitoad",
-      "forms": [
-        "normal"
-      ]
-    },
-    {
-      "name": "cobblemon:throh",
-      "forms": [
-        "normal"
-      ]
-    },
-    {
-      "name": "cobblemon:sawk",
-      "forms": [
-        "normal"
-      ]
-    },
-    {
-      "name": "cobblemon:sewaddle",
-      "forms": [
-        "normal"
-      ]
-    },
-    {
-      "name": "cobblemon:swadloon",
-      "forms": [
-        "normal"
-      ]
-    },
-    {
-      "name": "cobblemon:leavanny",
-      "forms": [
-        "normal"
-      ]
-    },
-    {
-      "name": "cobblemon:venipede",
-      "forms": [
-        "normal"
-      ]
-    },
-    {
-      "name": "cobblemon:whirlipede",
-      "forms": [
-        "normal"
-      ]
-    },
-    {
-      "name": "cobblemon:scolipede",
-      "forms": [
-        "normal"
-      ]
-    },
-    {
-      "name": "cobblemon:cottonee",
-      "forms": [
-        "normal"
-      ]
-    },
-    {
-      "name": "cobblemon:whimsicott",
-      "forms": [
-        "normal"
-      ]
-    },
-    {
-      "name": "cobblemon:petilil",
-      "forms": [
-        "normal"
-      ]
-    },
-    {
-      "name": "cobblemon:lilligant",
-      "forms": [
-        "normal"
-      ]
-    },
-    {
-      "name": "cobblemon:basculin",
-      "forms": [
-        "normal"
-      ]
-    },
-    {
-      "name": "cobblemon:sandile",
-      "forms": [
-        "normal"
-      ]
-    },
-    {
-      "name": "cobblemon:krokorok",
-      "forms": [
-        "normal"
-      ]
-    },
-    {
-      "name": "cobblemon:krookodile",
-      "forms": [
-        "normal"
-      ]
-    },
-    {
-      "name": "cobblemon:darumaka",
-      "forms": [
-        "normal"
-      ]
-    },
-    {
-      "name": "cobblemon:darmanitan",
-      "forms": [
-        "normal"
-      ]
-    },
-    {
-      "name": "cobblemon:maractus",
-      "forms": [
-        "normal"
-      ]
-    },
-    {
-      "name": "cobblemon:dwebble",
-      "forms": [
-        "normal"
-      ]
-    },
-    {
-      "name": "cobblemon:crustle",
-      "forms": [
-        "normal"
-      ]
-    },
-    {
-      "name": "cobblemon:scraggy",
-      "forms": [
-        "normal"
-      ]
-    },
-    {
-      "name": "cobblemon:scrafty",
-      "forms": [
-        "normal"
-      ]
-    },
-    {
-      "name": "cobblemon:sigilyph",
-      "forms": [
-        "normal"
-      ]
-    },
-    {
-      "name": "cobblemon:yamask",
-      "forms": [
-        "normal"
-      ]
-    },
-    {
-      "name": "cobblemon:cofagrigus",
-      "forms": [
-        "normal"
-      ]
-    },
-    {
-      "name": "cobblemon:tirtouga",
-      "forms": [
-        "normal"
-      ]
-    },
-    {
-      "name": "cobblemon:carracosta",
-      "forms": [
-        "normal"
-      ]
-    },
-    {
-      "name": "cobblemon:archen",
-      "forms": [
-        "normal"
-      ]
-    },
-    {
-      "name": "cobblemon:archeops",
-      "forms": [
-        "normal"
-      ]
-    },
-    {
-      "name": "cobblemon:trubbish",
-      "forms": [
-        "normal"
-      ]
-    },
-    {
-      "name": "cobblemon:garbodor",
-      "forms": [
-        "normal"
-      ]
-    },
-    {
-      "name": "cobblemon:zorua",
-      "forms": [
-        "normal"
-      ]
-    },
-    {
-      "name": "cobblemon:zoroark",
-      "forms": [
-        "normal"
-      ]
-    },
-    {
-      "name": "cobblemon:minccino",
-      "forms": [
-        "normal"
-      ]
-    },
-    {
-      "name": "cobblemon:cinccino",
-      "forms": [
-        "normal"
-      ]
-    },
-    {
-      "name": "cobblemon:gothita",
-      "forms": [
-        "normal"
-      ]
-    },
-    {
-      "name": "cobblemon:gothorita",
-      "forms": [
-        "normal"
-      ]
-    },
-    {
-      "name": "cobblemon:gothitelle",
-      "forms": [
-        "normal"
-      ]
-    },
-    {
-      "name": "cobblemon:solosis",
-      "forms": [
-        "normal"
-      ]
-    },
-    {
-      "name": "cobblemon:duosion",
-      "forms": [
-        "normal"
-      ]
-    },
-    {
-      "name": "cobblemon:reuniclus",
-      "forms": [
-        "normal"
-      ]
-    },
-    {
-      "name": "cobblemon:ducklett",
-      "forms": [
-        "normal"
-      ]
-    },
-    {
-      "name": "cobblemon:swanna",
-      "forms": [
-        "normal"
-      ]
-    },
-    {
-      "name": "cobblemon:vanillite",
-      "forms": [
-        "normal"
-      ]
-    },
-    {
-      "name": "cobblemon:vanillish",
-      "forms": [
-        "normal"
-      ]
-    },
-    {
-      "name": "cobblemon:vanilluxe",
-      "forms": [
-        "normal"
-      ]
-    },
-    {
-      "name": "cobblemon:deerling",
-      "forms": [
-        "normal"
-      ]
-    },
-    {
-      "name": "cobblemon:sawsbuck",
-      "forms": [
-        "normal"
-      ]
-    },
-    {
-      "name": "cobblemon:emolga",
-      "forms": [
-        "normal"
-      ]
-    },
-    {
-      "name": "cobblemon:karrablast",
-      "forms": [
-        "normal"
-      ]
-    },
-    {
-      "name": "cobblemon:escavalier",
-      "forms": [
-        "normal"
-      ]
-    },
-    {
-      "name": "cobblemon:foongus",
-      "forms": [
-        "normal"
-      ]
-    },
-    {
-      "name": "cobblemon:amoonguss",
-      "forms": [
-        "normal"
-      ]
-    },
-    {
-      "name": "cobblemon:frillish",
-      "forms": [
-        "normal"
-      ]
-    },
-    {
-      "name": "cobblemon:jellicent",
-      "forms": [
-        "normal"
-      ]
-    },
-    {
-      "name": "cobblemon:alomomola",
-      "forms": [
-        "normal"
-      ]
-    },
-    {
-      "name": "cobblemon:joltik",
-      "forms": [
-        "normal"
-      ]
-    },
-    {
-      "name": "cobblemon:galvantula",
-      "forms": [
-        "normal"
-      ]
-    },
-    {
-      "name": "cobblemon:ferroseed",
-      "forms": [
-        "normal"
-      ]
-    },
-    {
-      "name": "cobblemon:ferrothorn",
-      "forms": [
-        "normal"
-      ]
-    },
-    {
-      "name": "cobblemon:klink",
-      "forms": [
-        "normal"
-      ]
-    },
-    {
-      "name": "cobblemon:klang",
-      "forms": [
-        "normal"
-      ]
-    },
-    {
-      "name": "cobblemon:klinklang",
-      "forms": [
-        "normal"
-      ]
-    },
-    {
-      "name": "cobblemon:tynamo",
-      "forms": [
-        "normal"
-      ]
-    },
-    {
-      "name": "cobblemon:eelektrik",
-      "forms": [
-        "normal"
-      ]
-    },
-    {
-      "name": "cobblemon:eelektross",
-      "forms": [
-        "normal"
-      ]
-    },
-    {
-      "name": "cobblemon:elgyem",
-      "forms": [
-        "normal"
-      ]
-    },
-    {
-      "name": "cobblemon:beheeyem",
-      "forms": [
-        "normal"
-      ]
-    },
-    {
-      "name": "cobblemon:litwick",
-      "forms": [
-        "normal"
-      ]
-    },
-    {
-      "name": "cobblemon:lampent",
-      "forms": [
-        "normal"
-      ]
-    },
-    {
-      "name": "cobblemon:chandelure",
-      "forms": [
-        "normal"
-      ]
-    },
-    {
-      "name": "cobblemon:axew",
-      "forms": [
-        "normal"
-      ]
-    },
-    {
-      "name": "cobblemon:fraxure",
-      "forms": [
-        "normal"
-      ]
-    },
-    {
-      "name": "cobblemon:haxorus",
-      "forms": [
-        "normal"
-      ]
-    },
-    {
-      "name": "cobblemon:cubchoo",
-      "forms": [
-        "normal"
-      ]
-    },
-    {
-      "name": "cobblemon:beartic",
-      "forms": [
-        "normal"
-      ]
-    },
-    {
-      "name": "cobblemon:cryogonal",
-      "forms": [
-        "normal"
-      ]
-    },
-    {
-      "name": "cobblemon:shelmet",
-      "forms": [
-        "normal"
-      ]
-    },
-    {
-      "name": "cobblemon:accelgor",
-      "forms": [
-        "normal"
-      ]
-    },
-    {
-      "name": "cobblemon:stunfisk",
-      "forms": [
-        "normal"
-      ]
-    },
-    {
-      "name": "cobblemon:mienfoo",
-      "forms": [
-        "normal"
-      ]
-    },
-    {
-      "name": "cobblemon:mienshao",
-      "forms": [
-        "normal"
-      ]
-    },
-    {
-      "name": "cobblemon:druddigon",
-      "forms": [
-        "normal"
-      ]
-    },
-    {
-      "name": "cobblemon:golett",
-      "forms": [
-        "normal"
-      ]
-    },
-    {
-      "name": "cobblemon:golurk",
-      "forms": [
-        "normal"
-      ]
-    },
-    {
-      "name": "cobblemon:pawniard",
-      "forms": [
-        "normal"
-      ]
-    },
-    {
-      "name": "cobblemon:bisharp",
-      "forms": [
-        "normal"
-      ]
-    },
-    {
-      "name": "cobblemon:bouffalant",
-      "forms": [
-        "normal"
-      ]
-    },
-    {
-      "name": "cobblemon:rufflet",
-      "forms": [
-        "normal"
-      ]
-    },
-    {
-      "name": "cobblemon:braviary",
-      "forms": [
-        "normal"
-      ]
-    },
-    {
-      "name": "cobblemon:vullaby",
-      "forms": [
-        "normal"
-      ]
-    },
-    {
-      "name": "cobblemon:mandibuzz",
-      "forms": [
-        "normal"
-      ]
-    },
-    {
-      "name": "cobblemon:heatmor",
-      "forms": [
-        "normal"
-      ]
-    },
-    {
-      "name": "cobblemon:durant",
-      "forms": [
-        "normal"
-      ]
-    },
-    {
-      "name": "cobblemon:deino",
-      "forms": [
-        "normal"
-      ]
-    },
-    {
-      "name": "cobblemon:zweilous",
-      "forms": [
-        "normal"
-      ]
-    },
-    {
-      "name": "cobblemon:hydreigon",
-      "forms": [
-        "normal"
-      ]
-    },
-    {
-      "name": "cobblemon:larvesta",
-      "forms": [
-        "normal"
-      ]
-    },
-    {
-      "name": "cobblemon:volcarona",
-      "forms": [
-        "normal"
-      ]
-    },
-    {
-      "name": "cobblemon:cobalion",
-      "forms": [
-        "normal"
-      ]
-    },
-    {
-      "name": "cobblemon:terrakion",
-      "forms": [
-        "normal"
-      ]
-    },
-    {
-      "name": "cobblemon:virizion",
-      "forms": [
-        "normal"
-      ]
-    },
-    {
-      "name": "cobblemon:tornadus",
-      "forms": [
-        "normal"
-      ]
-    },
-    {
-      "name": "cobblemon:thundurus",
-      "forms": [
-        "normal"
-      ]
-    },
-    {
-      "name": "cobblemon:reshiram",
-      "forms": [
-        "normal"
-      ]
-    },
-    {
-      "name": "cobblemon:zekrom",
-      "forms": [
-        "normal"
-      ]
-    },
-    {
-      "name": "cobblemon:landorus",
-      "forms": [
-        "normal"
-      ]
-    },
-    {
-      "name": "cobblemon:kyurem",
-      "forms": [
-        "normal"
-      ]
-    },
-    {
-      "name": "cobblemon:keldeo",
-      "forms": [
-        "normal"
-      ]
-    },
-    {
-      "name": "cobblemon:meloetta",
-      "forms": [
-        "normal"
-      ]
-    },
-    {
-      "name": "cobblemon:genesect",
-      "forms": [
-        "normal"
-      ]
-    }
-  ]
+    "identifier": "cobblemon:national_unova",
+    "pokemon_list": [
+        {
+            "identifier": "cobblemon:snivy"
+        },
+        {
+            "identifier": "cobblemon:servine"
+        },
+        {
+            "identifier": "cobblemon:serperior"
+        },
+        {
+            "identifier": "cobblemon:tepig"
+        },
+        {
+            "identifier": "cobblemon:pignite"
+        },
+        {
+            "identifier": "cobblemon:emboar"
+        },
+        {
+            "identifier": "cobblemon:oshawott",
+            "forms": [
+                "normal",
+                "region-bias-hisui"
+            ]
+        },
+        {
+            "identifier": "cobblemon:dewott",
+            "forms": [
+                "normal",
+                "region-bias-hisui"
+            ]
+        },
+        {
+            "identifier": "cobblemon:samurott",
+            "forms": [
+                "normal",
+                "hisuian"
+            ]
+        },
+        {
+            "identifier": "cobblemon:patrat"
+        },
+        {
+            "identifier": "cobblemon:watchog"
+        },
+        {
+            "identifier": "cobblemon:lillipup"
+        },
+        {
+            "identifier": "cobblemon:herdier"
+        },
+        {
+            "identifier": "cobblemon:stoutland"
+        },
+        {
+            "identifier": "cobblemon:pidove"
+        },
+        {
+            "identifier": "cobblemon:tranquill"
+        },
+        {
+            "identifier": "cobblemon:unfezant"
+        },
+        {
+            "identifier": "cobblemon:roggenrola"
+        },
+        {
+            "identifier": "cobblemon:boldore"
+        },
+        {
+            "identifier": "cobblemon:gigalith"
+        },
+        {
+            "identifier": "cobblemon:woobat"
+        },
+        {
+            "identifier": "cobblemon:swoobat"
+        },
+        {
+            "identifier": "cobblemon:timburr",
+            "forms": [
+                "normal",
+                "tree-oak",
+                "tree-spruce",
+                "tree-acacia",
+                "tree-birch",
+                "tree-darkoak",
+                "tree-jungle",
+                "tree-mangrove",
+                "tree-cherry",
+                "tree-crimson",
+                "tree-warped"
+            ]
+        },
+        {
+            "identifier": "cobblemon:gurdurr",
+            "forms": [
+                "normal",
+                "metals-copper",
+                "metals-iron",
+                "metals-gold",
+                "metals-netherite"
+            ]
+        },
+        {
+            "identifier": "cobblemon:conkeldurr",
+            "forms": [
+                "normal",
+                "color-white",
+                "color-orange",
+                "color-magenta",
+                "color-light_blue",
+                "color-yellow",
+                "color-lime",
+                "color-pink",
+                "color-gray",
+                "color-purple",
+                "color-blue",
+                "color-brown",
+                "color-green",
+                "color-red",
+                "color-black"
+            ]
+        },
+        {
+            "identifier": "cobblemon:venipede"
+        },
+        {
+            "identifier": "cobblemon:whirlipede"
+        },
+        {
+            "identifier": "cobblemon:scolipede"
+        },
+        {
+            "identifier": "cobblemon:cottonee"
+        },
+        {
+            "identifier": "cobblemon:whimsicott"
+        },
+        {
+            "identifier": "cobblemon:petilil",
+            "forms": [
+                "normal",
+                "region-bias-hisui"
+            ]
+        },
+        {
+            "identifier": "cobblemon:lilligant",
+            "forms": [
+                "normal",
+                "hisuian"
+            ]
+        },
+        {
+            "identifier": "cobblemon:basculin",
+            "forms": [
+                "normal",
+                "redstriped",
+                "bluestriped",
+                "whitestriped"
+            ]
+        },
+        {
+            "identifier": "cobblemon:sandile"
+        },
+        {
+            "identifier": "cobblemon:krokorok"
+        },
+        {
+            "identifier": "cobblemon:krookodile"
+        },
+        {
+            "identifier": "cobblemon:darumaka"
+        },
+        {
+            "identifier": "cobblemon:darmanitan",
+            "forms": [
+                "normal",
+                "zen_mode"
+            ]
+        },
+        {
+            "identifier": "cobblemon:maractus"
+        },
+        {
+            "identifier": "cobblemon:dwebble"
+        },
+        {
+            "identifier": "cobblemon:crustle"
+        },
+        {
+            "identifier": "cobblemon:sigilyph"
+        },
+        {
+            "identifier": "cobblemon:yamask"
+        },
+        {
+            "identifier": "cobblemon:cofagrigus"
+        },
+        {
+            "identifier": "cobblemon:tirtouga"
+        },
+        {
+            "identifier": "cobblemon:carracosta"
+        },
+        {
+            "identifier": "cobblemon:archen"
+        },
+        {
+            "identifier": "cobblemon:archeops"
+        },
+        {
+            "identifier": "cobblemon:zorua",
+            "forms": [
+                "normal",
+                "hisuian"
+            ]
+        },
+        {
+            "identifier": "cobblemon:zoroark",
+            "forms": [
+                "normal",
+                "hisuian"
+            ]
+        },
+        {
+            "identifier": "cobblemon:deerling",
+            "forms": [
+                "normal",
+                "autumn",
+                "summer",
+                "winter"
+            ]
+        },
+        {
+            "identifier": "cobblemon:sawsbuck",
+            "forms": [
+                "normal",
+                "autumn",
+                "summer",
+                "winter"
+            ]
+        },
+        {
+            "identifier": "cobblemon:emolga"
+        },
+        {
+            "identifier": "cobblemon:frillish"
+        },
+        {
+            "identifier": "cobblemon:jellicent"
+        },
+        {
+            "identifier": "cobblemon:alomomola"
+        },
+        {
+            "identifier": "cobblemon:joltik"
+        },
+        {
+            "identifier": "cobblemon:galvantula"
+        },
+        {
+            "identifier": "cobblemon:ferroseed"
+        },
+        {
+            "identifier": "cobblemon:ferrothorn"
+        },
+        {
+            "identifier": "cobblemon:klink"
+        },
+        {
+            "identifier": "cobblemon:klang"
+        },
+        {
+            "identifier": "cobblemon:klinklang"
+        },
+        {
+            "identifier": "cobblemon:elgyem"
+        },
+        {
+            "identifier": "cobblemon:beheeyem"
+        },
+        {
+            "identifier": "cobblemon:litwick"
+        },
+        {
+            "identifier": "cobblemon:lampent"
+        },
+        {
+            "identifier": "cobblemon:chandelure"
+        },
+        {
+            "identifier": "cobblemon:cubchoo"
+        },
+        {
+            "identifier": "cobblemon:beartic"
+        },
+        {
+            "identifier": "cobblemon:cryogonal"
+        },
+        {
+            "identifier": "cobblemon:golett"
+        },
+        {
+            "identifier": "cobblemon:golurk"
+        },
+        {
+            "identifier": "cobblemon:bouffalant"
+        },
+        {
+            "identifier": "cobblemon:heatmor"
+        },
+        {
+            "identifier": "cobblemon:durant"
+        },
+        {
+            "identifier": "cobblemon:deino"
+        },
+        {
+            "identifier": "cobblemon:zweilous"
+        },
+        {
+            "identifier": "cobblemon:hydreigon"
+        },
+        {
+            "identifier": "cobblemon:larvesta"
+        },
+        {
+            "identifier": "cobblemon:volcarona"
+        }
+    ]
 }

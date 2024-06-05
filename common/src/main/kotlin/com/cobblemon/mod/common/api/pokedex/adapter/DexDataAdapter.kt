@@ -1,3 +1,11 @@
+/*
+ * Copyright (C) 2023 Cobblemon Contributors
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/.
+ */
+
 package com.cobblemon.mod.common.api.pokedex.adapter
 
 import com.cobblemon.mod.common.Cobblemon
@@ -7,7 +15,7 @@ import com.google.gson.*
 import net.minecraft.util.Identifier
 import java.lang.reflect.Type
 
-object DexDataAdapter: JsonDeserializer<DexData>, JsonSerializer<DexData> {
+object DexDataAdapter: JsonDeserializer<DexData> {
     override fun deserialize(jElement: JsonElement, type: Type, context: JsonDeserializationContext): DexData {
         val json = jElement.asJsonObject
         val pokemonList: MutableList<DexPokemonData> = mutableListOf()
@@ -18,7 +26,7 @@ object DexDataAdapter: JsonDeserializer<DexData>, JsonSerializer<DexData> {
                 if(dexPokemonData.species != null) {
                     pokemonList.add(dexPokemonData)
                 } else {
-                    Cobblemon.LOGGER.error("Failed to load Pokedex Entry for {}.", dexPokemonData.name)
+                    Cobblemon.LOGGER.error("Failed to load Pokedex Entry for {}.", dexPokemonData.identifier)
                 }
             }
         }
@@ -32,13 +40,9 @@ object DexDataAdapter: JsonDeserializer<DexData>, JsonSerializer<DexData> {
         return DexData(
             identifier = Identifier(json.get("identifier").asString),
             enabled = json.getAsJsonPrimitive("enabled")?.asBoolean ?: true,
-            contained_dexes = containedDexes,
-            pokemon_list = pokemonList,
-            override_categories = json.getAsJsonPrimitive("override_categories")?.asBoolean ?: false
+            containedDexes = containedDexes,
+            pokemonList = pokemonList,
+            overrideCategories = json.getAsJsonPrimitive("override_categories")?.asBoolean ?: false
         )
-    }
-
-    override fun serialize(data: DexData, type: Type, context: JsonSerializationContext): JsonElement {
-        return context.serialize(data).asJsonObject
     }
 }

@@ -8,7 +8,6 @@
 
 package com.cobblemon.mod.common.api.pokedex
 
-import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.api.pokedex.trackeddata.GlobalTrackedData
 import com.cobblemon.mod.common.api.storage.player.PlayerInstancedDataStoreType
 import com.cobblemon.mod.common.api.storage.player.client.ClientInstancedPlayerData
@@ -42,7 +41,7 @@ class ClientPokedex(
     }
 
     fun getKnowledgeCount(pokedexEntryProgress: PokedexEntryProgress, dexData: Collection<DexPokemonData>): Int {
-        return dexData.count{ discoveryLevel(it.name) == pokedexEntryProgress }
+        return dexData.count{ discoveryLevel(it.identifier) == pokedexEntryProgress }
     }
 
     fun discoveryLevel(species: Identifier): PokedexEntryProgress {

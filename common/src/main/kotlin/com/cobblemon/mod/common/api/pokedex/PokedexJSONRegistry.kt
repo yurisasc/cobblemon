@@ -44,6 +44,68 @@ object PokedexJSONRegistry : JsonDataRegistry<DexData> {
     val dexes: MutableCollection<DexData>
         get() = this.dexByIdentifier.values.toMutableList()
 
+    private var _entries: MutableSet<DexPokemonData>? = null
+    val entries: Set<DexPokemonData>
+        get() {
+            if(_entries != null) return _entries as Set<DexPokemonData>
+
+            _entries = mutableSetOf()
+
+            val categoryEntries: MutableMap<PokedexEntryCategory, MutableSet<DexPokemonData>> = mutableMapOf()
+            for (category in PokedexEntryCategory.values()) {
+                categoryEntries[category] = mutableSetOf()
+            }
+
+            //Step 1: Get all dexes without a parent, so we can iterate over them
+            val dexesWithoutParents : MutableList<Identifier> = mutableListOf()
+            dexesWithoutParents.addAll(dexByIdentifier.keys)
+
+            for(identifier in dexByIdentifier.keys) {
+                if(dexByIdentifier[identifier] == null) continue
+                for (childDex in dexByIdentifier[identifier]!!.containedDexes) {
+                    dexesWithoutParents.remove(childDex)
+                }
+            }
+
+            //Step 2: Each parent dex adds all of their pokemon and recursively adds the child dexes as well
+            for(dexIdentifier in dexesWithoutParents) {
+                dexByIdentifier[dexIdentifier]?.parseEntries(_entries as MutableSet<DexPokemonData>, categoryEntries)
+            }
+
+            //Step 3: Add all pokemon in the order of their categories
+            for(categories in categoryEntries.values){
+                for(entry in categories) {
+                    if (_entries!!.contains(entry)){
+                        _entries!!.add(_entries!!.find { it == entry }!!.combine(entry))
+                    } else {
+                        _entries!!.add(entry)
+                    }
+                }
+            }
+
+            return _entries as Set<DexPokemonData>
+        }
+
+    private var _skipAutoNumberingIndexes : MutableSet<Int>? = null
+    private val skipAutoNumberingIndexes : Set<Int>
+        get() {
+            if(_skipAutoNumberingIndexes != null) return _skipAutoNumberingIndexes as MutableSet<Int>
+
+            _skipAutoNumberingIndexes = mutableSetOf()
+
+            var index = 0
+            for(entry in entries){
+                if(entry.skipAutoNumbering){
+                    _skipAutoNumberingIndexes!!.add(index)
+                }
+                index++
+            }
+
+            return _skipAutoNumberingIndexes!!
+        }
+
+
+
     /**
      * Finds a dex by the pathname of their [Identifier].
      * This method exists for the convenience of finding Cobble default dexes.
@@ -57,7 +119,7 @@ object PokedexJSONRegistry : JsonDataRegistry<DexData> {
     /**
      * Finds a [DexData] by its unique [Identifier].
      *
-     * @param identifier The unique [DexData.resourceIdentifier] of the [DexData].
+     * @param identifier The unique [DexData.identifier] of the [DexData].
      * @return The [DexData] if existing.
      */
     fun getByIdentifier(identifier: Identifier) = this.dexByIdentifier[identifier]
@@ -87,8 +149,8 @@ object PokedexJSONRegistry : JsonDataRegistry<DexData> {
         val dex = getDexesInNamespace(namespace)
         val speciesList: MutableList<DexPokemonData> = mutableListOf()
         dex.forEach {
-            if(it.pokemon_list != null) {
-                it.pokemon_list.forEach { dexPokemonData ->
+            if(it.pokemonList != null) {
+                it.pokemonList.forEach { dexPokemonData ->
                     speciesList.add(dexPokemonData)
                 }
             }
@@ -98,45 +160,32 @@ object PokedexJSONRegistry : JsonDataRegistry<DexData> {
     }
 
     fun getSortedDexData(filters: Collection<EntryFilter>): Collection<DexPokemonData> {
-        var entries : MutableSet<DexPokemonData> = mutableSetOf()
-
-        val categoryEntries: MutableMap<PokedexEntryCategory, MutableSet<DexPokemonData>> = mutableMapOf()
-        for (category in PokedexEntryCategory.values()) {
-            categoryEntries[category] = mutableSetOf()
-        }
-
-        //Step 1: Get all dexes without a parent, so we can iterate over them
-        val dexesWithoutParents : MutableList<Identifier> = mutableListOf()
-        dexesWithoutParents.addAll(dexByIdentifier.keys)
-
-        for(identifier in dexByIdentifier.keys) {
-            if(dexByIdentifier[identifier] == null) continue
-            for (childDex in dexByIdentifier[identifier]!!.contained_dexes) {
-                dexesWithoutParents.remove(childDex)
-            }
-        }
-
-        //Step 2: Each parent dex adds all of their pokemon and recursively adds the child dexes as well
-        for(dexIdentifier in dexesWithoutParents) {
-            dexByIdentifier[dexIdentifier]?.parseEntries(entries, categoryEntries)
-        }
-
-        for(categoryEntry in categoryEntries.values){
-            entries.addAll(categoryEntry)
-        }
-
-        entries = entries.filter { pokemon ->
+        return entries.filter { pokemon ->
             filters.forEach {filter ->
                 if(!filter.filter(pokemon)) return@filter false
             }
             return@filter true
-        }.toMutableSet()
+        }.toSet()
+    }
 
-        return entries
+    fun getPokemonVisualDexNumber(dexPokemonData: DexPokemonData): String {
+        if(dexPokemonData.visualNumber != null) return dexPokemonData.visualNumber!!
+
+        val originalIndex = entries.indexOf(dexPokemonData)
+        var dexNumber = originalIndex + 1
+        for(index in skipAutoNumberingIndexes) {
+            if(index < originalIndex){
+                dexNumber--
+            }
+        }
+
+        return dexNumber.toString()
     }
 
     override fun reload(data: Map<Identifier, DexData>) {
         this.dexes.clear()
+        _entries = null
+        _skipAutoNumberingIndexes = null
         data.forEach { (identifier, dexData) ->
             if(dexData.enabled){
                 try {
