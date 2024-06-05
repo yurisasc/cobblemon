@@ -3,7 +3,7 @@ package com.cobblemon.mod.common.world.feature
 import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.CobblemonBlocks
 import com.cobblemon.mod.common.api.tags.CobblemonBiomeTags
-import com.cobblemon.mod.common.block.ApricornBlock
+import com.cobblemon.mod.common.block.SaccharineLeafBlock
 import com.cobblemon.mod.common.util.randomNoCopy
 import com.google.common.collect.Lists
 import kotlin.random.Random
@@ -63,6 +63,7 @@ class SaccharineTreeFeature : Feature<SingleStateFeatureConfig>(SingleStateFeatu
             worldGenLevel.setBlockState(logPos, logState, 2)
         }
 
+        val saccharineLeaf = CobblemonBlocks.SACCHARINE_LEAVES.defaultState // SaccharineLeafBlock
         var currentHeight = trunkHeight
 
         // Top Trunk Pattern
