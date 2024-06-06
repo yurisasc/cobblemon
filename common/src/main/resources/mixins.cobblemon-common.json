@@ -19,6 +19,7 @@
     "pokeball.ItemRendererMixin"
   ],
   "mixins": [
+    "BeeEntityMixin",
     "CrashReportMixin",
     "DecoratedPotPatternsMixin",
     "EntityVillagerMixin",
