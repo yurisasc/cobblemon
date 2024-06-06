@@ -62,7 +62,7 @@ fun ServerPlayerEntity.onLogout(handler: () -> Unit) {
 
 /**
  * Attempts to heal the player party when they're sleeping.
- * This will fail if the sleeping trigger isn't the typical vanilla bed or if [isInBattle] is true.
+ * This will fail if the sleeping trigger isn't the typical vanilla bed or if [isBattling] is true.
  *
  * @return If the attempt to heal was successful.
  */

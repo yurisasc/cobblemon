@@ -8,7 +8,6 @@
 
 package com.cobblemon.mod.common.entity.npc
 
-import com.bedrockk.molang.runtime.MoLangEnvironment
 import com.bedrockk.molang.runtime.MoLangRuntime
 import com.bedrockk.molang.runtime.struct.VariableStruct
 import com.cobblemon.mod.common.CobblemonEntities
@@ -21,7 +20,6 @@ import com.cobblemon.mod.common.api.molang.ExpressionLike
 import com.cobblemon.mod.common.api.molang.MoLangFunctions
 import com.cobblemon.mod.common.api.molang.MoLangFunctions.addFunctions
 import com.cobblemon.mod.common.api.molang.MoLangFunctions.asMoLangValue
-import com.cobblemon.mod.common.api.molang.MoLangFunctions.getQueryStruct
 import com.cobblemon.mod.common.api.molang.MoLangFunctions.setup
 import com.cobblemon.mod.common.api.molang.runScript
 import com.cobblemon.mod.common.api.net.serializers.IdentifierDataSerializer
@@ -34,19 +32,17 @@ import com.cobblemon.mod.common.api.npc.configuration.NPCBehaviourConfiguration
 import com.cobblemon.mod.common.api.scheduling.Schedulable
 import com.cobblemon.mod.common.api.scheduling.SchedulingTracker
 import com.cobblemon.mod.common.entity.PoseType
-import com.cobblemon.mod.common.entity.Poseable
+import com.cobblemon.mod.common.entity.PosableEntity
 import com.cobblemon.mod.common.entity.ai.AttackAngryAtTask
 import com.cobblemon.mod.common.entity.ai.FollowWalkTargetTask
 import com.cobblemon.mod.common.entity.ai.GetAngryAtAttackerTask
 import com.cobblemon.mod.common.entity.ai.MoveToAttackTargetTask
 import com.cobblemon.mod.common.entity.ai.StayAfloatTask
 import com.cobblemon.mod.common.entity.npc.ai.ChooseWanderTargetTask
-import com.cobblemon.mod.common.entity.npc.ai.LookAtBattlingPokemonTask
 import com.cobblemon.mod.common.entity.npc.ai.MeleeAttackTask
-import com.cobblemon.mod.common.entity.npc.ai.SwitchFromBattleTask
 import com.cobblemon.mod.common.entity.npc.ai.SwitchToBattleTask
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
-import com.cobblemon.mod.common.net.messages.client.animation.PlayPoseableAnimationPacket
+import com.cobblemon.mod.common.net.messages.client.animation.PlayPosableAnimationPacket
 import com.cobblemon.mod.common.net.messages.client.npc.CloseNPCEditorPacket
 import com.cobblemon.mod.common.net.messages.client.npc.OpenNPCEditorPacket
 import com.cobblemon.mod.common.util.DataKeys
@@ -74,8 +70,6 @@ import net.minecraft.entity.ai.brain.task.LookAtMobTask
 import net.minecraft.entity.ai.brain.task.RandomTask
 import net.minecraft.entity.attribute.DefaultAttributeContainer
 import net.minecraft.entity.attribute.EntityAttributes
-import net.minecraft.entity.damage.DamageSource
-import net.minecraft.entity.damage.DamageSources
 import net.minecraft.entity.data.DataTracker
 import net.minecraft.entity.data.TrackedData
 import net.minecraft.entity.passive.PassiveEntity
@@ -90,7 +84,7 @@ import net.minecraft.util.Hand
 import net.minecraft.util.Identifier
 import net.minecraft.world.World
 
-class NPCEntity(world: World) : PassiveEntity(CobblemonEntities.NPC, world), Npc, Poseable, PokemonSender, Schedulable {
+class NPCEntity(world: World) : PassiveEntity(CobblemonEntities.NPC, world), Npc, PosableEntity, PokemonSender, Schedulable {
     override val schedulingTracker = SchedulingTracker()
 
     override val struct = this.asMoLangValue()
@@ -143,7 +137,7 @@ class NPCEntity(world: World) : PassiveEntity(CobblemonEntities.NPC, world), Npc
     init {
         delegate.initialize(this)
         addPosableFunctions(struct)
-        runtime.environment.getQueryStruct().addFunctions(struct.functions)
+        runtime.environment.query.addFunctions(struct.functions)
         calculateDimensions()
         navigation.setCanSwim(true)
     }
@@ -158,7 +152,7 @@ class NPCEntity(world: World) : PassiveEntity(CobblemonEntities.NPC, world), Npc
         val POSE_TYPE = DataTracker.registerData(NPCEntity::class.java, PoseTypeDataSerializer)
         val BATTLE_IDS = DataTracker.registerData(NPCEntity::class.java, UUIDSetDataSerializer)
 
-        val BATTLING = Activity.register("npc_battling")
+//        val BATTLING = Activity.register("npc_battling")
 
         val SENSORS: Collection<SensorType<out Sensor<in NPCEntity>>> = listOf(
             SensorType.NEAREST_LIVING_ENTITIES,
@@ -224,12 +218,12 @@ class NPCEntity(world: World) : PassiveEntity(CobblemonEntities.NPC, world), Npc
             Pair.of(1, MoveToAttackTargetTask.create()),
             Pair.of(1, MeleeAttackTask.create(2F, 30L))
         ))
-        brain.setTaskList(BATTLING, ImmutableList.of(
-            Pair.of(0, SwitchFromBattleTask.create()),
-            Pair.of(1, LookAroundTask(45, 90)),
-            Pair.of(2, LookAtBattlingPokemonTask.create()),
-
-        ))
+//        brain.setTaskList(BATTLING, ImmutableList.of(
+//            Pair.of(0, SwitchFromBattleTask.create()),
+//            Pair.of(1, LookAroundTask(45, 90)),
+//            Pair.of(2, LookAtBattlingPokemonTask.create()),
+//
+//        ))
         brain.setCoreActivities(setOf(Activity.CORE))
         brain.setDefaultActivity(Activity.IDLE)
         brain.resetPossibleActivities()
@@ -306,7 +300,7 @@ class NPCEntity(world: World) : PassiveEntity(CobblemonEntities.NPC, world), Npc
     override fun interactMob(player: PlayerEntity, hand: Hand): ActionResult {
         if (player is ServerPlayerEntity && hand == Hand.MAIN_HAND) {
             (interaction ?: npc.interaction)?.runScript(runtime.withPlayerValue(value = player))
-            runtime.environment.getQueryStruct().functions.remove("player")
+            runtime.environment.query.functions.remove("player")
 //            val battle = getBattleConfiguration()
 //            if (battle.canChallenge) {
 //                val provider = battle.party
@@ -323,7 +317,7 @@ class NPCEntity(world: World) : PassiveEntity(CobblemonEntities.NPC, world), Npc
     }
 
     fun playAnimation(vararg animation: String) {
-        val packet = PlayPoseableAnimationPacket(
+        val packet = PlayPosableAnimationPacket(
             entityId = id,
             animation = animation.toSet(),
             expressions = emptySet()

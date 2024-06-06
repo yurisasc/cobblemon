@@ -51,6 +51,8 @@ object Gen1CaptureCalculator : CaptureCalculator {
             else -> 150
         }
         val n = Random.nextInt(nBound + 1)
+        // Hiro note: usedThreshold makes no sense here, it's never actually used because
+        // we return in both places that it was set. What the hell was the point? Someone figure this out.
         var usedThreshold = 0
         val status = pokemon.status?.status
         if ((status is FrozenStatus || status is SleepStatus) && n < FRZ_SLEEP_THRESHOLD) {

@@ -8,14 +8,15 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1
 
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.pose.CobblemonPose
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.PoseType.Companion.UI_POSES
+import com.cobblemon.mod.common.util.isTouchingWater
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class TentacruelModel(root: ModelPart) : PokemonPoseableModel() {
+class TentacruelModel(root: ModelPart) : PokemonPosableModel(root) {
     override val rootPart = root.registerChildWithAllChildren("tentacruel")
 
     override var portraitScale = 1.3F
@@ -24,12 +25,12 @@ class TentacruelModel(root: ModelPart) : PokemonPoseableModel() {
     override var profileScale = 0.55F
     override var profileTranslation = Vec3d(0.0, 1.1, 0.0)
 
-    lateinit var standing: PokemonPose
-    lateinit var walk: PokemonPose
-    lateinit var swim: PokemonPose
-    lateinit var float: PokemonPose
-    lateinit var sleep: PokemonPose
-    lateinit var watersleep: PokemonPose
+    lateinit var standing: CobblemonPose
+    lateinit var walk: CobblemonPose
+    lateinit var swim: CobblemonPose
+    lateinit var float: CobblemonPose
+    lateinit var sleep: CobblemonPose
+    lateinit var watersleep: CobblemonPose
 
     override fun registerPoses() {
         val blink = quirk { bedrockStateful("tentacruel", "blink")}
@@ -37,7 +38,7 @@ class TentacruelModel(root: ModelPart) : PokemonPoseableModel() {
             poseName = "standing",
             poseType = PoseType.STAND,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("tentacruel", "ground_idle")
             )
         )
@@ -46,7 +47,7 @@ class TentacruelModel(root: ModelPart) : PokemonPoseableModel() {
             poseName = "walk",
             poseType = PoseType.WALK,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("tentacruel", "ground_idle")
                 //bedrock("tentacruel", "ground_walk")
             )
@@ -56,7 +57,7 @@ class TentacruelModel(root: ModelPart) : PokemonPoseableModel() {
             poseName = "float",
             poseTypes = UI_POSES + PoseType.FLOAT,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("tentacruel", "water_idle")
             )
         )
@@ -65,7 +66,7 @@ class TentacruelModel(root: ModelPart) : PokemonPoseableModel() {
             poseName = "swim",
             poseType = PoseType.SWIM,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("tentacruel", "water_swim")
             )
         )
@@ -74,19 +75,19 @@ class TentacruelModel(root: ModelPart) : PokemonPoseableModel() {
                 poseName = "sleep",
                 poseType = PoseType.SLEEP,
                 condition = { !it.isTouchingWater },
-                idleAnimations = arrayOf(bedrock("tentacruel", "sleep"))
+                animations = arrayOf(bedrock("tentacruel", "sleep"))
         )
 
         watersleep = registerPose(
                 poseName = "watersleep",
                 poseType = PoseType.SLEEP,
                 condition = { it.isTouchingWater },
-                idleAnimations = arrayOf(bedrock("tentacruel", "water_sleep"))
+                animations = arrayOf(bedrock("tentacruel", "water_sleep"))
         )
     }
 
 //    override fun getFaintAnimation(
 //        pokemonEntity: PokemonEntity,
-//        state: PoseableEntityState<PokemonEntity>
+//        state: PosableState<PokemonEntity>
 //    ) = if (state.isPosedIn(standing, walk)) bedrockStateful("tentacruel", "faint") else null
 }

@@ -177,7 +177,7 @@ object CobblemonForgeClient : CobblemonClientImplementation {
         if (event.overlay.id == VanillaGuiOverlay.CHAT_PANEL.id()) {
             val lastUpdateTime = lastUpdateTime
             if (lastUpdateTime != null) {
-                // "Why don't you just use the event.partialDetalTicks"
+                // "Why don't you just use the event.partialDeltaTicks"
                 // Well JAMES it's because for some reason the value is like 2.8x too big. Forge bug? Weird event structure? Don't know don't care
                 CobblemonClient.beforeChatRender(event.guiGraphics, (System.currentTimeMillis() - lastUpdateTime) / 1000F * 20F)
             }

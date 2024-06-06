@@ -9,16 +9,15 @@
 package com.cobblemon.mod.common.client.gui.dialogue
 
 import com.cobblemon.mod.common.Cobblemon
-import com.cobblemon.mod.common.api.gui.drawPoseablePortrait
+import com.cobblemon.mod.common.api.gui.drawPosablePortrait
 import com.cobblemon.mod.common.api.pokemon.PokemonSpecies
 import com.cobblemon.mod.common.client.entity.NPCClientDelegate
 import com.cobblemon.mod.common.client.entity.PokemonClientDelegate
-import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
-import com.cobblemon.mod.common.client.render.models.blockbench.npc.NPCFloatingState
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonFloatingState
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableState
+import com.cobblemon.mod.common.client.render.models.blockbench.FloatingState
 import com.cobblemon.mod.common.client.render.models.blockbench.repository.NPCModelRepository
 import com.cobblemon.mod.common.client.render.models.blockbench.repository.PokemonModelRepository
-import com.cobblemon.mod.common.entity.Poseable
+import com.cobblemon.mod.common.entity.PosableEntity
 import com.cobblemon.mod.common.entity.npc.NPCEntity
 import java.util.UUID
 import kotlin.math.atan
@@ -73,12 +72,13 @@ class PlayerRenderableFace(val playerId: UUID) : RenderableFace {
     }
 }
 
-class ReferenceRenderableFace(val entity: Poseable): RenderableFace {
-    val state = entity.delegate as PoseableEntityState<*>
+class ReferenceRenderableFace(val entity: PosableEntity): RenderableFace {
+    val state = entity.delegate as PosableState
     override fun render(drawContext: DrawContext, partialTicks: Float) {
         val state = this.state
         if (state is PokemonClientDelegate) {
-            drawPoseablePortrait(
+            state.currentAspects = state.currentEntity.pokemon.aspects
+            drawPosablePortrait(
                 identifier = state.currentEntity.pokemon.species.resourceIdentifier,
                 aspects = state.currentEntity.pokemon.aspects,
                 repository = PokemonModelRepository,
@@ -88,11 +88,11 @@ class ReferenceRenderableFace(val entity: Poseable): RenderableFace {
                 partialTicks = 0F // It's already being rendered potentially so we don't need to tick the state.
             )
         } else if (state is NPCClientDelegate) {
-
             entity as NPCEntity
+            state.currentAspects = entity.aspects
             val limbSwing = entity.limbAnimator.getPos(partialTicks)
             val limbSwingAmount = entity.limbAnimator.getSpeed(partialTicks)
-            drawPoseablePortrait(
+            drawPosablePortrait(
                 identifier = state.npcEntity.npc.resourceIdentifier,
                 aspects = state.npcEntity.aspects,
                 repository = NPCModelRepository,
@@ -108,26 +108,21 @@ class ReferenceRenderableFace(val entity: Poseable): RenderableFace {
 }
 
 class ArtificialRenderableFace(
-    modelType: String,
+    val modelType: String,
     val identifier: Identifier,
     val aspects: Set<String>
 ): RenderableFace {
-    val state: PoseableEntityState<*> = if (modelType == "pokemon") {
-        PokemonFloatingState()
-    } else if (modelType == "npc") {
-        NPCFloatingState()
-    } else {
-        throw IllegalArgumentException("Unknown model type: $modelType")
-    }
+    val state = FloatingState()
 
     override fun render(drawContext: DrawContext, partialTicks: Float) {
         val state = this.state
-        if (state is PokemonFloatingState) {
+        state.currentAspects = aspects
+        if (modelType == "pokemon") {
             val species = PokemonSpecies.getByIdentifier(identifier) ?: run {
                 Cobblemon.LOGGER.error("Unable to find species for $identifier for a dialogue face. Defaulting to first species.")
                 PokemonSpecies.species.first()
             }
-            drawPoseablePortrait(
+            drawPosablePortrait(
                 identifier = species.resourceIdentifier,
                 aspects = aspects,
                 matrixStack = drawContext.matrices,
@@ -136,8 +131,8 @@ class ArtificialRenderableFace(
                 repository = PokemonModelRepository,
                 partialTicks = partialTicks
             )
-        } else if (state is NPCFloatingState) {
-            drawPoseablePortrait(
+        } else if (modelType == "npc") {
+            drawPosablePortrait(
                 identifier = identifier,
                 aspects = aspects,
                 matrixStack = drawContext.matrices,
