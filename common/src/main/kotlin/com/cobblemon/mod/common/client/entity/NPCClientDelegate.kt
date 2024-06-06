@@ -9,10 +9,11 @@
 package com.cobblemon.mod.common.client.entity
 
 import com.cobblemon.mod.common.api.entity.NPCSideDelegate
-import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableState
 import com.cobblemon.mod.common.entity.npc.NPCEntity
+import net.minecraft.entity.data.TrackedData
 
-class NPCClientDelegate : PoseableEntityState<NPCEntity>(), NPCSideDelegate {
+class NPCClientDelegate : PosableState(), NPCSideDelegate {
     lateinit var npcEntity: NPCEntity
     override val schedulingTracker
         get() = npcEntity.schedulingTracker
@@ -23,8 +24,14 @@ class NPCClientDelegate : PoseableEntityState<NPCEntity>(), NPCSideDelegate {
 
     override fun tick(entity: NPCEntity) {
         super.tick(entity)
-        updateLocatorPosition(entity.pos)
         incrementAge(entity)
+    }
+
+    override fun onTrackedDataSet(data: TrackedData<*>) {
+        super.onTrackedDataSet(data)
+        if (data == NPCEntity.ASPECTS) {
+            currentAspects = getEntity().dataTracker.get(NPCEntity.ASPECTS)
+        }
     }
 
     override fun getEntity() = npcEntity

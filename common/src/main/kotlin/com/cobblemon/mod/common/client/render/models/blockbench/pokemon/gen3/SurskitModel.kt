@@ -10,14 +10,15 @@ package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen3
 
 import com.cobblemon.mod.common.client.render.models.blockbench.createTransformation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.ModelPartTransformation
+import com.cobblemon.mod.common.client.render.models.blockbench.pose.Pose
 import com.cobblemon.mod.common.entity.PoseType
+import com.cobblemon.mod.common.util.isTouchingWater
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class SurskitModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
+class SurskitModel(root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("surskit")
     override val head = getPart("head")
 
@@ -27,10 +28,10 @@ class SurskitModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override var profileScale = 0.7F
     override var profileTranslation = Vec3d(0.0, 0.6, 0.0)
 
-    lateinit var walk: PokemonPose
-    lateinit var standing: PokemonPose
-    lateinit var waterwalk: PokemonPose
-    lateinit var waterstand: PokemonPose
+    lateinit var walk: Pose
+    lateinit var standing: Pose
+    lateinit var waterwalk: Pose
+    lateinit var waterstand: Pose
 
     val wateroffset = -8
 
@@ -42,7 +43,7 @@ class SurskitModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             condition = { !it.isTouchingWater },
             transformTicks = 10,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("surskit", "ground_idle")
             )
         )
@@ -52,7 +53,7 @@ class SurskitModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             transformTicks = 10,
             quirks = arrayOf(blink),
             condition = { !it.isTouchingWater },
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("surskit", "ground_walk")
             )
         )
@@ -63,7 +64,7 @@ class SurskitModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             condition = { it.isTouchingWater },
             transformTicks = 10,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("surskit", "ground_idle")
             ),
             transformedParts = arrayOf(
@@ -77,7 +78,7 @@ class SurskitModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             condition = { it.isTouchingWater },
             transformTicks = 10,
             quirks = arrayOf(blink),
-            idleAnimations = arrayOf(
+            animations = arrayOf(
                 bedrock("surskit", "ground_walk")
             ),
             transformedParts = arrayOf(

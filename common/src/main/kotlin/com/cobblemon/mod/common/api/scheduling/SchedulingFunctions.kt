@@ -13,8 +13,6 @@ import com.cobblemon.mod.common.util.runOnServer
 
 @Deprecated("Use afterOnServer or afterOnClient; ambiguous side is not good for your health")
 @JvmOverloads
-
-
 fun after(ticks: Int = 0, seconds: Float = 0F, serverThread: Boolean = false, action: () -> Unit) {
     val scheduler = if (serverThread) ServerTaskTracker else ClientTaskTracker
     scheduler.after(seconds = seconds + ticks / 20F, action)

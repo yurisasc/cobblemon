@@ -93,7 +93,9 @@ object MoLangFunctions {
         },
         "run_script" to java.util.function.Function { params ->
             val runtime = MoLangRuntime()
-            runtime.environment.structs.putAll(params.environment.structs)
+            runtime.environment.query = params.environment.query
+            runtime.environment.variable = params.environment.variable
+            runtime.environment.context = params.environment.context
             val script = params.getString(0).asIdentifierDefaultingNamespace()
             CobblemonScripts.run(script, runtime) ?: DoubleValue(0)
         }
@@ -132,7 +134,7 @@ object MoLangFunctions {
             }
             map.put("environment") {
                 val environment = MoLangEnvironment()
-                environment.structs["query"] = player.asMoLangValue()
+                environment.query = player.asMoLangValue()
                 environment
             }
             map
@@ -195,7 +197,9 @@ object MoLangFunctions {
                 val script = params.getString(0).asIdentifierDefaultingNamespace()
                 val environment = params.environment
                 val runtime = MoLangRuntime()
-                runtime.environment.structs.putAll(environment.structs)
+                runtime.environment.query = environment.query
+                runtime.environment.variable = environment.variable
+                runtime.environment.context = environment.context
                 CobblemonScripts.run(script, runtime) ?: DoubleValue(0)
             }
             map.put("environment") { _ -> npc.runtime.environment }
@@ -275,10 +279,8 @@ object MoLangFunctions {
         return this
     }
 
-    fun MoLangEnvironment.getQueryStruct(name: String = "query") = structs.getOrPut(name) { QueryStruct(hashMapOf()) } as QueryStruct
-
     fun MoLangRuntime.setup(): MoLangRuntime {
-        environment.getQueryStruct().addStandardFunctions()
+        environment.query.addStandardFunctions()
         return this
     }
 

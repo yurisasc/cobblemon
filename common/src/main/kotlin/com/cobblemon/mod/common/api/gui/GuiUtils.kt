@@ -10,8 +10,7 @@ package com.cobblemon.mod.common.api.gui
 
 import com.cobblemon.mod.common.api.text.font
 import com.cobblemon.mod.common.client.gui.battle.BattleOverlay.Companion.PORTRAIT_DIAMETER
-import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityModel
-import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableState
 import com.cobblemon.mod.common.client.render.models.blockbench.repository.RenderContext
 import com.cobblemon.mod.common.client.render.models.blockbench.repository.VaryingModelRepository
 import com.cobblemon.mod.common.entity.PoseType
@@ -24,18 +23,17 @@ import net.minecraft.client.render.DiffuseLighting
 import net.minecraft.client.render.GameRenderer
 import net.minecraft.client.render.LightmapTextureManager
 import net.minecraft.client.render.OverlayTexture
+import net.minecraft.client.render.RenderLayer
 import net.minecraft.client.render.Tessellator
 import net.minecraft.client.render.VertexFormat
 import net.minecraft.client.render.VertexFormats
 import net.minecraft.client.util.math.MatrixStack
-import net.minecraft.entity.Entity
 import net.minecraft.text.MutableText
 import net.minecraft.text.OrderedText
 import net.minecraft.text.Text
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.RotationAxis
 import org.joml.Matrix4f
-import org.joml.Quaternionf
 import org.joml.Vector3f
 
 @JvmOverloads
@@ -188,15 +186,15 @@ fun drawString(
 }
 
 @JvmOverloads
-fun <T : Entity, M : PoseableEntityModel<T>> drawPoseablePortrait(
+fun drawPosablePortrait(
     identifier: Identifier,
     aspects: Set<String>,
     matrixStack: MatrixStack,
     scale: Float = 13F,
     contextScale: Float = 1F,
     reversed: Boolean = false,
-    state: PoseableEntityState<T>? = null,
-    repository: VaryingModelRepository<T, M>,
+    state: PosableState,
+    repository: VaryingModelRepository<*>,
     partialTicks: Float,
     limbSwing: Float = 0F,
     limbSwingAmount: Float = 0F,
@@ -205,30 +203,29 @@ fun <T : Entity, M : PoseableEntityModel<T>> drawPoseablePortrait(
     headPitch: Float = 0F
 ) {
     val model = repository.getPoser(identifier, aspects)
-    val texture = repository.getTexture(identifier, aspects, state?.animationSeconds ?: 0F)
+    state.currentAspects = aspects
+    state.currentModel = model
+    val texture = repository.getTexture(identifier, aspects, state.animationSeconds)
 
     val context = RenderContext()
+    model.context = context
     repository.getTextureNoSubstitute(identifier, aspects, 0f).let { context.put(RenderContext.TEXTURE, it) }
     context.put(RenderContext.SCALE, contextScale)
     context.put(RenderContext.SPECIES, identifier)
     context.put(RenderContext.ASPECTS, aspects)
+    context.put(RenderContext.POSABLE_STATE, state)
 
-    val renderType = model.getLayer(texture)
+    val renderType = RenderLayer.getEntityCutout(texture)
 
     RenderSystem.applyModelViewMatrix()
     val quaternion1 = RotationAxis.POSITIVE_Y.rotationDegrees(-32F * if (reversed) -1F else 1F)
     val quaternion2 = RotationAxis.POSITIVE_X.rotationDegrees(5F)
 
-    if (state == null) {
-        model.setupAnimStateless(setOf(PoseType.PORTRAIT, PoseType.PROFILE))
-    } else {
-        val originalPose = state.currentPose
-        model.getPose(PoseType.PORTRAIT)?.let { state.setPose(it.poseName) }
-        state.timeEnteredPose = 0F
-        state.updatePartialTicks(partialTicks)
-        model.setupAnimStateful(null, state, limbSwing, limbSwingAmount, ageInTicks, headYaw, headPitch)
-        originalPose?.let { state.setPose(it) }
-    }
+    val originalPose = state.currentPose
+    state.setPoseToFirstSuitable(PoseType.PORTRAIT)
+    state.updatePartialTicks(partialTicks)
+    model.applyAnimations(null, state, limbSwing, limbSwingAmount, ageInTicks, headYaw, headPitch)
+    originalPose?.let { state.setPose(it) }
 
     matrixStack.push()
     matrixStack.translate(0.0, PORTRAIT_DIAMETER.toDouble() + 2.0, 0.0)
@@ -259,12 +256,12 @@ fun <T : Entity, M : PoseableEntityModel<T>> drawPoseablePortrait(
     DiffuseLighting.enableGuiDepthLighting()
 }
 
-fun <E : Entity, M : PoseableEntityModel<E>> drawProfile(
-    repository: VaryingModelRepository<E, M>,
+fun drawProfile(
+    repository: VaryingModelRepository<*>,
     resourceIdentifier: Identifier,
     aspects: Set<String>,
     matrixStack: MatrixStack,
-    state: PoseableEntityState<E>,
+    state: PosableState,
     partialTicks: Float,
     scale: Float = 20F
 ) {
@@ -272,19 +269,23 @@ fun <E : Entity, M : PoseableEntityModel<E>> drawProfile(
     val texture = repository.getTexture(resourceIdentifier, aspects, state.animationSeconds)
 
     val context = RenderContext()
+    model.context = context
     repository.getTextureNoSubstitute(resourceIdentifier, aspects, 0f).let { context.put(RenderContext.TEXTURE, it) }
     context.put(RenderContext.SCALE, 1F)
     context.put(RenderContext.SPECIES, resourceIdentifier)
     context.put(RenderContext.ASPECTS, aspects)
+    context.put(RenderContext.POSABLE_STATE, state)
+    state.currentAspects = aspects
+    state.currentModel = model
 
-    val renderType = model.getLayer(texture)
+    val renderType = RenderLayer.getEntityCutout(texture)//model.getLayer(texture)
 
     RenderSystem.applyModelViewMatrix()
     matrixStack.scale(scale, scale, -scale)
-    model.getPose(PoseType.PROFILE)?.let { state.setPose(it.poseName) }
-    state.timeEnteredPose = 0F
+
+    state.setPoseToFirstSuitable(PoseType.PORTRAIT)
     state.updatePartialTicks(partialTicks)
-    model.setupAnimStateful(null, state, 0F, 0F, 0F, 0F, 0F)
+    model.applyAnimations(null, state, 0F, 0F, 0F, 0F, 0F)
     matrixStack.translate(model.profileTranslation.x, model.profileTranslation.y,  model.profileTranslation.z - 4.0)
     matrixStack.scale(model.profileScale, model.profileScale, 1 / model.profileScale)
 //    matrixStack.multiply(rotation)

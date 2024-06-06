@@ -11,8 +11,6 @@ package com.cobblemon.mod.common.client.render.models.blockbench.bedrock.animati
 import com.bedrockk.molang.MoLang
 import com.cobblemon.mod.common.Cobblemon.LOGGER
 import com.cobblemon.mod.common.client.particle.BedrockParticleEffectRepository
-import com.cobblemon.mod.common.util.adapters.ExpressionLikeAdapter
-import com.cobblemon.mod.common.util.asExpression
 import com.cobblemon.mod.common.util.asExpressionLike
 import com.cobblemon.mod.common.util.asIdentifierDefaultingNamespace
 import com.google.gson.JsonArray
@@ -27,7 +25,7 @@ import java.lang.reflect.Type
  * Gson adapter for converting bedrock/blockbench json data into a friendlier object model.
  *
  * @author landonjw
- * @since  January 5, 2022
+ * @since January 5, 2022
  */
 object BedrockAnimationAdapter : JsonDeserializer<BedrockAnimation> {
     override fun deserialize(json: JsonElement, typeOfT: Type, context: JsonDeserializationContext): BedrockAnimation {

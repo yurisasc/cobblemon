@@ -20,7 +20,6 @@ import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.api.molang.ExpressionLike
 import com.cobblemon.mod.common.api.molang.ListExpression
 import com.cobblemon.mod.common.api.molang.MoLangFunctions.asMoLangValue
-import com.cobblemon.mod.common.api.molang.MoLangFunctions.getQueryStruct
 import com.cobblemon.mod.common.api.molang.MoLangFunctions.setup
 import com.cobblemon.mod.common.api.molang.ObjectValue
 import com.cobblemon.mod.common.api.molang.SingleExpression
@@ -34,7 +33,7 @@ val genericRuntime = MoLangRuntime().setup()
 
 fun MoLangRuntime.resolve(expression: Expression, context: Map<String, MoValue> = emptyMap()): MoValue = try {
 //    environment.structs["context"] = ContextStruct(context)
-    execute(listOf(expression), context)
+    execute(expression, context)
 //    expression.evaluate(MoScope(), environment)
 } catch (e: Exception) {
     throw IllegalArgumentException("Unable to parse expression: ${expression.getString()}", e)
@@ -178,7 +177,7 @@ fun MoParams.getDoubleOrNull(index: Int) = if (params.size > index) getDouble(in
 fun MoParams.getBooleanOrNull(index: Int) = if (params.size > index) getDouble(index) == 1.0 else null
 
 fun MoLangRuntime.withQueryValue(name: String, value: MoValue): MoLangRuntime {
-    environment.getQueryStruct().functions.put(name) { value }
+    environment.query.functions.put(name) { value }
     return this
 }
 

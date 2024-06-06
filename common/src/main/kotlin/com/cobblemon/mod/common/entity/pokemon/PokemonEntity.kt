@@ -46,7 +46,7 @@ import com.cobblemon.mod.common.battles.BattleRegistry
 import com.cobblemon.mod.common.block.entity.PokemonPastureBlockEntity
 import com.cobblemon.mod.common.client.entity.PokemonClientDelegate
 import com.cobblemon.mod.common.entity.PoseType
-import com.cobblemon.mod.common.entity.Poseable
+import com.cobblemon.mod.common.entity.PosableEntity
 import com.cobblemon.mod.common.entity.generic.GenericBedrockEntity
 import com.cobblemon.mod.common.entity.npc.NPCEntity
 import com.cobblemon.mod.common.entity.pokeball.EmptyPokeBallEntity
@@ -55,7 +55,7 @@ import com.cobblemon.mod.common.entity.pokemon.ai.PokemonNavigation
 import com.cobblemon.mod.common.entity.pokemon.ai.goals.*
 import com.cobblemon.mod.common.entity.pokemon.effects.EffectTracker
 import com.cobblemon.mod.common.entity.pokemon.effects.IllusionEffect
-import com.cobblemon.mod.common.net.messages.client.animation.PlayPoseableAnimationPacket
+import com.cobblemon.mod.common.net.messages.client.animation.PlayPosableAnimationPacket
 import com.cobblemon.mod.common.net.messages.client.sound.UnvalidatedPlaySoundS2CPacket
 import com.cobblemon.mod.common.net.messages.client.spawn.SpawnPokemonPacket
 import com.cobblemon.mod.common.net.messages.client.ui.InteractPokemonUIPacket
@@ -130,7 +130,7 @@ open class PokemonEntity(
     world: World,
     pokemon: Pokemon = Pokemon(),
     type: EntityType<out PokemonEntity> = CobblemonEntities.POKEMON,
-) : TameableShoulderEntity(type, world), Poseable, Shearable, Schedulable {
+) : TameableShoulderEntity(type, world), PosableEntity, Shearable, Schedulable {
     companion object {
         @JvmStatic val SPECIES = DataTracker.registerData(PokemonEntity::class.java, TrackedDataHandlerRegistry.STRING)
         @JvmStatic val NICKNAME = DataTracker.registerData(PokemonEntity::class.java, TrackedDataHandlerRegistry.TEXT_COMPONENT)
@@ -261,6 +261,7 @@ open class PokemonEntity(
         .addFunction("entity_height") { DoubleValue(boundingBox.yLength) }
         .addFunction("entity_size") { DoubleValue(boundingBox.run { if (xLength > yLength) xLength else yLength }) }
         .addFunction("entity_radius") { DoubleValue(boundingBox.run { if (xLength > yLength) xLength else yLength } / 2) }
+        .addFunction("has_aspect") { DoubleValue(it.getString(0) in aspects) }
 
     init {
         delegate.initialize(this)
@@ -1065,7 +1066,7 @@ open class PokemonEntity(
 
     fun cry() {
         if(this.isSilent) return
-        val pkt = PlayPoseableAnimationPacket(id, setOf("cry"), emptySet())
+        val pkt = PlayPosableAnimationPacket(id, setOf("cry"), emptySet())
         world.getEntitiesByClass(ServerPlayerEntity::class.java, Box.of(pos, 64.0, 64.0, 64.0), { true }).forEach {
             it.sendPacket(pkt)
         }
@@ -1126,9 +1127,8 @@ open class PokemonEntity(
     }
 
     fun isFlying() = this.getBehaviourFlag(PokemonBehaviourFlag.FLYING)
-    fun couldStopFlying() = isFlying() && !behaviour.moving.walk.avoidsLand && behaviour.moving.walk.canWalk
     fun isFalling() = this.fallDistance > 0 && this.world.getBlockState(this.blockPos.down()).isAir && !this.isFlying()
-    fun getIsSubmerged() = isInLava || isSubmergedInWater
+    fun couldStopFlying() = isFlying() && !behaviour.moving.walk.avoidsLand && behaviour.moving.walk.canWalk
     override fun getCurrentPoseType(): PoseType = this.dataTracker.get(POSE_TYPE)
 
     /**

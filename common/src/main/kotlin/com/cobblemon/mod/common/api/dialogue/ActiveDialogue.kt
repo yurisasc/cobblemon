@@ -20,7 +20,6 @@ import com.cobblemon.mod.common.api.dialogue.input.ActiveInput
 import com.cobblemon.mod.common.api.molang.MoLangFunctions.addFunctions
 import com.cobblemon.mod.common.api.molang.MoLangFunctions.addStandardFunctions
 import com.cobblemon.mod.common.api.molang.MoLangFunctions.asMoLangValue
-import com.cobblemon.mod.common.api.molang.MoLangFunctions.getQueryStruct
 import com.cobblemon.mod.common.api.molang.MoLangFunctions.setup
 import com.cobblemon.mod.common.api.scheduling.ServerRealTimeTaskTracker
 import com.cobblemon.mod.common.net.messages.client.dialogue.DialogueOpenedPacket
@@ -42,7 +41,7 @@ class ActiveDialogue(var playerEntity: ServerPlayerEntity, var dialogueReference
     var activeInput = ActiveInput(this, currentPage.input)
 
     init {
-        runtime.environment.getQueryStruct().addFunctions(
+        runtime.environment.query.addFunctions(
             mapOf(
                 "dialogue" to java.util.function.Function { _ -> toMoLangStruct() },
                 "player" to java.util.function.Function { _ -> playerStruct }

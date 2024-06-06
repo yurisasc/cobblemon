@@ -9,6 +9,9 @@
 package com.cobblemon.mod.common.util
 
 import com.cobblemon.mod.common.Cobblemon
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableState
+import com.cobblemon.mod.common.entity.npc.NPCEntity
+import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import java.util.concurrent.CompletableFuture
 import java.util.function.Consumer
 import kotlin.math.min
@@ -102,3 +105,12 @@ fun chainFutures(others: Iterator<() -> CompletableFuture<*>>, finalFuture: Comp
         chainFutures(others, finalFuture)
     }
 }
+
+val PosableState.isBattling: Boolean
+    get() = (getEntity() as? PokemonEntity)?.isBattling == true || (getEntity() as? NPCEntity)?.isInBattle() == true
+val PosableState.isSubmergedInWater: Boolean
+    get() = getEntity()?.isSubmergedInWater == true
+val PosableState.isTouchingWater: Boolean
+    get() = getEntity()?.isTouchingWater == true
+val PosableState.isTouchingWaterOrRain: Boolean
+    get() = getEntity()?.isTouchingWaterOrRain == true

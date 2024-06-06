@@ -8,39 +8,38 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.bedrock.animation
 
-import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityModel
-import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
-import com.cobblemon.mod.common.client.render.models.blockbench.animation.StatefulAnimation
-import com.cobblemon.mod.common.client.render.models.blockbench.animation.StatelessAnimation
-import com.cobblemon.mod.common.client.render.models.blockbench.frame.ModelFrame
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableState
+import com.cobblemon.mod.common.client.render.models.blockbench.animation.ActiveAnimation
+import com.cobblemon.mod.common.client.render.models.blockbench.repository.RenderContext
 import net.minecraft.entity.Entity
 
 /**
- * A stateful animation that runs a [BedrockAnimation]. It is completed when the underlying
+ * An active animation that runs a [BedrockAnimation]. It is completed when the underlying
  * bedrock animation is complete.
  *
  * @author Hiroku
  * @since July 16th, 2022
  */
-open class BedrockStatefulAnimation<T : Entity>(
+open class BedrockActiveAnimation(
     val animation: BedrockAnimation,
-) : StatefulAnimation<T, ModelFrame> {
+) : ActiveAnimation {
     var startedSeconds = -1F
     var isTransformAnimation = false
     override val duration = animation.animationLength.toFloat()
-    private var afterAction: (T, PoseableEntityState<T>) -> Unit = { _, _ -> }
+    private var afterAction: (RenderContext, PosableState) -> Unit = { _, _ -> }
 
-    override val isTransform: Boolean
+    override val isTransition: Boolean
         get() = isTransformAnimation
 
-    fun andThen(action: (entity: T, PoseableEntityState<T>) -> Unit) = this.also {
+    fun andThen(action: (context: RenderContext, PosableState) -> Unit) = this.also {
         it.afterAction = action
     }
 
     override fun run(
-        entity: T?,
-        model: PoseableEntityModel<T>,
-        state: PoseableEntityState<T>,
+        context: RenderContext,
+        model: PosableModel,
+        state: PosableState,
         limbSwing: Float,
         limbSwingAmount: Float,
         ageInTicks: Float,
@@ -52,14 +51,14 @@ open class BedrockStatefulAnimation<T : Entity>(
             startedSeconds = state.animationSeconds
         }
 
-        return animation.run(model, state, state.animationSeconds - startedSeconds, limbSwing, limbSwingAmount, ageInTicks, intensity).also {
-            if (!it && entity != null) {
-                afterAction(entity, state)
+        return animation.run(context, model, state, state.animationSeconds - startedSeconds, limbSwing, limbSwingAmount, ageInTicks, intensity).also {
+            if (!it) {
+                afterAction(context, state)
             }
         }
     }
 
-    override fun applyEffects(entity: T, state: PoseableEntityState<T>, previousSeconds: Float, newSeconds: Float) {
+    override fun applyEffects(entity: Entity, state: PosableState, previousSeconds: Float, newSeconds: Float) {
         val previousSecondsOffset = previousSeconds - startedSeconds
         val currentSecondsOffset = newSeconds - startedSeconds
         animation.applyEffects(entity, state, previousSecondsOffset, currentSecondsOffset)

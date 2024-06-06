@@ -17,15 +17,16 @@ import com.cobblemon.mod.common.client.entity.PokemonClientDelegate.Companion.BE
 import com.cobblemon.mod.common.client.entity.PokemonClientDelegate.Companion.BEAM_SHRINK_TIME
 import com.cobblemon.mod.common.client.keybind.boundKey
 import com.cobblemon.mod.common.client.keybind.keybinds.PartySendBinding
-import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityModel
-import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableState
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PosablePokemonEntityModel
 import com.cobblemon.mod.common.client.render.models.blockbench.repository.PokeBallModelRepository
 import com.cobblemon.mod.common.client.render.models.blockbench.repository.PokemonModelRepository
-import com.cobblemon.mod.common.client.render.pokeball.PokeBallPoseableState
+import com.cobblemon.mod.common.client.render.models.blockbench.repository.RenderContext
+import com.cobblemon.mod.common.client.render.pokeball.PokeBallPosableState
 import com.cobblemon.mod.common.client.render.renderBeaconBeam
 import com.cobblemon.mod.common.client.settings.ServerSettings
-import com.cobblemon.mod.common.entity.Poseable
+import com.cobblemon.mod.common.entity.PosableEntity
 import com.cobblemon.mod.common.entity.npc.NPCEntity
 import com.cobblemon.mod.common.entity.pokeball.EmptyPokeBallEntity
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
@@ -55,16 +56,23 @@ import org.joml.Math
 import org.joml.Quaternionf
 import org.joml.Vector3f
 import org.joml.Vector4f
-import kotlin.math.*
 
 class PokemonRenderer(
     context: EntityRendererFactory.Context
-) : MobEntityRenderer<PokemonEntity, PokemonPoseableModel>(context, null, 0.5f) {
+) : MobEntityRenderer<PokemonEntity, PosablePokemonEntityModel>(context, PosablePokemonEntityModel(), 0.5f) {
     companion object {
         val recallBeamColour = Vector4f(1F, 0.1F, 0.1F, 1F)
         fun ease(x: Double): Double {
             return 1 - (1 - x).pow(3)
         }
+    }
+
+    val context = RenderContext().also {
+        it.put(RenderContext.RENDER_STATE, RenderContext.RenderState.WORLD)
+    }
+
+    val ballContext = RenderContext().also {
+        it.put(RenderContext.RENDER_STATE, RenderContext.RenderState.WORLD)
     }
 
     override fun getTexture(entity: PokemonEntity): Identifier {
@@ -80,10 +88,11 @@ class PokemonRenderer(
         packedLight: Int
     ) {
         shadowRadius = min((entity.boundingBox.maxX - entity.boundingBox.minX), (entity.boundingBox.maxZ) - (entity.boundingBox.minZ)).toFloat() / 1.5F * (entity.delegate as PokemonClientDelegate).entityScaleModifier
-        model = PokemonModelRepository.getPoser(entity.pokemon.species.resourceIdentifier, entity.aspects)
-
+        model.posableModel = PokemonModelRepository.getPoser(entity.pokemon.species.resourceIdentifier, entity.aspects)
+        model.posableModel.context = context
+        model.setupEntityTypeContext(entity)
         val clientDelegate = entity.delegate as PokemonClientDelegate
-        val modelNow = model as PoseableEntityModel<PokemonEntity>
+        val modelNow = model.posableModel
         clientDelegate.updatePartialTicks(partialTicks)
 
         if (entity.beamMode != 0) {
@@ -132,7 +141,7 @@ class PokemonRenderer(
     }
 
     fun renderTransition(
-        modelNow: PoseableEntityModel<PokemonEntity>,
+        modelNow: PosableModel,
         beamMode: Int,
         entity: PokemonEntity,
         partialTicks: Float,
@@ -142,7 +151,7 @@ class PokemonRenderer(
         clientDelegate: PokemonClientDelegate
     ) {
         val s = clientDelegate.secondsSinceBeamEffectStarted
-        if (modelNow is PokemonPoseableModel && beamMode == 3) {
+        if (beamMode == 3) {
             if (s > BEAM_EXTEND_TIME) {
                 val value = (s - BEAM_EXTEND_TIME) /  BEAM_SHRINK_TIME
                 val colourValue = 1F - min(0.6F, value)
@@ -153,8 +162,8 @@ class PokemonRenderer(
 
         val phaseTarget = clientDelegate.phaseTarget ?: return
         poseMatrix.push()
-        var beamSourcePosition = if (phaseTarget is Poseable) {
-            (phaseTarget.delegate as PoseableEntityState<*>).locatorStates["beam"]?.getOrigin() ?: phaseTarget.pos
+        var beamSourcePosition = if (phaseTarget is PosableEntity) {
+            (phaseTarget.delegate as PosableState).locatorStates["beam"]?.getOrigin() ?: phaseTarget.pos
         } else {
             if (phaseTarget.uuid == MinecraftClient.getInstance().player?.uuid) {
                 val lookVec = phaseTarget.rotationVector.rotateY(PI / 2).multiply(1.0, 0.0, 1.0).normalize()
@@ -229,7 +238,7 @@ class PokemonRenderer(
         val clientDelegate = entity.delegate as PokemonClientDelegate
         val pokemonPosition = entity.pos.add(0.0, entity.height / 2.0 * clientDelegate.entityScaleModifier.toDouble(), 0.0)
         var beamSourcePosition = if (beamTarget is EmptyPokeBallEntity) {
-            (beamTarget.delegate as PokeBallPoseableState).locatorStates["beam"]?.getOrigin() ?: beamTarget.pos
+            (beamTarget.delegate as PokeBallPosableState).locatorStates["beam"]?.getOrigin() ?: beamTarget.pos
         } else {
             if (beamTarget.uuid == MinecraftClient.getInstance().player?.uuid) {
                 val lookVec = beamTarget.rotationVector.rotateY(PI / 2).multiply(1.0, 0.0, 1.0).normalize()
@@ -369,8 +378,8 @@ class PokemonRenderer(
         matrixStack.scale(0.7F, -0.7F, -0.7F)
         val model = PokeBallModelRepository.getPoser(ball.name, state.aspects)
         val texture = PokeBallModelRepository.getTexture(ball.name, state.aspects, state.animationSeconds)
-        if(scale == 1.0f) {
-            model.moveToPose(null, state, model.open)
+        if (scale == 1.0f) {
+            model.moveToPose(state, model.poses["open"]!!)
         } else {
             matrixStack.translate(0.0, -0.2, 0.0)
             val rot = 360F * distance
@@ -381,13 +390,15 @@ class PokemonRenderer(
             }
             matrixStack.translate(0.0, 0.2, 0.0)
         }
-        state.timeEnteredPose = 0F
         state.updatePartialTicks(partialTicks)
-        model.setupAnimStateful(null, state, 0F, 0F, 0F, 0F, 0F)
-        model.animateModel(null, 0f, 0F, 0F)
-        val buffer = ItemRenderer.getDirectItemGlintConsumer(buff, model.getLayer(texture), false, false)
+        model.context = ballContext
+        ballContext.put(RenderContext.ASPECTS, state.aspects)
+        ballContext.put(RenderContext.POSABLE_STATE, state)
+        model.applyAnimations(null, state, 0F, 0F, 0F, 0F, 0F)
+//        model.animateModel(null, 0f, 0F, 0F)
+        val buffer = ItemRenderer.getDirectItemGlintConsumer(buff, RenderLayer.getEntityCutout(texture), false, false)
 //        matrixStack.scale(scale, scale, scale)
-        model.render(matrixStack, buffer, packedLight, OverlayTexture.DEFAULT_UV, 1F, 1F, 1F, 1F)
+        model.render(ballContext, matrixStack, buffer, packedLight, OverlayTexture.DEFAULT_UV, 1F, 1F, 1F, 1F)
         model.green = 1f
         model.blue = 1f
         model.red = 1f
