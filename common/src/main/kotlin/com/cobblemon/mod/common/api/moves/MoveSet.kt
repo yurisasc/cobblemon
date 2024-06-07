@@ -162,7 +162,7 @@ class MoveSet : Iterable<Move> {
     /**
      * Returns a MoveSet build from given Buffer
      */
-    fun loadFromBuffer(buffer: PacketByteBuf): MoveSet {
+    fun loadFromBuffer(buffer: ByteBuf): MoveSet {
         doWithoutEmitting {
             clear()
             val amountMoves = buffer.readSizedInt(IntSize.U_BYTE)

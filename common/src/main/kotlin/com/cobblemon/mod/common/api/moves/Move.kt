@@ -14,6 +14,7 @@ import com.cobblemon.mod.common.api.types.ElementalType
 import com.cobblemon.mod.common.net.IntSize
 import com.cobblemon.mod.common.util.DataKeys
 import com.cobblemon.mod.common.util.readSizedInt
+import com.cobblemon.mod.common.util.readString
 import com.cobblemon.mod.common.util.writeSizedInt
 import com.cobblemon.mod.common.util.writeString
 import com.google.gson.JsonObject
@@ -137,7 +138,7 @@ open class Move(
             return Move(template, currentPp, raisedPpStages)
         }
 
-        fun loadFromBuffer(buffer: PacketByteBuf): Move {
+        fun loadFromBuffer(buffer: ByteBuf): Move {
             val moveName = buffer.readString()
             val currentPp = buffer.readSizedInt(IntSize.U_BYTE)
             val raisedPpStages = buffer.readSizedInt(IntSize.U_BYTE)

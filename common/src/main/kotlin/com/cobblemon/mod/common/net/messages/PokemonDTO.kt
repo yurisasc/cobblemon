@@ -37,6 +37,7 @@ import com.cobblemon.mod.common.util.readSizedInt
 import com.cobblemon.mod.common.util.readString
 import com.cobblemon.mod.common.util.readUuid
 import com.cobblemon.mod.common.util.writeIdentifier
+import com.cobblemon.mod.common.util.writeNbt
 import com.cobblemon.mod.common.util.writeNullable
 import com.cobblemon.mod.common.util.writeSizedInt
 import com.cobblemon.mod.common.util.writeString

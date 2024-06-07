@@ -4,10 +4,13 @@ import com.cobblemon.mod.common.api.storage.party.PartyPosition
 import com.cobblemon.mod.common.api.storage.pc.PCPosition
 import com.cobblemon.mod.common.net.IntSize
 import io.netty.buffer.ByteBuf
-import java.util.UUID
-import kotlin.jvm.optionals.getOrNull
+import io.netty.buffer.ByteBufOutputStream
+import io.netty.handler.codec.EncoderException
 import net.minecraft.entity.EntityDimensions
 import net.minecraft.item.ItemStack
+import net.minecraft.nbt.NbtElement
+import net.minecraft.nbt.NbtEnd
+import net.minecraft.nbt.NbtIo
 import net.minecraft.nbt.NbtOps
 import net.minecraft.network.PacketByteBuf
 import net.minecraft.network.codec.PacketEncoder
@@ -15,7 +18,8 @@ import net.minecraft.network.encoding.StringEncoding
 import net.minecraft.text.Text
 import net.minecraft.text.TextCodecs
 import net.minecraft.util.Identifier
-import org.apache.commons.io.IOUtils.writer
+import java.io.IOException
+import java.util.UUID
 import kotlin.jvm.optionals.getOrNull
 
 fun PacketByteBuf.readItemStack(): ItemStack {
@@ -153,4 +157,17 @@ fun ByteBuf.writeEnumConstant(value: Enum<*>) {
 
 fun <T : Enum<T>> ByteBuf.readEnumConstant(clazz: Class<T>): T {
     return clazz.getEnumConstants()[this.readInt()]
+}
+
+fun ByteBuf.writeNbt(nbt: NbtElement) {
+    if (nbt == null) {
+        NbtIo.writeForPacket(NbtEnd.INSTANCE, ByteBufOutputStream(this))
+    }
+
+    try {
+        NbtIo.writeForPacket(nbt, ByteBufOutputStream(this))
+    } catch (var3: IOException) {
+        val iOException = var3
+        throw EncoderException(iOException)
+    }
 }
