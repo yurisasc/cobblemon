@@ -10,7 +10,7 @@ package com.cobblemon.mod.common.net.messages.client.pokemon.update
 
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.util.cobblemonResource
-import net.minecraft.network.PacketByteBuf
+import io.netty.buffer.ByteBuf
 
 /**
  * Packet fired to notify the client that the tradeable status of the Pokémon has been updated.
@@ -20,7 +20,7 @@ import net.minecraft.network.PacketByteBuf
  */
 class TradeableUpdatePacket(pokemon: () -> Pokemon, value: Boolean) : SingleUpdatePacket<Boolean, TradeableUpdatePacket>(pokemon, value) {
     override val id = ID
-    override fun encodeValue(buffer: PacketByteBuf) {
+    override fun encodeValue(buffer: ByteBuf) {
         buffer.writeBoolean(value)
     }
 
@@ -30,6 +30,6 @@ class TradeableUpdatePacket(pokemon: () -> Pokemon, value: Boolean) : SingleUpda
 
     companion object {
         val ID = cobblemonResource("tradeable_update")
-        fun decode(buffer: PacketByteBuf) = TradeableUpdatePacket(decodePokemon(buffer), buffer.readBoolean())
+        fun decode(buffer: ByteBuf) = TradeableUpdatePacket(decodePokemon(buffer), buffer.readBoolean())
     }
 }

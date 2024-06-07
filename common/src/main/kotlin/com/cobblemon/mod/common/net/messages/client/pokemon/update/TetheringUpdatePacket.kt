@@ -10,6 +10,8 @@ package com.cobblemon.mod.common.net.messages.client.pokemon.update
 
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.util.cobblemonResource
+import com.cobblemon.mod.common.util.readNullable
+import com.cobblemon.mod.common.util.readUuid
 import com.cobblemon.mod.common.util.writeNullable
 import com.cobblemon.mod.common.util.writeUuid
 import io.netty.buffer.ByteBuf
@@ -36,7 +38,7 @@ class TetheringUpdatePacket(pokemon: () -> Pokemon, tetheringId: UUID?) : Single
 
     companion object {
         val ID = cobblemonResource("tethering_update")
-        fun decode(buffer: PacketByteBuf): TetheringUpdatePacket {
+        fun decode(buffer: ByteBuf): TetheringUpdatePacket {
             val pokemon = decodePokemon(buffer)
             val tetheringId = buffer.readNullable { buffer.readUuid() }
             return TetheringUpdatePacket(pokemon, tetheringId)

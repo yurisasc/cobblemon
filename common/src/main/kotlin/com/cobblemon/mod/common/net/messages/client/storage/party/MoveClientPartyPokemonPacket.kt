@@ -9,11 +9,12 @@
 package com.cobblemon.mod.common.net.messages.client.storage.party
 
 import com.cobblemon.mod.common.api.storage.party.PartyPosition
-import com.cobblemon.mod.common.api.storage.party.PartyPosition.Companion.readPartyPosition
-import com.cobblemon.mod.common.api.storage.party.PartyPosition.Companion.writePartyPosition
 import com.cobblemon.mod.common.net.messages.client.storage.MoveClientPokemonPacket
 import com.cobblemon.mod.common.util.cobblemonResource
-import net.minecraft.network.PacketByteBuf
+import com.cobblemon.mod.common.util.readPartyPosition
+import com.cobblemon.mod.common.util.readUuid
+import com.cobblemon.mod.common.util.writePartyPosition
+import io.netty.buffer.ByteBuf
 import java.util.UUID
 
 /**
@@ -26,9 +27,9 @@ import java.util.UUID
  */
 class MoveClientPartyPokemonPacket(storeID: UUID, pokemonID: UUID, newPosition: PartyPosition) : MoveClientPokemonPacket<PartyPosition, MoveClientPartyPokemonPacket>(storeID, pokemonID, newPosition) {
     override val id = ID
-    override fun encodePosition(buffer: PacketByteBuf, position: PartyPosition) = buffer.writePartyPosition(newPosition)
+    override fun encodePosition(buffer: ByteBuf, position: PartyPosition) = buffer.writePartyPosition(newPosition)
     companion object {
         val ID = cobblemonResource("move_client_party_pokemon")
-        fun decode(buffer: PacketByteBuf) = MoveClientPartyPokemonPacket(buffer.readUuid(), buffer.readUuid(), buffer.readPartyPosition())
+        fun decode(buffer: ByteBuf) = MoveClientPartyPokemonPacket(buffer.readUuid(), buffer.readUuid(), buffer.readPartyPosition())
     }
 }

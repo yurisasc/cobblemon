@@ -17,11 +17,13 @@ import com.cobblemon.mod.common.net.messages.client.pokemon.update.SingleUpdateP
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.pokemon.evolution.CobblemonEvolutionDisplay
 import com.cobblemon.mod.common.util.cobblemonResource
+import com.cobblemon.mod.common.util.readIdentifier
+import com.cobblemon.mod.common.util.readList
+import com.cobblemon.mod.common.util.readString
 import com.cobblemon.mod.common.util.writeCollection
 import com.cobblemon.mod.common.util.writeIdentifier
 import com.cobblemon.mod.common.util.writeString
 import io.netty.buffer.ByteBuf
-import net.minecraft.network.PacketByteBuf
 
 class AddEvolutionPacket(pokemon: () -> Pokemon, value: EvolutionDisplay) : SingleUpdatePacket<EvolutionDisplay, AddEvolutionPacket>(pokemon, value) {
 
@@ -41,7 +43,7 @@ class AddEvolutionPacket(pokemon: () -> Pokemon, value: EvolutionDisplay) : Sing
 
         val ID = cobblemonResource("add_evolution")
 
-        fun decode(buffer: PacketByteBuf) = AddEvolutionPacket(decodePokemon(buffer), decodeDisplay(buffer))
+        fun decode(buffer: ByteBuf) = AddEvolutionPacket(decodePokemon(buffer), decodeDisplay(buffer))
 
         internal fun Evolution.convertToDisplay(pokemon: Pokemon): EvolutionDisplay {
             val result = pokemon.clone()
@@ -58,12 +60,12 @@ class AddEvolutionPacket(pokemon: () -> Pokemon, value: EvolutionDisplay) : Sing
             buffer.writeCollection(this.aspects) { pb, value -> pb.writeString(value) }
         }
 
-        internal fun decodeDisplay(buffer: PacketByteBuf): EvolutionDisplay {
+        internal fun decodeDisplay(buffer: ByteBuf): EvolutionDisplay {
             val id = buffer.readString()
             val speciesIdentifier = buffer.readIdentifier()
             val species = PokemonSpecies.getByIdentifier(speciesIdentifier)
                 ?: throw IllegalArgumentException("Cannot resolve species from $speciesIdentifier")
-            val aspects = buffer.readList(PacketByteBuf::readString).toSet()
+            val aspects = buffer.readList(ByteBuf::readString).toSet()
             return CobblemonEvolutionDisplay(id, species, aspects)
         }
     }
