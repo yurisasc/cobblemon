@@ -17,6 +17,10 @@ import com.cobblemon.mod.common.net.messages.client.pokemon.update.SingleUpdateP
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.pokemon.evolution.CobblemonEvolutionDisplay
 import com.cobblemon.mod.common.util.cobblemonResource
+import com.cobblemon.mod.common.util.writeCollection
+import com.cobblemon.mod.common.util.writeIdentifier
+import com.cobblemon.mod.common.util.writeString
+import io.netty.buffer.ByteBuf
 import net.minecraft.network.PacketByteBuf
 
 class AddEvolutionPacket(pokemon: () -> Pokemon, value: EvolutionDisplay) : SingleUpdatePacket<EvolutionDisplay, AddEvolutionPacket>(pokemon, value) {
@@ -25,7 +29,7 @@ class AddEvolutionPacket(pokemon: () -> Pokemon, value: EvolutionDisplay) : Sing
 
     constructor(pokemon: Pokemon, value: Evolution) : this({ pokemon }, value.convertToDisplay(pokemon))
 
-    override fun encodeValue(buffer: PacketByteBuf) {
+    override fun encodeValue(buffer: ByteBuf) {
         this.value.encode(buffer)
     }
 
@@ -48,7 +52,7 @@ class AddEvolutionPacket(pokemon: () -> Pokemon, value: EvolutionDisplay) : Sing
             return event.display
         }
 
-        internal fun EvolutionDisplay.encode(buffer: PacketByteBuf) {
+        internal fun EvolutionDisplay.encode(buffer: ByteBuf) {
             buffer.writeString(this.id)
             buffer.writeIdentifier(this.species.resourceIdentifier)
             buffer.writeCollection(this.aspects) { pb, value -> pb.writeString(value) }

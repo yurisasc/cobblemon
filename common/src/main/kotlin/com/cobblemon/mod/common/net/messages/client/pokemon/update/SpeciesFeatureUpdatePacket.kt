@@ -14,6 +14,11 @@ import com.cobblemon.mod.common.api.pokemon.feature.SynchronizedSpeciesFeature
 import com.cobblemon.mod.common.api.pokemon.feature.SynchronizedSpeciesFeatureProvider
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.util.cobblemonResource
+import com.cobblemon.mod.common.util.readIdentifier
+import com.cobblemon.mod.common.util.readString
+import com.cobblemon.mod.common.util.writeIdentifier
+import com.cobblemon.mod.common.util.writeString
+import io.netty.buffer.ByteBuf
 import net.minecraft.network.PacketByteBuf
 import net.minecraft.util.Identifier
 
@@ -26,7 +31,7 @@ import net.minecraft.util.Identifier
 class SpeciesFeatureUpdatePacket(pokemon: () -> Pokemon, val species: Identifier, speciesFeature: SynchronizedSpeciesFeature) : SingleUpdatePacket<SynchronizedSpeciesFeature, SpeciesFeatureUpdatePacket>(pokemon, speciesFeature) {
     companion object {
         val ID = cobblemonResource("species_feature_update")
-        fun decode(buffer: PacketByteBuf): SpeciesFeatureUpdatePacket {
+        fun decode(buffer: ByteBuf): SpeciesFeatureUpdatePacket {
             val pokemon = decodePokemon(buffer)
             val speciesIdentifier = buffer.readIdentifier()
             val species = PokemonSpecies.getByIdentifier(speciesIdentifier)
@@ -40,7 +45,7 @@ class SpeciesFeatureUpdatePacket(pokemon: () -> Pokemon, val species: Identifier
     }
 
     override val id = ID
-    override fun encodeValue(buffer: PacketByteBuf) {
+    override fun encodeValue(buffer: ByteBuf) {
         buffer.writeIdentifier(species)
         buffer.writeString(value.name)
         value.encode(buffer)

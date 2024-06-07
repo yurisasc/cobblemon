@@ -12,6 +12,7 @@ import com.cobblemon.mod.common.api.net.Decodable
 import com.cobblemon.mod.common.api.net.Encodable
 import com.cobblemon.mod.common.client.gui.summary.featurerenderers.SummarySpeciesFeatureRenderer
 import com.cobblemon.mod.common.pokemon.Pokemon
+import io.netty.buffer.ByteBuf
 import net.minecraft.network.PacketByteBuf
 
 /**
@@ -25,7 +26,7 @@ import net.minecraft.network.PacketByteBuf
  */
 interface SynchronizedSpeciesFeatureProvider<T : SynchronizedSpeciesFeature> : SpeciesFeatureProvider<T>, Encodable, Decodable {
     var visible: Boolean
-    operator fun invoke(buffer: PacketByteBuf, name: String): T?
+    operator fun invoke(buffer: ByteBuf, name: String): T?
     /** Gets the feature from this Pokémon, if it has been created yet. */
     fun get(pokemon: Pokemon): T?
     /** Only run this from the client. */

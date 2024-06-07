@@ -12,6 +12,7 @@ import com.cobblemon.mod.common.pokemon.EVs
 import com.cobblemon.mod.common.pokemon.IVs
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.util.cobblemonResource
+import io.netty.buffer.ByteBuf
 import net.minecraft.network.PacketByteBuf
 
 /**
@@ -22,7 +23,7 @@ import net.minecraft.network.PacketByteBuf
  */
 class EVsUpdatePacket(pokemon: () -> Pokemon, eVs: EVs) : SingleUpdatePacket<EVs, EVsUpdatePacket>(pokemon, eVs) {
     override val id = ID
-    override fun encodeValue(buffer: PacketByteBuf) {
+    override fun encodeValue(buffer: ByteBuf) {
         this.value.saveToBuffer(buffer)
     }
     override fun set(pokemon: Pokemon, value: EVs) {
@@ -44,7 +45,7 @@ class EVsUpdatePacket(pokemon: () -> Pokemon, eVs: EVs) : SingleUpdatePacket<EVs
  */
 class IVsUpdatePacket(pokemon: () -> Pokemon, iVs: IVs) : SingleUpdatePacket<IVs, IVsUpdatePacket>(pokemon, iVs) {
     override val id = ID
-    override fun encodeValue(buffer: PacketByteBuf) {
+    override fun encodeValue(buffer: ByteBuf) {
         this.value.saveToBuffer(buffer)
     }
     override fun set(pokemon: Pokemon, value: IVs) {
@@ -54,6 +55,6 @@ class IVsUpdatePacket(pokemon: () -> Pokemon, iVs: IVs) : SingleUpdatePacket<IVs
     }
     companion object {
         val ID = cobblemonResource("iv_update")
-        fun decode(buffer: PacketByteBuf) = IVsUpdatePacket(decodePokemon(buffer), IVs().apply { loadFromBuffer(buffer) })
+        fun decode(buffer: ByteBuf) = IVsUpdatePacket(decodePokemon(buffer), IVs().apply { loadFromBuffer(buffer) })
     }
 }

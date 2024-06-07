@@ -12,11 +12,14 @@ import com.cobblemon.mod.common.api.pokemon.PokemonSpecies
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.pokemon.Species
 import com.cobblemon.mod.common.util.cobblemonResource
+import com.cobblemon.mod.common.util.readIdentifier
+import com.cobblemon.mod.common.util.writeIdentifier
+import io.netty.buffer.ByteBuf
 import net.minecraft.network.PacketByteBuf
 
 class SpeciesUpdatePacket(pokemon: () -> Pokemon, value: Species) : SingleUpdatePacket<Species, SpeciesUpdatePacket>(pokemon, value) {
     override val id = ID
-    override fun encodeValue(buffer: PacketByteBuf) {
+    override fun encodeValue(buffer: ByteBuf) {
         buffer.writeIdentifier(this.value.resourceIdentifier)
     }
 
@@ -26,7 +29,7 @@ class SpeciesUpdatePacket(pokemon: () -> Pokemon, value: Species) : SingleUpdate
 
     companion object {
         val ID = cobblemonResource("species_update")
-        fun decode(buffer: PacketByteBuf): SpeciesUpdatePacket {
+        fun decode(buffer: ByteBuf): SpeciesUpdatePacket {
             val pokemon = decodePokemon(buffer)
             val species = PokemonSpecies.getByIdentifier(buffer.readIdentifier())!!
             return SpeciesUpdatePacket(pokemon, species)

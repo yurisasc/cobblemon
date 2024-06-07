@@ -16,6 +16,7 @@ import com.cobblemon.mod.common.net.messages.client.pokemon.update.evolution.Add
 import com.cobblemon.mod.common.net.messages.client.pokemon.update.evolution.AddEvolutionPacket.Companion.encode
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.util.cobblemonResource
+import io.netty.buffer.ByteBuf
 import net.minecraft.network.PacketByteBuf
 
 class RemoveEvolutionPacket(pokemon: () -> Pokemon, value: EvolutionDisplay) : SingleUpdatePacket<EvolutionDisplay, RemoveEvolutionPacket>(pokemon, value) {
@@ -24,7 +25,7 @@ class RemoveEvolutionPacket(pokemon: () -> Pokemon, value: EvolutionDisplay) : S
 
     constructor(pokemon: Pokemon, value: Evolution) : this({ pokemon }, value.convertToDisplay(pokemon))
 
-    override fun encodeValue(buffer: PacketByteBuf) {
+    override fun encodeValue(buffer: ByteBuf) {
         this.value.encode(buffer)
     }
 
