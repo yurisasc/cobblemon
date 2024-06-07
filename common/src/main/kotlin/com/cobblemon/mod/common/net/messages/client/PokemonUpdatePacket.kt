@@ -11,6 +11,8 @@ package com.cobblemon.mod.common.net.messages.client
 import com.cobblemon.mod.common.api.net.NetworkPacket
 import com.cobblemon.mod.common.client.CobblemonClient
 import com.cobblemon.mod.common.pokemon.Pokemon
+import com.cobblemon.mod.common.util.readUuid
+import com.cobblemon.mod.common.util.writeUuid
 import io.netty.buffer.ByteBuf
 import net.minecraft.network.PacketByteBuf
 import java.util.UUID
@@ -31,7 +33,7 @@ abstract class PokemonUpdatePacket<T>(val pokemon: () -> Pokemon) : NetworkPacke
         encodeDetails(buffer)
     }
 
-    abstract fun encodeDetails(buffer: PacketByteBuf)
+    abstract fun encodeDetails(buffer: ByteBuf)
 
     /** Applies the update to the located Pokémon. */
     abstract fun applyToPokemon()
@@ -41,10 +43,10 @@ abstract class PokemonUpdatePacket<T>(val pokemon: () -> Pokemon) : NetworkPacke
         /**
          * Reads the current Pokémon from the given [buffer].
          *
-         * @param buffer The [PacketByteBuf] being decoded.
+         * @param buffer The [ByteBuf] being decoded.
          * @return The [Pokemon] found.
          */
-        fun decodePokemon(buffer: PacketByteBuf) : () -> Pokemon {
+        fun decodePokemon(buffer: ByteBuf) : () -> Pokemon {
             val storeId = buffer.readUuid()
             val pokemonId = buffer.readUuid()
             return { CobblemonClient.storage.locatePokemon(storeId, pokemonId)!! }

@@ -10,17 +10,20 @@ package com.cobblemon.mod.common.net.messages.server.trade
 
 import com.cobblemon.mod.common.api.net.NetworkPacket
 import com.cobblemon.mod.common.api.storage.party.PartyPosition
-import com.cobblemon.mod.common.api.storage.party.PartyPosition.Companion.readPartyPosition
-import com.cobblemon.mod.common.api.storage.party.PartyPosition.Companion.writePartyPosition
 import com.cobblemon.mod.common.util.cobblemonResource
+import com.cobblemon.mod.common.util.readNullable
+import com.cobblemon.mod.common.util.readPartyPosition
+import com.cobblemon.mod.common.util.readUuid
+import com.cobblemon.mod.common.util.writeNullable
+import com.cobblemon.mod.common.util.writePartyPosition
+import com.cobblemon.mod.common.util.writeUuid
 import io.netty.buffer.ByteBuf
-import net.minecraft.network.PacketByteBuf
 import java.util.UUID
 
 class UpdateTradeOfferPacket(val newOffer: Pair<UUID, PartyPosition>?): NetworkPacket<UpdateTradeOfferPacket> {
     companion object {
         val ID = cobblemonResource("update_trade_offer")
-        fun decode(buffer: PacketByteBuf) = UpdateTradeOfferPacket(buffer.readNullable { buffer.readUuid() to buffer.readPartyPosition() })
+        fun decode(buffer: ByteBuf) = UpdateTradeOfferPacket(buffer.readNullable { buffer.readUuid() to buffer.readPartyPosition() })
     }
 
     override val id = ID

@@ -31,9 +31,7 @@ import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.net.IntSize
 import com.cobblemon.mod.common.pokemon.ai.PokemonBehaviour
 import com.cobblemon.mod.common.pokemon.lighthing.LightingData
-import com.cobblemon.mod.common.util.readEntityDimensions
-import com.cobblemon.mod.common.util.readSizedInt
-import com.cobblemon.mod.common.util.writeSizedInt
+import com.cobblemon.mod.common.util.*
 import io.netty.buffer.ByteBuf
 import net.minecraft.entity.EntityDimensions
 import net.minecraft.text.MutableText

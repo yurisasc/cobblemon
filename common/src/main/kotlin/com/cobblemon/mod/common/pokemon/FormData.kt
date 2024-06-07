@@ -31,8 +31,7 @@ import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.net.IntSize
 import com.cobblemon.mod.common.pokemon.ai.FormPokemonBehaviour
 import com.cobblemon.mod.common.pokemon.lighthing.LightingData
-import com.cobblemon.mod.common.util.readSizedInt
-import com.cobblemon.mod.common.util.writeSizedInt
+import com.cobblemon.mod.common.util.*
 import com.google.gson.annotations.SerializedName
 import io.netty.buffer.ByteBuf
 import net.minecraft.entity.EntityDimensions
@@ -278,7 +277,7 @@ class FormData(
             this._baseStats = mapBuffer.readMap(
                 { keyBuffer -> Cobblemon.statProvider.decode(keyBuffer) },
                 { valueBuffer -> valueBuffer.readSizedInt(IntSize.U_SHORT) }
-            )
+            ).toMutableMap()
         }
         this._primaryType = buffer.readNullable { pb -> ElementalTypes.get(pb.readString()) }
         this._secondaryType = buffer.readNullable { pb -> ElementalTypes.get(pb.readString()) }
@@ -296,7 +295,7 @@ class FormData(
             }
         }
         this._moves = buffer.readNullable { pb -> Learnset().apply { decode(pb) }}
-        this._pokedex = buffer.readNullable { pb -> pb.readList { it.readString() } }
+        this._pokedex = buffer.readNullable { pb -> pb.readList { it.readString() } }?.toMutableList()
         this._lightingData = buffer.readNullable { pb -> LightingData(pb.readInt(), pb.readEnumConstant(LightingData.LiquidGlowMode::class.java)) }
     }
 

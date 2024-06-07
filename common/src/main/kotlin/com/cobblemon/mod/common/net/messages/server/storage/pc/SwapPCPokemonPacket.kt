@@ -14,6 +14,10 @@ import com.cobblemon.mod.common.api.storage.pc.PCPosition.Companion.readPCPositi
 import com.cobblemon.mod.common.api.storage.pc.PCPosition.Companion.writePCPosition
 import com.cobblemon.mod.common.net.serverhandling.storage.pc.SwapPCPokemonHandler
 import com.cobblemon.mod.common.util.cobblemonResource
+import com.cobblemon.mod.common.util.readPCPosition
+import com.cobblemon.mod.common.util.readUuid
+import com.cobblemon.mod.common.util.writePCPosition
+import com.cobblemon.mod.common.util.writeUuid
 import io.netty.buffer.ByteBuf
 import net.minecraft.network.PacketByteBuf
 import java.util.UUID
@@ -37,6 +41,6 @@ class SwapPCPokemonPacket(val pokemon1ID: UUID, val position1: PCPosition, val p
 
     companion object {
         val ID = cobblemonResource("swap_pc_pokemon")
-        fun decode(buffer: PacketByteBuf) = SwapPCPokemonPacket(buffer.readUuid(), buffer.readPCPosition(), buffer.readUuid(), buffer.readPCPosition())
+        fun decode(buffer: ByteBuf) = SwapPCPokemonPacket(buffer.readUuid(), buffer.readPCPosition(), buffer.readUuid(), buffer.readPCPosition())
     }
 }

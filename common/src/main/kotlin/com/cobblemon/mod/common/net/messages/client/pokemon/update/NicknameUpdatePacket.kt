@@ -11,14 +11,16 @@ package com.cobblemon.mod.common.net.messages.client.pokemon.update
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.readText
+import com.cobblemon.mod.common.util.writeNullable
 import com.cobblemon.mod.common.util.writeText
+import io.netty.buffer.ByteBuf
 import net.minecraft.network.PacketByteBuf
 import net.minecraft.text.MutableText
 
 class NicknameUpdatePacket(pokemon: () -> Pokemon, value: MutableText?): SingleUpdatePacket<MutableText?, NicknameUpdatePacket>(pokemon, value) {
     override val id = ID
 
-    override fun encodeValue(buffer: PacketByteBuf) {
+    override fun encodeValue(buffer: ByteBuf) {
         buffer.writeNullable(value) { _, v -> buffer.writeText(value) }
     }
 
