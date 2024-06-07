@@ -12,6 +12,9 @@ import com.cobblemon.mod.common.api.abilities.Abilities
 import com.cobblemon.mod.common.api.abilities.AbilityTemplate
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.util.cobblemonResource
+import com.cobblemon.mod.common.util.readString
+import com.cobblemon.mod.common.util.writeString
+import io.netty.buffer.ByteBuf
 import net.minecraft.network.PacketByteBuf
 
 /**
@@ -24,7 +27,7 @@ class AbilityUpdatePacket(pokemon: () -> Pokemon, ability: AbilityTemplate) : Si
 
     override val id = ID
 
-    override fun encodeValue(buffer: PacketByteBuf) {
+    override fun encodeValue(buffer: ByteBuf) {
         buffer.writeString(this.value.name)
     }
 
@@ -34,7 +37,7 @@ class AbilityUpdatePacket(pokemon: () -> Pokemon, ability: AbilityTemplate) : Si
 
     companion object {
         val ID = cobblemonResource("ability_update")
-        fun decode(buffer: PacketByteBuf): AbilityUpdatePacket {
+        fun decode(buffer: ByteBuf): AbilityUpdatePacket {
             val pokemon = decodePokemon(buffer)
             val ability = Abilities.get(buffer.readString())!!
             return AbilityUpdatePacket(pokemon, ability)
