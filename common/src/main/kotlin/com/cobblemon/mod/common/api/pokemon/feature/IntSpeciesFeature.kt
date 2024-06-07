@@ -18,9 +18,12 @@ import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.util.asTranslated
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.readList
+import com.cobblemon.mod.common.util.readIdentifier
+import com.cobblemon.mod.common.util.readIdentifier
 import com.cobblemon.mod.common.util.readNullable
 import com.cobblemon.mod.common.util.readString
 import com.cobblemon.mod.common.util.writeCollection
+import com.cobblemon.mod.common.util.writeIdentifier
 import com.cobblemon.mod.common.util.writeNullable
 import com.cobblemon.mod.common.util.writeString
 import com.google.gson.JsonObject

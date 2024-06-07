@@ -10,6 +10,8 @@ package com.cobblemon.mod.common.api.pokemon.feature
 
 import com.cobblemon.mod.common.api.properties.CustomPokemonProperty
 import com.cobblemon.mod.common.pokemon.Pokemon
+import com.cobblemon.mod.common.util.readString
+import com.cobblemon.mod.common.util.writeString
 import com.google.gson.JsonObject
 import io.netty.buffer.ByteBuf
 import net.minecraft.nbt.NbtCompound
