@@ -19,9 +19,11 @@ import com.cobblemon.mod.common.client.particle.ParticleStorm
 import com.cobblemon.mod.common.client.render.MatrixWrapper
 import com.cobblemon.mod.common.client.render.SnowstormParticle
 import com.cobblemon.mod.common.util.asExpressionLike
+import com.cobblemon.mod.common.util.readEnumConstant
 import com.cobblemon.mod.common.util.readIdentifier
 import com.cobblemon.mod.common.util.readNullable
 import com.cobblemon.mod.common.util.readString
+import com.cobblemon.mod.common.util.writeEnumConstant
 import com.cobblemon.mod.common.util.writeIdentifier
 import com.cobblemon.mod.common.util.writeNullable
 import com.cobblemon.mod.common.util.writeString

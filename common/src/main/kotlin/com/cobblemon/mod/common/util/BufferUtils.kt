@@ -138,3 +138,11 @@ fun ByteBuf.writeUuid(uuid: UUID) {
 }
 
 fun ByteBuf.readUuid() = UUID(readLong(), readLong())
+
+fun ByteBuf.writeEnumConstant(value: Enum<*>) {
+    this.writeInt(value.ordinal)
+}
+
+fun <T : Enum<T>> ByteBuf.readEnumConstant(clazz: Class<T>): T {
+    return clazz.getEnumConstants()[this.readInt()]
+}
