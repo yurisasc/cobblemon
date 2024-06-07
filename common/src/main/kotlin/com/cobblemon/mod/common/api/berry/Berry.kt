@@ -24,6 +24,11 @@ import com.cobblemon.mod.common.util.readIdentifier
 import com.cobblemon.mod.common.util.readList
 import com.cobblemon.mod.common.util.readMap
 import com.cobblemon.mod.common.util.writeBox
+import com.cobblemon.mod.common.util.writeCollection
+import com.cobblemon.mod.common.util.writeEnumConstant
+import com.cobblemon.mod.common.util.writeEnumSet
+import com.cobblemon.mod.common.util.writeIdentifier
+import com.cobblemon.mod.common.util.writeMap
 import com.google.gson.annotations.SerializedName
 import io.netty.buffer.ByteBuf
 import java.awt.Color
@@ -251,7 +256,7 @@ class Berry(
         this.matureShape = this.createAndUniteShapes(this.matureShapeBoxes)
     }
 
-    internal fun encode(buffer: PacketByteBuf) {
+    internal fun encode(buffer: ByteBuf) {
         buffer.writeIdentifier(this.identifier)
         buffer.writeInt(this.baseYield.first)
         buffer.writeInt(this.baseYield.last)

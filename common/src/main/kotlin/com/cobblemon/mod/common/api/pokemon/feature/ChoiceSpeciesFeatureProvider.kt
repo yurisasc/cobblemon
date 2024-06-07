@@ -65,7 +65,7 @@ open class ChoiceSpeciesFeatureProvider(
         return null
     }
 
-    override fun invoke(buffer: PacketByteBuf, name: String): StringSpeciesFeature? {
+    override fun invoke(buffer: ByteBuf, name: String): StringSpeciesFeature? {
         return if (name in keys) {
             StringSpeciesFeature(name, "").also { it.decode(buffer) }
         } else {

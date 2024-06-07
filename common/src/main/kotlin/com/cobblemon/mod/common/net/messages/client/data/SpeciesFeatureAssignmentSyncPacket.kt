@@ -10,6 +10,13 @@ package com.cobblemon.mod.common.net.messages.client.data
 
 import com.cobblemon.mod.common.api.pokemon.feature.SpeciesFeatureAssignments
 import com.cobblemon.mod.common.util.cobblemonResource
+import com.cobblemon.mod.common.util.readIdentifier
+import com.cobblemon.mod.common.util.readList
+import com.cobblemon.mod.common.util.readString
+import com.cobblemon.mod.common.util.writeCollection
+import com.cobblemon.mod.common.util.writeIdentifier
+import com.cobblemon.mod.common.util.writeString
+import io.netty.buffer.ByteBuf
 import net.minecraft.network.PacketByteBuf
 import net.minecraft.util.Identifier
 
@@ -23,7 +30,7 @@ class SpeciesFeatureAssignmentSyncPacket(
     data: Map<Identifier, MutableSet<String>>
 ) : DataRegistrySyncPacket<Map.Entry<Identifier, MutableSet<String>>, SpeciesFeatureAssignmentSyncPacket>(data.entries) {
     override val id = ID
-    override fun decodeEntry(buffer: PacketByteBuf): Map.Entry<Identifier, MutableSet<String>> {
+    override fun decodeEntry(buffer: ByteBuf): Map.Entry<Identifier, MutableSet<String>> {
         val key = buffer.readIdentifier()
         val assignments = buffer.readList { buffer.readString() }.toMutableSet()
         return object : Map.Entry<Identifier, MutableSet<String>> {
@@ -32,7 +39,7 @@ class SpeciesFeatureAssignmentSyncPacket(
         }
     }
 
-    override fun encodeEntry(buffer: PacketByteBuf, entry: Map.Entry<Identifier, MutableSet<String>>) {
+    override fun encodeEntry(buffer: ByteBuf, entry: Map.Entry<Identifier, MutableSet<String>>) {
         buffer.writeIdentifier(entry.key)
         buffer.writeCollection(entry.value) { _, value -> buffer.writeString(value) }
     }

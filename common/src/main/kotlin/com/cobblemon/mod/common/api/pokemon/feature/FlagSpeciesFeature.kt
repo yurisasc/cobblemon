@@ -96,7 +96,7 @@ class FlagSpeciesFeatureProvider : SynchronizedSpeciesFeatureProvider<FlagSpecie
     var isAspect = true
     override var visible: Boolean = false
 
-    override fun invoke(buffer: PacketByteBuf, name: String): FlagSpeciesFeature? {
+    override fun invoke(buffer: ByteBuf, name: String): FlagSpeciesFeature? {
         return if (name in keys) {
             FlagSpeciesFeature(name).also { it.decode(buffer) }
         } else {

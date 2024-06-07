@@ -128,7 +128,7 @@ class IntSpeciesFeatureProvider : SynchronizedSpeciesFeatureProvider<IntSpeciesF
     override fun fromString(value: String?) = value?.toIntOrNull()?.takeIf { it in min..max }?.let { IntSpeciesFeature(keys.first(), it) }
 
     override fun examples() = emptyList<String>()
-    override fun invoke(buffer: PacketByteBuf, name: String): IntSpeciesFeature? {
+    override fun invoke(buffer: ByteBuf, name: String): IntSpeciesFeature? {
         return if (name in keys) {
             IntSpeciesFeature(name, buffer.readInt())
         } else {

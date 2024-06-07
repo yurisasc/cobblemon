@@ -10,18 +10,26 @@ package com.cobblemon.mod.common.net.messages.client.data
 
 import com.cobblemon.mod.common.pokemon.properties.PropertiesCompletionProvider
 import com.cobblemon.mod.common.util.cobblemonResource
+import com.cobblemon.mod.common.util.readList
+import com.cobblemon.mod.common.util.readString
+import com.cobblemon.mod.common.util.writeCollection
+import com.cobblemon.mod.common.util.writeString
+import io.netty.buffer.ByteBuf
 import net.minecraft.network.PacketByteBuf
 
 internal class PropertiesCompletionRegistrySyncPacket(suggestions: Collection<PropertiesCompletionProvider.SuggestionHolder>) : DataRegistrySyncPacket<PropertiesCompletionProvider.SuggestionHolder, PropertiesCompletionRegistrySyncPacket>(suggestions) {
 
     override val id = ID
 
-    override fun encodeEntry(buffer: PacketByteBuf, entry: PropertiesCompletionProvider.SuggestionHolder) {
+    override fun encodeEntry(
+        buffer: ByteBuf,
+        entry: PropertiesCompletionProvider.SuggestionHolder
+    ) {
         buffer.writeCollection(entry.keys) { pb, value -> pb.writeString(value) }
         buffer.writeCollection(entry.suggestions) { pb, value -> pb.writeString(value) }
     }
 
-    override fun decodeEntry(buffer: PacketByteBuf): PropertiesCompletionProvider.SuggestionHolder {
+    override fun decodeEntry(buffer: ByteBuf): PropertiesCompletionProvider.SuggestionHolder? {
         val keys = buffer.readList { pb -> pb.readString() }
         val suggestions = buffer.readList { pb -> pb.readString() }
         return PropertiesCompletionProvider.SuggestionHolder(keys, suggestions)

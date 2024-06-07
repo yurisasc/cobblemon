@@ -13,6 +13,13 @@ import com.cobblemon.mod.common.api.fossil.NaturalMaterials
 import com.cobblemon.mod.common.net.messages.client.data.DataRegistrySyncPacket
 import com.cobblemon.mod.common.registry.ItemTagCondition
 import com.cobblemon.mod.common.util.cobblemonResource
+import com.cobblemon.mod.common.util.readIdentifier
+import com.cobblemon.mod.common.util.readNullable
+import com.cobblemon.mod.common.util.readString
+import com.cobblemon.mod.common.util.writeIdentifier
+import com.cobblemon.mod.common.util.writeNullable
+import com.cobblemon.mod.common.util.writeString
+import io.netty.buffer.ByteBuf
 import net.minecraft.network.PacketByteBuf
 
 
@@ -24,13 +31,13 @@ class NaturalMaterialRegistrySyncPacket(naturalMaterials: List<NaturalMaterial>)
 
 
     override val id = ID
-    override fun encodeEntry(buffer: PacketByteBuf, entry: NaturalMaterial) {
-        buffer.writeNullable(entry.item) {pb, type -> pb.writeIdentifier(entry.item)}
+    override fun encodeEntry(buffer: ByteBuf, entry: NaturalMaterial) {
+        buffer.writeNullable(entry.item) {pb, type -> pb.writeIdentifier(entry.item!!)}
         buffer.writeNullable(entry.tag) { pb, type -> pb.writeString(NaturalMaterials.gson.toJson("#" + entry.tag?.tag?.id.toString()) ) }
-        buffer.writeNullable(entry.returnItem) { pb, type -> pb.writeIdentifier(entry.returnItem) }
+        buffer.writeNullable(entry.returnItem) { pb, type -> pb.writeIdentifier(entry.returnItem!!) }
     }
 
-    override fun decodeEntry(buffer: PacketByteBuf): NaturalMaterial {
+    override fun decodeEntry(buffer: ByteBuf): NaturalMaterial {
         return NaturalMaterial (
                 content = 0, // Server handles incrementing of the fossil machine
                 item = buffer.readNullable { pb -> pb.readIdentifier() },
