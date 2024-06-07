@@ -11,8 +11,9 @@ package com.cobblemon.mod.common.net.messages.client.ui
 import com.cobblemon.mod.common.api.net.NetworkPacket
 import com.cobblemon.mod.common.client.net.gui.InteractPokemonUIPacketHandler
 import com.cobblemon.mod.common.util.cobblemonResource
+import com.cobblemon.mod.common.util.readUuid
+import com.cobblemon.mod.common.util.writeUuid
 import io.netty.buffer.ByteBuf
-import net.minecraft.network.PacketByteBuf
 import java.util.UUID
 
 /**
@@ -34,6 +35,6 @@ class InteractPokemonUIPacket(val pokemonID: UUID, val canMountShoulder: Boolean
 
     companion object {
         val ID = cobblemonResource("interact_pokemon_ui")
-        fun decode(buffer: PacketByteBuf) = InteractPokemonUIPacket(buffer.readUuid(), buffer.readBoolean())
+        fun decode(buffer: ByteBuf) = InteractPokemonUIPacket(buffer.readUuid(), buffer.readBoolean())
     }
 }

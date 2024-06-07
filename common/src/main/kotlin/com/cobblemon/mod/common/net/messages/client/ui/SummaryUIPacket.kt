@@ -12,8 +12,9 @@ import com.cobblemon.mod.common.api.net.NetworkPacket
 import com.cobblemon.mod.common.net.messages.PokemonDTO
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.util.cobblemonResource
+import com.cobblemon.mod.common.util.readList
+import com.cobblemon.mod.common.util.writeCollection
 import io.netty.buffer.ByteBuf
-import net.minecraft.network.PacketByteBuf
 
 class SummaryUIPacket internal constructor(val pokemon: List<PokemonDTO>, val editable: Boolean): NetworkPacket<SummaryUIPacket> {
 
@@ -28,6 +29,6 @@ class SummaryUIPacket internal constructor(val pokemon: List<PokemonDTO>, val ed
 
     companion object {
         val ID = cobblemonResource("summary_ui")
-        fun decode(buffer: PacketByteBuf) = SummaryUIPacket(buffer.readList { PokemonDTO().apply { decode(it) } }, buffer.readBoolean())
+        fun decode(buffer: ByteBuf) = SummaryUIPacket(buffer.readList { PokemonDTO().apply { decode(it) } }, buffer.readBoolean())
     }
 }

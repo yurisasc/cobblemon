@@ -13,8 +13,11 @@ import com.cobblemon.mod.common.api.moves.Moves
 import com.cobblemon.mod.common.api.net.NetworkPacket
 import com.cobblemon.mod.common.net.serverhandling.storage.BenchMoveHandler
 import com.cobblemon.mod.common.util.cobblemonResource
+import com.cobblemon.mod.common.util.readString
+import com.cobblemon.mod.common.util.readUuid
+import com.cobblemon.mod.common.util.writeString
+import com.cobblemon.mod.common.util.writeUuid
 import io.netty.buffer.ByteBuf
-import net.minecraft.network.PacketByteBuf
 import java.util.UUID
 
 /**
@@ -40,7 +43,7 @@ class BenchMovePacket(val isParty: Boolean, val uuid: UUID, val oldMove: MoveTem
 
     companion object {
         val ID = cobblemonResource("bench_move")
-        fun decode(buffer: PacketByteBuf): BenchMovePacket {
+        fun decode(buffer: ByteBuf): BenchMovePacket {
             val isParty = buffer.readBoolean()
             val uuid = buffer.readUuid()
             val oldMove = Moves.getByName(buffer.readString())!!

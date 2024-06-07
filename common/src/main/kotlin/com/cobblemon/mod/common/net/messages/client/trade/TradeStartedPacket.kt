@@ -14,19 +14,12 @@ import com.cobblemon.mod.common.net.IntSize
 import com.cobblemon.mod.common.pokemon.Gender
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.pokemon.RenderablePokemon
-import com.cobblemon.mod.common.util.cobblemonResource
-import com.cobblemon.mod.common.util.readItemStack
-import com.cobblemon.mod.common.util.readSizedInt
-import com.cobblemon.mod.common.util.readText
-import com.cobblemon.mod.common.util.writeItemStack
-import com.cobblemon.mod.common.util.writeSizedInt
-import com.cobblemon.mod.common.util.writeText
+import com.cobblemon.mod.common.util.*
 import io.netty.buffer.ByteBuf
+import java.util.UUID
 import net.minecraft.item.ItemStack
-import net.minecraft.network.PacketByteBuf
 import net.minecraft.text.MutableText
 import net.minecraft.util.Identifier
-import java.util.UUID
 
 /**
  * A packet that initializes a trade with a player. Information about the other party is included.
@@ -51,7 +44,7 @@ class TradeStartedPacket(
         val tradeable: Boolean
     ) {
         companion object {
-            fun decode(buffer: PacketByteBuf) = TradeablePokemon(
+            fun decode(buffer: ByteBuf) = TradeablePokemon(
                 buffer.readUuid(),
                 buffer.readIdentifier(),
                 buffer.readList { it.readString() }.toSet(),
@@ -72,7 +65,7 @@ class TradeStartedPacket(
             pokemon.tradeable
         )
 
-        fun encode(buffer: PacketByteBuf) {
+        fun encode(buffer: ByteBuf) {
             buffer.writeUuid(pokemonId)
             buffer.writeIdentifier(species)
             buffer.writeCollection(aspects) { _, v -> buffer.writeString(v) }
@@ -90,7 +83,7 @@ class TradeStartedPacket(
 
     companion object {
         val ID = cobblemonResource("trade_started")
-        fun decode(buffer: PacketByteBuf) = TradeStartedPacket(
+        fun decode(buffer: ByteBuf) = TradeStartedPacket(
             buffer.readUuid(),
             buffer.readText().copy(),
             buffer.readList { buffer.readNullable { TradeablePokemon.decode(buffer) } }
