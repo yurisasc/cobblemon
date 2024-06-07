@@ -10,12 +10,15 @@ package com.cobblemon.mod.common.net.messages.client.pokemon.update
 
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.util.cobblemonResource
+import com.cobblemon.mod.common.util.writeNullable
+import com.cobblemon.mod.common.util.writeString
+import io.netty.buffer.ByteBuf
 import net.minecraft.network.PacketByteBuf
 
 class OriginalTrainerUpdatePacket(pokemon: () -> Pokemon, username: String?) : SingleUpdatePacket<String?, OriginalTrainerUpdatePacket>(pokemon, username) {
     override val id = ID
 
-    override fun encodeValue(buffer: PacketByteBuf) {
+    override fun encodeValue(buffer: ByteBuf) {
         buffer.writeNullable(this.value) { _, v -> buffer.writeString(v) }
     }
 

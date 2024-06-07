@@ -11,11 +11,12 @@ package com.cobblemon.mod.common.net.messages.client.pokemon.update
 import com.cobblemon.mod.common.api.moves.BenchedMoves
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.util.cobblemonResource
+import io.netty.buffer.ByteBuf
 import net.minecraft.network.PacketByteBuf
 
 class BenchedMovesUpdatePacket(pokemon: () -> Pokemon, value: BenchedMoves): SingleUpdatePacket<BenchedMoves, BenchedMovesUpdatePacket>(pokemon, value) {
     override val id = ID
-    override fun encodeValue(buffer: PacketByteBuf) {
+    override fun encodeValue(buffer: ByteBuf) {
         this.value.saveToBuffer(buffer)
     }
 

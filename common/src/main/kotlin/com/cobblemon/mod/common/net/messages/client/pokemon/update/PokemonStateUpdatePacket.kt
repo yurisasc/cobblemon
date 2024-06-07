@@ -11,13 +11,14 @@ package com.cobblemon.mod.common.net.messages.client.pokemon.update
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.pokemon.activestate.PokemonState
 import com.cobblemon.mod.common.util.cobblemonResource
+import io.netty.buffer.ByteBuf
 import net.minecraft.network.PacketByteBuf
 
 class PokemonStateUpdatePacket(pokemon: () -> Pokemon, value: PokemonState): SingleUpdatePacket<PokemonState, PokemonStateUpdatePacket>(pokemon, value) {
 
     override val id = ID
 
-    override fun encodeValue(buffer: PacketByteBuf) {
+    override fun encodeValue(buffer: ByteBuf) {
         value.writeToBuffer(buffer)
     }
 

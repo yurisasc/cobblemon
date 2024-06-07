@@ -12,12 +12,18 @@ import com.cobblemon.mod.common.api.net.NetworkPacket
 import com.cobblemon.mod.common.api.pasture.PasturePermissions
 import com.cobblemon.mod.common.net.IntSize
 import com.cobblemon.mod.common.util.cobblemonResource
+import com.cobblemon.mod.common.util.readIdentifier
 import com.cobblemon.mod.common.util.readItemStack
+import com.cobblemon.mod.common.util.readList
 import com.cobblemon.mod.common.util.readSizedInt
+import com.cobblemon.mod.common.util.readString
 import com.cobblemon.mod.common.util.readText
 import com.cobblemon.mod.common.util.readUuid
+import com.cobblemon.mod.common.util.writeCollection
+import com.cobblemon.mod.common.util.writeIdentifier
 import com.cobblemon.mod.common.util.writeItemStack
 import com.cobblemon.mod.common.util.writeSizedInt
+import com.cobblemon.mod.common.util.writeString
 import com.cobblemon.mod.common.util.writeText
 import com.cobblemon.mod.common.util.writeUuid
 import io.netty.buffer.ByteBuf
@@ -45,7 +51,7 @@ class OpenPasturePacket(val pcId: UUID, val pastureId: UUID, val limit: Int, val
         val entityKnown: Boolean
     ) {
         companion object {
-            fun decode(buffer: PacketByteBuf): PasturePokemonDataDTO {
+            fun decode(buffer: ByteBuf): PasturePokemonDataDTO {
                 val pokemonId = buffer.readUuid()
                 val playerId = buffer.readUuid()
                 val displayName = buffer.readText()
@@ -68,7 +74,7 @@ class OpenPasturePacket(val pcId: UUID, val pastureId: UUID, val limit: Int, val
             }
         }
 
-        fun encode(buffer: PacketByteBuf) {
+        fun encode(buffer: ByteBuf) {
             buffer.writeUuid(pokemonId)
             buffer.writeUuid(playerId)
             buffer.writeText(displayName)

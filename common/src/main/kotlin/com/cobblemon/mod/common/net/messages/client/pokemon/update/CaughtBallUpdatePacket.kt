@@ -12,11 +12,13 @@ import com.cobblemon.mod.common.api.pokeball.PokeBalls
 import com.cobblemon.mod.common.pokeball.PokeBall
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.util.cobblemonResource
+import com.cobblemon.mod.common.util.writeIdentifier
+import io.netty.buffer.ByteBuf
 import net.minecraft.network.PacketByteBuf
 
 class CaughtBallUpdatePacket(pokemon: () -> Pokemon, value: PokeBall): SingleUpdatePacket<PokeBall, CaughtBallUpdatePacket>(pokemon, value) {
     override val id = ID
-    override fun encodeValue(buffer: PacketByteBuf) {
+    override fun encodeValue(buffer: ByteBuf) {
         buffer.writeIdentifier(this.value.name)
     }
 

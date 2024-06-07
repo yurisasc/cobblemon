@@ -10,11 +10,14 @@ package com.cobblemon.mod.common.net.messages.client.pokemon.update
 
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.util.cobblemonResource
+import com.cobblemon.mod.common.util.writeCollection
+import com.cobblemon.mod.common.util.writeString
+import io.netty.buffer.ByteBuf
 import net.minecraft.network.PacketByteBuf
 
 class AspectsUpdatePacket(pokemon: () -> Pokemon, value: Set<String>): SingleUpdatePacket<Set<String>, AspectsUpdatePacket>(pokemon, value) {
     override val id = ID
-    override fun encodeValue(buffer: PacketByteBuf) {
+    override fun encodeValue(buffer: ByteBuf) {
         buffer.writeCollection(this.value) { pb, value -> pb.writeString(value) }
     }
 
