@@ -29,7 +29,7 @@ import net.minecraft.world.gen.placementmodifier.PlacementModifier
  */
 class BeneathHeightmapPlacementModifier(val heightmap: Heightmap.Type, val offset: Int, val reach: Int?) : PlacementModifier() {
     companion object {
-        val MODIFIER_CODEC: MapCodec<BeneathHeightmapPlacementModifier> = RecordCodecBuilder.create { instance ->
+        val MODIFIER_CODEC: MapCodec<BeneathHeightmapPlacementModifier> = RecordCodecBuilder.mapCodec { instance ->
             instance
                 .group(
                     Heightmap.Type.CODEC.fieldOf("heightmap").forGetter { it.heightmap },

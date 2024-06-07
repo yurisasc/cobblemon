@@ -10,6 +10,7 @@ package com.cobblemon.mod.common.world.predicate
 
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.mojang.serialization.Codec
+import com.mojang.serialization.MapCodec
 import net.minecraft.registry.Registries
 import net.minecraft.registry.Registry
 import net.minecraft.world.gen.blockpredicate.BlockPredicate
@@ -20,7 +21,7 @@ object CobblemonBlockPredicates {
     val ALTITUDE = register("altitude", AltitudePredicate.CODEC)
     val BIOME = register("biome", BiomePredicate.CODEC)
 
-    fun <P : BlockPredicate?> register(id: String, codec: Codec<P>): BlockPredicateType<P> {
+    fun <P : BlockPredicate?> register(id: String, codec: MapCodec<P>): BlockPredicateType<P> {
         return Registry.register(Registries.BLOCK_PREDICATE_TYPE, cobblemonResource(id), BlockPredicateType { codec })
     }
 

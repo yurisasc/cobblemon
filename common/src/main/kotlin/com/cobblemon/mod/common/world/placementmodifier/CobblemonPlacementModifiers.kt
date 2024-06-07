@@ -26,8 +26,8 @@ object CobblemonPlacementModifierTypes {
     @JvmField
     val CONDITIONAL_RARITY_FILTER = register("conditional_rarity_filter", ConditionalRarityFilterPlacementModifier.MODIFIER_CODEC)
 
-    fun <T : PlacementModifier> register(id: String, codec: Codec<T>): PlacementModifierType<T> {
-        return Registry.register(Registries.PLACEMENT_MODIFIER_TYPE, cobblemonResource(id), PlacementModifierType { MapC })
+    fun <T : PlacementModifier> register(id: String, codec: MapCodec<T>): PlacementModifierType<T> {
+        return Registry.register(Registries.PLACEMENT_MODIFIER_TYPE, cobblemonResource(id), PlacementModifierType { codec })
     }
 
     fun touch() = Unit
