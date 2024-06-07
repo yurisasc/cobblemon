@@ -1,6 +1,10 @@
 package com.cobblemon.mod.common.util
 
+import com.cobblemon.mod.common.api.storage.party.PartyPosition
+import com.cobblemon.mod.common.api.storage.pc.PCPosition
+import com.cobblemon.mod.common.net.IntSize
 import io.netty.buffer.ByteBuf
+import java.util.UUID
 import kotlin.jvm.optionals.getOrNull
 import net.minecraft.entity.EntityDimensions
 import net.minecraft.item.ItemStack
@@ -114,3 +118,23 @@ fun ByteBuf.readIdentifier(): Identifier {
 fun ByteBuf.writeIdentifier(id: Identifier) {
     writeString(id.toString())
 }
+
+fun ByteBuf.writePartyPosition(partyPosition: PartyPosition) {
+    writeSizedInt(IntSize.U_SHORT, partyPosition.slot)
+}
+
+fun ByteBuf.readPartyPosition() = PartyPosition(readSizedInt(IntSize.U_SHORT))
+
+fun ByteBuf.writePCPosition(pcPosition: PCPosition) {
+    writeSizedInt(IntSize.U_SHORT, pcPosition.box)
+    writeSizedInt(IntSize.U_BYTE, pcPosition.slot)
+}
+
+fun ByteBuf.readPCPosition() = PCPosition(readSizedInt(IntSize.U_SHORT), readSizedInt(IntSize.U_BYTE))
+
+fun ByteBuf.writeUuid(uuid: UUID) {
+    writeLong(uuid.mostSignificantBits)
+    writeLong(uuid.leastSignificantBits)
+}
+
+fun ByteBuf.readUuid() = UUID(readLong(), readLong())
