@@ -70,6 +70,8 @@ interface CobblemonImplementation {
      */
     fun registerSoundEvents()
 
+    fun registerDataComponents()
+
     /**
      * TODO
      *

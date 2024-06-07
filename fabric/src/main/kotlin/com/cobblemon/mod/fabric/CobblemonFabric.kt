@@ -193,6 +193,10 @@ object CobblemonFabric : CobblemonImplementation {
         CobblemonSounds.register { identifier, sound -> Registry.register(CobblemonSounds.registry, identifier, sound) }
     }
 
+    override fun registerDataComponents() {
+        CobblemonItemComponents.register()
+    }
+
     override fun registerItems() {
         CobblemonItems.register { identifier, item -> Registry.register(CobblemonItems.registry, identifier, item) }
         CobblemonItemGroups.register { provider ->
