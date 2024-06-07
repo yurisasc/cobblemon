@@ -9,6 +9,8 @@
 package com.cobblemon.mod.fabric.client
 
 import com.cobblemon.mod.common.CobblemonClientImplementation
+import com.cobblemon.mod.common.CobblemonNetwork
+import com.cobblemon.mod.common.NetworkManager
 import com.cobblemon.mod.common.client.CobblemonClient
 import com.cobblemon.mod.common.client.CobblemonClient.reloadCodedAssets
 import com.cobblemon.mod.common.client.keybind.CobblemonKeyBinds
@@ -64,7 +66,7 @@ class CobblemonFabricClient: ClientModInitializer, CobblemonClientImplementation
         registerParticleFactory(CobblemonParticles.SNOWSTORM_PARTICLE_TYPE, SnowstormParticleType::Factory)
         CobblemonClient.initialize(this)
 
-        CobblemonFabric.networkManager.registerClientBound()
+        CobblemonNetwork.registerClientBoundHandlers()
 
         ResourceManagerHelper.get(ResourceType.CLIENT_RESOURCES).registerReloadListener(object : IdentifiableResourceReloadListener {
             override fun reload(

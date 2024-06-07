@@ -8,20 +8,19 @@
 
 package com.cobblemon.mod.fabric.net
 
+import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.CobblemonNetwork
 import com.cobblemon.mod.common.NetworkManager
 import com.cobblemon.mod.common.api.net.ClientNetworkPacketHandler
 import com.cobblemon.mod.common.api.net.NetworkPacket
 import com.cobblemon.mod.common.api.net.ServerNetworkPacketHandler
-import io.netty.buffer.ByteBuf
 import kotlin.reflect.KClass
-import net.fabricmc.fabric.api.client.networking.v1.ClientConfigurationNetworking
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking
 import net.minecraft.client.MinecraftClient
 import net.minecraft.network.packet.Packet
-import net.minecraft.network.PacketByteBuf
+import net.minecraft.network.RegistryByteBuf
 import net.minecraft.network.codec.PacketCodec
 import net.minecraft.network.listener.ClientPlayPacketListener
 import net.minecraft.network.packet.CustomPayload
@@ -31,52 +30,53 @@ import net.minecraft.util.Identifier
 
 object CobblemonFabricNetworkManager : NetworkManager {
 
-    override fun registerClientBound() {
-        CobblemonNetwork.registerClientBound()
-    }
 
-    override fun registerServerBound() {
-        CobblemonNetwork.registerServerBound()
-    }
-
-    override fun <T : NetworkPacket<T>> createClientBound(
+    override fun <T : NetworkPacket<T>> createServerBoundPayload(
         identifier: Identifier,
         kClass: KClass<T>,
-        encoder: (T, PacketByteBuf) -> Unit,
-        decoder: (PacketByteBuf) -> T,
-        handler: ClientNetworkPacketHandler<T>
-    ) {
-        val id = CustomPayload.Id<T>(identifier)
-        PayloadTypeRegistry.playS2C().register(id, PacketCodec.of(encoder, decoder))
-        ClientPlayNetworking.registerGlobalReceiver(id) { msg, context ->
-            handler.handle(msg, context.client())
-        }
-    }
-
-    override fun <T : NetworkPacket<T>> createServerBound(
-        identifier: Identifier,
-        kClass: KClass<T>,
-        encoder: (T, PacketByteBuf) -> Unit,
-        decoder: (PacketByteBuf) -> T,
+        encoder: (T, RegistryByteBuf) -> Unit,
+        decoder: (RegistryByteBuf) -> T,
         handler: ServerNetworkPacketHandler<T>
     ) {
-        val id = CustomPayload.Id<T>(identifier)
-        PayloadTypeRegistry.playC2S().register(id, PacketCodec.of(encoder, decoder))
-        ServerPlayNetworking.registerGlobalReceiver(id) { msg, context ->
-            handler.handle(msg, context.player().server, context.player())
+        PayloadTypeRegistry.playS2C().register(CustomPayload.id(identifier.toString()), PacketCodec.of(encoder, decoder))
+    }
+
+    override fun <T : NetworkPacket<T>> createServerBoundHandler(
+        identifier: Identifier,
+        handler: (T, MinecraftServer, ServerPlayerEntity) -> Unit
+    ) {
+        ServerPlayNetworking.registerGlobalReceiver(CustomPayload.id(identifier.toString())) { obj, context ->
+            val newObj = obj as? T
+            if (newObj == null) {
+                Cobblemon.LOGGER.error("Somehow the packet we're handling didnt match the type expected?")
+                return@registerGlobalReceiver
+            }
+            handler.invoke(newObj, context.player().server, context.player())
         }
     }
 
-    private fun <T : NetworkPacket<*>> createServerBoundHandler(
-        handler: (T, MinecraftServer, ServerPlayerEntity) -> Unit
-    ) = ServerPlayNetworking.PlayPayloadHandler<T> { payload, context ->
-        handler(payload, context.player().server, context.player())
+    override fun <T : NetworkPacket<T>> createClientBoundPayload(
+        identifier: Identifier,
+        kClass: KClass<T>,
+        encoder: (T, RegistryByteBuf) -> Unit,
+        decoder: (RegistryByteBuf) -> T,
+        handler: ClientNetworkPacketHandler<T>
+    ) {
+        PayloadTypeRegistry.playS2C().register(CustomPayload.id(identifier.toString()), PacketCodec.of(encoder, decoder))
     }
 
-    private fun <T : NetworkPacket<*>> createClientBoundHandler(
+    override fun <T : NetworkPacket<T>> createClientBoundHandler(
+        identifier: Identifier,
         handler: (T, MinecraftClient) -> Unit
-    ) = ClientPlayNetworking.PlayPayloadHandler<T> { payload, context ->
-        handler(payload, context.client())
+    ) {
+        ClientPlayNetworking.registerGlobalReceiver(CustomPayload.id(identifier.toString())) { obj, context ->
+            val newObj = obj as? T
+            if (newObj == null) {
+                Cobblemon.LOGGER.error("Somehow the packet we're handling didnt match the type expected?")
+                return@registerGlobalReceiver
+            }
+            handler.invoke(newObj, MinecraftClient.getInstance())
+        }
     }
 
     override fun sendPacketToPlayer(player: ServerPlayerEntity, packet: NetworkPacket<*>) {

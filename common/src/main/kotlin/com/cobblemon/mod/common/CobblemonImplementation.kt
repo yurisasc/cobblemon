@@ -16,9 +16,10 @@ import com.mojang.brigadier.arguments.ArgumentType
 import kotlin.reflect.KClass
 import net.minecraft.advancement.criterion.Criterion
 import net.minecraft.block.ComposterBlock
+import net.minecraft.client.MinecraftClient
 import net.minecraft.command.argument.serialize.ArgumentSerializer
 import net.minecraft.item.ItemConvertible
-import net.minecraft.network.PacketByteBuf
+import net.minecraft.network.RegistryByteBuf
 import net.minecraft.network.listener.ClientPlayPacketListener
 import net.minecraft.network.packet.Packet
 import net.minecraft.registry.RegistryKey
@@ -222,13 +223,13 @@ enum class ModAPI {
 
 interface NetworkManager {
 
-    fun registerClientBound()
+    fun <T: NetworkPacket<T>> createClientBoundPayload(identifier: Identifier, kClass: KClass<T>, encoder: (T, RegistryByteBuf) -> Unit, decoder: (RegistryByteBuf) -> T, handler: ClientNetworkPacketHandler<T>)
 
-    fun registerServerBound()
+    fun <T: NetworkPacket<T>> createClientBoundHandler(identifier: Identifier, handler: (T, MinecraftClient) -> Unit)
 
-    fun <T: NetworkPacket<T>> createClientBound(identifier: Identifier, kClass: KClass<T>, encoder: (T, PacketByteBuf) -> Unit, decoder: (PacketByteBuf) -> T, handler: ClientNetworkPacketHandler<T>)
+    fun <T: NetworkPacket<T>> createServerBoundPayload(identifier: Identifier, kClass: KClass<T>, encoder: (T, RegistryByteBuf) -> Unit, decoder: (RegistryByteBuf) -> T, handler: ServerNetworkPacketHandler<T>)
 
-    fun <T: NetworkPacket<T>> createServerBound(identifier: Identifier, kClass: KClass<T>, encoder: (T, PacketByteBuf) -> Unit, decoder: (PacketByteBuf) -> T, handler: ServerNetworkPacketHandler<T>)
+    fun <T: NetworkPacket<T>> createServerBoundHandler(identifier: Identifier, handler: (T, MinecraftServer, ServerPlayerEntity) -> Unit)
 
     fun sendPacketToPlayer(player: ServerPlayerEntity, packet: NetworkPacket<*>)
 

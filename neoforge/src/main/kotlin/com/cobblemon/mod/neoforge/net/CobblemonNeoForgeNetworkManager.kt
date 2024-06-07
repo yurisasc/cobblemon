@@ -31,7 +31,7 @@ object CobblemonNeoForgeNetworkManager : NetworkManager {
     private var id = 0
     var registrar: PayloadRegistrar? = null
 
-    override fun registerClientBound() {
+    override fun registerClientBoundHandlers() {
         CobblemonNetwork.registerClientBound()
     }
 

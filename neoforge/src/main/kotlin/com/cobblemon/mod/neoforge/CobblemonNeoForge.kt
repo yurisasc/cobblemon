@@ -151,7 +151,7 @@ class CobblemonNeoForge : CobblemonImplementation {
         (networkManager as CobblemonNeoForgeNetworkManager).registrar = event
             .registrar(Cobblemon.MODID)
             .versioned(CobblemonNeoForgeNetworkManager.PROTOCOL_VERSION)
-        this.networkManager.registerClientBound()
+        this.networkManager.registerClientBoundHandlers()
         this.networkManager.registerServerBound()
         networkManager.registrar = null
     }
