@@ -12,7 +12,6 @@ import com.cobblemon.mod.common.api.moves.MoveSet
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.util.cobblemonResource
 import io.netty.buffer.ByteBuf
-import net.minecraft.network.PacketByteBuf
 
 class MoveSetUpdatePacket(pokemon: () -> Pokemon, value: MoveSet) : SingleUpdatePacket<MoveSet, MoveSetUpdatePacket>(pokemon, value) {
     override val id = ID
@@ -25,6 +24,6 @@ class MoveSetUpdatePacket(pokemon: () -> Pokemon, value: MoveSet) : SingleUpdate
     }
     companion object {
         val ID = cobblemonResource("moveset_update")
-        fun decode(buffer: PacketByteBuf) = MoveSetUpdatePacket(decodePokemon(buffer), MoveSet().apply { loadFromBuffer(buffer) })
+        fun decode(buffer: ByteBuf) = MoveSetUpdatePacket(decodePokemon(buffer), MoveSet().apply { loadFromBuffer(buffer) })
     }
 }

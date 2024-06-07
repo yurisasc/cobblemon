@@ -12,9 +12,9 @@ import com.cobblemon.mod.common.api.pokeball.PokeBalls
 import com.cobblemon.mod.common.pokeball.PokeBall
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.util.cobblemonResource
+import com.cobblemon.mod.common.util.readIdentifier
 import com.cobblemon.mod.common.util.writeIdentifier
 import io.netty.buffer.ByteBuf
-import net.minecraft.network.PacketByteBuf
 
 class CaughtBallUpdatePacket(pokemon: () -> Pokemon, value: PokeBall): SingleUpdatePacket<PokeBall, CaughtBallUpdatePacket>(pokemon, value) {
     override val id = ID
@@ -28,7 +28,7 @@ class CaughtBallUpdatePacket(pokemon: () -> Pokemon, value: PokeBall): SingleUpd
 
     companion object {
         val ID = cobblemonResource("caught_ball_update")
-        fun decode(buffer: PacketByteBuf): CaughtBallUpdatePacket {
+        fun decode(buffer: ByteBuf): CaughtBallUpdatePacket {
             val pokemon = decodePokemon(buffer)
             val pokeBall = PokeBalls.getPokeBall(buffer.readIdentifier()) ?: PokeBalls.POKE_BALL
             return CaughtBallUpdatePacket(pokemon, pokeBall)

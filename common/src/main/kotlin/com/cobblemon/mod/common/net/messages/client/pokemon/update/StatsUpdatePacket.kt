@@ -13,7 +13,6 @@ import com.cobblemon.mod.common.pokemon.IVs
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.util.cobblemonResource
 import io.netty.buffer.ByteBuf
-import net.minecraft.network.PacketByteBuf
 
 /**
  * Packet used for when EVs have changed.
@@ -33,7 +32,7 @@ class EVsUpdatePacket(pokemon: () -> Pokemon, eVs: EVs) : SingleUpdatePacket<EVs
     }
     companion object {
         val ID = cobblemonResource("ev_update")
-        fun decode(buffer: PacketByteBuf) = EVsUpdatePacket(decodePokemon(buffer), EVs().apply { loadFromBuffer(buffer) })
+        fun decode(buffer: ByteBuf) = EVsUpdatePacket(decodePokemon(buffer), EVs().apply { loadFromBuffer(buffer) })
     }
 }
 

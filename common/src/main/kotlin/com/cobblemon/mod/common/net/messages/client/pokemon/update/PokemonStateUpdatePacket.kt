@@ -12,7 +12,6 @@ import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.pokemon.activestate.PokemonState
 import com.cobblemon.mod.common.util.cobblemonResource
 import io.netty.buffer.ByteBuf
-import net.minecraft.network.PacketByteBuf
 
 class PokemonStateUpdatePacket(pokemon: () -> Pokemon, value: PokemonState): SingleUpdatePacket<PokemonState, PokemonStateUpdatePacket>(pokemon, value) {
 
@@ -26,7 +25,7 @@ class PokemonStateUpdatePacket(pokemon: () -> Pokemon, value: PokemonState): Sin
 
     companion object {
         val ID = cobblemonResource("state_update")
-        fun decode(buffer: PacketByteBuf): PokemonStateUpdatePacket {
+        fun decode(buffer: ByteBuf): PokemonStateUpdatePacket {
             val pokemon = decodePokemon(buffer)
             val state = PokemonState.fromBuffer(buffer)
             return PokemonStateUpdatePacket(pokemon, state)

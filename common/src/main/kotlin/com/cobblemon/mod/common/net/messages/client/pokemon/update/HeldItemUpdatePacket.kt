@@ -12,14 +12,14 @@ import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.readItemStack
 import com.cobblemon.mod.common.util.writeItemStack
+import io.netty.buffer.ByteBuf
 import net.minecraft.item.ItemStack
-import net.minecraft.network.PacketByteBuf
 
 class HeldItemUpdatePacket(pokemon: () -> Pokemon, value: ItemStack): SingleUpdatePacket<ItemStack, HeldItemUpdatePacket>(pokemon, value) {
 
     override val id = ID
 
-    override fun encodeValue(buffer: PacketByteBuf) {
+    override fun encodeValue(buffer: ByteBuf) {
         buffer.writeItemStack(this.value)
     }
 
@@ -27,7 +27,7 @@ class HeldItemUpdatePacket(pokemon: () -> Pokemon, value: ItemStack): SingleUpda
 
     companion object {
         val ID = cobblemonResource("held_item_update")
-        fun decode(buffer: PacketByteBuf): HeldItemUpdatePacket {
+        fun decode(buffer: ByteBuf): HeldItemUpdatePacket {
             val pokemon = decodePokemon(buffer)
             val stack = buffer.readItemStack()
             return HeldItemUpdatePacket(pokemon, stack)

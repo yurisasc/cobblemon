@@ -12,7 +12,6 @@ import com.cobblemon.mod.common.api.moves.BenchedMoves
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.util.cobblemonResource
 import io.netty.buffer.ByteBuf
-import net.minecraft.network.PacketByteBuf
 
 class BenchedMovesUpdatePacket(pokemon: () -> Pokemon, value: BenchedMoves): SingleUpdatePacket<BenchedMoves, BenchedMovesUpdatePacket>(pokemon, value) {
     override val id = ID
@@ -29,7 +28,7 @@ class BenchedMovesUpdatePacket(pokemon: () -> Pokemon, value: BenchedMoves): Sin
 
     companion object {
         val ID = cobblemonResource("benched_moves_update")
-        fun decode(buffer: PacketByteBuf): BenchedMovesUpdatePacket {
+        fun decode(buffer: ByteBuf): BenchedMovesUpdatePacket {
             val pokemon = decodePokemon(buffer)
             val benchedMoves = BenchedMoves().apply { loadFromBuffer(buffer) }
             return BenchedMovesUpdatePacket(pokemon, benchedMoves)

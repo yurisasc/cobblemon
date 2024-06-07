@@ -10,10 +10,11 @@ package com.cobblemon.mod.common.net.messages.client.pokemon.update
 
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.util.cobblemonResource
+import com.cobblemon.mod.common.util.readNullable
+import com.cobblemon.mod.common.util.readString
 import com.cobblemon.mod.common.util.writeNullable
 import com.cobblemon.mod.common.util.writeString
 import io.netty.buffer.ByteBuf
-import net.minecraft.network.PacketByteBuf
 
 class OriginalTrainerUpdatePacket(pokemon: () -> Pokemon, username: String?) : SingleUpdatePacket<String?, OriginalTrainerUpdatePacket>(pokemon, username) {
     override val id = ID
@@ -28,7 +29,7 @@ class OriginalTrainerUpdatePacket(pokemon: () -> Pokemon, username: String?) : S
 
     companion object {
         val ID = cobblemonResource("original_trainer_update")
-        fun decode(buffer: PacketByteBuf): OriginalTrainerUpdatePacket {
+        fun decode(buffer: ByteBuf): OriginalTrainerUpdatePacket {
             val pokemon = decodePokemon(buffer)
             val originalTrainer = buffer.readNullable { buffer.readString() }
             return OriginalTrainerUpdatePacket(pokemon, originalTrainer)
