@@ -10,8 +10,9 @@ package com.cobblemon.mod.common.net.messages.server.callback.partymove
 
 import com.cobblemon.mod.common.api.net.NetworkPacket
 import com.cobblemon.mod.common.util.cobblemonResource
+import com.cobblemon.mod.common.util.readUuid
+import com.cobblemon.mod.common.util.writeUuid
 import io.netty.buffer.ByteBuf
-import net.minecraft.network.PacketByteBuf
 import java.util.UUID
 
 /**
@@ -23,7 +24,7 @@ import java.util.UUID
 class PartyMoveSelectCancelledPacket(val uuid: UUID) : NetworkPacket<PartyMoveSelectCancelledPacket> {
     companion object {
         val ID = cobblemonResource("party_move_select_cancelled")
-        fun decode(buffer: PacketByteBuf) = PartyMoveSelectCancelledPacket(buffer.readUuid())
+        fun decode(buffer: ByteBuf) = PartyMoveSelectCancelledPacket(buffer.readUuid())
     }
 
     override val id = ID

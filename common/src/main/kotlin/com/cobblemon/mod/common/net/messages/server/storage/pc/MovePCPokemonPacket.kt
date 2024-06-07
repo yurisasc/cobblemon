@@ -10,12 +10,13 @@ package com.cobblemon.mod.common.net.messages.server.storage.pc
 
 import com.cobblemon.mod.common.api.net.NetworkPacket
 import com.cobblemon.mod.common.api.storage.pc.PCPosition
-import com.cobblemon.mod.common.api.storage.pc.PCPosition.Companion.readPCPosition
-import com.cobblemon.mod.common.api.storage.pc.PCPosition.Companion.writePCPosition
 import com.cobblemon.mod.common.net.serverhandling.storage.pc.MovePCPokemonHandler
 import com.cobblemon.mod.common.util.cobblemonResource
+import com.cobblemon.mod.common.util.readPCPosition
+import com.cobblemon.mod.common.util.readUuid
+import com.cobblemon.mod.common.util.writePCPosition
+import com.cobblemon.mod.common.util.writeUuid
 import io.netty.buffer.ByteBuf
-import net.minecraft.network.PacketByteBuf
 import java.util.UUID
 
 /**
@@ -35,6 +36,6 @@ class MovePCPokemonPacket(val pokemonID: UUID, val oldPosition: PCPosition, val 
     }
     companion object {
         val ID = cobblemonResource("move_pc_pokemon")
-        fun decode(buffer: PacketByteBuf) = MovePCPokemonPacket(buffer.readUuid(), buffer.readPCPosition(), buffer.readPCPosition())
+        fun decode(buffer: ByteBuf) = MovePCPokemonPacket(buffer.readUuid(), buffer.readPCPosition(), buffer.readPCPosition())
     }
 }

@@ -11,8 +11,13 @@ package com.cobblemon.mod.common.net.messages.server.pokemon.update
 import com.cobblemon.mod.common.api.net.NetworkPacket
 import com.cobblemon.mod.common.net.serverhandling.pokemon.update.SetNicknameHandler
 import com.cobblemon.mod.common.util.cobblemonResource
+import com.cobblemon.mod.common.util.readNullable
+import com.cobblemon.mod.common.util.readString
+import com.cobblemon.mod.common.util.readUuid
+import com.cobblemon.mod.common.util.writeNullable
+import com.cobblemon.mod.common.util.writeString
+import com.cobblemon.mod.common.util.writeUuid
 import io.netty.buffer.ByteBuf
-import net.minecraft.network.PacketByteBuf
 import java.util.UUID
 
 /**
@@ -29,11 +34,11 @@ class SetNicknamePacket(val pokemonUUID: UUID, val isParty: Boolean, val nicknam
     override fun encode(buffer: ByteBuf) {
         buffer.writeUuid(pokemonUUID)
         buffer.writeBoolean(isParty)
-        buffer.writeNullable(nickname) { _, v -> buffer.writeString(nickname) }
+        buffer.writeNullable(nickname) { _, v -> buffer.writeString(v) }
     }
     companion object {
         val ID = cobblemonResource("set_nickname")
-        fun decode(buffer: PacketByteBuf) = SetNicknamePacket(
+        fun decode(buffer: ByteBuf) = SetNicknamePacket(
             buffer.readUuid(), buffer.readBoolean(), buffer.readNullable { buffer.readString() }
         )
     }

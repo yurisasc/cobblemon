@@ -10,15 +10,18 @@ package com.cobblemon.mod.common.net.messages.server.storage.pc
 
 import com.cobblemon.mod.common.api.net.NetworkPacket
 import com.cobblemon.mod.common.api.storage.party.PartyPosition
-import com.cobblemon.mod.common.api.storage.party.PartyPosition.Companion.readPartyPosition
-import com.cobblemon.mod.common.api.storage.party.PartyPosition.Companion.writePartyPosition
 import com.cobblemon.mod.common.api.storage.pc.PCPosition
-import com.cobblemon.mod.common.api.storage.pc.PCPosition.Companion.readPCPosition
-import com.cobblemon.mod.common.api.storage.pc.PCPosition.Companion.writePCPosition
 import com.cobblemon.mod.common.net.serverhandling.storage.pc.MovePartyPokemonToPCHandler
 import com.cobblemon.mod.common.util.cobblemonResource
+import com.cobblemon.mod.common.util.readNullable
+import com.cobblemon.mod.common.util.readPCPosition
+import com.cobblemon.mod.common.util.readPartyPosition
+import com.cobblemon.mod.common.util.readUuid
+import com.cobblemon.mod.common.util.writeNullable
+import com.cobblemon.mod.common.util.writePCPosition
+import com.cobblemon.mod.common.util.writePartyPosition
+import com.cobblemon.mod.common.util.writeUuid
 import io.netty.buffer.ByteBuf
-import net.minecraft.network.PacketByteBuf
 import java.util.UUID
 
 /**
@@ -39,6 +42,6 @@ class MovePartyPokemonToPCPacket(val pokemonID: UUID, val partyPosition: PartyPo
     }
     companion object {
         val ID = cobblemonResource("move_party_pokemon_to_pc")
-        fun decode(buffer: PacketByteBuf) = MovePartyPokemonToPCPacket(buffer.readUuid(), buffer.readPartyPosition(), buffer.readNullable { it.readPCPosition() })
+        fun decode(buffer: ByteBuf) = MovePartyPokemonToPCPacket(buffer.readUuid(), buffer.readPartyPosition(), buffer.readNullable { it.readPCPosition() })
     }
 }

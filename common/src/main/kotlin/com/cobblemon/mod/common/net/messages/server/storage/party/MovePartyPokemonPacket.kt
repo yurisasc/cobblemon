@@ -14,6 +14,10 @@ import com.cobblemon.mod.common.api.storage.party.PartyPosition.Companion.readPa
 import com.cobblemon.mod.common.api.storage.party.PartyPosition.Companion.writePartyPosition
 import com.cobblemon.mod.common.net.serverhandling.storage.party.MovePartyPokemonHandler
 import com.cobblemon.mod.common.util.cobblemonResource
+import com.cobblemon.mod.common.util.readPartyPosition
+import com.cobblemon.mod.common.util.readUuid
+import com.cobblemon.mod.common.util.writePartyPosition
+import com.cobblemon.mod.common.util.writeUuid
 import io.netty.buffer.ByteBuf
 import net.minecraft.network.PacketByteBuf
 import java.util.UUID
@@ -35,6 +39,6 @@ class MovePartyPokemonPacket(val pokemonID: UUID, val oldPosition: PartyPosition
     }
     companion object {
         val ID = cobblemonResource("move_party_pokemon")
-        fun decode(buffer: PacketByteBuf) = MovePartyPokemonPacket(buffer.readUuid(), buffer.readPartyPosition(), buffer.readPartyPosition())
+        fun decode(buffer: ByteBuf) = MovePartyPokemonPacket(buffer.readUuid(), buffer.readPartyPosition(), buffer.readPartyPosition())
     }
 }
