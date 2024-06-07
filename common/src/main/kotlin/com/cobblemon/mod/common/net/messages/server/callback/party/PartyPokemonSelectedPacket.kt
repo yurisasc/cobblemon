@@ -12,9 +12,10 @@ import com.cobblemon.mod.common.api.net.NetworkPacket
 import com.cobblemon.mod.common.net.IntSize
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.readSizedInt
+import com.cobblemon.mod.common.util.readUuid
 import com.cobblemon.mod.common.util.writeSizedInt
+import com.cobblemon.mod.common.util.writeUuid
 import io.netty.buffer.ByteBuf
-import net.minecraft.network.PacketByteBuf
 import java.util.UUID
 
 /**
@@ -26,7 +27,7 @@ import java.util.UUID
 class PartyPokemonSelectedPacket(val uuid: UUID, val index: Int) : NetworkPacket<PartyPokemonSelectedPacket> {
     companion object {
         val ID = cobblemonResource("party_pokemon_selected")
-        fun decode(buffer: PacketByteBuf) = PartyPokemonSelectedPacket(buffer.readUuid(), buffer.readSizedInt(IntSize.U_BYTE))
+        fun decode(buffer: ByteBuf) = PartyPokemonSelectedPacket(buffer.readUuid(), buffer.readSizedInt(IntSize.U_BYTE))
     }
 
     override val id = ID
