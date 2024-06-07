@@ -18,13 +18,11 @@ import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.util.lang
 import com.cobblemon.mod.common.util.readItemStack
 import com.cobblemon.mod.common.util.writeItemStack
+import io.netty.buffer.ByteBuf
 import java.util.UUID
 import net.minecraft.item.ItemStack
 import net.minecraft.nbt.NbtCompound
-import net.minecraft.nbt.NbtOps
 import net.minecraft.network.PacketByteBuf
-import net.minecraft.network.RegistryByteBuf
-import net.minecraft.network.codec.PacketCodec
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.text.Text
 
@@ -157,7 +155,7 @@ open class PartySelectPokemonDTO(
         enabled = buffer.readBoolean()
     )
 
-    fun writeToBuffer(buffer: PacketByteBuf) {
+    fun writeToBuffer(buffer: ByteBuf) {
         buffer.writeNbt(pokemonProperties.saveToNBT())
         buffer.writeCollection(aspects) { _, aspect -> buffer.writeString(aspect) }
         buffer.writeItemStack(heldItem)
