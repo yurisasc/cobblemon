@@ -13,13 +13,18 @@ import com.cobblemon.mod.common.NetworkManager
 import com.cobblemon.mod.common.api.net.ClientNetworkPacketHandler
 import com.cobblemon.mod.common.api.net.NetworkPacket
 import com.cobblemon.mod.common.api.net.ServerNetworkPacketHandler
+import io.netty.buffer.ByteBuf
 import kotlin.reflect.KClass
+import net.fabricmc.fabric.api.client.networking.v1.ClientConfigurationNetworking
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking
+import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking
 import net.minecraft.client.MinecraftClient
 import net.minecraft.network.packet.Packet
 import net.minecraft.network.PacketByteBuf
+import net.minecraft.network.codec.PacketCodec
 import net.minecraft.network.listener.ClientPlayPacketListener
+import net.minecraft.network.packet.CustomPayload
 import net.minecraft.server.MinecraftServer
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.util.Identifier
@@ -41,9 +46,11 @@ object CobblemonFabricNetworkManager : NetworkManager {
         decoder: (PacketByteBuf) -> T,
         handler: ClientNetworkPacketHandler<T>
     ) {
-        ClientPlayNetworking.registerGlobalReceiver(identifier, this.createClientBoundHandler(decoder::invoke) { msg, _ ->
-            handler.handleOnNettyThread(msg)
-        })
+        val id = CustomPayload.Id<T>(identifier)
+        PayloadTypeRegistry.playS2C().register(id, PacketCodec.of(encoder, decoder))
+        ClientPlayNetworking.registerGlobalReceiver(id) { msg, context ->
+            handler.handle(msg, context.client())
+        }
     }
 
     override fun <T : NetworkPacket<T>> createServerBound(
@@ -53,32 +60,34 @@ object CobblemonFabricNetworkManager : NetworkManager {
         decoder: (PacketByteBuf) -> T,
         handler: ServerNetworkPacketHandler<T>
     ) {
-        ServerPlayNetworking.registerGlobalReceiver(identifier, this.createServerBoundHandler(decoder::invoke, handler::handleOnNettyThread))
+        val id = CustomPayload.Id<T>(identifier)
+        PayloadTypeRegistry.playC2S().register(id, PacketCodec.of(encoder, decoder))
+        ServerPlayNetworking.registerGlobalReceiver(id) { msg, context ->
+            handler.handle(msg, context.player().server, context.player())
+        }
     }
 
     private fun <T : NetworkPacket<*>> createServerBoundHandler(
-        decoder: (PacketByteBuf) -> T,
         handler: (T, MinecraftServer, ServerPlayerEntity) -> Unit
-    ) = ServerPlayNetworking.PlayChannelHandler { server, player, _, buffer, _ ->
-        handler(decoder(buffer), server, player)
+    ) = ServerPlayNetworking.PlayPayloadHandler<T> { payload, context ->
+        handler(payload, context.player().server, context.player())
     }
 
     private fun <T : NetworkPacket<*>> createClientBoundHandler(
-        decoder: (PacketByteBuf) -> T,
         handler: (T, MinecraftClient) -> Unit
-    ) = ClientPlayNetworking.PlayChannelHandler { client, _,  buffer, _ ->
-        handler(decoder(buffer), client)
+    ) = ClientPlayNetworking.PlayPayloadHandler<T> { payload, context ->
+        handler(payload, context.client())
     }
 
     override fun sendPacketToPlayer(player: ServerPlayerEntity, packet: NetworkPacket<*>) {
-        ServerPlayNetworking.send(player, packet.id, packet.toBuffer())
+        ServerPlayNetworking.send(player, packet)
     }
 
     override fun sendPacketToServer(packet: NetworkPacket<*>) {
-        ClientPlayNetworking.send(packet.id, packet.toBuffer())
+        ClientPlayNetworking.send(packet)
     }
 
     override fun <T : NetworkPacket<*>> asVanillaClientBound(packet: T): Packet<ClientPlayPacketListener> {
-        return ServerPlayNetworking.createS2CPacket(packet.id, packet.toBuffer()) as Packet<ClientPlayPacketListener>
+        return ServerPlayNetworking.createS2CPacket(packet) as Packet<ClientPlayPacketListener>
     }
 }

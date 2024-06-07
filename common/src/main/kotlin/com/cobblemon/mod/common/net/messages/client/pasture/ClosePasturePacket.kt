@@ -22,7 +22,7 @@ import net.minecraft.network.PacketByteBuf
 class ClosePasturePacket : NetworkPacket<ClosePasturePacket> {
     companion object {
         val ID = cobblemonResource("close_pasture")
-        fun decode(buffer: PacketByteBuf) = ClosePasturePacket()
+        fun decode(buffer: ByteBuf) = ClosePasturePacket()
     }
 
     override val id = ID
