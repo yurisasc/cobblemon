@@ -1,6 +1,7 @@
 package com.cobblemon.mod.common.util
 
 import io.netty.buffer.ByteBuf
+import kotlin.jvm.optionals.getOrNull
 import net.minecraft.entity.EntityDimensions
 import net.minecraft.item.ItemStack
 import net.minecraft.nbt.NbtOps
@@ -8,7 +9,6 @@ import net.minecraft.network.PacketByteBuf
 import net.minecraft.network.encoding.StringEncoding
 import net.minecraft.text.Text
 import net.minecraft.text.TextCodecs
-import kotlin.jvm.optionals.getOrNull
 
 fun PacketByteBuf.readItemStack(): ItemStack {
     val dataResult = NbtOps.INSTANCE.withDecoder(ItemStack.CODEC).apply(this.readNbt()).result().getOrNull()
@@ -80,4 +80,23 @@ fun <T> ByteBuf.readNullable(reader: (ByteBuf) -> T): T? {
         return reader.invoke(this)
     }
     return null
+}
+
+fun <K, V> ByteBuf.writeMap(map: Map<K, V>, keyWriter: (ByteBuf, K) -> Unit, valueWriter: (ByteBuf, V) -> Unit) {
+    this.writeInt(map.size)
+    map.forEach { (key, value) ->
+        keyWriter(this, key)
+        valueWriter(this, value)
+    }
+}
+
+fun <K, V> ByteBuf.readMap(keyReader: (ByteBuf) -> K, valueReader: (ByteBuf) -> V): Map<K, V> {
+    val map = mutableMapOf<K, V>()
+    val numElements = readInt()
+    repeat(numElements) {
+        val key = keyReader.invoke(this)
+        val value = valueReader.invoke(this)
+        map[key] = value
+    }
+    return map
 }
