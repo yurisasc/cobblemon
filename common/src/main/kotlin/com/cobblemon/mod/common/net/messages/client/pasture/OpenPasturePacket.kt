@@ -15,9 +15,11 @@ import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.readItemStack
 import com.cobblemon.mod.common.util.readSizedInt
 import com.cobblemon.mod.common.util.readText
+import com.cobblemon.mod.common.util.readUuid
 import com.cobblemon.mod.common.util.writeItemStack
 import com.cobblemon.mod.common.util.writeSizedInt
 import com.cobblemon.mod.common.util.writeText
+import com.cobblemon.mod.common.util.writeUuid
 import io.netty.buffer.ByteBuf
 import net.minecraft.item.ItemStack
 import net.minecraft.network.PacketByteBuf
@@ -81,7 +83,7 @@ class OpenPasturePacket(val pcId: UUID, val pastureId: UUID, val limit: Int, val
     companion object {
         val ID = cobblemonResource("open_pasture")
 
-        fun decode(buffer: PacketByteBuf): OpenPasturePacket {
+        fun decode(buffer: ByteBuf): OpenPasturePacket {
             val pcId = buffer.readUuid()
             val pastureId = buffer.readUuid()
             val limit = buffer.readSizedInt(IntSize.U_BYTE)

@@ -10,6 +10,10 @@ package com.cobblemon.mod.common.net.messages.client.effect
 
 import com.cobblemon.mod.common.api.net.NetworkPacket
 import com.cobblemon.mod.common.util.cobblemonResource
+import com.cobblemon.mod.common.util.readIdentifier
+import com.cobblemon.mod.common.util.readString
+import com.cobblemon.mod.common.util.writeIdentifier
+import com.cobblemon.mod.common.util.writeString
 import io.netty.buffer.ByteBuf
 import net.minecraft.network.PacketByteBuf
 import net.minecraft.util.Identifier
@@ -24,7 +28,7 @@ class SpawnSnowstormEntityParticlePacket(val effectId: Identifier, val entityId:
     companion object {
         val ID = cobblemonResource("spawn_snowstorm_entity_particle")
 
-        fun decode(buffer: PacketByteBuf) = SpawnSnowstormEntityParticlePacket(buffer.readIdentifier(), buffer.readInt(), buffer.readString())
+        fun decode(buffer: ByteBuf) = SpawnSnowstormEntityParticlePacket(buffer.readIdentifier(), buffer.readInt(), buffer.readString())
     }
 
     override val id = ID

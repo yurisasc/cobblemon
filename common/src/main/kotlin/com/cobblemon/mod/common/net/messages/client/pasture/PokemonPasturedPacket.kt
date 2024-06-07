@@ -23,7 +23,7 @@ import net.minecraft.network.PacketByteBuf
 class PokemonPasturedPacket(val pasturePokemonDTO: OpenPasturePacket.PasturePokemonDataDTO) : NetworkPacket<PokemonPasturedPacket> {
     companion object {
         val ID = cobblemonResource("pasture_pokemon_added")
-        fun decode(buffer: PacketByteBuf) = PokemonPasturedPacket(OpenPasturePacket.PasturePokemonDataDTO.decode(buffer))
+        fun decode(buffer: ByteBuf) = PokemonPasturedPacket(OpenPasturePacket.PasturePokemonDataDTO.decode(buffer))
     }
 
     override val id = ID

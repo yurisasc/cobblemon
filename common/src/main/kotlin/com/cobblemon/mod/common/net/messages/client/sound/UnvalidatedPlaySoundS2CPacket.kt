@@ -10,6 +10,10 @@ package com.cobblemon.mod.common.net.messages.client.sound
 
 import com.cobblemon.mod.common.api.net.NetworkPacket
 import com.cobblemon.mod.common.util.cobblemonResource
+import com.cobblemon.mod.common.util.readEnumConstant
+import com.cobblemon.mod.common.util.readIdentifier
+import com.cobblemon.mod.common.util.writeEnumConstant
+import com.cobblemon.mod.common.util.writeIdentifier
 import io.netty.buffer.ByteBuf
 import net.minecraft.network.PacketByteBuf
 import net.minecraft.network.packet.s2c.play.PlaySoundS2CPacket
@@ -47,7 +51,7 @@ internal class UnvalidatedPlaySoundS2CPacket(
 
     companion object {
         val ID = cobblemonResource("unvalidated_play_sound")
-        fun decode(buffer: PacketByteBuf) = UnvalidatedPlaySoundS2CPacket(
+        fun decode(buffer: ByteBuf) = UnvalidatedPlaySoundS2CPacket(
             buffer.readIdentifier(),
             buffer.readEnumConstant(SoundCategory::class.java),
             buffer.readDouble(),
