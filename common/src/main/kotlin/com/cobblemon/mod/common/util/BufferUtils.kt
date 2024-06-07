@@ -4,6 +4,7 @@ import com.cobblemon.mod.common.api.storage.party.PartyPosition
 import com.cobblemon.mod.common.api.storage.pc.PCPosition
 import com.cobblemon.mod.common.net.IntSize
 import io.netty.buffer.ByteBuf
+import io.netty.buffer.ByteBufInputStream
 import io.netty.buffer.ByteBufOutputStream
 import io.netty.handler.codec.EncoderException
 import net.minecraft.entity.EntityDimensions
@@ -12,13 +13,17 @@ import net.minecraft.nbt.NbtElement
 import net.minecraft.nbt.NbtEnd
 import net.minecraft.nbt.NbtIo
 import net.minecraft.nbt.NbtOps
+import net.minecraft.nbt.NbtSizeTracker
 import net.minecraft.network.PacketByteBuf
 import net.minecraft.network.codec.PacketEncoder
 import net.minecraft.network.encoding.StringEncoding
 import net.minecraft.text.Text
 import net.minecraft.text.TextCodecs
 import net.minecraft.util.Identifier
+import net.minecraft.util.math.MathHelper
 import java.io.IOException
+import java.util.BitSet
+import java.util.EnumSet
 import java.util.UUID
 import kotlin.jvm.optionals.getOrNull
 
@@ -171,3 +176,46 @@ fun ByteBuf.writeNbt(nbt: NbtElement) {
         throw EncoderException(iOException)
     }
 }
+
+fun ByteBuf.readNbt(): NbtElement? {
+    val iOException: IOException
+    val nbtElement: NbtElement
+    try {
+        nbtElement = NbtIo.read(ByteBufInputStream(this), NbtSizeTracker.of(2097152L))
+        if (nbtElement.type.toInt() == 0) {
+            return null
+        }
+    } catch (var4: IOException) {
+        iOException = var4
+        throw EncoderException(iOException)
+    }
+
+    try {
+        return nbtElement
+    } catch (var3: IOException) {
+        iOException = var3
+        throw EncoderException(iOException)
+    }
+}
+
+fun <E : Enum<E>> ByteBuf.writeEnumSet(enumSet: EnumSet<E>, type: Class<E>) {
+    val enums: Array<E> = type.enumConstants as Array<E>
+    val bitSet = BitSet(enums.size)
+
+    for (i in enums.indices) {
+        bitSet[i] = enumSet.contains(enums[i])
+    }
+
+    this.writeBitSet(bitSet, enums.size)
+}
+
+fun writeBitSet(bitSet: BitSet, size: Int) {
+    if (bitSet.length() > size) {
+        val var10002 = bitSet.length()
+        throw EncoderException("BitSet is larger than expected size ($var10002>$size)")
+    } else {
+        val bs = bitSet.toByteArray()
+        this.writeBytes(bs.copyOf(MathHelper.ceilDiv(size, 8)))
+    }
+}
+

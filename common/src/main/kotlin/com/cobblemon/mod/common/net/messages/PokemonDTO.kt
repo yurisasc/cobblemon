@@ -32,6 +32,7 @@ import com.cobblemon.mod.common.pokemon.status.PersistentStatus
 import com.cobblemon.mod.common.pokemon.status.PersistentStatusContainer
 import com.cobblemon.mod.common.util.asIdentifierDefaultingNamespace
 import com.cobblemon.mod.common.util.readIdentifier
+import com.cobblemon.mod.common.util.readNbt
 import com.cobblemon.mod.common.util.readNullable
 import com.cobblemon.mod.common.util.readSizedInt
 import com.cobblemon.mod.common.util.readString
