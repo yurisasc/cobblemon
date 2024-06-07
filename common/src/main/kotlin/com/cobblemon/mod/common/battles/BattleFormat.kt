@@ -11,6 +11,8 @@ package com.cobblemon.mod.common.battles
 import com.cobblemon.mod.common.net.IntSize
 import com.cobblemon.mod.common.util.readSizedInt
 import com.cobblemon.mod.common.util.writeSizedInt
+import com.cobblemon.mod.common.util.writeString
+import io.netty.buffer.ByteBuf
 import net.minecraft.network.PacketByteBuf
 
 /**
@@ -54,7 +56,7 @@ data class BattleFormat(
         }
     }
 
-    fun saveToBuffer(buffer: PacketByteBuf): PacketByteBuf {
+    fun saveToBuffer(buffer: ByteBuf): ByteBuf {
         buffer.writeString(mod)
         battleType.saveToBuffer(buffer)
         buffer.writeSizedInt(IntSize.U_BYTE, ruleSet.size)

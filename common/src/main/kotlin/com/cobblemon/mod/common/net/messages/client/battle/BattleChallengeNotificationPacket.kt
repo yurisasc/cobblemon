@@ -10,6 +10,7 @@ package com.cobblemon.mod.common.net.messages.client.battle
 
 import com.cobblemon.mod.common.api.net.NetworkPacket
 import com.cobblemon.mod.common.util.cobblemonResource
+import com.cobblemon.mod.common.util.writeUuid
 import io.netty.buffer.ByteBuf
 import net.minecraft.network.PacketByteBuf
 import net.minecraft.text.MutableText

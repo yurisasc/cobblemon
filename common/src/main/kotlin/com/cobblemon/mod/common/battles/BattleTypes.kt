@@ -12,6 +12,8 @@ import com.cobblemon.mod.common.net.IntSize
 import com.cobblemon.mod.common.util.lang
 import com.cobblemon.mod.common.util.readSizedInt
 import com.cobblemon.mod.common.util.writeSizedInt
+import com.cobblemon.mod.common.util.writeString
+import io.netty.buffer.ByteBuf
 import net.minecraft.network.PacketByteBuf
 import net.minecraft.text.MutableText
 import net.minecraft.text.Text
@@ -62,7 +64,7 @@ interface BattleType {
             )
         }
     }
-    fun saveToBuffer(buffer: PacketByteBuf): PacketByteBuf {
+    fun saveToBuffer(buffer: ByteBuf): ByteBuf {
         buffer.writeString(name)
         TextCodecs.PACKET_CODEC.encode(buffer, displayName)
         buffer.writeSizedInt(IntSize.U_BYTE, actorsPerSide)

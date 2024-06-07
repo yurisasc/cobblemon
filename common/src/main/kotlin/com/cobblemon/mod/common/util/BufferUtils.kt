@@ -209,7 +209,7 @@ fun <E : Enum<E>> ByteBuf.writeEnumSet(enumSet: EnumSet<E>, type: Class<E>) {
     this.writeBitSet(bitSet, enums.size)
 }
 
-fun writeBitSet(bitSet: BitSet, size: Int) {
+fun ByteBuf.writeBitSet(bitSet: BitSet, size: Int) {
     if (bitSet.length() > size) {
         val var10002 = bitSet.length()
         throw EncoderException("BitSet is larger than expected size ($var10002>$size)")

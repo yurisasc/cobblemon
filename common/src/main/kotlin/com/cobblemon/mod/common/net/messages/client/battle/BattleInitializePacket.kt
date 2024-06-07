@@ -24,8 +24,11 @@ import com.cobblemon.mod.common.pokemon.status.PersistentStatus
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.readMapK
 import com.cobblemon.mod.common.util.readSizedInt
+import com.cobblemon.mod.common.util.writeCollection
 import com.cobblemon.mod.common.util.writeMapK
 import com.cobblemon.mod.common.util.writeSizedInt
+import com.cobblemon.mod.common.util.writeString
+import com.cobblemon.mod.common.util.writeUuid
 import io.netty.buffer.ByteBuf
 import net.minecraft.network.PacketByteBuf
 import net.minecraft.text.MutableText
@@ -226,7 +229,7 @@ class BattleInitializePacket() : NetworkPacket<BattleInitializePacket> {
             }
         }
 
-        fun saveToBuffer(buffer: PacketByteBuf): ActiveBattlePokemonDTO {
+        fun saveToBuffer(buffer: ByteBuf): ActiveBattlePokemonDTO {
             buffer.writeUuid(uuid)
             TextCodecs.PACKET_CODEC.encode(buffer, displayName)
             buffer.writeString(properties.asString())
