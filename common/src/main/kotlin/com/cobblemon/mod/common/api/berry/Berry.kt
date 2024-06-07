@@ -20,6 +20,7 @@ import com.cobblemon.mod.common.item.BerryItem
 import com.cobblemon.mod.common.pokemon.Nature
 import com.cobblemon.mod.common.util.readBox
 import com.cobblemon.mod.common.util.readEnumConstant
+import com.cobblemon.mod.common.util.readEnumSet
 import com.cobblemon.mod.common.util.readIdentifier
 import com.cobblemon.mod.common.util.readList
 import com.cobblemon.mod.common.util.readMap

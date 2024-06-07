@@ -209,6 +209,20 @@ fun <E : Enum<E>> ByteBuf.writeEnumSet(enumSet: EnumSet<E>, type: Class<E>) {
     this.writeBitSet(bitSet, enums.size)
 }
 
+fun <E : Enum<E>> ByteBuf.readEnumSet(type: Class<E>): EnumSet<E> {
+    val enums: Array<E> = type.enumConstants
+    val bitSet = this.readBitSet(enums.size)
+    val enumSet = EnumSet.noneOf(type)
+
+    for (i in enums.indices) {
+        if (bitSet[i]) {
+            enumSet.add(enums[i])
+        }
+    }
+
+    return enumSet
+}
+
 fun ByteBuf.writeBitSet(bitSet: BitSet, size: Int) {
     if (bitSet.length() > size) {
         val var10002 = bitSet.length()
@@ -219,5 +233,10 @@ fun ByteBuf.writeBitSet(bitSet: BitSet, size: Int) {
     }
 }
 
-//fun
+fun ByteBuf.readBitSet(size: Int): BitSet {
+    val bs = ByteArray(MathHelper.ceilDiv(size, 8))
+    this.readBytes(bs)
+    return BitSet.valueOf(bs)
+}
 
+//fun
