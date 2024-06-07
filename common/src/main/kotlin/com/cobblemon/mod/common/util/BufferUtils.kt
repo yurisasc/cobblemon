@@ -24,15 +24,15 @@ fun PacketByteBuf.writeItemStack(itemStack: ItemStack) {
     })
 }
 
-fun PacketByteBuf.readText(): Text {
+fun ByteBuf.readText(): Text {
     return TextCodecs.PACKET_CODEC.decode(this)
 }
 
-fun PacketByteBuf.writeText(text: Text?) {
+fun ByteBuf.writeText(text: Text?) {
     TextCodecs.PACKET_CODEC.encode(this, text)
 }
 
-fun PacketByteBuf.readEntityDimensions(): EntityDimensions {
+fun ByteBuf.readEntityDimensions(): EntityDimensions {
     val isFixed = this.readBoolean()
     return if (isFixed) {
         EntityDimensions.fixed(this.readFloat(), this.readFloat())
@@ -41,6 +41,7 @@ fun PacketByteBuf.readEntityDimensions(): EntityDimensions {
         EntityDimensions.changing(this.readFloat(), this.readFloat())
     }
 }
+
 
 fun <T> ByteBuf.writeCollection(collection: Collection<T> , writer: (ByteBuf, T) -> Unit) {
     this.writeInt(collection.size)
