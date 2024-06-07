@@ -11,6 +11,9 @@ package com.cobblemon.mod.common.net.messages.client.data
 import com.cobblemon.mod.common.api.pokemon.feature.SpeciesFeatureProvider
 import com.cobblemon.mod.common.api.pokemon.feature.SpeciesFeatures
 import com.cobblemon.mod.common.api.pokemon.feature.SynchronizedSpeciesFeatureProvider
+import com.cobblemon.mod.common.util.readString
+import com.cobblemon.mod.common.util.writeString
+import io.netty.buffer.ByteBuf
 import net.minecraft.network.PacketByteBuf
 
 /**
@@ -24,7 +27,10 @@ abstract class SpeciesFeatureSyncPacket<T : SpeciesFeatureSyncPacket<T>>(
 ) : DataRegistrySyncPacket<Map.Entry<String, SynchronizedSpeciesFeatureProvider<*>>, T>(
     speciesFeatureProviders.entries.filterIsInstance<Map.Entry<String, SynchronizedSpeciesFeatureProvider<*>>>().filter { it.value.visible }
 ) {
-    override fun encodeEntry(buffer: PacketByteBuf, entry: Map.Entry<String, SynchronizedSpeciesFeatureProvider<*>>) {
+    override fun encodeEntry(
+        buffer: ByteBuf,
+        entry: Map.Entry<String, SynchronizedSpeciesFeatureProvider<*>>
+    ) {
 
         val typeName = SpeciesFeatures.types.entries.find { it.value.isInstance(entry.value) }?.key
         val value = entry.value
@@ -39,7 +45,7 @@ abstract class SpeciesFeatureSyncPacket<T : SpeciesFeatureSyncPacket<T>>(
         value.encode(buffer)
     }
 
-    override fun decodeEntry(buffer: PacketByteBuf): Map.Entry<String, SynchronizedSpeciesFeatureProvider<*>>? {
+    override fun decodeEntry(buffer: ByteBuf): Map.Entry<String, SynchronizedSpeciesFeatureProvider<*>>? {
         if (!buffer.readBoolean()) {
             return null
         }

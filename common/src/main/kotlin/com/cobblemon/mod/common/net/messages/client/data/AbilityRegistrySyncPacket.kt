@@ -11,19 +11,22 @@ package com.cobblemon.mod.common.net.messages.client.data
 import com.cobblemon.mod.common.api.abilities.Abilities
 import com.cobblemon.mod.common.api.abilities.AbilityTemplate
 import com.cobblemon.mod.common.util.cobblemonResource
+import com.cobblemon.mod.common.util.readString
+import com.cobblemon.mod.common.util.writeString
+import io.netty.buffer.ByteBuf
 import net.minecraft.network.PacketByteBuf
 
 class AbilityRegistrySyncPacket(abilities: Collection<AbilityTemplate>) : DataRegistrySyncPacket<AbilityTemplate, AbilityRegistrySyncPacket>(abilities) {
 
     override val id = ID
 
-    override fun encodeEntry(buffer: PacketByteBuf, entry: AbilityTemplate) {
+    override fun encodeEntry(buffer: ByteBuf, entry: AbilityTemplate) {
         buffer.writeString(entry.name)
         buffer.writeString(entry.displayName)
         buffer.writeString(entry.description)
     }
 
-    override fun decodeEntry(buffer: PacketByteBuf): AbilityTemplate {
+    override fun decodeEntry(buffer: ByteBuf): AbilityTemplate {
         return AbilityTemplate(
             name = buffer.readString(),
             displayName = buffer.readString(),

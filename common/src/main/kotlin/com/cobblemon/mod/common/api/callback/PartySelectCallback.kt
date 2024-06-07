@@ -17,7 +17,10 @@ import com.cobblemon.mod.common.net.messages.client.callback.OpenPartyCallbackPa
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.util.lang
 import com.cobblemon.mod.common.util.readItemStack
+import com.cobblemon.mod.common.util.writeCollection
 import com.cobblemon.mod.common.util.writeItemStack
+import com.cobblemon.mod.common.util.writeNbt
+import com.cobblemon.mod.common.util.writeString
 import io.netty.buffer.ByteBuf
 import java.util.UUID
 import net.minecraft.item.ItemStack
@@ -164,3 +167,4 @@ open class PartySelectPokemonDTO(
         buffer.writeBoolean(enabled)
     }
 }
+

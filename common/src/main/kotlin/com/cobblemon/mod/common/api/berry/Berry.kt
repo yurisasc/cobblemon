@@ -19,8 +19,13 @@ import com.cobblemon.mod.common.block.entity.BerryBlockEntity
 import com.cobblemon.mod.common.item.BerryItem
 import com.cobblemon.mod.common.pokemon.Nature
 import com.cobblemon.mod.common.util.readBox
+import com.cobblemon.mod.common.util.readEnumConstant
+import com.cobblemon.mod.common.util.readIdentifier
+import com.cobblemon.mod.common.util.readList
+import com.cobblemon.mod.common.util.readMap
 import com.cobblemon.mod.common.util.writeBox
 import com.google.gson.annotations.SerializedName
+import io.netty.buffer.ByteBuf
 import java.awt.Color
 import java.util.EnumSet
 import kotlin.math.min
@@ -319,7 +324,7 @@ class Berry(
 
     companion object {
 
-        internal fun decode(buffer: PacketByteBuf): Berry {
+        internal fun decode(buffer: ByteBuf): Berry {
             val identifier = buffer.readIdentifier()
             val baseYield = IntRange(buffer.readInt(), buffer.readInt())
             val favMulchs = buffer.readEnumSet(MulchVariant::class.java)

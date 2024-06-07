@@ -19,6 +19,7 @@ import com.cobblemon.mod.common.net.IntSize
 import com.cobblemon.mod.common.net.messages.client.callback.OpenMoveCallbackPacket
 import com.cobblemon.mod.common.util.readSizedInt
 import com.cobblemon.mod.common.util.writeSizedInt
+import com.cobblemon.mod.common.util.writeString
 import io.netty.buffer.ByteBuf
 import java.util.UUID
 import net.minecraft.network.PacketByteBuf
