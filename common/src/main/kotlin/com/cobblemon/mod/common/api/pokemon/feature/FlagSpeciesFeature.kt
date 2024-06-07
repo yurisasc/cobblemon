@@ -14,6 +14,12 @@ import com.cobblemon.mod.common.api.properties.CustomPokemonProperty
 import com.cobblemon.mod.common.api.properties.CustomPokemonPropertyType
 import com.cobblemon.mod.common.client.gui.summary.featurerenderers.SummarySpeciesFeatureRenderer
 import com.cobblemon.mod.common.pokemon.Pokemon
+import com.cobblemon.mod.common.util.readList
+import com.cobblemon.mod.common.util.readNullable
+import com.cobblemon.mod.common.util.readString
+import com.cobblemon.mod.common.util.writeCollection
+import com.cobblemon.mod.common.util.writeNullable
+import com.cobblemon.mod.common.util.writeString
 import com.google.gson.JsonObject
 import io.netty.buffer.ByteBuf
 import kotlin.random.Random

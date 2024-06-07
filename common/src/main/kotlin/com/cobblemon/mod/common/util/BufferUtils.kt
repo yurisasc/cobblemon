@@ -9,6 +9,8 @@ import net.minecraft.network.PacketByteBuf
 import net.minecraft.network.encoding.StringEncoding
 import net.minecraft.text.Text
 import net.minecraft.text.TextCodecs
+import net.minecraft.util.Identifier
+import kotlin.jvm.optionals.getOrNull
 
 fun PacketByteBuf.readItemStack(): ItemStack {
     val dataResult = NbtOps.INSTANCE.withDecoder(ItemStack.CODEC).apply(this.readNbt()).result().getOrNull()
@@ -99,4 +101,15 @@ fun <K, V> ByteBuf.readMap(keyReader: (ByteBuf) -> K, valueReader: (ByteBuf) -> 
         map[key] = value
     }
     return map
+}
+
+
+fun ByteBuf.readIdentifer(): Identifier {
+    val str = this.readString()
+    //If this is null we should be using writeNullable anyway
+    return Identifier.tryParse(str)!!
+}
+
+fun ByteBuf.writeIdentifier(id: Identifier) {
+
 }
