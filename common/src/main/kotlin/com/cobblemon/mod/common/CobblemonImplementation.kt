@@ -233,9 +233,6 @@ interface NetworkManager {
     fun sendPacketToPlayer(player: ServerPlayerEntity, packet: NetworkPacket<*>)
 
     fun sendPacketToServer(packet: NetworkPacket<*>)
-
-    fun <T : NetworkPacket<*>> asVanillaClientBound(packet: T): Packet<ClientPlayPacketListener>
-
 }
 
 enum class Environment {

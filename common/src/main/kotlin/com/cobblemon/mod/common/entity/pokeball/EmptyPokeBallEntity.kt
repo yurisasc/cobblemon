@@ -65,6 +65,8 @@ import net.minecraft.util.math.MathHelper.PI
 import net.minecraft.util.math.Vec3d
 import net.minecraft.world.World
 import java.util.concurrent.CompletableFuture
+import net.minecraft.network.packet.s2c.common.CustomPayloadS2CPacket
+import net.minecraft.network.packet.s2c.play.BundleS2CPacket
 
 class EmptyPokeBallEntity : ThrownItemEntity, Poseable, WaterDragModifier, Schedulable {
     enum class CaptureState {
@@ -461,7 +463,7 @@ class EmptyPokeBallEntity : ThrownItemEntity, Poseable, WaterDragModifier, Sched
 
     override fun canUsePortals() = false
 
-    override fun createSpawnPacket(): Packet<ClientPlayPacketListener> = CobblemonNetwork.asVanillaClientBound(SpawnPokeballPacket(this.pokeBall, this.aspects, super.createSpawnPacket() as EntitySpawnS2CPacket))
+    override fun createSpawnPacket(): Packet<ClientPlayPacketListener> = CustomPayloadS2CPacket(SpawnPokeballPacket(this.pokeBall, this.aspects, super.createSpawnPacket() as EntitySpawnS2CPacket)) as Packet<ClientPlayPacketListener>
 
     override fun waterDrag(): Float = this.pokeBall.waterDragValue
 

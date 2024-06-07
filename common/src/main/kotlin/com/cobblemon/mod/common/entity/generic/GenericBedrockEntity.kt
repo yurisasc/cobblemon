@@ -9,7 +9,6 @@
 package com.cobblemon.mod.common.entity.generic
 
 import com.cobblemon.mod.common.CobblemonEntities
-import com.cobblemon.mod.common.CobblemonNetwork
 import com.cobblemon.mod.common.api.net.serializers.IdentifierDataSerializer
 import com.cobblemon.mod.common.api.net.serializers.PoseTypeDataSerializer
 import com.cobblemon.mod.common.api.net.serializers.StringSetDataSerializer
@@ -24,11 +23,13 @@ import net.minecraft.entity.Entity
 import net.minecraft.entity.EntityDimensions
 import net.minecraft.entity.EntityPose
 import net.minecraft.entity.data.DataTracker
-import net.minecraft.entity.data.TrackedData
 import net.minecraft.entity.data.TrackedDataHandlerRegistry
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.nbt.NbtList
 import net.minecraft.nbt.NbtString
+import net.minecraft.network.listener.ClientPlayPacketListener
+import net.minecraft.network.packet.Packet
+import net.minecraft.network.packet.s2c.common.CustomPayloadS2CPacket
 import net.minecraft.network.packet.s2c.play.EntitySpawnS2CPacket
 import net.minecraft.util.Identifier
 import net.minecraft.world.World
@@ -117,7 +118,7 @@ class GenericBedrockEntity(world: World) : Entity(CobblemonEntities.GENERIC_BEDR
     override fun getDimensions(pose: EntityPose) = EntityDimensions.changing(colliderWidth, colliderHeight).scaled(scale)
     override fun getCurrentPoseType(): PoseType = this.dataTracker.get(POSE_TYPE)
 
-    override fun createSpawnPacket() = CobblemonNetwork.asVanillaClientBound(
+    override fun createSpawnPacket() = CustomPayloadS2CPacket(
         SpawnGenericBedrockPacket(
             category = category,
             aspects = aspects,
@@ -128,7 +129,7 @@ class GenericBedrockEntity(world: World) : Entity(CobblemonEntities.GENERIC_BEDR
             startAge = if (syncAge) age else 0,
             vanillaSpawnPacket = super.createSpawnPacket() as EntitySpawnS2CPacket
         )
-    )
+    ) as Packet<ClientPlayPacketListener>
 
     override fun tick() {
         super.tick()

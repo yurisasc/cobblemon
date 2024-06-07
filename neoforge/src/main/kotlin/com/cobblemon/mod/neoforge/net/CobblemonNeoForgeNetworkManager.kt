@@ -8,34 +8,21 @@
 
 package com.cobblemon.mod.neoforge.net
 
-import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.CobblemonNetwork
-import com.cobblemon.mod.common.CobblemonNetwork.sendPacket
 import com.cobblemon.mod.common.NetworkManager
 import com.cobblemon.mod.common.api.net.ClientNetworkPacketHandler
 import com.cobblemon.mod.common.api.net.NetworkPacket
 import com.cobblemon.mod.common.api.net.ServerNetworkPacketHandler
-import com.cobblemon.mod.common.util.cobblemonResource
-import net.minecraft.client.MinecraftClient
 import kotlin.reflect.KClass
-import net.minecraft.network.packet.Packet
+import net.minecraft.client.MinecraftClient
 import net.minecraft.network.PacketByteBuf
 import net.minecraft.network.codec.PacketCodec
-import net.minecraft.network.listener.ClientPlayPacketListener
 import net.minecraft.network.packet.CustomPayload
-import net.minecraft.network.packet.s2c.play.ChatMessageS2CPacket
-import net.minecraft.network.packet.s2c.play.DifficultyS2CPacket
-import net.minecraft.network.packet.s2c.play.EntitySpawnS2CPacket
-import net.minecraft.server.MinecraftServer
-import net.minecraft.server.dedicated.MinecraftDedicatedServer
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.util.Identifier
-import net.minecraft.world.Difficulty
-import net.neoforged.neoforge.network.PacketDistributor
 import net.neoforged.neoforge.network.handling.IPayloadContext
 import net.neoforged.neoforge.network.handling.IPayloadHandler
 import net.neoforged.neoforge.network.registration.PayloadRegistrar
-import java.util.function.BiConsumer
 
 //https://neoforged.net/news/20.4networking-rework/
 object CobblemonNeoForgeNetworkManager : NetworkManager {
@@ -116,10 +103,5 @@ object CobblemonNeoForgeNetworkManager : NetworkManager {
 
     override fun sendPacketToServer(packet: NetworkPacket<*>) {
         MinecraftClient.getInstance().networkHandler?.send(packet)
-    }
-
-    override fun <T : NetworkPacket<*>> asVanillaClientBound(packet: T): Packet<ClientPlayPacketListener> {
-        Cobblemon.LOGGER.error("THIS NEEDS TO BE FIXED!!!!!!!!")
-        return DifficultyS2CPacket(Difficulty.NORMAL, false)
     }
 }

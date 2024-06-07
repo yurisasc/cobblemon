@@ -86,8 +86,4 @@ object CobblemonFabricNetworkManager : NetworkManager {
     override fun sendPacketToServer(packet: NetworkPacket<*>) {
         ClientPlayNetworking.send(packet)
     }
-
-    override fun <T : NetworkPacket<*>> asVanillaClientBound(packet: T): Packet<ClientPlayPacketListener> {
-        return ServerPlayNetworking.createS2CPacket(packet) as Packet<ClientPlayPacketListener>
-    }
 }

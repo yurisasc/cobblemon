@@ -14,6 +14,7 @@ import com.cobblemon.mod.common.entity.generic.GenericBedrockEntity
 import com.cobblemon.mod.common.net.IntSize
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.writeSizedInt
+import io.netty.buffer.ByteBuf
 import net.minecraft.entity.Entity
 import net.minecraft.network.PacketByteBuf
 import net.minecraft.network.packet.s2c.play.EntitySpawnS2CPacket
@@ -37,7 +38,7 @@ class SpawnGenericBedrockPacket(
 ) : SpawnExtraDataEntityPacket<SpawnGenericBedrockPacket, GenericBedrockEntity>(vanillaSpawnPacket) {
     override val id: Identifier = ID
 
-    override fun encodeEntityData(buffer: PacketByteBuf) {
+    override fun encodeEntityData(buffer: ByteBuf) {
         buffer.writeIdentifier(this.category)
         buffer.writeCollection(aspects) { _, aspect -> buffer.writeString(aspect) }
         buffer.writeSizedInt(size = IntSize.U_BYTE, poseType.ordinal)

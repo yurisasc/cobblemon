@@ -452,6 +452,4 @@ object CobblemonNetwork : NetworkManager {
     override fun sendPacketToPlayer(player: ServerPlayerEntity, packet: NetworkPacket<*>) = Cobblemon.implementation.networkManager.sendPacketToPlayer(player, packet)
 
     override fun sendPacketToServer(packet: NetworkPacket<*>) = Cobblemon.implementation.networkManager.sendPacketToServer(packet)
-
-    override fun <T : NetworkPacket<*>> asVanillaClientBound(packet: T): Packet<ClientPlayPacketListener> = Cobblemon.implementation.networkManager.asVanillaClientBound(packet)
 }
