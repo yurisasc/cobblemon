@@ -19,6 +19,7 @@ import com.cobblemon.mod.common.net.IntSize
 import com.cobblemon.mod.common.net.messages.client.callback.OpenMoveCallbackPacket
 import com.cobblemon.mod.common.util.readSizedInt
 import com.cobblemon.mod.common.util.writeSizedInt
+import io.netty.buffer.ByteBuf
 import java.util.UUID
 import net.minecraft.network.PacketByteBuf
 import net.minecraft.server.network.ServerPlayerEntity
@@ -124,7 +125,7 @@ class MoveSelectDTO(val moveTemplate: MoveTemplate, var enabled: Boolean, val pp
         ppMax = buffer.readSizedInt(IntSize.BYTE)
     )
 
-    fun writeToBuffer(buffer: PacketByteBuf) {
+    fun writeToBuffer(buffer: ByteBuf) {
         buffer.writeString(moveTemplate.name)
         buffer.writeBoolean(enabled)
         buffer.writeSizedInt(IntSize.BYTE, pp)

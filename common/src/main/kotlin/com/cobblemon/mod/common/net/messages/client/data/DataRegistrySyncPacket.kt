@@ -9,6 +9,7 @@
 package com.cobblemon.mod.common.net.messages.client.data
 
 import com.cobblemon.mod.common.api.net.NetworkPacket
+import com.cobblemon.mod.common.util.writeCollection
 import io.netty.buffer.ByteBuf
 import net.minecraft.network.PacketByteBuf
 
@@ -32,7 +33,7 @@ abstract class DataRegistrySyncPacket<T, N : NetworkPacket<N>>(private val regis
      * @param buffer The [PacketByteBuf] being encoded to.
      * @param entry The entry of type [T].
      */
-    abstract fun encodeEntry(buffer: PacketByteBuf, entry: T)
+    abstract fun encodeEntry(buffer: ByteBuf, entry: T)
 
     /**
      * Attempts to decode this entry, if null it will be skipped.
@@ -41,7 +42,7 @@ abstract class DataRegistrySyncPacket<T, N : NetworkPacket<N>>(private val regis
      * @param buffer The [PacketByteBuf] being decoded from.
      * @return The entry of type [T].
      */
-    abstract fun decodeEntry(buffer: PacketByteBuf): T?
+    abstract fun decodeEntry(buffer: ByteBuf): T?
 
     /**
      * Synchronizes the final product the final product with the backing registry.

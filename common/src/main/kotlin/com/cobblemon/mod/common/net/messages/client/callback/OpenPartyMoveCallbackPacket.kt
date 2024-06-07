@@ -18,6 +18,7 @@ import com.cobblemon.mod.common.util.readSizedInt
 import com.cobblemon.mod.common.util.readText
 import com.cobblemon.mod.common.util.writeSizedInt
 import com.cobblemon.mod.common.util.writeText
+import com.cobblemon.mod.common.util.writeUuid
 import io.netty.buffer.ByteBuf
 import net.minecraft.network.PacketByteBuf
 import net.minecraft.text.MutableText
