@@ -940,8 +940,8 @@ object CobblemonItems : PlatformRegistry<Registry<Item>, RegistryKey<Registry<It
     )
 
     // Misc
-    //@JvmField
-    //val POKEMON_MODEL = this.create("pokemon_model", PokemonItem())
+    @JvmField
+    val POKEMON_MODEL = this.create("pokemon_model", PokemonItem())
     @JvmField
     val RELIC_COIN = noSettingsItem("relic_coin")
     @JvmField

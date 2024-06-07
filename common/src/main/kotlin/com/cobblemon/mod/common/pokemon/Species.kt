@@ -31,7 +31,22 @@ import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.net.IntSize
 import com.cobblemon.mod.common.pokemon.ai.PokemonBehaviour
 import com.cobblemon.mod.common.pokemon.lighthing.LightingData
-import com.cobblemon.mod.common.util.*
+import com.cobblemon.mod.common.util.readEntityDimensions
+import com.cobblemon.mod.common.util.readEnumConstant
+import com.cobblemon.mod.common.util.readIdentifier
+import com.cobblemon.mod.common.util.readList
+import com.cobblemon.mod.common.util.readMap
+import com.cobblemon.mod.common.util.readNullable
+import com.cobblemon.mod.common.util.readSizedInt
+import com.cobblemon.mod.common.util.readString
+import com.cobblemon.mod.common.util.writeCollection
+import com.cobblemon.mod.common.util.writeEnumConstant
+import com.cobblemon.mod.common.util.writeIdentifier
+import com.cobblemon.mod.common.util.writeMap
+import com.cobblemon.mod.common.util.writeNullable
+import com.cobblemon.mod.common.util.writeSizedInt
+import com.cobblemon.mod.common.util.writeString
+import com.mojang.serialization.Codec
 import io.netty.buffer.ByteBuf
 import net.minecraft.entity.EntityDimensions
 import net.minecraft.text.MutableText
@@ -282,5 +297,12 @@ class Species : ClientDataSynchronizer<Species>, ShowdownIdentifiable {
 
     companion object {
         private const val VANILLA_DEFAULT_EYE_HEIGHT = .85F
+
+        val CODEC: Codec<Species> = Codec.STRING.xmap(
+            // TODO: 1.21 uses the one below
+            //{ speciesId -> PokemonSpecies.getByIdentifier(Identifier.of(speciesId)) },
+            { speciesId -> PokemonSpecies.getByIdentifier(Identifier(speciesId)) },
+            { it.resourceIdentifier.toString() }
+        )
     }
 }

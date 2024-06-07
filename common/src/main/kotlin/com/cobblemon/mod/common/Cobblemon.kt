@@ -184,6 +184,7 @@ object Cobblemon {
 
         implementation.registerPermissionValidator()
         implementation.registerSoundEvents()
+        implementation.registerDataComponents()
         implementation.registerBlocks()
         implementation.registerItems()
         implementation.registerEntityTypes()
