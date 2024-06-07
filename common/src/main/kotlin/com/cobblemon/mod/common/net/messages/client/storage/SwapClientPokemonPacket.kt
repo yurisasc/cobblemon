@@ -12,8 +12,9 @@ import com.cobblemon.mod.common.api.net.NetworkPacket
 import com.cobblemon.mod.common.api.storage.PokemonStore
 import com.cobblemon.mod.common.api.storage.party.PartyStore
 import com.cobblemon.mod.common.util.cobblemonResource
+import com.cobblemon.mod.common.util.readUuid
+import com.cobblemon.mod.common.util.writeUuid
 import io.netty.buffer.ByteBuf
-import net.minecraft.network.PacketByteBuf
 import java.util.UUID
 
 /**
@@ -39,6 +40,6 @@ class SwapClientPokemonPacket internal constructor(val storeIsParty: Boolean, va
 
     companion object {
         val ID = cobblemonResource("swap_client_pokemon")
-        fun decode(buffer: PacketByteBuf) = SwapClientPokemonPacket(buffer.readBoolean(), buffer.readUuid(), buffer.readUuid(), buffer.readUuid())
+        fun decode(buffer: ByteBuf) = SwapClientPokemonPacket(buffer.readBoolean(), buffer.readUuid(), buffer.readUuid(), buffer.readUuid())
     }
 }

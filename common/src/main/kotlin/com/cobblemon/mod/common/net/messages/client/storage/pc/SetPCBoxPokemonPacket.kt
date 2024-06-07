@@ -15,10 +15,11 @@ import com.cobblemon.mod.common.net.messages.PokemonDTO
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.readMapK
 import com.cobblemon.mod.common.util.readSizedInt
+import com.cobblemon.mod.common.util.readUuid
 import com.cobblemon.mod.common.util.writeMapK
 import com.cobblemon.mod.common.util.writeSizedInt
+import com.cobblemon.mod.common.util.writeUuid
 import io.netty.buffer.ByteBuf
-import net.minecraft.network.PacketByteBuf
 import java.util.UUID
 
 /**
@@ -48,7 +49,7 @@ class SetPCBoxPokemonPacket internal constructor(val storeID: UUID, val boxNumbe
 
     companion object {
         val ID = cobblemonResource("set_pc_box")
-        fun decode(buffer: PacketByteBuf): SetPCBoxPokemonPacket {
+        fun decode(buffer: ByteBuf): SetPCBoxPokemonPacket {
             val storeID = buffer.readUuid()
             val boxNumber = buffer.readSizedInt(IntSize.U_BYTE)
             val pokemonMap = mutableMapOf<Int, PokemonDTO>()

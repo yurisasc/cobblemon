@@ -11,6 +11,7 @@ package com.cobblemon.mod.common.net.messages.client.storage.pc
 import com.cobblemon.mod.common.api.net.NetworkPacket
 import com.cobblemon.mod.common.api.storage.pc.link.PCLink
 import com.cobblemon.mod.common.util.cobblemonResource
+import com.cobblemon.mod.common.util.writeUuid
 import io.netty.buffer.ByteBuf
 import net.minecraft.network.PacketByteBuf
 import java.util.UUID
@@ -37,6 +38,6 @@ class OpenPCPacket(val storeID: UUID) : NetworkPacket<OpenPCPacket> {
 
     companion object {
         val ID = cobblemonResource("open_pc")
-        fun decode(buffer: PacketByteBuf) = OpenPCPacket(buffer.readUuid())
+        fun decode(buffer: ByteBuf) = OpenPCPacket(buffer.readUuid())
     }
 }

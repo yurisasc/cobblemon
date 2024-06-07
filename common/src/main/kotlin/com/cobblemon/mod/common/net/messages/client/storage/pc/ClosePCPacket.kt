@@ -10,6 +10,10 @@ package com.cobblemon.mod.common.net.messages.client.storage.pc
 
 import com.cobblemon.mod.common.api.net.NetworkPacket
 import com.cobblemon.mod.common.util.cobblemonResource
+import com.cobblemon.mod.common.util.readNullable
+import com.cobblemon.mod.common.util.readUuid
+import com.cobblemon.mod.common.util.writeNullable
+import com.cobblemon.mod.common.util.writeUuid
 import io.netty.buffer.ByteBuf
 import net.minecraft.network.PacketByteBuf
 import java.util.UUID
@@ -33,6 +37,6 @@ class ClosePCPacket(val storeID: UUID?) : NetworkPacket<ClosePCPacket> {
 
     companion object {
         val ID = cobblemonResource("close_pc")
-        fun decode(buffer: PacketByteBuf): ClosePCPacket = ClosePCPacket(buffer.readNullable { it.readUuid() })
+        fun decode(buffer: ByteBuf): ClosePCPacket = ClosePCPacket(buffer.readNullable { it.readUuid() })
     }
 }

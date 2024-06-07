@@ -9,17 +9,12 @@
 package com.cobblemon.mod.common.net.messages.client.toast
 
 import com.cobblemon.mod.common.api.net.NetworkPacket
-import com.cobblemon.mod.common.util.cobblemonResource
-import com.cobblemon.mod.common.util.readItemStack
-import com.cobblemon.mod.common.util.readText
-import com.cobblemon.mod.common.util.writeItemStack
-import com.cobblemon.mod.common.util.writeText
+import com.cobblemon.mod.common.util.*
 import io.netty.buffer.ByteBuf
+import java.util.UUID
 import net.minecraft.item.ItemStack
-import net.minecraft.network.PacketByteBuf
 import net.minecraft.text.Text
 import net.minecraft.util.Identifier
-import java.util.UUID
 
 class ToastPacket(
     val title: Text,
@@ -49,7 +44,7 @@ class ToastPacket(
 
         val ID = cobblemonResource("toast")
 
-        fun decode(buffer: PacketByteBuf): ToastPacket = ToastPacket(
+        fun decode(buffer: ByteBuf): ToastPacket = ToastPacket(
             buffer.readText(),
             buffer.readText(),
             buffer.readItemStack(),

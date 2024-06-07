@@ -12,9 +12,10 @@ import com.cobblemon.mod.common.api.net.NetworkPacket
 import com.cobblemon.mod.common.net.IntSize
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.readSizedInt
+import com.cobblemon.mod.common.util.readUuid
 import com.cobblemon.mod.common.util.writeSizedInt
+import com.cobblemon.mod.common.util.writeUuid
 import io.netty.buffer.ByteBuf
-import net.minecraft.network.PacketByteBuf
 import java.util.UUID
 
 /**
@@ -41,6 +42,6 @@ class InitializePartyPacket(val isThisPlayerParty: Boolean, val uuid: UUID, val 
 
     companion object {
         val ID = cobblemonResource("initialize_party")
-        fun decode(buffer: PacketByteBuf) = InitializePartyPacket(buffer.readBoolean(), buffer.readUuid(), buffer.readSizedInt(IntSize.U_BYTE))
+        fun decode(buffer: ByteBuf) = InitializePartyPacket(buffer.readBoolean(), buffer.readUuid(), buffer.readSizedInt(IntSize.U_BYTE))
     }
 }

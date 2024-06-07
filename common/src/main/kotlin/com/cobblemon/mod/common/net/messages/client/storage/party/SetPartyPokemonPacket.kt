@@ -10,13 +10,14 @@ package com.cobblemon.mod.common.net.messages.client.storage.party
 
 import com.cobblemon.mod.common.api.net.NetworkPacket
 import com.cobblemon.mod.common.api.storage.party.PartyPosition
-import com.cobblemon.mod.common.api.storage.party.PartyPosition.Companion.readPartyPosition
-import com.cobblemon.mod.common.api.storage.party.PartyPosition.Companion.writePartyPosition
 import com.cobblemon.mod.common.net.messages.PokemonDTO
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.util.cobblemonResource
+import com.cobblemon.mod.common.util.readPartyPosition
+import com.cobblemon.mod.common.util.readUuid
+import com.cobblemon.mod.common.util.writePartyPosition
+import com.cobblemon.mod.common.util.writeUuid
 import io.netty.buffer.ByteBuf
-import net.minecraft.network.PacketByteBuf
 import java.util.UUID
 
 /**
@@ -42,7 +43,7 @@ class SetPartyPokemonPacket internal constructor(val storeID: UUID, val storePos
 
     companion object {
         val ID = cobblemonResource("set_party_pokemon")
-        fun decode(buffer: PacketByteBuf) = SetPartyPokemonPacket(buffer.readUuid(), buffer.readPartyPosition(), PokemonDTO().apply { decode(buffer) })
+        fun decode(buffer: ByteBuf) = SetPartyPokemonPacket(buffer.readUuid(), buffer.readPartyPosition(), PokemonDTO().apply { decode(buffer) })
     }
 
 }

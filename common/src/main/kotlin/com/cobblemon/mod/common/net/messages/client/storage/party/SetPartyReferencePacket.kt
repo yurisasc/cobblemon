@@ -11,8 +11,9 @@ package com.cobblemon.mod.common.net.messages.client.storage.party
 import com.cobblemon.mod.common.api.net.NetworkPacket
 import com.cobblemon.mod.common.api.storage.PokemonStore
 import com.cobblemon.mod.common.util.cobblemonResource
+import com.cobblemon.mod.common.util.readUuid
+import com.cobblemon.mod.common.util.writeUuid
 import io.netty.buffer.ByteBuf
-import net.minecraft.network.PacketByteBuf
 import java.util.UUID
 
 /**
@@ -33,6 +34,6 @@ class SetPartyReferencePacket(val storeID: UUID) : NetworkPacket<SetPartyReferen
     }
     companion object {
         val ID = cobblemonResource("set_party_reference")
-        fun decode(buffer: PacketByteBuf) = SetPartyReferencePacket(buffer.readUuid())
+        fun decode(buffer: ByteBuf) = SetPartyReferencePacket(buffer.readUuid())
     }
 }

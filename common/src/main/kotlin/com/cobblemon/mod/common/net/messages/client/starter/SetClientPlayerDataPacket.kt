@@ -12,6 +12,10 @@ import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.api.net.NetworkPacket
 import com.cobblemon.mod.common.api.storage.player.PlayerData
 import com.cobblemon.mod.common.util.cobblemonResource
+import com.cobblemon.mod.common.util.readNullable
+import com.cobblemon.mod.common.util.readUuid
+import com.cobblemon.mod.common.util.writeNullable
+import com.cobblemon.mod.common.util.writeUuid
 import io.netty.buffer.ByteBuf
 import net.minecraft.network.PacketByteBuf
 import java.util.UUID
@@ -49,7 +53,7 @@ class SetClientPlayerDataPacket(val promptStarter: Boolean, val starterLocked: B
 
     companion object {
         val ID = cobblemonResource("set_client_playerdata")
-        fun decode(buffer: PacketByteBuf): SetClientPlayerDataPacket {
+        fun decode(buffer: ByteBuf): SetClientPlayerDataPacket {
             val promptStarter = buffer.readBoolean()
             val starterLocked = buffer.readBoolean()
             val starterSelected = buffer.readBoolean()
