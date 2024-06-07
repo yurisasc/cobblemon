@@ -48,7 +48,6 @@ import io.netty.buffer.Unpooled
 import net.minecraft.item.ItemStack
 import net.minecraft.nbt.NbtOps
 import net.minecraft.network.PacketByteBuf
-import net.minecraft.network.RegistryByteBuf
 import net.minecraft.text.MutableText
 import net.minecraft.text.TextCodecs
 import net.minecraft.util.Identifier

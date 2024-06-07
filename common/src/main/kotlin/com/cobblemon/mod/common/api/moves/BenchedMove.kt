@@ -20,7 +20,7 @@ import com.google.gson.JsonObject
 import io.netty.buffer.ByteBuf
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.nbt.NbtList
-import net.minecraft.network.PacketByteBuf
+
 class BenchedMoves : Iterable<BenchedMove> {
     val observable = SimpleObservable<BenchedMoves>()
     private var emit = true
