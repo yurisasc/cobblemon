@@ -14,6 +14,7 @@ import com.cobblemon.mod.common.net.IntSize
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.readSizedInt
 import com.cobblemon.mod.common.util.writeSizedInt
+import io.netty.buffer.ByteBuf
 import net.minecraft.network.PacketByteBuf
 import java.util.UUID
 
@@ -21,7 +22,7 @@ class BattleSelectActionsPacket(val battleId: UUID, val showdownActionResponses:
 
     override val id = ID
 
-    override fun encode(buffer: PacketByteBuf) {
+    override fun encode(buffer: ByteBuf) {
         buffer.writeUuid(battleId)
         buffer.writeSizedInt(IntSize.U_BYTE, showdownActionResponses.size)
         showdownActionResponses.forEach { it.saveToBuffer(buffer) }

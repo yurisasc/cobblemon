@@ -34,9 +34,8 @@ import com.cobblemon.mod.common.pokemon.lighthing.LightingData
 import com.cobblemon.mod.common.util.readEntityDimensions
 import com.cobblemon.mod.common.util.readSizedInt
 import com.cobblemon.mod.common.util.writeSizedInt
+import io.netty.buffer.ByteBuf
 import net.minecraft.entity.EntityDimensions
-import net.minecraft.network.PacketByteBuf
-import net.minecraft.network.RegistryByteBuf
 import net.minecraft.text.MutableText
 import net.minecraft.text.Text
 import net.minecraft.util.Identifier
@@ -177,7 +176,7 @@ class Species : ClientDataSynchronizer<Species>, ShowdownIdentifiable {
 
     fun canGmax() = this.forms.find { it.formOnlyShowdownId() == "gmax" } != null
 
-    override fun encode(buffer: PacketByteBuf) {
+    override fun encode(buffer: ByteBuf) {
         buffer.writeBoolean(this.implemented)
         buffer.writeString(this.name)
         buffer.writeInt(this.nationalPokedexNumber)
@@ -208,7 +207,7 @@ class Species : ClientDataSynchronizer<Species>, ShowdownIdentifiable {
         }
     }
 
-    override fun decode(buffer: PacketByteBuf) {
+    override fun decode(buffer: ByteBuf) {
         this.implemented = buffer.readBoolean()
         this.name = buffer.readString()
         this.nationalPokedexNumber = buffer.readInt()

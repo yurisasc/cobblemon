@@ -12,6 +12,7 @@ import com.cobblemon.mod.common.api.net.NetworkPacket
 import com.cobblemon.mod.common.net.messages.PokemonDTO
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.util.cobblemonResource
+import io.netty.buffer.ByteBuf
 import net.minecraft.network.PacketByteBuf
 
 class SummaryUIPacket internal constructor(val pokemon: List<PokemonDTO>, val editable: Boolean): NetworkPacket<SummaryUIPacket> {
@@ -20,7 +21,7 @@ class SummaryUIPacket internal constructor(val pokemon: List<PokemonDTO>, val ed
 
     constructor(vararg pokemon: Pokemon, editable: Boolean = true) : this(pokemon.map { PokemonDTO(it, true) }, editable)
 
-    override fun encode(buffer: PacketByteBuf) {
+    override fun encode(buffer: ByteBuf) {
         buffer.writeBoolean(editable)
         buffer.writeCollection(this.pokemon) { pb, value -> value.encode(pb) }
     }

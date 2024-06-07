@@ -10,6 +10,7 @@ package com.cobblemon.mod.common.net.messages.server.trade
 
 import com.cobblemon.mod.common.api.net.NetworkPacket
 import com.cobblemon.mod.common.util.cobblemonResource
+import io.netty.buffer.ByteBuf
 import net.minecraft.network.PacketByteBuf
 import java.util.UUID
 
@@ -20,7 +21,7 @@ class ChangeTradeAcceptancePacket(val pokemonOfferId: UUID, val newAcceptance: B
     }
 
     override val id = ID
-    override fun encode(buffer: PacketByteBuf) {
+    override fun encode(buffer: ByteBuf) {
         buffer.writeUuid(pokemonOfferId)
         buffer.writeBoolean(newAcceptance)
     }

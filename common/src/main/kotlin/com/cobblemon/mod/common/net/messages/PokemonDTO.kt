@@ -33,10 +33,12 @@ import com.cobblemon.mod.common.pokemon.status.PersistentStatusContainer
 import com.cobblemon.mod.common.util.asIdentifierDefaultingNamespace
 import com.cobblemon.mod.common.util.readSizedInt
 import com.cobblemon.mod.common.util.writeSizedInt
+import io.netty.buffer.ByteBuf
 import io.netty.buffer.Unpooled
 import net.minecraft.item.ItemStack
 import net.minecraft.nbt.NbtOps
 import net.minecraft.network.PacketByteBuf
+import net.minecraft.network.RegistryByteBuf
 import net.minecraft.text.MutableText
 import net.minecraft.text.TextCodecs
 import net.minecraft.util.Identifier
@@ -134,7 +136,7 @@ class PokemonDTO : Encodable, Decodable {
         this.originalTrainerName = pokemon.originalTrainerName
     }
 
-    override fun encode(buffer: PacketByteBuf) {
+    override fun encode(buffer: RegistryByteBuf) {
         buffer.writeBoolean(toClient)
         buffer.writeUuid(uuid)
         buffer.writeIdentifier(species)
@@ -180,7 +182,7 @@ class PokemonDTO : Encodable, Decodable {
         buffer.writeNullable(originalTrainerName) { _, v -> buffer.writeString(v) }
     }
 
-    override fun decode(buffer: PacketByteBuf) {
+    override fun decode(buffer: ByteBuf) {
         toClient = buffer.readBoolean()
         uuid = buffer.readUuid()
         species = buffer.readIdentifier()

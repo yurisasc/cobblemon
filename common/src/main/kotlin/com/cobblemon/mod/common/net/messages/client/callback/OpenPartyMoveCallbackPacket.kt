@@ -18,6 +18,7 @@ import com.cobblemon.mod.common.util.readSizedInt
 import com.cobblemon.mod.common.util.readText
 import com.cobblemon.mod.common.util.writeSizedInt
 import com.cobblemon.mod.common.util.writeText
+import io.netty.buffer.ByteBuf
 import net.minecraft.network.PacketByteBuf
 import net.minecraft.text.MutableText
 import java.util.UUID
@@ -58,7 +59,7 @@ class OpenPartyMoveCallbackPacket(
     }
 
     override val id = ID
-    override fun encode(buffer: PacketByteBuf) {
+    override fun encode(buffer: ByteBuf) {
         buffer.writeUuid(uuid)
         buffer.writeText(partyTitle)
         buffer.writeSizedInt(IntSize.U_BYTE, pokemonList.size)

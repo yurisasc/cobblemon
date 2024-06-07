@@ -11,6 +11,7 @@ package com.cobblemon.mod.common.net.messages.client.settings
 import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.api.net.NetworkPacket
 import com.cobblemon.mod.common.util.cobblemonResource
+import io.netty.buffer.ByteBuf
 import net.minecraft.network.PacketByteBuf
 
 /**
@@ -21,7 +22,7 @@ import net.minecraft.network.PacketByteBuf
  */
 class ServerSettingsPacket internal constructor(val preventCompletePartyDeposit: Boolean, val displayEntityLevelLabel: Boolean) : NetworkPacket<ServerSettingsPacket> {
     override val id = ID
-    override fun encode(buffer: PacketByteBuf) {
+    override fun encode(buffer: ByteBuf) {
         buffer.writeBoolean(Cobblemon.config.preventCompletePartyDeposit)
         buffer.writeBoolean(Cobblemon.config.displayEntityLevelLabel)
     }

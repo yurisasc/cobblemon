@@ -12,6 +12,7 @@ import com.cobblemon.mod.common.api.net.NetworkPacket
 import com.cobblemon.mod.common.battles.ActiveBattlePokemon
 import com.cobblemon.mod.common.battles.pokemon.BattlePokemon
 import com.cobblemon.mod.common.util.cobblemonResource
+import io.netty.buffer.ByteBuf
 import net.minecraft.network.PacketByteBuf
 
 /**
@@ -30,7 +31,7 @@ class BattleReplacePokemonPacket(val pnx: String, val realPokemon: BattleInitial
     constructor(pnx: String, realPokemon: BattlePokemon, isAlly: Boolean) :
         this(pnx, BattleInitializePacket.ActiveBattlePokemonDTO.fromPokemon(realPokemon, isAlly), isAlly)
 
-    override fun encode(buffer: PacketByteBuf) {
+    override fun encode(buffer: ByteBuf) {
         buffer.writeString(pnx)
         realPokemon.saveToBuffer(buffer)
         buffer.writeBoolean(isAlly)

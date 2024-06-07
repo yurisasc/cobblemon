@@ -15,10 +15,10 @@ import com.cobblemon.mod.common.api.properties.CustomPokemonPropertyType
 import com.cobblemon.mod.common.client.gui.summary.featurerenderers.SummarySpeciesFeatureRenderer
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.google.gson.JsonObject
+import io.netty.buffer.ByteBuf
 import kotlin.random.Random
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.network.PacketByteBuf
-import net.minecraft.network.RegistryByteBuf
 
 /**
  * A simple [SpeciesFeature] that is a true/false flag value. It implements [CustomPokemonProperty] for use in
@@ -56,11 +56,11 @@ open class FlagSpeciesFeature(override val name: String) : SynchronizedSpeciesFe
         return this
     }
 
-    override fun encode(buffer: PacketByteBuf) {
+    override fun encode(buffer: ByteBuf) {
         buffer.writeBoolean(enabled)
     }
 
-    override fun decode(buffer: PacketByteBuf) {
+    override fun decode(buffer: ByteBuf) {
         enabled = buffer.readBoolean()
     }
 
@@ -98,13 +98,13 @@ class FlagSpeciesFeatureProvider : SynchronizedSpeciesFeatureProvider<FlagSpecie
         }
     }
 
-    override fun encode(buffer: PacketByteBuf) {
+    override fun encode(buffer: ByteBuf) {
         buffer.writeCollection(keys) { _, value -> buffer.writeString(value) }
         buffer.writeNullable(default) { _, value -> buffer.writeString(value) }
         buffer.writeBoolean(isAspect)
     }
 
-    override fun decode(buffer: PacketByteBuf) {
+    override fun decode(buffer: ByteBuf) {
         keys = buffer.readList { it.readString() }
         default = buffer.readNullable { it.readString() }
         isAspect = buffer.readBoolean()

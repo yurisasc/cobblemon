@@ -14,7 +14,7 @@ import com.cobblemon.mod.common.api.net.Decodable
 import com.cobblemon.mod.common.api.net.Encodable
 import com.cobblemon.mod.common.util.readText
 import com.cobblemon.mod.common.util.writeText
-import net.minecraft.network.PacketByteBuf
+import io.netty.buffer.ByteBuf
 import net.minecraft.text.MutableText
 
 class DialoguePageDTO : Encodable, Decodable {
@@ -30,14 +30,14 @@ class DialoguePageDTO : Encodable, Decodable {
         this.clientActions = dialoguePage.clientActions.map { it.originalString }.toMutableList()
     }
 
-    override fun encode(buffer: PacketByteBuf) {
+    override fun encode(buffer: ByteBuf) {
         buffer.writeNullable(speaker) { _, value -> buffer.writeString(value)}
         buffer.writeCollection(lines) { _, value -> buffer.writeText(value) }
         buffer.writeInt(clientActions.size)
         clientActions.forEach { buffer.writeString(it) }
     }
 
-    override fun decode(buffer: PacketByteBuf) {
+    override fun decode(buffer: ByteBuf) {
         speaker = buffer.readNullable { buffer.readString() }
         lines = buffer.readList { it.readText().copy() }.toMutableList()
         val clientActionsSize = buffer.readInt()

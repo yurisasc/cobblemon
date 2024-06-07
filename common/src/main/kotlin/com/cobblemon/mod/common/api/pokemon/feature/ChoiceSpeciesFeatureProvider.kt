@@ -13,11 +13,17 @@ import com.cobblemon.mod.common.api.pokemon.aspect.AspectProvider
 import com.cobblemon.mod.common.api.properties.CustomPokemonPropertyType
 import com.cobblemon.mod.common.client.gui.summary.featurerenderers.SummarySpeciesFeatureRenderer
 import com.cobblemon.mod.common.pokemon.Pokemon
+import com.cobblemon.mod.common.util.readList
+import com.cobblemon.mod.common.util.readNullable
+import com.cobblemon.mod.common.util.readString
 import com.cobblemon.mod.common.util.substitute
+import com.cobblemon.mod.common.util.writeCollection
+import com.cobblemon.mod.common.util.writeNullable
+import com.cobblemon.mod.common.util.writeString
 import com.google.gson.JsonObject
+import io.netty.buffer.ByteBuf
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.network.PacketByteBuf
-import net.minecraft.network.RegistryByteBuf
 
 /**
  * A [SpeciesFeatureProvider] which is a string value selected from a fixed list of choices. Parameters exist
@@ -37,7 +43,7 @@ open class ChoiceSpeciesFeatureProvider(
     override var visible = false
     fun getAspect(feature: StringSpeciesFeature) = aspectFormat.substitute("choice", feature.value)
 
-    override fun encode(buffer: PacketByteBuf) {
+    override fun encode(buffer: ByteBuf) {
         buffer.writeCollection(keys) { _, value -> buffer.writeString(value) }
         buffer.writeNullable(default) { _, value -> buffer.writeString(value) }
         buffer.writeCollection(choices) { _, value -> buffer.writeString(value) }
@@ -46,7 +52,7 @@ open class ChoiceSpeciesFeatureProvider(
         buffer.writeBoolean(needsKey)
     }
 
-    override fun decode(buffer: PacketByteBuf) {
+    override fun decode(buffer: ByteBuf) {
         keys = buffer.readList { buffer.readString() }
         default = buffer.readNullable { buffer.readString() }
         choices = buffer.readList { buffer.readString() }

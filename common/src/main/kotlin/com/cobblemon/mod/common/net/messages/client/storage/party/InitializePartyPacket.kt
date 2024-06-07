@@ -13,6 +13,7 @@ import com.cobblemon.mod.common.net.IntSize
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.readSizedInt
 import com.cobblemon.mod.common.util.writeSizedInt
+import io.netty.buffer.ByteBuf
 import net.minecraft.network.PacketByteBuf
 import java.util.UUID
 
@@ -32,7 +33,7 @@ class InitializePartyPacket(val isThisPlayerParty: Boolean, val uuid: UUID, val 
 
     override val id = ID
 
-    override fun encode(buffer: PacketByteBuf) {
+    override fun encode(buffer: ByteBuf) {
         buffer.writeBoolean(isThisPlayerParty)
         buffer.writeUuid(uuid)
         buffer.writeSizedInt(IntSize.U_BYTE, slots)

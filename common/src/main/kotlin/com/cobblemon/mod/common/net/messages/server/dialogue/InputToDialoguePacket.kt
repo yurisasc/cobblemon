@@ -10,6 +10,7 @@ package com.cobblemon.mod.common.net.messages.server.dialogue
 
 import com.cobblemon.mod.common.api.net.NetworkPacket
 import com.cobblemon.mod.common.util.cobblemonResource
+import io.netty.buffer.ByteBuf
 import net.minecraft.network.PacketByteBuf
 import java.util.UUID
 
@@ -30,7 +31,7 @@ class InputToDialoguePacket(val inputId: UUID, val input: String = ""): NetworkP
     }
 
     override val id = ID
-    override fun encode(buffer: PacketByteBuf) {
+    override fun encode(buffer: ByteBuf) {
         buffer.writeUuid(inputId)
         buffer.writeString(input)
     }

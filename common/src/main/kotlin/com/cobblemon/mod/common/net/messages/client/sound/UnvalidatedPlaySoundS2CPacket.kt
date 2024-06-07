@@ -10,6 +10,7 @@ package com.cobblemon.mod.common.net.messages.client.sound
 
 import com.cobblemon.mod.common.api.net.NetworkPacket
 import com.cobblemon.mod.common.util.cobblemonResource
+import io.netty.buffer.ByteBuf
 import net.minecraft.network.PacketByteBuf
 import net.minecraft.network.packet.s2c.play.PlaySoundS2CPacket
 import net.minecraft.sound.SoundCategory
@@ -34,7 +35,7 @@ internal class UnvalidatedPlaySoundS2CPacket(
 
     override val id = ID
 
-    override fun encode(buffer: PacketByteBuf) {
+    override fun encode(buffer: ByteBuf) {
         buffer.writeIdentifier(this.sound)
         buffer.writeEnumConstant(this.category)
         buffer.writeDouble(this.x)

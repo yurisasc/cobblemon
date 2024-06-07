@@ -14,6 +14,7 @@ import com.cobblemon.mod.common.net.IntSize
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.readSizedInt
 import com.cobblemon.mod.common.util.writeSizedInt
+import io.netty.buffer.ByteBuf
 import net.minecraft.network.PacketByteBuf
 import java.util.UUID
 
@@ -32,7 +33,7 @@ class InitializePCPacket internal constructor(val storeID: UUID, val boxCount: I
 
     constructor(pc: PCStore): this(pc.uuid, pc.boxes.size, pc.backupStore.any())
 
-    override fun encode(buffer: PacketByteBuf) {
+    override fun encode(buffer: ByteBuf) {
         buffer.writeUuid(storeID)
         buffer.writeSizedInt(IntSize.U_SHORT, boxCount)
         buffer.writeBoolean(hasOverflowed)

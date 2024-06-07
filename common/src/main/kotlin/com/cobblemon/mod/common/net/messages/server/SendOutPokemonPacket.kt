@@ -14,6 +14,7 @@ import com.cobblemon.mod.common.net.serverhandling.storage.SendOutPokemonHandler
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.readSizedInt
 import com.cobblemon.mod.common.util.writeSizedInt
+import io.netty.buffer.ByteBuf
 import net.minecraft.network.PacketByteBuf
 
 /**
@@ -27,7 +28,7 @@ import net.minecraft.network.PacketByteBuf
  */
 class SendOutPokemonPacket(val slot: Int) : NetworkPacket<SendOutPokemonPacket> {
     override val id = ID
-    override fun encode(buffer: PacketByteBuf) {
+    override fun encode(buffer: ByteBuf) {
         buffer.writeSizedInt(IntSize.U_BYTE, slot)
     }
 

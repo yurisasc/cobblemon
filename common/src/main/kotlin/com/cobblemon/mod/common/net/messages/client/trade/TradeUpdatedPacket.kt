@@ -12,6 +12,7 @@ import com.cobblemon.mod.common.api.net.NetworkPacket
 import com.cobblemon.mod.common.net.messages.PokemonDTO
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.util.cobblemonResource
+import io.netty.buffer.ByteBuf
 import net.minecraft.network.PacketByteBuf
 import java.util.UUID
 
@@ -30,7 +31,7 @@ class TradeUpdatedPacket(val playerId: UUID, val pokemon: Pokemon?) : NetworkPac
     }
 
     override val id = ID
-    override fun encode(buffer: PacketByteBuf) {
+    override fun encode(buffer: ByteBuf) {
         buffer.writeUuid(playerId)
         buffer.writeNullable(pokemon) { _, pokemon -> PokemonDTO(pokemon, true).encode(buffer) }
     }

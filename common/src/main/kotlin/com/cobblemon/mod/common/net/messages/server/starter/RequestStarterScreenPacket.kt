@@ -10,6 +10,7 @@ package com.cobblemon.mod.common.net.messages.server.starter
 
 import com.cobblemon.mod.common.api.net.NetworkPacket
 import com.cobblemon.mod.common.util.cobblemonResource
+import io.netty.buffer.ByteBuf
 import net.minecraft.network.PacketByteBuf
 
 /**
@@ -21,7 +22,7 @@ import net.minecraft.network.PacketByteBuf
  */
 class RequestStarterScreenPacket : NetworkPacket<RequestStarterScreenPacket> {
     override val id = ID
-    override fun encode(buffer: PacketByteBuf) {}
+    override fun encode(buffer: ByteBuf) {}
 
     companion object {
         val ID = cobblemonResource("request_starter_screen")

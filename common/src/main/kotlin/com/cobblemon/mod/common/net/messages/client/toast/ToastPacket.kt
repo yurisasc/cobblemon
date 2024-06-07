@@ -14,6 +14,7 @@ import com.cobblemon.mod.common.util.readItemStack
 import com.cobblemon.mod.common.util.readText
 import com.cobblemon.mod.common.util.writeItemStack
 import com.cobblemon.mod.common.util.writeText
+import io.netty.buffer.ByteBuf
 import net.minecraft.item.ItemStack
 import net.minecraft.network.PacketByteBuf
 import net.minecraft.text.Text
@@ -33,7 +34,7 @@ class ToastPacket(
 
     override val id: Identifier = ID
 
-    override fun encode(buffer: PacketByteBuf) {
+    override fun encode(buffer: ByteBuf) {
         buffer.writeText(this.title)
         buffer.writeText(this.description)
         buffer.writeItemStack(this.icon)

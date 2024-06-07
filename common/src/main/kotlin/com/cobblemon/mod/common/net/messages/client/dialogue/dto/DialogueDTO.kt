@@ -23,7 +23,7 @@ import com.cobblemon.mod.common.api.net.Encodable
 import com.cobblemon.mod.common.util.readText
 import com.cobblemon.mod.common.util.resolve
 import com.cobblemon.mod.common.util.writeText
-import net.minecraft.network.PacketByteBuf
+import io.netty.buffer.ByteBuf
 import java.util.UUID
 
 class DialogueDTO : Encodable, Decodable {
@@ -57,7 +57,7 @@ class DialogueDTO : Encodable, Decodable {
         }
     }
 
-    override fun encode(buffer: PacketByteBuf) {
+    override fun encode(buffer: ByteBuf) {
         buffer.writeUuid(dialogueId)
         currentPageDTO.encode(buffer)
         dialogueInput.encode(buffer)
@@ -89,7 +89,7 @@ class DialogueDTO : Encodable, Decodable {
         }
     }
 
-    override fun decode(buffer: PacketByteBuf) {
+    override fun decode(buffer: ByteBuf) {
         dialogueId = buffer.readUuid()
         currentPageDTO = DialoguePageDTO()
         currentPageDTO.decode(buffer)

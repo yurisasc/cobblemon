@@ -15,6 +15,7 @@ import com.cobblemon.mod.common.api.storage.party.PartyPosition.Companion.writeP
 import com.cobblemon.mod.common.net.messages.PokemonDTO
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.util.cobblemonResource
+import io.netty.buffer.ByteBuf
 import net.minecraft.network.PacketByteBuf
 import java.util.UUID
 
@@ -33,7 +34,7 @@ class SetPartyPokemonPacket internal constructor(val storeID: UUID, val storePos
 
     constructor(storeID: UUID, storePosition: PartyPosition, pokemon: Pokemon) : this(storeID, storePosition, PokemonDTO(pokemon, true))
 
-    override fun encode(buffer: PacketByteBuf) {
+    override fun encode(buffer: ByteBuf) {
         buffer.writeUuid(this.storeID)
         buffer.writePartyPosition(this.storePosition)
         this.pokemonDTO.encode(buffer)

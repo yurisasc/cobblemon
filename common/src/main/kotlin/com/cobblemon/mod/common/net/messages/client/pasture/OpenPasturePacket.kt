@@ -18,6 +18,7 @@ import com.cobblemon.mod.common.util.readText
 import com.cobblemon.mod.common.util.writeItemStack
 import com.cobblemon.mod.common.util.writeSizedInt
 import com.cobblemon.mod.common.util.writeText
+import io.netty.buffer.ByteBuf
 import net.minecraft.item.ItemStack
 import net.minecraft.network.PacketByteBuf
 import net.minecraft.text.Text
@@ -95,7 +96,7 @@ class OpenPasturePacket(val pcId: UUID, val pastureId: UUID, val limit: Int, val
 
     override val id = ID
 
-    override fun encode(buffer: PacketByteBuf) {
+    override fun encode(buffer: ByteBuf) {
         buffer.writeUuid(pcId)
         buffer.writeUuid(pastureId)
         buffer.writeSizedInt(IntSize.U_BYTE, limit)

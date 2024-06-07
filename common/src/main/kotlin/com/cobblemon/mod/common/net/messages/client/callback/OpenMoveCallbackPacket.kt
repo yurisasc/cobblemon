@@ -11,6 +11,7 @@ package com.cobblemon.mod.common.net.messages.client.callback
 import com.cobblemon.mod.common.api.callback.MoveSelectDTO
 import com.cobblemon.mod.common.api.net.NetworkPacket
 import com.cobblemon.mod.common.util.cobblemonResource
+import io.netty.buffer.ByteBuf
 import net.minecraft.network.PacketByteBuf
 import net.minecraft.text.MutableText
 import net.minecraft.text.TextCodecs
@@ -33,7 +34,7 @@ class OpenMoveCallbackPacket(val uuid: UUID, val title: MutableText, val moves: 
     }
 
     override val id = ID
-    override fun encode(buffer: PacketByteBuf) {
+    override fun encode(buffer: ByteBuf) {
         buffer.writeUuid(uuid)
         TextCodecs.PACKET_CODEC.encode(buffer, title)
         buffer.writeCollection(moves) { _, v -> v.writeToBuffer(buffer) }

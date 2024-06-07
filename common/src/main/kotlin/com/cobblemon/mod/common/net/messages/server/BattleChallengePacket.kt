@@ -10,12 +10,13 @@ package com.cobblemon.mod.common.net.messages.server
 
 import com.cobblemon.mod.common.api.net.NetworkPacket
 import com.cobblemon.mod.common.util.cobblemonResource
+import io.netty.buffer.ByteBuf
 import net.minecraft.network.PacketByteBuf
 import java.util.UUID
 
 class BattleChallengePacket(val targetedEntityId: Int, val selectedPokemonId: UUID) : NetworkPacket<BattleChallengePacket> {
     override val id = ID
-    override fun encode(buffer: PacketByteBuf) {
+    override fun encode(buffer: ByteBuf) {
         buffer.writeInt(this.targetedEntityId)
         buffer.writeUuid(this.selectedPokemonId)
     }

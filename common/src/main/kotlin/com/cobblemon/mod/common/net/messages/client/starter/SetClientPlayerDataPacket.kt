@@ -12,6 +12,7 @@ import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.api.net.NetworkPacket
 import com.cobblemon.mod.common.api.storage.player.PlayerData
 import com.cobblemon.mod.common.util.cobblemonResource
+import io.netty.buffer.ByteBuf
 import net.minecraft.network.PacketByteBuf
 import java.util.UUID
 
@@ -36,7 +37,7 @@ class SetClientPlayerDataPacket(val promptStarter: Boolean, val starterLocked: B
         resetStarterPrompt
     )
 
-    override fun encode(buffer: PacketByteBuf) {
+    override fun encode(buffer: ByteBuf) {
         buffer.writeBoolean(promptStarter)
         buffer.writeBoolean(starterLocked)
         buffer.writeBoolean(starterSelected)
