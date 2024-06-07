@@ -20,9 +20,7 @@ import com.cobblemon.mod.common.api.dialogue.input.DialogueTextInput
 import com.cobblemon.mod.common.api.molang.ObjectValue
 import com.cobblemon.mod.common.api.net.Decodable
 import com.cobblemon.mod.common.api.net.Encodable
-import com.cobblemon.mod.common.util.readText
-import com.cobblemon.mod.common.util.resolve
-import com.cobblemon.mod.common.util.writeText
+import com.cobblemon.mod.common.util.*
 import io.netty.buffer.ByteBuf
 import java.util.UUID
 

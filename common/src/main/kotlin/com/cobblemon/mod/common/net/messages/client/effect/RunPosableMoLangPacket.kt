@@ -10,6 +10,10 @@ package com.cobblemon.mod.common.net.messages.client.effect
 
 import com.cobblemon.mod.common.api.net.NetworkPacket
 import com.cobblemon.mod.common.util.cobblemonResource
+import com.cobblemon.mod.common.util.readList
+import com.cobblemon.mod.common.util.readString
+import com.cobblemon.mod.common.util.writeCollection
+import com.cobblemon.mod.common.util.writeString
 import io.netty.buffer.ByteBuf
 import net.minecraft.network.PacketByteBuf
 
@@ -34,7 +38,7 @@ class RunPosableMoLangPacket(
 ) : NetworkPacket<RunPosableMoLangPacket> {
     companion object {
         val ID = cobblemonResource("run_posable_molang")
-        fun decode(buffer: PacketByteBuf) = RunPosableMoLangPacket(
+        fun decode(buffer: ByteBuf) = RunPosableMoLangPacket(
             buffer.readInt(),
             buffer.readList { pb -> pb.readString() }.toSet()
         )

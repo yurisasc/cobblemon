@@ -11,7 +11,9 @@ package com.cobblemon.mod.common.net.messages.client.dialogue.dto
 import com.cobblemon.mod.common.api.net.Decodable
 import com.cobblemon.mod.common.api.net.Encodable
 import com.cobblemon.mod.common.api.text.text
+import com.cobblemon.mod.common.util.readString
 import com.cobblemon.mod.common.util.readText
+import com.cobblemon.mod.common.util.writeString
 import com.cobblemon.mod.common.util.writeText
 import io.netty.buffer.ByteBuf
 import net.minecraft.text.MutableText

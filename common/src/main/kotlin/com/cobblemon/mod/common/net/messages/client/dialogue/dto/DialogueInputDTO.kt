@@ -14,6 +14,10 @@ import com.cobblemon.mod.common.api.dialogue.input.DialogueOptionSetInput
 import com.cobblemon.mod.common.api.dialogue.input.DialogueTextInput
 import com.cobblemon.mod.common.api.net.Decodable
 import com.cobblemon.mod.common.api.net.Encodable
+import com.cobblemon.mod.common.util.readEnumConstant
+import com.cobblemon.mod.common.util.readUuid
+import com.cobblemon.mod.common.util.writeEnumConstant
+import com.cobblemon.mod.common.util.writeUuid
 import io.netty.buffer.ByteBuf
 import java.util.UUID
 
