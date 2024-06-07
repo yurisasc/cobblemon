@@ -14,6 +14,7 @@ import com.cobblemon.mod.common.util.DataKeys
 import com.cobblemon.mod.common.util.readSizedInt
 import com.cobblemon.mod.common.util.writeSizedInt
 import com.google.gson.JsonObject
+import io.netty.buffer.ByteBuf
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.nbt.NbtElement
 import net.minecraft.nbt.NbtList
@@ -102,7 +103,7 @@ class MoveSet : Iterable<Move> {
     /**
      * Writes the MoveSet to Buffer
      */
-    fun saveToBuffer(buffer: PacketByteBuf) {
+    fun saveToBuffer(buffer: ByteBuf) {
         buffer.writeSizedInt(IntSize.U_BYTE, getMoves().size)
         getMoves().forEach {
             it.saveToBuffer(buffer)

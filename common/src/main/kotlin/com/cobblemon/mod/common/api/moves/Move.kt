@@ -15,7 +15,9 @@ import com.cobblemon.mod.common.net.IntSize
 import com.cobblemon.mod.common.util.DataKeys
 import com.cobblemon.mod.common.util.readSizedInt
 import com.cobblemon.mod.common.util.writeSizedInt
+import com.cobblemon.mod.common.util.writeString
 import com.google.gson.JsonObject
+import io.netty.buffer.ByteBuf
 import kotlin.math.ceil
 import kotlin.properties.Delegates
 import net.minecraft.nbt.NbtCompound
@@ -114,7 +116,7 @@ open class Move(
         return json
     }
 
-    fun saveToBuffer(buffer: PacketByteBuf) {
+    fun saveToBuffer(buffer: ByteBuf) {
         buffer.writeString(name)
         buffer.writeSizedInt(IntSize.U_BYTE, currentPp)
         buffer.writeSizedInt(IntSize.U_BYTE, raisedPpStages)

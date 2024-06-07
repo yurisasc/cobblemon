@@ -31,8 +31,16 @@ import com.cobblemon.mod.common.pokemon.activestate.PokemonState
 import com.cobblemon.mod.common.pokemon.status.PersistentStatus
 import com.cobblemon.mod.common.pokemon.status.PersistentStatusContainer
 import com.cobblemon.mod.common.util.asIdentifierDefaultingNamespace
+import com.cobblemon.mod.common.util.readIdentifier
+import com.cobblemon.mod.common.util.readNullable
 import com.cobblemon.mod.common.util.readSizedInt
+import com.cobblemon.mod.common.util.readString
+import com.cobblemon.mod.common.util.readUuid
+import com.cobblemon.mod.common.util.writeIdentifier
+import com.cobblemon.mod.common.util.writeNullable
 import com.cobblemon.mod.common.util.writeSizedInt
+import com.cobblemon.mod.common.util.writeString
+import com.cobblemon.mod.common.util.writeUuid
 import io.netty.buffer.ByteBuf
 import io.netty.buffer.Unpooled
 import net.minecraft.item.ItemStack
@@ -136,7 +144,7 @@ class PokemonDTO : Encodable, Decodable {
         this.originalTrainerName = pokemon.originalTrainerName
     }
 
-    override fun encode(buffer: RegistryByteBuf) {
+    override fun encode(buffer: ByteBuf) {
         buffer.writeBoolean(toClient)
         buffer.writeUuid(uuid)
         buffer.writeIdentifier(species)

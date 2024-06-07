@@ -10,10 +10,12 @@ import net.minecraft.entity.EntityDimensions
 import net.minecraft.item.ItemStack
 import net.minecraft.nbt.NbtOps
 import net.minecraft.network.PacketByteBuf
+import net.minecraft.network.codec.PacketEncoder
 import net.minecraft.network.encoding.StringEncoding
 import net.minecraft.text.Text
 import net.minecraft.text.TextCodecs
 import net.minecraft.util.Identifier
+import org.apache.commons.io.IOUtils.writer
 import kotlin.jvm.optionals.getOrNull
 
 fun PacketByteBuf.readItemStack(): ItemStack {
@@ -58,6 +60,12 @@ fun <T> ByteBuf.writeNullable(obj: T?, writer: (ByteBuf, T) -> Unit) {
     this.writeBoolean(obj == null)
     obj?.let {
         writer(this, it)
+    }
+}
+
+fun <T> ByteBuf.writeNullable(obj: T?, writer: PacketEncoder<ByteBuf, T>) {
+    writeNullable(obj) { buf, otherObj ->
+        writer.encode(buf, otherObj)
     }
 }
 

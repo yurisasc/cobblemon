@@ -12,6 +12,12 @@ import com.cobblemon.mod.common.api.net.Decodable
 import com.cobblemon.mod.common.api.net.Encodable
 import com.cobblemon.mod.common.client.particle.ParticleStorm
 import com.cobblemon.mod.common.client.render.SnowstormParticle
+import com.cobblemon.mod.common.util.readList
+import com.cobblemon.mod.common.util.readMap
+import com.cobblemon.mod.common.util.readString
+import com.cobblemon.mod.common.util.writeCollection
+import com.cobblemon.mod.common.util.writeMap
+import com.cobblemon.mod.common.util.writeString
 import com.mojang.serialization.codecs.PrimitiveCodec
 import com.mojang.serialization.codecs.RecordCodecBuilder
 import com.mojang.serialization.codecs.UnboundedMapCodec
@@ -71,7 +77,7 @@ class EventTriggerTimeline(var map: MutableMap<Double, MutableList<String>>): En
     }
 
     override fun decode(buffer: ByteBuf) {
-        map = buffer.readMap({ pb -> pb.readDouble() }, { pb -> pb.readList { pb.readString() } })
+        map = buffer.readMap({ pb -> pb.readDouble() }, { pb -> pb.readList { pb.readString() }.toMutableList() }).toMutableMap()
     }
 
     fun check(storm: ParticleStorm, particle: SnowstormParticle?, previousTime: Double, newTime: Double) {
@@ -107,7 +113,7 @@ class LoopingTravelDistanceEventTrigger(var distance: Double, var events: Mutabl
 
     override fun decode(buffer: ByteBuf) {
         distance = buffer.readDouble()
-        events = buffer.readList { buffer.readString() }
+        events = buffer.readList { buffer.readString() }.toMutableList()
     }
 
     fun check(storm: ParticleStorm, particle: SnowstormParticle?, previousDistance: Double, currentDistance: Double) {
