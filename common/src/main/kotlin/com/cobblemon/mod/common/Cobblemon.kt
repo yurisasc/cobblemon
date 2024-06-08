@@ -102,7 +102,6 @@ import com.cobblemon.mod.common.pokemon.properties.HiddenAbilityPropertyType
 import com.cobblemon.mod.common.pokemon.properties.UncatchableProperty
 import com.cobblemon.mod.common.pokemon.properties.tags.PokemonFlagProperty
 import com.cobblemon.mod.common.pokemon.stat.CobblemonStatProvider
-import com.cobblemon.mod.common.sherds.CobblemonSherds
 import com.cobblemon.mod.common.starter.CobblemonStarterHandler
 import com.cobblemon.mod.common.trade.TradeManager
 import com.cobblemon.mod.common.util.DataKeys
@@ -179,7 +178,6 @@ object Cobblemon {
         if(CobblemonBuildDetails.SNAPSHOT) {
             this.LOGGER.info("  - Git Commit: ${smallCommitHash()} (https://gitlab.com/cable-mc/cobblemon/-/commit/${CobblemonBuildDetails.GIT_COMMIT})")
             this.LOGGER.info("  - Branch: ${CobblemonBuildDetails.BRANCH}")
-            this.LOGGER.info("  - Timestamp: ${CobblemonBuildDetails.TIMESTAMP}")
         }
 
         implementation.registerPermissionValidator()
@@ -238,7 +236,7 @@ object Cobblemon {
             val player = event.player
             val block = player.world.getBlockState(event.pos).block
             player.party().forEach { pokemon ->
-                pokemon.evolutions
+                pokemon.lockedEvolutions
                     .filterIsInstance<BlockClickEvolution>()
                     .forEach { evolution ->
                         evolution.attemptEvolution(pokemon, BlockClickEvolution.BlockInteractionContext(block, player.world))
@@ -370,36 +368,6 @@ object Cobblemon {
         BATTLE_VICTORY.subscribe { AdvancementHandler.onWinBattle(it) }
         EVOLUTION_COMPLETE.subscribe(Priority.LOWEST) { event ->
             AdvancementHandler.onEvolve(event)
-            val pokemon = event.pokemon
-            val ninjaskIdentifier = cobblemonResource("ninjask")
-            // Ensure the config option is enabled and that the result was a ninjask and that shedinja exists
-            if (this.config.ninjaskCreatesShedinja && pokemon.species.resourceIdentifier == ninjaskIdentifier && PokemonSpecies.getByIdentifier(Pokemon.SHEDINJA) != null) {
-                val player = pokemon.getOwnerPlayer() ?: return@subscribe
-                if (player.isCreative || player.inventory.containsAny { it.item is PokeBallItem }) {
-                    var pokeball = Items.AIR
-                    player.inventory.combinedInventory.forEach {
-                        it.forEach {
-                            itemStack -> if (itemStack.item is PokeBallItem && pokeball == Items.AIR) {
-                                pokeball = itemStack.item as PokeBallItem
-                            }
-                        }
-                    }
-                    if (!player.isCreative) {
-                        player.inventory.removeAmountIf(1) { it.item is PokeBallItem }
-                    }
-                    if (pokeball == Items.AIR) {
-                        pokeball = CobblemonItems.POKE_BALL
-                    }
-                    val properties = event.evolution.result.copy()
-                    properties.species = Pokemon.SHEDINJA.toString()
-                    val product = pokemon.clone()
-                    product.removeHeldItem()
-                    properties.apply(product)
-                    product.caughtBall = (pokeball as PokeBallItem).pokeBall
-                    pokemon.storeCoordinates.get()?.store?.add(product)
-                    CobblemonCriteria.EVOLVE_POKEMON.trigger(player, EvolvePokemonContext(event.pokemon.preEvolution!!.species.resourceIdentifier, product.species.resourceIdentifier, playerData.get(player).advancementData.totalEvolvedCount))
-                }
-            }
         }
         LEVEL_UP_EVENT.subscribe { AdvancementHandler.onLevelUp(it) }
         TRADE_COMPLETED.subscribe { AdvancementHandler.onTradeCompleted(it) }
@@ -414,8 +382,6 @@ object Cobblemon {
             ).ifSuccessful { it.mute = true }
         }
 
-        //To whomever is merging, this is moved out of Cobblemon and into the CobblemonImplementations
-        //CobblemonSherds.registerSherds()
     }
 
     fun getLevel(dimension: RegistryKey<World>): World? {

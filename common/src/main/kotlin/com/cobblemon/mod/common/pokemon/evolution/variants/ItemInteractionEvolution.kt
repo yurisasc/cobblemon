@@ -31,6 +31,7 @@ import net.minecraft.world.World
 open class ItemInteractionEvolution(
     override val id: String,
     override val result: PokemonProperties,
+    override val shedder: PokemonProperties?,
     override val requiredContext: NbtItemPredicate,
     override var optional: Boolean,
     override var consumeHeldItem: Boolean,
@@ -40,6 +41,7 @@ open class ItemInteractionEvolution(
     constructor(): this(
         id = "id",
         result = PokemonProperties(),
+        shedder = null,
         requiredContext = NbtItemPredicate(ItemIdentifierCondition(Identifier("minecraft", "fish")), null),
         optional = true,
         consumeHeldItem = true,

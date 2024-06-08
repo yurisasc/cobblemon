@@ -84,14 +84,15 @@ object SpawnPokemonFromPool {
 
             val spawnAction = result.second.doSpawn(ctx = result.first)
 
-            spawnAction.future.thenApply {
-                if (it is EntitySpawnResult) {
-                    for (entity in it.entities) {
-                        player.sendMessage(commandLang("spawnpokemonfrompool.success", entity.effectiveName()).green())
+            spawnAction.future
+                .thenApply {
+                    if (it is EntitySpawnResult) {
+                        for (entity in it.entities) {
+                            player.sendMessage(commandLang("spawnpokemonfrompool", entity.effectiveName()).green())
+                        }
                     }
                 }
-            }
-
+            spawnAction.complete()
             spawnsTriggered++
         }
 

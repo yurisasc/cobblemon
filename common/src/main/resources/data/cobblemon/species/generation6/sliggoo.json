@@ -76,15 +76,18 @@
         "tm:bodyslam",
         "tm:charm",
         "tm:chillingwater",
+        "tm:curse",
         "tm:dracometeor",
         "tm:dragonpulse",
         "tm:endure",
         "tm:facade",
         "tm:flashcannon",
+        "tm:gyroball",
         "tm:heavyslam",
         "tm:icebeam",
         "tm:icespinner",
         "tm:ironhead",
+        "tm:muddywater",
         "tm:mudshot",
         "tm:outrage",
         "tm:protect",
@@ -93,8 +96,10 @@
         "tm:rockslide",
         "tm:rocktomb",
         "tm:sandstorm",
+        "tm:skittersmack",
         "tm:sleeptalk",
         "tm:sludgebomb",
+        "tm:sludgewave",
         "tm:steelbeam",
         "tm:substitute",
         "tm:sunnyday",
@@ -137,29 +142,6 @@
             {
               "variant": "weather",
               "isRaining": true
-            }
-          ]
-        },
-        {
-          "id": "hisui_sliggoo_goodra",
-          "variant": "level_up",
-          "result": "goodra",
-          "consumeHeldItem": false,
-          "learnableMoves": [
-            "aquatail"
-          ],
-          "requirements": [
-            {
-              "variant": "level",
-              "minLevel": 50
-            },
-            {
-              "variant": "weather",
-              "isRaining": true
-            },
-            {
-              "variant": "biome",
-              "biomeCondition": "#minecraft:is_swamp"
             }
           ]
         }
@@ -214,6 +196,7 @@
     "tm:charm",
     "tm:chillingwater",
     "tm:confide",
+    "tm:curse",
     "tm:doubleteam",
     "tm:dracometeor",
     "tm:dragonpulse",
@@ -234,6 +217,7 @@
     "tm:rockslide",
     "tm:round",
     "tm:secretpower",
+    "tm:skittersmack",
     "tm:sleeptalk",
     "tm:sludgebomb",
     "tm:sludgewave",
@@ -281,33 +265,6 @@
         {
           "variant": "weather",
           "isRaining": true
-        }
-      ]
-    },
-    {
-      "id": "sliggoo_hisui_goodra",
-      "variant": "level_up",
-      "result": "goodra hisuian",
-      "consumeHeldItem": false,
-      "learnableMoves": [
-        "irontail"
-      ],
-      "requirements": [
-        {
-          "variant": "level",
-          "minLevel": 50
-        },
-        {
-          "variant": "weather",
-          "isRaining": true
-        },
-        {
-          "variant": "biome",
-          "biomeCondition": "#minecraft:is_dripstone"
-        },
-        {
-          "variant": "biome",
-          "biomeCondition": "#minecraft:is_lush"
         }
       ]
     }

@@ -38,13 +38,14 @@ dependencies {
     //a forge launch we gotta do some wacky stuff
     //modImplementation(libs.jeiForge)
     //shadowCommon group: 'commons-io', name: 'commons-io', version: '2.6'
-    //modImplementation(libs.flywheelForge)
-    //include(libs.flywheelForge)
+//    modImplementation(libs.flywheelForge)
+//    include(libs.flywheelForge)
+//    modCompileOnly(libs.adorn.forge)
 
     implementation(project(":common", configuration = "namedElements")) {
         isTransitive = false
     }
-    implementation(libs.kotlinForForge)
+    implementation(libs.kotlin.forge)
     "developmentNeoForge"(project(":common", configuration = "namedElements")) {
         isTransitive = false
     }

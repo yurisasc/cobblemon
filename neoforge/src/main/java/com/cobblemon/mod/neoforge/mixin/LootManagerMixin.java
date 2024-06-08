@@ -28,10 +28,17 @@ public class LootManagerMixin {
     /*@Redirect(method = "m_278660_", at = @At(value = "INVOKE", target = "Ljava/util/Map;forEach(Ljava/util/function/BiConsumer;)V"), remap = false)
     private static void cobblemon$supportICondition(Map<Identifier, JsonElement> map, BiConsumer<Identifier, JsonElement> consumer) {
         map.forEach((identifier, jsonElement) -> {
-            // If the element isn't present the result is true as well, also, it's safe to cast as JsonObject
-            if (CraftingHelper.processConditions(jsonElement.getAsJsonObject(), LOAD_CONDITIONS, ICondition.IContext.EMPTY)) {
-                consumer.accept(identifier, jsonElement);
+            // If the element isn't present the result is true as well,
+            // It is not in fact safe to cast to JsonObject, breaks Incendium
+            if (jsonElement.isJsonObject()) {
+                if (CraftingHelper.processConditions(jsonElement.getAsJsonObject(), LOAD_CONDITIONS, ICondition.IContext.EMPTY)) {
+                    consumer.accept(identifier, jsonElement);
+                    return;
+                }
             }
+            //Still need to do stuff if not obj
+            consumer.accept(identifier, jsonElement);
+
         });
     }*/
 
