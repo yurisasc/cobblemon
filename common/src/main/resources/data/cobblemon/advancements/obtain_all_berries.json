@@ -1,7 +1,7 @@
 {
   "display": {
     "icon": {
-      "item": "cobblemon:enigma_berry"
+      "id": "cobblemon:enigma_berry"
     },
     "title": {
       "translate": "advancements.cobblemon.obtain_all_berries"

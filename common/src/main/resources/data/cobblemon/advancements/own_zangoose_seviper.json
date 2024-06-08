@@ -1,7 +1,7 @@
 {
   "display": {
     "icon": {
-      "item": "cobblemon:love_ball"
+      "id": "cobblemon:love_ball"
     },
     "title": {
       "translate": "advancements.cobblemon.own_zangoose_seviper"

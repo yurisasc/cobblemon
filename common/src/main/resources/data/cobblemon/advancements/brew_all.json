@@ -1,7 +1,7 @@
 {
   "display": {
     "icon": {
-      "item": "cobblemon:full_heal"
+      "id": "cobblemon:full_heal"
     },
     "title": {
       "translate": "advancements.cobblemon.brew_all"

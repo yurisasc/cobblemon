@@ -1,7 +1,7 @@
 {
   "display": {
     "icon": {
-      "item": "cobblemon:exp_candy_xl"
+      "id": "cobblemon:exp_candy_xl"
     },
     "title": {
       "translate": "advancements.cobblemon.use_candy"
@@ -16,37 +16,37 @@
     "use_rare_candy": {
       "trigger": "cobblemon:pokemon_interact",
       "conditions": {
-        "item": "cobblemon:rare_candy"
+        "id": "cobblemon:rare_candy"
       }
     },
 	"use_xl_candy": {
       "trigger": "cobblemon:pokemon_interact",
       "conditions": {
-        "item": "cobblemon:exp_candy_xl"
+        "id": "cobblemon:exp_candy_xl"
       }
     },
 	"use_l_candy": {
       "trigger": "cobblemon:pokemon_interact",
       "conditions": {
-        "item": "cobblemon:exp_candy_l"
+        "id": "cobblemon:exp_candy_l"
       }
     },
 	"use_m_candy": {
       "trigger": "cobblemon:pokemon_interact",
       "conditions": {
-        "item": "cobblemon:exp_candy_m"
+        "id": "cobblemon:exp_candy_m"
       }
     },
 	"use_s_candy": {
       "trigger": "cobblemon:pokemon_interact",
       "conditions": {
-        "item": "cobblemon:exp_candy_s"
+        "id": "cobblemon:exp_candy_s"
       }
     },
 	"use_xs_candy": {
       "trigger": "cobblemon:pokemon_interact",
       "conditions": {
-        "item": "cobblemon:exp_candy_xs"
+        "id": "cobblemon:exp_candy_xs"
       }
     }
   },
