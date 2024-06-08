@@ -14,8 +14,8 @@ versions:
 
   # fabric/remap
   loom: 1.6-SNAPSHOT
-  fabric-loader: 0.15.10
-  fabric-api: 0.97.6+1.20.5
+  fabric-loader: 0.15.11
+  fabric-api: 0.99.4+1.20.6
   fabric-kotlin: 1.10.19+kotlin.1.9.23
   architectury-plugin: 3.4-SNAPSHOT
   flywheelFabric: 0.6.9-1
@@ -23,7 +23,7 @@ versions:
   lamb-dynamic-lights: 2.3.4+1.20.4
 
   # neoforge
-  neoforge: 20.5.3-beta
+  neoforge: 20.6.112-beta
   kotlinForForge: 4.10.0
   flywheelForge: 0.6.10-7
 
