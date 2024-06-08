@@ -11,11 +11,12 @@ package com.cobblemon.mod.common.loot
 import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.util.cobblemonResource
 import net.minecraft.loot.LootPool
+import net.minecraft.loot.LootTable
 import net.minecraft.loot.LootTables
 import net.minecraft.loot.entry.LootTableEntry
 import net.minecraft.loot.provider.number.UniformLootNumberProvider
-import net.minecraft.registry.BuiltinRegistries
-import net.minecraft.registry.Registries
+import net.minecraft.registry.RegistryKey
+import net.minecraft.registry.RegistryKeys
 import net.minecraft.util.Identifier
 import org.jetbrains.annotations.ApiStatus
 
@@ -72,9 +73,6 @@ object LootInjector {
      * @return If the injection was made.
      */
     fun attemptInjection(id: Identifier, provider: (LootPool.Builder) -> Unit): Boolean {
-        Cobblemon.LOGGER.info("REMEMBER TO FIX THIS")
-        return false
-        /* MC changed how loot tables are registered D:
         if (!this.injectionIds.contains(id)) {
             return false
         }
@@ -82,7 +80,6 @@ object LootInjector {
         Cobblemon.LOGGER.debug("{}: Injected {} to {}", this::class.simpleName, resulting, id)
         provider(this.injectLootPool(resulting))
         return true
-        */
     }
 
     /**
@@ -105,12 +102,13 @@ object LootInjector {
      * @return A [LootPool.Builder] with the [resulting] table.
      */
     private fun injectLootPool(resulting: Identifier): LootPool.Builder {
-        throw NotImplementedError("")
-        /*
         return LootPool.builder()
-            .with(LootTableEntry.builder(Registries.LOOT).weight(1))
+            .with(
+                LootTableEntry
+                    .builder(RegistryKey.of(RegistryKeys.LOOT_TABLE, resulting))
+                    .weight(1)
+            )
             .bonusRolls(UniformLootNumberProvider.create(0F, 1F))
-         */
     }
 
 }
