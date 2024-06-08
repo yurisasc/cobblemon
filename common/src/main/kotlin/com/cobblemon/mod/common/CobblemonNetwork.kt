@@ -8,10 +8,7 @@
 
 package com.cobblemon.mod.common
 
-import com.cobblemon.mod.common.api.net.ClientNetworkPacketHandler
 import com.cobblemon.mod.common.api.net.NetworkPacket
-import com.cobblemon.mod.common.api.net.PacketHandler
-import com.cobblemon.mod.common.api.net.ServerNetworkPacketHandler
 import com.cobblemon.mod.common.client.net.PlayerInteractOptionsHandler
 import com.cobblemon.mod.common.client.net.SetClientPlayerDataHandler
 import com.cobblemon.mod.common.client.net.animation.PlayPoseableAnimationHandler
@@ -21,9 +18,9 @@ import com.cobblemon.mod.common.client.net.callback.party.OpenPartyCallbackHandl
 import com.cobblemon.mod.common.client.net.callback.partymove.OpenPartyMoveCallbackHandler
 import com.cobblemon.mod.common.client.net.data.DataRegistrySyncPacketHandler
 import com.cobblemon.mod.common.client.net.data.UnlockReloadPacketHandler
-import com.cobblemon.mod.common.client.net.effect.RunPosableMoLangHandler
 import com.cobblemon.mod.common.client.net.dialogue.DialogueClosedHandler
 import com.cobblemon.mod.common.client.net.dialogue.DialogueOpenedHandler
+import com.cobblemon.mod.common.client.net.effect.RunPosableMoLangHandler
 import com.cobblemon.mod.common.client.net.effect.SpawnSnowstormEntityParticleHandler
 import com.cobblemon.mod.common.client.net.effect.SpawnSnowstormParticleHandler
 import com.cobblemon.mod.common.client.net.gui.InteractPokemonUIPacketHandler
@@ -117,7 +114,12 @@ import com.cobblemon.mod.common.net.messages.client.trade.TradeStartedPacket
 import com.cobblemon.mod.common.net.messages.client.trade.TradeUpdatedPacket
 import com.cobblemon.mod.common.net.messages.client.ui.InteractPokemonUIPacket
 import com.cobblemon.mod.common.net.messages.client.ui.SummaryUIPacket
-import com.cobblemon.mod.common.net.messages.server.*
+import com.cobblemon.mod.common.net.messages.server.BattleChallengePacket
+import com.cobblemon.mod.common.net.messages.server.BenchMovePacket
+import com.cobblemon.mod.common.net.messages.server.RequestMoveSwapPacket
+import com.cobblemon.mod.common.net.messages.server.RequestPlayerInteractionsPacket
+import com.cobblemon.mod.common.net.messages.server.SelectStarterPacket
+import com.cobblemon.mod.common.net.messages.server.SendOutPokemonPacket
 import com.cobblemon.mod.common.net.messages.server.battle.BattleSelectActionsPacket
 import com.cobblemon.mod.common.net.messages.server.battle.RemoveSpectatorPacket
 import com.cobblemon.mod.common.net.messages.server.battle.SpectateBattlePacket
@@ -191,12 +193,7 @@ import com.cobblemon.mod.common.net.serverhandling.trade.ChangeTradeAcceptanceHa
 import com.cobblemon.mod.common.net.serverhandling.trade.OfferTradeHandler
 import com.cobblemon.mod.common.net.serverhandling.trade.UpdateTradeOfferHandler
 import com.cobblemon.mod.common.util.server
-import net.minecraft.network.RegistryByteBuf
-import net.minecraft.network.listener.ClientPlayPacketListener
-import net.minecraft.network.packet.Packet
 import net.minecraft.server.network.ServerPlayerEntity
-import net.minecraft.util.Identifier
-import kotlin.reflect.KClass
 
 /**
  * Registers Cobblemon network packets.
@@ -209,26 +206,12 @@ import kotlin.reflect.KClass
 object CobblemonNetwork {
 
     fun ServerPlayerEntity.sendPacket(packet: NetworkPacket<*>) = sendPacketToPlayer(this, packet)
-    fun sendToServer(packet: NetworkPacket<*>) = Cobblemon.implementation.networkManager.sendPacketToServer(packet)
+    fun sendToServer(packet: NetworkPacket<*>) = Cobblemon.implementation.networkManager.sendToServer(packet)
     fun sendToAllPlayers(packet: NetworkPacket<*>) = sendPacketToPlayers(server()!!.playerManager.playerList, packet)
     fun sendPacketToPlayers(players: Iterable<ServerPlayerEntity>, packet: NetworkPacket<*>) = players.forEach { sendPacketToPlayer(it, packet) }
 
-    val S2CPayloads = generateS2CPacketInfoList()
-    val C2SPayloads = generateC2SPacketInfoList()
-
-    fun registerClientBoundHandlers() {
-        S2CPayloads.forEach {
-            val actualHandler = it.handler as ClientNetworkPacketHandler<*>
-            Cobblemon.implementation.networkManager.createClientBoundHandler(it.id, actualHandler::handle)
-        }
-    }
-
-    fun registerServerBoundHandlers() {
-        C2SPayloads.forEach {
-            val actualHandler = it.handler as ServerNetworkPacketHandler<*>
-            Cobblemon.implementation.networkManager.createServerBoundHandler(it.id, actualHandler::handle)
-        }
-    }
+    val s2cPayloads = generateS2CPacketInfoList()
+    val c2sPayloads = generateC2SPacketInfoList()
 
     private fun generateS2CPacketInfoList(): List<PacketRegisterInfo<*>> {
         val list = mutableListOf<PacketRegisterInfo<*>>()
@@ -444,15 +427,6 @@ object CobblemonNetwork {
 
         return list
     }
-
-    private inline fun <reified T : NetworkPacket<T>> createClientBound(identifier: Identifier, noinline decoder: (RegistryByteBuf) -> T, handler: ClientNetworkPacketHandler<T>) {
-        Cobblemon.implementation.networkManager.createClientBoundPayload(identifier, T::class, { message, buffer -> message.encode(buffer) }, decoder, handler)
-    }
-
-    private inline fun <reified T : NetworkPacket<T>> createServerBound(identifier: Identifier, noinline decoder: (RegistryByteBuf) -> T, handler: ServerNetworkPacketHandler<T>) {
-        Cobblemon.implementation.networkManager.createServerBoundPayload(identifier, T::class, { message, buffer -> message.encode(buffer) }, decoder, handler)
-    }
-
 
     fun sendPacketToPlayer(player: ServerPlayerEntity, packet: NetworkPacket<*>) = Cobblemon.implementation.networkManager.sendPacketToPlayer(player, packet)
 }

@@ -26,6 +26,7 @@ import com.cobblemon.mod.neoforge.brewing.CobblemonNeoForgeBrewingRegistry
 import com.cobblemon.mod.neoforge.client.CobblemonNeoForgeClient
 import com.cobblemon.mod.neoforge.event.NeoForgePlatformEventHandler
 import com.cobblemon.mod.neoforge.net.CobblemonNeoForgeNetworkManager
+import com.cobblemon.mod.neoforge.net.NeoForgePacketInfo
 import com.cobblemon.mod.neoforge.permission.ForgePermissionValidator
 import com.cobblemon.mod.neoforge.worldgen.CobblemonBiomeModifiers
 import com.mojang.brigadier.arguments.ArgumentType
@@ -91,7 +92,7 @@ class CobblemonNeoForge : CobblemonImplementation {
     private val queuedWork = arrayListOf<() -> Unit>()
     private val queuedBuiltinResourcePacks = arrayListOf<Triple<Identifier, Text, ResourcePackActivationBehaviour>>()
 
-    override val networkManager: NetworkManager = CobblemonNeoForgeNetworkManager
+    override val networkManager = CobblemonNeoForgeNetworkManager
 
     init {
         with(MOD_BUS) {
@@ -112,7 +113,7 @@ class CobblemonNeoForge : CobblemonImplementation {
             addListener(this@CobblemonNeoForge::registerCommands)
             addListener(this@CobblemonNeoForge::onReload)
             addListener(this@CobblemonNeoForge::addCobblemonStructures)
-            addListener(::registerPackets)
+            addListener(networkManager::registerMessages)
             addListener(::onVillagerTradesRegistry)
             addListener(::onWanderingTraderRegistry)
             addListener(::onLootTableLoad)
@@ -145,15 +146,6 @@ class CobblemonNeoForge : CobblemonImplementation {
             this.attemptModCompat()
         }
         Cobblemon.initialize()
-    }
-
-    fun registerPackets(event: RegisterPayloadHandlersEvent) {
-        (networkManager as CobblemonNeoForgeNetworkManager).registrar = event
-            .registrar(Cobblemon.MODID)
-            .versioned(CobblemonNeoForgeNetworkManager.PROTOCOL_VERSION)
-        this.networkManager.registerClientBoundHandlers()
-        this.networkManager.registerServerBound()
-        networkManager.registrar = null
     }
 
     fun on(event: RegisterEvent) {

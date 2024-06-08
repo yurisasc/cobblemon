@@ -29,7 +29,7 @@ class ClientEvolutionController(override val pokemon: Pokemon) : EvolutionContro
         get() = this.evolutions.size
 
     override fun start(evolution: EvolutionDisplay) {
-        CobblemonNetwork.sendPacketToServer(AcceptEvolutionPacket(this.pokemon, evolution))
+        CobblemonNetwork.sendToServer(AcceptEvolutionPacket(this.pokemon, evolution))
     }
 
     override fun progress(): Collection<EvolutionProgress<*>> {

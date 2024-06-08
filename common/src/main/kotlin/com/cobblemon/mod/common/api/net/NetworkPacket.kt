@@ -10,8 +10,6 @@ package com.cobblemon.mod.common.api.net
 
 import com.cobblemon.mod.common.CobblemonNetwork
 import com.cobblemon.mod.common.util.server
-import io.netty.buffer.Unpooled
-import net.minecraft.network.PacketByteBuf
 import net.minecraft.network.packet.CustomPayload
 import net.minecraft.registry.RegistryKey
 import net.minecraft.server.network.ServerPlayerEntity
@@ -60,7 +58,7 @@ interface NetworkPacket<T: NetworkPacket<T>> : CustomPayload, Encodable {
      * TODO
      *
      */
-    fun sendToServer() = CobblemonNetwork.sendPacketToServer(this)
+    fun sendToServer() = CobblemonNetwork.sendToServer(this)
 
     // A copy from PlayerManager#sendToAround to work with our packets
     /**
@@ -86,17 +84,5 @@ interface NetworkPacket<T: NetworkPacket<T>> : CustomPayload, Encodable {
         .forEach { player -> CobblemonNetwork.sendPacketToPlayer(player, this) }
     }
 
-    /**
-     * TODO
-     *
-     * @return
-     */
-    fun toBuffer(): PacketByteBuf {
-        val buffer = PacketByteBuf(Unpooled.buffer())
-        this.encode(buffer)
-        return buffer
-    }
-
-    override fun getId(): CustomPayload.Id<out CustomPayload> = CustomPayload.id(id.path)
-
+    override fun getId() = CustomPayload.Id<T>(id)
 }

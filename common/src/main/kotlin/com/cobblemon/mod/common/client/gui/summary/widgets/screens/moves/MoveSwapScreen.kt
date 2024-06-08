@@ -188,7 +188,7 @@ class MoveSwapScreen(
             if (isMouseOver(d, e)) {
                 val pokemon = pane.movesWidget.summary.selectedPokemon
                 val isParty = pokemon in CobblemonClient.storage.myParty
-                CobblemonNetwork.sendPacketToServer(
+                CobblemonNetwork.sendToServer(
                     BenchMovePacket(
                         isParty = isParty,
                         uuid = pokemon.uuid,

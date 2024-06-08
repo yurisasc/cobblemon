@@ -24,6 +24,7 @@ import com.cobblemon.mod.common.world.predicate.CobblemonBlockPredicates
 import com.cobblemon.mod.common.world.structureprocessors.CobblemonProcessorTypes
 import com.cobblemon.mod.common.world.structureprocessors.CobblemonStructureProcessorListOverrides
 import com.cobblemon.mod.fabric.net.CobblemonFabricNetworkManager
+import com.cobblemon.mod.fabric.net.FabricPacketInfo
 import com.cobblemon.mod.fabric.permission.FabricPermissionValidator
 import com.mojang.brigadier.arguments.ArgumentType
 import net.fabricmc.api.EnvType
@@ -87,13 +88,14 @@ object CobblemonFabric : CobblemonImplementation {
 
     private var server: MinecraftServer? = null
 
-    override val networkManager: NetworkManager = CobblemonFabricNetworkManager
+    override val networkManager = CobblemonFabricNetworkManager
 
     fun initialize() {
         Cobblemon.preInitialize(this)
-        this.networkManager.registerServerBound()
 
         Cobblemon.initialize()
+        networkManager.registerMessages()
+        networkManager.registerServerHandlers()
 
         CobblemonBlockPredicates.touch()
         CobblemonPlacementModifierTypes.touch()
@@ -164,8 +166,8 @@ object CobblemonFabric : CobblemonImplementation {
             return@register ActionResult.PASS
         }
 
-        LootTableEvents.MODIFY.register { _, _, id, tableBuilder, _ ->
-            LootInjector.attemptInjection(id, tableBuilder::pool)
+        LootTableEvents.MODIFY.register { id, tableBuilder, source ->
+            LootInjector.attemptInjection(id.value, tableBuilder::pool)
         }
 
         CommandRegistrationCallback.EVENT.register(CobblemonCommands::register)
@@ -295,8 +297,8 @@ object CobblemonFabric : CobblemonImplementation {
                 }
 
                 val orderedResources = if (resources.size > 1) {
-                    val sorted = resources.sortedBy { it.resourcePackName.replace("file/", "") }.toMutableList()
-                    val fabric = sorted.find { it.resourcePackName == "fabric" }
+                    val sorted = resources.sortedBy { it.packId.replace("file/", "") }.toMutableList()
+                    val fabric = sorted.find { it.packId == "fabric" }
 
                     if (fabric != null) {
                         sorted.remove(fabric)
@@ -368,7 +370,5 @@ object CobblemonFabric : CobblemonImplementation {
         override fun putLast(item: ItemConvertible) {
             this.fabricItemGroupEntries.add(item)
         }
-
     }
-
 }

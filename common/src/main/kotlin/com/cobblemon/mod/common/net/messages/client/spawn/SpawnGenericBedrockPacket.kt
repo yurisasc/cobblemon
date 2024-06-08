@@ -13,7 +13,10 @@ import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.generic.GenericBedrockEntity
 import com.cobblemon.mod.common.net.IntSize
 import com.cobblemon.mod.common.util.cobblemonResource
+import com.cobblemon.mod.common.util.writeCollection
+import com.cobblemon.mod.common.util.writeIdentifier
 import com.cobblemon.mod.common.util.writeSizedInt
+import com.cobblemon.mod.common.util.writeString
 import io.netty.buffer.ByteBuf
 import net.minecraft.entity.Entity
 import net.minecraft.network.PacketByteBuf

@@ -9,19 +9,13 @@
 package com.cobblemon.mod.common
 
 import com.cobblemon.mod.common.api.data.JsonDataRegistry
-import com.cobblemon.mod.common.api.net.ClientNetworkPacketHandler
 import com.cobblemon.mod.common.api.net.NetworkPacket
-import com.cobblemon.mod.common.api.net.ServerNetworkPacketHandler
 import com.mojang.brigadier.arguments.ArgumentType
 import kotlin.reflect.KClass
 import net.minecraft.advancement.criterion.Criterion
 import net.minecraft.block.ComposterBlock
-import net.minecraft.client.MinecraftClient
 import net.minecraft.command.argument.serialize.ArgumentSerializer
 import net.minecraft.item.ItemConvertible
-import net.minecraft.network.RegistryByteBuf
-import net.minecraft.network.listener.ClientPlayPacketListener
-import net.minecraft.network.packet.Packet
 import net.minecraft.registry.RegistryKey
 import net.minecraft.registry.tag.TagKey
 import net.minecraft.resource.ResourceManager
@@ -222,23 +216,12 @@ enum class ModAPI {
 }
 
 interface NetworkManager {
-
-    fun <T: NetworkPacket<T>> createClientBoundPayload(identifier: Identifier, kClass: KClass<T>, encoder: (T, RegistryByteBuf) -> Unit, decoder: (RegistryByteBuf) -> T, handler: ClientNetworkPacketHandler<T>)
-
-    fun <T: NetworkPacket<T>> createClientBoundHandler(identifier: Identifier, handler: (T, MinecraftClient) -> Unit)
-
-    fun <T: NetworkPacket<T>> createServerBoundPayload(identifier: Identifier, kClass: KClass<T>, encoder: (T, RegistryByteBuf) -> Unit, decoder: (RegistryByteBuf) -> T, handler: ServerNetworkPacketHandler<T>)
-
-    fun <T: NetworkPacket<T>> createServerBoundHandler(identifier: Identifier, handler: (T, MinecraftServer, ServerPlayerEntity) -> Unit)
-
     fun sendPacketToPlayer(player: ServerPlayerEntity, packet: NetworkPacket<*>)
 
-    fun sendPacketToServer(packet: NetworkPacket<*>)
+    fun sendToServer(packet: NetworkPacket<*>)
 }
 
 enum class Environment {
-
     CLIENT,
     SERVER
-
 }

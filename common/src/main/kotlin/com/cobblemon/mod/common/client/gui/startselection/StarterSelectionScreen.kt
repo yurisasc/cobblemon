@@ -140,7 +140,7 @@ class StarterSelectionScreen(private val categories: List<RenderableStarterCateg
             pX = x + 106, pY = y + 124,
             pWidth = SelectionButton.BUTTON_WIDTH, pHeight = SelectionButton.BUTTON_HEIGHT
         ) {
-            CobblemonNetwork.sendPacketToServer(
+            CobblemonNetwork.sendToServer(
                 SelectStarterPacket(
                     categoryName = currentCategory.name,
                     selected = currentSelection
