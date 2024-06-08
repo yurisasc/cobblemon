@@ -18,7 +18,7 @@ ja_jp 6291
 ko_kr 1878
 en_pt 6291
 pl_pl 5105
-pt_pt 5905
+pt_pt 6291
 pt_br 5452
 ru_ru 6291
 es_es 5445

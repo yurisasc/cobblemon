@@ -31,6 +31,7 @@ import net.minecraft.item.ItemPlacementContext
 import net.minecraft.item.ItemStack
 import net.minecraft.screen.ScreenHandler
 import net.minecraft.server.network.ServerPlayerEntity
+import net.minecraft.server.world.ServerWorld
 import net.minecraft.sound.SoundCategory
 import net.minecraft.state.StateManager
 import net.minecraft.state.property.BooleanProperty
@@ -47,6 +48,7 @@ import net.minecraft.util.StringIdentifiable
 import net.minecraft.util.hit.BlockHitResult
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
+import net.minecraft.util.math.random.Random
 import net.minecraft.util.shape.VoxelShape
 import net.minecraft.util.shape.VoxelShapes
 import net.minecraft.world.BlockView
@@ -200,10 +202,6 @@ class GildedChestBlock(settings: Settings, val type: Type = Type.RED) : BlockWit
         if (!player.world.isClient) {
             PiglinBrain.onGuardedBlockInteracted(player, true)
         }
-        val state = entity.poseableState
-        state.currentModel?.let {
-            it.moveToPose(null, state, it.getPose("OPEN")!!)
-        }
         return ActionResult.SUCCESS
     }
 
@@ -214,9 +212,11 @@ class GildedChestBlock(settings: Settings, val type: Type = Type.RED) : BlockWit
         newState: BlockState,
         moved: Boolean
     ) {
-        if (!state.isOf(newState.block)) {
-            val chest = world.getBlockEntity(pos) as GildedChestBlockEntity
-            ItemScatterer.spawn(world, pos, chest.inventoryContents)
+        if (!state.isOf(newState.block) && !world.isClient) {
+            val chest = world.getBlockEntity(pos) as? GildedChestBlockEntity
+            chest?.let {
+                ItemScatterer.spawn(world, pos, chest.inventoryContents)
+            }
         }
     }
 
@@ -291,6 +291,16 @@ class GildedChestBlock(settings: Settings, val type: Type = Type.RED) : BlockWit
             blockEntity.customName = itemStack.name
         }
         */
+    }
+
+    override fun scheduledTick(
+        state: BlockState?,
+        world: ServerWorld?,
+        pos: BlockPos?,
+        random: Random?
+    ) {
+        val blockEntity = world?.getBlockEntity(pos) as? GildedChestBlockEntity ?: return
+        blockEntity.onScheduledTick()
     }
 
 }

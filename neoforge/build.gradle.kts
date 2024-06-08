@@ -44,7 +44,7 @@ dependencies {
     implementation(project(":common", configuration = "namedElements")) {
         isTransitive = false
     }
-    implementation(libs.kotlinForForge)
+    implementation(libs.kotlin.forge)
     "developmentForge"(project(":common", configuration = "namedElements")) {
         isTransitive = false
     }

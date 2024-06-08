@@ -20,10 +20,10 @@ import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.entity.player.PlayerInventory
 import net.minecraft.inventory.DoubleInventory
 import net.minecraft.inventory.Inventories
+import net.minecraft.inventory.Inventory
 import net.minecraft.inventory.SidedInventory
 import net.minecraft.item.ItemStack
 import net.minecraft.nbt.NbtCompound
-import net.minecraft.registry.RegistryWrapper
 import net.minecraft.screen.GenericContainerScreenHandler
 import net.minecraft.sound.SoundCategory
 import net.minecraft.state.property.Properties
@@ -59,9 +59,7 @@ class GildedChestBlockEntity(pos: BlockPos, state: BlockState, val type: Type = 
         override fun isPlayerViewing(player: PlayerEntity): Boolean {
             if (player.currentScreenHandler is GenericContainerScreenHandler) {
                 val inventory = (player.currentScreenHandler as GenericContainerScreenHandler).inventory
-                return inventory === this@GildedChestBlockEntity || inventory is DoubleInventory && inventory.isPart(
-                    this@GildedChestBlockEntity
-                )
+                return inventory === this@GildedChestBlockEntity
             }
             return false
         }
@@ -89,7 +87,7 @@ class GildedChestBlockEntity(pos: BlockPos, state: BlockState, val type: Type = 
     }
 
     override fun getAvailableSlots(side: Direction): IntArray {
-        return if (type == Type.FAKE) IntArray(0) else IntArray(NUM_SLOTS)
+        return if (type == Type.FAKE) IntArray(0) else IntArray(NUM_SLOTS) { it }
     }
 
     override fun canInsert(slot: Int, stack: ItemStack?, dir: Direction?): Boolean {
@@ -163,6 +161,12 @@ class GildedChestBlockEntity(pos: BlockPos, state: BlockState, val type: Type = 
         )
         if (!readLootTable(nbt)) {
             Inventories.readNbt(nbt, inventoryContents, registryLookup)
+        }
+    }
+
+    fun onScheduledTick() {
+        if (!this.removed) {
+            stateManager.updateViewerCount(this.getWorld(), this.getPos(), this.cachedState)
         }
     }
 }

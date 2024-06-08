@@ -426,7 +426,7 @@
         },
         {
           "variant": "biome",
-          "biomeCondition": "#cobblemon:regional_bias_evolutions/cyndaquil_quilava_hisui_bias"
+          "biomeCondition": "#cobblemon:evolution/cyndaquil_quilava_hisui_bias"
         }
       ]
     }

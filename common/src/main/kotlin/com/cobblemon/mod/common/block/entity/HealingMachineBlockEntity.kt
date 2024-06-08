@@ -37,8 +37,8 @@ import net.minecraft.util.math.BlockPos
 
 @Suppress("MemberVisibilityCanBePrivate", "unused")
 class HealingMachineBlockEntity(
-    val blockPos: BlockPos,
-    val blockState: BlockState
+    blockPos: BlockPos,
+    blockState: BlockState
 ) : BlockEntity(CobblemonBlockEntities.HEALING_MACHINE, blockPos, blockState) {
     var currentUser: UUID? = null
         private set
@@ -115,7 +115,7 @@ class HealingMachineBlockEntity(
         this.setUser(player.uuid)
         alreadyHealing.add(player.uuid)
         updateBlockChargeLevel(HealingMachineBlock.MAX_CHARGE_LEVEL + 1)
-        if (world != null && !world!!.isClient) world!!.playSoundServer(position = blockPos.toVec3d(), sound = CobblemonSounds.HEALING_MACHINE_ACTIVE, volume = 1F, pitch = 1F)
+        if (world != null && !world!!.isClient) world!!.playSoundServer(position = pos.toVec3d(), sound = CobblemonSounds.HEALING_MACHINE_ACTIVE, volume = 1F, pitch = 1F)
     }
 
     fun completeHealing() {
@@ -224,10 +224,10 @@ class HealingMachineBlockEntity(
                 else floor((healingCharge / maxCharge) * HealingMachineBlock.MAX_CHARGE_LEVEL).toInt()
             ).coerceIn(0..HealingMachineBlock.MAX_CHARGE_LEVEL + 1)
 
-            val state = world!!.getBlockState(blockPos)
+            val state = world!!.getBlockState(pos)
             if (state != null && state.block is HealingMachineBlock) {
                 val currentCharge = state.get(HealingMachineBlock.CHARGE_LEVEL).toInt()
-                if (chargeLevel != currentCharge) world!!.setBlockState(blockPos, state.with(HealingMachineBlock.CHARGE_LEVEL, chargeLevel))
+                if (chargeLevel != currentCharge) world!!.setBlockState(pos, state.with(HealingMachineBlock.CHARGE_LEVEL, chargeLevel))
             }
         }
     }

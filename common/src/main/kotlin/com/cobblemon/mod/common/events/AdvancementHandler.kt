@@ -88,9 +88,7 @@ object AdvancementHandler {
                         event.battle.actors.forEach { battleActor ->
                             if (!event.winners.contains(battleActor) && battleActor.type == ActorType.WILD) {
                                 battleActor.pokemonList.forEach { battlePokemon ->
-                                    battlePokemon.entity?.pokemon?.let {
-                                        advancementData.updateTotalDefeatedCount(it)
-                                    }
+                                    advancementData.updateTotalDefeatedCount(battlePokemon.originalPokemon)
                                 }
                             }
                         }

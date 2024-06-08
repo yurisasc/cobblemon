@@ -15,6 +15,7 @@ import com.cobblemon.mod.common.api.Priority
 import com.cobblemon.mod.common.api.abilities.Abilities
 import com.cobblemon.mod.common.api.item.ability.AbilityChanger
 import com.cobblemon.mod.common.api.pokemon.PokemonProperties
+import com.cobblemon.mod.common.api.scheduling.ClientTaskTracker.after
 import com.cobblemon.mod.common.api.scheduling.ServerTaskTracker
 import com.cobblemon.mod.common.api.scheduling.taskBuilder
 import com.cobblemon.mod.common.api.text.green
@@ -25,10 +26,13 @@ import com.cobblemon.mod.common.battles.BattleSide
 import com.cobblemon.mod.common.battles.actor.PlayerBattleActor
 import com.cobblemon.mod.common.battles.actor.PokemonBattleActor
 import com.cobblemon.mod.common.battles.pokemon.BattlePokemon
+import com.cobblemon.mod.common.entity.generic.GenericBedrockEntity
+import com.cobblemon.mod.common.net.messages.client.animation.PlayPoseableAnimationPacket
 import com.cobblemon.mod.common.net.messages.client.trade.TradeStartedPacket
 import com.cobblemon.mod.common.trade.ActiveTrade
 import com.cobblemon.mod.common.trade.DummyTradeParticipant
 import com.cobblemon.mod.common.trade.PlayerTradeParticipant
+import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.party
 import com.cobblemon.mod.common.util.toPokemon
 import com.google.gson.GsonBuilder
@@ -61,6 +65,22 @@ object TestCommand {
         }
 
         try {
+            val player = context.source.entity as ServerPlayerEntity
+            val evolutionEntity = GenericBedrockEntity(world = player.world)
+            evolutionEntity?.apply {
+                category = cobblemonResource("evolution")
+                colliderHeight = 1.5F
+                colliderWidth = 1.5F
+                scale = 1F
+                syncAge = true // Otherwise particle animation will be starting from zero even if you come along partway through
+                setPosition(player.x, player.y, player.z + 4)
+            }
+            player.world.spawnEntity(evolutionEntity)
+            after(seconds = 0.5F) {
+                player.sendPacket(PlayPoseableAnimationPacket(evolutionEntity.id, setOf("evolution:animation.evolution.evolution"), emptySet()))
+            }
+
+
 //            readBerryDataFromCSV()
 
 //            this.testClosestBattle(context)

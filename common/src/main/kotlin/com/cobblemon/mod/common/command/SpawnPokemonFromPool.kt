@@ -92,6 +92,7 @@ object SpawnPokemonFromPool {
                 }
             }
 
+            spawnAction.complete()
             spawnsTriggered++
         }
 
