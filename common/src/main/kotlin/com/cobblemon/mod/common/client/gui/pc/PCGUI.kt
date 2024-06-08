@@ -71,6 +71,8 @@ class PCGUI(
     var selectPointerOffsetY = 0
     var selectPointerOffsetIncrement = false
 
+    override fun applyBlur(delta: Float) { }
+
     override fun init() {
         val x = (width - BASE_WIDTH) / 2
         val y = (height - BASE_HEIGHT) / 2

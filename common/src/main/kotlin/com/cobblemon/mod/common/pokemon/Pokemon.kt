@@ -81,6 +81,7 @@ import com.cobblemon.mod.common.net.messages.client.pokemon.update.CaughtBallUpd
 import com.cobblemon.mod.common.net.messages.client.pokemon.update.DmaxLevelUpdatePacket
 import com.cobblemon.mod.common.net.messages.client.pokemon.update.EVsUpdatePacket
 import com.cobblemon.mod.common.net.messages.client.pokemon.update.ExperienceUpdatePacket
+import com.cobblemon.mod.common.net.messages.client.pokemon.update.FormUpdatePacket
 import com.cobblemon.mod.common.net.messages.client.pokemon.update.FriendshipUpdatePacket
 import com.cobblemon.mod.common.net.messages.client.pokemon.update.GenderUpdatePacket
 import com.cobblemon.mod.common.net.messages.client.pokemon.update.GmaxFactorUpdatePacket
@@ -856,7 +857,7 @@ open class Pokemon : ShowdownIdentifiable {
         mintedNature?.let { nbt.putString(DataKeys.POKEMON_MINTED_NATURE, it.name.toString()) }
         features.forEach { it.saveToNBT(nbt) }
         if (!this.heldItem.isEmpty) {
-            nbt.put(DataKeys.HELD_ITEM, ItemStack.CODEC.encode(heldItem, NbtOps.INSTANCE, null).getOrThrow {
+            nbt.put(DataKeys.HELD_ITEM, ItemStack.CODEC.encode(heldItem, NbtOps.INSTANCE, NbtCompound()).getOrThrow {
                 return@getOrThrow IllegalStateException("WTF held item")
             })
         }

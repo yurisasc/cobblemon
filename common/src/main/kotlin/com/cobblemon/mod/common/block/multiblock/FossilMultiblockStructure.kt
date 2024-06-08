@@ -37,9 +37,11 @@ import net.minecraft.block.entity.BlockEntityTicker
 import net.minecraft.entity.EntityPose
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
+import net.minecraft.item.Items
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.nbt.NbtHelper
 import net.minecraft.nbt.NbtList
+import net.minecraft.nbt.NbtOps
 import net.minecraft.registry.Registries
 import net.minecraft.registry.tag.FluidTags
 import net.minecraft.server.network.ServerPlayerEntity
@@ -124,7 +126,7 @@ class FossilMultiblockStructure (
                     pokemon.caughtBall = ballType
                     player.party().add(pokemon)
                     this.fossilState.growthState = "Taken"
-                    player.playSound(CobblemonSounds.FOSSIL_MACHINE_RETRIEVE_POKEMON, SoundCategory.BLOCKS, 1.0F, 1.0F)
+                    player.playSound(CobblemonSounds.FOSSIL_MACHINE_RETRIEVE_POKEMON, 1.0F, 1.0F)
                     CobblemonEvents.FOSSIL_REVIVED.post(FossilRevivedEvent(pokemon, player))
                 }
 
@@ -146,7 +148,7 @@ class FossilMultiblockStructure (
 
         // Reclaim the last fossil from the machine if their hand is empty
         if (player.getStackInHand(Hand.MAIN_HAND).isEmpty) {
-            if(!this.isRunning() && this.createdPokemon == null) {
+            if(!this.isRunning() && this.hasCreatedPokemon) {
                 if (fossilInventory.isEmpty()) {
                     return ActionResult.CONSUME
                 }
@@ -336,7 +338,7 @@ class FossilMultiblockStructure (
             }
         }
         if(tankBaseEntity is RestorationTankBlockEntity) {
-            tankBaseEntity.inv.clearToList().forEach {
+            tankBaseEntity.inv.items.forEach {
                 ItemScatterer.spawn(world, pos.x.toDouble(), pos.y.toDouble(), pos.z.toDouble(), it)
             }
         }
@@ -608,6 +610,11 @@ class FossilMultiblockStructure (
         }
 
          */
+
+        fossilInventory.forEach { item ->
+            var result = ItemStack.CODEC.encode(item, NbtOps.INSTANCE, null)
+        }
+
         result.put(DataKeys.FOSSIL_INVENTORY, fossilInv)
         result.putString(DataKeys.CONNECTOR_DIRECTION, tankConnectorDirection?.toString())
 

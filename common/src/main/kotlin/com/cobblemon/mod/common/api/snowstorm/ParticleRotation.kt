@@ -61,11 +61,11 @@ class ParametricParticleRotation(var expression: Expression = NumberExpression(0
     override fun getInitialAngularVelocity(runtime: MoLangRuntime) = 0.0
     override fun getAngularVelocity(runtime: MoLangRuntime, angle: Double, angularVelocity: Double) = runtime.resolveDouble(expression) - angle
 
-    override fun readFromBuffer(buffer: PacketByteBuf) {
+    override fun readFromBuffer(buffer: RegistryByteBuf) {
         expression = MoLang.createParser(buffer.readString()).parseExpression()
     }
 
-    override fun writeToBuffer(buffer: PacketByteBuf) {
+    override fun writeToBuffer(buffer: RegistryByteBuf) {
         buffer.writeString(expression.getString())
     }
 }

@@ -73,6 +73,8 @@ class StarterSelectionScreen(private val categories: List<RenderableStarterCateg
     private lateinit var starterRoundaboutLeft: StarterRoundabout
     private lateinit var starterRoundaboutRight: StarterRoundabout
 
+    override fun applyBlur(delta: Float) { }
+
     override fun init() {
         super.init()
         // Hide toast once checkedStarterScreen was set, which happens during the opening of the starter screen.

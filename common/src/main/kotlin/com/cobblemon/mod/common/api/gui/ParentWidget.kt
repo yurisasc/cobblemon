@@ -10,6 +10,8 @@ package com.cobblemon.mod.common.api.gui
 
 import net.minecraft.client.gui.Drawable
 import net.minecraft.client.gui.Element
+import net.minecraft.client.gui.navigation.GuiNavigation
+import net.minecraft.client.gui.navigation.GuiNavigationPath
 import net.minecraft.client.gui.screen.narration.NarrationMessageBuilder
 import net.minecraft.client.gui.widget.ClickableWidget
 import net.minecraft.text.Text

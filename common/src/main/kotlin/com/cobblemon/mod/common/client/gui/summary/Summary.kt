@@ -119,6 +119,8 @@ class Summary private constructor(party: Collection<Pokemon?>, private val edita
     var sideScreenIndex = PARTY
     private val party = ArrayList(party)
 
+    override fun applyBlur(delta: Float) { }
+
     /**
      * Initializes the Summary Screen
      */
@@ -413,7 +415,6 @@ class Summary private constructor(party: Collection<Pokemon?>, private val edita
 
     override fun render(context: DrawContext, mouseX: Int, mouseY: Int, delta: Float) {
         //this.renderBackground(context)
-
         schedulingTracker.update(delta / 20F)
 
         val x = (width - BASE_WIDTH) / 2

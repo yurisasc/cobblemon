@@ -14,8 +14,6 @@ import utilities.ACCESS_WIDENER
 plugins {
     id("java")
     id("java-library")
-    id("net.kyori.indra")
-    id("net.kyori.indra.git")
 
     id("org.cadixdev.licenser")
     id("dev.architectury.loom")
@@ -27,10 +25,9 @@ group = rootProject.group
 version = rootProject.version
 description = rootProject.description
 
-indra {
-    javaVersions {
-        minimumToolchain(17)
-        target(17)
+java {
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(21))
     }
 }
 

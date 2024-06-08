@@ -79,7 +79,12 @@ class RestorationTankBlock(properties: Settings) : MultiblockBlock(properties), 
 
             if (otherPart.block is RestorationTankBlock) {
                 world.setBlockState(getPositionOfOtherPart(state, pos), Blocks.AIR.defaultState, Block.NOTIFY_ALL)
-                world.syncWorldEvent(player, WorldEvents.BLOCK_BROKEN, getPositionOfOtherPart(state, pos), getRawIdFromState(otherPart))
+                world.syncWorldEvent(
+                    player,
+                    WorldEvents.BLOCK_BROKEN,
+                    getPositionOfOtherPart(state, pos),
+                    getRawIdFromState(otherPart)
+                )
             }
         }
 

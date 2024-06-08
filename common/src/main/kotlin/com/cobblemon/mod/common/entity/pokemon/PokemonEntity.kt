@@ -616,18 +616,17 @@ open class PokemonEntity(
 
     override fun interactMob(player: PlayerEntity, hand: Hand) : ActionResult {
         val itemStack = player.getStackInHand(hand)
-        val colorFeatureType = SpeciesFeatures.getFeaturesFor(pokemon.species).find { it is ChoiceSpeciesFeatureProvider && DataKeys.CAN_BE_COLORED in it.keys }
+        val colorFeatureType = SpeciesFeatures.getFeaturesFor(pokemon.species)
+            .find { it is ChoiceSpeciesFeatureProvider && DataKeys.CAN_BE_COLORED in it.keys }
         val colorFeature = pokemon.getFeature<StringSpeciesFeature>(DataKeys.CAN_BE_COLORED)
 
-        if (ownerUuid == player.uuid || ownerUuid == null)
-        {
+        if (ownerUuid == player.uuid || ownerUuid == null) {
             if (itemStack.isOf(Items.SHEARS) && this.isShearable) {
                 this.sheared(SoundCategory.PLAYERS)
                 this.emitGameEvent(GameEvent.SHEAR, player)
                 itemStack.damage(1, player, EquipmentSlot.MAINHAND)
                 return ActionResult.SUCCESS
-            }
-            else if (itemStack.isOf(Items.BUCKET)) {
+            } else if (itemStack.isOf(Items.BUCKET)) {
                 if (pokemon.getFeature<FlagSpeciesFeature>(DataKeys.CAN_BE_MILKED) != null) {
                     player.playSound(SoundEvents.ENTITY_GOAT_MILK, 1.0f, 1.0f)
                     val milkBucket = ItemUsage.exchangeStack(itemStack, player, Items.MILK_BUCKET.defaultStack)
@@ -635,10 +634,10 @@ open class PokemonEntity(
                     return ActionResult.success(world.isClient)
                 }
             } else if (itemStack.isOf(Items.BOWL)) {
-                if (pokemon.aspects.any() {it.contains("mooshtank")}) {
+                if (pokemon.aspects.any() { it.contains("mooshtank") }) {
                     player.playSound(SoundEvents.ENTITY_MOOSHROOM_MILK, 1.0f, 1.0f)
                     // if the Mooshtank ate a Flower beforehand
-                    if (pokemon.lastFlowerFed != ItemStack.EMPTY && pokemon.aspects.any() {it.contains("mooshtank-brown")}) {
+                    if (pokemon.lastFlowerFed != ItemStack.EMPTY && pokemon.aspects.any() { it.contains("mooshtank-brown") }) {
                         when (pokemon.lastFlowerFed.item) {
                             Items.ALLIUM -> StatusEffects.FIRE_RESISTANCE to 80
                             Items.AZURE_BLUET -> StatusEffects.BLINDNESS to 160
@@ -671,29 +670,30 @@ open class PokemonEntity(
             }
             // Flowers used on brown MooshTanks
             else if (itemStack.isOf(Items.ALLIUM) ||
-                     itemStack.isOf(Items.AZURE_BLUET) ||
-                     itemStack.isOf(Items.BLUE_ORCHID) ||
-                     itemStack.isOf(Items.DANDELION) ||
-                     itemStack.isOf(Items.CORNFLOWER) ||
-                     itemStack.isOf(Items.LILY_OF_THE_VALLEY) ||
-                     itemStack.isOf(Items.OXEYE_DAISY) ||
-                     itemStack.isOf(Items.POPPY) ||
-                     itemStack.isOf(Items.TORCHFLOWER) ||
-                     itemStack.isOf(Items.PINK_TULIP) ||
-                     itemStack.isOf(Items.RED_TULIP) ||
-                     itemStack.isOf(Items.WHITE_TULIP) ||
-                     itemStack.isOf(Items.ORANGE_TULIP) ||
-                     itemStack.isOf(Items.WITHER_ROSE) ||
-                     itemStack.isOf(CobblemonItems.PEP_UP_FLOWER)) {
-                if (pokemon.aspects.any() {it.contains("mooshtank")}) {
+                itemStack.isOf(Items.AZURE_BLUET) ||
+                itemStack.isOf(Items.BLUE_ORCHID) ||
+                itemStack.isOf(Items.DANDELION) ||
+                itemStack.isOf(Items.CORNFLOWER) ||
+                itemStack.isOf(Items.LILY_OF_THE_VALLEY) ||
+                itemStack.isOf(Items.OXEYE_DAISY) ||
+                itemStack.isOf(Items.POPPY) ||
+                itemStack.isOf(Items.TORCHFLOWER) ||
+                itemStack.isOf(Items.PINK_TULIP) ||
+                itemStack.isOf(Items.RED_TULIP) ||
+                itemStack.isOf(Items.WHITE_TULIP) ||
+                itemStack.isOf(Items.ORANGE_TULIP) ||
+                itemStack.isOf(Items.WITHER_ROSE) ||
+                itemStack.isOf(CobblemonItems.PEP_UP_FLOWER)
+            ) {
+                if (pokemon.aspects.any() { it.contains("mooshtank") }) {
                     player.playSound(SoundEvents.ENTITY_MOOSHROOM_EAT, 1.0f, 1.0f)
                     pokemon.lastFlowerFed = itemStack
                     return ActionResult.success(world.isClient)
                 }
-            } else if(!player.isSneaking && (itemStack.isOf(CobblemonItems.RELIC_COIN)
-                    || itemStack.isOf(CobblemonItems.RELIC_COIN_POUCH)
-                    || itemStack.isOf(CobblemonItems.RELIC_COIN_SACK)
-                    || itemStack.isOf(Items.NETHERITE_SCRAP)
+            } else if (!player.isSneaking && (itemStack.isOf(CobblemonItems.RELIC_COIN)
+                        || itemStack.isOf(CobblemonItems.RELIC_COIN_POUCH)
+                        || itemStack.isOf(CobblemonItems.RELIC_COIN_SACK)
+                        || itemStack.isOf(Items.NETHERITE_SCRAP)
                     || itemStack.isOf(Items.NETHERITE_INGOT)
                     || itemStack.isOf(Items.NETHERITE_BLOCK))) {
 

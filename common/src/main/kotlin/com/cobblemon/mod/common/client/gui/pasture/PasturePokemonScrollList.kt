@@ -87,7 +87,7 @@ class PasturePokemonScrollList(
             y + 1 + height
         )
 
-        super.render(context, mouseX, mouseY, partialTicks)
+        super.renderWidget(context, mouseX, mouseY, partialTicks)
         context.disableScissor()
 
         // Scroll Overlay

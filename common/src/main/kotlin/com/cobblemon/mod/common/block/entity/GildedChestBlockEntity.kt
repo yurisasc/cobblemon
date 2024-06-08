@@ -24,6 +24,7 @@ import net.minecraft.inventory.Inventory
 import net.minecraft.inventory.SidedInventory
 import net.minecraft.item.ItemStack
 import net.minecraft.nbt.NbtCompound
+import net.minecraft.registry.RegistryWrapper
 import net.minecraft.screen.GenericContainerScreenHandler
 import net.minecraft.sound.SoundCategory
 import net.minecraft.state.property.Properties
