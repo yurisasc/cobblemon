@@ -73,6 +73,8 @@ class StarterSelectionScreen(private val categories: List<RenderableStarterCateg
     private lateinit var starterRoundaboutLeft: StarterRoundabout
     private lateinit var starterRoundaboutRight: StarterRoundabout
 
+    override fun applyBlur(delta: Float) { }
+
     override fun init() {
         super.init()
         // Hide toast once checkedStarterScreen was set, which happens during the opening of the starter screen.
@@ -93,7 +95,7 @@ class StarterSelectionScreen(private val categories: List<RenderableStarterCateg
         addDrawableChild(
             CategoryList(
                 paneWidth = 71, paneHeight = BASE_HEIGHT - 11,
-                topOffset = 6, bottomOffset = 5,
+                topOffset = 6,
                 entryHeight = 20, entryWidth = 57,
                 categories = categories,
                 x = x - 2, y = y + 8,
@@ -140,7 +142,7 @@ class StarterSelectionScreen(private val categories: List<RenderableStarterCateg
             pX = x + 106, pY = y + 124,
             pWidth = SelectionButton.BUTTON_WIDTH, pHeight = SelectionButton.BUTTON_HEIGHT
         ) {
-            CobblemonNetwork.sendPacketToServer(
+            CobblemonNetwork.sendToServer(
                 SelectStarterPacket(
                     categoryName = currentCategory.name,
                     selected = currentSelection

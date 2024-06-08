@@ -10,7 +10,7 @@ package com.cobblemon.mod.common.net.messages.client.animation
 
 import com.cobblemon.mod.common.api.net.NetworkPacket
 import com.cobblemon.mod.common.util.cobblemonResource
-import net.minecraft.network.PacketByteBuf
+import net.minecraft.network.RegistryByteBuf
 import net.minecraft.util.Identifier
 
 /**
@@ -29,14 +29,14 @@ class PlayPosableAnimationPacket(
 
     companion object {
         val ID = cobblemonResource("play_posable_animation")
-        fun decode(buffer: PacketByteBuf) = PlayPosableAnimationPacket(
+        fun decode(buffer: RegistryByteBuf) = PlayPosableAnimationPacket(
             buffer.readInt(),
             buffer.readList { buffer.readString() }.toSet(),
             buffer.readList { buffer.readString() }.toSet()
         )
     }
 
-    override fun encode(buffer: PacketByteBuf) {
+    override fun encode(buffer: RegistryByteBuf) {
         buffer.writeInt(entityId)
         buffer.writeCollection(animation) { pb, value -> pb.writeString(value) }
         buffer.writeCollection(expressions) { pb, value -> pb.writeString(value) }

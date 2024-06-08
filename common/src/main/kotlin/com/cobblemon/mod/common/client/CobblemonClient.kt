@@ -32,7 +32,6 @@ import com.cobblemon.mod.common.client.render.boat.CobblemonBoatRenderer
 import com.cobblemon.mod.common.client.render.entity.PokeBobberEntityRenderer
 import com.cobblemon.mod.common.client.render.generic.GenericBedrockRenderer
 import com.cobblemon.mod.common.client.render.item.CobblemonBuiltinItemRendererRegistry
-import com.cobblemon.mod.common.client.render.item.PokemonItemRenderer
 import com.cobblemon.mod.common.client.render.layer.PokemonOnShoulderRenderer
 import com.cobblemon.mod.common.client.render.models.blockbench.bedrock.animation.BedrockAnimationRepository
 import com.cobblemon.mod.common.client.render.models.blockbench.repository.BerryModelRepository
@@ -65,6 +64,9 @@ import net.minecraft.client.render.entity.LivingEntityRenderer
 import net.minecraft.client.render.entity.model.BoatEntityModel
 import net.minecraft.client.render.entity.model.ChestBoatEntityModel
 import net.minecraft.client.render.entity.model.PlayerEntityModel
+import net.minecraft.client.util.SkinTextures
+import net.minecraft.component.DataComponentType
+import net.minecraft.component.DataComponentTypes
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
 import net.minecraft.resource.ResourceManager
@@ -126,14 +128,14 @@ object CobblemonClient {
         }
 
         LOGGER.info("Registering custom BuiltinItemRenderers")
-        CobblemonBuiltinItemRendererRegistry.register(CobblemonItems.POKEMON_MODEL, PokemonItemRenderer())
+        //CobblemonBuiltinItemRendererRegistry.register(CobblemonItems.POKEMON_MODEL, PokemonItemRenderer())
 
         PlatformEvents.CLIENT_ITEM_TOOLTIP.subscribe { event ->
             val stack = event.stack
             val lines = event.lines
             @Suppress("DEPRECATION")
             if (stack.item.registryEntry.key.isPresent && stack.item.registryEntry.key.get().value.namespace == Cobblemon.MODID) {
-                if (stack.nbt?.getBoolean(DataKeys.HIDE_TOOLTIP) == true) {
+                if (stack.get(DataComponentTypes.HIDE_TOOLTIP) != null) {
                     return@subscribe
                 }
                 val language = Language.getInstance()
@@ -248,10 +250,10 @@ object CobblemonClient {
     }
 
     @Suppress("UNCHECKED_CAST")
-    fun onAddLayer(skinMap: Map<String, EntityRenderer<out PlayerEntity>>?) {
-        var renderer: LivingEntityRenderer<PlayerEntity, PlayerEntityModel<PlayerEntity>>? = skinMap?.get("default") as LivingEntityRenderer<PlayerEntity, PlayerEntityModel<PlayerEntity>>
+    fun onAddLayer(skinMap: Map<SkinTextures.Model, EntityRenderer<out PlayerEntity>>?) {
+        var renderer: LivingEntityRenderer<PlayerEntity, PlayerEntityModel<PlayerEntity>>? = skinMap?.get(SkinTextures.Model.WIDE) as LivingEntityRenderer<PlayerEntity, PlayerEntityModel<PlayerEntity>>
         renderer?.addFeature(PokemonOnShoulderRenderer(renderer))
-        renderer = skinMap["slim"] as LivingEntityRenderer<PlayerEntity, PlayerEntityModel<PlayerEntity>>?
+        renderer = skinMap[SkinTextures.Model.SLIM] as LivingEntityRenderer<PlayerEntity, PlayerEntityModel<PlayerEntity>>?
         renderer?.addFeature(PokemonOnShoulderRenderer(renderer))
     }
 

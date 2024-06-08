@@ -185,6 +185,7 @@ object Cobblemon {
 
         implementation.registerPermissionValidator()
         implementation.registerSoundEvents()
+        implementation.registerDataComponents()
         implementation.registerBlocks()
         implementation.registerItems()
         implementation.registerEntityTypes()
@@ -192,6 +193,8 @@ object Cobblemon {
         implementation.registerBlockEntityTypes()
         implementation.registerWorldGenFeatures()
         implementation.registerParticles()
+        implementation.registerEntityDataSerializers()
+        implementation.registerCriteria()
 
         DropEntry.register("command", CommandDropEntry::class.java)
         DropEntry.register("item", ItemDropEntry::class.java, isDefault = true)
@@ -205,7 +208,6 @@ object Cobblemon {
         CobblemonPlacedFeatures.register()
         this.registerArgumentTypes()
 
-        CobblemonCriteria // Init the fields and register the criteria
         CobblemonGameRules // Init fields and register
 
         ShoulderEffectRegistry.register()
@@ -251,13 +253,6 @@ object Cobblemon {
         PlatformEvents.CHANGE_DIMENSION.subscribe {
             it.player.party().forEach { pokemon -> pokemon.entity?.recallWithAnimation() }
         }
-
-        TrackedDataHandlerRegistry.register(Vec3DataSerializer)
-        TrackedDataHandlerRegistry.register(StringSetDataSerializer)
-        TrackedDataHandlerRegistry.register(PoseTypeDataSerializer)
-        TrackedDataHandlerRegistry.register(IdentifierDataSerializer)
-        TrackedDataHandlerRegistry.register(IdentifierDataSerializer)
-        TrackedDataHandlerRegistry.register(UUIDSetDataSerializer)
 
         // Lowest priority because this applies after luxury ball bonus as of gen 4
         CobblemonEvents.FRIENDSHIP_UPDATED.subscribe(Priority.LOWEST) { event ->
@@ -392,6 +387,8 @@ object Cobblemon {
             ).ifSuccessful { it.mute = true }
         }
 
+        //To whomever is merging, this is moved out of Cobblemon and into the CobblemonImplementations
+        //CobblemonSherds.registerSherds()
     }
 
     fun getLevel(dimension: RegistryKey<World>): World? {

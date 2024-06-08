@@ -85,7 +85,7 @@ class BerryBlockRenderer(private val context: BlockEntityRendererFactory.Context
         val model = entity.mulchVariant.model
         model?.let {
             it.getModel().getQuads(entity.cachedState, null, entity.world?.random).forEach { quad ->
-                mulchBuf.quad(matrices.peek(), quad, 1F, 1F, 1F, light, overlay)
+                mulchBuf.quad(matrices.peek(), quad, 1F, 1F, 1F, 1F, light, overlay)
             }
         }
         matrices.pop()

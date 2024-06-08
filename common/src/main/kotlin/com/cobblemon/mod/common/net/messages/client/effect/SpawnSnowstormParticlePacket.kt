@@ -11,7 +11,7 @@ package com.cobblemon.mod.common.net.messages.client.effect
 import com.cobblemon.mod.common.api.net.NetworkPacket
 import com.cobblemon.mod.common.api.snowstorm.BedrockParticleEffect
 import com.cobblemon.mod.common.util.cobblemonResource
-import net.minecraft.network.PacketByteBuf
+import net.minecraft.network.RegistryByteBuf
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.Vec3d
 
@@ -30,14 +30,14 @@ class SpawnSnowstormParticlePacket(
     override val id = ID
     companion object {
         val ID = cobblemonResource("spawn_snowstorm_particle")
-        fun decode(buffer: PacketByteBuf): SpawnSnowstormParticlePacket {
+        fun decode(buffer: RegistryByteBuf): SpawnSnowstormParticlePacket {
             return SpawnSnowstormParticlePacket(
                 effectId = buffer.readIdentifier(),
                 position = Vec3d(buffer.readDouble(), buffer.readDouble(), buffer.readDouble())
             )
         }
     }
-    override fun encode(buffer: PacketByteBuf) {
+    override fun encode(buffer: RegistryByteBuf) {
         buffer.writeIdentifier(effectId)
         buffer.writeDouble(position.x)
         buffer.writeDouble(position.y)

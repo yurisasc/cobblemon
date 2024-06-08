@@ -33,7 +33,7 @@ class ModelWidget(
     var state = FloatingState()
     val rotVec = Vector3f(13F, rotationY, 0F)
 
-    override fun renderButton(context: DrawContext, pMouseX: Int, pMouseY: Int, partialTicks: Float) {
+    override fun renderWidget(context: DrawContext, pMouseX: Int, pMouseY: Int, partialTicks: Float) {
         if (!render) {
             return
         }

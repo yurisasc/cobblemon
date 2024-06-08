@@ -20,7 +20,7 @@ import com.mojang.serialization.Codec
 import com.mojang.serialization.DynamicOps
 import com.mojang.serialization.codecs.PrimitiveCodec
 import com.mojang.serialization.codecs.RecordCodecBuilder
-import net.minecraft.network.PacketByteBuf
+import net.minecraft.network.RegistryByteBuf
 import net.minecraft.util.math.Vec3d
 
 /**
@@ -57,11 +57,11 @@ class FromMotionViewDirection(var minSpeed: Double = 0.01) : ParticleViewDirecti
 
     override val type: ParticleViewDirectionType = ParticleViewDirectionType.FROM_MOTION
     override fun <T> encode(ops: DynamicOps<T>) = CODEC.encodeStart(ops, this)
-    override fun writeToBuffer(buffer: PacketByteBuf) {
+    override fun writeToBuffer(buffer: RegistryByteBuf) {
         buffer.writeDouble(minSpeed)
     }
 
-    override fun readFromBuffer(buffer: PacketByteBuf) {
+    override fun readFromBuffer(buffer: RegistryByteBuf) {
         minSpeed = buffer.readDouble()
     }
 
@@ -89,13 +89,13 @@ class CustomViewDirection(var direction: Triple<Expression, Expression, Expressi
     override val type = ParticleViewDirectionType.CUSTOM
 
     override fun <T> encode(ops: DynamicOps<T>) = CODEC.encodeStart(ops, this)
-    override fun writeToBuffer(buffer: PacketByteBuf) {
+    override fun writeToBuffer(buffer: RegistryByteBuf) {
         buffer.writeString(direction.first.getString())
         buffer.writeString(direction.second.getString())
         buffer.writeString(direction.third.getString())
     }
 
-    override fun readFromBuffer(buffer: PacketByteBuf) {
+    override fun readFromBuffer(buffer: RegistryByteBuf) {
         direction = Triple(
             buffer.readString().asExpression(),
             buffer.readString().asExpression(),

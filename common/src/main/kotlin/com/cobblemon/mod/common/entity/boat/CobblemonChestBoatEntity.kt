@@ -17,6 +17,9 @@ import net.minecraft.entity.player.PlayerInventory
 import net.minecraft.entity.vehicle.VehicleInventory
 import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
+import net.minecraft.loot.LootTable
+import net.minecraft.registry.Registries
+import net.minecraft.registry.RegistryKey
 import net.minecraft.screen.GenericContainerScreenHandler
 import net.minecraft.screen.ScreenHandler
 import net.minecraft.util.Identifier
@@ -73,10 +76,12 @@ class CobblemonChestBoatEntity(entityType: EntityType<CobblemonChestBoatEntity>,
         return GenericContainerScreenHandler.createGeneric9x3(syncId, playerInventory, this)
     }
 
-    override fun getLootTableId(): Identifier? = this.lootTableId
+    override fun getLootTable(): RegistryKey<LootTable>? {
+        TODO("Not yet implemented")
+    }
 
-    override fun setLootTableId(lootTableId: Identifier?) {
-        this.lootTableId = lootTableId
+    override fun setLootTable(lootTable: RegistryKey<LootTable>?) {
+        TODO("Not yet implemented")
     }
 
     override fun getLootTableSeed(): Long = this.lootTableSeed

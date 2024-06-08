@@ -69,6 +69,8 @@ import net.minecraft.util.math.MathHelper.PI
 import net.minecraft.util.math.Vec3d
 import net.minecraft.world.World
 import java.util.concurrent.CompletableFuture
+import net.minecraft.network.packet.s2c.common.CustomPayloadS2CPacket
+import net.minecraft.network.packet.s2c.play.BundleS2CPacket
 
 class EmptyPokeBallEntity : ThrownItemEntity, PosableEntity, WaterDragModifier, Schedulable {
     enum class CaptureState {
@@ -91,7 +93,7 @@ class EmptyPokeBallEntity : ThrownItemEntity, PosableEntity, WaterDragModifier, 
         const val SECONDS_BETWEEN_SHAKES = 1.25F
         const val SECONDS_BEFORE_SHAKE = 1F
 
-        val DIMENSIONS = EntityDimensions(0.4F, 0.4F, true)
+        val DIMENSIONS = EntityDimensions.fixed(0.4F, 0.4F)
     }
 
     val dataTrackerEmitter = SimpleObservable<TrackedData<*>>()
@@ -116,13 +118,13 @@ class EmptyPokeBallEntity : ThrownItemEntity, PosableEntity, WaterDragModifier, 
         .addFunction("capture_state") { StringValue(captureState.name) }
         .addFunction("ball_type") { StringValue(pokeBall.name.toString()) }
 
-    override fun initDataTracker() {
-        super.initDataTracker()
-        dataTracker.startTracking(CAPTURE_STATE, CaptureState.NOT.ordinal.toByte())
-        dataTracker.startTracking(ASPECTS, emptySet())
-        dataTracker.startTracking(HIT_TARGET_POSITION, Vec3d.ZERO)
-        dataTracker.startTracking(HIT_VELOCITY, Vec3d.ZERO)
-        dataTracker.startTracking(SHAKE, false)
+    override fun initDataTracker(builder: DataTracker.Builder) {
+        super.initDataTracker(builder)
+        builder.add(CAPTURE_STATE, CaptureState.NOT.ordinal.toByte())
+        builder.add(ASPECTS, emptySet())
+        builder.add(HIT_TARGET_POSITION, Vec3d.ZERO)
+        builder.add(HIT_VELOCITY, Vec3d.ZERO)
+        builder.add(SHAKE, false)
     }
 
     override fun onTrackedDataSet(data: TrackedData<*>) {
@@ -470,7 +472,7 @@ class EmptyPokeBallEntity : ThrownItemEntity, PosableEntity, WaterDragModifier, 
 
     override fun canUsePortals() = false
 
-    override fun createSpawnPacket(): Packet<ClientPlayPacketListener> = CobblemonNetwork.asVanillaClientBound(SpawnPokeballPacket(this.pokeBall, this.aspects, super.createSpawnPacket() as EntitySpawnS2CPacket))
+    override fun createSpawnPacket(): Packet<ClientPlayPacketListener> = CustomPayloadS2CPacket(SpawnPokeballPacket(this.pokeBall, this.aspects, super.createSpawnPacket() as EntitySpawnS2CPacket)) as Packet<ClientPlayPacketListener>
 
     override fun waterDrag(): Float = this.pokeBall.waterDragValue
 

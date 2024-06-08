@@ -60,8 +60,8 @@ class PokemonBreatheAirGoal(val pokemonEntity: PokemonEntity) : BreatheAirGoal(p
         val blockState = world.getBlockState(pos)
         val aboveState = world.getBlockState(pos.up())
         val notFluid = world.getFluidState(pos.up()).isEmpty || blockState.isOf(Blocks.BUBBLE_COLUMN)
-        val canPathfindThroughAbove = aboveState.canPathfindThrough(world, pos.up(), NavigationType.LAND)
-        val solidBelow = !blockState.canPathfindThrough(world, pos, NavigationType.LAND)
+        val canPathfindThroughAbove = aboveState.canPathfindThrough(NavigationType.LAND)
+        val solidBelow = !blockState.canPathfindThrough(NavigationType.LAND)
 
         return notFluid && canPathfindThroughAbove && solidBelow
     }

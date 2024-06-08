@@ -85,7 +85,7 @@ import net.minecraft.entity.damage.DamageTypes
 import net.minecraft.entity.data.DataTracker
 import net.minecraft.entity.data.TrackedData
 import net.minecraft.entity.data.TrackedDataHandlerRegistry
-import net.minecraft.entity.effect.StatusEffect
+import net.minecraft.entity.effect.StatusEffects
 import net.minecraft.entity.passive.AnimalEntity
 import net.minecraft.entity.passive.PassiveEntity
 import net.minecraft.entity.passive.TameableShoulderEntity
@@ -95,12 +95,12 @@ import net.minecraft.item.DyeItem
 import net.minecraft.item.ItemStack
 import net.minecraft.item.ItemUsage
 import net.minecraft.item.Items
-import net.minecraft.item.SuspiciousStewItem
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.nbt.NbtHelper
 import net.minecraft.nbt.NbtString
 import net.minecraft.network.listener.ClientPlayPacketListener
 import net.minecraft.network.packet.Packet
+import net.minecraft.network.packet.s2c.common.CustomPayloadS2CPacket
 import net.minecraft.network.packet.s2c.play.EntitySpawnS2CPacket
 import net.minecraft.registry.Registries
 import net.minecraft.registry.RegistryKeys
@@ -109,8 +109,8 @@ import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.sound.SoundCategory
 import net.minecraft.sound.SoundEvents
+import net.minecraft.text.PlainTextContent
 import net.minecraft.text.Text
-import net.minecraft.text.TextContent
 import net.minecraft.util.ActionResult
 import net.minecraft.util.Colors
 import net.minecraft.util.DyeColor
@@ -123,7 +123,6 @@ import net.minecraft.util.math.Vec3d
 import net.minecraft.world.EntityView
 import net.minecraft.world.World
 import net.minecraft.world.event.GameEvent
-import java.util.*
 
 @Suppress("unused")
 open class PokemonEntity(
@@ -172,9 +171,10 @@ open class PokemonEntity(
         set(value) {
             field = value
             delegate.changePokemon(value)
-            stepHeight = behaviour.moving.stepHeight
+
+            //stepHeight = behaviour.moving.stepHeight
             // We need to update this value every time the Pokémon changes, other eye height related things will be dynamic.
-            this.updateEyeHeight()
+            //this.updateEyeHeight()
         }
 
     var despawner: Despawner<PokemonEntity> = Cobblemon.bestSpawner.defaultPokemonDespawner
@@ -270,26 +270,26 @@ open class PokemonEntity(
         addPosableFunctions(struct)
     }
 
-    override fun initDataTracker() {
-        super.initDataTracker()
-        dataTracker.startTracking(SPECIES, "")
-        dataTracker.startTracking(NICKNAME, Text.empty())
-        dataTracker.startTracking(NICKNAME_VISIBLE, true)
-        dataTracker.startTracking(SHOULD_RENDER_NAME, true)
-        dataTracker.startTracking(MOVING, false)
-        dataTracker.startTracking(BEHAVIOUR_FLAGS, 0)
-        dataTracker.startTracking(BEAM_MODE, 0)
-        dataTracker.startTracking(PHASING_TARGET_ID, -1)
-        dataTracker.startTracking(BATTLE_ID, Optional.empty())
-        dataTracker.startTracking(ASPECTS, emptySet())
-        dataTracker.startTracking(DYING_EFFECTS_STARTED, false)
-        dataTracker.startTracking(POSE_TYPE, PoseType.STAND)
-        dataTracker.startTracking(LABEL_LEVEL, 1)
-        dataTracker.startTracking(HIDE_LABEL, false)
-        dataTracker.startTracking(UNBATTLEABLE, false)
-        dataTracker.startTracking(COUNTS_TOWARDS_SPAWN_CAP, true)
-        dataTracker.startTracking(SPAWN_DIRECTION, world.random.nextFloat() * 360F)
-        dataTracker.startTracking(FRIENDSHIP, 0)
+    override fun initDataTracker(builder: DataTracker.Builder) {
+        super.initDataTracker(builder)
+        builder.add(SPECIES, "")
+        builder.add(NICKNAME, Text.empty())
+        builder.add(NICKNAME_VISIBLE, true)
+        builder.add(SHOULD_RENDER_NAME, true)
+        builder.add(MOVING, false)
+        builder.add(BEHAVIOUR_FLAGS, 0)
+        builder.add(BEAM_MODE, 0)
+        builder.add(PHASING_TARGET_ID, -1)
+        builder.add(BATTLE_ID, Optional.empty())
+        builder.add(ASPECTS, emptySet())
+        builder.add(DYING_EFFECTS_STARTED, false)
+        builder.add(POSE_TYPE, PoseType.STAND)
+        builder.add(LABEL_LEVEL, 1)
+        builder.add(HIDE_LABEL, false)
+        builder.add(UNBATTLEABLE, false)
+        builder.add(SPAWN_DIRECTION, world.random.nextFloat() * 360F)
+        builder.add(COUNTS_TOWARDS_SPAWN_CAP, true)
+        builder.add(FRIENDSHIP, 0)
     }
 
     override fun onTrackedDataSet(data: TrackedData<*>) {
@@ -355,7 +355,7 @@ open class PokemonEntity(
         delegate.tick(this)
         ticksLived++
         if (this.ticksLived % 20 == 0) {
-            this.updateEyeHeight()
+            //this.updateEyeHeight()
         }
 
         if (ticksLived <= 20) {
@@ -526,8 +526,8 @@ open class PokemonEntity(
             val pcId = tetheringNBT.getUuid(DataKeys.PC_ID)
             val pokemonId = tetheringNBT.getUuid(DataKeys.POKEMON_UUID)
             val playerId = tetheringNBT.getUuid(DataKeys.POKEMON_OWNER_ID)
-            val minRoamPos = NbtHelper.toBlockPos(tetheringNBT.getCompound(DataKeys.TETHER_MIN_ROAM_POS))
-            val maxRoamPos = NbtHelper.toBlockPos(tetheringNBT.getCompound(DataKeys.TETHER_MAX_ROAM_POS))
+            val minRoamPos = NbtHelper.toBlockPos(tetheringNBT, DataKeys.TETHER_MIN_ROAM_POS).get()
+            val maxRoamPos = NbtHelper.toBlockPos(tetheringNBT, DataKeys.TETHER_MAX_ROAM_POS).get()
 
             val loadedPokemon = Cobblemon.storage.getPC(pcId)[pokemonId]
             if (loadedPokemon != null && loadedPokemon.tetheringId == tetheringId) {
@@ -590,7 +590,7 @@ open class PokemonEntity(
         )
     }
 
-    override fun createSpawnPacket(): Packet<ClientPlayPacketListener> = CobblemonNetwork.asVanillaClientBound(SpawnPokemonPacket(this, super.createSpawnPacket() as EntitySpawnS2CPacket))
+    override fun createSpawnPacket(): Packet<ClientPlayPacketListener> = CustomPayloadS2CPacket(SpawnPokemonPacket(this, super.createSpawnPacket() as EntitySpawnS2CPacket)) as Packet<ClientPlayPacketListener>
 
     override fun getPathfindingPenalty(nodeType: PathNodeType): Float {
         return if (nodeType == PathNodeType.OPEN) 2F else super.getPathfindingPenalty(nodeType)
@@ -662,14 +662,15 @@ open class PokemonEntity(
 
     override fun interactMob(player: PlayerEntity, hand: Hand) : ActionResult {
         val itemStack = player.getStackInHand(hand)
-        val colorFeatureType = SpeciesFeatures.getFeaturesFor(pokemon.species).find { it is ChoiceSpeciesFeatureProvider && DataKeys.CAN_BE_COLORED in it.keys }
+        val colorFeatureType = SpeciesFeatures.getFeaturesFor(pokemon.species)
+            .find { it is ChoiceSpeciesFeatureProvider && DataKeys.CAN_BE_COLORED in it.keys }
         val colorFeature = pokemon.getFeature<StringSpeciesFeature>(DataKeys.CAN_BE_COLORED)
 
         if (ownerUuid == player.uuid || ownerUuid == null) {
             if (itemStack.isOf(Items.SHEARS) && this.isShearable) {
                 this.sheared(SoundCategory.PLAYERS)
                 this.emitGameEvent(GameEvent.SHEAR, player)
-                itemStack.damage(1, player) { it.sendToolBreakStatus(hand) }
+                itemStack.damage(1, player, EquipmentSlot.MAINHAND)
                 return ActionResult.SUCCESS
             } else if (itemStack.isOf(Items.BUCKET)) {
                 if (pokemon.getFeature<FlagSpeciesFeature>(DataKeys.CAN_BE_MILKED) != null) {
@@ -679,64 +680,38 @@ open class PokemonEntity(
                     return ActionResult.success(world.isClient)
                 }
             } else if (itemStack.isOf(Items.BOWL)) {
-                if (pokemon.aspects.any { it.contains("mooshtank") }) {
+                if (pokemon.aspects.any() { it.contains("mooshtank") }) {
                     player.playSound(SoundEvents.ENTITY_MOOSHROOM_MILK, 1.0f, 1.0f)
                     // if the Mooshtank ate a Flower beforehand
                     if (pokemon.lastFlowerFed != ItemStack.EMPTY && pokemon.aspects.any() { it.contains("mooshtank-brown") }) {
-                        var effect: StatusEffect? = null
-                        var duration = 0
-
-                        if (pokemon.lastFlowerFed.isOf(Items.ALLIUM)) {
-                            effect = StatusEffect.byRawId(12) // Fire Resistance
-                            duration = 80 // 4 seconds
-                        } else if (pokemon.lastFlowerFed.isOf(Items.AZURE_BLUET)) {
-                            effect = StatusEffect.byRawId(15) // Blindness
-                            duration = 160 // 8 seconds
-                        } else if (pokemon.lastFlowerFed.isOf(Items.BLUE_ORCHID) || pokemon.lastFlowerFed.isOf(Items.DANDELION)) {
-                            effect = StatusEffect.byRawId(23) // Saturation
-                            duration = 7 // .35 seconds
-                        } else if (pokemon.lastFlowerFed.isOf(Items.CORNFLOWER)) {
-                            effect = StatusEffect.byRawId(8) // Jump Boost
-                            duration = 120 // 6 seconds
-                        } else if (pokemon.lastFlowerFed.isOf(Items.LILY_OF_THE_VALLEY)) {
-                            effect = StatusEffect.byRawId(19) // Poison
-                            duration = 240 // 12 seconds
-                        } else if (pokemon.lastFlowerFed.isOf(Items.OXEYE_DAISY)) {
-                            effect = StatusEffect.byRawId(10) // Regeneration
-                            duration = 160 // 8 seconds
-                        } else if (pokemon.lastFlowerFed.isOf(Items.POPPY) || pokemon.lastFlowerFed.isOf(Items.TORCHFLOWER)) {
-                            effect = StatusEffect.byRawId(16) // Night Vision
-                            duration = 100 // 5 seconds
-                        } else if (pokemon.lastFlowerFed.isOf(Items.PINK_TULIP) || pokemon.lastFlowerFed.isOf(Items.RED_TULIP) || pokemon.lastFlowerFed.isOf(
-                                Items.WHITE_TULIP
-                            ) || pokemon.lastFlowerFed.isOf(Items.ORANGE_TULIP)
-                        ) {
-                            effect = StatusEffect.byRawId(18) // Weakness
-                            duration = 180 // 9 seconds
-                        } else if (pokemon.lastFlowerFed.isOf(Items.WITHER_ROSE)) {
-                            effect = StatusEffect.byRawId(20) // Wither
-                            duration = 160 // 8 seconds
-                        } else if (pokemon.lastFlowerFed.isOf(CobblemonItems.PEP_UP_FLOWER)) {
-                            effect = StatusEffect.byRawId(25) // Levitation
-                            duration = 160 // 8 seconds
+                        when (pokemon.lastFlowerFed.item) {
+                            Items.ALLIUM -> StatusEffects.FIRE_RESISTANCE to 80
+                            Items.AZURE_BLUET -> StatusEffects.BLINDNESS to 160
+                            Items.BLUE_ORCHID, Items.DANDELION -> StatusEffects.SATURATION to 7
+                            Items.CORNFLOWER -> StatusEffects.JUMP_BOOST to 120
+                            Items.LILY_OF_THE_VALLEY -> StatusEffects.POISON to 240
+                            Items.OXEYE_DAISY -> StatusEffects.REGENERATION to 160
+                            Items.POPPY, Items.TORCHFLOWER -> StatusEffects.NIGHT_VISION to 100
+                            Items.PINK_TULIP, Items.RED_TULIP, Items.WHITE_TULIP, Items.ORANGE_TULIP -> StatusEffects.WEAKNESS to 180
+                            Items.WITHER_ROSE -> StatusEffects.WITHER to 160
+                            CobblemonItems.PEP_UP_FLOWER -> StatusEffects.LEVITATION to 160
+                            else -> null
+                        }?.let {
+                            // modify the suspicious stew with the effect
+                            val susStewStack = Items.SUSPICIOUS_STEW.defaultStack
+                            //SuspiciousStewItem.addEffectsToStew(susStewStack, listOf(StewEffect(it.first, it.second)))
+                            val susStewEffect = ItemUsage.exchangeStack(itemStack, player, susStewStack)
+                            //give player modified Suspicious Stew
+                            player.setStackInHand(hand, susStewEffect)
+                            // reset the flower fed state
+                            pokemon.lastFlowerFed = ItemStack.EMPTY
                         }
-
-
-                        // modify the suspicious stew with the effect
-                        val susStewStack = Items.SUSPICIOUS_STEW.defaultStack
-                        SuspiciousStewItem.addEffectToStew(susStewStack, effect, duration)
-                        val susStewEffect = ItemUsage.exchangeStack(itemStack, player, susStewStack)
-                        //give player modified Suspicious Stew
-                        player.setStackInHand(hand, susStewEffect)
-                        // reset the flower fed state
-                        pokemon.lastFlowerFed = ItemStack.EMPTY
                         return ActionResult.success(world.isClient)
                     } else {
                         val mushroomStew = ItemUsage.exchangeStack(itemStack, player, Items.MUSHROOM_STEW.defaultStack)
                         player.setStackInHand(hand, mushroomStew)
                         return ActionResult.success(world.isClient)
                     }
-
                 }
             }
             // Flowers used on brown MooshTanks
@@ -756,19 +731,19 @@ open class PokemonEntity(
                 itemStack.isOf(Items.WITHER_ROSE) ||
                 itemStack.isOf(CobblemonItems.PEP_UP_FLOWER)
             ) {
-                if (pokemon.aspects.any { it.contains("mooshtank") }) {
+                if (pokemon.aspects.any() { it.contains("mooshtank") }) {
                     player.playSound(SoundEvents.ENTITY_MOOSHROOM_EAT, 1.0f, 1.0f)
                     pokemon.lastFlowerFed = itemStack
                     return ActionResult.success(world.isClient)
                 }
-            } else if (!player.isSneaking && player.uuid == ownerUuid && (itemStack.isOf(CobblemonItems.RELIC_COIN)
+            } else if (!player.isSneaking && (itemStack.isOf(CobblemonItems.RELIC_COIN)
                         || itemStack.isOf(CobblemonItems.RELIC_COIN_POUCH)
                         || itemStack.isOf(CobblemonItems.RELIC_COIN_SACK)
                         || itemStack.isOf(Items.NETHERITE_SCRAP)
-                        || itemStack.isOf(Items.NETHERITE_INGOT)
-                        || itemStack.isOf(Items.NETHERITE_BLOCK))
-            ) {
-                if (GimmighoulStashHandler.interactMob(player, hand, pokemon)) {
+                    || itemStack.isOf(Items.NETHERITE_INGOT)
+                    || itemStack.isOf(Items.NETHERITE_BLOCK))) {
+
+                if(GimmighoulStashHandler.interactMob(player, hand, pokemon)) {
                     return ActionResult.SUCCESS
                 }
             } else if (itemStack.item is DyeItem && colorFeatureType != null) {
@@ -821,10 +796,13 @@ open class PokemonEntity(
         return super.interactMob(player, hand)
     }
 
+    /*
     override fun getDimensions(pose: EntityPose): EntityDimensions {
         val scale = effects.mockEffect?.scale ?: (form.baseScale * pokemon.scaleModifier)
         return this.exposedForm.hitbox.scaled(scale)
     }
+
+     */
 
     override fun canTakeDamage() = super.canTakeDamage() && !isBusy
     override fun damage(source: DamageSource?, amount: Float): Boolean {
@@ -854,8 +832,9 @@ open class PokemonEntity(
         }
     }
 
-    override fun getEyeHeight(pose: EntityPose): Float = this.exposedForm.eyeHeight(this)
+    //override fun getEyeHeight(pose: EntityPose): Float = this.exposedForm.eyeHeight(this)
 
+    /*
     @Suppress("SENSELESS_COMPARISON")
     override fun getActiveEyeHeight(pose: EntityPose, dimensions: EntityDimensions): Float {
         // DO NOT REMOVE
@@ -866,6 +845,8 @@ open class PokemonEntity(
         }
         return this.exposedForm.eyeHeight(this)
     }
+
+     */
 
     fun setBehaviourFlag(flag: PokemonBehaviourFlag, on: Boolean) {
         dataTracker.set(BEHAVIOUR_FLAGS, setBitForByte(dataTracker.get(BEHAVIOUR_FLAGS), flag.bit, on))
@@ -1121,10 +1102,13 @@ open class PokemonEntity(
         if (blocksTaken > 0) this.blocksTraveled += blocksTaken
     }
 
+    /*
     private fun updateEyeHeight() {
         @Suppress("CAST_NEVER_SUCCEEDS")
         (this as com.cobblemon.mod.common.mixin.accessor.AccessorEntity).standingEyeHeight(this.getActiveEyeHeight(EntityPose.STANDING, this.type.dimensions))
     }
+
+     */
 
     fun isFlying() = this.getBehaviourFlag(PokemonBehaviourFlag.FLYING)
     fun isFalling() = this.fallDistance > 0 && this.world.getBlockState(this.blockPos.down()).isAir && !this.isFlying()
@@ -1146,7 +1130,7 @@ open class PokemonEntity(
      */
     override fun getName(): Text {
         if (!dataTracker.get(NICKNAME_VISIBLE)) return defaultName
-        return dataTracker.get(NICKNAME)?.takeIf { it.content != TextContent.EMPTY } ?: pokemon.getDisplayName()
+        return dataTracker.get(NICKNAME)?.takeIf { it.content != PlainTextContent.EMPTY } ?: pokemon.getDisplayName()
     }
 
     /**
@@ -1172,7 +1156,7 @@ open class PokemonEntity(
      *
      * @return If the backing [pokemon] has a non-null [Pokemon.nickname].
      */
-    override fun hasCustomName(): Boolean = pokemon.nickname != null && pokemon.nickname?.content != TextContent.EMPTY
+    override fun hasCustomName(): Boolean = pokemon.nickname != null && pokemon.nickname?.content != PlainTextContent.EMPTY
 
     /**
      * This method toggles the visibility of the entity name,
@@ -1268,8 +1252,6 @@ open class PokemonEntity(
         val feature = this.pokemon.getFeature<FlagSpeciesFeature>(DataKeys.HAS_BEEN_SHEARED) ?: return false
         return !this.isBusy && !this.pokemon.isFainted() && !feature.enabled
     }
-
-
 
     override fun canUsePortals() = false
 

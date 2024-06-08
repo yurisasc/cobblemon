@@ -15,14 +15,16 @@ import com.cobblemon.mod.common.api.text.green
 import com.cobblemon.mod.common.api.text.red
 import com.cobblemon.mod.common.block.entity.HealingMachineBlockEntity
 import com.cobblemon.mod.common.util.*
+import com.mojang.serialization.MapCodec
 import net.minecraft.block.*
 import net.minecraft.block.entity.BlockEntity
 import net.minecraft.block.entity.BlockEntityTicker
 import net.minecraft.block.entity.BlockEntityType
-import net.minecraft.client.item.TooltipContext
+import net.minecraft.client.item.TooltipType
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.ai.pathing.NavigationType
 import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.item.Item
 import net.minecraft.item.ItemPlacementContext
 import net.minecraft.item.ItemStack
 import net.minecraft.particle.ParticleTypes
@@ -47,6 +49,8 @@ import net.minecraft.world.World
 @Suppress("DEPRECATED", "OVERRIDE_DEPRECATION")
 class HealingMachineBlock(properties: Settings) : BlockWithEntity(properties) {
     companion object {
+        val CODEC: MapCodec<HealingMachineBlock> = createCodec(::HealingMachineBlock)
+
         private val NORTH_SOUTH_AABB = VoxelShapes.union(
             VoxelShapes.cuboid(0.0, 0.0, 0.0, 1.0, 0.625, 1.0),
             VoxelShapes.cuboid(0.0625, 0.625, 0.0, 0.9375, 0.875, 0.125),
@@ -93,7 +97,14 @@ class HealingMachineBlock(properties: Settings) : BlockWithEntity(properties) {
         return this.defaultState.with(HorizontalFacingBlock.FACING, blockPlaceContext.horizontalPlayerFacing)
     }
 
-    override fun canPathfindThrough(blockState: BlockState, blockGetter: BlockView, blockPos: BlockPos, pathComputationType: NavigationType): Boolean {
+    override fun getCodec(): MapCodec<out BlockWithEntity> {
+        return CODEC
+    }
+
+    override fun canPathfindThrough(
+        blockState: BlockState?,
+        pathComputationType: NavigationType?
+    ): Boolean {
         return false
     }
 
@@ -115,8 +126,14 @@ class HealingMachineBlock(properties: Settings) : BlockWithEntity(properties) {
         if (!state.isOf(newState.block)) super.onStateReplaced(state, world, pos, newState, moved)
     }
 
-    override fun onUse(blockState: BlockState, world: World, blockPos: BlockPos, player: PlayerEntity, interactionHand: Hand, blockHitResult: BlockHitResult): ActionResult {
-        if (world.isClient || interactionHand == Hand.OFF_HAND) {
+    override fun onUse(
+        blockState: BlockState,
+        world: World,
+        blockPos: BlockPos,
+        player: PlayerEntity,
+        blockHitResult: BlockHitResult
+    ): ActionResult {
+        if (world.isClient) {
             return ActionResult.SUCCESS
         }
 
@@ -190,13 +207,18 @@ class HealingMachineBlock(properties: Settings) : BlockWithEntity(properties) {
 
     override fun getComparatorOutput(state: BlockState, world: World, pos: BlockPos): Int = (world.getBlockEntity(pos) as? HealingMachineBlockEntity)?.currentSignal ?: 0
 
-    override fun <T : BlockEntity> getTicker(world: World, blockState: BlockState, blockWithEntityType: BlockEntityType<T>): BlockEntityTicker<T>? = checkType(blockWithEntityType, CobblemonBlockEntities.HEALING_MACHINE, HealingMachineBlockEntity.TICKER::tick)
+    override fun <T : BlockEntity> getTicker(world: World, blockState: BlockState, blockWithEntityType: BlockEntityType<T>): BlockEntityTicker<T>? = validateTicker(blockWithEntityType, CobblemonBlockEntities.HEALING_MACHINE, HealingMachineBlockEntity.TICKER::tick)
 
     override fun getRenderType(blockState: BlockState): BlockRenderType {
         return BlockRenderType.MODEL
     }
 
-    override fun appendTooltip(stack: ItemStack?, world: BlockView?, tooltip: MutableList<Text>, options: TooltipContext?) {
+    override fun appendTooltip(
+        stack: ItemStack,
+        context: Item.TooltipContext,
+        tooltip: MutableList<Text>,
+        options: TooltipType
+    ) {
         tooltip.add("block.${Cobblemon.MODID}.healing_machine.tooltip1".asTranslated().gray())
         tooltip.add("block.${Cobblemon.MODID}.healing_machine.tooltip2".asTranslated().gray())
     }

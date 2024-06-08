@@ -12,7 +12,7 @@ import com.cobblemon.mod.common.client.render.models.blockbench.FloatingState
 import com.cobblemon.mod.common.client.render.models.blockbench.repository.PokemonModelRepository
 import com.cobblemon.mod.common.client.render.models.blockbench.repository.RenderContext
 import com.cobblemon.mod.common.entity.PoseType
-import com.cobblemon.mod.common.item.PokemonItem
+//import com.cobblemon.mod.common.item.PokemonItem
 import com.cobblemon.mod.common.util.math.fromEulerXYZDegrees
 import net.minecraft.client.render.DiffuseLighting
 import net.minecraft.client.render.LightmapTextureManager
@@ -26,6 +26,7 @@ import net.minecraft.item.ItemStack
 import org.joml.Quaternionf
 import org.joml.Vector3f
 
+/*
 class PokemonItemRenderer : CobblemonBuiltinItemRenderer {
     val context = RenderContext().also {
         it.put(RenderContext.RENDER_STATE, RenderContext.RenderState.PROFILE)
@@ -137,3 +138,5 @@ class PokemonItemRenderer : CobblemonBuiltinItemRenderer {
     inner class Transformations(val translation: Transformation<Double>, val scale: Transformation<Float>, val rotation: Transformation<Float>)
     inner class Transformation<T>(val x: T, val y: T, val z: T)
 }
+
+ */

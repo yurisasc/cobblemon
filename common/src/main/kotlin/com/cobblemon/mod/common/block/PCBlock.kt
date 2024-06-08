@@ -59,6 +59,7 @@ import net.minecraft.world.WorldView
 
 class PCBlock(properties: Settings): BlockWithEntity(properties), Waterloggable {
     companion object {
+        val CODEC = createCodec(::PCBlock)
         val PART = EnumProperty.of("part", PCPart::class.java)
         val ON = BooleanProperty.of("on")
         val WATERLOGGED = BooleanProperty.of("waterlogged")
@@ -208,7 +209,7 @@ class PCBlock(properties: Settings): BlockWithEntity(properties), Waterloggable 
         return if (state.get(PART) == PCPart.BOTTOM) blockState.isSideSolidFullSquare(world, blockPos, Direction.UP) else blockState.isOf(this)
     }
 
-    override fun onBreak(world: World, pos: BlockPos, state: BlockState, player: PlayerEntity?) {
+    override fun onBreak(world: World, pos: BlockPos, state: BlockState, player: PlayerEntity?): BlockState {
         if (!world.isClient && player?.isCreative == true) {
             var blockPos: BlockPos = BlockPos.ORIGIN
             var blockState: BlockState = state
@@ -219,11 +220,16 @@ class PCBlock(properties: Settings): BlockWithEntity(properties), Waterloggable 
                 world.syncWorldEvent(player, WorldEvents.BLOCK_BROKEN, blockPos, getRawIdFromState(blockState))
             }
         }
-        super.onBreak(world, pos, state, player)
+        return super.onBreak(world, pos, state, player)
     }
 
+    override fun getCodec() = CODEC
+
     @Deprecated("Deprecated in Java")
-    override fun canPathfindThrough(blockState: BlockState, blockGetter: BlockView, blockPos: BlockPos, pathComputationType: NavigationType) = false
+    override fun canPathfindThrough(
+        blockState: BlockState?,
+        pathComputationType: NavigationType?
+    ): Boolean = false
 
     override fun appendProperties(builder: StateManager.Builder<Block, BlockState>) {
         builder.add(HorizontalFacingBlock.FACING)
@@ -252,9 +258,8 @@ class PCBlock(properties: Settings): BlockWithEntity(properties), Waterloggable 
         world: World,
         blockPos: BlockPos,
         player: PlayerEntity,
-        interactionHand: Hand,
         blockHitResult: BlockHitResult
-    ): ActionResult {
+    ): ActionResult? {
         if (player !is ServerPlayerEntity) return ActionResult.SUCCESS
 
         val basePos = getBasePosition(blockState, blockPos)
@@ -283,7 +288,7 @@ class PCBlock(properties: Settings): BlockWithEntity(properties), Waterloggable 
         return ActionResult.SUCCESS
     }
 
-    override fun <T : BlockEntity> getTicker(world: World, blockState: BlockState, BlockWithEntityType: BlockEntityType<T>) =  checkType(BlockWithEntityType, CobblemonBlockEntities.PC, PCBlockEntity.TICKER::tick)
+    override fun <T : BlockEntity> getTicker(world: World, blockState: BlockState, BlockWithEntityType: BlockEntityType<T>) = validateTicker(BlockWithEntityType, CobblemonBlockEntities.PC, PCBlockEntity.TICKER::tick)
 
     @Deprecated("Deprecated in Java")
     override fun getRenderType(blockState: BlockState): BlockRenderType {

@@ -11,6 +11,7 @@ package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen5
 import com.cobblemon.mod.common.client.render.models.blockbench.PosableState
 import com.cobblemon.mod.common.client.render.models.blockbench.animation.ActiveAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.CryProvider
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.Pose
 import com.cobblemon.mod.common.entity.PoseType
@@ -30,6 +31,8 @@ class GolurkModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
     lateinit var standing: Pose
     lateinit var walk: Pose
     lateinit var sleep: Pose
+
+    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("golurk", "cry") }
 
     override fun registerPoses() {
         val blink = quirk { bedrockStateful("golurk", "blink") }

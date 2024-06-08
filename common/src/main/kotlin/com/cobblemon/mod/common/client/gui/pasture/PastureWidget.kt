@@ -48,7 +48,7 @@ class PastureWidget(
         parent = this
     )
 
-    public override fun renderButton(context: DrawContext, mouseX: Int, mouseY: Int, delta: Float) {
+    override fun renderWidget(context: DrawContext, mouseX: Int, mouseY: Int, delta: Float) {
         blitk(
             matrixStack = context.matrices,
             texture = baseResource,

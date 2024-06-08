@@ -21,7 +21,7 @@ import com.cobblemon.mod.common.util.asExpressionLike
 import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.PrimitiveCodec
 import com.mojang.serialization.codecs.RecordCodecBuilder
-import net.minecraft.network.PacketByteBuf
+import net.minecraft.network.RegistryByteBuf
 import net.minecraft.sound.SoundCategory
 import net.minecraft.sound.SoundEvent
 import net.minecraft.util.Identifier
@@ -55,7 +55,7 @@ class ParticleEvent(
         }
     }
 
-    override fun encode(buffer: PacketByteBuf) {
+    override fun encode(buffer: RegistryByteBuf) {
         buffer.writeNullable(particleEffect) { pb, effect ->
             pb.writeIdentifier(effect.effect)
             pb.writeEnumConstant(effect.type)
@@ -64,7 +64,7 @@ class ParticleEvent(
         buffer.writeNullable(soundEffect) { pb, effect -> pb.writeIdentifier(effect.sound) }
         buffer.writeNullable(expression) { pb, expr -> pb.writeString(expr.toString()) }
     }
-    override fun decode(buffer: PacketByteBuf) {
+    override fun decode(buffer: RegistryByteBuf) {
         particleEffect = buffer.readNullable { pb -> EventParticleEffect(
             pb.readIdentifier(),
             pb.readEnumConstant(EventParticleEffect.EventParticleType::class.java),

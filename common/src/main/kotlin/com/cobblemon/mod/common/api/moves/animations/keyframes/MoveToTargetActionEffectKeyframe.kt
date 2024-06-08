@@ -36,7 +36,7 @@ class MoveToTargetActionEffectKeyframe : ActionEffectKeyframe {
 
         var timedOut = false
 
-        val proximity = this.proximity.takeIf { it != -1F } ?: (sqrt(2 * user.boundingBox.xLength.pow(2)) + 1.5F + sqrt(2 * target.boundingBox.xLength.pow(2))).toFloat()
+        val proximity = this.proximity.takeIf { it != -1F } ?: (sqrt(2 * user.boundingBox.lengthX.pow(2)) + 1.5F + sqrt(2 * target.boundingBox.lengthX.pow(2))).toFloat()
 
         if (target.distanceTo(user) !in proximity..20F) {
             future.complete(Unit)

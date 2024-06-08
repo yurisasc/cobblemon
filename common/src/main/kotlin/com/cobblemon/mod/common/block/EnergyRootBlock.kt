@@ -10,6 +10,8 @@ package com.cobblemon.mod.common.block
 
 import com.cobblemon.mod.common.CobblemonBlocks
 import com.cobblemon.mod.common.CobblemonItems
+import com.mojang.serialization.MapCodec
+import net.minecraft.block.Block
 import net.minecraft.block.BlockState
 import net.minecraft.block.ShapeContext
 import net.minecraft.item.ItemStack
@@ -27,10 +29,14 @@ class EnergyRootBlock(settings: Settings) : RootBlock(settings) {
 
     override fun shearedDrop(): ItemStack = CobblemonItems.ENERGY_ROOT.defaultStack
 
+    override fun getCodec(): MapCodec<out Block> {
+        return CODEC
+    }
+
     companion object {
+        private val CODEC = createCodec(::EnergyRootBlock)
 
         private val AABB = VoxelShapes.cuboid(0.2, 0.1, 0.2, 0.8, 1.0, 0.8)
-
     }
 
 }

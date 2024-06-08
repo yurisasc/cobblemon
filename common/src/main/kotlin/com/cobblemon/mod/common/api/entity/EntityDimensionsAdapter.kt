@@ -45,6 +45,6 @@ object EntityDimensionsAdapter : JsonSerializer<EntityDimensions>, JsonDeseriali
             return templates[json.asString]?.invoke() ?: throw IllegalStateException("Dimensions provided by template name $json but no such template is set.")
         }
         json as JsonObject
-        return EntityDimensions(json.get(WIDTH).asFloat, json.get(HEIGHT).asFloat, false)
+        return EntityDimensions.changing(json.get(WIDTH).asFloat, json.get(HEIGHT).asFloat)
     }
 }

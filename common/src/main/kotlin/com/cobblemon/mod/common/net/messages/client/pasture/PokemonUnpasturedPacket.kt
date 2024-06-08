@@ -11,7 +11,7 @@ package com.cobblemon.mod.common.net.messages.client.pasture
 import com.cobblemon.mod.common.api.net.NetworkPacket
 import com.cobblemon.mod.common.util.cobblemonResource
 import java.util.UUID
-import net.minecraft.network.PacketByteBuf
+import net.minecraft.network.RegistryByteBuf
 
 /**
  * Packet sent to inform clients a pasture Pokémon was removed, sent to players with the menu open to remove it visibly.
@@ -22,11 +22,11 @@ import net.minecraft.network.PacketByteBuf
 class PokemonUnpasturedPacket(val pokemonId: UUID) : NetworkPacket<PokemonUnpasturedPacket> {
     companion object {
         val ID = cobblemonResource("pasture_pokemon_removed")
-        fun decode(buffer: PacketByteBuf) = PokemonUnpasturedPacket(buffer.readUuid())
+        fun decode(buffer: RegistryByteBuf) = PokemonUnpasturedPacket(buffer.readUuid())
     }
 
     override val id = ID
-    override fun encode(buffer: PacketByteBuf) {
+    override fun encode(buffer: RegistryByteBuf) {
         buffer.writeUuid(pokemonId)
     }
 }

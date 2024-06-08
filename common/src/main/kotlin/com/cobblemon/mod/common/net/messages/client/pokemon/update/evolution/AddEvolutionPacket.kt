@@ -17,7 +17,10 @@ import com.cobblemon.mod.common.net.messages.client.pokemon.update.SingleUpdateP
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.pokemon.evolution.CobblemonEvolutionDisplay
 import com.cobblemon.mod.common.util.cobblemonResource
+import com.cobblemon.mod.common.util.readString
+import io.netty.buffer.ByteBuf
 import net.minecraft.network.PacketByteBuf
+import net.minecraft.network.RegistryByteBuf
 
 class AddEvolutionPacket(pokemon: () -> Pokemon, value: EvolutionDisplay) : SingleUpdatePacket<EvolutionDisplay, AddEvolutionPacket>(pokemon, value) {
 
@@ -25,7 +28,7 @@ class AddEvolutionPacket(pokemon: () -> Pokemon, value: EvolutionDisplay) : Sing
 
     constructor(pokemon: Pokemon, value: Evolution) : this({ pokemon }, value.convertToDisplay(pokemon))
 
-    override fun encodeValue(buffer: PacketByteBuf) {
+    override fun encodeValue(buffer: RegistryByteBuf) {
         this.value.encode(buffer)
     }
 
@@ -37,7 +40,7 @@ class AddEvolutionPacket(pokemon: () -> Pokemon, value: EvolutionDisplay) : Sing
 
         val ID = cobblemonResource("add_evolution")
 
-        fun decode(buffer: PacketByteBuf) = AddEvolutionPacket(decodePokemon(buffer), decodeDisplay(buffer))
+        fun decode(buffer: RegistryByteBuf) = AddEvolutionPacket(decodePokemon(buffer), decodeDisplay(buffer))
 
         internal fun Evolution.convertToDisplay(pokemon: Pokemon): EvolutionDisplay {
             val result = pokemon.clone()
@@ -59,7 +62,7 @@ class AddEvolutionPacket(pokemon: () -> Pokemon, value: EvolutionDisplay) : Sing
             val speciesIdentifier = buffer.readIdentifier()
             val species = PokemonSpecies.getByIdentifier(speciesIdentifier)
                 ?: throw IllegalArgumentException("Cannot resolve species from $speciesIdentifier")
-            val aspects = buffer.readList(PacketByteBuf::readString).toSet()
+            val aspects = buffer.readList(ByteBuf::readString).toSet()
             return CobblemonEvolutionDisplay(id, species, aspects)
         }
     }

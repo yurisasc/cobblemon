@@ -16,9 +16,12 @@ import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.pokemon.FormData
 import com.cobblemon.mod.common.pokemon.Species
 import com.cobblemon.mod.common.util.cobblemonResource
+import com.cobblemon.mod.common.util.readText
+import com.cobblemon.mod.common.util.writeText
 import java.util.UUID
 import net.minecraft.entity.Entity
 import net.minecraft.network.PacketByteBuf
+import net.minecraft.network.RegistryByteBuf
 import net.minecraft.network.packet.s2c.play.EntitySpawnS2CPacket
 import net.minecraft.text.MutableText
 import net.minecraft.util.Identifier
@@ -65,7 +68,7 @@ class SpawnPokemonPacket(
         vanillaSpawnPacket
     )
 
-    override fun encodeEntityData(buffer: PacketByteBuf) {
+    override fun encodeEntityData(buffer: RegistryByteBuf) {
         buffer.writeNullable(ownerId) { _, v -> buffer.writeUuid(v) }
         buffer.writeFloat(this.scaleModifier)
         buffer.writeIdentifier(this.species.resourceIdentifier)
@@ -111,7 +114,7 @@ class SpawnPokemonPacket(
 
     companion object {
         val ID = cobblemonResource("spawn_pokemon_entity")
-        fun decode(buffer: PacketByteBuf): SpawnPokemonPacket {
+        fun decode(buffer: RegistryByteBuf): SpawnPokemonPacket {
             val ownerId = buffer.readNullable { buffer.readUuid() }
             val scaleModifier = buffer.readFloat()
             val species = PokemonSpecies.getByIdentifier(buffer.readIdentifier())!!

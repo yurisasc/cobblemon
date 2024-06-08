@@ -15,6 +15,7 @@ import com.cobblemon.mod.common.api.pokemon.evolution.progress.EvolutionProgress
 import com.cobblemon.mod.common.net.messages.client.pokemon.update.evolution.AddEvolutionPacket
 import com.cobblemon.mod.common.net.messages.server.pokemon.update.evolution.AcceptEvolutionPacket
 import com.cobblemon.mod.common.pokemon.Pokemon
+import com.cobblemon.mod.common.util.readList
 import com.google.gson.JsonArray
 import com.google.gson.JsonElement
 import net.minecraft.nbt.NbtCompound
@@ -29,7 +30,7 @@ class ClientEvolutionController(override val pokemon: Pokemon) : EvolutionContro
         get() = this.evolutions.size
 
     override fun start(evolution: EvolutionDisplay) {
-        CobblemonNetwork.sendPacketToServer(AcceptEvolutionPacket(this.pokemon, evolution))
+        CobblemonNetwork.sendToServer(AcceptEvolutionPacket(this.pokemon, evolution))
     }
 
     override fun progress(): Collection<EvolutionProgress<*>> {

@@ -15,10 +15,9 @@ import com.bedrockk.molang.ast.NumberExpression
 import com.cobblemon.mod.common.util.codec.EXPRESSION_CODEC
 import com.cobblemon.mod.common.util.getString
 import com.mojang.serialization.Codec
-import com.mojang.serialization.codecs.ListCodec
 import com.mojang.serialization.codecs.PrimitiveCodec
 import com.mojang.serialization.codecs.RecordCodecBuilder
-import net.minecraft.network.PacketByteBuf
+import net.minecraft.network.RegistryByteBuf
 import net.minecraft.util.Identifier
 
 /**
@@ -79,15 +78,15 @@ class BedrockParticle(
                 EXPRESSION_CODEC.fieldOf("sizeY").forGetter { it.sizeY },
                 EXPRESSION_CODEC.fieldOf("maxAge").forGetter { it.maxAge },
                 EXPRESSION_CODEC.fieldOf("killExpression").forGetter { it.killExpression },
-                ListCodec(EXPRESSION_CODEC).fieldOf("updateExpressions").forGetter { it.updateExpressions },
-                ListCodec(EXPRESSION_CODEC).fieldOf("renderExpressions").forGetter { it.renderExpressions }
+                EXPRESSION_CODEC.listOf().fieldOf("updateExpressions").forGetter { it.updateExpressions },
+                EXPRESSION_CODEC.listOf().fieldOf("renderExpressions").forGetter { it.renderExpressions }
             ).apply(instance, ::ExpressionSet)
         }
 
         val EVENT_SET_CODEC = RecordCodecBuilder.create<EventSet> { instance ->
             instance.group(
-                ListCodec(SimpleEventTrigger.CODEC).fieldOf("creationEvents").forGetter { it.creationEvents },
-                ListCodec(SimpleEventTrigger.CODEC).fieldOf("expirationEvents").forGetter { it.expirationEvents },
+                SimpleEventTrigger.CODEC.listOf().fieldOf("creationEvents").forGetter { it.creationEvents },
+                SimpleEventTrigger.CODEC.listOf().fieldOf("expirationEvents").forGetter { it.expirationEvents },
                 EventTriggerTimeline.CODEC.fieldOf("timeline").forGetter { it.timeline }
             ).apply(instance, ::EventSet)
         }
@@ -148,7 +147,7 @@ class BedrockParticle(
         }
     }
 
-    fun writeToBuffer(buffer: PacketByteBuf) {
+    fun writeToBuffer(buffer: RegistryByteBuf) {
         buffer.writeIdentifier(texture)
         buffer.writeString(material.name)
         ParticleUVMode.writeToBuffer(buffer, uvMode)
@@ -165,12 +164,12 @@ class BedrockParticle(
         ParticleTinting.writeToBuffer(buffer, tinting)
         collision.writeToBuffer(buffer)
         buffer.writeBoolean(environmentLighting)
-        buffer.writeCollection(creationEvents) { pb, event -> event.encode(pb) }
-        buffer.writeCollection(expirationEvents) { pb, event -> event.encode(pb) }
+        buffer.writeCollection(creationEvents) { _, event -> event.encode(buffer) }
+        buffer.writeCollection(expirationEvents) { _, event -> event.encode(buffer) }
         timeline.encode(buffer)
     }
 
-    fun readFromBuffer(buffer: PacketByteBuf) {
+    fun readFromBuffer(buffer: RegistryByteBuf) {
         texture = buffer.readIdentifier()
         material = ParticleMaterial.valueOf(buffer.readString())
         uvMode = ParticleUVMode.readFromBuffer(buffer)

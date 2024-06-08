@@ -10,6 +10,7 @@ package com.cobblemon.mod.common.command
 
 import com.cobblemon.mod.common.api.permission.CobblemonPermissions
 import com.cobblemon.mod.common.util.commandLang
+import com.cobblemon.mod.common.util.effectiveName
 import com.cobblemon.mod.common.util.party
 import com.cobblemon.mod.common.util.permission
 import com.mojang.brigadier.Command
@@ -38,7 +39,7 @@ object ClearPartyCommand {
 
         val pokemonList = party.filterNotNull()
         if (pokemonList.isEmpty()) {
-            context.source.sendError(commandLang("$NAME.nonethere", target.displayName))
+            context.source.sendError(commandLang("$NAME.nonethere", target.effectiveName()))
             return 0
         }
 
@@ -46,7 +47,7 @@ object ClearPartyCommand {
             party.remove(pokemon)
         }
 
-        context.source.sendFeedback({ commandLang("$NAME.cleared", target.displayName) }, true)
+        context.source.sendFeedback({ commandLang("$NAME.cleared", target.effectiveName()) }, true)
         return Command.SINGLE_SUCCESS
     }
 }

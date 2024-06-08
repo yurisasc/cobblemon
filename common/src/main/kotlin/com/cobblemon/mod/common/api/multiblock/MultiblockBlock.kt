@@ -9,7 +9,9 @@
 package com.cobblemon.mod.common.api.multiblock
 
 import com.cobblemon.mod.common.block.entity.FossilMultiblockEntity
-import net.minecraft.block.*
+import net.minecraft.block.BlockRenderType
+import net.minecraft.block.BlockState
+import net.minecraft.block.BlockWithEntity
 import net.minecraft.block.entity.BlockEntity
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.player.PlayerEntity
@@ -19,8 +21,8 @@ import net.minecraft.util.ActionResult
 import net.minecraft.util.Hand
 import net.minecraft.util.hit.BlockHitResult
 import net.minecraft.util.math.BlockPos
-import net.minecraft.world.BlockView
 import net.minecraft.world.World
+import net.minecraft.world.WorldView
 
 /**
  * A block that can be part of a [MultiblockStructure]
@@ -46,20 +48,17 @@ abstract class MultiblockBlock(properties: Settings) : BlockWithEntity(propertie
         world: World,
         pos: BlockPos,
         player: PlayerEntity,
-        hand: Hand,
         hit: BlockHitResult
-    ): ActionResult {
-        if(hand == Hand.OFF_HAND) {
-            return ActionResult.SUCCESS
-        }
+    ): ActionResult? {
         val entity = world.getBlockEntity(pos) as MultiblockEntity?
         if (entity?.multiblockStructure != null) {
-            return entity.multiblockStructure!!.onUse(state, world, pos, player, hand, hit)
+            return entity.multiblockStructure!!.onUse(state, world, pos, player, hit)
         }
-        return super.onUse(state, world, pos, player, hand, hit)
+        return super.onUse(state, world, pos, player, hit)
     }
 
-    override fun onBreak(world: World, pos: BlockPos, state: BlockState, player: PlayerEntity?) {
+    override fun onBreak(world: World, pos: BlockPos, state: BlockState, player: PlayerEntity?): BlockState {
+        val result = super.onBreak(world, pos, state, player)
         if (!world.isClient) {
             val entity = world.getBlockEntity(pos)
             if (entity is MultiblockEntity && entity.multiblockStructure != null) {
@@ -67,7 +66,7 @@ abstract class MultiblockBlock(properties: Settings) : BlockWithEntity(propertie
             }
             entity?.markRemoved()
         }
-        super.onBreak(world, pos, state, player)
+        return result
     }
 
     override fun createBlockEntity(pos: BlockPos, state: BlockState): BlockEntity? {
@@ -80,7 +79,7 @@ abstract class MultiblockBlock(properties: Settings) : BlockWithEntity(propertie
     }
 
     //This is done so a block picked with NBT doesnt absolutely DESTROY multiblocks
-    override fun getPickStack(world: BlockView, pos: BlockPos, state: BlockState): ItemStack {
+    override fun getPickStack(world: WorldView, pos: BlockPos, state: BlockState): ItemStack {
         val blockEntity = world.getBlockEntity(pos) as? MultiblockEntity ?: return ItemStack.EMPTY
         return if (blockEntity.multiblockStructure == null) super.getPickStack(world, pos, state) else ItemStack.EMPTY
     }

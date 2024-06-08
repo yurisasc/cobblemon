@@ -9,6 +9,7 @@
 package com.cobblemon.mod.common.block
 
 import com.cobblemon.mod.common.CobblemonItems
+import com.mojang.serialization.MapCodec
 import net.minecraft.block.BlockState
 import net.minecraft.block.CropBlock
 import net.minecraft.block.ShapeContext
@@ -29,7 +30,12 @@ class VivichokeBlock(settings: Settings) : CropBlock(settings) {
 
     override fun getSeedsItem(): ItemConvertible = CobblemonItems.VIVICHOKE_SEEDS
 
+    override fun getCodec(): MapCodec<out CropBlock> {
+        return CODEC
+    }
+
     companion object {
+        val CODEC = createCodec(::VivichokeBlock)
 
         private val STAGE_0_SHAPE = createCuboidShape(6.0, -1.0, 6.0, 10.0, 2.0, 10.0)
         private val STAGE_1_SHAPE = createCuboidShape(6.0, -1.0, 6.0, 10.0, 5.0, 10.0)

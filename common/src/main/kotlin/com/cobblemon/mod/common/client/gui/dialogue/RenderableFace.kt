@@ -26,6 +26,7 @@ import net.minecraft.client.gui.DrawContext
 import net.minecraft.client.gui.screen.ingame.InventoryScreen
 import net.minecraft.util.Identifier
 import org.joml.Quaternionf
+import org.joml.Vector3f
 
 /**
  * Some time of face that can be rendered in a dialogue.
@@ -59,10 +60,10 @@ class PlayerRenderableFace(val playerId: UUID) : RenderableFace {
         entity.setPitch(0F)
         entity.headYaw = entity.yaw
         entity.prevHeadYaw = entity.yaw
-        val size = 34
+        val size = 37F
         val xOffset = 0
         val yOffset = 72
-        InventoryScreen.drawEntity(drawContext, xOffset, yOffset, size, quaternionf, quaternionf2, entity)
+        InventoryScreen.drawEntity(drawContext, xOffset.toFloat(), yOffset.toFloat(), size, Vector3f(), quaternionf, quaternionf2, entity)
         // Resets the entity
         entity.bodyYaw = oldBodyYaw
         entity.setYaw(oldEntityYaw)

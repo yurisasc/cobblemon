@@ -8,10 +8,9 @@
 
 package com.cobblemon.mod.common.api.pokemon.feature
 
-import com.cobblemon.mod.common.api.net.Decodable
-import com.cobblemon.mod.common.api.net.Encodable
 import com.cobblemon.mod.common.api.properties.CustomPokemonProperty
 import com.cobblemon.mod.common.api.properties.CustomPokemonPropertyType
+import com.cobblemon.mod.common.api.serialization.BufferSerializer
 import com.cobblemon.mod.common.client.gui.summary.featurerenderers.BarSummarySpeciesFeatureRenderer
 import com.cobblemon.mod.common.client.gui.summary.featurerenderers.SummarySpeciesFeatureRenderer
 import com.cobblemon.mod.common.pokemon.Pokemon
@@ -56,11 +55,11 @@ class IntSpeciesFeature(override var name: String) : SynchronizedSpeciesFeature,
         return this
     }
 
-    override fun encode(buffer: PacketByteBuf) {
+    override fun saveToBuffer(buffer: PacketByteBuf, toClient: Boolean) {
         buffer.writeInt(value)
     }
 
-    override fun decode(buffer: PacketByteBuf) {
+    override fun loadFromBuffer(buffer: PacketByteBuf) {
         value = buffer.readInt()
     }
 
@@ -82,21 +81,21 @@ class IntSpeciesFeature(override var name: String) : SynchronizedSpeciesFeature,
 }
 
 class IntSpeciesFeatureProvider : SynchronizedSpeciesFeatureProvider<IntSpeciesFeature>, CustomPokemonPropertyType<IntSpeciesFeature> {
-    class DisplayData : Encodable, Decodable {
+    class DisplayData : BufferSerializer {
         var name: String = ""
         @SerializedName(value = "colour" /* fuck you we use real english */, alternate = ["color"])
         var colour = Vec3d(255.0, 255.0, 255.0)
         var underlay: Identifier? = null
         var overlay: Identifier? = null
 
-        override fun decode(buffer: PacketByteBuf) {
+        override fun loadFromBuffer(buffer: PacketByteBuf) {
             name = buffer.readString()
             colour = Vec3d(buffer.readDouble(), buffer.readDouble(), buffer.readDouble())
             underlay = buffer.readNullable { buffer.readIdentifier() }
             overlay = buffer.readNullable { buffer.readIdentifier() }
         }
 
-        override fun encode(buffer: PacketByteBuf) {
+        override fun saveToBuffer(buffer: PacketByteBuf, toClient: Boolean) {
             buffer.writeString(name)
             buffer.writeDouble(colour.x)
             buffer.writeDouble(colour.y)
@@ -148,20 +147,20 @@ class IntSpeciesFeatureProvider : SynchronizedSpeciesFeatureProvider<IntSpeciesF
 
     override fun get(pokemon: Pokemon) = pokemon.features.filterIsInstance<IntSpeciesFeature>().find { it.name in keys }
 
-    override fun encode(buffer: PacketByteBuf) {
+    override fun saveToBuffer(buffer: PacketByteBuf, toClient: Boolean) {
         buffer.writeCollection(keys) { _, value -> buffer.writeString(value) }
         buffer.writeNullable(default) { _, value -> buffer.writeInt(value) }
         buffer.writeInt(min)
         buffer.writeInt(max)
-        buffer.writeNullable(display) { _, value -> value.encode(buffer) }
+        buffer.writeNullable(display) { _, value -> value.saveToBuffer(buffer, toClient) }
     }
 
-    override fun decode(buffer: PacketByteBuf) {
+    override fun loadFromBuffer(buffer: PacketByteBuf) {
         keys = buffer.readList { buffer.readString() }
         default = buffer.readNullable { buffer.readInt() }
         min = buffer.readInt()
         max = buffer.readInt()
-        display = buffer.readNullable { DisplayData().also { it.decode(buffer) } }
+        display = buffer.readNullable { DisplayData().also { it.loadFromBuffer(buffer) } }
     }
 
     override fun getRenderer(pokemon: Pokemon): SummarySpeciesFeatureRenderer<IntSpeciesFeature>? {

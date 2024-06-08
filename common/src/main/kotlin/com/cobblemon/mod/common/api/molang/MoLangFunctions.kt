@@ -24,6 +24,7 @@ import com.cobblemon.mod.common.api.dialogue.ReferenceDialogueFaceProvider
 import com.cobblemon.mod.common.api.scripting.CobblemonScripts
 import com.cobblemon.mod.common.api.text.text
 import com.cobblemon.mod.common.client.render.models.blockbench.wavefunction.WaveFunctions
+import com.cobblemon.mod.common.util.effectiveName
 import com.cobblemon.mod.common.entity.npc.NPCEntity
 import com.cobblemon.mod.common.net.messages.client.effect.RunPosableMoLangPacket
 import com.cobblemon.mod.common.util.asIdentifierDefaultingNamespace
@@ -227,7 +228,7 @@ object MoLangFunctions {
     fun PlayerEntity.asMoLangValue(): ObjectValue<PlayerEntity> {
         val value = ObjectValue(
             obj = this,
-            stringify = { it.entityName }
+            stringify = { it.effectiveName().string }
         )
         value.addFunctions(entityFunctions.flatMap { it(this).entries.map { it.key to it.value } }.toMap())
         value.addFunctions(playerFunctions.flatMap { it(this).entries.map { it.key to it.value } }.toMap())

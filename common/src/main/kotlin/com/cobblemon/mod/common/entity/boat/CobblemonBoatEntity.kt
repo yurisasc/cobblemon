@@ -67,9 +67,9 @@ open class CobblemonBoatEntity(entityType: EntityType<out BoatEntity>, world: Wo
 
     override fun createSpawnPacket(): Packet<ClientPlayPacketListener> = EntitySpawnS2CPacket(this)
 
-    override fun initDataTracker() {
-        super.initDataTracker()
-        this.dataTracker.startTracking(TYPE_TRACKED_DATA, CobblemonBoatType.APRICORN.ordinal)
+    override fun initDataTracker(builder: DataTracker.Builder) {
+        super.initDataTracker(builder)
+        builder.add(TYPE_TRACKED_DATA, CobblemonBoatType.APRICORN.ordinal)
     }
 
     override fun getDefaultName(): Text = EntityType.BOAT.name
@@ -92,7 +92,7 @@ open class CobblemonBoatEntity(entityType: EntityType<out BoatEntity>, world: Wo
         throw UnsupportedOperationException("The vanilla boat type is not present in the Cobblemon implementation use the type property")
     }
 
-    override fun getMountedHeightOffset(): Double = this.boatType.mountedOffset
+    override fun getPassengerHorizontalOffset(): Float = this.boatType.mountedOffset
 
     override fun fall(heightDifference: Double, onGround: Boolean, state: BlockState, landedPosition: BlockPos) {
         val accessor = this.accessor()

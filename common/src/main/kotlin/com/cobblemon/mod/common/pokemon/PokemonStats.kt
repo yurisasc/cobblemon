@@ -13,13 +13,11 @@ import com.cobblemon.mod.common.api.pokemon.stats.Stat
 import com.cobblemon.mod.common.api.pokemon.stats.Stats
 import com.cobblemon.mod.common.api.reactive.SimpleObservable
 import com.cobblemon.mod.common.net.IntSize
-import com.cobblemon.mod.common.util.asIdentifierDefaultingNamespace
 import com.cobblemon.mod.common.util.writeSizedInt
 import com.google.gson.JsonObject
 import net.minecraft.nbt.NbtCompound
-import net.minecraft.network.PacketByteBuf
+import net.minecraft.network.RegistryByteBuf
 import net.minecraft.util.Identifier
-import net.minecraft.util.InvalidIdentifierException
 
 /**
  * Holds a mapping from a Stat to value that should be reducible to a short for NBT and net.
@@ -102,7 +100,7 @@ abstract class PokemonStats : Iterable<Map.Entry<Stat, Int>> {
         return this
     }
 
-    fun saveToBuffer(buffer: PacketByteBuf) {
+    fun saveToBuffer(buffer: RegistryByteBuf) {
         buffer.writeSizedInt(IntSize.U_BYTE, stats.size)
         for ((stat, value) in stats) {
             Cobblemon.statProvider.encode(buffer, stat)
@@ -110,7 +108,7 @@ abstract class PokemonStats : Iterable<Map.Entry<Stat, Int>> {
         }
     }
 
-    fun loadFromBuffer(buffer: PacketByteBuf) {
+    fun loadFromBuffer(buffer: RegistryByteBuf) {
         stats.clear()
         repeat(times = buffer.readUnsignedByte().toInt()) {
             val stat = Cobblemon.statProvider.decode(buffer)

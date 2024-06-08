@@ -9,18 +9,12 @@
 package com.cobblemon.mod.common
 
 import com.cobblemon.mod.common.api.data.JsonDataRegistry
-import com.cobblemon.mod.common.api.net.ClientNetworkPacketHandler
 import com.cobblemon.mod.common.api.net.NetworkPacket
-import com.cobblemon.mod.common.api.net.ServerNetworkPacketHandler
 import com.mojang.brigadier.arguments.ArgumentType
 import kotlin.reflect.KClass
-import net.minecraft.advancement.criterion.Criterion
 import net.minecraft.block.ComposterBlock
 import net.minecraft.command.argument.serialize.ArgumentSerializer
 import net.minecraft.item.ItemConvertible
-import net.minecraft.network.PacketByteBuf
-import net.minecraft.network.listener.ClientPlayPacketListener
-import net.minecraft.network.packet.Packet
 import net.minecraft.registry.RegistryKey
 import net.minecraft.registry.tag.TagKey
 import net.minecraft.resource.ResourceManager
@@ -70,6 +64,10 @@ interface CobblemonImplementation {
      */
     fun registerSoundEvents()
 
+    fun registerDataComponents()
+
+    fun registerEntityDataSerializers()
+
     /**
      * TODO
      *
@@ -107,6 +105,7 @@ interface CobblemonImplementation {
     fun registerWorldGenFeatures()
 
     fun registerParticles()
+
 
     /**
      * Add a feature to the current platform implementation.
@@ -146,7 +145,7 @@ interface CobblemonImplementation {
      * @param criteria
      * @return
      */
-    fun <T : Criterion<*>> registerCriteria(criteria: T): T
+    fun registerCriteria()
 
     /**
      * TODO
@@ -214,30 +213,17 @@ enum class ResourcePackActivationBehaviour {
 
 enum class ModAPI {
     FABRIC,
-    FORGE
+    FORGE,
+    NEOFORGE
 }
 
 interface NetworkManager {
-
-    fun registerClientBound()
-
-    fun registerServerBound()
-
-    fun <T: NetworkPacket<T>> createClientBound(identifier: Identifier, kClass: KClass<T>, encoder: (T, PacketByteBuf) -> Unit, decoder: (PacketByteBuf) -> T, handler: ClientNetworkPacketHandler<T>)
-
-    fun <T: NetworkPacket<T>> createServerBound(identifier: Identifier, kClass: KClass<T>, encoder: (T, PacketByteBuf) -> Unit, decoder: (PacketByteBuf) -> T, handler: ServerNetworkPacketHandler<T>)
-
     fun sendPacketToPlayer(player: ServerPlayerEntity, packet: NetworkPacket<*>)
 
-    fun sendPacketToServer(packet: NetworkPacket<*>)
-
-    fun <T : NetworkPacket<*>> asVanillaClientBound(packet: T): Packet<ClientPlayPacketListener>
-
+    fun sendToServer(packet: NetworkPacket<*>)
 }
 
 enum class Environment {
-
     CLIENT,
     SERVER
-
 }

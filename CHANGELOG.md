@@ -18,6 +18,7 @@
 ### Fixes
 - Scaled down Amaura's fetus model to avoid clipping through the tank while animating
 - Added Polished Tumblestone and Tumblestone Brick block sets from Tumblestone, Black Tumblestone, and Sky Tumblestone.
+- Fixed Cubone's cry not having a sound.
 - Fixed the Seafloor spawning context not being a usable context.
 - Fixed Pokemon spawning in non-full blocks like slabs.
 - Fixed Gilded Chests not dropping the chest itself when broken, only the contents.
@@ -25,6 +26,10 @@
 
 ### Additions
 - Added extra visuals to early berry growth stages
+
+### Added cries to the following Pokémon
+- Timburr, Gurdurr, Conkeldurr
+- Golett, Golurk
 
 ### Changes
 - Altered the item model for Medicinal Leeks and Roasted Leeks to be held like sticks and other rod items. 

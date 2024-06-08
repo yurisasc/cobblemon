@@ -16,7 +16,11 @@ import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.party
 import com.cobblemon.mod.common.util.toVec3d
+import com.mojang.serialization.MapCodec
+import com.mojang.serialization.codecs.RecordCodecBuilder
 import net.minecraft.block.*
+import net.minecraft.component.DataComponentType
+import net.minecraft.component.DataComponentTypes
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.ai.pathing.NavigationType
 import net.minecraft.entity.mob.PiglinBrain
@@ -34,7 +38,13 @@ import net.minecraft.state.property.BooleanProperty
 import net.minecraft.state.property.Properties
 import net.minecraft.text.MutableText
 import net.minecraft.text.Text
-import net.minecraft.util.*
+import net.minecraft.util.ActionResult
+import net.minecraft.util.BlockMirror
+import net.minecraft.util.BlockRotation
+import net.minecraft.util.Hand
+import net.minecraft.util.Identifier
+import net.minecraft.util.ItemScatterer
+import net.minecraft.util.StringIdentifiable
 import net.minecraft.util.hit.BlockHitResult
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
@@ -55,6 +65,11 @@ class GildedChestBlock(settings: Settings, val type: Type = Type.RED) : BlockWit
     }
 
     companion object {
+        val CODEC: MapCodec<GildedChestBlock> = RecordCodecBuilder.mapCodec { it.group(
+            createSettingsCodec(),
+            Type.CODEC.fieldOf("chestType").forGetter(GildedChestBlock::type)
+        ).apply(it, ::GildedChestBlock) }
+
         val POKEMON_ARGS = "gimmighoul"
         val LEVEL_RANGE = 5..30
         val WATERLOGGED = BooleanProperty.of("waterlogged")
@@ -126,14 +141,16 @@ class GildedChestBlock(settings: Settings, val type: Type = Type.RED) : BlockWit
 
     fun isFake() = (type == Type.FAKE)
 
-    override fun onBreak(world: World, pos: BlockPos, state: BlockState, player: PlayerEntity) {
-        if (!world.isClient) {
-            if (isFake() && (player is ServerPlayerEntity)) {
+    override fun onBreak(world: World, pos: BlockPos, state: BlockState, player: PlayerEntity): BlockState {
+        if (isFake()) {
+            if (player is ServerPlayerEntity) {
                 spawnPokemon(world, pos, state, player)
             }
-            val bEntity = world.getBlockEntity(pos) as? GildedChestBlockEntity
-            bEntity?.markRemoved()
-        } else super.onBreak(world, pos, state, player)
+            val resultState = if (state.fluidState.isOf(Fluids.WATER)) Blocks.WATER.defaultState else Blocks.AIR.defaultState
+            world.setBlockState(pos, resultState)
+            return resultState
+        }
+        return super.onBreak(world, pos, state, player)
     }
 
     private fun spawnPokemon(world: World, pos: BlockPos, state: BlockState, player: ServerPlayerEntity) : ActionResult {
@@ -170,9 +187,8 @@ class GildedChestBlock(settings: Settings, val type: Type = Type.RED) : BlockWit
         world: World,
         pos: BlockPos,
         player: PlayerEntity,
-        hand: Hand,
         hit: BlockHitResult
-    ): ActionResult {
+    ): ActionResult? {
         if (isFake()) {
             if (player is ServerPlayerEntity) {
                 return spawnPokemon(world, pos, state, player)
@@ -233,7 +249,7 @@ class GildedChestBlock(settings: Settings, val type: Type = Type.RED) : BlockWit
         return state.rotate(mirror.getRotation(state.get(Properties.HORIZONTAL_FACING) as Direction))
     }
 
-    enum class Type(val poserId: Identifier) {
+    enum class Type(val poserId: Identifier): StringIdentifiable {
         RED(cobblemonResource("gilded_chest")),
         BLUE(cobblemonResource("blue_gilded_chest")),
         GREEN(cobblemonResource("green_gilded_chest")),
@@ -241,12 +257,24 @@ class GildedChestBlock(settings: Settings, val type: Type = Type.RED) : BlockWit
         WHITE(cobblemonResource("white_gilded_chest")),
         BLACK(cobblemonResource("black_gilded_chest")),
         YELLOW(cobblemonResource("yellow_gilded_chest")),
-        FAKE(cobblemonResource("gilded_chest"))
+        FAKE(cobblemonResource("gilded_chest"));
+
+        override fun asString(): String {
+            return name.lowercase()
+        }
+
+        companion object {
+            val CODEC = StringIdentifiable.createBasicCodec(::values)
+        }
     }
 
     @Deprecated("Deprecated in Java")
-    override fun canPathfindThrough(state: BlockState?, world: BlockView?, pos: BlockPos?, type: NavigationType?): Boolean {
+    override fun canPathfindThrough(state: BlockState?, type: NavigationType?): Boolean {
         return false
+    }
+
+    override fun getCodec(): MapCodec<out BlockWithEntity> {
+        return CODEC
     }
 
     override fun onPlaced(
@@ -256,10 +284,13 @@ class GildedChestBlock(settings: Settings, val type: Type = Type.RED) : BlockWit
         placer: LivingEntity?,
         itemStack: ItemStack
     ) {
+        //Theoretically this is no longer needed according to https://fabricmc.net/2024/04/19/1205.html
+        /*
         val blockEntity = world.getBlockEntity(pos)
-        if (itemStack.hasCustomName() && blockEntity is GildedChestBlockEntity) {
+        if (itemStack.get(DataComponentTypes.CUSTOM_NAME) !=  && blockEntity is GildedChestBlockEntity) {
             blockEntity.customName = itemStack.name
         }
+        */
     }
 
     override fun scheduledTick(

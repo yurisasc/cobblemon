@@ -19,6 +19,8 @@ import net.minecraft.util.math.Direction
 import net.minecraft.util.math.Vec3d
 import net.minecraft.util.shape.VoxelShapes
 
+fun Entity.effectiveName() = this.displayName ?: this.name
+
 fun Entity.setPositionSafely(pos: Vec3d): Boolean {
     // TODO: Rework this function. Best way to do it would be to define a vertical and horizontal min/max shift based on the Pokemon's hitbox.
     // Then loop through horizontal/vertical shifts, and detect collisions in three categories: suffocation, damaging blocks, and general collision
@@ -62,7 +64,7 @@ fun Entity.setPositionSafely(pos: Vec3d): Boolean {
                 )
         if (collides) {
             val x = eyes.toBlockPos()
-            for (direction in Direction.values()) {
+            for (direction in Direction.entries) {
                 if (conflicts.contains(direction)) continue
 
                 val conflict = target.toVec3d()

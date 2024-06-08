@@ -10,6 +10,7 @@ package com.cobblemon.mod.common.world.structureprocessors
 
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.mojang.serialization.Codec
+import com.mojang.serialization.MapCodec
 import net.minecraft.registry.Registries
 import net.minecraft.registry.Registry
 import net.minecraft.structure.processor.StructureProcessor
@@ -22,7 +23,7 @@ object CobblemonProcessorTypes {
     @JvmField
     val RANDOM_POOLED_STATES = register("random_pooled_states", RandomizedStructureMappedBlockStatePairProcessor.CODEC)
 
-    fun <T : StructureProcessor> register(id: String, codec: Codec<T>): StructureProcessorType<T> {
+    fun <T : StructureProcessor> register(id: String, codec: MapCodec<T>): StructureProcessorType<T> {
         return Registry.register(registry, cobblemonResource(id), StructureProcessorType { codec })
     }
 
