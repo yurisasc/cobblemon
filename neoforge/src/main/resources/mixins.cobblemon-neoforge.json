@@ -6,6 +6,6 @@
     "client": [
     ],
     "mixins": [
-
+        "GenericPacketSplitterMixin"
     ]
 }

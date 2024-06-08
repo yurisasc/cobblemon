@@ -192,6 +192,7 @@ object Cobblemon {
         implementation.registerBlockEntityTypes()
         implementation.registerWorldGenFeatures()
         implementation.registerParticles()
+        implementation.registerEntityDataSerializers()
 
         DropEntry.register("command", CommandDropEntry::class.java)
         DropEntry.register("item", ItemDropEntry::class.java, isDefault = true)

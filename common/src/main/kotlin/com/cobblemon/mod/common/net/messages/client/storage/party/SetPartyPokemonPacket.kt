@@ -9,6 +9,7 @@
 package com.cobblemon.mod.common.net.messages.client.storage.party
 
 import com.cobblemon.mod.common.api.net.NetworkPacket
+import com.cobblemon.mod.common.api.net.UnsplittablePacket
 import com.cobblemon.mod.common.api.storage.party.PartyPosition
 import com.cobblemon.mod.common.net.messages.PokemonDTO
 import com.cobblemon.mod.common.pokemon.Pokemon
@@ -27,7 +28,7 @@ import net.minecraft.network.RegistryByteBuf
  * @author Hiroku
  * @since November 29th, 2021
 */
-class SetPartyPokemonPacket internal constructor(val storeID: UUID, val storePosition: PartyPosition, val pokemonDTO: PokemonDTO) : NetworkPacket<SetPartyPokemonPacket> {
+class SetPartyPokemonPacket internal constructor(val storeID: UUID, val storePosition: PartyPosition, val pokemonDTO: PokemonDTO) : NetworkPacket<SetPartyPokemonPacket>, UnsplittablePacket {
 
     override val id = ID
 

@@ -214,12 +214,14 @@ class CobblemonNeoForge : CobblemonImplementation {
     }
 
     override fun registerEntityDataSerializers() {
-        MOD_BUS.addListener<RegisterEvent> {
-            val registry = NeoForgeRegistries.ENTITY_DATA_SERIALIZERS
-            Registry.register(registry, Vec3DataSerializer.ID, Vec3DataSerializer)
-            Registry.register(registry, StringSetDataSerializer.ID, StringSetDataSerializer)
-            Registry.register(registry, PoseTypeDataSerializer.ID, PoseTypeDataSerializer)
-            Registry.register(registry, IdentifierDataSerializer.ID, IdentifierDataSerializer)
+        MOD_BUS.addListener<RegisterEvent> { event ->
+            event.register(NeoForgeRegistries.Keys.ENTITY_DATA_SERIALIZERS) { helper ->
+                helper.register(Vec3DataSerializer.ID, Vec3DataSerializer)
+                helper.register(StringSetDataSerializer.ID, StringSetDataSerializer)
+                helper.register(PoseTypeDataSerializer.ID, PoseTypeDataSerializer)
+                helper.register(IdentifierDataSerializer.ID, IdentifierDataSerializer)
+            }
+
         }
     }
 
