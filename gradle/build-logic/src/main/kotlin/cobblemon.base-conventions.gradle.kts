@@ -29,8 +29,8 @@ description = rootProject.description
 
 indra {
     javaVersions {
-        minimumToolchain(17)
-        target(17)
+        minimumToolchain(21)
+        target(21)
     }
 }
 
@@ -45,11 +45,6 @@ license {
     header(rootProject.file("HEADER"))
 }
 
-java {
-    sourceCompatibility = JavaVersion.VERSION_21
-    targetCompatibility = JavaVersion.VERSION_21
-}
-
 architectury {
     minecraft = project.property("mc_version").toString()
 }
@@ -57,26 +52,25 @@ architectury {
 loom {
     silentMojangMappingsLicense()
     accessWidenerPath.set(project(":common").file(ACCESS_WIDENER))
+
+    mixin {
+        useLegacyMixinAp = true
+        defaultRefmapName.set("cobblemon-${project.name}-refmap.json")
+    }
 }
 
 dependencies {
     minecraft("net.minecraft:minecraft:${rootProject.property("mc_version")}")
-    mappings(loom.layered() {
-        mappings("net.fabricmc:yarn:${rootProject.property("yarn_version")}:v2")
-        mappings("dev.architectury:yarn-mappings-patch-neoforge:${rootProject.property("yarn_arch_patch_version")}")
-    })
-
+    mappings("net.fabricmc:yarn:${rootProject.property("yarn_version")}:v2")
 }
 
 tasks {
     withType<JavaCompile> {
         options.compilerArgs.add("-Xlint:-processing,-classfile,-serial")
-        options.encoding = "UTF-8"
-        options.release.set(21)
     }
 
     withType<KotlinCompile> {
-        kotlinOptions.jvmTarget = "21"
+        kotlinOptions.jvmTarget = "17"
     }
 
     withType<Jar> {
