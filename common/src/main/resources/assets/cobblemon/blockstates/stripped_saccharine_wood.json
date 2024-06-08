@@ -1,28 +1,10 @@
 {
   "variants": {
-    "age=0,axis=x": {
-      "model": "cobblemon:block/stripped_saccharine_wood",
-      "x": 90,
-      "y": 90
-    },
-    "age=0,axis=y": {
+    "age=0": {
       "model": "cobblemon:block/stripped_saccharine_wood"
     },
-    "age=0,axis=z": {
-      "model": "cobblemon:block/stripped_saccharine_wood",
-      "x": 90
-    },
-    "age=1,axis=x": {
-      "model": "cobblemon:block/syrupy_stripped_saccharine_wood",
-      "x": 90,
-      "y": 90
-    },
-    "age=1,axis=y": {
+    "age=1": {
       "model": "cobblemon:block/syrupy_stripped_saccharine_wood"
-    },
-    "age=1,axis=z": {
-      "model": "cobblemon:block/syrupy_stripped_saccharine_wood",
-      "x": 90
     }
   }
 }
