@@ -11,6 +11,8 @@ package com.cobblemon.mod.common.block
 import com.cobblemon.mod.common.api.events.CobblemonEvents
 import com.cobblemon.mod.common.api.tags.CobblemonBlockTags
 import com.cobblemon.mod.common.api.tags.CobblemonItemTags
+import com.cobblemon.mod.common.block.SaccharineLeafBlock.Companion
+import com.cobblemon.mod.common.block.SaccharineLeafBlock.Companion.DISTANCE_MAX
 import com.cobblemon.mod.common.util.playSoundServer
 import com.cobblemon.mod.common.util.toVec3d
 import net.minecraft.block.*
@@ -81,6 +83,7 @@ class SaccharineStrippedLogBlock(settings: Settings) : LeavesBlock(settings) {
         return SHAPE
     }
 
+    // todo make block
     @Deprecated("Deprecated in Java")
     override fun getCollisionShape(state: BlockState, world: BlockView, pos: BlockPos, context: ShapeContext): VoxelShape {
         if (context is EntityShapeContext && (context.entity as? ItemEntity)?.stack?.isIn(CobblemonItemTags.APRICORNS) == true) {
@@ -108,8 +111,8 @@ class SaccharineStrippedLogBlock(settings: Settings) : LeavesBlock(settings) {
     override fun canPathfindThrough(state: BlockState, world: BlockView, pos: BlockPos, type: NavigationType) = false
 
     override fun onUse(state: BlockState, world: World, pos: BlockPos, player: PlayerEntity, hand: Hand, hit: BlockHitResult): ActionResult {
-        // todo if item in players hand is glass bottle and AGE is 15
-        if (player.getStackInHand(hand).isOf(Items.GLASS_BOTTLE) && state.get(AGE) == 15)
+        // todo if item in players hand is glass bottle and AGE is 1
+        if (player.getStackInHand(hand).isOf(Items.GLASS_BOTTLE) && state.get(AGE) == 1)
         {
             // decrement stack if not in creative mode
             if (!player.isCreative)
@@ -142,10 +145,10 @@ class SaccharineStrippedLogBlock(settings: Settings) : LeavesBlock(settings) {
 
     companion object {
 
-        val AGE: IntProperty = Properties.AGE_15
+        val AGE: IntProperty = Properties.AGE_1
         val DISTANCE: IntProperty = Properties.DISTANCE_1_7
         val PERSISTENT: BooleanProperty = Properties.PERSISTENT
-        const val MAX_AGE = Properties.AGE_15_MAX
+        const val MAX_AGE = Properties.AGE_1_MAX
         const val MIN_AGE = 0
         const val DISTANCE_MAX = 7
 

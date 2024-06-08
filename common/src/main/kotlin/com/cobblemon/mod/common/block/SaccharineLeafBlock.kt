@@ -56,6 +56,7 @@ class SaccharineLeafBlock(settings: Settings) : LeavesBlock(settings), Fertiliza
         return SHAPE
     }
 
+    // todo make block
     @Deprecated("Deprecated in Java")
     override fun getCollisionShape(state: BlockState, world: BlockView, pos: BlockPos, context: ShapeContext): VoxelShape {
         if (context is EntityShapeContext && (context.entity as? ItemEntity)?.stack?.isIn(CobblemonItemTags.APRICORNS) == true) {
