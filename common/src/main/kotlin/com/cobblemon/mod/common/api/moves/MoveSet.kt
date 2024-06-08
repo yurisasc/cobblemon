@@ -38,6 +38,10 @@ class MoveSet : Iterable<Move> {
         return moves.filterNotNull()
     }
 
+    fun getMovesWithNulls(): List<Move?> {
+        return  moves.toList()
+    }
+
     fun hasSpace() = moves.any { it == null }
 
     /**

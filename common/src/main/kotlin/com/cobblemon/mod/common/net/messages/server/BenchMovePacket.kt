@@ -28,13 +28,13 @@ import net.minecraft.network.PacketByteBuf
  * @author Hiroku
  * @since April 18th, 2022
  */
-class BenchMovePacket(val isParty: Boolean, val uuid: UUID, val oldMove: MoveTemplate, val newMove: MoveTemplate) : NetworkPacket<BenchMovePacket> {
+class BenchMovePacket(val isParty: Boolean, val uuid: UUID, val oldMove: MoveTemplate?, val newMove: MoveTemplate?) : NetworkPacket<BenchMovePacket> {
     override val id = ID
     override fun encode(buffer: PacketByteBuf) {
         buffer.writeBoolean(isParty)
         buffer.writeUuid(uuid)
-        buffer.writeString(oldMove.name)
-        buffer.writeString(newMove.name)
+        buffer.writeString(oldMove?.name ?: "")
+        buffer.writeString(newMove?.name ?: "")
     }
 
     companion object {
@@ -42,8 +42,10 @@ class BenchMovePacket(val isParty: Boolean, val uuid: UUID, val oldMove: MoveTem
         fun decode(buffer: PacketByteBuf): BenchMovePacket {
             val isParty = buffer.readBoolean()
             val uuid = buffer.readUuid()
-            val oldMove = Moves.getByName(buffer.readString())!!
-            val newMove = Moves.getByName(buffer.readString())!!
+            val oldMoveName = buffer.readString()
+            val oldMove = if (oldMoveName.isNotEmpty()) Moves.getByName(oldMoveName)!! else null
+            val newMoveName = buffer.readString()
+            val newMove = if (newMoveName.isNotEmpty()) Moves.getByName(newMoveName)!! else null
             return BenchMovePacket(isParty, uuid, oldMove, newMove)
         }
     }
