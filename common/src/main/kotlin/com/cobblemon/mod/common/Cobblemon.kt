@@ -252,11 +252,6 @@ object Cobblemon {
             it.player.party().forEach { pokemon -> pokemon.entity?.recallWithAnimation() }
         }
 
-        TrackedDataHandlerRegistry.register(Vec3DataSerializer)
-        TrackedDataHandlerRegistry.register(StringSetDataSerializer)
-        TrackedDataHandlerRegistry.register(PoseTypeDataSerializer)
-        TrackedDataHandlerRegistry.register(IdentifierDataSerializer)
-
         // Lowest priority because this applies after luxury ball bonus as of gen 4
         CobblemonEvents.FRIENDSHIP_UPDATED.subscribe(Priority.LOWEST) { event ->
             var increment = (event.newFriendship - event.pokemon.friendship).toFloat()
@@ -418,7 +413,8 @@ object Cobblemon {
             ).ifSuccessful { it.mute = true }
         }
 
-        CobblemonSherds.registerSherds()
+        //To whomever is merging, this is moved out of Cobblemon and into the CobblemonImplementations
+        //CobblemonSherds.registerSherds()
     }
 
     fun getLevel(dimension: RegistryKey<World>): World? {

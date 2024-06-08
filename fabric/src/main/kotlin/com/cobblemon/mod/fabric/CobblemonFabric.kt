@@ -10,6 +10,10 @@ package com.cobblemon.mod.fabric
 
 import com.cobblemon.mod.common.*
 import com.cobblemon.mod.common.api.data.JsonDataRegistry
+import com.cobblemon.mod.common.api.net.serializers.IdentifierDataSerializer
+import com.cobblemon.mod.common.api.net.serializers.PoseTypeDataSerializer
+import com.cobblemon.mod.common.api.net.serializers.StringSetDataSerializer
+import com.cobblemon.mod.common.api.net.serializers.Vec3DataSerializer
 import com.cobblemon.mod.common.item.group.CobblemonItemGroups
 import com.cobblemon.mod.common.loot.LootInjector
 import com.cobblemon.mod.common.particle.CobblemonParticles
@@ -81,6 +85,7 @@ import java.util.concurrent.ExecutionException
 import java.util.concurrent.Executor
 import kotlin.reflect.KClass
 import net.minecraft.entity.ai.brain.Activity
+import net.minecraft.entity.data.TrackedDataHandlerRegistry
 
 object CobblemonFabric : CobblemonImplementation {
 
@@ -197,6 +202,13 @@ object CobblemonFabric : CobblemonImplementation {
 
     override fun registerDataComponents() {
         CobblemonItemComponents.register()
+    }
+
+    override fun registerEntityDataSerializers() {
+        TrackedDataHandlerRegistry.register(Vec3DataSerializer)
+        TrackedDataHandlerRegistry.register(StringSetDataSerializer)
+        TrackedDataHandlerRegistry.register(PoseTypeDataSerializer)
+        TrackedDataHandlerRegistry.register(IdentifierDataSerializer)
     }
 
     override fun registerItems() {
