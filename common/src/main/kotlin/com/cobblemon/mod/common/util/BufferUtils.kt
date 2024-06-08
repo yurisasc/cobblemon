@@ -28,6 +28,7 @@ import net.minecraft.nbt.NbtIo
 import net.minecraft.nbt.NbtOps
 import net.minecraft.nbt.NbtSizeTracker
 import net.minecraft.network.PacketByteBuf
+import net.minecraft.network.RegistryByteBuf
 import net.minecraft.network.codec.PacketEncoder
 import net.minecraft.network.encoding.StringEncoding
 import net.minecraft.text.Text
@@ -41,10 +42,8 @@ fun PacketByteBuf.readItemStack(): ItemStack {
     return dataResult.first
 }
 
-fun PacketByteBuf.writeItemStack(itemStack: ItemStack) {
-    this.writeNbt(ItemStack.CODEC.encode(itemStack, NbtOps.INSTANCE, null).getOrThrow {
-        return@getOrThrow IllegalArgumentException("Failed to encode item to nbt")
-    })
+fun RegistryByteBuf.writeItemStack(itemStack: ItemStack?) {
+    ItemStack.OPTIONAL_PACKET_CODEC.encode(this, itemStack)
 }
 
 fun ByteBuf.readText(): Text {

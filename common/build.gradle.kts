@@ -1,8 +1,8 @@
-import utilities.isSnapshot
-import utilities.version
 import java.time.OffsetDateTime
 import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
+import utilities.isSnapshot
+import utilities.version
 
 /*
  *
@@ -90,6 +90,7 @@ sourceSets {
                 property("gitCommit", versioning.info.commit)
                 property("branch", versioning.info.branch)
                 System.getProperty("buildNumber")?.let { property("buildNumber", it) }
+                property("timestamp", OffsetDateTime.now(ZoneOffset.UTC).format(DateTimeFormatter.ofPattern("MM/dd/yyyy hh:mm:ss")) + " UTC")
             }
         }
     }
