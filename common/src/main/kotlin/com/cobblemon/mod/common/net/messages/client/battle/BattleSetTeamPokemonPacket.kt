@@ -9,6 +9,7 @@
 package com.cobblemon.mod.common.net.messages.client.battle
 
 import com.cobblemon.mod.common.api.net.NetworkPacket
+import com.cobblemon.mod.common.api.net.UnsplittablePacket
 import com.cobblemon.mod.common.net.messages.PokemonDTO
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.util.cobblemonResource
@@ -24,7 +25,7 @@ import net.minecraft.network.RegistryByteBuf
  * @author Hiroku
  * @since June 6th, 2022
  */
-class BattleSetTeamPokemonPacket(val team: List<PokemonDTO>) : NetworkPacket<BattleSetTeamPokemonPacket> {
+class BattleSetTeamPokemonPacket(val team: List<PokemonDTO>) : NetworkPacket<BattleSetTeamPokemonPacket>, UnsplittablePacket {
 
     override val id = ID
 

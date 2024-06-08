@@ -9,6 +9,7 @@
 package com.cobblemon.mod.common.net.messages.client.storage.pc
 
 import com.cobblemon.mod.common.api.net.NetworkPacket
+import com.cobblemon.mod.common.api.net.UnsplittablePacket
 import com.cobblemon.mod.common.api.storage.pc.PCPosition
 import com.cobblemon.mod.common.net.messages.PokemonDTO
 import com.cobblemon.mod.common.pokemon.Pokemon
@@ -26,7 +27,7 @@ import net.minecraft.network.RegistryByteBuf
  * @author Hiroku
  * @since June 18th, 2022
  */
-class SetPCPokemonPacket internal constructor(val storeID: UUID, val storePosition: PCPosition, val pokemonDTO: PokemonDTO) : NetworkPacket<SetPCPokemonPacket> {
+class SetPCPokemonPacket internal constructor(val storeID: UUID, val storePosition: PCPosition, val pokemonDTO: PokemonDTO) : NetworkPacket<SetPCPokemonPacket>, UnsplittablePacket {
 
     override val id = ID
 

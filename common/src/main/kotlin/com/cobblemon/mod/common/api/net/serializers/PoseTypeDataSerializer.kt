@@ -9,6 +9,7 @@
 package com.cobblemon.mod.common.api.net.serializers
 
 import com.cobblemon.mod.common.entity.PoseType
+import com.cobblemon.mod.common.util.cobblemonResource
 import net.minecraft.client.gui.screen.pack.ResourcePackOrganizer.Pack
 import net.minecraft.entity.data.TrackedDataHandler
 import net.minecraft.network.PacketByteBuf
@@ -16,6 +17,7 @@ import net.minecraft.network.RegistryByteBuf
 import net.minecraft.network.codec.PacketCodec
 
 object PoseTypeDataSerializer : TrackedDataHandler<PoseType> {
+    val ID = cobblemonResource("pose_type")
     fun read(buf: PacketByteBuf) = PoseType.values()[buf.readInt()]
     override fun copy(value: PoseType) = value
     fun write(buf: PacketByteBuf, value: PoseType) {

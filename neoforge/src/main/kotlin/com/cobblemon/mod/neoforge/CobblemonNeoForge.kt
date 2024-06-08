@@ -10,6 +10,10 @@ package com.cobblemon.mod.neoforge
 
 import com.cobblemon.mod.common.*
 import com.cobblemon.mod.common.api.data.JsonDataRegistry
+import com.cobblemon.mod.common.api.net.serializers.IdentifierDataSerializer
+import com.cobblemon.mod.common.api.net.serializers.PoseTypeDataSerializer
+import com.cobblemon.mod.common.api.net.serializers.StringSetDataSerializer
+import com.cobblemon.mod.common.api.net.serializers.Vec3DataSerializer
 import com.cobblemon.mod.common.item.group.CobblemonItemGroups
 import com.cobblemon.mod.common.loot.LootInjector
 import com.cobblemon.mod.common.particle.CobblemonParticles
@@ -36,7 +40,9 @@ import net.minecraft.advancement.criterion.Criterion
 import net.minecraft.block.ComposterBlock
 import net.minecraft.command.argument.ArgumentTypes
 import net.minecraft.command.argument.serialize.ArgumentSerializer
+import net.minecraft.entity.data.TrackedDataHandlerRegistry
 import net.minecraft.item.*
+import net.minecraft.registry.Registry
 import net.minecraft.registry.RegistryKey
 import net.minecraft.registry.RegistryKeys
 import net.minecraft.registry.tag.TagKey
@@ -75,6 +81,7 @@ import net.neoforged.neoforge.event.village.VillagerTradesEvent
 import net.neoforged.neoforge.event.village.WandererTradesEvent
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent
 import net.neoforged.neoforge.registries.DeferredRegister
+import net.neoforged.neoforge.registries.NeoForgeRegistries
 import net.neoforged.neoforge.registries.RegisterEvent
 import net.neoforged.neoforge.server.ServerLifecycleHooks
 import thedarkcolour.kotlinforforge.neoforge.forge.MOD_BUS
@@ -104,6 +111,7 @@ class CobblemonNeoForge : CobblemonImplementation {
             addListener(CobblemonBiomeModifiers::register)
             addListener(this@CobblemonNeoForge::on)
             addListener(this@CobblemonNeoForge::onAddPackFindersEvent)
+            addListener(networkManager::registerMessages)
         }
         with(NeoForge.EVENT_BUS) {
             addListener(this@CobblemonNeoForge::onDataPackSync)
@@ -114,7 +122,6 @@ class CobblemonNeoForge : CobblemonImplementation {
             addListener(this@CobblemonNeoForge::registerCommands)
             addListener(this@CobblemonNeoForge::onReload)
             addListener(this@CobblemonNeoForge::addCobblemonStructures)
-            addListener(networkManager::registerMessages)
             addListener(::onVillagerTradesRegistry)
             addListener(::onWanderingTraderRegistry)
             addListener(::onLootTableLoad)
@@ -203,7 +210,23 @@ class CobblemonNeoForge : CobblemonImplementation {
     }
 
     override fun registerDataComponents() {
-        CobblemonItemComponents.register()
+        MOD_BUS.addListener<RegisterEvent> { event ->
+            event.register(CobblemonItemComponents.registryKey) { helper ->
+                CobblemonItemComponents.register { identifier, dataComponentType ->  helper.register(identifier, dataComponentType)}
+            }
+        }
+    }
+
+    override fun registerEntityDataSerializers() {
+        MOD_BUS.addListener<RegisterEvent> { event ->
+            event.register(NeoForgeRegistries.Keys.ENTITY_DATA_SERIALIZERS) { helper ->
+                helper.register(Vec3DataSerializer.ID, Vec3DataSerializer)
+                helper.register(StringSetDataSerializer.ID, StringSetDataSerializer)
+                helper.register(PoseTypeDataSerializer.ID, PoseTypeDataSerializer)
+                helper.register(IdentifierDataSerializer.ID, IdentifierDataSerializer)
+            }
+
+        }
     }
 
     override fun registerBlocks() {
