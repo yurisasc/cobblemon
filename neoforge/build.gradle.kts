@@ -45,7 +45,7 @@ dependencies {
     implementation(project(":common", configuration = "namedElements")) {
         isTransitive = false
     }
-    implementation(libs.kotlin.forge)
+    implementation(libs.neoforge.kotlin)
     "developmentNeoForge"(project(":common", configuration = "namedElements")) {
         isTransitive = false
     }

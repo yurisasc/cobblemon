@@ -151,7 +151,6 @@ class CobblemonNeoForge : CobblemonImplementation {
         Cobblemon.LOGGER.info("Initializing...")
         event.enqueueWork {
             this.queuedWork.forEach { it.invoke() }
-            CobblemonForgeBrewingRegistry.register()
             this.attemptModCompat()
         }
         Cobblemon.initialize()

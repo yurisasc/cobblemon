@@ -30,7 +30,7 @@ lambDynamicLights = "2.3.4+1.20.4"
 
 # Forge
 neoforge = "20.6.112-beta"
-kotlin-for-forge = "4.10.0"
+kotlin-for-forge = "5.2.0"
 flywheel = "0.6.10-7"
 
 # Data Storage
@@ -75,11 +75,11 @@ adorn-fabric = { group = "maven.modrinth", name = "adorn", version = "5.0.0-fabr
 lambDynamicLights = { group = "maven.modrinth", name = "lambdynamiclights", version.ref = "lambDynamicLights"}
 jei-fabric = { group = "mezz.jei", name = "jei-1.20.1-fabric", version.ref = "jei-api"}
 
-# Forge
+# Neoforge
 #forge = { group = "net.minecraftforge", name = "forge", version.ref = "forge" }
 neoforge = { group = "net.neoforged", name = "neoforge", version.ref = "neoforge" }
-kotlin-forge = { group = "thedarkcolour", name = "kotlinforforge", version.ref = "kotlin-for-forge" }
-adorn-forge = { group = "maven.modrinth", name = "adorn", version = "5.0.0-forge"}
+neoforge-kotlin = { group = "thedarkcolour", name = "kotlinforforge-neoforge", version.ref = "kotlin-for-forge" }
+adorn-neoforge = { group = "maven.modrinth", name = "adorn", version = "5.0.0-forge"}
 
 # Data Storage
 mongo-driver-core = { group = "org.mongodb", name = "mongodb-driver-core", version.ref = "mongo" }
