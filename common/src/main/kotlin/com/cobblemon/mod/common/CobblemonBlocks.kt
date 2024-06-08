@@ -160,11 +160,12 @@ object CobblemonBlocks : PlatformRegistry<Registry<Block>, RegistryKey<Registry<
     @JvmField
     val SACCHARINE_LOG = log("saccharine_log", arg2 = MapColor.BLUE)
     @JvmField
-    val STRIPPED_SACCHARINE_LOG = log("stripped_saccharine_log")
+    val STRIPPED_SACCHARINE_LOG = this.create("stripped_saccharine_log", SaccharineStrippedLogBlock(Settings.create().mapColor(MapColor.LIGHT_BLUE).instrument(Instrument.BASS).strength(2.0F).sounds(BlockSoundGroup.WOOD).burnable())) //log("stripped_saccharine_log")
     @JvmField
     val SACCHARINE_WOOD = log("saccharine_wood")
     @JvmField
-    val STRIPPED_SACCHARINE_WOOD = log("stripped_saccharine_wood")
+    val STRIPPED_SACCHARINE_WOOD = this.create("stripped_saccharine_wood", SaccharineStrippedLogBlock(Settings.create().mapColor(MapColor.LIGHT_BLUE).instrument(Instrument.BASS).strength(2.0F).sounds(BlockSoundGroup.WOOD).burnable())) //log("stripped_saccharine_log")
+    //log("stripped_saccharine_wood")
     @JvmField
     val SACCHARINE_PLANKS = this.create("saccharine_planks", Block(AbstractBlock.Settings.create().mapColor(MapColor.LIGHT_BLUE).instrument(Instrument.BASS).strength(2.0f, 3.0f).sounds(BlockSoundGroup.WOOD)))
     @JvmField

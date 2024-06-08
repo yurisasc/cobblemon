@@ -50,7 +50,9 @@ public abstract class BeeEntityMixin {
     )
     private void injectCustomGrowth(CallbackInfo ci, int i, BlockPos blockPos, BlockState blockState, Block block) {
         if (block instanceof SaccharineLeafBlock) {
+
             int age = blockState.get(SaccharineLeafBlock.Companion.getAGE());
+
             if (age < 2) {
                 this.cobblemon$result = blockState.with(SaccharineLeafBlock.Companion.getAGE(), age + 1);
             }
