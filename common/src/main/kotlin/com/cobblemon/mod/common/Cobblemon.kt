@@ -190,6 +190,7 @@ object Cobblemon {
         implementation.registerBlockEntityTypes()
         implementation.registerWorldGenFeatures()
         implementation.registerParticles()
+        implementation.registerEntityDataSerializers()
 
         DropEntry.register("command", CommandDropEntry::class.java)
         DropEntry.register("item", ItemDropEntry::class.java, isDefault = true)
@@ -249,11 +250,6 @@ object Cobblemon {
         PlatformEvents.CHANGE_DIMENSION.subscribe {
             it.player.party().forEach { pokemon -> pokemon.entity?.recallWithAnimation() }
         }
-
-        TrackedDataHandlerRegistry.register(Vec3DataSerializer)
-        TrackedDataHandlerRegistry.register(StringSetDataSerializer)
-        TrackedDataHandlerRegistry.register(PoseTypeDataSerializer)
-        TrackedDataHandlerRegistry.register(IdentifierDataSerializer)
 
         // Lowest priority because this applies after luxury ball bonus as of gen 4
         CobblemonEvents.FRIENDSHIP_UPDATED.subscribe(Priority.LOWEST) { event ->

@@ -1,12 +1,11 @@
 {
     "required": true,
     "package": "com.cobblemon.mod.neoforge.mixin",
-    "compatibilityLevel": "JAVA_8",
+    "compatibilityLevel": "JAVA_21",
     "minVersion": "0.8",
     "client": [
     ],
     "mixins": [
-      "com.cobblemon.mod.neoforge.mixin.ChannelMixin",
-      "com.cobblemon.mod.neoforge.mixin.LootManagerMixin"
+        "GenericPacketSplitterMixin"
     ]
 }

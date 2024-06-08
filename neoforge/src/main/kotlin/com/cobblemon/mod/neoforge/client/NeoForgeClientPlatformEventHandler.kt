@@ -17,7 +17,6 @@ import net.neoforged.api.distmarker.OnlyIn
 import net.neoforged.bus.api.SubscribeEvent
 import net.neoforged.neoforge.client.event.ClientPlayerNetworkEvent
 import net.neoforged.neoforge.common.NeoForge
-import net.neoforged.neoforge.event.TickEvent
 import net.neoforged.neoforge.event.entity.player.ItemTooltipEvent
 
 
@@ -29,13 +28,13 @@ object NeoForgeClientPlatformEventHandler {
     }
 
     @SubscribeEvent
-    fun onTick(e: TickEvent.ClientTickEvent) {
-        if (e.phase == TickEvent.Phase.START) {
-            PlatformEvents.CLIENT_TICK_PRE.post(ClientTickEvent.Pre(MinecraftClient.getInstance()))
-        }
-        else {
-            PlatformEvents.CLIENT_TICK_POST.post(ClientTickEvent.Post(MinecraftClient.getInstance()))
-        }
+    fun preClientTick(e: net.neoforged.neoforge.client.event.ClientTickEvent.Pre) {
+        PlatformEvents.CLIENT_TICK_PRE.post(ClientTickEvent.Pre(MinecraftClient.getInstance()))
+    }
+
+    @SubscribeEvent
+    fun postClientTick(e: net.neoforged.neoforge.client.event.ClientTickEvent.Post) {
+        PlatformEvents.CLIENT_TICK_POST.post(ClientTickEvent.Post(MinecraftClient.getInstance()))
     }
 
     @SubscribeEvent

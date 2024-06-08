@@ -16,7 +16,6 @@ import com.cobblemon.mod.common.platform.events.ServerTickEvent
 import net.minecraft.server.network.ServerPlayerEntity
 import net.neoforged.bus.api.SubscribeEvent
 import net.neoforged.neoforge.common.NeoForge
-import net.neoforged.neoforge.event.TickEvent
 import net.neoforged.neoforge.event.entity.living.LivingDeathEvent
 import net.neoforged.neoforge.event.entity.player.PlayerEvent
 import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent
@@ -54,32 +53,32 @@ object NeoForgePlatformEventHandler {
     }
 
     @SubscribeEvent
-    fun onTick(e: TickEvent.ServerTickEvent) {
-        if (e.phase == TickEvent.Phase.START) {
-            PlatformEvents.SERVER_TICK_PRE.post(ServerTickEvent.Pre(ServerLifecycleHooks.getCurrentServer()))
-        }
-        else {
-            PlatformEvents.SERVER_TICK_POST.post(ServerTickEvent.Post(ServerLifecycleHooks.getCurrentServer()))
-        }
+    fun preServerTick(e: net.neoforged.neoforge.event.tick.ServerTickEvent.Pre) {
+        PlatformEvents.SERVER_TICK_PRE.post(ServerTickEvent.Pre(e.server))
+    }
+
+    @SubscribeEvent
+    fun postServerTick(e: net.neoforged.neoforge.event.tick.ServerTickEvent.Post) {
+        PlatformEvents.SERVER_TICK_POST.post(ServerTickEvent.Post(e.server))
     }
 
     @SubscribeEvent
     fun onLogin(e: PlayerEvent.PlayerLoggedInEvent) {
         val player = e.entity as? ServerPlayerEntity ?: return
-        PlatformEvents.SERVER_PLAYER_LOGIN.post(com.cobblemon.mod.common.platform.events.ServerPlayerEvent.Login(player))
+        PlatformEvents.SERVER_PLAYER_LOGIN.post(ServerPlayerEvent.Login(player))
     }
 
     @SubscribeEvent
     fun onLogout(e: PlayerEvent.PlayerLoggedOutEvent) {
         val player = e.entity as? ServerPlayerEntity ?: return
-        PlatformEvents.SERVER_PLAYER_LOGOUT.post(com.cobblemon.mod.common.platform.events.ServerPlayerEvent.Logout(player))
+        PlatformEvents.SERVER_PLAYER_LOGOUT.post(ServerPlayerEvent.Logout(player))
     }
 
     @SubscribeEvent
     fun onDeath(e: LivingDeathEvent) {
         val player = e.entity as? ServerPlayerEntity ?: return
         PlatformEvents.PLAYER_DEATH.postThen(
-            event = com.cobblemon.mod.common.platform.events.ServerPlayerEvent.Death(player),
+            event = ServerPlayerEvent.Death(player),
             ifSucceeded = {},
             ifCanceled = { e.isCanceled = true }
         )

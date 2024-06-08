@@ -67,6 +67,8 @@ interface CobblemonImplementation {
 
     fun registerDataComponents()
 
+    fun registerEntityDataSerializers()
+
     /**
      * TODO
      *

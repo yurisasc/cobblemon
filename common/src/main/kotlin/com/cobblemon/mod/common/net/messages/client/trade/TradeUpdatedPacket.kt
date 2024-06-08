@@ -9,6 +9,7 @@
 package com.cobblemon.mod.common.net.messages.client.trade
 
 import com.cobblemon.mod.common.api.net.NetworkPacket
+import com.cobblemon.mod.common.api.net.UnsplittablePacket
 import com.cobblemon.mod.common.net.messages.PokemonDTO
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.util.cobblemonResource
@@ -27,7 +28,7 @@ import java.util.UUID
  * @author Hiroku
  * @since March 5th, 2023
  */
-class TradeUpdatedPacket(val playerId: UUID, val pokemon: Pokemon?) : NetworkPacket<TradeUpdatedPacket> {
+class TradeUpdatedPacket(val playerId: UUID, val pokemon: Pokemon?) : NetworkPacket<TradeUpdatedPacket>, UnsplittablePacket {
     companion object {
         val ID = cobblemonResource("trade_updated")
         fun decode(buffer: RegistryByteBuf) = TradeUpdatedPacket(buffer.readUuid(), buffer.readNullable { PokemonDTO().also { it.decode(buffer) }.create() })

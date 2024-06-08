@@ -15,7 +15,7 @@ plugins {
 
 architectury {
     platformSetupLoomIde()
-    forge()
+    neoForge()
 }
 
 loom {
@@ -46,10 +46,10 @@ dependencies {
         isTransitive = false
     }
     implementation(libs.kotlin.forge)
-    "developmentForge"(project(":common", configuration = "namedElements")) {
+    "developmentNeoForge"(project(":common", configuration = "namedElements")) {
         isTransitive = false
     }
-    bundle(project(path = ":common", configuration = "transformProductionForge")) {
+    bundle(project(path = ":common", configuration = "transformProductionNeoForge")) {
         isTransitive = false
     }
     testImplementation(project(":common", configuration = "namedElements"))

@@ -8,6 +8,7 @@
 
 package com.cobblemon.mod.common.api.net.serializers
 
+import com.cobblemon.mod.common.util.cobblemonResource
 import net.minecraft.entity.data.TrackedDataHandler
 import net.minecraft.network.PacketByteBuf
 import net.minecraft.network.RegistryByteBuf
@@ -15,6 +16,7 @@ import net.minecraft.network.codec.PacketCodec
 import net.minecraft.util.math.Vec3d
 
 object Vec3DataSerializer : TrackedDataHandler<Vec3d> {
+    val ID = cobblemonResource("vec3d")
     fun write(buffer: RegistryByteBuf, vec: Vec3d) {
         buffer.writeDouble(vec.x)
         buffer.writeDouble(vec.y)

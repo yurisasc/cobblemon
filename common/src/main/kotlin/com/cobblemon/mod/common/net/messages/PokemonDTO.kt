@@ -42,6 +42,7 @@ import net.minecraft.network.RegistryByteBuf
 import net.minecraft.text.MutableText
 import net.minecraft.text.TextCodecs
 import net.minecraft.util.Identifier
+import java.util.Optional
 
 /**
  * A data transfer object for an entire [Pokemon], complete with all of the information a player is allowed
@@ -139,7 +140,7 @@ class PokemonDTO : Encodable, Decodable {
         buffer.writeBoolean(toClient)
         buffer.writeUuid(uuid)
         buffer.writeIdentifier(species)
-        buffer.writeNullable(nickname, TextCodecs.PACKET_CODEC)
+        TextCodecs.OPTIONAL_PACKET_CODEC.encode(buffer, Optional.ofNullable(nickname))
         buffer.writeString(form)
         buffer.writeInt(experience)
         buffer.writeSizedInt(IntSize.U_SHORT, level)
@@ -164,9 +165,7 @@ class PokemonDTO : Encodable, Decodable {
         evolutionBuffer.release()
         buffer.writeIdentifier(nature)
         buffer.writeNullable(mintNature) { _, v -> buffer.writeIdentifier(v) }
-        buffer.writeNbt(ItemStack.CODEC.encode(heldItem, NbtOps.INSTANCE, null).getOrThrow {
-            return@getOrThrow UnsupportedOperationException("WTF Held Item")
-        })
+        ItemStack.OPTIONAL_PACKET_CODEC.encode(buffer, heldItem)
         buffer.writeNullable(tetheringId) { _, v -> buffer.writeUuid(v) }
         buffer.writeString(teraType)
         buffer.writeInt(dmaxLevel)
@@ -185,9 +184,7 @@ class PokemonDTO : Encodable, Decodable {
         toClient = buffer.readBoolean()
         uuid = buffer.readUuid()
         species = buffer.readIdentifier()
-        nickname = buffer.readNullable() {
-            TextCodecs.PACKET_CODEC.decode(buffer).copy()
-        }
+        nickname = TextCodecs.OPTIONAL_PACKET_CODEC.decode(buffer).map { it::copy as MutableText }.orElse(null)
         form = buffer.readString()
         experience = buffer.readInt()
         level = buffer.readSizedInt(IntSize.U_SHORT)
@@ -213,9 +210,7 @@ class PokemonDTO : Encodable, Decodable {
         evolutionBuffer = PacketByteBuf(buffer.readBytes(bytesToRead))
         nature = buffer.readIdentifier()
         mintNature = buffer.readNullable { buffer.readIdentifier() }
-        heldItem = NbtOps.INSTANCE.withDecoder(ItemStack.CODEC).apply(buffer.readNbt()).getOrThrow {
-            return@getOrThrow UnsupportedOperationException("WTF Held Item")
-        }.first
+        heldItem = ItemStack.OPTIONAL_PACKET_CODEC.decode(buffer)
         tetheringId = buffer.readNullable { buffer.readUuid() }
         teraType = buffer.readString()
         dmaxLevel = buffer.readInt()

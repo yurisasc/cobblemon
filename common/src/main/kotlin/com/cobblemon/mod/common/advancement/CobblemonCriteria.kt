@@ -21,7 +21,12 @@ import com.cobblemon.mod.common.advancement.criterion.PokemonCriterion
 import com.cobblemon.mod.common.advancement.criterion.PokemonInteractCriterion
 import com.cobblemon.mod.common.advancement.criterion.SimpleCriterionTrigger
 import com.cobblemon.mod.common.advancement.criterion.TradePokemonCriterion
+import com.cobblemon.mod.common.platform.PlatformRegistry
 import net.minecraft.advancement.criterion.Criterion
+import net.minecraft.registry.Registries
+import net.minecraft.registry.Registry
+import net.minecraft.registry.RegistryKey
+import net.minecraft.registry.RegistryKeys
 
 /**
  * Contains all the advancement criteria in Cobblemon.
@@ -29,7 +34,7 @@ import net.minecraft.advancement.criterion.Criterion
  * @author Licious
  * @since October 26th, 2022
  */
-object CobblemonCriteria {
+object CobblemonCriteria : PlatformRegistry<Registry<Criterion<*>>, RegistryKey<Registry<Criterion<*>>>, Criterion<*>>(){
     val PICK_STARTER = this.create("pick_starter", SimpleCriterionTrigger(PokemonCriterion.CODEC))
 
     val CATCH_POKEMON = this.create("catch_pokemon", SimpleCriterionTrigger(CaughtPokemonCriterion.CODEC))
@@ -61,6 +66,6 @@ object CobblemonCriteria {
     // Advancement criteria for [grow_tumblestone.json]
     val PLANT_TUMBLESTONE = this.create("plant_tumblestone", SimpleCriterionTrigger(PlantTumblestoneCriterion.CODEC))
 
-    private fun <T : Criterion<*>> create(id: String, criteria: T): T = Cobblemon.implementation.registerCriteria(id, criteria)
-
+    override val registry = Registries.CRITERION
+    override val registryKey = RegistryKeys.CRITERION
 }
