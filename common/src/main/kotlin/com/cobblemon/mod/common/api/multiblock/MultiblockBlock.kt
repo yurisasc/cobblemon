@@ -64,6 +64,7 @@ abstract class MultiblockBlock(properties: Settings) : BlockWithEntity(propertie
             if (entity is MultiblockEntity && entity.multiblockStructure != null) {
                 entity.multiblockStructure!!.onBreak(world, pos, state, player)
             }
+            entity?.markRemoved()
         }
         return result
     }
@@ -77,6 +78,7 @@ abstract class MultiblockBlock(properties: Settings) : BlockWithEntity(propertie
         return BlockRenderType.MODEL
     }
 
+    //This is done so a block picked with NBT doesnt absolutely DESTROY multiblocks
     override fun getPickStack(world: WorldView, pos: BlockPos, state: BlockState): ItemStack {
         val blockEntity = world.getBlockEntity(pos) as? MultiblockEntity ?: return ItemStack.EMPTY
         return if (blockEntity.multiblockStructure == null) super.getPickStack(world, pos, state) else ItemStack.EMPTY

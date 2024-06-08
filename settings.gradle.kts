@@ -1,18 +1,19 @@
-rootProject.name = "cobblemon"
+enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 
 pluginManagement {
     repositories {
+        gradlePluginPortal()
+        mavenCentral()
+
         maven("https://maven.fabricmc.net/")
         maven("https://maven.architectury.dev/")
         maven("https://maven.minecraftforge.net/")
-        gradlePluginPortal()
     }
-    includeBuild("build-logic")
+
+    includeBuild("gradle/build-logic")
 }
 
-plugins {
-    id("ca.stellardrift.polyglot-version-catalogs") version "6.1.0"
-}
+rootProject.name = "cobblemon"
 
 listOf(
     "common",

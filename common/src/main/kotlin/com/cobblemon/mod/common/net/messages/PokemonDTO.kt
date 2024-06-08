@@ -124,7 +124,7 @@ class PokemonDTO : Encodable, Decodable {
         this.featuresBuffer = PacketByteBuf(Unpooled.buffer())
         val visibleFeatures = pokemon.features
             .filterIsInstance<SynchronizedSpeciesFeature>()
-            .filter { (SpeciesFeatures.getFeature(it.name)!! as SynchronizedSpeciesFeatureProvider<*>).visible }
+            .filter { (SpeciesFeatures.getFeature(it.name) as? SynchronizedSpeciesFeatureProvider<*>)?.visible == true }
         featuresBuffer.writeCollection(visibleFeatures) { _, value ->
             featuresBuffer.writeString(value.name)
             value.saveToBuffer(featuresBuffer, true)

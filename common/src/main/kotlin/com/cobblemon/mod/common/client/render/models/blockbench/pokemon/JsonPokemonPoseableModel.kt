@@ -9,6 +9,7 @@
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon
 
 import com.cobblemon.mod.common.api.molang.ExpressionLike
+import com.cobblemon.mod.common.client.entity.PokemonClientDelegate
 import com.cobblemon.mod.common.client.render.models.blockbench.JsonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.JsonPoseableEntityModel
 import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
@@ -20,6 +21,11 @@ import com.cobblemon.mod.common.client.render.models.blockbench.pose.Pose
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.util.adapters.ExpressionLikeAdapter
 import com.cobblemon.mod.common.util.adapters.Vec3dAdapter
+import com.cobblemon.mod.common.util.isDusk
+import com.cobblemon.mod.common.util.isStandingOnRedSand
+import com.cobblemon.mod.common.util.isStandingOnSand
+import com.cobblemon.mod.common.util.isStandingOnSandOrRedSand
+import com.cobblemon.mod.common.util.resolveBoolean
 import com.google.gson.ExclusionStrategy
 import com.google.gson.FieldAttributes
 import com.google.gson.GsonBuilder
@@ -33,6 +39,7 @@ import com.google.gson.annotations.SerializedName
 import com.google.gson.reflect.TypeToken
 import java.lang.reflect.Type
 import java.util.function.Supplier
+import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
 /**
@@ -43,7 +50,8 @@ import net.minecraft.util.math.Vec3d
  * @author Hiroku
  * @since August 7th, 2022
  */
-class JsonPokemonPoseableModel(override val rootPart: Bone) : PokemonPoseableModel(), HeadedFrame {
+class JsonPokemonPoseableModel(rootPart: Bone) : PokemonPoseableModel(), HeadedFrame {
+    override val rootPart = (rootPart as ModelPart).children.entries.first().let { rootPart.registerChildWithAllChildren(it.key) }
     companion object {
         val gson = GsonBuilder()
             .setPrettyPrinting()
@@ -80,30 +88,12 @@ class JsonPokemonPoseableModel(override val rootPart: Bone) : PokemonPoseableMod
 
     override val head: Bone by lazy { headJoint?.let { getPart(it) } ?: rootPart }
 
-
-    @SerializedName("portraitScale")
-    private val _portraitScale: Float? = null
-    @SerializedName("portraitTranslation")
-    private val _portraitTranslation: Vec3d? = null
-
-    @SerializedName("profileScale")
-    private val _profileScale: Float? = null
-    @SerializedName("profileTranslation")
-    private val _profileTranslation: Vec3d? = null
-
     //Some weirdness going on here, vars have to be initialized, gson doesn't like multiple fields with the same name
-    @Transient
+    //Idk, works fine with Blastoise
     override var portraitScale = 1F
-        get() = _portraitScale ?: 1F
-    @Transient
     override var portraitTranslation = Vec3d.ZERO
-        get() = _portraitTranslation ?: Vec3d(0.0, 0.0, 0.0)
-    @Transient
     override var profileScale = 1F
-        get() = _profileScale ?: 1F
-    @Transient
     override var profileTranslation = Vec3d.ZERO
-        get() = _profileTranslation ?: Vec3d(0.0, 0.0, 0.0)
 
 
     val faint: Supplier<StatefulAnimation<PokemonEntity, ModelFrame>>? = null
@@ -142,6 +132,7 @@ class JsonPokemonPoseableModel(override val rootPart: Bone) : PokemonPoseableMod
         override fun createInstance(type: Type): JsonPokemonPoseableModel {
             return JsonPokemonPoseableModel(modelPart!!).also {
                 model = it
+                modelPart as ModelPart
                 it.loadAllNamedChildren(modelPart!!)
             }
         }
@@ -163,6 +154,32 @@ class JsonPokemonPoseableModel(override val rootPart: Bone) : PokemonPoseableMod
             if (mustBeTouchingWater != null) {
                 conditionsList.add { mustBeTouchingWater == it.isTouchingWater }
             }
+            val mustBeTouchingWaterOrRain = json.get("isTouchingWaterOrRain")?.asBoolean
+            if (mustBeTouchingWaterOrRain != null) {
+                conditionsList.add { mustBeTouchingWaterOrRain == it.isTouchingWaterOrRain }
+            }
+            val mustBeSubmergedInWater = json.get("isSubmergedInWater")?.asBoolean
+            if (mustBeSubmergedInWater != null) {
+                conditionsList.add { mustBeSubmergedInWater == it.isSubmergedInWater }
+            }
+            val mustBeStandingOnRedSand = json.get("isStandingOnRedSand")?.asBoolean
+            if (mustBeStandingOnRedSand != null) {
+                conditionsList.add { mustBeStandingOnRedSand == it.isStandingOnRedSand() }
+            }
+            val mustBeStandingOnSand = json.get("isStandingOnSand")?.asBoolean
+            if (mustBeStandingOnSand != null) {
+                conditionsList.add { mustBeStandingOnSand == it.isStandingOnSand() }
+            }
+            val mustBeStandingOnSandOrRedSand = json.get("isStandingOnSandOrRedSand")?.asBoolean
+            if (mustBeStandingOnSandOrRedSand != null) {
+                conditionsList.add { mustBeStandingOnSandOrRedSand == it.isStandingOnSandOrRedSand() }
+            }
+            val mustBeDusk = json.get("isDusk")?.asBoolean
+            if (mustBeDusk != null) {
+                conditionsList.add { mustBeDusk == it.isDusk() }
+            }
+
+            conditionsList.add { (it.delegate as PokemonClientDelegate).runtime.resolveBoolean(pose.condition) }
 
             val poseCondition: ((PokemonEntity) -> Boolean)? = if (conditionsList.isEmpty()) null else conditionsList.reduce { acc, function -> { acc(it) && function(it) } }
 

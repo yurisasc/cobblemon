@@ -78,6 +78,8 @@ object CobblemonEvents {
     val POKE_BALL_CAPTURE_CALCULATED = EventObservable<PokeBallCaptureCalculatedEvent>()
     @JvmField
     val POKEMON_CAPTURED = EventObservable<PokemonCapturedEvent>()
+    @JvmField
+    val FOSSIL_REVIVED = EventObservable<FossilRevivedEvent>()
 //    @JvmField
 //    val EGG_HATCH = EventObservable<HatchEggEvent>()
     @JvmField

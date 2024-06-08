@@ -13,6 +13,7 @@ import com.cobblemon.mod.common.api.data.JsonDataRegistry
 import com.cobblemon.mod.common.item.group.CobblemonItemGroups
 import com.cobblemon.mod.common.loot.LootInjector
 import com.cobblemon.mod.common.particle.CobblemonParticles
+import com.cobblemon.mod.common.sherds.CobblemonSherds
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.didSleep
 import com.cobblemon.mod.common.util.endsWith
@@ -143,6 +144,7 @@ class CobblemonNeoForge : CobblemonImplementation {
         Cobblemon.LOGGER.info("Initializing...")
         event.enqueueWork {
             this.queuedWork.forEach { it.invoke() }
+            CobblemonForgeBrewingRegistry.register()
             this.attemptModCompat()
         }
         Cobblemon.initialize()
@@ -155,6 +157,9 @@ class CobblemonNeoForge : CobblemonImplementation {
         }
         event.register(RegistryKeys.PLACEMENT_MODIFIER_TYPE) {
             CobblemonPlacementModifierTypes.touch()
+        }
+        event.register(RegistryKeys.DECORATED_POT_PATTERN) {
+            CobblemonSherds.registerSherds()
         }
 
         event.register(RegistryKeys.STRUCTURE_PROCESSOR) {
@@ -352,10 +357,15 @@ class CobblemonNeoForge : CobblemonImplementation {
         this.queuedBuiltinResourcePacks += Triple(id, title, activationBehaviour)
     }
 
+    //This event gets fired before init, so we need to put resource packs in EARLY
     //TODO: I dont really know wtf is happening here, someone needs to check
     fun onAddPackFindersEvent(event: AddPackFindersEvent) {
         if (event.packType != ResourceType.CLIENT_RESOURCES) {
             return
+        }
+        if (this.isModInstalled("adorn")) {
+            //AdornCompatibility.register()
+            registerBuiltinResourcePack(cobblemonResource("adorncompatibility"), Text.literal("Adorn Compatibility"), ResourcePackActivationBehaviour.ALWAYS_ENABLED)
         }
         val modFile = ModList.get().getModFileById(Cobblemon.MODID).file
         this.queuedBuiltinResourcePacks.forEach { (id, title, activationBehaviour) ->
