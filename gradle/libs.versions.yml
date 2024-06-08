@@ -24,7 +24,7 @@ versions:
 
   # neoforge
   neoforge: 20.6.112-beta
-  kotlinForForge: 4.10.0
+  kotlinForForge: 5.2.0
   flywheelForge: 0.6.10-7
 
   # common

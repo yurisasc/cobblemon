@@ -199,7 +199,11 @@ class CobblemonNeoForge : CobblemonImplementation {
     }
 
     override fun registerDataComponents() {
-        CobblemonItemComponents.register()
+        MOD_BUS.addListener<RegisterEvent> { event ->
+            event.register(CobblemonItemComponents.registryKey) { helper ->
+                CobblemonItemComponents.register { identifier, dataComponentType ->  helper.register(identifier, dataComponentType)}
+            }
+        }
     }
 
     override fun registerBlocks() {

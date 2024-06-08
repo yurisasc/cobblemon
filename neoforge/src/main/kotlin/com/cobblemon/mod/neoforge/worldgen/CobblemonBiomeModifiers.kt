@@ -52,7 +52,7 @@ internal object CobblemonBiomeModifiers : BiomeModifier {
         if (phase != BiomeModifier.Phase.ADD) {
             return
         }
-        val server = ServerLifecycleHooks.getCurrentServer()
+        val server = ServerLifecycleHooks.getCurrentServer()!!
         val registry = server.registryManager.get(RegistryKeys.PLACED_FEATURE)
         this.entries.forEach { entry ->
             if (entry.validTag == null || arg.isIn(entry.validTag)) {

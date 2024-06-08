@@ -30,6 +30,6 @@ mandatory=true
 versionRange="[${minecraft_version}]"
 
 [[dependencies.cobblemon]]
-modId="forge" #mandatory
+modId="neoforge" #mandatory
 mandatory=true #mandatory
-versionRange="[45,)" #mandatory
+versionRange="[20.6,)" #mandatory
