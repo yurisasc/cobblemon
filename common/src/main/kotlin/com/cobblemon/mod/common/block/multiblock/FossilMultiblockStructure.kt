@@ -40,7 +40,9 @@ import net.minecraft.item.ItemStack
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.nbt.NbtHelper
 import net.minecraft.nbt.NbtList
+import net.minecraft.nbt.NbtOps
 import net.minecraft.registry.Registries
+import net.minecraft.registry.RegistryWrapper
 import net.minecraft.registry.tag.FluidTags
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.server.world.ServerWorld
@@ -589,7 +591,7 @@ class FossilMultiblockStructure (
         return true
     }
 
-    override fun writeToNbt(): NbtCompound {
+    override fun writeToNbt(registryLookup: RegistryWrapper.WrapperLookup): NbtCompound {
         val result = NbtCompound()
         result.put(DataKeys.MONITOR_POS, NbtHelper.fromBlockPos(monitorPos))
         result.put(DataKeys.ANALYZER_POS, NbtHelper.fromBlockPos(analyzerPos))
@@ -601,12 +603,9 @@ class FossilMultiblockStructure (
         result.putInt(DataKeys.ORGANIC_MATERIAL, organicMaterialInside)
         val fossilInv = NbtList()
         //TODO: Add this back
-        /*
         fossilInventory.forEach{ item ->
-            fossilInv.add(item.writeNbt(NbtCompound()))
+            fossilInv.add(item.encode(registryLookup))
         }
-
-         */
         result.put(DataKeys.FOSSIL_INVENTORY, fossilInv)
         result.putString(DataKeys.CONNECTOR_DIRECTION, tankConnectorDirection?.toString())
 
@@ -632,7 +631,7 @@ class FossilMultiblockStructure (
         const val TIME_PER_STAGE = TIME_TO_TAKE / 8
         const val PROTECTION_TIME = TICKS_PER_MINUTE * 5
 
-        fun fromNbt(nbt: NbtCompound, animAge: Int = -1, partialTicks: Float = 0f): FossilMultiblockStructure {
+        fun fromNbt(nbt: NbtCompound, registryLookup: RegistryWrapper.WrapperLookup, animAge: Int = -1, partialTicks: Float = 0f): FossilMultiblockStructure {
             val monitorPos = NbtHelper.toBlockPos(nbt, DataKeys.MONITOR_POS).get()
             val compartmentPos = NbtHelper.toBlockPos(nbt, DataKeys.ANALYZER_POS).get()
             val tankBasePos = NbtHelper.toBlockPos(nbt, DataKeys.TANK_BASE_POS).get()
@@ -645,11 +644,10 @@ class FossilMultiblockStructure (
 
             val fossilInv = (nbt.get(DataKeys.FOSSIL_INVENTORY) as NbtList)
             val actualFossilList = mutableListOf<ItemStack>()
-            /*
             fossilInv.forEach {
-                actualFossilList.add(ItemStack.fromNbt(it as NbtCompound))
+                it as NbtCompound
+                actualFossilList.add(ItemStack.fromNbtOrEmpty(registryLookup, it))
             }
-             */
             result.fossilInventory = actualFossilList
             result.tankConnectorDirection = Direction.byName(nbt.getString(DataKeys.CONNECTOR_DIRECTION))
 

@@ -27,13 +27,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class GuiMixin {
     private Long lastTimeMillis = null;
     @Inject(
-            method = "render",
-            at = @At(
-                value = "INVOKE",
-                target = "Lnet/minecraft/client/gui/hud/ChatHud;render(Lnet/minecraft/client/gui/DrawContext;III)V",
-                shift = At.Shift.BEFORE,
-                ordinal = 0
-            )
+            method = "renderMiscOverlays",
+            at = @At("HEAD")
     )
     private void beforeChatHook(DrawContext context, float f, CallbackInfo ci) {
         if (lastTimeMillis != null) {

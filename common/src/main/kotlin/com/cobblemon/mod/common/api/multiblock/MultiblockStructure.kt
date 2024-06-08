@@ -11,6 +11,7 @@ package com.cobblemon.mod.common.api.multiblock
 import net.minecraft.block.BlockState
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.nbt.NbtCompound
+import net.minecraft.registry.RegistryWrapper
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.util.ActionResult
 import net.minecraft.util.Hand
@@ -37,7 +38,7 @@ interface MultiblockStructure {
     fun syncToClient(world: World)
 
     fun markDirty(world: World)
-    fun writeToNbt(): NbtCompound
+    fun writeToNbt(registryLookup: RegistryWrapper.WrapperLookup): NbtCompound
     fun getComparatorOutput(state: BlockState, world: World?, pos: BlockPos?): Int {
         return 0
     }
