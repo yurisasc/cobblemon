@@ -34,7 +34,7 @@ class RestorationTankBlockEntity(
 
     override fun writeNbt(nbt: NbtCompound, registryLookup: RegistryWrapper.WrapperLookup) {
         super.writeNbt(nbt, registryLookup)
-        nbt.put("inventory", inv.toNbtList())
+        nbt.put("inventory", inv.toNbtList(registryLookup))
     }
 
     override fun readNbt(nbt: NbtCompound, registryLookup: RegistryWrapper.WrapperLookup) {
@@ -46,7 +46,7 @@ class RestorationTankBlockEntity(
             RestorationTankInventory(this, *items.toTypedArray())
         } else if (nbt.contains("inventory")) {
             // New format
-            inv.readNbtList(nbt.get("inventory") as NbtList)
+            inv.readNbtList(nbt.get("inventory") as NbtList, registryLookup)
         }
     }
 

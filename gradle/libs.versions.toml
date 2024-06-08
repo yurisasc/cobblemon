@@ -30,7 +30,7 @@ lambDynamicLights = "2.3.4+1.20.4"
 
 # Forge
 neoforge = "20.6.112-beta"
-kotlin-for-forge = "5.2.0"
+kotlin-for-forge = "4.10.0"
 flywheel = "0.6.10-7"
 
 # Data Storage

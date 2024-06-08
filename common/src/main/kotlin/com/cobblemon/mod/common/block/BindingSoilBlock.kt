@@ -31,11 +31,10 @@ class BindingSoilBlock(settings: Settings) : Block(settings) {
         world: World,
         pos: BlockPos,
         player: PlayerEntity,
-        hand: Hand,
         hit: BlockHitResult
     ): ActionResult {
         if (!world.isClient) {
-            val itemStack = player.getStackInHand(hand)
+            val itemStack = player.getStackInHand(Hand.MAIN_HAND)
             val item = itemStack.item
             if (item is BerryItem) {
                 world.setBlockState(pos, item.block.defaultState.with(BerryBlock.IS_ROOTED, true))

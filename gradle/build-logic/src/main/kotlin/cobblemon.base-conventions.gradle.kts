@@ -61,7 +61,10 @@ loom {
 
 dependencies {
     minecraft("net.minecraft:minecraft:${rootProject.property("mc_version")}")
-    mappings("net.fabricmc:yarn:${rootProject.property("yarn_version")}:v2")
+    mappings(loom.layered() {
+        mappings("net.fabricmc:yarn:${rootProject.property("yarn_version")}:v2")
+        mappings("dev.architectury:yarn-mappings-patch-neoforge:${rootProject.property("yarn_arch_patch_version")}")
+    })
 }
 
 tasks {

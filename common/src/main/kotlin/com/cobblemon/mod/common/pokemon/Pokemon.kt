@@ -81,6 +81,7 @@ import com.cobblemon.mod.common.net.messages.client.pokemon.update.CaughtBallUpd
 import com.cobblemon.mod.common.net.messages.client.pokemon.update.DmaxLevelUpdatePacket
 import com.cobblemon.mod.common.net.messages.client.pokemon.update.EVsUpdatePacket
 import com.cobblemon.mod.common.net.messages.client.pokemon.update.ExperienceUpdatePacket
+import com.cobblemon.mod.common.net.messages.client.pokemon.update.FormUpdatePacket
 import com.cobblemon.mod.common.net.messages.client.pokemon.update.FriendshipUpdatePacket
 import com.cobblemon.mod.common.net.messages.client.pokemon.update.GenderUpdatePacket
 import com.cobblemon.mod.common.net.messages.client.pokemon.update.GmaxFactorUpdatePacket

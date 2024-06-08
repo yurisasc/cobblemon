@@ -25,6 +25,7 @@ import com.mojang.serialization.Codec
 import com.mojang.serialization.DynamicOps
 import com.mojang.serialization.codecs.PrimitiveCodec
 import com.mojang.serialization.codecs.RecordCodecBuilder
+import net.minecraft.network.PacketByteBuf
 import net.minecraft.network.RegistryByteBuf
 import net.minecraft.util.math.Vec3d
 
@@ -88,7 +89,7 @@ class ParametricParticleMotion(
 
     override fun getParticleDirection(runtime: MoLangRuntime, storm: ParticleStorm, velocity: Vec3d, minSpeed: Float) = runtime.resolveVec3d(direction).normalize()
     override fun <T> encode(ops: DynamicOps<T>) = CODEC.encodeStart(ops, this)
-    override fun readFromBuffer(buffer: PacketByteBuf) {
+    override fun readFromBuffer(buffer: RegistryByteBuf) {
         offset = Triple(
             MoLang.createParser(buffer.readString()).parseExpression(),
             MoLang.createParser(buffer.readString()).parseExpression(),
@@ -100,7 +101,7 @@ class ParametricParticleMotion(
             MoLang.createParser(buffer.readString()).parseExpression()
         )
     }
-    override fun writeToBuffer(buffer: PacketByteBuf) {
+    override fun writeToBuffer(buffer: RegistryByteBuf) {
         buffer.writeString(offset.first.getString())
         buffer.writeString(offset.second.getString())
         buffer.writeString(offset.third.getString())
