@@ -12,7 +12,6 @@ import com.cobblemon.mod.common.api.data.JsonDataRegistry
 import com.cobblemon.mod.common.api.net.NetworkPacket
 import com.mojang.brigadier.arguments.ArgumentType
 import kotlin.reflect.KClass
-import net.minecraft.advancement.criterion.Criterion
 import net.minecraft.block.ComposterBlock
 import net.minecraft.command.argument.serialize.ArgumentSerializer
 import net.minecraft.item.ItemConvertible
@@ -107,6 +106,7 @@ interface CobblemonImplementation {
 
     fun registerParticles()
 
+
     /**
      * Add a feature to the current platform implementation.
      *
@@ -145,7 +145,7 @@ interface CobblemonImplementation {
      * @param criteria
      * @return
      */
-    fun <T : Criterion<*>> registerCriteria(id: String, criteria: T): T
+    fun registerCriteria()
 
     /**
      * TODO

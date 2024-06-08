@@ -9,6 +9,7 @@
 package com.cobblemon.mod.neoforge
 
 import com.cobblemon.mod.common.*
+import com.cobblemon.mod.common.advancement.CobblemonCriteria
 import com.cobblemon.mod.common.api.data.JsonDataRegistry
 import com.cobblemon.mod.common.api.net.serializers.IdentifierDataSerializer
 import com.cobblemon.mod.common.api.net.serializers.PoseTypeDataSerializer
@@ -330,7 +331,16 @@ class CobblemonNeoForge : CobblemonImplementation {
 
     override fun <T : GameRules.Rule<T>> registerGameRule(name: String, category: GameRules.Category, type: GameRules.Type<T>): GameRules.Key<T> = GameRules.register(name, category, type)
 
-    override fun <T : Criterion<*>> registerCriteria(id: String, criteria: T): T = Criteria.register(id, criteria)
+
+    override fun registerCriteria() {
+        MOD_BUS.addListener<RegisterEvent> { event ->
+            CobblemonCriteria.register { id, obj ->
+                event.register(CobblemonCriteria.registryKey) { helper ->
+                    CobblemonCriteria.register { identifier, criteria -> helper.register(identifier, criteria) }
+                }
+            }
+        }
+    }
 
     override fun registerResourceReloader(identifier: Identifier, reloader: ResourceReloader, type: ResourceType, dependencies: Collection<Identifier>) {
         if (type == ResourceType.SERVER_DATA) {

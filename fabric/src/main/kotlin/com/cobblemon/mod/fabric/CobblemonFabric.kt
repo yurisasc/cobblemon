@@ -9,6 +9,7 @@
 package com.cobblemon.mod.fabric
 
 import com.cobblemon.mod.common.*
+import com.cobblemon.mod.common.advancement.CobblemonCriteria
 import com.cobblemon.mod.common.api.data.JsonDataRegistry
 import com.cobblemon.mod.common.api.net.serializers.IdentifierDataSerializer
 import com.cobblemon.mod.common.api.net.serializers.PoseTypeDataSerializer
@@ -29,7 +30,6 @@ import com.cobblemon.mod.common.world.predicate.CobblemonBlockPredicates
 import com.cobblemon.mod.common.world.structureprocessors.CobblemonProcessorTypes
 import com.cobblemon.mod.common.world.structureprocessors.CobblemonStructureProcessorListOverrides
 import com.cobblemon.mod.fabric.net.CobblemonFabricNetworkManager
-import com.cobblemon.mod.fabric.net.FabricPacketInfo
 import com.cobblemon.mod.fabric.permission.FabricPermissionValidator
 import com.mojang.brigadier.arguments.ArgumentType
 import net.fabricmc.api.EnvType
@@ -58,8 +58,6 @@ import net.fabricmc.fabric.api.resource.IdentifiableResourceReloadListener
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper
 import net.fabricmc.fabric.api.resource.ResourcePackActivationType
 import net.fabricmc.loader.api.FabricLoader
-import net.minecraft.advancement.criterion.Criteria
-import net.minecraft.advancement.criterion.Criterion
 import net.minecraft.client.MinecraftClient
 import net.minecraft.command.argument.serialize.ArgumentSerializer
 import net.minecraft.item.ItemConvertible
@@ -85,7 +83,6 @@ import java.util.concurrent.CompletableFuture
 import java.util.concurrent.ExecutionException
 import java.util.concurrent.Executor
 import kotlin.reflect.KClass
-import net.minecraft.entity.ai.brain.Activity
 import net.minecraft.entity.data.TrackedDataHandlerRegistry
 
 object CobblemonFabric : CobblemonImplementation {
@@ -272,7 +269,11 @@ object CobblemonFabric : CobblemonImplementation {
 
     override fun <T : GameRules.Rule<T>> registerGameRule(name: String, category: GameRules.Category, type: GameRules.Type<T>): GameRules.Key<T> = GameRuleRegistry.register(name, category, type)
 
-    override fun <T : Criterion<*>> registerCriteria(id: String, criteria: T): T = Criteria.register(id, criteria)
+    override fun registerCriteria() {
+        CobblemonCriteria.register { id, obj ->
+            Registry.register(Registries.CRITERION, id, obj)
+        }
+    }
 
     override fun registerResourceReloader(identifier: Identifier, reloader: ResourceReloader, type: ResourceType, dependencies: Collection<Identifier>) {
         ResourceManagerHelper.get(type).registerReloadListener(CobblemonReloadListener(identifier, reloader, dependencies))

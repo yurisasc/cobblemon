@@ -191,6 +191,7 @@ object Cobblemon {
         implementation.registerWorldGenFeatures()
         implementation.registerParticles()
         implementation.registerEntityDataSerializers()
+        implementation.registerCriteria()
 
         DropEntry.register("command", CommandDropEntry::class.java)
         DropEntry.register("item", ItemDropEntry::class.java, isDefault = true)
@@ -204,7 +205,6 @@ object Cobblemon {
         CobblemonPlacedFeatures.register()
         this.registerArgumentTypes()
 
-        CobblemonCriteria // Init the fields and register the criteria
         CobblemonGameRules // Init fields and register
 
         ShoulderEffectRegistry.register()
