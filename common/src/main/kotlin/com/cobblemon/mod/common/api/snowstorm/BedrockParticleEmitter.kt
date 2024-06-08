@@ -15,7 +15,7 @@ import com.cobblemon.mod.common.util.codec.EXPRESSION_CODEC
 import com.cobblemon.mod.common.util.getString
 import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
-import net.minecraft.network.PacketByteBuf
+import net.minecraft.network.RegistryByteBuf
 
 /**
  * Configuration of the emitter component for a particle effect.
@@ -65,20 +65,20 @@ class BedrockParticleEmitter(
         }
     }
 
-    fun writeToBuffer(buffer: PacketByteBuf) {
+    fun writeToBuffer(buffer: RegistryByteBuf) {
         buffer.writeCollection(startExpressions) { pb, expression -> pb.writeString(expression.getString()) }
         buffer.writeCollection(updateExpressions) { pb, expression -> pb.writeString(expression.getString()) }
         ParticleEmitterRate.writeToBuffer(buffer, rate)
         ParticleEmitterShape.writeToBuffer(buffer, shape)
         ParticleEmitterLifetime.writeToBuffer(buffer, lifetime)
         eventTimeline.encode(buffer)
-        buffer.writeCollection(creationEvents) { pb, event -> event.encode(pb) }
-        buffer.writeCollection(expirationEvents) { pb, event -> event.encode(pb) }
+        buffer.writeCollection(creationEvents) { _, event -> event.encode(buffer) }
+        buffer.writeCollection(expirationEvents) { _, event -> event.encode(buffer) }
         travelDistanceEvents.encode(buffer)
-        buffer.writeCollection(loopingTravelDistanceEvents) { pb, event -> event.encode(pb) }
+        buffer.writeCollection(loopingTravelDistanceEvents) { _, event -> event.encode(buffer) }
     }
 
-    fun readFromBuffer(buffer: PacketByteBuf) {
+    fun readFromBuffer(buffer: RegistryByteBuf) {
         startExpressions = buffer.readList { MoLang.createParser(buffer.readString()).parseExpression() }
         updateExpressions = buffer.readList { MoLang.createParser(buffer.readString()).parseExpression() }
         rate = ParticleEmitterRate.readFromBuffer(buffer)

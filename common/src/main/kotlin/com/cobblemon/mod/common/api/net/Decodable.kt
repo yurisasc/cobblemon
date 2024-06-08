@@ -8,7 +8,7 @@
 
 package com.cobblemon.mod.common.api.net
 
-import io.netty.buffer.ByteBuf
+import net.minecraft.network.RegistryByteBuf
 import net.minecraft.network.PacketByteBuf
 
 interface Decodable {
@@ -18,6 +18,6 @@ interface Decodable {
      *
      * @param buffer The [PacketByteBuf] being read from.
      */
-    fun decode(buffer: ByteBuf)
+    fun decode(buffer: RegistryByteBuf)
 
 }

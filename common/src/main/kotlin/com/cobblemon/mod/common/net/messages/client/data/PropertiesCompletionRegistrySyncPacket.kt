@@ -10,26 +10,21 @@ package com.cobblemon.mod.common.net.messages.client.data
 
 import com.cobblemon.mod.common.pokemon.properties.PropertiesCompletionProvider
 import com.cobblemon.mod.common.util.cobblemonResource
-import com.cobblemon.mod.common.util.readList
-import com.cobblemon.mod.common.util.readString
-import com.cobblemon.mod.common.util.writeCollection
-import com.cobblemon.mod.common.util.writeString
-import io.netty.buffer.ByteBuf
-import net.minecraft.network.PacketByteBuf
+import net.minecraft.network.RegistryByteBuf
 
 internal class PropertiesCompletionRegistrySyncPacket(suggestions: Collection<PropertiesCompletionProvider.SuggestionHolder>) : DataRegistrySyncPacket<PropertiesCompletionProvider.SuggestionHolder, PropertiesCompletionRegistrySyncPacket>(suggestions) {
 
     override val id = ID
 
     override fun encodeEntry(
-        buffer: ByteBuf,
+        buffer: RegistryByteBuf,
         entry: PropertiesCompletionProvider.SuggestionHolder
     ) {
         buffer.writeCollection(entry.keys) { pb, value -> pb.writeString(value) }
         buffer.writeCollection(entry.suggestions) { pb, value -> pb.writeString(value) }
     }
 
-    override fun decodeEntry(buffer: ByteBuf): PropertiesCompletionProvider.SuggestionHolder? {
+    override fun decodeEntry(buffer: RegistryByteBuf): PropertiesCompletionProvider.SuggestionHolder? {
         val keys = buffer.readList { pb -> pb.readString() }
         val suggestions = buffer.readList { pb -> pb.readString() }
         return PropertiesCompletionProvider.SuggestionHolder(keys, suggestions)
@@ -43,7 +38,7 @@ internal class PropertiesCompletionRegistrySyncPacket(suggestions: Collection<Pr
 
     companion object {
         val ID = cobblemonResource("properties_completion_sync")
-        fun decode(buffer: PacketByteBuf): PropertiesCompletionRegistrySyncPacket = PropertiesCompletionRegistrySyncPacket(emptyList()).apply { decodeBuffer(buffer) }
+        fun decode(buffer: RegistryByteBuf): PropertiesCompletionRegistrySyncPacket = PropertiesCompletionRegistrySyncPacket(emptyList()).apply { decodeBuffer(buffer) }
     }
 
 }

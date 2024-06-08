@@ -33,7 +33,6 @@ import net.minecraft.nbt.NbtElement
 import net.minecraft.nbt.NbtList
 import net.minecraft.nbt.NbtString
 import net.minecraft.network.PacketByteBuf
-import net.minecraft.sound.SoundCategory
 
 class ServerEvolutionController(override val pokemon: Pokemon) : EvolutionController<Evolution> {
 

@@ -10,8 +10,7 @@ package com.cobblemon.mod.common.net.messages.client.battle
 
 import com.cobblemon.mod.common.api.net.NetworkPacket
 import com.cobblemon.mod.common.util.cobblemonResource
-import io.netty.buffer.ByteBuf
-import net.minecraft.network.PacketByteBuf
+import net.minecraft.network.RegistryByteBuf
 
 /**
  * Tells the client to process the request that was previously sent via a BattleQueueRequestPacket.
@@ -23,9 +22,9 @@ import net.minecraft.network.PacketByteBuf
  */
 class BattleMakeChoicePacket : NetworkPacket<BattleMakeChoicePacket> {
     override val id = ID
-    override fun encode(buffer: ByteBuf) {}
+    override fun encode(buffer: RegistryByteBuf) {}
     companion object {
         val ID = cobblemonResource("battle_make_choice")
-        fun decode(buffer: PacketByteBuf) = BattleMakeChoicePacket()
+        fun decode(buffer: RegistryByteBuf) = BattleMakeChoicePacket()
     }
 }

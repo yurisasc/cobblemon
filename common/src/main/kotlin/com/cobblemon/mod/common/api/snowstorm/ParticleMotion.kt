@@ -23,7 +23,7 @@ import com.mojang.serialization.Codec
 import com.mojang.serialization.DynamicOps
 import com.mojang.serialization.codecs.PrimitiveCodec
 import com.mojang.serialization.codecs.RecordCodecBuilder
-import net.minecraft.network.PacketByteBuf
+import net.minecraft.network.RegistryByteBuf
 import net.minecraft.util.math.Vec3d
 
 interface ParticleMotion : CodecMapped {
@@ -89,7 +89,7 @@ class DynamicParticleMotion(
 
     override fun <T> encode(ops: DynamicOps<T>) = CODEC.encodeStart(ops, this)
 
-    override fun readFromBuffer(buffer: PacketByteBuf) {
+    override fun readFromBuffer(buffer: RegistryByteBuf) {
         direction = ParticleMotionDirection.readFromBuffer(buffer)
         speed = MoLang.createParser(buffer.readString()).parseExpression()
         acceleration = Triple(
@@ -100,7 +100,7 @@ class DynamicParticleMotion(
         drag = MoLang.createParser(buffer.readString()).parseExpression()
     }
 
-    override fun writeToBuffer(buffer: PacketByteBuf) {
+    override fun writeToBuffer(buffer: RegistryByteBuf) {
         ParticleMotionDirection.writeToBuffer(buffer, direction)
         buffer.writeString(speed.getString())
         buffer.writeString(acceleration.first.getString())
@@ -144,8 +144,8 @@ class InwardsMotionDirection : ParticleMotionDirection {
         }.normalize()
     }
     override fun <T> encode(ops: DynamicOps<T>) = CODEC.encodeStart(ops, this)
-    override fun readFromBuffer(buffer: PacketByteBuf) {}
-    override fun writeToBuffer(buffer: PacketByteBuf) {}
+    override fun readFromBuffer(buffer: RegistryByteBuf) {}
+    override fun writeToBuffer(buffer: RegistryByteBuf) {}
 }
 
 class OutwardsMotionDirection : ParticleMotionDirection {
@@ -166,8 +166,8 @@ class OutwardsMotionDirection : ParticleMotionDirection {
     }
 
     override fun <T> encode(ops: DynamicOps<T>) = CODEC.encodeStart(ops, this)
-    override fun readFromBuffer(buffer: PacketByteBuf) {}
-    override fun writeToBuffer(buffer: PacketByteBuf) {}
+    override fun readFromBuffer(buffer: RegistryByteBuf) {}
+    override fun writeToBuffer(buffer: RegistryByteBuf) {}
 }
 
 class CustomMotionDirection(
@@ -200,7 +200,7 @@ class CustomMotionDirection(
     }
 
     override fun <T> encode(ops: DynamicOps<T>) = CODEC.encodeStart(ops, this)
-    override fun readFromBuffer(buffer: PacketByteBuf) {
+    override fun readFromBuffer(buffer: RegistryByteBuf) {
         direction = Triple(
             MoLang.createParser(buffer.readString()).parseExpression(),
             MoLang.createParser(buffer.readString()).parseExpression(),
@@ -208,7 +208,7 @@ class CustomMotionDirection(
         )
     }
 
-    override fun writeToBuffer(buffer: PacketByteBuf) {
+    override fun writeToBuffer(buffer: RegistryByteBuf) {
         buffer.writeString(direction.first.getString())
         buffer.writeString(direction.second.getString())
         buffer.writeString(direction.third.getString())
@@ -236,6 +236,6 @@ class StaticParticleMotion : ParticleMotion {
     override fun getInitialVelocity(runtime: MoLangRuntime, storm: ParticleStorm, particlePos: Vec3d, emitterPos: Vec3d) = Vec3d.ZERO
     override fun getAcceleration(runtime: MoLangRuntime, velocity: Vec3d) = Vec3d.ZERO
     override fun <T> encode(ops: DynamicOps<T>) = CODEC.encodeStart(ops, this)
-    override fun readFromBuffer(buffer: PacketByteBuf) {}
-    override fun writeToBuffer(buffer: PacketByteBuf) {}
+    override fun readFromBuffer(buffer: RegistryByteBuf) {}
+    override fun writeToBuffer(buffer: RegistryByteBuf) {}
 }

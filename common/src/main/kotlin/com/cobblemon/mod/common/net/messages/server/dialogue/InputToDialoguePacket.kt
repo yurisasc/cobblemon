@@ -14,7 +14,7 @@ import com.cobblemon.mod.common.util.readString
 import com.cobblemon.mod.common.util.readUuid
 import com.cobblemon.mod.common.util.writeString
 import com.cobblemon.mod.common.util.writeUuid
-import io.netty.buffer.ByteBuf
+import net.minecraft.network.RegistryByteBuf
 import java.util.UUID
 
 /**
@@ -27,14 +27,14 @@ import java.util.UUID
 class InputToDialoguePacket(val inputId: UUID, val input: String = ""): NetworkPacket<InputToDialoguePacket> {
     companion object {
         val ID = cobblemonResource("input_to_dialogue")
-        fun decode(buffer: ByteBuf) = InputToDialoguePacket(
+        fun decode(buffer: RegistryByteBuf) = InputToDialoguePacket(
             buffer.readUuid(),
             buffer.readString()
         )
     }
 
     override val id = ID
-    override fun encode(buffer: ByteBuf) {
+    override fun encode(buffer: RegistryByteBuf) {
         buffer.writeUuid(inputId)
         buffer.writeString(input)
     }

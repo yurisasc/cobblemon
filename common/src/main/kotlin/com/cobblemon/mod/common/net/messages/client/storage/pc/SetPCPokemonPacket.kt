@@ -10,18 +10,13 @@ package com.cobblemon.mod.common.net.messages.client.storage.pc
 
 import com.cobblemon.mod.common.api.net.NetworkPacket
 import com.cobblemon.mod.common.api.storage.pc.PCPosition
-import com.cobblemon.mod.common.api.storage.pc.PCPosition.Companion.readPCPosition
-import com.cobblemon.mod.common.api.storage.pc.PCPosition.Companion.writePCPosition
 import com.cobblemon.mod.common.net.messages.PokemonDTO
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.readPCPosition
-import com.cobblemon.mod.common.util.readUuid
 import com.cobblemon.mod.common.util.writePCPosition
-import com.cobblemon.mod.common.util.writeUuid
-import io.netty.buffer.ByteBuf
-import net.minecraft.network.PacketByteBuf
 import java.util.UUID
+import net.minecraft.network.RegistryByteBuf
 
 /**
  * Sets a specific Pokémon in a specific slot of the client-side representation of a PC.
@@ -37,7 +32,7 @@ class SetPCPokemonPacket internal constructor(val storeID: UUID, val storePositi
 
     constructor(storeID: UUID, storePosition: PCPosition, pokemon: Pokemon) : this(storeID, storePosition, PokemonDTO(pokemon, true))
 
-    override fun encode(buffer: ByteBuf) {
+    override fun encode(buffer: RegistryByteBuf) {
         buffer.writeUuid(this.storeID)
         buffer.writePCPosition(this.storePosition)
         this.pokemonDTO.encode(buffer)
@@ -45,7 +40,7 @@ class SetPCPokemonPacket internal constructor(val storeID: UUID, val storePositi
 
     companion object {
         val ID = cobblemonResource("set_pc_pokemon")
-        fun decode(buffer: ByteBuf) = SetPCPokemonPacket(buffer.readUuid(), buffer.readPCPosition(), PokemonDTO().apply { decode(buffer) })
+        fun decode(buffer: RegistryByteBuf) = SetPCPokemonPacket(buffer.readUuid(), buffer.readPCPosition(), PokemonDTO().apply { decode(buffer) })
     }
 
 }

@@ -13,7 +13,7 @@ import com.cobblemon.mod.common.api.pokemon.feature.SpeciesFeatures
 import com.cobblemon.mod.common.api.pokemon.feature.SynchronizedSpeciesFeatureProvider
 import com.cobblemon.mod.common.util.readString
 import com.cobblemon.mod.common.util.writeString
-import io.netty.buffer.ByteBuf
+import net.minecraft.network.RegistryByteBuf
 import net.minecraft.network.PacketByteBuf
 
 /**
@@ -28,7 +28,7 @@ abstract class SpeciesFeatureSyncPacket<T : SpeciesFeatureSyncPacket<T>>(
     speciesFeatureProviders.entries.filterIsInstance<Map.Entry<String, SynchronizedSpeciesFeatureProvider<*>>>().filter { it.value.visible }
 ) {
     override fun encodeEntry(
-        buffer: ByteBuf,
+        buffer: RegistryByteBuf,
         entry: Map.Entry<String, SynchronizedSpeciesFeatureProvider<*>>
     ) {
 
@@ -42,10 +42,10 @@ abstract class SpeciesFeatureSyncPacket<T : SpeciesFeatureSyncPacket<T>>(
         }
         buffer.writeString(entry.key)
         buffer.writeString(typeName)
-        value.encode(buffer)
+        value.saveToBuffer(buffer, toClient = true)
     }
 
-    override fun decodeEntry(buffer: ByteBuf): Map.Entry<String, SynchronizedSpeciesFeatureProvider<*>>? {
+    override fun decodeEntry(buffer: RegistryByteBuf): Map.Entry<String, SynchronizedSpeciesFeatureProvider<*>>? {
         if (!buffer.readBoolean()) {
             return null
         }
@@ -63,7 +63,7 @@ abstract class SpeciesFeatureSyncPacket<T : SpeciesFeatureSyncPacket<T>>(
         if (instance !is SynchronizedSpeciesFeatureProvider) {
             throw IllegalStateException("Somehow a non-SynchronizedSpeciesFeatureProvider was sent to the client. Version mismatch?")
         } else {
-            instance.decode(buffer)
+            instance.loadFromBuffer(buffer)
         }
 
         return object : Map.Entry<String, SynchronizedSpeciesFeatureProvider<*>> {

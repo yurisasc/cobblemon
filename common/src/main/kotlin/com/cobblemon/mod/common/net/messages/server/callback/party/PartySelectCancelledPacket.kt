@@ -10,10 +10,8 @@ package com.cobblemon.mod.common.net.messages.server.callback.party
 
 import com.cobblemon.mod.common.api.net.NetworkPacket
 import com.cobblemon.mod.common.util.cobblemonResource
-import com.cobblemon.mod.common.util.readUuid
-import com.cobblemon.mod.common.util.writeUuid
-import io.netty.buffer.ByteBuf
 import java.util.UUID
+import net.minecraft.network.RegistryByteBuf
 
 /**
  * Packet sent to the server when the player closed the party selection GUI.
@@ -24,11 +22,11 @@ import java.util.UUID
 class PartySelectCancelledPacket(val uuid: UUID) : NetworkPacket<PartySelectCancelledPacket> {
     companion object {
         val ID = cobblemonResource("party_select_cancelled")
-        fun decode(buffer: ByteBuf) = PartySelectCancelledPacket(buffer.readUuid())
+        fun decode(buffer: RegistryByteBuf) = PartySelectCancelledPacket(buffer.readUuid())
     }
 
     override val id = ID
-    override fun encode(buffer: ByteBuf) {
+    override fun encode(buffer: RegistryByteBuf) {
         buffer.writeUuid(uuid)
     }
 }

@@ -10,19 +10,17 @@ package com.cobblemon.mod.common.net.messages.server.battle
 
 import com.cobblemon.mod.common.api.net.NetworkPacket
 import com.cobblemon.mod.common.util.cobblemonResource
-import com.cobblemon.mod.common.util.readUuid
-import com.cobblemon.mod.common.util.writeUuid
-import io.netty.buffer.ByteBuf
 import java.util.UUID
+import net.minecraft.network.RegistryByteBuf
 
 class RemoveSpectatorPacket(val battleId: UUID) : NetworkPacket<RemoveSpectatorPacket> {
     override val id = ID
-    override fun encode(buffer: ByteBuf) {
+    override fun encode(buffer: RegistryByteBuf) {
         buffer.writeUuid(battleId)
     }
 
     companion object {
         val ID = cobblemonResource("remove_spectator")
-        fun decode(buffer: ByteBuf) = RemoveSpectatorPacket(buffer.readUuid())
+        fun decode(buffer: RegistryByteBuf) = RemoveSpectatorPacket(buffer.readUuid())
     }
 }

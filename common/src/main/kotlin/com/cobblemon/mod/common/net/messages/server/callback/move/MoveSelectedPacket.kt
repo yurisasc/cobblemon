@@ -15,7 +15,7 @@ import com.cobblemon.mod.common.util.readSizedInt
 import com.cobblemon.mod.common.util.readUuid
 import com.cobblemon.mod.common.util.writeSizedInt
 import com.cobblemon.mod.common.util.writeUuid
-import io.netty.buffer.ByteBuf
+import net.minecraft.network.RegistryByteBuf
 import java.util.UUID
 
 /**
@@ -27,11 +27,11 @@ import java.util.UUID
 class MoveSelectedPacket(val uuid: UUID, val index: Int) : NetworkPacket<MoveSelectedPacket> {
     companion object {
         val ID = cobblemonResource("move_selected")
-        fun decode(buffer: ByteBuf) = MoveSelectedPacket(buffer.readUuid(), buffer.readSizedInt(IntSize.U_BYTE))
+        fun decode(buffer: RegistryByteBuf) = MoveSelectedPacket(buffer.readUuid(), buffer.readSizedInt(IntSize.U_BYTE))
     }
 
     override val id = ID
-    override fun encode(buffer: ByteBuf) {
+    override fun encode(buffer: RegistryByteBuf) {
         buffer.writeUuid(uuid)
         buffer.writeSizedInt(IntSize.U_BYTE, index)
     }

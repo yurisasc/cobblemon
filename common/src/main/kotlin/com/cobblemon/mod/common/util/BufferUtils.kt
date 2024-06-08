@@ -15,6 +15,11 @@ import io.netty.buffer.ByteBuf
 import io.netty.buffer.ByteBufInputStream
 import io.netty.buffer.ByteBufOutputStream
 import io.netty.handler.codec.EncoderException
+import java.io.IOException
+import java.util.BitSet
+import java.util.EnumSet
+import java.util.UUID
+import kotlin.jvm.optionals.getOrNull
 import net.minecraft.entity.EntityDimensions
 import net.minecraft.item.ItemStack
 import net.minecraft.nbt.NbtElement
@@ -29,11 +34,6 @@ import net.minecraft.text.Text
 import net.minecraft.text.TextCodecs
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.MathHelper
-import java.io.IOException
-import java.util.BitSet
-import java.util.EnumSet
-import java.util.UUID
-import kotlin.jvm.optionals.getOrNull
 
 fun PacketByteBuf.readItemStack(): ItemStack {
     val dataResult = NbtOps.INSTANCE.withDecoder(ItemStack.CODEC).apply(this.readNbt()).result().getOrNull()

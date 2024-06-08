@@ -12,17 +12,17 @@ import com.cobblemon.mod.common.api.net.NetworkPacket
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.readUuid
 import com.cobblemon.mod.common.util.writeUuid
-import io.netty.buffer.ByteBuf
+import net.minecraft.network.RegistryByteBuf
 import java.util.UUID
 
 class SpectateBattlePacket(val targetedEntityId: UUID) : NetworkPacket<SpectateBattlePacket> {
     override val id = ID
-    override fun encode(buffer: ByteBuf) {
+    override fun encode(buffer: RegistryByteBuf) {
         buffer.writeUuid(targetedEntityId)
     }
 
     companion object {
         val ID = cobblemonResource("battle_spectate")
-        fun decode(buffer: ByteBuf) = SpectateBattlePacket(buffer.readUuid())
+        fun decode(buffer: RegistryByteBuf) = SpectateBattlePacket(buffer.readUuid())
     }
 }

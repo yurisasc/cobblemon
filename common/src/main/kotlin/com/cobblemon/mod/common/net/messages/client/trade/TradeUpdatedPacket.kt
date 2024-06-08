@@ -16,7 +16,7 @@ import com.cobblemon.mod.common.util.readNullable
 import com.cobblemon.mod.common.util.readUuid
 import com.cobblemon.mod.common.util.writeNullable
 import com.cobblemon.mod.common.util.writeUuid
-import io.netty.buffer.ByteBuf
+import net.minecraft.network.RegistryByteBuf
 import java.util.UUID
 
 /**
@@ -30,11 +30,11 @@ import java.util.UUID
 class TradeUpdatedPacket(val playerId: UUID, val pokemon: Pokemon?) : NetworkPacket<TradeUpdatedPacket> {
     companion object {
         val ID = cobblemonResource("trade_updated")
-        fun decode(buffer: ByteBuf) = TradeUpdatedPacket(buffer.readUuid(), buffer.readNullable { PokemonDTO().also { it.decode(buffer) }.create() })
+        fun decode(buffer: RegistryByteBuf) = TradeUpdatedPacket(buffer.readUuid(), buffer.readNullable { PokemonDTO().also { it.decode(buffer) }.create() })
     }
 
     override val id = ID
-    override fun encode(buffer: ByteBuf) {
+    override fun encode(buffer: RegistryByteBuf) {
         buffer.writeUuid(playerId)
         buffer.writeNullable(pokemon) { _, pokemon -> PokemonDTO(pokemon, true).encode(buffer) }
     }

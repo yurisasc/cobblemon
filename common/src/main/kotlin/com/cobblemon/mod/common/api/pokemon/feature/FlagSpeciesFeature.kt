@@ -21,7 +21,7 @@ import com.cobblemon.mod.common.util.writeCollection
 import com.cobblemon.mod.common.util.writeNullable
 import com.cobblemon.mod.common.util.writeString
 import com.google.gson.JsonObject
-import io.netty.buffer.ByteBuf
+import net.minecraft.network.RegistryByteBuf
 import kotlin.random.Random
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.network.PacketByteBuf
@@ -62,11 +62,11 @@ open class FlagSpeciesFeature(override val name: String) : SynchronizedSpeciesFe
         return this
     }
 
-    override fun encode(buffer: ByteBuf) {
+    override fun saveToBuffer(buffer: PacketByteBuf, toClient: Boolean) {
         buffer.writeBoolean(enabled)
     }
 
-    override fun decode(buffer: ByteBuf) {
+    override fun loadFromBuffer(buffer: PacketByteBuf) {
         enabled = buffer.readBoolean()
     }
 
@@ -96,21 +96,21 @@ class FlagSpeciesFeatureProvider : SynchronizedSpeciesFeatureProvider<FlagSpecie
     var isAspect = true
     override var visible: Boolean = false
 
-    override fun invoke(buffer: ByteBuf, name: String): FlagSpeciesFeature? {
+    override fun invoke(buffer: PacketByteBuf, name: String): FlagSpeciesFeature? {
         return if (name in keys) {
-            FlagSpeciesFeature(name).also { it.decode(buffer) }
+            FlagSpeciesFeature(name).also { it.loadFromBuffer(buffer) }
         } else {
             null
         }
     }
 
-    override fun encode(buffer: ByteBuf) {
+    override fun saveToBuffer(buffer: PacketByteBuf, toClient: Boolean) {
         buffer.writeCollection(keys) { _, value -> buffer.writeString(value) }
         buffer.writeNullable(default) { _, value -> buffer.writeString(value) }
         buffer.writeBoolean(isAspect)
     }
 
-    override fun decode(buffer: ByteBuf) {
+    override fun loadFromBuffer(buffer: PacketByteBuf) {
         keys = buffer.readList { it.readString() }
         default = buffer.readNullable { it.readString() }
         isAspect = buffer.readBoolean()

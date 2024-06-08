@@ -10,10 +10,8 @@ package com.cobblemon.mod.common.net.messages.client.battle
 
 import com.cobblemon.mod.common.api.net.NetworkPacket
 import com.cobblemon.mod.common.util.cobblemonResource
-import com.cobblemon.mod.common.util.writeUuid
-import io.netty.buffer.ByteBuf
-import net.minecraft.network.PacketByteBuf
 import java.util.UUID
+import net.minecraft.network.RegistryByteBuf
 
 /**
  * Packet fired to tell the client that a battle challenge expired.
@@ -24,11 +22,11 @@ import java.util.UUID
 class BattleChallengeExpiredPacket(val battleChallengeId: UUID) : NetworkPacket<BattleChallengeExpiredPacket> {
     companion object {
         val ID = cobblemonResource("battle_challenge_expired")
-        fun decode(buffer: PacketByteBuf) = BattleChallengeExpiredPacket(buffer.readUuid())
+        fun decode(buffer: RegistryByteBuf) = BattleChallengeExpiredPacket(buffer.readUuid())
     }
 
     override val id = ID
-    override fun encode(buffer: ByteBuf) {
+    override fun encode(buffer: RegistryByteBuf) {
         buffer.writeUuid(battleChallengeId)
     }
 }

@@ -17,7 +17,7 @@ import com.cobblemon.mod.common.util.readIdentifier
 import com.cobblemon.mod.common.util.readString
 import com.cobblemon.mod.common.util.writeIdentifier
 import com.cobblemon.mod.common.util.writeString
-import io.netty.buffer.ByteBuf
+import net.minecraft.network.RegistryByteBuf
 import net.minecraft.network.PacketByteBuf
 
 
@@ -25,17 +25,17 @@ import net.minecraft.network.PacketByteBuf
 class FossilRegistrySyncPacket(fossils: List<Fossil>) : DataRegistrySyncPacket<Fossil, FossilRegistrySyncPacket>(fossils) {
     companion object {
         val ID = cobblemonResource("fossils")
-        fun decode(buffer: PacketByteBuf) = FossilRegistrySyncPacket(emptyList()).apply { decodeBuffer(buffer) }
+        fun decode(buffer: RegistryByteBuf) = FossilRegistrySyncPacket(emptyList()).apply { decodeBuffer(buffer) }
     }
 
 
     override val id = ID
-    override fun encodeEntry(buffer: ByteBuf, entry: Fossil) {
+    override fun encodeEntry(buffer: RegistryByteBuf, entry: Fossil) {
         buffer.writeIdentifier(entry.identifier)
         buffer.writeString(Fossils.gson.toJson(entry.result, PokemonProperties::class.java))
     }
 
-    override fun decodeEntry(buffer: ByteBuf): Fossil {
+    override fun decodeEntry(buffer: RegistryByteBuf): Fossil {
         return Fossil (
                 identifier = buffer.readIdentifier(),
                 result = Fossils.gson.fromJson(buffer.readString(), PokemonProperties::class.java),

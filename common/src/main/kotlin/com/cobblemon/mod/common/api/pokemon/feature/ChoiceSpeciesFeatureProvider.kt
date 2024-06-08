@@ -13,15 +13,8 @@ import com.cobblemon.mod.common.api.pokemon.aspect.AspectProvider
 import com.cobblemon.mod.common.api.properties.CustomPokemonPropertyType
 import com.cobblemon.mod.common.client.gui.summary.featurerenderers.SummarySpeciesFeatureRenderer
 import com.cobblemon.mod.common.pokemon.Pokemon
-import com.cobblemon.mod.common.util.readList
-import com.cobblemon.mod.common.util.readNullable
-import com.cobblemon.mod.common.util.readString
 import com.cobblemon.mod.common.util.substitute
-import com.cobblemon.mod.common.util.writeCollection
-import com.cobblemon.mod.common.util.writeNullable
-import com.cobblemon.mod.common.util.writeString
 import com.google.gson.JsonObject
-import io.netty.buffer.ByteBuf
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.network.PacketByteBuf
 
@@ -43,7 +36,7 @@ open class ChoiceSpeciesFeatureProvider(
     override var visible = false
     fun getAspect(feature: StringSpeciesFeature) = aspectFormat.substitute("choice", feature.value)
 
-    override fun encode(buffer: ByteBuf) {
+    override fun saveToBuffer(buffer: PacketByteBuf, toClient: Boolean) {
         buffer.writeCollection(keys) { _, value -> buffer.writeString(value) }
         buffer.writeNullable(default) { _, value -> buffer.writeString(value) }
         buffer.writeCollection(choices) { _, value -> buffer.writeString(value) }
@@ -52,7 +45,7 @@ open class ChoiceSpeciesFeatureProvider(
         buffer.writeBoolean(needsKey)
     }
 
-    override fun decode(buffer: ByteBuf) {
+    override fun loadFromBuffer(buffer: PacketByteBuf) {
         keys = buffer.readList { buffer.readString() }
         default = buffer.readNullable { buffer.readString() }
         choices = buffer.readList { buffer.readString() }
@@ -65,9 +58,9 @@ open class ChoiceSpeciesFeatureProvider(
         return null
     }
 
-    override fun invoke(buffer: ByteBuf, name: String): StringSpeciesFeature? {
+    override fun invoke(buffer: PacketByteBuf, name: String): StringSpeciesFeature? {
         return if (name in keys) {
-            StringSpeciesFeature(name, "").also { it.decode(buffer) }
+            StringSpeciesFeature(name, "").also { it.loadFromBuffer(buffer) }
         } else {
             null
         }

@@ -12,7 +12,7 @@ import com.cobblemon.mod.common.net.IntSize
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.readSizedInt
-import io.netty.buffer.ByteBuf
+import net.minecraft.network.RegistryByteBuf
 import net.minecraft.network.PacketByteBuf
 
 class FriendshipUpdatePacket(pokemon: () -> Pokemon, value: Int) : IntUpdatePacket<FriendshipUpdatePacket>(pokemon, value) {
@@ -23,6 +23,6 @@ class FriendshipUpdatePacket(pokemon: () -> Pokemon, value: Int) : IntUpdatePack
     }
     companion object {
         val ID = cobblemonResource("friendship_update")
-        fun decode(buffer: ByteBuf) = FriendshipUpdatePacket(decodePokemon(buffer), buffer.readSizedInt(IntSize.U_BYTE))
+        fun decode(buffer: RegistryByteBuf) = FriendshipUpdatePacket(decodePokemon(buffer), buffer.readSizedInt(IntSize.U_BYTE))
     }
 }

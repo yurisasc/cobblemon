@@ -12,10 +12,8 @@ import com.cobblemon.mod.common.api.net.NetworkPacket
 import com.cobblemon.mod.common.api.storage.PokemonStore
 import com.cobblemon.mod.common.api.storage.party.PartyStore
 import com.cobblemon.mod.common.util.cobblemonResource
-import com.cobblemon.mod.common.util.readUuid
-import com.cobblemon.mod.common.util.writeUuid
-import io.netty.buffer.ByteBuf
 import java.util.UUID
+import net.minecraft.network.RegistryByteBuf
 
 /**
  * Removes a Pokémon from a particular store on the client side, working for both parties and PCs.
@@ -31,7 +29,7 @@ class RemoveClientPokemonPacket internal constructor(val storeIsParty: Boolean, 
 
     constructor(store: PokemonStore<*>, pokemonID: UUID): this(store is PartyStore, store.uuid, pokemonID)
 
-    override fun encode(buffer: ByteBuf) {
+    override fun encode(buffer: RegistryByteBuf) {
         buffer.writeBoolean(storeIsParty)
         buffer.writeUuid(storeID)
         buffer.writeUuid(pokemonID)
@@ -39,6 +37,6 @@ class RemoveClientPokemonPacket internal constructor(val storeIsParty: Boolean, 
 
     companion object {
         val ID = cobblemonResource("remove_client_pokemon")
-        fun decode(buffer: ByteBuf) = RemoveClientPokemonPacket(buffer.readBoolean(), buffer.readUuid(), buffer.readUuid())
+        fun decode(buffer: RegistryByteBuf) = RemoveClientPokemonPacket(buffer.readBoolean(), buffer.readUuid(), buffer.readUuid())
     }
 }

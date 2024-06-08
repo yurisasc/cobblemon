@@ -10,17 +10,12 @@ package com.cobblemon.mod.common.net.messages.server.storage.pc
 
 import com.cobblemon.mod.common.api.net.NetworkPacket
 import com.cobblemon.mod.common.api.storage.pc.PCPosition
-import com.cobblemon.mod.common.api.storage.pc.PCPosition.Companion.readPCPosition
-import com.cobblemon.mod.common.api.storage.pc.PCPosition.Companion.writePCPosition
 import com.cobblemon.mod.common.net.serverhandling.storage.party.ReleasePCPokemonHandler
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.readPCPosition
-import com.cobblemon.mod.common.util.readUuid
 import com.cobblemon.mod.common.util.writePCPosition
-import com.cobblemon.mod.common.util.writeUuid
-import io.netty.buffer.ByteBuf
-import net.minecraft.network.PacketByteBuf
 import java.util.UUID
+import net.minecraft.network.RegistryByteBuf
 
 /**
  * Packet sent when the player is releasing one of their Pokémon from their PC.
@@ -32,13 +27,13 @@ import java.util.UUID
  */
 class ReleasePCPokemonPacket(val pokemonID: UUID, val position: PCPosition) : NetworkPacket<ReleasePCPokemonPacket> {
     override val id = ID
-    override fun encode(buffer: ByteBuf) {
+    override fun encode(buffer: RegistryByteBuf) {
         buffer.
         writeUuid(pokemonID)
         buffer.writePCPosition(position)
     }
     companion object {
         val ID = cobblemonResource("release_pc_pokemon")
-        fun decode(buffer: ByteBuf) = ReleasePCPokemonPacket(buffer.readUuid(), buffer.readPCPosition())
+        fun decode(buffer: RegistryByteBuf) = ReleasePCPokemonPacket(buffer.readUuid(), buffer.readPCPosition())
     }
 }

@@ -11,9 +11,7 @@ package com.cobblemon.mod.common.net.messages.client.battle
 import com.cobblemon.mod.common.api.net.NetworkPacket
 import com.cobblemon.mod.common.util.asIdentifierDefaultingNamespace
 import com.cobblemon.mod.common.util.cobblemonResource
-import com.cobblemon.mod.common.util.writeIdentifier
-import io.netty.buffer.ByteBuf
-import net.minecraft.network.PacketByteBuf
+import net.minecraft.network.RegistryByteBuf
 import net.minecraft.registry.Registries
 import net.minecraft.sound.SoundEvent
 
@@ -29,7 +27,7 @@ import net.minecraft.sound.SoundEvent
 class BattleMusicPacket(var music : SoundEvent? = null, var volume: Float = 1.0f, var pitch: Float = 1.0f) : NetworkPacket<BattleMusicPacket> {
     companion object {
         val ID = cobblemonResource("battle_music")
-        fun decode(buffer: PacketByteBuf) =  BattleMusicPacket(
+        fun decode(buffer: RegistryByteBuf) =  BattleMusicPacket(
             music = Registries.SOUND_EVENT.get(buffer.readIdentifier()),
             volume = buffer.readFloat(),
             pitch = buffer.readFloat()
@@ -38,7 +36,7 @@ class BattleMusicPacket(var music : SoundEvent? = null, var volume: Float = 1.0f
 
     override val id = ID
 
-    override fun encode(buffer: ByteBuf) {
+    override fun encode(buffer: RegistryByteBuf) {
         music?.let { buffer.writeIdentifier(it.id) } ?: buffer.writeIdentifier("".asIdentifierDefaultingNamespace())
         buffer.writeFloat(volume)
         buffer.writeFloat(pitch)

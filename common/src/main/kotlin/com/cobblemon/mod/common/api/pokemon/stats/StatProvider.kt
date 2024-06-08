@@ -15,7 +15,7 @@ import com.cobblemon.mod.common.pokemon.IVs
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.pokemon.Species
 import com.cobblemon.mod.common.pokemon.stat.CobblemonStatProvider
-import io.netty.buffer.ByteBuf
+import net.minecraft.network.RegistryByteBuf
 import net.minecraft.network.PacketByteBuf
 import net.minecraft.util.Identifier
 
@@ -122,7 +122,7 @@ interface StatProvider {
      * @param buffer The [ByteBuf].
      * @return The decoded [Stat].
      */
-    fun decode(buffer: ByteBuf): Stat
+    fun decode(buffer: RegistryByteBuf): Stat
 
     /**
      * Encode the given [stat] to the [buffer].
@@ -130,6 +130,6 @@ interface StatProvider {
      * @param buffer The [ByteBuf].
      * @param stat The [Stat] being encoded.
      */
-    fun encode(buffer: ByteBuf, stat: Stat)
+    fun encode(buffer: RegistryByteBuf, stat: Stat)
 
 }

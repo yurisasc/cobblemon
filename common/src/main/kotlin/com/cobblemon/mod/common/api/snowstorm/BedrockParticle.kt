@@ -17,7 +17,7 @@ import com.cobblemon.mod.common.util.getString
 import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.PrimitiveCodec
 import com.mojang.serialization.codecs.RecordCodecBuilder
-import net.minecraft.network.PacketByteBuf
+import net.minecraft.network.RegistryByteBuf
 import net.minecraft.util.Identifier
 
 /**
@@ -147,7 +147,7 @@ class BedrockParticle(
         }
     }
 
-    fun writeToBuffer(buffer: PacketByteBuf) {
+    fun writeToBuffer(buffer: RegistryByteBuf) {
         buffer.writeIdentifier(texture)
         buffer.writeString(material.name)
         ParticleUVMode.writeToBuffer(buffer, uvMode)
@@ -164,12 +164,12 @@ class BedrockParticle(
         ParticleTinting.writeToBuffer(buffer, tinting)
         collision.writeToBuffer(buffer)
         buffer.writeBoolean(environmentLighting)
-        buffer.writeCollection(creationEvents) { pb, event -> event.encode(pb) }
-        buffer.writeCollection(expirationEvents) { pb, event -> event.encode(pb) }
+        buffer.writeCollection(creationEvents) { _, event -> event.encode(buffer) }
+        buffer.writeCollection(expirationEvents) { _, event -> event.encode(buffer) }
         timeline.encode(buffer)
     }
 
-    fun readFromBuffer(buffer: PacketByteBuf) {
+    fun readFromBuffer(buffer: RegistryByteBuf) {
         texture = buffer.readIdentifier()
         material = ParticleMaterial.valueOf(buffer.readString())
         uvMode = ParticleUVMode.readFromBuffer(buffer)

@@ -17,10 +17,11 @@ import com.cobblemon.mod.common.util.readNullable
 import com.cobblemon.mod.common.util.writeIdentifier
 import com.cobblemon.mod.common.util.writeNullable
 import io.netty.buffer.ByteBuf
+import net.minecraft.network.RegistryByteBuf
 
 class StatusUpdatePacket(pokemon: () -> Pokemon, value: PersistentStatus?): SingleUpdatePacket<PersistentStatus?, StatusUpdatePacket>(pokemon, value) {
     override val id = ID
-    override fun encodeValue(buffer: ByteBuf) {
+    override fun encodeValue(buffer: RegistryByteBuf) {
         buffer.writeNullable(this.value) { pb, value -> pb.writeIdentifier(value.name) }
     }
 
@@ -34,7 +35,7 @@ class StatusUpdatePacket(pokemon: () -> Pokemon, value: PersistentStatus?): Sing
 
     companion object {
         val ID = cobblemonResource("status_update")
-        fun decode(buffer: ByteBuf): StatusUpdatePacket {
+        fun decode(buffer: RegistryByteBuf): StatusUpdatePacket {
             val pokemon = decodePokemon(buffer)
             val identifier = buffer.readNullable(ByteBuf::readIdentifier) ?: return StatusUpdatePacket(pokemon, null)
             val status = Statuses.getStatus(identifier) as? PersistentStatus

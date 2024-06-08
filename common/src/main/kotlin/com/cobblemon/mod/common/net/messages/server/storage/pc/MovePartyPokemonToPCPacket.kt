@@ -21,7 +21,7 @@ import com.cobblemon.mod.common.util.writeNullable
 import com.cobblemon.mod.common.util.writePCPosition
 import com.cobblemon.mod.common.util.writePartyPosition
 import com.cobblemon.mod.common.util.writeUuid
-import io.netty.buffer.ByteBuf
+import net.minecraft.network.RegistryByteBuf
 import java.util.UUID
 
 /**
@@ -35,13 +35,13 @@ import java.util.UUID
  */
 class MovePartyPokemonToPCPacket(val pokemonID: UUID, val partyPosition: PartyPosition, val pcPosition: PCPosition?) : NetworkPacket<MovePartyPokemonToPCPacket> {
     override val id = ID
-    override fun encode(buffer: ByteBuf) {
+    override fun encode(buffer: RegistryByteBuf) {
         buffer.writeUuid(pokemonID)
         buffer.writePartyPosition(partyPosition)
         buffer.writeNullable(pcPosition) { pb, value -> pb.writePCPosition(value) }
     }
     companion object {
         val ID = cobblemonResource("move_party_pokemon_to_pc")
-        fun decode(buffer: ByteBuf) = MovePartyPokemonToPCPacket(buffer.readUuid(), buffer.readPartyPosition(), buffer.readNullable { it.readPCPosition() })
+        fun decode(buffer: RegistryByteBuf) = MovePartyPokemonToPCPacket(buffer.readUuid(), buffer.readPartyPosition(), buffer.readNullable { it.readPCPosition() })
     }
 }

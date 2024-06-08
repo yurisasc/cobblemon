@@ -13,7 +13,7 @@ import com.cobblemon.mod.common.client.net.gui.InteractPokemonUIPacketHandler
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.readUuid
 import com.cobblemon.mod.common.util.writeUuid
-import io.netty.buffer.ByteBuf
+import net.minecraft.network.RegistryByteBuf
 import java.util.UUID
 
 /**
@@ -28,13 +28,13 @@ class InteractPokemonUIPacket(val pokemonID: UUID, val canMountShoulder: Boolean
 
     override val id = ID
 
-    override fun encode(buffer: ByteBuf) {
+    override fun encode(buffer: RegistryByteBuf) {
         buffer.writeUuid(pokemonID)
         buffer.writeBoolean(canMountShoulder)
     }
 
     companion object {
         val ID = cobblemonResource("interact_pokemon_ui")
-        fun decode(buffer: ByteBuf) = InteractPokemonUIPacket(buffer.readUuid(), buffer.readBoolean())
+        fun decode(buffer: RegistryByteBuf) = InteractPokemonUIPacket(buffer.readUuid(), buffer.readBoolean())
     }
 }

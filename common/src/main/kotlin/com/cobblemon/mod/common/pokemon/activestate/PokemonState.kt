@@ -11,17 +11,21 @@ package com.cobblemon.mod.common.pokemon.activestate
 import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.pokemon.Pokemon
-import com.cobblemon.mod.common.util.*
+import com.cobblemon.mod.common.util.DataKeys
+import com.cobblemon.mod.common.util.cobblemonResource
+import com.cobblemon.mod.common.util.getPlayer
+import com.cobblemon.mod.common.util.isPokemonEntity
+import com.cobblemon.mod.common.util.party
+import com.cobblemon.mod.common.util.playSoundServer
 import com.google.gson.JsonObject
-import io.netty.buffer.ByteBuf
+import java.util.UUID
 import net.minecraft.nbt.NbtCompound
-import net.minecraft.network.PacketByteBuf
+import net.minecraft.network.RegistryByteBuf
 import net.minecraft.registry.RegistryKey
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.sound.SoundEvents
 import net.minecraft.util.Identifier
 import net.minecraft.world.World
-import java.util.*
 
 sealed class PokemonState {
     companion object {
@@ -31,7 +35,7 @@ sealed class PokemonState {
             "shouldered" to ShoulderedState::class.java
         )
 
-        fun fromBuffer(buffer: ByteBuf): PokemonState {
+        fun fromBuffer(buffer: RegistryByteBuf): PokemonState {
             val type = buffer.readString()
             return states[type]?.newInstance()?.readFromBuffer(buffer) ?: InactivePokemonState()
         }
@@ -50,10 +54,10 @@ sealed class PokemonState {
     open fun readFromNBT(nbt: NbtCompound): PokemonState = this
     open fun writeToJSON(json: JsonObject): JsonObject? = json
     open fun readFromJSON(json: JsonObject): PokemonState = this
-    open fun writeToBuffer(buffer: ByteBuf) {
+    open fun writeToBuffer(buffer: RegistryByteBuf) {
         buffer.writeString(name)
     }
-    open fun readFromBuffer(buffer: ByteBuf): PokemonState = this
+    open fun readFromBuffer(buffer: RegistryByteBuf): PokemonState = this
 }
 class InactivePokemonState : PokemonState() {
     override fun writeToNBT(nbt: NbtCompound) = null
@@ -79,13 +83,13 @@ class SentOutState() : ActivePokemonState() {
     override fun writeToNBT(nbt: NbtCompound) = null
     override fun writeToJSON(json: JsonObject) = null
 
-    override fun writeToBuffer(buffer: ByteBuf) {
+    override fun writeToBuffer(buffer: RegistryByteBuf) {
         super.writeToBuffer(buffer)
         buffer.writeInt(entityId)
         buffer.writeString(dimension.value.toString())
     }
 
-    override fun readFromBuffer(buffer: ByteBuf): SentOutState {
+    override fun readFromBuffer(buffer: RegistryByteBuf): SentOutState {
         super.readFromBuffer(buffer)
         entityId = buffer.readInt()
         dimension = RegistryKey.of(RegistryKey.ofRegistry(dimension.value), Identifier(buffer.readString()))
@@ -155,7 +159,7 @@ class ShoulderedState() : ActivePokemonState() {
         return this
     }
 
-    override fun writeToBuffer(buffer: ByteBuf) {
+    override fun writeToBuffer(buffer: RegistryByteBuf) {
         super.writeToBuffer(buffer)
         buffer.writeBoolean(isLeftShoulder)
         buffer.writeUuid(playerUUID)
@@ -163,7 +167,7 @@ class ShoulderedState() : ActivePokemonState() {
         buffer.writeUuid(pokemonUUID)
     }
 
-    override fun readFromBuffer(buffer: ByteBuf): PokemonState {
+    override fun readFromBuffer(buffer: RegistryByteBuf): PokemonState {
         super.readFromBuffer(buffer)
         isLeftShoulder = buffer.readBoolean()
         playerUUID = buffer.readUuid()

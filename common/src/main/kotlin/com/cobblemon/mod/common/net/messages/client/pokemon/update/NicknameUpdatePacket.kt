@@ -13,14 +13,14 @@ import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.readText
 import com.cobblemon.mod.common.util.writeNullable
 import com.cobblemon.mod.common.util.writeText
-import io.netty.buffer.ByteBuf
+import net.minecraft.network.RegistryByteBuf
 import net.minecraft.network.PacketByteBuf
 import net.minecraft.text.MutableText
 
 class NicknameUpdatePacket(pokemon: () -> Pokemon, value: MutableText?): SingleUpdatePacket<MutableText?, NicknameUpdatePacket>(pokemon, value) {
     override val id = ID
 
-    override fun encodeValue(buffer: ByteBuf) {
+    override fun encodeValue(buffer: RegistryByteBuf) {
         buffer.writeNullable(value) { _, v -> buffer.writeText(value) }
     }
 
@@ -28,7 +28,7 @@ class NicknameUpdatePacket(pokemon: () -> Pokemon, value: MutableText?): SingleU
 
     companion object {
         val ID = cobblemonResource("nickname_update")
-        fun decode(buffer: PacketByteBuf): NicknameUpdatePacket {
+        fun decode(buffer: RegistryByteBuf): NicknameUpdatePacket {
             val pokemon = decodePokemon(buffer)
             val nickname = buffer.readNullable { buffer.readText().copy() }
             return NicknameUpdatePacket(pokemon, nickname)

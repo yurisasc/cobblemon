@@ -11,9 +11,7 @@ package com.cobblemon.mod.common.battles
 import com.cobblemon.mod.common.net.IntSize
 import com.cobblemon.mod.common.util.readSizedInt
 import com.cobblemon.mod.common.util.writeSizedInt
-import com.cobblemon.mod.common.util.writeString
-import io.netty.buffer.ByteBuf
-import net.minecraft.network.PacketByteBuf
+import net.minecraft.network.RegistryByteBuf
 
 /**
  * Rules around how a battle is going to work.
@@ -43,7 +41,7 @@ data class BattleFormat(
             ruleSet = setOf(BattleRules.OBTAINABLE)
         )
 
-        fun loadFromBuffer(buffer: PacketByteBuf): BattleFormat {
+        fun loadFromBuffer(buffer: RegistryByteBuf): BattleFormat {
             val mod = buffer.readString()
             val battleType = BattleType.loadFromBuffer(buffer)
             val ruleSet = mutableSetOf<String>()
@@ -56,7 +54,7 @@ data class BattleFormat(
         }
     }
 
-    fun saveToBuffer(buffer: ByteBuf): ByteBuf {
+    fun saveToBuffer(buffer: RegistryByteBuf): RegistryByteBuf {
         buffer.writeString(mod)
         battleType.saveToBuffer(buffer)
         buffer.writeSizedInt(IntSize.U_BYTE, ruleSet.size)

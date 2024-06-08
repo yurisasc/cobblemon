@@ -21,7 +21,7 @@ import kotlin.math.PI
 import kotlin.math.atan2
 import kotlin.math.pow
 import kotlin.math.sqrt
-import net.minecraft.network.PacketByteBuf
+import net.minecraft.network.RegistryByteBuf
 import net.minecraft.util.math.MathHelper
 import net.minecraft.util.math.RotationAxis
 import net.minecraft.util.math.Vec3d
@@ -95,8 +95,8 @@ class RotateXYZCameraMode : ParticleCameraMode {
     }
 
     override fun <T> encode(ops: DynamicOps<T>) = CODEC.encodeStart(ops, this)
-    override fun readFromBuffer(buffer: PacketByteBuf) {}
-    override fun writeToBuffer(buffer: PacketByteBuf) {}
+    override fun readFromBuffer(buffer: RegistryByteBuf) {}
+    override fun writeToBuffer(buffer: RegistryByteBuf) {}
 }
 
 class RotateYCameraMode : ParticleCameraMode {
@@ -129,8 +129,8 @@ class RotateYCameraMode : ParticleCameraMode {
     }
 
     override fun <T> encode(ops: DynamicOps<T>) = CODEC.encodeStart(ops, this)
-    override fun readFromBuffer(buffer: PacketByteBuf) {}
-    override fun writeToBuffer(buffer: PacketByteBuf) {}
+    override fun readFromBuffer(buffer: RegistryByteBuf) {}
+    override fun writeToBuffer(buffer: RegistryByteBuf) {}
 }
 
 class LookAtXYZ : ParticleCameraMode {
@@ -144,8 +144,8 @@ class LookAtXYZ : ParticleCameraMode {
 
     override val type = ParticleCameraModeType.LOOK_AT_XYZ
     override fun <T> encode(ops: DynamicOps<T>) = CODEC.encodeStart(ops, this)
-    override fun readFromBuffer(buffer: PacketByteBuf) {}
-    override fun writeToBuffer(buffer: PacketByteBuf) {}
+    override fun readFromBuffer(buffer: RegistryByteBuf) {}
+    override fun writeToBuffer(buffer: RegistryByteBuf) {}
 
     override fun getRotation(
         matrixWrapper: MatrixWrapper,
@@ -196,8 +196,8 @@ class LookAtY : ParticleCameraMode {
     }
 
     override fun <T> encode(ops: DynamicOps<T>) = CODEC.encodeStart(ops, this)
-    override fun readFromBuffer(buffer: PacketByteBuf) {}
-    override fun writeToBuffer(buffer: PacketByteBuf) {}
+    override fun readFromBuffer(buffer: RegistryByteBuf) {}
+    override fun writeToBuffer(buffer: RegistryByteBuf) {}
 }
 class DirectionZ : ParticleCameraMode {
     override val type: ParticleCameraModeType = ParticleCameraModeType.DIRECTION_Z
@@ -230,8 +230,8 @@ class DirectionZ : ParticleCameraMode {
     }
 
     override fun <T> encode(ops: DynamicOps<T>) = CODEC.encodeStart(ops, this)
-    override fun readFromBuffer(buffer: PacketByteBuf) {}
-    override fun writeToBuffer(buffer: PacketByteBuf) {}
+    override fun readFromBuffer(buffer: RegistryByteBuf) {}
+    override fun writeToBuffer(buffer: RegistryByteBuf) {}
 }
 
 class EmitterYZPlane : ParticleCameraMode {
@@ -269,8 +269,8 @@ class EmitterYZPlane : ParticleCameraMode {
     }
 
     override fun <T> encode(ops: DynamicOps<T>) = CODEC.encodeStart(ops, this)
-    override fun readFromBuffer(buffer: PacketByteBuf) {}
-    override fun writeToBuffer(buffer: PacketByteBuf) {}
+    override fun readFromBuffer(buffer: RegistryByteBuf) {}
+    override fun writeToBuffer(buffer: RegistryByteBuf) {}
 
 }
 
@@ -308,8 +308,8 @@ class EmitterXZPlane : ParticleCameraMode {
     }
 
     override fun <T> encode(ops: DynamicOps<T>) = CODEC.encodeStart(ops, this)
-    override fun readFromBuffer(buffer: PacketByteBuf) {}
-    override fun writeToBuffer(buffer: PacketByteBuf) {}
+    override fun readFromBuffer(buffer: RegistryByteBuf) {}
+    override fun writeToBuffer(buffer: RegistryByteBuf) {}
 
 }
 
@@ -347,8 +347,8 @@ class EmitterXYPlane : ParticleCameraMode {
     }
 
     override fun <T> encode(ops: DynamicOps<T>) = CODEC.encodeStart(ops, this)
-    override fun readFromBuffer(buffer: PacketByteBuf) {}
-    override fun writeToBuffer(buffer: PacketByteBuf) {}
+    override fun readFromBuffer(buffer: RegistryByteBuf) {}
+    override fun writeToBuffer(buffer: RegistryByteBuf) {}
 
 }
 class DirectionY : ParticleCameraMode {
@@ -382,8 +382,8 @@ class DirectionY : ParticleCameraMode {
     }
 
     override fun <T> encode(ops: DynamicOps<T>) = CODEC.encodeStart(ops, this)
-    override fun readFromBuffer(buffer: PacketByteBuf) {}
-    override fun writeToBuffer(buffer: PacketByteBuf) {}
+    override fun readFromBuffer(buffer: RegistryByteBuf) {}
+    override fun writeToBuffer(buffer: RegistryByteBuf) {}
 }
 
 class DirectionX : ParticleCameraMode {
@@ -417,8 +417,8 @@ class DirectionX : ParticleCameraMode {
     }
 
     override fun <T> encode(ops: DynamicOps<T>) = CODEC.encodeStart(ops, this)
-    override fun readFromBuffer(buffer: PacketByteBuf) {}
-    override fun writeToBuffer(buffer: PacketByteBuf) {}
+    override fun readFromBuffer(buffer: RegistryByteBuf) {}
+    override fun writeToBuffer(buffer: RegistryByteBuf) {}
 }
 
 /**
@@ -502,8 +502,8 @@ class LookAtDirection : ParticleCameraMode {
     }
 
     override fun <T> encode(ops: DynamicOps<T>) = CODEC.encodeStart(ops, this)
-    override fun readFromBuffer(buffer: PacketByteBuf) {}
-    override fun writeToBuffer(buffer: PacketByteBuf) {}
+    override fun readFromBuffer(buffer: RegistryByteBuf) {}
+    override fun writeToBuffer(buffer: RegistryByteBuf) {}
 }
 enum class ParticleCameraModeType {
     ROTATE_XYZ,

@@ -17,7 +17,7 @@ import com.cobblemon.mod.common.util.writeSizedInt
 import com.cobblemon.mod.common.util.writeString
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
-import io.netty.buffer.ByteBuf
+import net.minecraft.network.RegistryByteBuf
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.nbt.NbtList
 
@@ -62,7 +62,7 @@ class BenchedMoves : Iterable<BenchedMove> {
         return json
     }
 
-    fun saveToBuffer(buffer: ByteBuf) {
+    fun saveToBuffer(buffer: RegistryByteBuf) {
         buffer.writeShort(benchedMoves.size)
         benchedMoves.forEach { it.saveToBuffer(buffer) }
     }
@@ -84,7 +84,7 @@ class BenchedMoves : Iterable<BenchedMove> {
         return this
     }
 
-    fun loadFromBuffer(buffer: ByteBuf): BenchedMoves {
+    fun loadFromBuffer(buffer: RegistryByteBuf): BenchedMoves {
         doThenEmit {
             clear()
             repeat(times = buffer.readShort().toInt()) {
@@ -108,7 +108,7 @@ data class BenchedMove(val moveTemplate: MoveTemplate, val ppRaisedStages: Int) 
         return json
     }
 
-    fun saveToBuffer(buffer: ByteBuf) {
+    fun saveToBuffer(buffer: RegistryByteBuf) {
         buffer.writeString(moveTemplate.name)
         buffer.writeSizedInt(IntSize.U_BYTE, ppRaisedStages)
     }
@@ -130,7 +130,7 @@ data class BenchedMove(val moveTemplate: MoveTemplate, val ppRaisedStages: Int) 
             )
         }
 
-        fun loadFromBuffer(buffer: ByteBuf): BenchedMove {
+        fun loadFromBuffer(buffer: RegistryByteBuf): BenchedMove {
             val name = buffer.readString()
             return BenchedMove(
                 Moves.getByName(name) ?: MoveTemplate.dummy(name),

@@ -11,10 +11,8 @@ package com.cobblemon.mod.common.net.messages.client.storage.party
 import com.cobblemon.mod.common.api.net.NetworkPacket
 import com.cobblemon.mod.common.api.storage.PokemonStore
 import com.cobblemon.mod.common.util.cobblemonResource
-import com.cobblemon.mod.common.util.readUuid
-import com.cobblemon.mod.common.util.writeUuid
-import io.netty.buffer.ByteBuf
 import java.util.UUID
+import net.minecraft.network.RegistryByteBuf
 
 /**
  * Sets the given party store as the player's active party. This will change what the overlay
@@ -29,11 +27,11 @@ import java.util.UUID
  */
 class SetPartyReferencePacket(val storeID: UUID) : NetworkPacket<SetPartyReferencePacket> {
     override val id = ID
-    override fun encode(buffer: ByteBuf) {
+    override fun encode(buffer: RegistryByteBuf) {
         buffer.writeUuid(this.storeID)
     }
     companion object {
         val ID = cobblemonResource("set_party_reference")
-        fun decode(buffer: ByteBuf) = SetPartyReferencePacket(buffer.readUuid())
+        fun decode(buffer: RegistryByteBuf) = SetPartyReferencePacket(buffer.readUuid())
     }
 }

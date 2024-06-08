@@ -15,9 +15,9 @@ import com.cobblemon.mod.common.pokemon.Gender
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.pokemon.RenderablePokemon
 import com.cobblemon.mod.common.util.*
-import io.netty.buffer.ByteBuf
 import java.util.UUID
 import net.minecraft.item.ItemStack
+import net.minecraft.network.RegistryByteBuf
 import net.minecraft.text.MutableText
 import net.minecraft.util.Identifier
 
@@ -44,7 +44,7 @@ class TradeStartedPacket(
         val tradeable: Boolean
     ) {
         companion object {
-            fun decode(buffer: ByteBuf) = TradeablePokemon(
+            fun decode(buffer: RegistryByteBuf) = TradeablePokemon(
                 buffer.readUuid(),
                 buffer.readIdentifier(),
                 buffer.readList { it.readString() }.toSet(),
@@ -65,7 +65,7 @@ class TradeStartedPacket(
             pokemon.tradeable
         )
 
-        fun encode(buffer: ByteBuf) {
+        fun encode(buffer: RegistryByteBuf) {
             buffer.writeUuid(pokemonId)
             buffer.writeIdentifier(species)
             buffer.writeCollection(aspects) { _, v -> buffer.writeString(v) }
@@ -83,7 +83,7 @@ class TradeStartedPacket(
 
     companion object {
         val ID = cobblemonResource("trade_started")
-        fun decode(buffer: ByteBuf) = TradeStartedPacket(
+        fun decode(buffer: RegistryByteBuf) = TradeStartedPacket(
             buffer.readUuid(),
             buffer.readText().copy(),
             buffer.readList { buffer.readNullable { TradeablePokemon.decode(buffer) } }
@@ -91,7 +91,7 @@ class TradeStartedPacket(
     }
 
     override val id = ID
-    override fun encode(buffer: ByteBuf) {
+    override fun encode(buffer: RegistryByteBuf) {
         buffer.writeUuid(traderId)
         buffer.writeText(traderName)
         buffer.writeCollection(traderParty) { _, v -> buffer.writeNullable(v) { _, v2 -> v2.encode(buffer) } }

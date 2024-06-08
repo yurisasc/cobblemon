@@ -13,8 +13,9 @@ import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.util.readString
 import com.cobblemon.mod.common.util.writeString
 import com.google.gson.JsonObject
-import io.netty.buffer.ByteBuf
+import net.minecraft.network.RegistryByteBuf
 import net.minecraft.nbt.NbtCompound
+import net.minecraft.network.PacketByteBuf
 
 /**
  * A species feature value that is a string value.
@@ -46,11 +47,11 @@ class StringSpeciesFeature(
         return this
     }
 
-    override fun encode(buffer: ByteBuf) {
+    override fun saveToBuffer(buffer: PacketByteBuf, toClient: Boolean) {
         buffer.writeString(value)
     }
 
-    override fun decode(buffer: ByteBuf) {
+    override fun loadFromBuffer(buffer: PacketByteBuf) {
         value = buffer.readString()
     }
 

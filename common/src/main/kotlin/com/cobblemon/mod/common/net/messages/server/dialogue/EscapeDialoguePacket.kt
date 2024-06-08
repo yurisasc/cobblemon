@@ -10,7 +10,7 @@ package com.cobblemon.mod.common.net.messages.server.dialogue
 
 import com.cobblemon.mod.common.api.net.NetworkPacket
 import com.cobblemon.mod.common.util.cobblemonResource
-import io.netty.buffer.ByteBuf
+import net.minecraft.network.RegistryByteBuf
 import net.minecraft.network.PacketByteBuf
 
 /**
@@ -22,9 +22,9 @@ import net.minecraft.network.PacketByteBuf
 class EscapeDialoguePacket : NetworkPacket<EscapeDialoguePacket> {
     companion object {
         val ID = cobblemonResource("escape_dialogue")
-        fun decode(buffer: PacketByteBuf) = EscapeDialoguePacket()
+        fun decode(buffer: RegistryByteBuf) = EscapeDialoguePacket()
     }
 
     override val id = ID
-    override fun encode(buffer: ByteBuf) {}
+    override fun encode(buffer: RegistryByteBuf) {}
 }

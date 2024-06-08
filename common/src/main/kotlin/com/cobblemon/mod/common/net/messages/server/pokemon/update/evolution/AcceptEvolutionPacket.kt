@@ -12,13 +12,8 @@ import com.cobblemon.mod.common.api.net.NetworkPacket
 import com.cobblemon.mod.common.api.pokemon.evolution.EvolutionDisplay
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.util.cobblemonResource
-import com.cobblemon.mod.common.util.readString
-import com.cobblemon.mod.common.util.readUuid
-import com.cobblemon.mod.common.util.writeString
-import com.cobblemon.mod.common.util.writeUuid
-import io.netty.buffer.ByteBuf
-import net.minecraft.network.PacketByteBuf
 import java.util.UUID
+import net.minecraft.network.RegistryByteBuf
 
 class AcceptEvolutionPacket(val pokemonUUID: UUID, val evolutionId: String) : NetworkPacket<AcceptEvolutionPacket> {
 
@@ -26,13 +21,13 @@ class AcceptEvolutionPacket(val pokemonUUID: UUID, val evolutionId: String) : Ne
 
     override val id = ID
 
-    override fun encode(buffer: ByteBuf) {
+    override fun encode(buffer: RegistryByteBuf) {
         buffer.writeUuid(this.pokemonUUID)
         buffer.writeString(this.evolutionId)
     }
 
     companion object {
         val ID = cobblemonResource("accept_evolution")
-        fun decode(buffer: ByteBuf) = AcceptEvolutionPacket(buffer.readUuid(), buffer.readString())
+        fun decode(buffer: RegistryByteBuf) = AcceptEvolutionPacket(buffer.readUuid(), buffer.readString())
     }
 }

@@ -12,13 +12,8 @@ import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.api.net.NetworkPacket
 import com.cobblemon.mod.common.api.storage.player.PlayerData
 import com.cobblemon.mod.common.util.cobblemonResource
-import com.cobblemon.mod.common.util.readNullable
-import com.cobblemon.mod.common.util.readUuid
-import com.cobblemon.mod.common.util.writeNullable
-import com.cobblemon.mod.common.util.writeUuid
-import io.netty.buffer.ByteBuf
-import net.minecraft.network.PacketByteBuf
 import java.util.UUID
+import net.minecraft.network.RegistryByteBuf
 
 /**
  * Packet to update the general player data on the client (which is just starter information).
@@ -41,7 +36,7 @@ class SetClientPlayerDataPacket(val promptStarter: Boolean, val starterLocked: B
         resetStarterPrompt
     )
 
-    override fun encode(buffer: ByteBuf) {
+    override fun encode(buffer: RegistryByteBuf) {
         buffer.writeBoolean(promptStarter)
         buffer.writeBoolean(starterLocked)
         buffer.writeBoolean(starterSelected)
@@ -53,7 +48,7 @@ class SetClientPlayerDataPacket(val promptStarter: Boolean, val starterLocked: B
 
     companion object {
         val ID = cobblemonResource("set_client_playerdata")
-        fun decode(buffer: ByteBuf): SetClientPlayerDataPacket {
+        fun decode(buffer: RegistryByteBuf): SetClientPlayerDataPacket {
             val promptStarter = buffer.readBoolean()
             val starterLocked = buffer.readBoolean()
             val starterSelected = buffer.readBoolean()

@@ -10,24 +10,15 @@ package com.cobblemon.mod.common.net.messages.server.storage.pc
 
 import com.cobblemon.mod.common.api.net.NetworkPacket
 import com.cobblemon.mod.common.api.storage.party.PartyPosition
-import com.cobblemon.mod.common.api.storage.party.PartyPosition.Companion.readPartyPosition
-import com.cobblemon.mod.common.api.storage.party.PartyPosition.Companion.writePartyPosition
 import com.cobblemon.mod.common.api.storage.pc.PCPosition
-import com.cobblemon.mod.common.api.storage.pc.PCPosition.Companion.readPCPosition
-import com.cobblemon.mod.common.api.storage.pc.PCPosition.Companion.writePCPosition
 import com.cobblemon.mod.common.net.serverhandling.storage.pc.MovePCPokemonToPartyHandler
 import com.cobblemon.mod.common.util.cobblemonResource
-import com.cobblemon.mod.common.util.readNullable
 import com.cobblemon.mod.common.util.readPCPosition
 import com.cobblemon.mod.common.util.readPartyPosition
-import com.cobblemon.mod.common.util.readUuid
-import com.cobblemon.mod.common.util.writeNullable
 import com.cobblemon.mod.common.util.writePCPosition
 import com.cobblemon.mod.common.util.writePartyPosition
-import com.cobblemon.mod.common.util.writeUuid
-import io.netty.buffer.ByteBuf
-import net.minecraft.network.PacketByteBuf
 import java.util.UUID
+import net.minecraft.network.RegistryByteBuf
 
 /**
  * Tells the server to move a Pokémon from a player's linked PC to their party. If the party position is
@@ -40,13 +31,13 @@ import java.util.UUID
  */
 class MovePCPokemonToPartyPacket(val pokemonID: UUID, val pcPosition: PCPosition, val partyPosition: PartyPosition?) : NetworkPacket<MovePCPokemonToPartyPacket> {
     override val id = ID
-    override fun encode(buffer: ByteBuf) {
+    override fun encode(buffer: RegistryByteBuf) {
         buffer.writeUuid(pokemonID)
         buffer.writePCPosition(pcPosition)
         buffer.writeNullable(partyPosition) { pb, value -> pb.writePartyPosition(value) }
     }
     companion object {
         val ID = cobblemonResource("move_pc_pokemon_to_party")
-        fun decode(buffer: ByteBuf) = MovePCPokemonToPartyPacket(buffer.readUuid(), buffer.readPCPosition(), buffer.readNullable { it.readPartyPosition() })
+        fun decode(buffer: RegistryByteBuf) = MovePCPokemonToPartyPacket(buffer.readUuid(), buffer.readPCPosition(), buffer.readNullable { it.readPartyPosition() })
     }
 }

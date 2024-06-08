@@ -15,7 +15,7 @@ import com.cobblemon.mod.common.util.readString
 import com.cobblemon.mod.common.util.writeEnumConstant
 import com.cobblemon.mod.common.util.writeSizedInt
 import com.cobblemon.mod.common.util.writeString
-import io.netty.buffer.ByteBuf
+import net.minecraft.network.RegistryByteBuf
 
 class InBattleMove {
     lateinit var id: String
@@ -27,7 +27,7 @@ class InBattleMove {
     var gimmickMove: InBattleGimmickMove? = null
 
     companion object {
-        fun loadFromBuffer(buffer: ByteBuf): InBattleMove {
+        fun loadFromBuffer(buffer: RegistryByteBuf): InBattleMove {
             return InBattleMove().apply {
                 id = buffer.readString()
                 move = buffer.readString()
@@ -42,7 +42,7 @@ class InBattleMove {
     fun getTargets(user: ActiveBattlePokemon) = target.targetList(user)
     fun canBeUsed() = (pp > 0 && !disabled) || mustBeUsed() // Second case is like Thrash, forced choice
     fun mustBeUsed() = maxpp == 100 && pp == 100 && target == MoveTarget.self
-    fun saveToBuffer(buffer: ByteBuf) {
+    fun saveToBuffer(buffer: RegistryByteBuf) {
         buffer.writeString(id)
         buffer.writeString(move)
         buffer.writeSizedInt(IntSize.U_BYTE, pp)
@@ -59,7 +59,7 @@ class InBattleGimmickMove {
     var disabled: Boolean = false
 
     companion object {
-        fun loadFromBuffer(buffer: ByteBuf): InBattleGimmickMove {
+        fun loadFromBuffer(buffer: RegistryByteBuf): InBattleGimmickMove {
             return InBattleGimmickMove().apply {
                 move = buffer.readString()
                 target = buffer.readEnumConstant(MoveTarget::class.java)
@@ -68,7 +68,7 @@ class InBattleGimmickMove {
         }
     }
 
-    fun saveToBuffer(buffer: ByteBuf) {
+    fun saveToBuffer(buffer: RegistryByteBuf) {
         buffer.writeString(move)
         buffer.writeEnumConstant(target)
         buffer.writeBoolean(disabled)

@@ -17,12 +17,12 @@ import net.minecraft.network.RegistryByteBuf
 import net.minecraft.network.codec.PacketCodec
 
 object StringSetDataSerializer : TrackedDataHandler<Set<String>> {
-    fun write(buffer: PacketByteBuf, set: Set<String>) {
+    fun write(buffer: RegistryByteBuf, set: Set<String>) {
         buffer.writeSizedInt(IntSize.U_BYTE, set.size)
         set.forEach(buffer::writeString)
     }
 
-    fun read(buffer: PacketByteBuf): Set<String> {
+    fun read(buffer: RegistryByteBuf): Set<String> {
         val set = mutableSetOf<String>()
         repeat(times = buffer.readSizedInt(IntSize.U_BYTE)) {
             set.add(buffer.readString())

@@ -12,9 +12,7 @@ import com.cobblemon.mod.common.api.net.NetworkPacket
 import com.cobblemon.mod.common.net.messages.PokemonDTO
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.util.cobblemonResource
-import com.cobblemon.mod.common.util.writeCollection
-import io.netty.buffer.ByteBuf
-import net.minecraft.network.PacketByteBuf
+import net.minecraft.network.RegistryByteBuf
 
 
 /**
@@ -32,11 +30,11 @@ class BattleSetTeamPokemonPacket(val team: List<PokemonDTO>) : NetworkPacket<Bat
 
     constructor(team: Collection<Pokemon>) : this(team.map { PokemonDTO(it, true) })
 
-    override fun encode(buffer: ByteBuf) {
-        buffer.writeCollection(this.team) { pb, value -> value.encode(pb) }
+    override fun encode(buffer: RegistryByteBuf) {
+        buffer.writeCollection(this.team) { _, value -> value.encode(buffer) }
     }
     companion object {
         val ID = cobblemonResource("battle_set_team")
-        fun decode(buffer: PacketByteBuf) = BattleSetTeamPokemonPacket(buffer.readList { PokemonDTO().apply { decode(it) } })
+        fun decode(buffer: RegistryByteBuf) = BattleSetTeamPokemonPacket(buffer.readList { PokemonDTO().apply { decode(buffer) } })
     }
 }

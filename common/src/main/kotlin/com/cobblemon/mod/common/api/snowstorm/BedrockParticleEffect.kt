@@ -13,6 +13,7 @@ import com.mojang.serialization.codecs.PrimitiveCodec
 import com.mojang.serialization.codecs.RecordCodecBuilder
 import com.mojang.serialization.codecs.UnboundedMapCodec
 import net.minecraft.network.PacketByteBuf
+import net.minecraft.network.RegistryByteBuf
 import net.minecraft.util.Identifier
 
 /**
@@ -53,7 +54,7 @@ class BedrockParticleEffect(
         }
     }
 
-    fun writeToBuffer(buffer: PacketByteBuf) {
+    fun writeToBuffer(buffer: RegistryByteBuf) {
         buffer.writeIdentifier(id)
         emitter.writeToBuffer(buffer)
         particle.writeToBuffer(buffer)
@@ -62,7 +63,7 @@ class BedrockParticleEffect(
         buffer.writeMap(events, { _, v -> buffer.writeString(v) }) { _, event -> event.encode(buffer) }
     }
 
-    fun readFromBuffer(buffer: PacketByteBuf) {
+    fun readFromBuffer(buffer: RegistryByteBuf) {
         id = buffer.readIdentifier()
         emitter.readFromBuffer(buffer)
         particle.readFromBuffer(buffer)

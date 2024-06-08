@@ -15,13 +15,13 @@ import net.minecraft.network.codec.PacketCodec
 import net.minecraft.util.math.Vec3d
 
 object Vec3DataSerializer : TrackedDataHandler<Vec3d> {
-    fun write(buffer: PacketByteBuf, vec: Vec3d) {
+    fun write(buffer: RegistryByteBuf, vec: Vec3d) {
         buffer.writeDouble(vec.x)
         buffer.writeDouble(vec.y)
         buffer.writeDouble(vec.z)
     }
 
-    fun read(buffer: PacketByteBuf) = Vec3d(
+    fun read(buffer: RegistryByteBuf) = Vec3d(
         buffer.readDouble(),
         buffer.readDouble(),
         buffer.readDouble()

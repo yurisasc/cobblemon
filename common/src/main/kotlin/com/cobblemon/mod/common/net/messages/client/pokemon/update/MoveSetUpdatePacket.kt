@@ -11,11 +11,11 @@ package com.cobblemon.mod.common.net.messages.client.pokemon.update
 import com.cobblemon.mod.common.api.moves.MoveSet
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.util.cobblemonResource
-import io.netty.buffer.ByteBuf
+import net.minecraft.network.RegistryByteBuf
 
 class MoveSetUpdatePacket(pokemon: () -> Pokemon, value: MoveSet) : SingleUpdatePacket<MoveSet, MoveSetUpdatePacket>(pokemon, value) {
     override val id = ID
-    override fun encodeValue(buffer: ByteBuf) {
+    override fun encodeValue(buffer: RegistryByteBuf) {
         this.value.saveToBuffer(buffer)
     }
 
@@ -24,6 +24,6 @@ class MoveSetUpdatePacket(pokemon: () -> Pokemon, value: MoveSet) : SingleUpdate
     }
     companion object {
         val ID = cobblemonResource("moveset_update")
-        fun decode(buffer: ByteBuf) = MoveSetUpdatePacket(decodePokemon(buffer), MoveSet().apply { loadFromBuffer(buffer) })
+        fun decode(buffer: RegistryByteBuf) = MoveSetUpdatePacket(decodePokemon(buffer), MoveSet().apply { loadFromBuffer(buffer) })
     }
 }

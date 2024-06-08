@@ -12,7 +12,7 @@ import com.cobblemon.mod.common.api.net.NetworkPacket
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.readUuid
 import com.cobblemon.mod.common.util.writeUuid
-import io.netty.buffer.ByteBuf
+import net.minecraft.network.RegistryByteBuf
 import net.minecraft.network.PacketByteBuf
 import java.util.UUID
 
@@ -27,12 +27,12 @@ import java.util.UUID
 class TradeCompletedPacket(val pokemonId1: UUID, val pokemonId2: UUID) : NetworkPacket<TradeCompletedPacket> {
     companion object {
         val ID = cobblemonResource("trade_completed")
-        fun decode(buffer: ByteBuf) = TradeCompletedPacket(buffer.readUuid(), buffer.readUuid())
+        fun decode(buffer: RegistryByteBuf) = TradeCompletedPacket(buffer.readUuid(), buffer.readUuid())
     }
 
     override val id = ID
 
-    override fun encode(buffer: ByteBuf) {
+    override fun encode(buffer: RegistryByteBuf) {
         buffer.writeUuid(pokemonId1)
         buffer.writeUuid(pokemonId2)
     }

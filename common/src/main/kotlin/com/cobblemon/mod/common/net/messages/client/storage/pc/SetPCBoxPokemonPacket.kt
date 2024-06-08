@@ -15,12 +15,10 @@ import com.cobblemon.mod.common.net.messages.PokemonDTO
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.readMapK
 import com.cobblemon.mod.common.util.readSizedInt
-import com.cobblemon.mod.common.util.readUuid
 import com.cobblemon.mod.common.util.writeMapK
 import com.cobblemon.mod.common.util.writeSizedInt
-import com.cobblemon.mod.common.util.writeUuid
-import io.netty.buffer.ByteBuf
 import java.util.UUID
+import net.minecraft.network.RegistryByteBuf
 
 /**
  * Sets an entire box of Pokémon in the client side representation of a PC. This is used
@@ -38,7 +36,7 @@ class SetPCBoxPokemonPacket internal constructor(val storeID: UUID, val boxNumbe
 
     constructor(box: PCBox): this(box.pc.uuid, box.boxNumber, box.getNonEmptySlots().map { it.key to PokemonDTO(it.value, toClient = true) }.toMap())
 
-    override fun encode(buffer: ByteBuf) {
+    override fun encode(buffer: RegistryByteBuf) {
         buffer.writeUuid(storeID)
         buffer.writeSizedInt(IntSize.U_BYTE, boxNumber)
         buffer.writeMapK(map = pokemon) { (slot, pokemon) ->
@@ -49,7 +47,7 @@ class SetPCBoxPokemonPacket internal constructor(val storeID: UUID, val boxNumbe
 
     companion object {
         val ID = cobblemonResource("set_pc_box")
-        fun decode(buffer: ByteBuf): SetPCBoxPokemonPacket {
+        fun decode(buffer: RegistryByteBuf): SetPCBoxPokemonPacket {
             val storeID = buffer.readUuid()
             val boxNumber = buffer.readSizedInt(IntSize.U_BYTE)
             val pokemonMap = mutableMapOf<Int, PokemonDTO>()

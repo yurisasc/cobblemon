@@ -14,7 +14,7 @@ import com.cobblemon.mod.common.util.readNullable
 import com.cobblemon.mod.common.util.readUuid
 import com.cobblemon.mod.common.util.writeNullable
 import com.cobblemon.mod.common.util.writeUuid
-import io.netty.buffer.ByteBuf
+import net.minecraft.network.RegistryByteBuf
 import net.minecraft.network.PacketByteBuf
 import java.util.UUID
 
@@ -28,7 +28,7 @@ class TetheringUpdatePacket(pokemon: () -> Pokemon, tetheringId: UUID?) : Single
 
     override val id = ID
 
-    override fun encodeValue(buffer: ByteBuf) {
+    override fun encodeValue(buffer: RegistryByteBuf) {
         buffer.writeNullable(this.value) { _, v -> buffer.writeUuid(v) }
     }
 
@@ -38,7 +38,7 @@ class TetheringUpdatePacket(pokemon: () -> Pokemon, tetheringId: UUID?) : Single
 
     companion object {
         val ID = cobblemonResource("tethering_update")
-        fun decode(buffer: ByteBuf): TetheringUpdatePacket {
+        fun decode(buffer: RegistryByteBuf): TetheringUpdatePacket {
             val pokemon = decodePokemon(buffer)
             val tetheringId = buffer.readNullable { buffer.readUuid() }
             return TetheringUpdatePacket(pokemon, tetheringId)

@@ -11,22 +11,19 @@ package com.cobblemon.mod.common.net.messages.client.data
 import com.cobblemon.mod.common.api.abilities.Abilities
 import com.cobblemon.mod.common.api.abilities.AbilityTemplate
 import com.cobblemon.mod.common.util.cobblemonResource
-import com.cobblemon.mod.common.util.readString
-import com.cobblemon.mod.common.util.writeString
-import io.netty.buffer.ByteBuf
-import net.minecraft.network.PacketByteBuf
+import net.minecraft.network.RegistryByteBuf
 
 class AbilityRegistrySyncPacket(abilities: Collection<AbilityTemplate>) : DataRegistrySyncPacket<AbilityTemplate, AbilityRegistrySyncPacket>(abilities) {
 
     override val id = ID
 
-    override fun encodeEntry(buffer: ByteBuf, entry: AbilityTemplate) {
+    override fun encodeEntry(buffer: RegistryByteBuf, entry: AbilityTemplate) {
         buffer.writeString(entry.name)
         buffer.writeString(entry.displayName)
         buffer.writeString(entry.description)
     }
 
-    override fun decodeEntry(buffer: ByteBuf): AbilityTemplate {
+    override fun decodeEntry(buffer: RegistryByteBuf): AbilityTemplate {
         return AbilityTemplate(
             name = buffer.readString(),
             displayName = buffer.readString(),
@@ -40,6 +37,6 @@ class AbilityRegistrySyncPacket(abilities: Collection<AbilityTemplate>) : DataRe
 
     companion object {
         val ID = cobblemonResource("ability_sync")
-        fun decode(buffer: PacketByteBuf): AbilityRegistrySyncPacket = AbilityRegistrySyncPacket(emptyList()).apply { decodeBuffer(buffer) }
+        fun decode(buffer: RegistryByteBuf): AbilityRegistrySyncPacket = AbilityRegistrySyncPacket(emptyList()).apply { decodeBuffer(buffer) }
     }
 }

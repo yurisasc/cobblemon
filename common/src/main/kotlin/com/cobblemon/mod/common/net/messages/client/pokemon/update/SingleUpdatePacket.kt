@@ -11,8 +11,7 @@ package com.cobblemon.mod.common.net.messages.client.pokemon.update
 import com.cobblemon.mod.common.api.net.NetworkPacket
 import com.cobblemon.mod.common.net.messages.client.PokemonUpdatePacket
 import com.cobblemon.mod.common.pokemon.Pokemon
-import io.netty.buffer.ByteBuf
-import net.minecraft.network.PacketByteBuf
+import net.minecraft.network.RegistryByteBuf
 
 /**
  * Base class for packets which update a single value of a Pokémon.
@@ -24,7 +23,7 @@ import net.minecraft.network.PacketByteBuf
  */
 abstract class SingleUpdatePacket<T, N : NetworkPacket<N>>(pokemon: () -> Pokemon, val value: T) : PokemonUpdatePacket<N>(pokemon) {
 
-    override fun encodeDetails(buffer: ByteBuf) {
+    override fun encodeDetails(buffer: RegistryByteBuf) {
         this.encodeValue(buffer)
     }
 
@@ -32,7 +31,7 @@ abstract class SingleUpdatePacket<T, N : NetworkPacket<N>>(pokemon: () -> Pokemo
         set(this.pokemon(), this.value)
     }
 
-    abstract fun encodeValue(buffer: ByteBuf)
+    abstract fun encodeValue(buffer: RegistryByteBuf)
 
     /** Sets the value in the client-side Pokémon. */
     abstract fun set(pokemon: Pokemon, value: T)

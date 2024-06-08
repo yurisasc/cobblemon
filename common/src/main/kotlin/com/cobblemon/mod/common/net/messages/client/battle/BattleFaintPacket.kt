@@ -10,9 +10,7 @@ package com.cobblemon.mod.common.net.messages.client.battle
 
 import com.cobblemon.mod.common.api.net.NetworkPacket
 import com.cobblemon.mod.common.util.cobblemonResource
-import com.cobblemon.mod.common.util.writeString
-import io.netty.buffer.ByteBuf
-import net.minecraft.network.PacketByteBuf
+import net.minecraft.network.RegistryByteBuf
 
 /**
  * Reports that a specific Pokémon fainted. This triggers a specific tile animation.
@@ -24,11 +22,11 @@ import net.minecraft.network.PacketByteBuf
  */
 class BattleFaintPacket(val pnx: String) : NetworkPacket<BattleFaintPacket> {
     override val id = ID
-    override fun encode(buffer: ByteBuf) {
+    override fun encode(buffer: RegistryByteBuf) {
         buffer.writeString(pnx)
     }
     companion object {
         val ID = cobblemonResource("battle_faint")
-        fun decode(buffer: PacketByteBuf) = BattleFaintPacket(buffer.readString())
+        fun decode(buffer: RegistryByteBuf) = BattleFaintPacket(buffer.readString())
     }
 }

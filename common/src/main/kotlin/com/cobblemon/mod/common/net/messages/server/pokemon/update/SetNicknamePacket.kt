@@ -11,14 +11,8 @@ package com.cobblemon.mod.common.net.messages.server.pokemon.update
 import com.cobblemon.mod.common.api.net.NetworkPacket
 import com.cobblemon.mod.common.net.serverhandling.pokemon.update.SetNicknameHandler
 import com.cobblemon.mod.common.util.cobblemonResource
-import com.cobblemon.mod.common.util.readNullable
-import com.cobblemon.mod.common.util.readString
-import com.cobblemon.mod.common.util.readUuid
-import com.cobblemon.mod.common.util.writeNullable
-import com.cobblemon.mod.common.util.writeString
-import com.cobblemon.mod.common.util.writeUuid
-import io.netty.buffer.ByteBuf
 import java.util.UUID
+import net.minecraft.network.RegistryByteBuf
 
 /**
  * Packet sent to the server to indicate a player wants to change the nickname of a Pokémon. If the [nickname]
@@ -31,14 +25,14 @@ import java.util.UUID
  */
 class SetNicknamePacket(val pokemonUUID: UUID, val isParty: Boolean, val nickname: String?) : NetworkPacket<SetNicknamePacket> {
     override val id = ID
-    override fun encode(buffer: ByteBuf) {
+    override fun encode(buffer: RegistryByteBuf) {
         buffer.writeUuid(pokemonUUID)
         buffer.writeBoolean(isParty)
         buffer.writeNullable(nickname) { _, v -> buffer.writeString(v) }
     }
     companion object {
         val ID = cobblemonResource("set_nickname")
-        fun decode(buffer: ByteBuf) = SetNicknamePacket(
+        fun decode(buffer: RegistryByteBuf) = SetNicknamePacket(
             buffer.readUuid(), buffer.readBoolean(), buffer.readNullable { buffer.readString() }
         )
     }

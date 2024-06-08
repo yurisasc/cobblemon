@@ -18,7 +18,7 @@ import com.cobblemon.mod.common.util.readEnumConstant
 import com.cobblemon.mod.common.util.readUuid
 import com.cobblemon.mod.common.util.writeEnumConstant
 import com.cobblemon.mod.common.util.writeUuid
-import io.netty.buffer.ByteBuf
+import net.minecraft.network.RegistryByteBuf
 import java.util.UUID
 
 /**
@@ -79,7 +79,7 @@ class DialogueInputDTO() : Encodable, Decodable {
         this.inputId = activeDialogue.activeInput.inputId
     }
 
-    override fun encode(buffer: ByteBuf) {
+    override fun encode(buffer: RegistryByteBuf) {
         buffer.writeUuid(inputId)
         buffer.writeEnumConstant(inputType)
         buffer.writeFloat(deadline)
@@ -98,7 +98,7 @@ class DialogueInputDTO() : Encodable, Decodable {
         }
     }
 
-    override fun decode(buffer: ByteBuf) {
+    override fun decode(buffer: RegistryByteBuf) {
         inputId = buffer.readUuid()
         inputType = buffer.readEnumConstant(InputType::class.java)
         deadline = buffer.readFloat()

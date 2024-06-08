@@ -17,13 +17,10 @@ import com.cobblemon.mod.common.net.messages.client.pokemon.update.SingleUpdateP
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.pokemon.evolution.CobblemonEvolutionDisplay
 import com.cobblemon.mod.common.util.cobblemonResource
-import com.cobblemon.mod.common.util.readIdentifier
-import com.cobblemon.mod.common.util.readList
 import com.cobblemon.mod.common.util.readString
-import com.cobblemon.mod.common.util.writeCollection
-import com.cobblemon.mod.common.util.writeIdentifier
-import com.cobblemon.mod.common.util.writeString
 import io.netty.buffer.ByteBuf
+import net.minecraft.network.PacketByteBuf
+import net.minecraft.network.RegistryByteBuf
 
 class AddEvolutionPacket(pokemon: () -> Pokemon, value: EvolutionDisplay) : SingleUpdatePacket<EvolutionDisplay, AddEvolutionPacket>(pokemon, value) {
 
@@ -31,7 +28,7 @@ class AddEvolutionPacket(pokemon: () -> Pokemon, value: EvolutionDisplay) : Sing
 
     constructor(pokemon: Pokemon, value: Evolution) : this({ pokemon }, value.convertToDisplay(pokemon))
 
-    override fun encodeValue(buffer: ByteBuf) {
+    override fun encodeValue(buffer: RegistryByteBuf) {
         this.value.encode(buffer)
     }
 
@@ -43,7 +40,7 @@ class AddEvolutionPacket(pokemon: () -> Pokemon, value: EvolutionDisplay) : Sing
 
         val ID = cobblemonResource("add_evolution")
 
-        fun decode(buffer: ByteBuf) = AddEvolutionPacket(decodePokemon(buffer), decodeDisplay(buffer))
+        fun decode(buffer: RegistryByteBuf) = AddEvolutionPacket(decodePokemon(buffer), decodeDisplay(buffer))
 
         internal fun Evolution.convertToDisplay(pokemon: Pokemon): EvolutionDisplay {
             val result = pokemon.clone()
@@ -54,13 +51,13 @@ class AddEvolutionPacket(pokemon: () -> Pokemon, value: EvolutionDisplay) : Sing
             return event.display
         }
 
-        internal fun EvolutionDisplay.encode(buffer: ByteBuf) {
+        internal fun EvolutionDisplay.encode(buffer: PacketByteBuf) {
             buffer.writeString(this.id)
             buffer.writeIdentifier(this.species.resourceIdentifier)
             buffer.writeCollection(this.aspects) { pb, value -> pb.writeString(value) }
         }
 
-        internal fun decodeDisplay(buffer: ByteBuf): EvolutionDisplay {
+        internal fun decodeDisplay(buffer: PacketByteBuf): EvolutionDisplay {
             val id = buffer.readString()
             val speciesIdentifier = buffer.readIdentifier()
             val species = PokemonSpecies.getByIdentifier(speciesIdentifier)

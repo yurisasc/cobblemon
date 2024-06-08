@@ -15,7 +15,7 @@ import com.cobblemon.mod.common.util.readSizedInt
 import com.cobblemon.mod.common.util.readUuid
 import com.cobblemon.mod.common.util.writeSizedInt
 import com.cobblemon.mod.common.util.writeUuid
-import io.netty.buffer.ByteBuf
+import net.minecraft.network.RegistryByteBuf
 import java.util.UUID
 
 /**
@@ -34,7 +34,7 @@ class InitializePartyPacket(val isThisPlayerParty: Boolean, val uuid: UUID, val 
 
     override val id = ID
 
-    override fun encode(buffer: ByteBuf) {
+    override fun encode(buffer: RegistryByteBuf) {
         buffer.writeBoolean(isThisPlayerParty)
         buffer.writeUuid(uuid)
         buffer.writeSizedInt(IntSize.U_BYTE, slots)
@@ -42,6 +42,6 @@ class InitializePartyPacket(val isThisPlayerParty: Boolean, val uuid: UUID, val 
 
     companion object {
         val ID = cobblemonResource("initialize_party")
-        fun decode(buffer: ByteBuf) = InitializePartyPacket(buffer.readBoolean(), buffer.readUuid(), buffer.readSizedInt(IntSize.U_BYTE))
+        fun decode(buffer: RegistryByteBuf) = InitializePartyPacket(buffer.readBoolean(), buffer.readUuid(), buffer.readSizedInt(IntSize.U_BYTE))
     }
 }

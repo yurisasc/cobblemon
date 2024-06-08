@@ -16,7 +16,7 @@ import com.cobblemon.mod.common.util.readPartyPosition
 import com.cobblemon.mod.common.util.readUuid
 import com.cobblemon.mod.common.util.writePartyPosition
 import com.cobblemon.mod.common.util.writeUuid
-import io.netty.buffer.ByteBuf
+import net.minecraft.network.RegistryByteBuf
 import java.util.UUID
 
 /**
@@ -29,7 +29,7 @@ import java.util.UUID
  */
 class SwapPartyPokemonPacket(val pokemon1ID: UUID, val position1: PartyPosition, val pokemon2ID: UUID, val position2: PartyPosition) : NetworkPacket<SwapPartyPokemonPacket> {
     override val id = ID
-    override fun encode(buffer: ByteBuf) {
+    override fun encode(buffer: RegistryByteBuf) {
         buffer.writeUuid(pokemon1ID)
         buffer.writePartyPosition(position1)
         buffer.writeUuid(pokemon2ID)
@@ -37,6 +37,6 @@ class SwapPartyPokemonPacket(val pokemon1ID: UUID, val position1: PartyPosition,
     }
     companion object {
         val ID = cobblemonResource("swap_party_pokemon")
-        fun decode(buffer: ByteBuf) = SwapPartyPokemonPacket(buffer.readUuid(), buffer.readPartyPosition(), buffer.readUuid(), buffer.readPartyPosition())
+        fun decode(buffer: RegistryByteBuf) = SwapPartyPokemonPacket(buffer.readUuid(), buffer.readPartyPosition(), buffer.readUuid(), buffer.readPartyPosition())
     }
 }

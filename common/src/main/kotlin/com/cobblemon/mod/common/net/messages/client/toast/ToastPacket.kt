@@ -10,7 +10,7 @@ package com.cobblemon.mod.common.net.messages.client.toast
 
 import com.cobblemon.mod.common.api.net.NetworkPacket
 import com.cobblemon.mod.common.util.*
-import io.netty.buffer.ByteBuf
+import net.minecraft.network.RegistryByteBuf
 import java.util.UUID
 import net.minecraft.item.ItemStack
 import net.minecraft.text.Text
@@ -29,7 +29,7 @@ class ToastPacket(
 
     override val id: Identifier = ID
 
-    override fun encode(buffer: ByteBuf) {
+    override fun encode(buffer: RegistryByteBuf) {
         buffer.writeText(this.title)
         buffer.writeText(this.description)
         buffer.writeItemStack(this.icon)
@@ -44,7 +44,7 @@ class ToastPacket(
 
         val ID = cobblemonResource("toast")
 
-        fun decode(buffer: ByteBuf): ToastPacket = ToastPacket(
+        fun decode(buffer: RegistryByteBuf): ToastPacket = ToastPacket(
             buffer.readText(),
             buffer.readText(),
             buffer.readItemStack(),

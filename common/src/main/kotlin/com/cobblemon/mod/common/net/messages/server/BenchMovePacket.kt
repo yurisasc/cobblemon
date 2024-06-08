@@ -17,7 +17,7 @@ import com.cobblemon.mod.common.util.readString
 import com.cobblemon.mod.common.util.readUuid
 import com.cobblemon.mod.common.util.writeString
 import com.cobblemon.mod.common.util.writeUuid
-import io.netty.buffer.ByteBuf
+import net.minecraft.network.RegistryByteBuf
 import java.util.UUID
 
 /**
@@ -34,7 +34,7 @@ import java.util.UUID
  */
 class BenchMovePacket(val isParty: Boolean, val uuid: UUID, val oldMove: MoveTemplate, val newMove: MoveTemplate) : NetworkPacket<BenchMovePacket> {
     override val id = ID
-    override fun encode(buffer: ByteBuf) {
+    override fun encode(buffer: RegistryByteBuf) {
         buffer.writeBoolean(isParty)
         buffer.writeUuid(uuid)
         buffer.writeString(oldMove.name)
@@ -43,7 +43,7 @@ class BenchMovePacket(val isParty: Boolean, val uuid: UUID, val oldMove: MoveTem
 
     companion object {
         val ID = cobblemonResource("bench_move")
-        fun decode(buffer: ByteBuf): BenchMovePacket {
+        fun decode(buffer: RegistryByteBuf): BenchMovePacket {
             val isParty = buffer.readBoolean()
             val uuid = buffer.readUuid()
             val oldMove = Moves.getByName(buffer.readString())!!

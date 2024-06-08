@@ -18,14 +18,14 @@ import com.cobblemon.mod.common.util.readEnumConstant
 import com.cobblemon.mod.common.util.readString
 import com.cobblemon.mod.common.util.writeEnumConstant
 import com.cobblemon.mod.common.util.writeString
-import io.netty.buffer.ByteBuf
+import net.minecraft.network.RegistryByteBuf
 import net.minecraft.network.PacketByteBuf
 
 class MovesRegistrySyncPacket(moves: List<MoveTemplate>) : DataRegistrySyncPacket<MoveTemplate, MovesRegistrySyncPacket>(moves) {
 
     override val id = ID
 
-    override fun encodeEntry(buffer: ByteBuf, entry: MoveTemplate) {
+    override fun encodeEntry(buffer: RegistryByteBuf, entry: MoveTemplate) {
         buffer.writeString(entry.name)
         buffer.writeInt(entry.num)
         buffer.writeString(entry.elementalType.name)
@@ -40,7 +40,7 @@ class MovesRegistrySyncPacket(moves: List<MoveTemplate>) : DataRegistrySyncPacke
         entry.effectChances.forEach { chance -> buffer.writeDouble(chance) }
     }
 
-    override fun decodeEntry(buffer: ByteBuf): MoveTemplate? {
+    override fun decodeEntry(buffer: RegistryByteBuf): MoveTemplate? {
         val name = buffer.readString()
         val num = buffer.readInt()
         val type = ElementalTypes.getOrException(buffer.readString())
@@ -64,6 +64,6 @@ class MovesRegistrySyncPacket(moves: List<MoveTemplate>) : DataRegistrySyncPacke
 
     companion object {
         val ID = cobblemonResource("moves_sync")
-        fun decode(buffer: PacketByteBuf): MovesRegistrySyncPacket = MovesRegistrySyncPacket(emptyList()).apply { decodeBuffer(buffer) }
+        fun decode(buffer: RegistryByteBuf): MovesRegistrySyncPacket = MovesRegistrySyncPacket(emptyList()).apply { decodeBuffer(buffer) }
     }
 }

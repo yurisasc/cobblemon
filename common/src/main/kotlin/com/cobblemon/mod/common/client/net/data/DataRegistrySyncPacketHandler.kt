@@ -16,7 +16,7 @@ import net.minecraft.client.MinecraftClient
 class DataRegistrySyncPacketHandler<P, T : DataRegistrySyncPacket<P, T>> : ClientNetworkPacketHandler<T> {
     override fun handle(packet: T, client: MinecraftClient) {
         packet.entries.clear()
-        packet.entries.addAll(packet.buffer!!.readList(packet::decodeEntry).filterNotNull())
+        packet.entries.addAll(packet.buffer!!.readList { packet.decodeEntry(packet.buffer!!) }.filterNotNull())
         packet.buffer!!.release()
         packet.synchronizeDecoded(packet.entries)
     }

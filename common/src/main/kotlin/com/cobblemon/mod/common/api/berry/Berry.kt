@@ -31,7 +31,7 @@ import com.cobblemon.mod.common.util.writeEnumSet
 import com.cobblemon.mod.common.util.writeIdentifier
 import com.cobblemon.mod.common.util.writeMap
 import com.google.gson.annotations.SerializedName
-import io.netty.buffer.ByteBuf
+import net.minecraft.network.RegistryByteBuf
 import java.awt.Color
 import java.util.EnumSet
 import kotlin.math.min
@@ -257,7 +257,7 @@ class Berry(
         this.matureShape = this.createAndUniteShapes(this.matureShapeBoxes)
     }
 
-    internal fun encode(buffer: ByteBuf) {
+    internal fun encode(buffer: RegistryByteBuf) {
         buffer.writeIdentifier(this.identifier)
         buffer.writeInt(this.baseYield.first)
         buffer.writeInt(this.baseYield.last)
@@ -330,7 +330,7 @@ class Berry(
 
     companion object {
 
-        internal fun decode(buffer: ByteBuf): Berry {
+        internal fun decode(buffer: RegistryByteBuf): Berry {
             val identifier = buffer.readIdentifier()
             val baseYield = IntRange(buffer.readInt(), buffer.readInt())
             val favMulchs = buffer.readEnumSet(MulchVariant::class.java)

@@ -12,11 +12,11 @@ import com.cobblemon.mod.common.pokemon.Species
 import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
 import io.netty.buffer.ByteBuf
+import java.util.Optional
+import kotlin.jvm.optionals.getOrNull
 import net.minecraft.network.codec.PacketCodec
 import net.minecraft.network.codec.PacketCodecs
 import org.joml.Vector4f
-import java.util.Optional
-import kotlin.jvm.optionals.getOrNull
 
 data class PokemonItemComponent(
     val species: Species,

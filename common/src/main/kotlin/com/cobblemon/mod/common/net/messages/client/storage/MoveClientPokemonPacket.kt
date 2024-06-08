@@ -11,7 +11,7 @@ package com.cobblemon.mod.common.net.messages.client.storage
 import com.cobblemon.mod.common.api.net.NetworkPacket
 import com.cobblemon.mod.common.api.storage.StorePosition
 import com.cobblemon.mod.common.util.writeUuid
-import io.netty.buffer.ByteBuf
+import net.minecraft.network.RegistryByteBuf
 import java.util.UUID
 
 /**
@@ -25,10 +25,10 @@ abstract class MoveClientPokemonPacket<T : StorePosition, N : NetworkPacket<N>>(
     val pokemonID: UUID,
     val newPosition: T
 ) : NetworkPacket<N> {
-    override fun encode(buffer: ByteBuf) {
+    override fun encode(buffer: RegistryByteBuf) {
         buffer.writeUuid(this.storeID)
         buffer.writeUuid(this.pokemonID)
         encodePosition(buffer, this.newPosition)
     }
-    abstract fun encodePosition(buffer: ByteBuf, position: T)
+    abstract fun encodePosition(buffer: RegistryByteBuf, position: T)
 }

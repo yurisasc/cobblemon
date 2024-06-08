@@ -50,7 +50,7 @@ object NeoForgeClientPlatformEventHandler {
 
     @SubscribeEvent
     fun onItemTooltip(e: ItemTooltipEvent) {
-        PlatformEvents.CLIENT_ITEM_TOOLTIP.post(com.cobblemon.mod.common.platform.events.ItemTooltipEvent(e.itemStack, e.flags, e.toolTip))
+        PlatformEvents.CLIENT_ITEM_TOOLTIP.post(com.cobblemon.mod.common.platform.events.ItemTooltipEvent(e.itemStack, e.context, e.flags, e.toolTip))
     }
 
 }

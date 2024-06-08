@@ -18,7 +18,7 @@ import com.cobblemon.mod.common.util.readString
 import com.cobblemon.mod.common.util.writeSizedInt
 import com.cobblemon.mod.common.util.writeString
 import com.google.gson.JsonObject
-import io.netty.buffer.ByteBuf
+import net.minecraft.network.RegistryByteBuf
 import kotlin.math.ceil
 import kotlin.properties.Delegates
 import net.minecraft.nbt.NbtCompound
@@ -117,7 +117,7 @@ open class Move(
         return json
     }
 
-    fun saveToBuffer(buffer: ByteBuf) {
+    fun saveToBuffer(buffer: RegistryByteBuf) {
         buffer.writeString(name)
         buffer.writeSizedInt(IntSize.U_BYTE, currentPp)
         buffer.writeSizedInt(IntSize.U_BYTE, raisedPpStages)
@@ -138,7 +138,7 @@ open class Move(
             return Move(template, currentPp, raisedPpStages)
         }
 
-        fun loadFromBuffer(buffer: ByteBuf): Move {
+        fun loadFromBuffer(buffer: RegistryByteBuf): Move {
             val moveName = buffer.readString()
             val currentPp = buffer.readSizedInt(IntSize.U_BYTE)
             val raisedPpStages = buffer.readSizedInt(IntSize.U_BYTE)

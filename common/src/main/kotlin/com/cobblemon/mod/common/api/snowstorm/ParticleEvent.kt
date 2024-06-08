@@ -19,18 +19,10 @@ import com.cobblemon.mod.common.client.particle.ParticleStorm
 import com.cobblemon.mod.common.client.render.MatrixWrapper
 import com.cobblemon.mod.common.client.render.SnowstormParticle
 import com.cobblemon.mod.common.util.asExpressionLike
-import com.cobblemon.mod.common.util.readEnumConstant
-import com.cobblemon.mod.common.util.readIdentifier
-import com.cobblemon.mod.common.util.readNullable
-import com.cobblemon.mod.common.util.readString
-import com.cobblemon.mod.common.util.writeEnumConstant
-import com.cobblemon.mod.common.util.writeIdentifier
-import com.cobblemon.mod.common.util.writeNullable
-import com.cobblemon.mod.common.util.writeString
 import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.PrimitiveCodec
 import com.mojang.serialization.codecs.RecordCodecBuilder
-import io.netty.buffer.ByteBuf
+import net.minecraft.network.RegistryByteBuf
 import net.minecraft.sound.SoundCategory
 import net.minecraft.sound.SoundEvent
 import net.minecraft.util.Identifier
@@ -64,7 +56,7 @@ class ParticleEvent(
         }
     }
 
-    override fun encode(buffer: ByteBuf) {
+    override fun encode(buffer: RegistryByteBuf) {
         buffer.writeNullable(particleEffect) { pb, effect ->
             pb.writeIdentifier(effect.effect)
             pb.writeEnumConstant(effect.type)
@@ -73,7 +65,7 @@ class ParticleEvent(
         buffer.writeNullable(soundEffect) { pb, effect -> pb.writeIdentifier(effect.sound) }
         buffer.writeNullable(expression) { pb, expr -> pb.writeString(expr.toString()) }
     }
-    override fun decode(buffer: ByteBuf) {
+    override fun decode(buffer: RegistryByteBuf) {
         particleEffect = buffer.readNullable { pb -> EventParticleEffect(
             pb.readIdentifier(),
             pb.readEnumConstant(EventParticleEffect.EventParticleType::class.java),

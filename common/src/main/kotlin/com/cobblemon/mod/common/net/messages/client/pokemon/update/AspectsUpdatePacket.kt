@@ -10,14 +10,12 @@ package com.cobblemon.mod.common.net.messages.client.pokemon.update
 
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.util.cobblemonResource
-import com.cobblemon.mod.common.util.writeCollection
-import com.cobblemon.mod.common.util.writeString
-import io.netty.buffer.ByteBuf
 import net.minecraft.network.PacketByteBuf
+import net.minecraft.network.RegistryByteBuf
 
 class AspectsUpdatePacket(pokemon: () -> Pokemon, value: Set<String>): SingleUpdatePacket<Set<String>, AspectsUpdatePacket>(pokemon, value) {
     override val id = ID
-    override fun encodeValue(buffer: ByteBuf) {
+    override fun encodeValue(buffer: RegistryByteBuf) {
         buffer.writeCollection(this.value) { pb, value -> pb.writeString(value) }
     }
 
@@ -27,7 +25,7 @@ class AspectsUpdatePacket(pokemon: () -> Pokemon, value: Set<String>): SingleUpd
 
     companion object {
         val ID = cobblemonResource("aspects_update")
-        fun decode(buffer: PacketByteBuf): AspectsUpdatePacket {
+        fun decode(buffer: RegistryByteBuf): AspectsUpdatePacket {
             val pokemon = decodePokemon(buffer)
             val aspects = buffer.readList(PacketByteBuf::readString).toSet()
             return AspectsUpdatePacket(pokemon, aspects)

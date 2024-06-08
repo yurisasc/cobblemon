@@ -13,11 +13,9 @@ import com.cobblemon.mod.common.api.storage.party.PartyPosition
 import com.cobblemon.mod.common.net.serverhandling.storage.pc.ReleasePartyPokemonHandler
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.readPartyPosition
-import com.cobblemon.mod.common.util.readUuid
 import com.cobblemon.mod.common.util.writePartyPosition
-import com.cobblemon.mod.common.util.writeUuid
-import io.netty.buffer.ByteBuf
 import java.util.UUID
+import net.minecraft.network.RegistryByteBuf
 
 /**
  * Packet sent when the player is releasing one of their Pokémon from their party.
@@ -29,12 +27,12 @@ import java.util.UUID
  */
 class ReleasePartyPokemonPacket(val pokemonID: UUID, val position: PartyPosition) : NetworkPacket<ReleasePartyPokemonPacket> {
     override val id = ID
-    override fun encode(buffer: ByteBuf) {
+    override fun encode(buffer: RegistryByteBuf) {
         buffer.writeUuid(pokemonID)
         buffer.writePartyPosition(position)
     }
     companion object {
         val ID = cobblemonResource("release_party_pokemon")
-        fun decode(buffer: ByteBuf) = ReleasePartyPokemonPacket(buffer.readUuid(), buffer.readPartyPosition())
+        fun decode(buffer: RegistryByteBuf) = ReleasePartyPokemonPacket(buffer.readUuid(), buffer.readPartyPosition())
     }
 }

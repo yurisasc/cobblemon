@@ -13,7 +13,7 @@ import com.cobblemon.mod.common.entity.pokeball.EmptyPokeBallEntity
 import com.cobblemon.mod.common.pokeball.PokeBall
 import com.cobblemon.mod.common.util.cobblemonResource
 import net.minecraft.entity.Entity
-import net.minecraft.network.PacketByteBuf
+import net.minecraft.network.RegistryByteBuf
 import net.minecraft.network.packet.s2c.play.EntitySpawnS2CPacket
 import net.minecraft.util.Identifier
 
@@ -25,7 +25,7 @@ class SpawnPokeballPacket(
 
     override val id: Identifier = ID
 
-    override fun encodeEntityData(buffer: PacketByteBuf) {
+    override fun encodeEntityData(buffer: RegistryByteBuf) {
         buffer.writeIdentifier(this.pokeBall.name)
         buffer.writeCollection(aspects) { _, aspect -> buffer.writeString(aspect)}
     }
@@ -39,7 +39,7 @@ class SpawnPokeballPacket(
 
     companion object {
         val ID = cobblemonResource("spawn_empty_pokeball_entity")
-        fun decode(buffer: PacketByteBuf): SpawnPokeballPacket {
+        fun decode(buffer: RegistryByteBuf): SpawnPokeballPacket {
             val pokeBall = PokeBalls.getPokeBall(buffer.readIdentifier())!!
             val aspects = buffer.readList { it.readString() }.toSet()
             val vanillaPacket = decodeVanillaPacket(buffer)

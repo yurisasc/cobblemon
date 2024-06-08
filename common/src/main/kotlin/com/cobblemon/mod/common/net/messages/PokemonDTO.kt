@@ -31,27 +31,17 @@ import com.cobblemon.mod.common.pokemon.activestate.PokemonState
 import com.cobblemon.mod.common.pokemon.status.PersistentStatus
 import com.cobblemon.mod.common.pokemon.status.PersistentStatusContainer
 import com.cobblemon.mod.common.util.asIdentifierDefaultingNamespace
-import com.cobblemon.mod.common.util.readIdentifier
-import com.cobblemon.mod.common.util.readNbt
-import com.cobblemon.mod.common.util.readNullable
 import com.cobblemon.mod.common.util.readSizedInt
-import com.cobblemon.mod.common.util.readString
-import com.cobblemon.mod.common.util.readUuid
-import com.cobblemon.mod.common.util.writeIdentifier
-import com.cobblemon.mod.common.util.writeNbt
-import com.cobblemon.mod.common.util.writeNullable
 import com.cobblemon.mod.common.util.writeSizedInt
-import com.cobblemon.mod.common.util.writeString
-import com.cobblemon.mod.common.util.writeUuid
-import io.netty.buffer.ByteBuf
 import io.netty.buffer.Unpooled
+import java.util.UUID
 import net.minecraft.item.ItemStack
 import net.minecraft.nbt.NbtOps
 import net.minecraft.network.PacketByteBuf
+import net.minecraft.network.RegistryByteBuf
 import net.minecraft.text.MutableText
 import net.minecraft.text.TextCodecs
 import net.minecraft.util.Identifier
-import java.util.UUID
 
 /**
  * A data transfer object for an entire [Pokemon], complete with all of the information a player is allowed
@@ -137,7 +127,7 @@ class PokemonDTO : Encodable, Decodable {
             .filter { (SpeciesFeatures.getFeature(it.name)!! as SynchronizedSpeciesFeatureProvider<*>).visible }
         featuresBuffer.writeCollection(visibleFeatures) { _, value ->
             featuresBuffer.writeString(value.name)
-            value.encode(featuresBuffer)
+            value.saveToBuffer(featuresBuffer, true)
         }
 
         this.originalTrainerType = pokemon.originalTrainerType
@@ -145,7 +135,7 @@ class PokemonDTO : Encodable, Decodable {
         this.originalTrainerName = pokemon.originalTrainerName
     }
 
-    override fun encode(buffer: ByteBuf) {
+    override fun encode(buffer: RegistryByteBuf) {
         buffer.writeBoolean(toClient)
         buffer.writeUuid(uuid)
         buffer.writeIdentifier(species)
@@ -191,7 +181,7 @@ class PokemonDTO : Encodable, Decodable {
         buffer.writeNullable(originalTrainerName) { _, v -> buffer.writeString(v) }
     }
 
-    override fun decode(buffer: ByteBuf) {
+    override fun decode(buffer: RegistryByteBuf) {
         toClient = buffer.readBoolean()
         uuid = buffer.readUuid()
         species = buffer.readIdentifier()

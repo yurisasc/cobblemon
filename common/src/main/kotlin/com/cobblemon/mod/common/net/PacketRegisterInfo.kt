@@ -21,13 +21,14 @@ import net.minecraft.util.Identifier
  * @author Apion, Hiroku
  * @since June 7th, 2024
  */
-data class PacketRegisterInfo<T : NetworkPacket<T>>(
+class PacketRegisterInfo<T : NetworkPacket<T>>(
     val id: Identifier,
     val decoder: (RegistryByteBuf) -> T,
-    val handler: PacketHandler<T>
+    val handler: PacketHandler<T>,
+    codec: PacketCodec<RegistryByteBuf, T>? = null
 ) {
     val payloadId = CustomPayload.Id<T>(id)
-    val codec = PacketCodec.of(
+    val codec = codec ?: PacketCodec.of(
         { packet, buf -> packet.encode(buf) },
         decoder
     )

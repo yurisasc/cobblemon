@@ -10,10 +10,8 @@ package com.cobblemon.mod.common.net.messages.server.pasture
 
 import com.cobblemon.mod.common.api.net.NetworkPacket
 import com.cobblemon.mod.common.util.cobblemonResource
-import com.cobblemon.mod.common.util.readUuid
-import com.cobblemon.mod.common.util.writeUuid
-import io.netty.buffer.ByteBuf
 import java.util.UUID
+import net.minecraft.network.RegistryByteBuf
 
 /**
  * Packet sent to the server to pasture a Pokémon.
@@ -27,11 +25,11 @@ class PasturePokemonPacket(val pokemonId: UUID, val pastureId: UUID) : NetworkPa
     companion object {
         val ID = cobblemonResource("pasture_pokemon")
 
-        fun decode(buffer: ByteBuf) = PasturePokemonPacket(buffer.readUuid(), buffer.readUuid())
+        fun decode(buffer: RegistryByteBuf) = PasturePokemonPacket(buffer.readUuid(), buffer.readUuid())
     }
 
     override val id = ID
-    override fun encode(buffer: ByteBuf) {
+    override fun encode(buffer: RegistryByteBuf) {
         buffer.writeUuid(pokemonId)
         buffer.writeUuid(pastureId)
     }

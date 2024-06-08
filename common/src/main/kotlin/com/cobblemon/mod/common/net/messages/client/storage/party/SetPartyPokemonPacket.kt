@@ -14,11 +14,9 @@ import com.cobblemon.mod.common.net.messages.PokemonDTO
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.readPartyPosition
-import com.cobblemon.mod.common.util.readUuid
 import com.cobblemon.mod.common.util.writePartyPosition
-import com.cobblemon.mod.common.util.writeUuid
-import io.netty.buffer.ByteBuf
 import java.util.UUID
+import net.minecraft.network.RegistryByteBuf
 
 /**
  * Adds the given Pokémon to a specific location in the client storage. This should be a new
@@ -35,7 +33,7 @@ class SetPartyPokemonPacket internal constructor(val storeID: UUID, val storePos
 
     constructor(storeID: UUID, storePosition: PartyPosition, pokemon: Pokemon) : this(storeID, storePosition, PokemonDTO(pokemon, true))
 
-    override fun encode(buffer: ByteBuf) {
+    override fun encode(buffer: RegistryByteBuf) {
         buffer.writeUuid(this.storeID)
         buffer.writePartyPosition(this.storePosition)
         this.pokemonDTO.encode(buffer)
@@ -43,7 +41,7 @@ class SetPartyPokemonPacket internal constructor(val storeID: UUID, val storePos
 
     companion object {
         val ID = cobblemonResource("set_party_pokemon")
-        fun decode(buffer: ByteBuf) = SetPartyPokemonPacket(buffer.readUuid(), buffer.readPartyPosition(), PokemonDTO().apply { decode(buffer) })
+        fun decode(buffer: RegistryByteBuf) = SetPartyPokemonPacket(buffer.readUuid(), buffer.readPartyPosition(), PokemonDTO().apply { decode(buffer) })
     }
 
 }

@@ -14,7 +14,7 @@ import com.cobblemon.mod.common.util.readText
 import com.cobblemon.mod.common.util.readUuid
 import com.cobblemon.mod.common.util.writeText
 import com.cobblemon.mod.common.util.writeUuid
-import io.netty.buffer.ByteBuf
+import net.minecraft.network.RegistryByteBuf
 import java.util.UUID
 import net.minecraft.text.MutableText
 
@@ -26,7 +26,7 @@ import net.minecraft.text.MutableText
  */
 class TradeOfferNotificationPacket(val tradeOfferId: UUID, val traderId: UUID, val traderName: MutableText): NetworkPacket<TradeOfferNotificationPacket> {
     override val id = ID
-    override fun encode(buffer: ByteBuf) {
+    override fun encode(buffer: RegistryByteBuf) {
         buffer.writeUuid(tradeOfferId)
         buffer.writeUuid(traderId)
         buffer.writeText(traderName)
@@ -34,6 +34,6 @@ class TradeOfferNotificationPacket(val tradeOfferId: UUID, val traderId: UUID, v
 
     companion object {
         val ID = cobblemonResource("trade_offer_notification")
-        fun decode(buffer: ByteBuf) = TradeOfferNotificationPacket(buffer.readUuid(), buffer.readUuid(), buffer.readText().copy())
+        fun decode(buffer: RegistryByteBuf) = TradeOfferNotificationPacket(buffer.readUuid(), buffer.readUuid(), buffer.readText().copy())
     }
 }

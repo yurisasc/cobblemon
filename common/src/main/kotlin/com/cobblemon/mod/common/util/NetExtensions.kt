@@ -10,6 +10,7 @@ package com.cobblemon.mod.common.util
 
 import com.cobblemon.mod.common.net.IntSize
 import io.netty.buffer.ByteBuf
+import net.minecraft.network.RegistryByteBuf
 import net.minecraft.util.math.Box
 import net.minecraft.util.math.Vec3d
 
