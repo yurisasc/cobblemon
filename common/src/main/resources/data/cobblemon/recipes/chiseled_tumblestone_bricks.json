@@ -1,17 +1,17 @@
 {
-  "type": "minecraft:crafting_shaped",
-  "category": "building",
-  "key": {
-    "#": {
-      "item": "cobblemon:tumblestone_brick_slab"
+    "type": "minecraft:crafting_shaped",
+    "category": "building",
+    "key": {
+        "#": {
+            "item": "cobblemon:tumblestone_brick_slab"
+        }
+    },
+    "pattern": [
+        "#",
+        "#"
+    ],
+    "result": {
+        "count": 1,
+        "id": "cobblemon:chiseled_tumblestone_bricks"
     }
-  },
-  "pattern": [
-    "#",
-    "#"
-  ],
-  "result": {
-    "count": 1,
-    "item": "cobblemon:chiseled_tumblestone_bricks"
-  }
 }

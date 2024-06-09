@@ -3,7 +3,7 @@
     "pattern": [
         " PG",
         "PRP",
-		"WP "
+        "WP "
     ],
     "key": {
         "W": {
@@ -20,6 +20,6 @@
         }
     },
     "result": {
-        "item": "cobblemon:spell_tag"
+        "id": "cobblemon:spell_tag"
     }
 }

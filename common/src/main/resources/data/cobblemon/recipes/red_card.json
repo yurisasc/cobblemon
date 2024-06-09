@@ -13,8 +13,7 @@
             "item": "minecraft:red_dye"
         }
     },
-    "result":
-    {
-        "item": "cobblemon:red_card"
+    "result": {
+        "id": "cobblemon:red_card"
     }
 }

@@ -1,7 +1,7 @@
 {
   "display": {
     "icon": {
-      "item": "cobblemon:vivichoke"
+      "id": "cobblemon:vivichoke"
     },
     "title": {
       "translate": "advancements.cobblemon.obtain_vivichoke"

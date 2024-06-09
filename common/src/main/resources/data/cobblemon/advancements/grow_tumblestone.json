@@ -1,7 +1,7 @@
 {
   "display": {
     "icon": {
-      "item": "cobblemon:tumblestone_cluster"
+      "id": "cobblemon:tumblestone_cluster"
     },
     "title": {
       "translate": "advancements.cobblemon.grow_tumblestone"

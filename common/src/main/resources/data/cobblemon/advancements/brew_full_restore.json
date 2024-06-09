@@ -1,7 +1,7 @@
 {
   "display": {
     "icon": {
-      "item": "cobblemon:full_restore"
+      "id": "cobblemon:full_restore"
     },
     "title": {
       "translate": "advancements.cobblemon.brew_full_restore"

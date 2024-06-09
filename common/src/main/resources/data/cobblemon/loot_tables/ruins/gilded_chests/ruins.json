@@ -11,7 +11,7 @@
             "entries": [
                 {
                     "type": "minecraft:loot_table",
-                    "name": "cobblemon:sets/any_ancient_held_item",
+                    "value": "cobblemon:sets/any_ancient_held_item",
                     "weight": 1
                 }
             ]
@@ -26,7 +26,7 @@
             "entries": [
                 {
                     "type": "minecraft:loot_table",
-                    "name": "cobblemon:sets/any_evo_stone",
+                    "value": "cobblemon:sets/any_evo_stone",
                     "weight": 1
                 }
             ]
@@ -41,7 +41,7 @@
             "entries": [
                 {
                     "type": "minecraft:loot_table",
-                    "name": "cobblemon:sets/any_exp_candy",
+                    "value": "cobblemon:sets/any_exp_candy",
                     "weight": 1
                 }
             ]
@@ -56,7 +56,7 @@
             "entries": [
                 {
                     "type": "minecraft:loot_table",
-                    "name": "cobblemon:sets/any_type_gem",
+                    "value": "cobblemon:sets/any_type_gem",
                     "weight": 1
                 }
             ]
@@ -71,7 +71,7 @@
             "entries": [
                 {
                     "type": "minecraft:loot_table",
-                    "name": "cobblemon:sets/any_natural_heal_item",
+                    "value": "cobblemon:sets/any_natural_heal_item",
                     "weight": 1
                 }
             ]

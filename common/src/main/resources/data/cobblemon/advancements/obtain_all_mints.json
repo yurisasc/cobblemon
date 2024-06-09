@@ -1,7 +1,7 @@
 {
   "display": {
     "icon": {
-      "item": "cobblemon:serious_mint"
+      "id": "cobblemon:serious_mint"
     },
     "title": {
       "translate": "advancements.cobblemon.obtain_all_mints"

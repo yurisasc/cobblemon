@@ -146,7 +146,7 @@ open class PartySelectPokemonDTO(
     )
 
     constructor(buffer: RegistryByteBuf): this(
-        pokemonProperties = PokemonProperties().loadFromNBT(buffer.readNbt() as NbtCompound),
+        pokemonProperties = PokemonProperties().loadFromNBT(buffer.readNbt() as NbtCompound, buffer.registryManager),
         aspects = buffer.readList { it.readString() }.toSet(),
         heldItem = buffer.readItemStack(),
         currentHealth = buffer.readInt(),
@@ -155,7 +155,7 @@ open class PartySelectPokemonDTO(
     )
 
     fun writeToBuffer(buffer: RegistryByteBuf) {
-        buffer.writeNbt(pokemonProperties.saveToNBT())
+        buffer.writeNbt(pokemonProperties.saveToNBT(buffer.registryManager))
         buffer.writeCollection(aspects) { _, aspect -> buffer.writeString(aspect) }
         buffer.writeItemStack(heldItem)
         buffer.writeInt(currentHealth)

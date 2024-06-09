@@ -3,17 +3,17 @@
     "pattern": [
         " S ",
         "S S",
-		"GGG"
+        "GGG"
     ],
     "key": {
         "G": {
             "item": "minecraft:red_stained_glass"
         },
         "S": {
-            "item": "minecraft:scute"
+            "item": "minecraft:turtle_scute"
         }
     },
     "result": {
-        "item": "cobblemon:safety_goggles"
+        "id": "cobblemon:safety_goggles"
     }
 }

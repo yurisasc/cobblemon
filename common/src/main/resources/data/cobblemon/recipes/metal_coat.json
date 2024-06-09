@@ -3,7 +3,7 @@
     "pattern": [
         "III",
         "CHC",
-		"III"
+        "III"
     ],
     "key": {
         "I": {
@@ -17,6 +17,6 @@
         }
     },
     "result": {
-        "item": "cobblemon:metal_coat"
+        "id": "cobblemon:metal_coat"
     }
 }

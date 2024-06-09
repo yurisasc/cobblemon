@@ -1,17 +1,17 @@
 {
-  "type": "minecraft:crafting_shaped",
-  "group": "bark",
-  "pattern": [
-    "##",
-    "##"
-  ],
-  "key": {
-    "#": {
-      "item": "cobblemon:apricorn_log"
+    "type": "minecraft:crafting_shaped",
+    "group": "bark",
+    "pattern": [
+        "##",
+        "##"
+    ],
+    "key": {
+        "#": {
+            "item": "cobblemon:apricorn_log"
+        }
+    },
+    "result": {
+        "count": 3,
+        "id": "cobblemon:apricorn_wood"
     }
-  },
-  "result": {
-    "item": "cobblemon:apricorn_wood",
-    "count": 3
-  }
 }

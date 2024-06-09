@@ -2,7 +2,7 @@
   "parent": "cobblemon:craft_poke_ball",
   "display": {
     "icon": {
-      "item": "cobblemon:black_belt"
+      "id": "cobblemon:black_belt"
     },
     "title": {
       "translate": "advancements.cobblemon.first_battle_victory"

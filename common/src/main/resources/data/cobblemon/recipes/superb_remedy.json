@@ -7,11 +7,11 @@
         {
             "item": "cobblemon:vivichoke"
         },
-		{
-			"item": "cobblemon:energy_root"
-		}
+        {
+            "item": "cobblemon:energy_root"
+        }
     ],
     "result": {
-        "item": "cobblemon:superb_remedy"
+        "id": "cobblemon:superb_remedy"
     }
 }

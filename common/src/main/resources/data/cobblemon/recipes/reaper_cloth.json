@@ -3,7 +3,7 @@
     "pattern": [
         " W ",
         "PGP",
-		"WPW"
+        "WPW"
     ],
     "key": {
         "P": {
@@ -17,6 +17,6 @@
         }
     },
     "result": {
-        "item": "cobblemon:reaper_cloth"
+        "id": "cobblemon:reaper_cloth"
     }
 }

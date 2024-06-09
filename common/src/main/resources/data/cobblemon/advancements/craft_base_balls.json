@@ -1,7 +1,7 @@
 {
   "display": {
     "icon": {
-      "item": "cobblemon:premier_ball"
+      "id": "cobblemon:premier_ball"
     },
     "title": {
       "translate": "advancements.cobblemon.craft_base_balls"

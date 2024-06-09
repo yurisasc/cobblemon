@@ -15,8 +15,7 @@
             "item": "cobblemon:hard_stone"
         }
     },
-    "result":
-    {
-        "item": "cobblemon:icy_rock"
+    "result": {
+        "id": "cobblemon:icy_rock"
     }
 }

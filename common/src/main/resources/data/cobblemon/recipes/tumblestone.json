@@ -1,12 +1,12 @@
 {
-  "type": "minecraft:crafting_shapeless",
-  "ingredients": [
-    {
-      "item": "cobblemon:tumblestone_block"
+    "type": "minecraft:crafting_shapeless",
+    "ingredients": [
+        {
+            "item": "cobblemon:tumblestone_block"
+        }
+    ],
+    "result": {
+        "count": 4,
+        "id": "cobblemon:tumblestone"
     }
-  ],
-  "result": {
-    "item": "cobblemon:tumblestone",
-    "count": 4
-  }
 }

@@ -36,6 +36,7 @@ import net.minecraft.sound.SoundCategory
 import net.minecraft.state.StateManager
 import net.minecraft.state.property.BooleanProperty
 import net.minecraft.state.property.Properties
+import net.minecraft.state.property.Properties.WATERLOGGED
 import net.minecraft.text.MutableText
 import net.minecraft.text.Text
 import net.minecraft.util.ActionResult
@@ -72,7 +73,6 @@ class GildedChestBlock(settings: Settings, val type: Type = Type.RED) : BlockWit
 
         val POKEMON_ARGS = "gimmighoul"
         val LEVEL_RANGE = 5..30
-        val WATERLOGGED = BooleanProperty.of("waterlogged")
 
         val SOUTH_OUTLINE = VoxelShapes.union(
             VoxelShapes.cuboid(0.0, 0.0, 0.25, 1.0, 1.0, 0.9375)
@@ -142,15 +142,17 @@ class GildedChestBlock(settings: Settings, val type: Type = Type.RED) : BlockWit
     fun isFake() = (type == Type.FAKE)
 
     override fun onBreak(world: World, pos: BlockPos, state: BlockState, player: PlayerEntity): BlockState {
-        if (isFake()) {
-            if (player is ServerPlayerEntity) {
+        if (!world.isClient) {
+            if (isFake() && (player is ServerPlayerEntity)) {
                 spawnPokemon(world, pos, state, player)
             }
+            val bEntity = world.getBlockEntity(pos) as? GildedChestBlockEntity
+            bEntity?.markRemoved()
             val resultState = if (state.fluidState.isOf(Fluids.WATER)) Blocks.WATER.defaultState else Blocks.AIR.defaultState
             world.setBlockState(pos, resultState)
             return resultState
         }
-        return super.onBreak(world, pos, state, player)
+        return Blocks.AIR.defaultState
     }
 
     private fun spawnPokemon(world: World, pos: BlockPos, state: BlockState, player: ServerPlayerEntity) : ActionResult {

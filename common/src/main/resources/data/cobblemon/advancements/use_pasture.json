@@ -1,7 +1,7 @@
 {
   "display": {
     "icon": {
-      "item": "cobblemon:pasture"
+      "id": "cobblemon:pasture"
     },
     "title": {
       "translate": "advancements.cobblemon.use_pasture"

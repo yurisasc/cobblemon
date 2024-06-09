@@ -103,6 +103,7 @@ import net.minecraft.network.packet.s2c.common.CustomPayloadS2CPacket
 import net.minecraft.network.packet.s2c.play.EntitySpawnS2CPacket
 import net.minecraft.registry.Registries
 import net.minecraft.registry.RegistryKeys
+import net.minecraft.registry.RegistryWrapper
 import net.minecraft.registry.tag.FluidTags
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.server.world.ServerWorld
@@ -507,7 +508,7 @@ open class PokemonEntity(
         }
 
         // save active effects
-        nbt.put(DataKeys.ENTITY_EFFECTS, effects.saveToNbt())
+        nbt.put(DataKeys.ENTITY_EFFECTS, effects.saveToNbt(this.world.registryManager))
 
         CobblemonEvents.POKEMON_ENTITY_SAVE.post(PokemonEntitySaveEvent(this, nbt))
 
@@ -560,7 +561,7 @@ open class PokemonEntity(
         }
 
         // apply active effects
-        if (nbt.contains(DataKeys.ENTITY_EFFECTS)) effects.loadFromNBT(nbt.getCompound(DataKeys.ENTITY_EFFECTS))
+        if (nbt.contains(DataKeys.ENTITY_EFFECTS)) effects.loadFromNBT(nbt.getCompound(DataKeys.ENTITY_EFFECTS), this.world.registryManager)
 
         // init dataTracker
         dataTracker.set(SPECIES, effects.mockEffect?.mock?.species ?: pokemon.species.resourceIdentifier.toString())

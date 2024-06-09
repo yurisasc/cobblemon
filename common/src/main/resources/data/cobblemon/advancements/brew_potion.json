@@ -1,7 +1,7 @@
 {
   "display": {
     "icon": {
-      "item": "cobblemon:potion"
+      "id": "cobblemon:potion"
     },
     "title": {
       "translate": "advancements.cobblemon.brew_potion"

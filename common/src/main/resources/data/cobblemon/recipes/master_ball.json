@@ -22,8 +22,7 @@
             "item": "minecraft:shulker_shell"
         }
     },
-    "result":
-    {
-        "item": "cobblemon:master_ball"
+    "result": {
+        "id": "cobblemon:master_ball"
     }
 }
