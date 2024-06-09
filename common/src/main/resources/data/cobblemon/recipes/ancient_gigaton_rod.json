@@ -10,7 +10,7 @@
     "item": "cobblemon:ancient_gigaton_ball"
   },
   "result": {
-    "item": "cobblemon:ancient_gigaton_rod",
+    "id": "cobblemon:ancient_gigaton_rod",
     "count": 1
   }
 }

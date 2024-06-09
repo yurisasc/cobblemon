@@ -10,7 +10,7 @@
     "item": "cobblemon:verdant_ball"
   },
   "result": {
-    "item": "cobblemon:verdant_rod",
+    "id": "cobblemon:verdant_rod",
     "count": 1
   }
 }

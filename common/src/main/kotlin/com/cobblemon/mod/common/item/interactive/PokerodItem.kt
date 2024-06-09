@@ -76,10 +76,10 @@ class PokerodItem(val pokeRodId: Identifier, settings: Settings?) : FishingRodIt
         val offHandBait = FishingBaits.getFromBaitItemStack(offHandItem)
 
         // if there already is bait on the bobber then drop it on the ground
-        val baitOnRod = getBaitOnRod(itemStack)
+        var baitOnRod = getBaitOnRod(itemStack)
 
         // if the item in the offhand is a bait item and the mainhand item is a pokerod then apply the bait
-        if (!world.isClient && user.fishHook == null && offHandBait != null && offHandBait != getBaitOnRod(itemStack) && !user.isSneaking) {
+        if (!world.isClient && user.fishHook == null && offHandBait != null && offHandBait != baitOnRod && !user.isSneaking) {
 
             if (baitOnRod != null) {
                 val item = world.itemRegistry.get(baitOnRod.item)
@@ -169,7 +169,7 @@ class PokerodItem(val pokeRodId: Identifier, settings: Settings?) : FishingRodIt
                 )*/
 
 
-                val bobberEntity = PokeRodFishingBobberEntity(user, pokeRodId, baitOnRod?.toItemStack(world.itemRegistry) ?: ItemStack.EMPTY, world, j, i, castingSoundInstance)
+                val bobberEntity = PokeRodFishingBobberEntity(user, pokeRodId, offHandBait?.toItemStack(world.itemRegistry) ?: ItemStack.EMPTY, world, j, i, castingSoundInstance)
 
                 // Set the casting sound to the bobber entity
                 //bobberEntity.castingSound = castingSoundInstance

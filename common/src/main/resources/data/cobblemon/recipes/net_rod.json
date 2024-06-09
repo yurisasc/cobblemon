@@ -10,7 +10,7 @@
     "item": "cobblemon:net_ball"
   },
   "result": {
-    "item": "cobblemon:net_rod",
+    "id": "cobblemon:net_rod",
     "count": 1
   }
 }

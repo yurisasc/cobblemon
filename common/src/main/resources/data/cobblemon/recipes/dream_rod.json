@@ -10,7 +10,7 @@
     "item": "cobblemon:dream_ball"
   },
   "result": {
-    "item": "cobblemon:dream_rod",
+    "id": "cobblemon:dream_rod",
     "count": 1
   }
 }

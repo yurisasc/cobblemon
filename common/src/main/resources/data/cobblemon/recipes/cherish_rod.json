@@ -10,7 +10,7 @@
     "item": "cobblemon:cherish_ball"
   },
   "result": {
-    "item": "cobblemon:cherish_rod",
+    "id": "cobblemon:cherish_rod",
     "count": 1
   }
 }

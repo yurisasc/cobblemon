@@ -68,10 +68,6 @@ class PokemonRenderer(
         }
     }
 
-    val context = RenderContext().also {
-        it.put(RenderContext.RENDER_STATE, RenderContext.RenderState.WORLD)
-    }
-
     val ballContext = RenderContext().also {
         it.put(RenderContext.RENDER_STATE, RenderContext.RenderState.WORLD)
     }
@@ -90,7 +86,7 @@ class PokemonRenderer(
     ) {
         shadowRadius = min((entity.boundingBox.maxX - entity.boundingBox.minX), (entity.boundingBox.maxZ) - (entity.boundingBox.minZ)).toFloat() / 1.5F * (entity.delegate as PokemonClientDelegate).entityScaleModifier
         model.posableModel = PokemonModelRepository.getPoser(entity.pokemon.species.resourceIdentifier, entity.aspects)
-        model.posableModel.context = context
+        model.posableModel.context = model.context
         model.setupEntityTypeContext(entity)
         val clientDelegate = entity.delegate as PokemonClientDelegate
         val modelNow = model.posableModel

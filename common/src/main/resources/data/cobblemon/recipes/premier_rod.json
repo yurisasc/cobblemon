@@ -10,7 +10,7 @@
     "item": "cobblemon:premier_ball"
   },
   "result": {
-    "item": "cobblemon:premier_rod",
+    "id": "cobblemon:premier_rod",
     "count": 1
   }
 }

@@ -10,7 +10,7 @@
     "item": "cobblemon:heavy_ball"
   },
   "result": {
-    "item": "cobblemon:heavy_rod",
+    "id": "cobblemon:heavy_rod",
     "count": 1
   }
 }

@@ -10,7 +10,7 @@
     "item": "cobblemon:love_ball"
   },
   "result": {
-    "item": "cobblemon:love_rod",
+    "id": "cobblemon:love_rod",
     "count": 1
   }
 }

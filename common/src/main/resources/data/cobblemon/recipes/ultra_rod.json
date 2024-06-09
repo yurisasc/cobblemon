@@ -10,7 +10,7 @@
     "item": "cobblemon:ultra_ball"
   },
   "result": {
-    "item": "cobblemon:ultra_rod",
+    "id": "cobblemon:ultra_rod",
     "count": 1
   }
 }

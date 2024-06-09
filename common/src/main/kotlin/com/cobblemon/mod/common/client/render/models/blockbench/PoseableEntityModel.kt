@@ -31,7 +31,9 @@ import net.minecraft.util.Identifier
 abstract class PosableEntityModel<T : Entity>(
     renderTypeFunc: (Identifier) -> RenderLayer = RenderLayer::getEntityCutout
 ) : EntityModel<T>(renderTypeFunc) {
-    val context: RenderContext = RenderContext()
+    val context: RenderContext = RenderContext().also {
+        it.put(RenderContext.RENDER_STATE, RenderContext.RenderState.WORLD)
+    }
 
     lateinit var posableModel: PosableModel
 

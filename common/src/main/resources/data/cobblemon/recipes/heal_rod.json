@@ -10,7 +10,7 @@
     "item": "cobblemon:heal_ball"
   },
   "result": {
-    "item": "cobblemon:heal_rod",
+    "id": "cobblemon:heal_rod",
     "count": 1
   }
 }

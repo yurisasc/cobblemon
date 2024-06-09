@@ -10,7 +10,7 @@
     "item": "cobblemon:friend_ball"
   },
   "result": {
-    "item": "cobblemon:friend_rod",
+    "id": "cobblemon:friend_rod",
     "count": 1
   }
 }

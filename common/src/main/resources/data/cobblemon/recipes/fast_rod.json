@@ -10,7 +10,7 @@
     "item": "cobblemon:fast_ball"
   },
   "result": {
-    "item": "cobblemon:fast_rod",
+    "id": "cobblemon:fast_rod",
     "count": 1
   }
 }

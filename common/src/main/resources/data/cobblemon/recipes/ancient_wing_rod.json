@@ -10,7 +10,7 @@
     "item": "cobblemon:ancient_wing_ball"
   },
   "result": {
-    "item": "cobblemon:ancient_wing_rod",
+    "id": "cobblemon:ancient_wing_rod",
     "count": 1
   }
 }

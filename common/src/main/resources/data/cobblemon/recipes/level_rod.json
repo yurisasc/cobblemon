@@ -10,7 +10,7 @@
     "item": "cobblemon:level_ball"
   },
   "result": {
-    "item": "cobblemon:level_rod",
+    "id": "cobblemon:level_rod",
     "count": 1
   }
 }
