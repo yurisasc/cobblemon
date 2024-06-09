@@ -30,8 +30,8 @@ import org.joml.Quaternionf
 import org.joml.Vector3f
 
 class PasturePokemonScrollList(
-    x: Int,
-    y: Int,
+    val listX: Int,
+    val listY: Int,
     val parent: PastureWidget
 ) : AlwaysSelectedEntryListWidget<PasturePokemonScrollList.PastureSlot>(
     MinecraftClient.getInstance(),
@@ -57,8 +57,8 @@ class PasturePokemonScrollList(
     override fun getRowWidth() = SLOT_WIDTH
 
     init {
-        this.x = x
-        this.y = y
+        this.x = listX
+        this.y = listY
         correctSize()
         //setRenderBackground(false)
 
@@ -80,22 +80,28 @@ class PasturePokemonScrollList(
     override fun renderWidget(context: DrawContext, mouseX: Int, mouseY: Int, partialTicks: Float) {
         correctSize()
 
+        context.matrices.push()
+//        context.matrices.translate(0F, 0F, -10F)
+
         context.enableScissor(
             x,
-            y + 1,
+            y + 4,
             x + width,
-            y + 1 + height
+            y - 1 + height
         )
 
+
+        context.matrices.pop()
         super.renderWidget(context, mouseX, mouseY, partialTicks)
+
         context.disableScissor()
 
         // Scroll Overlay
         blitk(
             matrixStack = context.matrices,
             texture = scrollOverlayResource,
-            x = x,
-            y = y - 12,
+            x = listX,
+            y = listY - 13,
             height = 131,
             width = WIDTH
         )
@@ -123,7 +129,7 @@ class PasturePokemonScrollList(
 
     override fun mouseDragged(mouseX: Double, mouseY: Double, button: Int, deltaX: Double, deltaY: Double): Boolean {
         if (scrolling) {
-            if (mouseY < this.y) {
+            if (mouseY < this.listY) {
                 scrollAmount = 0.0
             } else if (mouseY > bottom) {
                 scrollAmount = maxScroll.toDouble()
@@ -137,13 +143,15 @@ class PasturePokemonScrollList(
     private fun updateScrollingState(mouseX: Double, mouseY: Double) {
         scrolling = mouseX >= this.scrollbarX.toDouble()
                 && mouseX < (this.scrollbarX + 3).toDouble()
-                && mouseY >= y
+                && mouseY >= listY
                 && mouseY < bottom
     }
 
+    override fun drawMenuListBackground(context: DrawContext?) {}
+
     private fun correctSize() {
-        setDimensionsAndPosition(WIDTH, HEIGHT, y + 1, (y + 1) + (HEIGHT - 2))
-        setX(x)
+        setDimensionsAndPosition(WIDTH, HEIGHT, listX, (listY - 4))
+//        setX(listX)
     }
 
     fun isHovered(mouseX: Double, mouseY: Double) = mouseX.toFloat() in (x.toFloat()..(x.toFloat() + WIDTH)) && mouseY.toFloat() in (y.toFloat()..(y.toFloat() + HEIGHT))

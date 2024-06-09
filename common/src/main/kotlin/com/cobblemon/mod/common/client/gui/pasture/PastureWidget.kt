@@ -43,8 +43,8 @@ class PastureWidget(
     }
 
     val pastureScrollList = PasturePokemonScrollList(
-        x = x + 6,
-        y = y + 31,
+        listX = x + 6,
+        listY = y + 31,
         parent = this
     )
 
