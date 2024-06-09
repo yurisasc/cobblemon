@@ -33,6 +33,7 @@ import net.minecraft.nbt.NbtCompound
 import net.minecraft.nbt.NbtElement
 import net.minecraft.nbt.NbtList
 import net.minecraft.nbt.NbtString
+import net.minecraft.registry.RegistryWrapper
 import net.minecraft.text.MutableText
 import net.minecraft.text.Text
 import net.minecraft.util.Identifier
@@ -495,14 +496,14 @@ open class PokemonProperties {
     }
 
     // TODO Codecs at some point
-    fun saveToNBT(): NbtCompound {
+    fun saveToNBT(registryLookup: RegistryWrapper.WrapperLookup): NbtCompound {
         val nbt = NbtCompound()
         originalString.let { nbt.putString(DataKeys.POKEMON_PROPERTIES_ORIGINAL_TEXT, it) }
         level?.let { nbt.putInt(DataKeys.POKEMON_LEVEL, it) }
         shiny?.let { nbt.putBoolean(DataKeys.POKEMON_SHINY, it) }
         gender?.let { nbt.putString(DataKeys.POKEMON_GENDER, it.name) }
         species?.let { nbt.putString(DataKeys.POKEMON_SPECIES_TEXT, it) }
-        //nickname?.let { nbt.putString(DataKeys.POKEMON_NICKNAME, Text.Serialization.toJsonString(it)) }
+        nickname?.let { nbt.putString(DataKeys.POKEMON_NICKNAME, Text.Serialization.toJsonString(it, registryLookup)) }
         form?.let { nbt.putString(DataKeys.POKEMON_FORM_ID, it) }
         friendship?.let { nbt.putInt(DataKeys.POKEMON_FRIENDSHIP, it) }
         pokeball?.let { nbt.putString(DataKeys.POKEMON_CAUGHT_BALL, it) }
@@ -524,13 +525,13 @@ open class PokemonProperties {
     }
 
     // TODO Codecs at some point
-    fun loadFromNBT(tag: NbtCompound): PokemonProperties {
+    fun loadFromNBT(tag: NbtCompound, registryLookup: RegistryWrapper.WrapperLookup): PokemonProperties {
         originalString = tag.getString(DataKeys.POKEMON_PROPERTIES_ORIGINAL_TEXT)
         level = if (tag.contains(DataKeys.POKEMON_LEVEL)) tag.getInt(DataKeys.POKEMON_LEVEL) else null
         shiny = if (tag.contains(DataKeys.POKEMON_SHINY)) tag.getBoolean(DataKeys.POKEMON_SHINY) else null
         gender = if (tag.contains(DataKeys.POKEMON_GENDER)) Gender.valueOf(tag.getString(DataKeys.POKEMON_GENDER)) else null
         species = if (tag.contains(DataKeys.POKEMON_SPECIES_TEXT)) tag.getString(DataKeys.POKEMON_SPECIES_TEXT) else null
-        //nickname = if (tag.contains(DataKeys.POKEMON_NICKNAME)) Text.Serialization.fromJson(tag.getString(DataKeys.POKEMON_NICKNAME)) else null
+        nickname = if (tag.contains(DataKeys.POKEMON_NICKNAME)) Text.Serialization.fromJson(tag.getString(DataKeys.POKEMON_NICKNAME), registryLookup) else null
         form = if (tag.contains(DataKeys.POKEMON_FORM_ID)) tag.getString(DataKeys.POKEMON_FORM_ID) else null
         friendship = if (tag.contains(DataKeys.POKEMON_FRIENDSHIP)) tag.getInt(DataKeys.POKEMON_FRIENDSHIP) else null
         pokeball = if (tag.contains(DataKeys.POKEMON_CAUGHT_BALL)) tag.getString(DataKeys.POKEMON_CAUGHT_BALL) else null
