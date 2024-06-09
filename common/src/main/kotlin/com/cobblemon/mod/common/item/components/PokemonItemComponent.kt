@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-package com.cobblemon.mod.common.item
+package com.cobblemon.mod.common.item.components
 
 import com.cobblemon.mod.common.pokemon.Species
 import com.mojang.serialization.Codec

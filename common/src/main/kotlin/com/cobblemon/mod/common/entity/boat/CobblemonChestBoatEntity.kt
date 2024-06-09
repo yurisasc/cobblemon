@@ -41,7 +41,7 @@ class CobblemonChestBoatEntity(entityType: EntityType<CobblemonChestBoatEntity>,
     }
 
     private var inventory = this.emptyInventory()
-    private var lootTableId: Identifier? = null
+    private var lootTableId: RegistryKey<LootTable>? = null
     private var lootTableSeed = 0L
 
     override fun openInventory(player: PlayerEntity) {
@@ -76,12 +76,10 @@ class CobblemonChestBoatEntity(entityType: EntityType<CobblemonChestBoatEntity>,
         return GenericContainerScreenHandler.createGeneric9x3(syncId, playerInventory, this)
     }
 
-    override fun getLootTable(): RegistryKey<LootTable>? {
-        TODO("Not yet implemented")
-    }
+    override fun getLootTable() = lootTableId
 
     override fun setLootTable(lootTable: RegistryKey<LootTable>?) {
-        TODO("Not yet implemented")
+        this.lootTableId = lootTable
     }
 
     override fun getLootTableSeed(): Long = this.lootTableSeed
