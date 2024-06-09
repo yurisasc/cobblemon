@@ -8,7 +8,8 @@
 
 package com.cobblemon.mod.common
 
-import com.cobblemon.mod.common.item.PokemonItemComponent
+import com.cobblemon.mod.common.item.components.HeldItemCapableComponent
+import com.cobblemon.mod.common.item.components.PokemonItemComponent
 import com.cobblemon.mod.common.platform.PlatformRegistry
 import net.minecraft.component.DataComponentType
 import net.minecraft.registry.Registries
@@ -22,6 +23,11 @@ object CobblemonItemComponents : PlatformRegistry<Registry<DataComponentType<*>>
     val POKEMON_ITEM: DataComponentType<PokemonItemComponent> = DataComponentType.builder<PokemonItemComponent>()
         .codec(PokemonItemComponent.CODEC)
         .packetCodec(PokemonItemComponent.PACKET_CODEC)
+        .build()
+
+    val HELD_ITEM_REP: DataComponentType<HeldItemCapableComponent> = DataComponentType.builder<HeldItemCapableComponent>()
+        .codec(HeldItemCapableComponent.CODEC)
+        .packetCodec(HeldItemCapableComponent.PACKET_CODEC)
         .build()
 
     fun register() {
