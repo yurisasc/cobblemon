@@ -26,7 +26,7 @@ class AspectCriterion(
     companion object {
         val CODEC: Codec<AspectCriterion> = RecordCodecBuilder.create { it.group(
             //All three of these codecs used to use Codecs.createStrictOptionalFieldCodec, that no longer exists
-            Codecs.optional(LootContextPredicate.CODEC).fieldOf("player").forGetter(AspectCriterion::playerCtx),
+            LootContextPredicate.CODEC.optionalFieldOf("player").forGetter(AspectCriterion::playerCtx),
             Identifier.CODEC.optionalFieldOf("pokemon", cobblemonResource("pikachu")).forGetter(AspectCriterion::pokemon),
             Codec.STRING.listOf().optionalFieldOf("aspects", listOf()).forGetter(AspectCriterion::aspects)
         ) .apply(it, ::AspectCriterion) }
