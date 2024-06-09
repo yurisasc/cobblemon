@@ -166,9 +166,9 @@ open class PokemonEntity(
             field = value
             delegate.changePokemon(value)
 
-            //stepHeight = behaviour.moving.stepHeight
+            //This used to be referring to this.updateEyeHeight, I think this is the best conversion
             // We need to update this value every time the Pokémon changes, other eye height related things will be dynamic.
-            //this.updateEyeHeight()
+            this.calculateDimensions()
         }
 
     var despawner: Despawner<PokemonEntity> = Cobblemon.bestSpawner.defaultPokemonDespawner
@@ -751,13 +751,10 @@ open class PokemonEntity(
         return super.interactMob(player, hand)
     }
 
-    /*
     override fun getDimensions(pose: EntityPose): EntityDimensions {
         val scale = effects.mockEffect?.scale ?: (form.baseScale * pokemon.scaleModifier)
         return this.exposedForm.hitbox.scaled(scale)
     }
-
-     */
 
     override fun canTakeDamage() = super.canTakeDamage() && !isBusy
     override fun damage(source: DamageSource?, amount: Float): Boolean {

@@ -142,7 +142,7 @@ class PokemonMoveControl(val pokemonEntity: PokemonEntity) : MoveControl(pokemon
             }
 
             if (!verticalHandled) {
-                val tooBigToStep = yDist > entity.stepHeight.toDouble()
+                val tooBigToStep = yDist > pokemonEntity.behaviour.moving.stepHeight
                 val xComponent = -MathHelper.sin(entity.yaw.toRadians()).toDouble()
                 val zComponent = MathHelper.cos(entity.yaw.toRadians()).toDouble()
 
