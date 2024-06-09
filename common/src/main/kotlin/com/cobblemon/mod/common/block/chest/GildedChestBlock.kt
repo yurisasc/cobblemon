@@ -142,15 +142,17 @@ class GildedChestBlock(settings: Settings, val type: Type = Type.RED) : BlockWit
     fun isFake() = (type == Type.FAKE)
 
     override fun onBreak(world: World, pos: BlockPos, state: BlockState, player: PlayerEntity): BlockState {
-        if (isFake()) {
-            if (player is ServerPlayerEntity) {
+        if (!world.isClient) {
+            if (isFake() && (player is ServerPlayerEntity)) {
                 spawnPokemon(world, pos, state, player)
             }
+            val bEntity = world.getBlockEntity(pos) as? GildedChestBlockEntity
+            bEntity?.markRemoved()
             val resultState = if (state.fluidState.isOf(Fluids.WATER)) Blocks.WATER.defaultState else Blocks.AIR.defaultState
             world.setBlockState(pos, resultState)
             return resultState
         }
-        return super.onBreak(world, pos, state, player)
+        return Blocks.AIR.defaultState
     }
 
     private fun spawnPokemon(world: World, pos: BlockPos, state: BlockState, player: ServerPlayerEntity) : ActionResult {
