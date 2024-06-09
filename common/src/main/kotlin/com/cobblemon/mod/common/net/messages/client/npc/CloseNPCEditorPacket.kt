@@ -10,7 +10,7 @@ package com.cobblemon.mod.common.net.messages.client.npc
 
 import com.cobblemon.mod.common.api.net.NetworkPacket
 import com.cobblemon.mod.common.util.cobblemonResource
-import net.minecraft.network.PacketByteBuf
+import net.minecraft.network.RegistryByteBuf
 
 /**
  * Packet sent to the client to close the currently open NPC editor, if one is open.
@@ -21,8 +21,8 @@ import net.minecraft.network.PacketByteBuf
 class CloseNPCEditorPacket : NetworkPacket<CloseNPCEditorPacket> {
     companion object {
         val ID = cobblemonResource("close_npc_editor")
-        fun decode(buffer: PacketByteBuf) = CloseNPCEditorPacket()
+        fun decode(buffer: RegistryByteBuf) = CloseNPCEditorPacket()
     }
     override val id = ID
-    override fun encode(buffer: PacketByteBuf) {}
+    override fun encode(buffer: RegistryByteBuf) {}
 }

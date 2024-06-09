@@ -8,19 +8,7 @@
 
 package com.cobblemon.mod.common.advancement
 
-import com.cobblemon.mod.common.Cobblemon
-import com.cobblemon.mod.common.advancement.criterion.AspectCriterion
-import com.cobblemon.mod.common.advancement.criterion.BattleCountableCriterion
-import com.cobblemon.mod.common.advancement.criterion.CaughtPokemonCriterion
-import com.cobblemon.mod.common.advancement.criterion.CountableCriterion
-import com.cobblemon.mod.common.advancement.criterion.EvolvePokemonCriterion
-import com.cobblemon.mod.common.advancement.criterion.LevelUpCriterion
-import com.cobblemon.mod.common.advancement.criterion.PartyCheckCriterion
-import com.cobblemon.mod.common.advancement.criterion.PlantTumblestoneCriterion
-import com.cobblemon.mod.common.advancement.criterion.PokemonCriterion
-import com.cobblemon.mod.common.advancement.criterion.PokemonInteractCriterion
-import com.cobblemon.mod.common.advancement.criterion.SimpleCriterionTrigger
-import com.cobblemon.mod.common.advancement.criterion.TradePokemonCriterion
+import com.cobblemon.mod.common.advancement.criterion.*
 import com.cobblemon.mod.common.platform.PlatformRegistry
 import net.minecraft.advancement.criterion.Criterion
 import net.minecraft.registry.Registries
@@ -63,12 +51,7 @@ object CobblemonCriteria : PlatformRegistry<Registry<Criterion<*>>, RegistryKey<
 
     val TRADE_POKEMON = this.create("trade_pokemon", SimpleCriterionTrigger(TradePokemonCriterion.CODEC))
 
-    val CAST_POKE_ROD = this.create(
-        SimpleCriterionTrigger(
-            cobblemonResource("cast_poke_rod"),
-            CastPokeRodCriterionCondition::class.java
-        )
-    )
+    val CAST_POKE_ROD = this.create("cast_poke_rod", SimpleCriterionTrigger(CastPokeRodCriterionCondition.CODEC))
 
     // Advancement criteria for [grow_tumblestone.json]
     val PLANT_TUMBLESTONE = this.create("plant_tumblestone", SimpleCriterionTrigger(PlantTumblestoneCriterion.CODEC))

@@ -191,12 +191,7 @@ import com.cobblemon.mod.common.net.serverhandling.trade.ChangeTradeAcceptanceHa
 import com.cobblemon.mod.common.net.serverhandling.trade.OfferTradeHandler
 import com.cobblemon.mod.common.net.serverhandling.trade.UpdateTradeOfferHandler
 import com.cobblemon.mod.common.util.server
-import kotlin.reflect.KClass
-import net.minecraft.network.PacketByteBuf
-import net.minecraft.network.listener.ClientPlayPacketListener
-import net.minecraft.network.packet.Packet
 import net.minecraft.server.network.ServerPlayerEntity
-import net.minecraft.util.Identifier
 
 /**
  * Registers Cobblemon network packets.
@@ -313,8 +308,9 @@ object CobblemonNetwork {
         list.add(PacketRegisterInfo(SpeciesFeatureAssignmentSyncPacket.ID, SpeciesFeatureAssignmentSyncPacket::decode, DataRegistrySyncPacketHandler()))
         list.add(PacketRegisterInfo(NaturalMaterialRegistrySyncPacket.ID, NaturalMaterialRegistrySyncPacket::decode, DataRegistrySyncPacketHandler()))
         list.add(PacketRegisterInfo(FossilRegistrySyncPacket.ID, FossilRegistrySyncPacket::decode, DataRegistrySyncPacketHandler()))
-        this.createClientBound(NPCRegistrySyncPacket.ID, NPCRegistrySyncPacket::decode, DataRegistrySyncPacketHandler())
-        this.createClientBound(PokeRodRegistrySyncPacket.ID, PokeRodRegistrySyncPacket::decode, DataRegistrySyncPacketHandler())
+        list.add(PacketRegisterInfo(NPCRegistrySyncPacket.ID, NPCRegistrySyncPacket::decode, DataRegistrySyncPacketHandler()))
+        list.add(PacketRegisterInfo(PokeRodRegistrySyncPacket.ID, PokeRodRegistrySyncPacket::decode, DataRegistrySyncPacketHandler()))
+        list.add(PacketRegisterInfo(ScriptRegistrySyncPacket.ID, ScriptRegistrySyncPacket::decode, DataRegistrySyncPacketHandler()))
 
         // Effects
         list.add(PacketRegisterInfo(SpawnSnowstormParticlePacket.ID, SpawnSnowstormParticlePacket::decode, SpawnSnowstormParticleHandler))
@@ -360,8 +356,8 @@ object CobblemonNetwork {
         list.add(PacketRegisterInfo(DialogueOpenedPacket.ID, DialogueOpenedPacket::decode, DialogueOpenedHandler))
 
         // NPCs
-        this.createClientBound(CloseNPCEditorPacket.ID, CloseNPCEditorPacket::decode, CloseNPCEditorHandler)
-        this.createClientBound(OpenNPCEditorPacket.ID, OpenNPCEditorPacket::decode, OpenNPCEditorHandler)
+        list.add(PacketRegisterInfo(CloseNPCEditorPacket.ID, CloseNPCEditorPacket::decode, CloseNPCEditorHandler))
+        list.add(PacketRegisterInfo(OpenNPCEditorPacket.ID, OpenNPCEditorPacket::decode, OpenNPCEditorHandler))
 
         return list
     }
@@ -436,7 +432,7 @@ object CobblemonNetwork {
         list.add(PacketRegisterInfo(InputToDialoguePacket.ID, InputToDialoguePacket::decode, InputToDialogueHandler))
 
         // NPC packets
-        this.createServerBound(SaveNPCPacket.ID, SaveNPCPacket::decode, SaveNPCHandler)
+        list.add(PacketRegisterInfo(SaveNPCPacket.ID, SaveNPCPacket::decode, SaveNPCHandler))
 
         return list
     }

@@ -9,20 +9,24 @@
 package com.cobblemon.mod.common.api.fishing
 
 import com.cobblemon.mod.common.util.cobblemonResource
-import net.minecraft.util.Identifier
+import net.minecraft.item.Item
+import net.minecraft.item.ItemStack
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.nbt.NbtList
-import net.minecraft.nbt.NbtString
+import net.minecraft.registry.Registry
+import net.minecraft.util.Identifier
 
 data class FishingBait(
-        val item: Identifier,
-        val effects: List<Effect>,
+    val item: Identifier,
+    val effects: List<Effect>,
 ) {
+    fun toItemStack(itemRegistry: Registry<Item>) = item.let(itemRegistry::get)?.let { ItemStack(it) } ?: ItemStack.EMPTY
+
     data class Effect(
-            val type: Identifier,
-            val subcategory: Identifier?,
-            val chance: Double = 0.0,
-            val value: Double = 0.0
+        val type: Identifier,
+        val subcategory: Identifier?,
+        val chance: Double = 0.0,
+        val value: Double = 0.0
     ) {
         fun toNbt(): NbtCompound {
             val nbt = NbtCompound()
@@ -63,6 +67,11 @@ data class FishingBait(
             }
             return FishingBait(item, effects)
         }
+
+        val BLANK_BAIT = FishingBait(
+            cobblemonResource("blank"),
+            emptyList()
+        )
     }
 
     object Effects {

@@ -17,6 +17,7 @@ import com.cobblemon.mod.common.client.particle.ParticleStorm
 import com.cobblemon.mod.common.client.render.models.blockbench.PosableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.PosableState
 import com.cobblemon.mod.common.client.render.models.blockbench.repository.RenderContext
+import com.cobblemon.mod.common.util.effectiveName
 import com.cobblemon.mod.common.util.getString
 import com.cobblemon.mod.common.util.math.geometry.toRadians
 import com.cobblemon.mod.common.util.resolveDouble
@@ -170,7 +171,7 @@ data class BedrockAnimation(
                             roll += rotation.z.toFloat().toRadians()
                         }
                     } catch (e: Exception) {
-                        val exception = IllegalStateException("Bad animation for entity: ${(model.context.request(RenderContext.ENTITY))!!.displayName.string}", e)
+                        val exception = IllegalStateException("Bad animation for entity: ${(model.context.request(RenderContext.ENTITY))!!.effectiveName().string}", e)
                         val crash = CrashReport("Cobblemon encountered an unexpected crash", exception)
                         val section = crash.addElement("Animation Details")
                         section.add("Pose", state.currentPose!!)

@@ -8,6 +8,7 @@
 
 package com.cobblemon.mod.common.api.fishing
 
+import com.cobblemon.mod.common.CobblemonItemComponents
 import com.cobblemon.mod.common.api.data.JsonDataRegistry
 import com.cobblemon.mod.common.api.reactive.SimpleObservable
 import com.cobblemon.mod.common.net.messages.client.fishing.FishingBaitRegistrySyncPacket
@@ -46,8 +47,16 @@ object FishingBaits : JsonDataRegistry<FishingBait>{
         }
     }
 
-    fun getFromItemStack(stack: ItemStack): FishingBait? {
-        return itemMap[Registries.ITEM.getId(stack.item)]
+    fun getFromRodItemStack(stack: ItemStack): FishingBait? {
+        return stack.components.get(CobblemonItemComponents.BAIT)?.bait
+    }
+
+    fun getFromBaitItemStack(stack: ItemStack): FishingBait? {
+        return getFromIdentifier(Registries.ITEM.getId(stack.item))
+    }
+
+    fun getFromIdentifier(identifier: Identifier): FishingBait? {
+        return itemMap[identifier]
     }
 
     fun isFishingBait(stack: ItemStack) = itemMap.containsKey(Registries.ITEM.getId(stack.item))

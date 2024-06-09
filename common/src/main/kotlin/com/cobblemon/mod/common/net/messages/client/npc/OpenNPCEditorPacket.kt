@@ -12,7 +12,7 @@ import com.cobblemon.mod.common.api.net.NetworkPacket
 import com.cobblemon.mod.common.entity.npc.NPCEntity
 import com.cobblemon.mod.common.net.messages.client.npc.dto.NPCConfigurationDTO
 import com.cobblemon.mod.common.util.cobblemonResource
-import net.minecraft.network.PacketByteBuf
+import net.minecraft.network.RegistryByteBuf
 
 class OpenNPCEditorPacket(
     val npcId: Int,
@@ -20,7 +20,7 @@ class OpenNPCEditorPacket(
 ) : NetworkPacket<OpenNPCEditorPacket> {
     companion object {
         val ID = cobblemonResource("open_npc_editor")
-        fun decode(buffer: PacketByteBuf) = OpenNPCEditorPacket(
+        fun decode(buffer: RegistryByteBuf) = OpenNPCEditorPacket(
             npcId = buffer.readInt(),
             dto = NPCConfigurationDTO().apply { decode(buffer) }
         )
@@ -30,7 +30,7 @@ class OpenNPCEditorPacket(
 
     constructor(npc: NPCEntity): this(npcId = npc.id, dto = NPCConfigurationDTO(npc))
 
-    override fun encode(buffer: PacketByteBuf) {
+    override fun encode(buffer: RegistryByteBuf) {
         buffer.writeInt(npcId)
         dto.encode(buffer)
     }

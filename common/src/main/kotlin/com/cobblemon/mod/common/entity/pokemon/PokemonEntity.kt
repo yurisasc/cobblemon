@@ -25,7 +25,6 @@ import com.cobblemon.mod.common.api.interaction.PokemonEntityInteraction
 import com.cobblemon.mod.common.api.molang.MoLangFunctions.addStandardFunctions
 import com.cobblemon.mod.common.api.net.serializers.PoseTypeDataSerializer
 import com.cobblemon.mod.common.api.net.serializers.StringSetDataSerializer
-import com.cobblemon.mod.common.api.pokemon.PokemonProperties
 import com.cobblemon.mod.common.api.pokemon.feature.ChoiceSpeciesFeatureProvider
 import com.cobblemon.mod.common.api.pokemon.feature.FlagSpeciesFeature
 import com.cobblemon.mod.common.api.pokemon.feature.SpeciesFeatures
@@ -35,9 +34,9 @@ import com.cobblemon.mod.common.api.reactive.ObservableSubscription
 import com.cobblemon.mod.common.api.reactive.SimpleObservable
 import com.cobblemon.mod.common.api.scheduling.Schedulable
 import com.cobblemon.mod.common.api.scheduling.SchedulingTracker
+import com.cobblemon.mod.common.api.scheduling.afterOnServer
 import com.cobblemon.mod.common.api.spawning.BestSpawner
 import com.cobblemon.mod.common.api.spawning.SpawnCause
-import com.cobblemon.mod.common.api.scheduling.afterOnServer
 import com.cobblemon.mod.common.api.storage.InvalidSpeciesException
 import com.cobblemon.mod.common.api.types.ElementalTypes
 import com.cobblemon.mod.common.battles.BagItems
@@ -45,8 +44,8 @@ import com.cobblemon.mod.common.battles.BattleBuilder
 import com.cobblemon.mod.common.battles.BattleRegistry
 import com.cobblemon.mod.common.block.entity.PokemonPastureBlockEntity
 import com.cobblemon.mod.common.client.entity.PokemonClientDelegate
-import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.PosableEntity
+import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.generic.GenericBedrockEntity
 import com.cobblemon.mod.common.entity.npc.NPCEntity
 import com.cobblemon.mod.common.entity.pokeball.EmptyPokeBallEntity
@@ -112,11 +111,8 @@ import net.minecraft.sound.SoundEvents
 import net.minecraft.text.PlainTextContent
 import net.minecraft.text.Text
 import net.minecraft.util.ActionResult
-import net.minecraft.util.Colors
-import net.minecraft.util.DyeColor
 import net.minecraft.util.Hand
 import net.minecraft.util.Identifier
-import net.minecraft.util.Util
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Box
 import net.minecraft.util.math.Vec3d
@@ -248,8 +244,8 @@ open class PokemonEntity(
         .addFunction("is_wild") { DoubleValue(pokemon.isWild()) }
         .addFunction("is_shiny") { DoubleValue(pokemon.shiny) }
         .addFunction("form") { StringValue(pokemon.form.name) }
-        .addFunction("width") { DoubleValue(boundingBox.xLength) }
-        .addFunction("height") { DoubleValue(boundingBox.yLength) }
+        .addFunction("width") { DoubleValue(boundingBox.lengthX) }
+        .addFunction("height") { DoubleValue(boundingBox.lengthY) }
         .addFunction("horizontal_velocity") { DoubleValue(velocity.horizontalLength()) }
         .addFunction("vertical_velocity") { DoubleValue(velocity.y) }
         .addFunction("weight") { DoubleValue(pokemon.species.weight.toDouble()) }
@@ -257,10 +253,10 @@ open class PokemonEntity(
         .addFunction("is_underwater") { DoubleValue(getIsSubmerged()) }
         .addFunction("is_flying") { DoubleValue(getBehaviourFlag(PokemonBehaviourFlag.FLYING)) }
         .addFunction("is_passenger") { DoubleValue(hasVehicle()) }
-        .addFunction("entity_width") { DoubleValue(boundingBox.xLength) }
-        .addFunction("entity_height") { DoubleValue(boundingBox.yLength) }
-        .addFunction("entity_size") { DoubleValue(boundingBox.run { if (xLength > yLength) xLength else yLength }) }
-        .addFunction("entity_radius") { DoubleValue(boundingBox.run { if (xLength > yLength) xLength else yLength } / 2) }
+        .addFunction("entity_width") { DoubleValue(boundingBox.lengthX) }
+        .addFunction("entity_height") { DoubleValue(boundingBox.lengthY) }
+        .addFunction("entity_size") { DoubleValue(boundingBox.run { if (lengthX > lengthY) lengthX else lengthY }) }
+        .addFunction("entity_radius") { DoubleValue(boundingBox.run { if (lengthX > lengthY) lengthX else lengthY } / 2) }
         .addFunction("has_aspect") { DoubleValue(it.getString(0) in aspects) }
 
     init {
@@ -683,7 +679,7 @@ open class PokemonEntity(
                 if (pokemon.aspects.any() { it.contains("mooshtank") }) {
                     player.playSound(SoundEvents.ENTITY_MOOSHROOM_MILK, 1.0f, 1.0f)
                     // if the Mooshtank ate a Flower beforehand
-                    if (pokemon.lastFlowerFed != ItemStack.EMPTY && pokemon.aspects.any() { it.contains("mooshtank-brown") }) {
+                    if (pokemon.lastFlowerFed != ItemStack.EMPTY && pokemon.aspects.any { it.contains("mooshtank-brown") }) {
                         when (pokemon.lastFlowerFed.item) {
                             Items.ALLIUM -> StatusEffects.FIRE_RESISTANCE to 80
                             Items.AZURE_BLUET -> StatusEffects.BLINDNESS to 160

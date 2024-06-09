@@ -31,8 +31,8 @@ import com.cobblemon.mod.common.api.npc.configuration.NPCBattleConfiguration
 import com.cobblemon.mod.common.api.npc.configuration.NPCBehaviourConfiguration
 import com.cobblemon.mod.common.api.scheduling.Schedulable
 import com.cobblemon.mod.common.api.scheduling.SchedulingTracker
-import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.PosableEntity
+import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.ai.AttackAngryAtTask
 import com.cobblemon.mod.common.entity.ai.FollowWalkTargetTask
 import com.cobblemon.mod.common.entity.ai.GetAngryAtAttackerTask
@@ -189,12 +189,12 @@ class NPCEntity(world: World) : PassiveEntity(CobblemonEntities.NPC, world), Npc
     override fun createChild(world: ServerWorld, entity: PassiveEntity) = null // No lovemaking! Unless...
     override fun getCurrentPoseType() = this.getDataTracker().get(POSE_TYPE)
 
-    override fun initDataTracker() {
-        super.initDataTracker()
-        dataTracker.startTracking(NPC_CLASS, Identifier("a"))
-        dataTracker.startTracking(ASPECTS, emptySet())
-        dataTracker.startTracking(POSE_TYPE, PoseType.STAND)
-        dataTracker.startTracking(BATTLE_IDS, setOf())
+    override fun initDataTracker(builder: DataTracker.Builder) {
+        super.initDataTracker(builder)
+        builder.add(NPC_CLASS, NPCClasses.classes.first().resourceIdentifier)
+        builder.add(ASPECTS, emptySet())
+        builder.add(POSE_TYPE, PoseType.STAND)
+        builder.add(BATTLE_IDS, setOf())
     }
 
     override fun deserializeBrain(dynamic: Dynamic<*>): Brain<NPCEntity> {
@@ -295,7 +295,7 @@ class NPCEntity(world: World) : PassiveEntity(CobblemonEntities.NPC, world), Npc
         updateAspects()
     }
 
-    override fun getDimensions(pose: EntityPose) = npc.hitbox
+    override fun getBaseDimensions(pose: EntityPose) = npc.hitbox
 
     override fun interactMob(player: PlayerEntity, hand: Hand): ActionResult {
         if (player is ServerPlayerEntity && hand == Hand.MAIN_HAND) {

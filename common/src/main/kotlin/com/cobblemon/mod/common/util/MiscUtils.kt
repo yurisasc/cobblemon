@@ -17,7 +17,9 @@ import java.util.function.Consumer
 import kotlin.math.min
 import kotlin.random.Random
 import net.minecraft.client.util.ModelIdentifier
+import net.minecraft.entity.EquipmentSlot
 import net.minecraft.text.Text
+import net.minecraft.util.Hand
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.shape.VoxelShape
@@ -114,3 +116,18 @@ val PosableState.isTouchingWater: Boolean
     get() = getEntity()?.isTouchingWater == true
 val PosableState.isTouchingWaterOrRain: Boolean
     get() = getEntity()?.isTouchingWaterOrRain == true
+
+fun Hand.toEquipmentSlot(): EquipmentSlot {
+    return when (this) {
+        Hand.MAIN_HAND -> EquipmentSlot.MAINHAND
+        Hand.OFF_HAND -> EquipmentSlot.OFFHAND
+    }
+}
+
+fun EquipmentSlot.toHand(): Hand {
+    return when (this) {
+        EquipmentSlot.MAINHAND -> Hand.MAIN_HAND
+        EquipmentSlot.OFFHAND -> Hand.OFF_HAND
+        else -> throw IllegalArgumentException("Invalid equipment slot: $this")
+    }
+}

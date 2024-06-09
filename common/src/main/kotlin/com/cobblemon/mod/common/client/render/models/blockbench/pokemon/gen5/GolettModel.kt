@@ -39,7 +39,7 @@ class GolettModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame, Bi
     lateinit var walk: Pose
     lateinit var sleep: Pose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("golett", "cry") }
+    override val cryAnimation = CryProvider { bedrockStateful("golett", "cry") }
 
     override fun registerPoses() {
         val blink = quirk { bedrockStateful("golett", "blink") }

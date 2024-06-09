@@ -24,10 +24,10 @@ import com.cobblemon.mod.common.api.dialogue.ReferenceDialogueFaceProvider
 import com.cobblemon.mod.common.api.scripting.CobblemonScripts
 import com.cobblemon.mod.common.api.text.text
 import com.cobblemon.mod.common.client.render.models.blockbench.wavefunction.WaveFunctions
-import com.cobblemon.mod.common.util.effectiveName
 import com.cobblemon.mod.common.entity.npc.NPCEntity
 import com.cobblemon.mod.common.net.messages.client.effect.RunPosableMoLangPacket
 import com.cobblemon.mod.common.util.asIdentifierDefaultingNamespace
+import com.cobblemon.mod.common.util.effectiveName
 import com.cobblemon.mod.common.util.getBooleanOrNull
 import com.cobblemon.mod.common.util.getDoubleOrNull
 import com.cobblemon.mod.common.util.isInt
@@ -162,7 +162,7 @@ object MoLangFunctions {
             map.put("is_riding") { _ -> DoubleValue(entity.hasVehicle()) }
             map.put("health") { _ -> DoubleValue(entity.health) }
             map.put("max_health") { _ -> DoubleValue(entity.maxHealth) }
-            map.put("name") { _ -> StringValue(entity.entityName) }
+            map.put("name") { _ -> StringValue(entity.effectiveName().string) }
             map.put("yaw") { _ -> DoubleValue(entity.yaw.toDouble()) }
             map.put("pitch") { _ -> DoubleValue(entity.pitch.toDouble()) }
             map.put("x") { _ -> DoubleValue(entity.x) }

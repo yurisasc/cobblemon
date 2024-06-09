@@ -11,18 +11,12 @@ package com.cobblemon.mod.common.client.gui.npc.widgets
 import com.cobblemon.mod.common.api.gui.blitk
 import com.cobblemon.mod.common.api.gui.drawCenteredText
 import com.cobblemon.mod.common.api.text.text
-import com.cobblemon.mod.common.client.gui.dialogue.DialogueScreen
-import com.cobblemon.mod.common.net.messages.client.dialogue.dto.DialogueInputDTO
-import com.cobblemon.mod.common.net.messages.server.dialogue.InputToDialoguePacket
-import com.cobblemon.mod.common.util.cobblemonResource
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.gui.DrawContext
 import net.minecraft.client.gui.widget.TextFieldWidget
-import net.minecraft.client.util.InputUtil
-import net.minecraft.text.LiteralTextContent
 import net.minecraft.text.MutableText
+import net.minecraft.text.PlainTextContent.Literal
 import net.minecraft.util.Identifier
-import org.lwjgl.glfw.GLFW
 
 class SimpleNPCTextInputWidget(
     getter: () -> String,
@@ -59,9 +53,9 @@ class SimpleNPCTextInputWidget(
         }
     }
 
-    override fun render(context: DrawContext, mouseX: Int, mouseY: Int, delta: Float) {
+    override fun renderWidget(context: DrawContext, mouseX: Int, mouseY: Int, delta: Float) {
         if (cursor != text.length) {
-            setCursorToEnd()
+            setCursorToEnd(false)
         }
 
         blitk(
@@ -77,7 +71,7 @@ class SimpleNPCTextInputWidget(
         val scale = 0.8F
         context.matrices.scale(scale, scale, 1F)
         if (wrap) {
-            val wrappedLines = MinecraftClient.getInstance().textRenderer.wrapLines(MutableText.of(LiteralTextContent(text)), ((width - 8) / scale).toInt())
+            val wrappedLines = MinecraftClient.getInstance().textRenderer.wrapLines(MutableText.of(Literal(text)), ((width - 8) / scale).toInt())
             for ((index, line) in wrappedLines.withIndex()) {
                 context.drawText(
                     MinecraftClient.getInstance().textRenderer,

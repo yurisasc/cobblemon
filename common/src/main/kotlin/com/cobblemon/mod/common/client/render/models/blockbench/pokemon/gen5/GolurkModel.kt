@@ -32,7 +32,7 @@ class GolurkModel (root: ModelPart) : PokemonPosableModel(root), HeadedFrame {
     lateinit var walk: Pose
     lateinit var sleep: Pose
 
-    override val cryAnimation = CryProvider { _, _ -> bedrockStateful("golurk", "cry") }
+    override val cryAnimation = CryProvider { bedrockStateful("golurk", "cry") }
 
     override fun registerPoses() {
         val blink = quirk { bedrockStateful("golurk", "blink") }
