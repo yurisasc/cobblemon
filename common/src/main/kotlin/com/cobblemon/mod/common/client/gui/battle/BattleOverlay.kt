@@ -228,7 +228,7 @@ class BattleOverlay : InGameHud(MinecraftClient.getInstance()), Schedulable {
         matrixStack.translate(
             portraitStartX + PORTRAIT_DIAMETER / 2.0,
             y.toDouble() + PORTRAIT_OFFSET_Y - 5.0 ,
-            0.0
+            1000.0
         )
         matrixStack.push()
         if (ballState != null && ballState.stateEmitter.get() == EmptyPokeBallEntity.CaptureState.SHAKE) {
